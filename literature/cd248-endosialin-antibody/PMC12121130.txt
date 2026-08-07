@@ -1,0 +1,166 @@
+pmcWorld J Surg OncolWorld J Surg Oncol199wjsurgonc101170544World Journal of Surgical Oncology1477-7819BMCPMC12121130PMC12121130.112121130121211304044273210.1186/s12957-025-03866-338661ResearchHigh expression of HECW1 is associated with the poor prognosis and cancer progression of gastric cancer
+YangZhihui ZhouPeng WangLiping YangXiao YangMengqi XiaJiazengxjz_wuxi@alumni.sjtu.edu.cn 1https://ror.org/0399zkh42grid.440298.30000 0004 9338 3580Department of General Surgery, Institute of General Surgical Research, Jiangnan University Medical Center (Wuxi No.2 People’s Hospital), School of Medicine, Wuxi, China 2https://ror.org/059gcgy73grid.89957.3a0000 0000 9255 8984Department of General Surgery, People’s Hospital of Nanjing Medical University, Wuxi, China 3https://ror.org/04mkzax54grid.258151.a0000 0001 0708 1323Department of General Surgery, Institute of General Surgical Research, Jiangnan University Medical Center, 68 Zhongshan Lu, Wuxi, 214002 P.R. China 29520252025234781952046220252052025290520252905202531052025© The Author(s) 20252025https://creativecommons.org/licenses/by-nc-nd/4.0/Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Background
+The E3 ubiquitin ligase HECW1 was found to be involved in ubiquitination modifications during malignant progression of multiple tumors. However, the prognostic role of HECW1 expression in gastric cancer (GC) remains unclear.
+
+## Methods
+The Tumor Immunoassay Resource (TIMER2.0) system evaluated the association of HECW1 with tumor-infiltrating lymphocytes in carcinomas. The UALCAN assessed HECW1 mRNA expression levels in GC tissues and examined their associations with clinicopathological characteristics. The Kaplan Meier-plotter analyzed the effect of HECW1 on the survival of GC patients. The cBioPortal retrieved information about genetic variants in HECW1 gene. Protein‒protein interaction (PPI) networks associated with HECW1 were explored using the STRING database. The functional effects of HECW1 on GC cells were evaluated through proliferation (Cell Counting Kit-8), apoptosis (Flow cytometry), and migration (Transwell and wound healing assays). The RNA-Seq was applied to explore the underlying mechanisms.
+
+## Results
+HECW1 demonstrated significant overexpression in GC tumor tissues, correlating with adverse clinical outcomes. Clinically, elevated HECW1 expression exhibited an inverse association with tumor-infiltrating CD8+ T lymphocytes while demonstrating a positive correlation with macrophages, DCs, and neutrophils infiltration, suggesting its potential involvement in tumor immune evasion mechanisms. Functional validation revealed that HECW1 knockdown markedly suppressed GC cell proliferation and migratory capacity, concurrently promoting apoptotic cell death. Mechanistic investigations identified that HECW1 exerts its oncogenic effects through dysregulation of the Hippo signaling pathway, with its silencing effectively attenuating tumor progression via pathway modulation.
+
+## Conclusions
+HECW1 upregulation is significantly associated with poor prognosis and immune infiltration in GC patients, emphasizing its potential as a prognostic biomarker.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12957-025-03866-3.
+
+## Keywords
+HECW1Gastric cancerImmune infiltrationHippo signaling pathwayhttps://doi.org/10.13039/100017962Jiangsu Commission of HealthZDB2020026XiaJiazengpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDissue-copyright-statement© BioMed Central Ltd., part of Springer Nature 2025
+
+## Introduction
+Gastric cancer (GC) is highly aggressive and metastatic and ranks among the leading causes of cancer-related mortality worldwide [ , ]. Despite advances in surgical techniques and targeted therapies, progress has been made in the diagnosis and treatment of gastric cancer, but the prognosis of patients with advanced gastric cancer is still poor. Therefore, a deep understanding of the biological mechanisms underlying the development of GC is essential for the designing novel therapeutic interventions.
+The E3 ubiquitin ligase, which has the function of determining substrate specificity, plays a decisive role in the ubiquitination process [ , ]. E3 ubiquitin ligases mainly catalyze the formation of covalent bonds between ubiquitin molecules and specific amino acid residues on target proteins to achieve ubiquitination modifications, with lysine being the most common target for ubiquitination [ ]. The HECT-domain ligase HECW1, initially implicated in familial amyotrophic lateral sclerosis pathogenesis [ ], demonstrates multifaceted tumor-modulatory functions. Mechanistic studies revealed its catalytic activity-independent regulation of p53-mediated apoptosis [ ] and NCOA4-driven ferroptosis in gliomas [ ]. Emerging evidence further identified HECW1-mediated suppression of Wnt/β-catenin signaling as a growth inhibitory pathway in cervical carcinogenesis [ ]. Nevertheless, the pathophysiological role and molecular targets of HECW1 in GC remain unexplored, warranting systematic investigation.
+In this study, the expression, prognostic value, and function of HECW1 were systematically analyzed using bioinformatics databases. Moreover, our results demonstrated that HECW1 knockdown inhibited GC cell proliferation and migration by regulating the Hippo signaling pathway. Our findings elucidate the significance of HECW1 in GC progression and identify HECW1 as a novel prognostic factor. These results suggest HECW1 may serve as a potential therapeutic target for GC.
+
+## Materials and methods
+
+## Cell culture and management
+Human GC cell lines (AGS, MKN-45, MKN-28, MKN-27) and healthy gastric mucosal epithelial cells (GES-1) were purchased from Shanghai Fuheng Biotechnology Corporation. Cell culture was performed in RPMI-1640 medium (Hyclone, USA, sh30809.1) containing 10% fetal bovine serum (MeisenCTCC, USA, CTCC-002-071-50) and 1% penicillin-streptomycin (Gibco, USA, 15140122) at 37 °C with a CO2 concentration of 5%.
+
+## Cell transfection
+HECW1 siRNA, HECW1-overexpressing plasmid, and YAP overexpression plasmid was obtained from Azenta, with the following sequences:
+Human Negative control sense: UUCUCCGAACGUGUCACGU;
+Human Negative control antisense: ACGUGACACGUUCGGAGAA;
+Human HECW1 si-1 sense: CAGCUGCAAUUCCGAUUUGTT;
+Human HECW1 si-1 antisense: CAAAUCGGAAUUGCAGCUGTT;
+Human HECW1 si-2 sense: GAUGAGGUCUUGUCCGAAATT;
+Human HECW1 si-2 antisense: UUUCGGACAAGACCUCAUCTT.
+Cells in the logarithmic growth phase were seeded onto plates to achieve 40–60% confluence by the next day. Transfection with siRNA was then performed using jetPRIME® (Polyplus, France; 101000046). The culture medium was replaced with fresh medium within 24 h post-transfection. Transfection efficiency was evaluated at 48 h post-transfection via quantitative real-time PCR (qRT-PCR) and Western blot analysis. Verteporfin was purchased from MCE (Catalog No. HY-B0146).
+
+## RNA extraction and qRT-PCR
+We used FastPure Cell/Tissue Total RNA Isolation Kit V2 (vazyme, China, RC112-01) to extract RNA from GC tissues and GC cells. Reverse transcription was performed using HiScript ® III all in one RT SuperMix for qPCR (vazyme, China, R333-01). qRT-PCR was performed using the ChamQ universal SYBR qPCR Master Mix kit (vazyme, China, Q711-02). The specific primers used are listed below.
+Human GAPDH forward primer: GAAGGTGAAGGTCGGAGTC;
+Human GAPDH reverse primer: GAAGATGGTGATGGGATTTC;
+Human HECW1 forward primer: GCAGTTTGTCACGGGAACAT;
+Human HECW1 reverse primer: GGAAGATCCAGTCGGTTGAA.
+
+## CCK-8 assays
+Cell counting kit-8 (CCK8) (beyotime, China, C0037) was used to detect the proliferation of GC cells. 3*103 cells were inoculated into 96-well plates, and 10 µl of CCK8 and 90ul of serum-free medium mix were added to each well and injected every 24 h. After incubation for 2 h, absorbance values were recorded at 450 nm using an enzyme-labeled instrument (Thermo Scientific, MA, USA).
+
+## Transwell assay
+24 h after transfection of the cells, the cells were diluted to 1*106 cells/mL with serum-free 1640 medium and 200 µL was taken and added to the transwell chambers. Then 500µL of 1640 medium containing 10% FBS was added to the transwell lower chamber. After incubation for 24 h, the cells were fixed with methanol and stained with crystal violet. Finally, the photographs were observed with an inverted microscope (Olympus, Tokyo, Japan).
+
+## Western blot assay
+Total proteins from transfected GC cells were extracted with RIPA lysate (Beyotime, China, P0013B) containing 1% PMSF (Solarbio, China, P0100). protein concentration was detected by BCA kit (Beyotime, China, P0012). Protein samples were separated by electrophoresis using 10% Precast Protein Plus Gel (Yeasen, China, 36276ES10) and then transferred to PVDF membrane (Millipore, USA, ISEQ00010). The membrane was closed with rapid closure solution (Ncmbio, China, P30500) for 30 min, and then incubated with β-actin (CST, USA, 4967 S), HECW1(Proteintech, China, 24695-1-AP), YAP antibody (CST, USA, 14074T) and p-YAP (Affinity, China, AF3328), which were diluted at 1:1000, at 4 °C overnight. The next day, the membrane was washed four times (5 min each) with TBST and then incubated with HRP-conjugate Mouse Anti-Rabbit IgG Antibody (CST, USA, 7076P2) which was diluted at 1:5000, at room temperature for 2 h. After incubation, the washing was repeated. Bands were then measured by a chemiluminescence imaging device (Bio-Rad, California, USA) using an ECL detection kit (Beyotime, China, P0018S). β-actin was used as an internal reference.
+
+## Immune infiltration analysis
+TIMER 2.0 [ ] is an online database that can be used to analyze immune infiltration in different cancer types [ ], including cancer-associated fibroblasts (CAFs), B cells, CD4+ T cells, CD8+ T cells, neutrophils, macrophages and dendritic cells (DCs). We analyzed the expression of HECW1 in different cancers and the correlation with immune infiltration.
+
+## Kaplan-Meier plotter
+The Kaplan Meier [ ] is capable of assessing the correlation between the expression of all genes and survival in 21 tumor types. Statistical tools applied include Cox proportional hazards regression and misdiagnosis rate calculations. Setting to split patients by median with a follow-up threshold of 60 months.
+
+## Gene co-expression analysis
+Gene Expression Profiling Interactive Analysis (GEPIA2) is an online database of 60,498 genes and 198,619 isoforms of type [ ]. We analyzed the association between HECW1 expression and marker genes of tumor-infiltrating immune cells (mainly T cells, TAM, macrophages, NK cells, DC cells, T helper cells and neutrophils) using data from the TCGA and GTEx projects in conjunction with RNA sequencing expression analysis. Correlation coefficients were determined using the Spearman method.
+
+## Genetic variation
+We retrieved HECW1 gene alterations through cBioPortal [ ] and studied them in 33 cancers. The Mutation Module provides HECW1 mutation sites to improve the understanding of its potential role in GC development.
+
+## Flow cytometry
+Cells (1 × 10⁶ – 3 × 10⁶) were collected, centrifuged, and washed twice with pre-chilled PBS. The pellet was resuspended in 500 µl Apoptosis Positive Control Solution (Liankebio, China; Cat# AT107) and incubated on ice for 30 min. After centrifugation and PBS washing, cells were resuspended in 500 µl 1× Binding Buffer. Annexin V-APC (5 µl) and PI (10 µl) were added to each tube, followed by gentle vortexing and a 5-minute incubation at room temperature in the dark. Apoptosis analysis was performed immediately using a flow cytometer (Beckman Coulter, USA), with data processed by FlowJo 10 software.
+
+## Co-culture of cancer cells and T cells
+The peripheral blood from health donors were provided by Surgery Department of Wuxi No.2 People’s Hospital. The peripheral blood mononuclear cells (PBMC) was isolated from the peripheral blood with Lymphoprep (STEMCELL, Canada, 19654) and activated with ImmunoCult Human CD3/CD28 T Cell Activator (STEMCELL, Canada, 100–0784) in ImmunoCult-XF T Cell Expansion Medium (STEMCELL, Canada, 10981) supplemented with IL2. Pre-activated CD8⁺ T cells were washed with PBS, resuspended in fresh complete medium, and co-cultured with GC cells transfected with specified plasmids in 48-well plates at an optimized effector-to-target ratio. The co-culture system was maintained for 48 h under standard conditions (37 °C, 5% CO₂). Following co-culture, T cells were harvested and treated with protein transport inhibitor (BD) for 6 h at 37 °C to accumulate intracellular cytokines. Cells were subsequently fixed and permeabilized using the BD Cytofix/Cytoperm™ Kit (554714) according to the manufacturer’s protocol. Intracellular staining was performed with fluorochrome-conjugated antibodies targeting IFN-γ (Miltenyi Biotec, 130-113-497) and TNF-α (Miltenyi Biotec, 130-118-974). Data acquisition was conducted using a Beckman CytoFlex flow cytometer, and quantitative analysis was performed with FlowJo software.
+
+## RNA-Seq analysis
+Total RNAs were extracted from both si-HECW1 and si-Ctrl samples. We employed RNA-Seq technology (Novogene, China) for the identification of DEGs (Differentially Expressed Genes) [ ]. Briefly, the raw fastq data generated from RNA-seq was first trimmed using Trimmomatic (V0.35). The trimmed reads were then compared to the human reference genome (NCBI GRCh38) by utilizing TopHat (version 2.0.12) and default parameter settings. The resulting aligned bam files were then processed using Cufflinks (Version 2.2.1) for gene quantification. Genes meeting the threshold of FPKM ≥ 1 (Fragments Per Kilobase of transcript per Million mapped reads) across all samples were included in the subsequent analysis to identify DEGs. The R Bioconductor package DESeq2 was utilized to screen out the differentially expressed genes (DEGs). The P value for correction < 0.05 and fold change > 2 or < 0.5 were set as the cut-off criteria for identifying DEGs.
+
+## Statistics
+Statistical differences were analyzed using GraphPad Prism 9 software. The data is displayed as the mean ± standard error of the mean (SEM). For enrichment analysis, R 4.4.0 were utilized. To examine the variations between the two groups, the student’s t-test was employed. p < 0.05 was recognized statistically significant.
+
+## Results
+
+## HECW1 is over-regulated and associated with survival in gastric cancer
+The pan-cancer expression profile of HECW1 was initially retrieved through the TIMER 2.0 database, demonstrating significantly elevated expression levels in stomach adenocarcinoma (STAD) compared with paired adjacent normal tissues (Fig.  A). Subsequent validation using the UALCAN platform [ ] confirmed HECW1 mRNA overexpression in GC clinical specimens versus normal controls (Fig.  B). Comparative analysis revealed upregulated HECW1 expression in GC cell lines (HGC-27, MKN-28, MKN-45, AGS) relative to normal gastric epithelial cells (GES-1), with transcriptional activation confirmed by qRT-PCR (Fig.  C) and protein overexpression validated by Western blot (Fig.  D). Prognostic evaluation via Kaplan-Meier Plotter [ ] identified HECW1 overexpression as a negative predictor for both overall survival (OS; HR = 1.48, log-rank P = 0.018) and relapse-free survival (RFS; HR = 2.12, log-rank P = 0.023) in STAD patients (Fig.  E-F). Multivariate Cox regression analysis of TCGA-STAD data established HECW1 expression (HR = 1.649, 95% CI = 1.045–2.603, P = 0.032) and advanced age (> 65 years) (HR = 1.701, 95% CI = 1.068–2.710, P = 0.025) as independent prognostic factors for GC (Table  ).
+
+ 
+
+ 
+
+## Association of HECW1 expression with clinicopathologic characteristics
+The relationship between HECW1 mRNA expression and clinical parameters in STAD was assessed by UALCAN, which is a comprehensive and interactive web resource for analyzing TCGA transcriptome and clinical patient data based on TPM normalization. The results showed that HECW1 was differentially expressed in patients of individual cancer stages, race, gender, age, tumor grade, H. pylori infection status, histological subtypes, nodal metastasis status, and TP53 mutation status (Fig.  A-I).
+
+ 
+
+## HECW1 gene alterations in GC
+Comprehensive genomic profiling of HECW1 alterations was performed through cBioPortal analysis platform using 32 cancer cohorts from The Cancer Genome Atlas (TCGA) Pan-Cancer Atlas (n = 10,967 tumor samples). The investigation identified 529 somatic alterations spanning the entire HECW1 coding sequence (amino acid positions 1-1606), comprising 444 missense mutations, 58 truncating mutations, 21 splice site variants, 5 gene fusions, and 1 in-frame mutation. A recurrent hotspot mutation R1555W (Arg1555Trp) was identified as the most prevalent alteration (Fig.  B). Notably, STAD exhibited distinct mutation patterns characterized by predominant missense substitutions and gene amplifications (Fig.  A).
+
+ 
+
+## Immunological infiltration of the HECW1 gene is present in gastric cancer
+The TIMER 2.0 database was employed to analyze the correlations between HECW1 expression level and immune infiltration in STAD. Multi-algorithm deconvolution (EPIC, MCP-COUNTER, XCELL, TIDE) revealed a positive correlation between HECW1 expression and cancer-associated fibroblast (CAF) infiltration (Fig.  A) alongside reduced tumor purity in STAD. In GC, elevated HECW1 levels inversely correlated with CD8⁺ T cell infiltration and promoted macrophages, DCs and neutrophils recruitment (Fig.  B). These findings suggest that HECW1 may function as a potential immunomodulator driving immunosuppressive niche formation through dysregulation of cytotoxic T cell trafficking and macrophage polarization. Functional validation through PBMC coculture assays demonstrated that HECW1-knockdown GC cells increased CD3⁺CD8⁺ T cell proportions (Fig.  C) and enhanced IFN-γ/TNF-α secretion (Fig.  D-E), suggesting its role in modulating T cell activity. GEPIA2 analysis further showed HECW1 co-expression with immune markers (NK cells, DCs, TAMs, etc.) in GC versus normal tissues (Table  ).
+
+ 
+
+ 
+
+## Effect of knockdown of HECW1 on the biological behavior of tumors
+Following database findings, we validated HECW1’s functional role in GC through in vitro experiments. Two independent siRNAs were used to knock down HECW1 in AGS and MKN-45 cells, with knockdown efficiency confirmed by RT-qPCR and Western blot (Fig.  A-B). Subsequently, we found that the proliferation of GC cells in the low HECW1-expressing group was significantly lower than that of the control group with CCK8 (Fig.  C). Depletion of HECW1 significantly induced apoptosis in both AGS and MKN-45 via Annexin V/PI assay (Fig.  D). Additionally, Transwell and Wound Healing assay revealed that migration of GC cells with low HECW1 expression was impaired (Fig.  E-F).
+
+ 
+
+## Gene enrichment analysis of the HECW1 gene in tumors
+Protein-protein interaction (PPI) network analysis using the STRING database and Cytoscape identified HECW1-interacting proteins (Fig.  A). Functional enrichment analysis (GO/KEGG) of these interactors revealed significant associations with ubiquitin-proteasome system regulation and Hippo signaling pathway (Fig.  B-C). siRNA-mediated HECW1 knockdown in GC cells increased phosphorylated YAP (p-YAP) levels while reducing total YAP expression (Fig.  D).
+
+ 
+
+## Identification of differentially expressed genes and functional enrichment analysis
+To further investigate the role of HECW1 in GC and its impact on tumor suppression, RNA-Seq was performed based on si-HECW1 and si-Ctrl group in MKN-45 cells. As the volcano plots illustrated, after data integration, gene expression profiles from RNA Sequencing identified 952 differentially expressed genes. Among all the DEGs, 398 genes were upregulated and 554 were downregulated in si-HECW1 compared with the si-Ctrl in MKN-45 (Fig.  A), grounded on the cut-off criteria (|logFC|> 2, Padj < 0.01). DEGs were selected for integrated analysis. To explore the biology pathways of the DEGs, we performed KEGG analysis for up and down DEGs (Fig.  B-C). Enriched KEGG pathways of the DEGs were shown in Fig.  C, including Hippo signaling pathway and some other pathways, which was consistent with the results analyzed above in the public database.
+
+ 
+
+## Hippo pathway activation blocks the anti-tumor effects induced by HECW1 knockdown
+To validate the HECW1-YAP regulatory axis, we co-transfected HECW1 siRNA with a YAP overexpression plasmid in GC cells. Western blot analysis revealed that HECW1 knockdown significantly increased the protein level of p-YAP, while decreasing the protein levels of YAP and TAZ. However, overexpression of YAP reversed this phenomenon (Fig.  A). Functional assays demonstrated that HECW1 silencing suppressed proliferation (CCK-8 assay), which was rescued by YAP overexpression (Fig.  B). Similarly, HECW1 depletion induced apoptosis (Annexin V/PI staining), whereas YAP ectopic expression reversed this phenotype (Fig.  C). Transwell and wound healing assays confirmed that HECW1 knockdown impaired migration, an effect counteracted by YAP overexpression (Fig.  D-E). Functional validation through PBMC coculture assays demonstrated that HECW1-knockdown GC cells significantly increased the proportion of CD3⁺CD8⁺ T cells and enhanced IFN-γ and TNF-α secretion. However, overexpression of YAP reversed this effect, indicating that HECW1 modulates T cell activity via the Hippo signaling pathway (Fig.  F). Verteporfin, a YAP inhibitor, disrupted the YAP/TAZ-TEAD interaction. As shown in Fig.  G, verteporfin attenuated the upregulated YAP protein expression caused by HECW1 overexpression. These results suggested that HECW1 could regulate the Hippo signaling pathway to promote the malignant progression of GC cell lines.
+
+ 
+
+## Discussion
+HECW1 promoted metastasis in non-small cell lung cancer by mediating ubiquitination of Smad4 [ ]; induced NCOA4-regulated ferroptosis in glioma by ubiquitination and degradation of ZNF350 [ ]; and inhibited growth of cervical cancer cells by promoting ubiquitination of DVL1 [ ].Our systematic analysis extended these findings to GC, demonstrating significant correlations between HECW1 overexpression and reduced patient survival (log-rank P = 0.018, HR = 1.48). Functional interrogation through HECW1 knockdown in GC cell lines demonstrated significant suppression of cellular proliferation, enhanced apoptotic activity, and impaired migratory capacity. These findings collectively indicated that HECW1 critically promotes the malignant progression of gastric carcinoma.
+Furthermore, we revealed that HECW1 regulated immune processes. This implied that further exploration of the prognostic value and immunomodulatory function of HECW1 in GC was warranted. Immunotherapy has made a significant impact in the treatment of tumors [ ]. The abundance and distribution of tumor-infiltrating lymphocytes (TILs) served as significant biomarkers in the tumor immune microenvironment (TIME), demonstrating close associations with prognosis and responsiveness to immunotherapy [ ]. In primary cancers of the gastrointestinal tract, the presence of anti-tumor immune infiltration was often associated with a better prognosis [ ].Our study identified HECW1 as a key modulator of tumor immune microenvironment dynamics, critically regulating both the abundance and phenotypic diversity of tumor-infiltrating immune cells. High HECW1 expression inversely correlated with CD8+ T lymphocyte infiltration while showing a positive association with macrophages, DCs, and neutrophils infiltration. CD8+ T cells were the most important anti-tumor effector cells during immunotherapy and their number and functional status largely determine their anti-tumor effects [ ]. Macrophages regulated the immune response to pathogens and maintain tissue homeostasis [ ]. DCs were specialized antigen-presenting cells with the unique ability to induce naïve T cell activation and effector differentiation [ ]. The role of neutrophils in tumors was paradoxical: neutrophils were able to mediate a wide range of anti-tumor and pro-tumor activities, ranging from direct tumor cell killing to tumor cell proliferation, angiogenesis, metastasis and coordination of other immune responses [ ]. Most malignant tumors reprogram macrophages into tumor-associated macrophages (TAMs) that drove tumor progression by enhancing proliferation, invasion, and metastatic dissemination [ ]. Furthermore, TAMs contributed to therapeutic resistance against both conventional chemotherapy and immune checkpoint inhibitors [ ]. Functional validation through PBMC coculture assays demonstrated that HECW1-knockdown GC cells increased CD3⁺CD8⁺ T cell proportions and enhanced IFN-γ/TNF-α secretion, suggesting its role in modulating T cell activity.
+The Hippo signaling pathway mediates diverse cellular functions including immunomodulation, exerting both tumor-promoting effects and immunosuppressive functions through multiple mechanisms [ ]. The Hippo-YAP axis and its downstream effectors YAP and transcriptional co-activator PDZ-binding motif (TAZ) were essential regulators of stem cell dynamics and tumorigenesis [ ]. Aberrant activation of the YAP/TAZ signaling cascade commonly occurred in various malignancies. Previous research has found CD248 activation promoted non-small cell lung cancer metastasis through Hippo signaling stimulation [ ], while RARγ knockdown inhibited Hippo-YAP signaling and suppressed colorectal cancer development [ ]. To investigate the functional role of HECW1 in gastric carcinogenesis, our integrated analysis of public databases and transcriptomic sequencing results revealed that HECW1 may regulate the Hippo signaling pathway. To investigate the regulatory function of Hippo signaling in gastric cancer, we performed siRNA-mediated HECW1 knockdown, revealing its inhibitory effect on Hippo-YAP signaling. Rescue experiments demonstrated that YAP overexpression reversed the tumor-suppressive phenotypes caused by HECW1 depletion. Transcriptomic profiling integrated with in vitro validation confirmed HECW1-mediated Hippo-YAP pathway regulation. However, it remains unclear whether HECW1 directly ubiquitinates core components of the Hippo pathway (e.g., LATS1/2, MST1/2), and this requires further investigation. While current findings are limited by the absence of in vivo validation, future studies will clarify this mechanism using animal models.
+
+## Conclusion
+Elevated HECW1 expression is associated with poor prognosis and increased immune cell infiltration in GC. Mechanistically, HECW1 knockdown inhibits GC progression through suppression of cellular proliferation and migratory capacity, and induction of apoptosis mediated by activation of the Hippo signaling pathway. These findings highlight HECW1 as both a prognostic biomarker and a potential therapeutic target for precision oncology strategies in GC.
+
+## Electronic supplementary material
+Below is the link to the electronic supplementary material.
+
+Supplementary Material 1
+
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Zhihui Yang, Peng Zhou and Liping Wang contributed equally to this work.
+
+## Acknowledgements
+We are grateful for the open access to the following databases: the Tumor Immunoassay Resource (TIMER2.0) system, the Gene Expression Profiling Interaction Analysis (GEPIA2), the Kaplan-Meier-plotter, the cBioPortal, and the STRING database. Their valuable data have been crucial in supporting our research.
+
+## Author contributions
+Z Yang: Writing – original draft, Methodology, Investigation, Formal analysis, Data curation, Conceptualization. P Zhou: Software, Methodology, Investigation. L Wang: Visualization, Methodology, Investigation. X Yang: Visualization, Methodology, Investigation. M Yang: Software, Formal analysis. J Xia: Writing – review & editing, Writing – original draft, Resources, Project administration, Investigation, Funding acquisition, Conceptualization.
+
+## Funding
+This work was supported by Key Project of Scientific Research from Jiangsu Commission of Health (ZDB2020026); Wuxi Taihu Lake Talent Plan, Team in Medical and Health Profession; Wuxi Medical Key Discipline Construction Project, Medical Development Discipline; Postgraduate Research & Practice Innovation Program of Jiangsu Province (SJCX23_0690).
+
+## Data availability
+Data is provided within the manuscript or supplementary information files.
+
+## Declarations
+
+## Ethical approval
+The study was approved by the Ethics Committee of Wuxi No.2 People’s Hospital [2023-Y-113], and all patients provided informed consent.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare no competing interests.

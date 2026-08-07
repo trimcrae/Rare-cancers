@@ -1,0 +1,170 @@
+pmcAging CellAging Cell2481acel101130839ACELAging Cell1474-97181474-9726WileyPMC12266785PMC12266785.112266785122667854028542210.1111/acel.70082ACEL70082ACE-24-1000.R21Research ArticleResearch ArticleDeciphering Immunosenescence From Child to Frailty: Transcriptional Changes, Inflammation Dynamics, and Adaptive Immune Alterations
+LaiWenpu FengQiuyue LeiWen XiaoChanchan WangJuan ZhuYi MaoLipeng ZhuYue HeJiacheng LiYangqiu WangHaohttps://orcid.org/0000-0003-2169-1712 haowang@jnu.edu.cnLiZhenhua lizhenhua915@jnu.edu.cnChenGuobing guobingchen@jnu.edu.cnLuoOscar Junhonghttps://orcid.org/0000-0002-1266-3069 luojh@jnu.edu.cn
+
+1
+
+Department of Anesthesiology
+The First Affiliated Hospital, Jinan University
+Guangzhou
+China
+
+2
+
+Key Laboratory for Regenerative Medicine of Ministry of Education, Institute of Hematology
+School of Medicine, Jinan University
+Guangzhou
+China
+
+3
+
+Department of Systems Biomedical Sciences, School of Medicine
+Jinan University
+Guangzhou
+China
+
+4
+
+Department of Microbiology and Immunology, School of Medicine, Institute of Geriatric Immunology, School of Medicine
+Jinan University
+Guangzhou
+China
+
+5
+
+Musculoskeletal Pain Rehabilitation Department
+The Fifth Affiliated Hospital of Zhengzhou University
+Zhengzhou
+China
+
+6
+
+Department of Physics & Astronomy
+University College London
+London
+UK
+
+7
+
+Key Laboratory of Viral Pathogenesis & Infection Prevention and Control (Jinan University), Ministry of Education
+Guangzhou
+China
+
+*
+Correspondence:
+
+Hao Wang (haowang@jnu.edu.cn)
+Zhenhua Li (lizhenhua915@jnu.edu.cn)
+Guobing Chen (guobingchen@jnu.edu.cn)
+Oscar Junhong Luo (luojh@jnu.edu.cn)
+26420257202524749309810.1111/acel.v24.7e70082
+2632025
+0492024
+0242025
+260420251707202518072025© 2025 The Author(s). Aging Cell published by Anatomical Society and John Wiley & Sons Ltd.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## ABSTRACT
+Aging induces significant alterations in the immune system, with immunosenescence contributing to age‐related diseases. Peripheral blood mononuclear cells (PBMCs) offer a convenient and comprehensive snapshot of the body's immune status. In this study, we performed an integrated analysis of PBMCs using both bulk‐cell and single‐cell RNA‐seq data, spanning from children to frail elderlies, to investigate age‐related changes. We observed dynamic changes in the PBMC transcriptome during healthy aging, including dramatic shifts in inflammation, myeloid cells, and lymphocyte features during early life, followed by relative stability in later stages. Conversely, frail elderly individuals exhibited notable disruptions in peripheral immune cells, including an increased senescent phenotype in monocytes with elevated inflammatory cytokine expression, heightened effector activation in regulatory T cells, and functional impairment of cytotoxic lymphocytes. Overall, this study provides valuable insights into the complex dynamics of immunosenescence, elucidating the mechanisms driving abnormal inflammation and immunosuppression in frailty.
+
+Integrated analysis of bulk‐cell and single‐cell RNA‐seq data from childhood to frailty revealed nonlinear transcriptomic changes in peripheral blood mononuclear cells, marked by dramatic early‐life shifts in inflammation, myeloid cells, and lymphocyte features, followed by stability in healthy elderly individuals. In contrast, frail elderly individuals showed disrupted immune profiles, characterized by heightened monocyte‐driven inflammation, regulatory T‐cell activation, and impaired cytotoxic lymphocyte function. 
+
+frailtyimmunosenescenceleukocytesmononuclearsingle‐cell gene expression analysistranscriptome
+Basic and Applied Basic Research Foundation of Guangdong Province10.13039/501100021171
+2023A15151401172024A1515011034
+Open Project Fund of Guangdong Provincial People’s Hospital
+YKY‐KF202208
+the fellowship of China Postdoctoral Science Foundation
+2023M7413792023TQ0136
+Guangdong Special Support Plan (Health Talent) Project, China
+0720240108
+Pearl River Talents Scheme of Guangdong Province
+2019QN01Y990
+National Natural Science Foundation of China10.13039/501100001809
+32100695823506102809237010792374203
+Science and Technology Project of Guangzhou, China
+2023B03J1353
+Key R&D Program Key Special Projects for International Science and Technology Innovation Cooperation between Governments
+2023YFE0118700 To understand transcriptomic trends through human aging, we applied LOESS smoothing to gene expression versus age (Figure  ). Hierarchical clustering identified distinct age‐related gene expression patterns: in particular, Clusters 4 (TLR2, PTGDS, MMP9, IL18, CX3CR1, GZMB, GNLY, etc.) and Cluster 6 (CD79A, CD19, TCL1A, CD27, SOX4, TCF7, LEF1, CCR7, etc.) exhibited clear age‐related improvement or decline, and were enriched in cytotoxicity, inflammation, myeloid cell features, and lymphocyte characteristics, respectively (Figure  and Figure  ; Table  ). Notably, these expression patterns underwent rapid changes in early life, gradually slowed down, and stabilized in healthy old donors.
+Additionally, using DE‐SWAN, we identified gene expression differential peaks at 21, 40, and 89 years of age, each associated with unique transcriptomic patterns (Figure  ; Tables  , ). At 21 years of age, upregulated genes were enriched for inflammation and myeloid cell functions, whereas downregulated genes were linked to B‐ and plasma cell functions. At 40 years, downregulated genes, including LEF1 and CD248, were enriched for “anatomical structure regression,” aligning with previously reported negative aging effects (Harries et al.  ). Interestingly, the specifically up‐ or downregulated genes at 21 and 40 years stabilized by the age of 89, and only upregulation of ribosomal genes were found in advanced‐aged individuals (Zhu et al.  ).
+
+3.2
+
+## Dynamic Alterations in PBMC Composition and TCR Repertoire With Age
+We integrated scRNA‐seq data from 47 healthy individuals covering 1 to 100 years old, creating a PBMCs atlas of over 360,000 single cells (Figure  and Figure  ; Table  ). Six major cell types were defined on the basis of their respective marker genes (Figure  ). After processing by SCALEX, the scRNA‐seq data showed no obvious batch effects (Figure  ). In addition, 32 distinct cell subtypes (excluding doublet clusters) were further defined on the basis of their respective marker genes (Figure  and Figure  ). Cell types associated with aging include memory T‐cell subsets (CD8_Tem, CD4_Tm, CD4_Tm‐IL7R) and the cytotoxic T lymphocytes (CTL) subset CD8_CTL, which exhibited a positive correlation with age. Conversely, the abundance of CD8_Naive, plasma cell, pDC, and B‐cell subsets showed a negative correlation with age (Figure  ). Notably, the population of plasma cells and CD8_Naive cells, most strongly anti‐correlated with age, especially through 1 to 60 years old, maintained stability in late healthy aging, consistent with the dynamics observed in the bulk‐cell transcriptome (Figure  ).
+ Considering the significant B‐cell‐related transcriptional changes observed in bulk RNA‐seq during the transition from childhood to adulthood, we conducted a comparative analysis between children (1–11 years old) and young adults (23–39 years old). We found a significant decrease in the overall proportion of B cells in young adults compared with children (Figure  ). Subtypes, such as B_Naive‐TCL1A cells, characterized by transitional B‐cell features, and plasma cells, exhibited a marked decline in their proportions within the B‐cell population in young adults, accompanied by reduced IGHM expression in plasma cells (Figure  ). Additionally, although all B‐cell subpopulations in young adults, except for B_IgM_Memory and B‐MALAT1 cells, showed a significant decrease in proportions within PBMCs, the MAIT cells, innate‐like T cells, and the myeloid cell subset Mono_CD14_LGALS2 cells demonstrated an increased proportion compared with children (Figure  ). Thus, B‐cell‐related transcriptional changes in bulk RNA‐seq during the transition from childhood to adulthood may be contributed to by both the variation in proportion of B‐cell subpopulations and functional changes (Ciocca et al.  ).
+In scTCR‐seq analysis, CD8_Tem (CD8+ effector memory T) and CD8_CTL cells displayed obvious clonal expansion, and they had the highest functional transition potential (Figure  ). Furthermore, most T‐cell subtypes, except CD4_Treg (CD4+ regulatory T) and CD8_MALAT1 (MALAT1
+high CD8+ T) cells, exhibited decreased TCR diversity (i.e., increased clonal expansion and Gini coefficients) beyond 60 years old (Figure  and Figure  ), echoing a reported aging inflection point around the age of 65 (Naylor et al.  ).
+
+3.3
+
+## Heightened Inflammatory Response for PB of Frailty
+To further explore the alterations in peripheral immune cells of unhealthy aging, we projected the PBMCs atlas onto frail (a pathological aging state) elderly individuals, comparing it with data from healthy advanced‐aged individuals (Figure  and Figure  ). Frailty led to a significant decrease in CD8_Naive cells and a notable increase in Mono_CD14‐S100A8 (CD14+
+S100A8
+high monocyte) and B_Naive‐IL4R cells (Figure  ). Consequently, we proceeded to investigate the functional changes in these cell subsets with altered abundance between healthy and frail old individuals (Table  ). Compared with the healthy elderlies, frail donors exhibited enrichment of stress‐induced MAPK cascade and NF‐κB signaling pathways in B_Naive‐IL4R cells (Figure  ). Additionally, CD8_Naive cells in frail individuals showed upregulation of T‐cell aging and effector T‐cell‐related genes, such as KLRG1 and GZMK, with downregulation of CCR7, IL7R, GPR183, and CXCR4. These cells also exhibited increased activity in pathways related to apoptosis, DNA damage, NF‐κB signaling, and response to TNF when compared with healthy elderlies (Figure  ). A similar decline in the proportion of naïve CD8+ T cells (CD45RA+CD62L+CD8+) was observed via flow cytometry in frail individuals from an additional sample cohort (Figure  ).
+ In addition, Mono_CD14‐S100A8 cells demonstrated a decline in the expression of homeostatic genes and a gradual increase in inflammatory factor expression during healthy aging (e.g., TNF, IL1B, and CXCL8) (Figure  ). However, in frail elderly individuals, these cells exhibited rapid upregulation of inflammatory factors, and monocytes ubiquitously exhibited notably higher SASP functional scores (Figure  ), suggesting prominent SASP characteristics. Mono_CD14‐S100A8 cells were also enriched for pathway activities related to lipopolysaccharide and TNF response, and NF‐κB signaling in frail individuals (Figure  ). Furthermore, cell–cell communication analysis revealed that inflammation‐related signaling pathways (TNF, IL1, IL6, and CXCL) in PBMCs were primarily driven by the monocyte subpopulations (Figure  ), with an increase in their output in frail elderly individuals compared with healthy elderly individuals (Figure  ). To assess the levels of inflammatory activation and cytokine concentrations in PB, we analyzed the expression of CRP, TNF‐α, IL‐1β, and IL‐6 proteins in an additional cohort by ELISA. Similarly, these protein levels were significantly elevated in frail individuals compared with healthy elderlies (Figure  ). Interestingly, the anti‐inflammatory gene ANXA1 exhibited increased mRNA expression with aging (Figure  ), while genes with a PCC greater than 0.7 with ANXA1 in bulk RNA‐seq data from healthy individuals aged 75 and older were enriched in GO terms like leukocyte cell–cell adhesion (Figure  ). However, plasma protein levels of Anxa1 were significantly reduced in frail individuals compared with healthy elderlies (Figure  ). This decrease was also evident in its signaling output in cell communication analysis (Figure  ). These findings potentially suggested that ANXA1 plays a role in anti‐inflammatory processes during healthy aging and frailty (Singh et al.  ; Tampé et al.  ).
+
+3.4
+
+## Clonal Expansion and Effector Treg Cells in Frailty
+We observed an increase in CD4_Treg cell TCR clonal expansion and elevated expression of effector Treg (eTreg)‐related genes, such as ICOS, BATF, and PRDM1, within CD4_Treg cells of frail individuals, with these CD4_Treg cells showing expression enrichment in T‐cell activation and TNF‐mediated signaling pathways compared with healthy elders (Figure  ). However, with healthy aging, apart from elevated expression of TGFB1, there was no obvious elevation in effector‐related genes of CD4_Treg cells, consistent with the absence of noticeable changes in CD4_Treg cells TCR diversity with age (Figure  and Figure  ). Flow cytometry analysis revealed that the proportion of eTreg (CD25+CD278+CD4+ T) cells was also elevated in frail individuals (Figure  ). Further investigation in frailty showed that the ICOSL‐ICOS signaling pathway, which supports eTreg maintenance (Raynor et al.  ), was not only enriched in Treg cells but also in conventional CD4+ T‐cell subsets (Figure  and Figure  ). Similarly, in frail donors, CD278+CD4+ T‐cell population increased, and conventional CD4+ T cells showed high expression of eTreg‐related genes (Figure  ). Using NicheNet analysis, we found that IL‐6 was consistently identified as the top potential regulator of Treg characteristic genes across distinct thresholds in frail individuals, while it was not observed in the advanced‐aged group or in all Treg cells (Figure  and Figure  ). IL‐6, through its receptor, potentially regulated a broad range of upregulated genes in Treg cells from frail individuals, including eTreg‐related genes, such as BATF, PRDM1, and ICOS (Figure  ) (Raynor et al.  ). In addition, we observed that the mRNA levels of two Treg‐associated immunosuppressive molecules, IL‐10 and TGF‐β1, remained relatively stable in healthy elderly individuals (age ≥ 50) (Figure  ). However, in frail individuals, there was a significant increase in the plasma protein levels of these molecules (Figure  ).
+ 
+3.5
+
+## Suppression of Cytotoxic Function in Frailty
+The shift toward an immunosuppressive phenotype in CD4+ T cells (Löhning et al.  ), particularly Treg cells, in frail elderly individuals raises concerns about the potential alterations in cytotoxic cell function. We found that the expression of cytotoxicity‐related genes and overall functional scores in CD8_CTL and NK cells were decreased in frail individuals, while in the healthy elderly group, these declines were more gradual (Figure  ). In contrast, the expression of exhaustion‐related genes and overall exhaustion scores in CD8_CTL cells increased (Figure  ). Additionally, IFN‐II cell–cell interaction networks were enriched exclusively in healthy elderly individuals and were driven by outputs from NK cell subsets and γδ T cells (Figure  and Figure  ). Flow cytometry also revealed a higher proportion of PD‐1+CD8+ T cells, and KLRG1+CD57+CD8+ T cells in frail individuals compared with old healthy donors, along with a lower proportion of GZMB+CD8+ T cells in frail individuals (Figure  ). Similarly, Granzyme B and IFN‐γ had higher plasma protein levels in healthy elderly individuals compared with frailty (Figure  ). These findings suggest that the frail individuals had a dysregulated peripheral immune state, where an imbalance between pro‐ and anti‐inflammatory responses was potentially driven by increased SASP‐monocytes and IL‐6‐induced Treg cells activation, leading to suppressed cytotoxic cell function and a reduced capacity to eliminate abnormal immune cells (Figure  ).
+ 
+
+4
+
+## Discussion
+Recent research increasingly views immunosenescence as a process of immune system adaptation or remodeling rather than solely harmful (Santoro et al.  ). In our study, transcriptome analysis from childhood to old age revealed that while lymphocyte characteristics declined and inflammation and myeloid features increased rapidly in early life, these changes remained relatively stable during healthy elder aging. The stability of the transcriptome is correlated with the balance of immune cell numbers and functions, such as naïve T cells in healthy old individuals still exhibiting high expression of stemness and memory‐related genes (Galletti et al.  ), which have been reported to be associated with maintaining healthy aging (Li et al.  ). In addition, the transition from child to young adult was marked by significant transcriptional changes in peripheral immune cells, including a decline in B‐cell function and proportion, which could provide insights into age‐related infection susceptibility and vaccine application strategies (Siegrist and Aspinall  ; Yang et al.  ). Most previous studies investigated the transcriptional characteristics and composition of peripheral immune cells changes across different age groups (Ciocca et al.  ; Harries et al.  ; Luo et al.  ; Terekhova et al.  ); our study focused on covering a broader age range and exploring nonlinear changes in these features as was recently reported (Sparks et al.  ). These findings emphasize the dynamic nature of the immune system during aging and provide important clues for understanding the mechanisms and patterns of immunosenescence.
+The balance between pro‐ and anti‐inflammatory responses is crucial in healthy immunosenescence, as abnormal inflammation can disrupt immune homeostasis, leading to the intense inflammation observed in frail elderly individuals (Soysal et al.  ). Our study observed a significant increase in the proportion of monocyte subpopulations (Mono_CD14‐S100A8) in frail individuals, which exhibit SASP characteristics and higher expression levels of inflammatory cytokine genes. In frail elderly individuals, PBMC subpopulations showed enrichment of inflammatory pathways, with Treg cells exhibiting significant TCR clonal expansion, activation, and effector function. IL‐6, a cytokine secreted by monocytes, was identified as a key regulator of Treg cells, particularly influencing eTreg differentiation (Raynor et al.  ). The resulting immunosuppressive state by SASP‐phenotypic cells led to downregulation of cytotoxic cell function, impairing the clearance of abnormal senescent cells and creating a vicious cycle of inflammation (Eggert et al.  ; Liu et al.  ; Ruhland et al.  ). Interestingly, we found that in healthy elderlies, cytotoxic cells showed higher expression of FASLG and IFNG compared with younger adults, consistent with previous reports (Bandrés et al.  ; Zöphel et al.  ). This may enhance the cytotoxic dynamics of NK and CD8+ T cells in the elderly (Le Garff‐Tavernier et al.  ; Zöphel et al.  ), enabling effective responses to infections, tumors, and other pathogens, contributing to healthy aging and potentially longer lifespans.
+However, further investigation is needed to clarify the optimal balance between pro‐ and anti‐inflammatory activities across the lifespan, as well as to explore the role of neutrophils and solid organs in inflammatory aging. Nevertheless, our findings highlight the significant inflammation observed in frail individuals and suggest that targeting signaling pathways, particularly those involving interactions with pro‐ and anti‐inflammatory proteins like IL‐6 and Anxa1, could be promising strategies for anti‐aging and anti‐frailty interventions.
+
+5
+
+## Conclusions
+Our study revealed dynamic changes in the PBMC transcriptome across different ages, highlighting a shift from immune homeostasis in healthy elderlies to a dysregulated state in those with frailty. In frail individuals, we observed a marked disruption in the balance between pro‐ and anti‐inflammatory responses, along with a decline in cytotoxic function. Our study underscores the significance of monitoring immune variations throughout life, offering valuable insights for promoting healthy aging and preventing aging‐related diseases.
+
+## Author Contributions
+Wenpu Lai performed sequencing data analysis. Wenpu Lai, Wen Lei, Yangqiu Li, and Oscar Junhong Luo wrote the manuscript. Wen Lei, Chanchan Xiao, Yue Zhu, Zhenhua Li, Juan Wang, Yi Zhu, and Qiuyue Feng performed sample collection and experiments. Lipeng Mao and Jiacheng He assisted with the data interpretation. Hao Wang, Zhenhua Li, Guobing Chen, and Oscar Junhong Luo conceived the study, designed the experiments, and oversaw the research project.
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Supporting information
+
+Figure S1. Age and batch distribution of PBMC RNA‐seq datasets. (A) Donor age distribution of PBMC RNA‐seq datasets. (B) Donor age distribution of PBMC RNA‐seq datasets for female (left) and male (right) group, respectively. (C) Comparison of donor ages between females and males. p Value calculated by T‐test (two‐sided). (D) PCA (Principal component analysis) visualization of PBMC RNA‐seq datasets before (left) and after (right) batch effect removal. Different batches are depicted with distinct colors. (E) Heatmap showing the correlation matrix of RNA‐seq samples before (left) and after (right) batch effect removal. (F) Comparison of the median expression levels of RNA‐seq samples across batches before (top) and after (bottom) batch effect removal. p Value calculated by Kruskal‐Wallis test. (G) Significantly enriched KEGG pathways for age‐associated genes. (H) Line graphs showing gene expression trajectories with age. Each line represents a gene. Gene expression levels were z scored, and trajectories were estimated by LOESS. (I) Significantly enriched KEGG pathways for each gene cluster in Figure  .
+
+Figure S2. Characterization of PBMCs from healthy individuals by scRNA‐seq. (A) UMAP visualization of scRNA‐seq data from PBMCs of healthy individuals based on PCA (left) and SCALEX (right). Cells from different sample are depicted with distinct colors. (B) Same as A, but samples are colored based on datasets. (C) Same as A, but samples are colored based on major cell types. (D) Dot plot of marker genes for each cell type. The color and size of each dot represented the expression level and cell fraction of the marker genes, respectively. The number above the gray bar indicates the cell number of each cell type. The same applies to the rest of this figure. (E) Statistical comparison of cell cluster robustness in scRNA‐seq data using PCA vs. SCALEX for dimensionality reduction and clustering. Integration Local Inverse Simpson’s Index (iLISI) was employed as a metric to evaluate integration quality. Higher values indicate better batch effect removal performance. p value calculated by Wilcoxon test (two‐sided). (F) Left: UMAP visualization of myeloid cell clusters. Different cell types are depicted with distinct colors. Right: Dot plot of marker genes for each cell subtype. (G) Left: UMAP visualization of B‐cell clusters. Different cell types were depicted with distinct colors. Right: Dot plot of marker genes for each cell subtype. (H) Left: UMAP visualization of NK cell clusters. Different cell types were depicted with distinct colors. Right: Dot plot of marker genes for each cell subtype. (I) Left: UMAP visualization of T‐cell clusters. Different cell types were depicted with distinct colors. Right: Dot plot of marker genes for each cell subtype. (J) Boxplots for comparing the proportion of cell type for PBMCs between child and young adult sample groups. *p < 0.05, **p < 0.01, ***p < 0.001. Wilcoxon Rank Sum test (two‐sided).
+
+Figure S3. TCRαβ clonotype characterization of T cells from healthy individuals. (A) Boxplots for comparing TCR repertoire clonal expansion (left) and Gini coefficient (right) of different T‐cell subsets of healthy individuals. (B) Heatmap visualization of pairwise transition likelihood (based on TCR clonotypes) between different T‐cell subsets. (C) Scatter‐plots of TCR clonal expansion (y‐axis) vs. age (x‐axis) for distinct T‐cell subtype. Fitted lines by polynomial function and confidence intervals (gray shaded area) are shown. (D) Same as C, but for Gini coefficient of TCR repertoire vs. age.
+
+Figure S4. Comparison of PBMCs’ characteristics between healthy aging and frail elderlies. (A) Boxplots for comparing the age distribution between frail and healthy advanced‐aged individuals. p value calculated by t‐test (two‐sided). (B) Dotplots showing expression of selected genes in B_Naive‐IL4R cells from distinct age groups. (C) Significantly enriched GO biological process terms of upregulated genes in B_Naive‐IL4R cells of frail individuals in comparison with healthy advanced‐aged individuals. (D) Same as B, but for CD8_Naive cells. (E) Same as C, but for CD8_Naive cells. (F) The gating strategies of CD4+ and CD8+ T cells of PBMCs for aged and frail donors. (G) The gating strategies of CD45RA+CD62L+CD8+ T cells for aged and frail donors. (H) Bar plot showing percentage for CD45RA+CD62L+CD8+ T cells (naïve CD8+ T cells) of CD8+ T cells in aged and frailty. **p < 0.01. T‐test (two‐sided). (I) Violin plots showing SASP functional scores of monocytes across different age groups. ****p < 0.0001. Wilcoxon Rank Sum test (two‐sided).
+
+Figure S5. Additional analysis of CD4+ T cells and cell–cell interactions. (A) Dotplot visualization of the ICOSL‐ICOS signal for each cell types of advanced‐aged and frail elderlies. The dot color and size represent the calculated communication probability and p values, respectively. (B) Dotplots showing expression of selected genes in conventional CD4+ T cells from distinct age groups. (C) Bar plot showing percentage for CD278+CD4+ T cells of CD4+ T cells in aged and frail donors. *p < 0.05. T‐test (two‐sided). (D) NicheNet analysis of the upregulated gene set in Treg cells (left: log2FC > 0.5, right: log2FC > 1) of frail compared with advanced‐aged donors. Heatmap shows the top 15 ligands with the highest predictive power for the gene expression Treg cells of frail donors. The Pearson’s correlation coefficient reflects the ability of each ligand to accurately predict the target genes in Treg cells. (E) Heatmap of NicheNet ligand–target matrix denoting the regulatory potential between the top 15 ligands of DEGs (log2FC > 0.75) and target genes from Treg cells from advanced‐aged donors. (F) Heatmap of NicheNet ligand–target matrix denoting the regulatory potential between the top 15 ligands and target genes from Treg cells from frail and advanced‐aged donors combined. (G) Bar plots showing the mean of outgoing information flow of IFN‐II signaling pathways for advanced‐aged and frail donors.
+
+Table S1.
+
+Table S2.
+
+Table S3.
+
+Table S4.
+
+Table S5.
+
+Table S6.
+
+Table S7.
+
+Table S8.
+
+Table S9.
+
+Table S10.
+
+## Acknowledgments
+We want to thank the Institute of Geriatric Immunology, Jinan University.
+
+## Data Availability Statement
+Raw sequencing data of PBMCs RNA‐seq have been deposited in the Genome Sequence Archive in National Genomics Data Center, China National Center for Bioinformation/Beijing Institute of Genomics, Chinese Academy of Sciences (GSA‐Human: HRA006146) that are publicly accessible at https://ngdc.cncb.ac.cn/gsa‐human. The analyzed code for this study is available at https://github.com/aapupu/ImmunoRankAge.

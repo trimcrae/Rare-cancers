@@ -1,0 +1,89 @@
+Front OncolFront Oncol1755frontonco101568867Front. Oncol.Frontiers in Oncology2234-943XFrontiers Media SAPMC7456865PMC7456865.1745686574568653292338510.3389/fonc.2020.013301OncologyOriginal ResearchThe Immune Landscape and Prognostic Immune Key Genes Potentially Involved in Modulating Synaptic Functions in Prostate Cancer
+ZhuSha HanXuQiaoXianliChenShengxianKey Laboratory of Tumor Immunity, Center of Infection and Immunization, Department of Immunology, School of Basic Medical Sciences, Zhengzhou University, Zhengzhou, ChinaEdited by: Peter Jon Nelson, Ludwig Maximilian University of Munich, Germany
+Reviewed by: Olga Sizova, University of Texas MD Anderson Cancer Center, United States; Jiejie Xu, Fudan University, China
+*Correspondence: Sha Zhu shaz06@163.comThis article was submitted to Cancer Immunity and Immunotherapy, a section of the journal Frontiers in Oncology
+1482020202010351090133007220202562020010120201109202015092020Copyright © 2020 Zhu, Han, Qiao and Chen.2020Zhu, Han, Qiao and Chenhttps://creativecommons.org/licenses/by/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.Background: Increasing evidence has indicated an association between differentially expressed genes (DEGs) in tumor-infiltrating immune cells (TIICs) and clinical outcome. The aim of this research is to investigate the influence of tumor microenvironment on the gene expression profile of TIICs and to identify their potential markers for modulating immune cell function in prostate cancer.
+Methods: In our research, CIBERSORT algorithm was utilized to calculate the proportion of the TIICs in 164 tumor and 18 control samples from The Cancer Genome Atlas cohort. The differential expression analysis was conducted using R, and then the functional and the pathway enrichments of the DEGs were analyzed using Database for Annotation, Visualization, and Integrated Discovery, followed by integrated regulatory network analysis.
+Results: As a result, nTreg, B cells, Th1, and DC cells were significantly increased, accompanied by largely decreased NK and NKT cells. The expressed immune-related gene correlation analysis showed that the signature gene expression extent of CD8 T cells was positively associated with CD4 memory activated T cells but negatively correlated with that of CD4 memory resting T cells. In addition, a total of 128 differentially expressed genes were identified. CytoHubba analysis obtained six hub genes, of which three prognostic-associated potential key molecules including CAV1, FLNA, and VCL were mainly involved in biological processes associated with the regulation of organic substance and synaptic connections.
+Conclusions: This study provides a comprehensive understanding of the landscape of TIICs and the roles of the hub genes which may be valuable markers in prostate cancer diagnosis and immunotherapy.
+
+tumor-infiltrating immune cellsimmune landscapeprostate cancerimmunological synapseprognostic indicates the correlation between these differentially expressed types of immune cells. The result revealed that CD8 T cells were positively correlated with CD4 memory activated T cells but negatively correlated with CD4 memory resting T cells in PCa. As shown in the chart in , we identified that regulatory T cells had a relatively high percentage (P < 0.001), but CD4 memory resting T cells had a significantly low percentage in TIICs (P < 0.001).
+
+## DEGs and Significance of Extensive Infiltration of TIICs
+The DEGs were identified by the Robust MultiArray Averaging method in R package. Threshold |logFC| >1 and P < 0.05 were used as criteria for comparison ( ). Genes differentially expressed of TIICs screened based on the database CellMarker (http://biocc.hrbmu.edu.cn/CellMarker/) between PCa and the controls were defined for further study. The presence of TIIC profiles was reanalyzed by applying IMMUCELL AI criteria. The results showed that the intratumoral TIIC profiles were significantly enriched in nTreg (P = 0.0064), Th1 (P < 0.001), and DC (P = 0.0015), but the CD4 naive (P < 0.001), NK (P = 0.0012), and NKT cells (P < 0.001) were significantly decreased in the PCa tissues ( ).
+ 
+
+## Functional Annotation and Pathway Enrichment
+The enriched GO terms and KEGG pathways for the TIIC-related DEGs were identified ( ). As shown in , the top three biological process terms associated with the up-regulated and down-regulated DEGs were involved in the response to organic substance, oxidative stress, and hormone stimulus. In terms of cellular components, the DEGs were mostly associated with extracellular matrix and basolateral plasma membrane. Molecular function analysis indicated that the DEGs were mainly enriched in mitogen-activated protein kinase phosphatase activity and cytoskeletal protein binding. A subsequent KEGG pathway enrichment analysis revealed that the functions of the DEGs were primarily enriched in focal adhesion, nicotinate and nicotinamide metabolism, and phosphatidylinositol signaling system. The terms with P-value < 0.05 and count (the number of enriched genes) ≥2 were considered as the cutoff criterion.
+ 
+
+## Analyzing the Modules of the Networks
+To investigate the gene expression module of TIIC results in the influence of tumor microenvironment, PPI network was generated using the significantly expressed immune cell-related DEGs ( ). To further identify the hub gene and the key pathways, edge percolated component and shortest path analyses were conducted by CytoHubba plug-in in Cytoscape. The most significant modules composed of 10 nodes were screened out from the PPI networks ( ). In addition, to characterize the properties of the key nodes based on the analysis of the PPI network, we initially selected first-stage nodes associated with the transcription factor DLX1 and FOS to identify the potential candidate markers which may exert a significant influence on the biological function of the TIICs ( ). Moreover, Gene Set Enrichment Analysis (GSEA) was implemented between control and PCa groups. The results revealed that the gene sets were mainly enriched in regulatory T cells (Treg) ( ); however, few gene sets were distributed in double-positive (DP) and effector memory T cells of the PCa tissues ( ). These analyses reflect a negative regulation and a cold tumor microenvironment of PCa.
+ 
+
+## The Expression Profile of Immune DEGs
+The expression pattern of six differentially expressed hub genes including DLX1, CAV1, GPX2, FLNA, HOXC6, and VCL in all samples between two groups was analyzed (shown in ). The results demonstrated that the mRNA expression levels of DLX1 and HOXC6 were significantly increased, whereas the expression levels of the other genes were remarkably decreased in TIICs compared with those in the controls. Receiver operating characteristic analysis was then performed for all of the hub genes ( ), and area under the curve represented the set of all possible statistical tests of the microarray data with equal probability for a true positive and a false positive result based on each decision threshold value. Of these hub genes, the expression levels of HOXC6 and CAV1 in PCa and controls were shown to be in good consistency.
+ 
+
+## Identification and Evaluation of Prognosis-Associated Key Molecules
+Kaplan–Meier survival analysis was conducted to identify the prognostic values of the hub genes with regard to the overall survival of PCa patients from the TCGA cohort. The results demonstrated that four hub molecules including FLNA, GPX2, CAV1, and VCL were significantly associated with overall survival in PCa patients ( – ). The expression characteristics of the synaptic function-associated potential key molecules VCL, FLNA, and CAV1 were further identified by immunofluorescence staining in clinical samples of PCa patients, and it was observed that these proteins were particularly expressed in TIICs of the TME. However, they are scarcely found in tumor cells ( ). These key molecules differentially expressed in the TIICs may have an important clinical value in PCa diagnosis and immunotherapy.
+ 
+
+## Discussion
+Immune cells are the fundamental ingredients of the tumor microenvironment. Except for malignant neoplastic cells, TIICs including CD4 T cells, CD8 T cells, Treg, macrophage, DC, and NK cells also play important roles in shaping the tumor microenvironment. Those TIIC or bioactive molecule-mediated interactions can exert inhibitory effects on the malignant cells, whereas during tumor progression the tumor cells may exploit immune cells or relative molecules to circumvent these inhibitory signals ( ). A growing number of studies have shown that the TIICs can be used to predict the clinical outcome and the treatment response of various tumors ( , ). Actually, increasing evidence indicated that increased active T cells and memory T-cell infiltration are closely related to a favorable prognosis ( ), but immune-suppressive regulatory T cells are the opposite ( ).
+To determine the prognostic value of TIICs, we used CIBERSORT for deconvolution of global gene expression data to define the immune cell landscape in PCa. The results showed that most of the enriched infiltrates were nTreg, Th1, DC, and macrophages. The nTreg cells cover subsets of iTreg cells, inducible co-stimulator (ICOS) Treg cells, Tr1 cells, and IL-17-producing Treg cells. These Treg cells share some common features, such as Foxp3 expression (Tr1 cells are the exception), and release immunosuppressive cytokines including IL-10 and TGF-β ( ). Foxp3-expressing nTreg cells, which express CD25, lymphocyte activation gene 3 (LAG-3), and CTLA-4, are produced from the thymus and suppress adaptive and innate immune cells ( ). ICOS Treg cells are a highly suppressive population of Treg cells which secret IL-10, IFN-γ, and IL-17. It is confirmed that, in human melanoma, ICOS Treg cells are the most suppressive population ( ). Tr1 cells, as another Treg subset, can secrete TGF-β at high levels and play an important role in immune tolerance and suppressing autoimmune responses ( , ). Increasing evidence suggested that the abovementioned regulatory T cells can suppress various effector functions of a wide variety of immune cells such as CD8 T and CD4 cells, NK cells, NKT cells, DCs, and macrophages ( , ). This is consistent with the GSEA results that few gene sets were distributed in DP T cells and effector memory T cells infiltrated in PCa tissues.
+In this study, CD4 naive T cells significantly decreased while Th1 cells and DC cells increased in tumor tissues. We could confirm that CD4 T cells infiltrated in tumors; however, even a higher level of CD4 T cells was found in the central cancer stroma and along the invasive margins of the tumor, which possibly indicated an impeded infiltration into the tumor. DCs are professional antigen-presenting cells (APCs) that can efficiently present antigens to maintain and regulate T cell immune responses in the adaptive immune system ( ). In the tumor microenvironment, DCs migrate into tumor tissue through blood circulation and interact with cancer cells and TIICs. However, it seems unlikely that tumor-infiltrating dendritic cells (TIDCs) possess the ability to present tumor-derived antigen in situ for antigen presentation, without further TIDCs maturational status ( ). The results indicated that cancer cells may affect the antigen presentation ability of DCs, which in turn contribute to the immune escape of tumor cells. From the networks established by the DEGs, we screened the three potential key molecules including CAV1, FLNA, and VCL, which were significantly down-regulated and remarkably associated with PCa patient overall survival. Caveolin-1 (CAV1) is a key organizer of membrane specializations that orchestrate signal transduction and membrane and protein traffic in polarized various cell types. Previous investigations have established CAV1 as vital to T cell function in the context of both antigen presentation and signal transduction ( ). A study indicated that CAV1 orchestrates specific T cell responses to Ag receptor engagement, facilitating the polarized redistribution of membrane rafts to the APC-T cell contact in CD8 T cells ( ). Knockdown of CAV1 expression resulted in significantly decreased migration and proliferation and impaired ability of cells to form immune synapses. However, over-expression of CAV1 was associated with immune tolerance in chronic lymphocytic leukemia cells ( ). Mammalian filamins (FLNs) are a family of three large actin-binding proteins which affect cell spreading and migration. FLN-deficient cells spread to a lesser extent than wild-type or single knockdown cells ( ). Vinculin (VCL), an actin filament (F-actin)-binding protein, may play important roles in cell matrix adhesion, cell–cell adhesion, cell morphology, and locomotion ( , ), indicating that TIIC polarity and synaptic compositions are modulated, which may affect TCR signal transduction and functional output in the TIICs of PCa microenvironment.
+In conclusion, this study revealed the distinct immune infiltration patterns of TIICs in PCa and identified several crucial genes that may be involved in membrane polarity of the intratumoral immune cells and play an important role for PCa prognosis. Nevertheless, it reminds us that there are certain limits to the analysis since there are many different gene interactions resulting from various cellular conditions. These exploratory analyses still provide information about potential candidate genes as well as the signal pathways underlying TIICs in TME and bestow a theranostic perspective to the current trend of research.
+
+## Data Availability Statement
+Publicly available datasets were analyzed in this study. This data can be found here: TCGA.
+
+## Ethics Statement
+The studies involving human participants were reviewed and approved by Affiliated Cancer Hospital and the First Affiliated Hospital of Zhengzhou University. The patients/participants provided their written informed consent to participate in this study. Written informed consent was obtained from the individual(s) for the publication of any potentially identifiable images or data included in this article.
+
+## Author Contributions
+SZ, XH, and XQ conceived and designed the study. XH, XQ, and SC conducted data analysis. XH, SZ, and SC wrote and prepared the original draft. XH, SC, and SZ revised the manuscript. All authors reviewed and approved the final manuscript.
+
+## Conflict of Interest
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+ 
+
+## Abbreviations
+AUCarea under the curve
+APCsantigen-presenting cells
+BCbreast cancer
+CAV1caveolin-1
+CTLA4cytotoxic T lymphocyte antigen 4
+DABdiaminobenzidine
+DAVID, Database for AnnotationVisualization and Integrated Discovery
+DCdendritic cells
+DEGsdifferentially expressed genes
+DLX1distal-less 1
+EPCedge-percolated component
+FLNAmammalian filamins
+GOGene Ontology
+GPX2glutathione peroxidase 2
+GSEAGene Set Enrichment Analysis
+HOXC6homeobox protein Hox-C6
+ICOSinducible co-stimulator
+IHCimmunohistochemistry
+iTreginducible regulatory T cells
+KEGGKyoto Encyclopedia of Genes and Genomes
+LAG3lymphocyte activation gene 3
+NKnatural killer
+NKTnatural killer T
+nTregnatural regulatory T cells
+OSoverall survival
+PCaprostate cancer
+PPIprotein–protein interaction
+PRADprostate adenocarcinoma
+ROCreceiver operating characteristic
+SCLCsmall cell lung carcinoma
+TCGAThe Cancer Genome Atlas
+Tfhfollicular helper T cells
+TIDCstumor-infiltrating dendritic cells
+TIICstumor-infiltrating immune cells
+TMEtumor microenvironment
+Tregregulatory T cells
+VCLvinculin.

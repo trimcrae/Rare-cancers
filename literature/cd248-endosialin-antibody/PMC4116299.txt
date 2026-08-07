@@ -1,0 +1,518 @@
+Mol Biol CellMol. Biol. Cell1mbcMol. Bio. CellMolecular Biology of the Cell1059-15241939-4586American Society for Cell BiologyPMC4116299PMC4116299.1411629941162992492082310.1091/mbc.E14-04-0936E14-04-09361ArticlesCell CycleA Highlights from MBoC SelectionCdk1 promotes cytokinesis in fission yeast through activation of the septation
+initiation network
+RachfallNicoleJohnsonAlyssa E. MehtaSapna ChenJun-SongGouldKathleen L. Department of Cell and Developmental Biology, Vanderbilt University School of Medicine,
+Nashville, TN 37232LewDaniel J.Monitoring EditorDuke University1Address correspondence to: K. L. Gould
+(kathy.gould@vanderbilt.edu).018201425152410602250225928420140562014056201416102014161020142409201404072024© 2014 Rachfall et al. This article is
+distributed by The American Society for Cell Biology under license from the author(s). Two months
+after publication it is available to the public under an
+Attribution–Noncommercial–Share Alike 3.0 Unported Creative Commons License
+(http://creativecommons.org/licenses/by-nc-sa/3.0).2014“ASCB®,” “The American Society for Cell
+Biology®,” and “Molecular Biology of the Cell®” are
+registered trademarks of The American Society of Cell Biology.Although Cdk1 inhibits cytokinesis, it is shown that Cdk1 promotes an initial step by
+phosphorylating and promoting Byr4 removal from spindle pole bodies in metaphase. Because Byr4
+inhibits the septation initiation network (SIN), Cdk1 helps prime the onset of cytokinesis by
+promoting the development of SIN asymmetry in concert with Plo1 kinase.
+
+In Schizosaccharomyces pombe, late mitotic events are coordinated with
+cytokinesis by the septation initiation network (SIN), an essential spindle pole body
+(SPB)–associated kinase cascade, which controls the formation, maintenance, and constriction
+of the cytokinetic ring. It is not fully understood how SIN initiation is temporally regulated, but
+it depends on the activation of the GTPase Spg1, which is inhibited during interphase by the
+essential bipartite GTPase-activating protein Byr4-Cdc16. Cells are particularly sensitive to the
+modulation of Byr4, which undergoes cell cycle–dependent phosphorylation presumed to
+regulate its function. Polo-like kinase, which promotes SIN activation, is partially responsible for
+Byr4 phosphorylation. Here we show that Byr4 is also controlled by cyclin-dependent kinase
+(Cdk1)–mediated phosphorylation. A Cdk1 nonphosphorylatable Byr4 phosphomutant displays
+severe cell division defects, including the formation of elongated, multinucleate cells, failure to
+maintain the cytokinetic ring, and compromised SPB association of the SIN kinase Cdc7. Our analyses
+show that Cdk1-mediated phosphoregulation of Byr4 facilitates complete removal of Byr4 from
+metaphase SPBs in concert with Plo1, revealing an unexpected role for Cdk1 in promoting cytokinesis
+through activation of the SIN pathway.
+
+pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-SA
+
+## INTRODUCTION
+In many organisms, cytokinesis requires assembly of an actomyosin-based contractile ring (CR),
+whose constriction results in the physical separation of one mother cell into two genetically
+identical daughter cells. The fidelity of this process depends on the centrosome in metazoans or the
+spindle pole body (SPB) in yeast cells ( ; ). These conserved organelles anchor many regulatory
+proteins involved in cell cycle control.
+A major cytokinesis-regulating pathway anchored at SPBs is the essential septation initiation
+network (SIN) in the fission yeast Schizosaccharomyces pombe. The SIN coordinates
+nuclear division with cytokinesis from the SPB by directing the formation, maintenance, and
+constriction of the CR, as well as septum formation ( ; ; ; reviewed in ; ). In addition, the
+SIN inhibits polarized cell growth during mitosis and is involved in regulating anaphase spindle
+elongation and positioning the nuclei away from the cell division site in telophase via inhibition
+of Klp2, a minus end–directed kinesin-14 ( ; ). The SIN is the analogue of the mitotic exit network
+(MEN) in Saccharomyces cerevisiae. Many core components involved in SIN and MEN
+signaling are conserved in metazoans and share homology and functional similarities to proteins of
+the Hippo pathway, which controls cell cycle exit ( ; reviewed in ), as well as cell proliferation and apoptosis, processes frequently deregulated
+in tumor cells ( ;
+ ; reviewed in
+ ; ; ).
+The SIN pathway consists of the SPB-binding scaffold complex Cdc11-Sid4 and an associated kinase
+signaling cascade whose activity is controlled by the small Ras-superfamily GTPase Spg1 and its
+bipartite GTPase-activating protein (GAP) Byr4-Cdc16 ( ; ; ;
+ ; ; ; ). Spg1 resides at SPBs throughout the cell cycle ( ; ). During interphase, Spg1 is
+kept in an inactive, GDP-bound state by its association with Byr4-Cdc16, which prevents premature
+SIN signaling and onset of cytokinesis ( ). Upon mitotic entry, Byr4-Cdc16 dissociates from the
+SPB ( ; ), allowing Spg1 to switch to its
+active GTP-bound state and initiate SIN signaling through its effector kinase Cdc7 and subsequent
+activation of the downstream kinase modules Sid1-Cdc14 and Sid2-Mob1 ( ; ). Mutations in genes encoding proteins
+involved in the SIN pathway are lethal and cause severe cytokinetic defects. Loss-of-function
+mutations in SIN activators (spg1, cdc7, sid1,
+cdc14, sid2, mob1) lead to the development of
+elongated cells with multiple nuclei ( ; ; ;
+ ),
+whereas mutations in SIN inhibitors (byr4, cdc16) result in the
+formation of multiple septa in one yeast cell without cell cleavage ( ; ).
+The initiation of SIN signaling is spatially controlled. In prometaphase, just after SPB
+separation, the SIN inhibitor Byr4-Cdc16 is associated with both SPBs but then dissociates from both
+poles in metaphase, allowing for symmetric binding of the initiator kinase Cdc7 to Spg1-GTP ( ; ). During anaphase B, Byr4-Cdc16 returns and
+terminates SIN signaling on the old pole, resulting in asymmetric SIN activation on the new, SIN
+activator-associated SPB ( ; ; ; ). A recent computational study shows that the
+minimal regulatory unit required to establish SIN asymmetry consists of the antagonistic interaction
+between the entity of SIN activators on one side and the inhibitory GAP complex Byr4-Cdc16 on the
+other ( ). This
+study illustrates the particular significance of Byr4-Cdc16 in asymmetric SIN regulation, which
+contributes to silencing the SIN after cytokinesis is complete ( ; ; ; ; ). Thus SIN initiation is under not only strict spatial,
+but also distinct temporal control, ensuring that cytokinesis does not occur until chromosome
+segregation is complete. However, the trigger that determines SIN activation or inhibition and the
+distinct targets of such regulation within the SIN pathway have not been fully elucidated.
+Because Byr4 is a pivotal player in controlling SIN activity, it is an attractive regulatory
+target ( ; ). Whereas highly
+increased levels of its GAP partner Cdc16 do not affect cytokinesis or cell cycle progression ( ; ), even slight overexpression of
+byr4 is lethal, resulting in the inhibition of cytokinesis and the development of
+multinucleate cells ( ). In addition, Byr4 is a phosphoprotein, and the absence of Byr4-Cdc16 from both SPBs in
+metaphase and their asymmetric localization in anaphase coincides with hyperphosphorylation of Byr4
+at the metaphase–anaphase transition ( ) and the activity peaks of Plo1 and cyclin-dependent
+kinase 1 (Cdk1; ), which are major regulators of cytokinesis.
+Plo1 is recognized as the most upstream activator of the SIN pathway and associates with mitotic
+SPBs partly through an interaction with the SIN scaffold protein Sid4 ( ; ; ; ; ;
+ ; ). In agreement with
+a function for Plo1 in SIN activation, the Polo-like kinase Cdc5 phosphorylates the Byr4 homologue
+Bfa1 in S. cerevisiae ( ; ). Phosphoregulation by Cdc5 inhibits Bfa1 SPB-binding
+and Bfa1-Bub2 GAP activity, resulting in the activation of the mitotic exit network (MEN; ; ; , ). In S. pombe, Plo1 phosphorylates Byr4 in vitro and contributes to
+Byr4 phosphorylation in vivo ( ). In
+analogy with the situation in S. cerevisiae, this likely contributes to Byr4
+inhibition.
+Cdk1, on the other hand, is generally regarded as global inhibitor of cytokinesis, as low Cdk1
+activity is a hallmark of mitotic exit (reviewed in ). Although it promotes mitotic commitment, cytokinesis is not initiated until
+late mitosis, when Cdk1 activity declines ( ; ; ; ; ). Cdk1 inactivation stimulates cytokinesis in mammalian
+cells without preceding chromosome segregation ( ), and in S. pombe the association of
+the SIN kinase module Sid1-Cdc14 to the SPB is inhibited by Cdk1 ( ). Thus Cdk1 is believed to inhibit the SIN,
+but prevention of Cdk1-mediated phosphorylation of Cdc11, the only identified Cdk1 target within the
+SIN, does not have a significant effect on cytokinesis, suggesting the existence of other
+Cdk1-targeted SIN proteins ( ; ).
+Here we find that the SIN inhibitor Byr4 is targeted by Cdk1. In spite of an anticipated
+inhibitory function of this event on cytokinesis, our study provides evidence for an activating role
+of Cdk1 in cytokinesis via phosphoregulation of Byr4 in metaphase. We demonstrate that Cdk1 and Plo1
+kinase act together in the removal of Byr4 from mitotic SPBs to allow for the initiation of SIN
+signaling and accuracy of cytokinesis.
+
+## RESULTS
+
+## Byr4 is a Cdk1 substrate
+Because the absence of Byr4 from SPBs correlates temporally with a peak in Cdk1 activity and the
+absence of Plo1 activity only partially eliminates Byr4 phosphorylation ( ), we sought to investigate whether Cdk1 might be
+involved in Byr4 phosphoregulation. Recombinant Byr4 was subjected to an in vitro kinase assay with
+Cdk1 purified from insect cells (Cdc2-Cdc13). We found that Byr4 is indeed an excellent Cdk1 target
+in vitro ( ). Phospho–tryptic peptide maps
+generated from in vitro–phosphorylated Byr4 and in vivo metabolically labeled Byr4
+(Supplemental Materials and Methods) show significant overlap of phosphorylated tryptic peptides,
+indicating that Byr4 is a likely Cdk1 target in vivo (Supplemental Figure S1).
+ The amino acid sequence of Byr4 harbors 11 Cdk1 consensus motifs (S/T*-P, where the asterisk
+indicates the site of phosphorylation). To determine which of these sites are phosphorylated by
+Cdk1, we tagged Byr4 with a histidine-biotin-histidine (HBH) tag and purified Byr4-HBH under fully
+denatured conditions from mitotically arrested cells (when the highest levels of Byr4
+phosphorylation are observed; ). Purified Byr4-HBH was subjected to two-dimensional liquid chromatography tandem mass
+spectrometry (2D-LC MS/MS) analysis. Phosphorylation of residues S248, S326, T429, S499, T502, and
+S533, matching the Cdk1 consensus motif, was detected confidently (Supplemental Table S2). In
+addition to these six in vivo–identified phosphorylation sites, T412, which lies on a
+tryptic peptide that was not covered by the in vivo analyses, was identified as a phosphorylated
+residue by 2D-LC MS/MS analysis of in vitro Cdk1-phosphorylated recombinant Byr4 protein
+(Supplemental Table S2). Three of the in vivo identified residues—serines 326, 499 and
+533—were identified previously to be phosphorylated in Byr4 via global in vivo
+phosphoproteomics studies ( ; ).
+All seven serine and threonine residues identified as Cdk1 target sites were mutated to alanine,
+and the resulting Byr4(7A) recombinant protein was subjected to a Cdk1 in vitro kinase assay to
+determine whether Cdk1-mediated Byr4 phosphorylation was abolished. Whereas Cdk1 phosphorylates
+maltose-binding protein (MBP)–Byr4, no signal was detectable when MBP-Byr4(7A) was incubated
+with Cdk1, confirming that Cdk1-mediated phosphorylation of Byr4 is abolished in this mutant ( ). The wild-type allele of byr4 was then
+replaced with the byr4(7A) mutant allele. We detected a reduced mobility shift for
+immunoprecipitated Byr4(7A) in comparison to wild-type Byr4 in mitotically arrested cells ( ). Both bands were completely collapsed upon treatment with
+λ-phosphatase, indicating that the reduced mobility of Byr4(7A) relative to Byr4 is due to a
+loss of phosphorylation. The remaining phosphorylation observed for the Byr4(7A) phosphomutant is at
+least partially due to Plo1 kinase activity, which contributes considerably to Byr4 phosphorylation
+( ). Taken together, these data
+identify Byr4 as a bona fide Cdk1 substrate and demonstrate that Cdk1 is responsible for a
+significant amount of Byr4 phosphorylation in vivo.
+
+## Byr4(7A) is a hyperactive inhibitor of the SIN pathway
+We next analyzed the phenotypes associated with endogenous expression of the
+byr4(7A) allele. Whereas wild-type cells generally showed a normal distribution of
+nuclei and septa, cytokinetic defects observed for the byr4(7A) mutant included the
+formation of binucleate cells, in which the two nuclei inappropriately clustered in the cell middle
+(“kissing nuclei,” a) and elongated, multinucleate cells either with (c) or without
+(b) septum ( and Supplemental Figure S2). Both of
+these defects are associated with compromised SIN signaling and cytokinetic failure ( ). These phenotypes
+are in stark contrast to the phenotypes associated with a byr4-null mutant (viable
+only in the mob1-R4 background), which is characterized by an accumulation of cells
+with multiple septa and “cut” cells, corresponding to multiple rounds of cytokinesis
+and SIN hyperactivation ( ; and Supplemental Figure S2).
+ In addition to these indicators of impaired cytokinesis in the byr4(7A) mutant,
+cell lysing during cell division, as well as cellular bulging and protrusions at the division site,
+was observed by time-lapse microscopy of byr4(7A) cells ( , Supplemental Figure S3, and Supplemental Video S1). These data suggest
+compromised cell wall integrity in the byr4(7A) strain, a phenotype previously
+linked to reduced SIN activity ( ). These combined indications of compromised SIN
+signaling in the bry4(7A) phosphomutant strain are further supported by negative
+genetic interactions displayed by the byr4(7A) strain and temperature-sensitive
+alleles of the SIN activators Cdc7, Cdc11, and Spg1 at the restrictive temperature ( ). Conversely, byr4(7A) partially rescued
+the growth defect of a strain expressing the temperature-sensitive allele
+(cdc16-116) of the SIN inhibitor Cdc16 at the restrictive temperature. Taken
+together, these data indicate that abolishing Cdk1-mediated phosphorylation of Byr4 produces a
+gain-of-function allele, rendering Byr4(7A) a hyperactive SIN inhibitor.
+
+## Cdk1-mediated phosphorylation of Byr4 promotes SIN function
+We next asked whether the key functions of the SIN pathway—the formation, maintenance,
+and constriction of the CR, were affected in the byr4(7A) strain. We followed ring
+dynamics throughout the cell cycle by time-lapse imaging using green fluorescent protein
+(GFP)–tagged Cdc15 as a marker ( ). Both wild-type and byr4(7A) mutant
+cells were capable of initial CR formation, but with 13%, a significant fraction of the
+byr4(7A) phosphomutant cells did not maintain the CR in order to support successful
+ring constriction and cytokinesis ( and Supplemental
+Videos S2 and S3). Instead, the contractile ring disintegrated soon after it had been established,
+resulting in cytokinetic failure and the formation of binucleate cells displaying “kissing
+nuclei” in the cell middle ( , bottom, and
+Supplemental Video S3). These binucleate cells were not predestined to show the same cytokinetic
+defects in the next round of cell division but were able to undergo successful cytokinesis. In this
+process, two CR structures were formed per binucleate cell, but only one cell division event took
+place, producing two binucleate daughter cells ( and
+Supplemental Video S4; ).
+ To further ascertain whether cytokinesis in byr4(7A) cells is compromised as a
+consequence of improper SIN signaling, we monitored the SPB localization of the initiator SIN kinase
+Cdc7, which accumulates at the SPB with active SIN signaling and is therefore often used as an
+indicator for SIN activation (e.g., ; and Supplemental Videos S5 and S6). In
+wild-type cells, Cdc7-GFP localized symmetrically to both SPBs in metaphase until 10 min after SPB
+separation (time point 15 min) and then switched to asymmetric SBP association in anaphase, a
+situation that was maintained until cytokinesis was complete ( , top, and Supplemental Video S5). In cells of the byr4(7A) background,
+the symmetric localization of Cdc7-GFP persisted further into anaphase, and the overall signal
+strength seemed to be reduced. In cells that failed cytokinesis, symmetric Cdc7 localization was
+significantly extended up to 30 min after SPB separation ( , bottom, and Supplemental Video S6). During this time period, Cdc7-GFP signal intensities
+often differed between both poles, and the preference for either pole seemed to switch back and
+forth (10- to 30-min time points), which was never observed in wild-type cells. The absence of Cdc7
+asymmetry in byr4(7A) cells was followed by a premature loss of Cdc7 signal from
+both SPBs and cytokinetic failure ( , bottom; compare
+40-min time points; and Supplemental Video S6). This is in striking contrast to the strong
+asymmetric Cdc7-GFP signal in wild-type cells, which persisted throughout the initiation of septum
+formation ( , top, and Supplemental Video S5). The
+reduced SPB association and lack of Cdc7 asymmetry in byr4(7A) cells is likely
+responsible for insufficient SIN function and subsequent failure in cytokinesis and septum
+formation. These experiments establish that Byr4 phosphorylation by Cdk1 contributes to full SIN
+activation and proper execution of cytokinesis.
+
+## Cdk1 and Polo kinase regulate Byr4 SPB association during the metaphase–anaphase
+transition
+Next we investigated the cause of diminished Cdc7 SPB localization in the
+byr4(7A) phosphomutant. Because Byr4 and Cdc7 both bind to the GTPase Spg1 at the
+SPB ( ; ; ), we hypothesized that Byr4(7A) might antagonize Cdc7
+SPB association. As expected, no difference in Byr4 SPB localization between wild type and the Cdk1
+nonphosphorylatable byr4(7A) mutant was detected in anaphase when Cdk1 is inactive
+( ). However, during metaphase, when Byr4 is lost from
+both SPBs in wild-type cells, Byr4(7A) remained associated with one or both SPBs in most cells,
+indicating that Cdk1 has a significant effect on the removal of Byr4 from metaphase SPBs ( ).
+ Because the lack of Byr4 phosphorylation by Cdk1 did not lead to a constitutive association of
+Byr4(7A) with both SPBs, but instead most cells showed asymmetric Byr4(7A) SPB localization, we
+hypothesized that complete removal of Byr4 from metaphase SPBs might require a second mechanism in
+addition to direct Cdk1 phosphorylation. Another kinase that is active during metaphase and known to
+phosphorylate Byr4 is Plo1 ( ). Thus we
+reasoned that Plo1 might also contribute to the removal of Byr4 from metaphase SPBs. This
+possibility is supported by a negative genetic interaction between byr4(7A) and the
+temperature-sensitive plo1-24c allele at both semipermissive (32ºC) and
+restrictive (36ºC) temperatures ( ). To test
+our hypothesis that Cdk1 and Plo1 contribute to Byr4 SPB removal, we determined the SPB distribution
+of Byr4 and Byr4(7A) in the plo1-24c background at permissive (25ºC) and
+semipermissive (32ºC) temperatures ( ). The
+plo1-24c mutation is hypomorphic and primarily defective in CR structure and
+location ( ). At
+its semipermissive temperature, Plo1 function is reduced but not to the extent of preventing spindle
+formation as in a plo1Δ strain ( ), which enabled us to monitor Byr4 localization not
+only at metaphase but also in anaphase.
+When the plo1-24c strain was grown at the permissive temperature, the Byr4 and
+Byr4(7A) localization corresponded to the localization observed in wild-type and
+byr4(7A) mutant cells, respectively, throughout mitosis ( ). During anaphase at the semipermissive temperature, Byr4 predominantly
+localized to both anaphase SPBs in plo1-24c cells as opposed to an asymmetric
+localization observed for plo1 wild-type cells (wild-type and
+bry4(7A); , Anaphase B). This effect
+is slightly exacerbated when, in addition, Byr4 is nonphosphorylatable by Cdk1 ( , Anaphase B), potentially due to the function of Cdk1 in the initial
+removal of Byr4 from metaphase SPBs ( ,
+Metaphase-Anaphase A).
+In metaphase, a reduction of Plo1 activity at semipermissive temperature led to increased
+accumulation of Byr4 at metaphase SPBs, whereas the effects are not as strong as observed for the
+byr4(7A) mutant strain ( , Metaphase-Anaphase A). This
+could imply a stronger role for Cdk1 than Plo1 in Byr4 phosphoregulation during metaphase, but it
+might also result from the incomplete inhibition of Plo1 at the semipermissive temperature. In the
+byr4(7A) plo1-24c double mutant strain grown at the semipermissive temperature,
+removal of Byr4 from metaphase SPBs was further impeded compared with the byr4(7A)
+or plo1-24c single mutants, resulting in Byr4(7A) localizing to both metaphase SPBs
+in 80% of cells.
+In conclusion, these data indicate that the initial removal of Byr4 from both SPBs during
+metaphase is ensured by the combined activities of Cdk1 and Plo1. Whereas Cdk1 phosphoregulation of
+Byr4 is limited to metaphase, Plo1 continuously acts in Byr4 SPB removal throughout anaphase.
+
+## Cdk1-mediated phosphorylation of Byr4 is sufficient to drive cells into cytokinesis even when
+Polo kinase activity is compromised
+After finding that Cdk1-mediated phosphorylation of Byr4 functions in the regulation of Byr4 SPB
+localization in metaphase, we were interested in evaluating the importance of this regulation for
+cytokinetic fidelity. This analysis was complicated by our finding that Plo1 and Cdk1 are both
+involved in the phosphoregulation and SPB localization of Byr4. To isolate the significance of
+Cdk1-mediated Byr4 phosphorylation, we assessed the ability of cells to undergo cytokinesis in a
+plo1-24c temperature-sensitive background. Cells were synchronized in S phase and
+shifted to the restrictive temperature of 36ºC. Our data show that cells enter cytokinesis
+and form septa when Plo1 function is compromised by the plo1-24c allele but exhibit
+significant cytokinetic defects ( ) as observed
+previously ( ).
+More than 60% of plo1-24c cells formed multiple septa or showed septum formation in
+mononucleate cells (“cut” phenotype). In addition, the majority of septa were
+disorganized and misplaced, forming networks of septal material and occasionally running along the
+long axis of the cell, in accord with previous observations of the plo1-24c allele
+( ). In contrast,
+byr4(7A) plo1-24c double mutant cells displayed a much more complete block to
+cytokinesis, as evidenced by a lack of septum formation ( ). In addition, almost half of byr4(7A) plo1-24c cells showed
+“kissing nuclei” in their cell middle or multinucleation, which indicates previous
+and repeated cytokinetic failure, respectively. These phenotypes were virtually absent in the
+plo1-24c mutant ( ). In conclusion,
+these data indicate that Cdk1-mediated phosphorylation and removal of Byr4 from metaphase SPBs plays
+a significant role in the initiation of cytokinesis, as it can drive entry into cytokinesis even
+when Plo1 function is compromised.
+ 
+
+## DISCUSSION
+Even though the SIN inhibitor Byr4 has been denoted as a phosphoprotein for a significant length
+of time ( ; ), the effect of its
+phosphorylation has remained largely elusive. In this study, we find that the loss of Cdk1-mediated
+phosphorylation of Byr4 compromises SIN function, resulting in failure to maintain the CR and a
+reduced and misdirected SPB association of the SIN initiator kinase Cdc7. These effects are linked
+to a role for Cdk1 in removing Byr4 from metaphase SPBs and indicate a novel function for Cdk1 in
+priming the SIN pathway for cytokinesis ( ), opposed to
+its hitherto-assumed sole function in the inhibition of cytokinesis. In addition, our findings
+reveal molecular mechanisms that can lead to the establishment of asymmetry within a signaling
+pathway.
+ Our results illustrate that Cdk1 and Plo1 kinase cooperate in Byr4 removal from mitotic SPBs
+( ). Even though cyclin-dependent kinases are able to
+prime substrates for Polo kinases ( ; ), Cdk1 and Plo1 seem to target Byr4 independently. This
+is supported by the synthetic growth defect observed in a byr4(7A) plo1-24c double
+mutant. In addition, Byr4(7A) retains a significant level of in vivo phosphorylation, likely
+attributed to Plo1 kinase ( ). Although
+we cannot exclude that Byr4-independent functions of Cdk1 facilitate Byr4 phosphoregulation by Plo1,
+similar to the dependence of Plo1 G2-SPB localization on Cdk1 activity ( ), our data indicate that Byr4
+phosphoregulation by Cdk1 and Plo1 represents two independent mechanisms mediating Byr4 removal from
+mitotic SPBs in order to allow efficient Cdc7 SPB localization and the establishment of SIN
+asymmetry, required for proper initiation of cytokinesis ( ). Plo1 and Cdk1 might also act cooperatively in the promotion of the MEN in budding yeast
+through Bfa1 regulation, as Cdc5 activates the MEN through Bfa1 phosphorylation and the
+Cdk1-antagonizing phosphatase Cdc14 dephosphorylates Bfa1, thereby reactivating Bfa1-Bub2 at mitotic
+exit ( ; ).
+A significant fraction of byr4(7A) cells showed reduced SIN activity and
+cytokinetic failure, whereas other byr4(7A) cells underwent seemingly normal cell
+division ( ). Even though cells have the same genetic
+background and grow under identical environmental conditions, the displayed phenotypes can be
+variable ( ). In
+the byr4(7A) background, this might be due to partial redundancy in the
+phosphoregulation of Byr4 by Cdk1 and Plo1, equally affecting Byr4 SPB localization during metaphase
+( ). For example, we observed that Byr4(7A) was not
+retained on both metaphase SPBs until Plo1 function was also compromised. Thus SIN signaling is not
+completely ablated in a byr4(7A) strain, but instead an intermediate situation
+emerges that reduces, but not entirely prevents, Cdc7 SPB association in metaphase, when
+Cdk1-mediated Byr4 phosphorylation occurs ( and ). Previous work showed that reduced levels of Cdc7 can be
+sufficient for SIN initiation ( ), which is supported by our observation of reduced Cdc7
+levels at some byr4(7A) SPBs that were able to successfully undergo cytokinesis
+(unpublished data). In addition, low levels of Byr4 are found at metaphase SPBs during the symmetric
+SPB association of Cdc7 ( ; ; ). These findings suggest that
+the ratio of Byr4 and Cdc7 present at metaphase SPBs might determine the cytokinetic fate of a cell
+and that SIN pathway initiation requires Cdc7 SPB levels reaching a certain threshold. Because Byr4
+is removed from SPBs by Cdk1 as well as Plo1 kinase, Plo1-mediated phosphorylation of Byr4(7A) might
+be sufficient to allow for a level of Cdc7 SPB association that can mediate SIN activation and
+cytokinetic initiation in some byr4(7A) cells, whereas Byr4(7A) removal from
+metaphase SPBs in other cells might be inhibited to a degree that does not allow for sufficient Cdc7
+SPB association due to a lack of Cdk1-mediated contribution to Byr4 phosphorylation. Hence we
+observed that Byr4(7A) in some cells was retained at one SBP and in others at both.
+Our data further suggest that establishing SIN asymmetry in anaphase heavily relies on Plo1
+function, as Byr4 asymmetry is largely lost in the plo1-24c strain even at the
+semipermissive temperature. Similarly, Bfa1 phosphomutants in S. cerevisiae that
+are not efficiently phosphorylated by Cdc5 lose their asymmetric SPB localization and instead
+localize symmetrically to both SPBs, resulting in delayed mitotic exit ( ). Accordingly, hyperphosphorylation
+of Bfa1 results in a reduced ability of Bfa1 to interact with Tem1 at SPBs ( ). These combined findings imply that
+Plo1 activity toward Byr4 is likely limited to the new SPB and establish Plo1 as the currently most
+upstream regulator of SIN asymmetry. As such, the signals governing Plo1 asymmetric activity will be
+an important topic to address in the future.
+In addition, SIN asymmetry in anaphase seems to be promoted by Cdk1-mediated phosphorylation of
+Byr4 in metaphase. byr4(7A) cells that failed cytokinesis showed a reduced
+association of Cdc7 to metaphase SPBs, followed by the compromised establishment of asymmetric Cdc7
+SPB localization, suggesting that Cdk1 phosphorylation of Byr4 in metaphase sets the stage for
+proper cell cycle progression ( ). These observations
+support the notion that the establishment of asymmetry is required for complete SIN activation
+( ). To follow up
+on this, we tested a possible genetic interaction of the byr4(7A) allele and
+deletions of components of the SIP, a phosphatase complex required for SIN asymmetry ( ). Indeed, the
+byr4(7A) csc3Δ strain showed a moderate synthetic interaction at lower
+temperatures (Supplemental Figure S4). Taken together, these data suggest that SIN asymmetry is
+supported by Cdk1-mediated Byr4 phosphorylation and stable symmetric loading of Cdc7 to both SPBs in
+metaphase. To break metaphase symmetry and allow for progression of SIN signaling by asymmetric SPB
+association of Sid1-Cdc14 in anaphase, Cdk1 needs to be inactivated in the
+metaphase–anaphase transition ( ). On the basis of these combined observations, we
+speculate that continuous Cdk1 activity would inhibit the return of Byr4-Cdc16 to the old SPB in
+anaphase, an event that is pivotal in establishing SIN asymmetry, thereby preventing mitotic
+progression. This is analogous to the requirement of Bfa1-Bub2 asymmetric SPB association in budding
+yeast for mitotic exit ( ; ) and
+in agreement with the observation of failed mitotic exit when Cdk1 inactivation is prevented ( ).
+In conclusion, our work suggests that Cdk1 phosphoregulation of Byr4 creates an environment
+permissive for cytokinesis. The removal of Byr4 from metaphase SPBs triggers an initial step in SIN
+activation. In anaphase, declining Cdk1 activity results in the return of Byr4 to the old SPB while
+Plo1 keeps Byr4 off the new pole, which in combination allows for SIN signaling to proceed
+asymmetrically. Thus, although the SIN pathway is not fully activated until anaphase, events during
+metaphase are required for setting up SIN signaling events. Although our study establishes Byr4 as a
+significant substrate for Cdk1 in cytokinetic regulation, it alone cannot explain the strong
+inhibition of cytokinesis when Cdk1 activity remains high. It will be interesting in future studies
+to further elucidate whether Cdk1 phosphoregulation promotes cytokinesis through additional avenues
+and whether this previously unrecognized mechanism is conserved in other organisms.
+
+## MATERIALS AND METHODS
+
+## Yeast strains and growth conditions
+S. pombe strains (Supplemental Table S1) used in this study were grown in yeast
+extract (YE) or Edinburgh minimal medium supplemented with appropriate amino acids ( ). For
+nda3-KM311 arrests, cultures were grown overnight at 32°C until mid log
+phase and shifted to 18°C for 5.5 h before harvesting. Cell cycle progression was observed
+by synchronizing cells in S phase using hydroxyurea (HU) at a final concentration of 12 mM. HU was
+washed out after 5 h of growth at 25ºC (permissive temperature), and the cultures were
+shifted to 36ºC (restrictive temperature) for 3 h before fixation.
+Strain KGY14957 (byr4(7A) mob1-R4) was generated by homologous recombination
+( ) of KGY7401
+(byr4::ura4+ mob1-R4; ) with XhoI- and
+PstI-digested plasmid pKG5876. The resulting DNA fragment contained the mutated
+byr4 open reading frame as well as 595 and 373 base pairs of its 5′ and
+3′ untranslated regions, respectively. Colonies were selected on YE medium supplemented with
+1.5 mg/ml 5-fluoroorotic Acid (5-FOA), and gene replacement was confirmed by whole-cell PCR with
+primers outside of the integration cassette, as well as by sequencing. The mob1-R4
+allele was outcrossed with mob1 to generate strain KGY15846
+(byr4(7A):ura).
+
+## Plasmid construction
+Plasmid pKG5876 was generated by site-directed mutagenesis of the pSK plasmid containing a
+genomic fragment of the byr4 locus including 595 and 373 base pairs of its
+5′ and 3′ untranslated regions, respectively.
+
+## HBH purification
+Cells were grown in 2 l of 4× YE media to mid log phase. Byr4-HBH was purified using a
+modified version of a two-step tandem affinity purification under fully denatured conditions ( ). Briefly, cells
+were lysed by bead disruption into buffer 1 (8 M urea, 300 mM NaCl, 50 mM NaPO4, 0.5%
+NP-40, and 4 mM imidazole, pH 8.0) and incubated with nickel-nitriloacetic acid (Ni-NTA) agarose
+beads (Qiagen, Valencia, CA) for 3 h at room temperature. Ni-NTA beads were washed 4× with
+buffer 3 (8 M urea, 300 mM NaCl, 50 mM NaPO4, 0.5% NP-40, and 20 mM imidazole, pH 6.3)
+and eluted with buffer 4 (8 M urea, 200 mM NaCl, 50 mM NaPO4, 0.5% NP-40, 2% SDS, 100 mM
+Tris, and 10 mM EDTA, pH 4.3). The eluate was adjusted to pH 8 before incubating with Streptavidin
+UltraLink Resin (Pierce, Rockford, IL) overnight at room temperature. Streptavidin beads were washed
+4× with buffer 6 (8 M urea, 200 mM NaCl, 2% SDS, and 100 mM Tris, pH 8.0) and 1×
+with buffer 7 (8 M urea, 200 mM NaCl and 100 mM Tris, pH 8.0). Purified Byr4-HBH protein was
+digested off the streptavidin beads for MS analysis.
+
+## 2D-LC MS/MS Analysis
+Purified Byr4-HBH on streptavidin beads was washed three times with Tris-urea buffer (100 mM
+Tris, pH 8.0, 8 M urea). Proteins were reduced with dithiothreitol (DTT), alkylated with
+iodoacetamide, and digested with trypsin, chymotrypsin, elastase, or GluC (Promega, Madison, WI).
+Purified recombinant MBP-Byr4 phosphorylated by Cdk1 was resolved by SDS–PAGE, followed by
+Coomassie blue staining. Protein bands were excised, and proteins were reduced, alkylated, and
+in-gel digested with trypsin or chymotrypsin, respectively. MS analysis was performed with an HPLC
+(nanoAcquity; Waters, Milford, MA) coupled LTQ mass spectrometer (Thermo Scientific; West Palm
+Beach, FL). A gradient of 0–40% acetonitrile for 60 min was used. One full precursor MS scan
+(400–2000 mass-to-charge ratio), and four tandem MS scans of the most abundant ions detected
+in the precursor MS scan under dynamic exclusion were performed. Ions with a neutral loss of 98 Da
+(singly charged), 49 Da (doubly charged), or 32.7 Da (triply charged) from the parent ions during
+the tandem MS scans (MS2) was further subjected to MS/MS fragmentation (MS3).
+MS data analysis was done as previously described ( ), with the following changes. A newer version of
+Scaffold (Scaffold_4.3.2) was used, and the filtering criteria were changed to minimum of 90.0%
+peptide identification probability, minimum of 99.9% protein identification probability, and minimum
+of four unique peptides. A newer version of Scaffold PTM (version 2.1.3) was also used for
+phosphorylation analysis. The identified phosphorylation sites were considered confident with an
+Ascore of at least 19.0 ( ).
+
+## In vitro kinase assays
+MBP and MBP-Byr4 fusion proteins were expressed from the pMAL-c2 vector in Escherichia
+coli BL21-CodonPlus-RIL cells by induction with 0.4 mM isopropyl
+β-d-1-thiogalactopyranoside overnight at 18ºC. Recombinant proteins were
+purified on amylose beads (NEB, Ipswich, MA) in binding buffer (20 mM Tris, pH 7.4, 200 mM NaCl, 1
+mM EDTA and 1 mM DTT) and eluted with excess amounts of maltose. Protein amounts were assessed by
+Coomassie blue staining, and 25 ng of recombinant Byr4 protein was used as substrate in each kinase
+reaction. Kinase reactions were performed in protein kinase buffer (10 mM Tris, pH 7.4, 10 mM
+MgCl2, and 1 mM DTT) with 10 μM cold ATP, 3 μCi of [32P]ATP,
+and 100 ng of kinase-active or kinase-dead insect cell–produced Cdc2-Cdc13 at 30°C
+for 30 min. Reactions were quenched by the addition of SDS sample buffer. Proteins were separated by
+SDS–PAGE, transferred to polyvinylidene fluoride (PVDF) membrane, and phosphorylated
+proteins were visualized by autoradiography.
+
+## S. pombe protein methods
+Cells were lysed by bead disruption in NP-40 buffer containing cOmplete Protease Inhibitor
+Cocktail (Roche, Indianapolis, IN), 100 mM phenylmethylsulfonyl fluoride, and 0.5 M benzamidine.
+Proteins were immunoprecipitated with 2 μg of Byr4 antiserum raised against full-length
+protein (Cocalico Biologicals, Reamstown, PA) under denatured conditions (NP-40 containing SDS;
+ ). For gel
+mobility shifts, immunoprecipitates were washed in phosphatase buffer (25 mM
+4-(2-hydroxyethyl)-1-piperazineethanesulfonic acid–NaOH, pH 7.4, and 150 mM NaCl) and
+incubated at 30ºC for 30 min with or without λ-phosphatase (NEB). Proteins
+were separated on 6% Tris-glycine gels containing 2 μM Phos-tag and 40 μM
+MnCl2 ( ) and transferred to PVDF membranes by electroblotting. After incubation of membranes
+with polyclonal rabbit anti-Byr4 (1:5000; Cocalico) or monoclonal mouse anti-PSTAIRE (Sigma-Aldrich,
+St. Louis, MO) antibodies and subsequent incubation with IRDye 800CW goat anti-rabbit or goat
+anti-mouse secondary antibodies (LI-COR, Lincoln, NE), proteins were visualized by an Odyssey
+infrared imaging system (LI-COR).
+
+## Indirect immunofluorescence
+Cells were grown to early log phase and fixed with ice-cold methanol for at least 10 min at
+−20ºC. For protoplasting, cells were incubated with lysing enzymes (0.3 mg/ml
+Zymolyase 20T and 0.5 mg/ml lysing enzyme). Cells were washed in phosphate-buffered saline (PBS) and
+incubated in PBAL (PBS + 1% bovine serum albumin and 100 mM lysine) for 7 h while rotating, followed
+by an incubation of at least 16 h with Byr4 antiserum (1:200; Cocalico). Cells were washed and
+incubated with Alexa Fluor 488 goat anti-rabbit immunoglobulin G antibody (1:100) for 6 h to detect
+Byr4.
+
+## Microscopy methods
+Microscopy images were obtained with a personal DeltaVision System equipped with an Olympus IX71
+microscope using a 100×/numerical aperture 1.40 UplansApo oil immersion objective. Images
+were processed using a CoolSnap HQ2 camera and Softworx software. To visualize nuclei and
+septa, cells were fixed in 70% EtOH at −20ºC for at least 15 min before washing with
+PBS, staining with methyl blue for 30 min, and mounting on a microscope slide with
+4′,6-diamidino-2-phenylindole (DAPI). Images were obtained in z-series of
+0.45-μm optical sections over 5 μm, deconvolved, and combined into maximum
+projections. For live-cell differential interference contrast (DIC) and fluorescence movies, the
+ONIX microfluidics perfusion system was used (CellASIC, Hayward, CA). Cells were loaded into Y04C
+plates for 5 s at 8 psi and YE liquid media flowed continuously into the chamber at 5 psi during
+imaging. For DIC movies, single images were taken every 20 min. For fluorescence movies,
+z-series were acquired in 0.45-μm optical sections over 5 μm every
+5 min. Resulting images were deconvolved and subsequently combined into maximum projections.
+Overlays and analyses of images and movies were performed using ImageJ software ( ).
+
+## Spot growth assays
+Yeast cell cultures were grown to mid log phase, adjusted to an OD600 of 0.1, and
+serial 10-fold diluted up to 1:10,000. A 4-μl amount of each dilution was spotted onto YE
+plates, and plates were incubated at the indicated temperatures for 2–3 d.
+
+## Supplementary Material
+
+## Supplemental Materials
+
+This article was published online ahead of print in MBoC in Press (http://www.molbiolcell.org/cgi/doi/10.1091/mbc.E14-04-0936) on June 11, 2014.
+Present addresses: *Department of Biochemistry and Biophysics, University of California, San
+Francisco, San Francisco, CA 94158.
+†Department of Biology, Indiana University, Bloomington, IN 47405.
+We thank all members of the Gould lab for their technical advice and are especially grateful to
+Christine Jones and Janel Beckley McLean for helpful discussions. N.R. was supported by the
+Integrated Biological Systems Training in Oncology, National Institutes of Health Grant 2T32
+CA119925.
+
+## Abbreviations used:
+Cdkcyclin-dependent kinase
+CRcontractile ring
+MBPmaltose-binding protein
+MENmitotic exit network
+SINseptation initiation network
+SPBspindle pole body

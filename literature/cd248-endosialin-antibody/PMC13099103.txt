@@ -1,0 +1,640 @@
+pmcPLoS OnePLoS One440plosoneplosPLOS One1932-6203PLOSPMC13099103PMC13099103.1130991031309910310.1371/journal.pone.0346693PONE-D-25-636761Research ArticleBiology and Life SciencesCell BiologyCellular TypesAnimal CellsImmune CellsAntibody-Producing CellsB CellsBiology and Life SciencesImmunologyImmune CellsAntibody-Producing CellsB CellsMedicine and Health SciencesImmunologyImmune CellsAntibody-Producing CellsB CellsBiology and Life SciencesCell BiologyCellular TypesAnimal CellsBlood CellsWhite Blood CellsB CellsBiology and Life SciencesCell BiologyCellular TypesAnimal CellsImmune CellsWhite Blood CellsB CellsBiology and Life SciencesImmunologyImmune CellsWhite Blood CellsB CellsMedicine and Health SciencesImmunologyImmune CellsWhite Blood CellsB CellsBiology and life sciencesCell biologySignal transductionCoreceptorsCD coreceptorsBiology and life sciencesCell biologyCellular typesAnimal cellsBlood cellsWhite blood cellsT cellsCytotoxic T cellsBiology and life sciencesCell biologyCellular typesAnimal cellsImmune cellsWhite blood cellsT cellsCytotoxic T cellsBiology and life sciencesImmunologyImmune cellsWhite blood cellsT cellsCytotoxic T cellsMedicine and health sciencesImmunologyImmune cellsWhite blood cellsT cellsCytotoxic T cellsBiology and Life SciencesCell BiologyCellular TypesAnimal CellsBlood CellsWhite Blood CellsT CellsBiology and Life SciencesCell BiologyCellular TypesAnimal CellsImmune CellsWhite Blood CellsT CellsBiology and Life SciencesImmunologyImmune CellsWhite Blood CellsT CellsMedicine and Health SciencesImmunologyImmune CellsWhite Blood CellsT CellsBiology and Life SciencesCell BiologyCellular TypesAnimal CellsBlood CellsWhite Blood CellsMacrophagesBiology and Life SciencesCell BiologyCellular TypesAnimal CellsImmune CellsWhite Blood CellsMacrophagesBiology and Life SciencesImmunologyImmune CellsWhite Blood CellsMacrophagesMedicine and Health SciencesImmunologyImmune CellsWhite Blood CellsMacrophagesBiology and Life SciencesCell BiologyCellular TypesAnimal CellsBlood CellsWhite Blood CellsPlasma CellsBiology and Life SciencesCell BiologyCellular TypesAnimal CellsImmune CellsWhite Blood CellsPlasma CellsBiology and Life SciencesImmunologyImmune CellsWhite Blood CellsPlasma CellsMedicine and Health SciencesImmunologyImmune CellsWhite Blood CellsPlasma CellsBiology and Life SciencesCell BiologyCellular TypesAnimal CellsConnective Tissue CellsStromal CellsBiology and Life SciencesAnatomyBiological TissueConnective TissueConnective Tissue CellsStromal CellsMedicine and Health SciencesAnatomyBiological TissueConnective TissueConnective Tissue CellsStromal CellsBiology and Life SciencesCell BiologyCellular TypesAnimal CellsImmune CellsAntigen-Presenting CellsDendritic CellsBiology and Life SciencesImmunologyImmune CellsAntigen-Presenting CellsDendritic CellsMedicine and Health SciencesImmunologyImmune CellsAntigen-Presenting CellsDendritic CellsThe normal human lymph node cell classification and landscape defined by high-dimensional spatial proteomics
+Lymph node landscape and cell classificationhttps://orcid.org/0000-0002-8238-2369BolognesiMaddalena M.ConceptualizationData curationFormal analysisInvestigationMethodologySoftwareVisualizationWriting – original draft Dall’OlioLorenzoConceptualizationFormal analysisInvestigationMethodologySoftwareVisualizationWriting – original draft MandelliGiulio EugenioFormal analysisResourcesValidationWriting – original draft LorenziLuisaData curationInvestigationResources BosisioFrancesca M.Funding acquisitionResourcesWriting – original draft HabermanAnn M.InvestigationResourcesWriting – original draft https://orcid.org/0000-0001-6250-048XBhagatGovindResourcesWriting – original draft BorghesiSimoneFormal analysisMethodologySoftwareWriting – original draft FarettaMarioData curationInvestigationMethodologySoftwareValidation CastellaniGastoneFunding acquisitionMethodologySupervision https://orcid.org/0000-0003-3799-3221CattorettiGiorgioConceptualizationData curationFormal analysisFunding acquisitionInvestigationMethodologyProject administrationResourcesSupervisionWriting – original draftWriting – review & editing 1
+Istituto di Bioimmagini e Sistemi Biologici Complessi (IBSBC) – CNR Via F.lli Cervi, Segrate, Italy2
+NBFC, National Biodiversity Future Center, Palermo, Italy3
+Laboratorio di Data Science and Bioinformatics, IRCCS Istituto delle Scienze Neurologiche di Bologna – AUSL BO Ospedale Bellaria, Bologna, Italy4
+Pathology Unit, Department of Molecular and Translational Medicine-DMMT, University of Brescia, Brescia, Italy5
+Pathology Unit, ASST Spedali Civili Di Brescia, Brescia, Italy6
+The Leuven Institute for Single-cell Omics (LISCO), KULeuven, Leuven, Belgium7
+Translational Cell and Tissue Research Unit, Department of imaging and pathology, KULeuven, Leuven, Belgium8
+Pathology Department, University Hospital of Leuven, Leuven, Belgium9
+Department of Immunobiology, Yale University, New Haven, Connecticut, United States of America10
+Department of Laboratory Medicine, Yale University, New Haven, Connecticut, United States of America11
+Pathology, Columbia University Irving Medical Center and New York Presbyterian Hospital, NewYork, New York, United States of America12
+Department of Mathematics and Applications, University of Milano Bicocca, Milan, Italy13
+Department of Experimental Oncology, European Institute of Oncology IRCCS, Milan, Italy14
+Department of Experimental, Diagnostic and Specialty Medicine, University of Bologna, Bologna, Italy15
+Pathology, Department of Medicine and Surgery, Universitá di Milano-Bicocca, Monza, Michigan, ItalyCunninghame GrahamDeborah S.Editor ] is instrumental for its function, primarily to promote the interactions of cells with antigens or other cell types within discrete niches [ ]. Recently, the cells composing the lymphoid tissue and the mutual interactions have been extensively investigated with high-capacity molecular and immunological methods at the single cell level. Such studies have produced a granular classification of the immune cells in various organs, including the LN, and along human immune system development [ ], with some investigations specifically focusing on individual cell types [ ]. The common goal of these initiatives is to build a Human Cell Atlas [ ] to be used as a framework for a better knowledge of normal tissue architecture and cellular function in its tissue context and which could potentially help in the development of novel therapies for a variety of diseases.
+Starting in the 80’s, in situ immunostaining techniques have contributed to establish a static view of the immune architecture of the human LN; more recently, the use of various methods for the detection of multiple antigens at once [ ] have provided a topographic view of the immune response, both for hematopoietic [ , ] and non-hematopoietic LN cells [ ]. However, the cell composition of the LN has not been fully elucidated as a whole with in-situ methods.
+We undertook a spatial single cell classification of a large number of LNs, representing variegated aspects of normalcy, with a panel of 78 antibodies and a novel image analytical pipeline, BRAQUE [ ]. We here provide a granular purely phenotypic classification of established and novel cell types populating the human LN. We then established the relationships of each cell type with the others via a robust statistical approach and, lastly, we defined the regional landscape of the human lymph node based on the selective distribution of neighboring or distant cell types. In such a way we provide a reference database from which to extrapolate the effects of sustained immune challenges or neoplastic transformation.
+
+## Results
+To classify all cell types composing six whole LN sections and 36 duplicate 2 mm tissue cores from 19 LN ( ), for a total of 7,500,552 cells (5,891,960 cells in the six whole sections), we stained them in saturating conditions [ ] with 78 antibodies according to the MILAN method [ ] ( , . and ). We then developed and applied an analytical pipeline, BRAQUE, consisting of a bundled segmentation algorithm (CyBorgh), a preprocessing phase to enhance cluster separation (called Lognormal Shrinkage), a dimensionality reduction algorithm (UMAP), and a clustering algorithm (HDBSCAN) [ ].
+ BRAQUE is able to identify clusters composed of as little as 12 cells and comprising down to 0.01% of total sample cells ( ); however for maximal detail we applied a two-step, nested application of BRAQUE to the segmented cells, i.e., a comprehensive BRAQUEglobal classification ( , , , ) followed by a broad cell-type targeted BRAQUEsubclassification analyzing separately CD4 and CD8 T-cells, B-cells, myeloid cells and non-myeloid dendritic cells ( ) ( ). In total, this pipeline produced a 77 cell type classification of the 6 human whole LN samples ( ).
+ These phenotypic cell types (interchangeably named phenotypic “subsets”) are illustrated below.
+
+## T-cells, CD4 and CD8
+The cell fate of mature T-cells is dictated by the presence and activity of TCF7, a transcription factor (TF) that provides stem cell-like properties and flexible adaptation [ , ]. TCF7 levels correspond to a time-dependent sequence of activation and resolution of an immune challenge [ ], thus we arbitrarily divided T-cells stratified by their TCF7 expression into high, low and average levels ( .).
+No consistent phenotype was produced by classifying T-cells based on TCF7 expression alone ( ); therefore we used the expression levels of TCF7, the presence of FOXP3 (regulatory T-cells) and the co-expression of other markers (checkpoint inhibitors TIM3, PD1, OX40/CD134 and CD137; proliferation indicator Ki-67; activation markers IRF4, HLADR, CD69 etc.) as a strategy to classify clusters of CD4 and CD8 cells ( and , ) ( ), that resulted in the identification of 14 CD4 and 13 CD8 cell types ( , and , .). The random selection of patient cases, for which any recent antigenic exposure was unknown, was reflected in the heterogeneity in T-cell subset composition in each LN ( and , ), as well as for any other cell type.
+ We found that among CD4 + T-cells, FOXP3 and TCF7hi cells were mutually exclusive and Tregs were about equally split between having TCF7average and TCF7low ( ). This was expected, given the suppressive effect of TCF7 on the FOXP3 gene expression [ ]
+In contrast, CD8 + Treg never displayed low TCF7 levels, except when activated.
+A portion of Tregs, both CD4 and CD8, co-expressed FOXP3 and ID2 ( and , ), possible evidence of plasticity [ ]. FOXP3 + CD4 and CD8 cells could be further subdivided based on the presence of additional activation markers and PRDM1 [ ] ( and , )( ). Proliferating and S100B + Tregs were also heterogeneous in amount and distribution ( ).
+The FOXP3-negative T-cells displayed a remarkable mirroring of phenotypic subtypes in CD4 and CD8 T-cells ( and , ). Both CD4+ and CD8 + T-cells contained TCF7hi cells expressing progenitor-associated markers (BCL6, GATA3, ID2 and PRDM1) [ , ].
+Both subsets also showed TCF7hi cells with heterogeneous presence of checkpoint inhibitors listed above, cytotoxicity (GZMB) and activation markers (CD23); we defined these cells as being “poised” to acquire an effector phenotype [ , ] or at a stage before transitioning to a TCF7low phenotype [ , ]. Resident memory CD4 T-cells (Trm) may be the closest subset described [ ].
+We defined T-cells with average levels of TCF7 (lacking either high or low levels of this TF), displaying checkpoint inhibitors and activation markers as “effectors”, also known as progenitors exhausted (Tpex; [ ]). They could be distinguished from TCF7low cells, the latter bearing a more consistent phenotype (GZMB, CD137, PD1 etc.) and corresponding to “exhausted” T-cells [ ].
+Both CD4+ and CD8 + T-cells contained S100B+ subpopulations, a known naïve subset for CD8 + T-cells [ , ]. In addition, S100B + CD8 + T-cells with checkpoint inhibition and activation markers could be distinguished from naïve cells and had variable TCF7 levels.
+S100B + CD4 + subsets with an effector phenotype localized close to CD5 + conventional dendritic cells type 2 (cDC2) ( , , and ). We could not define if this phenotype was due to a cell autonomous S100B+ phenotype [ ] or because of proximity with a S100B + DC with dendrites. We favor the first scenario because the phenotype of these T-cells did not completely match the repertoire of the neighboring DC.
+Germinal Center (GC) based T follicular helper CD4 + T-cells (Tfh) clustered separately from the other CD4 cells and displayed the expected phenotypes ( , ). Remarkably, more than 50% of Tfh clusters, together with proliferating and activated Tregs and IFN-responsive CD8, contained cMAF, a TF crucial for Tfh differentiation [ ].
+Additionally, CD4+ and CD8 + T-cell subsets expressed MX1, a marker of interferon (IFN) signaling [ , , ], had a mixed TCF7 profile but few other characterizing markers ( and , ) ( , .): we defined them as “IFN response” T-cells [ , ].
+ A population of CD8 T-cells featuring low TCF7 levels and few other characterizing markers (CD8 TCF7lo) was found to colocalize and interact with CD8 + MX1 + cMAF + IFN response T-cells ( ) ( , , and ), suggesting a close functional relationship.
+Proximity and likelihood of interaction of cell subsets were assessed using the novel Neighborhood and Overlap analyses. Briefly, statistically significant neighbors are computed for each cell subset using an odds ratio assessment of a cell type’s location within/without a defined distance from another and the significance determined using the Fisher statistical test. With the more stringent Overlap analysis, the likelihood of a cell type being within a defined distance to cells of another type is expressed as a cellular overlap scale in which higher scores indicate a greater propensity for proximity. These analyses and their application to a broader collection of cell types are described in more detail further below.
+
+## B-cells and plasma cells
+BRAQUEsubclass analysis produced 19 B-cell types, the spatial distribution of which landmarks the architecture of LNs without pathology. Some of the identified populations are phenotypically novel ( , ).The markers used to classify each cell subset are listed in and , and include IgD and CD27 to distinguish non-GC mature B cells and memory B cells (MBC) and those that have isotype switched (class switched recombined; CSR) [ , ].
+ The phenotype and physical location of some subsets are noteworthy. Whereas CD27neg B-cells, IgD+ or IgDneg, had a follicular distribution, populating the Mantle Zone (MZ), all CD27 + B-cells had an almost completely mutually exclusive distribution and were located in the medullary cords or marginal to the B-cell follicles ( , .).
+ CD5 expression defined 4 additional B-cell types, including one found in the periphery of the MZ and spilled into the paracortex(CD5 + MZ) ( ) ( , ). CD5 + T-zone B-cells instead were mainly confined within the T-cell zone ( , ) ( , ). The phenotype of these two CD5 + subsets was notable for the absence/low levels of restricted B-cell markers such as CD20 or CD79a (except IgD in 30–50% of CD5 + MZ clusters) and a TCF7low, PAX5low phenotype (S4 Fig.A) ( , , ). Phenotypically, these clusters resemble the “transitional naïve B-cells” [ ] or T1 B-cells [ , ], i.e., IgD ± , CD27neg, CD43neg, CD23neg, rather than B1 cells (CD27 + , CD43 + , CD5±). CD5 + MZ and T-zone cell subsets were identified in about 40% of the LNs examined ( ) and in all cases in the same marginal follicular zone location.
+CD5 + light chain+ B-cells express high levels of kappa or lambda immunoglobulin light chain that also identifies plasma cells and plasmablasts. These cell types all occupy the medullary cords ( , S4 Fig.A) ( , ). However, CD5 + light-chain+ B-cells have a phenotype that is suggestive of the B1 B-cell type [ ], occupy a non-identical LN environment compared to CD5neg plasma cells ( ) and show an independent k/l light chain ratio ( ).
+ Non-pathologic, incidentally discovered LN do not have a prominent follicular activation by definition and thus they may be less suited to analyze the GC reaction. In the few well-developed GC, polarization was noted ( ). Occasional centroblasts and centrocytes were found as isolated cells outside the GC, as has been described in mice LN [ ] (S4 Fig.A).
+Two additional cell types featured a spatial relationship with the GC.
+ID2 + Ki-67+ and MYC + B-cells were scattered in much of the LN interstitium, the paracortex, the follicle and entered the dark zone (DZ) and the outer zone of the GC ( , S4 Fig.A). ID2 + Ki-67 + B-cells shared phenotypic traits with centroblasts and they may be part of the extra-GC wave of early B-cell activation [ ].
+IRF4 + PRDM1 + GC-based centrocytes were not identified, contrary to the expectation [ ] perhaps due to the small size of the GCs sampled and the LN origin [ ].
+Extrafollicular, activated B-cells termed “immunoblasts” [ ], coexpress IRF4, PRDM1 and sporadically CD30 (BRAQUEglobal) but lack other features of plasma cells or MYC expression. This subset was found in two locations: the paracortical T-zone and the medullary cords ( , ) (S4 Fig.A).
+Kappa or lambda light chain expression marks plasma cells, plasmablasts and the CD5 + light chain+ B-cells mentioned above. These cells all occupy the medullary cords ( , S4 Fig.A) ( , ).
+The ratio of circulating kappa and lambda immunoglobulin light chains in the bloodstream it has been established to be around 2:1 [ ]; in the tissue, wider variations of the light chain-bearing B-cell ratios have been reported [ – ]. In our samples the k/l ratio was 1.5 (SD ± 1.13), falling below 1 in several whole LNs and TMA core samples ( ). We confirmed these data by segmenting and quantifying the plasma cells with traditional image analysis tools (thresholding and particle counting) and found similar values (S6 Fig.). Lastly, we measured the k/l ratio in 7 whole reactive LNs by in-situ light chain hybridization [ ], obtaining a 1.38 ± 0.40 ratio (range 0.87–2.17) (Figs S6C, S6D).
+
+## Innate immune and dendritic cells
+Fourteen non-myeloid innate immune and DC types were identified by BRAQUEsubclass, none of which expressed CD14 or CD163. cDC1 identified in BRAQUEglobal bore CD14 ( ) as other non-myeloid cells, but nested BRAQUEsubclass analysis revealed instead bona-fide monocytes and macrophages not previously identifiable in the DC group ( , ) ( , S4 Fig.B). This was unique to DC and not seen upon re-analysis of the other cell types (not shown).
+ cDC1 is split into two groups: one with the canonical phenotype, cDC1A (CD74, CD141, Clec9A, LYZ, TIM3 in >70% of clusters), preferentially located in the deep paracortex and diffusely, and the other, cDC1B, with more sparse expression of the aforementioned markers ( , ) (S4 Fig.B), located in the medullary cords [ ].
+cDC2 is also split in two main subgroups: CD207 + cDC2 (cDC2A, also known as Langerhans cells or LC) and CD207neg cDC2 (cDC2B). The main differences were: expression of Langerin/CD207 and CD1a for cDC2A, and a CD4 + CD86 + prevalent phenotype and a predominant location in nodular paracortical aggregates, close to PNA + HEV ( ) for cDC2B.
+ Neither group could be defined by HLA-DR or CD11c differential expression, however only cDC2A were CD1A + , a phenotype described for resident cDC2 [ ].
+cDC2A and cDC2B were themselves split into CD5+ and CD5neg subsets, as previously shown in blood [ , ]. Both CD5neg cDC2 subsets express IRF4, PU1 and BCL6, however their spatial localization was superimposable to the CD5 + cDC2s ( ) (S4 Fig.B). Conventional image rendering could not highlight membrane CD5 staining on cDC2, as previously shown [ ]( ).
+ Cells with a mixed cDC1 and cDC2 phenotype, DCmPh [ , ], had CD86 as the most prevalent marker, a nondescript tissue distribution, did not self-aggregate but were neighbors of cDC2B, S100B+ activated Tregs and putative transitional B-cells (CD5 + T-zone cells) in the paracortex ( ).
+We identified proliferating ID2 + cells lacking T, B or the ILC3-defining marker RORC. The recently published Ki-67 + cDC-ILC3 subpopulation [ ] may therefore not reside in this fraction, but rather in the proliferating cDC1 fraction. Up to 50% of clusters express AXL, suggesting that tissue-based equivalent of proliferating ASDC [ ] are contained in this group.
+Plasmacytoid dendritic cells feature a very consistent homogeneous phenotype (CD303, TCF4) and a signature of IFN signaling (MX1) in >70% of clusters, as noticed previously [ ] ( , ) ( , S4 Fig.B). GZMB was not detected, as expected in quiescent pDC [ ]. pDC aggregates, thought to be typical of this cell type [ ], were detected in only 3/6 LN and in a minority of clusters.
+ILC3s are described here in situ for the first time in LN; besides RORc, a defining but not entirely unique marker [ , ], ILC3s expresses PU1 and a heterogeneous array of other DC-related cell markers (AXL, CD11c, CD74, TIM3) in >50% of clusters ( , ). These cells are found in the superficial cortex, next to HEV, as previously noted [ ] ( ) (S4 Fig.B) and also dispersed in the outer T-cell zone, in the medulla and occasionally in the subcapsular sinus.
+A single cell type corresponding to NK cells was identified and the phenotype was consistent with the consensus: CD16 + CD56+ and others [ ]. NK cells were one of the smallest subsets and were often aggregated, close to macrophages ( ) ( ) (S4 Fig.B).
+ 
+
+## Myelomonocytic cells
+BRAQUEsubclass analysis yielded 15 myelomonocytic cell types ( and , S7 Fig.A), each one with an unique spatial distribution.
+Classical monocytes were diffusely scattered throughout the medullary cords and the interfollicular interstitium (S7 Fig.A) with a LYZ + PU1 + CD16neg predominant phenotype ( ). Neutrophils shared LYZ and PU1 positivity, and in addition were CD10 + , CD16+ and CD86 + .
+ CD16 was expressed on three types of myelomonocytic cells: alternative monocytes [ ], CD16 + macrophages and a subpopulation of Lyve1 perivascular macrophages, all residing within endothelium-lined spaces [ , ].
+Lyve1 + CD16neg perivascular macrophages shared a similar phenotype and location as the CD16 + counterparts.
+CD11c, HLA-DR and the macrophage markers CD163 and CD68 epitomize the phenotype of two major groups of macrophages: macrophages and phagocytes, respectively [ ].
+Macrophages, the largest myelomonocytic cell type, had a preferential distribution in the medullary cords (S7 Fig.A), were more consistently represented in the LN examined and the phenotype was dominated by markers conventionally regarded as myelomonocyte-specific (CD14, CD31, CD68, CD163, TIM3, AXL) ( ).
+Two types of cells had a consistent, highly expressed CD68 + phenotype: GC macrophages and interstitial phagocytes, often expressing CD86, MYC, PDL1, HLA-DR ( ) (S7 Fig.A).
+BRAQUE found additional four cell types not previously described.
+Two subsets had GZMB expression in common, one also displayed CD7, CD23 and IDO ( ), both were located in focal parenchymal aggregates ( , S7 Fig.A), together with NK cells and where morphological signs of cell activation were noticeable ( ). The lineage affiliation of these two subsets is unknown.
+Of the two other types, one (Act Macs) expressed MYC, TIM3 and other non-lineage specific biomarkers, and the other had a CD163, cMAF, PU1 phenotype (S7 Fig.A).
+
+## Non-hematopoietic stromal cells identified in normal LN
+Although non-hematopoietic stromal cells were not targeted specifically in the analysis, about a quarter of the markers evaluated were shared between lymphomyeloid and stromal cells (S1 Fig), a few were stroma-restricted, allowing a cell classification for the latter. CD248/Endosialin and vWF, both restricted to non-hematopoietic cells (megakaryocytes are absent from LN), only labelled stromal and endothelial cells ( and ), providing proof of the single-cell specificity of both the segmentation and the BRAQUE pipeline.
+ Follicular dendritic cells (FDC), endothelial cells and fibroblasts, these latter named “stromal cells” because of absence of classifying markers (named NESC, non endothelial stromal cells by Abe et al.[ ]) were subclassified into ten cell types ( ) ( and , S7 Fig.B).
+ Endothelial cells were classified according to the expression of CD31, shared with myeloid cells, and lineage-associated markers such as Lyve1 (this one restricted to lymphatic and sinus-lining endothelium), vWF, CD34, TCF4 and MYC. The last three were also found on non-endothelial stromal cells.
+Lyve1neg capillary endothelium could be subdivided in two groups, high endothelial venules (HEV) and conventional endothelial cells because of tissue distribution and subtle phenotypic details. HEV were allocated in the paracortex, had shorter, broader branching, and expressed MYC. PNAd was invariably one of the first three ranking significant markers ( ). Of note, centrocytes were found adjacent to HEV ( )
+The coexpression of SOX9 and TCF4, together with CD248, AXL and AID defines LN fibroblasts, some MYC + , diffuse through the LN parenchyma or lining defined structural units (capsule, medullary sinuses, vasculature). The extralymphoid expression of AID has been documented in primary fibroblasts [ ], albeit at 1/10th of the levels in B-cell lines. Coexpression of TCF4 and SOX9 message has been reported in fibroblasts, TCF4 only in endothelial cells (BioGps, http://biogps.org last accessed Feb 26, 2024) [ ].
+Some LNs contained a peri-follicular population of stromal cells with peculiar markers (CD11c, CD141, TIM3).
+Extranodal stromal cells had a different phenotype, characterized by AXL, BCL6, cMAF and Zeb1.
+
+## Neighborhoods of the normal human LN
+We computed the statistical significance of the neighborhoods with two different approaches: firstly with a fisher test, significant when the neighboring cells were particularly enriched in a given cell type, and then with a method based on cellular “overlap”, to better quantify stronger / weaker cellular spatial relations ( ).
+ Together with statistical tests, we wanted to evaluate a further metric, the median distance to the nearest cell of and from each specific population ( , S9 Table and ), which may provide further information.
+We could confirm known neighborhood relationships such as CD4 T-cell subsets (S100B+ effectors and activated Tregs) with cDC2 [ – ], centrocytes and MZ B-cells with DC [ , ], plasma cells with macrophages [ ], the heteroaggregation of light chain positive plasma cells, and the self-aggregation of several, but not every cell type [ ].
+Other described neighborhoods were not confirmed: cDC1 and CD8 [ ], cDC1 and HEV [ ], macrophages and fibroblasts [ ], ILC3 and endothelium or plasma cells [ ]. Several CD4 and some CD8 T-cell types bound to endothelium, but none to HEV [ ].
+The reason for this may be a combination of LN selection, the strict significance criteria and/or the insufficient number of samples for a specific immune challenge.
+Unanticipated novel neighborhoods were found.
+A previously undescribed TCF7lo CD8 T-cells co-localized with CD8 showing IFN response ( ).
+IgD + CD27neg MZ B-cells are neighbors of plasma cells ( , S5 Fig.B).
+Centrocytes interacted with HEV and endothelium, the normal counterpart of the morphologic detail (penetration of GC by vessels) seen in unicentric hyaline-vascular variant of Castleman’s disease [ ] ( )( ).
+
+## The landscape of the normal human LN
+By computing the overlap of each cell type versus each other, we draw a detailed landscape of the LN immune architecture ( A and B, C and D, , S8-S10 Figs.). In general, each cell type overlaps with 4.2 ± 3.3 (range 0–18) of the other cell types, pointing to a very specific landscape occupancy. This is very informative of both the shared and the mutually exclusive spaces.
+An analysis of the statistically significant distribution of the cell types in the LN zones ( ) reveals a few specific positive locations and several specific avoidances, not entirely unexpected for a) motile cells b) in LNs whose immune status is heterogeneous.
+ Non-naïve CD4 TCF7hi or TCF7average T-cells occupy the LN paracortex, a landscape in which no other cell types were preferentially located, except cDC1 and cDC2. Exhausted CD4 spread to the medullary cords and activation spots and did not overlap with other cell types ( and ).
+CD4 Tfh cells, centroblast, centrocytes and the GC-related B-cell subsets occupy a GC environment, also shared with plasmablasts and GC macrophages.
+The analysis of mature B-cell overlap revealed five non-overlapping spaces ( C and D).
+The first space comprises a dual aspect: GC-based centroblasts and centrocytes, but in addition largely extrafollicular ID2 + Ki-67+ and MYC+ cells admixed to centroblasts, a structure which may consist in the outer zone ( ) [ ].
+The second space contains CD5 + CD27neg putative T1 B-cells, but also MYC + B-cells ( and ). A “marginal zone” definition may fit the distribution of CD5 + MZ B-cells.
+The third hosts CD27neg IgD+ or negative B-cells and corresponds to the MZ ( ).
+The fourth space is occupied by CD27 + MBC and may represent a newly described memory B-cell zone (MBZ) (S5 Fig.B). This zone was not included among the established LN zones, thus will not appear in and .
+The last corresponds to plasma cells, plasmablasts and the CD5 + light chain+ B-cells in the medullary cords.
+cDC2A and CD5 + cDC2B share a space with each other, S100B + CD4 effectors, S100B + CD8others and CD4 Tregs.
+These cDC2 cells in real space revealed circular paracortical structures with an empty center, reminiscent of the nodules described before [ ] ( ). We expanded the morphological analysis of these structures to 12 whole LN sections and 99 cases of various non-neoplastic LN pathology or morphologic variations of normalcy, by using robust cDC2 markers (CD1c and HLA-DR) and reviewing at low power the IF images ( ). Because of the morphological reminiscence of these circles with another biological phenomenon (https://en.wikipedia.org/wiki/Fairy_ring), we named these “Fairy Circles” (or Focal Clusters; FC).
+Well organized FC were visible in 92% of 12 whole sections and 56% of 16 2 mm TMA cores from “normal” LN. FC were absent from 75% of pathological TMA cores and from all the pathological whole sections images ( ). Individual cells from these latter samples were not analyzed, therefore we cannot comment whether the disappearance of FC is mirrored by qualitative/quantitative changes in cDC2.
+As described previously [ , ], PNAd+ High Endothelial Venules (HEV) were found close to or encroaching the FC ( and S11 Fig.).
+The perivascular space is occupied by CD16 + , Lyve1 + perivascular macrophages, the latter sharing the space with Lyve1 + endothelium.
+GZMB+ cells tend to occupy a space by themselves, shared with PU1 + Macs.
+
+## Discussion
+We have used a 78 antibody-strong panel, an epitope- and tissue-saving technique, MILAN [ , ], and a recently developed novel bioinformatic pipeline, BRAQUE [ ], to classify the cells constituting the human LN into 77 cell types according to known phenotypes and published and unpublished spatial landmarks. The integration of the phenotype and the tissue distribution of the individual clusters from BRAQUE has been fundamental for an extended cell identification.
+The classification obtained features a combination of surface, cytoplasmic and nuclear proteins detected at high sensitivity [ ], thus providing an invaluable proteomic granular reference dataset for molecular or multi omic data integration.
+This is the most detailed classification of the whole LN performed in situ up to date and represents LN “normalcy” by size, histopathology and clinicopathologic standards [ ]. Size has been the only parameter useful to classify a LN as “normal” [ , ]; we can now add preserved immune structures (FC) or phenotypic traits (absence of GZMB from pDC) as hallmarks of normalcy.
+The phenotypes and the cell types we describe have been extensively cross-validated in years of immunology research, quoted throughout the text/tables and, more recently, by scRNAseq studies of the SLO within the HCA initiative [ ].
+Interestingly enough, this latter comprehensive study, which orthogonally validates the vast majority of our cell types, fails to identify IFN signal in T cells, transitional and B1 B cells, alternative macrophages and other cell types probably because of a weak correspondence between RNA and proteins [ , ] and more favorable representation of biology by proteins, compared to RNAs[109]. The fact that transcriptomics may be less suited for the classification of lymphoid tissue is confirmed by recent studies [ , ].
+In the Caron study [ ], a 265 antibody CITEseq panel aimed at surface markers shares with us 44 antibodies only, and lacks transcription factors and intracellular markers: it fails to identify in peripheral blood several lymphoid cell types we describe in the LN. While transcription factors alone do not suffice to classify cells (our data) other factors may be the cause besides the lack of intracellular markers: an elaborate signal thresholding algorithm (vs no gating in BRAQUE), and the focus on peripheral blood (vs LN).
+We provide spatial relationship data and anatomical allocation for numerous cell types for which, in the authors’ knowledge, only transcriptomic studies on cell suspensions or some single staining information were available. This is the case for putative B1 or T1 cells, memory B-cells, CD5 + cDC2 and several subtypes of T-cells with function-associated phenotypes. In addition, we suggest a dedicated nodal site for memory B-cells, which we named memory B-cell zone (MBZ).
+A nodal equivalent to the splenic marginal zone has been described in the subcapsular and medullary LN sinus in mice [ ] and in parasite-infected humans [ ]; these reports hint at a subcapsular sinus location for MBC in humans. We found clusters with such spatial distribution in 2 LNs only.
+Between 1986 and 2001 hematopathologists [ – ] have described in non-pathological LN an indistinct and variable collection of cells with clear cytoplasm (monocytoid) located outside the mantle zone and bearing phenotypic features similar to the splenic marginal zone. This may be an earlier description of a nodal location for MBC, distinct from the MZ, based however on a very limited phenotype.
+DN B cells (IgDneg CD27neg) have elicited considerable attention lately: they have been linked to autoimmune disorder, chronic infections (HIV, malaria) and cancer [ , ] and thought to belong to an extrafollicular antigen response. To co-locate DN B cells with naïve MZ B cells in the follicle, apart from MBZ cells, is a novel finding.
+The elusive CD5 + B1-like human B cell population is resolved in spatially and phenotypically distinct cell types, expressing TCF7, a finding very recently confirmed in blood and peritoneal effusions, but not in SLOs [ ].
+A combination of immunophenotyping, high-dimensional analysis and traditional histopathology has detailed circular gathering of cDC2 reminiscent of the “fairy circles”.
+These novel descriptions should prompt additional research to elucidate the composition, the stromal underlying and the dynamic of these novel zones.
+A hyperplexed targeted Ab-based in situ proteomic investigation inherently relies on Ab specificity [ ] and sensitivity, posing novel challenges [ ]. The profile of each cell type in this study is obtained by listing the most frequently reported markers among the numerous clusters belonging to that type, not the most highly expressed. In BRAQUE these latter correspond to higher “effect size” [ , ] and are reported in a separate column in the Tables. Keeping that in mind, we faithfully reproduced established phenotypes, thanks to the redundancy of the panel used, but also listed are markers which have been reported only in experimental condition or in cell suspensions and never in FFPE tissue.
+That is the case for CD23 in T-cells and myelomonocytic cells [ , ], CD7 on myeloid cells [ ], TCF4 on endothelium [ ], AID on fibroblasts [ ] and CD5 on B cells and DC.
+We report coexpression of markers (e.g., BCL6 and PRDM1) initially described to be mutually exclusive [ , , ], but later revised in some cell types [ , ]. The protein half-life [ , , ], the mutually inverse gradients of expression [ – ] and the aggregation of multiple clusters in a single cell type may substantiate the results obtained by BRAQUE. Lastly, BRAQUE scores as statistically relevant values not appreciable by signal thresholding and/or visual assessment [ ].
+Canonical markers are conspicuously missing in BRAQUEsubclass: CD3, CD5, CD7 and BCL2 in T-cells, IRF4 on MZ B cells [ ], CD30 on B-cells [ ], etc. This is because BRAQUE lists the statistically significant markers which make each cluster unique and not the antigens broadly expressed in the target population, thus not making the statistical threshold [ , ]. Therefore, the phenotypes defining cell types in this work need to be integrated with canonical markers for tasks such as single cell manipulation.
+
+## Limitations of the study
+The neighborhood analysis of this study represents a “minimalist” view of the interactions, given the very strict requirements to produce a significant score (10 AND 20µm, significant in all LN examined); tissues harmonized for a specific immune response may disclose additional meaningful interactions.
+For some phenotypes a definite explanation is not available and deserves further study. This is the case, e.g., for CD23, which ranks among the five top-ranking markers in FDC and CD27neg CSR, where it is expected, but is listed on CD27 + MBC, where it should not be according to previously published data [ ]. The possible reasons may be Ab specificity, the inner working of the dimensionality reduction algorithm or the post-transcriptional regulation of CD23, which is particularly complex [ ] in tissues. CD23 + Follicular dendritic cell embrace of CD23neg B cells may also explain these findings.
+One may also consider that secreted/soluble proteins do diffuse in tissues (e.g., GZMB [ ], vWF [ ]) and are detected by BRAQUE, independently from the segmentation inaccuracies.
+Other limitations of this study encompass the failure to identify cell types minimally represented in quiescent LN such as γδ T-cells, double negative T-cells, RORγτ + T-cells, AXL + DC [ ] and NK cell subsets [ ]. The reasons may be the insufficiently diversified markers panel, the unappreciated broader distribution of markers described to be dichotomic in expression, the limitation of the segmentation protocol, the inherited problems of fixed and embedded material, unknown limitations of BRAQUE or a combination of all of that.
+This study will help to consolidate an holistic view of an “average” human LN landscape, if ever such a definition may apply to the immune system in general, allowing the comparison with immune perturbations, particularly the ones not driven by clonal expansions, but fixed in timing and in stimulus drivers.
+
+## Materials and methods
+
+## Human specimens
+Lymph node excisional biopsies and clinical notes were extracted from the laboratory information systems of the collaborating centers by the Authors with clinical privileges and anonymized. The inclusion selection criteria were: i) absence of pathology, inflammatory, autoimmune or neoplastic, ii) non-specific nodal changes in the histology description (e.g., paracortical or follicular hyperplasia, sinus histiocytosis), iii) any anatomical location, iv) uninvolved sentinel LN from breast or lower GU tract, or incidental finding, v) small size; the chosen samples measured an average = 0.98 cm, SD + /- 0.35 cm for the shorter axis, n = 19; for six whole LNs: average = 0.87 cm ± 0.28, range: 0.62–1.41 for the shorter axis ( ). Note that the size reference values for normal LN does not exceed 1 cm. for the shorter axis [ , ], irrespectively of the organ site [ ].
+A progressive UPN (Unique Patient Number) was assigned to each patient. Paraffin blocks and sections to be analyzed were selected by a Pathologist after a review of the Hematoxylin and Eosin (H&E) stain. Only archival formalin-fixed, paraffin embedded material (FFPE) was used.
+The clinicopathologic and biometric data of the cases comprising the dataset are listed in .
+None of the LN contained particulate material [ ].
+The study has been approved by the Institutional Review Board Comitato Etico Brianza, N. 3204, “High-dimensional single cell classification of pathology (HDSSCP)”, October 2019. Consent was obtained from patients who could be contacted or waived according to article 89 of the EU general data protection regulation 2016/679 (GDPR) and decree N. 515, 12/19/2018 of the Italian Privacy Authority. Data and sample retrospective collection started after November 21st, 2019, after de-identification of protected data.
+
+## Tissue Microarray (TMA) preparation
+Tissue microarrays (TMA) were prepared as previously published on a Tissue Microarrayer Galileo model TMA CK4600 (RRID:SCR_024393) (Integrated System Engineering S.r.l., Milan, Italy). Cores of 2 mm were used, from selected areas annotated by a Pathologist. Duplicate cores were placed in two separate TMA recipient blocks.
+
+## Histology repository
+Virtual images of H&E stained sections, serial to immunostained ones, were deposited in a NDPIserve (RRID:SCR_017105) (Hamamatsu Photonics), available at: https://tiny.cc/LNproject
+
+## Anatomical terms and definitions
+The anatomical boundaries or the LN were defined as previously described [ , ]. The terms used throughout the manuscript are detailed in . A UBERON terminology (https://evs.nci.nih.gov/ftp1/UBERON/About.html; last consulted on September 4th 2024) [ ] was added when suitable (Table 1–7-7, and ).
+
+## Antigen retrieval
+Antigen retrieval (AR) was performed once placing the dewaxed, rehydrated sections [ ] in a 800 ml glass container filled with the retrieval solutions (EDTA pH 8; 1 mM EDTA in 10 mM Tris-buffer pH 8, Merck Life Science S.r.l.,Milano, Italy; cat. T9285). The treatment, according to established protocols [ , ], consists in heating in a household microwave oven at full speed for 8 min, followed by intermittent electromagnetic radiation to maintain constant boiling for 30 min, and cooling the sections to about 50° C before use.
+
+## Antibody validation and staining
+Antibodies were validated according to published protocols [ , ]. A list of antibodies is reported in , which also contains the cycle round number and the fluorochrome for the secondary antibody.
+Representative low-power and high-magnification images of a whole LN staining is provided in S1 Fig.A, B.
+The full panel consisted of 97 immunostains (+ EBER and autofluorescence). 20 antibodies who produced inconsistent staining were excluded from the analysis ( ). Viral biomarkers (EBV, HHV8) were not analyzed in this dataset.
+As an additional tool to explore expected relationships among variables (antibodies), a correlation matrix was constructed for sample UPN 107  .csv as a reference.
+The R function “corplot” (order = AOE) was used for the representation. It provides a coloured table which represents the positive or negative correlation of one single marker versus the others. The order of markers is established according to the AOE parameter (the angular order of the eigenvectors) which is supposed to group markers with the same behavior.
+A coloured side bar (representing the IF channel of acquisition of each marker, green = FITC, yellow = TRITC, RED = Cy5, BLUE = BV480) with a number (the staining round) is reported next to the biomarker (S1 Fig.C).
+The preferential cell type distribution of all antibodies is reported in Supplementary S1 Fig.D.
+
+## MILAN Immunofluorescence
+Multiple immunofluorescent (IF) labeling was previously described in detail with the MILAN (Multiple Iterative Labeling by Antibody Neodeposition) method [ , ]. A detailed method has been published (https://dx.doi.org/10.21203/rs.2.1646/v5).
+Briefly, the sections were incubated overnight with optimally diluted (1 µg/ml) primary antibodies in species or isotype mismatched combinations (e.g., rabbit + mouse, mouse IgG1 + mouse IgG2a, etc.), washed and counterstained with specific distinct fluorochrome-tagged secondary antibodies [ ]. The list of primary and secondary antibodies is in . The slides, counterstained with DAPI and mounted, were scanned on an S60 Hamamatsu scanner (Nikon, Campi Bisenzio, FI, Italy) (RRID:SCR_022537) at 20x magnification (0.45 µm/pixel) 8 bit. The filter setup for six color acquisition (DAPI, BV480, FITC, TRITC, Cy5) plus autofluorescence (AF) was as published [ ]. After a successful image acquisition, the sections were stripped according to the MILAN method [ ] and stained with another round.
+Five slides (either whole sections of TMA) were processed simultaneously as described [ ] to minimize intersample variations. Staining variability for the same Ab set after ~30 cycles was less than 15% and no method-dependent cell loss was noticed (see Supplementary Fig. 1 in Manzoni et al.[ ]).
+
+## Preparation of immunofluorescent images for single cell analysis
+A pipeline, A.M.I.C.O.[ , ], was adapted and used to register all the images belonging to a case or a TMA and rename each image with the biomarker name, according to a signpost-containing file name and fluorescence channel saved at acquisition.
+After the stainings were acquired, digital slide images (.ndpi) were imported as uncompressed  .tiff with ImageJ (ImageJ, RRID:SCR_003070). Tissue autofluorescence (AF) was subtracted when appropriate as published [ ]. In order to remove the contribution of circulating polyclonal immunoglobulins (versus the monoclonal membrane-bound or cytoplasmic Ig) [ ], after AF subtraction, images for lambda light chains were subtracted from kappa light chains images, after equalizing the intensity of the former; the same was done for kappa light chains. The resulting image (kappa sine lambda and lambda sine kappa) were used for the analysis.
+No other digital image modification was applied
+
+## Validation of the analytical pipeline
+
+## Cell segmentation.
+A DAPI nuclear stain-based, Matlab-based segmentation algorithm, CyBorgh [ ], was applied. CyBorgh algorithm output is a  .csv file obtained by applying an expanded-nuclear mask to all registered images.tiff (one for each marker) belonging to a sample. In detail, for each cell, it is extracted the mean value among pixels (8 bit grayscale) related to each marker/image.
+Data extracted for each single cell x image associated with spatial x and y coordinates composed the final matrix used for the analysis. Columns represent the variables (mean value per marker and spatial information), row the cells.
+This algorithm was compared with Cellpose2 [ ] (https://www.cellpose.org/; latest access 25 december 2023) by segmenting three 2 mm. TMA LN cores (UPN26, 32, 33) with both and comparing the cluster output and composition (S12 Fig.A and ).
+The number of unrecognizable clusters, or spurious hybrid phenotypes (e.g., CD3 + CD20 + cells) and the failure to identify known subsets were used to rate each algorithm.
+The code for CyBorgh can be downloaded from https://doi.org/10.17632/3ntbp3zdzh.2.
+
+## Artifact identification and subtraction with BRAQUE
+HDBSCAN, which is part of the BRAQUE pipeline [ ], identifies outliers (e.g., cells having marker profiles heavily different from everything else, and similar to nothing else within the sample) as noise points and allocates them by default as a “-1” cluster, which acts as a garbage collector, and whose numerical dimension has been calculated for each sample and reported in . In addition, the preprocessing step by BRAQUE allows a precise identification of artifacts (focal tissue loss, scratch, tiling borders, staining focal or partial defects, etc.) as separate clusters with an unique phenotype and spatial distribution, which can be manually excluded from the analysis (S12 Fig.D).
+The pipeline discriminate cell types which are closely commixed with others, e.g., CD4 and CD8 T-cells [ ], stromal cells and endothelium, sinus-lining macrophages and endothelium etc., without applying computational corrections for signal crossbleeding [ ] (S12 Fig.B).
+To test the robustness of BRAQUE in the presence of non-specific noise, we run a sample (UPN32) before and after subtracting the AF. As shown in S12 Fig.C, BRAQUE was moderately affected by noise. (S12 Fig.C and ).
+
+## Antibody panel high dimensional validation
+We next tested how a reduced antibody panel would affect the results. Three panels were designed (S6 Table and S12 Fig.E) and run on two whole LN (UPN107 and UPN108):
+33 “non-redundant” Abs: lineage-defining Ab with minimal or nil staining across the other lineages (e.g., CD3 and CD20).
+41 “TF and friends” Abs: all the anti-TF Ab and a selection (16) of lineage-defining Ab
+68 “only clean” Abs: Ab chosen for high signal-to-noise ratio.
+Compared to the full Ab panel, each of the reduced panels had variations in detection or representation ( ). The TF panel was the most affected, having the highest junk and uninterpretable results. Some cell types (Treg, plasma cells, RORC) had the most consistent results, probably because of a combination of unique highly characterizing markers and a distinct phenotype. We also found that a minimum of ~68 markers (S12 Fig.E and ) is required for the cell classification of most hematolymphoid cells.
+An analysis of the TMA cores with Seurat [ ] produced a 23 cell type classification of the LN analogous to BRAQUE (S13 Fig.).
+
+## Sample size representativeness
+A comparison of the cell type composition of whole LN sections (WSI) vs TMA cores shows that these latter are representative of the whole sections except for the smallest populations, which were under- or over-represented because of the pathologist-driven targeted sampling, notwithstanding the 2 mm diameter TMA cores (S14 Fig.).
+
+## Iconographic rendering
+Computer-generated  .png files were re-colored, modified and assembled with the following softwares:
+Fiji (RRID:SCR_002285) (https://imagej.net/ last accessed January 15 2024) [ ].
+Adobe Photoshop 25.3.1 (RRID:SCR_014199).
+Adobe Illustrator 28.1 (RRID:SCR_010279).
+RGB composite immunofluorescent images were imported as grayscale images into Fiji, optimized via the Brightness/contrast tool automatic function, cropped and colored as desired.
+
+## Quantification and statistical analysis
+
+## High dimensional analysis with BRAQUE.
+Data extracted from a tiled set of images after CyBorgh segmentation were processed via a bioinformatic pipeline, BRAQUE [ ].
+BRAQUE is a python pipeline for automated cluster enhancing, identification, and characterization. The output consists of multiple clusters, whose numerosity is defined by the size of the smallest cluster (usually not below 0.005% of the cell number or ~20 cells). Each cluster is defined by A) markers ranked by probability or possibility to identify the cluster (i.e., a robust measure of effect size comparing within cluster marker distribution with outside cluster marker distribution), B) a tissue map of the cells belonging to the cluster and C) the expression of a pre-defined set of diagnostic markers for that cluster, compared to the whole population. Each cluster is classified by an expert supervision into cell types [ ]. The parameters to apply BRAQUE to the LN dataset were tuned by varying the parameters and scoring a sample. Once the results were satisfactory, BRAQUE was applied to the whole dataset (see Supplementary material @ https://doi.org/10.17632/3ntbp3zdzh.2).
+
+## BRAQUE preprocessing
+The usage of Lognormal Shrinkage showed consistent and significant improvement in terms of all the following aspects: better cell groups separation in the lower dimensional embedding, more consistent and compact individuated cell types, smaller number of unclear cells (labeled in the “noise” cluster), highly reduced number of spurious “mixed phenotypes” such as CD4 + CD8 + T cells, CD20 + T-cells etc.[ ] (See and ).
+
+## Gaussian mixture components
+Given G_i as the initial Gaussian mixture components number, and G_f as the final number of components, selected by the algorithm at convergence.
+We observed that a higher number of G-i strongly helps to scatter different cell types apart, reaching a plateau in performances around 20 ~ 30.
+Moreover, we wanted G_i to be higher than G_f for all markers, in order to check the algorithm had enough starting components and was not limited by input parameters (since G_i acts as an upper limit for G_f, and the algorithm can drop useless components but not add useful ones if needed).
+Lastly we know that higher G_i means significantly higher computation times, and therefore we considered choosing for it the smallest value for which G_i > G_f for all available markers, resulting in 20 for all lymph nodes except for the largest one, UPN109, for which we used 28.
+
+## BRAQUE nested classification
+We decided to apply our pipeline in a hierarchical fashion, first by identifying clusters of either B-cells, CD4 + T-cells, CD8 + T-cells, Dendritic cells, Myeloid cells, or other cell types (BRAQUEglobal).
+The non-hematopoietic cell types (such as endothelial cells) were definitively assigned to their cluster, while for each of the other subtypes we performed the pipeline once again, apart from the preprocessing step, on a specific subset of markers ( ) (BRAQUEsubclass). Unclear, unassigned or noise clusters were discarded from the analysis (e.g., noise cluster cells, unclear cell types with contradictory markers, unseparated T-cells etc.)
+This decision was due to how most cell types are interpreted and defined. A very specific and selective set of markers is necessary to sub-specify, e.g., two B-cells or two CD4 T-cells, being the rest of the panel unnecessarily noisy and uninformative in the analysis.
+In the BRAQUEsubclass analysis, the HDBSCAN “-1’ cluster refers to an “average” cell of the cell type analyzed, not to cells of unassigned clusters, as in BRAQUEglobal, which were excluded from BRAQUEsubclass analysis.
+Five whole LNs were used for the analysis of CD4, CD8 and B cell types, six for the other cells.
+
+## Minimum size of cell group
+Minimum size of a cell group is a parameter which needs to be tuned for new hyperplexed images dataset and new antibody panels. In our case, reducing this number might lead to more, clearer, and smaller clusters, while raising it causes more cells to enter the “unclear” cluster. Tuning these parameters based on the number of resulting clusters led to faster and better separation of clearer cell types, and therefore we assessed it in the range of 100 ~ 300 cells, which led to 50 ~ 100 clusters for each cell subtype among B-cells, CD4 T-cells, CD8 T-cells, Dendritic cells, and Myeloid cells. The smallest cluster (10 cells) consisted of CD8 naïve T-cells, the largest (101,180 cells) of IgD + CD27neg B-cells.
+
+## BRAQUE data output and analysis
+Each cluster was evaluated by examining the following types of data:
+i) the comprehensive list of markers significantly expressed with respect to the average sample distribution (via a Welch t-test),
+ii) the ranking of said markers according to their decreasing effect size (so to have overexpressed markers as most characteristic ones),
+iii) the expression of selected lineage-defining markers (these independently from the ranked list) and
+iv) the spatial location within the tissue.
+The output of the pipeline has been described before [ , ].
+Since no signal thresholding was performed, intersample pre-analytical variations (fixation, processing etc.) which may modify the tissue antigenicity, would not affect the relative ranking of cluster-defining markers across samples.
+Clusters were classified according to the similarity to known phenotypic consensus profiles in published papers. Clusters with incoherent markers were classified as “junk” and discarded. Phenotypes not published before were either classified as “undefined” or grouped in homogeneous new phenotypes. Classified clusters were grouped into individual cell types.
+This process was performed independently by two investigators (GC and GEM) and harmonized.
+In order to build a comprehensive list of markers for each cell type, two type of data were extracted from the ranked list of markers of each cluster ( , and ): the list of markers present in 70–100%, 50–69% and 30–49% of all clusters belonging to a given cell type and the list of the markers ranked 1st to 5th in that cell type. To compute this latter, we calculated the median value of the position of a given marker in each ranked list for the clusters belonging to that cell type and listed the makers ranking from 1st to 5th place.
+The two types of data provide independent information: the first lists the markers identifying a given cell type, independently of the signal-to-noise ratio, the ranking or the statistically significant effect size. The second reflects the effect size and, combined with the first, which marker best applies to flow-cytometry or visual immunostains for cell detection in tissue; it may be used as a proxy for signal brightness, but may represent only a fraction of the clusters of that cell type.
+Further analysis of how BRAQUE compares with previous pipelines has been reported [ ].
+
+## Post-classification data analysis
+
+## Neighborhood analysis.
+We computed the statistical significance of the neighborhoods with two different approaches: first with a fisher test and then with a newly devised method based on cellular “overlap”.
+The reason behind this double approach resides in the fact that the former represents a classical/dichotomic approach (near/far, significant variation in odds ratios), while the second highlights a rather continuous measure (how near? More than randomly expected?), giving different importance to neighboring cells based on their spatial closeness ( ).
+The overlap test briefly consists of assigning each cell an interaction radius, and then compute the observed and expected amount of pixels (i.e., infinitesimal elements of area) covered by both interaction radii of neighboring cells for different populations (or even same for same population overlap). The pixel-hitting procedure is the equivalent of a Bernoullian process, with success probability given by the ratio between cell interaction area and whole lymph node area. Therefore the overlap is computed using Binomial cumulative density functions.
+To increase statistical robustness of outcomes, the analysis was repeated using 2 different distance thresholds to define neighbors, specifically 10µm and 20µm [ ].
+In other words, neighboring effects were considered significant only if the analysis using 10µm (22 pixels) threshold and the
+analysis using 20µm (44 pixels) threshold were both significant for the given neighboring effect over all available samples independently. Both tests were corrected for multiple tests with Bonferroni correction.
+Considering cell population A and B, this translates into taking the maximum of the p-values measured across all samples with both populations, and consider it significant only if the maximum p-value was below the Bonferroni corrected significance threshold.
+These measures (max p value, together with Bonferroni correction, considering 6 lymph nodes each with 2 different thresholds) allowed for maximal protection against false positives, meaning that all the reported outcomes had been consistent over all samples and with highly significant performances.
+Together with statistical tests, we wanted to evaluate a further metric, the median distance to the nearest cell of and from each specific population ( , Figs S8-S10 Figs.), in order to provide further information.
+
+## Overlap
+We start by defining an interaction radius for each cell, by drawing this imaginary interaction circle, centered on every cell, so we can quantify spatial neighboring through increasing shared area between interaction circles of neighboring cells, where the closer the cells, the higher the overlapping area. Therefore if we use r = 22 pixels (10 µm at 0.45 µm/pixel) as interaction radius, two cells will interact if they are closer than 1 diameter (44 pixels or 20 µm), since both cells have a circle of πr2 around them), with a possible overlap going theoretically from 0 up to 100% (where upper limit is never reachable due to cell impossibility to compenetrate each other).
+Lastly, we can build our own statistical overlapping test, by considering the chance of a pixel (i.e., an infinitesimal element of areaI) being hit by an interaction circle of a cell as: a bernoulli event with success probability p given by: p= a/A, where a is the area of the interaction circle (πr2 with r = 44 pixels or 22 pixels, depending on the used threshold) and A is the total area of the available tissue (computed by measuring total interacting area covered by cells from the same sample).
+Since a<<A we can ignore border effects on A and cell sizes, and now for each cell type pair (i,j) we can do the following:
+Iff j = i:
+-draw an interaction circle of area a for every cell of type i;
+-measure oi as the how many pixels are hit by at least 2 interaction circles;
+-compare oi with its asymptotic distribution under the null hypothesis, i.e. oTHi= binomial(n = ni, p = a/A, k > 1) / binomial(n = ni, p = a/A, k > 0), measurable using bootstrap methods, to estimate how likely would be for random cells to overlap as much as the observed ones for population i.
+Iff j ≠ i:
+-draw an interaction circle for every cell of type i, and for type j;
+-define population areas ai and aj as all pixels hit by at least 1 cell of population i (or j);
+-measure oij = |ai
+⋂ aj | / |ai
+⋃ aj |;
+-compare with binomial(n = min(ni,nj), p = max(ai,aj)/A, k> oijmin(ni,nj)).
+By doing so, it is possible to estimate which cell types significantly overlap their interaction areas, and therefore are consistently neighboring with higher intensity than random.
+
+## Fisher significance test
+Without elaborating in detail about a well-known test, we wish to highlight the difference between the Fisher test and the overlap method.
+In the Fisher statistical test, we simply split cells in near cells and far cells, based on the selected distance threshold. Therefore there is no different contribution between two cells with different distances, as long as they are both within the threshold, or both outside the same.
+What we are obtaining with the Fisher test is the odds ratio, or rather the ratio among the proportion inside and the proportion outside the neighborhood. So for a cell population which has 20% of its neighboring cells as B cells, while outside its neighborhoods there is a proportion of 5% B cells, it will result in an odds ratio of 20% / 5% = 4.
+Since this measure can grow from 1 to infinity due to significant enrichments, but only span from 1 to 0 due to significant absences, it is used to symmetrize this by taking the logarithm of the odds ratios, resulting in a measure that goes from negative infinity up to positive infinity, with 0 as neutral (nor enriched nor absent population).
+
+## Distance
+We further investigated cell interactions by taking another quantitative measure: the median distance from the nearest cell of a given type.
+This measure has not an associated statistical test, therefore its only purpose was to quantify how far is usually the nearest cell of type B when we start from a cell of type A, and this is what is reported in S10 Fig.
+
+## Significance of zonal distribution of cell subsets across zones
+The cell number and the zonal location for each cell type were computed. The “interstitial” type of distribution, not specific for a single LN zone, was not informative and therefore not included in the analysis from the regional point of view, but its cells were used for all enrichment tests as part of the “outside region” cells.
+For each pair of region and cell type, a fisher test was conducted and results were aggregated as previously done for neighborhood tests: average odds ratios among different samples, consider as significant only those having consistently the same sign (always enriched or always depleted) with a max p value across samples lower than bonferroni corrected significance threshold. This allowed for the maximum possible control of false positives, stating as significant only cell types which were consistently and heavily enriched/depleted over the same region. Sample averaged significant odds ratios can be observed in .
+In order to further explore all available information, 2 more simple quantitative analyses were conducted: cell type relative distribution over available region, and average regional composition in terms of present cell types. Both can be observed in . These analyses, even if not statistically validated, offer a view over cell types predisposition to occupy or not certain regions and viceversa, and combined with the enrichment test they provide a more complete information.
+
+## Supporting information
+S1 File
+
+## Supplementary figures.
+(PDF)
+S1 Table
+
+## Clinicopathologic data of the patients and samples.
+(XLSX)
+S2 Table
+
+## Primary and secondary antibody table.
+(XLSX)
+S3 Table
+
+## Cell classification of whole LN and TMA cores with BRAQUEglobal (BRAQUE1).
+(XLSX)
+S4 Table
+
+## Criteria to group cell types classified by BRAQUE1 for BRAQUE2 analysis.
+(XLSX)
+S5 Table
+
+## Comprehensive granular classification of LN cells (BRAQUE1).
+(XLSX)
+S6 Table
+
+## Antibody list and subpanel allocations.
+(XLSX)
+S7 Table
+
+## Cluster classification: all clusters for whole LNs.
+(XLSX)
+S8 Table
+
+## Comprehensive catalog of cell types.
+(XLSX)
+S9 Table
+
+## Neighborhood relationship between cell types.
+(XLSX)
+S10 Table
+
+## Overlap between cell types.
+(XLSX)
+S11 Table
+
+## List of cases in which TCF7 + PAX5 + cells are found.
+(XLSX)
+S12 Table
+
+## Spatial frequency allocation of cell types.
+(XLSX)
+S13 Table
+
+## Presence of Fairy Circles in whole LN sections and 2 mm TMA cores, with clinicopathologic data.
+(XLSX)
+S14 Table
+
+## Definitions and description of LN anatomical zones.
+(XLSX)
+S15 Table
+
+## Comparison of cell segmentation with CyBorgh or CellPose2.
+(XLSX)
+S16 Table
+
+## Comparison of cell clustering by BRAQUE on a TMA core with noise.
+(XLSX)
+S17 Table
+
+## Effect of Ab panel variations on the cell classification on two whole LN, UPN107 and UPN108.
+(XLSX)
+S18 Table
+
+## Comprehensive granular classification of LN cells.
+(XLSX)
+S19 Table
+
+## Harmonized subsets by broad cell types.
+(XLSX)
+
+We wish to thank Ulf Klein (School of Medicine, University of Leeds, UK), William Vermi and Silvia Lonardi (UNIBS, Brescia, Italy) for a critical review and suggestions, Cecilia Dominguez-Conde and Altea Gjurgjaj (Human Technopole, Milan, Italy) for help with data integration, Bachir Alobeid (Columbia U., USA), Carlo Parravicini (Ospedale L. Sacco, Milan, Italy), Asier Antoranz-Martinez, Lukas Marcelis, Thomas Tousseyn and Johanna Vets (KUL, Leuven, Belgium) for help in the early phase of this research.
+ 10.1371/journal.pone.0346693.r001Author response to Decision Letter 0
+Submission Version0
+
+## Transfer Alert
+This paper was transferred from another journal. As a result, its full editorial history (including decision letters, peer reviews and author responses) may not be present.
+
+28 Nov 2025
+
+10.1371/journal.pone.0346693.r002Decision Letter 0
+Cunninghame GrahamDeborahAcademic Editor© 2026 Deborah Cunninghame GrahamDeborah Cunninghame Graham2026Deborah Cunninghame GrahamDeborah Cunninghame Grahamhttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version0
+2 Feb 2026
+
+Dear Dr. Cattoretti,
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+plosone@plos.org. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+
+A letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: https://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols. Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at . Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at . Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at . Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols....
+We look forward to receiving your revised manuscript.
+Kind regards,
+Deborah S. Cunninghame Graham
+Academic Editor
+PLOS One
+Journal Requirements:
+When submitting your revision, we need you to address these additional requirements.
+1. Please ensure that your manuscript meets PLOS ONE's style requirements, including those for file naming. The PLOS ONE style templates can be found at
+https://journals.plos.org/plosone/s/file?id=wjVg/PLOSOne_formatting_sample_main_body.pdf and
+
+https://journals.plos.org/plosone/s/file?id=ba62/PLOSOne_formatting_sample_title_authors_affiliations.pdf
+
+2. Please provide additional details regarding participant consent. In the ethics statement in the Methods and online submission information, please ensure that you have specified (1) whether consent was informed and (2) what type you obtained (for instance, written or verbal, and if verbal, how it was documented and witnessed). If your study included minors, state whether you obtained consent from parents or guardians. If the need for consent was waived by the ethics committee, please include this information.
+If you are reporting a retrospective study of medical records or archived samples, please ensure that you have discussed whether all data were fully anonymized before you accessed them and/or whether the IRB or ethics committee waived the requirement for informed consent. If patients provided informed written consent to have data from their medical records used in research, please include this information.
+3. Thank you for stating the following financial disclosure:
+“Regione Lombardia POR FESR 2014–2020, Call HUB Ricerca ed Innovazione: ImmunHUB. (GCat and MMB)
+EU Horizon 2020 programme (GenoMed4All project #101017549, HARMONY and HARMONY-PLUS project #116026) (GCast)
+The AIRC Foundation (Associazione Italiana per la Ricerca contro il Cancro; Milan, Italy; projects #26216. (GCast)
+KUL INTERNE FONDSEN MIDDEL-Zware infrastructuren EMH-D8191-AKUL/19/30 I005920N (FMB)
+FWO Fundamenteel Klinisch Mandaat EMH-D8972-FKM/20. (FMB)
+The National Recovery and Resilience Plan (NRRP), Mission 4 Component 2 Investment 1.4 - Call for tender No. 3138 of 16 December 2021, rectified by Decree n.3175 of 18 December 2021 of Italian Ministry of University and Research funded by the European Union – NextGenerationEU; Project code CN_00000033, Concession Decree No. 1034 of 17 June 2022 adopted by the Italian Ministry of University and Research, CUP B83C2200293000 , Project title “National Biodiversity Future Center - NBFC”. (MMB)”
+Please state what role the funders took in the study.  If the funders had no role, please state: "The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript."
+If this statement is not correct you must amend it as needed.
+Please include this amended Role of Funder statement in your cover letter; we will change the online submission form on your behalf.
+4. Please be informed that funding information should not appear in the Acknowledgments section or other areas of your manuscript. We will only publish funding information present in the Funding Statement section of the online submission form. Please remove any funding-related text from the manuscript.
+5. If the reviewer comments include a recommendation to cite specific previously published works, please review and evaluate these publications to determine whether they are relevant and should be cited. There is no requirement to cite these works unless the editor has indicated otherwise.
+6. Please review your reference list to ensure that it is complete and correct. If you have cited papers that have been retracted, please include the rationale for doing so in the manuscript text, or remove these references and replace them with relevant current references. Any changes to the reference list should be mentioned in the rebuttal letter that accompanies your revised manuscript. If you need to cite a retracted article, indicate the article’s retracted status in the References list and also include a citation and full reference for the retraction notice.
+Additional Editor Comments (if provided):
+The manuscript needs minor revisions - as laid out in the comments by reviewer 2. Please can you ensure that you clarify which findings the authors consider the most biologically significant, and how these results relate to prior knowledge or to findings from alternative approaches such as scRNA-seq or spatial transcriptomics.
+Major comments:
+Given the large number of cell types defined, it would be helpful to clarify whether each represents a biologically distinct population or whether some reflect minor variations around an individual baseline phenotype.
+For each cell type, could the authors quantify inter-individual variability in spatial localisation across lymph nodes? In particular, Fig. 11 suggests substantial differences in the localisation of distinct dendritic cell subsets between samples. However, it is unclear to what extent this reflects true biological variability versus differences arising from the plane of tissue sectioning.
+For cell types not previously described, or not previously described in situ, could the authors further validate these populations? For example, this could include staining adjacent sections from the same lymph nodes with additional markers, examining lymph nodes from additional donors, or identifying analogous populations in previously published datasets.
+Throughout the manuscript, the authors could more clearly relate their findings to previous studies of human lymph nodes and clarify how the cell types they define correspond to those described in other work. Several groups have mapped lymph node cell populations using approaches such as scRNA-seq and spatial transcriptomics, each with distinct strengths and limitations. A more explicit comparison would help readers understand which aspects of lymph node biology are best resolved by multiplexed immunofluorescence versus transcriptomic methods, and where the results are concordant or divergent.
+How did the authors decide which clusters to group together into a single cell type? How much phenotypic variability exists among the clusters grouped into each cell type, and how can one be confident that these represent a single biological population rather than a mixture of related but distinct cell types?
+How much inter-individual variability was observed in cellular neighbourhoods, and is this variability accounted for statistically? Which neighbourhood relationships were highly consistent across donors, and which appeared donor-specific?
+Minor comments:
+Not all figures are referenced in order in the text.
+HDBSCAN appears to identify a large number of very small clusters (e.g. for myeloid cells in Fig. 2D). How should these small clusters be interpreted biologically? By how many markers do these clusters typically differ, and how sensitive are the results to the choice of clustering algorithm or parameters?
+Did you identify any association between, for example age, and cell type frequency?
+Table 2 and 3 – how were the markers chosen for CD4 and CD8 classification (e.g. TCF7, FOXP3, TIM3, PD1, CD137, Ki67)? Clarifying this rationale would improve reproducibility and interpretability.
+The cluster labels in Fig. 3 align with those in Fig. 4. However, the strategy for defining these cell types using TCF7 in combination with FOXP3, checkpoint molecules, and Ki67 is not described in the text until later (when introducing Fig. 4) – this is confusing for the reader.
+Line 269-270 – the authors describe effector cells as progenitor exhausted (Tpex). Given that this is a healthy human LN cohort, would one expect Tpex cells to be present at such frequencies? If so, additional discussion or justification would be helpful.
+Line 373-374 – given that some CD5⁺ subsets lack canonical B cell markers, how can their B cell identity be confirmed (for cells not expressing IgD)? Is it possible that some of these clusters represent mixed populations?
+Line 515 – given that ILC3s are reported in situ, could the authors validate the localisation of this population by staining adjacent sections with additional ILC3 markers, or by comparison with published spatial datasets?
+[Note: HTML markup is below. Please do not edit.]
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+1. Is the manuscript technically sound, and do the data support the conclusions?
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+2. Has the statistical analysis been performed appropriately and rigorously? -->?>
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+3. Have the authors made all data underlying the findings in their manuscript fully available??>
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.-->
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+4. Is the manuscript presented in an intelligible fashion and written in standard English??>
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+Reviewer #1: This paper serves as a comprehensive resource. The authors compiled a geographical atlas of the normal human lymph node by staining sections from 19 lymph nodes with a 78-marker antibody panel and analyzing the data using the BRAQUE pipeline. The lymph nodes were considered normal based on their small size and the absence of pathological features.
+Both the MILAN staining method—which involves multiple cycles of staining and stripping—and the BRAQUE bioinformatic pipeline were validated. The antibody panel included markers of cell differentiation, chemokine receptors, and transcription factors.
+In total, 77 distinct cell types were identified, including T cells, B cells, dendritic cells, innate immune cells, and stromal cells. Their spatial localization within the major, well-defined lymph node compartments was described.
+Single-cell RNA sequencing technologies have shown that cells with similar phenotypes can exhibit different functional states, leading to the identification of novel cellular populations. This atlas provides a framework to investigate these populations in situ, and their relative distribution within lymph nodes may help elucidate their functional roles in vivo, within the tissue where immune responses occur.
+The paper is complex, but the extensive figures and tables presented in both the main text and supplementary materials are essential for data completeness and for facilitating reuse by other researchers.
+Reviewer #2: Summary:
+The authors use a high-dimensional cyclic immunofluorescence approach, specifically MILAN, to study cell populations and their spatial organisation in healthy human lymph nodes. Overall the paper is comprehensive and provides a rich and useful resource. However, it is not immediately clear which findings the authors consider the most biologically significant, nor how the results relate to prior knowledge or to findings from alternative approaches such as scRNA-seq or spatial transcriptomics.
+Major comments:
+Given the large number of cell types defined, it would be helpful to clarify whether each represents a biologically distinct population or whether some reflect minor variations around an individual baseline phenotype.
+For each cell type, could the authors quantify inter-individual variability in spatial localisation across lymph nodes? In particular, Fig. 11 suggests substantial differences in the localisation of distinct dendritic cell subsets between samples. However, it is unclear to what extent this reflects true biological variability versus differences arising from the plane of tissue sectioning.
+For cell types not previously described, or not previously described in situ, could the authors further validate these populations? For example, this could include staining adjacent sections from the same lymph nodes with additional markers, examining lymph nodes from additional donors, or identifying analogous populations in previously published datasets.
+Throughout the manuscript, the authors could more clearly relate their findings to previous studies of human lymph nodes and clarify how the cell types they define correspond to those described in other work. Several groups have mapped lymph node cell populations using approaches such as scRNA-seq and spatial transcriptomics, each with distinct strengths and limitations. A more explicit comparison would help readers understand which aspects of lymph node biology are best resolved by multiplexed immunofluorescence versus transcriptomic methods, and where the results are concordant or divergent.
+How did the authors decide which clusters to group together into a single cell type? How much phenotypic variability exists among the clusters grouped into each cell type, and how can one be confident that these represent a single biological population rather than a mixture of related but distinct cell types?
+How much inter-individual variability was observed in cellular neighbourhoods, and is this variability accounted for statistically? Which neighbourhood relationships were highly consistent across donors, and which appeared donor-specific?
+Minor comments:
+Not all figures are referenced in order in the text.
+HDBSCAN appears to identify a large number of very small clusters (e.g. for myeloid cells in Fig. 2D). How should these small clusters be interpreted biologically? By how many markers do these clusters typically differ, and how sensitive are the results to the choice of clustering algorithm or parameters?
+Did you identify any association between, for example age, and cell type frequency?
+Table 2 and 3 – how were the markers chosen for CD4 and CD8 classification (e.g. TCF7, FOXP3, TIM3, PD1, CD137, Ki67)? Clarifying this rationale would improve reproducibility and interpretability.
+The cluster labels in Fig. 3 align with those in Fig. 4. However, the strategy for defining these cell types using TCF7 in combination with FOXP3, checkpoint molecules, and Ki67 is not described in the text until later (when introducing Fig. 4) – this is confusing for the reader.
+Line 269-270 – the authors describe effector cells as progenitor exhausted (Tpex). Given that this is a healthy human LN cohort, would one expect Tpex cells to be present at such frequencies? If so, additional discussion or justification would be helpful.
+Line 373-374 – given that some CD5⁺ subsets lack canonical B cell markers, how can their B cell identity be confirmed (for cells not expressing IgD)? Is it possible that some of these clusters represent mixed populations?
+Line 515 – given that ILC3s are reported in situ, could the authors validate the localisation of this population by staining adjacent sections with additional ILC3 markers, or by comparison with published spatial datasets?
+**********
+what does this mean?). If published, this will include your full peer review and any attached files.). If published, this will include your full peer review and any attached files.). If published, this will include your full peer review and any attached files.). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our For information about this choice, including consent withdrawal, please see our For information about this choice, including consent withdrawal, please see our For information about this choice, including consent withdrawal, please see our Privacy Policy..-->
+Reviewer #1: Yes: Rita CarsettiRita CarsettiRita CarsettiRita Carsetti
+Reviewer #2: No
+**********
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+To ensure your figures meet our technical requirements, please review our figure guidelines: https://journals.plos.org/plosone/s/figures
+You may also use PLOS’s free figure tool, NAAS, to help you prepare publication quality figures: https://journals.plos.org/plosone/s/figures#loc-tools-for-figure-preparation.
+NAAS will assess whether your figures meet our technical requirements by comparing each figure against our figure specifications.
+10.1371/journal.pone.0346693.r003Author response to Decision Letter 1
+Submission Version1
+12 Feb 2026
+
+Additional Editor Comments (if provided):
+The manuscript needs minor revisions - as laid out in the comments by reviewer 2. Please can you ensure that you clarify which findings the authors consider the most biologically significant, and how these results relate to prior knowledge or to findings from alternative approaches such as scRNA-seq or spatial transcriptomics.
+*- The Reviewers and the Editor made significant comments and observations, which we truly appreciated.
+Major comments:
+Given the large number of cell types defined, it would be helpful to clarify whether each represents a biologically distinct population or whether some reflect minor variations around an individual baseline phenotype.
+*- Our study is phenotypic and not functional, as stated in lines 143-144 (initial submission): “... We here provide a granular purely phenotypic classification…..”. The chosen markers have been historically selected to represent phenotypic traits (CD4, CD8, CD27, etc.) useful for classification of biological entities, however the boundaries between pure phenotypic and functional biological markers (CD25, Ki-67, bcl-2, etc.) are blurred. Hence the need of a more precise nomenclature, which is a general need: see Comet, N. R. & Gerlach, C.[1] : “The T cell subsetting challenge”.
+As per the variations, BRAQUE clusters classification is based on the statistical relevance of markers, not on the staining intensity and the variations may be a mix of biology and technicalities.
+For each cell type, could the authors quantify inter-individual variability in spatial localization across lymph nodes? In particular, Fig. 11 suggests substantial differences in the localization of distinct dendritic cell subsets between samples. However, it is unclear to what extent this reflects true biological variability versus differences arising from the plane of tissue sectioning.
+*- These are indeed very poignant points.
+Re: quantify individual variability; quantification of this variability is shown by the third column in Tables 2-6 (“Location (% of cells)”) and Table S17, S18, S20, where the percentage of cells located in discrete anatomical regions is listed.
+Re: Biological variability vs the plane of tissue sectioning; all the LN sections we examined are leftovers, part of a clinical diagnostic procedure where the small specimens are sectioned along planar major axis, in order for the section to be representative. They are also small and judged devoid of pathological features by the pathologist in charge of the clinical diagnosis. Despite this, there is obvious heterogeneity which we interpreted as true biological variability, rather than sampling errors. We tried to correct for this variability by:
+- Analyzing the whole section
+- Considering only cell types or structures (e.g. Fairy Circles) present in at least two LN
+- Considering neighborhood and cell overlap values only if statistically significant in all LN examined and measured on both 10µm and 20µm distance radius (see Figs S8 and S9).
+Thus, our results may be a conservative representation of the biological variability existing in LN considered “normal”. The localization of each individual cluster in spatially-defined LN structures (see Table S15), allows to estimate this variability.
+2D sections have limitations, as Reviewer #2 points out. 3D multiplex staining and analysis[2] is the ideal technique, however, as per the wording of Yapp et al. “The 3D tissue imaging is unlikely to be a replacement for 2D approaches, particularly in translational research involving large sets of specimens, because 3D imaging is harder to perform, generates larger datasets and is not directly compatible with existing histopathology work-flows. Instead, 3D data are likely to be most useful for detailed and precise study of a more limited number of samples.”
+For cell types not previously described, or not previously described in situ, could the authors further validate these populations? For example, this could include staining adjacent sections from the same lymph nodes with additional markers, examining lymph nodes from additional donors, or identifying analogous populations in previously published datasets.
+*- Overall, five cell types out of 77 (6.4%; CD7/23/GZMB Myelo, GZMB+, Act Macs, PU1 cMAF, perifollicular stroma) have not been described before. Cell types not previously described or located are reported only if present in several LN.
+For the remaining cell types, we referenced previously published analogous populations in each table in the last column on the right. We tried to limit the number of quoted references to the essential from a very very large body of knowledge, and we apologize if we missed key quotes.
+By which factor would an increase of sample number, either TMAs or whole sections, substantially add to the present data to further validate these populations?
+The markers chosen are i) validated for FFPE use, ii) with the most differential expression (with limits; see Fig. S1D), iii) redundant for cell identification. Additional markers, assuming that there are FFPE-proof validated Ab available, will necessarily require to be stained in multiplexing with at least >60 diagnostic antibodies and the value of these additions may be worth for one cell type at a time only. Not to mention the magnitude of such an effort.
+Throughout the manuscript, the authors could more clearly relate their findings to previous studies of human lymph nodes and clarify how the cell types they define correspond to those described in other work.
+*- See our comment above
+Several groups have mapped lymph node cell populations using approaches such as scRNA-seq and spatial transcriptomics, each with distinct strengths and limitations. A more explicit comparison would help readers understand which aspects of lymph node biology are best resolved by multiplexed immunofluorescence versus transcriptomic methods, and where the results are concordant or divergent.
+*- We are aware of the growing list of groups who have mapped lymph node cell populations using approaches such as scRNA-seq and spatial transcriptomics.
+As soon as we established our LN cell classification, we reached out to the lab of Cecilia Dominguez-Conde, the leading Author of reference Science papers[3, 4]. We attempted to perform mosaic integration[5] of our data with scRNAseq or CITE-seq data from the LN samples in her dataset; we obtained inconclusive results (besides the integration of the broad usual cell types), because of the difficulties in matching the level of depth of the annotation in each datasets and the limited number of cells available for comparison (a known magnitude difference between single cell suspension and in-situ datasets). She is acknowledged in the ms.
+We then screened ~170 papers analyzing SLOs (mouse + humans) with single cell technologies, selecting a dozen specifically dealing with human LN and using either one or both of CITE-seq, spatial transcriptomics (CosMx SMI, Visium, Nanostring) and spatial proteomics (IBEX, CODEX)[3, 4, 6-15]. We also reviewed a few significant papers using scRNA-seq on SLOs. [16-20].
+What we noticed is:
+Most papers (with few exceptions[6-8]) produce a <50 cell type classification, way too coarse for a meaningful comparison with our data.
+None of the high-classificators (≥50) match the granularity of our data e.g. on T cells or B cell subsets. The most glaring examples are a Tonsil cell atlas[7] (121 cell types) and a NSCLC LN classification paper[6] (50 cell types), which have CD5 in the ADT CITE-seq panel and fail to identify CD5+ B cell, CD5+ dendritic cell subsets and other subsets.
+A paper dedicated to “conventional” scRNA-seq analysis of B-cell development[20] (18 B-cell types) fails to identify the B1 cells we describe and are reported by a paper using CITE-seq[4].
+Multiple papers note that proteomic data such as CITE-seq are necessary if not obligatory to classify human cells[6, 9, 14, 21, 22].
+That mRNAs and proteins can be used interchangeably for cell classification is dubious at best[10, 21-28].To quote one of these papers[22] “Previous studies have revealed poor mRNA–protein correlation in T cells regardless of functional status and the importance of post-transcriptional regulation in T cell differentiation and function. .. These results underscore the importance of directly defining the proteome rather than inferring it from the transcriptome.”
+A recent example of measurement of RNAs and proteins in single neurons[29] states that”... We document extensive transcriptome–proteome discordance across cell types, particularly in genes associated with neurodevelopmental disorders. Proteins exhibit markedly higher cell-type specificity than their mRNA counterparts, underscoring the importance of proteomic-level analysis.”
+We believe that the burden of the proof for the ability to classify cells is on transcriptomics and not on proteomic methods, which represent the benchmark on which to validate other assays.
+How did the authors decide which clusters to group together into a single cell type? How much phenotypic variability exists among the clusters grouped into each cell type, and how can one be confident that these represent a single biological population rather than a mixture of related but distinct cell types?
+*- The rationale for designing BRAQUE is “the idea that merging similar clusters is easier than splitting unclear ones into clear subclusters.”[30]. As described in the M&M section, we proceeded by merging clusters which i) were similar by phenotype (although each characterizing marker would be ranked differently in each cluster), ii) correspond to a phenotype already described in the literature, iii) had a consistent space allocation. This was done manually and over multiple rounds of sub-clustering. The cell type-defining markers and their frequency is reported in three columns in the tables. This process has been described in a recent publication[31] (see ibid Chapter 2.12). Differently from conventional flow-cytometry and imaging techniques, dimensionality reduction algorithms dispose of gating[32]; we used i) pure statistical probability that a marker contributes to define a cluster, ii) its effect factor, a proxy of signal intensity, iii) a plot of the indicized marker distribution curve in the cluster, compared to the whole sample, for a few canonical markers[30]. Negative markers are not used in these algorithms, although BRAQUE provides a ranking of the most NOT-statistically relevant markers.
+Note that HDBSCAN/BRAQUE allocate statistically uninterpretable phenotypes in a special group (named -1) which we discarded.
+The expression of each marker inside a single cluster may vary not only because of biological variability but also because of technical factors (segmentation, section thickness, etc.). Keep in mind that we i) batch processed the slides[33] for staining and ii) used saturating staining conditions[34] in order to minimize variability due to staining.
+We took the expression of literature-published, lineage-defining, redundant markers in each cluster to assign each one to a cell type. The process was done on the whole sample first (BRAQUEglobal, see Table S16) and subsequently on broad cell types (BRAQUEsubclass), as per the manuscript. We took a conservative approach and kept the established phenotypes as a reference as much as possible.
+The data showing the variability are reported in Tables 1-7 and Tables S4, S16, S18 and S19. Look for the columns reporting markers frequency in cell type-defined clusters or by cell type-defined numbers (Table S18). The tables also report the number of clusters and the total number of cells per each cell type. The phenotype of individual clusters for BRAQUEsubclass are available in Table S15.
+As per the hypothesis of cell type mixtures, read here below.
+The explosion in granularity that BRAQUE produces makes us believe that none of the clusters represent a mixed population. This Reviewer however may mean “mixed signals” population, i.e. signal bleeding from nearby cells.
+Hyperplexed staining literature data on dense lymphoid tissue show that about a quarter (25.55%) of the cells are spurious doublets because of crossbleeding and this number can be somewhat lowered (18.93%) by using an image preprocessing algorithm (REDSEA[35]). Another example of failure to reduce the number of spurious double-phenotype cells, despite improvement in segmentation and analysis, can be found in Hunter, B. et al.[36]. A recent paper[37] proposes a laborious image pre-processing set of actions, leading to a reduction of such spurious cell identification. This process also significantly reduces the identification of small subpopulations (ibid Fig S3).
+Cyborgh segmentation + BRAQUE somehow solve the problem altogether: spurious CD4/CD8 “cells” account for 0.4% ±1.4% (n=14) (Table S3). These data shows that even if the segmentation may not be optimal, the BRAQUE algorithm is able to counterweigh the neighboring cell contribution more efficiently than a pre-processing like REDSEA or ImmuneCite.
+It has been published that admixture of stromal and endothelial cells cause the greatest disagreement with ground-truth annotation with sophisticated pipelines such as STELLAR[38]. This does not seem to be our case, given the ability of CyBorgh+BRAQUE to resolve neighboring cells as shown in Fig.S12. See also how BRAQUE dissects stromal cells in a LN database stained and segmented by the source (CODEX; [31]).
+In other words, the lognormal shrinkage preprocessing that BRAQUE does, coupled by the statistical-based relevance assigned to each marker’s signal, accomplish what has been proposed for in situ transcriptomics to correct for mis-segmentation[39]. The limitation is obviously due to the technique, as incoming reports on spatial transcriptomics also show[39].
+The results we obtained disappointingly fail to identify subtler phenotypic subtypes of established entities, as this Reviewer may suggest, despite producing the largest number of cell types described so far in-situ in a secondary lymphoid organ.
+How much inter-individual variability was observed in cellular neighbourhoods, and is this variability accounted for statistically? Which neighbourhood relationships were highly consistent across donors, and which appeared donor-specific?
+*- The criteria to define neighborhood across multiple samples are very conservative: data must be i) statistically significant AND ii) significant in all the samples hosting that cell type. These criteria exclude donor-specific data. Note that the neighborhood was measured on both 10µm and 20µm distance radius (see Figs S8 and S9), excluding spurious results.
+Minor comments:
+Not all figures are referenced in order in the text.
+*- We double checked the observation of this Reviewer, but it seems that the correct order of figure quotation is maintained. What may cause confusion is the place of insertion of the main figures in the text, but this is a submitting necessity and not the final layout.
+HDBSCAN appears to identify a large number of very small clusters (e.g. for myeloid cells in Fig. 2D). How should these small clusters be interpreted biologically? By how many markers do these clusters typically differ, and how sensitive are the results to the choice of clustering algorithm or parameters?
+*- Part of these questions have been answered above. As per the last question, we show data in which we used Seurat for clustering (Fig S13) and produce comparable data to BRAQUEglobal (Fig S13C). Outputs as heatmaps as Seurat (and Histocat; not shown) do rely on the human eye perception for marker allocations, which has been shown already to be subjective[40]. We have also shown[30] that Phenograph clustering produces inferior results. See also our reply above about biological variability.
+Did you identify any association between, for example age, and cell type frequency?
+*- We do not have a sufficient age range and samples per range to investigate this.
+Table 2 and 3 – how were the markers chosen for CD4 and CD8 classification (e.g. TCF7, FOXP3, TIM3, PD1, CD137, Ki67)? Clarifying this rationale would improve reproducibility and interpretability.
+*- The rationale for T-cell classification
+AttachmentSubmitted filename: PONE-D-25-63676 Reviewers comments.docx
+10.1371/journal.pone.0346693.r004Decision Letter 1
+Cunninghame GrahamDeborahAcademic Editor© 2026 Deborah Cunninghame GrahamDeborah Cunninghame Graham2026Deborah Cunninghame GrahamDeborah Cunninghame Grahamhttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version1
+24 Mar 2026
+
+The normal human lymph node cell classification and landscape defined by high-dimensional spatial proteomic
+PONE-D-25-63676R1
+Dear Dr. Cattoretti,
+We’re pleased to inform you that your manuscript has been judged scientifically suitable for publication and will be formally accepted for publication once it meets all outstanding technical requirements.
+Within one week, you’ll receive an e-mail detailing the required amendments. When these have been addressed, you’ll receive a formal acceptance letter and your manuscript will be scheduled for publication.
+An invoice will be generated when your article is formally accepted. Please note, if your institution has a publishing partnership with PLOS and your article meets the relevant criteria, all or part of your publication costs will be covered. Please make sure your user information is up-to-date by logging into Editorial Manager at Editorial Manager® and clicking the ‘Update My Information' link at the top of the page. For questions related to billing, please contact  and clicking the ‘Update My Information' link at the top of the page. For questions related to billing, please contact  and clicking the ‘Update My Information' link at the top of the page. For questions related to billing, please contact  and clicking the ‘Update My Information' link at the top of the page. For questions related to billing, please contact billing support....
+If your institution or institutions have a press office, please notify them about your upcoming paper to help maximize its impact. If they’ll be preparing press materials, please inform our press team as soon as possible -- no later than 48 hours after receiving the formal acceptance. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information, please contact onepress@plos.org.
+Kind regards,
+Deborah S. Cunninghame Graham
+Academic Editor
+PLOS One
+Additional Editor Comments (optional):
+Thank you for submitting your revision. All the reviewer's comments have been addressed - so I recommend acceptance of the manuscript.
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+Reviewer #1: All comments have been addressed
+Reviewer #2: All comments have been addressed
+**********
+2. Is the manuscript technically sound, and do the data support the conclusions??>
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+3. Has the statistical analysis been performed appropriately and rigorously? -->?>
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+4. Have the authors made all data underlying the findings in their manuscript fully available??>
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.-->
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+5. Is the manuscript presented in an intelligible fashion and written in standard English??>
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+Reviewer #1: This paper provides a valuable resource for the study of the human lymph node. The authors' revisions in response to the reviewers' comments have added useful details and improved the precision of the work.
+Reviewer #2: (No Response)
+**********
+what does this mean?). If published, this will include your full peer review and any attached files.). If published, this will include your full peer review and any attached files.). If published, this will include your full peer review and any attached files.). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our For information about this choice, including consent withdrawal, please see our For information about this choice, including consent withdrawal, please see our For information about this choice, including consent withdrawal, please see our Privacy Policy..-->
+Reviewer #1: Yes: Rita CarsettiRita CarsettiRita CarsettiRita Carsetti
+Reviewer #2: No
+**********
+10.1371/journal.pone.0346693.r005Acceptance letter
+Cunninghame GrahamDeborahAcademic Editor© 2026 Deborah Cunninghame GrahamDeborah Cunninghame Graham2026Deborah Cunninghame GrahamDeborah Cunninghame Grahamhttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.PONE-D-25-63676R1
+PLOS One
+Dear Dr. Cattoretti,
+I'm pleased to inform you that your manuscript has been deemed suitable for publication in PLOS One. Congratulations! Your manuscript is now being handed over to our production team.
+At this stage, our production department will prepare your paper for publication. This includes ensuring the following:
+* All references, tables, and figures are properly cited
+* All relevant supporting information is included in the manuscript submission,
+* There are no issues that prevent the paper from being properly typeset
+You will receive further instructions from the production team, including instructions on how to review your proof when it is ready. Please keep in mind that we are working through a large volume of accepted articles, so please give us a few days to review your paper and let you know the next and final steps.
+Lastly, if your institution or institutions have a press office, please let them know about your upcoming paper now to help maximize its impact. If they'll be preparing press materials, please inform our press team within the next 48 hours. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information, please contact onepress@plos.org.
+You will receive an invoice from PLOS for your publication fee after your manuscript has reached the completed accept phase. If you receive an email requesting payment before acceptance or for any other service, this may be a phishing scheme. Learn how to identify phishing emails and protect your accounts at https://explore.plos.org/phishing.
+If we can help with anything else, please email us at customercare@plos.org.
+Thank you for submitting your work to PLOS ONE and supporting open access.
+Kind regards,
+PLOS ONE Editorial Office Staff
+on behalf of
+Dr. Deborah S. Cunninghame Graham
+Academic Editor
+PLOS One

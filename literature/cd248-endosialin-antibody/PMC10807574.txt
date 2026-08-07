@@ -1,0 +1,145 @@
+pmcCancer MedCancer Med1974canmedCAM4Cancer Medicine2045-7634WileyPMC10807574PMC10807574.110807574108075743816890710.1002/cam4.6908CAM46908CAM4-2023-09-4445.R11Research ArticleResearch ArticlesAn individualized stemness‐related signature to predict prognosis and immunotherapy responses for gastric cancer using single‐cell and bulk tissue transcriptomes
+Zheng et al.ZhengLinyong ChenJingyan YeWenhai FanQi ChenHaifeng feng278990983@163.comYanHaidanhttps://orcid.org/0009-0007-5515-2051 haidan1115@fjmu.edu.cn
+
+1
+
+Fujian Key Laboratory of Medical Bioinformatics, Department of Bioinformatics, School of Medical Technology and Engineering
+Fujian Medical University
+Fuzhou
+China
+
+2
+
+Department of Gastrointestinal Surgery
+Fuzhou Second Hospital
+Fuzhou
+China
+
+3
+
+Key Laboratory of Ministry of Education for Gastrointestinal Cancer, The School of Basic Medical Sciences
+Fujian Medical University
+Fuzhou
+China
+
+*
+Correspondence
+
+Haidan Yan, Fujian Key Laboratory of Medical Bioinformatics, Department of Bioinformatics, School of Medical Technology and Engineering, Fujian Medical University, Fuzhou, China.
+Email: haidan1115@fjmu.edu.cn
+
+Haifeng Chen, Department of Gastrointestinal Surgery, Fuzhou Second Hospital, Fuzhou, China.
+Email: feng278990983@163.com
+
+03120241202413145404710.1002/cam4.v13.1e6908
+01122023
+1592023
+22122023
+030120242501202422102024© 2024 The Authors. Cancer Medicine published by John Wiley & Sons Ltd.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+## Background
+Currently, many stemness‐related signatures have been developed for gastric cancer (GC) to predict prognosis and immunotherapy outcomes. However, due to batch effects, these signatures cannot accurately analyze patients one by one, rendering them impractical in real clinical scenarios. Therefore, we aimed to develop an individualized and clinically applicable signature based on GC stemness.
+
+## Methods
+Malignant epithelial cells from single‐cell RNA‐Seq data of GC were used to identify stemness‐related signature genes based on the CytoTRACE score. Using two bulk tissue datasets as training data, the enrichment scores of the signature genes were applied to classify samples into two subtypes. Then, using the identified subtypes as criteria, we developed an individualized stemness‐related signature based on the within‐sample relative expression orderings of genes.
+
+## Results
+We identified 175 stemness‐related signature genes, which exhibited significantly higher AUCell scores in poorly differentiated GCs compared to differentiated GCs. In training datasets, GC samples were classified into two subtypes with significantly different survival times and genomic characteristics. Utilizing the two subtypes, an individualized signature was constructed containing 47 gene pairs. In four independent testing datasets, GC samples classified as high risk exhibited significantly shorter survival times, higher infiltration of M2 macrophages, and lower immune responses compared to low‐risk samples. Moreover, the potential therapeutic targets and corresponding drugs were identified for the high‐risk group, such as CD248 targeted by ontuxizumab.
+
+## Conclusions
+We developed an individualized stemness‐related signature, which can accurately predict the prognosis and efficacy of immunotherapy for each GC sample.
+
+By integrating single‐cell RNA‐Seq data and bulk tissue data, we developed a qualitative stemness‐related signature, 47 gene pairs, which can accurately predict patients' prognosis and immunotherapy responses at an individual level. This makes it applicable to real clinical scenarios and assists doctors in formulating appropriate treatment plans for gastric cancer patients. 
+
+gastric cancerimmunotherapy responsesindividualized signatureprognosisstemnessFujian Provincial Clinical Medical Research Center for First Aid and Rehabilitation in Orthopaedic Trauma2020Y2014Natural Science Foundation of Fujian Province
+10.13039/5011000033922023J01755 
+3.2
+
+## Identification of stemness‐related signature genes using scRNA‐Seq data
+The flowchart was shown in Figure  . Here, we used GC scRNA‐Seq data, GSE134520, to identify stemness‐related signature genes. First, we calculated CytoTRACE scores of malignant cells to estimate their stemness (Figure  ; Figure  ). Second, 579 genes showed positive correlation with the stemness scores were set as G
+1 (Pearson R > 0.2 and FDR <0.05), and genes upregulated in malignant cells were set as G
+2. The 175 overlapping genes between G
+1 and G
+2 were defined as stemness‐related signature genes (Figure  ; Table  ). An additional single‐cell RNA‐Seq data of GC, HRA002108, was further used to evaluate the identified signature genes (Figure  ). As shown in Figure  , the AUCell scores of these genes were positively correlated with the CytoTRACE scores, as well as the activity scores of 50 hallmark pathways, such as HYPOXIA, P53_PATHWAY, TNFA_SIGNALING_VIA_NFKB and epithelial–mesenchymal transition (EMT). Moreover, based on the pathological grade of Wang et al. the AUCell scores of poorly differentiated GC samples were significantly higher than those of differentiated GC samples (Figure  ). And the AUCell scores were positively correlated with the expression of known GC stem cell marker genes (Figure  ), including CD44, 
+CD90, 
+CXCR4, 
+DCLK1, , and ALDH1A3. , Especially for CD44, the correlation coefficient reached 0.48, and cells with larger enrichment scores had higher expressions of CD44 (Figure  ). Overall, these results laterally confirmed the reliability of our identified stemness‐related signature genes.
+
+3.3
+
+## Classify GC samples into two subtypes based on stemness‐related signature genes in training data
+Using GC samples from TCGA and GSE26942 as training data, the ssGSEA algorithm was used to quantitatively measure the enrichment scores of the signature genes of each sample. Based on the clinical information, we found that the diffuse subtype had significantly higher enrichment scores than that of the intestinal subtype (Figure  ). Previous studies have shown that enteric type has a higher degree of differentiation and a better prognosis, while diffuse type has a lower degree of differentiation and a worse prognosis, which is consistent with our results. Similarly, the death group, the recurrence group, the Grade 3 group and the distant metastasis group also had higher enrichment scores (Figure  ). In addition, the enrichment score was not affected by age or sex. Using the median value of the enrichment scores as the threshold to classify the samples into two subtypes, the result showed that maker genes of GC stem cells had significantly higher expression in the high enrichment score (high risk) group (Figure  ). Further, the high‐risk group had significantly shorter OS and RFS/DFS (Figure  ). These results were consistent with our consensus, namely, the group with higher stemness (high risk) had poorer prognosis. Overall, these results suggested that our developed stemness‐related signature genes could accurately classify GC samples into two subtypes with different degree of stemness and prognosis.
+ 
+3.4
+
+## Molecular characteristics and biological functions of GC subtypes
+First, somatic mutations in two subtypes in the TCGA cohort were investigated. Most of the highly frequent mutation genes were shared in both two subtypes, such as TP53, TTN, and MUC16 (Figure  ). Specifically, CDH1 mutation was only frequently observed in the high‐risk group. It has been reported that mutations in CDH1 are associated with GC, and its loss of function may contribute to cancer progression by increasing proliferation, invasion, and/or metastasis. Further analysis showed that tumor mutation burden (TMB) levels were significantly higher in the low‐risk group than those in the high‐risk group (Figure  ). TMB reflects the repair of DNA damage in cancer cells and is closely related to microsatellite instability (MSI). Also, we found that the proportion of microsatellite stability (MSS) in the high‐risk group was significantly higher than that in the low‐risk group (Figure  ). In addition, we analyzed two landmark GC molecular models, including TCGA and ACRG molecular classifications, in two subtypes. The TCGA molecular classification mainly includes Epstein–Barr virus, MSI, genomically stable tumors, and chromosomal instability. The proportion of genomically stable tumors subtypes in high‐risk group was significantly higher than that in low‐risk group, while the proportion of MSI and Epstein–Barr virus was lower than that in low‐risk group (Figure  ). For the ACRG molecular classification, mainly including MSS/TP53+, MSS/TP53+, MSI, and MSS/EMT, we found a significantly higher proportion of EMT subtype and a significantly lower proportion of MSI subtype in the high‐risk group (Figure  ). Previous studies have shown that the genomically stable tumors subtype and EMT subtype correspond to a worse prognosis, which was consistent with our results.
+ Next, we further analyzed the functions of two subtypes. The GSVA analysis was performed on 50 cancer hallmark pathways in two risk groups in the two training cohorts. Consistent with the above result of single‐cell RNA‐Seq, we found that cancer‐related pathways such as EMT, KRAS_SIGNALING_UP, and ANGIOGENESIS were significantly positively correlated with enrichment scores (Figure  ). Using Wilcoxon rank‐sum test with FDR <5%, 1921 and 1065 DEGs were detected between the high‐risk and low‐risk groups for TCGA and GSE26942, respectively. The two lists of DEGs shared 673 genes and the concordance score was 100%, which was unlikely to happen by chance (binomial test, all p < 2.20E‐16). Furthermore, common upregulated genes in high‐risk group were significantly enriched in tumor metastasis and stemness associated pathways, such as focal adhesion, ECM‐receptor interaction, cell adhesion molecules, TGF‐β signaling pathway, MAPK signaling pathway, and PI3K‐Akt signaling pathway (Figure  ).
+
+3.5
+
+## Develop an individualized stemness‐related signature to predict prognosis
+In real clinical scenarios, a signature that can predict prognosis of GC patients one by one is important to guide clinical treatment. The REOs of gene pairs has been reported to be robust to sample composition and measurement platforms, and has been applied to develop individually diagnostic and prognostic signature. Thus, we tried to develop a stemness‐related REO signature that can predict prognosis of GC patients one by one based on the above classified high‐risk and low‐risk subtypes in TCGA and GSE26942. First, we respectively identified 568,289 gene pairs and 446,388 gene pairs with reversal REOs between high‐risk and low‐risk groups in TCGA and GSE26942. There were 7534 overlapped gene pairs for the two datasets, and 99.48% (7495) of them had the same reversal REO patterns (binomial test, p < 2.20E‐16). Among the 7495 gene pairs, we further obtained 3212 gene pairs whose REOs were significantly associated with patient OS in the integrated data with 270 samples from TCGA and GSE26942 (FDR <0.05, univariate Cox model). These gene pairs were defined as candidate prognostic gene pairs. Then, using the forward selection procedure described in Methods section, we obtained an optimal set of 47‐gene pairs (47‐GPS), denoted as 47‐GPS, with the largest C‐index value (74%) based on the half voting rule (Table  ). The two groups classified by 47‐GPS had significantly different OS not only in the integrated data (Figure  ), but also in TCGA and GSE26942, respectively (Figure  ). The similar results were also observed when clinical factors were adjusted (Figure  ). Moreover, the high‐risk group showed higher expression of the known maker genes of GC stem cells (Figure  ; Figure  ), and had a lower degree of differentiation (Figure  ).
+ 
+3.6
+
+## Validation of the 47‐GPS in testing datasets
+The performance of the 47‐GPS was validated in four independent testing datasets measured by different laboratories and platforms (GSE13861, GSE62254, GSE15459, and GSE84437). For the pooled data from the four datasets, the high‐risk patients had significantly worse survival outcomes than low‐risk patients (Figure  ). For GSE13861 measured by GPL6884, 65 samples, with RFS information and OS information, were classified as high‐risk (30) and low‐risk (35) groups, and the two groups showed significantly different OS (Figure  ) and RFS (Figure  ). For GSE62254 and GSE15459 measured by GPL570, different OS (Figure  ) and DFS (Figure  ) were also observed between two groups. The similar result was also observed in GSE84437 measured by GPL6947 (Figure  ). The 47‐GPS was also significantly related with OS even after adjustment for clinical factors, including sex, age, grade, and M‐stage (Figure  ).
+Overall, the 47‐GPS could accurately predict prognosis outcomes even for GC patients profiled by different platforms and laboratories.
+
+3.7
+
+## The relationship between the 47‐GPS and immunotherapy
+Based on ESTIMATE, the immune score and stromal score of the sample were calculated. We found that the high‐risk group had significantly higher immune scores and stroma scores, and significantly lower tumor purity, compared with the low‐risk group (Figure  ; Figure  ). Furthermore, the high‐risk group was significantly associated with a high abundance of M2 macrophages (Figure  ; Figure  ) using CIBERSORT analysis. Meanwhile, we observed M2 polarization regulators were highly expressed in high‐risk group (Figure  ; Figure  ). These results were consistent with current reports that higher M2 cell abundance may lead to poorer outcomes. Taken together, the high‐risk group patients might be less sensitive to immunotherapy owing to the stromal and M2 macrophage‐mediated immunosuppression effects. 
+
+ Then, the immunotherapy responses of the high‐risk and low‐risk groups were assessed via TIDE algorithm. Compared with the low‐risk group, the proportion of immune resistance in the high‐risk group was significantly higher than that in the low‐risk group, indicating the resistance of the high‐risk group to immunotherapy (Figure  ; Figure  ). Simultaneously, we also used submap analysis to assess anti‐PD‐1 immunotherapy responses between high‐risk and low‐risk groups. The results demonstrated that the high‐risk patients had no response to anti‐PD‐1 immunotherapy (Figure  ; Figure  ). Consistent with the above prediction, among the three sets of real immunotherapy response data, the proportion of immunotherapy resistance patients was higher in the high‐risk group than that in the low‐risk group (Figure  ).
+
+3.8
+
+## Identification of potential therapeutic targets and drugs for high‐risk group
+With FDR <0.05, DEGs between the high‐risk and low‐risk samples were identified in six datasets (GSE26942, TCGA, GSE15459, GSE62254, GSE13861, and GSE84437), respectively. The concordance scores of any two lists of DEGs are above 99% (Table  ), indicating that the stable reproducible differential expression signals could be detected between our classified high‐risk and low‐risk groups. Uniformly upregulated genes in all six datasets were further screened, totaling 359 genes. These genes were significantly enriched in cancer‐related pathways, such as focal adhesion, ECM‐receptor interaction, PI3K‐Akt signaling pathway, and cell adhesion molecular pathway (Figure  ). Based on the protein–protein interactions from the STRING database, we obtained a sub‐network involved in the 359 uniformly upregulated genes, consisting of 322 nodes and 2113 edges. Twelve algorithms were applied to identify the top 50 hub genes by Cytohubba plugin in the gene interaction network. Furthermore, we merged hub genes identified by 12 methods, and finally obtained 150 genes. Among them, 13 genes targeted by 32 potential drugs were identified using the Drug‐Gene Interaction of gene‐drug interaction data (Figure  ). For example, CD248 (Endosialin) has been reported to be involved in tumor cell vascular adhesion and migration, neoangiogenesis, local invasion, and metastasis. Ontuxizumab, a class of monoclonal antibodies, targeted CD248, which interferes with the function of endosialic acid. It has been reported that treatment with ontuxizumab shrink gastrointestinal stromal tumors. 
+
+ 
+
+4
+
+## DISCUSSION
+We identified 175 stemness‐related genes, and based on the enrichment scores of these genes using ssGSEA, the samples in training data were grouped into two subtypes. The known GC stemness marker genes, such as CD44 and ALDH1A3, were differentially expressed in these two subtypes, and the two subtypes demonstrated different genomic characteristics and survival times. Using the subtypes as criteria, the 47‐GPS signature was developed based on the within‐sample REOs of gene pairs. The prognostic efficacy of 47‐GPS could be validated in four independent datasets detected by different laboratories and platforms. To evaluate the performance of 47‐GPS in pan‐cancer, we collected another 21 cancer types, each including at least 150 samples with survival information. Except for BLCA (bladder cancer) and KIRP (kidney renal papillary cell carcinoma), the high‐risk samples classified by the 47‐GPS do not show significantly worse outcomes in the other 19 cancer types (Figure  ), indicating that the 47‐GPS is not a common prognostic signature for pan‐cancer.
+Our study results have demonstrated that the high‐risk group predicted by the 47‐GPS exhibits higher stemness and is associated with poorer prognosis. To further validate this, we analyzed the enrichment scores of five pathways (WNT‐β, TGF‐β, NOTCH, EMT, and HEDGEHOG), closely associated with tumor stemness, metastasis, and recurrence. The result showed that the high‐risk group exhibited significantly higher enrichment scores compared to the low‐risk group (Figure  ). Compared with low‐risk samples, high‐risk samples also had lower TMB levels and higher MSS sample proportion, M2 cell proportion and M2 polarization factor expression, which was consistent with previous reports. It has been reported that cancer stem cells recruit tumor‐associated macrophages and affect the biological state of macrophages. Macrophages mainly include antitumor (M1) phenotype and pro‐tumor (M2) phenotype. Cancer stem cells could secrete a variety of factors that promote the polarization of macrophages, thereby inducing the evolution of macrophages into pro‐tumor phenotype. This may cause immunosuppression and lead to resistance to checkpoint inhibitor therapy. Many evidences have shown the correlation between stemness and immune evasion. Consistent with these reports, we also found that the high‐risk group with higher stemness was significantly associated with immunotherapy resistance. For high‐risk patients, we further identified a number of potential therapeutic targets and corresponding drugs. For example, EDNRA is the receptor for endothelin‐1, which can regulate the proliferation and invasion of GC cells. Macitentan, a drug targeting EDNRA, has been reported in multiple studies, which can improve tumor immunotherapy outcomes and inhibit tumor metastasis. Tenascin‐c (TNC) is an extracellular matrix protein that belongs to the Tenascin gene family. Its expression is closely related to the initiation and metastasis of GC. In addition, knockout of TNC expression can inhibit the proliferation, migration and invasion of GC cells in vitro by inducing cell cycle arrest in G0/G1 phase, and inhibit peritoneal metastasis in vivo. Overall, the identified therapeutic targets and drugs provide candidate treatments for high‐risk GC patients, which deserve for further study.
+Comparing with the previous threshold‐based scoring models, the 47‐GPS could accurately classify a given sample into high risk or low risk, providing an auxiliary tool in clinical GC treatment. However, this study also has certain limitations. First, some subtle quantitative gene expression information may be lost in the rank‐based signature, 47‐GPS. Second, due to the high sparsity of single‐cell transcriptomes, we cannot verify the efficacy of 47‐GPS at the single‐cell level. Third, the GC samples treated with immunotherapy are limited, and a prospective study with more samples is needed to further verify the performance of 47‐GPS in predicting immunotherapy responses.
+Among 72 genes, consisting of 47‐GPS, 19 genes were differentially upregulated in high‐risk group, and most of them were associated with tumor stemness, and tumor initiation and metastasis (Table  ). For example, gene MGP, a member of the osteocalcin/matrix Gla protein family, has been reported to drive stemness and tumor initiation in ovarian cancer. Except for MGP, NDN, 
+SERP2, 
+FSTL1, and CDH5
+ were also closely related to tumor stemness.
+
+5
+
+## CONCLUSION
+Overall, by integrating single‐cell RNA‐Seq data and bulk tissue data, we developed a qualitative stemness‐related signature, 47‐GPS, which can accurately predict patients' prognosis and immunotherapy responses at an individual level. This makes it applicable to real clinical scenarios and assists doctors in formulating appropriate treatment plans for GC patients.
+
+## AUTHOR CONTRIBUTIONS
+
+Linyong Zheng: Data curation (equal); formal analysis (equal); investigation (equal); methodology (equal); software (equal); supervision (equal); validation (equal); visualization (equal); writing – original draft (equal); writing – review and editing (equal). Jingyan Chen: Methodology (equal); validation (equal); visualization (equal). Wenhai Ye: Data curation (equal); methodology (equal); visualization (equal). Qi Fan: Data curation (equal); investigation (equal); methodology (equal); visualization (equal). Haifeng Chen: Investigation (equal); methodology (equal); writing – original draft (equal); writing – review and editing (equal). Haidan Yan: Funding acquisition (lead); writing – original draft (equal); writing – review and editing (equal).
+
+## FUNDING INFORMATION
+This work was supported by the Fujian Natural Science Foundation (Grant Number 2023J01755) and Fujian Provincial Clinical Medical Research Center for First Aid and Rehabilitation in Orthopaedic Trauma (Grant Number 2020Y2014).
+
+## CONFLICT OF INTEREST STATEMENT
+The authors declare that they have no conflict of interest.
+
+## ETHICS STATEMENT
+Ethics approval statement is not applicable to this article.
+
+## PATIENT CONSENT FOR PUBLICATION
+The section is not relevant to my manuscript, so it is “not applicable” for this section.
+
+## Supporting information
+
+Data S1.
+
+Click here for additional data file.
+
+## DATA AVAILABILITY STATEMENT
+Data sharing is not applicable to this article as no new data were generated or analyzed in this study.

@@ -1,0 +1,491 @@
+pmcSmallSmall379blackwellopenSMLLSmall (Weinheim an Der Bergstrasse, Germany)1613-68101613-6829pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC12490179PMC12490179.112490179124901794088823410.1002/smll.202506429SMLL702251ReviewReviewSynthetic Biology and Biomaterials Strategies to Deceive the Tumor Microenvironment in CAR‐T Immunotherapy
+MarsicoGraziahttps://orcid.org/0000-0003-2730-8016 GCSudarshan SicilianoVeliahttps://orcid.org/0000-0001-7734-9153 Velia.Siciliano@iit.it 
+
+1
+
+Synthetic and Systems Biology Lab for Biomedicine
+Istituto Italiano di Tecnologia‐IIT
+Largo Barsanti e Matteucci
+Naples
+80125
+Italy
+
+*E‐mail: Velia.Siciliano@iit.it
+
+019202502102025213949813410.1002/smll.v21.39e06429
+1472025
+2852025
+021020250310202503102025© 2025 The Author(s). Small published by Wiley‐VCH GmbHhttps://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Chimeric antigen receptor (CAR)‐T cell immunotherapy has emerged as a groundbreaking approach in cancer treatment, offering new hope across various malignancies. However, its success against solid tumors remains limited due to critical challenges, including off‐tumor, on‐target toxicity, immune resistance, poor T cell infiltration into the tumor microenvironment (TME), and T cell exhaustion. In response, interdisciplinary innovations in synthetic biology and biomaterials are redefining how can be engineer smarter, more responsive CAR‐T cells. Recent advances have introduced biomaterials not only as precision delivery vehicles but also as artificial antigen‐presenting cells (APCs), high‐throughput screening platforms, and tools to replicate the complex biomechanical landscape of the TME. This review highlights these cutting‐edge strategies, emphasizing how biomaterials and synthetic circuits can aid studies and strategies to enhance CAR‐T cell efficacy in solid tumors while minimizing adverse effects. Future directions at the intersection of tumor‐inspired biomaterials and T cell engineering, envisioning a new generation of CAR‐T therapies tailored to overcome the formidable barriers of the TME are also explored.
+
+A. Synthetic biology and biomaterials have emerged as tools to study and facilitate the treatment of solid tumors wi‐th chimeric antigen receptor‐CAR‐T cells. These strategies aim to resist the tumor microenvironment‐TME that presents cellular, biochemical, and mechanical immunosuppressive signals that hinder CAR‐T efficacy. B. The field of biomaterials has contributed to the development of hydrogels, nanoparticles (NP)s, or the combination to improve CAR‐T trafficking and proliferation directly injected into the tumor site. C. NPs have also been engineered as antigen presenting cells (APCs) to improve antigen presentation in the context of tumor antigen heterogeneity. D. 2D, 3D gel systems as well as patient tumor derived organoids (TDOs) and tumors on a chip, are promising tools that help to gain mechanistic insight of CAR‐T cell response to the TME stimuli, including the mechanical forces that remain understudied.
+ 
+
+biomaterialsCAR‐Tdelivery systemsex vivo mechanical modelsimmunotherapysolid tumor microenvironmentsynthetic biology
+HORIZON EUROPE European Research Council10.13039/100019180
+852012
+Fondazione AIRC per la ricerca sul cancro ETS10.13039/100020581
+ID 29893‐2023 
+2
+
+## Engineering cells “From Inside‐Out”: Synthetic Biology to Improve CAR‐T Efficacy
+Founded at the dawn of 90′,[
+ 
+] synthetic biology has lately become a sophisticated engineering discipline able to orchestrate cellular behavior through the use of genetic circuits that can perform information processing when designed in a sensor‐actuator configuration.[
+ , , 
+] Cells modified with synthetic devices found a tremendous application toward the improvement of T cell‐based immunotherapy.[
+ , , 
+]CARsenable ligand sensing (e.g., cell membrane receptors, glycans, and glycolipids called tumor‐associated antigens (TAA)),[
+ , 
+] to activate the cytotoxic function and consequently the elimination of the tumor. The CAR is a chimeric single transmembrane receptor constituted of a) an extracellular TAA‐binding domain recognizing domain, b) a flexible hinge, c) a transmembrane domain, and an intracellular T cell signal domain (Figure
+ ). Since their first creation by Gross et al., in 1989,[
+ 
+] CAR‐T engineering went through several advancements until reaching a fifth‐generation class. The evolution of CAR‐T structures through generations is already meticulously reviewed by Rafiq et al.[
+ 
+] Despite the anti‐CD19 has been FDA approved for blood malignancies and has improved the clinical outcomes of many patients, some important challenges persist, such as overcoming systemic toxicity, improving efficacy in solid tumors that present the physical barrier of the TME, and antigen heterogeneity. Synthetic biology has employed many strategies to overcome these roadblocks, particularly 1) designing CAR receptor structure to optimize the interaction with the tumor antigen, and 2) inserting genetic circuits able to sense extracellular and intracellular signatures dictated by the TME (Table
+ ).
+ 2.1
+
+## Synthetic Biology for Designing TME ‐Responsive CAR‐T
+One of the challenges of translating CAR‐T cell therapy to solid tumors resides in the complexity of the TME that creates a biochemical and physical barrier that prevents them from infiltrating and eliminating cancer cells[
+ 
+].TME is characterized by immunosuppressive chemokines/cytokines and cells, as well as hypoxia, oxidative stress, acidic pH, and abnormal leaky vasculature (Figure ).[
+ 
+] Besides hindering the infiltration capacity this pathological context also induces T cell exhaustion, an anergic state where T cells lose their cytotoxic and proliferative capacity.[
+ 
+] Least and less explored, the impact of the biomechanical TME features on CAR‐T cell fitness is another crucial element and comprises increased ECM stiffness and protein deposition, aberrant and leaky vasculature, and fluidic pressure (Figure
+ ).
+2.1.1
+
+## Strategies to Improve the Infiltration of CAR‐T in the TME
+
+## Engineering CAR‐T Responsive to the Infiltration‐Guiding Chemokines
+Several strategies have been explored to improve CAR‐T cell infiltration into the TME (Figure  ). Here, a strong immunosuppressive environment is orchestrated by the cancer cells to neutralize immune cells activity. To counter this, CAR‐T cells have been engineered to express receptors for chemokines commonly overexpressed in solid tumors, such as transforming growth factor (TGF)‐β, chemokine (C‐C motif) ligand (CCL)‐2, and CCL19 (Figure  ). For example, a hybrid CAR with the TGFβ receptor's extracellular domain can convert this inhibitory signal into activation (Figure  ).[
+ , 
+] Similarly, CAR‐T cells expressing C‐C chemokine receptor type 2‐(CCR2) target CCL2 enhance infiltration and tumor suppression in models of mesothelioma and neuroblastoma (Figure  ).[
+ , 
+] Co‐expression of interleukin (IL)‐7 and CCL19 in CAR‐T cells has also improved infiltration in solid tumor models (Figure  ).[
+ 
+] These approaches reprogram suppressive signals into stimulatory ones but may reduce T cell activation thresholds and increase the risk of off‐target effects.
+
+## Engineering CAR‐T Cells to Degrade the ECM in the TME
+Another strategy to enhance CAR‐T infiltration is by breaking down the ECM, which is denser and more rigid in solid tumors due to the presence of fibrous proteins, glycosaminoglycans, and proteoglycans (Figure ). Disialoganglioside 2 (GD2)‐CAR‐T cells secreting heparanase have been shown to degrade ECM and improve infiltration in neuroblastoma and melanoma models, boosting survival (Figure  ).[
+ 
+] Targeting cancer‐associated fibroblasts (CAFs), which promote ECM thickening, is another approach. CAR‐T cells against fibroblast activation protein α (FAP) have entered clinical trials (NCT01722149), though concerns remain.[
+ 
+] To improve safety and efficacy, bispecific CAR‐T cells targeting both FAP and tumor antigens (e.g., glypican 3 (GPC3) or mesothelin (MSLN)) have shown promise in preclinical models (Figure  ).[
+ , 
+]
+
+Additionally, SLAMF7‐CAR‐T cells can target both CAFs and multiple myeloma cells,[
+ 
+] though SLAMF7's expression on other lymphoid cells raises off‐target toxicity concerns. Targeting endosialin (CD248), found on stromal cells in tumor vasculature, also showed reduced tumor growth and metastasis in mouse models, making it a potential new target (Figure  ).[
+ 
+]
+
+2.1.2
+
+## Engineering CAR‐T to Remodel Cancer Blood Vessels
+Abnormal tumor vasculature is characterized by leaky vessels, high pressure, and hypoxia(Figure 1) hinders CAR‐T cell infiltration.[
+ 
+] To address this, CAR‐T cells targeting vascular endothelial growth factor receptors (VEGFR)s, overexpressed in tumor vessels, have been developed (Figure  ), showing tumor suppression in various xenograft models.[
+ , , 
+] However, a phase I/II trial of VEGFR2‐CAR‐T for metastatic cancer showed no clinical benefit (NCT01218867), due to VEGF‐A overexpression outcompeting CAR binding.[
+ , 
+] Additionally, VEGF pathways are active in normal tissues, raising concerns about off‐tumor toxicity. However, a recent study sheds hope on efficiently targeting the TME vasculature with a switch‐on synthetic circuit, avoiding toxicity. Vogt et al., developed a synthetic Notch (synNotch) receptor that selectively expresses an anti‐GD2‐CAR (Neuroblastoma antigen) upon binding to P‐selectin, a cell adhesion protein overexpressed in tumor new blood vessels.[
+ 
+] These cells induced a significant reduction of tumor volume and survival over 21 days in a neuroblastoma mouse model, highlighting the antitumoral potential of TME‐based sensors (Figure  ).
+
+2.1.3
+
+## Engineering CAR‐T to Exploit and Remodel the Immune Suppressive Biochemical Cues of the TME
+Beyond improving infiltration, CAR‐T cells have been engineered to sense and respond to TME‐specific biochemical cues to enhance tumor specificity and reduce off‐target toxicity. These include hypoxia‐, reactive oxygen species (ROS), and pH‐responsive CARs, as well as protease‐activated and cytokine‐sensing designs (Figure  ).[
+ , , , , 
+]
+
+## Engineering CAR‐T Cells to Respond to Hypoxia
+Hypoxia‐sensitive CAR‐Ts were found to exhibit a specific antitumor effect in some carcinoma xenografts.[
+ , 
+] Kosti et al., developed an on/off oxygen‐sensing switch attached to receptor tyrosin kinase ErbB‐CAR‐T. In shortage of oxygen, the hypoxia induceble factor (HIF)α binds the sensor and induces CAR expression (Figure  ). These cells that achieved specific tumor elimination without off‐tumor toxicity.[
+ 
+]
+
+In a more recent study, the same HIFα sensing domain was fused to a CAR‐T specific for the carcinoembryonic antigen (CEA), obtaining also here a CAR‐T activation highly restricted to the hypoxic tumor environment (Figure  ).[
+ 
+] This approach can minimize the off‐target cytotoxicity as the CAR stops functioning in a normoxic environment. TME is also enriched in ROS that undermine the T cell cytotoxic function through the nuclear factor erythroid 2‐related 2 (Nrf2). Last year Jo et al., demonstrated that the knock‐down of Nrf2 (Figure  ) reinforced TILs and CD19‐CAR‐T cell antitumor activity in vivo, shedding light on Nrf2 as a new therapeutic target.[
+ 
+]
+
+## Engineering CAR‐T Cells Sensitive to Acidic pH
+The TME also presents acidic pH, which is due to the increase of glycolysis rate in cancer cells and favors immune escape and inhibits the T cell growth.[
+ 
+] CAR‐T able to convert the immune suppressive pH input into activation signals are the anti‐AXL receptor tyrosine kinase (CCT301‐38) and the anti‐ receptor tyrosine kinase‐like orphan receptor‐(ROR)2 (CCT301‐59), currently in clinical trials (NCT03393936). These CAR‐T are termed Conditionally Active Biologics (CAB)‐CAR‐T (Figure  ) as their CAR receptor bears a particular single‐chain variable fragment (scFvs) domain that becomes activated only in response to the acidic conditions (pH∼6.7) within TME, therefore increasing tumor‐specificity and reducing on‐target off‐tumor toxicity through a reversible “AND” boolean logic gate.
+
+## Engineering CAR‐T Cells Sensitive to Matrix Proteases
+As the TME also brims of matrix proteases to facilitate invasion, another study generated a CAR‐T where the antigen‐binding site is masked with a protease‐responsive domain. In this way, the CAR can recognize the TAA only upon the cleavage of the peptide, therefore activating the cells only in the TME and avoiding non‐specific action on healthy tissue (Figure  ).[
+ 
+]
+
+## Engineering CAR‐T Cells IL‐Responsive
+Chimeric receptors presenting IL‐4 receptor (IL‐4R) extracellular portion fused to either the cytoplasmic part of the IL‐2 receptor (IL‐2Rβ)[
+ 
+] or the inner domain of the IL‐7 receptor (IL‐7R) (Figure 2DV )[
+ 
+] co‐expressed with anti‐ prostate stem cell antigen (PSCA)‐CAR, strongly elicited T cell accumulation and cytotoxicity in vitro.[
+ , 
+] Sukuraman et al., engineered anti‐ PSCA CAR T cells with cytokine‐specific chimeric receptors such as the IL‐4R– IL‐7R and a TGF‐βR–4‐1BB (Figure  ), that were capable of effectively eliminating the tumors where IL‐4 and TGF‐β were highly expressed.[
+ 
+] Trying to shift the balance of TME from immunosuppressive to a favorable immune‐responsive phenotype is another challenge that have been engaged, specifically with armored CAR‐T engineered to secrete pro‐inflammatory cytokines such as IL‐12,[
+ 
+] IL‐18,[
+ 
+] and IL‐23 (Figure  ).[
+ 
+]
+
+Engineered T cells to present a subunit of IL‐23 which can reconstitute into a functional IL‐23 in TME, can enhance T cell proliferation, and minimize off‐target cytotoxicity.[
+ 
+] CAR‐T cells releasing IL‐12 or IL‐2 can attract in site pro‐inflammatory M1 macrophages, while the autocrine signals on T cells induce the production of interferon‐γ (IFN‐γ), which suppresses T regulatory lymphocytes(T‐reg) which inhibit CAR‐T.[
+ , , , 
+]
+
+Taken together, these studies suggest that reshaping the TME through secreting antitumor cytokines could be a winning strategy in the CAR‐T fight against solid tumors. However, it is critical to control their expression and release to avoid systemic toxicities.
+
+2.1.4
+
+## Engineering CAR‐T to Inhibit the Immune‐Suppressor Cell Types of TME
+As aforementioned, the TME also abounds of dysregulated cells that exacerbate the immune‐suppression and correlate with relapses and toxicity to CAR‐T therapy (Figure  ).[
+ , 
+] Therefore, besides targeting the immune suppressive cytokines, another approach of synthetic biology consists in directly attacking the secreting cells, such as the myeloid cells, and T‐regs.[
+ 
+] The flourishing attention of the suppressive role of the myeloid niche of the TME[
+ 
+] has driven efforts in targeting tumor associated macrophages (TAM) and myeloid‐derived suppressive cells (MDSCs) (Figure ,  ).
+CAR‐T against TAMs, expressing the F4.CAR (specific for the macrophage F4/80) has been found to reduce growth and prolong survival in lung, ovarian, and pancreatic murine models (Figure  ). Although not directly targeting the tumor, the F4.CAR eliminated the macrophages and increased the endogenous CD8 T cell portion through the secretion of IFN‐γ that as mentioned before, inhibits T‐reg.[
+ 
+]
+
+Parihar et al., developed NK cells expressing a receptor fusing the NK cytotoxic outer (NKGD2) domain with the CAR‐T inner portion, able to kill MDSCs in a neuroblastoma xenograft model (Figure  ). Furthermore, NKG2D‐CAR NK cells prompted CAR T cell action when co‐administered with disialoganglioside (GD2)‐neuroblastoma TAA‐ CART cells, suggesting the clinical potential of a combinatorial therapy that paves the way to CAR‐T cell by eliminating the MDSC‐mediated immunosuppressive inputs.[
+ 
+]
+
+T‐reg cells in the TME hinder CAR‐T efficacy by competing for IL‐2 via their high IL‐2Rα expression. IL‐2 secretion or administration may unintentionally favor T‐reg expansion. To avoid this, engineered IL‐2 variants that selectively bind IL‐2Rβ on CAR‐T cells have been developed. A more precise solution uses orthogonal IL‐2/IL‐2Rβ pairs (orthoIL‐2/orthoIL‐2Rβ), promoting selective CAR‐T proliferation while minimizing T‐programmed death protein 1reg activation.[
+ , , 
+]
+
+This research highlights how insidious it is to unleash the CAR‐T in the solid TME, as the factors that drive immunosuppression are multiple and intricate. Combinatorial strategies that aim at remodeling the TME in diverse aspects are challenging and needed.
+
+2.1.5
+
+## Engineering CAR‐T for Preventing Cell Exhaustion
+As mentioned above, one of the reasons for the inefficiency of CAR‐T in solid tumors is the onset of exhaustion upon chronic antigen stimulation and other stimuli imparted by the TME (Figure  ). One feature of this anergic state is the upregulation of the inhibitory checkpoint receptotrs that mediate immune escape (e.g programmed death protein 1 (PD1), cytotoxic T‐lymphocyte antigen 4 (CTLA‐4)).[
+ 
+] An approach to counteract exhaustion is to convert inhibitory and apoptotic signals into a survival cell response. This has been achieved by equipping CAR‐ T cells with chimeric PD1[
+ 
+] and dead signaling FAS (Figure  ),[
+ 
+] presenting a modified intracellular moiety that leads to the activated effector phenotype. In another study now under clinical trial (NCT04577326), mesothelin‐CAR‐T bearing also the PD1 dominant negative receptor (DNR) were observed to have increased activity in a xenograft model of pleural mesothelioma presenting high levels of the PD1 ligand (PDL1) (Figure  ).[
+ 
+] The advantage of expressing the PD1 chimeric antigen compared to the standard coadministration of PD1 inhibitors (Figure  ), lies in avoiding repeated doses with the same positive outcome.[
+ 
+] Among the transcription factors that drive exhaustion, NR4A2[
+ 
+] and thymocyte selection‐associated high mobility group box protein (TOX),[
+ 
+] which are crucial mediators of epigenetic and transcriptional modification, have been involved in genetic engineering strategies to counteract exhaustion (Figure  ).[
+ , 
+]
+
+3
+
+## The Synergy Between Synthetic Biology and Biomaterials to Improve CAR‐T Efficacy Against TME
+Despite all these efforts from synthetic biology, the challenge posed by the TME requires a multidisciplinary and synergistic approach to reach therapeutic efficacy in solid tumors. Biomaterials have crossed the CAR‐T path in many ways: 1) as tools to enhance the CAR transduction efficiency 2) as in vitro platforms for CAR‐T cell expansion prior administration, 3) as a delivery system for CAR‐T in situ, 4) as artificial APCs, 5) in 2–3D system/organoids and microfluidic devices as platforms for mechanistic studies and CAR‐T efficacy screen. The first two in vitro applications have been thoroughly reviewed somewhere else,[
+ , , 
+] therefore, this chapter is first focused on the last two in vivo applications that have the purpose of paving the way of CAR‐T through the solid TME (Sections 3.1‐3, Figure
+ , Table
+ ).[
+ 
+] Second, the application of biomaterials in 2D‐3D systems and organoids/ microfluidic devices as screening platforms for CAR‐T will be summarized (Sections  , Figure  , Table
+ ).
+ 3.1
+
+## Biomaterial‐Based Constructs as CAR‐T Delivery System In Vivo
+The gold‐standard CAR‐T endovenous intravenous administration suffers poor penetration, growth, and scarce anticancer activity in the solid tumor site.[
+ , , , 
+] Biocompatible materials have demonstrated the ability to continuously deliver functional immune cells into tumors.[
+ 
+] Therefore, biomaterials‐based in situ delivery systems can aid CAR‐T cells by overcoming physical barriers and immune‐modulate TME, thus promoting successful local CAR‐T cell therapy for solid malignancies.[
+ , 
+] With this purpose, a variety of biocompatible biomaterials have been engineered to 1) create a protective and supportive niche for CAR‐T expansion and 2) offer a controlled and prolonged release of cytokines and CAR‐T at the tumor site.[
+ , 
+] Specifically, biomaterial constructs such as hydrogels alone or in combination with organic, inorganic or hybrid nano/micro‐particles, film, and patches (Figure  ) have been found to improve CAR‐T retention/activity in several cancer preclinical models such as retinoblastoma, medulloblastoma, melanoma, glioblastoma, breast, ovarian, and pancreatic cancer (Table  ).[
+ , , , , 
+] The innovative design of several of these constructs reside into taking in account the TME features to improve CAR‐T cell proliferation, activation and tumor killing capacity (Figure  ). For example, Han's group,[
+ 
+] engineered an injectable hydrogel to deliver GD2‐specific CAR‐T to treat retinoblastoma. The system, made in a chitosan‐polyethylene glycol (PEG) thermosensitive polymer, not only contains CAR‐T cells but also a stimulatory signal such as IL‐15 that induces expansion (Figure  ). GD2‐CAR‐T cells retained their cytotoxic activity, eliminated retinoblastoma, persisted up to 60 days, and structural recovery of retina and vision was also observed in a mouse model. Also, Zhou et al., developed an injectable hydrogel for in situ CAR‐T cell administration. This system, based on the photocross‐linkable gelatin methacryloyl (GelMA), was loaded with even more T cell growth cytokines such as IL‐2, IL‐7, and IL‐15 (Figure  ). Crosslinked with blue light after injection, the GelMA degraded in 14 days, ensuring stable release and extended the permanence of the CAR‐T in the TME and therefore the anti‐melanoma efficiency.[
+ 
+]
+
+Some authors combined hydrogels with nanoparticles (NPs) to maximize the reservoir potential and obtained encouraging results in some tumor models (Figure  ).[
+ , 
+] For instance, a recent study presented an injectable hydrogel made of ‐hydroxypropyl methylcellulose (HPMC) polymer mixed with NPs poly PEG‐b‐poly (lactic acid) (PEG‐PLA) NPs and functionalized the cell‐binding peptide arginine‐glycine‐aspartic acid (RGD). The system was encapsulated with B7H3‐ specific CAR‐T cells and the stimulatory cytokine IL‐15 (Figure  ), thus creating an inflammatory niche for controlled expansion (100‐fold) and release of CAR‐T cells that resulted in the suppression of medulloblastoma solid tumor in 100% of mice within 21 days.[
+ 
+]
+
+Hu et al.[
+ 
+] developed a hydrogel system combining IL‐15‐loaded poly‐lactic‐co‐glycolic acid (PLGA) NPs and platelet/anti‐PD‐L1 components within a hyaluronic acid (HA) matrix to enhance CAR‐T activity against chondroitin sulfate proteoglycan 4 (CSPG4) in melanoma (Figure  ). The biocompatible HA matrix degraded in vivo after 8 days, ensuring sustained‐release of CAR‐T that resulted in significantly reduced tumor mass (60‐fold) in mice (Figure  ) after 3 weeks. CAR‐T persisted in the tissue for 4 weeks. Scaffolds also show promise for delivering CAR‐T cells to eliminate residual or inoperable tumors. Coon et al. created a fibrin‐coated nitinol micromesh functionalized with anti‐CD3, CD28, and CD137 to prevent ovarian cancer recurrence (Figure  ),[
+ 
+] and later developed a silica‐based scaffold loaded with CAR‐T cells and an IFN gene agonist for treating pancreatic cancer.[
+ 
+]
+
+An alternative method proposed by Li et al developed a PLGA porous microneedle patch loaded with CAR‐T cells that has been implanted subcutaneously in a mouse melanoma mouse model after post‐surgical resection of the 90% of the tumor (Figure  ). This ensured a scattered delivery and systemic distribution of CAR‐T cells that resulted in the elimination of the residual tumor and recurrence prevention.[
+ 
+]
+
+I Taken together, these preclinical results suggest that hydrogel or film‐based constructs hold great promise for the translation of CAR‐T to solid tumor immunotherapy. The potential of this therapeutic approach lies in the possibility of incorporating costimulatory co‐factors and exposing the tumor with a higher concentration of immune cells over a prolonged timeframe. Furthermore, the local presentation can increase the safety of therapeutic agents, as biomaterials also offer fine‐tunable support for surface functionalization, which is detrimental for modulating immune cell performance. Nevertheless, scaling up delivery systems still represents significant challenges like assuring reproducibility in mechanical strength during, degradation rate, biocompatibility, sterility, and safety. Computational modeling to predict optimal formulations and 3D printing hold the potential to standardize hydrogel fabrication in a large scale.[
+ 
+] Moreover, standardized international guidelines are needed to reach regulatory approval.
+
+3.2
+
+## Biomaterials Such as Nano/Microparticles to Improve Antigen Presentations to CAR‐T in the TME and Delivery
+3.2.1
+
+## Organic Nano/ Microparticle as Artificial APCs
+The immunosuppressive TME not only impedes CAR‐T infiltration but also disrupts activation and function, which rely on APCs.[
+ 
+] While CARs deliver antigen and costimulatory signals, cytokines like IL‐2, IL‐7, and IL‐15 normally provided by APCs—are often lacking in the TME, where tumor cells dominate and suppress immunity.[
+ , , 
+] Biomaterials can mimic APCs by releasing cytokines and presenting costimulatory signals to enhance CAR‐T activation and proliferation.[
+ , , 
+] Various organic nano/microparticles, made from polymers, proteins, and lipids, have been used as synthetic APCs, boosting CAR‐T efficacy in preclinical cancer models (Figure  ) (Table  ).[
+ , 
+]
+
+Desai's group. developed DNA–PLGA microparticles (∼2 µm) decorated with CD3/CD8 antibodies and IL‐2, which, when injected into leukemia‐bearing mice, attracted systemically delivered CAR‐T cells and led to tumor clearance (Figure  ).[
+ , 
+] Photothermal PLGA nanoparticles loaded with indocyanine green and attached to anti‐CD19 CAR‐T cells enhanced tumor penetration upon near infrared (NIR) stimulation by loosening the ECM, improving blood flow, and suppressing Burkitt lymphoma (Figure  ). Another approach used IL‐12‐loaded human serum albumin (HSA) NPs linked to CAR‐T cells via click chemistry. Triggered by antigen engagement, these NPs released IL‐12 locally, enhancing lymphoma control (Figure  ).[
+ 
+] Similarly, Tang et al. created disulfide‐crosslinked protein nanogels that surrounded CAR‐T cell membrane and systemically injected into a murine melanoma model. The unit is a nanoparticle functionalized with an IL‐15 agonist, an anti‐CD45 antibody, and polyethylene glycol‐b‐polylysine (PEG‐b‐PLL) positively charged to interact with the negatively charged cell membrane (Figure  ). This nanogel induced IL‐15 release, leading to CAR‐T expansion and survival of 80% of the mice over 60 days (Figure  ).[
+ 
+] In summary, CAR‐T linked with cytokine‐loaded NPs favored tumor clearance in vivo, suggesting the potential of this approach and that further validations at the clinical level are worthy to be performed.
+Following the same purpose, CAR‐T cell membrane has also been functionalized with lipid NPs loaded with some key immune‐stimulant molecules. For example, CD19‐CAR‐T cells conjugated with lipidNPs containing the A2 adenosine receptor (a T cell suppressor) antagonist SCH‐58261 (Figure  ) were found to ameliorate CAR‐T cell function in the TME of the xenograft model.[
+ 
+]
+
+Some other lipid NPs were not only used as cargo but also presented a guiding signal for specific tumor localization (Figure  ).[
+ 
+] These particles made with the lipid‐ 1,2‐distearoyl‐sn‐glycero‐3‐phosphoethanolamine (DSPE)‐PEG‐maleimide were loaded with phosphoinositide 3‐kinase (PI3K) PI‐3065 inhibitor of immune suppressive cells, and the α‐galactosyl ceramide (α‐GalCer) 7DW8 agonist with anti‐tumor function. They also presented on the surface the internalizing (i)RGD peptide, that binds αv integrin, the target on cancer cells (Figure  ).[
+ 
+] When injected in an in vivo model of breast cancer, these particles boosted the tumor homing thanks to the iRGD tag and switched the TME from immune‐suppressive to immune‐stimulating thanks to the released agents that created a room for CAR‐T for eliminating cancer cells.
+In summary, organic NPs have been shown to boost CAR‐T cell therapy efficacy by improving the antigen presentation in the TME both by acting as artificial APCs and by remodeling the TME. The results in vivo encourage the validation of these complex fine‐tunable systems at the clinical level. Multiple parameters such as size, shape, stiffness, viscoelasticity, ligand density, and cellular contact zone need to be optimized in a larger scale for moving to clinical trials and commercialization.[
+ 
+]
+
+3.2.2
+
+## Inorganic Nanoparticles (INP)s and Photothermal Therapy (PPT) Synergy to Boost CAR‐T Efficacy
+Several INPs in combination with PPT have been shown to potentiate CAR‐T delivery and efficacy in treating solid tumors. Their biocompatible nature and their capability to adsorb NIR light and converted into heat, has been exploited to guide and fine‐tune CAR‐T activity against solid tumor in several preclinical models (Table  ).[
+ 
+]
+
+Earlier this year, Pfister et al., functionalized CAR‐T cells with magnetically controllable iron oxide nanoparticles (SPIONs), to direct them into the tumor site and therefore avoid off‐tumor toxicity. The SPIONs specifically attacked melanoma cells expressing CSPG4.[
+ 
+]
+
+Gold nanoparticles (sAuNPs), ‐carrying T cells successfully infiltrate into tumor tissues (20%) and in combination with photothermal stimulation and showed complete tumor eradication after 21 days in a melanoma murine model (F10‐OVA) and furthermore as well as a survival rate of 100%.[
+ 
+]
+
+Despite many INPs are under clinical trials as drug depots,[
+ 
+] still some concerns about toxicity, size, uptake, and stability remain.[
+ 
+] Incorporating INPs with CAR‐T membrane is one strategy for increasing their biocompatibility and decreasing toxicity, and avoiding immune reaction.
+Indeed, Li, et al., developed a membrane‐coated multifunctional catalyst to improve tumor elimination. This consisted in encapsulating Ag2S quantum dots and horseradish peroxidase (HRP)‐loaded Au/polydopamine nanoparticles (Au/PDA NPs) within CAR‐T cell membranes. When administered into a lymphoma (NALM) 6 solid murine model and in combination with both sonodynamic therapy and PPT, the tumor was eliminated, and persistent immune memory cells were observed.[
+ 
+]
+
+Another example of this synergetic strategy is provided by Wu et al., that developed Au/Cu2‐ xSe and 3‐bromopyruvate nanoparticles camouflaged with CD‐19 CAR‐T cell membrane. These bionanohybrids, when coadministered with regular CAR‐T cells and upon NIR stimulation, proved augmented efficacy in eliminating lymphoma (NALM 6) solid tumor mass.[
+ 
+]
+
+Another method to address INPs potential toxicity consists in functionalizing nanoparticles with biocompatible layers as demonstrated by Zou et al.[
+ 
+] A nanocomposite made of biodegradable polydopamine as a carrier for chromium nanoparticles (Cr NPs) was co‐ administered with B7‐H3‐CAR‐T cells, in hepatocarcinoma and breast tumor bearing mice. Upon NIR stimulation, the increase of C‐X‐C motif chemokine ligand 13 (CXCL13) and CCL3 chemokine induced by the nanocomposite degradation products generated a tertiary lymphoid structure within the tumor that secreted proliferative cytokines IL‐2, IFN‐γ, and TNF‐α improving CAR‐T cell infiltration and tumor growth inhibition for 16 days.[
+ 
+]
+
+Another important application of metallic INPs is in vivo CAR‐T tracking through magnetic resonance imaging and photoacoustic tomography. Nevertheless, this topic goes beyond the scope of this review, and it is exhaustively discussed elsewhere.[
+ , 
+]
+
+3.3
+
+## Biomaterial Systems, Organoids, and Microfluidic Devices as Platforms for Mechanistic Studies and CAR‐T Efficacy Screens
+Despite advances in cell and biomaterial engineering, CAR‐T therapy remains ineffective in solid tumors, partly due to the biomechanical barriers of the TME. Key mechanical challenges include solid stress from tumor growth, interstitial fluid pressure, ECM stiffening from crosslinking, and abnormal tissue architecture (Figure  ).[
+ 
+]
+
+It is well‐known that when T cells interact with APCs or cancer cells, through the formation of immunological synapsis, and are subsequently subjected to tensile and traction forces, generated by membrane protrusions or retractions that result in cell spreading and activation through actomyosin cytoskeleton remodeling.[
+ , , 
+] Less known are the dynamics of the TME‐mediated mechanical inputs on T cells. Overall, the main mechano‐pathways in T cell are mediated by TCR, calcium influx through piezo channels, integrin signaling, Yes‐Associated Protein (YAP) and transcriptional co‐activator with PDZ‐binding motif (TAZ) and cytoskeleton remodeling.[
+ 
+]
+
+The TME mechanical inputs can impair CAR‐T infiltration and promote exhaustion.[
+ , 
+] While mechanotransduction in cancer has been widely studied,[
+ , 
+] in vivo models are limited in capturing these dynamics. As a result, ex vivo platforms such as organoids, microfluidics, and tumor‐on‐chip systems have been developed to mimic and fine‐tune TME mechanics, offering insights into tumor growth, therapy resistance, and immune exclusion.[
+ , , , , , 
+] However, the impact of mechano‐TME on T and CAR‐T cells remains largely unexplored.[
+ 
+]
+
+3.3.1
+
+## Biomaterial‐Systems to Evaluate the Impacts CAR‐T Function of TME Mechanical Features
+Nowadays, several reports have used 2D and 3D gels of different materials to investigate the impact of the ECM mechanical features both on cancer and T‐cell,[
+ , , , , , , , , 
+] but not many on CAR‐T cells yet[
+ 
+] (Figure
+ ) (Table  ). Some recent examples are discussed hereafter. Some 2D models, consisting of polydimethylsiloxane (PDMS), polyacrylamide (PAA), and alginate gels, have been useful in elucidating the influence of substrate stiffness on T‐cell activation, proliferation, and functionality (Figure  ).[
+ , , , 
+] First, Lippert et al., described T cell activation on a soft lipid bilayer functionalized with recombinant antibody rCD2 and attached to a PDMS glass with physiological mechanical resistance (4 kPa). In this setting, while the early calcium signaling was not impacted by matrix rigidity, the late stage of activation was substrate stiffness dependent, suggesting that early steps of TCR priming do not sense the ECM mechano‐stimuli in physiological conditions.[
+ 
+] Nevertheless, it is well known that ECM stiffness dramatically increases in solid tumors. Therefore, Yuan et al. examined the response of human CD4+/CD8+ T cells seeded on PAA gels with a different range of stiffness (5–110 kPa) and decorated with different densities of activating antibodies (anti‐CD3, anti‐CD28) (Figure  ). Here, it was observed that the activation and expansion are maximized at an intermediate stiffness of 25 kPa.[
+ 
+]
+
+Beyond activation, it was also demonstrated that ECM stiffness can also affect T‐cell proliferation, cytotoxic function, ultimately leading to exhaustion.[
+ , 
+] The lymph node (LN) becomes rigid and swollen during an immune response. Meng et al., shown that T cells sense these mechanical changes through the mechanosensor YAP, both in a murine LN and on a 2D alginate hydrogel scaffold with RGD peptides conjugated through carbodiimide chemistry (N‐hydroxysuccinimide (NHS)‐ 1‐Ethyl‐3‐(3‐dimethylaminopropyl) carbodiimide (EDS). Particularly, it was shown that YAP in T cells inhibits proliferation and the effector function in response to stiffness by limiting the NFAT1 translocation to the nucleus (Figure  ).[
+ 
+] Only very recently, Zhang et al. demonstrated also the direct correlation between stiffness and T cell exhaustion. In their work, 2D PDMS gels with different stiffness (≈5, ≈40, and ≈200 kPa) and tethered by anti‐CD3 plus anti‐CD28 antibodies were used to demonstrate that the mechanical stress exacerbated CD8+ T cell exhaustion through thePiezo1/ Calmodulin III (CamIII)/ cAMP response element‐binding protein (CREB)/ odd‐skipped related transcription factor 2 (Osr2) signaling axis, indicating that the synergy of the costimulatory signals and matrix stiffness is critical in aggravating exhaustion (Figure  ).[
+ 
+] Another platform leverages T mechanosensing, using anti‐TCR and anti‐CD28 antibody‐coated micro/nanopillars with tuneable elasticity and nano‐topography, was able to optimize and balance CAR expression, cell proliferation, central memory phenotype, CAR expression and exhaustion. This method eliminated T cell toxicity due to standard transfection and produced a class of anti‐epidermal growth factor receptor 2 (HER2) CAR able to eradicate patient‐derived xenografts (PDX) implanted subcutaneously.[
+ 
+]
+
+This data highlights the crucial role of biomaterials based 2D system in elucidating basic principles of T cell mechanosensing and the resulting cell response. Nevertheless, they fail to mimic the 3D environment of TME where T cells are embedded. To address this limitation, also 3D matrices have been adopted to examine the effects of mechanical properties on the T‐cell cycle.
+Majedi et al. encapsulated T cells and artificial APCs (dynabeads bearing the activation signal CD3/CD28) in alginate hydrogel with stiffness 4–40 kPa. There was an augmentation of both CD4+ and CD8+ T‐cell activation, proliferation, and migration speed in the stiffer 3D hydrogel as compared to softer materials.[
+ 
+] In contrast, Kutzek et al. found reduced T‐cell proliferation, infiltration, and cytotoxicity, along with an increase in regulatory T‐cell markers in high‐density (4 mg mL−1) collagen matrix versus the low density one (1 mg mL−1) (Figure  ).[
+ 
+] In another, Mooney's group developed a collagen hydrogel crosslinked with PEG‐norbornene, where stiffness and viscoelasticity can be tuned separately varying the collagen concentration and crosslinker amount, respectively. In this work, it was found that viscoelasticity regulates T cell and CAR‐T phenotype and function via the activator‐protein‐1 signaling pathway (AP‐1), a crucial regulator of T cell activation.[
+ 
+]
+
+Taken together, these data suggest that the 3D models are reliable tools to discover mechanistic insights in T cell mechanical responses.
+As CD8+ and CD4+ T cells are commonly engineered for CAR‐T cell therapy, understanding the mechanical influences on these immune cells before engineering them is essential to optimize CAR‐T cell activation, proliferation, and cytotoxicity. Hence, biomaterials offer a valuable tool for investigating the mechanobiology of T cells before their use in immunotherapy. Additionally, these insights can inform priorities on mechanical features during the development of advanced preclinical models such as organoids and organ‐on‐a‐chip systems, which will be explored further below.
+
+3.3.2
+
+## Tumor Derived Organoids (TDOs) for CAR‐T Efficacy Evaluation
+Once developed, CAR‐T cells cannot be effectively tested using only the 2D or even 3D models, as their efficacy depends mainly on multiple biochemical and mechanical factors rather than a single mechanical parameter. In the past decade, TDOs have emerged as a widespread 3D system for preclinical testing and drug discovery. TDOs are defined as complex, 3D ex vivo cell clusters derived from primary tumors.[
+ 
+] Not only do TDOs retain the genetic heterogeneity and morphological features of the tumor of origin, but can also include diverse TME cell types and ECM structure.[
+ 
+] Decellularized ECM, hydrogel‐based materials like, matrigels, collagen I, fibrin, and synthetic polymers like PEG, PLGA, have been implemented in organoids as they mimic the biochemical and structural support of the ECM and can be easily tunable in stiffness and composition.[
+ 
+]Therefore, organoids offer the unprecedented opportunity to mimic the TME characteristics in vitro.
+Organoids have been developed for most blood[
+ , 
+] and solid tumors,[
+ 
+] with ongoing advancements and standardization.[
+ 
+] Tumor‐derived organoids (TDOs) are thus ideal 3D models to assess CAR‐T efficacy against challenges in solid tumors (Table  ).
+ For example, Zheng et al. used HER2+/ MSLN+ ovarian cancer organoids composed of patient tumor cells and basement membrane extract to test synNotch CAR‐T cells targeting MSLN and secreting ECM‐degrading enzymes such as metallo‐proteases (MMP)9, (MMP)‐12, and heparanase. These CAR‐T cells showed improved infiltration and antitumor activity in both organoids and a murine ovarian cancer model.[
+ 
+] Similarly, Yu et al. engineered CAR‐T cells against mucin 1 (MUC1), overexpressed in bladder cancer, and tested them on patient‐derived organoids using Matrigel, R‐spondin 1, and Noggin. The CAR‐T cells were selectively cytotoxic to MUC1+ organoids, demonstrating the model's utility for evaluating CAR‐T therapies in vitro.[
+ 
+]
+
+A key challenge of TDOs is heterogeneity from single‐cell dissociation during generation. Jacob et al. developed a glioblastoma organoid (GBO) biobank that preserved the parental tumors' histology, cellular diversity, gene expression, and mutations. In these models, anti‐ epidermal growth factor (EGFR)vIII CAR‐T cells effectively targeted tumor cells and secreted IL‐2, TNF‐α, IFN‐γ, and granzyme B.[
+ 
+] While TDOs are typically used preclinically, Logun et al. applied GBOs alongside a phase 1 trial of anti epidermal growth factor receptor (EGFR)IL13Rα2 CAR‐T therapy. CAR‐T cytotoxicity and cytokine release in GBOs mirrored patient cerebrospinal fluid data, supporting their utility for real‐time assessment of CAR‐T efficacy.[
+ 
+]
+
+Collectively, these findings affirm TDOs as a powerful platform for CAR‐T screening that accounts for tumor complexity and the TME. However, while organoids replicate ECM features, they lack other mechanical aspects like tumor microarchitecture and interstitial pressure. Innovations in microfluidics and bioprinting may help model these elements more comprehensively (Figure  , 4).
+
+3.3.3
+
+## Microfluidic Devices and Tumor on Chips as Preclinical Models for CAR‐T Evaluation
+Microfluidic technology has emerged as a superior ex vivo tumor model.[
+ 
+] By combining 3D gels with flow‐controlled, vascularized structures, “tumor‐on‐chip” platforms recreate cellular, biochemical, and biomechanical aspects of the TME and are widely used in drug screening, evaluating immune responses, and are widely used in drug screening. Various chip designs have been developed to study T cell migration, cytotoxicity, and immune responses.[
+ , 
+] In the CAR‐T context, microfluidics has primarily supported automated manufacturing steps such as cell isolation, expansion, transduction, and selection as reviewed in detail.[
+ 
+]
+
+Even though only a few reports are available on microfluidic models to examine cancer–immune cell interactions and assess CAR‐T efficacy, their use is in rapid expansion (Figure , Table  ).
+For instance, a novel breast tumor‐on‐chip model successfully replicated key aspects of CAR‐T cell function, extravasation, tumor infiltration, and cytokine release, allowing the first patient‐specific in vitro assessment of CAR‐T efficacy and safety in solid tumors like breast cancer.[
+ 
+]The design featured a PDMS‐based chip with TDOs embedded in dextran hydrogel, loaded beneath an endothelialized channel for CAR‐T perfusion.
+Microfluidic platforms using 3D spheroid co‐cultures of cancer and stromal cells have also been developed to evaluate combinatorial immunotherapies, enabling CAR‐T immunoassays. OC3D microfluidic devices (ScreenIn3D Ltd, U.K.) feature microwells connected by channels, enabling fluid flow and precise cytotoxicity and specificity testing.[
+ 
+]
+
+To study CAR‐T infiltration, multilayered tumor‐blood vessel chips have been created. These models feature an endothelial layer over a collagen gel with embedded tumor cells.[
+ 
+] Recognizing that cancer immune cell interactions are crucial for T cell recruitment, Aung et al. developed a perfusable tumor‐on‐a‐chip including cancer cells, monocytes, and endothelial cells in a gelatin hydrogel, which enhanced T cell recruitment.[
+ 
+]
+
+Further, the combination of microfluidics with 3D bioprinting offers high reproducibility, tunability, and scalability.[
+ 
+] For instance, neuroblastoma tumoroids were fabricated usingGelMA, and stiffness‐tunable glioblastoma models showed that increased ECM stiffness reduced CAR‐T penetration and cytotoxicity.[
+ 
+]
+
+Overall, tumor‐on‐chip platforms are powerful tools for testing CAR‐T therapies, though fully replicating the TME ex vivo remains challenging. Device customization and validation of in vivo data are essential to improve clinical relevance, with ongoing advances in tissue engineering and biomaterials driving progress.
+
+4
+
+## Conclusion
+With 11 products already on the market, CAR‐T represents the biggest leap forward in the field of cancer adoptive immunotherapy.[
+ 
+] Despite the tremendous advances in ameliorating efficacy and safety for hematological malignancies, CAR‐T‐based therapies are still dramatically limited to treat solid tumors.[
+ 
+] The reasons for this lack of success are multiple as solid tumors are a territory fraught with obstacles such as antigen heterogeneity and the immunosuppressive TME.[
+ 
+] TME not only raises a physical barrier that prevents immune cells from infiltration but also pullulates with immunosuppressive cells and soluble molecules that hijack resident T cells to a hypofunctional and exhausted state that correlates with a dismal prognosis. The obstinate efforts to create CAR‐T able to defeat the TME are interdisciplinary and involve both cell and material engineering. Synthetic biology has targeted various aspects of the TME, engineering CAR‐T cells that exploit the molecular and cellular elements to obtain an efficient anti‐tumoral response. CAR‐T armored with cytokines, with MMPs, synthetic genes circuits that sense the TME hypoxia and pH, CAR‐T directed against the vasculature, the stromal and the immune suppressive cells have proven a discrete efficacy in treating solid tumors in preclinical models.
+Furthermore, synergizing CAR‐T cell engineering with biomaterials is emerging as a promising cancer treatment strategy.
+Biomaterials have been used as in situ delivery systems, to bypass the obstacle of the extravasation through the tortuous and abnormal vasculature, to recreate a favorable niche for CAR‐T to proliferate and being gradually released, and as artificial APC to improve CAR‐T activation in a contest where the TAAs are difficult to reach and heterogeneous.[
+ 
+] The applications of fine‐tuned materials to aid the CAR‐T in navigating the hostile TME have shown increased tumor eradication in several animal models, suggesting that the cooperation of synthetic biology and biomaterial science is a promising strategy to translate CAR‐T cell immune therapy to solid tumors.
+Despite these encouraging results, there are several gaps between experimental progress and their clinical implementation. Indeed, none of these studies has reached the clinical stage yet. These challenges are due to technical limitations in scale up hydrogel and particles due to batch‐to‐batch variability, high production costs, and sterility maintenance. Long term effects of CAR‐T cell‐biomaterial systems on safety and immunogenicity still remain unclear, raising the need for longer preclinical tests. Additionally, biomaterial‐based stents or needles may cause infection and trauma in the patients, therefore safer strategies are demanded. Furthermore, the lack of standardized manufactory methods and evaluation criteria hinders the regulatory and ethical approval of biomaterial‐ assisted CAR‐T delivery.[
+ 
+]
+
+Lastly, further molecular and biological insights on how CAR‐T cells navigate TME are needed, to shed light on their function and distribution kinetics.
+A deep understanding of the biomechanical insults occurring in the TME combining genetics, epigenetics, proteomics, and metabolomics, can foster the design classes of CAR‐T that can reach this purpose, target tumor cells, and also persist the tumor‐induced premature exhaustion. This goal can be achieved using the ex vivo biomaterial‐based platforms. Indeed, 2D‐3D hydrogel systems, organoids, and tumors on chips offer the possibility to recapitulate desired characteristics of the TME alone or in concert and observe the response of T cells both from a functional and molecular point of view. These systems are already widely used to select drug combinations that overcome the TME‐induced resistance mechanisms. The immune components though, have been rarely incorporated in these systems[
+ 
+] while the number of studies that use cancer organoids to evaluate newly engineered CAR‐T is growing.
+The contribution of the mechanical TME to CAR‐T fitness remains poorly understood. 2D and 3D hydrogels, along with microfluidic devices have been proved to be reliable tools to mimic mechanical forces and study their influence in the anti‐cancer response. These systems can integrate specific biochemical and biomechanical characteristics (solid stress, stiffened ECM, fluid pressure) and therefore represent more comprehensive preclinical models to assess the efficacy and safety of CAR‐T cells.[
+ 
+] The comprehensive knowledge that these systems can provide has to be further used by synthetic biology to design advanced TME‐responsive synthetic circuits that can lead to a new generation CAR‐T.
+Synthetic biology, indeed, can rely on the multi‐omics studies obtained on these systems to develop sensors, synthetic receptors, or synthetic circuits that convert specific mechanic‐ TME‐clues into a favorable CAR‐T cell response that counteracts exhaustion and increases their fitness and efficacy. For instance, the knockout of the YAP and OSR2 mechano‐sensors, or a mechano‐based switch on CAR‐T, or a mechano‐sensor gene circuit that inhibits exhaustions are possible strategies to be explored. More synergistic efforts between these two fields are an open, promising possibility to be explored.
+Furthermore, the use of biomaterial‐based ex vivo models at the service of CAR‐T cell engineering opens the horizon of a personalized approach where each patient's tumor is used to establish organoids that can be analyzed with multi‐omics technologies. The resulting patient specific‐tumoral and TME features can be incorporated in specific biomaterial‐based 3D systems that can be not only to test used the efficacy of existing CAR‐T but also to develop patient‐ specific CAR‐T that can navigate the prominent patient‐specific TME characteristics and successfully eradicate solid tumors.
+Although all these combinatorial approaches are worthy of investigation, the high production cost remains one of the biggest challenges. Nevertheless, we envision that the synergy of interdisciplinary efforts such as those from synthetic biology and biomaterials, holds the potential of achieving the ambitious goal of developing efficient CAR‐T therapies for solid tumors.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Acknowledgements
+G.M. was supported by Fondazione AIRC Italy Post‐Doc fellowship 2024 ID 29893‐2023. V.S. was supported by the ERC Starting Grant Synthetic‐TrEX #852012. The figures were created with BioRender.com.
+
+Grazia Marsico received her Ph.D. in biomedical engineering in 2019 from the National University of Ireland, Galway, where she worked on biomaterials for cardiovascular applications. She held a post‐doc position at Georgia Institute of Technology, ICEL in Atlanta, USA in the Department of Biomedical Engineering (2020‐2023), where she has worked on biomaterials and organoid design applied to immunology. She is currently a postdoctoral fellow at Istituto Italiano di Tecnlogia‐IIT, where her work focuses on elucidating the impact of mechanoforces in T‐cell adoptive immunotherapy.
+ 
+Sudarshan GC is an ARC Ph.D. student at Istituto Italiano di Tecnologia‐IIT, Italy. He studied Life Sciences and Material Sciences at Universite Paris Cite and PSL Research University respectively in France. His current research project aims at understanding mechanobiology of T cells to equip them for solid cancer immunotherapy. His ultimate goal is to develop an efficient mechano‐sensitive T cell adoptive therapy through synthetic gene circuits.
+ 
+Velia Siciliano is Principal Investigator at Istituto Italiano di Tecnologia‐IIT, where she holds an ERC grant. She established the Synthetic and Systems Biology Lab for Biomedicine, and she is also an honorary fellow of Imperial College London where she still supervises research activities. Her work focuses on the development of approaches derived from synthetic and systems biology both in non‐eukaryotic and mammalian cells. Her research integrates the development of synthetic genes circuits, microRNAs and other synthetic biology approaches to improve efficacy of cell ‐based adoptive immunotherapy.
