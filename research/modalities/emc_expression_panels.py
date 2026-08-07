@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """
-Six targeted expression reads in the two READABLE EMC series — one CI dispatch, six lanes settled.
+Targeted expression reads in the two READABLE EMC series — one CI dispatch, several lanes settled.
 
 ⭐ WHY THIS EXISTS, AND WHY IT IS NOT `emc_atr_vulnerability.py --refresh-part-b`.
 Part B of the ATR assessment reads CONCEPT scores over MSigDB/Reactome/GO gene sets, and its inputs
 cache therefore holds per-sample values only for the genes those sets happen to contain. Every one
-of the six reads below asks for genes that are NOT in those sets — `ASS1`, `NR2F1`, `CSPG4`, the
+of the reads below asks for genes that are NOT in those sets — `ASS1`, `NR2F1`, `CSPG4`, the
 chondroitin-sulfate sulfotransferases, `DLL3`/`ASCL1`/`NEUROD1`/`INSM1`, a PPARγ TARGET-gene set,
-a published hypoxia metagene. Reading them needs a fresh fetch with a different `want` list, and it
-must NOT be able to perturb the committed ATR grading artifact (CLAUDE.md §1: one fact, one home).
-So: its own module, its own artifact, its own workflow mode.
+a published hypoxia metagene, the candidate surface antigens. Reading them needs a fresh fetch with
+a different `want` list, and it must NOT be able to perturb the committed ATR grading artifact
+(CLAUDE.md §1: one fact, one home). So: its own module, its own artifact, its own workflow mode.
 
-⛔ THE SIX READS, AND THE ONE RULE THAT GOVERNS ALL OF THEM.
+⛔ THE READS, AND THE ONE RULE THAT GOVERNS ALL OF THEM.
     1. `ASS1`                      — arginine auxotrophy / ADI-PEG20. One binary answer.
     2. CS/GAG biosynthesis + PAPS  — oncofetal chondroitin sulfate, CSPG4, substrate reduction,
                                      chondroitinase.
@@ -21,6 +21,19 @@ So: its own module, its own artifact, its own workflow mode.
     4. NE panel                    — `DLL3`, `ASCL1`, `NEUROD1`, `INSM1`, `HES1`.
     5. Hypoxia metagene            — Buffa / Winter, whichever the fetch resolves.
     6. `NR2F1`                     — the precondition for the dormancy lane.
+    7. SURFACE-ANTIGEN panel       — added 2026-08-07. The therapeutic addresses five blocked
+                                     routes name, plus the two coverage corrections recorded in
+                                     `surfaceome-instrument-limits.json`. ⭐ The reason this read
+                                     is not redundant with `emc_surfaceome_scan.py`: that scan
+                                     ranks tumour-cell MONOCULTURE mRNA, so it structurally cannot
+                                     see a stromal antigen (L1/L2) and never held a per-gene row
+                                     for CSPG4 at all (L4). Bulk archival tumour tissue contains
+                                     the compartment monoculture does not.
+
+⛔ THE COUNT OF READS IS NOT A CONSTANT IN THIS FILE. `PANELS` and `_assemble_reads` are the two
+places a read is defined, and `research/modalities/tests/test_emc_expression_panels.py` asserts
+they agree. A number typed into a docstring or a workflow description is a copy (CLAUDE.md §1);
+where one appears below it names WHICH read, not how many there are.
 
 ⛔⛔ THE RULE (CLAUDE.md §4). **AN ABSENT READING IS NOT A READING OF ABSENCE.** A gene with no probe
 mapping to it on a platform is reported `readable: false` with the reason, and the verdict sentence
@@ -324,6 +337,166 @@ PANELS = {
                                  "paralogue selectivity — which is the risk that sank the "
                                  "flagship lane and is not measurable from expression.",
     },
+    # -----------------------------------------------------------------------------------------
+    # READ 7 — added 2026-08-07 for the RET cistrome lane.
+    #
+    # ⭐ WHY IT IS HERE RATHER THAN IN A SEVENTH MODULE. This module already reads 137 genes from
+    # these two matrices in one dispatch and its ENO3 control reproduces a committed value; a
+    # second module would be a second copy of the whole GEO fetch (CLAUDE.md §1) for the sake of
+    # eleven symbols.
+    #
+    # ⛔ WHAT THIS READ IS FOR, PRECISELY. `emc-ret-lane.md` §3 establishes that the ONLY report
+    # of RET *activation* in EMC is one sentence in a paywalled 2014 abstract over "a limited set
+    # of samples" of an n = 10 series, with no numerator and no denominator, and that RET in EMC
+    # has never been given the blinded-TMA test that decided MET in clear cell sarcoma (PMID
+    # 34885165: MET protein 82 %, phospho-MET 4 %). ⛔ NOTHING IN A TRANSCRIPT READ CAN CLOSE
+    # THAT GAP — mRNA abundance is the measurement whose insufficiency is the whole point of the
+    # MET guard. What this read CAN do, and the only thing it is quoted for:
+    #   (a) corroborate or fail to corroborate PMID 28423517's RET-abundance finding in an
+    #       INDEPENDENT series and, for the first time, in a second one (GSE4303/GPL3290);
+    #   (b) say whether RET's own LIGAND/CO-RECEPTOR module is present at all — the clear cell
+    #       sarcoma study failed on ligand absence (HGF 16 %) as much as on phospho-absence, so a
+    #       tumour with abundant receptor and no ligand is the same shape of negative;
+    #   (c) put RET beside the cistrome lane's target-gene controls (ENO3 already in the control
+    #       panel, SEMA3C added here) so an occupancy reading and an abundance reading are on the
+    #       same tumours.
+    # -----------------------------------------------------------------------------------------
+    "ret_axis": {
+        "read_id": "read_7_RET",
+        "question": "Is RET readable and elevated in EMC in BOTH readable series — and is the "
+                    "GDNF-family ligand/co-receptor module that would be needed to engage it "
+                    "present at all?",
+        "provenance": CURATED + " The GDNF-family membership (four ligands, four GFRα "
+                                "co-receptors) is textbook receptor biology; the reads that "
+                                "carry weight are the single genes RET, GDNF and GFRA1.",
+        "primary_gene": "RET",
+        "groups": {
+            "the_read": ["RET"],
+            "gdnf_family_ligands": ["GDNF", "NRTN", "ARTN", "PSPN"],
+            "gfra_co_receptors": ["GFRA1", "GFRA2", "GFRA3", "GFRA4"],
+            "alternative_hypothesis_the_vegfr_attribution": ["VEGFA", "KDR", "FLT1", "FLT4",
+                                                             "PDGFRA", "PDGFRB", "KIT"],
+            "downstream_nodes_the_ccs_tma_stained": ["MAPK1", "MAPK3", "AKT1", "RPS6", "GAB1"],
+            "published_nr4a3_target_genes_for_the_cistrome_lane": ["SEMA3C", "ENO3"],
+        },
+        "direction_that_supports_the_lane": "RET UP in EMC in both series, with at least one "
+                                            "GDNF-family ligand and GFRA1 readable and present",
+        "what_it_cannot_settle": (
+            "⛔ ACTIVATION. This is mRNA abundance. The bar RET in EMC has never been given is a "
+            "blinded phospho-RET / ligand / downstream-node tissue microarray with a stated "
+            "denominator (the instrument that decided MET in clear cell sarcoma, PMID 34885165), "
+            "and no expression series can substitute for it — `emc-ret-lane.md` §3 is the one "
+            "home of that finding and this read does not move it. It also cannot separate "
+            "tumour-cell RET from stromal or entrapped-nerve RET in a hypocellular, matrix-rich "
+            "tumour, which is the RET lane's own falsifier. And it asserts nothing about whether "
+            "selpercatinib, pralsetinib or any RET-directed agent binds, works or is safe in "
+            "EMC — no EMC patient has ever received one."),
+    },
+    "surface_antigen": {
+        "read_id": "read_8_SURFACE_ANTIGEN",
+        "question": "Which candidate surface / therapeutic-address antigens are READABLE in EMC "
+                    "tumour tissue on these two platforms, and which of them are higher in EMC "
+                    "than in the comparator sarcomas on BOTH?",
+        "provenance": CURATED + " The antigen membership is assembled from the therapeutic "
+                                "addresses the repository's own blocked routes NAME "
+                                "(systems/graph — RT-CART-SURFACE, RT-B7H3, RT-PRAME-IMMTAC, "
+                                "RT-SSTR2, RT-FAP-RLT, RT-TCRT-CTA) plus the two coverage "
+                                "corrections recorded in surfaceome-instrument-limits.json (L2 "
+                                "stromal, L4 CSPG4). It is NOT a published surfaceome and it is "
+                                "NOT exhaustive.",
+        "why_this_read_exists": (
+            "⭐ THE EXISTING SURFACEOME SCAN CANNOT ANSWER THIS, AND ITS LIMITS ARE MEASURED, NOT "
+            "ASSERTED — research/modalities/surfaceome-instrument-limits.json. That instrument "
+            "ranks DepMap tumour-cell MONOCULTURE mRNA in 45–76 sarcoma lines, none of which is a "
+            "verified EWSR1::NR4A3 line, so: (L1) no stromal/CAF compartment exists in it at all; "
+            "(L2) an antigen carried ONLY by stroma reads at the floor, demonstrated with LRRC15 "
+            "at frac_expressed 0.0; (L4) CSPG4 has no per-gene row in any committed artifact of "
+            "that instrument, so its absence there is a COVERAGE GAP and not a negative. THIS "
+            "read is bulk ARCHIVAL TUMOUR TISSUE, which contains the stroma and matrix that "
+            "monoculture does not — so it is the instrument that can see the class the other one "
+            "structurally could not. ⚠ The same property is the confound: a stromal antigen "
+            "reading high in bulk tissue may be reporting the stroma's presence, not the tumour "
+            "cell's, and this read cannot deconvolve them."),
+        "groups": {
+            # The exact addresses the blocked routes name. Every one of these routes records
+            # `missing: ["any measurement in EMC"]` or a phrasing of it.
+            "route_named_addresses": ["CD276", "SSTR2", "PRAME", "FAP", "CD248", "CSPG4",
+                                      "MSLN", "L1CAM", "GPC3", "ALPP", "CDH17"],
+            # L2/L1 correction: the compartment DepMap monoculture cannot contain.
+            "stromal_and_matrix_antigens": ["FAP", "CD248", "LRRC15", "PDGFRB", "PDGFRA",
+                                            "ANTXR1", "TNC", "MMP14", "POSTN", "THY1", "FN1",
+                                            "COL11A1", "ACTA2"],
+            # L4 correction: the ofCS carrier repertoire, of which the earlier seed held CD44 only.
+            "ofcs_carrier_proteoglycans": ["CSPG4", "CD44", "VCAN", "ACAN", "BCAN", "NCAN",
+                                           "SDC1", "SDC2", "SDC4", "GPC1", "GPC3", "GPC6",
+                                           "BGN", "DCN", "SRGN", "CSPG5", "HSPG2", "LUM"],
+            "sarcoma_cell_surface_addresses": ["CD276", "EGFR", "ERBB2", "IGF1R", "ROR1", "ROR2",
+                                               "CD70", "NECTIN4", "TACSTD2", "EPCAM", "PTK7",
+                                               "GPC2", "FOLH1", "FOLR1", "CEACAM5", "DLK1",
+                                               "MUC16", "ALCAM", "CD24", "CD99", "MET", "AXL",
+                                               "EPHA2", "EPHB4", "MCAM", "CDH11", "FGFR1",
+                                               "KIT", "NCAM1", "DLL3"],
+            "somatostatin_receptor_family": ["SSTR1", "SSTR2", "SSTR3", "SSTR4", "SSTR5"],
+            "alkaline_phosphatase_family": ["ALPP", "ALPPL2", "ALPL", "ALPI"],
+            "glycan_antigen_synthases_NOT_the_antigen": ["B4GALNT1", "ST8SIA1", "ST3GAL5",
+                                                         "B3GALT4", "FUT4"],
+            "hla_presented_intracellular_antigens_NOT_surface": ["PRAME", "MAGEA1", "MAGEA3",
+                                                                 "MAGEA4", "MAGEA10", "CTAG1B",
+                                                                 "CTAG2", "SSX1", "SSX2",
+                                                                 "MAGEC2"],
+            "antigen_presentation_precondition": ["B2M", "HLA-A", "HLA-B", "HLA-C", "TAP1",
+                                                  "TAP2", "TAPBP", "NLRC5", "PSMB8", "PSMB9",
+                                                  "CIITA", "ERAP1"],
+        },
+        "group_annotations": {
+            "route_named_addresses": "The eleven addresses named by the blocked routes. ⚠ MSLN, "
+                                     "CDH17, GPC3, ALPP, EPCAM and CEACAM5 are EPITHELIAL "
+                                     "antigens and EMC is a mesenchymal tumour, so a HIGH reading "
+                                     "on any of them is first a probe question and only then a "
+                                     "biological one — they double as a specificity check on the "
+                                     "instrument.",
+            "hla_presented_intracellular_antigens_NOT_surface": (
+                "⛔ PRAME IS NOT A SURFACE ANTIGEN. It is an intracellular protein whose peptides "
+                "are presented on HLA class I; the ImmTAC/TCR-T modality reaches it through the "
+                "HLA complex, not through the cell surface. So a PRAME transcript reading is "
+                "necessary and nowhere near sufficient, and it is worthless without the "
+                "presentation group below. The same is true of every MAGE/CTAG/SSX member here."),
+            "antigen_presentation_precondition": (
+                "⛔ THE PRECONDITION FOR EVERY HLA-RESTRICTED ROUTE. An ImmTAC or a TCR-T reaches "
+                "its target only through surface HLA class I; B2M loss, TAP defects or NLRC5/"
+                "CIITA silencing remove the address regardless of how high the antigen "
+                "transcript reads. This group is measured so read 7 cannot report a PRAME number "
+                "without the machinery that would have to present it."),
+            "glycan_antigen_synthases_NOT_the_antigen": (
+                "⛔ A GLYCAN HAS NO GENE — the L3 limit, restated where it can fire. GD2 is a "
+                "glycolipid; B4GALNT1/ST8SIA1 are the enzymes that could make it. Their "
+                "transcript levels are a proxy for CAPACITY and are never a measurement of the "
+                "epitope. Identical reasoning to the ofCS sulfation module in read 2."),
+            "stromal_and_matrix_antigens": (
+                "The class the monoculture surfaceome scan is structurally blind to (L1/L2). "
+                "⚠ FN1 is listed for the fibronectin-EDB address, and a GENE-LEVEL read CANNOT "
+                "resolve it: EDB is an alternatively-spliced EXON of FN1, so an FN1 transcript "
+                "number says nothing about whether the EDB isoform is present. Recorded as a "
+                "known non-answer rather than omitted."),
+        },
+        "direction_that_supports_the_lane": "an antigen READABLE and HIGHER in EMC than in the "
+                                            "comparator sarcomas on BOTH platforms. A "
+                                            "single-platform elevation is a lead, not a result — "
+                                            "the two series have different comparator arms.",
+        "what_it_cannot_settle": (
+            "⛔ FOUR THINGS, AND EVERY ONE OF THEM IS LOAD-BEARING FOR A SURFACE-ANTIGEN ROUTE. "
+            "(1) NOT PROTEIN. This is mRNA on a decade-old array; transcript-to-protein "
+            "correlation for membrane proteins is modest and unmeasured here. (2) NOT SURFACE "
+            "LOCALISATION. A transcript says nothing about whether the protein reaches the plasma "
+            "membrane, at what density, or whether the epitope a binder needs is exposed. "
+            "(3) NOT TUMOUR-RESTRICTED — and this is the one that kills surface antigens. The "
+            "contrast here is EMC vs OTHER SARCOMAS. It is not tumour-vs-normal, so nothing here "
+            "speaks to on-target/off-tumour toxicity or a therapeutic window; the normal-tissue "
+            "axis has its own home in emc-surface-normal-window.json (HPA) and must be read "
+            "beside this. (4) NOT DECONVOLVED. Bulk archival tissue mixes tumour cells, CAFs, "
+            "endothelium, immune infiltrate and matrix, so a stromal or pericyte antigen can read "
+            "high because the compartment is present, not because the tumour cell carries it."),
+    },
 }
 
 # ---------------------------------------------------------------------------------------------
@@ -440,6 +613,82 @@ SIGNATURE_SLOTS = {
                 "these same two matrices, so it is the one axis on which this module can be "
                 "checked against a committed independent read.",
         "enrichr": [("hallmark", "adipogenesis")],
+    },
+    # --- read 7: THE NR4A TARGET-GENE PROGRAM, AND WHETHER *RET* IS IN IT -----------------------
+    #
+    # ⭐ WHY THESE ARE HERE. The RET cistrome lane (`emc_ret_cistrome.py`) asks whether NR4A3
+    # OCCUPIES the RET locus. These slots ask a DIFFERENT and partly better question from a
+    # completely independent instrument class: is *RET* in a published NR4A3 target-gene set —
+    # and, for the perturbation arms, **does RET MOVE when NR4A3 is perturbed**? Occupancy without
+    # a functional readout is what made the ENO3 precedent need luciferase on top of ChIP
+    # (PMID 26310886); a perturbation set is the cheap shadow of that missing experiment.
+    # Concordance ACROSS instrument classes is an argument; one set's membership is not.
+    #
+    # ⚠ AND THEY ARE SCORED ACROSS EMC vs COMPARATOR SARCOMAS, which is a second use of the same
+    # fetch: if the fusion drives a recognisable NR4A3 program, an NR4A3 target set should read UP
+    # in EMC against other sarcomas. That is an INSTRUMENT check on the whole lane — an NR4A3
+    # target program that is NOT up in the disease defined by an NR4A3 fusion would say the sets
+    # do not transfer to this context, and would discipline every membership claim below.
+    #
+    # ⛔ ALL THREE PARALOGUES ARE FETCHED, for the same reason the cistrome module reads all
+    # three: "RET is an NR4A3 target" means something different if RET is in the NR4A1 and NR4A2
+    # sets too. `exclude` carries `nr4a` off the front of nothing here — the three symbols share
+    # no prefix with each other under `_norm` — but each slot still hard-requires its own symbol.
+    "nr4a3_targets_chea": {
+        "read_id": "read_7_RET", "role": "nr4a3_target_set",
+        "what": "NR4A3 target genes from published ChIP-X experiments (ChEA). The matched term "
+                "carries the source experiment's own PMID in its name, so the provenance of a "
+                "membership call is checkable.",
+        "enrichr": [("chea", "nr4a3")], "prefer": ["human"],
+    },
+    "nr4a3_targets_encode_chea": {
+        "read_id": "read_7_RET", "role": "nr4a3_target_set",
+        "what": "NR4A3 consensus targets from ENCODE + ChEA ChIP-X.",
+        "enrichr": [("encode_chea", "nr4a3")], "prefer": ["human"],
+    },
+    "nr4a3_targets_trrust": {
+        "read_id": "read_7_RET", "role": "nr4a3_target_set",
+        "what": "NR4A3 targets from TRRUST v2, a manually curated literature-mined regulatory "
+                "network — an instrument class independent of both ChIP and perturbation.",
+        "enrichr": [("trrust", "nr4a3")], "prefer": ["human"],
+    },
+    "nr4a3_perturbation_KD_DOWN": {
+        "read_id": "read_7_RET", "role": "nr4a3_target_set",
+        "what": "⭐ THE FUNCTIONAL ARM. Genes DOWN when NR4A3 is knocked down / out — i.e. genes "
+                "that DEPEND on NR4A3. If RET is in this set, RET abundance responds to NR4A3 "
+                "loss, which occupancy alone cannot show.",
+        "enrichr": [("tf_perturb", "nr4a3")],
+        "require_any": ["knockdown", "kd", "deficiency", "ko"], "require_suffix": "down",
+    },
+    "nr4a3_perturbation_OE_UP": {
+        "read_id": "read_7_RET", "role": "nr4a3_target_set",
+        "what": "Genes UP when NR4A3 is over-expressed — independently constructed, same expected "
+                "direction as KD_DOWN, so agreement between them is worth more than either alone. "
+                "⭐ And it is the arm closest to EMC's own biology: the disease-defining event is "
+                "NR4A3 sequence placed under a partner's promoter, i.e. over-expression.",
+        "enrichr": [("tf_perturb", "nr4a3")],
+        "require_any": ["oe", "overexpression"], "require_suffix": "up",
+    },
+    "nr4a3_perturbation_KD_UP_CONTROL": {
+        "read_id": "read_7_RET", "role": "directional_control_NOT_a_target_set",
+        "what": "⛔ THE FALSIFIER, on the pattern read 3 already uses. Genes UP when NR4A3 is "
+                "removed — the arm that should NOT track the other two. If it moves with them, "
+                "the contrast is measuring something the sets share rather than NR4A3 output, and "
+                "no membership call below may be quoted.",
+        "enrichr": [("tf_perturb", "nr4a3")],
+        "require_any": ["knockdown", "kd", "deficiency", "ko"], "require_suffix": "up",
+    },
+    "nr4a1_targets_chea": {
+        "read_id": "read_7_RET", "role": "paralogue_target_set",
+        "what": "NR4A1 targets from ChEA — the paralogue arm. A gene in ALL THREE paralogues' "
+                "target sets is a family target, not an NR4A3 target, and that distinction is the "
+                "whole of this repository's selectivity problem.",
+        "enrichr": [("chea", "nr4a1")], "prefer": ["human"],
+    },
+    "nr4a2_targets_chea": {
+        "read_id": "read_7_RET", "role": "paralogue_target_set",
+        "what": "NR4A2 targets from ChEA — the third paralogue arm.",
+        "enrichr": [("chea", "nr4a2")], "prefer": ["human"],
     },
     # --- read 5: HYPOXIA ------------------------------------------------------------------------
     "hypoxia_buffa": {
@@ -692,9 +941,19 @@ def _wanted_genes(sig):
     return want
 
 
-def _read_target(target, want):
+def _read_target(target, want, sym_diag=None):
     """Fetch ONE named series-matrix file, map probes to symbols, and reduce to the per-sample
     values of every wanted gene, plus each gene's within-sample percentile against the whole array.
+
+    ⚠ `sym_diag` — an already-computed `(sym, diag)` from `_gpl_symbols(platform)`, if the CALLER
+    already had to build one. Added 2026-08-07 after the hypoxia-confound background fetch called
+    `_gpl_symbols` itself (to learn the platform's symbol universe before it could sample from it)
+    and then called this function, which called it AGAIN — two full platform-table downloads and
+    parses per platform, on the one platform (GPL3290) whose bridge is the expensive half of the
+    whole job. Default None preserves every existing call site exactly.
+    ⛔ It is `(sym, diag)`, not `sym` alone, because the diagnostic is what makes a degraded
+    annotation visible; accepting the map without the diagnostic would let a caller quietly supply a
+    mapping whose provenance this function then could not report.
 
     ⭐ THE PERCENTILE IS THE FIELD A DEFAULT CANNOT FILL IN. A z-score against the array mean could
     be computed from summary statistics; a percentile requires the full distribution of that
@@ -723,7 +982,12 @@ def _read_target(target, want):
     rec["platform"] = plat
     rec["platform_expected"] = target["platform_expected"]
     rec["platform_matches_expected"] = (plat == target["platform_expected"])
-    sym, diag = _gpl_symbols(plat)
+    sym, diag = sym_diag if sym_diag is not None else _gpl_symbols(plat)
+    if sym_diag is not None:
+        diag = dict(diag, _supplied_by_caller=(
+            "this mapping was built by the CALLER and handed in, not fetched here — see "
+            "`_read_target`'s `sym_diag`. It is the same `_gpl_symbols` output; what is saved is a "
+            "second download and parse of the platform table, not a step of the science."))
     rec["probe_symbol_mapping"] = diag
     n_s = len(samples)
     rec["n_samples"] = n_s
@@ -1027,8 +1291,9 @@ def _score_gene_list(genes, tgt, emc, comp, min_genes, min_cov, what):
 def derive(inp):
     sig = inp.get("signature_sets") or {}
     res = {
-        "_what": "Six targeted expression reads in the two readable EMC series — the single CI "
-                 "dispatch that section 4 of emc-unexplored-treatment-lanes.md turns on.",
+        "_what": "Targeted expression reads in the two readable EMC series — the single CI "
+                 "dispatch that section 4 of emc-unexplored-treatment-lanes.md turns on, plus "
+                 "(2026-08-07) the surface-antigen read that five blocked routes turn on.",
         "_framing": FRAMING,
         "_execution_model": "$0. Public GEO series matrices on a GitHub-hosted CPU runner. No GPU, "
                             "no rental, no wet lab.",
@@ -1050,6 +1315,19 @@ def derive(inp):
             "read_3_PPARG_ACTIVITY": "reads.read_3_PPARG_ACTIVITY  (detail: "
                                      "panels.pparg_target_activity, signature_scores.pparg_*)",
             "read_6_NR2F1": "reads.read_6_NR2F1  (detail: gene_reads.NR2F1)",
+            "read_7_RET": "reads.read_7_RET  (detail: gene_reads.RET). Consumed by the RET "
+                          "cistrome lane — emc_ret_cistrome.py / emc-ret-cistrome.json — which "
+                          "asks the OCCUPANCY half of the same question. ⛔ Abundance is not "
+                          "activation; `emc-ret-lane.md` §3 owns that finding.",
+            "read_8_SURFACE_ANTIGEN": (
+                "reads.read_8_SURFACE_ANTIGEN  (headline table: "
+                "reads.read_8_SURFACE_ANTIGEN.cross_platform_board.by_state; per-gene detail: "
+                "…cross_platform_board.per_gene.<SYMBOL>). Consumed by RT-CART-SURFACE, RT-B7H3, "
+                "RT-PRAME-IMMTAC, RT-SSTR2, RT-FAP-RLT and RT-TCRT-CTA, every one of which "
+                "records a blocker phrased as 'a measurement in EMC'. ⛔ A consumer MUST read "
+                "`state` before any number: NOT_READABLE_ON_EITHER_PLATFORM is an instrument "
+                "statement and is never a biological negative, and no state in this board is a "
+                "protein, surface-localisation, tumour-restriction or safety claim."),
             "every_gene": "gene_reads.<SYMBOL>.<matrix_file> — carries `readable`, "
                           "`n_probes_mapping`, `probe_ids`, per-sample values, `array_percentile`, "
                           "the Welch contrast and a verdict sentence.",
@@ -1154,13 +1432,21 @@ def derive(inp):
                              for mf, (tgt, classes, emc, comp) in live.items()},
         }
 
+    res["target_set_membership"] = _target_set_membership(sig)
     res["reads"] = _assemble_reads(res)
     res["_what_this_cannot_conclude"] = [
         "That any agent named in this file works, is safe, is selective, or has a therapeutic "
         "window in EMC. No agent has been given to an EMC patient on the basis of anything here.",
         "That a gene with no probe is unexpressed. It was not read.",
         "That a transcript reading is a protein reading. Every therapeutic address named here — "
-        "CSPG4, DLL3, the oncofetal CS epitope, NR2F1 — is a protein or a glycan question.",
+        "CSPG4, DLL3, CD248, CD276, SSTR2, the oncofetal CS epitope, NR2F1 — is a protein or a "
+        "glycan question.",
+        "⛔ That any antigen in read 7 is on the cell SURFACE, at a usable density, on the TUMOUR "
+        "cell rather than the stroma, or RESTRICTED relative to normal tissue. Every contrast in "
+        "this artifact is EMC versus other SARCOMAS. The tumour-vs-normal axis — the one that "
+        "decides whether a surface antigen has a therapeutic window at all — is not measured "
+        "anywhere in this file; its home is emc-surface-normal-window.json, and even there it is "
+        "a normal-tissue RNA prior rather than a safety statement.",
         "That n = 6 and n = 10 archival tumours on two decade-old array platforms, uncorrected "
         "for multiple testing, settle anything at the level of a population.",
         "Anything about a patient.",
@@ -1206,6 +1492,92 @@ def _readability_of(res, genes):
     return out
 
 
+def _cross_platform_verdict(res, gene):
+    """⭐ THE ONE FIELD READ 7 EXISTS TO PRODUCE: does this antigen survive on BOTH platforms?
+
+    ⛔ THE CLASSES ARE DELIBERATELY ASYMMETRIC, because the two ways to be wrong are not symmetric.
+    `NOT_READABLE_*` and `READABLE_ON_ONE_PLATFORM_ONLY` are statements about the INSTRUMENT and
+    are never biological negatives (CLAUDE.md §4). `DISCORDANT` is a real disagreement that this
+    module refuses to resolve by choosing a platform — the two series have different comparator
+    arms and different physics (single-channel vs two-colour log-ratio), so either could be the
+    right answer and neither reading is discarded.
+    """
+    reads = res["gene_reads"].get(gene) or {}
+    per = {}
+    for mf, r in reads.items():
+        if not r.get("readable"):
+            per[mf] = {"readable": False, "why_not_readable": r.get("why_not_readable"),
+                       "verdict": r.get("verdict")}
+            continue
+        w = r.get("welch_EMC_vs_comparator") or {}
+        per[mf] = {"readable": True, "platform": r.get("platform"),
+                   "n_probes_mapping": r.get("n_probes_mapping"),
+                   "probe_ids": r.get("probe_ids"),
+                   "value_kind": r.get("value_kind"),
+                   "EMC_mean_array_percentile": (r.get("EMC") or {}).get("mean_array_percentile"),
+                   "delta_a_minus_b": w.get("delta_a_minus_b"), "t": w.get("t"), "df": w.get("df"),
+                   "verdict": r.get("verdict")}
+    readable = [mf for mf, p in per.items() if p.get("readable")]
+    scored = [mf for mf in readable if per[mf].get("t") is not None]
+    if not per:
+        state = "NO_PLATFORM_WAS_READ"
+    elif not readable:
+        state = "NOT_READABLE_ON_EITHER_PLATFORM"
+    elif len(scored) < len(per):
+        state = "READABLE_ON_ONE_PLATFORM_ONLY" if scored else "READABLE_BUT_NO_CONTRAST"
+    else:
+        ts = [per[mf]["t"] for mf in scored]
+        up = [t for t in ts if t >= 2]
+        down = [t for t in ts if t <= -2]
+        if len(up) == len(ts):
+            state = "CONCORDANT_UP_ON_BOTH"
+        elif len(down) == len(ts):
+            state = "CONCORDANT_DOWN_ON_BOTH"
+        elif up and down:
+            state = "DISCORDANT_OPPOSITE_SIGNS"
+        elif up or down:
+            state = "MOVED_ON_ONE_FLAT_ON_THE_OTHER"
+        else:
+            state = "FLAT_ON_BOTH"
+    return {
+        "gene": gene, "state": state,
+        "platforms_readable": readable, "platforms_with_a_contrast": scored,
+        "per_platform": per,
+        "_meaning": {
+            "CONCORDANT_UP_ON_BOTH": "|t| >= 2 and positive on every platform that produced a "
+                                     "contrast. The only state this read treats as a lead.",
+            "MOVED_ON_ONE_FLAT_ON_THE_OTHER": "one platform moved, the other did not. NOT a "
+                                              "replication — the comparator arms differ.",
+            "DISCORDANT_OPPOSITE_SIGNS": "the two platforms disagree in SIGN. This module reports "
+                                         "both and picks neither.",
+            "READABLE_ON_ONE_PLATFORM_ONLY": "an INSTRUMENT statement. The gene was not read on "
+                                             "the other platform; that is not a low reading.",
+            "NOT_READABLE_ON_EITHER_PLATFORM": "⛔ AN INSTRUMENT STATEMENT AND NEVER A BIOLOGICAL "
+                                               "ONE. No probe mapped to this symbol. It does NOT "
+                                               "mean the gene is unexpressed in EMC.",
+        },
+    }
+
+
+def _surface_board(res):
+    """Every gene in the surface panel, sorted into the states above — the read's headline table."""
+    genes = sorted({g for gs in PANELS["surface_antigen"]["groups"].values() for g in gs})
+    rows = {g: _cross_platform_verdict(res, g) for g in genes}
+    by_state = {}
+    for g, r in rows.items():
+        by_state.setdefault(r["state"], []).append(g)
+    return {
+        "_how_to_read": (
+            "⛔ START WITH `by_state.NOT_READABLE_ON_EITHER_PLATFORM`. Those genes were NOT "
+            "MEASURED; nothing in this artifact licenses a sentence about their expression in "
+            "EMC. Then `CONCORDANT_UP_ON_BOTH`, which is the only state that is a lead. Every "
+            "other state is explicitly weaker and says so."),
+        "n_genes": len(rows),
+        "by_state": {k: sorted(v) for k, v in sorted(by_state.items())},
+        "per_gene": rows,
+    }
+
+
 def _slot_summary(res, read_id):
     return {k: {"resolved": v.get("resolved"), "role": v.get("role"),
                 "resolved_set": v.get("resolved_set"),
@@ -1233,6 +1605,70 @@ def _panel_summary(res, pname):
                            "per_platform": {mf: {k: v for k, v in s.items() if k in keep}
                                             for mf, s in d["per_platform"].items()}}
                        for g, d in (p.get("groups") or {}).items()}}
+
+
+# The genes whose membership in an NR4A target set is a RESULT rather than context.
+MEMBERSHIP_PROBES = ["RET", "ENO3", "SEMA3C", "PPARG", "GDNF", "GFRA1", "VEGFA", "KDR"]
+
+
+def _target_set_membership(sig):
+    """Is *RET* a member of each retrieved NR4A target-gene set?
+
+    ⭐ A DIFFERENT INSTRUMENT CLASS FROM THE CISTROME MODULE, ON PURPOSE. `emc_ret_cistrome.py`
+    asks whether NR4A3 OCCUPIES the RET locus in somebody's ChIP-seq. This asks whether RET is in
+    a published NR4A3 target set — and for the perturbation arms, whether RET MOVES when NR4A3 is
+    perturbed, which occupancy alone cannot show and which is the readout the ENO3 precedent
+    needed luciferase for (PMID 26310886). Two instrument classes agreeing is an argument.
+
+    ⛔ MEMBERSHIP IS A CITATION, NOT A MEASUREMENT MADE HERE. Every row carries the VERBATIM
+    matched term (which, for ChEA, embeds the source experiment's own PMID) so a reader can go to
+    the experiment rather than to this file. And a set that did not resolve is `resolved: false`
+    with `member: null` — NEVER `member: false`, because "the set was not retrieved" and "RET is
+    not in the set" are different facts and this repository has been burned by exactly that
+    conflation (CLAUDE.md §4).
+    """
+    out = {
+        "_what": "Membership of RET (and of the lane's controls) in every retrieved NR4A "
+                 "target-gene set, by paralogue and by instrument class.",
+        "⛔ _member_null_is_not_member_false": (
+            "`member: null` means the SET WAS NOT RETRIEVED. It is an absent reading and says "
+            "nothing about whether the gene is a target."),
+        "⚠ _what_membership_is_not": (
+            "an NR4A3 target set is somebody else's experiment in somebody else's cell type, "
+            "almost always wild-type NR4A3 rather than EWSR1::NR4A3. Membership is a PRIOR of "
+            "the same kind a ChIP peak is, and non-membership is weak — most sets are small, "
+            "thresholded and cell-type specific."),
+        "per_slot": {}, "by_gene": {},
+    }
+    slots = (sig or {}).get("slots") or {}
+    for slot, rec in slots.items():
+        if rec.get("read_id") != "read_7_RET":
+            continue
+        genes = rec.get("genes")
+        row = {"role": rec.get("role"), "what": rec.get("what"),
+               "resolved": bool(genes),
+               "matched_term_verbatim": rec.get("matched_term_verbatim"),
+               "library": rec.get("library"), "citation": rec.get("citation"),
+               "species_of_the_source_experiment": rec.get("species_of_the_source_experiment"),
+               "n_genes": rec.get("n_genes")}
+        upper = {str(g).upper() for g in (genes or [])}
+        row["membership"] = {g: (g in upper if genes else None) for g in MEMBERSHIP_PROBES}
+        out["per_slot"][slot] = row
+    for g in MEMBERSHIP_PROBES:
+        hits = sorted(s for s, r in out["per_slot"].items()
+                      if r["resolved"] and r["membership"].get(g))
+        unresolved = sorted(s for s, r in out["per_slot"].items() if not r["resolved"])
+        out["by_gene"][g] = {
+            "in_sets": hits, "n_sets_containing_it": len(hits),
+            "n_sets_resolved": sum(1 for r in out["per_slot"].values() if r["resolved"]),
+            "sets_not_retrieved": unresolved,
+            "verdict": (f"present in {len(hits)} retrieved NR4A target set(s): "
+                        f"{', '.join(hits)}" if hits else
+                        "not present in any RETRIEVED NR4A target set. ⚠ ABSENT from those sets "
+                        "is not absence of regulation — these sets are thresholded, cell-type "
+                        "specific, and mostly wild-type NR4A3 rather than the fusion."),
+        }
+    return out
 
 
 def _read_entry(res, read_id, panel_key, extra=None):
@@ -1303,6 +1739,233 @@ def _assemble_reads(res):
         res, "read_6_NR2F1", "nr2f1_dormancy",
         {"the_precondition": res["gene_reads"].get("NR2F1") or {},
          "paralogues": _readability_of(res, ["NR2F2", "NR2F6"])})
+    R["read_7_RET"] = _read_entry(
+        res, "read_7_RET", "ret_axis",
+        {"the_receptor": res["gene_reads"].get("RET") or {},
+         "the_ligand_module": _readability_of(res, ["GDNF", "NRTN", "ARTN", "PSPN"]),
+         "the_co_receptors": _readability_of(res, ["GFRA1", "GFRA2", "GFRA3", "GFRA4"]),
+         "the_alternative_hypothesis": _readability_of(res, ["VEGFA", "KDR", "PDGFRB", "KIT"]),
+         "published_nr4a3_targets": _readability_of(res, ["SEMA3C", "ENO3"]),
+         "is_RET_in_a_published_NR4A_target_set": (res.get("target_set_membership") or {})
+         .get("by_gene", {}).get("RET"),
+         "target_set_membership_all_genes": res.get("target_set_membership"),
+         "⭐ how_to_read_the_two_instruments_together": (
+             "OCCUPANCY (emc-ret-cistrome.json) and MEMBERSHIP/PERTURBATION (here) are "
+             "independent instrument classes and the interesting cases are the disagreements. "
+             "Both positive is the strongest reading available at $0. Occupancy without "
+             "perturbation response is a bound site with no demonstrated output — which is "
+             "exactly why the ENO3 precedent needed luciferase on top of ChIP (PMID 26310886). "
+             "Perturbation response without occupancy is consistent with an indirect effect. "
+             "⛔ Neither, in any combination, is evidence about EWSR1::NR4A3 in an EMC tumour."),
+         "⛔ what_a_high_RET_reading_is_not": (
+             "it is not activation, and the distinction is the entire content of the "
+             "methodological guard this lane carries. PMID 34885165 measured MET protein in 82 % "
+             "of clear cell sarcomas and phospho-MET in 4 % of the same blinded 32-case array; "
+             "abundance and activation came apart by a factor of twenty in the disease this lane "
+             "uses as its comparator. RET in EMC has never been measured that way "
+             "(`emc-ret-lane.md` §3)."),
+         "⚠ what_a_high_RET_reading_also_cannot_separate": (
+             "tumour RET from stromal or entrapped peripheral-nerve RET. EMC is hypocellular and "
+             "matrix-rich (PMC6766969), RET is a nerve-lineage receptor, and these are BULK "
+             "arrays — so cellular origin is unresolvable here by construction.")})
+    R["read_8_SURFACE_ANTIGEN"] = _read_entry(
+        res, "read_8_SURFACE_ANTIGEN", "surface_antigen",
+        {"why_this_read_exists": PANELS["surface_antigen"]["why_this_read_exists"],
+         "group_annotations": PANELS["surface_antigen"]["group_annotations"],
+         "cross_platform_board": _surface_board(res),
+         "the_route_named_addresses": _readability_of(
+             res, PANELS["surface_antigen"]["groups"]["route_named_addresses"]),
+         "CD248_followup": {
+             "why_it_is_singled_out": (
+                 "⭐ CD248 (endosialin / TEM1) is one of the few genes the repository's OWN "
+                 "DepMap surfaceome scan calls selectivity-significant in the sarcoma class, and "
+                 "it appears in no prose anywhere in this repository. Those DepMap numbers have "
+                 "ONE home and are not re-typed here (CLAUDE.md §1): "
+                 "surfaceome-instrument-limits.json -> limits.L2_stromal_floor_demonstrated."
+                 "genes.CD248 and its `counter_reading_that_narrows_the_limit`. This field asks "
+                 "the different question that scan could not: does CD248 read up in ACTUAL EMC "
+                 "TUMOUR TISSUE?"),
+             "⛔_the_two_readings_are_not_the_same_measurement": (
+                 "The DepMap reading is EMC-surrogate sarcoma CELL LINES in monoculture vs other "
+                 "cancer lineages. This reading is EMC TUMOUR TISSUE vs comparator sarcoma "
+                 "tissue. They can agree, disagree, or both be right — a pericyte/CAF antigen "
+                 "reading up in bulk tissue may be reporting the stromal compartment, which is "
+                 "precisely the compartment monoculture does not contain."),
+             "emc_tumour_read": res["gene_reads"].get("CD248") or {},
+             "cross_platform": _cross_platform_verdict(res, "CD248"),
+             "stromal_context_genes": _readability_of(res, ["FAP", "LRRC15", "PDGFRB", "PDGFRA",
+                                                            "THY1", "ACTA2", "POSTN"]),
+             "what_a_high_reading_would_and_would_not_license": (
+                 "WOULD: name CD248 as the first EMC-measured candidate surface address the "
+                 "repository holds, and make a normal-tissue window read and an IHC/scRNA "
+                 "follow-up the next steps. WOULD NOT: establish protein, surface density, "
+                 "tumour-cell (as against stromal) origin, tumour restriction, or that any "
+                 "CD248-directed agent binds, works or is safe in EMC."),
+         },
+         "CSPG4_platform_discordance": {
+             "_the_finding": (
+                 "⛔ THE TWO PLATFORMS DISAGREE ON CSPG4 AND THIS MODULE DOES NOT RESOLVE IT BY "
+                 "PICKING ONE. Both readings are reported in full below and in "
+                 "gene_reads.CSPG4."),
+             "⚠_the_precise_shape_of_the_disagreement_read_the_state_not_this_label": (
+                 "The `state` field below is authoritative and this block's name is not. The "
+                 "measured shape is ONE PLATFORM MOVED AND THE OTHER DID NOT — a strong "
+                 "elevation on GPL6244 against no detectable difference on GPL3290 — which is "
+                 "NOT the same as the two platforms reading opposite signs. 'Up here, silent "
+                 "there' and 'up here, down there' license different next steps, and calling "
+                 "both 'discordant' erases the difference. The classifier distinguishes them "
+                 "(`MOVED_ON_ONE_FLAT_ON_THE_OTHER` vs `DISCORDANT_OPPOSITE_SIGNS`); this "
+                 "sentence exists so the prose cannot drift away from what the classifier said."),
+             "cross_platform": _cross_platform_verdict(res, "CSPG4"),
+             "why_it_matters": (
+                 "CSPG4 is one of the two carrier proteoglycans the founding oncofetal-CS paper "
+                 "NAMES, and the earlier surfaceome seed held only the other one (CD44) — "
+                 "surfaceome-instrument-limits.json -> limits.L4_cspg4_coverage_gap. So this is "
+                 "the first per-gene CSPG4 number in an actual EMC series that this repository "
+                 "holds."),
+             "candidate_explanations_none_of_them_settled_here": [
+                 "DIFFERENT COMPARATOR ARMS. GSE24369's comparators are LGFMS / desmoid "
+                 "fibromatosis / fibrosarcoma; GSE4303-GPL3290's are DFSP and GIST. DFSP is a "
+                 "dermal fibroblastic tumour and CSPG4/MCSP is a well-known melanocytic and "
+                 "pericytic antigen, so a high comparator arm on GPL3290 would flatten the "
+                 "contrast without EMC having moved at all.",
+                 "DIFFERENT PHYSICS. GPL3290 is a two-colour log-ratio against a reference pool; "
+                 "GPL6244 is single-channel intensity. A ratio against a pool compresses a gene "
+                 "the pool also expresses.",
+                 "PROBE IDENTITY. GPL3290's probes carry EST accessions only, so its single "
+                 "CSPG4 probe reaches the symbol through the accession bridge and may not "
+                 "interrogate the same transcript region as the GPL6244 probe.",
+                 "SAMPLE COMPOSITION. Both are bulk archival tissue with unmeasured "
+                 "tumour-cell content; a pericyte-associated antigen tracks vascular content.",
+             ],
+             "what_would_actually_decide_it": [
+                 {
+                     "decider": "A THIRD, INDEPENDENT EMC SERIES. This is the direct tie-breaker, "
+                               "and it is NOT hypothetical.",
+                     "⭐_a_third_series_exists_and_the_reason_it_is_unread_is_measured": (
+                         "GSE28866 carries 4 EMC samples against 27 normal/reference samples "
+                         "(emc-atr-vulnerability.json -> part_b_emc_tumour_signature."
+                         "series_readability.GSE28866). It is graded unreadable, and the "
+                         "DIAGNOSTIC for that grade — not an inference — is in the inputs cache: "
+                         "its series matrix reports `n_probes: 0` across 99 samples on GPL10999, "
+                         "and the platform annotation fetch returned `HTTP Error 404` for "
+                         "`GPL10999.annot.gz`. GPL10999 is a sequencing platform, and a GEO "
+                         "series matrix for a sequencing platform carries sample metadata with "
+                         "no expression table; the processed data lives in the series' "
+                         "SUPPLEMENTARY files, which this instrument never looks at."),
+                     "⛔_so_the_grade_is_about_the_file_format_not_the_data": (
+                         "'Unreadable' here means THIS READER could not parse THAT file. It is "
+                         "not a finding that GSE28866 holds no usable expression data, and it "
+                         "must never be quoted as one (CLAUDE.md §4)."),
+                     "⭐_and_its_comparator_arm_is_the_axis_everything_else_is_missing": (
+                         "Its 27 comparators are classed `normal_or_reference`, not other "
+                         "sarcomas. Every contrast in read 7 is EMC-vs-SARCOMA, which cannot "
+                         "speak to on-target/off-tumour toxicity; a tumour-vs-NORMAL arm in an "
+                         "EMC series is the one measurement that could, and no artifact in this "
+                         "repository holds it."),
+                     "✅_that_characterisation_was_run_and_here_is_what_it_measured": {
+                         "run": "emc-expression-datasets.yml mode=gse-series series=GSE28866, "
+                               "run 31200667719, 2026-08-07. Artifact: "
+                               "research/modalities/atr-hrd-sarcoma-series.json.",
+                         "state": "SERIES_LEVEL_PROCESSED_SUPPLEMENT_ONLY",
+                         "⭐_a_processed_matrix_exists": (
+                             "The series-level supplementary listing carries "
+                             "`GSE28866_raw_counts_54511_peaks_cancer_and_normal.txt.gz` and "
+                             "`GSE28866_36048_normalized_peaks_cancer_and_normal.txt.gz`. Both "
+                             "names say `cancer_and_normal` — the tumour-vs-NORMAL arm is in the "
+                             "file, not merely in the sample annotations."),
+                         "the_four_EMC_samples_named": ["GSM715466 (STT5525_EMC)",
+                                                        "GSM715467 (STT5526_EMC)",
+                                                        "GSM715470 (STT5527_EMC)",
+                                                        "GSM715472 (STT5592_EMC)"],
+                         "n_normal_tissue_samples_in_the_deposit": 27,
+                         "⛔_and_the_obstacle_that_is_left_is_real_and_specific": (
+                             "The matrix is indexed by PEAKS, not genes — 54,511 raw and 36,048 "
+                             "normalised 3SEQ peaks. A per-gene question therefore needs a "
+                             "peak→gene mapping, and whether the file carries one (a symbol "
+                             "column) or only genomic coordinates is NOT known: nothing has "
+                             "opened the file. Per-sample supplementary files are `.bed.gz` and "
+                             "the characteriser counted 0 of 99 samples with a processed-looking "
+                             "per-sample file, so the series-level table is the only route in."),
+                         "⛔_what_is_still_UNKNOWN": (
+                             "Whether CSPG4, CD248 or ALCAM can be read out of that peak table. "
+                             "This entry has moved from 'a series might exist' to 'a series "
+                             "exists and its processed matrix is downloadable', and no further. "
+                             "n=4 EMC would be descriptive in any case, and 3SEQ on FFPE is a "
+                             "different measurement from either array platform above — so this "
+                             "would be a third opinion, not an arbiter."),
+                         "the_next_step_and_its_cost": (
+                             "$0. Fetch the two series-level files in CI and report their header "
+                             "— whether a gene/symbol column exists, and if not, what the peak "
+                             "coordinates would have to be mapped against. That single header "
+                             "read decides whether this series is usable at all."),
+                     },
+                 },
+                 "PER-SAMPLE COMPARATOR-ARM DECOMPOSITION on GPL3290: score CSPG4 in EMC vs DFSP "
+                 "and vs GIST SEPARATELY (n=3 each). If DFSP alone carries the high comparator "
+                 "value, the discordance is the comparator arm and not EMC. ⚠ n=3 per arm is "
+                 "descriptive only. Computable from the per-sample values already in this "
+                 "artifact, at no additional fetch cost.",
+                 "PROBE-LEVEL INSPECTION: both platforms map exactly one probe to CSPG4, so "
+                 "there is no within-platform probe disagreement to appeal to; the question is "
+                 "whether the two probes interrogate the same region, which is a GPL annotation "
+                 "read.",
+                 "⛔ NOT A DECIDER: choosing the platform with the larger n, the newer array, or "
+                 "the answer that suits the route. All three were available and none is evidence.",
+             ],
+         },
+         "instrument_disagreement_with_the_depmap_surfaceome_scan": {
+             "_what": ("⭐ THE TWO INSTRUMENTS INVERT ON THE TWO GENES THAT MATTER MOST, AND THAT "
+                       "IS RECORDED HERE RATHER THAN RESOLVED. `emc_surfaceome_scan.py`'s "
+                       "per-gene rows have their one home in emc-surfaceome-scan.json -> "
+                       "actionable_antigens; the EMC-tissue rows are in "
+                       "cross_platform_board.per_gene. Read both before quoting either."),
+             "genes_where_they_point_opposite_ways": {
+                 "CD248": "the scan's ONLY selectivity-significant antigen among these; the EMC "
+                          "tissue read has it LOWER in EMC on the one platform that can read it.",
+                 "ALCAM": "the scan scored it and REJECTED it (not selectivity-significant); the "
+                          "EMC tissue read has it higher in EMC on BOTH platforms.",
+                 "CD44": "the scan's most strongly negative row among these; the EMC tissue read "
+                         "has it higher in EMC on BOTH platforms.",
+             },
+             "⛔_this_is_not_yet_a_contradiction_and_four_things_could_produce_it": [
+                 "DIFFERENT QUESTIONS, and this one alone is enough. The scan asks 'is this gene "
+                 "higher in SARCOMA LINES than in OTHER CANCER LINEAGES?'. This read asks 'is it "
+                 "higher in EMC than in OTHER SARCOMAS?'. Those are different contrasts, so "
+                 "opposite answers are not even inconsistent.",
+                 "DIFFERENT POPULATIONS. The scan contains no verified EWSR1::NR4A3 line "
+                 "(surfaceome-instrument-limits.json), so it holds no EMC observation at all; "
+                 "this read is EMC tumours.",
+                 "DIFFERENT COMPARTMENTS. Monoculture is tumour cells only; bulk archival tissue "
+                 "adds stroma, vasculature, immune infiltrate and matrix. A gene carried by any "
+                 "of those moves here and cannot move there — the L1/L2 limit, in the direction "
+                 "it predicts.",
+                 "DIFFERENT MEASUREMENT. RNA-seq TPM in cultured lines versus array intensity in "
+                 "archival tissue on two decade-old platforms.",
+             ],
+             "⛔_what_this_module_refuses_to_do": (
+                 "Pick a winner. Nothing in either artifact discriminates the four explanations "
+                 "above, and choosing the instrument whose answer suits a route is not evidence "
+                 "(CLAUDE.md §4). What WOULD discriminate them: a single-cell or spatial EMC "
+                 "dataset, which separates the tumour-cell compartment from the stromal one and "
+                 "so tests the third explanation directly. None is in hand."),
+         },
+         "⛔_what_no_reading_here_can_establish": (
+             "Protein presence, surface localisation, surface DENSITY, tumour-cell versus "
+             "stromal origin, tumour restriction against normal tissue, or the existence of a "
+             "therapeutic window. A high transcript reading is a reason to stain; it is not an "
+             "antigen call, and it is not evidence that any agent directed at that antigen "
+             "binds, works, is selective or is safe in EMC."),
+         "the_missing_axis_and_where_it_lives": {
+             "axis": "tumour-vs-NORMAL tissue. Every contrast in this read is EMC vs other "
+                     "SARCOMAS, which cannot speak to on-target/off-tumour toxicity.",
+             "artifact": "research/modalities/emc-surface-normal-window.json (Human Protein "
+                         "Atlas RNA tissue + blood-cell specificity, with DLL3/GPC3/B2M/CD3E as "
+                         "self-validating controls).",
+             "⚠_it_is_a_prior_not_a_guarantee": "HPA RNA is bulk NORMAL tissue and mRNA is not "
+                                                "surface protein, so RESTRICTED there is a window "
+                                                "prior and never a safety statement.",
+         }})
 
     for k, v in R.items():
         if k == "control":
@@ -1372,6 +2035,18 @@ def _summarise(res):
     for g in ("ASS1", "CSPG4", "CHST11", "NR2F1", "DLL3", "ASCL1", "INSM1", "PPARG"):
         for mf, r in (res["gene_reads"].get(g) or {}).items():
             lines.append(f"  {g:<7} {mf[:30]:<32} {str(r.get('verdict'))[:170]}")
+    board = ((res["reads"].get("read_8_SURFACE_ANTIGEN") or {}).get("cross_platform_board") or {})
+    if board:
+        lines.append("")
+        lines.append(f"SURFACE-ANTIGEN BOARD ({board.get('n_genes')} genes) — state: genes")
+        for state, genes in (board.get("by_state") or {}).items():
+            lines.append(f"  {state:<34} ({len(genes):>2}) {', '.join(genes)}")
+        lines.append("")
+        lines.append("  ⛔ NOT_READABLE_* is an INSTRUMENT statement, never a biological negative.")
+        for g in ("CD248", "CSPG4", "CD276", "SSTR2", "FAP", "PRAME", "B2M"):
+            row = (board.get("per_gene") or {}).get(g) or {}
+            for mf, p in (row.get("per_platform") or {}).items():
+                lines.append(f"  {g:<7} {mf[:30]:<32} {str(p.get('verdict'))[:150]}")
     return "\n".join(lines)
 
 

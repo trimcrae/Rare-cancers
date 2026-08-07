@@ -283,3 +283,37 @@ def test_the_routed_map_edit_points_at_the_artifact_and_restates_no_peptide(art)
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-q"]))
+
+
+def test_the_exclusion_is_anchored_to_the_repo_root_not_the_absolute_path():
+    """⛔ FAIL-QUIET IN A MEDICAL-INTEGRITY GUARD, measured 2026-08-07.
+
+    `_EXCLUDE` carries "/.claude/" so the scan skips agent worktrees. It was matched against the
+    ABSOLUTE path `glob.glob` returns. The harness places worktrees at `<repo>/.claude/worktrees/<id>/`,
+    so when the checkout BEING SCANNED is itself a worktree, every absolute path under it contains
+    "/.claude/" — every file was excluded, and `consumers()` returned an empty list.
+
+    That is the dangerous shape: it does not raise and does not warn. It answers "which files still
+    quote this withdrawn artifact?" with a clean, confident, wrong "none" — an absent reading read as
+    a reading of absence, in the one check whose entire job is to find them.
+
+    Measured in one real worktree, same tree, only this module differing: 0 consumers before, 24 after.
+    CI checks out to /home/runner/work/..., so `main` never saw it and every agent did.
+    """
+    assert "/.claude/" in FNI._EXCLUDE, "the worktree exclusion itself must stay"
+
+    # A path INSIDE the repo's own .claude/ is excluded ...
+    assert FNI._excluded(os.path.join(FNI.REPO, ".claude", "worktrees", "x", "research", "a.md"))
+    # ... while ordinary content is not, however the repo root is spelled.
+    assert not FNI._excluded(os.path.join(FNI.REPO, "research", "modalities", "a.md"))
+
+    # ⚠ THE REGRESSION ITSELF: a repo root that lives under /.claude/ must not exclude its own content.
+    # Asserted against the real function rather than a re-implementation of its rule.
+    rel = os.path.relpath(
+        "/home/user/repo/.claude/worktrees/agent-1/research/modalities/a.md",
+        "/home/user/repo/.claude/worktrees/agent-1")
+    assert not any(x in "/" + rel.replace(os.sep, "/") for x in FNI._EXCLUDE), (
+        "an exclusion anchored to the repo root must not fire on the root's own name")
+
+    # And the scan must actually find consumers of a known artifact.
+    assert len(FNI.consumers("fusion-breakpoint-neoantigens.json")) > 0

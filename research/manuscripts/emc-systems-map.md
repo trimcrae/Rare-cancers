@@ -299,6 +299,7 @@ A claim is only as good as the provenance of the thing it was read off. An entry
 |---|---|---|
 | [`IDEAS.md`](../IDEAS.md) | the 2026-07-03 'DepMap DOES contain one EMC line' correction, and the surface-paper headline | ⛔ **invalidated** |
 | [`README.md`](README.md) | manuscripts index entry for the surface-target preprint | ⛔ **invalidated** |
+| [`emc-hypoxia-reading.md`](emc-hypoxia-reading.md) | Names the line only to record that the sole EMC-labelled DepMap model cannot supply an EMC hypoxia or matrix measurement; the memo's readings come from the two GEO series, not from this model. | ⛔ **invalidated** |
 | [`emc-post-degrader-options.md`](emc-post-degrader-options.md) | route 1's $0 CRISPR-availability finding (unaffected); route 1's EMC-model list for the ATRi ask; route 6's D axis, whose only computable component was a PPARG read off this model | ⛔ **invalidated** |
 | [`emc-sgk1-lane-assessment.md`](emc-sgk1-lane-assessment.md) | §4b — why DepMap cannot settle the SGK1 lane: its only EMC-labelled model is this one. Quotes the Cellosaurus caution verbatim. | ⛔ **invalidated** |
 | [`emc-surface-target-landscape.md`](emc-surface-target-landscape.md) | PREPRINT. Title/abstract framing, §2.2 class definition, §3.1 + Table 1, §3.5, §6, §7 | ⛔ **invalidated** |

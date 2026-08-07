@@ -26,8 +26,8 @@
   ],
   "self_validation": {
     "positive_controls_restricted": {
-      "GPC3": "RESTRICTED",
-      "DLL3": "RESTRICTED"
+      "DLL3": "RESTRICTED",
+      "GPC3": "RESTRICTED"
     },
     "negative_control_broad": {
       "B2M": "BROAD_LIABILITY"
@@ -38,7 +38,12 @@
     "_pass": "DLL3/GPC3 => RESTRICTED (tissue enriched); B2M => BROAD; CD3E must be VITAL_OR_IMMUNE_LIABILITY (NOT restricted) \u2014 the hard control that 'tissue enhanced != restricted' and that immune expression is caught."
   },
   "restricted_window_candidates": [
-    "B4GALNT1"
+    "B4GALNT1",
+    "PRAME",
+    "ALPP",
+    "MAGEA4",
+    "CTAG1B",
+    "ALCAM"
   ],
   "liability_antigens": [
     "CDH11",
@@ -53,7 +58,29 @@
     "ERBB2",
     "EGFR",
     "KIT",
-    "SSTR2"
+    "SSTR2",
+    "CD248",
+    "CSPG4",
+    "MSLN",
+    "L1CAM",
+    "CDH17",
+    "LRRC15",
+    "PDGFRB",
+    "ANTXR1",
+    "TNC",
+    "MMP14",
+    "POSTN",
+    "THY1",
+    "CD44",
+    "VCAN",
+    "SDC1",
+    "GPC1",
+    "TAP1",
+    "ROR1",
+    "ROR2",
+    "CD70",
+    "IGF1R",
+    "EPHA2"
   ],
   "broad_liability": [
     "CDH11",
@@ -68,11 +95,35 @@
     "ERBB2",
     "EGFR",
     "KIT",
-    "SSTR2"
+    "SSTR2",
+    "CD248",
+    "CSPG4",
+    "MSLN",
+    "L1CAM",
+    "CDH17",
+    "LRRC15",
+    "PDGFRB",
+    "ANTXR1",
+    "TNC",
+    "MMP14",
+    "POSTN",
+    "THY1",
+    "CD44",
+    "VCAN",
+    "SDC1",
+    "GPC1",
+    "TAP1",
+    "ROR1",
+    "ROR2",
+    "CD70",
+    "IGF1R",
+    "EPHA2"
   ],
   "antigens": {
     "CDH11": {
       "ensembl": "ENSG00000140937",
+      "searched_as": "ENSG00000140937",
+      "hpa_returned_symbol": "CDH11",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -87,6 +138,8 @@
     },
     "FGFR1": {
       "ensembl": "ENSG00000077782",
+      "searched_as": "ENSG00000077782",
+      "hpa_returned_symbol": "FGFR1",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in all",
       "rna_tissue_specific_nTPM": null,
@@ -109,6 +162,8 @@
     },
     "GPC2": {
       "ensembl": "ENSG00000213420",
+      "searched_as": "ENSG00000213420",
+      "hpa_returned_symbol": "GPC2",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in some",
       "rna_tissue_specific_nTPM": null,
@@ -123,6 +178,8 @@
     },
     "PTK7": {
       "ensembl": "ENSG00000112655",
+      "searched_as": "ENSG00000112655",
+      "hpa_returned_symbol": "PTK7",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -141,6 +198,8 @@
     },
     "MCAM": {
       "ensembl": "ENSG00000076706",
+      "searched_as": "ENSG00000076706",
+      "hpa_returned_symbol": "MCAM",
       "rna_tissue_specificity": "Group enriched",
       "rna_tissue_distribution": "Detected in all",
       "rna_tissue_specific_nTPM": null,
@@ -157,6 +216,8 @@
     },
     "EPHB4": {
       "ensembl": "ENSG00000196411",
+      "searched_as": "ENSG00000196411",
+      "hpa_returned_symbol": "EPHB4",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -171,6 +232,8 @@
     },
     "CD276": {
       "ensembl": "ENSG00000103855",
+      "searched_as": "ENSG00000103855",
+      "hpa_returned_symbol": "CD276",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -187,6 +250,8 @@
     },
     "NCAM1": {
       "ensembl": "ENSG00000149294",
+      "searched_as": "ENSG00000149294",
+      "hpa_returned_symbol": "NCAM1",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -204,6 +269,8 @@
     },
     "FAP": {
       "ensembl": "ENSG00000078098",
+      "searched_as": "ENSG00000078098",
+      "hpa_returned_symbol": "FAP",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -218,6 +285,8 @@
     },
     "ERBB2": {
       "ensembl": "ENSG00000141736",
+      "searched_as": "ENSG00000141736",
+      "hpa_returned_symbol": "ERBB2",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in all",
       "rna_tissue_specific_nTPM": null,
@@ -236,6 +305,8 @@
     },
     "EGFR": {
       "ensembl": "ENSG00000146648",
+      "searched_as": "ENSG00000146648",
+      "hpa_returned_symbol": "EGFR",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -259,6 +330,8 @@
     },
     "KIT": {
       "ensembl": "ENSG00000157404",
+      "searched_as": "ENSG00000157404",
+      "hpa_returned_symbol": "KIT",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -276,6 +349,8 @@
     },
     "SSTR2": {
       "ensembl": "ENSG00000180616",
+      "searched_as": "ENSG00000180616",
+      "hpa_returned_symbol": "SSTR2",
       "rna_tissue_specificity": "Tissue enhanced",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -293,6 +368,8 @@
     },
     "B4GALNT1": {
       "ensembl": "ENSG00000135454",
+      "searched_as": "ENSG00000135454",
+      "hpa_returned_symbol": "B4GALNT1",
       "rna_tissue_specificity": "Tissue enriched",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -307,6 +384,8 @@
     },
     "DLL3": {
       "ensembl": "ENSG00000090932",
+      "searched_as": "ENSG00000090932",
+      "hpa_returned_symbol": "DLL3",
       "rna_tissue_specificity": "Tissue enriched",
       "rna_tissue_distribution": "Detected in some",
       "rna_tissue_specific_nTPM": null,
@@ -325,6 +404,8 @@
     },
     "GPC3": {
       "ensembl": "ENSG00000147257",
+      "searched_as": "ENSG00000147257",
+      "hpa_returned_symbol": "GPC3",
       "rna_tissue_specificity": "Tissue enriched",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -341,6 +422,8 @@
     },
     "B2M": {
       "ensembl": "ENSG00000166710",
+      "searched_as": "ENSG00000166710",
+      "hpa_returned_symbol": "B2M",
       "rna_tissue_specificity": "Low tissue specificity",
       "rna_tissue_distribution": "Detected in all",
       "rna_tissue_specific_nTPM": null,
@@ -359,6 +442,8 @@
     },
     "CD3E": {
       "ensembl": "ENSG00000198851",
+      "searched_as": "ENSG00000198851",
+      "hpa_returned_symbol": "CD3E",
       "rna_tissue_specificity": "Tissue enriched",
       "rna_tissue_distribution": "Detected in many",
       "rna_tissue_specific_nTPM": null,
@@ -374,6 +459,556 @@
       "vital_tissue": [],
       "immune_or_circulating": true,
       "blood_cell_specificity": "Group enriched"
+    },
+    "CD248": {
+      "ensembl": "ENSG00000174807",
+      "searched_as": "CD248",
+      "hpa_returned_symbol": "CD248",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enriched",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Plasma membrane"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Immune cell enriched"
+    },
+    "CSPG4": {
+      "ensembl": "ENSG00000173546",
+      "searched_as": "CSPG4",
+      "hpa_returned_symbol": "CSPG4",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Plasma membrane"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "PRAME": {
+      "ensembl": "ENSG00000185686",
+      "searched_as": "PRAME",
+      "hpa_returned_symbol": "PRAME",
+      "rna_tissue_specificity": "Tissue enriched",
+      "rna_tissue_distribution": "Detected in some",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Nucleoplasm",
+        "Plasma membrane"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "RESTRICTED",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "MSLN": {
+      "ensembl": "ENSG00000102854",
+      "searched_as": "MSLN",
+      "hpa_returned_symbol": "MSLN",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enhanced",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Vesicles",
+        "Plasma membrane"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Immune cell enhanced"
+    },
+    "L1CAM": {
+      "ensembl": "ENSG00000198910",
+      "searched_as": "L1CAM",
+      "hpa_returned_symbol": "L1CAM",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Nucleoplasm",
+        "Plasma membrane"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "ALPP": {
+      "ensembl": "ENSG00000163283",
+      "searched_as": "ALPP",
+      "hpa_returned_symbol": "ALPP",
+      "rna_tissue_specificity": "Group enriched",
+      "rna_tissue_distribution": "Detected in some",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Plasma membrane"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "RESTRICTED",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "ALPPL2": {
+      "ensembl": null,
+      "searched_as": "ALPPL2",
+      "hpa_returned_symbol": "ALPG",
+      "_status": "symbol mismatch \u2014 record DISCARDED, nothing scored",
+      "_meaning": "\u26d4 The HPA record returned for this search is a different gene, so no window verdict exists for the gene asked for. This is an instrument statement, never a biological one."
+    },
+    "CDH17": {
+      "ensembl": "ENSG00000079112",
+      "searched_as": "CDH17",
+      "hpa_returned_symbol": "CDH17",
+      "rna_tissue_specificity": "Tissue enriched",
+      "rna_tissue_distribution": "Detected in some",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enriched",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Nucleoplasm",
+        "Cell Junctions"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Immune cell enriched"
+    },
+    "LRRC15": {
+      "ensembl": "ENSG00000172061",
+      "searched_as": "LRRC15",
+      "hpa_returned_symbol": "LRRC15",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Vesicles",
+        "Plasma membrane"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "PDGFRB": {
+      "ensembl": "ENSG00000113721",
+      "searched_as": "PDGFRB",
+      "hpa_returned_symbol": "PDGFRB",
+      "rna_tissue_specificity": "Low tissue specificity",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enhanced",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Golgi apparatus",
+        "Vesicles"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "BROAD_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Immune cell enhanced"
+    },
+    "ANTXR1": {
+      "ensembl": "ENSG00000169604",
+      "searched_as": "ANTXR1",
+      "hpa_returned_symbol": "ANTXR1",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Vesicles"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "TNC": {
+      "ensembl": "ENSG00000041982",
+      "searched_as": "TNC",
+      "hpa_returned_symbol": "TNC",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in all",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": null,
+      "plasma_membrane_confirmed": false,
+      "window": "BROAD_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "MMP14": {
+      "ensembl": "ENSG00000157227",
+      "searched_as": "MMP14",
+      "hpa_returned_symbol": "MMP14",
+      "rna_tissue_specificity": "Low tissue specificity",
+      "rna_tissue_distribution": "Detected in all",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Intermediate filaments",
+        "Cytosol"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "BROAD_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "POSTN": {
+      "ensembl": "ENSG00000133110",
+      "searched_as": "POSTN",
+      "hpa_returned_symbol": "POSTN",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Golgi apparatus"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "THY1": {
+      "ensembl": "ENSG00000154096",
+      "searched_as": "THY1",
+      "hpa_returned_symbol": "THY1",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Nucleoplasm",
+        "Plasma membrane"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "CD44": {
+      "ensembl": "ENSG00000026508",
+      "searched_as": "CD44",
+      "hpa_returned_symbol": "CD44",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in all",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Low immune cell specificity",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Golgi apparatus",
+        "Plasma membrane"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "BROAD_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Low immune cell specificity"
+    },
+    "VCAN": {
+      "ensembl": "ENSG00000038427",
+      "searched_as": "VCAN",
+      "hpa_returned_symbol": "VCAN",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Group enriched",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Vesicles",
+        "Mid piece",
+        "Principal piece",
+        "End piece"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Group enriched"
+    },
+    "SDC1": {
+      "ensembl": "ENSG00000115884",
+      "searched_as": "SDC1",
+      "hpa_returned_symbol": "SDC1",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Focal adhesion sites"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "GPC1": {
+      "ensembl": "ENSG00000063660",
+      "searched_as": "GPC1",
+      "hpa_returned_symbol": "GPC1",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Plasma membrane",
+        "Cytosol"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "MAGEA4": {
+      "ensembl": "ENSG00000147381",
+      "searched_as": "MAGEA4",
+      "hpa_returned_symbol": "MAGEA4",
+      "rna_tissue_specificity": "Tissue enriched",
+      "rna_tissue_distribution": "Detected in some",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Nuclear speckles",
+        "Cytosol"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "RESTRICTED",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "CTAG1B": {
+      "ensembl": "ENSG00000184033",
+      "searched_as": "CTAG1B",
+      "hpa_returned_symbol": "CTAG1B",
+      "rna_tissue_specificity": "Tissue enriched",
+      "rna_tissue_distribution": "Detected in single",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Golgi apparatus",
+        "Vesicles"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "RESTRICTED",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "TAP1": {
+      "ensembl": "ENSG00000168394",
+      "searched_as": "TAP1",
+      "hpa_returned_symbol": "TAP1",
+      "rna_tissue_specificity": "Low tissue specificity",
+      "rna_tissue_distribution": "Detected in all",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Low immune cell specificity",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Endoplasmic reticulum",
+        "Centriolar satellite"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "BROAD_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Low immune cell specificity"
+    },
+    "ROR1": {
+      "ensembl": "ENSG00000185483",
+      "searched_as": "ROR1",
+      "hpa_returned_symbol": "ROR1",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Not detected in immune cells",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": null,
+      "plasma_membrane_confirmed": false,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Not detected in immune cells"
+    },
+    "ROR2": {
+      "ensembl": "ENSG00000169071",
+      "searched_as": "ROR2",
+      "hpa_returned_symbol": "ROR2",
+      "rna_tissue_specificity": "Low tissue specificity",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enriched",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": null,
+      "plasma_membrane_confirmed": false,
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Immune cell enriched"
+    },
+    "CD70": {
+      "ensembl": "ENSG00000125726",
+      "searched_as": "CD70",
+      "hpa_returned_symbol": "CD70",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in some",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enhanced",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Nucleoplasm"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "ENHANCED_BROAD",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Immune cell enhanced"
+    },
+    "IGF1R": {
+      "ensembl": "ENSG00000140443",
+      "searched_as": "IGF1R",
+      "hpa_returned_symbol": "IGF1R",
+      "rna_tissue_specificity": "Low tissue specificity",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enhanced",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Nucleoli",
+        "Nucleoli rim",
+        "Plasma membrane",
+        "Primary cilium"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "BROAD_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Immune cell enhanced"
+    },
+    "ALCAM": {
+      "ensembl": "ENSG00000170017",
+      "searched_as": "ALCAM",
+      "hpa_returned_symbol": "ALCAM",
+      "rna_tissue_specificity": "Tissue enriched",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enhanced",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Vesicles"
+      ],
+      "plasma_membrane_confirmed": false,
+      "window": "RESTRICTED",
+      "vital_tissue": [],
+      "immune_or_circulating": false,
+      "blood_cell_specificity": "Immune cell enhanced"
+    },
+    "EPHA2": {
+      "ensembl": "ENSG00000142627",
+      "searched_as": "EPHA2",
+      "hpa_returned_symbol": "EPHA2",
+      "rna_tissue_specificity": "Tissue enhanced",
+      "rna_tissue_distribution": "Detected in many",
+      "rna_tissue_specific_nTPM": null,
+      "rna_blood_cell_specificity": "Immune cell enriched",
+      "rna_blood_cell_specific_nTPM": null,
+      "subcellular_location": [
+        "Nuclear speckles",
+        "Golgi apparatus",
+        "Plasma membrane",
+        "Cell Junctions"
+      ],
+      "plasma_membrane_confirmed": true,
+      "window": "VITAL_OR_IMMUNE_LIABILITY",
+      "vital_tissue": [],
+      "immune_or_circulating": true,
+      "blood_cell_specificity": "Immune cell enriched"
     }
+  },
+  "_drift_vs_previous_artifact": {
+    "n_previously_recorded": 18,
+    "n_now": 46,
+    "newly_added_this_run": [
+      "ALCAM",
+      "ALPP",
+      "ALPPL2",
+      "ANTXR1",
+      "CD248",
+      "CD44",
+      "CD70",
+      "CDH17",
+      "CSPG4",
+      "CTAG1B",
+      "EPHA2",
+      "GPC1",
+      "IGF1R",
+      "L1CAM",
+      "LRRC15",
+      "MAGEA4",
+      "MMP14",
+      "MSLN",
+      "PDGFRB",
+      "POSTN",
+      "PRAME",
+      "ROR1",
+      "ROR2",
+      "SDC1",
+      "TAP1",
+      "THY1",
+      "TNC",
+      "VCAN"
+    ],
+    "windows_that_changed": {},
+    "dropped_from_this_run": [],
+    "_meaning": "`windows_that_changed` non-empty means HPA's classification moved for a gene this repository has already reasoned about. Read it before quoting any window verdict; it is not noise."
+  },
+  "_pairs_with": {
+    "emc_tumour_expression": "research/modalities/emc-expression-panels.json -> reads.read_8_SURFACE_ANTIGEN.cross_platform_board \u2014 the EMC-tumour half. \u26d4 NEITHER HALF IS A TARGET CALL ON ITS OWN: up-in-EMC without a normal-tissue window is an antigen with no window, and RESTRICTED here without an EMC measurement is a window around nothing.",
+    "instrument_limits": "research/modalities/surfaceome-instrument-limits.json \u2014 why the DepMap monoculture scan could not see the stromal antigens or CSPG4."
   }
 }
