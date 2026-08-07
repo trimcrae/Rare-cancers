@@ -939,6 +939,7 @@
       "BLK-NO-WET-LAB",
       "BLK-PARALOGUE-DDG",
       "BLK-R4-BINDS",
+      "BLK-TCIP-INTERFACE-FLOOR",
       "BLK-UNSIZED-REQUIREMENT"
     ],
     "blockers_retired": [
@@ -1019,8 +1020,8 @@
     "supporting_evidence": [],
     "remaining_unknowns": [
       "Whether the geometry holds for a NAMED transcriptional effector. The enumeration has now been run, but the repository stages 0 transcriptional-effector bodies — all 4 staged second-terminus bodies are E3 ligase recruiters, and the two used at effector size (birc2, mdm2) are explicit size-and-shape proxies.",
-      "Which interface floor a transcriptional CIP actually requires. The committed floor (min_contact_residues=12) is a DEGRADER'S parameter, and the result inverts across it, so the TCIP number must be reported at both floors (BLK-UNSIZED-REQUIREMENT).",
-      "Whether the paralogue selectivity requirement is any smaller here; it has not been sized."
+      "Which interface floor a transcriptional CIP actually requires. The committed floor (min_contact_residues=12) is a DEGRADER'S parameter, the result inverts across it, and the requirement is now STATED as a residence-time requirement whose calibration constant is unavailable (BLK-TCIP-INTERFACE-FLOOR; REQ-TCIP-1). Operative requirement meanwhile: report at both floors and assert only what holds at both (REQ-TCIP-2).",
+      "Whether the paralogue selectivity requirement is any smaller here. ⛔ It is now SIZED IN FORM and it is NOT smaller: REQ-TCIP-3 needs the same odds-product difference in induced-complex-fraction space, over a dose range bounded above by the hook, and its anti-target ceiling has NO candidate source at all — a TCIP engaging NR4A1 REWIRES it rather than removing it, so the loss-of-function genotype that bounds the degrader's anti-target event does not bound this one."
     ],
     "required_validation": [
       {
@@ -1356,7 +1357,7 @@
     ],
     "remaining_unknowns": [
       "Whether the ligand-binding domain is functionally actionable in the fusion, whose other end is a strong independent activator. Nobody has run that assay.",
-      "How much paralogue selectivity this route would actually need — the requirement has never been sized.",
+      "How much paralogue selectivity this route would need. ⭐ STATED 2026-08-07 (REQ-MONO-1/2/3, selectivity-requirement-sizing.md): a binary LBD ΔΔG against NR4A1 as a HARD gate and against NR4A2 as a disclosed residual, at RT·ln{[A/(1−A)]·[(1−B)/B]} — 0.50–3.49 kcal/mol over the plausible (A,B) rectangle and NOT bounded above, because the anti-target ceiling is unmeasured. ⛔ That range BRACKETS the degrader's figure rather than sitting under it, and the two are not comparable in any case; the covalent sub-form's requirement is a kinetic predicate rather than a ΔΔG at all.",
       "Whether the covalent sub-form's negative is real: it rests on an exposure criterion that fails its own positive control."
     ],
     "required_validation": [
@@ -1380,7 +1381,7 @@
       "why_not_higher": "Its central premise — that occupancy does something — has never been tested by anyone, and its one computed negative rests on a criterion known to produce false negatives.",
       "missing": [
         "a functional readout",
-        "a sized selectivity requirement"
+        "the occupancy-to-output transfer functions that would turn the stated requirement into a number (MISSING-1, MISSING-2)"
       ],
       "experiment_required": [
         "a reporter assay for the domain's function inside the chimera"
@@ -1475,7 +1476,8 @@
     "remaining_unknowns": [
       "How much ADULT, transient, incomplete NR4A2 loss is acceptable — the germline bound does not speak to that regime, and no source read bounds it.",
       "Whether the exposure half can be reopened at all: it would need single-cell or region-resolved expression, because bulk tissue averages dilute a small nucleus and the dopaminergic liability lives in one.",
-      "Whether NR4A1-sparing is achievable by any mechanism this program has built — the covalent direction cannot invert, and the steric inverse fires at 0.96x its own null against the forward direction's 5.34x."
+      "Whether NR4A1-sparing is achievable by any mechanism this program has built — the covalent direction cannot invert, and the steric inverse fires at 0.96x its own null against the forward direction's 5.34x.",
+      "Whether the asymmetry has been given a CHECKABLE form rather than only a stated one. ⭐ Partly, 2026-08-07: REQ-ASYM-1/2/3 (selectivity-requirement-sizing.md §4) state that the specification is an ordered pair, that its halves take different KINDS of bound, and that any scalar t errs in one of two named directions unless t1 = t2 — checkable the moment either half acquires a number. ⛔ Neither half has one: both bounds are genotypes, and a genotype bounds developmental, complete, lifelong loss and cannot be inverted into an adult tolerated occupancy (MISSING-2, MISSING-4)."
     ],
     "required_validation": [
       {

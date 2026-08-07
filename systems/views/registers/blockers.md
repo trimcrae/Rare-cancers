@@ -27,15 +27,15 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | kind | n | permanent |
 |---|---:|---|
 | `fundamental_biological_limit` | 2 | **yes** |
-| `insufficient_data` | 2 | no |
+| `insufficient_data` | 3 | no |
 | `no_known_assay` | 2 | no |
 | `requires_authorization` | 1 | no |
 | `requires_better_simulation_accuracy` | 1 | no |
 | `requires_better_structure_prediction` | 2 | no |
 | `requires_external_collaboration` | 1 | no |
 | `requires_future_technology` | 2 | no |
-| `requires_wet_lab` | 2 | no |
-| `scientific_uncertainty` | 2 | no |
+| `requires_wet_lab` | 3 | no |
+| `scientific_uncertainty` | 1 | no |
 
 ## By fan-out — the portfolio's shape
 
@@ -51,13 +51,14 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-CLASS-INHERITANCE**<br/>Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenot | `insufficient_data` | 4 | 0 | `TECH-VIRTUAL-CELL` |
 | **BLK-VECTOR-DELIVERY**<br/>Vector delivery (gene-therapy payload into a solid tumour) | `requires_future_technology` | 3 | 0 | `TECH-VECTOR-DELIVERY` |
 | **BLK-INDUCED-COMPLEX**<br/>An induced ternary/bivalent complex is still required (a second protein must be placed) | `requires_better_structure_prediction` | 3 | 1 | `TECH-COFOLD-ASSEMBLY` |
-| **BLK-UNSIZED-REQUIREMENT**<br/>Nobody has stated how much selectivity the route would need, so 'the requirement is smalle | `scientific_uncertainty` | 3 | 0 | State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nob… |
+| **BLK-UNSIZED-REQUIREMENT**<br/>The selectivity requirement is now STATED for all three routes, and three of its inputs ar | `requires_wet_lab` | 3 | 0 | Obtain the three dose-responses named as MISSING-1, MISSING-2 and MISSING-4 in selectivity-requirement-sizing.md. Until … |
 | **BLK-REACH-CATEGORICAL**<br/>The categorical (covalent) window at C397 does not survive the E3-arm-free reach enumerati | `scientific_uncertainty` | 2 | 0 | `TECH-EXPOSURE-CRITERION` |
 | **BLK-ENDPOINT-MD**<br/>Endpoint-MD selectivity readout (E1) returns null | `no_known_assay` | 1 | 0 | `TECH-E1-POWERED` |
 | **BLK-PARALOGUE-CONTROL**<br/>The paralogue-discrimination positive control (NR-V04) is discordant | `no_known_assay` | 1 | 0 | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
 | **BLK-FUNCTIONAL-ACTIONABILITY**<br/>Is the LBD a FUNCTIONAL handle in the chimera, whose other end is a strong independent act | `requires_wet_lab` | 1 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-DELIVERY**<br/>Tumour delivery of an oligonucleotide or a vector | `requires_future_technology` | 1 | 0 | `TECH-OLIGO-DELIVERY` |
 | **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED**<br/>The program's only binary selectivity known-answer control is built and staged and has nev | `requires_authorization` | 1 | 0 | Ask for the decision. This blocker is cheaper to retire than any other in the register and it gates the one control that… |
+| **BLK-TCIP-INTERFACE-FLOOR**<br/>How much induced interface a transcriptional CIP needs is unsized, and the degrader-derive | `insufficient_data` | 1 | 0 | Find, for ANY chemically-induced transcriptional-proximity system, a relationship between a CHARACTERISED induced interf… |
 
 ## Detail
 
@@ -172,14 +173,15 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 ### BLK-UNSIZED-REQUIREMENT
 
-**Nobody has stated how much selectivity the route would need, so 'the requirement is smaller' is not a claim this repo can make**
+**The selectivity requirement is now STATED for all three routes, and three of its inputs are unmeasured dose-responses that only a bench produces**
 
-- **kind:** `scientific_uncertainty`
-- **a statement about:** an absent specification, not a measured shortfall
+- **kind:** `requires_wet_lab`
+- **a statement about:** an unmeasured input to a specification that now exists — no longer an absent specification
 - **held by (3):** RT-ASYMMETRIC, RT-MONOVALENT, RT-TCIP
 - **retired by route (0):** —
-- **⭐ retired by an action we can take:** State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nobody has written the specification down, so nothing can be shown to meet or miss it. $0.
-- **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#4--effect-on-the-paralogue-requirement--reshapes-into-a-requirement-of-unquantified-size`
+- **⭐ retired by an action we can take:** Obtain the three dose-responses named as MISSING-1, MISSING-2 and MISSING-4 in selectivity-requirement-sizing.md. Until then the thresholds stay as stated forms with an explicit range and no upper bound. ⛔ NOT retired by any computation: a genotype bounds developmental, complete, lifelong loss and cannot be inverted into an adult tolerated occupancy, and no in-silico instrument produces an occupancy-to-output transfer function.
+- **evidence:** research/manuscripts/selectivity-requirement-sizing.md#22--what-cannot-be-sized-for-this-route-and-the-named-missing-inputs / research/manuscripts/selectivity-requirement-sizing.md#43--req-asym-3--the-defect-a-scalar-creates-stated-so-it-can-be-checked / research/modalities/nr4a2-sparing-bound.json
+- **owner:** `research/manuscripts/selectivity-requirement-sizing.md#5--the-requirement-register-in-one-checkable-table`
 
 ### BLK-REACH-CATEGORICAL
 
@@ -248,5 +250,17 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **⭐ retired by an action we can take:** Ask for the decision. This blocker is cheaper to retire than any other in the register and it gates the one control that would tell the program whether its central quantitative claim is measurable at all.
 - **evidence:** The instrument is registered with no result key: built and staged, never completed. / It is the highest-fan-out item in the portfolio that costs a conversation rather than a capability.
 - **owner:** `research/manuscripts/nr4a3-program-map.md#31--the-instrument-table`
+
+### BLK-TCIP-INTERFACE-FLOOR
+
+**How much induced interface a transcriptional CIP needs is unsized, and the degrader-derived floor it inherits inverts the route's headline result when ablated**
+
+- **kind:** `insufficient_data`
+- **a statement about:** a parameter inherited from a different modality, whose calibration constant is a property of the recruited partner's mechanism
+- **held by (1):** RT-TCIP
+- **retired by route (0):** —
+- **⭐ retired by an action we can take:** Find, for ANY chemically-induced transcriptional-proximity system, a relationship between a CHARACTERISED induced interface (size, cooperativity, or induced-complex residence time) and transcriptional output — MISSING-3. ⛔ Measured 2026-08-07 at $0 by reading the committed full text of the route's own motivating source on the literature-cache branch: `cooperativ*` 0 occurrences, `linker` 0, `contact residue` 0, `interface` only inside a reference title, and no structure of the induced complex. That source characterises the ternary complex functionally and not structurally, so it does not supply the input. Supporting Information was not in the cache and is the one place left to look before this escalates to requires_wet_lab. Until then REQ-TCIP-2 (report at both floors, assert only what holds at both) is the route's operative requirement.
+- **evidence:** research/modalities/nr4a3-tcip-route-memo.md#4---the-finding-the-size-penalty-is-a-degraders-interface-floor-not-steric-bulk / research/modalities/nr4a3-tcip-reach.json / research/manuscripts/selectivity-requirement-sizing.md#31--req-tcip-1--the-induced-interface-floor--cannot-be-sized-today
+- **owner:** `research/manuscripts/selectivity-requirement-sizing.md#31--req-tcip-1--the-induced-interface-floor--cannot-be-sized-today`
 
 [← L0](../L0-ecosystem.md)

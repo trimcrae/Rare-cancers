@@ -47,7 +47,7 @@ flowchart LR
   BLK_REACH_CATEGORICAL --> RT_MONOVALENT
   TECH_EXPOSURE_CRITERION(["TECH-EXPOSURE-CRITERION<br/>expected 2027H2"]):::tech
   TECH_EXPOSURE_CRITERION -.-> BLK_REACH_CATEGORICAL
-  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — Nobody has stated how much sele…"}}:::blk
+  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — The selectivity requirement is…"}}:::blk
   BLK_UNSIZED_REQUIREMENT --> RT_MONOVALENT
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
@@ -76,7 +76,7 @@ If the ligand-binding domain is a functional handle in the chimera, occupancy al
 ## Remaining unknowns
 
 - Whether the ligand-binding domain is functionally actionable in the fusion, whose other end is a strong independent activator. Nobody has run that assay.
-- How much paralogue selectivity this route would actually need — the requirement has never been sized.
+- How much paralogue selectivity this route would need. ⭐ STATED 2026-08-07 (REQ-MONO-1/2/3, selectivity-requirement-sizing.md): a binary LBD ΔΔG against NR4A1 as a HARD gate and against NR4A2 as a disclosed residual, at RT·ln{[A/(1−A)]·[(1−B)/B]} — 0.50–3.49 kcal/mol over the plausible (A,B) rectangle and NOT bounded above, because the anti-target ceiling is unmeasured. ⛔ That range BRACKETS the degrader's figure rather than sitting under it, and the two are not comparable in any case; the covalent sub-form's requirement is a kinetic predicate rather than a ΔΔG at all.
 - Whether the covalent sub-form's negative is real: it rests on an exposure criterion that fails its own positive control.
 
 ## Required validation
@@ -95,7 +95,7 @@ If the ligand-binding domain is a functional handle in the chimera, occupancy al
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-REACH-CATEGORICAL** | `scientific_uncertainty` | `TECH-EXPOSURE-CRITERION` |
-| **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nobody has written the specification down, so nothing can be shown to meet or miss it. $0. |
+| **BLK-UNSIZED-REQUIREMENT** | `requires_wet_lab` | Obtain the three dose-responses named as MISSING-1, MISSING-2 and MISSING-4 in selectivity-requirement-sizing.md. Until then the thresholds stay as stated forms with an explicit range and no upper bound. ⛔ NOT retired by any computation: a genotype bounds developmental, complete, lifelong loss and cannot be inverted into an adult tolerated occupancy, and no in-silico instrument produces an occupancy-to-output transfer function. |
 
 ## Blockers this route RETIRES
 
@@ -119,7 +119,7 @@ Its central premise — that occupancy does something — has never been tested 
 
 **Missing:**
 - a functional readout
-- a sized selectivity requirement
+- the occupancy-to-output transfer functions that would turn the stated requirement into a number (MISSING-1, MISSING-2)
 
 **Experiment required:**
 - a reporter assay for the domain's function inside the chimera

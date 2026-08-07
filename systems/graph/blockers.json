@@ -153,14 +153,26 @@
   },
   {
     "id": "BLK-UNSIZED-REQUIREMENT",
-    "name": "Nobody has stated how much selectivity the route would need, so 'the requirement is smaller' is not a claim this repo can make",
-    "statement_about": "an absent specification, not a measured shortfall",
+    "name": "The selectivity requirement is now STATED for all three routes, and three of its inputs are unmeasured dose-responses that only a bench produces",
+    "statement_about": "an unmeasured input to a specification that now exists — no longer an absent specification",
     "owner": {
-      "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
-      "anchor": "#4--effect-on-the-paralogue-requirement--reshapes-into-a-requirement-of-unquantified-size"
+      "file": "research/manuscripts/selectivity-requirement-sizing.md",
+      "anchor": "#5--the-requirement-register-in-one-checkable-table"
     },
-    "kind": "scientific_uncertainty",
-    "retired_by_action": "State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nobody has written the specification down, so nothing can be shown to meet or miss it. $0."
+    "kind": "requires_wet_lab",
+    "kind_history": [
+      {
+        "was": "scientific_uncertainty",
+        "changed_on": "2026-08-07",
+        "why": "The absent-specification half is retired: selectivity-requirement-sizing.md states the requirement for RT-MONOVALENT, RT-TCIP and RT-ASYMMETRIC as nine rows with quantity, comparator and asymmetry-correct pair form. What remains is not an open question but three unmeasured dose-responses — occupancy to fusion LBD-borne output (A), and occupancy to phenotype for NR4A1 and for NR4A2 (B1, B2) — which set the thresholds. Per taxonomy ladder step 3 a physical experiment answers those, so the kind is Group D. Filing a bench input as scientific_uncertainty files it as researchable, which is the conflation the taxonomy forbids. The TCIP interface floor was split out to BLK-TCIP-INTERFACE-FLOOR because its remedy differs."
+      }
+    ],
+    "retired_by_action": "Obtain the three dose-responses named as MISSING-1, MISSING-2 and MISSING-4 in selectivity-requirement-sizing.md. Until then the thresholds stay as stated forms with an explicit range and no upper bound. ⛔ NOT retired by any computation: a genotype bounds developmental, complete, lifelong loss and cannot be inverted into an adult tolerated occupancy, and no in-silico instrument produces an occupancy-to-output transfer function.",
+    "evidence": [
+      "research/manuscripts/selectivity-requirement-sizing.md#22--what-cannot-be-sized-for-this-route-and-the-named-missing-inputs",
+      "research/manuscripts/selectivity-requirement-sizing.md#43--req-asym-3--the-defect-a-scalar-creates-stated-so-it-can-be-checked",
+      "research/modalities/nr4a2-sparing-bound.json"
+    ]
   },
   {
     "id": "BLK-SELECTIVITY-CONTROL-UNAUTHORIZED",
@@ -176,5 +188,21 @@
       "It is the highest-fan-out item in the portfolio that costs a conversation rather than a capability."
     ],
     "retired_by_action": "Ask for the decision. This blocker is cheaper to retire than any other in the register and it gates the one control that would tell the program whether its central quantitative claim is measurable at all."
+  },
+  {
+    "id": "BLK-TCIP-INTERFACE-FLOOR",
+    "name": "How much induced interface a transcriptional CIP needs is unsized, and the degrader-derived floor it inherits inverts the route's headline result when ablated",
+    "statement_about": "a parameter inherited from a different modality, whose calibration constant is a property of the recruited partner's mechanism",
+    "owner": {
+      "file": "research/manuscripts/selectivity-requirement-sizing.md",
+      "anchor": "#31--req-tcip-1--the-induced-interface-floor--cannot-be-sized-today"
+    },
+    "kind": "insufficient_data",
+    "retired_by_action": "Find, for ANY chemically-induced transcriptional-proximity system, a relationship between a CHARACTERISED induced interface (size, cooperativity, or induced-complex residence time) and transcriptional output — MISSING-3. ⛔ Measured 2026-08-07 at $0 by reading the committed full text of the route's own motivating source on the literature-cache branch: `cooperativ*` 0 occurrences, `linker` 0, `contact residue` 0, `interface` only inside a reference title, and no structure of the induced complex. That source characterises the ternary complex functionally and not structurally, so it does not supply the input. Supporting Information was not in the cache and is the one place left to look before this escalates to requires_wet_lab. Until then REQ-TCIP-2 (report at both floors, assert only what holds at both) is the route's operative requirement.",
+    "evidence": [
+      "research/modalities/nr4a3-tcip-route-memo.md#4---the-finding-the-size-penalty-is-a-degraders-interface-floor-not-steric-bulk",
+      "research/modalities/nr4a3-tcip-reach.json",
+      "research/manuscripts/selectivity-requirement-sizing.md#31--req-tcip-1--the-induced-interface-floor--cannot-be-sized-today"
+    ]
   }
 ]

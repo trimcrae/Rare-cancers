@@ -31,7 +31,7 @@ flowchart LR
   BLK_PARALOGUE_DDG --> RT_ASYMMETRIC
   TECH_FE_CRYPTIC_POCKET(["TECH-FE-CRYPTIC-POCKET<br/>expected 2028"]):::tech
   TECH_FE_CRYPTIC_POCKET -.-> BLK_PARALOGUE_DDG
-  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — Nobody has stated how much sele…"}}:::blk
+  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — The selectivity requirement is…"}}:::blk
   BLK_UNSIZED_REQUIREMENT --> RT_ASYMMETRIC
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
@@ -52,6 +52,7 @@ Sparing NR4A1 and sparing NR4A2 have been treated as one symmetric requirement, 
 - How much ADULT, transient, incomplete NR4A2 loss is acceptable — the germline bound does not speak to that regime, and no source read bounds it.
 - Whether the exposure half can be reopened at all: it would need single-cell or region-resolved expression, because bulk tissue averages dilute a small nucleus and the dopaminergic liability lives in one.
 - Whether NR4A1-sparing is achievable by any mechanism this program has built — the covalent direction cannot invert, and the steric inverse fires at 0.96x its own null against the forward direction's 5.34x.
+- Whether the asymmetry has been given a CHECKABLE form rather than only a stated one. ⭐ Partly, 2026-08-07: REQ-ASYM-1/2/3 (selectivity-requirement-sizing.md §4) state that the specification is an ordered pair, that its halves take different KINDS of bound, and that any scalar t errs in one of two named directions unless t1 = t2 — checkable the moment either half acquires a number. ⛔ Neither half has one: both bounds are genotypes, and a genotype bounds developmental, complete, lifelong loss and cannot be inverted into an adult tolerated occupancy (MISSING-2, MISSING-4).
 
 ## Required validation
 
@@ -64,7 +65,7 @@ Sparing NR4A1 and sparing NR4A2 have been treated as one symmetric requirement, 
 | blocker | kind | what would retire it |
 |---|---|---|
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
-| **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nobody has written the specification down, so nothing can be shown to meet or miss it. $0. |
+| **BLK-UNSIZED-REQUIREMENT** | `requires_wet_lab` | Obtain the three dose-responses named as MISSING-1, MISSING-2 and MISSING-4 in selectivity-requirement-sizing.md. Until then the thresholds stay as stated forms with an explicit range and no upper bound. ⛔ NOT retired by any computation: a genotype bounds developmental, complete, lifelong loss and cannot be inverted into an adult tolerated occupancy, and no in-silico instrument produces an occupancy-to-output transfer function. |
 
 ## Readiness — what this could become today
 

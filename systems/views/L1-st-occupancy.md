@@ -57,7 +57,7 @@ flowchart LR
   BLK_REACH_CATEGORICAL{{"BLK-REACH-CATEGORICAL — The categorical covalent window a…"}}:::blk
   BLK_REACH_CATEGORICAL --> RT_COVALENT_PROBE
   BLK_REACH_CATEGORICAL --> RT_MONOVALENT
-  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — Nobody has stated how much sele…"}}:::blk
+  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — The selectivity requirement is…"}}:::blk
   BLK_UNSIZED_REQUIREMENT --> RT_ASYMMETRIC
   BLK_UNSIZED_REQUIREMENT --> RT_MONOVALENT
   classDef fam stroke-width:2px;

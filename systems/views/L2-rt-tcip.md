@@ -45,7 +45,9 @@ flowchart LR
   BLK_R4_BINDS --> RT_TCIP
   TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
   TECH_EMC_MODEL_ACCESS -.-> BLK_R4_BINDS
-  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — Nobody has stated how much sele…"}}:::blk
+  BLK_TCIP_INTERFACE_FLOOR{{"BLK-TCIP-INTERFACE-FLOOR — How much induced interface a t…"}}:::blk
+  BLK_TCIP_INTERFACE_FLOOR --> RT_TCIP
+  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — The selectivity requirement is…"}}:::blk
   BLK_UNSIZED_REQUIREMENT --> RT_TCIP
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
@@ -55,7 +57,7 @@ flowchart LR
 
 **Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
 
-⚠ **1 blocker here has no technology named at all** (`BLK-UNSIZED-REQUIREMENT`) — not *waiting*, **unaddressed**. A blocker with no named way out is the most expensive kind, because nothing is being watched for it.
+⚠ **2 blockers here have no technology named at all** (`BLK-TCIP-INTERFACE-FLOOR`, `BLK-UNSIZED-REQUIREMENT`) — not *waiting*, **unaddressed**. A blocker with no named way out is the most expensive kind, because nothing is being watched for it.
 
 ✓ Already cleared by this route: `BLK-TERNARY-GEOMETRY`.
 
@@ -66,8 +68,8 @@ A transcriptional chemical inducer of proximity brings an effector to a DNA-boun
 ## Remaining unknowns
 
 - Whether the geometry holds for a NAMED transcriptional effector. The enumeration has now been run, but the repository stages 0 transcriptional-effector bodies — all 4 staged second-terminus bodies are E3 ligase recruiters, and the two used at effector size (birc2, mdm2) are explicit size-and-shape proxies.
-- Which interface floor a transcriptional CIP actually requires. The committed floor (min_contact_residues=12) is a DEGRADER'S parameter, and the result inverts across it, so the TCIP number must be reported at both floors (BLK-UNSIZED-REQUIREMENT).
-- Whether the paralogue selectivity requirement is any smaller here; it has not been sized.
+- Which interface floor a transcriptional CIP actually requires. The committed floor (min_contact_residues=12) is a DEGRADER'S parameter, the result inverts across it, and the requirement is now STATED as a residence-time requirement whose calibration constant is unavailable (BLK-TCIP-INTERFACE-FLOOR; REQ-TCIP-1). Operative requirement meanwhile: report at both floors and assert only what holds at both (REQ-TCIP-2).
+- Whether the paralogue selectivity requirement is any smaller here. ⛔ It is now SIZED IN FORM and it is NOT smaller: REQ-TCIP-3 needs the same odds-product difference in induced-complex-fraction space, over a dose range bounded above by the hook, and its anti-target ceiling has NO candidate source at all — a TCIP engaging NR4A1 REWIRES it rather than removing it, so the loss-of-function genotype that bounds the degrader's anti-target event does not bound this one.
 
 ## Required validation
 
@@ -85,7 +87,8 @@ A transcriptional chemical inducer of proximity brings an effector to a DNA-boun
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
-| **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nobody has written the specification down, so nothing can be shown to meet or miss it. $0. |
+| **BLK-TCIP-INTERFACE-FLOOR** | `insufficient_data` | Find, for ANY chemically-induced transcriptional-proximity system, a relationship between a CHARACTERISED induced interface (size, cooperativity, or induced-complex residence time) and transcriptional output — MISSING-3. ⛔ Measured 2026-08-07 at $0 by reading the committed full text of the route's own motivating source on the literature-cache branch: `cooperativ*` 0 occurrences, `linker` 0, `contact residue` 0, `interface` only inside a reference title, and no structure of the induced complex. That source characterises the ternary complex functionally and not structurally, so it does not supply the input. Supporting Information was not in the cache and is the one place left to look before this escalates to requires_wet_lab. Until then REQ-TCIP-2 (report at both floors, assert only what holds at both) is the route's operative requirement. |
+| **BLK-UNSIZED-REQUIREMENT** | `requires_wet_lab` | Obtain the three dose-responses named as MISSING-1, MISSING-2 and MISSING-4 in selectivity-requirement-sizing.md. Until then the thresholds stay as stated forms with an explicit range and no upper bound. ⛔ NOT retired by any computation: a genotype bounds developmental, complete, lifelong loss and cannot be inverted into an adult tolerated occupancy, and no in-silico instrument produces an occupancy-to-output transfer function. |
 
 ## Blockers this route RETIRES
 

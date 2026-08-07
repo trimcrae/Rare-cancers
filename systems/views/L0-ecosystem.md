@@ -22,7 +22,7 @@ last_verified: 2026-08-05
 > lab, no funding for one — so every advance is either in-silico or publish-to-convince.
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.**
 
-**9 strategy families · 40 routes · 17 blockers · 25 technology dependencies.**
+**9 strategy families · 40 routes · 18 blockers · 25 technology dependencies.**
 
 ## The shape of the portfolio
 
@@ -85,7 +85,7 @@ flowchart LR
 
 **Reading it.** A hexagon is a blocker with a named way out; a double-walled box is a **permanent** one — a fact about the biology that no technology retires. An arrow means *holds down*.
 
-⚠ **10 further blocker(s) are NOT drawn here**, because each holds down exactly one family and belongs on that family's page. Drawing all 17 would render the portfolio as a hairball and bury the 7 that shape it. Every one of them is in [registers/blockers.md](registers/blockers.md).
+⚠ **11 further blocker(s) are NOT drawn here**, because each holds down exactly one family and belongs on that family's page. Drawing all 18 would render the portfolio as a hairball and bury the 7 that shape it. Every one of them is in [registers/blockers.md](registers/blockers.md).
 
 ## The landscape
 
@@ -130,13 +130,14 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 | **BLK-CLASS-INHERITANCE** | `insufficient_data` | 4 | 3 | `TECH-VIRTUAL-CELL` |
 | **BLK-VECTOR-DELIVERY** | `requires_future_technology` | 3 | 1 | `TECH-VECTOR-DELIVERY` |
 | **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | 3 | 1 | `TECH-COFOLD-ASSEMBLY` |
-| **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | 3 | 2 | *an action we can take* |
+| **BLK-UNSIZED-REQUIREMENT** | `requires_wet_lab` | 3 | 2 | *an action we can take* |
 | **BLK-REACH-CATEGORICAL** | `scientific_uncertainty` | 2 | 1 | `TECH-EXPOSURE-CRITERION` |
 | **BLK-ENDPOINT-MD** | `no_known_assay` | 1 | 1 | `TECH-E1-POWERED` |
 | **BLK-PARALOGUE-CONTROL** | `no_known_assay` | 1 | 1 | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
 | **BLK-FUNCTIONAL-ACTIONABILITY** | `requires_wet_lab` | 1 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-DELIVERY** | `requires_future_technology` | 1 | 1 | `TECH-OLIGO-DELIVERY` |
 | **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED** | `requires_authorization` | 1 | 1 | *an action we can take* |
+| **BLK-TCIP-INTERFACE-FLOOR** | `insufficient_data` | 1 | 1 | *an action we can take* |
 
 ## Highest-leverage things to wait for
 
