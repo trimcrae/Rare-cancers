@@ -47,7 +47,10 @@ permissions:
   contents: write
 
 concurrency:
-  group: fetch-literature
+  # Per-branch group. Nine parallel research sweeps dispatch this file at once; a single shared
+  # group serialises them and (when a sibling's copy sets cancel-in-progress) kills queued runs
+  # outright — measured 2026-08-07, two runs on this branch cancelled while merely pending.
+  group: fetch-literature-${{ github.ref_name }}
   cancel-in-progress: false
 
 jobs:
