@@ -618,6 +618,22 @@ def verdict(d):
                 d["frozen_gate"]["thresholds"]["frac_recovered_min"],
                 d["frozen_gate"]["thresholds"]["centroid_max_ang"],
                 c["n_accepted_by_frozen_gate"], c["n_conformers_ok"])),
+        "★_a_LABEL_TENSION_THIS_SURFACES_AND_DOES_NOT_RESOLVE": (
+            "the two groups call this region opposite things. The paper calls site 4 an ALLOSTERIC SURFACE "
+            "pocket, 'distant from the canonical activation function in helix 12', and says the canonical "
+            "NR4A pocket is occluded by bulky hydrophobic residues. This repository calls Pocket-5 'the "
+            "NR4A3 ORTHOSTERIC pocket' (nr4a3-degrader-paper.md §2). If they are the same region — and by "
+            "residue overlap and centroid distance they are — then at most one label is right. ⛔ THIS "
+            "MODULE DOES NOT SETTLE IT and must not be read as doing so: it measures the property the "
+            "labels disagree about (burial, `burial`) and finds Pocket-5's lining %s exposed on average "
+            "with %d of %d residues at RSA >= 0.25 on the conformer measured, which is not a decisive "
+            "reading either way on one apo NMR frame. ★ It is surfaced because the naming affects how every "
+            "downstream claim about this site reads to an external reviewer, and because nothing in this "
+            "repository had ever compared the two vocabularies."
+            % ((d["burial"].get("pocket5") or {}).get("mean_rsa"),
+               (d["burial"].get("pocket5") or {}).get("n_residues_rsa_ge_0_25"),
+               (d["burial"].get("pocket5") or {}).get("n_residues_found"))
+            if d.get("burial") else "burial not measured — no 8XTT conformer on disk"),
         "control_sites_that_also_clear_the_gate": ctrl_accept,
         "★_the_control_is_what_makes_this_readable": (
             "the same paper's other three epitopes, mapped by the IDENTICAL pipeline, land %s A from the "
