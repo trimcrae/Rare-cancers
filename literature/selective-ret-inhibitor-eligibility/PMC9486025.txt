@@ -1,0 +1,168 @@
+pmcFront Cell Dev BiolFront Cell Dev Biol2593frontcdb101630250Front. Cell Dev. Biol.Frontiers in Cell and Developmental Biology2296-634XFrontiers Media SAPMC9486025PMC9486025.1948602594860253614773910.3389/fcell.2022.8715128715121Cell and Developmental BiologyOriginal ResearchFerroptosis-related gene signatures in neuroblastoma associated with prognosis
+Chen et al.
+10.3389/fcell.2022.871512
+ChenYiru LiZihao CaoQingtai GuanHaoyu MaoLongfei ZhaoMingyi 
+1
+Department of Pediatrics, The Third Xiangya Hospital, Central South University, Changsha, China
+
+2
+Xiangya School of Medicine, Central South University, Changsha, China
+
+3
+Department of Pharmacy, College of Biology, Hunan University, Changsha, China
+
+4
+Transplantation Center, The Third Xiangya Hospital, Central South University, Changsha, China
+
+Edited by:
+Rossella Rota, Bambino Gesù Children’s Hospital (IRCCS), Italy
+
+Reviewed by:
+Yang Peng, First Affiliated Hospital of Chongqing Medical University, China
+
+Venkat Rao Vantaku, MASS GENERAL BRIGHAM, United States
+*Correspondence: Longfei Mao, longfeimao99@gmail.com; Mingyi Zhao, 36163773@qq.com
+This article was submitted to Cancer Cell Biology, a section of the journal Frontiers in Cell and Developmental Biology
+
+†
+These authors have contributed equally to this work
+069202220221040005487151208220221282022010120222109202223092022Copyright © 2022 Chen, Li, Cao, Guan, Mao and Zhao.2022Chen, Li, Cao, Guan, Mao and Zhaohttps://creativecommons.org/licenses/by/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+Background: Ferroptosis, a form of regulatory cell death, has been linked to the development of various tumors. Peripheral neuroblastoma (NB) is one of the most common extracranial solid tumors in children, and it has been proposed that regulating tumor cell ferroptosis may be a future treatment for NB. However, it is unclear how ferroptosis contributes to NB development.
+
+Methods: Expression data were collected from two independent cohorts (GEO and Arrayexpress databases). Univariate Cox analysis, multivariate Cox analysis, and the least absolute shrinkage and selection operator (Lasso) algorithm were applied to create a prognostic signature, whose performance was quantified using the area under the receiver operating characteristic curve (AUC) and Kaplan–Meier curves. A prognostic meta-analysis was used to test the suitability and stability of the FRG signature. Drug sensitivity analyses were performed using the data collected from Cell Miner™.
+
+Results:
+PROM2, AURKA, STEAP3, CD44, ULK2, MAP1LC3A, ATP6V1G2, and STAT3 are among the eight genes in the FRG prognostic signature, all of which were highly expressed in stage 1 NB, except AURKA. Furthermore, the high-risk group, which was stratified by signature, had a lower overall survival rate than the low-risk group. GSEA revealed that high-risk groups have more biological processes related to ferroptosis.
+
+Conclusion: Ferroptosis-related genes are expressed differently between stages 1 and 4 NB. The FRG signature successfully stratified NB patients into two risk groups and can accurately predict the overall survival in NB. In addition, we found that the gene AURKA might have the potential to be a prognostic marker in NB.
+
+neuroblastomaferroptosisprognosisstage 1stage 4pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY
+
+## 1 Introduction
+Neuroblastoma (NB) is widely regarded as the most common solid extracranial tumor in childhood, with varying clinical manifestations and disease courses depending on tumor biology ( ). It has high morbidity in children, accounting for about 10% of pediatric cancers, and contributes significantly to pediatric cancer mortality with survival rates of less than 40% ( ; ; ; ). Although scientific progress has improved the effectiveness of a variety of new treatments, such as allogeneic hematopoietic stem cell transplantation ( ), it remains at a relatively low level or requires additional research ( ; ; ).
+Ferroptosis is a distinct mode of cell death caused by iron-dependent phospholipid peroxidation and governed by a number of cellular metabolic events. Since the 1950s, Harry Eagle has observed that a lack of the amino acid cyst(e)ine can cause cell death, which is similar to ferroptosis ( ). Nonetheless, in many ways, the field of ferroptosis is still in its infancy. Recent evidence suggests that ferroptosis may play physiological roles in tumor suppression and immunity ( ). Other studies have linked ferroptosis to NB, for example, lacking ferritin heavy chain, Erastin, or RSL3 could induce ferroptosis cell death in NB N2A cells ( ), but it is unclear whether some genes that regulate ferroptosis, such as TP53 ( ) and BRD4 ( ), are associated with NB patient prognosis.
+In this study, we identified the differentially expressed ferroptosis-related genes (FRGs) by comparing stage 1 and stage 4 NB to see if they are associated with NB prognosis. In addition, two microarrays were used in this study, and functional enrichment was used to identify additional mechanisms.
+Our FRG prognostic signatures included eight differentially expressed FRGs associated with the overall survival. It performed well in predicting the prognosis of NB patients. We used the Connectivity Map database (CMAP, https://portals.broadinstitute.org/cmap/) ( ) to obtain drug target information, and data from the CellMiner database (https://discover.nci.nih.gov/cellminer/) ( ) were filtered to perform drug sensitivity analysis, with the goal of providing molecular strategies for the clinical diagnosis and treatment of NB.
+
+## 2 Materials and methods
+
+## 2.1 NB dataset processing
+Agilent microarray GSE49710 datasets (n = 498) were downloaded from the Gene Expression Omnibus (GEO) database, and Agilent microarray E-MTAB-8248 datasets (n = 223) were downloaded from the ArrayExpress database. The GSE49710 and E-MTAB-8248 microarray datasets were used as discovery and validation cohorts, respectively. Patients with insufficient clinical data or in stages 2, 3, and 4 S were excluded. shows the clinical characteristics of patients in the two cohorts.
+ 
+
+## 2.2 Extraction of differentially expressed ferroptosis-related genes
+FerrDb is the first manually curated resource for ferroptosis regulators and markers released in December 2019 ( ), from which we obtained 259 gene sets associated with ferroptosis. Differential expression analyses were performed in both training and validation cohorts using the “limma” package ( ) and the R (version 4.1.0) software, respectively. Genes with false discovery rates (FDRs) < 0.05 and |log2FoldChange| > 0.8 were extracted as differentially expressed genes.
+
+## 2.3 Construction of the ferroptosis-related prognostic signatures
+Univariate Cox analysis of overall survival (OS) was performed to screen FRGs with prognostic values in the training cohort. p ≤ 0.05 was considered statistically significant. To avoid overfitting, we used the Cox proportional hazards model survival analysis with the least absolute shrinkage and selection operator (LASSO) penalty ( ). In addition, to derive a risk score for each patient, we constructed the ferroptosis-related prognostic signature by weighting the Cox regression coefficients for each gene. We classified the patients as high or low risk according to the median value in both cohorts. As for the ROC curve, we used the “survivalROC” package to evaluate the predictive ability of our established prognostic model. We assigned survival time to S time, survival status to Status, and took the risk score as a marker, and used the product-limit method to calculate the predictive ability of 3, 5, and years, respectively. For the value of AUC, it also reflects the predictive ability of our model, and the closer it is to 1, the better the ability is. In the nomogram, we considered the influence of age factors and used the calculated mortality rate as a marker. Similarly, AUC reflects the predictive ability of the Nomo model.
+
+## 2.4 Prognostic meta-analysis of the ferroptosis-related gene signature and the gene AURKA
+
+The FRG signature and the gene AURKA were meta-analyzed separately using the “meta” R package, including four NB datasets from the GEO (GSE62564 and GSE49710), ArrayExpress (E-MTAB-8248), and UCSC Xena (TARGET-NBL). Heterogeneity among the datasets was assessed by using the Chi2 and the I2 statistics. p ≤ 0.05 was considered statistically significant.
+
+## 2.5 Function annotation and gene set enrichment analysis
+The functional annotations of genes were performed using the Gene Ontology (GO) and the Kyoto Encyclopedia of Genes and Genomes (KEGG) databases. The R package “clusterProfiler” was used to analyze differentially expressed FRGs associated with OS ( ). p values were adjusted using the BH method. In addition, the infiltrating score of 28 immune cells and the activity of 13 immune-related pathways were determined by using single-sample gene set enrichment analysis (ssGSEA) in the “GSVA” R package ( ; ).
+
+## 2.6 Statistical analysis
+The “limma” R package was used to conduct statistical analyses on differentially expressed genes. To determine the independent predictor of OS, univariate and multivariate Cox survival regression analyses were performed. In this study, all statistical analyses were conducted with the R software version 4.1.0. If not specified, p < 0.05 was considered statistically significant.
+
+## 2.7 Drug sensitivity analysis of 27 differentially expressed and survival-related ferroptosis-related genes
+After sorting according to log FC differential multiples, the top 500 upregulated genes and the top 500 downregulated genes were uploaded to perform the query function in the CMAP database and obtain drug target information. The Cell MinerTM ( ; ) database was used to download the processed drug sensitivity data (Version: 2021.1, database: 2.6, https://discover.nci.nih.gov/cellminer/home.do) and the RNA SEQ file and compound activity. The R packages “impute,” “limma,” “ggplot2,” and “ggpubr” were used to process the data and visualize the results. Only drugs certified and clinically tested by Food and Drug Administration (FDA) are screened out, and the k-nearest neighbors in the space of genes were used to impute the missing expression values. The data of 27 differentially expressed FRGs related to prognosis were extracted. Among the gene–drug pairs with p < 0.001, the top 16 gene–drug pairs with the highest correlation coefficient were selected for mapping.
+
+## 3 Results
+The flow chart for this study is shown in , which includes 498 patients from the GEO datasets and 223 patients from the ArrayExpress database. lists the clinical characteristics of each cohort.
+
+## 3.1 Identification of prognostic ferroptosis-related DEGs in the training cohort
+A total of 40 FRGs were found to be differentially expressed between stage 1 and stage 4 tumor tissues ( ), and 27 FRGs were found to be significantly (p < 0.05) associated with OS across the entire training cohort in univariate Cox proportional model survival analyses ( ). The majority of them (26/27) were significantly increased in stage 1 NB samples, whereas only one was significantly increased in stage 4 NB samples ( ). The PPI network indicated that EGFR and STAT3 were the hub genes ( ). The correlation values among the 27 genes were indicated in the correlation heatmap ( ).
+ 
+
+## 3.2 Construction and validation of FRG prognostic signatures
+To eliminate false positives, the 27 FRGs that were associated with OS were subjected to LASSO Cox survival analysis ( ). An eight-gene signature was identified based on the optimal value of λ ( ). The Kaplan–Meier curves showed the survival analyses of every gene in this signature ( ).
+ The risk scores were calculated for each patient as follows: risk score = e (– 0.339 * ULK2
+—0.290 *
+
+MAP1LC3A
+
++ 0.581 *
+
+AURKA
+—0.107 *
+
+ATP6V1G2
+—0.168 *
+
+STAT3
+—0.044 * PROM2
+—0.075 * CD44
+
++ 0.258 * STEAP3). We used the median value as the cut-off value, and the training cohort was divided into high-risk group (n = 152) and low-risk group (n = 152), which represent the increased and decreased ferroptosis, respectively. depicts the risk distribution, survival status, and gene expression pattern in the training cohort. According to the scatter plot, the high-risk group had a higher probability of death earlier than the low-risk group in the training cohort because the majority of patients in the low-risk group survived the 15-year follow-up, whereas the majority of patients in the high-risk group died ( ). According to the heatmap, whether in the training cohort or in the validation cohort, seven FRGs, including PROM2, STEAP3, CD44, ULK2, MAP1LC3A, ATP6V1G2, and STAT3, were highly expressed in stage 1 NB, while only AURKA was highly expressed in stage 4 NB ( ). We discovered that the FRG signature has good predictive performance in predicting OS in the training cohort using the time-dependent ROC curves, with the area under the curve (AUC) reaching 0.885 at 3 years, 0.908 at 5 years, and 0.883 at 8 years ( ). The Kaplan–Meier curve revealed that patients in the high-risk group had a significantly lower OS than those in the low-risk group ( ). To validate the model’s prognostic significance, the same risk score formula was used to test the FRG signature in the validation cohort (n = 223). The validation cohort as a whole was divided into two groups using the same cut-off value as the training cohort. depicts the risk distribution, survival status, and gene expression pattern in the validation cohort. Time-dependent ROC curves were used to assess the predictive performance of the risk score model for OS, and the AUC values at 3, 5, and 8 years were 0.814, 0.816, and 0.781, respectively ( ). The Kaplan–Meier curve consistently showed similar results to the training cohort, indicating that the high-risk group had a clearly worse OS than the low-risk group ( ).
+ 
+
+## 3.3 The expression status of AURKA in different subgroups
+An interesting phenomenon was discovered in the heatmap of the training and validation cohorts: only one gene, AURKA, had a high expression level in stage 4 tumors or high-risk groups. In the training cohort, we compared the expression status of AURKA in seven subgroups, including gender, age, MYCN amplification status, INSS stage, COG risk status, progression, and survival status. show that AURKA expression was higher in patients aged 18 months (p < 0.001), MYCN amplified (p < 0.001), stage 4 NB (p < 0.001), COG high risk (p < 0.001), progression (p < 0.001), and dead status (p < 0.001) when compared to the corresponding groups. However, no significant difference was found between the male and female groups ( ). shows a comparison of AURKA expression status in the validation cohort.
+ 
+
+## 3.4 The prognostic value of ferroptosis-related gene signatures
+The risk score and other clinical risk factors in the entire training cohort were subjected to univariate and multivariate Cox regression analyses ( ). In the univariate survival analysis, the risk score was significantly associated with OS in both the training [hazard ratio (HR) = 4.561; 95% CI: 3.624–5.739; p < 0.001] and validation cohorts [hazard ratio (HR) = 32.012; 95%CI:13.307–77.013; p < 0.001] ( ). After evaluating gender (female vs male), age status (<18 vs ≥18 months), MYCN amplification (non-amplified vs amplified), Children’s Oncology Group (COG) risk status (low risk vs high risk), and International Neuroblastoma Staging System (INSS) stage (INSS 1 vs INSS 4), it was determined that the FRG signature plays an independent prognostic role (Training cohort: HR = 2.438, 95% CI = 1.753–3.390, p < 0.001; validation cohort: HR = 16.652, 95% CI = 5.227–53.052, p < 0.001; ). Given that the COG risk classification already incorporates age, MYCN amplification status, and INSS stage factors, we created a nomogram ( ) incorporating only age and the FRG signature risk score to further investigate the role of age in predicting the OS in NB patients in the validation cohort, as age showed significant differences in univariate and multivariate Cox regression analyses. Age ≥18 months was assigned a value of 0, while age <18 months was assigned a value of 33.6. Furthermore, a risk score of 1.2 was defined as 0 points, while a risk score of 0 was defined as 100 points. Risk scores ranging from 1.2 to 0 correspond to points ranging from 0 to 100, and can be calculated using the following formula: points = (1.2 - risk score) * (100/1.2).
+ The C-index of the nomogram was 0.85 (95% CI: 0.80–0.91), indicating that our signature is highly accurate. Additionally, the3-, 5-, and 8-year calibration curves demonstrated that the predicted OS was quite consistent with the observed OS ( ). The ROC curve revealed that the nomogram’s AUC at 3, 5, and 8 years was greater than the risk score’s AUC at 3, 5, and 8 years ( ).
+
+## 3.5 The prognostic role of ferroptosis-related gene signatures
+Stratification survival analyses were used to determine the FRG signature’s predictive performance in clinical subgroups within the training cohort. The entire training cohort was divided into 11 subgroups according to gender, age, MYCN not amplified status, INSS stage, COG risk status, and progression.
+Patients were divided into high- and low-risk subgroups in each subgroup using the same cut-off value as in the training cohort. A significant difference was demonstrated in the OS between the high- and low-risk groups ( ).
+ 
+
+## 3.6 Meta-analysis of ferroptosis-related gene signatures and the gene AURKA
+The prognostic meta-analysis was used to assess the comprehensive predictive value of the FRG prognostic signature in multiple cohorts. The results revealed that the FRG prognostic signature was a significant predictor of cancer prognosis in NB (HR = 8.75, 95% CI: 1.44–53.19, p = 0.02, ). In addition, by meta-analysis, we validated the gene AURKA as a potential prognostic biomarker for NB (HR = 4.41, 95% CI: 1.19–16.36, p = 0.03, ).
+
+## 3.7 Functional analyses for the training and validation cohorts
+To further investigate the relationship between biological function and pathway and risk score, we included differentially expressed and survival-related FRGs in our GO enrichment ( ) and KEGG pathway analyses ( ) in the high- and low-risk groups. As expected, the differentially expressed FRGs were significantly more abundant in iron-related signaling pathways, such as the PI3K-Akt signaling pathway. Surprisingly ( ), the FRGs were also significantly enriched in a variety of immune-related biological processes, including T-cell activation, positive regulation of leukocyte cell–cell adhesion, and mononuclear cell differentiation. Following that, we used the ssGSEA to determine the degree of enrichment of immune cell subpopulation-related pathways. Numerous immune-related cells were found to be significantly different between the low- and high-risk groups in the training cohort, including activated CD4 T cells, eosinophils, macrophages, and neutrophils ( ). Clearly, numerous antigen-presenting functions, such as APC costimulation, HLA, cytolytic activity, and MHC class I expression, appear to be distinct between the two groups ( ).It is to be noted that the KEGG-enriched cytokine–cytokine receptor interaction had a higher score in the training cohort’s high-risk group. Additionally, the high-risk group scored higher on immature dendritic cells, monocyte, cytolytic activity, and T-cell costimulatory activity ( ), which was validated in the validation group ( ).
+ 
+
+## 3.8 Exploration of drugs that have a therapeutic effect on NB based on the FRG signature
+We screened the Cmap datasets for the significant interaction nodes in order to identify potential drugs that modulate prognosis-related genes therapeutically. A key node is one that interacts with at least two genes associated with prognosis and has a hypergeometric p-value less than 0.05. summarizes the 20 most significant drugs.
+ 
+
+## 3.9 Sensitivity analysis of drugs for NB
+The correlation analysis was performed to investigate the potential relationship between drug sensitivity in different human cell lines and the 27 differentially expressed and survival-related FRGs. The results are shown in from high to low in terms of the absolute value of the correlation coefficient, indicating that ATP6V1G2 expression was associated with drug sensitivity to nelarabine, methylprednisolone, and sapacitabine ( ). The expression of one hub gene, EFGR, correlated positively with the drug sensitivity of BLU-667, Dasatinib, and Spebrutinib ( ). There was a positive relationship between the expression of another hub gene, EPAS1, and the drug sensitivity of Telatinib, XAV-939, and LY-3023414 ( ). The relationship between PROM2 expression and drug sensitivity of Linsitinib, GSK-1904529A, AZD-9496, Acetalax, and SR16157 was also found to be positive ( , L, O, P). Furthermore, the correlation between GCH1 expression and Ribavirin drug sensitivity and the correlation between TF expression and Motesanib drug sensitivity were positive (Figure 6N).
+ 
+
+## 4 Discussion
+In light of recent advances in the treatment of NB, the International NB Risk Group Staging System (INRGSS) has been adopted prospectively for the treatment assignment and definition of COG clinical trial eligibility ( ). Furthermore, researchers have identified several prognostic signatures or markers that may serve as critical reference points for clinicians during the therapeutic regimen ( ; ; ; ; ; ), but only a small proportion of patients benefit from them. According to our knowledge, this is the first study to attempt to establish a correlation between ferroptosis and prognostic FRGs in NB using RNA-seq data.
+Some researchers have recently reported that ferroptosis has an inhibitory effect on NB. One study, for example, found that high-risk NB could be eradicated by the nano-targeted induction of dual ferroptotic mechanisms ( ). They discovered that by creating a specific type of nanoparticle, they could mimic the canonical ferroptosis-inducing pathway, which is a powerful strategy for treating high-risk NB. Furthermore, another study found that knocking out ferroportin accelerates ferroptosis induced by erastin in NB cells ( ). However, studies have discovered that ferroptosis has tumor-protective properties. For example, one study found that by incorporating iron into mitochondria, FtMt could inhibit erastin-induced LIP elevation and reduce ROS content in SH-SY5Y cells, thus protecting the NB SH-SY5Y cells from ferroptosis injury ( ). In another study, ferrostatin-1 was found to be capable of inhibiting ferroptosis in dopaminergic NB SH-SY5Y cells exposed to rotenone-induced oxidative stress ( ).
+When the gene characteristics of stage 1 and stage 4 tumors were compared and screened, eight genes were found to have the best prognostic value and were screened out of gene sets from FerrDb to put into our FRG signature. We also performed survival analyses for all the genes in the signature ( ). According to the analyses, we found that all the genes except STEAP3 (p > 0.05) have strong predictive ability. Furthermore, prognostic meta-analysis confirmed that the FRG signature was an independent prognostic predictor in multiple cohorts, although the survival difference failed to reach a significant level in the TARGET-NBL cohort. An interesting phenomenon was discovered in these genes: only one gene, AURKA, had a high expression level in stage 4 tumors and high-risk groups, whereas others were highly expressed in stage 1 or low-risk groups. ) discovered that AURKA is a potentially valuable diagnostic indicator of survival in NB using immunohistochemistry. It has been reported that it is a direct negative regulator of necrosome activation and that high levels of mRNA expression of this gene are associated with poor survival ( ). Previous microarray analyses showed that MYCN-amplified NBs had higher levels of AURKA mRNA than nonamplified NBs ( ) and this was confirmed in another study ( ), which showed that AURKA was not only required for the growth of MYCN-amplified NB cells but also for cells lacking amplified MYCN, which is consistent with the study of ). In addition, it has been reported that changing the conformation of the AURKA activation loop with small molecules can effectively disrupt the AURKA/N-myc interaction in NB cancer cells ( ), and using selinexor and the AURKA inhibitor alisertib to synergistically increase the cytotoxicity of p53-mediated high-risk NB has potential therapeutic benefits ( ). As a result, we believe that AURKA may open up new avenues for biomarkers used in the prognosis of NB.
+
+PROM2, STEAP3, CD44, ULK2, MAP1LC3A, ATP6V1G2, and STAT3 are different from AURKA. PROM2 is involved in iron metabolism and may contribute to ferroptosis resistance by promoting the formation of multivesicular bodies containing iron-laden ferriti, resulting in a decrease in the intracellular iron concentration ( ). Furthermore, the overexpression of CD44 suppressed ferroptosis in cancer cells in an OTUB1-dependent manner ( ), and ( ) demonstrated that inhibiting protein kinase C, which can modulate CD44 expression, is a strategy to sensitize NB stem cells to etoposide by stimulating ferroptosis. A high STEAP3 expression causes lipid peroxidation of the cellular membrane ( ), implying that it may inhibit NB cell growth in this way. When the activity of ULK2, an autophagy-related protein, was increased, it was found to be capable of promoting the normal dissolution of stress granules ( ). MAP1LC3A is an autophagy-related gene that encodes microtubule-associated protein 1 light chain 3 alpha (LC3) ( ). ATP6V1G2 encodes the Na+/H+ antiporter, and its high expression improves ion control in epithelial cells ( ). STAT3 is a signal transducer and transcription activator, and CTSB (cathepsin B) mediated by STAT3 is required for ferroptosis ( ). Studies have shown that by regulating the STAT pathway, tumor immunosuppression in the NB can be alleviated through the targeted elimination of bone marrow-derived suppressor cells ( ). These could be the underlying mechanisms of the genes’ high expression in stage 1 NB and low expression in stage 4 NB.
+According to our drug sensitivity analyses, ATP6V1G2 is associated with nelarabine, a type of drug targeting T-cell antigens ( ), methylprednisolone, which can improve the opsoclonus myoclonus syndrome associated with NB ( ), and sapacitabine, a nucleoside analogue inducing DNA strand breaks ( ), which has been reported to play a role in the treatment of advanced solid ( ) tumor. EPAS1 is sensitive to the multi-tyrosine kinase inhibitor telatinib ( ), the Wnt signaling pathway antagonist XAV-939 ( ), and the dual PI3K/mTOR inhibitor LY3023414 ( ). However, there have been few studies in recent years on the relationship between telatinib, XAV-939, or LY3023414 and NB. PROM2 is sensitive to insulin-like growth factor I receptor inhibitor linsitinib ( ), insulin-like growth factor 1 inhibitor GSK1904529A ( ), the estrogen receptors alpha antagonist AZD9496 ( ), and the dual-acting estrogen action inhibitor SR16157 ( ). Among them, linsitinib has been reported to have potent antitumor activity in diffuse midline glioma when combined with modified chimeric antigen receptor T-cells ( ); GSK1904529A has also been found to inhibit glioma tumor growth, induce apoptosis, and inhibit migration ( ), and AZD9496; and SR16157 are potential drugs for treating breast cancer that are present in the early stages of clinical research ( ) ( ). GCH1 is sensitive to ribavirin, a synthetic nucleoside analogue with broad antiviral activity ( ). EGFR was sensitive to the small-molecule rearranged inhibitor BLU667 ( ), the tyrosine kinase inhibitor dasatinib ( ), and the Bruton’s tyrosine kinase (BTK) inhibitor spebrutinib during transfection ( ). BLU-667 has been shown to induce tumor regression in cancer models with RET mutations and fusions ( ), dasatinib has been shown to reduce NB growth as early as 2009 ( ), and spebrutinib has antitumor activity in large B-cell lymphoma ( ). Motesanib, an antiangiogenic receptor tyrosine kinase inhibitor, is effective against TF ( ). Sensitivity analyses indicate that these drugs may have therapeutic potential for NB, as they have a strong positive correlation with the expression of genes that are highly expressed in stage 1 tumors.
+The relationship between tumor susceptibility and ferroptosis has been a hot topic in recent years, but the potential mechanism of tumor immunity and ferroptosis remains unknown. GO analyses were performed on the basis of differentially expressed FRGs between the high- and low-risk groups, and we discovered that these genes were enriched in many immune-related biological processes and pathways, implying a link between NB immunity and ferroptosis. There are also significant differences in the process of antigen presentation between the two groups. One possible mechanism is that ferroptotic cells communicate with immune cells via a set of signals that include lipid mediators, which attract antigen-presenting cells (APCs) and other immune cells near the ferroptotically dying cells ( ).
+In general, this study demonstrated the ferroptosis-related gene signatures in NB associated with the prognosis and proposed the possibility of the AURKA gene as a prognostic marker in NB, which is consistent with many preclinical studies ( ; ; ; ; ; ; ). We call for more attention to AURKA, expecting to open up a new way to treat NB.
+
+## 5 Conclusion
+Ferroptosis-related genes are expressed differently between stages 1 and 4 NB. The FRG signature successfully stratified NB patients into two risk groups and can accurately predict the overall survival in NB. In addition, we found that the gene AURKA might have the potential to be a prognostic marker in NB.
+
+## Data availability statement
+The datasets presented in this study can be found in online repositories. The names of the repository/repositories and accession number(s) can be found in the article/ .
+
+## Ethics statement
+Written informed consent was obtained from the individual(s), and minor(s)' legal guardian/next of kin, for the publication of any potentially identifiable images or data included in this article.
+
+## Author contributions
+YC and MZ conceptualized and designed the study. YC, ZL, QC, MZ, and LM reviewed and revised the manuscript. YC drafted the initial manuscript. YC and ZL designed the data collection instruments, collected data, and carried out the initial data analysis. QC completed the work of the prognostic meta-analysis. ZL, YC, QC, and HG made the figures and tables. All authors approved the final manuscript as submitted and agree to be accountable for all aspects of the work.
+
+## Funding
+This work was supported by College Student Innovation and Entrepreneurship Training Program (No. 1165) in 2022.
+
+## Conflict of interest
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors, and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+## Supplementary material
+The Supplementary Material for this article can be found online at: https://www.frontiersin.org/articles/10.3389/fcell.2022.871512/full#supplementary-material
+
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.

@@ -1,0 +1,230 @@
+214transmedJournal of Translational MedicineJ Transl MedBMCPMC9756481975648197564813652264710.1186/s12967-022-03790-0Identification of ZBTB9 as a potential therapeutic target against dysregulation of tumor cells proliferation and a novel biomarker in Liver Hepatocellular Carcinoma
+ZhangZhenshan WuLeilei LiJuan ChenJiayan YuQi YaoHui XuYaping LiuLiang 1Department of Radiation Oncology, Shanghai Pulmonary Hospital, Tongji University School of Medicine, Shanghai, China 2Department of Radiation Oncology, Fudan University Shanghai Cancer Center, Shanghai, 200032 People’s Republic of China 3Department of Radiation Oncology, Shanghai Proton and Heavy Ion Center, Fudan University Cancer Hospital, Shanghai, China 4Shanghai Concord Cancer Center, Shanghai, 200240 China 5Department of Radiation Oncology, Shanghai International Medical Center, Shanghai, China ✉Corresponding author.
+#Contributed equally.
+151220222060260217122022© The Author(s) 2022Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated in a credit line to the data.
+
+## Abstract
+
+## Background
+Zinc finger and bric-a-brac/tramtrack/broad (ZBTB) domain-containing proteins have been reported to be associated with many tumors’ development. However, in tumor initiation and progression, the role of ZBTB9, one of the protein family, and its prognostic value were yet to be elucidated in Liver Hepatocellular Carcinoma (LIHC).
+
+## Methods
+We used R software and online bioinformatics analysis tools such as GEPIA2, cBioPortal, TIMER2, Metascape, UALCAN, STRING, TISIDB, and COSMIC to investigate ZBTB9’s characteristics and function in LIHC, including abnormal expression, carcinogenic role, related signaling pathways and prognostic value. Furthermore, cell experiments (such as formation, wound healing, and transwell assays) and analyses based on clinical samples (such as immunohistochemistry (IHC) and promoter methylation analysis) were conducted to verify pivotal conclusions.
+
+## Results
+ZBTB9 was overexpressed in LIHC samples compared to adjacent normal tissues. Through the analysis of genomic alteration and promoter hypomethylation, the clinical value and etiology of abnormal expression of ZBTB9 were preliminarily exlpored. Subsequent evidence showed that it could result in tumor progression and poor prognosis via activating cell cycle, DNA repair, MYC, and KRAS-associated signaling pathways as well as rendering immune dysregulation. After the knockdown of ZBTB9, evidently inhibited capacities of tumor cells proliferation and migration were observed. These results together indicated that ZBTB9 could be a promising prognostic biomarker and had the potential value to offer novel therapeutic targets for LIHC treatment.
+
+## Conclusions
+ZBTB9 was identified as a novel biomarker to predict the prognosis and tumor progression in LIHC, and a promising therapeutic target to invert tumor development.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12967-022-03790-0.
+
+Keywords: LIHC, ZBTB9, TCGA, Prognosis, Biomarker
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Mar 31; Accepted 2022 Nov 24; Collection date 2022.
+
+## Background
+Liver Hepatocellular carcinoma (LIHC) is one of the most aggressive cancers. Cancer statistics showed 906,000 new liver cancer cases and 830,000 deaths worldwide in 2020, and the type of 75%–85% liver cancer cases was LIHC [ – ]. In the past decades, efforts were paid to improve the comprehension of LIHC, and many molecules were reported to facilitate LIHC initiation and progression. For example, GOLM1 could drive LIHC metastasis by modulating EGFR/RTK cell-surface recycling [ ], and Hsp90α-dependent Bclaf1 could promote LIHC proliferation by regulating c-MYC mRNA stability [ ]. However, effective biomarkers are still lacking and the mechanisms underlying LIHC remain largely unclear.
+Recently, increasing attention has been paid to ZBTB proteins, which are the family proteins of nuclear transcription factors [ ]. These genes could participate in the regulation of multiple gene transcription via binding to corresponding cis-regulatory elements [ ]. Notably, many members of them have been reported to play important roles in the development of multiple cancers, such as ZBTB27 [ ], ZBTB28 [ ], ZBTB33 [ ], and ZBTB7 [ ]. Recently, for LIHC, the associations between ZBTB20 and LIHC progression have been reported in many studies [ , ]. Given these, the role of ZBTB proteins in LIHC is worth exploring.
+ZBTB9 is a member of ZBTB proteins, and the relationship between its expression and tumor development is poorly studied. In the results of preliminary bioinformatic analysis, we found it was overexpressed in LIHC compared to adjacent normal tissues. Based on this, we conducted further analyses and necessary experiments to investigate its characteristics and prognostic value of it in LIHC. In conclusion, the present study aims to confirm the potential capacity of ZBTB9 to be a novel biomarker and therapeutic target, and simultaneously, to provide novel insight into the underlying molecular mechanisms of LIHC.
+
+## Materials and methods
+
+## Data acquisition
+Tumor Immune Estimation Resource 2.0 (TIMER2) (http://timer.cistrome.org/) [ ] online tools “Exploration” mode was utilized to obtain the different expression landscape of ZBTB9 between tumor and adjacent normal tissues among cancers. The row data was normalized using log2 TPM (Transcripts Per Kilobase of exon model per Million mapped reads) transformation. Additionally, the RNA-seq data of GSE76427 (52 cancerous tissues, 114 paracancerous tissues) and GSE36376 (193 cancerous tissues and 241 paracancerous tissues) were obtained from Gene Expression Omnibus (GEO) (https://www.ncbi.nlm.nih.gov/) database.
+The gene expression arrays and clinical information of the Cancer Genome Atlas (TCGA) [ ] LIHC cohorts were obtained from UCSC (http://xena.ucsc.edu/) [ ] database, and the expression data were rendered the log2(x + 0.001) swift. The prognostic information was obtained from a previous study [ ].
+By the tool of Gene Expression Profiling Interactive Analysis 2.0 (GEPIA2) (http://gepia2.cancer-pku.cn/) [ ], we acquired the top 50 genes which were the most associated with ZBTB9 in LIHC.
+STRING (https://cn.string-db.org/) was a powerful online tool for bioinformatic analysis which could analyze the protein–protein interaction network, based on the evidence from experiments and consensus.
+A total of 79 pairs of hepatocellular carcinoma tissues with adjacent normal tissue samples were purchased from ServiceBio (Shanghai, China). H-SCORE (H-SCORE = ∑(pi x i) = (percentage of weak intensity × 1) + (percentage of moderate intensity × 2) + (percentage of strong intensity × 3) [ – ]) was utilized to quantitate the protein stain of IHC. In addition, a total of 10 pairs of frozen LIHC tissues with adjacent normal tissue samples were obtained from Fudan University Shanghai Cancer Center between 2015 and 2018 for the promoter methylation and tumor immune microenvironment (TIME) analysis, and ImageJ software[ ] with package of IHC Profiler [ ] was utilized to quantitate the IHC results. Samples were stored at -80℃. The use of human tissues conformed to the guidelines of the Declaration of Helsinki.
+
+## Diagnostic and prognostic value of ZBTB9
+With the pROC package of R (v 3.6.3), the receiver operating characteristic curve (ROC) was depicted to show its diagnostic value.
+The Kaplan–Meier survival analysis and cox regression model were performed via the “survminer” and “survival (v 3.2-7)” packages of R, and the P-value, 95% confidence intervals (CI), and hazard ratio (HR) were also computed.
+
+## Genetic alteration analysis
+cBioPortal database (https://www.cbioportal.org/) [ , ] was used to estimate the genetic alteration landscape of ZBTB9 among cancers with the data of TCGA PanCancer Atlas Studies. In addition, the information of alteration regions was obtained with the "Mutations" module.
+The Catalogue of Somatic Mutations (COSMIC) (http://www.sanger.ac.uk/cosmic/) [ ] is another public resource that offers information on somatically acquired mutations among human cancers for input genes.
+
+## DNA promoter methylation analysis with the public database
+Through UALCAN (http://ualcan.path.uab.edu/analysisprot.html) [ ], we acquired the box plots of ZBTB9 promoter methylation levels under different clinical characteristics based on the TCGA database.
+
+## Methylation-specific polymerase chain reaction (MSP) analysis
+MSP analysis was performed using primers for methylated or unmethylated DNA designed using MethPrimer. Briefly, 2 μl of bisulfite-treated genomic DNA was amplified using TaKaRa EpiTaq HS (Takara Bio). The cycles setting is 95 °C for 5 min, followed by 35 cycles of 94 °C for 20 s, 60 °C for 30 s, and 72 °C for 20 s, followed by a single cycle of 72 °C for 5 min. then, the PCR products were analyzed using 2% agarose gel electrophoresis. The results were quantitated via ImageJ software [ ]. All measurements were performed in triplicate. The primer sequences used for MSP are listed below.
+ZBTB9-M-F: 5′-GGTGTTATATTTAATTATCGGGAAAC-3′
+ZBTB9-M-R: 5′-AACTACTACAAACGAAAAAAACGAT-3′
+ZBTB9-UM-F: 5′-GTTATATTTAATTATTGGGAAATGT-3′
+ZBTB9-UM-R: 5′-AACTACTACAAACAAAAAAAACAAT-3′.
+
+## Analysis of drug treatment and ZBTB9 expression
+We logged in CellMiner online database (https://discover.nci.nih.gov/cellminer/home.do) [ , ] to get the correlation between pharmacological treatment efficacy and gene expression level.
+
+## Immunocytes infiltration analysis
+By the TISIDB database (http://cis.Hku.hk/TISIDB/) [ ], we analyzed the correlation between ZBTB9 and TIME, including tumor-infiltration lymphocytes, immunocyte co-inhibitors, and co-stimulators in this platform, which were plotted with heat maps and scatter graphs. TISIDB is a web portal for tumor and immune system interaction, which integrates multiple heterogeneous data types, including the literature mining results from the PubMed database, high throughput screening data, exome, and RNA sequencing data sets of patient cohorts with immunotherapy, genomics, transcriptomics and clinical information of 30 cancer types from The Cancer Genome Atlas (TCGA) and public databases, including UniProt, GO, DrugBank, etc.
+IHC of ZBTB9 (antibody: NBPY-92611, Novus), CD8A (antibody: 8M4102, BOSTER), and FOXP3 (antibody: PB0043, BOSTER) proteins in the 20 samples containing 10 tumor and 10 adjacent normal tissues was conducted to explore the relationship between ZBTB9 and TIME.
+
+## Gene set enrichment analysis
+The Gene set enrichment analysis (GSEA) [ ] method was applied to study the potential mechanisms of ZBTB9 behind the initiation and progression of LIHC via clusterProfiler package (v 3.14.3) [ ]. We obtained the gene collections (h.all.v7.2.symbols.gmt) from Molecular Signatures Database [ ]. According to the median expression level of ZBTB9, samples were divided into high and low groups. Via comparing the differences in genes level between the two groups, the upregulated and downregulated genes were identified. Then the genes were enriched based on the database of Hallmark gene sets. Gene sets with |normalized enrichment score (NES)|> 1, and false discovery rate (FDR) < 0.05 were considered significant results.
+
+## Associated genes’ function analysis
+Gene Ontology (GO) and Kyoto Encyclopedia of Gene and Genomes (KEGG) pathway analysis were utilized to investigate the function of the gene set with R package clusterProfiler (3.14.3) and org.Hs.eg.db (3.10.0). GO analysis is a common method used for annotating genes and gene products and for identifying molecular function (MF), biological process (BP), and cellular components (CC). KEGG is a collection of databases for systematic analysis of gene functions and associating related gene sets with their pathways. In addition, we also utilized the Metascape (http://metascape.org) tool [ ] to analyze the functions of the related genes of ZBTB9 in LIHC.
+With GSCALite (https://www.editorialmanager.com/jtrm/default1.aspx) [ ], the association of activation signaling pathways and ZBTB9-related genes was also analyzed.
+
+## Cell culture
+HepG2 cells were obtained from the Chinese Academy of Sciences Cell Bank and cultured in Dulbecco’s modified Eagle’s medium (DMEM) (Gibco Thermo Fisher Scientific, Inc. USA), supplemented with 10% fetal calf serum (FBS) (Gibco Thermo Fisher Scientific, Inc. USA), 100 U/ml penicillin, and 100 μg/ml streptomycin (Solarbio, Beijing, China), and cultured at 37 °C in a 5% CO2 humid atmosphere.
+
+## ZBTB9 knockdown
+To block ZBTB9 expression in HepG2 cells, two small interferings (si) RNAs against ZBTB9 (siZBTB9-1 and siZBTB9-2) and one negative control (siCtrl) RNA were designed and synthesized by Sangon Biotech Co., Ltd. For transfection, cells were seeded into 6-well plates at a concentration of 1 × 10^5 cells/well and maintained at 37 °C until 70% confluent. Then, cells were transfected with siRNAs or siCtrl using Lipofectamine® 3000 (Invitrogen; Thermo Fisher Scientific, Inc.) following the manufacturer’s protocols. The antisense sequences of the three siRNAs were shown as followed:
+siZBTB9-1: 5′-TTTCTGAGCACTGATCTACTA-3′.
+siZBTB9-2: 5′-TAACACTGCTTTATGAGCCCT-3′.
+siCtrl: 5′-TTCTCCGAACGTGTCACGTTT-3′.
+
+## Knockdown efficiency evaluation by RT-qPCR and western blot (WB)
+Relative expression of ZBTB9 in HepG2 cells was evaluated via RT-qPCR. We extracted total RNA from cells using TRIzol reagent (Invitrogen, USA). cDNA was synthesized using the RevertAid First Strand cDNA Synthesis kit (Promega Corporation, USA) following the manufacturer's instructions. RT-qPCR was conducted using the iQ™ SYBR Green Supermix (Bio-Rad, USA). The following primers were used for qPCR:
+ZBTB9-F: 5′-TCGGCGGGAAGGACAATC-3′,
+ZBTB9-R: 5′-TAGACTCCACGCGGGATGAA-3′,
+GAPDH-F: 5′-ACAACTTTGGTATCGTGGAAGG-3′
+GAPDH-R: 5′-GCCATCACGCCACAGTTTC-3′.
+The 2-ΔΔCt method was conducted to calculate the relative expression levels of targets.
+For WB assay, the molecular weight of ZBTB9 and GAPDH are 50.602 kDa and 36.053 kDa, respectively, and total proteins were extracted from HepG2 cells using RIPA lysis buffer and subsequently were quantified using the Bradford method (Bio-Rad, Hercules CA, USA). Twenty micrograms of protein were loaded and separated by polyacrylamide gel electrophoresis and then transferred to PVDF membranes (Bio-Rad). After blocking with 5% BSA, membranes were incubated with specific antibodies for ZBTB9 (1:1000, Abcam), and GAPDH (1:1000, Abcam) at 4 °C overnight. On the next day, the membranes were incubated with horseradish peroxidase-conjugated secondary antibody (1:3000) for 2 h at room temperature. The Quantity One software package (Bio-Rad, USA) was used for the quantitation of signal intensities.
+
+## Wound healing assay
+HepG2 cells were seeded into a 6-well plate. When the cells' confluence reached 80%, we scratched the monolayer cells with a sterile micropipette tip. The floating cells were then washed with PBS. Wound healing within the scrape line was observed at 0 h and 16 h. Triplicate wells for each condition were examined.
+
+## Cell cycle analysis
+Flow cytometry analysis was performed to estimate the effects of ZBTB9 knockdown on the HepG2 cell cycle. After 48 h transfection with siZBTB9 or siCtrl, HepG2 cells were trypsinized and centrifuged for 10 min at 2000 rpm, followed by three washes with pre-cold PBS. Then, cells were fixed with 70% ethanol at -20˚C overnight, and cell cycle distribution was analyzed using the cell cycle kit (BestBio) and a Beckman Coulter FACSCalibur flow cytometer (Beckman Coulter, Inc.).
+
+## Colony formation assay
+The effects of ZBTB9 knockdown on LIHC cell proliferation were assessed by colony formation assay. After 48 h transfection with siZBTB9 or siCtrl, HepG2 cells were seeded into 6-well plates at a density of 1000 cells/well, followed by 1 week of incubation at 37 °C with 5% CO2. Subsequently, colonies were fixed using methanol for 1 h and stained with Giemsa solution for 20 min. The number of colonies (> 50 cells) was manually calculated under a microscope, and triplicate wells were evaluated for each group.
+
+## Transwell assay
+Transwell assay using 24-well plates with an 8-µm pore chamber (Corning, Inc.), and Matrigel matrix was diluted 1:8 to coat the upper side of the membrane at the bottom of the transwell chamber. Cells were first cultured in 2% FBS-DMEM medium for 12 h for starvation treatment and suspended in FBS-free DMEM medium, then were added to the upper chamber (1 × 10^5 cells/well), respectively. Meanwhile, DEME medium with 10% FBS was added to the lower compartment. The plates were incubated for 72 h in the incubator. After incubation, cells that migrated to the lower surface of the filter membrane were fixed with 4% paraformaldehyde and stained with 0.5% crystal violet. Cells remaining on the upper surface of the filter membrane were gently scraped off with a cotton swab. The lower surfaces were captured by the inverted microscope, and the counting was repeated three times.
+
+## Statistical analysis
+Parts of packages of R were introduced as previously reported, ggplot2 package and Graphpad prism 9.0 software was utilized to visualize the results of statistical analyses, besides, the chi-squared test, Student’s test, Wilcoxon test, and Kruskal–Wallis tests were used appropriately to calculate the significance of differences in data between groups.
+
+## Results
+
+## The abnormal expression of ZBTB9 in LIHC
+Genes with aberrant expression in tumor samples were considered to probably participate in tumor initiation and development. Herein, we primarily found that ZBTB9 was significantly upregulated in 15 types of tumors compared to corresponding normal tissues with TIMER2 pan-cancer data, including BLCA, BRCA, CHOL, COAD, ESCA, GBM, HNSC, HNSC-HPV (−), LIHC, LUAD, LUSC, PRAD, READ, STAD and UCEC (all P < 0.05) (Fig.  A), and the specific information of these cancer types were described in Table  . Further, with TCGA LIHC data, it showed that ZBTB9 was significantly overexpressed in LIHC samples compared to adjacent normal tissues plus GTEx normal tissues with the P < 0.001 (Fig.  B). Then based on GSE76427 and GSE36376 of GEO database, evident upregulation of ZBTB9 was also detected in LIHC tumor tissues compared to normal tissues (Fig.  C, D). To further confirm these findings, we conducted ZBTB9 IHC between the tumor and paired adjacent normal tissues, results also demonstrated that ZBTB9 protein was significantly higher in tumor samples (Fig.  E–H).
+ 
+
+## The correlation between ZBTB9 level and clinical pathologic characteristics
+The correlations between ZBTB9 expression levels and different clinical characteristics were analyzed via the UALCAN database, which indicated that higher ZBTB9 expression was significantly associated with higher individual stages and tumor grade (Fig.  M, N). The association of H-SCORE and clinical features based on 79 samples of tissue microarray was offered in Table , which confirmed that high ZBTB9 protein in tumor samples was related to high T stages. The above findings indicated that ZBTB9 was overexpressed in many cancers including LIHC, and showing significant association with tumor grade and stage, hence, its role in tumorigenesis and prognosis was worth further investigating.
+ 
+
+## Genetic alterations and promoter methylation analysis of ZBTB9
+The analysis of the genetic alteration and promoter methylation of ZBTB9 could contribute to the comprehension of the etiology for its abnormal expression and the correlation between these alterations and clinical pathologic characteristics.
+ZBTB9 genetic mutations and alterations landscape were investigated via cBioPortal (Fig.  A) database. According to the results, the main type of its genetic alterations was "mutation", which was observed in the bulk of TCGA cancers, and "amplification" was the second most common. Moreover, the frequency of ZBTB9 alteration in LIHC patients was 2.69% in 372 cases, comprised of “mutation” and “amplification”. The “deep deletion” type in cancers was rare. We further explored the specific mutation type and site of ZBTB9 among cancers (Fig.  B). Then, with the COSMIC online tool, the overview of the types of mutation was also observed. The primary mutation type was missense substitution (64.62%), which was similar to the result of cBioProtal, and the primary substitution mutation types were G > A (30.91%) and C > T (30.91%) (Fig.  C).
+
+ Promoter methylation analysis was conducted via UALCAN, and we analyzed the ZBTB9 methylation levels, which showed that the promoter methylation level of ZBTB9 in LIHC tumor tissues was significantly lower than that in adjacent normal tissues (Fig.  D). In terms of the individual cancer stage and tumor grade, there was a trend that lower promoter methylation came with higher tumor stage and tumor grade, which was more significant in tumor grade (Fig.  H and I). Also, the promoter hypomethylation of ZBTB9 was confirmed with our independent samples. According to the results of agarose gel electrophoresis (Additional file : Fig. S1A), it was obvious that in most samples, the promoter methylations of ZBTB9 were significantly lower in tumor samples than paired adjacent normal tissues (P = 0.033, Additional file : Fig. S1B) (the odd labels are adjacent normal tissues and even labels are tumor tissues).
+These findings demonstrated that the abnormal expression of ZBTB9 in certain cancers could be caused via genetic alterations and promoter hypomethylation, which would contribute to the comprehensive cognition of LIHC tumorigenesis and guidance for potential treatment strategy.
+
+## Prognostic and diagnostic value analysis
+The OS and disease special survival (DSS) analysis based on LIHC cohorts [ ] were performed via R software. The results showed that high expression of ZBTB9 was associated with evidently shorter OS (HR = 1.85, 95% CI 1.29–2.64, P = 0.001) and shorter DSS (HR = 2.14, 95% CI 1.34–3.43, P = 0.001) (Fig.  A, B). The survival analysis based on the IHC H-SCOREs of our independent 79 LIHC samples also indicated ZBTB9 was a risk factor in their OS (Fig.  C). The TCGA LIHC clinical characteristics under different ZBTB9 expression levels were shown in Table .
+ Furthermore, with the coxph function of the survival package, cox proportional hazard regression analysis was rendered to analyze the HR of ZBTB9 among cancers (only the significant results were given), which indicated that ZBTB9 was a significant risk factor in many cancers, including GBMLGG (HR = 1.55, 95% CI 1.18–2.02, P = 0.0014), SKCM-M (HR = 1.38, 95% CI 1.11–1.70, P = 0.003), LAML (HR = 1.27, 95% CI 1.11–1.07, P = 0.003), SARC (HR = 1.44, 95% CI 1.12–1.86, P = 0.005), SKCM (HR = 1.32, 95% CI 1.08–1.60, P = 0.0061), LAML (HR = 1.22, 95% CI 1.06–1.41, P = 0.007) and LIHC (HR = 1.30 95% CI 1.04–1.63, P = 0.02) (Fig.  D), and the specific information of these cancer types were described in Table . These results showed that a relatively high level of ZBTB9 was often related to a worse outcome of tumor patients. In addition, the area under the diagnostic receiver operating curve (ROC) was 0.909 (95% CI 0.882–0.936) (Fig.  E).
+Subsequently, univariate cox regression analysis showed that ZBTB9 level (P < 0.001), pathologic stage (P < 0.001), T stage (P < 0.001) M stage (P = 0.017), and tumor status (P < 0.001) were all significantly correlated with OS. Besides, ZBTB9 expression was also significantly correlated with OS in multivariate cox regression analysis (P = 0.014), suggesting that ZBTB9 was an independent prognostic factor in LIHC patients (Table ).
+ These results further indicated that the expression level of ZBTB9 was prone to be associated with shorter survival of LIHC patients, and also verified that ZBTB9 participated in the initiation and development of LIHC.
+
+## Survival analysis in different subtypes
+The Kaplan–Meier survival curves analysis was also performed to evaluate the prognostic value of ZBTB9 under different clinical characteristics. The results indicated that the high ZBTB9 expression was an evident risk factor in 24 subtypes, including the groups of T stage: T3 plus T4 (HR = 2.44), N stage: N0 (HR = 1.63), M stage: M0 (HR = 1.80), pathologic stage: Stage III (HR = 2.59), tumor status: With tumor (HR = 1.76), gender: male (HR = 1.98), race: Asian (HR = 1.99), Race: white (HR = 1.89), age: ≤ 60 (HR = 1.87), age: ≥ 60 (HR = 1.81), BMI: ≤ 25 (HR = 2.06), residual tumor: R0 (HR = 1.84), histologic grade: G1 (HR = 5.82), histologic grade: G2 (HR = 1.44), histologic grade: G3 (HR = 2.08), adjacent hepatic tissue inflammation: None (HR = 3.01), AFP: ≤ 400 ng/ml (HR = 2.33), Albumin: ≥ 3.5 g/dl (HR = 1.93), Prothrombin time: ≤ 4 (HR = 1.81), Prothrombin time: > 4 (HR = 2.19), Child–Pugh grade: A (HR = 1.75), Fibrosis ishak score: 0 (HR = 3.37), Vascular invasion: Yes (HR = 2.15), with all P values < 0.05 (Fig.  ).
+ 
+
+## Correlation between ZBTB9 expression and TIME
+As we have known that immunity is an essential part of tumor initiation, growth, and treatment, and the infiltrating lymphocytes’ function could be mainly influenced by immunomodulators in TIME. Herein, to evaluate the relationship between ZBTB9 and TIME is necessary.
+Therefore, we conducted the analyses to explore the correlation of ZBTB9 expression between lymphocytes infiltration, chemokines, immune checkpoint inhibitors, and immune checkpoint stimulators in LIHC, and for each part, 4 main results were provided. It demonstrated that ZBTB9 was negatively associated with the infiltration of mainly immune cells (Fig.  A, B), including Th1 cells, (Cor = − 0.399, P < 0.001), NK cells (Cor = − 0.264, P < 0.001), activated dendritic cells (DCs) (Cor = − 0.244, P < 0.001), activated CD 8+ T cell (Cor = − 0.169, P = 0.001), and also negatively associated with inhibitors (Fig.  C, D), such as CD274 (Cor = − 0.28, P < 0.001). The correlation between ZBTB9 expression and stimulators were still mainly negative (Fig.  E, F), IL6 (Cor = − 0.366, P < 0.002), IL2RA (Cor = − 0.242, P < 0.001), ICOS (Cor = − 0.125, P < 0.002) and CD86 (Cor = − 0.219, P < 0.001).
+ Further, the IHC of TIME showed that, in two tumor samples, the patient with a relatively higher level of ZBTB9 (sample #2, Additional file : Fig. S2B) have a relatively low staining intensity of CD8A (although the IHC result of CD8A in sample #2 was positive too, the proportion of high positive intensity was still lower than sample #1, Additional file : Fig. S2D), and FOXP3 (Additional file : Fig. S2F), which was basically consistent with previous conclusions, a negative correlation between ZBTB9 level and CD8+ T and Tregs in TIME.
+In conclusion, it seems that ZBTB9 was prone to associate with “Cold” TIME, which demonstrated that patients with high ZBTB9 levels might have less infiltration of immune effective cells in the tumor site, and perhaps has a low response to immune checkpoint inhibitors treatment, such as anti-PD1 and anti-PDL1.
+
+## Gene set enrichment analysis
+The enrichment results based on Hallmarks gene sets demonstrated that high ZBTB9 was related to the activation of certain signaling pathways such as E2F targets (NES = 1.857, P.adj value = 0.013), G2M checkpoint (NES = 1.846, P.adj value = 0.013), MYC TARGETS V1 (NES = 1.597, P.adj value = 0.013), EPITHELIAL MESENCHYMAL TRANSITION (NES = 1.468, P.adj value = 0.021), KRAS SIGNALING DN (NES = 1.435, P.adj value = 0.034), (Fig.  A–E). These pathways might be the potential downstream mechanisms following the ZBTB9 overexpression. Subsequent correlation analysis showed that ZBTB9 expression was evidently related to the core molecules of KRAS signaling pathways (Fig.  F–J), suggesting the potential value of ZBTB9 as a novel therapeutic target against this pathway in LIHC.
+ 
+
+## Drug-efficacy analysis
+The data of pharmacologic efficacy and mRNAs level were obtained from CellMiner, then the correlation between drugs half maximal inhibitory concentration (IC50) and ZBTB9 gene expression level was analyzed, which showed that ZBTB9 level was significantly negatively related to the IC50 of BMS-911543 (Cor = − 0.427, P < 0.001), Defactinib (Cor = − 0.373, P = 0.004), ITRI-260 (Cor = − 0.368, P = 0.004), Dovitinib (Cor = − 0.364, P = 0.005), BPR1J-097 (Cor = − 0.351, P = 0.006), TPX-0005 (Cor = − 0.350, P = 0.007), CG-806 (Cor = − 0.340, P = 0.008), CFI-402257 (Cor = − 0.335, P = 0.009) and BLU-667 (Cor = − 0.333, P = 0.010), and positively related with Fludarabine (Cor = 0.362, P = 0.005), Cladribine (Cor = 0.347, P = 0.007) (Fig.  ), which help to optimize the guidance of personalized treatment for ZBTB9 high expression LIHC patients.
+ 
+
+## Identification of ZBTB9-related genes and associated biological function analysis
+Using the STRING tool, ZBTB9 binding proteins were selected, which were verified in before studies, there were 10 ZBTB9 binding proteins, WDR46, PFDN6, VPS52, SLC39A7, COL11A2, HSD17B8, PHF1, RGL2, CUTA, TAPBP (Fig.  A). Additionally, we also obtained top 50 genes by the GEPIA2 tool which were positively correlated with ZBTB9 expression in LIHC.
+ Then the GO/KEGG analysis was performed with the above top ZBTB9 co-expressed 50 genes. The results calculated by R software were provided in Fig.  B, C, which indicated that ZBTB9-related genes were probably associated with the process of the spliceosome, sequence-specific mRNA binding, double-stranded RNA binding, histone binding, nuclear replisome and RNA polymerase II transcription factor, which all participates in cell proliferation. In addition, the results of Metascape also resembled the above findings, suggesting that the 50 genes were related to the mRNA metabolic process and chromatin organization ribonucleoprotein complex biogenesis (Fig.  D).
+Furthermore, the top related 10 genes of the results of GEPIA2 and the 10 genes of PPI result were utilized to perform the analysis of co-expression with ZBTB9 among cancers via TIMER2. Results were visualized via heatmap (Fig.  E, F) which showed that the 20 genes were mostly co-expressed with ZBTB9 among the bulk of cancers.
+
+## Prognostic value analysis of ZBTB9-related genes
+There were 7 in the above 20 genes that showed positive results according to the results of Kaplan–Meier survival curve analyses, CUTA (HR = 1.56, 95% CI 1.10–2.20, P = 0.013), KCTD20 (HR = 1.50, 95% CI 1.06–2.13, P = 0.023), NFYA (HR = 1.63, 95% CI 1.15–2.32, P = 0.006), RPL7L1 (HR = 1.98, 95% CI 1.39–2.82, P < 0.001), SLC39A7 (HR = 1.52, 95% CI 1.08–2.16, P = 0.017), TAF11 (HR = 1.66, 95% CI 1.17–2.36, P = 0.004), WDR46 (HR = 1.78 95% CI 1.25–2.53, P = 0.001) (Fig.  A–G). These analyses of ZBTB9-related genes probably suggested that these molecules together contributed to tumor progression.
+ 
+
+## Function analysis of top-related genes
+With GSCALite (https://www.editorialmanager.com/jtrm/default1.aspx) [ ] tool, we analyzed the together function of the above 7 genes and ZBTB9 in LIHC, which indicated that these genes could mainly trigger the cell cycle pathways activation, and DNA repair, then resulted in tumor progression. (Fig.  A, B).
+ 
+
+## Validation with in vitro experiments
+Given the above multi-aspects findings, ZBTB9 was an oncogene driving tumor initiation and progression in LIHC, which could lead to poor prognosis via activating cell proliferation and rendering immune dysfunction. We then performed a series of experiments to verify whether the malignant biological behaviors could be inhibited via the knockdown of ZBTB9 at the cell level.
+Firstly, the knockdown efficiency of siZBTB9-1 and siZBTB9-2 was evaluated by RT-qPCR, which showed that the siRNAs reduced the mRNA level of ZBTB9 in HepG2 cells (Fig.  A), and the subsequent WB assay also verified it (Fig.  B, and its whole result was provided at Additional file : Fig. S3).
+ The effects of ZBTB9 knockdown on cell proliferation were examined via colony formation assay. Compared to the siCtrl group, the number of HepG2 colonies groups was significantly reduced in the ZBTB9 knockdown groups (Fig.  C, D, P < 0.01). Results of the wound healing assay also indicated that compared to the siCtrl group, wider wounds after the same interval of 16 h were observed in ZBTB9 knockdown groups (Fig.  E, F).
+Flow cytometry analysis was performed to analyze the impacts of ZBTB9 knockdown on the cell cycle. The results suggested that the cell number at the G1 phase of the two ZBTB9 knockdown groups was significantly increased compared to the siCtrl group, and the cell number in the S and G2 phases was decreased (Fig.  G, H, P < 0.001), suggesting that via blocking ZBTB9 in HepG2, cells the proliferation capacity was evident impaired.
+Furthermore, the effects of ZBTB9 knockdown on cell invasion were assessed using the transwell assay, which showed that ZBTB9 knockdown significantly reduced the invasive ability of HepG2 cells (Fig.  I, J, P < 0.001).
+The conclusions from the above experiments demonstrated that after the knockdown of ZBTB9 in HepG2 cells, the abilities of cell proliferation and migration were evidently inhibited, which strongly confirmed our previous results.
+
+## Discussion
+LIHC is still one of the most aggressive cancers therefore a major public health challenge, which deserves more investigations for effective biomarkers and therapeutic targets. Here, we first investigated the role of the ZBTB9 gene in LIHC.
+With the results of related analyses, we found that ZBTB9 was overexpressed in many types of tumors, including LIHC (P < 0.001), and two LIHC cohorts’ data from GEO also proved its abnormal expression. In addition, the levels of ZBTB9 showed the relation with higher tumor grade and individual stages for LIHC patients. Given promoter hypomethylation of oncogenes has been considered as a tumor initiation and development promotive factor, it could result in gene overexpression, and downstream signaling pathways activation [ , ], our related results showed that ZBTB9 promoter methylation was evidently lower in tumor tissues compared to adjacent normal tissues, and the genomic alteration was another potential reason for its upregulation.
+Survival analysis was conducted to evaluate the prognostic value of ZBTB9, which indicated that LIHC patients who had high ZBTB9 expression tended to possess shorter OS (HR = 1.85, 95% CI 1.29–2.64, P < 0.001) and DSS (HR = 2.14, 95% CI 1.34–3.43, P < 0.001) based on TCGA data. Similarly, the survival analysis results of the tissue microarray further confirmed that ZBTB9 was also an evidently risk factor for LIHC patients OS. In addition, the Cox regression analysis based on pan-cancer data also demonstrated that ZBTB9 was a notable risk factor in many cancers, including LIHC. These findings all indicated that ZBTB9 was not only an overexpressed gene but a significant risk factor for the prognosis of LIHC patients. Genomic alteration and promoter hypomethylation could be the etiology for its abnormal expression. Furthermore, the correlation analysis between the efficacy of clinical drugs and ZBTB9 expression showed that there were 9 in 11 significantly negative correlations with drug efficacy (Cor < 0, P < 0.05), suggesting the value of ZBTB9 in the guidance for LIHC patients’ precise treatments.
+Given the above findings, we conducted a series of analyses to investigate the downstream mechanisms for its carcinogenetic and risk role. It has been reported that the characteristics of TIME play a crucial role in LIHC initiation and progression [ , ], therefore, the relationship between ZBTB9 and TIME was analyzed, subsequently showing that ZBTB9 had negative relationships with the infiltration of lymphocytes, (Th1, CD8+ T cells), immune checkpoint stimulators (IL6, IL2R) and immune checkpoint inhibitors (CD274, CTLA-4). The correlations between ZBTB9, CD8A, and FOXP3 were preliminarily verified with IHC analysis based on LIHC samples, which showed that high ZBTB9 levels in LIHC patients might be associated with the lower infiltration of CD8+ T cells and Tregs (although the IHC result of CD8A in sample #2 was positive too, the proportion of high positive intensity was still lower than sample #1). These findings indicated that the high expression of ZBTB9 might lead to a “COLD” TIME and be related to a low response to immunotherapy.
+Further GSEA analysis showed that in high ZBTB9 expression samples, the G2M checkpoint, epithelial-mesenchymal transition, E2F targets, and KRAS-related signaling pathways were significantly activated, which has been reported to participate in tumor proliferation and progression [ , ]. In addition, the investigation of the correlation between ZBTB9 and KRAS signaling pathway demonstrated that ZBTB9 was evidently associated with MAPK1, NRAS, SHP2, SOS1, and KRAS2 (all play imperative roles in KRAS pathway [ – ]), suggesting that the malignant biological behaviors under ZBTB9 upregulation were probably mediating through this pathways. Blocking of ZBTB9 could have the potential value to optimize the efficacy of inhibitors against KRAS signaling pathways [ , ].
+Similarly, based on ZBTB9-related genes, the results of correlated biological functions and signaling pathways analysis indicated that these genes participated in triggering cell cycle activation, which suggested that these genes possessed synergy effects on the promotion of tumor initiation and development at some extent.
+To credibly identify the role of ZBTB9 in LIHC, we further conducted a series of cell experiments. After ZBTB9 knockdown, the cell cycles of HepG2 cells were mainly stuck in the G1 phase with P < 0.001 and the invasion assay showed that after the suppression of ZBTB9, the cell competence of migration was significantly impaired (P < 0.001). In addition, after the same time interval, wound healing assay and colony assay indicated that a wider wound and a less number of colonies were detected in the ZBTB9 knockdown groups compared to siCtrl groups. Which confirmed the promotive role of ZBTB9 in tumor cell development.
+It needs to be acknowledged that there are limitations of our study. The clear downstream molecule of ZBTB9 expression was not comprehensively identified with current experiments and the limited number of LIHC samples. More rigorous in vivo experiments also need to be conducted to confirm the current findings and help to reveal novel characteristics for ZBTB9 role in LIHC, and it is also what we will further explore in the future.
+This study is based on the evidence from multi-omics, experiments, and clinical samples to identify that ZBTB9, a member of ZBTB proteins, could promote tumor proliferation and migration, which possesses the strong potential to be a novel biomarker and to offer new treatment targets for LIHC patients.
+
+## Supplementary Information
+
+Additional file 1: Figure S1. Results analysis of the MSP agarose gel electrophoresis. M labels represent the results of promoter methylation, and U labels represent the results of non-promoter methylation. The odd labels represent adjacent normal tissues and even labels represent tumor tissues (A). The red dots and blues dots represent the quantitative results of tumor and adjacent normal tissues, and the green dots in the right part represent the difference value (paired adjacent normal tissue—tumor tissue) between the quantitative results of paired adjacent normal tissues and tumor tissues, with pixels as scales. The result based on paired T-test showed that ZBTB9 promoter methylation was evidently lower in tumor tissues than the paired adjacent normal tissues (B, P = 0.03).
+Additional file 2: Figure S2. Correlation between ZBTB9 level and CD8A, FOXP3 in TIME (50 μm). Tumor tissues were obtained from two LIHC patients, who had different expression level of ZBTB9, marked as sample #1 and sample #2. The blue dots represent cell nuclear, and the brown or yellow stainings represent the target proteins. According to the intensity and the comparison of the number of brown or yellow stainings and blue dots, the relatively quantitation of protein expression could be observed. In the relatively high ZBTB9 level patient (sample #2), the relatively low levels of CD8A (D) and FOXP3 (F) were observed.
+Additional file 3: Figure S3. The efficacy of siRNAs was detected via WB assay. The groups contained the samples of siCtrl, siZBTB9-1 and siZBTB9-2, and two target proteins, ZBTB9 and GAPDH. Results showed that the expression levels of ZBTB9 were significantly downregulated after inhibition.
+
+## Acknowledgements
+We thank all individuals who participated in this research.
+
+## Author contributions
+Conception and design: ZZ, LL, and HY; Development of methodology: LW and JL; Provision of study materials or patients: YX, LL, and HY. Sample collection: LW, ZZ, and JL; Analysis and interpretation of data: QY and HY and JC; Writing, review, and/or revision of the manuscript: ZZ and LW. Final approval of manuscript: YX, HY. Administrative support: LL, YX. All authors read and approved the final manuscript.
+
+## Funding
+The study was supported by Clinical Research Project of Shanghai Municipal Health Commission (20214Y0468); The Three Years Action to Accelerate the Development of Traditional Chinese Medicine Plan (No. ZY [2018–2020]-FWTX-3004); Start-up Fund for Talent Introduction of Shanghai Pulmonary Hospital (Grant No. 20180101); 2021 Development Fund of Discipline-Department of Radiotherapy and the National Natural Science Foundation of China (No. 1973795).
+
+## Availability of data and materials
+Bioinformatics datasets presented in this study can be found in online repositories, and the datasets used and/or analyzed during experiments are available from the corresponding author on reasonable request.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Ethics Committee of Fudan University Shanghai Cancer Center has approved our related experiments. The use of human tissues conformed to the guidelines of the Declaration of Helsinki, and informed consent was obtained from all subjects involved in the study.
+
+## Consent for publication
+All authors have approved the manuscript for submission.
+
+## Competing interests
+The authors declare that they have no competing interests.
+
+## Footnotes
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Zhenshan Zhang and Leilei Wu contributed equally to this work and shared the first authorship.
+Hui Yao, Yaping Xu and Liang Liu contributed equally to this work and shared the corresponding authorship
+
+## Contributor Information
+Hui Yao, Email: yaohuish@126.com.
+Yaping Xu, Email: xuyaping1207@163.com.
+Liang Liu, Email: liuliangfudan@163.com.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Additional file 1: Figure S1. Results analysis of the MSP agarose gel electrophoresis. M labels represent the results of promoter methylation, and U labels represent the results of non-promoter methylation. The odd labels represent adjacent normal tissues and even labels represent tumor tissues (A). The red dots and blues dots represent the quantitative results of tumor and adjacent normal tissues, and the green dots in the right part represent the difference value (paired adjacent normal tissue—tumor tissue) between the quantitative results of paired adjacent normal tissues and tumor tissues, with pixels as scales. The result based on paired T-test showed that ZBTB9 promoter methylation was evidently lower in tumor tissues than the paired adjacent normal tissues (B, P = 0.03).
+Additional file 2: Figure S2. Correlation between ZBTB9 level and CD8A, FOXP3 in TIME (50 μm). Tumor tissues were obtained from two LIHC patients, who had different expression level of ZBTB9, marked as sample #1 and sample #2. The blue dots represent cell nuclear, and the brown or yellow stainings represent the target proteins. According to the intensity and the comparison of the number of brown or yellow stainings and blue dots, the relatively quantitation of protein expression could be observed. In the relatively high ZBTB9 level patient (sample #2), the relatively low levels of CD8A (D) and FOXP3 (F) were observed.
+Additional file 3: Figure S3. The efficacy of siRNAs was detected via WB assay. The groups contained the samples of siCtrl, siZBTB9-1 and siZBTB9-2, and two target proteins, ZBTB9 and GAPDH. Results showed that the expression levels of ZBTB9 were significantly downregulated after inhibition.
+
+## Data Availability Statement
+Bioinformatics datasets presented in this study can be found in online repositories, and the datasets used and/or analyzed during experiments are available from the corresponding author on reasonable request.

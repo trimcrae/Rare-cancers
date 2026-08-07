@@ -1,0 +1,129 @@
+1755frontoncoFrontiers in OncologyFront OncolFrontiers Media SAPMC1158874111588741115887413960064710.3389/fonc.2024.1491167A real−world pharmacovigilance study of FDA Adverse Event Reporting System events for pralsetinib
+YinYi SunFengli JinYoupeng 
+1
+Department of Pediatric Intensive Care Unit, Shandong Provincial Hospital Affiliated to Shandong First Medical University, Jinan, Shandong, China
+
+2
+Department of Pediatric Intensive Care Unit, The Second Hospital, Cheeloo College of Medicine, Shandong University, Jinan, Shandong, China
+Edited by: Dharmendra Kumar Yadav, Gachon University, Republic of Korea
+Reviewed by: Apurva Patel, Gujarat Cancer & Research Institute, India
+Desh Deepak Singh, Amity University Jaipur, India
+✉*Correspondence: Yi Yin, sdyinyi@126.com; Youpeng Jin, sdjinyoupeng@126.com
+
+†These authors have contributed equally to this work
+12112024141491167149116726112024Copyright © 2024 Yin, Sun and JinThis is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+## Abstract
+
+## Background
+Pralsetinib, a selective oral inhibitor of rearranged during transfection (RET) fusion proteins and oncogenic RET mutants, has shown significant efficacy in treating RET fusion-positive non-small cell lung cancer and thyroid cancer. However, since pralsetinib was approved in the United States in September 2020, there have been limited reports of post-marketing adverse events (AEs). In this study, we aimed to analyze the AE signals with pralsetinib on the basis of the United States Food and Drug Administration (FDA) Adverse Event Reporting System (FAERS) to provide instructions in clinical practice.
+
+## Methods
+All AE reports were obtained from the FAERS database from the first quarter (Q3) of 2020 to the second quarter (Q2) of 2024. Various signal quantification techniques were used for analysis, including reporting odds ratios, proportional reporting ratios, Bayesian confidence propagation neural network, and multi-item gamma Poisson shrinker (MGPS)-based empirical Bayesian geometric mean.
+
+## Results
+Out of 8,341,673 case reports in the FAERS database, 1,064 reports of pralsetinib as the “primary suspected (PS)” AEs were recorded, covering 26 system organ classes and 256 preferred terms. Of the reports, 62.5% were from consumers rather than healthcare professionals. The most common systems were general disorders and administration site conditions (n = 704), investigations (n = 516), and gastrointestinal disorders (n = 405). A total of 95 significant disproportionality preferred terms (PTs) conformed to the four algorithms simultaneously. AEs that ranked the top three at the PT level were hypertension (n = 80), asthenia (n = 79), and anemia (n = 65). Of the 95 PTs with significant disproportionation, unexpected significant AEs such as increased blood calcitonin, increased myocardial necrosis marker, and bacterial cystitis were observed, which were not mentioned in the drug’s instructions. The median onset time of pralsetinib-associated AEs was 41 days [interquartile range (IQR) 14–86 days]. The majority of the AEs occurred in 30 days (42.86%).
+
+## Conclusion
+Our pharmacovigilance analysis of real-world data from the FEARS database revealed the safety signals and potential risks of pralsetinib usage. These results can provide valuable evidence for further clinical application of pralsetinib and are important in enhancing clinical medication safety.
+
+Keywords: FDA Adverse Event Reporting System (FAERS), pralsetinib, pharmacovigilance, real-world analysis, adverse event (AE)
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Sep 4; Accepted 2024 Oct 21; Collection date 2024.
+
+1.
+
+## Introduction
+Rearranged during transfection (RET) gene fusions are oncogenic events detected in 1%–2% of non-small cell lung cancer ( ), 20% of papillary thyroid carcinomas ( ), and less frequently in other tumor types ( ).
+Pralsetinib is a potent and selective oral inhibitor of RET fusion proteins and oncogenic RET mutants ( ). It is approved in the United States for the treatment of adult patients with metastatic RET fusion-positive non-small cell lung cancer (NSCLC) and adults and pediatric patients 12 years and older with advanced or metastatic RET fusion-positive thyroid cancer who require systemic therapy and who are radioactive iodine-refractory.
+Clinical trials have highlighted the effectiveness of pralsetinib in non-small cell lung cancer and thyroid cancer ( – ). Although these clinical trials have clarified common adverse events such as neutropenia, hypertension, and elevated aminotransferase, ongoing post-marketing monitoring is critical owing to the widespread use of pralsetinib. In view of the complexity of adverse event reporting and the potential for underreporting in clinical trials, real-world databases such as the Food and Drug Administration (FDA) Adverse Event Reporting System (FAERS) play a key role in enabling researchers to fully analyze post-approval safety data ( ). By analyzing the FAERS data in depth, we can obtain a more comprehensive understanding of the safety profile and adverse reaction characteristics of pralsetinib. In this study, we aimed to analyze the AE signals with pralsetinib on the basis of the United States FAERS to provide instructions in clinical practice.
+
+2.
+
+## Methods
+2.1.
+
+## Study design and data sources
+To assess the post-market safety of pralsetinib, we conducted a retrospective pharmacovigilance study using data obtained from the FAERS database, spanning from the first quarter (Q3) of 2020 to the second quarter (Q2) of 2024. The FAERS data files consist of seven databases, namely, demographic and administrative information (DEMO), adverse drug reaction information (REAC), patient outcome information (OUTC), drug information (DRUG), drug therapy start and end dates (THER), information on report sources (RPSR), and indications for use/diagnosis (INDI). According to FDA guidelines, we removed duplicate reports. We selected the latest FDA_DT for the same CASEID or chose the higher PRIMARYID in cases where both the CASE number and FDA_DT were identical.
+Adverse events (AEs) associated with pralsetinib were extracted from the REAC dataset. Preferred terms (PTs) with reporting counts of ≥3 were selected. All PTs in the REAC dataset were classified into the corresponding primary system organ class (SOC) according to the standardized Medical Dictionary for Regulatory Activities (MedDRA) version 26. Only AEs where pralsetinib was identified as the primary suspected (PS) drug were included in the analysis ( ).
+ 
+2.2.
+
+## Statistical analysis
+Disproportionality analysis was considered a pivotal tool for evaluating potential associations between specific AEs and particular drugs ( ). Four statistical procedures were applied: reporting odds ratio (ROR), proportional reporting ratio (PRR), Bayesian confidence propagation neural network (BCPNN), and multi-item gamma Poisson shrinker (MGPS)-based empirical Bayesian geometric mean (EBGM) ( ). Specific formulas and thresholds are outlined in . Statistical analysis was conducted using R_4.4.1 software.
+
+3.
+
+## Results
+3.1.
+
+## Descriptive analysis
+The results showed that a total of 8,341,673 adverse events were collected in the FAERS database spanning from the first quarter (Q3) of 2020 to the second quarter (Q2) of 2024. Among these, 1,064 AE reports identified pralsetinib as the PS drug. In terms of gender, there were 525 female cases (49.3%), 401 male cases (37.7%), and 138 cases (13%) with partial gender information missing. The main reporting countries were the United States (50.8%) and China (31.7%). In addition, the majority of reports (62.5%) were from consumers rather than healthcare professionals.
+Lung neoplasm malignant was the most reported indication (37.5%), followed by non-small cell lung cancer (18.8%), product used for unknown indication (11.9%), and thyroid cancer (11.7%). In terms of clinical outcomes, apart from the unknown adverse events, those leading to hospitalization or prolongation of hospitalization were most frequent (25.0%), followed by other serious events (20.0%) or death (15.6%). The details can be found in .
+ 
+3.2.
+
+## Signal detection of pralsetinib at the system organ class level
+The number of AEs induced by pralsetinib as the “PS” at the SOC level is shown in . The study indicates that 3,608 adverse event reports (AERs) induced by pralsetinib occurred across 26 organ systems. The most common systems were general disorders and administration site conditions (n = 704, ROR 1.13, PRR 1.11, IC 0.14, and EBGM 1.11), investigations (n = 516, ROR 2.65, PRR 2.42, IC 1.27, and EBGM 2.42), and gastrointestinal disorders (n = 405, ROR 1.48, PRR 1.42, IC 0.51, and EBGM 1.42). The details can be found in .
+ Notably, according to the ROR level, the top three SOCs with pralsetinib-associated AEs were hepatobiliary disorders [ROR 2.82 (2.27–3.51)], blood and lymphatic system disorders [ROR 2.73 (2.33–3.19)], and investigations [ROR 2.65 (2.42–2.91)], indicating a strong relationship with pralsetinib.
+
+3.3.
+
+## Signal detection of pralsetinib at the preferred term level
+A total of 256 types of PTs were reported in different organ systems ( ). We examined PT signals, with a total of 95 significant disproportionality PTs conforming to the four algorithms simultaneously ( ). Among these, 59 PTs with significant disproportionation appeared in drug labels and clinical trial and post-marketing results, and we listed the top 20 PTS, as shown in ; the top three AEs to pralsetinib, namely, hypertension (n = 80), asthenia (n = 79), and anemia (n = 65).
+ In particular, our study unveiled 36 unexpected and significant disproportionate signals that were not mentioned in pralsetinib’s instructions ( ). In the investigations, the most intense signals were noted for increased blood calcitonin (n = 5, ROR 793.2, PRR 792.1, IC 9.46, and EBGM 704.2), increased myocardial necrosis marker (n = 21, ROR 202.8, PRR 201.62, IC 7.61, and EBGM 195.44), and bacterial cystitis (n = 4, ROR 137.91, PRR 137.76, IC 7.08, and EBGM 134.85).
+ 
+3.4.
+
+## Time to onset analysis of pralsetinib-associated AEs
+The onset times of pralsetinib-related AEs were extracted and analyzed from the FAERS database. The median onset time was 41 days [interquartile range (IQR) 14–86 days]. The majority of the AEs occurred in 30 days (42.86%). Over 3/4 of the AEs occurred in 90 days (75.58%). Notably, data showed that AEs may still occur 360 days after pralsetinib treatment, which accounted for 7.83% of all AEs. The onset times of AEs for each administration of pralsetinib are described in .
+ 
+
+4.
+
+## Discussion
+Continuous attention to the risk signals of adverse drug reactions after marketing can help evaluate the safety of drugs and seek the balance of benefits and risks in clinical practice. This study provided a comprehensive description of post-marketing adverse event reports in pralsetinib treatment patients from the FAERS database using four statistical procedures (ROR, PRR, BCPNN, and MGPS).
+Our findings show that pralsetinib-associated AEs occur more frequently in women (49.3%) than in men (37.7%). This can be attributed to the main indications of pralsetinib such as thyroid cancer and lung cancer, which are more common in women ( , ). More than 50% of reporting countries came from the United States, which is mainly related to the earliest launch of pralsetinib in the United States.
+In addition, the majority of reports (62.5%) were from consumers rather than healthcare professionals. It suggested that healthcare personnel may be underreporting from medical sources, thus highlighting the need for medical and healthcare personnel to be vigilant when monitoring patients for adverse effects.
+Based on the disproportionality analysis, many organs or tissues can be involved. Our study demonstrated that the most commonly significant signals at SOC levels were general disorders and administration site conditions, investigations, and gastrointestinal disorders. Among them, significant AEs mainly included asthenia, increased blood pressure, decreased platelet count, decreased white blood cell count, constipation, and dry mouth, which corresponded with the instruction and clinical trials data ( , , ).
+The signals of disproportionality reporting in FAERS showed the most intense risk in the hepatobiliary system. Studies have shown that in cancer patients with non-small cell lung cancer or thyroid cancer treated with pralsetinib, hepatic function abnormality was one of the most common grade 3 or 4 laboratory abnormalities ( ). A real-world analysis from the Italian expanded access program indicated that increased liver enzyme levels accounted for 4.9% of grade 3 or worse pralsetinib-related adverse events ( ). Our results are in line with the studies regarding the disproportionately high reporting found for hepatobiliary disorders. The instructions also indicate the need to monitor alanine aminotransferase (ALT) and aspartate aminotransferase (AST) prior to initiating pralsetinib, every 2 weeks during the first 3 months and then monthly thereafter and as clinically indicated. Pralsetinib was withheld, the dose was reduced, or pralsetinib was permanently discontinued based on severity.
+In this study, we found numerous associations between pralsetinib and systemic adverse events in pharmacovigilance analysis. However, clinical trials cannot provide reliable conclusions due to the strict admission standards, small sample sizes, and short follow-up time when dealing with rare and possible adverse events ( – , ). Based on the analysis, in addition to the AEs commonly in the instruction, we focus on the signals classified as strong signals in the pralsetinib-associated AE reports ( ). Increased blood calcitonin has the strongest signal, but studies have shown that calcitonin levels are elevated in patients with medullary thyroid cancer ( , ); therefore, the adverse event of increased blood calcitonin may be related to the disease condition and cannot be attributed to taking pralsetinib. The signal of pralsetinib in metastases to lymph nodes (n = 4), bone (n = 7), and liver (n = 5) may be due to the failure of one prior therapy, and patients may still have tumor metastasis and tumor progression when the efficacy of pralsetinib is imperfect. In addition, owing to the characteristics of local invasion and distant metastasis of malignant tumors, it may be illogical to estimate whether tumor metastasis is caused by pralsetinib only by adverse drug reaction (ADR) signals.
+It is worth noting that these high AE signals, such as increased myocardial necrosis marker (n = 21), myocardial injury (n = 3), and increased troponin (n = 3), suggest that pralsetinib may present a risk of cardiotoxicity. In recent years, prolonged QT interval has been reported during pralsetinib treatment in clinical practices ( , , ). Selpercatinib, also a selective inhibitor of RET, has been shown to have an adverse effect of prolonged QT interval in the drug label. In this situation, it is important to conduct more studies to evaluate the long-term safety and efficacy of pralsetinib. It is recommended to add cardiac function monitoring measures in clinical trials to better assess the safety of pralsetinib. It is hoped that our study can provide insights into the clinical application of pralsetinib. At the same time, considering the risk of life-threatening torsional tachyarrhythmia induced by QT prolongation, clinicians should exercise caution to avoid administering medications that prolong the QT interval.
+PTs with significant signals were observed for bacterial cystitis, fungal foot infection, pulmonary tuberculosis, hepatitis B, liver abscess, pyelonephritis, and bronchopulmonary aspergillosis among the SOC level of infections and infestations. A single-center study from Korea showed two adverse events of extrapulmonary tuberculosis in patients with RET fusion-positive non-small cell lung cancer treated with pralsetinib ( ). It is well established that for autoimmune diseases or cancers, JAK inhibitors are associated with an increased frequency of infection ( – ). Pralsetinib may therefore predispose patients to infections as a result of their off-target effects on JAK1/2 ( ). In addition to pneumonia, recurrent and serious infectious adverse events appear to be of concern under the pralsetinib therapy. Increasing awareness of these infections is relevant clinically because the associated lesions can be misdiagnosed as disease progression. Early detection and timely application of anti-infective drugs are key to treatment. Further studies are needed to provide proper guidelines to physicians for managing infectious adverse events under pralsetinib therapy.
+Additionally, AEs in the reproductive and breast system should be of concern. Notably, ovarian mass (n = 3, ROR 80.96, PRR 80.9, IC 6.32, and EBGM 79.89) was found in our study. Considering the strong disproportionation signal, it suggested that doctors should closely monitor the potential adverse effects during treatment in this specific population of women.
+Psychiatric AEs should be distinguished from other causes. Notably, we found disproportionality reporting, such as poor quality sleep (n = 7) and initial insomnia (n = 3). At least 30% of patients report in fact psychosocial distress and mental disorders, and even a higher percentage report unrecognized psychosocial needs or untreated psychosocial disorders as a consequence of cancer at some point during the cancer trajectory ( ). Psychosocial intervention can improve psychological and physiological adaptation indicators in cancer patients ( ). Therefore, appropriate psychological intervention is necessary.
+The results of our study indicated that the median onset time was 41 days, and most of the cases occurred within the first 1 month (n = 186, 42.86%), 2 months (n = 87, 20.05%), and 3 months (n = 55, 12.67%) after pralsetinib treatment. Most of the AEs occurred within the first 3 months. It suggested that we should be vigilant about the AEs associated with pralsetinib in the first month. Early recognition of AEs caused by pralsetinib therapy is important, as these adverse drug effects can be life-threatening.
+Although the current study showed a potentially insightful relationship between the use of pralsetinib and the odds of reporting AEs in the FAERS, it is not without limitations. FAERS database is a self-reporting system, which may have some limitations such as missing reports, duplicate reports, or incomplete case information. In addition, the reported information in this database lacks the underlying disease and drug combination of patients, so it may have a certain impact on the mining results of adverse reaction signals. This study confirmed that pralsetinib was associated with some adverse reactions; however, it cannot represent the population incidence. The signal of adverse events only illustrates a statistical association; further clinical observation and prospective studies are needed to determine whether a biological causation exists.
+
+5.
+
+## Conclusion
+Our pharmacovigilance analysis of real-world data from the FEARS database revealed the safety signals and potential risks of pralsetinib usage. These results can provide valuable evidence for further clinical application of pralsetinib and are important in enhancing clinical medication safety.
+
+## Funding Statement
+The author(s) declare that no financial support was received for the research, authorship, and/or publication of this article.
+
+## Data availability statement
+The original contributions presented in the study are included in the article/ . Further inquiries can be directed to the corresponding authors.
+
+## Author contributions
+YY: Conceptualization, Data curation, Formal analysis, Methodology, Writing – original draft, Writing – review & editing. FS: Investigation, Resources, Writing – original draft. YJ: Conceptualization, Data curation, Formal analysis, Investigation, Methodology, Project administration, Resources, Software, Supervision, Validation, Visualization, Writing – review & editing.
+
+## Conflict of interest
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+## Supplementary material
+The Supplementary Material for this article can be found online at: https://www.frontiersin.org/articles/10.3389/fonc.2024.1491167/full#supplementary-material
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Data Availability Statement
+The original contributions presented in the study are included in the article/ . Further inquiries can be directed to the corresponding authors.

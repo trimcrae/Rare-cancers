@@ -1,0 +1,172 @@
+pmcCancer SciCancer Sci2682casCASCancer Science1347-90321349-7006WileyPMC11967249PMC11967249.111967249119672493983399010.1111/cas.16456CAS16456CAS-OA-3126-2024.R11Original ArticleORIGINAL ARTICLEGenetics, Genomics and ProteomicsMolecular Subtyping and Genomic Profiling Expand Precision Medicine in KRAS Wild‐Type Pancreatic Cancer
+SuDan RuanYuli ShiYingfei CaoDandan WuTong DangTianjiao WangHong XinYaqun MaMing MengHongxue menghongxue@hrbmu.edu.cnLiuChao liuchao@hrbmu.edu.cnZhangYanqiaohttps://orcid.org/0000-0002-6206-8364 yanqiaozhang@ems.hrbmu.edu.cn
+
+1
+
+Department of Gastrointestinal Medical Oncology
+Harbin Medical University Cancer Hospital
+Harbin
+China
+
+2
+
+Key Laboratory of Tumor Immunology in Heilongjiang
+Harbin
+China
+
+3
+
+Clinical Research Center for Colorectal Cancer in Heilongjiang
+Harbin
+China
+
+4
+
+Department of Translational Medicine
+Genetron Health (Beijing) Technology, Co. Ltd.
+Beijing
+China
+
+5
+
+Department of Pathology
+Harbin Medical University Cancer Hospital
+Harbin
+China
+
+*
+Correspondence:
+
+Hongxue Meng (menghongxue@hrbmu.edu.cn)
+Chao Liu (liuchao@hrbmu.edu.cn)
+Yanqiao Zhang (yanqiaozhang@ems.hrbmu.edu.cn)
+201202542025116448593810.1111/cas.v116.410941106
+0612025
+04122024
+1012025
+200120250404202504042025© 2025 The Author(s). Cancer Science published by John Wiley & Sons Australia, Ltd on behalf of Japanese Cancer Association.https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## ABSTRACT
+Pancreatic ductal adenocarcinoma (PDAC) is a highly lethal disease with poor prognosis and limited treatment options. While the majority of PDAC cases harbor KRAS mutations, approximately 8%–10% are KRAS wild‐type (KRAS‐WT). These KRAS‐WT tumors often contain actionable mutations and gene fusions, making them more suitable for precision therapies. Identifying these molecular alterations is crucial for improving outcomes in this subset of patients. This retrospective study involved 34 patients with KRAS‐WT PDAC. Genomic profiling was performed using next‐generation sequencing (NGS) and RNA sequencing to detect mutations and fusions. Comparative analysis was conducted with TCGA‐PAAD data, and immune infiltration was assessed using bioinformatic deconvolution methods. Targetable alterations were identified in multiple pathways. Key mutations included ATM (18%), PIK3CA (15%), and ROS1 (15%), while actionable gene fusions such as CCDC6‐RET and ETV6‐NTRK3 were present in 10.3% of patients. The gene mutations associated with homologous recombination deficiency (HRD) are predicted to increase sensitivity to platinum‐based chemotherapy (p = 0.047). Tumors with epigenetic regulatory genes mutations (e.g., ARID1A, KMT2C/D) exhibited enhanced immune cell infiltration, highlighting potential responsiveness to immune checkpoint inhibitors (ICIs). Kinase fusions (NTRK and RET) were linked to response to larotinib and RET‐specific inhibitors, respectively. KRAS‐WT PDAC contains actionable mutations and fusions, offering significant potential for targeted and immune‐based therapies. Further clinical studies are needed to validate these therapeutic approaches.
+
+Identifying actionable mutations and gene fusions of KRAS wild‐type pancreatic ductal adenocarcinoma offers significant potential for targeted and immune‐based therapies, by retrospective study and genomic profiling analysis, together with comparative analysis of TCGA‐PAAD data. Specifically, HRD, epigenetic regulatory gene mutations and actionable CCDC6‐RET, and NTRK3 fusions are expected to guide personalized precision therapy for KRAS‐WT PDAC and need further investigation in larger cohorts. 
+
+epigenetic regulatory genesfusion genesHRD‐related genesKRASpancreatic adenocarcinomaScience and Technology Plan of Heilongjiang Provincial Health Commission20220303100980Haiyan Foundation of Harbin Medical University Cancer HospitalJJJQ 2024‐02 
+2.2
+
+## Public Data Collection on KRAS WT PDAC
+
+The somatic variations and the clinical information (pancreatic adenocarcinoma [PAAD] tumor/normal: n = 179) or RNA‐seq data (colon adenocarcinoma [COAD] tumor: n = 483, lung adenocarcinoma [LUAD] tumor: n = 541, ovarian cancer [OV] tumor: n = 429, thyroid carcinoma [THCA] tumor: n = 513) of TCGA pan cancer were downloaded from the Genomic Data Commons (GDC) Data Portal using R package TCGAbiolinks v2.30.4. The KRAS wild‐type samples (n = 64) were selected from the TCGA‐PAAD cohort and utilized for comparative analysis of pathway enrichment and clinical information with the HMUCH cohort. The TCGA pan‐cancer fusion data are derived from a study in which fusion mutations were identified through a combined approach utilizing STAR‐Fusion, EricScript, and BREAKFAST software [ ]. The CCDC6‐RET positive cancer types (COAD tumor: n = 278, LUAD tumor: n = 514, OV tumor: n = 414, THCA tumor: n = 504) were screened out and then these cancer samples were divided into CCDC6‐RET fusion‐positive group and fusion‐negative group for comparison of survival and immune infiltration differences.
+
+2.3
+
+## Sample Processing and DNA Sequencing Analysis
+Somatic DNA was extracted from FFPE tumor tissues, while germline DNA for filtering was generated from a B‐lymphocyte cell line due to the absence of normal tissue. After shearing DNA to 150–200 bp fragments, targeted next‐generation sequencing (NGS) was performed using the 831‐gene Onco Panscan panel (Genetron Health; Beijing, China), achieving high‐depth coverage (500×) to ensure robust detection of somatic mutations. Key variant types (SNVs, InDels, and fusions) were identified using MuTect, Strelka2, and CREST, with stringent detection thresholds applied. The gene list is provided in Table  . A comprehensive four‐step filtering process eliminated false positives, population variants, and benign mutations to refine the mutation profile. Tumor mutation burden (TMB) was calculated and compared to TCGA‐PAAD data, with key mutational pathways visualized using ComplexHeatmap and maftools packages.
+
+2.4
+
+## Molecular Analysis of Gene Fusions Using RNA Sequencing
+Fusioncapture (Genetron Health; Beijing, China), which is a 395‐gene RNA panel, was using to identify gene fusions at the transcript level. The gene list is provided in Table  . The isolation of total RNA was performed using the AllPrep DNA/RNA Mini Kit (Qiagen, Germany) and subsequently the qualified RNA was employed to generate double‐stranded cDNA utilizing the SuperScript VILO cDNA Synthesis Kit (Thermo Fisher Scientific, USA) and an Abclonal Second Strand Synthesis Module (Abclonal, China). The construction of the libraries was facilitated by the KAPA HTP Library Preparation Kit (KAPA Biosystems, USA). DNA libraries were captured and underwent paired‐end sequencing on the Illumina NovoSeq 6000 platform. Then, the sequencing reads were mapped to a human reference genome (version GRCh37/hg19) using Hisat2 v2.0.5 [ ]. Gene fusions were identified using FusionMap v2.1.11 [ ] with a frequency threshold of ≥ 1%.
+
+2.5
+
+## Tumor Immune Cell Microenvironment Analysis Using Deconvolution Algorithms
+Based on the gene expression in tumor samples, the Immuno‐Oncology‐Biological‐Research (IOBR) package in R software integrates eight open‐source deconvolution methodologies (CIBERSORT, EPIC, MCPcounter, xCell, TIMER, quanTiseq, ESTIMATE, IPS) to estimate the degree of immune cell infiltration. Based on three epigenetic regulatory genes (ARID1A, KMT2C, KMT2D) and excluding the missense mutation type, the HMUCH cohort samples were divided into an epigenetic regulatory gene mutation group and a wild‐type group. Subsequently, IOBR were employed to analyze and compare the signature score of immune cells using Transcripts Per Million (TPM) expression data between the two groups. Also, CIBERSORT method of IOBR was applied to assess the proportion of 22 immune cells in TCGA pan cancer (TCGA‐COAD, TCGA‐LUAD, TCGA‐OV, TCGA‐THCA) using TPM expression data and compare the differences in immune cell composition between the CCDC6‐RET fusion‐positive group and fusion‐negative group.
+
+2.6
+
+## Statistical Analysis
+Statistical analysis and visualization were performed on R (v4.3.3). Fisher's exact test was utilized to estimate significant co‐occurrence/exclusivity of gene mutations and differences in enriched pathways, clinical characteristics and therapeutic response in two groups. Kaplan–Meier curves and the log‐rank test were employed to assess differences in survival between two groups. Multivariate Cox regression analysis was applied to determined independent prognostic factors. The Wilcoxon test was used to compare immune cell infiltration levels among two different groups. A p value < 0.05 indicated statistical significance.
+
+3
+
+## Results
+3.1
+
+## Patient Description
+From December 2018 to September 2021, 34 patients with KRAS wild‐type pancreatic cancer were included in this study from Harbin Medical University Cancer Hospital. The majority (25/34; 73.5%) were below 65 years old, and 20 patients (58.8%) were male. At the time of diagnosis, most patients presented with stage II pancreatic cancer (14/34; 41.2%), followed by stage IV (11/34; 32.4%). Tumor samples were primarily obtained from the head of pancreas (21/34; 61.8%), and 10 (29.4%) from the tail of pancreas. Patient characteristics were summarized in Table  .
+ 
+3.2
+
+## Mutational Landscape in KRAS‐WT PDAC Patients
+To identify actionable changes in KRAS‐WT pancreatic cancer, we carried out a stepwise investigation on tumor samples, starting with NGS using an 831‐gene panel (Table  ). We confirmed 34 tumors as KRAS‐WT (HMUCH cohort). The most frequently mutated genes in this cohort were ATM (18%), PIK3CA (15%), ROS1 (15%), TP53 (15%), AXIN2 (12%), and FAT3 (12%). A majority of patients (79%) exhibited at least one mutation within the RTK‐RAS pathway, and 65% harbored alterations in the MAPK pathway, emphasizing their importance in KRAS‐WT pancreatic cancer. Additionally, mutations in the Notch pathway were prevalent, affecting 53% of patients (Figure  ). Gene co‐occurrence analysis revealed potential functional relationships between genes. RET was found with the most co‐occurrence genes, with KMT2E, TRRAP, CD70, and CDKN2A. CDKN2A also frequently co‐occurred with KMT2E, TRRAP, and CD70. Conversely, ATM mutations tended to be mutually exclusive with ZFHX3 alterations although without significant difference (Figure  ). Further research is necessary to elucidate the functional implications of these co‐occurring gene sets in KRAS‐WT pancreatic cancer. Compared to the TCGA‐PAAD cohort (Figure  ), our HMUCH cohort showed a higher proportion of patients with age below 65 years old, with tumors located in the pancreatic tail, and presenting with stage IV disease (Figure  ). Significant differences were also noted in the mutational frequencies of the RTK‐RAS, Notch, and PI3K pathways between the two cohorts (Figure  ). The HMUCH cohort demonstrated a higher mutational rate of these pathways compared to the TCGA‐PAAD cohort, highlighting potential distinctions in the underlying molecular profiles of these two groups. Next, to further explore potential driver alterations beyond the scope of DNA‐based NGS, we conducted RNA‐based sequencing on 29 KRAS‐WT samples whose tissue was sufficient. This analysis identified therapeutically actionable gene fusions in 3 patients (10.3%) with fusions CCDC6‐RET, intergenic‐RET (intergenic chr3:150076289), ETV6‐NTRK3, and KANK1‐NTRK3 (Figure  ).
+ 
+3.3
+
+## 
+HRD Mutations Predict Response to Platinum‐Based Therapy in KRAS‐WT PDAC Patients
+To investigate the potential of homologous recombination deficiency (HRD) as a predictive biomarker for response to platinum‐based chemotherapy in our KRAS‐WT pancreatic cancer cohort, we assessed the mutational status of 36 HRD‐related genes (Figure  and Table  ).
+ Twenrt five patients were identified with HRD‐related gene mutations, including those in ATM and BRCA1/2. Notably, within this HRD‐mutant subgroup, platinum‐treated patients showed higher progression—free survival (PFS) than untreated ones (p = 0.047). There was a trend of better overall survival (OS) for patients with platinum therapy compared to untreated ones, but the difference between the two survival curves was not statistically significant (p = 0.095) (Figure  ). However, when comparing the entire cohort, no significant survival difference was observed between HRD‐mutant and HRD‐wild type patients (PFS: p = 0.61; OS: p = 0.85) (Figure  ). Evaluations from imaging studies indicated that a potential clinical benefit associated with platinum therapy in the context of HRD mutations. Patient RX107 experienced progressive disease (PD) on non‐platinum‐based therapy (Figure  ). In contrast, patient RX089 achieved a partial response (PR) following platinum‐based treatment. Overall, among patients harboring HRD‐mutations, 66.7% achieved a PR with platinum‐based therapy, compared to only 42.1% with non‐platinum‐based therapy (p = 0.39; Figure  ).
+
+3.4
+
+## Mutations of Epigenetic Regulatory Genes Predict Response to ICI Response in KRAS‐WT PDAC Patients
+Mutations in epigenetic regulatory genes, such as ARID1A, KMT2C, and KMT2D, are prevalent in cancer and have been implicated in influencing response to immune checkpoint inhibitor (ICI) therapy [ , , , ]. Here, we then investigated the potential predictive value of these epigenetic regulatory gene mutations in our KRAS‐WT pancreatic cancer cohort. To explore potential mechanisms, we analyzed the association between these mutations and the tumor microenvironment (TME). We found that patients with ARID1A/KMT2C/KMT2D mutations exhibited significantly increased infiltration of CD8+ T cells, macrophages, and neutrophils cells compared to those without these mutations (Figure  ), suggesting a favorable immune environment for ICI therapy.
+ We then investigated the predictive value of the three epigenetic regulatory genes for response to ICI treatment. Kaplan–Meier analysis, comparing patients with these mutations who received ICI therapy to those who did not, indicated a trend toward improved PFS (p = 0.38) and OS (p = 0.38) in the ICI‐treated group, although the difference did not reach statistical significance due to the limited sample size (Figure  ). However, when comparing the clinical outcome of patients with and without these mutations, irrespective of treatment, we did not observe a significant difference (PFS: p = 0.34; OS: p = 0.66) (Figure  ). Clinical responses further supported a potential association between these mutations and ICI benefit. Among patients harboring these mutations, the PR rate was 66.7% in patients with ICI therapy versus 50% in those with non‐ICI treatment (p > 0.99; Figure  ). As shown in Figure  , two patients without epigenetic regulatory gene mutations (RX124 and RX117) developed progressive disease (PD) or stable disease (SD) after ICI treatment. In contrast, two epigenetic regulatory gene mutations patients (RX080 and RX096) achieved a PR following ICI treatment.
+
+3.5
+
+## 
+NTRK3 Fusions as Targets for Precision Therapy in KRAS WT PADC
+
+In our study, we identified two patients with NTRK fusions. Patient RX119 presented an ETV6‐NTRK3 fusion, with breakpoints in ETV6 exon 4 and NTRK3 exon 14, which preserved the ETV6 PNT domain and NTRK3 kinase domain, leading to constitutive activation of the fused protein (Figure  ). Patient RX075 exhibited a KANK1‐NTRK3 fusion, with breakpoints in KANK1 exon 7 and NTRK3 exon 14, retaining the KANK1 KN‐motif domain and NTRK3 kinase domain, also resulting in constitutive activation of the fused protein (Figure  ). Analysis of the TCGA cohort revealed ETV6‐NTRK3 fusion in multiple cancer types, accounting for 2.2% of cases, specifically identified in 1.19% of TCGA‐THCA, 0.72% of TCGA‐COAD, 0.21% of TCGA‐SKCM, and 0.09% of TCGA‐BRCA (Figure  ).
+ 3.5.1
+
+## Clinical Response to Larotinib in NTRK3 Fusion‐Positive PDAC (RX119: ETV6‐NTRK3)
+A 62‐year‐old woman with pancreatic cancer presented with a mass in the pancreatic head and multiple lung metastases. She was initially treated with a combination of gemcitabine, S‐1, and nimotuzumab for 6 months. Despite this regimen, her CA19‐9 levels continued to rise, reaching 827 U/mL, and her lung metastases worsened, indicating disease progression. At this point, targeted next‐generation sequencing (NGS) was performed, which identified an ETV6‐NTRK3 fusion. Based on clinical studies showing positive responses to TRK inhibitors in patients with gastrointestinal tumors harboring NTRK fusions, the patient began second‐line treatment with sintilimab, capecitabine, and larotinib. However, due to adverse reactions, sintilimab was discontinued after 1 month, and treatment continued with capecitabine and larotinib for an additional 5 months. During this period, CA19‐9 levels decreased to 201 U/mL, and significant tumor reduction was observed. After 6 months, CA19‐9 levels rose again to 723 U/mL, and imaging revealed increased lung metastases and new ovarian metastases, indicating further disease progression. Consequently, third‐line treatment was initiated with gemcitabine, capecitabine, and larotinib. Over 2 months, CA19‐9 levels steadily decreased, and the lesions showed marked improvement. The condition of patient is currently stable, and she remains under continuous follow‐up (Figure  ).
+
+3.6
+
+## 
+RET Fusions as Predictors of Immune Response and Targets for Precision Therapy in KRAS WT PADC
+
+In out KRAS‐WT PDAC cohort, we identified a unique case (patient RX102) harboring two distinct RET fusion variants: intergenic RET and CCDC6‐RET fusion (Figure  ). This finding prompted us to further explore the potential of targeting RET fusions in this context. Beyond the established efficacy of FDA‐approved RET inhibitors, we observed in the TCGA cohort CCDC6‐RET gene fusions present in various cancer types: 4.17% in THCA, 0.36% in COAD, 0.24% in OV, and 0.19% in LUAD (Figure  ). We found that CCDC6‐RET fusion was associated with improved survival (follow‐up time, median OS, HR, 95% CI) (p = 0.007; Figure  ) and higher levels of B cells, dendritic cells, CD8+ T cells (Figure  ), suggestive of potential responsiveness to immune checkpoint inhibitors (ICIs). Notably, RET fusion status emerged as an independent prognostic factor in our analysis (Figure  ).
+ 3.6.1
+
+## Clinical Response to Anti‐PD‐1 and Pralsetinib in RET Fusion‐Positive PDAC (RX102: CCDC6‐RET)
+A 38‐year‐old man with pancreatic cancer presented with a pancreatic mass, abdominal metastasis, and liver metastasis. He initially received first‐line treatment with gemcitabine, S‐1, and nimotuzumab for 3 months. However, his abdominal and liver metastases progressed, indicating disease advancement. A second‐line regimen of gemcitabine, albumin‐bound paclitaxel, and camrelizumab was initiated, resulting in significant tumor shrinkage. However, after 4 months, his CA19‐9 levels increased to 665 U/mL, and his abdominal metastases further indicated disease progression. Upon progression, targeted NGS was performed, revealing a CCDC6‐RET gene fusion. Based on previous case reports showing positive responses of RET fusion‐positive patients to pralsetinib [ ], third‐line therapy with S‐1 and pralsetinib was initiated. Following treatment, CA19‐9 levels steadily declined, and abdominal and lung metastases significantly regressed. The patient has remained on this regimen for 8 months, with stable disease and ongoing follow‐up (Figure  ).
+
+4
+
+## Discussion
+KRAS mutations are a hallmark of PDAC, present in approximately 90% of tumors [ , ]. However, this leaves a small yet important proportion of PDAC which lack activating KRAS mutations. This study analyzed the clinical and genomic features of KRAS‐WT PDAC from both a large single‐institution cohort and a public database, highlighting its therapeutic potential. KRAS‐WT PDAC exhibits a distinct genetic landscape, including mutations in key pathways like DNA damage repair and chromatin remodeling, which offer actionable targets for precision medicine and may significantly impact treatment strategies.
+Our analysis of KRAS‐WT pancreatic cancer reveals crucial insights into its unique molecular landscape. Consistent with other studies, elevated mutation rates were observed in ATM (18%), PIK3CA (15%), and TP53 (15%), ROS1 (15%), alongside significant alterations in RTK‐RAS (79%), MAPK (65%), and Notch (53%) pathways [ ]. These results suggest that KRAS‐WT tumors remain dependent on MAPK pathway activation via alternative drivers, such as BRAF or RTK fusions. This finding highlights potential therapeutic targets, as corroborated by the “Know Your Tumor” initiative, where 24% of KRAS‐WT tumors harbored MAPK alterations [ ]. Moreover, PIK3CA mutations present opportunities for therapeutic intervention using PI3K inhibitors, encompassing both pan‐isoform inhibitors (e.g., pictilisib) and selective inhibitors targeting mutant PI3Kα (e.g., alpelisib). The efficacy of these therapies has demonstrated variability and, at times, controversy across different cancer types, including breast and neck squamous cell carcinomas [ , ]. The clinical significance is frequently contingent upon specific mutations, such as E542K or E545K, which have been associated with increased sensitivity to these inhibitors [ ]. In our cohort, the PIK3CA mutations identified were missense mutations, necessitating further investigation to evaluate their therapeutic potential. Similarly, ROS1 fusion mutations are well known to be targetable by ROS1 inhibitors, such as crizotinib [ ], but our cohort predominantly showed missense mutations in ROS1, which may not be as responsive to ROS1‐targeted therapies. Patients receiving pathway‐targeted therapy showed improved progression‐free survival and median overall survival. Our study underscores the importance of precision medicine in KRAS‐WT PDAC.
+Our study underscores the significance of HRD status as a predictive biomarker in KRAS‐WT pancreatic cancer, particularly in guiding the use of platinum‐based chemotherapy. HRD‐mutant patients showed significantly improved PFS with platinum treatment (p = 0.047), aligning with the POLO study, which demonstrated better outcomes in BRCA1/2‐mutant PDAC patients treated with platinum and maintenance olaparib [ ]. Although the OS improvements in our cohort did not reach statistical significance (p = 0.095), the observed clinical benefit corroborates existing evidence regarding the role of HRD in enhancing the efficacy of platinum‐based treatments. These findings align with the prior studies by Golan et al. [ ], which demonstrate that HRD patients exhibit prolonged survival and improved therapeutic responses.
+Moreover, the current understanding of the tumor microenvironment (TME) in KRAS‐WT PDAC reveals important therapeutic implications. Our study demonstrates that mutations in epigenetic regulatory genes, such as ARID1A and KMT2C, are associated with increased infiltration of immune cells, including CD8+ T cells and macrophages. This suggests that KRAS‐WT PDAC may respond favorably to ICIs, potentially enhancing treatment outcomes. Although the observed trends in PFS and OS among ICI‐treated patients with mutations in epigenetic genes did not achieve conventional statistical significance, these findings indicate a promising avenue for further investigation into the role of ICIs in this patient population.
+Importantly, RNA sequencing revealed therapeutically actionable fusions in 10.3% of patients, including RET and NTRK3 fusions. The presence of such fusions presents exciting opportunities for targeted therapy. Previous studies have demonstrated positive responses to TRK inhibitors in malignancies with NTRK fusions [ , ], our case studies support this. In particular, Patient RX119, harboring an ETV6‐NTRK3 fusion, exhibited significant tumor reduction following treatment with larotinib and capecitabine, after multiple prior therapies had failed. Furthermore, Patient RX102, harboring a CCDC6‐RET fusion, responded well to pralsetinib after failing prior treatments. Preliminary data from the basket phase I/II ARROW trial showed partial responses with 2 patients with pancreatic cancer with RET‐fusions treated with pralsetinib with a duration of response of 5.5 and 7.4 months in each [ ]. The RET inhibitor selpercatinib has recently been approved for lung and thyroid cancers harboring RET gene mutations or fusions [ ]. The analysis mentioned above indicated that some patients with pancreatic adenocarcinoma treated on the basis of identified fusions can derive substantial clinical benefit. In our study, we found increased immune cell infiltration in KRAS wild‐type PDAC patients with CCDC6‐RET fusions, indicating potential benefit from immunotherapy. While research on RET fusions in pancreatic cancer is limited, studies in other cancers show mixed responses to ICIs [ , ]. Some real‐world data suggest positive outcomes, especially in patients with high PD‐L1 expression. For example, Marinello et al. reported an overall response rate of 31%–43% and a progression‐free survival of 5–9.4 months in RET fusion‐positive lung cancer [ ]. These findings highlight the need for further exploration of immunotherapy in RET fusions PDAC, focusing on biomarkers like PD‐L1 to predict responses.
+Our study highlights promising avenues for targeted therapies in KRAS‐WT PDAC. The exploration of HRD as a predictive biomarker for platinum‐based chemotherapy underscores the importance of genetic profiling in optimizing treatment strategies. Additionally, the association between epigenetic regulatory gene mutations and immune cell infiltration suggests that ICIs may offer valuable therapeutic options. Actionable fusions, such as ETV6‐NTRK3 and CCDC6‐RET, represent new treatment possibilities, with significant tumor reductions observed in patients treated with larotinib and pralsetinib. However, several limitations must be acknowledged.
+Our monocentric study's relatively small cohort may limit the generalizability of our findings. And a key limitation of this study is the lack of matched peripheral blood samples for comparison with tumor tissues. While we used NGS and deconvolution algorithms to analyze the immune microenvironment and genomic alterations in KRAS‐WT PDAC, the absence of germline DNA from peripheral blood limited our ability to filter somatic mutations accurately. This also prevented us from fully assessing systemic immune responses, which may affect the interpretation of immune cell infiltration results. Future studies should include matched blood samples to improve the accuracy of both genomic and immune analyses. As the treatment landscape for PDAC evolves, future multicenter studies with larger cohorts are essential to validate our findings and further elucidate the potential of targeted therapies and immunotherapies in KRAS‐WT PDAC. These insights will be crucial for developing more effective therapeutic strategies tailored to this unique patient population.
+This study highlights the molecular landscape of KRAS wild‐type PDAC, revealing frequent RTK‐RAS, MAPK, and Notch pathway mutations, along with actionable CCDC6‐RET and NTRK3 fusions. Importantly, RET fusions were associated with increased immune cell infiltration, suggesting potential responsiveness to immune checkpoint inhibitors. HRD‐related mutations predicted better outcomes with platinum‐based chemotherapy, while epigenetic regulatory genes alterations correlated with enhanced immune infiltration. These insights underscore the importance of molecular profiling in guiding personalized treatment strategies.
+
+## Author Contributions
+
+Dan Su: conceptualization, methodology, project administration, writing – original draft. Yuli Ruan: data curation, formal analysis, resources, software, validation. Yingfei Shi: data curation, methodology, resources, software. Dandan Cao: data curation, formal analysis, methodology, resources, software. Tong Wu: data curation, formal analysis, resources, validation, visualization, writing – original draft. Tianjiao Dang: data curation, formal analysis, resources, software, visualization. Hong Wang: formal analysis, software, visualization. Yaqun Xin: conceptualization, investigation, resources, supervision. Ming Ma: data curation, software, validation, visualization, writing – original draft. Hongxue Meng: conceptualization, investigation, methodology, resources, supervision. Chao Liu: conceptualization, funding acquisition, project administration, resources, supervision, writing – review and editing. Yanqiao Zhang: conceptualization, funding acquisition, project administration, resources, supervision, writing – review and editing.
+
+## Ethics Statement
+Registry and the Registration No. of the study: This study complied with the principles of the Declaration of Helsinki and was approved by the ethics Clinical Research Ethics Committee of the Harbin Medical University Cancer Hospital (No. KY2023‐57).
+
+## Consent
+All authors consent for publication.
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Supporting information
+
+Figure S1:
+
+Figure S2:
+
+Figure S3:
+
+Table S1:
+
+Table S2:
+
+Table S3:
+
+## Acknowledgments
+The authors have nothing to report.
+
+## Data Availability Statement
+The data that support the findings of this study are available on request from the corresponding author.

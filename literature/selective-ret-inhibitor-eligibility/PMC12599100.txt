@@ -1,0 +1,215 @@
+53bmcorhlBMC Oral HealthBMC Oral HealthBMCPMC1259910012599100125991004121465610.1186/s12903-025-07007-wDesign and biological evaluation of peptide disruptors targeting YAP1-TEAD interaction for oral cancer
+WuYue YangHao ZhangXianglei LiuLu LiuYu XuChao WuKailiu FengGuanying XuWeijia YangXi ZhangChenping 1Department of Oral Maxillofacial-Head Neck Oncology, Shanghai Ninth People’s Hospital, Shanghai Jiao Tong University School of Medicine; College of Stomatology, Shanghai Jiao Tong University; National Center for Stomatology; National Clinical Research Center for Oral Diseases; Shanghai Key Laboratory of Stomatology; Shanghai Research Institute of Stomatology, Shanghai, 200011 China 2Shanghai Institute for Advanced Immunochemical Studies and School of Life Science and Technology, ShanghaiTech University, Shanghai, 201210 China ✉Corresponding author.
+#Contributed equally.
+10112025251765176511112025© The Author(s) 2025Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+
+## Background
+Previous studies have highlighted the critical role of the Yes associated protein 1 – TEA domain transcription factor (YAP1-TEAD) interaction in the progression of oral cancer. However, there remains a lack of direct disruptors targeting the YAP1-TEAD protein interaction and a detailed investigation of their effects on oral cancer. Therefore, we aimed to rationally design peptide YAP1-TEAD protein interaction disruptors through computational methods and explore the effects of direct disruption of the YAP1-TEAD interaction in oral squamous cell carcinoma (OSCC).
+
+## Methods
+Peptide-based computational residue scanning was employed to design peptide disruptors of YAP1-TEAD interaction by analyzing the effects of mutations on binding affinity and stability. Molecular dynamics (MD) simulations were performed to assess the binding affinity and stability from a dynamic perspective. Surface plasmon resonance (SPR) assays were used to assess the in vitro binding affinities. After three rounds of iterative optimization, two with the highest affinities of this series of disruptors were applied to OSCC cell lines to investigate the primary effects of direct disruption of the YAP1-TEAD interaction.
+
+## Results
+The expression of YAP1, TEADs, and four downstream transcriptional targets were significantly higher in OSCC tissues compared to paired normal tissues. The design and evaluation of YAP1-TEAD disruptors were conducted using computational residue scanning, MD simulations, and SPR assays. After three rounds of optimization, YTPD9 and YTPD11 demonstrated the highest affinities, with binding affinities 10 times more than that of the wildtype YAP1. When applied to OSCC cell lines, the disruptors exhibited a limited effect on cell proliferation, but they were able to inhibit the abilities of migration and invasion effectively.
+
+## Conclusion
+This study developed a series of peptide disruptors targeting YAP1-TEAD protein interaction through computational simulations and in vitro experiments. The biological evaluation of two of these disruptors in OSCC confirmed that direct disruption of the YAP1-TEAD primarily affects the migration and invasion ability of oral cancer.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12903-025-07007-w.
+
+Keywords: Oral cancer, YAP1-TEAD interaction, PPI disruptor, Molecular dynamics simulation
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Feb 13; Accepted 2025 Sep 18; Collection date 2025.
+
+## Introduction
+Oral cancer ranks as the 16th most common malignant tumor worldwide with approximately 355,000 new cases annually, of which the majority are oral squamous cell carcinomas (OSCC) [ ]. Surgical resection combined with adjuvant chemotherapy and radiotherapy, remains the most recommended treatment for patients without metastasis [ ]. Chemotherapy aims to inhibit the invasion and metastasis of oral cancer through the use of cytotoxic agents. However, this approach is often hindered by drug resistance and toxic side effects [ ]. With the development of genomics, proteomics, and pharmaceutics, targeted therapies have made significant progress in drug discovery, laboratory research, and clinical applications [ , ]. For instance, cetuximab, gefitinib, and dacomitinib target the epidermal growth factor receptor (EGFR) and effectively inhibit its signal transduction pathway [ ]. Similarly, inhibitors of the Phosphoinositide 3-kinase/protein kinase B (PI3K/Akt), Hepatocyte growth factor/cellular-Mesenchymal epithelial transition factor (HGF/c-MET), and Mitogen-activated protein kinase kinase/Extracellular-signal-regulated kinases (MEK/ERK) pathways have shown potential in preclinical oral cancer models and early-phase clinical trials [ – ]. The development of targeted inhibitors thus holds significant promise for advancing oral cancer research and expanding therapeutic options. Among novel targeted therapies, disruptors aimed at inhibiting protein–protein interactions (PPI) are particularly promising. This type of novel inhibitor allows for precise targeting and inhibition of specific interaction interfaces of the targeted proteins [ ], which may also complement existing therapeutic strategies, paving the way for clinical translation.
+The Hippo pathway is one of the most highly conserved signalling pathways, playing a critical role in the onset and progression of oral cancer. Yes associated protein 1 – TEA domain transcription factor (YAP1-TEAD) interaction is a core component of this pathway and has been implicated in oral cancer development, progression, and drug resistance. For example, nuclear translocation of YAP1 is frequently observed in the precancerous stage of human OSCC [ ]. YAP1 inhibition has also been shown to prevent the initiation and progression of OSCC [ ]. Furthermore, Hippo-YAP1 has been identified as a key mediator of chemoresistance in OSCC [ ]. Increased expression of YAP1-TEAD transcriptional targets such as Connective tissue growth factor (CTGF), Cysteine-rich angiogenic inducer 61 (CYR61), and Ankyrin repeat domain 1 (ANKRD1) has been observed in another study on trametinib resistance [ ]. These findings underscore the importance of targeting YAP1-TEAD interactions in progression and therapeutic development of OSCC.
+Developing PPI disruptors to target YAP1-TEAD interactions offers a precise means to explore the functional role of this interaction in oral cancer and to identify potential therapeutic indications for such inhibitors. However, the development of precise YAP1-TEAD disruptors remains challenging. Currently, Verteporfin is the only Food and Drug Administration (FDA)-approved disruptor of YAP1-TEAD interactions. Verteporfin binds to YAP1, promoting its cytoplasmic retention by enhancing the binding of YAP1 and 14-3-3. Unfortunately, it was originally developed as a photosensitizer for age-related macular degeneration [ ], and has been reported to exhibit off-target effects independent of YAP1 [ , ]. Computational modelling suggested that Verteporfin might bind to the WW domain of YAP1 [ ]. Liu et al.. also demonstrated through in vitro binding assays that Verteporfin can bind to purified YAP1 protein, enhancing its accessibility to trypsin. This confirmed that Verteporfin interacts with YAP1 and induces a conformational change, thereby disrupting its interaction with TEAD2 [ ]. Unfortunately, there is still lack of experimental evidence confirming the complex formation between YAP1 and Verteporfin, which limits its potential application in precision therapy. To avoid the impact of off-target effects on biological assessments, structure-based peptide disruptors can be designed to accurately target the YAP1-TEAD interaction. Due to the high specificity and low off-target activity of peptide disruptors [ , ], using this type of disruptor allows for precise biological evaluation of the effects of blocking YAP1-TEAD interactions in oral cancer.
+Potential druggable pockets within the YAP1-TEAD binding interface have been identified through structural studies. Most existing disruptors target a hydrophobic pocket within TEAD proteins, which was originally demonstrated to bind palmitate. These types of disruptors, such as K975 [ ], IK930 (NCT05228015), and SW-682 (NCT06251310), can alter TEAD conformation and weaken its interaction with YAP1 indirectly. K975 has demonstrated promising antitumor activity in malignant pleural mesothelioma, primarily by inhibiting cell proliferation and tumor growth in xenograft models [ ]. In a recent study, Katayama et al. also reported that K975 enhances the sensitivity of rearranged during transfection-aberrant (RET-aberrant) lung cancer to selpercatinib and pralsetinib [ ]. IK930, a potent and orally active TEAD inhibitor, has been shown to counteract TEAD-mediated transcriptional activation induced by MEK or EGFR inhibitors in colorectal cancer and non-small cell lung cancer [ ]. Additionally, SW682 has exhibited strong antitumor effects in BRAF and NRAS mutated melanoma when used in combination with MEK inhibitors [ ]. Another approach is to directly block the YAP1-TEAD binding interface. The YAP1-TEAD complex has three interaction interfaces, with the most critical interaction located in an omega-shaped twisted-coil region (Interface 3) [ ]. This region corresponds to residues 86–100 of YAP1, which adopts a twisted-coil conformation and fits its side chains into the deep pocket of TEAD. Among them, M86, L91, and F95 form multiple van der Waals contacts with TEAD through their hydrophobic side chains and, establish a compact hydrophobic coil via internal hydrophobic interactions together with R87. In addition, hydrogen bonds formed between YAP1 R89 and S94 and TEAD D249 and E240 further stabilize the interaction conformation [ ]. Disruptors targeting this site inhibit binding by interacting directly with the TEAD surface. Novartis previously designed YAP-TEAD-IN-2 targeting this site for the treatment of malignant mesothelioma [ ] and has recently further optimized this compound, resulting in the development of IAG933. As one of the most promising YAP1-TEAD interface disruptors for clinical translation, IAG933 has demonstrated strong therapeutic efficacy in Hippo pathway–dependent tumors, particularly malignant mesothelioma [ ]. It is currently undergoing clinical evaluation (NCT04857372). However, no YAP1-TEAD disruptors have been applied or evaluated for oral cancer to date. The direct effects of blocking YAP1-TEAD interactions in OSCC remain unexplored.
+In this study, we highlight the importance of disrupting YAP1-TEAD interactions in OSCC and report a series of peptide disruptors that directly target this interaction (Fig.  ). These disruptors are identified to inhibit YAP1-TEAD protein binding effectively through both molecular dynamic (MD) simulations and in vitro biological evaluation. Using these peptide disruptors, we further elucidate the specific roles of YAP1-TEAD interactions in OSCC. This work indicates the critical functions of YAP1-TEAD in OSCC and identifies potential therapeutic targets for oral cancer treatment.
+ 
+
+## Methods
+
+## Bioinformatic analysis of YAP1, TEADs, and downstream target genes in OSCC
+HNSC dataset from the TCGA database was initially utilized and OSCC samples were then identified including tissues from the lips, gums, floor of the mouth, base of the tongue, and palate. Clinical information and RNA Sequencing (RNA-Seq) Fragments per kilo base per million mapped reads (FPKM) data were extracted for further analysis in R4.3.2. Paired tumor and adjacent normal tissue samples were selected, and paired sample t-tests were performed. Downstream transcriptional target genes of YAP1-TEAD interaction were also identified and subjected to Kaplan-Meier survival analysis.
+
+## Residue scanning calculation
+The YAP1-TEAD complex (PDB code: 6GE3) was obtained from the Protein Data Bank and optimized using the default parameters of Schrödinger’s Protein Preparation Workflow in Maestro. Residues 84–100 of YAP1 were chosen for peptide design and mutational analysis because this segment has been reported as the shortest fragment capable of effectively disrupting the TEAD–YAP1 interaction with relatively high affinity [ ]. A comprehensive amino acid mutation scan was performed on residues 84–100 of YAP1, in which each of the 17 amino acids was individually mutated to all other 19 standard amino acids using the Residue Scanning module in Maestro. Changes in protein–peptide binding affinity and peptide stability were subsequently evaluated. Binding affinity was calculated using Prime MM-GBSA, which employs an implicit (continuum) solvation model [ ], where a negative value indicates stronger binding of the mutant compared to the wild-type. The stability of the protein due to the mutation is calculated from a thermodynamic cycle, which can be represented as follows:
+
+ 
+Where L(u) is the unfolded parent protein, L(f) is the folded parent protein, L‘(u) is the unfolded mutated protein, and L‘(f) is the folded mutated protein. The change in stability is
+ .
+The calculation of uses and with model unfolded proteins. A negative value indicates that the mutant is more stable than the parent protein. The final mutation design was guided by an integrated assessment of binding affinity, protein stability, and structural interactions induced by the mutations.
+
+## Protein cloning, expression, and purification
+The cloning, expression, and purification of TEAD were carried out by high-pressure cell lysis of BL21 (DE3) competent cells (full names and details could be found in the supplementary materials). Purification was performed using Ni²⁺-NTA beads and molecular sieve chromatography. Detailed procedures can be found in the supplementary materials.
+
+## Synthesis and characterization of peptide disruptors
+YAP1-TEAD disruptors and wildtype (WT) YAP1 (residues 84–100) were purchased from GenScript (China). The purities of them were identified higher than 90% by Reversed phase-high performance liquid chromatography (RP-HPLC) and Liquid chromatography–mass spectrometry (LC-MS). Dimethyl sulfoxide (DMSO) was utilized to dissolve peptide disruptors and WT YAP1 (residues 84–100) as stock solution for further experiments.
+
+## Surface plasmon resonance (SPR)
+The purified TEAD was immobilized on series S sensor CM5 chip and tested binding affinities using Biacore™ 8 K SPR system (Cytiva, Sweden). Detailed procedures can be found in the supplementary materials.
+
+## Molecular dynamics simulation
+MD simulations were performed by the Desmond package of Schrödinger2023-1. Detailed procedures can be found in the supplementary materials.
+
+## OSCC cell culture
+The human OSCC cell lines SCC25 and HN30 (full names and details could be found in the supplementary materials) were originally purchased from Procell (China). SCC25 cells were cultured in DMEM/F12 (Meilunbio, China). HN30 cells were cultured in DMEM (Meilunbio, China). Medium was supplemented with 10% Fetal bovine serum (FBS, Every Green, China), 100 U/mL penicillin and 100 µg/mL streptomycin (Gibco, USA). Both cells were cultured in a 5% CO2 incubator at 37 ℃.
+
+## Cell viability assay
+Cell viability was assessed using the Cell counting kit-8 (CCK8) assay. SCC25 and HN30 monolayer cells were first starved in serum-free medium for 12 h to enhance uptake efficiency. Subsequently, DMEM/F12 (for SCC25) or DMEM (for HN30) with 10% FBS was supplemented with either YAP1-TEAD disruptors (experimental group) or DMSO (control group). Cells were incubated at 37 °C in a 5% CO₂ atmosphere for 48 h.
+After removing the medium, cells were washed three times with Phosphate buffered saline (PBS). Fresh working solution was prepared by adding 10% CCK8 reagent to FBS-free DMEM/F12 (for SCC25) or DMEM (for HN30), and the solution was added to the cell culture plates. A blank control group, containing only the working solution with 10% CCK8 reagent, was included. The cells were then incubated at 37 °C in a 5% CO₂ incubator for 1 h.
+After one hour, the optical density (OD) at 450 nm was recorded using a microplate reader. Cell viability was calculated using the following formula:
+Cell viability = (Control group OD - Blank group OD)/(Experimental group OD - Blank group OD)​
+
+## Migration assay
+Migration ability was examined by wound healing assay. Both the SCC25 and HN30 monolayer cells were first starved in serum-free medium for 12 h to enhance uptake efficiency, and then scratched by a straight line using a sterile pipette tip. PBS was then utilized to wash the scratched cells. FBS free DMEM/F12 (for SCC25) or DMEM (for HN30) were added with YAP1-TEAD disruptors (experimental group) or DMSO (control group). Cells were then cultured at 37 ℃ in a 5% CO2 incubator for 24 h. The photographs of the scratch wound were recorded at time points of 0 and 24 h with an inverted microscope (ZEISS, German) to investigate the migration ability with or without YAP1-TEAD disruptors. The migration area was measured using Image-J.
+
+## Invasion assay
+Invasion ability was examined by transwell assay. HN30 first starved in serum-free medium for 12 h to enhance uptake efficiency. Following trypsinisation, HN30 cells in FBS free DMEM were seeded on the upper chamber coated with Matrigel (Corning, USA). Disruptors (experimental group) and DMSO (control group) was added in the upper chamber. DMEM with 20% FBS was added in the lower chamber in a 24-well plate for chemoattraction. The cells were incubated at 37 ℃ in a 5% CO2 incubator for 24 h. The invasive cells located in the lower surface of the upper chamber were fixed with 4% Paraformaldehyde fix solution (Beyotime, China) for 20 min and stained with crystal violet staining solution (Beyotime, China). The photographs of the invasive cells were observed with an inverted microscope (ZEISS, German) to investigate the invasive ability with or without YAP1-TEAD disruptors. The area of invasive cells was measured using Image-J.
+
+## Statistical analysis
+Statistical analysis was performed with GraphPad Prism (version 9.5.1). Results were presented as mean ± standard deviation (SD). Student’s t-test was applied to compare the outcomes between two groups. Two-way analysis of variance (ANOVA) was applied to compare the outcomes between three or more groups. P value < 0.05 was considered statistically significant.
+
+## Results
+
+## The role of YAP1-TEAD protein interaction in OSCC progression
+Using the TCGA public database for HNSC, RNA-Seq FPKM data from OSCC samples (including lips, gingiva, floor of the mouth, tongue base, and palate) were extracted and analyzed using R4.3.2. Samples containing both tumor and matched adjacent normal tissues were selected for paired sample t-tests. The results demonstrated that the expression levels of YAP1 and TEADs were significantly higher in OSCC tissues compared to their paired normal tissues at the transcriptomic level (Fig.  a).
+ Additionally, target genes transcriptionally regulated by YAP1-TEAD interactions exhibited similar patterns of elevated expression. There were four downstream target genes of YAP1-TEAD interactions including Amphiregulin (AREG), Aurora kinase A (AURKA), BUB1 mitotic checkpoint Serine/Threonine-protein kinase (BUB1), Dickkopf 1 (DKK1), which not only showed abnormal overexpression in OSCC tissues (Fig.  b), but also correlated with poor prognosis in OSCC patients (Fig.  c), as revealed by both paired sample t-test and Kaplan-Meier survival analysis. These results suggest that disrupting YAP1-TEAD protein interactions and reducing the transcription of their target genes may potentially inhibit OSCC progression.
+
+## YAP1-TEAD peptide disruptors design based on YAP1 (84–100) fragment
+Mutating the native YAP1 sequence is a common strategy employed in the design of YAP1-TEAD peptide disruptors [ ]. Traditional mutation design relies on experimental alanine scanning to identify optimal mutation sites [ ], which significantly reduces design efficiency. Moreover, the incorporation of non-standard amino acids can complicate synthesis and potentially induce immunogenic responses [ , ]. Here, we employed computational methods to perform a comprehensive saturation mutation scan of all YAP1 residues at the TEAD-YAP1 interface. By analyzing changes in binding free energy (ΔΔG) and the stability of the mutant YAP1 peptides, six potential mutations were identified as candidates for disrupting the YAP1-TEAD interaction (Table 1).
+
+ 
+Most of these six standard amino acid mutations reduce the binding free energy by forming new polar interactions and some by forming new hydrophobic patches. Among them, V84Y demonstrated the strongest conformational stability due to the formation of an intramolecular hydrogen bond (Fig.  a). The P85R mutation established a hydrogen bond network with TEAD residues S388 and E391 (Fig.  b), while P92R formed a polar interaction network of hydrogen bonds and salt bridges with S94 and E263 (Fig.  e). Similarly, M86R also engaged in extensive polar interactions with E391 and E416 (Fig.  c). On the other hand, the contributions of P98M (Fig.  d) and L91M (Fig.  f) were primarily attributed to enhanced hydrophobic interactions. We synthesized these six designed peptides and evaluated their binding affinities using SPR assays.
+ After the purification and verification of TEAD (Fig S1), and based on computational modelling results, the first round of disruptors (Fig S2-8) was designed and synthesized for validation through SPR assays to confirm the binding affinity of peptide disruptors for the YAP1-TEAD interface. M86R (YTPD3), P85R (YTPD2), and P92R (YTPD5) demonstrated significantly enhanced binding affinities of 23.4 µM, 23.9 µM, and 23.9 µM respectively (Fig.  g), which were approximately twice that of the WT (Table 2). On the other hand, P98M (YTPD6), V84Y (YTPD1), and L91M (YTPD4) exhibited affinities comparable to the WT at the YAP1-TEAD binding site (Fig S9). The SPR assay results corroborated the computational predictions, indicating that mutations at the V85, M86, and P92 sites can more effectively enhance binding affinity.
+
+ 
+
+## Optimization of YAP1-TEAD disruptors based on first-round peptide disruptors
+Following the first round of experiments, we observed that the P85R, M86R, and P92R mutations nearly doubled the binding affinity compared to the WT. Based on these results, we combined the beneficial mutations to explore potential synergistic effects. Given the proximity of positions 85 and 86 and the fact that both effective mutations involve arginine, we considered the potential impact on peptide stability. As a result, we designed and synthesized two double mutants: P85R-P92R and M86R-P92R. Computational analysis predicted that both double mutants would further enhance affinity and stability compared to the corresponding single mutants. Since the mutation sites are separated by multiple amino acids, the interactions induced by the mutations were not significantly different from those observed in the WT. We synthesized the two double-mutant peptides and evaluated their binding affinities using SPR assays (Table 3).
+
+ 
+Based on computational modelling results, a second round of optimized disruptors (Fig S10-11) was designed and synthesized for validation through SPR assays. Both improved disruptors demonstrated significantly enhanced binding affinities. Specifically, P85R-P92R (YTPD7) achieved a binding affinity of 9.44 µM, while M86R-P92R (YTPD8) reached 11.6 µM (Fig S12). These findings suggest that double mutants can effectively enhance the disruptors’ binding affinity for the YAP1-TEAD interface, approximately doubling the affinity observed in the first round of disruptors.
+After the second round of experiments, we observed that the binding affinities of the two double mutants were nearly identical. Consequently, we selected the slightly superior P85R-P92R mutant for a third round of optimization (Fig.  a-b). A new round of single-point mutation scanning identified three potential beneficial mutations. Among them, D93Y did not form prominent polar interactions but improved the desolvation of the peptide due to the replacement of the strongly charged aspartic acid with a weakly polar tyrosine (Fig.  c), thereby enhancing ΔΔG. The P89Q mutation established a hydrogen bond network with the main chain of the TEAD β-turn, and its longer glutamine side chain was better embedded within the interface (Fig.  d). The P99R mutation facilitated the formation of a hydrogen bond network involving H427, R99, and K97, thereby stabilizing the protein-peptide complex (Fig.  e). We synthesized three triple-mutant peptides incorporating these mutations and evaluated their binding affinities using SPR assay.
+ Building on computational modelling results, a third series of disruptors (Fig S13-15) was designed and synthesized for validation through SPR assay. The binding affinities of these optimized disruptors showed significant improvement. P85R-P92R-D93Y (YTPD9) and P85R-P92R-P99R (YTPD11) achieved the affinities of 4.18 µM and 4.59 µM respectively (Fig.  f), while P85R-P92R-P98Q (YTPD10) displayed a slightly lower affinity at 8.55 µM (Fig S16). These results indicate that the triple mutants further enhanced the disruptors’ binding affinity to the YAP1-TEAD interface, approximately doubling the affinity of the second series, increasing 5-fold compared to the first-round disruptors, and surpassing WT by over 10-fold (Table  ).
+ 
+
+## Binding modes and dynamic analysis of designed disruptors binding to TEAD
+To investigate the dynamic basis for the enhanced binding of the mutant peptides, we performed systematic MD simulations of the peptide-protein complexes. Firstly, we focused on the stability of the peptide-protein interface. We found that the interface Root Mean Square Deviation(iRMSD) for most systems remained below 3 Å (Fig S17), with the triple mutant demonstrating exceptional stability, exhibiting an iRMSD of approximately 2 Å (Fig.  a-b), indicating that the mutated complex is dynamically stable. Further analysis using Molecular Mechanics Generalized Born Surface Area (MMGBSA) binding free energy calculations revealed that the mutations significantly reduced the binding free energy with TEAD (Fig.  c), with the triple mutant YTPD11 showing the lowest binding energy (Table ). Additionally, free energy decomposition showed that the contributions of the mutation sites were significantly higher compared to the WT (Fig.  d), consistent with the observed increase in SPR binding affinity. The contributions of the triple mutations exhibited a non-linear cumulative effect (Fig.  e), which may be linked to epistasis, a phenomenon often observed in enzyme engineering [ , ]. 
+ 
+
+## Limited effect of YTPD9 and YTPD11 on cell proliferation in OSCC cells
+To evaluate whether the peptide disruptors inhibit OSCC cell proliferation, we assessed YTPD9 and YTPD11’s effect on the viability of SCC25 and HN30 cells treated with varying concentrations. The results showed that while both YTPD9 and YTPD11 demonstrated statistically significant inhibitory effects on cell proliferation compared to the control group, even at a high concentration of 200 µM, the inhibition rate ranged only from 12.47% to 23.82% (Fig S18). Given the high targeting specificity and low off-target effects of peptide-based disruptors, these findings suggest that the primary role of YAP1-TEAD protein interactions in OSCC may not be associated with promoting cell proliferation.
+
+## YTPD9 and YTPD11 inhibit cell migration and invasion of OSCC cells
+To determine whether the peptide disruptors inhibit OSCC cell migration, we firstly analyzed the effect of migration ability by scratch assay on SCC25 and HN30 cells with or without YTPDs. The result of scratch assay indicated that YTPD9 and YTPD11 could inhibit migration ability of both HN30 and SCC25 cells (Fig.  a-b). In SCC25, the relative migration distance was 0.49 ± 0.068 after YTPD11 treatment and 0.60 ± 0.11 after YTPD9 treatment for 24 h. In HN30, both YTPD11 and YTPD9 exhibited slightly variable inhibition, with relative migration distances of 0.66 ± 0.06 and 0.73 ± 0.05, respectively. Statistical analysis using two-way ANOVA confirmed significant differences compared to the control, indicating that both YTPD9 and YTPD11 are effective in suppressing OSCC cell migration.
+ The inhibitory effects of the peptide disruptors on OSCC cell invasion were assessed using transwell assays on HN30 cells. The results showed that both YTPD9 and YTPD11 significantly reduced the invasion ability of HN30 cells (Fig.  c). After normalising the invaded area through the Matrigel and transwell membranes, the relative invasion ability was 0.23 ± 0.17 for YTPD11 and 0.23 ± 0.09 for YTPD9. Two-way ANOVA confirmed statistically significant differences compared to the control group. Additionally, compared to the spindle-shaped morphology of the cells in the control group, the cells treated with YTPD9 and YTPD11 exhibited a round-shaped morphology. These findings suggest that both YTPD9 and YTPD11 effectively suppress OSCC cell invasion and highlight that the primary role of YAP1-TEAD interaction in OSCC may involve promoting cancer cell invasion.
+
+## Discussion
+Bioinformatic analysis of YAP1-TEAD downstream target genes revealed a marked overexpression of multiple transcriptional genes in tumor tissues compared to adjacent normal tissues. Furthermore, the overexpression of these targeted genes correlates with poorer clinical outcomes. This observation aligns with previous studies, which similarly highlighted the clinical relevance of YAP1-TEAD interaction in head and neck cancers [ , ]. Our findings focused specifically on OSCC samples and further highlighted the importance of targeting YAP1-TEAD interactions in OSCC. Therefore, designing effective disruptors could reduce the transcription of these target genes significantly, offering potential therapeutic benefits for treating OSCC.
+After the design and development of YAP1-TEAD peptide disruptors, both the computer-aided simulation and in vitro molecular docking experiments indicated that some YTPDs exhibited 2-fold higher binding affinities to TEADs than wild-type YAP1 significantly. Three key mutations contributing to this enhanced binding were identified and then optimized. After two rounds of optimization, the affinity of 2 potential disruptors (YTPD9 and YTPD11) showed the highest affinities compared to the WT (around 10-fold). These results suggest that YTPDs can compete with YAP1 for TEAD surface binding effectively, demonstrating their potential to inhibit YAP1-TEAD interactions. Notably, these YTPDs consist of natural amino acids, offering several advantages, including reduced synthesis complication and potential immunogenicity [ , ].
+Cell viability assays demonstrated that YTPDs had a limited inhibitory effect on OSCC cell proliferation. Despite statistically significant differences compared to controls, even at a high concentration of 200 µM, the inhibition rates for SCC25 and HN30 cells ranged from only 12.47% to 23.43%. While the poor membrane permeability of peptide disruptors may necessitate higher concentrations, the results still suggest that YAP1-TEAD interactions might play a limited role in promoting cell proliferation in OSCC. The use of these novel disruptors may not be sufficient to inhibit OSCC proliferation at low concentrations. These findings highlight the need to investigate other cellular phenotypes affected by YAP1-TEAD interactions. In future studies, our team plans to further modify the currently designed peptide disruptors by incorporating cell-penetrating peptides (CPPs) or employing nanoparticle (NP)-based delivery systems to enhance their membrane permeability. These strategies aim to facilitate a more accurate evaluation of the intracellular effects of disrupting YAP1-TEAD interactions.
+Scratch and Matrigel-based transwell assays revealed that YAP1-TEAD interactions primarily promote OSCC cell migration and invasion. Inhibition of this interaction significantly reduced the invasive capacity of OSCC cells, corroborating findings from prior studies. The only FDA-approved YAP1-TEAD inhibitor, Verteporfin, has demonstrated cytotoxic effects on head and neck cancer cells [ ], but its off-target activities complicate its use as a specific YAP1-TEAD disruptor [ , , ]. Further studies clarifying Verteporfin’s binding affinity to YAP1 in vitro could better elucidate its complex cellular effects.
+SPR assay demonstrated that the binding affinities of the peptide disruptors were markedly superior to the concentrations used in cellular assays. Even after two rounds of optimization, significant inhibitory effects on cell migration were observed only at 100 µM concentrations, highlighting the limitations of poor membrane permeability in peptide-based therapeutics. To address this, our team aims to identify effective small-molecule lead compounds capable of more efficiently blocking YAP1-TEAD interactions and inhibiting OSCC migration and invasion.
+Given the biological role of YAP1-TEAD in OSCC, we propose that these YAP1-TEAD disruptors could enhance preoperative induction therapy or overcome drug resistance to improving treatment efficacy with other therapeutic agents. Furthermore, the development of precise and off-target-free YAP1-TEAD disruptors could eventually replace Verteporfin as a laboratory tool to investigate the biological consequences of inhibiting this protein interaction in OSCC, which may hold great promise for advancing the understanding of pathogenesis and progression of OSCC.
+This study still has several limitations. The most prominent issue lies in the poor membrane permeability of the peptide-based disruptors. One promising approach to address this is the incorporation of CPPs, which can facilitate intracellular delivery without relying on receptor-mediated entry. Common CPPs are generally classified into three types: cationic, amphipathic, and hydrophobic peptides. Some CPPs carry a net positive charge that interacts electrostatically with negatively charged cell membranes, enabling membrane transduction [ ]. Others rely on endocytosis followed by endosomal escape to avoid lysosomal degradation and deliver the cargo to target sites [ ]. Another alternative strategy involves the use of NP-based delivery systems. NPs improve the stability and solubility of encapsulated drugs, promote transmembrane transport, and extend circulation time. For instance, lipid-based NPs consist of a lipid bilayer surrounding an aqueous core and can encapsulate hydrophilic, hydrophobic, or lipophilic compounds. Polymeric NPs, which is another type of NPs formed with polyethylene glycol (PEG) or polydimethylsiloxane (PDMS), can form nanocapsules or nanospheres. drugs may be localized on the surface, within the core, or throughout the polymer matrix in NPs for precise delivery [ ]. Improving the membrane permeability of peptide disruptors through these strategies will be a key focus of our future research.
+Another limitation of this study is that we did not compare the intracellular effects of YAP1-TEAD interface disruptors with those of inhibitors targeting the TEAD palmitoylation pocket. As discussed in the Introduction part, interface disruptors directly block the binding site between YAP1 and TEAD, while palmitoylation inhibitors modulate TEAD conformation, disrupting its interaction with YAP1 indirectly. In current drug development, these strategies are typically treated as independent approaches, and no studies have systematically compared their effects within the same disease [ – ]. In theory, palmitoylation inhibitors prevent TEAD auto-palmitoylation, which enhances its binding to YAP1 and the activation of downstream target genes [ ]. However, the underlying regulatory mechanisms of auto-palmitoylation remain poorly understood. Therefore, the differences in downstream efficacy, potential for combination therapy, and indication-specific applications between these two classes of inhibitors merit further investigation. Exploring these aspects will be one of the major directions for future work.
+
+## Conclusion
+In summary, we identified YAP1-TEAD and transcriptional target genes with aberrantly high expression in OSCC through bioinformatics analysis of the TCGA database, suggesting that disrupting YAP1-TEAD protein interactions could be an effective therapeutic strategy for OSCC. Building on this foundation, we developed a series of peptide disruptors that directly block YAP1-TEAD interactions, achieving binding affinities two to ten-fold higher than YAP1-TEAD binding. We demonstrated the efficacy of these highly targeted disruptors in OSCC cell lines and confirmed that the primary effect of blocking YAP1-TEAD interactions in OSCC is to suppress cell migration and invasion rather than proliferation. These innovative PPI disruptors not only provide valuable off-target-free tools for studying the mechanisms underlying OSCC progression, but also highlight a promising new therapeutic target for the treatment of oral cancer.
+
+## Supplementary Information
+
+Supplementary Material 1.
+
+## Acknowledgements
+We acknowledge the technology and financial support from Shanghai Ninth People’s Hospital and ShanghaiTech University. Besides, we would like to express our special thanks to Prof. Bai Fang of ShanghaiTech University for her invaluable support in providing the experimental conditions and equipment.
+
+## Abbreviations
+AREGAmphiregulin
+ANOVAAnalysis of variance 
+ANKRD1Ankyrin repeat domain 1
+AURKAAurora kinase A 
+BUB1BUB1 mitotic checkpoint Serine/Threonine-protein kinase 
+CCK8Cell counting kit-8
+CPPCell-penetrating peptides
+c-METCellular-Mesenchymal epithelial transition factor
+CTGFConnective tissue growth factor
+CYR61Cysteine-rich angiogenic inducer 61
+DKK1Dickkopf 1
+DMSODimethyl sulfoxide
+EGFREpidermal growth factor receptor
+ERKExtracellular-signal-regulated kinases
+FBSFetal bovine serum
+FDAFood and Drug Administration 
+FPKMFragments per kilo base per million mapped reads 
+FPKMFragments per kilobase of transcript
+HGFHepatocyte growth factor
+iRMSDInterface RMSD 
+IPTGIsopropyl-β-Dthiogalactoside
+LC-MSLiquid chromatography–mass spectrometry 
+MEKMitogen-activated protein kinase kinase
+MDMolecular dynamics 
+MMGBSAMolecular Mechanics Generalized Born Surface Area 
+NPNanoparticle
+ODOptical density 
+OSCCOral squamous cell carcinomas 
+PBSPhosphate buffered saline
+PI3K/AktPhosphoinositide 3-kinase/ protein kinase B (PI3K/Akt)
+PDMSPolydimethylsiloxane
+PEGPolyethylene glycol
+PPIProtein–protein interaction
+RET-aberrantRearranged during transfection-aberrant
+RUResponse unit
+RP-HPLCReversed phase-high performance liquid chromatography 
+RNA-SeqRNA Sequencing 
+SDStandard deviation
+SPRSurface plasmon resonance
+TEADTEA domain transcription factor
+WTWildtype
+YAP1Yes associated protein 1
+
+## Authors’ contributions
+CPZ and XY: Methodology; Project administration; Supervision; Writing - review & editing.YW and HY: Conceptualization; Formal analysis; Methodology; Writing - original draft.XLZ, LL and CX: Data curation; Investigation; Software.YL, KLW: Formal analysis; Visualization.GYF, WJX: Writing - review & editing.All authors have read and approved the manuscript.
+
+## Funding
+This work was partially supported by National Natural Science Foundation of China (82072980), Research Grants (21015800800) from Science and Technology Commission of Shanghai, Clinical Research Special Project (202040327) from Municipal Health Commission of Shanghai.
+
+## Data availability
+No datasets were generated or analysed during the current study.
+
+## Declarations
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare no competing interests.
+
+## Clinical trial number
+Not applicable.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Yue Wu and Hao Yang contributed equally to this work
+
+## Contributor Information
+Xi Yang, Email: yangxi16@163.com.
+Chenping Zhang, Email: Zhang.chenping@hotmail.com.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Material 1.
+
+## Data Availability Statement
+No datasets were generated or analysed during the current study.

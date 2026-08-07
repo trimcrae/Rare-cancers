@@ -1,0 +1,559 @@
+pmcACS OmegaACS Omega3686acsomegaaoACS Omega2470-1343American Chemical SocietyPMC11656239PMC11656239.111656239116562393971364810.1021/acsomega.4c078431ArticleStructure-Based
+QSAR Modeling of RET Kinase Inhibitors
+from 49 Different 5,6-Fused Bicyclic Heteroaromatic Cores to Patent-Driven
+Validation
+JinSumin KumarSurendra https://orcid.org/0000-0002-2718-5637KimMi-hyun †College
+of Pharmacy, Gachon University, Medical Campus, Pharmacy, Hambakmoero
+191, Yeonsu-gu, Incheon City 21936, Republic of Korea‡Gachon
+Institute of Pharmaceutical Sciences, Hambakmoero 191, Yeonsu-gu, Incheon 21936, Republic
+of Korea*Email: kmh0515@gachon.ac.kr.06122024171220249504773654966249673260820242711202423112024061220242012202419032026© 2024 The Authors. Published by American Chemical Society2024The Authorshttps://creativecommons.org/licenses/by-nc-nd/4.0/Permits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/). 
+RET receptor tyrosine kinase is crucial for nerve and
+tissue development
+but can be an important oncogenic driver. This study focuses on exploring
+the design principles of potent RET inhibitors through molecular docking
+and 3D-QSAR modeling of 5,6-fused bicyclic heteroaromatic derivatives.
+First of all, RET inhibitors of 49 different bicyclic substructures
+were collected from five different data sources and selected through
+molecular docking simulations. QSAR models were built from the 3399
+conformers of 952 RET inhibitors using the partial least-squares method
+and statistically evaluated. The optimal QSAR model exhibited high predictive performance,
+with R2 (of training data) and Q2 (of test data) values of 0.801 and 0.794,
+respectively, effectively predicting known inhibitors. The optimal
+model was doubly verified by patent-filed RET inhibitors as the out-of-set
+data to demonstrate acceptable residual analysis results. Moreover,
+feature importance analysis of the QSAR model outlined the impact
+of substituent characteristics on the inhibitory activity within the
+5,6-fused bicyclic heteroaromatic core structures. Furthermore, the
+relationship between structure and inhibitory activity was successfully
+applied to the RET screening of known clinical and nonclinical kinase
+inhibitors to afford accurate off-target prediction.
+
+Gachon University10.13039/501100002631NAMinistry of Science and ICT, South Korea10.13039/501100014188RS-2024-12345678National Research Foundation of Korea10.13039/5011000037252022R1A2C2091810Ministry of Health and Welfare10.13039/501100003625RS-2024-12345678pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDdocument-id-old-9ao4c07843document-id-new-14ao4c07843ccc-price
+
+## Special Issue
+Published
+as part of ACS Omegaspecial issue “3D Structures in Medicinal Chemistry
+and Chemical Biology”.
+1
+
+## Introduction
+The rearranged during
+transfection (RET) receptor tyrosine kinase
+plays a crucial role in the development of the enteric nervous system
+and genitourinary tissues. Cancer research
+identified RET as an oncogenic driver in nonsmall-cell lung cancer
+(NSCLC), RET alterations exhibit significant
+associations with various malignancies. The activation of downstream pathways such as PI3K/AKT and MAPK,
+which are observed in the RET fusion protein tyrosine kinase, stems
+from ligand-independent homodimerization and autophosphorylation resulting
+from the intrachromosomal rearrangement of RET. Cancers related to RET alterations encompass lung adenocarcinoma,
+colon adenocarcinoma, medullary carcinoma of the thyroid gland, cutaneous
+melanoma, and melanoma; of the various alterations, RET point mutations
+and fusions are prevalent, both of which
+are closely linked to unfavorable prognoses. Notably, the occurrence
+of brain metastasis among RET-altered patients, RET(+) stands at 46%,
+markedly higher than that observed in RET(−) counterparts. Although rare, RET rearrangements delineate a
+distinct subtype of metastatic colorectal cancer characterized by
+poor prognosis under conventional therapies, warranting specialized
+management approaches. Following pivotal
+clinical trials, multikinase inhibitors (MKIs) and selective RET inhibitors
+have received FDA approval for the management of radioiodine-refractory
+differentiated thyroid cancer or metastatic medullary thyroid cancer
+(MTC). Notably, Selpercatinib (also known
+as Retevmo or LOXO-292) has been granted Accelerated Approval by the
+FDA. This approval applies to the use
+of the RET kinase inhibitor in patients with metastatic NSCLC harboring
+RET fusions, as well as those with MTC harboring RET mutations. Recent
+data demonstrate the efficacy of Selpercatinib over standard care
+therapy in cancer types characterized by recurrent RET alterations. 
+Although RET inhibitors ( ) have been continuously reported,
+quantitative structure–activity
+relationship (QSAR) models and other predictive models have not been
+sufficiently studied. To our best knowledge, reported 3D-QSAR models
+for RET kinase inhibitors used a focused data set sharing one common
+core structure (scaffold) such as indolin-2-one or pyrrolo[2,3-d]pyrimidine. However, the ideal design of kinase inhibitors
+necessitates the replacement and variation of both core structures
+and side chains to optimize the synthetic method, drug efficacy, and
+ADMET. Heterocycle substitution, among
+several scaffold hopping strategies, offers a direct means of modifying
+the core structure of a known bioactive compound, which is especially
+beneficial for molecules posing synthetic hurdles. This method entails
+the replacement of carbon atoms with heteroatoms within the core ring
+of drug molecules, with the goal of improving their physicochemical
+properties and pharmacokinetic profile. Moreover, recently reported considerable RET inhibitors commonly
+possess a 5,6-fused bicyclic ring that interacts with the hinge region
+of RET kinase, and it is termed a hinge binder. , Particularly, a 5,6-fused bicyclic ring was more frequently used
+in RET-selective inhibitors than in multikinase inhibitors.
+ Therefore, we believe that researchers involved
+in the discovery
+of kinase inhibitors have a strong need to investigate the sophisticated
+SAR between these 5,6-fused bicyclic derivatives. In other words,
+we are motivated to develop 3D-QSAR models for explaining 5,6-fused
+bicyclic hinge binders, which have increasingly entered nonclinical
+and clinical studies for RET(+) patients. For this purpose, herein,
+we collected RET inhibitors from public databases, classified them
+based on the ring system of their hinge binders, and compiled a comprehensive
+data set of 49 different 5,6-fused bicyclic heteroaromatic rings with
+952 inhibitors as a data set. In this study, we elucidate the subtle
+SAR difference among 5,6-fused bicyclic derivatives through molecular
+docking simulations for the 3D alignment of the data set and 3D-QSAR
+modeling. Furthermore, the evaluation of the best QSAR model is presented
+to provide guidance on the rational design of selective and potent
+RET inhibitors. In particular, RET inhibitors filed in the patent
+were used as an out-of-set third data, which never include either
+training or test data. In parallel, the RET model was applied for
+RET screening as an off-target prediction of known kinase inhibitors.
+The workflow of this study is illustrated in .
+ 
+2
+
+## Materials and Methods
+2.1
+
+## Data Collection and Preparation
+Information
+on RET kinase inhibitor activity was retrieved from the ChEMBL (version
+33), BindingDB, and Excape databases. Information from
+4763 RET inhibitor patents and other sources was compiled and curated
+using the KNIME workflow. All of the preprocessing steps, such as
+target selection and bioactivity transformation, were performed using
+the KNIME analytical platform. , The selection criteria
+included the target protein, assay details, and activity value type.
+The evaluation of activity data within the target category, conducted
+using wild-type, noncell-based assays, employed specific criteria
+to focus on data points related to target proteins, such as Kinesin-1
+heavy chain/tyrosine-protein kinase receptor RET, proto-oncogene tyrosine-protein
+kinase receptor RET, and tyrosine-protein kinase receptor RET, where
+inhibitory concentration (IC50) values were measured in nanomolar
+(nM) units. Compounds with activity annotations featuring blank fields
+or values containing “<” or “>”
+were
+excluded. In order to standardize the data and facilitate analysis,
+IC50 values were converted into their negative logarithmic form using
+the formula pIC50 = 9 – log(IC50).
+
+2.2
+
+## Molecular Docking Simulations
+Every
+ligand for molecular docking simulations was prepared using the Ligprep
+package from Schrödinger. 2D-to-3D
+conversion includes options for neutralizing compounds under the pH
+range of 7 ∓ 2 and not generating
+tautomers. The resulting structures of the 4763 compounds were docked
+to the RET protein. The crystal structure of the RET complex with
+inhibitors is available in the Protein Data Bank (PDB ID: 7DUA), and it was arranged via protein preparation (at pH 7 and
+the OPLS3e force field) in the Schrodinger Suite 2019-1. The protein preparation involves the process
+of adding hydrogen atoms (PROPKA) and removing unnecessary chains
+and water molecules, and an OPLS3e force field was applied to minimize
+the protein structure. − The protein molecule underwent a controlled minimization
+process to refine its geometry, achieving an RMSD of 0.3 Å. The
+grid was positioned at the core of the workspace ligand. The partial charge cutoff was set to 0.25, the
+van der Waals radius scaling factor was set to 1.0, and the docking
+box of size 20 Å × 20 Å × 20 Å was defined
+around the centroid of the ligand. Two spherical areas for the predicted
+binding site were determined through hydrogen-bonding interactions:
+(1) the oxygen of the carbonyl group of GLU805 as the H-bond donor
+and (2) the hydrogen of the amine group of ALA807 as the H-bond acceptor. , Using Maestro’s default docking settings, Glide was used
+for docking with default values of partial charge cutoff and van der
+Waal’s radius scaling factor of 0.15 and 0.8, respectively. Ligand docking was run in the standard precision
+mode matching all of the grid constraints set previously, and the
+maximum number of poses per ligand was set to five. The docking model
+was validated by the RMSD calculation (0.0162 Å) between the
+X-ray ligand and the redocked ligand and their pose comparison.
+
+2.3
+
+## Substructure-Based Data-Set Selection
+The method for selecting the data set involved the similarity analysis
+of docking poses based on the literature. The docking pose that formed hydrogen bonds with the hinge residue
+ALA807 or GLU805 was selected. A list of 49 substructure filters involving
+fused bicyclic heteroaromatic rings, including pyrrole, pyrazole,
+pyrimidine, pyridine, and indazole, − was applied to remove
+molecules likely to be nonreactive.
+
+2.4
+
+## Developing 3D-QSAR Models
+For QSAR
+modeling, PHASE implemented in Maestro
+11.9 was used. While receptor-guided
+alignment of data sets is commonly employed in 3D-QSAR modeling,
+PHASE is specifically designed for pharmacophore-based 3D-QSAR modeling. Considerable QSAR studies using PHASE reported
+the general method consisting of (1) conformer generation with a reasonable
+number of conformers within available computing resources, (2) building
+pharmacophore hypothesis with different feature sets and number of
+points, (3) selection of the best pharmacophore model using scoring
+functions, and then (4) final building of the 3D-QSAR model using
+the best pharmacophore model. However,
+the large and heterogeneous data set in this study prevented implementation
+of the above-mentioned typical process, mainly owing to (1) constraints
+in conformer ensemble utilization with a large enough number of conformers
+(e.g., more than 952 inhibitors × 100 conformers) and (2) molecular
+superimposition inconsistencies, which arise either between substituents
+when bicyclic cores are fixed or between cores when substitution positions
+are fixed. Therefore, receptor-guided alignment was
+performed for building QSAR models using docking poses. Using the
+alignment from the best docking poses, various models were generated
+by varying the grid spacing (1.0, 1.5, and 2.0 Å), partial least-squares
+(PLS) factors (up to 10), and different data splitting methods, such
+as LMO (leave many out) or LOO (leave one out). The prepared data
+set was randomly divided into a training set and a test set at a 9:1
+ratio. The PLS method was used for creating the QSAR model. For model
+generation, the |t-value| was set below 2.0, and
+the grid spacing was 1.0 Å. Model validation was conducted using
+10-fold cross-validation (10-CV), in which 306 compounds were excluded
+from the training set. The models were selected based on the criteria
+of low root-mean-square error (RMSE) and standard deviation (SD) values;
+RMSE below 0.8 and SD 0.7.
+
+2.5
+
+## Out-of-Set Validation of the Optimal QSAR
+Model
+The out-of-set molecules consisted of 190 inhibitors
+and inhibitory activity (IC50) against wild-type RET kinase, which
+were collected from the patent (US 10,807,986 B2). In Maestro, 2D
+ligands are neutralized and converted into 3D structures through ligand
+preparation without considering tautomerism. Ligand docking was performed
+using the extraprecision mode without constraints, generating multiple
+docking poses for each molecule. Activity was predicted using QSAR,
+and the results were selected based on docking poses and the residual
+difference between the experimental activity and prediction.
+
+2.6
+
+## Application of the Predictive QSAR Model into
+Virtual Screening
+The criteria used for filtering the kinase
+inhibitors, excluding RET inhibitors, were based on characteristics
+such as SlogP, TPSA, and molecular weight ( ). Public databases including PKIDB and MRC were used
+as screening libraries. Physicochemical data for the molecules used
+in 3D-QSAR modeling were prevalidated using the KNIME workflow and
+subsequently employed for filtering purposes. A total of 459 compounds
+could be docked against the RET protein following the same configuration
+as described in . The 3D-QSAR model was then used as a three-dimensional query
+to distinguish the hits with the highest predicted RET inhibitory
+activity. Two methods were employed to select the top 30 data sets
+including the structure information, docking score, actual activity
+(pIC50), and predicted activity (pIC50) most closely resembling a
+reference molecule based on their interactions. First, a specific
+cutoff for the predicted activity was applied, followed by an evaluation
+of the interaction between docking poses and the target protein. Second,
+prioritization was based on rankings derived from the docking scores
+and predicted activity values.
+ 
+
+3
+
+## Results
+3.1
+
+## Activity Prediction of a Broad Range of 5,6-Fused
+Heteroaromatic Compounds
+As mentioned in the histories of
+RET inhibitors above, the selectivity between RET and other receptor
+tyrosine kinases is important for clinical development, especially
+in terms of drug resistance. However, to our best knowledge, there
+are no reports providing the design logic for discriminating between
+MKIs and RET-selective inhibitors along with predicted potency. In
+this situation, the features of the RET-selective inhibitors can be
+a good clue to predict them. Notably, 5,6-fused heteroaromatic rings
+are frequently observed in both selective RET inhibitors and recently
+reported patents. Therefore, we expected that QSAR modeling with these
+compounds containing 5,6-fused heteroaromatic cores could come closer
+to the drug design logic (for selectivity and potency). When we collected
+RET inhibitors with enzymatic IC50 values from five different data
+sources ( ),
+a considerable number of compounds out of the 4763 inhibitors featured
+5,6-fused heteroaromatic rings in the substructure analysis using
+the KNIME workflow. Furthermore, while typical QSAR models use around
+100 data sets with pIC50 values in the range of about 3 (1000-fold
+gap between the best and worst data), we could acquire a data set
+that is ten times larger and has an activity range a thousand times
+wider than them (size: 4763; IC50: <10 mM to >0.1 nM; pIC50
+range:
+>6) as shown in the distribution of RET inhibitory activities as
+pIC50
+values ( ).
+ In sequence, we could generate 3D conformations of the 5,6-fused heteroaromatic compounds and
+conduct their
+molecular docking simulations. The docking
+poses resulting from the simulations are approximate to bioactive
+conformation and also provide the superimposition (3D alignment) of
+the data set. After substructure filtering
+of the aligned conformers was conducted through the docking simulations,
+49 different 5,6-fused bicyclic heteroaromatic rings as substructures
+could be observed in the RET inhibitors (Supporting Information). Hierarchical clustering presented structural
+relevance between these 49 substructures, and 10 representative structures were chosen as centroids from the
+49 substructures ( ). The substructure filtering process resulted in 952 ligands
+remaining, corresponding to the 3399 poses identified for the docking
+simulation. A total of 3399 pairs of structures and pIC50 values were
+selected and used to construct the 3D-QSAR model. The finalized data
+set of 3399 conformers was randomly divided into the training set
+and test set at a 9:1 ratio. Then, the training set was fitted to
+a partial linear square (PLS) regression equation, which was generated
+based on the interaction features determined by the distance from
+each atom of the data set. The test set validated each PLS model.
+ The top five models were selected based on the
+statistical metrics,
+particularly RMSE, which means the deviation between the actual and
+predicted pIC50 values ( ). In other words, the RMSE denotes the root-mean-square error
+between the actual and predicted activities within a used data set
+and has the same unit with an SD of actual pIC50 values. The optimal
+model presented an RMSE of 0.670 (log nM), an R2 of 0.801, and a correlation coefficient of 0.891 between
+the experimental and predicted pIC50. Hydrophobicity (H) is the most
+contributing feature in every model, followed by the electronic (E)
+feature and the hydrogen-bonding donor (D) feature in that order.
+ 
+3.2
+
+## Evaluation of the Optimal QSAR Model
+This accurate result also encouraged us to characterize individual
+molecules in the out-of-set data. We selected the three most active
+and three most inactive molecules ( ). Very fortunately, the prediction of the
+subnanomolar (pIC50 < 9) active compounds was highly precise up
+to 0.03 pIC50 gap, demonstrating this model's capability for
+picomolar
+prediction. Similarly, millimolar activity (pIC50 close to 3–4)
+was also precisely predicted to demonstrate the predictable potency
+scope of the model. The reliable RMSE and R2 encourage us to further evaluate the optimal model. Thus, we needed
+another out-of-set (third data set), neither training nor test data.
+For this purpose, we recruited the primary patent of TAS/HM06, a clinical
+phase II drug (US 10,807,986 B2). When we conducted docking simulations,
+30 inhibitors out of 170 patent compounds satisfied the reliable docking
+poses with hydrogen bonding to ALA807 of the RET hinge region. The
+pIC50 values of the inhibitors were predicted using the optimal QSAR
+model to evaluate the practical utility of the model (see also the
+values in the Supporting Information).
+Clearly, their inhibitory activities presented a reasonable difference
+between actual and predicted activity values in the scatter plot of .
+ Moreover, we conducted residual analysis using the
+experimental
+and predicted values as shown in the following equation: 
+In general, even if a high correlation
+along with a high accuracy
+(high R2) is observed between the predicted
+and actual values, it is difficult to trust the prediction results
+if the residuals follow any patterns. The analyzed residuals of did not show any
+pattern of consistent increase or decrease for every data point, thereby
+proving their reliability. Furthermore, the residual plot demonstrated
+rare outliers beyond the cutoff range (−2.0 ∼ +2.0)
+of acceptable prediction. 
+ 
+3.3
+
+## Feature Analysis and 3D Visualization of RET–Inhibitor
+Interaction
+In machine learning-based prediction models,
+model interpretation, which explains how well the predictions are
+performed, is just as important as prediction accuracy. For this purpose,
+it is crucial to explain the important features involved in making
+predictions in a way that is understandable to researchers. Therefore,
+we tried to analyze the 3D molecular interaction features through
+the visualization of three representative inhibitors chosen from both
+the active (pIC50 < 9) and inactive (pIC50 close to 3–4)
+groups in .
+The feature distinctions between active and inactive compounds were
+analyzed using contour maps (a form of a 3D feature map) of the optimal
+QSAR model. The unit of the contour maps is a cube (1 Å3), which indicates whether the space is favorable or unfavorable
+areas for respective features such as H-bond acceptors and donors,
+hydrophobic groups, and electron-withdrawing (EW) elements.
+ First of all, the critical hydrogen bond of RET inhibitors
+with
+the hinge region (Glu805 and Ala807) was perfectly matched between
+the 3D location of the H-donor feature with a positive coefficient
+(blue box) and the docking pose of the most potent compound ( a). Even if both
+the most potent and the least potent compounds commonly have hydrogen
+bonds (H-bond), the H-donor feature discriminated between their subtle
+locations, leading to a mismatch between the H-donor feature and the
+H-bond in the least potent compound ( b). Meanwhile, the difference in the H-donor
+feature was transformed into the design logic. The presence of a H-donor
+at the C4 position, such as an amino group, which forms a H-bond with
+Glu805, is critical for the design. The presence of the H-donor feature,
+highlighted by an amino group at the C4 position, characterized the
+active molecules (molecules 591, 377, and 371). Despite the presence
+of aromatic amino groups in the inactive compound (44, 46, and 83), they did not align with
+the H-donor feature at the same location ( b). Moreover, the H-donor feature with a
+negative coefficient (red box) was near the aromatic amino group.
+This subtle difference in the location of the H-donor suggests a conducive
+principle in the design of highly active RET inhibitors. In feature
+analysis, the functional group at the C3 position was another important
+feature to discriminate between active and inactive compounds. There are
+several H-donor cubes near the C3 position. Notably, the N-substituted
+amide group at the C3 position in the active molecules was surrounded
+by several blue boxes of the positive coefficient ( a).
+ Second, we analyzed the 3D location of the hydrophobic
+feature,
+which is the most contributing feature in the QSAR model. As is well-known
+in data science, contour map visualization relies on coefficients,
+depicting how features affect activity in the QSAR model. In other
+words, the chosen coefficient cutoff determines which cube boxes are
+visualized on a contour map. Surely, the hydrophobic feature cube
+boxes were more dispersed than those of the H-donor. As shown in , numerous cube boxes
+are present at the same coefficient level in the contour map for the
+hydrophobic feature. The clustered hydrophobic favored boxes (green
+boxes) led us to assign them as N1, C2, C3, and C4 substituents. The
+alkynyl group at the C2 position and the N-alkyl
+group at the N1 position matched well with the location of hydrophobic
+boxes ( a).
+This implies that the incorporation of a hydrophobic group at the
+N1 and C2 positions is recommended in the RET inhibitor design. Clearly,
+while the most inactive molecules lacked substituents to the N1 or
+C2 positions ( b), the most potent RET inhibitors have isopropyl (molecules 591
+and 371) or 1-methylcyclopropyl (molecule 377) along with the alkynyl
+group at the C2 position ( a). Additionally, incorporating an amino group at the
+C4 position is recommended for highly potent RET inhibitors in terms
+of hydrophobic feature (negative coefficient) as well as the above
+H-donor (positive coefficient). Meanwhile, the C3 position was occupied
+by a mix of green and purple boxes more than any other position in . In other words,
+the C3 position tended to favor hydrophilic substituents in some specific
+locations. However, although both the active and inactive molecules
+commonly possessed a hydrophilic group at the β-position of
+C3 carbon, there was a clear difference in how the 3D location was
+occupied by rigid amides (of active molecules) and rotatable aromatic
+amines (of inactive molecules) respectively.
+ Finally, the 3D location of the EW feature was
+analyzed. Rather
+than those of other features, the EW location was more shared between
+active and inactive molecules ( ). Particularly, considerable green cube
+boxes were commonly occupied by both the active and inactive molecules.
+It indicates that the EW feature in the hinge binder region has a
+weak ability to discriminate the RET inhibitory activity. Meanwhile,
+C2 and C3 positions presented different aspects. When we integrate
+every feature, any small substituent or functional group can possess
+EW and hydrophilic features. Therefore, we derived another design
+logic from the feature analysis: the introduction of a hydrophilic
+substituent that attracts electrons at the C3 position becomes necessary
+when these two distinct features are considered together.
+ 
+
+4
+
+## Discussion
+4.1
+
+## 3D-QSAR Model for RET Inhibitors Elucidates
+the Interaction Mechanisms and Logic of Drug Design in the Out-of-Set
+Data
+In general, an ideal QSAR model corresponds to the noncovalent
+bonding interactions within the respective ligand-target docking complex.
+This means that the features in QSAR and the interactions observed
+in the docking complex are closely aligned with each other. Therefore,
+we also tried to match the RET docking poses with our optimal QSAR
+model. For this purpose, we examined docking poses of patent-filed
+RET inhibitors as out-of-set. The docking poses of both the outlier
+and normal groups commonly exhibited proximity to the hinge region
+(ALA807) and the nearby ligand–protein interactions. The reverse
+orientation of the core structure (5,6-fused bicyclic heteroaromatic
+ring) in compounds 104 and 133 (outlier group) compared to compounds
+14 and 106 (normal group) significantly influenced the positioning
+of substituents at C2, C3, C4, and N1 ( ).
+ Therefore, 3D-QSAR models, which rely on the alignment
+of the inhibitors
+from docking results, can explain the conflicting behaviors of QSAR
+feature cubes surrounding active and inactive compounds despite identical
+substituents. While key interactions with ALA807 at the hinge are
+common in both groups, our optimal QSAR model accounts for the variation
+in residual size between the experimental and predicted activities.
+This variance is primarily due to structural differences, particularly
+the introduction of substituents at the C2 position in the outlier
+group ( ).
+For instance, in the contour map of compound 104, the alkynyl group
+was matched with the negative EWG feature (electron donating) and
+the hydroxyl group was well matched with the positive EWG features.
+In addition to the structural disparities at the C2 position, substituents
+can be compared. Notably, the presence of an isopropyl group at N1
+in compound 104 was regarded as unfavorable (depicted by the negative
+hydrophobic), in contrast to its favorable depiction in compound 14
+( ).
+ The overall view in simplifies the SAR for designing RET inhibitors
+based
+on the comparative analysis of every contour map. The N-substituted
+amide at the C3 position was commonly observed in active compounds,
+and hence we named the C3 substituent as a linker, such as reported in another study. 
+ 
+4.2
+
+## The QSAR Model Applied to the Off-Target Screening
+of Clinical and Nonclinical Kinase Inhibitors
+The reliable
+evaluation and interpretation of the optimal QSAR model encouraged
+us to apply the QSAR model to an off-target screening for RET alteration
+in known clinical and nonclinical kinase inhibitors. Among 633 drug
+candidates collected from PKIDB and MRC, 459 kinase inhibitors were docked to RET kinase
+to produce 3D conformation for QSAR prediction. After achieving both
+docking scores and predicted pIC50 values, the top 30 inhibitors were
+selected under two different ranking methods. The first method involved
+assigning ranks to the docking scores and the predicted pIC50 values
+separately, with the top 30 selected based on the lowest sum of these
+ranks. The second method used the cutoff (>7.5) of the predicted
+pIC50
+along with the evaluation of the interaction between docking poses
+and the target protein.
+Surprisingly, seven compounds in the
+chosen top 30 list were acknowledged for their inhibitory efficacy
+against RET in the literature ( ). In the first announced patent, Edralbrutinib, Evobrutinib,
+and Pirtobrutinib are patented as BTK inhibitors; Sapanisertib functions as an mTOR inhibitor; Abivertinib serves as an EGFR inhibitor; Atinvicitinib acts as a JAK inhibitor; and Laduviglusib (also known as CHIR-99021)
+is an inhibitor of GSK3β signaling. Despite the absence of a core structure commonly found in active
+molecules, according to the QSAR model, the molecule contained an
+imidazole moiety. In the docking pose, the imidazole group was positioned
+in proximity to GLU805 and ALA807, forming a hydrogen bond, as evidenced
+by the light-blue cubes near the nitrogen atom in the imidazole ring,
+indicating the presence of a favorable hydrogen-bond donor feature.
+The predicted value can also be rationalized by the QSAR cubes near
+other substituents, such as amino and cyano groups. The presence of
+an amino group, including N24 in Laduviglusib, is favorable, as indicated
+by the light-blue cube representing hydrogen-bond donor features.
+Furthermore, the addition of a cyano group to the pyridine ring improved
+activity because of its EW features, as shown by the pale-red cube
+in the QSAR model.
+ 
+
+5
+
+## Conclusions
+In conclusion, the primary
+objective of this study was to examine
+the relationship between ligand structures and inhibitory activity
+using 3D-QSAR modeling. The optimal 3D-QSAR model was developed using
+RET kinase inhibitors with 49 different substructures to demonstrate
+a high predictive performance (R2 value
+of 0.801 and Q2 value of 0.794). Furthermore,
+the out-of-set validation using patent molecules indicated the practical
+ability to detect active molecules. Moreover, the 3D spatial feature
+analysis highlighted the characteristic substituent patterns of the
+5,6-fused bicyclic heteroaromatic core structures. Finally, the model
+was applied to screen kinase inhibitors to evaluate their potential
+applications. Future work will extend this study by validating outcomes
+through experimental studies and assessing the drug developability
+of the identified compounds.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acsomega.4c07843.Clarified data sets for collection, training, validation,
+and screening (PDF)
+
+## Supplementary Material
+ao4c07843_si_001.pdf
+
+## Author Contributions
+M.K. conceived
+and designed the study. Under M.K.’s plan, S.J. and S.K. investigated
+diverse molecular featurization and S.J. fully conducted data collection
+and manipulation and built the QSAR model with validation. M.K. and
+S.K. analyzed every data and verified the results. M.K. and S.J. wrote
+the manuscript and revised it. M.K. provided the molecular modeling
+lab facility. All authors read and approved the final manuscript.
+The authors
+declare no competing financial interest.
+
+## Acknowledgments
+This study was supported by the Basic Science Research Program
+of the National Research Foundation of Korea (NRF) funded by the Ministry
+of Education, Science, and Technology (No. 2022R1A2C2091810). This
+research was also supported by a grant of the Korea Machine Learning
+Ledger Orchestration for Drug Discovery Project (K-MELLODDY), funded
+by the Ministry of Health & Welfare and Ministry of Science and
+ICT, Republic of Korea (No.: RS-2024-12345678). S.J. appreciates Gachon
+University’s Scholarship Program.

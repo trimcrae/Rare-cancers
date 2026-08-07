@@ -1,0 +1,127 @@
+1579scirepScientific ReportsSci RepNature Publishing GroupPMC1177986911779869117798693988114910.1038/s41598-025-88044-xComparative study of degree, neighborhood and reverse degree based indices for drugs used in lung cancer treatment through QSPR analysis
+ArockiarajMicheal Jeni GodlinJ J RadhaS AzizTariq Al-harbiMitub 1Department of Mathematics, Loyola College, Chennai, 600034 India 2School of Advanced Sciences, Vellore Institute of Technology, Chennai, 600127 India 3Laboratory of Animal Health Food Hygiene and Quality, University of Ioannina, Arta, 47132 Greece 4Department of Pharmacology and Toxicology, College of Pharmacy, King Saud University, 11461 Riyadh, Saudi Arabia ✉Corresponding author.
+291202515363936393012025© The Author(s) 2025Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+Quantitative structure-property relationship (QSPR) modeling has emerged as a pivotal tool in the field of medicinal chemistry and drug design, offering a predictive framework for understanding the correlation between chemical structure and physicochemical properties. Topological indices are mathematical descriptors derived from the molecular graphs that capture structural features and connectivity, playing a crucial role in QSPR analysis by quantitatively relating chemical structures to their physicochemical properties and biological activities. Lung cancer is characterized by its aggressive nature and late-stage diagnosis, often limiting treatment options and significantly impacting patient survival rates. This study focuses on the selection of drugs used to treat lung cancer, including dacomitinib, selpercatinib, tepotinib, trametinib, sotorasib, etoposide, alectinib, paclitaxel, dabrafenib, entrectinib, crizotinib, ceritinib, lorlatinib, afatinib, pralsetinib, brigatinib, erlotinib, adagrasib, gefitinib, vinorelbine, gemcitabine, docetaxel, and pemetrexed. Using molecular structural measures such as degree, neighborhood degree sum, and modified reverse degree, we have developed QSPR models to predict physicochemical properties through the topological indices derived from these structural measures. We then conducted a comparative analysis, incorporating correlation analysis, to identify the model with the highest predictive accuracy.
+Keywords: Edge partitions, Topological indices, QSPR models, Cancer drug structures
+
+Subject terms: Drug discovery, Chemistry, Mathematics and computing
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Nov 21; Accepted 2025 Jan 23; Collection date 2025.
+
+## Introduction
+Cancer encompasses a broad category of diseases that can originate in nearly any organ or tissue within the body. It occurs when abnormal cells proliferate uncontrollably, extend beyond their normal boundaries to invade nearby tissues, and may spread to other parts of the body. Lung cancer develops in the tissues of the lungs, typically in the cells lining the air passages. The primary cause of lung cancer is tobacco use, including pipes, cigars, and cigarettes, although it can also affect non-smokers. Additional risk factors include prior chronic lung disorders, air pollution, hereditary cancer syndromes, and exposure to secondhand smoke. Lung cancer is the leading cause of cancer-related deaths globally, resulting in the highest mortality rates among men and women. Early detection and treatment are crucial for improving outcomes and survival rates. If not treated at an early stage, lung cancer can progress to an advanced stage, becoming more challenging to treat and potentially spreading to other parts of the body, significantly reducing the chances of survival .
+The two broad categories for lung cancer are small cell lung cancer (SCLC) and non-small cell lung cancer (NSCLC) . Approximately 85% of all occurrences of lung cancer are NSCLC, which is mostly detected at an advanced stage, reducing the number of viable treatment options and the chance of survival . A fatal malignancy that makes up 15% of lung cancer cases is SCLC. This type of lung cancer tends to grow and spread faster than NSCLC. In majority of the patients with SCLC, the cancer has already spread beyond the lungs at the time it is diagnosed. Frequent screenings can help detect early-stage lung cancer and improve treatment outcomes for high-risk individuals, such as chronic smokers . Additionally, reducing exposure to environmental carcinogens, such as radon and asbestos, can further decrease the risk.
+Lung cancer mortality rates are at an all-time high, making it crucial to address this issue by developing and increasing the availability of more effective treatments. This study examines various anti-cancer medications used to treat NSCLC and SCLC types of lung cancer. NSCLC is characterized by several key genetic mutations and alterations, each of which plays a role in cancer progression. These mutations and alterations include anaplastic lymphoma kinase (ALK), B-Raf proto-oncogene (BRAF), epidermal growth factor receptor (EGFR), rearranged during transfection (RET) fusion, mesenchymal epithelial transition (MET), Kirsten rat sarcoma viral oncogene homologue G12C (KRAS G12C), and c-ros oncogene 1 (ROS1) fusion. ALK is treated with drugs such as alectinib, ceritinib, lorlatinib, and brigatinib , . BRAF is treated with drugs such as dabrafenib and trametinib . EGFR is treated with drugs such as dacomitinib, afatinib, gefitinib, and erlotinib – . RET fusion is treated with drugs such as selpercatinib and pralsetinib . MET is treated with drugs such as tepotinib and crizotinib . KRAS G12C is treated with drugs such as sotorasib and adagrasib , . ROS1 fusion is treated with the drug entrectinib . Paclitaxel, gemcitabine, vinorelbine, docetaxel, and pemetrexed are also used in the treatment of non-small cell lung cancer, but these drugs do not target specific mutations or alterations – . Etoposide is used in the treatment of small cell lung cancer . These drugs specifically target certain types of lung cancer, benefiting patients by improving outcomes and thereby lowering the mortality rate.
+Topological indices are numerical values derived from the structure of a molecule or network. In medicinal chemistry, these indices assist in predicting the biological activity of compounds, facilitating drug discovery. In network analysis, topological indices quantify structural properties of graphs, such as connectivity, centrality, and clustering. They are essential for applications like social networks, transportation systems, and biological networks, enabling a better understanding of interactions and system optimization. These indices are widely used in cheminformatics, drug design, and molecular modeling to predict and optimize various chemical properties – . Topological indices are cost-effective in drug design, as they enable the rapid screening and evaluation of large compound libraries without the need for expensive, time-consuming laboratory experiments. By predicting the biological activity and properties of compounds through computational models, researchers can focus on the most promising candidates, thus reducing overall development costs.
+QSPR is the process of developing and validating quantitative models that relate the topological structure of chemical compounds to its physicochemical properties or biological activities through mathematical, statistical or machine learning techniques – . By correlating structural features described by molecular descriptors like topological indices or geometric parameters with observed properties, QSPR enables the prediction of these properties for new or untested molecules. QSPR is widely used in drug discovery, material science, and environmental chemistry to optimize compounds and reduce the need for costly and time-consuming experimental measurements – .
+Topological descriptors are crucial in QSPR models because they quantitatively capture the structural features of a molecule, allowing for accurate prediction of its properties. These descriptors, derived from the molecular graph, provide a compact and informative representation. Topological indices can be broadly categorized into several types, including distance-based indices, degree-based indices, and others. Degree-based topological descriptors, such as degree-based indices, neighborhood degree sum-based indices, and modified reverse degree-based indices, are crucial in chemistry as they provide insights into molecular connectivity and structure, which are essential for understanding chemical reactivity, stability, and predicting various properties , – . Many QSPR analyses have been conducted recently utilising medications used to treat a variety of illnesses, including cancer – , heart disease , infertility , malaria and HIV by which they were able to bring out many best models for predicting the physico chemical properties of the drugs. Advances in these researches can lead to therapies that are more targeted, less toxic, and tailored to the genetic profile of individual illnesses. Developing new medicines offers hope for improving survival rates and quality of life for patients battling these complex and diverse diseases. In particular, in , QSPR analyses were performed using topological indices via co-index polynomials for 10 lung cancer drugs. Since certain physical attributes can be related with topological structural properties and certain attributes cannot be related, we have chosen physical attributes like molecular weight, heavy atom count, complexity, boiling point, enthalpy of vaporization, molar refractivity, polarizability and molar volume which are closely related with topological structural properties like degree, neighborhood degree sum and modified reverse degree. We then conduct a comparative study by calculating the degree-based, neighborhood degree sum-based, and modified reverse degree-based topological indices of twenty-three lung cancer drugs through QSPR analysis. The indices that we have considered for the QSPR analysis play a vital role in drug discovery , , .
+
+## Computation of degree types topological indices
+Let G denote the hydrogen-suppressed molecular graph representation of lung cancer drug structures. Let V(G) and E(G) denote the vertex set and edge set of the graph G respectively. The number of vertices in a molecular graph G that are precisely one unit distance away from vertex is known as the degree of that vertex, and is denoted as . The neighborhood degree sum of refers to the sum of the degrees of all vertices that are adjacent to that vertex and is denoted as . The modified reverse degree of with variable parameter k (where ) is defined as
+1 where is the maximum degree of G. Let = , = , and , where E(G) is the edge set of G. Let , , and .
+The conversion of the values of degree, neighborhood degree sum and modified reverse degree into topological indices is done using the index function in the following manner:
+2 3 4 where we use for the following indices.
+ (Atom bond connectivity)
+ (Redefined Zagreb-1)
+ (Randić)
+ (Geometric)
+ (Harmonic)
+  (Symmetric division)
+ (Shilpa-Shanmukha)
+  (Geometric-Bi Zagreb)
+ (Tri Zagreb-Harmonic)
+ (Geometric-Arithmetic)
+In this paper, we focus on lung cancer drugs such as dacomitinib, selpercatinib, tepotinib, trametinib, sotorasib, etoposide, alectinib, paclitaxel, dabrafenib, entrectinib, crizotinib, ceritinib, lorlatinib, afatinib, pralsetinib, brigatinib, erlotinib, adagrasib, gefitinib, vinorelbine, gemcitabine, docetaxel, and pemetrexed. The molecular structures of these drugs are displayed in Fig. , and their degree-based edge partitions are listed in Table . The degree based indices discussed above are calculated using Eq. ( ) and SAGE software for twenty three lung cancer drugs which are tabulated in Table . We now explain the computation of degree-based indices for the ABC index through edge partitions in Table by considering gemcitabine ( ) as the reference structure.
+ To compute the neighborhood degree sum-based indices, we considered all the neighborhood degree sum classes of graphs and combined them into a single set 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ . The cardinalities of these classes for the graphs are provided in the order stated below.
+ = {0,1,0,0,1,2,0,0,2,6,0,1,0, 0,0,2,6,2,0,0,0,4,5,1,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0}
+ = {0,2,0,0,0,0,0,0,0,3,1,1,0, 0,0,5,7,6,0,0,0,3,7,2,0,0,0,1,3,2,0,0,0,1,0,0,0,0,0,0,0}
+ = {0,1,0,0,1,1,0,0,0,4,1,0,0, 0,0,8,9,5,0,0,0,3,6,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0}
+ = {0,0,0,2,1,1,5,0,0,2,1,0,0, 0,0,3,2,4,0,0,0,3,3,1,0,0,0,2,1,7,0,0,0,1,0,2,0,0,0,0,0}
+ = {0,1,0,0,2,7,0,0,0,4,1,0,0, 0,0,1,3,1,3,0,0,3,2,6,4,0,0,0,0,0,0,0,3,3,0,1,0,0,0,0,0}
+ = {0,2,0,0,1,1,3,0,0,2,0,2,0, 0,0,3,2,3,1,0,0,0,9,4,1,0,0,5,2,1,0,0,3,2,0,1,0,0,0,0,0}
+ = {0,2,0,0,0,0,1,0,2,2,1,1,2, 0,0,3,1,6,1,0,0,1,3,2,2,0,0,1,4,1,0,0,0,4,0,1,0,0,0,0,0}
+ = {0,0,0,2,0,5,3,1,6,6,0,1,0, 2,2,0,1,6,1,0,0,4,5,3,1,1,0,2,2,0,4,0,1,0,3,0,3,1,0,2,0}
+ = {0,0,0,0,1,2,1,0,0,6,3,2,0, 0,0,1,3,2,1,0,0,0,1,5,0,2,0,3,2,0,1,0,2,0,0,0,0,0,0,0,0}
+ = {0,0,0,0,3,1,0,0,2,2,0,0,0,0,0,7,5,8,1,0,0,6,5,2,0,0,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0}
+ = {0,0,0,0,0,4,1,0,2,2,0,0,0,0,0,3,3,5,0,0,0,1,7,0,2,0,0,2,0,1,0,0,0,0,0,0,0,0,0,0,0}
+ = {0,0,0,2,0,4,0,0,3,4,1,0,2,0,0,1,2,3,0,1,0,3,8,3,0,0,0,1,1,1,0,0,0,1,0,0,0,0,0,0,0}
+ = {0,1,0,0,1,4,1,0,0,0,0,0,1,0,0,3,2,1,1,0,0,3,7,3,0,0,0,0,1,2,0,0,1,1,0,0,0,0,0,0,0}
+ = {0,0,0,2,1,2,0,0,1,7,0,0,0,0,0,2,5,2,0,0,0,5,6,1,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0}
+ = {0,0,1,0,3,1,1,0,0,0,0,0,0,0,0,6,7,8,0,1,0,6,4,0,2,0,0,2,0,1,0,0,0,0,0,0,0,0,0,0,0}
+ = {0,1,0,0,1,1,0,0,1,2,3,1,0,0,0,8,2,9,0,1,0,2,7,0,1,0,0,3,0,1,0,0,0,0,0,0,0,0,0,0,0}
+ = {2,1,0,2,0,0,0,0,2,6,1,0,0,0,0,0,2,4,0,0,0,3,4,1,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0}
+ = {1,0,0,0, 3,2,1,0,0,6,0,0,0,0,0,3,3,8,3,0,0,2,6,1,1,0,0,0,5,1,0,0,1,1,0,0,0,0,0,0,0}
+ = {0,1,0,0,0,2,0,0,3,6,0,1,0,0,0,1,5,3,0,0,0,4,4,1,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0}
+ = {0,4,1,2,0,0,3,0,1,3,3,3,0,0,1,0,1,3,1,0,1,7,3,2,3,2,1,0,2,1,1,4,1,2,0,0,0,3,2,2,2}
+ = {0,1,0,0,1,1,0,1,0,0,0,1,2,0,0,2,1,0,1,0,0,1,1,1,1,0,0,0,1,0,0,0,1,2,0,0,0,0,0,0,0}
+ = {0,0,0,2,1,2,4,1,4,7,0,1,0,2,2,0,2,6,1,0,0,2,4,2,1,1,0,2,3,0,5,0,0,0,2,0,3,1,0,2,0}
+ = {0,0,0,2, 3,2,0,0,0,1,0,0,0,0,0,5,5,7,0,0,0,2,3,0,1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0}
+The neighborhood degree sum based indices are calculated for twenty three drugs using Eq. ( ) and SAGE software which are tabulated in Table . As discussed for degree indices, the computation of the neighborhood degree ABC index by considering gemcitabine ( ) as the reference structure, is presented below.
+ The drugs considered in Fig. have maximum degree 3 and 4, and therefore, the computation of modified reverse degree topological indices is restricted to the cases . The modified reverse degree based indices are calculated using Eq. ( ) and SAGE software for twenty three lung cancer drugs and presented in Tables , and .
+ To show the computation of modified reverse degree indices for the cases we have considered gemcitabine ( ) as the reference structure. Since gemcitabine ( ) drug has , the modified reverse degree obtained through Eq. ( ) for is given below.
+ Hence, the modified reverse degree ABC index of is computed as follows.
+ When and , the modified reverse degree is given as
+ Then,
+ When and , the modified reverse degree is given as
+ Hence, the modified reverse degree ( ) based ABC index is calculated as follows for the drug .
+ 
+
+## QSPR models
+QSPR models predict molecular properties or behaviors based on their chemical structure using mathematical and statistical relationships, and is widely applied to identify promising compounds and reduce experimental testing. Table lists the values of the physicochemical characteristics such as molecular weight (MW), heavy atom count (HAC), complexity (CO), boiling point (BP), enthalpy of vaporization (EV), molar refractivity (MR), polarizability (PO) and molar volume (MV) of drug compounds that are gathered from ChemSpider and PubChem . Tables , , , and present the correlation coefficient between indices considered and the physicochemical characteristics of twenty three lung cancer drugs.
+ The simple linear regression is represented by , where P is the property, is the topological index, is the intercept and is the slope. The best predictive linear regression models for physicochemical properties of lung cancer drugs, along with the corresponding r, , F and SE values are calculated by employing SPSS software and tabulated in the Table . Each index discussed in our analysis exhibits a positive correlation, with the highest value being 1. Molecular weight and heavy atom count are best predicted using the degree-based redefined Zagreb-1 index. Complexity is best predicted using the modified reverse ( ) Shilpa-Shanmukha index. Boiling point and enthalpy of vaporization are best predicted using the modified reverse ( ) atom bond connectivity index. Molar refractivity is best predicted using the neighborhood geometric-Bi Zagreb index, while molar volume is best predicted using the neighborhood harmonic index. In the case of quadratic and logarithmic models, they are represented as and respectively where and are constants.
+ 
+
+## Comparative analysis
+In this section, we discuss the effectiveness of our models in predicting the properties of lung cancer drugs by comparing them with the models proposed in . In the study , a QSPR analysis was conducted using ten lung cancer drug molecules, and predictive equations were developed for the physicochemical properties such as EV, MR, PO, and MV using linear, logarithmic, and quadratic regression models, with correlation values provided for their best models based on coindices.
+The best predictive linear regression models mentioned in are given below:
+ where represents the inverse Randić coindex, denotes the second Zagreb coindex, and refers to the geometric coindex. When comparing, it is evident that our regression models exhibit higher correlation values than those listed above, as shown below:
+ Similarly, in , the proposed quadratic regression models based on the harmonic coindex ( ) and the second Zagreb coindex ( ) were
+ While the quadratic models derived from our considered topological indices provide more accurate predictions than those mentioned above, which are presented below along with their correlation values.
+ In , the most suitable logarithmic regression models were identified as
+ where denotes the symmetric division coindex, and represents the second Zagreb coindex. The logarithmic regression models produced in our study show better correlation values than those listed above. Our logarithmic models, along with their correlation values, are presented as follows.
+ In addition, we have calculated the quadratic models of four other properties such as molecular weight, heavy atom count, complexity, boiling point, and their corresponding correlation values are given below.
+ In the case of logarithmic models, we have
+ While comparing the linear, quadratic, and logarithmic models, quadratic models appear to predict the physical properties in a better way than the rest, having models with the best correlation values. In quadratic models, molecular weight is best predicted using degree based symmetric division index; heavy atom count is best predicted using degree based redefined Zagreb-1 index, complexity is best predicted using modified reverse ( ) Shilpa-Shanmukha index, boiling point and enthalpy of vaporization are best predicted using modified reverse ( ) atom bond connectivity index, molar refractivity and polarizability are best predicted using neighbourhood degree based geometric-bi Zagreb index, molar volume is best predicted using neighbourhood degree based Randić index.
+Scatter plots comparing linear, quadratic, and logarithmic models of the considered physicochemical properties are shown in Figs. , , , , , , and . The comparison of actual values of physicochemical properties and their predicted values using the best predicted quadratic models are tabulated in Tables and , with their graphical comparisons shown in Fig. .
+ 
+
+## Conclusion
+This study employed degree-based, neighborhood degree sum, and modified reverse degree edge partitioning approaches to evaluate the associated topological indices of drugs used to treat lung cancer. A QSPR analysis was conducted using these indices, and linear, quadratic, logarithmic models were developed, and their predictive performance was compared. Upon comparison, physicochemical properties are best predicted using quadratic models. In quadratic models, properties such as molecular weight and heavy atom count were best predicted using degree-based indices. Complexity, boiling point, and enthalpy of vaporization were best predicted using modified reverse degree-based indices, while molar refractivity, polarizability and molar volume were best predicted using neighborhood degree sum-based indices. These findings contribute to lung cancer drug development by enabling the prediction of physicochemical properties, thereby supporting more efficient identification and optimization of potential therapeutics. In contrast to models developed using degree-based indices, predictive models can be created in the future using distance-based indices.
+
+## Acknowledgements
+The authors greatly acknowledge and express their gratitude to research supporting project number (RSP2025R462), King Saud University, Riyadh, Saudi Arabia.
+
+## Author contributions
+Methodology, M.A., J.J.J.G., and S.R.; validation, J.J.J.G., S.R., T.A., and M.A.; formal analysis, M.A., J.J.J.G., and T.A.; investigation, J.J.J.G., S.R., T.A., and M.A; resources, M.A., S.R., T.A., and M.A.; visualization, J.J.J.G., and S.R.; supervision, M.A. All authors have read and agreed to the current version of the manuscript.
+
+## Data availability
+All data generated or analyzed during this study are included in this article.
+
+## Declarations
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+All data generated or analyzed during this study are included in this article.
