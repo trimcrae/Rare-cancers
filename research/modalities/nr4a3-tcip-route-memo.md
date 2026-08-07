@@ -180,8 +180,8 @@ contact counts.** The acceptance test is E3-free — measured, not asserted.
 ## 4 · ★★ The finding: the size penalty is a degrader's interface floor, not steric bulk
 
 Pooled by size class, the single-domain (effector-size) bodies accept **less** orientation space than the
-multi-subunit E3s at all 8 rungs — ratio **0.865–0.997**, intervals non-overlapping at 5 of 8 rungs, and
-**0.867 at the 12-atom gate**. Taken alone that reads as "an effector-size terminus is geometrically
+multi-subunit E3s at all 8 rungs — ratio **0.858–0.972**, intervals non-overlapping at 6 of 8 rungs, and
+**0.877 at the 12-atom gate**. Taken alone that reads as "an effector-size terminus is geometrically
 harder", which is the opposite of the intuition recorded in two route memos.
 
 **Two controls stop that reading, and both were run.**
@@ -493,3 +493,23 @@ not a result: `BLK-R4-BINDS`, `BLK-INDUCED-COMPLEX`, `BLK-PARALOGUE-DDG`, `BLK-U
 `nr4a3_effector_stage.py` is a STAGING step, not an instrument: it emits no verdict and answers no
 scientific question, so it gets no `INS-` id. `EV-EB-TCIP-2025` already exists and its status is unchanged
 (§6).
+
+
+---
+
+## Appendix · Superseded numbers
+
+Per CLAUDE.md rule 1.2, a corrected number is registered here rather than silently dropped; the live
+text above carries only the current value.
+
+- **2026-08-07 — §4 pooled size-axis figures.** This memo recorded the pooled single/multi ratio as
+  spanning **0.865–0.997**, with intervals non-overlapping at **5 of 8** rungs and **0.867** at the
+  12-atom gate. Recomputed from the primary per-rung data in
+  [`nr4a3-tcip-reach.json`](./nr4a3-tcip-reach.json) → `★_paired_body_size_comparison`, the values are
+  **0.858–0.972**, non-overlapping at **6 of 8**, and **0.877** at the gate — which is also what that
+  artifact's own `verdict.★_the_size_axis` block reports. The artifact is the one home; these three
+  figures had been restated here and drifted from it. Neither set is registered in
+  [`pinned-figures.json`](../manuscripts/pinned-figures.json), which is why `lint_consistency.py` could
+  not catch the drift. Found while writing
+  [`PUB-TCIP`](../manuscripts/tcip-induced-interface-preprint.md). The §4(b) ablation table
+  (0.896 / 1.121 / 1.254) was checked in the same pass and is **unchanged**.
