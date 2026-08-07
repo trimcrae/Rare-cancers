@@ -89,20 +89,36 @@ jobs:
         if: ${{ inputs.slug == 'lane-probe' }}
         run: python3 scripts/lit_lane_probe.py
 
-      - name: Commit lane probe to the triggering branch
-        if: ${{ inputs.slug == 'lane-probe' }}
+      # ⛔ PUSHING TO THE TRIGGERING BRANCH LOSES THE RESULT TO A RACE (measured 2026-08-07).
+      # Nine parallel sweeps share one working tree and push to each other's branches; run
+      # 31134790934 completed all 31 queries, committed 8,749 lines, and then died on
+      # `! [rejected] (fetch first)` — the retrieval was real and the artifact was discarded.
+      # A read-only citation index has no reason to contend for a shared ref at all, so it gets
+      # its own run-scoped ref, which cannot collide with anything by construction. Uploaded as a
+      # run artifact too, with if: always(), so a push failure can never again be total loss.
+      - name: Publish lane probe to a run-scoped ref
+        if: ${{ always() && inputs.slug == 'lane-probe' }}
         env:
-          TARGET_REF: ${{ github.ref_name }}
+          PROBE_REF: lane-probe/${{ github.run_id }}
         run: |
           set -e
+          [ -f research/literature/lane-probe-metabolism-strategy.json ] || {
+            echo "::error::lane probe produced no artifact"; exit 1; }
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add research/literature/lane-probe-metabolism-strategy.json
-          if git diff --cached --quiet; then
-            echo "lane probe produced no change"; exit 0
-          fi
-          git commit -m "lane probe: Europe PMC citation index for the metabolism/strategy sweep"
-          git push origin "HEAD:$TARGET_REF"
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "lane probe: Europe PMC citation index for the metabolism/strategy sweep"
+          git push origin "HEAD:refs/heads/$PROBE_REF"
+          echo "published to $PROBE_REF"
+
+      - name: Keep lane probe as a run artifact
+        if: ${{ always() && inputs.slug == 'lane-probe' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lane-probe-${{ github.run_id }}
+          path: research/literature/lane-probe-metabolism-strategy.json
+          if-no-files-found: error
 
       - name: Europe PMC search + open-access full text (the `query` path)
         if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' }}
