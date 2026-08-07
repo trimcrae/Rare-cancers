@@ -155,7 +155,7 @@ class TestSelectivityConsequence(unittest.TestCase):
         self.assertIsNone(A.selectivity_under_each_rule(None))
 
     def test_the_real_dump_reproduces_the_committed_contrast_frozen_counts(self):
-        """⭑ The dump is only trustworthy if its FROZEN column reproduces C04, which was computed
+        """⭑ The dump is only trustworthy if its FROZEN column reproduces IC-4, which was computed
         independently, in a different process, from the same frames."""
         dump = A.load_json(A.ACCEPTED)
         contrast = A.load_json(A.CONTRAST)
@@ -166,7 +166,7 @@ class TestSelectivityConsequence(unittest.TestCase):
         for r in dump["summary"]:
             key = (r["species"], r["ensemble"])
             if key in c:
-                self.assertEqual(r["n_ge_dstar_frozen"], c[key], f"{key} disagrees with C04")
+                self.assertEqual(r["n_ge_dstar_frozen"], c[key], f"{key} disagrees with IC-4")
                 n += 1
         self.assertEqual(n, 12)
 

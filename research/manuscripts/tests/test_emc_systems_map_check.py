@@ -188,8 +188,27 @@ def test_a_permanent_closure_carrying_a_revival_trigger_fails(m):
 
 
 def test_a_definitional_closure_carrying_a_revival_trigger_fails(m):
-    route(m, "RT-6MP")["revival_trigger"] = ["TR-CHEAP-CRYPTIC-ENSEMBLE"]
-    assert "Z3" in codes(m)
+    """⛔ THE ROUTE IS SELECTED BY ITS `closure_kind`, NEVER NAMED (corrected 2026-08-07, after this test
+    had `main` red).
+
+    It used to hard-code `RT-6MP`, which was `definitional` when the test was written. The registry then
+    re-graded that route to `premise_false` -- a NON-permanent closure, which may legitimately carry a
+    revival trigger -- so `Z3` correctly declined to fire and the test failed. **Nothing was wrong with the
+    guard or with the registry; the test was asserting a property of an id rather than of a kind.** A
+    negative test pinned to an id goes red the moment the registry re-grades that id, and the red reads as
+    a broken invariant, which is the most expensive possible false alarm.
+
+    So the subject is now DERIVED from the same enumeration `Z3` itself reads. If the registry ever holds
+    no `definitional` closure at all, this skips and says so rather than silently testing nothing --
+    absence of a subject is not evidence the invariant holds.
+    """
+    subject = next((r for r in m["routes"] if r.get("closure_kind") == "definitional"), None)
+    if subject is None:
+        pytest.skip("no route in the registry is a `definitional` closure, so there is nothing to mutate")
+    subject["revival_trigger"] = ["TR-CHEAP-CRYPTIC-ENSEMBLE"]
+    assert "Z3" in codes(m), (
+        "%s is a `definitional` (permanent) closure carrying a revival trigger and Z3 did not fire"
+        % subject["id"])
 
 
 @pytest.mark.parametrize("vague", [

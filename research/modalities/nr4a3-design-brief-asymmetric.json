@@ -1,0 +1,159 @@
+{
+ "_title": "Q16 — the design brief, restated ASYMMETRICALLY in its harder measured form",
+ "_status": "A DESIGN TARGET assembled from committed readings. $0 CPU, pure stdlib, no new compute. No free energy, no margin, no ratio, no window. Nothing here is a claim about binding, reactivity, degradation, proteome-wide selectivity, efficacy, safety, a therapeutic window or clinical readiness.",
+ "_what_changes": "the brief's SHAPE, not any measurement. No result is withdrawn and no instrument has to pass for it to be adopted — a narrowing of a requirement inherits no instrument.",
+ "★_the_brief": {
+  "one_line": "HARD vs NR4A1; HARD-BUT-LOWER-PRIORITY vs NR4A2. BOTH MOLECULAR.",
+  "clauses": [
+   {
+    "id": "B1",
+    "constraint": "NR4A1 — HARD",
+    "text": "Spare NR4A1. The bound is a NAMED ANTI-TARGET GENOTYPE — the combined Nr4a1-/-;Nr4a3-/- mouse (postnatal lethality, complete penetrance), which is precisely the pair a non-selective NR4A3 degrader RECONSTITUTES. Single nulls do not do it.",
+    "why_it_outranks_B2": "it is a combination genotype a molecule can create, not a developmental loss no molecule delivers.",
+    "instrument_reading": "SEPARATED at replicate granularity",
+    "⚠_sensitivity": "this is the MANDATORY axis and its separation does NOT survive the contested C2 rule (RANKED but replicate ranges OVERLAP under the alternative ordering), the design-effect-corrected Wilson intervals OVERLAP, and the exact test sits at its design FLOOR. Carry the asymmetry; do not carry the word SEPARATED."
+   },
+   {
+    "id": "B2",
+    "constraint": "NR4A2 — HARD BUT LOWER PRIORITY",
+    "text": "Spare NR4A2. ⛔ NOT a soft constraint: complete germline Nr4a2 loss produces neonatal lethality, complete penetrance (MP:0011087), primary-cited to PMID 9092472 / 9608532 across 3 independent null alleles, so there is a FLOOR under how much sparing is required and it is evidenced rather than precautionary. It ranks BELOW NR4A1 only because NR4A1's bound is a combination genotype a degrader reconstitutes, while this one is complete developmental loss, which no degrader delivers.",
+    "instrument_reading": "RANKED but replicate ranges OVERLAP",
+    "⚠_sensitivity": "this is the BEST-EFFORT axis and its replicate ranges OVERLAP even under the frozen rule — it is a RANKING with a stated effect size (Cliff's delta 0.777778), never a separation."
+   },
+   {
+    "id": "B3",
+    "constraint": "BOTH MOLECULAR — the exposure lever is withdrawn",
+    "text": "Neither half may be discharged by tissue distribution. Across 51 tissues with all three paralogues quantified, NR4A2 and NR4A3 are co-expressed in 47, NR4A2 is dominant in 0 and unbuffered in 0. There is no tissue in which the anti-target is present and the target is not. ⇒ selectivity has to be MOLECULAR, and the residual is DISCLOSED rather than discharged.",
+    "⚠_sensitivity": "⛔ THIS TABLE IS NOT EVIDENCE AGAINST A DOPAMINERGIC REQUIREMENT AND MAY NEVER BE QUOTED AS SUCH. A bulk tissue average dilutes the substantia nigra pars compacta — of order 10^5 neurons — to invisibility, so a low pooled nTPM in a brain region says nothing about it. What the table measures is exposure BREADTH: wherever NR4A2 is present above the cut, a non-sparing degrader would act on it.",
+    "what_would_reopen_it": "single-cell or region-resolved expression, and a CNS-exposure measurement for a real candidate molecule. Neither exists here."
+   },
+   {
+    "id": "B4",
+    "constraint": "THE CEILING ON ALL THREE",
+    "text": "A germline knockout bounds DEVELOPMENTAL, COMPLETE, LIFELONG loss. A degrader is ADULT, TRANSIENT, INCOMPLETE loss of a protein, and no source read here measures that. So every genotype above sets a CEILING OF CONCERN, never an expected effect — and an absent knockout record is an absence of evidence, not evidence of tolerability.",
+    "⚠_sensitivity": "A germline mouse knockout bounds DEVELOPMENTAL, COMPLETE, LIFELONG loss of a gene. A degrader is an ADULT, TRANSIENT, INCOMPLETE loss of a protein, and no source read here measures that. So a KO phenotype -- lethal or not -- sets the ceiling of concern, never the expected effect of a molecule; and an absent KO record is an absence of evidence, not evidence of tolerability. This repo additionally holds no measured or predicted CNS-penetration datum for any NR4A candidate, so the exposure argument that would otherwise narrow the NR4A2 question is a property of a molecule that does not exist."
+   }
+  ],
+  "⛔_superseded_retained": [
+   "'NR4A2 — a SOFT constraint … carry the residual as a DISCLOSED, UNSIZED EXPOSURE question' — the exposure half is withdrawn by measurement (47 of 51 tissues co-expressed, 0 dominant, 0 unbuffered), and the constraint is bounded rather than soft.",
+   "'NR4A2 — UNBOUNDED, in both directions' — bounded 2026-08-03 by MGI single-gene records.",
+   "'treat the residual as an exposure question rather than a chemistry one' — the lever the phrase hands off to does not exist.",
+   "reporting the paralogue pocket contrast as ONE conjoined verdict — it is two, on two axes, with two different answers.",
+   "the word SEPARATED, unqualified, on the NR4A1 axis — it does not survive the contested C2 rule and the artifact's own lead_status says so."
+  ],
+  "⛔_this_brief_contains_no": [
+   "free energy",
+   "ΔG_open or any opening penalty",
+   "selectivity margin, ratio or window",
+   "claim about binding, reactivity, degradation, proteome-wide selectivity, efficacy, safety, a therapeutic window or clinical readiness",
+   "pose-, vector- or construct-specific statement"
+  ]
+ },
+ "the_NR4A2_bound": {
+  "_source": "research/modalities/nr4a2-sparing-bound.json",
+  "decision": "BOUNDED",
+  "the_floor": {
+   "mp_term": "neonatal lethality, complete penetrance",
+   "mp_id": "MP:0011087",
+   "pubmed_ids": [
+    "9092472",
+    "9608532"
+   ],
+   "genotypes": [
+    "Nr4a2<tm1Niko>/Nr4a2<tm1Niko>",
+    "Nr4a2<tm1Omc>/Nr4a2<tm1Omc>",
+    "Nr4a2<tm1Tpe>/Nr4a2<tm1Tpe>"
+   ],
+   "n_single_gene_annotations": 38
+  },
+  "the_exposure_lever": {
+   "n_tissues": 51,
+   "counts": {
+    "nr4a2_expressed": 51,
+    "nr4a3_expressed": 47,
+    "nr4a2_and_nr4a3_co_expressed": 47,
+    "nr4a2_unbuffered": 0,
+    "nr4a2_dominant": 0
+   },
+   "source": "https://www.proteinatlas.org/download/tsv/rna_tissue_consensus.tsv.zip",
+   "⛔_reading": "NR4A2 and NR4A3 co-express in 47 of 51 tissues; NR4A2 is DOMINANT in 0 and UNBUFFERED in 0. There is no tissue in which the anti-target is present and the target is not, so tissue distribution cannot separate them and the selectivity has to be MOLECULAR."
+  },
+  "⚠_the_limit_that_travels_with_it": "A germline mouse knockout bounds DEVELOPMENTAL, COMPLETE, LIFELONG loss of a gene. A degrader is an ADULT, TRANSIENT, INCOMPLETE loss of a protein, and no source read here measures that. So a KO phenotype -- lethal or not -- sets the ceiling of concern, never the expected effect of a molecule; and an absent KO record is an absence of evidence, not evidence of tolerability. This repo additionally holds no measured or predicted CNS-penetration datum for any NR4A candidate, so the exposure argument that would otherwise narrow the NR4A2 question is a property of a molecule that does not exist.",
+  "⚠_what_the_table_may_NOT_be_quoted_for": "⛔ THIS TABLE IS NOT EVIDENCE AGAINST A DOPAMINERGIC REQUIREMENT AND MAY NEVER BE QUOTED AS SUCH. A bulk tissue average dilutes the substantia nigra pars compacta — of order 10^5 neurons — to invisibility, so a low pooled nTPM in a brain region says nothing about it. What the table measures is exposure BREADTH: wherever NR4A2 is present above the cut, a non-sparing degrader would act on it.",
+  "what_would_reopen_the_exposure_half": "single-cell or region-resolved expression, and a CNS-exposure measurement for a real candidate molecule. Neither exists here."
+ },
+ "★_the_asymmetry_read": {
+  "_source": "research/modalities/paralogue-pocket-asymmetric-read.json",
+  "lead_status": "LIVE BUT DEMOTED — the asymmetry is real, the word SEPARATED is not carryable",
+  "headline": "ASYMMETRIC AT THE FROZEN RULE, BUT THE MANDATORY SEPARATION DOES NOT SURVIVE THE CONTESTED C2 RULE — report the split verdict, do NOT report SEPARATED unqualified",
+  "pooled_verdict_it_replaces": "RANKED but replicate ranges OVERLAP",
+  "the_pooled_verdict_was_driven_by": [
+   "NR4A2"
+  ],
+  "by_paralogue": {
+   "NR4A1": {
+    "axis": "mandatory",
+    "verdict_under_the_frozen_rule": "SEPARATED at replicate granularity",
+    "separated_under_the_frozen_rule": true,
+    "cliffs_delta": 1.0,
+    "★_three_cautions": {
+     "contested_C2_rule": {
+      "verdict_under_the_alternative_ordering": "RANKED but replicate ranges OVERLAP",
+      "survives_the_rule_change": false
+     },
+     "design_effect_corrected_wilson": {
+      "intervals_overlap": true,
+      "uncorrected_would_have_said_overlap": false
+     },
+     "design_floor": {
+      "p_one_sided": 0.05,
+      "p_one_sided_FLOOR": 0.05,
+      "holm_adjusted_over_2_paralogues": 0.1,
+      "⚠": "at 3 vs 3 NO outcome can return p < 0.05 one-sided, and no Holm-adjusted p below 0.10 over a family of two. A p at the floor is the DESIGN's ceiling, never 'just significant'."
+     }
+    },
+    "fragility_margin_in_replicate_SD": 0.3974
+   },
+   "NR4A2": {
+    "axis": "best_effort",
+    "verdict_under_the_frozen_rule": "RANKED but replicate ranges OVERLAP",
+    "separated_under_the_frozen_rule": false,
+    "cliffs_delta": 0.777778,
+    "★_three_cautions": {
+     "contested_C2_rule": {
+      "verdict_under_the_alternative_ordering": "RANKED but replicate ranges OVERLAP",
+      "survives_the_rule_change": false
+     },
+     "design_effect_corrected_wilson": {
+      "intervals_overlap": true,
+      "uncorrected_would_have_said_overlap": false
+     },
+     "design_floor": {
+      "p_one_sided": 0.1,
+      "p_one_sided_FLOOR": 0.05,
+      "holm_adjusted_over_2_paralogues": 0.1,
+      "⚠": "at 3 vs 3 NO outcome can return p < 0.05 one-sided, and no Holm-adjusted p below 0.10 over a family of two. A p at the floor is the DESIGN's ceiling, never 'just significant'."
+     }
+    },
+    "fragility_margin_in_replicate_SD": -0.1987
+   }
+  },
+  "⛔_what_it_does_not_license": [
+   "an exclusion of NR4A1 — this is a RANKING on opening frequency and evidence of absence is not available at these ensemble sizes",
+   "ΔG_open, or any free-energy statement. A detection fraction is not an opening penalty.",
+   "reporting SEPARATED without the contested-`C2` sensitivity beside it",
+   "any statement about binding, reactivity, degradation, selectivity in vivo, efficacy or safety"
+  ]
+ },
+ "_pose_marginalisation": {
+  "rule": "no sentence in this brief may be re-specialised to a pose, a vector or a construct.",
+  "why_it_is_nonetheless_statable_today": "neither half is pose-conditional — the NR4A2 bound is registry and expression data, and the pocket contrast is a frame-fraction over unbiased ensembles rather than a docked pose. path-family-synthesis.md §4 records both source rows as inheriting NEITHER R3 NOR R5.",
+  "evidence": {
+   "read": true,
+   "R5_resolved": false,
+   "outcome": "THE TWO METHODS DISAGREE",
+   "_source": "research/modalities/pose-second-method.json"
+  },
+  "⛔": "the pocket-contrast half is a RANKING on opening frequency. It is not a per-molecule claim and evidence of absence is not available at these ensemble sizes."
+ }
+}

@@ -1,0 +1,184 @@
+{
+ "_title": "`C03` precheck — is there a public cysteine-chemoproteomics known-answer set for the NR4A covalent axis? (roadmap §10.1a `Q6`)",
+ "_status": "$0. Network reads only — no GPU, no rental, no CPU science. This is a PRECHECK about an INSTRUMENT, not a result about the protein. Nothing here is a claim about binding, reactivity, adduct formation, degradation, efficacy, safety, a therapeutic window or clinical readiness, and nothing here implies proteome-wide selectivity.",
+ "_serves": [
+  "V17 (its failed positive control — NR4A1 Cys551)",
+  "R8",
+  "Q2",
+  "Q5",
+  "Route B"
+ ],
+ "_claim_ceiling": "Roadmap §2.3: a requirement may never be claimed above the validation status of the instrument that would produce it. `C03` is at *proposed*; this precheck does not move it. Even a REFERENCE_FOUND verdict establishes only that a known-answer set EXISTS — the instrument would still have to be built and tested against it before any requirement rises.",
+ "_generated_utc": "2026-08-07T13:29:22Z",
+ "accessions_checked": {
+  "NR4A3": "Q92570",
+  "NR4A1": "P22736",
+  "NR4A2": "P43354"
+ },
+ "residues_of_interest": {
+  "Q92570": [
+   397,
+   420,
+   559
+  ],
+  "P22736": [
+   551,
+   505
+  ],
+  "P43354": [
+   534
+  ]
+ },
+ "★_verdict": {
+  "verdict": "STOP_NO_REFERENCE",
+  "★_reading": "Primary measurement tables were read and NONE of Q92570 / P22736 / P43354 appears in them. That is a real and useful answer: the covalent axis has no known-answer set in the public data actually reachable, and `V17`'s failed positive control cannot be repaired from it. ⚠ Bounded to the sources listed — it is not a statement about every chemoproteomics dataset that exists.",
+  "aggregate_dataset_exists_and_is_public": true,
+  "n_sources": 8,
+  "n_read": 6,
+  "n_primary_measurement_tables_read": 2,
+  "n_unreachable_in_this_run": 2,
+  "accessions_seen": {},
+  "sources_needing_CI": [
+   "primary_natbiotech_2020_S4",
+   "primary_natbiotech_2020_S7"
+  ]
+ },
+ "★_what_IS_settled_by_this_run": {
+  "_question_asked": "Does a usable public cysteine-chemoproteomics dataset exist that covers NR4A3 or a close paralogue AT ALL?",
+  "part_1_does_a_dataset_EXIST": {
+   "answer": "YES — READ, not assumed",
+   "evidence": "A curated, community-wide human cysteine-chemoproteomics aggregate is public and its code repository was fetched successfully in this run (status OK). It is site-level and keyed on UniProtKB accessions — the aggregate's own description states the identifier is built as `UniProtKBID_CYS#` — which is exactly the join key this program would need.",
+   "⭑_consequence": "`instrument-options.md` §3.3 is CONFIRMED on its central point: the repeated phrasing *'requires chemoproteomics, which this program does not have'* conflated a wet-lab TECHNIQUE with a public DATASET, and the dataset is real, public and site-level. ⛔ That corrects a FRAMING. It does not deliver a known-answer set, and it raises no claim ceiling.",
+   "scale": {
+    "parsed": true,
+    "n_cysteines_in_aggregate": 62888,
+    "percent_of_human_cysteineome": 24,
+    "_source": "https://raw.githubusercontent.com/lmboat/cysdb_app/main/README.md",
+    "⛔_this_is_a_BASE_RATE_not_a_probability_for_C397": "Chemoproteomic detection is biased toward abundant, well-expressed proteins. A nuclear receptor ligand-binding domain is not one, so the family's true coverage probability is plausibly BELOW this figure — and 'plausibly' is exactly why this cannot substitute for reading the table."
+   }
+  },
+  "part_2_does_it_COVER_the_NR4A_family": {
+   "answer": "NOT ANSWERED IN THIS RUN — and the artifact refuses to guess",
+   "why": "Every primary measurement table and the aggregate's own open-access article record returned `403 Forbidden` at the dev sandbox's egress proxy — a documented property of this sandbox (CLAUDE.md §6), not a property of the data. The aggregate's public repository holds PREPROCESSING NOTEBOOKS and reference files; the per-cysteine measurement table is served by an interactive application, which is not a fetchable endpoint.",
+   "⛔_the_rule_this_obeys": "An absent reading is not a reading of absence. `UNREACHABLE` is recorded per source, and no coverage number is reported for a source that was not read.",
+   "how_to_close_it": "Dispatch this same script from a GitHub Actions runner, which has unrestricted egress. The source registry is already resolved — every URL below was obtained from the aggregate's own published preprocessing notebooks or its code-availability statement, not guessed — so the follow-up is a mechanical dispatch."
+  }
+ },
+ "sources": [
+  {
+   "id": "cysdb_app_repo",
+   "kind": "aggregate_code",
+   "what": "CysDB — the curated human cysteine chemoproteomics aggregate; public code repository",
+   "url": "https://raw.githubusercontent.com/lmboat/cysdb_app/main/README.md",
+   "discovered_via": "web search → the publication's code-availability statement",
+   "http_status": 200,
+   "bytes": 1386,
+   "seconds": 0.17,
+   "error": null,
+   "note": "Establishes the aggregate exists and is public. ⚠ The repository holds PREPROCESSING notebooks and reference files, NOT the per-cysteine measurement table — the table is served by the interactive app, which is not a fetchable endpoint.",
+   "status": "OK",
+   "hits": {}
+  },
+  {
+   "id": "cysdb_notebook_identified",
+   "kind": "provenance",
+   "what": "CysDB preprocessing notebook 1 — names every primary identification dataset",
+   "url": "https://raw.githubusercontent.com/lmboat/cysdb_app/main/notebooks/1_preprocess_identified.ipynb",
+   "discovered_via": "repository listing",
+   "http_status": 200,
+   "bytes": 63737,
+   "seconds": 0.18,
+   "error": null,
+   "status": "OK",
+   "hits": {}
+  },
+  {
+   "id": "cysdb_notebook_ligandability",
+   "kind": "provenance",
+   "what": "CysDB preprocessing notebook 4 — names every primary ligandability dataset",
+   "url": "https://raw.githubusercontent.com/lmboat/cysdb_app/main/notebooks/4_preprocess_ligandability.ipynb",
+   "discovered_via": "repository listing",
+   "http_status": 200,
+   "bytes": 95790,
+   "seconds": 0.19,
+   "error": null,
+   "status": "OK",
+   "hits": {}
+  },
+  {
+   "id": "primary_backus_2021_jacs_si2",
+   "kind": "primary_measurement",
+   "what": "a primary cysteine-chemoproteomics supplementary table (xlsx), author-hosted",
+   "url": "https://www.dropbox.com/s/5vwm2p4qsbw4599/ja1c11053_si_002.xlsx?dl=1",
+   "discovered_via": "notebook_provenance — the URL is written in the aggregate's own notebook",
+   "http_status": 200,
+   "bytes": 752167,
+   "seconds": 1.29,
+   "error": null,
+   "status": "OK",
+   "hits": {},
+   "n_sheets_scanned_chars": 2858978
+  },
+  {
+   "id": "primary_nature_2016_covalent_ligand_discovery",
+   "kind": "primary_measurement",
+   "what": "proteome-wide covalent ligand discovery supplementary table (xlsx), publisher-hosted",
+   "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fnature18002/MediaObjects/41586_2016_BFnature18002_MOESM54_ESM.xlsx",
+   "discovered_via": "notebook_provenance — filename from the aggregate's notebook, publisher ESM path",
+   "http_status": 200,
+   "bytes": 4782075,
+   "seconds": 2.16,
+   "error": null,
+   "status": "OK",
+   "hits": {},
+   "n_sheets_scanned_chars": 30680591
+  },
+  {
+   "id": "primary_natbiotech_2020_S4",
+   "kind": "primary_measurement",
+   "what": "pan-cancer / proteome-wide cysteine ligandability supplementary table S4 (xlsx)",
+   "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-020-0778-7/MediaObjects/41587_2020_778_S4_ESM.xlsx",
+   "discovered_via": "notebook_provenance — filename from the aggregate's notebook, publisher ESM path",
+   "http_status": 403,
+   "bytes": 0,
+   "seconds": 0.38,
+   "error": "HTTPError 403",
+   "status": "UNREACHABLE",
+   "⚠": "UNREACHABLE is a statement about THIS RUN'S NETWORK, never about the dataset. An absent reading is not a reading of absence — route this source through CI before drawing any conclusion from its silence."
+  },
+  {
+   "id": "primary_natbiotech_2020_S7",
+   "kind": "primary_measurement",
+   "what": "pan-cancer / proteome-wide cysteine ligandability supplementary table S7 (xlsx)",
+   "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-020-0778-7/MediaObjects/41587_2020_778_S7_ESM.xlsx",
+   "discovered_via": "notebook_provenance — filename from the aggregate's notebook, publisher ESM path",
+   "http_status": 403,
+   "bytes": 0,
+   "seconds": 0.38,
+   "error": "HTTPError 403",
+   "status": "UNREACHABLE",
+   "⚠": "UNREACHABLE is a statement about THIS RUN'S NETWORK, never about the dataset. An absent reading is not a reading of absence — route this source through CI before drawing any conclusion from its silence."
+  },
+  {
+   "id": "cysdb_article_pmc",
+   "kind": "aggregate_article",
+   "what": "the aggregate's open-access article record, whose supplement carries the merged tables",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10510411/",
+   "discovered_via": "web search",
+   "http_status": 200,
+   "bytes": 309488,
+   "seconds": 0.3,
+   "error": null,
+   "note": "PMC CONNECT is 403 at the dev sandbox's egress proxy by design — a CI-only source.",
+   "status": "OK",
+   "hits": {}
+  }
+ ],
+ "⛔_limits": [
+  "COVERAGE IS NOT A VALUE. This file scans workbook text for accession strings. It does not parse a schema, does not attribute a residue number to an accession, and does not read a measure. A hit means 'this accession appears in this workbook'.",
+  "A source's silence in this run is a NETWORK fact. `UNREACHABLE` never means 'not covered'.",
+  "A cysteine labelled ligandable in a proteome-wide screen is a classification in that screen's cells, with that screen's probe, at that screen's concentration. It is not evidence that any specific molecule forms an adduct on it, and it is not selectivity.",
+  "Three accessions is three accessions. Nothing here is a proteome-wide statement.",
+  "No entry in the source registry may be cited anywhere in this repository until this file records `status: OK` for it — a candidate URL is not a citation."
+ ]
+}

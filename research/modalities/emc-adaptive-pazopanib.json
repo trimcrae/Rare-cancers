@@ -1,0 +1,1067 @@
+{
+  "_schema": "emc-adaptive-pazopanib/1",
+  "_generated_by": "research/modalities/emc_adaptive_pazopanib.py",
+  "_one_home_for": "every number in research/manuscripts/emc-adaptive-scheduling-pazopanib.md; the prose points here and types no arithmetic of its own",
+  "_disclaimer": "⛔ NOTHING HERE ASSERTS EFFICACY, SAFETY, A THERAPEUTIC WINDOW OR CLINICAL READINESS. Adaptive scheduling has never been tested in EMC or in any sarcoma. Reducing the dose of an active drug outside a trial can shorten disease control. This artifact describes what would have to be true for a hypothesis to hold; it is not a treatment plan and contains no predicted survival for any patient.",
+  "lane": "emc-unexplored-treatment-lanes.md §3.8 — adaptive scheduling of pazopanib",
+  "date": "2026-08-07",
+  "sources": {
+    "stacchiotti2019_pazopanib": {
+      "short": "Stacchiotti 2019 (pazopanib phase 2)",
+      "title": "Pazopanib for treatment of advanced extraskeletal myxoid chondrosarcoma: a multicentre, single-arm, phase 2 trial",
+      "journal": "Lancet Oncol",
+      "year": 2019,
+      "pmid": "31331701",
+      "doi": "10.1016/S1470-2045(19)30319-5",
+      "nct": "NCT02066285",
+      "design": "single-arm, open-label phase 2; 11 sites, Spanish/Italian/French sarcoma groups",
+      "verification": "API",
+      "read_from": "Europe PMC core record (full abstract) cached at literature-cache literature/emc-clinical-sweep-fulltext-2026-08-07/epmc_pazopanib_emc_lancet.txt"
+    },
+    "remiszewski2025": {
+      "short": "Remiszewski 2025",
+      "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma",
+      "journal": "J Cancer Res Clin Oncol",
+      "year": 2025,
+      "pmid": "41055792",
+      "pmcid": "PMC12504171",
+      "doi": "10.1007/s00432-025-06316-5",
+      "design": "narrative review",
+      "verification": "FT",
+      "read_from": "literature-cache, literature/emc-clinical-sweep-2026-08-07/PMC12504171.txt"
+    },
+    "zou2023_wgs": {
+      "short": "Zou 2023 (matched-trio WGS)",
+      "title": "Whole genome sequencing for metastatic mutational burden in extraskeletal myxoid chondrosarcoma",
+      "journal": "Front Mol Med",
+      "year": 2023,
+      "pmid": "39086683",
+      "pmcid": "PMC11285543",
+      "doi": "10.3389/fmmed.2023.1152550",
+      "design": "n = 1 matched trio (primary, lung metastasis, pelvic metastasis), WGS",
+      "verification": "FT",
+      "read_from": "literature-cache, literature/emc-clinical-sweep-2026-08-07/PMC11285543.txt"
+    },
+    "bangerter2023_models": {
+      "short": "Bangerter 2023 (USZ ex vivo models)",
+      "title": "Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma models",
+      "journal": "Hum Cell / J Exp Clin Cancer Res (per record)",
+      "year": 2023,
+      "pmid": "36316541",
+      "pmcid": "PMC9813045",
+      "design": "two patient-derived ex vivo models (USZ20-EMC1 EWSR1, USZ22-EMC2 TAF15)",
+      "verification": "FT",
+      "read_from": "literature-cache, literature/emc-clinical-sweep-2026-08-07/PMC9813045.txt"
+    },
+    "stacchiotti2013_anthracycline": {
+      "short": "Stacchiotti 2013 (anthracycline)",
+      "title": "Anthracycline-based chemotherapy in extraskeletal myxoid chondrosarcoma: a retrospective study",
+      "journal": "Clin Sarcoma Res",
+      "year": 2013,
+      "pmid": "24345066",
+      "pmcid": "PMC3879193",
+      "design": "retrospective, 11 patients, NR4A3-rearrangement confirmed",
+      "verification": "FT",
+      "read_from": "literature-cache, literature/emc-clinical-sweep-2026-08-07/PMC3879193.txt"
+    },
+    "stacchiotti2014_sunitinib": {
+      "short": "Stacchiotti 2014 (sunitinib)",
+      "title": "Activity of sunitinib in extraskeletal myxoid chondrosarcoma",
+      "journal": "Eur J Cancer",
+      "year": 2014,
+      "pmid": "24703573",
+      "design": "retrospective series, n = 10",
+      "verification": "secondary — figures quoted in emc-unexplored-treatment-lanes.md §3.1/§3.2"
+    },
+    "zhang2017_adaptive_prostate": {
+      "short": "Zhang 2017 (adaptive abiraterone)",
+      "title": "Integrating evolutionary dynamics into treatment of metastatic castrate-resistant prostate cancer",
+      "journal": "Nat Commun",
+      "year": 2017,
+      "pmid": "29180633",
+      "design": "pilot, 11 patients; updated eLife 2022, PMID 35762577",
+      "verification": "secondary — the clinical anchor cited by emc-unexplored-treatment-lanes.md §3.8"
+    }
+  },
+  "five_grounds": [
+    {
+      "ground": "i",
+      "memo_claim": "There is one active systemic class, so preserving it beats deepening it.",
+      "verdict": "PARTIALLY OVERSTATED",
+      "evidence_for": [
+        "Pazopanib is the only agent with a prospective EMC-specific phase 2 result: NCT02066285, 4/22 evaluable RECIST responses (18 %, 95 % CI 1-36) [stacchiotti2019_pazopanib, API]."
+      ],
+      "evidence_against": [
+        "Anthracycline-based chemotherapy in 10 evaluable molecularly-confirmed EMC gave 4 partial responses (40 %) and median PFS 8 months [stacchiotti2013_anthracycline, FT] — a second class with measured activity, so 'one active class' is not literally true.",
+        "Sunitinib in n = 10 gave 6 PR / 2 SD / 2 PD [stacchiotti2014_sunitinib, secondary] — same class as pazopanib, but it means the anti-angiogenic option is not a single agent."
+      ],
+      "what_survives": "The weaker and still-useful form: after anthracycline failure the anti-angiogenic class is the only one with prospective EMC evidence, and anthracycline's own median PFS of 8 months is short. Losing the anti-angiogenic class is close to losing the last measured option."
+    },
+    {
+      "ground": "ii",
+      "memo_claim": "Pazopanib's profile — ORR ~18 % with median PFS ~19 months — is control without shrinkage, the signature of competitive suppression.",
+      "verdict": "SUPPORTED, and the trial's entry criterion strengthens it",
+      "evidence_for": [
+        "ORR 4/22 = 18 % (95 % CI 1-36) [stacchiotti2019_pazopanib, API]. So 18 of 22 evaluable patients never met the RECIST response threshold.",
+        "Median PFS 19 months [remiszewski2025, secondary — the primary abstract does not state a median PFS, and the trial's own median follow-up was 27 months (IQR 18-30)].",
+        "⭐ ELIGIBILITY REQUIRED DOCUMENTED RECIST PROGRESSION IN THE PREVIOUS 6 MONTHS, verbatim from the primary abstract. So every enrolled patient had measured growth within six months of starting, and the on-treatment median PFS was 19 months. The drug's measured effect is a change of TEMPO, not cytoreduction — which is exactly the regime in which dosing to maximum tolerated buys the least."
+      ],
+      "evidence_against": [
+        "The same entry criterion means the trial cohort is by construction the PROGRESSING subset of EMC, not the indolent one. Any adaptive-therapy argument built on 'EMC is indolent' and calibrated on this trial is mixing two different populations, and the memo does not make that distinction."
+      ],
+      "what_survives": "Ground ii is the strongest of the five and is now quantitative: 82 % of patients had no shrinkage, in a cohort selected for recent growth, and still had a long median PFS."
+    },
+    {
+      "ground": "iii",
+      "memo_claim": "The natural history is long enough for oscillation to run.",
+      "verdict": "SUPPORTED (secondary)",
+      "evidence_for": [
+        "'Median OS for patients with metastatic EMC is in the order of 5-7 years in modern series, and the disease often follows an indolent course even without immediate systemic treatment' [remiszewski2025, FT, secondary].",
+        "'In some cases, watchful waiting or delayed therapy is used for slow-growing M1' [remiszewski2025, FT] — an existing clinical practice of withholding therapy, which is the half of an adaptive schedule that is hardest to introduce."
+      ],
+      "evidence_against": [],
+      "what_survives": "Ground iii holds. It is the least contested of the five."
+    },
+    {
+      "ground": "iv",
+      "memo_claim": "Burden is countable: lung nodules on volumetric CT are arguably a better control signal than a serum marker.",
+      "verdict": "PLAUSIBLE, UNTESTED — an assertion about measurability, not an EMC finding",
+      "evidence_for": [
+        "Pulmonary metastases 'remain the most common and are present in up to 50-90 % of patients at some point during their disease' [remiszewski2025, FT, secondary], so the compartment an adaptive schedule would track is the dominant one."
+      ],
+      "evidence_against": [
+        "No EMC study reports volumetric nodule tracking, and no EMC study reports a measured in-vivo growth rate at all (see `identifiability`). The claim that volumetric CT would be a good control signal in EMC has never been tested in EMC.",
+        "Adaptive abiraterone used PSA — a continuous, cheap, weekly biomarker. CT is discrete, expensive and carries dose; the control loop's sampling interval is therefore months, not days, and no analysis of whether that is fast enough for EMC's tempo exists."
+      ],
+      "what_survives": "The compartment is right and the instrument is untested. This is the ground most easily converted into real work: a retrospective volumetric re-read of serial EMC chest CTs would produce the first in-vivo EMC growth rates and is not a wet-lab task."
+    },
+    {
+      "ground": "v",
+      "memo_claim": "Patients are on therapy for years, so halving cumulative dose is a claim on its own.",
+      "verdict": "FOLLOWS FROM ii + iii, and the anchor is real",
+      "evidence_for": [
+        "Adaptive abiraterone held 10 of 11 patients in stable oscillation at 47 % of standard cumulative dose [zhang2017_adaptive_prostate, secondary].",
+        "Grade 3 events in the EMC pazopanib trial: hypertension 9/26 (35 %), ALT rise 6/26 (23 %), AST rise 5/26 (19 %) [stacchiotti2019_pazopanib, API] — a real toxicity burden to halve, over a median PFS measured in years."
+      ],
+      "evidence_against": [
+        "A cumulative-dose endpoint is not a survival endpoint, and a trial powered on it answers a different question from the one a regulator or a clinician asks."
+      ],
+      "what_survives": "Ground v is sound and is the cheapest endpoint to power, which is why it is also the least persuasive on its own."
+    }
+  ],
+  "competition_model": {
+    "question": "Over what region of (initial resistant fraction, fitness cost of resistance) does an adaptive schedule delay progression relative to continuous maximum dosing?",
+    "model": {
+      "form": "two-population competitive Lotka-Volterra, carrying capacity normalised to 1, symmetric competition, drug acts only on the sensitive population",
+      "why_symmetric_competition": "Asymmetric competition in which sensitive cells suppress resistant cells more than the reverse manufactures the adaptive advantage by assumption. No EMC datum supports either direction, so the conservative symmetric form is used and the result is a LOWER bound on the adaptive gain.",
+      "adaptive_rule": "Gatenby-style AT-50: withdraw drug when burden falls to 50 % of baseline, resume when it returns to baseline.",
+      "progression": "total burden reaches 1.2 x baseline",
+      "baseline_burden_fraction_of_K": 0.5,
+      "drug_kill_rate": "3 x the sensitive population's intrinsic growth rate (swept below)",
+      "integrator": "forward Euler, dt = 0.5 day, horizon 20 years",
+      "time_units": "SENSITIVE-POPULATION DOUBLING TIMES, not months. EMC's in-vivo growth rate is unmeasured, so an absolute time axis would be fabricated."
+    },
+    "grid": [
+      {
+        "initial_resistant_fraction": 0.0001,
+        "resistance_cost": 0.0,
+        "ttp_mtd_doubling_times": 15.208,
+        "ttp_adaptive_doubling_times": 21.614,
+        "adaptive_gain_ratio": 1.4212,
+        "adaptive_holidays_fired": 9,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 4.425,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 18.747
+      },
+      {
+        "initial_resistant_fraction": 0.0001,
+        "resistance_cost": 0.05,
+        "ttp_mtd_doubling_times": 15.989,
+        "ttp_adaptive_doubling_times": 22.878,
+        "adaptive_gain_ratio": 1.4309,
+        "adaptive_holidays_fired": 10,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 4.494,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 18.969
+      },
+      {
+        "initial_resistant_fraction": 0.0001,
+        "resistance_cost": 0.1,
+        "ttp_mtd_doubling_times": 16.861,
+        "ttp_adaptive_doubling_times": 24.011,
+        "adaptive_gain_ratio": 1.4241,
+        "adaptive_holidays_fired": 10,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 4.567,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 20.872
+      },
+      {
+        "initial_resistant_fraction": 0.0001,
+        "resistance_cost": 0.2,
+        "ttp_mtd_doubling_times": 18.925,
+        "ttp_adaptive_doubling_times": 26.872,
+        "adaptive_gain_ratio": 1.4199,
+        "adaptive_holidays_fired": 11,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 4.717,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 23.072
+      },
+      {
+        "initial_resistant_fraction": 0.0001,
+        "resistance_cost": 0.3,
+        "ttp_mtd_doubling_times": 21.581,
+        "ttp_adaptive_doubling_times": 30.928,
+        "adaptive_gain_ratio": 1.4331,
+        "adaptive_holidays_fired": 13,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 4.881,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 27.292
+      },
+      {
+        "initial_resistant_fraction": 0.0001,
+        "resistance_cost": 0.5,
+        "ttp_mtd_doubling_times": 30.081,
+        "ttp_adaptive_doubling_times": 40.583,
+        "adaptive_gain_ratio": 1.3492,
+        "adaptive_holidays_fired": 18,
+        "adaptive_rule_never_fired": false,
+        "censored": true,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 5.244,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 35.817
+      },
+      {
+        "initial_resistant_fraction": 0.001,
+        "resistance_cost": 0.0,
+        "ttp_mtd_doubling_times": 11.881,
+        "ttp_adaptive_doubling_times": 16.436,
+        "adaptive_gain_ratio": 1.3834,
+        "adaptive_holidays_fired": 7,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 3.319,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 12.867
+      },
+      {
+        "initial_resistant_fraction": 0.001,
+        "resistance_cost": 0.05,
+        "ttp_mtd_doubling_times": 12.489,
+        "ttp_adaptive_doubling_times": 17.328,
+        "adaptive_gain_ratio": 1.3875,
+        "adaptive_holidays_fired": 7,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 3.369,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 14.664
+      },
+      {
+        "initial_resistant_fraction": 0.001,
+        "resistance_cost": 0.1,
+        "ttp_mtd_doubling_times": 13.164,
+        "ttp_adaptive_doubling_times": 18.128,
+        "adaptive_gain_ratio": 1.3771,
+        "adaptive_holidays_fired": 7,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 3.422,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 14.853
+      },
+      {
+        "initial_resistant_fraction": 0.001,
+        "resistance_cost": 0.2,
+        "ttp_mtd_doubling_times": 14.769,
+        "ttp_adaptive_doubling_times": 20.45,
+        "adaptive_gain_ratio": 1.3846,
+        "adaptive_holidays_fired": 8,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 3.533,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 16.972
+      },
+      {
+        "initial_resistant_fraction": 0.001,
+        "resistance_cost": 0.3,
+        "ttp_mtd_doubling_times": 16.831,
+        "ttp_adaptive_doubling_times": 23.292,
+        "adaptive_gain_ratio": 1.3839,
+        "adaptive_holidays_fired": 9,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 3.65,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 19.206
+      },
+      {
+        "initial_resistant_fraction": 0.001,
+        "resistance_cost": 0.5,
+        "ttp_mtd_doubling_times": 23.431,
+        "ttp_adaptive_doubling_times": 32.811,
+        "adaptive_gain_ratio": 1.4004,
+        "adaptive_holidays_fired": 13,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 3.917,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 25.758
+      },
+      {
+        "initial_resistant_fraction": 0.01,
+        "resistance_cost": 0.0,
+        "ttp_mtd_doubling_times": 8.547,
+        "ttp_adaptive_doubling_times": 11.203,
+        "adaptive_gain_ratio": 1.3107,
+        "adaptive_holidays_fired": 4,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 2.208,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 8.572
+      },
+      {
+        "initial_resistant_fraction": 0.01,
+        "resistance_cost": 0.05,
+        "ttp_mtd_doubling_times": 8.981,
+        "ttp_adaptive_doubling_times": 11.703,
+        "adaptive_gain_ratio": 1.3031,
+        "adaptive_holidays_fired": 4,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 2.239,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 8.706
+      },
+      {
+        "initial_resistant_fraction": 0.01,
+        "resistance_cost": 0.1,
+        "ttp_mtd_doubling_times": 9.461,
+        "ttp_adaptive_doubling_times": 12.236,
+        "adaptive_gain_ratio": 1.2933,
+        "adaptive_holidays_fired": 4,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 2.272,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 8.831
+      },
+      {
+        "initial_resistant_fraction": 0.01,
+        "resistance_cost": 0.2,
+        "ttp_mtd_doubling_times": 10.603,
+        "ttp_adaptive_doubling_times": 13.997,
+        "adaptive_gain_ratio": 1.3201,
+        "adaptive_holidays_fired": 5,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 2.342,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 10.894
+      },
+      {
+        "initial_resistant_fraction": 0.01,
+        "resistance_cost": 0.3,
+        "ttp_mtd_doubling_times": 12.072,
+        "ttp_adaptive_doubling_times": 15.989,
+        "adaptive_gain_ratio": 1.3244,
+        "adaptive_holidays_fired": 6,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 2.417,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 11.142
+      },
+      {
+        "initial_resistant_fraction": 0.01,
+        "resistance_cost": 0.5,
+        "ttp_mtd_doubling_times": 16.769,
+        "ttp_adaptive_doubling_times": 22.378,
+        "adaptive_gain_ratio": 1.3344,
+        "adaptive_holidays_fired": 8,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 2.583,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 15.694
+      },
+      {
+        "initial_resistant_fraction": 0.05,
+        "resistance_cost": 0.0,
+        "ttp_mtd_doubling_times": 6.189,
+        "ttp_adaptive_doubling_times": 7.458,
+        "adaptive_gain_ratio": 1.2051,
+        "adaptive_holidays_fired": 2,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.417,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 4.597
+      },
+      {
+        "initial_resistant_fraction": 0.05,
+        "resistance_cost": 0.05,
+        "ttp_mtd_doubling_times": 6.497,
+        "ttp_adaptive_doubling_times": 7.794,
+        "adaptive_gain_ratio": 1.1997,
+        "adaptive_holidays_fired": 2,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.433,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 4.675
+      },
+      {
+        "initial_resistant_fraction": 0.05,
+        "resistance_cost": 0.1,
+        "ttp_mtd_doubling_times": 6.842,
+        "ttp_adaptive_doubling_times": 8.164,
+        "adaptive_gain_ratio": 1.1933,
+        "adaptive_holidays_fired": 2,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.453,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 4.761
+      },
+      {
+        "initial_resistant_fraction": 0.05,
+        "resistance_cost": 0.2,
+        "ttp_mtd_doubling_times": 7.656,
+        "ttp_adaptive_doubling_times": 9.456,
+        "adaptive_gain_ratio": 1.2351,
+        "adaptive_holidays_fired": 3,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.494,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 4.917
+      },
+      {
+        "initial_resistant_fraction": 0.05,
+        "resistance_cost": 0.3,
+        "ttp_mtd_doubling_times": 8.703,
+        "ttp_adaptive_doubling_times": 10.694,
+        "adaptive_gain_ratio": 1.2289,
+        "adaptive_holidays_fired": 3,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.536,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 7.028
+      },
+      {
+        "initial_resistant_fraction": 0.05,
+        "resistance_cost": 0.5,
+        "ttp_mtd_doubling_times": 12.058,
+        "ttp_adaptive_doubling_times": 14.861,
+        "adaptive_gain_ratio": 1.2324,
+        "adaptive_holidays_fired": 4,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.633,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 7.403
+      },
+      {
+        "initial_resistant_fraction": 0.1,
+        "resistance_cost": 0.0,
+        "ttp_mtd_doubling_times": 5.142,
+        "ttp_adaptive_doubling_times": 5.764,
+        "adaptive_gain_ratio": 1.121,
+        "adaptive_holidays_fired": 1,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.056,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 2.647
+      },
+      {
+        "initial_resistant_fraction": 0.1,
+        "resistance_cost": 0.05,
+        "ttp_mtd_doubling_times": 5.397,
+        "ttp_adaptive_doubling_times": 6.028,
+        "adaptive_gain_ratio": 1.1168,
+        "adaptive_holidays_fired": 1,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.069,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 2.694
+      },
+      {
+        "initial_resistant_fraction": 0.1,
+        "resistance_cost": 0.1,
+        "ttp_mtd_doubling_times": 5.678,
+        "ttp_adaptive_doubling_times": 6.322,
+        "adaptive_gain_ratio": 1.1135,
+        "adaptive_holidays_fired": 1,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.083,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 2.744
+      },
+      {
+        "initial_resistant_fraction": 0.1,
+        "resistance_cost": 0.2,
+        "ttp_mtd_doubling_times": 6.35,
+        "ttp_adaptive_doubling_times": 7.483,
+        "adaptive_gain_ratio": 1.1785,
+        "adaptive_holidays_fired": 2,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.111,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 2.844
+      },
+      {
+        "initial_resistant_fraction": 0.1,
+        "resistance_cost": 0.3,
+        "ttp_mtd_doubling_times": 7.211,
+        "ttp_adaptive_doubling_times": 8.469,
+        "adaptive_gain_ratio": 1.1745,
+        "adaptive_holidays_fired": 2,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.139,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 4.914
+      },
+      {
+        "initial_resistant_fraction": 0.1,
+        "resistance_cost": 0.5,
+        "ttp_mtd_doubling_times": 9.972,
+        "ttp_adaptive_doubling_times": 11.892,
+        "adaptive_gain_ratio": 1.1925,
+        "adaptive_holidays_fired": 3,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 1.206,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 5.272
+      },
+      {
+        "initial_resistant_fraction": 0.2,
+        "resistance_cost": 0.0,
+        "ttp_mtd_doubling_times": 4.042,
+        "ttp_adaptive_doubling_times": 4.422,
+        "adaptive_gain_ratio": 1.0942,
+        "adaptive_holidays_fired": 1,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.667,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 0.667
+      },
+      {
+        "initial_resistant_fraction": 0.2,
+        "resistance_cost": 0.05,
+        "ttp_mtd_doubling_times": 4.242,
+        "ttp_adaptive_doubling_times": 4.658,
+        "adaptive_gain_ratio": 1.0982,
+        "adaptive_holidays_fired": 1,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.675,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 0.675
+      },
+      {
+        "initial_resistant_fraction": 0.2,
+        "resistance_cost": 0.1,
+        "ttp_mtd_doubling_times": 4.461,
+        "ttp_adaptive_doubling_times": 4.911,
+        "adaptive_gain_ratio": 1.1009,
+        "adaptive_holidays_fired": 1,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.681,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 0.681
+      },
+      {
+        "initial_resistant_fraction": 0.2,
+        "resistance_cost": 0.2,
+        "ttp_mtd_doubling_times": 4.981,
+        "ttp_adaptive_doubling_times": 5.497,
+        "adaptive_gain_ratio": 1.1037,
+        "adaptive_holidays_fired": 1,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.697,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 0.697
+      },
+      {
+        "initial_resistant_fraction": 0.2,
+        "resistance_cost": 0.3,
+        "ttp_mtd_doubling_times": 5.653,
+        "ttp_adaptive_doubling_times": 6.222,
+        "adaptive_gain_ratio": 1.1007,
+        "adaptive_holidays_fired": 1,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.714,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 0.714
+      },
+      {
+        "initial_resistant_fraction": 0.2,
+        "resistance_cost": 0.5,
+        "ttp_mtd_doubling_times": 7.794,
+        "ttp_adaptive_doubling_times": 8.458,
+        "adaptive_gain_ratio": 1.0852,
+        "adaptive_holidays_fired": 1,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.75,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 2.972
+      },
+      {
+        "initial_resistant_fraction": 0.3,
+        "resistance_cost": 0.0,
+        "ttp_mtd_doubling_times": 3.35,
+        "ttp_adaptive_doubling_times": 3.35,
+        "adaptive_gain_ratio": 1.0,
+        "adaptive_holidays_fired": 0,
+        "adaptive_rule_never_fired": true,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.408,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 0.408
+      },
+      {
+        "initial_resistant_fraction": 0.3,
+        "resistance_cost": 0.05,
+        "ttp_mtd_doubling_times": 3.514,
+        "ttp_adaptive_doubling_times": 3.514,
+        "adaptive_gain_ratio": 1.0,
+        "adaptive_holidays_fired": 0,
+        "adaptive_rule_never_fired": true,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.411,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 0.411
+      },
+      {
+        "initial_resistant_fraction": 0.3,
+        "resistance_cost": 0.1,
+        "ttp_mtd_doubling_times": 3.694,
+        "ttp_adaptive_doubling_times": 3.694,
+        "adaptive_gain_ratio": 1.0,
+        "adaptive_holidays_fired": 0,
+        "adaptive_rule_never_fired": true,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.417,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 0.417
+      },
+      {
+        "initial_resistant_fraction": 0.3,
+        "resistance_cost": 0.2,
+        "ttp_mtd_doubling_times": 4.125,
+        "ttp_adaptive_doubling_times": 4.125,
+        "adaptive_gain_ratio": 1.0,
+        "adaptive_holidays_fired": 0,
+        "adaptive_rule_never_fired": true,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.425,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 0.425
+      },
+      {
+        "initial_resistant_fraction": 0.3,
+        "resistance_cost": 0.3,
+        "ttp_mtd_doubling_times": 4.675,
+        "ttp_adaptive_doubling_times": 4.675,
+        "adaptive_gain_ratio": 1.0,
+        "adaptive_holidays_fired": 0,
+        "adaptive_rule_never_fired": true,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.433,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 0.433
+      },
+      {
+        "initial_resistant_fraction": 0.3,
+        "resistance_cost": 0.5,
+        "ttp_mtd_doubling_times": 6.439,
+        "ttp_adaptive_doubling_times": 6.886,
+        "adaptive_gain_ratio": 1.0695,
+        "adaptive_holidays_fired": 1,
+        "adaptive_rule_never_fired": false,
+        "censored": false,
+        "t_resistant_fraction_50pc_mtd_doubling_times": 0.453,
+        "t_resistant_fraction_50pc_adaptive_doubling_times": 0.453
+      }
+    ],
+    "gain_ratio_spread_by_initial_resistant_fraction": {
+      "0.0001": {
+        "min": 1.4199,
+        "max": 1.4331
+      },
+      "0.001": {
+        "min": 1.3771,
+        "max": 1.4004
+      },
+      "0.01": {
+        "min": 1.2933,
+        "max": 1.3344
+      },
+      "0.05": {
+        "min": 1.1933,
+        "max": 1.2351
+      },
+      "0.1": {
+        "min": 1.1135,
+        "max": 1.1925
+      },
+      "0.2": {
+        "min": 1.0852,
+        "max": 1.1037
+      },
+      "0.3": {
+        "min": 1.0,
+        "max": 1.0695
+      }
+    },
+    "gain_ratio_spread_by_resistance_cost": {
+      "0.0": {
+        "min": 1.0,
+        "max": 1.4212
+      },
+      "0.05": {
+        "min": 1.0,
+        "max": 1.4309
+      },
+      "0.1": {
+        "min": 1.0,
+        "max": 1.4241
+      },
+      "0.2": {
+        "min": 1.0,
+        "max": 1.4199
+      },
+      "0.3": {
+        "min": 1.0,
+        "max": 1.4331
+      },
+      "0.5": {
+        "min": 1.0695,
+        "max": 1.4004
+      }
+    },
+    "delta_robustness_sweep": [
+      {
+        "delta_over_r_s": 1.0,
+        "resistance_cost": 0.0,
+        "adaptive_gain_ratio": 1.1596,
+        "censored": false
+      },
+      {
+        "delta_over_r_s": 1.0,
+        "resistance_cost": 0.3,
+        "adaptive_gain_ratio": 1.1918,
+        "censored": false
+      },
+      {
+        "delta_over_r_s": 2.0,
+        "resistance_cost": 0.0,
+        "adaptive_gain_ratio": 1.3351,
+        "censored": false
+      },
+      {
+        "delta_over_r_s": 2.0,
+        "resistance_cost": 0.3,
+        "adaptive_gain_ratio": 1.3752,
+        "censored": false
+      },
+      {
+        "delta_over_r_s": 3.0,
+        "resistance_cost": 0.0,
+        "adaptive_gain_ratio": 1.3834,
+        "censored": false
+      },
+      {
+        "delta_over_r_s": 3.0,
+        "resistance_cost": 0.3,
+        "adaptive_gain_ratio": 1.3839,
+        "censored": false
+      },
+      {
+        "delta_over_r_s": 6.0,
+        "resistance_cost": 0.0,
+        "adaptive_gain_ratio": 1.408,
+        "censored": false
+      },
+      {
+        "delta_over_r_s": 6.0,
+        "resistance_cost": 0.3,
+        "adaptive_gain_ratio": 1.4103,
+        "censored": false
+      },
+      {
+        "delta_over_r_s": 12.0,
+        "resistance_cost": 0.0,
+        "adaptive_gain_ratio": 1.4074,
+        "censored": false
+      },
+      {
+        "delta_over_r_s": 12.0,
+        "resistance_cost": 0.3,
+        "adaptive_gain_ratio": 1.4163,
+        "censored": false
+      }
+    ],
+    "turnover_robustness_sweep": [
+      {
+        "turnover_over_r_s": 0.0,
+        "resistance_cost": 0.0,
+        "adaptive_gain_ratio": 1.3834,
+        "censored": false,
+        "note": null
+      },
+      {
+        "turnover_over_r_s": 0.0,
+        "resistance_cost": 0.1,
+        "adaptive_gain_ratio": 1.3771,
+        "censored": false,
+        "note": null
+      },
+      {
+        "turnover_over_r_s": 0.0,
+        "resistance_cost": 0.3,
+        "adaptive_gain_ratio": 1.3839,
+        "censored": false,
+        "note": null
+      },
+      {
+        "turnover_over_r_s": 0.2,
+        "resistance_cost": 0.0,
+        "adaptive_gain_ratio": 1.5444,
+        "censored": false,
+        "note": null
+      },
+      {
+        "turnover_over_r_s": 0.2,
+        "resistance_cost": 0.1,
+        "adaptive_gain_ratio": 1.5932,
+        "censored": false,
+        "note": null
+      },
+      {
+        "turnover_over_r_s": 0.2,
+        "resistance_cost": 0.3,
+        "adaptive_gain_ratio": 1.551,
+        "censored": true,
+        "note": "CENSORED — at least one arm reached the 20-year horizon, so this ratio is horizon-limited. Where BOTH arms are censored the ratio is exactly 1.0 by construction and is an artefact, not an equality."
+      },
+      {
+        "turnover_over_r_s": 0.5,
+        "resistance_cost": 0.0,
+        "adaptive_gain_ratio": 1.0,
+        "censored": true,
+        "note": "CENSORED — at least one arm reached the 20-year horizon, so this ratio is horizon-limited. Where BOTH arms are censored the ratio is exactly 1.0 by construction and is an artefact, not an equality."
+      },
+      {
+        "turnover_over_r_s": 0.5,
+        "resistance_cost": 0.1,
+        "adaptive_gain_ratio": 1.0,
+        "censored": true,
+        "note": "CENSORED — at least one arm reached the 20-year horizon, so this ratio is horizon-limited. Where BOTH arms are censored the ratio is exactly 1.0 by construction and is an artefact, not an equality."
+      },
+      {
+        "turnover_over_r_s": 0.5,
+        "resistance_cost": 0.3,
+        "adaptive_gain_ratio": 1.0,
+        "censored": true,
+        "note": "CENSORED — at least one arm reached the 20-year horizon, so this ratio is horizon-limited. Where BOTH arms are censored the ratio is exactly 1.0 by construction and is an artefact, not an equality."
+      }
+    ],
+    "readings": {
+      "the_shape": "⛔ THE MODEL CONTRADICTS THE AXIS THE MEMO PUT THE WEIGHT ON. The adaptive gain is governed by the INITIAL RESISTANT FRACTION and is very nearly independent of the fitness cost of resistance: sweeping f0 from 1e-4 to 0.3 moves the gain ratio across its whole range, while sweeping the cost from 0 to 0.5 at fixed f0 barely moves it. A cost raises time to progression in BOTH arms by roughly the same factor, so it cancels in the ratio.",
+      "why_a_cost_is_not_required": "In this model form, competitive suppression operates through COMPETITION FOR SPACE, not through a growth-rate differential. Killing the sensitive population frees capacity that the resistant population then grows into faster — the (1 - S - R) term — and that mechanism is present whether or not r_R < r_S. The memo's stated killer ('resistance may not be fitness-costed ... so competitive suppression would have nothing to work with') is therefore not what this model says. ⚠ This is a property of the MODEL FORM and not a theorem: whether a cost of resistance is necessary is an open and actively contested question in the adaptive-therapy literature, and a different competition kernel can restore the requirement. It is reported here because it is what the stated model returns, and because it changes which measurement is decision-relevant.",
+      "where_the_cost_DOES_act": "On the resistant fraction itself, not on time to progression. `t_resistant_fraction_50pc_*` shows the cost delaying the moment the tumour becomes majority-resistant. That matters for a containment strategy and for second-line options; it does not drive the time-to-progression gain.",
+      "the_degenerate_corner": "At f0 = 0.3 the adaptive rule NEVER FIRES (`adaptive_rule_never_fired`): the drug cannot halve total burden because the resistant compartment alone is already close to the trigger, so the adaptive arm is identical to continuous dosing by construction. A high resistant fraction does not make adaptive therapy worse — it makes it unimplementable.",
+      "robustness": "The ordering survives a drug-potency sweep over delta = 1-12 x r_S (the gain saturates above about 3 x) and a cell-turnover sweep. Moderate turnover INCREASES the gain. High turnover pushes both arms past the 20-year horizon, where the ratio of 1.0 is a censoring artefact and is flagged as one rather than reported as equality."
+    }
+  },
+  "plasticity_model": {
+    "question": "If EMC's resistance is a reversible phenotype rather than a selected clone — which is what mutational quietness makes more likely — does intermittent dosing still help, and for the same reason?",
+    "setup": "Same model, fitness cost set to ZERO, initial resistant fraction 1e-3, with drug-induced switching S->R while on drug and reversion R->S while off drug, both expressed as multiples of r_S.",
+    "grid": [
+      {
+        "switch_to_resistant_on_drug_x_rs": 0.0,
+        "revert_to_sensitive_off_drug_x_rs": 0.0,
+        "ttp_mtd_doubling_times": 11.881,
+        "ttp_adaptive_doubling_times": 16.436,
+        "adaptive_gain_ratio": 1.3834,
+        "censored": false
+      },
+      {
+        "switch_to_resistant_on_drug_x_rs": 0.0,
+        "revert_to_sensitive_off_drug_x_rs": 0.5,
+        "ttp_mtd_doubling_times": 11.881,
+        "ttp_adaptive_doubling_times": 36.381,
+        "adaptive_gain_ratio": 3.0622,
+        "censored": false
+      },
+      {
+        "switch_to_resistant_on_drug_x_rs": 0.0,
+        "revert_to_sensitive_off_drug_x_rs": 2.0,
+        "ttp_mtd_doubling_times": 11.881,
+        "ttp_adaptive_doubling_times": 40.583,
+        "adaptive_gain_ratio": 3.4159,
+        "censored": true
+      },
+      {
+        "switch_to_resistant_on_drug_x_rs": 0.5,
+        "revert_to_sensitive_off_drug_x_rs": 0.0,
+        "ttp_mtd_doubling_times": 4.522,
+        "ttp_adaptive_doubling_times": 5.064,
+        "adaptive_gain_ratio": 1.1198,
+        "censored": false
+      },
+      {
+        "switch_to_resistant_on_drug_x_rs": 0.5,
+        "revert_to_sensitive_off_drug_x_rs": 0.5,
+        "ttp_mtd_doubling_times": 4.522,
+        "ttp_adaptive_doubling_times": 5.589,
+        "adaptive_gain_ratio": 1.2359,
+        "censored": false
+      },
+      {
+        "switch_to_resistant_on_drug_x_rs": 0.5,
+        "revert_to_sensitive_off_drug_x_rs": 2.0,
+        "ttp_mtd_doubling_times": 4.522,
+        "ttp_adaptive_doubling_times": 40.583,
+        "adaptive_gain_ratio": 8.9742,
+        "censored": true
+      },
+      {
+        "switch_to_resistant_on_drug_x_rs": 2.0,
+        "revert_to_sensitive_off_drug_x_rs": 0.0,
+        "ttp_mtd_doubling_times": 2.714,
+        "ttp_adaptive_doubling_times": 2.714,
+        "adaptive_gain_ratio": 1.0,
+        "censored": false
+      },
+      {
+        "switch_to_resistant_on_drug_x_rs": 2.0,
+        "revert_to_sensitive_off_drug_x_rs": 0.5,
+        "ttp_mtd_doubling_times": 2.714,
+        "ttp_adaptive_doubling_times": 2.714,
+        "adaptive_gain_ratio": 1.0,
+        "censored": false
+      },
+      {
+        "switch_to_resistant_on_drug_x_rs": 2.0,
+        "revert_to_sensitive_off_drug_x_rs": 2.0,
+        "ttp_mtd_doubling_times": 2.714,
+        "ttp_adaptive_doubling_times": 2.714,
+        "adaptive_gain_ratio": 1.0,
+        "censored": false
+      }
+    ],
+    "reading": {
+      "censoring_warning": "Rows with censored=true had at least one arm reach the 20-year horizon; their ratios are horizon-limited and the summaries below are computed over UNCENSORED rows only.",
+      "gain_no_switching_at_all": 1.3834,
+      "gain_switching_without_reversion_max": 1.1198,
+      "gain_switching_with_reversion_max_uncensored": 1.2359,
+      "censored_reverting_rows": [
+        {
+          "switch_to_resistant_on_drug_x_rs": 0.5,
+          "revert_to_sensitive_off_drug_x_rs": 2.0,
+          "ttp_mtd_doubling_times": 4.522,
+          "ttp_adaptive_doubling_times": 40.583,
+          "adaptive_gain_ratio": 8.9742,
+          "censored": true
+        }
+      ],
+      "conclusion": "Drug-induced switching is the mechanism that most damages the adaptive schedule, and reversion is what repairs it. If the sensitive population converts to resistant WHILE ON DRUG and does not convert back, the gain falls below the no-switching case, because every day of drug exposure manufactures resistance. If it converts back during a holiday, the gain is restored or exceeded — and the one cell with slow switching and fast reversion runs past the 20-year horizon entirely. Reversion of a PRE-EXISTING resistant pool with no drug-induced switching at all is stronger still. ⭐ That is a SECOND, independent rationale for intermittent dosing — resensitisation rather than competitive release — and it has a different observable: competitive release predicts the resistant fraction falls during a holiday because sensitive cells outgrow it, while resensitisation predicts it falls because resistant cells become sensitive again, which shows up as a SECOND RESPONSE ON RE-CHALLENGE. ⚠ At the fastest switching rate tested (2 x r_S) progression arrives before any holiday can fire and the adaptive arm is identical to continuous dosing — the same degenerate corner as a high initial resistant fraction."
+    }
+  },
+  "mutational_quietness": {
+    "question": "EMC's mutational quietness is real. Does it cut FOR or AGAINST the competitive-release premise adaptive therapy rests on?",
+    "evidence": [
+      "The only matched EMC trio sequenced end to end: 'While the primary tumor and lung metastasis had similar somatic variations and CNVs, the pelvic metastasis had more unique SVs with especially increased mutational burden of SVs in chromosome 2. This suggests that different molecular drivers appear in more advanced, relapsing EMC compared with the primary tumor and early lung metastasis.' [zou2023_wgs, FT, n = 1]",
+      "EMC's measured tumour mutational burden is 0-2 mutations/Mb (emc-unexplored-treatment-lanes.md §3.7, citing the repository's curated record)."
+    ],
+    "cuts_for": [
+      "⭐ THE DECISIVE ONE, AND IT IS DECISIVE ONLY BECAUSE THE MODEL SAYS WHICH AXIS MATTERS. A low mutation rate implies a SMALL pre-existing resistant fraction at treatment start, and `competition_model` shows the initial resistant fraction is the axis that governs the adaptive gain — the gain ratio runs across its entire range as f0 moves from 1e-4 to 0.3, and at f0 = 0.3 the adaptive rule cannot even fire.",
+      "Fewer independent resistance mechanisms means a resistant compartment more likely to be a single coherent phenotype — which is what a two-population model assumes and what a heterogeneous, highly-mutated tumour violates.",
+      "The fitness cost, which is what the memo expected to be decisive, is very nearly irrelevant to the time-to-progression gain in this model: it raises time to progression in both arms by about the same factor and cancels in the ratio. So the route by which quietness would have cut AGAINST — non-genetic resistance being cost-free — turns out to act on the axis that does not drive the result."
+    ],
+    "cuts_against": [
+      "Pazopanib's target is HOST ENDOTHELIUM, not the tumour cell (the memo's own falsifier). If the resistant compartment lives in the vasculature or the stroma it is not a heritable tumour lineage at all, and a two-population TUMOUR-CELL model has no resistant population to track. Mutational quietness makes this reading more likely, because it removes the obvious alternative. ⚠ This is not an argument about the cost — it is an argument that the model's state variables may not exist, which is worse.",
+      "If resistance is drug-INDUCED phenotype switching that does not revert, `plasticity_model` shows the adaptive gain falls below the no-switching case: every day of drug exposure manufactures resistance, and a schedule that dispenses less drug helps less than a schedule that dispenses none. Quietness raises the probability of exactly this mechanism."
+    ],
+    "net_verdict": {
+      "direction": "FOR, on net — and this REVERSES the reading the memo's falsifier implies",
+      "why": "The memo's stated killer is that anti-angiogenic resistance may not be fitness-costed, 'so competitive suppression would have nothing to work with'. The model does not agree: competitive suppression here operates through competition for space, which is present whether or not resistance is costly, and the cost cancels in the time-to-progression ratio. What the gain actually depends on is the SIZE of the resistant compartment at treatment start — and mutational quietness is an argument that it is small. On the axis that matters, quietness helps.",
+      "the_caveat_that_keeps_it_honest": "⚠ Whether a cost of resistance is REQUIRED is a property of the competition kernel, not a theorem, and it is contested in the adaptive-therapy literature. This analysis reports what the stated model returns and flags that a different kernel can restore the requirement. What is robust across the sweeps run here — drug potency 1-12 x r_S, cell turnover 0-0.5 x r_S — is the RANK: f0 dominates cost in every one.",
+      "the_counter_evidence_on_the_other_side": "The same WGS trio is the one EMC dataset showing that heritable divergence DOES occur: the advanced pelvic metastasis carried unique structural variants the primary and early lung metastasis did not. n = 1, uncontrolled, and not tied to any treatment exposure — but it is direct evidence against 'EMC does not evolve', and a tumour that evolves has a resistant compartment for the model to describe."
+    }
+  },
+  "identifiability": {
+    "question": "Which of this model's parameters has ever been measured in EMC?",
+    "verdict": "None of the rate parameters. Every one of the five is unmeasured in EMC in vivo, which is why this module emits no predicted PFS in months.",
+    "parameters": [
+      {
+        "symbol": "r_S",
+        "meaning": "intrinsic growth rate of the drug-sensitive population",
+        "measured_in_emc": false,
+        "closest_available": "ex vivo doubling times of 5.09 days (USZ20-EMC1) and 6.05 days (USZ22-EMC2) [bangerter2023_models, FT]",
+        "why_not_usable": "Those are sarco-sphere culture rates. They imply a volume doubling every ~5-6 days, which is irreconcilable with a disease whose metastatic median OS is 5-7 years. An ex vivo rate cannot be transplanted into an in-vivo model, and doing so silently is how a simulation acquires false precision.",
+        "how_to_measure_it_at_zero_cost": "Volumetric re-read of serial chest CTs in any EMC cohort with archived imaging. This would produce the first in-vivo EMC growth rates and needs no laboratory."
+      },
+      {
+        "symbol": "c",
+        "meaning": "fitness cost of resistance in the absence of drug",
+        "measured_in_emc": false,
+        "closest_available": "nothing in EMC; nothing in any sarcoma for an anti-angiogenic",
+        "how_much_it_matters": "LESS THAN THE MEMO ASSUMES. In this model form the cost raises time to progression in both arms by about the same factor and cancels in the ratio. It governs the time to majority-resistance, not the adaptive gain."
+      },
+      {
+        "symbol": "f0",
+        "meaning": "resistant fraction at treatment start",
+        "measured_in_emc": false,
+        "closest_available": "indirect only — 4/22 RECIST responses in the phase 2 bounds the SENSITIVE fraction at the whole-lesion level, not the cellular one",
+        "how_much_it_matters": "MOST. It is the axis the adaptive gain actually runs on, and it is the axis EMC's mutational quietness speaks to."
+      },
+      {
+        "symbol": "delta",
+        "meaning": "drug-induced death rate on sensitive cells",
+        "measured_in_emc": false,
+        "closest_available": "the trial's tempo change — documented progression within 6 months before enrolment, median PFS 19 months on drug — which constrains delta only jointly with r_S"
+      },
+      {
+        "symbol": "mu_on / mu_off",
+        "meaning": "phenotype-switching rates",
+        "measured_in_emc": false,
+        "closest_available": "nothing; no EMC re-challenge data of any kind was found"
+      }
+    ],
+    "consequence": "The honest output of this lane is a PARAMETER REGION and a measurement list, exactly as §3.8 said it should be. Any absolute predicted PFS would be a statement about the assumed r_S, not about EMC."
+  },
+  "falsifier": {
+    "the_memo_named_the_wrong_one": {
+      "memo_falsifier": "'anti-angiogenic resistance may not be fitness-costed, because the drug's target is host endothelium, not the tumour cell — so resistance could be microenvironmental, and competitive suppression would have nothing to work with.'",
+      "what_the_model_says": "That sentence conflates two separable claims, and only one of them is fatal. (a) 'Resistance is not fitness-costed' — the model shows this is NOT fatal: the cost cancels in the time-to-progression ratio because competitive suppression here works through competition for space, not through a growth-rate differential. (b) 'Resistance is microenvironmental rather than a tumour-cell trait' — this IS fatal, and for a different reason: it means the model's second state variable does not exist, so there is no resistant population to suppress at any cost. The memo's falsifier is correct in its conclusion and wrong in its mechanism, and the difference decides which measurement is worth making."
+    },
+    "primary": {
+      "statement": "Does a HERITABLE, TUMOUR-CELL-INTRINSIC resistant compartment exist in EMC under pazopanib, and is the tumour close enough to carrying capacity for the two compartments to compete? If resistance lives in the host vasculature, or if the tumour is far from any resource limit, there is no competition to exploit and adaptive scheduling has no mechanistic basis in this disease.",
+      "why_it_is_the_falsifier_and_not_a_limitation": "Both halves are preconditions for the model to describe anything at all, whereas every parameter in `identifiability` merely sets the size of the effect. A precondition that fails cannot be compensated by a favourable parameter value.",
+      "the_second_falsifier_the_model_promotes": "Is the initial resistant fraction small? `competition_model` shows the adaptive gain vanishes as f0 approaches 0.3, and at that value the adaptive rule cannot fire at all. This is the axis the memo did not weight, and it is the one that decides the size of the prize."
+    },
+    "the_discriminating_observations, in order of cost": [
+      {
+        "observation": "In patients who progress on pazopanib and stop it, does the growth rate of previously-responding lesions DIFFER from the on-drug progression rate?",
+        "discriminates": "A slower off-drug growth rate is direct evidence of a fitness cost. No change is evidence of c = 0.",
+        "cost": "retrospective imaging re-read; no laboratory; no new patients"
+      },
+      {
+        "observation": "Does pazopanib RE-CHALLENGE after a holiday produce a second response?",
+        "discriminates": "A second response is evidence of REVERSION (plasticity model, resensitisation mechanism). No second response is evidence of durable heritable resistance.",
+        "cost": "case-finding in existing EMC cohorts; no EMC re-challenge data of any kind was found in this pass"
+      },
+      {
+        "observation": "Paired biopsy or ctDNA at progression: is there clonal selection, or none?",
+        "discriminates": "Clonal selection supports a heritable resistant compartment and therefore the two-population model. No clonal change supports phenotypic or microenvironmental resistance.",
+        "cost": "requires tissue — the only item here that is not desk-computable",
+        "closest_existing_datum": "the matched trio's advanced pelvic metastasis carried unique structural variants [zou2023_wgs], which is n = 1 and not tied to treatment"
+      }
+    ],
+    "secondary_falsifier": {
+      "statement": "Is EMC's burden trackable fast enough to close the control loop? An adaptive schedule needs a burden readout at an interval short relative to the tumour's doubling time. Adaptive abiraterone used weekly PSA; EMC would use CT at intervals of months.",
+      "status": "Untested. Also unanswerable until r_S is measured — which is the same free imaging re-read named above, so ONE piece of desk work moves both."
+    }
+  },
+  "verdict": {
+    "resolved": false,
+    "status": "SURVIVES as a live, well-posed question — and is now narrower than the memo left it",
+    "statement": "Four of the five grounds hold, one (a single active systemic class) is overstated and survives only in a weaker form. Ground ii is strengthened by a fact the memo did not use: the phase 2 required documented RECIST progression within the previous six months, so an 18 % response rate with a 19-month median PFS is a measured change of TEMPO in a cohort selected for growth. On the question the memo left open, the model returns an answer OPPOSITE to the one its own falsifier implies: EMC's mutational quietness cuts FOR the adaptive premise, because the adaptive gain runs on the INITIAL RESISTANT FRACTION — which quietness argues is small — and is very nearly independent of the fitness cost of resistance, which is the parameter the memo built its falsifier on. What remains genuinely fatal is not the absence of a cost but the possible absence of a tumour-cell resistant compartment at all.",
+    "what_is_new_here": [
+      "the five grounds checked one by one, with the overstated one named",
+      "the phase 2's entry criterion promoted from fine print to the load-bearing quantitative support for ground ii",
+      "⛔ a demonstration that the adaptive gain is governed by the INITIAL RESISTANT FRACTION and is very nearly independent of the fitness cost — the opposite of the axis the memo weighted, robust across drug-potency and cell-turnover sweeps",
+      "the consequent re-answering of the memo's open question: mutational quietness cuts FOR, not against",
+      "a restatement of the falsifier that separates 'resistance is not costly' (not fatal) from 'resistance is not a tumour-cell trait' (fatal) — the memo conflated them and reached the right conclusion by the wrong mechanism",
+      "a second model showing that drug-induced, non-reverting phenotype switching is the mechanism that most damages the schedule, and that reversion repairs it — which supplies a distinct, cheap observable: a second response on re-challenge",
+      "an explicit statement that no rate parameter of the model has ever been measured in EMC in vivo, and that the closest available figures are ex vivo doubling times irreconcilable with the clinical tempo"
+    ],
+    "the_one_free_step_that_moves_it": "A volumetric re-read of serial chest CTs in any EMC cohort with archived imaging. It would produce the first in-vivo EMC growth rates, answer the secondary falsifier about loop speed, and — in patients who stopped pazopanib at progression — test the primary falsifier by comparing on-drug and off-drug growth rates. It needs imaging access, which this program does not have, so the honest state is 'blocked on data only a collaborator can supply', not 'blocked on compute'."
+  }
+}

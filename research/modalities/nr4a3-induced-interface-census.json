@@ -1,0 +1,4998 @@
+{
+  "_what": "Induced-interface size of deposited complexes, measured under nr4a3_basin_search.PARAMS' own contact predicate.",
+  "_floor_under_test": {
+    "min_contact_residues": 12,
+    "contact_A": 6.0,
+    "soft_clash_A": 3.6,
+    "hard_clash_A": 3.0,
+    "note": "min_contact_residues counts QUERY POINTS, and there are two per residue (CA + side-chain centroid), so 12 points is as few as 6 residues."
+  },
+  "_not_measured": [
+    "cooperativity",
+    "residence time",
+    "affinity",
+    "transcriptional output",
+    "efficacy",
+    "selectivity",
+    "safety",
+    "clinical readiness"
+  ],
+  "_source": "mmCIF fetched in CI to the literature-cache branch; RCSB is 403'd from the dev sandbox at the egress proxy on CONNECT.",
+  "n_entries": 22,
+  "summary_over_induced_pairs": {
+    "floor_under_test": 12,
+    "_reading": "min_direction_range is the range, over this class's induced pairs, of the SMALLER of the two directional contact counts; a pair whose smaller count is below the floor is one the sampler would reject in at least one of the two orientations it could be posed in.",
+    "by_class": {
+      "cid_proximity": {
+        "n_induced_pairs": 7,
+        "n_ligand_bridged_measured": 4,
+        "n_allosteric_curated": 3,
+        "entries": [
+          "1FAP",
+          "2P1Q",
+          "2ZSH",
+          "3FAP",
+          "3JRQ",
+          "3KDJ",
+          "4DRI"
+        ],
+        "pairs_below_floor_in_at_least_one_direction": 1,
+        "pairs_below_floor_in_both_directions": 0,
+        "min_direction_range": [
+          11,
+          53
+        ],
+        "max_direction_range": [
+          13,
+          55
+        ],
+        "_why": {
+          "1FAP": "FKBP12-rapamycin-FRB, the chemical inducer of dimerization that the rapamycin-regulated transcription systems are built on",
+          "2P1Q": "auxin bridging TIR1 and the IAA7 degron",
+          "2ZSH": "gibberellin GA3: the GID1-DELLA CID pair",
+          "3FAP": "FKBP12-rapalog-FRB",
+          "3JRQ": "abscisic acid: the PYL1-ABI1 CID pair, second entry",
+          "3KDJ": "abscisic acid: the PYL1-ABI1 CID pair",
+          "4DRI": "FKBP51-rapamycin-FRB; a paralogue of the same ternary"
+        }
+      },
+      "induced_transcriptional": {
+        "n_induced_pairs": 12,
+        "n_ligand_bridged_measured": 2,
+        "n_allosteric_curated": 10,
+        "entries": [
+          "1FM9",
+          "1GWR",
+          "2PRG",
+          "3DZY",
+          "3ERD",
+          "9MZA"
+        ],
+        "pairs_below_floor_in_at_least_one_direction": 2,
+        "pairs_below_floor_in_both_directions": 2,
+        "min_direction_range": [
+          6,
+          19
+        ],
+        "max_direction_range": [
+          7,
+          32
+        ],
+        "_why": {
+          "1FM9": "ligand-bound PPARg:RXRa with SRC-1 NR boxes",
+          "1GWR": "oestradiol-bound ERa with the TIF2 NR-box-3 peptide",
+          "2PRG": "rosiglitazone-bound PPARg with an SRC-1 NR box",
+          "3DZY": "intact PPARg:RXRa on DNA with an NCOA2 peptide",
+          "3ERD": "DES-bound ERa with the GRIP1 NR-box-II peptide",
+          "9MZA": "'Chemically Hijacked BCL6-TCIP3-p300 Complex' - the bivalent molecule A1BUC (TCIP3, 81 heavy atoms) bridging the BCL6 BTB domain and p300. VERIFIED from the deposition's own rcsb_primary_citation, not from the paper: bioRxiv 10.1101/2025.03.14.643404 / PubMed 40166243, 'A Bivalent Molecular Glue Linking Lysine Acetyltransferases to Oncogene-induced Cell Death' (Nix, Gourisankar, ... Crabtree), released 2025-04-16 at 2.1 A"
+        }
+      },
+      "degrader_or_glue": {
+        "n_induced_pairs": 15,
+        "n_ligand_bridged_measured": 15,
+        "n_allosteric_curated": 0,
+        "entries": [
+          "5FQD",
+          "5T35",
+          "6BN7",
+          "6BOY",
+          "6H0F",
+          "6HAX",
+          "6SIS",
+          "7Q2J"
+        ],
+        "pairs_below_floor_in_at_least_one_direction": 6,
+        "pairs_below_floor_in_both_directions": 1,
+        "min_direction_range": [
+          5,
+          23
+        ],
+        "max_direction_range": [
+          11,
+          25
+        ],
+        "_why": {
+          "5FQD": "lenalidomide molecular glue bridging CRBN and CK1a",
+          "5T35": "PROTAC MZ1 bridging BRD4 BD2 and pVHL",
+          "6BN7": "PROTAC dBET23 bridging CRBN and BRD4 BD1",
+          "6BOY": "PROTAC dBET6 bridging CRBN and BRD4 BD1",
+          "6H0F": "pomalidomide molecular glue bridging CRBN and IKZF1 ZF2",
+          "6HAX": "PROTAC 2 bridging SMARCA2 bromodomain and pVHL",
+          "6SIS": "macrocyclic PROTAC 1 bridging a BRD4 bromodomain and pVHL",
+          "7Q2J": "PROTAC bridging WDR5 and pVHL"
+        }
+      },
+      "constitutive": {
+        "n_induced_pairs": 1,
+        "n_ligand_bridged_measured": 1,
+        "n_allosteric_curated": 0,
+        "entries": [
+          "7LWG"
+        ],
+        "pairs_below_floor_in_at_least_one_direction": 0,
+        "pairs_below_floor_in_both_directions": 0,
+        "min_direction_range": [
+          64,
+          64
+        ],
+        "max_direction_range": [
+          67,
+          67
+        ],
+        "_why": {
+          "7LWG": "the BCL6 BTB HOMODIMER this route already staged as its effector arm; the dimer is constitutive, so its interface is a contrast and is never pooled as induced"
+        }
+      },
+      "tcip": {
+        "n_induced_pairs": 2,
+        "n_ligand_bridged_measured": 2,
+        "n_allosteric_curated": 0,
+        "entries": [
+          "9MZA"
+        ],
+        "pairs_below_floor_in_at_least_one_direction": 2,
+        "pairs_below_floor_in_both_directions": 2,
+        "min_direction_range": [
+          6,
+          6
+        ],
+        "max_direction_range": [
+          7,
+          7
+        ],
+        "_why": {
+          "9MZA": "'Chemically Hijacked BCL6-TCIP3-p300 Complex' - the bivalent molecule A1BUC (TCIP3, 81 heavy atoms) bridging the BCL6 BTB domain and p300. VERIFIED from the deposition's own rcsb_primary_citation, not from the paper: bioRxiv 10.1101/2025.03.14.643404 / PubMed 40166243, 'A Bivalent Molecular Glue Linking Lysine Acetyltransferases to Oncogene-induced Cell Death' (Nix, Gourisankar, ... Crabtree), released 2025-04-16 at 2.1 A"
+        }
+      }
+    }
+  },
+  "entries": [
+    {
+      "pdb_id": "1FAP",
+      "title": "THE STRUCTURE OF THE IMMUNOPHILIN-IMMUNOSUPPRESSANT FKBP12-RAPAMYCIN COMPLEX INTERACTING WITH HUMAN FRAP",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 2.7,
+      "entry_id_in_file": "1FAP",
+      "entities": [
+        "FK506-BINDING PROTEIN",
+        "FRAP",
+        "RAPAMYCIN IMMUNOSUPPRESSANT DRUG",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "FK506-BINDING PROTEIN",
+        "B": "FRAP"
+      },
+      "n_atoms_model1": 1727,
+      "protein_chains": [
+        "A",
+        "B"
+      ],
+      "ligands": [
+        {
+          "het_code": "RAP",
+          "chain": "A",
+          "seq": "108",
+          "n_heavy_atoms": 65,
+          "chains_touched": {
+            "A": 44,
+            "B": 28
+          },
+          "spans": [
+            "A",
+            "B"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "A",
+          "B"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "FK506-BINDING PROTEIN",
+            "FRAP"
+          ],
+          "n_residues": [
+            107,
+            95
+          ],
+          "ligand_bridged_by": [
+            "RAP"
+          ],
+          "arm_is_A": {
+            "n_contact_points": 20,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 13,
+            "n_residues_within_contact_A": 13,
+            "n_query_points": 214
+          },
+          "arm_is_B": {
+            "n_contact_points": 11,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 190
+          },
+          "n_contact_points_min": 11,
+          "n_contact_points_max": 20,
+          "clears_the_committed_floor_both_ways": false
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "1FM9",
+      "title": "THE 2.1 ANGSTROM RESOLUTION CRYSTAL STRUCTURE OF THE HETERODIMER OF THE HUMAN RXRALPHA AND PPARGAMMA LIGAND BINDING DOMAINS RESPECTIVELY BOUND WITH 9-CIS RETINOIC ACID AND GI262570 AND CO-ACTIVATOR PEPTIDES.",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 2.1,
+      "entry_id_in_file": "1FM9",
+      "entities": [
+        "RETINOIC ACID RECEPTOR RXR-ALPHA",
+        "PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA",
+        "STEROID RECEPTOR COACTIVATOR",
+        "(9cis)-retinoic acid",
+        "2-(2-BENZOYL-PHENYLAMINO)-3-{4-[2-(5-METHYL-2-PHENYL-OXAZOL-4-YL)-ETHOXY]-PHENYL}-PROPIONIC ACID",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "RETINOIC ACID RECEPTOR RXR-ALPHA",
+        "D": "PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA",
+        "B": "STEROID RECEPTOR COACTIVATOR",
+        "E": "STEROID RECEPTOR COACTIVATOR"
+      },
+      "n_atoms_model1": 4342,
+      "protein_chains": [
+        "A",
+        "B",
+        "D",
+        "E"
+      ],
+      "ligands": [
+        {
+          "het_code": "9CR",
+          "chain": "A",
+          "seq": "201",
+          "n_heavy_atoms": 22,
+          "chains_touched": {
+            "A": 22
+          },
+          "spans": [
+            "A"
+          ]
+        },
+        {
+          "het_code": "570",
+          "chain": "D",
+          "seq": "200",
+          "n_heavy_atoms": 41,
+          "chains_touched": {
+            "D": 41
+          },
+          "spans": [
+            "D"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "D"
+          ],
+          "what": [
+            "RETINOIC ACID RECEPTOR RXR-ALPHA",
+            "PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA"
+          ],
+          "n_residues": [
+            232,
+            272
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 36,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 24,
+            "n_residues_within_contact_A": 25,
+            "n_query_points": 464
+          },
+          "arm_is_D": {
+            "n_contact_points": 42,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 27,
+            "n_residues_within_contact_A": 27,
+            "n_query_points": 544
+          },
+          "n_contact_points_min": 36,
+          "n_contact_points_max": 42,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "D",
+            "E"
+          ],
+          "what": [
+            "PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA",
+            "STEROID RECEPTOR COACTIVATOR"
+          ],
+          "n_residues": [
+            272,
+            16
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_D": {
+            "n_contact_points": 28,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 17,
+            "n_residues_within_contact_A": 17,
+            "n_query_points": 544
+          },
+          "arm_is_E": {
+            "n_contact_points": 17,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 11,
+            "n_residues_within_contact_A": 12,
+            "n_query_points": 32
+          },
+          "n_contact_points_min": 17,
+          "n_contact_points_max": 28,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "RETINOIC ACID RECEPTOR RXR-ALPHA",
+            "STEROID RECEPTOR COACTIVATOR"
+          ],
+          "n_residues": [
+            232,
+            10
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 19,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 16,
+            "n_query_points": 464
+          },
+          "arm_is_B": {
+            "n_contact_points": 16,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 9,
+            "n_query_points": 20
+          },
+          "n_contact_points_min": 16,
+          "n_contact_points_max": 19,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "1GWR",
+      "title": "HUMAN OESTROGEN RECEPTOR ALPHA LIGAND-BINDING DOMAIN IN COMPLEX WITH 17BETA-OESTRADIOL AND TIF2 NRBOX3 PEPTIDE",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 2.4,
+      "entry_id_in_file": "1GWR",
+      "entities": [
+        "OESTROGEN RECEPTOR",
+        "TRANSCRIPTION INTERMEDIARY FACTOR-2",
+        "ESTRADIOL",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "OESTROGEN RECEPTOR",
+        "B": "OESTROGEN RECEPTOR",
+        "C": "TRANSCRIPTION INTERMEDIARY FACTOR-2",
+        "D": "TRANSCRIPTION INTERMEDIARY FACTOR-2"
+      },
+      "n_atoms_model1": 3973,
+      "protein_chains": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "ligands": [
+        {
+          "het_code": "EST",
+          "chain": "A",
+          "seq": "600",
+          "n_heavy_atoms": 20,
+          "chains_touched": {
+            "A": 18
+          },
+          "spans": [
+            "A"
+          ]
+        },
+        {
+          "het_code": "EST",
+          "chain": "B",
+          "seq": "600",
+          "n_heavy_atoms": 20,
+          "chains_touched": {
+            "B": 18
+          },
+          "spans": [
+            "B"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "OESTROGEN RECEPTOR",
+            "OESTROGEN RECEPTOR"
+          ],
+          "n_residues": [
+            238,
+            239
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 49,
+            "n_soft_points": 7,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 33,
+            "n_residues_within_contact_A": 34,
+            "n_query_points": 476
+          },
+          "arm_is_B": {
+            "n_contact_points": 51,
+            "n_soft_points": 9,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 34,
+            "n_residues_within_contact_A": 35,
+            "n_query_points": 478
+          },
+          "n_contact_points_min": 49,
+          "n_contact_points_max": 51,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "C"
+          ],
+          "what": [
+            "OESTROGEN RECEPTOR",
+            "TRANSCRIPTION INTERMEDIARY FACTOR-2"
+          ],
+          "n_residues": [
+            238,
+            9
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 22,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 14,
+            "n_query_points": 476
+          },
+          "arm_is_C": {
+            "n_contact_points": 14,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 18
+          },
+          "n_contact_points_min": 14,
+          "n_contact_points_max": 22,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "D"
+          ],
+          "what": [
+            "OESTROGEN RECEPTOR",
+            "TRANSCRIPTION INTERMEDIARY FACTOR-2"
+          ],
+          "n_residues": [
+            239,
+            9
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 21,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 13,
+            "n_residues_within_contact_A": 13,
+            "n_query_points": 478
+          },
+          "arm_is_D": {
+            "n_contact_points": 12,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 7,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 18
+          },
+          "n_contact_points_min": 12,
+          "n_contact_points_max": 21,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "2P1Q",
+      "title": "Mechanism of Auxin Perception by the TIR1 ubiquitin ligase",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 1.91,
+      "entry_id_in_file": "2P1Q",
+      "entities": [
+        "SKP1-like protein 1A",
+        "TRANSPORT INHIBITOR RESPONSE 1 protein",
+        "Auxin-responsive protein IAA7",
+        "INOSITOL HEXAKISPHOSPHATE",
+        "1H-INDOL-3-YLACETIC ACID",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "SKP1-like protein 1A",
+        "B": "TRANSPORT INHIBITOR RESPONSE 1 protein",
+        "C": "Auxin-responsive protein IAA7"
+      },
+      "n_atoms_model1": 6401,
+      "protein_chains": [
+        "A",
+        "B",
+        "C"
+      ],
+      "ligands": [
+        {
+          "het_code": "IHP",
+          "chain": "B",
+          "seq": "801",
+          "n_heavy_atoms": 36,
+          "chains_touched": {
+            "B": 31
+          },
+          "spans": [
+            "B"
+          ]
+        },
+        {
+          "het_code": "IAC",
+          "chain": "B",
+          "seq": "901",
+          "n_heavy_atoms": 13,
+          "chains_touched": {
+            "B": 13,
+            "C": 9
+          },
+          "spans": [
+            "B",
+            "C"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "B",
+          "C"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "SKP1-like protein 1A",
+            "TRANSPORT INHIBITOR RESPONSE 1 protein"
+          ],
+          "n_residues": [
+            124,
+            568
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 60,
+            "n_soft_points": 6,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 36,
+            "n_residues_within_contact_A": 36,
+            "n_query_points": 248
+          },
+          "arm_is_B": {
+            "n_contact_points": 62,
+            "n_soft_points": 9,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 37,
+            "n_residues_within_contact_A": 39,
+            "n_query_points": 1136
+          },
+          "n_contact_points_min": 60,
+          "n_contact_points_max": 62,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "C"
+          ],
+          "what": [
+            "TRANSPORT INHIBITOR RESPONSE 1 protein",
+            "Auxin-responsive protein IAA7"
+          ],
+          "n_residues": [
+            568,
+            13
+          ],
+          "ligand_bridged_by": [
+            "IAC"
+          ],
+          "arm_is_B": {
+            "n_contact_points": 30,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 21,
+            "n_residues_within_contact_A": 21,
+            "n_query_points": 1136
+          },
+          "arm_is_C": {
+            "n_contact_points": 18,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 10,
+            "n_residues_within_contact_A": 11,
+            "n_query_points": 26
+          },
+          "n_contact_points_min": 18,
+          "n_contact_points_max": 30,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "2PRG",
+      "title": "LIGAND-BINDING DOMAIN OF THE HUMAN PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 2.3,
+      "entry_id_in_file": "2PRG",
+      "entities": [
+        "PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA",
+        "NUCLEAR RECEPTOR COACTIVATOR SRC-1",
+        "2,4-THIAZOLIDIINEDIONE, 5-[[4-[2-(METHYL-2-PYRIDINYLAMINO)ETHOXY]PHENYL]METHYL]-(9CL)",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA",
+        "B": "PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA",
+        "C": "NUCLEAR RECEPTOR COACTIVATOR SRC-1"
+      },
+      "n_atoms_model1": 5004,
+      "protein_chains": [
+        "A",
+        "B",
+        "C"
+      ],
+      "ligands": [
+        {
+          "het_code": "BRL",
+          "chain": "A",
+          "seq": "1",
+          "n_heavy_atoms": 25,
+          "chains_touched": {
+            "A": 25
+          },
+          "spans": [
+            "A"
+          ]
+        },
+        {
+          "het_code": "BRL",
+          "chain": "B",
+          "seq": "2",
+          "n_heavy_atoms": 25,
+          "chains_touched": {
+            "B": 25
+          },
+          "spans": [
+            "B"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA",
+            "PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA"
+          ],
+          "n_residues": [
+            271,
+            246
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 38,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 24,
+            "n_residues_within_contact_A": 24,
+            "n_query_points": 542
+          },
+          "arm_is_B": {
+            "n_contact_points": 39,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 25,
+            "n_residues_within_contact_A": 25,
+            "n_query_points": 492
+          },
+          "n_contact_points_min": 38,
+          "n_contact_points_max": 39,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "C"
+          ],
+          "what": [
+            "PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA",
+            "NUCLEAR RECEPTOR COACTIVATOR SRC-1"
+          ],
+          "n_residues": [
+            246,
+            32
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 32,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 20,
+            "n_residues_within_contact_A": 20,
+            "n_query_points": 492
+          },
+          "arm_is_C": {
+            "n_contact_points": 19,
+            "n_soft_points": 9,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 16,
+            "n_query_points": 64
+          },
+          "n_contact_points_min": 19,
+          "n_contact_points_max": 32,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "C"
+          ],
+          "what": [
+            "PEROXISOME PROLIFERATOR ACTIVATED RECEPTOR GAMMA",
+            "NUCLEAR RECEPTOR COACTIVATOR SRC-1"
+          ],
+          "n_residues": [
+            271,
+            32
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 29,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 18,
+            "n_residues_within_contact_A": 18,
+            "n_query_points": 542
+          },
+          "arm_is_C": {
+            "n_contact_points": 19,
+            "n_soft_points": 3,
+            "n_hard_points": 1,
+            "n_residues_with_a_contact_point": 11,
+            "n_residues_within_contact_A": 12,
+            "n_query_points": 64
+          },
+          "n_contact_points_min": 19,
+          "n_contact_points_max": 29,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "2ZSH",
+      "title": "Structural basis of gibberellin(GA3)-induced DELLA recognition by the gibberellin receptor",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 1.8,
+      "entry_id_in_file": "2ZSH",
+      "entities": [
+        "Probable gibberellin receptor GID1L1",
+        "DELLA protein GAI",
+        "GIBBERELLIN A3",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "Probable gibberellin receptor GID1L1",
+        "B": "DELLA protein GAI"
+      },
+      "n_atoms_model1": 3375,
+      "protein_chains": [
+        "A",
+        "B"
+      ],
+      "ligands": [
+        {
+          "het_code": "GA3",
+          "chain": "A",
+          "seq": "345",
+          "n_heavy_atoms": 25,
+          "chains_touched": {
+            "A": 24
+          },
+          "spans": [
+            "A"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "Probable gibberellin receptor GID1L1",
+            "DELLA protein GAI"
+          ],
+          "n_residues": [
+            338,
+            59
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 55,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 33,
+            "n_residues_within_contact_A": 33,
+            "n_query_points": 676
+          },
+          "arm_is_B": {
+            "n_contact_points": 53,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 33,
+            "n_residues_within_contact_A": 33,
+            "n_query_points": 118
+          },
+          "n_contact_points_min": 53,
+          "n_contact_points_max": 55,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "3DZY",
+      "title": "Intact PPAR gamma - RXR alpha Nuclear Receptor Complex on DNA bound with Rosiglitazone, 9-cis Retinoic Acid and NCOA2 Peptide",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 3.1,
+      "entry_id_in_file": "3DZY",
+      "entities": [
+        "Retinoic acid receptor RXR-alpha",
+        "Peroxisome proliferator-activated receptor gamma",
+        "DNA (5'-D(*DCP*DAP*DAP*DAP*DCP*DTP*DAP*DGP*DGP*DTP*DCP*DAP*DAP*DAP*DGP*DGP*DTP*DCP*DAP*DG)-3')",
+        "DNA (5'-D(*DCP*DTP*DGP*DAP*DCP*DCP*DTP*DTP*DTP*DGP*DAP*DCP*DCP*DTP*DAP*DGP*DTP*DTP*DTP*DG)-3')",
+        "NCOA2 Peptide",
+        "(9cis)-retinoic acid",
+        "ZINC ION",
+        "2,4-THIAZOLIDIINEDIONE, 5-[[4-[2-(METHYL-2-PYRIDINYLAMINO)ETHOXY]PHENYL]METHYL]-(9CL)"
+      ],
+      "chain_descriptions": {
+        "A": "Retinoic acid receptor RXR-alpha",
+        "D": "Peroxisome proliferator-activated receptor gamma",
+        "C": "DNA (5'-D(*DCP*DAP*DAP*DAP*DCP*DTP*DAP*DGP*DGP*DTP*DCP*DAP*DAP*DAP*DGP*DGP*DTP*DCP*DAP*DG)-3')",
+        "F": "DNA (5'-D(*DCP*DTP*DGP*DAP*DCP*DCP*DTP*DTP*DTP*DGP*DAP*DCP*DCP*DTP*DAP*DGP*DTP*DTP*DTP*DG)-3')",
+        "G": "NCOA2 Peptide",
+        "E": "NCOA2 Peptide"
+      },
+      "n_atoms_model1": 6271,
+      "protein_chains": [
+        "A",
+        "D",
+        "E",
+        "G"
+      ],
+      "ligands": [
+        {
+          "het_code": "9CR",
+          "chain": "A",
+          "seq": "463",
+          "n_heavy_atoms": 22,
+          "chains_touched": {
+            "A": 20
+          },
+          "spans": [
+            "A"
+          ]
+        },
+        {
+          "het_code": "BRL",
+          "chain": "D",
+          "seq": "478",
+          "n_heavy_atoms": 25,
+          "chains_touched": {
+            "D": 25
+          },
+          "spans": [
+            "D"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "D"
+          ],
+          "what": [
+            "Retinoic acid receptor RXR-alpha",
+            "Peroxisome proliferator-activated receptor gamma"
+          ],
+          "n_residues": [
+            302,
+            354
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 71,
+            "n_soft_points": 8,
+            "n_hard_points": 1,
+            "n_residues_with_a_contact_point": 48,
+            "n_residues_within_contact_A": 49,
+            "n_query_points": 604
+          },
+          "arm_is_D": {
+            "n_contact_points": 74,
+            "n_soft_points": 9,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 47,
+            "n_residues_within_contact_A": 48,
+            "n_query_points": 708
+          },
+          "n_contact_points_min": 71,
+          "n_contact_points_max": 74,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "D",
+            "E"
+          ],
+          "what": [
+            "Peroxisome proliferator-activated receptor gamma",
+            "NCOA2 Peptide"
+          ],
+          "n_residues": [
+            354,
+            10
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_D": {
+            "n_contact_points": 26,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 16,
+            "n_residues_within_contact_A": 16,
+            "n_query_points": 708
+          },
+          "arm_is_E": {
+            "n_contact_points": 16,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 9,
+            "n_residues_within_contact_A": 9,
+            "n_query_points": 20
+          },
+          "n_contact_points_min": 16,
+          "n_contact_points_max": 26,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "G"
+          ],
+          "what": [
+            "Retinoic acid receptor RXR-alpha",
+            "NCOA2 Peptide"
+          ],
+          "n_residues": [
+            302,
+            9
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 23,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 14,
+            "n_query_points": 604
+          },
+          "arm_is_G": {
+            "n_contact_points": 14,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 18
+          },
+          "n_contact_points_min": 14,
+          "n_contact_points_max": 23,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "3ERD",
+      "title": "HUMAN ESTROGEN RECEPTOR ALPHA LIGAND-BINDING DOMAIN IN COMPLEX WITH DIETHYLSTILBESTROL AND A GLUCOCORTICOID RECEPTOR INTERACTING PROTEIN 1 NR BOX II PEPTIDE",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 2.03,
+      "entry_id_in_file": "3ERD",
+      "entities": [
+        "ESTROGEN RECEPTOR ALPHA",
+        "GLUCOCORTICOID RECEPTOR INTERACTING PROTEIN 1",
+        "CHLORIDE ION",
+        "DIETHYLSTILBESTROL",
+        "ACETIC ACID",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "ESTROGEN RECEPTOR ALPHA",
+        "B": "ESTROGEN RECEPTOR ALPHA",
+        "C": "GLUCOCORTICOID RECEPTOR INTERACTING PROTEIN 1",
+        "D": "GLUCOCORTICOID RECEPTOR INTERACTING PROTEIN 1"
+      },
+      "n_atoms_model1": 4146,
+      "protein_chains": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "ligands": [
+        {
+          "het_code": "DES",
+          "chain": "A",
+          "seq": "600",
+          "n_heavy_atoms": 20,
+          "chains_touched": {
+            "A": 20
+          },
+          "spans": [
+            "A"
+          ]
+        },
+        {
+          "het_code": "DES",
+          "chain": "B",
+          "seq": "800",
+          "n_heavy_atoms": 20,
+          "chains_touched": {
+            "B": 19
+          },
+          "spans": [
+            "B"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "ESTROGEN RECEPTOR ALPHA",
+            "ESTROGEN RECEPTOR ALPHA"
+          ],
+          "n_residues": [
+            245,
+            237
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 57,
+            "n_soft_points": 11,
+            "n_hard_points": 1,
+            "n_residues_with_a_contact_point": 37,
+            "n_residues_within_contact_A": 38,
+            "n_query_points": 490
+          },
+          "arm_is_B": {
+            "n_contact_points": 55,
+            "n_soft_points": 13,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 35,
+            "n_residues_within_contact_A": 37,
+            "n_query_points": 474
+          },
+          "n_contact_points_min": 55,
+          "n_contact_points_max": 57,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "C"
+          ],
+          "what": [
+            "ESTROGEN RECEPTOR ALPHA",
+            "GLUCOCORTICOID RECEPTOR INTERACTING PROTEIN 1"
+          ],
+          "n_residues": [
+            245,
+            11
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 26,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 16,
+            "n_residues_within_contact_A": 16,
+            "n_query_points": 490
+          },
+          "arm_is_C": {
+            "n_contact_points": 18,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 10,
+            "n_residues_within_contact_A": 10,
+            "n_query_points": 22
+          },
+          "n_contact_points_min": 18,
+          "n_contact_points_max": 26,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "D"
+          ],
+          "what": [
+            "ESTROGEN RECEPTOR ALPHA",
+            "GLUCOCORTICOID RECEPTOR INTERACTING PROTEIN 1"
+          ],
+          "n_residues": [
+            237,
+            11
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 25,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 15,
+            "n_residues_within_contact_A": 15,
+            "n_query_points": 474
+          },
+          "arm_is_D": {
+            "n_contact_points": 15,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 22
+          },
+          "n_contact_points_min": 15,
+          "n_contact_points_max": 25,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "3FAP",
+      "title": "ATOMIC STRUCTURES OF THE RAPAMYCIN ANALOGS IN COMPLEX WITH BOTH HUMAN FKBP12 AND FRB DOMAIN OF FRAP",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 1.85,
+      "entry_id_in_file": "3FAP",
+      "entities": [
+        "FK506-BINDING PROTEIN",
+        "FKBP12-RAPAMYCIN ASSOCIATED PROTEIN",
+        "C15-(R)-METHYLTHIENYL RAPAMYCIN",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "FK506-BINDING PROTEIN",
+        "B": "FKBP12-RAPAMYCIN ASSOCIATED PROTEIN"
+      },
+      "n_atoms_model1": 1890,
+      "protein_chains": [
+        "A",
+        "B"
+      ],
+      "ligands": [
+        {
+          "het_code": "ARD",
+          "chain": "A",
+          "seq": "402",
+          "n_heavy_atoms": 69,
+          "chains_touched": {
+            "A": 45,
+            "B": 30
+          },
+          "spans": [
+            "A",
+            "B"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "A",
+          "B"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "FK506-BINDING PROTEIN",
+            "FKBP12-RAPAMYCIN ASSOCIATED PROTEIN"
+          ],
+          "n_residues": [
+            107,
+            94
+          ],
+          "ligand_bridged_by": [
+            "ARD"
+          ],
+          "arm_is_A": {
+            "n_contact_points": 21,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 15,
+            "n_residues_within_contact_A": 16,
+            "n_query_points": 214
+          },
+          "arm_is_B": {
+            "n_contact_points": 12,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 9,
+            "n_residues_within_contact_A": 9,
+            "n_query_points": 188
+          },
+          "n_contact_points_min": 12,
+          "n_contact_points_max": 21,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "3JRQ",
+      "title": "Crystal structure of (+)-ABA-bound PYL1 in complex with ABI1",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 2.1,
+      "entry_id_in_file": "3JRQ",
+      "entities": [
+        "Protein phosphatase 2C 56",
+        "Putative uncharacterized protein At5g46790",
+        "(2Z,4E)-5-[(1S)-1-hydroxy-2,6,6-trimethyl-4-oxocyclohex-2-en-1-yl]-3-methylpenta-2,4-dienoic acid",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "Protein phosphatase 2C 56",
+        "B": "Putative uncharacterized protein At5g46790"
+      },
+      "n_atoms_model1": 3619,
+      "protein_chains": [
+        "A",
+        "B"
+      ],
+      "ligands": [
+        {
+          "het_code": "A8S",
+          "chain": "B",
+          "seq": "1",
+          "n_heavy_atoms": 19,
+          "chains_touched": {
+            "B": 17
+          },
+          "spans": [
+            "B"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "Protein phosphatase 2C 56",
+            "Putative uncharacterized protein At5g46790"
+          ],
+          "n_residues": [
+            271,
+            173
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 34,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 20,
+            "n_residues_within_contact_A": 22,
+            "n_query_points": 542
+          },
+          "arm_is_B": {
+            "n_contact_points": 34,
+            "n_soft_points": 2,
+            "n_hard_points": 1,
+            "n_residues_with_a_contact_point": 20,
+            "n_residues_within_contact_A": 21,
+            "n_query_points": 346
+          },
+          "n_contact_points_min": 34,
+          "n_contact_points_max": 34,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "3KDJ",
+      "title": "Complex structure of (+)-ABA-bound PYL1 and ABI1",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 1.878,
+      "entry_id_in_file": "3KDJ",
+      "entities": [
+        "Putative uncharacterized protein At5g46790",
+        "Protein phosphatase 2C 56",
+        "(2Z,4E)-5-[(1S)-1-hydroxy-2,6,6-trimethyl-4-oxocyclohex-2-en-1-yl]-3-methylpenta-2,4-dienoic acid",
+        "MANGANESE (II) ION",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "Putative uncharacterized protein At5g46790",
+        "B": "Protein phosphatase 2C 56"
+      },
+      "n_atoms_model1": 3734,
+      "protein_chains": [
+        "A",
+        "B"
+      ],
+      "ligands": [
+        {
+          "het_code": "A8S",
+          "chain": "A",
+          "seq": "222",
+          "n_heavy_atoms": 19,
+          "chains_touched": {
+            "A": 15
+          },
+          "spans": [
+            "A"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "Putative uncharacterized protein At5g46790",
+            "Protein phosphatase 2C 56"
+          ],
+          "n_residues": [
+            179,
+            270
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 36,
+            "n_soft_points": 1,
+            "n_hard_points": 1,
+            "n_residues_with_a_contact_point": 21,
+            "n_residues_within_contact_A": 21,
+            "n_query_points": 358
+          },
+          "arm_is_B": {
+            "n_contact_points": 34,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 21,
+            "n_residues_within_contact_A": 22,
+            "n_query_points": 540
+          },
+          "n_contact_points_min": 34,
+          "n_contact_points_max": 36,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "4DRI",
+      "title": "Co-crystal structure of the PPIase domain of FKBP51, Rapamycin and the FRB fragment of mTOR",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 1.45,
+      "entry_id_in_file": "4DRI",
+      "entities": [
+        "Peptidyl-prolyl cis-trans isomerase FKBP5",
+        "Serine/threonine-protein kinase mTOR",
+        "RAPAMYCIN IMMUNOSUPPRESSANT DRUG",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "Peptidyl-prolyl cis-trans isomerase FKBP5",
+        "B": "Serine/threonine-protein kinase mTOR"
+      },
+      "n_atoms_model1": 2006,
+      "protein_chains": [
+        "A",
+        "B"
+      ],
+      "ligands": [
+        {
+          "het_code": "RAP",
+          "chain": "A",
+          "seq": "201",
+          "n_heavy_atoms": 65,
+          "chains_touched": {
+            "A": 48,
+            "B": 26
+          },
+          "spans": [
+            "A",
+            "B"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "A",
+          "B"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "Peptidyl-prolyl cis-trans isomerase FKBP5",
+            "Serine/threonine-protein kinase mTOR"
+          ],
+          "n_residues": [
+            121,
+            96
+          ],
+          "ligand_bridged_by": [
+            "RAP"
+          ],
+          "arm_is_A": {
+            "n_contact_points": 13,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 9,
+            "n_residues_within_contact_A": 9,
+            "n_query_points": 242
+          },
+          "arm_is_B": {
+            "n_contact_points": 12,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 9,
+            "n_residues_within_contact_A": 9,
+            "n_query_points": 192
+          },
+          "n_contact_points_min": 12,
+          "n_contact_points_max": 13,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "5FQD",
+      "title": "Structural basis of Lenalidomide induced CK1a degradation by the crl4crbn ubiquitin ligase",
+      "method": "X-RAY DIFFRACTION",
+      "resolution_A": 2.45,
+      "entry_id_in_file": "5FQD",
+      "entities": [
+        "DNA DAMAGE-BINDING PROTEIN 1",
+        "PROTEIN CEREBLON",
+        "CASEIN KINASE I ISOFORM ALPHA",
+        "ZINC ION",
+        "S-Lenalidomide",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "DNA DAMAGE-BINDING PROTEIN 1",
+        "D": "DNA DAMAGE-BINDING PROTEIN 1",
+        "B": "PROTEIN CEREBLON",
+        "E": "PROTEIN CEREBLON",
+        "C": "CASEIN KINASE I ISOFORM ALPHA",
+        "F": "CASEIN KINASE I ISOFORM ALPHA"
+      },
+      "n_atoms_model1": 23544,
+      "protein_chains": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "ligands": [
+        {
+          "het_code": "LVY",
+          "chain": "B",
+          "seq": "1438",
+          "n_heavy_atoms": 19,
+          "chains_touched": {
+            "B": 19,
+            "C": 11
+          },
+          "spans": [
+            "B",
+            "C"
+          ]
+        },
+        {
+          "het_code": "LVY",
+          "chain": "E",
+          "seq": "1438",
+          "n_heavy_atoms": 19,
+          "chains_touched": {
+            "E": 19,
+            "F": 13
+          },
+          "spans": [
+            "E",
+            "F"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "B",
+          "C"
+        ],
+        [
+          "E",
+          "F"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "DNA DAMAGE-BINDING PROTEIN 1",
+            "PROTEIN CEREBLON"
+          ],
+          "n_residues": [
+            789,
+            381
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 113,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 66,
+            "n_residues_within_contact_A": 67,
+            "n_query_points": 1578
+          },
+          "arm_is_B": {
+            "n_contact_points": 79,
+            "n_soft_points": 4,
+            "n_hard_points": 1,
+            "n_residues_with_a_contact_point": 49,
+            "n_residues_within_contact_A": 49,
+            "n_query_points": 762
+          },
+          "n_contact_points_min": 79,
+          "n_contact_points_max": 113,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "D",
+            "E"
+          ],
+          "what": [
+            "DNA DAMAGE-BINDING PROTEIN 1",
+            "PROTEIN CEREBLON"
+          ],
+          "n_residues": [
+            790,
+            367
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_D": {
+            "n_contact_points": 112,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 67,
+            "n_residues_within_contact_A": 68,
+            "n_query_points": 1580
+          },
+          "arm_is_E": {
+            "n_contact_points": 81,
+            "n_soft_points": 3,
+            "n_hard_points": 1,
+            "n_residues_with_a_contact_point": 49,
+            "n_residues_within_contact_A": 49,
+            "n_query_points": 734
+          },
+          "n_contact_points_min": 81,
+          "n_contact_points_max": 112,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "D"
+          ],
+          "what": [
+            "DNA DAMAGE-BINDING PROTEIN 1",
+            "DNA DAMAGE-BINDING PROTEIN 1"
+          ],
+          "n_residues": [
+            789,
+            790
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 27,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 16,
+            "n_residues_within_contact_A": 16,
+            "n_query_points": 1578
+          },
+          "arm_is_D": {
+            "n_contact_points": 26,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 15,
+            "n_residues_within_contact_A": 15,
+            "n_query_points": 1580
+          },
+          "n_contact_points_min": 26,
+          "n_contact_points_max": 27,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "C"
+          ],
+          "what": [
+            "PROTEIN CEREBLON",
+            "CASEIN KINASE I ISOFORM ALPHA"
+          ],
+          "n_residues": [
+            381,
+            294
+          ],
+          "ligand_bridged_by": [
+            "LVY"
+          ],
+          "arm_is_B": {
+            "n_contact_points": 21,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 15,
+            "n_residues_within_contact_A": 15,
+            "n_query_points": 762
+          },
+          "arm_is_C": {
+            "n_contact_points": 22,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 13,
+            "n_residues_within_contact_A": 13,
+            "n_query_points": 588
+          },
+          "n_contact_points_min": 21,
+          "n_contact_points_max": 22,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "E",
+            "F"
+          ],
+          "what": [
+            "PROTEIN CEREBLON",
+            "CASEIN KINASE I ISOFORM ALPHA"
+          ],
+          "n_residues": [
+            367,
+            294
+          ],
+          "ligand_bridged_by": [
+            "LVY"
+          ],
+          "arm_is_E": {
+            "n_contact_points": 21,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 15,
+            "n_query_points": 734
+          },
+          "arm_is_F": {
+            "n_contact_points": 22,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 14,
+            "n_query_points": 588
+          },
+          "n_contact_points_min": 21,
+          "n_contact_points_max": 22,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "D"
+          ],
+          "what": [
+            "PROTEIN CEREBLON",
+            "DNA DAMAGE-BINDING PROTEIN 1"
+          ],
+          "n_residues": [
+            381,
+            790
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 7,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 762
+          },
+          "arm_is_D": {
+            "n_contact_points": 7,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 1580
+          },
+          "n_contact_points_min": 7,
+          "n_contact_points_max": 7,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "A",
+            "E"
+          ],
+          "what": [
+            "DNA DAMAGE-BINDING PROTEIN 1",
+            "PROTEIN CEREBLON"
+          ],
+          "n_residues": [
+            789,
+            367
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 6,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 5,
+            "n_residues_within_contact_A": 5,
+            "n_query_points": 1578
+          },
+          "arm_is_E": {
+            "n_contact_points": 4,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 3,
+            "n_residues_within_contact_A": 3,
+            "n_query_points": 734
+          },
+          "n_contact_points_min": 4,
+          "n_contact_points_max": 6,
+          "clears_the_committed_floor_both_ways": false
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "5T35",
+      "title": "The PROTAC MZ1 in complex with the second bromodomain of Brd4 and pVHL:ElonginC:ElonginB",
+      "method": "_details ?",
+      "resolution_A": 2.7,
+      "entry_id_in_file": "5T35",
+      "entities": [
+        "Bromodomain-containing protein 4",
+        "Transcription elongation factor B polypeptide 2",
+        "Transcription elongation factor B polypeptide 1",
+        "Von Hippel-Lindau disease tumor suppressor",
+        "(2~{S},4~{R})-1-[(2~{S})-2-[2-[2-[2-[2-[2-[(9~{S})-7-(4-chlorophenyl)-4,5,13-trimethyl-3-thia-1,8,11,12-tetrazatricyclo[8.3.0.0^{2,6}]trideca-2(6),4,7,10,12-pentaen-9-yl]ethanoylamino]ethoxy]ethoxy]ethoxy]ethanoylamino]-3,3-dimethyl-butanoyl]-~{N}-[[4-(4-methyl-2,3-dihydro-1,3-thiazol-5-yl)phenyl]methyl]-4-oxidanyl-pyrrolidine-2-carboxamide",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "Bromodomain-containing protein 4",
+        "E": "Bromodomain-containing protein 4",
+        "B": "Transcription elongation factor B polypeptide 2",
+        "F": "Transcription elongation factor B polypeptide 2",
+        "C": "Transcription elongation factor B polypeptide 1",
+        "G": "Transcription elongation factor B polypeptide 1",
+        "D": "Von Hippel-Lindau disease tumor suppressor",
+        "H": "Von Hippel-Lindau disease tumor suppressor"
+      },
+      "n_atoms_model1": 7409,
+      "protein_chains": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "ligands": [
+        {
+          "het_code": "759",
+          "chain": "D",
+          "seq": "301",
+          "n_heavy_atoms": 69,
+          "chains_touched": {
+            "A": 43,
+            "D": 37
+          },
+          "spans": [
+            "A",
+            "D"
+          ]
+        },
+        {
+          "het_code": "759",
+          "chain": "H",
+          "seq": "301",
+          "n_heavy_atoms": 69,
+          "chains_touched": {
+            "E": 40,
+            "H": 38
+          },
+          "spans": [
+            "E",
+            "H"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "A",
+          "D"
+        ],
+        [
+          "E",
+          "H"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "F",
+            "G"
+          ],
+          "what": [
+            "Transcription elongation factor B polypeptide 2",
+            "Transcription elongation factor B polypeptide 1"
+          ],
+          "n_residues": [
+            104,
+            88
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_F": {
+            "n_contact_points": 42,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 27,
+            "n_residues_within_contact_A": 27,
+            "n_query_points": 208
+          },
+          "arm_is_G": {
+            "n_contact_points": 49,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 29,
+            "n_residues_within_contact_A": 29,
+            "n_query_points": 176
+          },
+          "n_contact_points_min": 42,
+          "n_contact_points_max": 49,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "C"
+          ],
+          "what": [
+            "Transcription elongation factor B polypeptide 2",
+            "Transcription elongation factor B polypeptide 1"
+          ],
+          "n_residues": [
+            104,
+            87
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 40,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 27,
+            "n_residues_within_contact_A": 27,
+            "n_query_points": 208
+          },
+          "arm_is_C": {
+            "n_contact_points": 48,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 29,
+            "n_residues_within_contact_A": 29,
+            "n_query_points": 174
+          },
+          "n_contact_points_min": 40,
+          "n_contact_points_max": 48,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "G",
+            "H"
+          ],
+          "what": [
+            "Transcription elongation factor B polypeptide 1",
+            "Von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            88,
+            147
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_G": {
+            "n_contact_points": 42,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 25,
+            "n_residues_within_contact_A": 26,
+            "n_query_points": 176
+          },
+          "arm_is_H": {
+            "n_contact_points": 41,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 25,
+            "n_residues_within_contact_A": 25,
+            "n_query_points": 294
+          },
+          "n_contact_points_min": 41,
+          "n_contact_points_max": 42,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "C",
+            "D"
+          ],
+          "what": [
+            "Transcription elongation factor B polypeptide 1",
+            "Von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            87,
+            149
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_C": {
+            "n_contact_points": 41,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 23,
+            "n_residues_within_contact_A": 23,
+            "n_query_points": 174
+          },
+          "arm_is_D": {
+            "n_contact_points": 38,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 25,
+            "n_residues_within_contact_A": 25,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 38,
+          "n_contact_points_max": 41,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "D"
+          ],
+          "what": [
+            "Bromodomain-containing protein 4",
+            "Von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            111,
+            149
+          ],
+          "ligand_bridged_by": [
+            "759"
+          ],
+          "arm_is_A": {
+            "n_contact_points": 11,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 222
+          },
+          "arm_is_D": {
+            "n_contact_points": 14,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 9,
+            "n_residues_within_contact_A": 9,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 11,
+          "n_contact_points_max": 14,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "E",
+            "H"
+          ],
+          "what": [
+            "Bromodomain-containing protein 4",
+            "Von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            111,
+            147
+          ],
+          "ligand_bridged_by": [
+            "759"
+          ],
+          "arm_is_E": {
+            "n_contact_points": 10,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 6,
+            "n_query_points": 222
+          },
+          "arm_is_H": {
+            "n_contact_points": 14,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 294
+          },
+          "n_contact_points_min": 10,
+          "n_contact_points_max": 14,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "B",
+            "D"
+          ],
+          "what": [
+            "Transcription elongation factor B polypeptide 2",
+            "Von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            104,
+            149
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 5,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 3,
+            "n_residues_within_contact_A": 3,
+            "n_query_points": 208
+          },
+          "arm_is_D": {
+            "n_contact_points": 11,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 6,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 5,
+          "n_contact_points_max": 11,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "F",
+            "H"
+          ],
+          "what": [
+            "Transcription elongation factor B polypeptide 2",
+            "Von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            104,
+            147
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_F": {
+            "n_contact_points": 5,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 3,
+            "n_residues_within_contact_A": 3,
+            "n_query_points": 208
+          },
+          "arm_is_H": {
+            "n_contact_points": 10,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 5,
+            "n_residues_within_contact_A": 5,
+            "n_query_points": 294
+          },
+          "n_contact_points_min": 5,
+          "n_contact_points_max": 10,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "D",
+            "E"
+          ],
+          "what": [
+            "Von Hippel-Lindau disease tumor suppressor",
+            "Bromodomain-containing protein 4"
+          ],
+          "n_residues": [
+            149,
+            111
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_D": {
+            "n_contact_points": 5,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 298
+          },
+          "arm_is_E": {
+            "n_contact_points": 6,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 3,
+            "n_residues_within_contact_A": 3,
+            "n_query_points": 222
+          },
+          "n_contact_points_min": 5,
+          "n_contact_points_max": 6,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "B",
+            "E"
+          ],
+          "what": [
+            "Transcription elongation factor B polypeptide 2",
+            "Bromodomain-containing protein 4"
+          ],
+          "n_residues": [
+            104,
+            111
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 3,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 3,
+            "n_residues_within_contact_A": 3,
+            "n_query_points": 208
+          },
+          "arm_is_E": {
+            "n_contact_points": 5,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 3,
+            "n_residues_within_contact_A": 3,
+            "n_query_points": 222
+          },
+          "n_contact_points_min": 3,
+          "n_contact_points_max": 5,
+          "clears_the_committed_floor_both_ways": false
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "6BN7",
+      "title": "Crystal structure of DDB1-CRBN-BRD4(BD1) complex bound to dBET23 PROTAC.",
+      "method": "_details ?",
+      "resolution_A": 3.501,
+      "entry_id_in_file": "6BN7",
+      "entities": [
+        "DNA damage-binding protein 1",
+        "Protein cereblon",
+        "Bromodomain-containing protein 4",
+        "ZINC ION",
+        "methyl {(6S)-4-(4-chlorophenyl)-2-[(8-{[({2-[(3S)-2,6-dioxopiperidin-3-yl]-1,3-dioxo-2,3-dihydro-1H-isoindol-4-yl}oxy)acetyl]amino}octyl)carbamoyl]-3,9-dimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl}acetate"
+      ],
+      "chain_descriptions": {
+        "A": "DNA damage-binding protein 1",
+        "B": "Protein cereblon",
+        "C": "Bromodomain-containing protein 4"
+      },
+      "n_atoms_model1": 10331,
+      "protein_chains": [
+        "A",
+        "B",
+        "C"
+      ],
+      "ligands": [
+        {
+          "het_code": "RN3",
+          "chain": "B",
+          "seq": "502",
+          "n_heavy_atoms": 62,
+          "chains_touched": {
+            "B": 23,
+            "C": 41
+          },
+          "spans": [
+            "B",
+            "C"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "B",
+          "C"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "DNA damage-binding protein 1",
+            "Protein cereblon"
+          ],
+          "n_residues": [
+            803,
+            375
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 111,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 67,
+            "n_residues_within_contact_A": 67,
+            "n_query_points": 1606
+          },
+          "arm_is_B": {
+            "n_contact_points": 72,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 45,
+            "n_residues_within_contact_A": 45,
+            "n_query_points": 750
+          },
+          "n_contact_points_min": 72,
+          "n_contact_points_max": 111,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "C"
+          ],
+          "what": [
+            "Protein cereblon",
+            "Bromodomain-containing protein 4"
+          ],
+          "n_residues": [
+            375,
+            127
+          ],
+          "ligand_bridged_by": [
+            "RN3"
+          ],
+          "arm_is_B": {
+            "n_contact_points": 17,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 13,
+            "n_residues_within_contact_A": 14,
+            "n_query_points": 750
+          },
+          "arm_is_C": {
+            "n_contact_points": 19,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 13,
+            "n_residues_within_contact_A": 14,
+            "n_query_points": 254
+          },
+          "n_contact_points_min": 17,
+          "n_contact_points_max": 19,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "6BOY",
+      "title": "Crystal structure of DDB1-CRBN-BRD4(BD1) complex bound to dBET6 PROTAC.",
+      "method": "_details ?",
+      "resolution_A": 3.33,
+      "entry_id_in_file": "6BOY",
+      "entities": [
+        "DNA damage-binding protein 1",
+        "Protein cereblon",
+        "Bromodomain-containing protein 4",
+        "ZINC ION",
+        "2-[(6S)-4-(4-chlorophenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl]-N-(8-{[({2-[(3S)-2,6-dioxopiperidin-3-yl]-1,3-dioxo-2,3-dihydro-1H-isoindol-4-yl}oxy)acetyl]amino}octyl)acetamide"
+      ],
+      "chain_descriptions": {
+        "A": "DNA damage-binding protein 1",
+        "B": "Protein cereblon",
+        "C": "Bromodomain-containing protein 4"
+      },
+      "n_atoms_model1": 10373,
+      "protein_chains": [
+        "A",
+        "B",
+        "C"
+      ],
+      "ligands": [
+        {
+          "het_code": "RN6",
+          "chain": "B",
+          "seq": "502",
+          "n_heavy_atoms": 59,
+          "chains_touched": {
+            "B": 25,
+            "C": 30
+          },
+          "spans": [
+            "B",
+            "C"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "B",
+          "C"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "DNA damage-binding protein 1",
+            "Protein cereblon"
+          ],
+          "n_residues": [
+            808,
+            375
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 110,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 65,
+            "n_residues_within_contact_A": 65,
+            "n_query_points": 1616
+          },
+          "arm_is_B": {
+            "n_contact_points": 70,
+            "n_soft_points": 6,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 45,
+            "n_residues_within_contact_A": 45,
+            "n_query_points": 750
+          },
+          "n_contact_points_min": 70,
+          "n_contact_points_max": 110,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "C"
+          ],
+          "what": [
+            "Protein cereblon",
+            "Bromodomain-containing protein 4"
+          ],
+          "n_residues": [
+            375,
+            127
+          ],
+          "ligand_bridged_by": [
+            "RN6"
+          ],
+          "arm_is_B": {
+            "n_contact_points": 18,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 15,
+            "n_query_points": 750
+          },
+          "arm_is_C": {
+            "n_contact_points": 23,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 15,
+            "n_residues_within_contact_A": 16,
+            "n_query_points": 254
+          },
+          "n_contact_points_min": 18,
+          "n_contact_points_max": 23,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "6H0F",
+      "title": "Structure of DDB1-CRBN-pomalidomide complex bound to IKZF1(ZF2)",
+      "method": "_details ?",
+      "resolution_A": 3.25,
+      "entry_id_in_file": "6H0F",
+      "entities": [
+        "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+        "Protein cereblon",
+        "DNA-binding protein Ikaros",
+        "ZINC ION",
+        "S-Pomalidomide",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+        "D": "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+        "G": "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+        "J": "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+        "B": "Protein cereblon",
+        "E": "Protein cereblon",
+        "H": "Protein cereblon",
+        "K": "Protein cereblon",
+        "C": "DNA-binding protein Ikaros",
+        "F": "DNA-binding protein Ikaros",
+        "I": "DNA-binding protein Ikaros",
+        "L": "DNA-binding protein Ikaros"
+      },
+      "n_atoms_model1": 38974,
+      "protein_chains": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L"
+      ],
+      "ligands": [
+        {
+          "het_code": "Y70",
+          "chain": "B",
+          "seq": "502",
+          "n_heavy_atoms": 20,
+          "chains_touched": {
+            "B": 20,
+            "C": 11
+          },
+          "spans": [
+            "B",
+            "C"
+          ]
+        },
+        {
+          "het_code": "Y70",
+          "chain": "E",
+          "seq": "502",
+          "n_heavy_atoms": 20,
+          "chains_touched": {
+            "E": 20,
+            "F": 11
+          },
+          "spans": [
+            "E",
+            "F"
+          ]
+        },
+        {
+          "het_code": "Y70",
+          "chain": "H",
+          "seq": "502",
+          "n_heavy_atoms": 20,
+          "chains_touched": {
+            "H": 20,
+            "I": 11
+          },
+          "spans": [
+            "H",
+            "I"
+          ]
+        },
+        {
+          "het_code": "Y70",
+          "chain": "K",
+          "seq": "502",
+          "n_heavy_atoms": 20,
+          "chains_touched": {
+            "K": 20,
+            "L": 11
+          },
+          "spans": [
+            "K",
+            "L"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "B",
+          "C"
+        ],
+        [
+          "E",
+          "F"
+        ],
+        [
+          "H",
+          "I"
+        ],
+        [
+          "K",
+          "L"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "G",
+            "H"
+          ],
+          "what": [
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+            "Protein cereblon"
+          ],
+          "n_residues": [
+            826,
+            374
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_G": {
+            "n_contact_points": 123,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 74,
+            "n_residues_within_contact_A": 74,
+            "n_query_points": 1652
+          },
+          "arm_is_H": {
+            "n_contact_points": 79,
+            "n_soft_points": 7,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 51,
+            "n_residues_within_contact_A": 52,
+            "n_query_points": 748
+          },
+          "n_contact_points_min": 79,
+          "n_contact_points_max": 123,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "D",
+            "E"
+          ],
+          "what": [
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+            "Protein cereblon"
+          ],
+          "n_residues": [
+            821,
+            374
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_D": {
+            "n_contact_points": 118,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 71,
+            "n_residues_within_contact_A": 71,
+            "n_query_points": 1642
+          },
+          "arm_is_E": {
+            "n_contact_points": 79,
+            "n_soft_points": 7,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 50,
+            "n_residues_within_contact_A": 51,
+            "n_query_points": 748
+          },
+          "n_contact_points_min": 79,
+          "n_contact_points_max": 118,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "J",
+            "K"
+          ],
+          "what": [
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+            "Protein cereblon"
+          ],
+          "n_residues": [
+            843,
+            374
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_J": {
+            "n_contact_points": 116,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 70,
+            "n_residues_within_contact_A": 70,
+            "n_query_points": 1686
+          },
+          "arm_is_K": {
+            "n_contact_points": 74,
+            "n_soft_points": 7,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 47,
+            "n_residues_within_contact_A": 48,
+            "n_query_points": 748
+          },
+          "n_contact_points_min": 74,
+          "n_contact_points_max": 116,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+            "Protein cereblon"
+          ],
+          "n_residues": [
+            826,
+            374
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 114,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 70,
+            "n_residues_within_contact_A": 71,
+            "n_query_points": 1652
+          },
+          "arm_is_B": {
+            "n_contact_points": 75,
+            "n_soft_points": 7,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 46,
+            "n_residues_within_contact_A": 48,
+            "n_query_points": 748
+          },
+          "n_contact_points_min": 75,
+          "n_contact_points_max": 114,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "H",
+            "I"
+          ],
+          "what": [
+            "Protein cereblon",
+            "DNA-binding protein Ikaros"
+          ],
+          "n_residues": [
+            374,
+            32
+          ],
+          "ligand_bridged_by": [
+            "Y70"
+          ],
+          "arm_is_H": {
+            "n_contact_points": 25,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 16,
+            "n_residues_within_contact_A": 16,
+            "n_query_points": 748
+          },
+          "arm_is_I": {
+            "n_contact_points": 23,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 15,
+            "n_residues_within_contact_A": 15,
+            "n_query_points": 64
+          },
+          "n_contact_points_min": 23,
+          "n_contact_points_max": 25,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "D",
+            "G"
+          ],
+          "what": [
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1"
+          ],
+          "n_residues": [
+            821,
+            826
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_D": {
+            "n_contact_points": 21,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 14,
+            "n_query_points": 1642
+          },
+          "arm_is_G": {
+            "n_contact_points": 24,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 15,
+            "n_residues_within_contact_A": 15,
+            "n_query_points": 1652
+          },
+          "n_contact_points_min": 21,
+          "n_contact_points_max": 24,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "C"
+          ],
+          "what": [
+            "Protein cereblon",
+            "DNA-binding protein Ikaros"
+          ],
+          "n_residues": [
+            374,
+            32
+          ],
+          "ligand_bridged_by": [
+            "Y70"
+          ],
+          "arm_is_B": {
+            "n_contact_points": 23,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 15,
+            "n_residues_within_contact_A": 16,
+            "n_query_points": 748
+          },
+          "arm_is_C": {
+            "n_contact_points": 22,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 15,
+            "n_query_points": 64
+          },
+          "n_contact_points_min": 22,
+          "n_contact_points_max": 23,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "J"
+          ],
+          "what": [
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1"
+          ],
+          "n_residues": [
+            826,
+            843
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 22,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 14,
+            "n_query_points": 1652
+          },
+          "arm_is_J": {
+            "n_contact_points": 20,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 14,
+            "n_query_points": 1686
+          },
+          "n_contact_points_min": 20,
+          "n_contact_points_max": 22,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "E",
+            "F"
+          ],
+          "what": [
+            "Protein cereblon",
+            "DNA-binding protein Ikaros"
+          ],
+          "n_residues": [
+            374,
+            32
+          ],
+          "ligand_bridged_by": [
+            "Y70"
+          ],
+          "arm_is_E": {
+            "n_contact_points": 21,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 14,
+            "n_query_points": 748
+          },
+          "arm_is_F": {
+            "n_contact_points": 22,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 15,
+            "n_query_points": 64
+          },
+          "n_contact_points_min": 21,
+          "n_contact_points_max": 22,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "K",
+            "L"
+          ],
+          "what": [
+            "Protein cereblon",
+            "DNA-binding protein Ikaros"
+          ],
+          "n_residues": [
+            374,
+            32
+          ],
+          "ligand_bridged_by": [
+            "Y70"
+          ],
+          "arm_is_K": {
+            "n_contact_points": 22,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 15,
+            "n_residues_within_contact_A": 15,
+            "n_query_points": 748
+          },
+          "arm_is_L": {
+            "n_contact_points": 22,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 14,
+            "n_residues_within_contact_A": 15,
+            "n_query_points": 64
+          },
+          "n_contact_points_min": 22,
+          "n_contact_points_max": 22,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "E"
+          ],
+          "what": [
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+            "Protein cereblon"
+          ],
+          "n_residues": [
+            826,
+            374
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 17,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 12,
+            "n_residues_within_contact_A": 12,
+            "n_query_points": 1652
+          },
+          "arm_is_E": {
+            "n_contact_points": 13,
+            "n_soft_points": 3,
+            "n_hard_points": 1,
+            "n_residues_with_a_contact_point": 9,
+            "n_residues_within_contact_A": 10,
+            "n_query_points": 748
+          },
+          "n_contact_points_min": 13,
+          "n_contact_points_max": 17,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "K"
+          ],
+          "what": [
+            "Protein cereblon",
+            "Protein cereblon"
+          ],
+          "n_residues": [
+            374,
+            374
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 13,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 748
+          },
+          "arm_is_K": {
+            "n_contact_points": 12,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 748
+          },
+          "n_contact_points_min": 12,
+          "n_contact_points_max": 13,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "L"
+          ],
+          "what": [
+            "Protein cereblon",
+            "DNA-binding protein Ikaros"
+          ],
+          "n_residues": [
+            374,
+            32
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 12,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 748
+          },
+          "arm_is_L": {
+            "n_contact_points": 8,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 7,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 64
+          },
+          "n_contact_points_min": 8,
+          "n_contact_points_max": 12,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "C",
+            "K"
+          ],
+          "what": [
+            "DNA-binding protein Ikaros",
+            "Protein cereblon"
+          ],
+          "n_residues": [
+            32,
+            374
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_C": {
+            "n_contact_points": 8,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 7,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 64
+          },
+          "arm_is_K": {
+            "n_contact_points": 11,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 748
+          },
+          "n_contact_points_min": 8,
+          "n_contact_points_max": 11,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "E",
+            "I"
+          ],
+          "what": [
+            "Protein cereblon",
+            "DNA-binding protein Ikaros"
+          ],
+          "n_residues": [
+            374,
+            32
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_E": {
+            "n_contact_points": 11,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 7,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 748
+          },
+          "arm_is_I": {
+            "n_contact_points": 8,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 7,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 64
+          },
+          "n_contact_points_min": 8,
+          "n_contact_points_max": 11,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "F",
+            "H"
+          ],
+          "what": [
+            "DNA-binding protein Ikaros",
+            "Protein cereblon"
+          ],
+          "n_residues": [
+            32,
+            374
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_F": {
+            "n_contact_points": 8,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 7,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 64
+          },
+          "arm_is_H": {
+            "n_contact_points": 11,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 7,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 748
+          },
+          "n_contact_points_min": 8,
+          "n_contact_points_max": 11,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "E",
+            "H"
+          ],
+          "what": [
+            "Protein cereblon",
+            "Protein cereblon"
+          ],
+          "n_residues": [
+            374,
+            374
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_E": {
+            "n_contact_points": 9,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 748
+          },
+          "arm_is_H": {
+            "n_contact_points": 10,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 7,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 748
+          },
+          "n_contact_points_min": 9,
+          "n_contact_points_max": 10,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "A",
+            "D"
+          ],
+          "what": [
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1"
+          ],
+          "n_residues": [
+            826,
+            821
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 8,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 6,
+            "n_query_points": 1652
+          },
+          "arm_is_D": {
+            "n_contact_points": 9,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 1642
+          },
+          "n_contact_points_min": 8,
+          "n_contact_points_max": 9,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "G",
+            "J"
+          ],
+          "what": [
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1"
+          ],
+          "n_residues": [
+            826,
+            843
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_G": {
+            "n_contact_points": 6,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 1652
+          },
+          "arm_is_J": {
+            "n_contact_points": 7,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 5,
+            "n_residues_within_contact_A": 5,
+            "n_query_points": 1686
+          },
+          "n_contact_points_min": 6,
+          "n_contact_points_max": 7,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "A",
+            "G"
+          ],
+          "what": [
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1",
+            "DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1,DNA damage-binding protein 1"
+          ],
+          "n_residues": [
+            826,
+            826
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 3,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 2,
+            "n_residues_within_contact_A": 2,
+            "n_query_points": 1652
+          },
+          "arm_is_G": {
+            "n_contact_points": 2,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 1,
+            "n_residues_within_contact_A": 1,
+            "n_query_points": 1652
+          },
+          "n_contact_points_min": 2,
+          "n_contact_points_max": 3,
+          "clears_the_committed_floor_both_ways": false
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "6HAX",
+      "title": "Crystal structure of PROTAC 2 in complex with the bromodomain of human SMARCA2 and pVHL:ElonginC:ElonginB",
+      "method": "_details ?",
+      "resolution_A": 2.35,
+      "entry_id_in_file": "6HAX",
+      "entities": [
+        "Probable global transcription activator SNF2L2",
+        "von Hippel-Lindau disease tumor suppressor",
+        "Elongin-C",
+        "Elongin-B",
+        "1,2-ETHANEDIOL",
+        "(2~{S},4~{R})-~{N}-[[2-[2-[4-[[4-[3-azanyl-6-(2-hydroxyphenyl)pyridazin-4-yl]piperazin-1-yl]methyl]phenyl]ethoxy]-4-(4-methyl-1,3-thiazol-5-yl)phenyl]methyl]-1-[(2~{S})-2-[(1-fluoranylcyclopropyl)carbonylamino]-3,3-dimethyl-butanoyl]-4-oxidanyl-pyrrolidine-2-carboxamide",
+        "4-(2-HYDROXYETHYL)-1-PIPERAZINE ETHANESULFONIC ACID",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "Probable global transcription activator SNF2L2",
+        "E": "Probable global transcription activator SNF2L2",
+        "B": "von Hippel-Lindau disease tumor suppressor",
+        "F": "von Hippel-Lindau disease tumor suppressor",
+        "C": "Elongin-C",
+        "G": "Elongin-C",
+        "D": "Elongin-B",
+        "H": "Elongin-B"
+      },
+      "n_atoms_model1": 7780,
+      "protein_chains": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "ligands": [
+        {
+          "het_code": "FWZ",
+          "chain": "B",
+          "seq": "301",
+          "n_heavy_atoms": 66,
+          "chains_touched": {
+            "A": 25,
+            "B": 37
+          },
+          "spans": [
+            "A",
+            "B"
+          ]
+        },
+        {
+          "het_code": "FWZ",
+          "chain": "F",
+          "seq": "301",
+          "n_heavy_atoms": 66,
+          "chains_touched": {
+            "E": 25,
+            "F": 38
+          },
+          "spans": [
+            "E",
+            "F"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "A",
+          "B"
+        ],
+        [
+          "E",
+          "F"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "C",
+            "D"
+          ],
+          "what": [
+            "Elongin-C",
+            "Elongin-B"
+          ],
+          "n_residues": [
+            88,
+            104
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_C": {
+            "n_contact_points": 50,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 29,
+            "n_residues_within_contact_A": 29,
+            "n_query_points": 176
+          },
+          "arm_is_D": {
+            "n_contact_points": 42,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 28,
+            "n_residues_within_contact_A": 28,
+            "n_query_points": 208
+          },
+          "n_contact_points_min": 42,
+          "n_contact_points_max": 50,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "G",
+            "H"
+          ],
+          "what": [
+            "Elongin-C",
+            "Elongin-B"
+          ],
+          "n_residues": [
+            97,
+            104
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_G": {
+            "n_contact_points": 48,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 29,
+            "n_residues_within_contact_A": 29,
+            "n_query_points": 194
+          },
+          "arm_is_H": {
+            "n_contact_points": 42,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 28,
+            "n_residues_within_contact_A": 28,
+            "n_query_points": 208
+          },
+          "n_contact_points_min": 42,
+          "n_contact_points_max": 48,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "C"
+          ],
+          "what": [
+            "von Hippel-Lindau disease tumor suppressor",
+            "Elongin-C"
+          ],
+          "n_residues": [
+            149,
+            88
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 45,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 28,
+            "n_residues_within_contact_A": 28,
+            "n_query_points": 298
+          },
+          "arm_is_C": {
+            "n_contact_points": 40,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 24,
+            "n_residues_within_contact_A": 25,
+            "n_query_points": 176
+          },
+          "n_contact_points_min": 40,
+          "n_contact_points_max": 45,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "F",
+            "G"
+          ],
+          "what": [
+            "von Hippel-Lindau disease tumor suppressor",
+            "Elongin-C"
+          ],
+          "n_residues": [
+            149,
+            97
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_F": {
+            "n_contact_points": 45,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 29,
+            "n_residues_within_contact_A": 29,
+            "n_query_points": 298
+          },
+          "arm_is_G": {
+            "n_contact_points": 42,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 25,
+            "n_residues_within_contact_A": 26,
+            "n_query_points": 194
+          },
+          "n_contact_points_min": 42,
+          "n_contact_points_max": 45,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "F"
+          ],
+          "what": [
+            "von Hippel-Lindau disease tumor suppressor",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            149,
+            149
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 29,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 18,
+            "n_residues_within_contact_A": 18,
+            "n_query_points": 298
+          },
+          "arm_is_F": {
+            "n_contact_points": 28,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 19,
+            "n_residues_within_contact_A": 19,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 28,
+          "n_contact_points_max": 29,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "Probable global transcription activator SNF2L2",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            115,
+            149
+          ],
+          "ligand_bridged_by": [
+            "FWZ"
+          ],
+          "arm_is_A": {
+            "n_contact_points": 18,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 12,
+            "n_residues_within_contact_A": 12,
+            "n_query_points": 230
+          },
+          "arm_is_B": {
+            "n_contact_points": 11,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 11,
+          "n_contact_points_max": 18,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "E",
+            "F"
+          ],
+          "what": [
+            "Probable global transcription activator SNF2L2",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            121,
+            149
+          ],
+          "ligand_bridged_by": [
+            "FWZ"
+          ],
+          "arm_is_E": {
+            "n_contact_points": 18,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 11,
+            "n_residues_within_contact_A": 11,
+            "n_query_points": 242
+          },
+          "arm_is_F": {
+            "n_contact_points": 11,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 11,
+          "n_contact_points_max": 18,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "B",
+            "D"
+          ],
+          "what": [
+            "von Hippel-Lindau disease tumor suppressor",
+            "Elongin-B"
+          ],
+          "n_residues": [
+            149,
+            104
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 12,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 6,
+            "n_query_points": 298
+          },
+          "arm_is_D": {
+            "n_contact_points": 6,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 208
+          },
+          "n_contact_points_min": 6,
+          "n_contact_points_max": 12,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "B",
+            "G"
+          ],
+          "what": [
+            "von Hippel-Lindau disease tumor suppressor",
+            "Elongin-C"
+          ],
+          "n_residues": [
+            149,
+            97
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 12,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 298
+          },
+          "arm_is_G": {
+            "n_contact_points": 5,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 3,
+            "n_residues_within_contact_A": 3,
+            "n_query_points": 194
+          },
+          "n_contact_points_min": 5,
+          "n_contact_points_max": 12,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "F",
+            "H"
+          ],
+          "what": [
+            "von Hippel-Lindau disease tumor suppressor",
+            "Elongin-B"
+          ],
+          "n_residues": [
+            149,
+            104
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_F": {
+            "n_contact_points": 12,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 6,
+            "n_query_points": 298
+          },
+          "arm_is_H": {
+            "n_contact_points": 6,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 208
+          },
+          "n_contact_points_min": 6,
+          "n_contact_points_max": 12,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "C",
+            "F"
+          ],
+          "what": [
+            "Elongin-C",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            88,
+            149
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_C": {
+            "n_contact_points": 4,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 3,
+            "n_residues_within_contact_A": 3,
+            "n_query_points": 176
+          },
+          "arm_is_F": {
+            "n_contact_points": 11,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 7,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 4,
+          "n_contact_points_max": 11,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "C",
+            "E"
+          ],
+          "what": [
+            "Elongin-C",
+            "Probable global transcription activator SNF2L2"
+          ],
+          "n_residues": [
+            88,
+            121
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_C": {
+            "n_contact_points": 1,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 1,
+            "n_residues_within_contact_A": 1,
+            "n_query_points": 176
+          },
+          "arm_is_E": {
+            "n_contact_points": 2,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 1,
+            "n_residues_within_contact_A": 1,
+            "n_query_points": 242
+          },
+          "n_contact_points_min": 1,
+          "n_contact_points_max": 2,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "A",
+            "G"
+          ],
+          "what": [
+            "Probable global transcription activator SNF2L2",
+            "Elongin-C"
+          ],
+          "n_residues": [
+            115,
+            97
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 1,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 1,
+            "n_residues_within_contact_A": 1,
+            "n_query_points": 230
+          },
+          "arm_is_G": {
+            "n_contact_points": 0,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 0,
+            "n_residues_within_contact_A": 0,
+            "n_query_points": 194
+          },
+          "n_contact_points_min": 0,
+          "n_contact_points_max": 1,
+          "clears_the_committed_floor_both_ways": false
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "6SIS",
+      "title": "Crystal structure of macrocyclic PROTAC 1 in complex with the second bromodomain of human Brd4 and pVHL:ElonginC:ElonginB",
+      "method": "_details ?",
+      "resolution_A": 3.5,
+      "entry_id_in_file": "6SIS",
+      "entities": [
+        "Bromodomain-containing protein 4",
+        "Elongin-B",
+        "Elongin-C",
+        "von Hippel-Lindau disease tumor suppressor",
+        "~{N}-[(5~{S},7~{R},11~{S},23~{S})-11-~{tert}-butyl-34-(4-methyl-1,3-thiazol-5-yl)-7-oxidanyl-4,10,13-tris(oxidanylidene)-15,18,21,25,28,31-hexaoxa-3,9,12-triazatricyclo[30.4.0.0^{5,9}]hexatriaconta-1(32),33,35-trien-23-yl]-2-[(7~{S},9~{S})-7-(4-chlorophenyl)-4,5,13-trimethyl-3-thia-1,8,11,12-tetrazatricyclo[8.3.0.0^{2,6}]trideca-2(6),4,10,12-tetraen-9-yl]ethanamide",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "Bromodomain-containing protein 4",
+        "E": "Bromodomain-containing protein 4",
+        "B": "Elongin-B",
+        "F": "Elongin-B",
+        "C": "Elongin-C",
+        "G": "Elongin-C",
+        "D": "von Hippel-Lindau disease tumor suppressor",
+        "H": "von Hippel-Lindau disease tumor suppressor"
+      },
+      "n_atoms_model1": 7369,
+      "protein_chains": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "ligands": [
+        {
+          "het_code": "LFE",
+          "chain": "D",
+          "seq": "301",
+          "n_heavy_atoms": 77,
+          "chains_touched": {
+            "A": 48,
+            "D": 41
+          },
+          "spans": [
+            "A",
+            "D"
+          ]
+        },
+        {
+          "het_code": "LFE",
+          "chain": "H",
+          "seq": "301",
+          "n_heavy_atoms": 77,
+          "chains_touched": {
+            "E": 44,
+            "H": 36
+          },
+          "spans": [
+            "E",
+            "H"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "A",
+          "D"
+        ],
+        [
+          "E",
+          "H"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "B",
+            "C"
+          ],
+          "what": [
+            "Elongin-B",
+            "Elongin-C"
+          ],
+          "n_residues": [
+            104,
+            87
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 41,
+            "n_soft_points": 6,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 27,
+            "n_residues_within_contact_A": 28,
+            "n_query_points": 208
+          },
+          "arm_is_C": {
+            "n_contact_points": 47,
+            "n_soft_points": 6,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 30,
+            "n_residues_within_contact_A": 30,
+            "n_query_points": 174
+          },
+          "n_contact_points_min": 41,
+          "n_contact_points_max": 47,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "F",
+            "G"
+          ],
+          "what": [
+            "Elongin-B",
+            "Elongin-C"
+          ],
+          "n_residues": [
+            104,
+            87
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_F": {
+            "n_contact_points": 45,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 29,
+            "n_residues_within_contact_A": 29,
+            "n_query_points": 208
+          },
+          "arm_is_G": {
+            "n_contact_points": 47,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 29,
+            "n_residues_within_contact_A": 29,
+            "n_query_points": 174
+          },
+          "n_contact_points_min": 45,
+          "n_contact_points_max": 47,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "C",
+            "D"
+          ],
+          "what": [
+            "Elongin-C",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            87,
+            149
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_C": {
+            "n_contact_points": 43,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 26,
+            "n_residues_within_contact_A": 27,
+            "n_query_points": 174
+          },
+          "arm_is_D": {
+            "n_contact_points": 38,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 26,
+            "n_residues_within_contact_A": 26,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 38,
+          "n_contact_points_max": 43,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "G",
+            "H"
+          ],
+          "what": [
+            "Elongin-C",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            87,
+            149
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_G": {
+            "n_contact_points": 43,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 26,
+            "n_residues_within_contact_A": 27,
+            "n_query_points": 174
+          },
+          "arm_is_H": {
+            "n_contact_points": 37,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 26,
+            "n_residues_within_contact_A": 26,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 37,
+          "n_contact_points_max": 43,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "D",
+            "H"
+          ],
+          "what": [
+            "von Hippel-Lindau disease tumor suppressor",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            149,
+            149
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_D": {
+            "n_contact_points": 31,
+            "n_soft_points": 6,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 24,
+            "n_residues_within_contact_A": 24,
+            "n_query_points": 298
+          },
+          "arm_is_H": {
+            "n_contact_points": 31,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 23,
+            "n_residues_within_contact_A": 23,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 31,
+          "n_contact_points_max": 31,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "E",
+            "H"
+          ],
+          "what": [
+            "Bromodomain-containing protein 4",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            111,
+            149
+          ],
+          "ligand_bridged_by": [
+            "LFE"
+          ],
+          "arm_is_E": {
+            "n_contact_points": 13,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 222
+          },
+          "arm_is_H": {
+            "n_contact_points": 16,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 10,
+            "n_residues_within_contact_A": 10,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 13,
+          "n_contact_points_max": 16,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "D"
+          ],
+          "what": [
+            "Elongin-B",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            104,
+            149
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 4,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 3,
+            "n_residues_within_contact_A": 3,
+            "n_query_points": 208
+          },
+          "arm_is_D": {
+            "n_contact_points": 12,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 6,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 4,
+          "n_contact_points_max": 12,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "F",
+            "H"
+          ],
+          "what": [
+            "Elongin-B",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            104,
+            149
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_F": {
+            "n_contact_points": 6,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 208
+          },
+          "arm_is_H": {
+            "n_contact_points": 12,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 6,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 6,
+          "n_contact_points_max": 12,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "A",
+            "D"
+          ],
+          "what": [
+            "Bromodomain-containing protein 4",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            111,
+            149
+          ],
+          "ligand_bridged_by": [
+            "LFE"
+          ],
+          "arm_is_A": {
+            "n_contact_points": 11,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 7,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 222
+          },
+          "arm_is_D": {
+            "n_contact_points": 10,
+            "n_soft_points": 3,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 10,
+          "n_contact_points_max": 11,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "C",
+            "H"
+          ],
+          "what": [
+            "Elongin-C",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            87,
+            149
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_C": {
+            "n_contact_points": 6,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 174
+          },
+          "arm_is_H": {
+            "n_contact_points": 11,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 6,
+          "n_contact_points_max": 11,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "D",
+            "G"
+          ],
+          "what": [
+            "von Hippel-Lindau disease tumor suppressor",
+            "Elongin-C"
+          ],
+          "n_residues": [
+            149,
+            87
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_D": {
+            "n_contact_points": 11,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 7,
+            "n_query_points": 298
+          },
+          "arm_is_G": {
+            "n_contact_points": 7,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 174
+          },
+          "n_contact_points_min": 7,
+          "n_contact_points_max": 11,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "A",
+            "H"
+          ],
+          "what": [
+            "Bromodomain-containing protein 4",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            111,
+            149
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 2,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 2,
+            "n_residues_within_contact_A": 2,
+            "n_query_points": 222
+          },
+          "arm_is_H": {
+            "n_contact_points": 3,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 2,
+            "n_residues_within_contact_A": 2,
+            "n_query_points": 298
+          },
+          "n_contact_points_min": 2,
+          "n_contact_points_max": 3,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "D",
+            "E"
+          ],
+          "what": [
+            "von Hippel-Lindau disease tumor suppressor",
+            "Bromodomain-containing protein 4"
+          ],
+          "n_residues": [
+            149,
+            111
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_D": {
+            "n_contact_points": 3,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 3,
+            "n_residues_within_contact_A": 3,
+            "n_query_points": 298
+          },
+          "arm_is_E": {
+            "n_contact_points": 2,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 2,
+            "n_residues_within_contact_A": 2,
+            "n_query_points": 222
+          },
+          "n_contact_points_min": 2,
+          "n_contact_points_max": 3,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "C",
+            "E"
+          ],
+          "what": [
+            "Elongin-C",
+            "Bromodomain-containing protein 4"
+          ],
+          "n_residues": [
+            87,
+            111
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_C": {
+            "n_contact_points": 2,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 1,
+            "n_residues_within_contact_A": 1,
+            "n_query_points": 174
+          },
+          "arm_is_E": {
+            "n_contact_points": 1,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 1,
+            "n_residues_within_contact_A": 1,
+            "n_query_points": 222
+          },
+          "n_contact_points_min": 1,
+          "n_contact_points_max": 2,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "A",
+            "G"
+          ],
+          "what": [
+            "Bromodomain-containing protein 4",
+            "Elongin-C"
+          ],
+          "n_residues": [
+            111,
+            87
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 0,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 0,
+            "n_residues_within_contact_A": 0,
+            "n_query_points": 222
+          },
+          "arm_is_G": {
+            "n_contact_points": 1,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 1,
+            "n_residues_within_contact_A": 1,
+            "n_query_points": 174
+          },
+          "n_contact_points_min": 0,
+          "n_contact_points_max": 1,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "C",
+            "G"
+          ],
+          "what": [
+            "Elongin-C",
+            "Elongin-C"
+          ],
+          "n_residues": [
+            87,
+            87
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_C": {
+            "n_contact_points": 0,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 0,
+            "n_residues_within_contact_A": 0,
+            "n_query_points": 174
+          },
+          "arm_is_G": {
+            "n_contact_points": 1,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 1,
+            "n_residues_within_contact_A": 1,
+            "n_query_points": 174
+          },
+          "n_contact_points_min": 0,
+          "n_contact_points_max": 1,
+          "clears_the_committed_floor_both_ways": false
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "7LWG",
+      "title": "Crystal structure of the BCL6 BTB domain in complex with OICR-12694",
+      "method": "_details ?",
+      "resolution_A": 1.3,
+      "entry_id_in_file": "7LWG",
+      "entities": [
+        "B-cell lymphoma 6 protein",
+        "5-{(5S)-1-[2-({3-chloro-6-[(2S)-2,4-dimethylpiperazin-1-yl]-2-fluoropyridin-4-yl}amino)-2-oxoethyl]-4-oxo-4,6,7,8-tetrahydro-1H-dipyrrolo[1,2-a:2',3'-d]pyrimidin-3-yl}-3,4-difluoro-2-hydroxybenzamide",
+        "GLYCEROL",
+        "UNKNOWN ATOM OR ION",
+        "water"
+      ],
+      "chain_descriptions": {},
+      "n_atoms_model1": 2269,
+      "protein_chains": [
+        "A",
+        "B"
+      ],
+      "ligands": [
+        {
+          "het_code": "YN7",
+          "chain": "A",
+          "seq": "201",
+          "n_heavy_atoms": 45,
+          "chains_touched": {
+            "A": 38,
+            "B": 20
+          },
+          "spans": [
+            "A",
+            "B"
+          ]
+        },
+        {
+          "het_code": "YN7",
+          "chain": "B",
+          "seq": "201",
+          "n_heavy_atoms": 45,
+          "chains_touched": {
+            "A": 26,
+            "B": 36
+          },
+          "spans": [
+            "A",
+            "B"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "A",
+          "B"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            null,
+            null
+          ],
+          "n_residues": [
+            122,
+            121
+          ],
+          "ligand_bridged_by": [
+            "YN7"
+          ],
+          "arm_is_A": {
+            "n_contact_points": 67,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 40,
+            "n_residues_within_contact_A": 40,
+            "n_query_points": 244
+          },
+          "arm_is_B": {
+            "n_contact_points": 64,
+            "n_soft_points": 5,
+            "n_hard_points": 1,
+            "n_residues_with_a_contact_point": 40,
+            "n_residues_within_contact_A": 41,
+            "n_query_points": 242
+          },
+          "n_contact_points_min": 64,
+          "n_contact_points_max": 67,
+          "clears_the_committed_floor_both_ways": true
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "7Q2J",
+      "title": "Quaternary Complex of human WDR5 and pVHL:ElonginC:ElonginB bound to PROTAC Homer",
+      "method": "_details ?",
+      "resolution_A": 2.5,
+      "entry_id_in_file": "7Q2J",
+      "entities": [
+        "Elongin-B",
+        "Elongin-C",
+        "von Hippel-Lindau disease tumor suppressor",
+        "WD repeat-containing protein 5",
+        "N-[5-[4-[[5-[[(2S)-3,3-dimethyl-1-[(2S,4R)-2-[[4-(4-methyl-1,3-thiazol-5-yl)phenyl]methylcarbamoyl]-4-oxidanyl-pyrrolidin-1-yl]-1-oxidanylidene-butan-2-yl]amino]-5-oxidanylidene-pentyl]carbamoyl]phenyl]-2-(4-methylpiperazin-1-yl)phenyl]-6-oxidanylidene-4-(trifluoromethyl)-1H-pyridine-3-carboxamide",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "Elongin-B",
+        "B": "Elongin-C",
+        "C": "von Hippel-Lindau disease tumor suppressor",
+        "D": "WD repeat-containing protein 5"
+      },
+      "n_atoms_model1": 5028,
+      "protein_chains": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "ligands": [
+        {
+          "het_code": "8KH",
+          "chain": "D",
+          "seq": "401",
+          "n_heavy_atoms": 72,
+          "chains_touched": {
+            "C": 31,
+            "D": 40
+          },
+          "spans": [
+            "C",
+            "D"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "C",
+          "D"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "B"
+          ],
+          "what": [
+            "Elongin-B",
+            "Elongin-C"
+          ],
+          "n_residues": [
+            103,
+            88
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 40,
+            "n_soft_points": 5,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 27,
+            "n_residues_within_contact_A": 28,
+            "n_query_points": 206
+          },
+          "arm_is_B": {
+            "n_contact_points": 48,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 31,
+            "n_residues_within_contact_A": 31,
+            "n_query_points": 176
+          },
+          "n_contact_points_min": 40,
+          "n_contact_points_max": 48,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "B",
+            "C"
+          ],
+          "what": [
+            "Elongin-C",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            88,
+            147
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_B": {
+            "n_contact_points": 47,
+            "n_soft_points": 1,
+            "n_hard_points": 1,
+            "n_residues_with_a_contact_point": 27,
+            "n_residues_within_contact_A": 28,
+            "n_query_points": 176
+          },
+          "arm_is_C": {
+            "n_contact_points": 44,
+            "n_soft_points": 2,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 27,
+            "n_residues_within_contact_A": 27,
+            "n_query_points": 294
+          },
+          "n_contact_points_min": 44,
+          "n_contact_points_max": 47,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "C"
+          ],
+          "what": [
+            "Elongin-B",
+            "von Hippel-Lindau disease tumor suppressor"
+          ],
+          "n_residues": [
+            103,
+            147
+          ],
+          "ligand_bridged_by": [],
+          "arm_is_A": {
+            "n_contact_points": 4,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 2,
+            "n_residues_within_contact_A": 2,
+            "n_query_points": 206
+          },
+          "arm_is_C": {
+            "n_contact_points": 12,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 6,
+            "n_residues_within_contact_A": 6,
+            "n_query_points": 294
+          },
+          "n_contact_points_min": 4,
+          "n_contact_points_max": 12,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "C",
+            "D"
+          ],
+          "what": [
+            "von Hippel-Lindau disease tumor suppressor",
+            "WD repeat-containing protein 5"
+          ],
+          "n_residues": [
+            147,
+            304
+          ],
+          "ligand_bridged_by": [
+            "8KH"
+          ],
+          "arm_is_C": {
+            "n_contact_points": 5,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 294
+          },
+          "arm_is_D": {
+            "n_contact_points": 12,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 8,
+            "n_residues_within_contact_A": 8,
+            "n_query_points": 608
+          },
+          "n_contact_points_min": 5,
+          "n_contact_points_max": 12,
+          "clears_the_committed_floor_both_ways": false
+        }
+      ],
+      "status": "OK"
+    },
+    {
+      "pdb_id": "9MZA",
+      "title": "Chemically Hijacked BCL6-TCIP3-p300 Complex",
+      "method": "_details ?",
+      "resolution_A": 2.1,
+      "entry_id_in_file": "9MZA",
+      "entities": [
+        "B-cell lymphoma 6 protein",
+        "Histone acetyltransferase p300",
+        "1-{1-[5-({1-[5-chloro-4-({8-methoxy-1-methyl-3-[2-(methylamino)-2-oxoethoxy]-2-oxo-1,2-dihydroquinolin-6-yl}amino)pyrimidin-2-yl]piperidine-4-carbonyl}amino)pentanoyl]piperidin-4-yl}-3-[(6M)-7-(difluoromethyl)-6-(1-methyl-1H-pyrazol-4-yl)-3,4-dihydroquinolin-1(2H)-yl]-N-methyl-1,4,6,7-tetrahydro-5H-pyrazolo[4,3-c]pyridine-5-carboxamide",
+        "water"
+      ],
+      "chain_descriptions": {
+        "A": "B-cell lymphoma 6 protein",
+        "C": "B-cell lymphoma 6 protein",
+        "B": "Histone acetyltransferase p300",
+        "D": "Histone acetyltransferase p300"
+      },
+      "n_atoms_model1": 4471,
+      "protein_chains": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "ligands": [
+        {
+          "het_code": "A1BUC",
+          "chain": "A",
+          "seq": "201",
+          "n_heavy_atoms": 81,
+          "chains_touched": {
+            "A": 33,
+            "B": 42,
+            "C": 18
+          },
+          "spans": [
+            "A",
+            "B",
+            "C"
+          ]
+        },
+        {
+          "het_code": "A1BUC",
+          "chain": "C",
+          "seq": "201",
+          "n_heavy_atoms": 81,
+          "chains_touched": {
+            "A": 16,
+            "C": 33,
+            "D": 40
+          },
+          "spans": [
+            "A",
+            "C",
+            "D"
+          ]
+        }
+      ],
+      "ligand_bridged_chain_pairs": [
+        [
+          "A",
+          "B"
+        ],
+        [
+          "A",
+          "C"
+        ],
+        [
+          "A",
+          "D"
+        ],
+        [
+          "B",
+          "C"
+        ],
+        [
+          "C",
+          "D"
+        ]
+      ],
+      "chain_pairs": [
+        {
+          "pair": [
+            "A",
+            "C"
+          ],
+          "what": [
+            "B-cell lymphoma 6 protein",
+            "B-cell lymphoma 6 protein"
+          ],
+          "n_residues": [
+            122,
+            123
+          ],
+          "ligand_bridged_by": [
+            "A1BUC"
+          ],
+          "arm_is_A": {
+            "n_contact_points": 71,
+            "n_soft_points": 4,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 42,
+            "n_residues_within_contact_A": 42,
+            "n_query_points": 244
+          },
+          "arm_is_C": {
+            "n_contact_points": 66,
+            "n_soft_points": 7,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 39,
+            "n_residues_within_contact_A": 41,
+            "n_query_points": 246
+          },
+          "n_contact_points_min": 66,
+          "n_contact_points_max": 71,
+          "clears_the_committed_floor_both_ways": true
+        },
+        {
+          "pair": [
+            "A",
+            "D"
+          ],
+          "what": [
+            "B-cell lymphoma 6 protein",
+            "Histone acetyltransferase p300"
+          ],
+          "n_residues": [
+            122,
+            113
+          ],
+          "ligand_bridged_by": [
+            "A1BUC"
+          ],
+          "arm_is_A": {
+            "n_contact_points": 6,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 244
+          },
+          "arm_is_D": {
+            "n_contact_points": 7,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 226
+          },
+          "n_contact_points_min": 6,
+          "n_contact_points_max": 7,
+          "clears_the_committed_floor_both_ways": false
+        },
+        {
+          "pair": [
+            "B",
+            "C"
+          ],
+          "what": [
+            "Histone acetyltransferase p300",
+            "B-cell lymphoma 6 protein"
+          ],
+          "n_residues": [
+            112,
+            123
+          ],
+          "ligand_bridged_by": [
+            "A1BUC"
+          ],
+          "arm_is_B": {
+            "n_contact_points": 7,
+            "n_soft_points": 0,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 224
+          },
+          "arm_is_C": {
+            "n_contact_points": 6,
+            "n_soft_points": 1,
+            "n_hard_points": 0,
+            "n_residues_with_a_contact_point": 4,
+            "n_residues_within_contact_A": 4,
+            "n_query_points": 246
+          },
+          "n_contact_points_min": 6,
+          "n_contact_points_max": 7,
+          "clears_the_committed_floor_both_ways": false
+        }
+      ],
+      "status": "OK"
+    }
+  ]
+}

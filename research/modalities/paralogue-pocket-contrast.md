@@ -1,6 +1,6 @@
 ---
 id: DOC-PARALOGUE-POCKET-CONTRAST
-title: C04 — paralogue-matched cryptic-pocket druggability
+title: IC-4 — paralogue-matched cryptic-pocket druggability
 level: L4
 kind: memo
 status: live
@@ -12,7 +12,7 @@ date: 2026-08-05
 last_verified: unverified
 _backfilled: true
 ---
-# C04 — paralogue-matched cryptic-pocket druggability
+# IC-4 — paralogue-matched cryptic-pocket druggability
 
 > **$0 CPU/CI. No GPU, no rental.** Nothing here is a claim about binding, reactivity, degradation,
 > selectivity in vivo, efficacy or safety.
@@ -41,7 +41,7 @@ Two committed facts made the gap visible and the fix free:
    every one of them is NR4A3.**
 
 So the detector existed, the frames existed, the frames were frame-matched — and the two had never been put
-together. That is candidate **C04** in [`instrument-options.md`](./instrument-options.md), and it needed one
+together. That is candidate **IC-4** in [`instrument-options.md`](./instrument-options.md), and it needed one
 external binary (fpocket) and no money.
 
 ## 2 · What is matched, and the one thing that is not
@@ -76,7 +76,7 @@ a free-energy quantity at all.
 - **`ΔG_open`.** A detection fraction is **not** an opening penalty and must never be reported as one.
   `R6` stays open.
 - **Evidence of ABSENCE.** At these ensemble sizes a paralogue that never opens is weak evidence. This
-  supports a **ranking**, never a categorical exclusion. That is why C04 is graded `A−` and not `A`.
+  supports a **ranking**, never a categorical exclusion. That is why IC-4 is graded `A−` and not `A`.
 - **Anything about a cavity the paralogue may have elsewhere.** A paralogue row of 0 means *NR4A3's site did
   not open here*, not *this protein is undruggable*.
 - Any statement about binding, reactivity, degradation, efficacy or safety.

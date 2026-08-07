@@ -1431,6 +1431,48 @@
           "use": "Section 3.7 (the radioresistance reappraisal) cites PMID 32948981 -- dose-dependent radiosensitivity plus hypoxia-activated-prodrug potentiation -- which was performed in an H-EMC-SS xenograft. Section 6 additionally cites the myxofibrosarcoma BNCT cellularity finding and, in section 5, the zaltoprofen/PPARgamma result (PMID 36636023), also H-EMC-SS.",
           "classification": "invalidated",
           "why_invalidated": "The memo DISCOUNTS this evidence rather than resting on it, and says so in the same paragraph that introduces it: the sweep that produced section 3.7 offered PMID 32948981 as the load-bearing preclinical support for an EMC hypoxia/radiosensitivity argument, and the memo overrides that -- a real, profiled cell line was irradiated and responded, but 'EMC xenograft' is doing work the curated record does not support. The lane's grade therefore rests on the clinical series and the case-level BED evidence, not on this. Filed `invalidated` rather than `unaffected` because the claim it would otherwise support IS an EMC claim, which is exactly the case this object exists to stop -- and because the sibling entry for `physical-modality-targets.json` predicted this arrival in advance."
+        },
+        {
+          "file": "research/manuscripts/emc-sgk1-lane-assessment.md",
+          "use": "§4b — why DepMap cannot settle the SGK1 lane: its only EMC-labelled model is this one. Quotes the Cellosaurus caution verbatim.",
+          "classification": "invalidated",
+          "correction_marker": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD"
+        },
+        {
+          "file": "research/manuscripts/fap-rlt-2026-regrade.md",
+          "use": "Records that the single `myxoid`-subtype DepMap model cannot supply the EMC FAP measurement the re-grade needs.",
+          "classification": "invalidated",
+          "correction_marker": "whose EMC identity"
+        },
+        {
+          "file": "research/manuscripts/fap-rlt-map-edits.json",
+          "use": "Routed edit carrying the memo's statement; draws no reading from the model.",
+          "classification": "invalidated",
+          "correction_marker": "whose EMC identity"
+        },
+        {
+          "file": "research/manuscripts/ofcs-cspg4-map-edits.json",
+          "use": "Routed edit recording that the surfaceome scan therefore holds NO EMC observation.",
+          "classification": "invalidated",
+          "correction_marker": "identity was retracted"
+        },
+        {
+          "file": "research/modalities/surfaceome-instrument-limits.json",
+          "use": "Limit L5 — the scan's one `myxoid` line is this model, so its n=1 EMC value is not an EMC value.",
+          "classification": "invalidated",
+          "correction_marker": "whose EMC identity"
+        },
+        {
+          "file": "research/modalities/surfaceome_instrument_limits.py",
+          "use": "Generator of limit L5; states the fact in the code that computes it.",
+          "classification": "invalidated",
+          "correction_marker": "identity the repository itself"
+        },
+        {
+          "file": "research/modalities/tests/test_surfaceome_instrument_limits.py",
+          "use": "Pins limit L5 so the classification cannot silently drift.",
+          "classification": "invalidated",
+          "correction_marker": "whose EMC identity"
         }
       ],
       "distinct_from": [

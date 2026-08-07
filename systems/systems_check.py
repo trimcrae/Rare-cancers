@@ -1108,12 +1108,19 @@ ID_SKIP = ("systems/views/", "node_modules/", ".git/", ".pytest_cache/")
 
 
 def _walk_md(skip):
-    """Every Markdown file under REPO whose path does not start with one of `skip`."""
+    """Every Markdown file under REPO whose path does not start with one of `skip`.
+
+    ⚠ THIS WALK HAD ITS OWN, WEAKER EXCLUSION AND THAT IS WHY THE `.claude` DEFECT REACHED THE
+    LINK CHECKS. Three other walks in this file prune via `_is_transient`; this one hand-rolled
+    `"__pycache__" in rel_root` instead, so it kept descending into agent worktrees and re-checked
+    every Markdown file in each of them. The K1 cross-link errors in the 2026-08-07 incident all
+    came from here. One exclusion rule, one home — `_is_transient` — rather than two that drift.
+    """
     for root, dirs, files in os.walk(REPO):
         rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
         if rel_root == ".":
             rel_root = ""
-        if "__pycache__" in rel_root or (rel_root and (rel_root + "/").startswith(skip)):
+        if _is_transient(rel_root) or (rel_root and (rel_root + "/").startswith(skip)):
             dirs[:] = []
             continue
         for fn in sorted(files):
@@ -1200,8 +1207,19 @@ def _instruction_paths():
 #: `research/modalities/.pytest_cache/README.md` — a file pytest writes, that no human authored — and
 #: [D4] duly failed the build for its missing frontmatter. A checker that goes red because a test run
 #: left a cache behind is a checker people learn to work around.
-TRANSIENT_DIRS = {".git", "node_modules", ".pytest_cache", "__pycache__", ".mypy_cache",
+TRANSIENT_DIRS = {".git", ".claude", "node_modules", ".pytest_cache", "__pycache__", ".mypy_cache",
                   ".ruff_cache", ".ipynb_checkpoints", ".venv", "venv", ".tox", "node_modules"}
+# ⛔ `.claude` IS LOAD-BEARING, AND IT WAS MISSING. The harness puts agent git worktrees under
+# `.claude/worktrees/`, so a session running several agents has N more copies of this repository
+# nested inside it. `os.walk` finds them; git does not (`.gitignore:15`). Measured 2026-08-07 with
+# 17 agents live: this checker reported **541 ERROR** in the main checkout and **0 ERROR** on the
+# same commit checked out cleanly elsewhere — every error a duplicate finding against a worktree's
+# copy of a file already checked in place. That is worse than a slow check: gate 2 of preflight is
+# one of the two that enforce provenance and medical integrity, and a gate that is red for a reason
+# unrelated to the work is a gate nobody can read a real failure out of. The rule this repo already
+# writes down for the ⚠ DRIFT flag applies here too — a guard that cries wolf gets ignored exactly
+# when it matters. ⚠ Do NOT "fix" this by excluding only `.claude/worktrees`: anything the harness
+# stores under `.claude` is its own state, not this repository's content.
 
 
 def _is_transient(rel_root):

@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
@@ -148,6 +148,50 @@ jobs:
   # NR4A3 paralogue-UNIQUE reactive residues (cysteines -> covalent-capture axis; lysines -> ubiquitination-site
   # axis). Needs UniProt, which the dev sandbox's egress proxy 403s -> runs here. Results are pushed back to the
   # TRIGGERING branch (not modalities-cache) because they are a design input the strategy docs cite directly.
+  cys_chemoproteomics:
+    # ⛔ WHY THIS LIVES HERE AND NOT IN ITS OWN FILE. `covalent-axis-prechecks.yml` was written for
+    # exactly this run and is correct — but it is NEW, and `workflow_dispatch` resolves the workflow
+    # against the DEFAULT branch, so dispatching it on a feature branch returns 404 (CLAUDE.md §6,
+    # verified again 2026-08-07). This workflow is already on `main`, so a dispatch with
+    # `ref=<branch>` runs THIS branch's version of the file and this branch's code. Same escape
+    # hatch the rule names; no merge to `main` required to take a $0 measurement.
+    #
+    # WHAT IT SETTLES: Q6(b). Part (a) is answered — a curated, public, site-level, UniProt-keyed
+    # human cysteine-chemoproteomics aggregate EXISTS. Whether it COVERS the NR4A family is
+    # `INCONCLUSIVE_NETWORK`: every primary supplementary table 403s at the sandbox egress proxy.
+    # This is the covalent axis's only proposed route to a known answer, and no instrument in the
+    # roadmap's §3.1 table has ever returned a passing known-answer test for it.
+    #
+    # ⚠ The sources are BINARY .xlsx supplements. They must not be routed through the literature
+    # fetcher, whose `strip_html()` would corrupt them — which is why this is a distinct job.
+    if: ${{ github.event.inputs.task == 'cys_chemoproteomics' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install readers for the binary supplements
+        run: python -m pip install --quiet openpyxl requests
+      - name: Cysteine-chemoproteomics coverage precheck (network-bound; UNREACHABLE stays a network fact)
+        working-directory: research/modalities
+        env:
+          PRECHECK_TIMEOUT_S: "90"
+        run: python cys_chemoproteomics_precheck.py
+      - name: Commit results back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "cysteine-chemoproteomics NR4A coverage precheck (C03, CI)" \
+            research/modalities/cys-chemoproteomics-precheck.json
+
   nr4a_unique_residues:
     if: ${{ github.event.inputs.task == 'nr4a_unique_residues' && github.event.inputs.fanout_mode != 'diag' }}
     runs-on: ubuntu-latest

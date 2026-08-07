@@ -1,0 +1,22 @@
+{
+  "_readme": "Round 2 for BLK-TCIP-INTERFACE-FLOOR, 2026-08-07. Round 1 measured, and did not guess, why the Supporting Information of EV-EB-TCIP-2025 (10.1021/jacs.5c05634, PMC12851799) did not arrive: the PMC /articles/instance/.../bin/ path answered HTTP 200 with an 85-character body reading 'Preparing to download ...' (PMC's download interstitial, not the file); the Europe PMC supplementaryFiles endpoint answered 'Article with id PMC12851799 is not open access one'; pubs.acs.org answered 403 behind 'Just a moment...'; the /pmc/articles/... path answered 404. So the document exists (the main text names it: NIHMS2124316-supplement-Supporting_Information.pdf, 10.8 MB, 'Supporting Figures 1-11, Chemical Synthesis, Supporting Tables 1-11, RNA-seq dendrograms, and additional references') and four hosts have each refused it for a DIFFERENT and identified reason. These are the remaining routes.",
+  "_note_preprint": "The cached main text states in its own words that the article 'is based on a previously available preprint posted on bioRxiv on March 17, 2025'. A bioRxiv preprint carries its supplementary material openly, so the preprint is the most likely open route to the same SI content; its DOI is not in the cached text, which is why a bioRxiv search page is fetched rather than a guessed DOI.",
+
+  "si_pmc_download_param": "https://pmc.ncbi.nlm.nih.gov/articles/instance/12851799/bin/NIHMS2124316-supplement-Supporting_Information.pdf?download=true",
+  "si_pmc_retry_plain": "https://pmc.ncbi.nlm.nih.gov/articles/instance/12851799/bin/NIHMS2124316-supplement-Supporting_Information.pdf",
+  "si_pmc_no_instance": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12851799/bin/NIHMS2124316-supplement-Supporting_Information.pdf",
+  "si_oa_service": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC12851799",
+  "si_oa_service_pmc_host": "https://pmc.ncbi.nlm.nih.gov/utils/oa/oa.fcgi?id=PMC12851799",
+  "si_epmc_supplementaryfiles_inline": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12851799/supplementaryFiles?includeInlineImage=true",
+
+  "biorxiv_search_ewsfli1_bivalent": "https://www.biorxiv.org/search/Rewiring%2Bthe%2Bfusion%2Boncoprotein%2BEWS%2BFLI1%2Bbivalent",
+  "biorxiv_api_search_2025_03_17": "https://api.biorxiv.org/details/biorxiv/2025-03-16/2025-03-18/0",
+  "stegmaier_lab_publications": "https://labs.dana-farber.org/stegmaierlab/publications/",
+  "stegmaier_si_guess_a": "https://labs.dana-farber.org/stegmaierlab/sites/g/files/prcqxy1306/files/2026-01/Bond-JACS-2025-SI.pdf",
+  "stegmaier_si_guess_b": "https://labs.dana-farber.org/stegmaierlab/sites/g/files/prcqxy1306/files/2026-01/Bond-JACS-2025-Supporting-Information.pdf",
+
+  "_note_tracer": "TRACER (Stieger et al., ACS Cent Sci, PMID 42500035, DOI 10.1021/acscentsci.5c02277) is a SECOND chemically-induced transcriptional-proximity modality - it tethers MBD2/NuRD to transcription-factor ligands and reads out transcription. Europe PMC records it as isOpenAccess=N, inEPMC=N, and names its bioRxiv preprint 10.1101/2025.10.22.680877. If its induced interface is also uncharacterised, that is a second independent instance of the same gap rather than one paper's omission.",
+  "tracer_biorxiv_full": "https://www.biorxiv.org/content/10.1101/2025.10.22.680877v1.full",
+  "tracer_biorxiv_pdf": "https://www.biorxiv.org/content/10.1101/2025.10.22.680877v1.full.pdf",
+  "tracer_biorxiv_supp": "https://www.biorxiv.org/content/10.1101/2025.10.22.680877v1.supplementary-material"
+}
