@@ -1,0 +1,57 @@
+{
+  "_what": "GSE28866 header read — does the only tumour-vs-NORMAL EMC deposit carry gene symbols?",
+  "_status": "$0, CI. A HEADER READ, deliberately. It answers one question — is this deposit gene-indexed or interval-indexed — because the answer decides whether a tumour-vs-normal EMC read is a parse or a coordinate-mapping project.",
+  "_series": "GSE28866",
+  "_why_the_series_matrix_looked_empty": "n_probes: 0 across 99 samples on GPL10999 with a 404 on the platform annotation is a PACKAGING fact about a sequencing deposit, not empty data. The values are in the series SUPPLEMENTARY peak tables.",
+  "_emc_samples_expected": [
+    "GSM715466",
+    "GSM715467",
+    "GSM715470",
+    "GSM715472"
+  ],
+  "_ceilings": [
+    "n = 4 EMC patients. Nothing here is a distribution.",
+    "The 27 normals are a tissue panel, NOT matched adjacent tissue.",
+    "3SEQ 3'-end read density is not an array intensity; never pool with GPL6244/GPL3290.",
+    "Transcript only. No protein, no surface localisation, no safety statement."
+  ],
+  "sources": [
+    {
+      "id": "normalized_36048_peaks",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE28nnn/GSE28866/suppl/GSE28866_36048_normalized_peaks_cancer_and_normal.txt.gz",
+      "status": "UNREACHABLE",
+      "error": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    },
+    {
+      "id": "raw_counts_54511_peaks",
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE28nnn/GSE28866/suppl/GSE28866_raw_counts_54511_peaks_cancer_and_normal.txt.gz",
+      "status": "UNREACHABLE",
+      "error": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+    }
+  ],
+  "verdict": {
+    "answer": "UNREACHABLE",
+    "_reading": "Neither peak table could be fetched. This is a statement about the network from this runner, NOT about the deposit's contents, and it must not be recorded as 'no gene symbols'."
+  },
+  "_genes_this_would_answer_for": [
+    "ALCAM",
+    "CD248",
+    "CSPG4",
+    "PRAME",
+    "SSTR2",
+    "CD276",
+    "FAP",
+    "MSLN",
+    "L1CAM",
+    "GPC3",
+    "CDH17",
+    "VCAN",
+    "BGN",
+    "CD44",
+    "RET",
+    "ENO3",
+    "SEMA3C",
+    "PPARG",
+    "NR4A3"
+  ]
+}

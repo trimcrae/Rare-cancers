@@ -152,7 +152,7 @@ on:
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -273,7 +273,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest
-          if [ "${{ inputs.mode }}" = "aso-junction" ]; then
+          if [ "${{ inputs.mode }}" = "gse28866" ]; then
+            echo "gse28866: header read only, no offline suite to gate on"
+          elif [ "${{ inputs.mode }}" = "aso-junction" ]; then
             python -m pytest research/modalities/tests/test_junction_aso_seam.py -q
           elif [ "${{ inputs.mode }}" = "ret-cistrome" ]; then
             # ⛔ NOT OPTIONAL. Two of the three ways this module could lie are pure arithmetic and
@@ -1019,3 +1021,21 @@ jobs:
                     f"scored_concepts={r['max_scored_concepts_on_one_platform']} "
                     f"readable={len(r['readable_platforms'])}")
           PY
+
+      # ⭐ THE ONLY TUMOUR-vs-NORMAL EMC ARM REACHABLE AT $0. Every other contrast this repo holds is
+      # EMC vs OTHER SARCOMAS, which cannot speak to on-target/off-tumour exposure because that is a
+      # statement about NORMAL tissue. GSE28866 carries 4 named EMC libraries beside 27 normals.
+      # ⚠ A HEADER READ, deliberately scoped: whether the 3SEQ peak tables carry a gene-symbol column
+      # decides whether this is a parse or a coordinate-mapping project, and the module refuses to
+      # guess between them.
+      - name: GSE28866 — is the only tumour-vs-normal EMC deposit gene-indexed?
+        if: ${{ inputs.mode == 'gse28866' }}
+        run: cd research/modalities && python3 gse28866_tumour_vs_normal.py
+      - name: Publish the GSE28866 header read
+        if: ${{ inputs.mode == 'gse28866' }}
+        env:
+          PUBLISH_IF_CHANGED: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "GSE28866 header read: is the tumour-vs-normal EMC deposit gene-indexed? (CI, $0)" \
+            research/modalities/gse28866-tumour-vs-normal.json
