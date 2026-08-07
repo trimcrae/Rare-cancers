@@ -1,0 +1,127 @@
+---
+id: DOC-NR4A3-FUSION-TRANSCRIPTIONAL-OUTPUT-SUBMISSION-CHECKLIST
+title: "Submission checklist and journal-fit rationale — EWSR1::NR4A3 transcriptional-output manuscript"
+level: L3
+kind: memo
+status: live
+canonical_for: []
+purpose: >
+  Record the journal recommendation and its reasoning, confirm the manuscript meets the target
+  journals' author standards, and list the residual author-only steps that must be completed before
+  the manuscript is actually submitted — so that "submission-ready" is auditable rather than asserted.
+scope: >
+  Submission logistics and standards compliance for the transcriptional-output manuscript. Contains no
+  scientific result.
+audience: [maintainers, external reviewers, collaborators]
+related: [DOC-NR4A3-FUSION-TRANSCRIPTIONAL-OUTPUT]
+date: 2026-08-07
+last_verified: 2026-08-07
+---
+
+# Submission checklist and journal-fit rationale
+
+Companion to [`nr4a3-fusion-transcriptional-output.md`](./nr4a3-fusion-transcriptional-output.md) and
+[`nr4a3-fusion-transcriptional-output-cover-letter.md`](./nr4a3-fusion-transcriptional-output-cover-letter.md).
+
+## 1 · Recommended venue
+
+**Primary: *Genes, Chromosomes & Cancer* (Wiley), Original Research Article.** It is the field's
+dedicated journal for the genetics and genomics of neoplasia, and specifically for fusion-driven
+sarcomas — the exact audience that reads and cites EMC fusion biology. It is receptive to focused
+genomic re-analyses of the kind this manuscript is, which makes it a realistic home for a careful,
+explicitly incremental result. Crucially, it is a **hybrid** journal: open access is optional (an
+article-processing charge of roughly US$4,810 applies *only if* the open-access option is chosen), and
+the traditional subscription route carries **no author charge**. Publishing via the subscription route,
+with a free bioRxiv preprint as the open copy, satisfies the standing constraint that the author pays
+nothing.
+
+**Aspirational alternative: *The Journal of Pathology* (Wiley).** This is the natural home in one
+respect — it published the three primary papers this manuscript synthesises (Subramanian 2005, Filion
+2009, Brenca 2019). It is also hybrid (subscription route free; open access optional at ~US$5,450), so
+the $0 constraint is met. It carries a higher desk-reject risk for an explicitly incremental,
+single-author re-analysis and a tighter length preference (see §3), so it is the second choice, not the
+first.
+
+**Realistic fallback: *British Journal of Cancer* (Springer Nature)** — hybrid, subscription route
+free, broad cancer-genomics scope.
+
+**Preprint (open copy, free): bioRxiv**, Cancer Biology / Genomics. bioRxiv accepts computational
+re-analyses of public data at no charge, and both Wiley journals above permit bioRxiv preprints.
+
+> **Why not the obvious open-access venues.** Several journals that would fit topically have moved to
+> gold open access with a mandatory APC and are therefore excluded by the $0 constraint unless a full
+> waiver is granted: e.g. *BMC Cancer*, *Cancer Medicine*, *ESMO Open*, and — verified 2026-08-07 —
+> *The Oncologist* (~US$3,668) and the *Journal of Cancer Research and Clinical Oncology* (~US$4,390),
+> both of which flipped from hybrid to full OA. Journal fee models change; confirm the subscription/no-
+> APC route in writing at submission.
+
+## 2 · Standards compliance (target: GCC; also satisfies J Pathol)
+
+| requirement | target | status in manuscript |
+|---|---|---|
+| Article type | Original Research Article | ✔ declared |
+| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, ~280 words (trim to ≤250 if a stricter venue is chosen) |
+| Keywords | 5–7 | ✔ 7 keywords |
+| Structure | Introduction · Methods · Results · Discussion · Conclusion | ✔ full IMRaD |
+| References | GCC: any consistent style · J Pathol/EJC: ≤40–50 | ✔ 10 primary + gene-set resources, Vancouver style |
+| Data availability statement | required | ✔ public accessions + open code repository, Zenodo archive planned |
+| Funding statement | required | ✔ "None" |
+| Competing-interests statement | required | ✔ "None" |
+| Ethics / consent statement | required | ✔ not required — public de-identified data only, stated |
+| Author contributions | required | ✔ sole author |
+| Generative-AI disclosure | required (Wiley/Elsevier policy) | ✔ explicit statement; AI not an author; author takes responsibility |
+| Reproducibility | encouraged | ✔ seeded, offline `--check`, independent second implementation |
+
+## 3 · Element counts
+
+- **Abstract:** ~280 words (unstructured). Compliant with J Pathol (≤300) and GCC (flexible).
+- **Main text:** ~5,000 words excluding tables and references. GCC sets no fixed limit; **for *The
+  Journal of Pathology* this would need trimming toward ~4,000** (candidate cuts: condense §3.9 PPARγ
+  detail and §2 method prose, moving the full PPARγ arm table and the 22-row evidence catalogue to
+  Supplementary Information).
+- **Display items:** 8 tables, 0 figures. Optional strengthening (§5).
+- **References:** 10 numbered primary references plus separately listed gene-set resources and the GEO
+  series record.
+
+## 4 · Reporting-guideline note
+
+This is a re-analysis of previously published, publicly deposited datasets, not a de-novo systematic
+review, so no single EQUATOR checklist applies in full. Study/dataset selection is stated transparently
+in Methods §2.2 (three EMC cohorts on three platform families, with the comparator arm of each named and
+the exclusions accounted for). The synthesis is a cross-platform sign-concordance reading rather than a
+pooled effect estimate, and the manuscript states in Limitation 2 that the three cohorts are never
+pooled. Where a reviewer requests it, a MOOSE- or SWiM-style summary of dataset identification can be
+added as a supplementary item.
+
+## 5 · Optional strengthening (not required for submission)
+
+- **Convert two tables to figures.** The per-gene null-calibrated result (§3.5) and the instrument-
+  control panel (§3.3) would read more forcefully as figures; GCC and J Pathol both favour a figure for
+  the headline result.
+- **A promoter NBRE-motif scan** of the up-in-EMC genes (Discussion §4.2, item 4) is a no-new-data
+  analysis that would add an orthogonal line of evidence; it is named in the manuscript as future work
+  and is not required for this submission.
+- **In-text citation style.** The manuscript uses a consistent author-name + PMID inline style with a
+  full numbered reference list — accepted by GCC at initial submission ("any consistent style"). The
+  PMID on each inline citation is a deliberately robust provenance anchor. Converting the in-text
+  citations to the journal's numbered superscript (Vancouver) format is a one-pass reference-manager
+  step at submission or first revision, and journals reformat references at production regardless.
+
+## 6 · Residual author-only steps before clicking "submit"
+
+These are outward-facing or identity-bound actions that only the author can take; the manuscript
+content itself is submission-ready.
+
+1. **Add an ORCID** to the title page and cover letter (bracketed placeholder present).
+2. **Mint a Zenodo DOI** by archiving the code repository at the submitted commit, and paste it into the
+   Data and code availability section (the section already states this is planned at acceptance; some
+   journals prefer the DOI at submission).
+3. **Verify the remaining gene-set-resource identifiers** (Enrichr, ChEA, TRRUST, MSigDB Hallmark)
+   against their primary sources and add full bibliographic identifiers; the manuscript currently cites
+   them to the depth the held source supplies and flags this explicitly, in line with the project's
+   citation-provenance discipline.
+4. **Elect the subscription (non-open-access) route** at the fee step so no APC is charged, unless a
+   full waiver for open access has been secured.
+5. **Fill the bracketed fields** in the cover letter (date, ORCID) and confirm the current editor
+   addressee on the journal masthead.
+6. **Deposit the bioRxiv preprint** and, after it posts, add the preprint DOI to the cover letter.

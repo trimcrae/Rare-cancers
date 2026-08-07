@@ -81,7 +81,7 @@ The result is a per-gene sign-concordance reading over three genes in cohorts of
 
 ## Where this route ends — the paper
 
-**[PUB-FUSION-OUTPUT](L3-publications.md)** — [What EWSR1::NR4A3 is published to transcribe, read in EMC tumour tissue against a size-matched empirical null: three cohorts, three platform families](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md)
+**[PUB-FUSION-OUTPUT](L3-publications.md)** — [Published transcriptional targets of EWSR1::NR4A3 are elevated in extraskeletal myxoid chondrosarcoma tissue across three cohorts and three platforms: an evidence-typed, null-calibrated re-analysis](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

@@ -44,7 +44,7 @@ last_verified: 2026-08-06
 | **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
 | **PUB-EMC-PROGRAM**<br/>[Attacking an "undruggable" fusion oncoprotein by computation alone: a d…](../../research/manuscripts/emc-treatment-roadmap.md) | ◐ `drafted` | `journal_submission` | 2 | — |
 | **PUB-ENDPOINT**<br/>[Objective response is the wrong endpoint for extraskeletal myxoid chond…](../../research/manuscripts/emc-response-endpoint-paper.md) | ◐ `drafted` | `journal_submission` | 1 | — |
-| **PUB-FUSION-OUTPUT**<br/>[What EWSR1::NR4A3 is published to transcribe, read in EMC tumour tissue…](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-FUSION-OUTPUT**<br/>[Published transcriptional targets of EWSR1::NR4A3 are elevated in extra…](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-FUSION-PARTNER**<br/>[Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a…](../../research/manuscripts/emc-fusion-partner-stratification.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-HLA-COVERAGE**<br/>[Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunoth…](../../research/manuscripts/hla-coverage-emc.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
@@ -170,7 +170,7 @@ Summarising systemic therapy in an indolent ultra-rare sarcoma by its objective-
 |---|---|---|
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) — Reframe the endpoint advanced-EMC systemic therapy i | `primary` | The whole paper: the two endpoints on one denominator, the 36 discordant patients, the reporting-completeness census, the small-trial arithmetic, and the limitations section that states the natural-history confound at full strength. |
 
-### PUB-FUSION-OUTPUT — What EWSR1::NR4A3 is published to transcribe, read in EMC tumour tissue against a size-matched empirical null: three cohorts, three platform families
+### PUB-FUSION-OUTPUT — Published transcriptional targets of EWSR1::NR4A3 are elevated in extraskeletal myxoid chondrosarcoma tissue across three cohorts and three platforms: an evidence-typed, null-calibrated re-analysis
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/nr4a3-fusion-transcriptional-output.md`](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md)**
 
