@@ -1,0 +1,252 @@
+2682casCancer ScienceCancer SciWileyPMC1055159210551592105515923759244810.1111/cas.15915Extensive analysis of 59 sarcoma‐related fusion genes identified pazopanib as a potential inhibitor to 
+COL1A1‐PDGFB
+ fusion gene
+HiroseTakeshi IkegamiMasachika KojimaShinya YoshidaAkihiko EndoMakoto ShimadaEijiro KanahoriMasaya OyamaRyunosuke MatsumotoYoshihiro NakashimaYasuharu KawaiAkira ManoHiroyuki KohsakaShinji 
+1
+Division of Cellular Signaling, National Cancer Center Research Institute, Tokyo, Japan
+2
+Department of Orthopaedic Surgery, Graduate School of Medical Sciences, Kyushu University, Fukuoka, Japan
+3
+Department of Diagnostic Pathology, National Cancer Center Hospital, Tokyo, Japan
+4
+Department of Musculoskeletal Oncology, National Cancer Center Hospital, Tokyo, Japan*
+
+Correspondence
+, 
+Shinji Kohsaka, Division of Cellular Signaling, National Cancer Center Research Institute, 5‐1‐1 Tsukiji, Chuo‐ku, Tokyo 104‐0045, Japan. 
+Email: skohsaka@ncc.go.jp
+
+✉Corresponding author.
+17820231141040894089–41006102023© 2023 The Authors. Cancer Science published by John Wiley & Sons Australia, Ltd on behalf of Japanese Cancer Association.This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## Abstract
+Sarcomas are malignant mesenchymal tumors that are extremely rare and divergent. Fusion genes are involved in approximately 30% of sarcomas as driver oncogenes; however, their detailed functions are not fully understood. In this study, we determined the functional significance of 59 sarcoma‐related fusion genes. The transforming potential and drug sensitivities of these fusion genes were evaluated using a focus formation assay (FFA) and the mixed‐all‐nominated‐in‐one (MANO) method, respectively. The transcriptome was also examined using RNA sequencing of 3T3 cells transduced with each fusion gene. Approximately half (28/59, 47%) of the fusion genes exhibited transformation in the FFA assay, which was classified into five types based on the resulting phenotype. The sensitivity to 12 drugs including multityrosine kinase inhibitors was assessed using the MANO method and pazopanib was found to be more effective against cells expressing the COL1A1‐PDGFB fusion gene compared with the others. The downstream MAPK/AKT pathway was suppressed at the protein level following pazopanib treatment. The fusion genes were classified into four subgroups by cluster analysis of the gene expression data and gene set enrichment analysis. In summary, the oncogenicity and drug sensitivity of 59 fusion genes were simultaneously evaluated using a high‐throughput strategy. Pazopanib was selected as a candidate drug for sarcomas harboring the COL1A1‐PDGFB fusion gene. This assessment could be useful as a screening platform and provides a database to evaluate customized therapy for fusion gene‐associated sarcomas.
+Keywords: dermatofibrosarcoma protuberans, drug sensitivity, fusion gene, pazopanib, sarcoma
+
+An experimental system to evaluate the function of 59 fusion genes was established. Focus formation activities of 36 fusion genes were assessed for the first time. Pazopanib was selected as a candidate drug for the COL1A1‐PDGFB fusion gene.
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2023 Jul 2; Received 2023 Mar 8; Accepted 2023 Jul 5; Collection date 2023 Oct.
+
+## Abbreviations
+DFSPdermatofibrosarcoma protuberans
+FFAfocus formation assay
+GSEAgene set enrichment analysis
+MANOmixed‐all‐nominated‐in‐one
+MSCmesenchymal stem cell
+PDGFRplatelet‐derived growth factor receptor
+RNA‐seqRNA sequencing
+TKItyrosine kinase inhibitor
+1.
+
+## INTRODUCTION
+Sarcomas represent the second most common solid tumors in children and adolescents, although they constitute only approximately 1% of all human malignancies. They are heterogeneous with more than 100 histological subtypes; however, most are biologically aggressive, rare bone and soft tissue cancers. The treatment for osteosarcoma, the most common primary malignant bone tumor, has improved with adjuvant chemotherapy. The relapse‐free survival at 2 years is under 20% without chemotherapy compared with approximately 60% with chemotherapy. Randomized controlled clinical trials confirmed a benefit for chemotherapy in the 1980s, but the treatment regimen and results have not changed much since then. Approximately 40%–50% of patients with a large (>5 cm), deep, and high‐grade soft tissue sarcoma develop distant metastasis, especially in the lung. The absolute risk reduction in survival with adjuvant chemotherapy is only 6% and even now, many sarcoma subtypes are considered difficult‐to‐treat tumors.
+Many studies have identified genetic changes in sarcomas. , Of these, several oncogenic driver genes are known, such as EWSR1‐FLI1 in Ewing sarcoma, PAX3/7‐FOXO1 in alveolar rhabdomyosarcoma, and SS18‐SSX1/2/4 in synovial sarcoma. , Most fusion gene products act as aberrant transcription factors or cofactors and dysregulate downstream gene expression. Although these sarcoma‐related fusion genes were discovered decades ago, the successful development of drugs are limited for fusion of kinase genes such as ALK and NTRK. The major challenge in developing drugs against fusion transcription factors in contrast to kinase inhibitors is considered to be the absence of structural binding pockets; however, drugs that promote protein degradation could be developed in the future. 
+
+The rarity of sarcoma makes it difficult to evaluate drug efficacy in clinical trials for the various histological subtypes associated with respective fusion genes. Because each fusion gene corresponds to a completely different subtype, experiments using patient‐derived cell lines or xenografts carrying the fusion gene could be affected by some conditions other than the fusion gene in itself. Due to the diversity of sarcoma fusion genes, reliable experimental systems have not been developed to compare the function and drug sensitivity of multiple fusion genes with one another.
+In this study, we established a drug screening system to evaluate drugs and fusion genes in a high‐throughput manner using the MANO method developed in our laboratory. The system might not only predict potentially effective drugs, but could also provide insight into the function of the associated fusion gene. A total of 59 sarcoma‐related fusion genes were selected by a manual review of published reports and evaluated with the drug screening system. Furthermore, RNA‐seq of fusion gene‐expressed cells was carried out to classify the fusion genes based on clustering and GSEA.
+
+2.
+
+## MATERIALS AND METHODS
+2.1.
+
+## Cell lines
+Mouse 3T3 fibroblasts, human embryonic kidney 293T cells, mouse C2C12 myoblast cells, and mouse MSC were acquired from ATCC. They were cultured in DMEM‐F12 supplemented with 10% FBS, 2 mmol/L glutamine (all from Thermo Fisher Scientific), and 1% penicillin/streptomycin.
+
+2.2.
+
+## Construction of a retroviral vector with random barcodes
+The pcx6 vector was constructed by inserting random 10 bp DNA barcode sequences upstream of the start codon of the target genes in the pcx4 vector. Table  lists the barcode sequences. The full‐length cDNA for a human fusion gene was inserted into the pcx6 vector. A total of 59 fusion genes representing known sarcomas subtypes were collected manually and selected for the study. Plasmids encoding fusion gene variants were created by GENEWIZ (Azenta). Three clones each containing an individual barcode were constructed for the respective variants to obtain triplicate data for all assays.
+
+2.3.
+
+## Production of retrovirus and infection of 3T3 cells
+The recombinant plasmids were transduced together with packaging plasmids (TaKaRa Bio) into human embryonic kidney 293T cells to produce recombinant retroviruses. The 3T3 cells were infected with ecotropic recombinant retroviral particles in 96‐well plates using 10 μg/mL Polybrene (Sigma‐Aldrich) for 24 h.
+
+2.4.
+
+## Focus formation assay
+To assess anchorage‐independent growth, 3T3 cells expressing various fusion genes were cultured in DMEM‐F12 supplemented with 5% bovine calf serum for 2 weeks, followed by staining with Giemsa solution. The FFA was scored as follows: Type 1, round‐shaped and anchorage‐independent focuses were diffusely observed; Type 2, transformed cells were diffusely piled up; Type 3, transformed cells were focally piled up; Type 4, transformed cells were partially observed; and Type 5, no focus formation was observed. Fisher's exact test using the Benjamini–Hochberg method in R was used to determine whether there was a statistically significant association between the numbers of fusion genes in the individual type and the results of the MANO method (“High” or “Low”), which is described below.
+
+2.5.
+
+## 
+MANO method
+As shown in Figure  , the MANO method utilizes a retroviral vector that can stably integrate individual fusion genes into the genome of cells, such as 3T3 cells, along with 10 bp barcode sequences. Individually transduced assay cells were mixed and cultured in a competitive manner to assess their in vitro transforming potential and drug sensitivity. Following culture, the genomic DNA was extracted from the cell lysates with the QIAamp DNA Mini Kit (Qiagen) and amplified by PCR with primers, indices, and adaptors using Illumina technology (the primer sequences are described in our previous report). The PCR products were purified using AMPure beads (Beckman Coulter). The sequencing libraries were constructed with the NEB Next Q5 Hot Start HiFi PCR Master Mix (NEB) according to the manufacturer's instructions. Library quality was examined with a Qubit 2.0 fluorometer (Thermo Fisher Scientific) and the Agilent 2200 TapeStation system (Agilent Technologies). The resulting libraries were sequenced on an Illumina MiSeq system with the Reagent Kit V2 (300 cycles) and 150 bp paired‐end reads were generated (the sequencing primers mixed into the MiSeq cartridge are shown in our previous report). The barcode sequences (10 nucleotides; Table  ) were included in the sequencing results and the number of the barcode per mutant was quantitated.
+
+2.6.
+
+## Cell growth and drug sensitivity assays using the MANO method
+For cell growth assays, 3T3 cells expressing each fusion gene variant were cultured in DMEM‐F12 medium with 5% and 10% FBS. The cultured cells were collected on days 0 (the day when the 3T3 cells were mixed), 2, 5, 8, 11, and 14. The number of the barcode was calculated by the MANO method. For drug sensitivity assays, the 3T3 cells expressing the respective fusion gene variants were cultured in DMEM‐F12 medium with 1.5% FBS. The incubated 3T3 cells were mixed in amounts determined by the FFA results and incubated for 5 days with the indicated concentrations of the following 12 drugs: barasertib, Aurora B inhibitor; doxorubicin, DNA topoisomerase II inhibitor; pazopanib, multi‐TKI; PF‐562271, focal adhesion kinase inhibitor; ridaforolimus, mTOR inhibitor (Apexbio); crizotinib, c‐MET, ALK, and ROS1 inhibitor (LC Laboratories); GSK 126 (Cayman Chemical), EZH2 inhibitor; JQ1, BET bromodomain inhibitor (Abcam); Nutlin‐3a, MDM2 inhibitor (BOC Sciences); olaparib, poly(ADP‐ribose) polymerase inhibitor (Funakoshi); panobinostat, histone deacetylase inhibitor (Ark Pharm); and tazemetostat, EZH2 inhibitor (Chemscene) (all drugs at 100 pM–10 μM).
+The experiments were carried out in triplicate. The number of the individual barcode was calculated by the MANO method. Considering the different doubling times of the 3T3 cell variant, the GFP variants were used as a reference to normalize the cell clones in the cell growth assay. The relative cell growth on 1 day was calculated as the ratio of the average read counts across replicates for that specific day to that obtained on day 0 (the day when the 3T3 cells were mixed). The relative cell growth of the mutant cells on day 14 was compared with that of the GFP‐expressing cells (as the reference controls) using a paired t‐test. Every variant with a significantly high (p < 0.05) relative growth rate was marked with an asterisk. On day 14, the increasing 3T3 cells expressing the fusion gene compared with expressing GFP are termed “High” and the decreasing ones “Low”. The relative growth inhibition rate of each variant was calculated as the ratio of the average read numbers across triplicates to that of the control in drug‐free medium. The assessment of sensitivity was based on the resulting IC50 for all drugs.
+
+2.7.
+
+## 
+PrestoBlue cell viability assay
+The 3T3 cells expressing three fusion gene variants, CIC‐DUX4L1, COL1A1‐PDGFB, KIRREL‐PRKCA, and KRAS as a control variant, were cultured in 96‐well plates with 100 μL DMEM‐F12 medium containing 1.5% FBS. Pazopanib, sorafenib (Selleck Chemicals), and sunitinib (Combi‐Blocks; 100 pM to 10 μM) were added at different concentrations. Next, 10 μL PrestoBlue (Thermo Fisher Scientific) was added 5 days after exposure to the drugs and fluorescence was measured (excitation 530 nm, emission 590 nm) after 3 h of incubation at 0.1 s.
+
+2.8.
+
+## 
+RNA sequencing
+Total RNA was extracted from the 3T3 cells expressing each fusion gene variant using TriZol reagent (Thermo Fisher Scientific). RNA concentration and quality were checked using NanoDrop 2000/2000c Spectrophotometers (Thermo Fisher Scientific). cDNA synthesis and library preparation were done using 1 μg of the sample, the NEBNext Ultra Directional RNA Library Prep Kit for Illumina, and the NEBNext Poly(A) mRNA Magnetic Isolation Module (Illumina), according to the manufacturer's protocol. Next‐generation sequencing was done from both ends of respective clusters using a HiSeq2500 platform (Illumina). Raw fastq files were analyzed with FastQC version 0.11.3 and mapping reads to the reference genome GRCm38 was done using BWA, Bowtie2 (http://bowtie‐bio.sourceforge.net/bowtie2/index.shtml), and NovoAlign (http://www.novocraft.com/products/novoalign/). The expressed mRNA for the fusion gene was calculated and normalized using the DESeq2 package (https://bioconductor.org/packages/release/bioc/html/DESeq2.html). Genes were excluded from the analysis if five or more samples had normalized counts equal to 0. Heat maps for the expression data were generated using the pheatmap package (https://cran.r‐project.org/web/packages/pheatmap). Ward's clustering method and correlation distances were used to generate hierarchical clusters of samples and genes from the heatmaps. The genes selected to create hierarchical clusters were the 100 and 500 most variable genes to identify differences for each fusion gene efficiently, because all RNA was extracted from the same background 3T3 cells.
+We have performed gene set enrichment analysis GSEA (http://www.gsea‐msigdb.org/gsea/index.jsp), which is a computational method to estimate whether predetermined gene sets show statistically significant differences between two biological states. All 3T3 cells with the individual fusion genes were divided into four groups according to the RNA‐seq clustering and different pairs of the four groups were compared. GSEA was used as a functional enrichment tool to explore the biological states and processes associated with a hallmark gene set “h.all.v2022.1Hs.symbols.gmt”, which was downloaded from the Molecular Signatures Database (MsigDB). p values <0.05 were considered statistically significant.
+
+2.9.
+
+## Western blot analysis
+Cells were treated with the indicated concentrations of inhibitors in DMEM‐F12 containing 10% FBS for 1 day. Subsequently, the cells were lysed in 1% NP‐40 lysis buffer containing protease and phosphatase inhibitors on ice. The cell lysates were subjected to 7.5% SDS‐PAGE and immunoblotting was carried out using primary antibodies against Akt (pan) (1:1000; C67E7), phospho‐Akt (Ser473) (1:1000; D9E), MEK1/2 (1:1000), phospho‐MEK1/2 (Ser217/221) (1:1000), p44/42 MAPK (Erk1/2) (1:1000; 137F5), phospho‐p44/42 MAPK (Erk1/2) (Thr202/Tyr204) (1:2000), and GAPDH (1:1000; 14C10). All primary antibodies were purchased from Cell Signaling Technology. The secondary Ab was peroxidase‐linked anti‐rabbit IgG (1:10,000, NA934; Cytiva). All blots were obtained from the same experiment and processed in parallel.
+
+3.
+
+## RESULTS
+3.1.
+
+## Evaluation of transforming potential of sarcoma‐related fusion genes by FFA
+A total of 59 sarcoma‐related fusion genes reported previously were selected to evaluate their function (Tables  and ). , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , Approximately 30 of these fusion genes are listed on the Fédération Nationale des Centers de Lutte Contre le Cancer grading system (Table  ). To assess the transforming potential of every fusion gene variant, an FFA using 3T3 cells was carried out. The results were classified into five groups as follows: Type 1, diffuse round‐shaped and anchorage‐independent focuses; Type 2, diffuse piling up of transformed cells; Type 3, focally piling up of transformed cells; Type 4, partially transformed cells; and Type 5, no focus formation (Figure  ). We classified FFA based on two characteristics: anchorage‐independent growth and loss of contact inhibition. Types 1 and 2 showed the anchorage‐independent growth with loss of contact inhibition. Type 3 showed loss of contact inhibition and piling up with the anchorage dependence. Types 4 and 5 did not show the anchorage‐independent growth, while Type 4 partially formed foci of the cells. Approximately half of the fusion gene variants showed a transformation phenotype. Fusion genes known as oncogenic drivers, such as SS18‐SSX and CIC‐DUX4L1, or fusions consisting of genes encoding tyrosine kinases, such as ALK, ROS1, and NTRK, showed focus formation. In contrast, EWSR1‐ATF1 or EWSR1‐CREB1, which are both found in angiomatoid fibrous histiocytoma and clear cell sarcoma, did not induce focus formation, which is consistent with a previous report. As far as we know, the functional assay was performed on only 23 of 59 fusion genes so far (Table  ) and the rest of the fusion genes were assessed for their function for the first time in this FFA.
+ 
+3.2.
+
+## Evaluation of cell growth activity of sarcoma‐related fusion genes in vitro using the MANO method
+The 3T3 cells expressing each of the 60 different variants (59 fusion genes and control GFP) were mixed and cultured to evaluate growth competition using the MANO method (Figure  ). Of the 59 fusion gene variants, cells with 16 variants were relatively increased compared with those expressing GFP. Some fusion gene variants that exhibited strong transforming potential in the FFA, such as COL1A1‐PDGFB and TFG‐ROS1, also showed increased proliferation compared with GFP. The ratio of variants showing a growth advantage in the MANO assay was significantly high for Types 1, 2, and 5 compared with Type 4 (Fisher's exact test, p = 0.05, 0.03, and 0.02). The results of the growth competition assay were generally consistent between 10% and 5% FBS‐containing media (r = 0.69), except for cells expressing CIC‐DUX4L1 and EWSR1‐FLI1 (Figures  and ). Furthermore, we used mouse myoblast cells (C2C12) and MSCs for additional MANO methods (Figure  ). In the experiments, moderate correlation between 3T3 cells and MSCs was observed (coefficient of association 0.54).
+
+3.3.
+
+## Drug sensitivity screening against sarcoma fusion genes using the MANO method
+A mixture of 3T3 cells expressing 60 different variants was treated with 12 drugs at different concentrations as described in the Methods section (Table  ). The sensitivity to 12 drugs was evaluated based on cell viability, which was calculated using the MANO method. The variants in which the barcode read numbers on day 0 were less than 100 were excluded from the analysis. The viability of the cells with fusion genes treated with the 12 drugs are shown in Figures  and . Cells expressing TPM4‐ALK were relatively sensitive to crizotinib compared with the other variants (Figure  ), indicating the validity of the assay. Cells expressing the COL1A1‐PDGFB fusion gene were sensitive to pazopanib, an inhibitor of multityrosine kinase receptors, such as vascular endothelial growth factor receptor, PDGFR, fibroblast growth factor receptor, and c‐kit. The drug efficacies of JQ1 and panbinostat to the individual fusions were different while the other drugs including doxorubicin, tazemetostat, GSK126, barasertib, ridaforolimus, Nutlin‐3a, PF‐562271, and olaparib did not show significant activity against any of the fusion gene variants (Figures  and ). Individual PrestoBlue cell viability assay confirmed the sensitivity of KMT2B‐GPS2 toward JQ‐1 (Figure  ).
+ 
+3.4.
+
+## Evaluation of pazopanib sensitivity in cells expressing 
+COL1A1‐PDGFB
+ fusion gene
+Next, the effectiveness of pazopanib against COL1A1‐PDGFB‐expressing cells was assessed by the PrestoBlue cell viability assay (Figure  ). A lower dose of pazopanib inhibited the growth of COL1A1‐PDGFB‐expressing cells compared with the other fusion‐expressing variants. In addition, cells expressing COL1A1‐PDGFB were sensitive to sorafenib and sunitinib, both of which are multi‐TKIs including PDGFR. Drug sensitivity assay for pazopanib was also carried out using DFSP patient‐derived cell lines. , However, pazopanib did not inhibit the growth of DFSP cell lines as well as DLD1, a colon cancer cell line with KRAS mutation (Figure  ). This result was consistent with the previous report, in which the authors attributed their resistance to kinase inhibitors to the different protein expressions of cell lines from the original tumors and the heterogeneity of the original tumors.
+We examined the activation of the AKT and MAPK signaling pathways by western blot analysis. Whereas COL1A1‐PDGFB expression increased the phosphorylation of AKT, MEK1/2, and ERK1/2 in 3T3 cells, pazopanib treatment inhibited those phosphorylations (Figure  ). RNA sequencing was undertaken to assess gene expression in 3T3 cells expressing COL1A1‐PDGFB compared with the other fusion genes (Table  ). Among the highly expressed genes in COL1A1‐PDGFB expressed cells, Aaed1 and Mras are known to be involved in MAPK signaling pathways (Figure  ). , 
+
+3.5.
+
+## Cluster analysis and search for drug sensitivity using RNA‐seq expression data in 3T3 cells with fusion genes
+Clustering was carried out using the 100 or 500 most variable genes among the 3T3 cells expressing different fusion genes (Figures  , , and ). We undertook the unsupervised clustering analysis to discover a new biomarker for treatment or diagnosis. A cluster may have common treatment targets. Clustering using the 100 most variable genes classified fusion gene variants into four groups. GSEA annotated groups 1, 2, and 4 as the epithelial–mesenchymal transition group, oxidative phosphorylation group, and PI3K/Akt/mTOR signaling group, respectively. Information regarding the differentiation and the category of the tumor by WHO classification, the results of FFA, and the MANO method are presented in the upper part of the clustering diagram (Figure  ) and summarized with additional information for the functional assays from previous studies in Table  .
+ Cluster group 4 included tyrosine kinase fusions that showed strong focus formation, such as COL1A1‐PDGFB, LMNA‐NTRK1, and TPM4‐ALK. As reported previously, the fusion genes identified in chondrosarcoma and rhabdomyosarcoma were grouped into the epithelial–mesenchymal transition subgroup. 
+TPM4‐ALK, COL1A1‐PDGFB, and EWSR1‐FLI1 were grouped into the PI3K/Akt/mTOR signaling subgroup, which is consistent with a previous report. We further examined specific genes regulated by individual fusion genes (Tables  and ). These genes could be useful as diagnostic markers for sarcoma diagnosis and individualizing treatment.
+Furthermore, the expression of the genes involved in drug sensitivity was examined. For instance, overexpression of IGF1R is known as a mechanism of resistance to pazopanib. The ERCC1 gene is known as one of the complex molecules associated with nucleotide excision repair and associated with platinum drug sensitivity. The expression of these genes in the cells with certain fusion genes were significantly different compared with the cells expressing GFP (Figure  ).
+
+4.
+
+## DISCUSSION
+To our knowledge, this is the first report to extensively evaluate the oncogenicity and drug sensitivity of various sarcoma fusion genes. Because fusion genes were introduced into one isogenic cell line, the drug screening assay could detect the specific target by comparing with one another. The screening system was validated by confirming that the ALK fusion variant was sensitive to crizotinib at relatively low concentrations.
+With respect to the oncogenic mechanism of the COL1A1‐PDGFB fusion gene, Shimizu et al. reported that the chimera protein COL1A1‐PDGFB is produced and processed to increase the mature PDGF‐BB dimer, which results in autocrine growth stimulation. The PDGFRs are not only activated at the cell surface, but also intracellularly through ligands in the endoplasmic reticulum, Golgi, and secretary vesicles. 
+
+The pazopanib efficacy on DFSP, which has been known to frequently harbor the fusion gene COL1A1‐PDGFB, remains controversial. , , A phase II trial was undertaken to evaluate pazopanib efficacy among DFSP patients and some responses were reported. A partial response was observed in 22% (5 of 23) of the patients, although 48% of the patients required dose reduction because of toxicity. In another case report, metastatic lesions in the retroperitoneum and rib disappeared or shrank following pazopanib treatment. The best response was stable disease, which lasted for 5 months. Not all DFSP patients respond to pazopanib, suggesting the involvement of other tumor driving factors including genetic or epigenetic changes. Thus far, 9p deletions, chromosomes 17 and 22 amplification, and loss of chromosome 22q have been reported to be associated with the transformation of advanced DFSP. , 
+
+In the drug sensitivity assay using the MANO method, it is also important to focus on unexpected results that show the efficacy of a certain drug against the fusion gene that is not a direct target of the drug, even if the efficacy is not high. KMT2B‐GPS2 expressed cells were identified to be relatively sensitive to JQ‐1. BET inhibitors were reported to be effective for MLL4 (KMT2B) fusion in leukemia by the inhibition of transcription for key genes (BCL2, MYC, and CDK6). However, our RNA‐seq data indicated no significant difference in those genes in the cells with KMT2B‐GPS2 compared with those with GFP. KMT2B‐GPS2 is not common and reported in only one case with undifferentiated sarcoma of a child. 
+
+There was a study of RNA‐seq data using clinical sarcoma samples. The 10 most upregulated genes in Ewing sarcoma (EWSR1‐FLI1) or synovial sarcoma (SS18‐SSX1) in the previous cohort were hardly expressed in our dataset and, therefore, not identified as specific genes associated with the fusions. In contrast, the expression of EGR1, a tumor suppressor gene reported to be significantly inhibited by the SS18‐SSX fusion, was consistent with our data (comparing with other fusion genes, log2FC = −1.28, p < 0.016). We listed the top five highly differentially expressed genes of each variant compared with GFP or others, respectively (Tables  and ). Although popular antibodies used in clinical practice were not available for these genes, they could be new diagnostic markers or targets for treatment in the future. Furthermore, to assess the correlations between the clinical phenotypes and the cellular phenotypes, we evaluated the markers for muscle differentiation such as Myod1, Pax7, and Myf6 or adipogenic differentiation markers such as Alp, Ocn, and Bsp using RNA‐seq data of 3T3 cells. Myod1 expression was not significantly different between cells with PAX3‐FOXO1 and cells with GFP (Welch's t‐test, data not shown). However, we are not sure whether this cellular model reflects its clinical character accurately because publicly available RNA‐seq data accompanied with clinical data is not sufficient.
+This study had several limitations. First, there could be some copy number differences in the induced fusion genes between each transfected 3T3 cell variant. The length of every fusion gene varies (Table  ), which might have affected the transfection efficiency. Therefore, we generated three clones with different barcodes for the respective variants using recombinant retroviruses in the same manner and analyzed them in triplicate sets. Second, the assay used 3T3 mouse fibroblast cells, which is beneficial for comparing the expression profile among individual fusion genes in the same background. However, the cell origins of most sarcomas are undetermined. The fusion genes could indicate other functions if they are introduced in cells with different cell contexts. For example, Komura et al. reported that different responses to EWSR1/ATF1 expression were observed depending on the cell type in a mouse model of induced pluripotent stem cells. Other than 3T3 cells, we used C2C12 cells and MSCs for the MANO methods (Figure  ). Some fusion genes indicated similar phenotypes in both cell lines, while others behaved differently. In this study, 3T3 was used because it is a popular cell line for the evaluation of the growth advantage. However, the functions of sarcoma fusion genes in different cell contexts remain unknown and should be investigated in the future. Third, although FFA and the MANO method evaluated loss of contact inhibition and increased proliferation, respectively, sarcoma fusion genes had too diverse functions to be fully understood. Sarcoma‐related fusion genes are composed of different types of genes such as transcription factor, protein kinase, chromatin regulator, growth factor, and others. Phenotypes were not always consistent between those observed in FFA and the MANO method (Figure  and Table  ), suggesting that fusion functions need to be evaluated from a variety of perspectives. Fourth, we could not identify the novel biomarkers to predict drug efficacies, although we could identify the efficacy of pazopanib against COL1A1‐PDGFB in this extensive evaluation of 59 fusion genes. Finally, the MANO method does not take into consideration other genetic or epigenetic effects on the results other than the fusion genes themselves.
+In conclusion, an extensive evaluation of fusion gene variants was carried out using the MANO method. The efficacy of pazopanib was evaluated and selected as a candidate drug for the COL1A1‐PDGFB variant and it was validated in an individual assay and was consistent with clinical reports. This preclinical screening assay could be a valuable tool to identify the appropriate drug for rare fusion‐positive sarcomas and promote drug development in this field, in which clinical data and experimental models are often insufficient.
+
+## AUTHOR CONTRIBUTIONS
+Masachika Ikegami and Shinji Kohsaka: conception and design. Takeshi Hirose, Masachika Ikegami, Hiroyuki Mano, and Shinji Kohsaka: development of methodology. Takeshi Hirose, Masachika Ikegami, and Shinji Kohsaka: acquisition of data. Takeshi Hirose, Masachika Ikegami, Shinya Kojima, Akihiko Yoshida, and Shinji Kohsaka: analysis and interpretation of data. Masachika Ikegami and Shinji Kohsaka: administrative, technical, or material support. Takeshi Hirose, Masachika Ikegami, Shinya Kojima, Akihiko Yoshida, Makoto Endo, Eijiro Shimada, Masaya Kanahori, Ryunosuke Oyama, Yoshihiro Matsumoto, Yasuharu Nakashima, Akira Kawai, Hiroyuki Mano, and Shinji Kohsaka: writing, review, and/or revision of the manuscript.
+
+## FUNDING INFORMATION
+This study was supported in part by AMED under grant number JP20ck0106536, JSPS KAKENHI grant number JP21H02795, and by the Fukuoka Public Health Promotion Organization Cancer Research Fund.
+
+## CONFLICT OF INTEREST STATEMENT
+Dr. Hiroyuki Mano is a Deputy Editor‐in‐Chief of Cancer Science. The other authors certify that no actual or potential conflict of interests in relation to this article exists.
+
+## ETHICS STATEMENT
+Approval of the research protocol by an institutional review board: N/A.
+Informed consent: N/A.
+Registry and registration no. of the study/trial: N/A.
+Animal studies: N/A.
+
+## Supporting information
+
+Figure S1.
+
+Figure S2.
+
+Figure S3.
+
+Figure S4.
+
+Figure S5.
+
+Figure S6.
+
+Figure S7.
+
+Figure S8.
+
+Figure S9.
+
+Click here for additional data file.
+
+Table S1.
+
+Table S2.
+
+Table S3.
+
+Table S4.
+
+Table S5.
+
+Table S6.
+
+Table S7.
+
+Click here for additional data file.
+
+## ACKNOWLEDGMENTS
+We thank the members of our division for their contribution to this study, especially A. Shiino and S. Sugaya for technical assistance.
+
+Hirose T, Ikegami M, Kojima S, et al. Extensive analysis of 59 sarcoma‐related fusion genes identified pazopanib as a potential inhibitor to 
+COL1A1‐PDGFB
+ fusion gene. Cancer Sci. 2023;114:4089‐4100. doi: 10.1111/cas.15915
+
+Takeshi Hirose and Masachika Ikegami contributed equally.
+
+## REFERENCES
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Figure S1.
+
+Figure S2.
+
+Figure S3.
+
+Figure S4.
+
+Figure S5.
+
+Figure S6.
+
+Figure S7.
+
+Figure S8.
+
+Figure S9.
+
+Click here for additional data file.
+
+Table S1.
+
+Table S2.
+
+Table S3.
+
+Table S4.
+
+Table S5.
+
+Table S6.
+
+Table S7.
+
+Click here for additional data file.

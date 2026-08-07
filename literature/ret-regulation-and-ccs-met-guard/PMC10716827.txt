@@ -1,0 +1,554 @@
+pmcGigascienceGigascience2056gigasci101596872gigascienceGigaScience2047-217XOxford University PressPMC10716827PMC10716827.110716827107168273809151110.1093/gigascience/giad106giad1061Technical NoteAcademicSubjects/SCI00960AcademicSubjects/SCI02254DriverMP enables improved identification of cancer driver genes
+LiuYangyang
+School of Mathematics and Statistics, Shandong University (Weihai), Weihai 264209, ChinaHanJiyun
+School of Mathematics and Statistics, Shandong University (Weihai), Weihai 264209, ChinaKongTongxin
+School of Mathematics and Statistics, Shandong University (Weihai), Weihai 264209, ChinaXiaoNannan
+School of Mathematics and Statistics, Shandong University (Weihai), Weihai 264209, ChinaMeiQinglin
+MOE Key Laboratory of Bioinformatics, BNRIST Bioinformatics Division, Department of Automation, Tsinghua University, Beijing 100084, Chinahttps://orcid.org/0000-0002-7296-906XLiuJuntao
+School of Mathematics and Statistics, Shandong University (Weihai), Weihai 264209, China ]. The most widely accepted theory is that cancer is mainly caused by genetic mutations [ ]. For this reason, several large-scale cancer sequencing projects, such as The Cancer Genome Atlas (TCGA) [ ], the International Cancer Genome Consortium (ICGC) [ ] and Therapeutically Applicable Research to Generate Effective Treatments (TARGET) [ ], have generated a large amount of multiomics data for various cancer types, and the resulting databases have accelerated the discovery of cancer genes. Related studies have shown that among the large number of somatic mutated genes, only a small number of them (the so-called driver genes) confer a selective advantage to cancers, and most of them (the so-called passenger genes) exhibit little impact on cancer progression [ , , ].
+A key issue and major challenge is to distinguish driver genes from a very large number of passenger genes [ ]. The most basic and intuitive approach is to prioritize all somatic mutations according to their occurrence frequencies based on the hypothesis that drivers demonstrate higher mutation rates than expected [ ]. A great number of methods have been developed to identify driver genes based on mutation frequencies; these include MutSig2.0 [ ], MuSigCV [ ], MuSiC [ ], and WITER [ ]. These approaches first attempt to estimate the background mutation rate (BMR) and then compare the mutation frequency of each gene with the BMR to identify driver genes. In addition, other methods, such as Mutation_assessor [ ], CHASM [ ], transFIC [ ], and FATHMM [ ], distinguish driver genes from passenger genes by assessing the functional impact of mutations.
+Although significant efforts have been made in the accurate identification of driver genes, mutation frequency–based approaches have shown limited power in practical applications because most cancers demonstrate extensive mutational heterogeneity across samples [ ]. Studies have shown that only a small number of cancer drivers are frequently mutated, and most of them are mutated in a few samples, which is the so-called long-tail phenomenon [ , , ]. This phenomenon highlights an enormous challenge in the identification of rarely mutated driver genes by methods based on mutation frequency. Fortunately, recent studies revealed that driver genes in a given cancer type usually act together in a limited number of biological pathways or protein complexes, although the cancer genes demonstrate a random distribution across different samples [ , ]. Therefore, rarely mutated drivers may be identified by applying information on biological pathways or networks. Based on this fact, quite a few approaches have been developed to increase the prediction accuracy. Functional network-based methods, such as HotNet2 [ ] and VarWalker [ ], predict numerous “cancer modules” containing drivers rather than individual genes by using the “heat diffusion”–like model in physics to determine “mutation scores” in protein‒protein interaction (PPI) networks. Mutation- and network-based methods, such as MUFFINN [ ] and MaxMIF [ ], were developed by integrating the information of both mutation and functional networks to prioritize genes. MUFFINN defined 2 kinds of mutation scores for ranking genes by considering mutations in the most frequently mutated neighbor (direct neighbor maximum, DNmax) and genes in all direct neighbors with normalization by their degree connectivity (direct neighbor sum, DNsum). MaxMIF involves a maximum mutation impact function that considers the mutation frequencies of 2 genes and the interaction strength between them in the PPI network. These approaches effectively improve the prediction of driver genes involved in the biological networks; however, their false-positive rates are still too high. Therefore, new algorithms considering more meaningful biological information are urgently needed.
+Related studies show that driver genes tend to change the expression of their interacting partners or genes that share the same biological pathways, which directly alters the expression of all genes in a biological subnetwork or in pathways associated with driver genes. In contrast, passenger genes do not usually cause significant changes in gene expression [ ]. Therefore, making better use of gene expression data will undoubtedly facilitate the identification of driver genes. Several related methods have been developed; these include iPDG [ ], DriverNet [ ], and DawnRank [ ], which prioritize genes by combining multiple types of data, including mutation, PPI network, biological pathway, and differential gene expression data. iPDG evaluates the changes in expression levels of “key genes” to identify potential driver genes by using DNA copy number variation, somatic mutation, and gene expression data. Both DriverNet and DawnRank rank potential driver genes based on their impact on the overall differential expression of downstream genes in a molecular interaction network. The above methods, which combine multiple types of biological information, have made the identification of driver genes more accurate and reliable; however, their prediction effects are still far from satisfactory.
+We introduce a new method called DriverMP that prioritizes cancer genes on a cancer-type level by utilizing mutation data (only nonsilent somatic mutations affecting protein-coding genes are considered in this study), PPI networks, and differential expression data. The new approach effectively improves the identification of driver genes by introducing the following innovations. (i) Based on our observation that most cancer driver genes have a driver neighbor in the PPI network, DriverMP first prioritizes the gene pairs, and then the individual mutated genes are prioritized by dividing each gene pair. (ii) Considering that driver genes are expected to exhibit different expression patterns and simultaneously influence the expression of their interacting genes in a biological subnetwork, DriverMP constructs a new network, called the differential expression network, to quantify the differential expression of the subnetwork centered on a gene pair. (iii) According to another observation that driver genes tend to converge to a limited number of biological pathways or protein complexes, DriverMP quantifies the association strength between each gene pair and its mutated neighbors in the PPI network. (iv) Combining the topological properties from both the PPI network and differential expression network, DriverMP generates an impact score for each mutated gene pair and then generates an impact score for each mutated gene based on the contribution of the gene to complete the prioritization of cancer genes.
+Based on the known driver genes, the performance of DriverMP was evaluated in 10 common cancer types and compared with the performance of 10 other state-of-the-art approaches, including MutSig2.0 [ ], MutSigCV [ ], Mutation_Assessor [ ], MaxMIF [ ], DawnRank [ ], MUFFINN [ ], DriverNet [ ], OncoVar [ ], driverMAPS [ ], and DriverRWH [ ], in terms of the receiver operating characteristic (ROC) curve, area under the ROC curve (AUC), cumulative number curve of the top 500 genes, F1-score curve of the top 500 genes, and area under the F1-score curve (AUFC). DriverMP consistently demonstrated the best performance in all 10 cancer types.
+With respect to the novel drivers, DriverMP identified multiple potential driver genes with high impact scores for each cancer type, and these findings are strongly supported by the results of clinical experiments, disease enrichment analysis, or biological pathway analysis. For example, we found 14 and 10 novel candidates that are significantly related to breast cancer and breast cancer–related diseases, respectively, via disease enrichment analysis. In addition, another 6 genes, PRKDC, NCL, CCNA2, AXL, GLI3, and SUPT5H, were identified to be highly related to the growth and development of breast cancer; the overall and postprogression survival in patients with breast cancer; the regulation of the gene expression that controls the proliferation, migration, cell cycle, and apoptosis of breast cancer MDA-MB-231 cells; and so on. We provided a database of those potential driver genes with detailed descriptions of strong biological or clinical evidence for each of the 10 cancer types. Moreover, we observed that the novel candidates enriched in the corresponding cancer type according to disease enrichment analysis formed a significantly dense and highly weighted subnetwork in the PPI network (the P value is approximately 0). This observation coincided with previous findings that mutated genes in the cancer genome tend to converge in a few biological pathways [ ] and that genes act together in various signaling and regulatory pathways and protein complexes [ ]. The new method and the identified novel driver candidates are expected to contribute to a deeper understanding of the architecture of cancers and new diagnostic and therapeutic opportunities for cancers.
+
+## Results
+
+## Overview of DriverMP
+Based on our observation that most driver genes have a driver neighbor in the PPI network, we propose that assessment of gene pairs would capture cancer driver characteristics in a more realistic pattern than direct assessment of individual genes. Therefore, unlike conventional approaches that prioritize individual mutated genes directly, DriverMP is designed to first prioritize gene pairs. According to another observation that driver genes tend to converge to a limited number of biological pathways or protein complexes, those gene pairs will be ranked higher if they are strongly associated with other genes in the PPI network. The new framework will quantify the association strength between each mutated gene pair and its mutated neighbors in the PPI network. Considering that driver genes are expected to exhibit different expression patterns and simultaneously influence the expression of their interacting genes in a biological subnetwork, a mutated gene pair is ranked highly if it and the subnetwork centered on it are highly differentially expressed. The new DriverMP approach quantifies the differential expression of the subnetwork centered on a mutated gene pair. DriverMP is a novel approach that involves an innovative strategy—it considers both biological networks and differential gene expression, which can facilitate the identification of rarely mutated cancer drivers (see Fig. ).
+ 
+
+## DriverMP was developed based on the characteristics of driver genes
+To explore the interaction characteristics of known driver genes in the PPI network, we calculated 3 metrics: the percentage of codrivers (a driver gene is defined as a codriver if it has at least 1 driver neighbor in the PPI network), the average connection density (the connection density of a driver gene is defined as the number of its driver neighbors), and the average connection strength (the connection strength of a driver gene is defined as the sum of the edge weights between the gene and its driver neighbors).
+
+Driver genes usually interact with one another. To investigate the interactions between driver genes, we calculated the percentage of driver genes occurring with other driver genes among all known driver genes, and the results showed that the percentages reached 94.52% and 99.92%, respectively, based on the HumanNet [ ] and STRINGv10 [ ] PPI networks. In addition, we calculated the percentage of passenger genes (not included in the benchmark reference) that have at least 1 driver neighbor, and it was only 75.92% and 96.49% based on the 2 networks, which demonstrates the obvious phenomenon of codrivers in PPI networks.
+
+The interactions between driver genes are highly dense. The average connection density of known driver genes reached 18.88 and 130.04 based on the HumanNet and STRINGv10 PPI networks, respectively. However, the average number of edges between passenger and driver genes was only 7.08 and 50.30 in the 2 networks, which also clearly demonstrates the phenomenon of dense interactions between drivers.
+
+The dense interactions between driver genes are extremely strong. The average strength score for connections between driver genes reached 5.61 and 44.72 in the HumanNet and STRINGv10 PPI networks, respectively. In comparison, the average weight of the edges between passenger and driver genes was only 1.93 and 14.96 based on the 2 PPI networks, demonstrating that the interactions between driver genes are generally stronger than those between passenger genes.
+These observations suggest the interaction properties of driver genes in the PPI network, which seems consistent with a previous observation that driver genes tend to be enriched in a few biological pathways, where gene‒gene interactions are more frequent. Based on these interaction characteristics of driver genes, the DriverMP method was developed to focus on the prioritization of mutated gene pairs.
+
+## DriverMP demonstrates great improvement in overall performance
+To evaluate the overall performance of DriverMP in the prediction of driver genes, we employed nonsilent somatic mutation data and differential expression data collected for 10 cancer types from the TCGA, including BRCA, PRAD, LUAD, LUSC, KIRC, KIRP, HNSC, COADREAD, UCEC, and BLCA, and 2 independently developed PPI networks (based on STRINGv10 and HumanNet) were applied (see the Methods section for details). To evaluate the improvements of DriverMP over the other state-of-the-art methods, 10 driver gene predictors (MutSig2.0, MutSigCV, Mutation_Assessor, DawnRank, MaxMIF, MUFFINN [DNmax and DNsum], DriverNet, OncoVar, driverMAPS, and DriverRWH) were selected for the overall performance comparison. Additionally, we added a comparison with the frequency-based approach named Freq-based, which ranks genes based solely on frequency. The overall performance of all the methods was compared under the criteria of ROC curves and AUC values, which effectively evaluate the overall sensitivity and specificity of driver candidate prioritization.
+After comparison based on ROC curves, DriverMP demonstrated high improvements over all the compared methods on all 10 datasets when using the STRINGv10 PPI network (see Fig.  ). Similar results were obtained with the HumanNet PPI network (see ). In addition, the AUC values of the ROC curves were calculated for the compared methods in the analysis of the STRINGv10 PPI network, and the results showed that the AUC values of DriverMP were much higher than those of all the other methods in all 10 cancer types, and the average improvement rate of DriverMP over the other compared methods in the 10 datasets reached 7.98% to 26.69%. Similar improvements were obtained with DriverMP in the analysis of the HumanNet PPI network (see ). Therefore, DriverMP shows the best overall performance among all the compared methods under the criteria of ROC curves and AUC values.
+ 
+
+## DriverMP shows great improvement in identifying top-ranked genes
+In practical applications, only the top-ranked genes can be confirmed by subsequent experiments. To compare the performance of DriverMP and other methods based on top-ranked genes, we analyzed the top 500 genes ranked by each method and compared the number of identified known driver genes in the benchmark reference, the F1-score, and the AUFC based on the STRINGv10 network.
+After comparison, DriverMP showed high improvements over all the others in the 10 cancer types in terms of the number of identified known driver genes (see Fig.  ). To evaluate the overall performance of DriverMP by combining the sensitivity and precision, the F1-score curves and the AUFC values were calculated, and the results showed that DriverMP consistently performed the best among all the compared methods on all 10 datasets (see Fig. ). Specifically, the average improvements of DriverMP over the others on the 10 datasets reached 2.08% to 65.98% in terms of AUFC. Similar results were obtained by using the HumanNet PPI network under the 3 criteria (see ). In conclusion, DriverMP demonstrated superior predictive power over all the other methods in identifying the top-ranked genes.
+ 
+
+## DriverMP demonstrates stable performance with a reduced sample number
+Although substantial efforts have been made in DNA sequencing to identify possible cancer genes, many cancer types have only a limited number of sequenced samples available due to the complexity, expense, and time-consuming nature of clinical experiments. Therefore, the performance of a practical driver gene identifier cannot be highly dependent on the number of samples. To evaluate the stability of DriverMP, we tested it under the following 2 conditions: (i) random selection of only 80%, 50%, and 20% of the samples in the constructed differential expression matrix and (2) random selection of only 80%, 50%, and 20% of the samples in the mutation dataset. Each of the above random selections was performed 10 times, and the average AUC and AUFC values were calculated to evaluate the performance of DriverMP.
+DriverMP exhibited highly stable performance in terms of differential expression analysis (see Fig.  , ), and only a slight decrease in prediction power was observed even when 80% of the samples were removed. For the mutation data, although the stability of DriverMP in predicting drivers was not as high as that in predicting differential expression, it still demonstrated stable performance, especially when 20% and 50% of the samples were removed. It seems that the stability of DriverMP is relatively worse when 80% of the samples were removed; however, the average differences in AUC and AUFC before and after sample removal were only 0.013 and 0.019, respectively, for the 10 cancer types. Therefore, DriverMP shows highly stable performance even when only a small number of samples are available.
+ The framework of DriverMP was designed by deeply mining the relationships among mutated genes and effectively fusing different sources of cancer data, which may be the reason why DriverMP is able to maintain stable performance even when many samples are removed. Moreover, the low dependence of DriverMP on the number of samples directly contributes to the identification of infrequently mutated driver genes buried in the long tail.
+
+## DriverMP reliably predicts novel driver genes
+In the absence of a well-defined and systematic approach to identifying driver candidates, we proposed a cancer-specific 6-level assessment by a comprehensive literature survey. We then applied it to assess the quality of the driver candidates predicted by DriverMP in all 10 cancer types. The main text shows the results for DriverMP analysis of 2 popular cancer types, breast cancer and lung adenocarcinoma, and similar results for DriverMP analysis of the other 8 cancer types are shown in the . The detailed rules of the 6-level assessment are illustrated as follows.
+
+Cancer-type level. In this level of analysis, data are collected on driver candidates that are enriched in different cancer types from the well-known tool DAVID [ ] against the Genetic Association Database (GAD) [ ], which is a developing archive of human genetic association studies of complex diseases and disorders allowing the comprehensive analysis of complex common human genetic diseases.
+
+Literature-supported level. In this level of analysis, the driver candidates are divided into 3 categories based on literature type: (i) overview studies (O) that summarize previous studies, (ii) experimental studies (E) that verify the mechanism of carcinogenesis via in vivo or clinical trials, and (iii) bioinformatics studies (B) that infer cancer mechanisms via reliable statistical or bioinformatics analysis of large multiomics datasets.
+
+Pathway level. In this level of analysis, candidates that are enriched in biological pathways directly related to specific cancers with a false discovery rate (FDR) <10–3 are identified by using the tool STRING [ ] against well-recognized biological pathway databases, such as KEGG [ ] and Reactome [ ].
+
+Noncancer disease level. In this level of analysis, genes that are enriched in diseases that are associated with specific cancers are identified using DAVID against the GAD database.
+
+Gene level. For this level of analysis, each novel candidate is collected if it has at least one homologue in CGC, which is achieved by sequence alignments using BLAST [ ]. In detail, it is defined that a novel candidate has a homologue in CGC if the sequence similarity between the novel candidate and a CGC gene is higher than 40% with an e-value lower than 10−4.
+
+Validation-required level. In the last level of analysis, the remaining genes that are not included in the above 5 levels are noted; these genes require further validation.
+
+## DriverMP reliably predicts novel drivers for breast cancer
+Breast cancer (BC) is the most commonly diagnosed life-threatening cancer and the leading cause of cancer death in women [ ]. In this study, we utilized DriverMP under both the STRINGv10 and HumanNet networks to identify potential driver genes in BC. We identified a total of 51 novel driver candidates that ranked within the top 250 in both networks and were not previously included in CGC. These candidates underwent the 6-level assessment and were subsequently divided into 6 groups (Table  ).
+ 
+
+## Cancer-type level
+Based on the wealth of annotated genes associated with complex diseases in GAD, we used DAVID to confirm the relevance of the 51 driver candidates to breast cancer and found that 31 (60.8%) of these candidates were enriched in “cancer” ( ) and 14 (45.2%) of them were enriched in “breast cancer” ( ). Therefore, analysis at the cancer-type level yielded 14 novel genes that are noted as being related to BC. In addition, we performed pathway enrichment for the 14 genes in the first level of analysis, and the results showed that 5 genes, IGF1R, INSR, CDK2, PIK3CB, and CCNB1, were enriched in the “FoxO signaling pathway” (KEGG, ), and 6 genes, CDK2, RAD51, PRKDC, APEX1, ERCC6, and TP53BP1, were enriched in “DNA repair” (Reactome, ) (Fig.  ). Related studies have shown that the lack of functional FOXO proteins such as FOXO3a leads to the development of breast tumors [ , ] and that DNA repair-related pathways play an important role in the pathogenesis of breast cancer [ ].
+ 
+
+## Literature-supported level
+Based on the comprehensive survey of reliable literature, 12 novel genes supported by relevant studies were classified into this group (Table  ). The function of each of the 12 genes and the relationship of each gene with breast cancers are briefly described in Table  . For example, studies have demonstrated that suppressing CDK5 can impede cell motility and tumor development in the mesenchymal breast cancer cell lines MDA-MB-231 and BT549 [ ], while elevated expression of PRKDC promotes breast cancer cell proliferation by regulating p38 MAPK signaling [ ].
+ 
+
+## Pathway level
+To investigate whether the enriched biological pathways are associated with breast cancers, pathway enrichment was performed using the 51 driver candidates. A total of 15 and 13 breast cancer–related biological pathways were identified using the KEGG and Reactome databases, respectively, covering 44 of the 51 driver candidates (see Table  for the functional descriptions of the pathways and their associations with breast cancers). Specifically, the KEGG enrichment results showed that 8 and 6 genes were enriched in 2 pathways, “progesterone-mediated oocyte maturation” ( ) and “type 2 diabetes mellitus” ( ), respectively, both of which are directly associated with breast cancers (Fig.  ). Multiple studies have reported that the pathogenesis and prognosis of breast cancer are highly related to progesterone-mediated oocyte maturation [ , ]. The correlation between type 2 diabetes and BC is also very strong, which will be discussed in detail in the next section. Reactome analysis showed that 10 (19.6%) and 11 (21.6%) genes were enriched in the “transcriptional regulation by TP53” ( ) and “signaling by receptor tyrosine kinases” ( ) pathways, respectively (Fig.  ). TP53 is a well-known tumor suppressor gene that drives multiple cancers, including BC [ ]. Under stress conditions, it regulates the transcription of many genes involved in various cellular processes, such as cellular metabolism, survival, senescence, apoptosis, and the DNA damage response [ ]. For the “signaling by receptor tyrosine kinases” pathway, several studies have suggested that high levels of receptor tyrosine kinases (RTKs) may be associated with increased breast cancer aggressiveness and decreased overall and disease-free survival [ ].
+ 
+
+## Noncancer disease level
+In addition to the “cancer-type level” analysis discussed above, we found in the “noncancer disease level” analysis that 10 of the 51 driver candidates were enriched in 3 BC-related diseases, including type 2 diabetes, obesity, and plasma high-density lipoprotein cholesterol (HDL-C) (see details in ). Reportedly, up to 16% of patients with BC have diabetes, and type 2 diabetes may be associated with a 10% to 20% increased relative risk of BC [ ]. In addition, a recent study suggested that type 2 diabetes accelerates the paracrine effects of AT-MSCs (adipose tissue-derived mesenchymal stem cells) to induce the migration of breast cancer cells (BCCs) and upregulate migration and EMT-related factors in BCCs [ ]. Obesity has long been recognized as an important determinant of the progression of BC and mortality [ ]. In fact, obesity increases the risk of cancer recurrence and death and, in particular, accelerates and exacerbates the metastatic progression of breast cancers [ ]. Moreover, patients with breast cancers and obesity are up to 46% more likely to have distant metastases 10 years after diagnosis [ ]. Several studies have shown that HDL-C has anti-inflammatory properties that may be associated with an increased risk of breast cancer [ , ].
+
+## Gene level
+We analyzed the homology between the 51 driver candidates and the genes in CGC, and a total of 23 (45.1%) genes have homologs in CGC, which are shown in Table  . In particular, homologs AKT1 [ ], AKT2 [ ], ERBB2 [ ], FGFR2 [ ], and PIK3CA [ ] in CGC play important roles in breast cancer progression, mediating breast cancer risk, corresponding to the driver candidates RPS6KA1, SGK1, PTK2, IGF1R, PIK3CB, and PRKDC predicted by DriverMP.
+ 
+
+## Validation-required level
+Five genes were identified at this level. The 5 genes were ranked high according to DriverMP, but their direct relationship with BC was unclear based on this study. Future investigations may reveal the associations of these genes with breast cancers.
+To visualize the relationship among the 5 levels of candidate drivers, we drew a Venn graph and found that the IGF1R gene appeared in all these groups (Fig.  ). Based on the specificity of IGF1R, we reviewed the literature and found that examinations of various tumors showed abundant expression of IGF1R, which suggests that upregulation of the IGF1R gene constitutes a common paradigm in different types of cancer [ ]. Some experimental studies have also suggested that the IGF1R gene is a downstream target of the BRCA1 gene [ ]. This evidence indicates that IGF1R is highly likely to be a typical driver of BC.
+
+## DriverMP reliably predicts novel drivers for lung adenocarcinoma
+Lung cancer is the top cause of cancer-related death and is histologically classified into small cell lung cancer (SCLC) and non–small cell lung cancer (NSCLC) [ ]. NSCLC accounts for approximately 85% of all lung cancer diagnoses, with the majority of patients presenting with lung adenocarcinoma (LUAD) [ ]. In this section, we collected 60 novel driver candidates for lung adenocarcinoma and grouped them according to the 6 analysis levels (Table ).
+ 
+
+## Cancer-type and noncancer disease levels
+Similar to the process in breast cancer analysis, disease enrichment showed that 47 (78.3%) of these 60 candidates were included in “cancer” ( ), and 14 (23.3%) and 12 (20.0%) of them were enriched in “lung cancer” ( ) and “chronic obstructive pulmonary disease” ( ), respectively (Fig.  ), which comprise the candidate genes at the “cancer-type level” and “noncancer disease level” (see details in ).
+ For the cancer-type level analysis, we found that 5 of the candidate genes were enriched in the “cell cycle” pathway (KEGG, ), and 6 were enriched in the “DNA double-strand break repair” pathway (Reactome, ), both of which are associated with cancer progression (Fig.  ). Regarding the noncancer disease-level analysis, it has been reported that people with chronic obstructive pulmonary disease (COPD) are at higher risk of developing lung cancer than those without COPD and that these patients are more susceptible to poor outcomes after diagnosis and treatment; COPD could be the driving factor for lung cancer, providing a conducive environment for cell propagation and evolution [ , ].
+
+## Literature-supported candidate drivers
+This level of analysis yielded 15 genes supported by 3 different types of evidence, as shown in Table . For example, PLK1 is a key mitotic kinase that is overexpressed in various cancers, including NSCLC, and drives cancer growth [ , ]. Sp1 levels accumulate strongly in the early stage and then decline in the late stage, which is important for lung cancer cell proliferation and metastasis during tumorigenesis [ ].
+ 
+
+## Pathway level
+In total, 53 of the 60 driver candidates were identified as pathway-related driver candidates. We performed a pathway enrichment analysis on these 60 driver candidates and identified 16 and 11 pathways associated with lung adenocarcinoma or NSCLC in KEGG and Reactome, respectively (Table ). For instance, we found that 9 (15.0%) and 9 (15.0%) of the 60 candidates were enriched in “focal adhesion” ( ) and “PI3K-Akt signaling pathway” ( ) against KEGG (Fig.  ), respectively, both of which are highly related to LUAD. Several studies have suggested that focal adhesion kinase (FAK) expression is frequently upregulated in different types of cancer, including NSCLC, and a number of studies have focused on either reducing FAK expression or activity to inhibit the growth and metastatic capacities of tumors [ , ]. The PI3K/AKT pathway has been reported as an emerging source of lung cancer aggressiveness [ ]. We also found that 13 (21.7%) and 12 (20.0%) of the 60 genes were enriched in “signaling by receptor tyrosine kinases” ( ) and “transcriptional regulation by TP53” ( ), respectively, according to the Reactome database (Fig.  ). RTKs such as EGFR, the classical driver of lung cancer, are important components of the cellular signaling apparatus and are frequently mutated or otherwise dysregulated in NSCLC [ ]. The function of the “transcriptional regulation by TP53” pathway has already been discussed in the analysis of breast cancer. As described before, TP53 (or P53) is a well-known gene that drives multiple cancers, including lung adenocarcinoma [ ].
+ 
+
+## Gene level
+We also analyzed the homology between the 60 driver candidates and the genes in CGC, and a total of 23 (38.33%) genes have homologs in CGC, which are shown in Table  . In particular, FLT1 predicted by DriverMP has high sequence similarity to the KDR gene associated with lung cancer in CGC, and related studies showed that tumors expressing both FLT1 and KDR may have a greater malignant potential and a poorer prognosis [ ]. In addition, SMARCA2, which has been added to the gene level, shares a sequence similarity of up to 79.04% with SMARCA4, and Tian et al. [ ] claimed that SMARCA2 could be a novel therapeutic target as a key synthetic lethal target in SMARCA4-deficient cancers.
+ 
+
+## Validation-required level
+A total of 7 genes were identified in this level of analysis, and their associations with LUAD may be revealed in future investigations.
+Notably, the Venn diagram of candidate drivers at the 5 levels showed that BARD1 is present in the results for the 6-level assessment (Fig.  ), which indicated its potential importance, while Zhang et al. [ ] showed that isoforms of BARD1 might be involved in tumor initiation and invasive progression and represent a novel prognostic marker for NSCLC.
+
+## Genes identified at the cancer-type level exhibit high densities in PPI networks
+Genes identified at the cancer-type level demonstrated direct relationships with specific cancer types and had great potential to drive the development of corresponding cancers. To deeply investigate the relationships among these genes, we analyzed the density of the subnetwork of these genes from the PPI network.
+By analysis, we found that the subnetwork of the genes at the cancer-type level demonstrated extremely high densities in all 10 cancer types (see Figs.  and  for breast cancer and lung adenocarcinoma and for the other 8 cancer types). Specifically, the subnetwork of the genes in the cancer-type level of breast cancer from the STRINGv10 network had 74 edges, and the sum of edge weights was 35.35. For lung adenocarcinoma, the subnetwork of the genes at the cancer-type level had 72 edges, and the sum of edge weights was 31.77. However, when the subnetwork was constructed from 14 genes of 1,000,000 random selections, the average number of edges and the average sum of edge weights were only 2.19 and 0.65, respectively, and none of the 1,000,000 selections constructed a subnetwork with a higher density. This phenomenon may be consistent with the view that “mutations in the cancer genome tend to converge in a few biological pathways” [ ] and “genes acting together in various signaling and regulatory pathways and protein complexes is a prominent explanation for the heterogeneity of cancer mutations” [ ].
+
+## DriverMP: A user-friendly online service and a database of novel drivers
+To make the DriverMP tool more convenient for users, we developed a user-friendly web server [ ] (Fig.  ). After entering the web server, users only need to upload 3 datasets (a mutation dataset and 2 gene expression datasets [tumor and normal]) for a cancer type and press the “submit” button to start the running of DriverMP. The current version of DriverMP provides the HumanNet and STRINGv10 PPI networks, and more PPI networks will be added in the future. After running DriverMP, the results will be directly displayed on the webpage and can also be downloaded from our page (Fig.  ).
+ In addition to the online web server, we developed a database [ ] of those novel driver genes that are strongly supported by clinical experiments, disease enrichment analysis, or biological pathway analysis. After entering the database, users can not only search for the genes of interest to discover their related cancer types but also explore cancer types of interest to obtain novel drivers. The relationships between the genes and the corresponding cancer types are detailed in the database (Fig.  ). More cancer types will be added, and the novel drivers in the database will also be continuously updated in the future.
+ 
+
+## Discussion
+Over the past few years, it has been a major issue in cancer genetics to identify drivers from the large number of passengers. Some frequency-based computational methods have made great attempts but failed to discover the real drivers that are buried in the long tail due to the preference for highly mutated genes and the reliance on sample size. With the discovery that driver genes tend to be enriched in signaling and regulatory pathways and affect alterations in gene expression in the biological subnetworks or pathways associated with them, many algorithmic methods using PPI networks, biological pathways, or gene expression data have provided diverse solutions for the prediction of drivers, but their predictive effects, in terms of both sensitivity and specificity, are far from satisfactory.
+In this study, we developed a new method, DriverMP, for the identification of driver genes by effectively integrating the advantages of multiple kinds of data analysis methods. After evaluating the performance of DriverMP and comparing it with other leading predictors, it consistently demonstrated much higher prediction accuracy based on the benchmark reference. Moreover, DriverMP demonstrated strong robustness in identifying drivers present at low frequencies even when many samples were removed, a finding that greatly contributes to overcoming the challenge of the long-tail dilemma. For the top prioritized candidates (termed novel driver candidates) identified by DriverMP that are not included in the reference, we proposed a cancer-specific 6-level assessment method to comprehensively evaluate the reliability of the novel driver candidates by applying various analytical approaches, such as disease enrichment analysis, literature investigation, and biological pathway enrichment analysis. We also provide a catalog of potentially novel driver genes with high ranks according to DriverMP and strong literature evidence for 10 common cancer types on our webpage, which provide a reference for future studies on cancer mechanisms. Moreover, we offer a user-friendly online web service for researchers to analyze their own data using DriverMP. The superiority of DriverMP may be attributed to the following innovations.
+First, based on our observation that most driver genes have codriver neighbors in the PPI network, we pioneered a method for the prediction of drivers based on gene pairs, which is one of the key innovations and theoretically captures the cancer-driven characteristics in a more realistic pattern. Second, we redefined a mutation score for each gene by normalizing the mutation matrix according to the mutation frequency of each gene, based on which the contributions of different samples with different numbers of mutated genes can be effectively balanced. Third, according to the theory that genes affected by driver genes and their neighbors are simultaneously differentially expressed, we developed a differential expression network to quantify the differential expression level of each gene and the associations between 2 neighbors. Based on the assumption that driver genes tend to converge into meaningful biological subnetworks, we extracted a subnetwork from the PPI network centered on each mutated gene pair. Then, based on the differential expression network and PPI subnetwork, an impact score for each mutated gene pair was generated by combining the network topology relationships of the mutated gene pair.
+Despite the obvious advantages of DriverMP, there is still much room for further improvement. For example, the current version of DriverMP only accepts 3 data types, including nonsilent somatic mutation data, PPI network, and gene expression data. However, other types of data (e.g., DNA methylation and proteomics data) can also be effectively applied to further improve the prediction performance. In addition, the current version of DriverMP can only predict driver genes for a specific cancer type and not for a specific sample. In the future version of DriverMP, we will attempt to solve these problems, add relative functions, and make further improvements.
+To our knowledge, DriverMP is the first driver gene predictor that prioritizes gene pairs by constructing 2 differential expression networks and PPI subnetworks centered on each mutated gene pair and then combining the topology relationship of the 2 networks. The tool has been developed to be user-friendly and is expected to play a crucial role in new discoveries of developments, mechanisms, diagnosis, and treatments of cancers.
+
+## Methods
+
+## Datasets and gold-standard set
+We analyzed 10 popular cancer types from the TCGA, including breast invasive carcinoma (BRCA), prostate adenocarcinoma (PRAD), lung adenocarcinoma (LUAD), lung squamous cell carcinoma (LUSC), kidney clear cell carcinoma (KIRC), kidney renal papillary cell carcinoma (KIRP), head and neck squamous cell carcinoma (HNSC), colon adenocarcinoma/rectum adenocarcinoma esophageal carcinoma (COADREAD), uterine corpus endometrial carcinoma (UCEC), and bladder urothelial carcinoma (BLCA). The somatic nonsilent mutation data and the gene expression data were downloaded from the UCSC Browser database [ , ] and TCGA website [ ], respectively, and PPI networks generated via 2 commonly used tools, STRING (RRID:SCR_005223) [ ] and HumanNet (RRID:SCR_016146) [ ], were downloaded from their official websites, respectively. The edge weights (representing the interaction strength between 2 proteins) of both PPI networks were normalized to values between 0 and 1 by dividing by the largest weight, and self-loops of nodes were removed. Then, a PPI network is represented as a weighted graph GPPI.
+Since the real cancer genes are unavailable for the analyzed cancer types, we collected all the known cancer driver genes from the following 5 widely used databases, the Cancer Genome Census (CGC, containing 579 genes) [ ], CGCpointMut (containing 245 genes), HCD (containing 291 genes) [ ], MouseMut (containing 797 genes) [ ], and Rule2020 (containing 124 genes) [ ], to evaluate the performance of DriverMP and all the compared approaches. We combined all the driver genes in the above databases into a “benchmark reference” containing a total of 1,391 driver genes, and then a gene is defined as a driver if it is included in the benchmark reference and a passenger otherwise.
+
+## Evaluation criteria
+The performance of a cancer gene identifier was evaluated by the following criteria. (i) The ROC analysis and AUC values for uncovering known driver genes. The ROC and AUC criteria were used to evaluate the overall sensitivity and specificity of gene prioritization. As different methods output different numbers of genes and the number of genes largely affects the ROC curves and AUC values, we normalize the number of genes by selecting top N genes for each method, where N is the smallest number of genes output by all the compared methods. When plotting an ROC curve for a method, the TPR is defined as the fraction of correctly predicted driver genes in the intersection of the top N genes and 1,391 benchmark reference genes. (ii) The curve of the numbers of identified known driver genes in the top-ranked 1, 2, …, and N candidate genes. (iii) The curve of the F1-scores in the top-ranked 1, 2, …, and N candidate genes and the corresponding AUFC values. In practical applications, only the top-ranked genes have a chance to be validated by the follow-up experiments. For this reason, only the top-ranked 500 candidate genes for each compared approach were selected for comparing the numbers of identified known driver genes, the F1-score, and AUFC. The definition of F1-score in the top-ranked K genes is displayed as follows.
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+F1\_score = \frac{{2\ \times Presicion \times Recall}}{{Presicion + Recall}}
+\end{eqnarray*}\end{document}
+where the precision and recall are defined as follows:
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+{Precision} = \frac{{\# \left\{ {genes\,\, ranked\,\, before\,\, Kth} \right\} \cap \left\{ {known\,\, driver\,\, genes} \right\}}}{{\# \left\{ {genes\,\, ranked\,\, before\,\, Kth} \right\}}}
+\end{eqnarray*}\end{document}
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+{Recall} = \frac{{\# \left\{ {genes\,\, ranked\,\, before\,\, Kth} \right\} \cap \left\{ {known\,\, driver\,\,genes} \right\}}}{{\# \left\{ {known\,\, driver\,\,genes} \right\}}}
+\end{eqnarray*}\end{document}
+
+## Calculation of mutation scores based on mutation frequency
+Given a nonsilent somatic mutation matrix A = (aij)m×n of a cancer type with m genes and n samples, the value aij = 1 if gene i has at least 1 nonsilent somatic mutation in sample j, and aij = 0 otherwise. According to mutation matrix A, the mutation frequency N(i) for each gene i can be directly calculated as the number of samples that have a mutation in gene i. However, different samples usually have different numbers of mutated genes and therefore contribute unequally to the calculation of mutation frequency. To resolve the biases of different samples, we first normalized the values of the mutation matrix A, based on which a mutation score M(i) was defined for each gene i.
+(1) Normalization of the mutation matrix. To balance the contribution of different samples, the mutation matrix A was first normalized to a new matrix A′ = (a′ij)m×n as follows. \documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+a_{ij}^{\prime} = \frac{{N\left( i \right)}}{{\mathop \sum \nolimits_{gene\ k \in G\left( j \right)} N\left( k \right)}}
+\end{eqnarray*}\end{document}
+where G(j) represents the set of mutated genes in sample j. Based on the above definition, the sum of the normalized mutations for each sample is 1.
+(2) Calculation of mutation scores. Based on the normalized mutation matrix A′, a mutation score M(i) for each gene i is defined by the following formula. \documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+M\left( i \right) = \mathop \sum \limits_{j = 1}^n a_{ij}^{\prime}
+\end{eqnarray*}\end{document}
+
+## Data preparation and the selection of major mutated genes
+(1) Gene filtering. A gene was removed if it satisfied at least 1 of the following conditions: (i) the gene was not expressed in at least 1 sample of the tumor or normal expression matrix, (ii) the gene was not mutated in any sample, and (iii) the gene was not covered in the PPI network. The remaining genes form a gene set Sremain.
+(2) Preprocess of gene expression data. The 2 tumor and normal expression matrices with rows and columns represent genes and samples, respectively. To quantify the differential expression between tumor and normal samples, 2 matrices are processed as follows: (i) the genes are removed if they are not contained in the set Sremain, and (ii) the samples are removed if they are included in only 1 of the 2 matrices. The processed tumor and normal expression matrices Mtumor and Mnormal have the same remaining genes and samples. Then, for each gene i, the differential level between tumor and normal expression values is calculated as follows. \documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+\delta \left( i \right) = \left \| {M}_{tumor}(i) - {M}_{normal}(i)\right \|_2
+\end{eqnarray*}\end{document}
+where and represent the ith rows of the 2 matrices Mtumor and Mnormal, respectively.
+(3) Selection of major mutated genes. Based on the observations that driver genes tend to be strongly associated with other mutated genes in the PPI network and exhibit differential tumor/normal expression, we selected the major mutated genes for further analysis by the following 2 steps.
+
+Step 1. A maximum neighbor weight Wmax(i) in the PPI network was defined for each gene i in Sremain as the largest interaction weight between gene i and its interacting neighbors. The top 30% of genes in Sremain with the largest maximum neighbor weights were selected and formed a gene set GPPI.
+
+Step 2. According to gene differential expression, the top 4% of genes in Sremain with the highest differential levels between tumor and normal expression values were selected and formed another gene set, Sdiff.
+The set of mutated genes Smajor was then defined as Smajor = SPPI∪Sdiff. Accordingly, the genes that were not included in Smajor were removed from the 2 expression matrices Mtumor and Mnormal with S rows and L columns after removal.
+
+## Construction of the differential expression network
+In this section, a new network named the differential expression network Gdiff was constructed to quantify the correlation between each pair of mutated genes in terms of differential expression. The nodes of the network represent the genes in Smajor, while the edges between 2 nodes and the node and edge weights were defined as follows.
+
+Generation of the differential expression matrix and calculation of node weights. Based on the 2 expression matrices Mtumor and Mnormal, the expression values were first log transformed, and then the differential expression value Mdiff(i,j) of gene i on sample j between tumor and normal was calculated by the following formula. \documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+{M}_{diff}\left( {i,j} \right) = lo{g}_2\left[ {1 + {M}_{tumor}\left( {i,j} \right)} \right]-{log}_2\left[ {1 + {M}_{normal}\left( {i,j} \right)} \right]
+\end{eqnarray*}\end{document}
+Then, z-score normalization was performed on Mdiff for each gene followed by an absolute value operation.
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+{\tilde{M}}_{diff}\left( {i,j} \right) = \left| {\frac{{{M}_{diff}\left( {i,j} \right) - mean\left[ {{M}_{diff}\left( i \right)} \right]}}{{{\sigma }_i}}} \right|
+\end{eqnarray*}\end{document}
+where and represent the average value and standard deviation of the ith row of Mdiff, respectively. The matrix is defined as the differential expression matrix between the tumor and normal expression matrices Mtumor and Mnormal. Then, the differential expression score Wdiff(vi) of gene i is defined as the average differential expression values of gene i on all L samples, which is also assigned as the node weight of gene i.
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+{W}_{diff}\left( {{v}_i} \right) = \frac{1}{l}\mathop \sum \limits_{j = 1}^l {\tilde{M}}_{diff}\left( {i,j} \right),\ i = 1,2, \cdots ,S
+\end{eqnarray*}\end{document}
+(2) Generation of network edges and calculation of edge weights. Motivated by WGCNA17, which is an expression clustering analysis method that aims to find coexpressed gene modules, we improved it to better adapt to the construction of the differential expression network by the following 2 steps.
+
+Step 1. Similar to WGCNA, a Pearson correlation coefficient cij was calculated for a pair of genes i and j in the differential expression matrix to measure the correlation of the 2 genes in terms of differential expression. A positive correlation between 2 genes represents a similar pattern of differential expression, and therefore, an edge was added between the 2 genes in the network. However, unlike WGCNA, a negative correlation between 2 genes was considered to indicate that the 2 genes demonstrated different patterns of differential expression, and no edge was added between the 2 genes.
+
+Step 2. Similar to WGCNA, it is supposed that the degrees of nodes in the differential expression network should obey a power-law distribution (or long-tailed distribution). To achieve this, an appropriate power was calculated and added to the Pearson correlation coefficients. Specifically, the degree of node i under power is defined as follows.
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+{D}_i\left( \alpha \right) = \mathop \sum \limits_{j \in N\left( i \right)} {\left( {{c}_{ij}} \right)}^{{\alpha }_0}
+\end{eqnarray*}\end{document}
+where N(i) represents the neighbor set of node i.
+To search for an optimal power that makes the degrees of nodes under obey a power-law distribution, we exhausted the selections of . For each , the degree values of nodes were ordered and then equally divided into 10 intervals, and the median degrees were selected as the degrees of the intervals, which were denoted as . Meanwhile, the frequencies of genes in the 10 intervals were represented as . Then, a linear regression was fitted between and with a coefficient of determination . The generating the largest was selected as the optimal power . Based on the updated Pearson correlation coefficients, an -topological correlation coefficient Wdiff(eij) for each edge eij was calculated by applying the topological relationship of the genes in the network using the following formula, which is also assigned as the edge weight of edge eij.
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+{W}_{diff}\left( {{e}_{ij}} \right) = \frac{{\mathop \sum \nolimits_{u \in N\left( i \right) \cap N\left( j \right)} {{\left( {{c}_{iu}} \right)}}^{{\alpha }_0}{{\left( {{c}_{uj}} \right)}}^{{\alpha }_0} + {{\left( {{c}_{ij}} \right)}}^{{\alpha }_0}}}{{\min \left( {{D}_i\left( {{\alpha }_0} \right),\ \ {D}_j\left( {{\alpha }_0} \right)} \right) + 1 - {{\left( {{c}_{ij}} \right)}}^{{\alpha }_0}}}
+\end{eqnarray*}\end{document}
+
+## Calculation of impact scores for mutated gene pairs
+In this section, an impact score for each mutated gene pair will be calculated to determine the rank of the pair in driving cancers, which was achieved by applying the mutation scores and topological properties from both the PPI and differential expression networks.
+Given a mutation score M(i) for each gene i, a PPI network GPPI, and a differential expression network Gdiff, 2 mutated genes i and j that are connected by an edge in both the PPI and differential expression networks are defined as a mutated gene pair p = p(i, j). A gene k is defined as a neighbor of mutated gene pair p in GPPI (or Gdiff) if at least 1 of the 2 edges eki and ekj exists. If only 1 of the 2 edges exists, the effect score E(k, p) of gene k on mutated gene pair p is defined as the corresponding edge weight, while the maximum score is defined if both edges exist. Based on the above definitions, a subnetwork sub-GPPI (or sub-Gdiff) centered on mutated gene pair p was constructed with nodes and edges denoting the mutated gene pair p and its neighbors and their connections, and the edge weights representing the effect scores of the neighbors on the mutated gene pair p. The association strength of the network sub-GPPI and the differential level of the network sub-Gdiff were then calculated and combined to generate an impact score of the mutated gene pair p.
+(1) Calculation of the association strength of the network sub-GPPI. Given the network sub-GPPI centered on a mutated gene pair p = p(i, j), the association strength AS(p,k) between p and its neighbor k was calculated by the following formula. \documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+AS\left( {p,k} \right) = \left\{ {\begin{array}{@{}*{1}{c}@{}} {\frac{{M\left( i \right)M\left( j \right)M\left( k \right)}}{{{{\left( {{d}_{ij} \cdot {d}_{pk}} \right)}}^2}}, \quad if\ N_p^{PPI} \ne \emptyset \ }\\ {\frac{{M\left( i \right)M\left( j \right){M}_{min}}}{{{{\left( {{d}_{ij} \cdot {d}_{max}} \right)}}^2}},\ \quad if\ N_p^{PPI} = \emptyset } \end{array}} \right. \end{eqnarray*}\end{document}
+where M(i) represents the mutation score of gene i, NpPPI represents the set of neighbors of p in GPPI, dij and dpk are the reciprocals of the edge weights WPPI(eij) and E(k, p), Mmin is the minimum mutation score among all the mutated genes, and dmax denotes the reciprocal of the minimum edge weight in GPPI.
+Based on the above calculations, the association strength AS(p) of the subnetwork sub-GPPI centered on p was defined as the maximum association strength between the mutated gene pair p and its neighbors as follows.
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+AS\left( p \right) = \left\{ {\begin{array}{@{}*{1}{c}@{}} {\mathop {\max }\limits_{\ k \in N_p^{PPI}} AS\left( {p,k} \right),\quad if\ N_p^{PPI} \ne \emptyset \ }\\ {\frac{{M\left( i \right)M\left( j \right){M}_{min}}}{{{{\left( {{d}_{ij} \cdot {d}_{max}} \right)}}^2}},\quad if\ N_p^{PPI} = \emptyset } \end{array}} \right. \end{eqnarray*}\end{document}
+(2) Calculation of the differential level of the network sub-Gdiff. Based on the network sub-Gdiff centered on a mutated gene pair p = p(i, j), the differential level DL(p,k) between p and its neighbor k was calculated as follows. \documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+DL\left( {p,k} \right) = \left\{ {\begin{array}{@{}*{1}{c}@{}} {\frac{{max\left[ {{W}_{diff}\left( {{v}_i} \right),{W}_{diff}\left( {{v}_j} \right)} \right] \cdot {W}_{diff}\left( {{v}_k} \right)}}{{{{\left( {{q}_{pk}} \right)}}^2}},\quad if\ N_p^{diff} \ne \emptyset \ }\\ {\frac{{max\left[ {{W}_{diff}\left( {{v}_i} \right),{W}_{diff}\left( {{v}_j} \right)} \right] \cdot {W}_{diff}\left( {{v}_{min}} \right)}}{{{{\left( {{q}_{max}} \right)}}^2}}, \quad if\ N_p^{diff} = \emptyset } \end{array}} \right. \end{eqnarray*}\end{document}
+where Npdiff is the set of neighbors of p in Gdiff, , , and Wdiff(vmin) represents the minimum node weight in Gdiff.
+Then, the differential level DL(p) of the subnetwork sub-Gdiff centered on p was defined as the maximum differential level between the mutated gene pair p and its neighbors as follows.
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+DL\left( p \right) = \left\{ {\begin{array}{@{}*{1}{c}@{}} {\mathop {\max }\limits_{\ k \in N_p^{diff}} DL\left( {p,k} \right),\quad if\ N_p^{diff} \ne \emptyset \ }\\ {\frac{{max\left[ {{W}_{diff}\left( {{v}_i} \right),{W}_{diff}\left( {{v}_j} \right)} \right] \cdot {W}_{diff}\left( {{v}_{min}} \right)}}{{{{\left( {{q}_{max}} \right)}}^2}},\quad if\ N_p^{diff} = \emptyset } \end{array}} \right. \end{eqnarray*}\end{document}
+Based on the association strength AS(p) and DL(p) of the 2 subnetworks sub-GPPI and sub-Gdiff centered on p, the impact score DCIS(p) of the mutated gene pair p in driving cancers was calculated by multiplying AS(p) and DL(p).
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+DCIS\left( p \right) = AS\left( p \right) \cdot DL\left( p \right) \end{eqnarray*}\end{document}
+
+## Prioritization of individual mutated genes by partitioning mutated gene pairs
+To effectively prioritize individual mutated genes, the impact score of a mutated gene pair p = p(i, j) needs to be partitioned into 2 impact scores, DCIS(i, p) and DCIS(j, p), corresponding to the 2 individual mutated genes. The partitioning ratio was determined by the different influences of the 2 mutated genes on the PPI network. In this study, the influence s(i) of gene i on the PPI network is defined as follows.
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+s\left( i \right) = \mathop \sum \limits_{j \in N_i^{PPI}} {W}_{PPI}\left( {{e}_{ij}} \right) \end{eqnarray*}\end{document}
+where NiPPI represents the neighbors of gene i on the PPI network. Therefore, the impact score DCIS(i, p) of gene i based on the mutated gene pair p = p(i, j) was calculated as follows.
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+DCIS\left( {i,p} \right) = \frac{{s\left( i \right)}}{{s\left( i \right) + s\left( j \right)}}DCIS\left( p \right) \end{eqnarray*}\end{document}
+In practice, a gene i may be included in multiple mutated gene pairs, and the maximum one was regarded as the final impact score of the mutated gene.
+
+\documentclass[12pt]{minimal}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathrsfs}
+\setlength{\oddsidemargin}{-69pt}
+\begin{document}
+\begin{eqnarray*}
+DCIS\left( i \right) = \mathop {\max }\limits_{j \in N_i^P} \frac{{s\left( i \right)}}{{s\left( i \right) + s\left( j \right)}}DCIS\left( p \right) \end{eqnarray*}\end{document}
+where NiPdenotes the set of mutated gene pairs that include gene i. Based on the impact scores, individual mutated genes were prioritized accordingly.
+
+## Availability of Supporting Source Code and Requirements
+Project name: DriverMP
+Project homepage: https://github.com/LiuYangyangSDU/DriverMP
+Operating system(s): Linux/Unix
+Programming language: C++
+Other requirements: g++ version 7.5.0
+License: GNU GPL v3.0
+
+RRID: SCR_023796
+
+## Abbreviations
+AGM: axon guidance molecule; AUC: area under the receiver operating characteristic curve; AUFC: area under the F1-score curve; BC: breast cancer; BCC: breast cancer cell; BLAST: Basic Local Alignment Search Tool; BMR: background mutation rate; COPD: chronic obstructive pulmonary disease; DNmax: direct neighbor maximum; DNsum: direct neighbor sum; EBV: Epstein–Barr virus; EGFR: epidermal growth factor receptor; FAK: focal adhesion kinase; FDR: false discovery rate; GAD: Genetic Association Database; HDL-C: high-density lipoprotein cholesterol; ICGC: International Cancer Genome Consortium; KEGG: Kyoto Encyclopedia of Genes and Genomes; LUAD: lung adenocarcinoma; NSCLC: non–small cell lung cancer; PPI: protein‒protein interaction; ROC: receiver operating characteristic; RTK: receptor tyrosine kinase; SCLC: small cell lung cancer; TARGET: Therapeutically Applicable Research to Generate Effective Treatments; TCGA: The Cancer Genome Atlas.
+
+## Supplementary Material
+giad106_GIGA-D-23-00209_Original_Submissiongiad106_GIGA-D-23-00209_Revision_1giad106_Response_to_Reviewer_Comments_Original_Submissiongiad106_Reviewer_1_Report_Original_SubmissionChunhou Zheng -- 9/1/2023 Reviewed
+giad106_Reviewer_1_Report_Revision_1Chunhou Zheng -- 11/4/2023 Reviewed
+giad106_Reviewer_2_Report_Original_SubmissionXionghui Zhou -- 9/17/2023 Reviewed
+giad106_Reviewer_2_Report_Revision_1Xionghui Zhou -- 10/30/2023 Reviewed
+giad106_Reviewer_3_Report_Original_SubmissionJunfeng Xia -- 10/5/2023 Reviewed
+giad106_Supplemental_File
+
+## Additional Files
+
+Supplementary Figure S1. ROC curves of DriverMP and the other compared methods using HumanNet PPI network.
+
+Supplementary Figure S2. The curves of the numbers of identified known driver genes of the top ranked 500 genes using HumanNet PPI network.
+
+Supplementary Figure S3. Performance of F1-scores of DriverMP and other compared methods in ten cancer types using HumanNet PPI network.
+
+Supplementary Figure S4. Six-level assessment of PRAD.
+
+Supplementary Figure S5. Six-level assessment of LUSC.
+
+Supplementary Figure S6. Six-level assessment of HNSC.
+
+Supplementary Figure S7. Six-level assessment of COADREAD.
+
+Supplementary Figure S8. Six-level assessment of BLCA.
+
+Supplementary Figure S9. Six-level assessment of UCEC.
+
+Supplementary Figure S10. Six-level assessment of KIRC.
+
+Supplementary Figure S11. Six-level assessment of KIRP.
+
+Supplementary Table S1. Summary of the ten somatic non-silent mutation and tumor/normal expression datasets of each cancer type from TCGA.
+
+Supplementary Table S2. List of genes for the four BC-related diseases against GAD.
+
+Supplementary Table S3. List of genes for the four LUAD-related diseases against GAD.
+
+Supplementary Table S4. Six levels of the 71 driver candidates of PRAD.
+
+Supplementary Table S5. 18 driver candidates of “Literature-supported level” of prostate cancer.
+
+Supplementary Table S6. Biological pathways associated with prostate cancer.
+
+Supplementary Table S7. 23 driver candidates of “Gene level” of PRAD.
+
+Supplementary Table S8. Six levels of the 68 driver candidates of LUSC.
+
+Supplementary Table S9. 14 driver candidates of “Literature-supported level” of LUSC.
+
+Supplementary Table S10. Biological pathways associated with LUSC.
+
+Supplementary Table S11. 23 driver candidates of “Gene level” of LUSC.
+
+Supplementary Table S12. Six levels of the 65 driver candidates of HNSC.
+
+Supplementary Table S13. 12 driver candidates of “Literature-supported level” of HNSC.
+
+Supplementary Table S14. Biological pathways associated with HNSC.
+
+Supplementary Table S15. 26 driver candidates of “Gene level” of HNSC.
+
+Supplementary Table S16. Six levels of the 60 driver candidates of COADREAD.
+
+Supplementary Table S17. 16 driver candidates of “Literature-supported level” of COADREAD.
+
+Supplementary Table S18. Biological pathways associated with COADREAD.
+
+Supplementary Table S19. 20 driver candidates of “Gene level” of COADREAD.
+
+Supplementary Table S20. Six levels of the 70 driver candidates of BLCA.
+
+Supplementary Table S21. 16 driver candidates of “Literature-supported level” of BLCA.
+
+Supplementary Table S22. Biological pathways associated with BLCA.
+
+Supplementary Table S23. 25 driver candidates of “Gene level” of BLCA.
+
+Supplementary Table S24. Six levels of the 52 driver candidates of UCEC.
+
+Supplementary Table S25. 8 driver candidates of “Literature-supported level” of UCEC.
+
+Supplementary Table S26. Biological pathways associated with UCEC.
+
+Supplementary Table S27. 25 driver candidates of “Gene level” of UCEC.
+
+Supplementary Table S28. Six levels of the 45 driver candidates of KIRC.
+
+Supplementary Table S29. 12 driver candidates of “Literature-supported level” of KIRC.
+
+Supplementary Table S30. Biological pathways associated with KIRC.
+
+Supplementary Table S31. 13 driver candidates of “Gene level” of KIRC.
+
+Supplementary Table S32. Six levels of the 56 driver candidates of KIRP.
+
+Supplementary Table S33. 11 driver candidates of “Gene level” of KIRP.
+
+## Author Contributions
+Conceived and designed the experiments: J.L. Performed the experiments: Y.L., J.H., N.X., and J.L. Analyzed the data: Y.L. and T.K. Contributed reagents/materials/analysis tools: Y.L., J.H., and .QM. Wrote the paper: J.L., Y.L., and Q.M. Designed the software used in analysis: Y.L. and J.H. Oversaw the project: J.L.
+
+## Funding
+This work was supported by the National Key R&D Program of Chinawith code 2020YFA0712400 and the National Natural Science Foundation of China with code 62272268. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## Data Availability
+All supporting data and materials are available in the GigaScience database, GigaDB [ ].
+
+## Competing Interests
+The authors declare that they have no competing interests.

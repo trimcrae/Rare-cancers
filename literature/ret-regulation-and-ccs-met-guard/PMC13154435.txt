@@ -1,0 +1,197 @@
+pmcBMC CancerBMC Cancer16bmccancBMC Cancer1471-2407BMCPMC13154435PMC13154435.113154435131544354190439410.1186/s12885-026-15621-2156211ResearchChemoresistance and genetic mutations in hepatocellular carcinoma: a pharmacogenomic atlas of 51 patients
+JiangHong-Han FengGuo-Ying ShiYuan LiXiao-Dong ZhangYi-Zhou ChengYu800031@hospital.cqmu.edu.cn ShiZheng-Rongshizr@hospital.cqmu.edu.cn 1https://ror.org/033vnzz93grid.452206.70000 0004 1758 417XDepartment of Hepatobiliary Surgery, The First Affiliated Hospital of Chongqing Medical University, Chongqing, China 2https://ror.org/0014a0n68grid.488387.8Department of General Surgery (Hepatobiliary Surgery), The Affiliated Hospital of Southwest Medical University, Luzhou, Sichuan Province China 3https://ror.org/0014a0n68grid.488387.8Academician (Expert) Workstation of Sichuan Province, Metabolic Hepatobiliary and Pancreatic Diseases Key Laboratory of Luzhou City, The Affiliated Hospital of Southwest Medical University, Luzhou, Sichuan Province China 4https://ror.org/017z00e58grid.203458.80000 0000 8653 0555Nursing Department, University-Town Hospital of Chongqing Medical University, Chongqing, China 283202620262650376458221520251912026280320260905202609052026© The Author(s) 20262026https://creativecommons.org/licenses/by-nc-nd/4.0/Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Background
+Chemoresistance remains a major barrier in hepatocellular carcinoma (HCC) treatment, and research on personalized therapies for resistant patients is still nascent. This study aimed to construct a preliminary gene-drug resistance map for HCC to advance research in personalized treatment.
+
+## Patients and methods
+Tumor tissues from 51 HCC patients who underwent surgical resection at the First Affiliated Hospital of Chongqing Medical University (December 2019 to June 2021) were used to establish in vitro models. High-throughput drug sensitivity screening (HDSS) and whole-exome sequencing (WES) were performed to identify key resistance-associated genes. Integrated analysis with TCGA database data generated a pharmacogenomic atlas of HCC.
+
+## Results
+Mutational frequencies of key oncogenes and tumor suppressor genes in HCC patients were elevated and largely consistent with The Cancer Genome Atlas (TCGA) data. FAT4 mutations were significantly associated with resistance to epirubicin, doxorubicin, 5-fluorouracil, and XELOX regimens (p < 0.05). KMT2D mutations showed significant correlations with resistance to gemcitabine, 5-FU + cisplatin, ADM + L-OHP, and L-OHP + irinotecan (p < 0.05). PABPC1 mutations were linked to resistance in doxorubicin, apatinib, and ADM + L-OHP regimens (p < 0.05).
+
+## Conclusions
+FAT4, KMT2D, and PABPC1 are potential key drivers of chemoresistance in HCC, demonstrating cross-regimen associations. These findings may inform personalized chemotherapy strategies for advanced HCC, although further clinical validation is warranted.
+
+## Trial registration
+This study was registered at the Chinese Clinical Trial Registry (https://www.chictr.org.cn; registration number: ChiCTR1900022193; registration date: 2019/03/30).Observational Study.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12885-026-15621-2.
+
+## Keywords
+Hepatocellular carcinomaChemotherapyDrug resistanceGene mutationHigh-throughput drug sensitivity screeningWhole-exome sequencingChongqing University of Medical Science: Chongqing Medical UniversityZHYX202222ZHYX202222ZHYX202222ZHYX202222ZHYX202222JiangHong-HanShiYuanLiXiao-DongZhangYi-ZhouShiZheng-RongChongqing Science and Technology Bureau Natural Science Fund projectCSTB2024NSCQ-KJFZMSX0015CSTB2024NSCQ-KJFZMSX0015CSTB2024NSCQ-KJFZMSX0015CSTB2024NSCQ-KJFZMSX0015CSTB2024NSCQ-KJFZMSX0015JiangHong-HanShiYuanLiXiao-DongZhangYi-ZhouShiZheng-Rongpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDissue-copyright-statement© BioMed Central Ltd., part of Springer Nature 2026
+
+## Introduction
+Primary liver cancer (PLC) is one of the most prevalent malignancies of the digestive system worldwide, ranking sixth in global incidence and third in mortality [ ]. Hepatocellular carcinoma (HCC), accounting for approximately 90% of PLC cases, represents the predominant clinical subtype. In China, HCC incidence remains alarmingly high, contributing to over 50% of global cases [ , ]. However, due to the lack of early-stage specific symptoms, over half of patients are diagnosed at advanced stages, precluding curative surgical intervention and resulting in poor prognosis [ ]. Interventional therapies and systemic chemotherapy are widely utilized for advanced HCC due to their efficacy and cost-effectiveness [ , ]. Clinical guidelines recommend multimodal therapies (e.g., immunotherapy, chemotherapy, and targeted agents) to improve outcomes in advanced HCC, potentially enabling tumor downstaging and surgical eligibility [ ]. Nevertheless, therapeutic efficacy is critically dependent on tumor drug sensitivity. Aberrant gene expression or mutations drive multifaceted tumor evolution, fostering intratumoral heterogeneity, malignant progression, and chemoresistance [ ]. The mechanisms underlying mutation-driven resistance remain poorly defined, while stochastic genetic variations contribute to interpatient heterogeneity in responses to chemotherapy, immunotherapy, and targeted drugs [ ]. Current empirical treatment strategies often fail to achieve clinical remission in advanced HCC [ ], significantly compromising patient survival and quality of life.
+Elucidating pharmacogenomic relationships between genetic mutations and chemoresistance has emerged as a pivotal research focus, aiming to develop personalized therapeutic strategies for HCC.
+HDSS enables precision oncology by combining conditional reprogramming cell technology to rapidly expand tumor cells ex vivo. Specialized culture media and matrices recapitulate the tumor microenvironment, preserving the genetic and pharmacodynamic fidelity of primary tumor cells. In this study, HDSS facilitated parallel screening of multiple drugs while retaining tumor heterogeneity and microenvironmental features, providing an in vivo-like platform for comprehensive drug response profiling across early- to late-stage HCC patients. The research team utilized surgical specimens from 51 HCC patients treated at the Hepatobiliary Center of the First Affiliated Hospital of Chongqing Medical University (December 2019 to June 2021) to establish in vitro models. HDSS and whole-exome sequencing (WES) were integrated to identify resistance-driving mutations and construct a pharmacogenomic atlas of HCC.
+
+## Materials and methods
+
+## Study patients
+This study initially enrolled 74 patients with HCC who underwent hepatectomy at the Hepatobiliary Center of the First Affiliated Hospital of Chongqing Medical University (December 2019 to June 2021). Patients were screened according to predefined inclusion/exclusion criteria (detailed in our prior study [ ]). Twenty-three patients were excluded due to poor specimen quality or incomplete data, yielding 51 eligible cases. This study protocol complied with the Declaration of Helsinki and was approved by the Ethics Committee of the First Affiliated Hospital of Chongqing Medical University (Approval No. 2019-021). The trial was registered with the Chinese Clinical Trial Registry (Registration No. ChiCTR1900022193).
+
+## In vitro HDSS
+Primary tumor cells were isolated from surgical specimens and cultured to establish HCC in vitro models. In vitro models were validated for viability, identity, and expanded in vitro. Drug sensitivity testing employed therapeutic agents recommended by the National Comprehensive Cancer Network (NCCN) guidelines. The screening concentration was set to 100% plasma peak concentration. Drug response was quantified by inhibition rate, with higher rates indicating greater sensitivity. Cells were classified as relatively sensitive (≥ 50% inhibition) or insensitive, reflecting clinical dosing efficacy (see prior study [ ]).
+
+## Whole-exome sequencing (WES)
+
+## Library preparation and sequencing
+
+DNA quality control: Agarose gel electrophoresis assessed DNA degradation, contamination (RNA/protein), and purity. DNA concentration was quantified using Qubit 2.0; samples with ≥20 ng/µl and ≥0.2 µg total DNA were retained for library preparation.
+Library construction: Genomic DNA was sheared to ~350 bp fragments using a Covaris ultrasonicator. Fragments underwent end repair, phosphorylation, A-tailing, and adapter ligation to generate sequencing libraries.
+Library validation: Libraries were quantified via Qubit 2.0, and insert size was verified using Agilent 2100. Effective library concentration (3 nmol/L) was confirmed by qPCR.
+Sequencing: Qualified libraries were sequenced on the Illumina HiSeq platform (PE150 mode: paired-end 150 bp reads). Insert DNA fragments were sequenced bidirectionally, enabling precise fragment length estimation and alignment during bioinformatic analysis.
+
+## Bioinformatics pipeline
+
+Data quality control: Sequencing error rates, read depth, and alignment rates were evaluated. Only data meeting quality thresholds proceeded to downstream analysis.
+Variant calling: High-quality reads were aligned to the human reference genome (GRCh38/hg38). Somatic mutations were identified by comparing tumor-normal paired samples.
+Integration with drug sensitivity: WES data from in vitro models and matched non-tumor tissues were integrated with HDSS results to construct a gene-drug sensitivity association fingerprint map.
+
+## Statistical analysis
+Analyses were performed using SPSS 24.0 (IBM Corp.). SPSS 24.0 (IBM, USA) and R 4.3.1. Normally distributed continuous variables are expressed as mean ± standard deviation, while non-normally distributed data are presented as median (interquartile range, IQR). Genomic mutation data were processed using the maftools package in R, including mutation annotation, oncogenic pathway visualization, and mutational signature analysis. In vitro drug sensitivity results were visualized as bar plots. Categorical variables were analyzed by χ² test with Yates’ correction, and drug-biomarker pairs with significant associations (p < 0.05) were further assessed using the Wilcoxon rank-sum test with Benjamini-Hochberg (BH) multiple testing correction. Associations between gene mutations and drug resistance were evaluated by two-sided Fisher’s exact test, with a significance threshold of *p* < 0.05.
+
+## Result
+
+## Patient information
+This study analyzed 51 hepatocellular carcinoma in vitro models. The patient cohort comprised individuals who underwent hepatectomy at the First Affiliated Hospital of Chongqing Medical University between December 2019 and June 2021.The median age of patients was 56 years (range: 38–72), with a male-to-female ratio of 2.4:1.All patients were diagnosed with HCC, and 78.4% had cirrhosis secondary to chronic hepatitis B virus (HBV) infection. In vitro models underwent high-throughput drug sensitivity testing with a panel of chemotherapeutic drugs (e.g., oxaliplatin, doxorubicin, 5-fluorouracil) and targeted therapies (e.g., lenvatinib, sorafenib).WES of tumor tissues and matched adjacent normal tissues was performed to identify somatic mutations and their potential associations with drug resistance.
+
+## Descriptive statistics
+The mutational landscape across the 51 HCC patients (Fig.  ) revealed high frequencies of mutations in key oncogenes and tumor suppressor genes. Notably, TP53 (53%), TTN (33%), and CTNNB1 (14%) mutations were highly enriched, aligning with the predominant mutational profiles reported in The Cancer Genome Atlas (TCGA) database (Fig.  ).
+
+ 
+
+ 
+
+The most frequently mutated gene was TP53 (52.94%), consistent with TCGA reports. TP53 alterations included missense, nonsense, and frameshift mutations, leading to loss-of-function and impaired DNA repair, cell cycle regulation, and apoptosis [ ]. CTNNB1 mutations (19.6%), affecting a key regulator of the Wnt/β-catenin pathway, drive β-catenin stabilization and nuclear accumulation, promoting tumorigenesis [ ]. Other recurrent mutations included ARID1A (15.7%), AXIN1 (11.8%), and FAT4 (11.8%). ARID1A regulates gene expression via the SWI/SNF chromatin remodeling complex [ ], while AXIN1 negatively modulates the Wnt pathway [ ]. FAT4, a tumor suppressor linked to EMT and Hippo signaling [ , ], is implicated in chemoresistance.
+
+## Single drugs
+
+## Cytotoxic drugs
+
+ 
+
+Mutations associated with cytotoxic drugs are summarized in Table  , revealing significant heterogeneity in drug sensitivity profiles and linked genetic alterations. Notably, resistance to specific drugs (e.g., doxorubicin, 5-fluorouracil, and gemcitabine) correlated with multiple gene mutations (p < 0.05). As shown in Fig.  , oxaliplatin and low-dose pirarubicin (25 mg/m²) exhibited comparable group sizes between sensitive and resistant cohorts (25 vs. 26), with no significant gene associations (p > 0.05). At an elevated pirarubicin dose (40 mg/m²), sensitivity marginally increased (26 vs. 25), showing significant correlations with C12orf55 (unknown function) and CACNA1E (calcium channel gene; p < 0.05).
+
+ 
+
+Epirubicin-sensitive groups demonstrated significant enrichment of AXIN1, GRM7, OBSCN, and FAT4 mutations (p < 0.05). Both doses showed identical sensitivity ratios (25 vs. 26), but DYNC2H1 was enriched in the resistant group at the lower dose (60 mg/m²).Additional findings include: (1) doxorubicin resistance was associated with PABPC1, NEB, and FAT4 mutations (p < 0.05); (2) 5-FU sensitivity predominated (28 vs. 23), with resistance linked to FAT4 and OR2T2 (olfactory receptor gene); (3) gemcitabine resistance correlated with CTNNB1, KIF26A, PCDH15, PREX2, and KMT2D mutations (p < 0.05).
+Strikingly, FAT4 mutations were consistently enriched in resistant groups across epirubicin, doxorubicin, 5-FU, and hydroxycamptothecin regimens (p < 0.05).
+
+## Targeted and other drugs
+
+ 
+
+Mutations associated with targeted and other drugs are summarized in Table  , revealing significant heterogeneity in sensitivity profiles and linked genetic alterations among HCC-related targeted therapies.
+As shown in Fig.  , lenvatinib (14 mg) exhibited comparable group sizes between sensitive and resistant cohorts (25 vs. 26). Resistant groups showed significant enrichment of CDH23 (cadherin family member), and DNAH17 (dynein-encoding gene) mutations (p < 0.05), while sensitive groups demonstrated enrichment of AXIN1 (Wnt pathway negative regulator) and KMT2B (histone methyltransferase) mutations.
+
+ 
+
+Furthermore, disulfiram resistance was linked to KMT2D (epigenetic regulator), DEAF1 (transcriptional repressor), NEB (cytoskeletal protein), and FBN2 (extracellular matrix protein) mutations. Sorafenib resistance correlated with PCLO (synaptic vesicle protein) and CSMD3 (tumor suppressor gene) mutations .
+
+## Combination chemotherapy regimens
+
+ 
+
+Analysis of combination chemotherapy regimen sensitivity and associated gene mutations (Table  ) revealed significant heterogeneity in clinical responses and genetic variation patterns across drug combinations.
+As shown in Fig.  , the resistant group to 5-FU + cisplatin exhibited significant enrichment of KMT2D (histone methyltransferase), DLC1 (tumor suppressor gene), and ZNF598 (ubiquitin ligase) mutations (p < 0.05). In XELOX and XP regimens, KMT2D (p < 0.01) and FAT4 (p < 0.05) mutations were both significantly associated with resistance.
+
+ 
+
+Notably, KMT2D mutations demonstrated cross-regimen resistance associations, including 5-FU + cisplatin (p < 0.01), ADM + L-OHP (p < 0.01), L-OHP + irinotecan (p < 0.01), and XELOX/XP (p < 0.01). Additionally, FAT4 mutations were detected in XELOX and XP regimens (p < 0.05).
+
+## Discussion
+Hepatocellular carcinoma is a leading cause of cancer-related mortality worldwide. While liver transplantation and resection remain the most effective curative therapies, the limited availability of donor organs and the low proportion of eligible surgical candidates underscore the urgent need for non-curative systemic treatments and conversion strategies. Despite advancements in cytotoxic, targeted, and immunotherapeutic drugs for advanced HCC, drug resistance remains a major clinical challenge. The development of personalized therapeutic strategies for resistant patients remains in its infancy. By integrating HCC in vitro models, high-throughput drug sensitivity screening, and whole-exome sequencing, this study established a preliminary gene-drug resistance map for HCC. This map highlights the central role of canonical driver genes (e.g., TP53, CTNNB1) in resistance and identifies cross-regimen associations with novel genes such as FAT4 and KMT2D. These findings provide a mechanistic foundation for optimizing clinical drug selection and inform the development of individualized chemotherapy regimens.
+In our cohort, TP53, CTNNB1, and TTN mutations were significantly enriched, aligning with core mutational signatures in the TCGA database. However, notable discrepancies were observed in mutation frequencies, likely attributable to differences in sample size, patient demographics (Asian-dominant vs. multiethnic cohorts), and sequencing platform sensitivity. Furthermore, our cohort exhibited a higher prevalence of frameshift and splice-site mutations compared to TCGA, potentially reflecting technical variations in detection sensitivity or selection biases. Despite these divergences, core findings remained concordant across both datasets.
+It is important to note that: Whole-exome sequencing (WES) generates a large number of observations, necessitating multiple hypothesis testing. However, following Benjamini-Hochberg (BH) correction (FDR threshold = 5%), none of the associations between chemotherapeutic agents and mutated genes reached statistical significance (q > 0.05), and no gene surpassed the FDR significance threshold.Nevertheless, we considered the following mitigating factors: (1) The small sample size in this study (n = 51) necessitates extremely small p-values (p ≤ 0.0005) for associations to survive BH correction, potentially inflating the false negative rate. Achieving such stringent p-values is highly improbable with the current sample size.(2) Despite the lack of FDR significance for the differentially mutated genes identified, the majority of key genes exhibited exceptionally high effect sizes, suggesting strong clinical relevance. Notably, for some genes, the odds ratio (OR) was infinite (∞) with the lower bound of the 95% confidence interval (CI) exceeding 1.Therefore, we contend that although no gene met the FDR significance threshold in this study, mutations in certain genes demonstrate biologically and clinically significant associations with chemotherapeutic drug resistance, warranting further investigation.
+
+## Cytotoxic drugs
+
+Doxorubicin (75 mg/m²): Doxorubicin, an anthracycline chemotherapeutic agent, exerts antitumor effects in HCC through topoisomerase II inhibition, DNA damage induction, and apoptosis activation, demonstrating clinical efficacy [ ]. However, interpatient heterogeneity in doxorubicin response is pronounced, with intrinsic/acquired resistance significantly limiting therapeutic outcomes.
+High-throughput drug sensitivity screening of 51 HCC in vitro models revealed that PABPC1 mutations (n=6, 11.76%) were significantly enriched in the doxorubicin-resistant group (p < 0.05), suggesting a potential role of PABPC1 in mediating chemoresistance. demonstrated that PABPC1 is recruited by IGF2BP1/2/3 to m6A reader complexes, stabilizing c-Myc mRNA in an m6A-dependent manner and driving post-transcriptional oncogenic regulation [ ]. further reported that PABPC1 binds m6A-modified CRD regions in c-Myc mRNA, enhancing its stability and upregulating c-MYC protein translation [ ]. We hypothesize that PABPC1 overexpression stabilizes c-Myc transcripts, amplifies oncogenic protein synthesis, and promotes HCC proliferation while suppressing apoptosis, thereby contributing to doxorubicin resistance.
+5-Fluorouracil (300 mg): 5-Fluorouracil (5-FU), a pyrimidine analog and antimetabolite, exerts antitumor effects by inhibiting thymidylate synthase (TS), thereby blocking thymidine synthesis required for DNA replication and suppressing tumor cell proliferation [ ]. 5-FU is widely used in malignancies including colorectal, gastric, breast, and hepatocellular cancers. While combination therapies (e.g., FOLFOX: leucovorin, 5-FU, oxaliplatin) significantly improve survival, 5-FU monotherapy demonstrates limited efficacy in HCC and is prone to resistance [ ]. Known resistance mechanisms include upregulated dihydropyrimidine dehydrogenase (DPD) activity [ ] and TS overexpression [ ].
+
+Genomic analysis of 5-FU-resistant HCC patients revealed potential associations between mutation frequencies and drug sensitivity. FAT4 mutations (n = 6, 11.76%) were significantly enriched in the resistant group (OR = 9.146; p < 0.05), suggesting a role in 5-FU resistance. FAT4, a tumor suppressor gene, critically inhibits epithelial-mesenchymal transition (EMT) [ , – ]. EMT activation is a key mechanism of multidrug resistance in HCC, particularly to platinum-based drugs and 5-FU [ ]. We hypothesize that FAT4 mutations promote EMT-driven morphological, adhesive, and signaling alterations, impairing oxaliplatin and 5-FU efficacy. Additionally, FAT4 may modulate the Hippo pathway, which regulates organ size, proliferation, and apoptosis. Dysregulation of this pathway, particularly activation of downstream effectors YAP/TAZ, enhances tumor cell proliferation, migration, and invasion [ ]. Thus, FAT4 mutations may influence 5-FU sensitivity through Hippo signaling cross-talk.
+
+## Targeted therapies
+
+Sorafenib (400 mg): Sorafenib, the first molecular targeted agent approved for systemic HCC therapy, inhibits tumor proliferation and angiogenesis by dual blockade of the RAF/MEK/ERK signaling pathway and tyrosine kinase activity of vascular endothelial growth factor receptors (VEGFR2/3, PDGFR-β) [ ]. Despite validated clinical efficacy in global multicenter trials, approximately 50% of patients experience treatment failure due to primary or acquired resistance [ ].
+Whole-exome sequencing revealed significant enrichment of CSMD3 (tumor suppressor gene) and PCLO (synaptic vesicle-associated protein) mutations in resistant groups (p < 0.05). CSMD3 loss-of-function may aberrantly activate the MAPK/ERK pathway, bypassing sorafenib-mediated RAF kinase inhibition [ ]. PCLO, which regulates neurotransmitter vesicle trafficking and anchoring [ ], may reduce intracellular sorafenib concentrations by disrupting drug distribution or metabolism, may reduce intracellular sorafenib concentrations by disrupting drug distribution or metabolism.
+Lenvatinib: Lenvatinib, a multi-target tyrosine kinase inhibitor, exerts antiangiogenic and antitumor effects by selectively inhibiting VEGFR1-3, FGFR1-4, PDGFRα, and RET kinase activity [ ]. Recommended as first-line therapy for advanced HCC in international guidelines, lenvatinib significantly prolongs progression-free survival in phase Ⅲ trials [ ]. However, ~ 50% of patients show minimal clinical response [ ], underscoring tumor-intrinsic molecular heterogeneity as a key resistance driver.
+
+Genomic analysis identified AXIN1 (Wnt pathway negative regulator) and CDH23 (cadherin family member) mutations enriched in resistant groups (p < 0.05). AXIN1 inactivation drives β-catenin nuclear accumulation, activating Wnt/β-catenin targets (e.g., CCND1, MYC) [ ], thereby promoting tumor proliferation and diminishing lenvatinib’s antiangiogenic effects.CDH23 mutations may disrupt cell-cell adhesion, induce epithelial-mesenchymal transition (EMT) [ ], and enhance tumor invasiveness and microenvironment adaptation.Notably, KMT2B (histone methyltransferase) mutations were more frequent in sensitive groups (5/25) and absent in resistant groups (p < 0.05). KMT2B regulates chromatin remodeling and gene expression [ ]. We hypothesize that KMT2B mutations alter drug metabolism, cell cycle regulation, or DNA repair gene expression, modulating lenvatinib response. However, the limited sample size in sensitive groups warrants validation in larger cohorts.
+
+## Combination chemotherapy regimens
+
+FOLFOX4 Regimen: The FOLFOX4 regimen, combining 5-fluorouracil (5-FU), leucovorin (CF), and oxaliplatin (L-OHP), is widely used for colorectal cancer and has shown efficacy in HCC [ ]. 5-FU inhibits thymidylate synthase to block DNA synthesis [ ]; CF stabilizes 5-FU binding to its target enzyme [ ]; oxaliplatin induces DNA crosslinking and apoptosis [ ]. While effective in solid tumors [ ], HCC exhibits marked interpatient variability in FOLFOX4 response.
+To investigate FOLFOX4 resistance mechanisms, we conducted high-throughput drug sensitivity assays on 51 HCC in vitro models and integrated genomic sequencing. In this study, we detected no significantly enriched mutated genes in FOLFOX4-resistant patients.MYO3A mutations were enriched in the resistant group (Group Low, n = 6) but rare in the sensitive group (Group High, n = 1). Despite a high odds ratio (OR = 6.959), statistical significance was not reached (p > 0.05), suggesting potential but inconclusive associations due to limited sample size. MYO3A, encoding a non-muscle myosin involved in cytoskeletal dynamics [ ], may impair drug response by disrupting cytoskeletal organization and apoptosis execution.
+Notably, FAT4 mutations were previously linked to resistance against 5-FU and oxaliplatin, suggesting potential cross-regimen relevance. While limited sample size precluded statistical confirmation, CF-mediated stabilization of 5-FU-TS binding may partially counteract FAT4-driven resistance by enhancing TS inhibition.
+XELOX Regimen: XELOX combines oxaliplatin (DNA crosslinking) and capecitabine (5-FU prodrug, TS inhibition) for synergistic antitumor effects in gastric, colorectal, and HCC [ ]. Despite efficacy, resistance remains a major clinical barrier.
+WES revealed significant enrichment of KMT2D (histone methyltransferase) and FAT4 (tumor suppressor) mutations in resistant groups (p < 0.05). KMT2D mutations (n = 8, 15.7%) were predominant in the resistant cohort (32% vs. 0% sensitive; p = 0.002). KMT2D loss reduces chromatin accessibility via H3K4me1 modulation [ ], upregulating drug efflux pumps (e.g., ABCB1) and impairing DNA repair (e.g., BRCA1) [ ].
+
+FAT4 mutations (23.1% resistant vs. 0% sensitive; p = 0.015) drive YAP/TAZ nuclear translocation via Hippo pathway dysregulation, upregulating prosurvival genes (e.g., BIRC5, CYR61) [ , ]. Concurrent EMT activation [ , – ] enhances metabolic adaptability and microenvironment remodeling, fostering multi-mechanistic resistance.
+Co-occurrence of KMT2D and FAT4 mutations (12%, p = 0.008) suggests synergistic resistance via epigenetic-metabolic crosstalk. For example, KMT2D-mediated ABCB1 upregulation and FAT4-YAP/TAZ-driven TS overexpression may jointly reduce intracellular drug concentrations.
+
+## Key resistance-associated genes identified in this study
+
+FAT4: FAT4 emerged as the gene exhibiting the broadest association with resistance (pleiotropic effect) in this study, demonstrating cross-regimen chemoresistance to 5-FU, doxorubicin, and combination therapies. The enrichment of its mutations suggests a central role in regulating HCC drug resistance. FAT4 modulates the Hippo pathway effectors YAP/TAZ, disrupting the balance between proliferation and apoptosis [ ]. Activated YAP/TAZ can further enhance chemoresistance by remodeling the tumor microenvironment, for instance, through activation of cancer-associated fibroblasts (CAFs) [ ]. Additionally, FAT4 aberrations induce epithelial-mesenchymal transition (EMT), conferring stem-like properties and metabolic adaptability that facilitate evasion of chemotherapy [ , – ]. Loss of FAT4 function has also been linked to upregulation of drug efflux pumps (e.g., ABCB1), reducing intracellular drug concentrations [ ].
+KMT2D: KMT2D, encoding a histone methyltransferase, was linked to resistance in multiple regimens (e.g., XELOX, ADM + L-OHP). It regulates chromatin accessibility via H3K4 methylation, modulating drug-metabolizing enzymes (e.g., CYP3A4) and transporters (e.g., ABCB1). KMT2D deficiency also impairs DNA repair gene expression, enhancing tolerance to DNA damage [ , ]. These alterations may accelerate drug efflux or metabolism, reducing effective intracellular drug levels.
+PABPC1: PABPC1-mediated doxorubicin resistance highlights the role of post-transcriptional regulation. PABPC1 stabilizes oncogenic mRNAs (e.g., c-Myc) by binding m6A reader proteins, promoting proliferation and suppressing apoptosis. Targeting m6A-related molecules may counteract PABPC1-driven resistance.
+
+## Limitations
+
+Sample Size and Population Heterogeneity: This study included 51 HCC patient samples, which is sufficient for exploratory analyses but limits statistical power compared to large databases like TCGA (n = 371). Consequently, the prevalence of rare mutations (e.g., FAT4, KMT2D) might be overestimated. Following Benjamini-Hochberg (BH) correction, none of the associations between chemotherapeutic agents and mutated genes in this study reached statistical significance (q > 0.05), and no gene surpassed the FDR significance threshold. Although we acknowledge the strong clinical associations suggested by the exceptionally high odds ratios (ORs) for these genes, we recognize the risk of overinterpretation.
+The cohort, predominantly comprising HBV-related HCC from a single center, lacks representation of HCV-related or other etiology-driven subtypes, limiting the generalizability of the findings. Furthermore, the exclusion of 23 samples due to data loss or specimen damage, without detailed analysis of potential clinical differences between included and excluded cases, may introduce selection bias.
+ Lack of Functional Validation: Although we identified significant associations between specific genes (e.g., FAT4, KMT2D) and resistance, the causal mechanisms underpinning these relationships remain unverified. Future studies employing CRISPR-based gene editing or functional assays (in vivo and in vitro) are required to confirm whether FAT4 loss drives resistance via dysregulation of the Hippo-YAP/TAZ signaling axis or whether KMT2D mutations epigenetically alter drug metabolism or response pathways. The functional significance of other implicated genes (e.g., OR2T2, C12orf55) also warrants investigation.
+Insufficient Mechanistic Integration: Cross-talk between pathways (e.g., Wnt-Hippo crosstalk, epigenetic-metabolic reprogramming) and tumor heterogeneity (subclonal/spatial variations) were not systematically modeled. A multi-omics resistance network is needed to resolve hierarchical and dynamic resistance mechanisms.
+ Unclear Clinical Translation: Proposed strategies (e.g., YAP/TAZ or epigenetic targeting) lack preclinical validation (e.g., organoid-drug screens, xenograft models). Pharmacokinetic/toxicological profiles of inhibitors (e.g., verteporfin, EZH2 inhibitors) and clinical validation using survival/response data are absent, hindering translational potential.
+Future work will expand cohorts (multi-center, multi-etiology), validate mechanisms via gene editing and animal models, and integrate multi-omics networks. Translational studies will assess therapeutic feasibility.
+
+## Conclusion
+By integrating patient-derived in vitro models, high-throughput drug sensitivity profiling, and whole-exome sequencing, this study established a preliminary pharmacogenomic map for HCC. Mutations in FAT4, KMT2D, and PABPC1 were significantly associated with cross-regimen chemoresistance, highlighting their potential roles as central hubs of resistance. Elucidating the regulatory mechanisms of these genes may inform the development of personalized therapeutic strategies, addressing the critical challenge of chemoresistance in HCC and advancing the field of precision oncology.
+
+## Supplementary Information
+
+Supplementary Material 1.
+
+## Abbreviations
+ALTAlanine-aminotransferase
+ASTAspartate-aminotransferase
+CDClavien-Dindo
+HBVHepatitis B virus
+HCCHepatocellular carcinoma
+HDSSHigh-throughput drug sensitivity screening
+NCCNNational Comprehensive Cancer Network
+OR with CIodds ratios with 95% confidence intervals
+PCRPolymerase Chain Reaction
+RCTRandomized controlled trial
+PLCPrimary liver cancer
+PNFPrimary non-function
+SCSStatic cold storage
+TCGAThe Cancer Genome Atlas Program
+WESWhole-exome sequencing
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Hong-Han Jiang and Guo-Ying Feng contributed equally to this work.
+
+## Authors’ contributions
+YS, XDL and JHH performed the full-text review and data identification. YZZ and GYF evaluated the quality of the literature. JHH and YS collected and analyzed the data and drew the tables and figures. ZRS and GYF designed the study, adjudicated any disagreements, reviewed and revised the manuscript together. YC was responsible for the integrity of the work as a whole. All authors contributed to the article and approved the submitted version.
+
+## Funding
+This work was supported by [Chongqing Science and Technology Bureau Natural Science Fund Project Mechanism Study of PABPC1 Gene I454T and R493C Site Mutations Regulating Multidrug Resistance in Hepatocellular Carcinoma](CSTB2024NSCQ-KJFZMSX0015) and [Establishment and application of a predictive model for the prevention and treatment of recurrence after resection of hepatocellular carcinoma] (ZHYX202222).
+
+## Data availability
+The raw data supporting the conclusions of this article will be made available by the authors, without undue reservation.The raw sequencing data reported in this paper have been deposited in the Genome Sequence Archive (Genomics, Proteomics & Bioinformatics 2025) at the National Genomics Data Center (Nucleic Acids Res 2025), China National Center for Bioinformation / Beijing Institute of Genomics, Chinese Academy of Sciences HRA015089, and are publicly accessible at https://ngdc.cncb.ac.cn/gsa
+
+## Declarations
+
+## Ethics approval and consent to participate
+This study protocol complied with the Declaration of Helsinki and was approved by the Ethics Committee of the First Affiliated Hospital of Chongqing Medical University (Approval No. 2019-021). The trial was registered at the Chinese Clinical Trial Registry (Registration No. ChiCTR1900022193).Written informed consent was obtained from all 51 participants prior to enrollment. The consent process included study participation, genetic data handling and publication consent.
+
+## Consent for publication
+This study report does not contain any identifiable patient data, so specific consent for publication is not required. The statement “not applicable” is used in this section.
+
+## Competing interests
+The authors declare no competing interests.

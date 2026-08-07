@@ -1,0 +1,766 @@
+ACS Synth BiolACS Synth Biol822acssd101575075sbACS Synthetic Biology2161-5063pmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC7610768PMC7610768.2761076881689172826455910.1021/acssynbio.6b003202Research ArticleA Family of Single Copy repABC-Type Shuttle Vectors Stably Maintained in the Alpha-Proteobacterium Sinorhizobium meliloti
+DöhlemannJohannes WagnerMarcel HappelCarina CarrilloMartina SobetzkoPatrick ErbTobias J. ThanbichlerMartin http://orcid.org/0000-0003-4561-9184BeckerAnke †LOEWE Center for
+Synthetic Microbiology, Marburg, 35043, Germany‡Faculty
+of Biology, Philipps-Universität
+Marburg, Marburg, 35043, Germany§Biochemistry
+and Synthetic Biology of Microbial Metabolism Group, Max Planck Institute for Terrestrial Microbiology, Marburg, 35043, Germany*Tel.: +49 (621) 28-24451. E-mail: anke.becker@synmikro.uni-marburg.de.06032017160620176638296496898428102016010620211305202122042026761076810.1021/acssynbio.6b00320EMS123369120032017816891710.1021/acssynbio.6b003202060320172017American Chemical Societyhttps://creativecommons.org/licenses/by-nc-nd/4.0/Permits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/). 
+A considerable
+share of bacterial species maintains segmented genomes.
+Plant symbiotic α-proteobacterial rhizobia contain up to six repABC-type replicons in addition to the primary chromosome.
+These low or unit-copy replicons, classified as secondary chromosomes,
+chromids, or megaplasmids, are exclusively found in α-proteobacteria.
+Replication and faithful partitioning of these replicons to the daughter
+cells is mediated by the repABC region. The importance
+of α-rhizobial symbiotic nitrogen fixation for sustainable agriculture
+and Agrobacterium-mediated plant transformation as
+a tool in plant sciences has increasingly moved biological engineering
+of these organisms into focus. Plasmids are ideal DNA-carrying vectors
+for these engineering efforts. On the basis of repABC regions collected from α-rhizobial secondary replicons, and
+origins of replication derived from traditional cloning vectors, we
+devised the versatile family of pABC shuttle vectors propagating in Sinorhizobium meliloti, related members of the Rhizobiales, and Escherichia coli. A modular plasmid library
+providing the elemental parts for pABC vector assembly was founded.
+The standardized design of these vectors involves five basic modules:
+(1) repABC cassette, (2) plasmid-derived origin of
+replication, (3) RK2/RP4 mobilization site (optional), (4) antibiotic
+resistance gene, and (5) multiple cloning site flanked by transcription
+terminators. In S. meliloti, pABC vectors showed
+high propagation stability and unit-copy number. We demonstrated stable
+coexistence of three pABC vectors in addition to the two indigenous
+megaplasmids in S. meliloti, suggesting combinability
+of multiple compatible pABC plasmids. We further devised an in vivo cloning strategy involving Cre/lox-mediated translocation of large DNA fragments to an autonomously
+replicating repABC-based vector, followed by conjugation-mediated
+transfer either to compatible rhizobia or E. coli.
+
+plasmid cloning vehicleCre/loxPrepABCin vivo cloningSinorhizobiumRhizobialesH2020 European Research Council10.13039/100010663637675Land HessenNANAMax-Planck-Gesellschaft10.13039/501100004189NADeutsche Forschungsgemeinschaft10.13039/501100001659TRR 174Deutsche Forschungsgemeinschaft10.13039/501100001659INST 160/536-1pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDdocument-id-old-9sb6b00320document-id-new-14sb6b00320ccc-pricePlasmid vectors are valuable tools in genetic engineering and synthetic
+biology. Most well established cloning vectors have specifically been
+selected and designed to be applied in Escherichia coli. Plasmids with a broader host range that can be transferred between
+different microorganisms and function in diverse genomic backgrounds
+represent a natural source of orthogonal DNA elements autonomously
+replicating in bacteria. While medium to high copy plasmids are usually
+randomly distributed during cell division, low copy plasmids employ
+a segregation mechanism to assort plasmid copies to each daughter
+cell. Plasmids can be considered as ideal
+DNA-carrying vectors with respect to the ease of plasmid engineering,
+modularization, and standardization. Yet,
+variations in copy number and propagation stability, as well as limited
+cloning capacity and combinability are unfavorable properties of plasmid
+vectors. Unreliable plasmid propagation has to be overcome by selection
+pressure that may negatively affect cell growth and physiology. The
+main bacterial chromosome has been used as vector for assembly and
+stable propagation of megasize DNA, − and also engineered or
+synthetic chromosomes potentially offer high propagation stability
+and cloning capacity. − 
+Several members of the Rhizobiales belonging to
+the class of α-proteobacteria are best known for their ability
+to establish a nitrogen-fixing symbiosis with legumes , or as plant pathogens of the genus Agrobacterium causing crown gall tumors on many vascular plants. , Advances in synthetic biology have increasingly moved utilization
+of genetic resources and processes underlying the microbe-plant interactions
+of these α-proteobacteria into focus. This includes the high
+value of symbiotic nitrogen fixation for sustainable agriculture, but also their biotechnological potential with
+respect to polysaccharide , and vitamine , production and Agrobacterium-mediated plant transformation. However, the toolbox of available plasmid vectors
+is underdeveloped in this group of bacteria.
+In α-proteobacteria,
+genome segmentation is a common phenomenon.
+Especially the fast-growing rhizobia harbor multipartite genomes which
+are usually composed of a main chromosome and additional low or unit-copy
+replicons classified as secondary chromosomes, chromids, or megaplasmids, , some of which even exceed 2 Mb in size. For instance, Mesorhizobium
+loti MAFF303099 possesses a chromosome and two megaplasmids
+(pMla, pMlb), whereas Sinorhizobium
+meliloti Rm1021 harbors a chromosome, a chromid (pSymB),
+and a megaplasmid (pSymA). Rhizobium
+etli CFN42 even contains six megaplasmids (p42a-f) beside
+its main chromosome, and Agrobacterium
+tumefaciens C58 maintains two chromosomes, a circular and
+a linear one, and two plasmids (pTi, pAt). , The unrivaled variety of α-rhizobial genome architecture offers
+a rich resource of megaplasmids that are faithfully inherited to the
+daughter cells. These are ideal candidates for plasmid vector construction.
+DNA replication origins of these extra-chromosomal replicons usually
+belong to the repC superfamiliy, , , named after the DNA replication initiator
+RepC, which appears to be unique to α-proteobacteria. In repABC family plasmids, repC including
+the cognate oriV forms an operon with repA and repB. RepA and
+RepB belong to the ParAB family of partitioning proteins mediating segregation of newly replicated oriVs. Segregation is initiated by specific binding of RepB
+to its cognate cis-acting centromere-like repS sites. Highly reliable inheritance, even of dispensable repABC-type replicons such as most of the R. etli megaplasmids, − can be attributed to proper function of the segregation
+machinery. , , 
+Replicon copy number is supposed to be mainly transcriptionally
+controlled by RepAB-mediated autorepression of the repABC operon , and post-transcriptionally by a small counter-transcribed
+RNA, which is usually encoded by a locus between repB and repC (ctRNA). , , Strict regulation of repABC expression
+is the mechanistic basis of incompatibility groups allowing stable
+coexistence of several repABC replicons in the cell. , , − High variability of incompatibility
+factors, such as repS sites, the ctRNA and occasionally
+the C-terminal domain of RepC, may explain the compatibility of heterologous
+megaplasmids in related species. 
+Here, we explored the naturally occurring low or unit-copy number
+extrachromosomal elements of members of the Rhizobiaceae and Phylobacteriaceae to design the versatile family
+of modular standardized pABC plasmids for this important group of
+bacteria. In S. meliloti, pABCs were shown to mimic
+megaplasmid-like characteristics, such as high propagation stability,
+unit-copy number and combinability of compatible repABC-type plasmids,
+rendering them highly suitable for complex ectopic expression systems.
+We further devised an in vivo cloning strategy based
+on Cre/lox-mediated site-specific recombination and
+an IPTG-inducible engineered oriVrepABC, allowing for translocation of DNA fragments to an autonomously
+replicating repABC-based vector and conjugation-mediated
+transfer either to compatible rhizobia or to E. coli.
+
+## Results and Discussion
+
+## Autonomous Plasmid Replication Mediated by
+Heterologous repABC Regions in S. meliloti
+Initially, we tested the ability of various repABC regions to mediate plasmid maintenance in S. meliloti, which is a well-characterized model of nitrogen-fixing plant-symbiotic
+α-rhizobia. To this end, repABC regions derived
+from megaplasmids of S. meliloti (pSymA), Rhizobium etli (p42b, p42d, p42e, p42f), Mesorhizobium
+loti (pMla, pMlb), Sinorhizobium medicae (pSMED01, pSMED02), Sinorhizobium fredii (pNGR234b),
+and Agrobacterium tumefaciens (pTi) were inserted
+into the suicide vector pK18mob2 ( ), which is replicative in E. coli, but nonreplicative in S. meliloti. Plasmids carrying the repABC cassettes from R. etli, M. loti and A. tumefaciens were successfully established
+in the S. meliloti Rm1021 wild type strain. In contrast,
+plasmids carrying the repABC regions derived from
+pSymA, pSMED01, pSMED02, and pNGR234b were not maintained in this
+strain, probably due to incompatibility between the indigenous megaplasmids
+and these heterologous replicons derived from closely related α-rhizobia.
+In line with this observation, the construct harboring the repABCpSymA cassette propagated in the pSymA-cured S. meliloti Rm1021 derivative SmA818, but not in the wild
+type. The identified set of eight heterologous repABC regions autonomously replicating in the S. meliloti Rm1021 wild type strain provided the foundation for construction
+of the family of pABC vectors.
+ 
+
+## pABC Vector Design
+Simple design concepts and modularity
+facilitating assembly and exchange of functional modules have become
+standard in vector development for applications in synthetic biology. − a depicts
+the blueprint of the pABC vector family composed of five basic modules:
+oriVSm (repABC cassette for propagation in S. meliloti), oriVEc (plasmid-derived origin of replication
+for propagation in E. coli), oriT (RK2/RP4 mobilization
+site), AR (antibiotic resistance gene cassette), and synTer-MCS (multiple
+cloning site flanked by transcription terminators).
+ One of our motivations for developing this vector family
+is the
+possibility of coexistence of multiple pABC replicons derived from
+compatible megaplasmids in one cell. Natural occurrence of α-rhizobial
+species with up to six compatible repABC-type replicons
+indicate the high potential of combinability. Previously, for a high-throughput plasmid integration study, we determined 220 bp sharing at least 80% sequence
+similarity with the target region as the minimal size promoting homologous
+recombination at a significant frequency in S. meliloti Rm1021. To limit the possibility of homologous recombination between
+corresponding members of the
+pABC vector family, parts were designed on the premise of avoiding
+high and extended sequence identity (Table S1). Multiple parts per module allow for assembly of combinable pABC
+vectors. The only exception is the oriT module that comprises the
+∼100 bp common mob site within a 464 bp fragment. Because of extended sequence identity, it is
+therefore not recommendable to combine pABC plasmids with this module
+in one cell.
+Three basic pABC types were devised ( b). pABCs of type A, lacking
+the oriT module,
+have to be introduced to S. meliloti by electroporation.
+pABCs of type B contain an oriT module (pABC-mob) enabling conjugal
+transfer. Hence, unintended co-integration by homologous recombination
+between type B pABC vectors through the oriT module appears possible.
+This is circumvented by design type C which offers the possibility
+of excision of the oriVEc and oriT modules by Cre/lox-mediated site-specific recombination in S. meliloti. , 
+LCR (ligase cycling reaction) is our
+procedure of choice for restriction enzyme-independent assembly of
+the building blocks to pABC vectors. LCR was shown to efficiently
+assemble up to ten 2 kb DNA fragments. Library plasmids serving as a template for PCR amplification of
+the 23 parts generated in our study were constructed ( ). Each part is flanked by a
+module-specific linker, which enable LCR-based assembly promoted by
+the standardized bridging oligonucleotides BO1-4 ( c, Table S2). Following in vitro assembly, E. coli DH5α was directly transformed with the purified
+LCR reaction mix, and correct assembly of pABC vectors was verified
+by DNA sequencing. Usually more than 75% of tested clones exhibited
+correct assembly, indicating a suitably efficient assembly system.
+Library parts for each module ( and Table S3) and pABC vectors ( and Table S4) generated in this study are described
+in the SEVA-SIB database (http://seva.cnb.csic.es). To translate individual pABCs into
+the SEVA-SIB collection, a unique identifier was assigned to each
+insert in accordance with an adapted SEVA nomenclature (Tables S3 and S4).
+ 
+
+## Parts Characterization
+
+## oriVSm Module
+The common element of
+the pABC vector
+family is the repABC region which naturally acts
+as replication origin of megaplasmids of various α-proteobacteria. , repABC cassettes of different megaplasmids were
+integrated into pK18mob2 derivative pLoriVSm resulting in library
+module vectors which provide the repABC cassettes
+of R. etli p42b,d,e,f (pLoriV-42b, -42d, -42e,
+-42f1, -42f2), M. loti pMla,b (pLoriV-Mla,
+-Mlb), and A. tumefaciens pTi (pLoriV-Ti). a depicts the genetic
+structure of the eight repABC regions, which constitute
+the basis of the oriVSm module parts used in this study. To test for
+autonomous propagation and stability in the absence of selective pressure, S. meliloti Rm1021 was transformed with the pLoriVSm library
+plasmids. Restriction enzyme-digested pLoriVSm plasmids purified from
+the S. meliloti transformants showed the expected
+electrophoresis banding patterns (Figure S1), verifying autonomous propagation of these replicons in S. meliloti.
+ pLoriV-42b, -42d, -42e, -Mlb, and -Ti exhibited
+highly stable propagation
+despite cultures being kept in exponential growth for 72 h in nonselective
+rich medium ( b). The repABCp42e region used for construction
+of library plasmid pLoriV-42e is characterized by a 542 bp 3′UTR.
+A shorter variant with a 26 bp 3′UTR (p42e_s) was less stable,
+indicating that genetic elements required for faithful replication
+or segregation of these replicons can be located further downstream
+of the repABC operon. Plasmids harboring oriVp42f1, oriVp42f2, and oriVpMla derived cassettes were virtually lost in the same period of time.
+Expanding the 3′UTR of repABCpMla from 45 bp (pMla_s) to 556 bp (pLoriV-Mla) did not improve plasmid
+maintenance. Slight incompatibility between repABCpMla and the oriV regions of the indigenous
+megaplasmids may account for this viable but unstable coexistence.
+Cross-interactions between components of indigenous and heterologous
+RepABC systems may impair regulatory control of the repABC operons or function of the gene products in replication initiation
+or plasmid segregation. This may affect cell cycle progression and
+diminish cell growth. Indeed, pLoriV-42f1, -42f2, and -Mla negatively
+affected S. meliloti cell growth, whereas stably
+propagating plasmids bearing oriV cassettes from
+p42b, p42e, pMlb, and pTi had no significant influence on growth ( c and S2). This is supposed to be a critical prerequisite
+for a multi-pABC setup under nonselective conditions since a negative
+effect on cell growth would promote plasmid loss.
+We aimed at
+preserving the unit-copy number or low copy number
+of megaplasmids in the free-living state as an important attribute
+of pABC vectors. The copy number of pLoriVSm plasmids in S.
+meliloti was determined by qPCR and data were normalized
+to pK18mob2-repABCpSymA, which in a calibration
+experiment was shown to exhibit the same copy number as the chromosome
+(Table S5). The stably propagating pLoriV
+library plasmids roughly matched a unit-copy number, whereas instable
+plasmids showed values below 1 ( d and Table S6). Since a
+qPCR-based copy number determination was performed on crude cell extracts,
+a significant number of pLoriV plasmid-negative cells could account
+for the low values determined for the unstable plasmids pLoriV-42f1
+and -42f2 ( d).
+Considering stability and copy number, the oriVSm module
+vectors
+pLoriV-42b, -42d, -42e, -Mlb, and -Ti exhibited the desired megaplasmid-like
+characteristics and thus appear to be highly suitable for construction
+of the pABC vector system.
+
+## synTer-MCS Module
+This module provides
+a multiple cloning
+site offering recognition sites for the rare-cutting restriction enzymes
+PmeI, PacI, and NotI. Transcriptional read-through into the repABC operon was found to interfere with its strict native
+expression control. The MCS module was therefore additionally equipped
+with flanking transcription terminators to protect the oriVSm module
+and the MCS position from transcriptional read-through emanating from
+sequences inserted into the MCS or adjacent modules. To this end,
+synthetic termination regions (synTer1–3) flanking the MCS were designed based on the E.
+coli rrnBT1 and rrnBT2 terminators ( a) and cloned into
+pK18mob2 to generate the pLsynTer library plasmids ( ). Effective transcription termination
+was verified by interrupting expression of an egfp reporter gene from a strong constitutive promoter by inserting the synTer1–3 cassettes downstream of
+the promoter (Figure S3).
+ 
+
+## oriVEc and oriT Modules
+The oriVEc module enables E. coli-based cloning
+of pABCs. However, construction of
+standardized library plasmids carrying a further E. coli replication origin (besides the native oriVpMB1) failed. For this reason, oriVEc parts harboring oriVpMB1, oriVp15A, and oriVpSC101* were PCR-amplified
+from nonlibrary plasmids by use of extended primers carrying the module
+specific linker sequences. The oriT module provides an RP4-derived mob site which mediates conjugal transfer from E.
+coli to a wide range of Gram-negative bacteria including S. meliloti. This
+module is available on the pLoriT library plasmids ( ).
+The low variability
+of oriVEc and oriT module parts is associated with a reduced combinability
+of pABC vectors since homologous regions provoke unintended replicon
+fusions. For this reason we equipped the synTer-MCS and oriT modules
+with Cre recognition (lox) sites, resulting in the
+pLsynTer-x-lox and pLoriT-x-lox library plasmids, respectively ( a–b, ). These lox sites allow Cre-mediated deletion of these modules from the pABC
+vectors in the α-rhizobial host strain SmCreΔhsdR as demonstrated
+in Figure S4.
+
+## AR Module
+This
+module comprises selection markers conferring
+resistance to the antibiotics gentamicin, hygromycin, kanamycin, tetracycline,
+trimethoprim, and spectinomycin in E. coli and S. meliloti (Figure S5). For
+the AR module, we chose a standardized design with the 72 bp Pmin2 promoter driving expression of the resistance genes
+( c). This promoter
+was selected from PaacC1 and Ptrp derivatives (Figure S6). AR module parts
+are available on the pLAR library plasmids ( ).
+
+## Characterization of pABC
+Shuttle Vectors
+We constructed
+14 pABCs representing design types A to C utilizing all oriVSm module
+parts described above ( and Table S7). pABCa-c are based on constructs lacking the standard linker
+sequences flanking the module library parts. They basically match
+the structure of pABC1 to six that are composed of library parts assembled
+via module-specific linker sequences and include an additional transcription
+terminator downstream of the MCS (Figure S7a). Dependent on the pABC design, transformation of S. meliloti Rm1021 was carried out via electroporation or E. coli S17-1 mediated conjugal transfer. Following electroporation, transformation
+rates of S. meliloti Rm1021 with pABCs were massively
+higher than with the common replicative vectors pSRKGm and pPHU231. Compared to pSRKGm, pABCa, pABCb, and pABCc
+achieved ∼7200-, 88-, and 22-fold higher transformation efficiencies,
+respectively, making cotransformation of S. meliloti with up to three pABCs possible (Figure S7b). Successful introduction of pABCs into S. meliloti and autonomous propagation was verified by plasmid purification
+from transconjugants and restriction enzyme digest-derived fragment
+patterns (Figure S8).
+Inheritance
+of pABC vectors was studied by flow cytometry-based single cell analysis
+applying S. meliloti strains carrying pABC-egfp derivatives
+(Table S8). In contrast to the preliminary
+selection marker-based assay of maintenance of the pLoriVSm library
+plasmids ( b),
+which tends to preselect fast growing cells, the flow cytometry-based
+assay allows for unbiased determination of the ratio of pABC-positive
+and -negative cells and is highly sensitive (Figure S9). Cultures were incubated in nonselective rich medium and
+diluted twice a day to allow for continuous growth in the range of
+OD600 of 0.05 to 1.0.
+Consistent with the properties
+of the corresponding pLoriVSm plasmids,
+derivatives of pABCa (oriVpMlb), pABCb
+(oriVp42b), pABCc-mob (oriVp42d), pABC1 (oriVp42b), and
+pABC4 (oriVp42e) were remarkably stably
+propagated over the time course of 96 h ( a,i). After 24 h even ∼99% of measured
+cells were eGFP-positive and therefore supposed to maintain the respective
+pABC replicon. After 96 h of incubation still 97% of cells were positive,
+indicating a highly reliable propagation of the pABC derivatives in S. meliloti Rm1021. In contrast, egfp expressing
+derivatives of pABC2 (oriVpMla) and the
+low-copy plasmid pPHU231 showed a pronounced plasmid loss of ∼20%
+after 24 h ( a,ii). After 96 h, the proportion of positive cells even decreased
+to 13% and 39%, respectively. Notably, flow cytometry revealed dramatic
+variations in propagation stability between biological replicates
+of clones bearing the oriVpTi-based pABC3-egfp
+(99%, 49%, and 2% positive cells after 48 h) ( a,ii). Mutation of the cognate repABC cassette was excluded by resequencing. However, we cannot exclude
+mutations in other pABC modules or the S. meliloti background genome. Previously, regulatory mechanisms affecting replication
+and thereby the copy number of pTi in A. tumefaciens have been reported. The heterogeneity
+in propagation stability observed in our study and variations in copy
+number of pTi characterize oriVpTi as
+unsuitable part for construction of stably propagating single copy
+pABC vectors in S. meliloti. The pABC maintenance
+assay identified oriVpMlb, oriVp42b, oriVp42d, and oriVp42e as highly suitable origins of replication
+for generation of S. meliloti pABC vectors.
+ To rule out mutual influences
+of the repABC cassettes
+in multi-pABC setups we further studied replicon stability in S. meliloti strains simultaneously carrying two or three
+pABCs. pABCa–pABCc retained highly stable propagation (>96%)
+throughout the time course and achieved stability values which were
+only marginally lower as compared to that of the strains carrying
+only one of these pABCs ( b). pABC3 and pABC4 were combined to study the influence
+of an instably propagating pABC on maintenance of a stably inherited
+pABC. In combination, pABC3 and pABC4 showed the same properties as
+each did individually; namely, biological replicates show great variation
+in the maintenance of pABC3, while pABC4 was stably inherited (Figure S10). In accordance with the previous
+growth studies of strains harboring stably propagating pLoriVSm plasmids
+( c and S2), the corresponding pABCs did not affect S. meliloti cell growth even when present in combination
+(Figure S11).
+We further tested maintenance
+of stably propagating pABCs under
+more challenging conditions by loading pABC vectors with the expR gene, whose presence restrains growth of S.
+meliloti. In the reference strain
+Rm1021, expR is disrupted by an insertion element. Complementation of this mutation results in
+a strong increase in galactoglucan production since the LuxR-type
+regulator ExpR is a key activator of biosynthesis of these exopolysaccharides. − expR under the control of PlacZ was integrated into pABCs based on repABC cassettes
+derived from pMlb (pABCa-egfp-expR), p42b (pABCb-egfp-expR), p42d
+(pABCc-egfp-expR), p42e (pABC4-egfp-expR), and pMla (pABC2-egfp-expR).
+Constitutive expression of expR significantly decreased
+cell growth and resulted in a mucoid colony phenotype, indicating
+a proper function of the expR cassette in the pABCs
+(Figure S12a). We compared maintenance
+of expR-positive and expR-negative
+pABCs reliably and unreliably propagating in S. meliloti. After 96 h, the expR-positive derivative of the
+unreliably propagating pABC2 (pABC2-egfp-expR) was virtually lost
+( c), whereas
+the derivative lacking expR (pABC2-egfp) was still
+present in 17% of the cells ( a,ii). Maintenance of pABCs characterized as very reliably
+inherited to the daughter cells was less affected by the presence
+of expR. After 96 h, 63%, 83%, and 92 to 94% of cells
+contained pABC4, pABCa, and pABCb,c, respectively. Nevertheless, derivatives
+of pABCa to pABCc and pABC4 were reliably maintained with 98 to 99%
+positive cells after 24 h, despite carrying a functional copy of expR throughout the entire time course (Figure S12b). Hence, vectors bearing oriV cassettes derived from p42b, p42d, p42e, and pMlb exhibit remarkable
+inheritance even when imposing a fitness burden on the cell.
+To validate the unit copy number of stably propagating pABCs and
+to rule out potential morphological aberrations of pABC-bearing cells,
+fluorescently labeled pABC derivatives were applied for microscopy
+analysis. To this end, Yersinia pestis and fluorescent
+repressor operator system (FROS) derived parS/mChr-ParB and tetO/TetR-YFP pairs were applied as a taurine-inducible dual
+color label system. Heterologously expressed DNA-binding proteins
+mChr-ParB and TetR-YFP bind to parS and tetO sequences, respectively, allowing for specific labeling of individual
+pABCs. Localization patterns of parS/mChr-ParB and tetO/TetR-YFP clusters implied single copy replication of
+pABCa to pABCc, pABC1 and pABC4, since the number of fluorescent
+foci never exceeded two per cell (Figure S13a). This observation is in accordance with the copy number of pLoriVSm
+constructs determined by qPCR ( d). Cell populations of the S. meliloti strains with the unreliably inherited pABC2 (oriVpMla), pABC5 (oriVp42f1) and pABC6 (oriVp42f2) vectors contained a substantial proportion of cells lacking fluorescent
+foci, indicating loss of the respective vector (Figure S13b). Aberrant cell morphologies, such as branching
+and elongation, were not observed. Previously, we observed that the repA2B2C2 region derived from pSymA is sufficient to confer
+the spatiotemporal pattern of this megaplasmid to a small plasmid. Although, spatiotemporal dynamics and integration
+of pABC into the cell cycle must be examined in more detail in future
+studies, microscopic analyses suggest a megaplasmid-like coordination
+with subpolar localization in small cells at the beginning of the
+cell cycle and in elongated predivisional cells ( a).
+ A well-defined insulated cloning
+site is a main requirement for
+the applicability of the pABC vectors. Insulation was tested by measuring
+fluorescence derived from promoter-less reporter gene insertions into
+the cloning site ( b and S14). Thus, pABCa, pABCb,
+pABCc, pABC1, and pABC4 are supposed to be the most reliable candidates
+for applications in S. meliloti.
+
+## repABC Mediated in Vivo Cloning
+in S. meliloti (ABC Cloning)
+Several methods
+have been developed which enable direct cloning of large gene clusters,
+including transformation-associated recombination (TAR) in Saccharomyces cerevisiae, − RecET-mediated linear-plus-linear
+homologous recombination (LLHR) in E. coli, and φBT1 integrase-mediated site-specific
+recombination in Streptomyces species. The Cre/loxP plus BAC strategy and oriT-directed cloning are well established in vivo approaches which facilitate cloning of large DNA fragments derived
+from α-rhizobia. The former strategy is based on Cre/loxP-mediated circularization of the DNA fragment of interest
+bearing a BAC oriV, which is purified from the crude
+cell culture and introduced to E. coli by electroporation. The latter strategy involves a Flp-mediated
+excision of the FRT site bordered DNA fragments including an oriT site and an E. coli plasmid oriV, instantly followed by mobilization of the excised
+DNA to E. coli. These
+direct cloning methods have proven to be very useful. However, they
+do not allow reliable maintenance of excised DNA in propagating donor
+cells, but require either DNA purification from treated cells and
+subsequent transformation of the crude mix into a suitable host or
+excision and transfer in a single step and therefore entail reduced
+efficiency and increased screening efforts. Properties of α-rhizobial
+megaplasmids such as single copy number, faithful inheritance to daughter
+cells, and large size make repABC-type oriVs ideal tools for in vivo cloning strategies. We
+devised an in vivo cloning strategy involving Cre/lox mediated excision of the target region, followed by
+stable extrachromosomal establishment of the excised region on an
+autonomously replicating repABC-type replicon, and
+demonstrated its feasibility by translocation of the ∼24 kb exo gene cluster from pSymB to a repABC-type replicon ( ).
+ This strategy requires genomic integration of a repABC-type oriV region adjacent to the
+region of interest.
+To enable stable integration, we constructed a LacI-silenced and IPTG-inducible repABCpMlb operon by insertion of a lac operator sequence into the repABC promoter region
+( a). Constitutive lacI expression strongly affected the capacity of pMlb_lacO bearing the engineered repABCpMlb-lacO to transform S. meliloti, most probably due to repression of the repABC operon
+(Figure S15a). Whereas establishment of
+pMlb_lacO in S. meliloti carrying
+the medium copy plasmid pSRKGm as LacI donor was completely abolished, S. meliloti harboring the single copy plasmid pABCb-lacI exhibited still sufficiently reduced transformation
+rates. Thus, lacI expression from a single copy locus
+achieved sufficient inactivation of repABCpMlb-lacO.
+ b,i depicts
+the genomic situation of S. meliloti SmCre_exo-IN
+bearing pIso and Pmin2-loxR-aacC1 integrated up- and downstream of the exo gene cluster, respectively. Whereas the downstream fragment constitutes
+a functional gentamicin resistance cassette which is separated from
+the exo gene cluster by the Cre recognition site loxR, pIso provides a loxL site which is
+preceded by a terminator sequence preventing transcription of the
+promoter-less spectinomycin resistance gene aadA1. pIso further offers a constitutively expressed lacI gene encoding the transcriptional repressor which mutes the adjacent repABCpMlb_lacO operon in the
+absence of IPTG. This repression of oriV activity
+enables integration of pIso into the genome. Accordingly, the efficiency
+of S. meliloti transformation with pIso was ∼4000-fold
+decreased when mating mixtures were incubated on TY agar lacking IPTG
+and ∼20% of transconjugants carried the construct integrated
+into the genome (Figure S15a). Induction
+of Cre expression and simultaneous activation of oriVpMlb_lacO by IPTG resulted in excision
+and maintenance of the floxed DNA fragment, respectively, giving rise
+to strain S. meliloti SmCre_exo-OUT carrying pIso-exo
+as an autonomous mini-replicon. Successful Cre-mediated recombination,
+resulting in an active loxP site on pIso-exo and loxLR remaining on pSymB, was verified via sequencing (Figure S15b). Since the recombination event caused
+an antibiotic resistance switch, the screening effort for identifying
+positive clones was minimized. ABC cloning provided high efficiency
+rates of ∼75% after Cre/lox-mediated isolation,
+which can be attributed to highly efficient Cre recombination in SmCre
+derivatives in general, and suitable
+function of the engineered repABC-type oriV in particular. Since multiple lox sites recombine
+in an unpredictable manner, a single copy number of activated repABCpMlb-lacO plasmids is
+an important prerequisite for manageable Cre reactions. Promoter modification
+appeared to affect the propagation stability of pMlb_lacO and pIso-exo, while retaining copy number control, as suggested
+by the qPCR-based copy number determination (Figure S15c).
+Transfer of pIso-exo to E. coli was achieved via
+triparental mating. oriVpMB1 on the pIso backbone enabled replication in E. coli due to the high copy number efficient purification of the large
+DNA molecule from this host ( b,ii). Moreover, conjugation-mediated transfer to A. tumefaciens C58 exoB resulted in complementation of the
+exopolysaccharide-deficient phenotype ( b,iii), demonstrating propagation of the engineered repABC cassette also in this host (Figure S15d).
+
+## Applicability of repABC-Based Plasmids in the Rhizobiales
+To further
+explore the potential applicability
+of heterologous repABC-based vectors beyond S. meliloti, a pilot survey was performed in Agrobacterium
+tumefaciens C58, Mesorhizobium loti MAFF303099, Sinorhizobium medicae CC169, Sinorhizobium fredii NGR234, Rhizobium leguminosarum Norway, Methylobacterium extorquens AM1 Δcel, and Caulobacter crescentus CB15N (Table S9). In the diverse tested members of the Rhizobiales, four to seven of the eight probed repABC regions mediated plasmid replication. Even in the distantly related C. crescentus, one of the eight repABC regions
+(oriVpMlb) mediated plasmid replication,
+although growth on medium selecting for presence of this repABC-based plasmid was impaired. This may indicate unreliable replication
+or segregation of this plasmid, or interference with cellular functions
+in C. crescentus. The initial survey of the pilot
+set of repABC modules in α-proteobacteria suggests
+that this vector family is probably applicable in the Rhizobiales beyond the Rhizobiaceae, particularly considering
+the possibility of further expanding the portfolio of repABC modules in the future.
+
+## Conclusions
+The currently available
+ectopic expression
+systems applicable in S. meliloti and related bacteria
+are based on a small number of low-copy and multicopy vectors. Because
+of incompatibilities, options for combining different vectors in one
+cell are very limited. Moreover, different copy number ranges and
+cell-to-cell variation complicate balanced gene expression even from
+a set of compatible plasmids. While chromosomal integration of expression
+constructs solves copy number problems, stable integration of multiple
+constructs is still cumbersome and integration sites may influence
+gene expression. In this study, we established the pABC vector family
+which circumvents these issues and highly facilitates the setup of
+combinatorial expression systems.
+pABC vectors provide a well-defined
+integration site in single copy and we demonstrated stable coexistence
+of up to three compatible pABCs. Occurrence of α-rhizobial species
+harboring up to six RepABC-family plasmids suggests that even more than three pABC plasmids may be combined
+in a suitable host. The number of available resistance cassettes and
+restraints in the applicability of multiple antibiotics selection
+pressure potentially hampers combinatorial use of pABC vectors. However, oriVrepABC-based multireplicon
+systems benefit from robust inheritance under nonselective conditions.
+A future route to further stabilization of pABC plasmids, independent
+of antibiotic resistance cassettes, could be the integration of toxin–antitoxin
+(TA)-based maintenance systems, which frequently occur in S. meliloti. Integration of
+additional modules is facilitated by the modular pABC design, which
+also facilitates construction of pABCs with multifarious part combinations.
+pABC plasmids were designed as shuttle vectors capable of replication
+in E. coli and S. meliloti. This
+is an advantageous feature when it comes to E. coli-based cloning procedures and plasmid DNA purification. Nevertheless,
+some applications in S. meliloti may favor pABC plasmids
+lacking oriVEc and oriT. We demonstrated that these modules can be
+efficiently removed on demand by induction of Cre/lox-mediated site specific recombination in S. meliloti.
+Furthermore, we took a stab at the broad potential of pABC
+applications
+by devising the in vivo ABC cloning procedure, which
+provides high flexibility due to isolation and immediate maintenance
+of the fragment of interest in a repABC-based vector.
+This opens up multifarious follow-up processes including intracellular
+relocation of the isolated fragment by Cre/lox mediated
+recombination or conjugal transfer to a compatible host organism.
+In a future perspective, the available set of nonpromiscuous lox spacer mutants paves the
+way to serial engineering steps, such as in vivo assembly
+of indigenous or heterologous DNA fragments on pABC plasmids. Thus,
+the family of pABC vectors has the potential to significantly advance
+metabolic and genome engineering in S. meliloti and
+related species and to provide a platform for in vivo DNA assembly.
+
+## Methods
+
+## Bacterial Strains and Growth
+Conditions
+Bacterial strains
+used in this study are derivatives of Escherichia coli K12, Sinorhizobium meliloti Rm1021, Agrobacterium
+tumefaciens C58, Rhizobium etli CFN42, Sinorhizobium fredii NGR234, Mesorhizobium loti MAFF303099, Rhizobium leguminosarum Norway, Methylobacterium extorquens AM1 Δcel, Sinorhizobium
+medicae WSM419 and CC169, and Caulobacter crescentus CB15N. E. coli strains were cultivated at 37 °C,
+whereas A. tumefaciens, M. loti, R. etli, S. fredii, and S. medicae were grown at 30 °C in Luria–Bertani (LB) medium. S. meliloti strains were cultivated
+at 30 °C in tryptone yeast extract (TY) medium. C. crescentus was grown at 28 °C on peptone-yeast
+extract (PYE) medium. If necessary, the
+following antibiotics were used: gentamicin (8 μg/mL for E. coli, 30 μg/mL for S. meliloti, and 50 μg/mL for A. tumefaciens), kanamycin
+(25 μg/mL for C. crescentus, 30 μg/mL
+for S. fredii, and R. leguminosarum, 50 μg/mL for E. coli, M. loti, and M. extorquens, 70 μg/mL for A. tumefaciens, 200 μg/mL for S. meliloti), streptomycin
+(600 μg/mL for S. meliloti and R. leguminosarum), spectinomycin (100 μg/mL for E. coli, 200
+μg/mL for S. meliloti, and 500 μg/mL
+for A. tumefaciens), hygromycin (100 μg/mL
+for both E. coli and S. meliloti), nalidixic acid (10 μg/mL for A. tumefaciens, S. fredii, M. loti, and S. medicae), trimethoprim (1000 μg/mL for E. coli, 700
+μg/mL for S. meliloti), chloramphenicol (20
+μg/mL for E. coli) or tetracycline (10 μg/mL
+for E. coli and 3 μg/mL for S. meliloti). Cre/lox applications were performed as described before, excluding tetracycline supplementation during
+induction of cre expression. Calcofluor fluorescence
+assays of A. tumefaciens C58 exoB carrying pIso-exo
+were performed on LB agar supplemented with gentamycin and spectinomycin,
+200 μg/mL calcofluor, and 500 μM IPTG. Cultures of an
+optical density at 600 nm (OD600) of 0.2 were spotted on
+agar medium and grown overnight at 30 °C. Calcofluor fluorescence
+was excited by UV transillumination.
+
+## DNA Manipulation and Plasmid
+Extraction
+Standard techniques
+were employed for common cloning procedures. Primers and PCR products were 5′-phosphorylated applying
+T4 Polynucleotide Kinase (Thermo Scientific, Germany). Dephosphorylation
+of 5′-ends of DNA was achieved by use of FastAP Thermosensitive
+Alkaline Phosphatase (Fermentas). Blunting of DNA ends was performed
+by use of DNA Polymerase I (Large Klenow fragment) (New England Biolabs
+(U.K.)). Plasmid DNA was generally purified using the “E.Z.N.A.
+Plasmid Mini Kit” (Omega Bio-Tek). For gel extractions of DNA
+the “illustra GFX PCR DNA and Gel Band Purification Kit”
+(GE Healthcare Life Sciences) was employed.
+
+## Plasmid and Strain Construction
+Strains and constructs
+generated in this study are listed in and Table S10. Assembled pABCs are listed in . A detailed description
+of plasmids is given in Tables S7 and S11. Oligonucleotides and synthetic DNA fragments were provided by Sigma-Aldrich
+(USA) and Integrated DNA Technologies (USA), respectively (Table S2). DNA fragments were PCR amplified using
+Q5 High-Fidelity DNA Polymerase (New England Biolabs) or Taq DNA Polymerase
+(New England Biolabs). DNA sequence verification was performed by
+Eurofins Genomics (Germany). For transformation of S. meliloti, the respective strains were either conjugated or electroporated
+as described before. Preparation of electrocompetent
+cells was done as described by Ferri et al. (2010).
+Construction
+of pABC mini-replicons: Amplification of module parts from library
+plasmids was performed with Q5 polymerase applying module specific
+primer sets oriVSm_for/rev (pLoriVSm derivatives), synTer-MCS_for/rev
+(pLsynTer derivatives), oriT_for/rev (pLoriT derivatives), and AR_for/rev
+(pLAR derivatives). oriVEc module parts were amplified from pK18mob2
+(pMB1), pACYC184 (p15A), and pX-G10 (pSC101*) with primer sets pMB1_for/rev,
+p15A_for/rev, and pSC101*_for/rev, respectively. Subsequently, matching
+DNA fragments (blunt-end and 5′ phosphorylated) were fused
+via ligase cycling reaction (LCR) according to de Kok et al. (2014).
+For LCR 0.3 U Taq ligase (New England Biolabs), 3 nM DNA parts, 30
+nM bridging oligos, and 8% (v/v) DMSO were applied. The following
+conditions were used: 2 min at 94 °C and then 50 cycles of 10
+s at 94 °C, 30 s at 60 °C, and 60 s at 65 °C, followed
+by incubation at 4 °C. Reaction mixtures were purified using
+the E.Z.N.A. Cycle-Pure Kit (Omega Bio-Tek). A detailed pABC construction
+manual is provided in the Supporting Information.
+For live-cell localization studies of pABC vectors, a dual
+label
+system based on the fluorescent reporter gene fusions tetR-eYFP (derived from the fluorescent repressor operator system, FROS ) and mChr-parBYp (parB derived from Yersinia pestis) was developed. Homologous regions comprising
+the upstream region of tauA (pSymB position 1050453–1050952)
+and PtauAB-tauA (pSymB position
+1050781–1051458) were integrated into pK18mobsacB, thereby
+flanking tetR-YFP-mChr-parBYp. S. meliloti Rm1021 was transformed with
+the resulting plasmid pJD120. Loss of the plasmid backbone was forced
+by sucrose selection resulting in strain JDSm106 carrying the tetR-YFP-mChr-parBYp reporter
+construct stably integrated into the chromosome downstream of the tauA promoter. Localization studies of pABCs carrying either
+a pLAU44-derived tetO array (position 5117-9290) or a pMT1-derived, 86 bp parSYp sequence were performed in this dual label S. meliloti reporter
+strain JDSm106.
+Control strains for cell growth and plasmid
+inheritance experiments
+were generated as follows. A homologous region comprising exsA (pSymB position 1166189-1166773) was cloned into pK18mob2,
+resulting in pMW1. Integration of a Pmin2-egfp cassette upstream of the exsA region
+in pMW1 gave rise to pMW28. pMW1 was integrated into pSymB in S. meliloti Rm1021 by homologous recombination, resulting
+in the kanamycin resistant strain MWSm8. Integration of pMW28 into
+the genome of S. meliloti ΔhsdR by homologous
+recombination gave rise to strain MWSm37 exhibiting constitutive egfp expression.
+An S. meliloti strain
+suitable for ABC cloning
+of the exo gene cluster was constructed in a two-step
+cloning strategy applying cloning-free genome editing (CFGE). Pmin2-loxR-aacC1 (PCR amplified
+from pJD211 with primers Uni/Rev) was blunt-end ligated with a ∼550
+bp fragment covering the exoP-thiD intergenic region (pSymB position 1190665-1191220; PCR amplified
+with primers 86/87). Purified ligation products were then introduced
+to SmCreΔhsdR by electroporation. Finally, a transformant exhibiting
+Pmin2-loxR-aacC1 correctly integrated into the genome
+downstream of the exo gene cluster was transformed
+with pIso, giving rise to strain SmCre_exo-IN.
+
+## DNA Transfer
+Preparation
+of electrocompetent cells
+and transformation of S. meliloti, A. tumefaciens, R. etli, S. fredii, M.
+loti, R. leguminosarum, and S. medicae cells was performed as described by Ferri et al., 2010. Electroporation
+of M. extorquens and C. crescentus was carried out as described previously. , To transfer pISO-exo from S. meliloti into different
+species, triparental matings between S. meliloti SmCre_exo-OUT
+and E. coli XL1blue-pRK2013, with A. tumefaciens C58 exoB or E. coli AB3219 were performed.
+For triparental matings the cell density of fresh overnight cultures
+was adjusted to an OD600 of 2.0 and equal volumes of donor,
+recipient, and helper strain were mixed. A 50 μL aliquot of
+cell suspension was dropped on LB agar supplemented with 500 μM
+IPTG and incubated overnight. Cells were recovered in 1 mL sterile
+0.9% (w/v) NaCl solution. For the determination of conjugation efficiency,
+OD600 of the cell suspensions was adjusted to 2.0 and appropriate
+dilutions were plated on selective LB agar containing 500 μM
+IPTG. The efficiency of conjugation was determined by plating the
+conjugation cell suspension on media selective for transconjugants
+as well as on media selective for all recipient cells. Conjugation
+frequency was expressed as the number of colony forming units (CFU)
+transconjugants per CFU recipient cells.
+
+## Plasmid Stability Assays
+To assess inheritance stability
+of pLoriVSm derivatives, S. meliloti cultures were
+grown over 72 h at 30 °C in TY medium supplemented with streptomycin.
+Cell suspensions were diluted every 12 h to an OD600 of
+∼0.05. Finally, dilution series were plated on nonselective
+TY agar and emerging colonies were streaked on both selective (Km)
+and nonselective TY agar. Antibiotic resistance was correlated with
+the presence of the assessed plasmid.
+For determination of propagation
+stability of pABC-egfp derivatives, S. meliloti cultures
+were incubated over 96 h at 30 °C in TY medium. Probes were taken
+0, 24, 48, and 96 h postinoculation and immediately diluted to an
+OD600 of 0.1 in 0.9% (w/v) NaCl. eGFP fluorescence was
+detected using a BD Fortessa flow cytometer. For FACS analysis 10.000
+gated events were acquired giving rise to the ratio between eGFP-negative
+and positive cells. Sufficient sensitivity was verified (Figure S9).
+
+## qPCR-Based Copy Number
+Determination
+S. meliloti cultures were
+grown in selective TY medium until OD600∼1.0 was reached
+and adjusted to ∼1.39 × 105 cells/μL
+(≙ 1 ng DNA/μL). Cell suspensions that had been incubated
+at 95 °C for 15 min served as template. The DNA concentration
+of cell lysates containing pLoriVSm derivatives was verified via Qubit
+fluorometric quantitation (HS Assay Kit, Thermo Fisher Scientific).
+qPCR was carried out in a qTOWER Thermal Cycler (Analytik Jena,
+Germany) using the TaykonNo Rox SYBRMasterMix dTTP Blue Kit. Reactions
+were performed according to the manufacturer’s instructions
+in a 5 μL reaction volume. Replicon copy number was calculated
+according to Lee et al. (2006). 
+
+## Microscopy
+Phase contrast and fluorescence pictures
+of S. meliloti were taken using an Eclipse Ti-E inverse
+research microscope (Nikon) and the live imaging modus of the NIS
+elements software (Nikon). For fluorescence microscopy with a 100x
+CFI Apo TIRF Oil objective (numerical aperture of 1.49) a green DPSS
+solid state laser (561 nm, 50 mW; Sapphire) and a multiline Argonlaser
+(65 mW; Melles Griot) were applied with AHF HC filter sets F36-504
+TxRed (excitation bp 562/40 nm, beam splitter 593 nm, emission bp
+624/40 nm) and F36-513 YFP (excitation bp 500/24 nm, beam splitter
+520 nm, emission bp 542/27 nm). Background fluorescence was reduced
+by applying the highly inclined laminated optical sheet (HILO) technique. Cell cultures were grown in TY medium supplemented
+with suitable antibiotics to an OD600 of 0.1 and expression
+of the fluorescent labeling system was induced with 15 mM taurine
+for 4 h. Living cells were placed onto 1% (w/v) TY agarose pads.
+
+## Bioinformatics Tools
+To generate neutral orthogonal
+DNA sequences for module linker fragments, the web-based tool R2oDNA
+Designer was applied. To estimate the
+recombination potential of distinct pABCs we investigated the local
+sequence homology of all module parts (including linker sequences).
+We applied a window-based local alignment approach to focus on the
+local sequence homology. For a pair of parts we therefore extracted
+all 200 bp sequence fragments of one part and performed a local alignment
+on the full sequence of the second part. The best alignment similarity
+of all 200 bp fragments with the second vector was taken as the similarity
+value of both vectors.
+
+## Supporting Information Available
+The Supporting Information
+is available free of charge on the ACS Publications website at DOI: 10.1021/acssynbio.6b00320.Table S1: Examination
+of sequence identity of pABC module
+parts. Table S2: Primers and synthetic DNA fragments used in this
+study. Table S3: Designation of pABC library parts according to the
+SEVA-SIB nomenclature. Table S4: Translation of pABC plasmids into
+the SEVA-SIB collection. Table S5: qPCR indicates a unit copy number
+of plasmids carrying a repABCpSymA cassette.
+Table S6: Copy number determination of oriVSm library plasmids. Table
+S7: Detailed description of pABCs generated in this study. Table S8:
+Flow cytometry measurements of S. meliloti Rm1021
+carrying pABC-egfp derivatives. Table S9: Replication capacity of repABC-based replication origins in various α-proteobacteria.
+Table S10: Strains and plasmids used in Supporting Information. Table
+S11: Detailed description of constructs generated in this study. Figure
+S1. Electrophoresis banding patterns of oriVSm library plasmids. Figure
+S2. Growth of S. meliloti carrying stably propagating
+pLoriVSm library plasmids. Figure S3. Activity of E. coli transcription terminators derived from rrnBT1 and rrnBT2 in S. meliloti. Figure S4. Cre-mediated
+deletion of modules oriVEc and oriT in S. meliloti strain SmCreΔhsdR. Figure S5. Examination of standardized
+antibiotic resistance cassettes. Figure S6. Examination of promoter
+activity of Ptrp derivatives in S. meliloti. Figure S7. pABC setup and electroporation efficiency. Figure S8.
+Electrophoresis banding pattern of digested pABCs purified from S. meliloti. Figure S9. Verification of Flow Cytometry measurements.
+Figure S10. Propagation stability of pABC3-egfp and pABC4-egfp. Figure
+S11. Growth of S. meliloti Rm1021 harboring stably
+propagating pABCs. Figure S12. Characterization of pABC-egfp-expR
+derivatives. Figure S13. Fluorescence microscopy analysis of fluorescently
+labeled pABCs. Figure S14. Analysis of transcriptional insulation
+of the multiple cloning site of pABCa–c. Figure S15. Examination
+of ABC cloning procedures (PDF)
+
+## Supplementary Material
+sb6b00320_si_001.pdf
+
+## Author Contributions
+# J.D. and M.W.
+contributed equally. A.B., J.D., and M.W. designed
+the research. J.D., M.W., and C.H. performed the experimental work.
+M.C., T.J.E., and M.T. contributed to the assays of repABC-based plasmids in diverse bacteria. P.S. computationally analyzed
+parts for sequence similarities. J.D. and M.W. analyzed all data.
+J.D. and A.B. wrote the paper.
+The authors
+declare no competing financial interest.
+
+## Acknowledgments
+We thank Gabriele Malengo for
+supporting the FACS analyses,
+Daniela Kiekebusch and Maritha Lippmann for technical assistance in Caulobacter handling, and Macarena Marín for providing R. leguminosarum strain Norway. Financial support from the
+German Research Foundation (Collaborative Research Centre TRR 174
+“Spatiotemporal dynamics of bacterial cells” and INST
+160/536-1 FUGG), the LOEWE program of the State of Hesse (Germany)
+(SYNMIKRO), the Max Planck Society, and the European Research Council
+(ERC 637675 “SYBORG”) is acknowledged.
+
+## Abbreviations
+Clmchloramphenicol
+Gmgentamicin
+hhour
+Hyghygromicin
+Kmkanamycin
+oriVreplication origin
+SDShine–Dalgarno sequence
+Spspectinomycin
+Strstreptomycin
+TAtoxin–antitoxin
+Tctetracycline
+Tmptrimethoprim

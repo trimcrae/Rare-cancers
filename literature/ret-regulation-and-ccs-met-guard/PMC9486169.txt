@@ -1,0 +1,132 @@
+1681frontgeneFrontiers in GeneticsFront GenetFrontiers Media SAPMC9486169948616994861693614749010.3389/fgene.2022.938712Identification of signaling pathways associated with achaete-scute homolog 1 in glioblastomas through ChIP-seq data bioinformatics
+ZhangNa ZhangJie LiuZhihong LiTushuai 
+1
+School of Food and Bioengineering, Xuzhou University of Technology, Jiangsu, Xuzhou, China
+
+2
+School of Biology and Food Engineering, Changshu Institute of Technology, Jiangsu, Suzhou, China
+
+3
+The State Key Laboratory of Pharmaceutical Biotechnology, Medical School, School of Life Sciences, Nanjing University, Nanjing, Jiangsu, China
+
+4
+School of Food Science and Technology, Jiangnan University, Wuxi, Jiangsu, China
+
+5
+Wuxi School of Medicine, Jiangnan University, Wuxi, Jiangsu, China
+
+Edited by:
+Zhiwei Ji, Nanjing Agricultural University, China
+
+Reviewed by:
+Lin Yuan, Qilu University of Technology, China
+
+Kexin Huang, Xidian University, China
+✉*Correspondence: Tushuai Li, tushuaili@jiangnan.edu.cn
+
+This article was submitted to Neurogenomics, a section of the journal Frontiers in Genetics
+692022139387129387122192022Copyright © 2022 Zhang, Zhang, Liu and Li.This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+## Abstract
+
+Background: Achaete-scute homolog 1 transcription factors were important in the differentiation of neuronal-like glioblastoma (GBM) cancer stem cells (CSCs). To gain a better understanding of the role of ASCL1 in GBM, chromatin immunoprecipitation followed by high-throughput sequencing (ChIP-seq) data can be analyzed to construct their gene transcription regulation network.
+
+Methods: GSE87618 was downloaded from the Gene Expression Omnibus, which is a famous database, in the field of biology. The filtered clean reads were mapped to the human genome utilizing the software of bowtie2. Then, differential peak analysis was performed by diffbind. Finally, the annotated gene functions and signaling pathways were investigated by Gene ontology function and kyoto encyclopedia of genes genomes (KEGG) pathway enrichment analysis. Moreover, the protein–protein interaction network (PPI) analysis of genes obtained from ASCL1 was carried out to explore the hub genes influenced by ASCL1.
+
+Results: A total of 516 differential peaks were selected. GO analysis of functions revealed that promoter, untranslated region (UTR), exon, intron, and intergenic genes were mainly enriched in biological pathways such as keratinization, regulation of cAMP metabolic process, blood coagulation, fibrin clot formation, midgut development, and synapse assembly. Genes were mainly enriched in KEGG pathways including pentose phosphate pathway, glycosphingolipid biosynthesis—globo and isoglobo series, ECM–receptor interaction, and adherens junction. In total, 244 nodes and 475 interaction pairs were included in the PPI network with the hub genes including EGFR, CTNNB1, and SPTAN1.
+
+Conclusion: EGFR, SPTAN1, and CTNN1B might be the potential down-stream genes of ASCL1 in GBM development, and CTNN1B might make contributions to GBM progression on regulating the cAMP pathway.
+Keywords: achaete-scute homolog 1 gene, glioblastomas, bioinformatics, ChIP-seq, signaling pathways
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 May 7; Accepted 2022 Jul 6; Collection date 2022.
+
+## Introduction
+Glioblastoma (GBM), as the most common primary malignant brain tumor in adults, is one of the most aggressive and lethal human tumors characterized by a block in cellular differentiation. The median survival can range from 12 to 15 months among patients undergoing the current standard of care treatment involving surgery, chemotherapy, and radiation therapy ( ; ; ; ; ). For GBM patients, the disease is hardly diagnosed in the early stage. Meanwhile, recent therapeutic options are limited and prognosis is poor ( ). Due to the extremely high malignant grade of GBM, surgical resection combined with radiotherapy and chemotherapy has not changed its malignant progression trend, which is a serious threat to human health. Thus, novel treatment paradigms are urgently needed to improve outcomes. Currently, many efforts are focused on the target therapies, such as traditional small molecule inhibitors, monoclonal antibodies, and immunotherapeutic approaches ( ). These treatment strategies are actively examined in clinical trials and offer an attractive alternation ( ; ; ). At present, various bioinformatics methods have sprung up, and a large amount of tumor gene expression profile data have become the research direction of tumor precision therapy. Therefore, the study of the glioma gene expression network also has an important theoretical value and practical significance, and its clinical application prospect should not be rested.
+ASCL1 is a gene classifier for the pro-neural (PN) transcriptional subgroup of GBM, which plays as a relevant role in the neuronal-like differentiation of glioblastoma stem cells (GSCs). It has been noted that cell-cycle exit and full neuronal specification and differentiation could be induced by ASCL1 over-expression in neural precursor cells ( ). Park et al. demonstrated that the transcription factor ASCL1 was required for GSCs to undergo neuronal lineage differentiation, and GSCs with high ASCL1 expression levels were responsive to notch pathway inhibitors and important in driving neuronal fate ( ; ; ). Furthermore, Narayanan proposed that ASCL1 might be served as potential subgroup-specific targetable vulnerability in GBM through targeting NDRG1 ( ; ; ; ; ). These efforts suggest that ASCL1 plays important roles in neuronal specification. However, the molecular network associated with the roles of ASCL1 in GBM has not yet been researched.
+In order to clarify the regulatory mechanisms of the ASCL1 in GBM, the data of ChIP-seq were analyzed by utilizing bioinformatics method. The annotated gene functions and signaling pathways were investigated by Gene ontology (GO) function and kyoto encyclopedia of genes genomes (KEGG) pathway enrichment analysis. Moreover, the protein–protein interaction network (PPI) analysis of genes was constructed to explore the hub genes influenced by ASCL1.
+
+## Materials and methods
+
+## Data sources
+GSE87618 was the genome occupancy profiling of differential ASCL1 binding between control and GSC cultures induced to overexpress ASCL1 after 18 h of doxycycline treatment, which were downloaded from the database of Gene Expression Omnibus (GEO, http://www.ncbi.nlm.nih.gov/geo/) ( ). GSE87618 contained data from eight samples, including three ASCL1 ChIP-seq negative controls (nc1, nc2, nc3), one ASCL1 ChIP-seq negative control input (nc_input), three ASCL1 ChIP-seq doxycycline (dox1, dox2, dox3, 18 h of doxycycline treatment), and one ASCL1 ChIP-seq doxycycline input (dox_input, 18 h of doxycycline treatment). Sra format profile data of GSE87618 were downloaded, and the microarray data were then converted into. fastq utilizing fastq-dump (https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=toolkit_doc&f=fastq-dump).
+
+## Quality control of sequencing data
+In order to filter out the unreliable bases and reads, quality control was performed for the original offline data. Sequencing tape joints were firstly removed. Reads with consecutive masses below 20 at both ends or reads less than 36 nt in length would be removed. Clean reads were obtained by utilizing the tool of Trimmomatic (v3.6) ( ; ).
+
+## Sequence alignment
+The filtered clean reads were mapped to the human genome (UCSC, hg19), utilizing the software of bowtie 2 ( ; ; ; ). The non-unique mapped reads and low-quality mappings in the results were removed, utilizing default parameters.
+
+## Peak calling
+Peak signal detection is a key step in the ChIP-seq analysis. MACS2 was used to find the peaks of the enrichment region of trusted sequence (the ASCL1 binding region) from the short sequence alignment results and predict the length of the predicted frag_sizes ( ). The default parameters and p-value< 1e-3 were set as the screening threshold.
+
+## Differential peak analysis
+Based on the obtained alignment result and the peak call result, differential peak analysis was performed, utilizing diffbind software ( ) to obtain differential peak binding to the chromosome due to the expression level of ASCL1 between the ASCL1 ChIP-seq doxycycline group and negative control group. The downstream analysis was performed on an overlap peak in at least three samples, and the number of reads covered by the peak was calculated to obtain the binding affinity matrix. Then, the differential peaks were calculated by edgeR ( ; ). The screening thresholds were designed as false-positive rate (FDR) < 0.05 and |Fold change | > 2.
+
+## Peak annotation
+The differential peaks obtained in the previous step were annotated, utilizing Chipseeker ( ). A 3 kb (up: 2500 bp down: 500 bp) sequence near the transcription start site (TSS) was selected as a promoter region.
+
+## Gene ontology function and kyoto encyclopedia of genes and genomes pathway enrichment analysis
+Enriched GO function and KEGG pathway were analyzed on the annotated genes ( ). The genes were divided into five categories based on different positions, including promoter, UTR, exon, intron, and intergenic. KEGG pathways and GO functions were analyzed for genes on different positions, respectively, utilizing the tool of Database for Annotation, Visualization and Integrated Discovery (DAVID) based on hypergeometric test ( ). The significant threshold was set as p value <0.05.
+
+## Protein–protein interaction network
+The database of Search Tool for Retrieval of Interacting Genes (STRING) is an online database for predicting PPIs ( ). Utilizing STRING (version 10.0, http://www.string-db.org/) database, the PPIs of genes were analyzed. The protein pairs with PPI score >0.4 were collected. Then, Cytoscape (version: 3.2.0, http://www.cytoscape.org/) was used to visualize the predicted PPI network ( ; ; ).
+Three methods were used to evaluate the centrality of the complex network, including degree centrality ( ), betweenness centrality ( ), and closeness centrality ( ). CytoNCA was a cytoscape plugin for the calculation of three topology properties (parameter setting: network is without weight) ( ; ). In the CytoNCA output, the node score represented the role of the protein in the network.
+
+## Results
+
+## Sequencing data quality control and sequence data comparison result
+
+ shows the quality of sequencing data. The percentages of bases in all eight samples with Phred values greater than 30 were all more than 99.8%. The results of sequencing data comparison are shown in , and the mapped rates in different samples were all more than 95%.
+ 
+
+## Peak call based on the expression level of ASCL1
+In total, 4792 peaks were obtained in sample DOX_1, 4176 peaks in DOX_2, 4231 peaks in DOX_3, 1211 peaks in NC_1, 1193 peaks in NC_2, and 733 peaks in NC_3. The doxycycline treatment resulted in a higher expression of ASCL1, and then more peaks were obtained.
+
+## Differential peak analysis
+The differential peak analysis was performed, and a total of 516 differential peaks were selected. The results of the principal component analysis (PCA) between multiple samples are shown in , and the samples in control and doxycycline treatment group were clustered separately. Differential expression peak hotspot distribution map showed that the profile of differential expression peaks was significantly different in the control and doxycycline treatment group ( ).
+ 
+
+## Differential peak annotation
+Peaks were annotated by peakseeker, and results showed that 10% peaks were located near the gene promoter, 33% of the peaks were located in the intergenic region, and 40% of the peaks were located in the intron region of the genes ( ).
+ 
+
+## GO function and KEGG pathway enrichment of genes involved in differential peak annotation
+According to the results of the differential peak annotation, the obtained genes were separately subjected to GO functional and KEGG pathway enrichment analysis. As shown in , genes are mainly enriched in biological pathways, such as “odontogenesis of dentin-containing tooth,” “embryonic digit morphogenesis,” and “negative regulation of cell development.” shows that genes are mainly enriched in KEGG pathways, including “starch and sucrose metabolism,” “small cell lung cancer,” and “relaxin signaling pathway.”
+ Genes were divided into five categories including promoter, UTR, exon, intron, and intergenic. Functional enrichment analysis was further performed, and the results showed that promoter genes were mainly enriched in biological pathways such as keratinization. UTR genes were enriched in the regulation of the cAMP metabolic process. Exon genes were enriched in blood coagulation and fibrin clot formation, intron genes were enriched in midgut development, and intergenic genes were enriched in synapse assembly ( ). KEGG pathway analysis showed that the significant pathways included pentose phosphate pathway (promoter genes), glycosphingolipid biosynthesis—globo and isoglobo series (UTR genes), ECM–receptor interaction (exon genes), adherens junction (intron genes), and fluid shear stress and atherosclerosis (intergenic genes) ( ).
+
+## PPI network
+The PPI network for genes was constructed ( ), and 244 nodes and 475 interaction pairs were included in the network. The top 10 hub nodes based on the degree centrality, betweenness centrality, and closeness centrality are shown in , such as epidermal growth factor receptor (EGFR), catenin Beta 1 (CTNNB1), and spectrin alpha, non-erythrocytic 1 (SPTAN1).
+ 
+
+## Discussion
+GBMs are incurable brain tumors with a high degree of cellular heterogeneity and genetic mutations. For anti-GBM therapies, the loss of proliferation control and unregulated self-renewal would be the most important hard work for clinical treatment. In the context of gliomas, some transcription factors are often expressed and have been shown to function in determining the tumorigenicity and differentiation status of tumor cells. In this study, we focus on ASCL1, a class II basic-helix–loop–helix (bHLH) transcription factor that forms a heterodimer with class I bHLH E-proteins (such as E47/TCF3) to activate specific target genes. Studies have shown that ASCL1 regulates transcriptional targets that are central to the GBM development. The study of Park et al. showed that ASCL1 could control the neuronal fate and suppress tumorigenicity of glioblastoma stem cells by reorganizing chromatin ( ). The study of Rheinbay et al. showed that ASCL1 exerts functions in part by repressing an inhibitor of Wnt signaling, DKK1, resulting in increased signaling through this pathway to maintain the tumorigenicity of glioma cells ( ). ASCL1 phosphorylation and ID2 upregulation are roadblocks to glioblastoma stem cell differentiation ( ; ). The study of Tou et al. showed that the loss of ASCL1 significantly reduces the proliferation of GBMs induced in the brain of a genetically relevant glioma mouse model, resulting in extended survival times, illustrating an important role for ASCL1 in controlling the proliferation of GBM ( ). In our study, a total of 516 differential peaks between ASCL1 overexpressed GSC samples and negative controls were screened. GO analysis of functions revealed that the genes annotated on differential peaks were mainly associated with biological pathways such as keratinization, regulation of cAMP metabolic process, blood coagulation, fibrin clot formation, midgut development, and synapse assembly. Genes were mainly enriched in KEGG pathways including pentose phosphate pathway, glycosphingolipid biosynthesis—globo and isoglobo series, ECM–receptor interaction, adherens junction, and fluid shear stress and atherosclerosis. The PPI network with 244 nodes and 475 interaction pairs was constructed including the hub genes such as EGFR, CTNNB1, and SPTAN1.
+The gene expression was mediated by ASCL1 binding to chromatin. In particular, a member of the basic helix–loop–helix (BHLH) family of transcription factors was encoded by ASCL1, and the protein was important in the neuronal differentiation, olfactory, and autonomic neuron generation. In our study, a regulation network associated with ASCL1 was constructed based on ChIP-seq data. In PPI network, EGFR, CTNNB1, and SPTAN1 were hub genes. In lung adenocarcinomas patients, EGFR mediates the activation of RET with neuroendocrine differentiation characterized by ASCL1 expression, implicating that EGFR is a key regulator of RET ( ). ASCL1 function is an upstream regulator of the Ret Proto-Oncogene, so combined with our findings, we speculate that in GBM, ASCL1 may mediate RET activation through EGFR, thereby affecting tumor progression. The protein encoded by SPTAN1 has been implicated in DNA repair and cell cycle regulation. Meanwhile, this gene was involved with the RET signaling pathway ( ). Ackermann et al. demonstrated a close relationship between low SPTAN1 expression and tumor progression and metastasis in colorectal cancers ( ). Although no direct evidence has shown the association between ASCL1 and the genes such as EGFR and SPTAN1 in GBM, the data revealed its potential value as an important downstream gene of ASCL1 in GBM.
+It has been reported that WNT-CTNN1B signaling plays important roles in promoting cancer cell proliferation and stemness, and Nager et al. showed that silencing CTNN1B could decrease cell viability and induce GBM cell apoptosis ( ). In malignant gliomas, previous evidence showed that protein kinase (PKA) activation was correlated with decreased proliferation, increased differentiation, and apoptosis induction by increasing cAMP levels or directly by cAMP analogues ( ). Regulation of the cAMP metabolic process was involved in the GO enrichment function in GBM. Together with the data presented herein, there is a growing body of evidence suggesting a role of CTNN1B in GBM progression based on regulating the cAMP pathway. An uncontrolled cell proliferation and infiltrative growth within the brain were the main characteristics in malignant human gliomas. The conjunction with vascular elements has specific interactions between tumor cell surface receptors and specific ECM, which induced an extensive tumor cell movement along blood vessels ( ). Enhancing ASCL1 activity in a neurogenic environment both increases binding at endogenous ASCL1 sites and also results in additional binding to new low affinity sites that favors neuronal differentiation ( ). Our data showed that the ECM–receptor interaction and pentose phosphate pathways were dysregulated by ASCL1 overexpression in GSCs.
+Our data provide a genome-wide view of gene regulation by ASCL1 signaling in GBM, and we showed important roles of hub genes influenced by ASCL1. However, there are some limitations that should be noted. The data were all analyzed by the method of bioinformatics, and the potential functional enrichment of genes should be further researched by clinical research. Furthermore, only three ASCL1 ChIP-seq negative controls and three ASCL1 ChIP-seq doxycyclines were enrolled in the analysis. It should not be denied that the background of GBM patients varied from each other. Thus, the conclusion should be verified by further systematical analysis.
+In summary, we constructed a regulation network for the ASCL1 role involved in neurogenic gene expression program activation in GBM. Our data revealed that EGFR and SPTAN1 were the potential downstream genes of ASCL1 in the GBM development, and CTNN1B might take part in GBM progression based on regulating the cAMP pathway. However, the conclusion should be further verified by experimental data.
+
+## Data availability statement
+The original contributions presented in the study are included in the article/supplementary material; further inquiries can be directed to the corresponding author.
+
+## Author contributions
+NZ and JZ designed the experiments of this work. ZL collected the data and dealt with the figures and tables in this work. NZ and TL edited the article.
+
+## Funding
+This work was supported by the Major Basic Research Project of the Natural Science Foundation of the Jiangsu Higher Education Institutions (Nos. 21KJB360022, 20KJB330002), the Xuzhou Key Research and Development Project (No. KC20147), the General Program of China Postdoctoral Science Foundation (2022M711369), and the Suzhou Science and Technology Council (SNG201907).
+
+## Conflict of interest
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors, and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+## Abbreviations
+ASCL1, achaete-scute homolog 1; BHLH, basic helix–loop–helix; CTNNB1, catenin beta 1; CCHS, congenital central hypoventilation syndrome; CSCs, cancer stem cells; GBMs, glioblastomas; GO, gene ontology; KEGG, kyoto encyclopedia of genes genomes; PPI, protein–protein interaction network; PN, proneural; GSCs, glioblastoma stem cells; FDR, false-positive rate; PCA, principal component analysis; EGFR, epidermal growth factor receptor; SPTAN1, spectrin alpha, non-erythrocytic 1.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+The original contributions presented in the study are included in the article/supplementary material; further inquiries can be directed to the corresponding author.

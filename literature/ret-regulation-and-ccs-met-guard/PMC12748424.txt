@@ -1,0 +1,151 @@
+4139disconDiscover OncologyDiscov OncolSpringerPMC1274842412748424127484244128882410.1007/s12672-025-04129-zIdentification of ITGA2 as a methylation-regulated oncogene through a CeRNA network in papillary thyroid carcinoma
+WuGuoliang WangXinyu ZhuYiming LiuShaoyan NiSong 1Department of Head and Neck Surgical Oncology, National Cancer Center/ National Clinical Research Center for Cancer/Cancer Hospital, Chinese Academy of Medical Sciences & Peking Union Medical College, Beijing, China ✉Corresponding author.
+25112025162298229831122025© The Author(s) 2025Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+
+## Objective
+Papillary thyroid carcinoma (PTC) is the most common endocrine malignancy. This study aimed to construct a competing endogenous RNA (ceRNA) network to identify potential molecular targets and validate their biological functions.
+
+## Methods
+Gene expression profiles from the Gene Expression Omnibus (GEO) and The Cancer Genome Atlas (TCGA) databases were integrated to construct a miRNA-mediated mRNA–mRNA network within a ceRNA framework. Pathway enrichment analysis was applied to identify candidate genes. Differential expression in clinical specimens was validated by Western blot and qRT-PCR. Functional assays were performed after target gene silencing in PTC cell lines. Methylation specific PCR (MSP) was used to assess the relationship between promoter methylation and gene expression.
+
+## Results
+A total of 160 potential ceRNA pairs were identified, of which 51 were associated with methylation status. Functional enrichment analysis further narrowed the candidates to eight tumorigenesis-related genes. Among these, integrin alpha 2 (ITGA2) was significantly overexpressed in PTC tissues. ITGA2 knockdown in PTC cells markedly suppressed proliferation, invasion, and metastatic capacity. MSP analysis demonstrated reduced promoter methylation of ITGA2 in PTC cells relative to controls, indicating that its upregulation is linked to promoter hypomethylation.
+
+## Conclusions
+This study established a ceRNA regulatory network in PTC and identified ITGA2 as a potential therapeutic target. Its dysregulated expression is closely associated with epigenetic alterations, offering new insights into the molecular mechanisms of PTC progression.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1007/s12672-025-04129-z.
+
+Keywords: Competing endogenous RNA, Papillary thyroid cancer, ITGA2, Methylation
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Jul 10; Accepted 2025 Nov 18; Collection date 2025 Dec.
+
+## Background
+Thyroid carcinoma (THCA) is the most common malignancy of the endocrine system and comprises four distinct subtypes: papillary thyroid cancer (PTC), follicular thyroid cancer (FTC), medullary thyroid cancer (MTC), and anaplastic thyroid cancer (ATC) [ ]. Among these, PTC accounts for over 90% of all cases and occurs more frequently in women than in men [ ]. Although the prognosis for most PTC patients is favorable, a subset develops distant metastases or experiences tumor recurrence [ ]. The absence of specific molecular markers hampers accurate identification of high-risk patients [ ]. Therefore, a deeper understanding of PTC pathogenesis and the discovery of precise molecular targets are essential to improve prognostic evaluation and therapeutic strategies.
+Numerous studies have identified recurrent genetic alterations in PTC, particularly involving key oncogenes such as BRAF, RET, and RAS, which are strongly linked to tumor progression and patient outcomes [ , ]. Despite the identification of several potential biomarkers, the search for effective diagnostic and therapeutic targets for PTC remains incomplete. In this context, the competing endogenous RNA (ceRNA) hypothesis has garnered increasing attention as a novel framework for biomarker discovery [ , ]. First proposed by Salmena et al., the ceRNA hypothesis suggests that mRNAs and long noncoding RNAs (lncRNAs) can regulate each other by competitively binding to shared microRNA response elements (MREs) [ ]. This concept has since been applied in various cancers, including breast [ ], hepatocellular [ ], bladder [ ], gastric [ ], and thyroid cancers [ , ], leading to the identification of crucial regulatory networks.
+The clinical need, however, remains better risk stratification: current genomic markers explain only part of the heterogeneity in invasion, metastasis, and treatment response [ , ]. Post-transcriptional regulation by microRNAs and promoter DNA methylation provide complementary layers of control over gene expression in thyroid cancer. These considerations support an integrated approach that combines a ceRNA framework with methylation analysis to prioritize biologically relevant and potentially actionable genes in PTC.
+In this study, we conducted an integrative bioinformatics analysis of the GEO and TCGA databases to identify differentially expressed mRNAs (DE-mRNAs) and miRNAs (DE-miRNAs). By intersecting these datasets, we constructed a ceRNA regulatory network and subsequently identified integrin alpha 2 (ITGA2) as a potential key regulator. The biological role of ITGA2 was validated through in vitro functional assays, and its epigenetic regulation via promoter methylation was further explored. Our findings provide compelling evidence that ITGA2 may serve as a novel biomarker and therapeutic target in papillary thyroid carcinoma.
+
+## Methods
+
+## Data mining and analyzing
+mRNA, miRNA expression, and DNA methylation data of THCA patients were obtained from both GEO datasets [ ] and TCGA data portal (https://cancergenome.nih.gov/). TCGA-THCA, GSE33630, and GSE113629 datasets were used to analyze RNA expression profiles. TCGA-THCA methylation dataset and GSE97466 dataset were used to analyze DNA methylation profiles. Details of these datasets were listed in Table .
+ 
+
+## Identification of differentially expressed miRNA, mRNA, and DNA methylation
+Microarray datasets (mRNA: GSE33630; miRNA: GSE113629) were analyzed using GEO2R (https://www.ncbi.nlm.nih.gov/geo/geo2r/.
+; limma backend), whereas the RNA-seq dataset (TCGA-THCA) was analyzed with edgeR(v3.48.1) in R (v3.4.1). DNA methylation datasets (TCGA-THCA and GSE97466) were processed and analyzed using minfi (v1.48.0). Differential expression was defined using Benjamini–Hochberg adjusted p values (FDR < 0.05) with |log2FC| >1, and differentially methylated loci were identified using FDR < 0.05. Full result tables reporting both raw and adjusted p values are provided in the Supplementary Materials.
+
+## Construction of a CeRNA network
+In this study, “ceRNA framework” denotes a miRNA-mediated co-regulatory model between mRNAs. To establish a miRNA-mediated mRNA–mRNA network, we firstly chose the top 15 upregulated and 15 downregulated miRNAs ranked by fold change from the GSE113629 dataset. In view of ceRNA pairs targeted by the common miRNA, as a result, the expression levels of one ceRNA would vary with the other ceRNA expression. Therefore, we selected the overlapping DE-mRNAs in the GSE33630 and TCGA-THCA datasets and screen out mRNA-mRNA pairs with the positive correlation threshold of Pearson correlation coefficient (R) >0.4 based on their expression matrix. Then, we used RNA22 [ ], a web server, to explore miRNA-mRNA interaction. A hypergeometric test was applied to evaluate the possibility of being authentic ceRNA pairs by calculating the p-value of each ceRNA pair using the ratio of the number of common miRNAs in ceRNA pairs to the total number of miRNAs in miRNA-mRNA interaction. Finally, the ceRNA network was visualized by Cytoscape (v3.8.1) [ ]. The p-value was calculated as the following formula:
+ where, x is the number of common miRNAs that interact with the ceRNA pairs (mRNA1 and mRNA2), whose numerical value must be equal to or greater than three. N is the total number of miRNAs in the ceRNA pairs. K is the number of miRNAs that only regulate mRNA 1, and M is the number of miRNAs that merely regulate mRNA 2.
+
+## Gene function enrichment analysis
+51 intersected genes were identified by overlapping the genes from the ceRNA pairs with those showing differential DNA methylation at their promoter regions, which were integrated to Metascape [ ] to perform gene function enrichment analyses including Gene Ontology (GO) biological processes, reactome analysis and Kyoto Encyclopedia of Genes and Genomes (KEGG) enrichment analysis.
+
+## Patients and tissue samples
+This study was approved and supervised by The Ethics Committee of Cancer Hospital, Chinese Academy of Medical Sciences. 30 pairs of PTC and adjacent normal tissues were collected from patients that received surgery at our institution. Written informed consent was obtained from each patient (approval number: 22/208–3410).
+
+## Cell culture
+The human normal thyroid cell line (Nthy-ori3-1) and PTC cell lines (TPC-1 and B-CPAP) were obtained from the American Type Culture Collection (ATCC, Manassas, VA, USA). All cells were cultured in DMEM (#11965092, Gibco, Carlsbad, CA, USA) containing 10% fetal bovine serum (FBS, #A5670701, Gibco, Carlsbad, CA, USA) and incubated in a humidified atmosphere with 5% CO2 at 37 °C.
+Short-hairpin RNA (shRNA) against ITGA2 (sh-ITGA2) and the negative control shRNA (sh-NC) were purchased from RiboBio (Guangzhou, China). Cell transfection was performed using Lipofectamine 2000 reagent (#11668019, Invitrogen, Carlsbad, CA, USA) following the manufacturer’s instructions.
+
+## qRT-PCR
+Total RNA was extracted from PTC tissues and cell lines using TRIzol reagent (#15596026CN, Invitrogen, Carlsbad, CA) following the manufacturer’s instructions. RNA purity was assessed by the A260/A280 ratio (≥ 1.8). RNA was reversed into complementary DNA using PrimeScript RT Kit (#RK21400, Abclonal, China). qRT-PCR was performed using SYBR Green PCR Master Mix (#204156, QuantiFast, Qiagen, Hilden, Germany) and the expression level of mRNAs was calculated using the 2−ΔΔCt method. GAPDH was used as an internal control. Primers used in this study were listed in Table  .
+ 
+
+## PCR gel electrophoresis
+Total RNA was extracted from cultured cells and reverse-transcribed into cDNA using a reverse transcription kit (#RR037A, Takara, Dalian, China) following the manufacturer’s protocol. PCR amplification was performed with specific primers using a thermal cycler (Applied Biosystems, Foster City, CA, USA). The PCR products were separated on a 2% agarose gel containing GelRed nucleic acid stain (Biotium, Fremont, CA, USA) and visualized under UV illumination. DNA Marker (#M021, GenStar, Beijing, China) was used as a molecular weight reference. Images were captured using a gel documentation system (Bio-Rad, Hercules, CA, USA).
+
+## Methylation-specific PCR (MSP)
+Genomic DNA was extracted from Nthy-ori3-1 and TPC-1 using QIAamp DNA Blood Mini Kit (#51106, Qiagen, Germany). DNA was modified with bisulfite using a CpGenome DNA modification kit (#, 17-10451, EMD Millipore, USA). MSP-specific methylated and unmethylated primers of ITGA2 were devised and synthesized by Sangon Biotech Co., Ltd (Shanghai, China). PCR was conducted in sequence of denaturation at 95 ℃ for 10 min; 35 cycles for denaturation (95 °C, 30 s), annealing (60 °C, 30 s), extension (72 ℃, 40 s); extension at 72 ℃ for 5 min. Then the PCR amplified products were loaded on 2% agarose gel, stained with ethidium bromide, visualized under ultraviolet light.
+
+## CCK-8 assay
+Cell viability was determined using the Cell Counting Kit-8 (CCK-8, ab228554, Abcam, Cambridge, United Kingdom) according to the manufacturer’s instructions. The transfected tumor cells were plated in 96-well plates (#3343, Corning, NY, USA) at a density of 1.0 × 103 cells per well for 24 h. Then, cells incubated for 0 h, 24 h, 48 h, 72 h, and 96 h were added with 10 µL CCK-8 solution. After incubation at 37 ℃ for 2 h, the absorbance at 450 nm was measured by a Microplate Reader (BioTek, Winooski, Vermont, USA).
+
+## Transwell assay
+Transwell chamber (Snapwell™ Inserts, #3407, Corning, NY, USA) was used to assess cell migration and invasion. In brief, 2 × 104 tumor cells suspended in 200 µL serum-free DMEM were plated into the upper chamber with matrigel matrix (#356234, BD Biosciences, Franklin Lakes, NJ, USA). The lower chamber was treated with complete DMEM medium with 10% FBS. After incubation at 37 ℃ for 48 h, the cells in the upper chamber were removed, while those in the lower chamber were fixed with methanol and stained with 0.5% crystal violet. The number of tumor cells was counted using a microscope (Eclipse Ti2, NIKON, Tokyo, Japan).
+
+## Statistical analysis
+All statistical analyses and visualizations were performed using GraphPad Prism (v8.0). Differences between two independent groups were evaluated using Student’s t test. A p-value of less than 0.05 was deemed indicative of statistical significance. All tests were two-sided with p < 0.05 considered statistically significant. Data are presented as mean ± SD. An overview of the study workflow is provided in Fig. .
+
+## Results
+
+## Construction of a CeRNA network
+As shown in Fig.  A, differentially expressed miRNAs (DE-miRNAs) were identified in the GSE113629 dataset. In the GSE33630 dataset, a total of 1242 differentially expressed mRNAs (DE-mRNAs) were identified, including 676 upregulated and 566 downregulated transcripts (Fig.  B). Meanwhile, 3169 DE-mRNAs were identified in the TCGA-THCA dataset, with 2107 upregulated and 1062 downregulated genes (Fig.  C).
+ To construct a miRNA-mediated mRNA–mRNA network within a ceRNA framework, we first identified 491 commonly upregulated and 326 commonly downregulated mRNAs by overlapping the GSE33630 and TCGA-THCA datasets (Fig.  D). Subsequently, the top 15 upregulated and top 15 downregulated miRNAs from the GSE113629 dataset were selected. Using bioinformatic prediction, correlation analysis, and hypergeometric testing, we identified 160 ceRNA-like regulatory pairs. The top 20% of mRNAs involved in the miRNA–mRNA interactions within this network are presented in Fig. S2. Eight hub genes (ITGA2, TGFB1, FN1, CLDN1, TIAM1, ACTIN1, TCF7L1, and TNC) were highlighted as central nodes with extensive miRNA-mediated interactions, indicating their potential regulatory importance within the ceRNA network.
+
+## Gene function enrichment analyses
+DNA methylation data were analyzed using two independent datasets. In the GSE97466 dataset, 166 mRNAs were hypermethylated and 1274 were hypomethylated (Fig.  A). In the TCGA-THCA methylation dataset, 380 hypermethylated and 1638 hypomethylated mRNAs were identified (Fig.  B). A total of 970 overlapping methylated genes were obtained by intersecting these datasets, comprising 127 hypermethylated and 843 hypomethylated genes (Fig.  C).
+ We further intersected these differentially methylated genes with the previously identified gene pairs and found 51 methylation-related ceRNAs, including 43 hypomethylated and 8 hypermethylated genes (Fig.  D). Functional enrichment analysis using Metascape revealed that these genes were mainly involved in cell junction organization, epithelial morphogenesis, metabolism, and cancer-associated regulatory processes (Fig.  E).
+KEGG pathway analysis indicated significant enrichment in extracellular matrix (ECM)–receptor interaction, proteoglycans in cancer, amoebiasis, tight junction, and general cancer pathways (Fig.  F). These findings suggest a close association of the 51 genes with tumorigenesis. Among them, eight genes—FN1, ACTIN1, TNC, ITGA2, TIAM1, TGFB1, CLDN1, and TCF7L1—were significantly enriched in cancer-related pathways, and were selected for further investigation.
+
+## Knockdown of ITGA2 inhibited proliferation, invasion, and migration of PTC cells
+Given the enrichment of pathways such as ECM–receptor interaction and proteoglycans in cancer—both critical in tumor progression [ , ] (Fig. F). We selected ITGA2, FN1, and TIAM1 for further validation based on their strong association with ECM signaling. These genes are well-recognized regulators of cell adhesion and extracellular matrix remodeling, processes essential for cancer cell migration and invasion. Moreover, previous studies have highlighted their oncogenic roles in multiple tumor types, suggesting higher translational potential compared to the other candidates, which exhibited weaker direct links to ECM regulation. Among 30 paired PTC and adjacent normal thyroid tissues, only ITGA2 showed significantly elevated mRNA expression in tumor samples (Fig. A). This upregulation was also confirmed at the protein level (Fig. B).
+ ITGA2 encodes the α2 subunit of integrin, which mediates cell–cell and cell–matrix adhesion [ ], and has been implicated in promoting tumor migration, invasion, and adhesion in various cancers [ – ]. qRT-PCR demonstrated that ITGA2 expression was significantly elevated in PTC cell lines (TPC-1 and B-CPAP) compared with the normal thyroid epithelial cell line Nthy-ori3-1, with the most pronounced upregulation observed in TPC-1 (Fig. C). The amplicon identity was confirmed by agarose gel electrophoresis (Fig. S3).
+To evaluate its function, shRNA-mediated knockdown of ITGA2 was performed in TPC-1 and B-CPAP cells. Western blot confirmed efficient suppression of ITGA2 expression (Fig.  D). Functionally, CCK-8 assays showed that ITGA2 knockdown significantly reduced cell proliferation (Fig.  E), while Transwell assays demonstrated attenuated migration and invasion (Fig.  F). These findings indicate that ITGA2 promotes PTC cell proliferation, invasion, and migratory capacity, suggesting its oncogenic role in tumor progression.
+
+## Methylation levels of ITGA2 negatively correlated with its expression
+To investigate the epigenetic regulation of ITGA2 in PTC, we analyzed data from the DNA Methylation Interactive Visualization Database (DNMIVD). ITGA2 expression was significantly higher in tumor tissues compared to normal tissues and was negatively correlated with its promoter methylation level (Fig.  A and B). Among 13 CpG sites examined, four (cg08446038, cg11402586, cg17480554, and cg20674638) exhibited strong inverse correlations with ITGA2 expression (Fig.  C).
+ MSP further validated these observations, showing predominant promoter methylation in normal Nthy-ori3-1 cells, while TPC-1 cells exhibited markedly reduced methylation at the ITGA2 promoter (Fig.  D). These results suggest that hypomethylation of the ITGA2 promoter contributes to its aberrant overexpression in PTC.
+
+## Discussion
+Although significant progress has been made in the diagnosis and treatment of papillary thyroid carcinoma (PTC), clinically actionable molecular targets remain limited. With the rising incidence of thyroid cancer, there is an urgent need to identify novel therapeutic biomarkers.
+CeRNA regulatory networks have become powerful tools for unraveling the molecular underpinnings of tumorigenesis, particularly in PTC [ , ]. By mapping the intricate crosstalk among lncRNAs, miRNAs, and mRNAs, these networks provide valuable insights into tumor initiation and progression. In this study, we integrated GEO and TCGA datasets to construct a ceRNA network, identifying 51 methylation-associated ceRNA pairs. Functional enrichment and expression analyses led to the identification of ITGA2 as a candidate gene strongly implicated in PTC development. Recent analyses in head and neck malignancies further underscore that lncRNA/circRNA–miRNA axes actively shape drug response and adaptive resistance, reinforcing the translational relevance of ceRNA crosstalk in this disease spectrum [ , ]. These observations support our use of a ceRNA framework in PTC and motivate future validation of specific non-coding RNA nodes within the network.
+ITGA2 encodes the α2 subunit of the integrin receptor, which partners with β1 to form the collagen-binding integrin α2β1. This receptor mediates cell–extracellular matrix (ECM) adhesion and initiates downstream signaling pathways that regulate cell proliferation, migration, and survival [ , ]. Previous studies have linked ITGA2 overexpression to enhanced tumor aggressiveness in multiple cancers, including pancreatic, gastric, prostate, and hepatocellular carcinomas [ , ]. In line with these findings, we observed marked overexpression of ITGA2 in PTC tissues and cell lines. Functionally, ITGA2 silencing suppressed PTC cell proliferation, migration, and invasion, reinforcing its role as a tumor-promoting factor. Recent studies further support this notion, showing that pharmacologic targeting of ITGA2, such as with Ropivacaine, inhibits PTC progression [ ].
+Mechanistically, ITGA2 contributes to tumorigenesis by activating oncogenic signaling cascades. Specifically, integrin α2β1 has been shown to trigger the PI3K/AKT and FAK/Src pathways—key regulators of epithelial–mesenchymal transition (EMT), cell motility, and survival in PTC cells. Additionally, integrin signaling may crosstalk with transcriptional programs such as STAT3 and NF-κB, further promoting tumor progression [ , ].
+From a translational perspective, ITGA2’s cell-surface localization and anchoring of adhesion signaling make it a plausible therapeutic entry point. Antagonism with blocking antibodies or ligand-guided nanocarriers has shown preclinical antitumor activity, and ITGA2-directed antibody–liposomes enhanced intratumoral drug delivery in glioblastoma models [ ]. Because ITGA2 converges on FAK/Src and PI3K/AKT and interfaces with STAT3 [ , ], combinations that pair ITGA2 blockade with clinically evaluated inhibitors of these axes are mechanistically justified and already supported by early-phase safety data in solid tumors [ , ]. Prospective studies in PTC are warranted.
+Importantly, our study revealed a strong inverse correlation between ITGA2 expression and promoter methylation, suggesting that epigenetic deregulation may drive its overexpression in PTC. DNA hypomethylation is a well-recognized mechanism for transcriptional activation of oncogenes. Consistent with our results, previous studies have shown that ITGA2 promoter hypomethylation correlates with increased expression and metastatic potential in FTC [ ]. These findings indicate that loss of methylation may enhance transcription factor accessibility at the ITGA2 promoter, enabling its aberrant activation. We also note that epitranscriptomic RNA methylation is increasingly implicated in cancer biology and clinical behavior; incorporating this layer alongside DNA methylation may refine regulatory models and stratification in PTC [ ].
+Nonetheless, our study has limitations. While bioinformatics analyses were supported by experimental validation, the clinical sample size was limited. Additionally, in vivo functional evidence using animal models is still lacking. Future work will include expanding clinical sample cohorts, incorporating multicenter data, and performing in-depth mechanistic and in vivo validation to further clarify the role of ITGA2 and related genes in PTC development.
+
+## Conclusions
+Our study has successfully established a novel ceRNA regulatory network of PTC and identified eight candidate genes as potential therapeutic targets. Moreover, we validated the oncogenic role of ITGA2, thereby advancing the understanding of PTC progression.
+
+## Supplementary Information
+Below is the link to the electronic supplementary material.
+
+Supplementary Material 1
+
+Supplementary Material 2
+
+## Acknowledgements
+Not applicable.
+
+## Author contributions
+GW, XW and YZ contributed to the study conception and design and drafted the manuscript. GW contributed to samples collection. GW and XW contributed to experiment. GW and YZ analyzed and interpreted the data. SN and SL supervised the study. All authors revised the manuscript and approved the final manuscript.
+
+## Funding
+This work was supported by the National Natural Science Foundation of China, Grant/Award Number: 22278349.
+
+## Data availability
+The RNA expression profiles were derived from the TCGA-THCA dataset, as well as GEO datasets GSE33630 and GSE113629. DNA methylation profiles were analyzed using both the TCGA-THCA methylation dataset and the GSE97466 dataset. Access to the TCGA data was obtained through the Genomic Data Commons data portal (https://portal.gdc.cancer.gov/), and GEO datasets were accessed through the GEO database (https://www.ncbi.nlm.nih.gov/geo/).
+
+## Declarations
+
+## Ethics approval and consent to participate
+This study was approved by the Independent Ethics Committee of the National Cancer Center/Cancer Hospital, Chinese Academy of Medical Sciences and Peking Union Medical College, National GCP Center for Anticancer Drugs (approval number: 22/208–3410). Written informed consent was obtained from all participants prior to surgery. All procedures involving human participants were conducted in accordance with the ethical standards of the institutional research committee and with the 1964 Helsinki Declaration and its later amendments, as well as with all relevant guidelines and regulations.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Material 1
+Supplementary Material 2
+
+## Data Availability Statement
+The RNA expression profiles were derived from the TCGA-THCA dataset, as well as GEO datasets GSE33630 and GSE113629. DNA methylation profiles were analyzed using both the TCGA-THCA methylation dataset and the GSE97466 dataset. Access to the TCGA data was obtained through the Genomic Data Commons data portal (https://portal.gdc.cancer.gov/), and GEO datasets were accessed through the GEO database (https://www.ncbi.nlm.nih.gov/geo/).

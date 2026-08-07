@@ -1,0 +1,266 @@
+1579scirepScientific ReportsSci RepNature Publishing GroupPMC1012610210126102101261023709516010.1038/s41598-023-33096-0Genomic profiling of idiopathic peri-hilar cholangiocarcinoma reveals new targets and mutational pathways
+QuinnLeonard M HaldenbySam AntzcakPhilip FowlerAnna BullockKatie KennyJohn GilbertTimothy AndrewsTimothy Diaz-NietoRafael FenwickStephen JonesRobert Costello-GoldringEithne PostonGraeme GreenhalfWilliam PalmerDaniel MalikHassan GoldringChris 1Department of Pharmacology and Therapeutics, Institute of Systems, Molecular and Integrative Biology, Sherrington Building, University of Liverpool, Liverpool, UK 2Centre for Genomic Research, University of Liverpool, Liverpool, UK 3Computational Biology Facility, University of Liverpool, Liverpool, UK 4Department of Health Data Science, University of Liverpool, Liverpool, UK 5Liverpool University Hospitals NHS Foundation Trust, Liverpool, UK ✉Corresponding author.
+244202313668166812642023© The Author(s) 2023Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.
+
+## Abstract
+Peri-hilar cholangiocarcinoma (pCCA) is chemorefractory and limited genomic analyses have been undertaken in Western idiopathic disease. We undertook comprehensive genomic analyses of a U.K. idiopathic pCCA cohort to characterize its mutational profile and identify new targets. Whole exome and targeted DNA sequencing was performed on forty-two resected pCCA tumors and normal bile ducts, with Gene Set Enrichment Analysis (GSEA) using one-tailed testing to generate false discovery rates (FDR). 60% of patients harbored one cancer-associated mutation, with two mutations in 20%. High frequency somatic mutations in genes not typically associated with cholangiocarcinoma included mTOR, ABL1 and NOTCH1. We identified non-synonymous mutation (p.Glu38del) in MAP3K9 in ten tumors, associated with increased peri-vascular invasion (Fisher’s exact, p < 0.018). Mutation-enriched pathways were primarily immunological, including innate Dectin-2 (FDR 0.001) and adaptive T-cell receptor pathways including PD-1 (FDR 0.007), CD4 phosphorylation (FDR 0.009) and ZAP70 translocation (FDR 0.009), with overlapping HLA genes. We observed cancer-associated mutations in over half of our patients. Many of these mutations are not typically associated with cholangiocarcinoma yet may increase eligibility for contemporary targeted trials. We also identified a targetable MAP3K9 mutation, in addition to oncogenic and immunological pathways hitherto not described in any cholangiocarcinoma subtype.
+Subject terms: Gastroenterology, Molecular medicine, Oncology
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Jan 9; Accepted 2023 Apr 7; Collection date 2023.
+
+## Introduction
+Cholangiocarcinoma constitutes a heterogeneous group of aggressive malignancies arising in the biliary tract epithelium and accounts for ~ 2% of all cancer-related deaths worldwide annually . Surgery may be curative when technically feasible, but the disease is often advanced at presentation and chemo-refractory in nature, with 5-year overall survival remaining dismal (< 10%) . Novel cytotoxic and immunotherapeutic strategies are desperately needed.
+Western cholangiocarcinoma is idiopathic in origin and sharply contrasts Asia, where the disease is more common and primarily associated with liver fluke and viral hepatitis infections . Anatomically divided into intra-hepatic (iCCA), peri-hilar (pCCA) and distal subtypes (dCCA), peri-hilar cholangiocarcinoma constitutes ~ 60% of cases . All three subtypes share common somatic mutations, such as TP53 and KRAS, but significant less frequent subtype specific mutations have been identified with implications for targeted therapies . iCCA has been extensively sequenced leading to breakthrough clinical trials of efficacious targets unique to that subtype, including IDH1 mutations , and FGFR2 fusions .
+Despite its predominance, pCCA has undergone little next generation sequencing comparative to both iCCA and dCCA. Targeted studies that have included western pCCA often consider it under the umbrella of extra-hepatic cholangiocarcinoma, combining peri-hilar data with dCCA. Previous exploratory DNA sequencing studies in pCCA such as whole exome, have been limited to Asian populations with infective etiologies. International studies combining eastern and western cohorts, are limited to targeted sequencing in the western participants , . The results of Asian whole exome studies are not applicable to Western idiopathic pCCA populations and potential disparity may limit eligibility for new and existing trials of targeted therapies. Furthermore, limited understanding of the mutational landscape in idiopathic pCCA may impact tumor immunology, critical given that responses to immune checkpoint inhibition in cholangiocarcinoma have been disappointing .
+To address these issues, we performed a comprehensive genomic analysis of 42 surgically resected U.K. pCCA tumors to shed light on the mutational biology of idiopathic western pCCA and identified multiple new targets and pathways which warrant further investigation.
+
+## Methods
+
+## Tissue collection
+pCCA was defined anatomically as a tumor of the extrahepatic biliary tree, arising proximal to the cystic duct insertion. Twenty-five surgically resected formalin-fixed-paraffin-embedded pCCA tumors, dating August 2010 to August 2016 (together with paired histologically normal bile ducts), were obtained for whole exome sequencing. Seventeen fresh snap frozen surgically resected tumors were collected prospectively between August 2017 and August 2019 for targeted sequencing.
+All samples underwent microdissection and Consultant Histopathologist review to ensure adequate tumor cellularity > 50% with staging according to the American Joint Committee on Cancer Classification (8th edition).
+
+## DNA extraction, quality control, library preparation and whole exome sequencing
+DNA was extracted using DNEasy (Qiagen, Venlo, Netherlands). FFPE-derived DNA samples were quantified by Qubit double stranded DNA high sensitivity assay (Thermofisher Scientific, Waltham, Massachusetts, USA). An Agilent Next Generation Sequencing FFPE QC kit (Agilent Technologies, Santa Clara, California, USA) was used to quantify and qualify the DNA by qPCR with exome sequencing on Illumina HiSeq 4000 (version 1 chemistry) (Illumina, San Diego, California, USA), generating 2 × 150 base pair paired end read libraries. Targeted hotspot AmpliSeq libraries were prepared using Ion AmpliSeq Library Kit 2.0 and Ion AmpliSeq Cancer Hotspot Panel v.2 (Thermofisher) with sequencing performed on Ion PGM Sequencing 200 kit V2.
+
+## Initial bioinformatics processing and quality assessment
+Basecalling and de-multiplexing of indexed reads was performed by CASAVA 1.8.2 (Illumina). Raw FASTQ files were trimmed to remove adapter sequences using Cutadapt version 1.2.1 (RRID:SCR_011841). Low quality reads were removed using Sickle version 1.200 (RRID:SCR_006800) with a minimum window quality score of 20. After trimming, reads shorter than 20 bp were removed.
+
+## Variant calling and annotation
+Reads were aligned to the human reference genome sequences (GRCh38) using Burrows Wheeler Alignment version 0.7.5a. Alignments were filtered to remove reads with a mapping quality < 10. Mapped reads were locally realigned using the Genome Analysis Tool Kit version 2.1.13. Read duplicates were identified and filtered using Picard version 1.85 (RRID:SCR_006525). Tumor samples with matched normal bile duct controls were analyzed using Strelka2.
+
+## Somatic variant analysis
+All exome samples were analyzed using VarScan2 (RRID:SCR_006849) and annotated using SNPEff (RRID:SCR_005191) to identify both somatic and germline variants. Default parameters were applied, except for a minimum variant allele frequency threshold of 0.01 (1% tumor variant allele frequency). The output variants were screened against COSMIC (Catalogue of Somatic Mutations in Cancer) and annotated against dbSNP. For the Cancer Hotspot Panel, identification of variants was performed using Ion Torrent Variant Caller software (hg19) and screened against COSMIC.
+
+## Identification of potential actionable targets
+OncoKB (RRID:SCR_014782), a precision oncology database developed and maintained at Memorial Sloan Kettering, was used to identify targets which may harbor actionable potential and are considered Level 4 (compelling biological evidence supports the biomarker as being predictive of response to an FDA approved or investigational drug). As such, there is no clinical trial evidence at present to support the use of a particular drug in this disease setting but the presence of the mutation serves as a rational candidate for further investigation. All identified genes are considered cancer genes by OncoKB™, based on their inclusion in the Sanger Cancer Gene Census, or Vogelstein et al. .
+
+## Mutational signatures
+Mutational signatures were generated using the MutationalPatterns R package.
+
+## Pathway analysis
+Gene set enrichment analysis (GSEA, RRID:SCR_003199) was undertaken using the C2.cp.v7 gene set with genes ranked by their maximum SNV frequency using a bootstrapping approach to estimate the significance of a geneset enriched within the ranked set of features. This methodology randomly selects a set of genes of the same size as the tested geneset and calculates a normalised enrichment score (NES). This process is repeated for 1000 randomly sampled genesets. The resulting distribution of normalised enrichment scores is used to assign p-values, false discovery rate (FDR), and family-wise error rate (FWER) values for the given true enrichment score.
+
+## Statistical analyses
+Categorical variables were analysed using chi-squared and fisher’s exact tests with bonferroni correction for multiple testing. Non-parametric data was analysed using the Mann–Whitney U-test and survival analyses undertaken using Kaplan–Meier.
+
+## Ethical approval
+UK National Health Service Research Ethics Committee approval was obtained (UK REC 15/NW/0477) and the study was conducted according to the Declaration of Helsinki. All samples were obtained with informed consent.
+
+## Results
+
+## Clinical and pathological features
+Forty-two patients were included for analysis (twenty five FFPE, seventeen fresh frozen samples). All patients were Caucasian, with a clinical diagnosis of idiopathic pCCA (Table ). Patients with primary sclerosing cholangitis or chronic liver infection were excluded.
+ 
+
+## Sequencing metrics
+Median on-target mapping was 76% in the exome set and 100% in the Cancer Hotspot panel with sequencing depth of > 50 × and > 1000 × respectively. To examine the mutational landscape of the cohort, whole-exon coverage of 409 established cancer genes was interrogated in all 42 patients. High and low tumor mutational burden (TMB) are defined as ≥ 20 and ≤ 5 mutations per megabase/DNA respectively . The median number of somatic mutations in the whole exome cohort was 13.57/MB (inter quartile range 9.12/MB, range 7.83–74.43), implying a moderate TMB.
+
+## Most frequently mutated genes
+Mutated genes converged into the seven oncogenic pathways as follows; RTK-RAS-PI3K (59.5%), p53 (54.8%), PI3K/mTOR (28.6%), NOTCH (14.3%), the cell cycle pathway (4.8%), the Wnt pathway (4.8%) and TGF-B pathway (4.8%). Further analysis demonstrated the most frequently mutated genes (including both SNV and Insertion/deletion) were (from most to least recurrent): TP53, KRAS, mTOR, ABL1, NOTCH1, PBRM1, PIK3CA, NF1 and EGFR. Mutations within these genes are summarized in Table with comparison of their mutational frequencies to published international datasets provided in Supplementary Table .
+ TP53 (36%, 15/42 cases) was most frequently mutated, wherein frameshift mutation conferred a worse overall survival (HR 3.33, p < 0.033) (Supplemental Figure ). This was followed by KRAS mutation (24%, 10/42 cases), which did not confer a significant survival difference.
+A second tier of high frequency mutations were identified in oncogenes not typically associated with cholangiocarcinoma, including mTOR (17%, 7/42 cases) and ABL1 (14%, 6/42 cases). Other oncogenes more often associated with intra-hepatic disease were observed at a higher frequency than published series including PIK3CA (12%, 5/42 cases) and EGFR (10%, 4/42 cases). The NOTCH1 alterations (12%, 5/42 cases) are noteworthy as NOTCH1 may be either tumor suppressive or oncogenic. Although not currently listed as targetable by OncoKB criteria, mutations within SMO and KDR oncogenes were also observed (7%, 3/42 cases respectively).
+Known intra-hepatic cholangiocarcinoma-associated tumor suppressor genes including NF1 and PBRM1 (12%, 5/42 cases respectively) were also higher prevalence than published peri-hilar series. Often associated with extra-hepatic disease, SMAD4 (5%, 2/42 cases) and CDK2NA/CDK2NB (2%, 1/42 cases) mutations were comparatively lower. Other low prevalence tumor suppressor genes included KMT2D (7%, 3/42 cases), LRP1B and APC (5%, 2/42 cases respectively).
+Lower prevalence mutations pertaining to cell cycle, growth and proliferation included AKT1, CDH1, CTNNB1, FGFR1, FGFR2, JAK2, MPL, NPM1 and RB1. Somatic mutations in DNA damage repair genes were low frequency and included ATM, CHEK1, BRCA1 and BRCA2.
+Pertinent genes which did not demonstrate mutation at a ≥ 1% allele frequency included IDH1/2, PTEN, NRAS, BRAF and BAP1.
+Applying OncoKB criteria, twenty-five of forty-two patients had at least one mutation within an established cancer gene which may have future actionable potential. At least two mutations were observed in nine patients with ABL1 co-occurring with KRAS (5%, 2/42 cases) and PI3KCA (7%, 3/42 cases), whilst mutations in EGFR were shared with mTOR (5%, 2/42 cases). Of these nine patients, TP53 mutation was present in two cases, each of which harbored both a KRAS and ATM mutation.
+
+## Cluster analysis
+Principle component analysis (PCA) using a sparse approach was conducted on non-transformed whole exome sequencing data. Following removal of 2 outliers on initial PCA, all remaining patients clustered closely together on the basis of SNV containing exons (Supplementary Figure ).
+
+## Hyper-mutated phenotype
+In patients with ≥ 10 somatic mutations/Mb of DNA, mutations in chromatin remodeling ATPase SMARCA4 occurred most frequently, being present in four hyper-mutated cases (mean 55.4 mutations/Mb).
+Genes with the highest mean mutational burden included the somatostatin receptor SSTR3 (278.1/Mb), the mitogen-activated-protein-kinase MAPK1 (247.2/Mb) and KRAS (214.8/Mb), each present in three hypermutated cases.
+Mismatch repair mutations were low prevalence with MSH2 mutation observed in one patient. Mutations in other classical mismatch repairs genes were absent.
+
+## Mutational signatures
+Somatic SNV signatures were compared between paired tumors and normal bile ducts (V3 COSMIC SBS signatures) . Strength of association in tumors was consistently higher than paired normal bile duct in signature 2 (activity of APOBEC family of cytidine deaminases), signature 3 (defective homologous recombination DNA damage repair) and signature 4 (tobacco smoking).
+
+## Germline mutations
+Paired normal bile ducts were assessed for mutations associated with known familial cancer syndromes (Supplementary Table ). Missense mutations of uncertain or conflicting clinical significance were found in seven patients with APC, ATM, BRCA2, MEN1, POLD1, RET and TSC1 each present in at least one case. Uncertain mutations were more frequent in BRCA1 (4 cases) and ATM (2 cases). None of these patients described previous personal history of cancer or known first-degree relatives with familial cancer syndromes.
+
+## Somatic mutations not previously associated with cholangiocarcinoma
+Whole exome sequencing identified numerous non-silent mutations in MAP3K9 (Mitogen Activated Protein Kinase 9) (Fig.  ), which is not associated with any cholangiocarcinoma subtype. A CCT deletion (p.Glu38del) was present at a somatic allele frequency in 10 of the 25 whole exome sequenced tumors (mean allele frequency 13.72%, variance 0.005) and was associated with the presence of peri-vascular tumor invasion (p < 0.018). This specific mutation was present independent of both BRAF and NRAS mutations and contained within a region of known structural gain , and was present at a germline frequency in a further 12 tumors (mean allele frequency of 43.8%, variance 0.09). In those tumors with the germline variant, it was also evident in matched normal bile duct samples at the same allele frequency. A separate somatic MAP3K9 frameshift (p.Ser327fs) was also present in one additional tumor.
+ 
+
+## Gene set enrichment analysis
+GSEA revealed 795 SNV-enriched pathways within tumor tissue. Twenty-one cancer-related pathways achieved significance (false discovery rate < 5%) and are summarized in descending order in Table (SNVs are detailed in Supplementary Table ).
+ The most enriched pathways pertain to host immune response, with the innate dendritic cell associated C-type lectin-2 (Dectin-2) family (FDR 0.001, p < 0.001) and O-Glycan biosynthesis (FDR 0.003, p < 0.001) achieving greatest significance. Both pathways have critical roles in metastatic formation, whereby Kupffer cells in the liver engulf metastatic cancer cells in a Dectin-2-dependent manner , and O-Glycans facilitate new tissue invasion .
+Programmed cell death protein 1 (PD-1) was the most mutated adaptive response (FDR 0.007) and is variably expressed in cholangiocarcinoma , . Other highly significant adaptive pathways relate to T-cell receptor-induced activation of cytotoxic T-cells and have not been described in cholangiocarcinoma including cluster of differentiation 3 (CD3) phosphorylation (FDR 0.009), translocation of zeta-chain associated protein kinase 70 (ZAP70) to the immunological synapse (FDR 0.039) and the TH1TH2 pathway (FDR 0.02). Figure  outlines overlapping genes in these pathways, with aberrant HLA-DRB1, HLA-DRA and HLA-DRB5 shared by all four. The human leucocyte antigen-DR isotype (HLA-DR) is a major histocompatibility complex (MHC) Class II cell surface receptor, which presents extra-cellular peptides to Helper T-cells .
+ Tyrosine-protein kinase Met (MET) activation of protein tyrosine kinase 2 (PTK2) (FDR 0.01) was the most altered cell migration/proliferation pathway. Although the role of MET signaling in cholangiocarcinogenesis is unknown, overexpression of c-MET is a poor prognostic feature in intra and extra-hepatic disease . This pathway substantially overlaps Neural Cell Adhesion Molecule 1 (NCAM1) (FDR 0.019), which positively correlates with peri-neural invasion across biliary cancers . Overlapping genes converged with collagen synthesis and degradation, with collagen type V subtypes, COL5A1, COL5A2, COL5A3 and type II alpha 1 (COL2A1) common to all four pathways (Fig.  ).
+ Components of other well-characterized oncogenic pathways in cholangiocarcinoma achieved significance, including developmental NOTCH signaling (FDR 0.0279). A number of highly mutated cell signaling pathways are new to cholangiocarcinoma and possess immune-based functions including ADP-ribosylation factor 6 (ARF6) trafficking (FDR 0.047), Semaphorin 4D (SEMA4D) (FDR 0.047) and Rho-Roc signaling (FDR 0.049).
+
+## Discussion
+This study describes the first exploratory whole exome sequencing analysis of a Western idiopathic peri-hilar cholangiocarcinoma cohort. We identified driver mutations distinct from Asian peri-hilar whole exome studies and from targeted sequencing series that have included Western patients (Supplementary Table ). Mutated genes range from those not typically associated with pCCA, to those entirely new to biliary cancer such as MAP3K9. Somatic mutations within at least one well established cancer gene (OncoKB level 4) were observed in 60% of cases. These mutations necessitate further functional analysis, however their presence suggests a significant proportion of Western idiopathic peri-hilar patients may be eligible for contemporary basket trials of target based therapies.
+Mutations in mTOR and ABL1 are noteworthy given they are activating in other cancers resulting in increased cell proliferation , , and may contribute to cholangiocarcinogenesis in this fashion. Whilst components of the mTOR pathway have been identified in extra-hepatic cholangiocarcinoma , together with enriched mTOR signaling at the transcriptome level , mutations specifically within mTOR have been absent. The ABL kinases are a well-known driver of leukemia, yet are increasingly implicated in the progression of several solid cancers independent of their fusion oncoproteins . Both of these oncogenes may therefore serve as peri-hilar biomarkers to indicate benefit from new and existing targeted therapies. This encompasses historically efficacious therapeutics in unselected advanced cholangiocarcinoma such as the mTOR inhibitor Everolimus , now included in new Phase II solid cancer trials (NCT04591431).
+More typically intra-hepatic, PIK3CA and EGFR are closely related to mTOR and ABL1 respectively . EGFR mutations in particular, suggest continuing investigation into oral tyrosine kinase inhibitors in pCCA is justified despite limited efficacies in unselected advanced disease . Other less frequent oncogenes such as SMO, broaden eligibility for unexplored therapeutics such as Vismodegib (NCT02091141).
+We identified higher frequency NOTCH1 mutations than published series. Although NOTCH1 overexpression is associated with poor differentiation in extra-hepatic cholangiocarcinoma , NOTCH signaling may be oncogenic or tumor suppressive . The activation status of the alterations identified here is unknown. A trial of the NOTCH inhibitor LY3039478 in advanced solid cancers is ongoing (NCT02784795). If these mutations are activating, significant proportions of idiopathic peri-hilar patients are eligible. Other suppressors overlap iCCA, including TP53, PBRM1 and NF1, yet deviate from published extra-hepatic series with low frequency SMAD4 and CDK2NA/B aberrations (Supplemental Table ). The association between TP53 frameshift mutation and poor prognosis is notable given this has been well described in iCCA as opposed to pCCA . KMT2D mutations are also noteworthy, given their primary association with non-Hodgkin lymphoma , and vulnerability to glycolytic inhibitors .
+Our dataset also expands on the limited knowledgebase of cancer predisposing germline mutations in cholangiocarcinoma. We identified alterations of uncertain significance within DNA damage repair (DDR) genes including BRCA1, BRCA2 and ATM, which were pathogenic in two recent U.S. studies that included twenty-one and fifty-three extra-hepatic cases respectively , . Together with the homologous somatic DDR signature found in our series, our data lends further support for DDR testing in idiopathic pCCA. This may be clinically significant given the efficacy of Olaparib in germline BRCA mutated metastatic pancreatic adenocarcinoma .
+WES demonstrated the majority of tumors clustered closely together and identified novel coding mutations in MAP3K9. Somatic mutations in MAP3K9 are implicated in retroperitoneal neuroblastoma , and esophageal carcinogenesis . The p.Glu38del in MAP3K9 is noteworthy given its association with increased peri-vascular tumor invasion in our series. MAP3K9 activates MEK/ERK independently of RAF , and may contribute to cholangiocarcinogenesis by activating the downstream targets of ERK. With high prevalence at somatic and germline allele frequencies, the potential driver role of MAP3K9 in idiopathic pCCA warrants clarity given mutations are gain of function in lung cancer , and loss of function in melanoma wherein its attenuation may lead to chemo-resistance . If mutation is loss of function, reactivation of downstream signaling may be advantageous. Conversely, if activating, MAP3K9 inhibition may lead to cancer cell suppression as observed in pancreatic cancer models , and thus represents a novel target of significance.
+Regarding tumor immunology, the median TMB > 10 mutations/MB of DNA is higher than published datasets . Although the mismatch repair pathway achieved significance, classical mismatch repair mutations were absent. TMB correlates well with neo-epitope production, thus this TMB is of potential clinical utility given > 10 mutations/MB cutoffs infer benefit from immunotherapy . Responses to immune checkpoint inhibition in unselected advanced cholangiocarcinoma have been poor, suggesting a low T-cell infiltrated microenvironment . Interestingly, our gene set enrichment analysis demonstrates altered tumor T-cell receptor signaling with substantial overlap in HLA genes. Given increased HLA expression is associated with higher immune infiltration , aberrant regulation of these HLA genes may facilitate immune evasion and provides new avenues for exploring the limitations of immunotherapy in pCCA.
+The majority of the mutation-enriched pathways are new to cholangiocarcinoma. We did not seek to mechanistically evaluate these, rather, we sought to open new avenues for functional investigation. New immune pathways range from those that may facilitate metastatic formation such as Dectin-2 and O-Glycan biosynthesis, to those, which impact checkpoints, such as ARF6, critical for PD-L1 dynamics in pancreatic cancer . Other oncogenic pathways included those known to contribute to poor prognosis in cholangiocarcinoma yet which are poorly defined in terms of their components, such as MET and NCAM1.
+As a sequencing tool, WES provides summative measures of mutations within the bulk tumor tissue and cannot differentiate relative contributions of each stromal component. Single cell RNA-sequencing is a powerful new modality for unravelling intra-tumoral heterogeneity, which has identified demonstrable differences in single cell gene expression between defined subsets of malignant epithelial and immune cells in both iCCA and dCCA , . Future studies should address single cell gene expression in a pCCA specific context.
+In summary, this descriptive study contributes a significant advance to the idiopathic pCCA knowledge base. Validation of these mutations in larger cohorts is essential, as is as their functional analysis in the laboratory. Our data supports clinical sequencing of cholangiocarcinoma, as despite some overlap with iCCA, there remains an unmet need for peri-hilar specific biomarkers. Umbrella and basket trials including the mutated cancer genes observed in our series are needed to bring this subtype into line with progress made in iCCA.
+
+## Supplementary Information
+
+Supplementary Table 1.
+Supplementary Table 2.
+Supplementary Table 3.
+Supplementary Figure 1.
+Supplementary Figure 2.
+Supplementary Legends.
+
+## Abbreviations
+AACRAmerican Association of Cancer Research
+ABL1Tyrosine protein kinase ABL1 (Abelson 1)
+AJCCAmerican Joint Committee on Cancer Classification
+AKTProtein Kinase B
+APCAdenomatous polyposis coli
+APOBECApolipoprotein B mRNA-editing enzyme catalytic polypeptide
+ARID1AAT-rich interactive domain-containing protein 1A
+ARF6ADP (adenosine diphosphate)-ribosylation factor 6
+ATMATM (ataxia-telangiectasia) serine/threonine kinase
+BAP1BRCA-associated protein 1
+BiliNBiliary intra-epithelial neoplasia
+BRAFB-Raf proto-oncogene
+BRCA1Breast cancer gene 1
+BRCA2Breast cancer gene 2
+BTCBiliary tract cancer
+CDH1Cadherin-1
+CD3Cluster of differentiation 3
+CDK2NACyclin dependent kinase inhibitor 2A
+CDK2NBCyclin dependent kinase inhibitor 2B
+CKD4Cyclin dependent 4
+COL2A1Collagen type II alpha 1 chain
+COL5A1Collagen type V alpha 1 chain
+COL5A2Collagen type V alpha 2 chain
+COL5A3Collagen type V alpha 3 chain
+COSMICCatalogue of somatic mutations in cancer
+CTNNB1Catenin beta-1
+dCCADistal cholangiocarcinoma
+dbSNPSingle nucleotide polymorphism database
+DNADeoxyribonucleic acid
+DDRDNA damage repair
+eCCAExtra-hepatic cholangiocarcinoma
+EGFREpidermal growth factor
+ERBB2/Her2Erythroblastic oncogene B/Human epidermal growth factor receptor 2
+ERKExtracellular signal-regulated kinases
+FATHMMFunctional analysis through hidden Markov models
+FDAU.S. Food and Drug Administration
+FDRFalse discovery rate
+FFPEFormalin fixed paraffin embedded
+FGFR1Fibroblast growth factor 1
+FGFR2Fibroblast growth factor 2
+FWERFamily wise error rate
+GSEAGene set enrichment analysis
+HBVHepatitis B virus
+HCVHepatitis C virus
+HDGFHepatoma-derived-growth-factor
+HLAHuman leukocyte antigen
+HLA-DRHuman leukocyte antigen DR isotype
+HLA-DRAHuman leukocyte antigen DR alpha chain
+HLA-DRB1Human leukocyte antigen DR beta 1 chain
+HLA-DRB5Human leukocyte antigen DR beta 5 chain
+HRHazard ratio
+iCCAIntra-hepatic cholangiocarcinoma
+IDH1Isocitrate dehydrogenase 1
+IDH2Isocitrate dehydrogenase 2
+IPNBIntra-ductal papillary neoplasm of the bile duct
+JAK2Janus kinase 2
+JNKC-Jun N-terminal kinases
+KDRKinase insert domain receptor
+KMT2DHistone-lysine N-methyltransferase 2D
+KRASKirsten rat sarcoma
+LRP1BLow-density lipoprotein receptor related protein 1B
+MAPKMitogen-activated protein kinase
+MAPK1Mitogen-activated protein kinase 1
+MAP3K9Mitogen-activated protein kinase 9
+MDM2Mouse double minute 2 homolog
+MEKMitogen-activated protein kinase kinase
+MEN1Multiple endocrine neoplasia type 1
+METTyrosine-protein kinase met
+MHCMajor histocompatibility complex
+MPLMyeloproliferative leukaemia protein (Thrombopoietin receptor)
+MSH2MutS homolog 2
+mTORMechanistic target of rapamycin
+MUTYHMutY DNA glycosylase
+NCAM1Neural cell adhesion molecule 1
+NCTNational clinical trial
+NESNormalized enrichment score
+NF1Neurofibromin 1
+NOTCH1Notch homologue 1
+NPM1Nucleophosmin
+NRAGEMelanoma-associated antigen D1
+NRASNeuroblastoma RAS
+PBRM1Polybromo 1
+PCAPrinciple component analysis
+pCCAPeri-hilar cholangiocarcinoma
+PD-1Programmed cell death 1 protein
+PDL-1Programmed cell death ligand 1
+PIK3CAPhosphatidylinositol-4,5-bisphosphate 3-kinase catalytic subunit alpha
+PITX2Paired-like homeodomain transcription factor 2
+POLD1DNA polymerase delta 1
+PSCPrimary sclerosing cholangitis
+PTENPhosphatase and tensin homolog
+RAFRaf-1 proto-oncogene
+RB1Retinoblastoma transcriptional corepressor 1
+RETRET (rearranged during transfection) proto-oncogene
+RHORho GTPase
+ROCRho-associated protein kinase
+SEMA4DSemaphorin-4D
+SMAD4Mothers against decapentaplegic homolog 4
+SMARCA4Transcription activator BRG1
+SMOSmoothened
+SNVSingle Nucleotide Variant
+SSTR3Somatostatin receptor type 3
+STK11Serine Threonine Kinase 11
+TCRT-cell receptor
+Th1Th2T-helper 1/T-helper 2
+TMBTumour mutational burden
+TP53Tumour suppressor protein 53
+TSC1TSC (tuberous sclerosis 1) complex subunit 1
+UBR4Ubiquitin protein ligase E3 component n-recognin 4
+WESWhole exome sequencing
+WNTWingless-related integration site
+ZAP 70Zeta-chain associated protein kinase 70
+
+## Author contributions
+L.M.Q. conceived the study, undertook patient consent, tissue retrieval and preparation, wet laboratory DNA extraction and purification, contributed to bioinformatics analyses, completed and interpreted all data analysis and wrote the manuscript. S.H. and P.A. performed bioinformatics and gene set enrichment analysis. A.F. completed statistical analysis and preparation of figures. K.B. and J.K. planned and completed next generation sequencing. T.G. assisted in manuscript and figure preparation and submission. T.A. completed the pathological review. R.D.-N., S.F. and G.P. contributed to patient identification and recruitment including consent, resection. R.J., E.C.-G., W.G., D.P., H.M. and C.G. contributed to the study design and implementation of the research, supervision of data analysis and interpretation, manuscript consultation.
+
+## Funding
+Alan Morement Memorial Fund (AMMF).
+
+## Data availability
+Raw data for this study were generated at the Liverpool Centre for Genomic Research (University of Liverpool, U.K) and are available at the European Nucleotide Archive (Study ID PRJEB59167) (ERP144229) (https://www.ebi.ac.uk/ena/browser/view/PRJEB59167).
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher's note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+These authors jointly supervised this work: Hassan Malik and Chris Goldring.
+
+## Contributor Information
+Leonard M. Quinn, Email: L.M.Quinn@liverpool.ac.uk
+Chris Goldring, Email: C.E.P.Goldring@liverpool.ac.uk.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1038/s41598-023-33096-0.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Table 1.
+Supplementary Table 2.
+Supplementary Table 3.
+Supplementary Figure 1.
+Supplementary Figure 2.
+Supplementary Legends.
+
+## Data Availability Statement
+Raw data for this study were generated at the Liverpool Centre for Genomic Research (University of Liverpool, U.K) and are available at the European Nucleotide Archive (Study ID PRJEB59167) (ERP144229) (https://www.ebi.ac.uk/ena/browser/view/PRJEB59167).

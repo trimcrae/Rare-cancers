@@ -1,0 +1,119 @@
+pmcAnn Transl MedAnn Transl Med2592anntransmed101617978ATMAnnals of Translational Medicine2305-58392305-5847AME PublicationsPMC9929775PMC9929775.1992977599297753681958210.21037/atm-22-6332atm-11-02-1071Original ArticleBioinformatics based exploration of hsa-miR-194-5p regulation of CHD4 through PI3K/AKT signal pathway to enhance tumor resistance to apoptosis due to loss of nests and participate in poor prognosis of oral squamous cell carcinoma
+LiQin WangKai ShenYi LinChaosheng MiaoJie HuXun 1Department of Stomatology, Eye & ENT Hospital, Fudan University, Shanghai, China;2Department of Stomatology, Gongli Hospital, The Second Military University, Shanghai, China;3Department of General Surgery, Ruijin Hospital Luwan Branch, Shanghai Jiaotong University School of Medicine, Shanghai, China;4Department of Oral and Maxillofacial Surgery, Ruijin Hospital, Shanghai Jiaotong University School of Medicine, Shanghai, China;5Department of Stomatology, Ruijin Hospital Luwan Branch, Shanghai Jiaotong University School of Medicine, Shanghai, ChinaContributions: (I) Conception and design: Q Li, J Miao, X Hu; (II) Administrative support: X Hu; (III) Provision of study materials or patients: K Wang; (IV) Collection and assembly of data: Y Shen; (V) Data analysis and interpretation: C Lin; (VI) Manuscript writing: All authors; (VII) Final approval of manuscript: All authors.
+#These authors contributed equally to this work.
+Correspondence to: Jie Miao; Xun Hu. Department of Oral and Maxillofacial Surgery, Ruijin Hospital Luwan Branch, Shanghai Jiaotong University School of Medicine, Shanghai, China. Email: miaojie0504@163.com; Doctorhu1978@163.com.3112023311202331120231124290381070212202211120233101202316022023230220232023 Annals of Translational Medicine. All rights reserved.2023Annals of Translational Medicine.https://creativecommons.org/licenses/by-nc-nd/4.0/Open Access Statement: This is an Open Access article distributed in accordance with the Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International License (CC BY-NC-ND 4.0), which permits the non-commercial replication and distribution of the article with the strict proviso that no changes or edits are made and the original work is properly cited (including links to both the formal publication through the relevant DOI and the license). See: https://creativecommons.org/licenses/by-nc-nd/4.0.
+
+## Background
+Recent evidence shows that CHD4 is involved in a variety of biological events of tumors. Our aim was to investigate the correlation between CHD4 and oral squamous cell carcinoma (OSCC).
+
+## Methods
+After CHD4 was screened as a differentially expressed gene in The Cancer Genome Atlas (TGCA) database, the correlations of its expression level with the clinical parameters and prognosis of patients with OSCC were analyzed. The outcomes of the multivariate analysis were used to construct a nomogram, and the accuracy of the model was evaluated with the calibration curve. The GeneMANIA and STRING databases were used to generate network diagrams depicting interactions of genes with CHD4, and heat maps of genes co-expressed with CHD4 were generated using the TCGA database. TargetScan was then used to look into the miRNAs that interact with the 3' untranslated region of CHD4 mRNA. Finally, GSEA enrichment analysis was used to explore the possible mechanism.
+
+## Results
+The differentially expressed molecule CHD4 was screened by TCGA database for OSCC. CHD4 was overexpressed in OSCC tumor tissues, and OSCC patients with low expression of CHD4 have better OS and DSS. The nomogram had a C-index of 0.575 (0.548–0.602), which indicated some degree of predictive reliability. CHD4 has certain correlation with exons of OSCC related genes, including TP53, NOTCH1, CASP8, PTEN, TP63, ANXA1, CDH1, CTNNB1, GDF15 and EGFR. According to the TargetScan database, hsa-miR-194-5p is the miRNA that regulates CHD4 upstream the most. GSEA analysis showed that CHD4 may participate in the poor prognosis of OSCC by participating in PI3K/AKT pathway, protein adhesion regulation, MAPK pathway, cytokine and inflammatory response regulation, angiogenesis and platelet regulation.
+
+## Conclusions
+The decreased expression of CHD4 may indicate a better prognosis in OSCC patients and could serve as a novel predictive biomarker for OSCC. Also, hsa-miR-194-5p was found to contribute to the poor prognosis of OSCC by regulating CHD4 and enhancing tumor anoikis resistance via the PI3K/AKT signaling pathway. These findings suggest that CHD4 might be a therapeutic target for the effective treatment of OSCC.
+
+## Keywords: 
+CHD4oral squamous cell carcinoma (OSCC)PI3K/AKT pathwayanoikisbioinformatics analysispmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-ND
+
+## Highlight box
+
+## Key findings
+• CHD4 plays an important role in the occurrence and development of various tumors. Our study found that hsa-miR-194-5p can regulate CHD4 and enhance the tumor resistance to apoptosis through PI3K/AKT signaling pathway, thus participating in the poor prognosis of oral squamous cell carcinoma.
+
+## What is known and what is new?
+• The mortality of oral cancer is high. It is important to screen the markers related to OSCC diagnosis and treatment.
+• The decreased expression of CHD4 can improve the prognosis of OSCC patients and provide a therapeutic target for the treatment of OSCC.
+
+## What is the implication, and what should change now?
+• In the future, more in vitro and in vivo experiments are needed to further determine the relevant mechanism of action.
+
+## Introduction
+Oral squamous cell carcinoma (OSCC) refers to squamous cell carcinoma originating in the oral cavity, including the cheeks, lips, mouth floor, tongue, and palate. It is one of the common head and neck malignant tumors worldwide ( , ). There are almost 300,000 new cases of OSCC each year, and about 170,000 related deaths ( ). The delayed diagnosis of oral cancer is strongly linked to its high fatality rate ( ).
+Despite advancements in treatment, the 5-year survival rate of oral cancer is still less than 50%, making the disease a severe health concern. At present, the treatment of patients with advanced or lymph node metastasis mainly depends on surgery combined with radiotherapy and chemotherapy, but these treatments often lead to serious side effects. At present, it has been found that a variety of “oncogenes”, “tumor suppressor genes” and multiple signal pathways are related to the occurrence and development of OSCC. For example, Sun et al. found that procyanidin B2 could inhibit cell growth and angiogenesis in OSCC via the vascular endothelial growth factor (VEGF)/VEGF receptor 2 (VEGFR2) pathway ( ). Snail and Slug cooperate in EMT and tumor metastasis in oral tongue squamous cell carcinoma through MiR-101 mediated EZH2 axis ( ). Carnosic acid inhibits the development of OSCC through mitochondrial mediated apoptosis ( ). Commonly used diagnostic methods, such as serum tumor markers and imaging, are not ideal for OSCC and do not meet all clinical needs. For example, CYFRA21-1 as a serum tumor marker for follow-up patients with squamous cell lung cancer and oropharyngeal squamous cell carcinoma ( ). GDF 15 as an anti apoptosis, diagnostic and prognostic marker of OSCC ( ). Hyperion imaging system can reveal heterogeneous tumor microenvironment of T1N0M0 OSCC patients ( ). Indocyanine green fluorescent navigation technology can determine the safe boundary of advanced OSCC ( ). But these technologies have certain limitations. Therefore, screening of markers associated with the early diagnosis and poor prognosis of OSCC is crucial for improving the therapeutic effect and prognosis of patients with this disease.
+The human chromodomain helicase DNA-binding (CHD) protein family is a class of chromatin remodeling complexes. Six members of the family have been discovered to date: CHD1, CHD2, CHD3, CHD4, CHD5, and CHD6. All CHD proteins are members of the SWI2/SNF2-related ATPase superfamily. Among them, CHD4 and CHD5 together form the second subfamily of this family according to the conservation of the coding protein sequence ( , ). CHD proteins have a DNA-binding domain at their C termini, opposite a chromatin regulatory domain at their N termini. Different components of the SWI/SNF complex (brahma-related gene 1) and RET finger protein are bound at the N- and C-termini of CHD4, respectively, and each has its own transcriptional activity. Sequence analysis of the fluoroenzyme reporter gene showed that the N-terminal of CHD4 had strong trans activation ability, while its C-terminal had transcriptional inhibition activity. On the one hand, CHD4 and BRG1 are interrelated, and the bromo domain of BRG1 strongly inhibits the trans activation of the N-terminal of CHD4. On the other hand, CHD4 and RET finger proteins play a common role in transcriptional inhibition. CHD4 interacts with both trans-activators and repressors, and is directly related to chromatin remodeling proteins, thus providing a new perspective on the form of multiprotein super complexes involved in transcriptional regulation ( ).
+Our study mainly aimed to explore the expression of CHD4 in The Cancer Genome Atlas (TCGA) database and its role in predicting survival in patients with OSCC. A bioinformatics analysis was also performed to predict upstream regulatory genes of CHD4 in OSCC to investigate its effect on the behavior of tumor cells and the underlying mechanisms. We present the following article in accordance with the TRIPOD reporting checklist (available at https://atm.amegroups.com/article/view/10.21037/atm-22-6332/rc).
+
+## Methods
+
+## Analysis of CHD4 expression in the TCGA database
+The expression of CHD4 was analyzed in pan-cancer and in OSCC tumor and adjacent tissues in the TCGA database. The study was conducted in accordance with the Declaration of Helsinki (as revised in 2013).
+
+## Analysis of the relationship between CHD4 and clinical parameters of patients with OSCC in the TCGA database
+Data of clinical parameters of patients with OSCC were retrieved from the TCGA database, and then the correlations between CHD4 expression and these clinical parameters and patient prognosis were analyzed.
+
+## Construction and evaluation of a nomogram
+A nomogram was constructed using the data from the multivariate analysis. A calibration curve was generated to determine the predictive value of the nomogram.
+
+## Construction of a protein-gene interaction network map
+GeneMANIA was used to construct a gene-gene interaction network for CHD4 and the altered adjacent genes. At the same time, the STRING database was employed to generate the protein-protein interaction network of CHD4. Finally, the two interaction networks were compared.
+
+## Screening of the co-expressed genes of CHD4
+Genes that were positively or negatively co-expressed with CHD4 were identified through data mining of the TCGA database.
+
+## Prediction of upstream regulatory miRNAs of CHD4
+To further identify the upstream genes that regulate CHD4., miRNAs that may bind to the 3'UTR of CHD4 mRNA were explored through the TargetScan database.
+
+## Gene set enrichment analysis (GSEA)
+Online functional analysis of differentially expressed genes was carried out using Metascape. The cellular mechanisms in which CHD4 possibly plays a role in OSCC were investigated via GSEA.
+
+## Statistical analysis
+The R (version 3.6.3) software was used for statistical analysis and visualization. Kaplan-Meier analysis was used to determine the survival time of patients with OSCC, and the log-rank test was employed to test for statistical significance. Spearman’s correlation coefficient was used for correlation analysis. When comparing means, a significant difference was indicated by P<0.05.
+
+## Results
+
+## CHD4 expression is upregulated in OSCC
+We used the TCGA database to identify CHD4 as our target research molecule. The expression of CHD4 was upregulated in the vast majority of tumors in the pan-cancer analysis ( ). Moreover, the expression of CHD4 in matched and unmatched tumor tissues of OSCC is higher than that in adjacent cancer tissues. It is found that AUC is 0.814 by constructing ROC curve, so CHD4 has good prediction research value ( ).
+ 
+
+## Correlation between CHD4 expression and the prognosis of patients with OSCC
+In the TCGA database, we found that patients with OSCC who had reduced CHD4 expression had superior overall survival (OS) and disease-specific survival (DSS) ( ). Further stratified analysis revealed that patients with low CHD4 expression had a better prognosis in patients with T2, N0, M0, Stage II, Stage III, male and female, older than 60 years, G2, G3, and whether or not they had smoked or consumed alcohol in the past ( ).
+ 
+
+## The relationships between CHD4 expression and clinical data of patients with OSCC
+In comparison with the clinical data of OSCC patients, we can find that patients with higher expression of CHD4 have higher TNM stage, clinical stage and pathological stage, which is consistent with the previous research results ( ).
+ 
+
+## Construction of a nomogram
+The nomogram constructed using the TCGA database and the findings of our multivariate analysis had a C-index of 0.575 (0.548–0.602) for predicting 1-, 3-, and 5-year survival in patients with OSCC ( ). The calibration curve of the nomogram also demonstrated that it had some predictive power ( ).
+ 
+
+## Identification of genes and protein that interact with CHD4
+Using GeneMANIA, we mapped out the gene-gene interaction network of CHD4 and its modified neighboring genes ( ). Using the STRING database, the protein-protein interaction network of CHD4 was constructed ( ).
+ 
+
+## Screening of co-expressed genes of CHD4
+The OSCC data in the TCGA database were used to identify the genes that are positively or negatively co-expressed with CHD4, and heat maps of the top 50 positively ( ) and negatively ( ) co-expressed genes were constructed.
+ Due to the impact gene mutations have on clinical diagnosis and treatment of OSCC, we next investigated the association between CHD4 and OSCC-related gene exons from the TCGA database, including TP53, NOTCH1, CASP8, PTEN, TP63, ANXA1, CDH1, CTNNB1, GDF15, and EGFR ( ).
+ 
+
+## Predicted upstream regulatory miRNAs of CHD4 in the TargetScan database
+To further identify the upstream genes that regulate CHD4 we further investigated the miRNAs that may bind to the 3'UTR of CHD4 mRNA through the TargetScan database. The analysis showed that hsa-miR-194-5p was the most likely upstream regulatory miRNA of CHD4. Details of the predicted miRNAs are shown in .
+ 
+
+## GSEA analysis results
+Kyoto Encyclopedia of Genes and Genomes functional analysis was performed online using Metascape. We found 8 statistically significant possible related pathways: (I) REACTOME PI3K AKT SIGNALING IN CANCER; (II) NABA ECM GLYCOPROTEINS; (III) REACTOME ADHERENS JUNCTIONS INTERACTIONS; (IV) KEGG TGF BETA SIGNALING PATHWAY; (V) KEGG MAPK SIGNALING PATHWAY; (VI) WP CYTOKINES AND INFLAMMATORY RESPONSE; (VII) WP ANGIOGENESIS; (VIII) REACTOME PLATELET CALCIUM HOMEOSTASIS ( ).
+ 
+
+## Discussion
+Squamous cell carcinoma, which accounts for over 90% of all oral malignancies, is notorious for its persistence and rapid rate of metastasis ( ). At present, although OSCC has made progress in systematic treatment, the survival rate of patients is still very low due to late diagnosis and multiple potential recurrence factors. Biomarkers have evolved into highly effective diagnostic, prognostic, and therapeutic tools through the use of multi-omics technology ( ).
+In this study, we employed bioinformatics analysis to investigate the potential roles of CHD4 in the etiology and progression of OSCC. Through analysis of TGCA data, we found that CHD4 expression was elevated in OSCC and that patients with low CHD4 expression had a better prognosis than those with high expression. In our correlation analysis of CHD4 expression with clinical parameters of patients with OSCC, we found that patients with higher CHD4 expression tended to have more advanced TNM, clinical, and pathological stages. The nomogram we constructed based on the multivariate analysis results also adds clinical value to our research findings. We also constructed network maps of genes interacting with CHD4 in the GeneMANIA and STRING databases, as well as a heat map of genes co-expressed with CHD4 in the TCGA database. These results provide some insights for future cytological basic experiments.
+With the recurrence and progression of cancer, gene mutations are particularly important in the selection of last-line treatment plans, and many guidelines emphasize the importance of genetic testing in diagnosis and treatment ( ). The whole genome exon sequencing results showed that TP53, NOTCH1 and CDKN2A were the most common mutation genes in head and neck squamous cell carcinoma. In addition, research has shown that CASP8, PTEN and TP63 have important regulatory functions in the differentiation of squamous cells, and that mutations in these genes are the main driving factors for the occurrence and development of head and neck squamous cell carcinoma ( - ). The expression of each of these genes is essential for the proper development of squamous cells. Head and neck squamous cell carcinoma has many key biomarkers, including ANXAJ, CDH1, CTNNB1, and TGFB1, which are expressed as proteins ( ). This study focused on the mutation of the above hot spot genes in OSCC. We found that CHD4 had good correlation with TP53, NOTCH1, CASP8, PTEN, TP63, ANXA1, CDH1, CTNNB1, GDF15 and EGFR. We then used the TargetScan database to search for additional relevant miRNAs that could bind to the 3'UTR of CHD4 mRNA. Our analysis determined that hsa-miR-194-5p was the most plausible upstream regulatory miRNA of CHD4. At present, there have been some studies on this miRNA in tumors, such as PCED1B-AS1, which can induce immunosuppression in hepatocellular carcinoma by double targeting PD-L1 and PD-L2 with spongy hsa-miR-194-5p ( ). Zhang et al. found that miR-194-5p also mediates GDNF-induced glioma cell proliferation and migration ( ). A study on laryngeal cancer showed that hsa_circ_0023028 knockdown inhibits cell migration, proliferation, and invasion ( ). Vajen et al. reported that miRNA-192-5p inhibits the migration of triple-negative breast cancer cells and directly regulates Rho GTPase-activating protein 19 ( ). However, hsa-miR-194-5p has not been the subject of any studies on OSCC.
+In the final part of our study, we performed a GSEA analysis and found eight statistically significant potentially relevant pathways: (I) REACTOME PI3K AKT SIGNALING IN CANCER; (II) NABA ECM GLYCOPROTEINS; (III) REACTOME ADHERENS JUNCTIONS INTERACTIONS; (IV) KEGG TGF BETA SIGNALING PATHWAY; (V) KEGG MAPK SIGNALING PATHWAY; (VI) WP CYTOKINES AND INFLAMMATORY RESPONSE; (VII) WP ANGIOGENESIS; (VIII) REACTOME PLATELET CALCIUM HOMEOSTASIS.
+As a tumor research hotspot, anoikis has recently become the focus of more scientists. When normal epithelial cells lose touch with the surrounding extracellular matrix, a process known as anoikis occurs and cell death rapidly follows. Anoikis is a special type of programmed cell death that plays a critical role in normal morphogenesis, tissue homeostasis, disease development, and tumor metastasis. When cells lose their attachment to ECM, the pro apoptotic protein Bmf, which remains on the cytoskeleton, dissociates from dynein light chain 2 and translocates to mitochondria, thus promoting the occurrence of nesting apoptosis ( ). However, a common feature of tumor development and growth is the viability of transformed cells under “independent” growth conditions. This resistance to nestless apoptosis has been proved to be related to the loss of homeostasis in the cellular environment, cancer growth and metastasis, and this acquired ability is called the resistance to anoikis apoptosis ( ). Cancer cells with anti anoikis apoptosis can spread to distant tissues or organs through the peripheral circulation system and cause cancer metastasis. To study the molecular mechanism of anti anoikis apoptosis will be helpful to explore effective therapies for human malignant tumors.
+Combined with the results of our GSEA analysis, we also found that in previous studies, these predicted signal pathways have also shown the correlation with tumor anoikis apoptosis. For example, celecoxib enhances the anticancer effect of cisplatin and induces homing apoptosis in osteosarcoma through PI3K/Akt pathway ( ). CEMIP overexpression triggered by AMPK/GSK3β/beta-catenin cascade promotes the migration and invasion of apoptotic prostate cancer cells by enhancing metabolic reprogramming ( ). Small-molecule RGD integrin antagonists can inhibit cell adhesion and cell migration, and induce anoikis in glioblastoma cells ( ). Stereospecific effect of ginsenoside 20-Rg3 on TGF inhibition- β Induces epithelial mesenchymal transformation and inhibits lung cancer migration, invasion and anti nesting apoptosis ( ). Silencing of tetramethylthioacetic acid and transthyroxine protein inhibits the metastasis of L-thyroxine in apoptotic prostate cancer cells by regulating MAPK/ERK pathway ( ). The loss of p120 catenin induces metastatic progression of breast cancer by inducing the resistance to apoptosis and enhancing the signal transduction of growth factor receptor ( ). Anti nesting apoptotic gastric cancer cells pass C/EBP β mediated autocrine and paracrine signals of PDGFB promote angiogenesis and peritoneal metastasis ( ). Overexpression of multiple epidermal growth factors such as domain 11 saves the survival of apoptosis through tumor cell platelet interaction in triple negative breast cancer cells ( ). Therefore, our research results in this project combined with previous research results, our findings suggest that hsa-miR-194-5p regulates CHD4 via the PI3K/AKT signaling pathway, which in turn increases tumor anoikis resistance and contributes to the poor prognosis of OSCC. These findings provide a more reliable baseline against which to gauge future improvements to cytological and other in vitro and in vivo experiments.
+
+## Conclusions
+This study adds to the growing body of data that CHD4 plays an important role in the emergence of OSCC and has the potential to serve as a biomarker for the progression of the disease. Our results provide a potential target for the development of OSCC anti-cancer strategies
+
+## Supplementary
+The article’s supplementary files as
+10.21037/atm-22-633210.21037/atm-22-6332
+
+## Acknowledgments
+Funding: None.
+Reporting Checklist: The authors have completed the TRIPOD reporting checklist. Available at https://atm.amegroups.com/article/view/10.21037/atm-22-6332/rc
+Conflicts of Interest: All authors have completed the ICMJE uniform disclosure form (available at https://atm.amegroups.com/article/view/10.21037/atm-22-6332/coif). The authors have no conflicts of interest to declare.
+Ethical Statement: The authors are accountable for all aspects of the work in ensuring that questions related to the accuracy or integrity of any part of the work are appropriately investigated and resolved. The study was conducted in accordance with the Declaration of Helsinki (as revised in 2013).

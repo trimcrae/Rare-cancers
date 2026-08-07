@@ -1,0 +1,185 @@
+pmcBrain BehavBrain Behav1650brbBRB3Brain and Behavior2162-3279WileyPMC10823441PMC10823441.110823441108234413837605410.1002/brb3.3358BRB333581Original ArticleOriginal ArticlesIdentification and validation of cortisol‐related hub biomarkers and the related pathogenesis of biomarkers in Ischemic Stroke
+WANG et al.
+WangJing‐Jing XuFang‐Biaohttps://orcid.org/0000-0003-1345-3722 HuSen XuYu‐Minghttps://orcid.org/0000-0003-2689-9897 xuyuming@zzu.edu.cnWangXin‐Zhi znqznq@163.com
+
+1
+
+Neurology Department
+The First Affiliated Hospital of Zhengzhou University
+Zhengzhou
+China
+
+2
+
+Neurology Department
+People's Hospital of Luanchuan
+Luoyang
+China
+
+3
+
+Department of Encephalopathy
+The First Affiliated Hospital of Henan University of Chinese Medicine
+Zhengzhou
+China
+
+4
+
+The First Clinical Medical College
+Henan University of Chinese Medicine
+Zhengzhou
+China
+
+5
+
+Department of Medical Records
+Zhengzhou University People's Hospital
+Henan Provincial People's Hospital
+Zhengzhou
+Henan
+People's Republic of China
+
+*
+Correspondence
+Xin‐Zhi Wang, Department of encephalopathy, The First Affiliated Hospital of Henan University of Chinese Medicine, Zhengzhou 450000, China. Email: znqznq@163.com
+Yu‐Ming Xu, The First Affiliated Hospital of Zhengzhou University, Zhengzhou 450000, China. Email: xuyuming@zzu.edu.cn
+
+29120241202414145174410.1002/brb3.v14.1e3358
+29102023
+0772023
+26112023
+290120242901202422102024© 2024 The Authors. Brain and Behavior published by Wiley Periodicals LLC.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+## Background
+Ischemic stroke is a disease in which cerebral blood flow is blocked due to various reasons, leading to ischemia, hypoxia, softening, and even necrosis of brain tissues. The level of cortisol is related to the occurrence and progression of ischemic stroke. However, the mechanism governing their interrelationship is still unclear. The main objective of this study was to identify and understand the molecular mechanism between cortisol and IS.
+
+## Methods
+The common cortisol‐related biological processes were screened by mutual verification of two data sets and the cortisol‐related hub biomarkers were identified. Modular analysis of protein interaction networks was performed, and the differential pathway analysis of individual genes was conducted by GSVA and GSEA. Drug and transcription factor regulatory networks of hub genes were excavated, and the diagnostic potential of hub genes was analyzed followed by the construction of a diagnostic model.
+
+## Results
+By screening the two data sets by GSVA, three biological processes with common differences were obtained. After variation analysis, four cortisol‐related hub biomarkers (CYP1B1, CDKN2B, MEN1, and USP8) were selected. Through the modular analysis of the protein‐protein interaction network and double verification of GSVA and GSEA, a series of potential molecular mechanisms of hub genes were discovered followed by a series of drug regulatory networks and transcription factor regulatory networks. The hub biomarkers were found to have a high diagnostic value by ROC; thus, a diagnostic model with high diagnostic efficiency was constructed. The diagnostic value was mutually confirmed in the two data sets.
+
+## Conclusion
+Four cortisol‐related hub biomarkers are identified in this study, which provides new ideas for the key changes of cortisol during the occurrence of IS.
+
+In conclusion, This study is the first molecular study on cortisol‐related biological processes. The results can help us better understand the biological processes related to cortisol and its potential importance with other pathology in IS. Patients may get better curative effect by personalized treatment.
+ 
+
+bioinformatic analysisbiomarkerscortisolischemic strokemolecular mechanismNational Chinese Medicine Leading Talent Support Program2018]284 
+2
+
+## METHODS
+2.1
+
+## Data source and normalization
+In this study, the keyword “strokes” was used for searching and screening. Two datasets GSE16561 and GSE58294 related to human peripheral blood were retrieved from the GEO database (https://www.ncbi.nlm.nih.gov/geo/). The GSE16561 dataset contained 39 IS and 24 healthy controls, and the GSE58294 dataset contained 23 control samples and 69 cardioembolic stroke samples. Using cortisol as the keyword, the MSigDB database (Subramanian et al., ) (https://www.gsea‐msigdb.org/gsea/msigdb) was searched to obtain cortisol‐related gene sets. The “normalizeBetweenArrays” function (Bolstad et al., ) of the package “limma” was used to perform log2 correction to the original count matrix.
+
+2.2
+
+## Single sample gene set enrichment analysis
+Three different R packages (GSVA (Hänzelmann et al., ), limma (Ritchie et al., ), and GSEABase (Morgan, )) were used to execute single sample gene set enrichment analysis (ssGSEA) of the cortisol‐related gene sets belonging to each of the two data sets, and the differential analysis between the control group and the disease group was performed by wilcox.test; finally R package “ggplot2” was used to generate the violin plot (Villanueva & Chen, ). The gene set in the cortisol‐related biological process with significant differences in the data of the two groups was defined as the cortisol‐related gene set in this study.
+
+2.3
+
+## Identification of differentially expressed genes
+Differential analysis of the two data sets was performed by the R package “Limma” [10]. Probe sets that lacked a matching gene symbol were removed. Averaging was done for genes with > 1 probe set. Genes with a p value of < .05 and a |fold change| of ≥1 were considered to be differential genes.
+
+2.4
+
+## Identification of cortisol‐related hub genes
+The R package “VennDiagram” (Chen & Boutros, ) was used to analyze and draw Venn diagrams between the two data sets and the cortisol‐related gene sets; the intersection genes were defined as the key cortisol‐related genes. In the context of the GSE16561 dataset, Spearman (Wissler, ) was employed to examine the association between the hub genes and the cortisol‐related biological processes.
+
+2.5
+
+## Immune infiltration analysis
+Using the GSE16561 data set and the CIBERSORT algorithm (Newman et al., ), which deconvoluted the expression matrix of human immune cell subtypes, it was possible to further analyze the immune microenvironment in the peripheral blood of IS patients. This analysis was based on the linear support vector regression principle. Further, the limma10 package was used to analyze the variations in immune cells between IS and the control group and Spearman (Wissler, ) was used to analyze the correlation between hub genes and immune cells.
+
+2.6
+
+## Enrichment analyses of hub genes
+The R package “clusterProfiler” (Yu et al., ) was used for Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) enrichment analysis of the hub genes. Both KEGG and GO are relatively large gene annotation databases. For example, KEGG can be used to analyze the signaling pathways that may be activated by genes based on existing gene sets and can effectively help analyze the potential molecular mechanisms of the genes.
+
+2.7
+
+## Construction of protein‐protein interaction network and module analysis
+The GeneMANIA (Warde‐Farley et al., ) (http://www.genemania.org/) database was used for the construction of a protein‐protein interaction network with the hub genes. The protein‐protein interaction of the submitted gene sets could be obtained through the database, which was not limited to their internal protein‐protein interactions. To ensure the authenticity of the interactions, all interactions containing nondifferential genes were eliminated in this study. Further, the “walktrap.community” algorithm in the R package “igraph” (Csardi & Tamas, ) was used to conduct modular analysis of the interaction network, and KEGG enrichment analysis was performed for each of the modules to analyze the key pathways of the hub genes (Saini et al., ).
+
+2.8
+
+## Gene set enrichment analysis (GSEA) and gene set variation analysis (GSVA) of hub genes
+To more accurately explore the differences in the signaling pathways activated in diseases due to the different expression levels of the hub genes, two expression groups were established based on the median expression, namely, a low‐expression group and a high‐expression group. All the pathways enriched by each module of the PPI network were used as the background for GSEA and GSVA enrichment analysis. Both GSEA and GSVA were based on the gene expression levels, and the difference in the activation degree of the signaling pathway between the two groups was obtained through calculation. To make a more accurate judgment, the two algorithms, GSEA and GSVA, were used to verify each other.
+
+2.9
+
+## Diagnostic value and validation of hub genes
+To further investigate the diagnostic value of the hub genes and to verify the diagnostic performance of the hub genes in the two data sets, the R package “pROC” (Robin et al., ) was used. To facilitate clinical application, a logistic regression‐based IS diagnostic model was developed, a nomogram was drawn, and the DCA and C index was used to verify the reliability of the model.
+
+2.10
+
+## Drug and transcription factors (TF) prediction of the hub genes
+To study the regulation of the hub genes, TFs of hub genes were enriched through the TRRUST online database (Han et al., ) (https://www.grnpedia.org/trust/) and verified by dataset differential analysis. Through text mining of the TRRUST online database, a large number of TF regulation information was collected, screened, and sorted manually. The prediction results had a high reference value. The DGIdb online database (Freshour et al., ) (https://dgidb.genome.wustl.edu/) was used to predict drugs that could regulate the hub genes. The DGIdb database incorporated multiple drug‐gene interaction databases, with abundant and authentic information. Finally, all the information was imported into “Cytoscape” software (Shannon et al., ) and network regulation maps were constructed.
+
+3
+
+## RESULTS
+3.1
+
+## Single sample gene set enrichment analysis in GEO datasets
+By searching the MSigDB database, 11 cortisol‐related biological processes were obtained. The ssGSEA algorithm was then used to analyze the variations between the control and the disease group of the two data sets (GSE16561 and GSE58294) (Figure  ). There was a significant difference in the primary hypercortisolism, increased circulating cortisol level, increased urinary cortisol level, and cortisol response. So, the genes contained in these four biological processes were used as cortisol‐related genes, with a total of 26 genes (Table  ).
+ 
+3.2
+
+## Identification of differentially expressed genes in GSE16561 and GSE58294 expression profiles
+Log2 normalization was adopted for processing the raw data. The expression level information of the processed samples is shown (Figure  and  ). Volcano maps constructed from the differential analysis of the two datasets are shown (Figure  and  ). Heat maps of the top 30 genes with the largest differences are presented (Figure  and  ). The DEGs of the two data sets were then intersected with the 26 cortisol‐related genes obtained in the previous step to get the four cortisol‐related hub genes (CYP1B1, CDKN2B, MEN1, and USP8) as shown (Figure  ).
+ 
+3.3
+
+## Enrichment analysis of the hub genes
+GO circular diagram (Figure  ) was constructed based on the GO & KEGG enrichment analysis performed on the hub genes; a bubble diagram combination (Figure  ) was generated based on the KEGG enrichment genes and pathway Sankey diagram combined with pathway enrichment. The biological processes of GO enrichment were mainly enriched in the regulation of cell cycle‐dependent proteins and the cellular response to glucocorticoids and corticosteroids. The KEGG pathway was significantly enriched in Cushing syndrome. From the enrichment results of the two aspects, it was not difficult to infer that there was a significant association between the hub genes and the regulation of cortisol.
+ 
+3.4
+
+## Association of candidate genes with immune cell infiltration and cortisol‐related biological processes
+The immune cell infiltration was estimated using the CIBERSORT algorithm that used the gene expression matrix of the GSE16561 dataset, and the difference between IS and healthy controls was determined, as shown (Figure  ). As can be seen (Figure  ), a correlation between the hub genes and the immune cell content was calculated. Also, a correlation between the hub genes and the biological processes connected to cortisol was determined (Figure  ). The results revealed that in comparison to the healthy control group, there was activation of NK cells and there was a significant decline in the CD8 and CD4 naïve T cells after the disease, which suggested the weakening of the body's immunity; Monocytes, macrophages M0, and neutrophils were elevated significantly, suggesting the continuation of inflammatory responses. Among these differential immune cells, MEN1 was found to be negatively correlated with the number of neutrophils and positively correlated with CD8 T cells. As per our observations, none of the four hub genes had a significant correlation with primary hypercortisolism and increased circulating cortisol levels. Only CDKN2B, MEN1, and USP8 showed a significant correlation with an increased urinary cortisol level; only CDKN2B and MEN1 showed a significant negative correlation with an increased urinary cortisol level, suggesting that CDKN2B and MEN1 may have inhibitory effects on the elevation of nephrogenic cortisol.
+ 
+3.5
+
+## Identification of hub genes‐related pathways
+Protein‐protein interactions related to the hub genes were obtained through GeneMANIA; the PPI networks were constructed after screening differential genes in the dataset GSE16561. The walktrap.community was used to perform modular analysis and enrichment of the KEGG pathways, as shown (Figure  ). Our results suggested that CDKN2B could be participating in the regulation of cell senescence and cell cycle during the disease progression. To further confirm the signaling pathways involved with hub genes during the disease progression, GSEA and GSVA methods were used. We evaluate the activation of pathways in high‐ and low‐expression groups of the hub genes, as shown (Figure  ). Through mutual verification of the two algorithms, it was not difficult to deduce that the cellular senescence signaling pathway was activated in a CDKN2B low‐expression group. The chemical carcinogenesis‐reactive oxygen species signaling pathway was activated in a CYP1B1 high‐expression group, whereas some cancer pathways such as gastric cancer and Cushing syndrome were triggered in the low‐expression group. The TGF‐β signaling pathway was seen to be stimulated in the USP8 high‐expression group. Similarly, while the TGF‐β signaling pathway along with the FoxO signaling pathway was activated in the MEN1 low‐expression group, the xenobiotics metabolism pathway by cytochrome P450 was activated in the high‐expression group.
+ 
+3.6
+
+## Diagnostic value and validation of hub gene
+To further explore the diagnostic power of the hub genes, a ROC of the hub genes was calculated using two data sets, as shown (Figure  , GSE16561 and Figure  , GSE58294). It was observed that CYP1B1 and CDKN2B possessed high diagnostic efficiency in different data sets, and the logistic regression model was used to construct diagnostic models in the two data sets. The AUC values are shown (Figure  , GSE16561 and Figure  , GSE58294). Our results suggest that the disease diagnosis models constructed by the four hub genes had significantly high diagnostic efficiency. To facilitate clinical application, a nomogram was built, as shown (Figure  ), and the diagnostic model was evaluated by calibration (Figure  ) and DCA (Figure  ). Calibration results confirmed that the degree of fitting between our model and the ideal model was high. Similarly, the p value obtained from the Hosmer‐Lemeshow test was 0.992 (>0.05), indicating no significant difference between the true value and the predicted value. DCA decision curve indicated that when the risk threshold (Pi) was 1.0, the diagnostic model still had a high net benefit rate (NB), suggesting that the model had high significance in clinical diagnostics.
+ 
+3.7
+
+## Drug and TF prediction of the hub genes
+Transcription factors of the hub genes were predicted through online databases and verified by differential analysis. It shows the regulatory network of TF genes (Figure  ) and the difference box plot is shown (Figure  ). In addition, small drug molecules that can regulate hub genes were predicted using the drug database, and a drug‐genes network diagram was constructed (Figure  ), which provides a foundation for subsequent research on transcriptional and drug regulations.
+ 
+
+4
+
+## DISCUSSION
+The correlation between cortisol levels and cardiovascular/cerebrovascular diseases has been confirmed in many studies; salivary cortisol has been used as a predictor of cognitive impairment after stroke (Wang et al., ). In this study, through a series of bioinformatics analyses and verification of additional data sets, four key genes (CYP1B1, CDKN2B, MEN1, and USP8) in cortisol‐related biological processes were obtained; their diagnostic value, affected pathways in the disease process, and correlation with immune infiltration, etc. were also analyzed.
+We discovered a total of four biological processes with a significant difference in the disease group compared to the control group, which includes primary hypercortisolism, increased circulating cortisol level, increased urinary cortisol level, and cortisol response. Among these, serum cortisol and urinary cortisol showed a significant increase in the disease group, which is consistent with existing findings. Studies (Chen et al., ; Olsson, ) have shown that urinary cortisol had a significant positive correlation with poor prognosis of stroke. In the current study, urinary cortisol level was found to have a significant positive correlation with USP8, but a significant negative correlation with MEN1 and CDKN2B. As was found in a clinical cohort study, Cushing disease patients with USP8 mutations had higher urinary cortisol levels and were more likely to relapse after treatment (Albani et al., ); our results support this finding. However, the association of MEN1 and CDKN2B with urinary cortisol levels is yet to be described. Another study (Miró‐Mur et al., ) showed that serum cortisol was significantly correlated with enhanced infarct growth, which in turn was linked to the reduction of circulating lymphocytes. In this study, the algorithm suggested that NK cells were activated, while CD8 and CD4 naïve T cells decreased significantly as a disease response, which is consistent with findings from previous studies. Interestingly, in this study, a significant negative correlation was observed between USP8‐CYP1B1 and CD4 naïve T cells; a significant positive correlation was detected between MEN1 and CD8 T cells. Perhaps USP8 and MEN1 are the key genes between cortisol regulation and lymphopenia, which needs further confirmation.
+The protein translated by CYP1B1 is Cytochrome P450 1B1, a kind of cytochrome in human cells. The growing evidence suggests that CYP1B1 or its genetic variation may be associated with the risk of IS. A case‐control study identified two CYP1B1 gene variants (rs10916 and rs2855658) that are associated with increased risk of IS in the Chinese population. This provides valuable insights for the individualized prevention and treatment of IS. This is an important finding, as it may help us better understand the genetic mechanisms of this disease and lead to new therapeutic strategies. (Zhang et al., ). It has been demonstrated previously that this protein has involvement in the metabolism of various endogenous substrates such as arachidonic acid in fatty acids (Mesaros et al., ), estradiol in steroid hormones (Badawi et al., ), and so on. Studies have shown that in the pulmonary blood vessels, estradiol was metabolized by CYP1B1, and antivascular endothelial cells (Tofovic, ) produced 2‐methoxy estradiol. However, estradiol has been proven to significantly improve the peripheral immunosuppression caused by stroke in female stroke mice, thereby reducing the stroke area (Zhang et al., ). So, it is believed that CYP1B1 is a key protein that regulates estradiol levels after stroke. The signaling pathways for steroid hormone biosynthesis and the metabolism of xenobiotics by cytochrome P450 were both enriched in our analysis of the enrichment of four hub genes and the pathway enrichment of protein interaction modular analysis screened by differential analysis in the data set. Two such signaling pathways may be the key pathways that got activated during the occurrence and progression of the disease. Meanwhile, in this study, CYP1B1 was significantly related to the biological process response to cortisol, and such biological processes were significantly different between the diseased and healthy controls, suggesting that CYP1B1 may regulate the body's response to cortisol through all metabolic pathways of endogenous substrates, which in turn affects the incidence and progression of the disease. After the onset of the disease, according to the calculation of GSVA and GSEA, underexpression of CYP1B1 would activate the Cushing syndrome pathway, and overexpression of CYP1B1 will activate chemical carcinogenesis‐reactive oxygen species. Based on the results of immune cell infiltration, CYP1B1 may be involved in the reactive oxygen pathway to change the production of reactive oxygen species, thereby affecting the change in the number of CD4 naïve T cells after the onset of the disease. At present, it is known that reactive oxygen species are closely linked to CD4 T cells (Lin et al., ), which opens avenues for further study. To further explore the connection between transcriptional regulation and drug regulation of hub genes, the CYP1B1 transcription factors and corresponding regulatory drugs were screened via differential analysis of databases and data sets. Prior experimental data suggest that inhibiting the expression of SP1 can reduce the expression of CYP1B1 significantly, thereby reducing the occurrence of cell proliferation, metastasis, and carcinogenesis (Tsuchiya et al., ). In drug screening, CHRYSIN is found to inhibit the expression of CYP1B1, which is worthy of future investigations.
+USP8 (Ubiquitin carboxyl‐terminal hydrolase 8) is a kind of deubiquitinating enzyme. And it is a gene encoding ubiquitin carboxyl‐terminal hydrolase 8 protein. A research has found that USP8 is mainly expressed in microglia (IBA1 positive cells), and its expression significantly decreases after LPS treatment. This leads to the activation of the TLR4/MyD88/NF‐κB signaling pathway that should have been suppressed, exacerbating the hippocampal damage and behavioral defects caused by LPS in mice (Zhao et al., ). Studies have shown that in Parkinson's disease, inhibiting the expression of USP8 would lead to a delay in the occurrence of mitophagy and a reduced success rate (Durcan & Fon, ), thereby affecting the quality control process of mitochondria. In this study, through the dual screening of GSVA and GSEA, it was found that in the disease group, the high expression of USP8 activated the TGF‐β signaling pathway. Another ovarian cancer experimental study (Jin et al., ) showed that the overexpression of TGF‐β promotes the occurrence of mitophagy. In this study, the expression of USP8 was found to have a significant negative correlation with the CD4 T cells in the disease group. In summary, high expression of USP8 may promote the occurrence of mitophagy through the TGF‐β signaling pathway, thereby reducing the number of CD4 naïve T cells, which needs further confirmation.
+CDKN2B (Cyclin‐dependent kinase 4 inhibitor B) is a potent inhibitor of various tumors, which can inhibit the TGF‐β‐mediated cell cycle, and was also enriched in the TGF‐β signaling pathway of the hub genes. A clinical study showed that two SNPs (rs2383207 and rs2107595) of CDKN2B were significantly associated with the occurrence of IS (Akinyemi et al., , ), which showed that CDKN2B was closely linked to the occurrence and progression of IS. And an another clinical study showed a positive correlation between the methylation level of CDKN2B gene and carotid artery calcification (Zhou et al., ). Carotid artery calcification is an important risk factor for the occurrence of IS. In an experimental study on stem cells, the activation of the TGF‐β signaling pathway was found to increase the expression of CDKN2B, which in turn promoted the endothelial cells' differentiation from stem cells, thereby reducing the rate of proliferation of endothelial cells (Bai et al., ). Combining the GSVA and GSEA analysis in this study, low expression of CDKN2B after the occurrence of IS would activate the cellular senescence signaling pathway. In this regard, we can speculate that CDKN2B may activate the cell aging pathway at a certain threshold; when the expression of CDKN2B exceeds this threshold, the activation of the cell aging signaling pathway would be turned off. Alternately, due to differences in the personal constitution and sample size, some patients were not sensitive to the expression of CDKN2B. So, the prognosis of these people may be better. According to this, CDKN2B could have a certain prognostic value, which is worthy of further study.
+Through a cross‐sectional study of MEN1 (Menin) the mutation of this gene was found to be associated with the occurrence of Cushing disease (Makri et al., ), and Cushing disease manifests as high cortisol levels. In this study, MEN1 was negatively correlated with the level of urinary cortisol. At present, there is no relevant research to confirm how MEN1 is involved in the regulation of urinary cortisol levels. However, case reports (Chen et al., ) and other studies (Vaduva et al., ) have suggested that MEN1 had a certain correlation with cortisol levels. Further research may bring varying discoveries.
+After the verification of the two data sets, our results suggest that the four hub genes have high diagnostic value, and the diagnostic model constructed with hub genes is comprehensive. ROC, DCA, and calibration data suggest the diagnostic efficiency of the model to be high. With further clinical verification, these models could be applied in regular clinical practice.
+In conclusion, four cortisol‐related hub biomarkers were excavated in this study. In combination with existing literature, their possible mechanisms in the incidence and progression of the disease were explored. At the same time, there are certain limitations to the results of this study. It has not conducted relevant gene function research. But we have innovatively studied the molecular mechanism between cortisol and IS. The potential regulatory drugs and transcription factors were identified, and finally, a biomarker that is suitable for clinical use was proposed, providing novel insights into the key change of cortisol during the manifestation of IS.
+
+## AUTHOR CONTRIBUTIONS
+WXZ and XYM contributed to the searched the literature and designed the study; WJJ and XFB contributed to the acquisition of data; HS and XFB assisted in the data processing and performed the functional analysis; WJJ reviewed the data and drafted the manuscript. All authors have read and approved the final manuscript.
+
+## CONFLICT OF INTEREST STATEMENT
+The authors declare that they have no competing interests.
+
+## PEER REVIEW
+The peer review history for this article is available at https://publons.com/publon/10.1002/brb3.3358.
+
+## DATA AVAILABILITY STATEMENT
+GSE16561 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc = GSE16561) and GSE58294 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc = GSE58291) datasets used and/or analyzed during the current study are available from the corresponding author on reasonable request.

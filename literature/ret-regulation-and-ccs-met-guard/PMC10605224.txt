@@ -1,0 +1,201 @@
+116liphdisLipids in Health and DiseaseLipids Health DisBMCPMC1060522410605224106052243788501310.1186/s12944-023-01930-zCeramide synthase 4 overexpression exerts oncogenic properties in breast cancer
+KimSu-Jeong SeoIncheol KimMin Hee ParkJoo-Won KimShin ParkWoo-Jae 1Department of Biochemistry, Chung-Ang University College of Medicine, Heukseok-lo 84, DongJak-gu, Seoul, 06974 Republic of Korea 2Department of Immunology, Kyungpook National University School of Medicine, Daegu, 41944 Republic of Korea 3Department of Biochemistry, College of Medicine, Ewha Womans University, Seoul, 07804 Republic of Korea 4Department of Immunology, School of Medicine, Keimyung University, Dalgubeol-daero 1095, Dalseo-gu, Daegu, 42601 Republic of Korea ✉Corresponding author.
+#Contributed equally.
+261020232218318328102023© The Author(s) 2023Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated in a credit line to the data.
+
+## Abstract
+
+## Background
+Ceramide, a bioactive signaling sphingolipid, has long been implicated in cancer. Members of the ceramide synthase (CerS) family determine the acyl chain lengths of ceramides, with ceramide synthase 4 (CerS4) primarily generating C18–C20-ceramide. Although CerS4 is known to be overexpressed in breast cancer, its role in breast cancer pathogenesis is not well established.
+
+## Methods
+To investigate the role of CerS4 in breast cancer, public datasets, including The Cancer Genome Atlas (TCGA) and two Gene Expression Omnibus (GEO) datasets (GSE115577 and GSE96058) were analyzed. Furthermore, MCF-7 cells stably overexpressing CerS4 (MCF-7/CerS4) as a model for luminal subtype A (LumA) breast cancer were produced, and doxorubicin (also known as Adriamycin [AD])-resistant MCF-7/ADR cells were generated after prolonged treatment of MCF-7 cells with doxorubicin. Kaplan–Meier survival analysis assessed the clinical significance of CERS4 expression, while Student’s t-tests or Analysis of Variance (ANOVA) compared gene expression and cell viability in different MCF-7 cell lines.
+
+## Results
+Analysis of the public datasets revealed elevated CERS4 expression in breast cancer, especially in the most common breast cancer subtype, LumA. Persistent CerS4 overexpression in MCF-7 cells activated multiple cancer-associated pathways, including pathways involving sterol regulatory element–binding protein, nuclear factor kappa B (NF-κB), Akt/mammalian target of rapamycin (mTOR), and β-catenin. Furthermore, MCF-7/CerS4 cells acquired doxorubicin, paclitaxel, and tamoxifen resistance, with concomitant upregulation of ATP-binding cassette (ABC) transporter genes, such as ABCB1, ABCC1, ABCC2, ABCC4, and ABCG2. MCF-7/CerS4 cells were characterized by increased cell migration and epithelial–mesenchymal transition (EMT). Finally, CERS4 knockdown in doxorubicin-resistant MCF-7/ADR cells resulted in reduced activation of cancer-associated pathways (NF-κB, Akt/mTOR, β-catenin, and EMT) and diminished chemoresistance, accompanied by ABCB1 and ABCC1 downregulation.
+
+## Conclusions
+Chronic CerS4 overexpression may exert oncogenic effects in breast cancer via alterations in signaling, EMT, and chemoresistance. Therefore, CerS4 may represent an attractive target for anticancer therapy, especially in LumA breast cancer.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12944-023-01930-z.
+
+Keywords: Ceramide synthase 4, Ceramide acyl chain length, Oncogene, Epithelial mesenchymal transition, Chemoresistance, Luminal subtype a breast cancer
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Jun 23; Accepted 2023 Sep 19; Collection date 2023.
+
+## Background
+Breast cancer is one of the most common malignancies worldwide, associated with high mortality among women [ ]. Breast cancer can be classified based on the expression status of estrogen receptor (ER), progesterone receptor (PGR), human epidermal growth factor receptor 2 (HER2), and Ki67 [ ]. Molecular breast cancer subtypes include normal-like (ER+, PGR+, HER2−, Ki67−), basal (ER−, PGR−, HER2−, basal marker+), luminal subtype A (LumA; ER+, PGR+, HER2−, Ki67−), luminal subtype B (LumB; ER+, PGR+, HER2−, Ki67+), HER2-positive (ER−, PGR−, HER2+), and triple-negative (ER−, PGR−, HER2−) [ ]. Accounting for 50–60% of all breast cancer diagnoses [ ], LumA is the most prevalent subtype and is associated with relatively good clinical outcomes and prognosis; however, a mechanistic understanding of LumA pathogenesis and the development of novel chemotherapies remain critical.
+Various cancer pathways, such as nuclear factor kappa B (NF-κB), protein kinase B (Akt)/mammalian target of rapamycin (mTOR), and Wnt/β-catenin, play crucial roles in breast cancer pathogenesis [ – ]. Specifically, NF-κB activation, which is frequently observed in breast cancer, promotes the development of a hormone-independent and invasive breast cancer phenotype [ ], whereas its inhibition reverses endocrine resistance [ ]. Activation of the Akt/mTOR pathway, which regulates various cellular activities, including protein synthesis, metabolic regulation, cell survival, and differentiation [ ], facilitates tumor growth and breast cancer cell survival [ ]. Activation of the Wnt/β-catenin pathway affects breast cancer cell migration and metastasis [ ]. Sterol regulatory element–binding proteins (SREBPs) are transcription factors that regulate fatty acid and cholesterol synthesis [ ] and are known to regulate breast cancer cell invasion and migration [ , ].
+Metastasis and chemotherapy resistance are leading causes of death among breast cancer patients. The epithelial–mesenchymal transition (EMT), during which polarized epithelial cells transition into motile mesenchymal cells, allows breast tumors to become more invasive and malignant, with enhanced stem cell properties [ ]. In addition, the overexpression of ATP-binding cassette (ABC) transporters confers chemotherapy resistance by expelling various drugs from tumor cells at the expense of ATP hydrolysis and contributes to breast cancer progression and metastasis through mechanisms independent of this efflux function [ ]. All of these pathways and molecular mechanisms are potential therapeutic targets in breast cancer.
+Sphingolipids are implicated in several pathophysiological processes associated with cancer development, progression, metastasis, and drug resistance [ ]. Ceramide, located at the center of sphingolipid metabolism, acts as a biologically active lipid that determines cell fate decisions, including apoptosis, proliferation, and differentiation [ , ]. Recent reports describe distinct roles played by ceramide species with different acyl chain lengths in various molecular pathways, including endoplasmic reticulum stress [ ] and apoptosis [ ]. In mammals, the acyl chain lengths of ceramides are determined by six ceramide synthase (CerS) family members [ , ]. CerS1 and CerS2 generate C18-ceramide and C22–C24-ceramide, respectively. CerS4 primarily synthesizes C18–C20-ceramide, whereas CerS5 and CerS6 primarily produce C14–C16-ceramide [ ]. In human breast cancer, the mRNA expression levels of CERS2, CERS4, and CERS6 and their respective products, C16-, C24-, and C24:1-ceramides, are increased [ , ]. In addition, alternative splicing of CerS2 in LumB breast cancer promotes cancer cell proliferation and migration and is associated with poor prognosis [ ]. Thus, alterations in CerS activity or ceramide acyl chain lengths may play critical roles in breast cancer development and progression.
+Unlike prior studies that have investigated the roles played by CerS family members in breast cancer using transient overexpression [ ], in the present study, the molecular effects of long-term CerS4 overexpression on breast cancer progression and migration were explored using TCGA-BRCA data, MCF-7 cells stably overexpressing CerS4 (MCF-7/CerS4), and doxorubicin-resistant MCF-7 (MCF-7/ADR) cells.
+
+## Methods
+
+## Materials
+The following substances were obtained: doxorubicin, paclitaxel, G418, anti-HA (H6908), anti-CerS2 (HPA027262), anti-CerS4 (SAB4301210), anti-active-β-catenin (05-665), and anti-α-tubulin antibodies (T9026) (Sigma-Aldrich, St. Louis, MO, USA); anti-phospho-NF-κB p65 (3033), anti-NF-κB p65 (8242), anti-Relb (4922), anti-phospho-p44/42 MAPK (ERK1/2) (4370), anti-phospho-p90RSK (11989), anti-phospho-Akt (9271), anti-phospho-mTOR (5536), anti-phospho-p70 S6 kinase (9205), anti-ERα (8644), anti-phospho-ERα (Ser118) (2511), anti-phospho-ERα (Ser167) (64508), anti-PGR (8757), anti-vimentin (5741), anti-Snail (3879), anti-lamin A/C (2032), β-catenin (9562), and anti-phospho-GSK3β (5558) antibodies (Cell Signaling Biotechnology, Inc, Beverly, MA, USA); anti-LASS6 (CerS6) (sc-100554), anti-E-cadherin (sc-71008), and anti-N-cadherin (sc-59987) antibodies (Santa Cruz Biotechnology, Santa Cruz, CA, USA); anti-CerS1 antibody (H00010715-M01) (Abnova, Taipei, Taiwan); anti-GAPDH (glyceraldehyde 3-phosphate dehydrogenase) antibody (MAB374) (EMD Millipore, Billerica, MA, USA).
+
+## Cell culture
+MCF-7 cells (RRID:CVCL_0031), a human breast cancer cell line, were cultured in RPMI-1640 medium (Hyclone Laboratories, Logan, UT, USA) containing 1% penicillin/streptomycin and 10% fetal bovine serum (FBS, Hyclone Laboratories). The cells were incubated at 37℃ in a humidified atmosphere with 5% CO2. MCF-7/CerS4 cells were cultured in RPMI-1640 medium, 1% penicillin/streptomycin, 10% FBS (Hyclone Laboratories), and 100 µg/ml G418 (Sigma-Aldrich).
+
+## Transfection and stable cell line generation
+The MCF-7 cells were transfected with 4 µg of the pcDNA3.1-CerS4-HA, using 150 mM NaCl and Lipidofect-P Transfection Reagent (Lipidomia, Seongnam, Korea). Thereafter, G418 was used to create permanently stable transfected cell lines. At first, 300 µg/ml of G418 was strongly treated for selection, and the surviving cells were maintained in fresh RPMI-1640 medium containing 100 µg/ml of G418. G418 was removed 48 h before experiments. The MCF-7/ADR cells were transfected with 3 µg of the pSUPER-shCerS4. Transfected vectors such as pcDNA3.1-CerS4-HA and pSUPER-shCerS4 were provided from Professor A.H. Futerman (Weizmann Institute of Science, Rehovot, Israel).
+
+## Generation of doxorubicin-resistant cell lines
+MCF-7/ADR cells were generated by prolonged treatment with doxorubicin at increasing concentrations (0.5 ~ 25 µM) for 6–8 months, as previously described [ ].
+
+## Western blot analysis
+The MCF-7, MCF-7/CerS4, and MCF-7/ADR cells were lysed by RIPA buffer (50 mM Tris-Cl; pH 7.5, 150 mM NaCl, 0.1% sodium dodecyl sulfate [SDS], 0.5% sodium deoxycholate, 1% Triton X-100 or Nonidet P-40 (NP-40), protease inhibitors, and phosphatase inhibitors). Cell lysates were incubated on ice for 30 min, and then the supernatants were obtained by centrifugation at 12,000 ×g for 15 min at 4℃. Quantification of the lysed protein was measured with Bio-Rad Protein Assay Dye Reagent (Bio-Rad Laboratories, Hercules, CA, USA). Afterward, 30 ~ 50 µg of the heat-denatured protein was loaded and separated by 10% SDS-PAGE. Separated proteins were transferred to a nitrocellulose membrane (Bio-Rad Laboratories), which was further blocked by 5% bovine serum albumin (BSA, Sigma-Aldrich) in TBST (TBS with 0.1% Tween 20) for 1 h. The membrane was incubated on a shaking incubator at 4℃ overnight to attach the primary antibody. Then, after washing with TBST, the secondary antibody was attached at room temperature for 1 h. Both primary and secondary antibodies were dissolved in TBST. Blots on the membrane were detected using ECL western blotting detection solution (ATTO), and then a digitized image of the membrane was captured using the ChemiDoc MP imaging system (Bio-Rad Laboratories).
+
+## RNA isolation and reverse transcription-real-time PCR
+Total mRNA of MCF-7 cells and MCF-7/CerS4 cells was extracted using RNeasy Mini Kits (Qiagen, Valencia, CA, USA), and mRNA was quantified using the NanoDrop 1000 spectrophotometer (Thermo Scientific, Wilmington, Denmark). To synthesize cDNA from mRNA, the Verso cDNA Synthesis Kit (Thermo Scientific) was used. To perform real-time PCR, a total volume of 10 µl containing 0.1 µg cDNA, 10 pmol forward primer and reverse primer, and SYBR-Green Master Mix (Thunderbird) was used. The analysis was performed using the CFX Connect Real-time PCR Detection System (Bio-Rad Laboratories). Thermal cycling conditions consisted of 1 min at 95℃, followed by 40 cycles of 15 s at 95℃ and 45 s at 60℃. The primers used in this paper are summarized in Supplementary Table .
+
+## MTT assay
+Viabilities of MCF-7 cells and MCF-7/CerS4 cells were measured by 3-(4,5-dimethylthiazol-2-yl)-2,5-diphenyltetrazolium bromide (MTT) assay. The cells were seeded at 5 × 104 in 96-well plates. After the cells had adhered, doxorubicin, paclitaxel, and tamoxifen were treated at different concentrations (0 ~ 50 µM) for 2 days. Then, MTT solution (5 mg/ml in phosphate-buffered saline [PBS]) was added to each well and incubated at 37℃ for 2–3 h until a purple precipitate was visible. Finally, 10% SDS was added to each well, and the absorbance was measured at 570 nm.
+
+## Transwell invasion assay with Matrigel
+A transparent PET membrane insert with an 8.0 μm hole was inserted into a 24-well plate. For coating of inserts, Matrigel and FBS-free medium were mixed in a ratio of 1:6. Then, 40–50 µl of the mixture was placed on the insert and incubated overnight in a 37℃ incubator for drying. After incubation, 750 µl of medium with 10% FBS was placed in the bottom well, and 5 × 104 cells in 200 µl of medium containing 0.5% FBS were added to the insert. After incubation for 48 h to allow cells to penetrate the lower wells, the cells were fixed using 100% methanol and stained with 0.4% trypan blue solution (Sigma-Aldrich) for 10 min. After washing with PBS, cell invasion was captured under a microscope.
+
+## LC-ESI-MS/MS analysis of ceramides
+Ceramide analyses by LC-ESI-MS/MS were conducted as described previously [ ].
+
+## RNA-sequencing (RNA-Seq) analysis
+Gene expression profiles of MCF-7 and MCF-7/CerS4 cells were compared using RNA-Seq. Total mRNA was extracted using RNeasy Mini Kits (Qiagen) according to the manufacturer’s protocol. The raw sequencing data were generated by the Illumina NovaSeq platform (pair-end, 2 × 101 bp). FastQC was used to assess the quality of the raw sequencing reads. Then, sequencing reads were aligned to the GRCh38 reference genome using the STAR aligner in two-pass mode with default parameters [ ]. DESeq2 analysis was performed to identify differentially expressed genes (DEGs). Statistically significant DEGs were defined with adjusted P < 0.0001 and |log2FC| > 1.5.
+
+## Analysis of TCGA-BRCA and GEO dataset
+To compare CERS4 expression between normal and cancer or LumA and non-luminal subtype A (non-LumA) breast cancer, TCGA-BRCA, GSE115577, and GSE96058 data were used. STAR raw count data for TCGA-BRCA were obtained in R using the TCGAbiolinks package. Then, the raw count was normalized using DESeq2 [ ]. The RMA-normalized probe intensities were obtained for GSE115577 in R using the GEOquery package [ ]. The FPKM expression matrix for GSE96058 was obtained from GEO. The molecular subtypes were obtained from metadata in each dataset [ ]. Kaplan−Meier survival analysis was performed to investigate the relationship between CERS4 expression and overall survival of the patient with LumA breast cancer. The optimal cut-off value for survival analysis was determined using the survminer package in R. GSE116436 was used to investigate changes in CERS4 expression in MCF-7 cells after various treatments with a chemotherapeutic agent. The gene expression profiles and EMT score of doxorubicin-resistant MCF-7/ADR cells were investigated using MCF-7/ADR dataset (GSE24460). The RMA-normalized probe intensities were obtained, and the limma package was used in R for DEG analysis [ ]. Statistically significant DEGs were defined with adjusted P < 0.01 and |log2FC| > 1.
+
+## Bioinformatic and statistical analyses
+All experiments were independently repeated three times, and the values were expressed as the mean ± standard error of the mean. Half maximal inhibitory concentration (IC50) for doxorubicin, paclitaxel, and tamoxifen was calculated using the drm package in R [ ]. The two-tailed Student t-test was performed to compare individual gene expression or cell viability between different MCF-7 cell lines with P < 0.05. For comparisons involving more than three cell lines, multiple time points, or treatment dosages, one- or two-way Analysis of Variance (ANOVA), and a Tukey post hoc test were performed. The functional annotation of DEGs was performed using Enrichr [ ]. The EMT score was calculated from RNA-Seq or microarray by the sum of the expression of nine well-known mesenchymal marker genes minus the total expression of five known epithelial genes, as previously described [ ]. Bioinformatic and statistical analyses were performed using R version 4.2.1.
+
+## Results
+
+## Expression of CERS4 and survival analysis across breast cancer cohorts
+Although elevated mRNA levels have been reported for CERS2, CERS4, and CERS6 in human breast cancer [ , ], the present study specifically focused on CerS4 because this protein was upregulated in not only TCGA-BRCA data but also MCF-7/ADR cells among all CerS proteins, indicating that CerS4 is expected to play an important role in breast cancer. To explore whether CerS4 expression is altered in breast cancer, The Cancer Genome Atlas Breast Invasive Carcinoma (TCGA-BRCA) and two Gene Expression Omnibus (GEO) datasets (GSE115577 and GSE96058) were analyzed. These analyses revealed significantly higher CERS4 mRNA expression levels in tumor tissues than in normal tissues in two cohorts (TCGA-BRCA, P < 0.0001; GSE115577, P < 0.0001; Fig.  A). To determine which breast cancer subtypes are characterized by elevated CERS4 mRNA, the datasets were reanalyzed according to breast cancer subtype, revealing significantly higher CERS4 mRNA expression in LumA than in non-LumA (LumB, HER2-positive, and basal) subtypes across all three cohorts (TCGA-BRCA, P < 0.0001; GSE115577, P = 0.007; GSE96058, P < 0.0001; Fig.  B). To elucidate the relationship between CERS4 expression and clinical prognosis in LumA breast cancer, Kaplan–Meier survival analyses were performed comparing LumA patients with higher CERS4 expression and those with lower CERS4 expression based on an optimal cutoff value. This analysis revealed that higher CERS4 mRNA expression levels were associated with poor overall survival in LumA breast cancer (TCGA-BRCA, P = 0.048; GSE96058, P = 0.0014; Fig.  C).
+ 
+
+## Identification of the molecular factors involved in cell proliferation in CerS4-overexpressing MCF-7 cells
+To explore the effects of chronic CerS4 overexpression, CerS4 was stably overexpressed in MCF-7 cells (MCF-7/CerS4), which express ER and PGR and are considered representative of the LumA [ ]. CERS4 mRNA levels increased by approximately 120-fold, and CerS4 protein levels increased by approximately 2.3-fold in MCF-7/CerS4 cells compared with control MCF-7 cells, with no apparent alterations in the mRNA or protein levels of other CerS family members (Fig.  A and C). CerS4 overexpression also increased the levels of C18- and C20-ceramides without changes in other ceramides (Fig.  B). To examine the effect of persistent CerS4 overexpression on cell proliferation, cell growth was measured using the MTT cell viability assay. MCF-7/CerS4 cell proliferation was greater than that for control MCF-7 cells (Fig.  D), and functional annotation of upregulated DEGs in MCF-7/CerS4 cells compared with control MCF-7 cells further showed activated cell cycle pathways (Table  ). These results suggest that CerS4 contributes to tumor cell proliferation by promoting cell cycle transitions.
+ To identify the molecular mechanisms involved in the increased proliferation observed for MCF-7/CerS4 cells compared with control MCF-7 cells, several proliferation-related signaling pathways were examined. NF-κB and Akt/mTOR activation and increased p90 ribosomal S6 kinase (p90RSK) phosphorylation were observed in MCF-7/CerS4 cells compared with control MCF-7 cells, whereas extracellular signal-regulated kinase (ERK) phosphorylation was reduced (Fig.  A), implying that p90RSK activation occurred independent of ERK activation. In MCF-7/CerS4 cells, glycogen synthase kinase-3β (GSK3β) phosphorylation was accompanied by β-catenin activation (Fig.  A). In MCF-7/CerS4 cells, β-catenin levels in both the nucleus and the cytosol increased compared with levels in control MCF-7 cells (Fig.  B), revealing β-catenin pathway activation in the presence of persistent CerS4 overexpression.
+ Because MCF-7 cells are positive for both ER and PGR [ ], the potential alterations in the expression of certain hormone receptors, including ERα (ESR1), ERβ (ESR2), and PGR (PGR), which are clinically important for predicting endocrine therapy efficacy, following persistent CerS4 overexpression were evaluated. ESR1 mRNA levels were significantly reduced in MCF-7/CerS4 cells compared with control MCF-7 cells, whereas the expression levels of other genes, such as ESR2 and PGR, were not altered (Fig.  C). Consistent with lower ESR1 mRNA levels, ERα protein levels were also reduced in MCF-7/CerS4 cells compared with control MCF-7 cells, and ERα phosphorylation increased at both Ser118 and Ser167 (Fig.  D and E). Increased PGR protein expression was observed in MCF-7/CerS4 cells compared with control MCF-7 cells, despite unaltered PGR mRNA levels (Fig.  C, D and E).
+SREBPs regulate fatty acid and cholesterol metabolism [ ], and their targets genes, such as fatty acid synthase (FASN) and stearoyl-CoA desaturase-1 (SCD1), are therapeutic targets in many cancers [ , ]. Therefore, the potential effects of persistent CerS4 overexpression on the expression of SREBPs and their downstream targets, such as FASN, SCD1, 3-hydroxy-3-methylglutaryl coenzyme A (HMG-CoA) reductase (HMGCR), and low-density lipoprotein receptor (LDLR), were examined. The mRNA expression levels of SREBP-1c and SREBP-2 increased in MCF-7/CerS4 cells compared with control MCF-7 cells, accompanied by the upregulation of FASN, SCD, HMGCR, and LDLR (Fig.  F). RNA-Seq analysis revealed that upregulated genes in MCF-7/CerS4 cells compared with control MCF-7 cells included well-known cancer-related transcription factors, such as ERG, MYC, ESR1, TP53, SP1, EP300, RAD21, NFKB1, SMAD3, and HDAC2 (Table  ). These data suggest a potential role for CerS4 in breast cancer progression via transcriptional regulation.
+ 
+
+## Multidrug-resistance (MDR) properties of CerS4-overexpressing MCF-7 cells
+Because chemotherapy failure can lead to cancer recurrence and death, the role of persistent CerS4 overexpression in the alteration of the chemoresistance properties of MCF-7 cells was examined by evaluating the impact of CerS4 overexpression on the responses of MCF-7 cells to the anticancer drugs doxorubicin, paclitaxel, and tamoxifen. Increased resistance to these three drugs in MCF-7/CerS4 cells compared with control MCF-7 cells was detected (Fig.  A–C). To identify the molecular mechanisms involved in CerS4-induced chemoresistance, microarray data were analyzed to examine the expression profiles of various ABC transporter genes. As shown in Fig.  D, the mRNA expression levels of ABCA3, ABCA12, TAP2, ABCC1, ABCC2, ABCD1, ABCD3, ABCE1, ABCF1, ABCF2, and ABCG2 were significantly higher in MCF-7/CerS4 cells than in control MCF-7 cells, whereas the levels of ABCA2, ABCA5, ABCA7, ABCB6, ABCB9, ABCC5, ABCD4, and ABCG1 were significantly reduced. Three groups of ABC transporters play major roles in chemoresistance: the classical P-glycoproteins (MDR1, ABCB1), the MDR-associated proteins (MRPs, in the ABCC subfamily), and ABCG2 (an ABC half-transporter) [ ]. These gene expression results were then confirmed using real-time PCR. Consistent with increased chemoresistance following CerS4 overexpression (Fig.  A–C), ABCB1 (MDR1), ABCC1 (MRP1), ABCC2 (MRP2), ABCC4 (MRP4), and ABCG2 (breast cancer resistance protein) were upregulated in MCF-7/CerS4 cells compared with control MCF-7 cells, whereas ABCB4 (MDR3) and ABCC11 (MRP8) were downregulated (Fig.  E).
+ 
+
+## Cell migration and EMT properties in CerS4-overexpressing MCF-7 cells
+The effect of CerS4 overexpression on the EMT process was analyzed in MCF-7 cells. The level of E-cadherin, an epithelial marker, were reduced in MCF-7/CerS4 cells compared with control MCF-7 cells, whereas the levels of mesenchymal cell markers, such as N-cadherin, vimentin, and Snail, increased (Fig.  A). The EMT score was significantly higher in MCF-7/CerS4 cells than in control MCF-7 cells (Fig.  B). In addition, cell migration increased in MCF-7/CerS4 cells compared with control MCF-7 cells (Fig.  C). These data suggest that CerS4 overexpression causes MCF-7 cells to acquire the characteristics of migratory mesenchymal cells.
+ 
+
+## Impacts of CerS4 in overcoming MDR in MCF-7 cells
+To test the potential that CerS4 may serve as a therapeutic target for overcoming MDR in breast cancer, CerS expression in Adriamycin (AD, also known as doxorubicin)-resistant MCF-7/ADR cells was analyzed. CERS2 mRNA expression was reduced, whereas CERS4 mRNA expression was significantly upregulated in MCF-7/ADR cells compared with control MCF-7 cells (Fig.  A). Though C16- and C20-ceramide levels were elevated in MCF-7/ADR cells, C22-, C24-, and C24:1-ceramide levels were reduced (Fig.  B). To elucidate whether CerS4 plays a role in the acquisition of chemoresistance, MCF-7/ADR cells were transfected with plasmids expressing CerS4-targeting shRNA (shCerS4). Reduced CERS4 expression and C20-ceramide level following shCerS4 plasmid transfection were confirmed in MCF-7/ADR cells (Fig.  A and B). CerS4 knockdown partially reversed drug resistance in MCF-7/ADR cells treated with doxorubicin, paclitaxel, or tamoxifen (Fig.  C–E), implying a critical role for CerS4 in the acquisition of MDR in breast cancer.
+ To further elucidate the molecular mechanisms through which CerS4 knockdown overcomes breast cancer chemoresistance, various signaling pathways associated with cell proliferation were examined. As shown in Fig.  A, the NF-κB, Akt/mTOR, and β-catenin pathways were activated in MCF-7/ADR cells, and this activation was suppressed by CerS4 knockdown. However, downregulated ERα expression in MCF-7/ADR cells was not recovered by CerS4 knockdown. To explore whether CerS4 plays a role in the regulation of ABC transporter gene expression, microarray data were analyzed. ABCA3, ABCB1 (209993_at and 209994_s_at), ABCB8, TAP1 (202307_s_at), TAP2 (204770_at), ABCC1 (202804_at and 202805_s_at), ABCC4, ABCC6 (214033_at), ABCE1 (201872_s_at), ABCF2 (209247_s_at), and ABCF3 (202394_s_at) were significantly upregulated in MCF-7/ADR cells compared with control MCF-7 cells, whereas ABCA5, ABCA12, ABCC3 (209641_s_at), ABCG1 (204567_s_at), and ABCG2 were downregulated (Fig.  B). CerS4 knockdown partially attenuated the upregulation of ABCB1 and ABCC1 and restored ABCC2 expression in MCF-7/ADR cells (Fig.  C). These data suggest that CerS4 overexpression may overcome chemoresistance by modulating gene expression associated with proliferation-related signaling pathways and ABC transporters, such as MDR1 and MRP1.
+ To investigate whether targeting CerS4 hampers EMT progression in an MDR breast cancer cell model, microarray data were analyzed. A total of 83 upregulated and 13 downregulated DEGs were shared between MCF-7/CerS4 and MCF-7/ADR cells (GSE24460; Fig.  A, Supplementary Table ). Functional annotation of the 83 shared, upregulated DEGs revealed the upregulation of the EMT pathway in both MCF-7/CerS4 and MCF-7/ADR cells (Table  ). Similarly, the EMT score calculated using the MCF-7/ADR dataset (GSE24460) was higher for MCF-7/ADR cells than for control MCF-7 cells (Fig.  B). CerS4 knockdown attenuated the upregulation of N-cadherin, vimentin, and Snail in MCF-7/ADR cells and partially restored E-cadherin expression (Fig.  C and D). Additionally, CerS4 knockdown inhibited cell migration in MCF-7/ADR cells (Fig.  E). These data suggest a critical role for CerS4 in EMT progression in MDR breast cancer.
+ 
+
+## Discussion
+Although increased CerS4 expression in breast cancer has been reported [ , ], the molecular mechanisms underlying CerS4 function and its roles in breast cancer development and progression remain incompletely understood. Since the concept of a sphingolipid rheostat was first suggested [ ], ceramide has been regarded as a tumor suppressor that induces cell death and growth arrest [ ]. However, recent studies suggest that endogenously generated ceramides have diverse functions that depend on their acyl chain lengths [ ]. One study suggested opposing roles for long-chain and very-long-chain ceramides in breast cancer growth, and CerS4-overexpressing MCF-7 cells were reported to exhibit lower cell viability and decreased colony formation than control MCF-7 cells [ ]. However, the previous study examining CerS4 overexpression used transient plasmid transfection [ ], whereas the present study investigated the effects of long-term CerS4 overexpression on tumor progression and chemoresistance in MCF-7 cells. This approach revealed that persistent CerS4 overexpression in MCF-7 cells accelerated cell proliferation and MDR acquisition, suggesting that CerS4 may represent a potential therapeutic target in LumA breast cancer.
+Multiple mechanisms could be involved in these processes. MCF-7/CerS4 cells exhibit increased expression of SREBP-1c, which plays an important role in cancer progression [ , ]. FASN and SCD1 are also considered therapeutic targets in many cancers [ , ], and SREBPs regulate breast cancer cell invasion and migration [ , ]. Furthermore, chronic CerS4 overexpression upregulated ABC transporters, such as ABCC1, ABCC2, ABCC4, ABCB1, and ABCG2. A major mechanism underlying MDR development is thought to be the overexpression of ABC transporters, which leads to the efflux of anticancer agents from tumor cells [ , ]. In addition, increased ERα phosphorylation at Ser118 and Ser167, as observed in MCF-7/CerS4 cells, is linked to tamoxifen resistance [ , ]. Chronic CerS4 overexpression in MCF-7 cells also altered several critical signaling pathways, including Akt/mTOR, NF-κB, and β-catenin, which play essential roles in cancer development and progression [ – ]. CerS4 overexpression in MCF-7 cells also increased cell cycle-related (Table  ) and cancer-related (Fig.  ; Tables  and ) gene expression, suggesting that CerS4 overexpression could accelerate cell division and proliferation. Together, all of the alterations induced by stable CerS4 overexpression may contribute to the development of chemoresistance and cancer progression.
+Although MCF-7/CerS4 cells exhibited reduced ERα expression, ERα phosphorylation increased at both Ser118 and Ser167. ERα phosphorylation is regulated by several upstream signaling pathways, such as Akt/mTOR and ERK/p90RSK [ ]. Ser118 phosphorylation can be mediated by both epidermal growth factor (EGF) and insulin-like growth factor (IGF), whereas Ser167 phosphorylation only occurs in response to EGF stimulation [ ]. In addition, oncogenic RET activation can induce ERα phosphorylation at Ser118 and Ser167 [ ]. However, EGF receptor, IGF receptor, and RET expression levels were unchanged in MCF-7/CerS4 cells compared with control MCF-7 cells (Supplementary Figure ), suggesting that ERα phosphorylation may be mediated by the Akt/mTOR or p90RSK signaling pathways in MCF-7/CerS4 cells. Although both MCF-7/CerS4 and MCF-7/ADR cells showed reduced ERα expression, CerS4 downregulation in MCF-7/ADR cells did not affect ERα expression, indicating that reduced ERα protein expression in MCF-7/ADR cells is not caused by CerS4 overexpression.
+MCF-7/CerS4 and MCF-7/ADR cells share similar properties, such as drug resistance and high ABC transporter expression. However, the ABC transporter expression pattern in MCF-7/CerS4 cells differed from that in MCF-7/ADR cells. MCF-7/CerS4 cells displayed increased expression of ABCC1, ABCC2, ABCC4, ABCB1, and ABCG2, whereas MCF-7/ADR cells showed increased expression of ABCC1, ABCC4, and ABCB1 but not ABCC2 and ABCG2. CerS4 knockdown in MCF-7/ADR cells only reduced ABCC1 and ABCB1 expression, suggesting that CerS4 may positively regulate ABCC1 and ABCB1, the most critical ABC transporters involved in the acquisition of chemoresistance. Consistently, CerS4 knockdown partially reversed the MDR phenotype in MCF-7/ADR cells upon treatment with doxorubicin, paclitaxel, or tamoxifen. These findings implicate CerS4 as an attractive target for overcoming chemoresistance in breast cancer, and treatment with various chemotherapeutic agents increased CerS4 expression (Supplementary Figure ). The precise role of CerS4 in drug metabolism during chemotherapy remains to be further elucidated.
+Stable CerS4 overexpression in MCF-7 cells also promotes EMT and cell migration, resulting in the upregulation of the mesenchymal markers N-cadherin, vimentin, and Snail [ ] and the downregulation of the epithelial marker E-cadherin [ ]. The loss of E-cadherin directly correlates with the loss of the epithelial phenotype [ ]. Interestingly, CerS4 knockdown restored these phenotypes in MCF-7/ADR cells, indicating that CerS4 governs the EMT process in breast cancer and that reducing CerS4 expression may contribute to the shift of mesenchymal-like cancer cells toward an epithelial state. During the EMT, the tightly connected epithelial cells lose their polarity and gain a migratory mesenchymal phenotype [ ]. Therefore, long-term CerS4 overexpression in breast cancer may also play essential roles in cancer cell migration and metastasis.
+The present study introduced the possible oncogenic role of CerS4 in LumA breast cancer. CerS4 was found to be associated with many cancer-related signaling pathways, chemoresistance, and EMT. CerS4 overexpression also increased cell cycle and cell proliferation. Therefore, targeting CerS4 could serve as a novel therapeutic approach to inhibit tumor growth, enhance sensitivity to chemotherapy, and potentially prevent metastasis in LumA breast cancer patients. Analyses of CerS4 expression profiles could help optimize treatment plans and avoid ineffective therapies in breast cancer patients. However, further research and clinical studies will be necessary to fully validate the clinical relevance of CerS4 and its therapeutic potential.
+
+## Conclusions
+Long-term CerS4 overexpression promotes breast cancer progression and invasiveness by activating several cancer-related signaling pathways, such as Akt/mTOR, NF-κB, and β-catenin, and inducing EMT. In addition, CerS4 impacts chemoresistance via the positive regulation of MDR1 (ABCB1) and MRP1 (ABCC1), two key ABC transporters involved in MDR acquisition. Considering TCGA-BRCA data, which revealed that higher CerS4 expression was associated with poor prognosis in LumA, CerS4 might be applied as a potential prognostic or chemoresistance marker. Chronic alteration of CerS4 expression could critically impact breast cancer progression, metastasis and chemoresistance, positioning CerS4 as a novel target candidate for breast cancer therapy.
+
+## Electronic supplementary material
+Below is the link to the electronic supplementary material.
+
+Supplementary Material 1
+
+Supplementary Material 2
+
+Supplementary Material 3
+
+Supplementary Material 4
+
+## Acknowledgements
+This study met the publication guidelines provided by TCGA (http://www.cancer.gov/about-nci/organization/ccg/research/structrual-genomics/tcga/using-tcga/citing-tcga).
+
+## Abbreviations
+ABCATP-binding cassette
+ADAdriamycin
+Aktprotein kinase B
+ANOVAanalysis of variance
+BSAbovine serum albutmin
+CerSceramide synthase
+DEGdifferentially expressed gene
+EGFepidermal growth factor
+EMTepithelial−mesenchymal transition
+ERestrogen receptor
+ERKextracellular signal-regulated kinase
+FASNfatty acid synthase
+FBSfetal bovine serum
+GEOGene Expression Omnibus
+GSKglycogen synthase kinase
+HER2human epidermal growth factor receptor 2
+HMGCR3-hydroxy-3-methylglutaryl coenzyme A reductase
+IC50half maximal inhibitory concentration
+IGFinsulin-like growth factor
+LDLRlow-density lipoprotein receptor
+LumAluminal subtype A
+LumBluminal subtype B
+MCF-7/ADRDoxorubicin-resistant MCF-7 cell line
+MCF-7/CerS4CerS4-overexpressing MCF-7 stable cell line
+MDRmultiple drug resistance
+MRPMDR-associated protein
+mTORmammalian target of rapamycin
+NF-κBnuclear factor-kappa B
+PGRprogesterone receptor
+RNA-seqRNA-sequencing
+SCD1stearoyl-coenzyme A desaturase 1
+SREBPsterol regulatory element-binding protein
+S6Kp90 ribosomal S6 kinase
+TCGA-BRCAthe Cancer Genome Atlas Breast Invasive Carcinoma
+
+## Authors’ contributions
+JWP, SK, WJP contributed to the conception and design of the study. SJK, IS, MHK, and WJP performed the experiments and shared raw data for legitimacy. IS, JWP, SK and WJP contributed to the acquisition of data and wrote the manuscript. SJK, IS, MHK and WJP edited figures. IS, JWP, SK, and WJP reviewed and edited the manuscript. All authors read and approved the manuscript.
+
+## Funding
+This work was supported by the National Research Foundation of Korea grants funded by the Korean Government Ministry of Education, Science and Technology; grant no. NRF-2021R1F1A1045565 and 2021R1I1A3A04037479.
+
+## Data Availability
+The datasets used and/or analysed during the current study are available from the corresponding author on reasonable request.
+
+## Declarations
+
+## Ethics approval and consent to participate
+None.
+
+## Consent for publication
+None.
+
+## Competing interests
+The authors declare that they have no competing interests.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Su-Jeong Kim and Incheol Seo contributed equally to this work.
+
+## Contributor Information
+Shin Kim, Email: god98005@dsmc.or.kr.
+Woo-Jae Park, Email: ooze@cau.ac.kr.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Material 1
+Supplementary Material 2
+Supplementary Material 3
+Supplementary Material 4
+
+## Data Availability Statement
+The datasets used and/or analysed during the current study are available from the corresponding author on reasonable request.

@@ -1,0 +1,204 @@
+pmcHeliyonHeliyon2992heliyon101672560Heliyon2405-8440ElsevierPMC11087971PMC11087971.111087971110879713873726310.1016/j.heliyon.2024.e30512S2405-8440(24)06543-5e305121Research ArticleSubacromial bursa in patients with rotator cuff tear with or without adhesive capsulitis exhibits a differential transcriptome with potential molecular biomarkers 
+WangQiuyuanwangqiuyuan_1999@163.com ZhouFengdrzhoufeng1991@163.com XuPingcheng136645478@qq.com ZhaoLingyingjssandyzly@163.com GuoJiong Jiongdrjjguo@163.comguojiongjiong@suda.edu.cn aDepartment of Orthopedics and Sports Medicine, The First Affiliated Hospital of Soochow University, Suzhou, PR ChinabDepartment of Orthopedics, Suzhou Wujiang District Fourth People's Hospital, Suzhou, PR ChinacDepartment of Hematology, National Clinical Research Center for Hematologic Disease, The First Affiliated Hospital of Soochow University, Suzhou, PR ChinadJiangsu Institute of Hematology, Key Laboratory of Thrombosis and Hemostasis of Ministry of Health of PR China, Suzhou, PR ChinaeChina-Europe Sports Medicine Belt-and-Road Joint Laboratory, Ministry of Education of PR China, PR China⁎Corresponding author. 188 Shizi Street, Suzhou, 215006, PR China. drjjguo@163.comguojiongjiong@suda.edu.cn15520243042024109461321e30512121202423420242942024300420241105202402082026© 2024 The Authors2024https://creativecommons.org/licenses/by-nc/4.0/This is an open access article under the CC BY-NC license (http://creativecommons.org/licenses/by-nc/4.0/).
+
+## Background
+Although adhesive capsulitis (AC) is a common condition, the pathological mechanisms remain understudied. The purpose of our research was to evaluate variations in gene expression across the entire genome in the subacromial bursa tissue of individuals with rotator cuff tears (RCT), with or without AC, and to explore the factors that may influence the occurrence and progression of AC.
+
+## Methods
+Transcription profiles of subacromial bursa samples from 12 RCT patients, of whom 6 had also AC, were evaluated. Data were generated using RNA-seq. DESeq2 was utilized to identify the differentially expressed genes (DEGs) in both groups. In order to conduct a more in-depth examination of the DEGs, we performed Gene Ontology (GO) functional enrichment and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway analysis. A network of interactions between proteins was built, and the central genes were determined using Cytoscape. The hub genes were confirmed through qRT-PCR and immunohistochemistry.
+
+## Results
+324 of the 16,251 detected genes were identified as DEGs. Analysis of GO functional enrichment showed that the DEGs were enriched in domains of biological process, molecule function and cellular component. Analysis of KEGG pathways revealed enrichment of DEGs in pathways like IL-17 signaling and ECM-receptor interaction. We verified that the association between AC and the increase in expression of the PPI network hub genes.
+
+## Conclusion
+This study investigated the transcriptome differences of subacromial bursa in RCT patients with or without AC. Using bioinformatics technology, we identified the DEGs and screened out the hub genes. The research enhanced the data on gene expression profiles of DEGs in the subacromial bursa tissue of patients with RCT, offering fresh perspectives on the regulation of gene transcription.
+
+## Keywords
+Rotator cuff tearAdhesive capsulitisRNA-SeqSubacromial bursapmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC1
+
+## Background
+Rotator cuff tear (RCT) is a common joint disease that causes joint pain and dysfunction. The frequency of RCT rises with advancing age and surpasses 25 % in individuals aged 60 and above [ ]. The treatment of RCT through open or arthroscopic surgery has been implemented worldwide for decades, and the overall effect is satisfactory. Up to 10 %–40 % of patients with RCT have a concomitant adhesive capsulitis [ ].
+Adhesive capsulitis also called as frozen shoulder, is another common disease which affects 2 %–5 % of general population worldwide [ ]. Shoulder pain and limited range of motion may result from AC. The fibrosis of the shoulder joint capsule is a characteristic pathological feature of AC. Treatments modalities for AC include medication, local steroid injection, physiotherapy, and even surgical release [ ].
+However, there is no consensus on treating RCT patients with AC [ ]. Repairing the torn cuff surgically involves tightening the joint, potentially worsening stiffness. In addition to surgery, biological technology is also applied to the treatment, such as such as platelet-rich plasma injection [ ]. Therefore, it is necessary to further study the pathological changes of RCT and explore new therapeutic targets.
+The study of transcriptomics offers a method for examining diseases on a cellular scale, potentially aiding in identifying disease causes. RNA-seq is a crucial tool in transcriptomics research for analyzing gene expression in tissues and cells. RNA-seq analysis of the subacromial bursa in individuals with RCT may provide new perspectives on the pathogenesis and molecular characteristics of these disorders.
+This study aimed to analyze variations in gene expression across the entire genome in subacromial bursa tissue of RCT patients with or without AC, while also investigating factors that may influence the development and occurrence of AC.
+In our study, RNA-seq was utilized to detect genes that were expressed differently in the subacromial bursa tissue of RCT patients with or without AC. Furthermore, the differentially expressed genes (DEGs) were analyzed using Gene Ontology (GO) functional enrichment and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway analysis. Next, we built the protein-protein interaction (PPI) networks to identify hub genes. The confirmed hub genes could be utilized as biomarkers to distinguish variations in the subacromial bursa tissues of RCT individuals with or without AC, owing to their pivotal function in gene expression networks.
+
+2
+
+## Materials and methods
+2.1
+
+## Patients and sample collection
+From September 2022 to November 2022, patients who had symptomatic RCT and underwent surgery at the First Affiliated Hospital of Soochow University were assessed. Every patient underwent shoulder X-ray (anteroposterior view and supraspinatus-outlet view) and MRI before surgery. By utilizing both imaging and patient history, we ruled out patients with related glenohumeral injuries like Bankart lesions, osteoarthritis alterations, and large rotator cuff tears (tear size > 5 cm). Large aera tears were not considered due to their increased likelihood of functional impairment and may be misinterpreted as AC. To reduce the impact of other variables that are linked to the development of AC, individuals with metabolic conditions like diabetes mellitus and thyroid problems were not included in the study. The study also excluded patients who had previously acute trauma, dislocation, fracture, surgery on the shoulder, and stiffness on both sides. Information on demographics (age, gender, BMI) and disease characteristics, such as duration and range of motion (ROM) of the affected shoulder in various positions, was gathered. AC was defined as limited passive ROM of less than 25 % or 30° in comparison to the standard or opposite side in at least two out of three movements, which including flexion, external rotation at side, and internal rotation at back [ ]. The subacromial bursa tissues were carefully examined and excised using arthroscopic techniques during the surgical procedure. Upon collection, the samples were promptly frozen in liquid nitrogen and subsequently kept at −80 °C until needed for future studies. Patient evaluation and surgery were performed by the same senior shoulder surgeon. The authors' organization's institutional review board approved the research procedures. All patients signed a consent form before inclusion.
+
+2.2
+
+## RNA isolation and library preparation
+Total RNA was extracted from the subacromial bursa tissues using the TRIzol reagent (Invitrogen, CA, USA) according to the manufacturer's protocol. The NanoDrop 2000 Spectrophotometer (Thermo Scientific, USA) was utilized to assess the quality and measure the amount of RNA. RNA quality was evaluated with the Agilent 2100 Bioanalyzer (Agilent, California, USA). Subsequently, the libraries were built with the RNA-seq Library Prep Kit in accordance with the instructions provided by the manufacturer. OE Biotech Co., Ltd. (Shanghai, China) performed the sequencing of the transcriptome.
+
+2.3
+
+## RNA sequencing and DEGs analysis
+Sequencing of the libraries was performed using the illumina Novaseq 6000 platform and 150 bp paired-end reads were generated. Fastq format raw reads were initially processed with fastp to eliminate low-quality reads and obtain clean reads [ ]. The clean reads were aligens to the source genetic material with the assistance of HISAT2 [ ]. The FPKM value for every gene was computed and the number of reads for each gene was determined using HTSeq-count [ , ]. Principal component analysis (PCA) was conducted using R Statistical Software (version 3.2.0) to evaluate the biological replication in the samples.
+DEGs analysis was performed using the DESeq2 [ ]. A threshold was set for genes showing significantly DEGs with an adjusted P value < 0.05 and foldchange >2 or foldchange <0.5.
+
+2.4
+
+## GO functional enrichment and KEGG pathway analysis
+The DEGs were analyzed for functional enrichment using GO annotations [ ], covering biological process (BP), molecular function (MF), and cellular component (CC) domains, as well as KEGG pathway analysis [ ]. The KEGG database offers comprehensive data on gene functions, encompassing biochemical pathways and interactions at both the molecular and systemic levels. Gene clusters were annotated and visualized for biological themes using the clusterProfiler package, a tool in R. The hypergeometric test was utilized for conducting enrichment analysis. A threshold of less than 0.05 was selected as the significance level to identify a statistically meaningful difference.
+
+2.5
+
+## PPI network and hub gene analysis
+The PPI networks were constructed using the STRING database [ ]. The minimum interaction score needed had the medium confidence (score >0.4). Cytoscape (version 3.9.0) was used to visualize these PPI networks. We analyzed the primary functional components with the assistance of the Molecular Complex Detection Technology (MCODE) plugin. Scoring each gene node using the MCC algorithm and CytoHubba plugin. The GeneMANIA website [ ],which is utilized for building PPI networks, was employed to forecast gene function and identify genes that have similar impacts. GeneMANIA was utilized in the research to discover hub genes' PPI networks.
+
+2.6
+
+## Validation of hub gene expression by qRT-PCR
+Quantitative real-time PCR (qRT-PCR) was performed to confirm the accuracy of RNA-seq analysis in detecting the DEGs and to assess the expression levels of the hub genes. RNA was isolated from subacromial bursa tissue samples with TRIzol Reagent and converted to cDNA using SweScript All-in-One SuperMix (Thermo Scientific, USA). A qRT-PCR was then performed using the SYBR Green qPCR Master Mix (None ROX, Thermo Scientific, USA). GAPDH gene served as the internal control. The mRNA expression was calculated using the 2−ΔΔCt method. In this method, group C was used as the control group.
+
+2.7
+
+## Immunohistochemistry (IHC)
+Samples were selected for paraffin embedding and sectioning. The area was marked with hematoxylin-eosin (HE) staining. MMP2, MMP9, COL1A1, and PTGS2 expression (dilution 1:50, Thermo Fisher Scientific) were identified using the immunohistochemistry kit instructions (ZSBIO, China). Briefly, the endogenous peroxidase of sections was inactivated by incubation with 3 % of H2O2 for 10 min. Next, the portions were exposed to thinned antibodies, such as MMP2, MMP9, COL1A1, and PTGS2, overnight at 4 °C. Images were acquired using a slice scanner (Pannoramic MIDI, 3DHISTECH). Positive cells were counted using Image J software (version 1.54). The counts were conducted by two separate observers, and the average value was determined.
+
+2.8
+
+## Statistical analysis
+Data were expressed as mean ± standard deviation. Differences between two groups were compared via two-sided Student's t-test. Data with p < 0.05 were considered to have statistically significant differences. In this study, “*”and “**” denoted p < 0.05 and p < 0.01, respectively. The data analysis was calculated with SPSS 22.0 analysis software (SPSS Inc, Chicago, IL, USA).
+
+3
+
+## Results
+3.1
+
+## Population characteristics
+Twelve patients were included: 6 with RCT and AC (named as group E), 6 with RCT without AC (named as group C). contains information on the demographics. There were no statistically significant differences between the two groups. Mean ROM of the enrolled patients are listed in . 
+
+3.2
+
+## Identification of the DEGs
+Sequencing data comprised 16,251 genes, 324 of them were identified as the DEGs. Among these, 158 genes were upregulated and 166 genes were downregulated. A shows the Principal Component Analysis (PCA) plot of the samples. In B and C, the volcano plot and heatmap display the DEGs respectively. provides details on the top 30 DEGs. Additional file 1:
+ 
+contains information about all DEGs. 
+
+3.3
+
+## GO functional enrichment and the KEGG pathway analysis
+Analysis of GO functions showed that the DEGs were enriched in extracellular matrix organization (P = 4.95 × 10−11), collagen catabolic process (P = 1.89 × 10−9), and extracellular matrix disassembly (P = 1.37 × 10−6) functions within the BP domain. In the MF category, the DEGs showed enrichment in metalloendopeptidase activity (P = 1.93 × 10−6), growth factor activity (P = 9.28 × 10−5), and serine-type endopeptidase activity (P = 9.81 × 10−5) functions. Inthe CC category, the DEGs showed enrichment in the extracellular space (P = 2.10 × 10−14), extracellular region (P = 9.42 × 10−9), and extracellular matrix (P = 3.56 × 10−8) functions ( A). 
+In accordance with the functional classification, GO is typically divided into three levels. Level 1 encompasses three entries: BP, CC and MF. Level 2 comprises 64 entries, including cellular process, cell and binding. Level 3 encompasses various entries utilized for conventional enrichment. The functions from level 1 to level 3 are more specific. B shows the comparative distribution of differential genes at GO Level 2.
+Analysis of KEGG pathway revealed that the DEGs were concentrated in the IL-17 signaling pathway (P = 1.25 × 10−3), Endocrine resistance (P = 1.50 × 10−3), Parathyroid hormone synthesis, secretion and action (P = 1.25 × 10−3), ECM-receptor interaction (P = 4.33 × 10−3) and other pathways ( ). The important pathways involved in the IL-17 signaling pathway and ECM-receptor interaction are shown in A and B. 
+
+3.4
+
+## PPI network construction and identification of hub genes
+Our analysis produced 318 nodes and 550 edges using the STRING database. The PPI enrichment P-value was 1.0 × 10−16.10 modules were discovered using the MCODE extension in Cytoscape. The valuablethree modules are showen in A,B,C,D. Through the utilization of cytoHubba extension in Cytoscape, we finally identified Interleukin 6 (IL6), Matrix Metallopeptidase 1 (MMP1), MMP2, MMP3, MMP9, Collagen Type I Alpha 1 Chain (COL1A1), Periostin (POSTN), RUNX Family Transcription Factor 2 (RUNX2), Twist Family BHLH Transcription Factor 1 (TWIST1), Prostaglandin-Endoperoxide Synthase 2(PTGS2) genes as the hub genes. 
+Next, we used the GeneMANIA database to investigate the co-expression networks and potential functions of the hub genes ( ). The intricate PPI networks were unveiled, showcasing genetic interactions at 0.83 %, predicted at 3.52 %, co-localization at 4.69 %, physical interactions at 8.29 %, shared-protein domains at 17.33 %, co-expression at 65.79 %. Analysis of function showed that they are associated with pathways such as collagen metabolic process, metallopeptidase activity, extracellular matrix organization, regulation of inflammatory response, skeletal system development, demonstrating their involvement in disease development. 
+
+3.5
+
+## Validation of the hub genes and immunohistochemistry
+QRT-PCR was used to confirm the levels of expression of the 10 hub genes in the subacromial bursa tissue collected from RCT patients, with or without AC. contains the primer sequences used in this experiment. The statistical analysis indicated that the levels of IL6, MMP2, MMP9, COL1A1 and POSTN were notably elevated in the subacromial bursa tissue of RCT patients with AC compared to those without AC. Conversely, MMP1, MMP3, RUNX2, TWIST1 and PTGS2 levels were significantly higher in the tissue samples of RCT patients without AC than in those with AC ( ). 
+HE staining and immunohistochemistry results are shown in A,B,C. Significant variations in the staining intensity of MMP2, MMP9 and COL1A1 between the two groups, with no notable differences found in the staining of PTGS2. 
+
+4
+
+## Discussion
+In this study, we screened 324 DEGs and found that 158 of them were upregulated and 166 were downregulated. Following GO enrichment analysis, it was discovered that numerous biological processes associated with the extracellular matrix, such as extracellular matrix disassembly, organization, and collagen catabolic process, were significantly enriched. Additionally, KEGG enrichment analysis indicated significant enrichment of Endocrine resistance, IL-17 signaling pathway, and ECM-receptor interaction. The findings presented indicate a significant involvement of extracellular matrix, metabolic factors, and inflammation in the progression of AC. Then, we identified ten DEGs as hub genes using the STRING database and Cytoscape. We verified the differential expression of these hub genes in two groups of samples by qPCR. Among these DEGs, IL6, MMP2, MMP9, COL1A1, were up-regulated in RCT patients with AC, while MMP1 and MMP3 were down-regulated.
+RCT is often accompanied by AC due to several reasons. For example, the pain from the injury can result in reduced joint activity and facilitate the shoulder stiffness. In addition, inflammation caused by RCT can lead to secondary AC [ ]. There were many studies about postoperative rehabilitation after RCT [ , ], whose main purposes were to minimize postoperative stiffness incidence and duration. Meanwhile, only a few studies were related to preoperative RCT and concomitant AC. Therefore, we aimed to identify the specific expression genes involved in RCT with AC and we perform functional analysis in order to clarify the molecular pathogenesis of the disease and the strategy of precision medicine.
+Matrix Metallopeptidases (MMPs) play a role in breaking down the extracellular matrix during regular physiological functions and tissue restructuring, as well as in conditions like arthritis and tumors. MMPs are also essential for controlling inflammatory responses [ ]. Fibroproliferative tissue fibrosis in the shoulder capsule is a key feature of AC, believed to be influenced by cytokines, growth factors, and enzymes like MMPs. There is evidence indicating the involvement of inflammatory mediators and various immune cells in this process [ ]. MMP2 and MMP9 gelatinases share motifs resembling fibronectin, which boost their ability to interact with gelatin or gelatin-like substances by assisting in the attachment of fibronectin to denatured collagen [ ]. Previous studies have shown that MMP2 and MMP9 upregulate in the development of AC, both in tissues collected from human patients and the rat contracture model [ , ]. MMP2 and MMP9 have been discovered to involve in the survival, growth, movement, and infiltration of synovial fibroblasts in rheumatoid arthritis, a different chronic inflammatory condition [ ]. Synovial fibroblasts have been suggested to potentially accelerate the development of pathological fibrosis in FS [ ], possibly through activation and production of inflammatory cytokines [ ]. MMP2 is also involved in the degradation of the proteoglycan Decorin, which induces the release of transforming growth factor beta (TGFβ) [ ]. Fibroblasts are significantly influenced by TGF-β, which is essential in the development of fibrosis [ ]. In addition to MMP2 and MMP9, other MMPs (such as MMP11, MMP13, MMP14 and MMP17) are also identified as DEGs. They are likely to participate in the fibrosis process of AC. MMP1, MMP3, MMP9, MMP13 and IL6 are also involved in IL-17 signaling pathway. These findings indicate that the MMPs family plays a significant part in the occurrence of AC.
+The IL6 gene produces a protein that involves in the immune response to inflammation. This interleukin involves in numerous disease conditions related to inflammation, such as diabetes mellitus [ ] and rheumatoid arthritis [ ]. IL6 is upregulated in AC synovial fibroblasts and promotes AC fibrosis through the PI3K-Akt signaling pathway [ ]. It had also been detected in subacromial bursa and synovial tissues of AC patients [ , ]. Genes related to inflammatory response, such as CCL16, IL27, NLRP6, PTGS2, were screened as DEGs. IL27 and IL6 belong to the IL6 family and both utilize the shared signaling receptor subunit glycoprotein 130 kDa (gp130) [ ]. IL6 and IL27 regulate the signal transducer and activator of transcription 1 (STAT1) and STAT3 signaling pathways to affect the effector properties of T cells. IL27 inhibits the differentiation of Th17 cells by enhancing STAT1 activity [ ]. Recent research has shown that patients with AC have a high concentration of T cells in the shoulder capsule tissue. CD4+ CD127+ T cells expressed Th17 related genes [ ]. The upregulation of IL27 expression that we found may be an attempt by the body to regulate the inflammatory response, thereby maintaining immune balance and controlling inflammation. IL6 activates the JAK-STAT signaling pathway to increase PTGS2 expression [ ]. In turn, PTGS2 products, particularly Prostaglandin E2 (PGE2), can increase IL6 expression [ ]. These genes suggest that AC is an inflammatory condition.
+The shoulder joint capsule, which is in good health, is made up of dense type I collagen and elastic fiber bundles, giving it a collagenous structure. Fibroblasts support the capsule integrity by generating proteins in the extracellular matrix (ECM) that offer a strong yet adaptable framework. KEGG pathway analysis showed the genes COL1A1, COL2A1, COL4A4, COL28A1 encoding collagen participate in the above process through ECM-receptor interaction.
+The primary innovation of this study is the unique grouping of patients with RCT based on the presence or absence of AC, and the utilization of transcriptome sequencing analysis of subacromial bursa samples from each group. Previous studies have focused on the differences in the transcriptome of tendons in RCT patients based on tear etiology and gender [ ]. In contrast, by comparing the molecular differences between adhesive and non-adhesive patients, we provide fresh perspectives on the pathogenesis of AC, especially in the molecular processes involved in adhesion formation. Prior research has utilized PCR to evaluate the gene expression of inflammatory and fibrosis-related factors in individuals with AC and RCT [ ]. Our study used transcriptome sequencing technology, which is a more comprehensive and high-throughput analysis. Transcriptome sequencing allows us to go beyond the analysis of preselected genes to reveal unknown or unanticipated bioinformatics findings. The application of this method provides unprecedented detail and depth for comparing RCT patients with and without AC. By systematically analyzing and comparing transcriptome data, distinct gene expression signatures between two clinically relevant patient subgroups were established, and potential biomarkers were identified. In the future, this may provide stronger scientific support for the treatment decisions of patients with RCT, and provide guidance for future clinical interventions.
+Although our study has made certain findings and progress, it is important to consider several limitations when discussing our results. Firstly, we did not use Western blotting to verify the protein expression results, instead, we used immunohistochemistry to validate our findings at the protein level. Secondly, the study had a small sample size, potentially restricting the applicability of our results. To validate these findings, it would be useful to expand the sample size in future studies. Additionally, our preliminary results are promising, but they need to be validated in a wider range of samples and by using multiple methods, including Western blotting. We encourage future work to utilize these techniques and expand the sample size to further investigate and confirm our findings.
+
+5
+
+## Conclusion
+In summary, this study investigated the transcriptome of RCT accompanied with AC, and compared with the simple RCT without AC. Bioinformatics was used to identify DEGs and analyze their KEGG pathway enrichment and GO functional enrichment. MMP1, MMP2, MMP3, MMP9, IL6, COL1A1 and POSTN were screened as hub DEGs and verified by qPCR. The research expanded the data on gene expression profiles of DEGs in the subacromial bursa tissue of RCT patients, with or without AC, offering fresh perspectives on gene expression transcriptional regulation. Additional mechanistic research is required to ascertain the importance of these variances in the development of the illness.
+
+## Ethics statement
+This study was performed in agreement with the Declaration of Helsinki, and with local and national laws. This work was approved by the clinical research ethics committee at the First Affiliated Hospital of Soochow University (2022–007), and all participants signed an informed written consent before inclusion in the study.
+
+## Consent for publication
+Not applicable.
+
+## Data availability statement
+The transcriptome sequencing data generated in this study have been deposited in the NCBI Sequence Read Archive (SRA). The data are accessible through the SRA accession number [PRJNA1082194]. This dataset includes raw sequencing reads for all samples analyzed in this study. The data underpin the findings presented herein and can be freely accessed by researchers in accordance with the terms and conditions of the SRA database. The other datasets used and analyzed during the study available from the corresponding author on reasonable request.
+
+## Funding
+This work was supported by 10.13039/501100012166National Key Research and Development Program of China (grant number 2022YFE0199900), Clinical Application-oriented Medical Innovation Foundation (grant number 2021-NCRC-CXJJ-PY-09) from National Clinical Research Center for Orthopedics, Sports Medicine & Rehabilitation and Jiangsu China-Israel Industrial Technical Research Institute Foundation, 10.13039/501100002949Jiangsu Province Science and Technology Innovation Support Plan Project (grant number BZ2022051), China-Europe Sports Medicine Belt-and-Road Joint Laboratory, 10.13039/501100002338Ministry of Education of PRC (grant number 2023297), and Key Research Project of Higher Education Teaching Reform of 10.13039/501100007824Soochow University (grant number 2023–12).
+Role of the Funder/Sponsor: The funders had no role in the design and conduct of the study; collection, management, analysis, and interpretation of the data; preparation, review, or approval of the manuscript; and decision to submit the manuscript for publication.
+
+## Availability of data and materials
+The datasets generated during and/or analyzed during the current study are available from the corresponding author on reasonable request.
+
+## CRediT authorship contribution statement
+Qiuyuan Wang: Writing – review & editing, Writing – original draft, Formal analysis, Data curation. Feng Zhou: Writing – original draft, Conceptualization. Pingcheng Xu: Formal analysis, Data curation. Lingying Zhao: Supervision, Methodology, Funding acquisition, Conceptualization. Jiong Jiong Guo: Writing – review & editing, Supervision, Investigation, Funding acquisition, Data curation, Conceptualization.
+
+## Declaration of competing interest
+The authors declare the following financial interests/personal relationships which may be considered as potential competing interests: Jiong Jiong Guo reports financial support was provided by 10.13039/501100012166National Key Research and Development Program of China. Jiong Jiong Guo reports financial support was provided by 10.13039/501100002949Jiangsu Province Science and Technology Innovation Support Plan Project. Jiong Jiong Guo reports financial support was provided by China-Europe Sports Medicine Belt-and-Road Joint Laboratory, Ministry of Education of PRC. Jiong Jiong Guo reports financial support was provided by Key Research Project of Higher Education Teaching Reform of 10.13039/501100007824Soochow University. If there are other authors, they declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+ 
+
+## Abbreviations
+
+ACAdhesive capsulitis
+BPBiological process
+CCCellular component
+CCL16C–C motif chemokine ligand 16
+COL1A1Collagen Type I Alpha 1 Chain
+COL28A1Collagen type XXVIII alpha 1 chain
+COL2A1Collagen type II alpha 1 chain
+COL4A4Collagen type IV alpha 4 chain
+DEGsDifferentially expressed genes
+ECMExtracellular matrix
+FPKMFragments Per Kilobase of exon model per Million mapped fragments
+GAPDHGlyceraldehyde-3-phosphate dehydrogenase
+GOGene Ontology
+gp130glycoprotein 130 kDa
+HEHematoxylin-eosin
+IHCImmunohistochemistry
+IL6Interleukin 6
+IL17Interleukin 17
+IL27Interleukin 27
+IRSimmunoreaction score
+KEGGKyoto Encyclopedia of Genes and Genomes
+MCODEMolecular Complex Detection
+MFMolecular function
+MMP1Matrix Metallopeptidase 1
+MMP2Matrix Metallopeptidase 2
+MMP3Matrix Metallopeptidase 3
+MMP9Matrix Metallopeptidase 9
+MMP11Matrix Metallopeptidase 11
+MMP13Matrix Metallopeptidase 13
+MMP14Matrix Metallopeptidase 14
+MMP17Matrix Metallopeptidase 17
+NLRP6NLR family pyrin domain containing 6
+PCAPrincipal component analysis
+PGE2Prostaglandin E2
+POSTNPeriostin
+PPIProtein-protein interaction
+PTGS2Prostaglandin-Endoperoxide Synthase 2
+qRT-PCRReal-time Quantitative polymerase chain reaction
+RCTRotator cuff tear
+ROMRange of motion
+RUNX2RUNX Family Transcription Factor 2
+STAT1signal transducer and activator of transcription 1
+STAT3signal transducer and activator of transcription 3
+STRINGSearch Tool for the Retrieval of Interacting Genes/Proteins
+TWIST1Twist Family BHLH Transcription Factor 1
+
+Appendix A
+
+## Supplementary data
+The following is the Supplementary data to this article:
+
+## Multimedia component 1
+Multimedia component 1
+
+## Acknowledgements
+We dedicate this article to the memories of Ms Lingfen Zhou, the mother of Dr. JJ Guo, who made important contributions to the development and realization of this project.
+☆Dr. Wang and Zhou contributed equally to this article.
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.heliyon.2024.e30512.

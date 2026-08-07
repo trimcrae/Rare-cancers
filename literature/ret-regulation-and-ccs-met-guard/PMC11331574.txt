@@ -1,0 +1,186 @@
+pmcTechnol Cancer Res TreatTechnol Cancer Res Treat3299tctTCTTechnology in Cancer Research & Treatment1533-03461533-0338SAGE PublicationsPMC11331574PMC11331574.111331574113315743915561410.1177/1533033824127689510.1177_153303382412768951Emerging Biomarkers for Cancer ResearchOriginal Research ArticleA Novel RNA Methylation-Related Prognostic Signature and its Tumor Microenvironment Characterization in Hepatocellular Carcinoma
+https://orcid.org/0000-0003-1746-4517LiuLuzhengMS ChenJiachengMS YeFeiBS YanYanggangMS WangYongPhD 
+ A multitude of factors contribute to the development of HCC, including hepatitis virus infection, alcohol abuse, non-alcoholic fatty liver disease, and aflatoxin B1.
+ 
+ Although surgery-based comprehensive treatment is currently the main therapeutic modality for HCC, patient outcomes remain unsatisfactory, which poses a greater challenge to clinical caregivers.
+ 
+ Immune intervention represents a novel breakthrough in the treatment paradigm of HCC in recent years, mainly by reducing T cell-mediated tumor immune escape and improving local immune cell response. However, the effective immune targets for HCC are limited. The type and abundance of tumor-infiltrating immune cells have been reported to influence patient disease prognosis. Consequently, it is of significant and imperative importance to investigate tumor-related immune genes and develop novel HCC markers and models in order to provide suitable therapeutic strategies and enhance the prognosis of patients.
+RNA methylation encompasses a diverse array of chemical modifications, including N6-methyladenosine (m6A), N1-methyladenosine (m1A), N7-methylguanosine (m7G), 5-methylcytosine (m5C), and 5-hydroxymethylcytosine (hm5C). These modifications occur at distinct positions on RNA molecules, collectively referred to as the methylation phenomenon. One of the most prevalent modifications observed in mRNA of higher organisms is the methylation of the sixth nitrogen atom of adenine (m6A). The evidence is mounting that this process of RNA methylation is intimately linked to cancer cell proliferation, cellular stress, metastasis, and the immune response. Moreover, RNA methylation-related proteins have emerged as a promising target for cancer therapy. In HCC, YTHDF2, a protein that recognizes methylation, was demonstrated to stimulate the liver cancer stem cell phenotype and metastasis by regulating OCT4 expression via m6A RNA methylation.
+ 
+ The m1A-related signals are markedly elevated in HCC patient tumor tissues and liver cancer stem cells (CSCs), and TRMT6/TRMT61A enhances m1A methylation in a subset of tRNA, thereby activating Hedgehog signaling and driving the self-renewal of liver CSCs and tumorigenesis.
+ 
+ The m7G methyltransferase WD repeat domain 4 (WDR4) has been demonstrated to promote HCC cell proliferation by inducing the G2/M cell cycle transition and inhibiting apoptosis, in addition to enhancing metastasis and sorafenib resistance through epithelial-mesenchymal transition (EMT).
+ 
+ However, the impact of RNA methylation-related genes (RMGs) on the prognosis and treatment of HCC patients remains to be fully elucidated.
+The objective of this study is to investigate RNA methylation-related markers that affect the prognosis and treatment of HCC patients and to explore the potential mechanisms regulating HCC.
+
+## Materials and Methods
+
+## Study Design
+In this study, we constructed prognostic features associated with RNA methylation in HCC based on the TCGA-LIHC dataset and RMGs. It also explored the impact of prognostic genes on immune cell infiltration, immunotherapy, etc in HCC. Then the expression of core genes was detected by quantitative real-time polymerase chain reaction (qRT-PCR). The detailed study is shown in the Supplementary Figure 1. The reporting of this study conforms to REMARK guidelines.
+ 
+
+## Data Source
+The clinical data, transcription profiles of 365 HCC patients, and 50 controls were downloaded from the TCGA database and utilized as the training set (TCGA-LIHC dataset). The GSE14520 dataset, comprising 212 samples of HCC, was employed as an external validation set. A total of 2007 RMGs were identified from the GeneCards database (https://www.genecards.org/).
+
+## Acquirement of Differentially Expressed Genes (DEGs)
+The sequencing data of expression were analysed by R software after normalization. The R package “DEseq2” was used to identify DEGs between controls and HCC samples. This was achieved by setting a threshold of |log2FC| > 1.5 and a P.adj.val < 0.05.
+ 
+
+## Functional Enrichment Analysis and Protein-Protein Interaction (PPI) Network Construction
+To screen for genes associated with RNA methylation in DEGs, differentially expressed RMGs were obtained by overlapping the DEGs with the RMGs. Furthermore, to elucidate the functions and pathways that involved in DERMGs, GO annotation and KEGG enrichment analysis were conducted using the “clusterProfiler” package. , The GO terms were comprised of the following three categories: biological process (BP), cellular component (CC), and molecular function (MF). While the KEGG pathway enrichment analysis was prone to describe gene function at the genomic and molecular levels and show the correlated genes. The adjusted P-value (Adj.P.Val) was set at 0.05, which was regarded as the threshold for statistical significance. Subsequently, we conducted a pathway interconnection analysis using ClueGO.
+To investigate the interactions between the aforementioned DERMGs at the protein level, we employed the Search Tool for the Retrieval of Interacting Genes (STRING) (http://string-db.org/) to construct a PPI network.
+ 
+ Then, Cytoscape plugin-MCODE was used to screen the significant modules in the PPI network, with the degree cut off = 2, node score cut off = 0.2, k-core cut off = 2, and max. depth cut off = 100.
+
+## Establishment and Validation of the Prognostic Model
+A total of 365 HCC samples with survival information from TCGA-LIHC were utilized as the training set to construct the risk model. A univariate Cox regression analysis was employed to identify prognosis-related genes with a p-value of less than 0.05. These genes were then subjected to least absolute shrinkage and selection operator (LASSO) analysis using glmnet16 to further refine the prognostic genes and construct prognostic models.
+ 
+ The patients were divided into distinct risk groups based on the median risk score. Subsequently, Kaplan-Meier (K-M) survival curves were plotted using the survival package in R to assess differences in patient survival between risk groups.
+ 
+ The predictive power of the model was then assessed by plotting receiver operating characteristic (ROC) curves using the survival ROC software.
+ 
+ The external validation set was employed to test the efficacy of the risk model. The relationships between the risk score and the clinical characteristics were analysed with the Wilcoxon test and Kruskal-Wallis test in the TCGA-LIHC dataset.
+
+## Hierarchical Analysis and Independent Prognostic Analyses
+To assess the prognostic value of clinical features (tumor grade, pathologic T, cancer status, TNM stage, gender, age, inflammation, and BMI), we evaluated the level of difference in risk scores between subtypes of clinical features. Subsequently, we conducted a multivariate cox regression analysis to identify independent prognostic factors for HCC patients. A nomogram for predicting 1-, 3-, and 5-year survival of HCC patients was established using rms, based on independent prognostic factors.
+ 
+ The performance of the nomogram was evaluated by a calibration curve.
+
+## Gene Set Enrichment Analysis (GSEA)
+In order to further elucidate the functions and pathways involved in differential genes between high- and low-risk groups, DEseq2 was initially employed to analyze the discrepancy between LIHC samples in the training set belonging to the high- and low-risk groups. The discrepancy was then calculated and sorted from the largest to the smallest according to log2FC. Then, the c2.cp.kegg.v2023.1.Hs.symbols.gmt in Molecular Signatures Database (MSigDB, https://www.gsea-msigdb.org) was used as the background gene set to perform GSEA. The signal pathway with p.adjust < 0.05 was significantly enriched. Subsequently, enrichplot was employed to show the top five signaling pathways with the largest and smallest normalized enrichment scores (NES).
+ 
+
+## Evaluation of the Immune Microenvironment (IME) Landscape
+The immune score, stromal score, and estimate score have been demonstrated to be effective in predicting the content of immune and stromal components in tumors or diseases. The immune and stromal scores of HCC samples were calculated using the ESTIMATE algorithm,
+ 
+ which was provided in the ESTIMATE. The estimate score was obtained by adding the immune score and stromal score and was also used to assess tumor purity. Subsequently, the CIBERSORT algorithm was employed to assess the extent of immune infiltration in patients and to identify differential immune cells between high- and low-risk groups. Additionally, the correlation between differential immune cells was calculated. Furthermore, we conducted a comparative analysis of the differential expression of immune checkpoint molecules between the high- and low-risk groups.
+
+## Drug Sensitivity Analysis
+The sensitivity of each patient to chemotherapeutic agents was predicted by pRRophetic, which included eight chemotherapy drugs.
+ 
+ The estimated half-maximal inhibitory concentration (IC50) value for each patient treated with a specific chemotherapy drug was obtained through the function “pRRopheticPredict”. Subsequently, the correlation between risk scores and chemotherapy drugs was calculated.
+
+## Evaluation of the Therapeutic Efficacy
+To assess treatment sensitivity between two risk groups of patients, we evaluated the effect of immunotherapy between the different groups. The current ImmunoScale Score (IPS) has been shown to predict patient response to immune checkpoint inhibitor (ICI) therapy, downloaded from The Cancer Immunome Atlas (TCIA, https://tcia.at). Higher IPS scores indicate a better response to immunotherapy. Tumor Immune Dysfunction and Exclusion (TIDE, http://tide.dfci.harvard.edu/), which is employed to assess mechanisms of immune evasion, is another powerful biomarker designed to predict response to immunotherapy. Higher TIDE scores imply that tumor cells are more likely to evade immune surveillance, suggesting a lower rate of response to immunotherapy. TIDE scores were obtained after offloading input data as described in the instructions. Furthermore, an immunotherapy cohort (IMvigor210 cohort) was included to validate tumor response to PD-L1 blockade.
+ 
+ The survival impact of patients in risk group in IMvigor210 was assessed by K-M survival curves and the validity of risk score in this cohort was by ROC curves.
+
+## Clinical Samples Collection
+In this retrospective study, we consecutively collected 10 patients with HCC tumor and adjacent tissues who underwent partial hepatectomy from September 14, 2023, to December 31, 2023 (after ethical approval). Samples were stored at −80 ° C with liquid nitrogen. The inclusion criteria were: (1) pathologically confirmed HCC diagnosis; (2) no neoadjuvant interventional therapy, radiotherapy, immunotherapy or targeted therapy before surgery. We excluded patients who had: (1) merged with other systemic malignant tumors; (2) incomplete resection. All patient details have been de-identified. This study was approved by the Ethics Committee of Hainan General Hospital, Hainan Medical University. All participants were required to sign a written informed consent form, and the relevant information was used for medical research purposes. All methods were carried out in accordance with relevant guidelines and regulations.
+
+## Expression Validation of Core Genes
+Tissue samples were collected from 10 patients with HCC tumor and adjacent tissues. The LASSO regression model was ranked according to the absolute value of the coefficients, and the top five genes were selected as core genes for qRT-PCR experiments to verify their expression. All samples were lysed with TRIzol Reagent, and total RNA was isolated following the manufacturer's instructions. The extracted RNA was reverse-transcribed to cDNA using the SureScript-First-strand-cDNA-synthesis-kit before qRT-PCR. The qRT-PCR reaction consisted of 3 µl of reverse transcription product, 5 µL of 2xUniversal Blue SYBR Green qPCR Master Mix, and 1 µl each of forward and reverse primer. The PCR was performed in a BIO-RAD CFX96 Touch TM PCR detection system (Bio-Rad Laboratories, Inc., USA) under the following conditions: initial denaturation at 95°Cfor 1 min, followed by 40 cycles that each involved incubation at 95 °C for 20 s, 55 °C for 20 s, and 72 °C for 30 s. All primers were synthesized by Servicebio (Servicebio, Wuhan, China). The detailed forward and reverse primers are presented in . The GAPDH gene served as an internal control, and the relative expression of five biomarkers was determined using the 2−ΔΔCt method. The experiment was repeated in triplicate on independent occasions.
+ 
+
+## Statistical Analysis
+All of this study was analysed using R language. A differential analysis was conducted between the HCC and control samples using the DESeq2. The LASSO regression analysis was performed using the glmnet. An enrichment analysis was conducted using the clusterProfiler. The ROC curves and K-M survival curves were plotted using the survivalROC and survminer, respectively. The IC50 values of the drugs were assessed using the pRRophetic. The statistical differences in the core genes between HCC samples and adjacent samples were detected by paired t-test using GraphPad Prism 5, and the level of statistical significance was tested and expressed * as P < 0.05, ** means P < 0.01, *** means P < 0.001.
+
+## Results
+
+## Identification and Functional Enrichment of 185 DERMGs
+By comparing tumor and normal tissue samples, 4365 DEGs including 3615 upregulated genes and 750 downregulated genes were detected as shown in , and b showed the expression of the top 10 up-regulated and down-regulated DEGs by heatmap. After overlapping DEGs with 2007 RMGs, we obtained 185 DERMGs ( ). Further, GO annotation and KEGG enrichment analysis were conducted. GO function analysis of these 185 genes showed that they were involved in aging, response to alcohol, and response to alkaloid ( ). KEGG pathway analysis showed that they were involved in IL-17 signaling pathway, linoleic acid metabolism, and cocaine addiction ( ). Then we analyzed the distribution of the functions and pathways among the core genes. The enrichment analysis indicated that these genes were significantly enriched in IL-17 signaling pathway and linoleic acid metabolism ( ).
+ 
+
+## Obtainment of 39 Potential hub Genes via PPI
+We constructed PPI networks to specify the interactions between DERMGs ( ). Further, 39 genes were selected as potential hub genes via MCODE plugin ( h). Then we analyzed the interactions among 39 genes, and JUN had the most interactions with others ( ).
+
+## Establishment and Validation of the Effective HCC Prognostic Model
+The results of univariate cox regression analysis showed that 56 DERMGs were correlated with overall survival (OS) of HCC patients (p < 0.05) ( ). Next, 21 prognostic genes screened by LASSO analysis ( ), PRDM9, GAD1, SOX2, SLC6A3, IGF2BP3, MAP2, MYCN, CPEB3, AURKA, MMP3, SERPINE1, SLC22A6, GAL, RET, LOX, NQO1, SLC22A1, EGF, CDKN2A, ALPP and E2F1 were identified and were selected to develop a prognostic model. The risk score = (0.986 × expression of PRDM9) + (0.273 × expression of GAD1) + (0.054 × expression of SOX2) + (0.103 ×expression of SLC6A3) + (0.028 × expression of IGFBP3) + (0.071 × expression of MAP2) + (0.190 × expression of MYCN) +(− 0.084 × expression of CPEB3) + (0.039 × expression of AURKA) + (0.060 × expression of MMP3) + (0.030 × expression of SERPINE1) + (0.769 × expression of SLC22A6) +(0.148 × expression of GAL) + (0.180 × expression of RET) + (0.066 ×expression of LOX) + (0.033 × expression of NQO1) + (− 0.015 ×expression of SLC22A1) + (0.024× expression of EGF) + (0.023× expression of CDKN2A) + (0.440 × expression of ALPP) + (0.043 × expression of E2F1).
+ The distribution of the risk score and the survival status in the high- and low-risk groups are presented in -d. The K-M survival curve demonstrated that the high-risk group showed poor OS ( ). The ROC curve showed that the risk score had good performance in predicting patient's survival status, the AUC of 1-, 3-, 5-year were 0.760, 0.733, and 0.704 ( ). In the validation set, the distribution of the risk score and the survival status in the high- and low-risk groups were presented in Supplementary Figure 2a-b. K-M analysis also showed a significant difference in survival status of patients between the two risk groups (Supplementary Figure 2c). The ROC curve displayed that the risk score had good performance in predicting patient's survival status of 1-, 3-, and 5- year, the AUC values were 0.630, 0.657, and 0.660, respectively (Supplementary Figure 2d).
+In addition, we analyzed the expression of model genes between HCC and controls in the training and validation sets, and the expression trends of model genes in the training and the validation sets were consistent (Supplementary Figure 3a-b).
+
+## Construction of a Nomogram That Effectively Predicts Survival in HCC Patients
+We assessed the relevance between the risk score and clinicopathological traits. The risk score was significantly increased in tumor grade, pathologic T, and TNM stage ( -c), the risk score was significantly different between tumor free and with tumor group in cancer status. ( ). Further, we performed multivariate analysis to detect independent prognostic factors. Risk score, tumor grade, TNM stage, and age were included in multivariate analysis, the result indicated that risk score and stage were independent prognostic factors in HCC ( ). Thereafter, we constructed a nomogram to predict the 1-, 3-, and 5-year survival of HCC patients by using risk score and TNM stage ( ). The calibration curves for 1-, 3-, and 5-year ( g) showed that the nomogram-predicted probability of survival was close to the actual survival.
+ 
+
+## Certain Correlation of Risk Module with IME Landscape
+We calculated the immune score, stromal score, estimate score, tumor purity, and their correlation with risk scores. The results showed that the immune score (cor = 0.12) was remarkably positively correlated with risk score (p < 0.05) ( ). Then, we used CIBERSORT databases to assess the percentage of immune infiltrating cells in HCC patients ( ). We obtained 11 differential immune cells. The difference of immune cells in high and low-risk groups mainly included B cells memory, T cells CD4 memory activated, T cells follicular helper, T cells regulatory (Tregs), T cells gamma delta, NK cells resting, Monocytes, Macrophages M0, Macrophages M2, Mast cells resting and Eosinophils ( ). We calculated the correlations between the differential immune infiltrating cells. The results indicated that T cells regulatory (Tregs) and Mast cells resting (cor = −0.36) had significantly negative correlations ( ). Furthermore, we compared the expression of 48 immune checkpoints between high-risk and low-risk groups, and the results showed that 40 immune checkpoint molecules were significantly different between high and low-risk groups, except CD244, ADORA2A, KIR3DL1, CD160, TNFSF14, ICOSLG, IDO1 and BTNL2 ( ).
+ Enrichment of multiple signaling pathways involved in differential genes between different risk groups
+We further probed the signaling pathway of differential genes between high and low risk groups. These genes were found to be markedly enriched in fatty acid metabolism, peroxisome, glycine-serine and threonine metabolism, complement and coagulation cascade, drug metabolism cytochrome P450, and neuroactive ligand receptor interactions ( ).
+
+## Response and Outcome to Chemotherapeutic Agents and Treatment Efficacy Varies among Patients in Different Risk Groups
+To explore the relationship between risk score and chemoresistance, the IC50 was used to predict the treatment response to 8 drugs in the TCGA-LIHC cohort. Among them, low-risk score samples were more sensitive to Sorafenib, Cisplatin, Doxorubicin, Mitomycin.C, Bosutinib, and Gemcitabine ( ). The result of the correlation between IC50 and risk score showed that Erlotinib had the strongest positive correlation to risk score, and Gemcitabine had the strongest negative correlation to risk score ( ).
+ We further explored the predictive potential of the risk model for immunotherapy response by analyzing the correlation between risk model and recognized immunotherapy predictors. We discovered that risk scores were significantly positively correlated to TIDE scores ( ). Moreover, patients in the high-risk group tended to achieve lower IPS scores in the TCGA cohort ( ).
+The potential PD-LI response was predicted using the TIDE algorithm. The results suggested that the proportion of people who responded to PD-L1 therapy in the high-risk score group was greater than that of the low-risk score group ( ), and the “TURE” group had a significantly higher risk score than the “FALSE” group ( ). In addition, we verified the reliability of the risk score in predicting the benefit of immunotherapy in HCC patients receiving anti-PD-L1 immunotherapy in IMvigor210 cohorts. The complete response (CR)/partial response (PR) group had a high-risk score than the stable disease (SD)/progressive disease (PD) group ( ), and the low-risk score group had a longer survival time after anti-PD-L1 therapy than the high-risk score group ( h). The ROC curve suggested that the risk score could moderately predict the benefit of anti-PD-L1 therapy (AUC = 0.592) .
+
+## Validation of the Core Genes by qRT-PCR
+To further validate the differences of model genes in HCC and control samples, we selected five core genes (PRDM9, SLC22A6, ALPP, GAD1, and MYCN) to probe their expression by qRT-PCR. showed that the expression of five core genes was higher in HCC than in the control group, in which there were significant differences in PRDM9, ALPP and GAD1 (p < 0.05). The expression trends of these five genes in qRT-PCR remained consistent with those in the TCGA-LIHC dataset. As for the two genes that were not statistically significant between HCC and control groups, we believed that this might be due to the effects of sample size and individual variation.
+ 
+
+## Discussion
+Methylation modifications of RNA play an integral role in post-transcriptional regulation. In recent years, an increasing number of studies have demonstrated the significance of RNA methylation modifications in tumor invasion and metastasis, as well as in the IME. These modifications alter molecular functions through interactions with different methylation regulators, exerting tumor-promoting or suppressive effects. Nevertheless, the functions and mechanisms of RMGs in HCC remain to be fully elucidated. In this study, we constructed an RNA methylation risk model and analyzed the correlation between HCC and tumor immunity, with the intention of providing new ideas for the development of effective modern immunotherapeutic approaches.
+
+## Functional Enrichment and Pathway Analysis of 185 DERMGs
+A total of 4365 genes were identified as differentially expressed in cancer samples and control samples in this study. We crossed the 2004 RMGs identified with the differential genes to obtain 185 DERMGs. The biological processes and signaling pathways in which they were involved were explored, and it was found that they were mainly involved in the IL-17 signaling pathway, the p53 signaling pathway, and cellular senescence, indicating that these DERMGs play an important role in HCC. As reported in the relevant literature, IL-17A acts as an important regulator of the inflammatory response of macrophages (blast cells and bone marrow-derived monocytes) and cholesterol synthesis in steatosis hepatocytes, as well as a tumor-promoting cytokine in alcohol-induced HCC.
+ 
+ The tumor suppressor protein p53 maintains cholesterol ester homeostasis by inhibiting the ubiquitin-specific peptidase 19 (USP19) and sterol O-acyltransferase (SOAT) 1. Dysregulation of P53 activates the P53-USP19-SOAT1 signaling axis, which increases cholesterol esterification and is involved in the development of HCC.
+ 
+ In addition, cellular senescence affects energy metabolism, immune infiltration, chemokines, expression of immune checkpoint-related genes, and immunotherapeutic response in HCC.
+ 
+ The above evidence suggests that these DERMGs may promote HCC through the above signaling pathways.
+
+## Establishment of Risk Models Based on 21 Prognostic Genes and Related Research Reports
+Subsequently, by one-way cox and LASSO regression analysis, we obtained 21 RNA methylation-related markers associated with the outcome of HCC patients. These markers were utilized to construct a risk model and column plot, which enabled more accurate prediction of the prognosis of HCC. In part of them, GAD1, SOX2, IGF2BP3, MYCN, AURKA, MMP3, LOX, NQO1, EGF, CDKN2A, E2F1 were up-regulated and CPEB3, SLC22A1 were down-regulated in HCC samples, which is consistent with previous studies. In RNA methylation-related research, the N6-methyladenosine (m6A) modification is activated by AURKA through the inhibition of METTL14 ubiquitination and degradation, while AURKA binding to the DROSHA transcript further enhances the attachment of the m6A reader IGF2BP2, which serves to stabilize the m6A modification of DROSHA.
+ 
+ The mRNA decay of CDKN2A is mediated by the recruitment of the m6A reader YTHDF2 and its direct interaction via circMET.
+ 
+ IGF2BP3 functions as a recognition protein for RNA N6-methyladenosine and promotes the stability and translation of target mRNA.
+ 
+ In addition, the NQO1/p53/SREBP1 axis, which is mediated by NQO1, promotes the progression and metastasis of HCC by regulating snail stability.
+ 
+ The E2F1-mediated upregulation of AUF1 has been demonstrated to promote the development of HCC and enhance drug resistance via the stabilization of AKR1B10.
+ 
+ The SOX2 expression predicts poor survival of HCC or post-hepatectomy patients and it promotes HCC cell invasion by activating Slug. , , The above indicates that these RNA methylation-related markers may exert a potential influence on the development, invasion, metastasis, and prognosis of HCC patients.
+
+## Comparison of Immune Cell Infiltration Characteristics in Different Risk Modules
+Subsequently, the patients were divided into two risk groups based on risk scores and the immunological characteristics of the high- and low-risk groups were explored. The results of the immune analysis suggest that the immune cells that exhibited the most significant differences between the high- and low-risk groups were mainly B cells memory, T cells CD4 memory activated, T cells follicular helper, T cells regulatory (Tregs), T cells gamma delta, NK cells resting, Monocytes, Macrophages M0, Macrophages M2, Mast cells resting and Eosinophils. Among these, T cells regulatory (Tregs) and Mast cells resting showed significantly negative correlations. These differential immune cells may exert a potential influence in TME of HCC. Studies have demonstrated that regulatory T cells (Tregs) represent a subset of T cells that regulate autoimmune responsiveness within the body. These cells were previously known as suppressor T cells, and they are involved in a multitude of immune regulatory processes. Peripheral Tregs upregulate checkpoint inhibitors and contribute to systemic immune dysfunction and antitumor activity by several inhibitory pathways including PDL1/CTLA-4. This process is presumed to facilitate HCC development at young age.
+ 
+ Macrophages are derived from monocytes. Macrophages M2 represent a significant proportion of tumor mesenchymal cells and are an essential component of the tumor microenvironment (TME). They interact with tumor cells and secrete a range of cytokines including EGF, VEGF, PDGF, MMP family, and CCL family proteins.
+ 
+ Tumor-associated macrophages (TAMs) can be stimulated to transform M2-like polarization via canonical Wnt/β-catenin signaling by tumor cells-derived Wnt ligands, which results in tumor growth, migration, metastasis, and immunosuppression in HCC.
+ 
+ Additionally, eosinophils can readily respond to diverse stimuli and are capable of synthesizing and secreting numerous molecules, including unique granule proteins that may kill tumor cells. Alternatively, they can secrete soluble mediators of pro-angiogenesis and matrix remodeling that facilitate tumor growth.
+ 
+ Furthermore, tumor-associated neutrophils have been reported that they can recruit macrophages and Tregs to promote the progression of HCC and resistance to sorafenib.
+ 
+ The above findings further suggest that these differences in immune cells may influence the prognosis of patients with HCC.
+
+## Prediction Analysis of Response to Chemotherapy and Immunotherapy and Clinical Outcomes in Patients with Different Risk Groups
+Drug sensitivity analysis revealed that the low-risk group exhibited greater sensitivity to Sorafenib, Cisplatin, Doxorubicin, Mitomycin C, Bosutinib, and Gemcitabine than the high-risk group. Conversely, Erlotinib and Bicalutamide showed higher sensitivity in the high-risk group. These agents are commonly used in the clinical treatment of hepatocellular carcinoma (HCC), with evidence supporting their efficacy in this indication. Our results also demonstrate their value in the application of HCC. To assess the reliability of the risk score in predicting immunotherapeutic efficacy, the results of TIDE and IPS scores indicated that patients in the high-risk group were more likely to develop immune escape and exhibit lower immunogenicity. The proportion of patients who responded to PD-L1 therapy in the high-risk group was greater than that of the low-risk group. The low-risk group exhibited a longer survival time following anti-PD-L1 therapy than the high-risk group. Furthermore, the ROC curve indicated that the risk score could predict the benefit of anti-PD-L1 therapy to a moderate extent (AUC = 0.592). Upon review of the literature, SOX2 inhibited SOCS3 and PTPN1 transcription and induced sustained activation of the JAK-STAT pathway, thereby leading to overexpression of interferon-stimulated genes resistance signature. SOX2 has been demonstrated to induce immune evasion of CD8+ T-cell killing, and it has been identified as an independent prognostic factor for poor survival and resistance to anti-PD-1 therapy in melanoma with PD-L1 high expression.
+ 
+ Nuclear AURKA elevated PD-L1 expression, decreased CD8+ T cell proliferation and activity via an MYC-dependent pathway, and contributed to immune evasion in triple-negative breast cancer.
+ 
+ This suggests that, due to varying degrees of immune escape, the prognosis of patients with different responses to immunotherapy is also distinct in the two risk groups. These findings also provide new insights into the relationship between chemotherapy and cancer immunotherapy and increase our capacity to select clinical drug-therapy strategies. Furthermore, multivariate analysis indicated that risk score and stage were independent prognostic factors in HCC. And a nomogram was constructed to predict precisely the 1-, 3-, and 5-year survival of HCC patients by using risk score and TNM stage. Previous studies have shown that SOX2, IGF2BP3, MYCN, CPEB3, AURKA, GAL, RET, LOX, NQO1, SLC22A1, CDKN2A, and E2F1 are associated with the prognosis of HCC patients. , , , Furthermore, Li et al demonstrated that the RNA m6A/m5C/m1A-regulated genes could be utilized to construct a risk signature for the assessment of HCC prognosis and immune status.
+ 
+ Our study also revealed that the RNA methylation-based risk score can accurately predict survival outcomes and evaluate the immune infiltration level.
+
+## Review and Reflection of the Literatures Related to RNA Methylation
+In contrast to previous studies, Nie et al demonstrated that the m6A-modified binding protein YTHDF1 could promote prostate cancer progression by regulating androgen function-related gene TRIM68.
+ 
+ Maimaiti et al constructed a m7G score signature index based on the m7G regulators-mediated methylation modification patterns and analyzed the characterization of the immune microenvironment in lower-grade glioma,
+ 
+ which were not entirely different from our findings. Our study identified 21 RNA methylation-related signature genes (including m6A, m7G, and regulators) and developed a risk model that moderately predicted the prognosis of patients and reflected the immune microenvironment of HCC. Zhang et al investigated the potential functions of RNA methylation writers and established an RNA methylation pattern-based risk model for HCC patients,
+ 
+ which was similar to our study. The preceding sections have highlighted the pivotal role of RMGs in TME infiltration, targeted therapy, and immunotherapy, suggesting that they may serve as potential targets for tumors.
+
+## The Limitations of our Study
+The present study had certain limitations. Primarily, the sample size of the tissue specimens utilized for the expression validation was insufficient, and the biological behavior of the core genes in HCC was not fully elucidated. Secondly, our findings indicate that these DERMGs play distinct roles in the multiple BP, such as IME landscape, drug sensitivity, and immunotherapeutic efficacy. However, the potential molecular mechanisms were not evaluated, and further investigation is warranted to elucidate the detailed mechanisms of DERMGs in HCC. Thirdly, the RMGs clusters and risk model may improve the prognosis of HCC patients in a higher-risk group for immunotherapy. Therefore, further research is necessary to explore whether these DERMGs could be used as diagnostic markers or therapeutic targets in HCC and guide more effective immunotherapy strategies.
+
+## Conclusion
+Our research identified 21 RNA methylation-related signature genes and developed a risk model that moderately predicted the prognosis of HCC patients and screened for independent prognostic factors. Our findings are expected to be useful for cancer diagnosis, prognosis, and therapy.
+
+## Supplemental Material
+
+## sj-docx-1-tct-10.1177_15330338241276895 - Supplemental material for A Novel RNA Methylation-Related Prognostic Signature and its Tumor Microenvironment Characterization in Hepatocellular Carcinoma
+Supplemental material, sj-docx-1-tct-10.1177_15330338241276895 for A Novel RNA Methylation-Related Prognostic Signature and its Tumor Microenvironment Characterization in Hepatocellular Carcinoma by Luzheng Liu, Jiacheng Chen, Fei Ye, Yanggang Yan, Yong Wang and Jincai Wu in Technology in Cancer Research & Treatment
+
+## Acknowledgments
+Not applicable.
+Authors’ Note: All authors contributed to the study conception and design. Material preparation, data collection and analysis were performed by CJC, YF, YYG, WY and WJC. The first draft of the manuscript was written by LLZ and all authors commented on previous versions of the manuscript. All authors read and approved the final manuscript.
+Data Availability Statement: The TCGA-LIHC dataset analyzed in this study was downloaded from The Cancer Genome Atlas (TCGA) database (https://cancergenome.nih.gov/) and GSE14520 dataset was downloaded from Gene Expression Omnibus (GEO) (https://www.ncbi.nlm.nih.gov/geo/) database.
+The authors declared no potential conflicts of interest with respect to the research, authorship, and/or publication of this article.
+Ethical Approval and Consent Statement: Study protocols were approved by the Medical Ethics Committee of Hainan Affiliated Hospital of Hainan Medical University (address: No.19 Xiuhua Road, Haikou, China; approval number: Med-Eth-Re[2023] 319; date: September 13, 2023), based on the ethical principles for medical research involving human subjects of the Helsinki Declaration. Written informed consent was obtained from all participating patients prior to enrollment into the study.
+Funding: The authors disclosed receipt of the following financial support for the research, authorship, and/or publication of this article: This work was supported by the Hainan Province Science and Technology Special Fund, the National Natural Science Foundation of China, the special research fund of The Innovation Platform for Academicians of Hannan Province (grant number ZDYF2020134, ZDYF2022SHFZ283, 81960331, 81660489, YSPTZX202005).
+ORCID iD: Luzheng Liu https://orcid.org/0000-0003-1746-4517
+Supplemental Material: Supplemental material for this article is available online.

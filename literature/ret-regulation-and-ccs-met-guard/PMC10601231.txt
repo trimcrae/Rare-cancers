@@ -1,0 +1,162 @@
+315canimagCancer ImagingCancer ImagingBMCPMC1060123110601231106012313788503110.1186/s40644-023-00622-2Intratumoral and peritumoral MRI-based radiomics prediction of histopathological grade in soft tissue sarcomas: a two-center study
+ZhangLiyuan YangYang WangTing ChenXi TangMingyue DengJunnan CaiZhen CuiWei 1Department of Plastic Surgery, Sichuan Provincial People’s Hospital, School of Medicine,University of Electronic Science and Technology of China, Chengdu, 610000 People’s Republic of China 2Department of Radiology, Hospital of Chengdu University of Traditional Chinese Medicine, Chengdu, 610000 People’s Republic of China 3Department of Plastic Surgery, The First People’s Hospital of Yibin, Yibin, 644000 People’s Republic of China 4Sichuan College of Traditional Chinese Medicine, Mianyang, 621000 People’s Republic of China ✉Corresponding author.
+#Contributed equally.
+261020232310310327102023© The Author(s) 2023Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated in a credit line to the data.
+
+## Abstract
+
+## Objectives
+This study aims to develop a model based on intratumoral and peritumoral radiomics from fat-suppressed T2-weighted(FS-T2WI) images to predict the histopathological grade of soft tissue sarcoma (STS).
+
+## Methods
+This retrospective study included 160 patients with STS from two centers, of which 82 were low-grade and 78were high-grade. Radiomics features were extracted and selected from the region of tumor mass volume (TMV) and peritumoral tumor volume (PTV) respectively. The TMV, PTV, and combined(TM-PTV) radiomics models were established in the training cohort (n = 111)for the prediction of histopathological grade. Finally, a radiomics nomogram was constructed by combining the TM-PTV radiomics signature (Rad-score) and the selected clinical-MRI predictor. The ROC and calibration curves were used to determine the performance of the TMV, PTV, and TM-PTV models in the training and validation cohort (n = 49). The decision curve analysis (DCA) and calibration curves were used to investigate the clinical usefulness and calibration of the nomogram, respectively.
+
+## Results
+The TMV model, PTV model, and TM-PTV model had AUCs of 0.835, 0.879, and 0.917 in the training cohort and 0.811, 0.756, 0.896 in the validation cohort. The nomogram, including the TM-PTV signatures and peritumoral hyperintensity, achieved good calibration and discrimination with a C-index of 0.948 (95% CI, 0.906 to 0.990) in the training cohort and 0.921 (95% CI, 0.840 to 0.995) in the validation cohort. Decision curve analysis demonstrated the clinical usefulness of the nomogram.
+
+## Conclusion
+The proposed model based on intratumoral and peritumoral radiomics showed good performance in distinguishing low-grade from high-grade STSs.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s40644-023-00622-2.
+
+Keywords: Magnetic resonance imaging, Radiomics analysis, Sarcomas
+
+## Key points
+• Peritumoral and intratumoral radiomics models based on FS-T2WI images had a good predictive ability for the histopathological grading of STSs.
+• Peritumoral hyperintensity and radiomic scores were independently associated with histopathological grading of STSs.
+• The nomogram integrating clinic features and radiomics scores demonstrated good performance for predicting the histopathological grading of STSs.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s40644-023-00622-2.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Jun 20; Accepted 2023 Oct 16; Collection date 2023.
+
+Soft tissue sarcomas (STSs) are highly heterogeneous malignant tumors originating from mesenchymal tissue. According to the histological grading method used by the French Federation of Cancer Centers Sarcoma Group(FNCLCC) [ ], STSs are divided into classes I–III based on how aggressively malignant cells manifest themselves, where grade I is a low grade and grade II, III, is a high grade. Different histopathological grades of treatment strategies and prognoses have variances [ ]. Preoperative adjuvant chemoradiotherapy is recommended for high-grade STSs, which can help improve the survival rate of patients. Correspondingly, the side effects of preoperative chemoradiotherapy can be avoided if patients with low-grade STS are identified before surgery. At present, the preoperative histopathological grading diagnosis of STSs mainly relies on the core needle biopsy [ ]. However, the results are easily influenced by the sampling site, the size, and the makeup of the lesion, making it impossible to do an overall assessment of the lesion [ ].
+The most common non-invasive technique for STS preoperative diagnosis and evaluation is magnetic resonance imaging (MRI). Although experienced radiologists can easily identify tumors from MRI, tumor heterogeneity makes grading STSs challenging [ ]. Recently, there has been promising progress in the grading of STSs based on radiomic features of MRI. Zhang et al. [ ] employed radiomics-based features to establish different diagnostic models to identify the grading of STSs and found the model using the support vector machine (SVM) classifier method performed best. Peeken et al. [ ] established independent and combined radiomics models based on FS-T2WI and T1WI-enhanced sequences to predict STSs histopathological grades and found that the radiomics model based on FS-T2WI had the highest predictive performance for high-grade STSs. Yan et al. [ , ] constructed a radiomics nomogram method to predict high-grade STSs, conducted model development and validation with 180 cases of STSs in two centers, and found that the nomogram based on radiomics features, T staging, and MR boundaries was superior to a single radiomics model or a clinical feature model. Although previous studies have achieved great success in differentiating pathological grades, extracting more valuable radiomics features to boost prediction accuracy remains a challenge.
+However, the existing radiomics-based approaches focus on the intratumoral area and ignore the role of the peritumoral environment in STSs grading. Endothelial cells, fibroblasts, immune cells, and other cell types as well as extracellular components make up the peritumoral area, also known as the tumor microenvironment [ , ]. The microenvironment determines many aspects of tumor behavior, including tumor progression, treatment response, and metastasis [ ]. White et al. have shown that satellite-like single or clustered tumor cells that are not visible on imaging can be found beyond the tumor margins in a population of patients undergoing surgery [ ]. Clinical evidence suggested the heterogeneity of STSs is not limited to tumor margins but also involves peritumoral regions [ ]. As a result, the tumor’s peritumoral environment is also promising and may offer important data for the clinical evaluation of tumor invasive biological behavior. Recently, there have been some studies combining intratumoral and peritumoral radiomic features to determine the histopathological classification of clear cell renal cell carcinoma [ , ], identify benign and malignant nodules in the lung [ , ], predict lymph node metastasis and distant metastasis in lung cancer [ ], and predict the risk of breast cancer response to chemotherapy [ ], which achieved good performance.
+The purpose of this study was to investigate, using a two-center dataset, the capacity of intratumoral and peritumoral radiomics signatures based on MRI to noninvasively predict STS histopathological grade.
+
+## Materials and methods
+
+## Patients and MRI morphologic characteristics
+This two-center retrospective study’s ethical approval was provided by the two institutional review boards, and the requirement for informed consent was waived. Between June 2016 and July 2022, 160 patients with STS confirmed by pathology and met the inclusion criteria were retrospectively collected. Inclusion criteria:(1) Patients underwent surgical resection; (2)STS was diagnosed by histopathology; (3) Axial FS-T2WI MRI scans ≤ 2 weeks before surgery; Exclusion criteria: (1) Incomplete clinical or imaging data; (2) MRI image quality is poor, signal-to-noise ratio ≤ 1.0; (3) Development of other subsequent tumors; (4) The patient has received prior treatment, such as chemotherapy, radiation therapy, or needle biopsy.
+In total, 160 STS patients were analyzed. Clinical-MRI characteristics included age, gender, location, and MRI morphological features. All images were independently reviewed by two radiologists with more than 5 years of skeletal muscle MRI experience while remaining blind to the clinical and histopathological data. Decisions on MRI findings were made through team negotiation. According to Zhao et al. [ ], the following MRI morphological features were selected for comparison: (1) size (maximum diameter of tumor, < 5 cm or ≥ 5 cm); (2) margin (well- or poorly-defined); (3) signal intensity (homogeneous or heterogeneous, > 30% of the whole volume was considered heterogeneous); (4) peritumoral hyperintensity. All these MRI features were labeled as dichotomous variables and recorded using Yes or No.
+The final histopathological results of the 160 STS patients were shown in Table . The FNCLCC system assigns a score to the tumor based on its mitotic index, differentiation, and amount of necrosis, and the tumor grade was calculated by adding these three scores. According to their FNCLCC tumor grade, the patients were divided into two groups: low-grade (N = 82) and high-grade (N = 78). The workflow was shown in Fig. .
+ 
+
+## MRI Acquisition
+All 160 patients underwent FS-T2WI with Siemens Verio3.0 T, Siemens Aera 1.5T (Siemens Medical AG, Erlangen, Germany), or Philips Achia1.5t, Philips Achieva3.0T (Philips Medical Systems, Best, The Netherlands), with adapted position and coils depending on tumor size and location. The scan parameters listed below were used: TR: 2640–5000 ms; TE:30-102ms; slice gap:1 mm; slice thickness:3-4 mm; matrix:320 × 320; The field of view ranges from 200 × 200mm2 to 400 × 400mm2.
+
+## Image segmentation and extraction
+For image segmentation, all FS T2WI sequence images from patients were uploaded into 3D slicer (version 4.10.2, https://www.slicer.org/, Accessed 8 June 2023). In FS-T2WI images, tumor mass volume (TMV) VOIs were delineated within the margins of tumor masses, encompassing necrotic, cystic change, and hemorrhagic areas but omitting peritumoral edema. The TMV VOIs were then used as a template to construct the corresponding peritumoral tumor volume (PTV) VOIs. The PTV VOIs were generated automatically by uniformly dilating the tumor’s boundary by 10 mm in three dimensions, and adjacent air and bone were manually removed (Fig. ). The segmentation process was independently performed by two readers (Reader1 and Reader 2) with more than five years of experience, blinded to clinical information and histopathological results. Reader 1 segmented 40 random cases to assess intra-observer reliability two weeks later. Additionally, Reader 2 completed the same 40 random cases to assess inter-observer reliability. Intra- and inter-class Dice coefficients were calculated to assess the stability of delineated VOIs. Features extracted from VOIs with ICCs greater than 0.75 were retained for subsequent investigation.
+ Preprocessing procedures were used to reduce the bias of the features and to counteract the intensity inhomogeneity caused by different imaging protocols before radiomics feature extraction. All VOIs were normalized and resampled to the same resolution (1 mm×1 mm×1 mm) to eliminate data heterogeneity. The limitation of dynamics to µ ± 3σ (µ gray level mean, σ standard deviation) was used to minimize the influence of contrast and brightness variation [ ].
+Radiomics features were extracted via the Slicer-Radiomics extension in 3D Slicer which enables processing and extraction of radiomic features from medical image data using a large panel of engineered hard-coded feature algorithms by accessing PyRadiomics (https://github.com/AIM-Harvard/pyradiomics, Accessed 8 June 2023) [ ]. The detailed operation of extracting features is shown in the Supplementary material ( ) 0.1037 radiomics features were extracted from each VOI of TMV and PTV, including first-order statistics(first-order), shape-based(3D) features, shape-based (2D) features, grey-level cooccurrence matrix (GLCM), grey-level run length matrix (GLRLM), grey-level size zone matrix (GLSZM), neighboring grey tone difference matrix (NGTDM), grey-level dependence matrix (GLDM), and wavelet decomposition features. Before further analysis, all the extracted radiomics features of TMV, and PTV were normalized by Z score transformation [ ] and ComBat compensation [ ] to eliminate the differences in the value scales of the data and remove the batch effects derived from multiple sources of variability caused by different scanners and protocols.
+
+## Feature selection
+Feature selection was conducted using python software (version 3.8.8, https://www.python.org/, Accessed 8 June 2023), which is mainly implemented by calling the scikit-learn library, a widely used Python library for machine learning and data science [ ]. In this step “levene,” “ttest” and “LassoCV” function will be used to select features. A two-step feature selection methodology was performed for the training - validation cohort. Firstly, A t-test was used to filter out the features that were significantly different between the low-grade and high-grade groups. Secondly, the least absolute shrinkage and selection operator (LASSO) method was applied to select the most powerful features in the training - validation cohort and selected non-zero coefficients based on 10 cross-validation. All codes and additional details can be found online (https://github.com/mystic1602/radiomics, Accessed 8 June 2023).
+
+## Model construction, rad-score building
+To assess the feasibility and promise of the FS-T2WI-based peritumoral radiomics signature for detecting low- and high-grade STSs, the following 3 types of radiomic signatures were extracted: (1) radiomics signatures from TMV features; (2) radiomics signatures from PTV features; (3) radiomics signatures from the merged features of TMV and PTV (TM-PTV).TMV and PTV radiomics signatures were created utilizing the same approach described in the “Radiomics features extraction” and “Feature selection” subsections. TM-PTV features were created by combining TVM and PTV features, and the statistically significant features were chosen using the approach described in the “Feature selection” part.
+Prediction models of 3 types of radiomics signatures were created using logistic regression, and three types of radiomics signatures were fed into the the GridSearchCV to establish an ideal parameter configuration [ ]. In the external test cohort, their predictive performance was assessed utilizing the area under the curve (AUC) of receiver operating characteristic (ROC) curve analysis. The AUC of each model was evaluated first, and the best model was picked for further investigation. The Rad-score was then calculated using a LASSO logistic regression model based on the best type of radiomics signature.
+
+## Development and validation of Nomogram
+Univariate and multivariate logistic regression analyses were used to select clinical features and the Rad-score, and a nomogram was constructed based on the independent risk factors in the multivariate study. The model’s discriminative capacity was evaluated using Harrell’s concordance (C-index) with confidence intervals of 95% for both cohorts. The calibration curve was plotted to investigate the model’s predictive accuracy. To assess clinical usefulness, decision curve analysis (DCA) was used to calculate the net benefit of the nomogram model in training and validation groups.
+
+## Statistical analysis
+Statistical analyses were performed by GraphPad Prism (version 9.4, https://www.graphpad.com/, Accessed 8 June 2023), and R software (version 3.6.2, http://www.Rproject.org, Accessed 8 June2023). When comparing clinical data, The t-test or Mann-Whitney U test was used for continuous variables and Fisher’s exact test for categorical variables. The plot nomograms and calibration curves using the “RMS” software package and the DCA curve were drawn using the “RMDA” software package. Two-sided P < 0.05 was considered statistically significant for all tests.
+
+## Results
+
+## Clinical data: patient and MRI morphological characteristics
+One hundred sixty patients were recruited for this study. In the training cohort, there were 51 high-grade (grade II-III) patients and 60 low-grade (grade I) patients. In the validation cohort, there were 27 high-grade (grade II-III) patients and 22 low-grade (grade I) patients. The detailed clinical and MRI morphologic characteristics of the study population were listed in Table . There was no significant difference in age, sex, tumor location, peritumoral hyperintensity, size, and margin between the two cohorts. There were significant differences in signal uniformity between the two cohorts (p < 0.05).
+ 
+
+## Feature selection
+The intra-class Dice coefficient of TMV was 0.908 ± 0.032, and the inter- was 0.876 ± 0.057; the intra-class Dice coefficient of PTV was 0.842 ± 0.060, and the inter- was 0.816 ± 0.050 (Supplementary material ). Features for TMV and PTV were reduced to 845 and 688 respectively after excluding features with ICC less than 0.75. The reserved features were analyzed using a t-test (p < 0.05) to identify features with significant between-group differences between low- and high-grade STSs. Following statistical analysis-based feature selection, three radiomics feature subsets were obtained: (1) 72 significant TMV features, (2) 322 significant PTV features, and (3) 394 significant TMV and PTV features (TM-PTV). Finally, LASSO was used to pick all of the significant features in each feature subset, 8, 14, and 18 discriminative features were chosen, respectively, to create a peritumoral radiomics signature for malignancy grading from TMV, PTV, and TM-PTV. The details of these features were shown in Supplementary material - and .
+
+## Performance of radiomics signatures
+The AUC of the TM-PTV model was higher than that of the TMV model or PTV model in both the training and validation cohorts. All of the models in the training group had similar performance. However, in the validation cohort, the sensitive, specificity, accuracy, PPV and NPV of the TMV-PTV model is higher than other models (Fig. ; Table ).
+ 
+
+## Rad-score building, identification of Independent risk factors
+The TM-PTV model displayed better performance than the other two models. As a result, a LASSO logistic regression model was used to calculate the radiomics score (Rad-score) based on TM-PTV. Supplementary material and illustrate the details of the Rad-score computation formula. A logistic regression analysis with backward stepwise selection identified the Rad-score and peritumoral hyperintensity as independent predictors (Table ), which were then used to create a personalized prediction nomogram.
+ 
+
+## Development and validation of nomogram
+A model containing the above independent predictors was shown in a nomogram (Fig. ). The model showed a favorable C-index of 0.948 (95% CI, 0.906 to 0.990) in the training cohort and0.921 (95% CI, 0.840 to 0.995) in the validation cohort. Calibration curves of radiomics nomograms used to predict the histopathological grade of STSs showed good agreement between predicted and observed outcomes for both cohorts (Fig. ). The Hosmer-Lemeshow test showed no statistically significant difference between the calibration curve and the ideal curve (training cohort: χ2 = 8.275, p = 0.407, validation cohort: χ2 = 9.790, p = 0.280), indicating no deviation from a perfect fit.
+ The DCA of the TM-PTV model (based on Rad-score) and nomogram model is shown in Fig. . In the training cohort, using the nomogram to predict histopathological grade added more benefits than using the TM-PTV model for threshold probabilities from 4 to 90%. In the validation cohort, using the nomogram to predict histopathological grade added more benefit than using the TM-PTV model for threshold probabilities ranging from 8 to 64% and greater than 75%.
+ The DCA revealed that the net benefit of the nomogram was higher than that of the TM-PTV model, suggesting that the predicting strategy based on nomogram has better clinical utility.
+
+## Discussion
+A radiomics nomogram was developed based on the combination of intra-peritumoral radiomic features and peritumoral hyperintensity, which successfully differentiated low-grade and high-grade STSs, and its recognition performance was higher than the TM-PTV model, and showed good calibration in both groups, suggesting that it may be a promising tool for clinical strategy. To the best of our knowledge, this is the first study to develop a model based on intratumoral and peritumoral radiomics to predict the histopathological grade of STSs. The present study found peritumoral hyperintensity and Rad-score were independent risk factors for predicting histopathological grade. Peritumoral hyperintensity on FS-T2WI may be caused by surrounding tissue edema, inflammatory cell infiltration, angiogenesis, and other changes [ ]. It has been widely recognized as a significantly poor prognostic factor for STS [ ].
+Previous studies have reported on an MRI-based radiomics model for predicting STS histopathological grade [ , ]. Zhang et al. [ ] developed an MRI-based radiological model with an AUC of 0.92 in predicting histopathological grade. Yan et al. [ ] developed an MRI-based radiomics nomogram for predicting the grade and demonstrated good calibration and good clinical utility. These two available studies were all based on TMV models. However, Significant clinical evidence suggests the heterogeneity of STSs is not limited to tumor margins but also involves peritumoral regions [ ]. White et al. have demonstrated in a population of patients undergoing surgery, satellite-like single or clustered tumor cells that are not visible on imaging can be found beyond the tumor margins [ ].In our study, the TMV, PTV, and TM-PTV models demonstrated outstanding discrimination in both the training and validation cohorts. Compared with the TMV model, the combination of the TMV and PTV(PT-TMV) model significantly improved the AUC, accuracy, sensitivity, specificity, PPV, and NPV of the predictive model. This result indicated that the combination of peritumoral features provides more information about the tumor microenvironment, which can reflect the biological behavior of the tumor better.
+Our study used a 10 mm extension from the lesion, which is based on the current standard for STSs surgical margins. To protect critical neurovascular structures or bones, a margin aiming at 10 mm is the minimum appropriate width to be considered acceptable according to National Comprehensive Cancer Network (NCCN) guidelines [ ]. Previous peritumoral radiomics studies of lung cancer [ ] and glioma [ ] have shown that the closer the peritumoral region is to the intratumoral region, the more information it contains. As the expansion distance increases, more normal soft tissue is incorporated into the region of interest (ROI), resulting in a smaller difference in peritumoral tissue heterogeneity. Radiomics features extracted from a 10 mm peritumoral ROI were most likely to provide important information for predicting histopathological grade for STS. In this study, the radiomics model was constructed based on a single FS-T2WI sequence, which was currently the most widely used sequence for STS radiomics. Peeken’s study found the FS-T2WI-based model showed better reproducibility compared with the T1WI model and the combined T1 and T2WI models [ ]. Importantly, the present study focused on the efficacy of radiomics models of the tumor itself and the tumor microenvironment. However, most lesions have unclear borders on T1WI, and image segmentation is difficult, which may affect the division of intratumoral and peritumoral ROIs. In addition, extracting a large number of features from many sequences tends to increase the risk of model overfitting [ ].
+Radiomics features are sensitive to all the acquisition conditions including MR protocols, scanners, and MR adjustments. To lower bias and variance, We performed several preprocessing methods, In particular, the ComBat compensation,which is easy to apply and is suitable for retrospective information analysis [ ], eliminates batch effects due to multi-source variation caused by different scanners and protocols in multi-center radiation analysis while preserving the excellent properties of its texture patterns and has been used in previous reports to improve reproducibility between different centers [ ]. Therefore, the key to addressing the heterogeneity of acquisition conditions may lie in adequate preprocessing and consistent scanning parameters.
+When dealing with radiomics, the segmentation method has a large impact on the reproducibility and reliability of the radiomics signature [ ]. The current image segmentation methods include manual, semiautomatic, and fully automatic. Manual segmentation is prone to interobserver variability, which may hinder the reproducibility of radiomics analyses. Automatic segmentation techniques based on deep learning are the mainstream of the current research field and are currently being considered for clinical trials, showing improvements in image classification prediction and recognition tasks [ ]. While results from automatic image segmentation are promising, errors due to contrast blur and biased fields are common and often require manual correction to ensure accuracy [ ]. We tried to use U-net neural network for fully automatic segmentation of lesions, but because STS comes from various types of tissues, shapes, and positions are not fixed, the automatic segmentation of lesions was not effective. Therefore, this study still used the traditional manual segmentation method. Although both the intra-observer and inter-observer ICC coefficients were high, this was a hugely time-consuming process, which was a limitation of this study. In the future, in-depth research was expected to break through the limitations of image segmentation. This study has several limitations that need to be addressed. First, our study was retrospective, so despite our strict criteria, there is a potential selection bias. Second, our data came from two institutions using similar but different scanners and protocols. Therefore, the resampling methodology and the combat compensation method were adopted to reduce the difference in image specifications to improve the stability of features and different models. Third, multimodal MR radiomics may have better potential, such as DWI. Finally,this study did not include all histopathological types of STS because our study was retrospective and limited by the number of patients. Therefore, the sample needs to be enlarged in future research to improve the generalization ability of the model.
+In conclusion, peritumoral radiomics features can provide complementary information to intratumoral regions to predict the histopathological grade of STS. Such quantitative radiomics prognostic models of STS may potentially be useful for precision medicine.
+
+## Supplementary Information
+
+Additional file 1: Material 1. Detailed information about extracted radiomics features. Material 2. Image Types were used to extract features from. Material 3. Features screened by the LASSO method. Material 4. Calculation formula of Rad-score. Figure 1. The Dice coefficient of TMV and PTV. Figure 2. Detailed information about feature extract by python. Figure 3. Rad-score for each patient in each cohort.
+
+## Acknowledgements
+We thank the plastic surgery team of Sichuan Provincial People’s Hospital and the First People’s Hospital of Yibin for collecting and providing the MRI images.
+
+## Abbreviations
+AUCArea Under Curve
+DCADecision Curve Analysis
+DWIDiffusion Weighted Imaging
+FNCLCCFrench Federation of Cancer Centers Sarcoma Group
+FST2WIFat-Saturated T2-Weighted
+ICCIntraclass Correlation Coefficient
+LASSOLeast Absolute Shrinkage and Selection Operator
+MRIMagnetic Resonance Imaging
+PTMPeritumoral Tumor Volume
+ROCReceiver Operating Characteristic Curve
+ROIRegion of Interest
+STSsSoft Tissue Sarcomas
+SVMSupport Vector Machine
+TM-PTVCombined TMV and PTV
+TMVTumor Mass Volume
+VOIVolume of Interest
+
+## Authors’ contributions
+Wei Cui and Zhen Cai participated in the design of the study and the initial syntheses of results. Liyuan Zhang and Yang Yang prepared figures and wrote the manuscript text. Xi Chen,Mingyue Tang and Junnan Deng made statistical analysis. All authors read and approved the final manuscript.
+
+## Funding
+The authors state that this work has not received any funding.
+
+## Availability of data and materials
+The datasets used and/or analyzed during the current study are available from the corresponding author upon reasonable request. All codes and additional details can be found online (https://github.com/mystic1602/radiomics, Accessed 8 June 2023).
+
+## Declarations
+
+## Ethics approval and consent to participate
+The Ethics Committee of Sichuan Provincial People’s Hospital and the First People’s Hospital of Yibin approved this study.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+Not applicable.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Liyuan Zhang and Yang Yang contributed equally to this work and should be considered co-first authors.
+
+## Contributor Information
+Zhen Cai, Email: caizhen1976@126.com.
+Wei Cui, Email: cuiwei17@hotmail.com.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Additional file 1: Material 1. Detailed information about extracted radiomics features. Material 2. Image Types were used to extract features from. Material 3. Features screened by the LASSO method. Material 4. Calculation formula of Rad-score. Figure 1. The Dice coefficient of TMV and PTV. Figure 2. Detailed information about feature extract by python. Figure 3. Rad-score for each patient in each cohort.
+
+## Data Availability Statement
+The datasets used and/or analyzed during the current study are available from the corresponding author upon reasonable request. All codes and additional details can be found online (https://github.com/mystic1602/radiomics, Accessed 8 June 2023).

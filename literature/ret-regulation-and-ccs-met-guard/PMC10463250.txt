@@ -1,0 +1,736 @@
+3946starprotSTAR ProtocolsSTAR ProtocElsevierPMC1046325010463250104632503761616510.1016/j.xpro.2023.102500Adverse outcome pathway-based analysis of liver steatosis in vitro using human liver cell lines
+KaracaMawien FritscheKristin LichtensteinDajana VuralÖzlem KreuzerKatrin AlarcanJimmy BraeuningAlbert Marx-StoeltingPhilip TralauTewes 1German Federal Institute for Risk Assessment, Department of Pesticides Safety, Max-Dohrn-Straße 8-10, 10589 Berlin, Germany2German Federal Institute for Risk Assessment, Department Food Safety, Max-Dohrn-Straße 8-10, 10589 Berlin, Germany3Technical University of Berlin, Institute for Chemistry, Straße des 17. Juni 115, 10623 Berlin, Germany∗Corresponding author philip.marx-stoelting@bfr.bund.de
+4These authors contributed equally
+5Technical contact: mawien.karaca@greifswalder-apotheke.com, kristin.fritsche@bfr.bund.de, dajana.lichtenstein@bfr.bund.de
+6Lead contact
+2382023431025001025003082023© 2023 The Author(s)This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Summary
+Here, we present an in vitro test battery to analyze chemicals for their potential to induce liver triglyceride accumulation, a hallmark of liver steatosis. We describe steps for using HepG2 and HepaRG human hepatoma cells in conjunction with a combination of several in vitro assays covering the different molecular initiating events and key events of the respective adverse outcome pathway. This protocol is suitable for assessing single substance effects as well as mixtures allowing their classification as steatotic or non-steatotic.
+For complete details on the use and execution of this protocol, please refer to Luckert et al. (2018), Lichtenstein et al. (2020), and Knebel et al. (2019). 
+Subject areas: Cell Culture, Cell-Based Assays, Gene Expression
+
+## Graphical abstract
+ 
+
+## Highlights
+•An in vitro battery analyzing substance effects on lipid metabolism
+•Combining cytotoxicity, reporter gene, gene expression, and TGA assays
+•Guidance on how to test and analyze single substances and mixtures
+
+Publisher’s note: Undertaking any experimental protocol requires adherence to local institutional guidelines for laboratory safety and ethics.
+
+Here, we present an in vitro test battery to analyze chemicals for their potential to induce liver triglyceride accumulation, a hallmark of liver steatosis. We describe steps for using HepG2 and HepaRG human hepatoma cells in conjunction with a combination of several in vitro assays covering the different molecular initiating events and key events of the respective adverse outcome pathway. This protocol is suitable for assessing single substance effects as well as mixtures allowing their classification as steatotic or non-steatotic.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoCollection date 2023 Sep 15.
+
+## Before you begin
+
+## Background information
+With liver often being the first organ for Phase-I detoxification, liver toxicity is a frequent finding in animal studies following oral exposure to chemical substances, toxins, or pesticides. In this context, a common finding is receptor-mediated induction of xenobiotic metabolism, which in turn can trigger adverse responses such as hypertrophy, and substance-induced steatosis. With continued exposure, hepatic steatosis can progress to non-alcoholic steatohepatitis, fibrosis, liver cirrhosis, and hepatocellular carcinoma (HCC). Typically, these adverse effects are determined following the Organization for Economic Co-operation and Development (OECD) test guidelines 407 and 408, that is, 28- and 90-day repeated dose oral toxicity studies in rodents. , With increasing numbers of new compounds on the market and especially considering also possible mixture effects, such studies are not only cost-intensive and laborious but also raise ethical concerns. It is therefore necessary to develop and standardize new in vitro test methods for both, single chemicals and mixtures thereof.
+
+## Description and development of the protocol
+In the present protocol, we describe the procedures to detect alterations in the adverse outcome pathway (AOP) of liver steatosis at the molecular initiating event-level, i.e., nuclear receptor (NR) transactivation, and at the key event-level, i.e., changes in gene expression as well as functional changes like triglyceride accumulation, thereby analyzing the steatotic potential of chemical substances and their mixtures. Since there are several mechanisms known to induce liver steatosis, several AOPs exists in the AOP wiki. These differ largely in NRs acting as molecular initiating event (MIE). A well accepted summary has been published by Mellor and others ( ). In addition to the activation of liver X receptor alpha (LXRα) and aryl hydrocarbon receptor (AHR), the proposed MIEs at that time, they further proposed as MIEs the activation of estrogen receptor (ER), pregnane X receptor (PXR), peroxisome proliferator-activated receptor gamma (PPARγ), farnesoid X receptor (FXR), constitutive androstane receptor (CAR), glucocorticoid receptor (GR), and retinoic acid receptor (RAR), as well as an antagonism at PPAR alpha (PPARα). Depending on the NR, all MIE events may lead to the key event (KE) of triglyceride accumulation (TGA) via different intermediate effects like differential gene expression of steatosis-related genes, alterations in mitochondrial beta-oxidation, de novo fatty acid synthesis, or increased fatty acid influx. Our protocol focusses on the NR-mediated MIEs, except for the GR as the battery already comprises CAR-activation as respective downstream event ( ). All reporter gene assays (RGAs) were optimized for use in conjunction with the human liver cell line HepG2. The KEs addressed in this protocol have been narrowed down to changes in gene expression and triglyceride levels ( ), as previous work has shown these two parameters to allow for sufficient classification of steatotic compounds compared to in vivo studies. The corresponding assays rely on human HepaRG cells as these retain the expression of steatosis-related NRs and respond to steatosis-inducing chemicals with lipid accumulation. , , , , , Our previous studies showed steatosis-related gene expression in HepaRG cells to partly deviate from the proposed AOP. , , , We therefore developed a predictive 10-gene transcript set for TGA in HepaRG cells. In conjunction with a least absolute shrinkage and selection operator (LASSO) regression analysis, these genes allow a reliable separation of steatotic from non-steatotic compounds based on qRT-PCR. The other KE addressed with an in vitro assay is TGA that we determine with an optimized high-throughput, fluorescence-based assay.
+ The second part of this protocol describes how to design binary mixtures to be used in the workflow, and how to subsequently determine mixture effects. In this protocol we present a strategy using equipotent mixtures based on a benchmark dose (BMD) approach proposed by the EUROMIX project consortium. 
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+## Cell culture
+The basic and general rules of cell culture work, i.e., working under sterile conditions are implied as precondition for all subsequent procedures. All buffers should be autoclaved before use and depending on the experiment kept sterile by working under a LAF bench.
+•Heat-inactivated FBS Good Forte: Thaw FBS Good Forte at 4°C for approx. 2 days. Inactivate the FBS at 56°C for 30 min, let cool down at 4°C for at least 24 h, and store 50 mL aliquots at -20°C up to 6 months.○Note: HepaRG cells produce excessive mucus when cultivated with non-heat inactivated FBS.
+
+•5 mM HHS stock solution: Solve 1 g of HHS sodium salt in 413 mL 1× PBS, filter through a vacuum driven sterile filter, and store aliquots at −20°C up to 6 months.
+•HepaRG cell culture media: The following media for cultivation and incubation of HepaRG cells were established based on the publications. , , , , , For a brief overview of the media compositions, see . Store all HepaRG cell culture media at 4°C up to one month.○Proliferation medium. Note: For FBS, the same lot number must be used throughout all experiments to avoid batch effects. The concentration of triglycerides and glucose in the FBS must be approx. 100 mg/100 mL and 5 mg/100 mL, respectively. Otherwise, the cells will fail to accumulate triglycerides after treatment.
+
+○Transition medium.-Prolifieration medium + 1% DMSO.
+
+○Differentiation medium.-Prolifieration medium + 1.7% DMSO.Note: The same lot number of DMSO should be used throughout all experiments to avoid batch effects. DMSO can influence the mucus production of HepaRG cells.
+CRITICAL: There should not be any deviations from the proliferation, transition, or differentiation medium in order to guarantee the same cell culture conditions until cells are completely differentiated.
+
+•HepG2 cell culture.○HepG2 medium: High-glucose DMEM supplemented with 4 mM L-glutamine, 1 mM sodium pyruvate, 10% (vol/vol) FBS Superior, and 1% (vol/vol) Pen/Strep.
+○Cultivate HepG2 cells in HepG2 medium in 75 cm2 cell culture flasks.
+○Passage every 3–4 days at a ratio of 1:2 or 1:3, respectively.
+○For passaging in 75 cm2 cell culture flasks and seeding in 96-well plates, wash the cells with 1× PBS, add 3 mL trypsin with 0.05% EDTA, incubate at room temperature (RT, 21°C) for 1 min, remove the solution, further incubate for 5–10 min at 37°C, then collect the detached cells using 10 mL HepG2 medium, centrifuged at 300 × g for 3 min, remove the supernatant and loosen the cell pellet by flicking the bottom of the tube as to support homogenous separation of the cells.-Passaging into 75 cm2 flasks: Re-suspend the required amount of cell solution in 10–15 mL medium and seed cells into the cell culture flask. Slowly rotate the flask in an eight-shaped move when depositing in the incubator.
+-Seeding the cells in 96-well plates: Use one 75 cm2 flask of cells (use only passage 5–20), res-suspend the cells solution in 10 mL of HepG2 medium, count the cells using a cell counter and trypan blue staining. Seed the required amount of cell suspension for 1.8 × 104 cells/100 μL/well into the inner 60 wells of a 96-well plate. Fill the outer wells with 100 μL 1× PBS to avoid evaporation. .
+
+ 
+
+## Incubation with test substances
+
+•HepaRG treatment medium (TM, ).○Note: Small amounts of TM without DMSO are required in all assays. Remove the amount needed and adjust with DMSO as appropriate.
+
+•Test substance stock solution.○If possible, dissolve the test substances in DMSO or in TM, otherwise an additional solvent control must be carried along. For HepaRG cells, a 200× concentration of the final concentration, and for HepG2 cells, a 1,000× concentration of the final concentration is suggested, resulting in a DMSO background of 0.5 and 0.1% (vol/vol), respectively.
+○Prepare appropriately sized aliquots, depending on your throughput, in order to avoid multiple freezing and thawing cycles, store at −20°C up to three months.
+○Note: Visually verify that the test substance has dissolved completely using a microscope. The solution must be clear without any sign of cloudiness or precipitation. If necessary, incubate 15 min in an ultrasonic water bath at 37°C.
+
+CRITICAL: Test substance stock solution preparation and storage must be generated using amber glass vials to avoid potential endocrine effects of plastic components.
+
+•Incubation of HepG2 cells with test substances.○Incubate HepG2 cells with test substances first to determine the highest non-toxic concentration of a test substance, and second to perform RGAs using the previously determined highest non-toxic concentration. In both cases, use the highest concentration (concentration 8 or C8) to initiate a 1:2 serial dilution until C1 (see ).
+○Pre-warm HepG2 medium, thaw stock solutions of the test substances and for RGAs also the positive controls for the respective receptors (see ) at RT.
+○Prepare 1.2 mL/96-well plate of C8 by diluting the stock solution of the test substance in HepG2 medium, ideally resulting in a DMSO concentration of 0.1% (vol/vol).Note: DMSO concentrations higher than 0.5% (vol/vol) should not be used.
+
+○Mix thoroughly and use 0.5 mL to start a 1:2 serial dilution until C1 in HepG2 medium containing the same DMSO concentration as C8.
+○Prepare 0.5 mL of the positive controls (WST-1: 10% Triton X-100 stock solution diluted 1:1000 in HepG2 medium containing the same DMSO concentration as C8, RGAs: dilute stock solutions 1:1000 in HepG2 medium.Note: If necessary, adjust the DMSO concentration.
+CRITICAL: Make sure that C8 is solved well; otherwise, the serial dilution will not be precise. Incubation in an ultrasound bath at 37°C can help when dealing with solubility issues.
+
+ 
+
+## Cytotoxicity assay WST-1
+
+•Triton X-100 stock solution: 10% (w/v) Triton X-100 in PBS, store at 4°C up to one month.
+•WST-1 solution: Prepare aliquots of 1 mlf in dark reaction tubes and store at 20°C, up to one year.
+
+## Reporter gene assay
+
+•Plasmids: Purify Plasmid DNA ( ) with the QIAGEN Plasmid Plus Maxi Kit.
+•Lysis buffer: 100 mM KH2PO4 and 0.2% Triton X-100 (vol/vol) in aqua dest., adjust pH to 7.8 using NaOH, and store at 4°C for up to 1 month.
+•Firefly stock solution: 200 mM Tris-HCl, 15 mM MgSO4×7H2O, 0.1 mM EDTA-NA2×2H2O in aqua dest., adjust pH to 8.0 with NaOH, and store at RT up to 3 months.
+•Renilla stock solution: 10 mM sodium acetate, 25 mM tetrasodium pyrophosphate, 15 mM EDTA-Na2×2H2O, 500 mM NaSO4, 500 mM NaCl in aqua dest., adjust pH to 5.0 with HCl, and store at RT up to 3 months.
+•DTT stock solution: 1 M DTT in aqua dest., store at −20°C up to three months.○Caution: DTT is an irritant.
+
+•ATP stock solution: 100 mM in 10 mM Tris-HCl pH 8.0, store at −20°C up to one year. Do not re-freeze.
+•Coenzyme A: 2 mM in firefly stock solution, store at −20°C up to one year.
+•D-Luciferin: 2 mM in firefly stock solution, store at −20°C. Protect from light and store in amber glass reaction tubes up to six months.
+•Phenylbenzothiazole stock solution: 50 mM in DMSO, store at −20°C up to three months.
+•Coelenterazine stock solution: 4 μM in Ethanol abs. with 0.06 M HCl. Store coelenterazine and coelenterazine stock solution at −80°C up to three months. Protect from light.
+•Injection solution firefly luciferase (Fluc): Use the stock solution and prepare 25 mM DTT, 1 mM ATP, 0.2 mM coenzyme A, and 0.2 mM D-luciferase in firefly stock solution. Filter through a syringe filter unit with a pore size of 0.45 μM and protect from light. Use immediately.
+•Injection solution renilla luciferase (Rluc): Use the stock solution and prepare 0.05 mM phenylbenzothialzole in renilla stock solution. Filter through a syringe filter unit with a pore size of 0.45 μM, then add coelenterazine for a final concentration of 0.004 μM. Protect from light. Use immediately.
+•Stock solutions of the test compounds and positive controls: Solve the test compounds and positive controls in DMSO at the desired concentration. See for the final concentrations of the positive controls and refer to the results of the WST-1 assay to determine an appropriate concentration of the stock solution of the test compound. Keep in mind that the final concentration of DMSO in the cell culture medium should be as low as possible, should be the same between experiments, e.g., 0.1%, and must not exceed 0.5%. Store at −20°C up to three months.○Caution: Most test compounds and positive controls are highly toxic. Wear appropriate protective clothing, take the required precautions, and dispose liquid waste properly.
+
+## Gene expression analysis
+
+•Stock solution of the positive control: 8 mM Imazalil in DMSO. Store at −20°C up to three months.
+•Cell lysis buffer: For each well 350 μL cell lysis buffer are required. Dilute β-mercaptoethanol 1:100 with buffer. Store at RT up to one month.○Caution: β-mercaptoethanol is classified as corrosive, acute toxic, irritant, health hazard, and environmental hazard. Work under a fume hood and wear appropriate protective clothing.
+
+•DNase I stock solution: Prepare DNase I stock solution according to the manufacturer’s protocol of the RNase-Free DNase Set by adding 550 μL of RNase-free water to the lyophilized DNase I using RNase-free needle and syringe. Mix gently by inverting the glass vial. Store aliquots at −20°C up to six months.○Note: Do not vortex the DNase I stock solution in order to avoid physical denaturation of DNase I.
+
+•Primer working solution of 5 μM: Prepare sufficient volume of 5 μM solutions of primer pairs (see ) by diluting 100 μM primer stocks 1:20 with nuclease-free water. Put 95 μL of nuclease-free water in a PCR clean reaction tube of 0.5 mL and add 5 μL of the respective primer using PCR clean tips. Place the primer working solutions on ice until ready to use or store at −20°C up to one year.○Note: Vortex primers before use to allow/provide homogenous distribution of the oligonucleotides.
+
+ 
+
+## Triglyceride accumulation assay
+
+•Hoechst 33342 solution: 5 μg/mL in PBS. Use immediately.○Note: Avoid excessive exposure to light, Hoechst 33342 is a fluorescent dye and must be protected from light.
+
+•T0901317 stock solution: 2 mM in DMSO in amber glass vials, store aliquots of 50 μL at −20°C up to 3 months.
+
+## Step-by-step method details
+
+## Cultivation of HepaRG cells
+
+Timing: minimum 6 weeks
+
+Timing: 15–17 days (for step 4)
+
+The workflow of HepaRG cultivation from thawing and passaging until seeding the cells for experiments is shown in .
+Note: Note that affiliation pending cell culture will require a material transfer agreement or sub-license.
+Note: A cell bank of these cells must be established beforehand according to the manufacturer’s protocol.
+1.Thawing.a.Pre-warm the proliferation medium in a water bath to 37°C.
+b.Transfer 7 mL of pre-warmed proliferation medium to a 25 cm2 bottle.
+c.Thaw the frozen HepaRG cryovial quickly (1–2 min) in a water bath while swirling until only a small ice crystal remains.
+d.Quickly transfer the thawed HepaRG cells into the prepared cell culture flask and distribute it equally by swirling in a back-and-forth and side-to-side manner.
+e.Change medium 5–6 h after thawing using 7 mL of pre-warmed proliferation medium.
+f.Change medium every 2–3 days using 7 mL proliferation medium (Mon.-Wed.-Fri.).
+
+2.Cultivation of passage 1.a.After 14 days, split the initial 25 cm2 flask (passage 0) into three 75 cm2 flasks (passage 1) without counting the cells (see ).
+b.Wash cells with approx. 5 mL sterile PBS, add 1 mL of trypsin-EDTA (0.05%) in Dulbecco’s phosphate-buffered saline, and distribute it on the cells by swirling.
+c.Trypsinize cells for approx. 5 min at 37°C.
+d.Neutralize the trypsin by adding 5 mL proliferation medium.Note: Cells should detach well. However, keep the trypsinization time to a minimum for a high cell number. .
+
+e.Using a serological pipette, separate cells by pipetting up and down and pressing against the bottom of the flask.Optional: For better separation pull cells through a 1 mL combitip.
+
+f.Add 12 mL of pre-warmed proliferation medium into each of the three 75 cm2 flasks, add 2 mL HepaRG cell suspension each, mix, and distribute gently by swirling back-and-forth and side-to-side.
+g.Change the medium every 2–3 days using proliferation medium. .
+
+3.Cultivation of passages 2–5.a.After 14 days, the 75 cm2 flasks are split and seeded in 75 cm2 flasks for further propagation, in 96-well plates for cytotoxicity testing or TGA assay, and in 6-well plates for gene expression analysis (see ).Note: Only cells that have proliferated for 14 days can be split or seeded, they must not have already received DMSO and thus not be differentiated.
+
+b.Wash the cells with approx. 10 mL sterile PBS, add 2 mL of trypsin-EDTA (0.05%) in Dulbecco’s phosphate-buffered saline, and distribute by swirling. Trypsinize cells for approx. 5 min at 37°C. Neutralize the trypsin by adding 12 mL proliferation medium.Note: Cells should detach well. However, keep the trypsinization time to a minimum for high cell number. .
+
+c.Using a serological pipette, separate cells by pipetting up and down and pressing against the bottom of the flask.Optional: For better separation pull cells through a 1 mL combitip.
+
+d.Count the cells using trypan blue exclusion. The percentage of dead cells related to the total cell number should not exceed 10%.
+e.Seed the cells in the desired plate/flask format ( ).
+f.75 m2 flasks:i.Calculate the volume of cell suspension required for 2 million cells and fill up to 14 mL with proliferation medium as required.
+ii.Prefill the 75 cm2 flask with required amount of pre-warmed proliferation medium.
+iii.Add the cell suspension and mix well by swirling in a back-and-forth and side-to-side manner.
+
+g.96-well plates:i.For one 96-well plate, prepare a cell suspension of 7 mL with 90,000 cells/mL in pre-warmed proliferation medium.Note: Mix well by inverting the tube, do not vortex.
+
+ii.Use a multichannel pipette to distribute the cell suspension the inner 60 wells using 100 μL/well.
+iii.Fill the outer wells with 200 μL PBS to avoid evaporation.
+
+h.6-well plates:i.Prepare a 100,000 cells/mL suspension in pre-warmed proliferation medium.
+ii.Using a serological pipette, distribute 2 mL of the cell suspension in each well of the 6-well plate.
+iii.Grow in the incubator at 37°C and 5% CO2 and do not move the next 5–6 h to let the cells attach.
+iv.Change the medium every 2–3 days using proliferation medium (see ).Note: Handle the cells as carefully as possibly to prevent cell detachment, especially when changing the medium. .
+CRITICAL: Cultivation in is recommended only up to passage 5.
+
+4.Differentiation of HepaRG cells and adaption to treatment medium.a.On day 14 post seeding, start differentiation of the cells seeded in 96-well or 6-well plates (see ).
+b.Carefully aspirate the medium and add pre-warmed transition medium (containing 1% DSMO (vol/vol), see ) usingi.2 mL/6-well (gene expression analysis) and,
+ii.100 μL/96-well (WST-1 and TGA assay). .
+
+c.On day 16, replace the transition medium with differentiation medium (containing 1.7% DMSO (vol/vol)).
+d.Change the medium every 2–3 days using differentiation medium until day 28 (6-well plates) or 30 (96-well plates).Note: HepaRG cells are fully differentiated at day 28 and can be used for experiments only from that day on.
+i.At day 28 carefully aspirate the medium of the 6-well plates and replace with pre-warmed treatment medium.
+ii.At day 30 carefully aspirate the medium of the 96-well plates and replace with pre-warmed treatment medium. .CRITICAL: According to the manufacturer, HepaRG cells can be cultivated in differentiation medium up to four weeks. However, for the described assays we recommend to use the cells as indicated for better reproducibly.
+
+ 
+
+## Incubation of HepaRG cells with test substances
+
+Timing: 30 min
+
+All assays are performed using the highest non-toxic concentration as determined with a cytotoxicity assay such as the WST-1 and a threshold for > 90% cell viability. While in the gene expression analysis only the highest non-toxic concentration is assessed, reporter gene and TGA assays performed in 96-well plates additionally determine a 1:2 serial dilution of this concentration. All assays require a solvent control as negative control with the solvent of choice for all test compounds being dimethyl sulfoxide (DMSO) which is also contained in the HepaRG-differentiation medium. Maximum DMSO concentrations for HepG2 and HepaRG cells are 0.1% and 0.5% (vol/vol), respectively. If another solvent is used concentrations need to be adapted and an additional solvent control included as appropriate. Positive controls are included as deemed fit for the assay in question. Please note that the incubation of HepG2 cells with test substances is described in detail in the RGA section, whereas incubation of HepaRG cells with test substances is described here since it is the same for all other assays.
+5.Use an inverted microscope and inspect the cells regarding density, morphology, and viability. There should be no signs of cell death, altered morphology or cytotoxicity.
+6.Pre-warm TM and TM without DMSO.
+7.Thaw the stock solution of the test substance at RT.
+8.Thaw the stock solutions of the positive controls at RT.a.10% Triton X-100 for the WST-1 assay (96-well plates).
+b.8 mM Imazalil for gene expression analysis (6-well plates).
+c.2 mM T0901317 for the TGA assay (96-well plates).
+
+9.Prepare the solutions of the test substance.a.WST-1 assay (96-well plates, 2 test substances on one plate).iPrepare a 1.2 mL/plate as concentration 8 (C8) using TM without DMSO (see ).
+iiAdd 0.5 mL of C8 to 0.5 mL TM for C7, then add 0.5 mL of C7 to 0.5 mL TM for C6, continue until C1.
+
+b.Gene expression analysis (6-well plates, 2 test substances on one plate).i.Prepare 2.2 mL/well of the test concentration by diluting the stock solution in TM without DMSO.
+
+c.TGA assay (96-well plates, 1 test substance on one plate).i.Prepare a 2.4 mL/plate as concentration 8 (C8) using TM without DMSO (compare ).
+ii.Add 1 mL of C8 to 1 mL TM for C7, then add 1 mL of C7 to 1 mL TM for C6, continue until C1.
+
+Note: If the stock solution has to be diluted more than 200×, add the required amount of DMSO to the vial in order to obtain 0.5% DMSO (vol/vol) in C8.
+Note: Make sure that C8 is solved well; otherwise, the serial dilution will not be precise. Incubation in an ultrasound bath at 37°C can help when dealing with solubility issues.
+10.Prepare the positive controls.a.WST-1 assay.i.Prepare 1 mL/96-well plate of 10% Triton X-100 stock solution diluted 1:1000 in TM.
+
+b.Gene expression analysis.i.Prepare 6.8 mL/6-well plate of 8 mM Imazalil stock solution diluted 1:200 in TM without DMSO.
+
+c.TGA assay.i.Prepare 1 mL/96-well plate of 2 mM T0901317 stock solution diluted 1:200 in TM without DMSO.
+
+11.Start the incubations. Carefully aspirate the medium and replace it with the solvent control, test substance dilutions, and the positive controls using 100 μL/96-well and 2 mL/6-well.
+Note: It is important to aspirate the whole volume in the wells in order to have a correct concentration of the test substances that are added to the wells. However, be careful not to touch the cell monolayer. Do not use a combitip to add the test substances and controls; if the speed is too high, the cell monolayer can be damaged and if it is too low, drops can get stuck in the tip leading to an incorrect volume. Keep the time between aspiration and addition of the test substances and controls to a minimum as to avoid the cells drying out.
+Note: For the WST-1 and TGA assay, remember to fill up any empty wells remaining. .
+
+## Cytotoxicity assay WST-1 in HepG2 and HepaRG cells
+
+Timing: 1–3 days
+
+Timing: 1.5–2 h (for step 13)
+
+Timing: 30 min (for step 14)
+
+The cytotoxicity assay WST-1 is performed in both, HepG2 and HepaRG cells, to determine the highest non-toxic concentration of a test substance. Additionally, solubility of the test substance is verified. The assay is performed using the inner 60 wells of a 96-well plate using eight different concentrations of test substance. Each condition is tested in three technical replicates (see ). The highest concentration used in this assay (concentration 8, C8) should be determined by literature research on solubility and estimated cytotoxicity. If that information is not available, we suggest to start with 1 mM of the test substance as C8. Positive control is the detergent Triton-X 100 with a concentration of 0.01% (vol/vol) in the respective cell culture solvent control. The outer wells, which are not occupied with cells but contain the adjacent test substance concentration (blank), are used for visual control of the solubility of the test substance in the respective treatment medium. For each assay, three biological replicates, i.e., three independent experiments with different passages of HepG2 or HepaRG cells, are required. The number of plates and compounds that can be analyzed in parallel is limited by the timing required for preparing the dilutions of the different test compounds. Well-trained technicians will be able to process up to ten 96-well plates in parallel. For initial experiments, however, it is suggested to start with four 96-well plates corresponding to four different test compounds. The timing in the different steps always refers to one plate only.
+12.Incubate with the test substances and controls.a.24 h (HepG2 cells).
+b.72 h (HepaRG cells).
+
+13.WST-1 assay.a.One hour before the end of the incubation time, thaw one WST-1 aliquot (1 mL) per plate at 37°C for approx. 2 min and vortex thoroughly.
+b.Use an inverted microscope and inspect each blank well on the plate whether the test substance formed any visible precipitate. If so, note the concentration at which it occurred.Note: In case that the test substance precipitates, repeat the experiment and adjust the concentration accordingly. .
+
+c.Add 10 μL of WST-1 solution/well (including blanks).iAfter 23 h of incubation of HepG2 cells.
+iiAfter 71 h of incubation of HepaRG cells. .
+
+d.Incubate for 60 min in the cell culture incubator. The red tetrazolium salt WST-1 is forms yellow formazan after cleavage of WST-1 by mitochondrial dehydrogenase activity of metabolically active cells.
+e.Determine the plate reader settings (see ) for the measurement.
+f.After 60 min incubation with WST-1, insert the plate in the plate reader and start measurement.
+g.Save the raw data when the measurement is completed and discard the plate after measurement.Note: Take care to collect and dispose any hazardous waste as required.
+Pause point: Data analysis can be performed at any time.
+
+14.Data analysis.a.Create an Excel file for the data analysis and copy the raw data to the first sheet. Use the second sheet for further analysis.Note: If your plate reader does not automatically normalize measurements, subtract the value of the reference wavelength from the measurement wavelength.
+
+b.Subtract the blank from each value of the respective concentration/control.
+c.Calculate mean and standard deviation of the three technical replicates.
+d.Cell viability is determined by relating measurements to the solvent control followed by multiplication with 100. Average control/concentration group values to obtain cell viability values in percent normalized to the solvent control.
+e.Repeat steps 1–14.d using different cell passages to obtain three independent biological replicates and calculate the mean and standard deviation.
+f.Determine the highest non-toxic concentration (cell viability >90%).Optional: It is possible to perform another cytotoxicity test using the same plate, e.g., neutral red uptake assay.
+
+ 
+
+## Reporter gene assay
+
+Timing: 3 days
+
+Timing: 29–30 h (for step 15)
+
+Timing: 25 h (for step 16)
+
+Timing: 30 min (for step 17)
+
+Timing: 1.5–2 h (for step 18)
+
+Timing: 30 min (for step 19)
+
+RGAs are performed in HepG2 cells to determine substance induced activation of the receptors CAR, PXR, FXR, LXRα, PPARγ, RARα, and AHR, or antagonism of PPARα, respectively. The assay is performed using the inner 60 wells of a 96-well plate. On each 96-well plate, one negative (solvent) control and one positive control corresponding to the NR (see ) have to be included, and for each condition, at least three technical replicates (wells) must be assessed. It is therefore advisable to assess the activation of one NR by two compounds on one 96-well plate. The number of plates and compounds that can be analyzed in parallel is limited by both, the preparation of the transfection master mixes, and the preparation of the dilutions of the test compounds. Well-trained technicians might be able to perform transfection of up to seven plates which allows for interrogation of all NRs with two different compounds. For initial experiments, however, we suggest to start with two nuclear receptors and two compounds. The timing in the different steps always refers to one plate only.
+15.Transfection.a.Seed HepG2 as described as described in – and cultivate for 24 h in a cell culture incubator.
+b.After 23 h, use an inverted microscope to control cells regarding cell morphology, viability and confluency (optimal confluency: 30%–40%, minimum: 25%).CRITICAL: Transfection should not be performed if the cells show clear signs of stress or cell death, e.g., detachment, floating dead cells or abnormal morphology.
+
+c.Let the transfection reagent TransIT-LT1, Opti-MEM, and the plasmids thaw until they reach room temperature.
+d.Depending on the nuclear receptor, determine the required amount of plasmid DNA per well. The input for all TAA is 40 ng/well of both, the NR and the firefly luciferase plasmid, whereas for the RGA with AHR it is 80 ng/well of the p3xDREC (AHR) plasmid (see ). For both assays, 1 ng/well of the renilla plasmid is required.Note: The plasmids have to be of transfection grade purity and their concentration has to be determined beforehand using e.g., a NanoDrop.
+
+e.Use to determine the amount of the different reagents of the transfection medium for one 96-well plate.Note: The transfection reagent is slightly viscous. With regard to pipetting volumes, it is therefore advised to calculate with an error of approx. 15% corresponding to a multiplication by 70 for 60 wells.
+
+f.Vortex the TransIT-LT1, and the plasmid DNA stocks gently before use and prepare the transfection medium by adding the plasmid DNA to the Opti-MEM. Mix carefully by pipetting up and down.
+g.Add TransIT-LT1 and mix carefully by pipetting up and down.Note: Avoid contact of the TansIT-LT1 with the sides of the plastic tube. Do not vortex the transfection medium at any time to avoid excessive contact with the plastic tube.
+
+h.Incubate 20–30 min at room temperature.
+i.Mix again carefully by pipetting up and down.
+j.24 h post seeding, slowly add 10 μL of the transfection master mix to each well and rock the plate to evenly distribute the transfection complex.Note: Do not forget to label on the 96-well plate, which receptor has been used and on which part of the plate; otherwise, it will not be clear where to position the corresponding positive control in the incubation steps.
+
+k.Incubate 4–6 h in a cell culture incubator.
+
+16.Incubation.a.After 4 h use an inverted microscope and observe the cells regarding cell morphology, viability and confluency.CRITICAL: Do not proceed if the cells show clear signs of stress or cell death, e.g., detachment, floating dead cells or abnormal morphology. Confluency of the cells should be <80%.
+
+b.Prepare the dilutions for the incubation with controls and test substances as described in – .
+c.Start the incubation 4–6 h after transfection by carefully aspirating the transfection medium and adding 100 μL/well of the negative or positive control and the various dilutions of the test substances, respectively.
+d.Incubate for 24 h in the cell culture incubator.
+
+17.Cell lysis.a.After 24 h use an inverted microscope to check cells with regard to morphology, viability and confluency.CRITICAL: There should be no clear sign of cell death. Confluency of the cells should be <95%.
+
+b.Carefully aspirate the medium.Note: Collect and dispose any hazardous liquid waste as required.
+
+c.Add 50 μL lysis buffer/well using a multi-channel pipette.
+d.Shake the 96-well plated for 15 min at RT on the microtiter plate shaker at 600 rpm.Note: Use an inverted microscope to control whether the cells have been lysed completely. .
+
+e.Centrifuge the 96-well plate for 5 min at 3,000 × g.Pause point: Store the plate at −80°C or continue with the measurement.
+
+18.Luminescence measurement.a.Prepare the injection solutions Fluc and Rluc 30 min before starting the measurement (see ). .
+b.If the plates were frozen, thaw for 38 approx.. 20 min at RT.
+c.Switch on the microplate reader with injectors at least 30 min before measurement. Critical step: The photon counting tube requires 30 min for equilibration.
+d.Transfer 5 μL lysate of each well to the white microtiter plate of the plate reader. Leave the first row empty for assessing background signal.Note: Try to work with the lights dimmed, since the plate can load up with photons and influence the background signal in the luminescence measurement. Store the plates at least 10 min in the dark before use.
+
+e.Insert the inceptor needles in the Fluc and Rluc injector solutions protected from light.
+f.Open the software of the microplate reader and determine the measurement protocol:
+g.Use the setup of the software (“priming”) to completely fill the tubes with Fluc and Rluc using 2 mL each.Note: Both tubes must be filled completely; otherwise, the results of the first wells that are measured are not reliable.
+
+h.Insert the injector into the machine and insert the plate.
+i.Determine the wells to be measured, including the first empty row (see ) and start the measurement.CRITICAL: Do not continue measurement if the empty wells have a background signal > 20. Background signals are usually ∼ 10 in both, firefly and renilla signals. Use another plate. .
+
+j.When all measurements are completed, save the raw data, empty the tubes and perform the cleaning steps according to the instructions of the microplate reader used.Pause point: Data analysis can be performed at any time.
+
+19.Data analysis.a.Use an Excel sheet or similar and divide all firefly signals by renilla signals.Note: Control whether the renilla signal is not enhanced or repressed by the different conditions. .
+
+b.Analyze receptor activation for all receptors except PPARα or antagonism for PPARα
+c.Normalize the data by dividing the firefly by the renilla values, followed by division with the mean of the solvent control.
+d.For each condition, determine the mean and standard deviation from the three technical replicates.
+e.Repeat step 15–19.d using different cell passages to obtain three independent biological replicates and calculate the mean and standard deviation.
+f.Using a statistical software such as SigmaPlot 14, perform the non-parametric Kruskal-Wallis test followed by Dunn’s test.Note: Significant activation of a receptor can be assumed with p < 0.05 and induction of the receptor > 1.5 relative to the solvent control, whereas receptor antagonism could be assumed with p < 0.05 and a concentration-dependent repression to < 0.7 relative to the solvent control. Here, further testing is required by repeating step 43–77 by coincubating 25 nm GW7647 (= EC50 of the PPARα positive control) with the respective test substance and analyzing the receptor activation in comparison to 25 nM GW7647. Perform the non-parametric Kruskal-Wallis test followed by Dunn’s test. Receptor antagonism can be assumed with p < 0.05 and repression to < 0.7 relative to 25 nM GW7647.
+Note: In case receptor antagonism of PPARα is observed, additional testing is required by repeating step 15–19.e for PPARα followed by co-incubation of the test substance dilutions with 25 nM GW7647 (corresponding to the EC50 of the PPARα positive control). Also, 25 nM GW7647 needs to be included as additional condition. Receptor activation is then analyzed in relation to GW7647 alone. Perform the non-parametric Kruskal-Wallis test followed by Dunn’s test. Receptor antagonism can be assumed with p < 0.05 and repression to < 0.7 relative to 25 nM GW7647.
+
+ 
+
+## Gene expression analysis
+
+Timing: 2–3 days
+
+Timing: 24 h (for step 20)
+
+Timing: 30 min (for step 21)
+
+Timing: 3–4 h (for step 22)
+
+Timing: 2–3 h (for step 23)
+
+Timing: 3–4 h (for step 24)
+
+Timing: 30 min (for step 25)
+
+Timing: 2 h (for step 26)
+
+In order to separate steatotic from non-steatotic compounds gene expression analysis of a predictive transcript marker set is performed. Differentiated HepaRG cells are seeded in 6-well plates and exposed to the highest non-toxic concentration of the test compounds for 24 h. Incubation should include a solvent control as well as a positive control (40 μM Imazalil). The number of plates and compounds that can be analyzed in parallel is limited by the time required for harvesting the cells after lysis. Under ideal conditions it is possible to process up to twenty 6-well plates in parallel. For initial experiments, however, it is suggested starting with two 6-well plates corresponding to 10 different test compounds. The timing in the different steps always refers to one plate only. RNA isolation, cDNA synthesis and subsequent qRT-PCR (steps 21–24) are standard protocols and might be replaced in case the performer’s laboratory has similarly well-established protocols to perform these steps.
+The transcriptomic marker set for steatotic classification was established and validated for proof of concept previously. , The analysis of relative expression data using the LASSO regression coefficients of the marker set facilitates prediction of intracellular TG accumulation with the respective marker-specific coefficients summarized in .
+20.Incubation.a.Perform steps 1–11 to obtain differentiated 6-well plates of HepaRG cells incubated with the test substances and controls for the gene expression analysis.
+b.After 24 h incubation, use an inverted microscope and observe the cells regarding cell morphology, viability and confluency.
+
+CRITICAL: There should be no clear sign of cell death and the cell monolayer must be intact.
+21.Cell lysis.a.Chill PBS on ice to 4°C.
+b.Take the incubated plate from the cell culture incubator and put it on ice.
+c.Carefully aspirate the wells with treatment medium of the test substances and controls.Note: Collect and dispose any hazardous liquid waste as required.
+
+d.Wash each well gently twice with 2 mL of ice-cold PBS using a serological pipette.Note: It is important to aspirate the whole volume in the wells, since remaining medium will inhibit lysis and dilute the lysate, affecting the binding of RNA to the RNeasy membrane and thus resulting in reduced RNA yield. Do not touch the cell monolayer.
+
+e.Add 350 μL cell lysis buffer per well using a pipette and a filter tip.CRITICAL: If incubating more than one plate, aspirate and wash only one plate at a time.
+
+f.Scrape off the cells by pipetting up and down and transfer the lysates into 2 mL reaction tubes and place them on ice.Pause point: Cell lysates can be stored at −80°C until further processing. Thaw samples on ice before use and avoid freeze/refreeze cycles.
+
+22.RNA isolation.a.Isolate total RNA using the RNeasy Mini Kit following Qiagen’s protocol and integrate the DNase digestion using the RNase-Free DNase Set and protocol to exclude DNA contamination.
+b.Elute RNA from the RNeasy spin column membrane by adding 50 μL RNase-free water using a pipette and a filter tip. Close the lid gently and centrifuge for 1 min at ≥ 8000 × g (≥ 10,000 rpm).Note: Be sure to add the RNase-free water directly to the RNeasy membrane and that it does not stick to the plastic walls of the spin column. .
+
+c.Assess quality and quantity of the isolated RNA using an appropriate quantification tool such as the NanoDrop spectrophotometer by measuring absorbance at 260 nm and at 280 nm.Note: A A260 nm/A280 nm ratio of 1.9–2.1 was accepted as values for pure RNA, with respect to contaminants that absorb at A280 nm such as proteins.
+Note: A minimum RNA concentration of 200 ng/μL is required for cDNA synthesis. .
+Pause point: Isolated RNA samples can be stored at −80°C until further processing. Thaw samples on ice before use and avoid freeze/refreeze cycles.
+
+23.cDNA Synthesis.a.Reverse-transcribe 1 μg of RNA in a total volume of 10 μL into cDNA using the High-Capacity cDNA Reverse Transcription Kit following the protocol of the manufacturer.
+b.Thaw RNA samples and the High-Capacity cDNA Reverse Transcription Kit on ice.
+c.Prepare the 2× RT master mix according to the manufacturer’s protocol and in a volume needed to prepare the required number of reactions.Note: Prepare the 2× RT master mix on ice and do not vortex the reverse transcriptase.
+
+d.Place the 2× RT master mix on ice and mix gently. Do not vortex.
+e.Calculate the required volume for 1 μg total RNA for each sample.
+f.Add the appropriate volume of each RNA sample (containing 1 μg total RNA) to a 0.2 mL PCR clean reaction tube using a pipette and a PCR clean tip and add nuclease-free water to result in a total volume of 5 μL.
+g.Add 5 μL of the 2× RT master mix to each reaction tube containing RNA and mix gently by pipetting up and down.
+h.Close the reaction tubes and briefly centrifuge them to spin down the contents and eliminate any air bubbles.
+i.Place the reaction tubes on ice until they are ready to be loaded in the thermocycler.
+j.Program the thermocycler according to the settings in and set the reaction volume to 10 μL.
+k.Load the reaction tubes into the thermocycler and start the run.
+l.After the run, briefly centrifuge the reaction tubes to spin down evaporated water.
+m.Dilute cDNA samples 1:5 by adding 40 μL nuclease-free water to result in a final cDNA concentration of 20 ng/μL for further qPCR analysis.Pause point: cDNA samples can be stored at −20°C until further processing. Thaw samples on ice before use.
+
+24.Quantitative real-time PCR.a.Thaw cDNA samples, primer working solutions and the Maxima SYBR Green/ROX qPCR Master Mix on ice.
+b.For each primer pair, prepare a primer - SYBR-green master mix (PCR Master Mix) following the manufacturer’s protocol.Note: Vortex primers before use to allow/provide homogenous distribution of the oligonucleotides.
+Note: SYBR-green is light-sensitive, try to work with dimmed lights in order to avoid loss of fluorescent signal intensity.
+
+c.Gently mix the reaction tubes (do not vortex) and briefly centrifuge them to spin down the contents and eliminate any air bubbles.Note: Avoid air bubbles as they interfere with fluorescence detection and distorting the correct volume.
+
+d.Place the PCR master mixes on ice in the dark until use.
+e.Pipet 9 μL of the respective PCR master mix into the PCR 384 well plate by using an electronic pipet with a combitip or a manual pipet. Critical step: Take care to avoid distorting the volume or air bubble formation during pipetting.
+f.Pipet 1 μL of the respective cDNA sample to each well for amplification of the reference genes as well as genes of interest.
+g.Provide 1 μL of nuclease-free water to each well of the no template control (NTC) for amplification control of each primer pair-specific mastermix.
+h.Cover the plate tightly with a self-adhesive PCR film.
+i.Centrifuge the plate for 1 min at 1000 × g.
+j.Run qPCR cycling program following the thermal profile shown in .Pause point: Data analysis can be performed at any time.
+
+25.Data analysis.a.Check single, specific PCR products by melting curve analysis. A single distinct peak should appear in the plot of the negative derivative of fluorescence vs. temperature.Note: If presence of non-specific products is confirmed, repeat PCR analysis with freshly diluted primer working solutions and mastermix. .
+
+b.Assign a common threshold for reference genes and genes of interest and adjust baseline for each primer pair separately.Note: The threshold is the signal level that reflects a statistically significant amplification signal and should therefore be set at the exponential phase, preferably at the middle of this phase in the logarithmical plot. The threshold can be set automatically by the instrument software or manually (usually 0.5).
+Note: The baseline can be referred to signals from the background at the initial cycles of PCR, with little change in fluorescent signals (usually 1–15 cycles). The baseline must be adjusted for each primer pair and should include enough cycles to eliminate the background signals.
+
+c.Determine Ct (threshold cycle) values of all target and housekeeping genes for each sample.
+d.Calculate relative gene expression levels related to untreated control using the 2-ΔΔCt method including normalization to the geometric mean of both housekeeping genes. , 
+ .
+e.Repeat steps 20–25.d using different cell passages to obtain three independent biological replicates and calculate the mean and standard deviation. .
+
+26.Analysis of steatotic effects.a.Express gene expression results obtained from 2-ΔΔCt calculation as log2 fold changes.
+b.Multiply log2 values for each marker gene with LASSO regression coefficients ( ) of each gene. The result is a classificatory value for each of the 10 marker genes.
+c.In the next step all 10 classificators were summed to obtain the compound-specific “log ratio with lambda coefficient” which discriminates between steatotic-positive and -negative compounds and based on lambda values defined during LASSO analysis (log lambda −4.29).
+d.The boundary line is about −1.5, compounds with more positive values are classified to cause TGA, whereas compounds with more negative values are classified to cause no TGA.
+e.If plotting the results use “log ratio with lambda coefficient” as y-axis and the x-axis can be chosen freely (e.g., alphabetical sorting of the test compounds or sorting by positive and negative compounds).
+
+ 
+
+## Triglyceride accumulation assay
+
+Timing: 3 days
+
+Timing: 3 days (for step 27)
+
+Timing: 30 min (for step 28)
+
+Timing: 30 min (for step 29)
+
+To determine the induction of intracellular triglycerides in HepaRG cells, the TGA assay is performed using differentiated HepaRG cells and the inner 60 wells of a 96-well plate. The AdipoRed reagent used in this assay contains the lipophilic stain Nile red that specifically stains intracellular lipid droplets. On each 96-well plate, a negative (solvent) control and the positive control T0901317 (10 μM), have to be included, together with eight different dilutions of the test compounds. Thus, the test layout is similar to the one for the WST-1 assay (see ) apart from the number of technical replicates (wells); here, six technical replicates are required. The highest non-toxic concentration of the test substance is used to perform a 1:2 serial dilution for the remaining seven concentrations. The number of plates and compounds that can be analyzed in parallel is limited by the time required for preparing the dilutions of the different test compounds. While under ideal conditions it will be possible to process up to ten 96-well plates in parallel we suggest starting with four 96-well plates, corresponding to four different test compounds to be tested. The timing in the different steps always refers to one plate only.
+27.Incubation.a.Perform steps 1–11 to obtain differentiated 96-well plates of HepaRG cells incubated with the test substances and controls for the TGA assay for 72 h.
+
+28.TGA assay.a.Approx. 15 min before the end of incubation, use an inverted microscope and inspect the cells regarding their density, morphology, and viability.Note: There should be no sign of cytotoxicity >10% or larger disturbances in the monolayer that could affect the following read out. Use the cell-free wells to confirm that the compound did not form any precipitate.
+
+b.Prepare 18 mL of a 5 μg/mL Hoechst 33342 in PBS/96-well plate.Note: Hoechst is a fluorescent dye. Protect from light and work with dimmed lights.
+
+c.After 72 h incubation, carefully aspirate the medium and wash with PBS using 200 μL/well.Note: Depending on the chemical hazard, the liquid waste must be collected and disposed properly.
+
+d.Add 200 μL of the Hoechst solution to each well.
+e.Add 5 μL AdipoRed row-wise to each well. After each row, briefly rock the plate.Note: AdipoRed is a fluorescent dye, as well. Protect from light and work with dimmed lights.
+
+f.Shake the plate 1 min on the microtiter plate shaker at 600 rpm.
+g.Incubate the plate for 10 min at 37°C in the cell culture incubator.
+h.Determine the plate reader settings (see ) for the measurement.
+iAfter 10 min incubation insert the plate in the plate reader and start the measurement.
+jSave the raw data when the measurement is complete.Pause point: Data analysis can be performed at any time.
+
+29.Data analysis.a.Create an Excel sheet for the data analysis and copy the raw data to the first sheet. Use the second sheet for further analysis.
+b.Normalize the data by dividing all AdipoRed signals by Hoechst signals and determine the relative induction to the solvent control by dividing every value with the mean of the solvent control.
+c.Determine mean and standard deviation of the technical replicates.Note: Results are accepted when the induction of triglycerides in the positive control is > 2. When obvious outliers are observed, (coefficient of variation >30%), max. one outlier/six technical replicates can be omitted. .
+
+d.Repeat steps 27–29.c using different cell passages to obtain three independent biological replicates, and calculate mean and standard deviation, respectively
+e.Using a statistical software such as SigmaPlot 14, perform a Shapiro-Wilk-Test on the mean relative induction of all conditions and controls, to determine whether the results are normally distributed. If so, continue with a one-way ANOVA followed by Dunnett’s test for multiple comparisons against the solvent control. Otherwise, continue with the non-parametric Kruskal-Wallis test followed by Dunn’s test for multiple comparisons.Note: Results are accepted when the positive control has a p-value < 0.05.
+
+f.Classify the test substance as steatosis-positive when the relative induction is > 1.5 and p < 0.05 in at least one of the testes concentrations. Classify the test substance as steatosis-negative when the relative induction is < 1.5 in all tested concentrations.Note: In cases where the test substance passes as steatosis-negative, but a dose-response behavior below the threshold is observed, or the relative induction of one concentration is very near to the threshold, consider increasing the incubation time up to seven days and/or refresh the treatment medium every 2–3 d. This considers that a test substance might me metabolized too slowly/too quickly in the cell culture settings. .
+
+ 
+
+## Analysis of mixture effects
+
+Timing: 3 h
+
+Timing: 2 h (for step 30)
+
+Timing: 1 h (for step 31)
+
+The whole procedure described until here can optionally also be used to determine the effects of mixtures of varying complexity. For simplification’s sake, the subsequent section will restrict its description to the design and analysis of binary mixtures. The test strategy is based on a component-based assessment concept with dose/concentration addition (DACA) as default model. Equipotent mixtures are designed based on the compound specific RPFs obtained via a BMD approach as described previously. As aforementioned the whole workflow can be divided into three steps, that is, (a) RPF analysis for establishing the conditions for equipotency, followed by (b) the respective mixture experiments and (c) data analysis. Please note that if DACA does not apply as general assumption it can be necessary to refer to other designs for mixture analysis. 
+RPF-analysis as well as concentration-response modelling are performed based on the BMD approach using the software PROAST developed by RIVM. PROAST is available as a software package for R and as a web application (https://www.rivm.nl/en/proast). Here, the web application (version 70.1, released 2020) is described. Further explanation manuals for the web application and R package are available at RIVM (https://www.rivm.nl/en/proast/help).
+30.RPF analysis for equipotent mixture design.a.Perform steps 20–29 to obtain concentration/response data, mandatory for RPF calculation.
+b.Prepare data of TGA as continuous, summary data using Excel. This contains the concentration of the single substances (column A and B) the mean value and standard deviation of the respective response and the sample size, as well as a column, which defines if it is a single substance or a mixture (column “Compound”), see example in .
+c.Save the excel file as a .txt. file (“Tab delimitated Text”)
+d.Open the web application of PROAST via https://proastweb.rivm.nl/. Note: The web application of PROAST does not require knowledge of R, is easy to use and covers standard concentration-response analyses. Alternatively, or for further applications use the R package of PROAST.
+
+e.Click on “Create new analysis”, select the correct decimal separator and upload data of a respective endpoint as .txt file.Note: It is possible to use example data sets already integrated in the web version; please select “use example date sets” und chose “example dataset of continuous response” in the drop-down menu below.
+
+f.Select dose-response analysis, name the analysis and click on “Next: Specify”.
+g.Select all single test substances ("A” and “B”) as “Dose column(s)”.
+h.Select “Compound” as “Single doses and mixture column”.
+i.Select the column with the response (“mean”) as “Response column(s)”.
+j.Select “Continuous, summary data” as type of response data
+k.Now, additional options are available to choose the column for the dispersion measure (standard deviation or standard error of the mean) and the group size (“N”).
+l.Set “BMR (CES)” to 0.5 and leave the preset AIC criterion at 2 (default).
+m.Click on “Run”. The web application fits the data and modelled concentration-response curves.i.Thereby, concentration-response curves of the compounds are fitted while the x-axis is expressed as concentration equivalents of the respective reference compound (compound with the highest effect-concentration, RPF 1).
+ii.Compared to this, the RPF of the second compound will be calculated and described how more potent this compound is.Note: During analysis, the overview page will be visible and the status of the analysis is displayed. If the analysis is finished different icons appear. In the “Details Analysis” the color legend of the plot, the mathematical models used for fitting and the RPFs and their confidence intervals were reported. The third icon “Report Analysis results” contain the plots fitted with four-parameter models for RPF determination (see ). The heading of the plots refers to the model, which is used for the analysis (Expon m5; i.e., exponential model).
+Note: The symbols in the plots (black triangle, red cross, green diamond…) follow alphabetical order of labels in the data set column “compound”.
+Note: In these plots the doses from the second substance are expressed in multiplicative of the first substance (using the RPF) and then added to the dose of the reference substance. From the obtained plots it is not possible to visually see the potency of the substances. This will be only possible by using another data format, which is only compatible with the R-Version of PROAST. The RPF will be displayed in the legend of the plots and named RPF-“first three letters of the respective compound” (see , here “RPF-B”).
+Note: Ensure that the names of your test compounds differ clearly in the first three letters.
+CRITICAL: In the web application, data are analyzed by fitting with two different four-parameter models: Exponential model and Hill model (see ). These models adequately describe a large variety of toxicological dose-response data. The model with the lowest Akaike information criterion (AIC) value was selected for further analysis as recommended by the EFSA. Therefore, choose the RPFs obtained from the model with the lowest AIC (see , here the appropriate RPF for compound B is 1.275). .
+
+n.Use the calculated RPF of the single substance B to design an equipotent mixture of the single substance A and B.i.Therefore, perform the experimental setup for the mixture analysis (concentration selection) and consider the obtained RPF.
+ii.Mix compound A and B in the ratio of 1:1; mix e.g., 500 μM compound A (RPF of 1) + 250 μM compound B (RPF of 2) to obtain a mixture which displays 1000 μM of compound A (for further explanation please refer to Lichtenstein et al. ).
+
+o.Use the designed equipotent mixture and perform the TGA, qPCR and RGA with the single substances and the equipotent mixture.Note: Relative potencies could be calculated with TGA data and used for the design of equipotent mixtures for all endpoints studied downstream the AOP. It was described previously that relative potencies remain the same at different levels of the AOP. Consequently, this simplification regarding the procedure of equipotent mixture design is appropriate.
+
+p.Perform three independent experiments and analyze the mixture effect by modelling the data using PROAST; follow the instruction of the mixture analysis section.CRITICAL: It is recommended to add the single substances again for each mixture test and mixture analysis to avoid false positive mixture effects due to variations between the experiments.
+
+31.Modeling of mixture effects.a.After performing three independent experiments of Compound A and B and mixtures thereof, data could be analyzed via PROAST to test if the mixture effect deviated from dose addition as default assumption.Note: Mixture analysis via PROAST based on a four-parameter model, as described here, only enables concentration-response modelling for unidirectional effects. Bidirectional effects (i.e., upregulation by one single substance and downregulation by the other single substance) cannot be analyzed by this approach.
+
+b.Prepare data of TGA as continuous, summary data using excel. This contains the concentration of the single substances (column A and B) the mean value and standard deviation of the respective response and the sample size, as well as a column which defines if it is a single substance or a mixture (column “Compound”), see example in .Note: The symbols in the plots (black triangle, red cross, green diamond…) follow alphabetical order of labels in the data set column “Compound”. Therefore, the mixture should be named with the prefix "zz-" in the "Compound" record column to ensure that the mixtures receive the same symbol in all plots. Note: In case more than binary mixture shall be analyzed, note that the number of single substances in the PROAST web application is limited to three.
+
+c.Save the excel file as a .txt. file (“Tab delimitated Text”).
+d.Open the web application of PROAST via https://proastweb.rivm.nl/. 
+e.Follow the instruction of the section “RPF analysis for equipotent mixture design”; steps 30.e - 30.m.
+f.Select “Report Analysis results” for the graphical output.
+g.Graphical/visual evaluation of the mixture effect: The concentration-response curved of the single compounds and the mixture will be fitted, again with a four-parameter model, resulting in one overall curve fit.i.If dose addition applies, the data points of the mixture-response and the single compounds scattered around the curve fit with no distinct variation from the overall concentration-response fit ( A).
+ii.In cases of synergism or antagonism, the data points of the mixture will shift either to the left or right of curve fit ( B and 5C).CRITICAL: It is mandatory for modelling s-shape concentration-response curves to collect enough data on effect concentrations. If only one or two data point/s reflect/s the effect concentration area of the compound/mixture, adapt your experimental set and include more test concentration steps in this area of the curve. .
+
+ 
+
+## Expected outcomes
+The afore-presented workflow ( ) for an in vitro test battery for liver steatosis was designed for the purpose of screening compounds with regard to their steatotic hazard potential. The activation of at least one of the metabolically relevant NRs, the LASSO prediction, as well as the induction of hepatic triglycerides by the test compound all are highly indicative for it’s a potential steatotic activity. It should be noted that steatosis could also be induced independent of receptor activation. The AOP-based battery covers these substances with the LASSO prediction and the TGA assay which, in conjunction, are sufficiently predictive. It should be noted that the assay is based on a set of transcript classifiers derived from pesticidal active compounds. This inherently also defines the applicability domain. Substances where the LASSO prediction does not match the TGA assay thus are not necessarily non-steatotic. If required the respective results can be validated by means of alternative methods for determining steatosis. , , Also, inter-species differences as well as toxicokinetics should be considered when comparing the results to animal data. When compared to data from rodents the TGA assay was previously shown to be highly reliable, featuring a sensitivity and specificity of 78% and 67%, respectively. 
+ 
+
+## Limitations
+The protocol is limited to soluble non-volatile compounds. Also, mixture analysis can only be performed when the compounds of interest show a clear dose-response relationship in the respective TGAs.
+
+## Troubleshooting
+
+## Problem 1
+
+•Cells detach before end of cultivation period (step 2, 3).
+•Possible reason: Growth conditions are not optimal.
+
+## Potential solution
+
+•Use another plate.
+•Control if the exact amount of cells has been seeded.
+•Treat the cells as careful as possible, do not move the plate if not necessary, only use fresh medium and additives.
+•Control incubator settings.
+
+## Problem 2
+
+•Cells do not detach during trypsinization (step 2, 3).
+•Possible reason: Trypsin solution is too old.
+
+## Potential solution
+
+•Use a fresh solution. Always use not expired products and storage as indicated.
+
+## Problem 3
+
+•Cell clusters are observed after splitting (step 2, 3).
+•Possible reason: Separation process was too soft and/or short.
+
+## Potential solution
+
+•Pull cells through a manual combitip.
+
+## Problem 4
+
+•Added 1.7% DMSO for starting differentiation (related to step 4).
+•Possible reason: Forgot the transition period.
+
+## Potential solution
+
+•Visually inspect the cells using a microscope. If they do not show clear signs of stress, or cell death, and continue to differentiate appropriately until the end of the differentiation period, use them.
+
+## Problem 5
+
+•Failure to comply with the two-week proliferation and differentiation period (related to step 4).
+•Possible reason: Bad management
+
+## Potential solution
+
+•Discard flasks and plates if not treated appropriately.
+
+## Problem 6
+
+•Damage of cell monolayer (related to step 11).
+•Possible reason: Treatment of cells is too harsh.
+
+## Potential solution
+
+•Never touch the cell layer, lower speed of combitip.
+
+## Problem 7
+
+•Precipitation of test compounds (related to step 13).
+•Possible reason: Concentration is too high.
+
+## Potential solution
+
+•Use lower concentrations. Try to use another solvent.
+
+## Problem 8
+
+•Clumps in the WST-1 solution (related to step 13).
+•Possible reason: Solution is too old, storage at wrong temperature.
+
+## Potential solution
+
+•Use a fresh solution. Expired products and products not sored appropriately should not be used.
+
+## Problem 9
+
+•Cells do not lyse (related to step 17).
+•Possible reason: Lysis buffer not prepared properly.
+
+## Potential solution
+
+•Control whether lysis buffer contains all reagents and has been stored properly.
+
+## Problem 10
+
+•Rluc reagent appears transparent (related to step 18).
+•Possible reason: Rluc was filtered after coelenterazine addition.
+
+## Potential solution
+
+•Add coelenterazine after filtering.
+
+## Problem 11
+
+•High background signal in empty wells (related to step 18).
+•Possible reason: Plate was exposed to excessive light.
+
+## Potential solution
+
+•Store the plates in the dark and work with lights dimmed.
+
+## Problem 12
+
+•Renilla signals enhanced or suppressed (related to step 19).
+•Possible reason: Treatment lead to expression of factors that impact Renilla signal.
+
+## Potential solution
+
+•Repeat experiment using a different Renilla construct, i.e., pRL-TK.
+
+## Problem 13
+
+•Low RNA yield (related to step 22).
+•Possible reason: Suboptimal elution conditions.
+
+## Potential solution
+
+•Preheat the water for RNA-Elution up to 37°C, reduce elution volume and elute twice.
+
+## Problem 14
+
+•Insufficient RNA concentration (related to step 22).
+•Possible reason: Low RNA yield.
+
+## Potential solution
+
+•Eluates can be concentrated using a Vacuum centrifuge.
+
+## Problem 15
+
+•Presence of not specific-products/ Ct recorded in NTC (related to step 25).
+•Possible reason: Contamination of one of the stock solutions with nucleic acids.
+
+## Potential solution
+
+•Prepare all stocks anew and repeat qRT PCR analysis.
+
+## Problem 16
+
+•Cts not stable within treatment and control samples (related to step 25).
+•Possible reason: Test compound has an impact on housekeeping gene(s).
+
+## Potential solution
+
+•Choose another gene as housekeeping candidate.
+•Check, whether the concentration of the test compound might be cytotoxic.
+
+## Problem 17
+
+•No amplification of marker gene(s) detected after treatment (related to step 25).
+•Possible reason: Extremely strong down regulation.
+
+## Potential solution
+
+•Set missing Ct on 35 (lower bias than the default procedure of replacing non-detects with the maximum PCR cycle number of 40) 
+
+## Problem 18
+
+•Positive control does not induce TGs (related to step 29).
+•Possible reason: FBS does not contain enough fatty acids.
+
+## Potential solution
+
+•Control FBS composition (see Reagents – Cell culture).
+
+## Problem 19
+
+•Outlier in the technical replicates (related to step 29).
+•Possible reason: multiple.
+
+## Potential solution
+
+•Perform Grubb’s test on the six technical replicates and remove the outlier as determined.
+
+## Problem 20
+
+•Dose-response observed but induction below threshold of 1.5 (related to steps 29).
+•Possible reason: Test compound is metabolized quickly and/or requires longer incubation times.
+
+## Potential solution
+
+•Extend incubation time up to six days and change treatment medium every 48 h.
+
+## Problem 21
+
+•Unappropriated curve fit (related to steps 30).
+•Possible reason: Concentration-response curve include insufficient data points.
+
+## Potential solution
+
+•Include more data points in the mid-range and/or infinite concentration section of the curve.
+
+## Problem 22
+
+•Results cannot be reproduced (related to all steps).
+•Possible reason: Test compound interferes with assay components.
+
+## Potential solution
+
+•Confirm that the test compound does not bind to plastic, albumin, or any other component of the respective assay.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Dr. Philip Marx-Stoelting (Philip.Marx-Stoelting@bfr.bund.de).
+
+## Materials availability
+This study did not generate new unique reagents.
+
+## Acknowledgments
+The EDCMET project has received funding from the European Union’s Horizon 2020 research and innovation program under grant agreement no. 825762. The PARC project has received funding from Horizon Europe, the European Union’s 2021–2027 framework program for the funding of research and innovation, under grant agreement no. 101057014.
+
+## Author contributions
+M.K., K.F., Ö.V., K.K., J.A., and D.L. wrote the protocol. M.K., K.F., and D.L. optimized the original version of the protocol. D.L., A.B., P.M.S., and T.T. revised and edited the protocol.
+
+## Declaration of interests
+The authors declare no competing interests.
+
+## Data and code availability
+This study did not generate any unique datasets.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+This study did not generate any unique datasets.

@@ -1,0 +1,291 @@
+1754frontimmuFrontiers in ImmunologyFront ImmunolFrontiers Media SAPMC9936229993622999362293681742210.3389/fimmu.2023.1100231RASGRP2 is a potential immune-related biomarker and regulates mitochondrial-dependent apoptosis in lung adenocarcinoma
+LiuYongting OuyangYanhong FengZiyang JiangZhaohui MaJiayao ZhouXin CaiChangjing HanYing ZengShan LiuShanshan ShenHong 
+1
+Department of Oncology, Xiangya Hospital, Central South University, Changsha, Hunan, China
+
+2
+National Clinical Research Center for Geriatric Disorders, Xiangya Hospital, Central South University, Changsha, Hunan, China
+
+3
+Department of Emergency, Hainan General Hospital, Hainan Affiliated Hospital of Hainan Medical University, Haikou, Hainan, China
+
+4
+Department of Radiotherapy, Tianjin First Central Hospital, Tianjin, China
+Edited by: Tao Jiang, Shanghai Pulmonary Hospital, China
+Reviewed by: Theodore Welling, Langone Medical Center, New York University, United States; Mariana Cooke, University of Pennsylvania, United States
+✉*Correspondence: Hong Shen, hongshen2000@csu.edu.cn; Shanshan Liu, liuss20220101@163.com
+
+†These authors have contributed equally to this work
+This article was submitted to Cancer Immunity and Immunotherapy, a section of the journal Frontiers in Immunology
+32202314110023111002311822023Copyright © 2023 Liu, Ouyang, Feng, Jiang, Ma, Zhou, Cai, Han, Zeng, Liu and ShenThis is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+## Abstract
+
+## Background
+Ras guanine nucleotide-releasing protein 2 (RASGRP2), one of the guanine nucleotide exchange factors (GEFs), has attracted much attention in recent years. However, the correlation between RASGRP2 and immune infiltration and malignant features in lung adenocarcinoma (LUAD) has rarely been mentioned.
+
+## Methods
+The Limma package and the LASSO regression model were performed to screen for differentially expressed genes. Data from the TCGA and 5 GEO databases were used to explore the expression level of RASGRP2 in LUAD patients. A weighted co-expression network and LinkFinder module were established to find the related genes of RASGRP2. The ESTIMATE algorithm was used to analyze the correlation between RASGRP2 and immune infiltration in LUAD. Tumor-infiltrating immune cells were sorted and sequenced at the single-cell level to analyze differences in RASGRP2. Real-time PCR and immunohistochemistry were performed in the real-world cohort to verify the expression of RASGRP2 and its correlation with immune-related genes. Clone formation and EdU assays were used to verify the proliferation ability. The proportion of apoptotic cells was analyzed by flow cytometry. Observation of mitochondrial membrane potential (MMP) changes by fluorescence microscopy.
+
+## Results
+Our results suggested that decreased RASGRP2 was associated with worse clinical parameters and prognosis in LUAD patients. And we constructed a FLI1-HSA-miR-1976-RASGRP2 transcriptional network to support the role of RASGRP2. Enrichment analysis revealed that RASGRP2 was involved in lymphocyte activation and leukocyte adhesion. RASGRP2 was found to be positively correlated with the infiltration of most immune cells, immunoregulators, and chemokines in a subsequent study. Meanwhile, the real-world cohort confirmed that the expression levels of PDCD1, CTLA4, CD40LG, CCL14, CXCR5, and CCR7 were higher in the high-RASGRP2 expression group. Cytological experiments proved that RASGRP2 inhibited cell proliferation in LUAD by regulating mitochondrial-dependent apoptosis.
+
+## Conclusion
+RASGRP2 was a potential immune-related biomarker of LUAD. In addition, RASGRP2 was involved in the malignant progression of LUAD through the regulation of mitochondrial-dependent apoptosis.
+
+Keywords: LUAD, RASGRP2, immune biomarkers, TF-miRNA-mRNA regulatory network, mitochondrial-dependent apoptosis
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Nov 16; Accepted 2023 Jan 23; Collection date 2023.
+
+1.
+
+## Background
+Lung adenocarcinoma (LUAD) is the major histological type of non-small cell lung cancer (NSCLC) that accounts for approximately 80% of lung cancer ( ). LUAD occurs in distal airways and is associated with smoking and exposure to occupational and environmental pollution ( ). Many therapeutic methods for LUAD, including surgery, chemotherapy, radiation, targeted therapy, immunotherapy, or comprehensive treatment have been approved ( – ).
+In the past decades, many driver genes to cancers were found via genomic studies. TP53, KRAS, KEAP1, STK11, and EGFR are the most prevalent alteration genes in LUAD ( ). The targeted therapies for several alteration genes have made big progress, such as EGFR-TKI (gefitinib, erlotinib, afatinib, and osimertinib) ( ), and other targeted therapeutic agents, which target ALK (crizotinib, ceritinib, alectinib, brigatinib, andlorlatinib) ( ), ROS1 (crizotinib, ceritinib, andlorlatinib), RET (cabozantinib) or MET (crizotinib) ( ). Both preclinical and clinical therapeutic entities suggest that lung cancer treatment is going to be even more biomarker-driven ( ). RAS proteins are known to be involved in cell signal transduction, cell proliferation, and differentiation in a variety of cancers, including LUAD ( ). As we all know, guanine nucleotide exchange factors (GEFs) catalyze the conversion of GDP into GTP, thus activating the RAS protein ( ). RAS proteins were once considered undruggable, so targeting GEFs may be a viable bypass ( , ).
+RASGRP2 gene encodes the Ca2+ and DAG-regulated guanine nucleotide exchange factor I (CalDAG-GEFI) ( ). In this study, we explored the relationship between RASGRP2 and LUAD via bioinformatics analysis, lab experiments, and real-world cohort validation. Our results revealed that RASGRP2 was not only a novel biomarker involved in the malignant progression of LUAD but also influenced the tumor immune microenvironment (TIM), which might be useful for future cancer therapy.
+
+2.
+
+## Materials and methods
+2.1.
+
+## Public database
+The clinical information and gene expression profiles of LUAD patients were obtained from TCGA database (RRID: SCR_014514) (https://portal.gdc.cancer.gov/). And we collected 5 datasets (GSE7670, GSE10072, GSE32867, GSE75037, and GSE116959) from the GEO database (RRID: SCR_005012) (http://www.ncbi.nlm.nih.gov/geo). After pre-processing for background correction, normalization and expression calculation, the probes are replaced with their official gene symbols according to the annotation file of the corresponding platforms. Any LUAD samples with incomplete clinical information were excluded.
+
+2.2.
+
+## Analysis of differentially expressed genes
+DEGs were screened using the limma packages of R software in the 2 GEO database of LUAD (|log2(FC)| > 1, adj. P < 0.05). GEFs were obtained from GeneCards (RRID: SCR_002773) (https://www.genecards.org/). 40 GEFs were chosen for the next LASSO analysis. LASSO regression model was performed using the glmnet R package in TCGA-LUAD.
+
+2.3.
+
+## Comparison of the RASGRP2 expression level
+The TCGA and GEO datasets were used to analyze the mRNA expression of RASGRP2 in LUAD. The CPTAC Data Portal (https://cptac-data-portal.georgetown.edu/) and Human Protein Atlas (HPA, RRID: SCR_006710) database (http://www.proteinatlas.org/) were used to verify the expression of RASGRP2 in LUAD at the protein level. T stage and pathological stage are defined following National Comprehensive Cancer Network (NCCN, RRID: SCR_012959) Guidelines (2022) (https://www.nccn.org/).
+
+2.4.
+
+## Survival and prognostic analysis
+The survival package and survminer package were used to estimate the correlation between RASGRP2 expression and the survival rate of different clinical features in TCGA_LUAD patients. PROC package was used to establish the ROC curve of diagnosis.
+
+2.5.
+
+## RASGRP2 differential expression analysis
+TCGA and GEO data were collected to analyze the mRNA expression level of RASGRP2 in LUAD patients and normal lung tissue samples. According to the mRNA expression level in TCGA, the top 25% are regarded as the high-expression group and the others are regarded as the low-expression group. We estimated RASGRP2 diagnostic and prognostic efficacy by using the ROC curve and Kaplan-Meier curve.
+
+2.6.
+
+## Weighted gene co-expression network analysis
+We used WGCNA analysis to identify the important modules which have co-expressed genes with RasgGRP2 and the connection with the phenotype of interest and the core genes in the most important module. Based on the highest MS, we chose the key module to explore the hub gene to analyze the hub genes in the most significant module, we define the genes with higher MM and GS as the hub gene. In this study, |GS| > 0.5 and |MM| > 0.5 were chosen as the criteria.
+
+2.7.
+
+## LinkedOmics database analysis
+The LinkedOmics database (http://www.linkedomics.org/login.php) is a multi-omics database that included 32 cancer types and their clinical information. It was chosen to identify the differentially expressed genes between LUAD and normal lung tissue in the TCGA data. The constructed co-expression network was shown in a volcano plot. 4803 genes (red spots) were positively correlated with RASGRP2, as well as 1658 genes (green spots) were negatively correlated (FDR < 0.05). A heatmap shows genes that are significantly positively or negatively correlated with RASGRP2 expression and its prognostic value. GO and KEGG were used to analyze the signal pathways in that co-expressed genes may participate.
+
+2.8.
+
+## TF-miRNA -mRNA regulatory network
+Transcription factors (TFs) targeting RASGRP2 were predicted based on CHEA (https://maayanlab.cloud/Harmonizome/) and GRNdb (http://www.grndb.com/). miRNAs targeting RASGRP2 were predicted based on 3 different databases: miRWalk (RRID: SCR_016509) (http://mirwalk.umm.uni-heidelberg.de/), TargetScan (https://www.targetscan.org/vert_80/) and mirDIP (RRID: SCR_016770) (http://ophid.utoronto.ca/mirDIP/). StarBase V2.0 (RRID: SCR_016303) (https://starbase.sysu.edu.cn/index.php) was used to predict miRNA expression levels, prognostic value, and interaction sites. The overlapping result was pictured by the VennDiagram package (RRID: SCR_002414).
+
+2.9.
+
+## Specimen collection
+Tissue samples were obtained from Xiangya Hospital ( ). Only the tissues diagnosed as LUAD and their adjacent tissues were included. Randomization and blinding are not applicable in this study. Samples were placed in sterilized cryogenic vials and quickly transferred to -80°C for storage. Formalin-fixed tissue samples were embedded with paraffin for immunohistochemistry (IHC) analysis. The studies were approved by the Ethics Committees of Xiangya Hospital. All participants/patients have given informed consent.
+
+2.10.
+
+## Cell culture
+Human LUAD cell lines were obtained from the Cell Bank of Type Culture Collection of the Chinese Academy of Sciences. All cell lines were all maintained in RPMI-1640 (Gibco, USA) containing 10% FBS (Biological Industries, Israel) in a humidified incubator with 5% CO2 at 37°C. All cell lines were tested negative for mycoplasma contamination.
+
+2.11.
+
+## RNA isolation and quantitative real-time PCR
+Total RNA was extracted using Trizol reagent (Invitrogen, USA) based on the manufacturer’s protocol. Quantification of RNA concentration using NanoDrop™ One.
+1.5 µg RNA was transferred to cDNA using Evo M-MLV RT Kit (AG, China). The SYBR Green PCR Mastermix Kit (AG, China) was used to perform PCR amplification on QuantStudio™ Real-Time PCR software. 2-ΔΔCt value was calculated to perform the quantitative analysis. The primers are as follows:
+RASGRP2 forward: 5′-TGCTCCACATCTACCAACAATC-3′, reverse: 5′-GACGCTGTCTATGTCGATTAGG-3′;
+GAPDH forward: 5′-GACCTGACCTGCCGTCTAGAAA-3′, reverse: 5′- CCTGCTTCACCACCTTCTTGA-3′;
+CTLA-4 forward: 5′-GAAGTCTGTGCGGCAACCTA-3′, reverse: 5′- TGGGCACGGTTCTGGATCAAT -3′;
+PDCD1 forward: 5′-GCTGCACTAATTGTCTATTGGG-3′, reverse: 5′- CACAGTAATTCGCTTGTAGTCG-3′;
+CD40LG forward: 5′-GAGCAACAACTTGGTAACCCT-3′, reverse: 5′- GGCTGGCTATAAATGGAGCTTG-3′;
+TNFRSF13B forward: 5′- GAGCAAGGCAAGTTCTATGACC-3′, reverse: 5′- CCTTCCCGAGTTGTCTGAATTG-3′;
+CCL14 forward: 5′-CCAAGCCCGGAATTGTCTTCA-3′, reverse: 5′- GGGTTGGTACAGACGGAATGG-3′;
+CCL19 forward: 5′- CTGCTGGTTCTCTGGACTTCC-3′, reverse: 5′- AGGGATGGGTTTCTGGGTCA-3′;
+CXCR5 forward: 5′-CACGTTGCACCTTCTCCCAA-3′, reverse: 5′- GGAATCCCGCCACATGGTAG-3′;
+CCR7 forward: 5′- ATTTGTTTCGTGGGCCTACTG-3′, reverse: 5′- TCATGGTCTTGAGCCTCTTGA -3′;
+GAPDH was used as an internal control.
+
+2.12.
+
+## Immunohistochemistry
+LUAD tissues were fixed with 4% paraformaldehyde, dehydrated, paraffin-embedded, and prepared into tissue chips. After dewaxing and hydration, 10 mM sodium citrate antigen repair solution was used at 95°C for 15 min for antigen repair, and then endogenous peroxidase was blocked by 3% H2O2 for 30 min at room temperature. Nonspecific antigens were blocked with 5% BSA in PBS for 30 min. The diluted RASGRP2 antibodies (GeneTex Cat# GTX108616, RRID: AB_1951644) were incubated overnight at 4°C. Next, antibody binding was detected with biotin-labeled IgG (Abcam Cat# ab6721, RRID: AB_955447). DAB and hematoxylin were then used for staining. Images were photographed with a microscope.
+
+2.13.
+
+## Gene overexpression and silencing experiments
+To generate stable RASGRP2 overexpression cell lines, we purchased ZsGreen1-cMYC/pLVX-Puromycin (RRID: Addgene_180278) targeted RASGRP2 from HanBio. Multiplicities of infection (MOI) = 30. The calculation of MOI was MOI = (lentivirus titer × lentivirus volume)/cell number. The stable cell lines were screened using puromycin (Solarbio, Beijing, China) for 4 weeks and used for subsequent experiments. 3 si-RASGRP2 (si#1, 2, 3) and normal control (NC) were commercially obtained from Sangon (China). used Lipofectamine 3000 (Invitrogen, USA) was used to transfect. The siRNA sequences were used as follows: NC (5′-UUCUCCGAACGUGUCACGUTT-3′), si#1 (5′-CGCAAGAUGUCCCUGUUGUUUTT-3′), si#2 (5′-CUGCUCCACAUCUACCAACAATT-3′), si#3 (5′-GAUCAGUAUCAGACGGAGGAUTT-3′).
+
+2.14.
+
+## Immunofluorescence assays
+The cells were seeded with 24-well plates. After fixing (4% paraformaldehyde, 15 min, room temperature) and blocking (3% BSA, 30 min, room temperature), the primary antibody (RASGRP2, 1:400, Mouse; PDL1, 1:200, Rabbit) was incubated at 4°C overnight. Then the corresponding fluorescent secondary antibody was incubated for 1 h at room temperature. Anti-fade 4′,6-diamidino2-phenylindole (DAPI) was used to label cell nuclei. Images were obtained using a fluorescence microscope.
+
+2.15.
+
+## Clone formation assay and EdU assay
+For the clone formation assay, 1000 cells were seeded in 6-well plates/well, and the medium was changed every two days. After approximately 2 weeks, when cell colonies were visible to the naked eye, the medium was discarded and fixed with 4% paraformaldehyde. After that, the cells were stained with crystal violet solution for 30 minutes and rinsed 3 times with PBS. Take pictures to count the number of cell colonies. For the EdU assay, cells were seeded in 96-well plates and incubated with 50 µM EdU (C10310-1, RiboBio, China) for 2 hours for labeling. After the cells were fixed, 100 µL Apollo reagent per well was incubated for 30 minutes at room temperature in the dark. Finally, nuclear staining was performed. The number of Edu-positive cells was observed under a fluorescence microscope.
+
+2.16.
+
+## Apoptosis analysis
+Annexin V-FITC Apoptosis Detection Kit was purchased from Beyotime. Adherent cells and cells in the medium were collected, and 195 μl Annexin V-FITC binding solution was added to gently resuspend, 5 μl Annexin V-FITC and 10 μl PI (propidium iodide) solution were added, and the mixture was gently mixed. Next, incubate at room temperature for 15 minutes in the dark. Flow cytometry (BD FACSCanto™II System, USA) was used to detect the proportion of apoptotic cells.
+
+2.17.
+
+## Measurement of mitochondrial membrane potential
+The mitochondrial membrane potential was assessed using a Mitochondrial Membrane Potential Assay Kit with JC‐1 (C2006, Beyotime, China) according to the manufacturer’s instructions. JC-1 working solution was added to the cell culture medium and incubated at 37°C for 20 minutes. The fluorescence signals of the JC-1 aggregates (red) and monomers (green) were measured on the fluorescence microscope. The MMP levels were calculated as the red/green fluorescence ratio.
+
+2.18.
+
+## Statistical analysis
+The differences among groups were detected with t-test. The survival analyses were determined by the Kaplan-Meier curve, log-rank test, and Cox proportional hazard regression mode. The correlation analysis was evaluated using spearman’s test. In all analyses, P-value < 0.05 indicated statistical significance, *, **, and *** indicate P < 0.05, P < 0.01 and P < 0.001, respectively.
+
+3.
+
+## Results
+3.1.
+
+## Screening of the overlap of DEGs and GEFs in LUAD
+A total of 715 up-regulated genes and 1419 down-regulated genes (|log2(FC)| > 1, P< 0.05) were obtained in GSE116959. A total of 493 up-regulated genes and 722 down-regulated genes (|log2(FC)| > 1, P< 0.05) were obtained in GSE7670 ( ). Due to a large number of differential genes, only the top 20 up-regulated and down-regulated genes were shown here as heatmaps, respectively ( ). According to the relevance score, the top 500 GEFs were extracted from the GeneCards ( ). We screened 40 interested genes by overlapping 2134 DEGs in GSE116959, 1215 DEGs in GSE7670, and 500 GEFs ( ). Subsequently, the LASSO regression algorithm was used to refine the gene sets by calculating regression coefficients ( ). In this manner, 7 proteins were identified as the most valuable GEFs ( ). The clinical correlation analysis revealed that only RASGRP2 expression levels were statistically significant in different T and pathologic stages of LUAD ( ). And the role of RASGRP2 in LUAD has not been systematically reported. Therefore, RASGRP2 was selected for the follow-up mechanism exploration.
+ 
+3.2.
+
+## Analysis of the expression of RASGRP2 and its prognostic and diagnostic value in LUAD
+To establish the relationship between RASGRP2 and LUAD, we evaluated RASGRP2 expression levels in LUAD tissues and non-tumor tissues through the data from GEO databases. It revealed that both mRNA and protein expression levels of RASGRP2 were significantly reduced in LUAD (P < 0.001) ( ). The IHC results from the HPA database also demonstrated the low expression of RASGRP2 in LUAD ( ). Additionally, lower expression of RASGRP2 was also correlated with advanced T classification (P < 0.001) and pathologic stage (P < 0.05), age (P < 0.05) and smoke (P < 0.05) ( ).
+ To further assess the prognostic and diagnostic values of RASGRP2, Kaplan-Meier curves compared overall survival (OS) (P = 0.005), disease-specific survival (DSS) (P = 0.022) and progression-free interval (PFI) (P = 0.025) between patients with high and low expression of RASGRP2 ( ) in TCGA-LUAD cohort. Subgroup analysis showed that a low RASGRP2 expression was significantly correlated with poor prognosis in while (P = 0.016) male patients (P = 0.04) over 65 years old (P = 0.014) ( ). suggested that RASGRP2 is an independent prognostic factor for LUAD patients. Receiver operating characteristic (ROC) curve analyses were performed to prove the diagnostic value. The area under the curve (AUC) of RASGRP2 expression ranged from 0.754 to 0.959, representing the strong correlation between RASGRP2 and LUAD diagnosis ( ). Taken together, RASGRP2 might be an underlying biomarker of diagnosis and prognosis in LUAD.
+ 
+3.3.
+
+## Mutation, methylation and phosphorylation of RASGRP2
+LUAD is a kind of severe cancer with high heterogeneity and genetic factors ( ). The association between RASGRP2 expression and somatic mutations was analyzed from TCGA-LUAD. The top 20 significantly different somatic mutations are shown in . The results showed a high frequency of mutations in TP53, TTN, CSMD3, MUC16 and KRAS in the low RasGRP2 expression group. These mutated genes are known biomarkers of LUAD and are of great value for evaluating the tumor malignant progression or therapeutic response. DNA methylation is indispensable in the study of gene epigenetics ( ). DNA methylation levels of RASGRP2 with the prognostic value of each single CpG were investigated using the MethSurv tool ( ). There are 2 CpG sites whose methylation levels were strongly associated with prognosis, namely: cg00156756 and cg01753544 ( ). Next, we compared the phosphorylation of RASGRP2 between normal and tumor tissues using the CPTAC dataset. As summarized in , we found that the phosphorylation levels of S123, S578 and S587 of RASGRP2 in primary tumor tissues of LUAD were significantly reduced. The most important function of RasGRP2 is the activation of the small GTPase Rap1. In general, phosphorylation of RASGRP2 was regulated by protein kinase A (PKA) and extracellular signal-regulated kinases 1/2 (ERK1/2) and was inhibited to activate the small GTPase Rap1 ( – ).
+ 
+3.4.
+
+## Construction of the upstream regulatory network of RASGRP2
+We analyzed the upstream regulation mechanism of RASGRP2, screening transcription factors (TFs) and miRNA, which targeted RASGRP2. We found 26 TFs possibly targeting RASGRP2 from the CHEA database ( ), 38 from the GRNbd database ( ). As a result, we screened ATF1, FLI1, MYC, FOS and TCF7 as the most vital TFs ( ). We analyzed the expression levels of the 5 potential TFs and their correlation with RASGRP2 in LUAD ( ). The results suggested that FLI1 expression was down-regulated in LUAD and had the highest correlation with RASGRP2 (r = 0.672, P < 0.001) ( ). In addition, LUAD patients with high FLI1 expression had a better prognosis ( ), consistent with the RASGRP2. showed the predicted TF binding motif. Subsequently, we explored the upstream miRNA regulator of RASGRP2 based on miRWalk, mirDIP and TargetScan. First, the predicted miRNAs were obtained by the intersection of the three datasets ( ). Next, expression analysis and prognostic analysis were used for further screening. The results indicated that the miRNA most likely to be involved in the post-transcriptional regulation of RASGRP2 was hsa-miR-1976 ( ). We also presented the complementary sequences between RASGRP2 and hsa-miR-1976 ( ). Based on these, a FLI1-hsa-miR-1976-RASGRP2 transcriptional network in LUAD was constructed ( ).
+ 
+3.5.
+
+## The potential mechanisms of RASGRP2 in LUAD
+To elucidate the related genes of RASGRP2 and to further explore the potential counteractive of RASGRP2 in LUAD development, we performed weighted gene co-expression network analysis (WGCNA) ( ). All the DEGs were grouped into 15 modules by average linkage hierarchical clustering. The blue module, which comprised 379 genes, showed the highest correlation with RASGRP2 expression (r = 0.61, P < 0.0001) ( ). 43 genes in the blue module were chosen as hub genes ( ).
+ According to Gene Ontology (GO) term annotation analysis ( ) of 379 blue module genes, RASGRP2 was associated with neutrophil activation, neutrophil activation involved in immune response and neutrophil-mediated immunity on biological process (BP); secretory granule membrane, tertiary granule and external side of plasma membrane on cellular component (CC); cargo receptor activity and carbohydrate binding on molecular function (MF). Kyoto Encyclopedia of Genes and Genomes (KEGG) analysis ( ) showed RASGRP2 involved in cytokine-cytokine receptor interaction, phagosome, chemokine signaling pathway and cell adhesion. Additionally, Gene Set Enrichment Analysis (GSEA) identified the possible mechanism by comparing the high-RASGRP2 expression group with the low-RASGRP2 expression group ( ). It was likely that high-RASGRP2 was enriched in B cell receptor signaling pathway and chemokine signaling pathway. And low-RASGRP2 was correlated to basal transcription factors, DNA replication and mismatch repair.
+ Another module we constructed to better understand the RASGRP2 co-expression genes in LUAD was the LinkFinder module via the LinkedOmics web portal ( ). The heatmaps were used to show the top 50 genes ( ). In the first 50 positively correlated genes, 43 genes were having a protective hazard ratio (HR) in LUAD. On the other hand, 41 of 45 negatively correlated genes possessed high HR, having the probability of being high-risk markers ( ). GO analysis suggested that RASGRP2 may be involved in the regulation of T cell activation, lymphocyte differentiation and antigen receptor-mediated signaling pathway ( ). KEGG analysis suggested that RASGRP2 may be involved in the chemokine signaling pathway, primary immunodeficiency pathway and cytokine-cytokine receptor interaction pathway ( ).
+
+3.6.
+
+## RASGRP2 was associated with immune infiltration of LUAD
+With previously mentioned results, we found that RASGRP2 was associated with immune cells, cytokine and chemokine, so we sought to explore the relationship between RASGRP2 and immune infiltration. ESTIMATE algorithm for TCGA-LUAD showed that the expression of RASGRP2 in LUAD had a positive correlation with ESTIMATE Score (r = 0.587, P < 0.001), Immune Score (r = 0.647, P < 0.001) and Stromal Score (r = 0.434, P < 0.001) ( ). The level of RASGRP2 expression was positively correlated with the infiltration of most of the immune cells ( ), the top 3 were B cells (r = 0.517, P < 0.001), Th1 cells (r = 0.500, P < 0.001) and cytotoxic cells (r = 0.499, P < 0.001). However, the expression of RASGRP2 was negatively correlated with Th2 cells (r = -0.291, P < 0.001) ( ).
+ 
+3.7.
+
+## Single-cell analysis of the expression of RASGRP2 in different immune cells of LUAD
+Based on the scRNA-seq TISCH database, we obtained 4 independent datasets of LUAD (NSCLC_GSE127471, NSCLC_GSE131907, NSCLC_GSE139555 and NSCLC_GSE99254) for single-cell sequencing to explore the correlation of immune cell distribution with RASGRP2 expression levels at the single-cell level ( ). In the NSCLC_GSE127471 dataset, higher levels of RASGRP2 expression were found in CD8 T cells, NK cells and B cells ( ). Furthermore, RASGRP2 also showed a trend of high expression in CD4 T cells and monocyte-macrophages in the NSCLC_GSE99254 dataset ( ). This may be due to the heterogeneity of the tumors that caused the differences between the datasets. Taken together, RASGRP2 expression levels were significantly correlated with immune cell types and their proportions, which may influence immunotherapy response.
+ 
+3.8.
+
+## Analysis of the correlation between RASGRP2 and immunoinhibitors, immunostimulators, chemokines and chemokine receptors
+Then we further verified the correlation between RASGRP2 and immunoinhibitors, immunostimulators, chemokines and chemokine receptors via TISIDB analysis. Our results suggested that the RASGRP2 expression was positively associated with most of the immunoinhibitors ( ). As for LUAD, the top 3 were BTLA (rho = 0.671, P < 2.2e-16), CTLA4 (rho = 0.562, P < 2.2e-16) and PDCD1 (rho = 0.507, P < 2.2e-16) ( ). RASGRP2 expression was positively associated with most of the immunostimulators ( ). As for LUAD, the top 3 were TNFRSF13B (rho = 0.685, P < 2.2e-16), CD40LG (rho = 0.675, P < 2.2e-16) and LTA (rho = 0.618, P < 2.2e-16) ( ). RASGRP2 expression was positively associated with most of the chemokines ( ). As for LUAD, the top 3 were CCL19 (rho = 0.683, P < 2.2e-16), CCL14 (rho = 0.555, P < 2.2e-16) and CCL17 (rho = 0.500, P < 2.2e-16) ( ). RASGRP2 expression was positively associated with most of the chemokine receptors ( ). As for LUAD, the top 3 were CCR7 (rho = 0.747, P < 2.2e-16), CXCR5 (rho = 0.686, P < 2.2e-16) and CCR6 (rho = 0.642, P < 2.2e-16) ( ).
+ 
+3.9.
+
+## Validation of the expression level of RASGRP2 and the correlation with immune-related markers based on a real-world cohort
+To validate the results mentioned above, we analyzed the RASGRP2 expression level in 16 paired LUAD tissues and adjacent tissues by qRT-PCR ( ). In addition, patients with advanced stage had lower RASGRP2 expression levels ( ). We also probed the correlation between RASGRP2 and immune-related molecules that were strongly correlated with RASGRP2 in TCGA-LUAD. The expression levels of PDCD1, CTLA4, CD40LG, CCL14, CXCR5 and CCR7 were higher in the high-RASGRP2 expression group. But TNFRSF13B and CCL19 did not show a statistically significant correlation ( ). The reason might be the limited samples. As popular immune checkpoints, PDCD1 and CTLA4 are playing an increasingly extensive role in clinical practice. We analyzed the correlation between RASGRP2 and PDCD1/CTLA4. showed that RASGRP2 was positively correlated with PDCD1 (r = 0.535, P = 0.035) and CTLA4 (r = 0.626, P = 0.011). Subsequently, we further verified the relationship between RASGRP2 and PDL1 in cell lines double staining. It is well known that PDL1 is considered to be a predictor of the effectiveness of immunotherapy ( ). The immunofluorescence experiment confirmed that high RASGRP2 corresponded to high PDL1 ( ). The above results suggested that patients with high RASGRP2 levels might benefit more from immunotherapy.
+ 
+3.10.
+
+## RASGRP2 inhibited cell proliferation by regulating apoptosis in LUAD
+First, we analyzed the expression levels of RASGRP2 in 6 different lung cancer cell lines ( ). RASGRP2 was lower expressed in A549 and H2228, but higher expressed in H358 ( ). Next, we overexpressed RASGRP2 in A549 and H2228 cell lines and performed efficiency validation ( ). The results of the colony formation assay and EdU assay confirmed that high RASGRP2 significantly impaired the proliferation ability ( ). Flow cytometry analysis showed that overexpression of RASGRP2 increased the proportion of apoptotic cells ( ). The process of apoptosis is often accompanied by the destruction of MMP. The increased JC-1 monomers ratio suggested the occurrence of apoptosis when RASGRP2 was overexpressed ( ). Meanwhile, we obtained the reverse results by silencing RASGRP2 in H358 ( ).
+ 
+
+4.
+
+## Discussion
+In this study, 7 GEFs were identified as the most valuable candidates, namely MMP1, DOCK4, CFTR, RASGRP2, KLF4, MIF and ECT2. After rigorous data retrieval, we found that it was necessary to establish a comprehensive landscape illustrating the role of RASGRP2 in the malignant progression and immune regulation of LUAD.
+RASGRP is divided into four isoforms, RASGRP1-4. Among them, RasGRP1 and RasGRP4 are suggested to affect T cell development ( – ). Besides, RasGRP1 and RasGRP3 are thought to modulate Ras- ERK signaling cascade, actin polymerization, and further regulate T cell development and T cell progenitors chemotaxis after CCR9 stimulation ( ). RasGRP4 is expressed in fibroblast-like synoviocytes (FLS) in rheumatoid arthritis (RA) patients, elevating the FLS proliferation and MMP-1 production ( ). RASGRP2 is the most divergent member of the RASGRP family. Unlike RasGRP1, 3, and 4, RASGRP2 is mainly present in the cytoplasm and translocates to the cell membrane once stimulated. It specifically activates Rap1 and Rap2, but lacks Ras exchange activity in vivo ( , ). In addition, RASGRP2 is the only Rap1-GEF active in platelets and plays a central role in platelet activation. It is considered a new target for antiplatelet therapy ( ). Jun-Ichi Takino reported that RASGRP2 regulated angiogenesis and vascular permeability as a protective factor that maintained vascular endothelial cell homeostasis ( – ).
+Here, we focus on RASGRP2 to explore its role in LUAD. We found out that the RASGRP2 expression level was lower in LUAD tissues compared with that in non-tumor tissues by bioinformatics analysis and experimental validation. The decreased expression level of RASGRP2 was associated with advanced stage and poor prognosis. These results indicated that the absence of RASGRP2 might be connected with the development of LUAD. Our lab experiments also confirmed the anti-growth ability and pro-apoptosis ability of RASGRP2.
+At the genetic level, cancer is a clonal process in which somatic gene mutations accumulate to a certain extent, resulting in abnormal growth of normal cells. Studies have demonstrated that local DNA hypermethylation can be used as an auxiliary marker to clinically diagnose cancer and predict prognosis ( – ). For example, the glutathione-S-transferase P1 (GSTP1) gene is hypermethylated in 70-80% of prostate cancer patients, but not in normal hyperplastic prostate tissues ( ). In this study, we identified 2 CpG sites of RASGRP2 which were strongly associated with prognosis. Since DNA methylation is reversible, hypermethylated genes can be a target for drug therapy in cancer.
+More recently, the spread and efficacy of targeted immunotherapy have started to change cancer management ( , ). Given the complex relationship between the tumor immune microenvironment and host immunity, predictive biomarkers are needed for personalized therapy. Further analysis found that the expression of RASGRP2 was positively correlated with T helper cells and Th1 cell infiltration, but negatively correlated with Th2 cells. It is well known that dysregulation of T cell subsets is common in cancer patients ( ). Th1/Th2 imbalance not only affects the infiltration of other immune cells, but is also associated with complications after radiotherapy ( ). Our results suggested that the expression of RASGRP2 may cause Th1/Th2 shift. The intervention of RASGRP2 expression at the gene level may provide a new target for the immunotherapy of LUAD. Besides, RASGRP2 was positively linked to some immune molecules, such as PDCD1, CDLA4, CD40LG, CCL14, CXCR5 and CCR7. Currently, dual immune checkpoint inhibitors with anti-PD-1/PD-L1 and anti-CTLA4 monoclonal antibodies are being widely evaluated for tumor therapy. Nivolumab (IgG4 anti-PD-1) plus ipilimumab (fully humanized IgG1 anti-CTLA4) is one of the most popular combined immunotherapy regimens ( , ). Real-world cohort results showed that the expression level of RASGRP2 was positively correlated with PDCD1 and CTLA4. It seemed that high RASGRP2 broke the immunosuppressive barrier and might be a biomarker for a good response to immunotherapy. However, the results from our real-world cohort could not verify the connection between RASGRP2 and TNFRSF13B and CCL19. The reason might be a result of the limited samples and tumor heterogeneity.
+Unlike traditional immune checkpoint inhibitors, the development of immunostimulators to reactivate the immune system is undoubtedly a new therapeutic idea. It has been reported the immunostimulators mainly focus on the tumor necrosis factor receptor (TNFR) family and B7-CD28 family. Currently, a number of agonistic antibodies have entered the clinical stage ( – ). TNFRSF4, also known as OX40, activates the PI3K/PKB, NF-κB1 and NFAT pathways and enhances T cell-mediated antitumor immunity, thereby improving survival in several preclinical cancer models, including B16 melanoma and lung cancer ( ).
+In order to further explore the mechanism of the regulation of RASGRP2 in malignant progression and immune infiltration, combined with the GSEA results, we found a potential pathway: JAK3-STAT5, which may be related to RASGRP2. We analyzed the association of the JAK family (JAK1-3 and TYK2) and the STAT family (STAT1-6) with RASGRP2 in LUAD ( ). The JAK3- STAT5 signaling pathway has the strongest positive correlation with RASGRP2 ( ). Subsequently, western blot analysis showed that overexpression of RASGRP2 increased the phosphorylation levels of JAK3 and STAT5 ( ). Many studies have reported that activation of the JAK-STAT pathway promotes cell apoptosis ( – ), which is consistent with our results. However, depending on the response signal, the JAK-STAT pathway plays a dual role of “anti-tumor” and “pro-tumor” in the tumor immune microenvironment ( – ). Therefore, large-scale standardized animal experiments and clinical trials are necessary, and our team is working on that.
+Although our study had many interesting findings, there are still some limitations in this study. Firstly, the mechanisms of action of RASGRP2 in LUAD are necessary to be validated in vivo and in vitro. Secondly, immunotherapy cohorts and single-cell analysis need to be performed to correct for systematic biases in different databases. This study focuses on bioinformatics analysis and preliminary functional exploration to screen out potential biomarkers. We will implement these limitations in future studies.
+
+5.
+
+## Conclusion
+RASGRP2 was a potential immune-related biomarker of LUAD. In addition, RASGRP2 was involved in the malignant progression of LUAD through the regulation of mitochondrial-dependent apoptosis.
+
+## Data availability statement
+All original materials in the study are included in the article/supplementary material, further inquiries can be directed to the corresponding authors.
+
+## Ethics statement
+The studies involving human participants were reviewed and approved by the Ethics Committees of the Xiangya Hospital. The patients/participants provided their written informed consent to participate in this study.
+
+## Author contributions
+YL and YO designed and drafted the manuscript. ZF, ZJ, and JM analyzed the data. XZ and CC performed the experiments. YH and SZ collected the clinical samples. SL and HS supervised the study. All authors contributed to the article and approved the submitted version.
+
+## Funding Statement
+This study was supported by six grants from the National Natural Science Foundation of China (No. 81070362, 81172470, 81372629, 81772627, 81874073 & 81974384), two projects from the Nature Science Foundation of Hunan Province (No. 2021JJ31092 & 2021JJ31048), two projects from the CSCO Cancer Research Foundation (No. Y-HR2019-0182 & Y-2019Genecast-043), and three projects from the key R & D Projects of Hainan Province (No. ZDYF2021SHFZ099 & ZDYF022SHFZ086 & ZDYF022SHFZ087).
+
+## Abbreviations
+AUC, area under the curve; BP, biological process; CC, cellular component; DEG, differentially expressed gene; DSS, disease-specific survival; GEF, guanine-exchange factor; GO, Gene Ontology; GSEA, Gene Set Enrichment Analysis; HPA, Human Protein Atlas; HR, hazard ratio; KEGG, Kyoto Encyclopedia of Genes and Genomes; LUAD, lung adenocarcinoma; MF, molecular function; NSCLC, non-small cell lung cancer; OS, overall survival; PD-1/PD-L1, cell death protein 1/ligand 1; PDGF, platelet-derived growth factor; PFI, progression-free interval; qRT-PCR, quantitative Real-Time PCR; RASGRP2, Ras guanine nucleotide-releasing protein 2; ROC, Receiver operating characteristic; SCNA, somatic copy number alterations; TGF-β, transforming growth factor-β; VEGF, vascular endothelial growth factor; WGCNA, weighted gene co-expression network analysis.
+
+## Conflict of interest
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+## Supplementary material
+The Supplementary Material for this article can be found online at: https://www.frontiersin.org/articles/10.3389/fimmu.2023.1100231/full#supplementary-material
+
+Supplementary Figure 1The clinical correlation analysis of the 7 valuable GEFs. (A, B) The expression difference of 7 valuable GEFs between different T stage and pathological stage. (C) time-ROC of RASGRP2 in 1-, 2- and 3 years.
+Click here for additional data file.
+Supplementary Figure 2Analysis of the difference of target proteins under high/low RASGRP2 (A, B) The bar charts showed that there was no statistical difference in RASGRP2 expression in patients with KRAS mutant/wild and EML4-Alk positive/negative. (C, D) The immunofluorescence experiment confirmed that high RASGRP2 corresponded to high PDL1.
+Click here for additional data file.
+Supplementary Figure 3Knockdown of RASGRP2 promoted the proliferation by regulating apoptosis in LUAD. (A) RASGRP2 silencing efficiency was verified by qPCR. (B–E) Clone formation assay and EdU assay suggested that low RASGRP2 promoted cell proliferation. (F–I) Flow cytometry analysis and JC-1 staining suggested that decreased of RASGRP2 inhibited mitochondrial-dependent apoptosis.
+Click here for additional data file.
+Supplementary Figure 4RASGRP2 may play a role in LUAD via the JAK3-STAT5 signaling pathway. (A, B) Correlation analysis of RASGRP2 and JAK-STAT pathways. (C) Overexpression of RASGRP2 promoted activation of the JAK3-STAT5 signaling pathway.
+Click here for additional data file.
+Supplementary Table 1Clinicopathological parameters of real-world LUAD cohort from Xiangya Hospital.
+Click here for additional data file.
+Supplementary Table 2Guanine nucleotide exchange factors (GEFs) from GeneCards.
+Click here for additional data file.
+Supplementary Table 3Predictive transcription factor in CHEA.
+Click here for additional data file.
+Supplementary Table 4Predictive transcription factor in GRNdb.
+Click here for additional data file.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Figure 1The clinical correlation analysis of the 7 valuable GEFs. (A, B) The expression difference of 7 valuable GEFs between different T stage and pathological stage. (C) time-ROC of RASGRP2 in 1-, 2- and 3 years.
+Click here for additional data file.
+Supplementary Figure 2Analysis of the difference of target proteins under high/low RASGRP2 (A, B) The bar charts showed that there was no statistical difference in RASGRP2 expression in patients with KRAS mutant/wild and EML4-Alk positive/negative. (C, D) The immunofluorescence experiment confirmed that high RASGRP2 corresponded to high PDL1.
+Click here for additional data file.
+Supplementary Figure 3Knockdown of RASGRP2 promoted the proliferation by regulating apoptosis in LUAD. (A) RASGRP2 silencing efficiency was verified by qPCR. (B–E) Clone formation assay and EdU assay suggested that low RASGRP2 promoted cell proliferation. (F–I) Flow cytometry analysis and JC-1 staining suggested that decreased of RASGRP2 inhibited mitochondrial-dependent apoptosis.
+Click here for additional data file.
+Supplementary Figure 4RASGRP2 may play a role in LUAD via the JAK3-STAT5 signaling pathway. (A, B) Correlation analysis of RASGRP2 and JAK-STAT pathways. (C) Overexpression of RASGRP2 promoted activation of the JAK3-STAT5 signaling pathway.
+Click here for additional data file.
+Supplementary Table 1Clinicopathological parameters of real-world LUAD cohort from Xiangya Hospital.
+Click here for additional data file.
+Supplementary Table 2Guanine nucleotide exchange factors (GEFs) from GeneCards.
+Click here for additional data file.
+Supplementary Table 3Predictive transcription factor in CHEA.
+Click here for additional data file.
+Supplementary Table 4Predictive transcription factor in GRNdb.
+Click here for additional data file.
+
+## Data Availability Statement
+All original materials in the study are included in the article/supplementary material, further inquiries can be directed to the corresponding authors.
