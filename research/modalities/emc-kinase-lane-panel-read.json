@@ -1,0 +1,449 @@
+{
+ "_what": "PRKDC and SGK1 in real EMC tumour expression, read from the committed 1,299-gene panel in emc-atr-vulnerability-inputs.json. NO NEW RETRIEVAL \u2014 a re-read of data already on disk. $0.",
+ "_source_artifact": "research/modalities/emc-atr-vulnerability-inputs.json",
+ "_source_field": "/part_b/platforms/<platform>/geneset_gene_values",
+ "_absent_reading_warning": "measured:false means the gene is NOT IN THE 1,299-GENE PANEL. The panel was assembled for a DDR/replication-stress question. It is a fact about the collector, never about the gene.",
+ "_no_clinical_claim": "Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness. These are expression contrasts over 6 and 10 tumours on two platforms, with no p-values.",
+ "generated": "2026-08-07",
+ "genes_requested": [
+  "PRKDC",
+  "SGK1",
+  "NR4A3",
+  "ATR"
+ ],
+ "platforms": {
+  "GSE24369_series_matrix.txt.gz": {
+   "series": "GSE24369",
+   "platform": "GPL6244",
+   "value_kind": "single-channel intensity",
+   "n_samples": 42,
+   "n_geneset_genes_measured": 1299,
+   "n_emc_samples": 6,
+   "n_comparator_samples": 36,
+   "emc_sample_titles": [
+    "Extraskeletal myxoid chondrosarcoma 1",
+    "Extraskeletal myxoid chondrosarcoma 2",
+    "Extraskeletal myxoid chondrosarcoma 3",
+    "Extraskeletal myxoid chondrosarcoma 4",
+    "Extraskeletal myxoid chondrosarcoma 5",
+    "Extraskeletal myxoid chondrosarcoma 6"
+   ],
+   "genes": {
+    "PRKDC": {
+     "measured": true,
+     "n_emc_nonnull": 6,
+     "n_comparator_nonnull": 36,
+     "emc_mean": 9.4361,
+     "comparator_mean": 9.5656,
+     "delta_emc_minus_comparator": -0.1294,
+     "emc_values": [
+      9.2645,
+      9.5647,
+      8.995,
+      9.1147,
+      10.1111,
+      9.5668
+     ],
+     "percentile_of_delta_within_panel": 21.7,
+     "panel_n_genes_ranked": 1299
+    },
+    "SGK1": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "NR4A3": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "ATR": {
+     "measured": true,
+     "n_emc_nonnull": 6,
+     "n_comparator_nonnull": 36,
+     "emc_mean": 7.6283,
+     "comparator_mean": 7.5706,
+     "delta_emc_minus_comparator": 0.0577,
+     "emc_values": [
+      7.7934,
+      7.5243,
+      7.7003,
+      7.3456,
+      7.5588,
+      7.8476
+     ],
+     "percentile_of_delta_within_panel": 47.8,
+     "panel_n_genes_ranked": 1299
+    }
+   },
+   "panel_delta_background": {
+    "mean": 0.0843,
+    "sd": 0.4789,
+    "_reading": "the spread of EMC-vs-comparator deltas across all panel genes on these same samples. A gene's delta inside about one SD of this is doing what the panel does."
+   }
+  },
+  "GSE28866_series_matrix.txt.gz": {
+   "series": "GSE28866",
+   "platform": "GPL10999",
+   "value_kind": "single-channel intensity",
+   "n_samples": 99,
+   "n_geneset_genes_measured": 0,
+   "n_emc_samples": 4,
+   "n_comparator_samples": 95,
+   "emc_sample_titles": [
+    "STT5525_EMC",
+    "STT5526_EMC",
+    "STT5527_EMC",
+    "STT5592_EMC"
+   ],
+   "genes": {
+    "PRKDC": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "SGK1": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "NR4A3": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "ATR": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    }
+   }
+  },
+  "GSE43632_series_matrix.txt.gz": {
+   "series": "GSE43632",
+   "platform": "GPL11054",
+   "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE)",
+   "n_samples": 18,
+   "n_geneset_genes_measured": 0,
+   "n_emc_samples": 1,
+   "n_comparator_samples": 17,
+   "emc_sample_titles": [
+    "Sample 168-97"
+   ],
+   "genes": {
+    "PRKDC": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "SGK1": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "NR4A3": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "ATR": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    }
+   }
+  },
+  "GSE80126_series_matrix.txt.gz": {
+   "series": "GSE80126",
+   "platform": "GPL16791",
+   "value_kind": "single-channel intensity",
+   "n_samples": 29,
+   "n_geneset_genes_measured": 0,
+   "n_emc_samples": 1,
+   "n_comparator_samples": 28,
+   "emc_sample_titles": [
+    "V1-34"
+   ],
+   "genes": {
+    "PRKDC": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "SGK1": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "NR4A3": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "ATR": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    }
+   }
+  },
+  "GSE4303-GPL2937_series_matrix.txt.gz": {
+   "series": "GSE4303",
+   "platform": "GPL2937",
+   "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE)",
+   "n_samples": 3,
+   "n_geneset_genes_measured": 1174,
+   "n_emc_samples": 0,
+   "n_comparator_samples": 3,
+   "emc_sample_titles": [],
+   "genes": {
+    "PRKDC": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 3,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    },
+    "SGK1": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "NR4A3": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "ATR": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 3,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    }
+   }
+  },
+  "GSE4303-GPL2938_series_matrix.txt.gz": {
+   "series": "GSE4303",
+   "platform": "GPL2938",
+   "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE)",
+   "n_samples": 3,
+   "n_geneset_genes_measured": 1174,
+   "n_emc_samples": 0,
+   "n_comparator_samples": 3,
+   "emc_sample_titles": [],
+   "genes": {
+    "PRKDC": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 3,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    },
+    "SGK1": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "NR4A3": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "ATR": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 3,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    }
+   }
+  },
+  "GSE4303-GPL3254_series_matrix.txt.gz": {
+   "series": "GSE4303",
+   "platform": "GPL3254",
+   "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE)",
+   "n_samples": 6,
+   "n_geneset_genes_measured": 1213,
+   "n_emc_samples": 0,
+   "n_comparator_samples": 6,
+   "emc_sample_titles": [],
+   "genes": {
+    "PRKDC": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 6,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    },
+    "SGK1": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "NR4A3": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "ATR": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 6,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    }
+   }
+  },
+  "GSE4303-GPL3288_series_matrix.txt.gz": {
+   "series": "GSE4303",
+   "platform": "GPL3288",
+   "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE)",
+   "n_samples": 3,
+   "n_geneset_genes_measured": 1174,
+   "n_emc_samples": 0,
+   "n_comparator_samples": 3,
+   "emc_sample_titles": [],
+   "genes": {
+    "PRKDC": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 3,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    },
+    "SGK1": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "NR4A3": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "ATR": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 3,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    }
+   }
+  },
+  "GSE4303-GPL3289_series_matrix.txt.gz": {
+   "series": "GSE4303",
+   "platform": "GPL3289",
+   "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE)",
+   "n_samples": 3,
+   "n_geneset_genes_measured": 1213,
+   "n_emc_samples": 0,
+   "n_comparator_samples": 3,
+   "emc_sample_titles": [],
+   "genes": {
+    "PRKDC": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 3,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    },
+    "SGK1": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "NR4A3": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "ATR": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 3,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    }
+   }
+  },
+  "GSE4303-GPL3290_series_matrix.txt.gz": {
+   "series": "GSE4303",
+   "platform": "GPL3290",
+   "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE)",
+   "n_samples": 16,
+   "n_geneset_genes_measured": 1207,
+   "n_emc_samples": 10,
+   "n_comparator_samples": 6,
+   "emc_sample_titles": [
+    "STT3699-Myxoid Chondrosarcoma",
+    "STT3698-Myxoid Chondrosarcoma",
+    "STT3697-Myxoid Chondrosarcoma",
+    "STT3782-Myxoid chondrosarcoma",
+    "STT3783-Myxoid chondrosarcoma",
+    "STT3714-Myxoid Chondrosarcoma",
+    "STT3780-Myxoid chondrosarcoma",
+    "STT1169-Myxoid Chondrosarcoma",
+    "STT2003-Myxoid Chondrosarcoma",
+    "STT2528(2)-Myxoid Chondrosarcoma"
+   ],
+   "genes": {
+    "PRKDC": {
+     "measured": true,
+     "n_emc_nonnull": 10,
+     "n_comparator_nonnull": 6,
+     "emc_mean": -1.388,
+     "comparator_mean": -1.9365,
+     "delta_emc_minus_comparator": 0.5485,
+     "emc_values": [
+      -0.534,
+      -2.734,
+      -0.411,
+      -1.2665,
+      -0.575,
+      -1.746,
+      -0.678,
+      -1.224,
+      -1.788,
+      -2.9235
+     ],
+     "percentile_of_delta_within_panel": 71.0,
+     "panel_n_genes_ranked": 1206
+    },
+    "SGK1": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "NR4A3": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "ATR": {
+     "measured": true,
+     "n_emc_nonnull": 10,
+     "n_comparator_nonnull": 6,
+     "emc_mean": -0.5129,
+     "comparator_mean": -0.2305,
+     "delta_emc_minus_comparator": -0.2824,
+     "emc_values": [
+      -0.071,
+      -0.494,
+      -1.688,
+      0.17,
+      -1.304,
+      0.059,
+      -0.638,
+      -0.395,
+      -0.862,
+      0.094
+     ],
+     "percentile_of_delta_within_panel": 28.5,
+     "panel_n_genes_ranked": 1206
+    }
+   },
+   "panel_delta_background": {
+    "mean": 0.1131,
+    "sd": 0.9687,
+    "_reading": "the spread of EMC-vs-comparator deltas across all panel genes on these same samples. A gene's delta inside about one SD of this is doing what the panel does."
+   }
+  },
+  "GSE4303-GPL3335_series_matrix.txt.gz": {
+   "series": "GSE4303",
+   "platform": "GPL3335",
+   "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE)",
+   "n_samples": 2,
+   "n_geneset_genes_measured": 1207,
+   "n_emc_samples": 0,
+   "n_comparator_samples": 2,
+   "emc_sample_titles": [],
+   "genes": {
+    "PRKDC": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 2,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    },
+    "SGK1": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "NR4A3": {
+     "measured": false,
+     "_reading": "gene NOT IN the panel \u2014 this is not a statement about its expression"
+    },
+    "ATR": {
+     "measured": true,
+     "n_emc_nonnull": 0,
+     "n_comparator_nonnull": 2,
+     "_reading": "no usable EMC-vs-comparator split on this platform"
+    }
+   }
+  }
+ }
+}
