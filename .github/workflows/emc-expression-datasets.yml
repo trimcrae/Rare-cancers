@@ -255,7 +255,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${MODE:-}" in
-            gse-series|aso-junction|panels|hypoxia-confounds) PART_B=false ;;
+            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866) PART_B=false ;;
             *)                                               PART_B=true  ;;
           esac
           echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
@@ -318,8 +318,6 @@ jobs:
       # ⚠ THE NEGATIVE FORM IS DELIBERATE AND MUST STAY. An empty `inputs.mode` — a dispatch that
       # sends no inputs at all — has to fall through to part B, which is what this file has always
       # done. `== 'part-b'` would silently turn that dispatch into a no-op that reports success.
-      - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
-        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
       # ─────────────────────────────────────────────────────────────────────────────────────
       # fusion-targets — what the fusion is published to transcribe, read in EMC tissue
       # ─────────────────────────────────────────────────────────────────────────────────────
@@ -344,9 +342,6 @@ jobs:
           python research/modalities/nr4a3_fusion_targets.py --check \
             || echo "--check reported drift; non-blocking, but READ IT"
 
-      - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
-        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'fusion-targets'
-        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels' && inputs.mode != 'ret-cistrome' && inputs.mode != 'ret-motif'
       # The guard is `steps.guard.outputs.part_b`, resolved once at the top of this job. The reason
       # it is not `inputs.mode == 'part-b'`, and the run a restated list already cost, are both
       # recorded there — do not re-inline the list here.
@@ -577,10 +572,6 @@ jobs:
             research/modalities/emc-ret-target-scan.json
             research/modalities/emc-ret-target-scan-inputs.json
 
-      - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
-        if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
-        if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'fusion-targets'
-        if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'panels' && inputs.mode != 'ret-cistrome' && inputs.mode != 'ret-motif'
       # hypoxia-confounds — the two NETWORKED halves of the confound audit
       # ─────────────────────────────────────────────────────────────────────────────────────
       #
@@ -675,6 +666,12 @@ jobs:
         # render alike.
         run: |
           set -e
+          # ⛔ ONE if/elif CHAIN, ONE ARM PER MODE. Rebuilt 2026-08-07 after a union merge of three
+          # lanes left TWO unclosed `if` statements and a set of orphaned path lines dangling after a
+          # closed quote — broken bash that YAML parses happily and that only fails at RUN time, on a
+          # publish step, which is the worst place for it. Every arm below publishes exactly what its
+          # own mode WRITES and nothing it merely READS; `test_emc_expression_datasets_workflow.py`
+          # asserts that for hypoxia-confounds specifically, because that is the arm the merge broke.
           if [ "${{ inputs.mode }}" = "ret-cistrome" ]; then
             MSG="RET cistrome: NR4A1/2/3 ChIP-seq occupancy at the RET locus (CI)"
             PATHS="research/modalities/emc-ret-cistrome.json
@@ -684,24 +681,21 @@ jobs:
             PATHS="research/modalities/emc-ret-target-scan.json
                    research/modalities/emc-ret-target-scan-inputs.json"
           elif [ "${{ inputs.mode }}" = "panels" ]; then
-            MSG="EMC expression panels: seven targeted reads in the two readable series (CI)"
-            PATHS="research/modalities/emc-expression-panels.json
-                   research/modalities/emc-expression-panels-inputs.json"
-          if [ "${{ inputs.mode }}" = "fusion-targets" ]; then
-            MSG="NR4A3/fusion direct-target set scored in the two readable EMC series (CI)"
-            PATHS="research/modalities/nr4a3-fusion-targets.json
-                   research/modalities/nr4a3-fusion-targets-inputs.json"
-          if [ "${{ inputs.mode }}" = "panels" ]; then
             MSG="EMC expression panels: targeted reads in the two readable series (CI)"
             PATHS="research/modalities/emc-expression-panels.json
                    research/modalities/emc-expression-panels-inputs.json"
+          elif [ "${{ inputs.mode }}" = "fusion-targets" ]; then
+            MSG="NR4A3/fusion direct-target set scored in the two readable EMC series (CI)"
+            PATHS="research/modalities/nr4a3-fusion-targets.json
+                   research/modalities/nr4a3-fusion-targets-inputs.json"
           elif [ "${{ inputs.mode }}" = "hypoxia-confounds" ]; then
             MSG="EMC hypoxia confound audit: genome-wide null + retrieved clinical status (CI)"
             PATHS="research/modalities/emc-hypoxia-confounds.json
                    research/modalities/emc-hypoxia-null-background.json
                    research/modalities/emc-hypoxia-therapeutic-status.json"
-                   research/modalities/emc-expression-panels-inputs.json
-                   research/modalities/emc-surface-normal-window.json"
+          elif [ "${{ inputs.mode }}" = "gse28866" ]; then
+            MSG="GSE28866 header read: is the tumour-vs-normal EMC deposit gene-indexed? (CI)"
+            PATHS="research/modalities/gse28866-tumour-vs-normal.json"
           elif [ "${{ inputs.mode }}" = "gse-series" ]; then
             MSG="GEO series ${{ inputs.series || 'GSE299349' }}: sample-level characterisation (CI)"
             PATHS="research/modalities/atr-hrd-sarcoma-series.json
@@ -942,8 +936,6 @@ jobs:
           print("  verdict:", json.dumps(p2.get("verdict"))[:900])
           PY
 
-      - name: "Summary — part-b"
-        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
       # ⭐ THE CONTROLS PRINT FIRST AND THE RAW DELTAS PRINT LAST. A reader who stops after two
       # screens must have seen whether the instrument reproduced its known answers and how big the
       # platform's global offset is, BEFORE seeing any "HIGHER in EMC" number.
@@ -1002,10 +994,6 @@ jobs:
               print(f"  {g:<10} [{cls:<26}] expect={exp:<32} " + " | ".join(bits))
           PY
 
-      - name: "Summary — part-b"
-        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction'
-             && inputs.mode != 'fusion-targets'
-        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels' && inputs.mode != 'ret-cistrome' && inputs.mode != 'ret-motif'
       - name: "Summary — part-b"
         if: always() && steps.guard.outputs.part_b == 'true'
         run: |

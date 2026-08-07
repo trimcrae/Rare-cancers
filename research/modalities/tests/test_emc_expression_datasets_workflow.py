@@ -59,7 +59,13 @@ def test_no_step_restates_the_mode_exclusion_list():
 def test_the_guard_step_exists_and_is_the_only_place_the_excluded_modes_are_listed(text):
     assert "id: guard" in text, "the resolved-once guard step is gone"
     # the case arm is the single home of the exclusion list
-    arms = re.findall(r"^\s*([a-z|-]+)\)\s*PART_B=false", text, re.M)
+    # ⚠ THE CHARACTER CLASS MUST ADMIT DIGITS (widened 2026-08-07). It was `[a-z|-]+`, which
+    # silently encoded "mode names contain no digits" — a rule nobody chose. The moment a mode
+    # called `gse28866` was added, the arm stopped matching, `arms` came back EMPTY, and this
+    # test failed claiming the guard had no case arm at all when the guard was correct. A guard
+    # test that fails for a reason unrelated to the guard is the same defect this file exists to
+    # catch, one level up.
+    arms = re.findall(r"^\s*([a-z0-9|-]+)\)\s*PART_B=false", text, re.M)
     assert len(arms) == 1, f"expected exactly one `PART_B=false` case arm, found {arms}"
     excluded = set(arms[0].split("|"))
     assert excluded, "the exclusion list is empty — every mode would run part B"
