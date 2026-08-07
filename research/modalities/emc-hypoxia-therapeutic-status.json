@@ -1,0 +1,3515 @@
+{
+ "_generated_utc": "2026-08-07T17:27:37+00:00",
+ "_sources": {
+  "clinicaltrials_gov": "ClinicalTrials.gov API v2 (https://clinicaltrials.gov/api/v2)",
+  "pubmed": "NCBI E-utilities esearch/esummary over db=pubmed"
+ },
+ "_this_is_not_evidence_of_activity_in_EMC": "none of these agents has an EMC indication and no trial below is an EMC trial unless its own record says so. Retrieval establishes what was TRIED and what happened; it establishes nothing about EMC.",
+ "_what": "the public clinical record for the three drug classes a hypoxia reading points at, retrieved rather than recalled",
+ "classes": {
+  "carbonic_anhydrase_ix_directed": {
+   "agents_queried": [
+    "girentuximab",
+    "SLC-0111",
+    "carbonic anhydrase IX inhibitor",
+    "DTP348",
+    "CA9 CAR-T"
+   ],
+   "clinicaltrials": {
+    "CA9 CAR-T": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=CA9%20CAR-T",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "DTP348": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=DTP348",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "SLC-0111": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=SLC-0111",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "carbonic anhydrase IX inhibitor": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=carbonic%20anhydrase%20IX%20inhibitor",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "girentuximab": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=girentuximab",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    }
+   },
+   "pubmed": {
+    "CA9 CAR-T": {
+     "_query": "CA9 CAR-T[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=CA9%20CAR-T%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [],
+     "n_hits": 0
+    },
+    "DTP348": {
+     "_query": "DTP348[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=DTP348%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "J Enzyme Inhib Med Chem",
+       "pmid": "29909747",
+       "title": "Nitroimidazole-based inhibitors DTP338 and DTP348 are safe for zebrafish embryos and efficiently inhibit the activity of human CA IX in Xenopus oocytes.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Oncotarget",
+       "pmid": "26259239",
+       "title": "Evaluation of carbonic anhydrase IX as a therapeutic target for inhibition of breast cancer invasion and metastasis using a series of in vitro breast cancer models.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2015"
+      }
+     ],
+     "n_hits": 2
+    },
+    "SLC-0111": {
+     "_query": "SLC-0111[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=SLC-0111%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Subcell Biochem",
+       "pmid": "42062763",
+       "title": "Carbonic Anhydrase Inhibitors in Oncology.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Front Oncol",
+       "pmid": "36776327",
+       "title": "SLC-0111, an inhibitor of carbonic anhydrase IX, attenuates hepatoblastoma cell viability and migration.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Metabolites",
+       "pmid": "33066524",
+       "title": "Carbonic Anhydrase Inhibitors Targeting Metabolism and Tumor Microenvironment.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2020"
+      },
+      {
+       "journal": "Front Mol Biosci",
+       "pmid": "38099193",
+       "title": "Co-vulnerabilities of inhibiting carbonic anhydrase IX in ferroptosis-mediated tumor cell death.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Metabolites",
+       "pmid": "28926956",
+       "title": "Carbonic Anhydrase Inhibition and the Management of Hypoxic Tumors.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2017"
+      },
+      {
+       "journal": "J Exp Pharmacol",
+       "pmid": "33364855",
+       "title": "Experimental Carbonic Anhydrase Inhibitors for the Treatment of Hypoxic Tumors.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2020"
+      },
+      {
+       "journal": "Metabolites",
+       "pmid": "29517989",
+       "title": "Coordinated Regulation of Metabolic Transporters and Migration/Invasion by Carbonic Anhydrase IX.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "J Med Chem",
+       "pmid": "37501287",
+       "title": "1,5-Diaryl-1,2,4-triazole Ureas as New SLC-0111 Analogues Endowed with Dual Carbonic Anhydrase and VEGFR-2 Inhibitory Activities.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Expert Opin Drug Discov",
+       "pmid": "25891195",
+       "title": "Designing carbonic anhydrase inhibitors for the treatment of breast cancer.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "J Enzyme Inhib Med Chem",
+       "pmid": "34894950",
+       "title": "Antiproliferative effects of sulphonamide carbonic anhydrase inhibitors C18, SLC-0111 and acetazolamide on bladder, glioblastoma and pancreatic cancer cell lines.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Int J Mol Sci",
+       "pmid": "35328549",
+       "title": "Perfusion-Based Bioreactor Culture and Isothermal Microcalorimetry for Preclinical Drug Testing with the Carbonic Anhydrase Inhibitor SLC-0111 in Patient-Derived Neuroblastoma.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Expert Opin Investig Drugs",
+       "pmid": "30426805",
+       "title": "Carbonic anhydrase inhibitors as emerging agents for the treatment and imaging of hypoxic tumors.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "J Control Release",
+       "pmid": "41033396",
+       "title": "Tailored mechano-responsive micelles mimic the iron starvation response and impair pH homeostasis for triggered cancer therapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "J Exp Clin Cancer Res",
+       "pmid": "35365193",
+       "title": "Inhibition of carbonic anhydrases IX/XII by SLC-0111 boosts cisplatin effects in hampering head and neck squamous carcinoma cell growth and invasion.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Int J Mol Sci",
+       "pmid": "31810330",
+       "title": "Preclinical Evaluation of Ureidosulfamate Carbonic Anhydrase IX/XII Inhibitors in the Treatment of Cancers.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "JCI Insight",
+       "pmid": "29263302",
+       "title": "Addition of carbonic anhydrase 9 inhibitor SLC-0111 to temozolomide treatment delays glioblastoma growth in vivo.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2017"
+      },
+      {
+       "journal": "Pharmacol Res",
+       "pmid": "32485281",
+       "title": "Effect of Carbonic Anhydrase IX inhibitors on human endothelial cell survival.",
+       "type": [
+        "Comparative Study",
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2020"
+      },
+      {
+       "journal": "Bioorg Med Chem",
+       "pmid": "40680314",
+       "title": "Discovery of novel thiourea benzenesulfonamides based 1,8-naphthalimide derivatives as carbonic anhydrase IX inhibitors that induce ferroptosis and inhibit triple-negative breast cancer metastasis.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Cancers (Basel)",
+       "pmid": "35884358",
+       "title": "Cancer Therapeutic Targeting of Hypoxia Induced Carbonic Anhydrase IX: From Bench to Bedside.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Bioorg Chem",
+       "pmid": "38382393",
+       "title": "A comparative study of diaryl urea molecules with and without sulfonamide group on Carbonic anhydrase IX and XII inhibition and its consequence on breast cancer cells.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Eur J Med Chem",
+       "pmid": "37321108",
+       "title": "Design and synthesis of 6-arylpyridine-tethered sulfonamides as novel selective inhibitors of carbonic anhydrase IX with promising antitumor features toward the human colorectal cancer.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Brain Tumor Pathol",
+       "pmid": "39316272",
+       "title": "Combination treatment with histone deacetylase and carbonic anhydrase 9 inhibitors shows therapeutic potential in experimental diffuse intrinsic pontine glioma.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Am J Physiol Lung Cell Mol Physiol",
+       "pmid": "31042076",
+       "title": "Extrinsic acidosis suppresses glycolysis and migration while increasing network formation in pulmonary microvascular endothelial cells.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Bioorg Chem",
+       "pmid": "38941699",
+       "title": "Discovery of novel 1,8-naphthalimide piperazinamide based benzenesulfonamides derivatives as potent carbonic anhydrase IX inhibitors and ferroptosis inducers for the treatment of triple-negative breas",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "J Med Chem",
+       "pmid": "30433782",
+       "title": "4-Hydroxy-3-nitro-5-ureido-benzenesulfonamides Selectively Target the Tumor-Associated Carbonic Anhydrase Isoforms IX and XII Showing Hypoxia-Enhanced Antiproliferative Profiles.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, U.S. Gov't, Non-P.H.S."
+       ],
+       "year": "2018"
+      }
+     ],
+     "n_hits": 25
+    },
+    "carbonic anhydrase IX inhibitor": {
+     "_query": "carbonic anhydrase IX inhibitor[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=carbonic%20anhydrase%20IX%20inhibitor%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Drug Deliv",
+       "pmid": "35848469",
+       "title": "Co-delivery of carbonic anhydrase IX inhibitor and doxorubicin as a promising approach to address hypoxia-induced chemoresistance.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Small",
+       "pmid": "39663694",
+       "title": "A Redox-Triggered Polymeric Nanoparticle for Disrupting Redox Homeostasis and Enhanced Ferroptosis.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "J Mol Graph Model",
+       "pmid": "26826799",
+       "title": "Design and synthesis of a novel class of carbonic anhydrase-IX inhibitor 1-(3-(phenyl/4-fluorophenyl)-7-imino-3H-[1,2,3]triazolo[4,5d]pyrimidin 6(7H)yl)urea.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "Eur J Med Chem",
+       "pmid": "34902732",
+       "title": "Synthesis, biological evaluation, and in silico studies of potential activators of apoptosis and carbonic anhydrase inhibitors on isatin-5-sulfonamide scaffold.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "PLoS One",
+       "pmid": "25225880",
+       "title": "Tumor microenvironmental changes induced by the sulfamate carbonic anhydrase IX inhibitor S4 in a laryngeal tumor model.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2014"
+      }
+     ],
+     "n_hits": 5
+    },
+    "girentuximab": {
+     "_query": "girentuximab[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=girentuximab%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Eur Urol",
+       "pmid": "42025513",
+       "title": "Performance of [(89)Zr]girentuximab PET/CT in Predicting the Presence of Any Renal Malignancy: A Reanalysis of the ZIRCON Trial.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Radiother Oncol",
+       "pmid": "28789809",
+       "title": "Preclinical validation of (111)In-girentuximab-F(ab')(2) as a tracer to image hypoxia related marker CAIX expression in head and neck cancer xenografts.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2017"
+      },
+      {
+       "journal": "Eur J Nucl Med Mol Imaging",
+       "pmid": "41174094",
+       "title": "Prospective pilot study with [(89)Zr]Zr-girentuximab PET/CT: CA-IX imaging in metastatic triple negative breast cancer (OPALESCENCE).",
+       "type": [
+        "Journal Article",
+        "Clinical Trial"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Sci Rep",
+       "pmid": "31827111",
+       "title": "CAIX-targeting radiotracers for hypoxia imaging in head and neck cancer models.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Metabolites",
+       "pmid": "28926956",
+       "title": "Carbonic Anhydrase Inhibition and the Management of Hypoxic Tumors.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2017"
+      },
+      {
+       "journal": "Biologics",
+       "pmid": "23204838",
+       "title": "Potential role of (124)I-girentuximab in the presurgical diagnosis of clear-cell renal cell cancer.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2012"
+      },
+      {
+       "journal": "Phys Imaging Radiat Oncol",
+       "pmid": "34485720",
+       "title": "Imaging carbonic anhydrase IX as a method for monitoring hypoxia-related radioresistance in preclinical head and neck cancer models.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Mol Pharm",
+       "pmid": "30550290",
+       "title": "Quantitative Imaging of the Hypoxia-Related Marker CAIX in Head and Neck Squamous Cell Carcinoma Xenograft Models.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Int J Oncol",
+       "pmid": "25434612",
+       "title": "Imaging of CAIX-expressing xenografts in vivo using 99mTc-HEHEHE-ZCAIX:1 affibody molecule.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "Int J Oncol",
+       "pmid": "25230982",
+       "title": "Monoclonal antibody G250 targeting CA \u2168: Binding specificity, internalization and therapeutic effects in a non-renal cancer model.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2014"
+      },
+      {
+       "journal": "Expert Opin Ther Pat",
+       "pmid": "27575256",
+       "title": "CA IX stratification based on cancer treatment: a patent evaluation of US2016/0002350.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2016"
+      }
+     ],
+     "n_hits": 11
+    }
+   },
+   "sarcoma_specific_trials": {},
+   "the_prior_that_matters": "\u26a0 SURFACE PROTEIN, NOT TRANSCRIPT. An address for an antibody, a radioligand or a CAR is a SURFACE-protein question. A CA9 transcript reading is not a measurement of surface CA-IX density on EMC cells and cannot become one.",
+   "why_a_hypoxia_reading_points_here": "CA-IX is among the most hypoxia-restricted proteins in normal tissue, which is what makes it an address rather than only a marker."
+  },
+  "hif_pathway": {
+   "agents_queried": [
+    "belzutifan",
+    "PT2977",
+    "MK-6482",
+    "PT2385",
+    "ARO-HIF2",
+    "EZN-2968",
+    "topotecan HIF"
+   ],
+   "clinicaltrials": {
+    "ARO-HIF2": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=ARO-HIF2",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "EZN-2968": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=EZN-2968",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "MK-6482": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=MK-6482",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "PT2385": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=PT2385",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "PT2977": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=PT2977",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "belzutifan": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=belzutifan",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "topotecan HIF": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=topotecan%20HIF",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    }
+   },
+   "pubmed": {
+    "ARO-HIF2": {
+     "_query": "ARO-HIF2[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=ARO-HIF2%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "38652038",
+       "title": "A First-in-Human Phase 1 Study of a Tumor-Directed RNA-Interference Drug against HIF2\u03b1 in Patients with Advanced Clear Cell Renal Cell Carcinoma.",
+       "type": [
+        "Journal Article",
+        "Clinical Trial, Phase I"
+       ],
+       "year": "2024"
+      }
+     ],
+     "n_hits": 1
+    },
+    "EZN-2968": {
+     "_query": "EZN-2968[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=EZN-2968%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Int J Mol Sci",
+       "pmid": "38396737",
+       "title": "Therapeutic Targeting of Hypoxia-Inducible Factors in Cancer.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Cancer Chemother Pharmacol",
+       "pmid": "24292632",
+       "title": "Pilot trial of EZN-2968, an antisense oligonucleotide inhibitor of hypoxia-inducible factor-1 alpha (HIF-1\u03b1), in patients with refractory solid tumors.",
+       "type": [
+        "Clinical Trial",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+       ],
+       "year": "2014"
+      },
+      {
+       "journal": "Exp Cell Res",
+       "pmid": "25257607",
+       "title": "HIF-1\u03b1 inhibition blocks the cross talk between multiple myeloma plasma cells and tumor microenvironment.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2014"
+      },
+      {
+       "journal": "Mol Cancer Ther",
+       "pmid": "18974394",
+       "title": "A RNA antagonist of hypoxia-inducible factor-1alpha, EZN-2968, inhibits tumor cell growth.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2008"
+      },
+      {
+       "journal": "Oncotarget",
+       "pmid": "24732040",
+       "title": "Hypoxia inducible factor-1 alpha as a therapeutic target in multiple myeloma.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2014"
+      }
+     ],
+     "n_hits": 5
+    },
+    "MK-6482": {
+     "_query": "MK-6482[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=MK-6482%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "N Engl J Med",
+       "pmid": "34818478",
+       "title": "Belzutifan for Renal Cell Carcinoma in von Hippel-Lindau Disease.",
+       "type": [
+        "Clinical Trial, Phase II",
+        "Journal Article",
+        "Research Support, N.I.H., Intramural"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Nat Med",
+       "pmid": "33888901",
+       "title": "Inhibition of hypoxia-inducible factor-2\u03b1 in renal cell carcinoma with belzutifan: a phase 1 trial and biomarker analysis.",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Letter",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Curr Oncol Rep",
+       "pmid": "36630072",
+       "title": "Belzutifan (MK-6482): Biology and Clinical Development in Solid Tumors.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Curr Drug Res Rev",
+       "pmid": "35366789",
+       "title": "Belzutifan: A Narrative Drug Review.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Expert Opin Investig Drugs",
+       "pmid": "33945366",
+       "title": "MK-6482 as a potential treatment for von Hippel-Lindau disease-associated clear cell renal cell carcinoma.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Curr Treat Options Oncol",
+       "pmid": "37403008",
+       "title": "Targeting HIF-2 Alpha in Renal Cell Carcinoma.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Crit Rev Oncol Hematol",
+       "pmid": "35728738",
+       "title": "Targeting hypoxia-inducible factor pathways in sporadic and Von Hippel-Lindau syndrome-related kidney cancers.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Am J Health Syst Pharm",
+       "pmid": "33016992",
+       "title": "From oxygen sensing to angiogenesis: Targeting the hypoxia signaling pathway in metastatic kidney cancer.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2020"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "35727604",
+       "title": "FDA Approval Summary: Belzutifan for von Hippel-Lindau Disease-Associated Tumors.",
+       "type": [
+        "Journal Article",
+        "Research Support, U.S. Gov't, P.H.S."
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Expert Rev Clin Pharmacol",
+       "pmid": "39670660",
+       "title": "Targeting HIF-2\u03b1: the role of belzutifan in clear cell renal carcinoma management.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Blood",
+       "pmid": "33512384",
+       "title": "Therapeutic inhibition of HIF-2\u03b1 reverses polycythemia and pulmonary hypertension in murine models of human diseases.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Intramural"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Oncologist",
+       "pmid": "41507088",
+       "title": "The European medicines agency review of belzutifan (Welireg) for the treatment of adult patients with von Hippel-Lindau disease-associated tumors.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Tetrahedron Lett",
+       "pmid": "38343394",
+       "title": "Synthesis of the Hypoxia-Inducible Factor-2\u03b1 (HIF-2\u03b1) Inhibitor, 3-[(1S,2S,3R)-2,3-Difluoro-1-hydroxy-7-methylsulfonylindan-4-yl]oxy-5-fluorobenzonitrile (PT2977, Belzutifan); Efficient Replication of",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2023"
+      }
+     ],
+     "n_hits": 13
+    },
+    "PT2385": {
+     "_query": "PT2385[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=PT2385%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Sci Transl Med",
+       "pmid": "39772774",
+       "title": "Hypoxia-inducible factor 2 regulates alveolar regeneration after repetitive injury in three-dimensional cellular and in vivo models.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Cell Host Microbe",
+       "pmid": "38754418",
+       "title": "Candida albicans accelerates atherosclerosis by activating intestinal hypoxia-inducible factor2\u03b1 signaling.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Cell Death Dis",
+       "pmid": "38233415",
+       "title": "FKBP10 promotes clear cell renal cell carcinoma progression and regulates sensitivity to the HIF2\u03b1 blockade by facilitating LDHA phosphorylation.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Mol Cancer",
+       "pmid": "31735169",
+       "title": "YTHDF2 reduction fuels inflammation and vascular abnormalization in hepatocellular carcinoma.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "J Clin Invest",
+       "pmid": "31999648",
+       "title": "Marked and rapid effects of pharmacological HIF-2\u03b1 antagonism on hypoxic ventilatory control.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2020"
+      },
+      {
+       "journal": "Mater Today Bio",
+       "pmid": "41235366",
+       "title": "The novel hydrogen-PT2385-silncARSR nanocomplex impairs tumor angiogenesis and mitochondrial activity in sunitinib-resistant renal cancer.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Nat Med",
+       "pmid": "29035368",
+       "title": "Activation of intestinal hypoxia-inducible factor 2\u03b1 during obesity contributes to hepatic steatosis.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2017"
+      },
+      {
+       "journal": "J Clin Invest",
+       "pmid": "34128478",
+       "title": "HIF-1\u03b1 and HIF-2\u03b1 redundantly promote retinal neovascularization in patients with ischemic retinal disease.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't",
+        "Research Support, U.S. Gov't, Non-P.H.S."
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Drug Metab Dispos",
+       "pmid": "29363499",
+       "title": "Metabolic Profiling of the Novel Hypoxia-Inducible Factor 2\u03b1 Inhibitor PT2385 In Vivo and In Vitro.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Intramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "J Cachexia Sarcopenia Muscle",
+       "pmid": "38333911",
+       "title": "Chronic hypoxia impairs skeletal muscle repair via HIF-2\u03b1 stabilization.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Hypertension",
+       "pmid": "36876500",
+       "title": "Specific HIF-2\u03b1 (Hypoxia-Inducible Factor-2) Inhibitor PT2385 Mitigates Placental Dysfunction In Vitro and in a Rat Model of Preeclampsia (RUPP).",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "J Exp Med",
+       "pmid": "41941275",
+       "title": "Targeting conserved domains of hypoxia-inducible factors for cancer therapy.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Cancer Metab",
+       "pmid": "41680845",
+       "title": "Targeting HIF-2\u03b1 in colorectal cancer reveals a cholesterol biosynthesis-dependent ferroptotic vulnerability.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Ren Fail",
+       "pmid": "40179941",
+       "title": "High altitude renal syndrome: four elements or one source?",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Future Med Chem",
+       "pmid": "30089425",
+       "title": "Hypoxia-inducible factor 2\u03b1: a novel target in gliomas.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Proc Natl Acad Sci U S A",
+       "pmid": "39047035",
+       "title": "Iron regulatory protein 2 contributes to antimicrobial immunity by preserving lysosomal function in macrophages.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Expert Opin Ther Pat",
+       "pmid": "33455469",
+       "title": "Hypoxia-inducible factor (HIF) inhibitors: a patent survey (2016-2020).",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Arterioscler Thromb Vasc Biol",
+       "pmid": "41036559",
+       "title": "Low Wall Shear Stress Promotes Atheroma via Arterial Iron Accumulation.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Cancer",
+       "pmid": "41632099",
+       "title": "Targeting HIF-2\u03b1 in renal cell carcinoma: Expanding upon belzutifan.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Cell Mol Life Sci",
+       "pmid": "40095115",
+       "title": "Targeting HIF-2\u03b1 in glioblastoma reshapes the immune infiltrate and enhances response to immune checkpoint blockade.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Br J Pharmacol",
+       "pmid": "34599843",
+       "title": "Established pulmonary hypertension in rats was reversed by a combination of a HIF-2\u03b1 antagonist and a p53 agonist.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Exp Cell Res",
+       "pmid": "31945318",
+       "title": "ARNT-dependent HIF-2 transcriptional activity is not sufficient to regulate downstream target genes in neuroblastoma.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2020"
+      },
+      {
+       "journal": "Cold Spring Harb Symp Quant Biol",
+       "pmid": "27932568",
+       "title": "Targeting HIF2 in Clear Cell Renal Cell Carcinoma.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "J Neurooncol",
+       "pmid": "37864646",
+       "title": "Activity of a first-in-class oral HIF2-alpha inhibitor, PT2385, in patients with first recurrence of glioblastoma.",
+       "type": [
+        "Clinical Trial, Phase II",
+        "Journal Article"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "J Clin Oncol",
+       "pmid": "29257710",
+       "title": "Phase I Dose-Escalation Trial of PT2385, a First-in-Class Hypoxia-Inducible Factor-2\u03b1 Antagonist in Patients With Previously Treated Advanced Clear Cell Renal Cell Carcinoma.",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Journal Article",
+        "Multicenter Study",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2018"
+      }
+     ],
+     "n_hits": 25
+    },
+    "PT2977": {
+     "_query": "PT2977[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=PT2977%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "N Engl J Med",
+       "pmid": "34818478",
+       "title": "Belzutifan for Renal Cell Carcinoma in von Hippel-Lindau Disease.",
+       "type": [
+        "Clinical Trial, Phase II",
+        "Journal Article",
+        "Research Support, N.I.H., Intramural"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Nat Rev Urol",
+       "pmid": "38698165",
+       "title": "Von Hippel-Lindau protein signalling in clear cell renal cell carcinoma.",
+       "type": [
+        "Journal Article",
+        "Review",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, U.S. Gov't, P.H.S."
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Nat Med",
+       "pmid": "33888901",
+       "title": "Inhibition of hypoxia-inducible factor-2\u03b1 in renal cell carcinoma with belzutifan: a phase 1 trial and biomarker analysis.",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Letter",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Cancer Discov",
+       "pmid": "41065553",
+       "title": "HIF-2-Dependent Regulation of PTHrP and Paraneoplastic Hypercalcemia in Aggressive Clear-Cell Renal Cell Carcinoma.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "J Proteome Res",
+       "pmid": "40675783",
+       "title": "Metabolomic Profiling Reveals Key Metabolic Alterations in MCF7 Tamoxifen-Resistant Cells Following EPAS1 Inhibition.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Curr Drug Res Rev",
+       "pmid": "35366789",
+       "title": "Belzutifan: A Narrative Drug Review.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Cancer",
+       "pmid": "41632099",
+       "title": "Targeting HIF-2\u03b1 in renal cell carcinoma: Expanding upon belzutifan.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Int J Mol Sci",
+       "pmid": "30513765",
+       "title": "Current Landscape and the Potential Role of Hypoxia-Inducible Factors and Selenium in Clear Cell Renal Cell Carcinoma Treatment.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Biochim Biophys Acta Mol Basis Dis",
+       "pmid": "42242437",
+       "title": "HIF-2\u03b1/TRIB3/PARP1 axis promotes progression by orchestrating DNA repair in clear cell renal cell carcinoma.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Drug Discov Today",
+       "pmid": "31541711",
+       "title": "Allosteric inhibition of HIF-2\u03b1 as a novel therapy for clear cell renal cell carcinoma.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Transl Oncol",
+       "pmid": "40393248",
+       "title": "Targeting EPAS-1/HIF-2\u03b1 Pathway to Address Endocrine Resistance in Luminal A Type Breast Cancer.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Tetrahedron Lett",
+       "pmid": "38343394",
+       "title": "Synthesis of the Hypoxia-Inducible Factor-2\u03b1 (HIF-2\u03b1) Inhibitor, 3-[(1S,2S,3R)-2,3-Difluoro-1-hydroxy-7-methylsulfonylindan-4-yl]oxy-5-fluorobenzonitrile (PT2977, Belzutifan); Efficient Replication of",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "J Med Chem",
+       "pmid": "31282155",
+       "title": "3-[(1S,2S,3R)-2,3-Difluoro-1-hydroxy-7-methylsulfonylindan-4-yl]oxy-5-fluorobenzonitrile (PT2977), a Hypoxia-Inducible Factor 2\u03b1 (HIF-2\u03b1) Inhibitor for the Treatment of Clear Cell Renal Cell Carcinoma",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Journal Article"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Ann Rheum Dis",
+       "pmid": "35710307",
+       "title": "Epithelial HIF2\u03b1 expression induces intestinal barrier dysfunction and exacerbation of arthritis.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "ACS Med Chem Lett",
+       "pmid": "42445002",
+       "title": "Discovery of NKT2152, a Potent and Selective HIF-2\u03b1 Inhibitor with Favorable Pharmacokinetic Properties.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2026"
+      }
+     ],
+     "n_hits": 15
+    },
+    "belzutifan": {
+     "_query": "belzutifan[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=belzutifan%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "N Engl J Med",
+       "pmid": "39167807",
+       "title": "Belzutifan versus Everolimus for Advanced Renal-Cell Carcinoma.",
+       "type": [
+        "Journal Article",
+        "Clinical Trial, Phase III",
+        "Multicenter Study",
+        "Randomized Controlled Trial"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "N Engl J Med",
+       "pmid": "34818478",
+       "title": "Belzutifan for Renal Cell Carcinoma in von Hippel-Lindau Disease.",
+       "type": [
+        "Clinical Trial, Phase II",
+        "Journal Article",
+        "Research Support, N.I.H., Intramural"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Future Oncol",
+       "pmid": "37882432",
+       "title": "LITESPARK-012: pembrolizumab plus lenvatinib with or without belzutifan or quavonlimab for advanced renal cell carcinoma.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Nat Rev Urol",
+       "pmid": "38698165",
+       "title": "Von Hippel-Lindau protein signalling in clear cell renal cell carcinoma.",
+       "type": [
+        "Journal Article",
+        "Review",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, U.S. Gov't, P.H.S."
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "N Engl J Med",
+       "pmid": "41124218",
+       "title": "Belzutifan for Advanced Pheochromocytoma or Paraganglioma.",
+       "type": [
+        "Journal Article",
+        "Clinical Trial, Phase II",
+        "Multicenter Study"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "N Engl J Med",
+       "pmid": "42384869",
+       "title": "Adjuvant Pembrolizumab plus Belzutifan for Renal-Cell Carcinoma.",
+       "type": [
+        "Journal Article",
+        "Randomized Controlled Trial",
+        "Clinical Trial, Phase III",
+        "Multicenter Study"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Trends Cancer",
+       "pmid": "34743924",
+       "title": "Revisiting the HIF switch in the tumor and its immune microenvironment.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Review"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Future Oncol",
+       "pmid": "38639572",
+       "title": "Belzutifan: a novel therapeutic for the management of von Hippel-Lindau disease and beyond.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "",
+       "pmid": "37824695",
+       "title": "Belzutifan.",
+       "type": [
+        "Review"
+       ],
+       "year": "2012"
+      },
+      {
+       "journal": "Nat Med",
+       "pmid": "33888901",
+       "title": "Inhibition of hypoxia-inducible factor-2\u03b1 in renal cell carcinoma with belzutifan: a phase 1 trial and biomarker analysis.",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Letter",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Lancet Oncol",
+       "pmid": "39284337",
+       "title": "Belzutifan for patients with von Hippel-Lindau disease-associated CNS haemangioblastomas (LITESPARK-004): a multicentre, single-arm, phase 2 study.",
+       "type": [
+        "Journal Article",
+        "Multicenter Study",
+        "Clinical Trial, Phase II",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Lancet Oncol",
+       "pmid": "40228516",
+       "title": "Belzutifan for von Hippel-Lindau disease-associated renal cell carcinoma and other neoplasms (LITESPARK-004): 50 months follow-up from a single-arm, phase 2 study.",
+       "type": [
+        "Journal Article",
+        "Clinical Trial, Phase II",
+        "Multicenter Study"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Lancet Oncol",
+       "pmid": "40112850",
+       "title": "Health-related quality of life with belzutifan versus everolimus for advanced renal cell carcinoma (LITESPARK-005): patient-reported outcomes from a randomised, open-label, phase 3 trial.",
+       "type": [
+        "Journal Article",
+        "Randomized Controlled Trial",
+        "Clinical Trial, Phase III",
+        "Multicenter Study"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "BMC Pharmacol Toxicol",
+       "pmid": "39707485",
+       "title": "The efficacy and safety of belzutifan inhibitor in patients with advanced or metastatic clear cell renal cell carcinoma: a meta-analysis.",
+       "type": [
+        "Journal Article",
+        "Meta-Analysis",
+        "Systematic Review"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Drugs",
+       "pmid": "34613603",
+       "title": "Belzutifan: First Approval.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Int J Mol Sci",
+       "pmid": "40806229",
+       "title": "Belzutifan-Associated Hypoxia: A Review of the Novel Therapeutic, Proposed Mechanisms of Hypoxia, and Management Recommendations.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Curr Drug Res Rev",
+       "pmid": "35366789",
+       "title": "Belzutifan: A Narrative Drug Review.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Pharmacotherapy",
+       "pmid": "40331637",
+       "title": "Belzutifan's role in the treatment landscape of clear cell renal cell carcinoma.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "J Kidney Cancer VHL",
+       "pmid": "40620865",
+       "title": "Hypoxia Inducible Factor-2\u03b1 (HIF-2\u03b1) Pathway Inhibitors.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Curr Oncol Rep",
+       "pmid": "36630072",
+       "title": "Belzutifan (MK-6482): Biology and Clinical Development in Solid Tumors.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Ophthalmology",
+       "pmid": "38849055",
+       "title": "Oral Hypoxia-Inducible Factor 2\u03b1 Inhibitor Belzutifan in Ocular von Hippel-Lindau Disease: Subgroup Analysis of the Single-Arm Phase 2 LITESPARK-004 Study.",
+       "type": [
+        "Journal Article",
+        "Clinical Trial, Phase II",
+        "Multicenter Study"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Cancer Discov",
+       "pmid": "41065553",
+       "title": "HIF-2-Dependent Regulation of PTHrP and Paraneoplastic Hypercalcemia in Aggressive Clear-Cell Renal Cell Carcinoma.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Cancer Treat Rev",
+       "pmid": "39032449",
+       "title": "Targeting HIF-2\u03b1 and anemia: A therapeutic breakthrough for clear-cell renal cell carcinoma.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Eur Urol Focus",
+       "pmid": "39307587",
+       "title": "Belzutifan Efficacy and Tolerability in Patients with Sporadic Metastatic Clear Cell Renal Cell Carcinoma.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Ther Adv Med Oncol",
+       "pmid": "39926260",
+       "title": "Belzutifan for the treatment of renal cell carcinoma.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2025"
+      }
+     ],
+     "n_hits": 25
+    },
+    "topotecan HIF": {
+     "_query": "topotecan HIF[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=topotecan%20HIF%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Acta Pharm Sin B",
+       "pmid": "26579469",
+       "title": "HIF-1\u03b1 pathway: role, regulation and intervention for cancer therapy.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "J Basic Clin Physiol Pharmacol",
+       "pmid": "30260792",
+       "title": "Current insights and future perspectives of hypoxia-inducible factor-targeted therapy in cancer.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Anticancer Drugs",
+       "pmid": "16162966",
+       "title": "Hypoxia inducible factor-1: a novel target for cancer therapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, U.S. Gov't, P.H.S.",
+        "Review"
+       ],
+       "year": "2005"
+      },
+      {
+       "journal": "Arch Immunol Ther Exp (Warsz)",
+       "pmid": "21625847",
+       "title": "Targeting NF-\u03baB and HIF-1 pathways for the treatment of cancer: part II.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+       ],
+       "year": "2011"
+      },
+      {
+       "journal": "Int J Biochem Cell Biol",
+       "pmid": "30266526",
+       "title": "Topotecan prevents hypoxia-induced pulmonary arterial hypertension and inhibits hypoxia-inducible factor-1\u03b1 and TRPC channels.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Biomed Eng Online",
+       "pmid": "34465337",
+       "title": "Hypoxia-inducible transcription factor-1\u03b1 inhibition by topotecan protects against lipopolysaccharide-induced inflammation and apoptosis of cardiomyocytes.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "J Neurosci",
+       "pmid": "17428968",
+       "title": "Hypoxia suppresses glutamate transport in astrocytes.",
+       "type": [
+        "Comparative Study",
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "ACS Appl Mater Interfaces",
+       "pmid": "39657238",
+       "title": "Synergistic Therapy of Metastatic Breast Cancers by Biomimetic Chemotherapeutic Drug-Gene Nanoparticles.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Cancer Chemother Pharmacol",
+       "pmid": "15895231",
+       "title": "Augmenting tumor sensitivity to topotecan by transient hypoxia.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2005"
+      },
+      {
+       "journal": "Br J Cancer",
+       "pmid": "24853185",
+       "title": "Co-targeting the IGF system and HIF-1 inhibits migration and invasion by (triple-negative) breast cancer cells.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2014"
+      },
+      {
+       "journal": "PeerJ",
+       "pmid": "31592359",
+       "title": "HIF inhibitor topotecan has a neuroprotective effect in a murine retinal ischemia-reperfusion model.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Cancer Res",
+       "pmid": "15930297",
+       "title": "Topotecan blocks hypoxia-inducible factor-1alpha and vascular endothelial growth factor expression induced by insulin-like growth factor-I in neuroblastoma cells.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2005"
+      },
+      {
+       "journal": "Int J Radiat Oncol Biol Phys",
+       "pmid": "29485043",
+       "title": "Inhibitors of HIF-1\u03b1 and CXCR4 Mitigate the Development of Radiation Necrosis in Mouse Brain.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Cell Cycle",
+       "pmid": "14712084",
+       "title": "Targeting topoisomerase I to inhibit hypoxia inducible factor 1.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2004"
+      },
+      {
+       "journal": "Mol Cancer Res",
+       "pmid": "31088908",
+       "title": "HIF Inactivation of p53 in Ovarian Cancer Can Be Reversed by Topotecan, Restoring Cisplatin and Paclitaxel Sensitivity.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Biomed Pharmacother",
+       "pmid": "40174539",
+       "title": "Evaluation of hypoxia-inducible factor-1 and 2 alpha inhibitory compounds in the oral cavity and pharyngeal cancer.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Neurochem Int",
+       "pmid": "30872009",
+       "title": "Pharmacological HIF inhibition prevents retinal neovascularization with improved visual function in a murine oxygen-induced retinopathy model.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Front Oncol",
+       "pmid": "31799182",
+       "title": "Effects of Pazopanib Monotherapy vs. Pazopanib and Topotecan Combination on Anaplastic Thyroid Cancer Cells.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Mediators Inflamm",
+       "pmid": "26696754",
+       "title": "Interleukin-1\u03b2 Affects MDAMB231 Breast Cancer Cell Migration under Hypoxia: Role of HIF-1\u03b1 and NF\u03baB Transcription Factors.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "Cancer Res",
+       "pmid": "14983893",
+       "title": "Topoisomerase I-mediated inhibition of hypoxia-inducible factor 1: mechanism and therapeutic implications.",
+       "type": [
+        "Journal Article",
+        "Research Support, U.S. Gov't, P.H.S."
+       ],
+       "year": "2004"
+      },
+      {
+       "journal": "Bioorg Med Chem Lett",
+       "pmid": "23267767",
+       "title": "Development of hypoxia-inducible factor (HIF)-1\u03b1 inhibitors: effect of ortho-carborane substituents on HIF transcriptional activity under hypoxia.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2013"
+      },
+      {
+       "journal": "Blood",
+       "pmid": "16304044",
+       "title": "Hypoxic induction of an HIF-1alpha-dependent bFGF autocrine loop drives angiogenesis in human endothelial cells.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+       ],
+       "year": "2006"
+      },
+      {
+       "journal": "Mol Cancer Ther",
+       "pmid": "18645007",
+       "title": "Topotecan inhibits vascular endothelial growth factor production and angiogenic activity induced by hypoxia in human neuroblastoma by targeting hypoxia-inducible factor-1alpha and -2alpha.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2008"
+      },
+      {
+       "journal": "Expert Opin Ther Targets",
+       "pmid": "42099267",
+       "title": "Molecular understanding for therapeutic targeting of hypoxia in breast cancer.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Oncogene",
+       "pmid": "21765463",
+       "title": "Synergistic growth inhibition based on small-molecule p53 activation as treatment for intraocular melanoma.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2012"
+      }
+     ],
+     "n_hits": 25
+    }
+   },
+   "sarcoma_specific_trials": {},
+   "the_prior_that_matters": "\u26a0 ISOFORM. The approved agent in this class is HIF-2\u03b1-selective, and HIF-2\u03b1 is EPAS1. Whether EPAS1 moves in this data is a measured question and it is answered in `C3_C6_biological_confounds.candidates.hif_machinery` and in the per-gene rows \u2014 a class hook that ignores which isoform is elevated is not a hook.",
+   "why_a_hypoxia_reading_points_here": "HIF is the transcription factor the signature is a shadow of."
+  },
+  "hypoxia_activated_prodrug": {
+   "agents_queried": [
+    "evofosfamide",
+    "TH-302",
+    "tirapazamine",
+    "apaziquone",
+    "tarloxotinib",
+    "banoxantrone",
+    "AQ4N",
+    "CP-506",
+    "PR-104"
+   ],
+   "clinicaltrials": {
+    "AQ4N": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=AQ4N",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "CP-506": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=CP-506",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "PR-104": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=PR-104",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "TH-302": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=TH-302",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "apaziquone": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=apaziquone",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "banoxantrone": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=banoxantrone",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "evofosfamide": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=evofosfamide",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "tarloxotinib": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=tarloxotinib",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    },
+    "tirapazamine": {
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=tirapazamine",
+     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
+     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+    }
+   },
+   "pubmed": {
+    "AQ4N": {
+     "_query": "AQ4N[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=AQ4N%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Biomater Sci",
+       "pmid": "39431892",
+       "title": "AQ4N nanocomposites for hypoxia-associated tumor combination therapy.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Int J Nanomedicine",
+       "pmid": "38617794",
+       "title": "Folic Acid Functionalized AQ4N/Gd@PDA Nanoplatform with Real-Time Monitoring of Hypoxia Relief and Enhanced Synergistic Chemo/Photothermal Therapy in Glioma.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Br J Cancer",
+       "pmid": "11104551",
+       "title": "AQ4N: a new approach to hypoxia-activated cancer chemotherapy.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2000"
+      },
+      {
+       "journal": "Biomater Adv",
+       "pmid": "42314536",
+       "title": "Redox-programmed AQ4N-based nanoreactor for hypoxia amplified bio-reductive chemotherapy with chemo-dynamic and photodynamic modulation.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Cancer Res",
+       "pmid": "19176397",
+       "title": "The hypoxia-activated ProDrug AQ4N penetrates deeply in tumor tissues and complements the limited distribution of mitoxantrone.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2009"
+      },
+      {
+       "journal": "Front Oncol",
+       "pmid": "34395270",
+       "title": "Targeting Hypoxia: Hypoxia-Activated Prodrugs in Cancer Therapy.",
+       "type": [
+        "Systematic Review",
+        "Journal Article"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Anticancer Drug Des",
+       "pmid": "10834269",
+       "title": "Antitumour prodrug development using cytochrome P450 (CYP) mediated activation.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "1999"
+      },
+      {
+       "journal": "Adv Sci (Weinh)",
+       "pmid": "34994113",
+       "title": "Supramolecular Radiosensitizer Based on Hypoxia-Responsive Macrocycle.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Drug Metab Rev",
+       "pmid": "12214668",
+       "title": "Bioreductively activated antitumor N-oxides: the case of AQ4N, a unique approach to hypoxia-activated cancer chemotherapy.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2002"
+      },
+      {
+       "journal": "J Control Release",
+       "pmid": "40318808",
+       "title": "Hypoxia-responsive albumin nanoparticles co-delivering banoxantrone and STING agonist enhance immunotherapy of high-intensity focused ultrasound.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Small",
+       "pmid": "39568257",
+       "title": "Thienothiophene-Benzopyran Derivative and AQ4N-Assembled Liposomes for Near-Infrared II Fluorescence Imaging-Guided Phototherapy, Chemotherapy, and Immune Activation.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Clin Oncol (R Coll Radiol)",
+       "pmid": "17478086",
+       "title": "Chemical radiosensitizers for use in radiotherapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "Mol Cancer Ther",
+       "pmid": "19996276",
+       "title": "In vivo activation of the hypoxia-targeted cytotoxin AQ4N in human tumor xenografts.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2009"
+      },
+      {
+       "journal": "Cancer Chemother Pharmacol",
+       "pmid": "26811177",
+       "title": "Targeting the hypoxic fraction of tumours using hypoxia-activated prodrugs.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "17404106",
+       "title": "Selective tumor targeting by the hypoxia-activated prodrug AQ4N blocks tumor growth and metastasis in preclinical models of pancreatic cancer.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "Mol Cancer Ther",
+       "pmid": "19435866",
+       "title": "Effects of cytokine-induced macrophages on the response of tumor cells to banoxantrone (AQ4N).",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2009"
+      },
+      {
+       "journal": "Biomaterials",
+       "pmid": "33984636",
+       "title": "Biomimetic nanoreactor for targeted cancer starvation therapy and cascade amplificated chemotherapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Biomaterials",
+       "pmid": "36933458",
+       "title": "Acidity-responsive nanoplatforms aggravate tumor hypoxia via multiple pathways for amplified chemotherapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Br J Cancer",
+       "pmid": "7599069",
+       "title": "AQ4N: an alkylaminoanthraquinone N-oxide showing bioreductive potential and positive interaction with radiation in vivo.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "1995"
+      },
+      {
+       "journal": "Br J Cancer Suppl",
+       "pmid": "8763844",
+       "title": "Tertiary amine N-oxides as bioreductive drugs: DACA N-oxide, nitracrine N-oxide and AQ4N.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Research Support, U.S. Gov't, P.H.S."
+       ],
+       "year": "1996"
+      },
+      {
+       "journal": "Int J Nanomedicine",
+       "pmid": "34135582",
+       "title": "Erythrocyte-Camouflaged Mesoporous Titanium Dioxide Nanoplatform for an Ultrasound-Mediated Sequential Therapies of Breast Cancer.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Clin Oncol (R Coll Radiol)",
+       "pmid": "17482438",
+       "title": "Bioreductive drugs: from concept to clinic.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "18981010",
+       "title": "A phase 1 open-label, accelerated dose-escalation study of the hypoxia-activated prodrug AQ4N in patients with advanced malignancies.",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2008"
+      },
+      {
+       "journal": "Rapid Commun Mass Spectrom",
+       "pmid": "17340571",
+       "title": "Examination of the distribution of the bioreductive drug AQ4N and its active metabolite AQ4 in solid tumours by imaging matrix-assisted laser desorption/ionisation mass spectrometry.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "ACS Nano",
+       "pmid": "38949962",
+       "title": "Hypoxia-Specific Metal-Organic Frameworks Augment Cancer Immunotherapy of High-Intensity Focused Ultrasound.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2024"
+      }
+     ],
+     "n_hits": 25
+    },
+    "CP-506": {
+     "_query": "CP-506[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=CP-506%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Mol Cancer Ther",
+       "pmid": "34625504",
+       "title": "Selectively Targeting Tumor Hypoxia With the Hypoxia-Activated Prodrug CP-506.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Front Pharmacol",
+       "pmid": "35211015",
+       "title": "Tissue Pharmacokinetic Properties and Bystander Potential of Hypoxia-Activated Prodrug CP-506 by Agent-Based Modelling.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "ACS Med Chem Lett",
+       "pmid": "37974941",
+       "title": "Design and Biological Evaluation of Piperazine-Bearing Nitrobenzamide Hypoxia/GDEPT Prodrugs: The Discovery of CP-506.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Cells",
+       "pmid": "33923305",
+       "title": "Tumour Hypoxia-Mediated Immunosuppression: Mechanisms and Therapeutic Approaches to Improve Cancer Immunotherapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Radiother Oncol",
+       "pmid": "37315579",
+       "title": "Overcoming radioresistance with the hypoxia-activated prodrug CP-506: A pre-clinical study of local tumour control probability.",
+       "type": [
+        "Randomized Controlled Trial",
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Chem Res Toxicol",
+       "pmid": "35050609",
+       "title": "In Vivo Identification of Adducts from the New Hypoxia-Activated Prodrug CP-506 Using DNA Adductomics.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Mol Ther Oncol",
+       "pmid": "41859007",
+       "title": "Deficiencies in the Fanconi anemia or homologous recombination pathway enhance the antitumor effects of the hypoxia-activated prodrug CP-506.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "NPJ Precis Oncol",
+       "pmid": "41667716",
+       "title": "Predicting homologous recombination deficiency and treatment responses using a computed tomography-based foundation model: a preclinical study.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2026"
+      }
+     ],
+     "n_hits": 8
+    },
+    "PR-104": {
+     "_query": "PR-104[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=PR-104%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Front Oncol",
+       "pmid": "34395270",
+       "title": "Targeting Hypoxia: Hypoxia-Activated Prodrugs in Cancer Therapy.",
+       "type": [
+        "Systematic Review",
+        "Journal Article"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Cancer Chemother Pharmacol",
+       "pmid": "26811177",
+       "title": "Targeting the hypoxic fraction of tumours using hypoxia-activated prodrugs.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "Chin J Cancer",
+       "pmid": "23845143",
+       "title": "Bioreductive prodrugs as cancer therapeutics: targeting tumor hypoxia.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+       ],
+       "year": "2014"
+      },
+      {
+       "journal": "Clin Oncol (R Coll Radiol)",
+       "pmid": "17482438",
+       "title": "Bioreductive drugs: from concept to clinic.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "Front Oncol",
+       "pmid": "24409417",
+       "title": "Design of optimized hypoxia-activated prodrugs using pharmacokinetic/pharmacodynamic modeling.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2013"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "17606726",
+       "title": "Mechanism of action and preclinical antitumor activity of the novel hypoxia-activated DNA cross-linking agent PR-104.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "Cancer Biol Ther",
+       "pmid": "25869917",
+       "title": "Pre-clinical activity of PR-104 as monotherapy and in combination with sorafenib in hepatocellular carcinoma.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "PLoS One",
+       "pmid": "21853076",
+       "title": "Pronounced hypoxia in models of murine and human leukemia: high efficacy of hypoxia-activated prodrug PR-104.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2011"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "19920111",
+       "title": "Pharmacologically increased tumor hypoxia can be measured by 18F-Fluoroazomycin arabinoside positron emission tomography and enhances tumor response to hypoxic cytotoxin PR-104.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2009"
+      },
+      {
+       "journal": "Cancer Chemother Pharmacol",
+       "pmid": "20012293",
+       "title": "A phase I trial of PR-104, a nitrogen mustard prodrug activated by both hypoxia and aldo-keto reductase 1C3, in patients with solid tumors.",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Journal Article",
+        "Multicenter Study",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2010"
+      },
+      {
+       "journal": "Cancer Chemother Pharmacol",
+       "pmid": "21594722",
+       "title": "PR-104 plus sorafenib in patients with advanced hepatocellular carcinoma.",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Journal Article",
+        "Multicenter Study"
+       ],
+       "year": "2011"
+      },
+      {
+       "journal": "J Chromatogr B Analyt Technol Biomed Life Sci",
+       "pmid": "17644498",
+       "title": "Analysis of the hypoxia-activated dinitrobenzamide mustard phosphate pre-prodrug PR-104 and its alcohol metabolite PR-104A in plasma and tissues by liquid chromatography-mass spectrometry.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Validation Study"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "Front Pharmacol",
+       "pmid": "35211015",
+       "title": "Tissue Pharmacokinetic Properties and Bystander Potential of Hypoxia-Activated Prodrug CP-506 by Agent-Based Modelling.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Pediatr Blood Cancer",
+       "pmid": "21744473",
+       "title": "Initial testing of the hypoxia-activated prodrug PR-104 by the pediatric preclinical testing program.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2011"
+      },
+      {
+       "journal": "BMC Cancer",
+       "pmid": "23098625",
+       "title": "PR-104 a bioreductive pre-prodrug combined with gemcitabine or docetaxel in a phase Ib study of patients with advanced solid tumours.",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Journal Article",
+        "Multicenter Study",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2012"
+      },
+      {
+       "journal": "Front Oncol",
+       "pmid": "24109591",
+       "title": "The Role of Bystander Effects in the Antitumor Activity of the Hypoxia-Activated Prodrug PR-104.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2013"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "20858837",
+       "title": "Hypoxia in models of lung cancer: implications for targeted therapeutics.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2010"
+      },
+      {
+       "journal": "Biochem Pharmacol",
+       "pmid": "24632291",
+       "title": "The flavoprotein FOXRED2 reductively activates nitro-chloromethylbenzindolines and other hypoxia-targeting prodrugs.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2014"
+      },
+      {
+       "journal": "Mol Cancer Ther",
+       "pmid": "25193512",
+       "title": "Dual targeting of hypoxia and homologous recombination repair dysfunction in triple-negative breast cancer.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2014"
+      },
+      {
+       "journal": "Int J Radiat Oncol Biol Phys",
+       "pmid": "17869669",
+       "title": "Oxygen dependence and extravascular transport of hypoxia-activated prodrugs: comparison of the dinitrobenzamide mustard PR-104A and tirapazamine.",
+       "type": [
+        "Comparative Study",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "Theranostics",
+       "pmid": "32929365",
+       "title": "E. coli nitroreductase NfsA is a reporter gene for non-invasive PET imaging in cancer gene therapy applications.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2020"
+      },
+      {
+       "journal": "Cancer Res",
+       "pmid": "19366798",
+       "title": "DNA cross-links in human tumor cells exposed to the prodrug PR-104A: relationships to hypoxia, bioreductive metabolism, and cytotoxicity.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2009"
+      },
+      {
+       "journal": "Biochem Pharmacol",
+       "pmid": "29630868",
+       "title": "Drug-DNA adducts as biomarkers for metabolic activation of the nitro-aromatic nitrogen mustard prodrug PR-104A.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Biochem Pharmacol",
+       "pmid": "27453434",
+       "title": "Rational design of an AKR1C3-resistant analog of PR-104 for enzyme-prodrug therapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "Cancer Chemother Pharmacol",
+       "pmid": "20473609",
+       "title": "Reductive metabolism of the dinitrobenzamide mustard anticancer prodrug PR-104 in mice.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2011"
+      }
+     ],
+     "n_hits": 25
+    },
+    "TH-302": {
+     "_query": "TH-302[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=TH-302%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Nat Commun",
+       "pmid": "30655535",
+       "title": "ONECUT2 is a driver of neuroendocrine prostate cancer.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Int J Biol Sci",
+       "pmid": "38481819",
+       "title": "Hypoxia-activated selectivity-improved anti-PKM2 antibody combined with prodrug TH-302 for potentiated targeting therapy in hepatocellular carcinoma.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Front Pharmacol",
+       "pmid": "33953675",
+       "title": "The Hypoxia-Activated Prodrug TH-302: Exploiting Hypoxia in Cancer Therapy.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Front Oncol",
+       "pmid": "34395270",
+       "title": "Targeting Hypoxia: Hypoxia-Activated Prodrugs in Cancer Therapy.",
+       "type": [
+        "Systematic Review",
+        "Journal Article"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Br J Cancer",
+       "pmid": "26010414",
+       "title": "Hypoxia-activated chemotherapeutic TH-302 enhances the effects of VEGF-A inhibition and radiation on sarcomas.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "Clin Transl Oncol",
+       "pmid": "40515777",
+       "title": "TH-302 (evofosfamide) monotherapy exerts anticancer activity in Ewing's sarcoma cells under hypoxia.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Cancer Lett",
+       "pmid": "25444931",
+       "title": "Hypoxia-activated pro-drug TH-302 exhibits potent tumor suppressive activity and cooperates with chemotherapy against osteosarcoma.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "Mol Cancer Ther",
+       "pmid": "22147748",
+       "title": "Molecular and cellular pharmacology of the hypoxia-activated prodrug TH-302.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2012"
+      },
+      {
+       "journal": "Cancer Biol Ther",
+       "pmid": "26818215",
+       "title": "Comparison of hypoxia-activated prodrug evofosfamide (TH-302) and ifosfamide in preclinical non-small cell lung cancer models.",
+       "type": [
+        "Journal Article",
+        "Randomized Controlled Trial",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "J Oncol Pharm Pract",
+       "pmid": "24022407",
+       "title": "New and emerging therapies for advanced or metastatic soft tissue sarcoma.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2014"
+      },
+      {
+       "journal": "Cancer Commun (Lond)",
+       "pmid": "29764490",
+       "title": "Efficacy of the hypoxia-activated prodrug evofosfamide (TH-302) in nasopharyngeal carcinoma in vitro and in vivo.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Drug Deliv",
+       "pmid": "33096947",
+       "title": "Hypoxic targeting and activating TH-302 loaded transcatheter arterial embolization microsphere.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2020"
+      },
+      {
+       "journal": "J Surg Oncol",
+       "pmid": "25581912",
+       "title": "The indications and efficacy of conventional chemotherapy in primary and recurrent sarcoma.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "Cancer Chemother Pharmacol",
+       "pmid": "26811177",
+       "title": "Targeting the hypoxic fraction of tumours using hypoxia-activated prodrugs.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "Chin J Cancer",
+       "pmid": "23845143",
+       "title": "Bioreductive prodrugs as cancer therapeutics: targeting tumor hypoxia.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+       ],
+       "year": "2014"
+      },
+      {
+       "journal": "J Nanobiotechnology",
+       "pmid": "37993847",
+       "title": "TH-302-loaded nanodrug reshapes the hypoxic tumour microenvironment and enhances PD-1 blockade efficacy in gastric cancer.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Neurobiol Dis",
+       "pmid": "26094595",
+       "title": "Hypoxia in astrocytic tumors and implications for therapy.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "Oncology",
+       "pmid": "21625179",
+       "title": "A phase I study of the safety and pharmacokinetics of the hypoxia-activated prodrug TH-302 in combination with doxorubicin in patients with advanced soft tissue sarcoma.",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2011"
+      },
+      {
+       "journal": "Cancer Metab",
+       "pmid": "25635223",
+       "title": "Pyruvate sensitizes pancreatic tumors to hypoxia-activated prodrug TH-302.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "J Nanobiotechnology",
+       "pmid": "41398588",
+       "title": "Engineered macrophage membrane-mimicking nanodrugs activate cGAS/STING pathway to reverse tumor immune suppression after incomplete radiofrequency ablation.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Xenobiotica",
+       "pmid": "22004352",
+       "title": "Metabolism, pharmacokinetics and excretion of a novel hypoxia activated cytotoxic prodrug, TH-302, in rats.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2012"
+      },
+      {
+       "journal": "J Clin Oncol",
+       "pmid": "25185097",
+       "title": "Phase II study of the safety and antitumor activity of the hypoxia-activated prodrug TH-302 in combination with doxorubicin in patients with advanced soft tissue sarcoma.",
+       "type": [
+        "Clinical Trial, Phase II",
+        "Journal Article",
+        "Multicenter Study",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2014"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "25805800",
+       "title": "TH-302 in Combination with Radiotherapy Enhances the Therapeutic Outcome and Is Associated with Pretreatment [18F]HX4 Hypoxia PET Imaging.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "Cancer Biol Ther",
+       "pmid": "25679067",
+       "title": "Efficacy and safety of the hypoxia-activated prodrug TH-302 in combination with gemcitabine and nab-paclitaxel in human tumor xenograft models of pancreatic cancer.",
+       "type": [
+        "Clinical Trial",
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "BMC Cancer",
+       "pmid": "25994202",
+       "title": "Enhancement of hypoxia-activated prodrug TH-302 anti-tumor activity by Chk1 inhibition.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2015"
+      }
+     ],
+     "n_hits": 25
+    },
+    "apaziquone": {
+     "_query": "apaziquone[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=apaziquone%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Expert Opin Drug Metab Toxicol",
+       "pmid": "28637373",
+       "title": "Efficacy, pharmacokinetic and pharmacodynamic evaluation of apaziquone in the treatment of non-muscle invasive bladder cancer.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2017"
+      },
+      {
+       "journal": "Clin Oncol (R Coll Radiol)",
+       "pmid": "17482438",
+       "title": "Bioreductive drugs: from concept to clinic.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "Expert Opin Ther Targets",
+       "pmid": "42099267",
+       "title": "Molecular understanding for therapeutic targeting of hypoxia in breast cancer.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "J Pharm Bioallied Sci",
+       "pmid": "35399804",
+       "title": "Development of Hif1a Pharmacogenomic Mutation Models to Study Individual Variations in Drug Action for Tumor Hypoxia: An in Silico Approach.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2021"
+      }
+     ],
+     "n_hits": 4
+    },
+    "banoxantrone": {
+     "_query": "banoxantrone[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=banoxantrone%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "J Control Release",
+       "pmid": "40318808",
+       "title": "Hypoxia-responsive albumin nanoparticles co-delivering banoxantrone and STING agonist enhance immunotherapy of high-intensity focused ultrasound.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Cancer Res Commun",
+       "pmid": "39240065",
+       "title": "Combined Oxygen-Enhanced MRI and Perfusion Imaging Detect Hypoxia Modification from Banoxantrone and Atovaquone and Track Their Differential Mechanisms of Action.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Adv Sci (Weinh)",
+       "pmid": "34994113",
+       "title": "Supramolecular Radiosensitizer Based on Hypoxia-Responsive Macrocycle.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Biomater Sci",
+       "pmid": "39431892",
+       "title": "AQ4N nanocomposites for hypoxia-associated tumor combination therapy.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "J Cancer Res Clin Oncol",
+       "pmid": "36220941",
+       "title": "Combinatory anti-tumor activities of 1,4-bis[2-(dimethylamino)ethylamino]-5,8-dihydroxyanthracene-9,10-dione (AQ4) and temsirolimus against colorectal cancer cells.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Adv Mater",
+       "pmid": "40534277",
+       "title": "Biomimetic Engineering of Hybrid Radiosensitizers to Boost Radiotherapy against Cancer Metastasis.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Adv Healthc Mater",
+       "pmid": "36281898",
+       "title": "Banoxantrone Coordinated Metal-Organic Framework for Photoacoustic Imaging-Guided High Intensity Focused Ultrasound Therapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Clin Oncol (R Coll Radiol)",
+       "pmid": "17482438",
+       "title": "Bioreductive drugs: from concept to clinic.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "J Pharmacol Exp Ther",
+       "pmid": "23192656",
+       "title": "Impact of tumor blood flow modulation on tumor sensitivity to the bioreductive drug banoxantrone.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+       ],
+       "year": "2013"
+      },
+      {
+       "journal": "Acta Biomater",
+       "pmid": "35931281",
+       "title": "Genetically engineered bacteria-mediated multi-functional nanoparticles for synergistic tumor-targeting therapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Acta Pharm Sin B",
+       "pmid": "32963938",
+       "title": "Recent progress of hypoxia-modulated multifunctional nanomedicines to enhance photodynamic therapy: opportunities, challenges, and future development.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2020"
+      },
+      {
+       "journal": "J Nanobiotechnology",
+       "pmid": "36631855",
+       "title": "Photochemically-driven highly efficient intracellular delivery and light/hypoxia programmable triggered cancer photo-chemotherapy.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Cancer Lett",
+       "pmid": "38969157",
+       "title": "Aptamer functionalized hypoxia-potentiating agent and hypoxia-inducible factor inhibitor combined with hypoxia-activated prodrug for enhanced tumor therapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Acta Biomater",
+       "pmid": "35811069",
+       "title": "Programmable therapeutic nanoscale covalent organic framework for photodynamic therapy and hypoxia-activated cascade chemotherapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Mol Cancer Ther",
+       "pmid": "19435866",
+       "title": "Effects of cytokine-induced macrophages on the response of tumor cells to banoxantrone (AQ4N).",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2009"
+      },
+      {
+       "journal": "Biomaterials",
+       "pmid": "33984636",
+       "title": "Biomimetic nanoreactor for targeted cancer starvation therapy and cascade amplificated chemotherapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Nano Lett",
+       "pmid": "35532346",
+       "title": "Self-Assembly of Intelligent Nanoplatform for Endogenous H(2)S-Triggered Multimodal Cascade Therapy of Colon Cancer.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Oncol Rep",
+       "pmid": "26782976",
+       "title": "Radiation enhances the therapeutic effect of Banoxantrone in hypoxic tumour cells with elevated levels of nitric oxide synthase.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "Macromol Biosci",
+       "pmid": "34390189",
+       "title": "ROS-Responsive Selenium-Containing Carriers for Coencapsulation of Photosensitizer and Hypoxia-Activated Prodrug and Their Cellular Behaviors.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Biomaterials",
+       "pmid": "29438880",
+       "title": "Glucose & oxygen exhausting liposomes for combined cancer starvation and hypoxia-activated therapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Biomater Sci",
+       "pmid": "33881050",
+       "title": "Supramolecular nanomedicine derived from cucurbit[7]uril-conjugated nano-graphene oxide for multi-modality cancer therapy.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Biomater Sci",
+       "pmid": "30816393",
+       "title": "Ultralong circulating choline phosphate liposomal nanomedicines for cascaded chemo-radiotherapy.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Acta Biomater",
+       "pmid": "34265471",
+       "title": "Supramolecular micelles as multifunctional theranostic agents for synergistic photodynamic therapy and hypoxia-activated chemotherapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "J Nanobiotechnology",
+       "pmid": "41622222",
+       "title": "HIFU postoperative hypoxia-activated metal-organic frameworks modulate the tumor microenvironment to augment immunotherapy.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2026"
+      },
+      {
+       "journal": "Biomaterials",
+       "pmid": "34153782",
+       "title": "NIR-II reinforced intracellular cyclic reaction to enhance chemodynamic therapy with abundant H(2)O(2) supply.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2021"
+      }
+     ],
+     "n_hits": 25
+    },
+    "evofosfamide": {
+     "_query": "evofosfamide[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=evofosfamide%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Cancer Res Treat",
+       "pmid": "33091966",
+       "title": "Targeting Hypoxia Using Evofosfamide and Companion Hypoxia Imaging of FMISO-PET in Advanced Biliary Tract Cancer.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Cancer Commun (Lond)",
+       "pmid": "29764490",
+       "title": "Efficacy of the hypoxia-activated prodrug evofosfamide (TH-302) in nasopharyngeal carcinoma in vitro and in vivo.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Anticancer Drugs",
+       "pmid": "27232101",
+       "title": "Evofosfamide, a new horizon in the treatment of pancreatic cancer.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "Cancers (Basel)",
+       "pmid": "40563638",
+       "title": "Evofosfamide Enhances Sensitivity of Breast Cancer Cells to Apoptosis and Natural-Killer-Cell-Mediated Cytotoxicity Under Hypoxic Conditions.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Antioxid Redox Signal",
+       "pmid": "28741367",
+       "title": "Radiotherapy Synergizes with the Hypoxia-Activated Prodrug Evofosfamide: In Vitro and In Vivo Studies.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Cancer Biol Ther",
+       "pmid": "26818215",
+       "title": "Comparison of hypoxia-activated prodrug evofosfamide (TH-302) and ifosfamide in preclinical non-small cell lung cancer models.",
+       "type": [
+        "Journal Article",
+        "Randomized Controlled Trial",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "Clin Transl Oncol",
+       "pmid": "40515777",
+       "title": "TH-302 (evofosfamide) monotherapy exerts anticancer activity in Ewing's sarcoma cells under hypoxia.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Cells",
+       "pmid": "31337055",
+       "title": "Impact of Tumour Hypoxia on Evofosfamide Sensitivity in Head and Neck Squamous Cell Carcinoma Patient-Derived Xenograft Models.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Theranostics",
+       "pmid": "33859749",
+       "title": "Deep-learning and MR images to target hypoxic habitats with evofosfamide in preclinical models of sarcoma.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Transl Oncol",
+       "pmid": "28778024",
+       "title": "A Combination of Radiation and the Hypoxia-Activated Prodrug Evofosfamide (TH-302) is Efficacious against a Human Orthotopic Pancreatic Tumor Model.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2017"
+      },
+      {
+       "journal": "Oncotarget",
+       "pmid": "28423594",
+       "title": "The hypoxia-activated prodrug evofosfamide in combination with multiple regimens of radiotherapy.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2017"
+      },
+      {
+       "journal": "Am J Cancer Res",
+       "pmid": "26328245",
+       "title": "Combination treatment with hypoxia-activated prodrug evofosfamide (TH-302) and mTOR inhibitors results in enhanced antitumor efficacy in preclinical renal cell carcinoma models.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2015"
+      },
+      {
+       "journal": "JCI Insight",
+       "pmid": "30135316",
+       "title": "Evofosfamide for the treatment of human papillomavirus-negative head and neck squamous cell carcinoma.",
+       "type": [
+        "Clinical Trial, Phase II",
+        "Journal Article",
+        "Multicenter Study",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "30279233",
+       "title": "A Phase I/II Study of Evofosfamide, A Hypoxia-activated Prodrug with or without Bortezomib in Subjects with Relapsed/Refractory Multiple Myeloma.",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Clinical Trial, Phase II",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Antioxid Redox Signal",
+       "pmid": "37051681",
+       "title": "Evofosfamide and Gemcitabine Act Synergistically in Pancreatic Cancer Xenografts by Dual Action on Tumor Vasculature and Inhibition of Homologous Recombination DNA Repair.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Intramural"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "34615724",
+       "title": "(18)F-FMISO PET Imaging Identifies Hypoxia and Immunosuppressive Tumor Microenvironments and Guides Targeted Evofosfamide Therapy in Tumors Refractory to PD-1 and CTLA-4 Inhibition.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Front Oncol",
+       "pmid": "36226069",
+       "title": "Circulating metabolites associated with tumor hypoxia and early response to treatment in bevacizumab-refractory glioblastoma after combined bevacizumab and evofosfamide.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Cancer Med",
+       "pmid": "26749324",
+       "title": "Anticancer efficacy of the hypoxia-activated prodrug evofosfamide (TH-302) in osteolytic breast cancer murine models.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "EJNMMI Res",
+       "pmid": "29916085",
+       "title": "(18)F-fluoromisonidazole predicts evofosfamide uptake in pancreatic tumor model.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "J Natl Cancer Inst",
+       "pmid": "28922791",
+       "title": "Targeting Hypoxia to Improve Non-Small Cell Lung Cancer Outcome.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "27440271",
+       "title": "Preclinical Benefit of Hypoxia-Activated Intra-arterial Therapy with Evofosfamide in Liver Cancer.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2017"
+      },
+      {
+       "journal": "Math Biosci Eng",
+       "pmid": "38052529",
+       "title": "Predicting response to combination evofosfamide and immunotherapy under hypoxic conditions in murine models of colon cancer.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Am J Hematol",
+       "pmid": "27169385",
+       "title": "Phase I study of evofosfamide, an investigational hypoxia-activated prodrug, in patients with advanced leukemia.",
+       "type": [
+        "Clinical Trial, Phase I",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "Mol Pharmacol",
+       "pmid": "30979813",
+       "title": "Functional CRISPR and shRNA Screens Identify Involvement of Mitochondrial Electron Transport in the Activation of Evofosfamide.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2019"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "26719428",
+       "title": "Combined Antitumor Therapy with Metronomic Topotecan and Hypoxia-Activated Prodrug, Evofosfamide, in Neuroblastoma and Rhabdomyosarcoma Preclinical Models.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2016"
+      }
+     ],
+     "n_hits": 25
+    },
+    "tarloxotinib": {
+     "_query": "tarloxotinib[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=tarloxotinib%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "J Natl Cancer Inst",
+       "pmid": "28922791",
+       "title": "Targeting Hypoxia to Improve Non-Small Cell Lung Cancer Outcome.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2018"
+      },
+      {
+       "journal": "Invest New Drugs",
+       "pmid": "35435625",
+       "title": "A phase II study of tarloxotinib (a hypoxia activated prodrug of a pan-erb tyrosine kinase inhibitor) in patients with recurrent or metastatic squamous cell carcinoma of the head and neck or skin.",
+       "type": [
+        "Clinical Trial, Phase II",
+        "Journal Article",
+        "Multicenter Study",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Clin Cancer Res",
+       "pmid": "33355298",
+       "title": "Tarloxotinib Is a Hypoxia-Activated Pan-HER Kinase Inhibitor Active Against a Broad Range of HER-Family Oncogenes.",
+       "type": [
+        "Clinical Trial, Phase II",
+        "Journal Article",
+        "Multicenter Study",
+        "Research Support, N.I.H., Extramural"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Thorac Cancer",
+       "pmid": "33710795",
+       "title": "Activity of tarloxotinib-E in cells with EGFR exon-20 insertion mutations and mechanisms of acquired resistance.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Cells",
+       "pmid": "33923305",
+       "title": "Tumour Hypoxia-Mediated Immunosuppression: Mechanisms and Therapeutic Approaches to Improve Cancer Immunotherapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+       ],
+       "year": "2021"
+      }
+     ],
+     "n_hits": 5
+    },
+    "tirapazamine": {
+     "_query": "tirapazamine[Title/Abstract] AND (sarcoma[Title/Abstract] OR hypoxia[Title/Abstract])",
+     "_query_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=25&sort=relevance&term=tirapazamine%5BTitle/Abstract%5D%20AND%20%28sarcoma%5BTitle/Abstract%5D%20OR%20hypoxia%5BTitle/Abstract%5D%29",
+     "hits": [
+      {
+       "journal": "Acta Pharm Sin B",
+       "pmid": "33532180",
+       "title": "Recent advances in drug delivery systems for targeting cancer stem cells.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Biomolecules",
+       "pmid": "34827602",
+       "title": "Targeting Hypoxia: Revival of Old Remedies.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "Anticancer Agents Med Chem",
+       "pmid": "16842231",
+       "title": "Hypoxia: targeting the tumour.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2006"
+      },
+      {
+       "journal": "Front Oncol",
+       "pmid": "34395270",
+       "title": "Targeting Hypoxia: Hypoxia-Activated Prodrugs in Cancer Therapy.",
+       "type": [
+        "Systematic Review",
+        "Journal Article"
+       ],
+       "year": "2021"
+      },
+      {
+       "journal": "J Nanobiotechnology",
+       "pmid": "41250206",
+       "title": "AMFR-mediated ER-phagy regulation and therapeutic targeting in osteosarcoma: a multifunctional nanoplatform strategy.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "J Nanobiotechnology",
+       "pmid": "39267061",
+       "title": "Preparation and effects of functionalized liposomes targeting breast cancer tumors using chemotherapy, phototherapy, and immunotherapy.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Clin Oncol (R Coll Radiol)",
+       "pmid": "17478086",
+       "title": "Chemical radiosensitizers for use in radiotherapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+       ],
+       "year": "2007"
+      },
+      {
+       "journal": "Cancers (Basel)",
+       "pmid": "37345074",
+       "title": "Targeting Hypoxia-Inducible Factor-1\u03b1 for the Management of Hepatocellular Carcinoma.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2023"
+      },
+      {
+       "journal": "Semin Radiat Oncol",
+       "pmid": "20685578",
+       "title": "The tumor microenvironment in non-small-cell lung cancer.",
+       "type": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+       ],
+       "year": "2010"
+      },
+      {
+       "journal": "J Nanobiotechnology",
+       "pmid": "40707984",
+       "title": "Hypoxia-augmented chemotherapy potentiates imaging-guided combinatorial radionuclide-sonodynamic therapy for pancreatic cancer.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Cancer Biol Ther",
+       "pmid": "12496469",
+       "title": "Tumor microenvironment and the response to anticancer therapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, U.S. Gov't, P.H.S.",
+        "Review"
+       ],
+       "year": "2002"
+      },
+      {
+       "journal": "Adv Mater",
+       "pmid": "40662297",
+       "title": "A Gas Nanobomb to Promote Drug Penetration and Amplify TACE Therapy for Orthotopic Liver Tumor.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2025"
+      },
+      {
+       "journal": "Small",
+       "pmid": "38898764",
+       "title": "Ultrasmall Metal TPZ Complexes with Deep Tumor Penetration for Enhancing Radiofrequency Ablation Therapy and Inducing Antitumor Immune Responses.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2024"
+      },
+      {
+       "journal": "Biomaterials",
+       "pmid": "36075142",
+       "title": "Precise gliomas therapy: Hypoxia-activated prodrugs sensitized by nano-photosensitizers.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Cancer Chemother Pharmacol",
+       "pmid": "26811177",
+       "title": "Targeting the hypoxic fraction of tumours using hypoxia-activated prodrugs.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2016"
+      },
+      {
+       "journal": "Pharmaceutics",
+       "pmid": "35456681",
+       "title": "Improving Tirapazamine (TPZ) to Target and Eradicate Hypoxia Tumors by Gold Nanoparticle Carriers.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Head Neck",
+       "pmid": "15952198",
+       "title": "Hypoxia in head and neck cancer: how much, how important?",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+       ],
+       "year": "2005"
+      },
+      {
+       "journal": "Br J Cancer",
+       "pmid": "9647614",
+       "title": "Exploiting tumour hypoxia and overcoming mutant p53 with tirapazamine.",
+       "type": [
+        "Journal Article",
+        "Research Support, U.S. Gov't, P.H.S.",
+        "Review"
+       ],
+       "year": "1998"
+      },
+      {
+       "journal": "ACS Biomater Sci Eng",
+       "pmid": "35357802",
+       "title": "GSH-Responsive and Hypoxia-Activated Multifunctional Nanoparticles for Synergetically Enhanced Tumor Therapy.",
+       "type": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Int J Radiat Oncol Biol Phys",
+       "pmid": "16111569",
+       "title": "Anemia, tumor hypoxemia, and the cancer patient.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2005"
+      },
+      {
+       "journal": "J Clin Oncol",
+       "pmid": "16648512",
+       "title": "Prognostic significance of [18F]-misonidazole positron emission tomography-detected tumor hypoxia in patients with advanced head and neck cancer randomly assigned to chemoradiation with or without tir",
+       "type": [
+        "Clinical Trial, Phase II",
+        "Journal Article",
+        "Randomized Controlled Trial",
+        "Research Support, Non-U.S. Gov't"
+       ],
+       "year": "2006"
+      },
+      {
+       "journal": "Biomed Pharmacother",
+       "pmid": "35594702",
+       "title": "Tirapazamine-loaded CalliSpheres microspheres enhance synergy between tirapazamine and embolization against liver cancer in an animal model.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2022"
+      },
+      {
+       "journal": "Expert Opin Investig Drugs",
+       "pmid": "11093359",
+       "title": "Tirapazamine: a bioreductive anticancer drug that exploits tumour hypoxia.",
+       "type": [
+        "Journal Article",
+        "Review"
+       ],
+       "year": "2000"
+      },
+      {
+       "journal": "Ann Acad Med Singap",
+       "pmid": "8876907",
+       "title": "Hypoxic sensitizer and cytotoxin for head and neck cancer.",
+       "type": [
+        "Comparative Study",
+        "Journal Article",
+        "Review"
+       ],
+       "year": "1996"
+      },
+      {
+       "journal": "Biomater Sci",
+       "pmid": "37439102",
+       "title": "pH/GSH dual-responsive supramolecular nanomedicine for hypoxia-activated combination therapy.",
+       "type": [
+        "Journal Article"
+       ],
+       "year": "2023"
+      }
+     ],
+     "n_hits": 25
+    }
+   },
+   "sarcoma_specific_trials": {},
+   "the_prior_that_matters": "\u26a0 THE SARCOMA HISTORY IS THE FIRST THING A READER MUST SEE, not a footnote. Retrieve the soft-tissue-sarcoma trials of this class and report their outcome before any mechanism sentence.",
+   "why_a_hypoxia_reading_points_here": "a hypoxia-activated prodrug is reduced to its cytotoxic form only under low oxygen, so its entire rationale is the tissue state this reading is about."
+  }
+ },
+ "every_registered_EMC_trial": {
+  "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,Interventions&query.cond=extraskeletal%20myxoid%20chondrosarcoma",
+  "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,Interventions&query.cond=extraskeletal%20myxoid%20chondrosarcoma",
+  "_what_this_is_not": "a failed retrieval, NOT a finding that no EMC trial exists."
+ }
+}
