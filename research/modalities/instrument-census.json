@@ -1,0 +1,584 @@
+{
+  "_what": "Every instrument in the program with its known-answer test, its result and its scope, plus the requirement-by-instrument coverage matrix -- GENERATED from research/manuscripts/nr4a3-program-map.md sections 3.1 and 3.2, never transcribed.",
+  "_generated_by": "research/modalities/instrument_census.py",
+  "_source": "research/manuscripts/nr4a3-program-map.md (3.1 instrument table, 3.2 R x V coverage)",
+  "_rule": "The roadmap owns every grade and every verdict sentence; this artifact INDEXES them and restates none. `verdict_class` and `hole_class` are classifications of the roadmap's own state strings by literal marker, and `state_verbatim` / `hole_verbatim` carry the string each was read from so the classification can be checked against its input.",
+  "_not_a_grade": "Nothing here decides whether a result is good enough. An UNCLASSIFIED row is an unreadable state, not a passing one.",
+  "instruments": [
+    {
+      "id": "V1",
+      "instrument": "Structural selectivity descriptor (`selcal_interface_signature`)",
+      "known_answer_test": "recover the published SMARCA2 Gln1469↔VCB hydrogen bond, unaided, from two crystals",
+      "has_known_answer_test": true,
+      "result": "Gln98 Oε1→Arg12 Nη2 **2.88 Å** vs Leu1545",
+      "scope_limit": "*\"validates **one contact in one pair**. It does **not** validate E1 … and it makes **no NR4A3 prediction correct**\"* (`:2200–2203`)",
+      "state_verbatim": "✓ **PASSES, in scope**",
+      "verdict_class": "PASSES",
+      "serves": [
+        "R11"
+      ],
+      "serves_verbatim": "`R11`"
+    },
+    {
+      "id": "V2",
+      "instrument": "Ternary generator given both sites (assembly route)",
+      "known_answer_test": "rebuild 6HAX (in-set) and 9DTY (post-horizon)",
+      "has_known_answer_test": true,
+      "result": "DockQ 0.618 / **0.839**, iRMSD 0.67 Å",
+      "scope_limit": "6HAX is inside the model's 2023-10-14 horizon, so it is *\"**memorisation-permitting by construction** … **not** evidence of generalisation\"* (`:2140–2142`). 9DTY is **best of 16 seeds, median 0.442**, and **one arm** — the SMARCA4 arm was refused and **no SMARCA4 number exists** (`:2163–2165`)",
+      "state_verbatim": "✓ **PASSES, in scope** — ⛔ **never pointed at our system**",
+      "verdict_class": "PASSES",
+      "serves": [
+        "R9",
+        "R10"
+      ],
+      "serves_verbatim": "`R9` `R10`"
+    },
+    {
+      "id": "V3",
+      "instrument": "Ligand pose prediction (dock + MM-GBSA)",
+      "known_answer_test": "recover a known holo pose in a nuclear receptor from apo",
+      "has_known_answer_test": true,
+      "result": "**INCONCLUSIVE by its own pre-registered rule** — the C1 holo self-dock control failed through the pipeline's own box on **6 of 6 pairs across 3 receptors** (17.3–29.3 Å), so the primary arm measured the *site*, not the docking. With an fpocket-chosen box the same protocol reaches **3.04 Å, fnat 0.778, 7 of 9 native contacts** (`C14`: 3.04 Å is *partial* — past `recovered ≤ 2.0`, inside `partial ≤ 4.0`; `fnat 0.778` clears the 0.5 secondary)",
+      "scope_limit": "it cannot grade the docking: the protocol ceiling itself missed (`C1c_self_dock_holo_oracle_box` 2.849 Å against a 2.0 Å criterion — `C14`, and it misses by 0.849 Å). ⛔ **AND THE SITE HALF IS NOW MEASURED IN REGIME, AT n = 14 AND BY TWO INDEPENDENT ROUTES (2026-08-03):** over every gradeable apo/holo pair on the three proteins the pipeline actually transfers Pocket-5 onto, the **sequence** transfer put the crystallographic ligand inside its own box in **0**, the **Pocket-5 structure** transfer in **0**, and an fpocket-chosen box in **11**. Two independent site routes, both zero — so *\"the site selection missed\"* is no longer an n = 6 observation ([`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json)). ⚠ It is a **geometric site supplement**, emits no RMSD, and by its own rule **cannot change the pre-registered INCONCLUSIVE**",
+      "state_verbatim": "✓ complete — **verdict INCONCLUSIVE**, ⛔ and its site arm is now **0 of 14 by two routes**",
+      "verdict_class": "PARTIAL",
+      "serves": [
+        "R5",
+        "R8"
+      ],
+      "serves_verbatim": "`R5` `R8`"
+    },
+    {
+      "id": "V4",
+      "instrument": "**Selectivity free energy (ABFE)** — the *selectivity* known-answer test",
+      "known_answer_test": "CREBBP vs BRD4(1) / SGC-CBP30, ΔΔG ≈ 2.2 kcal/mol",
+      "has_known_answer_test": true,
+      "result": "**no result. Built and staged with no `result` key; never completed**",
+      "scope_limit": "it is a **binary** control: even a clean pass *\"would **not** discharge §4's paralogue/ternary statement\"* ([§what the SMARCA2/4 null BINDS](#what-this-binds-in-the-words-fixed-before-the-run))",
+      "state_verbatim": "○ **not started · 🔒 not authorized** — see [§6c](#6c--held--not-refuted-not-parked-waiting-on-a-decision)",
+      "verdict_class": "NOT_STARTED",
+      "serves": [
+        "R7"
+      ],
+      "serves_verbatim": "`R7`"
+    },
+    {
+      "id": "V5",
+      "instrument": "Alchemical ternary cooperativity (`valB_mini` ΔΔG_coop) — **validation requirement 1(C), \"Val C\"**",
+      "known_answer_test": "reproduce a known cooperativity, **+0.944** kcal/mol",
+      "has_known_answer_test": true,
+      "result": "**−0.599** — wrong sign in all 3 replicates, ~34× the statistical uncertainty",
+      "scope_limit": "⛔ nothing. [§Validation architecture](#validation-architecture-the-five-requirements) calls it *\"the highest-value dollar in the plan\"* and it **failed**; the closure triangle localises the miss to an **endpoint-state** error, so more sampling will NOT fix it",
+      "state_verbatim": "✓ complete — **FAILS, systematically**",
+      "verdict_class": "FAILS",
+      "serves": [
+        "R11",
+        "V5"
+      ],
+      "serves_verbatim": "`R11`  ⚠ **ADDED 2026-08-03 — the binary arm's pose failure is now measured on the CLOSURE TRIANGLE too, not only on the r0 and RUNG-2b cycles:** `task=triangle-converge` ($0) returns **10/12** and **8/12** binary replicas departing beyond 4.0 Å against **1/12** and **0/12** ternary, upholding the pre-registration and returning `BINARY_PATH_DEPENDENT`. This is an instrument fact about `V5`'s **binary environment**, and it does not touch the wrong-sign verdict above — see [§10 row 6](#101--open-rows-ordered-by-what-unblocks-the-most)."
+    },
+    {
+      "id": "V6",
+      "instrument": "Relative FEP (OpenFE, the congeneric lane) — **validation requirement 1(A), \"Val A\"**",
+      "known_answer_test": "TYK2 `ejm_31→ejm_42` benchmark ΔΔG **−0.24**",
+      "has_known_answer_test": true,
+      "result": "**+0.37**, abs err **0.61** — inside the ~1 kcal/mol band",
+      "scope_limit": "a **relative** result on a *different* quantity in **one** pocket. [§what the SMARCA2/4 null BINDS](#what-this-binds-in-the-words-fixed-before-the-run): *\"valA validates relative FEP **within one pocket**\"* — it is **not** a selectivity validation. ⛔ **AND ITS SCOPE IS THE `am1bcc` BINARY LANE ONLY** — see [§3.4](#34--four-instrument-facts-this-page-used-to-be-missing)",
+      "state_verbatim": "✓ **PASSES, within one pocket, one charge model**",
+      "verdict_class": "PASSES",
+      "serves": [
+        "R7"
+      ],
+      "serves_verbatim": "`R7`"
+    },
+    {
+      "id": "V7",
+      "instrument": "ABFE engine, **absolute**",
+      "known_answer_test": "T4-lysozyme L99A + benzene, experimental **−5.2** kcal/mol",
+      "has_known_answer_test": true,
+      "result": "**+1.90 ± 0.09** — *\"under-binding by ≈ +7.1 kcal/mol — a failed/strongly-biased absolute benchmark\"* (`:1287–1289`)",
+      "scope_limit": "⛔ the miss is **larger than the entire selectivity margin the engine is used to compute**, which is why every ABFE **absolute** in the paper is uninterpretable",
+      "state_verbatim": "✓ complete — **FAILS**",
+      "verdict_class": "FAILS",
+      "serves": [
+        "R7"
+      ],
+      "serves_verbatim": "`R7`"
+    },
+    {
+      "id": "V8",
+      "instrument": "ABFE engine, hydration",
+      "known_answer_test": "methane hydration free energy (FreeSolv), **+2.0**",
+      "has_known_answer_test": true,
+      "result": "**+1.60 ± 0.04**, *\"approximately reproduced\"* (`:2325–2327`)",
+      "scope_limit": "a solvation smoke test; says nothing about a protein site",
+      "state_verbatim": "✓ **PASSES, narrowly**",
+      "verdict_class": "PASSES",
+      "serves": [
+        "R7"
+      ],
+      "serves_verbatim": "`R7`"
+    },
+    {
+      "id": "V9",
+      "instrument": "λ-overlap diagnostic on the standing ABFE block",
+      "known_answer_test": "— (a self-check, not a known answer)",
+      "has_known_answer_test": false,
+      "result": "⛔ *\"**every leg** — the shared solvent leg and all three complex legs — has at least one soft-core-tail window pair below 0.03\"* (`:1299–1302`)",
+      "scope_limit": "holds the **whole ABFE block provisional**, including the paralogue result in [§5 row R7](#5--where-each-requirement-stands)",
+      "state_verbatim": "✓ measured — **defect open**, repair 🔒 held **and** ⏸ as framed",
+      "verdict_class": "DEFECT_OPEN",
+      "serves": [
+        "R7"
+      ],
+      "serves_verbatim": "`R7`"
+    },
+    {
+      "id": "V10",
+      "instrument": "Interface-mutation physics (pmx/GROMACS)",
+      "known_answer_test": "barnase–barstar Y29A vs published ΔΔG",
+      "has_known_answer_test": true,
+      "result": "+4.42 ± 1.08 vs +3.4",
+      "scope_limit": "⛔ *\"**No benchmark yet probes the regime this cross-check would occupy** — resolving ~1 kcal/mol between two closely related receptor states — so the engine is validated for seeing a large effect and for not inventing one where none exists, but **not demonstrated to resolve a small paralogue-scale difference**\"* (`:2409–2412`). ⚠ **It also owes a WEDGE-SIZED benchmark**, and Open decision 10 rules it **not an independent second causal line**. ⛔ **AND ITS SMARCA2/4 APPLICATION IS NOW CLOSED ON EVIDENCE, NOT ON BUDGET** — see the row note below",
+      "state_verbatim": "✓ **PASSES, but not in the regime that matters** · ⛔ its SMARCA2/4 application is **refused by its own $0 precheck**",
+      "verdict_class": "PASSES",
+      "serves": [
+        "R7"
+      ],
+      "serves_verbatim": "`R7`"
+    },
+    {
+      "id": "V11",
+      "instrument": "Interface-stability endpoint (E1)",
+      "known_answer_test": "**two** attempts: NR-V04 retrospective, SMARCA2/4 sensitivity control",
+      "has_known_answer_test": true,
+      "result": "*p* = 0.393 (DISCORDANT) · *p* = 0.747 (NULL, adequately powered)",
+      "scope_limit": "⏸ parked — **no pass** ([§6b](#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen)). ⛔ **`V5`'s wrong sign is NOT a third E1 failure** — different instrument",
+      "state_verbatim": "⏸ parked",
+      "verdict_class": "PARKED",
+      "serves": [
+        "R11"
+      ],
+      "serves_verbatim": "`R11`"
+    },
+    {
+      "id": "V12",
+      "instrument": "Sequence-only co-folding (Boltz-2 ternary)",
+      "known_answer_test": "reproduce 9DTY/9DTX from sequence + ligand",
+      "has_known_answer_test": true,
+      "result": "DockQ 0.023–0.046 ≈ true structure moved 32 Å",
+      "scope_limit": "⏸ parked — **FAILS** ([§6b](#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen))",
+      "state_verbatim": "⏸ parked",
+      "verdict_class": "PARKED",
+      "serves": [
+        "R10"
+      ],
+      "serves_verbatim": "`R10`"
+    },
+    {
+      "id": "V13",
+      "instrument": "Cryptic-opening free-energy profile (metadynamics F(Rg); Gates 1 / 3A / 3B)",
+      "known_answer_test": "Gate 1: a genuine **two-state** cryptic opening",
+      "has_known_answer_test": true,
+      "result": "⛔ **FAILED as registered** — F(Rg) is monotonic, *\"a single resolved minimum and a rising wall, with no separate opened minimum\"*; recorded as *\"**failed, and reformulated**, not a 'weak pass'\"* (`:387–394`, `:2549`)",
+      "scope_limit": "⚠ a failed **mechanism** test is not evidence of absence — the cavity survives as basin-internal breathing. ⛔ Reading Gate 3B off a **single** profile is ✕ dead: three seeds do not reconstruct a common F(Rg)",
+      "state_verbatim": "✓ ran — **Gate 1 failed as registered · Gate 3A supported · Gate 3B unresolved**",
+      "verdict_class": "FAILS",
+      "serves": [
+        "R1",
+        "R2"
+      ],
+      "serves_verbatim": "`R1` `R2`"
+    },
+    {
+      "id": "V14",
+      "instrument": "BioEmu unbiased ensemble cross-check (§2.1)",
+      "known_answer_test": "— (no in-repo known-answer test)",
+      "has_known_answer_test": false,
+      "result": "**12.5 %** druggable (`C1` D\\*=0.53 · `C2` `C3` `C4` `C5`)",
+      "scope_limit": "⚠ **an instrument with no known-answer test of its own on this system.** It is an *orthogonal* axis for `R1`, independent of the metadynamics Gate 1 and Gate 3B are argued over — which is its whole value, and also its limit",
+      "state_verbatim": "✓ ran — **untested as an instrument**",
+      "verdict_class": "NO_KNOWN_ANSWER",
+      "serves": [
+        "R1"
+      ],
+      "serves_verbatim": "`R1`"
+    },
+    {
+      "id": "V15",
+      "instrument": "PocketMiner + four permutation nulls (§2.2)",
+      "known_answer_test": "the nulls are the control",
+      "has_known_answer_test": false,
+      "result": "p = 0.009 / 0.0001 / 0.036 / **0.74** / 0.014",
+      "scope_limit": "⚠ **one of the five nulls does not support it.** The only independent-method support for the cryptic site is therefore mixed, and this page previously showed it as a clean ✓",
+      "state_verbatim": "✓ ran — **mixed**",
+      "verdict_class": "PARTIAL",
+      "serves": [
+        "R1"
+      ],
+      "serves_verbatim": "`R1`"
+    },
+    {
+      "id": "V16",
+      "instrument": "The causal matched-pair test `S` (RUNG 5a-KS, ligand-side double difference, §2.10e)",
+      "known_answer_test": "⛔ **none — it has no known-answer calibrator**",
+      "has_known_answer_test": false,
+      "result": "**S = −0.1297 ± 0.3264 kcal/mol** — its **preregistered null**, registered in advance as the LIKELY outcome and explicitly **not** a stop. It is a **BOUND**: the design could only have resolved *\"a wedge contribution of roughly \\|S\\| ≳ 0.65 kcal/mol (2σ)\"*",
+      "scope_limit": "⛔ **`S` may be read as a bound and may NOT be reported as calibrated** (Open decision 13). `S` is non-covalent and therefore **structurally incapable** of testing the categorical mechanism; `S ≈ 0` means the *marginal* wedge is absent, and STOP applies only if the categorical axis has ALSO failed",
+      "state_verbatim": "✓ complete — **preregistered null, uncalibrated**",
+      "verdict_class": "COMPLETE_UNCALIBRATED",
+      "serves": [
+        "R11"
+      ],
+      "serves_verbatim": "`R11`"
+    },
+    {
+      "id": "V17",
+      "instrument": "The exposure criterion `EXPOSED_RSA = 0.25` (`C7`, ⛔ **KNOWN-DEFECTIVE** — [§3b.2](#3b2--contested-and-known-defective--the-four-that-are-not-merely-frozen))",
+      "known_answer_test": "NR4A1 **Cys551** — the one NR4A-family covalent site with literature support",
+      "has_known_answer_test": true,
+      "result": "⛔ **FAILS its own positive control** — RSA **0.165** on the state-matched opened model; **0 of 25** frames in the metadynamics ensemble, median **0.064**",
+      "scope_limit": "⛔ **anything adjudicated by this cutoff inherits a demonstrated false negative.** What survives is a threshold-free **rank**: C551 is 3/18 across the family on every accessibility observable, behind NR4A3's C397 and C420. ★ **And the SCREEN this criterion sits inside now has a CROSS-SYSTEM BACKGROUND (2026-08-03)** — unrelated close human paralogue pairs pushed through the identical pipeline — so a 0 from it can be read against a **measured** rate instead of an unmeasured one: [`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json). ⛔ **With the caveat that must travel with it, in [§3.4 fact 4](#34--four-instrument-facts-this-page-used-to-be-missing): the NR4A3 arm of that background does not contain C397**, so no percentile may be quoted for the program's headline residue *from that run*. ⭑ **A SECOND, independently pre-registered scope (`C24`) does contain it** — [`categorical-decoy-null-lbd.json`](../modalities/categorical-decoy-null-lbd.json), **NOT DISTINGUISHED** for C397 — cysteine-level n_graded=25, frac_exactly_zero=0.56, C397 percentile(s)=[0.56, 0.56]",
+      "state_verbatim": "✓ measured — **FAILS its positive control; rank-only** — ⭑ but the screen around it is now **calibrated**",
+      "verdict_class": "FAILS",
+      "serves": [
+        "R8",
+        "R15"
+      ],
+      "serves_verbatim": "`R8` `R15`"
+    },
+    {
+      "id": "V18",
+      "instrument": "The transfer-zone lysine-identity term (b)",
+      "known_answer_test": "⛔ **none exists**",
+      "has_known_answer_test": false,
+      "result": "set membership, not energy: *unique-only* > *unique + conserved* > *conserved-only*",
+      "scope_limit": "bound by two 2026-07-25 measurements: the ubiquitin-transfer distance is **17.1 Å** (the repo's assumed 10 Å was ~7 Å too strict) and **a composed CRL RING carries ~30–50 Å of positional uncertainty**, so ⛔ **no degradation-geometry claim may rest on a RING or E2 that was COMPOSED rather than observed**",
+      "state_verbatim": "○ screen available — **no known-answer test**",
+      "verdict_class": "NO_KNOWN_ANSWER",
+      "serves": [
+        "R12"
+      ],
+      "serves_verbatim": "`R12`"
+    },
+    {
+      "id": "V19",
+      "instrument": "The generation-matched null (winner's-curse / generative confound)",
+      "known_answer_test": "the scrambled-objective arm",
+      "has_known_answer_test": true,
+      "result": "**PARTIAL** — 0 manufactured survivors of 191 against the real campaign's 1 of 191. ⚠ that does **not** exclude the confound: rule-of-three bounds the manufactured rate at ≤0.0157, **3×** the real campaign's own 0.0052, Fisher **p = 0.5**",
+      "scope_limit": "⛔ **the arm that addresses the GENERATIVE step — a fresh generation into a paralogue pocket — is UNRUN**",
+      "state_verbatim": "✓ one arm ran — **the decisive arm is ○**",
+      "verdict_class": "PARTIAL",
+      "serves": [
+        "R7",
+        "R15"
+      ],
+      "serves_verbatim": "`R7` `R15`"
+    },
+    {
+      "id": "V21",
+      "instrument": "**The anti-target docking panel** (`antitarget_dock` — 10 receptors, smina, 24 Å box, exhaustiveness 8) — ⭑ **NEW ROW 2026-08-03: this instrument has been quoted for months and had no row here, because nothing had ever tested it**",
+      "known_answer_test": "each target's **own cognate crystallographic ligand** re-docked through the identical protocol, against the pre-existing 2.0 Å recovery criterion (`C14` — read from `apo_pose_recovery`, not chosen here)",
+      "has_known_answer_test": true,
+      "result": "⛔ **FAILS — 7 of 10 pass; CYP3A4, PXR and PPARG miss**, and MR/NR3C2 was added in the same run and passes. `panel_readable: false`",
+      "scope_limit": "⛔ **nothing from this panel may be read while it fails, and that reaches PRINT**: all four SI §S1 clauses are *maximum* or *every-survivor* statements over the whole panel, so one unreadable receptor changes all four, and the artifact grades each `readable: false`. ⛔ A failing target **may not be dropped**, its box may not be re-centred and no band may be lowered. ⛔ **Second, independent block:** the NR4A3 ΔG column those margins subtract is **not committed anywhere in this repo**",
+      "state_verbatim": "✓ ran — **FAILS its own known-answer test**",
+      "verdict_class": "FAILS",
+      "serves": [
+        "R14",
+        "R7"
+      ],
+      "serves_verbatim": "`R14` (and the scope bound it places on `R7`)"
+    },
+    {
+      "id": "V20",
+      "instrument": "Single-snapshot MM-GBSA `margin > 0` as a selectivity verdict",
+      "known_answer_test": "38 unrelated marketed drugs through the identical funnel",
+      "has_known_answer_test": true,
+      "result": "✕ **REFUTED** — 22 of 38 (58 %) score a positive margin, above the de-novo set's own 2 of 11",
+      "scope_limit": "⛔ nothing. A signal smaller than its own noise is not recoverable by any downstream method — [§6a](#6a--dead--conclusively-unworkable-never-retry)",
+      "state_verbatim": "✕ **dead**",
+      "verdict_class": "REFUTED",
+      "serves": [
+        "R7"
+      ],
+      "serves_verbatim": "(was `R7`)"
+    },
+    {
+      "id": "V22",
+      "instrument": "**The scoring-independent second pose method** (`pose_second_method` — rDock `rbcavity`+`rbdock`, stock three-stage protocol) — ⭑ **NEW ROW 2026-08-03: `V3` had no independent comparator at all, which is why its INCONCLUSIVE could not be attributed**",
+      "known_answer_test": "⛔ **none of its own on this system** — it is run BESIDE `V3` on the same six receptors and on `V3`'s own known-answer panel, at the same boxes and graded by the same `score_pose`, so the comparison IS the test",
+      "has_known_answer_test": false,
+      "result": "**0 of 6** system(s) inside `C14`'s **RECOVERED** band (≤ 2.00 Å), 1 **PARTIAL**, 5 **NOT RECOVERED**; median inter-method RMSD **6.696 Å** at a median centroid separation of only **2.071 Å**",
+      "scope_limit": "⚠ **agreement would not have meant correctness and disagreement does not mean either method is wrong.** ⛔ It shares `C14`/`C15` with `V3` BY DESIGN (the yardstick, not the instrument) and `C5` in its site-matched arm; the arm that shares no site configuration is `receptor_wide_own_cavity`. It is a docking search like `V3`, so a shared receptor-conformer error survives both",
+      "state_verbatim": "✓ **ran 2026-08-03 — the two methods DISAGREE**",
+      "verdict_class": "PARTIAL",
+      "serves": [
+        "R5"
+      ],
+      "serves_verbatim": "`R5`"
+    }
+  ],
+  "coverage": [
+    {
+      "requirement": "R1",
+      "requirement_verbatim": "`R1` pocket exists (`C1` `C2` `C3` `C4` `C5`)",
+      "instruments": [
+        "V13",
+        "V14",
+        "V15"
+      ],
+      "best_available_status": "✓ ran, mixed; one gate failed as registered",
+      "hole_verbatim": "no — but no instrument is *validated on this system*",
+      "hole_class": "NO"
+    },
+    {
+      "requirement": "R2",
+      "requirement_verbatim": "`R2` accessibility",
+      "instruments": [
+        "V13"
+      ],
+      "best_available_status": "⛔ the only demonstrated reading is ✕ dead",
+      "hole_verbatim": "**effectively yes**",
+      "hole_class": "EFFECTIVELY_HOLE"
+    },
+    {
+      "requirement": "R3",
+      "requirement_verbatim": "`R3` submission gate (`C1` `C2` `C3` `C4` `C5` `C6`)",
+      "instruments": [],
+      "best_available_status": "—",
+      "hole_verbatim": "⛔ **HOLE**",
+      "hole_class": "HOLE"
+    },
+    {
+      "requirement": "R4",
+      "requirement_verbatim": "`R4` binds at all",
+      "instruments": [],
+      "best_available_status": "—",
+      "hole_verbatim": "⛔ **HOLE — needs a bench**",
+      "hole_class": "HOLE"
+    },
+    {
+      "requirement": "R5",
+      "requirement_verbatim": "`R5` pose (`C14` `C15`)",
+      "instruments": [
+        "V3",
+        "V22"
+      ],
+      "best_available_status": "INCONCLUSIVE — ⛔ and its site arm is now **0 of 14 in regime, by two independent transfer routes**, while the pose itself is **not singular** across 6 same-method poses",
+      "hole_verbatim": "**no usable answer, and it got worse on 2026-08-03** ⭑ **AND IT NOW HAS A SECOND INSTRUMENT, WHICH IS WHAT MAKES THE READING ATTRIBUTABLE:** `V22` (rDock) disagrees with `V3` on 6 of 6 systems at median **6.696 Å**, and disagrees in ORIENTATION rather than in location. ⛔ Two disjoint scoring functions failing to converge on the same receptors says the non-convergence is the SYSTEM's, not one function's — it does not say either pose is wrong, and it does not fill this cell.",
+      "hole_class": "NO_USABLE_ANSWER"
+    },
+    {
+      "requirement": "R6",
+      "requirement_verbatim": "`R6` ΔG_open",
+      "instruments": [],
+      "best_available_status": "—",
+      "hole_verbatim": "⛔ **HOLE**",
+      "hole_class": "HOLE"
+    },
+    {
+      "requirement": "R7",
+      "requirement_verbatim": "`R7` binder selectivity",
+      "instruments": [
+        "V4",
+        "V6",
+        "V7",
+        "V8",
+        "V9",
+        "V10"
+      ],
+      "best_available_status": "`V4` has **no result**; `V7` FAILS; `V9` defect open",
+      "hole_verbatim": "no instrument, but **the one that matters is unrun**",
+      "hole_class": "NO"
+    },
+    {
+      "requirement": "R8",
+      "requirement_verbatim": "`R8` linker reach (`C7` `C8` `C9` `C10` `C11` `C12` `C13` `C16`)",
+      "instruments": [
+        "V17"
+      ],
+      "best_available_status": "`V17` fails its own positive control",
+      "hole_verbatim": "rank-only, and conditional on `R5` — ⭑ **but the screen now has a measured cross-system background at the 12-atom gate**, reach-only AND exposure-filtered ([`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json)); ⛔ `C16`'s NR4A3 arm does **not** contain C397, and the second scope `C24` does — [`categorical-decoy-null-lbd.json`](../modalities/categorical-decoy-null-lbd.json), **NOT DISTINGUISHED** for C397 — cysteine-level n_graded=25, frac_exactly_zero=0.56, C397 percentile(s)=[0.56, 0.56]",
+      "hole_class": "RANK_ONLY_CONDITIONAL"
+    },
+    {
+      "requirement": "R9",
+      "requirement_verbatim": "`R9` our ternary assembled",
+      "instruments": [
+        "V2"
+      ],
+      "best_available_status": "✓ validated — **never pointed at our system**",
+      "hole_verbatim": "**no usable answer**",
+      "hole_class": "NO_USABLE_ANSWER"
+    },
+    {
+      "requirement": "R10",
+      "requirement_verbatim": "`R10` ternary forms",
+      "instruments": [
+        "V2",
+        "V12"
+      ],
+      "best_available_status": "`V12` ⏸ FAILS",
+      "hole_verbatim": "**no usable answer**",
+      "hole_class": "NO_USABLE_ANSWER"
+    },
+    {
+      "requirement": "R11",
+      "requirement_verbatim": "`R11` ternary adds selectivity",
+      "instruments": [
+        "V1",
+        "V5",
+        "V11",
+        "V16"
+      ],
+      "best_available_status": "`V1` passes in scope; `V5` FAILS; `V11` no pass; `V16` uncalibrated",
+      "hole_verbatim": "**no usable answer**",
+      "hole_class": "NO_USABLE_ANSWER"
+    },
+    {
+      "requirement": "R12",
+      "requirement_verbatim": "`R12` degradation compatible",
+      "instruments": [
+        "V18"
+      ],
+      "best_available_status": "no known-answer test exists",
+      "hole_verbatim": "**untested instrument**",
+      "hole_class": "UNTESTED_INSTRUMENT"
+    },
+    {
+      "requirement": "R13",
+      "requirement_verbatim": "`R13` real biological object",
+      "instruments": [],
+      "best_available_status": "—",
+      "hole_verbatim": "⛔ **HOLE — with a rung and a price as of 2026-08-03** ([rung `S`](#rung-s--the-two-scope-rungs-r13-r14-claim-ceiling-conditions-deliberately-off-the-cum-chain))",
+      "hole_class": "HOLE"
+    },
+    {
+      "requirement": "R14",
+      "requirement_verbatim": "`R14` scope bound (AR/MR) (`C14` `C19`)",
+      "instruments": [
+        "V21"
+      ],
+      "best_available_status": "⛔ **`panel_readable: false`** — 7 of 10 receptors recover their cognate ligand, 3 do not",
+      "hole_verbatim": "⛔ **NO LONGER A HOLE — it is a FAILING INSTRUMENT, which is a different and worse thing.** A hole means nothing has been built; this means the thing that was built cannot be read, and four SI §S1 clauses already rest on it. ⚠ *Superseded, retained: \"~8/9 built — the parts exist and were never assembled … **HOLE**\".*",
+      "hole_class": "NO_LONGER_A_HOLE_FAILING_INSTRUMENT"
+    },
+    {
+      "requirement": "R15",
+      "requirement_verbatim": "`R15` constructibility",
+      "instruments": [
+        "V17",
+        "V19"
+      ],
+      "best_available_status": "✓ for one mechanism per molecule",
+      "hole_verbatim": "design decision outstanding",
+      "hole_class": "OPEN_DECISION"
+    },
+    {
+      "requirement": "R16",
+      "requirement_verbatim": "`R16` target is a driver",
+      "instruments": [],
+      "best_available_status": "—",
+      "hole_verbatim": "not this paper's blocker",
+      "hole_class": "NOT_A_BLOCKER"
+    }
+  ],
+  "_derived": {
+    "n_instruments": 22,
+    "n_with_a_known_answer_test": 16,
+    "n_without_a_known_answer_test": 6,
+    "instruments_without_a_known_answer_test": [
+      "V9",
+      "V14",
+      "V15",
+      "V16",
+      "V18",
+      "V22"
+    ],
+    "by_verdict_class": {
+      "COMPLETE_UNCALIBRATED": [
+        "V16"
+      ],
+      "DEFECT_OPEN": [
+        "V9"
+      ],
+      "FAILS": [
+        "V5",
+        "V7",
+        "V13",
+        "V17",
+        "V21"
+      ],
+      "NOT_STARTED": [
+        "V4"
+      ],
+      "NO_KNOWN_ANSWER": [
+        "V14",
+        "V18"
+      ],
+      "PARKED": [
+        "V11",
+        "V12"
+      ],
+      "PARTIAL": [
+        "V3",
+        "V15",
+        "V19",
+        "V22"
+      ],
+      "PASSES": [
+        "V1",
+        "V2",
+        "V6",
+        "V8",
+        "V10"
+      ],
+      "REFUTED": [
+        "V20"
+      ]
+    },
+    "n_requirements": 16,
+    "requirements_by_hole_class": {
+      "EFFECTIVELY_HOLE": [
+        "R2"
+      ],
+      "HOLE": [
+        "R3",
+        "R4",
+        "R6",
+        "R13"
+      ],
+      "NO": [
+        "R1",
+        "R7"
+      ],
+      "NOT_A_BLOCKER": [
+        "R16"
+      ],
+      "NO_LONGER_A_HOLE_FAILING_INSTRUMENT": [
+        "R14"
+      ],
+      "NO_USABLE_ANSWER": [
+        "R5",
+        "R9",
+        "R10",
+        "R11"
+      ],
+      "OPEN_DECISION": [
+        "R15"
+      ],
+      "RANK_ONLY_CONDITIONAL": [
+        "R8"
+      ],
+      "UNTESTED_INSTRUMENT": [
+        "R12"
+      ]
+    },
+    "instruments_serving_no_requirement": [],
+    "unclassified_instrument_states": [],
+    "unclassified_hole_cells": []
+  }
+}

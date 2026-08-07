@@ -95,7 +95,7 @@ a queue that buried them under mechanisms would be reporting the wrong thing.
 | # | path | gate, as of today |
 |---|---|---|
 | 7 | **Ternary rung `5b-T`** (`V2`→`V1`, each having recovered a known answer in scope) | **One of its two stated blockers is cleared and two new ones replaced it, so it did NOT get simpler.** ✅ **Cleared (L8):** the library ruling settles which enumeration is canonical and the rung is invariant to it. ⛔ **Standing:** the corridor conflict — its E3 is CRBN, and the committed library's shortest backbone is **14**, not the 12 the categorical gate is stated at. ⛔ **New, both found this pass:** its site 1 *is* the docked pose row 2 is about (↯), and its own assembled-inputs artifact [`nr4a3-5bt-frame.json`](../modalities/nr4a3-5bt-frame.json) **does not parse** — see [§8 C2](#8--cross-checks-taken-while-writing-all-0) for the root cause |
-| 8 | **Ligand-side ΔΔΔG as a named instrument** (`C01`) | unchanged: needs a paralogue-scale known-answer benchmark; two $0 searches decide whether one is buildable. It inherits **no** validation from `V6` — the [double-difference analysis](../modalities/instrument-options.md#2--the-double-difference-analysis) is the one home of why |
+| 8 | **Ligand-side ΔΔΔG as a named instrument** (`IC-1`) | unchanged: needs a paralogue-scale known-answer benchmark; two $0 searches decide whether one is buildable. It inherits **no** validation from `V6` — the [double-difference analysis](../modalities/instrument-options.md#2--the-double-difference-analysis) is the one home of why |
 | 9 | **`barnase_barstar_W35F`** — the only probe of the ~1 kcal/mol regime | priced and staged. ⛔ **Its authorization is moot**: the $0 precheck **refused it on evidence** (`STOP_NO_REFERENCE`) for the application it was authorized for. What survives is the *engine* question, and it licenses nothing about paralogues directly |
 | 10 | **Covalent inhibitor rather than degrader** at C397 | ⭑ unchanged and still under-run: the 30-of-30 counter-result was computed for a molecule that must **also** present an E3 arm, and **an inhibitor has none**. The enumeration has never been run in that configuration; it is free CPU and one fewer terminus to satisfy. Retires the ternary/ubiquitin stack; loses the degradation mechanism |
 
@@ -190,11 +190,11 @@ that changes loudly (rule 1.2).
 
 | was | path | now | why it moved |
 |---|---|---|---|
-| **1** | Categorical covalent at C397, ≤12 atoms — *"⏳ falsifier `C02`, running"* | **4** | `C02` **landed and did not falsify it** — but it also showed the NR4A3 arm through the identical harness never scores C397, so the calibration the row was waiting for arrived aimed slightly off-target (L3) |
+| **1** | Categorical covalent at C397, ≤12 atoms — *"⏳ falsifier `IC-2`, running"* | **4** | `IC-2` **landed and did not falsify it** — but it also showed the NR4A3 arm through the identical harness never scores C397, so the calibration the row was waiting for arrived aimed slightly off-target (L3) |
 | **2** | Steric exclusion / negative design | **3** | **Rose in strength, fell one place.** It gained a built rule, a scorer and a measured volume bar (L6) and lost one of its three vectors; it is now behind two rows that gate numbers already in print |
 | **3** | Widen the categorical enumeration | **6** | unchanged on its merits; overtaken |
 | **4** | Write the brief asymmetrically | **5** | **survived in a harder form.** L5 bounded the NR4A2 half *and* closed its exposure lever, so the row is more honest and less free-lunch than it was |
-| **5** | Ligand-side ΔΔΔG (`C01`) | **8** | unchanged |
+| **5** | Ligand-side ΔΔΔG (`IC-1`) | **8** | unchanged |
 | **6** | Ternary rung `5b-T` — *"⛔ CRBN corridor conflict; library no longer reproduces"* | **7** | ⚠ **one of the two is resolved** (L8, the library); **the corridor conflict stands**, and **two new blockers** were found that are worse than the one that cleared — its inputs artifact does not parse ([§8 C2](#8--cross-checks-taken-while-writing-all-0)) and its site 1 is the pose L10 measures |
 | **7** | `barnase_barstar_W35F` — *"priced, staged, **authorized**"* | **9** | ⛔ **the authorization framing is superseded**: the $0 precheck refused it on evidence for the application it was authorized for |
 | **8** | Covalent inhibitor rather than degrader | **10** | unchanged |
@@ -202,7 +202,7 @@ that changes loudly (rule 1.2).
 | — | *(not on the page)* | **NEW 2** | the pose/site question — `denovo_401`'s pose is **not singular** (L10) |
 
 **Also superseded from the 2026-08-02 text, retained:** the header block *"⏳ ONE INPUT IS STILL OUTSTANDING…
-`C02` is running… Nothing here is final until that lands"* — it landed (L3). And *"the cryptic pocket is
+`IC-2` is running… Nothing here is final until that lands"* — it landed (L3). And *"the cryptic pocket is
 NR4A3's edge → refuted; fpocket rates NR4A1's opened frame more druggable"*: still true **of the opened
 frames**, and now sitting beside L4's matched-ensemble ranking, which points the other way on **frequency**.
 Both readings are live and they are not in conflict — one is about a state, the other about how often it is

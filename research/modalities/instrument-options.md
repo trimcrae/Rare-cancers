@@ -52,9 +52,9 @@ So there are exactly two productive moves, and this queue contains both:
 
 1. **Make the regime irrelevant** — instruments whose readout is categorical, geometric or populational, so no
    free-energy resolution is needed at all. The covalent axis and the unique-lysine axis already work this way.
-   Candidates **C02–C13** extend that.
+   Candidates **IC-2–IC-13** extend that.
 2. **Close the regime** — build the free-energy quantity that is *best conditioned* for a between-protein
-   comparison, and buy it a known answer at that size. Candidates **C01** and **C14**.
+   comparison, and buy it a known answer at that size. Candidates **IC-1** and **IC-14**.
 
 ---
 
@@ -65,25 +65,25 @@ cost — are in [`instrument-options.json`](./instrument-options.json) `candidat
 
 | # | id | candidate | regime-immune? | known answer | cost | grade |
 |---:|---|---|:--:|---|---|:--:|
-| 1 | **C01** | **Ligand-side selectivity RBFE (ΔΔΔG) + its own paralogue-scale benchmark** | no — it *closes* the gap | ⚠ candidate; settled by two **$0** searches (C01a, C01b) | $0 to search · one edge-pair to run | **A+** |
-| 2 | **C02** | **Decoy null for the CATEGORICAL axis** — unrelated paralogue pairs through the identical pipeline | ✅ | ✅ the null *is* the control (the move that refuted `V20`) | **$0** | **A** |
-| 3 | **C03** | **Public chemoproteomics as the covalent axis's known-answer set** + a ligandability instrument | ✅ | ⚠ candidate; **$0** precheck | **$0** | **A** |
-| 4 | **C04** | **Paralogue-matched cryptic-pocket druggability** — the harmonized detector on ensembles already on disk | ✅ | ✅ in-repo (the 8XTT experimental row) | **$0** | **A−** |
-| 5 | **C05** | **`V18` known-answer precheck** — does a measured ubiquitination-site / lysine-mutant reference exist? | ✅ | ⚠ candidate; **$0** precheck | **$0** | **A−** |
-| 6 | **C06** | **Point `V1` at rung `5b-T`'s rebuilt ternaries** | ✅ | ✅ **already passed** (Gln98→VHL Arg12, 2.88 Å) | **$0** | **A−** |
-| 7 | **C07** | **Full-length / fusion-context unique-residue census** — the first instrument `R13` would have | ✅ | n/a — a read, not an inference | **$0** | **B+** |
-| 8 | **C08** | **Complete `R14`** — the AR/MR check is 8/9 built and missing one target | ✅ | ✅ cognate-ligand self-control, never run | $0–cheap | **B+** |
-| 9 | **C09** | **`R3`'s frame-level submission gate** — `V13`'s detector re-read per frame | ✅ | ✅ in-repo | **$0** | **B+** |
-| 10 | **C10** | **Symmetric reciprocal-uniqueness + indel census**, all residue classes | ✅ | n/a — a read | **$0** | **B** |
-| 11 | **C11** | **Steric-exclusion (volume) screen** at the divergent handles | ✅ (only at large size differences) | ⚠ candidate; **$0** precheck | **$0** | **B** |
-| 12 | **C12** | **Thiol pKa / intrinsic nucleophilicity** for C397 | ✅ | ⚠ candidate; **$0** precheck | $0–cheap | **B** |
-| 13 | **C13** | **Expression-context axis** — bounds the *consequence*, not the selectivity | ✅ | ✅ cross-dataset concordance | **$0** | **B−** |
-| 14 | **C14** | **`barnase_barstar_W35F`** — the protein-side wedge benchmark for `V10` | no — it *closes* the gap | ✅ **available**, 1 of 7,085 SKEMPI rows, CI-verified to stage | priced, small | **B+** |
-| 15 | **C15** | **Co-fold affinity head as a binary CLASSIFIER**, never a ranker | ✅ | ⚠ candidate; leakage hazard | cheap GPU | **C+** |
-| 16 | **C16** | **ML-potential correction on the alchemical endpoints** | no | ✅ in kind | unpriced | **C** |
+| 1 | **IC-1** | **Ligand-side selectivity RBFE (ΔΔΔG) + its own paralogue-scale benchmark** | no — it *closes* the gap | ⚠ candidate; settled by two **$0** searches (C01a, C01b) | $0 to search · one edge-pair to run | **A+** |
+| 2 | **IC-2** | **Decoy null for the CATEGORICAL axis** — unrelated paralogue pairs through the identical pipeline | ✅ | ✅ the null *is* the control (the move that refuted `V20`) | **$0** | **A** |
+| 3 | **IC-3** | **Public chemoproteomics as the covalent axis's known-answer set** + a ligandability instrument | ✅ | ⚠ candidate; **$0** precheck | **$0** | **A** |
+| 4 | **IC-4** | **Paralogue-matched cryptic-pocket druggability** — the harmonized detector on ensembles already on disk | ✅ | ✅ in-repo (the 8XTT experimental row) | **$0** | **A−** |
+| 5 | **IC-5** | **`V18` known-answer precheck** — does a measured ubiquitination-site / lysine-mutant reference exist? | ✅ | ⚠ candidate; **$0** precheck | **$0** | **A−** |
+| 6 | **IC-6** | **Point `V1` at rung `5b-T`'s rebuilt ternaries** | ✅ | ✅ **already passed** (Gln98→VHL Arg12, 2.88 Å) | **$0** | **A−** |
+| 7 | **IC-7** | **Full-length / fusion-context unique-residue census** — the first instrument `R13` would have | ✅ | n/a — a read, not an inference | **$0** | **B+** |
+| 8 | **IC-8** | **Complete `R14`** — the AR/MR check is 8/9 built and missing one target | ✅ | ✅ cognate-ligand self-control, never run | $0–cheap | **B+** |
+| 9 | **IC-9** | **`R3`'s frame-level submission gate** — `V13`'s detector re-read per frame | ✅ | ✅ in-repo | **$0** | **B+** |
+| 10 | **IC-10** | **Symmetric reciprocal-uniqueness + indel census**, all residue classes | ✅ | n/a — a read | **$0** | **B** |
+| 11 | **IC-11** | **Steric-exclusion (volume) screen** at the divergent handles | ✅ (only at large size differences) | ⚠ candidate; **$0** precheck | **$0** | **B** |
+| 12 | **IC-12** | **Thiol pKa / intrinsic nucleophilicity** for C397 | ✅ | ⚠ candidate; **$0** precheck | $0–cheap | **B** |
+| 13 | **IC-13** | **Expression-context axis** — bounds the *consequence*, not the selectivity | ✅ | ✅ cross-dataset concordance | **$0** | **B−** |
+| 14 | **IC-14** | **`barnase_barstar_W35F`** — the protein-side wedge benchmark for `V10` | no — it *closes* the gap | ✅ **available**, 1 of 7,085 SKEMPI rows, CI-verified to stage | priced, small | **B+** |
+| 15 | **IC-15** | **Co-fold affinity head as a binary CLASSIFIER**, never a ranker | ✅ | ⚠ candidate; leakage hazard | cheap GPU | **C+** |
+| 16 | **IC-16** | **ML-potential correction on the alchemical endpoints** | no | ✅ in kind | unpriced | **C** |
 
-**Best identifiable option: C01**, and the reason is §2. **Best $0 option regardless of C01's outcome: C02.**
-And **C04 and C09 are the same run** — the same detector over frames already committed — so whoever takes one
+**Best identifiable option: IC-1**, and the reason is §2. **Best $0 option regardless of IC-1's outcome: IC-2.**
+And **IC-4 and IC-9 are the same run** — the same detector over frames already committed — so whoever takes one
 should take both.
 
 ---
@@ -291,7 +291,7 @@ and application. Otherwise this repeats roadmap §3.4's exact error one lane ove
   calibrator is **structural**, not an oversight: a within-pocket pass cannot be transferred to a between-pocket
   quantity, so the calibrator has to be bought in the between-pocket currency.
 - It does **not** say the ternary double difference and the binary one are the same instrument. 5a-KS's `S` is a
-  **ternary** double difference on the **NAGL** lane; `C01` is a **binary** one on the **am1bcc** lane. They
+  **ternary** double difference on the **NAGL** lane; `IC-1` is a **binary** one on the **am1bcc** lane. They
   share the algebra and not the validation.
 - It does **not** license reporting any existing `ΔΔΔG` or `S` as calibrated. **Open decision 13 stands.**
 
@@ -314,7 +314,7 @@ every one of them is NR4A3** — `af2_static`, `calibration_nr4a3`, `8xtt_20conf
 
 ⇒ **The paralogue-matched cryptic-pocket druggability contrast — the premise of the entire non-covalent route —
 has never been computed, and the inputs for it are frame-matched and already on disk.** That is candidate
-**C04**, and it is $0.
+**IC-4**, and it is $0.
 
 ### 3.2 · `R14` is recorded as "no instrument" and is about 8/9ths built
 
@@ -326,8 +326,8 @@ has never been computed, and the inputs for it are frame-matched and already on 
   ([`nr4a3-antitarget-denovo401.json`](./nr4a3-antitarget-denovo401.json)).
 
 ⛔ What is actually missing is (a) **MR/NR3C2 is not in the panel**, and (b) the SI's *second* requirement — a
-**cryptic-pocket-formation test** on AR/MR — has no instrument, and **C04 is exactly that instrument**. That is
-candidate **C08**.
+**cryptic-pocket-formation test** on AR/MR — has no instrument, and **IC-4 is exactly that instrument**. That is
+candidate **IC-8**.
 
 ⚠ And the panel has an obvious self-control that appears never to have been run: does it rank each anti-target's
 **own cognate ligand** correctly through the identical smina protocol? Those ligands are already named in the
@@ -349,27 +349,27 @@ available data axis on the program's **strongest surviving claim**.
 
 ⚠ **This is a reason to run a precheck, not a reason to assert coverage.** Whether any public dataset actually
 contains NR4A3 C397 or NR4A1 C551 is **unverified**, and no source, dataset or value may be cited before a
-`pmx_mutation_reference`-shaped precheck returns. That is candidate **C03**, and the precheck is $0.
+`pmx_mutation_reference`-shaped precheck returns. That is candidate **IC-3**, and the precheck is $0.
 
 ---
 
 ## 4 · What is $0 and what needs money
 
-**Validatable at $0 or near-$0 — known-answer test ALREADY available:** `C02` `C04` `C06` `C08` `C09` `C13`
+**Validatable at $0 or near-$0 — known-answer test ALREADY available:** `IC-2` `IC-4` `IC-6` `IC-8` `IC-9` `IC-13`
 
 **Validatable at $0 — but a $0 PRECHECK has to run first to establish the known answer:**
-`C01` (via C01a/C01b) · `C03` · `C05` · `C11` · `C12` · `C15`
+`IC-1` (via C01a/C01b) · `IC-3` · `IC-5` · `IC-11` · `IC-12` · `IC-15`
 
-**No known-answer test needed, because it is a READ and not an inference:** `C07` `C10`
+**No known-answer test needed, because it is a READ and not an inference:** `IC-7` `IC-10`
 
 **Needs spend:**
 
 | id | what | shape of the spend |
 |---|---|---|
-| **C14** | `barnase_barstar_W35F` | **priced** in [pricing.md](../compute/pricing.md), small, staged, CI-verified, **no outstanding authorization** — the only ready item that attacks the regime gap directly |
-| **C01** (run) | the ΔΔΔG benchmark itself | one RBFE **edge pair** + a shared solvent leg — *after* its $0 search returns a system |
-| **C15** | co-fold classifier | cheap GPU; the stack is already baked |
-| **C16** | NNP correction | unpriced, and it targets a term that already cancels |
+| **IC-14** | `barnase_barstar_W35F` | **priced** in [pricing.md](../compute/pricing.md), small, staged, CI-verified, **no outstanding authorization** — the only ready item that attacks the regime gap directly |
+| **IC-1** (run) | the ΔΔΔG benchmark itself | one RBFE **edge pair** + a shared solvent leg — *after* its $0 search returns a system |
+| **IC-15** | co-fold classifier | cheap GPU; the stack is already baked |
+| **IC-16** | NNP correction | unpriced, and it targets a term that already cancels |
 
 ---
 
@@ -382,7 +382,7 @@ Verbatim in [`instrument-options.json`](./instrument-options.json) → `proposed
    about `V6`, and this is the largest one missing.
 2. **§2.1 / §5 row `R6`, §8 Route A** — `R6` blocks the **absolute** route to `R7` and **not** the relative
    double-difference route to `R11`'s causal question. Mark it as an argument, with its stated condition.
-3. **§10.1** — give rungs to C01a, C01b, C02, C03, C04, C05. Per §10.3's own lesson, *"a caveat with nowhere to
+3. **§10.1** — give rungs to C01a, C01b, IC-2, IC-3, IC-4, IC-5. Per §10.3's own lesson, *"a caveat with nowhere to
    go is how work gets silently dropped"* — every one of these currently exists only as a limit in a paper caveat
    or an audit's limits table.
 4. **§2.2 row `R14`** — "no instrument" overstates the gap by about 8/9ths (§3.2 above).
@@ -410,7 +410,7 @@ documented behaviour is to append to it. The *mechanical* digest is healthy (`or
   at *proposed*.
 - **Nothing here re-litigates a settled call.** In particular, the fusion-exclusive routes have their own settled
   body of work ([`fusion-selective-approaches-overview.md`](../manuscripts/fusion-selective-approaches-overview.md)
-  and its five manuscripts, with a live deferred Level-1-vs-Level-2 decision). `C07` is an **instrument for
+  and its five manuscripts, with a live deferred Level-1-vs-Level-2 decision). `IC-7` is an **instrument for
   `R13`**, not a proposal to change routes.
 - **Nothing here implies proteome-wide selectivity, EMC efficacy, safety, a therapeutic window, or clinical
   readiness.**

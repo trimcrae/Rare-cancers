@@ -1,6 +1,6 @@
 ---
 id: DOC-CATEGORICAL-DECOY-NULL-LBD
-title: C02-L — the decoy null re-measured over a scope that contains C397 (C24)
+title: IC-2-L — the decoy null re-measured over a scope that contains C397 (C24)
 level: L4
 kind: memo
 status: live
@@ -12,7 +12,7 @@ date: 2026-08-05
 last_verified: unverified
 _backfilled: true
 ---
-# C02-L — the decoy null re-measured over a scope that contains C397 (`C24`)
+# IC-2-L — the decoy null re-measured over a scope that contains C397 (`C24`)
 
 > **$0 CPU/CI. No GPU, no rental.** Nothing here is a claim about binding, reactivity, adduct formation,
 > degradation, selectivity in vivo, efficacy, safety, a therapeutic window or clinical readiness.
@@ -31,7 +31,7 @@ _backfilled: true
 
 ## 1 · The gap this exists to close, stated exactly
 
-The first cross-system decoy null ([`C02`](./categorical-decoy-null.md)) did what it was built to do: it gave
+The first cross-system decoy null ([`IC-2`](./categorical-decoy-null.md)) did what it was built to do: it gave
 the categorical covalent screen a **measured** background instead of an unmeasured one, which is the shape
 whose absence had already cost the program `V20`.
 
@@ -212,6 +212,6 @@ choices it depends on. This run's are:
 | `C8` | the 12-backbone-atom design gate | ✅ frozen |
 | `C9` | the reach convention | ⚠ **CONTESTED** — two frozen conventions that disagree |
 | `C7` | `EXPOSED_RSA = 0.25` | ⛔ **KNOWN-DEFECTIVE** — fails its own positive control; the reach-only column is the load-bearing one for that reason |
-| `C16` | `C02`'s domain trim — **not used here, not changed here** | ⚠ CONTESTED (its own row) |
+| `C16` | `IC-2`'s domain trim — **not used here, not changed here** | ⚠ CONTESTED (its own row) |
 
 ⛔ **None of `C7`, `C8`, `C9` or `C16` is altered by this run.** They are cited, not edited.
