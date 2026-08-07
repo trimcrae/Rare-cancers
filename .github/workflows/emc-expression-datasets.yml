@@ -149,6 +149,36 @@ jobs:
         with:
           python-version: "3.11"
 
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # ⛔ THE PART-B GUARD, COMPUTED ONCE. IT WAS A RESTATED LIST TWICE AND THAT COST A RUN.
+      #
+      # Part B's step and its summary were each gated on a hand-written exclusion list —
+      # `mode != 'gse-series' && mode != 'aso-junction' && mode != 'panels'` — so EVERY new mode
+      # had to be added to both, and the fourth one was not. Measured 2026-08-07, run 31199787306:
+      # a `hypoxia-confounds` dispatch started the 75-minute PART B step, which rewrites the 7 MB
+      # committed grading artifact this file's own header says a new mode must not be able to
+      # perturb. It was cancelled at step 5 of 23. The mode list was correct in three places and
+      # stale in two, which is precisely what a restated list always does (CLAUDE.md §1).
+      #
+      # ⚠ THE NEGATIVE FORM IS STILL DELIBERATE AND IS PRESERVED HERE, not replaced. A dispatch
+      # that sends NO inputs at all must fall through to part B, which is what this file has
+      # always done; `== 'part-b'` would silently turn that dispatch into a no-op reporting
+      # success. So the predicate is still "mode is not one of the named non-part-b modes" — it is
+      # now written ONCE, and `test_emc_expression_datasets_workflow.py` fails the build if any
+      # step goes back to restating the list.
+      - name: "Resolve the part-B guard once (see the comment — a restated list already cost a run)"
+        id: guard
+        env:
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -euo pipefail
+          case "${MODE:-}" in
+            gse-series|aso-junction|panels|hypoxia-confounds) PART_B=false ;;
+            *)                                               PART_B=true  ;;
+          esac
+          echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
+          echo "mode='${MODE:-}' (empty falls through to part-b) -> part_b=${PART_B}"
+
       # The derive half must be exercisable with no network, so it is tested before the fetch.
       # A broken derive would otherwise be discovered only after the fetch had spent its time.
       - name: Unit tests (derive half, offline)
@@ -180,11 +210,11 @@ jobs:
                              research/modalities/tests/test_atr_hrd_sarcoma_series.py -q
           fi
 
-      # ⚠ THE NEGATIVE FORM IS DELIBERATE AND MUST STAY. An empty `inputs.mode` — a dispatch that
-      # sends no inputs at all — has to fall through to part B, which is what this file has always
-      # done. `== 'part-b'` would silently turn that dispatch into a no-op that reports success.
+      # The guard is `steps.guard.outputs.part_b`, resolved once at the top of this job. The reason
+      # it is not `inputs.mode == 'part-b'`, and the run a restated list already cost, are both
+      # recorded there — do not re-inline the list here.
       - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
-        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
+        if: steps.guard.outputs.part_b == 'true'
         timeout-minutes: 75
         env:
           # ⚠ Must stay comfortably BELOW `timeout-minutes` above. A step that times out returns
@@ -382,8 +412,7 @@ jobs:
             research/modalities/emc-hypoxia-therapeutic-status.json
 
       - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
-        if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
-              && inputs.mode != 'hypoxia-confounds'
+        if: always() && steps.guard.outputs.part_b == 'true'
         timeout-minutes: 10
         run: |
           if [ "${{ inputs.mode }}" = "gse-series" ]; then
@@ -531,7 +560,7 @@ jobs:
           PY
 
       - name: "Summary — part-b"
-        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
+        if: always() && steps.guard.outputs.part_b == 'true'
         run: |
           python3 - <<'PY'
           import json
