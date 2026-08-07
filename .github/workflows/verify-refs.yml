@@ -35,13 +35,28 @@ jobs:
           exec 3>&1 4>&2
           exec > >(tee /tmp/verify.log) 2>&1
           echo "===== 1) Crossref: DOI -> title / journal / year ====="
-          for entry in \
-            "10.1038/s41591-024-03233-x#TxGNN (expect: foundation model, clinician-centered drug repurposing; Nat Med 2024)" \
-            "10.1016/S0140-6736(23)02268-7#KEYNOTE-942 (expect: mRNA-4157/V940 + pembrolizumab, melanoma; Lancet 2024)" \
-            "10.1038/s12276-023-01086-x#LNP review (expect: immunogenicity of lipid nanoparticles; Exp Mol Med 2023)" \
-            "10.1093/nar/gkaa1084#DGIdb (expect: Drug-Gene Interaction Database 4.0; NAR 2021)" \
-            "10.1093/nar/gkz1029#AFND 2020 (expect: Allele Frequency Net Database 2020 update; NAR 2020)" \
-            "10.1186/1471-2105-7-153#IEDB population coverage (expect: Bui 2006, T-cell epitope population coverage; BMC Bioinformatics 2006)"; do
+          # ⛔ THE EXPECTED COUNT IS DERIVED FROM THIS LIST, NEVER TYPED (CLAUDE.md rule 1: "a total is
+          # DERIVED, never typed"). It used to be a literal `6` in three places in the verdict below, and the
+          # comment there called the list "FIXED" — which was true only until someone added a DOI. Registering
+          # the 7th entry while the verdict still demanded 6 would leave a gate that goes GREEN while measuring
+          # one fewer reference than the list actually contains: the exact "reports while measuring nothing
+          # actionable" defect this job's own header was written about. Adding a DOI is now a ONE-LINE change.
+          FIXED_DOIS=(
+            "10.1038/s41591-024-03233-x#TxGNN (expect: foundation model, clinician-centered drug repurposing; Nat Med 2024)"
+            "10.1016/S0140-6736(23)02268-7#KEYNOTE-942 (expect: mRNA-4157/V940 + pembrolizumab, melanoma; Lancet 2024)"
+            "10.1038/s12276-023-01086-x#LNP review (expect: immunogenicity of lipid nanoparticles; Exp Mol Med 2023)"
+            "10.1093/nar/gkaa1084#DGIdb (expect: Drug-Gene Interaction Database 4.0; NAR 2021)"
+            "10.1093/nar/gkz1029#AFND 2020 (expect: Allele Frequency Net Database 2020 update; NAR 2020)"
+            "10.1186/1471-2105-7-153#IEDB population coverage (expect: Bui 2006, T-cell epitope population coverage; BMC Bioinformatics 2006)"
+            # EV-EB-TCIP-2025 — the RT-TCIP route's ONLY cited source. Added 2026-08-06 because the route memo
+            # (research/modalities/nr4a3-tcip-route-memo.md section 6) measured `grep -c "jacs.5c05634"` -> 0
+            # here, i.e. the repo's stated gate ("must clear verify-refs before any manuscript quotes it") could
+            # not be cleared by dispatching verify-refs at all. Filed in THIS list rather than section 8a
+            # because section 8a is print-only and degrader-scoped: only section 1 is enforced by the verdict.
+            "10.1021/jacs.5c05634#EV-EB-TCIP-2025 (expect: Rewiring the fusion oncoprotein EWSR1::FLI1 in Ewing sarcoma with bivalent small molecules; J Am Chem Soc 2025, 147(49):44739-44758; PMC12851799)"
+          )
+          NFIXED=${#FIXED_DOIS[@]}
+          for entry in "${FIXED_DOIS[@]}"; do
             doi="${entry%%#*}"; note="${entry#*#}"
             echo "  DOI $doi"
             echo "    expect: $note"
@@ -159,9 +174,10 @@ jobs:
           NRESOLVED=$(grep -cE 'DOI: 10\.' "$LOG" 2>/dev/null | tr -dc '0-9'); NRESOLVED=$((10#${NRESOLVED:-0}))
           NCROSSREF=$(grep -c 'crossref: ' "$LOG" 2>/dev/null | tr -dc '0-9'); NCROSSREF=$((10#${NCROSSREF:-0}))
           echo "reference-verification census: crossref_titles=$NCROSSREF dois_resolved=$NRESOLVED parse_errors=$NPARSE undefined_dois=$NUNDEF"
-          # Section 1 has a FIXED list of 6 DOIs, so its expected count is knowable rather than inferred.
-          if [ "$NCROSSREF" -lt 6 ]; then
-            echo "::error title=VERIFY-REFS INCOMPLETE::Section 1 resolved only $NCROSSREF/6 fixed DOIs — Crossref was unreachable or rate-limited for the rest. Do NOT treat this run as having verified anything; re-run before trusting the output."
+          # Section 1 has an ENUMERATED list of DOIs, so its expected count is knowable rather than inferred —
+          # and it is read off `FIXED_DOIS` above rather than re-typed, so the two can never disagree.
+          if [ "$NCROSSREF" -lt "$NFIXED" ]; then
+            echo "::error title=VERIFY-REFS INCOMPLETE::Section 1 resolved only $NCROSSREF/$NFIXED enumerated DOIs — Crossref was unreachable or rate-limited for the rest. Do NOT treat this run as having verified anything; re-run before trusting the output."
             FAILED=1
           fi
           if [ "$NPARSE" -gt 0 ] || [ "$NUNDEF" -gt 0 ]; then
@@ -169,7 +185,7 @@ jobs:
             grep -nE 'PARSE-ERR|DOI: undefined' "$LOG" | head -20
           fi
           if [ "${FAILED:-0}" = 1 ]; then exit 1; fi
-          echo "::notice title=VERIFY-REFS OK::$NCROSSREF/6 fixed DOIs resolved, $NRESOLVED DOI(s) resolved overall, no parse errors."
+          echo "::notice title=VERIFY-REFS OK::$NCROSSREF/$NFIXED enumerated DOIs resolved, $NRESOLVED DOI(s) resolved overall, no parse errors."
   # ---------------------------------------------------------------------------------------------
   # Section 8 was added 2026-07-25 for the degrader manuscript's mechanism-first prospective stage
   # (RUNG 5a/5b). It verifies (a) three journal DOIs the manuscript must cite, (b) the primary

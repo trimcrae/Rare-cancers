@@ -36,10 +36,22 @@ cd "$(dirname "$0")/.."
 # ⛔ RAISED 14 -> 48 ON 2026-08-05, AND THE RAISE IS A CORRECTION RATHER THAN A CONCESSION. The 14 was
 # never measured against a run that executed anything: without `--continue-on-collection-errors` below,
 # pytest aborted at collection and this script counted `^FAILED` lines in the output of a run that had
-# tried zero tests. The first sweep that actually ran measured `50 failed, 5984 passed, 107 skipped, 6
-# errors` in 596 s over `research/modalities/tests` alone (manuscripts and systems pass in full).
+# tried zero tests. The first sweep that actually ran measured **50 failed** over `research/modalities/tests`
+# alone (manuscripts and systems pass in full). That one figure is the whole evidence for the raise.
 #
-# ⭐ ALL 50 WERE THEN CLASSIFIED RATHER THAN ASSUMED, and two were NOT dep-related:
+# ⚠ THE REST OF THAT SWEEP'S SUMMARY USED TO BE QUOTED HERE AND HAS BEEN REMOVED, BECAUSE A PASSED COUNT IS
+# NOT A FACT ABOUT THIS GATE — IT IS A FACT ABOUT A SUITE THAT GROWS, so it starts going stale the moment it
+# is committed and there is no check that would ever catch it. Superseded, retained (CLAUDE.md rule 1.2):
+# `5984 passed, 107 skipped, 6 errors` in 596 s. Re-measured ONE DAY LATER, 2026-08-06, on the same command:
+# the passed count had already moved by +135 and skipped by +8, and the collection-error count by −1, while
+# the failure count this gate actually tracks had not moved at all. Exactly the drift the removal prevents.
+# ⛔ SO DO NOT RE-TYPE THE CURRENT POPULATION HERE. This script MEASURES it on every run and prints it:
+# `tail -1 "$out"` below emits pytest's own `N failed, M passed, K skipped, E errors` line. THAT printed
+# line is the one home of the live count (CLAUDE.md rule 1: a total is derived, never typed).
+#
+# ⭐ ALL 50 WERE THEN CLASSIFIED RATHER THAN ASSUMED, ON 2026-08-05, and two were NOT dep-related. The split
+# below is that day's reading, not a standing property — re-derive it rather than trusting it, by grouping
+# the `ModuleNotFoundError` lines in the FAILURES section of this step's own output:
 #   48  ModuleNotFoundError -- boto3 (20), rdkit (19), numpy (9). CI installs all three and runs green.
 #    1  test_no_hand_rolled_publish -- a REAL failure, and the same one that had CI red. Fixed.
 #    1  test_itemsize_survives_a_dtype_that_is_not_a_numpy_dtype -- a REAL bug in chk_prune._itemsize,
@@ -106,11 +118,21 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
   out=$(mktemp)
   # ⛔ `--continue-on-collection-errors` ADDED 2026-08-05, AND WITHOUT IT THIS STEP MEASURED NOTHING.
   #
-  # Five test modules in this sandbox fail to IMPORT (scipy, pymbar, rdkit are absent). Without this
-  # flag pytest prints `Interrupted: 5 errors during collection` and EXITS HAVING RUN ZERO TESTS. The
+  # Five test modules in this sandbox fail to IMPORT. Without this flag pytest prints
+  # `Interrupted: 5 errors during collection` and EXITS HAVING RUN ZERO TESTS. The
   # parser below then greps for `^FAILED`, finds none, and prints
   #     OK (0 failures, at/below the 14 sandbox baseline -- all dep-related, green in CI)
   # -- a green line, from a run that executed no test at all. The real number that day was 50.
+  #
+  # ⚠ THIS LINE USED TO NAME THE CAUSE — "(scipy, pymbar, rdkit are absent)" — AND THAT WAS THE SAME WRONG
+  # TRIPLE THE SANDBOX NOTE AT THE TOP OF THIS FILE ALREADY RECORDS AS CORRECTED. The correction landed up
+  # there on 2026-08-05 and was missed HERE, ~85 lines away in the same file: one fact, two places, one of
+  # them repeating the error the other had already retired. Measured 2026-08-06, not remembered: all five
+  # collection errors are `ModuleNotFoundError: No module named 'numpy'` — not one is scipy, pymbar or rdkit.
+  # Superseded, retained (CLAUDE.md rule 1.2): "(scipy, pymbar, rdkit are absent)".
+  # ⛔ The cause is deliberately NOT re-typed here now. It is one command, and it answers for today:
+  #     python3 -m pytest research/modalities/tests/ -q --collect-only --continue-on-collection-errors \
+  #       --ignore=research/modalities/tests/test_ternary_endpoint_align.py 2>&1 | grep ModuleNotFoundError
   #
   # ⚠ THAT IS THIS SCRIPT'S OWN HEADER DEFECT, IN THIS SCRIPT. The comment at the top of this file
   # exists because a check "reported while measuring nothing actionable", and names three prior
@@ -131,7 +153,18 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
     tail -5 "$out"
     rc=1
   elif [ "$failed" -gt "$BASELINE_FAILURES" ]; then
-    echo "   FAILED: $failed failures exceeds baseline $BASELINE_FAILURES -- these are NEW:"
+    # ⛔ THIS USED TO SAY "these are NEW:" ABOVE A `head -20` OF *ALL* FAILURES, AND THAT WAS A LIE THE
+    # READER COULD NOT DETECT (measured 2026-08-07). With a baseline of 48 and 50 failures, it printed 20
+    # lines under a heading claiming every one was a regression, when at most 2 could be and the 20 shown
+    # were simply the alphabetically-first. Two sessions in a row chased dep-gap failures believing they
+    # had broken something. This script stores no baseline LIST, only a COUNT, so the excess cannot be
+    # identified here -- and saying so is strictly better than naming innocents.
+    echo "   FAILED: $failed failures exceeds baseline $BASELINE_FAILURES (excess: $((failed - BASELINE_FAILURES)))"
+    echo "   ⚠ THE $((failed - BASELINE_FAILURES)) NEW FAILURE(S) ARE NOT IDENTIFIED BELOW. This gate tracks a COUNT, not a"
+    echo "     list, so it cannot tell you WHICH failed tests are new. The lines below are the first 20 of"
+    echo "     ALL $failed failures, most of which are the known dep gap. To find the real regression, diff"
+    echo "     against a clean checkout: git worktree add /tmp/pf-clean HEAD && (cd /tmp/pf-clean && \\"
+    echo "     python3 -m pytest research/modalities/tests -q --continue-on-collection-errors)"
     grep -E '^FAILED' "$out" | head -20
     rc=1
   else

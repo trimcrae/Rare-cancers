@@ -252,6 +252,75 @@ jobs:
             "LANE 7: transfer-anchor diagnostic (CI)" \
             research/modalities/transfer-anchor-diagnostic.json
 
+  # RT-TCIP — THE TRANSCRIPTIONAL-EFFECTOR SECOND-TERMINUS ARM. `nr4a3_tcip_reach.py` has run, and its own
+  # `effector_arm_census` counted the input it lacks: all four staged bodies are E3 ubiquitin-ligase
+  # recruiters, so every TCIP statement the repo can make is about a SIZE CLASS and the two effector-size
+  # bodies (birc2, mdm2) are explicit proxies the route memo forbids naming an effector on. This stages a
+  # NAMED transcriptional effector — BCL6, read out of the route's own motivating paper (EB-TCIP,
+  # 10.1021/jacs.5c05634, "recruits ... EWSR1::FLI1 to DNA sites bound by the transcriptional regulator
+  # BCL6", ligand BI3812) — plus BRD4 BD1 as a second effector body, because one arm cannot tell an effector
+  # result from that arm's own shape.
+  #
+  # ⚠ It reuses the on-main `nr4a_e3_stage` + `fanout_mode=precheck` value pair rather than adding a choice
+  # option: a NEW option cannot be dispatched until it is on the default branch (same reason lane 7 gave),
+  # and `precheck` is otherwise unused by every nr4a_e3_stage job. The base staging job is switched OFF for
+  # `precheck` so it cannot re-stage and overwrite the E3 registry alongside this.
+  # $0 CPU, pure stdlib; network-only because RCSB is 403'd at CONNECT by the dev sandbox's egress proxy.
+  tcip_effector_stage:
+    if: ${{ github.event.inputs.task == 'nr4a_e3_stage' && github.event.inputs.fanout_mode == 'precheck' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit tests — body selection and the geometry kernels (offline, no network)
+        run: |
+          pip install pytest
+          python -m pytest research/modalities/tests/test_basin_geom.py \
+                           research/modalities/tests/test_effector_stage.py -q
+      - name: Offline plan (what will be queried — auditable before any network call)
+        run: python research/modalities/nr4a3_effector_stage.py --plan --arms bcl6,brd4_bd1
+      - name: Stage the transcriptional-effector arms from RCSB (accession discovery + verification)
+        run: python research/modalities/nr4a3_effector_stage.py --arms bcl6,brd4_bd1
+      - name: Show what was staged (the run log is the audit trail, so it goes in the job output too)
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          p = "research/modalities/nr4a3-effector-arm-registry.json"
+          if not os.path.exists(p):
+              print("no registry written"); raise SystemExit(0)
+          d = json.load(open(p))
+          for aid, rec in sorted(d["arms"].items()):
+              print(f"== {aid}: {rec.get('status')}")
+              print("   entry     :", (rec.get("provenance", {}).get("receptor_entry") or {}).get("pdb_id"),
+                    (rec.get("provenance", {}).get("receptor_entry") or {}).get("resolution_A"), "A")
+              print("   body      :", rec.get("assembly_copy", {}).get("selected_chains"),
+                    rec.get("n_residues_written"), "residues")
+              lig = rec.get("ligand") or {}
+              print("   ligand    :", lig.get("het_code"), lig.get("n_heavy"), "heavy atoms; exit atom",
+                    lig.get("exit_atom_name"), "at", lig.get("exit_atom_xyz"),
+                    "exposure", lig.get("exit_atom_dist_to_receptor_A"), "A")
+              print("   self-check:", json.dumps(rec.get("self_check")))
+          PY
+      - name: Commit the staged effector arms back to the triggering branch
+        if: always()
+        run: |
+          set -e
+          # ⛔ ONE HOME FOR THE PUBLISH. PUBLISH_IF_CHANGED=1 keeps EVENT semantics: a run that staged
+          # nothing new must not commit as though it had. `results/nr4a3-effector-arms` is a DIRECTORY and
+          # the primitive handles that (cp -a --parents).
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "RT-TCIP: stage transcriptional-effector second-terminus arms from RCSB (accession-verified, CI)" \
+            research/modalities/nr4a3-effector-arm-registry.json \
+            results/nr4a3-effector-arms
+
   # LANE 7 part 2 — the ASSEMBLY-NATIVE arm control. Both arms restaged so the receptor, its ligand, the RING
   # and the E2 all come from ONE intact ubiquitylation assembly (8R5H for VHL, 9UUM for CRBN): no bridge is
   # composed, so the 48.6 A composed-RING uncertainty does not apply, and the anchor-to-transfer distance is
@@ -318,7 +387,7 @@ jobs:
             results/nr4a3-e3-arms-native
 
   nr4a_e3_stage:
-    if: ${{ github.event.inputs.task == 'nr4a_e3_stage' && github.event.inputs.fanout_mode != 'diag' && github.event.inputs.fanout_mode != 'stage' }}
+    if: ${{ github.event.inputs.task == 'nr4a_e3_stage' && github.event.inputs.fanout_mode != 'diag' && github.event.inputs.fanout_mode != 'stage' && github.event.inputs.fanout_mode != 'precheck' }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
