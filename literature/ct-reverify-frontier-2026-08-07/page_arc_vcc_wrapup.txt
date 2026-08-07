@@ -1,0 +1,346 @@
+SOURCE URL: https://arcinstitute.org/news/virtual-cell-challenge-2025-wrap-up
+FINAL URL: https://arcinstitute.org/news/virtual-cell-challenge-2025-wrap-up
+HTTP: 200
+CONTENT-TYPE: text/html; charset=utf-8
+======================================================================
+Virtual Cell Challenge 2025 Wrap-Up: Winners and Reflections | Arc Institute 
+
+ December 6, 2025 
+
+ Virtual Cell Challenge 2025 Wrap-Up: Winners and Reflections 
+
+ Top three scoring models named along with an additional “Generalist Prize” 
+
+ 1. The First Virtual Cell Challenge
+
+ Thank you to every participant who made the inaugural
+ Virtual Cell Challenge a success. The
+ response far exceeded our expectations: over 5,000 people registered across 114
+ countries, over 1,200 teams submitted results, and over 300 teams made final
+ submissions. We saw remarkable diversity, from students learning the field to
+ established research organizations.
+
+ We have an ambitious goal of predicting cellular response to perturbation, a
+ challenging and impactful task with wide implications for biology. While the
+ final results of this first effort indicate that perturbation prediction models
+ are not yet consistently outperforming naive baselines across all metrics, we
+ saw significant improvements on core capabilities like perturbation
+ discrimination and identification of differentially expressed genes. The winning
+ approaches combined deep learning with classical statistical features,
+ suggesting pure end-to-end learning is yet to solve this problem. But this is
+ exactly why the Virtual Cell Challenge is needed. There’s much more to do beyond
+ these first steps to close the gap between current models and biological
+ fidelity.
+
+ 2. Why We Hosted This Challenge
+
+ About 90% of drugs fail clinical trials due to poor efficacy or unintended side
+ effects. Each drug tested in the lab or in patients is essentially a probe
+ designed to perturb diseased cells in a particular way. A highly predictive
+ virtual cell model could help researchers discover new drugs, entirely in
+silico , capable of shifting cells between states: from “diseased” to “healthy”,
+ with fewer off-target effects, potentially transforming clinical success rates
+ and speeding the pipeline from lab to patient.
+
+ Virtual cells could also serve as hypothesis-generating engines for biology,
+ analogous to how AlphaFold has transformed protein structure prediction. Rather
+ than running expensive, time-consuming experiments for every hypothesis,
+ researchers could screen thousands of perturbations in silico , then validate
+ the most promising candidates experimentally.
+
+ The Turing Test for Virtual Cells 
+
+ We designed the Virtual Cell Challenge around this concrete question: can a
+ computational model stand in for an actual Perturb-seq experiment? If you give a
+ model a starting cell state and a genetic perturbation, can it predict the
+ resulting gene expression changes well enough to guide biological discovery?
+
+ This is ultimately our North Star: not whether models achieve high scores on
+ abstract metrics, but whether they capture biology accurately enough to be
+ useful. What brought forth the AlphaFold moment in protein structure prediction
+ was less about beating specific benchmarks, but more about passing the practical
+ usability threshold for biologists.
+
+ 3. Dataset Design: Building a True Benchmark
+
+ As detailed before, we generated a purpose-built benchmark dataset of ~300,000
+ single-cell RNA-seq profiles from H1 human embryonic stem cells with 300 CRISPRi
+ perturbations. In our Virtual Cell Challenge
+ commentary , we
+ explained our key design choices:
+
+ H1 hESCs represent a distributional shift from typical training data (K562,
+ A375, and cell lines in other large-scale datasets like Tahoe-100M ), forcing
+ models to generalize rather than memorize
+
+ CRISPRi perturbations provide clean transcriptional repression with directly
+ observable knockdown efficacy
+
+ High-quality data: 10x Genomics Flex chemistry, >50,000 UMIs per cell,
+ ~1,000 cells per perturbation
+
+ The 300 target genes were carefully selected to span from dramatic to subtle
+ transcriptional effects, ensuring comprehensive evaluation of model capabilities
+ (see
+ Behind the Data of the Virtual Cell Challenge ).
+
+ 4. Three Metrics, An Unexpected Challenge, and An Expanded Prize
+
+ We
+ designed three evaluation metrics 
+ to capture different aspects of perturbation prediction:
+
+ PDS (Perturbation Discrimination Score): Measures whether predicted
+ perturbation effects remain distinguishable from each other. Uses L1 norm to
+ rank whether each prediction is closest to its true counterpart.
+
+ DES (Differential Expression Score): Evaluates whether models identify the
+ correct set of upregulated and downregulated genes. Middle ground between ML
+ optimization and true experimental measurements. In practice, biologists often
+ view the set of differentially expressed genes as the most relevant output from
+ Perturb-seq experiments.
+
+ MAE (Mean Absolute Error): Quantifies gene-level prediction accuracy
+ across the entire transcriptome. Requires faithful prediction of experimental
+ measurements across all genes. While the previous two metrics were motivated by
+ biological considerations, they are not exhaustive in capturing cell state, so
+ MAE was designed to be maximally expressive and capture aspects that the other
+ metrics may miss. However, this comes with tradeoffs: much of the signal in raw
+ counts is influenced by technical noise, stochastic dropout, and biological
+ heterogeneity. As a result, although the absolute value of MAE may be very
+ difficult to lower beyond simply predicting the average cell state, it remains
+ useful in relative terms for detecting when solutions deviate substantially from
+ values typically observed in experiments.
+
+ Almost all models performed worse than baseline on MAE. While not entirely
+ unexpected, this effectively excluded MAE from competitive optimization, meaning
+ top performers strategically focused their efforts on PDS and DES.
+
+ The Generalist Prize: Expanding Evaluation 
+
+ As the competition progressed, we observed that MAE was no longer influencing
+ the leaderboard since submissions were not penalized for scoring worse than the
+ mean. We didn’t think it would be fair to participants to drastically alter the
+ scoring framework mid-competition, so instead we introduced a new prize category
+ based on a broader evaluation. The Generalist Prize used seven metrics
+ total:
+
+ The three Challenge metrics: DES, PDS, MAE
+
+ Four additional metrics that were used to measure the effectiveness of our
+ S tate model : 
+ Pearson delta correlation, Spearman correlation of log-fold change, area under
+ precision-recall curve (AUPRC), and Spearman correlation of effect size. These
+ and the three Challenge metrics are all in our
+ Cell-Eval suite of model
+ evaluation metrics.
+
+ We took the entries with the highest leaderboard scores on the Challenge metrics
+ and ranked them on each of these seven metrics, and the winner had the highest
+ average ranking across all seven, demonstrating consistent performance across
+ diverse criteria rather than optimization for any specific target metric. We are
+ releasing the top 25 ranked teams from this analysis on a separate leaderboard.
+
+ PDS Behaviors 
+
+ The Challenge community generated lots of interesting commentary and analyses as
+ the competition unfolded. One of the participating teams published an
+ analysis revealing that L1-based PDS is
+ inherently scale-sensitive. As models increase prediction magnitude, PDS scores
+ rise, asymptotically approaching sign-based cosine similarity. This isn't a bug
+ per se but does reflect high-dimensional geometry. Top teams recognized that PDS
+ primarily rewards getting expression patterns correct rather than exact
+ magnitudes. However, understanding metric properties alone wasn't enough; teams
+ still needed to capture real biological signals to succeed on DES and achieve
+ top leaderboard positions.
+
+ 5. Winners
+
+ We are very pleased to congratulate the following teams:
+
+ 🥇 First Place - $100,000: Team BM_xTVC 
+
+ Members: Yucheng Guo, Qirong Yang
+ Organization: BioMap Research
+ Model: xTrimoSCPerturb
+
+ Team BM_xTVC built a sophisticated hybrid approach combining deep learning with
+ classical statistics. They developed a new single-cell pretrained model using an
+ improved scFoundation architecture, then integrated it with protein model
+ embeddings and carefully curated public perturbation datasets.
+
+ Their approach addressed fundamental architectural limitations–specifically the
+ poor capture of gene sequential relationships and inadequate representation of
+ biologically expressed genes prone to technical dropout. By optimizing the
+ encoder to recover biologically active signals from technical zeros and
+ employing a disentangled cross-attention decoder architecture, they achieved
+ high-fidelity cell embeddings and precise gene regulation predictions. For
+ perturbation training, this team had selected a subset of the public
+ perturbation datasets listed on the challenge website. A critical insight from
+ their work: "Purely AI-based approaches did not consistently outperform
+ statistical baselines" on DES and MAE. Rather than fight this, they incorporated
+ training-set DEG frequency and mean expression levels as explicit features.
+ Their final model used a fused loss function (PDS + DES + small-weight MAE) and
+ trained on pseudo-bulk RNA-seq data, repeating outputs multiple times to satisfy
+ DES evaluation requirements.
+
+ BioMap Research , where Team BM_xTVC is based, plans
+ to share full theoretical details and methodological innovations in a
+ forthcoming academic paper.
+
+ 🥈 Second Place - $50,000: Team XLearning Lab 
+
+ Member: Xi Peng
+ Organization: School of Computer Science, Sichuan
+ University, Tianfu Jincheng Lab
+ Model: X
+
+ This entry took an explicitly metric-driven approach, recognizing that PDS
+ carried roughly twice the weight of DES in final scoring. They framed the
+ problem as conditional generation and shifted from noisy single-cell to
+ pseudo-bulk data representation.
+
+ The architecture was streamlined: a Fully Connected Network using aggregated
+ control expression, ESM-2 protein embeddings for perturbed genes, and UMI count
+ indicators. Residual learning predicted perturbation deltas rather than absolute
+ values, optimized with MSE loss and auxiliary objectives. For training, they
+ exclusively used publicly available Perturb-seq datasets, including a small H1
+ dataset available as part of PerturbAtlas.
+
+ Team member Xi Peng’s research group , which includes
+ fellow Virtual Cell Challenge competitors Yunfan Li and Yiding Lu, focuses on
+ machine learning and its interdisciplinary applications in life sciences.
+
+ 🥉 Third Place - $25,000: Team Outlier 
+
+ Members: Qiyuan Liu, Qirui Zhang,
+ Jin-Hong Du ,
+ Siming Zhao ,
+ Jingshu Wang 
+ Organizations: University of
+ Chicago, Dartmouth College, University of Hong Kong
+ Model: TransPert
+
+ Team Outlier’s model, TransPert, is a statistical framework for cross-cell-line
+ perturbation prediction using only summary-level data, namely pseudo-bulk
+ perturbation profiles and the differential testing results from the Wilcoxon
+ test.
+
+ The framework combines gene-level perturbation summaries from multiple reference
+ cell lines using similarity-aware aggregation, then refines these estimates by
+ predicting which genes are likely to be significantly affected in the target
+ cell line. Finally, global linear scaling optimizes the predictions for PDS
+ metric performance, with scaling factors selected via cross-validation on
+ Challenge training data. For training, Team Outlier exclusively used publicly
+ available cell line Perturb-seq datasets.
+
+ As discussed in their recent Arxiv commentary
+ “ Effects of Distance Metrics and Scaling on the Perturbation Discrimination Score ”,
+ such scaling makes the predictions behave more like a weighted
+ sign-cosine-similarity-based score, improving discriminative power. A full
+ methodological description of TransPert will also be provided in a forthcoming
+ manuscript.
+
+ Team Outlier brought together researchers from three institutions with expertise
+ spanning statistics, machine learning, and genomics.
+
+ 🏆 Generalist Prize - $100,000: Team Altos Labs 
+
+ Members: Chaitra Agrahar, Ridvan Eksi, Marcel Nassar, Mehrshad Sadria,
+ Vladimir Trifonov, Esther Wershof, Yan Wu, Zichao Yan
+ Organizations: 
+ Altos Labs 
+ Model: go-with-the-flow
+
+ The Altos Labs team achieved the highest average ranking across seven metrics
+ (three challenge metrics plus four metrics from the
+ S tate 
+ paper) among the 50 final entries with the highest scores on the challenge
+ metrics, demonstrating robust performance rather than optimization for any
+ single target. They showed the most reliable generalization across diverse
+ evaluation criteria, so we are awarding them the Generalist Prize to recognize
+ this result.
+
+ The team developed a flow matching generative model to infer heterogeneous
+ cellular responses to perturbations. Operating directly in the gene expression
+ space, the model learns time-dependent dynamics, parameterized through a
+ customized U-Net architecture, to update the gene expression vectors. This
+ approach enabled the team to capture fine-grained gene expression details
+ including complex gene-gene interactions.
+
+ They pretrained their flow matching model on approximately 7 million
+ high-quality single cells combined from various public data sources, including
+ the Challenge training data, and Altos Labs' internal perturbation screens (none
+ in H1 cells). They then fine-tuned their model on a smaller dataset specifically
+ targeting the h1ESC cell line and perturbations in the Challenge test sets.
+
+ The team members are from the
+ Altos Labs Institute of Computation ,
+ whose mission is to pioneer advances in computation and machine learning to
+ solve some of the most fundamental challenges in biological research and
+ medicine. Altos pursues fundamental basic research in the biology of aging and
+ rejuvenation.
+
+ 6. What We Learned and Where We're Going
+
+ Key Insights 
+
+ The Challenge revealed important patterns in winning approaches: hybrid models
+ combining deep learning with statistical features outperformed pure neural
+ networks, and strategic loss function design mattered as much as architecture.
+ Multi-modal features, particularly protein embeddings, added value across top
+ teams. The evaluation sparked valuable discussion about metric design. No single
+ metric captures “model quality”, and we observed clear trade-offs where
+ optimizing one metric sometimes came at the cost of others. We are studying this
+ year's submissions to inform future metric refinements, potentially including
+ norm-matched PDS variants and new biological relevance criteria.
+
+ The Challenge attracted two somewhat distinct communities that we are hoping to
+ bring together for the benefit of understanding biology and disease. Machine
+ learning specialists excelled at systematically optimizing models to improve
+ metric performance. Computational biologists, on the other hand, brought a
+ deeper understanding of functional genomics and perturbation biology. We hope
+ that an optimally designed version of this Challenge in future years will make
+ both perspectives essential and interdependent.
+
+ Looking Ahead 
+
+ The first Virtual Cell Challenge is complete, but this is just the beginning. We
+ look forward to running the Challenge as an annual competition, at the same time
+ we ourselves are in the early stages of building models that can genuinely
+ accelerate biological discovery—from hypothesis to experiment to treatment.
+
+ Get Involved:
+
+ Sign up for Arc Institute updates 
+ to be notified when Virtual Cell Challenge 2026 opens
+
+ Apply for a machine learning role at Arc
+
+ Explore
+ S tate 
+ and build your own models
+
+ Contribute to our open datasets: Virtual Cell Atlas 
+
+ 7. Acknowledgments
+
+ To Our Participants: Thank you for exceeding our expectations. Your
+ creativity, excitement, and scientific discussions have established a foundation
+ that will shape virtual cell modeling for years to come.
+
+ To Our Winners: Congratulations on exceptional work. Your innovations, from
+ hybrid statistical-ML approaches to rigorous metric analysis, will influence how
+ the field approaches these problems. Thank you for sharing your insights openly.
+
+ To Our Sponsors: This challenge was made possible by NVIDIA, 10x Genomics, and
+ Ultima Genomics. Their support enabled us to offer substantial prizes and
+ generate the high-quality datasets that made rigorous evaluation possible.
+
+ To The Community: Your thoughtful engagement with metric design questions and
+ evaluation frameworks is already shaping next year's Challenge. The
+ collaborative spirit made this more than a competition; together we're building
+ the future of predictive cell biology.
+
+ Special thanks to the Arc Institute team and everyone who contributed to making
+the inaugural Virtual Cell Challenge a success.
