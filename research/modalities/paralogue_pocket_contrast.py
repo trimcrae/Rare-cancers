@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""C04 — PARALOGUE-MATCHED CRYPTIC-POCKET DRUGGABILITY. The harmonized detector, pointed at the NR4A1 and
+"""IC-4 — PARALOGUE-MATCHED CRYPTIC-POCKET DRUGGABILITY. The harmonized detector, pointed at the NR4A1 and
 NR4A2 conformer ensembles that have been committed to this repo since 2026-07-26 and never scored.
 
 WHY THIS EXISTS
@@ -273,7 +273,7 @@ def reproduction_verdict(mine_by_subset, committed):
 
 
 def build_map_edits(contrast):
-    """The roadmap edits THIS result requires — DESCRIBED, NEVER APPLIED. Same anchor discipline as C02:
+    """The roadmap edits THIS result requires — DESCRIBED, NEVER APPLIED. Same anchor discipline as IC-2:
     every `current_text` is read out of the live map by `map_edits`, so an entry that cannot be targeted says
     so rather than being silently wrong."""
     import map_edits as ME
@@ -325,10 +325,10 @@ def build_map_edits(contrast):
                     "paralogue-MATCHED reading — "
                     "[`paralogue-pocket-contrast.json`](../modalities/paralogue-pocket-contrast.json)")),
         ME.edit(text, "§10.1 open rows", "### 10.1 · Open rows, ordered by what unblocks the most",
-                "C04 was on no ranked list: the frames were committed on 2026-07-26 and the detector was "
+                "IC-4 was on no ranked list: the frames were committed on 2026-07-26 and the detector was "
                 "never pointed at them. A caveat with nowhere to go is how work gets silently dropped.",
                 art, ME.append_after_line(
-                    "| **C04** | **Paralogue-matched cryptic-pocket druggability** — the harmonized detector "
+                    "| **IC-4** | **Paralogue-matched cryptic-pocket druggability** — the harmonized detector "
                     "over the committed NR4A1/NR4A2/NR4A3 ensembles | `R1` `R2` (Route A's premise) | "
                     "✓ **complete** | — ($0) | **$0** — CPU/CI | ✅ **RAN.** " + verdict + ". " + summary +
                     ". [`paralogue-pocket-contrast.json`](../modalities/paralogue-pocket-contrast.json); the "
@@ -416,7 +416,7 @@ def main(argv=None):
 
     rows = contrast_rows(by_species_subset)
     res = {
-        "_title": "C04 — paralogue-matched cryptic-pocket druggability: the harmonized detector over the "
+        "_title": "IC-4 — paralogue-matched cryptic-pocket druggability: the harmonized detector over the "
                   "committed NR4A1 / NR4A2 / NR4A3 conformer ensembles",
         "_status": "DESIGN PRIORITISATION / instrument reading. $0 CPU. Nothing here is a claim about "
                    "binding, reactivity, degradation, efficacy or safety.",

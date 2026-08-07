@@ -1,0 +1,1444 @@
+{
+  "_readme": "Live re-verification of every ClinicalTrials.gov record cited in research/manuscripts/emc-unexplored-treatment-lanes.md section 3.3 (FET-fusion trial eligibility), plus a widened registry screen for the same mechanism: eligibility that is fusion- or molecularly-defined in a way that admits EMC, behind a listed-condition set that no histology search for EMC would ever return. Every field here is read out of a payload retrieved on 2026-08-07 through a GitHub Actions runner - the dev sandbox egress proxy 403s clinicaltrials.gov on CONNECT (CLAUDE.md section 6). NOTHING here is carried from a review article or from memory.",
+  "_not_medical_advice": "This file is a record of registry reads. It is not medical advice, it makes no claim that any listed treatment works in EMC, and eligibility for any trial is determined by that trial's team, not by this document.",
+  "document_date_et": "2026-08-07",
+  "retrieval": {
+    "route": "workflow_dispatch of .github/workflows/fetch-literature.yml on ref=main with targets_file set to an on-main URL manifest; the runner executes scripts/lit_fetch_urls.py and publishes to the literature-cache branch",
+    "api": "ClinicalTrials.gov API v2 (https://clinicaltrials.gov/api/v2/studies)",
+    "runs": [
+      {
+        "slug": "ct-reverify-sweeptargets-2026-08-07",
+        "targets_file": "research/literature/emc-clinical-sweep-targets.json",
+        "actions_run_id": 31175763521,
+        "url_fetch_window_et": "2026-08-07 7:55:13 AM - 7:55:43 AM ET",
+        "literature_cache_commit": "0e3b077a"
+      },
+      {
+        "slug": "ct-reverify-frontier-2026-08-07",
+        "targets_file": "research/manuscripts/lit-targets-frontier-capability-2026-08-07.json",
+        "actions_run_id": 31176517524,
+        "url_fetch_window_et": "2026-08-07 8:07:15 AM - 8:08:29 AM ET",
+        "literature_cache_commit": "d69522f4"
+      },
+      {
+        "slug": "ct-reverify-c3b-2026-08-07",
+        "targets_file": "research/literature/emc-clinical-sweep-c3.json",
+        "actions_run_id": 31176811772,
+        "url_fetch_window_et": "2026-08-07 8:11:48 AM - 8:12:18 AM ET",
+        "literature_cache_commit": "76d293ad"
+      },
+      {
+        "slug": "ct-reverify-c4b-2026-08-07",
+        "targets_file": "research/literature/emc-clinical-sweep-c4.json",
+        "actions_run_id": 31179088283,
+        "url_fetch_window_et": "2026-08-07 8:44:00 AM - 8:44:25 AM ET",
+        "literature_cache_commit": "890612ee"
+      }
+    ],
+    "unique_studies_indexed": 1159
+  },
+  "transport_integrity": {
+    "defect": "scripts/lit_fetch_urls.py puts every payload through strip_html(), whose re.sub(r'(?s)<[^>]+>', ' ', raw) deletes the span from a '<' to the next '>'. ClinicalTrials.gov escapes angle brackets in free text as backslash-< and backslash->, so eligibility criteria containing comparison operators lose text.",
+    "two_failure_modes": [
+      "LOUD: the deleted span crosses JSON structure and the record stops parsing. Detected per record; the NCT ids are listed under `unparseable_records`.",
+      "SILENT and more dangerous: the record still parses while whole modules have vanished. Detected by asserting that every unfielded record carries identificationModule, statusModule, conditionsModule, designModule and eligibilityModule; violations are listed under `silently_damaged_records`."
+    ],
+    "rule_applied": "No verbatim eligibility sentence is quoted in this file or in the draft notice unless that sentence itself carries no removal marker. Structured fields (status, dates, ages, condition lists) cannot be silently truncated in the same way and are treated as authoritative where the module survived.",
+    "silently_damaged_records": {
+      "NCT05836571": [
+        {
+          "payload": "ct_nct05836571_ipinivocabo",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "missing_modules": [
+            "conditionsModule",
+            "designModule",
+            "eligibilityModule"
+          ]
+        },
+        {
+          "payload": "ct_emc_all",
+          "slug": "ct-reverify-sweeptargets-2026-08-07",
+          "missing_modules": [
+            "conditionsModule",
+            "designModule",
+            "eligibilityModule"
+          ]
+        },
+        {
+          "payload": "ct_myxoid_chondrosarcoma",
+          "slug": "ct-reverify-sweeptargets-2026-08-07",
+          "missing_modules": [
+            "conditionsModule",
+            "designModule",
+            "eligibilityModule"
+          ]
+        }
+      ],
+      "NCT01189253": [
+        {
+          "payload": "ct_emc_all",
+          "slug": "ct-reverify-sweeptargets-2026-08-07",
+          "missing_modules": [
+            "conditionsModule",
+            "designModule",
+            "eligibilityModule"
+          ]
+        }
+      ],
+      "NCT04094610": [
+        {
+          "payload": "ct_sarcoma_2026_new",
+          "slug": "ct-reverify-frontier-2026-08-07",
+          "missing_modules": [
+            "conditionsModule",
+            "designModule",
+            "eligibilityModule"
+          ]
+        }
+      ]
+    },
+    "unparseable_records": {
+      "ct_nct02180867_arst1321": {
+        "slug": "ct-reverify-c4b-2026-08-07",
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT02180867?format=json",
+        "nct_ids": [
+          "NCT02180867"
+        ]
+      },
+      "ct_emc_all": {
+        "slug": "ct-reverify-sweeptargets-2026-08-07",
+        "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=extraskeletal+myxoid+chondrosarcoma&pageSize=100&format=json",
+        "nct_ids": [
+          "NCT00720174",
+          "NCT05355753"
+        ]
+      },
+      "ct_ewsr1_term": {
+        "slug": "ct-reverify-sweeptargets-2026-08-07",
+        "url": "https://clinicaltrials.gov/api/v2/studies?query.term=EWSR1&pageSize=100&format=json",
+        "nct_ids": [
+          "NCT07695311",
+          "NCT07188532",
+          "NCT05275426",
+          "NCT02736565"
+        ]
+      },
+      "ct_myxoid_chondrosarcoma": {
+        "slug": "ct-reverify-sweeptargets-2026-08-07",
+        "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=myxoid+chondrosarcoma&pageSize=100&format=json",
+        "nct_ids": [
+          "NCT00720174",
+          "NCT05355753",
+          "NCT01189253"
+        ]
+      },
+      "ct_sarcoma_2026_new": {
+        "slug": "ct-reverify-frontier-2026-08-07",
+        "url": "https://clinicaltrials.gov/api/v2/studies?query.cond=sarcoma&filter.overallStatus=RECRUITING%7CNOT_YET_RECRUITING&query.term=fusion+OR+transcription+factor+OR+degrader&pageSize=60&format=json",
+        "nct_ids": [
+          "NCT05697874",
+          "NCT07188532",
+          "NCT06094101"
+        ]
+      }
+    }
+  },
+  "task_1_reverification_of_section_3_3": {
+    "result": "All nine NCT numbers re-read live. No status differs from what section 3.3 records. One clarification and one staleness warning are noted per record.",
+    "trials": [
+      {
+        "nct_id": "NCT05918640",
+        "brief_title": "Lurbinectedin in FET-Fused Tumors",
+        "official_title": "Lurbinectedin in FET-Fusion Tumors (LIFFT)",
+        "sponsor_organization": "Children's Hospital of Philadelphia",
+        "overall_status": "RECRUITING",
+        "status_verified_date": "2026-03",
+        "last_update_post_date": "2026-03-31",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "minimum_age": "10 Years",
+        "maximum_age": null,
+        "listed_conditions": [
+          "Ewing Sarcoma",
+          "Desmoplastic Small Round Cell Tumor",
+          "Pediatric Cancer",
+          "Undifferentiated Sarcoma"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Lurbinectedin"
+        ],
+        "retrieved_from": {
+          "payload": "ct_nct05918640_lurbi_fet",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT05918640?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 1,
+        "memo_claim_checked": "phase 1/2, RECRUITING; phase 1 eligibility is fusion-defined (a known FET fusion containing EWSR1, FUS or TAF15); age >= 10; listed conditions do not include EMC",
+        "verbatim_eligibility_sentence": "Patients must have a known FET fusion (fusion that contains EWSR1, FUS, or TAF15) as documented by next generation sequencing, polymerase chain reaction (PCR) or Fluorescence in situ hybridization (FISH).",
+        "verbatim_sentence_is_transport_clean": true
+      },
+      {
+        "nct_id": "NCT06239272",
+        "brief_title": "NRSTS2021, A Risk Adapted Study Evaluating Maintenance Pazopanib, Limited Margin, Dose-Escalated Radiation Therapy and Selinexor in Non-Rhabdomyosarcoma Soft Tissue Sarcoma (NRSTS)",
+        "official_title": "NRSTS2021, A Risk Adapted Study Evaluating Maintenance Pazopanib, Limited Margin, Dose-Escalated Radiation Therapy and Selinexor in Non-Rhabdomyosarcoma Soft Tissue Sarcoma (NRSTS)",
+        "sponsor_organization": "St. Jude Children's Research Hospital",
+        "overall_status": "RECRUITING",
+        "status_verified_date": "2026-07",
+        "last_update_post_date": "2026-08-03",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "minimum_age": null,
+        "maximum_age": "30 Years",
+        "listed_conditions": [
+          "Adipocytic Neoplasm",
+          "Liposarcoma",
+          "Atypical Fibroxanthoma",
+          "Angiomatoid Fibrous Histiocytoma",
+          "Fibrosarcoma NOS",
+          "Myxofibrosarcoma",
+          "Angiosarcoma",
+          "Osteosarcoma, Extraskeletal",
+          "Dedifferentiated Liposarcoma",
+          "Myxoid Liposarcoma",
+          "Pleomorphic Liposarcoma",
+          "Myxoid Pleomorphic Liposarcoma",
+          "Low Grade Fibromyxoid Sarcoma",
+          "Sclerosing Epithelioid Fibrosarcoma",
+          "Malignant Tenosynovial Giant Cell Tumor of Soft Tissue",
+          "Epithelioid Hemangioendothelioma",
+          "Glomus Tumor",
+          "Inflammatory Leiomyosarcoma",
+          "Leiomyosarcoma",
+          "Ossifying Fibromyxoid Tumor, Malignant",
+          "Myoepithelioma",
+          "Synovial Sarcoma",
+          "Epithelioid Sarcoma",
+          "Perineurioma, Malignant",
+          "Clear Cell Sarcoma",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "Granular Cell Tumor, Malignant",
+          "Melanotic Malignant Nerve Sheath Tumor",
+          "Malignant Peripheral Nerve Sheath Tumor",
+          "Perivascular Epithelioid Tumor, Malignant",
+          "Intimal Sarcoma",
+          "Myoepithelial Carcinoma",
+          "Undifferentiated Sarcoma",
+          "Pleomorphic Sarcoma, Undifferentiated",
+          "Round Cell Sarcoma, Undifferentiated",
+          "NTRK-Rearranged Spindle Cell Neoplasm",
+          "Phosphaturic Mesenchymal Tumor, Malignant",
+          "Round Cell Sarcoma",
+          "Well Differentiated Liposarcoma",
+          "Giant Cell Tumor of Soft Parts NOS",
+          "Low Grade Myofibroblastic Sarcoma",
+          "Dermatofibrosarcoma Protuberans, Fibrosarcomatous"
+        ],
+        "emc_in_listed_conditions": true,
+        "interventions": [
+          "Surgical resection",
+          "Proton beam radiation therapy",
+          "Pazopanib",
+          "Ifosfamide",
+          "Doxorubicin",
+          "Selinexor"
+        ],
+        "retrieved_from": {
+          "payload": "ct_nct06239272_nrsts2021",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT06239272?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 9,
+        "memo_claim_checked": "verified open and EMC-eligible; EMC an explicitly listed condition; ages 1-30",
+        "verbatim_eligibility_sentence": "Inclusion Criteria - All Patients * Patients must be 1-30 years at the time of the biopsy that established the diagnosis of NRSTS.",
+        "verbatim_sentence_is_transport_clean": true
+      },
+      {
+        "nct_id": "NCT05722886",
+        "brief_title": "DETERMINE (Determining Extended Therapeutic Indications for Existing Drugs in Rare Molecularly Defined Indications Using a National Evaluation Platform Trial) - Master Screening Protocol",
+        "official_title": "DETERMINE (Determining Extended Therapeutic Indications for Existing Drugs in Rare Molecularly Defined Indications Using a National Evaluation Platform Trial): An Umbrella-Basket Platform Trial to Evaluate the Efficacy of Targeted Therapies in Rare Adult, Paediatric and Teenage/Young Adult (TYA) Cancers With Actionable Genomic Alterations, Including Common Cancers With Rare Actionable Alterations",
+        "sponsor_organization": "Cancer Research UK",
+        "overall_status": "RECRUITING",
+        "status_verified_date": "2026-06",
+        "last_update_post_date": "2026-07-01",
+        "phases": [
+          "PHASE2",
+          "PHASE3"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Haematological Malignancy",
+          "Solid Tumour"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Alectinib",
+          "Atezolizumab",
+          "Entrectinib",
+          "Trastuzumab in combination with pertuzumab",
+          "Vemurafenib in combination with cobimetinib",
+          "Capmatinib",
+          "Dabrafenib in combination with trametinib"
+        ],
+        "retrieved_from": {
+          "payload": "ct_determine_arms",
+          "slug": "ct-reverify-c4b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT05722886?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 0,
+        "memo_claim_checked": "verified open and EMC-eligible (DETERMINE, UK platform)",
+        "verbatim_eligibility_sentence": "Diagnosis of a rare cancer harbouring an actionable genomic alteration, or common cancer types with rare actionable genomic alterations, that has been identified using a validated next-generation sequencing method and for which there is a relevant open treatment arm within the DETERMINE trial.",
+        "verbatim_sentence_is_transport_clean": true
+      },
+      {
+        "nct_id": "NCT03767075",
+        "brief_title": "A Modular Multi-Basket Trial to Improve Personalized Medicine in Cancer Patients (Basket of Baskets)",
+        "official_title": "Basket of Baskets: A Modular, Open-label, Phase II, Multicentre Study To Evaluate Targeted Agents in Molecularly Selected Populations With Advanced Solid Tumours",
+        "sponsor_organization": "Vall d'Hebron Institute of Oncology",
+        "overall_status": "RECRUITING",
+        "status_verified_date": "2024-04",
+        "last_update_post_date": "2024-04-25",
+        "phases": [
+          "PHASE2"
+        ],
+        "minimum_age": "18 Years",
+        "maximum_age": null,
+        "listed_conditions": [
+          "Advanced Solid Tumor"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Atezolizumab",
+          "Futibatinib",
+          "Amivantamab"
+        ],
+        "retrieved_from": {
+          "payload": "ct_nct03767075_bob",
+          "slug": "ct-reverify-c4b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT03767075?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 1,
+        "memo_claim_checked": "verified open and EMC-eligible",
+        "verbatim_eligibility_sentence": "Subjects must be willing to participate in a clinical trial with a matched therapy according to the molecular profile of his/her tumour.",
+        "verbatim_sentence_is_transport_clean": true
+      },
+      {
+        "nct_id": "NCT04040205",
+        "brief_title": "Abemaciclib for Bone and Soft Tissue Sarcoma With Cyclin-Dependent Kinase (CDK) Pathway Alteration",
+        "official_title": "Abemaciclib for Treatment of Advanced Bone and Soft Tissue Sarcoma Identified as Having CDK Pathway Alteration",
+        "sponsor_organization": "Medical College of Wisconsin",
+        "overall_status": "RECRUITING",
+        "status_verified_date": "2026-07",
+        "last_update_post_date": "2026-07-28",
+        "phases": [
+          "PHASE2"
+        ],
+        "minimum_age": "18 Years",
+        "maximum_age": null,
+        "listed_conditions": [
+          "Chondrosarcoma",
+          "Osteosarcoma",
+          "Soft Tissue Sarcoma"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Abemaciclib"
+        ],
+        "retrieved_from": {
+          "payload": "ct_nct04040205_abemaciclib",
+          "slug": "ct-reverify-c4b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT04040205?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 0,
+        "memo_claim_checked": "verified open and EMC-eligible",
+        "verbatim_eligibility_sentence": null,
+        "verbatim_sentence_is_transport_clean": false
+      },
+      {
+        "nct_id": "NCT01659203",
+        "brief_title": "Proton or Photon RT for Retroperitoneal Sarcomas",
+        "official_title": "Phase I/II Trial of Pre-Operative Image Guided Intensity Modulated Proton Radiation Therapy (IMPT) or Photon (IMRT) With Simultaneously Integrated Boost to the High Risk Margin for Retroperitoneal Sarcomas",
+        "sponsor_organization": "Massachusetts General Hospital",
+        "overall_status": "RECRUITING",
+        "status_verified_date": "2026-07",
+        "last_update_post_date": "2026-07-31",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "minimum_age": "18 Years",
+        "maximum_age": null,
+        "listed_conditions": [
+          "Retroperitoneal Sarcoma"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "IG-IMPT",
+          "IG IMRT"
+        ],
+        "retrieved_from": {
+          "payload": "ct_nct01659203_protonrt",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT01659203?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 0,
+        "memo_claim_checked": "verified open and EMC-eligible",
+        "verbatim_eligibility_sentence": null,
+        "verbatim_sentence_is_transport_clean": false
+      },
+      {
+        "nct_id": "NCT05836571",
+        "brief_title": "Testing Ipilimumab and Nivolumab Combination With or Without Cabozantinib in People >= 18 Years Old With Advanced Soft Tissue Sarcoma",
+        "official_title": "Randomized Phase 2 Study of Cabozantinib, Ipilimumab, and Nivolumab in Patients With Soft Tissue Sarcoma",
+        "sponsor_organization": "National Cancer Institute (NCI)",
+        "overall_status": "ACTIVE_NOT_RECRUITING",
+        "status_verified_date": "2026-04",
+        "last_update_post_date": "2026-04-21",
+        "phases": [
+          "PHASE2"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Locally Advanced Extraskeletal Myxoid Chondrosarcoma",
+          "Locally Advanced Leiomyosarcoma",
+          "Locally Advanced Liposarcoma",
+          "Locally Advanced Undifferentiated Pleomorphic Sarcoma",
+          "Locally Advanced Unresectable Soft Tissue Sarcoma",
+          "Metastatic Soft Tissue Sarcoma",
+          "Metastatic Undifferentiated Pleomorphic Sarcoma",
+          "Unresectable Leiomyosarcoma",
+          "Unresectable Liposarcoma",
+          "Unresectable Undifferentiated Pleomorphic Sarcoma"
+        ],
+        "emc_in_listed_conditions": true,
+        "interventions": [
+          "Biopsy Procedure",
+          "Biospecimen Collection",
+          "Cabozantinib",
+          "Computed Tomography",
+          "Ipilimumab",
+          "Magnetic Resonance Imaging",
+          "Nivolumab"
+        ],
+        "retrieved_from": {
+          "payload": "ct_myxoid_chondrosarcoma",
+          "slug": "ct-reverify-sweeptargets-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=myxoid+chondrosarcoma&pageSize=100&format=json"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "fields_backfilled_from_another_payload": {
+          "conditions": "ct_emc_full_fixed",
+          "phases": "ct_emc_full_fixed",
+          "interventions": "ct_emc_full_fixed"
+        },
+        "memo_claim_checked": "verified NOT currently enrollable - ACTIVE_NOT_RECRUITING",
+        "verbatim_eligibility_sentence": null,
+        "verbatim_sentence_is_transport_clean": false,
+        "silent_transport_damage": [
+          {
+            "payload": "ct_nct05836571_ipinivocabo",
+            "slug": "ct-reverify-c3b-2026-08-07",
+            "missing_modules": [
+              "conditionsModule",
+              "designModule",
+              "eligibilityModule"
+            ]
+          },
+          {
+            "payload": "ct_emc_all",
+            "slug": "ct-reverify-sweeptargets-2026-08-07",
+            "missing_modules": [
+              "conditionsModule",
+              "designModule",
+              "eligibilityModule"
+            ]
+          },
+          {
+            "payload": "ct_myxoid_chondrosarcoma",
+            "slug": "ct-reverify-sweeptargets-2026-08-07",
+            "missing_modules": [
+              "conditionsModule",
+              "designModule",
+              "eligibilityModule"
+            ]
+          }
+        ]
+      },
+      {
+        "nct_id": "NCT03600649",
+        "brief_title": "Clinical Trial of SP-2577 (Seclidemstat) in Patients With Relapsed or Refractory Ewing or Ewing-related Sarcomas",
+        "official_title": "Phase 1 Trial of the LSD1 Inhibitor Seclidemstat (SP 2577) With and Without Topotecan and Cyclophosphamide in Patients With Relapsed or Refractory Ewing Sarcoma and Select Sarcomas",
+        "sponsor_organization": "Salarius Pharmaceuticals, LLC",
+        "overall_status": "UNKNOWN",
+        "status_verified_date": "2023-11",
+        "last_update_post_date": "2023-11-21",
+        "phases": [
+          "PHASE1"
+        ],
+        "minimum_age": "12 Years",
+        "maximum_age": null,
+        "listed_conditions": [
+          "Ewing Sarcoma",
+          "Myxoid Liposarcoma",
+          "Sarcoma,Soft Tissue",
+          "Desmoplastic Small Round Cell Tumor",
+          "Extraskeletal Myxoid Chondrosarcoma",
+          "Angiomatoid Fibrous Histiocytoma",
+          "Clear Cell Sarcoma",
+          "Primary Pulmonary Myxoid Sarcoma",
+          "Myoepithelial Tumor",
+          "Sclerosing Epithelioid Fibrosarcoma",
+          "Fibromyxoid Tumor"
+        ],
+        "emc_in_listed_conditions": true,
+        "interventions": [
+          "Seclidemstat",
+          "Cyclophosphamide",
+          "Topotecan"
+        ],
+        "retrieved_from": {
+          "payload": "ct_nct03600649_seclidemstat",
+          "slug": "ct-reverify-c4b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT03600649?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 1,
+        "memo_claim_checked": "verified NOT currently enrollable - status UNKNOWN; EMC explicitly listed",
+        "verbatim_eligibility_sentence": null,
+        "verbatim_sentence_is_transport_clean": false
+      },
+      {
+        "nct_id": "NCT04305548",
+        "brief_title": "Study on Trabectedin in Advanced Rearranged Mesenchymal Chondrosarcoma",
+        "official_title": null,
+        "sponsor_organization": null,
+        "overall_status": "RECRUITING",
+        "status_verified_date": null,
+        "last_update_post_date": null,
+        "phases": [
+          "PHASE2"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Mesenchymal Chondrosarcoma"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Trabectedin"
+        ],
+        "retrieved_from": {
+          "payload": "ct_sarcoma_recruiting_fixed",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=soft+tissue+sarcoma&filter.overallStatus=RECRUITING&pageSize=1000&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CCondition%7CStudyType"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "memo_claim_checked": "looks like an EMC trabectedin trial in search results, but its condition list is Mesenchymal Chondrosarcoma only - a different disease",
+        "verbatim_eligibility_sentence": null,
+        "verbatim_sentence_is_transport_clean": false
+      }
+    ]
+  },
+  "task_2_widened_search": {
+    "question": "Which other registry trials have eligibility that is fusion- or molecularly-defined in a way that admits EMC, while their listed conditions would never surface them to a histology search?",
+    "instruments": [
+      {
+        "payload": "ct_fusion_recruiting_fixed",
+        "returns": "400 recruiting studies matching 'gene fusion' / 'fusion-positive' / 'FET fusion' / 'translocation'"
+      },
+      {
+        "payload": "ct_basket_recruiting_fixed",
+        "returns": "199 basket / tumour-agnostic / histology-agnostic / rare-tumour studies"
+      },
+      {
+        "payload": "ct_sarcoma_recruiting_fixed",
+        "returns": "526 recruiting sarcoma studies"
+      },
+      {
+        "payload": "ct_sarcoma_2026_new",
+        "returns": "sarcoma + fusion/transcription factor/degrader, unfielded so eligibility text is included"
+      },
+      {
+        "payload": "ct_ewsr1_term",
+        "returns": "full records for a registry-wide EWSR1 term search"
+      },
+      {
+        "payload": "ct_nr4a3_term",
+        "returns": "full records for a registry-wide NR4A3 term search"
+      },
+      {
+        "payload": "ct_emc_full_fixed / ct_emc_all / ct_myxoid_chondrosarcoma",
+        "returns": "every study whose CONDITION list names EMC"
+      }
+    ],
+    "confirmed_fusion_family_defined": [
+      {
+        "nct_id": "NCT05918640",
+        "brief_title": "Lurbinectedin in FET-Fused Tumors",
+        "official_title": "Lurbinectedin in FET-Fusion Tumors (LIFFT)",
+        "sponsor_organization": "Children's Hospital of Philadelphia",
+        "overall_status": "RECRUITING",
+        "status_verified_date": "2026-03",
+        "last_update_post_date": "2026-03-31",
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "minimum_age": "10 Years",
+        "maximum_age": null,
+        "listed_conditions": [
+          "Ewing Sarcoma",
+          "Desmoplastic Small Round Cell Tumor",
+          "Pediatric Cancer",
+          "Undifferentiated Sarcoma"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Lurbinectedin"
+        ],
+        "retrieved_from": {
+          "payload": "ct_nct05918640_lurbi_fet",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT05918640?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 1,
+        "eligibility_basis": "fusion-family-defined (FET: EWSR1 / FUS / TAF15)",
+        "assessment": "The only trial in this sweep whose retrieved eligibility text names the FET fusion FAMILY rather than a specific partner gene. EMC's usual 5' partner EWSR1 is a FET protein. Its listed conditions contain no EMC term, so no histology search for EMC returns it. Eligibility is decided by the trial team."
+      }
+    ],
+    "molecularly_defined_not_histology_defined": [
+      {
+        "nct_id": "NCT05722886",
+        "brief_title": "DETERMINE (Determining Extended Therapeutic Indications for Existing Drugs in Rare Molecularly Defined Indications Using a National Evaluation Platform Trial) - Master Screening Protocol",
+        "official_title": "DETERMINE (Determining Extended Therapeutic Indications for Existing Drugs in Rare Molecularly Defined Indications Using a National Evaluation Platform Trial): An Umbrella-Basket Platform Trial to Evaluate the Efficacy of Targeted Therapies in Rare Adult, Paediatric and Teenage/Young Adult (TYA) Cancers With Actionable Genomic Alterations, Including Common Cancers With Rare Actionable Alterations",
+        "sponsor_organization": "Cancer Research UK",
+        "overall_status": "RECRUITING",
+        "status_verified_date": "2026-06",
+        "last_update_post_date": "2026-07-01",
+        "phases": [
+          "PHASE2",
+          "PHASE3"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Haematological Malignancy",
+          "Solid Tumour"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Alectinib",
+          "Atezolizumab",
+          "Entrectinib",
+          "Trastuzumab in combination with pertuzumab",
+          "Vemurafenib in combination with cobimetinib",
+          "Capmatinib",
+          "Dabrafenib in combination with trametinib"
+        ],
+        "retrieved_from": {
+          "payload": "ct_determine_arms",
+          "slug": "ct-reverify-c4b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT05722886?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 0,
+        "eligibility_basis": "molecularly defined, arm-matched (rare cancer with an actionable genomic alteration and a relevant open arm)",
+        "assessment": "Listed conditions are 'Haematological Malignancy' and 'Solid Tumour' only, so no EMC histology search returns it. Whether EWSR1::NR4A3 matches an open arm is a question for the trial team."
+      },
+      {
+        "nct_id": "NCT03767075",
+        "brief_title": "A Modular Multi-Basket Trial to Improve Personalized Medicine in Cancer Patients (Basket of Baskets)",
+        "official_title": "Basket of Baskets: A Modular, Open-label, Phase II, Multicentre Study To Evaluate Targeted Agents in Molecularly Selected Populations With Advanced Solid Tumours",
+        "sponsor_organization": "Vall d'Hebron Institute of Oncology",
+        "overall_status": "RECRUITING",
+        "status_verified_date": "2024-04",
+        "last_update_post_date": "2024-04-25",
+        "phases": [
+          "PHASE2"
+        ],
+        "minimum_age": "18 Years",
+        "maximum_age": null,
+        "listed_conditions": [
+          "Advanced Solid Tumor"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Atezolizumab",
+          "Futibatinib",
+          "Amivantamab"
+        ],
+        "retrieved_from": {
+          "payload": "ct_nct03767075_bob",
+          "slug": "ct-reverify-c4b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT03767075?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 1,
+        "eligibility_basis": "molecularly defined (matched therapy by tumour molecular profile)",
+        "assessment": "Listed condition is 'Advanced Solid Tumor' only. NOTE: the sponsor's own record was last verified 2024-04 and last updated 2024-04-25, so its RECRUITING flag is over two years stale in the registry - confirm directly with the site."
+      },
+      {
+        "nct_id": "NCT05768178",
+        "brief_title": "DETERMINE Trial Treatment Arm 05: Vemurafenib in Combination With Cobimetinib in Adult Patients With BRAF Positive Cancers.",
+        "official_title": null,
+        "sponsor_organization": null,
+        "overall_status": "RECRUITING",
+        "status_verified_date": null,
+        "last_update_post_date": null,
+        "phases": [
+          "PHASE2",
+          "PHASE3"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Haematological Malignancy",
+          "Melanoma",
+          "Thyroid Cancer, Papillary",
+          "Ovarian Neoplasms",
+          "Colorectal Neoplasms",
+          "Laryngeal Neoplasms",
+          "Carcinoma, Non-Small-Cell Lung",
+          "Glioma",
+          "Multiple Myeloma",
+          "Erdheim-Chester Disease",
+          "Thyroid Carcinoma, Anaplastic",
+          "Solid Tumour"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Vemurafenib",
+          "Cobimetinib"
+        ],
+        "retrieved_from": {
+          "payload": "ct_basket_recruiting_fixed",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=%22basket%22+OR+%22tumor+agnostic%22+OR+%22histology+agnostic%22+OR+%22rare+tumors%22&filter.overallStatus=RECRUITING%7CNOT_YET_RECRUITING&pageSize=400&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CCondition%7CStudyType"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "eligibility_basis": "molecularly defined DETERMINE arm",
+        "assessment": "Arm of NCT05722886; admission is by genomic alteration, not histology."
+      },
+      {
+        "nct_id": "NCT05770037",
+        "brief_title": "DETERMINE Trial Treatment Arm 01: Alectinib in Adult, Paediatric and Teenage/Young Adult Patients With ALK Positive Cancers",
+        "official_title": null,
+        "sponsor_organization": null,
+        "overall_status": "RECRUITING",
+        "status_verified_date": null,
+        "last_update_post_date": null,
+        "phases": [
+          "PHASE2",
+          "PHASE3"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Haematological Malignancy",
+          "Malignant Neoplasm",
+          "Lymphoproliferative Disorders",
+          "Neoplasms by Histologic Type",
+          "Neoplasms by Site",
+          "Cancer",
+          "Anaplastic Large Cell Lymphoma",
+          "Lymphoma",
+          "Renal Cell Carcinoma",
+          "Neuroblastoma",
+          "Solid Tumour"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Alectinib"
+        ],
+        "retrieved_from": {
+          "payload": "ct_basket_recruiting_fixed",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=%22basket%22+OR+%22tumor+agnostic%22+OR+%22histology+agnostic%22+OR+%22rare+tumors%22&filter.overallStatus=RECRUITING%7CNOT_YET_RECRUITING&pageSize=400&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CCondition%7CStudyType"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "eligibility_basis": "molecularly defined DETERMINE arm",
+        "assessment": "Arm of NCT05722886; admission is by genomic alteration, not histology."
+      },
+      {
+        "nct_id": "NCT05770102",
+        "brief_title": "DETERMINE Trial Treatment Arm 02: Atezolizumab in Adult, Paediatric and Teenage/Young Adult Patients With Cancers With High Tumour Mutational Burden (TMB) or Microsatellite Instability-high (MSI-high) or Proven Constitutional Mismatch Repair Deficiency (CMMRD) Disposition",
+        "official_title": null,
+        "sponsor_organization": null,
+        "overall_status": "RECRUITING",
+        "status_verified_date": null,
+        "last_update_post_date": null,
+        "phases": [
+          "PHASE2",
+          "PHASE3"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Malignancy",
+          "Malignant Neoplasm",
+          "Lymphoproliferative Disorders",
+          "Neoplasms by Histologic Type",
+          "Neoplasms by Site",
+          "Cancer",
+          "Colorectal Neoplasms",
+          "Endometrial Neoplasms",
+          "Melanoma",
+          "Solid Tumours"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Atezolizumab"
+        ],
+        "retrieved_from": {
+          "payload": "ct_basket_recruiting_fixed",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=%22basket%22+OR+%22tumor+agnostic%22+OR+%22histology+agnostic%22+OR+%22rare+tumors%22&filter.overallStatus=RECRUITING%7CNOT_YET_RECRUITING&pageSize=400&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CCondition%7CStudyType"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "eligibility_basis": "molecularly defined DETERMINE arm",
+        "assessment": "Arm of NCT05722886; admission is by genomic alteration, not histology."
+      },
+      {
+        "nct_id": "NCT05770544",
+        "brief_title": "DETERMINE Trial Treatment Arm 03: Entrectinib in Adult, Paediatric and Teenage/Young Adult Patients With ROS1 Gene Fusion-Positive Cancers.",
+        "official_title": null,
+        "sponsor_organization": null,
+        "overall_status": "RECRUITING",
+        "status_verified_date": null,
+        "last_update_post_date": null,
+        "phases": [
+          "PHASE2",
+          "PHASE3"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Haematological Malignancy",
+          "Malignancy",
+          "Malignant Neoplasm",
+          "Lymphoproliferative Disorders",
+          "Neoplasms by Histologic Type",
+          "Neoplasms by Site",
+          "Cancer",
+          "Brain Neoplasms",
+          "Melanoma",
+          "Glioma",
+          "Solid Tumour"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Entrectinib"
+        ],
+        "retrieved_from": {
+          "payload": "ct_basket_recruiting_fixed",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=%22basket%22+OR+%22tumor+agnostic%22+OR+%22histology+agnostic%22+OR+%22rare+tumors%22&filter.overallStatus=RECRUITING%7CNOT_YET_RECRUITING&pageSize=400&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CCondition%7CStudyType"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "eligibility_basis": "molecularly defined DETERMINE arm",
+        "assessment": "Arm of NCT05722886; admission is by genomic alteration, not histology."
+      },
+      {
+        "nct_id": "NCT05786716",
+        "brief_title": "DETERMINE Trial Treatment Arm 04: Trastuzumab in Combination With Pertuzumab in Adult, Paediatric and Teenage/Young Adult Patients With Cancers With HER2 Amplification or Activating Mutations",
+        "official_title": null,
+        "sponsor_organization": null,
+        "overall_status": "RECRUITING",
+        "status_verified_date": null,
+        "last_update_post_date": null,
+        "phases": [
+          "PHASE2",
+          "PHASE3"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Haematological Malignancy",
+          "Colorectal Neoplasms",
+          "Urinary Bladder Neoplasm",
+          "Gallbladder Neoplasms",
+          "Salivary Gland Neoplasm",
+          "Lung Neoplasm",
+          "Pancreatic Neoplasm",
+          "Ovarian Neoplasms",
+          "Prostatic Neoplasm",
+          "Skin Neoplasm",
+          "Solid Tumour"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Trastuzumab",
+          "Pertuzumab"
+        ],
+        "retrieved_from": {
+          "payload": "ct_basket_recruiting_fixed",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=%22basket%22+OR+%22tumor+agnostic%22+OR+%22histology+agnostic%22+OR+%22rare+tumors%22&filter.overallStatus=RECRUITING%7CNOT_YET_RECRUITING&pageSize=400&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CCondition%7CStudyType"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "eligibility_basis": "molecularly defined DETERMINE arm",
+        "assessment": "Arm of NCT05722886; admission is by genomic alteration, not histology."
+      },
+      {
+        "nct_id": "NCT06988475",
+        "brief_title": "DETERMINE Trial Treatment Arm 06: Capmatinib in Adult Patients With Cancers Harbouring MET Dysregulations",
+        "official_title": "DETERMINE (Determining Extended Therapeutic Indications for Existing Drugs in Rare Molecularly Defined Indications Using a National Evaluation Platform Trial): An Umbrella-Basket Platform Trial to Evaluate the Efficacy of Targeted Therapies in Rare Adult, Paediatric and Teenage/Young Adult (TYA) Cancers With Actionable Genomic Alterations, Including Common Cancers With Rare Actionable Alterations. Treatment Arm 06: Capmatinib in Adult Patients With Cancers Harbouring MET Dysregulations",
+        "sponsor_organization": "Cancer Research UK",
+        "overall_status": "RECRUITING",
+        "status_verified_date": "2025-11",
+        "last_update_post_date": "2025-11-24",
+        "phases": [
+          "PHASE2",
+          "PHASE3"
+        ],
+        "minimum_age": "18 Years",
+        "maximum_age": null,
+        "listed_conditions": [
+          "Solid Tumour",
+          "Haematological Malignancy",
+          "Malignant Neoplasm",
+          "Neoplasms by Histologic Type",
+          "Neoplasms by Site",
+          "Cancer",
+          "Malignancy",
+          "Glioma",
+          "Neuroblastoma",
+          "Gastric Cancer",
+          "Soft Tissue Sarcoma"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Capmatinib"
+        ],
+        "retrieved_from": {
+          "payload": "ct_sarcoma_2026_new",
+          "slug": "ct-reverify-frontier-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=sarcoma&filter.overallStatus=RECRUITING%7CNOT_YET_RECRUITING&query.term=fusion+OR+transcription+factor+OR+degrader&pageSize=60&format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 1,
+        "eligibility_basis": "molecularly defined DETERMINE arm",
+        "assessment": "Arm of NCT05722886; admission is by genomic alteration, not histology."
+      },
+      {
+        "nct_id": "NCT07440290",
+        "brief_title": "DETERMINE Trial Treatment Arm 07: Dabrafenib in Combination With Trametinib in Adult, Paediatric and Teenage/Young Adult Patients With BRAF V600 Mutation-Positive Cancers.",
+        "official_title": null,
+        "sponsor_organization": null,
+        "overall_status": "NOT_YET_RECRUITING",
+        "status_verified_date": null,
+        "last_update_post_date": null,
+        "phases": [
+          "PHASE2",
+          "PHASE3"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Haematological Malignancy",
+          "Malignant Neoplasm",
+          "Lymphoproliferative Disorders",
+          "Neoplasms by Histologic Type",
+          "Neoplasms by Site",
+          "Gastrointestinal Cancer",
+          "Non-Melanoma Skin Cancer (NMSC)",
+          "Langerhans Cell Histiocytosis (LCH)",
+          "Cancer",
+          "Erdheim-Chester Disease",
+          "Thyroid Carcinoma, Papillary",
+          "Ovarian Neoplasms",
+          "Colorectal Neoplasms",
+          "Laryngeal Neoplasms",
+          "Carcinoma, Non-Small Cell-Lung",
+          "Glioma",
+          "Multiple Myeloma",
+          "Thyroid Carcinoma, Anaplastic",
+          "Solid Tumour"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Dabrafenib",
+          "Trametinib"
+        ],
+        "retrieved_from": {
+          "payload": "ct_basket_recruiting_fixed",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=%22basket%22+OR+%22tumor+agnostic%22+OR+%22histology+agnostic%22+OR+%22rare+tumors%22&filter.overallStatus=RECRUITING%7CNOT_YET_RECRUITING&pageSize=400&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CCondition%7CStudyType"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "eligibility_basis": "molecularly defined DETERMINE arm",
+        "assessment": "Arm of NCT05722886; admission is by genomic alteration, not histology."
+      }
+    ],
+    "candidates_requiring_eligibility_text_verification": [
+      {
+        "nct_id": "NCT06571734",
+        "brief_title": "XL092 (Zanzalintinib) for the Treatment of Patients With Metastatic or Unresectable Leiomyosarcoma, Bone Sarcoma or Translocation-associated Soft Tissue Sarcoma",
+        "official_title": null,
+        "sponsor_organization": null,
+        "overall_status": "RECRUITING",
+        "status_verified_date": null,
+        "last_update_post_date": null,
+        "phases": [
+          "PHASE2"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Metastatic Leiomyosarcoma",
+          "Unresectable Leiomyosarcoma",
+          "Bone Sarcoma",
+          "Translocation-associated Soft Tissue Sarcoma",
+          "Synovial Sarcomas",
+          "Osteosarcoma Metastatic",
+          "Ewing Sarcoma",
+          "Ewing Sarcoma Metastatic",
+          "Sarcoma Metastatic",
+          "Sarcoma of Bone"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Biospecimen Collection",
+          "Computed Tomography",
+          "Echocardiography",
+          "Multigated Acquisition Scan",
+          "Zanzalintinib"
+        ],
+        "retrieved_from": {
+          "payload": "ct_sarcoma_recruiting_fixed",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=soft+tissue+sarcoma&filter.overallStatus=RECRUITING&pageSize=1000&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CCondition%7CStudyType"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "eligibility_basis": "listed condition is itself translocation-defined ('Translocation-associated Soft Tissue Sarcoma')",
+        "assessment": "CANDIDATE - eligibility text not retrieved (this payload was fields-limited). The condition list carries a fusion-defined entry rather than EMC's histology, which is the same indexing failure. Must be checked against the full protocol before use."
+      },
+      {
+        "nct_id": "NCT07188532",
+        "brief_title": "Biologically-Adapted, Dose-Escalated Radiotherapy for the Treatment of Ewing Sarcoma, BEAR Trial",
+        "official_title": null,
+        "sponsor_organization": null,
+        "overall_status": "RECRUITING",
+        "status_verified_date": null,
+        "last_update_post_date": null,
+        "phases": [
+          "NA"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Ewing Sarcoma",
+          "Round Cell Sarcoma With EWSR1-non-ETS Fusion"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Biospecimen Collection",
+          "Chemotherapy",
+          "Computed Tomography",
+          "Conventional Radiotherapy",
+          "Definitive Surgical Resection",
+          "Dose-escalated Radiation Therapy",
+          "Electronic Health Record Review",
+          "External Beam Radiation Therapy",
+          "Hypofractionated Radiation Therapy",
+          "Magnetic Resonance Imaging",
+          "Positron Emission Tomography",
+          "Questionnaire Administration",
+          "Radiation Therapy"
+        ],
+        "retrieved_from": {
+          "payload": "ct_fusion_recruiting_fixed",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=%22gene+fusion%22+OR+%22fusion-positive%22+OR+%22FET+fusion%22+OR+%22translocation%22&filter.overallStatus=RECRUITING&pageSize=400&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CCondition%7CStudyType"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "eligibility_basis": "listed condition 'Round Cell Sarcoma With EWSR1-non-ETS Fusion'",
+        "assessment": "CANDIDATE - the eligibility text was retrieved but was corrupted in transport, so it could not be read. EMC is not conventionally classified as a round cell sarcoma; this must be resolved from the protocol, not inferred."
+      },
+      {
+        "nct_id": "NCT06094101",
+        "brief_title": "Personalized Vaccination in Fusion+ Sarcoma Patients (PerVision)",
+        "official_title": null,
+        "sponsor_organization": null,
+        "overall_status": "RECRUITING",
+        "status_verified_date": null,
+        "last_update_post_date": null,
+        "phases": [
+          "PHASE1",
+          "PHASE2"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Ewing Sarcoma",
+          "Rhabdomyosarcoma",
+          "Synovial Sarcoma"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Peptide vaccine IPX"
+        ],
+        "retrieved_from": {
+          "payload": "ct_fusion_recruiting_fixed",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=%22gene+fusion%22+OR+%22fusion-positive%22+OR+%22FET+fusion%22+OR+%22translocation%22&filter.overallStatus=RECRUITING&pageSize=400&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CCondition%7CStudyType"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "eligibility_basis": "titled 'Fusion+ Sarcoma'",
+        "assessment": "CANDIDATE - eligibility text corrupted in transport. Listed conditions are Ewing, rhabdomyosarcoma and synovial sarcoma."
+      },
+      {
+        "nct_id": "NCT04151342",
+        "brief_title": "CAnadian CAncers With Rare Molecular Alterations (CARMA) - Basket Real-world Observational Study (BROS)",
+        "official_title": null,
+        "sponsor_organization": null,
+        "overall_status": "RECRUITING",
+        "status_verified_date": null,
+        "last_update_post_date": null,
+        "phases": null,
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Cancer",
+          "Malignancies Multiple",
+          "Malignant Solid Tumor",
+          "Cancer, Therapy-Related",
+          "Molecular Sequence Variation",
+          "Genetic Alteration",
+          "Gene Fusion",
+          "Receptor Tyrosine Kinase Gene Mutation",
+          "RTK Family Gene Mutation",
+          "Ras (Kras or Nras) Gene Mutation"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Cancer treatment with tyrosine kinase inhibitors (TKIs) or other molecularly targeted therapeutic agents.",
+          "Patient-reported outcomes (PROs)"
+        ],
+        "retrieved_from": {
+          "payload": "ct_fusion_recruiting_fixed",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=%22gene+fusion%22+OR+%22fusion-positive%22+OR+%22FET+fusion%22+OR+%22translocation%22&filter.overallStatus=RECRUITING&pageSize=400&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CCondition%7CStudyType"
+        },
+        "eligibility_text_retrieved": false,
+        "removal_markers_in_eligibility_text": null,
+        "eligibility_basis": "observational basket keyed on rare molecular alterations, including 'Gene Fusion' as a listed condition",
+        "assessment": "CANDIDATE, observational - eligibility text not retrieved (fields-limited payload)."
+      }
+    ],
+    "screened_and_excluded": [
+      {
+        "nct_id": "NCT07695311",
+        "brief_title": "EWSR1 Immunotherapy in Ewing Sarcoma and DSRCT",
+        "official_title": "Precision Analysis of Fusion Genes in Ewing Sarcoma (ES) and Desmoplastic Small Round Cell Tumor (DSRCT), Then EWSR1 (Ewing Sarcoma Gene Breakpoint Region 1 Gene) Immunotherapy Without or With Anti-CTLA-4 (Botensilimab) and Anti-PD1 (Balstilimab)",
+        "sponsor_organization": "Case Comprehensive Cancer Center",
+        "overall_status": "NOT_YET_RECRUITING",
+        "status_verified_date": "2026-07",
+        "last_update_post_date": "2026-07-16",
+        "phases": [
+          "PHASE1"
+        ],
+        "minimum_age": "5 Years",
+        "maximum_age": "20 Years",
+        "listed_conditions": [
+          "Ewing Sarcoma",
+          "Desmoplastic Small Round Cell Tumor"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "EWSR1 immunotherapy",
+          "Botensilimab",
+          "Balstilimab"
+        ],
+        "retrieved_from": {
+          "payload": "ct_sarcoma_2026_new",
+          "slug": "ct-reverify-frontier-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies?query.cond=sarcoma&filter.overallStatus=RECRUITING%7CNOT_YET_RECRUITING&query.term=fusion+OR+transcription+factor+OR+degrader&pageSize=60&format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 1,
+        "eligibility_basis": "fusion-defined but partner-restricted (EWSR1-FLI1 / EWSR1-ERG / EWSR1-WT1)",
+        "assessment": "EXCLUDED for EMC on the retrieved eligibility text: the required fusions are named individually and EWSR1::NR4A3 is not among them."
+      },
+      {
+        "nct_id": "NCT07328425",
+        "brief_title": "Clinical Study in Adult and Young Adult Patients With Advanced Desmoplastic Small Round Cell Tumor (DSRCT) ISG-TULIPS",
+        "official_title": "Phase II Study of Lurbinectedin and Irinotecan in Adult and Young Adult Patients With Advanced Desmoplastic Small Round Cell Tumor (DSRCT)",
+        "sponsor_organization": "Italian Sarcoma Group",
+        "overall_status": "RECRUITING",
+        "status_verified_date": "2026-06",
+        "last_update_post_date": "2026-06-11",
+        "phases": [
+          "PHASE2"
+        ],
+        "minimum_age": "15 Years",
+        "maximum_age": null,
+        "listed_conditions": [
+          "Desmoplastic Small Round Cell Tumor"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "Lurbinectedin",
+          "Irinotecan"
+        ],
+        "retrieved_from": {
+          "payload": "ct_nct07328425_dsrct",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT07328425?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 1,
+        "eligibility_basis": "fusion-defined but partner-restricted (EWSR1-WT1)",
+        "assessment": "EXCLUDED for EMC on the retrieved eligibility text."
+      },
+      {
+        "nct_id": "NCT05275426",
+        "brief_title": "A Study of LY2880070 and Gemcitabine in People With Ewing Sarcoma,Ewing-Like Sarcoma, and Desmoplastic Small Round Cell Tumor",
+        "official_title": "A Phase II Study of Oral CHK1 Inhibitor LY2880070 in Combination With Low-Dose Gemcitabine in Patients With Relapsed or Refractory Ewing Sarcoma, Ewing-like Sarcoma, and Desmoplastic Small Round Cell Tumor",
+        "sponsor_organization": "Memorial Sloan Kettering Cancer Center",
+        "overall_status": "COMPLETED",
+        "status_verified_date": "2025-08",
+        "last_update_post_date": "2025-08-15",
+        "phases": [
+          "PHASE2"
+        ],
+        "minimum_age": null,
+        "maximum_age": null,
+        "listed_conditions": [
+          "Ewing Sarcoma",
+          "Ewing-Like Sarcoma"
+        ],
+        "emc_in_listed_conditions": false,
+        "interventions": [
+          "LY2880070",
+          "Gemcitabine"
+        ],
+        "retrieved_from": {
+          "payload": "ct_nct05275426_ly2880070",
+          "slug": "ct-reverify-c3b-2026-08-07",
+          "source_url": "https://clinicaltrials.gov/api/v2/studies/NCT05275426?format=json"
+        },
+        "eligibility_text_retrieved": true,
+        "removal_markers_in_eligibility_text": 1,
+        "eligibility_basis": "fusion-defined and would have admitted EMC ('a rearrangement between EWSR1 and a non-ETS family gene')",
+        "assessment": "CLOSED, not a route: retrieved status is COMPLETED. Recorded because it is the clearest second instance of the mechanism - eligibility that admits EMC behind a condition list of 'Ewing Sarcoma; Ewing-Like Sarcoma'."
+      }
+    ],
+    "nr4a3_is_absent_from_the_registry_index": {
+      "finding": "A registry-wide term search for NR4A3 returns 5 studies and NOT ONE is an oncology study - they are exercise-physiology, spinal-cord-injury, neck-pain and cholangiocarcinoma-surgery trials that mention the gene incidentally. No trial is indexed to EMC's driver gene.",
+      "search_url": "https://clinicaltrials.gov/api/v2/studies?query.term=NR4A3&pageSize=100&format=json",
+      "studies": [
+        {
+          "nct_id": "NCT00733200",
+          "brief_title": "Surgical Treatment of Hilar Cholangiocarcinoma: Minor or Major Liver Resection?",
+          "official_title": "Surgical Treatment of Hilar Cholangiocarcinoma: Minor or Major Liver Resection?",
+          "sponsor_organization": "Huazhong University of Science and Technology",
+          "overall_status": "COMPLETED",
+          "status_verified_date": "2008-08",
+          "last_update_post_date": "2009-12-11",
+          "phases": [
+            "NA"
+          ],
+          "minimum_age": "26 Years",
+          "maximum_age": "72 Years",
+          "listed_conditions": [
+            "Cholangiocarcinoma",
+            "Surgical Treatment",
+            "Hepatectomy"
+          ],
+          "emc_in_listed_conditions": false,
+          "interventions": [
+            "Minor or Major Liver Resection"
+          ],
+          "retrieved_from": {
+            "payload": "ct_nr4a3_term",
+            "slug": "ct-reverify-sweeptargets-2026-08-07",
+            "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=NR4A3&pageSize=100&format=json"
+          },
+          "eligibility_text_retrieved": true,
+          "removal_markers_in_eligibility_text": 0
+        },
+        {
+          "nct_id": "NCT02968888",
+          "brief_title": "Anabolic Effects of Whey and Casein After Strength Training in Young and Elderly",
+          "official_title": "Effects of Whey and Casein Supplementation on Acute Anabolic Responses in Muscle After Strength Training in Young and Elderly",
+          "sponsor_organization": "Norwegian School of Sport Sciences",
+          "overall_status": "COMPLETED",
+          "status_verified_date": "2018-04",
+          "last_update_post_date": "2018-04-10",
+          "phases": [
+            "NA"
+          ],
+          "minimum_age": "18 Years",
+          "maximum_age": null,
+          "listed_conditions": [
+            "Healthy",
+            "Young",
+            "Elderly"
+          ],
+          "emc_in_listed_conditions": false,
+          "interventions": [
+            "Strength training",
+            "Milk 1%",
+            "Whey protein concentrate 80",
+            "Native whey"
+          ],
+          "retrieved_from": {
+            "payload": "ct_nr4a3_term",
+            "slug": "ct-reverify-sweeptargets-2026-08-07",
+            "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=NR4A3&pageSize=100&format=json"
+          },
+          "eligibility_text_retrieved": true,
+          "removal_markers_in_eligibility_text": 0
+        },
+        {
+          "nct_id": "NCT03033953",
+          "brief_title": "Effects of Native Whey or Milk Supplementation on Adaptations to 12 Weeks of Strength Training in Young and Elderly",
+          "official_title": "Effects of Native Whey and Milk Supplementation on Changes in Muscle Mass and Strength After 12 Weeks of Strength Training in Young and Elderly",
+          "sponsor_organization": "Norwegian School of Sport Sciences",
+          "overall_status": "COMPLETED",
+          "status_verified_date": "2017-01",
+          "last_update_post_date": "2017-01-27",
+          "phases": [
+            "NA"
+          ],
+          "minimum_age": "20 Years",
+          "maximum_age": null,
+          "listed_conditions": [
+            "Healthy",
+            "Young",
+            "Elderly"
+          ],
+          "emc_in_listed_conditions": false,
+          "interventions": [
+            "Native whey",
+            "Milk",
+            "Strength training"
+          ],
+          "retrieved_from": {
+            "payload": "ct_nr4a3_term",
+            "slug": "ct-reverify-sweeptargets-2026-08-07",
+            "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=NR4A3&pageSize=100&format=json"
+          },
+          "eligibility_text_retrieved": true,
+          "removal_markers_in_eligibility_text": 0
+        },
+        {
+          "nct_id": "NCT03139344",
+          "brief_title": "Long Duration Activity and Metabolic Control After Spinal Cord Injury",
+          "official_title": "Long Duration Activity and Metabolic Control After Spinal Cord Injury",
+          "sponsor_organization": "University of Iowa",
+          "overall_status": "COMPLETED",
+          "status_verified_date": "2023-01",
+          "last_update_post_date": "2023-02-16",
+          "phases": [
+            "NA"
+          ],
+          "minimum_age": "18 Years",
+          "maximum_age": null,
+          "listed_conditions": [
+            "Spinal Cord Injuries"
+          ],
+          "emc_in_listed_conditions": false,
+          "interventions": [
+            "Low-frequency Exercise",
+            "High-frequency Exercise"
+          ],
+          "retrieved_from": {
+            "payload": "ct_nr4a3_term",
+            "slug": "ct-reverify-sweeptargets-2026-08-07",
+            "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=NR4A3&pageSize=100&format=json"
+          },
+          "eligibility_text_retrieved": true,
+          "removal_markers_in_eligibility_text": 0
+        },
+        {
+          "nct_id": "NCT05447338",
+          "brief_title": "Manual Therapy in Patients With Neck Pain",
+          "official_title": "Effectiveness of Post Muscle Inhibition Specific Joint Mobilization on Range of Motion and Pain in Patients With Mechanical Neck Pain",
+          "sponsor_organization": "Universidad Nacional de Córdoba",
+          "overall_status": "RECRUITING",
+          "status_verified_date": "2025-01",
+          "last_update_post_date": "2025-01-28",
+          "phases": [
+            "NA"
+          ],
+          "minimum_age": "25 Years",
+          "maximum_age": "50 Years",
+          "listed_conditions": [
+            "Neck Pain"
+          ],
+          "emc_in_listed_conditions": false,
+          "interventions": [
+            "Specific joint mobilization post muscle inhibition on C1",
+            "Maitland C2",
+            "SNAG C1",
+            "Specific joint mobilization post muscle inhibition on C2",
+            "Myofascial inductions; Suboccipital induction",
+            "Myofascial inductions; Synchronization of the temporal bones PHASE 1",
+            "Myofascial inductions; Horizontal induction of the TMJ.",
+            "Myofascial inductions; Posterior elongation of the cervical fascia in the supine position",
+            "Myofascial induction; Angle of the scapula",
+            "Myofascial induction sternocleidomastoid muscles",
+            "Myofascial induction of pectoralis major and minor",
+            "Myofascial induction; upper trapezius",
+            "Myofascial induction, of the fascia of the subscapularis muscle",
+            "Intraoral myofascial induction of the masseter",
+            "Deep myofascial induction of the external pterygoid",
+            "Intraoral mifascial induction of the internal pterygoid",
+            "Myofascial inductions; Synchronization of the temporal bones PHASE 2"
+          ],
+          "retrieved_from": {
+            "payload": "ct_nr4a3_term",
+            "slug": "ct-reverify-sweeptargets-2026-08-07",
+            "source_url": "https://clinicaltrials.gov/api/v2/studies?query.term=NR4A3&pageSize=100&format=json"
+          },
+          "eligibility_text_retrieved": true,
+          "removal_markers_in_eligibility_text": 0
+        }
+      ]
+    },
+    "_supporting_literature_read_in_the_same_ci_run": {
+      "why": "The draft notice states how often EMC's fusion partner is a FET-family gene. That figure was unsourced in the source memo, so the full text was retrieved rather than left as a remembered number.",
+      "source": "Stacchiotti S, Baldi GG, Morosi C, Gronchi A, Maestro R. Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Biology and Clinical Management. Cancers (Basel) 2020;12(9):2703.",
+      "pmid": "32967265",
+      "doi": "10.3390/cancers12092703",
+      "pmcid": "PMC7563993",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7563993/fullTextXML",
+      "retrieved_in": "ct-reverify-c3b-2026-08-07 (Actions run 31176811772)",
+      "verbatim": "In the vast majority of cases (over 70%), NR4A3 fuses to the N-terminal transactivation domain of Ewing Sarcoma RNA Binding Protein 1 ( EWSR1 ) (chromosome 22q12.2) ... less frequently (about 20% of cases) to the transactivation domain of TATA-Box Binding Protein Associated Factor 15 (TAF15) ... Rarer (<5%) NR4A3 fusion partners include FUS (alias TLS ), TCF12 ... and Transforming Growth Factor ( TFG )",
+      "provenance": "SECONDARY - this is a review. Per systems/POLICY-evidence.md a review figure must not be presented as a primary study's; the primary series behind these percentages has NOT been traced.",
+      "note_for_the_reader": "EWSR1, TAF15 and FUS are the three FET-family genes; TCF12 and TFG are not."
+    },
+    "limits_of_this_screen": [
+      "The registry-wide EWSR1 term search returns full records and is therefore capped by response size, not by pageSize: 7 studies came back for pageSize=100. It is a sample of EWSR1-indexed trials, not an enumeration.",
+      "The large screens (fusion, basket, sarcoma) are fields-limited and carry no eligibility text, so they can identify candidates but cannot confirm one.",
+      "Four candidates therefore remain unconfirmed. Confirming them needs one further per-NCT registry read, which needs a new URL manifest on a ref CI can check out.",
+      "Non-US registries are not covered: the EU CTIS endpoint in the manifest returns 403 'Missing Authentication Token'."
+    ]
+  }
+}

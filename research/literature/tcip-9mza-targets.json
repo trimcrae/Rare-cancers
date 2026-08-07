@@ -1,0 +1,10 @@
+{
+  "_readme": "Round 4 for BLK-TCIP-INTERFACE-FLOOR, 2026-08-07. RCSB's own search index, queried in CI, returns EXACTLY ONE entry matching both 'BCL6' and 'p300': total_count 1, identifier 9MZA. The KAT-TCIP paper (Nix et al., Cell 2026, PMID 42476129) states in its abstract that it solved 'the crystal structure of the chemically induced p300-BCL6 complex'. Those are two independent facts and this round exists to JOIN them rather than assume the join: the entry JSON carries rcsb_primary_citation (title, PubMed id, DOI), so the deposition itself says which paper it belongs to. If the citation does not match, 9MZA is dropped and the blocker does not retire on it.",
+  "_note": "The three RCSB full-text searches for 'KAT-TCIP' and 'transcriptional chemical inducer of proximity' each answered HTTP 204 (no content = zero hits), so the entry is not findable by the modality's own name - only by its two proteins. Worth recording: a structure can exist and be invisible to the search terms a reader would try first.",
+  "cif_9MZA": "https://files.rcsb.org/download/9MZA.cif",
+  "rcsb_entry_9MZA": "https://data.rcsb.org/rest/v1/core/entry/9MZA",
+  "rcsb_assembly_9MZA": "https://data.rcsb.org/rest/v1/core/assembly/9MZA/1",
+  "kat_tcip_biorxiv_api": "https://api.biorxiv.org/details/biorxiv/10.1101/2025.03.14.643404",
+  "tracer_biorxiv_api": "https://api.biorxiv.org/details/biorxiv/10.1101/2025.10.22.680877",
+  "epmc_9mza_citing": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%229MZA%22&format=json&resultType=core&pageSize=25"
+}

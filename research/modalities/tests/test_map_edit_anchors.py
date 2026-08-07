@@ -281,3 +281,71 @@ def test_widening_measures_the_stripped_probe_so_a_landed_edit_is_not_called_dea
                            "proposed_text": proposed, "why": "w", "artifact": "x"}],
                          _write("noise\n" + proposed + "\n"))
     assert got[0]["anchor_status"] == "APPLIED", "the landed edit must not read as dead"
+
+
+def test_a_globally_unique_prefix_in_a_DIFFERENT_section_is_not_evidence_this_edit_landed():
+    """⛔ MEASURED 2026-08-07 ON THE LIVE ROADMAP, and it produced a FALSE `APPLIED`.
+
+    An unapplied `Q2` state-cell edit proposed a cell opening `✓ **complete 2026-08-03 — …`. Its full
+    probe was correctly ABSENT, so the prefix retry ran — and the 25-character prefix
+    `✓ **complete 2026-08-03 —` cleared every guard the retry had: long enough, absent from
+    `current_text`, and present EXACTLY ONCE in the document. The one occurrence was row 3's long-applied
+    `✓ **complete 2026-08-03 — and the gate FAILS**`, in a different section ~1,700 lines away, so the
+    router printed `= already applied` for an edit that had never been applied.
+
+    ⚠ THE LESSON IS THAT GLOBAL UNIQUENESS IS NOT LOCALITY. In a document whose rows are all written the
+    same way, a generic opener is unique by accident. The last-resort block search was already bounded by
+    the anchor; the prefix retry was not, and that asymmetry WAS the defect.
+    """
+    current = "| **Qx** | do the thing | ⊕ CMP (with `Qy`) | ○ | **—** | **$0** |"
+    proposed = ("| **Qx** | do the thing | ⊕ CMP (with `Qy`) | ✓ **complete 2026-08-03 — done** | "
+                "**—** | **$0** |")
+    probe, discriminating = mea.build_probe(proposed, current)
+    assert discriminating
+
+    # The document does NOT contain this edit's landing. It contains a DIFFERENT row that happens to open
+    # with the same generic prefix, far outside the anchor's window.
+    far_away = "\n".join(["filler line %d" % i for i in range(400)])
+    doc = ("| **Qx** | do the thing | ⊕ CMP (with `Qy`) | ○ | **—** | **$0** |\n"
+           + far_away
+           + "\n| **3** | another row | ✓ **complete 2026-08-03 — and the gate FAILS** | — | **$0** |\n")
+    edit = {"section": "s", "anchor": "⊕ CMP (with `Qy`)", "current_text": current,
+            "proposed_text": proposed, "why": "w", "artifact": "x"}
+    got, _s = mea.verify([dict(edit)], _write(doc))
+    assert got[0]["anchor_status"] == "OK", (
+        "an unapplied edit must never be reported APPLIED off a prefix that matched a different section")
+
+    # …and the retry must still do its real job: a landing later extended IN PLACE reads APPLIED.
+    landed = ("| **Qx** | do the thing | ⊕ CMP (with `Qy`) | ✓ **complete 2026-08-03 — done, and then "
+              "amended further** | **—** | **$0** |\n" + far_away)
+    got, _s = mea.verify([dict(edit)], _write(landed))
+    assert got[0]["anchor_status"] == "APPLIED", (
+        "the prefix retry must still catch a landed-then-extended edit")
+
+
+def test_locality_must_not_veto_an_edit_whose_region_cannot_be_located_at_all():
+    """⚠ THE OVER-CORRECTION, MEASURED 2026-08-07 MINUTES AFTER THE GUARD ABOVE WAS ADDED.
+
+    The first version of the locality check returned False whenever no window could be resolved, and that
+    flipped a genuinely-APPLIED edit (`row25-5bt-release` in `nr4a3-linker-library-canonical.json`) into a
+    DEAD ANCHOR — turning `test_linker_library_canonical` red. That edit has no resolvable region for two
+    compounding reasons: its `anchor` is a PROSE location no `find` can match, and its `current_text` is
+    gone because the edit landed and the clause was then restyled into
+    `⚠ **Superseded, retained:** "…"`.
+
+    ⛔ UNKNOWABLE IS NOT FALSE. A locality check that cannot run must fall back to the previous behaviour
+    (global uniqueness), not veto — otherwise it manufactures dead anchors out of successful routing,
+    which is the pressure that stops sessions routing edits at all.
+    """
+    current = "**RUN IT — it needs no authorization.**"
+    proposed = "**RUN IT — it needs no authorization, and the hold is DISCHARGED with a long tail clause.**"
+    doc = ('⚠ **Superseded, retained:** *"RUN IT — it needs no authorization, and the hold is DISCHARGED '
+           'with a long tail clause."* and then some further text\n')
+    got, _s = mea.verify([{"section": "s", "anchor": "row 1's 'next action' cell opening",
+                           "current_text": current, "proposed_text": proposed,
+                           "why": "w", "artifact": "x"}], _write(doc))
+    assert got[0]["anchor_status"] == "APPLIED", (
+        "an edit that landed and was restyled, with no locatable region, must still read APPLIED")
+    assert mea._in_anchor_window("anything at all", "a prose anchor nothing matches",
+                                 "text that is not in the doc either", [("p", doc)]) is True, (
+        "with no resolvable window the locality check must abstain, not refuse")

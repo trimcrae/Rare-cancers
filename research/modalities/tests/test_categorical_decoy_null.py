@@ -1,4 +1,4 @@
-"""Pure-function tests for the C02 cross-system decoy null and the C04 pocket contrast.
+"""Pure-function tests for the IC-2 cross-system decoy null and the IC-4 pocket contrast.
 
 Everything exercised here is dependency-free: no fpocket, no network, no structures beyond the two-line PDB
 fragments built inline. The heavy scientific steps are IMPORTED from already-tested modules
@@ -181,7 +181,7 @@ def test_ordered_decoy_statistic_exposure_filter_can_remove_a_buried_paralogue_t
 
 
 # ---------------------------------------------------------------------------------------------------------
-# C04 helpers
+# IC-4 helpers
 # ---------------------------------------------------------------------------------------------------------
 def test_pool_detections_recomputes_fractions_rather_than_averaging_them():
     a = {"n_propagated": 25, "n_detected": 25, "n_ge_dstar": 10}

@@ -1,0 +1,352 @@
+{
+ "_what": "Is RET a target GENE of EWSR1::NR4A3, and does RET in EMC clear the measured-activation bar MET in clear cell sarcoma failed?",
+ "_framing": "Asks whether RET is a TARGET GENE of the EWSR1::NR4A3 fusion and whether RET in EMC clears the measured-activation bar that MET in clear cell sarcoma failed. Motif enrichment is a plausibility filter, not evidence of occupancy; mRNA is not phosphorylation. No claim of selectivity, efficacy, safety, a therapeutic window or clinical readiness is made or implied.",
+ "_lane": "emc-unexplored-treatment-lanes.md \u00a73.1 (ranked #1 of twelve)",
+ "_generated_from": "emc-ret-target-scan-inputs.json",
+ "part_1_nbre_scan": {
+  "_question": "Does RET's TSS-centred regulatory window carry NBRE/NurRE elements at a rate a composition-matched null does not already explain?",
+  "_motifs": {
+   "NBRE": {
+    "consensus": "AAAGGTCA",
+    "source_pmid": "1902986"
+   },
+   "NurRE": {
+    "consensus": "TGATATTT(N6)AAATGCCA",
+    "source_pmid": "9315667",
+    "caveat": "NR4A3 homodimerises on NurRE more weakly than NR4A1/NR4A2 \u2014 nr4a3-emc-biology-evidence.md"
+   }
+  },
+  "_window": {
+   "upstream_of_tss": 10000,
+   "downstream_of_tss": 15000,
+   "_frozen_before_any_result": true,
+   "_why_asymmetric": "RET's only experimentally validated distal element sits at ~+9.7 kb in the first intron (HOXB5, PMID 24794774), so a symmetric 5 kb window would have excluded it. Widened BEFORE any RET sequence was read \u2014 on published architecture, not on a count this module produced.",
+   "known_elements": [
+    {
+     "name": "MCS+9.7",
+     "where": "RET first intron, ~+9.7 kb from the TSS",
+     "bound_by": "HOXB5",
+     "source_pmid": "24794774",
+     "evidence": "binding confirmed; deletion of the site abolishes HOXB5 trans-activation of the RET promoter in a RET mini-gene reporter",
+     "inside_window": true
+    },
+    {
+     "name": "upstream ETV5 enhancer",
+     "where": "upstream of the RET promoter",
+     "bound_by": "ETV5",
+     "source_pmid": "29321660",
+     "evidence": "ChIP-seq binding at the RET promoter plus an enhancer upstream of it",
+     "inside_window": "position not given numerically in the retrieved abstract \u2014 \u26a0 ABSENT READING, so whether 10 kb reaches it is UNKNOWN, not assumed"
+    }
+   ],
+   "\u26a0_still_bounded": "a window is a scope choice and a distal enhancer outside it remains untested by construction. A null result here is a null WITHIN THIS WINDOW and must be quoted that way."
+  },
+  "n_windows_requested": 0,
+  "n_windows_read": 0,
+  "_status": "NOT_RUN",
+  "why": "no regulatory sequence is present in the inputs cache. \u26a0 ABSENT READING \u2014 this says nothing about whether RET carries an NBRE. The fetch half needs egress the dev sandbox does not have (see inputs._egress_note).",
+  "verdict": null
+ },
+ "part_2_expression": {
+  "_question": "Is RET differentially expressed in EMC tumours versus other sarcomas, and does it covary with stromal or with tumour-cell content?",
+  "_what_this_is_not": "mRNA. The memo's falsifier is about PHOSPHORYLATION, which no expression series can measure. A covariation result here bounds the falsifier; it cannot discharge it.",
+  "_status": "NOT_RUN",
+  "why": "no series matrix is present in the inputs cache. \u26a0 ABSENT READING \u2014 it says nothing about RET's expression in EMC. Needs the CI fetch.",
+  "verdict": null
+ },
+ "part_3_activation_bar": {
+  "_what": "PART 3 of the RET lane: what the primary sources ACTUALLY MEASURED about RET in EMC, read from full text or from the Europe PMC structured record \u2014 never from memory and never from the memo that cites them.",
+  "_why_this_part_exists": "emc-unexplored-treatment-lanes.md \u00a73.1 carries the sentence 'RET in EMC passes the test MET in CCS failed', resting on the guard that expression is not a target and measured activation is. That sentence is a claim about what was MEASURED, so it can only be graded by reading the measurements. This file is that reading.",
+  "_generated": "2026-08-07",
+  "_retrieval_route": "GitHub Actions (fetch-literature.yml, Europe PMC). The dev sandbox proxy answers 403 to CONNECT for www.ebi.ac.uk, ftp.ncbi.nlm.nih.gov, www.ncbi.nlm.nih.gov, rest.ensembl.org and files.rcsb.org \u2014 read from the proxy's own recentRelayFailures endpoint on 2026-08-07, not assumed (CLAUDE.md \u00a74, \u00a76).",
+  "_verification_levels": {
+   "FT": "open-access full text read in this session from the literature-cache corpus",
+   "API": "Europe PMC structured record (title/authors/journal/DOI/abstract) read in this session",
+   "paywalled": "no full text is reachable at $0; only the structured record exists"
+  },
+  "sources": {
+   "stacchiotti_2014_sunitinib": {
+    "pmid": "24703573",
+    "doi": "10.1016/j.ejca.2014.03.013",
+    "citation": "Stacchiotti S, Pantaleo MA, Astolfi A, Dagrada GP, Negri T, Dei Tos AP, Indio V, Morosi C, Gronchi A, Colombo C, Conca E, Toffolatti L, Tazzari M, Crippa F, Maestro R, Pilotti S, Casali PG. Activity of sunitinib in extraskeletal myxoid chondrosarcoma. Eur J Cancer 2014.",
+    "verification": "API",
+    "open_access": false,
+    "design_verbatim": "From July 2011, 10 patients with progressive metastatic translocated EMC have been consecutively treated with sunitinib 37.5mg/day, on a named-use basis.",
+    "outcome_verbatim": "Six patients had a Response Evaluation Criteria in Solid Tumours (RECIST) partial response (PR), two were stable, two progressed.",
+    "the_ret_sentence_verbatim": "Among putative sunitinib targets, only RET was expressed and activated in analysed samples.",
+    "\u26d4_the_qualifier_the_memo_drops_verbatim": "Moreover, transcriptome, immunohistochemical and biochemical analyses of a limited set of samples were performed focusing on some putative targets of sunitinib.",
+    "authors_own_conclusion_verbatim": "Involvement of RET deserves further investigation.",
+    "what_is_NOT_recoverable": [
+     "how many tumours the RET activation read was performed on ('a limited set' of the 10)",
+     "how many of those were positive",
+     "which assay produced the word 'activated' \u2014 the abstract names 'immunohistochemical and biochemical analyses' collectively and attributes neither to RET specifically",
+     "whether tumour cellularity or stromal content was controlled for"
+    ],
+    "why_not_recoverable": "the full text is behind an Elsevier paywall; Europe PMC holds no PMCID for this record and no open-access copy exists. This is a REAL external dependency, not a sandbox limitation."
+   },
+   "stacchiotti_2012_two_cases": {
+    "pmid": "23058004",
+    "pmcid": "PMC3534218",
+    "doi": "10.1186/2045-3329-2-22",
+    "citation": "Stacchiotti S, Dagrada GP, Morosi C, Negri T, Romanini A, Pilotti S, Gronchi A, Casali PG. Extraskeletal myxoid chondrosarcoma: tumor response to sunitinib. Clin Sarcoma Res 2012;2:22.",
+    "verification": "FT",
+    "open_access": true,
+    "\u2b50_why_this_paper_matters_more_than_its_two_patients": "it is the SAME GROUP's immediately preceding report, and it states in its own words why the RTK activation profile is hard to obtain in this disease. That is the mechanism behind the 2014 paper's 'a limited set of samples', and it is a fact about the instrument rather than about RET.",
+    "the_load_bearing_sentence_verbatim": "Unfortunately, due to absence of untreated frozen material, we could not assess the RTK activation profile.",
+    "reading": "the RTK activation assay requires UNTREATED FROZEN tissue. In a rare sarcoma treated on a named-patient basis, that material exists for only some patients \u2014 so the 2014 activation read's small, unstated denominator is a structural property of the series, not an oversight. \u26a0 This is an inference about WHY the denominator is small; it does not recover the denominator.",
+    "the_groups_own_mechanistic_view_verbatim": "Even in EMCS the fusion-protein is unlikely to be related to sunitinib sensitivity",
+    "the_competing_explanation_verbatim": "In the absence of selective targets and known mechanisms of action, sunitinib antiangiogenic activity as well as an effect on the autocrine-paracrine PDGFR/VEGFR activation-loop have been advocated as possible explanations for its antitumor activity",
+    "_why_that_competing_explanation_belongs_here": "emc-unexplored-treatment-lanes.md \u00a73.1 frames the VEGFR attribution as the conventional reading that RET displaces. The originating authors advanced the VEGFR/PDGFR loop as their own explanation, and did so in the same series that later produced the RET sentence. Both readings come from the same group; the memo presents only one."
+   },
+   "davis_2017_ngs": {
+    "pmid": "28423517",
+    "pmcid": "PMC5400622",
+    "doi": "10.18632/oncotarget.15568",
+    "citation": "Davis EJ, Wu YM, Robinson D, Schuetze SM, Baker LH, Athanikar J, Cao X, Kunju LP, Chinnaiyan AM, Chugh R. Next generation sequencing of extraskeletal myxoid chondrosarcoma. Oncotarget 2017.",
+    "verification": "FT",
+    "open_access": true,
+    "n_emc_patients": 6,
+    "assay_verbatim": "The expression levels of sunitinib targeted-kinases were measured by transcriptome sequencing for KDR, PDGFRA/B, KIT, RET, FLT1, and FLT4.",
+    "result_verbatim": "Only RET expression was significantly greater in patients with EMC relative to other types of sarcomas excluding liposarcoma (p<0.0002, by student t-test).",
+    "\u26d4_this_is_abundance_not_activation": "transcriptome sequencing measures mRNA. This paper performs no phosphorylation measurement of any kind, so it corroborates EXPRESSION and says nothing about ACTIVATION.",
+    "its_own_description_of_stacchiotti_verbatim": "Immunohistochemical and biochemical analyses did not reveal any significant predictive markers; however, analysis of receptor tyrosine kinase (RTK) activity demonstrated elevated expression and activation of RET, a known target of sunitinib",
+    "_note_on_that_description": "SECONDARY. It is this paper's summary of PMID 24703573, not an independent measurement, and it carries no denominator either. It must not be counted as a second activation observation.",
+    "no_ret_alteration_verbatim": "The previously reported EWSR1-NR4A3 translocation was identified in all patient tumors; however, other recurring genomic abnormalities were not detected.",
+    "authors_own_hedge_verbatim": "The clinical significance of RET expression in EMC should be explored.",
+    "authors_own_limitation_verbatim": "next generation sequencing did not reveal clinically actionable targets in our cohort of EMC patients, although the sample size in our study is relatively small",
+    "comparator_not_quantified": "the comparator is described as 'other sarcoma histologies' in the same clinical-sequencing cohort; the comparator n and its histology mix are not stated in the text read here. \u26a0 ABSENT READING \u2014 not a reading of absence.",
+    "cohort_composition_verbatim": "Between January 31, 2012 and April 15, 2016, five patients with EMC underwent tumor biopsy of a metastatic site and previously fresh-frozen metastatic tumor tissue from one patient was submitted as part of an integrative clinical sequencing",
+    "_cohort_note": "so the n = 6 is five fresh metastatic biopsies plus one archived frozen specimen \u2014 all metastatic disease, none primary."
+   },
+   "kim_2016_eno3": {
+    "pmid": "26310886",
+    "doi": "10.1002/mc.22384",
+    "citation": "Kim AY, Lim B, Choi J, Kim J. The TFG-TEC oncoprotein induces transcriptional activation of the human \u03b2-enolase gene via chromatin modification of the promoter region. Mol Carcinog 2016.",
+    "verification": "API",
+    "open_access": false,
+    "\u26d4_correction_1_the_fusion_is_not_the_emc_canonical_one": "the oncoprotein studied is TFG-TEC (TFG::NR4A3), an uncommon EMC variant fusion \u2014 NOT EWSR1::NR4A3. TEC/CHN/NOR1/MINOR/CSMF are all aliases of NR4A3, which is why this reads as an NR4A3 result; the 5' partner is different, and this repository's own \u00a73.2 evidence is that the 5' partner changes what the chimera binds.",
+    "\u26d4_correction_2_the_instrument_was_wet_lab_not_a_motif_scan": "verbatim: 'EMSAs, ChIP assays, and luciferase reporter assays revealed that TFG-TEC upregulates \u03b2-enolase transcription by binding to two NGFI-B response element motifs located upstream of the putative transcription start site.' The NBRE motifs were the HYPOTHESIS; EMSA, ChIP and luciferase were the EVIDENCE.",
+    "chromatin_mechanism_verbatim": "ChIP analyses revealed that TFG-TEC controls the activity of the endogenous \u03b2-enolase promoter by promoting histone H3 acetylation.",
+    "consequence_for_this_lane": "emc-unexplored-treatment-lanes.md \u00a73.1 describes an NBRE motif scan as 'the same bioinformatic approach that established PPARG and ENO3 as direct targets'. On the ENO3 half that description is wrong about the instrument and about the fusion. A motif scan alone did not establish ENO3 and cannot establish RET."
+   },
+   "lorenzo_herrero_2021_ccs_met": {
+    "pmid": "34885165",
+    "pmcid": "PMC8657105",
+    "citation": "Histopathological and Molecular Profiling of Clear Cell Sarcoma and Correlation with Response to Crizotinib. 2021.",
+    "verification": "FT",
+    "open_access": true,
+    "\u2b50_this_is_the_guard_itself_and_it_is_sharper_than_the_memo_states": "emc-unexplored-treatment-lanes.md \u00a73.1 says the sporadic crizotinib responses were 'attributed to infrequent actual MET activation'. The source is stronger AND more specific than that.",
+    "headline_verbatim": "The histopathological analysis showed the absence of a MET ligand and MET activation, with the presence of MET itself in most of cases.",
+    "the_measurement_that_decided_it": {
+     "design_verbatim": "Immunohistochemical characterization of MET signaling was performed using a tissue microarray constructed from 32 CCSA cases.",
+     "readouts_verbatim": "A series of TMA slides were successfully stained with antibodies against MITF, HGF, (p)MET, (p)GAB1, (p)MAPK, (p)AKT and (p)S6, with evaluable rates from 88% to 100% per staining.",
+     "numbers_verbatim": "expression for HGF and MET was found in 16% and 82% of the samples, respectively",
+     "the_discriminating_number_verbatim": "a relatively low frequency of HGF expression (16%, weak or moderate positivity) and MET phosphorylation at Tyr1234\u201335 (tyrosine kinase domain, 4%) was observed, while 50% of the cases were positive for MET phosphorylation at Tyr1349",
+     "blinding_verbatim": "Stained TMA slides were subsequently scanned and evaluated blindly by an investigator"
+    },
+    "\u26d4 what_this_calibrates": "the bar is not the abstract distinction 'expression vs activation'. It is a CONCRETE INSTRUMENT: phospho-receptor staining at the activation-loop tyrosines, across ~30 cases, blinded, with the ligand and three downstream nodes measured alongside. MET was present in 82% and phosphorylated in the kinase domain in 4% \u2014 that gap is what closed the crizotinib question.",
+    "\u26d4 the_consequence_for_RET_in_EMC": "no equivalent study exists. RET in EMC has never been measured by this instrument, or by anything resembling it: there is no EMC phospho-RET tissue microarray, no denominator, no ligand (GDNF/GFRA) co-stain and no downstream-node panel anywhere in the retrieved record. \u26a0 So RET in EMC has NOT PASSED the test MET in CCS failed \u2014 it has NOT TAKEN it. A lane cannot pass a test it has not sat."
+   },
+   "brenca_2019_sema3c": {
+    "pmid": "31020999",
+    "pmcid": "PMC6766969",
+    "title_verbatim": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas.",
+    "journal_year": "J Pathol 2019",
+    "_citation_note": "\u26a0 CORRECTED 2026-08-07. An earlier draft of this file carried a PARAPHRASED title for this record ('Transcriptome sequencing identifies ALK fusions / axon-guidance programme discriminating\u2026'), which is not what the paper is called. A paraphrased title in a citation field is a fabricated citation, and it was caught by cross-checking every PMID/PMCID pairing in this file against the retrieved Europe PMC records. Superseded, retained, so the error is not silently erased.",
+    "verification": "FT",
+    "open_access": true,
+    "\u2b50_this_is_the_precedent_the_memo_should_have_named": "it is the one EMC study that actually ran an in-silico NBRE scan of regulatory regions and then tested the prediction.",
+    "in_silico_step_verbatim": "The MatInspector software was employed to identify putative NR4A3 consensus sites (NBRE).",
+    "hit_verbatim": "An in silico analysis (MatInspector) identified several potential NR4A3 recognition sites on the regulatory regions of SEMA genes. In particular, SEMA3C, which is differentially expressed in both EMC and cell models, turned out to harbor a consensus sequence targeted by NR4A3 to regulate CCND1",
+    "confirmation_verbatim": "ChAP-qPCR experiments confirmed the ability of NR4A3 to bind the predicted target on SEMA3C. More interestingly, the ability of NR4A3 to recognize the SEMA3C target region was retained by the EWSR1-NR4A3 chimera but was impaired by TAF15-NR4A3 (Figure B), in line with transcriptional profiling data.",
+    "\u2b50_a_link_the_memo_does_not_make": "\u00a73.1's sunitinib responders all carried EWSR1::NR4A3 and its refractory cases all carried TAF15::NR4A3 (PMID 24703573). Here the two chimeras are MEASURED to differ in DNA binding at a validated NBRE target: EWSR1-NR4A3 binds SEMA3C's element, TAF15-NR4A3 does not. That is a mechanism-level bridge between \u00a73.1 and \u00a73.2 that neither section currently states. \u26a0 It is a bridge, not a demonstration \u2014 nothing here shows the difference runs through RET.",
+    "the_bar_it_sets_for_a_motif_scan": "the in-silico step generated a candidate; a wet-lab chromatin assay decided it. This repository has no wet lab, so an NBRE scan here can produce a HYPOTHESIS and a prioritisation, never a target-gene claim.",
+    "emc_is_hypocellular_verbatim": "Most EMC are hypocellular and classified as low-grade neoplasms.",
+    "_why_that_line_matters_here": "the falsifier's second clause is that RET phosphorylation might track stromal rather than tumour content. A hypocellular, stroma-rich tumour is precisely the setting in which a bulk RTK-activity read is most exposed to that confound \u2014 so the falsifier is live on the tumour's own histology, independent of any new measurement."
+   }
+  },
+  "the_methodological_guard_answered": {
+   "_question": "Does RET in EMC clear the 'measured activation' bar that MET in clear cell sarcoma failed?",
+   "_the_guard_restated": "EWSR1::ATF1 transactivates MET in clear cell sarcoma, which motivated crizotinib trials; the responses were sporadic and were attributed to infrequent actual MET activation. Expression is not a target; measured activation is.",
+   "verdict": "NOT CLEARED \u2014 AND NOT FAILED. THE DENOMINATOR IS UNKNOWN.",
+   "reasoning": [
+    "There is exactly ONE report of RET ACTIVATION in EMC anywhere reachable: one sentence in the abstract of PMID 24703573, over 'a limited set of samples' drawn from an n=10 series, with no stated denominator, no stated numerator, and no assay attributed to RET specifically.",
+    "The only independent EMC dataset (PMID 28423517, n=6) measures mRNA ABUNDANCE and nothing else. Its own description of the 2014 activation result is a citation, not a replication.",
+    "'Expression common, activation infrequent' IS the MET-in-CCS failure mode. The public record on RET in EMC cannot currently distinguish that state from 'activation frequent', because nobody has published the fraction.",
+    "The same group had already recorded, in the immediately preceding paper, that they 'could not assess the RTK activation profile' for want of untreated frozen material (PMID 23058004 [FT]) \u2014 so the small unstated denominator in 2014 is a structural feature of this series.",
+    "\u26d4 So the memo's sentence 'RET in EMC passes the test MET in CCS failed' asserts more than the sources support. What the sources support is: RET is the only sunitinib target with an EMC-enriched expression signal in two independent cohorts, and one report describes it as activated in an unstated fraction of an unstated subset."
+   ],
+   "\u26a0 a_provenance_defect_in_the_citing_memo": {
+    "what": "emc-unexplored-treatment-lanes.md \u00a73.1 tags PMID 24703573 as [FT] \u2014 'full text read'.",
+    "measured": "the Europe PMC record for PMID 24703573 carries isOpenAccess = false and no PMCID, and no full text for it exists under any slug of the committed literature-cache corpus (checked across every _index.json in this session; every entry reads fullTextFile: null for this PMID).",
+    "reading": "the [FT] tag cannot be corroborated from anything this repository holds. It should read [API] unless whoever wrote it can name where the full text was read. \u26a0 This is a statement about a TAG, not about the quoted sentence \u2014 the verbatim quotation is correct and matches the Europe PMC abstract exactly.",
+    "why_it_matters": "the memo's own preamble makes verification level load-bearing: '\u26d4 A [snippet] claim must not be quoted in a manuscript without upgrading it first.' A mis-set [FT] silently promotes an abstract-level reading to a full-text one, and the whole activation question turns on methods that only the full text contains."
+   },
+   "what_would_settle_it": {
+    "step": "the full text of Eur J Cancer 2014;50:1657-64 (PMID 24703573) \u2014 specifically its methods and the figure/table behind 'only RET was expressed and activated in analysed samples'.",
+    "cost": "$0 if an open copy exists; otherwise an institutional or interlibrary request",
+    "blocked_on": "a paywall, i.e. the outside world \u2014 NOT on compute, not on the sandbox, not on money this program controls",
+    "\u26a0": "this is a genuine external dependency of the kind CLAUDE.md \u00a76 reserves the word 'deferred' for."
+   }
+  },
+  "the_translational_bar_the_memo_does_not_state": {
+   "\u26d4 finding": "EMC's RET state is OVEREXPRESSION OF WILD-TYPE RET, not a RET alteration. PMID 28423517 [FT] is explicit that beyond EWSR1-NR4A3 'other recurring genomic abnormalities were not detected', and no RET fusion, mutation or amplification is reported in EMC in any source read here.",
+   "why_it_matters": "selpercatinib and pralsetinib are selective RET inhibitors approved on the basis of trials that enrolled RET FUSION-positive or RET MUTATION-positive disease. An approved, selective agent existing is not the same as an approved, selective agent having an evidence base in the molecular state EMC is actually in.",
+   "status": "ANSWERED 2026-08-07 from the `selective-ret-inhibitor-eligibility` corpus (2,077 Europe PMC records, 1,608 with full text).",
+   "evidence": [
+    {
+     "pmid": "36108661",
+     "pmcid": "PMC11702314",
+     "verification": "API",
+     "title_verbatim": "Tumour-agnostic efficacy and safety of selpercatinib in patients with RET fusion-positive solid tumours other than lung or thyroid",
+     "eligibility_verbatim": "LIBRETTO-001 is an ongoing phase 1/2, single-group, open-label, basket trial of selpercatinib in patients aged 18 years and older ... with RET-altered cancers",
+     "reading": "the tumour-agnostic arm \u2014 the one a rare sarcoma would enter through \u2014 is defined by RET FUSION POSITIVITY."
+    },
+    {
+     "pmid": "42211499",
+     "pmcid": "PMC13212050",
+     "verification": "API",
+     "verbatim": "Demonstrated analytical and clinical performance of F1CDx led to the pan-tumor approvals from the U.S. Food and Drug Administration (FDA) in 2023 and the Japan Ministry of Health, Labour and Welfare (MHLW) in 2024 of F1CDx to identify RET fusions in solid tumor patients",
+     "reading": "the pan-tumour companion diagnostic detects RET FUSIONS. A tumour with over-expressed wild-type RET and no fusion is CDx-negative by construction."
+    },
+    {
+     "pmid": "34402300",
+     "pmcid": "PMC9697126",
+     "verification": "API",
+     "verbatim": "Aberrant RET signaling in cancers, due to RET mutations, gene fusions, and overexpression, results in the activation of downstream pathways promoting survival, growth, and metastasis.",
+     "reading": "overexpression IS recognised as an aberration class in the RET literature \u2014 so the lane's biology is not unheard-of. \u26a0 But recognition of a class is not an evidence base for treating it, and the approvals cited above are not for it."
+    }
+   ],
+   "verdict": "EMC'S MOLECULAR STATE FALLS OUTSIDE THE ENROLMENT CRITERION OF EVERY TRIAL THAT PRODUCED A SELECTIVE-RET-INHIBITOR APPROVAL. Those trials required a RET fusion or a RET mutation; EMC is reported to have neither. \u26d4 So '\u00a73.1: two approved selective inhibitors exist' does not translate into a label, a companion diagnostic, or an open basket EMC could enter \u2014 and no evidence was found in 2,077 records that a selective RET inhibitor has activity against over-expressed wild-type RET in any tumour type.",
+   "\u26a0 what_this_verdict_is_not": "it is not a claim that such activity is impossible, and it is not a recommendation against investigating it. It is a statement about what the published enrolment criteria and approvals cover. \u26a0 ABSENT READING \u2014 'no evidence found in this corpus' is not proof that none exists.",
+   "\u26d4 language_discipline": "nothing in this file asserts that any RET inhibitor is selective for, effective in, safe in, or ready for EMC. No EMC patient has received a selective RET inhibitor."
+  },
+  "\u2b50 the_cistrome_question_answered_and_it_opens_a_better_instrument": {
+   "_question": "Does any NR4A3 or EWSR1::NR4A3 ChIP-seq cistrome exist? If one does, it answers 'is RET a target gene' outright and retires the motif scan as the wrong tool.",
+   "corpus": "slug `nr4a3-cistrome-tight` \u2014 792 Europe PMC records, 461 with full text, retrieved 2026-08-07 for (NR4A3 OR 'NOR-1' OR 'NOR1' OR 'EWS/NOR1' OR 'EWSR1-NR4A3' OR 'TFG-TEC') AND (ChIP-seq OR ChIP-sequencing OR cistrome OR CUT&RUN OR CUT&Tag OR 'chromatin immunoprecipitation' OR 'chromatin affinity purification' OR NBRE OR 'NGFI-B response element').",
+   "answer_part_1_the_fusion": "\u26d4 NO EWSR1::NR4A3 CISTROME EXISTS in this corpus. The only chromatin experiment on any NR4A3 fusion is the single-locus ChAP-qPCR of PMID 31020999 (SEMA3C) and the single-locus EMSA/ChIP of PMID 26310886 (ENO3, and on TFG::NR4A3). \u26a0 This extends a gap this repository already recorded for the fusion's INTERACTOME to its CHROMATIN: nothing genome-wide has been done on the object the whole programme is about.",
+   "answer_part_2_the_wild_type": "\u2b50 BUT WILD-TYPE NR4A3 CISTROMES DO EXIST, AND AT LEAST ONE IS HUMAN AND PARALOGUE-MATCHED.",
+   "cistromes_found": [
+    {
+     "pmid": "36482877",
+     "pmcid": "PMC10108054",
+     "verification": "FT",
+     "system": "human primary CD1c+ conventional dendritic cells (cDC2s), resting and stimulated",
+     "verbatim": "To scrutinize the regulatory function of NR4As in cDC2s in steady state and after stimulation, we performed ChIP sequencing for NR4A1, NR4A2, and NR4A3 in resting and stimulated cDC2s. We identified numerous NR4A-binding sites, of which some were specific to resting conditions (medium) and others",
+     "\u2b50 why_this_one_matters_beyond_this_lane": "it is a HUMAN, THREE-PARALOGUE ChIP-seq in one cell type under two conditions. This repository's paralogue-selectivity problem has so far been argued from DOMAIN SEQUENCE IDENTITY; a matched NR4A1/NR4A2/NR4A3 peak-set comparison is a DIRECT EMPIRICAL read on how much the three actually share at DNA level, which no sequence-identity calculation can give.",
+     "accession": "\u26d4 NOT FOUND. The full PMC text (23,670 characters) was searched for GSE / E-MTAB / PRJNA / PRJEB / EGAS / SRP / CRA patterns and returned NONE, and it contains no data-availability statement; its supplementary tables are hosted on the Wiley site (https://onlinelibrary.wiley.com/doi/10.1002/art.42319). \u26a0 ABSENT READING \u2014 this says the accession is not in the PMC rendering, NOT that the data were never deposited.",
+     "how_to_get_it": "$0, two options: (a) search GEO/ArrayExpress for the study or its authors from a CI runner; (b) fetch the Wiley supplementary through fetch-literature.yml's targets_file path. Neither has been done."
+    },
+    {
+     "pmid": "42028030",
+     "pmcid": "PMC13099357",
+     "verification": "FT",
+     "system": "Schwann cells / diabetic peripheral neuropathy model",
+     "verbatim": "Integrated ChIP-seq and mRNA-seq profiling identified glutaminase 2 (GLS2) as a direct transcriptional target of NR4A3. NR4A3 binds to the GLS2 promoter and promotes its transcriptional activation",
+     "accession_verbatim": "The mRNA-seq and ChIP-seq data generated in our study are available in GSA under accession numbers CRA032321 and CRA032324, respectively.",
+     "_note": "GSA is the China National Center for Bioinformation Genome Sequence Archive, not GEO \u2014 a public archive, reachable from a CI runner."
+    }
+   ],
+   "\u2b50 the_better_instrument_this_creates": {
+    "what": "ask the PUBLISHED WILD-TYPE NR4A3 PEAK SETS whether NR4A3 binds RET's regulatory region, instead of asking a motif scanner whether an 8-mer is present.",
+    "why_it_is_strictly_stronger": "a peak is measured occupancy in a real chromatin context; an NBRE octamer is a string that occurs ~once per 33 kb of random sequence. A motif scan cannot distinguish a bound element from an unbound one; a ChIP peak already has.",
+    "cost": "$0 \u2014 a public archive download and a coordinate intersection, on a CI runner.",
+    "what_is_actually_in_hand": "the Schwann-cell NR4A3 ChIP-seq accession is CONFIRMED and public: GSA CRA032324 (ChIP-seq) with CRA032321 (mRNA-seq), read verbatim from PMC13099357's Data-and-code-availability section. That dataset can be pulled today. \u26a0 The cDC2 three-paralogue dataset \u2014 the more valuable of the two \u2014 has NO accession in its PMC rendering, so it needs one more $0 retrieval step before it can be used.",
+    "\u26d4 the_caveat_that_must_travel_with_it": "these are WILD-TYPE NR4A3 in Schwann cells and dendritic cells, not the EWSR1 chimera in EMC. Chromatin accessibility is cell-type-specific, so (a) a peak at RET would be a strong PRIOR and not a demonstration for EMC, and (b) NO peak at RET would be weak evidence, because the locus may simply be closed in those cell types. \u26a0 Stating both directions up front is what stops this becoming the next over-read.",
+    "\u2b50 and_the_paralogue_read_is_free_with_it": "the cDC2 dataset carries NR4A1, NR4A2 and NR4A3 in the same cells. The overlap of their peak sets is a measurement this programme has never had and cannot obtain any other way at $0."
+   }
+  },
+  "\u26d4 ret_regulatory_architecture_and_what_it_did_to_this_instrument": {
+   "_what": "Two published facts about where RET's transcription is actually controlled, which between them invalidated this module's first window choice.",
+   "elements": [
+    {
+     "pmid": "24794774",
+     "verification": "API",
+     "title": "HOXB5 binds to multi-species conserved sequence (MCS+9.7) of RET gene and regulates RET expression.",
+     "verbatim": "we identified and confirmed HOXB5 binding to the multi-species conserved sequence (MCS+9.7) in the first intron of the RET gene ... The deletion of HOXB5 binding site interfered with HOXB5 trans-activation.",
+     "reading": "RET's one experimentally validated distal regulatory element sits ~+9.7 kb from the TSS, INSIDE THE FIRST INTRON."
+    },
+    {
+     "pmid": "29321660",
+     "pmcid": "PMC6168456",
+     "verification": "API",
+     "verbatim": "ChIP-seq analysis confirmed ETV5 binding on the RET promoter and identified an enhancer upstream of the promoter.",
+     "reading": "there is also an upstream enhancer. \u26a0 Its distance is not given numerically in the retrieved abstract \u2014 ABSENT READING, so whether a 10 kb upstream window reaches it is UNKNOWN, not assumed."
+    }
+   ],
+   "\u26d4 consequence": "emc_ret_target_scan.py's first window was a symmetric TSS \u00b15 kb, which EXCLUDES MCS+9.7. A null NBRE result from that window would have been an artefact of the scope, and it would have read as a biological negative \u2014 the first clause of the memo's falsifier, satisfied by a scoping error.",
+   "the_fix": "the window is re-frozen to -10 kb / +15 kb, which contains MCS+9.7. Superseded, retained: WINDOW_UPSTREAM = WINDOW_DOWNSTREAM = 5000.",
+   "\u26a0 why_this_is_a_re-scope_and_not_tuning": "no RET sequence had been fetched when it was changed \u2014 `part_1_nbre_scan._status` reads NOT_RUN and no count exists. The change is driven by two citations ABOUT THE GENE, not by any result. CLAUDE.md's guardrail is against rigour added reactively once an answer is in view; widening on published architecture before the first read is the opposite of that.",
+   "\u26a0 still_bounded": "a window remains a scope choice. A distal element outside -10 kb / +15 kb is untested by construction, and any null must be quoted as a null WITHIN THIS WINDOW."
+  },
+  "the_corpus_level_negative": {
+   "_what": "A searched-and-did-not-find, stated as one rather than left as silence.",
+   "corpus": "slug `ret-emc-lane` \u2014 272 Europe PMC records, 214 with open-access full text, retrieved 2026-08-07 for ('extraskeletal myxoid chondrosarcoma' OR 'chordoid sarcoma' OR 'EWSR1-NR4A3' OR 'EWS/NOR1') AND (RET OR selpercatinib OR pralsetinib OR phospho-RET OR GDNF OR GFRA1 OR 'receptor tyrosine kinase' OR sunitinib OR pazopanib).",
+   "method": "every full text mentioning 'myxoid chondrosarcoma' was scanned for phospho-RET / RET activation / RET immunohistochemistry with 260-300 characters of context on either side, and every hit was read.",
+   "finding": "the ONLY substantive RET passages in any EMC full text are PMC5400622's, and every one of them is about mRNA ABUNDANCE. \u26d4 No EMC paper in this corpus reports a phospho-RET stain, a RET immunohistochemistry series, an RTK-activation array with a denominator, or a GDNF/GFRA ligand measurement.",
+   "\u26a0 what_this_is_not": "this is a statement about a 272-record open-access corpus, not about the whole literature. The one paper that matters most (PMID 24703573) is paywalled and therefore CANNOT appear in a full-text scan \u2014 its absence from this result is an instrument limit, not evidence."
+  },
+  "_retrievals": [
+   {
+    "slug": "ret-emc-lane",
+    "what": "Europe PMC: EMC \u00d7 RET / selpercatinib / pralsetinib / GDNF / sunitinib / pazopanib",
+    "state": "LANDED \u2014 272 records, 214 full texts. Read; see `the_corpus_level_negative`.",
+    "note": "the first dispatch of this slug was LOST: nine sweeps were publishing to `literature-cache` concurrently and its publish step lost the push race. Re-dispatched and landed. \u26a0 A failed publish on that workflow discards the retrieval \u2014 the run artifact survives, but downloading it redirects to a host the sandbox proxy 403s, so the branch is the only channel."
+   },
+   {
+    "slug": "ret-regulation-and-ccs-met-guard",
+    "what": "Europe PMC: clear cell sarcoma \u00d7 MET/crizotinib (the guard's own evidence) and RET promoter/transcriptional regulation",
+    "state": "LANDED \u2014 4,599 records, 2,851 full texts. Read; produced `lorenzo_herrero_2021_ccs_met`."
+   },
+   {
+    "slug": "selective-ret-inhibitor-eligibility",
+    "what": "Europe PMC: selpercatinib/pralsetinib eligibility \u2014 fusion/mutation-positive vs overexpressed wild-type RET",
+    "state": "LANDED \u2014 2,077 records, 1,608 full texts. Read; produced `the_translational_bar_the_memo_does_not_state`."
+   },
+   {
+    "slug": "nr4a3-target-genes-cistrome",
+    "what": "Europe PMC: NR4A3 / fusion target genes, ChIP, cistrome, NBRE, PPARG, ENO3",
+    "state": "\u23f3 STILL RUNNING at ~65 min. \u26a0 MY QUERY WAS THE DEFECT, not the service: it included the NR4A3 aliases `TEC` and `CHN` as free tokens, which match tens of thousands of unrelated records, so `sync` is fetching full text for all of them. Recorded rather than quietly re-run."
+   },
+   {
+    "slug": "nr4a3-cistrome-tight",
+    "what": "the same question asked properly \u2014 NR4A3 aliases restricted to unambiguous ones, ChIP/cistrome/CUT&RUN/NBRE only",
+    "state": "LANDED \u2014 792 records, 461 full texts. Read; see `\u2b50 the_cistrome_question_answered_and_it_opens_a_better_instrument`. \u26a0 Its FIRST dispatch's search step succeeded in 3.5 min and the run then failed at the publish step, discarding the corpus; re-dispatched and landed on the second attempt."
+   }
+  ],
+  "\u26d4 two_defects_found_in_this_lanes_own_instrument_before_it_was_trusted": {
+   "_why_this_is_recorded_here": "both were found by running the classifier over the REAL committed GEO annotations rather than a fixture, and both would have produced a biological-looking null from a coding error. That is the failure mode this repository has paid for repeatedly, so the record travels with the evidence.",
+   "defect_1": {
+    "what": "the EMC sample classifier required the phrase 'EXTRASKELETAL myxoid chondrosarcoma'.",
+    "measured": "GSE4303 \u2014 the original EMC expression series \u2014 titles its samples 'STT3697-Myxoid Chondrosarcoma', with no 'extraskeletal'. TEN OF SIXTEEN samples on GPL3290 classified as comparators.",
+    "consequence_avoided": "the EMC-vs-comparator contrast would have been EMC against EMC, and the platform would have reported 'n_EMC = 0, underpowered' \u2014 an INSTRUMENT FAILURE presented as a data limitation.",
+    "\u2b50 upside_of_the_fix": "GSE4303/GPL3290 is now readable as 10 EMC vs 6 comparators (3 GIST, 3 DFSP). It is two-colour and therefore RELATIVE, so it corroborates rather than measures \u2014 but a second independent series is exactly what an n = 6 primary contrast needs."
+   },
+   "defect_2": {
+    "what": "the classifier ended with a catch-all: any unrecognised non-empty annotation became `comparator_sarcoma`.",
+    "measured": "GSE24369's two 'Skeletal muscle' samples are NORMAL TISSUE and were being fed into the comparator arm of a tumour contrast; five 'Solitary fibrous tumour' samples were bucketed without any pattern matching them.",
+    "fix": "an unrecognised label is now `unclassified` and is excluded from BOTH arms. GSE24369 reads 6 EMC / 29 comparators / 7 unclassified."
+   },
+   "root_cause_common_to_both": "a second copy of a classification this repository already owns. The patterns are now read from `emc_atr_vulnerability` (EMC_SAMPLE_PATTERNS, COMPARATOR_BUCKETS) via `ast.literal_eval` over its source \u2014 no pandas/numpy import needed, and a moved constant RAISES rather than silently falling back to a private copy.",
+   "held_by": "research/modalities/tests/test_emc_ret_target_scan.py \u2014 6 classifier tests, one of which runs against the real committed annotations in emc-atr-vulnerability-inputs.json. \u26a0 Every version of this bug was invisible to a hand-written fixture."
+  },
+  "\u26d4 an_infrastructure_defect_measured_while_doing_this": {
+   "what": ".github/workflows/fetch-literature.yml LOSES A COMPLETED RETRIEVAL when several sweeps publish concurrently.",
+   "measured_2026-08-07": "of the runs observed this session, at least four ended `failure` with the ONLY failing step being 'Publish corpus to literature-cache branch' \u2014 including two of this lane's own dispatches (`ret-emc-lane`, first attempt; `nr4a3-cistrome-tight`, first attempt, whose Europe PMC step had already succeeded in 3.5 minutes). Nine parallel sweeps were pushing to the same branch.",
+   "the_asymmetry_that_makes_it_a_defect": "the LANE-PROBE publish step immediately above it already retries \u2014 `for i in 1 2 3; do git push ... || (git fetch && git rebase); done` \u2014 with a comment recording that a push race destroyed a 31-query retrieval on 2026-08-07. The CORPUS publish step ends in a bare `git push origin literature-cache` under `set -e`, so one rejected push discards the whole corpus.",
+   "why_the_run_artifact_is_not_a_fallback_here": "the step uploads `.cache/literature` as a run artifact, but downloading a run artifact redirects to a storage host the dev sandbox's egress proxy answers 403 to \u2014 measured this session. So for an agent working from the sandbox, the branch is the ONLY channel, and a failed publish is total loss.",
+   "the_fix": "give the corpus publish step the same retry-with-rebase loop the lane-probe step already has. \u26a0 Not proposed as an edit here: this file is a research artifact and the workflow belongs to whoever owns that lane. Reported so it is not rediscovered a third time."
+  },
+  "_what_this_file_cannot_conclude": [
+   "That RET is or is not a direct target gene of EWSR1::NR4A3. No ChIP, no reporter assay and no motif result is in this file.",
+   "That RET is or is not phosphorylated in EMC tumour cells, or in what fraction of them.",
+   "Anything about selectivity, efficacy, safety, a therapeutic window or clinical readiness of any agent in EMC."
+  ]
+ },
+ "_what_this_cannot_conclude": [
+  "That the fusion OCCUPIES any site found here. A motif is a sequence; occupancy is a ChIP experiment. No enrichment result licenses the word 'target'.",
+  "That RET is phosphorylated in EMC tumours. No expression series measures phosphorylation, and the memo's falsifier is stated in phospho terms.",
+  "Anything about selectivity, efficacy, safety, a therapeutic window or clinical readiness of any RET inhibitor in EMC. No EMC patient has received a selective RET inhibitor.",
+  "That a negative NBRE result closes the lane: only the FIRST of the falsifier's two clauses is addressable here, and they are joined by AND."
+ ]
+}

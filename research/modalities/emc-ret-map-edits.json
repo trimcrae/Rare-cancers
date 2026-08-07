@@ -1,0 +1,164 @@
+{
+ "_what": "Routed roadmap / graph edits from the 2026-08-07 RET-lane work. Reasoning: research/modalities/emc-ret-lane.md. Evidence: research/modalities/emc-ret-activation-bar.json and research/modalities/emc-ret-target-scan.json.",
+ "_rule": "Every `current_text` was taken verbatim from `git show origin/main:<file>` in this session. No number or verdict is retyped from the memo into a target document: each edit's `artifact` names the file that owns it (CLAUDE.md rule 1).",
+ "_do_not_apply_blind": "E1 and E2 change a lane's HEADLINE CLAIM and its RANK. They are judgement calls for trimcrae, not clerical fixes — the underlying readings are cited, but the decision to demote a lane is his. E5 adds a route to the registry and is the largest change here; see `_what_the_applier_must_also_do`.",
+ "generated": "2026-08-07",
+ "verified_against": "origin/main",
+ "n_edits": 4,
+ "_apply_order": "E3 and E1 both edit §3.1's 'Why it matters' paragraph, at DIFFERENT and NON-OVERLAPPING spans (E3 ends at '…given to an EMC patient.**'; E1 begins at 'trials that produced only sporadic responses'). Verified in this session: each `current_text` occurs EXACTLY ONCE in `origin/main`'s copy of the file, and neither contains any part of the other, so the two may be applied in either order. E2 and E4 touch separate sections entirely.",
+
+ "map_edits_required": [
+  {
+   "id": "E1",
+   "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+   "section": "§3.1 · RET — 'Why it matters and why it is not obvious'",
+   "anchor": "**RET in EMC\npasses the test MET in CCS failed.**",
+   "current_text": "trials that produced only sporadic responses — and the exploratory analysis attributed that to\ninfrequent actual MET *activation*. Expression is not a target; measured activation is. **RET in EMC\npasses the test MET in CCS failed.**",
+   "proposed_text": "trials that produced only sporadic responses — and the exploratory analysis attributed that to\ninfrequent actual MET *activation*. Expression is not a target; measured activation is. ⛔ **RET in EMC\nhas NOT PASSED that test — it has not TAKEN it, and the sentence that stood here overstated the\nrecord.** *Superseded, retained: \"RET in EMC passes the test MET in CCS failed.\"* The CCS study is\nspecific about the instrument that decided MET: a **32-case blinded tissue microarray** staining\nligand, receptor, both activation-loop phospho-sites and three downstream nodes — MET protein in\n**82 %** of cases and phospho-MET Tyr1234–35 in **4 %** (**PMID 34885165**, PMC8657105 **[FT]**).\n**No equivalent measurement of RET exists in EMC**: the sole activation report is one sentence in\none paywalled abstract over *\"a limited set of samples\"* of an n = 10 series, with no numerator and\nno denominator (**PMID 24703573**), and the same group had already recorded that they *\"could not\nassess the RTK activation profile\"* for want of untreated frozen material (**PMID 23058004**,\nPMC3534218 **[FT]**). One home for every sentence quoted here:\n[`emc-ret-activation-bar.json`](../modalities/emc-ret-activation-bar.json).",
+   "why": "the memo's strongest sentence asserts that a test was passed; the sources show the test was never administered. Expression common + activation frequency unreported IS the MET failure shape, not its opposite",
+   "artifact": "research/modalities/emc-ret-activation-bar.json:the_methodological_guard_answered.verdict = 'NOT CLEARED — AND NOT FAILED. THE DENOMINATOR IS UNKNOWN.'"
+  },
+
+  {
+   "id": "E2",
+   "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+   "section": "§3.1 · RET — 'Free next step'",
+   "anchor": "**Free next step.** Test whether *RET* is a fusion target gene: an NBRE-motif scan of its regulatory",
+   "current_text": "**Free next step.** Test whether *RET* is a fusion target gene: an NBRE-motif scan of its regulatory\nregion, the same bioinformatic approach that established *PPARG* and *ENO3* as direct targets, plus a\nread across the public EMC expression series. **What would kill it:** no NBRE at *RET*, plus evidence\nthat RET phosphorylation tracks stromal rather than tumour content.",
+   "proposed_text": "**Free next step.** ⚠ **RE-SPECIFIED 2026-08-07 — the step as written could not deliver what it\npromised.** *Superseded, retained: \"the same bioinformatic approach that established PPARG and ENO3\nas direct targets\".* The ENO3 source (**PMID 26310886**) used **EMSAs, ChIP assays and luciferase\nreporters**, not a motif scan, and studied **TFG::NR4A3**, not the EMC-canonical EWSR1 fusion — so a\nmotif scan neither established ENO3 nor can establish RET. ⭐ The precedent that DID run this method\nis already cited in [3.2](#32--fusion-variant-stratification) for a different purpose: **PMID\n31020999** / PMC6766969 **[FT]** ran a MatInspector NBRE scan of SEMA regulatory regions and then\n**confirmed the prediction by ChAP-qPCR** — finding that *EWSR1*-NR4A3 binds the SEMA3C element and\n*TAF15*-NR4A3 does not, which is a mechanism-level bridge from this lane to §3.2's response split.\nWith no wet lab, a motif scan here yields a **prioritisation, never a target-gene claim**. The scan,\nits two composition-matched nulls and the EMC expression read are **built and tested** in\n[`emc_ret_target_scan.py`](../modalities/emc_ret_target_scan.py); the highest-value step is instead\nasking whether **any NR4A3 / EWSR1::NR4A3 ChIP-seq cistrome exists at all**, which would answer the\nquestion outright. **What would kill it:** unchanged — no NBRE at *RET*, **plus** evidence that RET\nphosphorylation tracks stromal rather than tumour content. ⚠ **Neither clause has been measured**;\nthe artifact records both as `NOT_RUN`, not as negatives.",
+   "why": "the named instrument cannot produce the named result, and the memo's own §3.2 already cites the study that shows what the instrument can and cannot do",
+   "artifact": "research/modalities/emc-ret-activation-bar.json:sources.kim_2016_eno3 / sources.brenca_2019_sema3c; research/modalities/emc-ret-target-scan.json:part_1_nbre_scan._status = NOT_RUN"
+  },
+
+  {
+   "id": "E3",
+   "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+   "section": "§3.1 · RET — 'Why it matters and why it is not obvious'",
+   "anchor": "**Selpercatinib and pralsetinib are approved,\nselective, and have never been given to an EMC patient.**",
+   "current_text": "**Selpercatinib and pralsetinib are approved,\nselective, and have never been given to an EMC patient.**",
+   "proposed_text": "**Selpercatinib and pralsetinib are approved,\nselective, and have never been given to an EMC patient.** ⛔ **AND EMC'S MOLECULAR STATE SITS OUTSIDE\nTHEIR EVIDENCE BASE.** EMC's RET is **over-expressed wild type**: PMID 28423517 **[FT]** reports that\nbeyond the fusion *\"other recurring genomic abnormalities were not detected\"*, and no RET fusion,\nmutation or amplification is reported in EMC anywhere. Every trial behind those approvals enrolled\n**RET-altered** disease — the tumour-agnostic arm is *\"RET **fusion-positive** solid tumours\"*\n(**PMID 36108661**) and the pan-tumour companion diagnostic detects **RET fusions** (**PMID\n42211499**). A search of 2,077 Europe PMC records found no evidence that a selective RET inhibitor\nhas activity against over-expressed wild-type RET in any tumour type. ⚠ That is a searched-and-not-\nfound, not a proof of absence — but it means *\"two approved selective inhibitors exist\"* does not\nyet name a label, a companion diagnostic or an open basket EMC could enter.",
+   "why": "the lane's translational appeal rests on two approved agents; their approvals are for a molecular state EMC does not have, and the memo does not say so",
+   "artifact": "research/modalities/emc-ret-activation-bar.json:the_translational_bar_the_memo_does_not_state.verdict"
+  },
+
+  {
+   "id": "E4",
+   "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+   "section": "§2 · the ranked table, row 1",
+   "anchor": "| **1** | **RET as EMC's activated, druggable effector** |",
+   "current_text": "| **1** | **RET as EMC's activated, druggable effector** | Two independent groups; the only kinase measured as *expressed **and activated*** in EMC; two approved selective inhibitors; **no RET route among the 40**; twelve years with no follow-up | [3.1](#31--ret) |",
+   "proposed_text": "| **1** | **RET as EMC's activated, druggable effector** ⚠ **re-graded 2026-08-07 — see [3.1](#31--ret)** | Two independent groups; **the only kinase with an EMC-enriched EXPRESSION signal in two cohorts**; two approved selective inhibitors; **no RET route among the 40**; twelve years with no follow-up. ⛔ *Superseded, retained: \"the only kinase measured as **expressed and activated** in EMC\"* — the activation reading is one sentence over an unquantified subset of a ten-patient series, and the approved agents' evidence base is RET-**altered** disease, which EMC is not ([`emc-ret-activation-bar.json`](../modalities/emc-ret-activation-bar.json)). **Rank 1 is not supported by this evidence and should be re-contested against [3.2](#32--fusion-variant-stratification)** | [3.1](#31--ret) |",
+   "why": "the rank column asserts 'measured as expressed AND activated', which is the claim that did not survive; a rank cell that still asserts it would contradict §3.1 after E1 lands",
+   "artifact": "research/modalities/emc-ret-activation-bar.json:the_methodological_guard_answered"
+  }
+ ],
+
+ "proposed_graph_addition": {
+  "_status": "PROPOSED, NOT APPLIED. This agent was instructed not to edit systems/graph/*.",
+  "_what_the_applier_must_also_do": [
+   "add `RT-RET` to ST-REPURPOSING's `routes` list in systems/graph/strategies.json — the checker enforces BOTH directions ([H2]) and a one-sided insert turns the build red;",
+   "register the two new artifacts in systems/graph/artifacts.json (and artifact-refs.json) before citing them as ART-* here, or leave `artifacts: []` on first insert and add them in a second pass;",
+   "⚠ `required_validation[1].instrument` names `INS-EMC-RET-SCAN`, which DOES NOT YET EXIST in systems/graph/instruments.json — checked, not assumed. Either register the instrument (it is `research/modalities/emc_ret_target_scan.py`, 42 tests, fetch half unrun) or drop the field; the L2 renderer prints it verbatim either way, so leaving a dangling id would put a pointer to nothing into a generated view;",
+   "every OTHER id this record cites was verified to exist in the graph in this session: BLK-NO-WET-LAB, BLK-NO-EMC-DATA, BLK-PARALOGUE-DDG, BLK-TERNARY-GEOMETRY, BLK-R4-BINDS, BLK-NOT-FUSION-SELECTIVE, TECH-EMC-MODEL-ACCESS, TECH-EMC-EXPRESSION-DATA, OBJ-FUS-T1, PUB-REPURPOSING, ST-REPURPOSING;",
+   "run `python3 systems/systems_check.py --write-views` and commit the regenerated views — a hand-edited view fails the build;",
+   "re-run `./scripts/preflight.sh` (6 gates)."
+  ],
+  "_validation_performed_here": "this record was validated against systems/schema/route.schema.json + research-object.schema.json with jsonschema in this session (see emc-ret-lane.md §7). ⚠ That is a SHAPE check only — it does not exercise systems_check.py's cross-file invariants, which cannot be run without writing into systems/graph.",
+
+  "record": {
+   "id": "RT-RET",
+   "display_name": "Selective RET inhibition in EMC",
+   "aliases": ["the RET lane", "unexplored lane 3.1", "selpercatinib/pralsetinib in EMC"],
+   "level": "L2",
+   "kind": "route",
+   "title": "Selective RET inhibition in EMC",
+   "strategy": "ST-REPURPOSING",
+   "purpose": "Is RET a real, activated, druggable effector in EMC — and if it is, can an agent approved for RET-altered disease reach a tumour whose RET is over-expressed wild type?",
+   "provenance": {"owner": {"file": "systems/graph/routes.json"}},
+   "grade": {
+    "value": "Real but over-ranked on entry. The expression signal is genuine and reproduced in two independent cohorts; the ACTIVATION claim rests on one sentence over an unquantified subset of a ten-patient series, and the approved selective agents' evidence base is RET-ALTERED disease, which EMC is not. Neither clause of its stated falsifier has been measured.",
+    "owner": {"file": "research/modalities/emc-ret-lane.md", "anchor": "#6--the-grade"}
+   },
+   "state": {
+    "work_state": "future",
+    "status": "blocked",
+    "maturity": "concept",
+    "confidence": "low",
+    "last_verified": "2026-08-07"
+   },
+   "rationale": "Sunitinib produced 6 partial responses in 10 EMC patients, and among its putative targets only RET was reported as expressed and activated (PMID 24703573). An independent six-patient transcriptome cohort found RET the only sunitinib-target kinase significantly enriched in EMC versus other sarcomas (PMID 28423517). If the fusion drives RET transcriptionally, RET becomes a downstream node reachable without solving the paralogue-selectivity or ternary-geometry problems the driver-directed routes are blocked on.",
+   "supporting_evidence": [],
+   "remaining_unknowns": [
+    "The FRACTION of EMC tumours with activated RET. The only report describes 'a limited set of samples' from an n=10 series with no numerator or denominator, and the full text is paywalled — this is the single unknown the whole route turns on.",
+    "Whether RET is a TARGET GENE of EWSR1::NR4A3 at all. No cistrome of the FUSION exists — only single-locus chromatin work at SEMA3C (PMID 31020999) and ENO3 (PMID 26310886, on TFG::NR4A3). Wild-type NR4A3 ChIP-seq DOES exist (PMID 36482877 human cDC2s, all three paralogues; PMID 42028030 Schwann cells, GSA CRA032324) and intersecting those peaks with RET is a $0 step that outranks the motif scan.",
+    "Whether a bulk RTK-activation read in a hypocellular, matrix-rich tumour reports tumour-cell or stromal signalling — the route's own falsifier, and untested.",
+    "Whether any selective RET inhibitor has activity against over-expressed wild-type RET. Every approval enrolled RET-fusion- or RET-mutation-positive disease; 2,077 records surfaced no counter-example."
+   ],
+   "required_validation": [
+    {
+     "what": "A phospho-RET tissue microarray across an EMC series, with ligand and downstream nodes, of the kind that decided MET in clear cell sarcoma (PMID 34885165)",
+     "feasible_today": false,
+     "blocked_by": ["BLK-NO-WET-LAB"]
+    },
+    {
+     "what": "Intersect the published wild-type NR4A3 ChIP-seq peak sets with the RET locus — measured occupancy in real chromatin rather than a sequence motif. Carries a paralogue-overlap read for free, since one dataset ChIP'd NR4A1, NR4A2 and NR4A3 in the same cells",
+     "feasible_today": true
+    },
+    {
+     "what": "An NBRE/NurRE scan of RET's regulatory region against composition-matched nulls, plus the EMC expression contrast — a prioritisation, explicitly not a binding claim",
+     "instrument": "INS-EMC-RET-SCAN",
+     "feasible_today": true
+    },
+    {
+     "what": "Confirmation that any predicted element is actually occupied by the chimera, by ChAP-qPCR or ChIP as in PMID 31020999",
+     "feasible_today": false,
+     "blocked_by": ["BLK-NO-WET-LAB"]
+    }
+   ],
+   "readiness": {
+    "attainable_today": "internal_note",
+    "why_not_higher": "The route's headline claim did not survive contact with its own sources, and the two measurements that would settle it are a paywalled page and a wet-lab assay. What IS publishable today is the negative-shaped finding — that the sole basis for calling RET activated in EMC is an unquantified subset of ten patients — and that belongs in the lane memo before it belongs in a route paper.",
+    "missing": [
+     "the full text of Eur J Cancer 2014;50:1657-64 (PMID 24703573)",
+     "the RET regulatory-sequence and EMC-expression fetch, which needs one CI dispatch"
+    ]
+   },
+   "timing": {
+    "recommendation": "monitor",
+    "rationale": "The cheapest decisive step is not compute and not money: it is one paywalled methods section. Until the activation denominator is known, any further investment risks building on a claim that a single unread page could remove.",
+    "six_month_delta": "Only if an NR4A3 cistrome or an EMC phospho-RET series is published.",
+    "two_year_delta": "An EMC model with public transcriptomes, or any tumour-agnostic trial admitting RET overexpression rather than RET alteration, would change the route materially.",
+    "cost_trend": "flat",
+    "automation_outlook": "The motif scan and the expression read are fully automated and cost $0. Nothing else about this route is.",
+    "revisit_trigger": ["TECH-EMC-MODEL-ACCESS", "TECH-EMC-EXPRESSION-DATA"]
+   },
+   "blockers_inherited": ["BLK-NO-WET-LAB", "BLK-NO-EMC-DATA"],
+   "blockers_retired": ["BLK-PARALOGUE-DDG", "BLK-TERNARY-GEOMETRY", "BLK-R4-BINDS", "BLK-NOT-FUSION-SELECTIVE"],
+   "_why_those_retirements": "a downstream-node route needs no NR4A3 binder, no ternary geometry and no paralogue discrimination — it inherits a different and arguably harder problem instead (is the node actually driving anything?), which is what `remaining_unknowns` records.",
+   "instruments": {"support": [], "disclosed_failing": []},
+   "objects": ["OBJ-FUS-T1"],
+   "evidence": [],
+   "artifacts": [],
+   "publication": {
+    "endpoint": "PUB-REPURPOSING",
+    "role": "contributing",
+    "contribution": "The RET arm, and — more usefully in its current state — the negative that the only published basis for calling RET an activated target in EMC is an unquantified subset of a ten-patient series, which nobody has said out loud in twelve years."
+   },
+   "distinct_from": [
+    {
+     "route": "RT-ICI-TKI",
+     "axis": "which target the TKI activity is attributed to",
+     "fails_on": ["BLK-NO-EMC-DATA"],
+     "why": "the existing sunitinib/pazopanib rows attribute EMC's TKI activity to antiangiogenesis and carry the clinical series; this route makes RET the claimed effector, which is a mechanistic claim the antiangiogenic reading does not need and which the originating authors themselves did not adopt"
+    }
+   ],
+   "closure_kind": "open",
+   "closure_note": "Open. The decisive unknown is a denominator that exists in a paywalled methods section."
+  }
+ },
+
+ "_not_proposed_and_why": {
+  "nr4a3-program-map.md": "no edit is proposed. That roadmap is the degrader program's dependency graph; RET is a route in the portfolio registry, not a step in that program, and inserting it there would restate a fact whose home is systems/graph/routes.json (CLAUDE.md rule 1). If trimcrae wants a portfolio-level row, that is a judgement call and should be made deliberately rather than smuggled in by an agent working one lane.",
+  "path-family-synthesis.md": "out of scope for this lane and explicitly off-limits to this agent."
+ }
+}

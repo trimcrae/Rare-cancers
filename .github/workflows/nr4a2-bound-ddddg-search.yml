@@ -139,6 +139,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      # ⛔ THE CHECKPOINT WAS WRITTEN AND NEVER RESTORED, SO IT BOUGHT NOTHING (fixed 2026-08-07).
+      # `_ddddg_ckpt/` is produced after every stage and every target, and the comment above c01a
+      # says a timeout therefore "delivers a partial scan rather than nothing". That was an asserted
+      # property, not a real one: no `actions/cache`, no `download-artifact`, and the directory is
+      # committed on no ref, so every re-dispatch began at stage 1. Measured across the run history:
+      # c01b hit its 120-minute ceiling THREE times (7215 s twice, to the second) and c01a ran 355.2
+      # minutes against a 350-minute ceiling -- and the Actions API labels all of them `cancelled`,
+      # so nothing in the badge or the run list says "timeout". Three months of dispatches, zero
+      # cumulative progress, and a green badge on the runs where the jobs were skipped entirely.
+      # ⚠ restore-keys is what makes this resume ACROSS dispatches rather than only within one: the
+      # primary key carries run_id so each run saves its own entry, and the prefix key finds the most
+      # recent previous one. Without the prefix the cache would hit only on a re-run of the same run.
+      - name: Restore the search checkpoint (this is what makes a timeout cumulative)
+        uses: actions/cache@v4
+        with:
+          path: research/modalities/_ddddg_ckpt
+          key: ddddg-${{ inputs.task }}-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            ddddg-${{ inputs.task }}-${{ github.ref_name }}-
+            ddddg-${{ inputs.task }}-
       - name: Install rdkit + biopython (two wheels, versions recorded not assumed)
         run: |
           python -m pip install --upgrade pip
@@ -181,6 +201,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      # ⛔ THE CHECKPOINT WAS WRITTEN AND NEVER RESTORED, SO IT BOUGHT NOTHING (fixed 2026-08-07).
+      # `_ddddg_ckpt/` is produced after every stage and every target, and the comment above c01a
+      # says a timeout therefore "delivers a partial scan rather than nothing". That was an asserted
+      # property, not a real one: no `actions/cache`, no `download-artifact`, and the directory is
+      # committed on no ref, so every re-dispatch began at stage 1. Measured across the run history:
+      # c01b hit its 120-minute ceiling THREE times (7215 s twice, to the second) and c01a ran 355.2
+      # minutes against a 350-minute ceiling -- and the Actions API labels all of them `cancelled`,
+      # so nothing in the badge or the run list says "timeout". Three months of dispatches, zero
+      # cumulative progress, and a green badge on the runs where the jobs were skipped entirely.
+      # ⚠ restore-keys is what makes this resume ACROSS dispatches rather than only within one: the
+      # primary key carries run_id so each run saves its own entry, and the prefix key finds the most
+      # recent previous one. Without the prefix the cache would hit only on a re-run of the same run.
+      - name: Restore the search checkpoint (this is what makes a timeout cumulative)
+        uses: actions/cache@v4
+        with:
+          path: research/modalities/_ddddg_ckpt
+          key: ddddg-${{ inputs.task }}-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            ddddg-${{ inputs.task }}-${{ github.ref_name }}-
+            ddddg-${{ inputs.task }}-
       - name: Install rdkit + biopython (versions recorded not assumed)
         run: |
           python -m pip install --upgrade pip

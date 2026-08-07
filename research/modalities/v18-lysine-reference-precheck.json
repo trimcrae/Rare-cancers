@@ -1,0 +1,1988 @@
+{
+ "_what": "C05 / roadmap \u00a710.1a row Q7 \u2014 the $0 known-answer precheck for V18, the transfer-zone lysine-identity instrument. Does a MEASURED ubiquitination-site or lysine-mutant reference exist for a substrate with a SOLVED TERNARY?",
+ "_cost": "$0 \u2014 CI retrieval (fetch-literature.yml) + CPU adjudication. No GPU, no rental.",
+ "_scope": "Nothing here is a result about binding, reactivity, degradation, selectivity, efficacy or safety, and nothing here concerns NR4A3.",
+ "_claim_ceiling": "roadmap \u00a72.3 unchanged \u2014 V18 is at `proposed` and no requirement may be claimed above it. Finding a benchmark is not passing one.",
+ "prereg": {
+  "require_named_residue": true,
+  "_why_named_residue": "the quantity V18 produces is a lysine IDENTITY, so a reference that establishes only THAT a substrate is ubiquitinated cannot score it. A residue token (K123 / Lys123) in the same sentence as a measurement token is the minimum that could.",
+  "require_solved_ternary_substrate": true,
+  "_why_solved_ternary": "the transfer-zone model is built ON a ternary geometry. A mapped site on a substrate with no solved ternary has nothing to be predicted against, so it is a real measurement and not a known answer for this instrument. The gene list is READ from s-calibrator-survey.json.",
+  "diagnosticity_max_distinct_lysines": 1,
+  "_why_one_lysine": "\u26a0 THE REGISTER PREDICTED THIS BEFORE THE SEARCH RAN. C05.does_not_license says real degraders often ubiquitinate SEVERAL lysines and lysine-less substrates can still be degraded. A model that names one lysine cannot be scored right-or-wrong against a reference naming five: every prediction hits. That is the same defect that stops V10's hot-spot pass from speaking to paralogue scale -- a control whose answer cannot discriminate is not a control.",
+  "redundancy_drops_to_weak": true,
+  "_why_redundancy_drops": "if the SOURCE ITSELF reports that removing the mapped lysine does not stop degradation, then the mapped site is not the causal site, and predicting it correctly would license nothing.",
+  "span_min_chars": 25,
+  "span_max_chars": 700,
+  "max_spans_per_paper": 25
+ },
+ "null_rejection_rule": "This precheck REFUTES the premise that V18 can be bought a known answer if, across both retrieved corpora read in full, no span names a specific lysine of a ternary-solved degrader substrate together with a measurement token -- in which case V18 is closed on evidence and its 'none exists' row in roadmap \u00a73.1 becomes a measured finding rather than an unchecked one. It SUPPORTS the premise only if such a span exists AND the source names a SINGLE lysine AND does not itself report redundancy. Anything between is reported as FOUND_BUT_WEAKLY_DIAGNOSTIC and is explicitly NOT a usable known answer for V18, however real the underlying measurement is.",
+ "caveat": "Finding a mapped ubiquitination site is not passing a known-answer test, and a WEAKLY DIAGNOSTIC find is not a partial pass -- it is a reference that cannot separate a right answer from a wrong one, which is the same state V18 was already in. Nothing here licenses any statement about NR4A3, about paralogue sparing, about degradation, efficacy or safety, and roadmap \u00a72.3's claim ceiling is unchanged: V18 remains at `proposed`.",
+ "corpus_root_at_generation": {
+  "path": "/tmp/claude-0/-home-user-Rare-cancers/3dda81cd-58a4-5083-997e-86a33d0a850b/scratchpad/litcache",
+  "_is_ephemeral": "a scratch export of the literature-cache branch, not a repository location. Use corpus_provenance.commit to reproduce."
+ },
+ "corpus_provenance": {
+  "branch": "literature-cache",
+  "commit": "c255b6a68820324d4edf9007c91bac6e30232013",
+  "_why_this_is_here": "\u26a0 THE CORPUS IS NOT COMMITTED BESIDE THIS ARTIFACT \u2014 it lives on the literature-cache branch, which is where every CI-fetched full text in this repo lives. Without the commit sha this verdict would be unreproducible: the branch is rewritten by every sweep, so `literature/<slug>/` is a moving target and 'I read the corpus' would be an unfalsifiable sentence. Re-run: `git archive <commit> literature/<slug> | tar -x -C <dir>` then point --corpus-root at <dir>.",
+  "retrieved_by": ".github/workflows/fetch-literature.yml `query` path (scripts/fetch-paper.mjs sync), dispatched on main at $0"
+ },
+ "corpora": [
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "why_this_query": "MS / diGly site-mapping for degrader substrates -- the 'which lysine carried the remnant' arm",
+   "loaded": true,
+   "n_records": 370,
+   "n_full_texts_on_disk": 294,
+   "error": null
+  },
+  {
+   "slug": "v18-lysine-mutant-rescue-known-answer",
+   "why_this_query": "lysine-to-arginine mutants and lysine-less constructs -- the 'which lysine, by rescue' arm",
+   "loaded": true,
+   "n_records": 525,
+   "n_full_texts_on_disk": 368,
+   "error": null
+  }
+ ],
+ "ternary_solved_substrates": {
+  "_source": "s-calibrator-survey.json",
+  "genes": [
+   "BRD4",
+   "FKBP51",
+   "IKZF1",
+   "IKZF3",
+   "SMARCA2",
+   "SMARCA4",
+   "WEE1"
+  ],
+  "by_gene": {
+   "SMARCA2": {
+    "n_ternary": 15,
+    "pdb_ids": [
+     "6HAX",
+     "6HAY",
+     "7S4E",
+     "7Z6L",
+     "7Z76",
+     "7Z77",
+     "8G1P",
+     "9D4B",
+     "9DTY",
+     "9HYB"
+    ]
+   },
+   "SMARCA4": {
+    "n_ternary": 4,
+    "pdb_ids": [
+     "6HR2",
+     "8G1Q",
+     "8QJR",
+     "9DTX"
+    ]
+   },
+   "IKZF1": {
+    "n_ternary": 10,
+    "pdb_ids": [
+     "6H0F",
+     "8D7Z",
+     "8D80",
+     "8RQC",
+     "8TNQ",
+     "8TNR",
+     "9OUK",
+     "9Q2D",
+     "9SQ5",
+     "9Y7D"
+    ]
+   },
+   "IKZF3": {
+    "n_ternary": 4,
+    "pdb_ids": [
+     "9UUM",
+     "9V0A",
+     "9V0B",
+     "9V0F"
+    ]
+   },
+   "BRD4": {
+    "n_ternary": 24,
+    "pdb_ids": [
+     "5T35",
+     "6BN7",
+     "6BN8",
+     "6BN9",
+     "6BNB",
+     "6BOY",
+     "6SIS",
+     "7KHH",
+     "7ZNT",
+     "8BDS"
+    ]
+   },
+   "FKBP51": {
+    "n_ternary": 1,
+    "pdb_ids": [
+     "8PC2"
+    ]
+   },
+   "WEE1": {
+    "n_ternary": 1,
+    "pdb_ids": [
+     "8WDK"
+    ]
+   }
+  },
+  "error": null
+ },
+ "scan": {
+  "n_records_scanned": 895,
+  "n_with_full_text": 662,
+  "n_candidate_spans": 317
+ },
+ "candidate_spans": [
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41957433",
+   "pmcid": "PMC13250050",
+   "doi": "10.1038/s42003-026-09964-6",
+   "year": 2026,
+   "title": "Identification of E3 ligase substrates and PROTAC-induced ubiquitylation sites using proximity-based identification of ubiquitin sites (PrIUS).",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Investigating the SMARCA2/4 degrader ACBI1 on SMARCA4 degradation identified a highly enriched diGly site, K1464, which had no corresponding lysine on SMARCA2 based on structural similarity.",
+   "lysines_named_in_span": [
+    1464
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "SMARCA2",
+    "SMARCA4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4",
+    "SMARCA2",
+    "SMARCA4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "39392888",
+   "pmcid": "PMC11468923",
+   "doi": "10.1126/sciadv.ado6492",
+   "year": 2024,
+   "title": "Mechanism of degrader-targeted protein ubiquitinability.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "In vitro ubiquitination and mass spectrometry illuminate a patch of favorably ubiquitinable lysines on one face of Brd4BD2, with cellular degradation and ubiquitinomics confirming the importance of Lys456 and nearby Lys368/Lys445, identifying the \u201cubiquitination zone.\u201d Our results demonstrate the proficiency of MZ1 in positioning the substrate for catalysis, the favorability of Brd4BD2 for ubiquitination by UBE2R1, and the flexibility of CRL2 for capturing suboptimal lysines.",
+   "lysines_named_in_span": [
+    368,
+    445,
+    456
+   ],
+   "n_lysines_named_in_span": 3,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "BRD4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "39392888",
+   "pmcid": "PMC11468923",
+   "doi": "10.1126/sciadv.ado6492",
+   "year": 2024,
+   "title": "Mechanism of degrader-targeted protein ubiquitinability.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "We consistently identified eight ubiquitination sites on Brd4BD2 (K333, K346, K349, K355, K362, K368, K445, and K456), each from at least one peptide identified in the MS with Andromeda score greater than 100 (see Materials and Methods).",
+   "lysines_named_in_span": [
+    333,
+    346,
+    349,
+    355,
+    362,
+    368,
+    445,
+    456
+   ],
+   "n_lysines_named_in_span": 8,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "BRD4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "39392888",
+   "pmcid": "PMC11468923",
+   "doi": "10.1126/sciadv.ado6492",
+   "year": 2024,
+   "title": "Mechanism of degrader-targeted protein ubiquitinability.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Together, our ubiquitination and cellular degradation data show that the single K456R mutant had comparable ubiquitination and degradation relative to wild-type Brd4BD2, likely owing to the longevity of the VHL-MZ1-Brd4BD2 combined with the flexibility of the CRL system allowing to buffer against the loss of this acceptor Lys456 and allowing for other lysines to be captured.",
+   "lysines_named_in_span": [
+    456
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "BRD4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "39392888",
+   "pmcid": "PMC11468923",
+   "doi": "10.1126/sciadv.ado6492",
+   "year": 2024,
+   "title": "Mechanism of degrader-targeted protein ubiquitinability.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "In agreement with our data, the same two lysines (K445 and K456) were also identified as MZ1-dependent ubiquitination sites from mass spectrometric analysis of endogenously immunoprecipitated Brd4 in a previous study ( ).",
+   "lysines_named_in_span": [
+    445,
+    456
+   ],
+   "n_lysines_named_in_span": 2,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "BRD4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": null,
+   "pmcid": null,
+   "doi": "10.1101/2024.02.05.578957",
+   "year": 2024,
+   "title": "Mechanism of degrader-targeted protein ubiquitinability",
+   "journal": null,
+   "read_from": "abstract_only",
+   "quoted_span": "In vitro ubiquitination coupled with mass spectrometry illuminates a patch of ubiquitinable lysines on one face of Brd4 BD2 , with Lys456 showing optimal distance and geometry for nucleophilic attack.",
+   "lysines_named_in_span": [
+    456
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "BRD4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "32431173",
+   "pmcid": "PMC7333641",
+   "doi": "10.4155/fmc-2020-0073",
+   "year": 2020,
+   "title": "Assays and technologies for developing proteolysis targeting chimera degraders.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "identified K346 on BRD4BD2 and several sites on the other BET bromodomains as the ubiquitination sites induced by MZ1 [ ].",
+   "lysines_named_in_span": [
+    346
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "BRD4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4",
+    "SMARCA2",
+    "SMARCA4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "28288108",
+   "pmcid": "PMC5392356",
+   "doi": "10.1038/nchembio.2329",
+   "year": 2017,
+   "title": "Structural basis of PROTAC cooperative recognition for selective protein degradation.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Mapping MZ1-induced ubiquitination sites in vitro identified Lys346 on Brd4BD2 and several sites on the other BET-BDs ( ).",
+   "lysines_named_in_span": [
+    346
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "BRD4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-lysine-mutant-rescue-known-answer",
+   "pmid": "39392888",
+   "pmcid": "PMC11468923",
+   "doi": "10.1126/sciadv.ado6492",
+   "year": 2024,
+   "title": "Mechanism of degrader-targeted protein ubiquitinability.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "In vitro ubiquitination and mass spectrometry illuminate a patch of favorably ubiquitinable lysines on one face of Brd4BD2, with cellular degradation and ubiquitinomics confirming the importance of Lys456 and nearby Lys368/Lys445, identifying the \u201cubiquitination zone.\u201d Our results demonstrate the proficiency of MZ1 in positioning the substrate for catalysis, the favorability of Brd4BD2 for ubiquitination by UBE2R1, and the flexibility of CRL2 for capturing suboptimal lysines.",
+   "lysines_named_in_span": [
+    368,
+    445,
+    456
+   ],
+   "n_lysines_named_in_span": 3,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "BRD4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-lysine-mutant-rescue-known-answer",
+   "pmid": "39392888",
+   "pmcid": "PMC11468923",
+   "doi": "10.1126/sciadv.ado6492",
+   "year": 2024,
+   "title": "Mechanism of degrader-targeted protein ubiquitinability.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "We consistently identified eight ubiquitination sites on Brd4BD2 (K333, K346, K349, K355, K362, K368, K445, and K456), each from at least one peptide identified in the MS with Andromeda score greater than 100 (see Materials and Methods).",
+   "lysines_named_in_span": [
+    333,
+    346,
+    349,
+    355,
+    362,
+    368,
+    445,
+    456
+   ],
+   "n_lysines_named_in_span": 8,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "BRD4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-lysine-mutant-rescue-known-answer",
+   "pmid": "39392888",
+   "pmcid": "PMC11468923",
+   "doi": "10.1126/sciadv.ado6492",
+   "year": 2024,
+   "title": "Mechanism of degrader-targeted protein ubiquitinability.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Together, our ubiquitination and cellular degradation data show that the single K456R mutant had comparable ubiquitination and degradation relative to wild-type Brd4BD2, likely owing to the longevity of the VHL-MZ1-Brd4BD2 combined with the flexibility of the CRL system allowing to buffer against the loss of this acceptor Lys456 and allowing for other lysines to be captured.",
+   "lysines_named_in_span": [
+    456
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "BRD4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-lysine-mutant-rescue-known-answer",
+   "pmid": "39392888",
+   "pmcid": "PMC11468923",
+   "doi": "10.1126/sciadv.ado6492",
+   "year": 2024,
+   "title": "Mechanism of degrader-targeted protein ubiquitinability.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "In agreement with our data, the same two lysines (K445 and K456) were also identified as MZ1-dependent ubiquitination sites from mass spectrometric analysis of endogenously immunoprecipitated Brd4 in a previous study ( ).",
+   "lysines_named_in_span": [
+    445,
+    456
+   ],
+   "n_lysines_named_in_span": 2,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [
+    "BRD4"
+   ],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": true,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "39279720",
+   "pmcid": "PMC11634490",
+   "doi": "10.1002/jcsm.13601",
+   "year": 2024,
+   "title": "Ubiquitylomics: An Emerging Approach for Profiling Protein Ubiquitylation in Skeletal Muscle.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "By combining RNAseq, proteomics, ubiquitylomics and metabolomics, they found the UPS activator Nfe2l1, which promotes degradation of K48\u2010linked ubiquitylated proteins, encourages glycolytic metabolism in fast\u2010twitch muscle fibres.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "IKZF1",
+    "IKZF3"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41381506",
+   "pmcid": "PMC12749748",
+   "doi": "10.1038/s41467-025-66382-8",
+   "year": 2025,
+   "title": "Chemically-induced degradation of the endoplasmic-reticulum stress sensor IRE1 by a VHL-recruiting chimera.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Despite the divergent linkage specificity of these different E2 enzymes, Me-Ub experiments coupled with LC-MS/MS analysis showed that the key IRE1 lysine (K704) targeted by G6374-mediated ubiquitination remained unchanged (Supplementary Fig.",
+   "lysines_named_in_span": [
+    704
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41381506",
+   "pmcid": "PMC12749748",
+   "doi": "10.1038/s41467-025-66382-8",
+   "year": 2025,
+   "title": "Chemically-induced degradation of the endoplasmic-reticulum stress sensor IRE1 by a VHL-recruiting chimera.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "IP-IB analysis revealed that disruption of the interaction of IRE1-His579 with VHL-Tyr98 effectively abolished G6374-mediated K48 ubiquitination of IRE1 (Fig.",
+   "lysines_named_in_span": [
+    48
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41381506",
+   "pmcid": "PMC12749748",
+   "doi": "10.1038/s41467-025-66382-8",
+   "year": 2025,
+   "title": "Chemically-induced degradation of the endoplasmic-reticulum stress sensor IRE1 by a VHL-recruiting chimera.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "However, our empirical, LC-MS/MS-based analysis identified with confidence only K704 and K717 as ubiquitinated.",
+   "lysines_named_in_span": [
+    704,
+    717
+   ],
+   "n_lysines_named_in_span": 2,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41381506",
+   "pmcid": "PMC12749748",
+   "doi": "10.1038/s41467-025-66382-8",
+   "year": 2025,
+   "title": "Chemically-induced degradation of the endoplasmic-reticulum stress sensor IRE1 by a VHL-recruiting chimera.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Consistent with this notion, mutation of K704 and K717 to arginine did not abolish ubiquitination on IRE1; rather, it altered the ubiquitination pattern as detected by Me-Ub conjugation.",
+   "lysines_named_in_span": [
+    704,
+    717
+   ],
+   "n_lysines_named_in_span": 2,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "40703447",
+   "pmcid": "PMC12283562",
+   "doi": "10.1016/j.isci.2025.113029",
+   "year": 2025,
+   "title": "The ubiquitin code of RAS proteins: Decoding its role in cancer progression.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": ", Both wild-type KRAS and its mutant variant, KRAS G12D, could be activated by FBXL6 through K63-linked polyubiquitination at the Lys128.",
+   "lysines_named_in_span": [
+    128
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    63
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "39661064",
+   "pmcid": "PMC11665913",
+   "doi": "10.1073/pnas.2407910121",
+   "year": 2024,
+   "title": "Targeting DTX2/UFD1-mediated FTO degradation to regulate antitumor immunity.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Indeed, the K48R ubiquitin mutant drastically reduced DTX2-mediated FTO ubiquitination, suggesting K48-linked polyubiquitination as the major ubiquitin chain for FTO ( ).",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "42098103",
+   "pmcid": "PMC13156300",
+   "doi": "10.1038/s41467-026-72524-3",
+   "year": 2026,
+   "title": "Cysteine availability tunes ubiquitin signaling via inverse stability of LRRC58 E3 ligase and its substrate CDO1.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "This defect was observed in assays using both WT ubiquitin and a lysine-less version (K0-ubiquitin) that cannot form chains.",
+   "lysines_named_in_span": [
+    0
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "42098103",
+   "pmcid": "PMC13156300",
+   "doi": "10.1038/s41467-026-72524-3",
+   "year": 2026,
+   "title": "Cysteine availability tunes ubiquitin signaling via inverse stability of LRRC58 E3 ligase and its substrate CDO1.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "For the assays comparing ubiquitylation of CDO1 variants by the VHL-Cmpd8 degrader, components were mixed as previously described, but with either Cy5-CDO1 or Cy5-K8R-CDO1 (0.25 \u00b5M), either LRRC58-EloB/C or VHL-EloB/C (0.5 \u00b5M), either WT-ubiquitin or K0-ubiquitin (100 \u00b5M), and either DMSO or Cmpd8 (0.125 \u00b5M, NVS-VHL720-MedChemExpress).",
+   "lysines_named_in_span": [
+    0
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41897296",
+   "pmcid": "PMC13024110",
+   "doi": "10.3390/biom16030360",
+   "year": 2026,
+   "title": "Targeting MLKL-Driven Necroptosis: A Therapeutic Target in Inflammation and Host Defense.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Mass spectrometry analysis identified multiple ubiquitinated lysine residues, with K50 in human MLKL and K50/K51 in mouse MLKL being the most frequently modified.",
+   "lysines_named_in_span": [
+    50,
+    51
+   ],
+   "n_lysines_named_in_span": 2,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41738039",
+   "pmcid": "PMC12925916",
+   "doi": "10.1016/j.jncc.2025.04.004",
+   "year": 2026,
+   "title": "Emerging therapies to overcome antiandrogen resistance and beyond in lethal prostate cancer.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "In addition, K313, another previously identified ubiquitination site, was found to also undergo methylation and acetylation, indicating that multiple types of PTMs can converge at specific residues to fine-tune AR transcriptional output.",
+   "lysines_named_in_span": [
+    313
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41436460",
+   "pmcid": "PMC12728233",
+   "doi": "10.1038/s41392-025-02392-8",
+   "year": 2025,
+   "title": "Targeting ubiquitination in disease and therapy.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Functional dissection identified UBE3A, a HECT-domain E3 ligase, as a direct mediator of mutant HTT (mHTT) Lys48 ubiquitination in HEK293 models, whereas genome-wide association studies identified UBR5, another HECT ligase, as a modifier of HD onset age.",
+   "lysines_named_in_span": [
+    48
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4",
+    "IKZF1",
+    "IKZF3"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41436460",
+   "pmcid": "PMC12728233",
+   "doi": "10.1038/s41392-025-02392-8",
+   "year": 2025,
+   "title": "Targeting ubiquitination in disease and therapy.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Within dilated cardiomyopathy pathophysiology, USP5 orchestrates proteostasis through dual K48/K63 Ub chain editing at the PSMD14-containing proteasome complex, whereas USP36 maintains genomic integrity via PARP1 deubiquitination\u2014a function abrogated by its catalytically inert C131A mutant.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48,
+    63
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4",
+    "IKZF1",
+    "IKZF3"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "40301325",
+   "pmcid": "PMC12041361",
+   "doi": "10.1038/s41420-025-02423-x",
+   "year": 2025,
+   "title": "Exploring necroptosis: mechanistic analysis and antitumor potential of nanomaterials.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "However, K377 is not the only ubiquitination site in RIPK1, and it has never been confirmed by mass spectrometry of endogenous RIPK1.",
+   "lysines_named_in_span": [
+    377
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41735496",
+   "pmcid": "PMC12992548",
+   "doi": "10.1038/s12276-026-01645-y",
+   "year": 2026,
+   "title": "PAK4 in metabolic diseases: regulation by nutrient signals and therapeutic implications.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Site-directed mutagenesis further identified lysine residues Lys31, Lys540 and Lys546 in PAK4 as essential ubiquitination sites mediating its degradation (Fig.",
+   "lysines_named_in_span": [
+    31,
+    540,
+    546
+   ],
+   "n_lysines_named_in_span": 3,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Mass spectrometry analysis identified lysine residues K12, K21 and K23 as ubiquitination sites on \u03b1-synuclein, with these modifications predominantly occurring on the phosphorylated form of the protein deposited in LBs [ ].",
+   "lysines_named_in_span": [
+    12,
+    21,
+    23
+   ],
+   "n_lysines_named_in_span": 3,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Notably, a disulphide-directed ubiquitination strategy identified three modification sites (K6, K23 and K96) on \u03b1-synuclein that are responsible for preventing the formation of synuclein fibrils [ ].",
+   "lysines_named_in_span": [
+    6,
+    23,
+    96
+   ],
+   "n_lysines_named_in_span": 3,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "A recent study using mass spectrometry-based analysis suggests that the K63 linked ubiquitination of \u03b1-synuclein at K45, K58 or K60 residues is crucial for its endosomal trafficking and subsequent lysosomal degradation [ ], elucidating the intricate role of different ubiquitin chain linkages in determining the fate of synuclein.",
+   "lysines_named_in_span": [
+    45,
+    58,
+    60
+   ],
+   "n_lysines_named_in_span": 3,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    63
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Mass spectrometric analysis demonstrates that endogenous SIAH-1 monoubiquitinates \u237a-synuclein at several lysine residues (K10, K12, K21, K23, K34, K43 and K96) [ ].",
+   "lysines_named_in_span": [
+    10,
+    12,
+    21,
+    23,
+    34,
+    43,
+    96
+   ],
+   "n_lysines_named_in_span": 7,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "## Ubiquitin signatures on mHTT Only nine ubiquitination sites have been identified on the HTT till date ( ), with lysine residues K6, K9, K631 and K2097 being associated with its mutant form.",
+   "lysines_named_in_span": [
+    6,
+    9,
+    631,
+    2097
+   ],
+   "n_lysines_named_in_span": 4,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Mass spectrometry-based analysis has revealed the early accumulation of K48 linked polyubiquitin chains in both mouse and human models of HD.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "In a mutagenesis study conducted by Bhatt et al., the authors demonstrated well that mutation of K63 (K63R) caused a marked reduction in mHTT ubiquitination, indicating that K63-linked chains are the predominant modification, whereas K48R had a lesser effect.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    63
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Mutant SOD1 is known to be mono- or polyubiquitinated, mainly with K48 and K63 ubiquitin chains, leading to proteasomal or lysosomal degradation ( ).",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48,
+    63
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Dorfin was the first identified RING-type E3 ligase that ubiquitinates mutant SOD1 at K137 but not WT SOD1 and thus reduces mutant SOD1 inclusions, thereby targeting them for proteasomal degradation [ ].",
+   "lysines_named_in_span": [
+    137
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Proteomic characterization of detergent insoluble fraction of spinal cord fluid from G93A SOD1 mice identified K163 as a potential site for monoubiquitination of oligomers [ ].",
+   "lysines_named_in_span": [
+    163
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "It is reported that when the proteasome is impaired, Parkin mediates K63 linked ubiquitination of mutant SOD1, serving as a cargo signal for mutant SOD1 aggresome formation and clearance by autophagy pathway [ ].",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    63
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Furthermore, a mutation in the K48 ubiquitin leads to a decrease in the ubiquitination of mutant SOD1, indicating that it is polyubiquitinated through a K48 ubiquitin linkage.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "## Ubiquitin signature modifiers of TDP-43 Studies in transgenic A315T mutant TDP-43 (TDP-43-Tg) mice and gene transfer rat models demonstrated that Parkin ubiquitinates TDP-43 (with both K48 and K63 chains) and co-immunoprecipitates with HDAC6, suggesting that Parkin-HDAC6 complex facilitates nuclear export and cytosolic sequestration of mutant TDP-43 potentially contributing to its proteinopathy [ ].",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48,
+    63
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Immunoprecipitation and mass spectrometry analysis revealed that Znf179 mediates TDP-43 polyubiquitination and enhances its degradation by the proteasome, via K48 linkages, whereas knockout of Znf179 in mouse brain leads to excessive insoluble TDP-43 in midbrain, cortex and hippocampus regions.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41837791",
+   "pmcid": "PMC13043655",
+   "doi": "10.1042/ebc20253046",
+   "year": 2025,
+   "title": "Ubiquitin signatures on aggregating proteins in neurodegeneration.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Elevated levels of K48- and K63-ubiquitinated mutant TDP-43 and SOD1 have been observed, suggesting a possible role for the UPS and autophagy in degrading the aggregates, potentially in a linkage-specific manner [ ].",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48,
+    63
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "38382526",
+   "pmcid": "PMC10997478",
+   "doi": "10.1016/j.molcel.2024.01.022",
+   "year": 2024,
+   "title": "Cullin-RING ligases employ geometrically optimized catalytic partners for substrate targeting.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Lys 48 Arg (K48R) human ubiquitin, a mutant where all Lys residues had been replaced with Arg (K0), and a ubiquitin that contain an aspartate residue at the C terminus (Asp77 ubiquitin) were expressed in E.",
+   "lysines_named_in_span": [
+    0,
+    48
+   ],
+   "n_lysines_named_in_span": 2,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "38382526",
+   "pmcid": "PMC10997478",
+   "doi": "10.1016/j.molcel.2024.01.022",
+   "year": 2024,
+   "title": "Cullin-RING ligases employ geometrically optimized catalytic partners for substrate targeting.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "K48R, K0 and Asp77 ubiquitin were purified through their N-terminal 6xHis-tag, followed by gel filtration on a SuperDex 75 gel filtration column (Cytiva) that had been equilibrated in storage buffer (30 mM Tris pH 7.5, 100 mM NaCl, 10% glycerol, and 1 mM DTT).",
+   "lysines_named_in_span": [
+    0
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "38382526",
+   "pmcid": "PMC10997478",
+   "doi": "10.1016/j.molcel.2024.01.022",
+   "year": 2024,
+   "title": "Cullin-RING ligases employ geometrically optimized catalytic partners for substrate targeting.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "For reactions involving UBE2R2, K48R ubiquitin was used in the E2 mix instead of K0 ubiquitin.",
+   "lysines_named_in_span": [
+    0
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "38382526",
+   "pmcid": "PMC10997478",
+   "doi": "10.1016/j.molcel.2024.01.022",
+   "year": 2024,
+   "title": "Cullin-RING ligases employ geometrically optimized catalytic partners for substrate targeting.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "While the tube 1 components were incubating at room temperature, the tube 2 solution was assembled through the addition of E1 and ubiquitin (K48R or K0 depending on the ubiquitin-carrying enzyme component; please see the tables below).",
+   "lysines_named_in_span": [
+    0
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "38382526",
+   "pmcid": "PMC10997478",
+   "doi": "10.1016/j.molcel.2024.01.022",
+   "year": 2024,
+   "title": "Cullin-RING ligases employ geometrically optimized catalytic partners for substrate targeting.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "The radiolabeled donor ubiquitin contained a K48R mutation owing to UBE2R2\u2019s preference to forge poly-ubiquitin chains with Lys48 specificity.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "35101445",
+   "pmcid": "PMC9019245",
+   "doi": "10.1016/j.jbc.2022.101653",
+   "year": 2022,
+   "title": "Modeling the CRL4A ligase complex to predict target protein ubiquitination induced by cereblon-recruiting PROTACs.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "For example, due to the proximity of CDK5 Lys56 to Ub ( , A and B), Lys 56 was identified as a likely ubiquitination site.",
+   "lysines_named_in_span": [
+    56
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "35101445",
+   "pmcid": "PMC9019245",
+   "doi": "10.1016/j.jbc.2022.101653",
+   "year": 2022,
+   "title": "Modeling the CRL4A ligase complex to predict target protein ubiquitination induced by cereblon-recruiting PROTACs.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "After treatment with 1 and 10 \u03bcM TL12\u2013186, ubiquitination was significantly reduced to baseline levels in the CDK5 K56R mutant in a dose-dependent manner ( D), indicating that Lys56 is a critical ubiquitination site of TL12\u2013186 induced CDK5 ubiquitination, as our model predicted.",
+   "lysines_named_in_span": [
+    56
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41031910",
+   "pmcid": "PMC12794375",
+   "doi": "10.1042/bcj20253299",
+   "year": 2025,
+   "title": "Proteostasis of immune checkpoint receptors.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "AMSH, which displays high stringency for the Lys63-linked polyubiquitin chain, has been proposed to rescue ubiquitylated receptors from a degradative fate by reversing their ubiquitylation [ , ].",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    63
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41031910",
+   "pmcid": "PMC12794375",
+   "doi": "10.1042/bcj20253299",
+   "year": 2025,
+   "title": "Proteostasis of immune checkpoint receptors.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Glycosylation-deficient PD-1 mutant is reported to be ubiquitylated by the ubiquitin E3 ligase MDM2 at its N-terminal Lys78 for degradation by the proteasome via the ERAD pathway [ ].",
+   "lysines_named_in_span": [
+    78
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41685162",
+   "pmcid": "PMC12891874",
+   "doi": "10.1016/j.apsb.2025.07.031",
+   "year": 2026,
+   "title": "Targeting oncogenic K-RAS mutants with small-molecule degrader XMU-MP-9 through NEDD4-1.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Accordingly, K128R mutation substantially blocked the NEDD4-1-mediated ubiquitination of K-RASG12V promoted by XMU-MP-9 both in cells and in vitro ( F and G), indicating that XMU-MP-9 primarily assists NEDD4-1 in attaching ubiquitin to K128 of K-RASG12V.",
+   "lysines_named_in_span": [
+    128
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "38517379",
+   "pmcid": "PMC10959754",
+   "doi": "10.1083/jcb.202311171",
+   "year": 2024,
+   "title": "The emerging roles of non-canonical ubiquitination in proteostasis and beyond.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "As for the K48/K63 branched linkages, a reporter ubiquitin harboring an Arg54 to Ala mutation was expressed in cells to quantify specific signature peptides using mass spectrometry ( [ii]).",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48,
+    63
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4",
+    "IKZF1"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41258572",
+   "pmcid": "PMC12748465",
+   "doi": "10.1007/s12672-025-04103-9",
+   "year": 2025,
+   "title": "Ubiquitin-specific proteases as key regulators in the malignant progression and therapy resistance of colorectal cancer: current insights and future perspectives.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Specifically, USP47 removes ubiquitin chains from YAP at lysine residues K497 and K513, preventing its degradation and promoting its nuclear translocation, as confirmed by site-directed mutagenesis studies.",
+   "lysines_named_in_span": [
+    497,
+    513
+   ],
+   "n_lysines_named_in_span": 2,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41258572",
+   "pmcid": "PMC12748465",
+   "doi": "10.1007/s12672-025-04103-9",
+   "year": 2025,
+   "title": "Ubiquitin-specific proteases as key regulators in the malignant progression and therapy resistance of colorectal cancer: current insights and future perspectives.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "It is plausible that USP7 directly deubiquitinates p53 at lysine residue K370, preventing its interaction with MDM2 and subsequent degradation, a hypothesis that could be tested using ubiquitination assays and mass spectrometry analysis of p53 ubiquitination sites.",
+   "lysines_named_in_span": [
+    370
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "33839157",
+   "pmcid": "PMC8131913",
+   "doi": "10.1016/j.jbc.2021.100647",
+   "year": 2021,
+   "title": "Major advances in targeted protein degradation: PROTACs, LYTACs, and MADTACs.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Using mass spectrometry and mutational studies, they identified a single lysine, K87, which is primarily marked with ubiquitin and allows for protein degradation.",
+   "lysines_named_in_span": [
+    87
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4",
+    "IKZF1",
+    "IKZF3"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41303392",
+   "pmcid": "PMC12652050",
+   "doi": "10.3390/ijms262210907",
+   "year": 2025,
+   "title": "Post-Translational Modifications of Huntingtin: Mechanistic Insights and Therapeutic Opportunities in Huntington's Disease.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Ubiquitinations That Have Specific Functions K6 and K9 were identified as specific ubiquitination sites of mutant HTT in striatal and cortical tissues in HD mouse and rat models by mass spectrometry.",
+   "lysines_named_in_span": [
+    6,
+    9
+   ],
+   "n_lysines_named_in_span": 2,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41303392",
+   "pmcid": "PMC12652050",
+   "doi": "10.3390/ijms262210907",
+   "year": 2025,
+   "title": "Post-Translational Modifications of Huntingtin: Mechanistic Insights and Therapeutic Opportunities in Huntington's Disease.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "K132, K804, and K837 were identified as specific ubiquitination sites of wtHTT by mass spectrometry, among which K132 and K804 represent the predominant sites [ ].",
+   "lysines_named_in_span": [
+    132,
+    804,
+    837
+   ],
+   "n_lysines_named_in_span": 3,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "40999490",
+   "pmcid": "PMC12465779",
+   "doi": "10.1186/s13567-025-01614-9",
+   "year": 2025,
+   "title": "Salvianolic acid A inhibits PRRSV replication via binding to Keap1 to activate the MKRN1-Nrf2-NQO1 pathway.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "The HA-Ubiquitin, HA-Ubiquitin-K48, HA-Ubiquitin-K63, V5-Ubiquitin-K48R, V5-Ubiquitin-K63R, and GFP-Nrf2 plasmids were constructed in our laboratory.",
+   "lysines_named_in_span": [
+    48,
+    63
+   ],
+   "n_lysines_named_in_span": 2,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "40999490",
+   "pmcid": "PMC12465779",
+   "doi": "10.1186/s13567-025-01614-9",
+   "year": 2025,
+   "title": "Salvianolic acid A inhibits PRRSV replication via binding to Keap1 to activate the MKRN1-Nrf2-NQO1 pathway.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "On the basis of the prediction system\u2019s ranking, three predicted ubiquitination sites (K108, K298, and K615) of Keap1 were mutated to arginine (R), resulting in K108R, K298R, and K615R mutants, respectively, to identify the site(s) involved in SalA-induced ubiquitination.",
+   "lysines_named_in_span": [
+    108,
+    298,
+    615
+   ],
+   "n_lysines_named_in_span": 3,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "40999490",
+   "pmcid": "PMC12465779",
+   "doi": "10.1186/s13567-025-01614-9",
+   "year": 2025,
+   "title": "Salvianolic acid A inhibits PRRSV replication via binding to Keap1 to activate the MKRN1-Nrf2-NQO1 pathway.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "As shown in Figure H, the K108R and K298R mutations did not affect Keap1 ubiquitination, whereas the K615R mutation significantly abolished SalA-induced Keap1 ubiquitination, indicating that SalA treatment enhances Keap1 polyubiquitination at K615.",
+   "lysines_named_in_span": [
+    615
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": false,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "38811577",
+   "pmcid": "PMC11137104",
+   "doi": "10.1038/s41467-024-48922-w",
+   "year": 2024,
+   "title": "Small molecule induced STING degradation facilitated by the HECT ligase HERC4.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "To probe whether K150 is also a ubiquitination site in the mechanism underlying AK59-induced STING degradation, we mutated K150 to arginine (K150R, Supplementary Fig.",
+   "lysines_named_in_span": [
+    150
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41125851",
+   "pmcid": "PMC12669653",
+   "doi": "10.1038/s44318-025-00599-7",
+   "year": 2025,
+   "title": "Functional landscape of ubiquitin linkages couples K29-linked ubiquitylation to epigenome integrity.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "This study profiles system-wide impacts of abrogating the formation of all seven distinct lysine-based ubiquitin chain types in human cells, implicating K29-linked ubiquitylation in regulating H3K9me3 homeostasis and epigenome maintenance.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    29
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41125851",
+   "pmcid": "PMC12669653",
+   "doi": "10.1038/s44318-025-00599-7",
+   "year": 2025,
+   "title": "Functional landscape of ubiquitin linkages couples K29-linked ubiquitylation to epigenome integrity.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Abolishing K29-linked ubiquitylation of SUV39H1, catalyzed by the E3 ubiquitin ligase TRIP12, deregulates H3K9me3 homeostasis.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    29
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41125851",
+   "pmcid": "PMC12669653",
+   "doi": "10.1038/s44318-025-00599-7",
+   "year": 2025,
+   "title": "Functional landscape of ubiquitin linkages couples K29-linked ubiquitylation to epigenome integrity.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Profiling the system-wide impact of abolishing each of the seven distinct polyubiquitin linkage types reveals that K29-linked chains control the stability of H3K9 methyltransferase SUV39H1.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    29
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41125851",
+   "pmcid": "PMC12669653",
+   "doi": "10.1038/s44318-025-00599-7",
+   "year": 2025,
+   "title": "Functional landscape of ubiquitin linkages couples K29-linked ubiquitylation to epigenome integrity.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Although K29-linkages could not be consistently quantified by this proteomic approach due to technical limitations, we confirmed quantitative loss of K29-linked ubiquitylation in Ub(K29R) cell lines using a previously established highly specific synthetic antibody for K29-linkages (sAB-K29) (Yu et al, ) (Fig.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    29
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41125851",
+   "pmcid": "PMC12669653",
+   "doi": "10.1038/s44318-025-00599-7",
+   "year": 2025,
+   "title": "Functional landscape of ubiquitin linkages couples K29-linked ubiquitylation to epigenome integrity.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Moreover, we used Ub(K6R) replacement cells and a K6-Ub-specific binder (LotA) to verify recent findings showing a strong increase in K6-linked ubiquitylation upon RNA-protein crosslink induction by combined UV-A and 4-thiouridine (S4U) treatment (Suryo Rahmanto et al, ) (Fig.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    6
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41125851",
+   "pmcid": "PMC12669653",
+   "doi": "10.1038/s44318-025-00599-7",
+   "year": 2025,
+   "title": "Functional landscape of ubiquitin linkages couples K29-linked ubiquitylation to epigenome integrity.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "As previously reported (Shearer et al, ), cells unable to form K27-linked Ub chains showed impaired viability, while abrogation of K29-linked ubiquitylation was well tolerated.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    27,
+    29
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41125851",
+   "pmcid": "PMC12669653",
+   "doi": "10.1038/s44318-025-00599-7",
+   "year": 2025,
+   "title": "Functional landscape of ubiquitin linkages couples K29-linked ubiquitylation to epigenome integrity.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Among all Ub-replaced cell lines, the most pronounced impacts on overall proteome status were observed for abrogation of K48- and K63-linked ubiquitylation, consistent with these chains comprising the most abundant Ub-linkage types in cells, while disrupting other Ub chain types resulted in more modest global proteome changes (Appendix Fig.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    48,
+    63
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41125851",
+   "pmcid": "PMC12669653",
+   "doi": "10.1038/s44318-025-00599-7",
+   "year": 2025,
+   "title": "Functional landscape of ubiquitin linkages couples K29-linked ubiquitylation to epigenome integrity.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Strikingly, abrogation of K33-linked ubiquitylation, but not other Ub chain types, impacted the ubiquitylation status of proteins involved in multiple aspects of RNA processing, while disrupting K27-linked ubiquitylation was specifically associated with enhanced ubiquitylation of mitochondrial proteins (Figs.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    27,
+    33
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41125851",
+   "pmcid": "PMC12669653",
+   "doi": "10.1038/s44318-025-00599-7",
+   "year": 2025,
+   "title": "Functional landscape of ubiquitin linkages couples K29-linked ubiquitylation to epigenome integrity.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Among chromatin-associated proteins whose ubiquitylation status was markedly impacted by abrogating K29-Ub-linkage formation was SUV39H1, a histone methyltransferase that catalyzes the formation of histone H3 lysine 9 trimethylation (H3K9me3) enriched in repressive chromatin domains (Rea et al, ) and the kinetochore complex component NDC80, a central component of the NDC80 complex that forms at the contact point between kinetochores and microtubules (Ciferri et al, ) (Fig.",
+   "lysines_named_in_span": [
+    9
+   ],
+   "n_lysines_named_in_span": 1,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    29
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  },
+  {
+   "slug": "v18-ubiquitination-site-known-answer",
+   "pmid": "41125851",
+   "pmcid": "PMC12669653",
+   "doi": "10.1038/s44318-025-00599-7",
+   "year": 2025,
+   "title": "Functional landscape of ubiquitin linkages couples K29-linked ubiquitylation to epigenome integrity.",
+   "journal": null,
+   "read_from": "full_text",
+   "quoted_span": "Moreover, for validation purposes, an independent Ub(K29R) replacement clone (c85) was generated that showed Ub replacement kinetics and near-complete abrogation of K29-linked ubiquitylation comparable to the Ub(K29R)-c93 clone used above (Figs.",
+   "lysines_named_in_span": [],
+   "n_lysines_named_in_span": 0,
+   "ubiquitin_linkage_lysines_excluded_from_that_count": [
+    29
+   ],
+   "ternary_solved_substrates_named_IN_THE_SPAN": [],
+   "substrates_named_anywhere_in_paper": [
+    "BRD4"
+   ],
+   "_paper_level_is_context_not_evidence": "G2 is decided on the SPAN. A substrate named elsewhere in the paper does not make this sentence a measurement about it.",
+   "passes_G2_ternary_solved_substrate": false,
+   "source_reports_redundancy": true,
+   "_adjudication_is_a_humans": "this span was selected by token co-occurrence, not understood. Whether the named lysine is THE ubiquitinated residue of THAT substrate under THAT degrader is a judgement to be made against the quoted text and the source."
+  }
+ ],
+ "_non_qualifying_spans_truncated": 245,
+ "_non_qualifying_span_cap": 60,
+ "_why_non_qualifying_spans_are_capped": "they are CONTEXT \u2014 a sample of what the tokenizer matched but G2 rejected, kept so a reader can judge whether the filter is sane. The complete count is in `scan.n_candidate_spans`; the complete EVIDENCE is the qualifying set, which is never cut.",
+ "_qualifying_spans_are_never_truncated": true,
+ "verdict": {
+  "decision": "FOUND_BUT_WEAKLY_DIAGNOSTIC",
+  "sentence": "A measured lysine-naming reference on a ternary-solved substrate EXISTS (8 distinct span(s) across 5 distinct paper(s)), and it is NOT a usable known answer for V18: 6 span(s) name more than one lysine and 0 sit in a source that reports redundancy (lysine-less or multi-lysine degradation). Across the qualifying spans 9 DISTINCT lysine positions are named. \u26a0 THIS IS THE OUTCOME THE REGISTER PREDICTED BEFORE THE SEARCH RAN (C05.does_not_license). A reference that every prediction hits cannot separate a right answer from a wrong one, so V18 stays at `proposed` and no claim ceiling moves.",
+  "gates": {
+   "G1_measured_and_names_a_residue": {
+    "n_spans": 317,
+    "pass": true,
+    "_what": "a span carrying a lysine number AND a ubiquitin context AND a measurement token"
+   },
+   "G2_substrate_has_a_solved_ternary": {
+    "n_spans": 12,
+    "n_distinct_spans": 8,
+    "n_distinct_papers": 5,
+    "distinct_papers": [
+     "Mechanism of degrader-targeted protein ubiquitinability",
+     "PMC11468923",
+     "PMC13250050",
+     "PMC5392356",
+     "PMC7333641"
+    ],
+    "_why_three_counts": "a paper matching BOTH queries is retrieved into both corpora, so the raw span count double-counts it. Quote the distinct figures.",
+    "pass": true,
+    "_what": "the paper names a substrate the repo's own RCSB survey records a solved ternary for",
+    "_gene_list_source": "s-calibrator-survey.json",
+    "_genes": [
+     "BRD4",
+     "FKBP51",
+     "IKZF1",
+     "IKZF3",
+     "SMARCA2",
+     "SMARCA4",
+     "WEE1"
+    ]
+   },
+   "G3_diagnosticity": {
+    "n_spans_naming_more_than_one_lysine": 6,
+    "n_spans_whose_source_reports_redundancy": 0,
+    "\u26a0_the_redundancy_count_UNDER-DETECTS_and_a_zero_is_not_an_absence": "`_REDUNDANCY` is a keyword matcher over a fixed phrase list, so it catches 'lysine-less' and 'still degraded' and misses redundancy stated in other words. MEASURED on this very corpus: a qualifying span reads 'the single K456R mutant had comparable ubiquitination and degradation relative to wild-type Brd4BD2' \u2014 which IS the mapped site failing to be decisive \u2014 and this detector does not fire on it. \u26d4 So a zero here means THIS DETECTOR SAW NOTHING, not that no source reports redundancy; read the quoted spans. The phrase list was deliberately NOT widened after seeing that sentence, because tuning a pre-registered criterion to the data it is about to judge is how a gate stops being a gate. It does not change this verdict, which the multi-lysine criterion already decides \u2014 and had redundancy been the ONLY route to WEAK, this under-detection would have flipped the answer, which is exactly why it is recorded rather than left implicit.",
+    "distinct_lysine_numbers_across_qualifying_spans": [
+     333,
+     346,
+     349,
+     355,
+     362,
+     368,
+     445,
+     456,
+     1464
+    ],
+    "pass": false,
+    "_what": "whether a find could SCORE a model that names one lysine, or whether every prediction would hit"
+   }
+  },
+  "blockers": [],
+  "corpora_that_failed_to_load": [],
+  "register_prediction_being_graded_against": "instrument-options.json candidates[C05].does_not_license: 'real degraders often ubiquitinate several lysines and lysine-less substrates can still be degraded; this raises the odds, it does not guarantee'",
+  "prediction_outcome": "CONFIRMED"
+ },
+ "map_edits_required": [
+  {
+   "section": "\u00a710.1a row Q7",
+   "anchor": "**Instrument candidate `C05` \u2014 the `V18` known-answer precheck**: does a measured ubiquitination-site / lysine-mutant reference exist at all?",
+   "current_text": null,
+   "proposed_text": "Q7 has RUN. Verdict `FOUND_BUT_WEAKLY_DIAGNOSTIC` \u2014 see [`v18-lysine-reference-precheck.json`](../modalities/v18-lysine-reference-precheck.json) `verdict.decision`, with the register's own prior graded beside it in `verdict.prediction_outcome`. \u26d4 No claim ceiling moves either way: `V18` stays at `proposed` (\u00a72.3).",
+   "why": "the row is the open question; the precheck answers it and the answer needs a home on the row rather than only in an artifact",
+   "artifact": "research/modalities/v18-lysine-reference-precheck.json:verdict.decision"
+  },
+  {
+   "section": "\u00a73.1 row `V18`",
+   "anchor": null,
+   "where": "the `V18` row of the instrument table in \u00a73.1, whose known-answer column reads that none exists. That column entry should now point at this precheck rather than assert an unchecked absence \u2014 the finding is the same, its EVIDENTIAL STATUS is what changed.",
+   "current_text": null,
+   "proposed_text": "known answer: **FOUND_BUT_WEAKLY_DIAGNOSTIC** \u2014 measured by the $0 precheck, not assumed ([`v18-lysine-reference-precheck.json`](../modalities/v18-lysine-reference-precheck.json))",
+   "why": "'none exists' as an unchecked row and 'none exists, and here is the search that establishes it' are different epistemic states, and only the second is citable",
+   "artifact": "research/modalities/v18-lysine-reference-precheck.json:verdict"
+  }
+ ]
+}

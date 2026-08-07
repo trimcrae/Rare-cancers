@@ -1,15 +1,15 @@
-name: C02 decoy null + C04 paralogue pocket contrast (CPU, $0)
+name: IC-2 decoy null + IC-4 paralogue pocket contrast (CPU, $0)
 
 # TWO $0 CPU INSTRUMENT CALIBRATIONS. No GPU, no rental, no SageMaker, no AWS credentials.
 #
-#   C04  research/modalities/paralogue_pocket_contrast.py
+#   IC-4  research/modalities/paralogue_pocket_contrast.py
 #        The harmonized cryptic-pocket detector, pointed for the first time at the NR4A1/NR4A2 conformer
 #        ensembles that have been COMMITTED to this repo since 2026-07-26. Every frame is already on disk
 #        (`git ls-files results` -> 2,082); the only thing this job adds is fpocket. NR4A3's own 100 frames
 #        are re-scored in the SAME job so the contrast is matched under ONE fpocket build — the committed
 #        table records fpocket 4.0 and is used here only as a reproduction check.
 #
-#   C02  research/modalities/categorical_decoy_null.py
+#   IC-2  research/modalities/categorical_decoy_null.py
 #        The cross-system decoy null the categorical covalent axis has never faced. Unrelated human
 #        paralogue pairs (universe = the committed 47-receptor nuclear-receptor list) pushed through the
 #        IDENTICAL categorical pipeline, so `P(paralogue also labelled | target labelled)` = 0 can be read
@@ -36,13 +36,13 @@ on:
         description: "branch to publish artifacts to"
         default: "main"
       pocket_limit:
-        description: "C04 smoke: cap frames per subset (0 = all 100 per species)"
+        description: "IC-4 smoke: cap frames per subset (0 = all 100 per species)"
         default: "0"
       shards_from_run:
         description: "decoy_reduce_only: run id whose decoy-shard-* / decoy-inputs artifacts to reduce. Re-running 12 shards to change a documentation block is the wrong trade — this reduces the SAME measured rows again."
         default: ""
       scope:
-        description: "WHICH DECOY-NULL SCOPE. plddt = the committed C02 run (C16). lbd = C24, the reference-anchored LBD window — a SECOND, independently pre-registered scope that contains C397. NEVER a widening of the first: separate plan file, separate shard dir, separate result file, rows never pooled."
+        description: "WHICH DECOY-NULL SCOPE. plddt = the committed IC-2 run (C16). lbd = C24, the reference-anchored LBD window — a SECOND, independently pre-registered scope that contains C397. NEVER a widening of the first: separate plan file, separate shard dir, separate result file, rows never pooled."
         type: choice
         options: [plddt, lbd]
         default: plddt
@@ -65,7 +65,7 @@ env:
 
 jobs:
   # =========================================================================================================
-  # C04 — the paralogue-matched cryptic-pocket contrast. Frames are already committed; this only adds fpocket.
+  # IC-4 — the paralogue-matched cryptic-pocket contrast. Frames are already committed; this only adds fpocket.
   # =========================================================================================================
   pocket_contrast:
     if: ${{ inputs.task == 'both' || inputs.task == 'pocket_contrast' }}
@@ -98,7 +98,7 @@ jobs:
           PUBLISH_FAIL_HARD: "1"
         run: |
           bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
-            "C04: paralogue-matched cryptic-pocket contrast (NR4A1/NR4A2/NR4A3, one fpocket build)" \
+            "IC-4: paralogue-matched cryptic-pocket contrast (NR4A1/NR4A2/NR4A3, one fpocket build)" \
             research/modalities/paralogue-pocket-contrast.json
       - uses: actions/upload-artifact@v4
         if: always()
@@ -108,7 +108,7 @@ jobs:
           if-no-files-found: warn
 
   # =========================================================================================================
-  # C02 stage 1 — PRE-REGISTRATION + structures + pair selection. Publishes the design BEFORE any statistic.
+  # IC-2 stage 1 — PRE-REGISTRATION + structures + pair selection. Publishes the design BEFORE any statistic.
   # =========================================================================================================
   decoy_prepare:
     if: ${{ inputs.task == 'both' || inputs.task == 'decoy_null' || inputs.task == 'decoy_prepare_only' }}
@@ -174,7 +174,7 @@ jobs:
           PUBLISH_FAIL_HARD: "1"
         run: |
           bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
-            "C02 (scope=${{ inputs.scope }}): PRE-REGISTRATION + pair plan for the cross-system categorical decoy null (no results yet)" \
+            "IC-2 (scope=${{ inputs.scope }}): PRE-REGISTRATION + pair plan for the cross-system categorical decoy null (no results yet)" \
             research/modalities/categorical-decoy-null${{ steps.plan_shards.outputs.slug }}-plan.json
       # ⚠ Stage into ONE directory before upload. upload-artifact@v4 roots a multi-path artifact at the
       # least common ancestor, so a mixed list of `results/...` and `research/...` paths would arrive with a
@@ -195,7 +195,7 @@ jobs:
           retention-days: 7
 
   # =========================================================================================================
-  # C02 stage 2 — the statistic, sharded BY TARGET so each shard samples its placement sets once.
+  # IC-2 stage 2 — the statistic, sharded BY TARGET so each shard samples its placement sets once.
   # =========================================================================================================
   decoy_shards:
     if: ${{ inputs.task == 'both' || inputs.task == 'decoy_null' }}
@@ -245,7 +245,7 @@ jobs:
           if-no-files-found: warn
 
   # =========================================================================================================
-  # C02 stage 3 — background distribution + the NR4A3 percentile.
+  # IC-2 stage 3 — background distribution + the NR4A3 percentile.
   # =========================================================================================================
   decoy_reduce:
     # ⛔ NOT `always()`. A reduce that runs after a FAILED prepare downloads nothing and publishes a
@@ -294,7 +294,7 @@ jobs:
         run: |
           SLUG="${{ needs.decoy_prepare.outputs.slug }}"
           bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
-            "C02 (scope=${{ inputs.scope }}): cross-system decoy null for the categorical axis — measured background + NR4A3 percentile" \
+            "IC-2 (scope=${{ inputs.scope }}): cross-system decoy null for the categorical axis — measured background + NR4A3 percentile" \
             "research/modalities/categorical-decoy-null$SLUG.json" \
             "research/modalities/categorical-decoy-null$SLUG-plan.json"
       - uses: actions/upload-artifact@v4
@@ -305,7 +305,7 @@ jobs:
           if-no-files-found: warn
 
   # =========================================================================================================
-  # C02 stage 3b — REDUCE ONLY, over a PREVIOUS run's shard artifacts.
+  # IC-2 stage 3b — REDUCE ONLY, over a PREVIOUS run's shard artifacts.
   # Why this exists: after the shards have run, a change to how the artifact is WRITTEN (a new scope block, a
   # new caveat) must not cost 12 more shard jobs. `download-artifact@v4` can read another run's artifacts
   # given `run-id` + a token, so the same measured rows are reduced again by the current code. The rows are
@@ -354,7 +354,7 @@ jobs:
           PUBLISH_FAIL_HARD: "1"
         run: |
           bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
-            "C02 (scope=${{ inputs.scope }}): decoy null — re-reduced over run ${{ inputs.shards_from_run }}'s measured rows" \
+            "IC-2 (scope=${{ inputs.scope }}): decoy null — re-reduced over run ${{ inputs.shards_from_run }}'s measured rows" \
             "research/modalities/categorical-decoy-null$SLUG.json"
       - uses: actions/upload-artifact@v4
         if: always()

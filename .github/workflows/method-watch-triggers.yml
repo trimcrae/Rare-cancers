@@ -68,10 +68,19 @@ jobs:
       # The board must advertise only what each trigger's CURRENT criterion admits.
       # The ledger is cumulative, so a revised query leaves stale hits behind that
       # would otherwise render as current matches forever (the KEAP1 case, 2026-08-05).
+      # ⛔ PATH CORRECTED 2026-08-07, AND THE SCAN HAD NOT RUN SINCE 2026-08-03 BECAUSE OF IT.
+      # This step named `tests/test_trigger_board_filter.py`; there is NO top-level `tests/` directory in
+      # this repository and the file lives at `research/modalities/tests/`. pytest exited
+      # "file or directory not found", this step went red, and every step below it — including the scan
+      # itself — was SKIPPED. Measured: the last three green runs of this workflow are all 2026-08-03.
+      # ⚠ THE FAILURE MODE IS THE DANGEROUS ONE. A trigger register nobody is scanning looks exactly like
+      # a trigger register with nothing to report: the file still lists 33 triggers, the queries are still
+      # valid, and `--dry-run` still builds them correctly. Only the Actions history says the scan stopped.
+      # That is the same shape as `parser_guard`'s "a parser that finds nothing and exits 0", one layer up.
       - name: Board-filter regression test
         run: |
           python3 -m pip install --quiet pytest
-          python3 -m pytest tests/test_trigger_board_filter.py -q
+          python3 -m pytest research/modalities/tests/test_trigger_board_filter.py -q
 
       - name: Run the reopening-trigger scan
         env:

@@ -1,6 +1,6 @@
 ---
 id: DOC-PARALOGUE-POCKET-ASYMMETRIC-READ
-title: C04-A — the paralogue cryptic-pocket contrast carries two verdicts, not one
+title: IC-4-A — the paralogue cryptic-pocket contrast carries two verdicts, not one
 level: L4
 kind: memo
 status: live
@@ -11,7 +11,7 @@ audience: [maintainers, autonomous research agents]
 date: 2026-08-06
 last_verified: 2026-08-06
 ---
-# C04-A — the paralogue cryptic-pocket contrast carries two verdicts, not one
+# IC-4-A — the paralogue cryptic-pocket contrast carries two verdicts, not one
 
 > **$0 CPU. NO NEW COMPUTE OF ANY KIND.** No fpocket run, no MD, no GPU, no rental. Every input is a
 > committed artifact and every statistic is exact enumeration in the standard library. Nothing here is a

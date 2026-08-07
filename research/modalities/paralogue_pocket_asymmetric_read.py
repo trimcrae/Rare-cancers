@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""C04-A — IS THE CRYPTIC-POCKET CONTRAST ONE VERDICT OR TWO? A $0 RE-READ, NO NEW COMPUTE.
+"""IC-4-A — IS THE CRYPTIC-POCKET CONTRAST ONE VERDICT OR TWO? A $0 RE-READ, NO NEW COMPUTE.
 
 ★★ WHY THIS EXISTS. `paralogue-pocket-contrast.json` reports ONE pooled verdict over BOTH paralogues:
 
@@ -478,7 +478,7 @@ def build(contrast, accepted, audit):
         status = "INDETERMINATE"
 
     return {
-        "_title": "C04-A — does the paralogue cryptic-pocket contrast carry ONE verdict or TWO? A $0 "
+        "_title": "IC-4-A — does the paralogue cryptic-pocket contrast carry ONE verdict or TWO? A $0 "
                   "re-read of committed artifacts, split along RT-ASYMMETRIC's mandatory / best-effort axes",
         "_status": "INSTRUMENT RE-READ. $0 CPU. No new compute of any kind. Nothing here is a claim about "
                    "binding, reactivity, degradation, selectivity in vivo, efficacy or safety.",
@@ -635,9 +635,9 @@ def build_map_edits(result):
                 "unreadable from the map. ⚠ The split changes no number and loosens no rule; it removes "
                 "one `and`.",
                 art, ME.append_after_line(line)),
-        ME.edit(text, "§8 Route A — the C04 pooled verdict, if it has since been applied",
+        ME.edit(text, "§8 Route A — the IC-4 pooled verdict, if it has since been applied",
                 "★ **Paralogue-matched cryptic-pocket contrast — measured",
-                "If the earlier C04 edit has landed, its verdict line carries the pooled "
+                "If the earlier IC-4 edit has landed, its verdict line carries the pooled "
                 "'RANKED but replicate ranges OVERLAP' string, which is the symmetric restatement "
                 "RT-ASYMMETRIC's route record calls a defect. It should be superseded in place rather "
                 "than duplicated (rule 1), with the old string retained as superseded.",
