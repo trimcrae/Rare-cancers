@@ -106,7 +106,7 @@ add)* × *(absence from the current portfolio)*.
 | **2** | **Fusion-variant stratification (EWSR1 vs TAF15)** | Four independent lines converge, including a perfect response split in a 10-patient series; every clinician review says it needs validation; nobody has pooled it; the repo already owns the pooling method | [3.2](#32--fusion-variant-stratification) |
 | **3** | **Lurbinectedin / LIFFT — an open trial EMC is eligible for and cannot find** | `NCT05918640` phase 1 eligibility is *"a known FET fusion (EWSR1, FUS, or TAF15)"*; all three of EMC's main partners are FET; the listed conditions do not include EMC, so no histology search surfaces it | [3.3](#33--fet-fusion-trial-eligibility) |
 | **4** | **FAP-targeted ²²⁵Ac radioligand therapy** | `NCT07156565` recruiting in relapsed/refractory sarcoma, with a companion diagnostic and a paired FAP-PET trial; needs no fusion-selective binder; turns EMC's stroma into the selection criterion | [3.4](#34--fap-radioligand--the-2026-increment) |
-| **5** | **The hybrid intron as a fusion-exclusive ASO target** | Kilobases of sequence existing in no other transcript, versus the ~20 nt the gapmer route works with; directly attacks the known GC-rich-junction weakness; feasibility fully computable now | [3.5](#35--the-hybrid-intron) |
+| **5** | ~~**The hybrid intron as a fusion-exclusive ASO target**~~ ⛔ **PREMISE REFUTED 2026-08-07** | ~~Kilobases of sequence existing in no other transcript, versus the ~20 nt the gapmer route works with; directly attacks the known GC-rich-junction weakness; feasibility fully computable now~~ — the feasibility was computed and the premise does not hold: the intron's bulk is **wild-type pre-mRNA in the same nuclear compartment**, so the fusion-unique budget is the same `GAP − 1` windows as the exon junction and the seam is **per-patient**. [`hybrid-intron-aso-target.md`](./hybrid-intron-aso-target.md) | [3.5](#35--the-hybrid-intron) |
 | **6** | **Oncofetal chondroitin sulfate (VAR2CSA / Vartumab)** | EMC's defining matrix becomes the address; clinical-stage platform whose live PET trial already enrols chondrosarcoma; an antigen class the surfaceome screen structurally could not find | [3.6](#36--oncofetal-chondroitin-sulfate) |
 | **7** | **The radioresistance reappraisal** | A live contradiction in EMC's own record — two registries say RT does nothing, the largest series says 100% vs 63% 10-year local control — resolvable with a BED regression and a bias analysis, no compute | [3.7](#37--the-radioresistance-reappraisal) |
 | **8** | **Adaptive scheduling of pazopanib** | EMC is close to an ideal adaptive-therapy indication on five independent grounds; $0; and its falsifier is itself a publishable question | [3.8](#38--adaptive-scheduling) |
@@ -203,6 +203,39 @@ screen puts FAP at `enrichment 0.02, selectivity_q = 0.1555` — not significant
 tumour-cell monoculture and structurally cannot see a CAF antigen (§0).
 
 ### 3.5 · The hybrid intron
+
+> ⛔ **THE PREMISE OF THIS SECTION WAS GRADED ON 2026-08-07 AND IT DOES NOT HOLD. Read the block
+> before the section.** The "free next step" below was taken. Full record:
+> [`hybrid-intron-aso-target.md`](./hybrid-intron-aso-target.md) →
+> [`hybrid-intron-model.json`](../modalities/hybrid-intron-model.json).
+>
+> **What was wrong.** *"That sequence exists in no other transcript in the body"* is false for the
+> only compartment in which the target exists. The hybrid intron is composed **entirely** of
+> wild-type EWSR1 intron-7 and wild-type NR4A3 intron-2 nucleotides, and those bases sit in the
+> unspliced pre-mRNA of the wild-type alleles — including the wild-type allele in the tumour cell
+> itself. An oligo window that does not straddle the genomic breakpoint is a **perfect, full-length
+> match to a wild-type pre-mRNA**, not a near-match. An intron is a target *only* because it exists
+> as nuclear pre-mRNA; the wild-type introns are in the same compartment. The compartment argument
+> eats itself.
+>
+> **So the budget is unchanged, not enlarged.** The fusion-unique sequence is set by the **seam**,
+> not by how much of the fusion is transcribed: `L − 1` windows of length `L`, and `GAP − 1` usable
+> by an RNase-H gapmer — **5 at 5-6-5, the same 5 the committed exon-junction panels carry**. And
+> the intronic seam is the position of a DNA double-strand break, which splicing does *not*
+> normalise, so it is **per-patient** where the mRNA exon junction is shared.
+>
+> ⚠ **The stated motivation was also already superseded.** The "GC-rich junction weakness" belongs
+> to the *codon-space modelled* breakpoint. At the two junctions actually graded, 5 of 5 (E7::N3)
+> and 3 of 5 (E12::N3) designs sit inside this repository's own favourable GC band **and the screen
+> still returned zero clean oligos**, so composition is not the binding constraint.
+>
+> ⭐ **What survives, at full strength and no further.** The *pseudoexon biology* is real and this
+> repository already held the evidence: a TAF15::NR4A3 fusion *"retains a short cryptic exon located
+> in NR4A3 intron 2"* (PMC6766969, quoted in
+> [`emc_fet_construct_designs.py`](../modalities/emc_fet_construct_designs.py)). That supports the
+> mechanism and does nothing for fusion-exclusivity — the cryptic exon's sequence is wild-type NR4A3
+> intron 2. **Still unmeasured** (needs one CI dispatch, `aso-offtarget.yml` → `hybrid_intron`): the
+> two intron lengths, the measured unique extent, and the intronic seam's own off-target screen.
 
 **The idea.** The mature fusion mRNA's only unique feature is the exon 7 | exon 3 junction — ~20 nt,
 GC-rich and specificity-poor, which is the gapmer route's known weakness. But the fusion **pre-mRNA**
