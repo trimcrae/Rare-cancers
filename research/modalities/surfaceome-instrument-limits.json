@@ -1,0 +1,263 @@
+{
+  "_what": "Measured limits of the EMC surfaceome instrument (emc_surfaceome_scan.py / ART-SURFACE-EXPRESSION), taken from the script and its committed artifacts.",
+  "_why": "Three routes cite this artifact's empty-intersection conclusion. That conclusion is true of the antigen class the instrument can rank and silent about the classes it cannot. Until now the distinction lived only in prose.",
+  "_cost": "$0 \u2014 committed artifacts only. No network, no GPU, no rental.",
+  "_no_known_answer_control": "and none is needed: this module makes no prediction. Every field is a membership test or a field read, falsifiable by changing the file it reads.",
+  "instrument": {
+    "module": "research/modalities/emc_surfaceome_scan.py",
+    "artifact_id": "ART-SURFACE-EXPRESSION",
+    "artifact_path": "research/modalities/emc-surfaceome-scan.json",
+    "n_surface_genes_scanned": 2692,
+    "n_distinct_genes_reported": 109,
+    "scanned_gene_list_recorded": false
+  },
+  "limits": {
+    "L1_no_stromal_compartment": {
+      "limit": "no stromal / CAF compartment exists in the scanned population",
+      "population": "DepMap 24Q4 OmicsExpressionProteinCodingGenesTPMLogp1.csv + Model.csv",
+      "n_sarcoma_lines": 176,
+      "n_class_lines": 76,
+      "unit_of_observation": "an immortalised tumour cell line, cultured as monoculture",
+      "why_it_is_structural": "DepMap OmicsExpression measures transcript abundance in the cell line itself. A cancer-associated fibroblast is a different cell that is not present in the culture, so an antigen carried by CAFs has no compartment in which it could be counted. This is not low sensitivity; the observation does not exist.",
+      "artifact_says_so": [
+        "SURROGATE: DepMap sarcoma lines, not EMC. \u26d4 2026-08-05: the one line DepMap LABELS EMC (ACH-001519) is recorded by Cellosaurus as not carrying an EWSR1 fusion, so this scan contains NO usable real-EMC observation \u2014 see class_definition._myxoid_caveat. SUPERSEDED, RETAINED: \"SURROGATE: DepMap sarcoma lines, not EMC (no EMC line exists).\"",
+        "'rest' = other CANCER lineages, NOT normal tissue; an AOC's real safety window is tumour-vs-NORMAL (GTEx/HPA) \u2014 the flagged next step, not done here."
+      ],
+      "a_concrete_antigen_this_costs_us": "\u2b50 Not hypothetical. Oncofetal chondroitin sulfate \u2014 the VAR2CSA/Vartumab address \u2014 \"appears both on the malignant cells, in the ECM and on the cancer associated fibroblasts, while being absent on non-tumor associated fibroblasts and healthy adjacent tissue\" (Skafte et al., Cell Death Dis 2026, PMC12877138 [FT]). TWO of the three compartments it occupies do not exist in this instrument's data, so even if the epitope had a gene to rank, two thirds of its distribution would be invisible.",
+      "verdict": "CONFIRMED"
+    },
+    "L2_stromal_floor_demonstrated": {
+      "limit": "an antigen carried ONLY by the stromal compartment reads at or near the floor",
+      "genes": {
+        "LRRC15": {
+          "class_mean_log2tpm": 0.14,
+          "class_frac_expressed": 0.0,
+          "enrichment_vs_rest": -0.25,
+          "selectivity_q": 1.0,
+          "selectivity_significant": false
+        },
+        "FAP": {
+          "class_mean_log2tpm": 1.37,
+          "class_frac_expressed": 0.16,
+          "enrichment_vs_rest": 0.02,
+          "selectivity_q": 0.1555,
+          "selectivity_significant": false
+        },
+        "CD248": {
+          "class_mean_log2tpm": 3.01,
+          "class_frac_expressed": 0.44,
+          "enrichment_vs_rest": 2.29,
+          "selectivity_q": 0.0,
+          "selectivity_significant": true
+        },
+        "PDGFRB": {
+          "class_mean_log2tpm": 2.14,
+          "class_frac_expressed": 0.24,
+          "enrichment_vs_rest": 0.78,
+          "selectivity_q": 0.0001,
+          "selectivity_significant": true
+        }
+      },
+      "caf_only_frac_expressed": {
+        "LRRC15": 0.0,
+        "FAP": 0.16
+      },
+      "lrrc15_at_floor": true,
+      "reading": "LRRC15 is an established sarcoma stromal/CAF antigen with a clinical ADC programme behind it. In this instrument it reads frac_expressed 0.0. The instrument is reporting the compartment's absence, not the antigen's.",
+      "counter_reading_that_narrows_the_limit": {
+        "genes": {
+          "CD248": {
+            "class_mean_log2tpm": 3.01,
+            "class_frac_expressed": 0.44,
+            "enrichment_vs_rest": 2.29,
+            "selectivity_q": 0.0,
+            "selectivity_significant": true
+          },
+          "PDGFRB": {
+            "class_mean_log2tpm": 2.14,
+            "class_frac_expressed": 0.24,
+            "enrichment_vs_rest": 0.78,
+            "selectivity_q": 0.0001,
+            "selectivity_significant": true
+          }
+        },
+        "note": "\u26a0 CD248 and PDGFRB are routinely called stromal/pericyte antigens and BOTH read selectivity_significant: true here. That is not the instrument malfunctioning and it is not evidence against L1 \u2014 mesenchymal tumour cells genuinely transcribe them, so there is something in the culture to measure. The honest limit is therefore NARROWER than 'the scan cannot see stroma': it cannot see a gene that ONLY the stroma expresses. LRRC15 and FAP are that case; CD248 and PDGFRB are not. Stating the wide version would have been easy to write and false."
+      },
+      "verdict": "CONFIRMED"
+    },
+    "L3_glycan_unrankable": {
+      "limit": "a sulfation pattern has no gene, and the machinery that writes it is filtered out",
+      "target_class": "oncofetal chondroitin sulfate (ofCS) \u2014 a placental-type chondroitin sulfate epitope, characterised as \"unusually long and highly 6-O and 4-O sulfated CS chains\" (PMC12877138 [FT]); the VAR2CSA/Vartumab address",
+      "why_direct_ranking_is_impossible": "ofCS is a post-translational glycan modification pattern on a carrier proteoglycan. There is no ofCS gene, so no gene-expression ranking can return it \u2014 not weakly, not at the floor, not at all.",
+      "sulfation_machinery": [
+        "XYLT1",
+        "XYLT2",
+        "B4GALT7",
+        "B3GALT6",
+        "B3GAT3",
+        "CSGALNACT1",
+        "CSGALNACT2",
+        "CHSY1",
+        "CHSY3",
+        "CHST3",
+        "CHST7",
+        "CHST11",
+        "CHST12",
+        "CHST13",
+        "CHST14",
+        "CHST15",
+        "UST",
+        "DSE",
+        "PAPSS1",
+        "PAPSS2",
+        "SLC35B2",
+        "SLC35B3"
+      ],
+      "sulfation_machinery_source": {
+        "panel": "Wu et al., Front Cell Dev Biol 2021",
+        "pmid": "34966741",
+        "pmcid": "PMC8710744",
+        "doi": "10.3389/fcell.2021.763875",
+        "verification": "[FT] \u2014 open-access full text retrieved through CI 2026-08-07 (literature-cache: literature/ofcs-var2csa-vartumab/PMC8710744.txt)",
+        "this_modules_addition": [
+          "PAPSS1",
+          "PAPSS2",
+          "SLC35B2",
+          "SLC35B3"
+        ]
+      },
+      "sulfation_machinery_in_seed": [],
+      "sulfation_machinery_reported_anywhere": [],
+      "backbones": [
+        "CSPG4",
+        "VCAN",
+        "ACAN",
+        "CD44"
+      ],
+      "backbones_in_seed": [
+        "CD44"
+      ],
+      "backbones_reported_anywhere": [
+        "CD44"
+      ],
+      "backbone_rows": {
+        "CD44": {
+          "gene": "CD44",
+          "class_mean_log2tpm": 2.65,
+          "class_frac_expressed": 0.31,
+          "class_frac_detectable": 0.69,
+          "n_class": 45,
+          "myxoid_mean_log2tpm": 1.28,
+          "n_myxoid": 1,
+          "rest_mean_log2tpm": 6.54,
+          "rest_frac_expressed": 0.83,
+          "enrichment_vs_rest": -3.89,
+          "selectivity_mwu_p": 1.0,
+          "selectivity_q": 1.0,
+          "selectivity_significant": false
+        }
+      },
+      "why_the_machinery_is_excluded": "the scan's own UniProt filter is (organism_id:9606) AND (reviewed:true) AND (cc_scl_term:SL-0039) AND (keyword:KW-0812 OR keyword:KW-0336) \u2014 reviewed human proteins at the PLASMA membrane presenting an extracellular epitope. The CS sulfotransferases and glycosyltransferases are GOLGI-resident type II membrane proteins and the PAPS synthases are cytosolic, so none is admitted. The exclusion is by design and correct for the instrument's stated job \u2014 it is a limit only because the artifact's conclusion is read more widely than its filter.",
+      "why_a_reported_backbone_does_not_rescue_it": "\u26a0 ONE backbone IS reported \u2014 CD44, which is in the curated seed. That does not give the lane anything: a backbone's transcript abundance says a GAG chain may be attached and says nothing about whether it carries the sulfation pattern VAR2CSA binds. The repository's own rejection of CD44/RHAMM (enrichment -3.89, selectivity_q 1.0) is therefore a reading about a BACKBONE, and cannot be carried over to ofCS. VCAN and ACAN are secreted matrix proteoglycans and are not admitted either, so the matrix EMC is actually made of is absent from the scanned set.",
+      "verdict": "CONFIRMED"
+    },
+    "L4_cspg4_coverage_gap": {
+      "limit": "CSPG4 was never seen, and was therefore never rejected",
+      "in_seed_surface": false,
+      "n_seed": 47,
+      "seed_size_matches_artifact": true,
+      "reported_in": {
+        "top_candidates": false,
+        "actionable_antigens": false,
+        "single_line_top_surface": false
+      },
+      "in_emc_surface_normal_window": false,
+      "png_artifacts": {
+        "note": "the two PNGs are RENDERED FROM the JSON above (emc_surface_figure.py / emc_surfaceome_scan.py), so a gene carrying no row in the JSON has nothing to plot. That is the argument; a grep of a compressed raster is not evidence and is not offered as any.",
+        "paths": [
+          "emc-surfaceome-scan.png",
+          "emc-surface-prioritization.png"
+        ]
+      },
+      "was_it_scanned": "UNDECIDABLE",
+      "why_undecidable": "the artifact records n_from_uniprot=2820 and n_total=2826 but NOT the gene list, and reports per-gene numbers for only 109 distinct genes. CSPG4 is a single-pass type I plasma-membrane proteoglycan, so it plausibly entered the UniProt set \u2014 but the committed record cannot settle it, and this module refuses to guess. Recording the scanned gene list would close this permanently and costs nothing.",
+      "what_is_decidable": "no per-gene number for CSPG4 exists in any committed artifact of this instrument. Its absence from the surface-antigen conclusion is therefore a COVERAGE GAP, not a negative result.",
+      "why_the_gap_is_worse_than_one_missing_gene": {
+        "finding": "\u2b50 The founding VAR2CSA paper NAMES two carrier proteoglycans for the oncofetal CS epitope \u2014 CD44 and CSPG4. This instrument's seed contains ONE of them. So the seed did not merely miss a gene: of the two named carriers of the antigen class the ofCS lane is built on, it scanned one and never saw the other, and the repository then rejected the one it scanned.",
+        "named_carriers": [
+          "CD44",
+          "CSPG4"
+        ],
+        "named_carriers_in_seed": [
+          "CD44"
+        ],
+        "\u26a0_not_the_whole_repertoire": "CORRECTED 2026-08-07 from full text. An earlier draft of this field said the founding paper names EXACTLY two carriers. It names two as exemplars of \"a limited repertoire\"; Agerb\u00e6k et al., Nat Commun 2018 (PMC6095877 [FT]) puts that repertoire at \"more than 30 different proteoglycans\". The coverage point is unaffected and the arithmetic behind it is not: what is measured is that of the two carriers the founding paper NAMES, this seed holds one.",
+        "quote": "\"In tumors, placental-like CS chains are linked to a limited repertoire of cancer-associated proteoglycans including CD44 and CSPG4.\"",
+        "source": {
+          "pmid": "26461094",
+          "journal": "Cancer Cell 2015",
+          "doi": "10.1016/j.ccell.2015.09.003",
+          "verification": "[API] \u2014 Europe PMC core record + abstract, retrieved through CI 2026-08-07. Not open access; full text not read."
+        },
+        "cd44_was_scanned_and_rejected": {
+          "gene": "CD44",
+          "class_mean_log2tpm": 2.65,
+          "class_frac_expressed": 0.31,
+          "class_frac_detectable": 0.69,
+          "n_class": 45,
+          "myxoid_mean_log2tpm": 1.28,
+          "n_myxoid": 1,
+          "rest_mean_log2tpm": 6.54,
+          "rest_frac_expressed": 0.83,
+          "enrichment_vs_rest": -3.89,
+          "selectivity_mwu_p": 1.0,
+          "selectivity_q": 1.0,
+          "selectivity_significant": false
+        },
+        "\u26a0_what_this_does_NOT_say": "it does NOT say CSPG4 is an EMC target, nor that a CSPG4 reading would have changed the scan's conclusion. A carrier's transcript abundance does not establish that its chains carry the ofCS sulfation pattern. The claim is only that the instrument's coverage of this antigen class was half, and nothing recorded that."
+      },
+      "verdict": "CONFIRMED"
+    },
+    "L5_no_emc_fap_observation": {
+      "limit": "the scan holds no EMC observation of FAP, for two independent reasons",
+      "fap_row": {
+        "gene": "FAP",
+        "class_mean_log2tpm": 1.37,
+        "class_frac_expressed": 0.16,
+        "class_frac_detectable": 0.56,
+        "n_class": 45,
+        "myxoid_mean_log2tpm": 0.0,
+        "n_myxoid": 1,
+        "rest_mean_log2tpm": 1.35,
+        "rest_frac_expressed": 0.19,
+        "enrichment_vs_rest": 0.02,
+        "selectivity_mwu_p": 0.041372,
+        "selectivity_q": 0.1555,
+        "selectivity_significant": false
+      },
+      "n_myxoid_lines": 1,
+      "myxoid_lines_named": [
+        "ACH-001519 [Extraskeletal Myxoid Chondrosarcoma]"
+      ],
+      "identity_verdict_on_that_line": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD",
+      "reason_1_compartment": "FAP is a CAF antigen and there is no CAF compartment (L1).",
+      "reason_2_identity": "the single line matching the 'myxoid' subtype is ACH-001519, whose EMC identity this repository RETRACTED on 2026-08-05 (Cellosaurus CVCL_1238 records no EWSR1 fusion; DepMap's filtered fusion caller names no FET gene). So myxoid_mean_log2tpm = 0.0 at n = 1 is not an EMC reading.",
+      "consequence_for_the_route": "RT-FAP-RLT's readiness `missing: [\"any measurement in EMC\"]` SURVIVES unchanged. The class-level numbers (enrichment 0.02, selectivity_q 0.1555, not significant) are a reading of tumour cells in translocation sarcomas generally, and they neither support nor refute a stromal radioligand route in EMC.",
+      "verdict": "CONFIRMED"
+    }
+  },
+  "what_would_close_each": {
+    "L1": "a single-cell or bulk EMC tumour dataset with a stromal compartment, or CAF co-culture data. Not obtainable by re-running this instrument.",
+    "L2": "same as L1 \u2014 the floor is the compartment's absence.",
+    "L3": "a CS/GAG biosynthesis + PAPS module expression read on the two readable EMC series (GSE24369, GSE4303). \u26a0 THIS IS DISPATCHED SEPARATELY AND IS NOT PART OF THIS ARTIFACT \u2014 see the ofCS memo's open slot. It is an indirect, sulfation-CODE argument and would not measure the epitope.",
+    "L4": "one line: add CSPG4 and the proteoglycan module to SEED_SURFACE and re-run; and record the scanned gene list so absence is never again undecidable.",
+    "L5": "any FAP expression or imaging readout on EMC tissue. Not computable here."
+  },
+  "consumers_that_should_carry_these_limits": [
+    "RT-B7H3",
+    "RT-PRAME-IMMTAC",
+    "RT-TCRT-CTA",
+    "RT-FAP-RLT",
+    "RT-CART-SURFACE"
+  ]
+}
