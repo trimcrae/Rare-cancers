@@ -6,6 +6,7 @@ Every test here guards a rule that exists because of a measured failure, and eac
 from __future__ import annotations
 
 import copy
+import inspect
 import json
 import os
 import re
@@ -1869,3 +1870,35 @@ def test_the_publication_view_is_linted_for_claim_language(graph):
     """
     with open(os.path.join(REPO, "research", "manuscripts", "lint_claims.py"), encoding="utf-8") as fh:
         assert "systems/views/L3-publications.md" in fh.read()
+
+
+def test_dot_claude_is_excluded_from_every_repo_walk():
+    """⛔ Measured 2026-08-07, with 17 agent worktrees live under `.claude/worktrees/`.
+
+    `systems_check --check` reported **541 ERROR** in the main checkout and **0 ERROR** on the
+    identical commit checked out cleanly elsewhere. Every error was a duplicate finding against an
+    agent worktree's copy of a file this checker had already checked in place. Git never sees those
+    copies (`.gitignore:15`); `os.walk` does.
+
+    Why this is a test and not a comment. Gate 2 of preflight is one of the two gates that enforce
+    provenance and medical integrity, and this repo has already learned twice that a guard which is
+    red — or noisy — for a reason unrelated to the work is a guard whose real failures nobody reads.
+    The harness creates those worktrees automatically, so the condition recurs without anyone
+    choosing it.
+
+    ⚠ Asserts the WIRING, not the prose. `_walk_md` hand-rolled its own weaker exclusion
+    (`"__pycache__" in rel_root`) while three sibling walks used `_is_transient`, and that single
+    divergence is what let the defect reach the K1 cross-link checks. Both paths are pinned here so
+    they cannot drift apart again.
+    """
+    assert ".claude" in sc.TRANSIENT_DIRS
+    for rel in (".claude", ".claude/worktrees", ".claude/worktrees/agent-x/research/manuscripts"):
+        assert sc._is_transient(rel), rel
+    assert not sc._is_transient("research/manuscripts"), "must not over-exclude real content"
+
+    # `_walk_md` must route through `_is_transient` rather than carrying a second rule of its own.
+    src = inspect.getsource(sc._walk_md)
+    assert "_is_transient(rel_root)" in src, "_walk_md stopped using the shared exclusion"
+
+    # And the real function over the real tree: no yielded path may sit under `.claude`.
+    assert not [rel for rel, _ in sc._walk_md(sc.DOC_SKIP) if rel.startswith(".claude/")]
