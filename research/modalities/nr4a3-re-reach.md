@@ -19,7 +19,7 @@ last_verified: unverified
 
 > GEOMETRY ONLY, $0 CPU, pure stdlib. No binding, affinity, sequence-selectivity, ternary-complex, ubiquitin-transfer, degradation, efficacy, safety, therapeutic-window or clinical claim is made or implied.
 
-**Verdict: ADMITS.** 6 of 6 staged second-terminus bodies admit at the 12-atom gate; shortest_linker_atoms = {'bcl6': 6, 'birc2': 6, 'brd4_bd1': 6, 'crbn': 6, 'mdm2': 6, 'vhl': 6}. Anchors: 3620 admissible lattice positions around the NBRE core, 6 used.
+**Verdict: ADMITS.** 6 of 6 staged second-terminus bodies admit at the 12-atom gate; shortest_linker_atoms = {'bcl6': 6, 'birc2': 6, 'brd4_bd1': 6, 'crbn': 6, 'mdm2': 6, 'vhl': 6}. Anchors: 3620 admissible lattice positions around the NBRE core ({'backbone_or_solvent': 3036, 'minor': 88, 'major': 496}), 12 used across 3 classes.
 
 > AN `ADMITS` ANSWER IS AN EXCLUDED-VOLUME STATEMENT THAT NO TESTED BODY HAS EVER FAILED IN THIS REPOSITORY. It is therefore NOT evidence of anything beyond excluded volume: not of binding, not of sequence selectivity, not of ternary-complex formation, not of ubiquitin transfer, not of degradation, and certainly not of efficacy or safety. What it does is REMOVE a way the route could have been dead — a linker geometry that could not exist — and that is the only thing reach enumeration has ever been able to do.
 
@@ -29,7 +29,9 @@ last_verified: unverified
 - no NR4A3-on-DNA structure exists; NR4A3's only PDB entry is 8XTT, an apo NMR LBD with no DNA. Every number here is about NR4A2 on the NBRE. The NR4A DBDs are 86-94 % identical and the DNA is B-form either way, but this is a SUBSTITUTION and is labelled as one.
 - NBRE `AAAGGTCA` located on chain K at [265, 266, 267, 268, 269, 270, 271, 272]
 
-## Per body
+- anchors: 3620 admissible lattice positions; {'backbone_or_solvent': 3036, 'minor': 88, 'major': 496}
+
+## Per body (groove anchors only)
 
 | arm | class | residues | shortest linker (atoms) | admits at the 12-atom gate |
 |---|---|---|---|---|
@@ -42,8 +44,8 @@ last_verified: unverified
 
 ## What actually carries information
 
-- removing the receptor changes the admitted orientation space by 1.028-1.557x. ⚠ If that is close to 1, the receptor is NOT constraining this geometry and an `admits` answer here is a statement about a naked B-form duplex, which is true of any DNA sequence and tells us nothing about the NBRE in particular.
-- the committed floor is what most of the refusal is: dropping it multiplies admission 165.0x. The floor is a DEGRADER's requirement and is kept in the headline; a route that does not need an induced interface should be read at the clash-only number.
+- in the grooves — where a sequence-directed warhead's exit vector would sit — deleting the receptor multiplies the admitted orientation space by 1.12-1.23x, against 1.08x at the solvent-adjacent control anchors. The receptor IS shaping the geometry at the anchors that matter, and by more than at the control, so this is not merely a statement about a naked B-form duplex.
+- the committed floor is what most of the refusal is: dropping it multiplies admission 152.1x. The floor is a DEGRADER's requirement and is kept in the headline; a route that does not need an induced interface should be read at the clash-only number.
 
 ## What this does not touch
 
