@@ -6,9 +6,32 @@
     "EWSR1_exon_end": 7,
     "NR4A3_exon_start": 3,
     "note": "Real in-frame EWSR1::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
-    "EWSR1_keep_aa": 264,
-    "NR4A3_from_aa": 2,
-    "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG"
+    "measured_junction": {
+      "junction_label": "EWSR1_e7__NR4A3_e3",
+      "EWSR1_exon_end": 7,
+      "NR4A3_exon_start": 3,
+      "ewsr1_coding_nt_through_cut": 793,
+      "ewsr1_last_whole_residue": 264,
+      "ewsr1_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 891,
+      "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG"
+    },
+    "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG",
+    "_transcript_source": {
+      "requested": "cache",
+      "used_per_gene": {
+        "EWSR1": "committed_cache",
+        "NR4A3": "committed_cache"
+      },
+      "committed_cache_fetched_utc": "2026-08-03T23:45:45Z",
+      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+    }
   },
   "_note": "Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs (blastn-short vs human RefSeq RNA, NCBI BLAST URL API), resolved to the gap-mismatch level. A TRUE cleavage risk = an off-target near-match whose central DNA gap is fully matched (RNase-H can cleave); a gap-disrupted hit (mismatch inside the gap) does NOT cleave; wing-only hits are weak affinity liabilities. A clean oligo has zero true_cleavage_risk off-targets. Predicted specificity, not validated; confirm by the parental-/off-target-sparing assays.",
   "method": {
@@ -930,5 +953,11 @@
         }
       ]
     }
-  ]
+  ],
+  "_provenance": {
+    "blast_screen": "run on a GitHub-hosted CPU runner, workflow aso-offtarget.yml, run 31130876597, step completed 2026-08-06T23:36:01Z (7:36 PM ET). Every per-oligo record below \u2014 RID, hits, midlines, counts \u2014 is that run's output, verbatim.",
+    "header_reemitted": "the run's copy of junction_aso_offtarget.py emitted the codon-space constants EWSR1_keep_aa/NR4A3_from_aa into a REAL-mode artifact (wrong for e12, and contradicting the measured resume residue in the same file). The header was re-emitted through the FIXED module with screen_one stubbed to return the records above verbatim \u2014 assembled by code, never hand-edited.",
+    "two_independent_reads_of_the_transcript_model": "the CI screen built its designs from a LIVE Ensembl read (2026-08-06); this header was re-emitted from the committed emc-construct-inputs.json cache (fetched 2026-08-03), which is why breakpoint._transcript_source reads committed_cache. The two produce BYTE-IDENTICAL designs and an identical measured_junction. \u2b50 That is a real cross-check, and it is the kind the retracted panel never had: e7n3 and e12n3 agreeing was ONE defect producing both, whereas these are two separate acquisitions of the transcript model agreeing.",
+    "cost": "$0 \u2014 GitHub Actions CPU + local CPU. No GPU, no rental."
+  }
 }

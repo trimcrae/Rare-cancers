@@ -1,0 +1,3331 @@
+{
+  "_title": "The EWSR1::NR4A3 hybrid intron as a fusion-exclusive ASO target \u2014 premise audit",
+  "_cost": "$0 \u2014 CPU only, no GPU and no rental. Inputs: live Ensembl reads on a GitHub-hosted runner + NCBI BLAST URL API.",
+  "_utc": "2026-08-07T13:17:34Z",
+  "mode": "ci",
+  "_limits": [
+    "Sequence arithmetic and composition only. No potency, no knockdown, no delivery, no tolerability, and no efficacy, safety, therapeutic-window or clinical claim is made or implied. An ASO design is a sequence proposal, never a therapeutic claim.",
+    "Canonical transcripts only, and one modelled genomic breakpoint per arm. The real per-patient breakpoint is not held by this repository and is not decided here.",
+    "Predicted specificity, never validated specificity."
+  ],
+  "coordinate_convention": {
+    "rank_space": "TRANSCRIPT exon rank (Ensembl canonical), NOT coding-exon rank",
+    "EWSR1": {
+      "transcript": "ENST00000397938",
+      "n_transcript_exons": 17,
+      "donor_exon_transcript_rank": 7,
+      "donor_exon_coding_rank": 7,
+      "intron_named": "EWSR1 intron 7 = the intron 3' of transcript exon 7",
+      "transcript_rank_equals_coding_rank": true,
+      "why": "EWSR1 transcript exon 1 is coding, so the two numbering schemes coincide \u2014 which is why the 2026-08-06 off-by-two reproduced correctly on this side"
+    },
+    "NR4A3": {
+      "transcript": "ENST00000395097",
+      "n_transcript_exons": 8,
+      "acceptor_exon_transcript_rank": 3,
+      "acceptor_exon_coding_rank": 1,
+      "intron_named": "NR4A3 intron 2 = the intron 5' of transcript exon 3",
+      "intron_if_coding_rank_were_used_instead": "NR4A3 intron 4 \u2014 a DIFFERENT piece of DNA",
+      "transcript_rank_equals_coding_rank": false,
+      "n_leading_non_coding_transcript_exons": 2,
+      "acceptor_exon_5utr_nt_the_fusion_retains": 2,
+      "why": "NR4A3 transcript exons 1-2 carry no CDS, so transcript exon 3 is coding exon 1. Both of this lane's retracted defects live in this two-rank gap."
+    },
+    "_gate": "junction_aso.transcript_model ran its four sequence self-checks AND the nr4a3-exon-audit.json provenance gate on both models before this dict was built; a disagreement raises rather than returning a graded value",
+    "_transcript_source": {
+      "requested": "auto",
+      "used_per_gene": {
+        "EWSR1": "ensembl+cache_agreed",
+        "NR4A3": "ensembl+cache_agreed"
+      }
+    }
+  },
+  "regeneration_check": {
+    "_what": "both committed exon-junction design panels rebuilt from the committed transcript cache and compared design-for-design",
+    "panels": {
+      "e7n3": {
+        "n_designs_fresh": 5,
+        "n_designs_committed": 5,
+        "designs_identical": true,
+        "seam_fresh": "ACGGGCAGCAGA|ATATGCCCTGCG",
+        "seam_committed": "ACGGGCAGCAGA|ATATGCCCTGCG"
+      },
+      "e12n3": {
+        "n_designs_fresh": 5,
+        "n_designs_committed": 5,
+        "designs_identical": true,
+        "seam_fresh": "AATGGTTTGATG|ATATGCCCTGCG",
+        "seam_committed": "AATGGTTTGATG|ATATGCCCTGCG"
+      }
+    },
+    "all_reproduce": true
+  },
+  "fusion_unique_budget": {
+    "oligo_len": 16,
+    "wing": 5,
+    "gap": 6,
+    "architecture": "5-6-5",
+    "predicted": {
+      "unique_windows_of_length_L": 15,
+      "rnaseh_usable_windows": 5
+    },
+    "observed_in_committed_exon_junction_panels": {
+      "e7n3": {
+        "n_candidates": 5,
+        "n_fusion_specific": 5,
+        "oligo_length": 16,
+        "architecture": "5-6-5"
+      },
+      "e12n3": {
+        "n_candidates": 5,
+        "n_fusion_specific": 5,
+        "oligo_length": 16,
+        "architecture": "5-6-5"
+      }
+    },
+    "_note": "`unique_windows_of_length_L` = L-1 and `rnaseh_usable_windows` = GAP-1 for ANY seam between two sequences that each exist in the wild type. The hybrid intron's seam is such a seam, so its budget is identical to the mRNA exon junction's \u2014 not 'kilobases'."
+  },
+  "wildtype_identity_audit": {
+    "claim_under_test": "emc-unexplored-treatment-lanes.md \u00a73.5: 'That sequence exists in no other transcript in the body ... there are kilobases of it.'",
+    "verdict": "FALSE for pre-mRNA, which is the only compartment in which the target exists",
+    "why": "The hybrid intron is composed entirely of wild-type EWSR1 intron-7 and wild-type NR4A3 intron-2 nucleotides. Those bases are present, base for base, in the unspliced pre-mRNA of the wild-type alleles \u2014 including the wild-type allele in the tumour cell itself and every allele in every normal cell that transcribes either gene. Only windows spanning the intronic breakpoint are novel.",
+    "true_of_the_MATURE_transcriptome": "An intron is absent from mature mRNA, so a screen run against a mature-transcript database (RefSeq RNA \u2014 what `junction_aso_offtarget` and `aso_insilico` both use) cannot see the wild-type copy at all. That is an instrument blind spot, not a clean result: an absent reading is not a reading of absence.",
+    "screen_behaviour_measured_not_asserted": {
+      "_what_was_run": "junction_aso_offtarget.is_parent() and .classify() from the committed screen, on a constructed record describing a perfect 16/16 gap-spanning hit to wild-type EWSR1",
+      "is_parent_on_wildtype_EWSR1_hit": true,
+      "classify_on_the_same_hit": "true_cleavage_risk",
+      "classify_on_the_same_alignment_if_it_were_NOT_a_parent": "true_cleavage_risk",
+      "is_parent_filters_it_out_of_the_offtarget_count": true,
+      "consequence": "`screen_one` computes n_offtarget_near_matches over hits with `not is_parent(h)`. A perfect, gap-spanning, RNase-H-cleavable match to wild-type EWSR1 is therefore EXCLUDED from the off-target count and counted under `n_parent_or_intended_hits`. That exclusion is CORRECT for an mRNA junction oligo, where a parent can match at most one side of the seam and cannot be cleaved; it is WRONG for an intron-body oligo, where the parent match is complete. Applied unmodified, the screen would score an intron-body ASO clean while it is a wild-type EWSR1 knockdown agent."
+    },
+    "_no_screen_needed_for_this": "This is an identity, not a measurement: a window taken from wild-type intronic DNA is a substring of wild-type intronic DNA. No BLAST result can change it, and no BLAST result should be quoted as if it had tested it."
+  },
+  "mechanism_and_confidence_cost": {
+    "target_state": "The hybrid intron exists only in unspliced pre-mRNA. Splicing is largely co-transcriptional, so the intron is removed on a timescale far shorter than the mature transcript's lifetime and is present at a small fraction of the steady-state transcript pool. The exon junction, by contrast, is present in every copy of the mature fusion mRNA for as long as it survives.",
+    "mechanisms_available": [
+      {
+        "mechanism": "RNase-H1 gapmer against the intron",
+        "is_available": true,
+        "why": "RNase-H1 is nuclear-active and gapmers do act on pre-mRNA, so this is mechanically real rather than hypothetical.",
+        "what_it_costs": "Effect size becomes a KINETIC quantity \u2014 the oligo must engage and direct cleavage before the intron is excised \u2014 and nothing in this repository, in silico or otherwise, measures that rate. A screen result that looks identical to the exon-junction panel's therefore supports a WEAKER conclusion here than there.",
+        "metrics_transfer": "Yes, unchanged: `classify()`'s DNA-gap logic and the whole `n_true_cleavage_risk` family apply as written. This is why the seam arm can be reported with the identical metric names."
+      },
+      {
+        "mechanism": "steric-block SSO (fully modified, no DNA gap) at a splice element",
+        "is_available": true,
+        "why": "This is what \u00a73.5 actually proposes \u2014 branch point, polypyrimidine tract, or a cryptic/poison exon. It is the mechanism with clinical precedent in other diseases.",
+        "what_it_costs": "A steric blocker's liability is OCCUPANCY, not cleavage, so the committed screen's headline metric does not merely transfer badly \u2014 it does not apply. Reporting `n_true_cleavage_risk` for an SSO would be a category error. It would need an occupancy/accessibility screen this lane has not built, plus a splice-effect predictor (SpliceAI/Pangolin/MaxEntScan), and its endpoint is mis-splicing rather than transcript loss.",
+        "metrics_transfer": "No \u2014 see above. Not substituted with a different metric here."
+      }
+    ],
+    "the_compartment_argument_is_self_defeating": "An intron is a target only because it exists in nuclear pre-mRNA. The wild-type EWSR1 and NR4A3 introns exist in the same compartment, in the same nucleus, including the wild-type allele of the tumour cell itself. So the perfect-match liability is CO-LOCALISED with the intended target rather than being somewhere else in the body.",
+    "repo_held_evidence_for_the_pseudoexon_biology": {
+      "what": "A real TAF15::NR4A3 fusion retains a short cryptic exon located in NR4A3 intron 2, adding 25 residues ahead of the NR4A3 ATG.",
+      "source": "PMC6766969, quoted in emc_fet_construct_designs.py -> TAF15_NR4A3 -> _reported_variant_not_modelled",
+      "what_it_supports": "The BIOLOGY of \u00a73.5's pseudoexon idea \u2014 a cryptic exon inside NR4A3 intron 2 is used in at least one reported EMC fusion. This is the strongest support the lane has and it is real.",
+      "what_it_does_not_support": "Fusion-exclusivity. That cryptic exon's sequence is wild-type NR4A3 intron 2, so an SSO promoting its inclusion would act on wild-type NR4A3 pre-mRNA on the same terms. Its sequence is also not held by this repository \u2014 an absent reading, not a reading of absence."
+    }
+  },
+  "composition_is_not_the_binding_constraint": {
+    "favorable_gc_band": [
+      40.0,
+      60.0
+    ],
+    "_band_source": "junction_breakpoint_scan.GC_FAV_LO / GC_FAV_HI (imported, not typed)",
+    "graded_junctions": {
+      "e7n3": {
+        "seam_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG",
+        "n_designs": 5,
+        "gc_percent_min": 50.0,
+        "gc_percent_max": 56.2,
+        "n_designs_inside_favorable_gc_band": 5,
+        "n_oligos_screened": 5,
+        "n_oligos_no_true_cleavage_risk": 0
+      },
+      "e12n3": {
+        "seam_context_mRNA": "AATGGTTTGATG|ATATGCCCTGCG",
+        "n_designs": 5,
+        "gc_percent_min": 37.5,
+        "gc_percent_max": 43.8,
+        "n_designs_inside_favorable_gc_band": 3,
+        "n_oligos_screened": 5,
+        "n_oligos_no_true_cleavage_risk": 0
+      }
+    },
+    "reading": "The graded seams are not the GC-rich neighbourhood \u00a73.5 targets \u2014 most designs sit inside the repository's own favorable GC band \u2014 and the screen still returned zero clean oligos at both. So the exon-junction route is not failing on composition; it is failing because a seam only ever yields GAP-1 windows and a 16-mer with 2 mismatches allowed has near-matches across the transcriptome. Moving the seam into an intron does not lengthen the window.",
+    "_caveat": "This is a reading of two junctions, not of the whole breakpoint space. The GC-rich seam \u00a73.5 refers to is real \u2014 it belongs to the codon-space modelled breakpoint, which is superseded as a description of the graded junctions."
+  },
+  "screen_applicability": [
+    {
+      "assumption": "the database contains the compartment the drug acts in",
+      "holds_for_exon_junction": true,
+      "holds_for_intron": false,
+      "detail": "refseq_rna (BLAST screen) and GCF_000001405.40 *_rna.fna.gz (aso_insilico) are MATURE transcript sets. Neither contains introns, so an intron-directed oligo's largest liability class \u2014 the wild-type pre-mRNA \u2014 is invisible to both. Running them unchanged yields a low off-target count BY CONSTRUCTION.",
+      "fix": "screen against a genomic/pre-mRNA database, or against the parent loci directly"
+    },
+    {
+      "assumption": "a hit to a parent gene is benign (half-seam, not cleavable)",
+      "holds_for_exon_junction": true,
+      "holds_for_intron": false,
+      "detail": "`is_parent()` drops EWSR1/NR4A3 hits before the off-target count. For an intron-body oligo the parent hit is a perfect full-length match across the DNA gap, i.e. the most cleavable hit possible.",
+      "fix": "the parent exclusion must be disabled for any oligo not spanning the seam"
+    },
+    {
+      "assumption": "the target seam is shared across patients",
+      "holds_for_exon_junction": true,
+      "holds_for_intron": false,
+      "detail": "an mRNA exon junction is produced by splicing, which normalises every intronic DNA breakpoint in the same intron pair to ONE mRNA seam \u2014 that is why fusions are detected at the transcript level. The intronic breakpoint itself is the position of a DNA double-strand break and is not so normalised.",
+      "fix": "none available in silico; an intron-seam oligo is a per-patient sequence. This repository holds NO EMC breakpoint-position distribution, so the spread is UNMEASURED here rather than assumed to be wide."
+    },
+    {
+      "assumption": "the gap-resolved RNase-H classification is meaningful",
+      "holds_for_exon_junction": true,
+      "holds_for_intron": true,
+      "detail": "RNase-H1 is active in the nucleus on pre-mRNA, so `classify()`'s gap logic transfers unchanged. This is the one assumption that survives, and it is why the seam arm below can be screened with the identical metric set."
+    }
+  ],
+  "measured": {
+    "EWSR1_intron": {
+      "symbol": "EWSR1",
+      "transcript": "ENST00000397938",
+      "chrom": "22",
+      "strand": 1,
+      "intron_name": "EWSR1 intron 7 (3' of TRANSCRIPT exon 7)",
+      "genomic_start": 29287135,
+      "genomic_end": 29288605,
+      "length_nt": 1471,
+      "donor_dinucleotide": "GT",
+      "acceptor_dinucleotide": "AG",
+      "gc_percent": 42.4
+    },
+    "NR4A3_intron": {
+      "symbol": "NR4A3",
+      "transcript": "ENST00000395097",
+      "chrom": "9",
+      "strand": 1,
+      "intron_name": "NR4A3 intron 2 (3' of TRANSCRIPT exon 2)",
+      "genomic_start": 99825833,
+      "genomic_end": 99828040,
+      "length_nt": 2208,
+      "donor_dinucleotide": "GT",
+      "acceptor_dinucleotide": "AG",
+      "gc_percent": 42.1
+    },
+    "parent_locus_nt": {
+      "EWSR1": 32254,
+      "NR4A3": 45007
+    },
+    "modelled_breakpoint_arms": [
+      {
+        "modelled_breakpoint_fraction_into_EWSR1_intron": 0.25,
+        "hybrid_intron_length_nt": 2024,
+        "EWSR1_side_nt": 368,
+        "NR4A3_side_nt": 1656,
+        "seam_context": "AGCCACTGCGCC|TGTGGGCACCAT",
+        "seam_gc_percent_pm12": 66.7,
+        "unique_extent": {
+          "oligo_len": 16,
+          "n_windows_total": 2009,
+          "n_windows_absent_from_both_parent_loci": 13,
+          "unique_window_span": [
+            355,
+            367
+          ],
+          "n_windows_that_are_a_perfect_match_to_a_parent_locus": 1996
+        },
+        "n_seam_designs": 5,
+        "n_fusion_specific": 5,
+        "designs": [
+          {
+            "antisense_5to3": "TGCCCACAGGCGCAGT",
+            "target_mRNA_5to3": "ACTGCGCCTGTGGGCA",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 8,
+            "bases_from_EWSR1": 8,
+            "bases_from_NR4A3": 8,
+            "specificity_margin": 8,
+            "gap_bases_from_EWSR1": 3,
+            "gap_bases_from_NR4A3": 3,
+            "gap_specificity_margin": 3,
+            "gap_centered": true,
+            "gc_percent": 68.8,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "GCCCACAGGCGCAGTG",
+            "target_mRNA_5to3": "CACTGCGCCTGTGGGC",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 7,
+            "bases_from_EWSR1": 9,
+            "bases_from_NR4A3": 7,
+            "specificity_margin": 7,
+            "gap_bases_from_EWSR1": 4,
+            "gap_bases_from_NR4A3": 2,
+            "gap_specificity_margin": 2,
+            "gap_centered": true,
+            "gc_percent": 75.0,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "GTGCCCACAGGCGCAG",
+            "target_mRNA_5to3": "CTGCGCCTGTGGGCAC",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 9,
+            "bases_from_EWSR1": 7,
+            "bases_from_NR4A3": 9,
+            "specificity_margin": 7,
+            "gap_bases_from_EWSR1": 2,
+            "gap_bases_from_NR4A3": 4,
+            "gap_specificity_margin": 2,
+            "gap_centered": true,
+            "gc_percent": 75.0,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "CCCACAGGCGCAGTGG",
+            "target_mRNA_5to3": "CCACTGCGCCTGTGGG",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 6,
+            "bases_from_EWSR1": 10,
+            "bases_from_NR4A3": 6,
+            "specificity_margin": 6,
+            "gap_bases_from_EWSR1": 5,
+            "gap_bases_from_NR4A3": 1,
+            "gap_specificity_margin": 1,
+            "gap_centered": false,
+            "gc_percent": 75.0,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "GGTGCCCACAGGCGCA",
+            "target_mRNA_5to3": "TGCGCCTGTGGGCACC",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 10,
+            "bases_from_EWSR1": 6,
+            "bases_from_NR4A3": 10,
+            "specificity_margin": 6,
+            "gap_bases_from_EWSR1": 1,
+            "gap_bases_from_NR4A3": 5,
+            "gap_specificity_margin": 1,
+            "gap_centered": false,
+            "gc_percent": 75.0,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          }
+        ]
+      },
+      {
+        "modelled_breakpoint_fraction_into_EWSR1_intron": 0.5,
+        "hybrid_intron_length_nt": 1840,
+        "EWSR1_side_nt": 736,
+        "NR4A3_side_nt": 1104,
+        "seam_context": "TTGCTGTTTGTT|GTTTTTTACCAT",
+        "seam_gc_percent_pm12": 29.2,
+        "unique_extent": {
+          "oligo_len": 16,
+          "n_windows_total": 1825,
+          "n_windows_absent_from_both_parent_loci": 15,
+          "unique_window_span": [
+            721,
+            735
+          ],
+          "n_windows_that_are_a_perfect_match_to_a_parent_locus": 1810
+        },
+        "n_seam_designs": 5,
+        "n_fusion_specific": 5,
+        "designs": [
+          {
+            "antisense_5to3": "TAAAAAACAACAAACA",
+            "target_mRNA_5to3": "TGTTTGTTGTTTTTTA",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 8,
+            "bases_from_EWSR1": 8,
+            "bases_from_NR4A3": 8,
+            "specificity_margin": 8,
+            "gap_bases_from_EWSR1": 3,
+            "gap_bases_from_NR4A3": 3,
+            "gap_specificity_margin": 3,
+            "gap_centered": true,
+            "gc_percent": 18.8,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "AAAAAACAACAAACAG",
+            "target_mRNA_5to3": "CTGTTTGTTGTTTTTT",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 7,
+            "bases_from_EWSR1": 9,
+            "bases_from_NR4A3": 7,
+            "specificity_margin": 7,
+            "gap_bases_from_EWSR1": 4,
+            "gap_bases_from_NR4A3": 2,
+            "gap_specificity_margin": 2,
+            "gap_centered": true,
+            "gc_percent": 25.0,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "GTAAAAAACAACAAAC",
+            "target_mRNA_5to3": "GTTTGTTGTTTTTTAC",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 9,
+            "bases_from_EWSR1": 7,
+            "bases_from_NR4A3": 9,
+            "specificity_margin": 7,
+            "gap_bases_from_EWSR1": 2,
+            "gap_bases_from_NR4A3": 4,
+            "gap_specificity_margin": 2,
+            "gap_centered": true,
+            "gc_percent": 25.0,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "AAAAACAACAAACAGC",
+            "target_mRNA_5to3": "GCTGTTTGTTGTTTTT",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 6,
+            "bases_from_EWSR1": 10,
+            "bases_from_NR4A3": 6,
+            "specificity_margin": 6,
+            "gap_bases_from_EWSR1": 5,
+            "gap_bases_from_NR4A3": 1,
+            "gap_specificity_margin": 1,
+            "gap_centered": false,
+            "gc_percent": 31.2,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "GGTAAAAAACAACAAA",
+            "target_mRNA_5to3": "TTTGTTGTTTTTTACC",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 10,
+            "bases_from_EWSR1": 6,
+            "bases_from_NR4A3": 10,
+            "specificity_margin": 6,
+            "gap_bases_from_EWSR1": 1,
+            "gap_bases_from_NR4A3": 5,
+            "gap_specificity_margin": 1,
+            "gap_centered": false,
+            "gc_percent": 25.0,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          }
+        ]
+      },
+      {
+        "modelled_breakpoint_fraction_into_EWSR1_intron": 0.75,
+        "hybrid_intron_length_nt": 1655,
+        "EWSR1_side_nt": 1103,
+        "NR4A3_side_nt": 552,
+        "seam_context": "CCCCTAGCAGTG|TGTGTGGGCAAC",
+        "seam_gc_percent_pm12": 62.5,
+        "unique_extent": {
+          "oligo_len": 16,
+          "n_windows_total": 1640,
+          "n_windows_absent_from_both_parent_loci": 12,
+          "unique_window_span": [
+            1090,
+            1101
+          ],
+          "n_windows_that_are_a_perfect_match_to_a_parent_locus": 1628
+        },
+        "n_seam_designs": 5,
+        "n_fusion_specific": 5,
+        "designs": [
+          {
+            "antisense_5to3": "CCCACACACACTGCTA",
+            "target_mRNA_5to3": "TAGCAGTGTGTGTGGG",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 8,
+            "bases_from_EWSR1": 8,
+            "bases_from_NR4A3": 8,
+            "specificity_margin": 8,
+            "gap_bases_from_EWSR1": 3,
+            "gap_bases_from_NR4A3": 3,
+            "gap_specificity_margin": 3,
+            "gap_centered": true,
+            "gc_percent": 56.2,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "CCACACACACTGCTAG",
+            "target_mRNA_5to3": "CTAGCAGTGTGTGTGG",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 7,
+            "bases_from_EWSR1": 9,
+            "bases_from_NR4A3": 7,
+            "specificity_margin": 7,
+            "gap_bases_from_EWSR1": 4,
+            "gap_bases_from_NR4A3": 2,
+            "gap_specificity_margin": 2,
+            "gap_centered": true,
+            "gc_percent": 56.2,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "GCCCACACACACTGCT",
+            "target_mRNA_5to3": "AGCAGTGTGTGTGGGC",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 9,
+            "bases_from_EWSR1": 7,
+            "bases_from_NR4A3": 9,
+            "specificity_margin": 7,
+            "gap_bases_from_EWSR1": 2,
+            "gap_bases_from_NR4A3": 4,
+            "gap_specificity_margin": 2,
+            "gap_centered": true,
+            "gc_percent": 62.5,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "CACACACACTGCTAGG",
+            "target_mRNA_5to3": "CCTAGCAGTGTGTGTG",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 6,
+            "bases_from_EWSR1": 10,
+            "bases_from_NR4A3": 6,
+            "specificity_margin": 6,
+            "gap_bases_from_EWSR1": 5,
+            "gap_bases_from_NR4A3": 1,
+            "gap_specificity_margin": 1,
+            "gap_centered": false,
+            "gc_percent": 56.2,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          },
+          {
+            "antisense_5to3": "TGCCCACACACACTGC",
+            "target_mRNA_5to3": "GCAGTGTGTGTGGGCA",
+            "architecture": "5-6-5 (LNA-DNA-LNA)",
+            "junction_offset_in_oligo": 10,
+            "bases_from_EWSR1": 6,
+            "bases_from_NR4A3": 10,
+            "specificity_margin": 6,
+            "gap_bases_from_EWSR1": 1,
+            "gap_bases_from_NR4A3": 5,
+            "gap_specificity_margin": 1,
+            "gap_centered": false,
+            "gc_percent": 62.5,
+            "has_G4_motif": false,
+            "fusion_specific": true
+          }
+        ]
+      }
+    ]
+  },
+  "seam_screens": [
+    {
+      "modelled_breakpoint_fraction_into_EWSR1_intron": 0.25,
+      "n_oligos_screened": 5,
+      "n_screened_ok": 5,
+      "n_oligos_no_true_cleavage_risk": 0,
+      "oligos": [
+        {
+          "antisense_5to3": "TGCCCACAGGCGCAGT",
+          "target_mRNA_5to3": "ACTGCGCCTGTGGGCA",
+          "gc_percent": 68.8,
+          "specificity_margin": 8,
+          "status": "screened",
+          "blast_rid": "7BPB15S0014",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "NM_001438708",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 3, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438709",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 4, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438710",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 5, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438711",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 6, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438712",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 7, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438713",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 8, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438714",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 9, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440552",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 4, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440553",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 5, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440554",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 6, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440555",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 7, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440556",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 8, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440557",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 9, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440560",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 12, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440561",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 13, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "GCCCACAGGCGCAGTG",
+          "target_mRNA_5to3": "CACTGCGCCTGTGGGC",
+          "gc_percent": 75.0,
+          "specificity_margin": 7,
+          "status": "screened",
+          "blast_rid": "7BPBVRE7014",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "NM_017442",
+              "defn": "Homo sapiens toll like receptor 9 (TLR9), mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "CACTGCGCCTGTGGG",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438708",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 3, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438709",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 4, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438710",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 5, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438711",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 6, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438712",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 7, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438713",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 8, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438714",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 9, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440552",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 4, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440553",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 5, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440554",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 6, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440555",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 7, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440556",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 8, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440557",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 9, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440560",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 12, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "GTGCCCACAGGCGCAG",
+          "target_mRNA_5to3": "CTGCGCCTGTGGGCAC",
+          "gc_percent": 75.0,
+          "specificity_margin": 7,
+          "status": "screened",
+          "blast_rid": "7BPCPKHE016",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "XR_007073744",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105374056 (LOC105374056), transcript variant X1, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGCGCCTGTGGGCAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007073745",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105374056 (LOC105374056), transcript variant X2, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGCGCCTGTGGGCAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007096021",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105374056 (LOC105374056), transcript variant X2, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGCGCCTGTGGGCAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_924361",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105374056 (LOC105374056), transcript variant X1, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGCGCCTGTGGGCAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438708",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 3, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438709",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 4, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438710",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 5, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438711",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 6, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438712",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 7, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438714",
+              "defn": "Homo sapiens WD repeat domain 90 (WDR90), transcript variant 9, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440554",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 6, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440556",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 8, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440557",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 9, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440560",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 12, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001440561",
+              "defn": "Homo sapiens T cell immune regulator 1, ATPase H+ transporting V0 subunit a3 (TCIRG1), transcript variant 13, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CTGCGCCTGTGGGC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "CCCACAGGCGCAGTGG",
+          "target_mRNA_5to3": "CCACTGCGCCTGTGGG",
+          "gc_percent": 75.0,
+          "specificity_margin": 6,
+          "status": "screened",
+          "blast_rid": "7BPDGMBH016",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 37,
+          "n_true_cleavage_risk": 30,
+          "n_gap_disrupted_no_cleavage": 7,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "NM_001005408",
+              "defn": "Homo sapiens neuralized E3 ubiquitin protein ligase 4 (NEURL4), transcript variant 2, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "|| |||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_017442",
+              "defn": "Homo sapiens toll like receptor 9 (TLR9), mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CACTGCGCCTGTGGG",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_032442",
+              "defn": "Homo sapiens neuralized E3 ubiquitin protein ligase 4 (NEURL4), transcript variant 1, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "|| |||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_032532",
+              "defn": "Homo sapiens fibronectin type III domain containing 1 (FNDC1), mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "|| |||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_047572",
+              "defn": "Homo sapiens uncharacterized LOC100128770 (LOC100128770), long non-coding RNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "||||||| ||||||||",
+              "risk": "gap_disrupted_no_cleavage"
+            },
+            {
+              "acc": "NR_103560",
+              "defn": "Homo sapiens GSN antisense RNA 1 (GSN-AS1), long non-coding RNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "|||||||||||| |||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_005264175",
+              "defn": "PREDICTED: Homo sapiens DNA methyltransferase 3 alpha (DNMT3A), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "|||||| |||||||||",
+              "risk": "gap_disrupted_no_cleavage"
+            },
+            {
+              "acc": "XM_011536190",
+              "defn": "PREDICTED: Homo sapiens fibronectin type III domain containing 1 (FNDC1), transcript variant X1, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "|| |||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011536191",
+              "defn": "PREDICTED: Homo sapiens fibronectin type III domain containing 1 (FNDC1), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "|| |||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047444975",
+              "defn": "PREDICTED: Homo sapiens LIM zinc finger domain containing 2 (LIMS2), transcript variant X11, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "||||||| ||||||||",
+              "risk": "gap_disrupted_no_cleavage"
+            },
+            {
+              "acc": "XM_047444976",
+              "defn": "PREDICTED: Homo sapiens LIM zinc finger domain containing 2 (LIMS2), transcript variant X12, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "||||||| ||||||||",
+              "risk": "gap_disrupted_no_cleavage"
+            },
+            {
+              "acc": "XM_054340901",
+              "defn": "PREDICTED: Homo sapiens DNA methyltransferase 3 alpha (DNMT3A), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "|||||| |||||||||",
+              "risk": "gap_disrupted_no_cleavage"
+            },
+            {
+              "acc": "XM_054356563",
+              "defn": "PREDICTED: Homo sapiens fibronectin type III domain containing 1 (FNDC1), transcript variant X1, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "|| |||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_054356564",
+              "defn": "PREDICTED: Homo sapiens fibronectin type III domain containing 1 (FNDC1), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "|| |||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_001745394",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC107986855 (LOC107986855), ncRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCACTGCGCCTGTGGG",
+              "midline": "|||||| |||||||||",
+              "risk": "gap_disrupted_no_cleavage"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "GGTGCCCACAGGCGCA",
+          "target_mRNA_5to3": "TGCGCCTGTGGGCACC",
+          "gc_percent": 75.0,
+          "specificity_margin": 6,
+          "status": "screened",
+          "blast_rid": "7BPEB9KK014",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "XR_007073744",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105374056 (LOC105374056), transcript variant X1, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "TGCGCCTGTGGGCAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007073745",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105374056 (LOC105374056), transcript variant X2, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "TGCGCCTGTGGGCAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007096021",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105374056 (LOC105374056), transcript variant X2, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "TGCGCCTGTGGGCAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_924361",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105374056 (LOC105374056), transcript variant X1, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "TGCGCCTGTGGGCAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011528225",
+              "defn": "PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X31, mRNA >gi|2462567156|ref|XM_054321878.1| PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X31, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "GCGCCTGTGGGCAC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011528226",
+              "defn": "PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X32, mRNA >gi|2462567160|ref|XM_054321880.1| PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X32, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "GCGCCTGTGGGCAC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017027181",
+              "defn": "PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X22, mRNA >gi|2462567128|ref|XM_054321864.1| PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X22, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "GCGCCTGTGGGCAC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439273",
+              "defn": "PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X18, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "GCGCCTGTGGGCAC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439274",
+              "defn": "PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X19, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "GCGCCTGTGGGCAC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439276",
+              "defn": "PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X21, mRNA >gi|2462567124|ref|XM_054321862.1| PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X21, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "GCGCCTGTGGGCAC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439277",
+              "defn": "PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X23, mRNA >gi|2462567132|ref|XM_054321866.1| PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X23, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "GCGCCTGTGGGCAC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439278",
+              "defn": "PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X24, mRNA >gi|2462567136|ref|XM_054321868.1| PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X24, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "GCGCCTGTGGGCAC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439279",
+              "defn": "PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X25, mRNA >gi|2462567138|ref|XM_054321869.1| PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X25, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "GCGCCTGTGGGCAC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439280",
+              "defn": "PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X26, mRNA >gi|2462567142|ref|XM_054321871.1| PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X26, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "GCGCCTGTGGGCAC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439281",
+              "defn": "PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X27, mRNA >gi|2462567144|ref|XM_054321872.1| PREDICTED: Homo sapiens transcription factor 3 (TCF3), transcript variant X27, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "GCGCCTGTGGGCAC",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "modelled_breakpoint_fraction_into_EWSR1_intron": 0.5,
+      "n_oligos_screened": 5,
+      "n_screened_ok": 5,
+      "n_oligos_no_true_cleavage_risk": 0,
+      "oligos": [
+        {
+          "antisense_5to3": "TAAAAAACAACAAACA",
+          "target_mRNA_5to3": "TGTTTGTTGTTTTTTA",
+          "gc_percent": 18.8,
+          "specificity_margin": 8,
+          "status": "screened",
+          "blast_rid": "7BPF6CGB014",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "NM_001127235",
+              "defn": "Homo sapiens GC-rich promoter binding protein 1 (GPBP1), transcript variant 3, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001127236",
+              "defn": "Homo sapiens GC-rich promoter binding protein 1 (GPBP1), transcript variant 2, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001203246",
+              "defn": "Homo sapiens GC-rich promoter binding protein 1 (GPBP1), transcript variant 4, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001271684",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 2, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001271685",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 3, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001331037",
+              "defn": "Homo sapiens GC-rich promoter binding protein 1 (GPBP1), transcript variant 5, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001437713",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 4, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001437717",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 5, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438725",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 6, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438728",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 7, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438729",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 8, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_012243",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 1, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_022913",
+              "defn": "Homo sapiens GC-rich promoter binding protein 1 (GPBP1), transcript variant 1, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011541135",
+              "defn": "PREDICTED: Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant X1, mRNA >gi|2462507289|ref|XM_054335690.1| PREDICTED: Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant X1, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011541137",
+              "defn": "PREDICTED: Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant X3, mRNA >gi|2462507293|ref|XM_054335692.1| PREDICTED: Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant X3, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTTA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "AAAAAACAACAAACAG",
+          "target_mRNA_5to3": "CTGTTTGTTGTTTTTT",
+          "gc_percent": 25.0,
+          "specificity_margin": 7,
+          "status": "screened",
+          "blast_rid": "7BPG0G0R016",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "XR_001744984",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105375508 (LOC105375508), transcript variant X2, ncRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CTGTTTGTTGTTTTTT",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007077888",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105375508 (LOC105375508), transcript variant X2, ncRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CTGTTTGTTGTTTTTT",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001009894",
+              "defn": "Homo sapiens RNA 5'-phosphate and 3'-OH ligase 1 (RLIG1), mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "CTGTTTGTTGTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001203246",
+              "defn": "Homo sapiens GC-rich promoter binding protein 1 (GPBP1), transcript variant 4, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001271684",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 2, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001271685",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 3, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001331037",
+              "defn": "Homo sapiens GC-rich promoter binding protein 1 (GPBP1), transcript variant 5, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001374781",
+              "defn": "Homo sapiens protein kinase cGMP-dependent 1 (PRKG1), transcript variant 3, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001437713",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 4, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001437717",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 5, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438725",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 6, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438728",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 7, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438729",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 8, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_012243",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 1, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_170290",
+              "defn": "Homo sapiens miR222/221 cluster host gene (MIR222HG), long non-coding RNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "TGTTTGTTGTTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "GTAAAAAACAACAAAC",
+          "target_mRNA_5to3": "GTTTGTTGTTTTTTAC",
+          "gc_percent": 25.0,
+          "specificity_margin": 7,
+          "status": "screened",
+          "blast_rid": "7BPGVZX4016",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "NM_001271684",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 2, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001271685",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 3, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001437713",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 4, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001437717",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 5, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438725",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 6, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438728",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 7, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438729",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 8, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_012243",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 1, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_184236",
+              "defn": "Homo sapiens long independently transcribed non-coding RNA 2290 (LINC02290), transcript variant 1, long non-coding RNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_184237",
+              "defn": "Homo sapiens long independently transcribed non-coding RNA 2290 (LINC02290), transcript variant 2, long non-coding RNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_184238",
+              "defn": "Homo sapiens long independently transcribed non-coding RNA 2290 (LINC02290), transcript variant 3, long non-coding RNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_184239",
+              "defn": "Homo sapiens long independently transcribed non-coding RNA 2290 (LINC02290), transcript variant 4, long non-coding RNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_184240",
+              "defn": "Homo sapiens long independently transcribed non-coding RNA 2290 (LINC02290), transcript variant 5, long non-coding RNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_184241",
+              "defn": "Homo sapiens long independently transcribed non-coding RNA 2290 (LINC02290), transcript variant 6, long non-coding RNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_184242",
+              "defn": "Homo sapiens long independently transcribed non-coding RNA 2290 (LINC02290), transcript variant 7, long non-coding RNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GTTTGTTGTTTTTTAC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "AAAAACAACAAACAGC",
+          "target_mRNA_5to3": "GCTGTTTGTTGTTTTT",
+          "gc_percent": 31.2,
+          "specificity_margin": 6,
+          "status": "screened",
+          "blast_rid": "7BPHPCE2014",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "NM_001009894",
+              "defn": "Homo sapiens RNA 5'-phosphate and 3'-OH ligase 1 (RLIG1), mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CTGTTTGTTGTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001163147",
+              "defn": "Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant 2, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001163148",
+              "defn": "Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant 3, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001163149",
+              "defn": "Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant 4, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001163150",
+              "defn": "Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant 5, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001163151",
+              "defn": "Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant 6, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001163152",
+              "defn": "Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant 7, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001370555",
+              "defn": "Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant 8, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001370556",
+              "defn": "Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant 9, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_004956",
+              "defn": "Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant 1, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_038969",
+              "defn": "Homo sapiens PPP1R26 antisense RNA 1 (PPP1R26-AS1), long non-coding RNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CTGTTTGTTGTTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_120445",
+              "defn": "Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant 10, non-coding RNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_006717028",
+              "defn": "PREDICTED: Homo sapiens solute carrier family 44 member 1 (SLC44A1), transcript variant X3, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011515167",
+              "defn": "PREDICTED: Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant X1, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011515168",
+              "defn": "PREDICTED: Homo sapiens ETS variant transcription factor 1 (ETV1), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCTGTTTGTTGTTTT",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "GGTAAAAAACAACAAA",
+          "target_mRNA_5to3": "TTTGTTGTTTTTTACC",
+          "gc_percent": 25.0,
+          "specificity_margin": 6,
+          "status": "screened",
+          "blast_rid": "7BPJGKU7014",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "NM_001271684",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 2, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TTTGTTGTTTTTTACC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001271685",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 3, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TTTGTTGTTTTTTACC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001437713",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 4, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TTTGTTGTTTTTTACC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001437717",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 5, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TTTGTTGTTTTTTACC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438725",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 6, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TTTGTTGTTTTTTACC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438728",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 7, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TTTGTTGTTTTTTACC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001438729",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 8, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TTTGTTGTTTTTTACC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_012243",
+              "defn": "Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant 1, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TTTGTTGTTTTTTACC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011541135",
+              "defn": "PREDICTED: Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant X1, mRNA >gi|2462507289|ref|XM_054335690.1| PREDICTED: Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant X1, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TTTGTTGTTTTTTACC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011541137",
+              "defn": "PREDICTED: Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant X3, mRNA >gi|2462507293|ref|XM_054335692.1| PREDICTED: Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant X3, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TTTGTTGTTTTTTACC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011541138",
+              "defn": "PREDICTED: Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant X6, mRNA >gi|2462507299|ref|XM_054335695.1| PREDICTED: Homo sapiens solute carrier family 35 member A3 (SLC35A3), transcript variant X6, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "TTTGTTGTTTTTTACC",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_184236",
+              "defn": "Homo sapiens long independently transcribed non-coding RNA 2290 (LINC02290), transcript variant 1, long non-coding RNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "TTTGTTGTTTTTTAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_184237",
+              "defn": "Homo sapiens long independently transcribed non-coding RNA 2290 (LINC02290), transcript variant 2, long non-coding RNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "TTTGTTGTTTTTTAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_184238",
+              "defn": "Homo sapiens long independently transcribed non-coding RNA 2290 (LINC02290), transcript variant 3, long non-coding RNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "TTTGTTGTTTTTTAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NR_184239",
+              "defn": "Homo sapiens long independently transcribed non-coding RNA 2290 (LINC02290), transcript variant 4, long non-coding RNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "TTTGTTGTTTTTTAC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "modelled_breakpoint_fraction_into_EWSR1_intron": 0.75,
+      "n_oligos_screened": 5,
+      "n_screened_ok": 5,
+      "n_oligos_no_true_cleavage_risk": 0,
+      "oligos": [
+        {
+          "antisense_5to3": "CCCACACACACTGCTA",
+          "target_mRNA_5to3": "TAGCAGTGTGTGTGGG",
+          "gc_percent": 56.2,
+          "specificity_margin": 8,
+          "status": "screened",
+          "blast_rid": "7BPKA10C016",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "XM_005260702",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 337 (ZNF337), transcript variant X3, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_006722908",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 442 (ZNF442), transcript variant X3, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011514107",
+              "defn": "PREDICTED: Homo sapiens trio Rho guanine nucleotide exchange factor (TRIO), transcript variant X2, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011529219",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 337 (ZNF337), transcript variant X2, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017027195",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 878 (ZNF878), transcript variant X1, mRNA >gi|2462567250|ref|XM_054321925.1| PREDICTED: Homo sapiens zinc finger protein 878 (ZNF878), transcript variant X1, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017027196",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 878 (ZNF878), transcript variant X2, mRNA >gi|2462567252|ref|XM_054321926.1| PREDICTED: Homo sapiens zinc finger protein 878 (ZNF878), transcript variant X2, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017027316",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 442 (ZNF442), transcript variant X1, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017027317",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 442 (ZNF442), transcript variant X4, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017027447",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 160 (ZNF160), transcript variant X28, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017027803",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 337 (ZNF337), transcript variant X4, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017029351",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 449 (ZNF449), transcript variant X2, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "TAGCAGTGTGTGTG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047422081",
+              "defn": "PREDICTED: Homo sapiens BLK proto-oncogene, Src family tyrosine kinase (BLK), transcript variant X9, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "TAGCAGTGTGTGTG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047422082",
+              "defn": "PREDICTED: Homo sapiens BLK proto-oncogene, Src family tyrosine kinase (BLK), transcript variant X5, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "TAGCAGTGTGTGTG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047422084",
+              "defn": "PREDICTED: Homo sapiens BLK proto-oncogene, Src family tyrosine kinase (BLK), transcript variant X3, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "TAGCAGTGTGTGTG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439550",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 577 (ZNF577), transcript variant X1, mRNA >gi|2462568238|ref|XM_054322404.1| PREDICTED: Homo sapiens zinc finger protein 577 (ZNF577), transcript variant X1, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "CCACACACACTGCTAG",
+          "target_mRNA_5to3": "CTAGCAGTGTGTGTGG",
+          "gc_percent": 56.2,
+          "specificity_margin": 7,
+          "status": "screened",
+          "blast_rid": "7BPM5KPA016",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 48,
+          "n_true_cleavage_risk": 47,
+          "n_gap_disrupted_no_cleavage": 1,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "XM_005247200",
+              "defn": "PREDICTED: Homo sapiens DAZ interacting zinc finger protein 1 like (DZIP1L), transcript variant X12, mRNA >gi|2462587840|ref|XM_054345580.1| PREDICTED: Homo sapiens DAZ interacting zinc finger protein 1 like (DZIP1L), transcript variant X12, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "CTAGCAGTGTGTGTG",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011514107",
+              "defn": "PREDICTED: Homo sapiens trio Rho guanine nucleotide exchange factor (TRIO), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CTAGCAGTGTGTGTGG",
+              "midline": "|||| |||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007058495",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC124900871 (LOC124900871), ncRNA >gi|2217521211|ref|XR_007074336.1| PREDICTED: Homo sapiens uncharacterized LOC124900871 (LOC124900871), ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "CTAGCAGTGTGTGTG",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007068244",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC124900486 (LOC124900486), transcript variant X1, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "CTAGCAGTGTGTGTG",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007080363",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC124906830 (LOC124906830), transcript variant X1, ncRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CTAGCAGTGTGTGTGG",
+              "midline": "|||||||||| |||||",
+              "risk": "gap_disrupted_no_cleavage"
+            },
+            {
+              "acc": "XR_007091167",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC124900486 (LOC124900486), transcript variant X3, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "CTAGCAGTGTGTGTG",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_930275",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105376238 (LOC105376238), ncRNA >gi|2217543900|ref|XR_007079965.1| PREDICTED: Homo sapiens uncharacterized LOC105376238 (LOC105376238), ncRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CTAGCAGTGTGTGTGG",
+              "midline": "|||||||||||| |||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001080404",
+              "defn": "Homo sapiens zinc finger protein 878 (ZNF878), mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001136501",
+              "defn": "Homo sapiens zinc finger protein 844 (ZNF844), transcript variant 1, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001203250",
+              "defn": "Homo sapiens zinc finger protein 20 (ZNF20), transcript variant 2, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001271581",
+              "defn": "Homo sapiens DnaJ heat shock protein family (Hsp40) member C10 (DNAJC10), transcript variant 2, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 2,
+              "q_to": 15,
+              "qseq": "TAGCAGTGTGTGTG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001290083",
+              "defn": "Homo sapiens zinc finger protein 627 (ZNF627), transcript variant 2, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001290084",
+              "defn": "Homo sapiens zinc finger protein 627 (ZNF627), transcript variant 3, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001290085",
+              "defn": "Homo sapiens zinc finger protein 627 (ZNF627), transcript variant 4, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001363774",
+              "defn": "Homo sapiens zinc finger protein 442 (ZNF442), transcript variant 2, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "AGCAGTGTGTGTGG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "GCCCACACACACTGCT",
+          "target_mRNA_5to3": "AGCAGTGTGTGTGGGC",
+          "gc_percent": 62.5,
+          "specificity_margin": 7,
+          "status": "screened",
+          "blast_rid": "7BPMZ2S9016",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "NM_001290261",
+              "defn": "Homo sapiens zinc finger protein 337 (ZNF337), transcript variant 1, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_015655",
+              "defn": "Homo sapiens zinc finger protein 337 (ZNF337), transcript variant 2, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_005260702",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 337 (ZNF337), transcript variant X3, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_006723558",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 337 (ZNF337), transcript variant X1, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011514107",
+              "defn": "PREDICTED: Homo sapiens trio Rho guanine nucleotide exchange factor (TRIO), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011529219",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 337 (ZNF337), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017027447",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 160 (ZNF160), transcript variant X28, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017027803",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 337 (ZNF337), transcript variant X4, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439617",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 160 (ZNF160), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439624",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 160 (ZNF160), transcript variant X9, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_047439641",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 160 (ZNF160), transcript variant X26, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_054322519",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 160 (ZNF160), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_054322543",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 160 (ZNF160), transcript variant X26, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_054322545",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 160 (ZNF160), transcript variant X28, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_054323346",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 337 (ZNF337), transcript variant X1, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "CACACACACTGCTAGG",
+          "target_mRNA_5to3": "CCTAGCAGTGTGTGTG",
+          "gc_percent": 56.2,
+          "specificity_margin": 6,
+          "status": "screened",
+          "blast_rid": "7BPNTWAM016",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 47,
+          "n_true_cleavage_risk": 43,
+          "n_gap_disrupted_no_cleavage": 4,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "NM_001304771",
+              "defn": "Homo sapiens G protein-coupled receptor class C group 5 member B (GPRC5B), transcript variant 2, mRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCTAGCAGTGTGTGTG",
+              "midline": "|||||| |||||||||",
+              "risk": "gap_disrupted_no_cleavage"
+            },
+            {
+              "acc": "XM_005247200",
+              "defn": "PREDICTED: Homo sapiens DAZ interacting zinc finger protein 1 like (DZIP1L), transcript variant X12, mRNA >gi|2462587840|ref|XM_054345580.1| PREDICTED: Homo sapiens DAZ interacting zinc finger protein 1 like (DZIP1L), transcript variant X12, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CTAGCAGTGTGTGTG",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007058495",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC124900871 (LOC124900871), ncRNA >gi|2217521211|ref|XR_007074336.1| PREDICTED: Homo sapiens uncharacterized LOC124900871 (LOC124900871), ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CTAGCAGTGTGTGTG",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007064032",
+              "defn": "PREDICTED: Homo sapiens tyrosyl-DNA phosphodiesterase 1 (TDP1), transcript variant X16, misc_RNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCTAGCAGTGTGTGTG",
+              "midline": "||| ||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007068244",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC124900486 (LOC124900486), transcript variant X1, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CTAGCAGTGTGTGTG",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_007072606",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC124906084 (LOC124906084), transcript variant X3, ncRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCTAGCAGTGTGTGTG",
+              "midline": "||||||| ||||||||",
+              "risk": "gap_disrupted_no_cleavage"
+            },
+            {
+              "acc": "XR_007088579",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105372085 (LOC105372085), transcript variant X2, ncRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCTAGCAGTGTGTGTG",
+              "midline": "||||| ||||||||||",
+              "risk": "gap_disrupted_no_cleavage"
+            },
+            {
+              "acc": "XR_007091167",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC124900486 (LOC124900486), transcript variant X3, ncRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CTAGCAGTGTGTGTG",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_008488883",
+              "defn": "PREDICTED: Homo sapiens tyrosyl-DNA phosphodiesterase 1 (TDP1), transcript variant X16, misc_RNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCTAGCAGTGTGTGTG",
+              "midline": "||| ||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_930275",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105376238 (LOC105376238), ncRNA >gi|2217543900|ref|XR_007079965.1| PREDICTED: Homo sapiens uncharacterized LOC105376238 (LOC105376238), ncRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCTAGCAGTGTGTGTG",
+              "midline": "||||||||||||| ||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XR_935411",
+              "defn": "PREDICTED: Homo sapiens uncharacterized LOC105372085 (LOC105372085), transcript variant X1, ncRNA >gi|2217498132|ref|XR_007088578.1| PREDICTED: Homo sapiens uncharacterized LOC105372085 (LOC105372085), transcript variant X1, ncRNA",
+              "identity": 15,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "CCTAGCAGTGTGTGTG",
+              "midline": "||||| ||||||||||",
+              "risk": "gap_disrupted_no_cleavage"
+            },
+            {
+              "acc": "NM_001271581",
+              "defn": "Homo sapiens DnaJ heat shock protein family (Hsp40) member C10 (DNAJC10), transcript variant 2, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 3,
+              "q_to": 16,
+              "qseq": "TAGCAGTGTGTGTG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001369806",
+              "defn": "Homo sapiens homeodomain interacting protein kinase 1 (HIPK1), transcript variant 5, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CCTAGCAGTGTGTG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001369807",
+              "defn": "Homo sapiens homeodomain interacting protein kinase 1 (HIPK1), transcript variant 6, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CCTAGCAGTGTGTG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001410847",
+              "defn": "Homo sapiens homeodomain interacting protein kinase 1 (HIPK1), transcript variant 7, mRNA",
+              "identity": 14,
+              "align_len": 14,
+              "q_from": 1,
+              "q_to": 14,
+              "qseq": "CCTAGCAGTGTGTG",
+              "midline": "||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        },
+        {
+          "antisense_5to3": "TGCCCACACACACTGC",
+          "target_mRNA_5to3": "GCAGTGTGTGTGGGCA",
+          "gc_percent": 62.5,
+          "specificity_margin": 6,
+          "status": "screened",
+          "blast_rid": "7BPPMK3N016",
+          "n_parent_or_intended_hits": 0,
+          "n_offtarget_near_matches": 50,
+          "n_true_cleavage_risk": 50,
+          "n_gap_disrupted_no_cleavage": 0,
+          "n_wing_only_affinity": 0,
+          "n_coverage_only_fallback": 0,
+          "offtargets": [
+            {
+              "acc": "XM_011514107",
+              "defn": "PREDICTED: Homo sapiens trio Rho guanine nucleotide exchange factor (TRIO), transcript variant X2, mRNA",
+              "identity": 16,
+              "align_len": 16,
+              "q_from": 1,
+              "q_to": 16,
+              "qseq": "GCAGTGTGTGTGGGCA",
+              "midline": "||||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001278064",
+              "defn": "Homo sapiens glutamate metabotropic receptor 1 (GRM1), transcript variant 3, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CAGTGTGTGTGGGCA",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001278065",
+              "defn": "Homo sapiens glutamate metabotropic receptor 1 (GRM1), transcript variant 4, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CAGTGTGTGTGGGCA",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001278066",
+              "defn": "Homo sapiens glutamate metabotropic receptor 1 (GRM1), transcript variant 5, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CAGTGTGTGTGGGCA",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001278067",
+              "defn": "Homo sapiens glutamate metabotropic receptor 1 (GRM1), transcript variant 6, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CAGTGTGTGTGGGCA",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_001290261",
+              "defn": "Homo sapiens zinc finger protein 337 (ZNF337), transcript variant 1, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "NM_015655",
+              "defn": "Homo sapiens zinc finger protein 337 (ZNF337), transcript variant 2, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_005260702",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 337 (ZNF337), transcript variant X3, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_006723558",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 337 (ZNF337), transcript variant X1, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011529219",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 337 (ZNF337), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_011535782",
+              "defn": "PREDICTED: Homo sapiens glutamate metabotropic receptor 1 (GRM1), transcript variant X2, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CAGTGTGTGTGGGCA",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017010783",
+              "defn": "PREDICTED: Homo sapiens glutamate metabotropic receptor 1 (GRM1), transcript variant X1, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CAGTGTGTGTGGGCA",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017010784",
+              "defn": "PREDICTED: Homo sapiens glutamate metabotropic receptor 1 (GRM1), transcript variant X3, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CAGTGTGTGTGGGCA",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017010788",
+              "defn": "PREDICTED: Homo sapiens glutamate metabotropic receptor 1 (GRM1), transcript variant X4, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 2,
+              "q_to": 16,
+              "qseq": "CAGTGTGTGTGGGCA",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            },
+            {
+              "acc": "XM_017027447",
+              "defn": "PREDICTED: Homo sapiens zinc finger protein 160 (ZNF160), transcript variant X28, mRNA",
+              "identity": 15,
+              "align_len": 15,
+              "q_from": 1,
+              "q_to": 15,
+              "qseq": "GCAGTGTGTGTGGGC",
+              "midline": "|||||||||||||||",
+              "risk": "true_cleavage_risk"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "head_to_head": {
+    "_axis": "fusion-unique target available to an RNase-H gapmer, per patient",
+    "exon_junction_mRNA": {
+      "unique_windows": 15,
+      "rnaseh_usable_windows": 5,
+      "observed_designs_e7n3": 5,
+      "observed_designs_e12n3": 5,
+      "shared_across_patients_with_the_same_exon_pair": true,
+      "screen_result": "n_oligos_no_true_cleavage_risk = 0 and n_candidates_zero_offtarget = 0 at BOTH graded junctions (junction-aso-offtarget-e7n3.json, -e12n3.json, aso-insilico-evaluation-e7n3.json, -e12n3.json)"
+    },
+    "hybrid_intron": {
+      "claimed_by_lane_memo": "kilobases",
+      "unique_windows": 15,
+      "rnaseh_usable_windows": 5,
+      "observed_designs": [
+        5,
+        5,
+        5
+      ],
+      "shared_across_patients_with_the_same_exon_pair": false,
+      "why_not_kilobases": "every window not spanning the intronic breakpoint is a perfect match to wild-type EWSR1 or NR4A3 pre-mRNA \u2014 the identity in `wildtype_identity_audit`",
+      "screen_result": [
+        {
+          "bp_fraction": 0.25,
+          "n_oligos_screened": 5,
+          "n_oligos_no_true_cleavage_risk": 0
+        },
+        {
+          "bp_fraction": 0.5,
+          "n_oligos_screened": 5,
+          "n_oligos_no_true_cleavage_risk": 0
+        },
+        {
+          "bp_fraction": 0.75,
+          "n_oligos_screened": 5,
+          "n_oligos_no_true_cleavage_risk": 0
+        }
+      ]
+    },
+    "verdict": "The hybrid intron does NOT clear the bar the exon junction failed, and it does not change the bar. Its fusion-unique budget is the SAME L-1 windows (GAP-1 usable), not kilobases; the surplus it appeared to offer is wild-type pre-mRNA of a ubiquitously expressed gene; and unlike the mRNA seam, the intronic seam is not shared between patients, so an oligo against it is a per-patient sequence rather than a drug for the disease.",
+    "what_would_change_it": "One sub-question survives and it is narrow: an intronic seam sits in different sequence composition from an exonic one, and \u00a73.5's stated attraction is that this attacks a 'GC-rich' seam. `mode=ci` measures it. \u26a0 But the prior is poor and it is MEASURED, not assumed \u2014 see `composition_is_not_the_binding_constraint`: the two graded junctions are already mostly inside this repository's own favorable GC band and still returned zero clean oligos, so composition is not what is failing. Nothing measurable here can restore the 'kilobases' premise or the cross-patient property.",
+    "composition_prior": {
+      "favorable_gc_band": [
+        40.0,
+        60.0
+      ],
+      "graded_junctions": {
+        "e7n3": {
+          "gc_percent_min": 50.0,
+          "gc_percent_max": 56.2,
+          "n_designs_inside_favorable_gc_band": 5,
+          "n_oligos_no_true_cleavage_risk": 0
+        },
+        "e12n3": {
+          "gc_percent_min": 37.5,
+          "gc_percent_max": 43.8,
+          "n_designs_inside_favorable_gc_band": 3,
+          "n_oligos_no_true_cleavage_risk": 0
+        }
+      }
+    }
+  },
+  "_what_is_unmeasured": []
+}

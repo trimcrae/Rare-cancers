@@ -7,7 +7,32 @@
     "EWSR1_exon_end": 7,
     "NR4A3_exon_start": 3,
     "note": "Real in-frame EWSR1::NR4A3 exon junction built at the mRNA level \u2014 the acceptor exon is taken WHOLE, including any 5'UTR it carries, because that is what a fusion transcript contains and what an ASO hybridises to. Self-checked: exon lengths sum to the cDNA, the CDS is a unique substring of the cDNA, translate(CDS)==Ensembl protein, and the chimeric ORF retains the NR4A3 C-terminus. NOT the codon-space modelled reference.",
-    "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG"
+    "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG",
+    "_transcript_source": {
+      "requested": "cache",
+      "used_per_gene": {
+        "EWSR1": "committed_cache",
+        "NR4A3": "committed_cache"
+      },
+      "committed_cache_fetched_utc": "2026-08-03T23:45:45Z",
+      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+    },
+    "measured_junction": {
+      "junction_label": "EWSR1_e7__NR4A3_e3",
+      "EWSR1_exon_end": 7,
+      "NR4A3_exon_start": 3,
+      "ewsr1_coding_nt_through_cut": 793,
+      "ewsr1_last_whole_residue": 264,
+      "ewsr1_coding_phase": 1,
+      "nr4a3_acceptor_exon_is_coding": true,
+      "nr4a3_acceptor_exon_5utr_nt_retained": 2,
+      "nr4a3_cds_nt_at_resume": 0,
+      "nr4a3_first_residue": 1,
+      "frame_sum_mod3": 0,
+      "in_frame": true,
+      "chimeric_protein_length": 891,
+      "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG"
+    }
   },
   "n_evaluated": 5,
   "accessibility": {
@@ -211,5 +236,10 @@
       "max_homopolymer": 2,
       "fusion_specific": true
     }
-  ]
+  ],
+  "_provenance": {
+    "uncapped_scan": "run on a GitHub-hosted CPU runner, workflow aso-offtarget.yml, run 31130876597, step completed 2026-08-06T23:36:01Z (7:36 PM ET). Every design, off-target count, accessibility value and seed count below is that run's output, verbatim.",
+    "grading_added": "that run's copy of aso_insilico.py emitted a junction LABEL with no graded offsets. breakpoint.measured_junction and breakpoint._transcript_source were computed here by importing junction_aso and evaluating the same expressions the fixed module now uses, after asserting the seam matches \u2014 code, never hand-entered values.",
+    "cost": "$0 \u2014 GitHub Actions CPU + local CPU. No GPU, no rental."
+  }
 }

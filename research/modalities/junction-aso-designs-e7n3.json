@@ -7,6 +7,15 @@
     "NR4A3_mRNA": "NM_006981",
     "junction_context_mRNA": "ACGGGCAGCAGA|ATATGCCCTGCG",
     "caveat": "Re-run with a patient's sequenced fusion transcript for clinical design.",
+    "_transcript_source": {
+      "requested": "cache",
+      "used_per_gene": {
+        "EWSR1": "committed_cache",
+        "NR4A3": "committed_cache"
+      },
+      "committed_cache_fetched_utc": "2026-08-03T23:45:45Z",
+      "_caveat": "At least one gene was read from the committed cache (emc-construct-inputs.json), not from Ensembl today. The cache is a dated measurement that passed this module's four self-checks; it is not a statement about Ensembl's current annotation."
+    },
     "mode": "real_exon_junction_mRNA",
     "source": "Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): spliced cDNA, exon boundaries in transcript coordinates, CDS located inside the cDNA. Cross-checked exon-for-exon against the committed nr4a3-exon-audit.json before anything is emitted.",
     "EWSR1_exon_end": 7,
