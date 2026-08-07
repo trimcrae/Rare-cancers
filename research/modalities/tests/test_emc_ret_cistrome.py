@@ -315,3 +315,67 @@ def test_a_gzipped_bed_is_read():
     raw = gzip.compress(b"chr10\t100\t200\tp\t9\n")
     peaks, diag = M.parse_bed(raw, "test")
     assert diag["_status"] == "read" and peaks == [("chr10", 100, 200, 9.0)]
+
+
+# =============================================================================================
+# 7 — MOUSE IS AN ORTHOLOGUE READING AND MUST NEVER POOL WITH HUMAN
+# =============================================================================================
+
+def _mouse_cache():
+    c = M._synthetic_cache(ret_peak=True, control_peak=True)
+    c["genes"]["mm10"] = {
+        "RET": {"chrom": "chr6", "start": 118_150_000, "end": 118_200_000, "strand": 1,
+                "assembly_name": "GRCm38", "species": "mus_musculus", "queried_symbol": "Ret"},
+        "SEMA3C": {"chrom": "chr5", "start": 17_600_000, "end": 17_700_000, "strand": 1,
+                   "assembly_name": "GRCm38", "species": "mus_musculus",
+                   "queried_symbol": "Sema3c"},
+    }
+    c["peaksets"]["SYNTH_MOUSE"] = {
+        "antigen": "NR4A1", "genome": "mm10", "cell_type": "synthetic mouse",
+        "cell_type_class": "synthetic", "qc": None,
+        "peaks": [("chr6", 118_150_000, 118_150_400, 90.0),
+                  ("chr5", 17_599_900, 17_600_300, 90.0)],
+        "diag": {"_status": "read"}, "_status": "read"}
+    return c
+
+
+def test_a_mouse_peakset_is_tagged_as_an_orthologue_and_counted_separately():
+    a = M.derive(_mouse_cache())
+    s = a["part_2_intersection"]["ret_summary"]
+    assert s["human"]["n_peaksets"] == 1
+    assert s["mouse_orthologue"]["n_peaksets"] == 1
+    assert s["human"]["n_with_a_RET_promoter_peak"] == 1
+    assert s["mouse_orthologue"]["n_with_a_Ret_promoter_peak"] == 1
+    # ...and the verdict must SAY the two are separate rather than merely storing them apart.
+    assert "never pooled" in a["verdict"]["by_species"]
+    rows = {r["peakset"]: r["species"] for r in s["rows"]}
+    assert rows["SYNTH_MOUSE"] == "mouse" and rows["SYNTH"] == "human"
+
+
+def test_a_mouse_peakset_reports_no_background_rank_rather_than_a_fabricated_one():
+    """The 200-gene panel is human and is deliberately not translated. A rank it cannot compute
+    must read NOT_COMPUTED with the reason, never as a p-value."""
+    a = M.derive(_mouse_cache())
+    bg = a["part_2_intersection"]["per_peakset"]["SYNTH_MOUSE"]["background"]
+    assert bg["_status"] == "NOT_COMPUTED"
+    assert bg["empirical_p_RET_vs_panel"] is None
+    assert "ABSENT READING" in bg["why"]
+
+
+def test_mouse_and_human_builds_cannot_be_intersected_with_each_other():
+    with pytest.raises(ValueError):
+        M.intersect_locus([("chr6", 1, 2, None)], ("chr6", 0, 10), "mm10", "hg38")
+
+
+def test_every_mouse_build_declares_its_species_and_every_human_build_does_not():
+    for build, cfg in M.BUILDS.items():
+        if cfg.get("ensembl_species") == "mus_musculus":
+            assert cfg.get("species") == "mouse", build
+        else:
+            assert cfg.get("species", "human") == "human", build
+
+
+def test_the_mouse_symbol_map_covers_ret_and_both_positive_controls():
+    for sym in ["RET"] + M.KNOWN_POSITIVE_CONTROLS:
+        assert sym in M.HUMAN_TO_MOUSE_SYMBOL, sym
+        assert M.HUMAN_TO_MOUSE_SYMBOL[sym] == sym.capitalize(), sym

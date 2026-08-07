@@ -117,6 +117,39 @@ BUILDS = {
         "why": "older ChIP-seq is archived only on hg19; a peak set on hg19 is intersected with "
                "the hg19 locus and never with the hg38 one",
     },
+    # ⚠ MOUSE IS INCLUDED, AND IT IS A WEAKER READING THAT SAYS SO EVERYWHERE IT APPEARS.
+    # Reason it is here at all: most published NR4A ChIP-seq is in mouse immune and metabolic
+    # tissue, and treating those experiments as `skipped` would make "we did not look at the data
+    # that exists" render as "no peak set was retrievable" — an absent reading wearing the costume
+    # of a negative, which is the exact failure CLAUDE.md §4 is written about.
+    # Reason it is weaker: it adds a species gap ON TOP of the wild-type-vs-fusion gap and the
+    # cell-type gap the human sets already carry. A mouse Ret peak is a prior for a prior. Every
+    # row from a mouse build is tagged `species: mouse` and the verdict counts human and mouse
+    # separately — they are never pooled.
+    "mm10": {
+        "ensembl_rest": "https://rest.ensembl.org",
+        "ensembl_species": "mus_musculus",
+        "ensembl_assembly_expected": "GRCm38",
+        "species": "mouse",
+        "why": "ChIP-Atlas's principal mouse build. An ORTHOLOGUE reading, tagged as one.",
+    },
+    "mm39": {
+        "ensembl_rest": "https://rest.ensembl.org",
+        "ensembl_species": "mus_musculus",
+        "ensembl_assembly_expected": "GRCm39",
+        "species": "mouse",
+        "why": "the current mouse reference. Ensembl's main REST serves GRCm39, so an mm10 peak "
+               "set and an mm39 locus must never meet — the same refusal the human builds get.",
+    },
+}
+
+# Mouse gene symbols are Title-case, and a case-insensitive lookup would silently return the WRONG
+# species' record on a shared REST endpoint. The map is explicit for that reason.
+HUMAN_TO_MOUSE_SYMBOL = {
+    "RET": "Ret", "ENO3": "Eno3", "SEMA3C": "Sema3c", "PPARG": "Pparg",
+    "NR4A1": "Nr4a1", "NR4A2": "Nr4a2", "NR4A3": "Nr4a3",
+    "VEGFA": "Vegfa", "KDR": "Kdr",
+    "GDNF": "Gdnf", "GFRA1": "Gfra1", "GFRA2": "Gfra2", "NRTN": "Nrtn",
 }
 
 # ---------------------------------------------------------------------------------------------
@@ -447,11 +480,32 @@ def stream_lines(url, timeout=300):
 # =============================================================================================
 
 def fetch_gene_spans(symbols, build):
-    """Ensembl POST batch lookup for one build. Returns {symbol: record} plus a diagnostic."""
-    base = BUILDS[build]["ensembl_rest"]
-    url = f"{base}/lookup/symbol/homo_sapiens"
+    """Ensembl POST batch lookup for one build. Returns {symbol: record} plus a diagnostic.
+
+    ⚠ On a mouse build the symbols are TRANSLATED and the returned records are keyed back to the
+    HUMAN symbol, so every downstream table stays in one namespace — but each record carries
+    `species` and `queried_symbol` so an orthologue reading can never be mistaken for a human one.
+    """
+    cfg = BUILDS[build]
+    species = cfg.get("ensembl_species", "homo_sapiens")
+    base = cfg["ensembl_rest"]
+    url = f"{base}/lookup/symbol/{species}"
+    if species == "mus_musculus":
+        pairs = [(h, HUMAN_TO_MOUSE_SYMBOL.get(h)) for h in symbols]
+        pairs = [(h, m) for h, m in pairs if m]
+        back = {m: h for h, m in pairs}
+        symbols = [m for _h, m in pairs]
+    else:
+        back = None
     body = json.dumps({"symbols": list(symbols)}).encode()
-    out, diag = {}, {"build": build, "endpoint": url, "n_requested": len(symbols)}
+    out, diag = {}, {"build": build, "endpoint": url, "species": species,
+                     "n_requested": len(symbols)}
+    if species == "mus_musculus":
+        diag["⚠ orthologue_reading"] = (
+            "mouse. Only the symbols with an explicit entry in HUMAN_TO_MOUSE_SYMBOL are looked "
+            "up — the background panel is NOT translated, so a mouse peak set carries no "
+            "background rank and its RET row says so rather than printing a rank it does not "
+            "have.")
     for i in range(3):
         if BUDGET.left() <= 5:
             diag["_status"] = "budget_exhausted"
@@ -478,10 +532,12 @@ def fetch_gene_spans(symbols, build):
         if not isinstance(g, dict) or not g.get("seq_region_name"):
             continue
         assemblies.add(g.get("assembly_name"))
-        out[sym] = {"ensembl_id": g.get("id"), "assembly_name": g.get("assembly_name"),
+        key = back.get(sym, sym) if back else sym
+        out[key] = {"ensembl_id": g.get("id"), "assembly_name": g.get("assembly_name"),
                     "chrom": norm_chrom(g.get("seq_region_name")),
                     "start": int(g["start"]), "end": int(g["end"]),
-                    "strand": int(g.get("strand", 1)), "biotype": g.get("biotype")}
+                    "strand": int(g.get("strand", 1)), "biotype": g.get("biotype"),
+                    "species": species, "queried_symbol": sym}
     diag["_status"] = "read"
     diag["n_resolved"] = len(out)
     diag["assemblies_returned"] = sorted(a for a in assemblies if a)
@@ -561,6 +617,7 @@ def reconcile_builds(ens_by_build, ncbi):
         g = genes.get("RET")
         rec["per_build"][build] = {
             "ensembl_assembly_expected": BUILDS[build]["ensembl_assembly_expected"],
+            "species": BUILDS[build].get("species", "human"),
             "RET_ensembl": g,
             "_status": "read" if g else "RET_not_resolved",
         }
@@ -579,7 +636,8 @@ def reconcile_builds(ens_by_build, ncbi):
         for r in recs:
             acc = r["chr_accession"]
             build = next((bd for bd, cfg in BUILDS.items()
-                          if acc.startswith(cfg["ncbi_chr_accession_prefix"])), None)
+                          if cfg.get("ncbi_chr_accession_prefix")
+                          and acc.startswith(cfg["ncbi_chr_accession_prefix"])), None)
             if build is None:
                 continue
             e = (ens_by_build.get(build) or {}).get(sym)
@@ -795,6 +853,66 @@ def fetch_chip_atlas_target_tables():
     return out
 
 
+def datasets_linked_to_a_paper(pmid):
+    """NCBI ELink: which archived datasets are LINKED to this PubMed record.
+
+    ⭐ THE CANONICAL ROUTE FOR "THE ACCESSION IS NOT IN THE TEXT", and the one the prior pass did
+    not take. `emc-ret-lane.md` §2d searched PMC10108054's rendered body for an accession pattern
+    and found none — a reading about the rendering, not about deposition. NCBI maintains the
+    paper→dataset link independently of whether the accession appears in the article body, so a
+    dataset deposited and cited only in a supplement or a publisher-hosted data statement is
+    still reachable here.
+    """
+    out = {"pmid": pmid, "links": {}}
+    for db in ("gds", "sra", "bioproject"):
+        d = get_json(f"{EUTILS}/elink.fcgi?dbfrom=pubmed&db={db}&retmode=json&id={pmid}")
+        if not d:
+            out["links"][db] = {"_status": "failed"}
+            continue
+        ids = []
+        for ls in (d.get("linksets") or []):
+            for db_rec in (ls.get("linksetdbs") or []):
+                ids.extend(db_rec.get("links") or [])
+        out["links"][db] = {"_status": "read", "n": len(ids), "uids": ids[:60]}
+        if db == "gds" and ids:
+            su = get_json(f"{EUTILS}/esummary.fcgi?db=gds&retmode=json"
+                          f"&id={','.join(str(i) for i in ids[:60])}")
+            accs = []
+            for uid, r in ((su or {}).get("result") or {}).items():
+                if uid == "uids" or not isinstance(r, dict):
+                    continue
+                accs.append({"accession": r.get("accession"), "title": r.get("title"),
+                             "gdsType": r.get("gdsType"), "taxon": r.get("taxon"),
+                             "n_samples": r.get("n_samples"), "gpl": r.get("GPL")})
+            out["links"][db]["series"] = accs
+    out["⚠"] = ("an empty link set is an ABSENT READING about NCBI's link table, not evidence "
+                "that no data were deposited — the cDC2 study's supplements are hosted by the "
+                "publisher, and a Wiley-only deposition would leave no NCBI link at all.")
+    return out
+
+
+def search_biostudies():
+    """EBI BioStudies / ArrayExpress — the archive a European deposition would use instead of GEO.
+
+    Searched because "not in GEO" and "not deposited" are different facts, and the cDC2 study is
+    European-authored (Wiley/Arthritis & Rheumatology), which makes ArrayExpress a live candidate.
+    """
+    out = {"_what": "EBI BioStudies (ArrayExpress collection).", "queries": []}
+    for q in ("NR4A3 ChIP-seq", "NR4A1 NR4A2 NR4A3 ChIP", "NR4A cDC2 dendritic ChIP"):
+        url = ("https://www.ebi.ac.uk/biostudies/api/v1/search?"
+               + urllib.parse.urlencode({"query": q, "pageSize": "25"}))
+        d = get_json(url, timeout=90)
+        if d is None:
+            out["queries"].append({"query": q, "_status": "failed"})
+            continue
+        hits = d.get("hits") or []
+        out["queries"].append({
+            "query": q, "_status": "read", "totalHits": d.get("totalHits"),
+            "hits": [{"accession": h.get("accession"), "title": str(h.get("title"))[:160],
+                      "type": h.get("type")} for h in hits[:25]]})
+    return out
+
+
 def geo_build_for_series(gse, gsms):
     """Establish a GEO series' genome build FROM ITS OWN RECORD, never by assumption.
 
@@ -907,6 +1025,8 @@ def paper_cross_references():
                 "⚠": "an accession absent from the rendered full text is an ABSENT READING about "
                      "the rendering, not a reading that no data were deposited.",
             }
+        # ⭐ AND THE LINK TABLE, which does not depend on the article body at all.
+        rec["ncbi_linked_datasets"] = datasets_linked_to_a_paper(meta["pmid"])
         out["papers"][pmcid] = rec
     out["_status"] = "read"
     return out
@@ -1105,6 +1225,7 @@ def derive(cache):
         "geo": cache.get("geo") or {"_status": "NOT_RUN"},
         "geo_supplementary": cache.get("geo_supplementary") or {},
         "geo_series_builds": cache.get("geo_series_builds") or {},
+        "biostudies": cache.get("biostudies") or {"_status": "NOT_RUN"},
         "paper_data_availability": cache.get("papers") or {"_status": "NOT_RUN"},
         "gsa": cache.get("gsa") or {"_status": "NOT_RUN"},
         "other_catalogues": cache.get("other_catalogues") or {"_status": "NOT_RUN"},
@@ -1155,6 +1276,7 @@ def derive(cache):
         per_set[sid] = {
             "_status": "read",
             "antigen": ps.get("antigen"), "genome": build,
+            "species": BUILDS.get(build, {}).get("species", "human"),
             "cell_type": ps.get("cell_type"), "cell_type_class": ps.get("cell_type_class"),
             "qc": ps.get("qc"),
             "n_peaks_total": len(ps["peaks"]),
@@ -1195,6 +1317,16 @@ def _background_rank(peaks, gset, build):
     """
     bg_syms, bg_diag = background_symbols()
     resolved = [s for s in bg_syms if s in gset]
+    if not resolved:
+        return {
+            "_status": "NOT_COMPUTED",
+            "why": ("no background-panel gene resolved on this build. On a MOUSE build that is "
+                    "by construction — the 200-gene panel is human and is deliberately not "
+                    "translated, because a hand-written orthologue map for 200 symbols would be "
+                    "an unreviewed instrument inside the null. ⚠ ABSENT READING: this peak set "
+                    "carries no background rank, and its RET row must be read without one."),
+            "panel_source": bg_diag, "n_panel_requested": len(bg_syms),
+            "empirical_p_RET_vs_panel": None}
     counts = []
     for s in resolved:
         r = _score_locus(peaks, gset[s], build)
@@ -1248,6 +1380,7 @@ def _ret_summary(per_set):
         r = (ps.get("loci") or {}).get("RET") or {}
         rows.append({
             "peakset": sid, "antigen": ps.get("antigen"), "genome": ps.get("genome"),
+            "species": ps.get("species", "human"),
             "cell_type": ps.get("cell_type"),
             "n_peaks_total": ps.get("n_peaks_total"),
             "RET_promoter_window_peaks": r.get("n_peaks_promoter_window"),
@@ -1257,11 +1390,28 @@ def _ret_summary(per_set):
             "empirical_p_vs_background": (ps.get("background") or {})
             .get("empirical_p_RET_vs_panel"),
         })
-    n_pos = sum(1 for r in rows if (r["RET_promoter_window_peaks"] or 0) > 0)
-    n_interp = sum(1 for r in rows if r["positive_control"] == "A KNOWN POSITIVE IS RECOVERED")
+    human = [r for r in rows if r["species"] == "human"]
+    mouse = [r for r in rows if r["species"] != "human"]
+
+    def _hit(rs):
+        return sum(1 for r in rs if (r["RET_promoter_window_peaks"] or 0) > 0)
+
+    def _ok(rs):
+        return sum(1 for r in rs if r["positive_control"] == "A KNOWN POSITIVE IS RECOVERED")
+
     return {"rows": rows, "n_peaksets": len(rows),
-            "n_with_a_RET_promoter_peak": n_pos,
-            "n_peaksets_whose_null_is_interpretable": n_interp,
+            "n_with_a_RET_promoter_peak": _hit(rows),
+            "n_peaksets_whose_null_is_interpretable": _ok(rows),
+            # ⛔ HUMAN AND MOUSE ARE COUNTED SEPARATELY AND NEVER POOLED. A mouse Ret peak carries
+            # a species gap ON TOP of the wild-type-vs-fusion gap; pooling them would let an
+            # orthologue reading be quoted as a human one.
+            "human": {"n_peaksets": len(human), "n_with_a_RET_promoter_peak": _hit(human),
+                      "n_whose_null_is_interpretable": _ok(human)},
+            "mouse_orthologue": {"n_peaksets": len(mouse),
+                                 "n_with_a_Ret_promoter_peak": _hit(mouse),
+                                 "n_whose_null_is_interpretable": _ok(mouse),
+                                 "⚠": "ORTHOLOGUE evidence. Mouse Nr4a at mouse Ret is a prior "
+                                      "for a prior and is never counted with the human rows."},
             "⛔": "a null from a peak set that recovers no known positive is uninterpretable and "
                  "is counted separately for exactly that reason."}
 
@@ -1395,7 +1545,16 @@ def _verdict(art):
         return None
     n_pos, n_interp = s.get("n_with_a_RET_promoter_peak", 0), \
         s.get("n_peaksets_whose_null_is_interpretable", 0)
+    hum = s.get("human") or {}
+    mou = s.get("mouse_orthologue") or {}
     par = (art.get("part_3_paralogue_overlap") or {}).get("state")
+    species_line = (
+        f"human peak sets: {hum.get('n_peaksets', 0)} "
+        f"({hum.get('n_with_a_RET_promoter_peak', 0)} with a RET promoter-window peak, "
+        f"{hum.get('n_whose_null_is_interpretable', 0)} recovering a positive control) · "
+        f"mouse ORTHOLOGUE peak sets: {mou.get('n_peaksets', 0)} "
+        f"({mou.get('n_with_a_Ret_promoter_peak', 0)} with a Ret promoter-window peak). "
+        f"⛔ The two are never pooled.")
     if n_pos > 0:
         headline = (f"MEASURED NR4A OCCUPANCY AT THE RET LOCUS IN {n_pos} OF "
                     f"{s['n_peaksets']} PUBLIC PEAK SETS.")
@@ -1418,7 +1577,8 @@ def _verdict(art):
         strength = ("⛔ UNINTERPRETABLE, AND RECORDED AS UNINTERPRETABLE RATHER THAN AS A "
                     "NEGATIVE. An instrument that does not recover SEMA3C or ENO3 cannot be read "
                     "as having excluded RET.")
-    return {"headline": headline, "strength": strength, "paralogue_state": par,
+    return {"headline": headline, "strength": strength, "by_species": species_line,
+            "paralogue_state": par,
             "⛔ scope": "wild-type NR4A cistromes in non-EMC cells. No EWSR1::NR4A3 cistrome "
                        "exists (emc-ret-lane.md §2d), and nothing here is an efficacy, "
                        "selectivity, safety, therapeutic-window or clinical-readiness claim."}
@@ -1461,6 +1621,21 @@ def fetch():
     cache["other_catalogues"] = other
 
     cache["chip_atlas_target_tables"] = fetch_chip_atlas_target_tables()
+    cache["biostudies"] = search_biostudies()
+
+    # ⭐ ANY GEO SERIES THE PAPER LINK TABLE NAMED, FOLDED INTO THE SERIES SET. A dataset reachable
+    # only through the paper→dataset link — not through any keyword query — is exactly the case
+    # `emc-ret-lane.md` §2d could not reach, so it must not be dropped on the floor here.
+    for _pmcid, pr in ((cache["papers"].get("papers") or {}).items()):
+        for s in (((pr.get("ncbi_linked_datasets") or {}).get("links") or {})
+                  .get("gds", {}).get("series") or []):
+            acc = s.get("accession")
+            if acc and acc not in (cache["geo"].get("series") or {}):
+                cache["geo"].setdefault("series", {})[acc] = dict(
+                    s, _found_by=f"ELink from PubMed {pr.get('pmid')}",
+                    summary="", ftp=None, supp_file_field=None,
+                    **{"⚠": "reached through NCBI's paper→dataset link table, not through any "
+                            "keyword query."})
 
     # GEO supplementary listings for every series a query returned that looks like a ChIP series,
     # plus the build READ FROM THE SERIES' OWN RECORD for any that carries a peak-like file.
