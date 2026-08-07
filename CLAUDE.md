@@ -105,6 +105,22 @@ to progress.
 - **⏰ TIMES: ALWAYS US EASTERN, 12-HOUR AM/PM. NEVER UTC, NEVER 24-HOUR.** Every time you report — ETAs, job
   timestamps, "as of", cadences — must be ET (EDT = UTC−4) in 12-hour form ("1:00 PM ET", not "13:00"). Convert
   before writing even if the tool emits UTC. *(You keep slipping. This is why it is near the top.)*
+  - **⛔ THIS CONTAINER IS `Etc/UTC`, SO BARE `date` IS UTC. USE
+    `TZ=America/New_York date '+%-I:%M %p ET'` — NOTHING ELSE (trimcrae, 2026-08-07: *"There's no way
+    that ETA is right. That would mean our preflight takes 5 hours"*).** Measured that evening:
+    `date '+%-I:%M %p'` returned `9:44 PM` and `TZ=America/New_York date` returned `5:44 PM EDT` — the
+    same instant, four hours apart. **The rule above was being obeyed in form and broken in fact**: the
+    reading was measured rather than guessed, and then `ET` was typed after a UTC number, so the
+    conversion the rule demands never happened. Every time reported in that session ran four hours
+    fast until an ETA got absurd enough to notice.
+    ⚠ **THE FIRST FIX FOR THIS FAILED IN A WAY WORTH RECORDING.** Earlier the same day the same
+    complaint was raised (a 2:31 PM reported at 10:53 AM), diagnosed as *fabricating* timestamps, and
+    fixed by measuring with `date` every time. That fix was correct about guessing and left the
+    mislabelling untouched — so the error survived its own remediation and looked repaired. **A
+    diagnosis that explains the symptom is not thereby the cause**; §4 says produce the evidence, and
+    the discriminating observation here cost one shell command nobody ran. Subagents in this same
+    container converted correctly, which is how the blast radius stayed in chat: no commit message and
+    no tracked file carried a bad ET time.
 - **⏱️ END-OF-TURN "IN FLIGHT" BOARD (trimcrae, 2026-07-11).** Whenever your final message leaves work running,
   the LAST thing in it is a compact **"In flight:"** board — one scannable line per item (bullet/table, not
   prose): **what it is · current state · ETA in ET 12-hour · cost · $/ns** (or an explicit "ETA unknown — why"),
@@ -772,16 +788,34 @@ When in doubt: do it and show it.
   `sourceId`/`primaryRef`, primary vs secondary) and a fixed pooling method (crude denominator-weighted
   proportions + Wilson 95% CIs, non-overlapping cohorts only). Read **[systems/POLICY-evidence.md](./systems/POLICY-evidence.md)** before
   touching `registry`.
-- **Before committing:** `./scripts/preflight.sh` must pass. **Six gates, in this order:** (1) the consistency
+- **Before committing:** `./scripts/preflight.sh` must pass. **Seven gates, in this order:** (1) the consistency
   linter, (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
-  (4) `systems/parser_guard.py`, (5) the registry evidence contract (`validate-registry.mjs`), (6) the
-  modalities tests. Its exit code cannot be masked. **Do not re-type an ordinal from memory** — `[P1]`
-  derives it from the script and fails the build on any document that disagrees.
+  (4) `research/manuscripts/lint_citations.py`, (5) `systems/parser_guard.py`, (6) the registry evidence
+  contract (`validate-registry.mjs`), (7) the modalities tests. Its exit code cannot be masked. **Do not
+  re-type an ordinal from memory** — `[P1]` derives it from the script and fails the build on any document
+  that disagrees. *(It did exactly that when gate 4 was inserted, catching four documents in one run.)*
   ⚠ **`lint_claims.py` is NOT in preflight** — it runs only in CI, so a green preflight does not mean the
   language rules passed. *Superseded, retained: "It runs the registry evidence contract
   (`validate-registry.mjs`), the doc linters and the modalities tests" — written before gates 2 and 3 existed,
   and "the doc linters" plural was never true of this script. And: **"Five gates"**, which listed the map
-  check nowhere.*
+  check nowhere, and **"Six gates"**, written before citation provenance was one.*
+  - **★★ A HEDGED SENTENCE ON A FABRICATED PMID IS A PERFECT SENTENCE TO `lint_claims` — WHICH IS WHY
+    GATE 4 EXISTS (2026-08-07).** An agent drafting a manuscript wrote a citation from **recollection**:
+    a PMID present in **no committed source anywhere in this repository**. It **passed `lint_claims`
+    twice**, and six invented titles and author-lists went out in the same pass; a human-directed audit
+    of every identifier caught them, and nothing automatic could have. ⚠ **`lint_claims` is not
+    deficient for missing it** — R1–R5 check how strongly a claim is WORDED, and claim STRENGTH is
+    orthogonal to citation PROVENANCE. No other gate read an identifier at all, in a repository whose
+    first golden rule is "never fabricate … citations".
+    [`lint_citations.py`](./research/manuscripts/lint_citations.py) asks the one question an offline
+    checker can answer: does this identifier ALSO appear in a tracked `.json`/`.jsonl`? Those are fetch
+    products — a network read, a registry curation, a graph edit — none of which a model does from
+    memory. ⛔ **It is a LEDGER, not a wall**: the 215 prose-only identifiers found on day one are
+    baselined, because a gate that goes red on everything gets switched off, and **the baseline is the
+    finding** — it names for the first time which citations nobody has checked. The count is meant to
+    fall. **Anything NEW and unanchored fails immediately**, which is the case that actually happened.
+    ⚠ An anchored identifier is **not thereby verified** — an artifact carrying it is evidence of a
+    fetch, not of correctness. This raises the floor; it is not a truth oracle.
   - **★★ A GREEN PREFLIGHT THAT SKIPS A MEDICAL-INTEGRITY GUARD IS WORSE THAN NO PREFLIGHT (measured
     2026-08-06, and it turned `main` red).** Gate 3 was **CI-only** until that day, so a session could run
     this script, read `PREFLIGHT OK`, merge, and only then learn that a newly-generated view named a cell
@@ -804,7 +838,7 @@ When in doubt: do it and show it.
   clinical registry, now [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)
   — read by `research/meta/meta-analysis.mjs` and `research/hypotheses/enumerate-drugs.mjs`, both of which build
   the path from segments, so **searching for the DIRECTORY name finds neither; searching for the filename finds
-  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 5 of preflight's 6**.
+  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 6 of preflight's 7**.
   **Do not recreate the site.** Full accounting: [`systems/MIGRATION.md`](./systems/MIGRATION.md).
   ⚠ *Superseded, retained: "both via segment-built paths a text search will not find … which is gate 2 of
   preflight." The first over-stated the problem — `grep emc-clinical-registry` returns both readers at once,
