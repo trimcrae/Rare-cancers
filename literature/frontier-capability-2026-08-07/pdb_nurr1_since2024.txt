@@ -1,0 +1,29 @@
+SOURCE URL: https://search.rcsb.org/rcsbsearch/v2/query?json=%7B%22query%22%3A%7B%22type%22%3A%22group%22%2C%22logical_operator%22%3A%22and%22%2C%22nodes%22%3A%5B%7B%22type%22%3A%22terminal%22%2C%22service%22%3A%22full_text%22%2C%22parameters%22%3A%7B%22value%22%3A%22NURR1%22%7D%7D%2C%7B%22type%22%3A%22terminal%22%2C%22service%22%3A%22text%22%2C%22parameters%22%3A%7B%22attribute%22%3A%22rcsb_accession_info.initial_release_date%22%2C%22operator%22%3A%22greater%22%2C%22value%22%3A%222024-01-01%22%7D%7D%5D%7D%2C%22return_type%22%3A%22entry%22%2C%22request_options%22%3A%7B%22paginate%22%3A%7B%22start%22%3A0%2C%22rows%22%3A100%7D%2C%22results_verbosity%22%3A%22verbose%22%7D%7D
+FINAL URL: https://search.rcsb.org/rcsbsearch/v2/query?json=%7B%22query%22%3A%7B%22type%22%3A%22group%22%2C%22logical_operator%22%3A%22and%22%2C%22nodes%22%3A%5B%7B%22type%22%3A%22terminal%22%2C%22service%22%3A%22full_text%22%2C%22parameters%22%3A%7B%22value%22%3A%22NURR1%22%7D%7D%2C%7B%22type%22%3A%22terminal%22%2C%22service%22%3A%22text%22%2C%22parameters%22%3A%7B%22attribute%22%3A%22rcsb_accession_info.initial_release_date%22%2C%22operator%22%3A%22greater%22%2C%22value%22%3A%222024-01-01%22%7D%7D%5D%7D%2C%22return_type%22%3A%22entry%22%2C%22request_options%22%3A%7B%22paginate%22%3A%7B%22start%22%3A0%2C%22rows%22%3A100%7D%2C%22results_verbosity%22%3A%22verbose%22%7D%7D
+HTTP: 200
+CONTENT-TYPE: application/json
+======================================================================
+{
+ "query_id" : "bff33fb9-7c68-46c2-99d8-dda8604fb9fa",
+ "result_type" : "entry",
+ "total_count" : 1,
+ "result_set" : [ {
+ "identifier" : "8CYO",
+ "score" : 0.9322115255163026,
+ "services" : [ {
+ "service_type" : "text",
+ "nodes" : [ {
+ "node_id" : 32724,
+ "original_score" : 1.0,
+ "norm_score" : 1.0
+ } ]
+ }, {
+ "service_type" : "full_text",
+ "nodes" : [ {
+ "node_id" : 26119,
+ "original_score" : 17.143295,
+ "norm_score" : 0.8644230510326053
+ } ]
+ } ]
+ } ]
+}

@@ -1,0 +1,1109 @@
+SOURCE URL: http://export.arxiv.org/api/query?search_query=abs%3A%22virtual+cell%22+AND+abs%3Aperturbation&max_results=40&sortBy=submittedDate&sortOrder=descending
+FINAL URL: https://export.arxiv.org/api/query?search_query=abs%3A%22virtual+cell%22+AND+abs%3Aperturbation&max_results=40&sortBy=submittedDate&sortOrder=descending
+HTTP: 200
+CONTENT-TYPE: application/atom+xml; charset=utf-8
+======================================================================
+https://arxiv.org/api/UHZX/dAuOy05Nko0CL+edkJxDaI 
+ arXiv Query: search_query=abs:"virtual cell" AND abs:perturbation&id_list=&start=0&max_results=40 
+ 2026-08-07T00:37:36Z 
+ 
+ 40 
+ 38 
+ 0 
+ 
+ http://arxiv.org/abs/2608.01669v2 
+ CellPrism: A Visual Analytics System for Exploring AI-Driven Virtual Cells in Drug Discovery 
+ 2026-08-04T06:54:08Z 
+
+ Gene perturbation analysis plays a critical role in drug discovery by enabling researchers to investigate how interventions on specific genes influence global gene expression patterns within cells. Recent advances in artificial intelligence-driven virtual cell models have made it possible to predict gene expression outcomes for a wide range of perturbation strategies in silico, substantially reducing reliance on costly and time-consuming biological experiments. However, effectively exploring and interpreting the high-dimensional perturbation spaces produced by these models remains challenging because of the combinatorial nature of perturbations and the complex cell-specific gene expression responses they generate. In this work, we present CellPrism, a visual analytics system designed to support the systematic exploration of gene perturbation strategies for drug discovery. Specifically, CellPrism integrates clustering-based overviews to summarize perturbation outcomes, a glyph-based representation to compactly encode gene expression patterns across cell types, and coordinated views that enable fine-grained comparison and interpretation of perturbation effects. We demonstrate the effectiveness of CellPrism through a real-world case study and expert interviews. This work highlights the value of visual analytics in bridging virtual cell modeling with expert-driven decision making in drug discovery. 
+ 
+ 2026-08-03T04:04:04Z 
+
+ Chuhan Shi 
+
+ Zijian Guo 
+
+ Zelin Zang 
+
+ Chengbo Zheng 
+
+ Ding Ding 
+
+ Rui Sheng 
+
+ http://arxiv.org/abs/2608.00152v1 
+ Response Magnitude as a Dominant Signal for Held-Out CRISPRi Perturbation Effect Prediction 
+ 2026-07-31T17:09:26Z 
+
+ Predicting the magnitude of a CRISPRi perturbation's transcriptomic effect on held-out target genes is an important open problem in single-cell biology. Recent work has documented that simple baselines often match or exceed deep perturbation predictors on related protocols. We study this phenomenon on the Virtual Cell Challenge (VCC) benchmark under a strict held-out target-gene split, identify the specific low-dimensional signal that drives the gap, and characterize how it transfers across cell types. The target is the log Anderson-Darling distance from non-targeting controls, which is strongly predictable from four deterministic scalar functions of the 2,000-dimensional input. A deep MLP encoder with direct access to the full input collapses toward the marginal training mean, and standard remedies do not close the gap. A linear regression on the four magnitude scalars alone exceeds the strongest x-only classical model, while a Random Forest on the input plus the four scalars substantially outperforms our deep proof-of-concept encoder. Two pre-specified controls attribute the magnitude gain to per-row alignment rather than added dimensionality. Under zero-shot transfer to two external CRISPRi screens evaluated against a target-gene endpoint rebuilt from single-cell data, magnitude-only predictors transfer positively whereas expression-only predictors are negative or unresolved. Exposing magnitude to the deep encoder improves transfer over its expression-only counterpart, yet the encoder does not outperform a four-scalar linear regression on the same features. We also find that the Anderson-Darling column distributed with these screens measures transcriptome-wide response breadth rather than target-gene effect strength, so evaluating transfer against it scores a different outcome. 
+
+ 2026-07-31T17:09:26Z 
+ 27 pages, 8 figures, 8 tables 
+
+ Mehrdad Shoeibi 
+
+ Niloofar Yousefi 
+
+ http://arxiv.org/abs/2607.04595v1 
+ Score Distributions, Not Cells: Evaluating Single-Cell Perturbations Under Class Overlap 
+ 2026-07-06T01:47:02Z 
+
+ Most classification problems assume the classes are roughly separable, so that an individual sample can usually be assigned to one class. Single-cell perturbation data violates this assumption: two perturbations can produce different populations of cells while overlapping so much that an individual cell could belong to either. Per-cell accuracy then measures this overlap rather than model quality. We see this on Tahoe-100M and the Virtual Cell Challenge, where a linear classifier, an MLP, and a Transformer all plateau near macro-F1 0.2-0.3 even though almost every pair of perturbations is statistically distinguishable.
+ The fix is to score perturbations across the whole population rather than cell by cell. We average a classifier's per-cell probability vectors over all cells of a perturbation to form a population profile, then rank candidate perturbations by this profile; we call the resulting score the Classifier Discrimination Score (CDS). Taking the top-ranked class recovers the winning perturbation. It needs no retraining, costs linear time in the number of cells, and recovers near-perfect identification from the same weak models. CDS differs from the pseudobulk-based Perturbation Discrimination Score (PDS) used in recent benchmarks only in where the average is taken, raw gene expression for PDS versus a learned discriminative space for CDS, and identifies the true perturbation more reliably on both datasets, with the gap widening as cells grow scarce. Because a metric that misranks the ground truth will misrank the models scored against it, per-cell accuracy and raw-pseudobulk scores should be used with caution when comparing perturbation models. 
+
+ 2026-07-06T01:47:02Z 
+
+ Youssef Marrakchi 
+
+ Davide D'Ascenzo 
+
+ Sebastiano Cultrera di Montesano 
+
+ http://arxiv.org/abs/2606.28465v1 
+ SVC-Probe: A Framework for Evaluating Perturbation Generalization in Spatial Foundation-Model Embeddings 
+ 2026-06-26T13:46:36Z 
+
+ This work examines perturbation generalization in spatial foundation-model embeddings derived from fluorescence microscopy images. Although these models can discriminate drug conditions accurately, it remains unclear whether the learned representations reflect patterns consistent with expected perturbation axes that transfer across drugs. We introduce SVC-Probe, a perturbation-aware framework that combines Subcellular Embedding Atlas Stability, Mondrian Neighborhood Graphs, and a Foundation Model Perturbation Probe to assess embedding stability, neighborhood rewiring, and centroid prediction under drug treatment. Applied to the CM4AI MDA-MB-468 chemical-perturbation atlas comprising 462 antibody labels and SubCell 1536-dimensional embeddings, SVC-Probe demonstrates that 98.6% three-way condition accuracy does not correlate with reliable cross-drug prediction, with cosine similarity diminishing from 0.944 in-domain to 0.30 under leave-one-drug-out evaluation, constituting a two-drug stress test rather than a general benchmark. Null calibration indicates that raw residual-turnover coupling is largely influenced by generic embedding structure, whereas a drug-specific signal emerges under vorinostat and is consistent with chromatin-related reorganization. In contrast, the paclitaxel axis is not robustly reconstructed, likely due to sparse coverage of microtubule-associated proteins. Together, these results introduce and demonstrate a reusable diagnostic framework for stress-testing spatial virtual-cell representations and indicate that perturbation generalization may serve as a stricter and more informative benchmark than baseline condition discrimination. 
+
+ 2026-06-26T13:46:36Z 
+ 7 
+ 
+ CIBB 2026 
+ 
+ Jake Y. Chen 
+
+ Huu Phong Nguyen 
+
+ Fuad Al Abir 
+
+ Ehsan Saghapour 
+
+ http://arxiv.org/abs/2606.21109v1 
+ Chem2Gen-Bench: Benchmarking Chemical-to-Genetic Translation in Perturbation Response Space 
+ 2026-06-19T05:26:39Z 
+
+ Virtual-cell and perturbation models are increasingly used to predict cellular responses for biomedical discovery, but chemical and genetic perturbations are not automatically interchangeable. Existing evaluations often study chemical response prediction or genetic perturbation prediction separately, leaving target-matched chemical-to-genetic translation under-tested. We introduce Chem2Gen-Bench, a benchmark comprising 260,084 chemical and 1,099,045 genetic perturbation profiles organized into cell-target contexts, and evaluate pairwise alignment, retrieval, protocol covariate associations, feature spaces, and foundation-model embeddings. Across matched contexts, translation fidelity is measurable but heterogeneous; background adjustment increases the association between pairwise similarity and retrieval success, while paired tests show lower mean retrieval success after adjustment under the evaluated settings. In a target-matched K562 audit, the evaluated foundation-model embeddings did not consistently improve over gene-delta baselines. Chem2Gen-Bench provides an auditable framework for testing when chemical and genetic perturbations align around shared targets and when representation gains are supported by matched perturbation evidence. 
+
+ 2026-06-19T05:26:39Z 
+
+ Yuxiang Lin 
+
+ Ying Chen 
+
+ http://arxiv.org/abs/2606.12838v1 
+ OCOO-T : A Simple and Scalable Virtual Cell Model for Transcriptional Perturbation Response Prediction 
+ 2026-06-11T03:04:38Z 
+
+ Predicting single-cell transcriptional responses to genetic, chemical and cytokine perturbations is a fundamental challenge in computational biology and AI Virtual Cell (AIVC) modeling, with direct implications for drug discovery and the elucidation of gene regulatory networks. Existing approaches often rely on auxiliary cell-state encoders, hierarchical variational autoencoders, dedicated Transformer encoder-decoder modules, or gene-interaction priors to compress high-dimensional expression profiles into latent representations. While effective, these designs increase architectural complexity and may limit scalability and generalizability. This paper introduces OCOO-T, a minimalist flow-matching-based AIVC model for transcriptional perturbation response prediction. OCOO-T utilizes a vanilla Transformer stack that operates directly on continuous gene expression profiles and formulates perturbation response prediction as a continuous-time denoising process. Perturbation embeddings, dosage information, and cell-line/cell-type specificity are integrated through adaptive layer normalization and in-context tokens. Comprehensive evaluations on Tahoe100M, Replogle, and PBMC benchmarks demonstrate that OCOO-T achieves state-of-the-art performance across diverse perturbations and cell types while effectively scaling to long transcriptional profiles through patching and depatching of cellular contexts. By leveraging the simplicity of Transformer-based denoising for single-cell omics, OCOO-T provides an effective and scalable framework for in-silico cellular simulation. 
+
+ 2026-06-11T03:04:38Z 
+ 22 pages, 6 figures 
+
+ Danning Jiang 
+
+ Zheming An 
+
+ Yalong Zhao 
+
+ Lipeng Lai 
+
+ http://arxiv.org/abs/2606.08816v1 
+ Knowledge Graphs and Reasoning LLMs for Finding Simple Yet Effective Transcriptomic Perturbation Predictors 
+ 2026-06-07T20:09:30Z 
+
+ Predicting the effect of an unseen gene knockout perturbation on transcriptomic gene expression remains a highly challenging problem for virtual cell models. Recent progress has been made by leveraging biological knowledge graphs to provide a notion of similar perturbation, allowing for improved extrapolation beyond the set of training perturbations. In this work, we demonstrate that the simplest model to leverage these assumptions - a K-nearest neighbour from the knowledge graph - achieves highly competitive performance on this task, and that this can be improved further using LLMs optimised via reinforcement learning (RL) for predictive performance. Specifically, we find that the K-nearest neighbour approach beats almost all methods on out-of-distribution perturbation prediction, and when a reasoning LLM is trained via RL to make changes to the neighbourhood, it obtains equivalent performance to current state of the art methods on the cell lines from Replogle et al. (2022). We also demonstrate that the RL training improves the LLM's performance on the downstream task of differential expression prediction, despite not being trained on this directly. Overall, these findings demonstrate the efficacy of knowledge graphs as model priors, and show early signs that RL can refine LLMs into generalizable tools for predicting complex biological responses. 
+
+ 2026-06-07T20:09:30Z 
+
+ Jake Fawkes 
+
+ Liam Hodgson 
+
+ Jason Hartford 
+
+ http://arxiv.org/abs/2606.05925v1 
+ Towards World Models in Biomedical Research 
+ 2026-06-04T09:28:54Z 
+
+ A central goal of biomedicine is to understand, predict and ultimately control the dynamic mechanisms by which biological systems respond to perturbations, disease progression and therapeutic intervention. Although foundation models and large language models have accelerated biomedical data interpretation, most current systems remain focused on static pattern recognition rather than prospective simulation of biological futures. Here we propose biomedical world models as a paradigm for AI-driven discovery. These models learn latent representations of molecular, cellular, tissue and clinical states, together with intervention-conditioned dynamics that allow future trajectories to be simulated before actions are taken. We discuss how biomedical world models could function as data engines, environment simulators and scientific planning substrates across applications including virtual cells, organoids, virtual patients and surgical simulation. We outline the data infrastructure, evaluation benchmarks, safety constraints and governance frameworks required. Biomedical world models may provide a foundation for simulation-guided, closed-loop and experimentally actionable biomedical discovery. 
+ 
+ 2026-06-04T09:28:54Z 
+
+ Guangyu Wang 
+
+ Jingkun Yue 
+
+ Siqi Zhang 
+
+ Yu Liu 
+
+ Xiaoyu Wang 
+
+ Mingyuan Meng 
+
+ Changwei Ji 
+
+ Zongbo Han 
+
+ Yulin Wang 
+
+ Yang Yue 
+
+ Frank Fu 
+
+ Ting Chen 
+
+ Song Wu 
+
+ Ziwei Liu 
+
+ Jiangning Song 
+
+ Ming Li 
+
+ Gao Huang 
+
+ Xiaohong Liu 
+
+ Athanasios Vasilakos 
+
+ Xingcai Zhang 
+
+ Ping Zhang 
+
+ Yong Li 
+
+ http://arxiv.org/abs/2606.01042v1 
+ Plausibility Is Not Prediction: Contrastive Evidence for LLM-Based Cellular Perturbation Reasoning 
+ 2026-05-31T06:13:26Z 
+
+ Perturbation experiments are central to understanding cellular mechanisms, but remain costly and sparse, motivating prediction of gene expression responses for unobserved conditions. A promising recent direction leverages large language models (LLMs) as "virtual cell" simulators-using stepwise, knowledge-grounded mechanistic reasoning to infer differential expression-pointing toward an interpretable, knowledge-driven paradigm that transcends purely data-driven approaches. However, we find that plausibility is not prediction: despite producing biologically plausible explanations, these methods fail to capture perturbation-specific effects: systematically overestimating differential expression, often underperforming a simple gene-frequency baseline in aggregate evaluations, and collapsing to chance-level performance at the per-gene level. This reveals a reliance on intrinsic gene response tendencies rather than true perturbation reasoning. We trace this failure to how evidence is presented: existing methods evaluate perturbation-gene pairs in isolation, without exposing how related perturbations differ in their effects on the same gene. To address this limitation, we introduce CORE (Contrastive Organization of Relational Evidence), which reframes prediction as a comparison task by organizing evidence into positive and negative outcomes from related perturbations. Using a biomedical knowledge graph for evidence retrieval, CORE improves calibration and substantially boosts perturbation-specific prediction in both LLM-based and non-LLM settings: for example, on drug-perturbation data, CORE-Reasoning improves Qwen3.5-9B aggregate metrics by up to 28.6%, while on generic perturbation data, CORE-Voting raises macro-per-gene AUROC from chance to 0.703 in average across four cell lines. This highlights contrastive evidence organization as essential to reliable LLM-based perturbation reasoning 
+
+ 2026-05-31T06:13:26Z 
+
+ Xinyu Yuan 
+
+ Xixian Liu 
+
+ Jianan Zhao 
+
+ Yashi Zhang 
+
+ Hongyu Guo 
+
+ Jian Tang 
+
+ http://arxiv.org/abs/2605.28111v1 
+ Chreode: A Cell World Model for One-Step Temporal Dynamics and Perturbation Prediction 
+ 2026-05-27T08:05:35Z 
+
+ Predicting how a cell will change its transcriptional state under a developmental signal or a genetic perturbation is the computational core of in-silico biology and the AI Virtual Cell program. Existing approaches either fit static control-to-treated maps that discard time, or solve multi-step ODE / Schrödinger-bridge problems on each dataset independently. We introduce Chreode, a one-step cell world model that predicts action-conditioned cell-state transitions through a structured residual transition operator. It shifts distributional evolution from inference time to training time, enabling single-pass generation while preserving a Waddington-inspired decomposition into downhill landscape flow, rotational in-tangent dynamics, and stochastic spread. The model is pretrained with a shared scVI encoder and a DiT-based dynamics backbone on a 2.4M-cell mouse embryonic atlas spanning 7 datasets. As a fine-tuning initialization, Chreode improves per-target Sinkhorn distance on Weinreb hematopoiesis and Veres islet differentiation over matched scratch models, PI-SDE, and PRESCIENT. As a transferable gene-state embedding for GEARS, the pretrained dynamics representation reduces shared-vocabulary DE20 mean squared error on Norman Perturb-seq from 0.2121 to 0.1858, a 12.4% relative improvement, without changing the GEARS training procedure. We interpret this transfer to perturbation prediction as evidence that pretrained developmental-trajectory dynamics encode differentiation primitives transferable to CRISPR-induced state shifts, since both involve cell-state transitions in a shared latent geometry. The pretrained backbone additionally produces zero-shot clonal fate scores on Weinreb that are competitive with strong dynamic-OT baselines. 
+ 
+ 2026-05-27T08:05:35Z 
+ 25 pages, 3 figures, 14 tables. Submitted to NeurIPS 2026 
+
+ Mufan Qiu 
+
+ Genhui Zheng 
+
+ Yinuo Xu 
+
+ Ruichen Zhang 
+
+ Ying Ding 
+
+ Qi Long 
+
+ Tianlong Chen 
+
+ http://arxiv.org/abs/2605.16104v1 
+ StateXDiff: Cell State-Contextualized Multimodal Diffusion for Single-Cell Perturbation Prediction 
+ 2026-05-15T15:54:46Z 
+
+ Predicting drug-induced cellular state changes at single-cell resolution remains a central challenge in virtual cell modeling, particularly under out-of-distribution (OOD) conditions. Current approaches predominantly rely on RNA-based assays, which often fail to adequately capture the diverse cellular states underlying drug responses. Moreover, conditional distribution shifts and low signal-to-noise ratios frequently cause models to learn spurious correlations rather than genuine state transitions. To address these limitations, we introduce StateXDiff, a cell State-contextualized multimodal (X) Diffusion framework for predicting single-cell responses to drug perturbations. The framework operates sequentially: first, it learns a disentangled, multimodal representation of cellular state by integrating transcriptomic profiles with inferred protein features; second, it employs a conditional diffusion model to generate perturbation-specific changes. Our approach introduces a Virtual Multimodal Cell State, which augments RNA-based representations with protein-level context, and a Mechanism-aware Drug-Gene Template, which consolidates multi-source biological knowledge for accurate drug representation. Generation is driven by a latent-space diffusion Transformer, regularized through quality-aware triplet constraints, including positive drug-protein pairs or protein-drug mismatched pairs, and explicit protein-reliability weighting. Extensive evaluation demonstrates that StateXDiff consistently enhances generalization performance across three challenging settings: unseen cell lines, unseen drugs, and combinatorial perturbations. 
+
+ 2026-05-15T15:54:46Z 
+
+ Peiting Shi 
+
+ Ningfeng Que 
+
+ Xianzhe Huang 
+
+ Xiaofei Wang 
+
+ Jianzhong Jeff Xi 
+
+ http://arxiv.org/abs/2605.10876v1 
+ AssayBench: An Assay-Level Virtual Cell Benchmark for LLMs and Agents 
+ 2026-05-11T17:27:16Z 
+
+ Recent advances in machine learning and large-scale biological data collections have revived the prospect of building a virtual cell, a computational model of cellular behavior that could accelerate biological discovery. One of the most compelling promises of this vision is the ability to perform in silico phenotypic screens, in which a model predicts the effects of cellular perturbations in unseen biological contexts. This task combines heterogeneous textual inputs with diverse phenotypic outputs, making it particularly well-suited to LLMs and agentic systems. Yet, no standard benchmark currently exists for this task, as existing efforts focus on narrower molecular readouts that are only indirectly aligned with the phenotypic endpoints driving many real-world drug discovery workflows. In this work, we present AssayBench, a benchmark for phenotypic screen prediction, built from 1,920 publicly available CRISPR screens spanning five broad classes of cellular phenotypes. We formulate the screen prediction task as a gene rank prediction for each screen and introduce the adjusted nDCG, a continuous metric for comparing performance across heterogeneous assays. Our extensive evaluation shows that existing methods remain far from empirically estimated performance ceilings and zero-shot generalist LLMs outperform biology-specific LLMs and trainable baselines. Optimization techniques such as fine-tuning, ensembling, and prompt optimization can further improve LLM performance on this task. Overall, AssayBench offers a practical testbed for measuring progress toward in silico phenotypic screening and, more broadly, virtual cell models. 
+
+ 2026-05-11T17:27:16Z 
+ 22 pages 
+
+ Edward De Brouwer 
+
+ Carl Edwards 
+
+ Alexander Wu 
+
+ Jenna Collier 
+
+ Graham Heimberg 
+
+ Xiner Li 
+
+ Meena Subramaniam 
+
+ Ehsan Hajiramezanali 
+
+ David Richmond 
+
+ Jan-Christian Hütter 
+
+ Sara Mostafavi 
+
+ Gabriele Scalia 
+
+ http://arxiv.org/abs/2605.07335v1 
+ CellScientist: Dual-Space Hierarchical Orchestration for Closed-Loop Refinement of Virtual Cell Models 
+ 2026-05-08T06:40:24Z 
+
+ Virtual Cell Modeling (VCM) requires models that not only predict perturbation responses, but also support targeted revision when predictions fail. Current LLM-assisted modeling workflows face a refinement-routing problem: prediction discrepancies are observed through executable implementations, but the relevant revision may involve the modeling assumption, representation design, implementation, or task constraint. Without structured feedback propagation across these levels, iterative refinement may repair code while failing to revise the assumption responsible for the discrepancy. We propose CellScientist, a dual-space hierarchical framework that couples a high-level hypothesis space with a low-level executable implementation space. CellScientist represents modeling decisions as structured states, realizes them as admissible programs under task and interface constraints, and routes execution discrepancies back to targeted hypothesis or implementation updates. This enables a closed Hypothesis -> Implementation -> Hypothesis loop where failures become structured signals for model refinement rather than debugging events. Across morphology and transcriptomic benchmarks, with additional single-cell perturbation evaluations, the final executable models selected by CellScientist improve over reference baselines under fixed split and evaluation protocols, while the workflow produces auditable refinement traces. 
+
+ 2026-05-08T06:40:24Z 
+
+ Mengran Li 
+
+ Bo Li 
+
+ Jiaying Wang 
+
+ Wenbin Xing 
+
+ Yixuan Dong 
+
+ Chengyang Zhang 
+
+ Hongliang Zhang 
+
+ Yuzhong Peng 
+
+ Jinlin Wu 
+
+ Bob Zhang 
+
+ Bingo Wing-Kuen Ling 
+
+ Fuji Yang 
+
+ Zhen Lei 
+
+ Jiebo Luo 
+
+ Zelin Zang 
+
+ http://arxiv.org/abs/2604.27646v1 
+ Benchmarking virtual cell models for in-the-wild perturbation response 
+ 2026-04-30T09:40:23Z 
+
+ Virtual cell (VC) models aim to predict cellular responses to any perturbations in silico and have emerged as a promising approach for drug discovery and precision medicine. Yet, a clear gap still remains: while models routinely reported impressive results on standard benchmarks, it is unclear whether their predictions are truly meaningful in practice. This is mainly due to limitations in current evaluation setups, which are often overly simplified or inconsistent, and do not reflect the complexity and variability of real biological systems. Here, we introduce a standardized and modular benchmarking framework for virtual cell prediction. Our framework evaluates diverse models under in-the-wild challenging scenarios, including unseen cell contexts, unseen perturbations, and cross-dataset generalization, which better reflect practical applications. Our analysis shows that model performance is highly context-dependent and shaped by task design and evaluation criteria. In commonly used setups, performance is often overestimated, and naive dataset aggregation can even reduce performance. When evaluated under more strict conditions, model performance drops markedly, indicating limited robustness to shifts across cellular contexts. In unseen perturbation settings, models including simple linear approaches capture global transcriptional trends but fail to recover fine-grained perturbation-specific effects. In addition, different evaluation metrics focus on different biological properties, leading to substantially different model rankings. Together, our framework provides a more reliable and biologically grounded evaluation, offering clearer guidance for applying virtual cell models in real scenarios. 
+ 
+ 2026-04-30T09:40:23Z 
+
+ Xinjie Mao 
+
+ Songming Zhang 
+
+ Qianhong Wen 
+
+ Xiangyu Wen 
+
+ Kedu Jin 
+
+ Hao Wu 
+
+ Shuizhou Chen 
+
+ Yuqiang Li 
+
+ Lei Bai 
+
+ Qi Liu 
+
+ Ning Ding 
+
+ Siqi Sun 
+
+ Zhangyang Gao 
+
+ http://arxiv.org/abs/2604.20263v1 
+ AROMA: Augmented Reasoning Over a Multimodal Architecture for Virtual Cell Genetic Perturbation Modeling 
+ 2026-04-22T07:10:45Z 
+
+ Virtual cell modeling predicts molecular state changes under genetic perturbations in silico, which is essential for biological mechanism studies. However, existing approaches suffer from unconstrained reasoning, uninterpretable predictions, and retrieval signals that are weakly aligned with regulatory topology. To address these limitations, we propose AROMA, an Augmented Reasoning Over a Multimodal Architecture for virtual cell genetic perturbation modeling. AROMA integrates textual evidence, graph-topology information, and protein sequence features to model perturbation-target dependencies, and is trained with a two-stage optimization strategy to yield predictions that are both accurate and interpretable. We also construct two knowledge graphs and a perturbation reasoning dataset, PerturbReason, containing more than 498k samples, as reusable resources for the virtual cell domain. Experiments show that AROMA outperforms existing methods across multiple cell lines, and remains robust under zero-shot evaluation on an unseen cell line, as well as in knowledge-sparse, long-tail scenarios. Overall, AROMA demonstrates that combining knowledge-driven multimodal modeling with evidence retrieval provides a promising pathway toward more reliable and interpretable virtual cell perturbation prediction. Model weights are available at https://huggingface.co/blazerye/AROMA. Code is available at https://github.com/blazerye/AROMA. 
+
+ 2026-04-22T07:10:45Z 
+ Accepted to ACL 2026 as a Findings paper. Zhenyu Wang and Geyan Ye are equal contributors; Geyan Ye is the corresponding author and project lead 
+
+ Zhenyu Wang 
+
+ Geyan Ye 
+
+ Wei Liu 
+
+ Man Tat Alexander Ng 
+
+ http://arxiv.org/abs/2604.19606v2 
+ AblateCell: A Reproduce-then-Ablate Agent for Virtual Cell Repositories 
+ 2026-04-30T03:40:02Z 
+
+ Systematic ablations are essential to attribute performance gains in AI Virtual Cells, yet they are rarely performed because biological repositories are under-standardized and tightly coupled to domain-specific data and formats. While recent coding agents can translate ideas into implementations, they typically stop at producing code and lack a verifier that can reproduce strong baselines and rigorously test which components truly matter. We introduce AblateCell, a reproduce-then-ablate agent for virtual cell repositories that closes this verification gap. AblateCell first reproduces reported baselines end-to-end by auto-configuring environments, resolving dependency and data issues, and rerunning official evaluations while emitting verifiable artifacts. It then conducts closed-loop ablation by generating a graph of isolated repository mutations and adaptively selecting experiments under a reward that trades off performance impact and execution cost. Evaluated on three single-cell perturbation prediction repositories (CPA, GEARS, BioLORD), AblateCell achieves 88.9% (+29.9% to human expert) end-to-end workflow success and 93.3% (+53.3% to heuristic) accuracy in recovering ground-truth critical components. These results enable scalable, repository-grounded verification and attribution directly on biological codebases. 
+
+ 2026-04-21T15:55:33Z 
+ 25 pages, 5 figures 
+
+ Xue Xia 
+
+ Chengkai Yao 
+
+ Mingyu Tsoi 
+
+ Xinjie Mao 
+
+ Wenxuan Huang 
+
+ Jiaqi Wei 
+
+ Hao Wu 
+
+ Cheng Tan 
+
+ Lang Yu 
+
+ Yuejin Yang 
+
+ Mengdi Liu 
+
+ Siqi Sun 
+
+ Zhangyang Gao 
+
+ http://arxiv.org/abs/2604.16776v1 
+ SAVE: A Generalizable Framework for Multi-Condition Single-Cell Generation with Gene Block Attention 
+ 2026-04-18T01:45:16Z 
+
+ Modeling single-cell gene expression across diverse biological and technical conditions is crucial for characterizing cellular states and simulating unseen scenarios. Existing methods often treat genes as independent tokens, overlooking their high-level biological relationships and leading to poor performance. We introduce SAVE, a unified generative framework based on conditional Transformers for multi-condition single-cell modeling. SAVE leverages a coarse-grained representation by grouping semantically related genes into blocks, capturing higher-order dependencies among gene modules. A Flow Matching mechanism and condition-masking strategy further enhance flexible simulation and enable generalization to unseen condition combinations. We evaluate SAVE on a range of benchmarks, including conditional generation, batch effect correction, and perturbation prediction. SAVE consistently outperforms state-of-the-art methods in generation fidelity and extrapolative generalization, especially in low-resource or combinatorially held-out settings. Overall, SAVE offers a scalable and generalizable solution for modeling complex single-cell data, with broad utility in virtual cell synthesis and biological interpretation. Our code is publicly available at https://github.com/fdu-wangfeilab/sc-save 
+ 
+ 2026-04-18T01:45:16Z 
+ Accepted to ICLR 2026 
+
+ Jiahao Li 
+
+ Jiayi Dong 
+
+ Peng Ye 
+
+ Xiaochi Zhou 
+
+ Haohai Lu 
+
+ Fei Wang 
+
+ http://arxiv.org/abs/2604.13986v2 
+ PRiMeFlow: Capturing Complex Expression Heterogeneity in Perturbation Response Modelling 
+ 2026-05-13T16:30:05Z 
+
+ Predicting the effects of perturbations in-silico on cell state can identify drivers of cell behavior at scale and accelerate drug discovery. However, modeling challenges remain due to the inherent heterogeneity of single cell gene expression and the complex, latent gene dependencies. Here, we present PRiMeFlow, an end-to-end flow matching based approach to directly model the effects of genetic and small molecule perturbations in the gene expression space. The distribution-fitting approach taken by PRiMeFlow enables it to accurately approximate the empirical distribution of single-cell gene expression, which we demonstrate through extensive benchmarking inside PerturBench. Through ablation studies, we also validate important model design choices such as operating in gene expression space and parameterizing the velocity field with a U-Net architecture. Finally, by scaling PRiMeFlow to a broad perturbation data atlas spanning multiple datasets and employing a carefully designed pretraining-finetuning strategy, we demonstrate its outstanding performance on the H1 human embryonic stem cells from the ARC Virtual Cell Challenge benchmark. 
+ 
+ 2026-04-15T15:33:07Z 
+
+ Zichao Yan 
+
+ Yan Wu 
+
+ Mica Xu Ji 
+
+ Chaitra Agrahar 
+
+ Esther Wershof 
+
+ Marcel Nassar 
+
+ Mehrshad Sadria 
+
+ Ridvan Eksi 
+
+ Vladimir Trifonov 
+
+ Ignacio Ibarra 
+
+ Telmo Felgueira 
+
+ Błażej Osiński 
+
+ Rory Stark 
+
+ http://arxiv.org/abs/2603.25240v1 
+ Lingshu-Cell: A generative cellular world model for transcriptome modeling toward virtual cells 
+ 2026-03-26T09:46:27Z 
+
+ Modeling cellular states and predicting their responses to perturbations are central challenges in computational biology and the development of virtual cells. Existing foundation models for single-cell transcriptomics provide powerful static representations, but they do not explicitly model the distribution of cellular states for generative simulation. Here, we introduce Lingshu-Cell, a masked discrete diffusion model that learns transcriptomic state distributions and supports conditional simulation under perturbation. By operating directly in a discrete token space that is compatible with the sparse, non-sequential nature of single-cell transcriptomic data, Lingshu-Cell captures complex transcriptome-wide expression dependencies across approximately 18,000 genes without relying on prior gene selection, such as filtering by high variability or ranking by expression level. Across diverse tissues and species, Lingshu-Cell accurately reproduces transcriptomic distributions, marker-gene expression patterns and cell-subtype proportions, demonstrating its ability to capture complex cellular heterogeneity. Moreover, by jointly embedding cell type or donor identity with perturbation, Lingshu-Cell can predict whole-transcriptome expression changes for novel combinations of identity and perturbation. It achieves leading performance on the Virtual Cell Challenge H1 genetic perturbation benchmark and in predicting cytokine-induced responses in human PBMCs. Together, these results establish Lingshu-Cell as a flexible cellular world model for in silico simulation of cell states and perturbation responses, laying the foundation for a new paradigm in biological discovery and perturbation screening. 
+
+ 2026-03-26T09:46:27Z 
+
+ Han Zhang 
+
+ Guo-Hua Yuan 
+
+ Chaohao Yuan 
+
+ Tingyang Xu 
+
+ Tian Bian 
+
+ Hong Cheng 
+
+ Wenbing Huang 
+
+ Deli Zhao 
+
+ Yu Rong 
+
+ http://arxiv.org/abs/2603.23361v2 
+ Central Dogma Transformer III: Interpretable AI Across DNA, RNA, and Protein 
+ 2026-03-26T16:53:09Z 
+
+ Biological AI models increasingly predict complex cellular responses, yet their learned representations remain disconnected from the
+ molecular processes they aim to capture. We present CDT-III, which extends mechanism-oriented AI across the full central dogma: DNA, RNA, and
+ protein. Its two-stage Virtual Cell Embedder architecture mirrors the spatial compartmentalization of the cell: VCE-N models transcription in
+ the nucleus and VCE-C models translation in the cytosol. On five held-out genes, CDT-III achieves per-gene RNA r=0.843 and protein r=0.969.
+ Adding protein prediction improves RNA performance (r=0.804 to 0.843), demonstrating that downstream tasks regularize upstream
+ representations. Protein supervision sharpens DNA-level interpretability, increasing CTCF enrichment by 30%. Analysis of experimentally
+ measured mRNA and protein responses reveals that the majority of genes with observable mRNA changes show opposite protein-level changes (66.7%
+ at |log2FC|>0.01, rising to 87.5% at |log2FC|>0.02), exposing a fundamental limitation of RNA-only perturbation models. Despite this
+ pervasive direction discordance, CDT-III correctly predicts both mRNA and protein responses. Applied to in silico CD52 knockdown approximating
+ Alemtuzumab, the model predicts 29/29 protein changes correctly and rediscovers 5 of 7 known clinical side effects without clinical data.
+ Gradient-based side effect profiling requires only unperturbed baseline data (r=0.939), enabling screening of all 2,361 genes without new
+ experiments. 
+
+ 2026-03-24T15:57:23Z 
+ 21 pages, 8 figures, v2: corrected mRNA-protein divergence analysis with DSB-normalized data 
+
+ Nobuyuki Ota 
+
+ http://arxiv.org/abs/2603.17380v2 
+ SCALE:Scalable Conditional Atlas-Level Endpoint transport for virtual cell perturbation prediction 
+ 2026-03-19T07:12:41Z 
+
+ Virtual cell models aim to enable in silico experimentation by predicting how cells respond to genetic, chemical, or cytokine perturbations from single-cell measurements. In practice, however, large-scale perturbation prediction remains constrained by three coupled bottlenecks: inefficient training and inference pipelines, unstable modeling in high-dimensional sparse expression space, and evaluation protocols that overemphasize reconstruction-like accuracy while underestimating biological fidelity. In this work we present a specialized large-scale foundation model SCALE for virtual cell perturbation prediction that addresses the above limitations jointly. First, we build a BioNeMo-based training and inference framework that substantially improves data throughput, distributed scalability, and deployment efficiency, yielding 12.51* speedup on pretrain and 1.29* on inference over the prior SOTA pipeline under matched system settings. Second, we formulate perturbation prediction as conditional transport and implement it with a set-aware flow architecture that couples LLaMA-based cellular encoding with endpoint-oriented supervision. This design yields more stable training and stronger recovery of perturbation effects. Third, we evaluate the model on Tahoe-100M using a rigorous cell-level protocol centered on biologically meaningful metrics rather than reconstruction alone. On this benchmark, our model improves PDCorr by 12.02% and DE Overlap by 10.66% over STATE. Together, these results suggest that advancing virtual cells requires not only better generative objectives, but also the co-design of scalable infrastructure, stable transport modeling, and biologically faithful evaluation. 
+
+ 2026-03-18T05:51:08Z 
+
+ Shuizhou Chen 
+
+ Lang Yu 
+
+ Kedu Jin 
+
+ Songming Zhang 
+
+ Hao Wu 
+
+ Wenxuan Huang 
+
+ Sheng Xu 
+
+ Quan Qian 
+
+ Qin Chen 
+
+ Lei Bai 
+
+ Siqi Sun 
+
+ Zhangyang Gao 
+
+ http://arxiv.org/abs/2603.01396v2 
+ HarmonyCell: Automating Single-Cell Perturbation Modeling under Semantic and Distribution Shifts 
+ 2026-03-08T03:21:33Z 
+
+ Single-cell perturbation studies face dual heterogeneity bottlenecks: (i) semantic heterogeneity--identical biological concepts encoded under incompatible metadata schemas across datasets; and (ii) statistical heterogeneity--distribution shifts from biological variation demanding dataset-specific inductive biases. We propose HarmonyCell, an end-to-end agent framework resolving each challenge through a dedicated mechanism: an LLM-driven Semantic Unifier autonomously maps disparate metadata into a canonical interface without manual intervention; and an adaptive Monte Carlo Tree Search engine operates over a hierarchical action space to synthesize architectures with optimal statistical inductive biases for distribution shifts. Evaluated across diverse perturbation tasks under both semantic and distribution shifts, HarmonyCell achieves a 95% valid execution rate on heterogeneous input datasets (versus 0% for general agents) while matching or even exceeding expert-designed baselines in rigorous out-of-distribution evaluations. This dual-track orchestration enables scalable automatic virtual cell modeling without dataset-specific engineering. 
+
+ 2026-03-02T02:48:40Z 
+ 18 pages total (8 pages main text + appendix), 6 figures 
+
+ Wenxuan Huang 
+
+ Mingyu Tsoi 
+
+ Yanhao Huang 
+
+ Xinjie Mao 
+
+ Xue Xia 
+
+ Hao Wu 
+
+ Jiaqi Wei 
+
+ Yuejin Yang 
+
+ Lang Yu 
+
+ Cheng Tan 
+
+ Xiang Zhang 
+
+ Zhangyang Gao 
+
+ Siqi Sun 
+
+ http://arxiv.org/abs/2602.23199v1 
+ SC-Arena: A Natural Language Benchmark for Single-Cell Reasoning with Knowledge-Augmented Evaluation 
+ 2026-02-26T16:50:28Z 
+
+ Large language models (LLMs) are increasingly applied in scientific research, offering new capabilities for knowledge discovery and reasoning. In single-cell biology, however, evaluation practices for both general and specialized LLMs remain inadequate: existing benchmarks are fragmented across tasks, adopt formats such as multiple-choice classification that diverge from real-world usage, and rely on metrics lacking interpretability and biological grounding. We present SC-ARENA, a natural language evaluation framework tailored to single-cell foundation models. SC-ARENA formalizes a virtual cell abstraction that unifies evaluation targets by representing both intrinsic attributes and gene-level interactions. Within this paradigm, we define five natural language tasks (cell type annotation, captioning, generation, perturbation prediction, and scientific QA) that probe core reasoning capabilities in cellular biology. To overcome the limitations of brittle string-matching metrics, we introduce knowledge-augmented evaluation, which incorporates external ontologies, marker databases, and scientific literature to support biologically faithful and interpretable judgments. Experiments and analysis across both general-purpose and domain-specialized LLMs demonstrate that (i) under the Virtual Cell unified evaluation paradigm, current models achieve uneven performance on biologically complex tasks, particularly those demanding mechanistic or causal understanding; and (ii) our knowledge-augmented evaluation framework ensures biological correctness, provides interpretable, evidence-grounded rationales, and achieves high discriminative capacity, overcoming the brittleness and opacity of conventional metrics. SC-Arena thus provides a unified and interpretable framework for assessing LLMs in single-cell biology, pointing toward the development of biology-aligned, generalizable foundation models. 
+ 
+ 2026-02-26T16:50:28Z 
+
+ Jiahao Zhao 
+
+ Feng Jiang 
+
+ Shaowei Qin 
+
+ Zhonghui Zhang 
+
+ Junhao Liu 
+
+ Guibing Guo 
+
+ Hamid Alinejad-Rokny 
+
+ Min Yang 
+
+ http://arxiv.org/abs/2602.19685v1 
+ PerturbDiff: Functional Diffusion for Single-Cell Perturbation Modeling 
+ 2026-02-23T10:28:56Z 
+
+ Building Virtual Cells that can accurately simulate cellular responses to perturbations is a long-standing goal in systems biology. A fundamental challenge is that high-throughput single-cell sequencing is destructive: the same cell cannot be observed both before and after a perturbation. Thus, perturbation prediction requires mapping unpaired control and perturbed populations. Existing models address this by learning maps between distributions, but typically assume a single fixed response distribution when conditioned on observed cellular context (e.g., cell type) and the perturbation type. In reality, responses vary systematically due to unobservable latent factors such as microenvironmental fluctuations and complex batch effects, forming a manifold of possible distributions for the same observed conditions. To account for this variability, we introduce PerturbDiff, which shifts modeling from individual cells to entire distributions. By embedding distributions as points in a Hilbert space, we define a diffusion-based generative process operating directly over probability distributions. This allows PerturbDiff to capture population-level response shifts across hidden factors. Benchmarks on established datasets show that PerturbDiff achieves state-of-the-art performance in single-cell response prediction and generalizes substantially better to unseen perturbations. See our project page (https://katarinayuan.github.io/PerturbDiff-ProjectPage/), where code and data will be made publicly available (https://github.com/DeepGraphLearning/PerturbDiff). 
+
+ 2026-02-23T10:28:56Z 
+
+ Xinyu Yuan 
+
+ Xixian Liu 
+
+ Ya Shi Zhang 
+
+ Zuobai Zhang 
+
+ Hongyu Guo 
+
+ Jian Tang 
+
+ http://arxiv.org/abs/2601.01089v2 
+ Central Dogma Transformer: Towards Mechanism-Oriented AI for Cellular Understanding 
+ 2026-01-10T00:37:48Z 
+
+ Understanding cellular mechanisms requires integrating information across DNA, RNA, and protein - the three molecular systems linked by the Central Dogma of molecular biology. While domain-specific foundation models have achieved success for each modality individually, they remain isolated, limiting our ability to model integrated cellular processes. Here we present the Central Dogma Transformer (CDT), an architecture that integrates pre-trained language models for DNA, RNA, and protein following the directional logic of the Central Dogma. CDT employs directional cross-attention mechanisms - DNA-to-RNA attention models transcriptional regulation, while RNA-to-Protein attention models translational relationships - producing a unified Virtual Cell Embedding that integrates all three modalities. We validate CDT v1 - a proof-of-concept implementation using fixed (non-cell-specific) RNA and protein embeddings - on CRISPRi enhancer perturbation data from K562 cells, achieving a Pearson correlation of 0.503, representing 63% of the theoretical ceiling set by cross-experiment variability (r = 0.797). Attention and gradient analyses provide complementary interpretive windows: in detailed case studies, these approaches highlight largely distinct genomic regions, with gradient analysis identifying a CTCF binding site that Hi-C data showed as physically contacting both enhancer and target gene. These results suggest that AI architectures aligned with biological information flow can achieve both predictive accuracy and mechanistic interpretability. 
+
+ 2026-01-03T06:29:22Z 
+ v2: Fixed dropout probability in Table 3 (0.1 -> 0.3); added acknowledgement 
+
+ Nobuyuki Ota 
+
+ http://arxiv.org/abs/2512.00306v2 
+ VCWorld: A Biological World Model for Virtual Cell Simulation 
+ 2026-02-27T04:49:08Z 
+
+ Virtual cell modeling aims to predict cellular responses to perturbations. Existing virtual cell models rely heavily on large-scale single-cell datasets, learning explicit mappings between gene expression and perturbations. Although recent models attempt to incorporate multi-source biological information, their generalization remains constrained by data quality, coverage, and batch effects. More critically, these models often function as black boxes, offering predictions without interpretability or consistency with biological principles, which undermines their credibility in scientific research. To address these challenges, we present VCWorld, a cell-level white-box simulator that integrates structured biological knowledge with the iterative reasoning capabilities of large language models to instantiate a biological world model. VCWorld operates in a data-efficient manner to reproduce perturbation-induced signaling cascades and generates interpretable, stepwise predictions alongside explicit mechanistic hypotheses. In drug perturbation benchmarks, VCWorld achieves state-of-the-art predictive performance, and the inferred mechanistic pathways are consistent with publicly available biological evidence. 
+
+ 2025-11-29T04:02:24Z 
+ Accepted at ICLR 2026 
+
+ Zhijian Wei 
+
+ Runze Ma 
+
+ Zichen Wang 
+
+ Zhongmin Li 
+
+ Shuotong Song 
+
+ Shuangjia Zheng 
+
+ http://arxiv.org/abs/2511.18287v1 
+ TRIDENT: A Trimodal Cascade Generative Framework for Drug and RNA-Conditioned Cellular Morphology Synthesis 
+ 2025-11-23T04:43:27Z 
+
+ Accurately modeling the relationship between perturbations, transcriptional responses, and phenotypic changes is essential for building an AI Virtual Cell (AIVC). However, existing methods typically constrained to modeling direct associations, such as Perturbation $\rightarrow$ RNA or Perturbation $\rightarrow$ Morphology, overlook the crucial causal link from RNA to morphology. To bridge this gap, we propose TRIDENT, a cascade generative framework that synthesizes realistic cellular morphology by conditioning on both the perturbation and the corresponding gene expression profile. To train and evaluate this task, we construct MorphoGene, a new dataset pairing L1000 gene expression with Cell Painting images for 98 compounds. TRIDENT significantly outperforms state-of-the-art approaches, achieving up to 7-fold improvement with strong generalization to unseen compounds. In a case study on docetaxel, we validate that RNA-guided synthesis accurately produces the corresponding phenotype. An ablation study further confirms that this RNA conditioning is essential for the model's high fidelity. By explicitly modeling transcriptome-phenome mapping, TRIDENT provides a powerful in silico tool and moves us closer to a predictive virtual cell. 
+
+ 2025-11-23T04:43:27Z 
+
+ Rui Peng 
+
+ Ziru Liu 
+
+ Lingyuan Ye 
+
+ Yuxing Lu 
+
+ Boxin Shi 
+
+ Jinzhuo Wang 
+
+ http://arxiv.org/abs/2511.16954v1 
+ Effects of Distance Metrics and Scaling on the Perturbation Discrimination Score 
+ 2025-11-21T05:02:44Z 
+
+ The Perturbation Discrimination Score (PDS) is increasingly used to evaluate whether predicted perturbation effects remain distinguishable, including in Systema and the Virtual Cell Challenge. However, its behavior in high-dimensional gene-expression settings has not been examined in detail. We show that PDS is highly sensitive to the choice of similarity or distance measure and to the scale of predicted effects. Analysis of observed perturbation responses reveals that $\ell_1$ and $\ell_2$-based PDS behave very differently from cosine-based measures, even after norm matching. We provide geometric insight and discuss implications for future discrimination-based evaluation metrics. 
+
+ 2025-11-21T05:02:44Z 
+
+ Qiyuan Liu 
+
+ Qirui Zhang 
+
+ Jinhong Du 
+
+ Siming Zhao 
+
+ Jingshu Wang 
+
+ http://arxiv.org/abs/2510.21337v1 
+ Morphologically Intelligent Perturbation Prediction with FORM 
+ 2025-10-24T11:03:20Z 
+
+ Understanding how cells respond to external stimuli is a central challenge in biomedical research and drug development. Current computational frameworks for modelling cellular responses remain restricted to two-dimensional representations, limiting their capacity to capture the complexity of cell morphology under perturbation. This dimensional constraint poses a critical bottleneck for the development of accurate virtual cell models. Here, we present FORM, a machine learning framework for predicting perturbation-induced changes in three-dimensional cellular structure. FORM consists of two components: a morphology encoder, trained end-to-end via a novel multi-channel VQGAN to learn compact 3D representations of cell shape, and a diffusion-based perturbation trajectory module that captures how morphology evolves across perturbation conditions. Trained on a large-scale dataset of over 65,000 multi-fluorescence 3D cell volumes spanning diverse chemical and genetic perturbations, FORM supports both unconditional morphology synthesis and conditional simulation of perturbed cell states. Beyond generation, FORM can predict downstream signalling activity, simulate combinatorial perturbation effects, and model morphodynamic transitions between states of unseen perturbations. To evaluate performance, we introduce MorphoEval, a benchmarking suite that quantifies perturbation-induced morphological changes in structural, statistical, and biological dimensions. Together, FORM and MorphoEval work toward the realisation of the 3D virtual cell by linking morphology, perturbation, and function through high-resolution predictive simulation. 
+ 
+ 2025-10-24T11:03:20Z 
+
+ Reed Naidoo 
+
+ Matt De Vries 
+
+ Olga Fourkioti 
+
+ Vicky Bousgouni 
+
+ Mar Arias-Garcia 
+
+ Maria Portillo-Malumbres 
+
+ Chris Bakal 
+
+ http://arxiv.org/abs/2510.12498v2 
+ Artificial Intelligence Virtual Cells: From Measurements to Decisions across Modality, Scale, Dynamics, and Evaluation 
+ 2025-12-02T08:44:52Z 
+
+ Artificial Intelligence Virtual Cells (AIVCs) aim to learn executable, decision-relevant models of cell state from multimodal, multiscale measurements. Recent studies have introduced single-cell and spatial foundation models, improved cross-modality alignment, scaled perturbation atlases, and explored pathway-level readouts. Nevertheless, although held-out validation is standard practice, evaluations remain predominantly within single datasets and settings; evidence indicates that transport across laboratories and platforms is often limited, that some data splits are vulnerable to leakage and coverage bias, and that dose, time and combination effects are not yet systematically handled. Cross-scale coupling also remains constrained, as anchors linking molecular, cellular and tissue levels are sparse, and alignment to scientific or clinical readouts varies across studies. We propose a model-agnostic Cell-State Latent (CSL) perspective that organizes learning via an operator grammar: measurement, lift/project for cross-scale coupling, and intervention for dosing and scheduling. This view motivates a decision-aligned evaluation blueprint across modality, scale, context and intervention, and emphasizes function-space readouts such as pathway activity, spatial neighborhoods and clinically relevant endpoints. We recommend operator-aware data design, leakage-resistant partitions, and transparent calibration and reporting to enable reproducible, like-for-like comparisons. 
+ 
+ 2025-10-14T13:31:40Z 
+
+ Chengpeng Hu 
+
+ Calvin Yu-Chian Chen 
+
+ http://arxiv.org/abs/2510.07706v1 
+ Large Language Models Meet Virtual Cell: A Survey 
+ 2025-10-09T02:41:30Z 
+
+ Large language models (LLMs) are transforming cellular biology by enabling the development of "virtual cells"--computational systems that represent, predict, and reason about cellular states and behaviors. This work provides a comprehensive review of LLMs for virtual cell modeling. We propose a unified taxonomy that organizes existing methods into two paradigms: LLMs as Oracles, for direct cellular modeling, and LLMs as Agents, for orchestrating complex scientific tasks. We identify three core tasks--cellular representation, perturbation prediction, and gene regulation inference--and review their associated models, datasets, evaluation benchmarks, as well as the critical challenges in scalability, generalizability, and interpretability. 
+
+ 2025-10-09T02:41:30Z 
+
+ Krinos Li 
+
+ Xianglu Xiao 
+
+ Shenglong Deng 
+
+ Lucas He 
+
+ Zijun Zhong 
+
+ Yuanjie Zou 
+
+ Zhonghao Zhan 
+
+ Zheng Hui 
+
+ Weiye Bao 
+
+ Guang Yang 
+
+ http://arxiv.org/abs/2509.25346v2 
+ SynthPert: Enhancing LLM Biological Reasoning via Synthetic Reasoning Traces for Cellular Perturbation Prediction 
+ 2026-04-26T19:07:19Z 
+
+ Predicting cellular responses to genetic perturbations represents a fundamental challenge in systems biology, critical for advancing therapeutic discovery and virtual cell modeling. While large language models (LLMs) show promise for biological reasoning, their application to perturbation prediction remains underexplored due to challenges in adapting them to structured experimental data. We present SynthPert, a novel method that enhances LLM performance through supervised fine-tuning on synthetic reasoning traces generated by frontier models. Using the PerturbQA benchmark, we demonstrate that our approach not only achieves state-of-the-art performance but surpasses the capabilities of the frontier model that generated the training data. Our results reveal three key insights: (1) Synthetic reasoning traces effectively distill biological knowledge even when partially inaccurate, (2) This approach enables cross-cell-type generalization with 87% accuracy on unseen RPE1 cells, and (3) Performance gains persist despite using only 2% of quality-filtered training data. This work shows the effectiveness of synthetic reasoning distillation for enhancing domain-specific reasoning in LLMs. 
+
+ 2025-09-29T18:02:41Z 
+
+ Lawrence Phillips 
+
+ Marc Boubnovski Martell 
+
+ Aditya Misra 
+
+ Josefa Lia Stoisser 
+
+ Cesar A. Prada-Medina 
+
+ Rory Donovan-Maiye 
+
+ Kaspar Märtens 
+
+ http://arxiv.org/abs/2508.02276v2 
+ CellForge: Agentic Design of Virtual Cell Models 
+ 2026-02-04T19:54:36Z 
+
+ Virtual cell modeling aims to predict cellular responses to diverse perturbations but faces challenges from biological complexity, multimodal data heterogeneity, and the need for interdisciplinary expertise. We introduce CellForge, a multi-agent framework that autonomously designs and synthesizes neural network architectures tailored to specific single-cell datasets and perturbation tasks. Given raw multi-omics data and task descriptions, CellForge discovers candidate architectures through collaborative reasoning among specialized agents, then generates executable implementations. Our core contribution is the framework itself: showing that multi-agent collaboration mechanisms - rather than manual human design or single-LLM prompting - can autonomously produce executable, high-quality computational methods. This approach goes beyond conventional hyperparameter tuning by enabling entirely new architectural components such as trajectory-aware encoders and perturbation diffusion modules to emerge from agentic deliberation. We evaluate CellForge on six datasets spanning gene knockouts, drug treatments, and cytokine stimulations across multiple modalities (scRNA-seq, scATAC-seq, CITE-seq). The results demonstrate that the models generated by CellForge are highly competitive with established baselines, while revealing systematic patterns of architectural innovation. CellForge highlights the scientific value of multi-agent frameworks: collaboration among specialized agents enables genuine methodological innovation and executable solutions that single agents or human experts cannot achieve. This represents a paradigm shift toward autonomous scientific method development in computational biology. Code is available at https://github.com/gersteinlab/CellForge. 
+
+ 2025-08-04T10:43:31Z 
+
+ Xiangru Tang 
+
+ Zhuoyun Yu 
+
+ Jiapeng Chen 
+
+ Yan Cui 
+
+ Daniel Shao 
+
+ Weixu Wang 
+
+ Fang Wu 
+
+ Yuchen Zhuang 
+
+ Wenqi Shi 
+
+ Zhi Huang 
+
+ Arman Cohan 
+
+ Xihong Lin 
+
+ Fabian Theis 
+
+ Smita Krishnaswamy 
+
+ Mark Gerstein 
+
+ http://arxiv.org/abs/2506.13817v1 
+ DeepSeq: High-Throughput Single-Cell RNA Sequencing Data Labeling via Web Search-Augmented Agentic Generative AI Foundation Models 
+ 2025-06-14T23:30:22Z 
+
+ Generative AI foundation models offer transformative potential for processing structured biological data, particularly in single-cell RNA sequencing, where datasets are rapidly scaling toward billions of cells. We propose the use of agentic foundation models with real-time web search to automate the labeling of experimental data, achieving up to 82.5% accuracy. This addresses a key bottleneck in supervised learning for structured omics data by increasing annotation throughput without manual curation and human error. Our approach enables the development of virtual cell foundation models capable of downstream tasks such as cell-typing and perturbation prediction. As data volume grows, these models may surpass human performance in labeling, paving the way for reliable inference in large-scale perturbation screens. This application demonstrates domain-specific innovation in health monitoring and diagnostics, aligned with efforts like the Human Cell Atlas and Human Tumor Atlas Network. 
+
+ 2025-06-14T23:30:22Z 
+ 4 pages, 5 figures, Accepted by ICML 2025 FM4LS https://openreview.net/forum?id=zNjXOZxEYB . Workshop on Multi-modal Foundation Models and Large Language Models for Life Sciences (FM4LS)}, July 2025 
+ 
+ International Conference on Machine Learning (ICML). Workshop on Multi-modal Foundation Models and Large Language Models for Life Sciences (FM4LS), July 2025 
+ 
+ Saleem A. Al Dajani 
+
+ Abel Sanchez 
+
+ John R. Williams 
+
+ http://arxiv.org/abs/2505.14613v3 
+ Virtual Cells: Predict, Explain, Discover 
+ 2025-06-04T08:07:44Z 
+
+ Drug discovery is fundamentally a process of inferring the effects of treatments on patients, and would therefore benefit immensely from computational models that can reliably simulate patient responses, enabling researchers to generate and test large numbers of therapeutic hypotheses safely and economically before initiating costly clinical trials. Even a more specific model that predicts the functional response of cells to a wide range of perturbations would be tremendously valuable for discovering safe and effective treatments that successfully translate to the clinic. Creating such virtual cells has long been a goal of the computational research community that unfortunately remains unachieved given the daunting complexity and scale of cellular biology. Nevertheless, recent advances in AI, computing power, lab automation, and high-throughput cellular profiling provide new opportunities for reaching this goal. In this perspective, we present a vision for developing and evaluating virtual cells that builds on our experience at Recursion. We argue that in order to be a useful tool to discover novel biology, virtual cells must accurately predict the functional response of a cell to perturbations and explain how the predicted response is a consequence of modifications to key biomolecular interactions. We then introduce key principles for designing therapeutically-relevant virtual cells, describe a lab-in-the-loop approach for generating novel insights with them, and advocate for biologically-grounded benchmarks to guide virtual cell development. Finally, we make the case that our approach to virtual cells provides a useful framework for building other models at higher levels of organization, including virtual patients. We hope that these directions prove useful to the research community in developing virtual models optimized for positive impact on drug discovery outcomes. 
+
+ 2025-05-20T16:59:24Z 
+
+ Emmanuel Noutahi 
+
+ Jason Hartford 
+
+ Prudencio Tossou 
+
+ Shawn Whitfield 
+
+ Alisandra K. Denton 
+
+ Cas Wognum 
+
+ Kristina Ulicna 
+
+ Michael Craig 
+
+ Jonathan Hsu 
+
+ Michael Cuccarese 
+
+ Emmanuel Bengio 
+
+ Dominique Beaini 
+
+ Christopher Gibson 
+
+ Daniel Cohen 
+
+ Berton Earnshaw 
+
+ http://arxiv.org/abs/2502.15867v1 
+ Strategic priorities for transformative progress in advancing biology with proteomics and artificial intelligence 
+ 2025-02-21T13:20:33Z 
+
+ Artificial intelligence (AI) is transforming scientific research, including proteomics. Advances in mass spectrometry (MS)-based proteomics data quality, diversity, and scale, combined with groundbreaking AI techniques, are unlocking new challenges and opportunities in biological discovery. Here, we highlight key areas where AI is driving innovation, from data analysis to new biological insights. These include developing an AI-friendly ecosystem for proteomics data generation, sharing, and analysis; improving peptide and protein identification and quantification; characterizing protein-protein interactions and protein complexes; advancing spatial and perturbation proteomics; integrating multi-omics data; and ultimately enabling AI-empowered virtual cells. 
+
+ 2025-02-21T13:20:33Z 
+ 28 pages, 2 figures, perspective in AI proteomics 
+
+ Yingying Sun 
+
+ Jun A 
+
+ Zhiwei Liu 
+
+ Rui Sun 
+
+ Liujia Qian 
+
+ Samuel H. Payne 
+
+ Wout Bittremieux 
+
+ Markus Ralser 
+
+ Chen Li 
+
+ Yi Chen 
+
+ Zhen Dong 
+
+ Yasset Perez-Riverol 
+
+ Asif Khan 
+
+ Chris Sander 
+
+ Ruedi Aebersold 
+
+ Juan Antonio Vizcaíno 
+
+ Jonathan R Krieger 
+
+ Jianhua Yao 
+
+ Han Wen 
+
+ Linfeng Zhang 
+
+ Yunping Zhu 
+
+ Yue Xuan 
+
+ Benjamin Boyang Sun 
+
+ Liang Qiao 
+
+ Henning Hermjakob 
+
+ Haixu Tang 
+
+ Huanhuan Gao 
+
+ Yamin Deng 
+
+ Qing Zhong 
+
+ Cheng Chang 
+
+ Nuno Bandeira 
+
+ Ming Li 
+
+ Weinan E 
+
+ Siqi Sun 
+
+ Yuedong Yang 
+
+ Gilbert S. Omenn 
+
+ Yue Zhang 
+
+ Ping Xu 
+
+ Yan Fu 
+
+ Xiaowen Liu 
+
+ Christopher M. Overall 
+
+ Yu Wang 
+
+ Eric W. Deutsch 
+
+ Luonan Chen 
+
+ Jürgen Cox 
+
+ Vadim Demichev 
+
+ Fuchu He 
+
+ Jiaxing Huang 
+
+ Huilin Jin 
+
+ Chao Liu 
+
+ Nan Li 
+
+ Zhongzhi Luan 
+
+ Jiangning Song 
+
+ Kaicheng Yu 
+
+ Wanggen Wan 
+
+ Tai Wang 
+
+ Kang Zhang 
+
+ Le Zhang 
+
+ Peter A. Bell 
+
+ Matthias Mann 
+
+ Bing Zhang 
+
+ Tiannan Guo 
+
+ http://arxiv.org/abs/2502.09775v3 
+ CellFlux: Simulating Cellular Morphology Changes via Flow Matching 
+ 2025-06-03T20:03:58Z 
+
+ Building a virtual cell capable of accurately simulating cellular behaviors in silico has long been a dream in computational biology. We introduce CellFlux, an image-generative model that simulates cellular morphology changes induced by chemical and genetic perturbations using flow matching. Unlike prior methods, CellFlux models distribution-wise transformations from unperturbed to perturbed cell states, effectively distinguishing actual perturbation effects from experimental artifacts such as batch effects -- a major challenge in biological data. Evaluated on chemical (BBBC021), genetic (RxRx1), and combined perturbation (JUMP) datasets, CellFlux generates biologically meaningful cell images that faithfully capture perturbation-specific morphological changes, achieving a 35% improvement in FID scores and a 12% increase in mode-of-action prediction accuracy over existing methods. Additionally, CellFlux enables continuous interpolation between cellular states, providing a potential tool for studying perturbation dynamics. These capabilities mark a significant step toward realizing virtual cell modeling for biomedical research. Project page: https://yuhui-zh15.github.io/CellFlux/. 
+
+ 2025-02-13T21:10:00Z 
+ Published at ICML 2025 
+
+ Yuhui Zhang 
+
+ Yuchang Su 
+
+ Chenyu Wang 
+
+ Tianhong Li 
+
+ Zoe Wefers 
+
+ Jeffrey Nirschl 
+
+ James Burgess 
+
+ Daisy Ding 
+
+ Alejandro Lozano 
+
+ Emma Lundberg 
+
+ Serena Yeung-Levy 
+
+ http://arxiv.org/abs/2409.11654v2 
+ How to Build the Virtual Cell with Artificial Intelligence: Priorities and Opportunities 
+ 2024-10-14T08:18:07Z 
+
+ The cell is arguably the most fundamental unit of life and is central to understanding biology. Accurate modeling of cells is important for this understanding as well as for determining the root causes of disease. Recent advances in artificial intelligence (AI), combined with the ability to generate large-scale experimental data, present novel opportunities to model cells. Here we propose a vision of leveraging advances in AI to construct virtual cells, high-fidelity simulations of cells and cellular systems under different conditions that are directly learned from biological data across measurements and scales. We discuss desired capabilities of such AI Virtual Cells, including generating universal representations of biological entities across scales, and facilitating interpretable in silico experiments to predict and understand their behavior using virtual instruments. We further address the challenges, opportunities and requirements to realize this vision including data needs, evaluation strategies, and community standards and engagement to ensure biological accuracy and broad utility. We envision a future where AI Virtual Cells help identify new drug targets, predict cellular responses to perturbations, as well as scale hypothesis exploration. With open science collaborations across the biomedical ecosystem that includes academia, philanthropy, and the biopharma and AI industries, a comprehensive predictive understanding of cell mechanisms and interactions has come into reach. 
+
+ 2024-09-18T02:41:50Z 
+
+ Charlotte Bunne 
+
+ Yusuf Roohani 
+
+ Yanay Rosen 
+
+ Ankit Gupta 
+
+ Xikun Zhang 
+
+ Marcel Roed 
+
+ Theo Alexandrov 
+
+ Mohammed AlQuraishi 
+
+ Patricia Brennan 
+
+ Daniel B. Burkhardt 
+
+ Andrea Califano 
+
+ Jonah Cool 
+
+ Abby F. Dernburg 
+
+ Kirsty Ewing 
+
+ Emily B. Fox 
+
+ Matthias Haury 
+
+ Amy E. Herr 
+
+ Eric Horvitz 
+
+ Patrick D. Hsu 
+
+ Viren Jain 
+
+ Gregory R. Johnson 
+
+ Thomas Kalil 
+
+ David R. Kelley 
+
+ Shana O. Kelley 
+
+ Anna Kreshuk 
+
+ Tim Mitchison 
+
+ Stephani Otte 
+
+ Jay Shendure 
+
+ Nicholas J. Sofroniew 
+
+ Fabian Theis 
+
+ Christina V. Theodoris 
+
+ Srigokul Upadhyayula 
+
+ Marc Valer 
+
+ Bo Wang 
+
+ Eric Xing 
+
+ Serena Yeung-Levy 
+
+ Marinka Zitnik 
+
+ Theofanis Karaletsos 
+
+ Aviv Regev 
+
+ Emma Lundberg 
+
+ Jure Leskovec 
+
+ Stephen R. Quake

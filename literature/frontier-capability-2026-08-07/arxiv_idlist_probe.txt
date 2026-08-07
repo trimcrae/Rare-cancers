@@ -1,0 +1,100 @@
+SOURCE URL: http://export.arxiv.org/api/query?id_list=2604.27646%2C2603.27950%2C2605.19579&max_results=10
+FINAL URL: https://export.arxiv.org/api/query?id_list=2604.27646%2C2603.27950%2C2605.19579&max_results=10
+HTTP: 200
+CONTENT-TYPE: application/atom+xml; charset=utf-8
+======================================================================
+https://arxiv.org/api/yYhqWpHlHkiWFDPLdwdQdho4jyA 
+ arXiv Query: search_query=&id_list=2604.27646,2603.27950,2605.19579&start=0&max_results=10 
+ 2026-08-07T00:37:37Z 
+ 
+ 10 
+ 3 
+ 0 
+ 
+ http://arxiv.org/abs/2605.19579v2 
+ TACK: A Statistical Evaluation of Degradation Activity on a Novel TArgeting Chimeras Knowledge Dataset 
+ 2026-06-08T07:51:28Z 
+
+ Proteolysis-targeting chimeras (PROTACs) represent a promising therapeutic modality that induces targeted protein degradation by hijacking the ubiquitin-proteasome system. However, rational PROTAC design remains challenging due to the complex interplay between molecular structure, target proteins, E3 ligases, and the cellular context. We present TACK, a statistical evaluation of degradation activity on a novel TArgeting Chimeras Knowledge dataset of 3,514 PROTACs and 6,561 degradation endpoints aggregated from three major repositories with standardized molecular representations, protein annotations, and experimental conditions. Using scaffold-based 5x5 cross-validation, we perform a rigorous statistical comparison of three machine learning methods to predict PROTAC degradation activity across three tasks: $DC_{50}$ and Dmax regression, and binary activity classification. Feature ablation demonstrates that cellular context features and simple protein representations rival complex ESM protein embeddings, highlighting the importance of feature engineering over architectural sophistication. Models trained on the best performing features show that potency ($pDC_{50}$, $R^2=0.66$) is substantially more predictable than maximum degradation (Dmax, $R^2=0.36$). In activity prediction, statistical tests support that classical methods (XGBoost and MLP) significantly outperform PROTAC-STAN, a domain-specific graph neural network model (ROC-AUC: 0.85 vs. 0.75, p<0.001). Finally, we propose an ensemble-based uncertainty quantification approach showing that prediction variance correlates with prediction error ($pDC_{50}$: Spearman $ρ= 0.36$, p<0.001; Dmax: $ρ=0.69$, p<0.001), enabling confidence-aware experimental prioritization. Our findings challenge assumptions about specialized architectures for degradation prediction and provide evidence-based guidance for ML-driven PROTAC assessment. 
+ 
+ 2026-05-19T09:22:30Z 
+ 12 pages, 6 figures, accepted to Knowledge Discovery and Data Mining - KDD '26 
+
+ Stefano Ribes 
+
+ Nils Dunlop 
+
+ Rocío Mercado 
+ 
+ 10.1145/3770855.3819052 
+
+ http://arxiv.org/abs/2603.27950v1 
+ Scaling Atomistic Protein Binder Design with Generative Pretraining and Test-Time Compute 
+ 2026-03-30T01:54:03Z 
+
+ Protein interaction modeling is central to protein design, which has been transformed by machine learning with applications in drug discovery and beyond. In this landscape, structure-based de novo binder design is cast as either conditional generative modeling or sequence optimization via structure predictors ("hallucination"). We argue that this is a false dichotomy and propose Proteina-Complexa, a novel fully atomistic binder generation method unifying both paradigms. We extend recent flow-based latent protein generation architectures and leverage the domain-domain interactions of monomeric computationally predicted protein structures to construct Teddymer, a new large-scale dataset of synthetic binder-target pairs for pretraining. Combined with high-quality experimental multimers, this enables training a strong base model. We then perform inference-time optimization with this generative prior, unifying the strengths of previously distinct generative and hallucination methods. Proteina-Complexa sets a new state of the art in computational binder design benchmarks: it delivers markedly higher in-silico success rates than existing generative approaches, and our novel test-time optimization strategies greatly outperform previous hallucination methods under normalized compute budgets. We also demonstrate interface hydrogen bond optimization, fold class-guided binder generation, and extensions to small molecule targets and enzyme design tasks, again surpassing prior methods. Code, models and new data will be publicly released. 
+ 
+ 2026-03-30T01:54:03Z 
+ ICLR 2026 Oral Presentation. Project page: https://research.nvidia.com/labs/genair/proteina-complexa/ 
+
+ Kieran Didi 
+
+ Zuobai Zhang 
+
+ Guoqing Zhou 
+
+ Danny Reidenbach 
+
+ Zhonglin Cao 
+
+ Sooyoung Cha 
+
+ Tomas Geffner 
+
+ Christian Dallago 
+
+ Jian Tang 
+
+ Michael M. Bronstein 
+
+ Martin Steinegger 
+
+ Emine Kucukbenli 
+
+ Arash Vahdat 
+
+ Karsten Kreis 
+
+ http://arxiv.org/abs/2604.27646v1 
+ Benchmarking virtual cell models for in-the-wild perturbation response 
+ 2026-04-30T09:40:23Z 
+
+ Virtual cell (VC) models aim to predict cellular responses to any perturbations in silico and have emerged as a promising approach for drug discovery and precision medicine. Yet, a clear gap still remains: while models routinely reported impressive results on standard benchmarks, it is unclear whether their predictions are truly meaningful in practice. This is mainly due to limitations in current evaluation setups, which are often overly simplified or inconsistent, and do not reflect the complexity and variability of real biological systems. Here, we introduce a standardized and modular benchmarking framework for virtual cell prediction. Our framework evaluates diverse models under in-the-wild challenging scenarios, including unseen cell contexts, unseen perturbations, and cross-dataset generalization, which better reflect practical applications. Our analysis shows that model performance is highly context-dependent and shaped by task design and evaluation criteria. In commonly used setups, performance is often overestimated, and naive dataset aggregation can even reduce performance. When evaluated under more strict conditions, model performance drops markedly, indicating limited robustness to shifts across cellular contexts. In unseen perturbation settings, models including simple linear approaches capture global transcriptional trends but fail to recover fine-grained perturbation-specific effects. In addition, different evaluation metrics focus on different biological properties, leading to substantially different model rankings. Together, our framework provides a more reliable and biologically grounded evaluation, offering clearer guidance for applying virtual cell models in real scenarios. 
+ 
+ 2026-04-30T09:40:23Z 
+
+ Xinjie Mao 
+
+ Songming Zhang 
+
+ Qianhong Wen 
+
+ Xiangyu Wen 
+
+ Kedu Jin 
+
+ Hao Wu 
+
+ Shuizhou Chen 
+
+ Yuqiang Li 
+
+ Lei Bai 
+
+ Qi Liu 
+
+ Ning Ding 
+
+ Siqi Sun 
+
+ Zhangyang Gao

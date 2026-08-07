@@ -1,0 +1,932 @@
+SOURCE URL: http://export.arxiv.org/api/query?search_query=abs%3A%22binder+design%22+OR+abs%3A%22protein+binder%22&max_results=40&sortBy=submittedDate&sortOrder=descending
+FINAL URL: https://export.arxiv.org/api/query?search_query=abs%3A%22binder+design%22+OR+abs%3A%22protein+binder%22&max_results=40&sortBy=submittedDate&sortOrder=descending
+HTTP: 200
+CONTENT-TYPE: application/atom+xml; charset=utf-8
+======================================================================
+https://arxiv.org/api/VtO4AuUKXUVY5u7zaiBUaUnPnb8 
+ arXiv Query: search_query=abs:"binder design" OR abs:"protein binder"&id_list=&start=0&max_results=40 
+ 2026-08-07T00:37:36Z 
+ 
+ 40 
+ 41 
+ 0 
+ 
+ http://arxiv.org/abs/2607.23518v1 
+ Chamaileon: Cross-Context Binder Design with Contextualized Modeling and Mixed Sampling 
+ 2026-07-26T07:35:10Z 
+
+ The rapid evolution of generative models has unlocked new potentials in protein binder design, a pivotal task in structural biology, by facilitating end-to-end generation via joint sequence-structure modeling or hallucination. However, existing approaches are predominantly implemented under a single-target, single-state assumption, limiting their ability to model multi-target or multi-state interactions required for advanced function-oriented protein design. Here, we introduce Chamaileon, which unifies multi-target and multi-state binder design by formulating the problem as cross-context binding landscape modeling. The framework is underpinned by a training paradigm termed In-Context Complex Co-Design (I3CD) for context-aware sequence-structure co-modeling. During inference, we employ Mixture-of-Paths Sampling (MoPS), a scalable strategy that optimizes a single sequence across contexts while alleviating the scarcity of high-quality multi-conformational paired data. Extensive evaluation on our newly constructed benchmark, CROSS, demonstrates that Chamaileon effectively generates sequences adaptable to diverse conformational landscapes and multi-target requirements. The code is available on https://github.com/caohengyuan/Chamaileon. 
+
+ 2026-07-26T07:35:10Z 
+
+ Hengyuan Cao 
+
+ Shizhuo Cheng 
+
+ Mingxuan Liu 
+
+ Weicheng Huang 
+
+ Yunhong Lu 
+
+ Chenxi Cai 
+
+ Yan Zhang 
+
+ Min Zhang 
+
+ http://arxiv.org/abs/2606.06765v1 
+ Reactivity-Informed Machine Learning for Performance Prediction and Design Space Exploration of Alkali-Activated Slag 
+ 2026-06-04T23:04:54Z 
+
+ Establishing quantitative relationships among mix design, raw material properties, curing conditions, and performance remains a long-standing challenge in cementitious materials, particularly for alkali-activated materials with variable precursor and activator chemistry. Here, we curated the largest literature-derived alkali-activated slag (AAS) dataset to date, comprising over 3100 compressive strength records, 155 chemically distinct ground granulated blast-furnace slags (GGBSs), and 24 attributes incorporating precursor chemistry, fineness, and reactivity. Multiple machine learning (ML) algorithms were benchmarked across progressively enriched feature scenarios, demonstrating that integrating GGBS compositions, fineness, curing conditions, and specimen geometry improves predictive performance. The average metal oxide dissociation energy (AMODE), a physically interpretable representation of precursor reactivity, provides a compact alternative descriptor to explicit oxide compositions while enabling comparable predictive performance. Model interpretation revealed physically consistent trends from heterogeneous data, including non-monotonic effects of Na2O dosage and silicate modulus, reduced predicted strength at higher water content and larger specimen size, and coupled oxide-level effects more coherently represented by AMODE than by individual oxide contents. Statistically constrained design space exploration reveals reactivity-dependent trade-offs among strength, embodied CO2 emissions, and cost. The design maps identify high-strength regions with substantially lower CO2 emissions than OPC-based references at similar cost. Overall, this work demonstrates how reactivity-informed ML can extract physically meaningful trends from heterogeneous AAS data and guide source-dependent binder design. The curated dataset is publicly accessible to support advances in cement and concrete research. 
+
+ 2026-06-04T23:04:54Z 
+ 68 pages, 14 figures, 2 tables 
+
+ Qiyao He 
+
+ Zhanzhao Li 
+
+ Kai Gong 
+
+ http://arxiv.org/abs/2606.05474v1 
+ AlloGen: Conformation-Selective Binder Generation with Differential State Scoring 
+ 2026-06-03T21:53:17Z 
+
+ Protein binder design has largely optimized for affinity alone, leaving conformational selectivity unaddressed: for allosteric targets such as kinases, nuclear receptors, and GPCRs, a binder that engages both active and inactive states provides no functional specificity regardless of how tightly it binds. We introduce AlloGen, a modular framework that decouples backbone generation from a learned state-selectivity scorer $Q_θ$, an SE(3)-invariant interface graph transformer trained via a two-phase curriculum that first learns interface geometry before imposing conformational discrimination. Because $Q_θ$ is fully differentiable and generator-agnostic, it integrates with any backbone generator as a passive reranker or an active gradient-based guide without retraining. Across a diverse benchmark of proteins spanning multiple families and conformational mechanisms, AlloGen consistently identifies binders that preferentially recognize desired structural states while rejecting alternative conformations. Experimental validation on calmodulin further demonstrates that these computational selectivity signals translate to physical molecules, yielding de novo peptides that bind the desired holo conformation while exhibiting no detectable binding to the apo state. Together, these results establish conformational selectivity as a learnable property and provide a general framework for state-selective protein binder design. 
+
+ 2026-06-03T21:53:17Z 
+
+ Hanqun Cao 
+
+ Zachary Quinn 
+
+ Aastha Pal 
+
+ Sumi Kimura 
+
+ Jingjie Zhang 
+
+ Pheng Ann Heng 
+
+ Pranam Chatterjee 
+
+ http://arxiv.org/abs/2605.17899v1 
+ DCFold: Efficient Protein Structure Generation with Single Forward Pass 
+ 2026-05-18T06:05:56Z 
+
+ AlphaFold3 introduces a diffusion-based architecture that elevates protein structure prediction to all-atom resolution with improved accuracy. This state-of-the-art performance has established AlphaFold3 as a foundation model for diverse generation and design tasks. However, its iterative design substantially increases inference time, limiting practical deployment in downstream settings such as virtual screening and protein design. We propose DCFold, a single-step generative model that attains AlphaFold3-level accuracy. Our Dual Consistency training framework, which incorporates a novel Temporal Geodesic Matching (TGM) scheduler, enables DCFold to achieve a 15x acceleration in inference while maintaining predictive fidelity. We validate its effectiveness across both structure prediction and binder design benchmarks. 
+
+ 2026-05-18T06:05:56Z 
+
+ Zhe Zhang 
+
+ Yuanning Feng 
+
+ Yuxuan Song 
+
+ Keyue Qiu 
+
+ Hao Zhou 
+
+ Wei-Ying Ma 
+
+ http://arxiv.org/abs/2605.09810v1 
+ TD3B: Transition-Directed Discrete Diffusion for Allosteric Binder Generation 
+ 2026-05-10T23:17:06Z 
+
+ Protein function is often controlled by ligands that bias the direction of state transitions, such as agonists and antagonists, rather than stabilizing a single conformation. This is especially important for clinically relevant G protein-coupled receptors (GPCRs), where therapeutic efficacy depends on functional directionality. Structure-based design methods optimize binding to static conformations and cannot represent non-reversible, directional effects or systematically distinguish agonist from antagonist behavior. To address this gap, we introduce Transition-Directed Discrete Diffusion for Allosteric Binder Design (TD3B), a sequence-based generative framework that designs binders with specified agonist or antagonist behavior via a directional transition control objective. TD3B combines a target-aware Direction Oracle, a soft binding-affinity gate, and amortized fine-tuning of a pre-trained discrete diffusion model, enabling targeted agonist and antagonist generation decoupled from binding affinity and unattainable by equilibrium-based or inference-only guidance baselines. The code and checkpoints are available at https://huggingface.co/ChatterjeeLab/TD3B. 
+
+ 2026-05-10T23:17:06Z 
+ Published as a Spotlight at ICML 2026 (Proceedings of the 43rd International Conference on Machine Learning, Seoul, South Korea) 
+
+ Hanqun Cao 
+
+ Aastha Pal 
+
+ Sophia Tang 
+
+ Yinuo Zhang 
+
+ Jingjie Zhang 
+
+ Pheng Ann Heng 
+
+ Pranam Chatterjee 
+
+ http://arxiv.org/abs/2605.05829v1 
+ MP2D: Constrained Monte Carlo Tree-Guided Diffusion for Multi-Objective Protein Sequence Design 
+ 2026-05-07T08:04:16Z 
+
+ Designing functional protein sequences that satisfy multiple desired properties is a core research focus of protein engineering. Prior methods struggle with inability or inefficiency when dealing with numerous, often conflicting, properties. We propose Multi-Property Protein Diffusion (MP2D), a unified framework for multi-objective protein sequence optimization that integrates conditional discrete diffusion with constrained MCTS and global iterative refinement. MP2D formulates diffusion denoising as a constrained sequential decision-making process and employs MCTS to explore diverse denoising trajectories guided by Pareto-based rewards. A global iterative refinement strategy further enables repeated remasking and re-optimization of candidate sequences, while a dynamic Pareto constraint prevents candidate bloat and maintains balanced trade-offs across objectives. We evaluate MP2D on two challenging multi-objective protein design tasks: antimicrobial peptide and protein binder optimization, involving four to five conflicting properties. Experimental results demonstrate that MP2D consistently outperforms existing multi-objective baselines, achieving robust and balanced improvements across all objectives without retraining generative models. These results highlight MP2D as a practical and scalable solution for multi-objective functional protein design. 
+ 
+ 2026-05-07T08:04:16Z 
+ 16 pages, 4 figures, 7 tables, accepted by the 35th International Joint Conference on Artificial Intelligence 
+
+ Zitai Kong 
+
+ Yifan Dong 
+
+ Yixuan Wu 
+
+ Zhaokang Liang 
+
+ Jian Wu 
+
+ Hongxia Xu 
+
+ http://arxiv.org/abs/2605.04118v2 
+ ProtDBench: A Unified Benchmark of Protein Binder Design and Evaluation 
+ 2026-05-22T14:01:23Z 
+
+ Recent advances in de novo protein binder design have enabled increasing experimental validation, yet reported in silico metrics remain difficult to interpret or compare across studies due to non-standardized evaluation protocols. We introduce ProtDBench, a standardized and throughput-aware evaluation framework for protein binder design. ProtDBench defines unified benchmark tasks, evaluation protocols, and success criteria, enabling systematic analysis of how evaluation design influences observed performance. Using a large wet-lab annotated dataset, we analyze commonly used structure prediction models as evaluation verifiers, revealing substantial verifier-dependent bias and limited agreement under identical filtering protocols. We then benchmark representative open-source generative binder design methods across ten diverse protein targets under a fixed evaluation protocol. Beyond per-sequence success rates, ProtDBench incorporates throughput-aware metrics based on a fixed 24-hour budget, as well as cluster-level success criteria to account for structural diversity. Together, these results expose systematic differences induced by filtering rules, success definitions, and throughput-aware evaluation between computational efficiency, success rate, and structural diversity. Overall, ProtDBench provides a fair and reproducible evaluation pipeline that supports systematic and controlled comparison of protein binder design methods under realistic evaluation settings. 
+
+ 2026-05-05T11:48:59Z 
+
+ Cong Liu 
+
+ Milong Ren 
+
+ Jiaqi Guan 
+
+ Chengyue Gong 
+
+ Jinyuan Sun 
+
+ Xinshi Chen 
+
+ Wenzhi Xiao 
+
+ http://arxiv.org/abs/2605.03360v1 
+ A-CODE: Fully Atomic Protein Co-Design with Unified Multimodal Diffusion 
+ 2026-05-05T04:41:14Z 
+
+ We present A-CODE, a fully atomic unified one-stage protein co-design model that simultaneously refines discrete atom types and continuous atom coordinates. Unlike predominant two-stage methods that cascade structure design with amino acid-level sequence design, our approach is fully atomic within a unified multimodal diffusion framework, in which residue identities are inferred solely from atom-level predictions. Built upon the powerful all-atom architecture, A-CODE achieves superior designability for unconditional protein generation, outperforming all existing one-stage and two-stage design models. For binder design, A-CODE rivals and even outperforms existing state-of-the-art two-stage design models and, compared with the existing one-stage co-design model, achieves a drastic tenfold improvement in success rate on hard tasks. The inherent flexibility of our atomic formulation enables, for the first time, seamless adaptation to non-canonical amino acid (ncAA) modeling. Our fully atomic framework establishes a new, versatile foundation for all-atom generative modeling that can be naturally extended to complex biomolecular systems. 
+
+ 2026-05-05T04:41:14Z 
+
+ Chaoran Cheng 
+
+ Jiaqi Guan 
+
+ Milong Ren 
+
+ Chengyue Gong 
+
+ Cong Liu 
+
+ Xinshi Chen 
+
+ Ge Liu 
+
+ Wenzhi Xiao 
+
+ http://arxiv.org/abs/2603.29727v2 
+ Latent-Y: A Lab-Validated Autonomous Agent for De Novo Drug Design 
+ 2026-04-01T17:14:29Z 
+
+ Drug discovery relies on iterative expert workflows that are slow to parallelize and difficult to scale. Here we introduce Latent-Y, an AI agent that autonomously executes complete antibody design campaigns from text prompts, covering literature review, target analysis, epitope identification, candidate design, computational validation, and selection of lab-ready sequences. Latent-Y is integrated into the Latent Labs Platform, where it operates in the same environment as drug-discovery experts with access to bioinformatics tools, biological databases, and scientific literature. The agent can run fully autonomously end-to-end, or collaboratively, where researchers review progress, provide feedback, and direct subsequent steps. Candidate antibodies are generated using Latent-X2, our frontier generative model for drug-like antibody design. We demonstrate the agent's capability across three distinct campaign types: epitope discovery guided by therapeutic specifications, cross-species binder design, and autonomous design from a scientific publication targeting human transferrin receptor for blood-brain barrier crossing. Across nine targets, Latent-Y produced lab-confirmed nanobody binders against six, achieving a 67% target-level success rate with binding affinities reaching the single-digit nanomolar range, without human filtering or intervention. In user studies, experts working with Latent-Y completed design campaigns 56 times faster than independent expert time estimates, compressing weeks of work into hours. Because Latent-X2 is a general-purpose atomic-level model for biologics design, the same agent architecture naturally extends to macrocyclic peptide and mini-binder design campaigns, broadening autonomous discovery across therapeutic modalities. Latent-Y is available to selected partners at https://platform.latentlabs.com. 
+ 
+ 2026-03-31T13:26:33Z 
+ A.N. performed work as an advisor to Latent Labs. A.H. and D.Y. performed work while at Latent Labs 
+
+ Latent Labs Team 
+
+ Sebastian M. Schmon 
+
+ Daniella Pretorius 
+
+ Simon Mathis 
+
+ Rebecca Bartke-Croughan 
+
+ Aishaini Puvanendran 
+
+ James Vuckovic 
+
+ Henry Kenlay 
+
+ Mária Vlachynská 
+
+ Alex Bridgland 
+
+ Ivan Grishin 
+
+ Sven Over 
+
+ David Li 
+
+ Bridget Li 
+
+ Jonathan Crabbé 
+
+ Agrin Hilmkil 
+
+ Alexander W. R. Nelson 
+
+ David Yuan 
+
+ Annette Obika 
+
+ Simon A. A. Kohl 
+
+ http://arxiv.org/abs/2603.27950v1 
+ Scaling Atomistic Protein Binder Design with Generative Pretraining and Test-Time Compute 
+ 2026-03-30T01:54:03Z 
+
+ Protein interaction modeling is central to protein design, which has been transformed by machine learning with applications in drug discovery and beyond. In this landscape, structure-based de novo binder design is cast as either conditional generative modeling or sequence optimization via structure predictors ("hallucination"). We argue that this is a false dichotomy and propose Proteina-Complexa, a novel fully atomistic binder generation method unifying both paradigms. We extend recent flow-based latent protein generation architectures and leverage the domain-domain interactions of monomeric computationally predicted protein structures to construct Teddymer, a new large-scale dataset of synthetic binder-target pairs for pretraining. Combined with high-quality experimental multimers, this enables training a strong base model. We then perform inference-time optimization with this generative prior, unifying the strengths of previously distinct generative and hallucination methods. Proteina-Complexa sets a new state of the art in computational binder design benchmarks: it delivers markedly higher in-silico success rates than existing generative approaches, and our novel test-time optimization strategies greatly outperform previous hallucination methods under normalized compute budgets. We also demonstrate interface hydrogen bond optimization, fold class-guided binder generation, and extensions to small molecule targets and enzyme design tasks, again surpassing prior methods. Code, models and new data will be publicly released. 
+ 
+ 2026-03-30T01:54:03Z 
+ ICLR 2026 Oral Presentation. Project page: https://research.nvidia.com/labs/genair/proteina-complexa/ 
+
+ Kieran Didi 
+
+ Zuobai Zhang 
+
+ Guoqing Zhou 
+
+ Danny Reidenbach 
+
+ Zhonglin Cao 
+
+ Sooyoung Cha 
+
+ Tomas Geffner 
+
+ Christian Dallago 
+
+ Jian Tang 
+
+ Michael M. Bronstein 
+
+ Martin Steinegger 
+
+ Emine Kucukbenli 
+
+ Arash Vahdat 
+
+ Karsten Kreis 
+
+ http://arxiv.org/abs/2603.06748v2 
+ Property-driven Protein Inverse Folding With Multi-Objective Preference Alignment 
+ 2026-03-10T09:33:21Z 
+
+ Protein sequence design must balance designability, defined as the ability to recover a target backbone, with multiple, often competing, developability properties such as solubility, thermostability, and expression. Existing approaches address these properties through post hoc mutation, inference-time biasing, or retraining on property-specific subsets, yet they are target dependent and demand substantial domain expertise or careful hyperparameter tuning. In this paper, we introduce ProtAlign, a multi-objective preference alignment framework that fine-tunes pretrained inverse folding models to satisfy diverse developability objectives while preserving structural fidelity. ProtAlign employs a semi-online Direct Preference Optimization strategy with a flexible preference margin to mitigate conflicts among competing objectives and constructs preference pairs using in silico property predictors. Applied to the widely used ProteinMPNN backbone, the resulting model MoMPNN enhances developability without compromising designability across tasks including sequence design for CATH 4.3 crystal structures, de novo generated backbones, and real-world binder design scenarios, making it an appealing framework for practical protein sequence design. 
+
+ 2026-03-06T10:57:51Z 
+
+ Xiaoyang Hou 
+
+ Junqi Liu 
+
+ Chence Shi 
+
+ Xin Liu 
+
+ Zhi Yang 
+
+ Jian Tang 
+
+ http://arxiv.org/abs/2602.20176v3 
+ Cross-Chirality Generalization by Axial Vectors for Hetero-Chiral Protein-Peptide Interaction Design 
+ 2026-05-29T08:35:00Z 
+
+ D-peptide binders targeting L-proteins have promising therapeutic potential. Despite rapid advances in machine learning-based target-conditioned peptide design, generating D-peptide binders remains largely unexplored. In this work, we show that by injecting axial features to $E(3)$-equivariant (polar) vector features, it is feasible to achieve cross-chirality generalization from homo-chiral (L--L) training data to hetero-chiral (D--L) design tasks. By implementing this method within a latent diffusion model, we achieved D-peptide binder design that not only outperforms existing tools in \textit{in silico} benchmarks, but also demonstrates efficacy in wet-lab validation. To our knowledge, our approach represents the first wet-lab validated generative AI for the \textit{de novo} design of D-peptide binders, offering new perspectives on handling chirality in protein design. Codes are available at https://github.com/YZY010418/PepMirror 
+
+ 2026-02-13T02:46:29Z 
+ v3: Revised acknowledgements only. The paper has been accepted to ICML 2026 
+
+ Ziyi Yang 
+
+ Zitong Tian 
+
+ Yinjun Jia 
+
+ Tianyi Zhang 
+
+ Jiqing Zheng 
+
+ Hao Wang 
+
+ Yubu Su 
+
+ Juncai He 
+
+ Lei Liu 
+
+ Yanyan Lan 
+
+ http://arxiv.org/abs/2601.14574v1 
+ De novo design of protein binders targeting the human sweet taste receptor as potential sweet proteins 
+ 2026-01-21T01:18:55Z 
+
+ Excessive consumption of dietary sugars is a major contributor to metabolic disorders, driving global interest in finding alternative sweeteners with reduced caloric impact. Natural sweet proteins, such as brazzein, offer exceptional sweetness intensity with little caloric contribution. However, their widespread use is limited by restricted natural diversity, low stability, and high production costs. Recent advances in structural biology and de novo protein design provide new opportunities to overcome these limitations through rational engineering. In this study, we report an integrated computational pipeline for the de novo design of protein binders targeting the human sweet taste receptor subunit TAS1R2, a key component of the heterodimeric class C G protein-coupled receptor mediating sweetness perception. The workflow combines diffusion-based backbone generation (RFdiffusion), neural network-guided sequence design (ProteinMPNN), structure-based filtering using Boltz-1, and binding energy evaluation via MM/GBSA calculations. Using the recently resolved cryo-EM structure of the TAS1R2 receptor, protein binders were designed to target both the Venus Flytrap Domain and the cysteine-rich domain of TAS1R2. A few designed binders exhibited favorable structural confidence and predicted binding energetics. In particular, Binder2 exhibited brazzein-like structural plausibility through specific short-range CRD contacts, while Binder1 displayed the strongest predicted binding affinity. Structural analyses of the binder-receptor complex revealed distinct binding modes and secondary structure profiles among the designs. This study demonstrates the feasibility of de novo designing protein binders that emulate key functional properties of natural sweet proteins, establishing a computational framework for the rational development of next-generation protein-based sweeteners. 
+ 
+ 2026-01-21T01:18:55Z 
+
+ Saisai Ding 
+
+ Yi Zhang 
+
+ http://arxiv.org/abs/2601.13327v2 
+ PepEDiff: Zero-Shot Peptide Binder Design via Protein Embedding Diffusion 
+ 2026-03-06T18:34:27Z 
+
+ We present PepEDiff, a novel peptide binder generator that designs binding sequences given a target receptor protein sequence and its pocket residues. Peptide binder generation is critical in therapeutic and biochemical applications, yet many existing methods rely heavily on intermediate structure prediction, adding complexity and limiting sequence diversity. Our approach departs from this paradigm by generating binder sequences directly in a continuous latent space derived from a pretrained protein embedding model, without relying on predicted structures, thereby improving structural and sequence diversity. To encourage the model to capture binding-relevant features rather than memorizing known sequences, we perform latent-space exploration and diffusion-based sampling, enabling the generation of peptides beyond the limited distribution of known binders. This zero-shot generative strategy leverages the global protein embedding manifold as a semantic prior, allowing the model to propose novel peptide sequences in previously unseen regions of the protein space. We evaluate PepEDiff on TIGIT, a challenging target with a large, flat protein-protein interaction interface that lacks a druggable pocket. Despite its simplicity, our method outperforms state-of-the-art approaches across benchmark tests and in the TIGIT case study, demonstrating its potential as a general, structure-free framework for zero-shot peptide binder design. The code for this research is available at GitHub: https://github.com/LabJunBMI/PepEDiff-An-Peptide-binder-Embedding-Diffusion-Model 
+ 
+ 2026-01-19T19:07:32Z 
+
+ Po-Yu Liang 
+
+ Tibo Duran 
+
+ Jun Bai 
+
+ http://arxiv.org/abs/2512.24192v2 
+ SeedProteo: Accurate De Novo All-Atom Design of Protein Binders 
+ 2026-02-24T06:31:20Z 
+
+ We present SeedProteo, a diffusion-based model for de novo all-atom protein design. We demonstrate how to repurpose a cutting-edge folding architecture into a powerful generative design framework by effectively integrating self-conditioning features. Extensive benchmarks highlight the model's capabilities across two distinct tasks: in unconditional generation, SeedProteo exhibits superior length generalization and structural diversity, maintaining robustness for long sequences and complex topologies; in binder design, it achieves state-of-the-art performance among open-source methods, attaining the highest in-silico design success rates, structural diversity and novelty. Finally, we validate SeedProteo through wet-lab assays on two therapeutic targets, achieving hit rates of 70%-80% and picomolar-level binding affinities, establishing leading results. To facilitate community adoption, we provide public access to SeedProteo via a webserver (https://seedfold.io/proteinDesign). 
+ 
+ 2025-12-30T12:50:38Z 
+
+ Wei Qu 
+
+ Yiming Ma 
+
+ Fei Ye 
+
+ Chan Lu 
+
+ Yi Zhou 
+
+ Kexin Zhang 
+
+ Lan Wang 
+
+ Minrui Gui 
+
+ Quanquan Gu 
+
+ http://arxiv.org/abs/2512.02033v1 
+ CONFIDE: Hallucination Assessment for Reliable Biomolecular Structure Prediction and Design 
+ 2025-11-20T03:38:46Z 
+
+ Reliable evaluation of protein structure predictions remains challenging, as metrics like pLDDT capture energetic stability but often miss subtle errors such as atomic clashes or conformational traps reflecting topological frustration within the protein folding energy landscape. We present CODE (Chain of Diffusion Embeddings), a self evaluating metric empirically found to quantify topological frustration directly from the latent diffusion embeddings of the AlphaFold3 series of structure predictors in a fully unsupervised manner. Integrating this with pLDDT, we propose CONFIDE, a unified evaluation framework that combines energetic and topological perspectives to improve the reliability of AlphaFold3 and related models. CODE strongly correlates with protein folding rates driven by topological frustration, achieving a correlation of 0.82 compared to pLDDT's 0.33 (a relative improvement of 148\%). CONFIDE significantly enhances the reliability of quality evaluation in molecular glue structure prediction benchmarks, achieving a Spearman correlation of 0.73 with RMSD, compared to pLDDT's correlation of 0.42, a relative improvement of 73.8\%. Beyond quality assessment, our approach applies to diverse drug design tasks, including all-atom binder design, enzymatic active site mapping, mutation induced binding affinity prediction, nucleic acid aptamer screening, and flexible protein modeling. By combining data driven embeddings with theoretical insight, CODE and CONFIDE outperform existing metrics across a wide range of biomolecular systems, offering robust and versatile tools to refine structure predictions, advance structural biology, and accelerate drug discovery. 
+
+ 2025-11-20T03:38:46Z 
+
+ Zijun Gao 
+
+ Mutian He 
+
+ Shijia Sun 
+
+ Hanqun Cao 
+
+ Jingjie Zhang 
+
+ Zihao Luo 
+
+ Xiaorui Wang 
+
+ Xiaojun Yao 
+
+ Chang-Yu Hsieh 
+
+ Chunbin Gu 
+
+ Pheng Ann Heng 
+
+ http://arxiv.org/abs/2511.14516v2 
+ Full-Atom Peptide Design via Riemannian-Euclidean Bayesian Flow Networks 
+ 2025-11-19T03:15:09Z 
+
+ Diffusion and flow matching models have recently emerged as promising approaches for peptide binder design. Despite their progress, these models still face two major challenges. First, categorical sampling of discrete residue types collapses their continuous parameters into onehot assignments, while continuous variables (e.g., atom positions) evolve smoothly throughout the generation process. This mismatch disrupts the update dynamics and results in suboptimal performance. Second, current models assume unimodal distributions for side-chain torsion angles, which conflicts with the inherently multimodal nature of side chain rotameric states and limits prediction accuracy. To address these limitations, we introduce PepBFN, the first Bayesian flow network for full atom peptide design that directly models parameter distributions in fully continuous space. Specifically, PepBFN models discrete residue types by learning their continuous parameter distributions, enabling joint and smooth Bayesian updates with other continuous structural parameters. It further employs a novel Gaussian mixture based Bayesian flow to capture the multimodal side chain rotameric states and a Matrix Fisher based Riemannian flow to directly model residue orientations on the $\mathrm{SO}(3)$ manifold. Together, these parameter distributions are progressively refined via Bayesian updates, yielding smooth and coherent peptide generation. Experiments on side chain packing, reverse folding, and binder design tasks demonstrate the strong potential of PepBFN in computational peptide design. 
+ 
+ 2025-11-18T14:13:23Z 
+ AAAI2026 
+
+ Hao Qian 
+
+ Shikui Tu 
+
+ Lei Xu 
+
+ http://arxiv.org/abs/2511.09216v2 
+ Controllable protein design with particle-based Feynman-Kac steering 
+ 2026-04-06T16:44:51Z 
+
+ Proteins underpin most biological function, and the ability to design them with tailored structures and properties is central to advances in biotechnology. Diffusion-based generative models have emerged as powerful tools for protein design, but steering them toward proteins with specified properties remains challenging. The Feynman-Kac (FK) framework provides a principled way to guide diffusion models using user-defined rewards. In this paper, we enable FK-based steering of RFdiffusion through the development of guiding potentials that leverage ProteinMPNN and structural relaxation to guide the diffusion process towards desired properties. We show that steering can be used to consistently improve predicted interface energetics and increase binder designability by $89.5\%$. Together, these results establish that diffusion-based protein design can be effectively steered toward arbitrary, non-differentiable objectives, providing a model-independent framework for controllable protein generation. 
+
+ 2025-11-12T11:23:44Z 
+ In version 2 we added an experiment on improving designability through steering towards lower delta G 
+
+ Erik Hartman 
+
+ Jonas Wallin 
+
+ Johan Malmström 
+
+ Jimmy Olsson 
+
+ http://arxiv.org/abs/2510.23786v1 
+ Relaxed Sequence Sampling for Diverse Protein Design 
+ 2025-10-27T19:18:36Z 
+
+ Protein design using structure prediction models such as AlphaFold2 has shown remarkable success, but existing approaches like relaxed sequence optimization (RSO) rely on single-path gradient descent and ignore sequence-space constraints, limiting diversity and designability. We introduce Relaxed Sequence Sampling (RSS), a Markov chain Monte Carlo (MCMC) framework that integrates structural and evolutionary information for protein design. RSS operates in continuous logit space, combining gradient-guided exploration with protein language model-informed jumps. Its energy function couples AlphaFold2-derived structural objectives with ESM2-derived sequence priors, balancing accuracy and biological plausibility. In an in silico protein binder design task, RSS produces 5$\times$ more designable structures and 2-3$\times$ greater structural diversity than RSO baselines, at equal computational cost. These results highlight RSS as a principled approach for efficiently exploring the protein design landscape. 
+ 
+ 2025-10-27T19:18:36Z 
+
+ Joohwan Ko 
+
+ Aristofanis Rontogiannis 
+
+ Yih-En Andrew Ban 
+
+ Axel Elaldi 
+
+ Nicholas Franklin 
+
+ http://arxiv.org/abs/2510.18870v2 
+ Triangle Multiplication Is All You Need For Biomolecular Structure Representations 
+ 2025-12-04T17:39:54Z 
+
+ AlphaFold has transformed protein structure prediction, but emerging applications such as virtual ligand screening, proteome-wide folding, and de novo binder design demand predictions at a massive scale, where runtime and memory costs become prohibitive. A major bottleneck lies in the Pairformer backbone of AlphaFold3-style models, which relies on computationally expensive triangular primitives-especially triangle attention-for pairwise reasoning. We introduce Pairmixer, a streamlined alternative that eliminates triangle attention while preserving higher-order geometric reasoning capabilities that are critical for structure prediction. Pairmixer substantially improves computational efficiency, matching state-of-the-art structure predictors across folding and docking benchmarks, delivering up to 4x faster inference on long sequences while reducing training cost by 34%. Its efficiency alleviates the computational burden of downstream applications such as modeling large protein complexes, high-throughput ligand and binder screening, and hallucination-based design. Within BoltzDesign, for example, Pairmixer delivers over 2x faster sampling and scales to sequences ~30% longer than the memory limits of Pairformer. Code is available at https://github.com/genesistherapeutics/pairmixer. 
+
+ 2025-10-21T17:59:02Z 
+ Preprint 
+
+ Jeffrey Ouyang-Zhang 
+
+ Pranav Murugan 
+
+ Daniel J. Diaz 
+
+ Gianluca Scarpellini 
+
+ Richard Strong Bowen 
+
+ Nate Gruver 
+
+ Adam Klivans 
+
+ Philipp Krähenbühl 
+
+ Aleksandra Faust 
+
+ Maruan Al-Shedivat 
+
+ http://arxiv.org/abs/2510.10480v2 
+ Latent Retrieval Augmented Generation of Cross-Domain Protein Binders 
+ 2025-10-16T11:55:27Z 
+
+ Designing protein binders targeting specific sites, which requires to generate realistic and functional interaction patterns, is a fundamental challenge in drug discovery. Current structure-based generative models are limited in generating nterfaces with sufficient rationality and interpretability. In this paper, we propose Retrieval-Augmented Diffusion for Aligned interface (RADiAnce), a new framework that leverages known interfaces to guide the design of novel binders. By unifying retrieval and generation in a shared contrastive latent space, our model efficiently identifies relevant interfaces for a given binding site and seamlessly integrates them through a conditional latent diffusion generator, enabling cross-domain interface transfer. Extensive exeriments show that RADiAnce significantly outperforms baseline models across multiple metrics, including binding affinity and recovery of geometries and interactions. Additional experimental results validate cross-domain generalization, demonstrating that retrieving interfaces from diverse domains, such as peptides, antibodies, and protein fragments, enhances the generation performance of binders for other domains. Our work establishes a new paradigm for protein binder design that successfully bridges retrieval-based knowledge and generative AI, opening new possibilities for drug discovery. 
+
+ 2025-10-12T07:26:11Z 
+
+ Zishen Zhang 
+
+ Xiangzhe Kong 
+
+ Wenbing Huang 
+
+ Yang Liu 
+
+ http://arxiv.org/abs/2509.25479v2 
+ Discontinuous Epitope Fragments as Sufficient Target Templates for Efficient Binder Design 
+ 2025-10-01T20:52:17Z 
+
+ Recent advances in structure-based protein design have accelerated de novo binder generation, yet interfaces on large domains or spanning multiple domains remain challenging due to high computational cost and declining success with increasing target size. We hypothesized that protein folding neural networks (PFNNs) operate in a ``local-first'' manner, prioritizing local interactions while displaying limited sensitivity to global foldability. Guided by this hypothesis, we propose an epitope-only strategy that retains only the discontinuous surface residues surrounding the binding site. Compared to intact-domain workflows, this approach improves in silico success rates by up to 80% and reduces the average time per successful design by up to forty-fold, enabling binder design against previously intractable targets such as ClpP and ALS3. Building on this foundation, we further developed a tailored pipeline that incorporates a Monte Carlo-based evolution step to overcome local minima and a position-specific biased inverse folding step to refine sequence patterns. Together, these advances not only establish a generalizable framework for efficient binder design against structurally large and otherwise inaccessible targets, but also support the broader ``local-first'' hypothesis as a guiding principle for PFNN-based design. 
+
+ 2025-09-29T20:33:32Z 
+ Accepted by NeurIPS2025-AI4Science 
+
+ Zhenfeng Deng 
+
+ Ruijie Hou 
+
+ Ningrui Xie 
+
+ Mike Tyers 
+
+ Michał Koziarski 
+
+ http://arxiv.org/abs/2509.25023v1 
+ Generalization of Variadic Structures with Binders: A Tool for Structural Code Comparison 
+ 2025-09-29T16:47:58Z 
+
+ This paper introduces a novel anti-unification algorithm for the generalization of variadic structures with binders, designed as a flexible tool for structural code comparison. By combining nominal techniques for handling variable binding with support for variadic expressions (common in abstract syntax trees and programming languages), the approach addresses key challenges such as overemphasis on bound variable names and difficulty handling insertions or deletions in code fragments. The algorithm distinguishes between atoms and two kinds of variables (term and hedge variables) to compute best generalizations that maximally preserve structural similarities while abstracting systematic differences. It also provides detailed information to reconstruct original expressions and quantify structural differences. This information can be useful in tasks like code clone detection, refactoring, and program analysis. By introducing a parametrizable rigidity function, the technique offers fine-grained control over similarity criteria and reduces nondeterminism, enabling flexible adaptation to practical scenarios where trivial similarities should be discounted. Although demonstrated primarily in the context of code similarity detection, this framework is broadly applicable wherever precise comparison of variadic and binder-rich representations is required. 
+ 
+ 2025-09-29T16:47:58Z 
+
+ Alexander Baumgartner 
+
+ Temur Kutsia 
+
+ http://arxiv.org/abs/2507.19375v1 
+ Latent-X: An Atom-level Frontier Model for De Novo Protein Binder Design 
+ 2025-07-25T15:25:22Z 
+
+ Traditional drug discovery relies on rounds of screening millions of candidate molecules with low success rates, making drug discovery time and resource intensive. To overcome this screening bottleneck, we introduce Latent-X, an all-atom protein design model that enables a new paradigm of precision AI design. Given a target protein epitope, Latent-X jointly generates the all atom structure and sequence of the protein binder and target, directly modelling the non-covalent interactions essential for specific binding. We demonstrate its efficacy across two therapeutically relevant modalities through extensive wet lab experiments, testing as few as 30-100 designs per target. For macrocyclic peptides, Latent-X achieves experimental hit rates exceeding 90% on all evaluated benchmark targets. For mini-binders, it consistently produces potent candidates against all evaluated benchmark targets, with binding affinities reaching the low nanomolar and picomolar range - comparable to those of approved therapeutics - whilst also being highly specific in mammalian display. In direct comparisons with the state-of-the-art models AlphaProteo, RFdiffusion and RFpeptides under identical conditions demonstrates, Latent-X generates binders with higher hit rates and better binding affinities, and uniquely creates structurally diverse binders, including complex beta-sheet folds. Its end-to-end process is an order of magnitude faster than existing multi-step computational pipelines. By drastically improving the efficiency and success rate of de novo design, Latent-X represents a significant advance towards push-button biologics discovery and a valuable tool for protein engineers. Latent-X is available at https://platform.latentlabs.com, enabling users to reliably generate de novo binders without AI infrastructure or coding. 
+ 
+ 2025-07-25T15:25:22Z 
+ Robin Rombach and Alexander W. R. Nelson contributed to this work as advisors to Latent Labs. Michael Flashman contributed to this work while at Latent Labs 
+
+ Latent Labs Team 
+
+ Alex Bridgland 
+
+ Jonathan Crabbé 
+
+ Henry Kenlay 
+
+ Daniella Pretorius 
+
+ Sebastian M. Schmon 
+
+ Agrin Hilmkil 
+
+ Rebecca Bartke-Croughan 
+
+ Robin Rombach 
+
+ Michael Flashman 
+
+ Tomas Matteson 
+
+ Simon Mathis 
+
+ Alexander W. R. Nelson 
+
+ David Yuan 
+
+ Annette Obika 
+
+ Simon A. A. Kohl 
+
+ http://arxiv.org/abs/2506.08293v1 
+ Diffusion Sequence Models for Enhanced Protein Representation and Generation 
+ 2025-06-09T23:50:11Z 
+
+ Proteins are fundamental to biology, executing diverse functions through complex physicochemical interactions, and they hold transformative potential across medicine, materials science, and environmental applications. Protein Language Models (pLMs) aim to unlock insights from the vast space of unlabeled protein sequences by learning rich, semantic representations from primary sequences via masked language modeling. However, these models typically exhibit limited generative capacity. In this work, we introduce the Diffusion Sequence Model (DSM), a novel pLM trained with masked diffusion to enable both high-quality representation learning and generative protein design. DSM builds upon the ESM2 architecture by incorporating a masked forward diffusion process inspired by the LLaDA framework. After training, DSM is capable of generating diverse, biomimetic sequences that align with expected amino acid compositions, secondary structures, and predicted functions, even with 90\% token corruption. Furthermore, DSM's learned representations match or exceed those of similarly sized pLMs on downstream tasks. We also introduce DSM(ppi), a variant fine-tuned to generate protein binders by attending to target sequences. We demonstrate DSM(ppi)'s effectiveness on the challenging Bench-tested Binder Benchmark (BenchBB), where both DSM and DSM(ppi) produce candidates with superior predicted binding affinity compared to known binders. Our results establish masked diffusion as a powerful paradigm for unifying protein representation and generation in a single framework. 
+ 
+ 2025-06-09T23:50:11Z 
+ 20 pages, 15 figures 
+
+ Logan Hallee 
+
+ Nikolaos Rafailidis 
+
+ David B. Bichara 
+
+ Jason P. Gleghorn 
+
+ http://arxiv.org/abs/2505.21873v1 
+ HelixDesign-Binder: A Scalable Production-Grade Platform for Binder Design Built on HelixFold3 
+ 2025-05-28T01:39:31Z 
+
+ Protein binder design is central to therapeutics, diagnostics, and synthetic biology, yet practical deployment remains challenging due to fragmented workflows, high computational costs, and complex tool integration. We present HelixDesign-Binder, a production-grade, high-throughput platform built on HelixFold3 that automates the full binder design pipeline, from backbone generation and sequence design to structural evaluation and multi-dimensional scoring. By unifying these stages into a scalable and user-friendly system, HelixDesign-Binder enables efficient exploration of binder candidates with favorable structural, energetic, and physicochemical properties. The platform leverages Baidu Cloud's high-performance infrastructure to support large-scale design and incorporates advanced scoring metrics, including ipTM, predicted binding free energy, and interface hydrophobicity. Benchmarking across six protein targets demonstrates that HelixDesign-Binder reliably produces diverse and high-quality binders, some of which match or exceed validated designs in predicted binding affinity. HelixDesign-Binder is accessible via an interactive web interface in PaddleHelix platform, supporting both academic research and industrial applications in antibody and protein binder development. 
+
+ 2025-05-28T01:39:31Z 
+
+ Jie Gao 
+
+ Jun Li 
+
+ Jing Hu 
+
+ Shanzhuo Zhang 
+
+ Kunrui Zhu 
+
+ Yueyang Huang 
+
+ Xiaonan Zhang 
+
+ Xiaomin Fang 
+
+ http://arxiv.org/abs/2505.21241v1 
+ BindEnergyCraft: Casting Protein Structure Predictors as Energy-Based Models for Binder Design 
+ 2025-05-27T14:21:35Z 
+
+ Protein binder design has been transformed by hallucination-based methods that optimize structure prediction confidence metrics, such as the interface predicted TM-score (ipTM), via backpropagation. However, these metrics do not reflect the statistical likelihood of a binder-target complex under the learned distribution and yield sparse gradients for optimization. In this work, we propose a method to extract such likelihoods from structure predictors by reinterpreting their confidence outputs as an energy-based model (EBM). By leveraging the Joint Energy-based Modeling (JEM) framework, we introduce pTMEnergy, a statistical energy function derived from predicted inter-residue error distributions. We incorporate pTMEnergy into BindEnergyCraft (BECraft), a design pipeline that maintains the same optimization framework as BindCraft but replaces ipTM with our energy-based objective. BECraft outperforms BindCraft, RFDiffusion, and ESM3 across multiple challenging targets, achieving higher in silico binder success rates while reducing structural clashes. Furthermore, pTMEnergy establishes a new state-of-the-art in structure-based virtual screening tasks for miniprotein and RNA aptamer binders. 
+ 
+ 2025-05-27T14:21:35Z 
+
+ Divya Nori 
+
+ Anisha Parsan 
+
+ Caroline Uhler 
+
+ Wengong Jin 
+
+ http://arxiv.org/abs/2504.04453v2 
+ Prot42: a Novel Family of Protein Language Models for Target-aware Protein Binder Generation 
+ 2025-05-18T14:39:42Z 
+
+ Unlocking the next generation of biotechnology and therapeutic innovation demands overcoming the inherent complexity and resource-intensity of conventional protein engineering methods. Recent GenAI-powered computational techniques often rely on the availability of the target protein's 3D structures and specific binding sites to generate high-affinity binders, constraints exhibited by models such as AlphaProteo and RFdiffusion. In this work, we explore the use of Protein Language Models (pLMs) for high-affinity binder generation. We introduce Prot42, a novel family of Protein Language Models (pLMs) pretrained on vast amounts of unlabeled protein sequences. By capturing deep evolutionary, structural, and functional insights through an advanced auto-regressive, decoder-only architecture inspired by breakthroughs in natural language processing, Prot42 dramatically expands the capabilities of computational protein design based on language only. Remarkably, our models handle sequences up to 8,192 amino acids, significantly surpassing standard limitations and enabling precise modeling of large proteins and complex multi-domain sequences. Demonstrating powerful practical applications, Prot42 excels in generating high-affinity protein binders and sequence-specific DNA-binding proteins. Our innovative models are publicly available, offering the scientific community an efficient and precise computational toolkit for rapid protein engineering. 
+
+ 2025-04-06T11:43:12Z 
+
+ Mohammad Amaan Sayeed 
+
+ Engin Tekin 
+
+ Maryam Nadeem 
+
+ Nancy A. ElNaker 
+
+ Aahan Singh 
+
+ Natalia Vassilieva 
+
+ Boulbaba Ben Amor 
+
+ http://arxiv.org/abs/2504.01490v1 
+ Deep Learning-Driven Protein Structure Prediction and Design: Key Model Developments by Nobel Laureates and Multi-Domain Applications 
+ 2025-04-02T08:44:10Z 
+
+ This systematic review outlines pivotal advancements in deep learning-driven protein structure prediction and design, focusing on four core models-AlphaFold, RoseTTAFold, RFDiffusion, and ProteinMPNN-developed by 2024 Nobel Laureates in Chemistry: David Baker, Demis Hassabis, and John Jumper. We analyze their technological iterations and collaborative design paradigms, emphasizing breakthroughs in atomic-level structural accuracy, functional protein engineering, and multi-component biomolecular interaction modeling. Key innovations include AlphaFold3's diffusion-based framework for unified biomolecular prediction, RoseTTAFold's three-track architecture integrating sequence and spatial constraints, RFDiffusion's denoising diffusion for de novo protein generation, and ProteinMPNN's inverse folding for sequence-structure co-optimization. Despite transformative progress in applications such as binder design, nanomaterials, and enzyme engineering, challenges persist in dynamic conformational sampling, multimodal data integration, and generalization to non-canonical targets. We propose future directions, including hybrid physics-AI frameworks and multimodal learning, to bridge gaps between computational design and functional validation in cellular environments. 
+ 
+ 2025-04-02T08:44:10Z 
+
+ Wanqing Yang 
+
+ Yanwei Wang 
+
+ Yang Wang 
+
+ http://arxiv.org/abs/2504.00146v2 
+ Why risk matters for protein binder design 
+ 2025-04-02T11:43:24Z 
+
+ Bayesian optimization (BO) has recently become more prevalent in protein engineering applications and hence has become a fruitful target of benchmarks. However, current BO comparisons often overlook real-world considerations like risk and cost constraints. In this work, we compare 72 model combinations of encodings, surrogate models, and acquisition functions on 11 protein binder fitness landscapes, specifically from this perspective. Drawing from the portfolio optimization literature, we adopt metrics to quantify the cold-start performance relative to a random baseline, to assess the risk of an optimization campaign, and to calculate the overall budget required to reach a fitness threshold. Our results suggest the existence of Pareto-optimal models on the risk-performance axis, the shift of this preference depending on the landscape explored, and the robust correlation between landscape properties such as epistasis with the average and worst-case model performance. They also highlight that rigorous model selection requires substantial computational and statistical efforts. 
+
+ 2025-03-31T18:54:38Z 
+ 10 pages, 5 figures, 1 table, to be presented at ICLR 2025 GEM Workshop https://www.gembio.ai/ 
+
+ Tudor-Stefan Cotet 
+
+ Igor Krawczuk 
+
+ http://arxiv.org/abs/2411.18463v3 
+ Hotspot-Driven Peptide Design via Multi-Fragment Autoregressive Extension 
+ 2025-05-20T14:55:01Z 
+
+ Peptides, short chains of amino acids, interact with target proteins, making them a unique class of protein-based therapeutics for treating human diseases. Recently, deep generative models have shown great promise in peptide generation. However, several challenges remain in designing effective peptide binders. First, not all residues contribute equally to peptide-target interactions. Second, the generated peptides must adopt valid geometries due to the constraints of peptide bonds. Third, realistic tasks for peptide drug development are still lacking. To address these challenges, we introduce PepHAR, a hot-spot-driven autoregressive generative model for designing peptides targeting specific proteins. Building on the observation that certain hot spot residues have higher interaction potentials, we first use an energy-based density model to fit and sample these key residues. Next, to ensure proper peptide geometry, we autoregressively extend peptide fragments by estimating dihedral angles between residue frames. Finally, we apply an optimization process to iteratively refine fragment assembly, ensuring correct peptide structures. By combining hot spot sampling with fragment-based extension, our approach enables de novo peptide design tailored to a target protein and allows the incorporation of key hot spot residues into peptide scaffolds. Extensive experiments, including peptide design and peptide scaffold generation, demonstrate the strong potential of PepHAR in computational peptide binder design. Source code will be available at https://github.com/Ced3-han/PepHAR. 
+
+ 2024-11-26T15:13:17Z 
+ Published as a conference paper at ICLR 2025 
+
+ Jiahan Li 
+
+ Tong Chen 
+
+ Shitong Luo 
+
+ Chaoran Cheng 
+
+ Jiaqi Guan 
+
+ Ruihan Guo 
+
+ Sheng Wang 
+
+ Ge Liu 
+
+ Jian Peng 
+
+ Jianzhu Ma 
+
+ http://arxiv.org/abs/2411.10618v4 
+ D-Flow: Multi-modality Flow Matching for D-peptide Design 
+ 2026-05-01T06:34:46Z 
+
+ Among these, D-peptides are resistant to proteolysis, exhibit greater in vivo stability, and are easier to synthesize. Despite advances in deep learning for peptide discovery, the scarcity of natural D-protein data limits the transfer of existing generative models to the D-peptide chemical space. We propose D-Flow, a full-atom flow-based framework for de novo D-peptide design. Conditioned on receptor binding, D-Flow uses structural representations incorporating backbone frames, side-chain angles, and discrete amino acid types. A mirror-image algorithm is implemented to address the lack of training data for D-proteins by converting the chirality of L-receptors. Furthermore, we enhance D-Flow's capacity by integrating protein language models (PLMs) with structural awareness through a lightweight structural adapter that injects structural representations into PLM embeddings. This enables D-Flow to learn conformational priors in the D-peptide chemical space and to accommodate the chiral selectivity of binding sites, thereby mitigating the scarcity of D-peptide data. A two-stage training pipeline and a control toolkit enable D-Flow to transition from general protein design to targeted binder design while preserving pre-training knowledge. Results on the PepMerge benchmark show D-Flow's effectiveness. D-peptides generated by D-Flow align more closely with native sequences and structures, with sequence identity improving by 10.2% over the best baseline, and the top affinity score reaching 24.31%. Overall, D-Flow shows potential for D-peptide design, facilitating the development of bioorthogonal and stable molecular tools and diagnostics. Code is available at https://github.com/smiles724/PeptideDesign. 
+ 
+ 2024-11-15T22:44:36Z 
+ 
+ IEEE Journal of Biomedical and Health Informatics 2026 
+ 
+ Fang Wu 
+
+ Shuting Jin 
+
+ Xiangru Tang 
+
+ Junlin Xu 
+
+ Mark Gerstein 
+
+ James Zou 
+
+ http://arxiv.org/abs/2409.08022v1 
+ De novo design of high-affinity protein binders with AlphaProteo 
+ 2024-09-12T13:05:27Z 
+
+ Computational design of protein-binding proteins is a fundamental capability with broad utility in biomedical research and biotechnology. Recent methods have made strides against some target proteins, but on-demand creation of high-affinity binders without multiple rounds of experimental testing remains an unsolved challenge. This technical report introduces AlphaProteo, a family of machine learning models for protein design, and details its performance on the de novo binder design problem. With AlphaProteo, we achieve 3- to 300-fold better binding affinities and higher experimental success rates than the best existing methods on seven target proteins. Our results suggest that AlphaProteo can generate binders "ready-to-use" for many research applications using only one round of medium-throughput screening and no further optimization. 
+ 
+ 2024-09-12T13:05:27Z 
+ 45 pages, 17 figures 
+
+ Vinicius Zambaldi 
+
+ David La 
+
+ Alexander E. Chu 
+
+ Harshnira Patani 
+
+ Amy E. Danson 
+
+ Tristan O. C. Kwan 
+
+ Thomas Frerix 
+
+ Rosalia G. Schneider 
+
+ David Saxton 
+
+ Ashok Thillaisundaram 
+
+ Zachary Wu 
+
+ Isabel Moraes 
+
+ Oskar Lange 
+
+ Eliseo Papa 
+
+ Gabriella Stanton 
+
+ Victor Martin 
+
+ Sukhdeep Singh 
+
+ Lai H. Wong 
+
+ Russ Bates 
+
+ Simon A. Kohl 
+
+ Josh Abramson 
+
+ Andrew W. Senior 
+
+ Yilmaz Alguel 
+
+ Mary Y. Wu 
+
+ Irene M. Aspalter 
+
+ Katie Bentley 
+
+ David L. V. Bauer 
+
+ Peter Cherepanov 
+
+ Demis Hassabis 
+
+ Pushmeet Kohli 
+
+ Rob Fergus 
+
+ Jue Wang 
+
+ http://arxiv.org/abs/2405.06693v2 
+ SurfPro: Functional Protein Design Based on Continuous Surface 
+ 2024-06-17T20:20:58Z 
+
+ How can we design proteins with desired functions? We are motivated by a chemical intuition that both geometric structure and biochemical properties are critical to a protein's function. In this paper, we propose SurfPro, a new method to generate functional proteins given a desired surface and its associated biochemical properties. SurfPro comprises a hierarchical encoder that progressively models the geometric shape and biochemical features of a protein surface, and an autoregressive decoder to produce an amino acid sequence. We evaluate SurfPro on a standard inverse folding benchmark CATH 4.2 and two functional protein design tasks: protein binder design and enzyme design. Our SurfPro consistently surpasses previous state-of-the-art inverse folding methods, achieving a recovery rate of 57.78% on CATH 4.2 and higher success rates in terms of protein-protein binding and enzyme-substrate interaction scores. 
+
+ 2024-05-07T19:09:46Z 
+
+ Zhenqiao Song 
+
+ Tinglin Huang 
+
+ Lei Li 
+
+ Wengong Jin 
+
+ http://arxiv.org/abs/2405.00128v2 
+ Target-Specific De Novo Peptide Binder Design with DiffPepBuilder 
+ 2024-09-02T09:55:30Z 
+
+ Despite the exciting progress in target-specific de novo protein binder design, peptide binder design remains challenging due to the flexibility of peptide structures and the scarcity of protein-peptide complex structure data. In this study, we curated a large synthetic dataset, referred to as PepPC-F, from the abundant protein-protein interface data and developed DiffPepBuilder, a de novo target-specific peptide binder generation method that utilizes an SE(3)-equivariant diffusion model trained on PepPC-F to co-design peptide sequences and structures. DiffPepBuilder also introduces disulfide bonds to stabilize the generated peptide structures. We tested DiffPepBuilder on 30 experimentally verified strong peptide binders with available protein-peptide complex structures. DiffPepBuilder was able to effectively recall the native structures and sequences of the peptide ligands and to generate novel peptide binders with improved binding free energy. We subsequently conducted de novo generation case studies on three targets. In both the regeneration test and case studies, DiffPepBuilder outperformed AfDesign and RFdiffusion coupled with ProteinMPNN, in terms of sequence and structure recall, interface quality, and structural diversity. Molecular dynamics simulations confirmed that the introduction of disulfide bonds enhanced the structural rigidity and binding performance of the generated peptides. As a general peptide binder de novo design tool, DiffPepBuilder can be used to design peptide binders for given protein targets with three dimensional and binding site information. 
+ 
+ 2024-04-30T18:24:56Z 
+
+ Fanhao Wang 
+
+ Yuzhe Wang 
+
+ Laiyi Feng 
+
+ Changsheng Zhang 
+
+ Luhua Lai 
+
+ http://arxiv.org/abs/2404.09370v1 
+ Locuaz: an in-silico platform for antibody fragments optimization 
+ 2024-04-14T22:16:19Z 
+
+ Motivation: Engineering high-affinity binders targeting specific antigenic determinants remains a challenging and often daunting task, requiring extensive experimental screening. Computational methods have the potential to accelerate this process, reducing costs and time, but only if they demonstrate broad applicability and efficiency in exploring mutations, evaluating affinity, and pruning unproductive mutation paths. Results: In response to these challenges, we introduce a new computational platform for optimizing protein binders towards their targets. The platform is organized as a series of modules, performing mutation selection and application, molecular dynamics (MD) simulations to sample conformations around interaction poses, and mutation prioritization using suitable scoring functions. Notably, the platform supports parallel exploration of different mutation streams, enabling in silico high-throughput screening on HPC systems. Furthermore, the platform is highly customizable, allowing users to implement their own protocols. Availability and implementation: the source code is available at https://github. com/pgbarletta/locuaz and documentation is at https://locuaz.readthedocs.io/ 
+ 
+ 2024-04-14T22:16:19Z 
+
+ German P. Barletta 
+ 1 CONCEPT, Istituto Italiano di Teconologia, Genova, Italy 
+
+ Rika Tandiana 
+ 1 CONCEPT, Istituto Italiano di Teconologia, Genova, Italy 
+
+ Miguel Soler 
+ 1 CONCEPT, Istituto Italiano di Teconologia, Genova, Italy 
+
+ Sara Fortuna 
+ 1 CONCEPT, Istituto Italiano di Teconologia, Genova, Italy 
+
+ Walter Rocchia 
+
+ http://arxiv.org/abs/2403.04187v1 
+ Preference optimization of protein language models as a multi-objective binder design paradigm 
+ 2024-03-07T03:36:03Z 
+
+ We present a multi-objective binder design paradigm based on instruction fine-tuning and direct preference optimization (DPO) of autoregressive protein language models (pLMs). Multiple design objectives are encoded in the language model through direct optimization on expert curated preference sequence datasets comprising preferred and dispreferred distributions. We show the proposed alignment strategy enables ProtGPT2 to effectively design binders conditioned on specified receptors and a drug developability criterion. Generated binder samples demonstrate median isoelectric point (pI) improvements by $17\%-60\%$. 
+
+ 2024-03-07T03:36:03Z 
+ Published at the GEM workshop, ICLR 2024. Generative and Experimental Perspectives for Biomolecular Design (https://www.gembio.ai/) 
+
+ Pouria Mistani 
+
+ Venkatesh Mysore 
+
+ http://arxiv.org/abs/2310.19513v1 
+ Inverse folding for antibody sequence design using deep learning 
+ 2023-10-30T13:12:41Z 
+
+ We consider the problem of antibody sequence design given 3D structural information. Building on previous work, we propose a fine-tuned inverse folding model that is specifically optimised for antibody structures and outperforms generic protein models on sequence recovery and structure robustness when applied on antibodies, with notable improvement on the hypervariable CDR-H3 loop. We study the canonical conformations of complementarity-determining regions and find improved encoding of these loops into known clusters. Finally, we consider the applications of our model to drug discovery and binder design and evaluate the quality of proposed sequences using physics-based methods. 
+
+ 2023-10-30T13:12:41Z 
+ 2023 ICML Workshop on Computational Biology, model weights available at https://zenodo.org/record/8164693 
+
+ Frédéric A. Dreyer 
+
+ Daniel Cutting 
+
+ Constantin Schneider 
+
+ Henry Kenlay 
+
+ Charlotte M. Deane 
+
+ http://arxiv.org/abs/2310.18515v3 
+ Learning to design protein-protein interactions with enhanced generalization 
+ 2024-03-16T16:49:26Z 
+
+ Discovering mutations enhancing protein-protein interactions (PPIs) is critical for advancing biomedical research and developing improved therapeutics. While machine learning approaches have substantially advanced the field, they often struggle to generalize beyond training data in practical scenarios. The contributions of this work are three-fold. First, we construct PPIRef, the largest and non-redundant dataset of 3D protein-protein interactions, enabling effective large-scale learning. Second, we leverage the PPIRef dataset to pre-train PPIformer, a new SE(3)-equivariant model generalizing across diverse protein-binder variants. We fine-tune PPIformer to predict effects of mutations on protein-protein interactions via a thermodynamically motivated adjustment of the pre-training loss function. Finally, we demonstrate the enhanced generalization of our new PPIformer approach by outperforming other state-of-the-art methods on new, non-leaking splits of standard labeled PPI mutational data and independent case studies optimizing a human antibody against SARS-CoV-2 and increasing the thrombolytic activity of staphylokinase. 
+ 
+ 2023-10-27T22:22:44Z 
+
+ Anton Bushuiev 
+
+ Roman Bushuiev 
+
+ Petr Kouba 
+
+ Anatolii Filkin 
+
+ Marketa Gabrielova 
+
+ Michal Gabriel 
+
+ Jiri Sedlar 
+
+ Tomas Pluskal 
+
+ Jiri Damborsky 
+
+ Stanislav Mazurenko 
+
+ Josef Sivic 
+
+ http://arxiv.org/abs/1811.08172v2 
+ Cross-linker mediated compaction and local morphologies in a model chromosome 
+ 2019-05-21T16:14:33Z 
+
+ Chromatin and associated proteins constitute the highly folded structure of chromosomes. We consider a self-avoiding polymer model of the chromatin, segments of which may get cross-linked via protein binders that repel each other. The binders cluster together via the polymer mediated attraction, in turn, folding the polymer. Using molecular dynamics simulations, and a mean field description, we explicitly demonstrate the continuous nature of the folding transition, characterized by unimodal distributions of the polymer size across the transition. At the transition point the chromatin size and cross-linker clusters display large fluctuations, and a maximum in their negative cross-correlation, apart from a critical slowing down. Along the transition, we distinguish the local chain morphologies in terms of topological loops, inter-loop gaps, and zippering. The topologies are dominated by simply connected loops at the criticality, and by zippering in the folded phase. 
+
+ 2018-11-20T10:49:44Z 
+ 14 pages, 13 figures; version accepted for publication in Journal of Physics: Condensed Matter 
+ 
+ J. Phys.: Condens. Matter 31, 354001 (2019) 
+ 
+ Amit Kumar 
+
+ Debasish Chaudhuri 
+ 
+ 10.1088/1361-648X/ab2350
