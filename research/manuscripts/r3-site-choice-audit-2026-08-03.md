@@ -172,7 +172,7 @@ The same ordering decides every frame of every species. Until now the committed 
 each frame's **winner**, so this could not be checked without another fpocket run.
 [`pocket-accepted-candidates.json`](../modalities/pocket-accepted-candidates.json) now records **every
 gate-accepted cavity in all 300 committed ensemble frames** (0 refusals, 257 s of free CPU), and its
-frozen-rule column **reproduces all 12 rows of C04's independently computed table exactly** — which is what
+frozen-rule column **reproduces all 12 rows of IC-4's independently computed table exactly** — which is what
 makes the alternative column trustworthy.
 
 Pooled over the three **unbiased** release replicas, ≥ D\* on the mapped site:
@@ -216,7 +216,7 @@ halves of the split reference set** — which no row of either lane could see on
 | **paper, "Dependency audit — CLOSED, and the gate FAILS"** | gate FAILS | gate PASSES; the *"every `denovo_401`-derived result must be read subject to that"* qualifier lifts |
 | **§10.2 readout** | *"Row 3 resolved **against** the program"* | resolved for it (a DERIVED count — regenerate, never type) |
 | **`R5`, rung `5b-T` site 1, `5c`, `5d`, the paralogue ABFE legs** | **unchanged either way** — none of them reads the site label. They are exposed only through **whether a re-anchor happens**, which is downstream of this choice, not the choice itself | unchanged |
-| **the paralogue contrast (C04) and every fraction built on it** | 44/75 · 18/75 · 21/75 | 46/75 · 23/75 · 21/75 — F3.4. ⚠ **This is the row nobody had noticed was in scope** |
+| **the paralogue contrast (IC-4) and every fraction built on it** | 44/75 · 18/75 · 21/75 | 46/75 · 23/75 · 21/75 — F3.4. ⚠ **This is the row nobody had noticed was in scope** |
 
 ---
 
@@ -320,7 +320,7 @@ ran the retired classifier.
 | `tests/test_pocket_match_wiring.py` | 11 tests (new) |
 | `tests/test_pocket_accepted_candidates.py` | 10 tests (new) |
 | `tests/test_r3_site_choice_audit.py` | 22 tests (new) |
-| the accepted-candidate dump vs C04 | **12 / 12 rows reproduce exactly** |
+| the accepted-candidate dump vs IC-4 | **12 / 12 rows reproduce exactly** |
 
 ✅ **FIXED 2026-08-07 ($0) — "the fast six" is now defined and executable:**
 [`scripts/fast_checks.py`](../../scripts/fast_checks.py) (`--list` prints the membership rule, the six

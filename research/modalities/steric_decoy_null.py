@@ -1771,7 +1771,7 @@ def already_applied_guard(art):
 def mode_remap(_args):
     """Regenerate ONLY the committed artifact's `map_edits_required`, against the map as it stands NOW.
 
-    ★ WHY THIS EXISTS, and it is the same argument the `C02` lane's `decoy_reduce_only` job makes: an anchor
+    ★ WHY THIS EXISTS, and it is the same argument the `IC-2` lane's `decoy_reduce_only` job makes: an anchor
     is a property of the DOCUMENT, not of the measurement, so a document that moved underneath a committed
     artifact must not cost a recompute. Nothing measured is touched — the rows, rates, percentiles and
     verdict are read back from the artifact and written out unchanged; only the anchors and their

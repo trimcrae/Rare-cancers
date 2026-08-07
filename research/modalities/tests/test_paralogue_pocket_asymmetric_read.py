@@ -1,4 +1,4 @@
-"""Pure-function tests for C04-A — the split (mandatory / best-effort) re-read of the paralogue contrast.
+"""Pure-function tests for IC-4-A — the split (mandatory / best-effort) re-read of the paralogue contrast.
 
 No fpocket, no MD, no network. Every statistic in `paralogue_pocket_asymmetric_read` is an exact
 enumeration, so each one has a hand-checkable answer and that is what these pin.

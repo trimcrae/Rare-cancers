@@ -1479,14 +1479,14 @@ def c01_map_edits(doc, which="C01a"):
     }, {
         "section": "3.1 (the instrument table)",
         "anchor": None,
-        "where": ("a new row in §3.1's instrument table for the ligand-side ΔΔΔG candidate (C01), "
+        "where": ("a new row in §3.1's instrument table for the ligand-side ΔΔΔG candidate (IC-1), "
                   "whose known-answer column now has a MEASURED value instead of "
                   "`candidate_unverified`. There is no existing row to anchor to because the "
                   "instrument has never been given a `V` number — roadmap §0.8 says an OPTIONS "
                   "register may not mint one, so the row has to be added by the map's owner."),
         "current_text": None,
         "proposed_text": (
-            "| `C01` (unnumbered) | ligand-side selectivity RBFE, ΔΔΔG between two proteins for a "
+            "| `IC-1` (unnumbered) | ligand-side selectivity RBFE, ΔΔΔG between two proteins for a "
             "matched congeneric ligand pair | **known answer: %s** — %s | ⛔ **the instrument itself "
             "is unvalidated; a benchmark existing is not a benchmark passed** |" % (dec, headline)),
         "why": ("§3 is where an instrument's known-answer STATE lives, and a `STOP_NO_REFERENCE` is "

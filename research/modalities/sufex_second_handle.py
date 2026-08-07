@@ -639,7 +639,7 @@ def build_map_edits(ruling, dropped, census, lit):
             # ⚠ ANCHORED ON THE LAST TABLE ROW, NOT ON THE HEADING. The §10.1 heading is followed by a prose
             # paragraph before the table header, so appending a `|`-row under the heading would land outside
             # the table and render as broken markdown.
-            "| **29** | **The categorical axis's cross-system decoy null (`C02`)**",
+            "| **29** | **The categorical axis's cross-system decoy null (`IC-2`)**",
             "The second-handle question is on no ranked row. It is the difference between Route B having a "
             "single point of failure that is a FACT ABOUT THE PROTEIN and one that was an artefact of "
             "sweeping two residue classes — and the one thing that would settle how much Y419 is worth is a "
