@@ -1,0 +1,751 @@
+pmcJACS AuJACS Au4063jacsauauJACS Au2691-3704American Chemical SocietyPMC10900215PMC10900215.110900215109002153842590010.1021/jacsau.4c000401ArticleProteolysis Targeting
+Chimera Degraders of the METTL3–14
+m6A-RNA Methyltransferase
+https://orcid.org/0009-0004-4658-9022ErraniFrancesco https://orcid.org/0009-0000-3380-8602InvernizziAnnalisa HerokMarcin BochenkovaElena StammFiona CorbeskiIvan https://orcid.org/0000-0003-0317-5140RomanucciValeria https://orcid.org/0000-0003-2912-4827Di FabioGiovanni ZálešákFrantišek https://orcid.org/0000-0002-2317-6792CaflischAmedeo #Department
+of Biochemistry, University of Zurich, Winterthurerstrasse 190, Zurich CH-8057, Switzerland†Università
+degli Studi di Napoli Federico II, Via Cintia 4, Napoli I-80126, Italia*Email: f.zalesak@bioc.uzh.ch.*Email: caflisch@bioc.uzh.ch.120220242602202442456698713729291120230102202401022024120220242902202412102024© 2024 The Authors. Published by American Chemical Society2024The Authorshttps://creativecommons.org/licenses/by/4.0/Permits the broadest form of re-use including for commercial purposes, provided that author attribution and integrity are maintained (https://creativecommons.org/licenses/by/4.0/). 
+Methylation of adenine N6 (m6A) is the most
+frequent
+RNA modification. On mRNA, it is catalyzed by the METTL3–14
+heterodimer complex, which plays a key role in acute myeloid leukemia
+(AML) and other types of blood cancers and solid tumors. Here, we
+disclose the first proteolysis targeting chimeras (PROTACs) for an
+epitranscriptomics protein. For designing the PROTACs, we made use
+of the crystal structure of the complex of METTL3–14 with a
+potent and selective small-molecule inhibitor (called UZH2). The optimization
+of the linker started from a desfluoro precursor of UZH2 whose synthesis
+is more efficient than that of UZH2. The first nine PROTAC molecules
+featured PEG- or alkyl-based linkers, but only the latter showed cell
+penetration. With this information in hand, we synthesized 26 PROTACs
+based on UZH2 and alkyl linkers of different lengths and rigidity.
+The formation of the ternary complex was validated by a FRET-based
+biochemical assay and an in vitro ubiquitination
+assay. The PROTACs 14, 20, 22, 24, and 30, featuring different linker
+types and lengths, showed 50% or higher degradation of METTL3 and/or
+METTL14 measured by Western blot in MOLM-13 cells. They also showed
+substantial degradation on three other AML cell lines and prostate
+cancer cell line PC3.
+
+PROTACsMETTL3METTL14CRBNdegradationm6A-RNAAMLprostate cancerSchweizerischer Nationalfonds zur FÃ¶rderung der Wissenschaftlichen Forschung10.13039/501100001711310030_212195Swiss Cancer Research Foundation10.13039/501100013362KFS 5748-02-2023pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYdocument-id-old-9au4c00040document-id-new-14au4c00040ccc-price
+
+## Introduction
+Post-transcriptional (epitranscriptomic)
+modifications of RNA have
+a key role in gene expression and cell homeostasis regulation. , The N6-adenosine methylation (m6A) is the most abundant
+among over 150 reported modifications. It has been found on mRNA, tRNA, rRNA, and several noncoding RNAs. The m6A is a dynamic and reversible
+modification deposited by proteins defined as “writers”
+and removed by “eraser” proteins. A third family of
+epitranscriptomic proteins (“readers”) recognize the
+methylated RNA, leading to splicing, nuclear export, translation,
+altered stability, and degradation of transcripts. − In this way, the m6A modification can
+mediate the expression or silencing of specific genes. 
+This epitranscriptomic machinery enables processes
+such as stem
+cell differentiation, cell response to
+stress, and regulation of the circadian
+cycle under physiological conditions.
+Its dysregulation has been linked to a growing number of pathological
+conditions. In particular, abnormal m6A levels have been
+connected to different kinds of cancer including leukemia, prostate
+cancer, breast cancer, liver cancer, colorectal cancer, and others. − 
+Methyltransferase-like 3 (METTL3) and METTL14 form the heterodimeric
+protein complex that catalyzes the deposition of the m6A modification (writer). METTL3 is the catalytic subunit that binds
+the cosubstrate S-adenosyl-l-methionine
+(SAM) while METTL14 facilitates RNA binding and stabilization of the
+complex. , Many studies show that increased m6A levels can lead to enhanced cell proliferation, antiapoptotic effects,
+promotion of migration, and invasion. Moreover, METTL3 has been reported to promote other cancerogenic
+processes independently of its catalytic activity. Mouse knockout studies have revealed that the depletion
+of m6A modification leads to early embryonic lethality.
+Mouse embryonic stem cells (mESCs) could survive the METTL3 gene knockout
+and continue to proliferate but lost the ability to differentiate. In human hematopoietic stem/progenitor cells
+(HSPCs), m6A modification controls myeloid differentiation.
+Short hairpin RNA (shRNA)-mediated silencing of METTL3 in HSPCs promotes
+cell differentiation and reduces cell proliferation. These two examples demonstrate the relevance of m6A modification in normal cell differentiation processes, but its
+effects are largely dependent on the cellular context. Importantly,
+METTL3 mRNA and protein are expressed at higher levels in AML cells
+than in healthy HSPCs, which can result in a therapeutic window to
+target the protein with inhibitors and degraders.
+To date, only
+three series of SAM-competitive, potent, and selective
+inhibitors of METTL3 have been reported, two of them originating from
+medicinal chemistry campaigns carried out in our group at the University
+of Zurich (UZH). − The low nanomolar inhibitors UZH2 and the compound published by
+Storm Therapeutics (STM2457) have shown antiproliferative effects
+in acute myeloid leukemia (AML) cell lines, strengthening the therapeutic
+potential of targeting the METTL3–14 complex. , A small molecule inhibitor of METTL3 called STC-15 (SAM-competitive,
+developed by Storm Therapeutics) is currently in phase 1 clinical
+trials (https://clinicaltrials.gov/study/NCT05584111). A total of
+66 patients have been enrolled and dosed (since Nov. 15, 2022) to
+evaluate the safety, pharmacokinetic, pharmacodynamic, and clinical
+activity of STC-15 in subjects with advanced malignancies. Serious
+side effects after dosing STC-15 do not seem to have emerged as the
+clinical trials are ongoing for nearly 14 months. A recent in vivo
+study using the METTL3 inhibitor STM2457 (a predecessor of the compound
+STC-15 currently in clinical trials) reported milder, more nuanced,
+and manageable effects of pharmacological METTL3 inhibition on normal
+hematopoiesis than those observed in METTL3 knockout studies. The
+observed lineage bias in the earliest hematopoietic progenitors included
+an increase in neutrophils and a decrease in erythroids, indicating
+anemia as a potential side effect of catalytic METTL3 inhibition. Available data show that targeting METTL3 by
+knockout or inhibition affects normal cells, but the effect depends
+on the cellular and systemic context. However, the high cellular concentration
+of SAM (60 to 160 μM as measured in rat liver) can limit the scope of SAM-competitive inhibitors.
+Proteolysis targeting chimeras (PROTACs) are a valid alternative
+to small-molecule inhibitors. − PROTACs are heterobifunctional molecules bearing
+a protein of interest (POI) ligand covalently linked to an E3 ligase
+ligand. Upon binding to both targets, PROTACs promote ubiquitination
+of the POI and its subsequent degradation by the 26S-proteasome. This
+is a promising approach already applied to a variety of targets, in
+particular in the epigenetic field. Their
+catalytic-like mechanism of action results in the recycling/reuse
+of the PROTAC molecules upon protein degradation. Moreover, because
+of the degradation of the whole protein, PROTACs eliminate both its
+enzymatic and scaffolding functions, acting as a chemical knockout
+of the protein.
+Here, we report a medicinal chemistry campaign
+aimed at the development
+of PROTAC molecules against METTL3–14, the human m6A-RNA writer complex.
+
+## Results and Discussion
+
+## Protein Structure-Based Design
+The medicinal chemistry
+campaign builds upon our previous results obtained during the development
+of small molecule inhibitors for METTL3–14. Here, we start from two potent and selective METTL3–14
+inhibitors, UZH2 (IC50 = 5 nM, selectivity data in Table S1) and its desfluoro derivative AD22 (IC50 = 89 nM, compound 10 in ref. ) ( A). As E3 ubiquitin ligase, we selected Cereblon (CRBN), for which
+the most common ligands are 4-amino thalidomide (pomalidomide) and
+lenalidomide. , The general structure of the
+synthesized PROTACs is represented in . The UZH2/AD22 atom for the covalent bond
+with the linker was identified by crystallographic analysis. The binding
+poses of UZH2 (PDB 7O2F) and AD22 (PDB 7O0P) in the METTL3–14 complex ( B) provide an exit vector from the pyrimidine
+ring into the solvent-exposed area. Replacing the methylamino moiety
+with a propyl diamino motif (handle) allowed a convenient connection
+to the CRBN ligand via a linker. The amino group directly connected
+to the pyrimidine ring was intended to maintain a favorable hydrogen
+bond interaction with the side chain of Asp377 in METTL3 ( C). The terminal
+amino functionality allowed the final amide bond formation, thus connecting
+the POI ligand with pomalidomide through the linker ( ). The propyl diamino moiety
+is formally considered to be part of the linker. Nevertheless, it
+affects the affinity of the PROTACs for METTL3–14 as measured
+in our time-resolved FRET assay (hereafter referred to as binary assay). For this reason, this portion is called handle
+to clearly distinguish it from the rest of the linker. The structures
+of all the synthesized PROTACs (compounds 1–35) are reported in . The first set of PROTAC molecules (compounds 1–4) consists of AD22 as the POI ligand,
+propyl diamine handle, polyethylene glycol (PEG) linker, and pomalidomide
+as the E3 ligase binder ( A). Their synthesis was achieved by a final amide bond
+formation, as described in further detail in in the section.
+ The rationale behind the use of PEG linkers in the
+first generation
+was the commercial availability of PEG chains with different numbers
+of PEG subunits. This allowed us to cover
+different distances between the PROTAC moieties for POI and CRBN.
+This is useful for investigating the optimal range for the formation
+of the ternary complex CRBN/PROTAC/METTL3–14. Moreover, the
+PEG chain is widely used in cross-linking for bioconjugation and biolabeling,
+due to its favorable physicochemical properties. − The degradation
+of METTL3 and METTL14 was measured individually by Western blot at
+various PROTAC concentrations (10, 5, 1, 0.1, 0.01 μM) at the
+16 h time point in MOLM-13, which is an AML cell line. However, none
+of the four first-generation PROTACs (compounds 1–4) showed degradation activity ( ). Compounds 1, 2, 3, and 4 were also tested in a biochemical
+ternary complex formation assay (TCFA). Relatively high effective concentrations at the peak of the Hook
+curve (ECmax: 6.8, 2.8, 1.9, and 2.0 μM)
+reflect low affinity toward both CRBN and METTL3–14 ( ). In addition, the
+amplitude of the Hook curve (Table S2)
+is low compared to those of other compounds in this paper. This can
+be an indication of weak cooperativity and less stable ternary complex
+formation, which is needed for successful degradation activity. As PROTACs can suffer from low cellular permeability
+due to their high molecular weight and/or high hydrophilicity, we decided to assess permeability and target
+engagement in cells using the cellular thermal shift assay (CETSA). The first set of PROTACs (compounds 1–4) exhibited low protein stabilization and only
+at the very high concentration of 100 μM. Considering the CETSA
+( ) and TCFA
+results, the lack of degradation might be a result of low cell permeability
+and/or inability to form a stable ternary complex.
+ 
+
+## Optimization of Cell Permeability and POI Affinity
+To address the low permeability, we synthesized a second set of AD22-based
+PROTACs (compounds 5–9), aiming to
+increase the lipophilicity of the molecules. The PEG linker was replaced
+by an alkyl chain ( B). − The positive effect of the increased lipophilicity
+on cell membrane permeation was confirmed through CETSA experiments,
+as indicated by more pronounced stabilization effects ( ). To improve the stability
+of the ternary complex, we decided to change the POI ligand by replacing
+AD22 with the ∼20-fold more potent inhibitor UZH2 ( C). As expected,
+the resulting PROTACs (compounds 10–13) showed a much higher affinity for METTL3–14 in comparison
+to their AD22 analogues ( ). Furthermore, the ECmax measured in TCFA was
+substantially improved. Compounds 10, 11, and 12 showed an ECmax below 1 μM,
+with a 3- to 6-fold improvement compared to the nonfluorinated analogues
+( ). Despite
+the increased cellular permeability and binding affinity to the target
+protein, none of the tested compounds showed degradation of METTL3–14,
+as measured by Western blot at 0.2, 2, and 20 μM PROTAC concentration
+at multiple time points (6, 16, 36 h). As the PROTACs synthesized
+so far featured the same handle motif (propyl diamine), we questioned
+its impact on ternary complex formation and protein degradation. From
+previous studies, we knew that the replacement of the methyl amino
+group in UZH2 with an aryl or aliphatic ring can provide favorable
+lipophilic interaction with the edge of the METTL3–14 binding
+site. Moreover, a rigid and bulky feature
+in the handle or the linker could lead to a PROTAC conformation more
+prone to cell permeation and/or ternary complex formation. , − With this in mind, we moved on to the synthesis of
+PROTACs bearing a more rigid handle/linker ( D).
+
+## Optimization of Length and Rigidity of the Linker
+The
+next set of seven PROTAC molecules contained a benzyl diamine handle
+instead of a propyl diamine. In addition, we varied the length of
+the linear portion of the linker, retaining the alkyl (compounds 14–17) and alkyl-triazole (compounds 18–20) motifs from previous optimization
+steps. The presence of the aromatic ring significantly improved the
+affinity for METTL3–14 (measured by the FRET-based binary assay)
+as well as the values of ECmax ( ). Substantial degradation of both METTL3
+and METTL14 proteins after 24 h incubation was observed with 2 μM
+PROTAC concentration in MOLM-13 cells. It is important to note that
+for SAM-competitive PROTACs the cellular activity at low micromolar
+concentration is in line with the low micromolar activity measured
+previously for UZH2 in cellular assays , which is due
+to the aforementioned high concentration of SAM. Compounds 14, 19, and 20 reduced the level of both
+METTL3 (by 52, 33, and 42%, respectively) and METTL14 (by 52, 40,
+and 51%, respectively). The most promising derivative, PROTAC 14, contained a shorter linker in comparison with the other
+PROTACs of this set. Furthermore, we synthesized another set of 11
+PROTACs that contained lipophilic and rigid handles such as piperidine
+(compounds 21–25), piperazine (compounds 29–32), and triazole (compounds 26 and 27) in combination with different alkyl
+linker lengths. After a round of protein degradation screening in
+cells and quantification by Western blot analysis (2 μM, 24
+h MOLM-13) compounds 22, 23, 24, 29, 30, and 31, featuring
+piperidine or piperazine handle, showed a 50% or higher degradation
+of METTL3 and/or METTL14 ( , A,B). , The correlated degradation of the two proteins
+of the heterodimeric complex METTL3–14 provides evidence that
+a PROTAC binding at the SAM-pocket of METTL3 can degrade both proteins
+( C, Figure S1). PROTAC 30 displayed
+the most significant degradation activity, achieving a reduction of
+both METTL3 and METTL14 by about 60%. In contrast, the PROTACs with
+a triazole ring as a handle (compounds 26 and 27) performed worse, showing degradation efficacies of 13 and 12%,
+respectively.
+ The highest degradation (50–60%) was achieved
+with compounds
+featuring a linker length spanning between three and five methylene
+groups, i.e., PROTACs 14, 22, 23, and 30. The TCFA shows gradual ECmax improvement
+when reducing the linker length, as we can see for the piperidine
+handle series PROTACs 25, 24, 23, 22, and 21 ( D). Among them, the shortest PROTAC, compound 21, has the best ECmax (0.06 μM), but in
+terms of degradation, it is worse than its slightly longer analogues 22 and 24, with 21, 46, and 36% METTL3 reduction,
+respectively. A possible explanation for the discrepancy between the
+biochemical TCFA and the cellular degradation assay is that the TCFA
+employs truncated protein constructs. PROTAC 21 might
+be too short to form a stable ternary complex with full-length proteins,
+and some steric clashes can cause a nonoptimal conformation of the
+ternary complex. This ECmax improvement tendency is not
+observed at even shorter linker lengths, as shown with PROTAC 32 (no linker), which is inactive in both TCFA and cell degradation
+assays. Thus, there seems to be an optimal range for the linker length
+(three to five methylene groups).
+ E shows
+the distribution of the percentage of protein degradation in MOLM-13
+as a function of the ECmax measured in TCFA ( ). Even though the correlation
+is not strong (correlation coefficient r = 0.44),
+only PROTAC 28 shows degradation higher than 20% and
+ECmax > 1 μM. The biochemical TCFA can be considered
+a useful screening technique for prioritizing the PROTACs for biological
+characterization.
+To further increase the rigidity of the handle/linker
+part, we
+synthesized three PROTACs (compounds 33–35) with reduced linker flexibility. Among them, PROTAC 33 turned out to be the best, showing 44% METTL3 reduction,
+while compound 34 displayed a not significant protein
+reduction and 35 only 21% METTL3 reduction. Considering
+that compounds 34 and 35 contain a much
+shorter linker than that of PROTAC 33, these results
+further highlight the importance of linker length.
+Once the
+most promising handles and ideal length to achieve protein
+degradation were defined, we tried to modify the connection to the
+CRBN ligand. , PROTAC 23 is linked
+to thalidomide at position 5. This modification is well tolerated,
+and the compound causes 50% degradation of METTL3. Nonetheless, compared
+to its 4-substituted analogue (PROTAC 22), the difference
+in both degradation (50% vs 46%) and ECmax (0.16 μM
+vs 0.19 μM) is negligible ( , D).
+At this point, we decided to select a subset of PROTACs
+for further
+validation in multiple AML cell lines. We first focused on the eight
+PROTACs that showed submicromolar ECmax and at least 50%
+degradation of METTL3 and/or METTL14 in MOLM-13 (14, 20, 22, 23, 24, 29, 30, 31, highlighted in C). Note that PROTAC 33 (also highlighted in C) had not yet been prepared when we decided to focus
+on a small subset of PROTACs. We further restricted the selection
+to only five PROTACs as PROTAC 23 is the meta-substituted
+equivalent of 22, and PROTACs 29–31 differ only in the number of methylene groups. Thus, the
+degradation activity of compounds 14, 20, 22, 24, and 30 was investigated
+in different AML cell lines (THP-1, NOMO-1, and KASUMI-1) ( B, Figures S1 and S3). While the degradation levels observed
+in THP-1 and NOMO-1 cell lines were comparable to those in MOLM-13,
+a higher degradation of both METTL3 and METTL14 was measured in KASUMI-1.
+The treatment of KASUMI-1 cells with 2 μM of PROTAC 30 for 24 h caused a 70% degradation of the POI.
+To further validate
+the top PROTACs, we tested some of them against
+cell lines of solid tumors. We decided to focus on two prostate cancer
+cell lines (DU145 and PC3) because of recent evidence for the importance
+of METTL3 in prostate cancer. , The selected PROTACs 14, 20, 22, 24, and 30 showed only a minor effect in the DU145 cell line ( B, Figure S3). In contrast, the METTL3 levels were reduced substantially
+in PC3 after 24 h, with PROTACs 20 and 22 showing the highest degradation values, 48 and 64% reduction of
+METTL3, respectively ( B, Figure S3). This result indicates
+that the degradation activity of our PROTAC molecules is not limited
+to leukemia cell lines, but they have a good potential also against
+prostate cancer. Moreover, the correlated degradation of METTL3 and
+METTL14 was observed not only in MOLM-13 ( C) but also in all of the other cell lines
+tested ( B, Figure S1).
+
+## Validation of PROTACs Cellular Activity
+At this stage,
+we evaluated the METTL3–14 protein levels after PROTAC treatment
+in combination with high concentrations of the small-molecule inhibitor
+lenalidomide or UZH2 ( A). These controls consist
+of saturating the binding pockets of CRBN or METTL3–14, respectively,
+thus preventing the formation of the ternary complex. Cells were treated
+with PROTACs 20 and 24 under three different
+conditions: 2 μM PROTAC, 2 μM PROTAC + 10 μM lenalidomide,
+and 2 μM PROTAC + 10 μM UZH2. As expected, we did not
+observe any degradation when applying a high concentration of lenalidomide.
+Interestingly, the presence of a high UZH2 concentration led to elevated
+levels of METTL3–14 both in the control as well as in combination
+with the PROTAC. This observation indicates a possible cellular compensatory
+mechanism aimed at preserving the protein catalytic activity in the
+presence of an inhibitor. It also offers
+a potential explanation for the difficulties in reaching degradation
+levels of METTL3–14 above 50%.
+ To confirm that our compounds lead to protein degradation
+by hijacking
+the Ubiquitin–proteasome system (UPS), we synthesized negative
+controls based on a single methylation, which results in inactive
+lenalidomide/pomalidomide derivatives. − Thus, we prepared the
+methylated versions of PROTACs 14 and 24 (me-14 and me-24) ( B). These methylated compounds did not show
+any METTL3–14 degradation at standard testing conditions (2
+μM, 24 h) ( C).
+Both control PROTACs gave no signal in the biochemical
+ternary
+complex formation assay ( D). The methylated derivatives are inactive, indicating
+their inability to form a ternary complex and further confirming the
+specificity of our PROTACs. Compound me-14 was also tested
+in the CETSA on both METTL3 and CRBN to provide evidence that it is
+cell permeable and engages the POI and not CRBN (i.e., validation
+of the negative control). As expected, the compound showed stabilization
+of METTL3 but not of CRBN (Figure S4).
+Furthermore, we set up an in vitro ubiquitination
+assay to quantify the ubiquitination of METTL3 and METTL14 in the
+presence of different concentrations of PROTACs. Compounds 14 and me-14 were tested at 2, 8, and 32 μM ( E). While me-14 does not increase the ubiquitination of METTL3 compared to the control
+without compound, PROTAC 14 raises the ubiquitination
+level of METTL3 to ∼40% at 2 μM. The decrease of ubiquitination
+at higher concentrations of compound 14 is consistent
+with the Hook effect. The ubiquitination of METTL14 is not as pronounced
+( F). This can
+indicate that the ubiquitination site(s) is (are) mainly on METTL3.
+Interestingly, Zeng et al. showed that METTL14 can get ubiquitinated
+by STUB1 in the METTL3–14 interface and METTL3 therefore seems
+to prevent METTL14 ubiquitination. The
+simultaneous degradation of METTL3 and METTL14 caused by the PROTACs
+( C) could be
+explained either by both proteins being subjected to the proteasome
+as a complex or by the reduced stability of METTL14 without METTL3.
+Lastly, we analyzed the concentration dependence of degradation
+of METTL3 and METTL14 in the MOLM-13 cell line. We selected PROTACs 14 and 30, which have the highest METTL3 degradation
+in MOLM-13 (52 and 57%, respectively). The activity of PROTAC 14 was also compared to the one of its negative control me-14. We treated MOLM-13 cells with PROTACs 14, 30, and me-14 at five different concentrations
+( ). As expected,
+the concentration dependence shows the so-called Hook effect, , resulting from a saturation of CRBN and METTL3–14 at high
+PROTAC concentrations, where the PROTAC/CRBN and PROTAC/METTL3–14
+binary complexes prevent the ternary complex formation and thus degradation.
+This result confirms that our compounds behave according to the principle
+of the PROTAC mechanism of action. For PROTAC 30, the
+highest degradation was observed at 0.1 μM concentration, reaching
+up to 60% degradation, and for PROTAC 14, the highest
+effect was seen at 1 μM, with a METTL3 reduction of around 50%.
+Compound me-14 showed no degradation and even increased
+METTL3 levels at 10 μM, similar to that of the UZH2 inhibitor
+alone.
+ Overall, among the 35 PROTAC compounds synthesized
+in this study,
+nine (14, 20, 22, 23, 24, 29, 30, 31, and 33) caused at least 50% degradation of METTL3
+and/or METTL14 in MOLM-13. Five of them (14, 20, 22, 24, and 30) were tested
+in different cell lines (AML and prostate cancer) and showed significant
+activity with METTL3–14 degradation up to 70% of the endogenous
+level ( B).
+The concentration-dependent degradation activity (Hook effect, A), correlation in
+the degradation of the two proteins of the METTL3–14 heterodimeric
+complex ( C),
+methylated PROTAC controls ( ), and the additional validation experiments with competitive
+small-molecule ligands ( A) provide strong evidence of cellular target engagement and
+selectivity of our PROTACs.
+To assess whether degradation induced
+by our compounds translated
+into enhanced cell death, we performed cell viability assays on MOLM-13
+with all of the UZH2-based PROTACs (Table S3). Compounds 20, 22, 24, and 30 were also tested in the other AML cell lines THP-1 and
+Kasumi-1 and in the prostate cancer cell lines PC3 and DU145 ( A). Significant effects
+on the cell viability of some PROTACs were observed only at the highest
+concentration tested (10 μM). This concentration is higher than
+the ECmax values measured in the biochemical assay because,
+as mentioned before, the PROTACs (and UZH2) compete with the micromolar
+concentration of SAM in the cellular assays. Interestingly, on PC3
+cell line only PROTACs (compounds 22, 24, and 30) and not UZH2 showed an antiproliferative effect.
+ To better understand cell viability results in
+the MOLM-13 cell
+line, we measured the changes in cellular m6A/A levels
+(by LC-MS quantification) after PROTAC treatment ( B). At 2 μM (concentration
+used for degradation screening), we did not observe significant effects
+on the levels of m6A/A (except for a slight reduction for
+compound 22). Measurable reduction of m6A/A
+was observed at a 10 μM concentration. Taking into consideration
+the concentration-dependent activity of PROTAC molecules (Hook effect),
+it is more likely that the observed reduction in m6A modification
+is due to inhibition of the catalytic activity of METTL3 by the UZH2-based
+warhead rather than protein degradation. Partial inhibition of the
+catalytic activity might also explain the observed cytotoxic effect
+at the highest tested concentrations of PROTACs. In conclusion, the
+modest cytotoxicity and reduction of m6A/A suggest that
+degradation levels higher than 50–70% are required to observe
+phenotypic effects specific to the PROTAC-induced METTL3–14
+degradation.
+
+## Synthesis
+Starting from spiro compounds 36 and 37, the preparation of POI ligands bearing the
+handle moiety was conducted following the general strategy reported
+in Scheme :
+ After Boc deprotection followed by an SNAr reaction
+with 4,6-dichloro or difluoro pyrimidine, compounds 38 and 39 were obtained. A second SNAr was
+needed to afford compounds 40, 41, and 42a–47a. Interestingly, due to the poor
+reactivity of chloro-pyrimidine 38 toward SNAr, we were only able to prepare compounds 42a and 43a. Switching to its fluorinated analogue 39 was necessary to synthesize compounds 40, 41, and 44a–47a in good yield (from
+50 to 70%). Compounds 42–47 were
+then obtained upon removal of the protecting group from precursors 42a–47a.
+Through an Ullmann-type
+reaction, we combined compound 46 with Boc-protected
+4-(5-bromopyrimidin-2-yl) piperazine. The desired intermediate 48a was
+obtained in low yield and upon Boc deprotection afforded compound 48 ( ).
+ Compounds 1–20, 22–25, 29–31,
+and 33 were synthesized via an amide coupling reaction
+between compounds 42–46 and 48 and the corresponding pomalidomide/lenalidomide carboxylic
+acids. HATU coupling agent provided decent yields only for compounds 1–4, 8, 9,and 29–31. For the other molecules, COMU performed
+better and provided the desired products with yields of up to 60%
+( ).
+ The final amide coupling ( ) did not work for compounds 21 and 35. Therefore, the synthetic route was slightly modified.
+Both intermediates 49 and 51 were prepared
+starting from 45. An amide coupling between the latter
+and Boc-glycine, followed by amino group deprotection, yielded compound 49. For the synthesis of compound 51, the acetylation
+of 43 using 2-chloroacetyl chloride resulted in the formation
+of 50. Afterward, we converted 50 into 51 through an SN2 reaction with Boc-piperazine,
+followed by the removal of the protecting group ( ).
+ With intermediates 49 and 51 in our hands,
+we were finally able to obtain PROTACs 21 and 35 using SNAr and 4-fluoro thalidomide. Using the same reaction
+as for the final step, we prepared PROTAC 34 from compound 47 ( ).
+ To synthesize 26 and 27, compounds 52 and 53 were first prepared starting with lenalidomide,
+which was reacted with the corresponding carboxylic acids. A following SN2 reaction with NaN3 allowed us to prepare intermediates 54 and 55. PROTACs 26 and 27 were finally obtained through the click reaction ( ).
+ Compound 56 was obtained from a SNAr reaction
+between 4-fluoro thalidomide and propargyl amine. Similarly to 26 and 27 ( ), the click reaction
+between 56 and 41 was employed to synthesize
+PROTAC 28 ( ).
+ Following the same procedure
+used for 56 ( ), we prepared the
+protected version of intermediate 57. After Boc removal,
+PROTAC 32 was obtained via the SNAr reaction
+between compounds 57 and 39 ( ).
+ For the synthesis of me-14 and me-24 ( ), 4-fluoro thalidomide
+was methylated using CH3I. The two PROTACs were then synthesized from 58, following
+the synthetic route used for the nonmethylated analogues PROTACs 14 and 24 ( ).
+ 
+
+## Conclusions
+Here, we report a medicinal chemistry design
+of PROTACs against
+m6A-RNA writer METTL3–14. We used as starting information
+the crystal structure of METTL3–14 in complex with the potent
+(IC50 = 5 nM) and selective inhibitor UZH2. We efficiently
+optimized the PROTAC linker by first employing the desfluoro derivative
+of UZH2 as a moiety for METTL3–14. While PEG- and alkyl-based
+linkers were considered initially, only the PROTACs with alkyl-based
+linkers demonstrated cell penetration. Subsequently, we synthesized
+26 PROTACs based on UZH2 with alkyl linkers of varying lengths. The
+formation of the ternary complex and ubiquitination of METTL3 were
+confirmed by a FRET-based assay and an in vitro ubiquitination
+assay. The cellular characterization of the PROTACs is still highly
+necessary, but biochemical TCFA emerges as a valuable instrument for
+efficiently screening PROTACs for further validation ( E). Notably, five PROTACs (14, 20, 22, 24, and 30) with distinct rigid extensions of UZH2 achieved substantial
+METTL3–14 degradation (50% or higher) in multiple AML cell
+lines and the prostate cancer cell line PC3, showcasing their potential
+as valuable tools in targeted protein degradation research. In comparison
+with the catalytic inhibitor UZH2, the PROTACs 22, 24, and 30 show higher antiproliferative activity
+on prostate cancer PC3 but not on AML cell lines. The elevated level
+of METTL3–14 in the presence of UZH2 and the lack of reduction
+of the m6A/A level of polyadenylated RNA (measured by LC/MS)
+suggest that a substantially higher degradation of METTL3–14
+(probably above 90%) is required for a strong antiproliferative effect.
+Similarly, compounds with higher activity will be needed to characterize
+the potential side effects of METTL3 PROTACs in future in
+vivo studies.
+In investigating the features of PROTACs
+for successful protein
+degradation, this study adds a valuable contribution to the understanding
+of the crucial role of the linker. The biochemical and cellular characterizations
+provide evidence that a minimum linker length is required to achieve
+the formation of the tripartite complex between PROTAC, E3 ligase
+CRBN, and POI(s) METTL3–14. In this regard, the linkers of
+PROTACs 32 and 34 are too short for the
+formation of a ternary complex that allows for degradation of METTL3–14.
+The PROTACs that promote a more significant degradation (14, 20, 22, 23, 24, 29, 30, 31, and 33) are characterized by a rigid “handle” (benzyl, piperidine,
+and piperazine) and a longer linker. The structure of these PROTACs
+presents only minimal differences compared to other molecules synthesized
+during this study (18, 19, 21, and 25), which shows how small differences in geometry,
+length, and/or rigidity of the linker can have a major impact on the
+formation and stabilization of the ternary complex, and the eventual
+protein degradation.
+
+## Material and Methods
+
+## METTL3–14 Expression and Purification
+For determining
+the half maximal inhibitory concentration (IC50) with the
+full-length complex, the recombinant complex construct pFastBacDual-StrepII-GFP-TEV-METTL3-His-TEV-METTL14
+was expressed using the baculovirus/Sf9 insect cell expression system
+and purified as described previously. 
+For ternary complex formation assays, genes containing the
+methyltransferase domains (MTD) of METTL3 (residues 354–580)
+and METTL14 (residues 107–395) were cloned into the MacroBac
+vector 438-GST. A histidine tag (His)
+was inserted at the N-terminus of GST by site-directed mutagenesis
+to yield the construct 438-His-GST-METTL3MTD-METTL14MTD. Recombinant baculovirus to express the complex of His-GST-METTL3MTD and METTL14MTD was generated by using the Bac-to-Bac
+system. For protein expression, suspension cultures of Sf9 cells in
+Sf-90 II SFM medium (Thermo Fisher) were infected at a density of
+2 × 106 mL–1. Cells were harvested
+72 h postinfection, resuspended in buffer A (50 mM Tris-HCl pH 8.0,
+500 mM NaCl) supplemented with protease inhibitor cocktail (Roche
+Diagnostics GmbH, Germany), phenylmethylsulfonyl fluoride (PMSF),
+salt active nuclease (Merck), and lysed by sonication. The protein
+complex was purified by Ni-affinity chromatography on a 5 mL HisTrap
+HP column (Cytiva), equilibrated, washed with buffer A, and eluted
+with 250 mM imidazole. The complex was further purified by size exclusion
+chromatography using a Superdex 200 Increase 10/300 GL column (Cytiva)
+in 20 mM Tris-Cl, pH 8.0, and 200 mM KCl. The complex was aliquoted
+and flash-frozen in liquid nitrogen and stored at −80 °C
+until further use.
+
+## Reader-Based TR-FRET Assay
+The inhibitory potencies
+of the PROTACs for METTL3 were quantified by a homogeneous time-resolved
+fluorescence (HTRF)-based enzyme assay as previously described. Briefly, the level of m6A in an RNA
+substrate after the reaction catalyzed by METTL3–14 was quantified
+by measuring specific binding to the m6A reader domain
+of YTHDC1 (residues 345–509) by HTRF. PROTACs that inhibit
+METTL3 decrease the m6A level and, thus, reduce the HTRF
+signal. Dose–response curves of titrations with the PROTACs
+were plotted in OriginLab 2018
+and fitted with nonlinear regression “log(inhibitor) vs normalized
+response with variable slope” from which IC50 values
+were determined. Each PROTAC was measured in triplicates on a Corning
+384 U bottom white polystyrene plate.
+
+## Biotinylated CRBNTBD Expression and Purification
+His-TEV-CRBNTBD-Avi was created by inserting a tobacco etch virus (TEV)
+cleavage site at the N-terminus and an Avi-tag at the C-terminus of
+the CRBN thalidomide binding domain (TBD, CRBN residues 318–442)
+and the construct was cloned into the pETDuet-1 vector between SacI
+and HindIII restriction sites together with full-length
+enzyme BirA, which was cloned into the same vector between NdeI and
+XhoI restriction sites.
+The construct was overexpressed in Rosetta
+(DE3) cells upon induction with 100 μM isopropyl thio-beta-D-galactoside
+(IPTG) for 20 h at 18 °C. The expression medium was supplemented
+with 50 μM d-biotin. Harvested cells were resuspended
+in lysis buffer containing 100 mM Tris-HCl, pH 8.0, 500 mM NaCl, 1
+mM 1,4-dithiothreitol (DTT), 1 mM phenylmethylsulfonyl fluoride (PMSF),
+and 1 mM ethylenediaminetetraacetic acid (EDTA) and lysed by sonication.
+The lysates were centrifuged at 18,000 rpm at 4 °C for 1 h in
+an SS-34 rotor. The soluble fraction was then loaded onto a HisTrap
+FF crude column (GE Healthcare) and washed with lysis buffer supplemented
+with 50 mM imidazole. The protein was eluted with a buffer containing
+250 mM imidazole, 100 mM Tris-HCl, pH 8.0, and 500 mM NaCl. Recombinant
+TEV protease cleaved the His6 tag during overnight dialysis
+at 4 °C against 100 mM Tris-HCl, pH 8.0, and 500 mM NaCl buffer.
+The dialyzed sample was passed through the HisTrap FF crude column
+to remove the His6-tagged TEV protease and uncleaved protein.
+The protein was further purified by size-exclusion chromatography
+using a HiLoad 16/600 Superdex 200 pg column (GE Healthcare) in 50
+mM HEPES, pH 7.5 and 150 mM NaCl buffer. The protein was aliquoted
+and stored at −80 °C until further use. Biotinylation
+was confirmed by an avidin shift assay, where a final CRBN-Avi of
+5 μM was mixed with different amounts of NeutrAvidin (10, 20,
+40 μM) (Thermo Fisher # 31000) and the proteins were analyzed
+by SDS-PAGE (data not shown).
+
+## Ternary Complex Formation Assay
+Ternary complex formation
+between the PROTACs, METTL3, and CRBN was quantified by a homogeneous
+time-resolved fluorescence (HTRF)-based enzyme assay. The HTRF signal
+of a titration series with PROTACs at constant METTL3 and CRBN concentrations
+underlies the hook effect, leading to a characteristic bell-shaped
+curve where the concentration of the ternary complex decreases at
+high PROTAC concentrations. Curves of titrations with the PROTACs
+were plotted in GraphPad Prism 9.5.1 and fitted with a Gaussian function,
+if appropriate. His-GST-METTL3MTD-METTL14MTD was used at a final concentration of 15 nM. CRBNTBD-Avi(biotin)
+was used at a final concentration of 10 nM. XL665-conjugated streptavidin
+(Cisbio, 610SAXLB) was used at a final concentration of 1.25 nM. Anti-GST
+Eu3+-labeled antibody (Cisbio, 61GSTKLB) was used at a
+final concentration of 0.8 nM. The final reaction volume was 20 μL
+in 50 mM HEPES (pH 7.5), 150 mM NaCl, 0.1% BSA, 100 mM KF. The assays
+were carried out in triplicate on a Corning 384 U bottom white polystyrene
+plate (20 ul working volume). The reaction was incubated for at least
+3 h at room temperature (RT) in the dark before the HTRF signal was
+measured using a Tecan Spark plate reader (Tecan). The plate reader
+recorded with a delay of 100 μs the emission at 620 and 665
+nm after excitation of the HTRF donor with UV light at 320 nm. The
+ratio of the emissions was considered for further analysis. The maximal
+control contained compound 16; the blank contained no
+compounds–this was replaced by the appropriate buffer (with
+DMSO). The Hook curves were determined by normalization with the maximal
+control (compound 16) where the maximum of the Hook curve is determined
+as the fraction of the maximum of compound 16 for each PROTAC. The
+concentrations resulting in the maximum signal (ECmax)
+and the amplitudes of the Hook curves were determined from the parameters
+of the Gaussian fit (if appropriate) or as the coordinates of the
+data-point with the highest TR-FRET signal.
+For the ternary
+complex formation assay (TCFA), one of the protein partners must have
+a GST-tag and the other a biotin-tag. We chose to have the biotin-tag
+on the CRBN-TBD as it worked well in a previous project (unpublished
+data). Hence, we chose to put the GST-tag on either METTL3 or METTL14.
+We cloned, expressed, purified, and tested four N-terminally GST-tagged
+METTL3–14 constructs for the TCFA: two full-length complexes
+with either METTL3 or METTL14 GST-tagged and two MTD-only complexes
+with either METTL3-MTD or METTL14-MTD GST-tagged. The full-length
+complexes were either prone to aggregation or gave low signal in the
+TCFA. We attribute this to either folding problems due to the GST-tag
+or due to too long distances for efficient TR-FRET when the GST-tag
+is attached to the long unstructured N-terminal tails of the proteins.
+Hence, we conducted the TCFA with the MTD constructs, which behaved
+well and gave good TR-FRET signals.
+
+## In Vitro Ubiquitination Assay
+For the cell-free in
+vitro ubiquitination of METTL3-METTL14 purified E1, E2, ubiquitin,
+CUL4A-RBX1, Cereblon-DDB1, and METTL3-METTL14 were used. Human full-length
+METTL3-METTL14 was expressed and purified as described above. Human
+full-length cereblon-DDB1 and 6xHis-CUL4A-6xHis-RBX1 were coexpressed
+using the baculovirus/Sf9 insect cell expression system and purified
+by nickel affinity chromatography on a 5 mL HisTrap HP column (Cytiva)
+followed by anion exchange chromatography on a 5 mL HiTrap Q HP column
+(Cytiva) and a final gel-filtration step on a HiLoad 16/600 Superdex
+200 pg column. Purified recombinant human UBE1 E1 (E-305–025)
+was purchased from R&D Systems, UbcH5a E2 (23–029) from
+Merck and ubiquitin (SBB-UP0013) from South Bay Bio. For the ubiquitination
+reaction, components were mixed to final concentrations of 0.06 μM
+UBE1, 1.96 μM UbcH5a, 39 μM ubiquitin, 0.33 μM CUL4A-RBX1,
+0.33 μM Cereblon-DDB1, 0.5 μM METTL3-METTL14, and different
+concentrations of compound 14 or me-14 (0,
+2, 8, or 32 μM) in reaction buffer (50 mM Tris-HCl pH 7.6, 5
+mM MgCl2, 0.2 mM CaCl2, 1 mM DTT, 100 mM NaCl,
+0.01% BSA, 0.01% Triton X-100). The final reaction volume was 15 μL.
+After the addition of 2 mM ATP (or the equal volume of water for the
+control without ATP), the reaction mixture was incubated for 2 h at
+30 °C. The reaction was stopped by adding SDS-PAGE loading buffer
+(final concentration: 60 mM Tris, 1.5% SDS, 10% glycerol, 5% beta-mercaptoethanol,
+0.02% bromphenolblue). The samples were then subjected to Western
+blot analysis for METTL3, METTL14, and ubiquitin. The signals were
+quantified by using the Image Studio Lite software. To determine the
+percentage of ubiquitinated METTL3, the fraction of unmodified METTL3
+was calculated by dividing the signal of the band assigned to unmodified
+METTL3 by the signal of the area containing both the unmodified and
+(poly)ubiquitinated METTL3 and normalizing to the control without
+ATP. The fraction of ubiquitinated METTL3 is 1 minus the fraction
+of unmodified METTL3.
+
+## Cell Culture
+MOLM-13, NOMO-1, THP-1, Kasumi-1, PC3,
+and DU145 cell lines were obtained from DSMZ-German Collection of
+Microorganisms and Cell Cultures GmbH. Cells were cultured in RPMI
+1640 medium (11875093, Thermo Fisher Scientific) containing 10% FBS
+(16140071, Thermo Fisher Scientific) and 1% penicillin-streptomycin
+(15140122, Thermo Fisher Scientific) in 5% CO2 at 37 °C
+in a humidified incubator, with maintained cell densities at 0.5–1
+× 106 cells/mL. All cell lines were tested negative
+for mycoplasma contamination (PCR-based assay by Microsynth, Switzerland).
+
+## Cell Viability Assay
+Cells were seeded in white clear-bottom
+96-well plates at a density of 6–20 × 103 cells/well
+in 50 μL of the complete RPMI medium and treated with 50 μL
+of increasing concentrations of the indicated compounds dissolved
+in DMSO (final concentration of compounds 0.01–10 μM)
+or DMSO only as a negative control (0.01% (v/v)) and incubated for
+72 h at 37 °C with 5% CO2. Cell viability was determined
+using a CellTiter-Glo luminescent cell viability assay (Promega) based
+on the detection of ATP according to the manufacturer’s instructions.
+100 μL of the reagent was added to each well and incubated for
+10 min at room temperature. The luminescence was recorded using a
+Tecan Infinite 3046 M1000 microplate reader from the top. Background
+luminescence value was obtained from wells containing the CellTiter-Glo
+reagent and medium without cells. The resulting data was analyzed
+in GraphPad Prism 9.
+
+## Cellular Thermal Shift Assay (CETSA)
+One million of
+MOLM-13 cells were suspended in 100 μL of PBS (10010023, Thermo
+Fisher Scientific) containing 2× protease inhibitor cocktail
+(11697498001, Roche), for each condition tested. Cells were incubated
+with compounds or DMSO control (1% (v/v)) for 1 h at 37 °C. They
+were then heat treated at 54 °C in a thermoblock for 3 min, followed
+by cooling to room temperature (3 min). Next, samples were lysed by
+threefreeze–thaw cycles in liquid nitrogen and centrifuge at
+16000 g for 30 min, 4 °C. Equal volumes of control and tested
+samples (12 μL) were analyzed by Western blot. The changes in
+the amount of METTL3 protein (after normalization for β-actin
+and/or GAPDH) were monitored by performing densitometry in Image Studio
+Lite software and analyzed in GraphPad Prism 9.
+
+## Cellular Degradation Assay
+METTL3 (and METTL14) protein
+degradation was monitored by Western blot. Cells were treated with
+the indicated concentration of PROTACs or DMSO control (0.1% (v/v))
+for 24h, 37 °C with 5% CO2. Samples were then collected
+and lysed with RIPA buffer with added protease inhibitors (11697498001,
+Roche). After SDS-PAGE, proteins were transferred to a nitrocellulose
+membrane, blocked (with 5% milk, 0.5% BSA in TBST buffer), and incubated
+overnight with primary antibodies. The following antibodies were used:
+GAPDH (no. 2118, Cell Signaling, 1:4000), β-actin (ab8226, Abcam,
+1:2000), METTL3 (ab195352, Abcam, 1:1000), and METTL14 (ab220031,
+Abcam, 1:1000). Membranes were scanned using an LI-COR Odyssey DLx
+imager after incubation with appropriate secondary antibodies (antimouse
+IgG IRDye 680RD (926–68072, LI-COR, 1:10000) and goat anti-Rabbit
+IgG IRDye 800CW (926–32211, LI-COR, 1:10000)). Densitometry
+was performed in Image Studio Lite software and analyzed in GraphPad
+Prism 9.
+
+## Quantification of m6A/A Ratio in Polyadenylated RNA by UPLC-MS/MS
+Analysis
+UPLC-MS/MS was performed as previously described. 
+Briefly, MOLM-13 cells were seeded into
+6 well plates at a density of 1 × 106 cells/mL in
+2 mL of complete RPMI medium. Cells were treated with the indicated
+concentrations of compounds or DMSO control (final concentration 0.5%
+(v/v)) for 24 h. Following the incubation, cells were collected by
+centrifugation and washed once with PBS, and total RNA was extracted
+using 0.5 mL of GENEzol reagent according to the manufacturer’s
+instructions. The final volume of 50 μL of total RNA eluate
+was subjected to two rounds of purification using 25 μL of Sera-Mag
+magnetic oligo(dT) particles (Cytiva) per sample. The polyadenylated
+RNA was eluted with nuclease-free water in a final volume of 25 μL,
+and its concentration was determined using NanoDrop. One hundred nanograms
+of mRNA were digested to nucleosides and dephosphorylated in a one-pot
+reaction using 0.5 μL of nucleoside digestion mix (M0649S, NEB)
+in 25 μL of total reaction volume for 4 h at 37 °C. The
+samples were used for UPLC-MS/MS analysis without further purification
+steps. The data were plotted by using GraphPad Prism 9.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/jacsau.4c00040.Supplementary figures, tables, materials, synthetic
+procedures, characterization data, 1H and 13C NMR spectra, and HPLC traces for compounds 1–35, me-14, and me-24 (PDF)
+
+## Supplementary Material
+au4c00040_si_001.pdf
+
+## Author Contributions
+§ F.E. and A.I. contributed equally to this
+work. The manuscript
+was written through contributions of all authors. All authors have
+given approval to the final version of the manuscript.
+The authors declare no
+competing financial interest.
+
+## Acknowledgments
+We thank Thomas Frei (Department of Biochemistry,
+UZH) for assistance in cloning and protein expression and purification.
+This work was supported by the Swiss Cancer Research Foundation (grant
+number KFS 5748-02-2023 to AC) and the Swiss National Science Foundation
+(grant number 310030_212195 to AC).

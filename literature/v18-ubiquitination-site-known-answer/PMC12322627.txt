@@ -1,0 +1,262 @@
+379blackwellopenAngewandte Chemie (International Ed. in English)Angew Chem Int Ed EnglPMC1232262712322627123226274044458010.1002/anie.202508916Small Molecule‐Induced Alterations of Protein Polyubiquitination Revealed by Mass‐Spectrometric Ubiquitome Analysis
+FührerSiska GallantKaiDr KaschaniFarnuschDr KaiserMarkusProf Dr JanningPetraDr WaldmannHerbertProf Dr GerschMalteDr 
+1
+Chemical Genomics Centre, Max Planck Institute of Molecular Physiology, Otto‐Hahn‐Str. 15, 44227, Dortmund, Germany
+2
+Department of Chemical Biology, Max Planck Institute of Molecular Physiology, Otto‐Hahn‐Str. 11, 44227, Dortmund, Germany
+3
+Department of Chemistry and Chemical Biology, TU Dortmund University, Otto‐Hahn‐Str. 4a, 44227, Dortmund, Germany
+4
+Faculty of Biology, Analytics Core Facility Essen (ACE), ZMB, University of Duisburg‐Essen, Essen, Germany*
+E‐mail: herbert.waldmann@mpi-dortmund.mpg.de; malte.gersch@mpi-dortmund.mpg.de
+
+✉Corresponding author.
+26620256432e202508916e202508916682025© 2025 The Author(s). Angewandte Chemie International Edition published by Wiley‐VCH GmbHThis is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Small molecules that alter protein ubiquitination are emerging as therapeutics due to their ability to modulate targets previously deemed undruggable. These compounds comprise PROTACs, molecular glue degraders, and DUB inhibitors, among others. However, methods for the proteome‐wide monitoring of compound‐induced changes in protein polyubiquitination, which may also detect non‐degradative modifications, are lacking. Here, we report the utilization of polyubiquitin enrichment coupled to mass spectrometry to monitor small molecule‐induced changes in cellular protein ubiquitination. We established enrichment through tandem ubiquitin binding entities (TUBEs) following semi‐denaturing cell lysis and devised an elution protocol compatible with downstream LC‐MS/MS analysis. We demonstrate the broad applicability of the workflow by assessing ubiquitination changes induced by a PROTAC, a p97 inhibitor, and deubiquitinase inhibitors. Application of the assay to compounds inhibiting the deubiquitinase USP7 revealed the induction of non‐degradative ubiquitination on the E3 ligase UBE3A. Collectively, we established a versatile proteomics method to facilitate the direct investigation of cellular polyubiquitination, with high relevance for the identification and characterization of protein degraders, stabilizers, and other molecules with ubiquitin‐mediated bioactivity.
+Keywords: Biological activity, Drug discovery, Protein modifications, Proteomics, Ubiquitin proteasome system
+
+To monitor small molecule‐induced changes in protein polyubiquitination in an unbiased manner, we employ enrichment through tandem ubiquitin binding entities coupled to LC‐MS/MS analysis (TUBE‐MS). By applying the workflow to PROTAC, p97‐ and deubiquitinase‐inhibitor treatment of cells, we demonstrate its broad applicability and reveal the induction of non‐degradative ubiquitination on the E3 ligase UBE3A upon inhibition of the deubiquitinase USP7.
+
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2025 May 28; Received 2025 Apr 22; Accepted 2025 May 28; Issue date 2025 Aug 4.
+
+## Introduction
+Ubiquitin (Ub) is a key post‐translational modifier that regulates diverse cellular processes. The complexity of the Ub system arises from the versatile topologies of Ub‐mediated modifications, ranging from monoubiquitination to differently linked Ub chains. Although polyubiquitination often targets proteins for degradation via the proteasome, it also plays crucial non‐degradative roles (Figure  ), e.g., in protein trafficking, immune signaling, and the DNA damage response.[
+ , , , 
+] The contributions of Ub to malignant processes such as cancer, neurodegeneration, and inflammation make enzymes mediating ubiquitination (E3 ligases) as well as deubiquitinating enzymes (DUBs) attractive targets for therapeutic innovations.[
+ , , 
+]
+
+ One of these approaches comprises small‐molecule‐induced protein degradation[
+ , 
+] in which proteolysis targeting chimeras (PROTACs) or molecular glue degraders induce proximity between an E3 ligase and a neosubstrate.[
+ , , , , 
+] A complementary approach of interfering with Ub signaling is the inhibition of deubiquitinases, causing decreased cleavage of Ub modifications on DUB substrate proteins. This strategy allows for amplification of Ub‐mediated signaling without a ligand directly binding the substrate. Multiple molecules utilizing targeted protein degradation and DUB inhibition are being investigated in clinical trials, underscoring their potential for therapeutic innovation and for addressing targets previously deemed undruggable.[
+ , 
+] These developments stress the demand for robust methods to facilitate a proteome‐wide monitoring of compound‐induced changes in protein polyubiquitination.
+A challenge associated with the discovery and characterization of degraders and Ub‐interfering molecules is the efficient detection of Ub chain formation on proteins.[
+ 
+] Whereas classical inhibitor‐based drug discovery can often rely on direct detection of enzymatic activities, the unbiased investigation of small molecule‐induced ubiquitination mainly relies on indirect detection methods through mass spectrometry.[
+ 
+] Three main proteomics‐based approaches have emerged: 1) Whole proteome analysis is routinely employed to follow up on phenotypic screens (Figure  , method 1), with changes in protein levels upon compound treatment serving as a proxy for proteasome recruitment after ubiquitination.[
+ , , , , 
+] However, whole proteome analysis is neither capable to differentiate compound‐related primary from downstream effects, nor able to recognize non‐degradative ubiquitination;[
+ , 
+] 2) Changes in protein ubiquitination can be assessed by enriching individual peptides comprising the characteristic diGly remnant formed after tryptic digest[
+ , 
+] (Figure  , method 2). This procedure uniquely measures site‐specific ubiquitination of target proteins (typically not possible with whole proteome analysis[
+ 
+]) but lacks insights into the presence of Ub chains. 3) In addition, degradome analysis, for which peptides of digested proteins are captured inside proteasomes, can efficiently be used to probe the cellular degradation landscape[
+ 
+] (Figure  , method 3).
+However, some of these workflows do not detect non‐degradative polyubiquitin and, importantly, all lack the ability to directly detect the presence of Ub chains. We therefore sought to develop a robust mass spectrometry‐based method to quantitatively monitor small‐molecule‐induced changes in cellular protein polyubiquitination. Taking the very low global ubiquitination site occupancies into account,[
+ , 
+] we utilized tandem ubiquitin binding entities (TUBEs) to selectively enrich polyubiquitinated proteins irrespective of their Ub chain linkages.[
+ , 
+] These tools are broadly used for immunoblot‐based readouts to characterize polyubiquitin dynamics. Few studies have showcased the potential of their coupling to mass spectrometry, yet were hampered by comparably low protein identification rates and sensitivity.[
+ , , , , 
+]
+
+Building on these and related workflows,[
+ 
+] we here report a broadly applicable method for polyubiquitin enrichment coupled to mass spectrometry (Figure  ). Our TUBE‐MS workflow covered investigations of reagents, lysis conditions, and multiplexing to reduce the background of Ub‐binding proteins, to increase sensitivity through preservation of Ub modifications, and to elevate detection rates in the mass‐spectrometric readout. We thereby unite the broad applicability of a whole proteome analysis and the specificity of a diGly‐enrichment, establishing a method suitable for investigating small‐molecule‐induced degradative and non‐degradative polyubiquitination. Application of the assay to a USP7 inhibitor led to the discovery of non‐degradative ubiquitination on the UBE3A E3 ligase.
+
+## Results
+
+## Cellular Polyubiquitin Enrichment
+We intended our workflow to be based on the direct recognition of polyubiquitin chains, thus complementing previously established approaches (Figure  , method 4). To efficiently enrich the entire polyubiquitome, we chose as bait the well‐characterized TUBE protein comprised of four repeats of the Ub‐binding UBA domain derived from ubiquilin‐1.[
+ 
+] This reagent can potently enrich chains of all Ub chain linkages.[
+ 
+] We site‐specifically biotinylated the recombinantly expressed TUBE reagent using BirA[
+ 
+] on an N‐terminal Avi‐tag (Figure  , ) to facilitate immobilization onto beads. We validated the TUBE's ability to enrich differently linked Ub chains in vitro over a biocytin control, showing successful pulldown (PD) of free Ub chains (Figure  ). This experiment was carried out with K48 und K63 chains, which together account for >90% of the cellular polyUb pool.[
+ , 
+]
+
+ We next defined a protocol for polyubiquitin enrichment from cells (Figures  and ) based on semi‐denaturing cell lysis and washing conditions with 4 M urea. These were recently introduced for the profiling of protein ubiquitination with a bacterial monoubiquitin binder,[
+ 
+] and serve to separate ubiquitinated from unmodified proteins as well as from Ub‐binding proteins. In addition, we aimed to preserve Ub chains during cell lysis by completely inhibiting cellular deubiquitinases. Exploring different combinations of DUB‐inhibiting buffer additives (Figure ), we focused on N‐ethylmaleimide (NEM) to inhibit cysteine‐based DUBs. Through spiking recombinant triubiquitin chains into HEK293 lysate, we established an NEM concentration of 20 mM to be essential for full DUB inhibition upon cell lysis (Figure  ).
+Magnetic streptavidin beads were used to minimize variations during sample handling and to allow automatization. An advantage of biotin as a tag was the quantitative, straightforward, and modular preparation of the TUBE‐bead‐assembly immediately before use, without the necessity of non‐site‐selective covalent ligations or concerns about long‐term stability of immobilized reagents. We confirmed that the PD under semi‐denaturing conditions[
+ 
+] preserved PD efficiency (Figures , and ).
+In view of a sensitive mass spectrometric readout, we aimed to reduce the amount of TUBE protein in the final eluate. We identified that ubiquitinated proteins are selectively liberated from the beads during rounds of acidic elution, while the interaction of biotin and streptavidin persisted (Figure  , see presence of cellular polyubiquitin and concomitant absence of TUBE reagent in elution fraction). This finding demonstrates that the workflow enabled the enrichment and separation of ubiquitinated proteins.
+
+## Unbiased Mass‐Spectrometric Readout of Compound‐Induced Protein Ubiquitination
+Next, we applied the PD procedure to a known degrader to serve as a proof of principle. Here, we chose the well‐characterized PROTAC MZ1 (Figure  ), which causes selective ubiquitination and degradation of bromodomain‐containing BET family members.[
+ 
+] We treated Jurkat cells with MZ1 after preincubation for 1 h with the proteasomal inhibitor Carfilzomib (CFZ) to preserve ubiquitinated BRD proteins from being degraded (Figure ). We then refined the PD guided by the detection of ubiquitination of the degrader target BRD2 by immunoblotting, which occurred in parallel to the above‐described workflow development. Probing PD eluates from Jurkat cell lysates, our conditions enabled the robust detection of polyubiquitinated BRD2 in an MZ1‐ and CFZ‐dependent manner, as evident from a high molecular weight signal in immunoblots alongside a minor signal caused by unmodified BRD2 (Figures  and ). The co‐enrichment of proteins not bearing Ub is commonly observed,[
+ , 
+] a direct result of the very low site occupancy of ubiquitination,[
+ 
+] and a consequence of the balance between enrichment efficiency and selectivity. Lower urea concentrations yield more nonspecific TUBE‐enrichments, whereas higher urea concentrations result in less ubiquitinated proteins being bound. Our findings demonstrate that a concentration of 4 M urea provides an optimal balance between these two factors (Figure ), enabling efficient and specific enrichment of cellular polyubiquitin. The signal of ubiquitinated BRD2 could be further enhanced when combining CFZ with NMS‐873, which inhibits the ATP‐dependent unfoldase p97 (also termed VCP), for pretreatment of cells (Figure ). This PD procedure allowed progression from a target‐specific immunoblot‐based readout to an unbiased mass spectrometry‐based analysis of PD fractions.
+ To prepare eluates for mass spectrometric analysis, we used the single pot, solid phase, sample preparation (SP3) protocol, covering sample cleanup and protein digestion.[
+ 
+] Resulting peptides were subjected to tandem mass tag (TMT) isotopic labeling for multiplexing, which in turn also increased proteome depth and facilitated accurate quantification of less abundant proteins. In contrast, previous attempts to obtain data through label‐free quantification experiments were hampered by missing values, which is in line with the expected sample complexity of a cellular polyubiquitin PD.
+The TUBE‐MS workflow allowed quantification of 6084 proteins and demonstrated MZ1 target proteins BRD2 and BRD4 being significantly enriched (Figure  and Table ), in line with their expected ubiquitination in PROTAC‐treated cells. In addition, increased ubiquitination was observed for the anti‐proliferative protein TOB2, the Rab‐GAP TBC domain‐containing proteins TBC1D20/32, and the Zinc finger and BTB domain‐containing protein 12 (ZBTB12), which have not been previously reported in the context of MZ1. Notably, eluates contained Ub as the most abundant protein, confirming the enrichment and successful separation of the TUBE reagent (Figures  and ). Closer inspection of the measured intensities in all four biological replicates revealed significantly different and clearly separated amounts of BRD2 and BRD4 proteins (Figure ). These data were substantiated by multiple quantified peptides per protein group (Figure , ). Moreover, we confirmed that MZ1‐induced BRD4 ubiquitination was also robustly detected in the absence of the p97 inhibitor (Figure and Table ), whereas changes in BRD2 did not reach significance, presumably due to a lower number of detected peptides (Figure ). In sum, our data demonstrate the ability of the TUBE‐MS method to detect increases in small molecule‐induced protein ubiquitination.
+
+## Inhibitors of DUBs and of p97 Alter the Cellular Polyubiquitome
+These results motivated us to further explore the application scope of the assay. Since proteasomal inhibition could limit the assay's sensitivity due to accumulating ubiquitination on proteins with low to medium half‐life, we next assessed the workflow performance in the absence of the proteasomal inhibitor CFZ. We focused on deubiquitinase inhibitors as another class of ubiquitination‐altering compounds. We selected three compounds targeting members of the USP family of DUBs (Figure  ): FT671[
+ 
+] is a highly potent, specific, and structurally characterized inhibitor of USP7, with sub‐µM potency and demonstrated cellular target engagement. IU1‐47[
+ 
+] represents a similarly established and characterized inhibitor of USP14, whereas Spautin‐1 is a reported inhibitor of USP10 and USP13, which was investigated in the context of melanoma cell growth inhibition.[
+ 
+] Furthermore, we analyzed the effect of p97 inhibition on the cellular ubiquitome using the highly potent p97 inhibitor NMS‐873.[
+ 
+] As p97 and the proteasome frequently cooperate in the turnover of ubiquitinated substrates, we investigated NMS‐873 in the presence of CFZ.
+ We treated Jurkat cells with an intact proteasome with the DUB inhibitors in four replicates and recorded data in a TMTpro 16plex experiment, which enabled identification and quantification of 4544 proteins (Table ). Inhibition of USP7 by FT671 led to the detection of increased ubiquitination on several known USP7 substrates (Figure  ). These include the PRC component MGA and the E3 ligases TRIP12, HUWE1, and DCAF5.[
+ , 
+] In addition, we also observed increased ubiquitination on USP7 itself, in line with reports on auto‐deubiquitination.[
+ 
+] Strikingly, the most significant hit was the E3 ligase UBE3A (also termed E6AP), which is the founding member of the ‘Homologous to the E6AP Carboxyl Terminus' (HECT) E3 ligase family. UBE3A has been extensively investigated due to its ability to ubiquitinate the p53 tumor suppressor upon human papillomavirus infection[
+ 
+] and due to its clinical significance with mutations causing Angelman syndrome and Prader‐Willi syndrome. However, it has not previously been reported as a USP7 substrate.
+Treatment of cells with IU1‐47 and Spautin‐1 also led to changes in the polyubiquitination state of numerous proteins (Figure  ), which include previously annotated substrates. For USP14, these include the STK3 kinase and the nuclear receptor coactivator 4 (NCOA4)[
+ 
+] and for USP10 the NOTCH1 receptor.[
+ 
+] Furthermore, our observations revealed the enrichment of several mitochondrial proteins in response to Spautin‐1 treatment, which is consistent with a recent report that established Spautin‐1 as an inducer of ubiquitination‐driven mitophagy.[
+ 
+] We also observed a decreased presence of 29 ribosomal proteins upon Spautin‐1 treatment, comprising components of both the small and the large ribosomal subunits as well as associated ribosomal biogenesis factors.[
+ , 
+] These findings are in line with a role of USP10 in regulating the turnover of ribosomal proteins.[
+ 
+]
+
+The diminished ubiquitination of ribosomal proteins, NOTCH1, and KRAS indicates an augmented degradation of DUB targets. To corroborate this observation, we carried out the same analysis for samples with proteasome inhibition using CFZ (Figure – ). With this pretreatment of cells, we did not observe ribosomal proteins being significantly reduced in their ubiquitination compared to the data shown in Figure  , indicating a degradative nature of their polyubiquitination (Figure ). To comprehensively characterize the effect of proteasome inhibition on the cellular polyubiquitome, we treated cells with CFZ for 1 h and compared their polyubiquitome to cells with intact proteasome by TUBE‐MS (Figure ). This experiment revealed a large increase in enriched Ub (Figure ), which is consistent with significant changes in the polyubiquitination of many proteins (Figure ). This is in line with multiple previous studies that characterized the broad impact of proteasome inhibition on both protein levels as well as ubiquitination states.[
+ , , , 
+] Together, these data emphasize the broad utility of TUBE‐MS to report on both broad (Figure ) and specific (Figure ) changes in protein polyubiquitination.
+Furthermore, we analyzed the effects of p97 inhibition and found many proteins changed by NMS‐873 (Figure  ). Within this list, we identified several literature‐reported interactors of p97 as well as proteins involved in the p97‐regulated ERAD pathway.[
+ , , 
+]
+
+Notably, we observed all small molecule‐mediated effects already after four (DUB inhibitors) to 5 h (p97 inhibitor) of cell treatment, which stresses the assay's capability to detect emerging changes in target ubiquitination patterns upon acute perturbation. This also highlights the potential to investigate compounds such as NMS‐873, which become cytotoxic at longer treatment times and whose targets are thus challenging to study.[
+ 
+]
+
+## FT671 induces Non‐degradative Ubiquitination on the UBE3A E3 Ligase
+Elevated signals upon DUB inhibition point towards increased protein ubiquitination; however, this effect could also be caused by secondary effects or higher protein levels despite the short treatment time. We thus conducted validation experiments on the two proteins STK3 and UBE3A, whose enrichment was detected with high statistical significance upon USP14 and USP7 inhibition, respectively, and which were not previously reported as substrates of these DUBs. Analysis of whole cell lysates of Jurkat cells by immunoblotting demonstrated that IU1‐47 caused a more than two‐fold increase in STK3 levels (Figure ), which suggests that the enhanced ubiquitination of the protein is derived from higher global STK3 levels, leading to proportionally enhanced ubiquitination. STK3 represents an upstream effector within the Hippo pathway, which itself is regulated by USP14 activity through a TAZ‐dependent feedback loop.[
+ 
+] As such, changes of STK3 protein levels upon USP14 inhibition are conceivable even without STK3 being directly deubiquitinated by USP14, and these data emphasize the need for validation.
+Lastly, we turned our attention to UBE3A (Figure  ). To validate UBE3A ubiquitination upon USP7 inhibition, we performed immunoblotting of TUBE‐PD fractions (Figure  ). We observed an enrichment of ubiquitinated UBE3A in a FT671‐ and dose‐dependent manner (Figure  ). To corroborate this finding as a USP7‐mediated effect and to exclude potential off‐target effects, we performed the same experiments with the two structurally distinct USP7 inhibitors USP7‐797[
+ 
+] and GNE‐6640[
+ 
+] (Figure  ). We observed enhanced polyubiquitination independent of the inhibitor scaffold, which suggests a physiological connection between USP7 and UBE3A. This finding is relevant in view of recent work that demonstrated antagonistic regulation of ubiquitination of the E3 ligase XIAP by USP7 and UBE3A.[
+ 
+] Although this work did not show an interaction between USP7 and UBE3A, our results suggest how their common substrate XIAP could facilitate effects of USP7 activity on UBE3A. Importantly, we did not observe any changes in overall UBE3A abundance upon Jurkat cell treatment with FT671 up to 48 h (Figure  ). Taken together, these results demonstrate the induction of non‐degradative ubiquitination on UBE3A upon inhibition of USP7. More broadly, these data show that the TUBE‐MS method can detect small‐molecule‐induced protein ubiquitination and that it is complementary to other methods through its ability to report on non‐degradative polyubiquitin modifications.
+ 
+
+## Discussion
+We here report a method to map small‐molecule‐induced changes in protein polyubiquitination through mass spectrometry. We demonstrate that TUBE‐MS is capable of reporting on PROTAC‐mediated degradative ubiquitination (Figure  ) as well as of capturing broad changes in protein polyubiquitination induced by other bioactive molecules irrespective of proteasomal inhibition (Figure  ). We anticipate that this workflow will be readily adopted by the chemical biology community for the characterization of bioactive compounds.
+We utilized TUBEs[
+ 
+] for polyubiquitin enrichment and enhanced the workflow towards sensitive detection of ubiquitinated proteins via PDs coupled to LC‐MS/MS. Notably, previous approaches have demonstrated the potential of such a coupling,[
+ , 
+] including examples on yeast,[
+ , 
+] plant,[
+ 
+] and malaria parasite‐infected blood samples.[
+ 
+] However, earlier approaches focused on pure detection[
+ 
+] of polyubiquitinated proteins rather than quantitative comparison of samples. Moreover, most previous approaches used gel‐based proteomics to circumvent the spectral suppression by large amounts of the TUBE protein in samples, thus reaching only up to about 1000 quantified proteins, even in recent approaches.[
+ , , 
+] Importantly, this workflow was proposed for the characterization of PROTAC‐mediated protein ubiquitination,[
+ 
+] but data exemplifying its potential has not been published. To solve these issues, the method reported here is based on the separation of polyubiquitinated proteins from the TUBE reagent through acidic elution (Figure  ). We further combined SP3‐based sample preparation and TMT‐based mass spectrometric quantification to achieve high sensitivity, resulting in the robust quantification of more than 6000 polyubiquitinated proteins. Taken together, our data demonstrate the advance this method provides over previous work.
+Considering the exceptionally low stoichiometry of ubiquitination sites,[
+ , 
+] the low proportion of polyubiquitin chains within the ubiquitin pool,[
+ 
+] and their high turnover, highly specific and efficient enrichment of polyubiquitin is essential. We here used the 4xUBAUBQLN1 TUBE protein[
+ 
+] in combination with semi‐denaturing lysis conditions[
+ 
+] in order to suppress the co‐purification of non‐ubiquitinated proteins and the Ub interactome which exist in cells to a large excess. Although biotinylated TUBE reagents are commercially available, a method for their preparation was not reported. We here describe the facile and cost‐effective preparation of a biotinylated TUBE reagent enabling swift and modular preparation of TUBE‐bead‐assemblies. The site‐specific modification complements non‐specific[
+ 
+] or cross‐linking‐based[
+ 
+] immobilization of polyubiquitin enrichment reagents.
+The critical role of protein polyubiquitination is also reflected in the rapid development of the field of targeted protein degradation as well as multiple other small molecule‐based modalities.[
+ , 
+] These advances stress the demand for robust methods to facilitate a proteome‐wide monitoring of compound‐induced changes in protein polyubiquitination. We are thus confident that the TUBE‐MS method represents a valuable addition to the repertoire of assays suitable for the discovery of bioactive compounds interfering with ubiquitination (Figure  ).
+TUBE‐MS synergizes with other recently reported proteomics approaches to investigate PROTACS, DUB inhibitors and molecular glue degraders.[
+ 
+] These include i) the quantification of degrader‐induced protein decay by pulsed‐SILAC coupled to translatome labeling,[
+ 
+] ii) detection of deubiquitinase substrates by either broad or specific DUB inhibition,[
+ , 
+] and iii) proximity‐based labeling to identify E3 ligase substrates.[
+ , 
+] In addition, there has been notable progress in the application of data‐independent acquisition mass spectrometry in combination with diGly proteomics,[
+ 
+] including case studies on USP7[
+ 
+] and on the mitochondrial DUB USP30.[
+ 
+]
+
+It is important to highlight how TUBE‐MS is complementary to these other approaches: Firstly, diGly proteomics detects individual peptides with ubiquitin/NEDD8/ISG15 remnants, irrespective of the ubiquitin chain architecture.[
+ , 
+] In contrast, protein quantification through TUBE‐MS relies on multiple peptides per protein and, through the avidity of the reagent, specifically enriches proteins modified with polyubiquitin chains. Secondly, in contrast to approaches involving cellular expression of TUBEs[
+ 
+] or of epitope‐tagged ubiquitin,[
+ 
+] the here reported method enriches endogenous, untagged ubiquitin chains and thus enables assessment of small molecule‐mediated effects in an otherwise unperturbed background. Thirdly, multiple methods focus on changes in protein abundance as an indirect proxy for degradative polyubiquitin modification.[
+ , 
+] TUBE‐MS, however, focuses on the detection of protein ubiquitination, thus excludes secondary (translational) effects as the cause of a change in global protein abundance and covers nondegradative polyubiquitin modification as well. This is exemplified through the non‐degradative ubiquitination on the E3 ligase UBE3A induced by USP7 inhibition (Figure  ). Future work will need to establish whether USP7 interacts with UBE3A directly or through common binding partners. Moreover, the functional consequence of this non‐degradative modification on UBE3A will need to be evaluated.
+
+## Conclusion
+In sum, we contribute a robust readout of polyubiquitination and the complementary ability to detect non‐degradative polyubiquitin modifications. We are convinced that the TUBE‐MS method will find widespread use for the identification and characterization of Ub‐dependent bioactivity in small molecules.
+
+## Supporting Information
+Supporting Information for this manuscript includes Methods, Figures – , Uncropped gels and blots, and Supporting References,[
+ , , , , , , , , 
+] and is provided as a pdf file. Tables – are provided as xlsx files.
+
+## Author Contributions
+S.F. performed assays, cellular experiments, validation of assay hits, protein expression, and biotinylation, and analyzed proteomics data. K.G. cloned the TUBE construct and supported assays. F.K., M.K., and P.J. acquired and analyzed proteomics data, oversaw proteomics measurements, and advised on mass spectrometry. M.G. and H.W. supervised the project. S.F., H.W., and M.G. wrote the manuscript with contributions by all authors.
+
+## Conflict of Interests
+The authors declare no conflict of interest.
+
+## Supporting information
+Supporting Information
+Supporting Information
+Supporting Information
+Supporting Information
+Supporting Information
+
+## Acknowledgements
+The authors thank the members of the MPI Dortmund HR‐MS group, especially Andreas Brockmeyer, for performing proteomics measurements. The authors thank Alban Ordureau for advice on TMT labeling and SP3 digestion. The authors thank Kim Wendrich for providing differently linked Ubiquitin chains and Daria Bezbakh for helping with validation experiments. S.F. thanks the organizers and speakers of the EMBO practical course in quantitative proteomics 2023 for hands‐on training in proteomics data analysis. The authors are grateful to all members of the Department of Chemical Biology at the Max Planck Institute of Molecular Physiology and the Gersch lab for discussions, advice, and reagents. The authors are grateful to Petra Beli and to Slava Ziegler for advice during the project and for critical comments on the manuscript. Figure  , , , , and the Table of Contents graphic were partially created with BioRender. This work was funded by the Max Planck Society and AstraZeneca, Merck KGaA, Pfizer Inc., as part of the Chemical Genomics Centre III. The Kaschani, Kaiser, and Gersch groups gratefully acknowledge support by the DFG (German Research Foundation) through the collaborative research center 1430 (424228829–SFB1430). Work in the Gersch lab is further supported through an Emmy Noether project (GE 3110/1–1), as well as by the State of North Rhine‐Westphalia through the “CANcer TARgeting Network” (NW21‐062C).
+Open access funding enabled and organized by Projekt DEAL.
+
+Führer S., Gallant K., Kaschani F., Kaiser M., Janning P., Waldmann H., Gersch M., Angew. Chem. Int. Ed.
+2025, 64, e202508916. 10.1002/anie.202508916
+
+## Contributor Information
+Prof. Dr. Herbert Waldmann, Email: herbert.waldmann@mpi-dortmund.mpg.de.
+Dr. Malte Gersch, Email: malte.gersch@mpi-dortmund.mpg.de.
+
+## Data Availability Statement
+Proteomics results are supplied as Table (data shown in Figure  ), Table (data shown in Figure ), Table (data shown in Figure  ), and Table (data shown in Figure ). Proteomics raw data are available via ProteomeXchange (ID: PXD057541 and PXD062845). Uncropped images of gels and blots are available in the Supporting Information.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supporting Information
+Supporting Information
+Supporting Information
+Supporting Information
+Supporting Information
+
+## Data Availability Statement
+Proteomics results are supplied as Table (data shown in Figure  ), Table (data shown in Figure ), Table (data shown in Figure  ), and Table (data shown in Figure ). Proteomics raw data are available via ProteomeXchange (ID: PXD057541 and PXD062845). Uncropped images of gels and blots are available in the Supporting Information.

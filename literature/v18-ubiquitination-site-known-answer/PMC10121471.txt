@@ -1,0 +1,184 @@
+981npgopenOncogeneOncogenePMC1012147110121471101214713690665510.1038/s41388-023-02631-8UHRF1/UBE2L6/UBR4-mediated ubiquitination regulates EZH2 abundance and thereby melanocytic differentiation phenotypes in melanoma
+Kuser-AbaliGamze ZhangYoufang SzetoPacman ZhaoPeinan Masoumi-MoghaddamSamar FedeleClare G LeeceIsobel HuangCheng CheungJen G AmeratungaMalaka NoguchiFumihito AndrewsMiles C WongNicholas C SchittenhelmRalf B ShackletonMark 1Central Clinical School, Monash University, Melbourne, VIC Australia 2Alfred Health, Melbourne, VIC Australia 3CSL Limited, Melbourne, VIC Australia 4Monash Proteomics and Metabolomics Facility and the Department of Biochemistry and Molecular Biology, Biomedicine Discovery Institute, Monash University, Melbourne, VIC Australia 5Monash Bioinformatics Platform, Monash University, Melbourne, VIC Australia ✉Corresponding author.
+1132023421713601360–13732342023© The Author(s) 2023Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were made. The images or other third party material in this article are included in the article’s Creative Commons license, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons license and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.
+
+## Abstract
+Cellular heterogeneity in cancer is linked to disease progression and therapy response, although mechanisms regulating distinct cellular states within tumors are not well understood. We identified melanin pigment content as a major source of cellular heterogeneity in melanoma and compared RNAseq data from high-pigmented (HPCs) and low-pigmented melanoma cells (LPCs), suggesting EZH2 as a master regulator of these states. EZH2 protein was found to be upregulated in LPCs and inversely correlated with melanin deposition in pigmented patient melanomas. Surprisingly, conventional EZH2 methyltransferase inhibitors, GSK126 and EPZ6438, had no effect on LPC survival, clonogenicity and pigmentation, despite fully inhibiting methyltransferase activity. In contrast, EZH2 silencing by siRNA or degradation by DZNep or MS1943 inhibited growth of LPCs and induced HPCs. As the proteasomal inhibitor MG132 induced EZH2 protein in HPCs, we evaluated ubiquitin pathway proteins in HPC vs LPCs. Biochemical assays and animal studies demonstrated that in LPCs, the E2-conjugating enzyme UBE2L6 depletes EZH2 protein in cooperation with UBR4, an E3 ligase, via ubiquitination at EZH2’s K381 residue, and is downregulated in LPCs by UHRF1-mediated CpG methylation. Targeting UHRF1/UBE2L6/UBR4-mediated regulation of EZH2 offers potential for modulating the activity of this oncoprotein in contexts in which conventional EZH2 methyltransferase inhibitors are ineffective.
+
+ 
+Subject terms: Melanoma, Ubiquitylation
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Feb 8; Revised 2023 Feb 8; Accepted 2023 Feb 13; Issue date 2023.
+
+## Introduction
+The ability of cancer cells to adapt, survive and proliferate during tumor growth, metastasis, and treatment is a major impediment to improving patient outcomes. As the same mechanisms that enable cancer cell adaptation also fuel intratumoral heterogeneity (ITH), understanding drivers of ITH is a high priority in cancer research [ ].
+ITH is facilitated by phenotype switching, in which individual cells reversibly switch via epigenetic mechanisms between different transcriptional programs, functional states and differentiation phenotypes [ – ]. In melanoma, switching between invasive and proliferative states was shown to be regulated by enhancer of zeste homolog 2 (EZH2) [ , ], with the proliferative state characterized by high expression of the melanocyte transcription factor MITF and low expression of BRN2 and AXL, and opposite expression patterns found in the invasive state.
+EZH2 suppresses gene transcription by catalyzing trimethylation of histone H3 at lysine 27 (H3K27me3), plays an important role in maintaining cells in a progenitor-like state through silencing genes associated with differentiation [ , ], is aberrantly overexpressed in multiple cancers [ – ] and functions to promote tumor growth and metastasis in models of malignant disease [ ]. EZH2 activation by mutation, gene amplification or increased transcription was noted in about 20% of cutaneous melanomas in the TCGA cohort (SKCM) [ , ]. In clinical samples, EZH2 increased during disease evolution from benign nevus to metastatic melanoma [ , , ]. In melanoma, EZH2 represses genes associated with tumor suppression, cell differentiation, cell cycle inhibition, metastasis, and antigen processing and presentation [ , , ], and is upregulated transcriptionally by E2F and c-myc and suppressed by differentiation-promoting factors such as pRb and p16INK4b [ , ]. MicroRNAs also downregulate expression of EZH2 in melanoma [ , ]. Mechanisms of post-translational EZH2 regulation in melanoma are largely unknown.
+Highly specific EZH2 methyltransferase inhibitors, GSK126 and EPZ-6438, are currently in clinical trials [ ]. Although these have shown antitumor effects in lymphomas with enzyme-activating mutations of EZH2 [ , ] and in ovarian cancer cells with inactivating mutations of ARID1A [ ], some cancers appear resistant to EZH2 methyltransferase inhibition but sensitive to genetic depletion of EZH2, raising the possibility that EZH2 promotes tumorigenesis via methyltransferase-independent mechanisms. It has also been shown that EZH2 enzymatic inhibitors have better activity against EZH2 mutant melanoma cells than wild type cells [ ]. Indeed, as EZH2 can promote cancer independently of its methyltransferase activity [ ] or by acting as a transcriptional coactivator [ – ], targeting EZH2 abundance may be more effective than enzymatic EZH2 inhibition against cancers that are driven by EZH2 methyltransferase-independent mechanisms.
+Cellular protein activity and stability are regulated by post-translational protein modifications [ ] such as ubiquitination, which involve reversible addition of ubiquitin proteins to lysine residues of target substrates [ ]. This is catalyzed by a series of enzymes: (1) ubiquitin-activating enzymes (E1) that use ATP to form ubiquitin-thioester bonds, (2) ubiquitin-conjugating enzymes (E2) that bind active ubiquitin to cysteine residues, and (3) ubiquitin-ligase enzymes (E3) that interact with E2 enzymes, catalyze formation of covalent bonds between ubiquitin and target substrates, and regulate substrate specificity. EZH2 protein undergoes ubiquitin-dependent degradation in different contexts by several E3 ligases, including β-TrCP, SMURF2, PRAJA1, MDM2 and FBW7, [ – ]. Recently, UBE2L6 was shown to be a tumor-suppressor and a prognostic marker in melanoma [ ]. Here, we report UBE2L6 as an E2 ubiquitin-conjugating enzyme for EZH2 that regulates EZH2 abundance in melanoma cells.
+
+## Materials and Methods
+
+## Mice and tumors
+Eight-week-old NOD SCID IL2R-/- mice (NSG) were injected subcutaneously with empty vector- or UBE2LB_pLX307-containing 28:B4:F3 melanoma cells (n = 11 mice per group). Tumors were measured weekly using calipers. Once a tumor reached 20 mm diameter, mice were sacrificed. All animal experiments were performed according to approved protocol E/1792/2018/M (AMREP Animal Ethics Committee of Monash University).
+
+## Human melanoma tumor samples
+19 pigmented and 20 non-pigmented human melanoma tissue sections were obtained from Melanoma Research Victoria (MRV).
+
+## Cell lines, chemicals, plasmids, and siRNA
+The cell lines, chemicals, plasmids, siRNAs, and qPCR primers used for treatment in this study are listed in Table .
+For cell lines, mycoplasma tests were performed in our lab. Short tandem repeat (STR) profiling was done in the Australian Genome Research Facility (AGRF) to authenticate cell lines.
+
+## Co-Immunoprecipitation, pulldown, and ubiquitination assays
+Co-IP, pulldown and ubiquitination assays were done as described [ , ].
+
+## Western blot
+Total proteins were extracted and analysed as described [ ], using 4–20% Mini-PROTEAN TGX Stain-Free Protein Gels (BioRad, 4568096). PVDF membranes were incubated with respective antibodies outlined in Table . Signals were detected using Clarity ECL Western blotting Substrate (BioRad) and quantified by ImageJ.
+
+## Quantitative PCR and Methylation-sensitive PCR (MSP)
+Total RNA was extracted and underwent qPCR according to manufacturer’s instructions and as described [ ]. RNA expression changes were determined using a ΔΔCt method [ ]. Primers are listed in Table . Methylation of UBE2L6 promoters was analyzed as described [ ].
+
+## Cell cycle and apoptosis assays
+Cells were fixed for cell cycle and apoptosis assays as described [ ], and analysed by flow cytometry (FACSFusion).
+
+## Cell Proliferation, clonogenicity and invasion assays
+Cell proliferation, clonogenicity and invasion assays were performed as described [ ].
+
+## Cell senescence β-Gal assay
+Cellular senescence was analyzed using, Senescence β-Galactosidase staining kits (Cell Signaling #9860).
+
+## Extracellular melanin assay
+For quantitative analysis of melanin, a modification of the method described by Huberman et al. was used [ ].
+
+## Immunofluorescence (IF)
+Cultured or FACSorted cells were treated and stained with antibodies (Table ) as described [ ] for IF studies using Leica DM IL LED inverted fluorescent microscopy.
+
+## Pigmentation-based flow cytometry sorting of PDX samples
+Harvested tumours were dissociated into single cells and labelled as described [ ]. Pigmentation was assessed as described [ ].
+
+## Immunohistochemistry (IHC), Fontana Masson and Schmorl’s staining
+Spontaneous metastases in mice were evaluated by human mitochondrial IHC of liver, lung and lymph nodes [ ]. IHC [ ] and Fontana Masson and Schmorl’s staining [ ] were performed as described. Antibodies used for IHC staining of EZH2 and UBE2L6 are listed in Table . Aperio ImageScope Software was used to evaluate IHC images.
+
+## RNA-Seq data and gene set enrichment analysis
+FASTQ files were processed via Laxy and the RNAsik pipeline. The GRCh38 reference genome was used for STAR alignment [ ] and gene expression counts were performed using featureCounts [ ]. Gene counts were analysed using Degust (https://zenodo.org/record/3501067) for differential expression (DE) analysis (limma voom). R package ClusterProfiler (v.4.0.0) was used for Gene Set Enrichment Analysis (GSEA) and over-representation analysis (ORA) [ ]. For GESA, DE gene lists were ranked by logFC and the testing method was set to “fgsea”. For both GSEA and ORA, the following annotated gene sets were tested for significant enrichment: Gene Ontology (GO), Reactome, Hallmark and Oncogenic signatures. Genesets were downloaded from the Molecular signatures database (MSigDB) [ ]. Genetic variants were identified using the GATK RNAseq variant discovery pipeline.
+
+## The Cancer Genome Atlas (TCGA) survival analysis
+Clinical data and mRNA expression profiles for skin melanoma samples in TCGA PanCancer Atlas database were accessed through the public cBioPortal (http://www.cbioportal.org) [ ]. Using the R package ‘survminer’ 0.4.4 and ‘survival’ 3.1-11, respectively, overall survival (OS) Kaplan-Meier curves were plotted, and the log-rank test was performed.
+
+## Liquid chromatography–tandem mass spectrometry (LC/MS) interactome and post-translational modification (PTM) analysis
+For LC/MS interactome studies, a Dionex UltiMate 3000 RSLCnano system equipped with a Dionex UltiMate 3000 RS autosampler, an Acclaim PepMap RSLC analytical column and an Acclaim PepMap 100 trap column (Thermo Scientific) were used.
+For label-free quantification (LFQ) analysis and protein identification, raw data files were analyzed using MaxQuant software suite v1.6.5.0 [ ] against Andromeda search engine [ ] and in-house standard parameters. Results were analyzed and visualized using LFQ-Analyst [ ].
+For PTM analysis, raw files were searched with Byonic v3.0.0 (ProteinMetrics) using GlyGly at lysine as a variable modification. Only peptides and proteins falling within a false discovery rate (FDR) of 1% based on a decoy database were further analyzed.
+
+## Statistical analysis
+Analyses were performed using GraphPad Prism version 7. Analyses were performed using log-rank tests, unpaired two-tailed t-tests, one-way ANOVA, or Tukey’s multiple comparison tests as appropriate to the data type. P values less than 0.05 were considered significant.
+
+## Results
+
+## Low pigmented melanoma cells demonstrate upregulation of EZH2 protein and EZH2-target genes
+To interrogate functional differences amongst melanoma cells according to their levels of melanin pigment, RNAseq was performed on low pigmented cells (LPCs) and high pigmented cells (HPCs) purified from 28:F3:B4 cells by flow-cytometry [ ]. GSEA analysis revealed that the LU-EZH2-target-DN gene set [ ] was markedly enriched in LPCs (p = 2 × 10−4) (Fig. ). We thus also compared by GSEA differentially expressed gene signatures (DEGs) in sorted LPCs and HPCs from B16-F10 cells with those of EZH2 silenced B16-F10 cells (Table and ). Thirty-one of 153 genes upregulated in LPC were EZH2-activated genes (Fig. , top panel Venn diagram) and 96 of 209 genes downregulated in LPCs were EZH2-repressed genes (Fig. , top panel Venn diagram). While over-representation analysis (ORA) by Gene Ontology biological processes of the 31 EZH2-activated genes showed enrichment for ribosomal biogenesis (Fig. , bottom panel and Table ), the 96 EZH2-repressed genes were enriched in melanin biosynthesis pathways (Fig. , bottom panel and Tables and ), including Oca2, which was one of the genes most negatively correlated (p = 0.002, Table ) with EZH2 in the TCGA SKCM. These data suggested that increased EZH2 activity in LPCs compared to HPCs might upregulate ribosomal biogenesis and/or suppress melanocytic differentiation and melanin synthesis.
+ To investigate this, we evaluated EZH2 mRNA and EZH2 protein levels, as well as a marker of EZH2’s methyltransferase activity, H3K27me3, in HPCs and LPCs from 28:F3:B4, B16-F10 and C006-M1 pigmented melanoma cells (Fig. ). Western blotting and immunofluorescence (IF) staining demonstrated that EZH2 and H3K27me3 were higher in LPCs than HPCs (Fig. and Fig. ). However, no significant difference was observed between LPCs and HPCs in EZH2 mRNA levels (Fig. and Fig. ). An inverse association between melanoma cell pigmentation and EZH2 protein was observed in vivo in PDX melanomas (Fig. ).
+
+## EZH2 alters pigmentation and malignant behavior independently of its methyltransferase function
+To investigate EZH2 in melanoma cell pigmentation, we suppressed EZH2 protein and/or EZH2 activity in pigmented melanoma cells. Because high EZH2 expression is seen in LPCs, correlations between EZH2 and pigmentation were investigated in B16-F10 cells, which display variable pigmentation. Unsorted B16-F10 cells were EZH2-silenced using two siRNAs, which induced pigmented phenotypes (Fig. ) and upregulation of melanocytic differentiation markers MITF and TYR that were proportional to knockdown efficiency (Fig. ). siEZH2 also reduced cell viability in a time-dependent manner (Fig. ) and caused G2/M cell cycle phase accumulation (Fig. ), senescent phenotypes (Fig. ), and induction of apoptosis, depending on the degree of EZH2 depletion (Fig. ). EZH2 knockout by CRISPR-Cas9 induced MITF in pigmented melanoma cell lines (28:B4:F3 and C006-M1), but not in non-pigmented SK-MEL-28 and A375 cells (Fig. ). Interestingly, EZH2 knockout-induced pigmentation was partly, but not significantly, reduced by MITF silencing in 28:B4:F3 cells (Fig. and Fig. ).
+ When B16-F10 cells were treated with DZNep, a general methyltransferase inhibitor that also promotes ubiquitin-mediated proteasomal degradation, we observed increased MITF, decreased EZH2 and H3K27me3 (Fig. ), and more prominent pigmented cell phenotypes (Fig. ), including by flow cytometric analysis (Fig. and Fig. ). Extracellular melanin was also induced after EZH2 knockdown or DZNep (Fig. ).
+In line with siRNA experiments, DZNep-treated B16-F10 cells displayed reduced clonogenicity compared to untreated controls (Fig. ), as well as G2/M phase accumulation indicative of cell cycle arrest (Fig. ), and senescent phenotypes (Fig. ). In addition, upregulation of EZH2-suppressed target genes Cdkn1a (p21) and Cdkn2a (p16) was noted following DZNep treatment (Fig. ). DZNep also increased nuclear p53 and reduced nucleolar c-Myc, consistent with induction of HPC phenotypes upon EZH2 inhibition (Fig. ), and reduced LPC markers such as nucleolin localization to nucleoli [ ] (Fig. ).
+We also targeted EZH2 with the EZH2-specific degrader MS1943 [ ], which simultaneously reduced EZH2 and H3K27me3, and upregulated MITF (Fig. ). Similar to effects of siEZH2 and DZNep, MS1943-treated cells showed higher melanin content (Fig. ), greater senescence and reduced clonogenicity (Fig. N–R and Fig. ).
+Although EZH2 methyltransferase inhibitors GSK126 and EPZ6438 fully inhibited EZH2 methyltransferase activity as measured by H3K27me3 (Fig. ), they had no or minimal effects on pigmentation, viability or clonogenicity of the melanoma cells we tested (Fig. Q–R). Thus, specific inhibition of EZH2 methyltransferase did not phenocopy the interventions that reduced total EZH2 protein. This suggests that EZH2 abundance, but not its methyltransferase activity, promotes the LPC state.
+
+## EZH2 expression is higher in metastases than primary melanomas
+If EZH2 positively regulates malignant behaviors in melanoma cells, then its expression might be predicted to increase during disease progression. As increasing EZH2 protein expression was observed from benign nevi to metastatic melanoma [ , , ] and as melanoma patient survival was inversely correlated with EZH2 expression [ ], we sought to extend these findings. Analysis of TCGA melanoma samples showed no correlation between EZH2 mRNA levels and overall patient survival or disease staging in melanoma (Fig. ), consistent with our findings (Fig. and Fig. ). However, in 39 melanoma samples obtained from patients in the Melanoma Research Victoria cohort, incrementally increasing EZH2 protein expression was observed from early stage to metastatic disease (Fig. ), confirming published data [ ].
+ 
+
+## UBE2L6 promotes ubiquitin-associated proteosomal degradation of EZH2 in melanoma cells
+To understand discrepancies between EZH2 mRNA and EZH2 protein levels in melanoma cells, we investigated post-translational mechanisms that might regulate EZH2. Since ubiquitin-mediated proteasomal degradation plays a pivotal role in protein abundance by affecting protein stability [ ], we assessed EZH2 levels pre- and post-treatment with a proteasome inhibitor, MG132, in sorted LPCs and HPCs, and in unsorted B16-F10 cells. MG132 treatment increased EZH2 protein in HPCs, but not in LPCs, in a time-dependent manner (Fig. ), suggesting increased proteasomal degradation of EZH2 in HPCs compared to LPCs.
+To elucidate mechanisms underlying this, we interrogated our RNAseq data to identify candidate ubiquitin pathway enzymes involved in the post-translational regulation of EZH2. Among E1 and E2 enzymes, Uba7 (Fig. ), and Ube2l6 and Ube2c (Fig. , Fig., S3D), respectively, were significantly decreased in LPCs compared to HPCs. To explore ubiquitination in EZH2 regulation, we focused on Ube2l6, as Ube2c overexpression had trivial effects on EZH2 protein (Fig. ), and E1 enzymes have a wide range of substrates.
+We first confirmed lower expression of Ube2l6 in LPCs compared to HPCs sorted from B16-F10 (Fig. ). In gene targeting experiments, Ube2l6-WT overexpression in B16-F10 LPCs downregulated Ezh2 protein (Fig. and Fig. ), while cells overexpressing enzyme-dead Ube2l6-C87A displayed increased Ezh2 (Fig. and Fig. ). The Ube2l6-mediated decrease in Ezh2 protein was reversed by MG132, highlighting the critical role of proteasomal degradation in regulation of Ezh2 (Fig. ). Inhibitory effects of Ube2l6 on Ezh2 protein were verified by Ube2l6 knock-down with siUbe2l6-3’-UTR, which increased Ezh2 expression (Fig. ).
+We next investigated Ezh2 protein stability and interactions. Following cycloheximide treatment, which inhibits protein synthesis, EZH2’s half-life was ~5 h in Ube2l6-WT overexpressed cells and > 24 h in Ube2l6-C87A cells lacking ligase activity (Fig. ), consistent with a role for Ube2l6 in Ezh2 degradation. Ezh2-Ube2l6 protein-protein interactions were verified by immunoblotting of EZH2 immunoprecipitates from Flag-tagged Ube2l6-overexpressing HEK293 cells treated with MG132 (Fig. ).
+The presence of higher-than-expected molecular weight EZH2 bands in western blots (Fig. , lowest panel) prompted us to investigate ubiquitination of EZH2, finding that EZH2 was ubiquitinated by UBE2L6-WT, but not by enzyme-dead UBE2L6-C87A, in both HEK293 and B16-F10 cell lines (Fig. and Fig. ). Although UBE2L6 is a critical enzyme in ISGylation, it had no effect on EZH2 ISGylation (Fig. ). DZNep reduced EZH2 expression in B16-F10 cells and upregulated Ube2l6 mRNA (Fig. , Table ), and Ube2l6 knockdown reversed DZNep-induced EZH2 degradation, TYR expression and cell viability (Fig. ). These data show that UBE2L6 acts post-translationally to reduce EZH2 abundance through ubiquitin-associated proteasomal degradation.
+
+## UBE2L6 reduces EZH2 abundance, tumorigenicity and metastasis in melanoma
+To evaluate functional consequences of UBE2L6-EZH2 interactions in melanoma, we developed stable UBE2L6-WT-overexpressing pigmented 28:B4:F3 and IGR37 cells. Overexpression of UBE2L6-WT decreased EZH2 protein and cell viability, clonogenicity, invasion and pigmentation (Fig. and Fig. ). Following subcutaneous injection into mice, tumor formation was impeded in UBE2L6-overexpressing 28:B4:F3 recipient mice compared to controls (Fig. ), although differences in tumor volume were not statistically significant at 15 weeks (Fig. ). While control tumors were partially pigmented, they were all pigmented in UBE2L6-overexpressed tumors (Fig. ), which also demonstrated lower EZH2 protein levels (Fig. ) and seeded fewer metastases (Fig. ) that were smaller and also more pigmented than metastases from control tumors (Fig. and Fig. ). Interestingly, all tumor bearing mice developed lymph node metastasis irrespective of UBE2L6 status (data not shown).
+Further to examine UBE2L6 in human melanoma, we performed immunohistochemical (IHC) staining on 19 pigmented and 20 non-pigmented human melanomas. Pigmented regions in tumors exhibited high UBE2L6 but low EZH2 expression, whereas non-pigmented regions displayed the inverse phenotype (Fig. and Fig. ). To complement these observations, we also analyzed UBE2L6 expression in five random fields of tumor sections and plotted it against EZH2 expression scores, revealing a negative correlation between UBE2L6 and EZH2 (linear regression R2 = 0.62, p < 0.0001; Fig. ). Interestingly, a mild decline (p = 0.0575) was noted in cytosolic UBE2L6 from early stage to metastatic melanoma, inversely correlated with EZH2 (Fig. and Fig. ). We also analyzed TCGA melanoma data, finding a correlation between low UBE2L6 mRNA expression and poor melanoma survival (p < 0.0001, Fig. ). Interestingly, UBE2L6 mRNA was negatively correlated with its promoter CpG methylation levels (Spearman correlation r = −0.63, p = 2.2 × 10−16, Fig. ). These data implicate UBE2L6 as a tumor suppressor in melanoma.
+ 
+
+## Promoter methylation via UHRF1 suppresses UBE2L6 and upregulates EZH2 in melanoma
+We next evaluated promoter methylation as a potential mechanism of UBE2L6 regulation. 5-Aza-2′-deoxycytidine (5’-Aza) was used to inhibit DNA methyltransferases and relieve CpG methylation in A375 cells, followed by methylation-sensitive PCR. 5’-Aza induced an 80% decline in UBE2L6 CpG island methylation spanning −582 to −378 from the transcription start site (Fig. , Fig. ), increased UBE2L6, reduced EZH2, and impaired viability in multiple melanoma cell lines (Fig. ).
+To understand UBE2L6 methylation, we focused on the RING E3 ubiquitin ligase UHRF1, previously shown to downregulate UBE2L6 [ ] and promote melanoma cell proliferation [ ]. Initial analysis of TCGA melanoma data revealed that UHRF1 expression inversely correlated with UBE2L6 (Spearman correlation r = −0.14, p = 0.0036 Fig. ) and melanoma survival (p = 0.015, Fig. ). We thus tested whether UHRF1 could regulate UBE2L6 promoter methylation in vitro. UHRF1 silencing in A375 cells resulted in a 40–60% decline in UBE2L6 promoter methylation (depending on silencing efficiency) (Fig. ), increased UBE2L6, decreased EZH2 (Fig. . and Fig. ), and reduced viability in melanoma cell lines (Fig. and Fig. ). IHC staining of UHRF1 expression in human melanomas showed that highly pigmented cells exhibiting increased UBE2L6 and decreased EZH2 also had low UHRF1 expression (Fig. –M). These data link UBE2L6 promoter methylation via UHRF1 to UBE2L6 suppression and EZH2 stabilization in melanoma cells.
+
+## The E3 ligase UBR4 interacts with UBE2L6 and EZH2
+The activity of E2 conjugating enzymes relies on their cooperation with E3 ligases through which occur direct interactions with substrates. To identify EZH2-bound E3 ligases in melanoma, EZH2-co-immunoprecipitated lysates obtained from a variety of melanoma cell lines (A375, 28:B4:F3, B16-F10, LM-MEL45 and IGR37) were subjected to Liquid Chromatography-Mass Spectrometry (LC-MS). Besides PRC1 and PRC2 complex proteins, we identified novel EZH2 binding proteins (Table ). We focused on UBR4, because it was the only common EZH2-interacting E3 ligase identified in the cell lines tested (Fig. ). No differences in UBR4 expression were seen between HPCs and LPCs (Fig. ) and pigmented patient samples (Fig. ), in contrast to UBE2L6 (Fig. ).
+ To confirm UBR4 as an EZH2 E3 ligase, interactions between EZH2 and UBR4-LD (ligase domain) were assessed by CoIP-coupled western blotting. EZH2 interacted with the E3 ligase domain of UBR4 in a manner that was enhanced by MG132 (Fig. and Fig. ), and was diminished by UBR4-LD and UBR4-FL (full length) overexpression (Fig. ). As expected, UBR4 knockdown in 28:B4:F3, C006 and HEK293 cells increased EZH2 expression (Fig. ) and stability (Fig. ) via decreased EZH2 ubiquitination (Fig. ). UBR4-FL overexpression, on the other hand, increased EZH2 ubiquitination (Fig. ). These data indicate that UBR4 is an E3 ligase of EZH2.
+To test cooperation between UBE2L6, UBR4 and EZH2, Ube2l6-WT- or Ube2l6-C87A-overexpressing B16-F10 cells were subjected to Ubr4 silencing, which reversed Ube2l6-WT-mediated Ezh2 degradation (Fig. ) and ubiquitination in B16-F10 cells (Fig. ). Furthermore, interactions between Ubr4 and Ezh2 were demonstrated by Ube2l6-WT overexpression, but not by enzyme dead Ube2l6-C87A (Fig. ). More importantly, UBE2L6-EZH2 interactions were ablated by UBR4 silencing (Fig. ). These data support a UBE2L6-UBR4 interaction with EZH2 to facilitate EZH2 ubiquitination in melanoma cells.
+
+## EZH2 K381 residues are sites of UBE2L6-UBR4-mediated ubiquitination
+We next aimed to determine ubiquitination sites on EZH2, predicted by UbPred [ ] to be at EZH2 K381 in humans and K376 in mice (Fig. ). As endogenously ubiquitinated EZH2 was undetectable by LC-MS in all tested melanoma cells (data not shown), we assessed Ube2l6-WT overexpressing B16-F10 cells, detecting Ezh2 ubiquitination at residue K376 (Fig. ). As expected, LC-MS could not detect EZH2 ubiquitination upon enzyme dead Ube2l6-C87A overexpression or Ubr4 silencing.
+ To complement these data, we performed sequence alignment, revealing that the K381 residue has been conserved in evolution, suggesting its critical for the K381 in EZH2 regulation (Fig. ). To test EZH2 K381 ubiquitination functionally, EZH2 K381R mutant proteins were expressed in HEK293 cells, inducing EZH2 stability (Fig. ) and resistance to UBE2L6-mediated EZH2 degradation (Fig. ). Accordingly, melanoma cell viability and invasiveness were promoted by overexpression of EZH2-K381R in UBE2L6-overexpressing cells (Fig. ). These data implicate UBE2L6 as a tumor suppressor in melanoma that couples with UBR4 to direct ubiquitination of EZH2 K381 residues and ubiquitin-mediated degradation of EZH2 (Fig. ).
+
+## Discussion
+We identified EZH2 as a master regulator of melanoma ITH and promoter of malignant behavior in melanoma cells. Genetic or pharmacological depletion of EZH2, but not specific inhibition of its methyltransferase activity, inhibited melanoma cell tumorigenicity and invasion, indicating a critical methyltransferase-independent function for EZH2 in melanoma. This effect was modulated by UHRF1/UBE2L6/UBR4-mediated inhibition of EZH2 through proteosomal degradation, implicating UHRF1 and UBE2L6 as regulators of ITH and disease propagation in melanoma. Targeting these enzymes might be exploitable in anti-melanoma therapy.
+Previous studies implicated genes involved in melanin biosynthesis and melanocytic differentiation as key targets of EZH2-directed histone methylation [ , ], leading to altered pigmentation and differentiation phenotypes in melanoma cells [ ]. Indeed, we found that EZH2 protein was inversely associated with pigmentation in both melanoma cells and patient melanomas. However, unlike other studies, we found that selective EZH2 methyltransferase inhibition using GSK126 or EPZ6438 did not substantially affect melanocytic gene expression [ ] or cell pigmentation. This discrepancy may be explained by off-target effects of high inhibitor doses used in other studies.
+It is thought that phenotype switching produces melanoma cell populations of varied proliferative and invasive activity. Invasive melanoma cells have lower pigment levels compared with non-invasive cells [ , , , ] and Ezh2 promotes the low-pigment phenotype in vivo by suppressing Oca2, among other targets [ ]. Although Pinner et al., [ ] found that non-pigmented invasive melanoma cells metastasize to lung and lymph nodes and reverted to pigmented phenotypes after colonization, we did not observe this in our study. Rather, we found that melanoma cells with high EZH2 expression generally formed partially pigmented tumors following subcutaneous implantation, with non-pigmented metastatic foci in the liver, and that UBE2L6 over-expressing melanoma cells with low EZH2 formed highly pigmented tumors with either no or only small and pigmented metastatic foci.
+It was also suggested that EZH2 is required for efficient lung and lymph node colonization by metastatic melanoma [ , ]. Consistent with this, we found that metastases to the lung and liver were reduced from tumors formed by UBE2L6-overexpressing cells with suppressed EZH2. Interestingly, all tumor-bearing mice developed lymph node metastasis regardless of UBE2L6 status. This suggests that EZH2 may have a greater role in facilitating hematogenous metastasis rather than early dissemination into lymphatics. Alternatively, other UBE2L6 targets may regulate melanoma metastasis.
+Tumor-suppressive and anti-metastatic roles of UBE2L6 in vivo have not been described, and we found are mediated in melanoma by the ubiquitin-conjugating function of UBE2L6, working cooperatively with the E3 ligase UBR4, to induce EZH2 ubiquitination and protein degradation [ ]. We found that UBE2L6 abundance is itself regulated by UHRF1, which induces suppressive UBE2L6 promoter methylation and supports oncogenic EZH2 proteins. UHRF1 acts as an oncogene in various cancers, including melanoma [ , ], and downregulates UBE2L6 in cervical cancer [ ]. Our studies extend understanding of this oncoprotein by demonstrating UHRF1/UBE2L6/UBR4-mediated EZH2 promotion to enhance LPC phenotypes and disease progression in melanoma, providing a mechanism as to how higher levels of EZH2 are associated with late-stage disease.
+Most anti-cancer strategies focused on EZH2 targeting have assumed that EZH2 methyltransferase activity is the key oncogenic activity of this protein. However, oncogenic and methyltransferase-independent functions of EZH2 have been described [ – , ], leading to strategies that reduce EZH2 abundance. For example, in breast cancer, DZNep reduces EZH2 protein stability by upregulating the E3 ligase PRAJA1 [ ], and MS1943 depletes EZH2 and induces cytotoxicity [ ]. Although we found that DZNep reduces EZH2 in melanoma by inducing UBE2L6 expression, its short half-life [ , ] and broad effects on ubiquitination hinder clinical application. Targeted depletion of EZH2 through facilitating UHRF1/UBE2L6/UBR4-mediated ubiquitination of its K381 residue offers a specific and appealing alternative.
+
+## Supplementary information
+
+Supplementary Figures and Legends
+
+Cell line, chemicals, plasmids, oligos, primers and antibody list
+
+B16-F10 scr vs siEzh2 DEGs GO and GSEA analysis
+
+B16-F10 HPC vs LPC DEGs GO and GSEA analysis
+
+Ezh2 activated genes over-representation analysis (ORA)
+
+Ezh2 repressed genes over-representation analysis (ORA)
+
+- Genes significantly down- and up-regulated in siEZH2 cells compared to scramble B16-F10 cells
+
+EZH2 coexpressed genes in cutaneous melanoma patient TCGA database
+
+LC-MS of EZH2 coimmunoprecipitates from melanoma cells lines
+
+## Acknowledgements
+This work was supported by the Melanoma Research Alliance (USA), the National Health and Medical Research Council of Australia, Melanoma Research Victoria, and the Victorian Cancer Biobank. M.S. was supported by a Fellowship from the Victorian Cancer Agency. We thank staff of the flow cytometry and experimental animal facilities of Monash University’s Central Clinical School, the Monash Proteomics and Metabolomics facility, the Monash Histology Platform, and the Monash Bioinformatics Platform.
+
+## Author contributions
+Methodology: GKA, and MS; formal analysis: GKA, YZ, PS, PZ, SMM, CH and NCW; investigation: GKA, IL; original draft preparation: GKA, SMM, MA, and JC; writing, review and editing: GKA, CF, RS, FN, and MS; supervision: MS; funding acquisition: MS. All authors have read and agreed to the published version of the manuscript.
+
+## Funding
+Open Access funding enabled and organized by CAUL and its Member Institutions.
+
+## Data availability
+All relevant data are available from the authors upon request.
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Supplementary information
+The online version contains supplementary material available at 10.1038/s41388-023-02631-8.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Figures and Legends
+Cell line, chemicals, plasmids, oligos, primers and antibody list
+B16-F10 scr vs siEzh2 DEGs GO and GSEA analysis
+B16-F10 HPC vs LPC DEGs GO and GSEA analysis
+Ezh2 activated genes over-representation analysis (ORA)
+Ezh2 repressed genes over-representation analysis (ORA)
+- Genes significantly down- and up-regulated in siEZH2 cells compared to scramble B16-F10 cells
+EZH2 coexpressed genes in cutaneous melanoma patient TCGA database
+LC-MS of EZH2 coimmunoprecipitates from melanoma cells lines
+
+## Data Availability Statement
+All relevant data are available from the authors upon request.

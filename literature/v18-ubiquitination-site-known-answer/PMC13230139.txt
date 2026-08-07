@@ -1,0 +1,263 @@
+pmcFront PharmacolFront Pharmacol1524frontpharmacolFront. Pharmacol.Frontiers in Pharmacology1663-9812Frontiers Media SAPMC13230139PMC13230139.113230139132301394224486510.3389/fphar.2026.181556918155691ReviewResearch progress and future perspectives in proteolysis-targeting chimeras
+Wu et al.
+10.3389/fphar.2026.1815569
+WuNuofan Writing – original draftWriting - review and editingXuZihui Writing - review and editingSupervisionInvestigationValidationDaiShuhong ValidationSupervisionWriting - review and editingInvestigationWangQianqian MethodologyWriting - review and editingSupervisionConceptualizationValidation
+1
+School of Food and Drug, Shenzhen Polytechnic University, Shenzhen, China
+
+2
+School of Biological Science and Engineering, South China University of Technology, Guangzhou, China
+
+*Correspondence: Qianqian Wang, wangqq@szpu.edu.cn
+†These authors have contributed equally to this work
+20520262026175060211815569232202626420263042026200520260406202605062026Copyright © 2026 Wu, Xu, Dai and Wang.2026Wu, Xu, Dai and Wanghttps://creativecommons.org/licenses/by/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.Proteolysis-targeting chimeras (PROTACs) have emerged as a transformative modality within the targeted protein degradation (TPD) landscape, inducing spatial proximity between E3 ubiquitin ligases and proteins of interest (POIs) to hijack the ubiquitin-proteasome system (UPS). Unlike traditional occupancy-driven inhibitors, this catalytic, event-driven mechanism enables the targeting of historically “undruggable” proteomes and circumvents acquired resistance. However, the field faces formidable challenges, including suboptimal pharmacokinetic profiles, the stoichiometric “hook effect,” and a disproportionate reliance on a limited pool of E3 ligases (notably cereblon (CRBN) and von Hippel-Lindau (VHL)). This review critically examines PROTAC core principles and provides a nuanced functional categorization across oncology, immune modulation, neurodegenerative diseases, and basic research. We further evaluate three pivotal technical strategies—degrader architecture innovations, conditional activation modalities, and advanced delivery platforms—while systematically appraising current clinical progress. Finally, we discuss key limitations and future translational directions, aiming to provide a realistic roadmap for the next-generation of TPD therapeutics.
+
+clinical translationE3 ubiquitin ligasepharmacokineticsproteolysis-targeting chimera (PROTAC)targeted protein degradation (TPD)ubiquitin-proteasome systemThe author(s) declared that financial support was received for this work and/or its publication. This work was supported by the Research Projects of Department of Education of Guangdong Province (Grant No. 2025KQNCX159) and the Scientific Research Startup Foundation of Shenzhen Polytechnic University (Grant No. 6023312028K). To fully appreciate this mechanism, it is instructive to contrast PROTACs with molecular glues—another major class of UPS-harnessing degraders. While both operate catalytically, molecular glues (e.g., thalidomide derivatives) are monovalent small molecules that reshape the E3 ligase surface to induce a novel protein-protein interaction (PPI) with the target, requiring no linker ( ; ). Consequently, molecular glues are structurally simpler but traditionally discovered serendipitously with a restricted target scope. In contrast, PROTACs are rationally designable and modular, affording them broad applicability across the TPD landscape for historically “undruggable” targets ( ; ).
+
+2.2
+
+## Development timeline and mechanism of action
+Since the proof-of-concept peptide PROTAC was reported in 2001 ( ), the field has rapidly transitioned to fully small-molecule therapeutics, driven by the discovery of potent CRBN and VHL ligands and culminating in the clinical advancement of candidates like ARV-110 and ARV-471 ( ; ; ). At the heart of this clinical translation is the PROTAC-mediated degradation mechanism—a dynamic, catalytic cycle exploiting the native UPS. illustrates the development of PROTAC technology very well.
+ As illustrated in , the cycle initiates when a PROTAC engages both the POI and an E3 ligase to assemble a POI-PROTAC-E3 ternary complex. Facilitated by spatial proximity, a ubiquitin cascade involving E1 and E2 enzymes transfers ubiquitin molecules to surface-exposed lysine residues on the POI. Following successful polyubiquitination, the ternary-complex dissociates, releasing the intact PROTAC to participate in subsequent catalytic rounds. The ubiquitinated POI is then recognized by the 26S proteasome, unfolded by ATP-dependent unfoldases, and translocated into the 20S core particle for proteolytic cleavage ( ).
+
+2.3
+
+## Key features
+The event-driven nature of PROTACs yields distinctive pharmacological attributes, most notably their catalytic efficiency. A single PROTAC molecule can mediate the sequential degradation of multiple POIs, achieving potent target suppression at sub-stoichiometric concentrations and minimizing off-target toxicity ( ; ). However, direct in vivo evidence for this catalytic recycling remains limited.
+However, this bivalent nature inherently introduces the “hook effect”—a stoichiometric trap where excess PROTAC molecules saturate both POI and E3 ligases independently, forming non-productive binary complexes that paradoxically attenuate degradation efficiency at high doses ( ). Overcoming this limitation requires rational design to favor ternary over binary complex formation. Macrocyclization, for instance, introduces conformational constraints that thermodynamically drive ternary assembly ( ).
+Beyond concentration dynamics, degradation efficacy fundamentally relies on the thermodynamic stability and cooperativity of the ternary complex. Cooperativity dictates whether the PROTAC-induced POI-E3 engagement is mutually reinforcing. Recent structural insights reveal that energetic frustration at the neo-PPI interface positively regulates this cooperativity, providing a critical parameter for degrader optimization ( ). Furthermore, geometric prediction tools like Deep Ternary confirm that maximizing the buried surface area correlates robustly with degradation potency ( ).
+In this context, the chemical linker transcends its role as a mere physical tether; it acts as a spatial gatekeeper. By dictating the relative orientation and inter-protein distance, linker length and rigidity directly govern the entropic cost of complex formation ( ). For instance, rigid triazole-containing linkers have been shown to stabilize ternary complexes and enhance cooperativity, underscoring linker optimization as a decisive determinant in PROTAC success ( ).
+Despite these optimizations, the durability of PROTAC therapy is continually challenged by the evolutionary pressure of acquired resistance. The disproportionate reliance on single E3 ligases (e.g., CRBN) frequently selects for loss-of-function genomic alterations in the ligase machinery. Additionally, while PROTACs like NX-2127 effectively overcome classical inhibitor-resistant mutations (e.g., BTK C481S), they impose selective pressures that breed novel POI mutations (e.g., BTK L528W) which disrupt degrader binding or function ( ; ). Mitigating this resistance demands next-generation strategies, such as multivalent degraders capable of recruiting dual E3 ligases, thereby maintaining target ubiquitination even if one pathway is compromised ( ).
+
+3
+
+## Functional classification of PROTAC technology
+The broad therapeutic potential of PROTACs stems from their capacity to address fundamental limitations of occupancy-driven pharmacology. In this chapter, we pivot from structural chemistry to functional application scenarios. By classifying PROTACs according to their disease-specific implementations—spanning oncology, immune modulation, neurology, and synthetic biology—we critically examine how this modality reshapes the therapeutic landscape, while highlighting the distinct biological and pharmacokinetic hurdles inherent to each domain. Meanwhile, we will present the chemical structures of several representative PROTACs to enhance the readers’ understanding of PROTACs (see for details).
+ 3.1
+
+## PROTACs in oncology
+Oncology remains the most clinically advanced arena for PROTAC technology, spearheaded by candidates like the FDA-submitted ARV-471 (Vepdegestrant) and various Bruton’s tyrosine kinase (BTK)/Androgen receptor (AR) degraders entering late-stage trials ( ; ). While much of this progress has been driven by well-characterized nuclear receptors and kinases—benefiting from the historical availability of high-affinity ligands—the field is actively expanding its scope.
+Notably, numerous entities are pursuing preclinical investigations targeting other conventionally “undruggable” proteins, including KRAS mutants and PI3K, demonstrating that PROTAC technology is progressively moving beyond its initial comfort zone ( ). Nevertheless, short-lived cytosolic proteins, transient metabolic enzymes, and dynamically disordered scaffolding proteins remain comparatively underexplored ( ; ). Furthermore, the clinical pipeline exhibits a fragile monopolistic reliance on CRBN as the recruited E3 ligase. Emerging clinical data reveal that this over-reliance exerts a selective pressure, driving acquired resistance through CRBN genomic mutations or epigenetic downregulation ( ). To overcome these bottlenecks, the field should pivot towards expanding the E3 ligase repertoire (e.g., tumor-specific E3 recruitment) and optimizing linker kinetics to tackle rapid-turnover proteomes.
+
+3.2
+
+## PROTACs in immune modulation and inflammatory diseases
+Beyond oncology, PROTACs are advancing the management of immune and inflammatory responses. In cancer immunotherapy, degradation of immune checkpoints (e.g., Programmed Death-Ligand 1 (PD-L1)/Programmed Death-1 (PD-1)) not only abrogates receptor-ligand interactions but eradicates the protein entirely, circumventing the compensatory upregulation pathways that frequently plague monoclonal antibody therapies ( ; ). Moreover, precise spatiotemporal immune regulation has been achieved using photoactivatable PROTACs to remotely modulate Chimeric Antigen Receptor T (CAR-T) cell activity, ensuring on-demand activation of engineered therapeutic cells ( ).
+In the autoimmune sector, KT-474 has successfully translated to Phase II trials for hidradenitis suppurativa and atopic dermatitis by degrading Interleukin-1 Receptor-Associated Kinase 4 (IRAK4) in the IL-1R/TLR pathway ( ). However, the unique pharmacological profile of PROTACs presents a double-edged sword in immunology. Because degradation triggers a prolonged pharmacodynamic (PD) effect that severely outlasts the drug’s pharmacokinetic (PK) clearance, PROTACs cannot be rapidly reversed by simple drug washout ( ). In the context of acute immune-related adverse events (irAEs) or cytokine storms, this irreversible immunosuppression poses a severe clinical risk. Addressing this necessitates the integration of conditionally controllable degraders and tissue-restricted delivery platforms to strictly confine degradation to pathological niches.
+
+3.3
+
+## PROTACs in neurodegenerative diseases
+Neurodegenerative diseases represent a highly anticipated, yet profoundly challenging, frontier for TPD. While ARV-102 (Leucine-Rich Repeat Kinase 2 (LRRK2) degrader) has completed Phase I trials and preclinical Tau-targeted PROTACs have demonstrated cognitive rescue in Alzheimer’s models ( ), bridging the gap between targeted degradation and meaningful neuromodulation remains an arduous task.
+The central bottleneck is a physicochemical paradox: PROTACs inherently possess high molecular weights (>600 Da) and topological polar surface areas (TPSA) that severely restrict passive diffusion across the blood-brain barrier (BBB). While some preclinical studies artificially bypass this via intracranial injection, such methods lack broad clinical translatability ( ; ; ). Even upon successful CNS entry, a secondary biological barrier emerges: proteotoxicity. Pathological proteins in neurodegeneration (e.g., misfolded Tau, α-synuclein) often assemble into dense oligomers or amyloid aggregates. These quaternary structures not only mask potential ubiquitination sites via steric hindrance but are also intrinsically resistant to the proteolytic unwinding machinery of the 26S proteasome. Consequently, future neuro-PROTACs must be rationally engineered not merely to penetrate the brain, but to selectively recognize disease-specific pathogenic conformations before irreversible aggregation occurs.
+
+3.4
+
+## PROTACs in basic research and synthetic biology
+As highly precise “chemical genetics” tools, PROTACs offer distinct advantages over traditional genetic ablation (e.g., CRISPR-Cas9). They provide rapid, post-translational protein knockdown and remarkable reversibility, preserving cell viability in hard-to-transfect primary cultures ( ). Within synthetic biology, PROTACs have been integrated into sophisticated gene expression circuits. Utilizing AND-gate logic, multi-signal responsive degraders require simultaneous activation by distinct physiological inputs, enabling complex cellular decision-making and logic-gated synthetic responses ( ; ).
+Nevertheless, their utility as universal research tools is constrained by the ligandability bottleneck. The design of a PROTAC is strictly predicated on the existence of a high-affinity small-molecule binder for the target protein—a prerequisite lacking for the vast majority of the human proteome. To bypass this, researchers are increasingly adopting ligand-free methodologies, such as nanobody-based bioPROTACs and CRISPR-guided TRAFTACs, alongside high-throughput screening of diverse spatial libraries to democratize access to undruggable targets ( ; ).
+
+3.5
+
+## Other emerging disease applications
+The PROTAC paradigm is also being explored in nascent clinical territories. Exploratory degraders targeting Proprotein Convertase Subtilisin/Kexin type 9 (PCSK9) for hypercholesterolemia ( ), glucose regulatory nodes for diabetes ( ), and pro-fibrotic Suppressor of Mothers Against Decapentaplegic (SMAD) complexes for tissue fibrosis ( ) have demonstrated preclinical efficacy. Although trailing behind oncology and immunology in clinical maturity, these applications underscore the broad potential of PROTAC technology.
+Realizing this therapeutic vision, however, inherently depends on overcoming the structural and delivery limitations discussed above. The molecular engineering required to enable these functional applications—specifically degrader architecture innovations, conditional activation, and targeted delivery platforms—will be examined in Chapter 4.
+
+4
+
+## Technical strategies for PROTAC development
+The translation of PROTACs from concept to therapeutics depends on rational design, systematic optimization, and targeted delivery. In this chapter, we shift focus from functional outcomes to technical implementation, covering three major strategies: degrader architecture innovations, conditional activation strategies, and delivery-enhanced platforms.
+4.1
+
+## Degrader architecture innovations
+Modern PROTAC design is transcending the classical “one-target, one-ligand” heterobifunctional framework. By engineering higher-order architectures, researchers are now aiming to achieve synergistic multi-target degradation, enhanced binding avidity, and access to the “ligandability” frontier of the human proteome presents the mechanisms of action of some modern PROTACs.
+ 4.1.1
+
+## Multi-targeted PROTACs
+Multi-targeted PROTACs represent an evolution toward combinatorial therapeutic intelligence. Unlike simple drug cocktails, these single-molecule entities (e.g., dual ERα/aromatase degraders) can achieve synchronized downregulation of interconnected signaling nodes, thereby preventing the compensatory pathway rewiring that frequently drives oncology resistance ( ; ). Modular platforms, such as the “Multi-Split-and-Mix” system, further facilitate this approach by allowing the rapid assembly of trivalent degraders without the traditional, laborious linker optimization ( ).
+
+4.1.2
+
+## Multivalent PROTACs
+For targets with weak ligand affinity or oligomeric quaternary structures, monovalent recruitment often fails to meet the thermodynamic threshold for degradation. Multivalent PROTACs—frequently scaffolded on DNA tetrahedrons—leverage avidity effects to achieve potent degradation where individual ligands would be insufficient ( ). However, the increased molecular size of these constructs imposes a significant “ bRo5” pharmacokinetic penalty, necessitating advanced delivery solutions.
+
+4.1.3
+
+## Multi-E3 ligase recruitment
+To circumvent “E3-centric” resistance, multifunctional degraders capable of recruiting dual ligases (e.g., CRBN and VHL) act as a biological fail-safe. This redundancy ensures sustained POI ubiquitination even in heterogeneous tumor microenvironments where specific ligase expression may be epigenetically silenced or mutated ( ; ).
+
+4.1.4
+
+## Peptide-based PROTACs
+Peptide-based PROTACs excel at disrupting large, flat PPI interfaces. A landmark application is the degradation of Breast Cancer Susceptibility Gene 2 (BRCA2), which artificially induces a “BRCAness” phenotype in homologous recombination-proficient cells, thereby creating a de novo synthetic lethality vulnerable to PARP inhibitors ( ). Nevertheless, poor cellular uptake and in vivo proteolytic instability remain major barriers to clinical translation.
+
+4.1.5
+
+## Nucleic acid-based PROTACs
+Leveraging the programmability of oligonucleotides, TRAFTACs and Aptamer-PROTACs engage transcription factors and RNA-binding proteins that lack traditional hydrophobic pockets ( ). While their modularity is high, their systemic utility is currently tethered by nuclease susceptibility, requiring chemical shielding or nanoparticle encapsulation ( ).
+
+4.1.6
+
+## mRNA-encoded PROTACs
+mRNA-PROTACs (e.g., RiboPROTACs) represent a pharmacokinetic paradigm shift. By delivering the “blueprint” (mRNA) rather than the “product” (protein/molecule), this strategy utilizes the cell as a bioreactor to synthesize degraders in situ. This bypasses the permeability hurdles of high-molecular-weight PROTACs and offers a promising route for transient, dose-controlled TPD ( ; ). However, concerns regarding immunogenicity, uncontrolled expression kinetics, and the inability to rapidly terminate degradation remain unresolved.
+
+4.2
+
+## Conditionally activatable PROTACs
+To mitigate on-target/off-tumor toxicities, conditionally activatable PROTACs introduce a spatiotemporal “gate” to degradation activity. shows several representative PROTACs that utilize this mechanism of action.
+ 4.2.1
+
+## Photoactivatable PROTACs
+Photocaged and photoswitchable PROTACs offer high precision, enabling the “remote control” of therapeutic activity (e.g., CAR-T modulation) via light ( ). However, the “photon-penetration barrier” in deep tissues remains a significant translational hurdle, shifting current research toward near-infrared (NIR) and internal bioluminescence triggers.
+
+4.2.2
+
+## Enzyme- and microenvironment-activatable PROTACs
+These “prodrug” degraders exploit the metabolic signatures of the tumor microenvironment (e.g., overexpressed O-GlcNAcase, nitroreductases, or GSH) for in situ activation ( ; ). While these systems vastly expand the therapeutic window, they are vulnerable to inter-patient enzymatic heterogeneity, suggesting that multi-signal “AND-gate” logic—requiring multiple pathological cues for activation—is the necessary next step for absolute selectivity ( ).
+
+4.3
+
+## Delivery-enhanced platforms
+4.3.1
+
+## Antibody-PROTAC conjugates (APCs)
+APCs harmonize the exquisite specificity of monoclonal antibodies with the catalytic power of TPD. By facilitating antigen-mediated endocytosis, APCs enable the delivery of potent degraders (e.g., Bromodomain-containing protein 4 (BRD4) or Bromodomain and Extra-Terminal domain family (BET) degraders) specifically to malignant cells, lowering the systemic effective dose and reducing collateral damage to healthy tissues ( ; ). Challenges include linker instability, incomplete tumor penetration, and the complexity of manufacturing such conjugates.
+
+4.3.2
+
+## Nano-PROTACs
+Nanotechnology serves as a physicochemical buffer for PROTACs. Beyond improving solubility, advanced nano-platforms (e.g., Nano-CLIPTAC) achieve in situ assembly of the degrader within the cytosol. This not only circumvents the “Hook Effect” by controlling the local stoichiometry of the binary precursors but also enables the co-delivery of synergistic agents ( ; ). Despite their promise, the translational path for Nano-PROTACs is complicated by manufacturing complexity (CMC hurdles) and the long-term metabolic fate of the synthetic nanocarriers. To help readers better understand the innovations in the development process of PROTAC technology, we have summarized this part of the content and presented it in the form of .
+ 
+
+5
+
+## The clinical translation of PROTAC technology
+Since the inaugural clinical entry of ARV-110 in 2019, the PROTAC landscape has rapidly matured from mechanistic curiosity to late-stage therapeutic validation. The anticipated regulatory approval of ARV-471 (Vepdegestrant)—which submitted its New Drug Application (NDA) in mid-2025 following robust Phase 3 outcomes—represents a significant milestone for the field. However, regulatory approval remains subject to final review, and post-marketing safety surveillance will be critical. This milestone not only validates the systemic safety of chronic protein ablation but also establishes a regulatory precedent for “ bRo5” small molecules.
+However, a critical appraisal of the current clinical pipeline reveals a stratified progress heavily favoring oncology. This “oncology-first” trajectory is driven by the urgent clinical need to overcome acquired resistance, such as the BTK C481S mutation in hematological malignancies or AR/ER ligand-binding domain (LBD) mutations in solid tumors. Yet, this progress is precariously anchored by an overwhelming CRBN dominance (>85% of clinical candidates), which poses a long-term risk of convergent resistance through E3-ligase genomic loss or transcriptional silencing.
+Beyond the oncology stronghold, the transition into chronic, non-lethal indications like inflammatory diseases (e.g., KT-474/SAR444651 targeting IRAK4) and neurodegeneration (e.g., ARV-102 targeting LRRK2) marks a significant expansion of the TPD therapeutic ceiling. For these indications, the clinical bar for safety is substantially higher; the prolonged PD effect of PROTACs, while beneficial for efficacy, demands rigorous evaluation of irreversible immunosuppression or off-target neurotoxicity. Furthermore, optimizing oral bioavailability and tissue-specific exposure remains the primary pharmacokinetic hurdle for large-scale clinical adoption. The next wave of clinical translation should therefore pivot from merely achieving “target degradation” to mastering precision degradation—ensuring that the catalytic power of PROTACs is strictly confined to pathological tissues. introduces representative PROTAC drugs currently in clinical trials.
+ 
+6
+
+## Summary and outlook
+Since its inception in 2001, PROTAC technology has undergone a significant trajectory, transitioning from rudimentary peptide-based probes to an advanced clinical modality. By subverting the traditional occupancy-driven paradigm with an event-driven catalytic mechanism, PROTACs have demonstrated the potential to eliminate historically “undruggable” proteins and circumvent certain acquired resistance mechanisms. While the anticipated regulatory approval of candidates like ARV471 (Vepdegestrant) provides compelling evidence for the translational viability of this platform, the transition from “functional degradation” to “clinical superiority” remains a complex endeavor.
+Current research frontiers reflect a transition toward enhanced structural intelligence and spatiotemporal precision. Conditionally activatable PROTACs are beginning to resolve the inherent tension between systemic exposure and on-target/off-tumor toxicity, providing a molecular “gatekeeper” for high-potency degradation. Concurrently, the integration of advanced delivery platforms—most notably APCs and mRNA-encoded degraders—is systematically addressing the “bRo5” pharmacokinetic penalties associated with large-molecule degraders. These innovations are not merely technical iterations but represent a fundamental shift toward network pharmacology, where multiple pathogenic nodes can be dismantled with modular, programmed efficiency. Nevertheless, the clinical translation of these delivery platforms faces its own challenges, including manufacturing complexity and long-term safety.
+Looking ahead, the evolution of PROTAC technology must confront several unresolved bottlenecks. First, the current “E3 ligase monopoly” (primarily CRBN and VHL) poses a significant risk of convergent resistance; the discovery of tissue-specific or tumor-selective E3 ligands is therefore paramount. Second, the predictive modeling of ternary complex dynamics requires a deeper synergy between artificial intelligence (e.g., Deep Learning) and high-resolution structural biology. Third, the long-term metabolic fate and safety profiles of novel delivery vehicles require rigorous clinical scrutiny.
+Ultimately, PROTAC technology is poised to evolve from a specialized drug-discovery tool into a programmable, customizable targeted degradation platform. As the field expands beyond oncology into neurodegeneration, autoimmunity, and infectious diseases, the focus will shift from “generalized protein knockdown” toward precision-guided personalized medicine. By harmonizing molecular engineering with a sophisticated understanding of cellular proteostasis, PROTACs will continue to expand the therapeutic scope of modern medicine.
+
+Edited by:
+Xuyi Yue, Nemours Children’s Hospital, Delaware, United States
+
+Reviewed by:
+Chengliang Zhu, Zhejiang University, China
+
+Rongfeng Zhu, Shenzhen Bay Laboratory, China
+
+## Author contributions
+NW: Writing – original draft, Writing – review and editing. ZX: Writing – review and editing, Supervision, Investigation, Validation. SD: Validation, Supervision, Writing – review and editing, Investigation. QW: Methodology, Writing – review and editing, Supervision, Conceptualization, Validation.
+
+## Conflict of interest
+The author(s) declared that this work was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Generative AI statement
+The author(s) declared that generative AI was not used in the creation of this manuscript.
+Any alternative text (alt text) provided alongside figures in this article has been generated by Frontiers with the support of artificial intelligence and reasonable efforts have been made to ensure accuracy, including review by the authors wherever possible. If you identify any issues, please contact us.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+ 
+
+## Glossary
+
+APC
+Antibody-PROTAC Conjugates
+
+AR
+Androgen Receptor
+
+BBB
+Blood–Brain Barrier
+
+BET
+Bromodomain and Extra-Terminal domain
+
+BRCA2
+Breast Cancer Susceptibility Gene 2
+
+BRD4
+Bromodomain-containing Protein 4
+
+BTK
+Bruton’s Tyrosine Kinase
+
+bRo5
+Beyond Rule of 5
+
+CAR-T
+Chimeric Antigen Receptor T-cell
+
+CRBN
+Cereblon
+
+ER
+Estrogen Receptor
+
+IRAK4
+Interleukin-1 Receptor-Associated Kinase 4
+
+irAEs
+immune-related adverse events
+
+LBD
+ligand-binding domain
+
+LRRK2
+Leucine-Rich Repeat Kinase 2
+
+MAPK
+Mitogen-Activated Protein Kinase
+
+NF-κB
+Nuclear Factor kappa-light-chain-enhancer of activated B cells
+
+PD
+pharmacodynamic
+
+PD-1
+Programmed Death-1
+
+PD-L1
+Programmed Death-Ligand 1
+
+PK
+pharmacokinetic
+
+POI
+Protein of Interest
+
+PPI
+Protein-Protein Interaction
+
+PROTAC
+Proteolysis-Targeting Chimera
+
+PSMA
+Prostate-Specific Membrane Antigen
+
+PCSK9
+Proprotein Convertase Subtilisin/Kexin type 9
+
+SMAD
+Suppressor of Mothers Against Decapentaplegic
+
+TPSA
+topological polar surface areas
+
+TPD
+Targeted Protein Degradation
+
+UPS
+Ubiquitin-Proteasome System
+
+VHL
+Von Hippel-Lindau

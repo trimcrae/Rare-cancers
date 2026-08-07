@@ -1,0 +1,2021 @@
+pmcChem RevChem Rev822acssd2985134RcrChemical Reviews0009-26651520-6890pmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC11240265PMC11240265.111240265112402653891343210.1021/acs.chemrev.4c000661ReviewBiospecific
+Chemistry for Covalent Linking of Biomacromolecules
+CaoLihttps://orcid.org/0000-0002-5859-2526WangLei Department of Pharmaceutical
+Chemistry, The Cardiovascular Research
+Institute, and Helen Diller Family
+Comprehensive Cancer Center, University
+of California San Francisco, San Francisco, California 94158, United States*E-mail: Lei.Wang2@ucsf.edu.24062024100720241241346666685168549250120241006202420042024120720241307202413072024© 2024 The Authors. Published by American Chemical Society2024The Authorshttps://creativecommons.org/licenses/by-nc-nd/4.0/Permits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/). 
+Interactions among biomacromolecules, predominantly noncovalent,
+underpin biological processes. However, recent advancements in biospecific
+chemistry have enabled the creation of specific covalent bonds between
+biomolecules, both in vitro and in vivo. This Review traces the evolution
+of biospecific chemistry in proteins, emphasizing the role of genetically
+encoded latent bioreactive amino acids. These amino acids react selectively
+with adjacent natural groups through proximity-enabled bioreactivity,
+enabling targeted covalent linkages. We explore various latent bioreactive
+amino acids designed to target different protein residues, ribonucleic
+acids, and carbohydrates. We then discuss how these novel covalent
+linkages can drive challenging protein properties and capture transient
+protein–protein and protein–RNA interactions in vivo.
+Additionally, we examine the application of covalent peptides as potential
+therapeutic agents and site-specific conjugates for native antibodies,
+highlighting their capacity to form stable linkages with target molecules.
+A significant focus is placed on proximity-enabled reactive therapeutics
+(PERx), a pioneering technology in covalent protein therapeutics.
+We detail its wide-ranging applications in immunotherapy, viral neutralization,
+and targeted radionuclide therapy. Finally, we present a perspective
+on the existing challenges within biospecific chemistry and discuss
+the potential avenues for future exploration and advancement in this
+rapidly evolving field.
+
+National Cancer Institute10.13039/100000054R01CA258300National Institute of General Medical Sciences10.13039/100000057R01GM118384pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDdocument-id-old-9cr4c00066document-id-new-14cr4c00066ccc-price
+
+## Special Issue
+Published
+as part of Chemical Reviewsvirtual special issue “Noncanonical Amino Acids”.
+1
+
+## Introduction
+There exist four major
+classes of biomacromolecules in life forms
+on earth: proteins, nucleic acids, carbohydrates, and lipids. These
+biomacromolecules engage in intricate interactions, collaborating
+to execute diverse biological functions essential for life. Their
+interactions, which encompass electrostatic forces, van der Waals
+forces, π-effects, and hydrophobic effects, are primarily noncovalent
+in nature. Covalent connections between biomacromolecules usually
+require enzymatic catalysis, such as the attachment of ubiquitin and
+ubiquitin-like proteins to other proteins, as well as the attachment of glycans to proteins, lipids, and RNAs. Interaction through spontaneous covalent bonding
+is rare, with the formation of disulfide bonds in proteins between
+cysteine residues being a notable exception. Although other covalent bonds, such as the isopeptide bond and N–O–S
+bridge, have been identified in certain proteins, , their
+formation demands a specialized protein microenvironment, limiting
+their general applicability across diverse proteins. Noncovalent interactions
+are typically characterized by their relative weakness, transience,
+and reversibility. In contrast, covalent bonding offers a more robust,
+selective, and stable form of connection. Although evolutionary pressure
+has not favored the proliferation of additional covalent linkages
+in biomolecules, exploring new covalent bonds holds the potential
+to unlock novel structures, properties, and functions. This exploration is particularly valuable for advancing
+the research, control, and utilization of biological activities.
+For covalent reactions with biomacromolecules, bio-orthogonal click
+chemistry has gained prominence. , These reactions avoid
+interference with biological processes and efficiently occur under
+physiological conditions between two abiotic bio-orthogonal functional
+groups. One bio-orthogonal functional group is introduced into target
+biomolecules through metabolic or genetic engineering, while the complementary
+group is integrated into the probe molecule. This setup allows for the selective formation of covalent bonds
+between the probe and the target biomolecule in the presence of other
+biomolecules. While bio-orthogonal click chemistry has transformed
+chemical biology and significantly advanced biotechnology, its application
+in living organisms may be hindered by the impracticality of introducing
+exogenous components in certain situations, particularly for in vivo
+applications involving disease-related biomacromolecules in humans.
+Over the past decade, biospecific chemistry has flourished, enabling
+the selective covalent targeting of endogenous biomacromolecules in
+cells and organisms without altering the target biomacromolecules
+themselves. This approach requires only one latent bioreactive functional
+group in the reactant biomacromolecule, which selectively reacts with
+the target biomacromolecule upon binding. , , Unlike bio-orthogonal chemistry, which is
+designed not to react with endogenous biomacromolecules, biospecific
+chemistry is tailored to react with native biomacromolecules under
+cellular or physiological conditions with high specificity. While
+bio-orthogonal chemistry has primarily been used for labeling biomacromolecules
+with small-molecule probes, biospecific chemistry aims to create covalent
+linkages within or between biomacromolecules.
+Here, we provide
+an account of the development of biospecific chemistry,
+tracing its initiation in proteins. We discuss the design and introduction
+of different latent bioreactive functional groups into proteins to
+covalently target various amino acid residues of proteins, ribonucleic
+acids, and carbohydrates. Additionally, we showcase how these new
+covalent linkages among biomacromolecules facilitate the engineering
+of challenging protein properties, enable the capture of elusive biomolecular
+interactions in situ for subsequent identification, and support the
+development of peptide and protein therapeutics that operate in a
+covalent mode. We conclude with a discussion of the future development
+of biospecific chemistry and directions to be explored.
+
+2
+
+## Biospecific Chemistry to Target Different Classes
+of Biomacromolecules
+The foundational methodology of biospecific
+chemistry involves
+the integration of a latent bioreactive functional group into biomolecule
+A that is designed to selectively target a specific natural functional
+group in biomolecule B ( ). The interaction between biomolecules A and B brings the
+latent bioreactive group into close proximity with its target natural
+group. Such proximity leads to an increased effective concentration
+and a reduction in entropy loss, thereby activating the latent bioreactive
+group’s reaction toward its target group and resulting in the
+formation of a precise covalent bond. We refer to this process as
+“biospecific chemistry”, which enables the specific
+covalent targeting of biomolecules without requiring modifications
+to the target molecules themselves. Furthermore, biomolecules A and
+B may belong to different classes; the reaction is also viable within
+a single biomacromolecule and is applicable across diverse environments,
+including in vitro conditions, live cells, and whole organisms.
+ 2.1
+
+## Biospecific Chemistry through Proximity-Enabled
+Bioreactivity
+Selective introduction of new covalent linkages
+via biospecific chemistry was initially enabled in proteins. The approach involves the genetic incorporation
+of an unnatural amino acid (Uaa), whose side chain bears a functional
+group capable of reacting with the side chain of the target natural
+residue, into proteins, facilitating
+the spontaneous formation of a covalent linkage. A suitable chemical reaction for this process must be efficient
+enough to react with the relatively unreactive natural amino acid
+side chains and must also proceed under mild conditions to ensure
+biocompatibility. Given the prevalence of natural amino acids and
+residues within proteins and cells, achieving selectivity in targeting
+a specific residue within the vast proteome presented a significant
+challenge. Additionally, off-target reactions involving bioreactive
+Uaas could lead to cytotoxic effects, and side reactions with the
+translational machinery might hinder the ribosomal incorporation of
+these Uaas.
+The paradox of balancing bioreactivity, selectivity,
+and genetic encoding was addressed through the concept of proximity-enabled
+bioreactivity ( ). This approach fine-tunes the reactivity
+of the Uaa to prevent undesirable reactions with free amino acids,
+protein residues, and other biomolecules inside cells under physiological
+conditions, thus permitting genetic incorporation. Once the Uaa is
+incorporated into a protein and positioned close to its target natural
+residue, the proximity effect reduces entropy loss and increases the
+effective concentration of reactants. This significantly accelerates
+the reaction rate, thereby facilitating the specific formation of
+the covalent bond between the Uaa and its target residue. The term
+“latent bioreactive Uaa” was coined to describe this
+specific type of Uaa. This designation
+highlights its potential for reactivity toward biomolecules in contrast
+to the majority of genetically encoded Uaas, which are bio-orthogonal
+or chemically inert, − and underscores its hidden reactivity, which is triggered
+by proximity.
+ The breakthrough occurred in 2013, with the development
+of latent
+bioreactive Uaa p-2′-fluoroacetyl-phenylalanine
+(Ffact) to target Cys selectively in proteins ( ). This success was driven by the strategic expectation that
+the sulfhydryl group of Cys, possessing the highest nucleophilicity
+among natural amino acid side chains, would selectively react with
+a weak electrophilic group when in close proximity. The fluoromethyl
+ketone in Ffact was chosen as the weak electrophile because
+the C–F bond is strong and F is a poor leaving group but the
+α-carbonyl group increases its reactivity. Indeed, Ffact demonstrated reactivity only at an elevated Cys concentration (10
+mM) in vitro, which is substantially higher than intracellular Cys
+concentrations (<1 mM). Ffact was incorporated into
+proteins in Escherichia coli cells through genetic
+code expansion. Mass spectrometric (MS) analysis of these expressed
+proteins confirmed the absence of adducts involving Cys, glutathione,
+or imidazole or any modifications to Ffact, indicating
+that Ffact remained stable and unaltered during protein
+biosynthesis and purification. Ffact and Cys were subsequently
+introduced into an affibody and the Z protein, respectively, at proximal
+sites of their binding interface. Incubation of these two proteins
+at biocompatible mild conditions led to covalent complex formation
+with a 63% yield. Noteworthy is the observation that substituting
+Ffact with the isosteric Fact, lacking only
+fluorine and thus being unreactive, or altering the position of Cys
+yielded no detectable covalent complexes. This underscores the inherently
+proximity-dependent and chemoselective nature of the reaction.
+ Besides covalently linking the affibody–Z
+protein pair intermolecularly,
+Ffact was further shown to react with Cys intramolecularly.
+Ffact was incorporated in the chromophore and Cys was introduced
+to a proximal site in the β-barrel in various fluorescent proteins.
+After expressing these proteins in E. coli cells,
+the chromophore was found to covalently attach to the β-barrel
+via the intramolecular Ffact–Cys reaction almost
+quantitatively. In addition to working inside E. coli cells, the Ffact–Cys reaction is also compatible
+for use on mammalian cell surface to allow a GPCR to capture its peptide
+ligand. , In short, unlocking the latent reactivity
+of Ffact toward Cys through the proximity effect paves
+the way for endowing proteins with new covalent bonding abilities,
+a strategy that has been generally embraced for developing new biospecific
+chemistry in ensuing years.
+This methodology, which involves
+the genetic encoding of a latent
+bioreactive Uaa into a protein to covalently target a natural amino
+acid residue through proximity-enabled bioreactivity, was later referred
+to as genetically encoded chemical cross-linking (GECX). Extensions of this method, GECX-RNA and GECX-sugar, , have been developed to target RNA nucleotides and carbohydrates,
+respectively. GECX can be applied intramolecularly to create covalent
+linkages within proteins, a technique that has been utilized to engineer
+protein properties, as detailed in . Additionally, GECX can also be used intermolecularly
+between two proteins, or between a protein and another type of biomacromolecule,
+to study biomolecular interactions in situ, as described in .
+
+2.2
+
+## Covalently Targeting Various Amino Acid Residues
+in Proteins
+In addition to the fluoromethyl ketone contained
+in Ffact, diverse functional groups installed on different
+Uaa scaffolds have subsequently been proven suitable for genetic encoding
+and reactions with various natural amino acid residues through proximity-enabled
+bioreactivity.
+2.2.1
+
+## Nucleophilic Substitution of Alkyl or Aryl
+Halide
+To target Cys, a range of haloalkane Uaas were designed
+and synthesized, with halogen atoms (I, Br, and Cl) connected with
+aliphatic chains of varying lengths ( ). These Phe-scaffold
+Uaas were incorporated into proteins in both E. coli and mammalian cells using an evolved Methanosarcina mazei tRNAPyl/MmXYRS pair. MS analysis of the mutant proteins
+confirmed that the Uaas were specifically incorporated without modifications
+or side reactions. Upon incorporation into the affibody, these haloalkane
+Uaas reacted with a proximal Cys on the Z protein at the binding interface,
+resulting in irreversible cross-linking of the two proteins. When
+installed on the same alkyl chain, the cross-linking efficiency follows
+the order of I > Br > Cl, consistent with the halide leaving
+ability
+in substitution reactions. Meanwhile, benzyl chloride was installed
+on an azobenzene to develop Uaa Cl-PSCaa, which was demonstrated to
+react with a proximal Cys intramolecularly to form a photoswitchable
+bridge on proteins, as detailed in . 
+ Substitution of fluorine is generally difficult,
+which is mainly
+attributed to its high electronegativity and limited leaving ability.
+In the context of the fluoromethyl ketone in Ffact, activation
+is facilitated by the α-carbonyl group. On the other hand, the fluoroacetamide group has traditionally been
+deemed biologically inert and applied in diagnostic applications.
+However, when fluoroacetamide was installed on Uaa FAcK and incorporated
+into proteins, it exhibited notable reactivity with Cys in close proximity. This observation underscores the significant
+impact of proximity on enhancing reactivity. Employing this protein-confined
+proximity strategy holds promise for precisely assessing the chemical
+reactivity of small molecules toward biomolecules, thereby mitigating
+the risk of undesirable side reactions in drug development.
+In addition to nucleophilic substitution reactions, nucleophilic
+aromatic substitution (SNAr) has also proven effective
+in harnessing proximity-enabled reactivity. The genetically incorporated
+F-PSCaa, characterized by a perfluoro-benzene moiety, demonstrated
+reactivity with a proximal Cys residue within the protein, which facilitated
+the in situ construction of a photoswitchable bridge on the protein,
+as detailed in . 
+Cys is not always available
+at desired positions or within target
+proteins. To enhance the applicability of proximity-enabled bioreactivity
+across a broader spectrum of proteins, an alkyl bromide was introduced
+onto a lengthy linear alkyl side chain to augment its orientation
+flexibility. The resulting Uaa BrC6K,
+upon incorporation into proteins, exhibited the capability to react
+not only with proximal Cys but also with proximal His and Lys residues.
+By specifically targeting His490 on HER2, the ZHER2 affibody,
+featuring BrC6K at site 37, formed covalent cross-links with the endogenous
+HER2 receptor on cancer cells. Interestingly,
+subsequent investigations showed that BrC6K could also cross-link
+with proximal Glu and Asp residues. In
+another comprehensive study, MS analysis unveiled a broader reactivity
+spectrum for bromoalkyl-containing BprY. In addition to Cys, His, and Lys, BprY was found to react with Tyr,
+Ser, Thr, Asp, and Glu in proximity, albeit with lower efficiency.
+
+2.2.2
+
+## Addition to Michael Acceptors or Isothiocyanate
+The addition of a nucleophilic side chain with a Michael acceptor
+such as N-arylacrylamide and vinyl sulfonamide has
+been widely used for the site-specific covalent inhibition of proteins. , Uaas containing acrylamide, namely AcrK and AcrF, were genetically
+incorporated into proteins and demonstrated reactivity with a proximal
+Lys residue, albeit with modest yields under basic conditions ( ). Vinyl sulfonamides exhibit enhanced reactivity when compared
+to their acrylamide counterparts. Notably, the incorporation of the
+Uaa VSF, containing a vinyl sulfonamide, into proteins exhibited remarkable
+efficiency (86%) in the reaction with a proximal Lys in vitro. When
+VSF was incorporated into the Herceptin Fab at site 92, the mutant
+Fab demonstrated the ability to cross-link the native HER2 receptor
+on mammalian cells, achieving complete labeling within 2 h. It is
+worth noting that 10 μM N-arylacrylamide has
+been shown to react with 100 μM Cys in PBS under mild conditions, implying that these Michael acceptors may not
+remain entirely latent within cells.
+ Phenyl isothiocyanates are used to modify N-terminal
+amino group of proteins during Edman degradation. Uaa p-isothiocyanate phenylalalnine (pNCSF)
+was thus developed and genetically incorporated into proteins, allowing
+for selective conjugation of proteins to amine-containing probes under
+basic conditions. In addition, pNCSF
+enables the formation of intramolecular and intermolecular thiourea
+cross-links through addition with a proximal Lys side chain in proteins.
+
+2.2.3
+
+## Acyl Transfer via Aryl Carbamate or Aryl
+Triazole
+Aryl carbamates function as moderate electrophiles.
+An aryl carbamate-containing Uaa, FPheK, has been incorporated into
+proteins in both E. coli and mammalian cells ( ). Incorporation of FPheK into thioredoxin facilitated high-efficiency
+intramolecular cross-linking with proximal Lys, Cys, or Tyr, with
+low efficiency observed for His and Ser. In addition, cross-links
+are formed between FPheK on the heavy chain and a Lys residue on the
+light chain of the Herceptin Fab. Notably, FPheK-mediated cross-linking
+in these experiments required a weakly basic pH of 8.5.
+ The development of aryl-1,2,3-triazole Uaa CATK1
+further advances
+acyl transfer reactions under neutral conditions owing to the triazole’s
+acidity (pKa 9.4) as an excellent leaving
+group. CATK1, when incorporated into
+proteins, demonstrated high-efficiency cross-linking with proximal
+Lys and Tyr and lower efficiency with His and Cys at neutral pH and
+within E. coli cells. CATK1 is nontoxic to HEK293T
+cells at concentrations below 0.5 mM.
+
+2.2.4
+
+## Sulfur Fluoride Exchange (SuFEx)
+SuFEx represents a cutting-edge click chemistry approach, which is
+distinguished by the exchange of the fluoride connected to the sulfur(VI)
+center with incoming nucleophiles. The
+robust sulfur–fluoride bonds in high oxidation states exhibit
+remarkable resistance to oxidation, reduction, hydrolysis, and thermolysis. Activation of the S(VI)–F bond for nucleophilic
+exchange occurs reliably only when the appropriate catalyst–reagent
+combination is applied. , Aryl fluorosulfates
+are unreactive toward free amino acids and biomolecules under physiological
+conditions. When serving as warheads
+in chemical probes that bind proteins specifically, aryl fluorosulfates
+form covalent linkages with Tyr, Lys, and Ser in the protein binding
+pocket through SuFEx. − 
+Due to its exceptional biocompatibility and
+click SuFEx nature, aryl fluorosulfate was implemented as the side
+chain in the Uaa fluorosulfate-l-tyrosine (FSY), which was
+genetically incorporated into proteins in both E. coli and mammalian cells ( ). FSY (1 mM) was nontoxic to E. coli or mammalian cells. The incorporated FSY efficiently
+reacted with proximal Lys, His, and Tyr in proteins via SuFEx, both
+intra- and intermolecularly, and in vitro and in live cells, generating
+stable linkages resistant to hydrolysis. Furthermore, FSY exhibited
+reactivity with proximal Cys, Ser, and Thr, yet yielded unstable linkages. Ser and Thr are converted to dehydroalanine
+(Dha) and dehydrobutyrine (Dhb), respectively; Dha and Dhb can be
+subsequently used for protein labeling or conjugation. The introduction
+of an electron-withdrawing fluorine substitution on FSY led to Uaa
+FFY, accelerating the SuFEx reaction rate by 2.4-fold. Additionally, fluorosulfonyloxybenzoyl-l-lysine (FSK), another aryl fluorosulfate-containing Uaa, was genetically
+encoded in E. coli and mammalian cells, demonstrating
+a reactive specificity similar to FSY. FSK’s longer and more flexible side chain facilitated reactions
+with residues inaccessible to FSY. Covalent nanobodies were generated
+that irreversibly bound to epidermal growth factor receptor (EGFR)
+on mammalian cells, with FSK and FSY targeting distinct positions
+on EGFR. Moreover, meta-fluorosulfate-l-tyrosine (mFSY), genetically encoded in E. coli and mammalian cells, presented an alternate approach
+with fluorosulfate at the meta position. This allowed mFSY to target residues elusive
+to FSY through a different side chain orientation. Nanobodies incorporating
+mFSY at specific sites demonstrated the ability to covalently cross-link
+either EGFR or HER2, a capability not observed with FSY incorporation
+at the same site, and vice versa. Together, FSY, FSK, and mFSY complement
+each other in terms of side chain length and orientation.
+ Another SuFEx-capable latent bioreactive Uaa, SFY,
+has also been
+genetically encoded in E. coli and mammalian cells. , SFY is designed to contain an aryl sulfonyl fluoride group, which
+is more reactive than the aryl fluorosulfate found in other SuFEx-capable
+Uaas. This enhanced reactivity has been utilized to covalently target
+carbohydrates, as detailed in . To mitigate potential cytotoxicity, a
+methoxy group has been added to the phenyl ring, moderating the reactivity
+of the sulfonyl fluoride. SFY has also been shown to react with Lys,
+His, and Tyr residues when they are in proximity within proteins in
+both E. coli and mammalian cells. Given that these
+target residues, namely Lys, His, and Tyr, are often abundant at or
+near protein binding interfaces, these SuFEx-based latent bioreactive
+Uaas significantly broaden the scope of proximity-enabled bioreactivity
+in diverse applications.
+
+2.2.5
+
+## Phosphorus Fluoride Exchange (PFEx)
+Recent advancements in click chemistry have prominently featured
+PFEx reactions alongside SuFEx. PFEx reactions enable the substitution
+of P(V)–F bonds with incoming nucleophiles, leading to the
+formation of stable tetrahedral P(V)–O and P(V)–N bonds.
+In small-molecule chemistry, these reactions require a Lewis base
+catalyst and a silicon-based additive. In protein applications, two latent bioreactive amino acids characterized
+by phosphoramidofluoridate groups, namely, PFY and PFK, have been
+effectively incorporated into proteins in both E. coli and mammalian cells through genetic code expansion ( ). Once integrated, these amino acids can covalently target proximal
+His, Tyr, Lys, and Cys residues via a proximity-driven PFEx reaction,
+both in vitro and in vivo, without the need for external reagents.
+This demonstrates that the proximity of reactants alone is sufficient
+to activate PFEx in proteins. Interestingly, a water-soluble silicon
+reagent, Na2SiO3, enhances the PFEx reaction
+between PFY and Cys/Tyr but diminishes it between PFY and His in proteins.
+Additionally, the P–N linkage formed between PFY and His in
+proteins is reversible at temperatures above 50 °C. PFY also
+shows greater durability in proteins compared with FSY, its SuFEx
+counterpart, which is advantageous for in vivo applications. The genetic
+facilitation of PFEx click chemistry in proteins not only enables
+covalent protein engineering using nature’s preferred phosphate
+connectors but also lays the groundwork for PFEx’s broader
+application in biological and biomedical research.
+ 
+2.2.6
+
+## Inducible Proximity-Enabled Bioreactivity
+The proximity-enabled bioreactivity of Uaas can be initially constrained
+and subsequently unleashed through light or chemical conversion, adding
+an extra layer of control over covalent bond formation in terms of
+spatial and temporal aspects.
+Traditional photo-cross-linking
+Uaas, utilizing azide, benzophenone, or diazirine, typically progress
+through radical intermediates upon light activation, lacking specificity
+for amino acid residues. , This nonspecific reactivity
+leads to the formation of complex cross-linked products and unpredictable
+sites of cross-linking, rendering them unsuitable for the precise
+introduction of covalent bonds into proteins. Recently developed and
+genetically encoded photoactivatable bioreactive Uaas release chemical
+groups that selectively react with specific amino acid residues upon
+being triggered by light. 
+The integration
+of 2-aryl-5-carboxytetrazole into small-molecule
+drugs has demonstrated the ability to cross-link target proteins through
+a photoreleased carboxynitrile imine reacting with a Glu residue near
+the active site. Uaa mPyTK was thus designed
+to bear 2-aryl-5-carboxytetrazole and incorporated into GST in E. coli, demonstrating more efficient photo-cross-linking
+of GST into a homodimer compared to a diazirine-based Uaa ( ). Mutagenesis studies suggest that mPyTK cross-links with
+Glu92 at the GST dimer interface. In addition, incorporation of mPyTK
+in Grb2 also enables cross-linking with EGFR in mammalian cells.
+ A photoactivatable Uaa, o-nitrobenzyl
+alcohol-containing
+o-NBAK, has been developed for cross-linking with proximal lysine
+residues. o-NBAK generates aryl-nitroso
+intermediates upon photoactivation, which have half-lives of ∼30
+min and react with Lys within GST dimers both in vitro and in E. coli cells. When incorporated into the active site of
+the lysine acetyltransferase SlPatA, o-NBAK enables the cross-linking
+of this enzyme with its substrate protein SeAcs in vitro, as confirmed
+by MS.
+Amino acid identities at protein–protein interfaces
+vary
+due to diverse molecular interactions, making it valuable to develop
+photoactivatable Uaas capable of specifically targeting a broader
+range of natural amino acid residues. The multitargeting reactivity
+is particularly useful when identifying unknown protein–protein
+interactions without information on the target natural residue. FnbY,
+a photoactivatable para-quinone methide (QM) generating
+Uaa, was developed and encoded in both E. coli and
+mammalian cells. In the GST model protein,
+FnbY, upon UV light exposure, can cross-link multiple nucleophilic
+residues, including Cys, His, Lys, Tyr, Trp, Asn, Gln, Glu, and Met.
+The QM half-life extends to a duration measured in seconds, significantly
+surpassing the brief lifetimes of radical intermediates typical in
+conventional photo-cross-linking Uaas. Correspondingly, FnbY demonstrates
+enhanced cross-linking efficiency when compared to p-azido-phenylalanine. Another Uaa, FmnbY, that releases an ortho-QM exhibits similar selectivity but higher reactivity
+than the para-QM of FnbY. Beyond protein cross-linking, both FnbY and FmnbY can be employed
+for photocontrolled protein conjugation with widely available amine
+or thiol reagents and feature rapid kinetics, with reactions completing
+in tens of seconds. 
+A vinyl thioether-containing
+Uaa, VtK, has been designed to drive
+oxidation-induced proximity-enabled bioreactivity in proteins. , Upon oxidation, vinyl thioether is chemically converted into vinyl
+sulfoxide, acting as a Michael acceptor that selectively reacts with
+proximal Cys or Lys residues. In vitro experiments with sfGFP incorporating
+VtK reveal nearly complete oxidation by 5 mM H2O2 and 0.5 mM Na2WO4, followed by successful
+labeling using the amine-containing fluorescent probe N-dansylethylenediamine. Moreover, VtK
+incorporation into GST facilitates GST cross-linking into a dimer,
+triggered by H2O2/Na2WO4 oxidation either in vitro or within E. coli cell
+lysates. Additionally, human Trx expressed
+with VtK at positions 60, 72, or 73 in HEK293T cells demonstrates
+spontaneous covalent dimerization (15%) and trimerization (3%) of
+Trx without the addition of external oxidants, suggesting intrinsic
+cellular reactive oxygen species are adequate to activate VtK for
+protein cross-linking. VtK thus can be
+a promising tool for probing reactive-oxygen-species-associated cell
+signaling proteins and processes.
+
+2.2.7
+
+## General Considerations for Choosing a Latent
+Bioreactive Uaa
+The reactivity of a functional group is typically
+inversely correlated with its specificity. In the design of latent
+bioreactive Uaas, a delicate balance between reactivity and specificity
+is maintained. Despite this, each latent bioreactive Uaa exhibits
+a distinct profile of properties. In vivo applications demand a higher
+level of specificity compared to in vitro applications. Assessing
+the toxicity of Uaas to cells or organisms serves as an indicator
+of the nonspecific reactivity of the functional group. The assessment
+of off-target reactions of Uaa-incorporated proteins has been conducted
+in cells and serum for a limited number of Uaas to date, specifically
+the SuFEx-based Uaas. Uaas featuring
+bulky leaving groups may encounter challenges fitting into the tight
+binding interfaces of biomolecules. To address this, Uaas with small
+leaving groups (e.g., F– in SuFEx Uaas) or those
+undergoing addition reactions are preferable to avoid potential interference
+with target interactions. Additionally, for various applications,
+factors such as reaction kinetics and cross-linking yield play important
+roles. The study of the SuFEx reaction in a protein context reveals
+that kinetics and yields are influenced by the binding affinities
+of interacting proteins, the chemical reactivity of the Uaa’s
+functional group, and the identity of the target residue, among other
+factors. The side chain length and orientation
+of Uaas also impact the reaction rate, as exemplified by FSY, FSK,
+and mFSY, , , which share
+the same fluorosulfate functional group. Consequently, data on kinetics
+and cross-linking yields reported in separate papers for different
+latent bioreactive Uaas are not directly comparable given variations
+in protein pairs or sites employed during determination.
+
+2.3
+
+## Covalently Targeting Ribonucleic Acids
+Beyond protein–protein interactions, protein–nucleic
+acid interactions are also vital for life. Protein–RNA interactions
+regulate almost all facets of RNA molecules, encompassing pre-mRNA
+splicing, RNA modification, translation, and degradation. Dysfunctional RNA-binding proteins (RBPs) may
+cause disorders like neurodegeneration and cancer. , Many RBPs bind RNA with disordered regions. To comprehend these complex regulatory mechanisms, identifying protein–RNA
+interactions in vivo with single nucleotide and amino acid resolution
+is critical. Various methods are available for detecting protein–RNA
+interactions, which can be categorized into noncovalent and covalent
+approaches based on the chemical nature of these interactions. Among these, nucleoside-based UV cross-linking
+is a prevalent methodology. This technique
+utilizes UV-induced nucleoside radicals to cross-link with nearby
+amino acids, enabling the determination of RNA targets via immunoprecipitation
+and high-throughput sequencing in a variety of CLIP methods. Despite its efficacy, UV cross-linking exhibits
+nucleotide bias and has difficulty achieving amino acid resolution, , making precise engineering of covalent linkages infeasible. In response,
+GECX-RNA has been developed ( A). This approach introduces
+a latent bioreactive Uaa at the RBP binding interface. Upon RNA binding,
+the Uaa reacts specifically with RNA nucleophilic groups, forming
+a covalent linkage between protein and bound RNA. Targeting the ribose
+2′-hydroxyl group allows for unbiased application to all RNA
+nucleotides. This proximity-enabled reactivity, not dependent on an
+external trigger, enables in vivo use and promises single amino acid
+and nucleotide resolution.
+ To develop the method, FSY was incorporated into
+Cas13b, a class
+2 type VI RNA-guided RNA-targeting CRISPR-Cas effector. When incorporated at the catalytic His133 site
+of Cas13b, the resultant mutant protein, after incubation with guide
+and target RNAs, demonstrated efficient cross-linking with the RNAs.
+In addition, R380 was identified as being involved in precursor guide
+RNA cleavage in Cas13b. Incorporation of FSY at this site would position
+the FSY side chain toward the 2′-hydroxyl group on the ribose
+of the cleavage nucleotide ( B). Subsequently, incubation with this FSY mutant of
+Cas13b showcased efficient cross-linking of the precursor guide RNA,
+regardless of the base identity of the cleavage nucleotides, demonstrating
+RNA cross-linking without exhibiting nucleotide bias ( C).
+GECX-RNA was further
+assessed for capturing in vivo interactions
+between RBPs and their endogenous RNA targets. Hfq is a conserved RNA chaperone interacting with numerous
+sRNAs and mRNAs in Gram-negative bacteria. FSY was strategically incorporated into Hfq at specific sites, and
+the resulting mutant proteins efficiently cross-linked with RNAs in E. coli, as confirmed by Western blot and RNase treatment. Notably, Hfq-25FSY and Hfq-30FSY exhibited enhanced
+enrichment of the known target RNA, rpoS, compared to Hfq-WT, validating
+that FSY cross-linked to enrich the target RNA specifically in E. coli cells. The methodology was further advanced through
+GRIP (GECX-RNA with immunoprecipitation), enabling the identification
+of amino acid-specific binding sites on RNA. Using Hfq-25FSY, the study provided direct in vivo evidence of site
+25 of Hfq interacting with the (AAN)4 element on rpoS RNA and the
+(ARN)4 element on the ptsG RNA (where R represents
+A or G, and N represents any nucleotide), offering a powerful tool
+for probing protein–RNA interactions with extraordinary amino
+acid specificity.
+GECX-RNA was also able to capture protein–RNA
+interactions
+in mammalian cells with single amino acid and nucleotide resolution,
+a detailed account of which is outlined in below. In summary, GECX-RNA surmounts
+the constraints associated with nucleoside-based UV cross-linking,
+offering a robust methodology for studying protein–RNA interactions
+both in vitro and in vivo with exceptional precision and broad applicability.
+
+2.4
+
+## Covalently Targeting Carbohydrates
+Carbohydrate–protein interactions are indispensable in biological
+systems, impacting processes such as cell–cell communication,
+organism development, cancer metastasis, the invasion of bacteria
+and virus, and immune responses. , Despite their
+centrality, studying these interactions remains intricate due to their
+dynamic and transient nature, along with challenges in achieving monosaccharide
+specificity. Carbohydrate structures, lacking genetic encoding, often
+exhibit low-affinity interactions, impeding
+the development of high-affinity protein binders. Covalently cross-linking proteins with carbohydrates would
+offer an innovative solution. However, the predominant weak nucleophilic
+hydroxyl groups of carbohydrates pose challenges for selective targeting
+with biospecific chemistry.
+The success achieved in targeting
+amino acid side chains and RNA through proximity-enabled bioreactivity
+opens up a promising avenue for extending this approach to carbohydrate
+targeting. To identify functional groups capable of reacting with
+carbohydrates via proximity-enabled bioreactivity, plant-and-cast
+cross-linkers were employed ( A). These cross-linkers
+feature a succinimide ester that reacts with Lys side chains, first
+planting on proteins by rapidly reacting with Lys and then casting
+the other end to react with the bound carbohydrate. Five cross-linkers,
+incorporating sulfonyl fluoride, benzyl bromide, fluorosulfate, photocaged
+quinone methide (QM), and homo-QM, were designed and synthesized. In protein–carbohydrate cross-linking
+studies, Siglec-7, a transmembrane receptor involved in immune function,
+was selected. The extracellular V-set domain of Siglec-7 (Siglec-7v)
+was incubated with the tumor-associated carbohydrate antigen GD3.
+Notably, the NHSF cross-linker successfully formed cross-links between
+Siglec-7v and GD3, highlighting the capability of sulfonyl fluoride
+to react with carbohydrates under mild conditions. Exploring variations in the planting site on Siglec-7v
+and the length of the NHSF cross-linker revealed that the reactivity
+is indeed proximity-enabled.
+ To introduce the identified sulfonyl fluoride group
+into proteins,
+a latent bioreactive Uaa SFY was designed, featuring sulfonyl fluoride
+and a stabilizing methoxy group ( B). A new Methanomethylophilus alvus tRNAPyl/SFYRS pair was evolved, enabling the genetic
+encoding of SFY with high specificity in both E. coli( ) and mammalian cells. Successful cross-linking with the bound GD3 ligand in vitro
+was achieved by incorporating SFY at specific Lys sites of Siglec-7v
+( C). Notably, Siglec-7v(127SFY) exhibited enhanced
+binding to sialylated SK-MEL-28 melanoma cells compared to WT Siglec-7v
+( D). Additionally,
+sialidase pretreatment of these cells reduced the amount of bound
+Siglec-7v, confirming that the enhanced cell binding of Siglec-7v(127SFY)
+primarily resulted from its covalent cross-linking with cell-surface
+sialoglycans.
+Siglec-7v(127SFY) has been further utilized to
+cross-link with
+sialoglycan on the cancer cell surface to enhance cancer cell killing
+by natural killer cells, which is described in . In short, this GECX-sugar
+technology enables the precise incorporation of covalent linkages
+between proteins and carbohydrates, overcoming the persistent challenges
+of low affinity and weak interactions. This breakthrough holds the
+potential to advance the exploration of glycobiology and inspire innovative
+approaches for protein diagnostics and therapeutics through efficient
+glycan targeting.
+
+3
+
+## Engineering Protein Properties via Intramolecular
+GECX
+Genetically incorporated during translation, the latent
+bioreactive
+Uaa can selectively form covalent linkages with target natural residues
+within the same protein through intramolecular GECX, similar to disulfide
+bonds. These novel linkages provide unique properties, such as irreversibility
+and increased length, which distinguish them from traditional disulfide
+bonds. Customizing the Uaa allows for the integration of additional
+features into the covalent linkage, thereby enhancing the protein’s
+functionality. By exploiting these new covalent linkages, it is possible
+to enhance existing protein properties and facilitate the engineering
+of novel functionalities.
+3.1
+
+## Recombinantly Bridging or Stapling Proteins
+Chemical stapling of α-helical peptides improves target affinity,
+proteolytic resistance, serum half-life, and membrane permeability. , Utilizing latent bioreactive Uaas, α-helix stapling in both
+peptides and proteins is now achievable through recombinant expression
+within cells. The incorporation of BrC6K
+into an affibody with a Cys mutation at the i + 4
+site leads to effective stapling, reaching nearly quantitative efficiency
+without requiring additional treatment following the expression of
+the mutant affibody in live E. coli cells ( A). This approach not only staples α-helices
+but also permits the installation of bridges spanning different secondary
+structures in proteins. Incorporating BrC6K at position 30 in helix
+2 of an affibody results in a quantitative reaction with Cys47 in
+helix 3, forming a bridge that spans the two helices upon expression
+of the mutant affibody in E. coli. In another study, the incorporation of the Uaa CATK-1 into
+the monobody Nsa1 also leads to the quantitative formation of a bridge
+with Tyr92 upon expression in E. coli cells ( B). This bridge has been demonstrated to enhance
+the uptake of the positively supercharged monobody into HeLa cells
+by 40% and extend the monobody’s proteolytic stability against
+cathepsin B by threefold. Recombinant expression of staples and bridges
+avoids the need for chemical catalysts, which should facilitate the
+generation of staple libraries for selection and large-scale production.
+ 
+3.2
+
+## Enhancing Photostability
+In single-molecule
+imaging, spatial and temporal resolution hinge on the fluorophore’s
+photo output, which is intrinsically tied to its photostability. , Despite their vital role in conventional and super-resolution biological
+imaging, enhancing the photostability of fluorescent proteins remains
+a challenge. The fluorophore of these
+proteins is tethered to the central α-helix, leaving one end
+free. It is hypothesized that enhancing
+the rigidity of the fluorophore by covalently attaching its free end
+to the β-barrel could improve its photostability.
+To examine
+this, a mutant of red fluorescent protein mPlum, denoted as mPlum(S146C/Y67Ffact), was expressed
+in E. coli ( A). The mutant featured
+the replacement of Tyr67 in the fluorophore with Ffact and
+the replacement of Ser146 on the β-barrel with Cys. Mass spectrometry
+confirmed the near-quantitative formation of the Ffact67–Cys146
+bond postexpression. Single-molecule analysis revealed that mPlum(S146C/Y67Ffact) exhibited a 2.24-fold longer lifespan and a 1.86-fold
+increase in photon output compared to the control mPlum(S146C/Y67Fact) lacking this bond ( B). Moreover, it displayed a 1.92-fold increase
+in lifespan and a 1.86-fold increase in photon output compared to
+WT mPlum. Similarly, introducing the Ffact-Cys bond into
+another red fluorescent protein, mKate2(S143C/Y64Ffact),
+improved its single-molecule lifespan by 1.49-fold and its photon
+output by 2.31-fold compared to mKate2(S143C/Y64Fact).
+In comparison to WT mKate2, mKate2(S143C/Y64Ffact) exhibited
+a 2.04-fold increase in lifespan and a 2.46-fold increase in photo
+output. These findings underscore the substantial improvement in the
+photostability and photon output of fluorescent proteins through the
+spontaneous formation of a single Ffact–Cys covalent
+bond.
+ 
+3.3
+
+## Enhancing Thermostability
+The disulfide
+bond plays a crucial role in protein stability, yet its fixed length
+poses challenges in accommodating diverse positions. The locations
+within proteins that can undergo cross-linking through a cystine disulfide
+are generally limited to a separation of approximately 5.5 Å
+between the two β-carbons and an almost perpendicular 90°
+dihedral angle for the disulfide bond. , Latent bioreactive
+Uaas have been explored to create covalent linkages to overcome such
+geometrical constrains, thus increasing protein thermostability.
+Haloalkane Uaas with varying side chain lengths were incorporated
+into an affibody protein, allowing reactions with an introduced Cys
+residue in a distant helix ( A). After expression in E. coli and subsequent purification, mass spectrometry confirmed
+the successful intramolecular cross-linking of mutant proteins Afb(30BetY-47C)
+and Afb(30BprY-47C) at positions beyond the reach of a disulfide bond,
+with efficiencies exceeding 98%. Circular dichroism (CD) analysis
+revealed that while WT Afb and mutant Afb(30BprY-47C) displayed similar
+melting temperatures (Tm) at 46.7 and
+46.5 °C, respectively, mutant Afb(30BetY-47C) showed a significantly
+elevated Tm of 60.4 °C. Notably, the sole difference between BetY and
+BprY is a single methylene group, indicating that an intramolecular
+covalent bridge of an appropriate length substantially enhances Afb’s
+thermal stability. This study suggests that the strategy of exploring
+various sites for bridge formation and concurrently engineering multiple
+bonds holds promise for further enhancing protein thermostability.
+ By substituting halides in haloalkane Uaas with
+thiol, alkyl thiol
+Uaas (SetY, SprY, and SbuY) featuring varying side chain lengths were
+also genetically encoded ( B). These were designed
+to react with Cys to construct disulfide bridges with extended lengths.
+Specifically, one Cys was mutated at 12 different sites within the
+high-mobility regions of TEM-1 β-lactamase, and alkyl thiol
+Uaas were incorporated at 144 random sites. This mutant library was
+expressed in E. coli and selected for growth under
+a nonpermissive temperature of 40 °C. A single mutant, R65C/A184SbuY,
+was identified. The formation of an extended disulfide bridge between
+184SbuY and 65Cys was confirmed by mass spectrometry, which increased
+the Tm of TEM-1 β-lactamase by 9
+°C from 48.6 (WT) to 57.4 °C. 
+Mutation and selection were subsequently conducted with E. coli homoserine O-succinyltransferase
+(MetA), leveraging its vital role in methionine biosynthesis to rescue E. coli growth at 44 °C. Twelve Uaas, including three latent bioreactive Uaas, were incorporated
+at 261 random sites out of 308 in MetA. Growth selection revealed
+that substituting Phe21 with (p-benzoylphenyl)alanine
+(pBzF) drastically increased MetA’s Tm by 21 °C from 53 (WT) to 74 °C for the F21pBzF
+mutant. Mutagenesis and 13C NMR studies suggested that pBzF formed a reversible hemithioketal
+covalent cross-link with a proximal Cys90 from the other monomer,
+stabilizing the dimeric form of MetA. Following that, a comparable
+selection process was carried out by incorporating the amine-reactive
+latent bioreactive Uaa pNCSF into MetA. The F264pNCSF mutant was identified, demonstrating a striking 24
+°C increase in Tm ( C). Mass spectrometry analysis
+indicated that pNCSF formed a thiourea cross-link with the N-terminal
+proline of the other monomer, even though these two positions were
+>30 Å apart in the X-ray crystal structure of the WT MetA.
+The
+authors hypothesize that pNCSF is able to irreversibly cross-link
+two distal sites that are likely conformationally flexible, resulting
+in a covalently trapped dimer that exhibits a large increase in Tm.
+Covalently linking two interacting
+proteins has also been demonstrated
+to enhance the stability of transient, low-affinity protein complexes,
+facilitating their crystallization and structure determination. The
+bromoalkyl Uaa BrCnK was incorporated into the small G-protein Rab1b
+to cross-link a Cys residue mutated in the guanine nucleotide exchange
+factor (GEF) domain of DrrA. This cross-linking
+of Rab1b with DrrA-GEF stabilized the transient ternary complex of
+Rab1b:GDP:DrrA-GEF, leading to the visibility of GDP electron density. 
+Collectively, these findings highlight
+the potential of tailored
+covalent bridges as a versatile tool for enhancing protein stability.
+
+3.4
+
+## Optical Nanoswitch for Photomodulation
+The ability to manipulate protein function using light provides precise
+temporal and spatial resolution, revolutionizing neuroscience and
+extending to general biology. − Existing optogenetic methods encounter challenges, particularly
+their limited applicability to diverse proteins and low flexibility
+in selecting modulation sites, thereby constraining study precision.
+To overcome these hurdles, photoswitchable click amino acids (PSCaas)
+incorporate an azobenzene photoswitch and a latent bioreactive group
+( ). , This group selectively reacts with a strategically positioned natural
+amino acid residue to form an in situ covalent optical nanoswitch
+that can reversibly modulate protein secondary structures or domains,
+thus controlling protein function in response to light.
+ The Cl-PSCaa isomerizes with 365/405 nm light, and the F-PSCaa isomerizes with visible light
+at 405/540
+nm. Incorporating F-PSCaa into calmodulin
+(CaM) at site 76 and placing a Cys at site 83 leads to the precise
+construction of an optical nanoswitch on CaM by covalently connecting
+the two sites. Illumination with green
+light (540 nm) induces photoisomerization, transitioning the nanoswitch
+from the trans to cis configuration.
+Subsequent exposure to blue light (405 nm) reverts the conformation
+from cis to trans, establishing
+the photostationary state of the trans configuration.
+Sequential illumination with green or blue light enables reversible
+transformation between the two states. The photoisomerization of the
+nanoswitch induces a significant reversible conformational change
+in CaM, as detected by circular dichroism. Consequently, the conformational
+alteration in CaM modulates its binding activity to the CaM-binding
+domain of the neuronal nitric oxide synthase. 
+Compared to light-sensitive protein domains, optical nanoswitches
+built with latent bioreactive PSCaas offer smaller sizes and enhanced
+site flexibility for installation. These characteristics minimize
+interference and enable high-resolution control at the level of individual
+amino acid residues. Capable of structural modulation, this nanoswitch
+is even applicable to proteins with unknown functions. As accurate
+protein structure prediction rapidly advances, , the nanoswitch holds promise as a versatile optical controller for
+regulating diverse protein positions and secondary features, addressing
+research and engineering needs with unparalleled spatiotemporal resolution.
+
+4
+
+## Studying Biomolecular Interactions In Situ via
+Intermolecular GECX
+GECX employs a latent bioreactive Uaa
+genetically incorporated
+into the protein of interest. When this
+protein binds to an unknown biomolecule (e.g., a peptide, protein,
+or RNA), the Uaa reacts with a functional group on the bound molecule,
+covalently linking the two molecules together through intermolecular
+GECX. This robust connection withstands harsh processing and detection
+conditions. Notably, GECX requires no modification of the target biomolecule,
+allowing the analysis of native biomolecules in their physiological
+context. GECX spontaneously cross-links interacting biomolecules,
+eliminating the need for external triggers like light activation. This enables the capture of interactions whenever
+they occur, making GECX particularly suitable for in vivo applications
+where external triggers are difficult to deliver or their timing is
+crucial. The extended reaction window of the latent bioreactive Uaa
+further enhances the cross-linking efficiency and detection sensitivity.
+Additionally, the reaction specificity of the Uaa leads to predictable
+and defined covalent linkages, facilitating MS analysis. Identifying
+cross-linked fragments through MS also provides evidence of direct
+interaction, minimizing false positives from indirect binders.
+4.1
+
+## GECX to Study Protein–Protein Interactions
+GECX initially emerged as an innovative method for investigating
+receptor–peptide ligand interactions directly on live mammalian
+cell surfaces, offering structural insights into protein complexes
+in native settings ( ). , This approach circumvents limitations
+associated with artificial membrane compositions, in vitro reconstitution,
+and incomplete systems, providing a more accurate representation of
+biological processes. The biocompatibility and genetic encodability
+of latent bioreactive Uaas like Ffact pave the way for
+their use in live-cell studies. Ffact was employed to elucidate
+the interaction between corticotropin releasing factor receptor type
+1 (CRF1R), a class B GPCR, and its peptide ligand urocortin-1 (Ucn1)
+in mammalian cells. To pinpoint Ucn1’s
+interaction sites on CRF1R, the photo-cross-linking Uaa p-azido-phenylalanine (Azi) was incorporated at various positions
+within the receptor expressed in HEK293T cells. , Upon UV light activation, Azi cross-linked Ucn1, allowing the detection
+of the covalent CRF1R-Ucn1 complex in Western blot analyses. Positive
+cross-linking indicates that Ucn1 interacts with CRF1R at the Azi
+incorporation site. However, the specific positioning of the peptide
+ligand relative to the receptor remained elusive due to the nonspecific
+nature of Azi’s photo-cross-linking reaction. To solve this
+challenge, Ffact was incorporated into CRF1R, and Cys residues
+were strategically positioned at different sites on Ucn1. Ffact’s reaction with Cys is both residue- and distance-dependent,
+providing precise spatial constraints on the receptor–ligand
+interaction. By combining these spatial constraints with the separate
+known structures of CRF1R’s transmembrane and extracellular
+domains, a complete conformational model for the peptide–receptor
+complex was generated. This model revealed
+the binding path of the peptide agonist within the activation domain
+of the class B receptor, offering valuable insights into the receptor
+activation mechanism. Overall, this GECX-based approach provides comprehensive
+information derived from the full-length receptor in its native live-cell
+environment. This information complements data obtained from crystallographic
+characterization of isolated receptors in artificial settings, offering
+a more holistic understanding of receptor–ligand interactions.
+ Taking a bold leap from the cell surface, GECX
+next ventured into
+the cellular interior to capture weak and transient protein–protein
+interactions, including the elusive enzyme–substrate binding,
+for identification ( A). This strategy was exemplified
+using the bromoalkyl-containing Uaa BprY and its alkyne derivative
+EB3 ( B).
+These Uaas react with proximal Cys residues, and EB3 further allows
+biotin labeling via click chemistry on alkyne, enabling the enrichment
+of cross-linked peptides to enhance the MS detection sensitivity. The strategy involves genetically incorporating
+the Uaa into the target protein at a chosen site in live cells. Upon protein interaction, this site is positioned
+close to a Cys residue on the interacting protein. The subsequent
+reaction between the Uaa and Cys covalently captures the interacting
+protein to the target within the living cell. Following affinity purification
+of the target protein, the copurified cross-linked proteins undergo
+protease digestion and MS analysis, revealing both the protein identity
+and the cross-linking site. GECX has proven remarkably effective in
+capturing weak protein binding. For instance,
+GECX successfully cross-linked the affibody–Z complex directly
+within E. coli cells, whose Kd is ∼6 μM. Notably,
+GECX exhibited a higher cross-linking efficiency compared to the conventional
+photo-cross-linker Azi. Additionally, incorporation of EB3 around
+the ubiquitination site of the substrate protein PCNA allowed for
+the cross-linking of the ubiquitin-conjugating enzyme UBE2D3 in live
+cells. Moreover, to explore whether GECX could capture and identify
+unknown protein interactions in cells, BprY was incorporated into
+the active site of the enzyme thioredoxin 1 (Trx1), which is a ubiquitous oxidoreductase catalyzing the reduction
+of disulfide bonds of proteins. Expressing
+Trx1-containing BprY at position 32 in E. coli resulted
+in the covalent capture of multiple proteins directly in E.
+coli cells, shown on Western blot as Trx1-containing bands
+with higher molecular weights ( C). A total
+of 91 endogenous E. coli proteins were identified
+by MS, including known and previously unknown substrate proteins of
+Trx1. For GECX-cross-linked proteins in this study, tandem MS spectra
+were obtained to verify the cross-linked residue, substantiating direct
+interaction. These remarkable results highlight the potential of GECX
+in uncovering both enzyme–substrate relationship and interacting
+proteins within the dynamic environment of live cells.
+ The combination of photo-cross-linking and GECX
+has been successfully
+employed to elucidate structural information on various protein complexes
+both on the surface and within mammalian cells. Photo-cross-linking
+serves as a mapping tool for interacting sites, guiding the strategic
+incorporation of latent bioreactive Uaa in GECX and significantly
+reducing the combinatorial matrix. In a specific study, Azi-based photo-cross-linking was initially
+employed to map the footprints of peptide agonists and antagonists
+on CRF1R. Subsequently, GECX was conducted using α-chloroacetamide
+introduced in the peptides and Cys mutations in CRF1R. The spatial
+constraints derived from these experiments were then utilized to construct
+3D models for both agonist- and antagonist-bound CRF1R, revealing
+distinct folds and stabilizing unique conformations of the transmembrane
+domain. In another investigation, the
+interactions between GPCRs and β-arrestins were explored in
+mammalian cells. Photo-cross-linking Uaa Bpa or bromoalkyl-containing
+Uaa BetY was incorporated into β-arrestin at different sites
+in HEK293T cells, followed by the study of their cross-linking with
+coexpressed GPCRs. This study highlights that each GPCR receptor leaves
+a distinctive footprint on arrestins and defines the orientation of
+the arrestin relative to the GPCR. In a recent comprehensive scan, BetY was incorporated at 24 sites in β-arrestin
+2 against the GPCR secretin-like parathyroid hormone 1 receptor (PTH1R),
+with Cys mutations at 120 sites in HEK293T cells. Remarkably, 136
+intermolecular proximity points were identified, enabling the construction
+of energy-optimized models for the PTH1R-arrestin 2 complex. These
+models provided intricate structural details, unveiling flexible elements
+absent in existing structures and offering new insights into the dynamics
+of the system.
+GECX has been crucial in elucidating specific
+details of diverse
+protein–protein interactions, enhancing the understanding of
+their biological functions. For instance, in the case of NleE, a methyltransferase
+in enteropathogenic Escherichia coli known to interfere
+with autophagy, the incorporation of Azi in NleE followed by photo-cross-linking
+in HEK239T cells identified PSMD10 as an interaction partner. Knockout of PSMD10 revealed its essential role
+in NleE-mediated suppression of host autophagy. To delve into the
+mechanism of NleE’s impact on PSMD10 function, BetY was incorporated
+into NleE, and cross-linking with PSMD10 was performed through GECX
+targeting Cys in mammalian cells. This analysis revealed that NleE
+binds with the N-terminus of PSMD10, impeding PSMD10 homodimerization
+and, consequently, attenuating host autophagosome formation. Using
+a similar GECX strategy, the same team incorporated BetY into NleE
+in mammalian cells and discovered that NleE interacts with the host
+zinc finger protein ZPR1. The NleE–ZPR1
+interaction facilitates the bacterial pathogen’s ability to
+attenuate the host’s unfolded protein response. In another
+investigation, full-length PD-L1 was
+observed to form homodimers and tetramers in cells through photo-cross-linking.
+BetY and BrC7K, featuring bromoalkyl groups of different lengths,
+were incorporated into different domains of PD-L1, and GECX was performed
+with Cys introduced at different sites. The results of pairwise chemical
+cross-linking unveiled that PD-L1 homodimerizes asymmetrically through
+the transmembrane domain, intracellular domain, and extracellular
+domain. In addition, it was discovered that homodimerization at the
+intracellular domain regulates PD-L1 glycosylation, subsequently influencing
+PD-1 binding and T cell toxicity.
+For protein identification,
+the GECX strategy has been applied
+to identify protein tyrosine phosphatase (PTP) in mammalian cells. Various latent bioreactive Uaas were incorporated
+into substrate proteins at their phospho-tyrosine (pY) site to examine
+cross-linking with the conserved active-site Cys of PTPs. Upon incorporation
+into substrate protein ABL1-SH3 (SH3 domain of Abelson murine leukemia
+viral oncogene homologue 1) or HER2, the fluoromethyl ketone-containing
+FpAcF (previously known as Ffact ) and the bromoalkyl-containing BetY displayed efficient cross-linking with SHP2-PTP in vitro and in
+HEK293 cells, respectively. Furthermore,
+when BetY was incorporated at pY site 1221 of HER2 in HEK293 cells,
+silver-stained SDS PAGE revealed distinct cross-linking bands. MS
+analysis of these bands unveiled 116 unique proteins, among which
+only one PTP enzyme (PTP1B) was identified. Coexpression of PTP1B
+and HER2(Y1221BetY) in HEK293 cells confirmed their cross-linking,
+while BetY incorporation at other pY sites did not yield robust cross-linking.
+These results suggest that PTP1B dephosphorylates HER2 on Y1221.
+GECX has proven its versatility in cell lysates as well, exemplified
+by its application in identifying proteins interacting with small
+ubiquitin-like modifiers (SUMOs). These small proteins are reversibly
+conjugated to target proteins regulating genome stability and transcription.
+To identify SUMO2-interacting proteins, BprY was incorporated into
+SUMO2 at its binding groove. The SUMO2
+mutant was expressed in E. coli cells, then affinity-purified
+onto resin and incubated with cell lysates from 293T cells. This process
+enabled the GECX-mediated covalent capture of SUMO2 binders. Subsequent
+on-bead trypsin digestion and MS analysis successfully identified
+264 SUMO2-interacting proteins. The compatibility of GECX with pre-prepared
+samples can be valuable for studying cells or tissues isolated from
+animals or patients. In a different study, BprY was incorporated into
+ubiquitin and ubiquitin-like proteins, which function as activity-based
+protein probes and cross-link with deconjugating enzymes both in vitro
+and in vivo. Additionally, upon expressing
+BprY-modified ubiquitin in HEK293T cells, quantitative MS analysis
+identified 57 deubiquitinating enzymes and a substantial array of
+ubiquitin-interacting proteins.
+Accurately identifying peptides
+cross-linked by the latent bioreactive
+Uaa, rather than non-cross-linked peptides, from MS data provides
+compelling evidence of direct protein–protein interaction.
+To address this critical need, OpenUaa, a new database search engine
+specifically designed for analyzing Uaa-mediated cross-linking at
+the proteomic scale, has been developed. Unlike traditional search engines that treat the Uaa-incorporated
+peptide as a large modification, overlooking fragment information,
+OpenUaa preserves all fragment details. First, OpenUaa employs in
+silico digestion to identify Uaa-incorporated peptides, reducing redundant
+candidate generation. Second, these identified peptides are searched
+against a global protein database to pinpoint the interacting protein.
+This inclusive and open search strategy dramatically enhances sensitivity
+and coverage. By employing OpenUaa to analyze the GECX data of BprY-incorporated
+Trx cross-linking in E. coli cells, a remarkable
+289 cross-linked peptides were identified, corresponding to 205 proteins
+directly binding to Trx. The integration
+of GECX with OpenUaa will greatly facilitate the identification of
+the direct interactome of various proteins and enzymes in live cells.
+The SuFEx-based FSY and FSK exhibit reactivity with proximal Lys,
+His, and Tyr residues. The incorporation of FSY/FSK in GECX should
+broaden the spectrum for capturing interacting proteins, especially
+those lacking Cys but featuring accessible Lys, His, or Tyr residues
+for targeting. Moreover, FSY and FSK can be strategically incorporated
+at the periphery, steering clear of the active site or binding interface
+to minimize interference with protein interactions ( D). To explore this versatility,
+FSY and FSK were introduced into Trx at site 62, positioned outside
+Trx’s active site, within E. coli cells to
+capture substrate proteins through GECX. Western blot analysis of cell lysates revealed more cross-linking
+bands compared to GECX with Cys-targeting BprY in the active site.
+MS analysis of the cross-linked proteins further unveiled a greater
+number of Trx binders with identified cross-linked peptides. Intriguingly,
+while some substrates exhibited overlap between FSK and FSY, they
+cross-linked different residues, underscoring their distinct reaction
+radii. These findings highlight the utility of both FSK and FSY in
+GECX within live cells, breaking free from Cys limitations and enabling
+cross-linking at the periphery of protein binding.
+
+4.2
+
+## GECX-RNA to Map RNA Modifications
+GECX-RNA showcases the ability to selectively cross-link proteins
+with interacting RNAs in cells, displaying both amino acid and nucleotide
+specificity. This unique attribute enables the high-resolution identification
+of protein–RNA interactions, a feature leveraged to map RNA
+modifications in live cells. The focus of this application is on N6-methyladenosine (m6A), a prevalent RNA modification
+crucial for mRNA regulation. Precise
+identification of m6A sites becomes imperative for a comprehensive
+understanding of its functional impact. Traditional methods for detecting
+m6A face limitations either in achieving single-nucleotide resolution
+or by relying on m6A-specific antibodies for in vitro recognition. − Additionally, the chemical conversion of m6A for detection lacks
+protein specificity and might not be universally applicable to other
+RNA modifications. 
+The GECX-RNA-based
+GRIP-seq approach has emerged as a solution that captures m6A sites
+on RNA in vivo while providing protein specificity. The strategy involves the expression of an m6A reader protein
+recognizing m6A in mammalian cells, along with a strategically incorporated
+bioreactive Uaa in proximity to the recognition site ( ). Through the GECX-RNA mechanism,
+this Uaa cross-links the RNA nucleotide adjacent to the m6A. The ensuing
+immunoprecipitation of the cross-linked reader–RNA complex,
+followed by digestion with proteinase K, releases the captured RNAs.
+Subsequent reverse transcription terminates at the cross-linking site
+due to the presence of the cross-linked Uaa. The resulting reverse
+transcripts undergo high-throughput sequencing, revealing all cross-linking
+sites, with m6A sites expected to be immediately adjacent. Specifically,
+the YTH domain of the human m6A reader YTHDF1, capable of recognizing m6A, was utilized to probe m6A in
+HEK293T cells. Uaa SFY was strategically incorporated at site 397,
+where it was positioned proximal to the m6A binding site.
+ Analysis of GRIP-seq data unveiled sequencing peaks
+enriched with
+the m6A consensus motif. Notably, 80.4%
+and 9.3% of cross-linked nucleotides were identified at the −3
+position and the −4 position, respectively, relative to m6A,
+demonstrating single-nucleotide resolution. A total of 13968 m6A sites
+were predicted from the GRIP-seq data. In comparison with known human
+m6A sites, 6072 sites aligned with annotations
+from other methods, validating the approach. Intriguingly, the remaining
+7896 sites had not been reported previously, showcasing GRIP-seq’s
+capacity to unveil novel m6A sites. Significantly, GRIP-seq demonstrated
+effectiveness in capturing m6A modifications on low-abundance RNAs,
+highlighting its potential to reveal previously overlooked facets
+of m6A-mediated RNA regulation.
+The innovative GRIP-seq strategy,
+utilizing a reader protein and
+a bioreactive Uaa, distinguishes itself as an antibody-free in vivo
+method for m6A identification. Its capability
+to attain single-nucleotide resolution, exhibit reader protein specificity,
+and precisely capture m6A sites within the intricate transcriptome
+landscape underscores its significance in advancing our understanding
+of RNA modifications. The versatility of GRIP-seq extends beyond m6A,
+suggesting potential applications for mapping other RNA modifications
+in vivo, contingent upon the availability of specific readers or binders.
+
+5
+
+## Peptide and Protein Therapeutics Utilizing Biospecific
+Chemistry
+In recent years, the field of drug discovery has
+been revolutionized
+by the development of covalent small-molecule drugs, now representing
+about 30% of all marketed drugs across various therapeutic areas. − Unlike traditional drugs, these covalent drugs work in two steps:
+they first bind to their target in a reversible way and then form
+a strong, permanent bond. This unique mechanism leads to prolonged
+action and increased effectiveness. As
+a result, they are generally more potent and selective than noncovalent
+drugs, effectively overcoming certain resistance mechanisms and fully
+inactivating their targets. , Traditionally, drug
+development has focused on small molecules due to their diverse chemical
+makeup and ability to precisely target specific areas within proteins. However, they fall short in binding to larger,
+flatter protein surfaces or in blocking protein–protein interactions
+(PPIs), which are key players in most cellular processes. , To address this limitation, there is a growing shift toward developing
+peptide and protein drugs. These larger molecules are better suited
+for interacting with extensive surface areas, as seen in the clinical success of antibody drugs and the
+increasing interest in peptides and peptidomimetics. − Despite these advances, peptide and protein drugs made of canonical
+amino acids still lack the covalent binding ability that small molecules
+possess. This gap is being bridged by incorporating Uaas with biospecific
+chemical reactivity. This innovative approach has led to the creation
+of covalent peptides and proteins for therapeutic use, extending the
+unique advantages of covalent binding, once exclusive to small-molecule
+drugs, to a broader range of drug types. 
+5.1
+
+## Covalent Peptides
+Peptide binders
+are typically derived from segments of a PPI interface or innovatively
+designed from scratch. They can be engineered
+to traverse cell membranes, thereby targeting both intracellular and
+membrane-bound proteins. Despite their
+potential, peptides grapple with issues like diminished binding affinity
+and short lifespans, often due to rapid degradation and clearance.
+Introducing a covalent binding mechanism holds promise in markedly
+boosting the efficiency of peptide drugs by enhancing their stability
+and affinity. Photoreactive moieties were initially attempted to develop
+covalent peptides, yet they are incompatible
+with in vivo applications.
+A more straightforward approach involves
+incorporating warheads used in covalent small-molecule drugs into
+peptides, enabling them to form covalent bonds with natural amino
+acid residues such as cysteine. One study by Stebbins et al. identified
+a 13-mer peptide (BI-107D1) targeting the E3 ubiquitin ligase Siah,
+a key player in cancer development and progression. They converted BI-107D1 into a covalent peptide by adding
+a Lys-acrylamide warhead to one of its residues. This modification
+allowed the peptide to form a covalent bond with an endogenous Cys
+residue located near its binding pocket. This covalent peptide, after
+appending a cell penetrating peptide, more potently inhibited Siah
+activity in cells compared to its noncovalent counterpart. Another
+research group incorporated multiple electrophilic warheads into the
+native peptide BIM to target a specific Cys residue of the oncogenic
+protein Bcl2A1. When acrylamide was
+used as the warhead, the modified BIM peptide formed a permanent covalent
+bond with a single Cys residue within Bcl2A1’s helix-binding
+groove, highlighting its selectivity. However, using more reactive
+warheads like chloroacetamide or propiolamide resulted in undesirable
+reactions with other exposed Cys residues on Bcl2A1’s surface,
+emphasizing the importance of achieving reaction specificity.
+Unpaired Cys residues, though critical in active sites and binding
+pockets, are infrequently found at protein–protein interaction
+interfaces. Targeting other residues like Lys, Tyr, and His, commonly
+found on protein surfaces and interaction interfaces, is highly sought
+after, along with a mechanism ensuring reaction specificity. The use
+of latent bioreactive Uaas in proteins to target various natural residues
+has significantly progressed this field. In 2016, Hoppmann and colleagues introduced the concept of proximity-enabled
+bioreactivity to develop covalent peptide binders ( A). This method involves incorporating a latent bioreactive Uaa into
+a peptide. This Uaa becomes reactive only when the peptide binds to
+a protein, placing the Uaa in close proximity to a target residue
+of the protein. The Uaa’s chemical inertness toward other molecules
+minimizes nonspecific reactions and potential cytotoxicity, thereby
+ensuring a high degree of target specificity.
+ To validate this concept, the team designed a peptide
+with an aryl
+sulfonyl fluoride-containing Uaa targeting nucleophilic Lys or His
+residues. This Uaa was introduced into
+the SAHp53–8 peptide, which inhibits
+p53-Mdm2/4 interactions. Blocking these interactions can restore p53
+activity to suppress cancer growth. The resulting mSF-SAH peptide
+efficiently cross-linked with MDM2 and MDM4 and enhanced the inhibition
+of the p53-MDM4 interaction over 10-fold in mammalian cell lysate.
+Additionally, the mSF-SAH peptide was nontoxic to the p53-null Saos-2
+cells, in contrast to the noncovalent SAHp53–8 peptide. Notably,
+covalent binding occurred only when sulfonyl fluoride was in the meta-position, not the para-position, of
+the Uaa, highlighting the importance of side chain orientation for
+specificity. Furthermore, unlike the noncovalent SAHp53–8,
+the mSF-SAH peptide showed a sixfold greater selectivity for MDM4
+over MDM2, a challenging goal in MDM2/4 inhibition. This research
+underscores the potential of latent bioreactive Uaas in targeting
+noncatalytic noncysteine residues through proximity-enabled bioreactivity
+and demonstrates how covalence can enhance peptide drug efficacy and
+specificity.
+Building on proximity-enabled bioreactivity, Spring
+and colleagues
+adopted a unique method for creating covalent stapled peptides. In their technique, rather than attaching the
+latent bioreactive group directly to a peptide residue, they positioned
+it within a staple core. This core acts as a bridge, connecting two
+residues in the peptide to form the staple. This “two-component”
+strategy simplifies the production of stapled peptides with electrophiles,
+offering a versatile “one-size fits all” solution. They
+demonstrated this approach by attaching an activated sulfotetrafluorophenyl
+ester to the staple of peptide P1, targeting a Lys residue on MDM2.
+The resulting peptide formed a covalent bond with MDM2, exhibiting
+a progressively improved dissociation constant over time, in contrast
+to its noncovalent counterpart.
+Selective inhibition of X-linked
+inhibitor of apoptosis protein
+(XIAP) can trigger programmed death of cancer cells. A SMAC-derived
+tetrapeptide binder of XIAP was modified at position 2 with various
+substituents, and adding a sulfonyl fluoride enabled it to covalently
+target a proximal Lys311 residue on the XIAP protein. The resultant covalent peptide not only selectively
+engaged with XIAP but also exhibited increased effectiveness in destroying
+various cancer cell lines, including those resistant to the leading
+noncovalent peptides. Advancements in SuFEx technology have highlighted
+aryl sulfonyl fluoride and aryl fluorosulfate as superior warheads
+for engaging other nucleophilic residues such as Lys, Tyr, His, Thr,
+and Ser within proteins. − These warheads were introduced
+in the SMAC-derived peptidic inhibitor and tested against the XIAP
+protein with different nucleophilic residues mutated at the target
+Lys311 site, confirming that both benzyl sulfonyl fluoride and benzyl
+fluorosulfate effectively target Lys, Tyr, and His residues. , The aryl fluorosulfate derivative of the inhibitor was identified
+to be the most suitable for its cell permeability, stability in aqueous
+buffer and plasma, and cellular efficacy in inducing caspase-3 activation.
+Subsequently, the design principles were applied to target the related
+protein melanoma-IAP (ML-IAP). The Lys135
+site in ML-IAP is analogous to the Lys311 site in XIAP. By introducing
+a modified aryl sulfonyl fluoride group at the second position of
+the peptide inhibitor, a potent covalent inhibitor was created, effectively
+targeting ML-IAP with cellular activity.
+The oncogenic Ras G12C
+mutant, successfully targeted by covalent
+small-molecule drugs, has also been
+targeted by covalent peptides specifically. Different electrophilic groups, including acrylamides, vinyl sulfonamides,
+and vinyl sulfones, were attached via the side chain of a lysine residue
+to SOS-mimic peptides to generate covalent peptide inhibitors. Among
+these modifications, acrylamides were too weak, while vinyl sulfones
+were too reactive. The peptide with a vinyl sulfonamide group exhibited
+the highest effectiveness. In comparison to control peptides, this
+vinyl sulfonamide-containing peptide significantly reduced cancer
+cell viability and inhibited ERK downstream signaling in a Ras G12C-dependent
+manner.
+In a strategy to inhibit FtsQ, a protein crucial in
+bacterial cell
+division, a stapled peptide was crafted from its binding partner,
+FtsB. To this peptide, 11 different
+electrophiles were installed at the Thr83 position, aiming to react
+with Lys239 on FtsQ. Of these variants, the peptide modified with
+bromoacetamide exhibited the strongest inhibition of the E.
+coli lptD4213 strain, which has a permeable outer membrane.
+Furthermore, this peptide significantly enhanced survival and slowed
+the progression of infection in a zebrafish larvae model infected
+with the multidrug resistant E. coli 87 strain.
+An innovative approach to cysteine targeting involves proximity-enabled
+reactivity via a sulfonium group on a peptide tether, integrating
+peptide stapling and bioreactive group installation in a single step. This was demonstrated in inhibiting PDZ-RGS3,
+a key player in ephrin-B signaling, which is known to influence chemotaxis
+induced by stromal derived factor 1. A peptide, mimicking the C-terminal
+sequence of ephrin-B, was macrocyclized by bis-alkylating cysteine
+and methionine, creating a sulfonium at the methionine site. When
+the resultant peptide binds to the PDZ domain of GRS3, it positions
+the sulfonium near PDZ’s target cysteine residue, triggering
+a rapid nucleophilic substitution that covalently links the peptide
+to the protein. This Cys-targeting approach has shown high specificity
+both in vitro and in cell lysate. Subsequently, this method was adapted
+to covalently target BFL-1, a member
+of the BCL-2 protein family. By binding at the BH3-binding pockets
+of these antiapoptotic proteins, it is possible to reinitiate apoptosis
+in BCL-2-dependent cancers. Here, a BIM BH3 helical peptide was tethered
+at its N-terminus to form a sulfonium, designed to target Cys55 in
+BFL-1. Among the inhibitors tested, B4-MC showed selective covalent
+binding to BFL-1 in both in vitro and in cells, effectively inhibiting
+the growth of BFL-1-expressing cancer cells.
+Peptide inhibitors
+that form reversible covalent bonds with target
+proteins have been developed, offering potential benefits like reducing
+immunogenicity by avoiding permanent protein modification. 2-Acetylphenylboronic
+acid (APBA) forms a reversible iminoboronate with lysine side chains.
+This warhead was chemically attached onto peptides displayed on bacteriophage
+surfaces, creating linear and cyclic peptide libraries , that were then screened against S. aureus sortase
+A (SrtA) and the coronavirus spike protein. These screenings identified
+peptide binders for both targets, demonstrating single-digit micromolar
+affinity and high specificity in cellular environments (for SrtA)
+and in saliva and serum (for the spike protein). To extend residence time of the binder, a new warhead named
+RMR1 was developed. Unlike APBA, which
+equilibrates with lysine instantaneously, RMR1 reacts with lysine
+to form a diazaborine bond that dissociates slowly, having a rate
+constant (k–1) of 2.6 × 10–5 s–1. Integrating RMR1 into a cyclic
+peptide that binds to SrtA increased its efficacy approximately threefold
+in S. aureus cells by targeting Lys173 of SrtA. Additionally,
+the RMR1-modified peptide continued to inhibit SrtA’s transpeptidase
+activity in S. aureus cells even after washout, unlike
+its APBA-modified or wild-type counterparts.
+In summary, the
+development of covalent peptide-based inhibitors
+targeting complex PPI interfaces, a challenge for small molecules,
+is gaining traction. The design process often involves structure-based
+methods or variant screenings to pinpoint sites for covalent modifications
+and target residues on proteins. Balancing the reactivity and selectivity
+of the covalent inhibitor in cellular contexts is vital. Despite hurdles
+such as predicting target residues, the limited scope of amino acids
+that can be targeted, and the low uptake of peptides by cells, advancements
+in this emerging field are notable. The need for more in vivo studies
+is clear to assess the inhibitors’ efficacy and to identify
+optimal warheads.
+
+5.2
+
+## Site-Specific Conjugation of Native Antibodies
+Antibodies conjugated with a range of chemical or biological molecules,
+such as biophysical probes, cytotoxins, enzymes, and cytokines, have
+found extensive use in in vitro assays, diagnostics, and targeted
+therapies. Traditional methods of labeling
+antibodies often employ highly reactive N-hydroxysuccinimide
+(NHS) esters to acylate lysine residues or maleimides to alkylate
+cysteine residues. These methods, however, lack control over the modification
+site and the number of payloads, leading to heterogeneous antibody
+conjugates. Site-specific antibody conjugation
+has been achieved by engineering antibodies with Uaas containing bio-orthogonal
+groups, peptide tags for enzymatic modification, or through glycan
+remodeling. − Nonetheless, these approaches necessitate
+genetic, chemical, or enzymatic modification of the antibody. To conjugate
+unmodified antibodies, researchers have introduced photo-cross-linkers
+into protein domains or peptides that bind to the antibody. , Upon UV irradiation, the protein domain or peptide cross-links to
+the antibody. This method, however, suffers from a lack of chemical
+specificity, and prolonged UV exposure can damage proteins.
+In recent years, proximity-enabled reactivity has facilitated the
+site-specific conjugation of native antibodies. This strategy involves
+using a peptide that binds specifically to an antibody’s Fc
+region ( ).
+This peptide is modified with a reactive functional group together
+with the desired payload or a bio-orthogonal functionality allowing
+for subsequent modification. When incubated with a native antibody,
+the peptide’s reactive functional group is positioned close
+to a natural residue of the antibody, enabling a specific cross-link
+and, consequently, the conjugation of the peptide to the antibody.
+This method shifts the engineering effort from the antibody to the
+peptide. Payload installation on the peptide is precisely controlled
+through chemical synthesis, and the proximity-enabled reactivity between
+the peptide and the antibody ensures site-specific conjugation and
+homogeneity in the final product.
+ High-efficiency direct peptide conjugation to antibodies
+has been
+successfully achieved. A latent bioreactive
+Uaa, FPheK, capable of reacting with proximal lysine residues was
+incorporated at the Glu25 site in the B domain of Staphylococcus
+aureus protein A (referred to as FB protein). The conjugation
+occurs when the FB protein binds to an antibody, allowing FPheK to
+react with a nearby lysine residue on the antibody ( A). The cross-linking process
+has demonstrated efficiencies ranging from 91% to 99%. This method
+is applicable to both human and mouse IgGs. For instance, a fluorescein-labeled
+FB mutant was attached to Trastuzumab, a HER2-specific antibody, enabling
+fluorescence imaging of HER2 on cancer cells. Subsequently, the 66
+amino acid FB protein was further refined to a shorter 33 amino acid
+FB peptide (ssFB). The ssFB peptide
+includes FPheK and a C-terminal azide moiety. After achieving conjugation
+yields greater than 95%, the azide moiety facilitated the attachment
+of the microtubule toxin MMAE. This process led to the creation of
+a trastuzumab–MMAE conjugate, which exhibited an EC50 in the nanomolar range in eradicating HER2-positive cancer cells.
+Additionally, a PSMA-specific small-molecule inhibitor, DUPA, was
+conjugated to muromonab, an anti-CD3 antibody. This resulted in a bispecific conjugate that selectively
+directed T cells toward PSMA-expressing cancer cells, inducing cytotoxicity
+at picomolar concentrations in vitro. Furthermore, this conjugate
+significantly inhibited prostate tumor growth in mouse xenograft models.
+In another study, this conjugation technology was used to generate
+bone-targeting antibodies through coupling a bone-targeting bisphosphonate
+moiety to therapeutic antibodies. Trastuzumab
+was conjugated with the azide-bearing ssFB peptide, followed by a
+reaction with bicyclo[6.1.0]nonyne-functionalized Alendronate (ALN).
+ALN is bisphosphonate drug used for bone-targeting and the treatment
+of osteoporosis and bone metastasis. The resulting trastuzumab–ALN
+conjugate specifically targets the bone metastatic niche to eliminate
+bone micrometastases and also prevents the seeding of multiorgan metastases
+from bone lesions in mouse models. These results together suggest
+that the conjugated ssFB peptide moiety minimally perturbs the binding
+of the antibody–ssFB conjugate with its antigen or to FcγRIII,
+the receptor responsible for activating antibody-dependent cell-mediated
+cytotoxicity.
+In lieu of the latent bioreactive FPheK, a highly
+reactive N-hydroxysuccinimide (NHS) ester was incorporated
+into peptides
+and utilized at an acidic pHs, aiming to reduce NHS ester hydrolysis
+and enhance selectivity toward the proximal lysine residue. , In one study, a 17 amino acid IgG-binding peptide (IgGBP) was modified
+by introducing an NHS ester at the Arg8 site ( B). When IgGBP
+binds to human IgG, the NHS ester is positioned near the Lys248 of
+the antibody, as inferred from the crystal structure. This strategic
+positioning allows the peptide and the antibody to conjugate rapidly,
+typically within 15 min. Mass spectrometry analysis confirmed the
+specificity of this conjugation at Lys248. A trastuzumab–IgGBP–DM2
+conjugate was successfully prepared using this method. This conjugate
+demonstrated an EC50 in the nanomolar range, effectively
+inhibiting HER2-positive cancer cells. Additionally, conjugating trastuzumab
+with NHS–IgGBP–azide and subsequently reacting it with
+a dibenzocyclooctyne (DBCO)-labeled nanobody resulted in the formation
+of a bispecific antibody. Notably, this NHS–IgGBP method has
+shown effectiveness in conjugating various IgGs from human, mouse,
+and rabbit origins.
+In another study, three distinct peptides,
+each binding to different
+Fc regions of antibodies, were modified with NHS ester ( C). When conjugated at pH 5.5, they demonstrated
+targeted conjugation to specific lysine residues on the antibodies.
+Furthermore, a disulfide linkage between the NHS ester and the peptide
+was introduced. This linkage allows for the peptide to be cleaved
+from the antibody postconjugation using tris(2-carboxyethyl)phosphine
+(TCEP), leaving only a small molecular thiol group on the antibody.
+This residual thiol group facilitates subsequent modifications through
+thiol–maleimide reactions. For instance, a toxin (DM-1) conjugated
+to trastuzumab using this method selectively eliminated HER2-positive
+cells in vitro and showed promising results in xenograft mouse models.
+A different strategy to facilitate site-specific conjugation of
+antibodies, without covalently attaching an affinity peptide, involves
+catalysis. Specifically, an Fc-binding
+peptide, derived from a minimized Z domain of S. aureus protein A, was modified with three dirhodium complexes through solid-phase
+peptide synthesis ( D). Upon the peptide binding to an antibody, these dirhodium
+complexes act as reactive catalytic centers. They effectively promote
+the labeling of an adjacent Asn residue on the antibody with an added
+diazo reagent, achieving efficiencies greater than 90%. The diazo
+reagent is equipped with an alkyne functional group, allowing for
+the subsequent attachment of various molecules, such as fluorophores
+and toxins, to the antibody through copper-catalyzed azide–alkyne
+cycloaddition (CuAAC) click chemistry. This method conjugates a small-molecule
+linker, which possesses a bio-orthogonal handle, directly onto the
+antibody. In contrast, the binding peptide itself is not conjugated.
+This approach is likely to minimize any potential interference that
+might occur when binding with secondary antibodies.
+Another
+advancement involves peptide-guided, proximity-enabled
+lysine acetylation ( E). This technique transfers
+an azide group from the affinity peptide to a lysine residue on the
+antibody, also without conjugating the peptide. Specifically, an azide-bearing
+phenolic ester is attached to the Fc-interacting Fc-III peptide. Upon
+the peptide binding to the Fc domain of an antibody, the phenolic
+ester is positioned close to the Lys248 residue. This proximity facilitates
+a nucleophilic reaction, transferring the azide-bearing acetyl group
+to Lys248. The modified Lys248 then becomes a site for bio-orthogonal
+labeling with various payloads. For example, fluorophores have been
+successfully attached to atezolizumab using this method, allowing
+for the imaging of HER2 on cancer cells. Similarly, lipids have been
+conjugated onto trastuzumab to create immunoliposomes targeting HER2-positive
+cells. Additionally, the functionalization of azide-labeled antibodies
+with bifunctional linkers has enabled the construction of bispecific
+antibody complexes. These complexes consist of two complete antibodies
+and have demonstrated T-cell-mediated cytotoxicity at nanomolar concentrations
+in vitro. This approach is noteworthy for introducing only a minimal-sized
+azide group onto Lys248 of the native antibody, potentially minimizing
+any interference with the antibody’s function. While the final
+modification yield currently stands at about 80%, there is scope for
+further enhancement and optimization.
+
+5.3
+
+## Proximity-Enabled Reactive Therapeutics (PERx)
+to Develop Covalent Protein Therapeutics
+Covalent small-molecule
+drugs have the unique ability to establish a covalent bond with their
+targets upon binding. This feature offers significant advantages over
+noncovalent drugs, including increased potency, extended duration
+of action, enhanced therapeutic index, and the capacity to target
+molecules previously deemed “undruggable”. , , Since 1947, roughly 7% of small
+molecule drugs approved by the FDA function via this covalent mechanism. In the past decade, these drugs have shown
+particular efficacy as targeted covalent inhibitors for kinases in
+cancer therapy. Notable examples include drugs targeting EGFR, BTK,
+HER2, and KRAS, which are used in treating lung cancer, lymphoma,
+and breast cancer. , In contrast, the realm of covalent
+protein drugs remains largely unexplored. This underutilization stems
+from the natural limitations of proteins in forming covalent bonds
+with other biomolecules, with the exception of disulfide bonds. Nevertheless,
+proteins are ideally suited for covalent action due to their expansive
+interactive interfaces. They can effectively bind to targets with
+flat and smooth surfaces or engage in complex protein–protein
+interactions, which pose a challenge for small-molecule drugs. Additionally,
+the high target specificity of proteins could greatly reduce off-target
+reactions, a prominent issue with covalent small molecule drugs.
+The advent of latent bioreactive Uaas and the concept of proximity-enabled
+bioreactivity have given rise to proximity-enabled reactive therapeutics
+(PERx) technology. This innovative platform
+is designed for the development of covalent protein therapeutics.
+The fundamental principle of PERx involves incorporating a latent
+bioreactive Uaa into a protein drug near its binding interface ( ). The interaction
+between the protein drug and its target brings the Uaa proximal to
+an adjacent natural amino acid residue in the target protein. This
+proximity activates the Uaa, enabling it to selectively react with
+the target natural residue. The reaction facilitates the formation
+of a covalent bond, effectively transforming the protein drug into
+a covalent protein therapeutic. Since its initial development in 2020, PERx technology has been successfully utilized
+to generate a variety of covalent protein drug candidates, each designed
+to treat different diseases through distinct mechanisms of action.
+ 5.3.1
+
+## The Advent of PERx in Immunocheckpoint Inhibition
+The development of PERx technology commenced with the human immune
+checkpoint proteins: programmed cell death protein-1 (PD-1) and its
+ligand, PD-L1, serving as a foundational model system. PD-1, a transmembrane receptor, plays a critical
+role in regulating T cell activity. PD-L1, one of PD-1’s ligands,
+is frequently overexpressed in various tumors. The interaction between
+PD-1 and PD-L1 leads to reduced proliferation and T-lymphocyte activity,
+resulting in the exhaustion and eventual apoptosis of tumor-specific
+T cells. Blocking this PD-1/PD-L1 interaction
+can rejuvenate the suppressed immune response against tumors. Consequently, several antibodies targeting
+either PD-1 or PD-L1 have been developed for cancer therapy. However,
+these antibodies, typically large (around 150 kDa), often exhibit
+limited tissue and tumor penetration, and patient responses to these
+treatments vary significantly.
+In an effort to inhibit the PD-1/PD-L1
+interaction using proteins of smaller molecular weights, the researchers
+proposed transforming the ectodomain of human PD-1 (approximately
+15 kDa) into an efficient covalent binder targeting PD-L1 ( A). This was achieved by genetically incorporating
+a latent bioreactive Uaa, FSY, into PD-1
+at its binding interface. Based on the structural analysis of the
+PD-1/PD-L1 complex, site Ala129 was
+chosen for FSY incorporation, aiming to target His69 of PD-L1. The
+modified PD-1(FSY) demonstrated high efficiency and specificity in
+covalently binding to human PD-L1, both in vitro and on cancer cell
+surfaces, as well as in tumor xenograft models in mice. Mass spectrometry
+analysis of the cross-linked protein samples validated that FSY reacted
+specifically with His69, as intended.
+ To evaluate whether this covalent binding capability
+of PD-1(FSY)
+could boost T cell activation by disrupting the PD-1/PD-L1 interaction,
+mixed lymphocyte reactions were conducted using dendritic cells and
+T cells, as well as between chimeric antigen receptor T (CAR-T) cells
+and target cancer cells. The studies
+found that PD-1(FSY) effectively enhanced the functional activities
+of both human T cells and CAR-T cells in vitro, matching the efficiency
+of atezolizumab, an FDA-approved anti-PD-L1 antibody for cancer treatment.
+In contrast, the noncovalent wildtype PD-1(WT) showed no such effect.
+Further investigations involved injecting PD-1(FSY) into xenograft
+mouse models humanized either with human peripheral blood mononuclear
+cells or human CAR-T cells or via systematic bone marrow-liver-thymus
+humanization (Hu-mice). In all three
+models, PD-1(FSY) significantly inhibited tumor growth compared to
+PD-1(WT), displaying a therapeutic effect that was comparable to,
+or even surpassed, that of atezolizumab ( B).
+Beyond addressing natural protein
+interactions such as PD-1/PD-L1,
+PERx technology has also shown effectiveness with engineered protein
+binders, offering a versatile pathway to covalently target native
+proteins. For example, introducing FSY into a HER2-specific affibody
+transforms it into a covalent binder for HER2, effective both in vitro
+and on breast cancer cell surfaces. Similarly,
+the integration of FSY or FSK into EGFR-specific nanobodies enables
+these nanobodies to become efficient covalent binders for EGFR, demonstrating
+efficacy in vitro and on various cancer cells. 
+PERx technology is elegantly simple, requiring only
+the introduction
+of a single mutation—a latent bioreactive Uaa—into the
+protein drug. This streamlined approach not only simplifies the conversion
+process for covalent protein drugs but also minimizes potential immunogenicity
+risks. PERx-equipped protein drugs establish irreversible bonds with
+their targets, effectively decoupling the drug’s pharmacodynamic
+effects from its pharmacokinetics. While small proteins are typically
+cleared rapidly in vivo, they are advantageous for certain conditions
+like extravasation and tissue penetration. Traditional methods to
+prolong protein half-lives often involve increasing their size, which
+can diminish their effectiveness. PERx, however, allows for the direct
+utilization of small proteins in vivo, eliminating the need for additional
+modifications to extend their half-life. A major concern with covalent
+drugs is off-target reactions. However, PERx offers exceptional target
+specificity, as its covalent reactivity relies on both the binding
+of the drug to its target and a unique pairing between unnatural and
+natural amino acids. , In summary, PERx represents
+a versatile platform technology that transforms various interactive
+proteins into covalent binders. Its straightforward process and wide
+applicability to different proteins hold great promise for accelerating
+the development of covalent protein drugs to treat a diverse range
+of diseases.
+
+5.3.2
+
+## Neutralization of SARS-CoV-2
+Tumor
+suppression typically unfolds over days to weeks. Recognizing this,
+the efficacy of PERx technology has been explored in scenarios demanding
+rapid and immediate action. For instance, covalent nanobodies have
+been developed to counteract SARS-CoV-2 infections in human cells,
+showing significantly enhanced potency compared to conventional noncovalent
+nanobodies ( A). The infection mechanism of SARS-CoV-2
+hinges on the interaction of its spike protein with the human cellular
+angiotensin-converting enzyme 2 (ACE2) receptor. Noncovalent drugs that bind to the spike protein can dissociate,
+allowing the virus to reaccess and infect cells, thereby making complete
+inhibition a challenge. A covalent nanobody that irreversibly binds
+to the spike protein is anticipated to achieve more effective inhibition
+and reduce the likelihood of viral escape.
+ To develop a covalent nanobody, 30 sites within
+the three complementarity-determining
+regions (CDRs) of the spike-specific nanobody mNb6 were assessed for FSY incorporation. Several of these sites enabled effective covalent cross-linking
+with the receptor-binding domain (RBD) of the SARS-CoV-2 spike protein
+in vitro. To enhance the PERx reaction rate, the electron-withdrawing
+fluorine was introduced into the phenyl ring of FSY, creating a new
+latent bioreactive Uaa, FFY, which boosted the reaction rate by 2.4
+times. The most effective variant mNb6(108FFY)
+achieved rapid cross-linking with the spike RBD within 10 min.
+In neutralization assays using lentivirus pseudotyped with the
+viral spike protein, the WT mNb6 nanobody had an IC50 of
+36 nM. In contrast, the covalent mNb6(FFY)
+variant showed a dramatically improved IC50 of 1 nM, marking
+a 36-fold increase in potency ( B). Furthermore, against authentic SARS-CoV-2,
+the covalent nanobody exhibited a 40-fold improvement in IC50 compared to the WT control. Besides the WT virus, mNb6 also bound
+to SARS-CoV-2 variants alpha, delta, epsilon, and lambda. The mNb6(FFY)
+mutant covalently cross-linked with these variant spike proteins,
+significantly enhancing its neutralization potency and showing 23-,
+39-, 38-, and 24-fold increases for each variant, respectively.
+However, mNb6 was ineffective against later-emerging omicron variants.
+A different nanobody, Nb70, that binds omicron and other variants
+with high affinity was modified into a covalent form using the same
+approach. The covalent Nb70, with FFY incorporation, demonstrated an 8–10-fold
+increase in neutralization potency against the omicron variants BA.1
+and BA.2 compared to its WT counterpart. In summary, these covalent
+nanobodies exhibited markedly enhance neutralization potency against
+both WT SARS-CoV-2 and its various variants compared to their WT equivalents.
+Beyond nanobodies, researchers have also transformed the native
+receptor, human ACE2, into a covalent binder for the spike protein. This was achieved by incorporating FSY into
+the soluble extracellular domain of ACE2. Given that SARS-CoV-2 relies
+on ACE2 for cell entry, this soluble ACE2 therapy is anticipated to
+offer broad coverage, as the virus cannot easily evade neutralization
+through ACE2.
+The faster reaction kinetics of FFY compared to
+FSY have proven
+crucial in effectively inhibiting SARS-CoV-2 infection. In a study,
+FSY was incorporated into spike-specific minibinders. , The resulting minibinders required a 2 h incubation to cross-link
+with the spike RBD in vitro and 2 h incubation with the virus, yielding
+a modest sixfold potency increase against a single SARS-CoV-2 variant. However, their effectiveness against the WT
+virus and other variants remains unverified, and longer incubation
+times may allow the virus more opportunity to infect human cells.
+In contrast, the FFY-augmented covalent nanobody mNb6(FFY) quickly
+cross-linked with the spike RBD in just 10 min. When incubated with the virus for only 1 h, mNb6(108FFY)
+showed a remarkable 41-fold increase in neutralization potency against
+SARS-CoV-2 and 23–39-fold increase in potency against SARS-CoV-2
+variants, indicating its robust and broad-spectrum efficacy.
+Covalent nanobodies can be manufactured in large-scale through
+bacterial expression. Their high stability simplifies storage and
+distribution, and their suitability for aerosolization allows for
+self-administered inhalation treatments targeting nasal and lung epithelia.
+PERx-enabled ACE2 drugs could become a vital reserve for combating
+future outbreaks of SARS-CoV, SARS-CoV-2, and any novel coronavirus
+that utilizes the ACE2 receptor for entry. The irreversible binding
+characteristic of covalent protein drugs not only promises complete
+viral inhibition but also helps to reduce the risk of viral resistance.
+Furthermore, the PERx methodology for creating covalent binders or
+soluble receptor inhibitors has the potential in the development of
+effective covalent protein drugs for a variety of infectious diseases,
+including influenza, hepatitis, AIDS, and anthrax.
+
+5.3.3
+
+## Targeted Protein Degradation
+Over
+the past two decades, targeted protein degradation has evolved as
+a promising therapeutic strategy, offering a significant alternative
+to conventional inhibition methods. − This approach, applicable to intracellular,
+membrane, and extracellular proteins, utilizes various technologies
+including PROTACs, molecular glues, LYTACs, and KineTACs. Research
+indicates that the efficiency of protein degradation is largely contingent
+on the binding affinity between the degrader molecule and the target
+protein. A notable advancement in this field is the application of
+the PERx principle, where a covalent linkage is established between
+the degrader and its target, demonstrating efficient degradation of
+membrane protein PD-1 in cancer cells ( A). 
+ The PD-L1-specific nanobody was modified by incorporating
+the latent
+bioreactive Uaa FSY, resulting in a covalent
+nanobody capable of cross-linking PD-L1 both in vitro and on the surface
+of cancer cells. This covalent nanobody
+was further conjugated with a cell-penetrating peptide and a lysosome-sorting
+sequence (CPP-LSS), which are known to enhance cell internalization
+and lysosome-mediated degradation, respectively. , The resulting conjugate, Nb(FSY)–CPP–LSS, demonstrated
+greater efficiency in degrading PD-L1 on cancer cells compared to
+its noncovalent counterpart, Nb–CPP–LSS. This led to a more pronounced activation of
+T-cells. Additionally, in xenograft mouse models injected with human
+peripheral blood mononuclear cells, Nb(FSY)–CPP–LSS
+showed a slight, yet statistically significant, improvement in inhibiting
+tumor growth compared to Nb(FSY) alone ( B). This result implies that the CPP–LSS
+component enhances the overall effectiveness of tumor inhibition by
+facilitating the degradation of PD-L1, building upon the already highly
+efficient tumor suppression effect achieved through the covalent blockage
+of Nb(FSY).
+A notable advantage of the Nb(FSY)-CPP-LSS design
+lies in its cell-type-independent
+degradation mechanism. This approach does not rely on a specific lysosome-targeting
+receptor or membrane E3 ligase, making it potentially effective in
+addressing heterogeneous tumor cells. To enhance the understanding
+of this strategy’s effectiveness, exploring its application
+to a target where covalent nanobody binding does not dominantly influence
+the measured biological function in vivo would be highly advantageous.
+Anticipated to provide a more definitive demonstration, this exploration
+could elucidate the in vivo therapeutic efficacy mediated by CPP–LSS
+degradation more clearly.
+
+5.3.4
+
+## Selective Targeting of Interleukin-2 Receptor
+Subunit
+Cytokines, crucial in regulating cell-mediated pro-inflammatory
+and anti-inflammatory responses, are potential therapeutic targets.
+Their function can be modulated by altering the trafficking properties
+of cytokine–receptor complexes, which are internalized after
+cell surface interaction and either degraded or recycled. Interleukin-2
+(IL-2), a key cytokine, orchestrates immune responses by differentially
+expanding regulatory T cells (Tregs) and effector T cells (Teffs)
+to maintain immune homeostasis. IL-2
+signals through a trimeric IL-2 receptor (IL-2R) with high affinity
+(Kd ∼ 10 pM), consisting of IL-2Rα
+(CD25), IL-2Rβ, and the common γc receptor
+subunits, or through a dimeric IL-2R with intermediate affinity (Kd ∼ 1 nM), made up of IL-2Rβ and
+γc. While low-dose
+IL-2 preferentially activates Tregs, which express IL-2Rα, to
+treat inflammatory and autoimmune diseases (ADs), higher doses can
+inadvertently activate Teffs, exacerbating ADs. , For the purpose of targeted cell population activation and to improve
+the in vivo properties, IL-2 has been engineered using various strategies.
+These include the utilization of antibodies and PEGylation for selective
+modulation of IL-2 effects, , as well as the development
+of high-affinity IL-2Rα-binding IL-2 mutants and variants with
+impaired internalization to enhance its potency. − PERx has now enabled the engineering of a covalent IL-2 that irreversibly
+binds to IL-2Rα, leading to preferential and sustained activation
+of Tregs ( A). 
+ A covalent IL-2 variant, L72-FSY, was developed
+by incorporating
+the latent bioreactive Uaa FSY at site L72. This mutant selectively
+cross-links with IL-2Rα, both in vitro and on YT cell surfaces
+expressing IL-2Rα. Treating Tregs
+with L72-FSY enhances the recycling and cell surface retention of
+covalent IL-2. Notably, L72-FSY preferentially activates Tregs over
+Teffs, as observed in vitro and in vivo. In human peripheral blood
+mononuclear cells (hPBMCs), it increases the proportion of Treg without
+impacting CD8+ T or natural killer cells and upregulates Treg activation
+markers. In a mouse model injected with hPBMCs and an IL-2Rα-humanized
+B6 mouse model, L72-FSY significantly boosted Treg numbers compared
+to WT IL-2, promoting a central memory phenotype with reduced exhaustion
+markers like LAG-3 and increased PD-1 expression. Unlike WT IL-2,
+it induces Tim-3 expression while maintaining CTLA-4 levels, showing
+enhanced stability and suppressive function in Tregs. These results
+demonstrate L72-FSY’s effectiveness in expanding functionally
+superior Tregs without causing terminal differentiation.
+To
+increase its half-life, researchers PEGylated L72-FSY at the
+N-terminus. Its therapeutic potential was evaluated in a pristane-induced
+lupus model in B-hIL2RA mice and a xenogeneic graft-versus-host disease
+(xeno-GvHD) mouse model. Both L72-FSY
+and its PEGylated form significantly reduced lupus severity, showing
+improvements in kidney damage and reduced autoantibody levels compared
+to WT IL-2. Moreover, they diminished Teff activity while increasing
+Treg ratios and activation markers. In the xeno-GvHD model, L72-FSY
+variants provided more protection than WT IL-2, indicated by reduced
+body weight loss and increased survival rates ( B). Overall, the researchers conclude that
+L72-FSY and PEG-L72FSY are more effective than WT IL-2 in suppressing
+inflammatory diseases like systemic lupus erythematosus (SLE) and
+GvHD. Therefore, PERx-enabled covalent cytokines may lead to a distinct
+class of immunomodulatory therapies.
+
+5.3.5
+
+## Targeted Radionucleotide Therapy
+Molecularly targeted radionuclide therapies (TRTs) are isotopically
+labeled drugs delivering ionizing radiation to tumors, exploiting
+cancer’s vulnerability to genetic damage. Recently, the focus has shifted to low-molecular-weight
+TRTs targeting overexpressed cancer proteins to minimize toxicity.
+These include FDA-approved therapies like Pluvicto for prostate cancer
+and Lutathera for neuroendocrine tumors. The transition from high-molecular-weight
+radiopharmaceuticals such as antibodies, which caused toxicity due
+to prolonged blood residence, to low-molecular-weight ones was driven
+by the need for safer yet effective treatments. However, low-molecular-weight radioligand therapies (RLTs)
+face challenges: they are rarely curative and must target highly overexpressed
+proteins. Additionally, their instability and rapid clearance from
+tumors limit their effectiveness. Strategies to enhance tumor retention
+include incorporating hydrophobic binding groups and antibody pretargeting, , but these can increase toxicity or treatment complexity.
+To
+address the safety vs efficacy dilemma in the TRT field, the ideal
+radiopharmaceutical should possess high specificity, a short blood
+residence time, and prolonged tumor retention. In pursuit of this,
+PERx has thus been utilized to develop small covalent protein-based
+radiopharmaceuticals ( A). These proteins are designed
+to bind irreversibly to their targets upon interaction, contrasting
+with their WT counterparts that clear rapidly from the blood but lack
+persistent binding. This innovative approach enables the covalent
+small protein radiopharmaceuticals to maintain rapid blood clearance
+while achieving sustained tumor retention through irreversible target
+binding.
+ To implement this strategy, researchers developed
+a covalent nanobody
+targeting the HER2 receptor by incorporating the latent bioreactive
+Uaa FSY into the nanobody at its binding interface ( A). The resulting Nb(FSY) demonstrated rapid cross-linking to the HER2
+receptor, achieving this within 10 min in vitro. It effectively targeted
+endogenous HER2 on the surface of cancer cells and HER2 in tumors
+within mice.
+Both Nb(WT) and Nb(FSY) were labeled with 124I and injected
+into mice xenografted with HER2-expressing tumors, then visualized
+using PET/CT imaging. The clearance
+from blood circulation and half-lives of 124I–Nb(WT)
+and 124I–Nb(FSY) were comparably rapid. Additionally,
+the uptakes of the radiotracers in the liver, kidney, thyroid, and
+skeletal muscle were qualitatively similar for both, indicating a
+similar biodistribution in normal organs devoid of HER2. However,
+a significant difference emerged in tumor targeting. Between 3 and
+10 h postinjection, the on-tumor activity levels of both nanobodies
+were similar. The striking divergence was observed from 24 to 72 h
+postinjection: 124I–Nb(FSY) remained detectable
+in the tumor, whereas 124I–Nb(WT) did not. The total
+radiation dose accumulated in the tumor by 124I–Nb(FSY)
+was 81% higher compared to that by 124I–Nb(WT).
+Three-dimensional maximum intensity projection images further illustrated
+this distinction ( B). In mice injected with 124I–Nb(FSY),
+the tumor was distinctly visible against a background of virtually
+no signal in normal tissues, except the thyroid, a natural site for
+iodine metabolism.
+To assess whether the enhanced tumor retention
+of the covalent
+Nb(FSY) translated into a significant antitumor effect, both Nb(WT)
+and Nb(FSY) were labeled with actinium-225 (225Ac), a potent
+α-emitter. Mice bearing HER2-expressing
+NCI-N87 tumors were treated twice (day 0 and day 7), with either form
+of the Ac-labeled nanobody. Compared to the saline control group,
+treatment with 225Ac–Nb(WT) showed no significant
+tumor inhibition. In contrast, 225Ac–Nb(FSY) administration
+resulted in a considerable slowdown in tumor growth ( C). End point analysis further
+revealed that the tumors in mice treated with 225Ac–Nb(FSY)
+were significantly lighter compared to those in mice treated with 225Ac–Nb(WT). Importantly, there was no significant
+change in body weight across all three groups, indicating a lack of
+systemic toxicity. Histopathological analysis of liver, kidney, heart,
+and bone marrow tissues revealed no abnormalities, suggesting the
+absence of toxicity in these organs post-treatment.
+In summary,
+by facilitating a highly specific and prolonged retention
+of radionuclides within tumors while minimizing exposure to normal
+tissues, these small covalent protein-based radiopharmaceuticals substantially
+improve both the efficacy and safety of TRT. The transition from noncovalent
+to covalent binding in protein-based TRT opens up new possibilities
+for treating a wider range of targets and diseases with greater precision.
+
+5.3.6
+
+## Inhibition of the Glycol Immunocheckpoint
+The PERx strategies outlined above hinge on the capacity to covalently
+target proteins. With the emergence of GECX-RNA and GECX-sugar technologies, , this capability of covalent targeting has broadened to encompass
+other families of biomacromolecules beyond proteins. This expansion
+opens up exciting opportunities for the development of novel classes
+of covalent therapeutics focusing on these diverse biomolecules.
+Glycol immunocheckpoints, particularly the interaction between sialoglycans
+on tumor cells and Siglecs (sialic acid-binding immunoglobulin-like
+lectins) on immune cells, are crucial in the dynamics of cancer immunity. , Sialoglycans are often overexpressed on the surfaces of tumor cells.
+This overexpression is a strategic evasion tactic, enabling these
+cells to engage with, for instance, Siglec-7 found on NK cells. The
+binding of tumor cell sialoglycans to Siglec-7 effectively dampens
+the NK cells’ cytotoxic response, a key mechanism by which
+tumors avoid immune detection and destruction. Interrupting this specific interaction is a promising strategy
+in cancer immunotherapy, as it could potentially unleash the innate
+cytotoxic capability of NK cells against the tumor. Antibodies and sialic acid mimetics to target Siglecs have
+been developed for such purposes, and
+antibody–sialidase conjugates have been used to remove cancer
+cell surface sialic acids to improve NK cell activity. 
+The recent advancements in GECX-sugar
+technology have facilitated
+the ability to covalently cross-link glycans using glycan binding
+proteins through proximity-enabled bioreactivity. A Siglec protein,
+specific for sialoglycan binding, has been engineered to irreversibly
+cloak sialoglycans on cancer cell surface so as to block the inhibitory
+effect of sialoglycans on NK cells ( A). Specifically,
+the latent bioreactive Uaa SFY was incorporated at position 127 of
+the extracellular V-set domain of Siglec-7, resulting in the creation
+of a covalent variant, Siglec-7v(127SFY). This modified Siglec-7v(127SFY)
+demonstrates enhanced binding to sialoglycans on cancer cell surfaces,
+as evidenced by flow cytometric analysis of the bound Siglec-7v protein.
+To investigate whether this enhanced binding could effectively block
+the interaction between tumor cell surface sialoglycans and Siglec-7
+on NK cells, experiments were conducted using Siglec-7v(127SFY) and
+the WT Siglec-7v (Siglec-7v(WT)). These were incubated with three
+hypersialylated cancer cell lines (SK-MEL-28, BT-20, MCF-7), followed
+by exposure to NK-92 cells. The results showed that Siglec-7v(127SFY)
+significantly increased the killing efficacy of NK-92 cells against
+all three cancer cell lines in a concentration-dependent manner compared
+to Siglec-7v(WT) ( B). While these promising results
+have been obtained in cell-based studies and have yet to be validated
+in animal models in vivo, they suggest that covalently targeting glycans
+could be a viable and innovative approach for cancer immunotherapy.
+ 
+
+6
+
+## Conclusions and Outlook
+Biospecific
+chemistry has emerged and advanced significantly, enabling
+the creation of specific covalent linkages between proteins and various
+biomacromolecules both in vitro and in vivo. This innovation is rooted
+in the genetic incorporation of latent bioreactive Uaas into proteins. , Such incorporation facilitates the formation of specific covalent
+bonds through proximity-enabled bioreactivity when proteins interact
+with biomacromolecules. Diverse latent bioreactive Uaas have been
+designed for this purpose, targeting various natural amino acid residues
+in proteins. This methodology has further
+been extended to the covalent targeting of RNA and carbohydrates. , These novel covalent linkages, created by intramolecular GECX, have
+introduced unique protein properties previously unattainable with
+conventional amino acids. The application of GECX intermolecularly allows for the exploration of transient protein–protein
+interactions and high-resolution mapping of protein–RNA interactions
+within cells. Furthermore, biospecific chemistries have facilitated
+the development of covalent peptides for therapeutic applications
+and the conjugation of payloads to native antibodies. A notable advancement
+in this field is proximity-enabled reactive therapeutics (PERx) technology, which produces covalent protein therapeutics
+with enhanced efficacy compared to their noncovalent counterparts
+in various applications, including immune-checkpoint inhibition, viral
+neutralization, targeted protein degradation, receptor subunit targeting,
+and targeted radionucleotide therapy.
+Biospecific chemistry
+is distinct from bio-orthogonal chemistry.
+Unlike bio-orthogonal chemistry, , which requires two orthogonal
+(nonbioreactive) functional groups integrated separately into the
+probe molecule and target biomolecule, biospecific chemistry only
+necessitates one bioreactive functional group within a single biomolecule.
+This approach permits interactions with target biomolecules in their
+native state, unmodified. Moreover, biospecific chemistry employs
+latent bioreactive functional groups that remain inert until activated
+by the proximity effect, making it suitable for live cell applications
+and in vivo studies. These unique characteristics render biospecific
+chemistry invaluable for investigating native biomolecules in vivo
+and for targeted therapeutic applications.
+Biospecific chemistry
+transcends the traditional understanding
+that biomacromolecular interactions are largely noncovalent, facilitating
+specific, stable, and irreversible covalent connections between these
+molecules. Its high specificity stems from a dual reaction requirement:
+correct binding of biomacromolecules and appropriate pairing of latent
+bioreactive groups with their targets. This specificity allows for
+high-resolution analysis at the level of individual amino acids, nucleotides,
+or carbohydrates, elucidating protein–protein and protein–RNA
+interactions in living cells with exceptional detail. Such precision
+is vital for minimizing off-target reactions, a crucial consideration
+in covalent drug development. Covalent protein therapeutics that utilize
+the PERx mechanism can achieve heightened target specificity compared
+to covalent small-molecule drugs, thereby reducing potential off-target
+effects. Additionally, the stable and irreversible nature of these
+covalent bonds enhances various protein properties, such as thermostability
+and photostability, and generates novel abilities such as photomodulation
+of protein functions. These bonds enable experimentation under more
+stringent conditions, improving detection sensitivity and reducing
+false positives. In therapeutics, irreversible linkages between protein
+drugs and their targets extend the duration of action, achieve receptor
+subtype selectivity, and enhance drug potency, offering promising
+applications across diverse diseases.
+As new biospecific chemistries
+emerge and are rediscovered, there
+is growing anticipation for their integration into other classes of
+biomolecules beyond proteins, enabling the covalent targeting of a
+broader range of biomolecules through proximity-enabled bioreactivity.
+The rapid kinetics of covalent linkage formation are critical for
+the effectiveness of many applications, and thus enhancing the reaction
+rates while maintaining biocompatibility is desirable. Advances in
+protein structure prediction and interaction analysis based on amino
+acid sequences are poised to facilitate the identification of optimal
+sites for incorporating latent bioreactive Uaas. , Further, computational methods such as molecular dynamics simulations
+and machine learning may refine Uaa site selection, accelerate reaction
+rates, and minimize undesired cross-linking. The expanding diversity
+of covalent linkages in biomolecules may lead to the emergence of
+novel properties and functions through directed evolution. Moreover,
+inducible proximity-enabled bioreactivities could make covalently
+linked biomolecules more responsive to environmental and external
+stimuli, enhancing the flexibility of design and achieving higher
+target specificity. Beyond the genetic encoding of latent bioreative
+Uaas, alternative approaches are also being explored to enable biospecific
+chemistry in biomacromolecules. For example, small-molecule cross-linkers
+equipped with latent bioreactive functional groups have been developed,
+demonstrating improved precision in cross-linking proteins for structural
+modeling. , 
+The field of covalent protein therapeutics,
+developed through latent
+bioreactive Uaas, is nascent but holds significant promise. This potential
+is underscored by the successes observed with covalent small-molecule
+drugs. Given that these protein therapeutics form covalent bonds,
+specialized evaluation methods distinct from those traditionally used
+for protein drugs may be necessary to accurately assess their efficacy
+and side effects. Quantitative measurements and comparative analyses
+are crucial to elucidate the advantages these therapeutics may offer.
+Proteins could potentially offer higher specificity than small molecules
+due to their larger interaction interfaces. However, the possibility
+of undesired off-target reactions and the long-term effects of such
+permanent modifications to targets necessitate thorough in vivo investigations.
+The effectiveness and the subsequent impact on target biology of these
+drugs are likely to vary with each target, requiring tailored exploration.
+The research community is keenly awaiting further studies that could
+establish general principles and provide guidance on the design and
+application of these covalent protein therapeutics. Moreover, several
+critical issues concerning covalent protein therapeutics remain insufficiently
+explored, including potential immunogenicity, idiosyncratic characteristics
+specific to individual therapeutics, in vivo stability, and biodistribution.
+These aspects must be rigorously assessed through comprehensive animal
+studies to ensure safety and functionality. Current applications of
+PREx have primarily focused on enhancing potency and selectivity.
+Expanding research into novel applications of covalent linkage could significantly broaden the scope and enhance
+the potential of PERx-based covalent protein drugs. This exploration
+is vital for pioneering new therapeutic strategies that leverage the
+unique properties of covalent interactions for clinical benefit.
+The rapid advancements and expansion in the field suggest that
+biospecific chemistry, which shifts biomolecule interactions from
+noncovalent to covalent binding modes, is poised to significantly
+advance areas such as basic biological research, biotherapeutics,
+and synthetic biology. This paradigm shift is enhancing our understanding
+of and ability to harness biomolecular interactions fundamental to
+biology.
+
+## Author Contributions
+CRediT: Li Cao writing-original
+draft, writing-review & editing; Lei Wang conceptualization,
+funding acquisition, supervision,
+writing-original draft, writing-review & editing.
+The
+authors declare the
+following competing financial interest(s): Lei Wang is a Scientific
+Advisor for Enlaza Therapeutics.
+Li
+Cao received her Ph.D. degree from Nankai University in 2020.
+She is currently a postdoctoral researcher in the group of Prof. Lei
+Wang at the University of California San Francisco. Her research focuses
+on designing and genetically encoding bioreactive unnatural amino
+acids and utilizing PERx technology for the development of covalent
+protein therapeutics.
+Lei Wang received
+his B.S. and M.S. degrees from Peking University
+and a Ph.D. from UC Berkeley (mentored by Peter G. Schultz). His graduate
+research resulted in the first expansion of the genetic code to incorporate
+unnatural amino acids (Uaas) in 2001, for which he was awarded the
+Young Scientist Award by the Science magazine. After postdoctoral
+training with Roger Y. Tsien, Wang established his research group
+at the Salk Institute for Biological Studies in 2005 and later transitioned
+to UCSF in 2014. His group has developed new methods for the expansion
+of the genetic code in a variety of cells and animals, discovered
+that release factor one is nonessential in E. coli, and engineered autonomous bacteria capable of incorporating Uaas
+at multiple sites. In recent years, Wang’s group conceptualized
+and implemented proximity-enabled bioreactivity. This methodology
+has opened new avenues for creating covalent linkages among biomolecules
+in vivo, advancing research and engineering in biological functions.
+Wang is a Top Young Innovator (by MIT Technology Review), a Beckman
+Young Investigator, a Searle Scholar, an NIH Director’s New
+Innovator Awardee, and a recipient of the Emil Thomas Kaiser Award.
+
+## Acknowledgments
+L.W. acknowledges support from NIH (R01GM118384
+and R01CA258300).
