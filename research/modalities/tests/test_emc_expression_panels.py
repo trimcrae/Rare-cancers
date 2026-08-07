@@ -228,22 +228,31 @@ def test_a_group_below_the_minimum_n_gets_no_contrast():
 #  was added (read_7_RET, the cistrome lane's abundance half) was that the copy went stale and
 #  failed the build for no scientific reason. What must NOT be derived is the historic SIX plus
 #  the control — those are asserted explicitly below, so a read being DELETED still fails.
-SIX_READS_AND_THE_CONTROL = {
+#  ⛔ AND THE RULE WAS BROKEN THREE LINES BELOW ITSELF (found 2026-08-07, restoring read_8).
+#  `test_all_six_reads_plus_the_control_are_present_and_addressable` was defined TWICE in this file.
+#  The first definition did the derived thing this comment prescribes; the second re-typed the
+#  registry as a literal and, being second, is the one Python kept. So the derived check was DEAD
+#  CODE and the stale copy was the live assertion — the precise failure the comment was written to
+#  prevent, hiding inside the fix for it. `test_every_panel_and_every_slot_declares_the_read_it
+#  _belongs_to` carried the same shape: it derived `ids`, asserted against it, then REASSIGNED
+#  `ids` to a re-typed literal and asserted again, so only the literal could ever fail.
+#  A shadowed test never reports; it just stops existing.
+HISTORIC_READS_AND_THE_CONTROL = {
     "control", "read_1_ASS1", "read_2_CS_GAG_PAPS", "read_3_PPARG_ACTIVITY",
-    "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1", "read_7_RET"}
+    "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1", "read_7_RET",
+    # read_8 — the surface-antigen read, restored 2026-08-07. It was lost, not retired: it landed
+    # as `read_7_SURFACE_ANTIGEN`, collided with `read_7_RET` in a parallel merge, and was dropped
+    # in the recovery. It is in the floor set so a second silent loss fails the build.
+    "read_8_SURFACE_ANTIGEN"}
 
 
 def _declared_read_ids():
     return {p["read_id"] for p in M.PANELS.values()}
 
 
-def test_all_six_reads_plus_the_control_are_present_and_addressable(res):
-    assert SIX_READS_AND_THE_CONTROL <= set(res["reads"]), "a read was DELETED"
+def test_all_reads_plus_the_control_are_present_and_addressable(res):
+    assert HISTORIC_READS_AND_THE_CONTROL <= set(res["reads"]), "a read was DELETED"
     assert set(res["reads"]) == _declared_read_ids()
-def test_all_six_reads_plus_the_control_are_present_and_addressable(res):
-    assert set(res["reads"]) == {
-        "control", "read_1_ASS1", "read_2_CS_GAG_PAPS", "read_3_PPARG_ACTIVITY",
-        "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1", "read_7_RET"}
     for k, v in res["reads"].items():
         if k == "control":
             continue
@@ -254,15 +263,12 @@ def test_all_six_reads_plus_the_control_are_present_and_addressable(res):
 
 def test_every_panel_and_every_slot_declares_the_read_it_belongs_to():
     ids = _declared_read_ids()
-    assert SIX_READS_AND_THE_CONTROL <= ids, "a read was DELETED from PANELS"
+    assert HISTORIC_READS_AND_THE_CONTROL <= ids, "a read was DELETED from PANELS"
     for name, p in M.PANELS.items():
         assert p["read_id"] in ids, name
-        # A read_id must be unique to one panel, or two panels would silently merge.
+        # A read_id must be unique to one panel, or two panels would silently merge. This is the
+        # check that WOULD have caught the read_7 collision at the moment it happened.
         assert sum(1 for q in M.PANELS.values() if q["read_id"] == p["read_id"]) == 1, name
-    ids = {"control", "read_1_ASS1", "read_2_CS_GAG_PAPS", "read_3_PPARG_ACTIVITY",
-           "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1", "read_7_RET"}
-    for name, p in M.PANELS.items():
-        assert p["read_id"] in ids, name
     for name, s in M.SIGNATURE_SLOTS.items():
         assert s["read_id"] in ids, name
 
