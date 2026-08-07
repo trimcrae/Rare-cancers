@@ -256,7 +256,13 @@ matters: degrading neuroprotective Nurr1/NR4A2 in Parkinson's would be the *wron
 single-paralogue cells are not degrader indications) — and some combinations are actively harmful. So the
 matrix has three kinds of cell:
 
-**Lead — NR4A3-selective (the validated path):**
+**Lead — the predicted NR4A-paralogue-selective design mode (a design target, not a demonstrated
+property):** ⚠ the paralogue-selectivity of every molecule below is an **unvalidated prediction**, exactly
+as §4 states; no instrument in this program has returned a selectivity result in the regime that claim
+needs ([`instrument-census.json`](../modalities/instrument-census.json) → `coverage`, `R7`). The cells are
+listed as *indications this mode would address if the property holds*, and nothing here reports it holding.
+⚠ *Superseded, retained: this heading read `**Lead — NR4A3-selective (the validated path):**`, which
+asserted the property **and** its validation in two words, against the paper's own §4.*
 1. **EMC** — EWSR1/TAF15::NR4A3 fusion; clean single-driver proof-of-concept.
 2. **Acinic cell carcinoma (AciCC) of the salivary glands** — driven by **NR4A3 over-expression via
    enhancer hijacking** (Haller, *Nat Commun* 2019; cooperates with MYB, Lee 2020). NR4A3 is the diagnostic driver;

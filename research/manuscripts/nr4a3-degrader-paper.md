@@ -2794,10 +2794,43 @@ ordered so that the free ones can end it before any GPU spend.
 
 | Tier | Pre-registered criterion | Cost | Outcome |
 |---|---|---|---|
-| 0 | **Categorical-axis screen.** If no paralogue-unique nucleophile lies within tether range *and* no paralogue-unique exposed lysine exists, selectivity must come from the marginal axis alone — which sits at the method's resolution limit — so say so and expect a negative | $0 CPU | **pass on both axes** — an exposed paralogue-unique cysteine within exit-vector reach, and three exposed paralogue-unique lysines (figures in §2.10) |
+| 0 | **Categorical-axis screen.** If no paralogue-unique nucleophile lies within tether range *and* no paralogue-unique exposed lysine exists, selectivity must come from the marginal axis alone — which sits at the method's resolution limit — so say so and expect a negative | $0 CPU | **pass on both axes** — an exposed paralogue-unique cysteine within exit-vector reach, and three exposed paralogue-unique lysines (figures in §2.10). ⛔ **Read with the disclosure immediately below: the word *exposed* here is adjudicated by a cutoff (`EXPOSED_RSA = 0.25`) that FAILED its own positive control**, so this row is a pass *under a criterion known to produce false negatives*, not a categorical exclusion |
 | 1 | **Differential surface atlas.** No E3-reachable divergent surface ⇒ stop for free | $0 CPU | **pass** (46 differential-surface handles, §2.4) |
 | 2 | **Basin nomination.** If no basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ stop cheaply | $0 realized | **GO, on the CATEGORICAL basis and weakly** — basins exploit both categorical terms above their nulls, but the terms fire in only a small minority of each basin's placements; counts and fractions in §2.10, which is their only home |
 | 3 | **One causal matched-pair test:** a ligand-side double difference asking whether a designed element *creates* discrimination, on one matched pair differing in that element alone | priced, **not run** | pending |
+
+⛔ **DISCLOSURE — THE WORD *EXPOSED* IN TIER 0 RESTS ON A CRITERION THAT FAILED ITS OWN POSITIVE CONTROL,
+AND THE READER MUST HAVE THAT BEFORE READING THE ROW.** Tier 0's outcome is adjudicated by a fixed
+solvent-accessibility cutoff, `EXPOSED_RSA = 0.25`. That cutoff was put to the only positive control the
+NR4A family offers — **NR4A1 Cys551**, the site to which the celastrol warhead of NR-V04 is attributed
+(Zhang *et al.* 2018, from mutagenesis and MS; **not** structurally confirmed) — and it **did not recover
+it**. On the state-matched opened model C551 reads **RSA 0.165**, below the cutoff; across the 25-frame
+NR4A1 metadynamics ensemble it clears in **0 of 25** frames (median **0.064**, max **0.223**), and in no
+frame of any scope. Primary artifact:
+[`nr4a3-covalent-handle-ensemble.json`](../modalities/nr4a3-covalent-handle-ensemble.json) →
+`control_recovery` (`status: NOT_RECOVERED`).
+
+Three consequences, stated rather than implied:
+
+1. **The same criterion that returns *"no exposed paralogue-unique cysteine"* would also return *"the
+   celastrol site is not exposed"*.** Any statement of the form *"no exposed paralogue cysteine"* that
+   does not name its criterion is therefore not a safe sentence, and anything adjudicated by this cutoff
+   inherits a **demonstrated false negative**.
+2. **The paralogues are in geometric range and are excluded by the cutoff alone.** NR4A1 **C465** sits
+   inside the 12-atom tether envelope in **68 of 75** frames — *more often* than NR4A3's own C397 (65 of
+   75) — and is excluded solely by an RSA that never exceeds **0.2126**, ~15 % below the cutoff.
+3. **What survives is a threshold-free rank, not a categorical exclusion.** C551 ranks **3 of 18** across
+   all NR4A-family LBD cysteines on every accessibility observable, behind NR4A3's C397 and C420. That
+   ordering is the defensible reading, and it is weaker than the Tier 0 cell's *"pass on both axes"*
+   phrasing suggests.
+
+⚠ **What this does NOT retract.** The **12-atom** gate is carried by reach rather than by exposure — the
+cutoff moves it by **0.00 / 0.12 / 0.29 pp** — so the headline at 12 atoms holds without the criterion.
+The **16-** and **20-atom** columns do not survive it. The cutoff's status and its full evidence are the
+roadmap's, at
+[§3b.2 `C7`](./nr4a3-program-map.md#3b2--contested-and-known-defective--the-four-that-are-not-merely-frozen)
+and instrument [`V17`](./nr4a3-program-map.md#31--the-instrument-table); this paragraph indexes them and
+restates no figure they do not own.
 
 Two of these deserve to be stated as *rules written before the result*, because both concern how a likely
 negative is read. **(a) The Tier-2 gate nominates; it does not decide.** Its asymmetry is deliberate: cheap
