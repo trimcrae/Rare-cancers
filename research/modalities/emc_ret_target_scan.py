@@ -128,6 +128,14 @@ FOCUS_GENES = {
     "RET": "the subject: emc-unexplored-treatment-lanes.md §3.1",
     "ENO3": "named in §5 item 6 as the fusion's demonstrated direct target (PMID 26310886)",
     "PPARG": "named in §3.1 as an established direct target of the fusion",
+    # ⭐ ADDED 2026-08-07. The THIRD and only remaining class-A gene — the one direct target
+    # assayed with the EWSR1 chimera itself, in human cells, with a chromatin assay (ChAP-qPCR
+    # against a predicted NBRE-like site; Brenca et al., J Pathol 2019, PMID 31020999). ENO3 and
+    # PPARG were already here, so without SEMA3C the panel covered two thirds of the published
+    # direct-target set and the third gene was the strongest of the three on assay quality.
+    # `nr4a3-fusion-transcriptional-output.md` §4.2 item 4 names this scan as its free next step.
+    "SEMA3C": "the third class-A direct target, and the only one assayed with EWSR1::NR4A3 in "
+              "human cells with a chromatin assay (PMID 31020999)",
     "NR4A3": "the fusion's own 3' partner — autoregulation is an NBRE question too",
     "NR4A1": "the paralogue; a family-wide element should appear here as well",
     "VEGFA": "the conventional attribution for EMC's TKI activity — the alternative hypothesis",
