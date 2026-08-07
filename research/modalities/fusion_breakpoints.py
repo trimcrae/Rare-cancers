@@ -1,32 +1,69 @@
 #!/usr/bin/env python3
 """
-Breakpoint-resolved fusion-junction neoantigen analysis for EWSR1::NR4A3 EMC.
+Breakpoint-resolved fusion-junction neoantigen SCREEN for EWSR1::NR4A3 EMC.
 
 WHY. The earlier neoantigen result (`fusion_neoantigen.py`) used ONE modelled junction
 (EWSR1 kept to residue 264 :: NR4A3 from residue 2) — an assumption, not a sourced
-breakpoint. The lead epitope GQQPCVQAQY spans that guessed seam, so it could be an
-artifact of the guess. This script removes the guess: it derives the *real* set of
-in-frame EWSR1::NR4A3 junctions from actual exon structure and asks whether any predicted
-neoepitope is robust across breakpoints.
+breakpoint. This script removes the guess: it derives the *real* set of in-frame
+EWSR1::NR4A3 junctions from actual exon structure and asks whether any predicted
+MHC-I binder is robust across breakpoints.
 
-HOW (all real, fetched from Ensembl; no invented sequence or breakpoint).
-  1. For EWSR1 and NR4A3, fetch the MANE/canonical transcript (exons + CDS + protein)
-     from the Ensembl REST API and compute the cumulative coding-nucleotide offset at
-     every exon boundary. Self-check: translate(CDS) must equal the Ensembl protein and
-     the offsets must sum to the CDS length (asserts the exon mapping is correct).
-  2. Enumerate candidate fusions = (EWSR1 cut at the coding end of exon e) :: (NR4A3
-     resumed at the coding start of exon n), over the documented breakpoint windows
-     (EWSR1 exons ~6-14, NR4A3 exons 2-4 — the FET-fusion / EMC literature). Working at
-     the *nucleotide* level makes the reading frame exact.
-  3. Keep only biologically valid, in-frame fusions: the chimeric protein must retain an
-     intact NR4A3 C-terminus (its last 100 aa, which include the ligand-binding domain).
-     This filter handles exon phase automatically, regardless of UTRs/phase.
-  4. For each valid junction, take junction-spanning 8-11mers absent from both parents
-     and predict MHC-I binding with MHCflurry-2.0 across common HLA-A/-B alleles.
-  5. Report, per junction, the lead epitopes; and ACROSS junctions, which epitopes recur
-     (robust) vs. are breakpoint-specific.
+⛔ PREDICTED MHC-I BINDING IS A SCREEN. It is not presentation, not immunogenicity, not
+efficacy and not a clinical claim. Nothing here is a vaccine, a TCR or a therapy.
+
+HOW (all measured; no invented sequence and no invented breakpoint).
+  1. For EWSR1 and NR4A3, take the MANE/canonical **TRANSCRIPT** model — spliced cDNA,
+     exon boundaries in TRANSCRIPT coordinates, CDS located inside the cDNA, `utr5_len`
+     measured — via `junction_aso.transcript_model`. That function is the ONE
+     implementation of this arithmetic in the repo; it self-checks the model four ways
+     and gates it against the committed `nr4a3-exon-audit.json` before returning it.
+     Source is `TRANSCRIPT_SOURCE=auto|ensembl|cache`; `cache` reads the committed
+     `emc-construct-inputs.json` and needs no network, so this whole lane is $0 CPU up to
+     the MHCflurry call.
+  2. Enumerate candidate fusions over the documented breakpoint windows (EWSR1 exons
+     ~6-14, NR4A3 exons 2-4 — the FET-fusion / EMC literature) and grade EVERY pair:
+     `junction_aso.graded_window`. A refusal is a row, never a silent omission.
+  3. Build peptides only for rows graded EMITTABLE — in frame at the mRNA level AND
+     resuming NR4A3 inside the corrected plausible range owned by
+     `fusion-object-inventory.json`.
+  4. For each emitted junction, take junction-spanning 8-11mers absent from both parent
+     proteins and screen MHC-I binding with MHCflurry-2.0 across common HLA-A/-B alleles.
+  5. Report, per junction, the top-ranked peptides; and ACROSS junctions, which recur.
 
 Output: fusion-breakpoint-neoantigens.json
+
+⛔⛔ THE COORDINATE DEFECT THIS MODULE IS A CORRECTION FOR — THREE GENERATIONS, READ ALL THREE.
+  GEN 1 (the committed artifact, retracted 2026-08-03). `gene_model` returns `offsets`
+  indexed by CODING exon; the windows are TRANSCRIPT exon numbers, and NR4A3's first two
+  transcript exons are non-coding. `offsets[n - 2]` therefore resumed NR4A3 at transcript
+  exon 5 (CDS nt 1081 = residue 361) for the label "exon 3". 7 junctions, 26 predicted
+  binders, all at seams that do not exist.
+  GEN 2 (`resume_offset`/`cut_offset`, 2026-08-02). Arithmetically right and still wrong,
+  because `main()` built the chimera as `ews_cds[:p] + nr4_cds[q:]` — CDS onto CDS. A real
+  fusion transcript retains the ACCEPTOR EXON WHOLE, 5'UTR included, and those retained
+  bases are translated in the donor's frame. NR4A3 transcript exon 3 carries **U = 2** nt
+  5' of its ATG, so dropping them shifts the register by 2.
+  ⭐ MEASURED CONSEQUENCE, and it is not a near miss: with `q = 0`, `fp.endswith(nr4_tail)`
+  reduces to `p % 3 == 0`; the correct predicate is `(p + U) % 3 == 0`, i.e. `p % 3 == 1`.
+  U is not a multiple of 3, so the two predicates select **DISJOINT** residue classes of
+  `p`. Run over the declared windows against the committed cache, the CDS instrument emits
+  exactly {e11n3, e11n4} and the transcript model emits exactly {e7n3, e9n3, e10n3, e12n3,
+  e13n3} — symmetric difference = all seven, intersection = EMPTY. The CDS instrument
+  would have refused e7 and e12, the two junctions the manuscripts lead with, and admitted
+  e11, which no manuscript uses. Two wrong answers, not a rounding error.
+  GEN 3 (this module, 2026-08-07). Built on the transcript model throughout. U is
+  MEASURED, twice over, from `emc-construct-inputs.json`: `utr5_len 699 − (exon1 523 +
+  exon2 174) = 2`, and `exon3 length 953 − exon3 coding 951 = 2`.
+  ⭐ AND THE SEAM CARRIES A CODON BELONGING TO NEITHER PARENT. Every in-frame junction here
+  has EWSR1 ending 1 nt past a codon boundary, which composes with the 2 retained acceptor
+  5'UTR nt into one novel codon, and NR4A3 Met1 follows it as an internal residue. The
+  novel residue is junction-SPECIFIC (`AAT`=Asn at e7; `GAT`=Asp at e9/e10/e12/e13),
+  because the leftover EWSR1 base differs — a fact no CDS-space model can express at all.
+
+⚠ `gene_model` / `resume_offset` / `cut_offset` are RETAINED and are still correct as a
+CDS/protein instrument; `fusion_neoantigen_invalidation.py`, `patient_neoepitopes.py` and
+`fusion_object_inventory.py` import them. They are no longer how this module builds a
+fusion, and nothing should build one from them again — see GEN 2 above.
 """
 
 import json
@@ -139,6 +176,10 @@ def gene_model(symbol):
 # ⛔ CORRECTED 2026-08-02 — `offsets` is indexed by CODING exon, and the windows above are
 # TRANSCRIPT exon numbers. For a gene whose leading exons are non-coding the two differ, and the
 # old `offsets[e - 1]` / `offsets[n - 2]` arithmetic silently resumed at the wrong exon.
+# ⚠ SUPERSEDED AS A FUSION BUILDER 2026-08-07, RETAINED AS A CDS INSTRUMENT. Fixing the index did
+# not fix the coordinate system: see the module docstring, GEN 2. These helpers are still imported
+# by three modules and are correct for the question they answer (where does a CODING exon start /
+# end inside a CDS). They must never again be used to CONCATENATE two transcripts.
 # MEASURED on the canonical transcripts (`nr4a3_exon_audit.py` -> nr4a3-exon-audit.json):
 #   EWSR1 ENST00000397938 -- exon 1 IS coding, so rank == coding index and the EWSR1 half was right.
 #   NR4A3 ENST00000395097 -- 8 transcript exons, **exons 1 and 2 are entirely non-coding**, so the
@@ -176,93 +217,250 @@ def cut_offset(model, transcript_exon_rank):
     return model["offsets"][ranks.index(transcript_exon_rank)]
 
 
-def junction_peptides(fusion_prot, j, lengths):
+def junction_peptides(fusion_prot, j0, lengths, novel_residue=False):
+    """All k-mers of `fusion_prot` that carry the junction. THE ONE HOME of this definition.
+
+    `j0` is the 0-based index of the first NON-EWSR1-derived residue. If the donor cut splits a
+    codon there IS a novel residue at `j0` (belonging to neither parent) and the tumour-specific
+    set is every k-mer CONTAINING it — including k-mers that BEGIN at it, which the old
+    left/right straddle test dropped. If the cut is codon-aligned there is no novel residue and
+    the classic straddle test (>=1 residue from each side) is the right one.
+
+    ⛔ CONSOLIDATED 2026-08-07 (rule 1). This function and `fusion_neoantigen.junction_peptides`
+    were two different definitions of "junction-spanning" for the SAME seam: the corrected
+    single-junction artifact counted 38 spanning peptides at EWSR1 e7 :: NR4A3 e3 and this module
+    counted 34 at the identical junction, because this one required a residue strictly 5' of `j0`.
+    Under the corrected model `j0` IS the novel codon, so demanding a residue before it excludes
+    `NMPCVQAQY` — the single-junction artifact's own top-ranked peptide. Two artifacts about one
+    seam disagreeing by four peptides is exactly the defect class this lane is a correction for,
+    so there is now one definition and `fusion_neoantigen.py` imports it.
+    ⚠ `novel_residue` defaults to False so any caller that has NOT graded the seam keeps the
+    classic straddle behaviour rather than silently widening its own peptide set.
+    """
     peps = {}
     for L in lengths:
-        for start in range(max(0, j - L + 1), j):
+        for start in range(max(0, j0 - L + 1), j0 + 1):
             pep = fusion_prot[start:start + L]
-            if len(pep) == L and start < j < start + L:
-                peps[pep] = L
+            if len(pep) != L:
+                continue
+            if novel_residue:
+                peps.setdefault(pep, L)                      # contains fusion_prot[j0], the novel residue
+            elif start < j0 < start + L:
+                peps.setdefault(pep, L)                      # classic straddle
     return peps
 
 
-def main():
-    ews = gene_model("EWSR1")
-    nr4 = gene_model("NR4A3")
-    print(f"  EWSR1 {ews['transcript']} {ews['n_coding_exons']} coding exons, "
-          f"{len(ews['protein'])} aa; NR4A3 {nr4['transcript']} {nr4['n_coding_exons']} "
-          f"coding exons, {len(nr4['protein'])} aa", file=sys.stderr)
+def chimeric_protein(ews, junction):
+    """Translate the chimeric ORF of one graded junction, starting at EWSR1's OWN ATG.
 
-    nr4_tail = nr4["protein"][-100:]  # LBD-containing C-terminus; intact => in-frame
-    ews_cds, nr4_cds = ews["cds"], nr4["cds"]
+    `junction` is a `junction_aso.mrna_junction` reading built with `keep_sequences=True`, so
+    `_fusion` is the chimeric mRNA — donor transcript up to the donor exon's 3' end, then the
+    acceptor exon WHOLE and everything after it. The ORF opens at `ews["utr5_len"]` because the
+    fusion transcript keeps the donor's own 5'UTR and initiator codon.
+    """
+    return translate(junction["_fusion"][ews["utr5_len"]:])
 
-    # Candidate cut/resume nucleotide offsets, addressed by TRANSCRIPT exon rank (see the
-    # corrected helpers above). A window entry that names a non-coding exon is skipped loudly
-    # rather than sliding onto a neighbour.
-    ews_cuts = []
+
+def emit_junction(ews, nr4, j):
+    """Peptide-level reading for ONE junction the grader passed. Self-checks, then peptides.
+
+    ⛔ THE SELF-CHECKS RAISE. A junction that reaches this function has already been graded
+    EMITTABLE from exon arithmetic; these three checks test the SEQUENCE that arithmetic implies,
+    which is a different question and the one the retracted artifact got wrong:
+      · the chimeric protein's N-terminal block IS EWSR1's, residue for residue
+      · it ends in NR4A3's own C-terminus (the LBD-containing last 100 aa)
+      · NR4A3 Met1 survives as an internal residue immediately 3' of the seam codon
+    """
+    prot = chimeric_protein(ews, j)
+    j0 = j["ewsr1_last_whole_residue"]            # 0-based index of the first non-pure-EWSR1 residue
+    ews_prot = ews["protein"].replace("*", "").rstrip("X")
+    nr4_prot = nr4["protein"].replace("*", "").rstrip("X")
+    if prot[:j0] != ews_prot[:j0]:
+        raise RuntimeError(f"{j['junction_label']}: chimeric N-terminus is not EWSR1's")
+    if not prot.endswith(nr4_prot[-100:]):
+        raise RuntimeError(f"{j['junction_label']}: NR4A3 C-terminus not retained")
+    # the seam codon: present exactly when EWSR1's cut leaves a partial codon to complete
+    has_novel = bool(j["ewsr1_coding_phase"])
+    novel_aa = prot[j0] if has_novel else None
+    nr4_first_idx = j0 + (1 if has_novel else 0)  # where NR4A3's own residue 1 lands
+    if prot[nr4_first_idx] != nr4_prot[0]:
+        raise RuntimeError(f"{j['junction_label']}: NR4A3 residue 1 is {prot[nr4_first_idx]!r}, "
+                           f"not {nr4_prot[0]!r} — the seam register is wrong")
+
+    peps = junction_peptides(prot, j0, LENGTHS, novel_residue=has_novel)
+    novel = sorted(k for k in peps if k not in ews_prot and k not in nr4_prot)
+    # ⚠ `chimeric_protein_length` already comes from the grading; do not add a second copy of it
+    # under another name (rule 1). `junction_context_mRNA` likewise is the mRNA seam and stays as-is;
+    # the two fields added here are the PROTEIN seam, which the mRNA one does not carry.
+    row = {k: v for k, v in j.items() if not k.startswith("_")}
+    assert row["chimeric_protein_length"] == len(prot)
+    row.update({
+        "seam_codon_residue": novel_aa,
+        "seam_codon_composition": (
+            f"{j['ewsr1_coding_phase']} leftover EWSR1 nt + "
+            f"{j['nr4a3_acceptor_exon_5utr_nt_retained']} retained acceptor 5'UTR nt"
+            if has_novel else "none — EWSR1 cuts on a codon boundary"),
+        "nr4a3_met1_is_internal_residue": nr4_first_idx + 1,
+        # `junction_context` keeps the key name every downstream reader already uses; the seam form
+        # below is the same 21 residues with the novel codon set off, and is what the banner gate
+        # compares against.
+        "junction_context": prot[max(0, j0 - 10):j0] + "|" + prot[j0:j0 + 11],
+        "junction_context_protein_seam": (
+            prot[max(0, j0 - 10):j0] + ("-%s-" % novel_aa if has_novel else "-") +
+            prot[j0 + 1:j0 + 11]),
+        "n_novel_peptides": len(novel),
+        "novel_peptides": novel,
+    })
+    return row
+
+
+def superseded_cds_selection(ews_tx, nr4_tx):
+    """What the SUPERSEDED CDS-concatenation model would have selected, computed here, now.
+
+    ⛔ DERIVED, NEVER TYPED (rule 1). The docstring's central claim — that the CDS instrument and
+    the transcript model select DISJOINT junction sets — is the reason this module was rebuilt, so
+    it must be a reading the artifact carries and a future reader can check, not a sentence.
+    Exercises the RETAINED `cut_offset`/`resume_offset` helpers over a CDS/protein model built
+    from the same transcript model, so the two sides cannot drift apart on their inputs.
+    """
+    def cds_model(tx):
+        import junction_aso as ja
+        coding = ja.coding_nt_per_exon(tx)
+        cum, offsets, ranks = 0, [], []
+        for rank, c in enumerate(coding, start=1):
+            if c:
+                cum += c
+                offsets.append(cum)
+                ranks.append(rank)
+        return {"symbol": tx["symbol"], "cds": tx["cds"],
+                "protein": tx["protein"].replace("*", "").rstrip("X"),
+                "offsets": offsets, "coding_ranks": ranks}
+
+    ews, nr4 = cds_model(ews_tx), cds_model(nr4_tx)
+    tail = nr4["protein"][-100:]
+    selected, skipped = [], []
     for e in EWSR1_EXON_WINDOW:
-        try:
-            ews_cuts.append((e, cut_offset(ews, e)))
-        except ValueError as exc:
-            print(f"  skip EWSR1 exon {e}: {exc}", file=sys.stderr)
-    nr4_resumes = []
-    for n in NR4A3_EXON_WINDOW:
-        try:
-            nr4_resumes.append((n, resume_offset(nr4, n)))
-        except ValueError as exc:
-            print(f"  skip NR4A3 exon {n}: {exc}", file=sys.stderr)
-    # Regression guard for the off-by-two: the resume point of the exon the EMC literature names
-    # must land inside NR4A3's own N-terminus, not past its DNA-binding domain.
-    for n, q in nr4_resumes:
-        print(f"  NR4A3 exon {n} resumes at CDS nt {q} = residue {q // 3 + 1}", file=sys.stderr)
-    assert any(q // 3 + 1 <= 2 for _, q in nr4_resumes), (
-        "NR4A3 resume window no longer contains a junction that retains the DBD - the exon "
-        "index is wrong again (see nr4a3-exon-audit.json)")
+        for n in NR4A3_EXON_WINDOW:
+            try:
+                p, q = cut_offset(ews, e), resume_offset(nr4, n)
+            except ValueError as exc:
+                # ⚠ The predecessor printed this to stderr and emitted NO row at all.
+                skipped.append({"junction_label": f"EWSR1_e{e}__NR4A3_e{n}", "why": str(exc)})
+                continue
+            if translate(ews["cds"][:p] + nr4["cds"][q:]).endswith(tail):
+                selected.append(f"EWSR1_e{e}__NR4A3_e{n}")
+    return selected, skipped
 
-    junctions = []
-    for e, p in ews_cuts:
-        for n, q in nr4_resumes:
-            fusion_cds = ews_cds[:p] + nr4_cds[q:]
-            fp = translate(fusion_cds)
-            if not fp.endswith(nr4_tail):
-                continue  # not in-frame / NR4A3 C-terminus not intact
-            j = p // 3  # approx seam residue (peptides span it)
-            peps = junction_peptides(fp, j, LENGTHS)
-            novel = {k: v for k, v in peps.items()
-                     if k not in ews["protein"] and k not in nr4["protein"]}
-            junctions.append({
-                "EWSR1_exon_end": e, "NR4A3_exon_start": n,
-                "ews_cds_nt": p, "nr4_cds_nt": q,
-                "junction_context": fp[max(0, j-6):j] + "|" + fp[j:j+6],
-                "n_novel_peptides": len(novel),
-                "novel_peptides": sorted(novel),
-            })
-    print(f"  {len(junctions)} in-frame junctions from "
-          f"{len(ews_cuts)}x{len(nr4_resumes)} candidate exon pairs", file=sys.stderr)
 
+def main():
+    import junction_aso as ja                                     # transcript model, one home
+
+    ews = ja.transcript_model("EWSR1")
+    nr4 = ja.transcript_model("NR4A3")
+    print(f"  EWSR1 {ews['transcript']} {ews['n_transcript_exons']} transcript exons, "
+          f"{len(ews['protein'])} aa; NR4A3 {nr4['transcript']} {nr4['n_transcript_exons']} "
+          f"transcript exons, {len(nr4['protein'])} aa", file=sys.stderr)
+
+    # ⛔ EVERY DECLARED EXON PAIR GETS A GRADED ROW, refusals included. The predecessor printed a
+    # non-coding acceptor to stderr and left NO row, so "considered and refused" and "never
+    # considered" were indistinguishable in the artifact.
+    graded = ja.graded_window(ews, nr4, keep_sequences=True)
+    lo, hi = ja.plausible_nr4a3_resume_residues()
+    junctions = [emit_junction(ews, nr4, j) for j in graded if j["grade"] == ja.EMITTABLE]
+    grade_counts = {g: sum(1 for r in graded if r["grade"] == g)
+                    for g in sorted({r["grade"] for r in graded})}
+    for r in graded:
+        print(f"  {r['junction_label']:<24} {r['grade']:<20} {r['why']}", file=sys.stderr)
+    print(f"  {len(junctions)} EMITTABLE junctions out of {len(graded)} declared exon pairs",
+          file=sys.stderr)
+
+    utc = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    et = time.strftime("%Y-%m-%d %I:%M %p ET", time.gmtime(time.time() - 4 * 3600)).replace(" 0", " ")
     result = {
-        "_note": "Breakpoint-resolved EWSR1::NR4A3 junction neoantigens. Junctions derived "
-                 "from real Ensembl exon structure (no assumed breakpoint); only in-frame "
-                 "fusions with an intact NR4A3 C-terminus are kept. MHCflurry-2.0; "
+        "_utc": utc, "_et": et,
+        "_cost": ("$0 — CPU only, no GPU and no rental. The transcript model is offline "
+                  "(committed emc-construct-inputs.json) and MHCflurry runs locally."),
+        "_note": "Breakpoint-resolved EWSR1::NR4A3 junction neoantigen SCREEN. Junctions derived "
+                 "from the real spliced TRANSCRIPTS (no assumed breakpoint), so the acceptor exon "
+                 "is retained WHOLE, 5'UTR included, as a fusion transcript does. Only junctions "
+                 "graded EMITTABLE — in frame at the mRNA level AND resuming NR4A3 inside the "
+                 "corrected plausible range — carry peptides. MHCflurry-2.0; "
                  "presentation_percentile<=0.5 strong, <=2 weak.",
+        "⛔_what_this_is_not": (
+            "PREDICTED MHC-I BINDING IS A SCREEN. It is not presentation, not immunogenicity, not "
+            "efficacy, not safety and not a clinical claim. Which exon pair a given PATIENT "
+            "carries is not decidable from exon structure and is not decided here."),
+        "_coordinate_system": (
+            "TRANSCRIPT coordinates throughout (junction_aso.transcript_model / mrna_junction). "
+            "The superseded CDS-concatenation model dropped the acceptor exon's retained 5'UTR "
+            "and therefore selected a DISJOINT junction set — see fusion_breakpoints.py's "
+            "docstring, GEN 1/2/3."),
+        "_transcript_source": ja.transcript_source_provenance(),
         "EWSR1": {"transcript": ews["transcript"], "length": len(ews["protein"])},
         "NR4A3": {"transcript": nr4["transcript"], "length": len(nr4["protein"])},
         "windows": {"EWSR1_exons": list(EWSR1_EXON_WINDOW), "NR4A3_exons": list(NR4A3_EXON_WINDOW)},
+        "plausible_nr4a3_resume_range": [lo, hi],
+        "_plausible_range_source": ("fusion-object-inventory.json -> reactive_residue_inventory."
+                                    "excluded_span.nr4a3_resume_range_across_plausible_breakpoints "
+                                    "(read at run time, never re-typed)"),
+        "n_candidate_exon_pairs": len(graded),
+        "grade_counts": grade_counts,
+        "junctions_graded": [{k: v for k, v in r.items() if not k.startswith("_")} for r in graded],
         "n_inframe_junctions": len(junctions),
         "junctions": junctions,
     }
 
+    # The diagnosis, as a READING taken at run time rather than a sentence in a docstring.
+    cds_sel, cds_skipped = superseded_cds_selection(ews, nr4)
+    tx_sel = [r["junction_label"] for r in junctions]
+    result["_superseded_cds_model_comparison"] = {
+        "what": ("what the pre-2026-08-07 CDS-concatenation builder (`ews_cds[:p] + nr4_cds[q:]`, "
+                 "in-frame test `translate(...).endswith(NR4A3[-100:])`) selects, computed HERE "
+                 "from the same transcript model so the two sides cannot differ on their inputs"),
+        "cds_model_selects": cds_sel,
+        "transcript_model_selects": tx_sel,
+        "intersection": sorted(set(cds_sel) & set(tx_sel)),
+        "sets_are_disjoint": not (set(cds_sel) & set(tx_sel)),
+        "why_disjoint": (
+            "with the acceptor's 5'UTR discarded the predicate reduces to (EWSR1 coding nt) mod 3 "
+            "== 0; retaining it makes the predicate (EWSR1 coding nt + acceptor 5'UTR) mod 3 == 0. "
+            "NR4A3 transcript exon 3 retains 2 nt, and 2 is not a multiple of 3, so the two "
+            "predicates select different residue classes of the cut offset and can share nothing."),
+        "exon_pairs_the_cds_model_dropped_without_a_row": cds_skipped,
+        "⚠_this_is_not_the_committed_retracted_artifact": (
+            "the retracted artifact predates even that builder — it used the CODING-exon index "
+            "(`offsets[n-2]`), so it carries a THIRD junction set again. Its grading has its one "
+            "home in fusion-neoantigen-retraction.json."),
+    }
+
+    # ⛔ NO MHCflurry ⇒ NO WRITE. This artifact is under retraction, and the only thing that lifts
+    # the banner is a re-derivation gate that checks BOTH the seams and the predictions
+    # (`fusion_neoantigen_invalidation.breakpoint_banner`). Emitting a junctions-only file here
+    # would replace a bannered artifact with an unscreened one that still fails the gate — a
+    # strictly worse state than leaving the retracted file alone, and it would look like progress.
     try:
+        import mhcflurry
         from mhcflurry import Class1PresentationPredictor
     except ImportError:
-        print("  mhcflurry missing; emitting junctions only", file=sys.stderr)
-        _write(result)
-        return
+        raise SystemExit(
+            "REFUSED: MHCflurry is not importable, so no predictions can be produced. This "
+            "artifact is under retraction and is NOT overwritten with a junctions-only file. "
+            "Install mhcflurry (pip) or run this on a runner that has it, then re-run.")
 
     predictor = Class1PresentationPredictor.load()
+    from mhcflurry.downloads import get_current_release
+    result["_predictor"] = {
+        "tool": "MHCflurry", "version": mhcflurry.__version__,
+        "models_release": get_current_release(),
+        "alleles": list(ALLELES), "peptide_lengths": list(LENGTHS),
+        "thresholds": {"strong_presentation_percentile": RANK_STRONG,
+                       "weak_presentation_percentile": RANK_WEAK},
+        "⛔": "a percentile is a SCREEN rank, not a statement that a peptide is presented",
+    }
     all_peps = sorted({p for jn in junctions for p in jn["novel_peptides"]})
     if not all_peps:
-        result["binders"] = []
+        result["predicted_binders_ranked"] = []
+        result["n_distinct_binders"] = 0
         _write(result)
         return
     df = predictor.predict(peptides=all_peps, alleles={a: [a] for a in ALLELES}, verbose=0)
@@ -299,8 +497,8 @@ def _write(result):
     with open(OUT, "w") as fh:
         json.dump(result, fh, indent=2)
     print("wrote", OUT, file=sys.stderr)
-    slim = {k: v for k, v in result.items() if k not in ("junctions",)}
-    print(json.dumps(slim, indent=2)[:3000])
+    slim = {k: v for k, v in result.items() if k not in ("junctions", "junctions_graded")}
+    print(json.dumps(slim, indent=2, ensure_ascii=False)[:3500])
 
 
 if __name__ == "__main__":

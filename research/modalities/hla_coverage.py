@@ -255,10 +255,54 @@ def load_class_ii_alleles(path):
         with open(path) as fh:
             d = json.load(fh)
     except (OSError, ValueError):
-        return [], None
+        return [], None, None
     strong = sorted({r["allele"] for r in d.get("all_predictions", [])
                      if r.get("call") == "strong"})
-    return strong, d.get("patient_class2_hla")
+    return strong, d.get("patient_class2_hla"), class_ii_seam_grade(d)
+
+
+def class_ii_seam_grade(cd4):
+    """Does the class-II demo's junction context match the CORRECTED seam? A READING, never a filter.
+
+    ⛔ THE TWO ARMS OF THIS FILE HAVE DIFFERENT PROVENANCE AND THAT MUST NOT BE INVISIBLE
+    (2026-08-07). The class-I arm is recomputed from `fusion-breakpoint-neoantigens.json`, which was
+    rebuilt on the corrected transcript model. The class-II arm comes from `patient-cd4-demo.json`,
+    which is a SEPARATE artifact that nothing in this lane regenerates — and it was built on the
+    retracted seam (`…IVRTDSLKGRRG`, NR4A3 resuming at residue 361). So the moment the class-I half
+    was corrected, `coverage_cd8_and_cd4_combined` became a product of one corrected and one
+    uncorrected factor, and NOTHING in the file said so. Half-corrected is the most dangerous state
+    an artifact can be in, because it reads as corrected.
+    Derived from committed inputs at $0; returns a dict a reader can act on, and never silently
+    drops the class-II arm — dropping it would replace a stated caveat with a missing number.
+    """
+    ctx = (cd4 or {}).get("junction_context") or ""
+    grade = {"class_ii_input": os.path.basename(CD4_DEMO),
+             "class_ii_junction_context": ctx or None,
+             "corrected_junction_context": None, "matches_corrected_seam": None,
+             "⛔": None}
+    try:
+        sys.path.insert(0, HERE)
+        os.environ.setdefault("TRANSCRIPT_SOURCE", "cache")
+        import junction_aso as ja                                # type: ignore
+        import fusion_breakpoints as fb                          # type: ignore
+        ews, nr4 = ja.transcript_model("EWSR1"), ja.transcript_model("NR4A3")
+        row = fb.emit_junction(ews, nr4, ja.mrna_junction(ews, nr4, 7, 3))
+        want = row["junction_context"]                           # 10 left | novel + 10 right
+        grade["corrected_junction_context"] = want
+        grade["matches_corrected_seam"] = bool(ctx) and ctx.replace("|", "") == want.replace("|", "")
+    except Exception as exc:                                     # noqa: BLE001
+        grade["⛔"] = ("the corrected seam could not be derived here, so the class-II arm's "
+                       "provenance is UNKNOWN rather than confirmed: %s" % exc)
+        return grade
+    if not grade["matches_corrected_seam"]:
+        grade["⛔"] = (
+            "THE CLASS-II ARM IS BUILT ON A DIFFERENT SEAM FROM THE CLASS-I ARM. "
+            "`coverage_cd4_classii` and every `coverage_cd8_and_cd4_combined` figure in this file "
+            "therefore mix a corrected class-I set with an UNCORRECTED class-II set and are NOT "
+            "quotable until patient-cd4-demo.json is regenerated at the corrected junction. The "
+            "class-I figures are unaffected — they are recomputed from the regenerated "
+            "fusion-breakpoint-neoantigens.json.")
+    return grade
 
 
 def regional_table(racc, e7e3_raw, all_raw, cd4_raw):
@@ -307,7 +351,7 @@ def main():
                     e7e3_alleles.add(b["allele"])
 
     # class II: DRB1 alleles presenting a strong CD4 helper binder (limited demo panel)
-    cd4_alleles_list, cd4_panel = load_class_ii_alleles(CD4_DEMO)
+    cd4_alleles_list, cd4_panel, cd4_seam = load_class_ii_alleles(CD4_DEMO)
     cd4_alleles = set(cd4_alleles_list)
 
     alleles = sorted(all_strong_alleles | e7e3_alleles | cd4_alleles)
@@ -385,6 +429,9 @@ def main():
             "also present the helper peptides, which would only raise coverage. "
             "coverage_cd8_and_cd4_combined = P(>=1 class-I allele) x P(>=1 class-II allele), "
             "treating HLA-A/B and DRB1 as independent loci."),
+        # ⛔ FIRST-CLASS, NOT A FOOTNOTE. The two arms of this file have different provenance; if that
+        # is buried a reader quotes the combined figure as though both halves were corrected.
+        "⛔_class_ii_provenance": cd4_seam,
         "regions": regions,
     }
     with open(OUT, "w") as fh:

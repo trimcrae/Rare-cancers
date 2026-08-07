@@ -113,7 +113,8 @@ GitHub Actions run **30772341046**), because CLAUDE.md §4 says a free observati
 | model | where | NR4A3 resumes at | AF1? | DBD? | C166 in the fusion? |
 |---|---|---|---|---|---|
 | **A** | [`fusion_cofold.py`](../modalities/fusion_cofold.py) (`EWS_CUT = 264` :: *"NR4A3 resumed at res 2"*) | **residue 2** | yes | yes | **yes** |
-| **B** | [`fusion-breakpoint-neoantigens.json`](../modalities/fusion-breakpoint-neoantigens.json) — 7 in-frame junctions "derived from real Ensembl exon structure" | **318 / 361 / 419** | no | truncated or absent | **no** |
+| **B** | [`fusion-breakpoint-neoantigens.json`](../modalities/fusion-breakpoint-neoantigens.json) — ⚠ *superseded, retained:* 7 in-frame junctions "derived from real Ensembl exon structure" | **318 / 361 / 419** | no | truncated or absent | **no** |
+| **B′** | the same artifact **REGENERATED on the transcript model (2026-08-07)** — 5 junctions, 22 explicit refusals | **residue 1** | yes | yes | **yes** |
 
 Model A was *self-declared* an assumption — `fusion_breakpoints.py`'s own docstring calls it *"an
 assumption, not a sourced breakpoint"*, and building the exon-derived alternative was that module's whole
@@ -156,9 +157,15 @@ residue 361**. An off-by-two.
   mapping (*"we deliberately do NOT depend on a fragile exon→CDS coordinate mapping"*) and sweeps the
   NR4A3 resume over **codons 2–30** — which brackets the correct answer. The design decision that looked
   like conservatism was load-bearing.
-- ⛔ **The neoantigen lane is affected.** Its 26 predicted binders span seams that do not exist.
-  `fusion-breakpoint-neoantigens.json` **predates the fix and must be regenerated before any of it is
-  quoted.** (Regeneration needs MHCflurry in CI and belongs to that lane, not to this pass.)
+- ✅ **The neoantigen lane was affected and has now been REGENERATED (2026-08-07).** ⚠ *Superseded,
+  retained: "Its 26 predicted binders span seams that do not exist. `fusion-breakpoint-neoantigens.json`
+  predates the fix and must be regenerated before any of it is quoted."* It was — and the repair needed
+  was larger than the exon index: fixing that still left the builder concatenating **CDS to CDS**, which
+  drops the 2 nt of 5′UTR NR4A3's acceptor exon 3 retains, so the CDS rule and the transcript rule select
+  **disjoint** junction sets. Model **B′** above is the result: **5** junctions (EWSR1 e7/9/10/12/13 →
+  NR4A3 e3) resuming at **residue 1**, **11** distinct predicted binders (4 strong), and 22 refusals
+  recorded rather than omitted. e11 is now a refusal. The retraction banner is withheld by an independent
+  re-derivation, not by the file having been rewritten.
 - ✅ **`R13`'s object is now defined at the sequence level, and the roadmap's C166 note stands —
   strengthened.** [§7 branch 1](./nr4a3-program-map.md#branch-1--answered-2026-08-02--serves-r8) records
   C166 as a fourth NR4A3-unique cysteine that the modelled LBD construct (373–626) excludes, and asks
@@ -192,7 +199,7 @@ this memo exists to fill.
 | **4** | **Ex-vivo pan-NR4A pole** (CAR-T manufacturing additive) | ⛔ **REMOVES it** — the systemic liability that motivates selectivity does not arise | ★ already in the paper as pole 2; under-used as an *argument* | — (readout already committed, `nr4a3-pan-readout.json`) |
 | **5** | **Downstream nodes the fusion transactivates** (PPARG / TZDs) | ⛔ **REMOVES it** — different target | ★ keep; direction unresolved | resolve agonism-vs-antagonism from published EMC + TZD-in-sarcoma data |
 | **6** | **TCIP / transcriptional chemical-induced proximity** (co-opt the fusion, don't degrade it) | **RESHAPES.** Keeps `R4` `R5` `R7` `R9` `R10`; **retires `R12`** | ★ new row — belongs on the board | grade the mechanism against the failure record; verify the auto-captured citation through `verify-refs` |
-| **7** | **Junction neoantigen** (vaccine / TCR-T / soluble TCR) | ⛔ **REMOVES it** — peptide identity is categorical | ○ drafted — and now carrying a **correction owed** | ⛔ **already run:** its 26 predicted binders span seams that do not exist. Regenerate `fusion-breakpoint-neoantigens.json` against the corrected exon index |
+| **7** | **Junction neoantigen** (vaccine / TCR-T / soluble TCR) | ⛔ **REMOVES it** — peptide identity is categorical | ○ drafted — **correction PAID 2026-08-07** | ✅ **regenerated** on the transcript model: 5 junctions, 11 binders (4 strong). ⚠ **But the route got weaker, not stronger:** the public e7::e3 junction is now presented on **B\*15:01 alone**, so its HLA coverage falls **29.7% → 8.51%** and the pooled panel **58.0% → 27.4%**. Next: regenerate `patient-cd4-demo.json` and the TAF15 panel, both still on the retracted seam |
 | **8** | **AND-gate bivalent degrader** (avidity coincidence detection) | **NEUTRAL** — a second, independent axis; arm 1 still carries the paralogue handles | ⏸ hold — arm-2 chemistry does not exist | — (already computed; nothing free left) |
 | **9** | **Synthetic-lethal / dependency partner** | ⛔ **REMOVES it** — different target | ⏸ parked on data, not on ideas | ⛔ **2026-08-05:** the DepMap line labelled EMC (**ACH-001519 / H-EMC-SS**) has no CRISPR data *and* is recorded as not fusion-positive ([Amendment 1](./emc-surface-target-landscape.md)), so the park now waits on a **patient-derived** model, not on a DepMap release. *(Superseded, retained: "check whether the one EMC line in DepMap (**ACH-001519 / H-EMC-SS**) has gained CRISPR data since 24Q4")* |
 | **10** | **Molecular glue instead of a PROTAC** | **RELOCATES and WORSENS** — same discrimination, fewer independent axes | ⏸ watch, do not build | — (add a method-watch trigger) |

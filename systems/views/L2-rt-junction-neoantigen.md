@@ -88,10 +88,12 @@ The junction is tumour-exclusive at the sequence level. ⚠ Whether ONE peptide 
 
 **`internal_note`**
 
-Half is done and half is not, and the halves must not be read together. The SINGLE-junction artifact (fusion-neoantigen-predictions.json) was regenerated 2026-08-06 against the corrected exon index and its banner is cleared. The breakpoint-RESOLVED artifact is still retracted and its module still carries the transcript/coding slip, so §2 of the neoantigen paper stays withdrawn.
+The breakpoint-resolved artifact is regenerated and its banner is cleared. What remains is DOWNSTREAM: patient-cd4-demo.json, the TAF15 panel (patient_neoepitopes.py), vaccine_construct.py and coverage_scan.py were all built on the retracted seam and are NOT repaired by regenerating their input.
 
 **Missing:**
-- regenerated predictions for the breakpoint-RESOLVED artifact (fusion-breakpoint-neoantigens.json), which is still retracted
+- patient-cd4-demo.json regenerated at the corrected junction — the class-II arm and every CD8∧CD4 figure are withheld until it is
+- the TAF15::NR4A3 panel regenerated — patient_neoepitopes.py still builds through fusion_breakpoints.gene_model, the CDS/protein instrument
+- vaccine_construct.py and coverage_scan.py re-run (vaccine_construct currently emits an incoherent half-corrected artifact)
 
 ## Where this route ends — the paper
 
@@ -99,7 +101,7 @@ Half is done and half is not, and the halves must not be read together. The SING
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 
-**This route contributes:** The junction peptide and its presentation predictions, which must be regenerated against the corrected exon index before any of them can be reported.
+**This route contributes:** The junction peptide and its predicted-binding SCREEN, regenerated 2026-08-07 on the transcript model. The publishable finding is now partly NEGATIVE: no pan-EMC epitope, three of five junctions with no strong binder, and a public junction reaching under a tenth of patients.
 
 **The paper would claim:** The fusion junction produces a peptide sequence that is absent from wild-type EWSR1 and wild-type NR4A3 — ⚠ the only novelty test in this repo compares against those two PARENT proteins (`fusion_breakpoints.py:231`) and NO proteome-wide search has ever been run, so 'absent from the normal proteome' is not a claim this work can make, and whether any allele presents it is a prediction that must be regenerated against a corrected exon index before it can be reported at all.
 
@@ -126,11 +128,11 @@ The blocking defect is an input error this program made and can fix for nothing.
 
 ## Closure
 
-`unregenerable_artifact` — ⚠ THE TWO HALVES, KEPT APART: the 26 predicted binders are unusable because they span seams that do not exist — that RESULT is void. The QUESTION is open and one free regeneration answers it.
+`instrument_limit` — ⚠ THE CORRECTION LANDED AND THE ROUTE GOT WEAKER, NOT STRONGER. The result is no longer void — but the corrected e7::e3 public junction is presented on HLA-B*15:01 ALONE, so class-I coverage falls 29.7% → 8.51% and the pooled panel 58.0% → 27.4%. What now closes this route is a COVERAGE/immunogenicity argument, not a defective input.
 
 ## Best next action
 
-Regenerate the junction-neoantigen predictions against the corrected exon index, then re-grade. Every predicted binder currently spans a seam no reported junction produces.
+Regenerate patient-cd4-demo.json and the TAF15 panel at the corrected junction, then re-grade the route on COVERAGE rather than on a defective input.
 
 *Cost:* $0
 

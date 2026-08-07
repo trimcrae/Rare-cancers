@@ -77,7 +77,7 @@ If the junction peptide is presented, a vaccine is the cheapest way to point the
 
 **`internal_note`**
 
-Parked on immunogenicity, and its antigen input inherits the void prediction above it. The HLA-coverage output is reusable and does feed eligibility analysis elsewhere.
+its antigen input is no longer void — it is regenerated. What now blocks it is COVERAGE: ≈8.5% on the public junction, ≈27% pooled, and a class-II arm still on the retracted seam.
 
 **Missing:**
 - an immunogenicity argument
@@ -122,7 +122,7 @@ Parked on a property of the tumour and the junction rather than of the modality,
 
 ## Best next action
 
-Keep the HLA-coverage output as a reusable input to eligibility analysis. Do not advance the vaccine while the antigen is void.
+Re-grade on the recomputed coverage. The HLA-coverage output is reusable but its class-I figures moved by ~3× and its class-II figures are withheld.
 
 *Cost:* $0
 

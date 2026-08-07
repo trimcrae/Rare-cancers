@@ -207,7 +207,7 @@ The fusion junction produces a peptide sequence that is absent from wild-type EW
 
 | route | role | what it contributes |
 |---|---|---|
-| [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) — Fusion-junction neoantigen (the antigen, shared by t | `primary` | The junction peptide and its presentation predictions, which must be regenerated against the corrected exon index before any of them can be reported. |
+| [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) — Fusion-junction neoantigen (the antigen, shared by t | `primary` | The junction peptide and its predicted-binding SCREEN, regenerated 2026-08-07 on the transcript model. The publishable finding is now partly NEGATIVE: no pan-EMC epitope, three of five junctions with no strong binder, and a public junction reaching under a tenth of patients. |
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) — Fusion-junction TCR-T / soluble-TCR (ImmTAC) against | `contributing` | The receptor-side delivery option for the junction epitope, and the measured weakness of the junction peptide-HLA that bounds it — a property of this junction rather than of the modality. |
 
 ### PUB-REPURPOSING — Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid chondrosarcoma

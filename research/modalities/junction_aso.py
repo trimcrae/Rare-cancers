@@ -611,6 +611,80 @@ def declared_windows():
     return list(fb.EWSR1_EXON_WINDOW), list(fb.NR4A3_EXON_WINDOW)
 
 
+#: The grade that means "a panel may be built on this row". Named once so no consumer types it.
+EMITTABLE = "EMITTABLE"
+
+
+def grade_junction(j, lo, hi):
+    """`(grade, why)` for ONE `mrna_junction` reading, against the plausible resume range.
+
+    ⛔ EXTRACTED SO THERE IS EXACTLY ONE GRADER (rule 1). It was inline in `audit_window` while the
+    neoantigen lane was being rebuilt on the same transcript model, and a second copy of these four
+    branches in `fusion_breakpoints.py` would have been a second definition of "in frame" — which
+    is the shape of the defect both lanes are a correction for. The ORDER matters and is part of
+    the contract: a non-coding acceptor has no resume residue to range-check, and a row outside the
+    plausible range must not be re-explained as a frame problem.
+    """
+    if not j["nr4a3_acceptor_exon_is_coding"]:
+        return "NON_CODING_ACCEPTOR", "acceptor exon carries no CDS"
+    if not (lo <= j["nr4a3_first_residue"] <= hi):
+        return "SEAM_NOT_PRODUCED", (
+            f"NR4A3 resumes at residue {j['nr4a3_first_residue']}, outside the "
+            f"corrected plausible range [{lo}, {hi}]")
+    if not j["in_frame"]:
+        # ⚠ TWO DIFFERENT FAILURES WEAR THIS GRADE AND THEY MUST NOT RENDER ALIKE.
+        # frame_sum_mod3 != 0 is a REGISTER mismatch: the donor cut and the acceptor exon's
+        # 5' phase do not compose. frame_sum_mod3 == 0 with the C-terminus still missing is
+        # a PREMATURE STOP — the register is right and something in the read-through
+        # terminates translation before NR4A3's own C-terminus. The second is a biological
+        # statement about that exon pair; the first is arithmetic. Collapsing them would
+        # reproduce, in the replacement, the exact ambiguity that let the e11 self-check be
+        # written off as an exon-boundary to-verify.
+        return "OUT_OF_FRAME", (
+            (f"frame register mismatch: (EWSR1 coding nt "
+             f"{j['ewsr1_coding_nt_through_cut']} + acceptor 5'UTR "
+             f"{j['nr4a3_acceptor_exon_5utr_nt_retained']}) mod 3 = {j['frame_sum_mod3']}, "
+             "must be 0")
+            if j["frame_sum_mod3"] else
+            (f"frame register is correct (mod 3 = 0) but the NR4A3 C-terminus is not "
+             f"reached — a stop codon terminates the chimeric ORF after "
+             f"{j['chimeric_protein_length']} aa"))
+    return EMITTABLE, "in frame, resume residue inside the corrected range"
+
+
+def graded_window(ews=None, nr4=None, keep_sequences=False):
+    """Grade EVERY declared breakpoint at the mRNA level. One row per exon pair, no omissions.
+
+    ⛔ EVERY PAIR GETS A ROW, INCLUDING THE REFUSALS. The CDS-coordinate predecessor
+    (`fusion_breakpoints.main` before 2026-08-07) skipped a non-coding acceptor to STDERR and left
+    no row at all, so "NR4A3 exon 2 was considered and refused" and "NR4A3 exon 2 was never
+    considered" rendered identically in the artifact — which is an absent reading masquerading as a
+    reading of absence (CLAUDE.md §4).
+
+    `keep_sequences=True` retains the `_left`/`_right`/`_fusion` strings a caller needs to build a
+    chimeric protein; the audit table drops them because a table is not a sequence store.
+    """
+    ews = ews or transcript_model("EWSR1")
+    nr4 = nr4 or transcript_model("NR4A3")
+    lo, hi = plausible_nr4a3_resume_residues()
+    e_win, n_win = declared_windows()
+    rows = []
+    for e in e_win:
+        for n in n_win:
+            try:
+                j = mrna_junction(ews, nr4, e, n)
+            except Exception as exc:                      # noqa — a refusal is a reading
+                rows.append({"junction_label": f"EWSR1_e{e}__NR4A3_e{n}",
+                             "EWSR1_exon_end": e, "NR4A3_exon_start": n,
+                             "grade": "UNREADABLE", "why": str(exc)})
+                continue
+            if not keep_sequences:
+                j = {k: v for k, v in j.items() if not k.startswith("_")}
+            j["grade"], j["why"] = grade_junction(j, lo, hi)
+            rows.append(j)
+    return rows
+
+
 def audit_window():
     """Grade EVERY declared breakpoint at the mRNA level and emit the table, designing nothing.
 
@@ -622,45 +696,7 @@ def audit_window():
     ews = transcript_model("EWSR1")
     nr4 = transcript_model("NR4A3")
     lo, hi = plausible_nr4a3_resume_residues()
-    e_win, n_win = declared_windows()
-    rows = []
-    for e in e_win:
-        for n in n_win:
-            try:
-                j = mrna_junction(ews, nr4, e, n)
-            except Exception as exc:                      # noqa — a refusal is a reading
-                rows.append({"junction_label": f"EWSR1_e{e}__NR4A3_e{n}",
-                             "grade": "UNREADABLE", "why": str(exc)})
-                continue
-            j = {k: v for k, v in j.items() if not k.startswith("_")}
-            if not j["nr4a3_acceptor_exon_is_coding"]:
-                j["grade"], j["why"] = "NON_CODING_ACCEPTOR", "acceptor exon carries no CDS"
-            elif not (lo <= j["nr4a3_first_residue"] <= hi):
-                j["grade"] = "SEAM_NOT_PRODUCED"
-                j["why"] = (f"NR4A3 resumes at residue {j['nr4a3_first_residue']}, outside the "
-                            f"corrected plausible range [{lo}, {hi}]")
-            elif not j["in_frame"]:
-                j["grade"] = "OUT_OF_FRAME"
-                # ⚠ TWO DIFFERENT FAILURES WEAR THIS GRADE AND THEY MUST NOT RENDER ALIKE.
-                # frame_sum_mod3 != 0 is a REGISTER mismatch: the donor cut and the acceptor exon's
-                # 5' phase do not compose. frame_sum_mod3 == 0 with the C-terminus still missing is
-                # a PREMATURE STOP — the register is right and something in the read-through
-                # terminates translation before NR4A3's own C-terminus. The second is a biological
-                # statement about that exon pair; the first is arithmetic. Collapsing them would
-                # reproduce, in the replacement, the exact ambiguity that let the e11 self-check be
-                # written off as an exon-boundary to-verify.
-                j["why"] = (
-                    (f"frame register mismatch: (EWSR1 coding nt "
-                     f"{j['ewsr1_coding_nt_through_cut']} + acceptor 5'UTR "
-                     f"{j['nr4a3_acceptor_exon_5utr_nt_retained']}) mod 3 = {j['frame_sum_mod3']}, "
-                     "must be 0")
-                    if j["frame_sum_mod3"] else
-                    (f"frame register is correct (mod 3 = 0) but the NR4A3 C-terminus is not "
-                     f"reached — a stop codon terminates the chimeric ORF after "
-                     f"{j['chimeric_protein_length']} aa"))
-            else:
-                j["grade"], j["why"] = "EMITTABLE", "in frame, resume residue inside the corrected range"
-            rows.append(j)
+    rows = graded_window(ews, nr4)
     out = os.path.join(os.path.dirname(__file__), "junction-mrna-frame-audit.json")
     res = {
         "_title": "EWSR1::NR4A3 chimeric-mRNA junction audit at the CORRECTED exon index",

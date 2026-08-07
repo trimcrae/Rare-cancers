@@ -98,34 +98,52 @@ JSON on the `modalities-cache` branch (snapshotted into `research/modalities/`).
   structure (self-check: translate(CDS)==Ensembl protein) and runs MHCflurry across all
   7 of them. GQQPCVQAQY arises from **none** of them — it was a guess artifact. Corrected
   in abstract + §3.3. Source: `fusion-breakpoint-neoantigens.json`.
-  > ⛔ **THE CONCLUSION HELD; THE EVIDENCE FOR IT DID NOT (2026-08-06).** `GQQPCVQAQY` really
-  > does not occur in the corrected chimera — but not for the reason given here. The seven
-  > junctions cited as "the *real* in-frame junctions" all resume NR4A3 at an offset the
-  > corrected exon map does not produce, and `fusion-breakpoint-neoantigens.json` is
-  > **RETRACTED** for that reason and has **not** been regenerated
-  > ([`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json) →
-  > `breakpoint_artifact`). So this bullet's conclusion now rests on the regenerated
-  > single-junction artifact instead, where the corrected seam carries a novel junction
-  > residue and NR4A3 Met1. **A right answer reached through a wrong instrument is not a
-  > verified answer**, and the bullet below — the 7-junction "breakpoint-resolved truth",
-  > its 26 binders and `GVVRTDSLK`/`QQIVRTDSL` — stays withdrawn in full.
-- Breakpoint-resolved truth: 7 in-frame junctions (EWSR1 e7/9/10/11/12/13 → mostly NR4A3
-  e3), 26 distinct predicted binders, **no pan-EMC epitope** (most-shared GVVRTDSLK in
-  2/7, weak). Strong binders are breakpoint-specific (e.g. QQIVRTDSL/B*08:01 from the
-  commonly-reported e7::e3). Honest conclusion: personalised, not off-the-shelf. ✓
+  > ⛔ **THE CONCLUSION HELD; THE EVIDENCE FOR IT DID NOT (2026-08-06) — AND THE EVIDENCE HAS
+  > NOW BEEN REBUILT (2026-08-07).** `GQQPCVQAQY` really does not occur in the corrected
+  > chimera, but not for the reason given here. The seven junctions cited as "the *real*
+  > in-frame junctions" all resumed NR4A3 at an offset the corrected exon map does not
+  > produce. ⚠ And the obvious repair was not enough: fixing the exon index still left the
+  > builder concatenating **CDS to CDS**, which discards the 2 nt of 5′UTR NR4A3's acceptor
+  > exon 3 carries ahead of its ATG — so the CDS rule and the transcript rule select
+  > **disjoint** junction sets. `fusion_breakpoints.py` is now built on the transcript model
+  > and the artifact is regenerated; its banner is withheld by an independent re-derivation,
+  > not by the file having been rewritten
+  > (`fusion_neoantigen_invalidation._breakpoint_panel_clearance`). **A right answer reached
+  > through a wrong instrument is not a verified answer**, and the 7-junction "breakpoint-
+  > resolved truth" below — its 26 binders and `GVVRTDSLK`/`QQIVRTDSL` — **stays withdrawn in
+  > full and is replaced, not restored.**
+- ⚠ *Superseded, retained (withdrawn 2026-08-06, replaced 2026-08-07):* "Breakpoint-resolved
+  truth: 7 in-frame junctions (EWSR1 e7/9/10/11/12/13 → mostly NR4A3 e3), 26 distinct
+  predicted binders, no pan-EMC epitope (most-shared GVVRTDSLK in 2/7, weak). Strong binders
+  are breakpoint-specific (e.g. QQIVRTDSL/B*08:01 from the commonly-reported e7::e3)."
+- **Breakpoint-resolved truth, regenerated on the TRANSCRIPT model:** 27 declared exon pairs
+  graded, **5** emittable (EWSR1 e7/9/10/12/13 → NR4A3 e3) and 22 explicit refusals; **11**
+  distinct predicted binders, 4 strong; **no pan-EMC epitope** (most-shared `DMPCVQAQY` in
+  **4/5**, weak — shared only because those four junctions produce the same Asp seam codon).
+  **Every** strong binder is breakpoint-specific and **e9/e10/e12 return none at all**. e11
+  is now a refusal, not a junction. Honest conclusion unchanged: personalised, not
+  off-the-shelf — and the corrected data strengthens it. Source:
+  `fusion-breakpoint-neoantigens.json`. ✓
 - **HLA coverage — computed from real data, not fabricated.** `hla_coverage.py` pulls
   AFND allele frequencies in CI from the MIT-licensed `slowkow/allelefrequencies` mirror
   (AFND's own site serves only its interactive form to a non-browser client). Denominator
-  (2N)-weighted global pooling + Wilson 95% CIs (per systems/POLICY-evidence.md): e7::e3 public junction
-  (A*11:01 + B*08:01) = **29.7%** (95% CI 29.0–30.3%); any strong-binder allele across all
-  resolved breakpoints (A*02:01/A*11:01/B*07:02/B*08:01/B*15:01) = **58.0%** (57.1–59.0%).
-  Also pooled per UN M49 sub-region (AFND population→country→region via ISO 3166): any-strong
-  coverage 36% (Sub-Saharan Africa) → 79% (Northern Europe); 0 populations unassigned. Class II
-  added: DRB1 helper alleles (DRB1*03:01/07:01, strong binders from `patient-cd4-demo.json`)
-  cover **28.4%** globally; CD8∧CD4 both-arms **16.5%** — flagged as a FLOOR because the
-  class-II screen tested only a 3-allele DR panel (not fabricated up). The global number is the
-  headline, the regional spread an equity caveat. If a source is unreachable the script records
-  `source_unavailable` rather than guessing. Sources: `hla-coverage.json`,
+  (2N)-weighted global pooling + Wilson 95% CIs (per systems/POLICY-evidence.md). ⛔ **RECOMPUTED
+  2026-08-07 on the corrected junction set — the allele set moved, so every class-I figure moved
+  with it:** e7::e3 public junction (**B*15:01 alone**) = **8.51%** (95% CI 8.26–8.76%); any
+  strong-binder allele across all resolved breakpoints (A*01:01/B*07:02/B*15:01) = **27.4%**
+  (26.6–28.1%). Also pooled per UN M49 sub-region (AFND population→country→region via ISO 3166):
+  any-strong coverage 1.4% (Melanesia) → 60% (Northern Europe); 0 populations unassigned.
+  ⚠ *Superseded, retained: e7::e3 (A*11:01 + B*08:01) = **29.7%** (29.0–30.3%); any-strong
+  (A*02:01/A*11:01/B*07:02/B*08:01/B*15:01) = **58.0%** (57.1–59.0%); regional 36% (Sub-Saharan
+  Africa) → 79% (Northern Europe); CD8∧CD4 both-arms **16.5%**.* Class II: DRB1 helper alleles
+  (DRB1*03:01/07:01, strong binders from `patient-cd4-demo.json`) compute to **28.4%** globally,
+  but ⛔ **that arm and the combined both-arms figure are WITHHELD** — `patient-cd4-demo.json` is
+  still built on the retracted seam (`…IVRTDSLKGRRG`) and has not been regenerated, so the file
+  would otherwise mix a corrected class-I set with an uncorrected class-II one. `hla_coverage.py`
+  now measures the mismatch and records it as `⛔_class_ii_provenance`. It remains a FLOOR in any
+  case, because the class-II screen tested only a 3-allele DR panel (not fabricated up). The
+  global number is the headline, the regional spread an equity caveat. If a source is unreachable
+  the script records `source_unavailable` rather than guessing. Sources: `hla-coverage.json`,
   `hla-coverage-emc.md`. ✓
 - Treatment-precedent DOIs (CI-confirmed): KEYNOTE-942/mRNA-4157 `10.1016/S0140-6736(23)02268-7`
   (Lancet 2024); autogene cevumeran/Rojas `10.1038/s41586-023-06063-y` (Nature 2023). ✓

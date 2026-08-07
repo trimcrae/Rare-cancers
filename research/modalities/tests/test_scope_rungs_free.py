@@ -269,18 +269,49 @@ def test_the_canonical_cut_is_not_the_window_maximum(maps):
     assert "1-264" in doc["the_sentence"]
 
 
-def test_the_neoantigen_artifact_is_flagged_not_regenerated(maps):
+def test_the_neoantigen_artifact_is_flagged_and_never_touched(maps):
+    """⭐ RE-POINTED, NOT RELAXED (2026-08-07).
+
+    ⚠ Superseded, retained: this asserted `all_seams_stale is True`, `n_predicted_binders == 26` and
+    `stale_resume_residues == [318, 361, 419]`. All three were correct readings of the RETRACTED
+    artifact, and holding them after its regeneration would pin the defect in place.
+
+    ⛔ What must be held instead is the property that does not depend on which generation of the
+    artifact is on disk: the flag must READ it (`readable`), must say plainly which of the two states
+    it found, and must never write to it. The fail-quiet path this replaces is real — the flag looked
+    only for the CDS-space `nr4_cds_nt`, so against the transcript-shape artifact it read nothing and
+    reported "some junctions survive", which is an unreadable input rendering as a clean bill.
+    """
     ews, nr4 = maps
     doc = fi.new_doc()
     fi.assemble(ews, nr4, doc)
     nf = doc["neoantigen_lane_flag"]
     assert nf["read"] is True
-    assert nf["all_seams_stale"] is True
-    assert nf["n_predicted_binders"] == 26
-    assert sorted(nf["stale_resume_residues"]) == [318, 361, 419]
-    before = open(os.path.join(MOD, "fusion-breakpoint-neoantigens.json")).read()
+    assert nf.get("readable") is True, f"the flag could not read the artifact: {nf.get('verdict')}"
+    assert nf["n_junctions"] and nf["n_predicted_binders"]
+    good = nf["nr4a3_resume_residues_that_survive_the_corrected_windows"]
+    if nf["all_seams_stale"]:
+        assert nf["stale_resume_residues"] == nf["nr4a3_resume_residues_in_the_artifact"]
+        assert "do not exist" in nf["verdict"]
+    else:
+        assert nf["stale_resume_residues"] == [], nf["stale_resume_residues"]
+        assert set(nf["nr4a3_resume_residues_in_the_artifact"]) <= set(good)
+        assert "no stale seam" in nf["verdict"]
     assert "MHCflurry" in nf["⛔_not_fixed_here"]
+    before = open(os.path.join(MOD, "fusion-breakpoint-neoantigens.json")).read()
     assert before == open(os.path.join(MOD, "fusion-breakpoint-neoantigens.json")).read()
+
+
+def test_the_neoantigen_flag_refuses_an_artifact_it_cannot_read(maps):
+    """The guard for the fail-quiet path itself: no readable resume residue must never grade clean."""
+    ews, nr4 = maps
+    plausible = [{"nr4a3_first_residue": 1}]
+    nf = fi.neoantigen_flag({"n_inframe_junctions": 2, "n_distinct_binders": 9,
+                             "junctions": [{"junction_label": "x"}, {"junction_label": "y"}]},
+                            plausible)
+    assert nf["readable"] is False
+    assert "UNREADABLE" in nf["verdict"]
+    assert "all_seams_stale" not in nf, "an unreadable input must not produce a seam verdict at all"
 
 
 def test_no_clinical_or_geometric_claim_leaks_into_the_sentence(maps):

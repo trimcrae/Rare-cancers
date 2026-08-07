@@ -68,6 +68,27 @@ generates from the patient's own tumour.
 
 ## Worked example (from the reproducible pipeline)
 
+> ⛔⛔ **THE JUNCTION SEQUENCE THIS EXAMPLE USES IS WRONG, AND EVERY PEPTIDE BELOW IS
+> WITHDRAWN (2026-08-07).** The seam `…SQQSSSYGQQ|IVRTDSLKGR…` resumes NR4A3 at residue 361,
+> which no corrected breakpoint produces. `fusion_breakpoints.py` was rebuilt on the
+> **transcript** model: a fusion transcript retains the acceptor exon whole, so NR4A3 exon 3
+> contributes 2 nt of 5′UTR that compose with EWSR1's 1 leftover nt into a codon belonging to
+> **neither parent**, and NR4A3 then resumes at **Met1**. The corrected seam is
+> `…SQQSSSYGQQ-N-MPCVQAQYSP…`, and at e7::e3 the strong candidates are **`NMPCVQAQY`**
+> (B\*15:01, 73 nM, %ile 0.37) and **`QQNMPCVQAQY`** (B\*15:01, 109 nM, %ile 0.50) — both on
+> the *same* allele. ⚠ *Superseded, retained: `QQIVRTDSL`/B\*08:01 (97 nM, 0.04),
+> `SSYGQQIVR`/A\*11:01 (61 nM, 0.08), the "6 + 3 straddles more evenly" tie-breaker, and the
+> TAF15 pair `SVVRTDSLK`/A\*11:01 (37 nM) and `QSVVRTDSL`/B\*08:01 (124 nM).* The **TAF15**
+> panel has NOT been regenerated — `patient_neoepitopes.py` still builds its chimera through
+> the CDS/protein instrument and carries the same defect — so its peptides stay withdrawn
+> rather than being replaced. Corrected panel:
+> [`fusion-breakpoint-neoantigens.json`](../modalities/fusion-breakpoint-neoantigens.json);
+> narrative: [`fusion-junction-neoantigen-paper.md`](./fusion-junction-neoantigen-paper.md) §2.
+> The *structural* claim this example exists to make — that a TAF15-fusion patient is not
+> served by an EWSR1 construct — is about exon identity, not peptides, and is untouched.
+
+⚠ *The example below is retained verbatim as the superseded record; do not quote it.*
+
 For the commonly reported **EWSR1 exon 7 :: NR4A3 exon 3** junction (context
 `…SQQSSSYGQQ|IVRTDSLKGR…`) and a common HLA set (A\*02:01, A\*11:01, B\*07:02, B\*08:01),
 the tool returns **6 presented candidates, 2 strong**:
@@ -95,8 +116,14 @@ their own breakpoint, class-I and class-II HLA**, which may give entirely differ
 ## Honest caveats (please read)
 
 - **Personalised, not off-the-shelf.** Our breakpoint-resolved analysis found **no single
-  pan-EMC junction epitope**; the target must be generated per patient. The presenting
-  alleles, however, are among the most common worldwide, so many patients will have ≥1.
+  pan-EMC junction epitope**; the target must be generated per patient. ⛔ *This conclusion
+  survives the 2026-08-07 seam correction and is strengthened by it — in the regenerated
+  panel every strong binder is breakpoint-specific and three of five junctions have none at
+  all.* ⚠ *Superseded, retained: "The presenting alleles, however, are among the most common
+  worldwide, so many patients will have ≥1." The corrected allele set is A\*01:01 / B\*07:02 /
+  B\*15:01 and reaches **27%** of patients pooled (was 58%); the public e7::e3 junction is
+  presented on **B\*15:01 alone** and reaches **8.5%** (was 30%). That sentence is no longer
+  supportable as written.*
 - **Junction peptides are largely self-sequence** (often one or two foreign residues at the
   seam); central tolerance may blunt responses. This must be tested, not assumed.
 - **Predicted MHC binding ≠ immunogenicity.** Steps 4 is non-negotiable.

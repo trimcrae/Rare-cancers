@@ -295,10 +295,185 @@ def _corrected_junction():
     return gate["junction"], gate
 
 
+def _rederive_breakpoint_panel():
+    """The panel the CORRECTED transcript model produces, re-derived here from committed inputs.
+
+    ⛔ THIS IS THE GATE'S EVIDENCE AND IT NEVER READS THE ARTIFACT. It rebuilds the graded window
+    from `emc-construct-inputs.json` (pinned to `TRANSCRIPT_SOURCE=cache`, so $0 and no network)
+    and returns `{junction_label: expected_row}` for every pair graded EMITTABLE. The banner may
+    only be lifted when the committed artifact MATCHES this — a file that was merely rewritten is
+    not a file that was verified. Returns None if the re-derivation cannot be done at all, in
+    which case the caller must NOT claim the artifact is cleared.
+    """
+    os.environ.setdefault("TRANSCRIPT_SOURCE", "cache")
+    sys.path.insert(0, HERE)
+    try:
+        import junction_aso as ja                                  # type: ignore
+        import fusion_breakpoints as fb                            # type: ignore
+        ews, nr4 = ja.transcript_model("EWSR1"), ja.transcript_model("NR4A3")
+        graded = ja.graded_window(ews, nr4, keep_sequences=True)
+        return {r["junction_label"]: fb.emit_junction(ews, nr4, r)
+                for r in graded if r["grade"] == ja.EMITTABLE}, ews, nr4
+    except Exception:                                              # noqa: BLE001
+        return None
+
+
+def _retracted_resume_residues():
+    """The NR4A3 resume residues the RETRACTED artifact carried — RE-DERIVED, never typed.
+
+    ⛔ Reproduces the pre-2026-08-02 indexing (`offsets[n - 2]`, a CODING-exon table addressed with
+    TRANSCRIPT exon numbers) over the declared window, from the committed exon audit, and returns
+    the residues it yields. This is deliberately NOT read from
+    `fusion-object-inventory.json -> neoantigen_lane_flag.stale_resume_residues`: that field is
+    computed BY READING THE ARTIFACT, so the moment the artifact is regenerated the field empties
+    and a check sourced from it would silently pass on anything. A guard whose reference drains
+    when the thing it guards changes is not a guard.
+    """
+    audit = json.load(open(EXON_AUDIT, encoding="utf-8"))
+    offsets = audit["NR4A3"]["coding_offsets"]
+    import fusion_breakpoints as FB
+    return sorted({offsets[n - 2] // 3 + 1 for n in FB.NR4A3_EXON_WINDOW
+                   if 0 <= n - 2 < len(offsets)})
+
+
+def _breakpoint_panel_clearance(art):
+    """`(cleared: bool, checks: list)` — can the retraction banner be LIFTED from this artifact?
+
+    Every check is a comparison against `_rederive_breakpoint_panel()`, which never reads the
+    artifact. A single failure withholds the clearance; the checks are all reported either way,
+    because a refusal that cannot say what it refused is the failure mode this module exists for.
+    """
+    red = _rederive_breakpoint_panel()
+    if red is None:
+        return False, [{"check": "the corrected panel can be re-derived from committed inputs",
+                        "got": "re-derivation failed", "want": "a graded window", "ok": False}]
+    expected, ews, nr4 = red
+    ews_prot = ews["protein"].replace("*", "").rstrip("X")
+    nr4_prot = nr4["protein"].replace("*", "").rstrip("X")
+    got_rows = {j.get("junction_label"): j for j in art.get("junctions") or []}
+    checks = []
+
+    def add(name, got, want, ok=None):
+        checks.append({"check": name, "got": got, "want": want,
+                       "ok": bool(got == want) if ok is None else bool(ok)})
+
+    # 1. the junction SET, exactly — no padding back to a remembered denominator, no omissions
+    add("the artifact's junction set is exactly the set graded EMITTABLE by the transcript model",
+        sorted(got_rows), sorted(expected))
+    # 2/3/4. per junction: seam, frame, resume residue — all re-derived, none read from the file
+    seam_bad, frame_bad, resume_bad, pep_bad = [], [], [], []
+    for label, exp in expected.items():
+        got = got_rows.get(label)
+        if not got:
+            continue
+        if got.get("junction_context_protein_seam") != exp["junction_context_protein_seam"] or \
+                got.get("seam_codon_residue") != exp["seam_codon_residue"]:
+            seam_bad.append(label)
+        if not got.get("in_frame") or got.get("frame_sum_mod3") != 0:
+            frame_bad.append(label)
+        if got.get("nr4a3_first_residue") != 1:
+            resume_bad.append(label)
+        if sorted(got.get("novel_peptides") or []) != exp["novel_peptides"]:
+            pep_bad.append(label)
+    add("every junction's seam reproduces the re-derived seam (context AND novel codon residue)",
+        seam_bad, [])
+    add("every junction is in frame at the mRNA level ((cut + acceptor 5'UTR) mod 3 == 0)",
+        frame_bad, [])
+    add("every junction retains NR4A3 from residue 1 (Met1 survives as an internal residue)",
+        resume_bad, [])
+    add("every junction's novel-peptide set reproduces the re-derived set",
+        pep_bad, [])
+    # 5. none of the retracted resume residues survives anywhere in the file
+    stale = _retracted_resume_residues()
+    add("no junction resumes at a retracted residue %s" % stale,
+        sorted({j.get("nr4a3_first_residue") for j in got_rows.values()} & set(stale)), [])
+    # 6. every quoted peptide is genuinely absent from both parents — the novelty claim, rechecked
+    quoted = peptides_of(art)
+    add("every peptide the artifact asserts is absent from BOTH parent proteins",
+        sorted(p for p in quoted if p in ews_prot or p in nr4_prot), [])
+    # 7. refusals are RECORDED, not omitted: a row for every declared exon pair
+    e_win, n_win = (art.get("windows") or {}).get("EWSR1_exons") or [], \
+        (art.get("windows") or {}).get("NR4A3_exons") or []
+    add("every declared exon pair carries a graded row, refusals included",
+        len(art.get("junctions_graded") or []), len(e_win) * len(n_win))
+    return all(c["ok"] for c in checks), checks
+
+
 def breakpoint_banner(stamp_utc, stamp_et):
     art = json.load(open(BREAKPOINT_ARTIFACT, encoding="utf-8"))
     art.pop(BANNER_KEY, None)                                     # idempotent: regrade, never stack banners
     junction, gate = _corrected_junction()
+
+    # ⭐ THE CLEARED OUTCOME COMES FIRST, AND IT IS A RE-DERIVATION (2026-08-07). A grader that can
+    # only ever write a retraction is a ratchet: once the artifact is regenerated correctly,
+    # `--write` would stamp the same banner back onto a CORRECT file — and `classify()` would raise
+    # on the way, because it reads `nr4_cds_nt`, a CDS-space key the corrected artifact does not
+    # and must not carry. Same ruling as `single_breakpoint_banner`: the state a grader cannot
+    # express is the state it will get wrong.
+    cleared, cl_checks = _breakpoint_panel_clearance(art)
+    if cleared:
+        cits = citations(peptides_of(art), self_paths=(BREAKPOINT_ARTIFACT,))
+        cons = consumers(os.path.basename(BREAKPOINT_ARTIFACT), self_paths=(BREAKPOINT_ARTIFACT,))
+        strong = [b for b in art.get("predicted_binders_ranked") or []
+                  if b.get("class") == "strong"]
+        return {
+            STAMP_KEY: False,
+            "status": "CLEARED — regenerated on the corrected transcript model and it re-derives",
+            "one_line": (
+                "%d of %d declared exon pairs are EMITTABLE (in frame at the mRNA level AND "
+                "resuming NR4A3 at residue 1); each carries %d junction-spanning peptides absent "
+                "from both parents, and the screen returns %d distinct predicted binders, %d of "
+                "them strong. The retracted 7-junction set is not recovered and was not padded "
+                "back to: the corrected denominator is %d."
+                % (art.get("n_inframe_junctions"), art.get("n_candidate_exon_pairs"),
+                   (art.get("junctions") or [{}])[0].get("n_novel_peptides"),
+                   art.get("n_distinct_binders"), len(strong), art.get("n_inframe_junctions"))),
+            "corrected_junction": junction,
+            "what_was_checked": cl_checks,
+            "⭐_how_the_junction_set_changed": (
+                "the retracted artifact carried 7 junctions built in CDS coordinates from a "
+                "CODING-exon index. The corrected set is %s. e11 drops (its cut is codon-aligned, "
+                "so with the acceptor's 2 retained 5'UTR nt the register no longer composes), the "
+                "NR4A3 exon-4 acceptors drop as SEAM_NOT_PRODUCED, and the NR4A3 exon-2 acceptors "
+                "are now EXPLICIT refusals with their 176 retained 5'UTR nt recorded rather than "
+                "silent stderr omissions. Full per-pair grading: `junctions_graded`; the "
+                "disjointness of the two models: `_superseded_cds_model_comparison`."
+                % sorted(j["junction_label"] for j in art["junctions"])),
+            "⛔_what_this_does_NOT_establish": (
+                "predicted MHC-I binding is a SCREEN, not presentation and not immunogenicity. No "
+                "efficacy, safety, tolerability or clinical claim is made or implied. Which exon "
+                "pair a given patient carries is not decidable from exon structure and is not "
+                "decided here."),
+            "⛔_scope": "sequence composition and predicted binding only.",
+            "downstream_citations": cits,
+            "downstream_consumers": cons,
+            "⚠_downstream_outputs_are_not_regenerated_by_this": (
+                "`hla_coverage.py`, `vaccine_construct.py` and `coverage_scan.py` LOAD this "
+                "artifact and recompute from it. Their committed outputs were built on the "
+                "RETRACTED junction set and are not repaired by this clearance — each must be "
+                "re-run before any of its numbers is quoted."),
+            "graded_utc": stamp_utc,
+            "graded_et": stamp_et,
+            "graded_by": "research/modalities/fusion_neoantigen_invalidation.py",
+        }, art
+
+    # ⚠ A REGENERATED-BUT-UNVERIFIED ARTIFACT IS ITS OWN STATE AND MUST NOT CRASH THE GRADER.
+    # `classify()` needs the CDS-space keys, so an artifact in the corrected shape that FAILS the
+    # clearance would raise KeyError — and a traceback is not a verdict.
+    if not all("nr4_cds_nt" in j for j in art.get("junctions") or [{}]):
+        return {
+            STAMP_KEY: True,
+            "status": "RETRACTED — regenerated in the corrected shape but it did NOT re-derive",
+            "one_line": ("this artifact is no longer in the CDS-coordinate shape the original "
+                         "retraction graded, but it does not reproduce the panel re-derived from "
+                         "committed inputs. Quote nothing until the failing checks below pass."),
+            "corrected_junction": junction,
+            "what_was_checked": cl_checks,
+            "⛔_scope": "sequence composition only. No affinity, immunogenicity or clinical claim.",
+            "graded_utc": stamp_utc, "graded_et": stamp_et,
+            "graded_by": "research/modalities/fusion_neoantigen_invalidation.py",
+        }, art
+
     graded = classify(art)
     c = graded["counts"]
     cits = citations(peptides_of(art), self_paths=(BREAKPOINT_ARTIFACT,))
@@ -518,9 +693,31 @@ def map_edits(banner, banner2=None):
     who opens it is stopped rather than trusted to remember, and (b) that the retraction has a measured
     DOWNSTREAM BLAST RADIUS. Both are pointers.
     """
-    c = banner["counts"]
     n_cited = len(banner["downstream_citations"])
     n_loaded = _n_loaded(banner)
+    # ⭐ THE CLEARED STATE NEEDS ITS OWN EDIT, and the retraction edit must not be emitted beside it.
+    # The first version of this read `banner["counts"]` unconditionally — a key the CLEARED banner
+    # does not carry — so the module would have crashed on exactly the run that reports success.
+    if not banner.get(STAMP_KEY, True):
+        return [
+            {"section": "§9 finding 23 → the neoantigen lane's owed consequence",
+             "anchor": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane).",
+             "current_text": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane).",
+             "proposed_text": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane). "
+                              "✅ **REGENERATED AND CLEARED 2026-08-07 on the corrected TRANSCRIPT "
+                              "model, and the junction set changed:** %s The banner is withheld by "
+                              "a RE-DERIVATION gate, not by the file having been rewritten "
+                              "(`fusion_neoantigen_invalidation._breakpoint_panel_clearance`). "
+                              "⚠ **%d modules LOAD this artifact and recompute from it** — their "
+                              "committed outputs were built on the RETRACTED junction set and are "
+                              "NOT repaired by this clearance; each must be re-run before any of "
+                              "its numbers is quoted."
+                              % (banner["one_line"], n_loaded),
+             "why": "the map records the artifact as retracted and un-regenerated; it now has a "
+                    "corrected, smaller junction set, and the downstream outputs are still stale",
+             "artifact": "fusion-breakpoint-neoantigens.json"},
+        ]
+    c = banner["counts"]
     edits = [
         {"section": "§9 finding 23 → the neoantigen lane's owed consequence",
          "anchor": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane).",
@@ -569,6 +766,15 @@ def map_edits(banner, banner2=None):
     return edits
 
 
+def _already_clear(path, target):
+    """True when `path` on disk already parses to exactly `target` — nothing to strip, nothing to write."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh) == target
+    except (OSError, ValueError):                                 # pragma: no cover - unreadable => rewrite
+        return False
+
+
 def main(argv=None):
     import argparse
     import datetime
@@ -614,6 +820,14 @@ def main(argv=None):
             # re-retracts a corrected artifact on its next run. Default-True so an older banner shape with
             # no such key keeps stamping — a missing flag is not permission to skip.
             if not b.get(STAMP_KEY, True):
+                # ⚠ A CLEARANCE THAT REWRITES AN ALREADY-CLEAR FILE IS CHURN, NOT WORK. This module writes
+                # `indent=1` and the producers write `indent=2`, so re-running it over an artifact that has
+                # no banner reformatted every line of a file whose CONTENT was byte-for-byte unchanged (448
+                # lines on `fusion-neoantigen-predictions.json`, 2026-08-07). A diff that large hides a real
+                # one. Compare the parsed content and leave the file alone when there is nothing to remove.
+                if _already_clear(path, target):
+                    print("already clear (unchanged)", os.path.relpath(path, REPO))
+                    continue
                 # `art.pop(BANNER_KEY)` already stripped any stale banner; write the artifact back clean so
                 # a file bannered by an earlier run is un-bannered by the run that clears it.
                 with open(path, "w", encoding="utf-8") as fh:

@@ -41,22 +41,29 @@ small-molecule track pursues an NR4A3-degrader that engages the **NR4A3 ligand-b
 selective for NR4A3 over its NR4A1/2 paralogues, but **not** selective for the fusion, because that LBD is
 shared with wild-type NR4A3. This paper pursues the orthogonal, immune-level **fusion-exclusive** axis: the
 handful of residues spanning the EWSR1→NR4A3 junction form a peptide present in no normal protein, so a
-T-cell response against it spares wild-type NR4A3 and wild-type EWSR1 at the sequence level. ⚠ It does NOT follow that no normal cell is affected: the novelty test behind this compares the junction peptides against those two parent proteins only (`fusion_breakpoints.py:231`), never against the human proteome, and no safety claim is made or supported.
+T-cell response against it spares wild-type NR4A3 and wild-type EWSR1 at the sequence level. ⚠ It does NOT follow that no normal cell is affected: the novelty test behind this compares the junction peptides against those two parent proteins only (`fusion_breakpoints.emit_junction`'s novelty filter — a line number would rot, and this one already did), never against the human proteome, and no safety claim is made or supported.
 We summarise the already-committed, reproducible evidence base for this approach and frame the clinical
 modalities it enables — personalised neoantigen vaccine, TCR-T, and soluble-TCR (ImmTAC)-style products —
-without performing or asserting any new computation. Breakpoint-resolved prediction (junctions derived from
-real Ensembl exon structure, MHCflurry-2.0) finds **7 in-frame junctions** (EWSR1 exons 7/9/10/11/12/13 →
-predominantly NR4A3 exon 3) yielding **26 distinct predicted binders**, with **no single pan-EMC epitope**:
-the most-shared candidate appears in only 2 of 7 junctions and is a weak binder, so strong binders are
-breakpoint-specific. HLA class-I population coverage (AFND frequencies, IEDB formula) is **~30%** for the
-commonly reported EWSR1 e7::NR4A3 e3 public junction (A\*11:01 + B\*08:01; 29.7%, 95% CI 29.0–30.3%),
-**~58%** for all strong-binder alleles pooled (58.0%, 95% CI 57.1–59.0%), with **large regional variation**
-(36% Sub-Saharan Africa to 79% Northern Europe), and a **~16% "both-arms" floor** when a class-II (CD4
-helper) allele is also required (16.5%; the class-II figure is itself a floor over a 3-allele DR panel).
+without performing or asserting any new computation. Breakpoint-resolved prediction (junctions derived at the
+**transcript** level from real Ensembl exon structure, MHCflurry-2.0) grades all **27** declared exon pairs
+and emits **5 in-frame junctions** (EWSR1 exons 7/9/10/12/13 → NR4A3 exon 3) yielding **11 distinct predicted
+binders**, 4 of them strong, with **no single pan-EMC epitope**: the most-shared candidate appears in 4 of 5
+junctions and is a weak binder, three of the five junctions return no strong binder at all, and every strong
+binder is breakpoint-specific. HLA class-I population coverage (AFND frequencies, IEDB formula) is **≈8.5%**
+for the commonly reported EWSR1 e7::NR4A3 e3 public junction (B\*15:01 alone; 8.51%, 95% CI 8.26–8.76%) and
+**≈27%** for all strong-binder alleles pooled (27.4%, 95% CI 26.6–28.1%), with **large regional variation**
+(1.4% Melanesia to 60% Northern Europe). The class-II (CD4 helper) arm and the combined both-arms figure are
+**withdrawn pending regeneration** of the class-II demo, which still rests on the retracted seam (§3).
 The honest conclusion is that a fusion-exclusive EMC immunotherapy is **personalised by necessity** (no
-off-the-shelf pan-EMC epitope) and **acceptable** (the platforms already exist in humans, and many patients
-carry a presenting allele). The decisive experiment is wet-lab and stated as such. All figures are
+off-the-shelf pan-EMC epitope) and that its addressable fraction on a single public junction is **under a
+tenth of patients**. The decisive experiment is wet-lab and stated as such. All figures are
 hypothesis-generating and require sarcoma-immunology review.
+
+> ⚠ *Superseded, retained (2026-08-07 seam correction): **7** in-frame junctions, **26** distinct binders,
+> "2 of 7" for the most-shared candidate, **~30%** / 29.7% e7::e3 coverage on A\*11:01 + B\*08:01, **~58%** /
+> 58.0% all-strong, "36% Sub-Saharan Africa to 79% Northern Europe", the **~16%** both-arms floor, and the
+> clause "**acceptable** (the platforms already exist in humans, and many patients carry a presenting
+> allele)" — which the recomputed coverage no longer supports as written. Full accounting: §2 and §3.*
 
 ---
 
@@ -107,78 +114,98 @@ predicted presented, and on how many patients — so a clinical collaborator can
 The epitope set is **not** an assumed junction. An earlier first pass (`fusion_neoantigen.py`) modelled a
 *single guessed* breakpoint (EWSR1 kept to residue 264 :: NR4A3 from residue 2) and reported a strong
 HLA-B\*15:01 epitope `GQQPCVQAQY`. That result was not trusted: the breakpoint was a guess, so the epitope
-could be an artifact of the guess. A second, breakpoint-resolved analysis (`fusion_breakpoints.py`) removed
-the assumption — it derives the real in-frame junctions from Ensembl exon structure (self-checked:
-translate(CDS) == Ensembl protein; only fusions retaining an intact NR4A3 C-terminus are kept) and runs
-MHCflurry-2.0 across them. **The result overturned the first:** `GQQPCVQAQY` arises from no real in-frame
-junction. This self-correction is the reason the headline epitopes below come from sourced junctions, not a
-convenient assumption.
+could be an artifact of the guess. A breakpoint-resolved analysis (`fusion_breakpoints.py`) removed the
+assumption — it derives the real in-frame junctions from the annotated **transcripts**, grades every
+declared exon pair, and runs MHCflurry-2.0 across the ones it can defend. **The result overturned the
+first:** `GQQPCVQAQY` arises from no in-frame junction and does not occur in the corrected chimera at all.
+That verdict has now been reached twice through independent instruments — the regenerated single-junction
+artifact and the regenerated panel below — and it is the reason the epitopes here come from sourced
+junctions, not a convenient assumption.
 
-> ⛔⛔ **THE SELF-CORRECTION IS ITSELF RETRACTED (2026-08-06), AND THE TABLE BELOW WITH IT.**
-> `fusion_breakpoints.py` indexed NR4A3's coding-exon offset table with TRANSCRIPT exon numbers, and
-> NR4A3 `ENST00000395097` has two non-coding leading exons, so all seven "real in-frame junctions"
-> resume NR4A3 at an offset the corrected exon map does not produce.
-> [`fusion-breakpoint-neoantigens.json`](../modalities/fusion-breakpoint-neoantigens.json) carries a
-> retraction banner and **has not been regenerated**; grading and counts:
-> [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json). **Do not
-> quote any epitope, affinity, percentile, junction attribution or the "no pan-EMC epitope"
-> robustness finding from §2 until that regeneration lands.**
+⚠ **Read the box below before quoting anything in this section.** Between those two statements the
+breakpoint-resolved analysis was itself found defective, retracted, and rebuilt; its *conclusions* survived
+and every one of its *peptides* did not. The history matters because it is the second time this lane's
+"correction" was wrong-instrumented, and both times the giveaway was the same: two artifacts agreeing when
+one defect produced both.
+
+> ⛔⛔ **THE SELF-CORRECTION WAS ITSELF RETRACTED (2026-08-06) AND HAS NOW BEEN REGENERATED
+> (2026-08-07). THE CONCLUSIONS SURVIVE; EVERY PEPTIDE IN THE OLD TABLE DOES NOT.** `fusion_breakpoints.py`
+> was rebuilt on the **transcript** model and the junction set it produces is not the retracted one —
+> it is **disjoint** from what the intermediate CDS-coordinate fix would have produced, and smaller
+> than the 7 it replaces. What follows is the regenerated result; the 12-row strong-binder table this
+> section used to carry is **withdrawn in full and not restored**, because not one of its peptides
+> occurs in the corrected chimera. Superseded values are listed in `_superseded` /
+> [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json).
 >
-> ✅ **What HAS been regenerated, and what it says.** The *first-pass* single-junction artifact was
-> rebuilt on 2026-08-06 against the corrected junction, at the **mRNA** level — a protein-level splice
-> of two UniProt sequences cannot represent a codon that straddles the seam, which is what this
-> junction has. EWSR1 exon 7 ends 1 nt past a codon boundary; NR4A3's acceptor exon 3 retains exactly
-> 2 5′UTR bases; together they form a codon belonging to **neither parent** (`AAT` = Asn), after which
-> NR4A3 resumes at **Met1**. Corrected seam `…SQQSSSYGQQ-N-MPCVQAQYSP…`; **38** junction peptides, all
-> absent from both parents; **3** predicted binders, **2** of them strong by presentation percentile,
-> lead **`NMPCVQAQY`** on HLA-B\*15:01 (73.4 nM, presentation %ile 0.374).
-> [`fusion-neoantigen-predictions.json`](../modalities/fusion-neoantigen-predictions.json), predictor
-> and model release recorded in its `_predictor` block. `GQQPCVQAQY` is absent from the corrected
-> chimera, so §2's verdict on it survives — **through different evidence than §2 gives**.
-> Predicted MHC-I binding is a screen: it is not presentation, not immunogenicity, and not a
-> statement about efficacy, safety or clinical use. Which exon pair a given patient carries is not
-> decidable from exon structure and is not decided here.
+> **The defect, in one line, and it is not the one the earlier banner named.** The 2026-08-02 index fix
+> was arithmetically right and still could not build a real junction: it concatenated CDS to CDS, so it
+> discarded the **2 nucleotides of 5′UTR that NR4A3's acceptor exon 3 carries ahead of its ATG** — bases
+> a fusion transcript physically retains and translates in the donor's frame. With them discarded the
+> in-frame test reduces to `cut mod 3 == 0`; with them retained it is `(cut + 2) mod 3 == 0`. Two is not
+> a multiple of three, so the two rules select **disjoint** sets: the CDS model admits only e11 and
+> refuses e7 and e12 — the two junctions this paper leads with — while the transcript model does the
+> reverse. Both readings are computed at run time and recorded in the artifact's
+> `_superseded_cds_model_comparison`.
 
-The **7 in-frame junctions** (EWSR1 exons 7/9/10/11/12/13 → predominantly **NR4A3 exon 3**, whose retained
-sequence reads `…VVRTDS…`) yield **26 distinct predicted binders**. The strong binders, one or two per
-junction, are listed below (all values quoted from `fusion-breakpoint-neoantigens.json`):
+The corrected panel grades **all 27 declared exon pairs** (EWSR1 exons 6–14 × NR4A3 exons 2–4) and emits
+peptides for the **5** it can defend: **EWSR1 exons 7, 9, 10, 12 and 13 → NR4A3 exon 3**. The other 22 are
+*explicit refusals* carried in the artifact's `junctions_graded`, not silent omissions — 9 `NON_CODING_ACCEPTOR`
+(NR4A3 exon 2 carries no CDS; a fusion to it retains 176 nt of 5′UTR before NR4A3's ATG), 9 `SEAM_NOT_PRODUCED`
+(NR4A3 exon 4 resumes at residue 318, outside the corrected plausible range), and 4 `OUT_OF_FRAME`. **e11 is
+among the refusals**: it is the only declared donor cut that falls on a codon boundary, so it is precisely the
+one the two coordinate systems disagree about.
 
-| predicted epitope | HLA | affinity (nM) | pres. %ile | call | junction (EWSR1 exon → NR4A3 exon) |
-|---|---|---|---|---|---|
-| QQIVRTDSL | B\*08:01 | 96.8 | 0.037 | strong | e7 → e3 |
-| SSYGQQIVR | A\*11:01 | 61.2 | 0.082 | strong | e7 → e3 |
-| KPGVVRTDSL | B\*07:02 | 54.4 | 0.186 | strong | e9 → e3 |
-| DLVVRTDSL | B\*08:01 | 58.1 | 0.033 | strong | e10 → e3 |
-| GVVKRTVQK | A\*11:01 | 32.2 | 0.235 | strong | e11 → e2 |
-| KQCGVVKY | B\*15:01 | 111.0 | 0.124 | strong | e11 → e4 |
-| FDVVRTDSL | B\*08:01 | 185.1 | 0.093 | strong | e12 → e3 |
-| AAVEWFDVV | A\*02:01 | 111.0 | 0.164 | strong | e12 → e3 |
-| GMPPPLRGV | A\*02:01 | 44.6 | 0.142 | strong | e13 → e3 |
-| RGVVRTDSL | B\*08:01 | 164.5 | 0.391 | strong | e13 → e3 |
-| MPPPLRGVV | B\*07:02 | 42.5 | 0.400 | strong | e13 → e3 |
-| MPPPLRGV  | B\*07:02 | 212.8 | 0.435 | strong | e13 → e3 |
+**Every emitted seam carries a codon belonging to neither parent.** EWSR1 ends 1 nt past a codon boundary at
+all five cuts; that leftover base plus the 2 retained acceptor-5′UTR bases compose one novel codon, after which
+NR4A3 resumes at **Met1** as an internal residue. The novel residue is junction-*specific* — `AAT` = **Asn** at
+e7, `GAT` = **Asp** at e9/e10/e12/e13 — a distinction no CDS-space model can express at all. Each junction
+yields **38** spanning peptides absent from both parents; across the five, **11 distinct predicted binders**,
+**4** of them strong by presentation percentile (values quoted from
+[`fusion-breakpoint-neoantigens.json`](../modalities/fusion-breakpoint-neoantigens.json)):
 
-**The central, honest finding is about robustness, not a single hero epitope.** No epitope is pan-EMC: the
-most-shared candidate, `GVVRTDSLK` (A\*11:01), appears in only **2 of 7** junctions and is merely a *weak*
-binder (presentation %ile 0.574); every strong binder is breakpoint-specific. Two consequences follow, both
-faithful to the data:
+| predicted epitope | HLA | affinity (nM) | pres. %ile | call | junction | in N / 5 |
+|---|---|---|---|---|---|---|
+| NMPCVQAQY | B\*15:01 | 73.4 | 0.374 | strong | e7 → e3 | 1 |
+| QQNMPCVQAQY | B\*15:01 | 108.5 | 0.499 | strong | e7 → e3 | 1 |
+| RGDMPCVQAQY | A\*01:01 | 207.2 | 0.406 | strong | e13 → e3 | 1 |
+| MPPPLRGDM | B\*07:02 | 45.6 | 0.458 | strong | e13 → e3 | 1 |
+| DLDMPCVQAQY | A\*01:01 | 90.3 | 0.560 | weak | e10 → e3 | 1 |
+| FDDMPCVQAQY | A\*01:01 | 90.8 | 0.684 | weak | e12 → e3 | 1 |
+| KPGDMPCVQA | B\*07:02 | 246.0 | 0.938 | weak | e9 → e3 | 1 |
+| GDMPCVQAQY | B\*44:02 | 187.1 | 0.969 | weak | e9, e13 → e3 | 2 |
+| MPPPLRGDMPC | B\*07:02 | 173.8 | 1.237 | weak | e13 → e3 | 1 |
+| DMPCVQAQY | B\*35:01 | 369.1 | 1.249 | weak | e9, e10, e12, e13 → e3 | **4** |
+| LDMPCVQAQY | A\*01:01 | 485.6 | 1.820 | weak | e10 → e3 | 1 |
+
+**The central, honest finding is about robustness, not a single hero epitope — and it survives the
+correction intact.** No epitope is pan-EMC: the most-shared candidate, `DMPCVQAQY` (B\*35:01), appears in
+**4 of 5** junctions and is only a *weak* binder (presentation %ile 1.249); it is shared precisely because
+those four junctions happen to produce the same Asp seam codon. Every one of the 4 strong binders is
+**breakpoint-specific** (present in exactly 1 of 5), and **three of the five junctions — e9, e10 and e12 —
+return no strong binder at all**. Two consequences follow, both faithful to the data:
 
 1. A fusion-exclusive EMC immunotherapy is most realistically **personalised** — sequence the patient's
    breakpoint, generate the junction peptides, match to the patient's HLA — not a single off-the-shelf
-   vaccine.
+   vaccine. The corrected data strengthens this: strong binders are now rarer and more junction-specific
+   than the retracted set suggested.
 2. *If* one breakpoint is recurrent enough to be a "public" target, the commonly reported **EWSR1 exon 7 ::
-   NR4A3 exon 3** junction is the leading candidate; its strong epitopes `QQIVRTDSL`/B\*08:01 and
-   `SSYGQQIVR`/A\*11:01 then become shared targets. Whether e7::e3 is recurrent enough to act as a public
-   epitope is an empirical cohort question (§5), not something prediction can settle.
+   NR4A3 exon 3** junction remains the leading candidate — but ⛔ **its case is materially weaker than this
+   section previously claimed.** Its two strong epitopes are `NMPCVQAQY` and `QQNMPCVQAQY`, and **both are
+   presented on the same allele, HLA-B\*15:01**. The retracted table had e7::e3 covered by two *different*
+   alleles (B\*08:01 and A\*11:01), which is what made §3's ≈30% population figure possible; a
+   single-allele public junction covers **8.5%** (§3, recomputed). Whether e7::e3 is recurrent enough to act
+   as a public epitope is an empirical cohort question (§5) that prediction cannot settle — and even if it
+   is, the addressable fraction is now under a tenth of patients, not a third.
 
-**Both partners are covered.** The pipeline addresses both fusion partners. The committed worked example for
-the **TAF15::NR4A3** variant (~16% of EMC; TAF15 exon 4 :: NR4A3 e3) yields its *own* strong candidates,
-distinct from the EWSR1 set — e.g. `SVVRTDSLK`/A\*11:01 (37 nM) and `QSVVRTDSL`/B\*08:01 (124 nM)
-([`clinical-brief-emc-neoantigen.md`](./clinical-brief-emc-neoantigen.md)) — reinforcing that the target is
-patient-specific and that a TAF15-fusion patient is not served by an EWSR1 construct. A useful tie-breaker
-the per-patient tool surfaces: among the e7::e3 strong CD8 epitopes, `SSYGQQIVR` straddles the seam more
-evenly (6 residues from EWSR1 + 3 from NR4A3) and so is *more foreign* than the otherwise-strong
-`QQIVRTDSL` (2 + 7, mostly NR4A3-self) — relevant when picking the least-tolerised target (§6).
+> ⛔ **STILL WITHDRAWN, and deliberately not restored: the TAF15 worked example and the seam-evenness
+> tie-breaker.** This section previously cited `SVVRTDSLK`/A\*11:01 and `QSVVRTDSL`/B\*08:01 for the
+> **TAF15::NR4A3** variant (~16% of EMC), and offered `SSYGQQIVR` (6 EWSR1 + 3 NR4A3 residues) as a
+> "more foreign" alternative to `QQIVRTDSL`. All four peptides span the retracted `…VVRTDS…` seam.
+> `patient_neoepitopes.py`, which produced them, still builds its chimera through
+> `fusion_breakpoints.gene_model` — the CDS/protein instrument — so the TAF15 panel carries the same
+> coordinate defect and has **not** been regenerated. The *structural* point it was making (a
+> TAF15-fusion patient is not served by an EWSR1 construct) is untouched and is a statement about exon
+> identity, not about any peptide; the peptides themselves are not quotable.
 
 ---
 
@@ -191,32 +218,53 @@ Net Database (AFND) populations [Gonzalez-Galarza et al. 2020] with Wilson 95% C
 1 − ∏(1 − af)² (the fraction carrying ≥1 presenting allele; the IEDB population-coverage formula). We quote
 them without re-running anything.
 
+> ⛔⛔ **RECOMPUTED 2026-08-07 ON THE CORRECTED JUNCTION SET, AND THE HEADLINE FELL BY ROUGHLY A
+> FACTOR OF THREE.** Coverage is a function of the *allele set* the epitopes are presented on, and
+> correcting the seam changed that set. The superseded figures — e7::e3 **29.7%** on A\*11:01 +
+> B\*08:01, all-strong **58.0%** on a five-allele panel, both arms **16.5%** — were computed from the
+> retracted junctions and are **withdrawn**. The numbers below are the regenerated
+> [`hla-coverage.json`](../modalities/hla-coverage.json); method, sources and CIs are unchanged, only
+> the input allele set moved.
+
 **Global class-I (CD8) coverage.**
 
-- The commonly reported **EWSR1 e7::NR4A3 e3 public junction** (presented on **A\*11:01** and **B\*08:01**)
-  covers **≈30% of patients** — 29.7% (95% CI 29.0–30.3%).
-- Pooling **all strong-binder alleles** across the resolved breakpoints (A\*02:01, A\*11:01, B\*07:02,
-  B\*08:01, B\*15:01) reaches **≈58%** — 58.0% (95% CI 57.1–59.0%).
+- The commonly reported **EWSR1 e7::NR4A3 e3 public junction** is now presented on **B\*15:01 alone** —
+  both of its strong binders are B\*15:01 — and covers **≈8.5% of patients** — 8.51% (95% CI 8.26–8.76%).
+- Pooling **all strong-binder alleles** across the resolved breakpoints (A\*01:01, B\*07:02, B\*15:01)
+  reaches **≈27%** — 27.4% (95% CI 26.6–28.1%).
 
-So a single public junction reaches under a third of patients, and even the full multi-allele panel leaves
-~40% with no predicted strong-binding class-I allele.
+So a single public junction reaches **under a tenth** of patients, and even the full multi-allele panel
+leaves **~73%** with no predicted strong-binding class-I allele. ⚠ *Superseded, retained: "under a third"
+and "~40%", which were true of the retracted allele set.* This is the single largest quantitative
+consequence of the seam correction anywhere in the paper, and it cuts against the route.
 
 **Large regional variation — a single global number must not be quoted alone.** These global means hide
 wide between-population spread (`hla-coverage.json` → `regions`). Pooled per UN M49 sub-region, any-strong
-coverage ranges from **36% (Sub-Saharan Africa)** to **79% (Northern Europe)**; the e7::e3 public junction
-ranges from **~10%** (Sub-Saharan Africa, Latin America) to **~53% (Melanesia)** / **~42% (Eastern Asia)**,
-tracking the high frequency of A\*11:01 in East Asian and Oceanian populations. A global figure therefore
+coverage ranges from **1.4% (Melanesia)** and **~14% (South-eastern Asia)** to **60% (Northern Europe)**;
+the e7::e3 public junction ranges from **0.8%** (Northern Africa) and **~2%** (Sub-Saharan Africa) to
+**~15% (Eastern Asia)** / **~16% (Northern Europe)**. The regional ordering has also changed with the
+allele set: it now tracks B\*15:01 rather than A\*11:01, so the earlier claim that the public junction
+peaks in Melanesia no longer holds — Melanesia is now near the bottom (0.9%). A global figure therefore
 overstates benefit for some patients and understates it for others; coverage must be confirmed for the
 target population.
 
-**CD4 help is the limiting arm, and it anti-correlates with CD8 coverage.** The DRB1 helper alleles
-presenting a strong class-II junction binder (DRB1\*03:01, DRB1\*07:01) cover only **28.4% globally** (95%
-CI 27.9–28.9%), and — critically — this is *anti-correlated by region* with CD8 coverage (high in Africa,
-Southern Asia, Europe; near-zero in Melanesia/Polynesia and low in East Asia, the very populations where the
-public CD8 junction does best). Requiring **both** a class-I *and* a class-II allele — what a durable
-vaccine needs — therefore covers just **≈16%** of patients globally (16.5%). This both-arms figure is a
-**floor**, because the class-II screen tested only a 3-allele DR panel (DRB1\*15:01/03:01/07:01): untested DR
-(or DQ/DP) alleles that also present the helpers would only raise it.
+**CD4 help is the limiting arm.** The DRB1 helper alleles presenting a strong class-II junction binder
+(DRB1\*03:01, DRB1\*07:01) cover **28.4% globally** (95% CI 27.9–28.9%) — unchanged by the seam correction,
+and that is the problem with quoting it:
+
+> ⛔ **THE CLASS-II ARM IS STILL BUILT ON THE RETRACTED SEAM, SO THE BOTH-ARMS FIGURE IS NOT QUOTABLE.**
+> The class-I half of `hla-coverage.json` is recomputed from the regenerated junction panel; the
+> class-II half comes from [`patient-cd4-demo.json`](../modalities/patient-cd4-demo.json), a separate
+> artifact nothing in this correction regenerates. Its junction context reads
+> `QYSQQSSSYGQQ|IVRTDSLKGRRG` — the residue-361 seam — and two of its four strong helper peptides span
+> it. **A half-corrected artifact reads as a corrected one**, so `hla_coverage.py` now measures this
+> and records it as `⛔_class_ii_provenance` in the file itself. Consequently **`coverage_cd4_classii`
+> and the combined CD8∧CD4 figure are withdrawn** until the class-II demo is rebuilt at the corrected
+> junction. ⚠ *Superseded, retained: "≈16% (16.5%)" both-arms, and the claim that CD4 coverage is
+> anti-correlated by region with CD8 coverage — that anti-correlation was read against the A\*11:01-led
+> class-I regional profile, which no longer applies.* The mechanical point that a durable vaccine needs
+> both arms, and that the class-II screen tested only a 3-allele DR panel (DRB1\*15:01/03:01/07:01) and
+> so gives a **floor**, is unaffected.
 
 **Read-out.** Coverage is *partial by construction* and *inequitable if framed by one global number*. This
 is the quantitative case for a personalised-first design, with public junctions reserved for the specific
@@ -244,8 +292,11 @@ common worldwide, so many patients carry ≥1 (acceptability).
 transduced into the patient's T cells, delivers the same fusion-exclusive specificity as a cell therapy
 rather than a vaccine — useful where an endogenous response is weak (the cold-tumour problem, §6).
 Fusion-directed TCR approaches are being explored in other sarcomas. For a recurrent public junction
-(e7::e3), a single TCR against `QQIVRTDSL`/B\*08:01 or `SSYGQQIVR`/A\*11:01 could in principle serve the
-allele-matched subset that §3 sizes (~30% on the public junction).
+(e7::e3), a single TCR against `NMPCVQAQY`/B\*15:01 or `QQNMPCVQAQY`/B\*15:01 could in principle serve the
+allele-matched subset that §3 sizes (**≈8.5%** on the public junction). ⚠ *Superseded, retained:
+`QQIVRTDSL`/B\*08:01, `SSYGQQIVR`/A\*11:01 and "~30%" — the retracted seam's peptides and allele set (§2).*
+Note that both corrected epitopes are presented on the **same** allele, so a two-TCR strategy buys no
+additional population coverage here, only redundancy within B\*15:01 carriers.
 
 **(c) Soluble-TCR / ImmTAC-style bispecific.** A soluble affinity-enhanced TCR fused to an anti-CD3 effector
 (the brenetafusp/IMCgp100-class format) redirects polyclonal T cells onto cells displaying the junction
@@ -288,8 +339,12 @@ construct. This paper stops precisely at that door.
 1. **The junction peptide is mostly self-sequence → central-tolerance risk.** A neoepitope spanning the
    seam is typically one or two "foreign" junction residues on an otherwise self peptide (EWSR1 and NR4A3
    are both self proteins); central T-cell tolerance may have pruned the reactive repertoire, blunting
-   responses. This is a real immunological risk for *any* fusion-neoantigen approach and is the key reason
-   the seam-straddling, more-foreign epitopes (e.g. `SSYGQQIVR`, 6+3) are preferable tie-breakers. It must
+   responses. This is a real immunological risk for *any* fusion-neoantigen approach, and the corrected
+   seam sharpens rather than softens it: each junction contributes exactly **one** novel residue (the seam
+   codon, Asn at e7 and Asp elsewhere), so every emitted peptide is 7–10 residues of self sequence around a
+   single foreign position. ⚠ *Superseded, retained: "the seam-straddling, more-foreign epitopes (e.g.
+   `SSYGQQIVR`, 6+3) are preferable tie-breakers" — that peptide belongs to the retracted seam, and the
+   6-from-EWSR1/3-from-NR4A3 arithmetic it rested on does not describe the corrected junction.* It must
    be tested (steps 2–3), not assumed away.
 2. **Predicted MHC binding ≠ immunogenicity.** A predicted strong binder may not be processed, presented, or
    T-cell-visible in vivo. MHCflurry-2.0 [O'Donnell et al., *Cell Systems* 2020] is a screen; processing,

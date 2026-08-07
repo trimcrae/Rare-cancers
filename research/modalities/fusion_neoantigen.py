@@ -103,26 +103,18 @@ RANK_STRONG = 0.5    # %rank <= 0.5 : strong binder
 
 
 def junction_peptides(fusion, j0, lengths, novel_residue):
-    """All k-mers of `fusion` that carry the junction.
+    """All k-mers of `fusion` that carry the junction. ⛔ DELEGATES — see the one home.
 
-    `j0` is the 0-based index of the first NON-EWSR1-derived residue. If the donor cut splits a
-    codon there IS a novel residue at `j0` (belonging to neither parent) and the tumour-specific
-    set is every k-mer CONTAINING it — including k-mers that begin at it, which the old
-    left/right straddle test dropped. If the cut is codon-aligned there is no novel residue and
-    the classic straddle test (>=1 residue from each side) is the right one.
+    ⛔ MOVED TO `fusion_breakpoints.junction_peptides` 2026-08-07 (rule 1). The identical concept
+    lived here AND in `fusion_breakpoints.py` with two DIFFERENT definitions, and the two
+    artifacts about the same EWSR1 e7 :: NR4A3 e3 seam disagreed by four peptides because of it —
+    the breakpoint panel dropped every k-mer beginning at the novel residue, including this
+    module's own top-ranked `NMPCVQAQY`. This wrapper is kept so the call site reads unchanged and
+    so nothing can reintroduce a private copy without deleting this comment first.
     """
-    peps = {}
-    for L in lengths:
-        lo = max(0, j0 - L + 1)
-        for start in range(lo, j0 + 1):
-            pep = fusion[start:start + L]
-            if len(pep) != L:
-                continue
-            if novel_residue:
-                peps.setdefault(pep, L)                      # contains fusion[j0], the novel residue
-            elif start < j0 < start + L:
-                peps.setdefault(pep, L)                      # classic straddle
-    return peps
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import fusion_breakpoints as fb                           # type: ignore
+    return fb.junction_peptides(fusion, j0, lengths, novel_residue=bool(novel_residue))
 
 
 def build_chimera():

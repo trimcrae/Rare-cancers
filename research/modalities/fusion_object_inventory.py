@@ -471,23 +471,48 @@ def neoantigen_flag(neo_doc, plausible):
         return {"read": False, "why": "fusion-breakpoint-neoantigens.json not present"}
     good_resumes = {b["nr4a3_first_residue"] for b in plausible}
     js = neo_doc.get("junctions") or []
-    nr4_offsets = sorted({j.get("nr4_cds_nt") for j in js if j.get("nr4_cds_nt") is not None})
-    resumes = sorted({(q // 3) + 1 for q in nr4_offsets})
+    # ⛔ READ BOTH SHAPES, AND REFUSE IF NEITHER IS THERE (2026-08-07). This looked only for the
+    # CDS-space `nr4_cds_nt`. When the artifact was rebuilt in TRANSCRIPT coordinates that key
+    # vanished, so `resumes` came back EMPTY — and an empty list made `all_seams_stale` False and the
+    # verdict read "some junctions survive". A flag that cannot read its input must say so; a
+    # collector that answers a question it could not read is the failure this whole lane exists to
+    # correct (CLAUDE.md §4: an absent reading is not a reading of absence).
+    resumes, unreadable = set(), 0
+    for j in js:
+        if j.get("nr4a3_first_residue") is not None:            # transcript-model shape
+            resumes.add(j["nr4a3_first_residue"])
+        elif j.get("nr4_cds_nt") is not None:                   # superseded CDS-space shape
+            resumes.add((j["nr4_cds_nt"] // 3) + 1)
+        else:
+            unreadable += 1
+    resumes = sorted(resumes)
     bad = [r for r in resumes if r not in good_resumes]
+    if unreadable or (js and not resumes):
+        return {"read": True, "readable": False,
+                "n_junctions": neo_doc.get("n_inframe_junctions"),
+                "n_junction_rows_with_no_readable_resume_residue": unreadable or len(js),
+                "verdict": ("UNREADABLE — %d of %d junction rows carry neither `nr4a3_first_residue` "
+                            "nor `nr4_cds_nt`, so this flag cannot say whether their seams exist. "
+                            "That is not the same as 'they are fine'." % (unreadable or len(js), len(js))),
+                "⛔_not_fixed_here": "R13-a FLAGS; it does not repair another lane's artifact."}
+    all_stale = bool(resumes) and len(bad) == len(resumes)
     return {
         "read": True,
+        "readable": True,
         "n_junctions": neo_doc.get("n_inframe_junctions"),
         "n_predicted_binders": neo_doc.get("n_distinct_binders"),
         "nr4a3_resume_residues_in_the_artifact": resumes,
         "nr4a3_resume_residues_that_survive_the_corrected_windows": sorted(good_resumes),
-        "all_seams_stale": bool(resumes) and len(bad) == len(resumes),
+        "all_seams_stale": all_stale,
         "stale_resume_residues": bad,
         "verdict": ("EVERY committed junction resumes at a residue no plausible corrected breakpoint "
                     "produces — so all %s predicted binders span seams that do not exist"
-                    % neo_doc.get("n_distinct_binders")) if resumes and len(bad) == len(resumes) else
-                   "some junctions survive; see stale_resume_residues",
+                    % neo_doc.get("n_distinct_binders")) if all_stale else
+                   ("every junction resumes inside the corrected plausible range %s — no stale seam"
+                    % sorted(good_resumes) if not bad else
+                    "some junctions survive; see stale_resume_residues"),
         "⛔_not_fixed_here": ("regenerating this artifact needs MHCflurry, which is that lane's call and "
-                             "not this rung's. R13-a FLAGS it. Do not quote any of those binders."),
+                             "not this rung's. R13-a FLAGS it; it never repairs or re-predicts."),
     }
 
 

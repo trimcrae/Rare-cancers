@@ -2476,17 +2476,17 @@
         "why": "same antigen, engineered-cell or soluble-bispecific product rather than an immunisation"
       }
     ],
-    "correction_owed": "⛔ Its 26 predicted binders span seams that do not exist. fusion-breakpoint-neoantigens.json must be regenerated against the corrected exon index — this is a live correction owed, recorded by target-route-options.md, and this registry only points at it.",
-    "closure_kind": "unregenerable_artifact",
+    "correction_owed": "✅ PAID 2026-08-07. Regenerated on the TRANSCRIPT model: 5 EMITTABLE junctions of 27 declared exon pairs (EWSR1 e7/9/10/12/13 → NR4A3 e3), 11 distinct predicted binders (4 strong), 22 explicit refusals. The retracted 7-junction set is NOT recovered and was not padded back to. Banner withheld by re-derivation, not by rewriting the file.",
+    "closure_kind": "instrument_limit",
     "revival_trigger": [
-      "TR-NEOANTIGEN-SEAMS-REGENERATED"
+      "TR-NEOANTIGEN-BROADER-ALLELE-COVERAGE"
     ],
-    "closure_note": "⚠ THE TWO HALVES, KEPT APART: the 26 predicted binders are unusable because they span seams that do not exist — that RESULT is void. The QUESTION is open and one free regeneration answers it.",
+    "closure_note": "⚠ THE CORRECTION LANDED AND THE ROUTE GOT WEAKER, NOT STRONGER. The result is no longer void — but the corrected e7::e3 public junction is presented on HLA-B*15:01 ALONE, so class-I coverage falls 29.7% → 8.51% and the pooled panel 58.0% → 27.4%. What now closes this route is a COVERAGE/immunogenicity argument, not a defective input.",
     "strategy": "ST-IMMUNO",
     "publication": {
       "endpoint": "PUB-NEOANTIGEN",
       "role": "primary",
-      "contribution": "The junction peptide and its presentation predictions, which must be regenerated against the corrected exon index before any of them can be reported."
+      "contribution": "The junction peptide and its predicted-binding SCREEN, regenerated 2026-08-07 on the transcript model. The publishable finding is now partly NEGATIVE: no pan-EMC epitope, three of five junctions with no strong binder, and a public junction reaching under a tenth of patients."
     },
     "level": "L2",
     "kind": "route",
@@ -2528,9 +2528,11 @@
     ],
     "readiness": {
       "attainable_today": "internal_note",
-      "why_not_higher": "Half is done and half is not, and the halves must not be read together. The SINGLE-junction artifact (fusion-neoantigen-predictions.json) was regenerated 2026-08-06 against the corrected exon index and its banner is cleared. The breakpoint-RESOLVED artifact is still retracted and its module still carries the transcript/coding slip, so §2 of the neoantigen paper stays withdrawn.",
+      "why_not_higher": "The breakpoint-resolved artifact is regenerated and its banner is cleared. What remains is DOWNSTREAM: patient-cd4-demo.json, the TAF15 panel (patient_neoepitopes.py), vaccine_construct.py and coverage_scan.py were all built on the retracted seam and are NOT repaired by regenerating their input.",
       "missing": [
-        "regenerated predictions for the breakpoint-RESOLVED artifact (fusion-breakpoint-neoantigens.json), which is still retracted"
+        "patient-cd4-demo.json regenerated at the corrected junction — the class-II arm and every CD8∧CD4 figure are withheld until it is",
+        "the TAF15::NR4A3 panel regenerated — patient_neoepitopes.py still builds through fusion_breakpoints.gene_model, the CDS/protein instrument",
+        "vaccine_construct.py and coverage_scan.py re-run (vaccine_construct currently emits an incoherent half-corrected artifact)"
       ]
     },
     "timing": {
@@ -2542,7 +2544,7 @@
       "automation_outlook": "Fully automatable; it is a regeneration."
     },
     "next": {
-      "best_next_action": "Regenerate the junction-neoantigen predictions against the corrected exon index, then re-grade. Every predicted binder currently spans a seam no reported junction produces.",
+      "best_next_action": "Regenerate patient-cd4-demo.json and the TAF15 panel at the corrected junction, then re-grade the route on COVERAGE rather than on a defective input.",
       "cost": "$0"
     }
   },
@@ -2602,7 +2604,7 @@
     ],
     "closure_kind": "premise_false",
     "revival_trigger": [
-      "TR-NEOANTIGEN-SEAMS-REGENERATED"
+      "TR-NEOANTIGEN-BROADER-ALLELE-COVERAGE"
     ],
     "closure_note": "Parked on immunogenicity — a self-adjacent junction in a cold tumour — and its HLA-coverage output is reusable and still feeds TCR-T eligibility.",
     "strategy": "ST-IMMUNO",
@@ -2644,7 +2646,7 @@
     ],
     "readiness": {
       "attainable_today": "internal_note",
-      "why_not_higher": "Parked on immunogenicity, and its antigen input inherits the void prediction above it. The HLA-coverage output is reusable and does feed eligibility analysis elsewhere.",
+      "why_not_higher": "its antigen input is no longer void — it is regenerated. What now blocks it is COVERAGE: ≈8.5% on the public junction, ≈27% pooled, and a class-II arm still on the retracted seam.",
       "missing": [
         "an immunogenicity argument"
       ]
@@ -2661,7 +2663,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Keep the HLA-coverage output as a reusable input to eligibility analysis. Do not advance the vaccine while the antigen is void.",
+      "best_next_action": "Re-grade on the recomputed coverage. The HLA-coverage output is reusable but its class-I figures moved by ~3× and its class-II figures are withheld.",
       "cost": "$0"
     }
   },
@@ -2730,7 +2732,7 @@
     ],
     "closure_kind": "premise_false",
     "revival_trigger": [
-      "TR-NEOANTIGEN-SEAMS-REGENERATED"
+      "TR-NEOANTIGEN-BROADER-ALLELE-COVERAGE"
     ],
     "closure_note": "The weak-junction peptide-HLA problem is a measured property of this junction, not of the modality.",
     "strategy": "ST-IMMUNO",
@@ -2774,7 +2776,7 @@
       "attainable_today": "internal_note",
       "why_not_higher": "The weak-junction peptide-HLA is a measured property of this junction, not of the modality — so the route is blocked by its input rather than by its design.",
       "missing": [
-        "a stronger presented epitope"
+        "a stronger presented epitope, and one not confined to a single allele — both corrected e7::e3 strong binders are HLA-B*15:01"
       ]
     },
     "timing": {
@@ -2789,7 +2791,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Keep registered. Re-grade after the neoantigen predictions are regenerated.",
+      "best_next_action": "Re-graded 2026-08-07: the epitopes changed (NMPCVQAQY / QQNMPCVQAQY) and the weak-junction finding holds.",
       "cost": "$0"
     }
   },

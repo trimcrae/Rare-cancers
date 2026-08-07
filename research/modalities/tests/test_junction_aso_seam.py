@@ -107,14 +107,28 @@ def test_the_ewsr1_side_reproduced_correctly_which_is_why_nothing_caught_it():
 
 
 @pytest.mark.committed_artifact
-def test_the_retracted_values_are_still_what_the_retraction_grades():
-    with open(RETRACTION) as fh:
-        r = json.load(fh)["breakpoint_artifact"]
-    graded = [j for j in r["junctions_graded"]
-              if j["nr4_cds_nt"] == RETRACTED_CDS_NT
-              and j["nr4a3_resumes_at_residue"] == RETRACTED_RESIDUE]
-    assert graded, "the retraction no longer grades 1081/361 — this test's anchor has moved"
-    assert all(j["status"] == "SEAM_NOT_PRODUCED" for j in graded)
+def test_the_retracted_values_are_still_what_the_pre_fix_arithmetic_produces():
+    """This test's ANCHOR, re-pointed to something that cannot drain (2026-08-07).
+
+    ⚠ Superseded, retained: it read `fusion-neoantigen-retraction.json` →
+    `breakpoint_artifact.junctions_graded` and looked for a row at 1081/361. That file is the GRADING
+    OF AN ARTIFACT, so the moment the artifact was legitimately regenerated the grading became a
+    CLEARED banner with no `junctions_graded` at all and the anchor vanished — taking with it the
+    only check that 1081/361 were the right numbers to be naming. An anchor that disappears when the
+    defect is repaired cannot tell a repair from a reintroduction.
+
+    ⛔ The replacement re-derives the retracted offsets from the pre-fix expression itself
+    (`offsets[n - 2]` over the committed exon audit) via
+    `fusion_neoantigen_invalidation._retracted_resume_residues`, which is defined for exactly this
+    reason and is independent of any artifact's current content.
+    """
+    import fusion_neoantigen_invalidation as fni                # noqa: E402
+    nr4 = _model_from_committed_audit("NR4A3")
+    assert nr4["offsets"][3 - 2] == RETRACTED_CDS_NT
+    assert RETRACTED_RESIDUE in fni._retracted_resume_residues()
+    # and it is still a seam no corrected window entry produces
+    resumes, _cuts, _skipped = fni.corrected_windows()
+    assert RETRACTED_CDS_NT not in set(resumes.values())
 
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────

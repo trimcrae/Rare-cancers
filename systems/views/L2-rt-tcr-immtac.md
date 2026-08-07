@@ -82,7 +82,7 @@ A soluble T-cell-receptor bispecific can reach a peptide-HLA that antibodies can
 The weak-junction peptide-HLA is a measured property of this junction, not of the modality — so the route is blocked by its input rather than by its design.
 
 **Missing:**
-- a stronger presented epitope
+- a stronger presented epitope, and one not confined to a single allele — both corrected e7::e3 strong binders are HLA-B*15:01
 
 ## Where this route ends — the paper
 
@@ -124,7 +124,7 @@ Waits on a measured property of the junction. No modality improvement changes a 
 
 ## Best next action
 
-Keep registered. Re-grade after the neoantigen predictions are regenerated.
+Re-graded 2026-08-07: the epitopes changed (NMPCVQAQY / QQNMPCVQAQY) and the weak-junction finding holds.
 
 *Cost:* $0
 
