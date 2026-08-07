@@ -874,6 +874,7 @@ def _therapeutic_hooks(status):
     for cls, rec in (status.get("classes") or {}).items():
         ct = rec.get("clinicaltrials") or {}
         failed = sorted(a for a, v in ct.items() if "_status" in v)
+        ok = sorted(a for a, v in ct.items() if "_status" not in v)
         n_studies = sum(v.get("n_returned", 0) for v in ct.values() if "_status" not in v)
         sarc = rec.get("sarcoma_specific_trials") or {}
         phases = Counter()
@@ -885,20 +886,57 @@ def _therapeutic_hooks(status):
                 if s.get("why_stopped"):
                     stopped.append({"agent": agent, "nct": s["nct"],
                                     "why_stopped": s["why_stopped"], "status": s["status"]})
-        out["classes"][cls] = {
+        row = {
             "why_a_hypoxia_reading_points_here": rec.get("why_a_hypoxia_reading_points_here"),
             "the_prior_that_matters": rec.get("the_prior_that_matters"),
-            "n_registered_studies_returned": n_studies,
-            "phase_counts": dict(phases.most_common()),
-            "agents_whose_query_failed": failed or None,
-            "_failed_query_means": ("the retrieval failed for that agent; it is NOT a finding that "
-                                    "no trial exists" if failed else None),
-            "sarcoma_indexed_trials": {a: rows for a, rows in sarc.items()},
-            "n_sarcoma_indexed_trials": sum(len(v) for v in sarc.values()),
-            "trials_with_a_recorded_why_stopped": stopped[:20],
+            "trial_registry": {},
             "pubmed_hit_counts": {a: (v.get("n_hits") if "_status" not in v else v["_status"])
                                   for a, v in (rec.get("pubmed") or {}).items()},
         }
+        # ⛔⛔ A CLASS WHOSE EVERY QUERY FAILED MUST NOT REPORT ZERO TRIALS. This block used to emit
+        # `n_registered_studies_returned: 0` and `phase_counts: {}` regardless — which renders
+        # EXACTLY like a class that genuinely has no registered trial. Measured 2026-08-07, run
+        # 31200194935: all 21 ClinicalTrials.gov v2 queries returned HTTP 400 (a malformed request,
+        # not a block or a rate limit), and all three classes printed a clean zero. The per-agent
+        # record underneath was correct the whole time and said `QUERY FAILED`; the SUMMARY is what
+        # lied, in the section that touches clinical claims. This is CLAUDE.md §4's "absent reading
+        # is not a reading of absence", reintroduced by a summariser three functions above the
+        # record that got it right.
+        if failed and not ok:
+            row["trial_registry"] = {
+                "_status": "NOT RETRIEVED",
+                "n_agents_queried": len(ct), "n_agents_whose_query_failed": len(failed),
+                "agents_whose_query_failed": failed,
+                "verdict": "⛔ EVERY registry query for this class FAILED. NO COUNT IS EMITTED — "
+                           "not a zero, not a phase table. ⚠ This is an ABSENT READING: it does "
+                           "not mean no trial exists, and no sentence anywhere may say a class has "
+                           "no trials on the strength of this row. The per-agent errors are in "
+                           "`emc-hypoxia-therapeutic-status.json`.",
+            }
+        else:
+            row["trial_registry"] = {
+                "_status": "RETRIEVED" if not failed else "PARTIAL",
+                "n_registered_studies_returned": n_studies,
+                "phase_counts": dict(phases.most_common()),
+                "sarcoma_indexed_trials": {a: rows for a, rows in sarc.items()},
+                "n_sarcoma_indexed_trials": sum(len(v) for v in sarc.values()),
+                "trials_with_a_recorded_why_stopped": stopped[:20],
+                "agents_whose_query_failed": failed or None,
+                "_partial_means": ("the counts below cover ONLY the agents whose query succeeded; "
+                                   "the failed ones contribute nothing and are not zeros"
+                                   if failed else None),
+            }
+        out["classes"][cls] = row
+    every_class_lost_the_registry = all(
+        (r.get("trial_registry") or {}).get("_status") == "NOT RETRIEVED"
+        for r in out["classes"].values())
+    if every_class_lost_the_registry:
+        out["_status"] = "PARTIAL — literature retrieved, trial registry NOT retrieved"
+        out["verdict"] = (
+            "⚠ The PubMed half of this retrieval succeeded and the ClinicalTrials.gov half did "
+            "not, for every class. So this file can say what has been WRITTEN ABOUT and cannot "
+            "say what has been REGISTERED, and the difference matters most for exactly the "
+            "sentence a reader wants: whether a class's trials stopped, and why.")
     out["every_registered_EMC_trial"] = status.get("every_registered_EMC_trial")
     return out
 
@@ -1249,8 +1287,35 @@ def fetch_therapeutic_status():
     ⛔ RECORDS, NEVER SUMMARISES ON THE WAY IN. Every query is stored verbatim with its URL and the
     HTTP outcome, and a query that fails is recorded as a failed query — never as an empty result,
     which is the same 'absent reading vs reading of absence' error in retrieval clothing."""
+    import urllib.error
     import urllib.parse
-    from emc_atr_vulnerability import _get
+    import urllib.request
+
+    def _get_status(url, timeout=120):
+        """⛔ `_get` RAISES `RuntimeError("failed: <url>")` AND THROWS THE HTTP STATUS AWAY — it
+        prints it to stderr and nowhere else. Measured 2026-08-07, run 31200194935: every
+        ClinicalTrials.gov query failed and the artifact could only say `QUERY FAILED: failed:
+        <url>`, so diagnosing it meant hunting a finished job's log for four `retry N ... HTTP
+        Error 400` lines. A failure a reader cannot diagnose FROM THE ARTIFACT is a failure that
+        gets re-run blind. This wrapper is non-retrying on purpose: a 400 is a deterministic
+        answer about the REQUEST, and retrying it four times only delays the diagnosis."""
+        req = urllib.request.Request(url, headers={"User-Agent": "rare-cancers/1.0",
+                                                   "Accept": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read(), None
+        except urllib.error.HTTPError as e:
+            body = ""
+            try:
+                body = e.read().decode("utf-8", "replace")[:400]
+            except Exception:  # noqa: BLE001
+                pass
+            return None, {"http_status": e.code, "reason": str(e.reason)[:120],
+                          "response_body": body}
+        except Exception as e:  # noqa: BLE001
+            return None, {"http_status": None, "reason": f"{type(e).__name__}: {str(e)[:160]}"}
+
+    from emc_atr_vulnerability import _get  # noqa: F401  (PubMed half; its retries are wanted)
 
     out = {"_generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
            "_what": "the public clinical record for the three drug classes a hypoxia reading "
@@ -1271,12 +1336,23 @@ def fetch_therapeutic_status():
         rec["sarcoma_specific_trials"] = {}
         rec["pubmed"] = {}
         for agent in meta["agents"]:
+            # ⛔ NO `fields=` PARAMETER. The first version passed the v1 StudyFields names
+            # (`NCTId,BriefTitle,...,LeadSponsorName`) to the v2 endpoint, which rejects an
+            # unrecognised field name with HTTP 400 — so all 21 queries failed identically on
+            # run 31200194935 and the cause read like an outage. v2 returns the whole
+            # `protocolSection` by default and every reader below already walks it defensively,
+            # so asking for less bought nothing and cost the entire retrieval.
             q = ("https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true"
-                 "&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,"
-                 "StartDate,PrimaryCompletionDate,LeadSponsorName"
                  "&query.intr=" + urllib.parse.quote(agent))
+            # ⚠ NOT `continue` ON FAILURE. The PubMed retrieval for this agent lives further down
+            # the same loop body and hits a different host; skipping it because the registry host
+            # answered 400 would throw away the half that works — which is the whole reason the
+            # two halves are separate steps in the workflow.
+            raw, err = _get_status(q)
             try:
-                js = json.loads(_get(q, timeout=120))
+                if err is not None:
+                    raise RuntimeError("registry query failed")
+                js = json.loads(raw)
                 studies = js.get("studies") or []
                 rows = []
                 for s in studies:
@@ -1303,8 +1379,9 @@ def fetch_therapeutic_status():
                     rec["sarcoma_specific_trials"][agent] = sarc
             except Exception as exc:  # noqa: BLE001
                 rec["clinicaltrials"][agent] = {
-                    "_query_url": q,
-                    "_status": f"QUERY FAILED: {str(exc)[:200]}",
+                    "_query_url": q, "_status": "QUERY FAILED",
+                    "_error": err or {"http_status": None,
+                                      "reason": f"{type(exc).__name__}: {str(exc)[:160]}"},
                     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial "
                                          "exists."}
             # PubMed — the outcome literature, which is where a negative phase 3 actually lives.
@@ -1335,10 +1412,12 @@ def fetch_therapeutic_status():
 
     # Is there ANY EMC trial of any of these? Asked directly rather than inferred from the above.
     emc_q = ("https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true"
-             "&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,Interventions"
              "&query.cond=" + urllib.parse.quote("extraskeletal myxoid chondrosarcoma"))
+    raw, err = _get_status(emc_q)
     try:
-        js = json.loads(_get(emc_q, timeout=120))
+        if err is not None:
+            raise RuntimeError("registry query failed")
+        js = json.loads(raw)
         out["every_registered_EMC_trial"] = {
             "_query_url": emc_q, "_n_total_reported": js.get("totalCount"),
             "_why_asked": "so the claim `no trial of any of these classes exists in EMC` is a "
@@ -1352,8 +1431,13 @@ def fetch_therapeutic_status():
                         for s in (js.get("studies") or [])]}
     except Exception as exc:  # noqa: BLE001
         out["every_registered_EMC_trial"] = {
-            "_query_url": emc_q, "_status": f"QUERY FAILED: {str(exc)[:200]}",
-            "_what_this_is_not": "a failed retrieval, NOT a finding that no EMC trial exists."}
+            "_query_url": emc_q, "_status": "QUERY FAILED",
+            "_error": err or {"http_status": None,
+                              "reason": f"{type(exc).__name__}: {str(exc)[:160]}"},
+            "_what_this_is_not": "a failed retrieval, NOT a finding that no EMC trial exists. ⛔ "
+                                 "In particular it does NOT license the sentence `there is no "
+                                 "registered EMC trial of any of these classes`, which is exactly "
+                                 "the sentence this query exists to make retrievable."}
     return out
 
 

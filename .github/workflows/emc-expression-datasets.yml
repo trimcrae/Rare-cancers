@@ -113,6 +113,17 @@ on:
           a refusal is recorded and reported, never silently skipped.
         required: false
         default: "7:3,12:3"
+      skip_null_background:
+        description: >-
+          hypoxia-confounds mode only: "true" skips the ~25-minute genome-wide null background
+          fetch and runs only the clinical retrieval + re-derive. Use when the background artifact
+          is already committed and correct and only the retrieval needs re-running — the two halves
+          hit different hosts and fail for unrelated reasons. Default false, so forgetting it costs
+          time rather than silently leaving the null unfetched.
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
       series:
         description: "gse-series mode only: the GEO series accession to characterise."
         required: false
@@ -375,8 +386,16 @@ jobs:
       # It re-runs `panels`' fetch of the same two matrices under a different want list. That is
       # deliberate duplication of a $0 CPU fetch, and it buys the merge integrity check: two
       # independent parses of the same matrix that must agree gene-for-gene.
+      # ⚠ SKIPPABLE, because the two halves fail for unrelated reasons and only one of them is
+      # expensive. Run 31200194935: the background fetch succeeded and every ClinicalTrials.gov
+      # query returned HTTP 400 (a v1 `fields=` list sent to the v2 endpoint). Re-running the
+      # retrieval should not cost another ~25 minutes of GEO fetching for an artifact that is
+      # already correct and already committed — and a re-run that DOES redo it would overwrite a
+      # good artifact to fix a different one.
+      # ⛔ The skip is opt-IN and the background is the default, so forgetting the flag costs time
+      # rather than silently leaving the null unfetched.
       - name: "Hypoxia confounds — genome-wide null background"
-        if: inputs.mode == 'hypoxia-confounds'
+        if: inputs.mode == 'hypoxia-confounds' && inputs.skip_null_background != 'true'
         timeout-minutes: 90
         env:
           # Same reason as every other copy of this line in this file: a step that times out

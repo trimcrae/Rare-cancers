@@ -163,6 +163,80 @@ def test_no_therapeutic_retrieval_says_NOT_RETRIEVED_for_every_class():
         assert cls["status"] == "NOT RETRIEVED"
 
 
+def _status_with_all_registry_queries_failed():
+    """What run 31200194935 actually produced: PubMed fine, every registry query HTTP 400."""
+    classes = {}
+    for cls, meta in M.THERAPEUTIC_CLASSES.items():
+        classes[cls] = {
+            "why_a_hypoxia_reading_points_here": meta["why_a_hypoxia_reading_points_here"],
+            "the_prior_that_matters": meta["the_prior_that_matters"],
+            "clinicaltrials": {a: {"_status": "QUERY FAILED",
+                                   "_error": {"http_status": 400, "reason": "Bad Request"}}
+                               for a in meta["agents"]},
+            "sarcoma_specific_trials": {},
+            "pubmed": {a: {"n_hits": 25} for a in meta["agents"]},
+        }
+    return {"_generated_utc": "2026-01-01T00:00:00+00:00", "classes": classes}
+
+
+def test_a_class_whose_every_registry_query_failed_reports_NO_COUNT_not_zero():
+    """⛔ THE FAILURE THIS PINS ACTUALLY HAPPENED (run 31200194935, 2026-08-07).
+
+    All 21 ClinicalTrials.gov v2 queries returned HTTP 400 and the summary printed
+    `n_registered_studies_returned: 0` with an empty phase table for all three classes — which
+    renders EXACTLY like a class that genuinely has no registered trial, in the section that
+    touches clinical claims. The per-agent record said `QUERY FAILED` the whole time; the
+    SUMMARY is what lied."""
+    res = M.derive(_minimal_inputs(), background=None,
+                   therapeutic=_status_with_all_registry_queries_failed())
+    hooks = res["therapeutic_hooks"]
+    assert hooks["_status"].startswith("PARTIAL"), hooks["_status"]
+    for cls, row in hooks["classes"].items():
+        tr = row["trial_registry"]
+        assert tr["_status"] == "NOT RETRIEVED", cls
+        # the two fields that told the lie must be ABSENT, not zero
+        assert "n_registered_studies_returned" not in tr, f"{cls} still emits a count"
+        assert "phase_counts" not in tr, f"{cls} still emits a phase table"
+        assert "n_sarcoma_indexed_trials" not in tr, f"{cls} still emits a sarcoma count"
+        v = tr["verdict"].lower()
+        assert "absent reading" in v and "does not mean no trial exists" in v
+    # and the PubMed half, which DID work, must still be reported
+    for row in hooks["classes"].values():
+        assert any(isinstance(n, int) and n > 0 for n in row["pubmed_hit_counts"].values())
+
+
+def test_a_partial_registry_retrieval_says_the_counts_cover_only_what_succeeded():
+    st = _status_with_all_registry_queries_failed()
+    cls = next(iter(st["classes"]))
+    agent = next(iter(st["classes"][cls]["clinicaltrials"]))
+    st["classes"][cls]["clinicaltrials"][agent] = {
+        "n_returned": 2,
+        "studies": [{"nct": "NCT1", "title": "t", "status": "COMPLETED", "why_stopped": None,
+                     "phase": ["PHASE3"], "conditions": ["Soft Tissue Sarcoma"], "sponsor": "x",
+                     "start": "2014"},
+                    {"nct": "NCT2", "title": "t", "status": "TERMINATED",
+                     "why_stopped": "did not meet endpoint", "phase": ["PHASE2"],
+                     "conditions": ["Other"], "sponsor": "x", "start": "2015"}]}
+    res = M.derive(_minimal_inputs(), background=None, therapeutic=st)
+    tr = res["therapeutic_hooks"]["classes"][cls]["trial_registry"]
+    assert tr["_status"] == "PARTIAL"
+    assert tr["n_registered_studies_returned"] == 2
+    assert "ONLY the agents whose query succeeded" in tr["_partial_means"]
+    assert tr["agents_whose_query_failed"]
+    assert len(tr["trials_with_a_recorded_why_stopped"]) == 1
+
+
+def test_the_registry_query_carries_no_v1_fields_parameter():
+    """The exact defect: v1 StudyFields names sent to the v2 endpoint -> HTTP 400 on all 21."""
+    src = open(os.path.join(MOD, "emc_hypoxia_confounds.py"), "r", encoding="utf-8").read()
+    body = src.split("def fetch_therapeutic_status", 1)[1]
+    for line in body.split("\n"):
+        if "clinicaltrials.gov/api/v2" in line or ('"&fields=' in line):
+            assert "fields=" not in line, (
+                f"a v2 registry query still passes `fields=`, which is what returned 400 on every "
+                f"query in run 31200194935: {line.strip()[:120]}")
+
+
 def test_a_gene_with_no_probe_is_reported_unreadable_not_unexpressed():
     res = M.derive(_minimal_inputs(), background=None)
     plat = res["platforms"]["FAKE_series_matrix.txt.gz"]
