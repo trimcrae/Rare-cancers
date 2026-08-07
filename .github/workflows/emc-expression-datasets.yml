@@ -180,8 +180,24 @@ on:
 permissions:
   contents: write
 
+# ⛔ THE GROUP IS KEYED ON THE MODE, AND THAT IS A BUG FIX, NOT TIDINESS (measured 2026-08-07).
+# It used to be keyed on the ref alone. `cancel-in-progress: false` does NOT mean "queue them
+# all": GitHub keeps at most ONE pending run per group and CANCELS the older pending one when a
+# new one arrives. Measured that day, on this workflow: a `panels` run was created 17:04:48Z,
+# never started a job (`jobs: []`), and flipped to `cancelled` at 17:11:10Z — three seconds after
+# an unrelated `ret-motif` dispatch entered the same group. Nothing failed and nothing said so;
+# a dispatched-and-silently-dropped run is indistinguishable from one that ran, which is the
+# exact shape CLAUDE.md §4 is written about.
+#
+# The modes touch DIFFERENT artifacts by design (each mode's header says so), so they were never
+# in genuine contention — only the group name put them there. Keyed on the mode:
+#   * two runs of the SAME mode still serialize, which is the contention that is real: two
+#     `part-b` runs would fetch GEO minutes apart and fight over one 7 MB artifact;
+#   * different modes now run concurrently, and their concurrent publishes are safe because they
+#     go through `publish_artifacts.sh` — the repo's own primitive, which exists precisely because
+#     a hand-rolled `git pull --rebase` + push lost artifacts on three separate lanes.
 concurrency:
-  group: emc-expression-datasets-${{ github.ref_name }}
+  group: emc-expression-datasets-${{ github.ref_name }}-${{ inputs.mode }}
   cancel-in-progress: false
 
 jobs:
