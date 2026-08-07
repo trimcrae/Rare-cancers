@@ -424,6 +424,48 @@ def test_a_control_that_is_READABLE_but_has_no_contrast_is_NOT_GRADED_not_FAILED
     assert res["controls"]["all_checks_pass"] is not False or res["controls"]["checks_failed"]
 
 
+def test_a_control_INSIDE_its_null_band_is_not_graded_rather_than_failed():
+    """⛔⛔ THE SECOND DEFECT, FOUND IN THE FIRST REAL RUN'S OWN OUTPUT. The control block was
+    grading RAW deltas — the exact error the module exists to prevent, inside the block that
+    certifies the instrument. A gene whose delta sits inside the 95% band of a randomly chosen
+    single gene on that platform has produced NO reading at this power, and must not be scored
+    either way."""
+    inp = _make_inputs(spike={"ENO3": 0.2})   # small, well inside a size-1 null
+    chk = M.derive(inp)["controls"]["checks"]["positive_control_ENO3"]
+    st = chk["per_platform"]["FAKE_series_matrix.txt.gz"]
+    assert st["band_state"] == "INSIDE_NULL"
+    assert st["graded"] is False
+    assert "neither confirms nor refutes" in st["_means"]
+    assert chk["pass"] is None
+
+
+def test_a_flat_prediction_is_SATISFIED_by_a_reading_inside_the_null():
+    """SGK1's published claim is 'the transcript is NOT appreciably higher'. Under `not_outside_up`
+    a flat reading AGREES — it is what was predicted — and only a gene sitting outside the band
+    upward disagrees. The measured case this comes from: SGK1 on GPL3290, delta +0.6156, null band
+    [-1.31, +1.41], p_emp 0.293. A fixed `delta < +0.3` threshold called that a FAILED control."""
+    flat_in = M.derive(_make_inputs())
+    sgk = flat_in["controls"]["checks"]["prereg_discordance_SGK1"]
+    assert sgk["null_semantics"] == "not_outside_up"
+    st = sgk["per_platform"]["FAKE_series_matrix.txt.gz"]
+    assert st["state"] == "AGREES" and st["graded"] is True
+    # and it must still be able to fail, on a gene that really is up
+    up = M.derive(_make_inputs(spike={"SGK1": 4.0}))
+    assert up["controls"]["checks"]["prereg_discordance_SGK1"]["pass"] is False
+
+
+def test_every_control_declares_that_it_is_graded_against_its_null(flat):
+    for name, chk in flat["controls"]["checks"].items():
+        assert chk["null_semantics"] in ("outside_up", "outside_down", "not_outside_up"), name
+        assert "never on the raw delta alone" in chk["_graded_on"], name
+
+
+def test_the_superseded_raw_threshold_is_retained_not_deleted(flat):
+    """CLAUDE.md §1: never silently drop a superseded number."""
+    t = flat["controls"]["checks"]["prereg_discordance_SGK1"]["_threshold"]
+    assert "SUPERSEDED" in t and "0.3" in t and "0.6156" in t
+
+
 def test_an_unreadable_control_is_also_not_a_failure():
     inp = _make_inputs()
     del inp["targets"]["FAKE_series_matrix.txt.gz"]["genes"]["PLAGL1"]

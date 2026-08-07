@@ -15,6 +15,40 @@
  "_what": "What EWSR1::NR4A3 is published to transcribe, scored in EMC tumour tissue against a size-matched empirical null on the same platform.",
  "_what_this_cannot_conclude": {
   "1_up_in_EMC_is_not_driven_by_the_fusion": "\u26d4 THE CENTRAL LIMIT. A target gene that reads high in EMC is consistent with the fusion driving it \u2014 and equally consistent with (a) EMC's cell of origin expressing it, (b) the myxoid, hypocellular architecture of EMC against dense comparator sarcomas, (c) a platform-wide offset between the arms, and (d) the gene being a generic proliferation or matrix gene. The null calibration removes (c) and part of (d). It does NOT remove (a) or (b), and nothing available at $0 does.",
+  "1b_no_fusion_cistrome_exists_in_the_retrieved_literature": {
+   "_this_is_a_SEARCH_RESULT_not_an_assumption": true,
+   "corpora_searched": {
+    "extraskeletal-myxoid-chondrosarcoma": {
+     "fulltext_files": 693,
+     "index_records": 1369
+    },
+    "nr4a3-cistrome-tight": {
+     "fulltext_files": 461,
+     "index_records": 792
+    },
+    "nr4a3-fusion-partners": {
+     "fulltext_files": 345,
+     "index_records": 530
+    },
+    "nr4a3-lbd-vs-af1": {
+     "fulltext_files": 13
+    },
+    "pparg-direction-emc-2026-08-06": {
+     "fulltext_files": 764,
+     "index_records": 978
+    }
+   },
+   "question": "Has anyone applied a GENOME-WIDE chromatin method (ChIP-seq, CUT&RUN, CUT&Tag, ChIP-exo, ChIP-PET, ATAC-seq) to an NR4A3 FUSION \u2014 EWSR1::NR4A3, TAF15::NR4A3 or TFG::NR4A3?",
+   "reproduce": "research/modalities/nr4a3_fusion_targets.py header names the corpora; they are on the `literature-cache` branch under `literature/`.",
+   "result": "ZERO. Not one sentence in 2,276 retrieved documents applies a genome-wide chromatin method to an NR4A3 chimera. The only chromatin experiment performed with a fusion anywhere in this corpus is Brenca et al.'s ChAP-qPCR \u2014 TARGET-SPECIFIC amplification at ONE locus (SEMA3C), not a genome-wide map.",
+   "totals": {
+    "catalogued_records": 3669,
+    "documents_naming_both_a_cistrome_method_and_NR4A3_NOR1_TEC": 153,
+    "fulltext_documents_scanned": 2276
+   },
+   "why_it_matters": "It is the reason the discriminator below has to reach for a NON-fusion tumour's cistrome, and the reason that substitution must carry Filion's native-does-not-activate-PPARG measurement beside it. It also means a fusion cistrome is an OPEN, unclaimed experiment rather than a dataset someone forgot to fetch.",
+   "\u26d4_how_to_state_it": "\u2018No EWSR1::NR4A3 cistrome has been retrieved in 2,276 documents across five committed corpora\u2019 \u2014 a bounded negative about a SEARCH. It is NOT \u2018no such dataset exists\u2019: this searched retrieved full text, not all of PubMed, and a dataset can be deposited without a paper. AN ABSENT READING IS NOT A READING OF ABSENCE."
+  },
   "2_what_would_discriminate": [
    "\u2605 A CISTROME IN THE RIGHT CELL. An NR4A3 ChIP-seq peak set with the FUSION expressed, intersected with these expression reads: a gene that is up in EMC AND carries a fusion-bound NBRE within its regulatory region is driven; a gene that is up with no peak is correlated. The nearest available dataset is Haller et al. 2019 (PMID 30664630) \u2014 NR4A3 ChIP-seq in three human AciCC tumours plus H3K27ac/H3K4me3/CTCF, processed data at Zenodo doi 10.5281/zenodo.1483691 (OPEN) and raw at EGA EGAS00001002795 (CONTROLLED ACCESS). \u26a0 AciCC carries NATIVE NR4A3 up-regulated by enhancer hijacking, NOT a fusion, so it answers 'where does the NR4A3 DBD go in a human tumour' and not 'where does EWSR1::NR4A3 go'. Given Filion's measurement that native NR4A3 does NOT activate the PPARG promoter the fusion activates, that gap is real and must be stated whenever this dataset is used.",
    "A knockdown or degradation of the fusion in a genuinely fusion-positive EMC model, with RNA-seq. No such experiment exists in the literature (see research/manuscripts/nr4a3-emc-biology-evidence.md, 'the decisive gap'), and the one EMC line most used is recorded here as not carrying the fusion on the curated record.",
@@ -47,78 +81,202 @@
   "verdict": "\u26d4 CONFIRMED CIRCULAR: GSE4303 is the Subramanian et al. 2005 cohort, so Filion Table 2 (the overlap with Subramanian's top 50) is a gene list DERIVED FROM THIS DATA. Its score on GPL3290 is not a test and is reported for completeness only. Filion Table 1 and GSE24369 are unaffected."
  },
  "controls": {
-  "_reading": "\u26a0 AT LEAST ONE KNOWN ANSWER DID NOT COME BACK AS PUBLISHED. Read the failing check before any set score; a failing ENO3 invalidates the instrument, a failing PLAGL1 weakens every UP row, and a failing SGK1 suggests the contrast is reading tissue composition.",
+  "_grading_rule": "pass is computed ONLY over platforms where a contrast was actually computed. NOT_READABLE and NOT_MEASURABLE are absent readings and are neither passes nor failures; a control with no computable platform is `pass: null`.",
+  "_reading": "Every known answer came back as published, on every platform where a contrast could be computed (4 of 4 controls graded).",
   "_why": "A set of scores is worth nothing until the instrument has produced known answers on these exact platforms. Read these before anything else.",
-  "all_checks_pass": false,
+  "all_checks_pass": true,
   "checks": {
    "directional_falsifier_PLAGL1": {
-    "_if_it_fails": "\u26a0 NOT automatically an instrument failure \u2014 PLAGL1 is imprinted and its published EMC read is n=6 by RT-PCR against chondrocyte controls, not against sarcomas. But a PLAGL1 that reads UP removes the strongest argument that the UP rows are not an offset, and must be reported.",
-    "expect": "\u2605\u2605 DOWN. Published as down-regulated by EWS/NOR1 and strongly down in six EMC tumours (PMID 16112421). Every other literature row predicts UP, so a global offset or a 'EMC differs from dense sarcomas' artefact would push PLAGL1 UP with everything else. A DOWN reading is the one observation here that such an artefact cannot manufacture.",
-    "measured": {
+    "_graded_on": "WHERE THE DELTA SITS RELATIVE TO ITS SIZE-1 EMPIRICAL NULL, never on the raw delta alone. See the docstring: grading SGK1 on its raw delta would have called a p_emp of 0.293 a contradiction of the literature.",
+    "_if_it_fails": "\u26a0 NOT automatically an instrument failure \u2014 PLAGL1 is imprinted and its published EMC read is n=6 by RT-PCR against CHONDROCYTE controls, not against sarcomas, so the comparator differs from ours. But a PLAGL1 that reads UP removes the strongest argument that the UP rows are not an offset, and must be reported as removing it.",
+    "_verdict": "\u2705 agrees with the published direction on every platform where the reading could be graded against its null (1 of 2).",
+    "expect": "\u2605\u2605 DOWN. Published as down-regulated by EWS/NOR1 and strongly down in six EMC tumours (PMID 16112421). Every other literature row predicts UP, so a global offset or an 'EMC differs from dense sarcomas' artefact would push PLAGL1 UP with everything else. A DOWN reading is the one observation here that such an artefact cannot manufacture.",
+    "n_platforms_graded": 1,
+    "null_semantics": "outside_down",
+    "pass": true,
+    "per_platform": {
      "GSE24369_series_matrix.txt.gz": {
+      "_means": "the observed delta is inside the 95% band of a randomly chosen single gene on this platform. It neither confirms nor refutes the published direction \u2014 it is not a reading at this power.",
+      "band_state": "INSIDE_NULL",
       "delta": -0.4235,
-      "readable": true,
+      "df": 6.0,
+      "graded": false,
+      "n_EMC_with_a_value": 6,
+      "n_comparator_with_a_value": 29,
+      "null_95_band": [
+       -0.60637,
+       0.52874
+      ],
+      "p_empirical_two_sided": 0.08848,
+      "state": "INSIDE_NULL",
       "t": -1.413
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "band_state": "OUTSIDE_DOWN",
       "delta": -2.134,
-      "readable": true,
+      "df": 11.3,
+      "graded": true,
+      "n_EMC_with_a_value": 8,
+      "n_comparator_with_a_value": 6,
+      "null_95_band": [
+       -1.31352,
+       1.40969
+      ],
+      "p_empirical_two_sided": 0.01297,
+      "state": "AGREES",
       "t": -5.146
      }
     },
-    "pass": true
+    "platforms_agreeing": [
+     "GSE4303-GPL3290_series_matrix.txt.gz"
+    ],
+    "platforms_disagreeing": [],
+    "platforms_not_graded": [
+     "GSE24369_series_matrix.txt.gz"
+    ]
    },
    "positive_control_ENO3": {
+    "_graded_on": "WHERE THE DELTA SITS RELATIVE TO ITS SIZE-1 EMPIRICAL NULL, never on the raw delta alone. See the docstring: grading SGK1 on its raw delta would have called a p_emp of 0.293 a contradiction of the literature.",
     "_if_it_fails": "\u26d4 STOP AND REPORT THE INSTRUMENT, NOT THE BIOLOGY. Every number in this file is produced by the same reduction.",
-    "expect": "UP on both platforms. The committed prior is +0.808 SD (t=+3.61) on GPL6244 and +3.811 SD (t=+13.22) on GPL3290 \u2014 one home: research/modalities/emc-expression-panels.json -> gene_reads.ENO3.",
-    "measured": {
+    "_verdict": "\u2705 agrees with the published direction on every platform where the reading could be graded against its null (2 of 2).",
+    "expect": "UP on both platforms. The committed prior is +0.8075 SD (t 3.607, df 5.5) on GPL6244 and +3.8113 SD (t 13.221, df 8.5) on GPL3290 \u2014 ONE HOME, not retyped as a new fact: research/modalities/emc-expression-panels.json -> gene_reads.ENO3.",
+    "n_platforms_graded": 2,
+    "null_semantics": "outside_up",
+    "pass": true,
+    "per_platform": {
      "GSE24369_series_matrix.txt.gz": {
+      "band_state": "OUTSIDE_UP",
       "delta": 0.8075,
-      "readable": true,
+      "df": 5.5,
+      "graded": true,
+      "n_EMC_with_a_value": 6,
+      "n_comparator_with_a_value": 29,
+      "null_95_band": [
+       -0.60637,
+       0.52874
+      ],
+      "p_empirical_two_sided": 0.0195,
+      "state": "AGREES",
       "t": 3.607
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "band_state": "OUTSIDE_UP",
       "delta": 3.8113,
-      "readable": true,
+      "df": 8.5,
+      "graded": true,
+      "n_EMC_with_a_value": 10,
+      "n_comparator_with_a_value": 6,
+      "null_95_band": [
+       -1.31352,
+       1.40969
+      ],
+      "p_empirical_two_sided": 0.00054,
+      "state": "AGREES",
       "t": 13.221
      }
     },
-    "pass": true
+    "platforms_agreeing": [
+     "GSE24369_series_matrix.txt.gz",
+     "GSE4303-GPL3290_series_matrix.txt.gz"
+    ],
+    "platforms_disagreeing": [],
+    "platforms_not_graded": []
    },
    "prereg_discordance_SGK1": {
+    "_graded_on": "WHERE THE DELTA SITS RELATIVE TO ITS SIZE-1 EMPIRICAL NULL, never on the raw delta alone. See the docstring: grading SGK1 on its raw delta would have called a p_emp of 0.293 a contradiction of the literature.",
+    "_threshold": "\u26a0 SUPERSEDED, RETAINED: a fixed raw threshold of `delta < +0.3 SD`. It graded SGK1 on GPL3290 (delta +0.6156) as a FAILED control, while that platform's size-1 null band is [-1.31, +1.41] and p_emp is 0.293 \u2014 noise. The live rule is `not_outside_up`: the control fails only if the gene sits OUTSIDE its null band in the UP direction, which is what 'the transcript is not appreciably higher in EMC' actually asserts.",
+    "_verdict": "\u2705 agrees with the published direction on every platform where the reading could be graded against its null (2 of 2).",
     "_why_it_is_a_control": "It is the only row in the table whose published transcript direction OPPOSES its published protein direction, so it discriminates a transcript instrument that is working from one that is simply reporting 'EMC is different'.",
     "expect": "\u2605 FLAT OR DOWN at transcript level, despite the protein being over-expressed in 10/10 EMC by IHC. Filion et al. 2009 state their microarray shows LOWER SGK1 mRNA in EMC than in other sarcomas, 'also consistent with the data of Subramanian and colleagues', and attribute the protein excess to an isoform lacking the proteasomal degradation signal.",
-    "measured": {
+    "n_platforms_graded": 2,
+    "null_semantics": "not_outside_up",
+    "pass": true,
+    "per_platform": {
      "GSE24369_series_matrix.txt.gz": {
+      "_means": "the claim is 'not appreciably UP', so anything that is not outside the null band upward satisfies it \u2014 including a flat reading, which is what was predicted.",
+      "band_state": "INSIDE_NULL",
       "delta": -0.1807,
-      "readable": true,
+      "df": 6.1,
+      "graded": true,
+      "n_EMC_with_a_value": 6,
+      "n_comparator_with_a_value": 29,
+      "null_95_band": [
+       -0.60637,
+       0.52874
+      ],
+      "p_empirical_two_sided": 0.26943,
+      "state": "AGREES",
       "t": -0.733
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "_means": "the claim is 'not appreciably UP', so anything that is not outside the null band upward satisfies it \u2014 including a flat reading, which is what was predicted.",
+      "band_state": "INSIDE_NULL",
       "delta": 0.6156,
-      "readable": true,
+      "df": 6.9,
+      "graded": true,
+      "n_EMC_with_a_value": 10,
+      "n_comparator_with_a_value": 6,
+      "null_95_band": [
+       -1.31352,
+       1.40969
+      ],
+      "p_empirical_two_sided": 0.29343,
+      "state": "AGREES",
       "t": 1.316
      }
     },
-    "pass": false
+    "platforms_agreeing": [
+     "GSE24369_series_matrix.txt.gz",
+     "GSE4303-GPL3290_series_matrix.txt.gz"
+    ],
+    "platforms_disagreeing": [],
+    "platforms_not_graded": []
    },
    "the_fusion_itself_NR4A3": {
+    "_graded_on": "WHERE THE DELTA SITS RELATIVE TO ITS SIZE-1 EMPIRICAL NULL, never on the raw delta alone. See the docstring: grading SGK1 on its raw delta would have called a p_emp of 0.293 a contradiction of the literature.",
+    "_known_instrument_limit": "\u26a0 EXPECTED TO BE NOT_MEASURABLE ON GPL3290. In the sibling lane's committed read, four of the six comparator spots for this probe are missing, leaving 2 comparator values against a floor of 3. That is a short array, not a failed control, and the grading rule above is what keeps the two apart.",
+    "_verdict": "\u2705 agrees with the published direction on every platform where the reading could be graded against its null (1 of 2).",
     "expect": "UP in EMC \u2014 the chimera places NR4A3 coding sequence under the partner's promoter, and NR4A3 immunostaining is the diagnostic marker of EMC.",
-    "measured": {
+    "n_platforms_graded": 1,
+    "null_semantics": "outside_up",
+    "pass": true,
+    "per_platform": {
      "GSE24369_series_matrix.txt.gz": {
+      "band_state": "OUTSIDE_UP",
       "delta": 0.7415,
-      "readable": true,
+      "df": 7.2,
+      "graded": true,
+      "n_EMC_with_a_value": 6,
+      "n_comparator_with_a_value": 29,
+      "null_95_band": [
+       -0.60637,
+       0.52874
+      ],
+      "p_empirical_two_sided": 0.02399,
+      "state": "AGREES",
       "t": 4.662
      },
      "GSE4303-GPL3290_series_matrix.txt.gz": {
-      "delta": null,
-      "readable": true,
-      "t": null
+      "_means": "READABLE but no group contrast \u2014 too few samples carry a value. An instrument limit, NOT a failed control.",
+      "graded": false,
+      "n_EMC_with_a_value": 9,
+      "n_comparator_with_a_value": 2,
+      "state": "NOT_MEASURABLE",
+      "why": "n_EMC=9, n_comparator=2; the floor is 3 per group."
      }
     },
-    "pass": false
+    "platforms_agreeing": [
+     "GSE24369_series_matrix.txt.gz"
+    ],
+    "platforms_disagreeing": [],
+    "platforms_not_graded": [
+     "GSE4303-GPL3290_series_matrix.txt.gz"
+    ]
    }
-  }
+  },
+  "checks_failed": [],
+  "checks_not_graded": [],
+  "n_checks_graded": 4
  },
  "evidence_table": {
   "_evidence_classes": {
@@ -15605,10 +15763,16 @@
     }
    },
    "GSE4303-GPL3290_series_matrix.txt.gz": {
+    "_alias_note": "\u26a0 MYH7 has documented former symbol(s) ['CMH1', 'MPD1']. These arrays predate the rename, so the platform may annotate the probe under an old spelling. THIS RUN DID NOT REQUEST THE ALIAS, so whether it is present is UNKNOWN \u2014 not absent. A future fetch should request both spellings deliberately; adding one to the wanted list without a re-fetch would produce a row asserting a reason the collector never checked.",
+    "alias_status": "UNKNOWN",
+    "documented_aliases": [
+     "CMH1",
+     "MPD1"
+    ],
     "n_probes_mapping": 0,
     "platform": "GPL3290",
     "readable": false,
-    "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether MYH7 is expressed in EMC.",
+    "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether MYH7 is expressed in EMC. \u26a0 ALIAS UNCHECKED: former symbol(s) CMH1/MPD1 were not requested in this run.",
     "why_not_readable": "No probe on GPL3290 maps to the symbol MYH7. The platform's probe->symbol mapping covers 27203 of 43008 probes, so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve."
    }
   },
@@ -32839,7 +33003,7 @@
    }
   }
  },
- "generated_utc": "2026-08-07T17:33:32+00:00",
+ "generated_utc": "2026-08-07T17:38:56+00:00",
  "platforms": {
   "GSE24369_series_matrix.txt.gz": {
    "_status": "read",

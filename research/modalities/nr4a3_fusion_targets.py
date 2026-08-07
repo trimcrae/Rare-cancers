@@ -1581,7 +1581,19 @@ def _build_sets(res, circ):
     return sets
 
 
-def _check(res, gene, expect_fn, expect_text, extra=None):
+def _band_state(w, nc):
+    """Where does a single gene's observed delta sit relative to its size-1 empirical null?"""
+    if not nc or not nc.get("computed"):
+        return "NO_NULL", None
+    d = w["delta_a_minus_b"]
+    if nc.get("null_q975") is not None and d > nc["null_q975"]:
+        return "OUTSIDE_UP", d
+    if nc.get("null_q025") is not None and d < nc["null_q025"]:
+        return "OUTSIDE_DOWN", d
+    return "INSIDE_NULL", d
+
+
+def _check(res, gene, semantics, expect_text, extra=None):
     """One control gene, graded per platform into FOUR states — and the distinction between the
     last two is the whole point.
 
@@ -1596,47 +1608,96 @@ def _check(res, gene, expect_fn, expect_text, extra=None):
     tell a working instrument from a broken one.
 
     So: `pass` is over the platforms where the contrast was ACTUALLY COMPUTED, and a control with
-    NO computable platform is `pass: null` — neither passed nor failed — with the reason."""
+    NO computable platform is `pass: null` — neither passed nor failed — with the reason.
+
+    ⛔⛔ AND THE SECOND DEFECT, FOUND IN THE FIRST REAL RUN'S OWN OUTPUT AND FIXED HERE: THIS BLOCK
+    WAS GRADING RAW DELTAS WITHOUT THEIR NULL — the exact error the whole module exists to prevent,
+    inside the block that is supposed to certify the instrument. Measured: `SGK1` on GPL3290 read
+    `delta = +0.6156`, which a threshold of `delta < +0.3` marks FAILED — while its size-1
+    empirical null band on that platform is **[-1.31, +1.41]**, so +0.62 is unremarkable noise
+    (p_emp 0.293) and both arms sit far BELOW the array mean (EMC mean_z -0.61, comparator -1.22,
+    array percentile 0.28). Grading it as a contradiction of the published lower-mRNA claim would
+    have been a verdict drawn from a number the module's own rule forbids quoting alone.
+
+    So every control is now graded on WHERE THE DELTA SITS RELATIVE TO ITS NULL, and `semantics`
+    says which side satisfies the published claim:
+        `outside_up`      the claim is "UP"   — satisfied only OUTSIDE the band, upward
+        `outside_down`    the claim is "DOWN" — satisfied only OUTSIDE the band, downward
+        `not_outside_up`  the claim is "NOT appreciably up" — satisfied unless the gene is OUTSIDE
+                          the band upward. INSIDE the band SATISFIES this claim; it does not fail
+                          to grade it, because "flat" is what was predicted.
+    """
     r = ((res.get("gene_reads") or {}).get(gene) or {})
-    per, agree, disagree, unmeasurable, unreadable = {}, [], [], [], []
+    per, agree, disagree, ungraded = {}, [], [], []
     for mf, rec in r.items():
         if not rec.get("readable"):
-            per[mf] = {"state": "NOT_READABLE", "why": rec.get("why_not_readable"),
+            per[mf] = {"state": "NOT_READABLE", "graded": False,
+                       "why": rec.get("why_not_readable"),
                        "_means": "the platform could not be read for this symbol. NOT a statement "
                                  "about the gene."}
-            unreadable.append(mf)
+            ungraded.append(mf)
             continue
         w = rec.get("welch_EMC_vs_comparator")
         if not w:
-            per[mf] = {"state": "NOT_MEASURABLE", "why": rec.get("_underpowered"),
+            per[mf] = {"state": "NOT_MEASURABLE", "graded": False,
+                       "why": rec.get("_underpowered"),
                        "n_EMC_with_a_value": rec.get("n_EMC_with_a_value"),
                        "n_comparator_with_a_value": rec.get("n_comparator_with_a_value"),
                        "_means": "READABLE but no group contrast — too few samples carry a value. "
                                  "An instrument limit, NOT a failed control."}
-            unmeasurable.append(mf)
+            ungraded.append(mf)
             continue
-        ok = expect_fn(w["delta_a_minus_b"])
-        per[mf] = {"state": "AGREES" if ok else "DISAGREES",
-                   "delta": w["delta_a_minus_b"], "t": w["t"], "df": w["df"],
-                   "n_EMC_with_a_value": rec.get("n_EMC_with_a_value"),
-                   "n_comparator_with_a_value": rec.get("n_comparator_with_a_value")}
-        (agree if ok else disagree).append(mf)
+        nc = rec.get("null_calibration") or {}
+        band, d = _band_state(w, nc)
+        row = {"band_state": band, "delta": w["delta_a_minus_b"], "t": w["t"], "df": w["df"],
+               "p_empirical_two_sided": nc.get("p_empirical_two_sided"),
+               "null_95_band": [nc.get("null_q025"), nc.get("null_q975")],
+               "n_EMC_with_a_value": rec.get("n_EMC_with_a_value"),
+               "n_comparator_with_a_value": rec.get("n_comparator_with_a_value")}
+        if band == "NO_NULL":
+            row.update({"state": "NO_NULL", "graded": False,
+                        "_means": "a contrast exists but no empirical null — the raw delta may "
+                                  "NOT be graded alone."})
+            ungraded.append(mf)
+        elif semantics == "not_outside_up":
+            ok = band != "OUTSIDE_UP"
+            row.update({"state": "AGREES" if ok else "DISAGREES", "graded": True,
+                        "_means": "the claim is 'not appreciably UP', so anything that is not "
+                                  "outside the null band upward satisfies it — including a flat "
+                                  "reading, which is what was predicted."})
+            (agree if ok else disagree).append(mf)
+        elif band == "INSIDE_NULL":
+            row.update({"state": "INSIDE_NULL", "graded": False,
+                        "_means": "the observed delta is inside the 95% band of a randomly chosen "
+                                  "single gene on this platform. It neither confirms nor refutes "
+                                  "the published direction — it is not a reading at this power."})
+            ungraded.append(mf)
+        else:
+            want = "OUTSIDE_UP" if semantics == "outside_up" else "OUTSIDE_DOWN"
+            ok = band == want
+            row.update({"state": "AGREES" if ok else "DISAGREES", "graded": True})
+            (agree if ok else disagree).append(mf)
+        per[mf] = row
     n_graded = len(agree) + len(disagree)
-    out = {"expect": expect_text, "per_platform": per,
+    out = {"expect": expect_text, "null_semantics": semantics,
+           "_graded_on": "WHERE THE DELTA SITS RELATIVE TO ITS SIZE-1 EMPIRICAL NULL, never on the "
+                         "raw delta alone. See the docstring: grading SGK1 on its raw delta would "
+                         "have called a p_emp of 0.293 a contradiction of the literature.",
+           "per_platform": per,
            "platforms_agreeing": agree, "platforms_disagreeing": disagree,
-           "platforms_not_measurable": unmeasurable, "platforms_not_readable": unreadable,
+           "platforms_not_graded": ungraded,
            "n_platforms_graded": n_graded,
            "pass": (None if n_graded == 0 else not disagree)}
     if n_graded == 0:
-        out["_verdict"] = ("⛔ NOT GRADED — no platform produced a contrast for this control. That "
-                           "is an absent reading, NOT a failed control and NOT a reading of "
-                           "absence.")
+        out["_verdict"] = ("⛔ NOT GRADED — no platform produced a null-calibrated reading for this "
+                           "control. That is an absent reading, NOT a failed control and NOT a "
+                           "reading of absence.")
     elif disagree:
         out["_verdict"] = (f"⚠ DISAGREES with the published direction on {', '.join(disagree)} "
                            f"(graded on {n_graded} platform(s)).")
     else:
-        out["_verdict"] = (f"✅ agrees with the published direction on every platform where a "
-                           f"contrast could be computed ({n_graded} of {len(per)}).")
+        out["_verdict"] = (f"✅ agrees with the published direction on every platform where the "
+                           f"reading could be graded against its null ({n_graded} of {len(per)}).")
     out.update(extra or {})
     return out
 
@@ -1653,14 +1714,14 @@ def _controls(res):
                             "platform is `pass: null`.",
            "checks": {}}
     out["checks"]["positive_control_ENO3"] = _check(
-        res, "ENO3", lambda d: d > 0,
+        res, "ENO3", "outside_up",
         "UP on both platforms. The committed prior is +0.8075 SD (t 3.607, df 5.5) on GPL6244 and "
         "+3.8113 SD (t 13.221, df 8.5) on GPL3290 — ONE HOME, not retyped as a new fact: "
         "research/modalities/emc-expression-panels.json -> gene_reads.ENO3.",
         {"_if_it_fails": "⛔ STOP AND REPORT THE INSTRUMENT, NOT THE BIOLOGY. Every number in this "
                          "file is produced by the same reduction."})
     out["checks"]["the_fusion_itself_NR4A3"] = _check(
-        res, "NR4A3", lambda d: d > 0,
+        res, "NR4A3", "outside_up",
         "UP in EMC — the chimera places NR4A3 coding sequence under the partner's promoter, and "
         "NR4A3 immunostaining is the diagnostic marker of EMC.",
         {"_known_instrument_limit": "⚠ EXPECTED TO BE NOT_MEASURABLE ON GPL3290. In the sibling "
@@ -1669,7 +1730,7 @@ def _controls(res):
                                     "floor of 3. That is a short array, not a failed control, and "
                                     "the grading rule above is what keeps the two apart."})
     out["checks"]["directional_falsifier_PLAGL1"] = _check(
-        res, "PLAGL1", lambda d: d < 0,
+        res, "PLAGL1", "outside_down",
         "★★ DOWN. Published as down-regulated by EWS/NOR1 and strongly down in six EMC tumours "
         "(PMID 16112421). Every other literature row predicts UP, so a global offset or an 'EMC "
         "differs from dense sarcomas' artefact would push PLAGL1 UP with everything else. A DOWN "
@@ -1680,7 +1741,7 @@ def _controls(res):
                          "reads UP removes the strongest argument that the UP rows are not an "
                          "offset, and must be reported as removing it."})
     out["checks"]["prereg_discordance_SGK1"] = _check(
-        res, "SGK1", lambda d: d < 0.3,
+        res, "SGK1", "not_outside_up",
         "★ FLAT OR DOWN at transcript level, despite the protein being over-expressed in 10/10 EMC "
         "by IHC. Filion et al. 2009 state their microarray shows LOWER SGK1 mRNA in EMC than in "
         "other sarcomas, 'also consistent with the data of Subramanian and colleagues', and "
@@ -1689,9 +1750,12 @@ def _controls(res):
                                  "direction OPPOSES its published protein direction, so it "
                                  "discriminates a transcript instrument that is working from one "
                                  "that is simply reporting 'EMC is different'.",
-         "_threshold": "delta < +0.3 SD. Chosen as 'not appreciably UP' rather than 'DOWN', "
-                       "because the published claim is that the mRNA is lower, in a different "
-                       "comparator set, and a strict d<0 would grade a null result as a failure."})
+         "_threshold": "⚠ SUPERSEDED, RETAINED: a fixed raw threshold of `delta < +0.3 SD`. "
+                       "It graded SGK1 on GPL3290 (delta +0.6156) as a FAILED control, while that "
+                       "platform's size-1 null band is [-1.31, +1.41] and p_emp is 0.293 — noise. "
+                       "The live rule is `not_outside_up`: the control fails only if the gene sits "
+                       "OUTSIDE its null band in the UP direction, which is what 'the transcript "
+                       "is not appreciably higher in EMC' actually asserts."})
     graded = [c for c in out["checks"].values() if c["pass"] is not None]
     failed = [k for k, c in out["checks"].items() if c["pass"] is False]
     ungraded = [k for k, c in out["checks"].items() if c["pass"] is None]

@@ -31,18 +31,20 @@ transfer to the fusion **both say the transfer can fail**, in opposite direction
 **Second sentence, and it is the one that changes how every EMC expression read in this repository must
 be written.** On `GSE4303`/`GPL3290` almost every gene set anyone has scored comes back *"HIGHER in EMC"* —
 PPARγ targets, hypoxia metagenes, adipogenesis, chondroitin-sulfate biosynthesis, arginine metabolism.
-**That pattern is the shape of a platform-wide offset, not of biology**, and no read taken on that platform
-is interpretable until it is calibrated against a **size-matched random gene set drawn from the same
-platform's own genes**. That calibration is the instrument this memo delivers.
+**No read on that platform is interpretable until it is calibrated against a size-matched random gene set
+drawn from the same platform's own genes** — and once it is, a raw delta of **+0.33 with t = 3.16 lands
+INSIDE the null band** (§2b (ii)). That calibration is the instrument this memo delivers.
+*(⚠ Superseded, retained: "that pattern is the shape of a platform-wide offset". Measured — the offset is
++0.026 SD on GPL3290, an order of magnitude below the effects in question. The remedy is unchanged; the
+mechanism is null-band **width** at n = 10 vs 6, not offset.)*
 
-**⏳ Status of the measurement.** The literature table (§1), the instrument (§2), the PPARγ framing (§3),
-the discriminators (§4) and the circularity grading (§5) are complete and are what this memo is the one home
-for. **The numbers themselves are produced by a CI dispatch** of
-[`emc-expression-datasets.yml`](../../.github/workflows/emc-expression-datasets.yml) `mode=fusion-targets`
-($0, GitHub-hosted CPU runner), which writes
-[`nr4a3-fusion-targets.json`](../modalities/nr4a3-fusion-targets.json). **Until §2b below carries a table
-of measured values, no number in this document is a reading of EMC** — read §1–§5 as the specification of a
-test, not as its result.
+**Third sentence — what the measurement returned.** Run **31200817686** (2026-08-07, **$0**): all four
+instrument controls pass, including the directional falsifier; **all three class-A genes are positive-signed
+on both platforms with no reversal, each clearing its size-matched null on at least one**; the **aggregate**
+direct-target set does **not** clear its null on either platform; the published EMC phenotype (Filion Table 1,
+independent platform and cohort) **replicates at p_emp 0.0005 on both**; and the PPARγ activity question
+resolves — the occupancy-derived arm is up and its falsifier is down on both platforms, with an adipogenic
+differentiation confound that these data cannot separate. Numbers in **§2b**; PPARγ in **§3**.
 
 ---
 
@@ -126,10 +128,13 @@ biosynthesis, GAG biosynthesis, arginine metabolism. **Sets with no biological r
 all moved the same way and by similar amounts.** The comparator means sit near −0.2 while the EMC means sit
 near 0.0 to +0.2 for almost every set.
 
-⛔ **That is the signature of a global offset between the two arms, not of twelve independent biological
-findings.** EMC is a myxoid, hypocellular tumour; the GPL3290 comparators are three DFSP and three GIST,
-both cellular; and the platform is a two-colour cDNA array read as log-ratios against a reference pool.
-Any of those alone would produce an arm-wide shift.
+⚠ **The first hypothesis was that this is an arm-wide offset. IT IS NOT — measured, and the correction is
+the more useful finding.** The global offset over every mapped symbol is **−0.0084 SD** on GPL6244 and
+**+0.0258 SD** on GPL3290 (§2b (ii)): an order of magnitude below the effects in question. What actually
+produces the pattern is that at **n = 10 vs 6** (and 6 vs 29) the **sampling variance of a set score** is far
+larger than a Welch t on the sample means implies — the 95 % null band for a 19-gene set on GPL3290 is
+**[−0.297, +0.376]**. So a set can print `t = 3.16` and still be indistinguishable from an arbitrary set of
+the same size. *(⚠ Superseded, retained: "that is the signature of a global offset between the two arms".)*
 
 **The fix, and it costs nothing.** `nr4a3_fusion_targets.py` measures two things no previous read here has:
 
@@ -175,16 +180,101 @@ collapses back into one state.
 
 ## 2b · The measured result
 
-> **⏳ NOT YET LANDED — this section is deliberately empty rather than absent.** The dispatch
-> (`emc-expression-datasets.yml`, `mode=fusion-targets`, run **31200817686**, dispatched **1:07 PM ET
-> 2026-08-07** against branch `worktree-agent-a7b8d3b23b5c7b311`, **$0**) writes
-> [`nr4a3-fusion-targets.json`](../modalities/nr4a3-fusion-targets.json) and publishes it to that branch.
->
-> ⛔ **An empty section here means the measurement was not taken. It does NOT mean the sets were flat.**
-> When it lands, this section must carry, in this order: the four instrument controls with their per-platform
-> state; the measured **global offset** on each platform; each set's raw delta *and* its empirical p against
-> the size-matched null; and the per-gene, evidence-typed rows. A verdict written from the raw deltas alone
-> would be the exact error §2 exists to prevent.
+Run **31200817686** (`emc-expression-datasets.yml`, `mode=fusion-targets`), dispatched **1:07 PM ET
+2026-08-07**, completed **1:34 PM ET**, **$0**. One home for every number below:
+[`nr4a3-fusion-targets.json`](../modalities/nr4a3-fusion-targets.json).
+
+### (i) Instrument controls — **all four pass**
+
+| control | GPL6244 | GPL3290 |
+|---|---|---|
+| **ENO3** (positive) | **AGREES** — d **+0.8075**, t 3.607, p_emp **0.0195** | **AGREES** — d **+3.8113**, t 13.221, p_emp **0.00054** |
+| **NR4A3** (tumour identity) | **AGREES** — d +0.7415, t 4.662 | **NOT MEASURABLE** — 2 comparator values against a floor of 3 |
+| **PLAGL1** (directional falsifier) | INSIDE_NULL — d −0.4235, p_emp 0.088 (not graded) | **AGREES** — d **−2.134**, t −5.146, p_emp **0.013** |
+| **SGK1** (transcript/protein discordance) | AGREES — d −0.1807, p_emp 0.269 | AGREES — d +0.6156, p_emp 0.293 (inside a band of [−1.31, +1.41]) |
+
+⭐ **The instrument is independently validated twice over.** ENO3 reproduces the sibling lane's committed
+value **to four decimal places on both platforms**, from a separately written module — and so do the PPARγ
+arms (TRRUST GPL3290: +0.1647, t 3.193, df 8.3, 57/66 genes; adipogenesis GPL3290: +0.2183, t 5.081, df 13.9,
+176/200 — identical to [`emc-expression-panels.json`](../modalities/emc-expression-panels.json)). Two
+independent implementations, the same numbers.
+
+★★ **And the directional falsifier fires in the right direction.** `PLAGL1` — the one gene in the whole
+table with a published **DOWN** prediction — is **−2.13 SD in EMC on GPL3290, outside its null band**. No
+arm-wide artefact can produce that while every other row points up.
+
+### (ii) ⚠ The global offset was **not** the problem — the **null band width** is
+
+**My §2 hypothesis was wrong and is corrected here.** The measured global offset is **tiny**: GPL6244
+**−0.0084 SD** (t −1.592) and GPL3290 **+0.0258 SD** (t +1.646), across all 18,694 and 14,932 mapped symbols
+respectively. So the "twelve of sixteen sets are up" pattern is *not* an arm-wide shift.
+
+⭐ **What it is instead:** with n = 6 vs 29 and n = 10 vs 6, the **sampling variance of a set score is far
+larger than a Welch t on the sample means implies.** On GPL3290 the 95 % null band for a 19-gene set is
+**[−0.297, +0.376]** — so a raw delta of **+0.330 with t = 3.16** sits *inside* it (p_emp 0.083). The raw t
+treats the samples as the unit and ignores that a set's per-sample mean is one draw from a distribution whose
+width depends on set size and on the platform. **The empirical null measures that width directly.**
+
+*(⚠ Superseded, retained: §2's original explanation, that GPL3290 carries "a platform-wide offset of the same
+size as the effect being looked for". Measured 2026-08-07: the offset is +0.026 SD, roughly an order of
+magnitude below the effects in question. The remedy is unchanged — the null absorbs both — but the
+mechanism is null-band **width**, not offset.)*
+
+### (iii) The gene sets, null-calibrated
+
+| set | GPL6244 | GPL3290 |
+|---|---|---|
+| **A · fusion DNA-binding targets** (SEMA3C, PPARG, ENO3) | ⛔ **NO SCORE** — 3 genes, floor is 4 | ⛔ **NO SCORE** — 3 genes |
+| **B · native NR4A3 DNA-binding targets** (16) | d −0.068, **p_emp 0.434** → not distinguishable | d −0.145, **p_emp 0.334** → not distinguishable |
+| **A+B pooled** (19) | d +0.040, **p_emp 0.320** → not distinguishable | d +0.330, t 3.16, **p_emp 0.083** → not distinguishable |
+| **C · fusion expression-only** (2) | ⛔ NO SCORE | ⛔ NO SCORE |
+| ⭐ **D · Filion Table 1** — EMC vs 137 sarcomas, **independent platform and cohort** (21) | **d +1.131, t 5.93, p_emp 0.0005, z 19.8 → SET-SPECIFIC UP** | **d +1.478, t 5.55, p_emp 0.0005, z 8.9 → SET-SPECIFIC UP** |
+| **E · Filion Table 2** — Subramanian overlap (20) | d +0.893, p_emp 0.0005 → SET-SPECIFIC UP | ⛔ **CIRCULAR** (see below) — d +1.985, p_emp 0.0005 |
+| **F · Brenca EWSR1-high** (3) | ⛔ NO SCORE | ⛔ NO SCORE |
+| **G · Brenca TAF15-high** (10) | d **−0.498**, p_emp 0.0005 → **SET-SPECIFIC DOWN** | d +0.121, p_emp 0.689 → not distinguishable |
+
+**⛔ The circularity flag fired, and it was right.** The fetched GEO record for GSE4303 reads
+*"Gene expression profile of extraskeletal myxoid chondrosarcoma"*, `!Series_pubmed_id = 15920699`,
+contributor *"Matt van de Rijn"*. **GSE4303 is the Subramanian et al. 2005 cohort**, so set E's GPL3290 score
+is a gene list scored on the data it came from and is not a test. **Set D and GPL6244 are unaffected.**
+
+### (iv) Per gene — where the positive result actually is
+
+| gene | class | GPL6244 | GPL3290 |
+|---|---|---|---|
+| **ENO3** | A · fusion | **+0.8075** (p 0.0195) | **+3.8113** (p 0.00054) |
+| **PPARG** | A · fusion | +0.3071 (p 0.130) | **+2.4809** (p 0.0070) |
+| **SEMA3C** | A · fusion | **+0.7298** (p 0.0245) | +0.6228 (p 0.288) |
+| VCAM1 | B · native | **−0.818** (p 0.027) | **−1.751** (p 0.018) |
+| LOXL2 | B · native | −0.006 (p 0.992) | **−1.886** (p 0.016) |
+| NDRG2 | D · EMC tissue | +0.452 (p 0.068) | +1.383 (p 0.056) |
+| PLAGL1 | C · fusion expr. | −0.424 (p 0.088) | **−2.134** (p 0.013) |
+
+★★ **THIS IS THE POSITIVE RESULT, AND IT IS PER-GENE, NOT PER-SET.** All three genes with a DNA-binding
+assay against an NR4A3 chimera are **positive-signed on both platforms — 6 of 6 readings, no reversal** —
+and **each clears its size-matched single-gene null on at least one platform**. The aggregate could not be
+scored because three genes is below the four-gene floor, and that refusal is reported rather than worked
+around.
+
+⛔ **The ceiling, in the same breath.** Three genes. Two platforms of n = 6 and n = 10. One of the three
+(ENO3) was assayed with the **TFG** chimera and one (PPARG) in **rat** cells. Sign concordance across six
+readings is what a coordinated programme predicts **and also what three individually-EMC-associated genes
+predict**; with three genes the two are not separable. **No gene here is shown to be bound by the fusion
+*in EMC*** — that needs the cistrome §4 says does not exist.
+
+★ **And the native-NR4A3 set behaves as Filion's measurement predicts.** Class B is flat-to-negative on both
+platforms (p 0.434, 0.334), with `VCAM1` significantly **DOWN** on both. The vascular/inflammatory
+native-NOR-1 programme **does not transfer to EMC** — concordant with the same paper's finding that native
+NR4A3 does not activate the promoter the fusion does.
+
+### (v) ⭐ Outcome **F** of the pre-registered rule (§2c)
+
+*"Filion Table 1 clears its null but class A does not."* Named in advance as **the most informative negative
+available here**, because it separates *"this contrast cannot see anything"* from *"this contrast **can** see
+EMC and does not see the aggregate target set."* The published EMC transcriptional phenotype **replicates
+cross-platform and cross-cohort at p_emp 0.0005 on both platforms** — the instrument demonstrably reads EMC —
+and the aggregate direct-target set does not clear its null on either. **The per-gene class-A result stands;
+the aggregate claim does not.**
 
 ## 2c · ⭐ The decision rule, written **before** the numbers
 
@@ -203,6 +293,13 @@ next step.
 
 ⚠ **In every branch, the raw delta may not be quoted without its empirical p.** That is the one rule this
 memo adds to how EMC expression is written in this repository.
+
+✅ **OUTCOME F CAME TRUE**, with a per-gene positive inside it that the rule did not anticipate: all three
+class-A genes are positive-signed on both platforms and each clears its single-gene null on at least one,
+while the **aggregate** is refused for being three genes wide. The rule's branches were written over set
+scores; the measurement landed at the gene level. **That is a limit of the pre-registration, and it is
+recorded rather than quietly rewritten** — a per-gene sign-concordance result is weaker than a set result
+that clears its null, and §2b (iv) states it at that weight.
 
 ---
 
@@ -227,18 +324,61 @@ result:
 ⚠ **The falsifier behaves correctly and the corroborating arm does not.** KO_DOWN and OE_UP are built
 from different experiments and must agree; they do not.
 
+### ⭐ RESOLVED — and the "disagreement" was never biological
+
+**Measured 2026-08-07, run 31200817686.** Every arm, null-calibrated on its own platform:
+
+| arm | species | GPL6244 | GPL3290 |
+|---|---|---|---|
+| **ChEA ChIP-PET targets** (occupancy-derived, 191) | mouse | **+0.080, p_emp 0.0005, z 5.35 → SET-SPECIFIC UP** | **+0.294, p_emp 0.0005, z 5.08 → SET-SPECIFIC UP** |
+| **KO_UP falsifier** (246) | mouse | **−0.054, p_emp 0.041 → SET-SPECIFIC DOWN** | **−0.112, p_emp 0.0035 → SET-SPECIFIC DOWN** |
+| **KO_DOWN** (206) | mouse | +0.0003, p_emp 0.293 → not distinguishable | **+0.222, p_emp 0.0005 → SET-SPECIFIC UP** |
+| **OE_UP** (269) | mouse | −0.024, p_emp 0.771 → not distinguishable | −0.002, p_emp 0.406 → not distinguishable |
+| **TRRUST, human-curated** (66) | **human** | +0.045, p_emp 0.048 → SET-SPECIFIC UP | +0.165, p_emp 0.139 → not distinguishable |
+| ⚠ **adipogenesis process proxy** (200) | unstated | **+0.047, p_emp 0.0005 → SET-SPECIFIC UP** | **+0.218, p_emp 0.0005 → SET-SPECIFIC UP** |
+
+**⛔ WHY KO_DOWN AND OE_UP CANNOT AGREE — the discriminating observation, measured rather than argued.**
+The two arms **share 16 genes out of 206 and 269** — Jaccard **0.035**, 7.8 % of the smaller set. They come
+from different GEO experiments (`GSE23421` deficiency vs `GSE10192` over-expression), in different tissues.
+**They are, for practical purposes, different gene sets.** Asking them to agree was asking two nearly
+disjoint lists of mouse genes to score alike in human tumour tissue. *(Control on that arithmetic: KO_DOWN ∩
+KO_UP = **0**, exactly as the two arms of one experiment must be.)*
+
+★★ **What replicates, and it is the strongest PPARγ-activity evidence anyone has produced in EMC:**
+the **occupancy-derived** target set is **set-specific UP on both platforms**, and the **falsifier is
+set-specific DOWN on both**. A set of genes and the set of genes that move the *opposite* way in the same
+knockout experiment separating in opposite directions, on two platforms, is the pattern an engaged receptor
+predicts — and it is not something a size or offset artefact produces, because the null controls both.
+
+⛔ **THE CEILING, AND IT IS NOT SMALL.** The **adipogenesis process proxy is also set-specific UP on both
+platforms**, and it shares **44 genes (23 % of the smaller set) with the ChEA arm** — the largest overlap in
+the whole table. **PPARγ target output therefore cannot be separated from an adipogenic differentiation
+component in these data.** Abundance is measured, activity now has a positive null-calibrated reading, and
+*which of the two is driving the signal is not resolvable here.* Five of the six arms are **mouse**-derived,
+species taken from the matched term rather than assumed.
+
+**So, stated at full honesty:** *PPARγ target genes are co-ordinately higher in EMC tumour tissue than in
+comparator sarcomas, beyond a size-matched random set, on two platforms, with the knockout-opposite arm
+moving the other way — and the same data cannot distinguish that from an adipogenic differentiation
+programme, because the adipogenesis proxy behaves identically and overlaps the target set by 23 %.*
+⚠ **This says nothing about the DIRECTION of pharmacological intervention** — that question has its one home
+in [`pparg-direction-emc.md`](./pparg-direction-emc.md) §6 and is untouched by an activity reading.
+
+---
+
+**The framing that produced this measurement, retained because the prediction it made was specific:**
+
 ★ **The resolution this memo supplies is a method, and it makes a specific, falsifiable prediction.** Run
 each arm through the size-matched null on its own platform:
 
 - **If KO_DOWN, ChEA and adipogenesis all fail to clear their nulls on GPL3290**, then the KO_DOWN/OE_UP
   "disagreement" is **not a disagreement about biology at all** — it is two draws from the same null, one
-  of which happened to land high. That is a **BOUND**, stated precisely: *PPARγ transcriptional activity in
-  EMC is not measurable on GPL3290 with these sets, because the platform's arm-wide offset is of the same
-  size as the effect being looked for.* It is not evidence of absence and must never be written as such.
+  of which happened to land high. That would be a **BOUND**, not evidence of absence.
 - **If KO_DOWN clears its null and OE_UP does not**, the disagreement is real and the likeliest cause is
-  set construction rather than biology — four of the five resolved arms are **mouse**-derived (species
-  derived from the matched term, never assumed; only TRRUST's `PPARG human` is human). An orthology
-  mismatch would degrade the arms unequally.
+  set construction rather than biology — five of the six resolved arms are **mouse**-derived (species
+  derived from the matched term, never assumed; only TRRUST's `PPARG human` is human). ✅ **This is the
+  branch that came true**, and the cause turned out to be measurable and blunter than orthology: the two
+  arms **barely share genes** (Jaccard 0.035).
 - **If both clear their nulls with opposite signs**, read 3 must be **withdrawn**, not reconciled.
 
 ⛔ **And one arm can never be made to agree, by construction, and it should not be asked to.** The
@@ -370,7 +510,11 @@ of origin. Replication there says the instrument reads EMC; it does **not** say 
 - **The measurement that the native→fusion transfer assumption fails in both directions** (§1).
 - **The size-matched empirical null** as the required calibration for any gene-set read on these two
   platforms (§2), and the four instrument controls (§2).
-- **The named discriminators** between the fusion driving a gene and the gene being correlated with EMC (§4).
+- **The named discriminators** between the fusion driving a gene and the gene being correlated with EMC (§4),
+  and the **measured absence of any NR4A3-fusion cistrome** in 2,276 retrieved documents (§4).
+- **The measured result** of run 31200817686 (§2b) and the **PPARγ activity resolution with its adipogenic
+  ceiling** (§3) — including the measurement that the KO_DOWN and OE_UP arms share 16 genes of 206/269, which
+  is why they could never have agreed.
 
 Everything else points here rather than restating it. The PPARγ *direction* question and *abundance* both
 have their one home in [`pparg-direction-emc.md`](./pparg-direction-emc.md); the ENO3 prior has its one home
