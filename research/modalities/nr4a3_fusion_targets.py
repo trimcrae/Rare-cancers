@@ -640,6 +640,36 @@ BRENCA_EWSR1_HIGH = ["SEMA3C", "SEMA3G", "RELN"]
 BRENCA_TAF15_HIGH = ["SEMA4D", "SEMA5A", "SEMA6A", "PLXNA1", "PLXNA4", "PLXNC1", "SLIT1", "ROBO1",
                      "CXCR4", "SYP"]
 
+# =============================================================================================
+# ⚠ SYMBOLS THAT HAVE BEEN RENAMED SINCE THESE ARRAYS WERE ANNOTATED.
+#
+# ⛔ WHY THIS IS NOT A LOOKUP TABLE AND MUST NOT BECOME ONE. Adding an alias to the WANTED list
+# without a matching re-fetch is the "absent reading is not a reading of absence" failure in a new
+# costume: `derive()` would emit a row for a symbol the inputs cache never requested, carrying the
+# verdict "no probe on this platform maps to the symbol" — a FALSE reason, because the collector
+# never looked. So this map is used for ONE thing only: when a gene comes back unreadable, its row
+# says that a documented alias exists and that THIS RUN DID NOT ASK FOR IT. The next fetch can then
+# request both spellings deliberately; until it does, the unreadability of the alias is UNKNOWN,
+# and the row says the word UNKNOWN rather than implying absence.
+#
+# The renames are real and they land on genes this module actually asks about: `CCRL1` is 1 of the
+# 21 mapped probe sets in Filion Table 1, and `PDP1` and `BIRC3` are class-B direct targets.
+# =============================================================================================
+SYMBOL_HISTORY = {
+    "CCRL1": ["ACKR4", "CCX-CKR"],
+    "PDP1": ["PPM2C"],
+    "BIRC3": ["API2", "cIAP2", "MIHC"],
+    "VCAN": ["CSPG2"],
+    "ADIRF": ["C10orf116", "APM2"],
+    "NOX1": ["NOH1", "MOX1", "GP91-2"],
+    "PLAGL1": ["ZAC1", "LOT1"],
+    "SMPX": ["CSRP4"],
+    "CDKN2AIP": ["CARF"],
+    "HAPLN1": ["CRTL1"],
+    "TH": ["TYH"],
+    "MYH7": ["CMH1", "MPD1"],
+}
+
 CONTROLS = {
     "the_fusion_itself": ["NR4A3"],
     "the_positive_control": ["ENO3"],
@@ -1188,7 +1218,7 @@ def _gene_read(gene, tgt, classes, emc, comp, null_cache):
     plat = tgt.get("platform")
     g = (tgt.get("genes") or {}).get(gene)
     if not g:
-        return {
+        out = {
             "readable": False, "platform": plat, "n_probes_mapping": 0,
             "why_not_readable": (
                 f"No probe on {plat} maps to the symbol {gene}. The platform's probe->symbol "
@@ -1198,6 +1228,20 @@ def _gene_read(gene, tgt, classes, emc, comp, null_cache):
             "verdict": (f"⛔ NOT READABLE on {plat} — the read could not be taken. This says "
                         f"NOTHING about whether {gene} is expressed in EMC."),
         }
+        alias = SYMBOL_HISTORY.get(gene)
+        if alias:
+            out["documented_aliases"] = alias
+            out["alias_status"] = "UNKNOWN"
+            out["_alias_note"] = (
+                f"⚠ {gene} has documented former symbol(s) {alias}. These arrays predate the "
+                f"rename, so the platform may annotate the probe under an old spelling. "
+                f"THIS RUN DID NOT REQUEST THE ALIAS, so whether it is present is UNKNOWN — not "
+                f"absent. A future fetch should request both spellings deliberately; adding one "
+                f"to the wanted list without a re-fetch would produce a row asserting a reason "
+                f"the collector never checked.")
+            out["verdict"] += (f" ⚠ ALIAS UNCHECKED: former symbol(s) {'/'.join(alias)} were not "
+                               f"requested in this run.")
+        return out
     n_s = tgt["n_samples"]
     z = [None if x is None else round(x, 4) for x in _zrow(tgt, gene)]
     vals, pct = g["values"], g["array_percentile"]

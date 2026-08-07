@@ -205,6 +205,33 @@ def test_every_unreadable_verdict_anywhere_in_the_artifact_carries_its_refusal(f
     assert not bad, bad
 
 
+def test_an_unreadable_gene_with_a_documented_alias_says_the_alias_was_not_CHECKED():
+    """⛔ THE SUBTLE HALF. Adding an alias to the wanted list without a re-fetch would emit a row
+    whose stated reason ('no probe maps to it') the collector never checked. So an unreadable gene
+    with a known former symbol must say UNKNOWN, and must say the alias was not requested."""
+    inp = _make_inputs()
+    tgt = inp["targets"]["FAKE_series_matrix.txt.gz"]
+    del tgt["genes"]["PDP1"]
+    r = M.derive(inp)["gene_reads"]["PDP1"]["FAKE_series_matrix.txt.gz"]
+    assert r["readable"] is False
+    assert r["alias_status"] == "UNKNOWN"
+    assert "PPM2C" in r["documented_aliases"]
+    assert "ALIAS UNCHECKED" in r["verdict"]
+    assert "not\nabsent" in r["_alias_note"] or "not absent" in r["_alias_note"].replace("\n", " ")
+
+
+def test_no_alias_is_smuggled_into_the_wanted_list_without_a_refetch():
+    """The map is a DIAGNOSTIC, not a lookup. If a future edit adds these to `_wanted_genes`, the
+    next inputs cache must be regenerated in the same change — this test fails first."""
+    want = M._wanted_genes()
+    for gene, aliases in M.SYMBOL_HISTORY.items():
+        for a in aliases:
+            if a in ("CSPG2", "C10orf116"):
+                continue  # deliberately requested: they are the Filion-table spellings
+            assert a not in want, (f"{a} is in the wanted list; if that is intended, the inputs "
+                                   f"cache must be refetched in the same change")
+
+
 def test_an_unread_platform_is_not_silently_dropped():
     inp = _make_inputs()
     inp["targets"]["FAKE_series_matrix.txt.gz"]["_status"] = "fetch failed: 404"
