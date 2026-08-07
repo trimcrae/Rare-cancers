@@ -29,11 +29,11 @@ unlock blocked routes, plus **open AI/compute funding** a solo researcher could 
 ### de-novo selective small-molecule / binder design
 *Unlocks:* reliable generative + selectivity scoring → design the NR4A3 warhead at the nr4a-selectivity.json handles
 - 🆕 **2026-07-18** — Engineering short-sequence elements for condensate-like assemblies by de novo design. (MED:MED/42502839)
+- 🆕 **2026-08-06** — READ: A Retrieval-Alignment Diffusion Framework for Structure-based Drug Design. (MED:MED/42560913)
 - 🆕 **2026-08-01** — De novo design of proteinaceous binders targeting the LEDGF PWWP domain. (MED:MED/42489162)
 - 🆕 **2026-08-01** — Enhancing machine learning-based binder design with high-throughput screening: A comparison of mRNA and yeast display technologies. (MED:MED/42429042)
 - 🆕 **2026-06-19** — &lt;i&gt;De novo&lt;/i&gt; design of NIR-II thioxanthene dye and phosphate-driven charge transfer-coupled &lt;i&gt;J&lt;/i&gt;-aggregates for high resolution tumor angiography and type I phototherapy against hypoxic tumors. (MED:PMC13281159)
 - 🆕 **2026-06-09** — &lt;i&gt;De novo&lt;/i&gt; design of dual-target mini-binders simultaneously neutralizing &lt;i&gt;Streptococcus equi subspecies zooepidemicus&lt;/i&gt; M-like protein and host TNFR1 confers complete protection against lethal infection. (MED:PMC13267575)
-- 🆕 **2026-04-28** — TcrDesign: de novo design of epitope-specific full-length T cell receptors. (MED:MED/42101565)
 
 ### cryptic-pocket / dynamics-based druggability
 *Unlocks:* robust cryptic-pocket prediction → re-grade the NR4A3 LBD undruggability prior without GPU MD
