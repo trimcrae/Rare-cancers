@@ -404,10 +404,11 @@ does not move that finding.** It also cannot separate tumour RET from stromal or
 peripheral-nerve RET: EMC is hypocellular and matrix-rich (PMC6766969), RET is a nerve-lineage
 receptor, and these are **bulk** arrays.
 
-⭐ **The perturbation arm is the interesting one**, because it is the cheap shadow of the
-experiment the ENO3 precedent actually needed: **PMID 26310886** established ENO3 with EMSA *and*
-ChIP *and* **luciferase** — occupancy plus a functional readout. Occupancy alone has never been
-enough in this lane's own precedent.
+⭐ **The perturbation arm was designed to be the interesting one**, because it is the cheap shadow
+of the experiment the ENO3 precedent actually needed: **PMID 26310886** established ENO3 with EMSA
+*and* ChIP *and* **luciferase** — occupancy plus a functional readout. Occupancy alone has never
+been enough in this lane's own precedent. ⛔ **It did not resolve — see §5e**, and the reason is
+itself a finding.
 
 ### 5a · The instrument reproduced its known answers first
 
