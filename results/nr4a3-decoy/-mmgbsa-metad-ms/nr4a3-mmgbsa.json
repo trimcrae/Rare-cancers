@@ -1,0 +1,855 @@
+{
+  "_note": "MM-GBSA endpoint RESCORING of the matrix docked poses (single-snapshot, 1-trajectory, enthalpy + GBn2; NO entropy, NO ensemble average). Tests whether the docking-level NR4A3-selectivity survives a physics-based energy model. STILL triage, NOT an affinity \u2014 that is the FEP tier.",
+  "method": {
+    "model": "amber14/ff14SB + GBn2 implicit; ligand gaff-2.11/AM1-BCC",
+    "scheme": "1-trajectory MULTI-snapshot; minimize + short GB Langevin MD, \u0394G averaged over 10 frames @ 10.0 ps (equil 20.0 ps)",
+    "minimize_iters": 250,
+    "entropy": "omitted",
+    "ensemble": "10-frame MD average"
+  },
+  "paralogues": {
+    "NR4A3": {
+      "n_poses": 38
+    },
+    "NR4A1": {
+      "n_poses": 38
+    },
+    "NR4A2": {
+      "n_poses": 38
+    }
+  },
+  "candidates": [
+    {
+      "label": "decoy_diphenhydramine",
+      "chembl_id": "decoy_diphenhydramine",
+      "dG_mmgbsa": {
+        "NR4A3": -43.01,
+        "NR4A1": -15.26,
+        "NR4A2": -18.27
+      },
+      "mm_margin_vs_NR4A1": 27.75,
+      "mm_margin_vs_NR4A2": 24.74,
+      "mm_min_margin": 24.74,
+      "dock_min_margin": 1.8,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.71,
+        "NR4A1": 3.5,
+        "NR4A2": 3.11
+      },
+      "mm_min_margin_sd": 4.13
+    },
+    {
+      "label": "decoy_lidocaine",
+      "chembl_id": "decoy_lidocaine",
+      "dG_mmgbsa": {
+        "NR4A3": -42.46,
+        "NR4A1": -20.38,
+        "NR4A2": -17.82
+      },
+      "mm_margin_vs_NR4A1": 22.08,
+      "mm_margin_vs_NR4A2": 24.64,
+      "mm_min_margin": 22.08,
+      "dock_min_margin": 1.86,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.05,
+        "NR4A1": 1.98,
+        "NR4A2": 3.74
+      },
+      "mm_min_margin_sd": 2.85
+    },
+    {
+      "label": "decoy_sertraline",
+      "chembl_id": "decoy_sertraline",
+      "dG_mmgbsa": {
+        "NR4A3": -41.59,
+        "NR4A1": -19.91,
+        "NR4A2": -24.66
+      },
+      "mm_margin_vs_NR4A1": 21.68,
+      "mm_margin_vs_NR4A2": 16.93,
+      "mm_min_margin": 16.93,
+      "dock_min_margin": 1.63,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.91,
+        "NR4A1": 2.25,
+        "NR4A2": 2.26
+      },
+      "mm_min_margin_sd": 3.68
+    },
+    {
+      "label": "decoy_diazepam",
+      "chembl_id": "decoy_diazepam",
+      "dG_mmgbsa": {
+        "NR4A3": -32.61,
+        "NR4A1": -16.3,
+        "NR4A2": -14.38
+      },
+      "mm_margin_vs_NR4A1": 16.31,
+      "mm_margin_vs_NR4A2": 18.23,
+      "mm_min_margin": 16.31,
+      "dock_min_margin": 1.55,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 3.46,
+        "NR4A1": 1.64,
+        "NR4A2": 2.58
+      },
+      "mm_min_margin_sd": 3.83
+    },
+    {
+      "label": "decoy_amlodipine",
+      "chembl_id": "decoy_amlodipine",
+      "dG_mmgbsa": {
+        "NR4A3": -32.98,
+        "NR4A1": -24.62,
+        "NR4A2": -19.49
+      },
+      "mm_margin_vs_NR4A1": 8.36,
+      "mm_margin_vs_NR4A2": 13.49,
+      "mm_min_margin": 8.36,
+      "dock_min_margin": -1.12,
+      "dock_cell": "none",
+      "verdict": "rescued",
+      "dG_sd": {
+        "NR4A3": 3.9,
+        "NR4A1": 2.92,
+        "NR4A2": 2.54
+      },
+      "mm_min_margin_sd": 4.87
+    },
+    {
+      "label": "decoy_chlorpromazine",
+      "chembl_id": "decoy_chlorpromazine",
+      "dG_mmgbsa": {
+        "NR4A3": -38.55,
+        "NR4A1": -16.63,
+        "NR4A2": -30.45
+      },
+      "mm_margin_vs_NR4A1": 21.92,
+      "mm_margin_vs_NR4A2": 8.1,
+      "mm_min_margin": 8.1,
+      "dock_min_margin": 1.7,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 3.22,
+        "NR4A1": 2.12,
+        "NR4A2": 3.37
+      },
+      "mm_min_margin_sd": 4.66
+    },
+    {
+      "label": "decoy_nicotine",
+      "chembl_id": "decoy_nicotine",
+      "dG_mmgbsa": {
+        "NR4A3": -18.76,
+        "NR4A1": -12.38,
+        "NR4A2": -11.89
+      },
+      "mm_margin_vs_NR4A1": 6.38,
+      "mm_margin_vs_NR4A2": 6.87,
+      "mm_min_margin": 6.38,
+      "dock_min_margin": 0.48,
+      "dock_cell": "none",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.55,
+        "NR4A1": 2.96,
+        "NR4A2": 2.53
+      },
+      "mm_min_margin_sd": 3.91
+    },
+    {
+      "label": "decoy_warfarin",
+      "chembl_id": "decoy_warfarin",
+      "dG_mmgbsa": {
+        "NR4A3": -28.88,
+        "NR4A1": -24.67,
+        "NR4A2": -19.18
+      },
+      "mm_margin_vs_NR4A1": 4.21,
+      "mm_margin_vs_NR4A2": 9.7,
+      "mm_min_margin": 4.21,
+      "dock_min_margin": 0.73,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 1.24,
+        "NR4A1": 2.87,
+        "NR4A2": 2.78
+      },
+      "mm_min_margin_sd": 3.13
+    },
+    {
+      "label": "decoy_metronidazole",
+      "chembl_id": "decoy_metronidazole",
+      "dG_mmgbsa": {
+        "NR4A3": -21.99,
+        "NR4A1": -10.13,
+        "NR4A2": -17.8
+      },
+      "mm_margin_vs_NR4A1": 11.86,
+      "mm_margin_vs_NR4A2": 4.19,
+      "mm_min_margin": 4.19,
+      "dock_min_margin": 0.67,
+      "dock_cell": "none",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 1.9,
+        "NR4A1": 3.41,
+        "NR4A2": 2.66
+      },
+      "mm_min_margin_sd": 3.27
+    },
+    {
+      "label": "decoy_salbutamol",
+      "chembl_id": "decoy_salbutamol",
+      "dG_mmgbsa": {
+        "NR4A3": -30.15,
+        "NR4A1": -26.26,
+        "NR4A2": -23.23
+      },
+      "mm_margin_vs_NR4A1": 3.89,
+      "mm_margin_vs_NR4A2": 6.92,
+      "mm_min_margin": 3.89,
+      "dock_min_margin": 0.47,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.72,
+        "NR4A1": 2.44,
+        "NR4A2": 1.84
+      },
+      "mm_min_margin_sd": 3.65
+    },
+    {
+      "label": "decoy_metoprolol",
+      "chembl_id": "decoy_metoprolol",
+      "dG_mmgbsa": {
+        "NR4A3": -39.49,
+        "NR4A1": -35.61,
+        "NR4A2": -34.35
+      },
+      "mm_margin_vs_NR4A1": 3.88,
+      "mm_margin_vs_NR4A2": 5.14,
+      "mm_min_margin": 3.88,
+      "dock_min_margin": -0.18,
+      "dock_cell": "none",
+      "verdict": "rescued",
+      "dG_sd": {
+        "NR4A3": 2.72,
+        "NR4A1": 3.35,
+        "NR4A2": 3.0
+      },
+      "mm_min_margin_sd": 4.32
+    },
+    {
+      "label": "decoy_phenytoin",
+      "chembl_id": "decoy_phenytoin",
+      "dG_mmgbsa": {
+        "NR4A3": -26.95,
+        "NR4A1": -18.43,
+        "NR4A2": -23.08
+      },
+      "mm_margin_vs_NR4A1": 8.52,
+      "mm_margin_vs_NR4A2": 3.87,
+      "mm_min_margin": 3.87,
+      "dock_min_margin": 1.07,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.67,
+        "NR4A1": 2.66,
+        "NR4A2": 2.64
+      },
+      "mm_min_margin_sd": 3.75
+    },
+    {
+      "label": "decoy_pyrimethamine",
+      "chembl_id": "decoy_pyrimethamine",
+      "dG_mmgbsa": {
+        "NR4A3": -20.38,
+        "NR4A1": -17.04,
+        "NR4A2": -4.44
+      },
+      "mm_margin_vs_NR4A1": 3.34,
+      "mm_margin_vs_NR4A2": 15.94,
+      "mm_min_margin": 3.34,
+      "dock_min_margin": 1.81,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.96,
+        "NR4A1": 2.57,
+        "NR4A2": 3.57
+      },
+      "mm_min_margin_sd": 3.92
+    },
+    {
+      "label": "decoy_ciprofloxacin",
+      "chembl_id": "decoy_ciprofloxacin",
+      "dG_mmgbsa": {
+        "NR4A3": -17.12,
+        "NR4A1": -14.4,
+        "NR4A2": -12.01
+      },
+      "mm_margin_vs_NR4A1": 2.72,
+      "mm_margin_vs_NR4A2": 5.11,
+      "mm_min_margin": 2.72,
+      "dock_min_margin": 0.27,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.58,
+        "NR4A1": 2.05,
+        "NR4A2": 3.8
+      },
+      "mm_min_margin_sd": 3.3
+    },
+    {
+      "label": "decoy_fluconazole",
+      "chembl_id": "decoy_fluconazole",
+      "dG_mmgbsa": {
+        "NR4A3": -23.69,
+        "NR4A1": -18.73,
+        "NR4A2": -21.22
+      },
+      "mm_margin_vs_NR4A1": 4.96,
+      "mm_margin_vs_NR4A2": 2.47,
+      "mm_min_margin": 2.47,
+      "dock_min_margin": 1.57,
+      "dock_cell": "NR4A3-only",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 2.37,
+        "NR4A1": 1.6,
+        "NR4A2": 0.94
+      },
+      "mm_min_margin_sd": 2.55
+    },
+    {
+      "label": "decoy_omeprazole",
+      "chembl_id": "decoy_omeprazole",
+      "dG_mmgbsa": {
+        "NR4A3": -30.2,
+        "NR4A1": -27.91,
+        "NR4A2": -22.71
+      },
+      "mm_margin_vs_NR4A1": 2.29,
+      "mm_margin_vs_NR4A2": 7.49,
+      "mm_min_margin": 2.29,
+      "dock_min_margin": -0.14,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "rescued",
+      "dG_sd": {
+        "NR4A3": 1.89,
+        "NR4A1": 3.0,
+        "NR4A2": 2.87
+      },
+      "mm_min_margin_sd": 3.55
+    },
+    {
+      "label": "decoy_captopril",
+      "chembl_id": "decoy_captopril",
+      "dG_mmgbsa": {
+        "NR4A3": -16.48,
+        "NR4A1": -13.41,
+        "NR4A2": -14.92
+      },
+      "mm_margin_vs_NR4A1": 3.07,
+      "mm_margin_vs_NR4A2": 1.56,
+      "mm_min_margin": 1.56,
+      "dock_min_margin": 0.35,
+      "dock_cell": "none",
+      "verdict": "confirmed_selective",
+      "dG_sd": {
+        "NR4A3": 3.0,
+        "NR4A1": 2.42,
+        "NR4A2": 1.55
+      },
+      "mm_min_margin_sd": 3.38
+    },
+    {
+      "label": "decoy_indomethacin",
+      "chembl_id": "decoy_indomethacin",
+      "dG_mmgbsa": {
+        "NR4A3": -20.08,
+        "NR4A1": -18.12,
+        "NR4A2": -18.63
+      },
+      "mm_margin_vs_NR4A1": 1.96,
+      "mm_margin_vs_NR4A2": 1.45,
+      "mm_min_margin": 1.45,
+      "dock_min_margin": -0.1,
+      "dock_cell": "none",
+      "verdict": "rescued",
+      "dG_sd": {
+        "NR4A3": 1.59,
+        "NR4A1": 2.37,
+        "NR4A2": 3.72
+      },
+      "mm_min_margin_sd": 4.05
+    },
+    {
+      "label": "decoy_atenolol",
+      "chembl_id": "decoy_atenolol",
+      "dG_mmgbsa": {
+        "NR4A3": -36.79,
+        "NR4A1": -35.57,
+        "NR4A2": -25.36
+      },
+      "mm_margin_vs_NR4A1": 1.22,
+      "mm_margin_vs_NR4A2": 11.43,
+      "mm_min_margin": 1.22,
+      "dock_min_margin": -0.9,
+      "dock_cell": "NR4A1-only",
+      "verdict": "rescued",
+      "dG_sd": {
+        "NR4A3": 4.18,
+        "NR4A1": 3.05,
+        "NR4A2": 3.78
+      },
+      "mm_min_margin_sd": 5.17
+    },
+    {
+      "label": "decoy_procainamide",
+      "chembl_id": "decoy_procainamide",
+      "dG_mmgbsa": {
+        "NR4A3": -33.43,
+        "NR4A1": -32.31,
+        "NR4A2": -17.88
+      },
+      "mm_margin_vs_NR4A1": 1.12,
+      "mm_margin_vs_NR4A2": 15.55,
+      "mm_min_margin": 1.12,
+      "dock_min_margin": -0.85,
+      "dock_cell": "none",
+      "verdict": "rescued",
+      "dG_sd": {
+        "NR4A3": 4.72,
+        "NR4A1": 4.47,
+        "NR4A2": 3.25
+      },
+      "mm_min_margin_sd": 6.5
+    },
+    {
+      "label": "decoy_acetaminophen",
+      "chembl_id": "decoy_acetaminophen",
+      "dG_mmgbsa": {
+        "NR4A3": -21.72,
+        "NR4A1": -20.84,
+        "NR4A2": -6.8
+      },
+      "mm_margin_vs_NR4A1": 0.88,
+      "mm_margin_vs_NR4A2": 14.92,
+      "mm_min_margin": 0.88,
+      "dock_min_margin": 0.37,
+      "dock_cell": "none",
+      "verdict": "weakened",
+      "dG_sd": {
+        "NR4A3": 3.59,
+        "NR4A1": 3.18,
+        "NR4A2": 1.87
+      },
+      "mm_min_margin_sd": 4.8
+    },
+    {
+      "label": "decoy_verapamil",
+      "chembl_id": "decoy_verapamil",
+      "dG_mmgbsa": {
+        "NR4A3": -31.87,
+        "NR4A1": -31.63,
+        "NR4A2": -27.18
+      },
+      "mm_margin_vs_NR4A1": 0.24,
+      "mm_margin_vs_NR4A2": 4.69,
+      "mm_min_margin": 0.24,
+      "dock_min_margin": -0.03,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 3.25,
+        "NR4A1": 2.97,
+        "NR4A2": 3.15
+      },
+      "mm_min_margin_sd": 4.4
+    },
+    {
+      "label": "decoy_theophylline",
+      "chembl_id": "decoy_theophylline",
+      "dG_mmgbsa": {
+        "NR4A3": -18.71,
+        "NR4A1": -18.98,
+        "NR4A2": -15.97
+      },
+      "mm_margin_vs_NR4A1": -0.27,
+      "mm_margin_vs_NR4A2": 2.74,
+      "mm_min_margin": -0.27,
+      "dock_min_margin": 0.56,
+      "dock_cell": "none",
+      "verdict": "weakened",
+      "dG_sd": {
+        "NR4A3": 1.96,
+        "NR4A1": 2.96,
+        "NR4A2": 2.23
+      },
+      "mm_min_margin_sd": 3.55
+    },
+    {
+      "label": "decoy_aspirin",
+      "chembl_id": "decoy_aspirin",
+      "dG_mmgbsa": {
+        "NR4A3": -20.21,
+        "NR4A1": -20.66,
+        "NR4A2": -13.8
+      },
+      "mm_margin_vs_NR4A1": -0.45,
+      "mm_margin_vs_NR4A2": 6.41,
+      "mm_min_margin": -0.45,
+      "dock_min_margin": -0.08,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 2.64,
+        "NR4A1": 2.41,
+        "NR4A2": 2.93
+      },
+      "mm_min_margin_sd": 3.57
+    },
+    {
+      "label": "decoy_hydrochlorothiazide",
+      "chembl_id": "decoy_hydrochlorothiazide",
+      "dG_mmgbsa": {
+        "NR4A3": -12.84,
+        "NR4A1": -5.81,
+        "NR4A2": -13.31
+      },
+      "mm_margin_vs_NR4A1": 7.03,
+      "mm_margin_vs_NR4A2": -0.47,
+      "mm_min_margin": -0.47,
+      "dock_min_margin": -0.88,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 3.02,
+        "NR4A1": 2.43,
+        "NR4A2": 2.95
+      },
+      "mm_min_margin_sd": 4.22
+    },
+    {
+      "label": "decoy_propranolol",
+      "chembl_id": "decoy_propranolol",
+      "dG_mmgbsa": {
+        "NR4A3": -36.03,
+        "NR4A1": -36.66,
+        "NR4A2": -25.54
+      },
+      "mm_margin_vs_NR4A1": -0.63,
+      "mm_margin_vs_NR4A2": 10.49,
+      "mm_min_margin": -0.63,
+      "dock_min_margin": 0.98,
+      "dock_cell": "NR4A1+NR4A3",
+      "verdict": "weakened",
+      "dG_sd": {
+        "NR4A3": 3.45,
+        "NR4A1": 2.43,
+        "NR4A2": 1.78
+      },
+      "mm_min_margin_sd": 4.22
+    },
+    {
+      "label": "decoy_ketoprofen",
+      "chembl_id": "decoy_ketoprofen",
+      "dG_mmgbsa": {
+        "NR4A3": -28.07,
+        "NR4A1": -29.68,
+        "NR4A2": -22.42
+      },
+      "mm_margin_vs_NR4A1": -1.61,
+      "mm_margin_vs_NR4A2": 5.65,
+      "mm_min_margin": -1.61,
+      "dock_min_margin": 0.44,
+      "dock_cell": "pan-NR4A",
+      "verdict": "reversed",
+      "dG_sd": {
+        "NR4A3": 3.15,
+        "NR4A1": 3.75,
+        "NR4A2": 4.44
+      },
+      "mm_min_margin_sd": 4.9
+    },
+    {
+      "label": "decoy_loratadine",
+      "chembl_id": "decoy_loratadine",
+      "dG_mmgbsa": {
+        "NR4A3": -23.26,
+        "NR4A1": -24.92,
+        "NR4A2": -24.58
+      },
+      "mm_margin_vs_NR4A1": -1.66,
+      "mm_margin_vs_NR4A2": -1.32,
+      "mm_min_margin": -1.66,
+      "dock_min_margin": -0.64,
+      "dock_cell": "NR4A2-only",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 2.25,
+        "NR4A1": 2.47,
+        "NR4A2": 2.65
+      },
+      "mm_min_margin_sd": 3.34
+    },
+    {
+      "label": "decoy_fluoxetine",
+      "chembl_id": "decoy_fluoxetine",
+      "dG_mmgbsa": {
+        "NR4A3": -35.01,
+        "NR4A1": -15.6,
+        "NR4A2": -37.07
+      },
+      "mm_margin_vs_NR4A1": 19.41,
+      "mm_margin_vs_NR4A2": -2.06,
+      "mm_min_margin": -2.06,
+      "dock_min_margin": 0.61,
+      "dock_cell": "NR4A3-only",
+      "verdict": "reversed",
+      "dG_sd": {
+        "NR4A3": 4.14,
+        "NR4A1": 3.87,
+        "NR4A2": 5.4
+      },
+      "mm_min_margin_sd": 6.8
+    },
+    {
+      "label": "decoy_haloperidol",
+      "chembl_id": "decoy_haloperidol",
+      "dG_mmgbsa": {
+        "NR4A3": -34.04,
+        "NR4A1": -36.21,
+        "NR4A2": -31.01
+      },
+      "mm_margin_vs_NR4A1": -2.17,
+      "mm_margin_vs_NR4A2": 3.03,
+      "mm_min_margin": -2.17,
+      "dock_min_margin": -1.21,
+      "dock_cell": "pan-NR4A",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 3.27,
+        "NR4A1": 3.02,
+        "NR4A2": 3.09
+      },
+      "mm_min_margin_sd": 4.45
+    },
+    {
+      "label": "decoy_caffeine",
+      "chembl_id": "decoy_caffeine",
+      "dG_mmgbsa": {
+        "NR4A3": -12.4,
+        "NR4A1": -13.18,
+        "NR4A2": -14.71
+      },
+      "mm_margin_vs_NR4A1": -0.78,
+      "mm_margin_vs_NR4A2": -2.31,
+      "mm_min_margin": -2.31,
+      "dock_min_margin": 0.64,
+      "dock_cell": "none",
+      "verdict": "reversed",
+      "dG_sd": {
+        "NR4A3": 3.5,
+        "NR4A1": 1.8,
+        "NR4A2": 1.75
+      },
+      "mm_min_margin_sd": 3.91
+    },
+    {
+      "label": "decoy_ibuprofen",
+      "chembl_id": "decoy_ibuprofen",
+      "dG_mmgbsa": {
+        "NR4A3": -25.98,
+        "NR4A1": -28.45,
+        "NR4A2": -23.25
+      },
+      "mm_margin_vs_NR4A1": -2.47,
+      "mm_margin_vs_NR4A2": 2.73,
+      "mm_min_margin": -2.47,
+      "dock_min_margin": 0.36,
+      "dock_cell": "none",
+      "verdict": "reversed",
+      "dG_sd": {
+        "NR4A3": 2.67,
+        "NR4A1": 2.01,
+        "NR4A2": 2.89
+      },
+      "mm_min_margin_sd": 3.34
+    },
+    {
+      "label": "decoy_naproxen",
+      "chembl_id": "decoy_naproxen",
+      "dG_mmgbsa": {
+        "NR4A3": -22.71,
+        "NR4A1": -30.6,
+        "NR4A2": -24.32
+      },
+      "mm_margin_vs_NR4A1": -7.89,
+      "mm_margin_vs_NR4A2": -1.61,
+      "mm_min_margin": -7.89,
+      "dock_min_margin": 0.02,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "reversed",
+      "dG_sd": {
+        "NR4A3": 2.01,
+        "NR4A1": 2.77,
+        "NR4A2": 3.1
+      },
+      "mm_min_margin_sd": 3.42
+    },
+    {
+      "label": "decoy_trimethoprim",
+      "chembl_id": "decoy_trimethoprim",
+      "dG_mmgbsa": {
+        "NR4A3": -10.42,
+        "NR4A1": -19.3,
+        "NR4A2": -9.15
+      },
+      "mm_margin_vs_NR4A1": -8.88,
+      "mm_margin_vs_NR4A2": 1.27,
+      "mm_min_margin": -8.88,
+      "dock_min_margin": 0.96,
+      "dock_cell": "NR4A3-only",
+      "verdict": "reversed",
+      "dG_sd": {
+        "NR4A3": 2.74,
+        "NR4A1": 2.04,
+        "NR4A2": 4.06
+      },
+      "mm_min_margin_sd": 3.42
+    },
+    {
+      "label": "decoy_celecoxib",
+      "chembl_id": "decoy_celecoxib",
+      "dG_mmgbsa": {
+        "NR4A3": -28.77,
+        "NR4A1": -39.68,
+        "NR4A2": -31.14
+      },
+      "mm_margin_vs_NR4A1": -10.91,
+      "mm_margin_vs_NR4A2": -2.37,
+      "mm_min_margin": -10.91,
+      "dock_min_margin": 0.05,
+      "dock_cell": "NR4A2+NR4A3",
+      "verdict": "reversed",
+      "dG_sd": {
+        "NR4A3": 4.05,
+        "NR4A1": 2.92,
+        "NR4A2": 3.69
+      },
+      "mm_min_margin_sd": 4.99
+    },
+    {
+      "label": "decoy_tolbutamide",
+      "chembl_id": "decoy_tolbutamide",
+      "dG_mmgbsa": {
+        "NR4A3": -21.66,
+        "NR4A1": -33.9,
+        "NR4A2": -22.55
+      },
+      "mm_margin_vs_NR4A1": -12.24,
+      "mm_margin_vs_NR4A2": -0.89,
+      "mm_min_margin": -12.24,
+      "dock_min_margin": -1.45,
+      "dock_cell": "NR4A1-only",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 2.0,
+        "NR4A1": 4.5,
+        "NR4A2": 1.92
+      },
+      "mm_min_margin_sd": 4.92
+    },
+    {
+      "label": "decoy_albendazole",
+      "chembl_id": "decoy_albendazole",
+      "dG_mmgbsa": {
+        "NR4A3": -17.52,
+        "NR4A1": -30.31,
+        "NR4A2": -24.2
+      },
+      "mm_margin_vs_NR4A1": -12.79,
+      "mm_margin_vs_NR4A2": -6.68,
+      "mm_min_margin": -12.79,
+      "dock_min_margin": -0.6,
+      "dock_cell": "none",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 2.23,
+        "NR4A1": 2.38,
+        "NR4A2": 3.53
+      },
+      "mm_min_margin_sd": 3.26
+    },
+    {
+      "label": "decoy_furosemide",
+      "chembl_id": "decoy_furosemide",
+      "dG_mmgbsa": {
+        "NR4A3": -14.27,
+        "NR4A1": -27.22,
+        "NR4A2": -17.44
+      },
+      "mm_margin_vs_NR4A1": -12.95,
+      "mm_margin_vs_NR4A2": -3.17,
+      "mm_min_margin": -12.95,
+      "dock_min_margin": -0.49,
+      "dock_cell": "NR4A1+NR4A3",
+      "verdict": "confirmed_nonselective",
+      "dG_sd": {
+        "NR4A3": 2.61,
+        "NR4A1": 2.48,
+        "NR4A2": 2.39
+      },
+      "mm_min_margin_sd": 3.6
+    }
+  ],
+  "_status": "ok",
+  "_progress": "38/38",
+  "verdict_census": {
+    "confirmed_selective": 14,
+    "rescued": 6,
+    "weakened": 3,
+    "confirmed_nonselective": 8,
+    "reversed": 7
+  },
+  "leads_confirmed_selective": [
+    "decoy_diphenhydramine",
+    "decoy_lidocaine",
+    "decoy_sertraline",
+    "decoy_diazepam",
+    "decoy_chlorpromazine",
+    "decoy_nicotine",
+    "decoy_warfarin",
+    "decoy_metronidazole",
+    "decoy_salbutamol",
+    "decoy_phenytoin",
+    "decoy_pyrimethamine",
+    "decoy_ciprofloxacin",
+    "decoy_fluconazole",
+    "decoy_captopril"
+  ],
+  "leads_reversed": [
+    "decoy_ketoprofen",
+    "decoy_fluoxetine",
+    "decoy_caffeine",
+    "decoy_ibuprofen",
+    "decoy_naproxen",
+    "decoy_trimethoprim",
+    "decoy_celecoxib"
+  ]
+}
