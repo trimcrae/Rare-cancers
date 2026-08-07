@@ -12,20 +12,58 @@ neoantigens — a rational basis for a fusion-directed vaccine or TCR-T, and a
 modality that does NOT require drugging the (likely undruggable) oncoprotein.
 
 What this does (real, reproducible — no invented sequences):
-  1. Fetches the canonical EWSR1 (Q01844) and NR4A3 (Q92570) protein sequences
-     from UniProt.
-  2. Constructs an in-frame fusion at a modelled breakpoint (EWSR1 N-terminal
-     transactivation fragment :: retained NR4A3). The exact junction residue is
-     patient/transcript specific; we model the canonical fusion and FLAG it as an
-     assumption. The pipeline accepts any breakpoint, so a sequenced patient
-     breakpoint can be dropped in.
-  3. Enumerates every 8-, 9-, 10- and 11-mer that *spans* the junction (i.e. uses
-     >=1 residue from each side — these are the genuinely novel sequences).
+  1. Builds the canonical EWSR1 and NR4A3 TRANSCRIPT models (spliced cDNA, CDS,
+     protein, per-exon lengths, 5'UTR length) via `junction_aso.transcript_model`,
+     which reads Ensembl or the committed `emc-construct-inputs.json` and gates
+     either against `nr4a3-exon-audit.json`. ⚠ Superseded, retained: "Fetches the
+     canonical EWSR1 (Q01844) and NR4A3 (Q92570) protein sequences from UniProt" —
+     two protein sequences are exactly what could not represent this junction.
+  2. Constructs the in-frame chimera at a graded mRNA EXON junction (default
+     EWSR1 transcript exon 7 :: NR4A3 transcript exon 3). Which exon pair a given
+     patient carries is not decidable from exon structure and is not decided here;
+     the pipeline accepts any pair, so a sequenced patient breakpoint drops in.
+     ⚠ Superseded, retained: "a modelled breakpoint … FLAG it as an assumption."
+  3. Enumerates every 8-, 9-, 10- and 11-mer carrying the junction — see the
+     redefinition in point 2 of the ⛔ block below. ⚠ Superseded, retained:
+     "that *spans* the junction (i.e. uses >=1 residue from each side)".
   4. Verifies each spanning peptide is absent from both parent proteins (true
      neo-sequence, not coincidentally present in EWSR1 or NR4A3).
   5. Predicts MHC-I binding with MHCflurry-2.0 across a panel of common HLA-A/-B
      alleles; reports predicted binders (%rank <= 2 strong/weak by netMHC-style
      convention) and affinities.
+
+⛔⛔ THE MODELLED BREAKPOINT ABOVE IS RETIRED — THE CHIMERA IS NOW BUILT FROM THE mRNA JUNCTION
+(2026-08-06). Read this before touching anything below.
+
+The retracted `fusion-neoantigen-predictions.json` modelled `EWSR1(1-264) :: NR4A3(2-626)`: it
+concatenated two UniProt PROTEIN sequences and started NR4A3 at residue 2. Its own retraction
+banner graded the error as ONE residue — NR4A3's initiator Met1, dropped — and declared the
+question of whether Met1 survives to be an unresolved splice-PHASE question.
+
+⭐ IT IS RESOLVED, IT COST $0, AND IT IS TWO RESIDUES, NOT ONE. Measured from committed data
+(`emc-construct-inputs.json`, cross-checked against `nr4a3-exon-audit.json`; no network):
+NR4A3 transcript exon 3 begins at cDNA nt 697 and the ATG at 699, so a fusion transcript that
+retains exon 3 whole carries exactly **U = 2** acceptor 5'UTR bases ahead of NR4A3's own ATG.
+EWSR1 exon 7 ends at coding nt 793 = 264 whole residues + 1 nt. Those compose: (793 + 2) % 3 == 0,
+so the chimeric ORF is in frame AND the leftover EWSR1 nucleotide plus the two retained UTR
+nucleotides form a **novel codon that belongs to neither parent**. At e7::e3 that codon is `AAT`
+= Asn. The corrected seam therefore reads
+
+    ... S Q Q S S S Y G Q Q | N | M P C V Q A Q Y S P ...
+        ^ EWSR1 1-264         ^ novel  ^ NR4A3 1-626
+
+against the retracted artifact's `...SQQSSSYGQQ | PCVQAQYSPS...`. Every junction-spanning peptide
+differs, and the retracted lead 10-mer `GQQPCVQAQY` does not occur in the corrected chimera at all.
+
+Two consequences for the code below, both load-bearing:
+  1. The chimera is built from the TRANSCRIPT (`junction_aso.transcript_model` +
+     `junction_aso.mrna_junction`), never from two protein sequences — a protein-level splice
+     cannot represent a codon split across the junction, so it CANNOT produce the novel residue.
+  2. "Junction-spanning" is redefined as "contains the novel junction residue". The old
+     left/right straddle test silently excluded peptides that begin AT the novel residue
+     (`NMPCVQAQY` and friends), which are as tumour-specific as any peptide the old test kept.
+     When a cut IS codon-aligned there is no novel residue and the classic straddle test applies;
+     both cases are labelled in the output rather than conflated.
 
 Output: fusion-neoantigen-predictions.json
 """
@@ -33,19 +71,25 @@ Output: fusion-neoantigen-predictions.json
 import json
 import os
 import sys
-import urllib.request
+
 
 OUT = os.path.join(os.path.dirname(__file__), "fusion-neoantigen-predictions.json")
 
 EWSR1 = "Q01844"
 NR4A3 = "Q92570"
 
-# --- modelled breakpoint (see docstring; this is an assumption, flagged in output) ---
-# EWSR1 N-terminal transactivation fragment retained up to (and incl.) this residue.
-# ~264 is the SYGQ-rich/exon-7 boundary commonly involved in EWSR1 fusions; cited in MS.
-EWSR1_KEEP_TO = 264
-# NR4A3 retained from this residue onward (keeps DBD+LBD). Modelled as near-full-length.
-NR4A3_KEEP_FROM = 2
+# The exon junction the chimera is built at. Defaults to the canonical EMC junction, EWSR1
+# transcript exon 7 :: NR4A3 transcript exon 3 — the junction the retracted artifact was
+# modelling when it wrote "EWSR1 kept to residue 264". TRANSCRIPT exon ranks, not coding-exon
+# ranks; `junction_aso` refuses rather than slides if the acceptor carries no CDS.
+EWSR1_EXON_END = int(os.environ.get("EWSR1_EXON_END") or 7)
+NR4A3_EXON_START = int(os.environ.get("NR4A3_EXON_START") or 3)
+
+# ⚠ SUPERSEDED, RETAINED (the values the retracted artifact was built on; do not reintroduce).
+# EWSR1_KEEP_TO = 264 protein residues :: NR4A3_KEEP_FROM = 2. The EWSR1 half was right; 264 is
+# still where the corrected chimera's EWSR1-derived stretch ends. What was wrong is everything
+# from there on: no novel junction codon, and NR4A3 resumed at 2 instead of 1.
+SUPERSEDED_PROTEIN_MODEL = {"EWSR1_KEEP_TO": 264, "NR4A3_KEEP_FROM": 2}
 
 # Common HLA-I alleles (high global frequency) — MHCflurry-supported names.
 ALLELES = [
@@ -57,53 +101,114 @@ RANK_WEAK = 2.0      # %rank <= 2 : weak binder (netMHCpan convention)
 RANK_STRONG = 0.5    # %rank <= 0.5 : strong binder
 
 
-def fetch_fasta(acc):
-    url = f"https://rest.uniprot.org/uniprotkb/{acc}.fasta"
-    print(f"  fetching {url}", file=sys.stderr)
-    with urllib.request.urlopen(url) as r:
-        text = r.read().decode()
-    seq = "".join(l.strip() for l in text.splitlines() if not l.startswith(">"))
-    return seq
 
+def junction_peptides(fusion, j0, lengths, novel_residue):
+    """All k-mers of `fusion` that carry the junction.
 
-def junction_peptides(left, right, lengths):
-    """All k-mers spanning the seam between `left` (ends at junction) and `right`."""
-    fusion = left + right
-    j = len(left)  # index of first right-residue in the fused string
+    `j0` is the 0-based index of the first NON-EWSR1-derived residue. If the donor cut splits a
+    codon there IS a novel residue at `j0` (belonging to neither parent) and the tumour-specific
+    set is every k-mer CONTAINING it — including k-mers that begin at it, which the old
+    left/right straddle test dropped. If the cut is codon-aligned there is no novel residue and
+    the classic straddle test (>=1 residue from each side) is the right one.
+    """
     peps = {}
     for L in lengths:
-        for start in range(max(0, j - L + 1), j):
+        lo = max(0, j0 - L + 1)
+        for start in range(lo, j0 + 1):
             pep = fusion[start:start + L]
-            if len(pep) == L and start < j < start + L:
-                # spans: uses left[start:j] and right[0:start+L-j]
-                peps.setdefault(pep, L)
+            if len(pep) != L:
+                continue
+            if novel_residue:
+                peps.setdefault(pep, L)                      # contains fusion[j0], the novel residue
+            elif start < j0 < start + L:
+                peps.setdefault(pep, L)                      # classic straddle
     return peps
 
 
+def build_chimera():
+    """Build the chimeric protein at the graded mRNA exon junction. Returns a measured dict.
+
+    Delegates to `junction_aso`, which owns the transcript model, the four self-checks and the
+    `nr4a3-exon-audit.json` provenance gate — one home for the junction arithmetic, so this
+    module cannot drift from the ASO lane's seam again. `junction_aso` RAISES rather than emits
+    on a non-coding acceptor, a resume residue outside the corrected plausible range, or an
+    out-of-frame register, so reaching the return statement is itself a grading.
+    """
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import junction_aso as ja                                 # type: ignore
+    import fusion_breakpoints as fb                           # type: ignore
+    ews = ja.transcript_model("EWSR1")
+    nr4 = ja.transcript_model("NR4A3")
+    j = ja.mrna_junction(ews, nr4, EWSR1_EXON_END, NR4A3_EXON_START)
+    if not j["nr4a3_acceptor_exon_is_coding"]:
+        raise RuntimeError(f"NR4A3 transcript exon {NR4A3_EXON_START} carries no coding sequence")
+    lo, hi = ja.plausible_nr4a3_resume_residues()
+    if not (lo <= j["nr4a3_first_residue"] <= hi):
+        raise RuntimeError(f"NR4A3 resumes at residue {j['nr4a3_first_residue']}, outside the "
+                           f"corrected plausible range [{lo}, {hi}] — SEAM_NOT_PRODUCED")
+    if not j["in_frame"]:
+        raise RuntimeError(f"EWSR1 e{EWSR1_EXON_END} :: NR4A3 e{NR4A3_EXON_START} is not in frame "
+                           f"((cut+acceptor 5'UTR) mod 3 = {j['frame_sum_mod3']}, must be 0)")
+    prot = fb.translate(j["_fusion"][ews["utr5_len"]:])
+    j0 = j["ewsr1_last_whole_residue"]                        # 0-based index of the first non-EWSR1 residue
+    novel = j["ewsr1_coding_phase"] != 0                      # a split codon => a residue from neither parent
+    if not prot.endswith(nr4["protein"][-30:]):               # belt-and-braces on top of in_frame
+        raise RuntimeError("chimeric ORF does not end in the NR4A3 C-terminus")
+    return {"chimera": prot, "j0": j0, "novel_residue": novel,
+            "novel_residue_aa": prot[j0] if novel else None,
+            "ews_parent": ews["protein"], "nr4_parent": nr4["protein"],
+            "grading": {k: v for k, v in j.items() if not k.startswith("_")},
+            "transcript_source": ja.transcript_source_provenance()}
+
+
 def main():
-    ews = fetch_fasta(EWSR1)
-    nr4 = fetch_fasta(NR4A3)
-    left = ews[:EWSR1_KEEP_TO]
-    right = nr4[NR4A3_KEEP_FROM - 1:]
+    b = build_chimera()
+    fusion, j0 = b["chimera"], b["j0"]
+    ews, nr4 = b["ews_parent"], b["nr4_parent"]
 
-    span = junction_peptides(left, right, LENGTHS)
+    span = junction_peptides(fusion, j0, LENGTHS, b["novel_residue"])
 
-    # novelty filter: spanning peptide must not occur in either parent
+    # novelty filter: a junction peptide must not occur in either parent protein
     novel = {p: L for p, L in span.items() if p not in ews and p not in nr4}
 
+    g = b["grading"]
     result = {
-        "_note": "MHC-I binding of EWSR1::NR4A3 junction-spanning peptides "
-                 "(MHCflurry-2.0). %rank<=0.5 strong, <=2 weak (netMHC convention).",
-        "_breakpoint_model": {
-            "assumption": True,
-            "EWSR1_kept_residues": f"1-{EWSR1_KEEP_TO} (UniProt {EWSR1})",
-            "NR4A3_kept_residues": f"{NR4A3_KEEP_FROM}-{len(nr4)} (UniProt {NR4A3})",
-            "caveat": "Exact junction residue is transcript/patient specific; this "
-                      "models the canonical fusion. Re-run with a sequenced breakpoint "
-                      "to get patient-specific epitopes.",
-            "junction_context_left10": left[-10:],
-            "junction_context_right10": right[:10],
+        "_note": "MHC-I binding of EWSR1::NR4A3 junction peptides (MHCflurry-2.0). "
+                 "%rank<=0.5 strong, <=2 weak (netMHC convention).",
+        "_scope": "Sequence composition and predicted MHC-I binding only. Predicted binding is a "
+                  "screen, not presentation and not immunogenicity; no efficacy, safety, "
+                  "tolerability or clinical claim is made or implied.",
+        "_supersedes": {
+            "retracted_model": "EWSR1(1-264)::NR4A3(2-626), two UniProt protein sequences "
+                               "concatenated (see SUPERSEDED_PROTEIN_MODEL in this module)",
+            "why": "a protein-level splice cannot represent a codon split across the junction, so "
+                   "it produced neither the novel junction residue nor NR4A3 Met1",
         },
+        "_breakpoint_model": {
+            "assumption": False,
+            "junction_label": g["junction_label"],
+            "built_from": "spliced transcript (junction_aso.transcript_model + mrna_junction)",
+            "EWSR1_kept_residues": f"1-{g['ewsr1_last_whole_residue']} (UniProt {EWSR1})",
+            "NR4A3_kept_residues": f"{g['nr4a3_first_residue']}-{len(nr4)} (UniProt {NR4A3})",
+            "novel_junction_residue": b["novel_residue_aa"],
+            "novel_junction_residue_origin": (
+                f"{3 - g['ewsr1_coding_phase']} nt would be needed to complete EWSR1's last codon; "
+                f"EWSR1 contributes {g['ewsr1_coding_phase']} nt past residue "
+                f"{g['ewsr1_last_whole_residue']} and NR4A3's acceptor exon contributes "
+                f"{g['nr4a3_acceptor_exon_5utr_nt_retained']} retained 5'UTR nt"
+                if b["novel_residue"] else None),
+            "caveat": "Which exon pair a given patient carries is not decidable from exon "
+                      "structure and is not decided here; re-run with a sequenced breakpoint for "
+                      "patient-specific peptides.",
+            "junction_context_left10": fusion[max(0, j0 - 10):j0],
+            "junction_context_right10": fusion[j0:j0 + 10],
+            "measured_junction": g,
+            "_transcript_source": b["transcript_source"],
+        },
+        "_spanning_definition": ("every k-mer containing the novel junction residue"
+                                 if b["novel_residue"] else
+                                 "every k-mer using >=1 residue from each parent (codon-aligned "
+                                 "cut, so there is no novel junction residue)"),
         "n_spanning_peptides": len(span),
         "n_novel_spanning_peptides": len(novel),
         "alleles": ALLELES,
@@ -120,6 +225,25 @@ def main():
         return
 
     predictor = Class1PresentationPredictor.load()
+    # Predictor provenance, for the same reason `_rank_column_used` is recorded: a percentile is
+    # only comparable against another run of the SAME predictor and the SAME model release, and a
+    # rerun that silently picks up a different release would move every number in this file with
+    # nothing in it saying so.
+    import mhcflurry as _mf
+    from mhcflurry.downloads import get_default_class1_presentation_models_dir
+    _models_dir = get_default_class1_presentation_models_dir()
+    result["_where_this_ran"] = (
+        f"GitHub Actions run {os.environ['GITHUB_RUN_ID']} ({os.environ.get('GITHUB_WORKFLOW')})"
+        if os.environ.get("GITHUB_ACTIONS") == "true" and os.environ.get("GITHUB_RUN_ID")
+        else "a local CPU (no GPU, no rental) — $0")
+    result["_predictor"] = {
+        "package": "mhcflurry", "version": getattr(_mf, "__version__", None),
+        # The release string mhcflurry keys its downloads by (…/mhcflurry/<n>/<release>/<name>/…) —
+        # the thing that actually pins which weights produced these percentiles.
+        "downloads_release": next((p for p in reversed(os.path.normpath(_models_dir).split(os.sep))
+                                   if p and p[0].isdigit() and "." in p), None),
+        "models_dir": _models_dir,
+    }
     peptides = sorted(novel)
     df = predictor.predict(
         peptides=peptides,

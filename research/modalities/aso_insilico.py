@@ -277,7 +277,15 @@ def main():
                  "EVALUATION ONLY — hypotheses for wet-lab testing, not a validated drug. "
                  "Does NOT address tumour delivery (the route's real bottleneck).",
         "junction_label": label,
-        "breakpoint": {**prov, "junction_context_mRNA": (left[-12:] + "|" + right[:12])},
+        # ⛔ REAL MODE MUST CARRY THE MEASURED GRADING, NOT JUST A LABEL. A junction LABEL with no
+        # graded offsets beside it is exactly how the retracted seam stayed invisible in every file
+        # that depended on it (junction_aso.py, two-defect block). One home for the arithmetic:
+        # `junction_aso.LAST_JUNCTION`, set by the real-mode builder that just ran.
+        "breakpoint": {**prov, "junction_context_mRNA": (left[-12:] + "|" + right[:12]),
+                       "_transcript_source": ja.transcript_source_provenance(),
+                       **({"measured_junction": {k: v for k, v in ja.LAST_JUNCTION.items()
+                                                 if not k.startswith("_")}}
+                          if ja.LAST_JUNCTION else {})},
         "n_evaluated": len(candidates),
         "accessibility": acc_status,
         "offtarget_screen": ot_status,

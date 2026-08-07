@@ -148,6 +148,58 @@ def first_residue_encoded(emap, rank):
     return r["first_protein_residue"]
 
 
+def acceptor_phase_resolution(ews_phase):
+    """Answer `_phase_note`'s open question: how many acceptor 5'UTR nt the fusion retains.
+
+    Committed inputs only — `emc-construct-inputs.json`, which carries per-exon LENGTHS and
+    `utr5_len` that `nr4a3-exon-audit.json` does not. Returns `resolved: False` with the reason if
+    that file cannot supply the numbers; an absent reading is not a reading of absence, and a
+    resolution that cannot show its arithmetic must not claim to be one.
+    """
+    unresolved = lambda why: {"resolved": False, "why": why}                     # noqa: E731
+    path = os.path.join(HERE, "emc-construct-inputs.json")
+    if not os.path.exists(path):
+        return unresolved("emc-construct-inputs.json is absent")
+    try:
+        g = json.load(open(path, encoding="utf-8"))["genes"]["NR4A3"]
+        exons = g["exons"]
+        utr5 = g["utr5_len"]
+    except Exception as exc:                                                     # noqa: BLE001
+        return unresolved("emc-construct-inputs.json does not carry NR4A3 exon lengths (%s)" % exc)
+    before = sum(e["exon_length_nt"] for e in exons[:EXPECT_NR4A3_EXON - 1])
+    utr_nt = utr5 - before
+    acc = exons[EXPECT_NR4A3_EXON - 1]
+    if utr_nt < 0 or utr_nt >= acc["exon_length_nt"]:
+        return unresolved("NR4A3's ATG does not fall inside transcript exon %d" % EXPECT_NR4A3_EXON)
+    cross = acc["exon_length_nt"] - acc["coding_nt_in_exon"]                      # independent route
+    if cross != utr_nt:
+        return unresolved("two routes to the retained 5'UTR disagree (%d vs %d)" % (utr_nt, cross))
+    return {
+        "resolved": True,
+        "acceptor_5utr_nt_retained": utr_nt,
+        "how": ("NR4A3 transcript exons 1..%d end at cDNA nt %d and the CDS starts at cDNA nt %d, so "
+                "a fusion transcript that retains transcript exon %d WHOLE carries %d - %d = %d of "
+                "its bases 5' of NR4A3's own ATG. Independent cross-check: that exon is %d nt and "
+                "nr4a3-exon-audit.json records %d CODING nt in it, and %d - %d = %d."
+                % (EXPECT_NR4A3_EXON - 1, before, utr5, EXPECT_NR4A3_EXON, utr5, before, utr_nt,
+                   acc["exon_length_nt"], acc["coding_nt_in_exon"], acc["exon_length_nt"],
+                   acc["coding_nt_in_exon"], cross)),
+        "chimeric_orf_in_frame_iff": "(EWSR1 coding nt through the cut + %d) mod 3 == 0" % utr_nt,
+        "consequence": (
+            "the split codon completes as %d EWSR1 nt + %d retained acceptor-UTR nt, which is a NOVEL "
+            "residue belonging to neither parent, followed by NR4A3 Met1 — so the corrected chimera is "
+            "EWSR1(1-%d) + [novel residue] + NR4A3(1-%d), not the protein-level EWSR1(1-%d)::NR4A3(2-%d) "
+            "the retracted neoantigen artifact modelled."
+            % (ews_phase if ews_phase is not None else -1, utr_nt, EXPECT_EWSR1_LAST_RESIDUE,
+               EXPECT_NR4A3_LENGTH, EXPECT_EWSR1_LAST_RESIDUE, EXPECT_NR4A3_LENGTH)
+            if ews_phase else
+            "the cut is codon-aligned, so there is no split codon and no novel junction residue"),
+        "measured_by": "junction_aso.mrna_junction (transcript-level; the arithmetic's one home)",
+        "_scope": ("exon arithmetic and sequence composition only. No binding, presentation, "
+                   "immunogenicity, efficacy, safety or clinical claim."),
+    }
+
+
 def gate(ews_map, nr4_map):
     """Re-derive the canonical junction from exon structure alone. Pure. REFUSAL, never a soft pass."""
     ews_res, ews_phase = last_residue_fully_encoded(ews_map, EXPECT_EWSR1_EXON)
@@ -188,6 +240,12 @@ def gate(ews_map, nr4_map):
             "depends on the acceptor exon's own 5' phase." % (
                 EXPECT_EWSR1_EXON, ews_phase if ews_phase is not None else -1,
                 (ews_res + 1) if ews_res else -1, ews_res)),
+        # ✅ RESOLVED 2026-08-06, $0, FROM COMMITTED DATA. `_phase_note` above is retained verbatim
+        # because it is the caveat several artifacts point AT; what follows is its answer, in the same
+        # one home rather than a second one. The acceptor's 5' phase was called unknowable from this
+        # repo's artifacts — true of `nr4a3-exon-audit.json`, which records coding nt per exon only,
+        # and false of the repo: `emc-construct-inputs.json` carries per-exon LENGTHS and `utr5_len`.
+        "_phase_note_resolution": acceptor_phase_resolution(ews_phase),
         "_what_a_refusal_means": "the exon structure this run read does not produce the corrected junction; "
                                  "NOTHING downstream may be emitted, because an inventory of the wrong "
                                  "object is worse than no inventory",

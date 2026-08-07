@@ -134,25 +134,51 @@ def test_the_banner_is_idempotent(tmp_path, monkeypatch):
     assert b1["counts"] == src[FNI.BANNER_KEY]["counts"]
 
 
-def test_the_second_artifact_is_flagged_UNVERIFIED_and_not_called_the_off_by_two():
-    """⚠ A DIFFERENT AND SMALLER DEFECT. Labelling it 'retracted for the off-by-two' would be wrong, and the
-    phase question that would settle it is explicitly not settled here."""
+def test_the_second_artifact_carries_no_retraction_banner_and_the_grader_says_CLEARED():
+    """⭐ THE GUARD IS RE-POINTED, NOT DELETED (2026-08-06).
+
+    ⚠ Superseded, retained: this test used to assert the artifact carried
+    `⛔_RETRACTED_SEAMS` with `status` "NOT VERIFIED …", `modelled_junction`
+    "EWSR1(1-264)::NR4A3(2-626)", and an unresolved `_phase_note` caveat. All four were correct
+    statements about the RETRACTED artifact, and holding them after regeneration would pin the
+    defect in place. What must now be held is the opposite invariant, and it is the STRONGER one:
+    the banner may be absent ONLY while the grader independently re-derives the corrected seam and
+    grades it CLEARED. A banner-less artifact that the grader does not clear fails here.
+    """
     art2 = json.load(open(FNI.SINGLE_BREAKPOINT_ARTIFACT, encoding="utf-8"))
-    b = art2[FNI.BANNER_KEY]
-    assert b["status"].startswith("NOT VERIFIED")
-    assert "does not carry the coding/transcript exon slip" in \
-        b["⛔_this_is_a_different_defect_from_the_off_by_two"]
-    assert b["modelled_junction"] == "EWSR1(1-264)::NR4A3(2-626)"
+    assert FNI.BANNER_KEY not in art2, "the committed artifact still carries a retraction banner"
+    b, _art = FNI.single_breakpoint_banner("t", "t")
+    assert b["status"].startswith("CLEARED"), b["status"]
+    assert b[FNI.STAMP_KEY] is False, "a CLEARED grade must withhold the banner"
     assert b["corrected_junction"] == "EWSR1(1-264)::NR4A3(1-626)"
-    assert "_phase_note" in b["⚠_what_this_does_NOT_settle"]
+    assert all(c["ok"] for c in b["what_was_checked"]), b["what_was_checked"]
 
 
-def test_the_met1_difference_is_measured_against_the_committed_sequence_cache():
-    """⛔ Not asserted from memory: the seam is checked against the committed UniProt cache."""
+def test_the_corrected_seam_is_measured_against_the_committed_sequence_cache():
+    """⛔ Not asserted from memory: the corrected seam is checked against the committed UniProt cache
+    AND against the transcript model, and the retracted peptides must be gone.
+
+    The corrected right-hand context is the NOVEL junction residue followed by NR4A3 from Met1 —
+    NOT `NR4A3[1:11]`, which is what the superseded model produced by dropping Met1.
+    """
     seqs = json.load(open(FNI.SEQ_CACHE, encoding="utf-8"))
     art2 = json.load(open(FNI.SINGLE_BREAKPOINT_ARTIFACT, encoding="utf-8"))
-    assert seqs["NR4A3"][0] == "M" and len(seqs["NR4A3"]) == 626
-    assert art2["_breakpoint_model"]["junction_context_right10"] == seqs["NR4A3"][1:11]
+    nr4 = seqs["NR4A3"]
+    assert nr4[0] == "M" and len(nr4) == 626
+    model = art2["_breakpoint_model"]
+    novel = model["novel_junction_residue"]
+    assert novel, "the e7::e3 cut splits a codon, so a novel junction residue must be recorded"
+    assert model["junction_context_right10"] == (novel + nr4[:9])
+    assert model["junction_context_right10"] != nr4[1:11], "this is the superseded (Met1-dropped) seam"
+
+    expected = FNI._expected_corrected_seam()
+    assert expected is not None, "the corrected seam must be derivable from committed inputs alone"
+    assert model["junction_context_right10"] == expected[0]
+
+    # The three peptides every downstream file quoted off the superseded seam must be gone.
+    peps = set(FNI.peptides_of(art2))
+    for retracted in ("GQQPCVQAQY", "QQPCVQAQY", "QPCVQAQY"):
+        assert retracted not in peps, f"{retracted} is a superseded-seam peptide"
 
 
 def test_the_routed_map_edit_points_at_the_artifact_and_restates_no_peptide(art):

@@ -1,0 +1,150 @@
+{
+  "_title": "Which EWSR1::NR4A3 junctions a design panel was emitted for, and why each other was refused",
+  "_cost": "$0 \u2014 committed inputs only (emc-construct-inputs.json + nr4a3-exon-audit.json). No network.",
+  "_source_audit": "junction-mrna-frame-audit.json",
+  "requested": [
+    "EWSR1_e7__NR4A3_e3",
+    "EWSR1_e12__NR4A3_e3"
+  ],
+  "emitted": [
+    {
+      "junction": "EWSR1_e7__NR4A3_e3",
+      "file": "junction-aso-designs-e7n3.json",
+      "seam": "ACGGGCAGCAGA|ATATGCCCTGCG",
+      "nr4a3_first_residue": 1
+    },
+    {
+      "junction": "EWSR1_e12__NR4A3_e3",
+      "file": "junction-aso-designs-e12n3.json",
+      "seam": "AATGGTTTGATG|ATATGCCCTGCG",
+      "nr4a3_first_residue": 1
+    }
+  ],
+  "refused": [
+    {
+      "junction": "EWSR1_e6__NR4A3_e2",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS"
+    },
+    {
+      "junction": "EWSR1_e6__NR4A3_e3",
+      "grade": "OUT_OF_FRAME",
+      "why": "frame register mismatch: (EWSR1 coding nt 581 + acceptor 5'UTR 2) mod 3 = 1, must be 0"
+    },
+    {
+      "junction": "EWSR1_e6__NR4A3_e4",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]"
+    },
+    {
+      "junction": "EWSR1_e7__NR4A3_e2",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS"
+    },
+    {
+      "junction": "EWSR1_e7__NR4A3_e4",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]"
+    },
+    {
+      "junction": "EWSR1_e8__NR4A3_e2",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS"
+    },
+    {
+      "junction": "EWSR1_e8__NR4A3_e3",
+      "grade": "OUT_OF_FRAME",
+      "why": "frame register mismatch: (EWSR1 coding nt 974 + acceptor 5'UTR 2) mod 3 = 1, must be 0"
+    },
+    {
+      "junction": "EWSR1_e8__NR4A3_e4",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]"
+    },
+    {
+      "junction": "EWSR1_e9__NR4A3_e2",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS"
+    },
+    {
+      "junction": "EWSR1_e9__NR4A3_e3",
+      "grade": "EMITTABLE",
+      "why": "in frame, resume residue inside the corrected range"
+    },
+    {
+      "junction": "EWSR1_e9__NR4A3_e4",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]"
+    },
+    {
+      "junction": "EWSR1_e10__NR4A3_e2",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS"
+    },
+    {
+      "junction": "EWSR1_e10__NR4A3_e3",
+      "grade": "EMITTABLE",
+      "why": "in frame, resume residue inside the corrected range"
+    },
+    {
+      "junction": "EWSR1_e10__NR4A3_e4",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]"
+    },
+    {
+      "junction": "EWSR1_e11__NR4A3_e2",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS"
+    },
+    {
+      "junction": "EWSR1_e11__NR4A3_e3",
+      "grade": "OUT_OF_FRAME",
+      "why": "frame register mismatch: (EWSR1 coding nt 1164 + acceptor 5'UTR 2) mod 3 = 2, must be 0"
+    },
+    {
+      "junction": "EWSR1_e11__NR4A3_e4",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]"
+    },
+    {
+      "junction": "EWSR1_e12__NR4A3_e2",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS"
+    },
+    {
+      "junction": "EWSR1_e12__NR4A3_e4",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]"
+    },
+    {
+      "junction": "EWSR1_e13__NR4A3_e2",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS"
+    },
+    {
+      "junction": "EWSR1_e13__NR4A3_e3",
+      "grade": "EMITTABLE",
+      "why": "in frame, resume residue inside the corrected range"
+    },
+    {
+      "junction": "EWSR1_e13__NR4A3_e4",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]"
+    },
+    {
+      "junction": "EWSR1_e14__NR4A3_e2",
+      "grade": "NON_CODING_ACCEPTOR",
+      "why": "acceptor exon carries no CDS"
+    },
+    {
+      "junction": "EWSR1_e14__NR4A3_e3",
+      "grade": "OUT_OF_FRAME",
+      "why": "frame register mismatch: (EWSR1 coding nt 1580 + acceptor 5'UTR 2) mod 3 = 1, must be 0"
+    },
+    {
+      "junction": "EWSR1_e14__NR4A3_e4",
+      "grade": "SEAM_NOT_PRODUCED",
+      "why": "NR4A3 resumes at residue 318, outside the corrected plausible range [1, 1]"
+    }
+  ]
+}

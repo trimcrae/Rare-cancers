@@ -63,8 +63,24 @@ NR4A3_KEEP_AA_FROM = 2
 # Oligo geometry is env-configurable so the SAME tiler runs the 16-mer 5-6-5 (default) OR the common
 # 20-mer 5-10-5 layout (OLIGO_LEN=20, WING=5) — the longer gap is the paper's lever to convert
 # residual-off-target junctions into clean designs.
-OLIGO_LEN = int(os.environ.get("OLIGO_LEN", "16"))   # total gapmer length
-WING = int(os.environ.get("WING", "5"))              # 5-6-5 at len 16; set OLIGO_LEN=20 for 5-10-5
+
+# ⛔ AN ENV VAR SET TO THE EMPTY STRING IS SET, AND `os.environ.get(k, default)` WILL NOT SAVE YOU
+# (measured 2026-08-06, run 31130625823). `aso-offtarget.yml` passes `OLIGO_LEN: ${{ inputs.oligo_len }}`
+# and `WING: ${{ inputs.wing }}`; an unsupplied optional input renders as "", so the var exists and
+# `int("")` raised `ValueError: invalid literal for int() with base 10: ''` before a single line of
+# design ran. The workflow swallows each command with `|| echo "... failed"`, so the step exited 0
+# after ONE SECOND and the run was reported `success` — and then the publish step copied the
+# still-on-disk RETRACTED artifacts to `modalities-cache` under a commit message announcing a fresh
+# screen. A defaulting bug, a fail-quiet wrapper and a publish step that cannot tell a fresh artifact
+# from a stale one compose into a green run that republishes exactly what was retracted.
+# `_env_int` treats "" as absent, which is what every caller already meant.
+def _env_int(name, default):
+    raw = os.environ.get(name)
+    return default if raw is None or not raw.strip() else int(raw.strip())
+
+
+OLIGO_LEN = _env_int("OLIGO_LEN", 16)                # total gapmer length
+WING = _env_int("WING", 5)                           # 5-6-5 at len 16; set OLIGO_LEN=20 for 5-10-5
 GAP = OLIGO_LEN - 2 * WING
 
 EUTILS = ("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
@@ -105,8 +121,8 @@ def build_fusion_cds(ews_cds, nr4_cds):
 def junction_label():
     """Human-readable label + provenance dict for the active breakpoint mode."""
     if os.environ.get("FUSION_JUNCTION_MODE") == "real":
-        e = int(os.environ.get("EWSR1_EXON_END", "12"))
-        n = int(os.environ.get("NR4A3_EXON_START", "3"))
+        e = _env_int("EWSR1_EXON_END", 12)
+        n = _env_int("NR4A3_EXON_START", 3)
         return f"EWSR1_e{e}__NR4A3_e{n}", {
             "mode": "real_exon_junction_mRNA",
             "source": ("Ensembl MANE/canonical TRANSCRIPT structure (junction_aso.transcript_model): "
@@ -178,23 +194,103 @@ def junction_label():
 ENS = "https://rest.ensembl.org"
 _TX_CACHE = {}
 
+# ⭐ THE TRANSCRIPT MODEL IS AVAILABLE OFFLINE, AND THAT IS WHY THIS LANE NO LONGER NEEDS THE
+# NETWORK TO SAY WHAT ITS SEAM IS (measured 2026-08-06). The two-defect block above states that
+# U — the number of NR4A3 transcript-exon-3 bases 5' of the ATG — "is not knowable from any
+# artifact in this repo". That was true of `nr4a3-exon-audit.json`, which records coding nt per
+# exon only; it was NOT true of the repo. `emc-construct-inputs.json` (fetched 2026-08-03 from
+# the same Ensembl REST endpoint, same transcripts, with its own four self-checks recorded and
+# all true) carries the spliced cDNA, the CDS, the protein, per-exon lengths and cDNA offsets,
+# and `utr5_len` for both genes. From it U is a subtraction, and the frame audit and the design
+# panel are a $0 CPU run. What still needs the network is the BLAST/RefSeq screen downstream —
+# not the junction.
+# ⛔ A CACHE IS NOT A MEASUREMENT OF TODAY. So the source is never silent: it is chosen by
+# `TRANSCRIPT_SOURCE` (auto|ensembl|cache), recorded in every artifact this module emits, and
+# when a live Ensembl read IS available it is diffed against the committed cache field-for-field
+# and RAISES on any disagreement — the cache can therefore only ever agree with the network or
+# stop the run, never quietly replace it.
+CONSTRUCT_INPUTS = os.path.join(os.path.dirname(__file__), "emc-construct-inputs.json")
+TRANSCRIPT_SOURCE = os.environ.get("TRANSCRIPT_SOURCE", "auto").strip().lower() or "auto"
+# {symbol: "ensembl" | "ensembl+cache_agreed" | "committed_cache"} — populated as models are built.
+TRANSCRIPT_SOURCE_USED = {}
 
-def transcript_model(symbol):
-    """mRNA-level model of `symbol`'s canonical transcript — the instrument this module needs.
 
-    Returns cdna (spliced transcript), cds, protein, exon lengths and cumulative exon ends in
-    TRANSCRIPT coordinates, and utr5_len (transcript nt 5' of the ATG). Every field is measured;
-    nothing is assumed. Four self-checks, all of which RAISE:
-      1. exon lengths sum to len(cdna)          — the exon list really is this transcript's
-      2. the CDS occurs EXACTLY ONCE in the cdna — so utr5_len is unambiguous
-      3. translate(cds) == Ensembl protein       — the reading frame is the annotated one
-      4. per-exon coding nt reproduce the committed `nr4a3-exon-audit.json` exon-for-exon
-    Check 4 is the provenance gate: if today's Ensembl read does not reproduce the exon index
-    this repo's corrections were derived from, NOTHING downstream may be emitted, because a
-    design panel built on an exon map nobody has graded is worse than no panel.
+def _self_check_model(model):
+    """The three sequence self-checks + the exon-audit provenance gate. All RAISE.
+
+    1. exon lengths sum to len(cdna)          — the exon list really is this transcript's
+    2. the CDS occurs EXACTLY ONCE in the cdna — so utr5_len is unambiguous
+    3. translate(cds) == the annotated protein — the reading frame is the annotated one
+    4. per-exon coding nt reproduce the committed `nr4a3-exon-audit.json` exon-for-exon
+    Check 4 is the provenance gate: if the model in hand does not reproduce the exon index this
+    repo's corrections were derived from, NOTHING downstream may be emitted, because a design
+    panel built on an exon map nobody has graded is worse than no panel. Applied identically to
+    a live read and to the committed cache — a cache that skipped the gate would be a second
+    source of truth, which is the failure this module exists to correct.
     """
-    if symbol in _TX_CACHE:
-        return _TX_CACHE[symbol]
+    import fusion_breakpoints as fb
+    symbol, cdna, cds = model["symbol"], model["cdna"], model["cds"]
+    if sum(model["exon_lens"]) != len(cdna):
+        raise RuntimeError(f"{symbol}: exon lengths sum to {sum(model['exon_lens'])} != cdna "
+                           f"length {len(cdna)}")
+    if cdna.count(cds) != 1:
+        raise RuntimeError(f"{symbol}: CDS occurs {cdna.count(cds)} times in the cdna — the 5'UTR "
+                           "length would be ambiguous, so no seam may be emitted")
+    if cdna.index(cds) != model["utr5_len"]:
+        raise RuntimeError(f"{symbol}: utr5_len {model['utr5_len']} != the cdna offset of the CDS "
+                           f"{cdna.index(cds)}")
+    if fb.translate(cds) != model["protein"].replace("*", "").rstrip("X"):
+        raise RuntimeError(f"{symbol}: translate(CDS) != annotated protein")
+    _cross_check_against_committed_exon_audit(model)
+    return model
+
+
+def _model_from_committed_cache(symbol):
+    """Build the transcript model from `emc-construct-inputs.json` — no network, no assumption.
+
+    Every field returned is a value that file MEASURED from Ensembl on its recorded `_fetched_utc`
+    and self-checked at the time; nothing here is defaulted or inferred. Raises if the file, the
+    gene, or any needed field is absent — an absent reading is not a reading of absence.
+    """
+    if not os.path.exists(CONSTRUCT_INPUTS):
+        raise RuntimeError("emc-construct-inputs.json is missing — no offline transcript model")
+    with open(CONSTRUCT_INPUTS) as fh:
+        blob = json.load(fh)
+    g = (blob.get("genes") or {}).get(symbol)
+    if not g:
+        raise RuntimeError(f"{symbol} absent from emc-construct-inputs.json")
+    for field in ("transcript", "cdna", "cds", "protein", "utr5_len", "exons"):
+        if field not in g:
+            raise RuntimeError(f"{symbol}: emc-construct-inputs.json carries no {field!r}")
+    # ⚠ NAME THE ASSERTIONS; DO NOT SWEEP EVERY FALSE BOOLEAN. `self_checks` mixes four ASSERTIONS
+    # with descriptive facts, and `first_transcript_exon_is_coding: false` is the single most
+    # important FACT about NR4A3 in this whole lane — it is the off-by-two's root cause, not a
+    # failure. A blanket "any false is a failure" sweep refused the correct record on the strength of
+    # the very fact the correction rests on (caught the first time this ran, 2026-08-06).
+    required = ("exon_lengths_sum_equals_cdna", "coding_nt_sum_equals_cds",
+                "cdna_slice_at_utr5_equals_cds", "cds_translation_equals_protein")
+    checks = g.get("self_checks") or {}
+    missing = [k for k in required if k not in checks]
+    if missing:
+        raise RuntimeError(f"{symbol}: emc-construct-inputs.json records no {missing} — an absent "
+                           "check is not a passed check")
+    bad = [k for k in required if checks[k] is not True]
+    if bad:
+        raise RuntimeError(f"{symbol}: emc-construct-inputs.json records FAILED self-checks {bad}")
+    exon_lens = [e["exon_length_nt"] for e in g["exons"]]
+    tx_ends, cum = [], 0
+    for L in exon_lens:
+        cum += L
+        tx_ends.append(cum)
+    return {"symbol": symbol, "transcript": g["transcript"], "strand": g.get("strand"),
+            "cdna": g["cdna"].upper(), "cds": g["cds"].upper(), "protein": g["protein"],
+            "exon_lens": exon_lens, "tx_ends": tx_ends, "utr5_len": g["utr5_len"],
+            "n_transcript_exons": len(exon_lens),
+            "_fetched_utc": blob.get("_fetched_utc"), "_source_file": os.path.basename(CONSTRUCT_INPUTS)}
+
+
+def _model_from_ensembl(symbol):
+    """Build the transcript model from a live Ensembl REST read. Needs the network."""
     import fusion_breakpoints as fb
     look = fb.get(f"{ENS}/lookup/symbol/homo_sapiens/{symbol}?expand=1")
     tr = next((t for t in look["Transcript"] if t.get("is_canonical") == 1), look["Transcript"][0])
@@ -208,20 +304,98 @@ def transcript_model(symbol):
     cdna = fb.get_text(f"{ENS}/sequence/id/{tr['id']}?type=cdna").replace("\n", "").upper()
     cds = fb.get_text(f"{ENS}/sequence/id/{tr['id']}?type=cds").replace("\n", "").upper()
     protein = fb.get_text(f"{ENS}/sequence/id/{tr['Translation']['id']}?type=protein").replace("\n", "")
-    if cum != len(cdna):
-        raise RuntimeError(f"{symbol}: exon lengths sum to {cum} != cdna length {len(cdna)}")
-    if cdna.count(cds) != 1:
+    if cdna.count(cds) != 1:                      # utr5 must be unambiguous before we can set it
         raise RuntimeError(f"{symbol}: CDS occurs {cdna.count(cds)} times in the cdna — the 5'UTR "
                            "length would be ambiguous, so no seam may be emitted")
-    utr5 = cdna.index(cds)
-    if fb.translate(cds) != protein.replace("*", "").rstrip("X"):
-        raise RuntimeError(f"{symbol}: translate(CDS) != Ensembl protein")
-    model = {"symbol": symbol, "transcript": tr["id"], "strand": strand, "cdna": cdna, "cds": cds,
-             "protein": protein, "exon_lens": exon_lens, "tx_ends": tx_ends, "utr5_len": utr5,
-             "n_transcript_exons": len(exons)}
-    _cross_check_against_committed_exon_audit(model)
+    return {"symbol": symbol, "transcript": tr["id"], "strand": strand, "cdna": cdna, "cds": cds,
+            "protein": protein, "exon_lens": exon_lens, "tx_ends": tx_ends,
+            "utr5_len": cdna.index(cds), "n_transcript_exons": len(exons)}
+
+
+def _diff_live_against_cache(live):
+    """RAISE if a live Ensembl read disagrees with the committed cache on anything load-bearing.
+
+    This is what keeps the offline path honest: the cache may only ever AGREE with the network or
+    stop the run. Ensembl moving under us is a real event (a transcript re-annotation would change
+    every seam in this lane), and it must surface as a refusal, never as a silent new number.
+    """
+    try:
+        cached = _model_from_committed_cache(live["symbol"])
+    except RuntimeError:
+        return "ensembl"                          # nothing committed to compare against
+    for field in ("transcript", "cdna", "cds", "exon_lens", "utr5_len"):
+        if cached[field] != live[field]:
+            a, b = cached[field], live[field]
+            raise RuntimeError(
+                f"{live['symbol']}: live Ensembl {field!r} disagrees with the committed "
+                f"emc-construct-inputs.json (fetched {cached.get('_fetched_utc')}). "
+                f"cache={str(a)[:80]!r} live={str(b)[:80]!r}. Every seam this lane has emitted "
+                "was derived from the cached value, so a disagreement is a re-annotation, not a "
+                "detail — refusing to emit until it is graded.")
+    if cached["protein"].replace("*", "").rstrip("X") != live["protein"].replace("*", "").rstrip("X"):
+        raise RuntimeError(f"{live['symbol']}: live Ensembl protein disagrees with the committed cache")
+    return "ensembl+cache_agreed"
+
+
+def transcript_model(symbol):
+    """mRNA-level model of `symbol`'s canonical transcript — the instrument this module needs.
+
+    Returns cdna (spliced transcript), cds, protein, exon lengths and cumulative exon ends in
+    TRANSCRIPT coordinates, and utr5_len (transcript nt 5' of the ATG). Every field is measured;
+    nothing is assumed. Source is `TRANSCRIPT_SOURCE`:
+      ensembl — live REST read only (raises without network)
+      cache   — the committed `emc-construct-inputs.json` only (no network, $0)
+      auto    — live read if the network answers, else the committed cache (the default)
+    Whichever is used, `_self_check_model` runs on it, so the exon-audit provenance gate is not
+    bypassable by choosing a source. A live read is additionally diffed against the cache.
+    """
+    if symbol in _TX_CACHE:
+        return _TX_CACHE[symbol]
+    # ⚠ READ THE ENV AT CALL TIME, not only at import. A test or a caller that sets TRANSCRIPT_SOURCE
+    # after this module has already been imported by some other test in the same process would
+    # otherwise get the import-time value and silently go to the network — which is exactly how the
+    # first version of this failed only when run alongside other test modules and passed alone.
+    src = (os.environ.get("TRANSCRIPT_SOURCE") or TRANSCRIPT_SOURCE).strip().lower() or "auto"
+    if src not in ("auto", "ensembl", "cache"):
+        raise RuntimeError(f"TRANSCRIPT_SOURCE={src!r} is not one of auto|ensembl|cache")
+    if src == "cache":
+        model, used = _model_from_committed_cache(symbol), "committed_cache"
+    else:
+        # ⛔ THE FALLBACK IS SCOPED TO THE FETCH, AND THE DIFF IS DELIBERATELY OUTSIDE IT. A network
+        # failure is not a verdict and may fall back; a live-vs-cache DISAGREEMENT is a verdict and
+        # must never be masked by falling back to the very cache it disagrees with. The first version
+        # of this put both inside one `try` and re-raised every RuntimeError — which `fusion_breakpoints.get`
+        # also raises on a plain 403, so `auto` never fell back at all.
+        try:
+            model = _model_from_ensembl(symbol)
+        except Exception as exc:                  # noqa: BLE001
+            if src == "ensembl":
+                raise
+            print(f"  Ensembl unreachable for {symbol} ({exc}); using the committed cache",
+                  file=sys.stderr)
+            model, used = _model_from_committed_cache(symbol), "committed_cache"
+        else:
+            used = _diff_live_against_cache(model)
+    _self_check_model(model)
+    TRANSCRIPT_SOURCE_USED[symbol] = used
     _TX_CACHE[symbol] = model
     return model
+
+
+def transcript_source_provenance():
+    """What every emitted artifact must carry: which source produced the seam, and when it was read."""
+    prov = {"requested": TRANSCRIPT_SOURCE, "used_per_gene": dict(TRANSCRIPT_SOURCE_USED)}
+    if any(v == "committed_cache" for v in TRANSCRIPT_SOURCE_USED.values()):
+        try:
+            with open(CONSTRUCT_INPUTS) as fh:
+                prov["committed_cache_fetched_utc"] = json.load(fh).get("_fetched_utc")
+        except Exception:                          # noqa: BLE001
+            prov["committed_cache_fetched_utc"] = None
+        prov["_caveat"] = ("At least one gene was read from the committed cache "
+                           "(emc-construct-inputs.json), not from Ensembl today. The cache is a "
+                           "dated measurement that passed this module's four self-checks; it is "
+                           "not a statement about Ensembl's current annotation.")
+    return prov
 
 
 def coding_nt_per_exon(model):
@@ -334,8 +508,8 @@ def build_parents_and_fusion():
     strictly stricter (a superset)."""
     global EWSR1_full, NR4A3_full
     if os.environ.get("FUSION_JUNCTION_MODE") == "real":
-        e_end = int(os.environ.get("EWSR1_EXON_END", "12"))
-        n_start = int(os.environ.get("NR4A3_EXON_START", "3"))
+        e_end = _env_int("EWSR1_EXON_END", 12)
+        n_start = _env_int("NR4A3_EXON_START", 3)
         ews = transcript_model("EWSR1")
         nr4 = transcript_model("NR4A3")
         j = mrna_junction(ews, nr4, e_end, n_start)
@@ -490,7 +664,13 @@ def audit_window():
     out = os.path.join(os.path.dirname(__file__), "junction-mrna-frame-audit.json")
     res = {
         "_title": "EWSR1::NR4A3 chimeric-mRNA junction audit at the CORRECTED exon index",
-        "_cost": "$0 — a GitHub-hosted CPU runner and two Ensembl reads. No GPU, no rental.",
+        # ⚠ The cost line must describe THIS run, not the run the author had in mind. It read
+        # "a GitHub-hosted CPU runner and two Ensembl reads" on an audit that made no network call
+        # at all (2026-08-06) — a small lie, in the field a reader checks to see what was paid for.
+        "_cost": ("$0 — CPU only, no GPU and no rental. Inputs: "
+                  + ("the committed emc-construct-inputs.json cache, no network call"
+                     if all(v == "committed_cache" for v in TRANSCRIPT_SOURCE_USED.values())
+                     else "live Ensembl reads")),
         "_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "_what_this_is": (
             "The instrument the ASO lane was missing. `fusion_breakpoints.gene_model` is a "
@@ -510,6 +690,7 @@ def audit_window():
                                       "protein_aa": len(g["protein"].replace("*", "").rstrip("X")),
                                       "n_transcript_exons": g["n_transcript_exons"]}
                         for g in (ews, nr4)},
+        "_transcript_source": transcript_source_provenance(),
         "plausible_nr4a3_resume_range": [lo, hi],
         "_plausible_range_source": ("fusion-object-inventory.json -> reactive_residue_inventory."
                                     "excluded_span.nr4a3_resume_range_across_plausible_breakpoints"),
@@ -549,6 +730,7 @@ def main():
             "EWSR1_mRNA": EWSR1_MRNA, "NR4A3_mRNA": NR4A3_MRNA,
             "junction_context_mRNA": (left[-12:] + "|" + right[:12]),
             "caveat": "Re-run with a patient's sequenced fusion transcript for clinical design.",
+            "_transcript_source": transcript_source_provenance(),
             **prov,
             # The measured grading of the accepted junction — present ONLY in real mode, and only
             # because every gate in `build_parents_and_fusion` passed. A reader must be able to see

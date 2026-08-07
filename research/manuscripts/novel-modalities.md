@@ -235,6 +235,23 @@ experiment** that computation cannot replace; and an honest **maturity** tag.
   most important correction in the paper, and it is exactly why the headline epitope must
   come from sourced junctions, not a convenient assumption.
 
+  > ⛔ **THIS SELF-CORRECTION WAS ITSELF WRONG-INSTRUMENTED (2026-08-06), AND THAT IS A
+  > SHARPER LESSON THAN THE ONE IT WAS TELLING.** Its verdict on `GQQPCVQAQY` stands — the
+  > peptide does not occur in the corrected chimera — but the "real in-frame junctions" it
+  > appealed to were indexed by CODING exon while labelled by TRANSCRIPT exon, so all seven
+  > resume NR4A3 at an offset the corrected exon map does not produce.
+  > `fusion-breakpoint-neoantigens.json` is **RETRACTED and not regenerated**, so every
+  > number in the table below is withdrawn, including the "no pan-EMC epitope" robustness
+  > finding. Separately, the *first* pass was re-run on 2026-08-06 against the corrected
+  > **mRNA** junction, which a protein-level splice could not represent: the seam carries a
+  > novel codon (`AAT` = Asn) from 1 leftover EWSR1 nt + 2 retained acceptor-5′UTR nt, then
+  > NR4A3 **Met1**, giving `…SQQSSSYGQQ-N-MPCVQAQYSP…` and a lead of **`NMPCVQAQY`**
+  > (B\*15:01, predicted strong) in
+  > [`fusion-neoantigen-predictions.json`](../modalities/fusion-neoantigen-predictions.json).
+  > Predicted binding is a screen, not presentation and not immunogenicity, and which exon
+  > pair a patient carries is not decidable from exon structure. **Two artifacts reaching the
+  > same verdict is not corroboration when one of them is the other's corrected input.**
+
   The **7 in-frame junctions** (EWSR1 exons 7/9/10/11/12/13 → predominantly NR4A3 exon 3,
   whose retained sequence reads `…VVRTDS…`) yield **26 distinct predicted binders**, but
   the central, honest finding is about *robustness*:

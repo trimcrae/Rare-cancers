@@ -55,9 +55,25 @@ JSON on the `modalities-cache` branch (snapshotted into `research/modalities/`).
 | NR4A3 DBD 261–337: mean pLDDT 76.1 | NR4A3.regions | ✓ |
 | 33 fpocket cavities; max druggability 0.495 (sub-0.5) | NR4A3.fpocket | ✓ |
 | Top pocket localises to LBD, residues 406–534 (all LBD) | top_pocket_locale | ✓ |
-| 34 novel junction-spanning peptides | n_novel_spanning_peptides | ✓ |
-| 5 binders (≤2 %ile), 2 strong (≤0.5); 3 ≤500 nM | n_predicted_binders_* | ✓ |
-| Lead GQQPCVQAQY B*15:01 44.6 nM, %ile 0.07, score 0.94 | top_predictions[0] | ✓ |
+| 34 novel junction-spanning peptides | n_novel_spanning_peptides | ⛔ superseded — **38** at the corrected junction |
+| 5 binders (≤2 %ile), 2 strong (≤0.5); 3 ≤500 nM | n_predicted_binders_* | ⛔ superseded — **3** binders, **2** strong, **3** ≤500 nM |
+| Lead GQQPCVQAQY B*15:01 44.6 nM, %ile 0.07, score 0.94 | top_predictions[0] | ⛔ superseded — lead is **NMPCVQAQY** B*15:01 73.4 nM, %ile 0.374, score 0.74 |
+
+> ⛔ **THOSE THREE ROWS ARE SUPERSEDED, RETAINED (2026-08-06), AND THE REASON MATTERS MORE THAN THE
+> NUMBERS.** Each was a correct read of the field it names — which is precisely why a field-by-field
+> factcheck could not catch what was wrong: the artifact was internally consistent and built on a
+> chimera that could not exist. `fusion_neoantigen.py` spliced two UniProt PROTEIN sequences
+> (EWSR1 1–264 :: NR4A3 from 2), and a protein-level splice cannot represent a codon split across the
+> junction. EWSR1 exon 7 ends 1 nt past a codon boundary and NR4A3's acceptor exon retains 2 5′UTR nt,
+> which compose into a **novel codon belonging to neither parent** (`AAT` = Asn), followed by NR4A3
+> **Met1** — so the corrected seam is `…SQQSSSYGQQ-N-MPCVQAQYSP…`, two residues different, and
+> `GQQPCVQAQY` does not occur in the corrected chimera at all. Regenerated from the mRNA junction on
+> 2026-08-06 (MHCflurry 2.1.4, downloads release 2.2.0, recorded in the artifact's `_predictor`
+> block): [`fusion-neoantigen-predictions.json`](../modalities/fusion-neoantigen-predictions.json).
+> Grading and the checks that lifted the retraction:
+> [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json) →
+> `single_breakpoint_artifact.status == "CLEARED …"`. **A verification trail that checks values
+> against fields cannot see a wrong object; only re-deriving the object can.**
 | 5 fusion-specific gapmer ASOs; junction GC-rich (~75–81%) | `…aso…json` | ✓ |
 
 ## Reference DOIs (CI-resolved via Crossref in `verify-refs.yml` §4)
@@ -82,6 +98,17 @@ JSON on the `modalities-cache` branch (snapshotted into `research/modalities/`).
   structure (self-check: translate(CDS)==Ensembl protein) and runs MHCflurry across all
   7 of them. GQQPCVQAQY arises from **none** of them — it was a guess artifact. Corrected
   in abstract + §3.3. Source: `fusion-breakpoint-neoantigens.json`.
+  > ⛔ **THE CONCLUSION HELD; THE EVIDENCE FOR IT DID NOT (2026-08-06).** `GQQPCVQAQY` really
+  > does not occur in the corrected chimera — but not for the reason given here. The seven
+  > junctions cited as "the *real* in-frame junctions" all resume NR4A3 at an offset the
+  > corrected exon map does not produce, and `fusion-breakpoint-neoantigens.json` is
+  > **RETRACTED** for that reason and has **not** been regenerated
+  > ([`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json) →
+  > `breakpoint_artifact`). So this bullet's conclusion now rests on the regenerated
+  > single-junction artifact instead, where the corrected seam carries a novel junction
+  > residue and NR4A3 Met1. **A right answer reached through a wrong instrument is not a
+  > verified answer**, and the bullet below — the 7-junction "breakpoint-resolved truth",
+  > its 26 binders and `GVVRTDSLK`/`QQIVRTDSL` — stays withdrawn in full.
 - Breakpoint-resolved truth: 7 in-frame junctions (EWSR1 e7/9/10/11/12/13 → mostly NR4A3
   e3), 26 distinct predicted binders, **no pan-EMC epitope** (most-shared GVVRTDSLK in
   2/7, weak). Strong binders are breakpoint-specific (e.g. QQIVRTDSL/B*08:01 from the

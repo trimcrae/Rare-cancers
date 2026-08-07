@@ -114,6 +114,31 @@ MHCflurry-2.0 across them. **The result overturned the first:** `GQQPCVQAQY` ari
 junction. This self-correction is the reason the headline epitopes below come from sourced junctions, not a
 convenient assumption.
 
+> ⛔⛔ **THE SELF-CORRECTION IS ITSELF RETRACTED (2026-08-06), AND THE TABLE BELOW WITH IT.**
+> `fusion_breakpoints.py` indexed NR4A3's coding-exon offset table with TRANSCRIPT exon numbers, and
+> NR4A3 `ENST00000395097` has two non-coding leading exons, so all seven "real in-frame junctions"
+> resume NR4A3 at an offset the corrected exon map does not produce.
+> [`fusion-breakpoint-neoantigens.json`](../modalities/fusion-breakpoint-neoantigens.json) carries a
+> retraction banner and **has not been regenerated**; grading and counts:
+> [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json). **Do not
+> quote any epitope, affinity, percentile, junction attribution or the "no pan-EMC epitope"
+> robustness finding from §2 until that regeneration lands.**
+>
+> ✅ **What HAS been regenerated, and what it says.** The *first-pass* single-junction artifact was
+> rebuilt on 2026-08-06 against the corrected junction, at the **mRNA** level — a protein-level splice
+> of two UniProt sequences cannot represent a codon that straddles the seam, which is what this
+> junction has. EWSR1 exon 7 ends 1 nt past a codon boundary; NR4A3's acceptor exon 3 retains exactly
+> 2 5′UTR bases; together they form a codon belonging to **neither parent** (`AAT` = Asn), after which
+> NR4A3 resumes at **Met1**. Corrected seam `…SQQSSSYGQQ-N-MPCVQAQYSP…`; **38** junction peptides, all
+> absent from both parents; **3** predicted binders, **2** of them strong by presentation percentile,
+> lead **`NMPCVQAQY`** on HLA-B\*15:01 (73.4 nM, presentation %ile 0.374).
+> [`fusion-neoantigen-predictions.json`](../modalities/fusion-neoantigen-predictions.json), predictor
+> and model release recorded in its `_predictor` block. `GQQPCVQAQY` is absent from the corrected
+> chimera, so §2's verdict on it survives — **through different evidence than §2 gives**.
+> Predicted MHC-I binding is a screen: it is not presentation, not immunogenicity, and not a
+> statement about efficacy, safety or clinical use. Which exon pair a given patient carries is not
+> decidable from exon structure and is not decided here.
+
 The **7 in-frame junctions** (EWSR1 exons 7/9/10/11/12/13 → predominantly **NR4A3 exon 3**, whose retained
 sequence reads `…VVRTDS…`) yield **26 distinct predicted binders**. The strong binders, one or two per
 junction, are listed below (all values quoted from `fusion-breakpoint-neoantigens.json`):

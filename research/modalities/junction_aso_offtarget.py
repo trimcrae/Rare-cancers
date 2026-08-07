@@ -206,9 +206,20 @@ def main():
                   if r.get("status") == "screened" and r.get("n_true_cleavage_risk", 1) == 0)
     result = {
         "junction_label": label,
+        # ⛔ IN REAL MODE, `ja.EWSR1_KEEP_AA` / `ja.NR4A3_KEEP_AA_FROM` ARE NOT WHAT WAS BUILT.
+        # They are the codon-space MODELLED-reference constants (264 / from-2) and they are ignored by the
+        # real-mode builder — yet the regenerated e12n3/e7n3 panels emitted `NR4A3_from_aa: 2` beside a
+        # measured resume residue of 1, i.e. the artifact contradicted itself in adjacent keys and the
+        # stale number was the more quotable one (measured 2026-08-06 on the corrected regeneration run).
+        # In real mode carry the MEASURED grading; keep the constants only where they are what ran.
         "breakpoint": {**prov,
-                       "EWSR1_keep_aa": ja.EWSR1_KEEP_AA, "NR4A3_from_aa": ja.NR4A3_KEEP_AA_FROM,
-                       "junction_context_mRNA": (left[-12:] + "|" + right[:12])},
+                       **({"measured_junction": {k: v for k, v in ja.LAST_JUNCTION.items()
+                                                 if not k.startswith("_")}}
+                          if ja.LAST_JUNCTION else
+                          {"EWSR1_keep_aa": ja.EWSR1_KEEP_AA,
+                           "NR4A3_from_aa": ja.NR4A3_KEEP_AA_FROM}),
+                       "junction_context_mRNA": (left[-12:] + "|" + right[:12]),
+                       "_transcript_source": ja.transcript_source_provenance()},
         "_note": ("Transcriptome-wide off-target screen of the fusion-junction gapmer ASOs "
                   "(blastn-short vs human RefSeq RNA, NCBI BLAST URL API), resolved to the "
                   "gap-mismatch level. A TRUE cleavage risk = an off-target near-match whose "

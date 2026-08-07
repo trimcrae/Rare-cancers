@@ -103,7 +103,12 @@ research/
 - Novel modalities: manuscript drafted (`manuscripts/novel-modalities.md`) with **real,
   reproducible CI compute** (`research/modalities/`, `modalities-run.yml`): AlphaFold/
   fpocket druggability of NR4A3 (folded LBD, no druggable pocket — max 0.495), the
-  fusion-junction neoantigen (lead **GQQPCVQAQY** strong on HLA-B*15:01), and
+  fusion-junction neoantigen (⛔ *superseded, retained:* "lead **GQQPCVQAQY** strong on
+  HLA-B*15:01" — that peptide came from a protein-level splice that dropped NR4A3 Met1 and
+  the novel junction codon; regenerated 2026-08-06 against the corrected mRNA junction, the
+  lead is **NMPCVQAQY**, predicted strong on HLA-B*15:01 in
+  [`fusion-neoantigen-predictions.json`](modalities/fusion-neoantigen-predictions.json) —
+  predicted binding only, not presentation and not immunogenicity), and
   fusion-specific ASO designs. Verification trail in `novel-modalities-factcheck.md`
   (incl. a corrected MHCflurry column bug). **Needs** a wet-lab/sarcoma collaborator —
   the program is explicitly designed to be handed to one — and confirmation of 2 ⚠ DOIs.

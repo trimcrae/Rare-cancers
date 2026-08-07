@@ -375,8 +375,43 @@ def breakpoint_banner(stamp_utc, stamp_et):
     return banner, art
 
 
+#: A grade that says "this artifact is now correct" must be as unmistakable as one that says it is not, and
+#: it must be the thing that STOPS the banner being written. Two states, one key, checked by main().
+STAMP_KEY = "⛔_stamp_this_banner_into_the_artifact"
+
+
+def _expected_corrected_seam():
+    """The corrected 10-residue right context, DERIVED — never typed here.
+
+    Committed inputs only: `junction_aso` is pinned to `TRANSCRIPT_SOURCE=cache` so this module keeps its
+    "$0, no network, no prediction" contract, and the transcript model it returns is gated against
+    `nr4a3-exon-audit.json` on the way through. Returns (right10, novel_residue_aa, grading) or None if the
+    junction cannot be built here — in which case the caller must NOT claim the artifact is cleared.
+    """
+    os.environ.setdefault("TRANSCRIPT_SOURCE", "cache")
+    sys.path.insert(0, HERE)
+    try:
+        import junction_aso as ja                                  # type: ignore
+        import fusion_breakpoints as fb                            # type: ignore
+        ews, nr4 = ja.transcript_model("EWSR1"), ja.transcript_model("NR4A3")
+        j = ja.mrna_junction(ews, nr4, 7, 3)
+        prot = fb.translate(j["_fusion"][ews["utr5_len"]:])
+        j0 = j["ewsr1_last_whole_residue"]
+        novel = prot[j0] if j["ewsr1_coding_phase"] else None
+        return prot[j0:j0 + 10], novel, {k: v for k, v in j.items() if not k.startswith("_")}
+    except Exception:                                              # noqa: BLE001
+        return None
+
+
 def single_breakpoint_banner(stamp_utc, stamp_et):
-    """The OTHER artifact. A weaker, accurate label — it is not the off-by-two, and must not be called it."""
+    """The OTHER artifact. A weaker, accurate label — it is not the off-by-two, and must not be called it.
+
+    ⭐ AND IT IS NOW ALSO THE THING THAT LIFTS THAT LABEL (2026-08-06). A grader that can only ever write a
+    retraction is a ratchet: once the artifact is regenerated correctly, re-running this module would stamp
+    the SAME banner back onto a CORRECT file — and `kept_from` would compute to `None`, so the banner would
+    have read "resumes at residue None". The state a grader cannot express is the state it will get wrong,
+    so `CLEARED` is a first-class outcome here and it is what withholds the banner.
+    """
     art = json.load(open(SINGLE_BREAKPOINT_ARTIFACT, encoding="utf-8"))
     art.pop(BANNER_KEY, None)
     junction, _gate = _corrected_junction()
@@ -386,7 +421,53 @@ def single_breakpoint_banner(stamp_utc, stamp_et):
     right10 = model["junction_context_right10"]
     kept_from = 2 if right10 == nr4[1:11] else (1 if right10 == nr4[0:10] else None)
     cits = citations(peptides_of(art), self_paths=(SINGLE_BREAKPOINT_ARTIFACT, BREAKPOINT_ARTIFACT))
+
+    expected = _expected_corrected_seam()
+    if expected and right10 == expected[0]:
+        exp_right10, novel_aa, grading = expected
+        return {
+            STAMP_KEY: False,
+            "status": "CLEARED — regenerated against the corrected junction and it reproduces",
+            "corrected_junction": junction,
+            "modelled_junction": "EWSR1(1-%d)::[%s]::NR4A3(%d-%d)" % (
+                grading["ewsr1_last_whole_residue"], novel_aa or "no novel residue",
+                grading["nr4a3_first_residue"], len(nr4)),
+            "what_was_checked": [
+                {"check": "the artifact's junction_context_right10 equals the seam derived from the "
+                          "transcript model at EWSR1 e7 :: NR4A3 e3",
+                 "got": right10, "want": exp_right10, "ok": True},
+                {"check": "NR4A3 is retained from residue 1 (Met1 survives as an internal residue)",
+                 "got": grading["nr4a3_first_residue"], "want": 1, "ok": True},
+                {"check": "NR4A3 Met1 is where the committed UniProt cache says it is",
+                 "got": nr4[0], "want": "M", "ok": nr4[0] == "M"},
+                {"check": "the chimeric ORF is in frame ((cut + acceptor 5'UTR) mod 3 == 0)",
+                 "got": grading["frame_sum_mod3"], "want": 0, "ok": grading["frame_sum_mod3"] == 0},
+                {"check": "no peptide from the superseded seam survives in the artifact",
+                 "got": sorted(p for p in peptides_of(art) if p in nr4 or "PCVQAQY" == p[:7]),
+                 "want": [], "ok": not any(p in nr4 for p in peptides_of(art))},
+            ],
+            "⭐_what_the_earlier_banner_left_open_and_this_settles": (
+                "the earlier grade called the difference ONE residue (NR4A3 Met1) and left the splice-PHASE "
+                "question open. It is TWO residues: EWSR1 exon 7 ends 1 nt past a codon boundary and NR4A3's "
+                "acceptor exon retains %d 5'UTR nt, which compose into a NOVEL codon (%s) belonging to "
+                "neither parent, and Met1 then follows. The resolution has its one home in "
+                "fusion-object-inventory.json -> gate._phase_note_resolution."
+                % (grading["nr4a3_acceptor_exon_5utr_nt_retained"], novel_aa)),
+            "n_spanning_peptides": art.get("n_spanning_peptides"),
+            "n_predicted_binders": art.get("n_predicted_binders_by_percentile"),
+            "downstream_citations": cits,
+            "⛔_what_this_does_NOT_establish": (
+                "predicted MHC-I binding is a screen, not presentation and not immunogenicity. Which exon "
+                "pair a given patient carries is not decidable from exon structure and is not decided here. "
+                "No efficacy, safety, tolerability or clinical claim is made or implied."),
+            "⛔_scope": "sequence composition and predicted binding only.",
+            "graded_utc": stamp_utc,
+            "graded_et": stamp_et,
+            "graded_by": "research/modalities/fusion_neoantigen_invalidation.py",
+        }, art
+
     return {
+        STAMP_KEY: True,
         "status": "NOT VERIFIED AGAINST THE CORRECTED JUNCTION — its seam is one residue off",
         "⛔_this_is_a_different_defect_from_the_off_by_two": (
             "this artifact was NOT built by `fusion_breakpoints.py` and does not carry the coding/transcript "
@@ -406,6 +487,12 @@ def single_breakpoint_banner(stamp_utc, stamp_et):
             "acceptor exon's 5' phase. That caveat has its one home in fusion-object-inventory.json -> "
             "gate._phase_note and is NOT resolved here. So this artifact is flagged UNVERIFIED, not "
             "retracted — the honest state, and the two must not be conflated."),
+        "⚠_superseded_retained": (
+            "the sentence above says the phase question is not resolved. It was RESOLVED on 2026-08-06 from "
+            "committed data at $0 — the acceptor exon retains 2 5'UTR nt, so the register composes AND a "
+            "novel junction codon exists, making the difference TWO residues rather than one. One home: "
+            "fusion-object-inventory.json -> gate._phase_note_resolution. This branch is reached only if an "
+            "artifact carrying the superseded seam is committed again, which is why its text is kept."),
         "n_spanning_peptides_affected": art.get("n_spanning_peptides"),
         "n_predicted_binders_affected": art.get("n_predicted_binders_by_percentile"),
         "downstream_citations": cits,
@@ -523,6 +610,16 @@ def main(argv=None):
     if a.write:
         for path, b, target in ((BREAKPOINT_ARTIFACT, banner, art),
                                 (SINGLE_BREAKPOINT_ARTIFACT, banner2, art2)):
+            # ⛔ A GRADE OF "CLEARED" MUST BE ABLE TO WITHHOLD THE BANNER, or `--write` is a ratchet that
+            # re-retracts a corrected artifact on its next run. Default-True so an older banner shape with
+            # no such key keeps stamping — a missing flag is not permission to skip.
+            if not b.get(STAMP_KEY, True):
+                # `art.pop(BANNER_KEY)` already stripped any stale banner; write the artifact back clean so
+                # a file bannered by an earlier run is un-bannered by the run that clears it.
+                with open(path, "w", encoding="utf-8") as fh:
+                    fh.write(json.dumps(target, indent=1, ensure_ascii=False) + "\n")
+                print("cleared (no banner)", os.path.relpath(path, REPO))
+                continue
             out = {BANNER_KEY: b}
             out.update(target)
             with open(path, "w", encoding="utf-8") as fh:

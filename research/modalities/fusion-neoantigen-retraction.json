@@ -1,8 +1,8 @@
 {
  "_title": "EWSR1::NR4A3 neoantigen artifacts graded against the corrected junction",
  "_cost": "$0 — committed inputs only, no network, no model, no prediction",
- "_utc": "2026-08-03T12:11:07Z",
- "_et": "2026-08-03 8:11 AM ET",
+ "_utc": "2026-08-06T23:33:37Z",
+ "_et": "2026-08-06 7:33 PM ET",
  "breakpoint_artifact": {
   "status": "RETRACTED — DO NOT QUOTE ANY PEPTIDE, BINDER OR AFFINITY IN THIS FILE",
   "one_line": "all 7 junctions carry an NR4A3 exon label the corrected exon map does not reproduce; 6 of them resume at an offset no corrected window entry produces at all, and 24 of the 26 distinct predicted binders exist only at those non-existent seams.",
@@ -210,6 +210,18 @@
     ]
    },
    {
+    "path": "research/modalities/epitope-allele-matrix.json",
+    "n_peptides_quoted": 55,
+    "examples": [
+     "AAVEWFDV",
+     "AAVEWFDVV",
+     "AAVEWFDVVR",
+     "AVEWFDVV",
+     "AVEWFDVVR",
+     "CGVVKRTV"
+    ]
+   },
+   {
     "path": "research/manuscripts/hla-coverage-emc.md",
     "n_peptides_quoted": 34,
     "examples": [
@@ -332,6 +344,18 @@
     "kind": "TEST — loads it as a guard (does not inherit the defect)"
    },
    {
+    "path": "research/modalities/emc_fet_construct_designs.py",
+    "kind": "code comment / docstring reference only"
+   },
+   {
+    "path": "research/manuscripts/emc-systems-map.json",
+    "kind": "names the artifact (prose or data)"
+   },
+   {
+    "path": "research/manuscripts/emc-systems-map.md",
+    "kind": "names the artifact (prose or data)"
+   },
+   {
     "path": "research/manuscripts/fusion-junction-neoantigen-paper.md",
     "kind": "names the artifact (prose or data)"
    },
@@ -356,6 +380,10 @@
     "kind": "names the artifact (prose or data)"
    },
    {
+    "path": "research/modalities/hla-coverage.json",
+    "kind": "names the artifact (prose or data)"
+   },
+   {
     "path": "research/modalities/nr4a3-exon-audit.json",
     "kind": "names the artifact (prose or data)"
    },
@@ -370,69 +398,63 @@
   ],
   "⛔_downstream_note": "`downstream_citations` are files quoting peptide STRINGS from this artifact; `downstream_consumers` are files that LOAD it and recompute — the more serious class, because their numbers inherit the defect without ever printing a peptide. A retracted input still quoted downstream is the more serious half of the defect: each needs its own correction, and NONE of them is fixed by this banner. ⚠ Two of the loaders — `nr4a3_exon_audit.py` and `fusion_object_inventory.py` — read it in order to AUDIT it and are the modules that diagnosed the defect; they are listed because they load it, not because they inherit it. Test files that load it as a guard are classed separately for the same reason.",
   "⛔_scope": "exon arithmetic and sequence composition only. No affinity, presentation, immunogenicity, efficacy, safety or clinical claim is made, repaired or implied here, and none was ever established by this artifact.",
-  "graded_utc": "2026-08-03T12:11:07Z",
-  "graded_et": "2026-08-03 8:11 AM ET",
+  "graded_utc": "2026-08-06T23:33:37Z",
+  "graded_et": "2026-08-06 7:33 PM ET",
   "graded_by": "research/modalities/fusion_neoantigen_invalidation.py"
  },
  "single_breakpoint_artifact": {
-  "status": "NOT VERIFIED AGAINST THE CORRECTED JUNCTION — its seam is one residue off",
-  "⛔_this_is_a_different_defect_from_the_off_by_two": "this artifact was NOT built by `fusion_breakpoints.py` and does not carry the coding/transcript exon slip. It models ONE declared breakpoint, and its EWSR1 half (kept to residue 264) matches the corrected junction exactly.",
+  "⛔_stamp_this_banner_into_the_artifact": false,
+  "status": "CLEARED — regenerated against the corrected junction and it reproduces",
   "corrected_junction": "EWSR1(1-264)::NR4A3(1-626)",
-  "modelled_junction": "EWSR1(1-264)::NR4A3(2-626)",
-  "the_difference": "the corrected junction retains NR4A3 from residue 1; this artifact resumes at residue 2, dropping NR4A3 Met1 (the initiator methionine, which is an INTERNAL residue in a fusion). Measured against the committed UniProt cache: NR4A3[1:11] == 'PCVQAQYSPS', and this artifact's own `junction_context_right10` is 'PCVQAQYSPS'. Every junction-SPANNING peptide therefore differs from the corrected-junction peptide of the same length.",
-  "⚠_what_this_does_NOT_settle": "whether Met1 survives is a splice-PHASE question, not an arithmetic one: EWSR1 exon 7 ends at coding phase 1, so residue 265 is split across the junction and how it completes depends on the acceptor exon's 5' phase. That caveat has its one home in fusion-object-inventory.json -> gate._phase_note and is NOT resolved here. So this artifact is flagged UNVERIFIED, not retracted — the honest state, and the two must not be conflated.",
-  "n_spanning_peptides_affected": 34,
-  "n_predicted_binders_affected": 5,
+  "modelled_junction": "EWSR1(1-264)::[N]::NR4A3(1-626)",
+  "what_was_checked": [
+   {
+    "check": "the artifact's junction_context_right10 equals the seam derived from the transcript model at EWSR1 e7 :: NR4A3 e3",
+    "got": "NMPCVQAQYS",
+    "want": "NMPCVQAQYS",
+    "ok": true
+   },
+   {
+    "check": "NR4A3 is retained from residue 1 (Met1 survives as an internal residue)",
+    "got": 1,
+    "want": 1,
+    "ok": true
+   },
+   {
+    "check": "NR4A3 Met1 is where the committed UniProt cache says it is",
+    "got": "M",
+    "want": "M",
+    "ok": true
+   },
+   {
+    "check": "the chimeric ORF is in frame ((cut + acceptor 5'UTR) mod 3 == 0)",
+    "got": 0,
+    "want": 0,
+    "ok": true
+   },
+   {
+    "check": "no peptide from the superseded seam survives in the artifact",
+    "got": [],
+    "want": [],
+    "ok": true
+   }
+  ],
+  "⭐_what_the_earlier_banner_left_open_and_this_settles": "the earlier grade called the difference ONE residue (NR4A3 Met1) and left the splice-PHASE question open. It is TWO residues: EWSR1 exon 7 ends 1 nt past a codon boundary and NR4A3's acceptor exon retains 2 5'UTR nt, which compose into a NOVEL codon (N) belonging to neither parent, and Met1 then follows. The resolution has its one home in fusion-object-inventory.json -> gate._phase_note_resolution.",
+  "n_spanning_peptides": 38,
+  "n_predicted_binders": 3,
   "downstream_citations": [
    {
-    "path": "research/README.md",
-    "n_peptides_quoted": 3,
+    "path": "research/modalities/fusion_neoantigen.py",
+    "n_peptides_quoted": 1,
     "examples": [
-     "GQQPCVQAQY",
-     "QPCVQAQY",
-     "QQPCVQAQY"
-    ]
-   },
-   {
-    "path": "research/manuscripts/fusion-junction-neoantigen-paper.md",
-    "n_peptides_quoted": 3,
-    "examples": [
-     "GQQPCVQAQY",
-     "QPCVQAQY",
-     "QQPCVQAQY"
-    ]
-   },
-   {
-    "path": "research/manuscripts/novel-modalities-factcheck.md",
-    "n_peptides_quoted": 3,
-    "examples": [
-     "GQQPCVQAQY",
-     "QPCVQAQY",
-     "QQPCVQAQY"
-    ]
-   },
-   {
-    "path": "research/manuscripts/novel-modalities.md",
-    "n_peptides_quoted": 3,
-    "examples": [
-     "GQQPCVQAQY",
-     "QPCVQAQY",
-     "QQPCVQAQY"
-    ]
-   },
-   {
-    "path": "research/modalities/fusion_breakpoints.py",
-    "n_peptides_quoted": 3,
-    "examples": [
-     "GQQPCVQAQY",
-     "QPCVQAQY",
-     "QQPCVQAQY"
+     "NMPCVQAQY"
     ]
    }
   ],
-  "⛔_scope": "sequence composition only. No affinity, immunogenicity, efficacy or clinical claim.",
-  "graded_utc": "2026-08-03T12:11:07Z",
-  "graded_et": "2026-08-03 8:11 AM ET",
+  "⛔_what_this_does_NOT_establish": "predicted MHC-I binding is a screen, not presentation and not immunogenicity. Which exon pair a given patient carries is not decidable from exon structure and is not decided here. No efficacy, safety, tolerability or clinical claim is made or implied.",
+  "⛔_scope": "sequence composition and predicted binding only.",
+  "graded_utc": "2026-08-06T23:33:37Z",
+  "graded_et": "2026-08-06 7:33 PM ET",
   "graded_by": "research/modalities/fusion_neoantigen_invalidation.py"
  },
  "map_edits_required": [
@@ -440,7 +462,7 @@
    "section": "§9 finding 23 → the neoantigen lane's owed consequence",
    "anchor": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane).",
    "current_text": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane).",
-   "proposed_text": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane). ✅ **BANNERED IN PLACE 2026-08-03, since regeneration is still not this lane's to do:** the artifact now leads with a `⛔_RETRACTED_SEAMS` block that refuses quotation, grades every junction against the corrected windows, and — the part nothing carried before — names its **downstream blast radius**: **8 committed files quote its peptide strings and 6 modules LOAD it and recompute from it**, so `hla-coverage`, `vaccine-construct` and the two patient demos all inherit the defect without ever printing a seam. Per-file list and per-junction grading: [`fusion-breakpoint-neoantigens.json`](../modalities/fusion-breakpoint-neoantigens.json) → `⛔_RETRACTED_SEAMS`, mirrored in [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json).",
+   "proposed_text": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane). ✅ **BANNERED IN PLACE 2026-08-03, since regeneration is still not this lane's to do:** the artifact now leads with a `⛔_RETRACTED_SEAMS` block that refuses quotation, grades every junction against the corrected windows, and — the part nothing carried before — names its **downstream blast radius**: **9 committed files quote its peptide strings and 6 modules LOAD it and recompute from it**, so `hla-coverage`, `vaccine-construct` and the two patient demos all inherit the defect without ever printing a seam. Per-file list and per-junction grading: [`fusion-breakpoint-neoantigens.json`](../modalities/fusion-breakpoint-neoantigens.json) → `⛔_RETRACTED_SEAMS`, mirrored in [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json).",
    "why": "the defect was diagnosed and then unowned; a known defect that is not visible AT THE ARTIFACT reads as a handled one, and the downstream consumers were never enumerated at all",
    "artifact": "fusion-breakpoint-neoantigens.json:⛔_RETRACTED_SEAMS"
   },
@@ -448,7 +470,7 @@
    "section": "§9 finding 23 → the OTHER neoantigen artifact",
    "anchor": "because C166 would not have been in the fusion at all.",
    "current_text": "because C166 would not have been in the fusion at all.",
-   "proposed_text": "because C166 would not have been in the fusion at all. ⚠ **But \"residue 2 is the exon-correct one\" holds for a FOLD model and not for a PEPTIDE one, and this page did not draw that distinction:** the corrected junction retains NR4A3 from residue **1**, so `fusion-neoantigen-predictions.json` — which uses the same residue-2 seam — has all 34 of its junction-spanning peptides differing from the corrected junction's by NR4A3 **Met1**, and its lead epitope is quoted in `research/README.md` and three manuscripts. It is flagged **UNVERIFIED, not retracted**, because whether Met1 survives is a splice-PHASE question that [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json) → `gate._phase_note` explicitly leaves open.",
+   "proposed_text": "because C166 would not have been in the fusion at all. ⚠ **But \"residue 2 is the exon-correct one\" holds for a FOLD model and not for a PEPTIDE one, and this page did not draw that distinction:** the corrected junction retains NR4A3 from residue **1**, so `fusion-neoantigen-predictions.json` — which uses the same residue-2 seam — has all None of its junction-spanning peptides differing from the corrected junction's by NR4A3 **Met1**, and its lead epitope is quoted in `research/README.md` and three manuscripts. It is flagged **UNVERIFIED, not retracted**, because whether Met1 survives is a splice-PHASE question that [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json) → `gate._phase_note` explicitly leaves open.",
    "why": "the page treats the residue-2 model as simply vindicated; that holds for the co-fold lane and does not hold for the peptide lane, where one residue at the seam changes every spanning peptide",
    "artifact": "fusion-neoantigen-predictions.json:⛔_RETRACTED_SEAMS"
   }

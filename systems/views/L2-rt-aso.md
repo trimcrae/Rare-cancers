@@ -53,7 +53,7 @@ The breakpoint junction is a sequence that exists in no healthy cell. An oligonu
 
 ## Remaining unknowns
 
-- ⛔ THE COMMITTED DESIGN PANEL IS BUILT ON A RETRACTED SEAM. junction_aso.py carried the 2026-08-03 exon off-by-two until 2026-08-06; its seam resumes NR4A3 at residue 361 against a corrected range of [1, 1]. The code is fixed; the artifacts are bannered and NOT regenerated — regeneration needs Ensembl and must run in CI. No design, GC value, cleavage count or the headline gapmer may be quoted until it does.
+- The committed design panel was rebuilt at the corrected mRNA junction on 2026-08-06 (aso-offtarget.yml run 31130876597, $0): NR4A3 resumes at residue 1, seams ACGGGCAGCAGA|ATATGCCCTGCG (e7n3) and AATGGTTTGATG|ATATGCCCTGCG (e12n3). The panel covers TWO junctions, not the five once claimed — e9n3/e10n3/e13n3 and every exon-mode siRNA file never existed and stay withdrawn as unverifiable. ⛔ THE CORRECTED SCREEN DOES NOT RESTORE THE RETRACTED HEADLINE: 0 of 5 designs at EACH junction are free of gap-spanning near-matches, so 'a gapmer predicted clean on both screens at E7::N3' is CONTRADICTED by the corrected data, not merely unproven. GC does move in the route's favour (37.5-56.2% vs 75.0-81.2% at the modelled reference).
 - How to deliver an oligonucleotide to a non-hepatic solid tumour — the one remaining gate, and it is engineering rather than biology.
 - Whether predicted specificity survives a calibrated cleavage model: the current screen uses a deliberately conservative gap-mismatch heuristic, so it may be over- or under-calling.
 - Whether the potency ranking holds — it rests on a local-fold accessibility proxy rather than a measured accessibility model.

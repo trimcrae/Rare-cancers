@@ -53,7 +53,7 @@ The junction is tumour-exclusive at the sequence level. ⚠ Whether ONE peptide 
 
 ## Remaining unknowns
 
-- The predicted binders are VOID: they span seams that a corrected exon index says no reported junction produces. The result is unusable; the question is open.
+- The breakpoint-RESOLVED predictions remain VOID: they span seams the corrected exon index does not produce, and that artifact is not regenerated. The SINGLE-junction artifact WAS regenerated 2026-08-06 at the corrected mRNA junction (EWSR1 e7 :: NR4A3 e3): the seam carries a novel codon (AAT = Asn) from 1 leftover EWSR1 nt plus 2 retained acceptor-5'UTR nt, then NR4A3 Met1 — giving 38 junction peptides, 3 predicted binders and a lead of NMPCVQAQY on HLA-B*15:01. ⛔ Predicted binding is a SCREEN, not presentation and not immunogenicity.
 - Whether a junction peptide is presented at all, and at what level — EMC is antigen-cold.
 - Whether the peptide-HLA is strong enough to be a target rather than merely present.
 
@@ -88,10 +88,10 @@ The junction is tumour-exclusive at the sequence level. ⚠ Whether ONE peptide 
 
 **`internal_note`**
 
-The current predictions cannot be published because they span junctions that do not exist. That is a defect of the input index, not of the method — which is why the fix is free and is the route's next action.
+Half is done and half is not, and the halves must not be read together. The SINGLE-junction artifact (fusion-neoantigen-predictions.json) was regenerated 2026-08-06 against the corrected exon index and its banner is cleared. The breakpoint-RESOLVED artifact is still retracted and its module still carries the transcript/coding slip, so §2 of the neoantigen paper stays withdrawn.
 
 **Missing:**
-- regenerated predictions against the corrected exon index
+- regenerated predictions for the breakpoint-RESOLVED artifact (fusion-breakpoint-neoantigens.json), which is still retracted
 
 ## Where this route ends — the paper
 

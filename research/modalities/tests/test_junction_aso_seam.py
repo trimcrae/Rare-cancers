@@ -251,13 +251,54 @@ def test_the_provenance_gate_refuses_a_transcript_the_committed_audit_did_not_gr
 
 
 @pytest.mark.committed_artifact
-def test_the_committed_panel_artifacts_still_carry_their_retraction_banner():
-    """Until a corrected panel exists these six files are the only ASO artifacts a reader can find, and
-    the banner is the only thing standing between them and being quoted."""
+def test_the_committed_panel_artifacts_carry_the_corrected_seam_or_their_retraction_banner():
+    """⭐ THE GUARD IS RE-POINTED, NOT RELAXED (2026-08-06).
+
+    ⚠ Superseded, retained: this test required all six files to carry `_RETRACTED_SEAM` carrying the
+    retracted CDS offset, with the docstring *"Until a corrected panel exists these six files are the
+    only ASO artifacts a reader can find, and the banner is the only thing standing between them and
+    being quoted."* A corrected panel now exists, so that condition would pin the defect in place.
+
+    ⛔ The replacement is STRICTER, because "banner removed" must never be the whole test. A file may
+    drop the banner only while independently carrying the CORRECTED seam — NR4A3 resuming at residue 1
+    with the acceptor exon's retained 5'UTR bases in the mRNA context. A file that has neither the
+    banner nor the corrected seam fails, which is the state this test exists to make impossible.
+    """
+    ok, expected = _corrected_seam_expectation()
     for name in ("junction-aso-designs-e7n3.json", "junction-aso-designs-e12n3.json",
                  "junction-aso-offtarget-e7n3.json", "junction-aso-offtarget-e12n3.json",
                  "aso-insilico-evaluation-e7n3.json", "aso-insilico-evaluation-e12n3.json"):
         with open(os.path.join(HERE, name)) as fh:
             d = json.load(fh)
-        assert "_RETRACTED_SEAM" in d, f"{name} lost its retraction banner"
-        assert str(RETRACTED_CDS_NT) in d["_RETRACTED_SEAM"]
+        if "_RETRACTED_SEAM" in d:
+            assert str(RETRACTED_CDS_NT) in d["_RETRACTED_SEAM"]
+            continue
+        assert ok, ("a panel dropped its retraction banner and the corrected seam could not be "
+                    "derived from committed inputs to check it against — refusing to pass")
+        model = d.get("_breakpoint_model") or d.get("breakpoint")
+        assert model, f"{name} has no breakpoint block to check"
+        seam = model["junction_context_mRNA"]
+        e = model.get("EWSR1_exon_end")
+        assert seam == expected[e], (
+            f"{name} carries neither the retraction banner nor the corrected seam for EWSR1 e{e}: "
+            f"{seam!r} != {expected[e]!r}")
+        mj = model.get("measured_junction")
+        assert mj, f"{name} dropped the banner without recording a measured_junction"
+        assert mj["nr4a3_first_residue"] == 1, f"{name}: NR4A3 must resume at residue 1"
+        assert mj["in_frame"] is True and mj["frame_sum_mod3"] == 0
+        assert str(RETRACTED_CDS_NT) not in json.dumps(model), \
+            f"{name} still names the retracted CDS offset in a live breakpoint block"
+
+
+def _corrected_seam_expectation():
+    """(ok, {ewsr1_exon: seam}) derived from committed inputs alone — never typed into this test."""
+    import os as _os
+    _os.environ["TRANSCRIPT_SOURCE"] = "cache"
+    try:
+        seams = {}
+        ews, nr4 = ja.transcript_model("EWSR1"), ja.transcript_model("NR4A3")
+        for e in (7, 12):
+            seams[e] = ja.mrna_junction(ews, nr4, e, 3)["junction_context_mRNA"]
+        return True, seams
+    except Exception:                                          # noqa: BLE001
+        return False, {}
