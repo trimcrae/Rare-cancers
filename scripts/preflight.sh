@@ -60,8 +60,27 @@ cd "$(dirname "$0")/.."
 # Those two are exactly what a gate reporting "0 failures" from an empty run cannot show you.
 #
 # THIS NUMBER SHOULD FALL as the sandbox gains packages. It describes a deficient environment; it is
-# not a tolerance for broken tests, and every one of the 48 is a missing import, not a failing assert.
-BASELINE_FAILURES="${PREFLIGHT_BASELINE_FAILURES:-48}"
+# not a tolerance for broken tests, and every one is a missing import, not a failing assert.
+#
+# ⭐ RAISED 48 -> 50 ON 2026-08-07, AND THE RAISE IS MEASURED RATHER THAN CONCEDED. A raise is the
+# dangerous direction for this field -- it is how a real regression gets absorbed -- so it was gated on
+# a two-sided set comparison, not on a count:
+#
+#   clean `origin/main` worktree : 50 failed, 6367 passed
+#   this branch after the merge  : 50 failed, 6409 passed
+#   failing-test-name sets       : IDENTICAL -- both comm(1) directions empty, 50 vs 50
+#
+# So the branch adds 42 PASSING tests and zero failing ones. The cause of the drift is the suite
+# GROWING against a fixed environment: more rdkit/pymbar/boto3-dependent modules land, each adds its
+# import failure, and the count rises while nothing breaks. 6120 -> 6409 passing in one day.
+#
+# ⛔ DO NOT RAISE THIS ON A COUNT COMPARISON. Two counts agreeing proves nothing -- 2 new failures
+# masked by 2 fixes reads identically. The check that matters is the NAME SET, and the way to get it is
+# a worktree at the merge base (the command is printed by this script when the gate trips). An earlier
+# attempt at exactly this comparison on the same day was VACUOUS because it diffed this script's own
+# truncated 20-line output against a full 50-line list: a subset can never show "new on branch", so it
+# returned a clean verdict it had no power to produce. Compare pytest's full list on both sides.
+BASELINE_FAILURES="${PREFLIGHT_BASELINE_FAILURES:-50}"
 rc=0
 
 echo "== lint_consistency =="
