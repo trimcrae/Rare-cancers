@@ -33,7 +33,13 @@ The desired outcome is not "another high-scoring molecule." It is a candidate fo
 1. the same mapped orthosteric pocket is present under a corrected, score-independent tracking method;
 2. NR4A3 preference survives multiple prespecified NR4A3 conformers;
 3. the preference survives held-out experimental conformers;
-4. matched NR4A1 and NR4A2 conformers do not provide strong counterexamples;
+4. matched paralogue conformers do not provide strong counterexamples — ⚠ **and the two are not one
+   criterion**: an NR4A1 counterexample is **disqualifying** (hard half), an NR4A2 counterexample is a
+   **disclosed, sized residual** rather than an automatic block (soft half), per
+   [roadmap §2.4](../manuscripts/nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically).
+   ⚠ *Superseded, retained: "matched NR4A1 and NR4A2 conformers do not provide strong counterexamples",
+   one bar over both.* ⛔ Softer does not mean droppable: an NR4A2 counterexample must still be reported,
+   never filtered away silently;
 5. receptor preference is larger and more reproducible than conformer sensitivity;
 6. the result survives repaired alchemical calculations.
 
@@ -171,9 +177,12 @@ Robust objective:  **S = min_c M_c − λ·σ_c − γ·C − η·L**, where M_c
 conformer c, σ_c is conformer sensitivity, C penalizes counterexample conformers, L penalizes chemical
 liabilities. **Do not rank by the maximum margin.**
 
-**Advancement standard:** positive minimum margin across the design set; no strong NR4A1/NR4A2 counterexample;
+**Advancement standard:** positive minimum margin across the design set; **no strong NR4A1 counterexample**
+(hard — disqualifying), **any NR4A2 counterexample reported and sized rather than treated as an automatic
+block** (soft — see the asymmetry in the desired-outcome list above and
+[roadmap §2.4](../manuscripts/nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically));
 same qualitative contact architecture retained; no reliance on one receptor frame; passes chemical/microstate
-checks.
+checks. ⚠ *Superseded, retained: "no strong NR4A1/NR4A2 counterexample", one bar over both.*
 
 ## Phase 6 — matched controls
 

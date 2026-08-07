@@ -168,25 +168,38 @@ PROTAC) — but that is a *tolerability* argument, not a *selectivity* one, and 
 
 ## 5. Where to actually spend the paralogue (axis A) budget — per paralogue, not in aggregate
 
-Treating "spare NR4A1 and NR4A2" as one requirement hides that the two have **different optimal levers**:
+Treating "spare NR4A1 and NR4A2" as one requirement hides that the two have **different optimal levers**
+— and, as [roadmap §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)
+establishes, **different weights**: NR4A1-sparing is the HARD, evidenced-mandatory half; NR4A2-sparing is
+the SOFT one. This section predates that ruling and is scoped by it, not the other way round.
 
-**NR4A1 (the strongest requirement; AML safety net, Mullican 2007):**
+**NR4A1 (the HARD half — mandatory; the AML safety net, Mullican 2007):**
 - Most divergent from NR4A3 at the pocket *and* most likely to differ on the ternary surface and in
   lysine layout. → Source NR4A1 selectivity from the **ternary** primarily (robust, mechanism-amplified),
   with the binder's NR4A1-discriminating contacts (which include I531, *not* shared with NR4A1) as a bonus.
 
-**NR4A2 (dopaminergic/CNS risk; the molecularly *hardest* paralogue — I531 identical):**
+**NR4A2 (the SOFT half — best-effort; dopaminergic/CNS risk; the molecularly *hardest* paralogue — I531 identical):**
 - The pocket offers one fewer NR4A2 handle (§2), so molecular NR4A2 discrimination is intrinsically
   harder at *both* binder and (likely) ternary stages.
-- **But the NR4A2 tox is anatomically localized to the CNS.** The cheapest, most reliable lever is
-  therefore **pharmacokinetic, not molecular**: a **peripherally-restricted, non-CNS-penetrant** degrader
-  spares midbrain NR4A2 by *exposure*, sidestepping the hardest molecular-selectivity problem entirely.
-  EMC is a peripheral soft-tissue sarcoma, so CNS exclusion costs little efficacy. → Source NR4A2 safety
-  from **PK/CNS-exclusion** as the primary lever; molecular NR4A2 selectivity is a secondary, optional top-up.
+- **The NR4A2 tox is anatomically localized to the CNS, which suggests a non-molecular lever** — a
+  **peripherally-restricted, non-CNS-penetrant** degrader would spare midbrain NR4A2 by *exposure*, and
+  EMC is a peripheral soft-tissue sarcoma, so CNS exclusion would cost little efficacy.
+  ⛔ **This is a HYPOTHESIS and must not be written as a lever this program holds.** Two $0 readings taken
+  2026-08-03 bound it, both in [§2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically):
+  NR4A2 and NR4A3 are co-expressed across 47 of 51 HPA tissues, so **tissue distribution cannot separate
+  target from anti-target and the selectivity has to be molecular**; and CNS restriction is a property of
+  **a molecule that does not exist** — this repo holds no measured or predicted CNS-penetration datum for
+  any NR4A candidate. → Source NR4A2 safety from the four engageable handles that distinguish it, and
+  carry the residual as a **disclosed, unsized** exposure question.
 
-This is the un-obvious payoff of decomposing the axis: **the two paralogues should be spared by different
-mechanisms** (NR4A1 by ternary selectivity, NR4A2 by pharmacokinetics), and recognizing that removes the
-need to solve the hardest molecular case (NR4A2 discrimination in a poorly druggable pocket).
+⚠ *Superseded, retained — the whole of this section's former payoff paragraph:* **"the two paralogues
+should be spared by different mechanisms (NR4A1 by ternary selectivity, NR4A2 by pharmacokinetics), and
+recognizing that removes the need to solve the hardest molecular case"**, and with it *"the cheapest, most
+reliable lever is therefore pharmacokinetic, not molecular … sidestepping the hardest
+molecular-selectivity problem entirely"* and *"Source NR4A2 safety from PK/CNS-exclusion as the primary
+lever."* Nothing removes that need: the co-expression reading closes the tissue argument and no
+CNS-exposure datum exists. What survives decomposing the axis is the **weighting** — NR4A1 mandatory,
+NR4A2 best-effort — not a second mechanism that discharges the NR4A2 half.
 
 ---
 

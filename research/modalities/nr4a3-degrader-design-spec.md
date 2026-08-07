@@ -33,18 +33,31 @@ moment compute/tooling is in hand.
 A LBD-binding degrader removes any NR4A protein whose LBD it engages, so two distinct selectivity
 questions arise — only one is solvable by a small molecule.
 
-**(a) NR4A3 vs NR4A1/NR4A2 — SOLVABLE and mandatory.** The paralogues have important normal roles, so
-off-target degradation has real, *characterized* toxicity (known from NR4A biology independent of
-EMC — knockout mice and family genetics, not from the rare tumour):
-  - **NR4A2/Nurr1** is essential for midbrain **dopamine neurons** (Parkinson's gene) → hitting it
-    risks neurotoxicity.
-  - **NR4A1 + NR4A3 lost together** → **acute myeloid leukaemia** in mice (Mullican et al., Nat Med
-    2007; redundant myeloid tumour suppressors) → a degrader must **spare NR4A1** to keep that safety
-    net intact.
-  → Design target: **NR4A3-selective, NR4A1/2-sparing**, using the 7 divergent pocket handles
-  (L406/R412/I484 + T407/T410/I531/L534; `nr4a-selectivity.json`). This matters *more* because
-  NR4A3's pocket is the *least* druggable of the three (0.495 vs 0.657/0.801) — a naive binder would
-  drift to the off-targets.
+**(a) NR4A3 vs the paralogues — SOLVABLE, and ⚠ ASYMMETRIC: this is TWO requirements with different
+weights, not one.** ⚠ *Superseded, retained: **"(a) NR4A3 vs NR4A1/NR4A2 — SOLVABLE and mandatory"** and
+the design target **"NR4A3-selective, NR4A1/2-sparing"** — both stated one bar over both paralogues, which
+is the defect [roadmap §2.4](../manuscripts/nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)
+names. The evidence lives there and is not restated here.* The two halves:
+  - ⛔ **NR4A1 — the HARD half, and the only mandatory one.** **NR4A1 + NR4A3 lost together** →
+    **acute myeloid leukaemia** in mice (Mullican et al., Nat Med 2007; redundant myeloid tumour
+    suppressors). That is precisely the pair a non-selective NR4A3 degrader reconstitutes, and single
+    nulls do not do it → a degrader must **spare NR4A1** to keep that safety net intact.
+  - **NR4A2 — the SOFT half, best-effort.** **NR4A2/Nurr1** is essential for midbrain **dopamine
+    neurons** (Parkinson's gene) and germline loss is bounded, but a germline knockout bounds
+    *developmental, complete, lifelong* loss; the *adult, transient, incomplete* loss a degrader
+    delivers is bounded by no source this repo has read. ⚠ *Superseded, retained: this bullet led the
+    list and read as the equal — or larger — of the two liabilities. It is not: it is the one with no
+    bound in the regime that matters.*
+  → Design target: **NR4A3-selective — spare NR4A1 (hard), spare NR4A2 as far as the handles allow
+  (soft)** — using the 7 divergent pocket handles (L406/R412/I484 + T407/T410/I531/L534;
+  `nr4a-selectivity.json`). ⛔ **The handles are not symmetric either, and they run the opposite way to
+  the old intuition:** all 7 differ from NR4A1 (5 engageable), only 6 of 7 from NR4A2 (I531 is Ile in
+  NR4A3 *and* NR4A2), so 4 of the 5 engageable handles distinguish it — more discriminating power against
+  the paralogue whose sparing is evidenced-mandatory, less against the one with no bound. This matters
+  *more* because NR4A3's pocket is the *least* druggable of the three (0.495 vs 0.657/0.801) — a naive
+  binder would drift to the off-targets. ⛔ **None of this is a selectivity result:** the design target is
+  a specification, and every paralogue-selectivity statement in this program remains an unvalidated
+  prediction — no positive control for selectivity detection has passed.
 
 **(b) Fusion vs wild-type NR4A3 — NOT solvable by this modality.** The fusion's only tumour-unique
 feature is the EWSR1::NR4A3 junction, which lies in a **disordered** region, not a structured pocket;

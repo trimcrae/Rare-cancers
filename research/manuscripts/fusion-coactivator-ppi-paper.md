@@ -84,8 +84,11 @@ The selectivity argument follows directly and is the reason this route exists:
 
 This is the property the repo's lead **NR4A3 degrader does not have.** That program
 ([`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)) recruits the **NR4A3 LBD** — the ordered domain
-that the EMC fusion **retains and shares** with wild-type NR4A3 — to an E3 ligase. It is engineered to be
-*NR4A3-selective* (sparing NR4A1/NR4A2), and that is valuable, but at the protein level it cannot
+that the EMC fusion **retains and shares** with wild-type NR4A3 — to an E3 ligase. It is *specified* to be
+*NR4A3-selective* — asymmetrically: sparing NR4A1 is the hard, mandatory half and sparing NR4A2
+best-effort ([roadmap §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)),
+and both remain unvalidated predictions there. ⚠ *Superseded, retained: "It is engineered to be
+*NR4A3-selective* (sparing NR4A1/NR4A2)", one bar over both.* That is valuable, but at the protein level it cannot
 distinguish fusion NR4A3 from wild-type NR4A3: both carry the same LBD. The present route attacks a surface
 that **only the fusion has**, and is the natural complement: where the degrader removes the protein
 (LBD-shared), interface-blockade neutralises the fusion-unique activation contact (EWS-TAD-emergent).

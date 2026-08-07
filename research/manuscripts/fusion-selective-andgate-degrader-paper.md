@@ -315,10 +315,18 @@ The design's whole point is a safety improvement the LBD degrader cannot offer:
   function elsewhere (the AML liability of combined Nr4a1/Nr4a3 loss [Mullican 2007]; NR4A3's
   tumour-suppressive roles in HCC/breast/lymphoma [Safe & Karki 2021]). This is the central advantage over
   the shared-LBD degrader.
-- **Spares paralogues too.** Arm 1 can additionally carry the companion paper's NR4A3-vs-NR4A1/NR4A2
-  selectivity handles ([`nr4a-selectivity.json`](../modalities/nr4a-selectivity.json): 7 divergent Pocket-5
+- **Addresses the paralogue axis too — asymmetrically, and as a specification only.** Arm 1 can
+  additionally carry the companion paper's NR4A3-vs-paralogue selectivity handles
+  ([`nr4a-selectivity.json`](../modalities/nr4a-selectivity.json): 7 divergent Pocket-5
   residues, 5 pocket-facing in the opened ensemble), so the agent can be both **fusion-selective** (via the
-  AND-gate) and **paralogue-selective** (via the handles) — two orthogonal selectivity layers.
+  AND-gate) and paralogue-discriminating (via the handles) — two orthogonal selectivity layers. ⛔ **The
+  paralogue layer is not one requirement**: sparing NR4A1 is the hard, mandatory half, and all 7 handles
+  (5 engageable) differ from it; sparing NR4A2 is best-effort, and only 6 of 7 differ (4 of the 5
+  engageable), because I531 is Ile in NR4A3 *and* NR4A2
+  ([roadmap §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)).
+  Both halves are unvalidated predictions in the companion program — no positive control for selectivity
+  detection has passed. ⚠ *Superseded, retained: "**Spares paralogues too** … the agent can be both
+  fusion-selective and **paralogue-selective**", which asserted one achieved property over both.*
 - **Net:** the AND-gate adds fusion-vs-wild-type-NR4A3 discrimination on top of the existing
   NR4A3-vs-paralogue discrimination, narrowing the on-target liability surface from "all NR4A3" to "fusion
   NR4A3 only."

@@ -2,10 +2,18 @@
 """
 Selectivity scaffold for the NR4A3 degrader warhead (de-novo design prep).
 
-WHY. A warhead must bind NR4A3 but NOT the homologous NR4A1/NR4A2 LBDs — the family is highly
+WHY. A warhead must bind NR4A3 but not the homologous paralogue LBDs — the family is highly
 conserved, yet selectivity is achievable (an existing NR4A1 PROTAC does not cross-degrade NR4A3).
+⚠ The requirement is ASYMMETRIC and must never be stated as one bar over "NR4A1/NR4A2": sparing NR4A1
+is the HARD half (a non-selective NR4A3 degrader reconstitutes the named NR4A1+NR4A3 anti-target
+genotype); sparing NR4A2 is the SOFT half, best-effort (germline loss is bounded, adult transient loss
+is not). Evidence and full statement: roadmap section 2.4 — not restated here. (Superseded, retained:
+"A warhead must bind NR4A3 but NOT the homologous NR4A1/NR4A2 LBDs".)
 The actionable design question is: *which residues lining the NR4A3 LBD pocket DIFFER from NR4A1/2?*
-Those divergent positions are where a selective warhead gets its margin.
+Those divergent positions are where a selective warhead gets its margin — and they are not symmetric
+either: all 7 differ from NR4A1, only 6 of 7 from NR4A2 (I531 is Ile in NR4A3 and NR4A2). This module
+therefore MEASURES both paralogues separately and reports both, which is correct; the asymmetry lives
+in how the two columns are weighed, not in whether they are computed.
 
 WHAT. Reuses the working AFDB + fpocket machinery (nr4a3_structure.py) to:
   1. fetch AlphaFold LBD models for NR4A1 (P22736), NR4A2 (P43354), NR4A3 (Q92570);

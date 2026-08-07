@@ -5,7 +5,7 @@ level: L2
 kind: generated
 status: generated
 generator: systems/systems_check.py
-purpose: Can a bifunctional molecule recruit an E3 ligase to NR4A3 and degrade it selectively over NR4A1 and NR4A2?
+purpose: Can a bifunctional molecule recruit an E3 ligase to NR4A3 and degrade it selectively over the paralogues — asymmetrically, since sparing NR4A1 is the HARD half (a named anti-target genotype a non-selective degrader reconstitutes) and sparing NR4A2 the SOFT one (RT-ASYMMETRIC; roadmap §2.4), never one bar over both?
 scope: Level 2 — one route.
 audience: ["maintainers", "autonomous research agents"]
 date: 2026-08-05

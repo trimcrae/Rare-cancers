@@ -605,7 +605,7 @@ the pocket-opening pathway, the elongation, the local side-chain geometry, or an
 trimming that disordered hinge for the explicit-solvent FEP (§3), which is standard practice (ABFE is run on
 the folded domain, not a disordered tail).
 
-### 2.4 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead
+### 2.4 Selectivity handles for an NR4A3-selective warhead — and why the paralogue requirement is not one requirement
 Aligning the NR4A3 pocket to NR4A1/NR4A2 ([`../modalities/nr4a-selectivity.json`](../modalities/nr4a-selectivity.json))
 identifies, among the **10 Pocket-5 lining residues**, **7 divergent** ones — L406, T407, T410, R412,
 I484, I531, L534 — as selectivity handles. All 7 are within the metadynamics CV; of these the opened,

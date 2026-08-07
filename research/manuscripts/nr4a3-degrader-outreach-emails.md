@@ -133,15 +133,21 @@ Thank you,
 ## Template 4 — sarcoma / EMC translational lab
 **Subject:** A druggable-pocket + degrader hypothesis for the EWSR1::NR4A3 fusion (EMC) — preprint
 
+⚠ *Editorial note, not part of the email. Superseded, retained: the body previously read "a predicted
+NR4A3-selective **(NR4A1/2-sparing)** binder", which stated one bar over both paralogues. The requirement is
+asymmetric — [roadmap §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically).*
+
 Dear Prof. [LAST NAME],
 
 Given your work on [**FET-fusion sarcomas / EMC biology** — personalise], I wanted to share a preprint proposing
 a **tractable therapeutic angle for EMC's EWSR1/TAF15::NR4A3 driver**.
 
 The fusion retains a near-intact NR4A3 ligand-binding domain. Computationally, that domain's "occluded" pocket
-**breathes into a druggable induced-fit cavity**, and I designed a predicted NR4A3-selective (NR4A1/2-sparing)
-binder as a degrader warhead starting point — sparing NR4A1 matters because NR4A1/NR4A3 co-loss is
-leukaemogenic. It's in-silico only; the make-or-break next step is exactly your domain — an acute-degradation
+**breathes into a druggable induced-fit cavity**, and I designed a predicted NR4A3-selective
+binder as a degrader warhead starting point. The paralogue requirement is asymmetric and I treat it that
+way: sparing **NR4A1** is the hard half, because NR4A1/NR4A3 co-loss is leukaemogenic and a non-selective
+degrader recreates exactly that pair; sparing **NR4A2** is best-effort, on a narrower set of pocket
+handles. It's in-silico only; the make-or-break next step is exactly your domain — an acute-degradation
 (dTAG) or knockdown test of NR4A3 dependence in EMC cells, and a binding check of the candidate.
 
 If this is worth pursuing, I'd share all data and collaborate on any terms.

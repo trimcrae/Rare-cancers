@@ -105,7 +105,7 @@ Free, already adopted, and it changes the design brief for every route in two fa
 
 ## Best next action
 
-Ensure the asymmetry is carried in every selectivity statement across the model rather than asserted once — a symmetric restatement anywhere is a defect.
+BUILD THE DETECTOR. The corpus-wide sweep was done by hand on 2026-08-07: 1,354 paralogue-pair mentions triaged, 16 symmetric statements of the REQUIREMENT / BRIEF / DESIGN TARGET rewritten to carry the asymmetry (requirement R7 and its graph record, RT-DEGRADER purpose, the degrader design spec, the treatment roadmap, the selectivity architecture, the paper heading and SI safety note, three companion fusion papers, the indication stack, the outreach template and two module docstrings), each retaining its superseded text inline. Symmetric MEASUREMENTS were left alone and are correct. ⛔ THE VALIDATION STAYS OPEN BECAUSE A HAND SWEEP DECAYS: nothing mechanical detects the next symmetric restatement, so the next $0 step is a narrow checker for the retired design-target phrasings ('NR4A1/2-sparing', 'spare/sparing NR4A1 and NR4A2', 'selective over NR4A1/NR4A2' used as a bar rather than a measurement) that exempts superseded-retained quotations. Two corrections the sweep also forced, both in the SOFT half and both pointing at §2.4: the NR4A2 bound is no longer 'unbounded in both directions' (MGI, 2026-08-03) and the PK/CNS-exclusion lever is closed (HPA 47/51 co-expression), so three documents that still sourced NR4A2 safety from exposure were corrected. Nothing here raises any selectivity claim: every paralogue-selectivity statement in the repository remains an unvalidated prediction.
 
 *Cost:* $0
 

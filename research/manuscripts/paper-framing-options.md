@@ -584,7 +584,7 @@ the sentence-scoped disclaimer logic does not clear them:
 | # | where | text | why it is substantive |
 |---|---|---|---|
 | **1** | `nr4a3-degrader-paper-SI.md:229` | `**Lead — NR4A3-selective (the validated path):**` | ⛔ **the worst.** Asserts *selective* **and** *validated*, against the paper's own "every paralogue-selectivity statement … is an unvalidated prediction" |
-| **2** | `nr4a3-degrader-paper.md:594` | `### 2.4 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead` | a **section heading** asserting the property the paper's controls failed to establish |
+| **2** | `nr4a3-degrader-paper.md:594` | `### 2.4 Selectivity handles for an NR4A3-selective (NR4A1/2-sparing) warhead` — ⚠ *reworded 2026-08-07 to drop the symmetric `(NR4A1/2-sparing)` design target ([roadmap §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)); the finding in the next cell is **unchanged**, because the heading still names the property* | a **section heading** asserting the property the paper's controls failed to establish |
 | **3** | `nr4a3-degrader-paper.md:614` | "…the *same* opened pocket be tuned **NR4A3-selective** … an NR4A3-selective agent" | asserts tunability as demonstrated; it is a specification |
 | **4** | `nr4a3-degrader-paper-SI.md:323` | "NR4A3-selective (engaging the divergent handles; lead `denovo_401`)" | attaches the property to the named candidate |
 

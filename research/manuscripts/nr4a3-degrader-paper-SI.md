@@ -416,6 +416,11 @@ LoF-tolerant (pLI 0.002, LOEUF 0.71). This does **not** contradict the DepMap
 dispensability — it localizes NR4A3's essentiality to a **developmental / tissue-specific** context rather than
 proliferation — but it **invalidates the glib "dispensable ⇒ safe" inference** and makes **NR4A2-sparing a
 safety requirement** (most-constrained *and* CNS-enriched paralogue), not merely an efficacy nicety.
+⚠ **It does not make it the same requirement as NR4A1-sparing.** Germline constraint is not adult
+drug-tolerability, and the two halves rest on different evidence: NR4A1-sparing on a *combination* genotype
+a non-selective NR4A3 degrader would reconstitute (hard), NR4A2-sparing on complete developmental loss of a
+single gene, which no degrader delivers (best-effort) — §2.4 of the main text. The engageable pocket
+handles are asymmetric in the same direction: 5 of 5 distinguish NR4A1, only 4 of 5 distinguish NR4A2.
 
 **Supplementary Figure S5** ([`../modalities/nr4a3-figS4.png`](../modalities/nr4a3-figS4.png); generated
 by `nr4a3_journal_figures.py` from `nr4a-safety-genetics.json` (gnomAD) + the SI §S6 DepMap values). The
@@ -428,13 +433,29 @@ sparing requirement. Constraint reflects reproductive fitness, not adult drug-to
 datum, not proof.
 
 What
-remains **not** established (assumption, not fact): adult pan-tissue *transient-knockdown* tolerability, and
-individual **mouse single-KO phenotypes** — an IMPC query returned **no phenotyped KO** for any of the three, so
-the Nurr1-single-loss-is-CNS-confined assumption is **still unconfirmed** (MGI is the remaining follow-up).
+remains **not** established (assumption, not fact): adult pan-tissue *transient-knockdown* tolerability.
+**Individual mouse single-KO phenotypes are no longer open** — the MGI follow-up was taken on 2026-08-03 and
+returns complete-penetrance neonatal lethality for *Nr4a2* (PMID 9092472, 9608532), embryonic/prenatal
+lethality for *Nr4a3* (PMID 13129926), and postnatal lethality at complete penetrance for the combined
+*Nr4a1*⁻/⁻;*Nr4a3*⁻/⁻ genotype (PMID 17515897)
+([`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json)). ⚠ *Superseded, retained: "an IMPC
+query returned **no phenotyped KO** for any of the three, so the Nurr1-single-loss-is-CNS-confined
+assumption is **still unconfirmed** (MGI is the remaining follow-up)." IMPC did return nothing; MGI is the
+source that carries these, and it was read.* ⛔ **This does not soften the safety case, it hardens it**, and
+it does not equalize the two paralogues: a germline knockout bounds *developmental, complete, lifelong*
+loss, so NR4A1-sparing remains the hard requirement (a **combination** genotype a non-selective degrader
+reconstitutes) and NR4A2-sparing the best-effort one, whose *adult transient* regime no source read bounds
+(§2.4 of the main text).
 Net: the safety case rests on quantified proliferative-compartment dispensability + demonstrated *myeloid*
-redundancy + broad NR4A1/NR4A3 co-expression + mechanistic plausibility + PK restriction — a **materially
+redundancy + broad NR4A1/NR4A3 co-expression + mechanistic plausibility — a **materially
 stronger and more honest** basis than before, with its residual risk now **specifically located**
 (developmental / CNS, and NR4A2-sparing-dependent) rather than vaguely gestured at.
+⛔ ***PK restriction has been REMOVED from that list** (superseded, retained: the list read "… mechanistic
+plausibility **+ PK restriction**"). Human Protein Atlas consensus nTPM measured across 51 tissues on
+2026-08-03 puts NR4A2 and NR4A3 co-expressed in **47** and NR4A2 unbuffered in **0**, so tissue
+distribution cannot separate target from anti-target; and CNS restriction is in any case a property of a
+molecule that does not exist — this work reports no measured or predicted CNS-exposure datum for any
+candidate.*
 
 ## S7. ABFE diagnostics — per-replicate ΔG, λ-overlap, ESS, convergence (review comment 17/18)
 Full free-energy diagnostics for the three-replicate selectivity ABFE (§3), computed directly from the

@@ -272,10 +272,16 @@ case. **The decisive experiment we hand to others is the dTAG acute-degradation 
 lines; if degrading the fusion does not kill EMC cells, the route dies.**
 
 *Selectivity/safety (design constraint, not a result):* a LBD warhead also degrades wild-type NR4A3
-and could hit the paralogues NR4A1/NR4A2 — whose loss carries known liabilities (Nurr1/dopamine-neuron
-toxicity; NR4A1+NR4A3 double-loss → leukaemia in mice) — so the design target is **NR4A3-selective,
-NR4A1/2-sparing** (7 divergent pocket residues identified as selectivity handles; `nr4a-selectivity.json`).
-This is a specification for the warhead, not a demonstrated property.
+and could hit the paralogues NR4A1/NR4A2 — but ⚠ **those two are not one constraint.** Sparing **NR4A1
+is the HARD half**: NR4A1+NR4A3 double-loss → leukaemia in mice is the named anti-target genotype a
+non-selective degrader reconstitutes. Sparing **NR4A2 is the SOFT half**, best-effort: Nurr1/dopamine-neuron
+loss is bounded only for germline, developmental loss, not for the adult transient loss a degrader
+delivers. So the design target is **NR4A3-selective — NR4A1-sparing mandatory, NR4A2-sparing best-effort**
+(7 divergent pocket residues identified as selectivity handles, of which only 4 of the 5 engageable ones
+distinguish NR4A2; `nr4a-selectivity.json`). Full statement and evidence:
+[`nr4a3-program-map.md` §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically).
+⚠ *Superseded, retained: "the design target is **NR4A3-selective, NR4A1/2-sparing**", which stated one bar
+over both paralogues.* This is a specification for the warhead, not a demonstrated property.
 
 *What we are running (WIP, pipelines built, results pending — not claimed here):* (i) molecular
 dynamics of the NR4A3 LBD to test whether a transient/cryptic druggable pocket opens that the static

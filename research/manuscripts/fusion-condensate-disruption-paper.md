@@ -114,9 +114,15 @@ drives FET-fusion LLPS, and does not phase-separate in the same domain-encoded w
 
 The practical contrast with the repo's existing protein-level agent is the entire motivation for this
 paper. The lead NR4A3 degrader (see [`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)) engages the
-**NR4A3 LBD, which is shared by the fusion and by wild-type NR4A3** — an excellent *NR4A3*-selective,
-NR4A1/2-sparing design, but **not fusion-selective**: it cannot, by binding site alone, distinguish the
-oncoprotein from the wild-type protein. A condensate-directed agent flips that axis: it targets the one
+**NR4A3 LBD, which is shared by the fusion and by wild-type NR4A3** — a *NR4A3*-selective design
+specification whose paralogue half is **asymmetric**, sparing NR4A1 being the hard, mandatory
+requirement and sparing NR4A2 best-effort
+([roadmap §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically);
+and every paralogue-selectivity statement in that program remains an unvalidated prediction) — but
+**not fusion-selective**: it cannot, by binding site alone, distinguish the
+oncoprotein from the wild-type protein. ⚠ *Superseded, retained: "an excellent *NR4A3*-selective,
+NR4A1/2-sparing design", which stated one bar over both paralogues and called an unvalidated
+specification excellent.* A condensate-directed agent flips that axis: it targets the one
 functional property only the fusion has.
 
 ---

@@ -65,7 +65,13 @@ triage; quantitative selectivity needs MM-GBSA/FEP on the state-matched ensemble
 rewritten; `gpu-metad-aws.yml` parameterized; NR4A1 (run 28256669839) + NR4A2 (run 28256671172) metad launched.
 
 ## Indication stack (CORRECTED 2026-06-25 — the EMC drug must be NR4A3-selective, so lead with
-## indications that want NR4A3 down AND NR4A1/2 spared; sourced in `nr4a3-degrader-broader-indications.md`)
+## indications that want NR4A3 down AND the paralogues spared; sourced in `nr4a3-degrader-broader-indications.md`)
+
+⚠ **The paralogue half is ASYMMETRIC and this heading used to state it as one bar** (*superseded, retained:
+"indications that want NR4A3 down AND **NR4A1/2 spared**"*). Sparing **NR4A1** is the hard, mandatory
+requirement; sparing **NR4A2** is best-effort —
+[roadmap §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically).
+It does not change the ordering below: every lead indication pulls in the same direction on both.
 **Lead (NR4A3-selective — the same molecule):**
 1. **EMC** (EWSR1/TAF15::NR4A3 fusion) — clean single-driver proof-of-concept.
 2. **Acinic cell carcinoma of the salivary glands** — NR4A3 *over-expression* via enhancer hijacking

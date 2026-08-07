@@ -7,9 +7,17 @@ Why this is different from nr4a3_dock.py (which docks into the *static, collapse
  - The 30 ns metadynamics showed the orthosteric pocket OPENS to fpocket druggability ~0.93. A warhead
    must be designed against that *opened* conformer, not the borderline static model. Step 1 extracts the
    most-druggable opened conformer from the trajectory and uses it as the receptor.
- - The EMC drug MUST be NR4A3-selective (sparing NR4A1/2 avoids leukaemogenic/neuronal toxicity). So we
-   dock every candidate into NR4A3-opened AND the aligned NR4A1/NR4A2 pockets and score the selectivity
-   margin and engagement of the 7 divergent "selectivity handle" residues.
+ - The EMC drug must be NR4A3-selective, but ASYMMETRICALLY -- this is two requirements with different
+   weights, not one bar over "NR4A1/2". Sparing NR4A1 is the HARD half: a non-selective NR4A3 degrader
+   reconstitutes the named NR4A1+NR4A3 anti-target genotype. Sparing NR4A2 is the SOFT half, best-effort:
+   germline loss is bounded, the adult transient loss a degrader delivers is not. Full statement and
+   evidence: roadmap section 2.4 ("The selectivity requirement is ASYMMETRIC"); not restated here.
+   (Superseded, retained: "The EMC drug MUST be NR4A3-selective (sparing NR4A1/2 avoids
+   leukaemogenic/neuronal toxicity)", which weighted the two halves equally.)
+   The MEASUREMENT below is deliberately symmetric and stays that way: we dock every candidate into
+   NR4A3-opened AND the aligned NR4A1/NR4A2 pockets and score the selectivity margin and engagement of
+   the 7 divergent "selectivity handle" residues -- an instrument that reads both paralogues should
+   report both. What is asymmetric is the BAR the numbers are read against, not the numbers.
 
 Pipeline (mounts the 30 ns metad outputs from S3 at INPUT_DIR):
  1. extract_opened_conformer  — most-druggable frame of nr4a3-lbd-metad.dcd (mdtraj + fpocket) -> PDB.

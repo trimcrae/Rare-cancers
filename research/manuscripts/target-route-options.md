@@ -263,12 +263,19 @@ paralogues it is strikingly asymmetric:
   conception**, and a partial, reversible, adult pharmacological knockdown is a different exposure. That
   cuts against reading it as a prediction — but it is the correct anti-target to design away from, and
   nothing in silico can settle it.
-- **NR4A2 co-degradation is the half nobody has bounded.** It is the *most* constrained paralogue in human
-  population genetics (pLI 1.0, LOEUF 0.094) and the most tissue-enhanced. But the repo's IMPC query
-  returned **no phenotyped KO for any of the three**, and the widely-repeated "Nurr1 single-KO is
-  neonatal-lethal" is explicitly flagged **UNCONFIRMED** in
-  [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md). So the state is: strongly selected
-  against in humans, unbounded for adult transient loss, and **not verified by a standardized source**.
+- **NR4A2 co-degradation is the SOFT half — bounded for developmental loss, unbounded in the regime that
+  matters.** It is the *most* constrained paralogue in human population genetics (pLI 1.0, LOEUF 0.094)
+  and the most tissue-enhanced. ✅ **BOUNDED 2026-08-03**: MGI single-gene *Nr4a2* records carry
+  complete-penetrance neonatal lethality (PMID 9092472, 9608532), so the constraint has a primary-cited
+  floor rather than a precaution — figures in
+  [`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json), statement in
+  [roadmap §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically).
+  ⛔ **It stays the softer of the two anyway**, because a germline KO bounds developmental, complete,
+  lifelong loss while a degrader is adult, transient and incomplete: **adult transient loss remains
+  unbounded by any source read.** ⚠ *Superseded, retained: "the half nobody has bounded … the repo's IMPC
+  query returned no phenotyped KO for any of the three, and the widely-repeated 'Nurr1 single-KO is
+  neonatal-lethal' is explicitly flagged UNCONFIRMED … not verified by a standardized source." The IMPC
+  reading was correct about IMPC; MGI is the source that carries it, and it was read on 2026-08-03.*
 
 **What would have to be true** for this to change the design brief: that NR4A1 and NR4A2 sparing carry
 different weights, and that the harder of the two is not the one with the larger liability. Both hold —
@@ -297,6 +304,18 @@ degrader of this class would in fact be CNS-restricted is a **property of a mole
 and this repo holds no measured or predicted CNS-penetration datum for any NR4A candidate; nothing here
 should be read as a claim about one. What is defensible today is only the shape of the argument: the NR4A2
 half of the requirement has a non-chemical lever available to it and the NR4A1 half does not.
+
+⛔ **RESOLVED AGAINST THE LEVER, 2026-08-03 — both $0 tests below were run and reason (ii) closed in the
+direction that removes it.** HPA consensus nTPM across 51 tissues puts NR4A2 and NR4A3 **co-expressed in
+47** and NR4A2 unbuffered in **0**, so **tissue distribution cannot separate target from anti-target and
+the selectivity has to be molecular**; figures in
+[`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json) → `hpa.overlap.counts`, statement in
+[roadmap §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically).
+⚠ *Superseded, retained: "the NR4A2 half of the requirement has a non-chemical lever available to it", and
+with it the brief clause above — **"treat the residual as an exposure question rather than a chemistry
+question."*** The asymmetry itself is unchanged and this does **not** promote NR4A2 to a hard constraint:
+NR4A2-sparing stays **best-effort against the four engageable handles that distinguish it**, with the
+residual carried as a **disclosed, unsized** exposure question rather than as a lever this program holds.
 
 **Cheapest decisive $0 tests** (both networked → CI, both on the repo's own open-follow-up list):
 1. **MGI single-KO phenotypes for *Nr4a1* / *Nr4a2* / *Nr4a3*** — the named remaining source after IMPC

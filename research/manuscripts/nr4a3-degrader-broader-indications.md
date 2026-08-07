@@ -5,7 +5,7 @@ level: L3
 kind: manuscript
 status: live
 canonical_for: []
-purpose: What else besides EMC would benefit from removing NR4A3 while sparing NR4A1 and NR4A2 — the indication stack that justifies the degrader paper's target-centric framing.
+purpose: What else besides EMC would benefit from removing NR4A3 while sparing the paralogues — asymmetrically, NR4A1 mandatorily and NR4A2 best-effort (roadmap §2.4) — the indication stack that justifies the degrader paper's target-centric framing.
 scope: As stated in the document's own role banner.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
@@ -20,16 +20,23 @@ _backfilled: true
 # Beyond EMC: what else could a *selective* NR4A3 degrader treat?
 
 **Purpose (manuscript motivation section).** EMC is ultra-rare, which weakens the commercial case for
-*making* the molecule. The degrader we design **must be NR4A3-selective** — it has to spare NR4A1 and
-NR4A2 to avoid their on-target toxicities (NR4A1/NR4A3 loss → leukaemia; NR4A1/Nurr1 loss →
-dopaminergic/neuronal liabilities). So the relevant question is **not** "where is *any* NR4A degrader
+*making* the molecule. The degrader we design **must be NR4A3-selective**, ⚠ **asymmetrically**: sparing
+**NR4A1 is the hard, mandatory half** (a non-selective degrader reconstitutes the named NR4A1+NR4A3
+anti-target genotype → leukaemia), and sparing **NR4A2 is best-effort** (germline loss is bounded; the
+adult, transient, incomplete loss a degrader delivers is not). Evidence and the full statement:
+[roadmap §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)
+— not restated here. ⚠ *Superseded, retained: "it has to spare NR4A1 and NR4A2 to avoid their on-target
+toxicities (NR4A1/NR4A3 loss → leukaemia; NR4A1/Nurr1 loss → dopaminergic/neuronal liabilities)", which
+stated one bar over both.* So the relevant question is **not** "where is *any* NR4A degrader
 useful" but specifically **"what else benefits from removing NR4A3 while sparing NR4A1/2."** The answer
 is what justifies the broadened framing — and it is coherent, because every lead indication below pulls
 in the *same* selectivity direction as EMC.
 
 ## Framing: the indication must want NR4A3 *down* AND NR4A1/2 *spared*
-A degrader lowers NR4A3 protein. It helps only where NR4A3 *specifically* is pathogenic, and it is safe
-only if NR4A1/2 are spared. NR4A biology is **paradoxical and tissue-specific** (Safe & Karki, *Mol
+A degrader lowers NR4A3 protein. It helps only where NR4A3 *specifically* is pathogenic; on the safety
+side the bar is **not one bar** — sparing NR4A1 is the hard, mandatory half and sparing NR4A2 best-effort
+([§2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)).
+⚠ *Superseded, retained: "it is safe only if NR4A1/2 are spared."* NR4A biology is **paradoxical and tissue-specific** (Safe & Karki, *Mol
 Cancer Res* 2021): NR4A3 is oncogenic in a few contexts but **tumour-suppressive in many**, so the
 indication list is short and must be curated, not assumed.
 
@@ -88,8 +95,9 @@ rather than the divergent handles. It is a separate product from the NR4A3-selec
   bladder cancer (Safe & Karki 2021; HCC: IJBS 2024). A degrader is contraindicated there.
 
 ## One-paragraph version for the manuscript
-*"The degrader is designed to be NR4A3-selective, sparing NR4A1/2 to avoid their on-target toxicities
-(notably the leukaemia risk of combined NR4A1/NR4A3 loss). That same selective agent addresses more than
+*"The degrader is designed to be NR4A3-selective, with sparing of NR4A1 as the hard requirement (combined
+NR4A1/NR4A3 loss is the named leukaemogenic anti-target genotype) and sparing of NR4A2 as a best-effort
+one. That same selective agent addresses more than
 EMC: it targets the NR4A3 LBD shared by the EMC fusion and by wild-type NR4A3 over-expressed in acinic
 cell carcinoma of the salivary glands — a substantially more common cancer in which NR4A3, switched on by
 enhancer hijacking, is the oncogenic driver (Haller et al., Nat Commun 2019) — as well as the broader

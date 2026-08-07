@@ -29,8 +29,12 @@ _backfilled: true
   triple-knockout that reverses T-cell exhaustion** (Chen et al., *Nature* 2019). The exact property that
   is a *liability* for the in-vivo cancer drug (hitting NR4A1/2/3 together) is the *desired* property here.
 - **Ex-vivo use dissolves the toxicity constraint that motivated the entire selectivity program.** The
-  reasons we must be NR4A3-selective in vivo — NR4A1/NR4A3 loss → AML (Mullican 2007), NR4A2/Nurr1 loss →
-  dopaminergic toxicity — are **systemic, chronic-exposure** arguments. Ex vivo you dose the T-cell product
+  reasons we must be NR4A3-selective in vivo — NR4A1/NR4A3 loss → AML (Mullican 2007), and, at a
+  *lower and differently-evidenced* weight, NR4A2/Nurr1 loss → dopaminergic toxicity ([roadmap
+  §2.4](./nr4a3-program-map.md#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically):
+  NR4A1-sparing is the hard half, NR4A2-sparing best-effort) — are **systemic, chronic-exposure**
+  arguments. ⚠ *Superseded, retained: the two were listed as co-equal reasons.* The ex-vivo argument
+  below is **unaffected by the asymmetry**, because transient dosing in a dish removes both. Ex vivo you dose the T-cell product
   transiently in a dish, wash it out, and infuse cells; there is no chronic systemic NR4A blockade in the
   patient. So the *hardest* thing this paper does (achieve intra-family selectivity) is **not even required**
   for the CAR-T application — a strictly easier design target.

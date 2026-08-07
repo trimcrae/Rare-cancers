@@ -30,7 +30,7 @@ last_verified: 2026-08-05
 | **R4** | Something binds that pocket | ○ | — | — | ⛔ **no instrument** — no instrument can be built here -- CLAUDE.md §5, no wet lab |
 | **R5** | The binding pose is right | ○ | — | `V3` `V22` | ⛔ **none has returned one** |
 | **R6** | The per-paralogue opening penalty does not reverse the margin — ΔG_open | ○ | 🔒 | — | ⛔ **no instrument** — nothing built yet, and it could be built in this program |
-| **R7** | The binder is paralogue-selective over NR4A1/NR4A2 — ⚠ and the two halves are NOT the same requirement: NR4A1-sparing is a hard constraint with a name | ○ | 🔒 | `V4` `V6` `V7` `V8` `V9` `V10` `V19` | V6 · V8 · V10 |
+| **R7** | The binder is paralogue-selective — ⚠ and the two halves are NOT the same requirement, so it must never be stated as one bar over 'NR4A1/NR4A2'. NR4A1 | ○ | 🔒 | `V4` `V6` `V7` `V8` `V9` `V10` `V19` | V6 · V8 · V10 |
 | **R8** | A linker geometry is feasible at an NR4A3-unique cysteine | ✓ | — | `V17` `INS-MONOVALENT-REACH` | ⛔ **none has returned one** |
 | **R9** | OUR ternary is correctly assembled | ○ | 🔒 | `V2` | V2 |
 | **R10** | A ternary forms | ○ | 🔒 | `V2` `V12` | V2 |
@@ -93,7 +93,7 @@ graph BT
   L["○ R4 · Something binds that pocket"]
   PS["○ R5 · The binding pose is right"]
   DGO["○ R6 · The per-paralogue opening penalty does not reverse the margi"]
-  B["○ R7 · The binder is paralogue-selective over NR4A1/NR4A2 — ⚠ and t"]
+  B["○ R7 · The binder is paralogue-selective — ⚠ and the two halves are"]
   LK["✓ R8 · A linker geometry is feasible at an NR4A3-unique cysteine"]
   ARCH["○ R9 · OUR ternary is correctly assembled"]
   T["○ R10 · A ternary forms"]
@@ -167,7 +167,7 @@ appear in the register above and nowhere in this diagram.
 - **why there is no instrument:** `buildable` — ΔG_open is computable — a per-paralogue opening free energy — and nothing has been built for it. `authorization: needs_decision` because it is a GPU spend, not because the method is missing.
 - **⛔ claim ceiling today:** ⛔ every ABSOLUTE ΔΔG on the binder path is conditional on a term nobody has computed. Validation requirement 2: matched-open comparison can *"miss or REVERSE selectivity"*. ⚠ Narrowed 2026-08-03, and this page stated it too widely: the block is on the absolute route to R7, not on a ligand-side *relative* double difference, in which the opening penalty is common to both ligands of a matched pair and cancels inside each protein — §3.4 fact 3. ⚠ *Superseded, retained: "every ΔΔG on the binder path".*
 
-### R7 — The binder is paralogue-selective over NR4A1/NR4A2 — ⚠ and the two halves are NOT the same requirement: NR4A1-sparing is
+### R7 — The binder is paralogue-selective — ⚠ and the two halves are NOT the same requirement, so it must never be stated as one
 
 - **work state:** ○ ○ open — the existing result is ⏸ parked
 - **authorization:** 🔒 (V4)
