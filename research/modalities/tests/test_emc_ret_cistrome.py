@@ -416,6 +416,36 @@ def test_gpl_containment_refuses_to_certify_an_ambiguous_probe():
     assert "may be read as build-verified" in out["per_gene"]["RET"]["⛔"]
 
 
+def test_an_absent_reading_may_not_overwrite_a_real_one(tmp_path):
+    """Measured 2026-08-07: a CANCELLED ret-cistrome run reached the publish step (which is
+    `always()` by design) and published its artifact. Nothing was lost that time because the tree
+    still held the checked-out file — but a partial fetch that HAD rewritten it would have
+    replaced a committed reading with an honest-looking null. CLAUDE.md §4."""
+    real = M.derive(M._synthetic_cache(ret_peak=True, control_peak=True))
+    p = tmp_path / "art.json"
+    p.write_text(json.dumps(real), encoding="utf-8")
+
+    empty = M.derive({})
+    assert empty["part_2_intersection"]["_status"] == "NOT_RUN"
+    assert M.would_downgrade(empty, str(p)) is True
+
+    no_peaks = M.derive({"_generated_utc": "x", "genes": {}, "peaksets": {}})
+    assert M.would_downgrade(no_peaks, str(p)) is True
+
+    # A real reading replacing a real reading is fine — that is just a re-run.
+    assert M.would_downgrade(real, str(p)) is False
+    # And with nothing committed there is nothing to protect.
+    assert M.would_downgrade(empty, str(tmp_path / "absent.json")) is False
+
+
+def test_an_unreadable_committed_artifact_does_not_block_a_write(tmp_path):
+    """Fail-open in this one direction on purpose: a corrupt file is not a reading, and refusing
+    forever would leave the lane unable to recover from it."""
+    p = tmp_path / "art.json"
+    p.write_text("{not json", encoding="utf-8")
+    assert M.would_downgrade(M.derive({}), str(p)) is False
+
+
 def test_gpl_containment_ignores_mouse_builds():
     """GPL6244 is a HUMAN array. A mouse span must never be offered as a build its probes are
     consistent with, however well the numbers happen to line up."""

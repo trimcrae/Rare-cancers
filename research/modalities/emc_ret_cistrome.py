@@ -1983,6 +1983,26 @@ def _synthetic_cache(ret_peak, control_peak):
 
 # =============================================================================================
 
+def would_downgrade(new_art, out_path=None):
+    """True if writing `new_art` would replace a REAL reading with an absent one.
+
+    A reading is `part_2_intersection._status == "read"`. Anything else — NOT_RUN,
+    NO_PEAK_SET_RETRIEVED — is the instrument saying it could not look, and the two must never be
+    allowed to overwrite each other in that direction.
+    """
+    path = out_path or OUT
+    if (new_art.get("part_2_intersection") or {}).get("_status") == "read":
+        return False
+    if not os.path.exists(path):
+        return False
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            old = json.load(fh)
+    except Exception:                                    # noqa: BLE001
+        return False                                     # unreadable ⇒ nothing to protect
+    return (old.get("part_2_intersection") or {}).get("_status") == "read"
+
+
 def report(art):
     """Markdown tables, DERIVED from the artifact rather than re-typed into the memo.
 
@@ -2065,9 +2085,26 @@ def main():
 
     if args.fetch:
         cache = fetch()
+        art = derive(cache)
+        # ⛔ AN ABSENT READING MAY NEVER OVERWRITE A REAL ONE (CLAUDE.md §4; measured 2026-08-07).
+        # A cancelled ret-cistrome run reached the publish step — which is `always()` by design,
+        # because a skipped commit makes "nothing changed" and "the job never ran" render alike —
+        # and published its artifact. On that run the tree still held the checked-out file, so
+        # nothing was lost. It would NOT have been harmless if a partial fetch had already
+        # rewritten the file: a NOT_RUN or NO_PEAK_SET artifact would have replaced a committed
+        # reading, and the next reader would have seen an honest-looking null where a result had
+        # been. The guard belongs in the module, not in the workflow, because that is where it can
+        # be tested and where every caller inherits it.
+        if would_downgrade(art):
+            print("⛔ REFUSING TO WRITE: this run produced no reading "
+                  f"({(art.get('part_2_intersection') or {}).get('_status')}) and the committed "
+                  "artifact carries one. An absent reading may not overwrite a real one. "
+                  "The inputs cache is written so the failure is diagnosable.", file=sys.stderr)
+            with open(INPUTS, "w", encoding="utf-8") as fh:
+                json.dump(cache, fh, indent=1, sort_keys=False, default=str)
+            return 3
         with open(INPUTS, "w", encoding="utf-8") as fh:
             json.dump(cache, fh, indent=1, sort_keys=False, default=str)
-        art = derive(cache)
         with open(OUT, "w", encoding="utf-8") as fh:
             json.dump(art, fh, indent=1, sort_keys=False, default=str)
         print(json.dumps({"peaksets": len(cache.get("peaksets") or {}),
