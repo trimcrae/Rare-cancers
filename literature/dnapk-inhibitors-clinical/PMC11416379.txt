@@ -1,0 +1,165 @@
+365springeropenApoptosisApoptosisPMC1141637911416379114163793909555610.1007/s10495-024-02009-5SEH1L siliencing induces ferroptosis and suppresses hepatocellular carcinoma progression via ATF3/HMOX1/GPX4 axis
+FengZiyang CaoKe SunHaojia LiuXuewen 1Postdoctoral Station of Medical Aspects of Specific Environments, The Third Xiangya Hospital, Central South University, Changsha, 410013 Hunan P.R. China 2Department of Oncology, The Third Xiangya Hospital, Central South University, Changsha, 410013 Hunan P.R. China ✉Corresponding author.
+#Contributed equally.
+282024299-1017231723–17372392024© The Author(s) 2024Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.
+
+## Abstract
+SEH1 like nucleoporin (SEH1L) is an important component of nuclear pore complex (NPC), which is crucial in the regulation of cell division. However, the interrelation between SEH1L expression and tumor progression is less studied. In this research, we performed a systematic bioinformatic analysis about SEH1L using TCGA, Timer 2.0, Cbioportal, UCLAN and CellMiner™ databases in pan-cancer. Besides, we further validated the bioinformatic results through in vitro and in vivo experiments in HCC, including transcriptome sequencing, real-time quantitative PCR (RT-qPCR), western blotting (WB), immunohistochemistry (IHC), cell proliferation assays, clone formation, EdU, transwell, flow cytometry and subcutaneous tumor model. Our results suggested that SEH1L was significantly up-regulated and related to poor prognosis in most cancers, and may serve as a potential biomarker. SEH1L could promote HCC progression in vitro and in vivo. Besides, the next generation sequencing suggested that 684 genes was significantly up-regulated and 678 genes was down-regulated after the knock down of SEH1L. SEH1L siliencing could activate ATF3/HMOX1/GPX4 axis, decrease mitochondrial membrane potential and GSH, but increase ROS and MDA, and these effects could be reversed by the knock down of ATF3. This study indicated that SEH1L siliencing could induce ferroptosis and suppresses hepatocellular carcinoma (HCC) progression via ATF3/HMOX1/GPX4 axis.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1007/s10495-024-02009-5.
+
+Keywords: SEH1L, HCC, Ferroptosis, ATF3, HMOX1
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoAccepted 2024 Jul 17; Issue date 2024.
+
+## Introduction
+Currently, cancer has become a major reason of disease-related death in humans [ , ]. Among them, the mortality of liver hepatocellular carcinom (LIHC) ranks second in the world [ – ]. The etiology of LIHC includes infection, alcohol, aflatoxin, cirrhosis, and heredity [ , ]. Currently, LIHC can be divided into hepatocellular carcinoma (HCC), hepatobiliary epithelial carcinoma and mixed hepatocellular carcinoma [ , ]. In LIHC patients, HCC accounting for over 90% and is the most common type [ ]. Recently, the treatment of HCC has achieved great progress, including surgery, chemotherapy, radiotherapy, target therapy, interventional therapy and immunotherapy [ – ]. However, many HCC patients were diagnosed at the advanced stages, the five-year overall survival rate (OS) of HCC is just 18% [ , ]. Therefore, it is of great importance to find new diagnostic and therapeutic targets for HCC.
+Ferroptosis is a new type of iron dependent cell death, which is different from apoptosis and autophagy [ , ]. Ferroptosis is present in inflammation, ischemia-reperfusion injury, acute kidney injury and tumors, and plays important roles in disease process [ ]. The occurrence of ferroptosis is closely related to lipid peroxidation, abnormal iron metabolism, glutathione (GSH) depletion and glutathione peroxidase 4 (GPX4) inactivation [ ]. GPX4 is an important antioxidant enzyme, and can directly reduce lipid peroxides and play an important role in the regulation of reactive oxygen species (ROS) [ ]. In recent years, many studies have suggested that ferroptosis participates in the regulation of HCC progression. For instance, Yimin Zheng et al. found that inhibition of PGAM1 could promote HCC ferroptosis and synergize with anti-PD-1 immunotherapy [ ]. Feng He et al. found that ATF4 suppresses hepatocarcinogenesis by inducing SLC7A11 to block stress-related ferroptosis [ ]. However, the role of ferroptosis in HCC is quite complex and need to be further studied.
+SEH1 like nucleoporin (SEH1L), part of a nuclear pore complex (NPC), plays important roles in mTORC1 regulation as an inhibitor of the Rag GTPases [ ]. Besides, studies have shown that SEH1L participated in the regulation of cell division by regulating chromosome alignment and segregation [ ]. Recently, several studies reported that SEH1L may function as a biomarker in cancer. Jing Yu et al. found that SEH1L was down-regulated in ovarian cancer and may function as a prognostic biomarker [ ]. Nevertheless, the function of SEH1L in cancer is still in need of thorough research.
+In our study, we made a comprehensive analysis about SEH1L, and found that it was significantly up-regulated in pan-cancer and may function as a biomarker. Knock down of SEH1L could suppress HCC progression in vitro and in vivo. Furthermore, the next generation sequencing was performed to explore the down-stream targets. SEH1L siliencing could activate ATF3/HMOX1/GPX4 pathway, decrease mitochondrial membrane potential and GSH, but increase ROS and MDA, and these effects could be reversed by the knock down of ATF3. This study indicated that SEH1L siliencing could induce ferroptosis and suppresses HCC progression via ATF3/HMOX1/GPX4 axis.
+
+## Materials and methods
+
+## SEH1L expression, diagnostic and prognostic value analysis
+The expression of SEH1L was analyzed using Timer (timer.cistrome.org) database, the “P values” was set as “0.05”, the “folding change” was set as “1.5”. The diagnostic value of SEH1L was detected using ROC curves with TCGA data (https://www.cancer.gov/ccg/research/genome-sequencing/tcga). The prognostic value of SEH1L was detected using overall survival (OS), disease specific survival (DSS), disease-free interval (DFI), and progression-free interval (PFI) with TCGA data. The correlation was analyzed using the “pROC” and “ggplot2” R packages.
+
+## SEH1L mutation, methylation and drug sensitivity analysis
+The mutation characteristic of SEH1L was analyzed using cBioPortal tool (https://www.cbioportal.org/). The mutation sites and types of SEH1L was detected in the “cancer type summary” module. The “comparison/survival” module was used to reveal the correlation between SEH1L mutation and prognosis.
+The methylation level of SEH1L was analyzed using UCLAN database (https://ualcan.path.uab.edu/) with TCGA data.
+The mRNA expression of SEH1L and IC50 values of different drugs were obtained from the CellMiner™ database (https://discover.nci.nih.gov/cellminer/home.do). Simultaneously, the correlation scatterplots were drew using the “impute”, “ggplot2” and “limma” R packages.
+
+## Next generation sequencing
+MHCC97H cells were transfected with SEH1L-si RNA, the total RNA of control group and knock down group were extracted using Trizol (Accurate Biology, China). The sequencing were performed by Allwegene Technologies (Beijing, China). The differential expressed genes was analyzed with EdgeR version 3.08. Benjamini- Hochburg method was used to calculate the adjusted P values. The threshold was adjusted P < 0.05.
+
+## HCC tissues collection
+All the HCC tumors and paired adjacent noncancerous tissues were collected from 16 patients who were diagnosed with HCC and had undergone surgery at the Third Xinagya Hospital, Central South University, Changsha, Hunan, P.R. China. Histologic and pathologic diagnoses of tissue samples were independently confirmed by 2 experienced histopathologists. The HCC tissues were collected after the surgery and stored at -80 °C. All the patients had signed the informed consent. The study was approved by the Third Xiangya Hospital Ethics Committee, and the procedures were conducted according to the Declaration of Helsinki.
+
+## Cell lines and cell culture
+All the cell lines, including HCCLM3, MHCC97H, PLC/PRF/5, Huh7 and LO2 cells were purchased from the Institutes of Biomedical Sciences. HCCLM3, MHCC97H and Huh7 were cultured with DMEM medium, PLC/PRF/5 was cultured with MEM medium, and LO2 was cultured with 1640 medium. The medium was added with 10% fetal bovine serum (BS-1105, Inner Mongolia Opcel Biotechnology Co.,Ltd., China) and 1% penicillin/streptomycin. The cells were cultured in a humidified incubator at 37 ℃, in an atmosphere of 5% CO2.
+
+## Real-time quantitative PCR (RT-qPCR)
+The total RNA was extracted using TRIZOL (Accurate Biology, China). After measuring the concentration of RNA, 1 µg total RNA was used to perform the reverse transcription using the RT Kit with gDNA Clean for qPCR (Accurate Biology, China). Then the product of reverse transcription was diluted 10 times with deionized water. Finally, RT-qPCR was performed using the Premix Pro Taq HS qPCR Kit (Accurate Biology, China) on ViiA™ 7 RT-PCR system. All the primers are summarized as follows: β-Actin-F: CTCCATCCTGGCCTCGCTGT, β-Actin-R: GCTGTCACCTTCACCGTTCC; SEH1L-F: TCTTCTGCTGGCAGGTATTTCT, SEH1L-R: AGTGTCAGCATCGCAAGAGT. ATF3-F: CTCGGGGTGTCCATCACAAA, ATF3-R: GGCACTCCGTCTTCTCCTTC; CA9-F: GGCTACAGCTGAACTTCCGA, CA9-R: TGACAGCAAAAAGGAGGCCA; CP-F: CTCACAATGCACGTGGGAGA, CP-R: CAGCCAGATTTGGTGTCTTCATTT; HMOX1-F: ACTCCCTGGAGATGACTCCC, HMOX1-R: TCTTGCACTTTGTTGCTGGC, NR1D-F: CAACACAGGTGGCGTCATCA, NR1D-R: CTGGAAGCTGCCATTGGAGT; SCD-F: CTTGCGATATGCTGTGGTGC; SCD-R: CCGGGGGCTAATGTTCTTGT; TNFAIP3-F: TCCACAAAGCCCTCATCGAC, TNFAIP3-R: TTCGTTTTCAGCGCCACAAG.
+
+## Western blotting (WB)
+The proteins in tissues and cells were extracted using RIPA (Beyotime, China) with 10% Protease and Phosphatase Inhibitor (NCM biotech, China). After measuring the concentration of protein, 30 µg proteins were electrophoresed under 80 V for 30 min and then 120 V for 60 min. Then, the gel was transferred to the PVDF membranes under 250 mA for 100 min. Subsequently, the membranes were blocked with 5% non-fat milk at room temperature for 60 min. Then the membranes were incubated with a primary antibody at 4 ℃ overnight. The next day, the membranes were washed three times with TBST and incubated with a secondary antibody at room temperature for 60 min. Finally, the blots were visualized using the ChemiDocXRS + System (Bio-Rad, America). The antibodies used are β-Actin (Proteintech, China), SEH1L (Proteintech, China), ATF3 (Abcam, America), HMOX1 (AiFang Biological, China), GPX4 (AiFang Biological, China).
+
+## Immunohistochemistry
+At first, the sections were dewaxed and dehydrated using xylene and ethanol. Then the sections were boiled with citrate for 10 min. Next, the sections were incubated with 3% H2O2 at room temperature for 10 min. After blocking with goat serum, the sections were incubated with primary antibodies overnight at 4 ℃. The next day, the sections were washed three times with PBST at room temperature and incubated with a secondary antibody at room temperature for 30 min. Finally, the sections were stained with DAB and hematoxylin, and an N2-Mi8 microscope was used to capture the images.
+
+## Cell proliferation assays
+At first, 10% CCK-8 (Biosharp, China) were added to the 96-well cells. Then, the cells were cultured in 37 °C for 180 min. Finally, the Microplate Reader was used to detect the absorbance at 450 nm.
+
+## Clone formation
+The cells were seeded into a 6-well plate at a concentration of 500 cells/well. The medium was replaced every three days. At about two weeks later, the cells were fixed using 4% paraformaldehyde at room temperature for 30 min. Then, the cells were stained with 0.1% crystal violet for 30 min.
+
+## Transwell
+At first, 50,000 cells were seeded into the upper chamber with 200 µl medium (1% serum). Then, 600 µl medium (20％ serum) were added into the lower chamber. About 24 h later, the cells of the upper chamber were removed, and the cells of the lower chamber were fixed with 4% paraformaldehyde for 20 min. Then, the cells were stained with 0.1% crystal violet for 30 min. The N2-Mi8 microscope was used to capture the images.
+
+## EdU
+The cells were seeded into a 96-well plate at a concentration of 10,000 cells/well. The next day, the cells were incubated with the EdU solution (1:1000) for 2 h. Then, the cells were fixed with 4% paraformaldehyde for 20 min. Next, the cells were incubated with the Apollo dye solution (RiboBIO, China) for 30 min. Then, the cells were washed with 0.5% TritonX-100 for 10 min. Finally, the cells were incubated with the DAPI solution at room temperature for 10 min. The N2-Mi8 microscope was used to capture the images.
+
+## ROS detection
+ROS was detected using ROS Assay Kit (Beyotime, China). The cells were seeded in the 6-well plates and cultured overnight. The next day, DCFH-DA was diluted 1000 times using DMEM. Then the cells were incubated for 60 min. Subsequently, the cells were washed with DMEM for 3 times, and then collecting the cells. Flow cytometry was used to detect the ROS level.
+
+## Mitochondrial membrane potential detection
+Mitochondrial membrane potential was detected using Rhodamine 123 (Beyotime, China). The cells were seeded in the 24-well plates and cultured overnight. The next day, Rhodamine 123 was diluted 1000 times using the buffer. Then the cells were incubated for 60 min. Subsequently, the cells were washed with PBS for 3 times, and then collecting the cells. The N2-Mi8 microscope was used to capture the images.
+
+## GSH detection
+GSH was detected using GSH and GSSG Assay Kit (Beyotime, China). The cells were seeded in the 6-well plates and cultured overnight. The next day, collect the cells and re-suspend the cells in 30 µL of solution M. Then the cells were lysed using liquid nitrogen and 37 °C water. Collect the supernatant after centrifugal at 10, 000 rpm, 4 °C. Then prepare the detection working solution according to the instructions and incubate at 25 °C for 5 min. Subsequently, add 50 µL NADPH and incubate for 25 min, measure the absorbance at 412 nm.
+
+## MDA detection
+MDA was detected using Lipid Peroxidation MDA Assay Kit (Beyotime, China). The cells were seeded in the 6-well plates and cultured overnight. The next day, the cells were lysed and collect the supernatant. The reaction system was mixed according to instructions. Then, the mixture was boiled at 100 °C for 15 min. Then collect the supernatant after centrifugal at 1, 000 g, room temperature. Measure the absorbance at 532 nm.
+
+## In vivo xenograft studies
+For the subcutaneous tumor model, the male BALB/C nude mice (4 weeks old, weight 16 g) were divided into 2 groups. 5 × 106 cells were injected subcutaneously into the armpit. The tumor size was measured every three days. Three weeks later, the mice were sacrificed. The expression of genes was detected using IHC.
+The animal experiments were approved by the Ethics Committee for laboratory animal of Central South University.
+
+## Statistical analysis
+The statistical analysis was performed using GraphPad Prism. Student’s t-test was used to compare the difference between two groups, and a one-way analysis of variance was used to compare the difference between multiple groups. The data obtained are shown as average values ± SD. P < 0.05 was considered statistically significant.
+
+## Results
+
+## The expression of SEH1L in human tissues and cancers
+At first, we detected the expression level of SEH1L in HPA database. In normal human tissues, SEH1L was highly expressed in tongue, skeletal muscle, thymus, liver and tonsil, but was lowly expressed in choroid plexus, seminal vesicle, fallopian tube, cervix and prostate (Fig.  A). Then, the expression of SEH1L in pan-cancer was analyzed using Timer 2.0 database. The results suggested that SEH1L was significantly up-regulated in most human cancers, including breast invasive cancer (BRCA), cholangiocarcinoma (CHOL), colon adenocarcinoma (COAD) and so on. By contrast, SEH1L was down-regulated in kidney chromophobe (KICH) and kidney papillary cell carcinoma (KIRP) (Fig.  B).
+ Next, we assessed the diagnostic value of SEH1L in pan-cancer using ROC curve. As illustrated in Fig.  C, SEH1L can serve as a potential diagnostic biomarker in COAD, esophageal carcinoma (ESCA), KICH, LIHC, lung squamous cell carcinoma (LUSC) and stomach adenocarcinoma (STAD) (AUC: 0.861, 0.803, 0.839, 0.753, 0.826 and 0.932 respectively).
+
+## The prognostic value of SEH1L in pan-cancer
+Based on the TCGA database, we further analyzed the prognostic value of SEH1L in pan-cancer. High expression of SEH1L was associated with poor OS in adrenocortical carcinoma (ACC), KICH, brain lower grade glioma (LGG), LIHC, mesothelioma (MESO), pancreatic adenocarcinoma (PAAD), prostate adenocarcinoma (PRAD) and sarcomav (SARC) (Fig.  A). High SEH1L expression was a risk factor for shorter progression free interval (PFI) in ACC, KICH, LIHC, PAAD, uterine corpus endometrial carcinoma (UCEC) and uveal melanoma (UVM) (Fig.  B). Up-regulation of SEH1L may shorten the disease free interval (DFI) of ACC, LIHC and PAAD (Fig.  C). Besides, high SEH1L expression was correlated with shorter disease specific survival (DSS) in ACC, KICH, LGG, LIHC, PAAD and PRAD (Fig.  D).
+ 
+
+## The mutation and methylation characteristic of SEH1L in pan-cancer
+The mutation characteristics of SEH1L in pan-cancer was analyzed using cBioPortal database. Highest frequency of SEH1L alteration (9.52%) occurred in uterine mixed endometrial carcinoma patients (Figure ). Figure A showed the alteration sites, types and numbers of SEH1L in pan-cancer. Next, we analyzed the correlation between SEH1L mutation and cancer prognosis. We found that UCEC patients with SEH1L mutation had better prognosis in OS (P = 0.0324), DSS (P = 0.0311) and PFS (P = 0.0431) (Figure B-E).
+Then, we evaluated the methylation level of SEH1L promoter between cancer and normal tissue. The results suggested that the methylation level was up-regulated in KIRC, COAD, KIRP, LIHC, LUSC, PAAD, PRAD and UCEC, but was down- regulated in READ (Fig.  A-I).
+ 
+
+## The drug sensitivity analysis of SEH1L
+Next, the correlation between SEH1L expression and drug sensitivity was analyzed using CellMiner database. The expression of SEH1L was positively related to the drug sensitivity of chelerythrine, allopurinol, fludarabin and ribavirin. However, SEH1L was negatively associated with the sensitivity of GDC-0349, LY-3,023,414, INK-128, AZD-3147, AZD-8055, PQR-620, AZD-2014, Pp-242, CC-223, FT-1518, CC-115 and INCB-047775 (Fig.  A-P).
+ 
+
+## Knock down of SEH1L induced ferroptosis and suppressed HCC progression
+In above section, we made a comprehensive analysis about the expression level, diagnostic value, prognostic value, mutation and methylation characteristic of SEH1L in pan-cancer. The results suggested that SEH1L was significantly up-regulated in HCC, and may function as a potential diagnostic and prognostic biomarker in HCC. Thus, we further validated the bioinformatic results through in vitro and in vivo experiments in HCC. At first, we detected the expression of SEH1L in HCC cell lines and cancer tissues. Figure  A-B suggested that SEH1L was up-regulated in HCC cancer tissues. Besides, the RNA and protein expression level was also elevated in HCCLM3, MHCC97H, PLC/PRF/5 and Huh7 cell lines (Fig.  C, F).
+ Next, to further analyze the function of SEH1L, SEH1L was knocked down and over-expressed in HCC cells lines (Fig.  D-E, G-H). The next generation sequencing of MHCC97H cells suggested that after the knock down of SEH1L, 684 genes was significantly up-regulated and 678 genes was down-regulated (Fig.  I). The GO analysis suggested that SEH1L joined in the regulation of metabolic process, organic substance metabolic process (biological_process), intracellualr, organelle (cellular_component), binding and protein binding (molecular_function) (Fig.  J). KEGG analysis illustrated the enrichment of ferroptosis, steroid biosynthesis and terpenoid backbone biosynthesis (Fig.  K).
+Then, we detected the influence of SEH1L in HCC progress. The results of CCK8, clone formation and EdU suggested that over-expression of SEH1L significantly promoted the proliferation of HCC cells (Fig.  A-C, F-G). Transwell experiment showed that SEH1L promoted the migration of Huh7 and PLC/PRF/5 cells (Fig.  D-E). KEGG analysis has shown that SEH1L may participate in the regulation of ferroptosis, thus, we further detected the influence of SEH1L in GSH, malondialdehyde (MDA), mitochondrial membrane potential and ROS. The results suggested that over-expression of SEH1L increased the level of GSH, but decreased the level of MDA (Fig.  H-I). Meanwhile, the mitochondrial membrane potential was up-regulated (Fig.  J-K), but ROS was down-regulated (Fig.  L-N).
+ Similarly, knock down of SEH1L significantly suppressed the proliferation and migration of HCC cells (Fig.  A-G). The results suggested that SEH1L siliencing significantly decreased the level of GSH, increased the level of MDA (Fig.  H-I). Meanwhile, the mitochondrial membrane potential was down-regulated (Fig.  J-K), but ROS level was significantly up-regulated (Fig.  L-N). At last, we established the xenograft mouse models by subcutaneously injecting SEH1L knock down cells. As shown in Fig.  O-P, the tumor of the SEH1L knock down group grew slower than that of the control group.
+ 
+
+## SEH1L siliencing induced ferroptosis via ATF3/HMOX1/GPX4 axis
+Above results has suggested that knock down of SEH1L induced ferroptosis and suppressed HCC progression. Next, we further analyzed the next generation sequencing results and screened the genes in FerrDb V2, a database which collected all the ferroptosis related genes. At last, we identified 7 ferroptosis related genes, including ATF3, CA9, CP, HMOX1, NR1D, SCD and TNFAIP3 (sequencing fold change > 2). Then, the influence of SEH1L in these genes was validated using RT-qPCR. The results suggested that only ATF3 and HMOX1 was significantly up-regulated in both MHCC97H and HCCLM3 cells after the knock down of SEH1L (Fig.  A-B). In recent years, ATF3/HMOX1/GPX4 pathway has been reported to induce ferroptosis, and ATF3 may function as a transcription factor of HMOX1 [ – ]. Thus, we further detected the expression of ATF3, HMOX1 and GPX4 using WB and IHC. The results suggested that ATF3, HMOX1 were up-regulated and GPX4 was down-regulated after the knock down of SEH1L (Fig.  C-D).
+ To further prove that SEH1L regulated ferroptosis through ATF3/HMOX1/GPX4 axis, we performed the rescue experiments. The knock down efficiency of ATF3 was shown in Fig.  E-F. Besides, knock down of ATF3 could rescue the influence of SEH1L on HMOX1 (Fig.  G-H). Furthermore, knock down of SEH1L could suppress proliferation (Fig.  A, E), decrease mitochondrial membrane potential (Fig.  B, C, F) and increase ROS (Fig.  D, G), and all these effects could be reversed by knock down of ATF3.
+ 
+
+## Discussion
+In the past decades, many studies have focused on the function of SEH1L. At first, SEH1L was identified as a nucleoporin, and play significant roles in the formation of Nup107 complex [ ]. Then, researchers found that SEH1L may also function as a component of GATOR2 complex and activate mTOR signalling [ ]. Mei Wu et al. found that SEH1L could maintain the stability of genome by regulating the interaction between SETDB1 and KAP1, and knock out of SEH1L could induce the necroptosis of schwann cell [ ]. What’s more, Stacie K. Loftus et al. found that HIF-1α could induce the expression of SEH1L and reduce time of disease free status in melanoma [ ]. Based on previous work, we further analyzed the expression and potential function of SEH1L in pan-cancer. Our study showed that the expression of SEH1L was up-regulated in most cancers. High SEH1L expression was related to poor OS, DFI, PFI and DSS in LIHC. Meanwhile, the patients of UCEC with SEH1L mutation had better OS, DSS and PFS. What’s more, we further validated our bioinformatics result through in vitro and in vivo experiments. The RT-qPCR and WB experiments showed that SEH1L was significantly up-regulated in HCC tissues and cells. Besides, next generation sequencing suggested that SEH1L may participate in the regulation of ferroptosis. Besides, we found that knock down of SEH1L significantly induced ferroptosis and suppressed the progression of HCC via ATF3/HMOX1/GPX4 axis.
+Above results are consistent with previous reports that ATF3/HMOX1/GPX4 axis could induce ferroptosis. Recently, ferroptosis has been identified as a new type of iron dependent cell death, which is different from apoptosis and autophagy. J Rao et al. found that ATF3 may function as a transcription factor and promote the expression of HMOX1, and then activate the ferroptosis of HCC [ , ]. Shiyan Fu et al. found that PEGylated Cu2WS4 nanozyme induced ferroptosis by regulating the KEAP1/NRF2/HMOX1/GPX4 molecules [ ]. Haiyingjie Lin et al. found that EF24, a synthetic analogue of curcumin, could promote the expression of HMOX1 and then suppress GPX4 to induce ferroptosil [ ]. Our studies firstly showed that knock down of SEH1L may promote the expression of ATF3, and then result in the up-regulation of HMOX1 and down-regulation GPX4. Thus, SEH1L may function as a potential therapy target by regulating the ferroptosis of HCC.
+However, there are still some limitations in our study. Although we found that knock down of SEH1L may down-regulate the mRNA level of ATF3, the mechanisms are still unclear and further investigation is necessary. Besides, expanding the clinical sample size may make the results more persuasive.
+
+## Conclusion
+SEH1L is up-regulated and is associated with poor prognosis in pan-cancer. SEH1L siliencing could induce ferroptosis and suppresses HCC progression via ATF3/HMOX1/GPX4 axis.
+
+## Electronic supplementary material
+Below is the link to the electronic supplementary material.
+
+Supplementary Material 1
+
+Supplementary Material 2
+
+Supplementary Material 3
+
+## Acknowledgements
+Not applicable.
+
+## Author contributions
+Z.F., K.C. and X.L. designed this study. Z.F. and K.C. performed the major analysis and experiments, and drafted the manuscript. X.L. supervised the study. H.S. collected the clinical samples. All authors reviewed the manuscript.
+
+## Funding
+This study was supported by grants from the Wisdom Gathering and Talent. Cultivating Program from the Third Xiangya Hospital, the National Natural Science Foundation of China (No. 82373049), the Natural Science Foundation of Hunan Province (No. 2022JJ30895 and 2024JJ6606), the China Postdoctoral Science Foundation (No. 2024M753681) and Postdoctoral Fellowship Program of CPSF (No. GZC20233168).
+
+## Data availability
+The data are available from the corresponding author for reasonable requests.
+
+## Declarations
+
+## Ethical approval
+This study involving human participants were reviewed and approved by Ethics Committees of the Third Xiangya Hospitals. The patients/participants provided their written informed consent to participate in this study. All mouse experiments were approved by the Ethics Committee for laboratory animal of Central South University.
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Ziyang Feng and Ke Cao contributed equally to this work.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Material 1
+Supplementary Material 2
+Supplementary Material 3
+
+## Data Availability Statement
+The data are available from the corresponding author for reasonable requests.

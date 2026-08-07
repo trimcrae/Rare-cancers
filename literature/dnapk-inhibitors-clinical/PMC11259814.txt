@@ -1,0 +1,218 @@
+2992heliyonHeliyonHeliyonElsevierPMC1125981411259814112598143903548410.1016/j.heliyon.2024.e32785Comprehensive bioinformatics analysis and cell line experiments revealed the important role of CDCA3 in sarcoma
+LiYang WuZhiwei DingTao ZhangWenbiao GuoHongjuan HuangFei aDepartment of Orthopedics, The Second Affiliated Hospital of Anhui Medical University, Hefei 230601, ChinabInstitute of Orthopaedics, Research Center for Translational Medicine, The Second Affiliated Hospital of Anhui Medical University, Hefei 230601, ChinacSchool of Life Sciences, Anhui Medical University, Hefei 230032, China⁎Corresponding author. Department of Orthopedics, The Second Affiliated Hospital of Anhui Medical University, Hefei 230601, China. huangfei3739@163.com
+16620241013e32785e327852072024© 2024 Published by Elsevier Ltd.This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+
+## Background
+Sarcoma mainly originate from bone and soft tissue and are highly aggressive malignant tumors. Cell division cycle-related protein 3 (CDCA3) is a protein involved in the regulation of the cell cycle, which is highly expressed in a variety of malignant tumors. However, its role in sarcoma remains unclear. This study aims to investigate the function and potential mechanism of CDCA3 in sarcoma and to elucidate its importance in sarcoma.
+
+## Methods
+We first studied the expression and prognosis of CDCA family members in sarcoma by Oncomine and the Gene Expression Profiling Interactive Analysis (GEPIA). The role of CDCA3 protein in sarcoma was further analyzed by the Cancer Genome Atlas Program (TCGA), the Cancer Cell Lineage Encyclopedia (CCLE), and Linke-dOmics. In addition, immunohistochemistry and Western blot were used to verify the expression of CDCA3 protein in clinical samples as well as sarcoma cell lines (U2OS, SAOS2, MG63, and HOS). Subsequently, in vitro experiments (cloning and scratching experiments) were performed using sh-NC as well as sh-CDCA3 group cells to reveal the biological functions of CDCA3.
+
+## Results
+We found that the CDCA family (CDCA3, CDCA4, and CDCA8) is highly expressed in sarcoma, and the expression level of CDCA3, CDCA4, and CDCA8 negatively correlates with the prognosis of sarcoma patients. CDCA3 mRNA was highly expressed in pan-cancer by CCLE and TCGA database analysis. KEGG analysis showed that CDCA3 was mainly enriched in the cell cycle signaling pathway (It promoted the transition of the cell cycle from the G0/G1 phase to the S phase). In the level of immune infiltration, CDCA3 was negatively correlated with pDC cells, CD8+T cells, and cytotoxic cells. Finally, patients with high CDCA3 expression in sarcoma were analyzed for resistance to NU7441 and others, while sensitive to Fulvestrant and Dihydrorotenone. Furthermore, we demonstrated high expression of CDCA3 protein in sarcoma tissues and cell lines by immunohistochemistry and Western blot experiments. Cloning, EDU, scratching, and migration experiments showed that the knockdown of CDCA3 inhibited the Proliferation and progression of sarcoma cells.
+
+## Conclusion
+These results suggest for the first time that knockdown of CDCA3 may inhibit sarcoma progression. CDCA3 may be an effective target for the treatment of sarcoma.
+
+Keywords: CDCA3, Drug sensitivity, Prognosis, Sarcoma, Tumor microenvironment
+
+## Graphical abstract
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Jan 26; Revised 2024 Jun 3; Accepted 2024 Jun 10; Collection date 2024 Jul 15.
+
+1.
+
+## Introduction
+Sarcoma (SARC), is a primary bone tumor that usually originates in the metaphysis of long bones, such as the thigh or upper arm [ , ]. Sarcoma usually occurs in children and adolescents, especially when the bones are still developing [ ]. Sarcoma treatment usually requires a multidisciplinary team effort involving surgical, chemotherapy, and radiotherapy. The 5-year metastasis rate for sarcoma is as high as 50 %, and only 5 % of patients with metastatic sarcoma survive for 5 years [ ]. However, the treatment of patients with recurrence and metastasis remains disappointing. Therefore, it is very important to find a new therapy to improve the survival rate and quality of life of sarcoma patients.
+In the past few years, several studies have provided evidence of the involvement of the CDCA family in tumorigenesis and progression. Phung et al. demonstrated the involvement of CDCA1 in the progression of oral cancer [ ]; Kai et al. demonstrated that CDCA2 promotes the progression of hepatocellular carcinoma [ ]; Shen et al. demonstrated that silencing CDCA3 inhibits the migration and proliferation of urothelial carcinoma of the bladder [ ]; Xia et al. demonstrated that CDCA4 accelerates the progression of sarcoma [ ]; Luo et al. demonstrated that CDCA5 promotes the progression of prostate cancer via Akt [ ]; Peng et al. suggested that silencing CBX2(CDCA6) inhibits the biological behavior of esophageal cancer [ ]; Downregulation of CDCA7 was suggested by Cai et al. to inhibit cell cycle and angiogenesis in ovarian cancer [ ]; Zhou et al. demonstrated that CDCA8 could promote HIF1α expression under hypoxic conditions to promote bladder cancer survival [ ]. Therefore, we hypothesized that CDCA3 might contribute to sarcoma progression.
+Cell division cycle-related protein 3(CDCA3) is a cell cycle-related protein [ ]. CDCA3 mainly regulates the cell cycle (CDCA3 can promote cells from interphase to mitosis, thus promoting cell division), participates in chromosome segregation, regulates cell division, and is closely related to cancer progression. For example, Gu et al. demonstrated that CDCA3 induces G0/G1 arrest by increasing p21 protein expression levels and decreasing cyclin D1 expression levels through regulation of NF-κB signaling proteins; Finally, it leads to the decrease of prostate cancer cell proliferation and the increase of cell apoptosis [ ]. It has been found that the expression level of CDCA3 is increased in many kinds of cancer cells, which indicates that CDCA3 may be involved in the process of carcinogenesis and development of cancer. For example, Yu et al. determined by quantitative reverse transcription polymerase chain reaction (PCR) that the expression of CDCA3 in GCCA was higher than that in normal tissue samples and that the expression of CDCA3 was regulated by DNA methylation [ ]. Zhang et al. found that colorectal cancers expressed significantly more CDCA3 than non-cancer tissues, and they further demonstrated that CDCA3 activates the NF-κB signaling pathway by interacting with TRAF2 in colorectal cancer, ultimately inducing cell cycle arrest and promoting apoptosis [ ]. Wu et al. found that CDCA3 was upregulated in hypopharyngeal squamous-cell carcinoma and cell lines, and further knockdown of CDCA3 could inhibit the Akt/mTOR signaling pathway and ultimately inhibit the proliferation, invasion, and migration of cancer cells [ ]. However, the expression and function of CDCA3 in sarcoma are unclear.
+In this study, there are two aspects: in silico/in vitro cytology. In silico: first evaluated the expression of CDCA family proteins in sarcoma and their prognosis. The potential role of CDCA3 in sarcoma and its correlation with immune cell infiltration were further analyzed. We found that the expression of CDCA3 in sarcoma was negatively correlated with the prognosis of patients and with pDC cells, NK cells, CD8+ T cells, and cytotoxic cells. In addition, we evaluated the relationship between CDCA3 expression and associated chemotherapeutic agents. It was found that the combination of cell cycle inhibitors (MK-1775, etc.) may produce better effects. In vitro cytology, we confirmed by Western blot that the expression of CDCA3 was higher in sarcoma cell lines than in normal cells, and the knockdown of CDCA3 in U2OS and SAOS2 cells inhibited the proliferation and migration of sarcoma cells.
+
+2.
+
+## Materials and methods
+2.1.
+
+## Data collection
+Pan-cancerous mRNA Transcripts Per Million (TPM) data were downloaded from the Cancer Genome Atlas Program (TCGA) database, where the TCGA-SARC dataset contains 262 SARC tissues and 2 normal tissues (https://www.cancer.gov/ccg/research/genome-sequencing/tcga) [ ]. ONCOMINE (http://www.oncomine.org/) is an online database for the analysis of cancer microarrays, providing genome-wide expression analysis of most cancers [ ]. The Cancer Cell Lineage Encyclopedia (CCLE) is a public database of 22 cancer types that allows researchers to quickly understand mRNA expression in pan-cancer (https://sites.broadinstitute.org/ccle/datasets) [ ]. We must prepare two files (a. Cell annotation information; and b. CDCA3 gene expression matrix). The TARGET database is an open-source database for pediatric tumors that is less targeted but more targeted than the TCGA database. We downloaded survival information for 85 sarcoma patients from the TARGET database (https://targetbase.com/) [ ]. The data in the experiment were analyzed by R software (version 4.2.1).
+
+2.2.
+
+## Correlation analysis of prognosis
+Gene expression profiling interaction analysis (GEPIA) is a free database that provides data on the expression of genes in different tumor samples, as well as calculating the expression level of genes in a particular tumor, the relationship between genes and tumor prognosis can also be analyzed, etc (http://gepia.cancer-pku.cn/) [ ]. First, click Survival Analysis, enter the targeted Gene in the Gene search field, then select SARC in Datasets Selection (Cancer name), and click Plot. Select Expression DlY, click Boxplot, do the rest, and then click Plot.
+
+2.3.
+
+## Correlation analysis of immune infiltration level
+We analyzed relative enrichment scores between 24 immune cell types and sarcomas by single-sample GSEA [ ]. Correlations between CDCA3 expression and these immune cells were investigated using the following methods: Spearman correlation analysis and differences in the level of immune infiltration between the CDCA3 high-expression group and the low-expression group were assessed using the Wilcox Onrankum test.
+
+2.4.
+
+## Enrichment analysis of related differential genes
+The Linke-dOmics database is a comprehensive resource that collects and organizes data from various public repositories and research reports (https://www.linkedomics.org/login.php). This database provides tools and functionalities for data visualization, analysis, and interpretation, aiming to assist researchers in gaining a deeper understanding of disease mechanisms [ ]. First Register the account, Select the data in the Select Cancer Type, then Select the RNAseq data in the Select Search dataset, then enter the target gene in the Select Search attribute, and then continue to Select mRNA Expression (RNAseq), finally Select Pearson Correlation test in the data type Select Statistical Method and click “SUBMIT”. We selected the genes most associated with CDCA3. Subsequently, we used R software for gene ontology (GO) functional enrichment analysis and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway enrichment analysis, they helped to understand the function of genes in organisms and the biological processes involved.
+
+2.5.
+
+## Chemo drug sensitivity analysis
+Oncopredictor is a package of 198 chemotherapeutic drugs designed by Maeser et al. [ ]. Its main purpose is to predict the response of cancer patients to these drugs. We need to use two data sets to complete the analysis. The first data set is the CDCA3 mRNA expression profile obtained from the TCGA database. The second file is the Cancer Drug Sensitivity Genomics (GDSC) matrix, which contains the half-maximal inhibitory concentration (IC50) data of cancer cells to the drugs (https://www.cancerrxgene.org/downloads/anova) [ ].
+
+2.6.
+
+## Cell culture and transfection
+The cells used in this experiment were all from the American Type Culture Collection (ATCC, USA). Osteoblast cell line (hFOB1.19, ATCC CRL-3602). Sarcoma cell lines (U2OS, ATCC HTB-96; SAOS2, ATCC HTB-85; MG-63, ATCC CRL-1427; HOS, ATCC CRL-1543). First, 500 μl of penicillin and streptomycin and 5 ml of fetal bovine serum were added to 45 ml of DMEM medium (Gibco, USA). Next, we incubated hFOB1.19 cells in a 34 °C, 5 % CO2 incubator and other sarcoma cells in a 37 °C, 5 % CO2 incubator. The culture medium was changed every 2 or 3 days. The lentivirus used for transfection was purchased from Genechem (Shanghai, China) and the transfection procedure was performed according to the manufacturer's instructions. The transfected sarcoma cells were screened with Puromycin (2.00 μg/ml) and the knockdown efficiency was confirmed by Western blot analysis. Negative control (sh-NC) was designed with a 5′- UUCUCCGAACGUGUCACGUTT-3′ sequence. A lentivirus targeting CDCA3 was designed and sequenced as follows: sh-CDCA3,5′- GAGUGAAGUAUUUGAAACUTT-3′.
+
+2.7.
+
+## Immunofluorescence staining
+U2OS cells were evenly seeded onto coverslips in a 24-well plate and cultured in a complete growth medium under standard cell culture conditions. U2OS cells were fixed with 4 % paraformaldehyde for approximately 10 min at room temperature, followed by an 8-min wash with 0.1 % Triton-100 to permeabilize the cells. We subjected cells to blocking treatment with 2 % BSA and further stained them with diluted CDCA3 antibody (1:50, Proteintech, China) (half an hour at room temperature); It was finally incubated with secondary antibodies (1:200, diluted with 2 % BSA) for 12h in a 4 °C refrigerator. Following cell washing, the cells were incubated with a secondary antibody containing Alexa Fluor 488 (Invitrogen, USA) at a dilution of 1:400 for 1 h at room temperature. After washing with 1 × PBS, the cells were stained with 4′,6-diamidino-2-phenylindole (DAPI) (BestBio, China) for 2 min and imaged using a confocal microscope.
+
+2.8.
+
+## Immunohistochemistry
+Paraffin-fixed tissue samples need to be sectioned, the thickness of the general 4 μm. The slices were pretreated in an oven (65 °C, 2 h). Use xylene for Dewaxing. Soak in 100 %, 95 %, and 80 % alcohol for about 5 min. Finally, gently wash with deionized water. Antigen retrieval (citrate buffer) is then performed and blocked. CDCA3 antibody (1:200, Proteintech, China) was added to the sections and placed in a 4 °C refrigerator overnight, followed the next day by a secondary antibody (Proteintech, China) followed by 30 min of incubation at room temperature. Rinsed with PBS, stained with DAB followed by hematoxylin.
+
+2.9.
+
+## Western blotting
+The entire experimental procedure was performed on ice. Total protein was first extracted from cells using RIPA lysate. The corresponding sodium dodecyl sulfate-polyacrylamide gels (SDS-PAGE) were prepared according to the molecular weight of the target proteins, and then approximately 30 μg of protein samples were added to each well. The target proteins were electrophoresed, transferred to PVDF membranes, and subsequently closed with 5 % milk for 2 h at room temperature. The membranes were incubated with the CDCA3 antibody (1:1000, Proteintech, China) overnight in a refrigerator at 4°. The primary antibody was recovered and the membrane was slowly shaken in TBST buffer for 5 min (3 times). The β-actin antibody (1:10,000, Proteintech, China) was then prepared with 5 % milk and incubated for 1 h at room temperature. Finally, the membranes were shaken rapidly in TBST buffer for 10 min (3 times). Protein bands were visualized with enhanced chemiluminescence detection reagents (ECL, Bain-marie, China) under a GE Healthcare imaging system.
+
+2.10.
+
+## Colony formation assay
+Add 2 ml of cell suspension, containing 2 × 10³ cells (sh-NC, sh-CDCA3), to each well of a 6-well plate. Incubate the plate in a 37 °C incubator for 10 consecutive days. After incubation, discard the supernatant and wash the cells twice with PBS. Fix the cells with 4 % paraformaldehyde for 15 min, followed by two additional washes with PBS. Stain the cells with 0.1 % crystalline violet for 15 min, and then wash them twice with PBS. Finally, photograph the cells using a cell phone.
+
+2.11.
+
+## Cell proliferation assessed by EDU
+To begin, an appropriate amount of cells was added to a 24-well plate according to the reagent instructions and incubated at 37 °C for 24 h. The cells were then labeled with EDU (BeyoClick™ Edu-555 Cell Proliferation Assay Kit (Beyotime, China, C0075S)) for 2 h, fixed with 4 % paraformaldehyde for 15 min, and incubated with permeabilization solution for 10 min at room temperature. Next, the cells were incubated with the addition of EDU reaction mix for 30 min at room temperature, protected from light, and finally incubated with 1 × Hoechst 33,342 solution for 10 min at room temperature, also protected from light, for nuclear staining. The observation was performed using inverted fluorescence microscopy.
+
+2.12.
+
+## Wound healing assay
+First, we draw a horizontal line evenly using a marker pen. The Group sh-NC and sh-CDCA3 sarcoma cells are placed in a 12-well plate and allowed to grow until confluent. After 24 h of cell starvation treatment, a horizontal scratch is made using a 10 μl pipette tip. Subsequently, the 0-h and 24-h time points are recorded using an optical microscope. Data analysis was performed using ImageJ software.
+
+2.13.
+
+## Transwell assay
+The study utilized 8 μm Transwell chambers for both invasion experiments. Matrigel-coated chambers (Corning 356,234 Matrigel (BD Biocoat, USA) were used for invasion experiments. A total of 5 × 104 cells/ml were suspended in 200 μl of cell suspension and uniformly added to the upper layer of the chambers. The lower layer was filled with 500 μl of complete medium containing 15 % serum. The cells were then incubated at 37 °C for 24 h. The cells were fixed with 4 % paraformaldehyde and then stained with crystal violet. Microscopic images were captured for analysis.
+
+2.14.
+
+## Tissue samples
+From June 2013 to June 2016, 30 sarcoma tissues were included in this study. A professional clinician obtains the organization. Fresh tissue was stored in liquid nitrogen immediately after surgery. Two independent pathologists analyzed the pathological characteristics of the specimens according to the guidelines established by the World Health Organization. The First Affiliated Hospital Ethics Committee of Anhui Medical University approved the study protocol. The samples and clinicopathological data of 30 patients involved in this study were under the Declaration of Helsinki.
+
+2.15.
+
+## Statistical analysis
+Data were analyzed using R software (version 4.2.1). Data analysis and processing were performed using GraphPad Prism 7.0 software (GraphPad, San Diego, California). Unless otherwise noted, statistical analyses were performed using the Pearson chi-square test of storing-rank. Results are expressed as mean ± standard deviation (SD), with statistical significance of P < 0.05.
+
+3.
+
+## Results
+3.1.
+
+## CDCAs family expression and potential prognosis in sarcoma
+First, we analyzed the mRNA expression of the CDCA family to explore their potential prognosis in sarcoma patients. As shown in A, mRNA expression of CDCA family members in pan-carcinomas was explored by using ONCOMINE databases. Compared with normal tissues, the expression levels of CDCA7 were significantly down-regulated in sarcoma tissues, while the expression levels of CDCA3, CDCA4, and CDCA8 were significantly up-regulated in sarcoma tissues. In addition, we explored the mRNA expression levels of the CDCAs family using the GEPIA database, which is different from the ONCOMINE database resource. As shown in B, red represents tumor samples and gray represents normal tissue. The Red * represents the difference between the two. There was no difference in mRNA expression of CDCA6(CBX2) in sarcoma tissues compared with normal tissues, whereas NUF2, as well as CDCA2/3/4/5/7/8, were all highly expressed in sarcoma tissues. Interestingly, NUF2, CDCA2, CDCA5, and CDCA7 were all expressed higher in cancer tissues compared with normal tissues in B, which is not consistent with the results in A. Our analysis may be due to the inclusion of more samples in the Oncomine database.
+ Furthermore, we further applied the GEPIA database to investigate the prognostic value of mRNA expression of all 8 CDCA family members in sarcoma patients. We first analyzed the prognosis of CDCAs family members in pan-cancer, as shown in A, and we could roughly find that the expression amount of CDCAs family was negatively correlated with the prognosis of tumor patients. We further analyzed specifically the overall survival (OS) and progression-free survival (PFS) of CDCA families in sarcoma. Higher mRNA expression levels of CDCA1 (NUF2) (OS: HR = 1.7, P = 0.012; PFS: HR = 1.8, P = 0.0021), CDCA3(OS: HR = 1.6, P = 0.022; PFS: HR = 1.9, P = 2.4e-05), CDCA4(OS: HR = 1.8, P = 0.0031; PFS: HR = 1.9, P = 0.0035), and CDCA8(OS: HR = 1.7, P = 0.014; PFS: HR = 1.5, p = 0.016) were all significantly associated with shorter overall OS and PFS in patients with sarcoma ( B and C). In conclusion, the prognosis of sarcoma patients was negatively correlated with the expression of CDCA3, CDCA4, and CDCA8. The relationship between CDCA4, CDCA8, and sarcoma has been studied, but the relationship between CDCA3 and sarcoma has not been studied.
+ 
+3.2.
+
+## Location, expression, and prognosis of CDCA3 in sarcoma
+We first analyzed the correlation between CDCA3 and other CDCA family members ( A). The expression level of CDCA3 mRNA in pan-cancer was further analyzed by CCLE database. As shown in B, CDCA3 mRNA expression in Bone cancer is second only to that in Teratoma. We also analyzed CDCA3 mRNA expression in paired pan-carcinomas using TCGA data, which showed that CDCA3 mRNA was highly expressed in 15/23 carcinomas (Bladder Urothelial Carcinoma (BLCA), Breast invasive carcinoma (BRCA) and other ( C).
+ We mapped CDCA3 and found that it was expressed on the cell membrane and cytoplasm ( A). We further assessed CDCA3 expression in 30 pairs of normal bone and sarcoma tissues using immunohistochemistry. Immunohistochemistry results showed that CDCA3 expression was higher in sarcoma tissues than in adjacent normal tissues ( B and C). All patients with sarcoma were divided into a high-expression group and a low-expression group according to whether the CDCA3 protein staining score was greater than 6. Next, we collected survival information from 85 patients with sarcoma in the TARGET database, and, using survival package plotting in R, we observed a worse prognosis in the high CDCA3 expression group ( D). We performed western blotting to detect the expression of CDCA3 in normal hFOB1.19 cells and four sarcoma cell lines. Sarcoma cell lines showed significantly increased CDCA3 expression compared with hFOB1.19 ( E and F).
+ Correlation Between CDCA3 Expression and Immune Infiltration.
+The expression of CDCA3 was negatively correlated with the infiltration of pDC cells, NK cells, CD8+ T cells, and cytotoxic cells ( A). Furthermore, the enrichment fraction of pDC cells, NK cells, CD8+ T cells, and cytotoxic cells was significantly lower in the CDCA3-high-expression group than in the CDCA3-low-expression group ( B and C).
+ 
+3.3.
+
+## Function enrichment analysis
+The LinkedOmics database provides an analysis of co-expressed genes with CDCA3. This database analyzed mRNA sequencing data from sarcoma patients in TCGA. A shows all genes associated with CDCA3 in sarcoma. B displays the top 50 genes positively correlated with CDCA3 in sarcoma. As is well known, the absolute value of the correlation coefficient represents the degree of correlation, and 0–0.3 represents weak or uncorrelated; 0.3–0.5 represents weak correlation; 0.5–0.7 represents moderate correlation; and 0.7–1 represents strong correlation. Therefore, we chose genetic statistics >0.7. After screening, we got 80 different genes. The 80 differentially expressed genes associated with high CDCA3 expression are mainly enriched in the cell cycle, mitotic cell cycle, and cell division ( C). KEGG pathway analysis revealed enrichment in the cell cycle, Oocyte meiosis, and p53 signaling pathway, suggesting a significant association between CDCA3 upregulation and tumor development ( D).
+ 
+3.4.
+
+## Correlation analysis between CDCA3 and chemotherapeutic drugs in sarcoma
+We used the OncoPredict package to assess the relationship between CDCA3 expression and chemotherapy drugs commonly used in sarcoma. As shown in A–F, our results showed that as CDCA3 mRNA expression increased, the sensitivity of CDCA3 to Fulvestrant, Dihydrorotenone, and MK-1775 increased, while the sensitivity to NU7441, SB216763, and Doramapimod decreased.
+ 
+3.5.
+
+## CDCA3 promotes the development of sarcoma
+To further investigate the role of CDCA3 in sarcoma development, we transfected U2OS and SAOS2 cells with sh-CDCA3. Western blot results confirmed that sh-CDCA3 reduced the protein level of CDCA3 ( A and B). The ability of cell proliferation was evaluated by cloning and EDU test. The proliferative capacity of U2OS and SAOS2 was attenuated after CDCA3 knockdown compared with the control group ( C and D). As shown in E, EDU assays showed that approximately 76 % of U2OS cells in the sh-NC group were red, whereas only 23 % of cells in the sh-CDCA3 group were red. Similarly, in the SAOS2 cell line, the EDU/DAPI values were 64 % in the sh-NC Group and only 21 % in the sh-CDCA3 group. To assess whether CDCA3 affects sarcoma cell affinity, we also performed scratch assays and transwell for further validation. The scratch test and transwell showed that cells in the Sh-CDCA3 group exhibited weaker wound-healing capacity compared with the control group ( F–I).
+ 
+
+4.
+
+## Discussion
+Sarcoma is a malignant tumor, usually arising from soft tissue or bone [ ]. They can grow in any part of the body, including muscles, bones, adipose tissue, and connective tissue [ ]. Treatment of sarcoma usually requires surgical removal of the tumor and may require radiotherapy or chemotherapy to prevent tumor recurrence. Early detection and treatment of sarcoma is important because it can spread rapidly to other areas, causing serious health problems.
+In the present study, we first analyzed the expression and prognosis of CDCAs families in sarcoma, as well as the correlation between CDCAs family members; High expression of CDCA3 was observed in many tumors [ , , ]. We then analyzed the expression levels of CDCA3 in sarcoma from mRNA and protein aspects by exploring public databases and examining relevant tissues and cell lines using immunohistochemistry and Western blot, the results showed that CDCA3 was upregulated at both RNA and protein levels. We analyzed the association between CDCA3 mRNA expression and patient overall survival using TCGA-SARC-related data. We concluded that the prognosis of sarcoma patients decreased with the increase of CDCA3 expression. Experimentally, we found that silencing the CDCA3 gene reduced sarcoma cell proliferation and migration. Taken together, these findings strongly support the hypothesis that CDCA3 serves as a biomarker for sarcoma.
+CDCA3 is involved in a variety of tumor-related signaling pathways [ ]. These include silencing CDCA3 to suppress the migratory ability of tumor cells, possibly by downregulating EMT-associated proteins, and to arrest the cell cycle in the G1 phase by regulating cell cycle-related proteins such as p21 [ ]; Thus inhibiting the growth of urothelial carcinoma cells. Silencing CDCA3 may also inhibit squamous-cell carcinoma progression by inhibiting Akt-mTOR signaling [ ]. However, these results do not fully elucidate the mechanism of action of CDCA3 in sarcoma, and the biological functions and signaling pathways of CDCA3 warrant further exploration. In this study, we selected the top 80 proteins most associated with CDCA3 for GO and KEGG analysis and found significant enrichment in pathways including cell cycle, platinum resistance, and p53 signaling pathways. We speculate that CDCA3 may affect the cell cycle and ultimately promote sarcoma cell progression by affecting the p53 signaling pathway.
+The tumor microenvironment consists of immune cells, stromal cells, and tumor cells, which are usually surrounded by infiltrating immune cells [ , ]. Therefore, it is very important to explore the relationship between cancer cells and infiltrating immune cells. In the present study, the negative correlation between CDCA3 and immune cells suggests that it may be one of the relevant genes affecting the tumor microenvironment in sarcoma, particularly in pDC cells, NK cells, CD8+ T cells, and cytotoxic cells. pDC cells are major producers of type I interferons and are considered to be key mediators of antiviral immunity [ ]. However, their role in tumor immunity has not been determined. Depending on the circumstances, pDC can promote or inhibit anti-tumor immune responses. The Genesis and development of tumors are complex, and the specific mechanism between CDCA3 and pDC cells will be the focus of our research. NK cells are already promising targets for cancer immunotherapy because of their ability to kill malignant cells and avoid healthy ones [ ]. CD8+ T cells are thought to be the main cytotoxic lymphocyte in the anti-tumor effect [ ]. Our analysis showed a negative correlation between CDCA3 and CD8+ T, suggesting that CDCA3 may play a role in promoting sarcoma progression.
+In recent years, some researchers have demonstrated that CDCA3 reduces the sensitivity of chemotherapeutic drugs. For example, the long non-coding RNA SNHG12 promotes tumor progression and drug resistance in sunitinib by upregulating CDCA3 in renal cell carcinoma, which has been identified as a novel protein, depletion of CircUBE2D2 reduces doxorubicin resistance in triple-negative breast non-small-cell lung carcinoma by modulating the miR-512–3p/CDCA3 axis [ , ]. Our analysis found that expression of CDCA3 was inversely correlated with cytotoxic cells, so we hypothesized that in sarcoma, high expression of CDCA3 would also reduce patients' sensitivity to chemotherapeutic agents. We further analyzed the sensitivity of CDCA3 to common chemotherapeutic agents in sarcoma. We found that patients with high expression of CDCA3 were sensitive to Fulvestrant, Dihydrorotenone, and MK-1775, while resistant to NU7441, SB216763, and Doramapimod. CDCA3 is a novel protein, but it has been demonstrated that CDCA3 ultimately influences tumor initiation and development mainly through regulation of cell cycle and drug resistance. MK-1775 is a Wee1 kinase inhibitor, and Wee1 is a cell cycle-related gene that regulates the G2/M checkpoint and promotes the cell cycle, which in turn influences tumor progression [ , , , ]. Dihydrorotenone and Fulvestrant are currently less used in tumors but are associated with the cell cycle. NU7441 is a DNA-dependent protein kinase (DNA-pk) inhibitor, SB216763 is a Glycogen synthase kinase-3 βinhibitor and doramapimod is a potent inhibitor of p38 α mitogen-activated protein kinase, and they are homogeneous cell cycle independent [ , , ]. Therefore, the combination of the selection of cell cycle inhibition of chemotherapy drugs may have a better inhibitory effect.
+However, the shortcomings of the research need our attention. Most of the data rely mainly on database predictions, which undoubtedly brings a lot of convenience, but the constant updating and expansion of the database may also have an impact on the results of the study. In addition, in future studies, we need to conduct mechanism mining and validate the predictive results through experiments further to enhance the credibility and persuasiveness of our research.
+
+5.
+
+## Conclusion
+As shown in , by combining bioinformatics tool algorithms, we revealed that high expression of CDCA3 is an independent poor prognostic factor for sarcomas and is strongly associated with adverse immune infiltration. The combination of cell cycle inhibitors may further inhibit the progression of sarcoma. Furthermore, the knockdown of CDCA3 inhibited the proliferation, migration, and invasion of U2OS and SAOS2 cells. In conclusion, our results suggest that CDCA3 may serve as a novel prognostic biomarker.
+ 
+
+## Ethics statement
+All the experiments were approved by the Ethics Committee of the First Affiliated Hospital of Anhui Medical University (PJ-YX2022-038).
+
+## Funding
+This work was supported by the Natural Science Foundation of Anhui Province, No. 2208085MH223, the Key Project of Natural ScienceFoundation of Anhui University, No. KJ2020A0187, the Translational Medicine Research Fund of Anhui Province, No. 2021zhyx-C53, and the Clinical ScienceFoundation of Anhui Medical University, No. 2021xkj181, the Graduate Student Research and Practice Innovation program of Anhui Medical University, No. YJS20230084.
+
+## Data availability statement
+The databases that support the conclusions of this article are included in this article and are available on request from the corresponding author.
+
+## CRediT authorship contribution statement
+Yang Li: Writing – review & editing, Writing – original draft, Supervision, Resources, Project administration, Data curation, Conceptualization. Zhiwei Wu: Software, Resources, Data curation. Tao Ding: Data curation, Conceptualization. Wenbiao Zhang: Formal analysis, Data curation. Hongjuan Guo: Visualization, Software, Resources, Methodology, Data curation, Conceptualization. Fei Huang: Writing – review & editing, Writing – original draft, Visualization, Validation, Investigation, Funding acquisition, Formal analysis.
+
+## Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+## Acknowledgments
+We thank all the staff who contributed to TCGA, CCLE, and other databases. Thanks to the editors and reviewers for their sincere comments.
+
+## Footnotes
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.heliyon.2024.e32785.
+
+Appendix A.
+
+## Supplementary data
+The following are the Supplementary data to this article.
+
+## Multimedia component 1
+Multimedia component 1
+
+## Multimedia component 2
+Multimedia component 2
+
+## Multimedia component 3
+Multimedia component 3
+
+## Multimedia component 4
+Multimedia component 4
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Multimedia component 1
+Multimedia component 1
+
+## Multimedia component 2
+Multimedia component 2
+
+## Multimedia component 3
+Multimedia component 3
+
+## Multimedia component 4
+Multimedia component 4
+
+## Data Availability Statement
+The databases that support the conclusions of this article are included in this article and are available on request from the corresponding author.

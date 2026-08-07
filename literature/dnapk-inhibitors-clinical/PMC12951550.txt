@@ -1,0 +1,568 @@
+pmcJ Med ChemJ Med Chem822acssdjmJournal of Medicinal Chemistry0022-26231520-4804pubs.acs.org/jmcpmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC12951550PMC12951550.112951550129515504169718510.1021/acs.jmedchem.5c028621ArticleComputational
+Drug Repurposing for Alzheimer’s
+Disease via Sheaf Theoretic Population-Scale Analysis of snRNA-Seq
+Data
+6701023CottrellSean ). In this
+way, we theorize that pathology driving genes unite both topological
+significance with the nongeometric scale of their up-regulation. The
+top genes were chosen by intersecting the top 25 topological scores
+over each scale of filtration. Filtration steps were induced by varying
+the confidence of the PPI relations with thresholds of [250,400,550,700],
+which ranges from a very loose certainty/strength of interaction to
+a strong, experimentally validated certainty.
+ 2.1
+
+## Disease Associated Expression Heterogeneity
+in Brain Vasculature
+Dysfunction of the brain vasculature
+is a known upstream driver, amplifier, and monitorable marker of Alzheimer’s
+pathology a). Alzheimer’s disease pathology
+generally begins years or decades before the onset of noticeable clinical
+symptoms, and one of its earliest hallmarks is dysfunction of the
+blood–brain barrier characterized by increased permeability
+or leakage. Previous studies have indicated the involvement of several
+key signaling pathways, including inflammatory cytokine cascades,
+oxidative stress in endothelial cells, and pericyte dysfunction. These
+processes not only disrupt BBB integrity but also promote neuronal
+injury, driving neurodegeneration. Yang et al. developed a molecular
+map of the human brain vasculature by profiling the major vascular
+and perivascular cell types of the human brain through 143,793 single-nucleus
+transcriptomes taken from both diseased and control subjects b). Specifically, their study examined 17 post-mortem individuals
+(9 affected by Alzheimer’s disease, 8 age-matched subjects
+with no cognitive impairment). They looked at 25 fresh-frozen tissue
+blocks: 17 hippocampus and 8 superior frontal cortex samples. They
+yieled 143,793 high-quality nuclei captured with VINE-seq after QC
+in total. By including both AD and healthy controls the atlas captures
+early and late vascular transcriptional changes linked to disease
+state, enabling a comprehensive DEG analysis in highly relevant cell
+types-
+endothelial capillary and Pericyte cells. Persistent Sheaf Laplacian
+analysis demonstrates an impressive ability to derive meaningful biological
+insights from this interpatient variation, which contrasts with previous
+Persistent Laplacian studies that were limited to single sample and
+more highly focused studies. a). Early endothelial injury allows plasma
+proteins to enter the brain, accelerates microglial activation, and
+propagates synaptic loss and further damage to the BBB. Pericyte cells,
+meanwhile, wrap the brain capillaries and instruct endothelial cells
+to adopt BBB programs. Our Persistent Sheaf Laplacian enabled differentiation
+tool allowed us to extract 20 topologically significant genes ( ) from the differentially
+expressed gene (DEG) set of both endothelial and pericyte cells for
+focused analysis. These genes, together with their positions in the
+protein-interaction network and enriched pathways, are visualized
+in c.
+ In AD-affected brains, the endothelial pathology is
+heterogeneous,
+so the DEG list is broad. Examining how our significant genes assemble
+into subgraphs and cliques allows us to yield more coherent pathway
+themes for analysis. For example, the functional relation between
+CDH2, CTNNA3, CTNND2, WWOX, DLG2, ERBB4, and NRXN3 is evident from
+their forming the largest connected component of significant genes
+in the PPI network ( d). Pathway enrichment analysis via the GO Cellular Component
+and Molecular Function databases points to coordinated dysfunction
+of junctional integrity and signaling at the BBB, consistent with
+compensatory up-regulation during early damage ( ). Several genes relate to cell–cell
+adhesion pathways: CDH2 and its catenin partners CTNNA3 and CTNND2
+mediate tight contacts between endothelial cells and pericytes, preserving
+barrier integrity.
+ e).
+We next examined the pericytes
+which envelop the basement membrane.
+We again identified 20 significant genes, nine of which overlap with
+the endothelial list, possibly suggesting a shared molecular backbone
+across the two vascular compartments ( ). It is interesting to consider the context
+of these genes in the wider set of Pericyte DEGs. Extracting the PPI
+connected component which contains the greatest number of our significant
+genes yields the third subgraph in . Here, the ERBB4/DLG2 pair again appears,
+now linking a Ca2+/cAMP-rich module (PDE4B, SLC8A1, AKAP6,
+FHIT, RUNX2, WWOX, PRKACB) with neuronal-adhesion genes (NRXN3, CNTNAP2,
+NLGN1, SLIT2/ROBO1, etc.). This may suggest an abluminal handshake
+in which the same scaffold couples adhesion–polarity machinery
+to leakage-promoting signaling on both sides of the basement membrane.
+Together, the two cell-type significant gene subgraphs in d along with the
+corresponding enrichment analysis of these subgraphs in e seemingly converge on a model
+where an ERBB4-anchored MAGUK node links cadherin-belt repair in endothelial
+cells to chronic matrix-remodelling signals in pericyte cells via
+a PKA/Ca2+/cAMP to MMP pipeline, potentially turning an
+initially protective instruction into a self-perpetuating leakage
+loop ( e).
+ we list 20 genes identified
+as being significant in our Persistent Sheaf Laplacian analysis of
+the PPI complex comprised of DEGs relative to an initial inflammatory
+state. These genes, along with their positions in the overall PPI
+network and topological significance scores, are shown in .
+ We are interested in the positioning of these genes
+in the overall
+context of other up-regulated genes. If we extract the connected component
+containing the largest number of our significant genes, we obtain
+the network configuration in . This resolves into four functional gene modules that
+converge on an HIF1A–PPARG–APOE backbone. All three
+genes are significantly up-regulated and achieve high mean topological
+scores across PSL filtrations ( ). The red module (MSR1, CD163, LYVE1, etc.) GO pathway
+analysis demonstrates enrichment of amyloid-β binding and endocytic-vesicle
+membrane, indicating receptor-mediated tethering and phagocytosis
+of plaque material. ).
+ 2.4.1
+
+## Inhibiting ERBB4
+In , we list the top 10 predicted
+binders for ERBB4. Ibrutinib, developed primarily as a BTK inhibitor,
+exhibits nanomolar affinity for ERBB4 and has been shown to suppress
+cell growth and MEK and ERK signaling in cancer cell lines. . DB12016 (Ponesimod), an antagonist of sphingosine-1-phosphate
+receptor 1 (S1PR1), has shown potential in AD models by modulating
+microglial activity, alleviating neuroinflammation, and enhancing
+amyloidβ clearance. we list the top 10 predicted
+binders for PPARG. The drug Efatutazone is a potent PPARG agonist
+of the thiazolidinedione class. While it has been explored in clinical
+trials for anticancer therapies, this drug has not been applied to
+PPARG agonism in the context of Alzheimers Disease, representing a
+missed opportunity. an additional 11
+compounds
+based on moderate binding affinities (ΔG
+pred < −8.5 kcal/mol) and CNS-relevant ADMET filetering.
+A summary of these candidates is presented below. DB07242 is a β-carboline
+derivative; related analogs have demonstrated inhibitory activity
+against kinases such as PIM1, CLK, DAPK3, and BIKE. we list the top 10 predicted
+binders for CXCR4. The top predicted drug is Mavorixafor, which is
+a known oral CXCR4 antagonist used to treat WHIM syndrome. It has
+recently been explored for controlling chronic inflammation in neurodegeneration. . DB02022 (Toxopyrimidine) is a pyrimidine-based pyridoxamine antagonist
+that induces seizures via GAD inhibition and GABA depletion. we list the top 10 predicted
+binders for EGLN. Several of those listed are known to exhibit HIF-stabilizing
+effects that can lessen hypoxic damage particularly in renal-anemia
+in CKD. Desidustat and Molidustat are both EGLN inhibitors that have
+demonstrated HIF stabilization along with elevation of brain VEGF
+and tight junciton proteins in mouse models. ). DB08149, a pyrrolo­[2,3-d]­pyrimidine-based small molecule, is originally developed as an ATP-competitive
+kinase inhibitor with demonstrated PKBβ and PKA inhibition as
+demonstrated in enzymatic essays. , we outline
+the proposed methodology from PPI network and clique complex construction
+to topological perturbation and repurposing models. We consider the
+PPI network as a graph with nodes representing our genes and edges
+indicating interactions. Constructing a simplicial complex allows
+for representing high-order interactions among the genes, capturing
+a broader range of shapes and high-dimensional relationships. Persistent
+Spectral Theory then reveals multiscale structures by constructing
+a filtration, or a nested sequence of simplicial complexes induced
+by a parameter representing a thresholding
+1
+ 0=K0⊂K1⊂···⊂Kt=K
+
+ Here, K is the largest simplicial
+complex in the
+filtration, with each K
+
+t
+ being a sub simplicial complex at the filtration level t. Accompanying this filtration is a corresponding sequence of chain
+complexes and boundary operators at each scale
+2
+ {···⇌∂q+2*t∂q+2tCq+1t⇌∂q+1*t∂q+1tCqt⇌∂q*t∂qt···⇌∂1*t∂1tC0t⇌∂0t∂0t*ϕ}
+
+In which C
+
+q
+
+t
+ = C
+
+q
+(K
+
+t
+) is its chain group,
+∂
+q
+
+t
+:C
+
+q
+(K
+
+t
+)
+→ C
+
+q‑1(K
+
+t
+)
+is its q-th boundary operator, ∂
+q
+
+*t
+is the adjoint operator of the boundary operator
+∂
+q
+
+t
+, and it is relative to an
+inner product defined on a chain group. For each K
+
+t
+, every q-simplex is
+oriented, and the boundary operator is applied as follows
+3
+ ∂qσq=∑i=0q(−1)iσq−1
+
+Here, σ
+q
+ = [v
+0, ..., v
+
+q
+] is an oriented q-simplex
+within K
+
+t
+ and represents the oriented (q – 1)-simplex obtained by removing the i’th
+vertex from σ
+q
+. Consider now to be the subset of C
+
+q
+
+t
+ consisting of chains whose boundaries are in C
+
+q‑1
+
+t
+. The p-persistent q’th boundary operator ∂
+q
+
+t+p
+ is then defined as a mapping from . The p-persistent q-combinatorial Laplacian operator Δ
+q
+
+t+p
+ along the filtration is then given as
+4
+ Δqt+p:=∂q+1t+p(∂q+1t+p)*+(∂qt)*∂qt
+
+If orthonormal bases are chosen for
+all linear spaces, then the
+matrix representations of ∂
+q+1
+
+t+p
+ and ∂
+q
+
+t
+ can be denoted as and respectively and obtain a matrix representation
+of Δ, denoted , of the form
+5
+ Lqt+p=Bq+1t+p(Bq+1t+p)T+(Bqt)TBqt
+
+This matrix is symmetric and positive
+semidefinite, ensuring that
+all eigenvalues are real and non-negative. The p-persistent q’th Betti numbers, representing the number of q-cycles persisting in K
+
+t
+ after p filtration, correspond to the nullity
+of the spectra of .
+Now, a cellular sheaf on a simplicial
+complex K consists of the following:1.A simplicial complex K, where the face relation that σ
+p
+ is a face of σ
+q
+ is denoted by
+σ
+p
+ ≤ σ
+q
+
+2.An
+assignment to each simplex σ
+of K a finite dimensional vector space and to each face relation σ
+p
+ ≤ σ
+q
+ a
+linear morphism of vector spaces denoted satisfying and is the identity map.
+The vector space is the stalk of over σ and the linear morphism is the restriction map of the face relation.
+A global section s of is an assignment to each simplex σ
+an element such that for any face relation σ
+p
+ ≤ σ
+q
+.
+Suppose then that we have a graph, or a one-dimensional simplicial
+complex K where each vertex v
+
+i
+ is associated with a quantity . Denote the edge connecting v
+
+i
+ and v
+
+j
+ as e
+
+ij
+. We can define a sheaf on K such that each stalk
+is , and for the face relation v
+
+i
+ ≤ e
+
+ij
+, the morphism is the multiplication by q
+
+j
+/r
+
+ij
+ where r
+
+ij
+ is
+the length of e
+
+ij
+. The
+assignment q
+
+i
+ → v
+
+i
+ and q
+
+i
+
+q
+
+j
+/r
+
+ij
+ → e
+
+ij
+ is a global section, since .
+This can then be generalized to
+higher order simplicial complexes.
+Suppose we also have a nowhere zero function . We can define a sheaf where each stalk
+is and for the face relation [v
+0, v
+1, ..., v
+
+n
+] ≤ [v
+0, v
+1, .., v
+
+n
+, v
+
+n+1, ..., v
+
+m
+], the linear
+morphism is the scalar multiplication by
+ F([v0,v1,...,vn])qn+1···qmF([v0,v1,...,vn,vn+1,...,vm])
+
+The Sheaf Laplacian is then a combinatorial
+Laplacian constructed
+from the sheaf cochain complexes. The nullity of the q-th persistent sheaf Laplacian is then equal to the q-th p-persistent sheaf Betti number. The matrix
+representation of the persistent sheaf Laplacian is constructed similarly
+to the combinatorial Laplacian, with a full treatment available in
+the Supporting Information.
+
+4.2
+
+## Biomarker Identification and Drug Repurposing
+Given our PPI simplicial complex, in which the genes make up the
+set of 0-simplexes, the STRING PPI confidence scores facilitate the
+construction of an inverse rips filtration. We wish to now identify the topologically significant genes via
+topological perturbations over each scale of the filtration. We hypothesize
+that the genes which are most topologically significant with respect
+to a dysregulation scaled sheaf would correspond well to significant
+biomarkers of disease progression. Topological significance is calculated
+according to the disparity between feature vectors obtained from the
+original complex and a perturbed complex where the respective gene
+has been removed.
+Specifically, for a clique complex K and a perturbed clique complex K̂, we obtain the
+sets of subcomplexes induced by filtration: {K
+0, K
+1, ..., K
+
+p
+} and . For each step of the filtration we compute
+the L
+0 and L
+1 Persistent Sheaf Laplacians. The spectra of these Laplacians encode
+the topological and geometric structure of our network with respect
+to a logFC labeling. We remove a specific gene from the network to
+construct the perturbed complex. For convenience, we calculate summary
+statistics of the spectra: {Min, Mean, Max, Standard Deviation, Sum,
+Number of Zeros}, giving us a feature vector for each subcomplex.
+Having obtained a feature vector for K
+
+i
+-call it f
+
+i
+, and - call it , we calculate the Wasserstein distance
+between the two: . The larger the distance, the more topologically
+significant we consider that gene to be at that scale. For robustness,
+we then consider the set of genes that rank among the top 25 most
+significant out of 200 over all scales of the filtration, giving us
+our final set of inferred biomarkers.
+Given a list of biomarkers,
+we move to our machine learning enabled
+drug repurposing. We first obtain binding affinity training data for
+these targets from ChEMBL. These data sets are comprised of SMILES
+strings for the molecular compounds, each paired with some bioactivity
+label, specifically IC50 for the inhibitors and EC50 for the agonists. In addition, we retrieved small molecule
+drugs, categorized under either approved, investigational, or experimental
+status from the DrugBank database (version 5.1.12). To ensure consistency,
+all SMILES strings were canonicalized by the RDKit toolkit.
+In our binding affinity analysis, we employed two fingerprinting
+methodologies to delineate molecular structures in a format suitable
+for machine learning input. Specifically, we utilized a pretrained
+Bidirectional Transformer, which was pretained in a self-supervised
+manner using the ChEMBL27 data set by Chen and colleagues. We also utilized a two-dimensional structure
+based molecular fingerprinting technique called Extended-connectivity
+fingerprints (ECFPs).
+
+We then trained
+two Gradient Boosting Decision Tree regressors
+(one for each drug representation-structural or NLP) on the bioactivity
+labeled ChEMBL data, and then tested them on thousands of small compounds
+obtained from DrugBank. The models were finetuned using 10-fold cross
+validation on a 70/30 train-test split of the ChEMBL data, and after
+parameter tuning were refit to the entire data set. We averaged the
+predicted binding affinities between the two models to obtain our
+final prediction. Ultimately, drugs with a predicted equilibrium dissociation/inhibitor
+constant (K
+d/K
+i) of less than 180 nm (i.e., less than −9.2 kcal/mol) were
+deemed to be effective binders to their respective molecular target.
+To align our predictions with the specific requirements of drug
+repurposing for AD, we applied an additional layer of filtering to
+the initially screened DrugBank small molecules, focusing on key CNS
+related physiological properties predicted by ADMETlab 3.0. As a preliminary step, we excluded mixtures
+or ionic compounds, identified by the presence of multiple unconnected
+molecular entities in their SMILES representation. We then screened
+for compounds with a predicted BBB penetration probability greater
+than 70%, while excluding those with a Pgp inhibitor or substrate
+probability exceeding 50%. Given the CNS involvement in Alzheimer’s
+pathology, BBB permeability is a critical requirement for therapeutic
+efficacy. At the same time, compounds predicted to be either P-glycoprotein
+substrates or inhibitors were excluded as substrates are actively
+transported out of the brain, reducing central availability, and inhibitors
+may interfere with endogenous efflux regulation, potentially leading
+to safety issues or altered pharmacokinetics of co-administered drugs.
+We retained only those molecules that satisfied both the CNS-oriented
+ADMET criteria and our binding affinity thresholds: −9.2 kcal/mol
+for CXCR4 and ERBB4, and a slightly relaxed −8.5 kcal/mol for
+EGLN and PPARG due to the lack of strong candidates under the stricter
+threshold.
+
+5
+
+## Conclusion
+In this study, we performed
+a population-level snRNA-seq analysis
+to identify gene targets that commonly occur in AD patients. We have
+demonstrated the ability of our PSL network analysis method to present
+novel and testable biological hypotheses as well as to confirm known
+biological programmes for different aspects of AD pathology. Specifically,
+when applied to DEG based PPI complexes from the brain vasculature,
+the tool identifies genes whose interaction structure suggests a previously
+unexplored mechanism by which protective signaling cascades in endothelial
+cells connect to MMP inducing cAMP/PKA machinery in pericytes, which
+actually drives further leakage. Additionally, when applied to the
+study of PPI networks constructed from DEGs in a phagocytic transition
+state for microglia cells, the tool identifies genes which combine
+to form four axes which each comprise the hallmark phenotype of disease
+associated microglia, confirming the reliability of our tool in uniting
+gene structural significance with dysregulation magnitude to recover
+meaningful biological programmes in differential expression analysis.
+In both cases the method highlighted genes which can serve as suitable
+therapeutic targets, hitting multiple pathology inducing pathways
+simultaneously. Naturally, this analysis is not limited to the study
+of AD, and could extend to a variety of biological networks.
+Our subsequent computational drug repurposing pipeline integrated
+predicted binding affinity with CNS-relevant ADMET properties to identify
+candidate compounds targeting ERBB4, CXCR4, PPARG, and EGLN. Several
+shortlisted compounds have been previously tested in models of AD
+or other neurological disorders, providing indirect evidence supporting
+the validity of our pipeline. Others, though not yet explored experimentally
+in AD, showed favorable profiles that warrant further investigation.
+Together, these results showcase the potential of our approach to
+surface both biologically meaningful and novel repurposing candidates
+that could serve as entry points for experimental validation and lead
+optimization. Additionally, we identified 50 potential gene targets
+in total. While we focused our repurposing analysis on only a small
+subset of these genes due to their clear involvement in pathology
+driving pathways and availabiltity of binding affinity information,
+a further investigation of these other targets is certainly worthwhile.
+Future directions of research in this area include namely the experimental
+validation of our hypothesized ERBB4-DLG2 signaling cascade in endothelial
+and pericyte cells as well as an additional application of PSL analysis
+to coexpression or GRN based network configurations to overcome the
+incompleteness of PPI relations. Additional experimental exploration
+of the proposed HIF1A-PPARG-APOE backbone in phagocytic microglia
+is also an important step. We would suppose that with high quality
+data this approach could produce additional novel insights and testable
+hypotheses in other cell types and regions of the brain, potentially
+furthering our understanding of the molecular mechanics behind Alzheimer’s
+Disease. Also, the efficacy of drugs cannot be determined entirely
+in silica, and so experimental work to decide the validity of these
+drug repurposing recommendations would also be necessary. Lastly,
+it is interesting to explore the utility of alternative topological
+Laplacians in biological network analysis, such as Mayer topology.
+
+## Supplementary Material
+
+This work was supported in part by NIH grants R01AI164266
+and R01GM130794, National Science Foundation grants DMS2052983 and
+IIS-1900473, Michigan State University Research Foundation, and Bristol-Myers
+Squibb 65109.
+The Brain Vascular
+Tissue atlas is available on the Gene Expression Omnibus under accession
+ID GSE163577 or via the UCSC Cell-Browser Portal: CellBrowser. The
+Dynamic Cell State Evolution Data for Disease Associated Microglia
+cells is available on the MIT Broad Institute webpage or via the UCSC
+Cell-Browser Portal: CellBrowser. The DrugBank small compounds used
+for drug repurposing efforts can be found on their Web site: DrugBank.
+Code Availability: The code for Persistent Sheaf Laplacian Analysis
+of Gene Coexpression Networks as well as a tutorial to reproduce the
+results stated in this study are available at the following GitHub
+repository: PSL PPI Analysis. The ADMET analysis was carried out using
+the ADMET Lab 3.0 web portal available at ADMET Lab 3.0.
+The Supporting Information
+is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.jmedchem.5c02862.alz_SI.pdf (PDF)
+
+#Department
+of Mathematics, Center for Research in Scientific Computation,
+North Carolina State University, Raleigh, NC 27695 USA
+The authors
+declare no competing financial interest.
+
+## Abbreviations
+ADAlzheimer’s
+Disease
+ADMETAbsorption,
+Distribution,
+Metabolism, Excretion, and Toxicity
+BBBBlood Brain Barrier
+CNSCentral Nervous System
+DEGDifferentially Expressed Gene
+Log2FCLog Base 2 Fold
+Changes
+GRNGene
+Regulatory Network
+PLPersistent Laplacian
+PPIProtein–protein Interaction
+PSLPersistent Sheaf Laplacian
+scRNA-seqSingle Cell RNA-sequencing
+SMILESSimplified Molecular
+Input Line Entry System
+snRNA-seqSingle Nucleus RNA-sequencing
+STRINGSearch Tool for the Retrieval of Interacting
+Genes/Proteins
+TDATopological Data Analysis
+TDLTopological Deep Learning.

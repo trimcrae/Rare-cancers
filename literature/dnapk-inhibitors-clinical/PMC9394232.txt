@@ -1,0 +1,129 @@
+pmcMol OncolMol Oncol3199moloncol101308230MOL2Molecular Oncology1574-78911878-0261WileyPMC9394232PMC9394232.1939423293942323581046910.1002/1878-0261.13279MOL213279MOLONC-22-0017.R11Research ArticleResearch ArticlesSystematic exploration of the underlying mechanism of gemcitabine resistance in pancreatic adenocarcinoma
+Gemcitabine signature for pancreatic cancerK. Liu et al.LiuKaidong GengYiding WangLinzhu XuHuanhuan ZouMin LiYawei ZhaoZhangxiang ChenTingting XuFengyan SunLiang WuShuliang wushuliang@ems.hrbmu.edu.cnGuYunyanhttps://orcid.org/0000-0001-5693-4126 guyunyan@ems.hrbmu.edu.cn
+
+1
+
+Department of Systems Biology, College of Bioinformatics Science and Technology
+Harbin Medical University
+Harbin
+China
+
+2
+
+Department of Human Anatomy, Key Laboratory of Preservation of Human Genetic Resources and Disease Control in China, Ministry of Education
+Harbin Medical University
+Harbin
+China
+
+3
+
+The Sino‐Russian Medical Research Center of Jinan University, the Institute of Chronic Disease of Jinan University
+The First Affiliated Hospital of Jinan University
+Guangzhou
+China
+
+*
+Correspondence
+
+Y. Gu, Department of Systems Biology, College of Bioinformatics Science and Technology, Harbin Medical University, Harbin, Heilongjiang 150081, China
+Tel./Fax: +86‐451‐8669‐9584
+E‐mail: guyunyan@ems.hrbmu.edu.cn
+
+S. Wu, Department of Human Anatomy, Key Laboratory of Preservation of Human Genetic Resources and Disease Control in China, Ministry of Education, Harbin Medical University, Harbin, Heilongjiang 150081, China
+E‐mail: wushuliang@ems.hrbmu.edu.cn
+
+227202282022161641500710.1002/mol2.v16.1630343051
+1842022
+0812022
+0772022
+010820222408202225082022© 2022 The Authors. Molecular Oncology published by John Wiley & Sons Ltd on behalf of Federation of European Biochemical Societies.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.Resistance to gemcitabine is the main challenge of chemotherapy for pancreatic ductal adenocarcinoma (PDAC). Hence, the development of a response signature to gemcitabine is essential for precision therapy of PDAC. However, existing quantitative signatures of gemcitabine are susceptible to batch effects and variations in sequencing platforms. Therefore, based on within‐sample relative expression ordering of pairwise genes, we developed a transcriptome‐based gemcitabine signature consisting of 28 gene pairs (28‐GPS) that could predict response to gemcitabine for PDAC at the individual level. The 28‐GPS was superior to previous quantitative signatures in terms of classification accuracy and prognostic performance. Resistant samples classified by 28‐GPS showed poorer overall survival, higher genomic instability, lower immune infiltration, higher metabolic level and higher‐fidelity DNA damage repair compared with sensitive samples. In addition, we found that gemcitabine combined with phosphoinositide 3‐kinase (PI3K) inhibitor may be an alternative treatment strategy for PDAC. Single‐cell analysis revealed that cancer cells in the same PDAC sample showed both the characteristics of sensitivity and resistance to gemcitabine, and the activation of the TGFβ signalling pathway could promote progression of PDAC. In brief, 28‐GPS could robustly determine whether PDAC is resistant or sensitive to gemcitabine, and may be an auxiliary tool for clinical treatment.
+
+Using within‐sample relative expression ordering of pairwise genes, we developed a qualitative gemcitabine signature containing 28 gene pairs, named 28‐GPS. The 28‐GPS outperformed previous signatures in classification accuracy and prognostic performance for pancreatic ductal adenocarcinoma (PDAC). Compared with gemcitabine‐sensitive PDAC samples, gemcitabine‐resistant PDAC samples classified by 28‐GPS showed poorer overall survival, higher genomic instability, lower immune infiltration, higher metabolic level and higher‐fidelity DNA damage repair. 
+
+drug response signaturegemcitabineimmunitypancreatic ductal adenocarcinomasingle cellHeilongjiang Provincial Natural Science Foundation of ChinaLH2019H068HMU Marshal Initiative FundingHMUMIF‐21023National Natural Science Foundation of China
+10.13039/50110000180982003392Outstanding Youth Foundation of Heilongjiang Province of ChinaYQ2021H005 
+3.3
+
+## 
+28‐GPS could predict the response to gemcitabine in PDAC cell lines
+Among the 49 PDAC cell lines from the CCLE database, 44 cell lines were classified into the resistant group and five cell lines were classified into the sensitive group based on 28‐GPS (Fig.  ). For PDAC cell lines treated with gemcitabine in GDSC1, resistant cell lines classified by 28‐GPS presented higher AUC values than sensitive cell lines (P = 0.041, Wilcoxon rank‐sum test, Fig.  ). Similar results were found in GDSC2 and CTRP data sets, respectively (GDSC2: P = 0.032; CTRP: P = 0.032; Wilcoxon rank‐sum test, Fig.  ). In CGP data, resistant cell lines classified by 28‐GPS presented higher IC50 values than sensitive cell lines (P = 0.044, Wilcoxon rank‐sum test, Fig.  ).
+ In the GDSC and CTRP data sets, a group of drugs whose pharmacological values in resistant cell lines were significantly lower than that in sensitive cell lines was obtained (P < 0.05, Wilcoxon rank‐sum test, Fig.  ). Some of these drugs are phosphoinositide 3‐kinase (PI3K) inhibitors, such as taselisib, alpelisib, pictilisib, AZD6482 and AZD8186 (Fig.  ). The PI3K inhibitor taselisib showed higher potency against PIK3CA‐mutant tumours and inhibition of the PI3K pathway could be a target for PDAC [ , ]. In addition, the novel Akt inhibitor MK2206 combined with gemcitabine demonstrated inhibitory effect on Akt phosphorylation at the cell line level [ ]. The DNA‐PK inhibitor NU7441and Chk1 inhibitor AZD7762 were proved to be potential combinational partners of gemcitabine [ , ].
+
+3.4
+
+## 
+28‐GPS showed better performance than other gemcitabine signatures
+Two published gemcitabine signatures, 14‐Gene signature and Gempred signature, have been reported [ , ]. We compared the survival differences between samples classified by 28‐GPS, 14‐Gene signature and Gempred signature in GSE62452, and the results showed that 28‐GPS had the best prognostic classification performance (28‐GPS: P = 6.67e‐04, Fig.  ; 14‐Gene signature: P = 0.039; Gempred signature: P = 0.205, log‐rank test, Fig.  ‐ ). Then, the area under curve (AUC) value of the ROC was used to assess the binary classification performance of these three signatures. The highest classification accuracy was achieved by the 28‐GPS (AUC = 0.818) in the TCGA data set (Fig.  ). In addition, the 28‐GPS reached the second highest classification accuracy (AUC = 0.783) in the PACA‐CA data set (Fig.  ). Although no genes were overlapped among 28‐GPS, 14‐gene signature and Gempred signature, all the signatures were related to the lysosome pathway, where inhibition of lysosome could enhance gemcitabine‐induced apoptosis [ ] (Fig.  ).
+
+3.5
+
+## Gemcitabine‐resistant samples classified by 28‐GPS showed high genomic instability
+In the TCGA data set, among the genes whose mutation frequencies were not less than 5%, resistant samples classified by 28‐GPS showed significantly higher mutation frequencies in three PDAC driver genes: KRAS, TP53 and CDKN2A (P < 0.05, Fisher's exact test, Fig.  ). The resistant samples also displayed significantly higher TMB (P = 9.61e‐06, Wilcoxon rank‐sum test, Fig.  ) and HRDscore (P = 4.17e‐04, Wilcoxon rank‐sum test, Fig.  ) than the sensitive samples. The resistance score of 28‐GPS was applied to investigate resistant mechanisms underlying mutation of four driver genes in PDAC (KRAS, TP53, SMAD4 and CDKN2A). As a frequent KRAS mutation type observed in PDAC, we found that p.G12D mutation exhibited significantly higher resistance scores of 28‐GPS than other types of mutation (P = 0.015, Wilcoxon rank‐sum test, Fig.  ). In addition, samples with p.P278S and p.Q38* in TP53 and p.Y44* in CDKN2A reached the highest scores of 28‐GPS respectively, which was not observed in SMAD4 (Fig.  ). CNV analysis showed the frequencies of amplification and deletion in the resistant samples were significantly higher than those in the sensitive samples (P < 2.20e‐16, Wilcoxon rank‐sum test, Fig.  , Fig.  ).
+ By comparing the methylation profiles between gemcitabine‐resistant and ‐sensitive PDAC samples classified by 28‐GPS in TCGA, 1720 hypermethylated and 2613 hypomethylated genes were detected, respectively (FDR < 0.05, Wilcoxon rank‐sum test, Fig.  ). Subsequently, 2053 genes with corresponding deregulation direction with DEGs were retained (Fig.  , Fig.  ). KEGG pathway enrichment analysis showed that 1035 underexpressed and hypermethylated genes were enriched in multiple immune‐related pathways, such as T‐cell receptor signalling pathway, and leukocyte transendothelial migration (Fig.  ). In addition, the 1018 overexpressed and hypomethylated genes were not only enriched in the immune‐related pathway, but also enriched in metabolic pathways, such as central carbon metabolism and glycosphingolipid biosynthesis (Fig.  ).
+
+3.6
+
+## Gemcitabine‐resistant samples classified by 28‐GPS showed low immune infiltration
+The above KEGG pathway enrichment results inspired us to investigate the difference in immunity between gemcitabine‐resistant and ‐sensitive PDAC samples. Here, five current transcriptome‐based assessment algorithms for immune cell infiltration were applied to estimate the fraction of infiltrating immune cells in TCGA samples (Fig.  ). Compared with sensitive samples, resistant samples classified by 28‐GPS showed a consistent low immune infiltration of CD8+ T cells in the five algorithms (Fig.  , Fig.  ). The CD4+ T cells exhibited low immune infiltration by TIMER and EPIC in the gemcitabine‐resistant samples (Fig.  ). By comparing the immune‐related signatures, resistant samples displayed significantly lower immune‐related signature scores (P < 0.05, Wilcoxon rank‐sum test, Fig.  ). We also observed significantly lower TCR richness levels (P = 1.70e‐4, Wilcoxon rank‐sum test, Fig.  ) and immune system scores (P < 0.05, Wilcoxon rank‐sum test, Fig.  ) in the resistant PDAC samples.
+ Among 45 immune checkpoint genes, 19 were detected to be differentially expressed and generally downregulated in the resistant samples (P < 0.05, Wilcoxon rank‐sum test, Fig.  ). The correlation network between differentially expressed immune checkpoint genes and DEGs was constructed to further explore potential mechanisms involved in resistance to gemcitabine. We identified a differential correlation network in the resistant group and only retained the DEGs with a log2 fold change > 1.5 (Fig.  ). Among the immune genes with activation effects, we found DEGs frequently interacted with TNFSF14, which was primarily expressed on activated T cells, activated natural killer (NK) cells, and immature dendritic cells (DC). In addition, PDAC cell lines with high TNFSF14 expression were accompanied by high AUC or IC50 values of gemcitabine (Fig.  ).
+
+3.7
+
+## Gemcitabine‐resistant samples classified by 28‐GPS showed high‐fidelity DNA damage repair
+As gemcitabine mainly interfered with DNA synthesis and the metabolism also affected drug response, we tried to explore the resistant mechanism of gemcitabine from the perspective of DNA damage repair (DDR) and metabolism. Using ssGSEA, resistant samples classified by 28‐GPS reached significantly higher DDR and metabolic pathway enrichment scores than sensitive samples (P < 0.05, Wilcoxon rank‐sum test, Fig.  ). Combined with the immune difference observed above, the correlation analysis between DDR, metabolic and immune‐related pathways was conducted on the resistant group and sensitive group, respectively. The sensitive group showed frequent associations between different pathways. As a tolerant DNA damage repair process, translesion synthesis (TLS) had multiple positive correlations with immune‐related pathways in the sensitive group, which did not appear in the resistant group (Fig.  ).
+
+3.8
+
+## Single‐cell analysis revealed the intra‐ and inter‐tumoural heterogeneity
+In light of the immune difference between gemcitabine‐resistant and ‐sensitive PDAC samples, we aimed to investigate the effect of cell composition heterogeneity on gemcitabine resistance at the single‐cell level. After quality control, 42 063 cells from PDAC samples were retained and annotated into 10 clusters (Fig.  ). Canonical cell markers were used to identify the cell types of different clusters (Fig.  ). We found that cell composition presented substantial heterogeneity among different samples (Fig.  ). Through CNV analysis, we observed elevated CNV scores in the ductal populations (Fig.  ). Although the majority of genes in 28‐GPS had similar expression patterns across all cell types, there were also some cells that specifically expressed genes, such as CEP55 for Alpha cell (Fig.  ). Using 28‐GPS, ductal cells were classified into two subtypes (Fig.  ), and the ductal cells in the same sample showed both the characteristics of sensitivity and resistance to gemcitabine (Fig.  ), which was consistent with a recent report from Lee et al. [ ].
+ 
+3.9
+
+## Cell–cell communication in the resistant group could promote progression of PDAC
+
+In addition to the intrinsic cell information, cell–cell communication might also have effect on gemcitabine resistance. We found that there was frequent communication between ductal cells and fibroblasts in the resistant group, while in the sensitive group, ductal cells had frequent communication with macrophages (Fig.  ). However, there was no difference in ductal cells communication with T cells between gemcitabine‐resistant and ‐sensitive groups (Fig.  ). Next, the context‐specific signalling pathways were identified between gemcitabine‐resistant and ‐sensitive groups by comparing the interaction strength for each signalling pathway. Signalling pathways such as WNT and TGFβ were specifically active in the resistant group (Fig.  ). Specific to TGFβ signalling pathway, ligand TGFB3 and TGFB1 with their multi‐subunit receptor ACVR1B/TGFBR2 were active in resistant group from fibroblasts and stellate cells to ductal cells. In contrast, ligand ANGPTL4 and multiple receptors, such as SDC2, SDC1 and CDH11, were active in the resistant group from ductal cells to fibroblasts (Fig.  ‐ ). Ligand SPP1 and its multi‐subunit receptor ITGAV/ITGB6 were found to be highly active in the sensitive group from T cells to ductal cells (Fig.  ). In addition, ligand–receptor pair HBEGF‐EGFR was also found to act as major signalling from macrophages to ductal cells (Fig.  ).
+ 
+
+4
+
+## Discussion
+Identifying the response signature of PDAC to gemcitabine is essential in determining the chemotherapy regimen. Here, we developed a qualitative gemcitabine signature for PDAC based on transcriptome, termed as 28‐GPS. Compared with existing signatures, 28‐GPS is robust to sequencing platforms or batch effects, and can be applied to PDAC at the individual level. Compared with gemcitabine‐sensitive PDAC samples, gemcitabine‐resistant PDAC samples classified by 28‐GPS showed lower immune infiltration, such as CD8+ T cell. Single‐cell analysis indicated cancer cells in the same PDAC sample showed both the characteristics of sensitivity and the resistance to gemcitabine.
+In this study, the results suggest some possible combination regimens for PDAC. In the TCGA data, resistant samples classified by 28‐GPS showed lower immune infiltration and down‐regulation of the immune checkpoint genes. PDAC cell lines with higher expression of immune activating gene TNFSF14 were sensitive to gemcitabine, suggesting that activating immunity might benefit PDAC from the treatment with gemcitabine. Chimeric antigen receptor T cells (CAR‐T) likewise serve as a hot spot for immunotherapy and two CAR‐T drugs Kymriah and Yescarta have been approved by the Food and Drug Administration (FDA) [ , ]. An ongoing phase II trial indicated that CD8+ cells with targeting KRAS mutation showed effective treatment against cancer with mutant KRAS G12D [ ]. And, PDAC samples with KRAS G12D in our study achieved a higher 28‐GPS resistance score. Therefore, gemcitabine combined with CAR‐T may be a promising approach for PDAC treatment. Genomic analysis in TCGA indicated that resistant samples classified by 28‐GPS displayed higher genomic instability, such as high HRDscore. In addition, as a tolerant DNA damage repair process accompanied by mutagenesis [ ], TLS was found to be frequently and positively related to immune‐related pathways in sensitive samples, suggesting that lacking high‐fidelity DNA damage repair mechanisms might have a combined effect with gemcitabine to treat PDAC. And, the POLO (Pancreatic Cancer Olaparib Ongoing) trial has demonstrated that the olaparib group had significantly longer survival compared to the placebo group (7.4 months vs. 3.8 months) [ ].
+Although some immune cells showed inconsistent infiltration proportion between gemcitabine‐resistant and ‐sensitive samples, most of the immune cell infiltration presented no statistical significance. For example, Tregs exhibited high immune infiltration by CIBERSORTx and low immune infiltration by XCELL and QUANTISEQ in gemcitabine‐resistant samples, but the differences in Tregs infiltration showed no significance between resistant and sensitive samples detected by CIBERSORTx and XCELL (Fig.  ). A comprehensive evaluation of different immune infiltration methods by Sturm et al. [ ] showed that there were differences in method performance between different cell types. Therefore, the consistent results produced by five immune infiltration methods were considered with high confidence in our work.
+Compared with the gemcitabine‐sensitive PDAC samples, the gemcitabine‐resistant PDAC samples achieved higher enrichment scores in the DDR and metabolic pathways and lower enrichment scores in the immune pathways. As reported by Jain et al. [ ], gemcitabine‐resistant PDAC showed up‐regulation in glycolysis, pentose phosphate pathway, fatty acid synthesis and purine/pyrimidine synthesis. And, up‐regulation of glycolysis could maintain the EMT phenotype and reduce responsiveness to the therapeutic agent for PADC cells [ ]. In addition, the activation of DDR pathways may counteract toxic effects induced by gemcitabine [ ]. For example, the ERCC1 gene is involved in multiple DDR pathways and overexpression of ERCC1 is well documented in poor gemcitabine responders [ ]. Delvecchio et al. [ ] observed that the combination of gemcitabine and chemokine (CXCL13 and CCL21) could potentiate antitumour activity of chemotherapy and increase the infiltration of CD8+ T cells. Xiao et al. [ ] found that the high‐risk group with gemcitabine resistance showed increased macrophages M0 infiltration and decreased CD8+ T‐cell infiltration. Indeed, in our results, the sensitive PDAC samples achieved high enrichment scores in the chemokine signalling pathway and consistently high infiltration proportion in CD8+ T cells.
+In single‐cell analysis, cancer cells in the same PDAC sample had both resistant and sensitive cancer cells, which could be used to explain why PDAC patients who responded to gemcitabine at the beginning will develop secondary resistance later. Zou et al. [ ] also proposed complete responses to drug therapies are rare in tumours, and only some but not all subpopulations in a given tumour response to therapy. Single‐cell analysis revealed that most genes in the 28‐GPS were not only expressed in cancer cells but also in stromal cells. Thus, the 28‐GPS may represent a tumour stromal component and could be considered as a dictate of response to gemcitabine. In addition, some carcinogenic genes or pathways, such as ANGPTL4 gene and TGFβ signalling pathway, were reflected in cell communication of the resistant group. ANGPTL4 has been found to play an important role in the process of tumour metastasis [ ]. The activation of TGFβ signalling pathway could promote resistance to gemcitabine in PDAC cells in a coculture assay in vitro [ ].
+Although our work was limited by the independent PDAC data sets with gemcitabine information to investigate the robustness of 28‐GPS, we used PDAC samples with prognostic information and PDAC cell lines with gemcitabine‐used information to validate the 28‐GPS. In addition, resistant samples in our work showed high metabolic levels and high‐fidelity DNA damage repair, which warrants our future detailed biological experiments to validate those discoveries.
+
+5
+
+## Conclusions
+In summary, we developed the 28‐GPS for gemcitabine based on transcriptome, which could be applied to predict response to gemcitabine chemotherapy for PDAC. The resistant samples classified by 28‐GPS in TCGA showed multidimensional resistance‐related characteristics compared with the sensitive samples. Collectively, it is worthwhile to further evaluate the clinical applications of 28‐GPS, which may assist clinicians to make a suitable strategy for PDAC patients.
+
+## Conflict of interest
+The authors declare no conflict of interest.
+
+## Author contributions
+YYG and KDL conceived the research; KDL, YDG and LZW performed the data processing and analysis; HHX, MZ and YWL carried out the data collection; KDL wrote the manuscript; YYG, ZXZ and TTC revised the manuscript; SLW, LS and FYX provided valuable suggestions for this manuscript; All authors have approved the final manuscript.
+
+## Supporting information
+
+Fig. S1. The workflow of this study.
+
+Fig. S2. The genomic landscape between gemcitabine‐resistant and ‐sensitive samples classified by 28‐GPS in TCGA.
+
+Fig. S3. The differences in immune infiltration assessed by five algorithms.
+
+Fig. S4. Single‐cell annotation and copy number variation.
+
+Table S1. The PDAC cell lines used in this study.
+
+Table S2. The pharmacological data sets used in this study.
+
+Table S3. The composition of 28‐GPS.
+Click here for additional data file.
+
+## Acknowledgements
+This work was supported by grants from the Outstanding Youth Foundation of Heilongjiang Province of China (grant number YQ2021H005), the HMU Marshal Initiative Funding (No. HMUMIF‐21023), the National Natural Science Foundation of China (grant number 82003392) and the Heilongjiang Provincial Natural Science Foundation of China (grant number LH2019H068).
+
+## Data accessibility
+The authors declare that all data supporting the findings of this study are available from public databases. The detailed information of these data sets is stored in Table  and Tables  and .

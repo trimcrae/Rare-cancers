@@ -1,0 +1,168 @@
+573bmcmedgenoBMC Medical GenomicsBMC Med GenomicsBMCPMC1102089311020893110208933862772710.1186/s12920-024-01865-zAn exosome mRNA-related gene risk model to evaluate the tumor microenvironment and predict prognosis in hepatocellular carcinoma
+DuZhonghai HanXiuchen ZhuLiping LiLi CastellanoLeandro StebbingJustin PengLing WangZhiqiang 1Department of Medical Oncology, Weifang Hospital of Traditional Chinese Medicine, Weifang, Shandong Province China 2Department of Surgical Oncology, National Cancer Center/National Clinical Research Center for Cancer/Cancer Hospital and Shenzhen Hospital, Chinese Academy of Medical Sciences and Peking Union Medical College, Shenzhen, 518116 China 3Department of Medical Oncology, Shouguang Hospital of Traditional Chinese Medicine, Shouguang, Shandong Province China 4Outpatient Surgery Center, Shouguang Hospital of Traditional Chinese Medicine, Shouguang, Shandong Province China 5Department of Biochemistry, School of Life Sciences, University of Sussex, Brighton, United Kingdom 6Department of Surgery and Cancer, Division of Cancer, Imperial College London, London, United Kingdom 7Department of Life Sciences, Anglia Ruskin University, Cambridge, United Kingdom 8Department of Pulmonary and Critical Care Medicine, Cancer Center, Zhejiang Provincial People’s Hospital, Affiliated People’s Hospital, Hangzhou Medical College, Hangzhou, Zhejiang China 9Department of Urology, Shouguang Hospital of Traditional Chinese Medicine, Shouguang, Shandong Province China ✉Corresponding author.
+#Contributed equally.
+16420241786861642024© The Author(s) 2024Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated in a credit line to the data.
+
+## Abstract
+
+## Background
+The interplay between exosomes and the tumor microenvironment (TME) remains unclear. We investigated the influence of exosomes on the TME in hepatocellular carcinoma (HCC), focusing on their mRNA expression profile.
+
+## Methods
+mRNA expression profiles of exosomes were obtained from exoRBase. RNA sequencing data from HCC patients’ tumors were acquired from The Cancer Genome Atlas (TCGA) and the International Cancer Genome Consortium (ICGC). An exosome mRNA-related risk score model of prognostic value was established. The patients in the two databases were divided into high- and low-risk groups based on the median risk score value, and used to validate one another. Functional enrichment analysis was performed based on a differential gene prognosis model (DGPM). CIBERSORT was used to assess the abundance of immune cells in the TME. The correlation between the expression levels of immune checkpoint-related genes and DGPM was analyzed alongside the prediction value to drug sensitivity.
+
+## Results
+A prognostic exosome mRNA-related 4-gene signature (DYNC1H1, PRKDC, CCDC88A, and ADAMTS5) was constructed and validated. A prognostic nomogram had prognostic ability for HCC. The genes for this model are involved in extracellular matrix, extracellular matrix (ECM)-receptor interaction, and the PI3K-Akt signaling pathway. Expression of genes here had a positive correlation with immune cell infiltration in the TME.
+
+## Conclusions
+Our study results demonstrate that an exosome mRNA-related risk model can be established in HCC, highlighting the functional significance of the molecules in prognosis and risk stratification.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s12920-024-01865-z.
+
+Keywords: Hepatocellular carcinoma, Extracellular vesicle, Exosome, Risk score, Prognostic signature, Tumor immune microenvironment, PRKDC
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Sep 9; Accepted 2024 Apr 5; Collection date 2024.
+
+## Introduction
+Hepatocellular carcinoma (HCC) is one of the most fatal cancers worldwide [ ]. In the past 20 years, treatment options of HCC have been primarily chemotherapy, radiotherapy, and surgery. Recently, anti-angiogenic drugs and immune checkpoint inhibitors (ICIs) have demonstrated promise here [ ]. However, a large number of HCC patients inevitably experience relapse or disease progression after initial treatment [ ]. To identify high-risk patients with a poor prognosis and inform treatment decisions are of vital importance in HCC.
+Extracellular vesicles (EVs) are defined as lipid bilayer packages of biological materials, released from various type of cells into surrounding environment. EVs have been considered as ideal biomarkers for the diagnosis and prognosis of cancer [ ]. EVs include particles such as exosomes, microvesicles, ectosomes, oncosomes, and apoptotic bodies. Among the main types of EVs, exosomes contain large amounts of RNAs, which can be transmitted among cells and modulate the gene expression of recipient cells [ ]. Exosomes contain messenger RNA (mRNA), circular RNA (circRNA), long non-coding RNA (lncRNA), microRNA (miRNA), lipids, and proteins [ ]. As intercellular messengers between cells, exosomes can regulate cell differentiation and tissue development [ ]. Exosomal RNAs can interact with many types of cancers and are associated with several hallmarks features of cancer. The liquid biopsy approach of exosomes has been used as tumor markers [ ]. Based on the ability of exosomes to carry biomolecules to different tissues, exosomes also have application potential in cancer therapy [ ]. The potential of using exosomes to predict response to immunotherapy has also been investigated [ ].
+Exosomes play a vital role in the development, progression, and metastases of HCC [ ]. Previous studies confirmed that exosomes could promote progression and metastasis of HCC by regulating multiple signaling pathways and modulating the TME [ ]. Furthermore, as exosomes release inhibitory and stimulatory contents that facilitate the cross-talk of tumor cells and the TME, exosomes demonstrate potential for overcoming resistance mechanisms of anti-cancer drugs.
+In this study, we aimed to explore potential functional mRNAs in progression and development of HCC and the immune microenvironment of HCC. The study results highlight that exosomal mRNAs which could act as prognostic biomarkers for HCC.
+
+## Materials and methods
+
+## The mRNA expression data collection
+The exoRBase database (http://exorbase.org/exoRBaseV2/download/toIndex) is a depository of mRNAs, lncRNAs, and circRNAs from RNA sequencing (RNA-seq) data analyses in different human body fluids [ ]. ExoRBase provides expression landscapes and a comprehensive annotation of extracellular vesicle long RNAs (exLRs), which will help discover novel exLR signatures and facilitate the identification of new circulating biomarkers for cancer therapy. In the current study, the mRNA expression profiles were obtained from the exoRBase database up to April 30, 2023, which included 112 HCC, 130 benign tumor and 118 healthy blood samples.
+
+## TCGA-LIHC cohort and ICGC (LIRI-JP) cohort
+A total of 374 HCC patients from the TCGA-LIHC cohort were identified. Among them, the level 3 RNA-seq data, somatic mutations data and clinical data of 371 HCC patients with complete information were retrieved from the TCGA website (https://portal.gdc.cancer.gov/projects/TCGA-LIHC/). RNA-seq data, somatic mutations data and clinical information of 231 tumor samples (LIRI-JP cohort) from the ICGC database were downloaded from ICGC portal (https://dcc.icgc.org/projects/LIRI-JP). The samples from LIRI-JP cohort were primarily derived from Japanese HCC patients with HBV or HCV infection.
+
+## Differentially expressed mutant genes (DEMGs)
+The 118 healthy blood samples were used as the normal group. The differentially expressed genes (DEGs) in blood samples from 130 benign and 112 HCC patients were identified of p < 0.05 and fold-change (FC) > 0 via “limma” R package, respectively. Integration analyses between normal vs. HCC and normal vs. benign comparisons were performed. Those mRNAs that were only significantly differentially expressed in normal vs. HCC comparison (not in normal vs. benign comparison) were screened out. Then, the DEMGs of HCC were obtained from the intersection genes that have mutations in TCGA, ICGC, and exoRBase.
+
+## Construction and validation of a differential gene prognosis model (DGPM)
+The DEGs between tumor and adjacent tissues were identified with a false discovery rate (FDR) < 0.05 in the TCGA cohort. Univariate Cox analysis was carried out to screen DEMGs with prognostic values in terms of overall survival (OS). P values were adjusted by Benjamini & Hochberg (BH) correction. Visualization and comparison of gene alterations were conducted with cBioPortal. LASSO-penalized Cox regression analysis was used to construct a DGPM to minimize the risk of overfitting. LASSO algorithm was used for to select variables with “glmnet” R package. Penalty parameter (λ) was chosen by 10-fold cross-validation with the minimum criteria. The risk scores were calculated with the normalized expression level of each gene and corresponding regression coefficients. The risk score was calculated with the following formula:
+Theriskscore=∑i=1nCoefi×Expri where Expri indicates the expression level of gene i, and coefi means the regression coefficient of gene i.
+The patients were separated into high- and low-risk groups due to the median value of the risk score. Principal component analysis (PCA) was performed with “stats” R package. Besides, t-distributed stochastic neighbor embedding (t-SNE) was used to investigate the distribution of different groups using “Rtsne” R package. The optimal cut-off value for gene expression was determined by “survminer” R package. The time-dependent receiver operating characteristic (ROC) curve analyses were conducted with “survivalROC” R package. Survival analysis was performed to validate the prognostic performance independent from clinical parameters. For the validation studies, LIRI-JP cohort was employed. The risk score was calculated with the same formula used with TCGA cohort. The patients in the ICGC cohort were also divided into low- or high-risk subgroups by applying the median risk score from TCGA cohort, and these groups were then compared to confirm the gene model.
+
+## Functional enrichment analysis
+Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) analyses were performed with “clusterProfiler” R package based on the DEMGs between high- and low-risk groups. The infiltrating score of immune cells and the activity of immune-related pathways were analysed with single-sample gene set enrichment analysis (ssGSEA) with “gsva” R package.
+
+## Construction of the prognostic nomogram
+To comprehensively assess prognosis predictive ability of risk signature, tumor stage, gender, age, WHO grade, T category, N category and M category for 1-, 3-, and 5-year OS, time-dependent ROC curves was performed to calculate the area under the curve (AUC) values. Prognostic nomogram which containing DEMG-based risk model and clinical parameters was established.
+
+## Correlation of risk score with immune cells
+The information for immune infiltration was downloaded from the tumor immune estimation resource (TIMER) (https://cistrome.shinyapps.io/timer/). A correlation between prognostic risk score and immune cell infiltration was performed. SsGSEA was performed to investigate the enrichment of the two subgroups in immune function-associated gene sets via “GSEAbase” R package. “ESTIMATE” R package was used to evaluate tumor purity and infiltrating cells, including immune cell and stromal cell. The fraction of 22 immune cell types was assessed by cell type identification by estimating relative subsets of RNA transcripts (CIBERSORT; https://cibersort.stanford.edu/).
+
+## Role of risk score in immune checkpoint blockade (ICB) treatment
+Herein, 6 key genes of ICB treatment in HCC were extracted, including cytotoxic T-lymphocyte antigen 4 (CTLA-4), programmed death 1 (PD-1, or PDCD1), programmed death ligand 1 (PD-L1, or CD274), programmed death ligand 2 (PD-L2, or PDCD1LG2), T-cell immunoglobulin domain and mucin domain-containing molecule-3 (TIM-3, or HAVCR2), and indoleamine 2,3-dioxygenase 1 (IDO1). DEMG-based prognostic signature and expression level of 6 ICB key genes were correlated. Furthermore, the expression level of 47 ICB-related genes between low- and high-risk groups were also compared.
+
+## Statistical analysis
+All statistical analyses were conducted by R software (version 4.1.1). Gene expression was analysed by student’s t-test. Differences in proportions were analysed with Chi-squared test. ssGSEA of immune cells or pathways between the groups were examined with Mann-Whitney test. Kaplan-Meier curves were employed to assess survival data. Pearson correlation test was used to analyze the correlation of risk score, clinical parameters, immune cell infiltration, and immune checkpoints. Independent prognostic performance of risk signature was evaluated with Cox regression models. p value < 0.05 was considered as statistically significant.
+
+## Results
+
+## Identification of prognostic related DEMGs from the exoRBase database
+To explore potential mRNAs associated with development and progression of HCC, the blood samples of 112 HCC, 130 benign and 118 healthy people from the exoRBase database were investigated, after differential expression analysis between normal and benign or blood samples of HCC patients. Compared with normal blood samples, 59 and 42 mRNAs were significantly upregulated and downregulated in benign blood samples, respectively (Fig. A and Supplementary Table ). In addition, a total of 132 significant DEGs (106 upregulated and 26 downregulated ones) were identified in normal vs. HCC (Fig. B and Supplementary Table ). Integration analyses between normal vs. HCC and normal vs. benign were performed. The mRNAs only significantly differentially expressed in normal vs. HCC (not in normal vs. benign) were screened out. Consequently, 102 upregulated and 25 downregulated mRNAs were identified (Fig.  C-D).
+ In addition, 374 HCC patients from TCGA-LIHC cohort and 273 HCC patients from ICGC cohort were enrolled. The frequently mutated genes in American HCC samples from TCGA cohort (Fig. A) and ICGC cohort (Fig. B) were identified. Of note, there were some frequently mutated genes in both American and Japanese patients. Comparative analysis of mutated genes between TCGA and ICGC cohorts were performed (Fig.  C). Then, we analyzed the DEGs from the exoRBase database, and 24 HCC DEMGs were obtained (Fig. D).
+ The expression levels of 24 DEMGs were compared in the pooled TCGA and Genotype-Tissue Expression (GTEx) data from 50 normal and 374 tumor tissues, and 13 DEMGs were identified (Fig. A). Among them, 4 genes (APOB, FGB, ALDOB, and ALB) were downregulated while 9 other genes (PPARG, PABPC3, MAPKAPK2, ADAMTS5, CCDC88A, PRRC2C, HNRNPK, DYNC1H1, and PRKDC) were enriched in the tumour group. All of the 13 genes were associated with OS in the univariate Cox regression analysis (Fig. B). Mutations of the 13 genes were analyzed by cBioPortal (Fig. C). The correlation of the genes is presented in Fig. D.
+ 
+
+## Development of a prognostic gene model in TCGA cohort
+A prognostic model was established by LASSO Cox regression with the expression profile of the 13 genes identified above. As a result, the 4-gene signature based on the optimal value of λ was identified (DYNC1H1, PRKDC, CCDC88A, and ADAMTS5, Table ). Survival analyses suggested that high expression of these genes correlated with a poor prognosis according to the optimal cut-off expression value of each gene (all adjusted p < 0.05). The patients were stratified into high- and low-risk group based on the median cut-off value (Fig. A). The patients in different risk groups were distributed in two directions as PCA and t-SNE analysis indicated (Fig. B-C). Patients in high-risk group had a higher probability of death earlier (Fig.  D) and a significantly worse OS (Fig. E). The AUCs reached 0.733, 0.634, and 0.652 at 1-, 3-, and 5-year, respectively (Fig. F).
+ Although that there was no significant difference in TMB between patients with high- and low-DEMG (Fig. G), low TMB was associated with better OS (Log-rank test, p < 0.001, Fig. H). When DEMG and TMB were e integrated to stratify the samples into TMBhigh/DEMGlow, TMBlow/DEMGlow, TMBhigh/DEMGhigh, and TMBlow/DEMGhigh groups, significant differences were found among all groups (Fig. I, Log-rank test, p < 0.001), and patients in the TMBlow/DEMGlow group exhibited the best OS.
+
+## Validation of the risk signature in ICGC cohort
+To validate the robustness of the model constructed from TCGA cohort, a total of 273 HCC patients from ICGC cohort were utilized as the validation cohort. Based on the median risk score in TCGA cohort, the patients in ICGC cohort were also categorized into high- or low-risk groups (Fig. A). PCA and t-SNE analysis confirmed the discrete distribution of the patients in two subgroups (Fig. B-C). The survival outcomes of high-risk group were similar with those from TCGA cohort, Fig. D-E). ROC curve showed that this model had good predictive efficacy (AUC = 0.630, 0.607, and 0.638 for 1-, 3-, and 5-year survival, Fig. F). Although TMB is not significant between patients with DEMGhigh and DEMGlow subgroups (Fig. G), TMBlow (Fig. H) and TMBlow/DEMGlow (Fig. I) were also associated with good OS. These results collectively demonstrate that increased risk score was correlated with tumor progression.
+ 
+
+## Independent prognostic value of the risk model
+The univariate Cox regression analysis suggested that the risk score was an independent prognostic factor (HR = 2.613, 95% CI: 1.784−3.826 for TCGA and HR: 3.204, 95% CI: 1.730−5.932 for ICGC, Fig. A-B). The multivariate Cox regression analysis also indicated that the risk score was a prognostic factor, after adjusting for other confounding factors (HR = 2.405, 95% CI: 1.639−3.528 for TCGA and HR: 2.879, 95% CI: 1.499−5.529 for ICGC, Fig. C-D). The clinical features of TCGA cohort suggested that grade and survival status of the patients were diversely distributed between low- and high-risk subgroups (Fig.  E, p< 0.01).
+ 
+
+## Functional analyses
+The DEGs were extracted by LASSO regression with “limma” R package using criteria FDR < 0.05 and |log2FC | ≥1 as indicated above. GO enrichment and KEGG pathway analysis were performed with these DEGs. DEGs in TCGA cohort were mainly correlated with the extracellular matrix, extracellular matrix (ECM)-receptor interaction, and PI3K-Akt signaling pathway (Fig. A-B). The biological processes, molecular functions and signaling pathways were validated by ICGC cohort (Fig. C-D).
+ 
+
+## Comparison of the immune activity between subgroups
+The ratio of immune cell infiltration and correlation of immune cells in TCGA and ICGC databases were shown in Fig.  . The enrichment scores of 16 types of immune cells and the activity of 13 immune-related pathways were compared between low- and high-risk groups in both TCGA and ICGC cohorts by employing ssGSEA. In TCGA cohort (Fig. A), higher levels of infiltration of immune cells in high-risk subgroup, especially activated dendritic cells (aDCs), dendritic cells (DCs), immature dendritic cells (iDCs), macrophages, T helper (Th) cells (Tfh, Th1, and Th2 cells) and regulatory T (Treg) cells. Except for the type-1 and type-2 IFN response pathway, other immune pathways exhibited higher activity in the high-risk group in the TCGA cohort (Fig. B). When the immune status in ICGC cohort was evaluated, similar conclusions were drawn (Fig. C-D).
+ 
+
+## Construction of nomogram with prognostic signature with clinical features
+The risk score increased significantly with tumor grade, stage, and T category (Fig. A-C). A nomogram was constructed based on the prognostic signature and clinical parameters (Fig. D). The nomogram-predicted survival closely matched with the optimal predictive performance. The AUCs for the 1-, 3-, and 5-year were 0.752, 0.687, and 0.710, respectively (Fig. E). The nomogram had similar performance to that of an ideal model (Fig.  F).
+ 
+
+## PRKDC independently affected prognosis
+PRKDC was only gene whose expression level was upregulated among the four prognostic-related DEMGs (DYNC1H1, PRKDC, CCDC88A, and ADAMTS5) (Log FC >1). PRKDC expression level was lower in adjacent normal specimens compared that of tumor tissues (Fig. A). There are 4 analyses showing high expression of PRKDC from ONCOMINE website (Fig. B). The protein expression level of included gene of signature was verified by The Human Protein Atlas (Fig. C-D). The results found that PRKDC expressed statistical significantly among different pathological grades (Fig. E, most p < 0.05). The TIMER shows that the clinical outcome of age, gender, race, stage, and purity increased risk with the increase of PRKDC gene expression (Fig. F). Kaplan-Meier analysis showed lower PRKDC expression level was correlated with longer OS time (Fig. G).
+ 
+
+## PRKDC correlated with ICB key genes
+The correlation between six key ICB key targets and prognostic signature was analyzed to reveal the potential player of risk signature (Fig. A). Besides, expression levels of 36 out of 47 ICB-associated genes between low- and high-PRKDC groups were dysregulated in different subgroups (Fig.  B). TIMER results adjusted by tumor purity showed PRKDC was positively correlated to CD274 (r = 0.433; p = 3.47e−17), CTLA4 (r = 0.214; p = 5.98e−05), HAVCR2 (r = 0.407; p = 3.43e−15), IDO1 (r = 0.181; p = 7.41e−04), PDCD1LG2 (r = 0.264; p = 6.34e−07) and PDCD1 (r = 0.209; p = 9.32e−05), suggesting PRKDC may exert a vital role in ICB treatment of HCC (Fig. C-H).
+ 
+
+## Role of PRKDC in TME
+HCC patients were classified into high- and low- PRKDC expression groups based on the median PRKDC expression level. ESTIMATE results suggested that patients with higher PRKDC expression had a higher stromal score, higher ESTIMATE score and lower tumor purity (Fig. A). TIMER showed that low PRKDC was associated with good OS (Fig. B). Arm-level deletion was the main type of mutation (Fig. C-D). PRKDC expression was positively correlated with immune cell infiltration (Fig. E). The results of ssGSEA suggested that except for cytolytic activity and NK cells, the infiltration fraction of aDCs, antigen-presentation cell (APC) co-inhibition, iDCs, macrophages, MHC-class-I, para-inflammation and Treg expression were significantly decreased when risk score is declining (Fig. F).
+ 
+
+## Discussion
+Exosome-derived mRNAs have gained attention due to their potential role in cancer development, progression, and as a source of diagnostic and therapeutic targets. Exosomes released by cancer cells can carry various molecular cargoes, including mRNA, contributing to the communication between cancer cells and their microenvironment. ExLR, mainly mRNAs are potential biomarkers in HCC [ ]. Compared to tissue mRNAs, circulating emRNAs may reflect their original tissues and the relative fraction of immune cell types [ ].
+Exosome mRNA-related gene expression is associated with cancer development and progression. However, the characteristics and landscape of exosomal mRNAs are not fully understood. In this study, four exosomal mRNA-related genes were included to construct the prognostic model by univariate Cox and LASSO Cox regression analysis. Patients in high- and low-risk group had significantly different survival outcomes. Furthermore, ROC curve demonstrated that the prognostic signature was robust in predicting the OS for HCC patients. Additionally, when combined the prognostic signature with clinical parameters, the nomogram had satisfactory predictive performance for HCC. The prognostic signature correlated with tumor microenvironment and the expression of immune checkpoints. The flow diagram of our study is shown in supplementary Figure S .
+A better understanding of the biology represented by the selected genes can be obtained via analysis of functional networks or pathways that these genes based on their biological functions. The functional analysis indicated the prognostic signature was enriched in extracellular matrix, ECM-receptor interaction, and PI3K-Akt signaling pathway. Tumor cells release exosomes to interact with ECM. In turn, ECM regulates exosome secretion and uptake. The biomolecules of exosomes can impact ECM remodeling, which is associated with cancer progression. Tumor-derived exosomes are capable of modulating ECM and TME by disruption of cell adhesion formation and stimulation of the extracellular receptor signaling. Exosomes reach distal sites where they bind to cell surfaces and experience endocytosis with specific mechanisms [ ]. ECM reorganization by exosomes contributes to physiological and pathologic angiogenesis. The surface to volume ratio of EVs is relatively large, which enables efficient surface interactions of EVs with cells and molecules. The surface interactions determine the fate of EVs by orchestra them to certain tissues or cell membrane. Focal adhesion pathway has also been implicated in KEGG pathway, which could regulate ECM. Being dynamic integrin-based adhesion complexes, focal adhesions anchor actin cytoskeleton to ECM, which transfers environmental stimuli to the cells and to change cell motility, adhesion, and shape [ ]. Taken together, ECM modulation of the host tissue by tumor-derived exosome is involved in the crosstalk between cancer and the premetastatic niche [ ].
+Tumor-derived exosomes carry immunostimulatory and immunosuppressive receptor or ligands, partially mimicking the profiles of the parent cells [ ]. Exosomes are involved in immune responses for tumorigenesis [ ]. Exosomes-mediated signaling is contextual, and tumor-derived exosomes mainly mediate suppression in TME. The role of exosomes in antigen specific immune responses have also been demonstrated. In our study, the enriched immune cell types in high-risk group were aDCs, DCs, iDCs, Th2 cells, and Tregs. The results also found that most of the 13 immune-related functions were highly activated in the high-risk group, especially APC co-inhibition, APC co-stimulation, check-point, HLA, T cell co-stimulation. A large body of evidences supports the potential of tumor-derived exosomes to promote antigen-processing and differentiation capabilities of DC in TME. Exosomes carrying tumor-associated antigens (TAAs) and costimulatory molecules reprogram APCs, which could promote immune responses. The effects of tumor-derived exosomes on T-cell subsets are complex [ ]. The proteins carried by exosomes can inhibit cytotoxicity and regulate immune-related genes in T cells [ ]. Previous studies have reported tumor-derived exosomes could promote Treg activity and expansion [ , ]. These results collectively indicated the risk signature was associated with TME.
+Inhibitory receptors have been identified in cancers, including but not limited to PD-1, CTLA-4, LAG3, and TIM3, etc. [ ],. Many biochemical studies have revealed complex and delicate regulation of checkpoint expression on cell surface [ ]. Upon ligand engagement, checkpoints follow distinct signaling mechanisms to inhibit antitumor immunity. Exosomes communicate between tumor cells of immune cells and stromal cells by transferring message, contributing to immune escape. For example, tumor-derived exosomes containing PD-L1 can mimic the function of PD-L1 on cell surface. The association between levels of circulating exosomal PD-L1 and response to anti-PD-1/PD-L1 antibody therapy has been documented [ ]. The correlation of the prognostic signature of exosome mRNA-related genes with ICB key targets reveal the risk signature has a potential role in the ICB treatment of HCC.
+There are several proposed exosome-mediated drug resistance mechanisms, including exosome-mediated transfer of miRNAs, neutralization of antibody-based drugs, and drug export via the exosome pathway [ ]. Exosomes could also induce therapy-resistance by promoting anti-apoptotic pathways and alteration of signaling transduction [ ]. The PI3K-Akt pathway has been linked to modulate the multidrug resistance of various cancers [ ]. For example, the exosome-mediated PI3k/Akt/mTOR signaling pathway has been implicated in cervical cancer [ ]. Similarly, gastric cancer-derived exosomes facilitate the proliferation of recipient cell via PI3K/Akt signaling pathway [ ]. However, the role of exosome mRNA-related gene signature in the drug sensitivity prediction needs further validation in larger clinical samples. More studies are required to fully uncover the complexities of exosome-derived mRNA in cancer. Ongoing research aims to unravel the specific mRNA cargoes carried by exosomes, their functional implications, and their potential as therapeutic targets or tools for cancer management.
+Among the four genes selected to construct the prognostic signature, PRKDC was recently identified as a new biomarker and potential target for immunotherapy [ ]. PRKDC gene encodes catalytic subunit of a nuclear DNA-dependent serine/threonine protein kinase (DNA-PKcs) [ ]. As a catalytic protein, DNA-PKcs together with Ku70 and Ku80 constitute a DNA-dependent protein kinase (DNA-PK) [ ]. The degradation of DNA-PK is regulated by vasolin-containing protein (VCP), which is found in the exosomes from gliomas [ ]. DNA-PK is involved in DNA double-strand break repair, immunocompetence, and genomic integrity [ ]. Previous studies indicated DNA-PK is a candidate driver of hepatocarcinogenesis which can predict treatment response and patient survival [ ]. DNA-PK has emerged as a potential therapeutic target in various cancer types. By inhibition of its kinase function, DNA-PK inhibitors could potentiate DNA damage [ ]. The investigation of DNA-PK inhibitor employs with monotherapy and combination strategy [ ].
+Our study is the first to construct and validate an exosome mRNA-related gene risk model based on four exosome-related genes, which can serve as an independent prognostic factor in HCC patients. However, our study has some limitations. First, the validation of the prognostic signature was performed in public database, larger clinical cohorts are need to confirm the value of this signature. Second, the risk model was solely established on exosome mRNA-related genes, the information of lncRNA, miRNA, and circRNA were not included in our study. Third, the relationship of this signature with tumor microenvironment is preliminary and hypothesis-generating, therefore, experimental confirmation is required in the future.
+
+## Conclusions
+In summary, an exosome mRNA-related prognostic risk model was established and validated to predict the prognosis of HCC patients and associated with immune infiltration. The risk model can serve as an independent prognostic factor for HCC patients and highlights the functional significance of mRNAs in exosomes.
+
+## Supplementary Information
+
+Supplementary Material 1.
+Supplementary Material 2.
+
+## Acknowledgements
+None.
+
+## Authors’ contributions
+ZW, LP and LZ designed and supervised the study. ZD, XH, LP, ZW, and LL analyzed the data and wrote the original draft. LP, XH, LC and JS edited the draft. All the authors have read and approved the final manuscript.
+
+## Funding
+This study is supported by grants from Medical Scientific Research Foundation of Zhejiang Province, China (2022KY545).
+
+## Availability of data and materials
+Publicly available datasets from TCGA (https://portal.gdc.cancer.gov/), ICGC (https://dcc.icgc.org/) and exoRBase (http://exorbase.org/exoRBaseV2/download/toIndex) were analyzed in this study. were analyzed in this study.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+JS’ conflicts can be found at https://www.nature.com/onc/editors. None are relevant here. Other authors: none declared.
+
+## Footnotes
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Zhonghai Du, Xiuchen Han, and Liping Zhu contributed equally to this work.
+
+## Contributor Information
+Ling Peng, Email: drpengling@hotmail.com.
+Zhiqiang Wang, Email: tcmwangzhiqiang@163.com.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Material 1.
+Supplementary Material 2.
+
+## Data Availability Statement
+Publicly available datasets from TCGA (https://portal.gdc.cancer.gov/), ICGC (https://dcc.icgc.org/) and exoRBase (http://exorbase.org/exoRBaseV2/download/toIndex) were analyzed in this study. were analyzed in this study.
