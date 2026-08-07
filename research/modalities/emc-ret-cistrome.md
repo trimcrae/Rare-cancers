@@ -232,7 +232,7 @@ uniform-reprocessing pipeline, so it is not the same numbers arriving twice:
 
 | peak | 1653203 hg19 | 1653204 hg19 | 1653203 hg38 | 1653204 hg38 | ReMap 2022 hg38 |
 |---|---|---|---|---|---|
-| 1 | +5,892…+6,005 | +5,866…+6,007 | *(below threshold)* | +5,864…+6,008 | +5,841…+6,036 |
+| 1 | +5,892…+6,005 | +5,866…+6,007 | *(not called)* | +5,864…+6,008 | +5,841…+6,036 |
 | **2** | **+6,768…+7,052** | **+6,792…+7,108** | **+6,768…+7,054** | **+6,792…+7,116** | **+6,778…+7,116** |
 | 3 | +14,900…+15,105 | +14,852…+15,104 | +14,891…+15,110 | +14,853…+15,108 | +14,850…+15,120 |
 | MACS2 score, peak 2 | 448 | 540 | 451 | 556 | — |
@@ -261,6 +261,10 @@ catalogue the same three peaks are present — but so is a peak at 164 of 198 ba
 unremarkable.** The enrichment (p = 0.005–0.02) is a property of the *single-experiment* peak sets,
 where a peak means something because most genes do not have one. Anyone quoting `p = 0.005` without
 `p = 0.4472` is quoting a selection.
+
+⚠ **Peak 1 is not called in one of the five columns** (`SRX1653203` realigned to GRCh38),
+which is why that column shows two promoter-window peaks and `p = 0.0503`. Whether that is
+a threshold effect or a mapping difference is not established here.
 
 ⚠ **Peak 3 sits at the window edge.** The window is −10 kb / +15 kb and peak 3 spans ~+14.85–15.12
 kb, so it is partly defined by the scope choice. Peaks 1 and 2 are not.
