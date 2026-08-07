@@ -1,0 +1,184 @@
+1974canmedCancer MedicineCancer MedWileyPMC7163086716308671630863209660310.1002/cam4.2934Integrated bioinformatics analysis of the crucial candidate genes and pathways associated with glucocorticoid resistance in acute lymphoblastic leukemia
+ChenYanxin JiangPeifang WenJingjing WuZhengjun LiJiazheng ChenYuwen WangLingyan GanDonghui ChenYingyu YangTing LinMinhui HuJianda 1Fujian Institute of Hematology, Fujian Provincial Key Laboratory of Hematology, Fujian Medical University Union Hospital, Fuzhou, China*Correspondence, 
+Jianda Hu and Minhui Lin, Fujian Medical University Union Hospital, 29 Xinquan Road, Fuzhou 350001, China. 
+Email: drjiandahu@163.com (J. H.); linminhui959@163.com (M. L.)
+✉Corresponding author.
+25220209829182918–29292042020© 2020 The Authors. Cancer Medicine published by John Wiley & Sons Ltd.This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Glucocorticoids (GC) are the foundation of the chemotherapy regimen in acute lymphoblastic leukemia (ALL). However, resistance to GC is observed more frequently than resistance to other chemotherapy agents in patients with ALL relapse. Moreover, the mechanism underlying the development of GC resistance in ALL has not yet been fully uncovered. In this study, we used bioinformatic analysis methods to integrate the candidate genes and pathways participating in GC resistance in ALL and subsequently verified the bioinformatics findings with in vitro cell experiments. Ninety‐nine significant common differentially expressed genes (DEGs) associated with GC resistance were determined by integrating two gene profile datasets, including GC‐sensitive and ‐resistant samples. Using Kyoto Encyclopedia of Genes and Genomes (KEGG) and REACTOME pathways analysis, the signaling pathways in which DEGs were significantly enriched were clustered. The GC resistance‐related biologically functional interactions were visualized as DEG‐associated Protein–Protein Interaction (PPI) network complexes, with 98 nodes and 127 edges. MYC, a node which displayed the highest connectivity in all edges, was highlighted as the core gene in the PPI network. Increased C‐MYC expression was observed in adriamycin‐resistant BALL‐1/ADR cells, which we demonstrated was also resistant to dexamethasone. These results outlined a panorama in which the solitary and scattered experimental results were integrated and expanded. The potential promising target of the candidate pathways and genes involved in GC resistance of ALL was concomitantly revealed.
+Keywords: acute lymphoblastic leukemia, bioinformatic analysis, glucocorticoid resistance, MYC, signaling pathway
+
+These results outlined a panorama in which the solitary and scattered experimental results were integrated and extended. The potential promising target of the candidate pathways and genes in GC resistant acute lymphoblastic leukemia was concomitantly revealed.
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2019 Jan 31; Revised 2020 Jan 7; Accepted 2020 Feb 5; Collection date 2020 Apr.
+
+1.
+
+## INTRODUCTION
+Acute lymphoblastic leukemia comprises a group of aggressive aberrant hematopoietic malignancies, including acute/chronic lymphoblastic leukemia (ALL/CLL) and lymphoma. Combination chemotherapy regimen based on vincristine and prednisolone plus other classical chemotherapeutics and/or novel targeting agents is regarded as the essential care for patients with ALL. , , Although the advances in treatment strategies facilitated favorable clinical outcomes, a portion of patients with ALL unfortunately suffer single or multiple chemotherapeutic resistance and fall into relapse and/or refractory disease with dismal prognosis. Resistance to prednisolone, a glucocorticoid (GC) agent that is fundamental in the current ALL chemotherapy scheme, is more frequently observed than resistance to other drugs and hampers the possibility of prolonged survival. 
+
+GC agonists inhibit leukemogenesis by binding the GC receptor and subsequently activating or suppressing transcription of target genes, which are related to various cellular processes such as cell cycle arrest and apoptosis. , Several studies have recently suggested candidate molecules and pathways that may be responsible for the development of GC resistance, including MLL‐rearrangement, and PI3K/AKT pathway and MAPK signaling cascades hyperactivation. , , , , , , Despite the increasing insights into several aspects of this mechanism, a comprehensive overview of the integrated biological landscape underlying GC resistance in ALL is currently missing.
+Recently, high‐throughput sequencing and microarrays of human disease samples have generated massive bioinformatics data, which facilitated understanding the molecular mechanisms involved in the related biological process. In this study, we identified and integrated the common differentially expressed genes (DEGs) from two gene expression profiles of GC‐sensitive and ‐resistant ALL samples. Subsequently, we verified those bioinformatics findings with in vitro cell experiments. Our findings integrate individual experimental results from previous studies to illustrate the landscape of biological processes that lead to acquisition of GC resistance. Based on these results, novel treatment opportunities and therapeutic targets can be envisaged.
+
+2.
+
+## METHODS
+2.1.
+
+## Derivation of genetic data
+Microarray datasets of gene expression profiles with the accession numbers http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5820 and http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE19143, both unique, were downloaded from the NCBI‐gene expression omnibus (NCBI‐GEO) (
+://www.ncbi.nlm.nih.gov/geo/), a public functional genomics data repository. , The microarray of http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5820 was performed on GPL96 Affymetrix Human Genome U133 platform and included 13 GC‐sensitive and 16 GC‐resistant samples (Submission date: Sep 13, 2006, last update date: Aug 10, 2018). Regarding the http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE19143 data, total RNA of 14 non‐infant GC‐sensitive and 13 non‐infant GC‐resistant samples were isolated and mRNA array was performed on GPL96 Affymetrix Human Genome U133A Array (Submission date: Nov 23, 2009, last update date: Aug 10, 2018). GC‐resistant samples were those with poor response to prednisolone, defined as failure to show effective cytoreduction after 7 days of GC therapy. 
+
+2.2.
+
+## Differentially expressed gene identification
+Differentially expressed genes between GC‐sensitive and ‐resistant samples were identified by analyzing raw data with GEO2R on GEO database. A Log2 transformation was performed, and the Log2‐fold change (Log2FC) was calculated in the preprocessed microarray data derived from Series Matrix File on GEO database for integrated analysis. P < .05 and |Log2FC| > 1 was considered as the cut‐off criterion for significantly DEG screening.
+
+2.3.
+
+## Gene ontology and pathway enrichment analyses
+GO enrichment analysis was performed using the DAVID (://david.ncifcrf.gov/conversion.jsp), a web‐based platform for gene functional annotations and biological meaning elucidation. Pathway analysis allows to understand molecular interactions in the pathway maps. Pathways enrichment analysis was generated by the Kyoto Encyclopedia of Genes and Genomes (KEGG) and REACTOME, which were included in the DAVID website, with P < .05 as the threshold value.
+
+2.4.
+
+## Integration of protein–protein interaction (PPI) network
+String JAVA platform (http://string-db.org/), an online protein–association network platform, was utilized to expand the DEG‐encoded proteins and protein‐protein interaction (PPI) network. Further, the PPI network was imported into Cytoscape software for analyzing protein interaction links and modules, and accessing the interactions of the candidate DEG‐encoding proteins associated with GC resistance of ALL. Hub genes were identified by cytoHubba analysis in Cytoscape.
+
+2.5.
+
+## Hub gene validation and genetic alteration
+The mRNA expression level of the hub genes was validated on the Oncomine database (://www.oncomine.org/resource/login.html). The genetic alterations of hub genes were investigated on the cBio Cancer Genomics Portal (://cbioportal.org).
+
+2.6.
+
+## GC resistance‐related miRNAs and predictions of miRNA targets
+GC resistance‐related miRNAs were identified by searching for the terms “GC resistant AND miRNA” in PubMed. Based on the papers obtained by the search, hsa‐miR‐142‐3p and hsa‐miR‐17‐5p were selected as the miRNAs associated with GC resistance. Target genes were predicted by the miRNA‐target gene prediction databases miRwalk (http://mirwalk.umm.uni-heidelberg.de) and TargetScan (http://www.targetscan.org/vert_71/). The target genes authenticated by miRwalk and TargetScan were analyzed by intersection. Target genes‐miRNA interaction network was constructed using Cytoscape software.
+
+2.7.
+
+## Generation of target genes‐TFs interaction network
+The genes which overlapped between GC‐resistant genes and human TFs (transcript factors) were considered the GC‐resistance TFs. The targeted genes were predicted on the Cistrome Data Browser (://cistrome.org/db/). The target genes‐TF interaction network was constructed using Cytoscape software.
+
+2.8.
+
+## Cell culture
+Due to lack of dexamethasone‐sensitive and ‐resistant ALL cell lines, BALL‐1 and adriamycin (ADR)‐resistant cells BALL‐1/ADR were employed to evaluate dexamethasone sensitivity first and for subsequent experiments. Cells were preserved in our laboratory (Fujian Institute of Hematology, Fuzhou, China) and cultured in RPMI 1640 medium (Hyclone, UT, USA) supplemented with 10% heat‐inactivated fetal bovine serum (FBS, Gibco, UT) in a humidified incubator (Thermo, USA) maintained at 37°C with 5% CO2. Then, 0.5 μg/mL ADR (Sigma, MO) was added to BALL‐1 cell culture medium to maintain drug resistance. The medium was changed every other day. Cells in logarithmic growth phase were used in experiments. BALL‐1 cells were incubated in ADR‐free medium for 2 weeks for further experiments.
+
+2.9.
+
+## Dexamethasone sensitivity assay
+BALL‐1 and BALL‐1/ADR cells were incubated with serially diluted dexamethasone solution ranging from 0 to 200 μg/mL for 72 hours. The 3‐(4,5‐dimethylthiazol‐2‐yl)‐2,5 diphenyltetra‐zolium bromide (MTT, Sigma, MO, USA) assay was performed to detect cell proliferation as previously described. Absorbance was measured with an Elx808 Absorbance Microplate spectrophotometer (BioTek, UT) at reference wavelengths of 490 and 630 nm. The proliferation inhibitory rate (%) was calculated by: [1‐(absorbance of experimental well/absorbance of control well)] × 100%.
+
+2.10.
+
+## Quantitative real‐time PCR (qPCR)
+Total RNA was extracted using TRIzol reagent (Life Tech Invitrogen, CA, USA) and was subjected to reverse transcription with GoScriptTM Reverse Transcription System kit according to the manufacturer's protocol (Promega, Madison, USA). cDNA was amplified using SYBR Green PCR master mix (Life Tech Invitrogen, CA, USA). PCR was performed on ABI7500 Real Time PCR system (Applied Biosystems, CA, USA). Results were analyzed using the ∆CT and 2−∆∆CT quantification method. The nucleotide sequences of the primers were as follows: 18s: sense: 5′‐GACACGGACAGGATTGACAGATTG‐3′, antisense: 5′‐TGCCAGAGTCTCGTTC.
+GTTATCG‐3′; c‐myc: sense: 5′‐TCCTGGCAAAAGGTCAGAGT‐3′, anti‐sense: 5′‐TCTGACACTGTCCAACTTGAC‐3′.
+
+2.11.
+
+## Western blotting
+Western blot analysis was performed as described in our previous study. The primary antibodies used for immunoblotting were GADPH and c‐myc (Cell Signaling Technology, Danvers, MA, USA), Immunoreactivity was detected by chemiluminescence reaction with an enhanced chemiluminescence (ECL) kit (Pierce/Thermo Fisher Scientific, Rockford, IL, USA).
+
+2.12.
+
+## Statistics
+Experiments were performed in triplicate. Results of measurement data were expressed as means ± SEM Student's t test and one‐way analysis of variance (ANOVA) test were used to assess significant differences between groups according to data characteristics. Significance was set at a P < .05. All data were analyzed using SPSS statistics software 23.0 or GraphPad Prism Software 6.0.
+
+3.
+
+## RESULTS
+3.1.
+
+## Identification of GC resistance‐associated DEGs in ALL
+GC‐sensitive and ‐resistant ALL gene expression profiles http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5820 and http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE19143 were downloaded from NCBI‐GEO. From the two above GSE datasets, 363 and 611 DEGs were extracted, respectively, with P < .05 and |Log2FC| > 1 as threshold values. DEGs are listed in Table . The volcano plot of the two GSE profiles was generated (Figure A,B). Subsequently, 99 common DEGs were screened out from the two datasets using integrated bioinformatics assay, which included 52 upregulated genes and 47 downregulated genes in GC‐resistant ALL samples compared with GC‐sensitive samples (Figure C; Table ). The boxplots of the top two common upregulated (CREM, CXCL2) and downregulated (SOX11, SPON1) genes are shown in Figure D,E. To visualize the prominent different distribution of the 99 common DEGs, heat maps of the two GSE datasets were generated using Morpheus software (Figure ).
+ 
+3.2.
+
+## GO enrichment analysis
+To understand the functional changes leading to GC resistance in ALL, the 99 candidate common DEGs were mapped on the DAVID database for GO analysis. As shown in Table , the primary GO terms enriched in upregulated DEGs were response to stimulus, positive regulation of biological process, and positive regulation of cellular process. Additionally, downregulated DEGs were predominantly enriched in negative regulation of transcription from RNA polymerase II promoter, defense response to bacterium, and innate immune response. Taken together, results of GO analysis suggested that the GC resistance‐associated DEGs were mainly centered in positive regulation of biological process, response to stress, and positive regulation of cellular process (−Log P value methods, Figure ).
+ 
+3.3.
+
+## Pathway enrichment analysis
+Pathway enrichment analysis was performed to determine the candidate pathways connected to GC resistance‐associated DEGs and analyze their alterations. Downregulated DEGs were mainly enriched in “Ribosome pathway” in KEGG_PATHWAY analysis, and “Antigen activates B Cell Receptor (BCR) leading to generation of second messengers” and “RAF/MAP kinase cascade” in REACTOME_PATHWAY analysis. Upregulated DEGs were predominantly enriched in “Legionellosis,” “Transcriptional misregulation in cancer” and “Pathways in cancer” in KEGG_PATHWAY analysis, and “Viral RNP Complexes in the Host Cell Nucleus”, “Chemokine receptors bind chemokines,” and “Binding of TCF/LEF:CTNNB1 to target gene promoters” in REACTOME_PATHWAY analysis (Table ).
+ 
+3.4.
+
+## Key candidate pathways identification with DEGs PPI network
+String database and Cytoscape software were employed to identify and visualize the PPI network derived from candidate DEGs. A total of 98 out of the 99 common DEGs were inserted in the GC resistance‐associated PPI network, which comprised 98 nodes and 127 edges (molecular interaction) with PPI enrichment P value of 9.84E‐13, indicating a reliable GC‐resistant PPI network (Figure A). The topological properties are listed in Table . By Cytoscape MCODE analysis, 6 significant modules were screened from the PPI network (Figure B). Of these, module 1 included 5 nodes and 8 edges, and module 2 included 4 nodes and 5 edges. Using cytoHubba analysis, among the 98 nodes, MYC, CXCL8, ATF3, the three central node genes with degree > 10, were considered as hub genes in the PPI network. MYC, for which the nodes showed the highest connectivity in all interactions, was highlighted as the core gene connected to GC resistance‐related PPI network (Figure C).
+ 
+3.5.
+
+## Target genes‐miRNA interaction and TF‐target genes network
+The 64 and 194 target genes of hsa‐miR‐142‐3p and hsa‐miR‐17‐5p, respectively, were verified using the two databases miRwalk and TargetScan (Table ). The genes overlapping between DEGs and hsa‐miR‐142‐3p were MARCKS, EIF5, SPAG9, ACSL1, KPNA4, PDE4B, RFWD3, TBL1X, and SOX11. The genes overlapping between DEGs and hsa‐miR‐17‐5p were NR4A3 and CCND2. Then, the target genes‐miRNA network was constructed using Cytoscape software (Figure A).
+ CREM, ATF3, ELF4, and FOSL2, the four genes overlapping between TFs and GC‐resistant DEGs, were subjected to target gene prediction. Table lists the genes overlapping between the target genes of the TFs and DEGs. The generated TF‐target genes network is shown in Figure B.
+
+3.6.
+
+## Validation and genetic alteration of hub Genes
+MYC, CXCL8, and ATF3 were considered the hub genes and queried on Oncomine database and cBio portal platform to investigate their gene expression and genetic alterations in lymphoblastic leukemia. The mRNA expression level of MYC, CXCL8 and ATF3 exhibited a 2.564, 4.446, 3.605‐fold change, respectively, between lymphoblastic leukemia and normal samples in the examined study , (Figure A). The alterations for the 3 queried genes were calculated to be between 0% and 2.1% in the examined ALL samples. Genetic mutations of MYC and ATF3 were 2.1% and 0.7%, respectively. No CXCL8 alteration was observed in the examined study (Figure B).
+ 
+3.7.
+
+## Confirmation of C‐MYC by in vitro cell experiments
+For confirmation, we first evaluated cytotoxicity of dexamethasone in BALL‐1 and BALL‐1/ADR cells. Using MTT assay, we observed markedly lower dexamethasone sensitivity in BALL‐1/ADR cells than in the parental cells BALL‐1. The IC50 of dexamethasone in BALL‐1 cells and BALL‐1/ADR cells was 5.57 ± 1.32 μg/mL and 32.40 ± 1.33 μg/mL, respectively.
+Based on the MTT results, we examined C‐MYC expression at the mRNA and protein level using qRT‐PCR and western blot (Figure A,B). A significantly increased expression of C‐MYC mRNA and protein in BALL‐1/ADR cells was observed.
+ Taken together, using MTT, qRT‐PCR, and western blot assays, we validated the potential molecular mechanism of GC resistance in lymphoid tumor cells.
+
+4.
+
+## DISCUSSION
+Despite the reassuring achievements in the treatment of patients with ALL, resistance to GC agonists has been a major obstacle in eliminating leukemia cells and maximizing cure. Several studies on GC resistance have elucidated that GC‐stimulated apoptosis is not induced in leukemia cells with poor response to GC agents. , Recently published articles partly expanded our understanding about the molecular mechanism of GC resistance, wherein the role of some molecules and signaling pathways including MLL rearrangement and JAK/SAT pathway alteration were determined. Nevertheless, limited by scattered information obtained from individual studies, a comprehensive internal mechanistic basis underlying the development of GC resistance remains to be uncovered.
+In this study, we generated an integrated, biologically functional landscape of GC resistance in ALL using bioinformatic analysis. First, a total of 99 common DEGs (52 upregulated and 47 downregulated) were identified between GC‐sensitive and ‐resistant samples by integrating two gene profile datasets from two different researches and analyzing the datasets with bioinformatic methods. Further, the 99 candidate DEGs were enriched and categorized into 3 groups: biological process, molecular functions, and cellular component terms using GO functional analysis. Finally, DEG‐related PPI network was expanded, and 98 nodes were identified with 127 edges, of which one node exhibited the highest connectivity in all edges and was regarded as the core gene in the PPI network.
+The upregulated DEGs were mainly enriched in the BP terms related to response to stimulus, positive regulation of biological process, and positive regulation of cellular process. The downregulated DEGs were instead mainly enriched in BP terms connected with negative regulation of transcription from RNA polymerase II promoter, defense response to bacterium, and innate immune response.
+Transcriptional misregulation in cancer (map05202 on KEGG database: ://www.genome.jp/kegg/pathway.html) pathway was one of the top pathways identified, which derived from multiple TF alterations, including genes fusion, amplification, mutation, deletion, rearrangements and translocation, resulting in various oncogenic processes such as differentiation resistance, inhibition of apoptosis, and cellular invasion. Chromosomal translocations and rearrangements of mixed lineage leukemia (MLL) gene, which is located at 11q23, are frequently represented as t (4;11) (q21; q23), t (11;19) (q23; p13.3) and t (9;11) (p22; q23), result in fusion proteins and subsequently lead to aberrant gene expression associated with leukemogenesis and chemotherapeutics resistance. Patients with ALL bearing MLL‐rearrangements show poor survival also due to cellular resistance to various chemotherapeutics, especially to GC, which is in accordance with the results of KEGG analysis. Notably, CCND2 is upregulated and hyperactivated by the amplification of transcription factors with oncogene properties, and thereby accelerates cell cycle by promoting G1/S phase transformation and increasing cell proliferation, which is considered the critical oncogenesis process in leukemia and lymphoma. Real et al proposed that upregulation of CCND2 is involved in the protection against Gamma‐secretase inhibitors (GSIs), which are Notch pathway inhibitors used in GC‐resistant T‐cell acute lymphoblastic leukemia (T‐ALL). Additionally, reliability of the top enriched pathway associated with GC resistance, Transcriptional misregulation in cancer, is further supported by studies reporting that BCL2A1, PAX5, and CXCL8 play important roles in GC‐resistant ALL. , Moreover, Pathways in cancer (map05200 on KEGG website) comprised various oncogenesis signaling pathways including MAPK, JAT/STAT, and PI3K‐AKT signaling pathways, which were confirmed to promote development of GC resistance in leukemia by multiple independent studies. , , , , Collectively, results of enriched KEGG pathway analysis were positively correlated with experimental findings. However, further investigations are needed to explore and confirm the potentially significant pathways for GC resistance in ALL and to achieve a comprehensive understanding of this process.
+MYC, which was identified as the core gene in GC resistance‐associated PPI network and is the node that showed the highest connectivity degrees therein, is also a modulator of numerous cell processes by transcriptional regulation of its target genes. We did not perform survival analysis due to lack of data on ALL survival in the two gene expression profiles, in the TCGA, and in Oncomine database. However, the role of MYC in lymphoid malignancy was elucidated. MYC upregulation, caused by deregulated activity of MYC transcriptional network, enhances cancer proliferation and cellular drug resistance according to recent researches. Schubbert S et al revealed that targeting MYC and PI3K pathway could eliminate leukemia‐initiating cells in T‐ALL. Moyo et al showed that MYC is overexpressed in pre‐malignant B cells with activation of PI3K/AKT signaling pathway. Moreover, MYC overexpression promoted resistance to Btk inhibition in B cell malignancy. Notably, the GC resistance‐promoting role of MYC in ALL was firstly elucidated by Renner K. Han et al revealed that MYC displays constitutive activation in B‐ALL cell lines, especially GC‐resistant B‐ALL, indicating the critical role of MYC in evolution of GC resistance. The positive impact of MYC on progression of GC resistance in ALL was subsequently strengthened by other studies. , Hence, the results of PPI network were in accordance with experimental results on GC resistance in ALL. The role of multiple genes in the network were determined, such as MYC, MCL1 and CCND2, which expanded our knowledge on development of GC resistance in ALL.
+In this study, to validate the reliability and applicability of bioinformatics analysis, we investigated C‐MYC in BALL‐1 and BALL‐1/ADR cells, which displayed dexamethasone sensitivity and resistance, respectively. Increased expression of C‐MYC was observed in BALL‐1/ADR cells, which is consistent with bioinformatics analysis results.
+In summary, bioinformatics analysis was used to identify the biological networks and in vitro experiments were performed to verify the bioinformatics findings. Nevertheless, validation in a larger group of patients and in‐depth experiments in vivo and in vitro are needed to improve and examine the accuracy of the bioinformatics analysis.
+Taken together, the bioinformatic analysis employed here proved to be a convenient and valid tool that offered us a novel and systematic insight into the mechanism of GC resistance in ALL. Several pathways were identified which are potentially involved in GC resistance in ALL. Importantly, our data revealed a comprehensive interaction network which highlighted MYC as a hub gene among various candidate genes. Our findings integrate individual experimental results from previous studies to illustrate the landscape of biological processes that lead to acquisition of GC resistance. Based on these results, novel treatment opportunities and therapeutic targets can be envisaged.
+
+## CONFLICT OF INTERESTS
+There are no conflict of interest to disclose.
+
+## AUTHORS' CONTRIBUTION
+Jianda Hu, Yanxin Chen conceived and designed the experiment; Peifang Jiang, Jingjing Wen, Donghui Gan and Yingyu Chen operated the experiment, Jiazheng Li, Yuwen Chen, Ting Yang analyzed the data, Yanxin Chen, Liangyan Wang, Zhengjun Wu and Jianda Hu wrote the paper. Ting Yang, Minhui Lin and Jianda Hu reviewed the paper.
+
+## ETHICS APPROVAL AND CONSENT TO PARTICIPATE
+This article does not contain any studies with human participants or animals performed by any of the authors.
+
+## Supporting information
+ 
+Click here for additional data file.
+ 
+Click here for additional data file.
+
+Chen Y, Jiang P, Wen J, et al. Integrated bioinformatics analysis of the crucial candidate genes and pathways associated with glucocorticoid resistance in acute lymphoblastic leukemia. Cancer Med. 2020;9:2918–2929. 10.1002/cam4.2934
+
+Yanxin Chen, Peifang Jiang, and Jingjing Wen are contributed equally to this work.
+
+Funding information
+
+This work was supported by National Natural Science Foundation of China (81870135), Construction Project of Fujian Medical CENTER of Hematology (Min201704), Special Fund from Fujian Provincial Department of Finance (2016B041), the Cooperation Project of University and Industry in Fujian Province (2017Y4005), Joint Research Project of Health and Education (WKJ2016‐2‐06), Joint Funds for the Innovation of Science and Technology, Fujian province (2016Y9029, 2016Y9032) and National Key R＆D Program of China (2016YFC0902800).
+
+## Contributor Information
+Minhui Lin, Email: linminhui959@163.com.
+Jianda Hu, Email: drjiandahu@163.com.
+
+## DATA AVAILABILITY STATEMENT
+The data that support the findings of this study are available from the corresponding author upon reasonable request.
+
+## REFERENCES
+ 
+
+## Associated Data
+
+## Supplementary Materials
+ 
+Click here for additional data file.
+ 
+Click here for additional data file.
+
+## Data Availability Statement
+The data that support the findings of this study are available from the corresponding author upon reasonable request.

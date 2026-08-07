@@ -1,0 +1,149 @@
+pmcCancer SciCancer Sci2682cas101168776CASCancer Science1347-90321349-7006WileyPMC10859618PMC10859618.110859618108596183805066410.1111/cas.16027CAS16027CAS-OA-1228-2023.R11Original ArticleOriginal ArticlesmiR‐17‐92 cluster‐BTG2 axis regulates B‐cell receptor signaling in mantle cell lymphoma
+Kawaji‐Kanayama et al.Kawaji‐KanayamaYuka TsukamotoTakuhttps://orcid.org/0000-0002-6803-5491 ttsuka@koto.kpu-m.ac.jpNakanoMasakazu TokudaYuichihttps://orcid.org/0009-0000-2725-106X NagataHiroaki MizuharaKentaro Katsuragawa‐TaminishiYoko IsaReiko FujinoTakahiro Matsumura‐KimotoYayoi MizutaniShinsuke ShimuraYuji TaniwakiMasafumi TashiroKei KurodaJunyahttps://orcid.org/0000-0001-6130-1550 junkuro@koto.kpu-m.ac.jp
+
+1
+
+Department of Medicine, Division of Hematology and Oncology
+Kyoto Prefectural University of Medicine
+Kyoto
+Japan
+
+2
+
+Department of Genomic Medical Sciences
+Kyoto Prefectural University of Medicine
+Kyoto
+Japan
+
+3
+
+Department of Hematology
+Japan Community Health Care Organization, Kyoto Kuramaguchi Medical Center
+Kyoto
+Japan
+
+4
+
+Department of Hematology
+Aiseikai Yamashina Hospital
+Kyoto
+Japan
+
+5
+
+Center for Molecular Diagnostic and Therapeutics
+Kyoto Prefectural University of Medicine
+Kyoto
+Japan
+
+*
+Correspondence
+
+Junya Kuroda and Taku Tsukamoto, Department of Medicine, Division of Hematology and Oncology, Kyoto Prefectural University of Medicine, 465, Kajii‐cho, Kamigyo‐ku, Kyoto, Japan.
+Email: junkuro@koto.kpu-m.ac.jp and ttsuka@koto.kpu-m.ac.jp
+
+0512202322024115245565910.1111/cas.v115.2452464
+04102023
+3052023
+03112023
+051220231302202413022024© 2023 The Authors. Cancer Science published by John Wiley & Sons Australia, Ltd on behalf of Japanese Cancer Association.https://creativecommons.org/licenses/by-nc/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## Abstract
+B‐cell receptor (BCR) signaling is critically activated and stable for mantle cell lymphoma (MCL), but the underlying mechanism of the activated BCR signaling pathway is not clear. The pathogenic basis of miR‐17‐92 cluster remains unclear although the oncogenic microRNA (miRNA) miR‐17‐92 cluster is highly expressed in patients with MCL. We revealed that miR‐17‐92 cluster overexpression is partly dependent on SOX11 expression and chromatin acetylation of MIR17HG enhancer regions. Moreover, miR‐17‐92 cluster regulates not only cell proliferation but BCR signaling activation in MCL cell lines. To comprehensively identify miR‐17‐92 cluster target genes, we performed pulldown‐seq, where target RNA of miRNA was captured using the biotinylated miRNA mimics and magnetic bead‐coated streptavidin, and quantified using next‐generation sequencing. The pulldown‐seq identified novel miRNA target genes, including tumor suppressors such as BTG2 (miR‐19b), CDKN2A (miR‐17), SYNE1 (miR‐20a), TET2 (miR‐18, miR‐19b, and miR‐92a), TNFRSF10A (miR‐92a), and TRAF3 (miR‐17). Notably, the gene expression profile data of patients with MCL revealed that BTG2 expression was negatively associated with that of BCR signature genes, and low BTG2 expression was associated with poor overall survival. Moreover, BTG2 silencing in MCL cell lines significantly induced BCR signaling overactivation and cell proliferation. Our results suggest an oncogenic role of miR‐17‐92 cluster‐activating BCR signaling throughout BTG2 deregulation in MCL. Furthermore, this may contribute to the prediction of the therapeutic efficacy and improved outcomes of MCL.
+
+SOX11 and enhancer‐regulated mechanism induce overexpression of miR‐17‐92 in mantle cell lymphoma (MCL). BTG2 was identified as a novel target of miR‐17‐92 cluster. miR‐17‐92 cluster activates B‐cell receptor signaling and cell proliferation by regulating BTG2 in MCL. 
+
+B‐cell receptor signalingBTG2mantle cell lymphomamiR‐17‐92 clusterpulldown‐seqJapan Society for the Promotion of Science
+10.13039/501100001691KAKENHI / 19K17867Nippon Shinyaku Research Grant 
+3.2
+
+## Functional role of miR‐17‐92 cluster in MCL pathogenesis
+We performed a proliferation assay in MCL cell lines transfected with miRNA inhibitors, which are chemically modified, single‐stranded oligonucleotides designed to specifically bind to endogenous miRNAs, to confirm the oncogenic role of these miRNAs in MCL. The cell proliferation of inhibitor‐transfected cell lines was generally repressed compared to the negative control group in all MCL cell lines examined (Figure  ). The underlying mechanism affecting cell proliferation is not well revealed despite the miR‐17‐92 cluster being known as oncogenic miRNA. Then, we hypothesized that the miR‐17‐92 cluster might be associated with BCR signal pathway upregulation because both the miR‐17‐92 cluster and the BCR signal are aberrantly activated in MCL cells compared to the normal counterpart of naive B cells. , We evaluated intracellular Ca2+ influx from ER stores in MCL cell lines crosslinked and stimulated with anti‐IgM BCR to assess the impact of miR‐17‐92 cluster on the BCR signal (Figure  ). The calcium response on BCR stimulation was reduced in cells transfected with all miRNA inhibitors except for miR‐17 (Figure  ). Western blot (WB) analyses showed the miR‐17‐92 inhibitors decreased the activity of Syk, BTK, and AKT (Figure  ). These results suggest that the miR‐17‐92 cluster leads to cell growth promotion partly depending on BCR signal activation.
+ 
+3.3
+
+## Investigation of targeted genes of the miR‐17‐92 cluster
+The landscape of miR‐17‐92 cluster targets, especially in MCL, is not described although a part of the targets of the miR‐17‐92 cluster consists of several genes, such as FGFR2B and CD22, affecting the BCR signal in other lymphomas such as DLBCL. Moreover, miRNA targets are different among tissues and cancer types, therefore this study aimed to identify the target genes of each matured miRNA of the miR‐17‐92 cluster in MCL cells but not by in silico simulation. We performed pulldown‐seq, where we captured mRNA using biotinylated miRNAs and analyzed them with NGS to comprehensively identify miR‐17‐92 cluster‐targeted genes (Figure  ). We used the cell line Z138, which had the lowest expression of miR‐17‐92 cluster among the cell lines used in this study, to minimize the impact of overexpression on endogenous miRNAs (Figure  ). The level of each miRNA was checked by RT‐qPCR against a negative control to determine whether the pulldown was successful (Figure  ). Quantitative analysis of the captured mRNA level comparing those of each miRNA mimic and negative control identified candidate targets, some of which are known as recurrently mutated genes in MCL, BCR signal‐related genes, and tumor suppressors, was as follows: BTG2 (miR‐19b), CDKN2A (miR‐17), 
+SYNE1 (miR‐20a), 
+TET2 (miR‐18, miR‐19b, and miR‐92a), 
+TNFRSF10A (miR‐92a), and TRAF3 (miR‐17) (Figure  and Table  ).
+ 
+3.4
+
+## Functional analysis of BTG2 in MCL
+
+We adopted publicly available gene expression profile data derived from patients with MCL who received R‐CHOP therapy (GSE93291) to investigate the clinical significance of those candidate target genes in patients with MCL. Data for these candidate genes revealed that the expression of BTG2 was negatively correlated with that of BCR signature genes (P = 1.15e‐04, R = 0.342; Figure  ). Moreover, low BTG2 expression was significantly associated with poor overall survival (P = 0.006; Figure  ), therefore we inferred the important role of BTG2 in BCR signaling and MCL pathogenesis.
+ We evaluated the BTG2 expression at the protein level to validate the data of pulldown‐seq showing that BTG2 was a candidate for the target of the miR‐17‐92 cluster and confirmed BTG2 upregulation after the introduction of miR‐17‐92 cluster inhibitors in all four MCL cell lines examined (Figure  ). Increased protein level expression of BTG2 was observed in miR‐17 and miR‐18a, which could not be identified by pulldown‐seq, in common with the four cell lines. Moreover, we performed the luciferase assay for four predicted miR‐17‐92 binding sequences and paired mutated mismatch sequences (Figure  ). Under endogenous miR‐17‐92 expression of HEK293T cells, the luciferase activities were significantly repressed in the miR‐17/20a, miR‐18a, and miR‐92a reporters and modestly reduced in the miR‐19a/19b reporter (Figure  ). We knocked down BTG2 by RNA interference in four MCL line cells to explore the functional role of BTG2 (Figures  and ). Under normal culture conditions, there was no difference between mock and knockdown cells in the three cell groups examined (Figure  ). However, 2% medium cell proliferation was increased in the knockdown group because BTG2 is a known stress‐induced gene (Figure  ). KPUM‐YY1 was excluded because it could not tolerate reduced FBS medium. Moreover, the Ca2+ flux assay revealed that BTG2 knockdown enhanced BCR signaling (Figures  and ). The molecules that constitute the BCR signaling involved in BTG2 knockdown were examined in WB. Additionally, the involvement of the Syk, BTK, and NF‐κB pathways was considered. Conversely, Lyn showed little change between mock and knockdown groups, suggesting that it was unregulated by BTG2 (Figure  ).
+ 
+
+4
+
+## DISCUSSION
+This study revealed that the miR‐17‐92 cluster, which is known as overexpressed oncogenic miRNA in MCL, regulates BCR signaling by in vitro analyses. Moreover, we identified BTG2 as a novel target of the miR‐17‐92 cluster and, importantly, that BTG2 downregulation led to BCR signal activation (Figure  ).
+ miRNAs are small noncoding RNAs that silence endogenous target genes throughout mRNA degradation and translation inhibition. Targeting of miRNAs generally depends on the interaction between seed sequences of miRNAs consisting of seven or eight nucleotides and complementary sequences mainly in the 3′UTR of mRNAs. However, the recent development of sequencing approaches, such as argonaute cross‐linking immunoprecipitation, has demonstrated that miRNA targets are determined by not only the canonical interaction of 3′UTR of mRNAs but 5′UTR and coding regions. Therefore, the classical approach to identifying the targets of miRNAs using mRNA expression analysis and in silico predicting tools using miRNA sequences might not fully capture the targets of each miRNA. Moreover, target mRNAs of each miRNA potentially vary among the cancer types because of the different endogenous expression levels of mRNAs and miRNAs, which constitute complex regulatory networks with each other. Therefore, our pulldown‐seq approach is suitable for comprehensive analysis of the miR‐17‐92 cluster in MCL. BTG2 was identified as a potential target for miR‐17, miR‐20a, and miR‐92a in TargetScan (https://www.targetscan.org/vert_80/) (Table  ) and miRDB (https://mirdb.org/), and consistently the luciferase reporter assay confirmed that the canonical matched seed sequences for miR‐17, miR‐20a, miR‐92a, and miR‐18a, which is not listed by these in silico predicting tools, exists in BTG2. Interestingly, although the pulldown method revealed miR‐19a/19b significantly binds to BTG2 and this finding is validated by the protein level in inhibitor‐transfected samples, the luciferase assay could identify only modest binding in the 3′UTR region of BTG2. These results suggest the interaction between miR‐19a/19b and BTG2 might be regulated by noncanonical seed‐matched BTG2 regions, which were undetectable by the reporter assay. On the other hand, we could not capture all the miR‐17‐92 cluster targets associated with the BCR pathway in the pulldown‐seq analysis, partly because of the sensitivity of this method and the difference in dependency of these molecules for the BCR signal in the Z138 cells which we used.
+BCL subtypes are dependent on different pathogenic BCR signal modes. The tonic BCR signal in GCB‐DLBCL and follicular lymphoma (FL) is activated to engage the PI3K pathway. , The chronic active BCR signal, which engages the BCR‐dependent NF‐κB and PI3K signal, is activated under genetic alterations, such as CD79A/CD79B, CARD11, MYD88 mutations, and loss of TNFAIP3, in ABC‐DLBCL. , , , , The chronic active BCR signal in MCL is generally considered active. IGH‐V restriction in MCL suggests self‐antigen‐driven BCR signal activation and some patients with MCL harbor LRPAP1 self‐antibody. SOX11 overexpression and CXCR4‐dependent microenvironment interaction are considered important for BCR signal activation. However, the background of BCR signal activation is not sufficiently resolved. miR‐17‐92 cluster overexpression has been previously reported to activate the PI3K/AKT/mTOR pathway by targeting the protein phosphatase PHLPP2, PTEN, and BIM in MCL. , In DLBCL, the miR‐17‐92 cluster in the presence of Myc enhances BCR signaling activity via ITIM‐containing proteins such as CD22 and FCGR2B. We evaluated the effect of individual mature miRNAs and revealed that miR‐18a, miR‐19a, miR‐19b, miR‐20a, and miR‐92a but not miR‐17 regulate BCR signaling. Considering the results that the inhibition of all six miRNAs consisting of miR‐17‐92 cluster repressed cell proliferation, we consider that oncogenic roles of miR‐17‐92 that partly depend on dysregulation of BCR signaling and other mechanisms also exist.
+BTG2 is a member of the antiproliferative (APRO) gene family (TOB1‐2, BTG1‐4), which is downregulated in many cancers as a tumor suppressor gene and is involved in cell differentiation, proliferation, DNA repair, and apoptosis. , The underlying mechanism of BTG2 downregulation is not fully described, and our findings illustrate one of the causes of tumor‐specific decreased BTG2 expression. Regarding the function of BTG2 in blood cells, BTG2/protein arginine methyltransferase‐1 (PRMT1) complex is generally generated in B cells, and CDK4 methylation and CCND3 inhibition lead to cell proliferation and differentiation inhibition through cell cycle arrest, , and are involved in mRNA stability in T cells. 
+
+No reports have examined the function of BTG2 in malignant lymphoma pathogenesis, although BTG2 mutations are frequently found in several lymphomas, such as DLBCL and FL, and this mutation was reported as a poor prognostic factor in primary testicular DLBCL. Recently, some studies have demonstrated that functional disruption of BTG1, which belongs to the APRO family and is frequently mutated in GCB‐DLBCL and FL, drives the formation of aggressive BCLs. , BTG1 acts as an immune gatekeeper in GC B cells and mutant BTG1 promotes aggressive BCLs in humans and mice. BTG1 inactivation also drives lymphomagenesis throughout the interaction with the scaffold protein BCAR1. Regarding the mechanism by which BTG2 regulates BCR signaling, PRMT1, which interacts with BTG2 and catalyzes asymmetric dimethylation of arginine‐residues localized within glycine arginine‐rich regions, has been previously reported to suppress BCR signaling through CD79A R198 methylation just below the ITAM region. , , BTG2 inhibition and PRMT1 interaction in the MCL result in CD79A methylation inhibition and BCR signaling activation.
+The mechanism of miR‐17‐92 cluster overexpression in MCL is not well understood, although 13q31‐32 amplification or gain, where MIR17HG is located, is found in 10%–20% of MCLs. We found that SOX11 overexpression induced overexpression of miR‐17‐92 in MCL cell lines. Importantly, miR‐17 overexpression has been described in SOX11‐positive MCLs compared to SOX11‐low‐expressing or negative MCLs in primary cases. The detailed mechanism of SOX11‐dependent BCR activation is unknown, although previous studies have demonstrated that SOX11‐overexpressed B lymphocytes develop MCL‐like lymphoma under BCR activation. Our result revealing that SOX11 regulates miR‐17‐92 suggests part of the cause of SOX11‐dependent BCR activation. Further investigation, especially using patient‐derived samples, is needed. Moreover, we demonstrated the enhancer‐regulated mechanism of miR‐17‐92 overexpression in a SOX11‐independent manner. Previous studies demonstrated that the expression level of normal naive B cells is lower than that of GC B cells. The data of ChIP‐seq for acetylated histone profiling of normal B cells (GSE62063) revealed low enrichment of acetylated histone at MIR17HG enhancer regions in normal naïve B cells (data not shown). BRD4 facilitates the transcription of genes important for neoplastic cells in a cancer‐type specific manner associated with acetylated histones. Hence, our data support miR‐17‐92 overexpression as the tumor‐specific pathogenic event in MCLs.
+The role of BTK inhibitors, such as ibrutinib in MCL treatment, is currently significant, and elucidating the mechanism of BCR signaling activation in MCL is an important issue in overcoming the clinical unmet need for targeted therapy resistance in this pathway. This study, which revealed that the miR‐17‐92 cluster activates BCR signaling by regulating BTG2 in MCL, has the potential to contribute to future investigations of therapeutic response and improvement of therapeutic outcomes in MCL. Furthermore, comprehensive analysis of the target molecules of the miR‐17‐92 cluster is expected to elucidate the pathogenesis of not only MCL but also many other malignant tumors.
+
+## AUTHOR CONTRIBUTIONS
+
+Yuka Kawaji‐Kanayama: Investigation; writing – original draft. Taku Tsukamoto: Conceptualization; formal analysis; funding acquisition; investigation; writing – original draft. Masakazu Nakano: Formal analysis; investigation; writing – review and editing. Yuichi Tokuda: Formal analysis; investigation; writing – review and editing. Hiroaki Nagata: Investigation. Kentaro Mizuhara: Investigation. Yoko Katsuragawa‐Taminishi: Investigation. Reiko Isa: Investigation. Takahiro Fujino: Investigation. Yayoi Matsumura‐Kimoto: Investigation. Shinsuke Mizutani: Investigation. Yuji Shimura: Investigation. Masafumi Taniwaki: Supervision. Kei Tashiro: Supervision. Junya Kuroda: Conceptualization; supervision; writing – review and editing.
+
+## FUNDING INFORMATION
+The study was supported in part by grants from Nippon Shinyaku Research Grant and JSPS KAKENHI (19K17867) (TT).
+
+## CONFLICT OF INTEREST STATEMENT
+Masafumi Taniwaki received research funding from Daiichi Sankyo Pharmaceutical. Junya Kuroda received research funding from Kyowa Kirin, Chugai Pharmaceutical, Daiichi Sankyo Pharmaceutical, Ono Pharmaceutical, Eisai, Taiho Pharmaceutical, Sumitomo Pharma, Shionogi Pharmaceutical, and Bristol Myers Squibb, has received honoraria from Ono Pharmaceutical, Sanofi, Bristol Myers Squibb, and Janssen Pharmaceutical, and is a consultant for Janssen Pharmaceutical, Bristol Myers Squibb, Asahikasei Pharma, and Pfizer. Yuka Kawaji‐Kanayama, Taku Tsukamoto, Masakazu Nakano, Yuichi Tokuda, Hiroaki Nagata, Kentaro Mizuhara, Yoko Katsuragawa‐Taminishi, Reiko Isa, Takahiro Fujino, Yayoi Matsumura‐Kimoto, Shinsuke Mizutani, Yuji Shimura, and Kei Tashiro have no conflict of interest.
+
+## ETHICS STATEMENT
+Approval of the research protocol by an Institutional Reviewer Board: N/A.
+Informed Consent: N/A.
+Registry and the Registration No. of the study/trial: N/A.
+Animal Studies: N/A.
+
+## Supporting information
+
+DATA S1.
+
+Click here for additional data file.
+
+FIGURE S1.
+
+Click here for additional data file.
+
+FIGURE S2.
+
+Click here for additional data file.
+
+FIGURE S3.
+
+Click here for additional data file.
+
+FIGURE S4.
+
+Click here for additional data file.
+
+FIGURE S5.
+
+Click here for additional data file.
+
+FIGURE S6.
+
+Click here for additional data file.
+
+TABLE S1.
+
+Click here for additional data file.
+
+TABLE S2.
+
+Click here for additional data file.
+
+## ACKNOWLEDGMENTS
+The authors thank N. Sakamoto‐Inada for her excellent technical assistance.
+
+## DATA AVAILABILITY STATEMENT
+The sequencing data reported in this article have been deposited in the DNA data bank of Japan (DDBJ) (https://www.ddbj.nig.ac.jp/) (accession number DRA016021).
