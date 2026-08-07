@@ -1,0 +1,1187 @@
+SOURCE URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC11837764/
+FINAL URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC11837764/
+HTTP: 200
+CONTENT-TYPE: text/html; charset=utf-8
+======================================================================
+Histotripsy: A Method for Mechanical Tissue Ablation with Ultrasound - PMC
+
+ Skip to main content
+
+ An official website of the United States government
+
+ Here's how you know 
+
+ Here's how you know 
+
+ Official websites use .gov 
+
+ A
+ .gov website belongs to an official
+ government organization in the United States.
+
+ Secure .gov websites use HTTPS 
+
+ A lock (
+
+ ) or https:// means you've safely
+ connected to the .gov website. Share sensitive
+ information only on official, secure websites.
+
+ Search
+
+ Log in 
+
+ Dashboard
+
+ Publications
+
+ Account settings
+
+ Log out
+
+ Search…
+
+ Search NCBI
+
+ Primary site navigation
+
+ Search
+
+ Logged in as:
+
+ Dashboard
+
+ Publications
+
+ Account settings
+
+ Log in
+
+ Search PMC Full-Text Archive 
+
+ Search in PMC 
+
+ Journal List
+
+ User Guide
+
+ PERMALINK
+
+ Copy 
+
+ As a library, NLM provides access to scientific literature. Inclusion in an NLM database does not imply endorsement of, or agreement with,
+ the contents by NLM or the National Institutes of Health.
+
+ Learn more:
+ PMC Disclaimer 
+ |
+ 
+ PMC Copyright Notice
+
+ Annu Rev Biomed Eng 
+. Author manuscript; available in PMC: 2025 Feb 19.
+
+ Published in final edited form as: Annu Rev Biomed Eng. 2024 Jun 20;26(1):141–167. doi: 10.1146/annurev-bioeng-073123-022334 
+
+ Search in PMC 
+
+ Search in PubMed 
+
+ View in NLM Catalog 
+
+ Add to search 
+
+ Histotripsy: A Method for Mechanical Tissue Ablation with Ultrasound
+ 
+ Zhen Xu 
+ Zhen Xu 
+
+ 1 Department of Biomedical Engineering, University of Michigan, Ann Arbor, Michigan, USA
+
+ Find articles by Zhen Xu 
+
+ 1 , Tatiana D Khokhlova 
+ Tatiana D Khokhlova 
+
+ 2 Applied Physics Laboratory, University of Washington, Seattle, Washington, USA
+
+ Find articles by Tatiana D Khokhlova 
+
+ 2 , Clifford S Cho 
+ Clifford S Cho 
+
+ 3 Department of Surgery, University of Michigan, Ann Arbor, Michigan, USA
+
+ Find articles by Clifford S Cho 
+
+ 3 , Vera A Khokhlova 
+ Vera A Khokhlova 
+
+ 4 Department of Acoustics, Lomonosov Moscow State University, Moscow, Russia
+
+ Find articles by Vera A Khokhlova 
+
+ 4 
+
+ Author information 
+
+ Article notes 
+
+ Copyright and License information 
+
+ 1 Department of Biomedical Engineering, University of Michigan, Ann Arbor, Michigan, USA
+
+ 2 Applied Physics Laboratory, University of Washington, Seattle, Washington, USA
+
+ 3 Department of Surgery, University of Michigan, Ann Arbor, Michigan, USA
+
+ 4 Department of Acoustics, Lomonosov Moscow State University, Moscow, Russia
+
+ ✉ Email: zhenx@umich.edu 
+
+ Issue date 2024 Jul.
+
+ This work is licensed under a Creative Commons Attribution 4.0 International License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited. See credit lines of images or other third-party material in this article for license information.
+
+ PMC Copyright notice 
+
+ PMCID: PMC11837764 NIHMSID: NIHMS2052031 PMID: 38346277 
+
+ The publisher's version of this article is available at Annu Rev Biomed Eng 
+
+ Abstract
+
+ Histotripsy is a relatively new therapeutic ultrasound technology to mechanically liquefy tissue into subcellular debris using high-amplitude focused ultrasound pulses. In contrast to conventional high-intensity focused ultrasound thermal therapy, histotripsy has specific clinical advantages: the capacity for real-time monitoring using ultrasound imaging, diminished heat sink effects resulting in lesions with sharp margins, effective removal of the treated tissue, a tissue-selective feature to preserve crucial structures, and immunostimulation. The technology is being evaluated in small and large animal models for treating cancer, thrombosis, hematomas, abscesses, and biofilms; enhancing tumor-specific immune response; and neurological applications. Histotripsy has been recently approved by the US Food and Drug Administration to treat liver tumors, with clinical trials undertaken for benign prostatic hyperplasia and renal tumors. This review outlines the physical principles of various types of histotripsy; presents major parameters of the technology and corresponding hardware and software, imaging methods, and bioeffects; and discusses the most promising preclinical and clinical applications.
+
+ Keywords: focused ultrasound surgery, high-intensity focused ultrasound, HIFU, nonlinear waves, cavitation, boiling, mechanical bioeffects, histotripsy
+
+ INTRODUCTION
+
+ High-intensity focused ultrasound (HIFU) is a nonionizing, noninvasive therapy that uses ultrasound beams focused from outside of the body toward a targeted site to locally induce a desired bioeffect ( 1 ). Most current clinical HIFU applications rely on the thermal effect of long ultrasound bursts, which rapidly heat and generate localized thermal ablation of tissue in the focal region of a HIFU beam ( 2 ). HIFU has been approved by the US Food and Drug Administration (FDA) to treat multiple diseases, including uterine fibroids ( 3 ), prostate tumors ( 4 ), and essential tremor ( 5 ).
+
+ Histotripsy is a relatively new HIFU-based technology that aims not to heat but to mechanically liquefy targeted tissue into subcellular debris using sequences of short, high-amplitude focused ultrasound pulses, which generate bubble activity at the focus ( 6 ). In contrast to conventional HIFU thermal therapy, the major mechanism of histotripsy is mechanical, which enables localized tissue disintegration at the focus without thermal damage to the overlaying and surrounding tissues. Since histotripsy was introduced in 2004 ( 7 ), various approaches, the required acoustic field parameters, the underlying physical mechanisms, and induced bioeffects have been extensively explored, and histotripsy is finding use in various clinical applications ( 8 , 9 ).
+
+ Figure 1 illustrates the general concept of histotripsy. A diagram of kidney tissue is used as an example. A high-intensity pulsed ultrasound beam is focused noninvasively, through the skin, to the targeted site. Short pulses with a duration ranging from microseconds to milliseconds are delivered to the focus at a low duty cycle to generate gas and vapor bubbles via cavitation or rapid boiling ( Figure 1 a ). The bubble activity results in mechanical disintegration or liquefaction of tissue. Histotripsy can be monitored in real time using conventional brightness-mode (B-mode) ultrasound, because bubbles are strong scatterers and appear hyperechoic on ultrasound images ( 10 – 12 ) ( Figure 1 b ). The progression of the treatment can also be monitored on B-mode ultrasound because fractionation of tissue destroys scatterers, thereby producing a hypoechoic cavity, and the degree of hypoechogenicity corresponds to the degree of tissue liquefaction ( 13 – 15 ) ( Figure 1 c ). To obtain a volumetric lesion of clinically relevant size, the transducer focus can be moved throughout the targeted volume, either mechanically or electronically using a multielement phased array ( 14 , 16 – 18 ). Finally, a liquefied lesion with sharp margins from completely destroyed to completely intact tissue forms at the focus ( Figure 1 d , e ). The shape and dimensions of the lesion agree well on B-mode, gross sections, and histology ( 14 , 17 ).
+
+ Figure 1.
+
+ Open in a new tab 
+
+ Schematic illustration of histotripsy treatment. ( a ) A pulsed beam is focused through the skin and translated either mechanically or electronically over the target volume to liquefy tissue. ( b ) Sonication is visualized in real time as an echogenic region due to the presence of bubbles. ( c ) The posttreatment region is hypoechogenic due to the loss of scatterers. ( d ) The shape and dimensions of the liquefied lesion agree well with brightness-mode visualization and ( e ) histology.
+ A histotripsy approach therefore has specific clinical advantages compared with thermal HIFU: the capacity for real-time treatment monitoring using ultrasound imaging due to the presence of bubbles and evaluation of the treatment outcomes due to the loss of tissue structures in the liquefied lesion. Another important characteristic of histotripsy is tissue selectivity: Connective tissue structures (e.g., blood vessels, biliary structures) are more resistant to mechanical ablation than are cells ( 17 , 19 , 20 ). The tissue selectivity allows treatment of the target tumors while preserving critical structures such as major vessels and bile ducts. Furthermore, the nonthermal mechanism of the approach results in a sharper boundary and higher treatment precision compared with thermal ablation, which is limited by heat sinking and heat diffusion effects. Because of the binary nature of the bubble activity, histotripsy generates precise lesions with a sharp transition from completely lysed to intact tissue. Histotripsy-treated liquefied tissue is reabsorbed by the body over 1–2 months, resulting in effective removal of the treatment volume. Only millimeter-sized scar tissue remains, which does not interfere with future tumor screening at the treatment site as thermally denatured tissue would.
+
+ Two major approaches—histotripsy, sometimes termed cavitational histotripsy (CH), and boiling histotripsy (BH), with two different physical mechanisms—have recently been extensively explored ( 21 ). To differentiate the different types of histotripsy, the terms CH and BH are used throughout this review. CH relies on initiation of a dense bubble cloud using microsecond-long pulses ( 22 ). By repeatedly expanding and collapsing during each pulse, the cavitation cloud completely homogenizes the tissue ( 23 ). CH has been realized in many organs ex vivo and in vivo, including prostate ( 24 , 25 ), heart ( 10 , 26 ), liver ( 12 , 17 ), kidney ( 27 , 28 ), brain ( 29 , 30 ), thyroid ( 31 ), and pancreas ( 32 ), as well as blood clots ( 33 , 34 ). BH uses milliseconds-long pulses containing shock fronts to rapidly heat tissue to boiling temperature and produce a vapor bubble at the focus within each pulse ( 35 ). The interaction between the rest of the pulse and the vapor cavity results in mechanical fractionation of tissue ( 36 , 37 ). BH has been performed in ex vivo tissues and in vivo in liver ( 11 , 14 ), kidney ( 14 ), prostate ( 38 ), large hematomas, and abscesses ( 39 ). In addition, a hybrid histotripsy (HH) approach that uses submillisecond pulses (intermediate between BH and CH) has been proposed and successfully tested in ex vivo porcine liver, kidney, and cardiac muscle ( 40 ).
+
+ Currently, histotripsy therapy is being evaluated in preclinical studies with small and large animal models for treating cancer ( 28 , 41 , 42 ), cardiac diseases ( 43 , 44 ), thrombosis ( 33 , 34 ), hematomas ( 45 , 46 ), and abscesses ( 39 ); enhancing tumor-specific immune response ( 32 , 47 , 48 ); and neurological applications ( 29 , 30 , 49 ). The first clinical trials using CH for benign prostatic hyperplasia, liver cancer, and renal cancer have been undertaken ( 50 , 51 ). Histotripsy was recently approved by the FDA to treat liver tumors. In addition to complete tissue liquefaction, a mechanism of a partial mechanical tissue damage (not yet histotripsy) is being explored for a broader range of applications such as noninvasive liquid biopsy ( 52 ), enhanced drug delivery ( 53 ), treatment of muscular-skeletal diseases ( 54 ), and biofabrication ( 20 ).
+
+ Even though the field of histotripsy has significantly matured during the last decade, many aspects remain intriguing and are yet to be studied. It is an exciting and rapidly growing area of research that includes fundamental physics, nonlinear acoustics, cavitation, wave propagation and interaction with multiphase media, mechanical tissue properties, and physiological responses of various organs to localized tissue and cell destruction. This review outlines the current state of the field; physical principles of various types of histotripsy; major parameters of the technology and corresponding hardware and software, imaging methods, and bioeffects; and promising preclinical and clinical applications.
+
+ PHYSICAL MECHANISMS AND ULTRASOUND FIELD PARAMETERS
+
+ Histotripsy relies on controlled generation of bubble activity by sequences of ultrasound pulses delivered at a low repetition rate to mechanically disrupt the targeted tissue. With a sufficient number of pulses, the target tissue is liquefied to acellular debris, with no intact cells inside the target volume. The mechanisms underlying histotripsy consist of two parts: generation of bubbles and the tissue homogenization process. Specific differences in such mechanisms are detailed below for three types of histotripsy: CH, BH, and HH. Representative values of the ultrasound field parameters associated with these methods are given in Table 1 .
+
+ Table 1.
+
+ Representative parameters of various histotripsy approaches
+
+ CH 
+ HH 
+ BH 
+
+ Intrinsic threshold CH (microtripsy) 
+ Shock scattering CH 
+
+ Frequency 
+ 
+ 0.25–6 MHz 
+ 0.25–5 MHz 
+ 1–5 MHz 
+ 1–5 MHz 
+
+ Pulse length 
+ 
+ 1–2 cycles (0.2–4 μs) 
+ 3–20 cycles (0.6–80 μs) 
+ 0.2–1 ms 
+ 1–20 ms 
+
+ Duty cycle 
+ 
+ <1% 
+ <1% 
+ 1%–2% 
+ 1%–2% 
+
+ Peak power 
+ 
+ >2,000 W 
+ >1,000 W 
+ >800 W 
+ >300 W 
+
+ p− pressure 
+ 
+ >30 MPa 
+ 20–30 MPa 
+ 15–20 MPa 
+ 10–15 MPa 
+
+ p+/As pressure 
+ 
+ No requirement 
+ >100 MPa 
+ >80 MPa 
+ >60 MPa 
+
+ Lesion width/length (at 1 MHz) 
+ 
+ 0.3–1 mm/0.5–2 mm 
+ 1 mm/4 mm 
+ 2 mm/5 mm 
+ 4 mm/8 mm 
+
+ Open in a new tab 
+
+ Abbreviations: BH, boiling histotripsy; CH, cavitational histotripsy; HH, hybrid histotripsy.
+
+ Cavitational Histotripsy
+
+ The CH approach uses nanometer- or micrometer-sized gas pockets inside the tissue as cavitation nuclei to generate a cloud of microbubbles (i.e., a cavitation cloud) ( 55 , 56 ). CH typically uses microsecond-length pulses (1–20 cycles) at a center frequency of 200 kHz to 5 MHz and relies on very high peak negative pressure in situ ( 7 , 57 , 58 ). There are two CH approaches to generate a cavitation cloud: the intrinsic threshold approach ( 55 ) and the shock scattering approach ( 22 ).
+
+ Using the intrinsic threshold approach, a cavitation cloud can be reliably generated using a single one- to two-cycle ultrasound pulse when the peak negative pressure exceeds the cavitation threshold intrinsic to the tissue. This threshold was measured to be from −26 to −28 MPa in water-based tissue, including blood clots, kidney, liver, heart, and spleen, and to be −14 MPa in lipid-based tissue ( 55 ). The intrinsic threshold does not change significantly with transducer frequency, focusing angle (f-number, or f#), or tissue stiffness ( 59 , 60 ) but reduces with increasing temperature ( 61 ). Simulation shows that the pressure level of this threshold corresponds to the surface tension of gas pockets of 2–10 nm in diameter, which are likely the endogenous gas pocket sizes in the tissue ( 55 , 56 ). These nanometer-sized gas pockets are highly stabilized due to their high surface tension, but when the negative pressure phase of the ultrasound waveform overcomes their surface tension even for a fraction of a microsecond, they can expand rapidly to form cavitation microbubbles. As the ultrasound pulse propagates through the focal zone, cavitation microbubbles are generated within the region where the negative pressure phase is beyond the intrinsic threshold ( 55 , 58 ). If the peak negative pressure is right above the intrinsic threshold, this cloud of cavitation microbubbles can be smaller than the focal zone. Thus, the intrinsic threshold CH is also termed microtripsy, for its capability of generating a sub-millimeter-sized cavitation cloud smaller than the diffraction limit defined by the ultrasound wavelength ( 58 ).
+
+ When the peak negative pressure is below the intrinsic threshold, a cavitation cloud can be generated via an indirect approach, termed shock scattering CH ( 22 ). Using a multicycle ultrasound pulse (typically 3–20 cycles), an individual microbubble can be generated in the first one to three cycles with a peak negative pressure of approximately −20 MPa in water-based tissue, if there is a preexisting cavitation nucleus (e.g., a 100-nm gas pocket) in the focal zone. At the high pressures used in histotripsy, due to nonlinear acoustic propagation, the shock front develops in each cycle of the ultrasound waveform, and the peak positive pressure in the waveform is much higher than the peak negative pressure (e.g., it can be p+ > 80 MPa, corresponding to | p− | = 20 MPa). The high-amplitude shock in the subsequent acoustic cycle of a multicycle ultrasound pulse scatters back from the soft boundary of the initial individual microbubble and inverts its shape into the shock with a high negative pressure. This inverted shock and the incoming negative phase in the subsequent acoustic cycle together result in extremely high negative pressure, well beyond the intrinsic threshold, and generate a cloud of dense microbubbles. The shock wave in the next acoustic cycle scatters from the newly formed cavitation cloud and repeats the process.
+
+ Compared with intrinsic threshold CH (|p− | > 30 MPa), shock scattering CH requires lower peak negative pressure (|p− | ~ 20–30 MPa), and the cavitation cloud formed via shock scattering CH is often denser and larger than the size of the focal zone, resulting in a higher efficiency but lower treatment accuracy compared with intrinsic threshold CH ( 62 ). The main downside of shock scattering CH is the stochastic nature of the formation of the first individual bubble, which often requires multiple pulses (from fewer than 10 to more than 100 pulses) to form this bubble to initiate the shock scattering process.
+
+ Both intrinsic threshold and shock scattering CH use a very low duty cycle (ultrasound on-time/total treatment time = 0.0001–1%) to mitigate heating. The cavitation bubbles are observed to be generated outside cells in the fluid inside the extracellular matrix ( 63 ). After cavitation nucleation, the nanometer-sized gas pockets can grow to hundreds of micrometers and collapse within a few hundred microseconds. The rapid expansion of the cavitation bubbles squeezes the adjacent cells, the bubble collapse pulls the adjacent cells, and the local high strain and stress produced over multiple pulses cause cyclic strain and stress to impose on the cells and eventually mechanically break them down ( 63 ). Increasing the number of pulses results in an increase in the extent of cellular and subcellular disruption within the focal zone. Eventually, the tissue within the focal zone can be completely liquefied into acellular debris, with no intact cells remaining. The boundary zone between complete cell disruption and the surrounding intact cells is very narrow, within 1 mm in vivo and 100 μm in vitro. The histotripsy damage threshold is impacted by tissue stiffness ( 64 ). In stiffer tissue, the bubble expansion is restricted ( 62 , 65 ). Stiffer tissue typically also has a higher ultimate tensile stress, which is the maximum stress that a material can withstand while being stretched or pulled before breaking. Thus, stiffer tissue (e.g., tissue with more collagen/fiber components such as tendons, vessels, nerves, or connecting system) has a higher resistance to histotripsy-induced damage; that is, the pressure or the number of pulses required to damage the target tissue is higher with stiffer tissue ( 64 – 66 ). As a result, tissue-selective CH ablation has been observed ( 12 , 17 , 67 , 68 ). For example, target liver tissue is completely liquefied to acellular debris while major vessels and bile ducts remain intact inside the liquefied region ( 17 , 68 ).
+
+ Boiling Histotripsy
+
+ The BH approach uses 1- to 10-ms pulses with lower focal pressures and, similar to shock scattering CH, relies on nonlinear propagation effects and the presence of shock fronts in the ultrasound pressure waveform at the focus ( 69 , 70 ). As ultrasound absorption increases with frequency, tissue heating is significantly enhanced, in tens of times, due to absorption at the shock fronts, which are formed by high harmonics of the initially harmonic wave ( 71 ). While in harmonic wave fields the absorption of ultrasound energy and the corresponding heating rates are proportional to the wave intensity or pressure amplitude squared, the absorption at the shocks is proportional to the shock amplitude сubed, and thus grows rapidly with increases in the shock amplitude ( 35 , 71 ).
+
+ Due to the enhanced tissue heating through absorption at the shock fronts, the tissue at the focus can reach a temperature of 100°C within a few milliseconds, resulting in initiation of highly localized boiling bubbles, which explosively grow, cool down, and form a millimeter-scale vapor bubble ( 35 ). The interaction of the incoming shocks in the remainder of the pulse with the tissue–vapor interface results in the formation of an acoustic fountain directed into the vapor cavity and consisting of micrometer-scale fragments of ejected tissue—a process known as acoustic atomization ( 36 ). At the same time, reflection of shocks from the vapor bubble interface initiates violent prefocal cavitation in tissue immediately proximal to the bubble surface, thus aiding the atomization and microjetting processes ( 35 , 72 ). The tissue particles are ejected from the proximal bubble wall at velocities that can reach meters per second, and when this jet impacts the distal side of the bubble, it produces additional mechanical damage ( 45 ). The abovementioned processes are repeated within each pulse, leading to the formation of a small oblong lesion first, which gradually enlarges and then transforms into a tadpole-like shape. The lesion size saturates within the dimensions of the focal lobe after 30–120 pulses are delivered, depending on the tissue stiffness. Interestingly, thermal effects are negligible within BH lesions because the shocks are superfocused, and the shock-heated region is very small (~100 μm wide and 1 mm long), much smaller in volume than the focal region of the linearly focused beam ( 36 , 71 ).
+
+ To produce purely mechanical lesions, BH typically operates at duty cycles of 0.5–2%. Compared with CH, a relatively higher duty cycle can be used for pulses, and interpulse periods are longer, allowing heat to diffuse and mitigating its accumulation. The peak negative focal pressure (|p− | ~ 10–18 MPa) and overall acoustic output power required for BH are lower than those for CH, but to attain boiling within 1 to 10 ms, shock fronts with amplitudes from 50 to 100 MPa and frequencies higher than 1 MHz are required. The shock amplitudes can be controlled by the transducer focusing angle, which is higher for more focused transducers but can be f# = 1 using conventional HIFU systems. The BH lesion shape also depends on the focusing angle, which is more rounded with a shorter tail for highly focused fields. The size of BH lesions is inversely proportional to frequency, with frequencies higher than 3.5 MHz producing very small lesions. Similar to CH, BH produces precise mechanical ablation with a sharp transition from completely lysed to intact tissue occurring within 100 μm in the absence of tissue motion. It also has tissue-selectivity capabilities, like CH, and thus can safely ablate tissue near critical structures ( 37 ). Operating with higher shock amplitudes allows for the use of shorter pulses (e.g., 1 ms versus 10 ms) to generate boiling that accelerates BH treatments ( 73 ).
+
+ Hybrid Histotripsy
+
+ Most recently, HH that combines CH and BH has been explored ( 74 , 75 ). HH uses pulse durations of hundreds of microseconds and pressure levels between those of CH and BH ( 40 ). Dual-frequency and two-stage approaches have been investigated for HH to enhance the treatment speed ( 74 , 75 ). HH is in its infancy, and the effective parameter range and precise mechanism need to be fully studied.
+
+ INSTRUMENTATION
+
+ Major parts of complete histotripsy systems, similarly to conventional thermal HIFU, include a high-power transducer to generate ultrasound, a high-power electronic driver to feed the transducer, a positioner to move the transducer, an acoustic coupler to ensure efficient transmission of ultrasound into tissue, and imaging to guide and monitor the treatment. Due to the distinct mechanisms of mechanical disintegration of tissue by ultrasound, certain parameters of this instrumentation are specific for histotripsy.
+
+ Histotripsy treatments generally require the use of significantly higher peak acoustic power outputs from a transducer compared with conventional thermal HIFU to achieve the desired peak pressures at the focus ( 70 ). While peak power ranges from a few hundred watts to tens of kilowatts, the time-average power due to the low duty cycle of less than 1% is relatively low. Intrinsic threshold CH is realized with the shortest pulses, the highest focal pressures, and, thus, the highest peak power. For other types of histotripsy, characteristic peak power and focal pressure requirements decrease with an increase of the pulse length; that is, they are lower for shock scattering CH and then for HH, and are the lowest for BH ( Table 1 ). To comply with the power and focal pressure requirements for histotripsy, specialized driving electronics systems and transducers have been developed.
+
+ CH uses microsecond-long pulses with extremely high pressure. To generate such short pulses, the ultrasound transducers need to have a wide bandwidth. To generate high pressure, relatively large transducers with a low f# (transducer diameter/focal distance < 1) are typically used ( 76 , 77 ). The transducer geometry varies from a spherical segment for brain to a truncated circular aperture shape for liver and kidney to better fit an acoustic window available for the treatment ( 76 , 77 ). More recently, millimeter- to centimeter-sized small transducers have been developed for endocavity or endoscopic applications of histotripsy ( 78 – 80 ) ( Figure 2 a ). These transducers often have higher frequency (>3 MHz) to achieve a higher focal gain and can be integrated with a high-frequency imaging probe to guide the treatment ( 79 ), although a lower-frequency (1-MHz) endocavity transducer was recently developed to enable larger-volume treatment ( 80 ). The electronic driver provides short bursts of 1–3 kV, a much higher voltage compared with thermal HIFU, BH, and HH that cannot be generated by a commercial linear amplifier. A current-based amplifier and a half-bridge class-D amplifier have been designed and used for intrinsic threshold CH and shock scattering CH, respectively ( 77 , 81 ). Most recently, a transmit-and-receive-capable electronic driver has been developed for CH to enable aberration correction ( 82 ) and acoustic cavitation mapping ( 83 ).
+
+ Figure 2.
+
+ Open in a new tab 
+
+ Representative histotripsy transducers. ( a ) A 6.8-MHz, 10-mm shock scattering cavitational histotripsy (CH) transducer with a 4-mm square hole in the center for a high-frequency imaging probe ( 79 ). ( b ) A 750-kHz truncated circular aperture array transducer (165 × 234-mm aperture and 142-mm focal distance) for intrinsic threshold CH in liver and kidney ( 77 ). ( c ) A 1.5-MHz, 256-element array (144-mm aperture and 120-mm focal distance) for boiling histotripsy and hybrid histotripsy ( 18 ). ( d ) A 2-MHz transrectal transducer for boiling histotripsy of prostate tissue.
+ An important step in accelerating histotripsy studies was the development of rapid prototyping of custom transducers using modular piezoelectric elements and 3D-printed housing ( 84 ). This approach enabled multiparametric studies exploring the effects of transducer frequency, shape, and focusing geometry for various histotripsy methods and applications ( 59 , 76 , 85 ). Recent developments include rapid prototyping of multielement phased arrays for microtripsy designed to enable electronic focus steering and aberration correction ( 77 ). The arrays have been constructed either with monolithic-shaped housing to encase the modular piezoelectric elements ( 76 ) or by combining separate individual elements with a thin insulation layer that permitted modification of the array’s shape and easier replacement of broken elements ( 77 ). For example, a 750-kHz, 260-element truncated circular array (165 × 234-mm aperture and 142-mm focal distance) was designed and built for histotripsy liver treatment ( Figure 2 b ). A 700-kHz, 360-element hemispherical array (150-mm focal distance) was designed and built for transcranial histotripsy brain treatment. Both arrays are driven with transmit-and-receive-capable electronics, such that aberration correction ( 82 , 86 ) and acoustic cavitation mapping can be implemented ( 83 ).
+
+ A high-voltage electronic pulser originally developed for CH was further enhanced for use with longer pulses up to 10 ms in BH ( 85 ). A combination of this driving system with various transducers built using rapid prototyping was applied for investigating BH mechanisms and developing systems for various clinical applications ( 36 , 39 , 45 , 87 ).
+
+ While CH cannot be realized using commercially available transducers and power amplifiers, both HH and BH can be implemented using commercial amplifiers ( 35 , 71 ), as well as the existing clinical and preclinical HIFU systems with ultrasound or magnetic resonance (MR) guidance. The ultrasound-guided VIFU 2000 preclinical system (Alpinion Medical Systems, Bothell, Washington, USA) operating with a 1.5-MHz single-element transducer (64-mm aperture and 45-mm radius of curvature) has been used in small animal BH studies at peak electrical power levels from 200 to 600 W ( 48 , 52 , 88 ). An ultrasound-guided transmit-and-receive-capable BH system has been developed based on the power-enhanced 256-channel Verasonics ultrasound engine (3.5-kW max electric power) and a custom-designed piezocomposite 1.5-MHz spiral phased array (144-mm aperture and 120-mm radius of curvature) ( Figure 2 c ). The system enabled trans-abdominal BH ablation and aberration correction in in vivo porcine liver and kidney ( 18 , 89 ). A miniaturized 2-MHz ( Figure 2 d ) transducer was recently developed for endorectal ultrasound-guided BH ablation of prostate and was successfully tested in in vivo canine studies ( 90 ).
+
+ The clinical MR-HIFU Sonalleve V1 and V2 systems (Profound Medical Inc., Mississauga, Ontario, Canada), which include 256-element, 1.2-MHz phased transducer arrays (127.8-mm and 135.9-mm apertures and 120-mm and 140-mm radii of curvature, respectively), are capable of operating under shock-forming conditions and have been used with peak electrical power ranging from 400 W in BH to 1,000 W in HH experiments ( 73 , 91 , 92 ). A higher-frequency preclinical MR-guided system (Image Guided Therapy, Pessac, France) with a 3-MHz annular phased transducer array (48-mm diameter and adjustable focus depth of 30–80 mm) was used to treat subcutaneous tumors in mice at 350-W electrical power ( 93 , 94 ).
+
+ Most histotripsy transducers have a central opening for holding an ultrasound imaging probe or a cavitation detection probe, such that the imaging plane is aligned with the therapy focus. The presence of the central opening also protects high-power transducers from mechanical damage that most often occurs at their center due to the concentration of Lamb waves at the transducer surface and reflections from tissue interfaces located approximately halfway to the focus.
+
+ Acoustic coupling of transducers to tissue is an important component to ensure efficient ultrasound transmission from the transducer to the skin. Acoustic coupling has been done by immersing transducers in a water container with a thin acoustically transparent membrane at the bottom ( 9 , 14 , 18 , 95 ), using cone-shaped holders attached to the transducer with a membrane at the end opening and filled with degassed and deionized water ( 11 ) or having the transducer stationary in liquid with a membrane and using gel pads ( 94 ). In addition, a recent study has shown that a flat aperture Fresnel lens–based CH transducer can eliminate water coupling and use gel instead to allow ultrasound transmission directly to the skin from the transducer surface ( 96 ).
+
+ To generate volumetric lesions, a positioning system or a robotic arm ( 9 , 14 , 17 ) has been used to mechanically translate a transducer over a set of discrete foci, in combination with electronic focus steering when phased arrays are employed ( 16 , 18 , 20 , 29 ). A robotic arm can also be used for breathing motion compensation ( 89 ).
+
+ Numerical simulation tools and acoustic measurement instrumentation are key components in designing histotripsy transducers and in planning treatments. Initial design-stage simulations help optimize the size and shape of the transducer to ensure its ability to generate the required pressures and/or shocks at the focus. The transducer pressure field is measured in water using a hydrophone. Histotripsy fields are strongly focused, and shocks are highly localized within the focal region; therefore, the hydrophone has to be miniature, broadband, and robust. Fiber-optic hydrophones are commonly used, as they can withstand high pressures, have small fiber tip sizes (~100 μm), and have broad bandwidth (~100 MHz) ( 73 , 85 , 97 ). As an alternative, robust membrane hydrophones comprising a steel foil for front protection from cavitation damage have been proposed for such measurements ( 98 ). When planning treatments, in situ focal pressures are predicted from measurements in water by scaling the transducer power to compensate for attenuation losses in tissue ( 84 , 91 ). To accurately predict full 3D acoustic fields in water and tissue, nonlinear numerical simulations are performed, requiring a realistic pattern of the transducer vibration ( 18 , 91 ). This pattern can be obtained via acoustic holography, in which low pressure is measured with a hydrophone in water over a plane transverse to the transducer axis and then numerically backpropagated to the transducer surface ( 91 ).
+
+ Freely available software tools for numerical modeling of histotripsy fields with shocks have been developed ( 99 ). Currently, such software is available only for the axially symmetric field geometries. However, transducers generating quasi-axially symmetric fields can be approximated by a model of axially symmetric equivalent source, which yielded good agreement with more robust 3D modeling at a fraction of the computational cost ( 69 , 100 ).
+
+ IMAGE-GUIDED TARGETING AND MONITORING
+
+ For a noninvasive ablation, real-time imaging-guided targeting and monitoring are important to ensure high treatment accuracy. HIFU thermal treatment uses magnetic resonance imaging (MRI) thermometry as real-time guidance; however, this requires a few hours of dedicated MRI scan time ( 101 ), which is associated with high cost and could be difficult to arrange in hospitals with limited MRI availability. One advantage of histotripsy is that it can be guided by ultrasound imaging ( 11 , 14 , 17 , 43 ). Typically, the histotripsy ultrasound transducer has a central hole to house an ultrasound imager that can view the focal plane of the treatment. Histotripsy-generated bubbles are readily visualized as a temporally changing, hyperechoic (bright) zone on standard B-mode ultrasound images ( 102 , 103 ) ( Figure 3 a ). The interference from the histotripsy ultrasound pulses on ultrasound images can be mitigated by synchronizing with imaging ultrasound pulses. As histotripsy mechanically disrupts the cells and tissue structures, which reduces the number and size of sound scattering in the treatment region, the histotripsy treatment zone appears hypoechoic (dark) compared with the untreated region ( 13 , 15 , 103 ) ( Figure 3 b ).
+
+ Figure 3.
+
+ Open in a new tab 
+
+ Imaging guidance. ( a , b ) Ultrasound brightness-mode images of in vivo porcine liver during and after shock scattering cavitational histotripsy (CH) treatment ( 103 ). A hyperechoic-zone cavitation bubble cloud was seen during treatment ( a ), and a hypoechoic region of the histotripsy ablation zone was seen after treatment ( b ). ( c ) Ultrasound color Doppler images in myocardium tissue treated by boiling histotripsy (BH) taken immediately after the first and fifteenth pulses ( 78 ). ( d ) Acoustic cavitation map generated by a transmit-and-receive-capable transcranial histotripsy array overlaid on a T2-weighted magnetic resonance (MR) image of a human cadaveric brain. ( e ) Axial postcontrast portal venous phase MR image demonstrating an ablation zone within the right hepatic lobe ( red arrow ) of in vivo porcine liver after shock scattering CH treatment ( 68 ).
+ As ultrasound B-mode imaging is a standard clinical imaging tool that is widely available at low cost and can be easily incorporated for treatment guidance, it has been used in almost all histotripsy preclinical in vivo studies and clinical trials ( 33 , 43 , 50 , 51 , 104 ). However, there are limitations of the ultrasound B-mode imaging guidance, as it is only 2D and cannot provide 3D volume information, it cannot clearly visualize some tumors, and it provides only a qualitative assessment of the degree of tissue liquefaction. Beyond the B-mode modality, some other ultrasound imaging methods have been evaluated for histotripsy monitoring. For example, as histotripsy-treated tissue gradually becomes softer and eventually is liquefied, ultrasound elastography can be used to measure the decreasing elastic modulus during the treatment as a quantitative measure of the tissue damage ( 105 ). Technically, ultrasound elastography cannot be implemented during histotripsy, and the treatment has to be halted for the measurement. Doppler-based methods have been recently developed and proposed as a quantitative tool to characterize tissue movement or streaming effects in liquefied lesions at the focus and thus to determine the degree of tissue disintegration ( 78 ) ( Figure 3 c ). Acoustic cavitation emission signals received by either an imaging array for passive cavitation detection/mapping ( 106 ) or a histotripsy array with transmit-and-receive capabilities ( 83 ) have been used to form 3D cavitation mapping to monitor the treatment ( Figure 3 d ). Features can be extracted from the cavitation emission signals to quantitatively correlate with the level of tissue damage; for example, the collapse time increases with an increasing level of histotripsy damage ( 107 ). In addition, fast-frame plane-wave ultrasound imaging has been used to monitor bubble dissolution following the collapse of histotripsy cavitation bubbles ( 108 ).
+
+ MRI and computed tomography (CT) are used clinically for routine tumor screening and treatment follow-up. Both modalities have been used in in vivo histotripsy preclinical studies and clinical trials for immediate posttreatment evaluation and for longitudinal follow-up ( 12 , 20 , 41 , 102 ). Contrast-enhanced MRI or CT can be used to differentiate any residual tumors from the histotripsy ablation zones ( 109 ). For the brain, where ultrasound imaging is not practical due to the presence of the skull, transcranial histotripsy can be guided by MRI ( 29 , 76 ). In vivo histotripsy ablation zones can be visualized with T2- or T2*-weighted MRI due to bleeding into the treatment region ( 12 , 41 , 102 ) ( Figure 3 e ). Histotripsy ablation zones can also be viewed on MRI with diffusion-weighted imaging (DWI) in vivo and ex vivo, as histotripsy homogenization of cellular matter increases diffusion in the treatment region compared with the surrounding tissues ( 110 ). Pretreatment targeting can be achieved by visualizing the focal zone with MR thermometry or MR-ARFI (acoustic radiation force imaging), although this requires the histotripsy transducer to generate longer ultrasound pulses or a higher duty cycle to cause low heating or displacement at the focus. This may be readily achievable with the BH system but may require modification of the CH system. The MR-ARFI method for determining the threshold for shock-forming conditions at the focus was recently used in in vivo animal studies using a clinical MR-HIFU system ( 111 ). There is early work showing that histotripsy-induced cavitation can cause local motion detectable using DWI with MRI pulse sequences synchronized with histotripsy pulses, which could provide monitoring during treatment ( 112 ), but further investigation is warranted. In BH, the appearance of vapor bubbles at the focus during treatments was detected on MR images using a gradient-echo sequence and confirmed by visual observations in optically transparent polyacrylamide gel phantoms ( 113 ).
+
+ THERAPEUTIC APPLICATIONS
+
+ As a platform technology, histotripsy has been investigated for many disease types in preclinical research, which are summarized in the following subsections. There have been clinical trials of histotripsy for treatment of benign prostatic hyperplasia and liver cancer, as reported in the section titled Clinical Trials. Histotripsy was recently approved by the FDA for the treatment of liver tumors.
+
+ Cancer Applications
+
+ The ability to liquefy soft tissues in a noninvasive and precisely guided manner makes histotripsy a uniquely attractive approach for oncological therapy. Conventional tumor-directed therapies such as radiation and thermal ablation can be limited by off-target toxicities or the need for direct tumor puncture. A number of in vitro and in vivo preclinical studies have demonstrated the ability of histotripsy to ablate a wide range of histological tumor types, including hepatocellular carcinoma ( 41 , 42 ), prostate cancer ( 114 , 115 ), melanoma ( 47 ), neuroblastoma, cholangiocarcinoma ( 116 ), renal cell carcinoma ( 28 , 48 ), pancreatic adenocarcinoma ( 32 , 88 ) ( Figure 4 a ), osteosarcoma ( 117 ), and glioma ( 109 ). Slowed tumor growth, increased survival, or even reduced metastasis (abscopal effects) following complete or partial histotripsy tumor ablation have been reported. For example, Worlikar et al. ( 42 ) showed that 9 of 11 rats with McA-RH7777 orthotopic liver tumors treated by microtripsy (i.e., intrinsic threshold CH, with 50–75% of the tumor volume treated) had tumor-free survival to the 3-month study endpoint, whereas 11 controlled untreated rats had to be sacrificed at 2–3 weeks after tumor inoculation due to the fast spread of liver metastases ( Figure 4 b ).
+
+ Figure 4.
+
+ Open in a new tab 
+
+ Histotripsy cancer treatment and immunostimulation. ( a ) Immunohistochemistry staining for CD8 + T cells ( brown color , arrowheads ) of kidney tumor in spontaneous bilateral Eker rat model 48 h following boiling histotripsy (BH) ablation of 50% of a tumor (K = normal kidney; T = tumor). Enhanced CD8 + T cell infiltration was observed not only in the residual treated tumor and adjacent kidney tissue but also in the contralateral nontreated tumor and not in untreated controls. ( b ) A rodent McA-RH7777 liver tumor model with spontaneous intrahepatic metastasis and intact immune system in an untreated control case ( top row ) and a histotripsy-treated case ( bottom row ) ( 42 ). Partial treatment (50–75% of the tumor volume) using microtripsy led to complete tumor regression and reduced risk of metastasis development. ( c ) Microtripsy cavitational histotripsy (CH) ablation of B16F10 melanoma flank tumors caused abscopal reduction in the number and size of distant, nonablated pulmonary metastases ( black lesions ) ( 47 ). Panel a adapted from Reference 48 .
+ Beyond the ability of histotripsy to destroy targeted tumor tissues, preclinical studies have pointed to the possibility that local histotripsy tumor ablation may also yield systemic antitumor immune effects. CH tumor ablation of murine melanoma and hepatocellular carcinoma tumors induced CD8 + T cell infiltration and growth inhibition of both local, partially ablated tumors and distant, nonablated tumors (abscopal effect) ( Figure 4 c ) ( 47 ). One potential mechanism underlying the immune effects of histotripsy may relate to the purely mechanical nature of its cytotoxicity, in which cellular and subcellular structures are disrupted without the use of potentially immunosuppressive heat or ionizing radiation ( 118 ). Indeed, CH causes far more release of immunogenically intact tumor antigen and intratumoral CD8 + T cell infiltration than does radiofrequency ablation or radiation ( 47 ). Another potential mechanism may be the ability of histotripsy to induce specifically immunostimulatory pathways of cancer cell death. Investigations of BH in experimental models of breast and renal cell carcinoma have observed local release of tumor necrosis factor alpha (TNFα), activation of TNFα signaling pathways and inflammatory cytokines, and intratumoral infiltration of CD8 + T cells ( 48 , 72 ). These events are hallmarks of immunogenic cell death (ICD), programmed pathways in which dying cells extrude proinflammatory intracellular substances called damage-associated molecular patterns (DAMPs) that activate innate and immune cells capable of mounting immune responses against the contents of dying cells ( 119 ). Indeed, analyses of tumor microenvironmental changes following CH and BH confirm significant release of DAMPs and upregulation of inflammatory signaling pathways within ablated tumors ( 32 , 47 ). Transcriptomic analyses indicate that CH tumor ablation triggers a specific pathway of ICD called necroptosis, in which cells form self-destructive cell membrane pores through which DAMPs and tumor antigens are released. The immunogenic nature of the resulting tumor microenvironment is underscored by experimental observations that tumor homogenates generated by CH (but not by freeze-thaw dissociation or radiation) can function as vaccines that protect naive mice from tumor challenge. The mechanistic effects of CH-induced ICD are further underscored by the repeatable sequence of antigen-presenting cell (APC) activation in the ablation zone, APC priming of T cells in tumor-draining lymph nodes, and systemic activation and trafficking of antitumor CD8 + T cells that follows histotripsy tumor ablation ( 120 ).
+
+ The ability of histotripsy to induce ICD and antitumor CD8 + T cell responses has motivated strong interest in the concept of using histotripsy to sensitize tumors to the effects of checkpoint inhibition immunotherapy. The combination of BH with CD40 ligation polarizes macrophages and T cells against tumors and, when used in conjunction with anti-CTLA-4 (anti–cytotoxic lymphocyte antigen 4) and anti-PD-L1 (anti–programmed cell death ligand 1) antibodies, enhances the antimelanoma efficacy of checkpoint inhibition immunotherapy ( 121 ). Similarly, the combination of BH with anti-CTLA-4 and anti-PD-1 (anti–programmed cell death 1) antibodies results in maximal tumor control, survival, and favorable profiles of intratumoral lymphocytic infiltration in a murine model of pancreatic adenocarcinoma ( 88 ). CH alone dramatically enhances the antitumor effects of checkpoint inhibition ( 47 ). Interestingly, CD8 + T cells that are activated by CH exhibit the ability to induce ferroptosis, a specific process of cell death to which cancer cells are uniquely susceptible ( 122 ). Ferroptosis is the same mechanism by which checkpoint inhibition immunotherapy–activated CD8 + T cells exert their cytotoxicity ( 120 ), which may explain the potency of histotripsy–checkpoint inhibition combinatorial strategies ( 123 ).
+
+ Cardiac Applications
+
+ CH has been investigated for treatment of hyperplastic left heart syndrome (HLHS), in which patients are born with an underdeveloped (or even the absence of a) left ventricle. As part of the reconstructive surgery, a flow channel needs to be created between the left and right chambers of the heart via a perforation through the atrial septum in neonatal HLHS patients ( 124 ). In fact, the need for an HLHS application motivated the invention and the first publication of histotripsy in 2004 ( 7 ). Ultrasound imaging–guided shock scattering CH was used to successfully create a perforation through the atrial septum in an in vivo open canine heart ( 10 ) and a perforation through the ventricular septum in a neonatal pig through an intact chest ( 26 , 43 ). The short pulse duration (three cycles at 750 kHz–1 MHz) at a pulse repetition frequency (PRF) of 1–20 kHz and a peak negative pressure of 11–15 MPa are efficient at creating perforations through the cardiac tissue ( 7 ).
+
+ There are technical and safety issues specific for cardiac applications. Acoustic access to the heart from external applications is challenging due to the rib cage and lung blockage. However, even with ribs and a small part of the lung in the pathway, CH was successfully applied externally from the subcostal and transthoracic window ( 43 , 44 ). Heart motion is another technical challenge when treating a cardiac target. Once cavitation is initiated, it tends to regenerate at the same site when the PRF is fast enough, leveraging the residual cavitation bubble fragments from the previous ultrasound pulse. This cavitation memory effect was utilized to apply accurate treatment in the presence of cardiac motion without actively applying any tracking correction ( 43 , 44 ). Lastly, there is a concern that histotripsy may release tissue debris to cause hazardous emboli. MRI and histology of the brain and lung after CH cardiac treatment did not show any evidence of embolization ( 26 , 43 ). The tissue debris induced by CH in vitro was measured to be smaller than 6 μm in more than 99% of the debris particles, with the largest particle measured at 54 μm ( 125 ).
+
+ Blood Clots
+
+ The formation of pathological blood clots is the cause of many diseases. Histotripsy has been investigated to treat deep vein thrombosis (DVT) by mechanically liquefying and removing pathological blood clots. First, CH was employed to remove a blood clot in a vessel with the first indication of DVT. Shock scattering CH liquefied the target clot in an in vitro flow model ( 126 ) and in an in vivo porcine DVT model ( 33 ). Treatments were applied using five-cycle pulses at a PRF of 1 kHz and a peak negative pressure of 14–19 MPa with a 1-MHz focused transducer. In the in vivo DVT model, a clot that had formed in the femoral vein in the leg was treated. The vessel structure remained intact after CH, but the endothelial layer was damaged, and some hemorrhage was observed in the vessel wall. This occurs because the length of the cavitation cloud in shock scattering CH sometimes exceeds the width of the small vessel lumen of the femoral vein (<4–6 mm).
+
+ To avoid damage to the vessel wall, microtripsy was applied using one-cycle pulses at a PRF of 5–100 Hz and a peak negative pressure of 30–36 MPa by a 1-MHz focused transducer ( 127 ). Microtripsy achieved thrombolysis in in vitro ( 127 ) and in vivo porcine DVT models ( 34 ). In the in vivo treatment, flow was restored in the occluded vessel as confirmed by color Doppler ultrasound imaging ( Figure 5 a , b ), and no vessel damage was observed 2 weeks after the treatment. Microtripsy was also demonstrated to be effective in treating retracted clots, although the treatment speed was slower for retracted clots compared with acute clots ( 128 ). The clot debris particles were measured to be smaller than 100 μm, with >96% of the volume smaller than 5 μm in diameter, which is sufficiently small to avoid hazardous emboli. Cavitation generated in the vessel formed a vortex flow to trap and fractionate any large particles to avoid embolization ( 129 ).
+
+ Figure 5.
+
+ Open in a new tab 
+
+ Histotripsy for preclinical blood clot and brain applications. ( a , b ) Color Doppler ultrasound images of an in vivo porcine femoral vein with deep vein thrombosis before and after microtripsy ( 34 ). ( a ) The blood clot occluded the vein before treatment. ( b ) The clot was removed and the vein recanalized by microtripsy after treatment. ( c ) Hematoxylin and eosin stained slide and ( d ) T1-weighted magnetic resonance (MR) image of an in vivo pig brain treated by MR-guided histotripsy through an excised human skull ( 29 ).
+ CH can be combined with thrombolytic drugs (e.g., recombinant tissue plasminogen activator) to enhance the treatment efficacy of thrombolysis ( 130 , 131 ). CH-induced cavitation can mechanically create pores in the clot to facilitate permeation of the thrombolytic drugs into the clot. This is particularly helpful for treatment of retracted clots, which have dense fibrin networks and low porosity ( 132 ).
+
+ Histotripsy was also used to liquefy large hematomas resulting from trauma or postsurgical bleeds to facilitate fine-needle aspiration of the resulting fluid. These hematomas exert pressure on surrounding tissues, causing pain and affecting circulation, which may lead to organ failure. Unlike intravascular clots, large hematomas do not become noticeably stiffer with retraction, and they slowly liquefy over a protracted period of time ( 133 ). Thus, complete liquefaction of a hematoma volume is not required, as long as it is reduced enough to alleviate the pressure on surrounding tissues. BH, shock scattering CH, and HH regimes rapidly liquefy large hematoma volumes in vitro, which can then be aspirated with a needle ( 45 , 133 ). The fastest volumetric liquefaction rate of 2.6 mL/min was achieved with HH and continuous focus translation, followed by BH and shock scattering CH. In an alternative approach, a needle or a catheter sheath was introduced into the hematoma closely adjacent to the focus and the liquid was aspirated continuously from the forming cavity, thus bringing the untreated clot volume into focus without needing to move the transducer. For BH, this approach demonstrated liquefaction rates of up to 5 mL/min in vitro and 3.3 mL/min in vivo in a porcine model of intramuscular hematoma ( 45 ).
+
+ Brain Applications
+
+ Transcranial brain treatment is probably the most technically challenging application for histotripsy, because it requires very high pressure while the skull attenuates 70–90% of the acoustic power. However, transcranial histotripsy brain treatment also presents new opportunities. Transcranial MR-guided focused ultrasound thermal ablation is limited to treating a small volume in a central location in the brain due to overheating of the skull. As histotripsy mechanically breaks down the target tissue, if sufficiently high pressure can be achieved to perform transcranial histotripsy in the brain, a low duty cycle (e.g., <0.1%) can be used to mitigate skull heating and allow treatment of a wide location and large volumes inside the brain.
+
+ To date, three transcranial CH array transducers have been designed and constructed to generate >20-MPa peak negative pressure through an ex vivo human skull. All three arrays are hemispherical with a focal distance of 15 cm, including a 256-element, 250-kHz array; a 256-element, 500-kHz array; and a 360-element, 700-kHz array ( 76 , 134 ). In addition, less-focused, fully populated phased arrays of 1-MHz frequency have recently been designed for transcranial BH applications ( 135 ).
+
+ Preclinical studies in the brain have been done using only CH so far. Microtripsy parameters were used to ensure the highest treatment accuracy: one-cycle pulses, >30-MPa peak negative pressure, and <0.1% duty cycle to mitigate skull heating ( 134 ). Microtripsy was demonstrated to treat a blood clot or a tissue phantom through an excised human skull in both deep locations and shallow locations (as close as 5 mm to the skull surface), as well as treating a volume of ex vivo brain tissue (e.g., 30 mL) while keeping the skull temperature increase below 4°C ( 134 ). The initial safety of CH brain treatment was shown in an in vivo porcine brain, where no excessive bleeding, edema, or other significant adverse events were observed ( 30 ). A transcranial 700-kHz MR-guided CH system was used to successfully ablate an in vivo porcine brain through an excised human skull ( 29 ) ( Figure 5 c , d ). These results suggest the potential of using transcranial histotripsy to perform noninvasive ablation in the brain for treatment of brain tumors in various locations and volumes.
+
+ Transcranial histotripsy was also investigated to treat intracerebral hemorrhage (ICH) by liquefying a clot and aspirating it with a catheter. Using 250-kHz and 500-kHz arrays with microtripsy parameters (one-cycle pulses, 200-Hz PRF, and peak negative pressure of >30 MPa), a 4-cm-diameter spherical ex vivo clot was liquefied through an excised human skull at a rate of up to 16 mL/min ( 134 ). Shock scattering CH and BH were also demonstrated to liquefy large clots for ICH treatment, but the treatment was not done through the skull ( 46 ). The safety of microtripsy ICH treatments was examined in an in vivo porcine ICH model ( 49 ), where clots formed in pig brain were liquefied by microtripsy and aspirated with a needle. The pigs survived for a week without any clinical or neurological adverse effects.
+
+ The main technical challenges for transcranial histotripsy are skull-induced aberration and attenuation. The speed of sound in bone is much higher than that in soft tissue; thus, variations in skull thickness and density result in significantly reduced focal pressure and a distorted focal field when ultrasound propagates through the skull, an effect termed aberration. To correct skull-induced aberration, analytic computation based on CT head scans has been performed ( 136 ) to correct for focal shifts due to aberration ( 76 , 82 ), but the efficacy of using this approach for focal pressure recovery is very limited. A two-step aberration correction was developed using a transmit-and-receive-capable transcranial histotripsy array ( 137 ) for more effective aberration correction, with the first step being a CT-based analytic correction approach and the second step being a cavitation-based correction approach ( 82 ). The shock-wave signal emitted from the cavitation received by each histotripsy array element is used to calculate the ultrasound travel time between the cavitation focus and each element. The travel time differences are then compensated at the ultrasound transmission to correct the aberration. Two-step aberration correction has shown close to perfect focal pressure recovery as compared with the use of direct acoustic hydrophone measurement at the focus ( 82 , 135 ).
+
+ MRI is the clinical standard tool for diagnosis and therapy follow-up of brain diseases. MRI can be used for pretargeting, treatment monitoring, and posttreatment evaluation of transcranial histotripsy brain treatment, as described above in the section titled Image-Guided Targeting and Monitoring, but it requires an MR-compatible transcranial histotripsy array and specialized MRI pulse sequences. Alternatively, acoustic monitoring of cavitation is possible through the skull. Transmit-and-receive transcranial histotripsy can be used to receive acoustic cavitation emission signals to monitor and map cavitation ( 83 ). With such acoustic cavitation monitoring capability, transcranial histotripsy could be performed outside the MRI scanner and be guided by a neuronavigation system.
+
+ Other Applications
+
+ In addition to cancer, cardiovascular, and neurological applications, many other applications have been investigated for preclinical histotripsy studies, as described in the following subsections.
+
+ Bactericidal effects.
+
+ Histotripsy is capable of fractionating not only cells but also bacteria that are much smaller (submicrometer) and more resilient to physical impacts ( 138 ). Histotripsy was applied to bacterial inactivation in two distinct contexts—clearing biofilms from the surfaces of catheters or implants and disinfection of abscesses ( 39 , 138 – 140 ). A biofilm comprises a protective polysaccharide matrix layer adherent to a surface and up to tens of micrometers thick, within which one or more bacterial species are embedded. Biofilms can form on the surfaces of implanted materials from planktonic bacteria introduced externally and are very resistant to systemic antibiotic treatments. Shock scattering and intrinsic threshold CH regimes successfully eliminated biofilms harboring Staphylococcus aureus and Pseudomonas aeruginosa from the surfaces of surgical meshes and ureteral catheters, respectively, without affecting the integrity or strength of the surfaces. An average of 3.8-log kill was reported over surgical meshes ( 139 ), with some bacteria likely directly fractionated and some dislodged and washed off into the adjacent fluid, where the protective effect of biofilm is no longer present. Similarly, the average inactivation of P. aeruginosa in suspension within a catheter was 3.45 log ( 140 ).
+
+ Abscesses are collections of pus and bacteria ranging from liquid to cheeselike consistency and walled off from surrounding tissue by a fibrous capsule. Similar to biofilms, abscesses are resistant to systemically administered antibiotics and are typically treated with surgical incision and drainage (superficial) or percutaneous drain catheter placement (deep), both of which are associated with complications and discomfort. BH and shock scattering CH both liquefied an abscess to facilitate drainage and inactivated bacteria within the abscess in bimicrobial ( Escherichia coli and Bacteroides fragilis ) porcine abscesses in vivo. BH was more efficient at liquefaction, and CH was more efficient at disinfection ( 39 ). Thus, a treatment strategy combining the two regimes—liquefaction followed by disinfection—was deemed the most promising and yielded a 3.3-log kill ( 39 ).
+
+ Biofabrication, tissue decellularization, and sample prep for DNA analysis.
+
+ Tissue selectivity of histotripsy—the ability to fractionate cells and leave fibrous extracellular matrix and tissue structures intact—has potential uses in regenerative medicine. For example, Pahk et al. ( 141 ) showed an area of liver that was fractionated by BH in a mutant rat model deficient in albumin production. Extracellular matrix, biliary structure, and vascular network within the cavity remained intact and patent and facilitated the delivery of systemically injected donor hepatocytes that replaced dysfunctional liver tissue and led to albumin production. Alternatively, large tissue volumes could be decellularized by histotripsy ex vivo to form biocompatible scaffolds, as shown in proof-of-concept BH ( 20 ). This procedure was recently performed in artificially perfused porcine liver, demonstrating that BH of the liver allowed isolation and culture of hepatocytes with a high rate of viability after 1 week in culture ( 142 ). Another interesting in vitro application is accelerated preparation of samples—high-yield DNA extraction and chromatin fragmentation—for downstream genetic and epigenetic analyses ( 138 , 143 ).
+
+ Histotripsy-facilitated liquid biopsy.
+
+ Liquid biopsy refers to sampling of blood-based biomarkers of certain tissue from the circulation. Of particular interest are cell-free circulating nucleic acids—microRNAs (miRNAs), messenger RNA, and DNA—that are very tissue specific and frequently dysregulated in many conditions, including cancer. However, two key challenges associated with detection of these biomarkers are their low quantities in the blood and the lack of identification of their anatomic origin. It was thus hypothesized that liquefaction of a very small area of tissue with histotripsy could release these (mostly intracellular) nucleic acid biomarkers into the extracellular space and into the circulation, increasing the sensitivity of blood-based sampling ( 52 ). This concept has been demonstrated in a rat prostate cancer model, wherein partial BH of a subcutaneous tumor resulted in immediate and transient elevation of circulating tumor-specific miRNAs but not broadly expressed miRNAs. A similar approach using milder cavitation-based stimulus was recently demonstrated to enhance the release of tumor DNA from a murine and porcine model of glioblastoma ( 144 ). This cavitation-enhanced release of cell-free nucleic acids can be used as a diagnostic tool, for anatomically resolved biopsy of sites that are difficult to sample with a needle, or as a therapy guidance tool to obtain information on the genetic content of a tumor during its ablation by histotripsy. This could inform the choice of combination treatments with chemotherapy or immunotherapy.
+
+ Histotripsy erosion of solid targets: kidney stones, bone tumors, and calcified aortic stenosis.
+
+ Similar to its application in soft tissues, histotripsy is capable of eroding solid, calcified targets down to micrometer-sized debris. Model kidney stones were the first such targets eroded with shock scattering CH ( 145 ). While the erosion rate was slower than that achieved with a clinical piezoelectric lithotripter, the size of the fragments did not exceed 100 μm, in contrast with millimeter-sized fragments by lithotripsy that can be difficult to pass. Another challenging target is bone tumors, which can have a heterogeneous composition including a soft tissue component and a lytic bone tumor component that consists of an osteoid matrix with tumor cells within. Intrinsic threshold CH was successfully used to ablate ex vivo and in vivo canine osteosarcomas ( 146 ). As expected, the ablation rate was substantially slower than is typical for soft tissue fractionation (approximately 0.25 mL/h) but resulted in the disintegration of the osteoid matrix (where present) into smaller fragments and complete lysing of the embedded tumor cells. Interestingly, the same treatment parameters did not have any effect on healthy canine cortical bone and sciatic nerve. Fragmentation of calcifications within the aortic valve leaflets with shock scattering CH in the context of calcified aortic stenosis (CAS) is the third example of histotripsy erosion ( 147 ). In ex vivo and in vivo porcine studies, the cavitation bubble cloud was confined within the thickness of the calcified leaflet, and after an hour of treatment the leaflet was softened by fragmenting the calcification without disrupting the superficial structures of the leaflet. The CAS application has undergone the first in-human trial, discussed below.
+
+ Clinical Trials
+
+ To date, all human trials have been conducted using shock scattering CH. Two phase I human trials have been completed and one multicenter trial is ongoing, performed using CH devices manufactured by HistoSonics, Inc. (Plymouth, Minnesota and Ann Arbor, Michigan, USA). The first histotripsy trial [phase I, National Clinical Trial (NCT) number NCT01896973 ] was conducted in two clinical centers in the United States in patients with benign prostatic hyperplasia (BPH) in 2016–2017. BPH is characterized by an enlarged prostate gland compressing the urethra and causing uncomfortable urinary symptoms, such as blocking the flow of urine out of the bladder. CH was used to liquefy the in vivo canine prostate tissue surrounding the urethra, which would be urinated out. Within 28 days, the destroyed urethra was reendothelialized to form a larger urination channel. In human, CH was applied from the perineal position and guided by transrectal ultrasound imaging. In all patients, cavitation was observed on ultrasound imaging at the target location. All subjects received 60 min of acoustic energy delivery. No serious adverse events were observed. Improvements in the International Prostate Symptom Score and other symptom scores exceeded what would be expected for a placebo response. However, in contrast with the results from canine studies, no tissue debulking effect was seen with ultrasound or endoscopic evaluation. It was later found that human prostate is much more fibrous than canine prostate and thus more resistant to histotripsy ( 115 ). It is likely that not enough of a CH dose (number of pulses) was delivered in the human BPH trial to homogenize the prostate tissue. Recent BH studies in human prostate autopsy samples showed complete liquefaction of prostate tissue and tumors, including BPH and adenocarcinoma ( 87 , 115 ).
+
+ In 2019, a phase I trial (THERESA, NCT03741088 ) was conducted in patients with liver tumors in Barcelona, Spain ( 9 ). All patients had noncurable multifocal liver malignancy. Histotripsy was delivered to treat 11 tumors (all <3 cm in diameter) in eight patients using the Edison ™ platform (HistoSonics) ( Figure 6 a ), with a 750-kHz focused ultrasound transducer. There was one mistargeting, because the tumor could not be visualized clearly on ultrasound. For 10 of 11 tumors, the entire tumor with an ~5-mm margin was successfully targeted and ablated, as confirmed by MRI ( Figure 6 b , c ). The treatment time was proportional to the ablation volume and was ~30 min for a spherical volume of 3 cm in diameter. Nine of the 10 treated tumors had local tumor regression observed at a 2-month follow-up (average 72% volume retraction), while 1 tumor got connected to the adjacent tumor, so its growth could not be accurately measured. No major adverse events were observed. Interestingly, in two patients, there was a continuous decline in tumor markers, and substantial off-target tumor shrinkage was observed on MR images in one patient ( Figure 6 d , e ) ( 51 ). This is the first human trial of histotripsy treatment of malignant tumors. The results not only demonstrated the safety of CH treatment of liver tumors but also showed its promise to achieve local tumor regression and potential abscopal effects.
+
+ Figure 6.
+
+ Open in a new tab 
+
+ Results from clinical trials. ( a ) An image of the ultrasound image–guided clinical prototype histotripsy system (Edison ™ platform; HistoSonics, Inc.). ( b – e ) Magnetic resonance (MR) images from the THERESA histotripsy liver tumor clinical trial ( 51 ). ( b , c ) MR images of the targeted tumor 5 mm adjacent to the hepatic vessel branch ( b ) before and ( c ) after shock scattering cavitational histotripsy, showing effective ablation of the liver tumor (tumor indicated by the yellow arrow in panel b ) with a margin (ablation indicated by the yellow arrow in panel c ) and intact hepatic vessel (indicated by the red line in panel c ). ( d , e ) MR images of nontargeted tumors ( red ovals ) ( d ) before and ( e ) 8 weeks after histotripsy treatment, showing the abscopal response as a size reduction.
+ The enrollment of a multicenter clinical trial (HOPE4LIVER) on CH treatment of liver tumors was completed in the United States (eight sites; NCT04572633 ) and Europe (six sites; NCT04573881 ) in 2023 using the Edison platform (HistoSonics), and the results are expected to release shortly. Based on the HOPE4LIVER trial results, the Edison platform was recently approved by the FDA for histotripsy treatment of liver tumors.
+
+ The third CH phase I human trial was conducted on patients with CAS ( NCT03779620 ) in France and the Netherlands in 2019 ( 148 , 149 ). Ten patients with severe calcific aortic valves were treated using the Valvosoft transducer device (Cardiawave, France), guided by ultrasound imaging. Traditional shock scattering CH parameters were used: five cycle pulses at a peak negative pressure of 15–20 MPa, PRF of 100–300 Hz, a 0.25% duty cycle by an external multielement focused ultrasound transducer (bandwidth of 700 kHz–1.25 MHz), and a total of 60 min of treatment. Cavitation was generated and observed by ultrasound imaging. Of the 10 patients, 6 had an increased softened valve area and were classified as responders, and 4 were classified as nonresponders ( 149 ). No patients experienced significant adverse effects. In contrast to soft tissue histotripsy, where tissue homogenization was produced, cavitation was used to soften the calcified regions of the aortic valve.
+
+ FUTURE OF THE FIELD
+
+ The noninvasive, nonionizing, and nonthermal nature of histotripsy is expected to allow it to improve treatment, especially for patients who are not suitable candidates for surgery. The recent FDA approval of the ultrasound image–guided Edison platform (HistoSonics) for histotripsy ablation of liver tumor opens up the clinical use of this new technology. The Edison platform can also be used to treat other abdominal organs (e.g., kidney, pancreas) but would require additional clinical trials. So far, there have been histotripsy clinical trials for three indications (BPH, liver tumors, and CAS), with a new clinical trial started on renal tumors ( NCT05432232 ) in 2023. However, histotripsy is a platform technology and can be expanded to treat many organs and different diseases, as described in the preclinical studies mentioned above.
+
+ Noninvasive HIFU thermal ablation has been in clinical use for many years, but it is limited by the high cost of MRI, slow treatment speed, and restricted treatment locations. With its tissue-selective ablation capability, histotripsy can be used to treat high-risk locations near critical structures to preserve these structures (e.g., major vessels, nerves, bile ducts, and connecting systems), which would be very difficult to access with surgical or current thermal ablation techniques, including HIFU thermal ablation. In comparison to the use of MRI guidance for HIFU, histotripsy uses ultrasound imaging for guidance, which has lower cost and easier access.
+
+ The treatment speed of the HistoSonics Edison platform is currently ~1 mL/min, which is on par with clinical radiofrequency ablation and faster than most HIFU systems. Edison currently uses a single focused ultrasound transducer and is mechanically moved by a robotic arm. Histotripsy treatment speed may be further increased using a phased array and electronic focal steering.
+
+ Histotripsy treatment locations are somewhat limited due to the ultrasound physics. As ultrasound propagation is blocked by bone and gassy organs, certain locations may not be accessible with external ultrasound delivery, for example, locations right behind the ribs or lungs. Histotripsy can still be created through bone blockage (e.g., rib cage or skull), if sufficiently high focal pressure can be achieved, as described in the abovementioned cardiac and brain applications. The aberration caused by bone blockage may be mitigated by conducting aberration correction ( 137 ). If the bowel is in the pathway (as in the case of pancreas, liver, or spleen), fasting can help remove air bubbles in the bowel to enhance acoustic propagation. It is also possible to perform hydrodissection by injecting fluid to displace nearby critical structures and create a protective barrier between those structures and the target region, which is a technique used during thermal ablation. Therefore, it is possible to expand histotripsy treatment locations using aberration correction and minimally invasive clinical procedure such as hydrodissection.
+
+ Histotripsy immunostimulation has attracted significant attention from both the clinical community and patients. The promising abscopal effect induced by histotripsy alone from preclinical studies and the THERESA human trial indicates the potential of using histotripsy to enhance immunotherapy to treat off-target tumors. The immunostimulation effect observed in the treatment of nonimmunogenic cancers such as liver cancer is particularly encouraging and is drawing many researchers to further study this topic. It is expected that there will be a major push to initiate a clinical trial on histotripsy-enhanced immunotherapy in the near future, which will help accelerate the widespread use of histotripsy, if it is successful.
+
+ ACKNOWLEDGMENTS
+
+ The writing of this review was supported by National Institutes of Health grants R01CA258581, R01CA211217, R01EB028309, R01NS108042, R01DK091267, R01HL141967, R01EB032772, R21CA260684, and P30CA04659229; VA Merit Review 1I01BX001619-05; and the Focused Ultrasound Foundation.
+
+ DISCLOSURE STATEMENT
+
+ Z.X. is a cofounder of and consultant for HistoSonics, holds stock in HistoSonics, and has received laboratory funding from HistoSonics. C.C. has served as a consultant for HistoSonics. T.D.K. has a financial interest in Petal Surgical, Inc.
+
+ LITERATURE CITED
+
+ 1. Tempany CM, McDannold NJ, Hynynen K, Jolesz FA. 2011. Focused ultrasound surgery in oncology: overview and principles. Radiology
+259:39–56
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 2. Cranston D, Leslie T, Ter Haar G. 2021. A review of high-intensity focused ultrasound in urology. Cancers
+13:5696.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 3. Li F, Chen J, Yin L, Zeng D, Wang L, et al. 
+2023. HIFU as an alternative modality for patients with uterine fibroids who require fertility-sparing treatment. Int. J. Hyperth
+40:2155077. [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 4. Maestroni U, Tafuri A, Dinale F, Campobasso D, Antonelli A, Ziglioli F. 2021. Oncologic outcome of salvage high-intensity focused ultrasound (HIFU) in radiorecurrent prostate cancer. A systematic review. Acta Biomed. 92:e2021191.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 5. van der Stouwe AMM, Jameel A, Gedroyc W, Nandi D, Bain PG. 2023. Tremor assessment scales before, during and after MRgFUS for essential tremor—results, recommendations and implications. Br. J. Neurosurg
+In press.
+10.1080/02688697.2023.2167932 [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 6. Khokhlova VA, Fowlkes JB, Roberts WW, Schade GR, Xu Z, et al. 
+2015. Histotripsy methods in mechanical disintegration of tissue: towards clinical applications. Int. J. Hyperth
+31:145–62 [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 7. Xu Z, Ludomirsky A, Eun LY, Hall TL, Tran BC, et al. 
+2004. Controlled ultrasound tissue erosion. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+51:726–36
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 8. Xu Z, Hall TL, Vlaisavljevich E, Lee FT Jr. 2021. Histotripsy: the first noninvasive, non-ionizing, nonthermal ablation technique based on ultrasound. Int. J. Hyperth
+38:561–75 [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 9. Vidal-Jove J, Serres X, Vlaisavljevich E, Cannata J, Duryea A, et al. 
+2022. First-in-man histotripsy of hepatic tumors: the THERESA trial, a feasibility study. Int. J. Hyperth
+39:1115–23 [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 10. Xu Z, Owens G, Gordon D, Cain CA, Ludomirsky A. 2010. Non-invasive creation of an atrial septal defect by histotripsy in a canine model. Circulation
+121:742–49
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 11. Khokhlova TD, Wang YN, Simon JC, Cunitz BW, Starr F, et al. 
+2014. Ultrasound-guided tissue fractionation by high intensity focused ultrasound in an in vivo porcine liver model. PNAS
+111:8161–66
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 12. Knott EA, Swietlik JF, Longo KC, Watson RF, Green CM, et al. 
+2019. Robotically-assisted sonic therapy for renal ablation in a live porcine model: initial preclinical results. J. Vasc. Interv. Radiol
+30:1293–302
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 13. Wang TY, Xu Z, Winterroth F, Hall TL, Fowlkes JB, et al. 
+2009. Quantitative ultrasound backscatter for pulsed cavitational ultrasound therapy—histotripsy. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+56:995–1005
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 14. Khokhlova TD, Schade GR, Wang YN, Buravkov SV, Chernikov VP, et al. 
+2019. Pilot in vivo studies on transcutaneous boiling histotripsy in porcine liver and kidney. Sci. Rep
+9:20176.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 15. Hall TL, Fowlkes JB, Cain CA. 2007. A real-time measure of cavitation induced tissue disruption by ultrasound imaging backscatter reduction. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+54:569–75
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 16. Lundt JE, Allen SP, Shi J, Hall TL, Cain CA, Xu Z. 2017. Non-invasive, rapid ablation of tissue volume using histotripsy. Ultrasound Med. Biol
+43:2834–47
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 17. Vlaisavljevich E, Kim Y, Allen S, Owens G, Pelletier S, et al. 
+2013. Image-guided non-invasive ultrasound liver ablation using histotripsy: feasibility study in an in vivo porcine model. Ultrasound Med. Biol
+39:1398–409
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 18. Bawiec CR, Khokhlova TD, Sapozhnikov OA, Rosnitskiy PB, Cunitz BW, et al. 
+2021. A prototype therapy system for boiling histotripsy in abdominal targets based on a 256-element spiral array. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+68:1496–510
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 19. Lake AM, Xu Z, Wilkinson JE, Cain CA, Roberts WW. 2008. Renal ablation by histotripsy—does it spare the collecting system?
+J. Urol
+179:1150–54
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 20. Wang YN, Khokhlova TD, Buravkov S, Chernikov V, Kreider W, et al. 
+2018. Mechanical decellularization of tissue volumes using boiling histotripsy. Phys. Med. Biol
+63:235023.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 21. Hoogenboom M, Eikelenboom D, den Brok MH, Heerschap A, Futterer JJ, Adema GJ. 2015. Mechanical high-intensity focused ultrasound destruction of soft tissue: working mechanisms and physiologic effects. Ultrasound Med. Biol
+41:1500–17
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 22. Maxwell AD, Wang TY, Cain CA, Fowlkes JB, Sapozhnikov OA, et al. 
+2011. Cavitation clouds created by shock scattering from bubbles during histotripsy. J. Acoust. Soc. Am
+130:1888–98
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 23. Wheat JC, Hall TL, Hempel CR, Cain CA, Xu Z, Roberts WW. 2010. Prostate histotripsy in an anticoagulated model. Urology
+75:207–11
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 24. Hempel CR, Hall TL, Cain CA, Fowlkes JB, Xu Z, Roberts WW. 2011. Histotripsy fractionation of prostate tissue: local effects and systemic response in a canine model. J. Urol
+185:1484–89
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 25. Hall TL, Hempel CR, Wojno K, Xu Z, Cain CA, Roberts WW. 2009. Histotripsy of the prostate: dose effects in a chronic canine model. Urology
+74:932–37
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 26. Owens GE, Miller RM, Owens ST, Swanson SD, Ives K, et al. 
+2012. Intermediate-term effects of intracardiac communications created noninvasively by therapeutic ultrasound (histotripsy) in a porcine model. Pediatr. Cardiol
+33:83–89
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 27. Hall TL, Kieran K, Ives K, Fowlkes JB, Cain CA, Roberts WW. 2007. Histotripsy of rabbit renal tissue in vivo: temporal histologic trends. J. Endourol
+21:1159–66
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 28. Styn NR, Hall TL, Fowlkes JB, Cain CA, Roberts WW. 2012. Histotripsy of renal implanted VX-2 tumor in a rabbit model: investigation of metastases. Urology
+80:724–29
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 29. Lu N, Gupta D, Daou BJ, Fox A, Choi D, et al. 
+2022. Transcranial magnetic resonance-guided histotripsy for brain surgery: pre-clinical investigation. Ultrasound Med. Biol
+48:98–110
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 30. Sukovich JR, Cain CA, Pandey AS, Chaudhary N, Camelo-Piragua S, et al. 
+2018. In vivo histotripsy brain treatment. J. Neurosurg
+131:1331–38
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 31. Swietlik JF, Mauch SC, Knott EA, Zlevor A, Longo KC, et al. 
+2021. Noninvasive thyroid histotripsy treatment: proof of concept study in a porcine model. Int. J. Hyperth
+38:798–804 [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 32. Hendricks-Wenger A, Sereno J, Gannon J, Zeher A, Brock RM, et al. 
+2021. Histotripsy ablation alters the tumor microenvironment and promotes immune system activation in a subcutaneous model of pancreatic cancer. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+68:2987–3000
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 33. Maxwell AD, Owens G, Gurm HS, Ives K, Myers DD Jr., Xu Z
+2011. Noninvasive treatment of deep venous thrombosis using pulsed ultrasound cavitation therapy (histotripsy) in a porcine model. J. Vasc. Interv. Radiol
+22:369–77
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 34. Zhang X, Macoskey JJ, Ives K, Owens GE, Gurm HS, et al. 
+2017. Non-invasive thrombolysis using microtripsy in a porcine deep vein thrombosis model. Ultrasound Med. Biol
+43:1378–90
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 35. Khokhlova TD, Canney MS, Khokhlova VA, Sapozhnikov OA, Crum LA, Bailey MR. 2011. Controlled tissue emulsification produced by high intensity focused ultrasound shock waves and millisecond boiling. J. Acoust. Soc. Am
+130:3498–510
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 36. Simon JC, Sapozhnikov OA, Khokhlova VA, Wang YN, Crum LA, Bailey MR. 2012. Ultrasonic atomization of tissue and its role in tissue fractionation by high intensity focused ultrasound. Phys. Med. Biol
+57:8061–78
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 37. Pahk KJ, de Andrade MO, Gelat P, Kim H, Saffari N. 2019. Mechanical damage induced by the appearance of rectified bubble growth in a viscoelastic medium during boiling histotripsy exposure. Ultrason. Sonochem
+53:164–77
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 38. Dubinsky TJ, Khokhlova TD, Khokhlova V, Schade GR. 2020. Histotripsy: the next generation of high-intensity focused ultrasound for focal prostate cancer therapy. J. Ultrasound Med
+39:1057–67
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 39. Matula TJ, Wang YN, Khokhlova T, Leotta DF, Kucewicz J, et al. 
+2021. Treating porcine abscesses with histotripsy: a pilot study. Ultrasound Med. Biol
+47:603–19
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 40. Eranki A, Farr N, Partanen A, Sharma KV, Rossi CT, et al. 
+2018. Mechanical fractionation of tissues using microsecond-long HIFU pulses on a clinical MR-HIFU system. Int. J. Hyperth
+34:1213–24 [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 41. Worlikar T, Mendiratta-Lala M, Vlaisavljevich E, Hubbard R, Shi J, et al. 
+2020. Effects of histotripsy on local tumor progression in an in vivo orthotopic rodent liver tumor model. BME Front. 2020:9830304.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 42. Worlikar T, Zhang M, Ganguly A, Hall TL, Shi J, et al. 
+2022. Impact of histotripsy on development of intrahepatic metastases in a rodent liver tumor model. Cancers
+14:1612.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 43. Owens GE, Miller RM, Ensing G, Ives K, Gordon D, et al. 
+2011. Therapeutic ultrasound to noninvasively create intracardiac communications in an intact animal model. Catheter Cardiovasc. Interv
+77:580–88
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 44. Messas E, Remond MC, Goudot G, Zarka S, Penot R, et al. 
+2020. Feasibility and safety of non-invasive ultrasound therapy (NIUT) on a porcine aortic valve. Phys. Med. Biol
+65:215004.
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 45. Khokhlova TD, Monsky WL, Haider YA, Maxwell AD, Wang YN, Matula TJ. 2016. Histotripsy liquefaction of large hematomas. Ultrasound Med. Biol
+42:1491–98
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 46. Li Y, Liu Y, Li R, Lu M, Wang X, et al. 
+2020. Histotripsy liquefaction of large hematoma for intracerebral hemorrhage using millisecond-length ultrasound pulse groups combined with fundamental and second harmonic superposition: a preliminary study. Ultrasound Med. Biol
+46:1244–57
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 47. Qu S, Worlikar T, Felsted AE, Ganguly A, Beems MV, et al. 
+2020. Non-thermal histotripsy tumor ablation promotes abscopal immune responses that enhance cancer immunotherapy. J. Immunother. Cancer
+8:e000200.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 48. Schade GR, Wang YN, D’Andrea S, Hwang JH, Liles WC, Khokhlova TD. 2019. Boiling histotripsy ablation of renal cell carcinoma in the Eker rat promotes a systemic inflammatory response. Ultrasound Med. Biol
+45:137–47
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 49. Gerhardson T, Sukovich JR, Chaudhary N, Chenevert TL, Ives K, et al. 
+2020. Histotripsy clot liquefaction in a porcine intracerebral hemorrhage model. Neurosurgery
+86:429–36
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 50. Schuster TG, Wei JT, Hendlin K, Jahnke R, Roberts WW. 2018. histotripsy treatment of benign prostatic enlargement using the Vortx R x system: initial human safety and efficacy outcomes. Urology
+114:184–87
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 51. Vidal-Jove J, Serres-Creixams X, Ziemlewicz TJ, Cannata JM. 2021. Liver histotripsy mediated abscopal effect—case report. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+68:3001–5
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 52. Chevillet JR, Khokhlova TD, Giraldez MD, Schade GR, Starr F, et al. 
+2017. Release of cell-free microRNA tumor biomarkers into the blood circulation with pulsed focused ultrasound: a noninvasive, anatomically localized, molecular liquid biopsy. Radiology
+283:158–67
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 53. Khokhlova TD, Wang YN, Son H, Totten S, Whang S, Hwang JH. 2023. Chronic effects of pulsed high intensity focused ultrasound aided delivery of gemcitabine in a mouse model of pancreatic cancer. Ultrasonics
+132:106993.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 54. Smallcomb M, Simon JC. 2023. High intensity focused ultrasound atomization and erosion in healthy and tendinopathic tendons. Phys. Med. Biol
+68:025005. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 55. Maxwell AD, Cain CA, Hall TL, Fowlkes JB, Xu Z. 2013. Probability of cavitation for single ultrasound pulses applied to tissues and tissue-mimicking materials. Ultrasound Med. Biol
+39:449–65
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 56. Bader KB, Vlaisavljevich E, Maxwell AD. 2019. For whom the bubble grows: physical principles of bubble nucleation and dynamics in histotripsy ultrasound therapy. Ultrasound Med. Biol
+45:1056–80
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 57. Parsons JE, Cain CA, Abrams GD, Fowlkes JB. 2006. Pulsed cavitational ultrasound therapy for controlled tissue homogenization. Ultrasound Med. Biol
+32:115–29
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 58. Lin KW, Kim Y, Maxwell AD, Wang TY, Hall TL, et al. 
+2014. Histotripsy beyond the intrinsic cavitation threshold using very short ultrasound pulses: microtripsy. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+61:251–65
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 59. Vlaisavljevich E, Gerhardson T, Hall T, Xu Z. 2017. Effects of f-number on the histotripsy intrinsic threshold and cavitation bubble cloud behavior. Phys. Med. Biol
+62:1269–90
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 60. Vlaisavljevich E, Lin KW, Maxwell A, Warnez MT, Mancia L, et al. 
+2015. Effects of ultrasound frequency and tissue stiffness on the histotripsy intrinsic threshold for cavitation. Ultrasound Med. Biol
+41:1651–67
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 61. Vlaisavljevich E, Xu Z, Maxwell A, Mancia L, Zhang X, et al. 
+2016. Effects of temperature on the histotripsy intrinsic threshold for cavitation. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+63:1064–77
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 62. Vlaisavljevich E, Lin KW, Warnez MT, Singh R, Mancia L, et al. 
+2015. Effects of tissue stiffness, ultrasound frequency, and pressure on histotripsy-induced cavitation bubble behavior. Phys. Med. Biol
+60:2271–92
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 63. Vlaisavljevich E, Maxwell A, Mancia L, Johnsen E, Cain C, Xu Z. 2016. Visualizing the histotripsy process: bubble cloud-cancer cell interactions in a tissue-mimicking environment. Ultrasound Med. Biol
+42:2466–77
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 64. Vlaisavljevich E, Kim Y, Owens G, Roberts W, Cain C, Xu Z. 2014. Effects of tissue mechanical properties on susceptibility to histotripsy-induced tissue damage. Phys. Med. Biol
+59:253–70
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 65. Mancia L, Vlaisavljevich E, Yousefi N, Rodriguez M, Ziemlewicz TJ, et al. 
+2019. Modeling tissue-selective cavitation damage. Phys. Med. Biol
+64:225001.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 66. Macoskey JJ, Zhang X, Hall TL, Shi J, Beig SA, et al. 
+2018. Bubble-induced color Doppler feedback correlates with histotripsy-induced destruction of structural components in liver tissue. Ultrasound Med. Biol
+44:602–12
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 67. Styn N, Hall TL, Fowlkes JB, Cain CA, Roberts WW. 2011. Histotripsy homogenization of the prostate: thresholds for cavitation damage of periprostatic structures. J. Endourol
+25:1531–35
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 68. Knott EA, Longo KC, Vlaisavljevich E, Zhang X, Swietlik JF, et al. 
+2021. Transcostal histotripsy ablation in an in vivo acute hepatic porcine model. Cardiovasc. Interv. Radiol
+44:1643–50 [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 69. Canney MS, Bailey MR, Crum LA, Khokhlova VA, Sapozhnikov OA. 2008. Acoustic characterization of high intensity focused ultrasound fields: a combined measurement and modeling approach. J. Acoust. Soc. Am
+124:2406–20
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 70. Maxwell A, Sapozhnikov O, Bailey M, Crum L, Xu Z, et al. 
+2012. Disintegration of tissue using high intensity focused ultrasound: two approaches that utilize shock waves. Acoust. Today
+8:24–36 [ Google Scholar ]
+
+ 71. Canney MS, Khokhlova VA, Bessonova OV, Bailey MR, Crum LA. 2010. Shock-induced heating and millisecond boiling in gels and tissue due to high intensity focused ultrasound. Ultrasound Med. Biol
+36:250–67
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 72. Pahk KJ, Shin CH, Bae IY, Yang Y, Kim SH, et al. 
+2019. Boiling histotripsy-induced partial mechanical ablation modulates tumour microenvironment by promoting immunogenic cell death of cancers. Sci. Rep
+9:9050.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 73. Karzova MM, Kreider W, Partanen A, Khokhlova TD, Sapozhnikov OA, et al. 
+2023. Comparative characterization of nonlinear ultrasound fields generated by Sonalleve V1 and V2 MR-HIFU systems. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+70:521–37
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 74. Guan Y, Lu M, Li Y, Liu F, Gao Y, et al. 
+2016. Histotripsy produced by hundred-microsecond-long focused ultrasonic pulses: a preliminary study. Ultrasound Med. Biol
+42:2232–44
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 75. Li Y, Wang R, Lu M, Zhang L, Liu Y, et al. 
+2018. Histotripsy using fundamental and second harmonic superposition combined with hundred-microsecond ultrasound pulses. Ultrasound Med. Biol
+44:2089–104
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 76. Lu N, Hall TL, Choi D, Gupta D, Daou BJ, et al. 
+2021. Transcranial MR-guided histotripsy system. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+68:2917–29
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 77. Stocker GE, Lundt JE, Sukovich JR, Miller RM, Duryea AP, et al. 
+2022. A modular, kerf-minimizing approach for therapeutic ultrasound phased array construction. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+69:2766–75
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 78. Song M, Thomas GPL, Khokhlova VA, Sapozhnikov OA, Bailey MR, et al. 
+2022. Quantitative assessment of boiling histotripsy progression based on color Doppler measurements. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+69:3255–69
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 79. Woodacre JK, Landry TG, Brown JA. 2018. a low-cost miniature histotripsy transducer for precision tissue ablation. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+65:2131–40
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 80. Stocker GE, Zhang M, Xu Z, Hall TL. 2021. Endocavity histotripsy for efficient tissue ablation—transducer design and characterization. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+68:2896–905
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 81. Hall TL, Cain CA. 2006. A low cost, compact, 512 channel therapeutic system for transcutaneous ultrasound surgery. AIP Conf. Proc
+829:445–49 [ Google Scholar ]
+
+ 82. Lu N, Hall TL, Sukovich JR, Choi SW, Snell J, et al. 
+2022. Two-step aberration correction: application to transcranial histotripsy. Phys. Med. Biol
+67:125009. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 83. Sukovich JR, Macoskey JJ, Lundt JE, Gerhardson TI, Hall TL, Xu Z. 2020. Real-time transcranial histotripsy treatment localization and mapping using acoustic cavitation emission feedback. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+67:1178–91
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 84. Kim Y, Maxwell AD, Hall TL, Xu Z, Lin KW, Cain CA. 2014. Rapid prototyping fabrication of focused ultrasound transducers. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+61:1559–74
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 85. Maxwell AD, Yuldashev PV, Kreider W, Khokhlova TD, Schade GR, et al. 
+2017. A prototype therapy system for transcutaneous application of boiling histotripsy. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+64:1542–57
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 86. Yeats E, Lu N, Sukovich JR, Xu Z, Hall TL. 2023. Soft tissue aberration correction for histotripsy using acoustic emissions from cavitation cloud nucleation and collapse. Ultrasound Med. Biol
+49:1182–93
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 87. Khokhlova VA, Rosnitskiy PB, Tsysar SA, Buravkov SV, Ponomarchuk EM, et al. 
+2023. Initial assessment of boiling histotripsy for mechanical ablation of ex vivo human prostate tissue. Ultrasound Med. Biol
+49:62–71
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 88. Mouratidis PXE, Costa M, Rivens I, Repasky EE, Ter Haar G. 2021. Pulsed focused ultrasound can improve the anti-cancer effects of immune checkpoint inhibitors in murine pancreatic cancer. J. R. Soc. Interface
+18:20210266.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 89. Thomas GPL, Khokhlova TD, Sapozhnikov OA, Wang YN, Totten SI, Khokhlova VA. 2022. In vivo aberration correction for transcutaneous HIFU therapy using a multielement array. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+69:2955–64
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 90. Schade GR, Khokhlova TD, Hunter C, Kreider W, Rosnitskiy PB, et al. 
+2019. A preclinical transrectal boiling histotripsy system for prostate ablation. In Abstract Book of the 34th Annual Meeting of the Engineering and Urology Society, p. 46. Chicago: Eng. Urol. Soc. [ Google Scholar ]
+
+ 91. Kreider W, Yuldashev PV, Sapozhnikov OA, Farr N, Partanen A, et al. 
+2013. Characterization of a multielement clinical HIFU system using acoustic holography and nonlinear modeling. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+60:1683–98
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 92. Eranki A, Farr N, Partanen A, Sharma KV, Chen H, et al. 
+2017. Boiling histotripsy lesion characterization on a clinical magnetic resonance imaging-guided high intensity focused ultrasound system. PLOS ONE
+12:e0173867.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 93. Hoogenboom M, van Amerongen MJ, Eikelenboom DC, Wassink M, den Brok MH, et al. 
+2015. Development of a high-field MR-guided HIFU setup for thermal and mechanical ablation methods in small animals. J. Ther. Ultrasound
+3:14.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 94. Hoogenboom M, Eikelenboom D, den Brok MH, Veltien A, Wassink M, et al. 
+2016. In vivo MR guided boiling histotripsy in a mouse tumor model evaluated by MRI and histopathology. NMR Biomed. 29:721–31
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 95. Schade GR, Styn NR, Ives KA, Hall TL, Roberts WW. 2014. Prostate histotripsy: evaluation of prostatic urethral treatment parameters in a canine model. BJU Int. 113:498–503
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 96. Woodacre JK, Mallay M, Brown JA. 2023. Fabrication and characterization of a flat aperture Fresnel lens based histotripsy transducer. Ultrasonics
+131:106934.
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 97. Parsons JE, Cain CA, Fowlkes JB. 2006. Cost-effective assembly of a basic fiber-optic hydrophone for measurement of high-amplitude therapeutic ultrasound fields. J. Acoust. Soc. Am
+119:1432–40
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 98. Wilkens V, Sonntag S, Georg O. 2016. Robust spot-poled membrane hydrophones for measurement of large amplitude pressure waveforms generated by high intensity therapeutic ultrasonic transducers. J. Acoust. Soc. Am
+139:1319–32
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 99. Yuldashev PV, Karzova MM, Kreider W, Rosnitskiy PB, Sapozhnikov OA, Khokhlova VA. 2021. “HIFU beam:” a simulator for predicting axially symmetric nonlinear acoustic fields generated by focused transducers in a layered medium. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+68:2837–52
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 100. Rosnitskiy PB, Yuldashev PV, Sapozhnikov OA, Maxwell AD, Kreider W, et al. 
+2017. Design of HIFU transducers for generating specified nonlinear ultrasound fields. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+64:374–90
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 101. Pilatou MC, Stewart EA, Maier SE, Fennessy FM, Hynynen K, et al. 
+2009. MRI-based thermal dosimetry and diffusion-weighted imaging of MRI-guided focused ultrasound thermal ablation of uterine fibroids. J. Magnet. Reson. Imaging
+29:404–11 [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 102. Longo KC, Zlevor AM, Laeseke PF, Swietlik JF, Knott EA, et al. 
+2020. Histotripsy ablations in a porcine liver model: feasibility of respiratory motion compensation by alteration of the ablation zone prescription shape. Cardiovasc. Interv. Radiol
+43:1695–701 [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 103. Vlaisavljevich E, Owens G, Lundt J, Teofilovic D, Ives K, et al. 
+2017. Non-invasive liver ablation using histotripsy: preclinical safety study in an in vivo porcine model. Ultrasound Med. Biol
+43:1237–51
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 104. Vlaisavljevich E, Greve J, Cheng X, Ives K, Shi J, et al. 
+2016. Non-invasive ultrasound liver ablation using histotripsy: chronic study in an in vivo rodent model. Ultrasound Med. Biol
+42:1890–902
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 105. Wang TY, Hall TL, Xu Z, Fowlkes JB, Cain CA. 2012. Imaging feedback of histotripsy treatments using ultrasound shear wave elastography. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+59:1167–81
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 106. Bader KB, Haworth KJ, Maxwell AD, Holland CK. 2018. Post hoc analysis of passive cavitation imaging for classification of histotripsy-induced liquefaction in vitro. IEEE Trans. Med. Imaging
+37:106–15
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 107. Macoskey JJ, Choi SW, Hall TL, Vlaisavljevich E, Lundt JE, et al. 
+2018. Using the cavitation collapse time to indicate the extent of histotripsy-induced tissue fractionation. Phys. Med. Biol
+63:055013.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 108. Bader KB, Hendley SA, Anthony GJ, Bollen V. 2019. Observation and modulation of the dissolution of histotripsy-induced bubble clouds with high-frame rate plane wave imaging. Phys. Med. Biol
+64:115012.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 109. Choi SW, Duclos S, Camelo-Piragua S, Chaudhary N, Sukovich J, et al. 
+2023. Histotripsy treatment of murine brain and glioma: temporal profile of magnetic resonance imaging and histological characteristics post-treatment. Ultrasound Med. Biol
+49:1882–91
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 110. Allen SP, Vlaisavljevich E, Shi J, Hernandez-Garcia L, Cain CA, et al. 
+2017. The response of MRI contrast parameters in in vitro tissues and tissue mimicking phantoms to fractionation by histotripsy. Phys. Med. Biol
+62:7167–80
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 111. Elbes D, Denost Q, Robert B, Kohler MO, Tanter M, Bruno Q. 2014. Magnetic resonance imaging for the exploitation of bubble-enhanced heating by high-intensity focused ultrasound: a feasibility study in ex vivo liver. Ultrasound Med. Biol
+40:956–64
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 112. Allen SP, Hernandez-Garcia L, Cain CA, Hall TL. 2016. MR-based detection of individual histotripsy bubble clouds formed in tissues and phantoms. Magn. Reson. Med
+76:1486–93
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 113. Khokhlova TD, Canney MS, Lee D, Marro KI, Crum LA, et al. 
+2009. Magnetic resonance imaging of boiling induced by high intensity focused ultrasound. J. Acoust. Soc. Am
+125:2420–31
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 114. Schade GR, Keller J, Ives K, Cheng X, Rosol TJ, et al. 
+2012. Histotripsy focal ablation of implanted prostate tumor in an ACE-1 canine cancer model. J. Urol
+188:1957–64
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 115. Rosnitskiy PB, Tsysar SA, Karzova MM, Buravkov SV, Malkov PG, et al. 
+2023. Pilot ex vivo study on non-thermal ablation of human prostate adenocarcinoma tissue using boiling histotripsy. Ultrasonics
+133:107029.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 116. Hendricks A, Weber P, Simon A, Saunier S, Coutermarsh-Ott S, et al. 
+2021. Histotripsy for the treatment of cholangiocarcinoma liver tumors: in vivo feasibility and ex vivo dosimetry study. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+68:2953–64
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 117. Ruger LN, Hay AN, Gannon JM, Sheppard HO, Coutermarsh-Ott SL, et al. 
+2023. Histotripsy ablation of spontaneously occurring canine bone tumors in vivo. IEEE Trans. Biomed. Eng
+70:331–42 [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 118. Shao Q, O’Flanagan S, Lam T, Roy P, Pelaez F, et al. 
+2019. Engineering T cell response to cancer antigens by choice of focal therapeutic conditions. Int. J. Hyperth
+36:130–38 [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 119. Krysko DV, Garg AD, Kaczmarek A, Krysko O, Agostinis P, Vandenabeele P. 2012. Immunogenic cell death and DAMPs in cancer therapy. Nat. Rev. Cancer
+12:860–75
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 120. Pepple AL, Guy JL, McGinnis R, Felsted AE, Song B, et al. 
+2023. Spatiotemporal local and abscopal cell death and immune responses to histotripsy focused ultrasound tumor ablation. Front. Immunol
+14:1012799.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 121. Singh MP, Sethuraman SN, Miller C, Malayer J, Ranjan A. 2021. Boiling histotripsy and in-situ CD40 stimulation improve the checkpoint blockade therapy of poorly immunogenic tumors. Theranostics
+11:540–54
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 122. Lang X, Green MD, Wang W, Yu J, Choi JE, et al. 
+2019. Radiotherapy and immunotherapy promote tumoral lipid oxidation and ferroptosis via synergistic repression of SLC7A11. Cancer Discov. 9:1673–85
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 123. Wang W, Green M, Choi JE, Gijon M, Kennedy PD, et al. 
+2019. CD8 + T cells regulate tumour ferroptosis during cancer immunotherapy. Nature
+569:270–74
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 124. Rai V, Gladki M, Dudynska M, Skalski J. 2019. Hypoplastic left heart syndrome [HLHS]: treatment options in present era. Indian J. Thorac. Cardiovasc. Surg
+35:196–202
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 125. Xu Z, Fan Z, Hall TL, Winterroth F, Fowlkes JB, Cain CA. 2009. Size measurement of tissue debris particles generated from pulsed ultrasound cavitational therapy—histotripsy. Ultrasound Med. Biol
+35:245–55
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 126. Maxwell AD, Cain CA, Duryea AP, Yuan L, Gurm HS, Xu Z. 2009. Noninvasive thrombolysis using pulsed ultrasound cavitation therapy—histotripsy. Ultrasound Med. Biol
+35:1982–94
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 127. Zhang X, Owens GE, Gurm HS, Ding Y, Cain CA, Xu Z. 2015. Noninvasive thrombolysis using histotripsy beyond the intrinsic threshold (microtripsy). IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+62:1342–55
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 128. Zhang X, Owens GE, Cain CA, Gurm HS, Macoskey J, Xu Z. 2016. Histotripsy thrombolysis on retracted clots. Ultrasound Med. Biol
+42:1903–18
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 129. Park S, Maxwell AD, Owens GE, Gurm HS, Cain CA, Xu Z. 2013. Non-invasive embolus trap using histotripsy—an acoustic parameter study. Ultrasound Med. Biol
+39:611–19
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 130. Bader KB, Haworth KJ, Shekhar H, Maxwell AD, Peng T, et al. 
+2016. Efficacy of histotripsy combined with rt-PA in vitro. Phys. Med. Biol
+61:5253–74
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 131. Hendley SA, Paul JD, Maxwell AD, Haworth KJ, Holland CK, Bader KB. 2021. Clot degradation under the action of histotripsy bubble activity and a lytic drug. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+68:2942–52
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 132. Bollen V, Hendley SA, Paul JD, Maxwell AD, Haworth KJ, et al. 
+2020. In vitro thrombolytic efficacy of single- and five-cycle histotripsy pulses and rt-PA. Ultrasound Med. Biol
+46:336–49
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 133. Khokhlova TD, Kucewicz JC, Ponomarchuk EM, Hunter C, Bruce M, et al. 
+2020. Effect of stiffness of large extravascular hematomas on their susceptibility to boiling histotripsy liquefaction in vitro. Ultrasound Med. Biol
+46:2007–16
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 134. Gerhardson T, Sukovich JR, Pandey AS, Hall TL, Cain CA, Xu Z. 2017. Effect of frequency and focal spacing on transcranial histotripsy clot liquefaction, using electronic focal steering. Ultrasound Med. Biol
+43:2302–17
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 135. Rosnitskiy PB, Yuldashev PV, Sapozhnikov OA, Gavrilov LR, Khokhlova VA. 2019. Simulation of nonlinear trans-skull focusing and formation of shocks in brain using a fully populated ultrasound array with aberration correction. J. Acoust. Soc. Am
+146:1786.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 136. Jones RM, O’Reilly MA, Hynynen K. 2015. Experimental demonstration of passive acoustic imaging in the human skull cavity using CT-based aberration corrections. Med. Phys
+42:4385–400
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 137. Macoskey JJ, Hall TL, Sukovich JR, Choi SW, Ives K, et al. 
+2018. Soft-tissue aberration correction for histotripsy. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+65:2073–85
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 138. Brayman AA, MacConaghy BE, Wang YN, Chan KT, Monsky WL, et al. 
+2018. Inactivation of planktonic Escherichia coli by focused 1-MHz ultrasound pulses with shocks: efficacy and kinetics upon volume scale-up. Ultrasound Med. Biol
+44:1996–2008
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 139. Bigelow TA, Thomas CL, Wu H, Itani KMF. 2018. Histotripsy treatment of S. aureus biofilms on surgical mesh samples under varying scan parameters. IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+65:1017–24
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 140. Childers C, Edsall C, Gannon J, Whittington AR, Muelenaer AA, et al. 
+2021. Focused ultrasound biofilm ablation: investigation of histotripsy for the treatment of catheter-associated urinary tract infections (CAUTIs). IEEE Trans. Ultrason. Ferroelectr. Freq. Control
+68:2965–80
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 141. Pahk KJ, Mohammad GH, Malago M, Saffari N, Dhar DK. 2016. A novel approach to ultrasound-mediated tissue decellularization and intra-hepatic cell delivery in rats. Ultrasound Med. Biol
+42:1958–67
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 142. Froghi S, de Andrade MO, Hadi LM, Gelat P, Rashidi H, et al. 
+2023. Liver ultrasound histotripsy: novel analysis of the histotripsy site cell constituents with implications for histotripsy application in cell transplantation and cancer therapy. Bioengineering
+10:276.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 143. Stettinius A, Holmes H, Zhang Q, Mehochko I, Winters M, et al. 
+2023. DNA release from plant tissue using focused ultrasound extraction (FUSE). Appl. Plant Sci
+11:e11510.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 144. Pacia CP, Yuan J, Yue Y, Xu L, Nazeri A, et al. 
+2022. Sonobiopsy for minimally invasive, spatiotemporally-controlled, and sensitive detection of glioblastoma-derived circulating tumor DNA. Theranostics
+12:362–78
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 145. Duryea AP, Hall TL, Maxwell AD, Xu Z, Cain CA, Roberts WW. 2011. Histotripsy erosion of model urinary calculi. J. Endourol
+25:341–44
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 146. Arnold L, Hendricks-Wenger A, Coutermarsh-Ott S, Gannon J, Hay AN, et al. 
+2021. Histotripsy ablation of bone tumors: feasibility study in excised canine osteosarcoma tumors. Ultrasound Med. Biol
+47:3435–46
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 147. Villemain O, Robin J, Bel A, Kwiecinski W, Bruneval P, et al. 
+2017. Pulsed cavitational ultrasound softening: a new non-invasive therapeutic approach of calcified bioprosthetic valve stenosis. JACC Basic Transl. Sci
+2:372–83
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 148. Messas E, IJsselmuiden A, Goudot G, Vlieger S, Zarka S, et al. 
+2021. Feasibility and performance of noninvasive ultrasound therapy in patients with severe symptomatic aortic valve stenosis: a first-in-human study. Circulation
+143:968–70
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 149. Trifunovic-Zamaklar D, Velinovic M, Kovacevic-Kostic N, Messas E. 2023. Systematic brain magnetic resonance imaging and safety evaluation of non-invasive ultrasound therapy for patients with severe symptomatic aortic valve stenosis. Eur. Heart J. Cardiovasc. Imaging
+24:e108–9
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ ACTIONS
+
+ View on publisher site 
+
+ PDF (1.3 MB) 
+
+ Cite 
+
+ Collections 
+
+ Permalink 
+
+ PERMALINK
+
+ Copy 
+
+ RESOURCES
+
+ Similar articles
+
+ Cited by other articles
+
+ Links to NCBI Databases
+
+ Cite
+
+ Copy 
+
+ Download .nbib 
+ .nbib 
+
+ Format: 
+
+ AMA
+
+ APA
+
+ MLA
+
+ NLM
+
+ Add to Collections
+
+ Create a new collection 
+
+ Add to an existing collection 
+
+ Name your collection
+ * 
+
+ Choose a collection
+
+ Unable to load your collection due to an error
+
+ Please try again 
+
+ Add
+
+ Cancel
+
+ Follow NCBI
+
+ NCBI on X (formerly known as Twitter) 
+
+ NCBI on Facebook 
+
+ NCBI on LinkedIn 
+
+ NCBI on GitHub 
+
+ NCBI RSS feed 
+
+ Connect with NLM
+
+ NLM on X (formerly known as Twitter) 
+
+ NLM on Facebook 
+
+ NLM on YouTube 
+
+ National Library of Medicine
+ 
+ 8600 Rockville Pike
+ Bethesda, MD 20894 
+
+ Web Policies
+
+ FOIA
+
+ HHS Vulnerability Disclosure
+
+ Help
+
+ Accessibility
+
+ Careers
+
+ NLM
+
+ NIH
+
+ HHS
+
+ USA.gov
+
+ Back to Top
