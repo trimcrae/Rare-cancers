@@ -1,0 +1,959 @@
+SOURCE URL: https://link.springer.com/article/10.1186/s13578-024-01273-x
+FINAL URL: https://link.springer.com/article/10.1186/s13578-024-01273-x?error=cookies_not_supported&code=af186a73-80d4-4779-98ef-2b7b7ad05ab8
+HTTP: 200
+CONTENT-TYPE: text/html; charset=utf-8
+======================================================================
+SUMOylation of nuclear receptor Nor1/NR4A3 coordinates microtubule cytoskeletal dynamics and stability in neuronal cells | Cell & Bioscience | Springer Nature Link 
+
+ Skip to main content 
+
+ Advertisement
+
+ BMC journals have moved to Springer Nature Link. Learn more about website changes. 
+
+ Log in 
+
+ Menu 
+
+ Find a journal
+
+ Publish with us
+
+ Track your research
+
+ Search 
+
+ Saved research 
+
+ Cart 
+
+ Home 
+
+ Cell & Bioscience 
+
+ Article 
+
+ SUMOylation of nuclear receptor Nor1/NR4A3 coordinates microtubule cytoskeletal dynamics and stability in neuronal cells
+
+ Research
+
+ Open access 
+
+ Published: 13 July 2024 
+
+ Volume 14 , article number 91 ( 2024 )
+
+ Cite this article 
+
+ You have full access to this open access article
+
+ Download PDF 
+
+ Save article 
+
+ View saved research 
+
+ Cell & Bioscience 
+
+ Aims and scope
+
+ Submit manuscript
+
+ SUMOylation of nuclear receptor Nor1/NR4A3 coordinates microtubule cytoskeletal dynamics and stability in neuronal cells
+
+ Download PDF 
+
+ Jonathan Gagnon 1 , 2 , 
+ Véronique Caron 1 & 
+ André Tremblay 
+ ORCID: orcid.org/0000-0003-1547-9846 1 , 2 , 3 , 4 
+
+ 2207 Accesses 
+
+ 6 Citations 
+
+ Explore all metrics 
+
+ Abstract
+ Background
+ Nor1/NR4A3 is a member of the NR4A subfamily of nuclear receptors that play essential roles in regulating gene expression related to development, cell homeostasis and neurological functions. However, Nor1 is still considered an orphan receptor, as its natural ligand remains unclear for mediating transcriptional activation. Yet other activation signals may modulate Nor1 activity, although their precise role in the development and maintenance of the nervous system remains elusive.
+ Methods
+ We used transcriptional reporter assays, gene expression profiling, protein turnover measurement, and cell growth assays to assess the functional relevance of Nor1 and SUMO-defective variants in neuronal cells. SUMO1 and SUMO2 conjugation to Nor1 were assessed by immunoprecipitation. Tubulin stability was determined by acetylation and polymerization assays, and live-cell fluorescent microscopy.
+ Results
+ Here, we demonstrate that Nor1 undergoes SUMO1 conjugation at Lys-89 within a canonical ψKxE SUMOylation motif, contributing to the complex pattern of Nor1 SUMOylation, which also includes Lys-137. Disruption of Lys-89, thereby preventing SUMO1 conjugation, led to reduced Nor1 transcriptional competence and protein stability, as well as the downregulation of genes involved in cell growth and metabolism, such as ENO3 , EN1 , and CFLAR , and in microtubule cytoskeleton dynamics, including MAP2 and MAPT , which resulted in reduced survival of neuronal cells. Interestingly, Lys-89 SUMOylation was potentiated in response to nocodazole, a microtubule depolymerizing drug, although this was insufficient to rescue cells from microtubule disruption despite enhanced Nor1 gene expression. Instead, Lys-89 deSUMOylation reduced the expression of microtubule-severing genes like KATNA1 , SPAST , and FIGN , and enhanced α-tubulin cellular levels, acetylation, and microfilament organization, promoting microtubule stability and resistance to nocodazole. These effects contrasted with Lys-137 SUMOylation, suggesting distinct regulatory mechanisms based on specific Nor1 input SUMOylation signals.
+ Conclusions
+ Our study provides novel insights into Nor1 transcriptional signaling competence and identifies a hierarchical mechanism whereby selective Nor1 SUMOylation may govern neuronal cytoskeleton network dynamics and resistance against microtubule disturbances, a condition strongly associated with neurodegenerative diseases.
+
+ Similar content being viewed by others
+
+ SUMO-triggered ubiquitination of NR4A1 controls macrophage cell death
+
+ Article 
+ 
+ 16 June 2017 
+
+ Sumoylation: Implications for Neurodegenerative Diseases
+
+ Chapter 
+ 
+ © 2017 
+
+ Coordination of Cellular Localization-Dependent Effects of Sumoylation in Regulating Cardiovascular and Neurological Diseases
+
+ Chapter 
+ 
+ © 2017 
+
+ Explore related subjects
+
+ Discover the latest articles, books and news in related subjects, suggested using machine learning. 
+
+ Cytoskeletal proteins 
+
+ ER-associated degradation 
+
+ Neurotrophic factors 
+
+ Nuclear receptors 
+
+ Sumoylation 
+
+ Sumoylated proteins 
+
+ Genetic and Molecular Investigations in Nematodes 
+
+ Introduction
+ Neuron-derived orphan receptor Nor1 is a member of the NR4A subfamily of nuclear receptors, which also includes NR4A1/NGFI-B/Nur77 and NR4A2/Nurr1. NR4A receptors play pivotal roles in controlling tissue-specific gene expression pathways in development and metabolism [ 1 , 2 , 3 ]. Specifically, the maintenance of neuronal function and survival importantly relies on NR4A receptors in line with their dysfunction associated with neurodegenerative diseases. Rare mutations of Nurr1 have been linked to late-onset familial Parkinson's disease [ 4 ], and reduced expression levels of Nurr1, Nur77, and Nor1 were observed in brain tissues or blood of Parkinson's patients [ 5 , 6 ]. Studies using Nurr1-deficient mice have shown loss of dopaminergic markers, signs of neurodegeneration, and Parkinson-like motor impairment [ 7 , 8 ]. Knock-out mice lacking Nur77 also displayed disturbed dopaminergic transmission [ 9 ]. Similarly, knock-out mouse models have identified Nor1 as crucial for hippocampal pyramidal cell organization and axonal guidance during development [ 10 ] and the loss of both Nur77 and Nor1 led to abnormal myeloid cell expansion [ 11 ]. NR4A receptors have also been demonstrated to respond to increased oxidative stress [ 12 , 13 ], further supporting their neuroprotective contribution to the relatively limited antioxidant defense mechanisms present in neurons during neurodegenerative diseases [ 14 , 15 ]. While these observations are consistent with a neuroprotective function of NR4A receptors, the precise contribution of Nor1 and its ability to counteract disruptions in neuronal cell integrity remain elusive.
+ Microtubules are fundamental components of the cytoskeleton in neurons, providing dynamic structural support, enabling intracellular transport, and facilitating cellular processes such as axon growth and synaptic plasticity [ 16 , 17 ]. In neurodegenerative diseases, disruptions in microtubule dynamics and integrity are associated with neuronal dysfunction and degeneration, contributing to diseases such as Alzheimer's, Parkinson's, and amyotrophic lateral sclerosis [ 18 , 19 ]. Hence, microtubule-defective intracellular transport, dysregulation of microtubule-associated proteins like MAPT/Tau, alterations of tubulin modifications, and aberrant microtubule severing are commonly associated with neurodegenerative defects [ 20 , 21 , 22 , 23 ]. However, given the potential contribution of the NR4A receptors in neuroprotection, their role in regulating genes involved in microtubule dynamics and integrity remains unexplored.
+ The NR4A receptors share a very similar structure, characterized by a highly conserved DNA binding domain, enabling the receptors to interact as monomers with the NGFI-B response element (NBRE) or as homo/heterodimers with the Nur-responsive element (NurRE) of target genes [ 24 ]. In view that no bona fide endogenous ligands have as yet been identified, the transcriptional activation of NR4A receptors is thought to mainly rely on the unusual presence of bulky hydrophobic amino acids within their ligand-binding domains (LBD), which imparts them a conformation that resembles a classic activated nuclear receptor [ 25 , 26 ]. Various small molecule compounds have been described to modulate NR4A activity, although their fit with the ligand-binding pocket remains uncertain [ 2 , 27 ]. Also, enhanced NR4A gene expression, such as in response to growth factors, apoptotic signals, and stress, is associated with transcriptional activation [ 28 , 29 ]. Therefore, there is a growing need to understand the precise mechanism by which NR4A receptors regulate transcription in various contexts and pathological conditions.
+ Post-translational modifications, including phosphorylation, ubiquitination, and SUMOylation, have been identified for Nurr1 and Nur77 receptors. However, very few studies have delineated the role of post-translational modifications in regulating Nor1 activity and target gene expression. Notably, DNA-dependent protein kinase has been identified as targeting Nor1 for phosphorylation [ 30 ]. More recently, we identified Lys-137 as an atypical SUMOylation site, which is under the obligate control of adjacent phosphorylation by ERK and CK2, regulating Nor1 activity and its response to disturbances in cellular redox balance [ 13 ]. These observations underscore the importance of Nor1 modifications as critical effectors in its transcriptional control in response to various cellular cues. Such regulation is also consistent with the significant role played by the ligand-independent activation function AF-1 domain in nuclear receptor-mediated gene transcription [ 31 , 32 ].
+ In this study, we demonstrate that Nor1 is a target of SUMO1 conjugation at Lys-89 located within a canonical SUMOylation motif of the AF-1 domain of Nor1. Lys-89 SUMOylation was shown to govern Nor1 transcriptional activity, protein turnover, and target gene expression in neural cells. Also, the disruption of Lys-89 SUMOylation resulted in enhanced microtubule stability and resistance to depolymerization through a deregulated expression of microtubule severing genes. Our findings thus unveil a novel SUMO-mediated regulation of Nor1 transcriptional control, outlining a mechanism by which Nor1 SUMOylation selectively impacts microtubule cytoskeleton stability.
+
+ Material and methods
+ Plasmids
+ Plasmids coding for wild-type and K137R forms of Nor1 and luciferase reporter gene constructs were previously described [ 13 ]. Lys-89 mutation of Nor1 was generated by PCR mutagenesis using Pwo DNA polymerase (Roche) and verified by automated sequencing. The GFP-SUMO1 plasmid was previously described [ 33 ].
+ Cell culture and treatments
+ Human embryonic kidney 293 cells (HEK293) and mouse hippocampal neuronal HT-22 cells were cultured in Dulbecco’s modified Eagle’s medium (DMEM; Sigma) supplemented with 5% fetal bovine serum (FBS; Wisent). Mouse neuroblastoma Neuro2a cells were maintained in DMEM supplemented with 10% FBS. Human neuroblastoma SH-SY5Y cells were grown in DMEM/F-12 (Wisent) containing 10% FBS. Transfection of cells was performed using calcium phosphate or polyethyleneimine (Gibco) as described [ 13 , 34 ]. Treatments with nocodazole (1 μM-10 μM; Sigma) and MG-132 (1 μM; Sigma) were performed in DMEM.
+ Lentivirus production and generation of stable cell lines
+ Stable human SH-SY5Y cell lines expressing wild-type or mutant forms of Nor1 were generated as previously described [ 13 ]. Briefly, parental SH-SY5Y cells were infected in the presence of Polybrene (Santa Cruz Biotechnologies) and stable clones were sorted using FACS. Lentiviral particle production was carried out in 293E cells as described [ 35 ] using pLenti-Neo-DEST-CMV-Nor1 (wt, K89R, K137R, K89,137R, and S139E) generated by recombination with the LR Clonase II (Thermo Fisher Scientific). Stable clones were sorted by FACS and validated by Western blot analysis. Control stable cells (mock) were generated as above using an empty vector.
+ Luciferase assays
+ Luciferase assays were performed as described using NurRE 3 Luc or NBRE 3 Luc reporter constructs [ 13 ]. Luciferase activity is measured by luminescence (Nivo, Perkin-Elmer) and normalized to the β-galactosidase activity. Data are expressed as relative luciferase units (RLU) or fold response compared to control derived from at least three separate experiments performed in triplicate.
+ Cell lysates and immunoblotting
+ Analysis of Nor1 whole cell content was performed by Western blot analysis [ 13 ] using anti-Nor1 (Santa Cruz Biotech., sc-393902), anti-HA (12CA5) or anti-GFP (Roche, 11 814 460 001) antibodies. An anti-β-actin antibody (Novus Biologicals, NB600-501) was also used to normalize total protein loading.
+ Cycloheximide chase
+ Cycloheximide chase experiment was performed essentially as described [ 36 ]. Briefly, HT-22 cells were transfected with wild-type or K89R HA-Nor1 and harvested at the indicated time points following treatment with 50 µM cycloheximide (Sigma). Nor1 steady-state levels were analyzed by Western blot and expressed relative to β-actin content. Results were derived from at least three separate experiments.
+ SUMOylation assays
+ SUMOylation analysis of Nor1 was determined as previously described [ 13 ]. Briefly, cells were transfected with wild-type or mutant forms of Nor1 and subjected to immunoprecipitation with an anti-HA antibody (Roche, 11 867 423 001). Western blot analysis was then performed with antibodies against Nor1 (Santa Cruz Biotech.), HA tag (12CA5), GFP (Roche), or SUMO2/3 (Abcam, ab3742) as indicated. GFP-SUMO1 plasmid was also added to transfections when indicated. Input signals were also analyzed by Western analysis of whole-cell samples.
+ RNA isolation and qPCR analysis
+ Total cellular RNA was isolated using TRIzol reagent (Thermo Fisher Sci.), treated with DNase1 (Ambion), and subjected to reverse transcription using the RevertAid H Minus First Strand cDNA Synthesis kit (Thermo Fisher Sci.). Quantitative PCR analysis was then carried out as described [ 37 ], and values were obtained from at least three separate experiments performed in duplicate and normalized to RPLP0 gene expression.
+ Real-time cell growth
+ Real-time analysis of cellular growth was performed using the xCELLigence RTCA Dual Purpose biosensor analyzer with the E-plate configuration (Roche) as described [ 13 ]. Briefly, stable SH-SY5Y cells were plated at 50 000 cells/well and readings were started after a pre-incubation period of 30 min at 37 °C in 5% CO 2 . Impedance magnitude recordings representative of cell number were converted to cell index (CI) values using the RTCA software 2.0 (Roche). Background readings were performed with medium alone. Values are derived from at least three separate experiments performed in duplicate.
+ MTT viability assay
+ Cell viability was assessed using the 3-(4,5-dimethylthiazol-2-yl)-2,5-diphenyl tetrazolium bromide (MTT; Sigma) assay as described [ 38 ]. Briefly, cells were seeded in 24-well plates at a density of 100 000 cells/well. At day 0, cells were treated with 1 μM nocodazole for 6 h or vehicle (control) and 0.5 mg/ml MTT was then added for 2–3 h prior to extraction with acidified isopropanol. Absorbance was read at 570 nm and 690 nm (non-specific) by spectrophotometry. Results are derived from at least three independent experiments performed in triplicate.
+ Analysis of polymerized and acetylated tubulin
+ Polymerized microtubules and tubulin acetylation were assessed as previously described with modifications [ 39 ]. Briefly, SH-SY5Y stable cells were treated or not (vehicle) with 1 μM nocodazole for 4 h at 37 °C, washed in PBS and then lyzed in Pipes (50 mM, pH 6.9) buffer containing 50 mM NaCl, 5 mM MgCl 2 , 5 mM EDTA, 5% glycerol, 0.1% Igepal, 0.1% Triton X-100, 0.1% Tween-20, 0.1% β-mercaptoethanol, 1 mM ATP, 0.1 mM GTP and protease inhibitors (Roche) to preserve microtubule integrity. Whole-cell lysates were used for analysis of acetylated tubulin. To prepare the microtubule fractions, cells were lyzed in the same conditions and lysates were then clarified by centrifugation to isolate the supernatant which was used for measurement of soluble tubulin (globular fraction). The pellet representing the assembled microtubule (filamentous fraction). The pellet was resuspended in RIPA buffer supplemented with 1% Igepal, 0.05% sodium deoxycholate, 0.1% SDS, 1 mM PMSF, and protease inhibitors (Roche). Samples were proportionally loaded and analyzed by immunoblotting using antibodies for α-tubulin (Santa Cruz Biotech., sc-134239). Acetylation of tubulin was assessed using an antibody for acetylated Lys-40 tubulin (Sigma, T-7451) and a pan-tubulin antibody (Abcam, ab11304) was used to monitor loading.
+ Live-cell fluorescent microscopy
+ The relative microtubule stability in the context of Nor1 expression was determined by fluorescent microscopy with the use of YFP-Nor1 (WT, K89R, K137R) fusion constructs [ 13 ] and mCherry-TUBA1 expression plasmid based on described procedures [ 40 , 41 , 42 ]. To generate the pCMX-mCherry-TUBA1 construct, the human α-tubulin coding region was amplified and inserted in frame at the C-terminal end of the mCherry coding insert kindly provided by Rubén Marín Juez. HT-22 cells were transfected using polyethylenimine (Gibco) and cultured on poly-D-lysine coated coverslips (Sigma-Aldrich). Cells were treated with 1 μM nocodazole or vehicle (DMSO; 1/1,000, v/v) for 4 h and then processed for real-time fluorescence analysis using a Leica DMi8 microscope and the Application Suite LAS X software. ImageJ (v2.14) software was used to quantify relative protein levels of Nor1 (YFP channel) and TUBA1 (mCherry channel) expressed as integrated density normalized to the area coverage in μm 2 and to background measured from a cell-free region in the same field of view. Each independent channel was used to determine the protein levels of interest per each cell transposed to mCherry/YFP ratio (mean ± SEM) for untreated and nocodazole-treated cells. The same approach was also performed in the context of the K40R and K40Q variants of TUBA1 generated by PCR mutagenesis and using the mCherry-actin-7 plasmid from Addgene (#54966). All measurements were made from 16-bit raw images obtained from at least three independent experiments performed in duplicate.
+ Statistics
+ Statistical comparisons for three groups or more were determined by one-way ANOVA followed by Bonferroni post-hoc analysis. Single comparisons between two groups were determined using unpaired two-tailed Student’s t-test performed with the GraphPad Prism software. Values are presented as mean ± SEM from at least three separate experiments performed in duplicate or otherwise stated. P values smaller than 0.05 were considered statistically significant.
+
+ Results
+ Nor1 is a target of SUMO1 conjugation at Lys-89 contained in a consensus SUMOylation motif
+ Our previous work has described a non-consensus SUMOylation motif, referred to as the pSuM. which allows the conjugation of poly-SUMO2 at Lys-137 of Nor1 [ 13 ]. We also observed that mutating Lys-137 did not completely abrogate Nor1 SUMOylation, highly suggesting that additional SUMO conjugation may occur on Nor1. Interestingly, our sequence homology analysis using the ψKxE sequence, which is considered the classic consensus SUMOylation motif [ 43 ], has revealed that Lys-89 is part of a ψKxE motif located in the AF-1 region of Nor1. This ψKxE motif is perfectly conserved across vertebrates and lower species and among the other members of the NR4A subfamily, strongly supporting a functional role in Nor1 function (Fig. 1 A). We thus analyzed the SUMOylation potential of Nor1 in human embryonic kidney 293 cells and found a distinctive pattern of Nor1 SUMOylation, characterized by the presence of three bands of respective molecular weights of ~ 100 kDa, ~ 114 kDa, and ~ 135 kDa (Fig. 1 B). The same pattern of SUMOylation was also found using murine neuronal hippocampal HT-22 cells (Fig. 1 C), which may support a shared pattern of Nor1 SUMOylation in different cell types. Based on our previous findings also describing a three-band pattern of Nor1 SUMOylation, we identified the middle and highest bands to be associated with Lys-137 SUMO2/3 conjugation [ 13 ]. Interestingly, mutation of Nor1 Lys-89 resulted in the complete disappearance of the lower band at ~ 100 kDa, which was also not recognized by a SUMO2 antibody (Fig. 1 B and C). This suggests that the ~ 100 kDa band might represent an additional SUMOylation site not related to SUMO2/3. Also, mutating Lys-89 and Lys-137 together (K89,137R mutant) abolished the three distinctive bands, supporting the role of Lys-89 and Lys-137 as major SUMOylation sites of Nor1. To ascertain whether Lys-89 could conjugate SUMO1, we then tested the effect of expressing GFP-SUMO1 in cells and found that mutating Lys-89 abolished the upshift in SUMO1 signal of Nor1 (Fig. 1 D). Conversely, mutation at Lys-137 did not impair Nor1 SUMO1 conjugation. These results support Lys-89 as a target of SUMO1. Intriguingly, we also noticed that disrupting either Lys-89 or Lys-137 was affecting the intensity of each other SUMO signals compared to wild-type receptor. Indeed, each signal corresponding to either Lys-89 (lower ~ 100 kDa band) or to Lys-137 SUMOylation (~ 114 kDa) was found increased in intensity upon the disruption of the other respective site (Fig. 1 D). Whether this might reflect a cross-regulation mechanism between the two SUMOylation sites is possible but remains to be ascertain.
+ Fig. 1 Full size image 
+
+ Nor1 is SUMOylated by SUMO1 at Lys-89. A Homology sequence alignment of the N-terminal canonical SUMOylation motif ψKxE between Nor1-expressing species and members of the NR4A subfamily. The number in parenthesis represents the position of the first amino acid in the sequence. Conserved residues of the motif are shaded. h, human; m, mouse; r, rat; b, bos taurus; rh, rhesus monkey; x, xenopus; z, zebrafish. B SUMOylation of Nor1 at Lys-89 and Lys-137. SUMOylation assay was performed in 293 cells transfected with HA-tagged wild-type or lysine-to-arginine mutants of Nor1. Samples were immunoprecipitated with an anti-HA antibody, and Western analysis was performed using 12CA5 and anti-SUMO2 antibodies. C Same as in B, except that SUMOylation assay was performed in HT-22 neuronal cells. D SUMOylation assay was performed in 293 cells transfected with HA-tagged wild-type or SUMO-mutants of Nor1 in the presence or absence of GFP-tagged SUMO1. Anti-HA antibody was used for immunoprecipitation, and Western analysis was performed with 12CA5 and anti-GFP antibodies
+
+ Lys-89 SUMOylation promotes Nor1 transcriptional activity and target gene expression
+ We next addressed the effect of Lys-89 SUMOylation on Nor1 transcriptional activity using the NurRE 3 -Luc reporter in luciferase reporter assay. We found that the K89R mutant exhibited a significant decrease in activity when compared to wild-type Nor1 in 293 cells, with similar results also obtained in neuronal HT-22 and Neuro2A cells (Fig. 2 A). To determine whether SUMO1 could contribute to Nor1 activation involving Lys-89 SUMOylation, ectopic expression of SUMO1 led to an increase in wild-type Nor1 activity, whereas the K89R mutant remained mostly unaffected (Fig. 2 B). These results indicate that Lys-89 SUMO1 conjugation can promote Nor1 transcriptional activation . 
+ Fig. 2 Full size image 
+
+ SUMOylation at Lys-89 induces Nor1 transactivation and target gene expression in neural cells. A Disruption of Lys-89 SUMOylation impairs Nor1 transcriptional activity in 293, HT-22, and Neuro2A cells. Cells were transfected with wild-type or K89R-mutated Nor1 in the presence of the NurRE 3 -Luc reporter and harvested for luciferase activity measurement. Values are shown as mean ± SEM in percentage response compared to wild-type cells set at 100%. Data are derived from at least three separate experiments done in triplicate. *P < 0.001 vs. control. B Luciferase assay in 293 cells transfected with wild-type Nor1 or K89R mutant in the presence of the NurRE 3 -Luc reporter and SUMO1. Values are derived from at least three independent experiments realized in triplicate and expressed as fold (mean ± SEM) compared to control cells set at 1.0. *P < 0.01 vs. control. C Luciferase assay was performed in human neuroblastoma SH-SY5Y cells stably expressing wild-type Nor1 or K89R mutated Nor1 and compared to mock-transfected cells (-). The NurRE 3 -Luc reporter was used in transfection, and cells were harvested for determination of luciferase activity. Values were normalized to β-galactosidase activity and are expressed (mean ± SEM) as a percentage relative to wild-type Nor1-expressing cells set at 100%. Values are derived from at least three independent experiments repeated in triplicate. *P < 0.05 vs. control. D qPCR analysis was performed in the stable SH-SY5Y cell lines. Gene expression levels were derived from at least three separate experiments and normalized to RPLP0 expression. Results are expressed as fold response (mean ± SEM) relative to mock control cells set to 1.0 for each gene. *P < 0.05. E Disruption of Nor1 Lys-89 SUMOylation impedes neuronal cell growth. SH-SY5Y stable cells were seeded and monitored for cell proliferation using impedance measurement for each indicated time. Results are expressed as cell index (mean ± SEM) derived from at least three independent experiments performed in duplicate. *P < 0.05
+
+ To gain more insights into the positive role of Lys-89 SUMOylation on Nor1 activity, we generated stable neuroblastoma SH-SY5Y cell lines expressing either wild-type Nor1 or the K89R mutant. Again, K89R-expressing cells showed an impaired transcriptional response compared to wild-type Nor1 cells (Fig. 2 C). To support Lys-89 dependent activation of Nor1, we next analyzed the expression levels of Nor1 regulated genes in SH-SY5Y cell clones. We found that Nor1-responsive genes, such as ABL2, CFLAR , ENO3 , EN1 , and SKP2 , were significantly decreased in K89R-expressing cells compared to wild-type Nor1 (Fig. 2 D). Interestingly, other responsive genes such as CAT that was identified as a Nor1 regulated gene under conditions of oxidative stress, as well as RHOA [ 13 ] were not downregulated in K89R-expressing stable cells, supporting a gene-selective regulation by Nor1 Lys-89 SUMOylation. It is also of interest to note that KATNA1 and MAPT , two genes related to microtubule cytoskeleton dynamics, were also found upregulated by Nor1 in a Lys-89 dependent fashion (Fig. 2 D). Similar results on the effect of the K89R mutation on Nor1 regulated gene levels were observed in mouse neuronal HT-22 cells (Fig. S1), further supporting the gene-selective response to Nor1 Lys-89 SUMOylation. Concurring with the downregulation of Nor1 responsive genes associated with cell proliferation, like SKP2, ATF3, and ENO3 in K89R stable cells, we next addressed whether Nor1 Lys-89 SUMOylation could affect cell growth. Real-time monitoring of cell growth was determined by impedance analysis of stable cells maintained in culture. We found that the proliferation of Nor1 K89R-expressing SH-SY5Y cells was significantly slower compared to wild-type Nor1 cells (Fig. 2 E). These results specify a role of Lys-89 SUMOylation to promote Nor1-dependent gene transcription and growth of neural cells.
+ SUMOylation at Lys-89 affects Nor1 protein stability
+ We next addressed the role of Lys-89 in affecting Nor1 protein turnover. Protein levels of wild-type Nor1 were greatly increased in response to the 26S proteasome inhibitor MG-132, indicating that Nor1 is subjected to proteasomal degradation (Fig. 3 A). Similarly, Nor1 K89R variant levels were also increased by MG-132. However, the steady-state levels of K89R in absence of MG-132 were highly diminished compared to wild-type Nor1, suggesting that Lys-89 is important for Nor1 stability in cells. We thus performed cycloheximide chase experiments to address whether Lys-89 could affect Nor1 protein turnover and measured a more rapid protein turnover of the K89R mutant (τ½ = 2.8 h ± 0.3) compared to wild-type Nor1 (τ½ = 4.4 h ± 0.4; P = 0.032; Fig. 3 B and C). These results indicate a role of Lys-89 SUMOylation in stabilizing Nor1 protein.
+ Fig. 3 Full size image 
+
+ SUMOylation at Lys-89 increases Nor1 protein stability . A 293 cells were transfected with HA-tagged wild-type, or K89R mutated Nor1 and then treated or not with 1 μM proteasome inhibitor MG-132. Western blot analysis of Nor1 protein levels was performed with an anti-HA antibody, and β-actin was used to monitor protein loading. B Cycloheximide chase experiment in HT-22 cells transfected with HA-tagged wild-type or mutant Nor1. Cells were treated with 50 µM cycloheximide and harvested at the indicated times after treatment. Western blot analysis was performed using an anti-HA antibody, and β-actin was used to monitor protein loading. Representative blots of experimental duplicates are shown. C Signal intensities from three independent experiments carried out as in B were quantified and normalized to β-actin levels. Values are represented as a percentage (mean ± SEM) of time zero, which is set at 100%. *P < 0.05 vs. wild-type
+
+ Microtubule disruption increases Nor1 gene expression and Lys-89 SUMOylation
+ Microtubules are a critical component of healthy neurons, and the balance between microtubule dynamics and stability is essential for neuronal maintenance and plasticity of the nervous system [ 44 , 45 ]. Hence, anomalies in microtubule integrity are strongly associated with neurodevelopmental and neurodegenerative diseases [ 18 , 19 ]. However, not much is known about Nor1's contribution to the microtubule network. Our findings that microtubule-associated genes such as KATNA1 and MAPT were upregulated by Nor1 and Lys-89 SUMOylation (Fig. 2 B) highly support a functional role of Nor1 in regulating microtubule dynamics. We thus treated neuronal HT-22 cells in a dose- and time-dependent fashion with nocodazole, a potent disrupting drug of microtubule polymerization. Under these conditions, Nor1 mRNA expression was strongly enhanced, suggesting a positive gene regulation of Nor1 in response to microtubule disturbances (Fig. 4 A). Also, Nor1 SUMOylation was increased by nocodazole with a significant induction of the Lys-89 SUMOylation signal as determined in the context of wild-type Nor1 and the K137R mutant (Fig. 4 B, C). In addition, nocodazole treatment of cells resulted in an increase in Nor1 transcriptional activity in a manner dependent on Lys-89 SUMOylation (Fig. 4 D). These results imply a functional transcriptional response of Nor1 to microtubule disruption by nocodazole in neuronal cells.
+ Fig. 4 Full size image 
+
+ Lys-89 SUMOylation regulates Nor1-responsive genes and neural cell survival to microtubule disorganization. A Microtubule disruption induces Nor1 gene expression. qPCR analysis was performed on HT-22 cells treated with nocodazole or vehicle (Ctl) with the indicated concentrations and time periods. Results were normalized to RPLP0 expression and expressed (mean ± SEM) as fold response relative to untreated cells set to 1.0. *P < 0.05; **P < 0.01 vs. control. B Nor1 SUMOylation is increased by nocodazole. SUMOylation assay was performed in HT-22 cells transfected with HA-tagged wild-type or K137R mutant Nor1 treated or not (vehicle) with 1 or 10 μM of nocodazole for 24 h. C Measurement of signal intensities of Lys-89 specific SUMOylation derived from three separate experiments performed as in ( B ). Values are expressed as the percentage of Lys-89 SUMOylation intensity (mean ± SEM) compared to total Nor1. *P < 0.05. D Transcriptional assay was performed in HT-22 cells transfected with wild-type Nor1, or K89R mutated Nor1 in the presence of the NBRE 3 -Luc reporter. Cells were treated with 10 μM nocodazole or not (vehicle) for the indicated time. Luciferase values were normalized to β-galactosidase activity and expressed (mean ± SEM) as a fold response relative to control cells set at 1.0. Values are derived from at least three independent experiments repeated in triplicate. *P < 0.05 vs. control. E Induction of Nor1-responsive genes by nocodazole. qPCR analysis of SH-SY5Y stably expressing wt or K89R Nor1. Cells were treated or not (vehicle) with 1 μM nocodazole. Values are presented as fold response (mean ± SEM) compared to untreated controls set to 1.0 for each cell line. Values were normalized to RPLP0 gene expression. *P < 0.05. F MTT cell viability assay was performed in HT-22 cells expressing wt or K89R Nor1. Cells were treated or not (vehicle) with 1 μM nocodazole for 6 h. Values are presented as mean ± SEM of percent change compared to untreated wt Nor1 cells set at 100%. Results are derived from at least three separate experiments. *P < 0.05
+
+ To further support such transcriptional regulation, we found that several Nor1-responsive genes identified to be sensitive to Lys-89 SUMOylation (Fig. 2 D and Fig. S1), such as ENO3 , CFLAR , ATF3 , and EN-1 , were significantly upregulated in response to nocodazole in wt Nor1-expressing cells (Fig. 4 E). However, such regulation was prevented in the context of K89R mutant expressing cells, correlating with a role of Lys-89 SUMOylation to enhance Nor1 activity in conditions of microtubule disorganization. Given the potential of these genes to regulate cell growth and metabolism, we next assessed whether Nor1 SUMOylation at Lys-89 could impact cell survival in response to the nocodazole insult. As expected, nocodazole treatment led to a significant decrease in cell survival rates in both control and Nor1-expressing HT-22 cells compared to each respective untreated control (Fig. 4 F). However, K89R expressing cells were found to be more resistant to nocodazole with no significant changes in cell survival rates compared to control cells. A similar protective effect of the K89R mutant was also observed in the context of neuro-2A and SH-SY5Y cells (Fig. S2A and B). These results were rather intriguing given the effect of K89R mutation to impair cell growth in the absence of nocodazole but raise a possible role of Nor1 Lys-89 SUMOylation in the detrimental response of neuronal cells to microtubule disorganization induced by nocodazole.
+ Divergent role of Lys-89 and Lys-137 SUMOylation in Nor1 regulation of microtubule organization genes and stabilization
+ Our findings on the regulation of MAPT and KATNA1 genes by Nor1 and Lys-89 SUMOylation (Fig. 2 B and S1) strongly suggest a role of Nor1 in microtubule dynamics and reorganization in neuronal cells. To better understand how Lys-89 may contribute to microtubule organization, we thus analyzed the expression of key genes involved in microtubule networking and dynamics in stably expressing SH-SY5Y cells. Interestingly, several genes associated with microtubule stability and organization were found upregulated in wt Nor1 cells in response to nocodazole, whereas such regulation was either impaired or even reversed in K89R stable cells (Fig. 5 A). Most notably, genes involved in the severing of microtubules, such as KATNA1 , SPAST , and FIGN were remarkably down-regulated by nocodazole treatment in K89R stable cells compared to wt Nor1 cells, implying that Nor1 Lys-89 integrity was needed to achieve proper gene response to microtubule disruption. A similar downregulation in microtubule severing gene expression was also observed in the context of the S139E variant, which is known to constitutively induce Lys-137 SUMOylation and reduce Nor1 activity [ 13 ], whereas the SUMO-defective K137R variant had the opposite effect (Fig. 5 A). Nor1 Lys-137 was described as embedded in a pSuM motif, dictating SUMO2 recruitment and transcriptional repression under the phosphorylation of Ser-139 required to provide the obligate negative charge for effective SUMO conjugation [ 13 ]. These results are thus consistent with a dual role of Lys-89 and Lys-137 SUMOylation in Nor1 regulation of severing genes in conditions of microtubule disorganization. Among other microtubule-related genes that follow such apparent SUMO-specific regulation by Nor1 were genes involved in microtubule cytoskeleton organization, such as MAPT , MAP2 , PCNT , and in motor activity like DYNC1H1 (Fig. 5 A). Conversely, the regulation of ATAT1 gene involved in tubulin acetylation appears to diverge in the other way, showing an increase in expression levels in K89R stable cells compared to wt or K137R Nor1 cells.
+ Fig. 5 Full size image 
+
+ Divergent role of Lys-89 and Lys-137 SUMOylation in Nor1 regulation of microtubule organization genes and stabilization in neural cells. A Heat map representation and cluster analysis of expression levels of genes associated with microtubule dynamics and stability in SH-SY5Y stable cell lines treated or not (vehicle) with 1 μM nocodazole. Values are presented as fold response (mean ± SEM) compared to respective untreated controls set to 1.0 for each cell line. Data were derived from at least three independent experiments and normalized to RPLP0 gene expression. *P < 0.05 vs untreated controls. B Analysis of microtubule (filamentous tubulin; F) proportion compared to free tubulin (globular tubulin; G) in response to nocodazole in the SH-SY5Y cell lines treated or not (vehicle) with 1 μM nocodazole for 4 h. Western blot analysis was carried out using an anti-α-tubulin-1c antibody. C Intensity quantification from three separate experiments was carried out as in B. The ratio of filamentous tubulin (F) to globular tubulin (G) was determined, and values are expressed as mean percent ± SEM of filamentous tubulin. *P < 0.01, **P < 0.001 compared to untreated cells. D Tubulin acetylation in SH-SY5Y stable cell lines expressing wt or variants of Nor1 as indicated. Cells were treated or not (vehicle) with 1 μM nocodazole for 4 h and assessed by Western blot analysis using an anti-acetylated Lys-40 tubulin antibody. A pan tubulin antibody was used to monitor control loading. E Signal intensity quantification from at least three separate experiments performed as in C. Results were normalized using anti-tubulin antibody and are expressed as a percentage (mean ± SEM) of acetylated tubulin left after nocodazole treatment relative to untreated controls set at 100% for each cell line. *, P < 0.05, **; P < 0.005. F Mouse HT-22 neuronal cells were transfected with YFP fusions of WT, K89R or K137R Nor1 variant in the presence of mCherry-TUBA1 expression plasmid. Cells were then treated or not with 1 µM nocodazole for 4 h and visualized in real-time by fluorescent microscopy. Representative fluorescent microscopy images are shown depicting the protein levels of Nor1 and α-Tubulin in each condition. Scale bar: 25 μm. G Quantitation of red (Cherry) fluorescence was determined and normalized to yellow (YFP) fluorescence per each single cell analyzed. Values are derived from three independent experiments performed as in F and presented as mean ± SEM of TUBA1 to Nor1 ratios in untreated (vehicle) control (Ctl) and nocodazole-treated (Noco) cells. *P < 0.05; **P < 0.001. H Similar as in G except that the acetylation-defective mCherry-TUBA1 K40R construct was used in cells. *P < 0.05; **P < 0.001. I Similar as in G except that the acetylation-mimic variant mCherry-TUBA1 K40Q construct was used in cells. *P < 0.05
+
+ To further address the functional impact of Nor1 Lys-89 SUMOylation on the microtubule network, we next measured the proportion of α-tubulin assembled in microtubules (filamentous fraction; F) relative to free α-tubulin (globular fraction; G) as an indicator of microtubule organization. We found that in absence of nocodazole, K89R stable cells already exhibit a greater ratio of α-tubulin filaments over soluble α-tubulin (F/F + G) relative to wt Nor1-expressing cells, suggestive of enhanced microtubule polymerization in K89R stable cells (Fig. 5 B, C). As expected, nocodazole treatment significantly decreased the α-tubulin filamentous fraction in wt Nor1 cells, whereas no such effect was observed in K89R stable cells. This might indicate a less protective effect of cells to nocodazole in conditions of Nor1 Lys-89 SUMOylation. To further support the impact of Lys-89 SUMOylation on microtubule stabilization, we measured the levels of acetylated Lys-40 tubulin, a marker of long-lived microtubule mechanical stability [ 46 , 47 ]. We found a significant increase in acetylated tubulin levels in nocodazole-treated K89R stable cells compared to wild-type Nor1-expressing cells, again indicating a less protective effect of Nor1 Lys-89 SUMOylation to the nocodazole stress (Fig. 5 D, E). When addressing the role of Lys-137 SUMOylation, we found no significant changes in tubulin acetylation levels in pSuM-defective K137R-expressing SH-SY5Y cells when compared to wt Nor1 cells in response to nocodazole (Fig. 5 D, E). However, the S139E variant greatly enhanced the tubulin acetylation levels in SH-SY5Y cells, in support of a strong protective role of Nor1 Lys-137 SUMOylation to the nocodazole insult. As such, the protective effect of Lys-137 SUMOylation appears in contrast with Lys-89 SUMOylation, inferring a divergent contribution of both SUMOylation sites in Nor1 regulation of microtubule stabilization. In addition, the effect of the double K89,137R mutant was similar to that of the K89R mutation, possibly emphasizing a stronger impact of Lys-89 modification on regulating tubulin acetylation.
+ Tubulin subunits are known to unfold and degrade upon severing, supporting the role of microtubule severing in tubulin protein turnover [ 21 ]. Based on the effect of Nor1 Lys-89 SUMOylation on severing gene expression and tubulin dynamics, we next investigated whether α-tubulin content was affected in live cells expressing Nor1 or SUMO-defective variants using a dual-probe fluorescence microscopy approach. As expected, Nor1 was found predominantly, if not strictly, expressed in the nucleus of HT-22 cells, while α-tubulin was found in both the cytosolic and nuclear compartments, along with its role in cytoskeletal organization and cell division [ 48 , 49 ]. Consistent with its known effect on tubulin depolymerization, nocodazole treatment contributed to a decrease in the TUBA1 single-cell ratios relative to Nor1 expression, indicative of tubulin degradation (Fig. 5 F, G). However, these effects were not observed and even reversed in K89R-expressing cells, while K137R-expressing cells showed a reduced cellular tubulin content similar to that of wild-type Nor1-expressing cells. These findings are consistent with a protective role of Nor1 K89R against the nocodazole depolymerization insult. As a control, wild-type Nor1 or SUMO-defective variants had no effect on cellular actin levels under the same conditions (Fig. S3).
+ Given that K89R-expressing cells exhibited enhanced levels of acetylated α-tubulin (Fig. 5 E), we next performed the same approach using the acetylation-defective K40R mutant of TUBA1. Interestingly, K89R-expressing cells still showed greater levels of TUBA1 K40R to nocodazole treatment compared to wild-type Nor1 and to K137R variant (Fig. 5 H). However, the extent to which K89R raised non-acetylated TUBA1 levels was not as high as those of wild-type TUBA1 (Fig. 5 G), possibly indicating another mechanism besides tubulin acetylation that may participate in the protective effect promoted by the Nor1 K89R variant. Similar results were obtained using the K40Q mutant of TUBA1, known to mimic Lys-40 acetylation. Despite higher overall expression levels of the TUBA1 variant, probably reflecting its constitutive acetyl-mimic nature, we again found a higher proportion of the K40Q mutant in K89R-expressing cells compared to wild-type or K137R-expressing cells in the context of nocodazole treatment (Fig. 5 I).
+ Taken together and as illustrated in Fig. 6 , these results provide a cellular mechanism as to how Nor1 distinctive SUMOylation might dictate the transcriptional regulation of specific microtubule-related genes in the protection of neuronal cells from microtubule disorganization.
+ Fig. 6 Full size image 
+
+ Proposed model illustrating the adaptive effects controlled by Nor1 SUMOylation on microtubule dynamics and resistance to perturbations in neuronal cells. SUMO1 conjugation occurs at Lys-89, inducing Nor1 transcriptional activity and the expression of target genes involved in cell survival and microtubule dynamics. In conditions of microtubule disturbances induced by nocodazole, Lys-89 SUMOylation appears insufficient to confer microtubule stability and resistance, resulting in increased levels of microtubule severing genes and reduced α-tubulin acetylation and microfilament organization. However, these effects appear to contrast with Lys-137 SUMOylation, thereby outlining a hierarchical mechanism of Nor1 activation based on distinct input SUMOylation signals
+
+ Discussion
+ Characterizing NR4A receptors is a challenging task complicated by their atypical ligand-binding domain and the absence of a clearly defined endogenous ligand. Hence, identifying other regulating events that target NR4A receptors could significantly enhance our understanding of their function in both normal and pathological conditions, such as neurodegenerative disorders. In this study, we present evidence that Nor1 undergoes SUMO1 conjugation at Lys-89, located in the AF-1 domain. This SUMOylation of Nor1 enhances its stability and transcriptional potential, resulting in elevated target gene expression and increased proliferation of neuronal cells. Moreover, our findings reveal that the disruption of Lys-89 SUMOylation impairs the expression of several microtubule-related genes, thereby delineating the pivotal role of Nor1 and its SUMO conjugation in regulating microtubule dynamics.
+ We have established that Nor1 is subjected to SUMO1 conjugation at Lys-89, which is contained in a canonical SUMOylation ψKxE motif highly conserved across species and shared with the other two NR4A family members. Disruption of Lys-89 led to reduced Nor1 transcriptional activity and decreased expression of several Nor1-responsive genes, including ENO3 , EN1 , and SKP2 , supporting a transactivating potential for Lys-89 SUMOylation. Additionally, Lys-89 SUMOylation enhanced Nor1 stability in a proteasome-dependent manner, contributing to improved Nor1 function. This contrasts with Nurr1, in which the corresponding Lys-91 was reported to conjugate SUMO2, resulting in transcriptional repression [ 50 ]. Lys-104 of Nur77 was also identified as a target of SUMO2/3, although its specific impact on Nur77 has only been studied in conjunction with Lys-555 and Lys-577 disruption, which resulted in enhanced Nur77 activity [ 51 , 52 ]. Overall, this suggests that SUMOylation of NR4A receptors can lead to divergent effects on their activity. However, whether this difference in activity relates to SUMO isoform-specific conjugation of NR4A members or is influenced by various cellular contexts and reporter systems remains unclear, but it further exemplifies the broad spectrum of effects associated with target and site-specific SUMOylation [ 53 , 54 ]. Consistent with this, we also reported that Lys-137 of Nor1 is an essential site for SUMO2/3 conjugation, a process tightly regulated by phosphorylation-mediated events and linked to transcriptional repression of the receptor [ 13 ]. Such divergent transcriptional impacts of conjugating SUMO1 to Lys-89 and SUMO2/3 to Lys-137 underscore the intricate and highly regulated nature of the SUMOylation process in governing Nor1-dependent gene regulation in neuronal cells.
+ Our data strongly suggest that SUMOylation at Lys-89 significantly contributes to neuronal cell proliferation by Nor1. In line with this, several genes associated with cellular metabolism and growth, including ENO3, CFLAR, EN-1, SKP2 , and ATF3 , were responsive to Nor1-enhanced transcriptional activity. This regulation is likely mediated through the direct recruitment of Nor1 to promoter regions, as NBRE elements have been identified in genes like ENO3, CFLAR , and ATF3 and described to direct their transcriptional regulation through enhanced Nor1 binding and activating histone marks [ 13 ]. Notably, these genes also exhibited increased expression in nocodazole-treated cells, suggesting their responsiveness to microtubule depolymerization. Genes such as ENO3, SKP2, EN1, CFLAR , and ATF3 play diverse roles in neuronal development, differentiation, energy metabolism, and anti-apoptotic effects. For instance, ATF3 is often induced in the nervous system in response to various stressors such as nerve injury, ischemia, or inflammation. ENO3 is also linked to neuroprotection in response to cellular oxidative stress [ 13 , 55 , 56 ]. The increased expression of Nor1-responsive genes to the nocodazole insult could therefore be seen as an attempt to rescue neuronal cells from microtubule disturbances. Furthermore, our observation that these effects were blunted in K89R-expressing cells, leading to reduced cell growth, suggests that Lys-89 SUMOylation may serve to relay neuronal survival signals by transcriptionally upregulating the expression of key genes involved in neuronal cell function and growth.
+ Maintaining microtubule integrity is crucial for ensuring the health of neurons, and any disruptions in microtubule equilibrium are hallmark features of many neurodevelopmental and neurodegenerative diseases [ 19 , 45 ]. However, very little is known about the role of NR4A receptors in regulating genes associated with the microtubule cytoskeleton and reorganization. Here we show that Nor1 gene expression is induced under conditions of microtubule disruption. This was accompanied by an increase in several genes involved in microtubule dynamics and stability. Such upregulation of Nor1 gene expression aligns with the protective cellular response often associated with increased NR4A gene expression to various stress-inducing factors [ 29 , 57 , 58 ]. Enhancement of Nor1 expression, along with its transcriptional activation through Lys-89 SUMOylation, may thus support a functional role of Nor1 in maintaining the delicate balance of microtubules in neuronal cells.
+ As part of the mechanistic response of Nor1 to microtubule disorganization, we found that nocodazole promoted Nor1 Lys-89 SUMOylation, thereby facilitating its transcriptional activation. However, the precise mechanism underlying Nor1 SUMOylation remains unclear. Previous studies have reported that depolymerizing microtubules with nocodazole or colchicine led to the activation of kinase signaling pathways, including MAPK/Erk members, among others, to restore microtubule growth and rescue [ 59 , 60 , 61 ]. Interestingly, activation of the MAPK pathway is essential for promoting Nor1 SUMOylation at Lys-137, suggesting that additional regulatory mechanisms for Lys-89 SUMOylation might also take place [ 13 ]. In line with this, we reported that the S139A mutation, which disrupted Lys-137 pSuM SUMOylation, also impacted the remaining Nor1 SUMOylation signal, which might infer a role of the MAPK-directed pSuM phosphorylation in potentially coordinating distant SUMOylation at Lys-89 [ 13 ]. Further studies will be required to elucidate the intrinsic mechanism of site-specific SUMOylation controlling the overall function of Nor1.
+ Our observation that Nor1 K89R variant conferred better survival of neural cells in response to nocodazole implies that Lys-89-dependent dysregulation of Nor1 activity significantly impacts microtubule stabilization and resistance to nocodazole-induced depolymerization. Consistent with this, we identified Nor1 as a transcriptional regulator of critical genes associated with microtubule dynamics. Specifically, genes related to microtubule severing, such as KATNA1 and FIGN , as well as genes involved in microtubule organization, such as MAPT, MAP2, and PCNT , were highly upregulated in Nor1-expressing cells, while these effects were either abolished or even reversed in K89R mutant cells. Katanin, fidgetin, and spastin are enzymes responsible for microtubule cutting, promoting the loss of microtubule integrity, and their aberrant regulation is strongly associated with neurodegenerative anomalies [ 62 , 63 , 64 ]. Also, through combined single-molecule fluorescence and electron microscopy, katanin and spastin were shown to remove tubulin dimers from microtubule lattices, creating sites of damage and reducing rescue frequency [ 65 ]. Our results on the stabilization of α-tubulin filaments and the increase in acetylated tubulin in K89R-expressing cells strongly support a protective response to the nocodazole insult. This implies that Lys-89 deSUMOylation might promote conditions in which the microtubule turnover rate is restrained, thereby maintaining microtubule stabilization in the presence of nocodazole. However, the increase in marker genes associated with microtubule stability, such as MAP2, PCNT , and MAPT , in both wild-type and K137R cells also denotes a role of Nor1 SUMOylation in regulating critical effectors of microtubule dynamics. Indeed, MAP2 and Tau proteins are known to bind microtubules, ensuring their protection from severing enzymes and depolymerization. Defects in their function are often associated with tauopathies or MAP2opathies, characterizing various neurodevelopmental and neurodegenerative conditions [ 20 , 66 ]. Considering that Lys-89 and Lys-137 SUMOylation oppositely affect Nor1 transcriptional potential, our results suggest that disturbances in signaling pathways governing SUMO conjugation at either site could impair the proper regulation of microtubule critical regulators by Nor1, thereby affecting neuronal function. Several kinase pathways are known to contribute to the pathological phosphorylation of Tau, leading to neurological disorders [ 66 , 67 , 68 ]. Therefore, such kinase activation, which is required to coordinate Lys-137 SUMO2/3 conjugation and transcriptional repression of Nor1, might further impair MAPT expression and microtubule organization.
+ Our results revealed that impairment of Lys-89 SUMOylation led to increased levels of acetylated Lys-40 α-tubulin in neural cells treated with nocodazole, implying a role of Nor1 in regulating microtubule acetylation. Tubulin Lys-40 deacetylation in cells deficient in αTAT1 acetyltransferase has been associated with reduced resistance to nocodazole and mechanical stress, suggesting a crucial role for acetylation in microtubule longevity [ 46 , 47 , 69 ]. Furthermore, defects in tubulin acetylation have been linked to cognitive deficits and various neurodegenerative conditions [ 70 , 71 ]. αTAT1 is considered the major, if not the sole, tubulin-acetylating enzyme in vivo [ 69 , 72 ] and our findings that the ATAT1 gene and tubulin acetylation levels can be selectively regulated based on Nor1-specific SUMOylation argue for a critical, hence protective, role of Nor1 in responding to microtubule disturbances. Our results using fluorescence microscopy have also delineated the importance of Lys-40 acetylation in live cells subjected to nocodazole stress, whereby the K89R variant was more effective in maintaining α-tubulin content. However, given that these effects were partially blunted in the context of the acetyl-defective K40R or the acetyl-mimic K40Q α-tubulin variant, this indicates that besides acetylation, other tubulin turnover mechanisms might also support Nor1’s tubulin protection against depolymerization. Modifications such as ubiquitination and (de)tyrosination of tubulin have been implicated in modulating tubulin turnover and stabilization [ 73 , 74 , 75 ], thereby representing possible additional clues as to how Nor1 SUMOylation can regulate microtubule dynamics. Therefore, investigating whether such Nor1 effects on tubulin modifications primarily confer enhanced stability to de novo elongating microtubules or are essential for maintaining the structure of long-lived stable microtubules will certainly help in better understanding the intricate nature of Nor1 SUMOylation in responding to microtubule lattice damages.
+
+ Concluding remarks
+ Our study has uncovered a novel mechanism by which Nor1 SUMOylation directly regulates microtubule dynamics in neuronal cells. The identification of Nor1 as a transcriptional regulator of genes involved in microtubule reorganization provides new insights into the hierarchical role of SUMOylation in fine-tuning neuronal gene expression networks and warrants further investigation of Nor1 as a potential therapeutic target in neurodegenerative diseases associated with microtubule dysfunction.
+
+ Availability of data and materials
+
+ Data sharing is not applicable. Materials used in the current study are available from the corresponding author on reasonable request.
+
+ References
+ Pearen MA, Muscat GE. Orphan nuclear receptors and the regulation of nutrient metabolism: understanding obesity. Physiology (Bethesda). 2012;27(3):156–66. https://doi.org/10.1152/physiol.00007.2012 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Safe S, Jin UH, Hedrick E, Reeder A, Lee SO. Minireview: role of orphan nuclear receptors in cancer and potential as drug targets. Mol Endocrinol. 2014;28(2):157–72. https://doi.org/10.1210/me.2013-1291 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Hong H, Su J, Huang C, Lu X, Cui Z. Comprehensive insights into the function and molecular and pharmacological regulation of neuron-derived orphan receptor 1, an orphan receptor. Front Pharmacol. 2022;13: 981490. https://doi.org/10.3389/fphar.2022.981490 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Le WD, Xu P, Jankovic J, Jiang H, Appel SH, Smith RG, et al. Mutations in NR4A2 associated with familial Parkinson disease. Nat Genet. 2003;33(1):85–9. https://doi.org/10.1038/ng1066 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Chu Y, Le W, Kompoliti K, Jankovic J, Mufson EJ, Kordower JH. Nurr1 in Parkinson’s disease and related disorders. J Comp Neurol. 2006;494(3):495–514. https://doi.org/10.1002/cne.20828 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Montarolo F, Perga S, Martire S, Navone DN, Marchet A, Leotta D, et al. Altered NR4A subfamily gene expression level in peripheral blood of Parkinson’s and Alzheimer’s disease patients. Neurotox Res. 2016;30(3):338–44. https://doi.org/10.1007/s12640-016-9626-4 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Kadkhodaei B, Ito T, Joodmardi E, Mattsson B, Rouillard C, Carta M, et al. Nurr1 is required for maintenance of maturing and adult midbrain dopamine neurons. J Neurosci. 2009;29(50):15923–32. https://doi.org/10.1523/JNEUROSCI.3910-09.2009 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Jiang C, Wan X, He Y, Pan T, Jankovic J, Le W. Age-dependent dopaminergic dysfunction in Nurr1 knockout mice. Exp Neurol. 2005;191(1):154–62. https://doi.org/10.1016/j.expneurol.2004.08.035 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Gilbert F, Morissette M, St-Hilaire M, Paquet B, Rouillard C, Di Paolo T, et al. Nur77 gene knockout alters dopamine neuron biochemical activity and dopamine turnover. Biol Psychiatry. 2006;60(6):538–47. https://doi.org/10.1016/j.biopsych.2006.04.023 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Ponnio T, Conneely OM. nor-1 regulates hippocampal axon guidance, pyramidal cell survival, and seizure susceptibility. Mol Cell Biol. 2004;24(20):9070–8. https://doi.org/10.1128/MCB.24.20.9070-9078.2004 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Mullican SE, Zhang S, Konopleva M, Ruvolo V, Andreeff M, Milbrandt J, et al. Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute myeloid leukemia. Nat Med. 2007;13(6):730–5. https://doi.org/10.1038/nm1579 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Volakakis N, Kadkhodaei B, Joodmardi E, Wallis K, Panman L, Silvaggi J, et al. NR4A orphan nuclear receptors as mediators of CREB-dependent neuroprotection. Proc Natl Acad Sci USA. 2010;107(27):12317–22. https://doi.org/10.1073/pnas.1007088107 .
+ Article 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Gagnon J, Caron V, Gyenizse L, Tremblay A. Atypic SUMOylation of Nor1/NR4A3 regulates neural cell viability and redox sensitivity. FASEB J. 2021;35(9): e21827. https://doi.org/10.1096/fj.202100395R .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Cobley JN, Fiorello ML, Bailey DM. 13 reasons why the brain is susceptible to oxidative stress. Redox Biol. 2018;15:490–503. https://doi.org/10.1016/j.redox.2018.01.008 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Elfawy HA, Das B. Crosstalk between mitochondrial dysfunction, oxidative stress, and age related neurodegenerative disease: etiologies and therapeutic strategies. Life Sci. 2019;218:165–84. https://doi.org/10.1016/j.lfs.2018.12.029 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Jaworski J, Kapitein LC, Gouveia SM, Dortland BR, Wulf PS, Grigoriev I, et al. Dynamic microtubules regulate dendritic spine morphology and synaptic plasticity. Neuron. 2009;61(1):85–100. https://doi.org/10.1016/j.neuron.2008.11.013 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Lasser M, Tiber J, Lowery LA. The role of the microtubule cytoskeleton in neurodevelopmental disorders. Front Cell Neurosci. 2018;12:165. https://doi.org/10.3389/fncel.2018.00165 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Pellegrini L, Wetzel A, Granno S, Heaton G, Harvey K. Back to the tubule: microtubule dynamics in Parkinson’s disease. Cell Mol Life Sci. 2017;74(3):409–34. https://doi.org/10.1007/s00018-016-2351-6 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Sferra A, Nicita F, Bertini E. Microtubule dysfunction: a common feature of neurodegenerative diseases. Int J Mol Sci. 2020. https://doi.org/10.3390/ijms21197354 .
+ Article 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ DeGiosio RA, Grubisha MJ, MacDonald ML, McKinney BC, Camacho CJ, Sweet RA. More than a marker: potential pathogenic functions of MAP2. Front Mol Neurosci. 2022;15: 974890. https://doi.org/10.3389/fnmol.2022.974890 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Kuo YW, Howard J. Cutting, amplifying, and aligning microtubules with severing enzymes. Trends Cell Biol. 2021;31(1):50–61. https://doi.org/10.1016/j.tcb.2020.10.004 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Song Y, Brady ST. Post-translational modifications of tubulin: pathways to functional diversity of microtubules. Trends Cell Biol. 2015;25(3):125–36. https://doi.org/10.1016/j.tcb.2014.10.004 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Janke C, Bulinski JC. Post-translational regulation of the microtubule cytoskeleton: mechanisms and functions. Nat Rev Mol Cell Biol. 2011;12(12):773–86. https://doi.org/10.1038/nrm3227 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Perlmann T, Jansson L. A novel pathway for vitamin A signaling mediated by RXR heterodimerization with NGFI-B and NURR1. Genes Dev. 1995;9:769–82.
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Wang Z, Benoit G, Liu J, Prasad S, Aarnisalo P, Liu X, et al. Structure and function of Nurr1 identifies a class of ligand-independent nuclear receptors. Nature. 2003;423(6939):555–60. https://doi.org/10.1038/nature01645 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Flaig R, Greschik H, Peluso-Iltis C, Moras D. Structural basis for the cell-specific activities of the NGFI-B and the Nurr1 ligand-binding domain. J Biol Chem. 2005;280(19):19250–8. https://doi.org/10.1074/jbc.M413175200 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ de Vera IMS, Munoz-Tello P, Zheng J, Dharmarajan V, Marciano DP, Matta-Camacho E, et al. Defining a canonical ligand-binding pocket in the orphan nuclear receptor Nurr1. Structure. 2019;27(1):66-77.e5. https://doi.org/10.1016/j.str.2018.10.002 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Pearen MA, Muscat GE. Minireview: Nuclear hormone receptor 4A signaling: implications for metabolic disease. Mol Endocrinol. 2010;24(10):1891–903. https://doi.org/10.1210/me.2010-0015 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Campos-Melo D, Galleguillos D, Sanchez N, Gysling K, Andres ME. Nur transcription factors in stress and addiction. Front Mol Neurosci. 2013;6:44. https://doi.org/10.3389/fnmol.2013.00044 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Medunjanin S, Daniel JM, Weinert S, Dutzmann J, Burgbacher F, Brecht S, et al. DNA-dependent protein kinase (DNA-PK) permits vascular smooth muscle cell proliferation through phosphorylation of the orphan nuclear receptor NOR1. Cardiovasc Res. 2015;106(3):488–97. https://doi.org/10.1093/cvr/cvv126 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Sanchez M, Picard N, Sauve K, Tremblay A. Challenging estrogen receptor beta with phosphorylation. Trends Endocrinol Metab. 2010;21(2):104–10. https://doi.org/10.1016/j.tem.2009.09.007 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Ward RD, Weigel NL. Steroid receptor phosphorylation: assigning function to site-specific phosphorylation. BioFactors. 2009;35(6):528–36. https://doi.org/10.1002/biof.66 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Picard N, Caron V, Bilodeau S, Sanchez M, Mascle X, Aubry M, et al. Identification of estrogen receptor beta as a SUMO-1 target reveals a novel phosphorylated sumoylation motif and regulation by glycogen synthase kinase 3beta. Mol Cell Biol. 2012;32(14):2709–21. https://doi.org/10.1128/MCB.06624-11 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Avallone R, Demers A, Rodrigue-Way A, Bujold K, Harb D, Anghel S, et al. A growth hormone-releasing peptide that binds scavenger receptor CD36 and ghrelin receptor up-regulates sterol transporters and cholesterol efflux in macrophages through a PPARgamma-dependent pathway. Mol Endocrinol. 2006;20(12):3165–78. https://doi.org/10.1210/me.2006-0146 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Sanchez M, Picard N, Sauve K, Tremblay A. Coordinate regulation of estrogen receptor beta degradation by Mdm2 and CREB-binding protein in response to growth signals. Oncogene. 2013;32(1):117–26. https://doi.org/10.1038/onc.2012.19 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Bilodeau S, Caron V, Gagnon J, Kuftedjian A, Tremblay A. A CK2-RNF4 interplay coordinates non-canonical SUMOylation and degradation of nuclear receptor FXR. J Mol Cell Biol. 2017;9(3):195–208. https://doi.org/10.1093/jmcb/mjx009 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Rodrigue-Way A, Caron V, Bilodeau S, Keil S, Hassan M, Levy E, et al. Scavenger receptor CD36 mediates inhibition of cholesterol synthesis via activation of the PPARgamma/PGC-1alpha pathway and Insig1/2 expression in hepatocytes. FASEB J. 2014;28:1910–23. https://doi.org/10.1096/fj.13-240168 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Sauve K, Lepage J, Sanchez M, Heveker N, Tremblay A. Positive feedback activation of estrogen receptors by the CXCL12-CXCR4 pathway. Cancer Res. 2009;69(14):5793–800. https://doi.org/10.1158/0008-5472.CAN-08-4924 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Ng DC, Lin BH, Lim CP, Huang G, Zhang T, Poli V, et al. Stat3 regulates microtubules by antagonizing the depolymerization activity of stathmin. J Cell Biol. 2006;172(2):245–57. https://doi.org/10.1083/jcb.200503021 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Semenova I, Rodionov V. Fluorescence microscopy of microtubules in cultured cells. Methods Mol Med. 2007;137:93–102. https://doi.org/10.1007/978-1-59745-442-1_6 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Schvartz T, Aloush N, Goliand I, Segal I, Nachmias D, Arbely E, et al. Direct fluorescent-dye labeling of alpha-tubulin in mammalian cells for live cell and superresolution imaging. Mol Biol Cell. 2017;28(21):2747–56. https://doi.org/10.1091/mbc.E17-03-0161 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Mavroeidi P, Arvanitaki F, Vetsi M, Becker S, Vlachakis D, Jensen PH, et al. Autophagy mediates the clearance of oligodendroglial SNCA/alpha-synuclein and TPPP/p25A in multiple system atrophy models. Autophagy. 2022;18(9):2104–33. https://doi.org/10.1080/15548627.2021.2016256 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Rodriguez MS, Dargemont C, Hay RT. SUMO-1 conjugation in vivo requires both a consensus modification motif and nuclear targeting. J Biol Chem. 2001;276(16):12654–9. https://doi.org/10.1074/jbc.M009476200 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Hoogenraad CC, Bradke F. Control of neuronal polarity and plasticity–a renaissance for microtubules? Trends Cell Biol. 2009;19(12):669–76. https://doi.org/10.1016/j.tcb.2009.08.006 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Penazzi L, Bakota L, Brandt R. Microtubule dynamics in neuronal development, plasticity, and neurodegeneration. Int Rev Cell Mol Biol. 2016;321:89–169. https://doi.org/10.1016/bs.ircmb.2015.09.004 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Xu Z, Schaedel L, Portran D, Aguilar A, Gaillard J, Marinkovich MP, et al. Microtubules acquire resistance from mechanical breakage through intralumenal acetylation. Science. 2017;356(6335):328–32. https://doi.org/10.1126/science.aai8764 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Portran D, Schaedel L, Xu Z, Thery M, Nachury MV. Tubulin acetylation protects long-lived microtubules against mechanical ageing. Nat Cell Biol. 2017;19(4):391–8. https://doi.org/10.1038/ncb3481 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Wittmann T, Hyman A, Desai A. The spindle: a dynamic assembly of microtubules and motors. Nat Cell Biol. 2001;3(1):E28-34. https://doi.org/10.1038/35050669 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Schwarzerova K, Bellinvia E, Martinek J, Sikorova L, Dostal V, Libusova L, et al. Tubulin is actively exported from the nucleus through the Exportin1/CRM1 pathway. Sci Rep. 2019;9(1):5725. https://doi.org/10.1038/s41598-019-42056-6 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Arredondo C, Orellana M, Vecchiola A, Pereira LA, Galdames L, Andres ME. PIASgamma enhanced SUMO-2 modification of Nurr1 activation-function-1 domain limits Nurr1 transcriptional synergy. PLoS ONE. 2013;8(1): e55035. https://doi.org/10.1371/journal.pone.0055035 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Zarraga-Granados G, Mucino-Hernandez G, Sanchez-Carbente MR, Villamizar-Galvez W, Penas-Rincon A, Arredondo C, et al. The nuclear receptor NR4A1 is regulated by SUMO modification to induce autophagic cell death. PLoS ONE. 2020;15(3): e0222072. https://doi.org/10.1371/journal.pone.0222072 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Zhang L, Xie F, Zhang J, Dijke PT, Zhou F. SUMO-triggered ubiquitination of NR4A1 controls macrophage cell death. Cell Death Differ. 2017;24(9):1530–9. https://doi.org/10.1038/cdd.2017.29 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Saijo K, Winner B, Carson CT, Collier JG, Boyer L, Rosenfeld MG, et al. A Nurr1/CoREST pathway in microglia and astrocytes protects dopaminergic neurons from inflammation-induced death. Cell. 2009;137(1):47–59. https://doi.org/10.1016/j.cell.2009.01.038 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Wilkinson KA, Nakamura Y, Henley JM. Targets and consequences of protein SUMOylation in neurons. Brain Res Rev. 2010;64(1):195–212. https://doi.org/10.1016/j.brainresrev.2010.04.002 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Wlaschin JJ, Donahue C, Gluski J, Osborne JF, Ramos LM, Silberberg H, et al. Promoting regeneration while blocking cell death preserves motor neuron function in a model of ALS. Brain. 2023;146(5):2016–28. https://doi.org/10.1093/brain/awac415 .
+ Article 
+ PubMed 
+ 
+ Google Scholar 
+
+ Seijffers R, Zhang J, Matthews JC, Chen A, Tamrazian E, Babaniyi O, et al. ATF3 expression improves motor function in the ALS mouse model by promoting motor neuron survival and retaining muscle innervation. Proc Natl Acad Sci U S A. 2014;111(4):1622–7. https://doi.org/10.1073/pnas.1314826111 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Helbling JC, Minni AM, Pallet V, Moisan MP. Stress and glucocorticoid regulation of NR4A genes in mice. J Neurosci Res. 2014;92(7):825–34. https://doi.org/10.1002/jnr.23366 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Berg PC, Hansson AML, Rosand O, Marwarha G, Hoydal MA. Overexpression of neuron-derived orphan receptor 1 (NOR-1) rescues cardiomyocytes from cell death and improves viability after doxorubicin induced stress. Biomedicines. 2021. https://doi.org/10.3390/biomedicines9091233 .
+ Article 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Birukova AA, Birukov KG, Gorshkov B, Liu F, Garcia JG, Verin AD. MAP kinases in lung endothelial permeability induced by microtubule disassembly. Am J Physiol Lung Cell Mol Physiol. 2005;289(1):L75-84. https://doi.org/10.1152/ajplung.00447.2004 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Samarakoon R, Higgins CE, Higgins SP, Higgins PJ. Differential requirement for MEK/ERK and SMAD signaling in PAI-1 and CTGF expression in response to microtubule disruption. Cell Signal. 2009;21(6):986–95. https://doi.org/10.1016/j.cellsig.2009.02.007 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Bates D, Eastman A. Microtubule destabilising agents: far more than just antimitotic anticancer drugs. Br J Clin Pharmacol. 2017;83(2):255–68. https://doi.org/10.1111/bcp.13126 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Sudo H, Baas PW. Strategies for diminishing katanin-based loss of microtubules in tauopathic neurodegenerative diseases. Hum Mol Genet. 2011;20(4):763–78. https://doi.org/10.1093/hmg/ddq521 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Leo L, Yu W, D’Rozario M, Waddell EA, Marenda DR, Baird MA, et al. Vertebrate fidgetin restrains axonal growth by severing labile domains of microtubules. Cell Rep. 2015;12(11):1723–30. https://doi.org/10.1016/j.celrep.2015.08.017 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ McNally FJ, Roll-Mecak A. Microtubule-severing enzymes: from cellular functions to molecular mechanism. J Cell Biol. 2018;217(12):4057–69. https://doi.org/10.1083/jcb.201612104 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Vemu A, Szczesna E, Zehr EA, Spector JO, Grigorieff N, Deaconescu AM, et al. Severing enzymes amplify microtubule arrays through lattice GTP-tubulin incorporation. Science. 2018;361:6404. https://doi.org/10.1126/science.aau1504 .
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Wang Y, Mandelkow E. Tau in physiology and pathology. Nat Rev Neurosci. 2016;17(1):5–21. https://doi.org/10.1038/nrn.2015.1 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Iqbal K, Liu F, Gong CX. Tau and neurodegenerative disease: the story so far. Nat Rev Neurol. 2016;12(1):15–27. https://doi.org/10.1038/nrneurol.2015.225 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Zhao LG, Tang Y, Tan JZ, Wang JW, Chen GJ, Zhu BL. The effect of NR4A1 on APP metabolism and tau phosphorylation. Genes Dis. 2018;5(4):342–8. https://doi.org/10.1016/j.gendis.2018.04.008 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Kalebic N, Sorrentino S, Perlas E, Bolasco G, Martinez C, Heppenstall PA. alphaTAT1 is the major alpha-tubulin acetyltransferase in mice. Nat Commun. 2013;4:1962. https://doi.org/10.1038/ncomms2962 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Li L, Yang XJ. Tubulin acetylation: responsible enzymes, biological functions and human diseases. Cell Mol Life Sci. 2015;72(22):4237–55. https://doi.org/10.1007/s00018-015-2000-5 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Nekooki-Machida Y, Hagiwara H. Role of tubulin acetylation in cellular functions and diseases. Med Mol Morphol. 2020;53(4):191–7. https://doi.org/10.1007/s00795-020-00260-8 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Iuzzolino A, Pellegrini FR, Rotili D, Degrassi F, Trisciuoglio D. The alpha-tubulin acetyltransferase ATAT1: structure, cellular functions, and its emerging role in human diseases. Cell Mol Life Sci. 2024;81(1):193. https://doi.org/10.1007/s00018-024-05227-x .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Peris L, Wagenbach M, Lafanechere L, Brocard J, Moore AT, Kozielski F, et al. Motor-dependent microtubule disassembly driven by tubulin tyrosination. J Cell Biol. 2009;185(7):1159–66. https://doi.org/10.1083/jcb.200902142 .
+ Article 
+ CAS 
+ PubMed 
+ PubMed Central 
+ 
+ Google Scholar 
+
+ Fu G, Yan S, Khoo CJ, Chao VC, Liu Z, Mukhi M, et al. Integrated regulation of tubulin tyrosination and microtubule stability by human alpha-tubulin isotypes. Cell Rep. 2023;42(6): 112653. https://doi.org/10.1016/j.celrep.2023.112653 .
+ Article 
+ CAS 
+ PubMed 
+ 
+ Google Scholar 
+
+ Bak J, Brummelkamp TR, Perrakis A. Decoding microtubule detyrosination: enzyme families, structures, and functional implications. FEBS Lett. 2024. https://doi.org/10.1002/1873-3468.14940 .
+ Article 
+ PubMed 
+ 
+ Google Scholar 
+
+ Download references 
+
+ Acknowledgements
+ We thank Jacques Drouin, Thomas Perlmann and Rubén Marín Juez for kindly providing plasmids. We also thank Graciela Piñeyro and Philippe Campeau for the gift of HT-22 and SH-SY5Y cell lines, respectively. We are thankful to members of the A. Tremblay lab for comments and suggestions.
+
+ Funding
+ J.G. has received financial support from the following institutions: Réseau Québécois en Reproduction du Québec (RQR), Fonds de recherche du Québec—Santé (FRQS), the Canadian Institutes of Health Research (CIHR), the Fondation du CHU Ste-Justine (FCHUSJ), and the Faculté des Études Supérieures et Postdoctorales (FESP) de l’Université de Montréal. J.G. has also received the Robert Cedergren Award from the Université de Montréal. This work was supported by the CIHR and by the Natural Sciences and Engineering Research Council (NSERC) of Canada to A.T.
+
+ Author information
+ Authors and Affiliations
+ Research Center, CHU Sainte-Justine, 3175 Côte Ste-Catherine, Montréal, Québec, H3T 1C5, Canada
+ Jonathan Gagnon, Véronique Caron & André Tremblay
+
+ Department of Biochemistry and Molecular Medicine, Faculty of Medicine, University of Montreal, Montréal, Québec, H3T 1J4, Canada
+ Jonathan Gagnon & André Tremblay
+
+ Centre de Recherche en Reproduction et Fertilité, University of Montreal, Saint-Hyacinthe, Québec, J2S 7C6, Canada
+ André Tremblay
+
+ Department of Obstetrics and Gynecology, Faculty of Medicine, University of Montreal, Montréal, Québec, H3T 1J4, Canada
+ André Tremblay
+
+ Authors Jonathan Gagnon View author publications 
+ Search author on: PubMed Google Scholar 
+
+ Véronique Caron View author publications 
+ Search author on: PubMed Google Scholar 
+
+ André Tremblay View author publications 
+ Search author on: PubMed Google Scholar 
+
+ Contributions
+ JG was involved in experimental design and methodology, data acquisition and validation, generation of stable cell clones, analysis and interpretation of results, writing the original draft; VC was involved in experimental design and methodology, data acquisition and validation, analysis and interpretation of results; AT reviewed and edited the manuscript, and obtained funding support. All authors read and approved the final manuscript.
+ Corresponding author
+ Correspondence to
+ André Tremblay .
+
+ Ethics declarations
+
+ Ethics approval and consent to participate
+
+ Not applicable.
+
+ Consent for publication
+
+ Not applicable.
+
+ Competing interests
+
+ The authors declare no conflicts of interest.
+
+ Additional information
+ Publisher's Note
+ Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+ Supplementary Information
+ 
+ Supplementary Material 1. (download PDF ) 
+
+ Rights and permissions
+ 
+ Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/ . The Creative Commons Public Domain Dedication waiver ( http://creativecommons.org/publicdomain/zero/1.0/ ) applies to the data made available in this article, unless otherwise stated in a credit line to the data.
+
+ Reprints and permissions 
+
+ About this article
+ 
+ Cite this article
+ Gagnon, J., Caron, V. & Tremblay, A. SUMOylation of nuclear receptor Nor1/NR4A3 coordinates microtubule cytoskeletal dynamics and stability in neuronal cells.
+ Cell Biosci 14 , 91 (2024). https://doi.org/10.1186/s13578-024-01273-x
+ Download citation 
+ Received : 25 October 2023 
+
+ Accepted : 05 July 2024 
+
+ Published : 13 July 2024 
+
+ Version of record : 13 July 2024 
+
+ DOI : https://doi.org/10.1186/s13578-024-01273-x 
+
+ Share this article
+ Anyone you share the following link with will be able to read this content:
+ Get shareable link Sorry, a shareable link is not currently available for this article.
+
+ Copy shareable link to clipboard 
+ 
+ Provided by the Springer Nature SharedIt content-sharing initiative
+
+ Keywords
+ Nuclear receptor 
+ NR4A3 
+ Nor-1 
+ Neuronal protection 
+ SUMO1 
+ Microtubules 
+ Cytoskeleton 
+ Nocodazole 
+
+ Profiles
+
+ André Tremblay 
+
+ View author profile 
+
+ Advertisement
+
+ Search
+
+ Search by keyword or author 
+
+ Search 
+
+ Navigation
+
+ Find a journal
+
+ Publish with us
+
+ Track your research
+
+ Footer Navigation
+
+ Discover content
+
+ Journals A-Z 
+
+ Books A-Z 
+
+ Subjects A-Z 
+
+ Publish with us
+
+ Journal finder 
+
+ Publish your research 
+
+ Language editing 
+
+ Open access publishing 
+
+ Products and services
+
+ Our products 
+
+ Librarians 
+
+ Societies 
+
+ Partners and advertisers 
+
+ Our brands
+
+ Springer 
+
+ Nature Portfolio 
+
+ BMC 
+
+ Palgrave Macmillan 
+
+ Apress 
+
+ Discover 
+
+ Corporate Navigation
+
+ Your privacy choices/Manage cookies 
+
+ Your US state privacy rights 
+
+ Accessibility statement 
+
+ Terms and conditions 
+
+ Privacy policy 
+
+ Help and support 
+
+ Legal notice 
+
+ Cancel contracts here 
+
+ 20.169.98.214 
+
+ Not affiliated
+
+ © 2026 Springer Nature
