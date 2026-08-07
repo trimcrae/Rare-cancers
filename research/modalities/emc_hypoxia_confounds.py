@@ -435,6 +435,33 @@ def _biological_confounds(tgt, emc, comp, zcache, reference_score):
                 _caveat="within-arm n is 6 or 10; a correlation on that n is a direction, not an "
                         "estimate, and its sign is what is worth reading.")
         out["candidates"][label] = row
+
+    # ⭐ SINGLE-GENE ROWS FOR THE GENES A PROSE READING ACTUALLY NAMES. A module score has an
+    # artifact home; a gene quoted from inside one does not, and an unhomed figure is exactly what
+    # CLAUDE.md §1 exists to stop. EPAS1 is the reason this block exists: the approved HIF-pathway
+    # agent is HIF-2α-selective, so whether EPAS1 moves is the only thing that makes that class
+    # hook a hook — and it was quotable from nowhere until it was written down here.
+    out["single_genes_a_reading_will_name"] = {
+        "_why": "each of these is named in prose somewhere; a number quoted from inside a module "
+                "score has no home of its own, and this is that home.",
+        "genes": {},
+    }
+    for g in ("EPAS1", "HIF1A", "CA9", "MKI67", "VEGFA", "SLC2A1", "NDRG1", "KDR", "FLT1",
+              "ENO3", "NR4A3", "LDHA", "ANGPTL4", "PDK1", "P4HA1"):
+        if g not in zcache:
+            out["single_genes_a_reading_will_name"]["genes"][g] = {
+                "readable": False,
+                "verdict": f"⛔ no probe on this platform maps to {g} — the read could not be "
+                           f"TAKEN. NOT a statement that the gene is unexpressed."}
+            continue
+        pct = tgt["genes"][g]["array_percentile"]
+        m = _mean([pct[i] for i in emc])
+        out["single_genes_a_reading_will_name"]["genes"][g] = {
+            "readable": True,
+            "n_probes_mapping": tgt["genes"][g]["n_probes_mapping"],
+            "EMC_vs_comparator": _contrast(zcache[g], emc, comp),
+            "EMC_mean_array_percentile": round(m, 4) if m is not None else None,
+        }
     return out
 
 
