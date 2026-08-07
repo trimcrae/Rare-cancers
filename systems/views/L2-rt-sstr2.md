@@ -105,7 +105,7 @@ It is a well-formed cheap ask with an unknown answer. There is no computation th
 
 ## Where this route ends — the paper
 
-**[PUB-SURFACE-TARGETS](L3-publications.md)** — [In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma](../../research/manuscripts/emc-surface-target-landscape.md)
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: a surrogate search checked against the disease's own tissue](../../research/manuscripts/emc-surface-target-landscape.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

@@ -226,7 +226,7 @@ Existing agents not yet reported in EMC can be mapped to EMC's molecular and mic
 | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) — PPARG downstream-effector (repurpose TZDs) | `contributing` | The downstream-effector axis, carried with its direction flagged unresolved — scoped as unresolved and NOT refuted, which the paper must not conflate. |
 | [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) — Trabectedin + a PPARγ agonist (all approved drugs) | `contributing` | The all-approved combination arm, held behind the same unresolved PPARγ direction that bounds the row above it. |
 
-### PUB-SURFACE-TARGETS — In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma
+### PUB-SURFACE-TARGETS — In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: a surrogate search checked against the disease's own tissue
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-surface-target-landscape.md`](../../research/manuscripts/emc-surface-target-landscape.md)**
 
