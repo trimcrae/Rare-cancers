@@ -42,9 +42,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "_s4_lane_inputs")
 
 GEO_ACC = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi"
+GEO_FTP_PLATFORM = "https://ftp.ncbi.nlm.nih.gov/geo/platforms/%snnn/%s/annot/%s.annot.gz"
 RCSB = "https://files.rcsb.org/download/%s.pdb"
+EPMC = ("https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:%s"
+        "&resultType=core&format=json")
 SERIES = "GSE11185"
-PDB_IDS = ("7WNH", "1OVL")
+PDB_IDS = ("7WNH", "1OVL", "8XTT")
+# The paper the series record names in `!Series_pubmed_id`. Read, never assumed: the constructs behind
+# "NOR1" and "EWS/NOR1" are not in the GEO record, and the whole wild-type-vs-fusion reading turns on them.
+PMIDS = ("18680143",)
 
 UA = "Mozilla/5.0 (X11; Linux x86_64) rare-cancers-research/1.0 (+https://github.com/trimcrae/Rare-cancers)"
 MAX_BYTES = 80 * 1024 * 1024          # a platform table is the only thing that can be large; refuse, never truncate
@@ -143,14 +149,54 @@ def main(argv=None):
         write("%s.soft.txt" % g, data, manifest, u, st, err)
         time.sleep(1.0)                                          # NCBI courtesy; 4 samples, not a crawl
 
-    # ---- 3. the platform annotation table -------------------------------------------------------------
+    # ---- 3. the platform annotation ------------------------------------------------------------------
+    # ⚠ NOT `acc.cgi?view=full`. That returns the whole ~90 MB platform table and this script REFUSED it
+    # (recorded in the manifest of the 2026-08-07 11:59 AM ET run) rather than truncating it — a truncated
+    # probe table is the "populated field, never measured" failure with a column shift attached. GEO's
+    # CURATED annotation file is the same mapping at ~1/10 the size and is the supported artifact for it.
+    # Only ID -> symbol/title/Entrez is kept; the raw file is not committed.
     for p in gpls:
-        u = geo_url(p, view="full")
+        u = GEO_FTP_PLATFORM % (p[:-3] if len(p) > 3 else p, p, p)
         st, data, err = get(u)
-        write("%s.annot.txt" % p, data, manifest, u, st, err, gz=True)
+        if data:
+            try:
+                text = gzip.decompress(data).decode("utf-8", "replace")
+            except Exception as e:                               # noqa: BLE001
+                text, err = "", "gunzip failed: %r" % e
+            id2 = {}
+            hdr = None
+            for line in text.splitlines():
+                if line.startswith(("^", "!", "#")):
+                    continue
+                if hdr is None:
+                    hdr = line.rstrip("\n").split("\t")
+                    continue
+                f = line.rstrip("\n").split("\t")
+                if len(f) != len(hdr):
+                    continue
+                row = dict(zip(hdr, f))
+                pid = row.get("ID")
+                if not pid:
+                    continue
+                id2[pid] = {"symbol": row.get("Gene symbol", ""),
+                            "title": row.get("Gene title", ""),
+                            "entrez": row.get("Gene ID", "")}
+            blob = json.dumps({"_platform": p, "_source_url": u, "_columns_seen": hdr,
+                               "n_probes": len(id2), "id2gene": id2}).encode()
+            write("%s_id2gene.json" % p, blob, manifest, u, st, err, gz=True)
+            manifest[-1]["n_probes_parsed"] = len(id2)
+            manifest[-1]["raw_gz_bytes"] = len(data)
+        else:
+            write("%s_id2gene.json" % p, b"", manifest, u, st, err)
         time.sleep(1.0)
 
-    # ---- 4. the two PDB entries -----------------------------------------------------------------------
+    # ---- 3b. the paper the series names ---------------------------------------------------------------
+    for pm in PMIDS:
+        u = EPMC % pm
+        st, data, err = get(u)
+        write("PMID%s.epmc.json" % pm, data, manifest, u, st, err)
+
+    # ---- 4. the PDB entries ---------------------------------------------------------------------------
     for pid in PDB_IDS:
         u = RCSB % pid
         st, data, err = get(u)
