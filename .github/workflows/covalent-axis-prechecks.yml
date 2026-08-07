@@ -1,0 +1,107 @@
+name: Covalent-axis instrument prechecks — C03 + C12 (CPU, $0)
+
+# THE TWO $0 KNOWN-ANSWER PRECHECKS FOR THE COVALENT AXIS. No GPU, no rental, no AWS/GCP credentials, no
+# priced rung. Public-repo Actions minutes only.
+#
+# WHY A WORKFLOW AND NOT JUST A SCRIPT. Both prechecks are NETWORK reads, and the dev sandbox's egress proxy
+# 403s every publisher and database host they need (CLAUDE.md §6). Both scripts already RAN in the sandbox
+# and both recorded exactly which sources they could not reach, by name and by HTTP status — so this job is
+# a mechanical dispatch of a resolved source registry, not a new investigation. Every URL in those registries
+# was obtained from a published code-availability statement or from the aggregate's own preprocessing
+# notebooks; none was guessed.
+#
+# ⛔ WHY NO micromamba AND NO BAKED IMAGE. Neither script needs a scientific stack: both are pure stdlib —
+# `urllib` for the fetch, `zipfile` for the xlsx (an xlsx is a zip of XML, so a shared-strings scan finds an
+# accession without openpyxl), and the geometry half reuses the repo's own pure-Python SASA. So the "which
+# baked image?" question has the answer "none is needed", which is a different thing from skipping it.
+#
+# ⛔ WHAT THESE JOBS MAY NOT DO, and the scripts enforce it rather than this comment:
+#   * report a coverage number for a source they could not read — `UNREACHABLE` is a network fact, never a
+#     reading of absence;
+#   * cite any source in the registry that has not returned `status: OK`;
+#   * report a pKa, or combine the thiol determinants into a score. `C12` is at *proposed* and the
+#     claim-ceiling rule (roadmap §2.3) binds until its known-answer test returns.
+#
+# ⛔ AND NEITHER OUTPUT LICENSES ADDUCT FORMATION. A ligandability label is a classification in one screen's
+# cells with one probe at one concentration; a favourable pKa is a property of a thiol. Neither is evidence
+# that a bond forms, and the artifacts say so in their own text.
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "branch to publish artifacts to"
+        default: "main"
+      timeout_s:
+        description: "per-source fetch timeout, seconds"
+        default: "90"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: covalent-axis-prechecks-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prechecks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ── C03 · reachability first, so the log carries the per-source map even if a parse later fails ────
+      - name: C03 — source reachability probe (no parsing, no verdict)
+        run: |
+          cd research/modalities
+          python3 cys_chemoproteomics_precheck.py --mode probe --timeout "${{ inputs.timeout_s }}"
+
+      - name: C03 — fetch, scan for Q92570 / P22736 / P43354, emit the verdict
+        run: |
+          cd research/modalities
+          python3 cys_chemoproteomics_precheck.py --mode run --timeout "${{ inputs.timeout_s }}"
+
+      - name: Publish the C03 precheck
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "C03 precheck: public cysteine-chemoproteomics coverage of the NR4A family (CI egress)" \
+            research/modalities/cys-chemoproteomics-precheck.json
+
+      # ── C12 · the known-answer precheck plus the structural determinants read ──────────────────────────
+      - name: C12 — measured-pKa known-answer precheck + thiol environment determinants
+        run: |
+          cd research/modalities
+          python3 nr4a3_thiol_environment.py --timeout "${{ inputs.timeout_s }}"
+
+      - name: Publish the C12 precheck
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "C12 precheck: measured-cysteine-pKa reference availability + C397 thiol determinants" \
+            research/modalities/nr4a3-thiol-environment.json
+
+      # ── C10 · the offline census, re-run here only so all three Q rows share one reproduction record ──
+      - name: C10 — symmetric reciprocal-uniqueness + indel census (offline; no network at all)
+        run: |
+          cd research/modalities
+          python3 nr4a_reciprocal_census.py
+
+      - name: Publish the C10 census
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "C10: symmetric reciprocal-uniqueness + indel census across all residue classes" \
+            research/modalities/nr4a-reciprocal-uniqueness-census.json
