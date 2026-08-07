@@ -446,6 +446,55 @@ def test_an_unreadable_committed_artifact_does_not_block_a_write(tmp_path):
     assert M.would_downgrade(M.derive({}), str(p)) is False
 
 
+@pytest.fixture
+def no_network(monkeypatch):
+    """⛔ These tests must not touch the network. Without this they take 67 s of failing DNS in a
+    sandbox whose proxy 403s every one of these hosts — and a test suite that is slow because it is
+    quietly making real requests is a test suite nobody runs before the fetch."""
+    monkeypatch.setattr(M, "get", lambda *a, **k: b"chr10\t100\t200\tp\t9\n")
+    return None
+
+
+def test_a_retrieval_cap_is_recorded_and_never_silent(no_network):
+    """Measured 2026-08-07 (run 31201656452): an arbitrary `[:40]` cut 92 ChIP-Atlas rows to 40
+    and no field anywhere said so, so the artifact read as a complete survey of a truncated one."""
+    exps = [{"srx": f"SRX{i}", "genome": "hg38", "antigen": "NR4A3", "cell_type": "x",
+             "cell_type_class": "x"} for i in range(5)]
+    got = M.fetch_chip_atlas_peaks(exps, max_experiments=2)
+    assert "_TRUNCATION" in got
+    assert got["_TRUNCATION"]["n_dropped"] == 3
+    assert got["_TRUNCATION"]["n_experiments_offered"] == 5
+
+
+def test_the_completeness_record_reaches_the_artifact():
+    cache = M._synthetic_cache(ret_peak=True, control_peak=True)
+    cache["peaksets"]["_TRUNCATION"] = {"_status": "truncated", "n_dropped": 7}
+    a = M.derive(cache)
+    assert a["part_2_intersection"]["⛔ retrieval_completeness"]["n_dropped"] == 7
+    # ...and the truncation marker must never be counted as a peak set.
+    ids = [r["peakset"] for r in a["part_2_intersection"]["ret_summary"]["rows"]]
+    assert "_TRUNCATION" not in ids
+
+
+def test_a_peakset_key_is_scoped_by_build_so_one_build_cannot_overwrite_the_other(no_network):
+    """ChIP-Atlas lists each SRX once per genome. Keying on the bare SRX silently halved the data."""
+    exps = [{"srx": "SRX1", "genome": "hg19", "antigen": "NR4A3", "cell_type": "x",
+             "cell_type_class": "x"},
+            {"srx": "SRX1", "genome": "hg38", "antigen": "NR4A3", "cell_type": "x",
+             "cell_type_class": "x"}]
+    got = M.fetch_chip_atlas_peaks(exps, max_experiments=10)
+    assert "SRX1@hg19" in got and "SRX1@hg38" in got
+
+
+def test_a_429_is_retryable_and_a_404_is_not():
+    """A 429 is 'ask again later'; treating it as an answer is what silently disabled the
+    independent second source for the genome build."""
+    assert 429 in M.RETRYABLE_HTTP
+    assert 500 in M.RETRYABLE_HTTP and 503 in M.RETRYABLE_HTTP
+    assert 404 not in M.RETRYABLE_HTTP
+    assert 403 not in M.RETRYABLE_HTTP
+
+
 def test_gpl_containment_ignores_mouse_builds():
     """GPL6244 is a HUMAN array. A mouse span must never be offered as a build its probes are
     consistent with, however well the numbers happen to line up."""

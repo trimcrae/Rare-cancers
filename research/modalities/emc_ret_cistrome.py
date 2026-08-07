@@ -408,13 +408,38 @@ def _record(url, status, nbytes=None, error=None, note=None):
     return rec
 
 
-def get(url, timeout=120, tries=3, headers=None, max_bytes=MAX_BYTES_PEAKS):
+# ⛔ A 429 IS "ASK AGAIN LATER", NOT "NOT FOUND" (measured 2026-08-07, run 31201656452).
+# `get()` treated every HTTPError as a definitive answer and returned None without retrying. That
+# is correct for 404 and WRONG for 429: NCBI eutils rate-limits at 3 requests/second without an
+# API key, this module fires ~50 of them, and two came back `429 Too Many Requests`. One of those
+# two was the `esummary` behind `fetch_ncbi_gene_spans`, so the INDEPENDENT SECOND SOURCE for the
+# genome build never ran and `RET_two_sources_agree_within_50kb_on_every_build` printed `False` —
+# a build check reading as failed when it had merely been throttled. Retryable statuses are named
+# here rather than inferred, because "retry everything" turns a real 404 into a slow 404.
+RETRYABLE_HTTP = (429, 500, 502, 503, 504)
+#: Minimum spacing between NCBI eutils calls. NCBI documents 3 req/s without an API key; this is
+#: comfortably under it and costs seconds, against a throttle that costs a whole build check.
+EUTILS_MIN_INTERVAL_S = 0.4
+_LAST_EUTILS_AT = [0.0]
+
+
+def _pace(url):
+    if EUTILS not in url:
+        return
+    wait = EUTILS_MIN_INTERVAL_S - (time.time() - _LAST_EUTILS_AT[0])
+    if wait > 0:
+        time.sleep(wait)
+    _LAST_EUTILS_AT[0] = time.time()
+
+
+def get(url, timeout=120, tries=4, headers=None, max_bytes=MAX_BYTES_PEAKS):
     """One GET, bounded, recorded. Returns bytes or None; NEVER raises for a dead endpoint."""
     last = None
     for i in range(tries):
         if BUDGET.left() <= 5:
             _record(url, "budget_exhausted", note=f"{BUDGET.spent()}s spent")
             return None
+        _pace(url)
         try:
             req = urllib.request.Request(url, headers={**UA, **(headers or {})})
             with urllib.request.urlopen(req, timeout=timeout) as r:
@@ -431,11 +456,16 @@ def get(url, timeout=120, tries=3, headers=None, max_bytes=MAX_BYTES_PEAKS):
             _record(url, getattr(r, "status", 200), nbytes=len(data))
             return data
         except urllib.error.HTTPError as exc:
+            if exc.code in RETRYABLE_HTTP and i < tries - 1:
+                last = exc
+                _record(url, exc.code, error=f"{exc.reason} — retrying ({i + 1}/{tries})")
+                time.sleep(min(30, 3 * (i + 1) ** 2))
+                continue
             _record(url, exc.code, error=exc.reason)
             return None                      # a 404 is an answer; do not retry it
         except Exception as exc:             # noqa: BLE001
             last = exc
-            time.sleep(2 ** i)
+            time.sleep(min(20, 2 ** i))
     _record(url, "failed", error=last)
     return None
 
@@ -496,6 +526,41 @@ def stream_lines(url, timeout=300, share_of_budget=0.4):
 # PART 0 — the genome build, reconciled from two independent sources per build.
 # =============================================================================================
 
+def _post_symbols(url, chunk, build, tries=4):
+    """One chunked POST to Ensembl's symbol lookup. None on failure, with the attempt recorded.
+
+    Retries a 500/429/503 with growing backoff — the failure measured on 2026-08-07 was three
+    500s inside seven seconds, which a 1/2/4-second ladder cannot outlast.
+    """
+    body = json.dumps({"symbols": list(chunk)}).encode()
+    last = None
+    for i in range(tries):
+        if BUDGET.left() <= 5:
+            _record(url, "budget_exhausted")
+            return None
+        try:
+            req = urllib.request.Request(
+                url, data=body,
+                headers={**UA, "Content-Type": "application/json",
+                         "Accept": "application/json"})
+            with urllib.request.urlopen(req, timeout=180) as r:
+                d = json.loads(r.read().decode("utf-8", "replace"))
+            _record(url, 200, nbytes=len(body),
+                    note=f"POST {len(chunk)} symbols, {build}, chunk ok")
+            return d
+        except urllib.error.HTTPError as exc:
+            last = exc
+            _record(url, exc.code, error=f"{exc.reason} (POST {len(chunk)} symbols, {build})")
+            if exc.code not in RETRYABLE_HTTP:
+                return None
+            time.sleep(min(30, 3 * (i + 1) ** 2))
+        except Exception as exc:                     # noqa: BLE001
+            last = exc
+            time.sleep(min(20, 2 ** i))
+    _record(url, "failed", error=str(last)[:200])
+    return None
+
+
 def fetch_gene_spans(symbols, build):
     """Ensembl POST batch lookup for one build. Returns {symbol: record} plus a diagnostic.
 
@@ -514,7 +579,6 @@ def fetch_gene_spans(symbols, build):
         symbols = [m for _h, m in pairs]
     else:
         back = None
-    body = json.dumps({"symbols": list(symbols)}).encode()
     out, diag = {}, {"build": build, "endpoint": url, "species": species,
                      "n_requested": len(symbols)}
     if species == "mus_musculus":
@@ -523,24 +587,53 @@ def fetch_gene_spans(symbols, build):
             "up — the background panel is NOT translated, so a mouse peak set carries no "
             "background rank and its RET row says so rather than printing a rank it does not "
             "have.")
-    for i in range(3):
+    # ⛔ CHUNKED, AND THE PRIMARY LOCI GO FIRST — measured 2026-08-07 (run 31201656452).
+    # A single POST of 213 symbols to `rest.ensembl.org` returned `HTTP 500` three times in about
+    # seven seconds while the byte-identical mm39 request succeeded, i.e. a transient upstream. The
+    # consequence was out of all proportion to the cause: hg38 resolved NO loci, so the 39 hg38
+    # peak sets could not be intersected and the RET reading came off hg19 alone. The BACKGROUND
+    # PANEL is a nice-to-have and it took down the primary locus lookup with it.
+    # So: LOCI in their own small chunk first, background in chunks after, and a per-symbol GET
+    # fallback for anything a chunk fails to return. A failed chunk now costs its own symbols and
+    # nothing else.
+    ordered = [s for s in (list(LOCI) if not back else
+                           [m for h, m in ((h, HUMAN_TO_MOUSE_SYMBOL.get(h)) for h in LOCI) if m])
+               if s in symbols]
+    ordered += [s for s in symbols if s not in ordered]
+    chunks = [ordered[i:i + 40] for i in range(0, len(ordered), 40)]
+    d, failed_chunks = {}, []
+    for ci, chunk in enumerate(chunks):
         if BUDGET.left() <= 5:
             diag["_status"] = "budget_exhausted"
-            return out, diag
-        try:
-            req = urllib.request.Request(
-                url, data=body,
-                headers={**UA, "Content-Type": "application/json",
-                         "Accept": "application/json"})
-            with urllib.request.urlopen(req, timeout=180) as r:
-                d = json.loads(r.read().decode("utf-8", "replace"))
-            _record(url, 200, nbytes=len(body), note=f"POST {len(symbols)} symbols, {build}")
+            diag["chunks_done"] = ci
             break
-        except Exception as exc:                     # noqa: BLE001
-            diag["error"] = str(exc)[:300]
-            time.sleep(2 ** i)
-    else:
-        _record(url, "failed", error=diag.get("error"))
+        got = _post_symbols(url, chunk, build)
+        if got is None:
+            failed_chunks.append(chunk)
+        else:
+            d.update(got)
+    # Per-symbol GET fallback, primary loci only — a background gene is not worth a request each.
+    fallback = []
+    for chunk in failed_chunks:
+        for sym in chunk:
+            if sym not in ordered[:len(LOCI)] or BUDGET.left() <= 5:
+                continue
+            one = get_json(f"{base}/lookup/symbol/{species}/{sym}?content-type=application/json",
+                           timeout=60)
+            if one:
+                d[sym] = one
+                fallback.append(sym)
+    diag["n_chunks"] = len(chunks)
+    diag["n_chunks_failed"] = len(failed_chunks)
+    diag["n_recovered_by_per_symbol_fallback"] = len(fallback)
+    if failed_chunks:
+        diag["⚠ partial"] = (
+            f"{len(failed_chunks)} of {len(chunks)} chunk(s) failed; {len(fallback)} primary "
+            f"locus/loci were recovered one at a time. Any gene missing from `genes` on this "
+            f"build is an ABSENT READING — it was not looked up successfully — and NOT a gene "
+            f"without coordinates.")
+    if not d:
+        _record(url, "failed", error="every chunk failed")
         diag["_status"] = "failed"
         return out, diag
 
@@ -1285,24 +1378,47 @@ def parse_bed(raw, source):
                    "_coordinate_convention": "BED, 0-based half-open — as read, never shifted"}
 
 
-def fetch_chip_atlas_peaks(experiments, max_experiments=40):
-    """Per-SRX peak BEDs from ChIP-Atlas, for the experiments its metadata says exist."""
+def fetch_chip_atlas_peaks(experiments, max_experiments=400):
+    """Per-SRX peak BEDs from ChIP-Atlas, for the experiments its metadata says exist.
+
+    ⛔ THE CAP TRUNCATED 92 EXPERIMENTS TO 40 AND SAID NOTHING (measured 2026-08-07, run
+    31201656452). ChIP-Atlas lists each SRX once per genome build, so the 92 matching rows are
+    ~46 experiments × 2 builds — and an arbitrary `[:40]` took the first 40 rows in file order,
+    which happened to be almost all hg19. The result read as "38 peak sets, all hg19", with no
+    field anywhere saying that 52 rows had been dropped. An unrecorded cap is precisely the
+    "absent reading wearing the costume of a reading" failure CLAUDE.md §4 is written about.
+    Two changes: the cap is far above the real count, and TRUNCATION IS RECORDED.
+
+    ⚠ The SRX KEY IS SCOPED BY BUILD. Keying on the bare SRX made the hg38 row silently overwrite
+    the hg19 row for the same experiment, which is a second, quieter way to lose half the data.
+    """
     out = {}
+    truncated = max(0, len(experiments) - max_experiments)
     for e in experiments[:max_experiments]:
         srx, genome = e.get("srx"), e.get("genome")
+        key = f"{srx}@{genome}"
         if not srx or genome not in BUILDS:
-            out[srx or "?"] = {"_status": "skipped",
-                               "why": f"genome {genome!r} is not one this module intersects "
-                                      f"({sorted(BUILDS)}); no liftover is performed"}
+            out[key] = {"_status": "skipped", "antigen": e.get("antigen"), "genome": genome,
+                        "why": f"genome {genome!r} is not one this module intersects "
+                               f"({sorted(BUILDS)}); no liftover is performed, so this is an "
+                               f"ABSENT READING for that build and not a negative"}
             continue
         url = CHIP_ATLAS_BED.format(genome=genome, th=CHIP_ATLAS_THRESHOLD, srx=srx)
         raw = get(url, timeout=180, max_bytes=200_000_000)
         peaks, diag = parse_bed(raw, url)
-        out[srx] = {"antigen": e.get("antigen"), "genome": genome,
+        out[key] = {"srx": srx, "antigen": e.get("antigen"), "genome": genome,
                     "cell_type": e.get("cell_type"),
                     "cell_type_class": e.get("cell_type_class"),
                     "qc": e.get("qc"), "peaks": peaks, "diag": diag,
                     "_status": diag["_status"]}
+    if truncated:
+        out["_TRUNCATION"] = {
+            "_status": "truncated",
+            "n_experiments_offered": len(experiments),
+            "n_fetched": max_experiments,
+            "n_dropped": truncated,
+            "⛔": "the cap was hit. Every conclusion below is over the fetched subset only, and "
+                 "anything not found may simply be in the dropped remainder."}
     return out
 
 
@@ -1385,7 +1501,7 @@ def derive(cache):
     genes = cache.get("genes") or {}
     peaksets = cache.get("peaksets") or {}
     usable = {k: v for k, v in peaksets.items()
-              if v.get("_status") == "read" and v.get("peaks")}
+              if k != "_TRUNCATION" and v.get("_status") == "read" and v.get("peaks")}
 
     if not usable:
         art["part_2_intersection"] = {
@@ -1438,6 +1554,14 @@ def derive(cache):
 
     art["part_2_intersection"] = {
         "_question": "Does a measured NR4A1/NR4A2/NR4A3 peak fall in RET's regulatory window?",
+        "⛔ retrieval_completeness": (peaksets.get("_TRUNCATION")
+                                     or {"_status": "complete",
+                                         "reading": "every experiment ChIP-Atlas's metadata "
+                                                    "offered was fetched; no cap was hit."}),
+        "peaksets_not_intersected_and_why": {
+            k: v.get("why") or v.get("⛔") or v.get("_status")
+            for k, v in sorted(peaksets.items())
+            if k != "_TRUNCATION" and (v.get("_status") != "read" or not v.get("peaks"))},
         "_windows": {
             "promoter": f"-{WINDOW_UPSTREAM} / +{WINDOW_DOWNSTREAM} around the TSS, strand-aware. "
                         f"⛔ Imported from emc_ret_target_scan, not re-typed: the asymmetry exists "
