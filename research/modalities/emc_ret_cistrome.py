@@ -1766,10 +1766,15 @@ def _paralogue_block(usable, per_set, genes):
     sequence identity; a matched peak-set overlap is a DIRECT empirical measure and no identity
     calculation can produce it.
     """
+    # ⛔ ONLY PEAK SETS THAT WERE ACTUALLY SCORED (measured 2026-08-07). `usable` means "the file
+    # downloaded and parsed", which is NOT the same as "it was intersected": a peak set on a build
+    # whose loci were discarded is `no_loci_on_this_build` and contributes no reading. Counting
+    # those here inflated NR4A1 from 27 scored experiments to 34, by including the seven mm10 sets
+    # whose coordinates had just been thrown away — a count that reads like evidence and is not.
     by_ag = {}
     for sid, ps in usable.items():
         ag = (ps.get("antigen") or "").upper()
-        if ag in PARALOGUES:
+        if ag in PARALOGUES and (per_set.get(sid) or {}).get("_status") == "read":
             by_ag.setdefault(ag, []).append(sid)
 
     at_ret = {}
@@ -1780,13 +1785,22 @@ def _paralogue_block(usable, per_set, genes):
             rows.append({"peakset": sid,
                          "cell_type": (per_set.get(sid) or {}).get("cell_type"),
                          "genome": (per_set.get(sid) or {}).get("genome"),
+                         "n_peaks_total": (per_set.get(sid) or {}).get("n_peaks_total"),
                          "n_peaks_promoter_window": r.get("n_peaks_promoter_window"),
                          "positive_control": ((per_set.get(sid) or {})
                                               .get("positive_control_verdict") or {}).get(
                                                   "state")})
-        at_ret[ag] = {"n_peaksets": len(rows), "rows": rows,
-                      "any_promoter_peak_at_RET": any((x["n_peaks_promoter_window"] or 0) > 0
-                                                      for x in rows) if rows else None}
+        depths = [x["n_peaks_total"] for x in rows if x.get("n_peaks_total")]
+        at_ret[ag] = {
+            "n_peaksets_scored": len(rows),
+            "n_distinct_experiments": len({str(x["peakset"]).split("@", 1)[0] for x in rows}),
+            "peak_depth_range": [min(depths), max(depths)] if depths else None,
+            "rows": rows,
+            "any_promoter_peak_at_RET": any((x["n_peaks_promoter_window"] or 0) > 0
+                                            for x in rows) if rows else None,
+            "⚠": "counts are of peak sets that were SCORED. A peak set that downloaded but sits "
+                 "on a build whose loci were discarded contributes no reading and is not here.",
+        }
 
     # Genome-wide pairwise sharing, computed only between peak sets on the SAME build.
     pair = {}
@@ -1814,7 +1828,7 @@ def _paralogue_block(usable, per_set, genes):
                        "build. ⚠ ABSENT READING — it says nothing about how much the two share."}
 
     shared = [ag for ag in PARALOGUES if at_ret.get(ag, {}).get("any_promoter_peak_at_RET")]
-    if not any(at_ret.get(ag, {}).get("n_peaksets") for ag in PARALOGUES):
+    if not any(at_ret.get(ag, {}).get("n_peaksets_scored") for ag in PARALOGUES):
         state = "NOT_MEASURED"
         reading = ("no paralogue peak set was retrieved. ⚠ ABSENT READING, not a reading of "
                    "absence.")
@@ -2242,10 +2256,14 @@ def report(art):
 
     p3 = art.get("part_3_paralogue_overlap") or {}
     L.append(f"\n\n**Paralogue overlap** — state: **{p3.get('state')}**\n")
-    L.append("| paralogue | peak sets | any promoter-window peak at RET |")
-    L.append("|---|---|---|")
+    L.append("| paralogue | peak sets scored | distinct experiments | depth range | "
+             "any promoter-window peak at RET |")
+    L.append("|---|---|---|---|---|")
     for ag, r in (p3.get("at_RET") or {}).items():
-        L.append(f"| {ag} | {r.get('n_peaksets')} | {r.get('any_promoter_peak_at_RET')} |")
+        dr = r.get("peak_depth_range") or []
+        L.append(f"| {ag} | {r.get('n_peaksets_scored')} | {r.get('n_distinct_experiments')} | "
+                 f"{dr[0] if dr else '—'} – {dr[1] if dr else '—'} | "
+                 f"{r.get('any_promoter_peak_at_RET')} |")
     L.append("\n| pair | genome | cell types | peaks A / B | fraction of A overlapped by B |")
     L.append("|---|---|---|---|---|")
     for k, v in (p3.get("genome_wide_pairwise_sharing") or {}).items():

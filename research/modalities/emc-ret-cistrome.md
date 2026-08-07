@@ -275,10 +275,10 @@ lives, not at the promoter.
 ### 3b · ⛔ Six things this is not, each of which would be an over-read
 
 1. **It is NR4A1, not NR4A3 — and NR4A3 occupancy at *RET* is NOT MEASURED.** ChIP-Atlas holds
-   exactly **six** NR4A3 ChIP-seq experiments, all in dendritic cells, with **53–102 peaks each**,
-   and **none of them recovers SEMA3C or ENO3**. A peak set that cannot detect a locus a published
-   chromatin experiment already placed NR4A3 at cannot exclude *RET*. Those six nulls are recorded
-   as **uninterpretable**, not as negatives.
+   exactly **six** NR4A3 ChIP-seq experiments, all in dendritic cells and all from one study, with
+   **53–154 peaks each**, and **none of them recovers SEMA3C or ENO3**. A peak set that cannot
+   detect a locus a published chromatin experiment already placed NR4A3 at cannot exclude *RET*.
+   Those six nulls are recorded as **uninterpretable**, not as negatives.
 2. **It is wild-type NR4A1, not the fusion.** PMID 31020999 *measured* that the EWSR1 and TAF15
    chimeras differ from each other in DNA binding at a validated NBRE target, so nothing transfers
    to `EWSR1::NR4A3` by assumption.
@@ -291,7 +291,7 @@ lives, not at the promoter.
    VEGFR — the originating authors' own reading (**PMID 23058004**) — as the story RET displaces.
    **Occupancy does not displace it. It occupies both, and it occupies VEGFA harder.** Anyone
    quoting the *RET* peaks without this line is quoting half a result.
-5. **A ~250× depth confound sits underneath the paralogue pattern** — see §4.
+5. **A 150–500× depth confound sits underneath the paralogue pattern** — see §4.
 6. **Occupancy is not transactivation.** The ENO3 precedent needed **luciferase** on top of ChIP
    (**PMID 26310886**). Nothing here measures output.
 
@@ -325,22 +325,27 @@ counting peak sets would read as independent replication when it is the same rea
 
 ### 4a · At *RET* — the answer is NOT MEASURED, and the pattern that looks like an answer is a confound
 
-| paralogue | peak sets | any promoter-window peak at *RET* | depth range |
-|---|---|---|---|
-| **NR4A1** | 60 | **yes** | 71 – 83,773 |
-| **NR4A2** | 14 | no | 6 – 1,105 |
-| **NR4A3** | 12 | no | **53 – 102** |
+| paralogue | peak sets scored | distinct experiments | peak-depth range | any promoter-window peak at *RET* |
+|---|---|---|---|---|
+| **NR4A1** | 53 | **27** | 71 – 83,773 | **yes** |
+| **NR4A2** | 14 | 7 | 1 – 1,105 | no |
+| **NR4A3** | 12 | **6** | **53 – 154** | no |
 
 ⛔ **This is not "NR4A1 binds *RET* and NR4A3 does not."** The positive sets have **22,674–83,773**
-peaks; the deepest NR4A3 set anywhere has **102**. That is a **200–800× depth difference**, on top
-of a cell-type difference (AML line and a merged multi-tissue catalogue, versus primary dendritic
-cells), and **no NR4A3 peak set recovers a positive control**. Two variables move with the outcome
-and neither is the paralogue. **The paralogue question at *RET* is unanswered, and the honest
-state is NOT MEASURED.**
+peaks; the deepest NR4A3 experiment anywhere has **154**. That is a **150–500× depth difference**,
+on top of a cell-type difference (an AML line and a merged multi-tissue catalogue, versus primary
+dendritic cells), and **no NR4A3 peak set recovers a positive control**. Two variables move with
+the outcome and neither is the paralogue. **The paralogue question at *RET* is unanswered, and the
+honest state is NOT MEASURED.**
 
-⚠ *And ChIP-Atlas lists each experiment once per genome build, so these are ~30 NR4A1, 7 NR4A2 and
-6 NR4A3 distinct experiments — and every one of the six NR4A3 experiments is from one study in one
-cell type.*
+⚠ *Every one of the six NR4A3 experiments comes from **one study in one cell type** (GSE186199,
+cDC2s). ChIP-Atlas lists each experiment once per genome build, which is why 12 peak sets carry 6
+experiments — a count that would read as replication if the distinction were not made.*
+
+⚠ *These counts are of peak sets that were actually SCORED. A peak set that downloaded but sits on
+a build whose loci were discarded (§1) contributes no reading and is excluded — counting those
+inflated NR4A1 from 27 experiments to 34 in the first pass, by including the seven mm10 sets whose
+coordinates had just been thrown away.*
 
 ### 4b · ⭐ But the paralogue overlap itself IS measured — and it is a repository first
 
@@ -512,7 +517,7 @@ wrong protein (wild type, not the chimera), wrong cell type (an AML line), a 200
 confound under the paralogue pattern — and **the alternative hypothesis is occupied harder**, with
 *VEGFA* carrying 10 promoter-window peaks to *RET*'s 3 in the deepest catalogue. ⛔ **NR4A3
 occupancy at *RET* is NOT MEASURED**: every NR4A3 ChIP-seq in existence is six dendritic-cell
-experiments of 53–102 peaks, none of which detects a locus NR4A3 is already published as binding.
+experiments of 53–154 peaks, none of which detects a locus NR4A3 is already published as binding.
 Absent readings, not negatives, recorded as such.
 
 ### The grade
@@ -520,7 +525,7 @@ Absent readings, not negatives, recorded as such.
 | question | answer |
 |---|---|
 | **Is *RET*'s locus bindable by an NR4A protein in human chromatin?** | **Yes — measured, and reproduced across two builds and two pipelines.** NR4A1, Kasumi-1 + ReMap 2022, three first-intron peaks agreeing to ~50 bp |
-| **Does NR4A3 bind *RET*?** | **NOT MEASURED.** Six NR4A3 experiments exist worldwide in ChIP-Atlas, all from one study in one cell type, 53–102 peaks, none recovering a positive control |
+| **Does NR4A3 bind *RET*?** | **NOT MEASURED.** Six NR4A3 experiments exist worldwide in ChIP-Atlas, all from one study in one cell type, 53–154 peaks, none recovering a positive control |
 | **Does `EWSR1::NR4A3` bind *RET*?** | **Unanswerable from public data.** No fusion cistrome exists (`emc-ret-lane.md` §2d) |
 | **Is *RET* elevated in EMC?** | **Yes, now in two independent cohorts** (§5b) — the published n = 6 plus an n = 10 series nobody had read for *RET* |
 | **⭐ Is there a ligand for it?** | **Not in the transcript data, in either cohort.** All four GDNF-family ligands flat or down; *GFRA1* and *GFRA2* significantly down (§5c). ⚠ Transcript, bulk tissue, and RET can signal ligand-independently — this is a reason to stain, not a closure |

@@ -4,7 +4,7 @@
  "_lane": "emc-unexplored-treatment-lanes.md \u00a73.1 / emc-ret-lane.md \u00a72d next-step 1",
  "_sibling_instrument": "emc_ret_target_scan.py \u2014 the NBRE motif scan. Different question, allowed to disagree.",
  "_generated_from": "emc-ret-cistrome-inputs.json",
- "generated_utc": "2026-08-07T17:40:23+00:00",
+ "generated_utc": "2026-08-07T17:49:39+00:00",
  "_language_discipline": "Nothing in this file asserts that any RET inhibitor is selective for, effective in, safe in, or ready for extraskeletal myxoid chondrosarcoma, and nothing here recommends giving any agent to any patient. No EMC patient has received a selective RET inhibitor.",
  "part_0_genome_build": {
   "_what": "The genome build, established from two independent sources per build and never lifted over. This block is a RESULT, not metadata (CLAUDE.md \u00a74: this lane has twice been burned by a coordinate convention that produced a plausible file).",
@@ -31958,12 +31958,18 @@
   "_why_it_matters": "a peak all three share says something different from one only NR4A3 has \u2014 for the biology and for every paralogue-selectivity argument this repository has so far made from sequence identity alone.",
   "at_RET": {
    "NR4A1": {
-    "n_peaksets": 60,
+    "n_peaksets_scored": 53,
+    "n_distinct_experiments": 27,
+    "peak_depth_range": [
+     71,
+     83773
+    ],
     "rows": [
      {
       "peakset": "SRX092299@hg19",
       "cell_type": "K-562",
       "genome": "hg19",
+      "n_peaks_total": 1676,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -31971,6 +31977,7 @@
       "peakset": "SRX10478649@hg19",
       "cell_type": "K-562",
       "genome": "hg19",
+      "n_peaks_total": 804,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -31978,6 +31985,7 @@
       "peakset": "SRX10478650@hg19",
       "cell_type": "K-562",
       "genome": "hg19",
+      "n_peaks_total": 882,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -31985,6 +31993,7 @@
       "peakset": "SRX12698888@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 297,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -31992,6 +32001,7 @@
       "peakset": "SRX12698892@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 87,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -31999,6 +32009,7 @@
       "peakset": "SRX12698896@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 111,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32006,6 +32017,7 @@
       "peakset": "SRX12698900@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 71,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32013,6 +32025,7 @@
       "peakset": "SRX12698904@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 151,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32020,6 +32033,7 @@
       "peakset": "SRX12698908@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 74,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32027,6 +32041,7 @@
       "peakset": "SRX1653203@hg19",
       "cell_type": "Kasumi-1",
       "genome": "hg19",
+      "n_peaks_total": 22674,
       "n_peaks_promoter_window": 3,
       "positive_control": "A KNOWN POSITIVE IS RECOVERED"
      },
@@ -32034,6 +32049,7 @@
       "peakset": "SRX1653204@hg19",
       "cell_type": "Kasumi-1",
       "genome": "hg19",
+      "n_peaks_total": 26549,
       "n_peaks_promoter_window": 3,
       "positive_control": "A KNOWN POSITIVE IS RECOVERED"
      },
@@ -32041,6 +32057,7 @@
       "peakset": "SRX2423524@hg19",
       "cell_type": "K-562",
       "genome": "hg19",
+      "n_peaks_total": 6298,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32048,6 +32065,7 @@
       "peakset": "SRX2423525@hg19",
       "cell_type": "K-562",
       "genome": "hg19",
+      "n_peaks_total": 6823,
       "n_peaks_promoter_window": 0,
       "positive_control": "A KNOWN POSITIVE IS RECOVERED"
      },
@@ -32055,6 +32073,7 @@
       "peakset": "SRX359913@hg19",
       "cell_type": "LoVo",
       "genome": "hg19",
+      "n_peaks_total": 302,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32062,6 +32081,7 @@
       "peakset": "SRX5242458@hg19",
       "cell_type": "MOLM-14",
       "genome": "hg19",
+      "n_peaks_total": 15415,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32069,6 +32089,7 @@
       "peakset": "SRX9534892@hg19",
       "cell_type": "MCF 10A",
       "genome": "hg19",
+      "n_peaks_total": 141,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32076,6 +32097,7 @@
       "peakset": "SRX9534893@hg19",
       "cell_type": "MCF 10A",
       "genome": "hg19",
+      "n_peaks_total": 132,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32083,6 +32105,7 @@
       "peakset": "SRX9534894@hg19",
       "cell_type": "MCF 10A",
       "genome": "hg19",
+      "n_peaks_total": 113,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32090,6 +32113,7 @@
       "peakset": "SRX9534895@hg19",
       "cell_type": "MCF 10A",
       "genome": "hg19",
+      "n_peaks_total": 129,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32097,6 +32121,7 @@
       "peakset": "SRX9534896@hg19",
       "cell_type": "MCF 10A",
       "genome": "hg19",
+      "n_peaks_total": 116,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32104,6 +32129,7 @@
       "peakset": "SRX9534897@hg19",
       "cell_type": "MCF 10A",
       "genome": "hg19",
+      "n_peaks_total": 147,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32111,6 +32137,7 @@
       "peakset": "SRX9534928@hg19",
       "cell_type": "Breast cancer cells",
       "genome": "hg19",
+      "n_peaks_total": 132,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32118,6 +32145,7 @@
       "peakset": "SRX9534929@hg19",
       "cell_type": "Breast cancer cells",
       "genome": "hg19",
+      "n_peaks_total": 195,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32125,6 +32153,7 @@
       "peakset": "SRX9534930@hg19",
       "cell_type": "Breast cancer cells",
       "genome": "hg19",
+      "n_peaks_total": 209,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32132,6 +32161,7 @@
       "peakset": "SRX9534931@hg19",
       "cell_type": "Breast cancer cells",
       "genome": "hg19",
+      "n_peaks_total": 154,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32139,6 +32169,7 @@
       "peakset": "SRX9534932@hg19",
       "cell_type": "Breast cancer cells",
       "genome": "hg19",
+      "n_peaks_total": 241,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32146,6 +32177,7 @@
       "peakset": "SRX092299@hg38",
       "cell_type": "K-562",
       "genome": "hg38",
+      "n_peaks_total": 1660,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32153,6 +32185,7 @@
       "peakset": "SRX10478649@hg38",
       "cell_type": "K-562",
       "genome": "hg38",
+      "n_peaks_total": 1555,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32160,6 +32193,7 @@
       "peakset": "SRX10478650@hg38",
       "cell_type": "K-562",
       "genome": "hg38",
+      "n_peaks_total": 1599,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32167,6 +32201,7 @@
       "peakset": "SRX12698888@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 437,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32174,6 +32209,7 @@
       "peakset": "SRX12698892@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 114,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32181,6 +32217,7 @@
       "peakset": "SRX12698896@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 163,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32188,6 +32225,7 @@
       "peakset": "SRX12698900@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 97,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32195,6 +32233,7 @@
       "peakset": "SRX12698904@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 212,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32202,6 +32241,7 @@
       "peakset": "SRX12698908@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 94,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32209,6 +32249,7 @@
       "peakset": "SRX1653203@hg38",
       "cell_type": "Kasumi-1",
       "genome": "hg38",
+      "n_peaks_total": 22717,
       "n_peaks_promoter_window": 2,
       "positive_control": "A KNOWN POSITIVE IS RECOVERED"
      },
@@ -32216,6 +32257,7 @@
       "peakset": "SRX1653204@hg38",
       "cell_type": "Kasumi-1",
       "genome": "hg38",
+      "n_peaks_total": 26660,
       "n_peaks_promoter_window": 3,
       "positive_control": "A KNOWN POSITIVE IS RECOVERED"
      },
@@ -32223,6 +32265,7 @@
       "peakset": "SRX2423524@hg38",
       "cell_type": "K-562",
       "genome": "hg38",
+      "n_peaks_total": 7427,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32230,6 +32273,7 @@
       "peakset": "SRX2423525@hg38",
       "cell_type": "K-562",
       "genome": "hg38",
+      "n_peaks_total": 7958,
       "n_peaks_promoter_window": 0,
       "positive_control": "A KNOWN POSITIVE IS RECOVERED"
      },
@@ -32237,6 +32281,7 @@
       "peakset": "SRX359913@hg38",
       "cell_type": "LoVo",
       "genome": "hg38",
+      "n_peaks_total": 305,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32244,6 +32289,7 @@
       "peakset": "SRX5242458@hg38",
       "cell_type": "MOLM-14",
       "genome": "hg38",
+      "n_peaks_total": 16023,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32251,6 +32297,7 @@
       "peakset": "SRX9534892@hg38",
       "cell_type": "MCF 10A",
       "genome": "hg38",
+      "n_peaks_total": 274,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32258,6 +32305,7 @@
       "peakset": "SRX9534893@hg38",
       "cell_type": "MCF 10A",
       "genome": "hg38",
+      "n_peaks_total": 245,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32265,6 +32313,7 @@
       "peakset": "SRX9534894@hg38",
       "cell_type": "MCF 10A",
       "genome": "hg38",
+      "n_peaks_total": 227,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32272,6 +32321,7 @@
       "peakset": "SRX9534895@hg38",
       "cell_type": "MCF 10A",
       "genome": "hg38",
+      "n_peaks_total": 252,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32279,6 +32329,7 @@
       "peakset": "SRX9534896@hg38",
       "cell_type": "MCF 10A",
       "genome": "hg38",
+      "n_peaks_total": 221,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32286,6 +32337,7 @@
       "peakset": "SRX9534897@hg38",
       "cell_type": "MCF 10A",
       "genome": "hg38",
+      "n_peaks_total": 328,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32293,6 +32345,7 @@
       "peakset": "SRX9534928@hg38",
       "cell_type": "Breast cancer cells",
       "genome": "hg38",
+      "n_peaks_total": 148,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32300,6 +32353,7 @@
       "peakset": "SRX9534929@hg38",
       "cell_type": "Breast cancer cells",
       "genome": "hg38",
+      "n_peaks_total": 288,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32307,6 +32361,7 @@
       "peakset": "SRX9534930@hg38",
       "cell_type": "Breast cancer cells",
       "genome": "hg38",
+      "n_peaks_total": 480,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32314,6 +32369,7 @@
       "peakset": "SRX9534931@hg38",
       "cell_type": "Breast cancer cells",
       "genome": "hg38",
+      "n_peaks_total": 226,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32321,75 +32377,35 @@
       "peakset": "SRX9534932@hg38",
       "cell_type": "Breast cancer cells",
       "genome": "hg38",
+      "n_peaks_total": 426,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
-     },
-     {
-      "peakset": "SRX1077593@mm10",
-      "cell_type": null,
-      "genome": "mm10",
-      "n_peaks_promoter_window": null,
-      "positive_control": null
-     },
-     {
-      "peakset": "SRX3075749@mm10",
-      "cell_type": null,
-      "genome": "mm10",
-      "n_peaks_promoter_window": null,
-      "positive_control": null
-     },
-     {
-      "peakset": "SRX3075750@mm10",
-      "cell_type": null,
-      "genome": "mm10",
-      "n_peaks_promoter_window": null,
-      "positive_control": null
-     },
-     {
-      "peakset": "SRX3075751@mm10",
-      "cell_type": null,
-      "genome": "mm10",
-      "n_peaks_promoter_window": null,
-      "positive_control": null
-     },
-     {
-      "peakset": "SRX6927319@mm10",
-      "cell_type": null,
-      "genome": "mm10",
-      "n_peaks_promoter_window": null,
-      "positive_control": null
-     },
-     {
-      "peakset": "SRX868176@mm10",
-      "cell_type": null,
-      "genome": "mm10",
-      "n_peaks_promoter_window": null,
-      "positive_control": null
-     },
-     {
-      "peakset": "SRX868179@mm10",
-      "cell_type": null,
-      "genome": "mm10",
-      "n_peaks_promoter_window": null,
-      "positive_control": null
      },
      {
       "peakset": "REMAP2022_NR4A1",
       "cell_type": "ReMap 2022 merged catalogue",
       "genome": "hg38",
+      "n_peaks_total": 83773,
       "n_peaks_promoter_window": 3,
       "positive_control": "A KNOWN POSITIVE IS RECOVERED"
      }
     ],
-    "any_promoter_peak_at_RET": true
+    "any_promoter_peak_at_RET": true,
+    "\u26a0": "counts are of peak sets that were SCORED. A peak set that downloaded but sits on a build whose loci were discarded contributes no reading and is not here."
    },
    "NR4A2": {
-    "n_peaksets": 14,
+    "n_peaksets_scored": 14,
+    "n_distinct_experiments": 7,
+    "peak_depth_range": [
+     1,
+     1105
+    ],
     "rows": [
      {
       "peakset": "SRX12698889@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 115,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32397,6 +32413,7 @@
       "peakset": "SRX12698893@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 96,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32404,6 +32421,7 @@
       "peakset": "SRX12698897@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 147,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32411,6 +32429,7 @@
       "peakset": "SRX12698901@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 74,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32418,6 +32437,7 @@
       "peakset": "SRX12698905@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 6,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32425,6 +32445,7 @@
       "peakset": "SRX12698909@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 72,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32432,6 +32453,7 @@
       "peakset": "SRX359876@hg19",
       "cell_type": "LoVo",
       "genome": "hg19",
+      "n_peaks_total": 1105,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32439,6 +32461,7 @@
       "peakset": "SRX12698889@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 163,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32446,6 +32469,7 @@
       "peakset": "SRX12698893@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 122,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32453,6 +32477,7 @@
       "peakset": "SRX12698897@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 222,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32460,6 +32485,7 @@
       "peakset": "SRX12698901@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 94,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32467,6 +32493,7 @@
       "peakset": "SRX12698905@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 1,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32474,6 +32501,7 @@
       "peakset": "SRX12698909@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 106,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32481,19 +32509,27 @@
       "peakset": "SRX359876@hg38",
       "cell_type": "LoVo",
       "genome": "hg38",
+      "n_peaks_total": 1031,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      }
     ],
-    "any_promoter_peak_at_RET": false
+    "any_promoter_peak_at_RET": false,
+    "\u26a0": "counts are of peak sets that were SCORED. A peak set that downloaded but sits on a build whose loci were discarded contributes no reading and is not here."
    },
    "NR4A3": {
-    "n_peaksets": 12,
+    "n_peaksets_scored": 12,
+    "n_distinct_experiments": 6,
+    "peak_depth_range": [
+     53,
+     154
+    ],
     "rows": [
      {
       "peakset": "SRX12698890@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 102,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32501,6 +32537,7 @@
       "peakset": "SRX12698894@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 94,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32508,6 +32545,7 @@
       "peakset": "SRX12698898@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 81,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32515,6 +32553,7 @@
       "peakset": "SRX12698902@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 84,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32522,6 +32561,7 @@
       "peakset": "SRX12698906@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 99,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32529,6 +32569,7 @@
       "peakset": "SRX12698910@hg19",
       "cell_type": "Dendritic Cells",
       "genome": "hg19",
+      "n_peaks_total": 53,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32536,6 +32577,7 @@
       "peakset": "SRX12698890@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 154,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32543,6 +32585,7 @@
       "peakset": "SRX12698894@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 131,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32550,6 +32593,7 @@
       "peakset": "SRX12698898@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 109,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32557,6 +32601,7 @@
       "peakset": "SRX12698902@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 103,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32564,6 +32609,7 @@
       "peakset": "SRX12698906@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 150,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      },
@@ -32571,11 +32617,13 @@
       "peakset": "SRX12698910@hg38",
       "cell_type": "Dendritic Cells",
       "genome": "hg38",
+      "n_peaks_total": 69,
       "n_peaks_promoter_window": 0,
       "positive_control": "NO KNOWN POSITIVE RECOVERED"
      }
     ],
-    "any_promoter_peak_at_RET": false
+    "any_promoter_peak_at_RET": false,
+    "\u26a0": "counts are of peak sets that were SCORED. A peak set that downloaded but sits on a build whose loci were discarded contributes no reading and is not here."
    }
   },
   "genome_wide_pairwise_sharing": {

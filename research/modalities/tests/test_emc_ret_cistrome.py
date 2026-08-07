@@ -271,7 +271,7 @@ def test_the_paralogue_block_reports_the_genome_wide_sharing_rate():
 def test_a_paralogue_with_no_peakset_is_an_absent_reading():
     a = M.derive(_two_paralogue_cache(ret_in_nr4a1=False))
     nr4a2 = a["part_3_paralogue_overlap"]["at_RET"]["NR4A2"]
-    assert nr4a2["n_peaksets"] == 0
+    assert nr4a2["n_peaksets_scored"] == 0
     assert nr4a2["any_promoter_peak_at_RET"] is None    # None, NOT False
     pair = a["part_3_paralogue_overlap"]["genome_wide_pairwise_sharing"]["NR4A1_vs_NR4A2"]
     assert pair.get("_status") == "not_computable"
