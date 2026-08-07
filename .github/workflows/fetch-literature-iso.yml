@@ -1,0 +1,171 @@
+name: Fetch literature (isolated)
+
+# Pulls open-access research papers from the GitHub-hosted runner (which has
+# full internet access - no sandbox egress allowlist needed).
+#
+# TWO INPUT PATHS, and until 2026-08-05 only one of them was implemented:
+#   * `query`        -> Europe PMC search + open-access full text, scripts/fetch-paper.mjs sync
+#   * `targets_file` -> an explicit {name: url} corpus, scripts/lit_fetch_urls.py
+# The header claimed the first for months while the workflow ran only the second, so a dispatch
+# carrying a query searched for nothing and reported success. Wired up 2026-08-05; ASSERTED
+# 2026-08-06 (scripts/lit_query_assert.py + the `expect_pmids` known-positive control), because a
+# wired search that matches nothing is still a green run with no retrieval behind it.
+# A query-only dispatch now runs the query path ONLY — see the guard on the URL-fetch step.
+# The fetched corpus is published to the
+# `literature-cache` branch, which Pages never serves (pages.yml only copies
+# index.html, 404.html, assets/, data/, cancers/). A Claude session then does
+# `git fetch origin literature-cache` and extracts cited data into data/cancers/.
+#
+# Raw full text is a working cache, not site content. Record each paper's
+# licence when promoting facts into a cancer page; cite every clinical value.
+
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: "Europe PMC search query"
+        required: true
+        default: '"extraskeletal myxoid chondrosarcoma" OR "extra-skeletal myxoid chondrosarcoma" OR "chordoid sarcoma" OR (NR4A3 AND chondrosarcoma)'
+      slug:
+        description: "Output folder under literature/ (defaults to a slug derived from the query)"
+        required: false
+        default: "extraskeletal-myxoid-chondrosarcoma"
+      targets_file:
+        description: "Optional JSON {name: url} corpus to fetch instead of the built-in TARGETS"
+        required: false
+        default: ""
+      targets_mode:
+        description: "replace (default) or extend — how targets_file combines with built-in TARGETS"
+        required: false
+        default: "replace"
+      expect_pmids:
+        description: "Known-positive control: PMID(s) the query MUST return, comma/space separated. Missing -> the run FAILS."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-literature-iso-${{ github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install PDF text extractor
+        run: python3 -m pip install --quiet pypdf
+
+      # ⛔ THE SEARCH THIS WORKFLOW HAS ALWAYS CLAIMED TO DO WAS NEVER WIRED UP (found 2026-08-05).
+      # This file's own header says it "Pulls open-access research papers ... using the Europe PMC API
+      # via scripts/fetch-paper.mjs". That script exists, has exactly the `sync "<query>"` command the
+      # header describes -- and NOTHING IN THIS WORKFLOW EVER INVOKED IT. The `query` input was
+      # decorative: its only use was deriving a default slug in the publish step.
+      #
+      # ⚠ SO A DISPATCH WITH A QUERY SEARCHED FOR NOTHING, re-fetched the built-in URL list, and
+      # reported SUCCESS. CLAUDE.md §6 names this workflow as the Europe PMC escape hatch, on the
+      # strength of the header -- so the rule pointed every session at a search that did not run.
+      - name: Europe PMC search + open-access full text (the `query` path)
+        if: ${{ inputs.query != '' }}
+        env:
+          QUERY: ${{ inputs.query }}
+        run: node scripts/fetch-paper.mjs sync "$QUERY"
+
+      # ⛔ AND A WIRED-UP SEARCH THAT RETURNS NOTHING STILL REPORTS SUCCESS (added 2026-08-06).
+      # Wiring the step in was necessary and not sufficient: `sync` writes an _index.json and exits 0
+      # whether the API returned 400 records or 0, so "the workflow is green" was still not evidence
+      # that anything was retrieved. This step asserts the retrieval — non-empty, and containing the
+      # known-positive PMID(s) the caller names — so the ASSERTION is what the log carries, not a
+      # description of the wiring. (Same lesson as tests/test_fleet_armed.py's exempt-lane wiring
+      # test: a property asserted in prose about a value a caller passes is a hope, not a property.)
+      - name: Assert the query path actually searched (non-empty + known-positive control)
+        if: ${{ inputs.query != '' }}
+        env:
+          LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
+        run: python3 scripts/lit_query_assert.py
+
+      # ⛔ RUNNING BOTH PATHS INTO ONE DIRECTORY IS THE MISLABELLED-RECORD BUG WEARING A NEW HAT.
+      # `lit_fetch_urls.py` falls back to its BUILT-IN FEP-methodology TARGETS when no targets_file is
+      # given, and both paths write into .cache/literature, which the publish step copies wholesale
+      # into literature/<slug>/. So before this guard, a query-only dispatch published its Europe PMC
+      # corpus INTERLEAVED with 25 files about lomap, cinnabar and Schrödinger cycle-closure patents —
+      # the same contamination the publish step's slug guard below was written to prevent, arriving
+      # from the other direction. A query-only run now runs the query path ONLY.
+      - name: Fetch literature URLs (generic, runner has unrestricted egress)
+        if: ${{ inputs.targets_file != '' || inputs.query == '' }}
+        env:
+          LIT_TARGETS_FILE: ${{ inputs.targets_file }}
+          LIT_TARGETS_MODE: ${{ inputs.targets_mode }}
+        run: python3 scripts/lit_fetch_urls.py
+
+      - name: Keep full-text artifact (ephemeral, 14 days)
+        uses: actions/upload-artifact@v4
+        with:
+          name: literature-${{ github.run_id }}
+          path: .cache/literature
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Publish corpus to literature-cache branch
+        # Inputs are passed via env (never interpolated into the script) so quotes
+        # in the query can't break tokenization or inject shell commands.
+        env:
+          QUERY: ${{ inputs.query }}
+          SLUG: ${{ inputs.slug }}
+          TARGETS_FILE: ${{ inputs.targets_file }}
+        run: |
+          set -e
+          [ -d .cache/literature ] || { echo "Nothing fetched"; exit 0; }
+
+          # ⛔ A SLUG IS A CLAIM ABOUT CONTENTS, AND NOTHING USED TO CHECK IT (2026-08-05).
+          #
+          # `lit_fetch_urls.py` reads LIT_TARGETS_FILE and falls back to its BUILT-IN `TARGETS` list;
+          # only this step consumes QUERY. So a dispatch carrying a `query` and a custom `slug` but no
+          # `targets_file` re-fetches the built-in FEP-methodology corpus and publishes it under
+          # whatever name was chosen -- and the run reports SUCCESS.
+          #
+          # That happened: `literature/bangerter-2023-emc-exvivo/` was published holding 25 files about
+          # lomap, Schrödinger's cycle-closure patents, cinnabar and diffnet, and NOT ONE about
+          # Bangerter or EMC. A future session greps this branch and finds a directory whose name
+          # promises the one piece of ex-vivo EMC evidence this repository has failed to resolve.
+          # ⚠ A MISLABELLED RECORD IS WORSE THAN A MISSING ONE: nothing inside contradicts the name,
+          # because the name is the only claim being made.
+          #
+          # So a CUSTOM slug now requires a custom target set. The default slug is unaffected -- it
+          # describes the built-in corpus honestly, which is exactly what it is for.
+          if [ -n "$SLUG" ] && [ -z "$TARGETS_FILE" ] && [ -z "$QUERY" ]; then
+            echo "::error::Refusing to publish under the custom slug '$SLUG': this run used the" \
+                 "BUILT-IN TARGETS list, because neither targets_file nor query was given. The slug" \
+                 "would assert a subject the manifest cannot show. Pass a query, or a" \
+                 "targets_file={name:url,...}, or drop the slug and accept the default."
+            exit 1
+          fi
+          slug="$SLUG"
+          [ -n "$slug" ] || slug=$(printf '%s' "$QUERY" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//;s/-$//')
+          tmp="$RUNNER_TEMP/litdata"
+          rm -rf "$tmp"; mkdir -p "$tmp"
+          cp -r .cache/literature/. "$tmp"/
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin literature-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/literature-cache; then
+            git checkout -B literature-cache origin/literature-cache
+          else
+            git checkout --orphan literature-cache
+          fi
+          # Keep the literature/ tree (other slugs/corpora) and .git; drop stray
+          # top-level files, then refresh ONLY this slug. Multi-slug safe.
+          find . -mindepth 1 -maxdepth 1 -not -name '.git' -not -name 'literature' -exec rm -rf {} +
+          rm -rf "literature/$slug"
+          mkdir -p "literature/$slug"
+          cp -r "$tmp"/. "literature/$slug"/
+          git add -A
+          git commit -m "Literature cache update: $slug" || { echo "No changes"; exit 0; }
+          git push origin literature-cache
