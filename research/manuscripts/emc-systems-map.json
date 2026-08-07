@@ -1380,6 +1380,30 @@
           "use": "The PPARgamma lead's evidence line. The menu grades PPARgamma agonism as its top novel candidate on 'in-vivo EMC' evidence, which is Higuchi 2023 -- whose in-vitro half used this line. Section 3 'The PPARgamma axis' and section 5 now carry that, and the candidate/leads tables point at it.",
           "classification": "survives_relabelled",
           "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "research/literature/emc-clinical-sweep-targets.json",
+          "use": "Europe PMC QUERY STRING only. `epmc_emc_models` names \"H-EMC-SS\" as one disjunct among several (\"cell line\" OR xenograft OR organoid OR \"patient-derived\" OR PDX OR \"H-EMC-SS\" OR \"MUG-Chor\") to retrieve the literature ON EMC MODELS. Also carries `cellosaurus_hemcss`, a direct Cellosaurus record fetch.",
+          "classification": "unaffected",
+          "why_unaffected": "A retrieval target is not a reading. Asking what is published about a line, and fetching that line's own curated record, cannot ground an EMC claim -- it is the search that SURFACES the dispute rather than one that inherits it. Verified by inspection: the file contains URLs and labels only, no result, no value and no assertion about EMC."
+        },
+        {
+          "file": "research/literature/emc-clinical-sweep-c3.json",
+          "use": "Europe PMC and Cellosaurus QUERY STRINGS only: a name-scoped literature search (\"H-EMC-SS\" OR \"HEMC-SS\" OR \"H EMC SS\") and a Cellosaurus cell-line lookup.",
+          "classification": "unaffected",
+          "why_unaffected": "Same as the sibling target files: retrieval targets, no results and no assertions. This one is the strongest case of all -- a name-scoped search for everything published on the line is exactly the instrument that produced the identity verdict in the first place."
+        },
+        {
+          "file": "research/literature/emc-clinical-sweep-fulltext.json",
+          "use": "One Cellosaurus id-scoped QUERY STRING (`q=id:H-EMC-SS`).",
+          "classification": "unaffected",
+          "why_unaffected": "A single record-lookup URL. Grounds nothing."
+        },
+        {
+          "file": "research/literature/physical-modality-targets.json",
+          "use": "Europe PMC QUERY STRING. `epmc_emc_hypoxia_model` names \"H-EMC-SS\" beside \"myxoid chondrosarcoma\" to retrieve hypoxia / hypoxia-activated-prodrug / ICF05016 / proteoglycan literature.",
+          "classification": "unaffected",
+          "why_unaffected": "The query itself grounds nothing. BUT THIS ONE CARRIES A LIVE WARNING AND IT IS NOT A FORMALITY: the papers it is built to retrieve -- ICF05016 + external-beam RT (PMID 32948981) and the zaltoprofen/PPARgamma result (PMID 36636023) -- DID their in-vivo and in-vitro work IN this line. So every hit it returns is a use that must be classified ON ARRIVAL, and `unaffected` will usually be the wrong answer for the hit even though it is the right answer for the query. The 2026-08-07 physical-modality sweep leaned on PMID 32948981 as the load-bearing preclinical support for an EMC radiosensitivity/hypoxia argument while describing it as an 'EMC xenograft'; that description is what this object exists to stop."
         }
       ],
       "distinct_from": [

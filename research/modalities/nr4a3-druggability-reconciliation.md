@@ -186,7 +186,7 @@ own future sessions.** Guarded against regression by
 `Munck` reappears outside the retention notices that make it quotable.
 
 **Recent (2023–2025) NR4A work brackets our druggability claim — one challenge, two supports.** *(Challenge.)*
-The vidofludimus/Nurr1 structure-guided study (Sturm/Willems, *Commun Chem* 2025) reaffirms the **canonical**
+The vidofludimus/Nurr1 structure-guided study (López-García 2025, *Commun Chem*) reaffirms the **canonical**
 NR4A pocket is "filled with bulky hydrophobic residues" and instead modulates the receptor through an
 **allosteric surface pocket** — the strongest recent restatement of the occluded-canonical-pocket view, and a
 reviewer objection we must meet head-on. We meet it precisely by *not* claiming the static canonical pocket is
@@ -402,10 +402,20 @@ The bottleneck is **not** backbone-prediction accuracy:
 - Rajan S, et al. *Prostaglandin A2 Interacts with Nurr1 and Ameliorates Behavioral Deficits in a Parkinson's
   Disease Fly Model.* **NeuroMolecular Med** (2022). PMID 35482177; PDB 5YD6. (PGA2 forms a **covalent Cys566
   adduct** in the Nurr1 LBD — covalent-warhead precedent. Verified 2026-07-05.)
-- Sturm/Willems, Marschner JA, Merk D, et al. *Structural and mechanistic profiling of Nurr1 modulation by
-  vidofludimus enables structure-guided ligand design.* **Commun Chem** (2025). PMC12095788;
-  doi 10.1038/s42004-025-01553-8. (Occluded canonical pocket reaffirmed; allosteric surface pocket; closest
-  computational NR4A-selectivity precedent — the §5 challenge. Author order to confirm. Verified 2026-07-05.)
+- López-García Ú, Vietor J, Marschner JA, Heering J, Morozov V, Wein T, Merk D. *Structural and mechanistic
+  profiling of Nurr1 modulation by vidofludimus enables structure-guided ligand design.* **Commun Chem** 8:159
+  (2025). PMC12095788; doi 10.1038/s42004-025-01553-8. (Occluded canonical pocket reaffirmed; allosteric
+  surface pocket; closest computational NR4A-selectivity precedent — the §5 challenge. Verified 2026-07-05;
+  **authors corrected 2026-08-07 from the primary full text.**)
+  ⚠ *Superseded, retained: this entry read* **"Sturm/Willems, Marschner JA, Merk D, et al."** *and carried
+  "Author order to confirm" — an open item that stayed open while the correct list sat two files away in
+  [`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md) reference 11, matching on
+  both PMC ID and DOI. **The mechanism is worth recording because it is not a typo:** the Merk lab has a second
+  NR4A paper in this same reference list — Willems S, Morozov V, Marschner JA, Merk D, the probe-audit paper
+  cited four entries above and quoted in §5 — and* **that** *paper's genuine first author was carried onto this
+  one. Adjacent same-lab citations are where an attribution slips, and `verify-refs` checks that a DOI
+  resolves, not that the author line in front of it is the right one. Same class as the retired "Munck 2022"
+  attribution above.*
 - Wang L, Xiao Y, Luo Y, et al. *PROTAC-mediated NR4A1 degradation as a novel strategy for cancer
   immunotherapy.* **J Exp Med** 221(3):e20231519 (2024). PMID 37609171; doi 10.1084/jem.20231519. (NR-V04 —
   NR4A1 PROTAC sparing NR4A2/NR4A3; paralog-selective degradation precedent. Verified 2026-07-05.)
