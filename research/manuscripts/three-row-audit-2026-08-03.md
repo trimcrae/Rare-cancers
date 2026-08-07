@@ -234,7 +234,7 @@ arm**, which is precisely what 8G1P would remove.
 |---|---|
 | `lint_consistency.py` | **0 ERROR** across 12 target files |
 | `lint_claims.py` | **0 ERROR**, 50 WARN across 3 files (all pre-existing) |
-| the fast six | **6/6 PASS** |
+| the fast six | **6/6 PASS** — ⛔ **THIS LINE WAS NOT REPRODUCIBLE WHEN IT WAS WRITTEN AND STILL IS NOT.** The phrase had no definition anywhere in the repo (`r3-site-choice-audit-2026-08-03.md` recorded that two days later). It is now defined and executable — [`scripts/fast_checks.py`](../../scripts/fast_checks.py), `--list` for the membership rule — but **that set is a definition going FORWARD, not a reconstruction of this row**: `preflight.sh`'s own comments date two of its gates to 2026-08-05 and 2026-08-06, so no six-member set this repo can name today existed on 2026-08-03. **Read this cell as "the author ran some fast checks and they passed", and nothing more precise.** |
 | `tests/test_r3_generation_frame.py` | **15/15 PASS** (new) |
 
 ## Refusals and limitations, collected

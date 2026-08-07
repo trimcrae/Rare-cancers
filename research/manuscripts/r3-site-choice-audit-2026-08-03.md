@@ -322,10 +322,23 @@ ran the retired classifier.
 | `tests/test_r3_site_choice_audit.py` | 22 tests (new) |
 | the accepted-candidate dump vs C04 | **12 / 12 rows reproduce exactly** |
 
-⚠ *"the fast six" has no definition anywhere in this repo* — the phrase appears once, in
-[three-row-audit-2026-08-03.md](three-row-audit-2026-08-03.md), with no list attached. `scripts/preflight.sh`
-is the only committed all-checks entry point, so that is what was run. **Naming the six is a $0 fix
-somebody should make**, because a verification line nobody can reproduce is not a verification line.
+✅ **FIXED 2026-08-07 ($0) — "the fast six" is now defined and executable:**
+[`scripts/fast_checks.py`](../../scripts/fast_checks.py) (`--list` prints the membership rule, the six
+members and every excluded fast checker with the clause it fails). Held by
+`research/modalities/tests/test_fast_checks.py`, which fails if the set called *six* stops having six
+members or if either quoting document stops pointing at the definition.
+⛔ **It is a definition going FORWARD, not a reconstruction.** The obvious guess — preflight's gates — is
+**measurably wrong for 2026-08-03**: `preflight.sh`'s own comments date `systems_check` to 2026-08-05 and
+`emc_systems_map_check` to 2026-08-06, so preflight did not have six gates on the day the phrase was used.
+The original `6/6 PASS` is therefore **not recoverable by anyone, including its author**, and the row in
+[three-row-audit-2026-08-03.md](three-row-audit-2026-08-03.md) now says so at the line itself.
+⭐ And the set is deliberately **not** an alias for preflight: it includes `lint_claims.py` and
+`line_citations.py`, the two document checks CLAUDE.md §7 warns a green preflight does **not** cover, and
+excludes `pytest`, which is neither fast nor a document check.
+⚠ *Superseded, retained: "'the fast six' has no definition anywhere in this repo … `scripts/preflight.sh`
+is the only committed all-checks entry point, so that is what was run. Naming the six is a $0 fix somebody
+should make."* What was actually run for THIS audit was `scripts/preflight.sh`, as the row above records —
+unchanged by the new definition.
 
 ## Refusals and limitations, collected
 

@@ -222,6 +222,37 @@ def build(map_path=MAP):
     return census
 
 
+#: ⛔ EVERY LINK IN A COPIED CELL IS WRITTEN RELATIVE TO THE ROADMAP, AND THE VIEW DOES NOT LIVE THERE.
+#: Caught by `systems_check --check` (K2) on the first generated copy: 12 ERRORs, all of the form
+#: "instrument-census.md links to `#6a--dead-...` in ITSELF and no heading makes that anchor" -- because a
+#: bare `#anchor` copied out of §3.1 resolves against whatever document it lands in. The same applies to
+#: `](../modalities/x.json)` (correct from `research/manuscripts/`, one directory too high from here) and
+#: to `](other.md)` siblings of the roadmap. So the renderer REBASES, and it does so only in the rendered
+#: view -- the JSON keeps the roadmap's text byte-for-byte, because that is the copy a reader diffs.
+_MAP_DIR = "research/manuscripts"
+_VIEW_DIR = "research/modalities"
+_LINK = re.compile(r"\]\(([^)\s]+)\)")
+
+
+def _rebase_link(target):
+    import posixpath
+    if target.startswith(("http://", "https://", "mailto:")):
+        return target
+    if target.startswith("#"):
+        return posixpath.relpath(_MAP_DIR, _VIEW_DIR) + "/nr4a3-program-map.md" + target
+    path, _, frag = target.partition("#")
+    if path.startswith("/"):
+        return target
+    resolved = posixpath.normpath(posixpath.join(_MAP_DIR, path))
+    out = posixpath.relpath(resolved, _VIEW_DIR)
+    return out + ("#" + frag if frag else "")
+
+
+def rebase(text):
+    """Rewrite a cell's roadmap-relative links so they resolve from the view's own directory. PURE."""
+    return _LINK.sub(lambda m: "](%s)" % _rebase_link(m.group(1)), text)
+
+
 def render_md(census):
     d = census["_derived"]
     L = []
@@ -258,9 +289,10 @@ def render_md(census):
     L.append("|---|---|---|---|---|---|---|---|---|")
     for r in census["instruments"]:
         L.append("| **%s** | %s | %s | %s | %s | %s | %s | `%s` | %s |" % (
-            r["id"], r["instrument"], r["known_answer_test"],
+            r["id"], rebase(r["instrument"]), rebase(r["known_answer_test"]),
             "yes" if r["has_known_answer_test"] else "⛔ **no**",
-            r["result"], r["scope_limit"], r["state_verbatim"], r["verdict_class"],
+            rebase(r["result"]), rebase(r["scope_limit"]), rebase(r["state_verbatim"]),
+            r["verdict_class"],
             " ".join("`%s`" % s for s in r["serves"]) or "—"))
     L.append("")
     L.append("## Coverage — which requirement rests on which instrument")
@@ -269,8 +301,8 @@ def render_md(census):
     L.append("|---|---|---|---|---|")
     for c in census["coverage"]:
         L.append("| %s | %s | %s | %s | `%s` |" % (
-            c["requirement_verbatim"], " ".join("`%s`" % i for i in c["instruments"]) or "—",
-            c["best_available_status"], c["hole_verbatim"], c["hole_class"]))
+            rebase(c["requirement_verbatim"]), " ".join("`%s`" % i for i in c["instruments"]) or "—",
+            rebase(c["best_available_status"]), rebase(c["hole_verbatim"]), c["hole_class"]))
     L.append("")
     return "\n".join(L) + "\n"
 
