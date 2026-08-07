@@ -1,0 +1,881 @@
+440plosonePLOS OnePLoS OnePLOSPMC1308642813086428130864284199010010.1371/journal.pone.0344557upsML: A high-accuracy machine learning classifier for predicting Plasmodium falciparum var gene upstream groups
+PangilinanElcid AaronData curation, Formal analysis, Methodology, Software, Writing – original draft, Writing – review & editing QuenuMathieuData curation, Methodology, Writing – review & editing ClaessensAntoineConceptualization, Investigation, Writing – review & editing OttoThomas DConceptualization, Funding acquisition, Project administration, Supervision, Writing – original draft, Writing – review & editing KassegneKokouviEditor 1School of Infection & Immunity, University of Glasgow, United Kingdom2LPHI, CNRS, INSERM, Université de Montpellier, France3Shanghai Jiao Tong University School of Medicine, CHINACompeting Interests: The authors have declared that no competing interests exist.
+¤aCurrent Address: Bernhard Nocht Institute for Tropical Medicine, Hamburg, Germany
+¤bCurrent Address: University of Hamburg, Germany
+✉* E-mail: thomas.otto@bnitm.de
+1642026214e0344557e03445571742026© 2026 Pangilinan et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+
+## Abstract
+Plasmodium falciparum erythrocyte membrane protein 1 (PfEMP1), encoded by the hypervariable var gene family, is central to malaria pathogenesis, influencing both disease severity and immune evasion. Classifying var genes into upstream groups (upsA, upsB, upsC, upsE) is important for understanding parasite biology and clinical outcomes, but remains challenging, especially with partial sequences, such as the DBLα tag or RNA-Seq assemblies. We developed upsML, a machine-learning-based classifier trained on 2,530 curated var genes, to accurately assign upstream groups based on sequence features from different partial gene regions. We compared seven methods, including support vector machines, random forests, XGBoost, and HMMER models. Several models in upsML achieve accuracies of 83% for DBLα-tag sequences and 92% for full-length PfEMP1 sequences, thereby significantly outperforming existing tools. Additionally, we developed a model to distinguish internal from subtelomeric var genes, which we applied to a global collection of P. falciparum genomes, revealing a higher frequency of internal var genes in Asia. upsML is available at https://github.com/sii-scRNA-Seq/upsML, providing a robust and efficient resource for large-scale var gene analysis. It can classify var genes from 20 genomes in under one second.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Jun 23; Accepted 2026 Feb 23; Collection date 2026.
+
+## Introduction
+Malaria remains a major global health burden, with Plasmodium falciparum responsible for the vast majority of the half-million annual deaths. Transmitted by female Anopheles mosquitoes, P. falciparum causes disease during its intraerythrocytic life cycle. While early ring-stage parasites are concealed within infected red blood cells (iRBCs), trophozoite-stage parasites export virulence proteins such as P. falciparum erythrocyte membrane protein 1 (PfEMP1) to the iRBC surface [ ]. PfEMP1 enables iRBCs to adhere to endothelial cells via specific binding to host receptors including CD36, EPCR, or ICAM1, allowing parasites to avoid splenic clearance but contributing to microvascular obstruction and inflammation, hallmarks of malaria pathology.
+Each parasite expresses only one PfEMP1 variant at a time, due to epigenetically regulated mutually exclusive transcription of var genes, the ~ 60 member gene family that encodes PfEMP1. This controlled expression allows the parasite to switch to a new var gene in subsequent cycles, facilitating immune evasion and persistence during chronic, asymptomatic infections [ ].
+Despite their extreme sequence diversity, var genes can be grouped into four major upstream sequence (ups) classes: A, B, C, and E, corresponding to the promoter region upstream of exon 1 [ ]. These ups groups correlate with gene location and orientation: group A and E var genes are sub-telomeric and transcribed toward the telomere; group B genes are either sub-telomeric or within internal clusters; internal group B genes are also called BC, and group C genes are all internally located. Group E comprises the unusual var gene named var2csa, which has a nearly conserved sequence. Internal var genes are clustered together in six different chromosomal regions that also include other variant surface antigens such as rif and stevor.
+PfEMP1 proteins share a conserved domain architecture: an N-terminal segment followed by combinations of Duffy-binding-like (DBL) and cysteine-rich interdomain region (CIDR) domains, ending with a transmembrane domain and acidic terminal sequence (ATS). Different combinations of DBL and CIDR domains can further be classified into domain cassettes (DCs) [ ], with different biological properties and consequences for disease aetiology [ , ]. The DBLα-CIDRα “head” structure is nearly universal and biologically critical, as it determines host receptor binding and thus influences disease severity. For instance, group A and some B variants (DC8) bind to EPCR and are associated with cerebral malaria, whereas group B and C variants bind to CD36 and are linked to milder infections [ – ]. VAR2CSA is associated with pregnancy-associated malaria as it is the ligand binding to Chondroitin Sulfate A in the placenta [ ].
+The DBLα domain is also widely used as a molecular marker ( ). Due to the presence of conserved motifs, degenerate primers can amplify ~450 bp of the DBLα “tag” region across nearly all var genes. This tag exhibits high diversity between parasite clones and provides a scalable tool for population-level studies of var diversity and expression, even in the absence of reference genomes [ ]. DBLα tag sequencing has proven to be a cost-effective alternative to whole-genome or transcriptome approaches, capable of tracking population structure and var expression patterns.
+ Recently, Tan and colleagues [ ] highlighted the use of DBLα tags as a scalable solution in epidemiological surveillance. Thereafter, a novel tool “cUps” was developed to take a short DBLα ‘tag’ sequence and predict its var gene ups group [ ]. The tool uses a database of var gene tag sequences and links those sequences to ups groups. This was achieved using machine learning (ML) Hidden Markov Models (HMM), which were fitted to the different DBLα subclasses and var gene ups groups. The tool has an overall reported accuracy of 74.3% trained on 846 tag sequences [ ]. cUps was found to be very accurate at classifying upsA, but lacks accuracy with upsB and upsCs types, consistently.
+In light of this, we initially endeavoured to conduct a comparative study of other machine learning techniques to discern the most effective approach for var gene annotation. We developed a new tool, “upsML”, a suite to run different models for different partial var sequences of different lengths and explore alternate algorithms widely used in classification problems:
+Support Vector Machines (SVM): These models aim to find an optimal hyperplane that best separates the data points of the training dataset into different, pre-defined classes or labels. They can take advantage of the kernel tricks, which transform the space of input features into a higher-dimensional space [ ].
+Random Forest: an ensemble learning method that combines multiple decision trees. Each tree is trained on a different random subset of the data and features; then, the final classification is based on the majority vote of these trees. It is robust to overfitting and can perform well on imbalanced datasets [ ].
+eXtreme Gradient Boosting (XGBoost): a powerful ensemble learning method known for use in imbalanced datasets and sparse training data. It builds decision trees sequentially, where each new tree attempts to correct the errors made by the previous one [ ].
+We trained these models to link different partial protein sequences encoded by the var gene (tag sequences, domain cassette, the protein sequence encoded by the exon 1, and full-length PfEMP1 sequences) to their upstream group on an existing dataset of 2,530 var gene sequences.
+
+## Results
+
+## Preparation of var gene database
+For this study, var genes from 66 long-read assemblies were collected (see Methods). As the var genes in these assemblies were annotated using different approaches, we re-annotated them as described in the Methods section. On average, 61.7 var genes were annotated per assembly, which aligns with the expected ~60 var genes per isolate (see S1 Table). An additional dataset comprising 43 isolates from The Gambia was also included [ ]. Of the 3,409 var genes identified, 2,940 passed our quality control criteria, resulting in an average of 66.8 var genes per isolate. These re-annotated and Gambia sequences were translated and yielded a dataset of 4,357 PfEMP1 sequences. We then removed duplicate PfEMP1 sequences using CD-HIT, resulting in a final dataset of 2,530 unique PfEMP1 sequences (see S2 Table).
+
+## Annotation of ups classifications
+To classify the upstream sequences of our var genes by ups type, we used previously published annotations [ ], which included 172 known 600 bp upstream sequences for upsA, upsB, and upsC types. These reference sequences were aligned against our dataset, resulting in confident mapping of all of them to our var genes. Sequences annotated as upsE, corresponding to the conserved var2csa, were excluded from phylogenetic-based clustering due to their distinct and well-characterised nature.
+We then used the annotated sequences from the Rask et al [ ] as guides to label a phylogenetic tree constructed from all 600 bp upstream sequences in our dataset ( ). The resulting tree showed distinct and well-supported clusters for upsA (red) and upsC (blue). In contrast, upsB-associated sequences (yellow) formed multiple subclades, reflecting higher diversity. Clades containing upsB sequences from the Rask database or in-between such clades were classified as ‘upsB’.
+ After removing duplicates and excluding the 3D7 reference genes, the final dataset included 468 upsA, 1,516 upsB, 507 upsC, plus an additional 39 upsE sequences (total: 2,530). These formed the training and validation dataset used throughout our study.
+
+## Exploration of upsML candidate models
+To predict upstream types from PfEMP1 sequences, we tested Support Vector Machines (SVMs), Random Forest (RanFor), and XGBoost (XGB) across four categories of partial protein sequence types: tag, cassette, the protein sequence encoded by the exon 1, hereafter referred to as ‘exon 1’, and full-length PfEMP1 sequences. Each sequence set was filtered to remove highly similar sequences, retaining only the longest representative (S2 Table). Furthermore, we excluded the PfEMP1 sequences from the 3D7 reference genome, as these were later used as a ground truth for testing.
+An 80/20 split was used for model training and testing, with 80% of the data allocated for training and 20% reserved for evaluation. We explored amino acid k-mers of length 1, 2, and 4 as input features. Best results were obtained with tetrapeptides, we did all further analysis with that model ( and S3 Table).
+ The single amino acid features consistently performed worst, with overall accuracies ranging from 0.70 to 0.79. Increasing the k-mer to 2 improved performance to 0.70–0.86. The highest accuracies were obtained using tetrapeptides, with overall performance ranging from 0.75 to 0.91 (S3 Table). The best-performing method varied by sequence type: SVM Poly and RBF yielded the highest accuracy (0.85) for tag sequences, while SVM Linear performed best for cassettes (0.87), see . For ‘exon 1’, both SVM Sigmoid and XGBoost achieved the highest accuracy (0.90). For full-length PfEMP1 sequences, SVMs with linear, RBF, and Sigmoid Kernels all achieved an accuracy of 0.92. The differences among models within each sequence type were small (1–2%), which were not statistically significant. Notably, there is a difference in runtime for the models (S4 Table). SVM Linear was consistently over 100 times faster than the others, making it more energy efficient to use. Extending the input sequence length from tags to full-length PfEMP1 sequences increased the accuracy by approximately 2–3% at each step. For instance, the best models achieved 0.85 accuracy for tags, 0.87 for cassettes, 0.90 for ‘exon 1’, and 0.92 for full-length PfEMP1 sequences.
+In summary, no single model consistently outperformed the others. However, using tetrapeptides as input features and longer input sequences consistently yielded the best results. Several models perform similarly; therefore, we recommend linear SVM as it has the lowest runtime.
+
+## Accuracies vary between upstream types
+Next, we were interested in understanding how the tools would perform on the four different ups groups. We generated confusion matrices ( ) and compared the specificity and sensitivity of each upstream group across all tetrapeptide models for the four sequence types: tag, cassette, ‘exon 1’, and full-length PfEMP1 sequences ( and S5 Table).
+ As expected, upsE classifications were perfect, due to the strain-transcendent nature of the var2csa genes. The upsA group was also classified with high accuracy, except in a few cases involving SVM Poly and Random Forest models. However, 0.39% of upsB sequences were misclassified as upsA when predicting from tag sequences, and 0.35% were misclassified when using full-length PfEMP1 sequences. Most errors occurred in the classification of upsC. Approximately 25–75% of upsC sequences were misclassified as upsB, depending on the model and sequence type. This may be due to the higher prevalence of upsB in P. falciparum genomes, which made them over-represented in the training datasets. Random Forest and XGBoost are often reported to perform better on unbalanced datasets. However, in this case, we did not observe any substantial advantage over the simpler SVM models.
+These misclassifications were further examined through per-group specificity and sensitivity analysis ( ). Across all models, upsB predictions tended to yield more false positives (i.e., lower specificity), while upsC predictions produced more false negatives (i.e., lower sensitivity). The low specificity of upsB was due to a substantial proportion of upsC sequences being misclassified as upsB. Conversely, upsC predictions were highly specific (specificities above 0.92), indicating that when a sequence was predicted as upsC, it was almost always correct. However, sensitivity was lower, meaning many true upsC sequences were not detected and instead classified as upsB.
+Notably, the prediction accuracy using full-length PfEMP1 sequences reached 92%, compared to 90% using ‘exon 1’ only ( ). When including exon 2, upsC classification improved, while upsB classification slightly decreased: 78 upsC sequences were correctly classified from full-length PfEMP1 sequences compared to 64 from ‘exon 1’. This suggests a possible linkage between ups type and exon 2 in internal upsC var gene clusters.
+Overall, longer sequence inputs yielded better classification performance. SVM Poly and XGBoost offered the best trade-off between accuracy and sensitivity. However, for tag sequences, misclassification between upsB and upsC still occurred in approximately 15% of cases.
+
+## Comparison of upsML with cUps
+Currently, no tool predicts the upstream type from a full-length PfEMP1 sequences, or other partial sequences, apart from tag sequences. The most recent method, cUps [ ], uses tag sequences as input and applies HMM-based classification, trained on 846 tags with a leave-one-out cross-validation (LOOCV) accuracy of 0.74 ( ). To enable a direct comparison, we retrained our classifiers using the same 846-tag dataset and implemented LOOCV. Using tetrapeptide features, our SVM models (RBF and Sigmoid kernels) achieved an accuracy of 0.84, which is 10 percentage points higher than cUps. This performance is comparable to that obtained with our larger training set (~2500 sequences), prompting us to assess the uniqueness of the cUps dataset. In applying CD-HIT with parameters similar to those used on our unique tag set, we found that only 700 of the 846 sequences were unique, indicating 17% redundancy. This helps explain the similarity in performance despite the smaller dataset.
+ In a complementary analysis, we evaluated cUps using our dataset, with an 80/20 training/testing split (as in ). For ups types A, B, and C, cUps achieved sensitivities of 1.0, 0.5, and 0.42, respectively. In comparison, upsML achieved sensitivities of 1.0, 0.9, and 0.3. The specificities were 0.91, 0.83, and 0.67 for cUps, versus 0.99, 0.65, and 0.96 for upsML. Although individual metrics appear comparable, the overall accuracy of cUps was 0.59, significantly lower than upsML’s 0.83. This discrepancy could be due to cUps performing better on the underrepresented upsC class, which contributes less to the overall accuracy due to class imbalance.
+
+## Validation on reference 3D7 genome
+As further validation, we tested upsML on the well-annotated P. falciparum 3D7 reference genome ( ). This serves as a strong baseline due to the high confidence in the annotated ups group labels. As expected, all models accurately classified upsA and upsE sequences. Most misclassifications occurred between upsB and upsC, consistent with previous results.
+ For example, using the SVM linear model on tag sequences, three upsB sequences were misclassified as upsC, and four upsC sequences as upsB. Interestingly, several upsC genes, Pf3D7_0412700, Pf3D7_0420900, and Pf3D7_0712000, were classified differently depending on whether the tag or the full sequence was used. Only one sequence, Pf3D7_0461300, was misclassified with both sequence types. This suggests that combining tag- and full-sequence models may improve overall classification performance.
+From a biological perspective, such discrepancies may reflect recent recombination events between var gene groups in 3D7 that differ from those in the training set. Additionally, we observed that upsB classifications were nearly perfect, with errors limited to the so-called BC-type genes – internal upsB variants. In these cases, upsML misclassified three internal upsB sequences as upsC. These results led us to hypothesise that it may be possible to develop a classifier to distinguish var genes based on chromosomal location, specifically, internal var genes versus subtelomeric ones.
+
+## A novel “positional” classifier for genome location
+To further investigate classification errors ( ), we found that 90% of misclassifications occurred between upsB and upsC genes located within internal var gene clusters. This supports our hypothesis from the 3D7 analysis: that recombination events are more frequent within internal clusters [ ], and thus these sequences may form a biologically meaningful composite class ( ).
+Based on this rationale, we re-annotated 1,980 of the 2,530 genes into four categories: upsA, upsE, upsB_subtelomeric, and upsBC_internal, as detailed in the Methods. We then ran all tetrapeptide-based models on this subset ( ). Overall, the classification performance for tags remained limited, three percentage points lower than with the first model ( ). This slightly worse result could be attributed to the reduced training set size (~75%).
+ The best overall tag accuracy reached 0.78, with sensitivity for distinguishing B_subtelomeric from BC_internal ranging from 0.60 to 0.83 (S6 and S7 Tables). Using ‘exon 1’ sequences improved sensitivity to 0.67–0.85 and specificity to 0.80–0.91. Notably, full-length PfEMP1 sequences yielded results up to 10 percentage points higher, but these are less relevant given that long-read assemblies are still required for complete var reconstruction and would indicate location.
+Importantly, while accuracy for tag sequences is lower compared to the original classifier ( ), classification of upsA and upsE remains near-perfect. We then compared performance across sequence types ( , S6 and S7 Tables). For tag sequences, although the overall accuracy dropped, classification between B_subtelomeric and BC_internal was more balanced than in the previous model. For instance, the polynomial SVM yielded sensitivity and specificity between 0.58 and 0.88. Most predictions were correct, contrasting with earlier results where misclassification between upsB and upsC was frequent.
+As expected, performance improved with ‘exon 1’ sequences, where over 75% of sequences per class were correctly classified. While full-length PfEMP1 sequences yielded the highest performance (>85% accuracy), ‘exon 1’ might be the most practical input type. Here, overall accuracy reached 0.84, with B_subtelomeric sequences classified at >83% sensitivity and 0.90 specificity using the linear SVM model.
+In summary, although overall accuracy is comparable to the previous model, classification is more balanced across classes. Moreover, this analysis introduces a novel classifier for predicting the chromosomal position of var genes.
+
+## Regional tetrapeptide contributions reveal internal recombination signals
+When testing upsML on the 3D7 reference genome, we observed that certain sequences were classified differently depending on whether the full-length PfEMP1 sequence or only the tag sequence was used ( ). For example, Pf3D7_0420900 has an upstream region classified as upsC, and the full-length model correctly assigned it as such. However, when only the tag sequence was used, the tag model classified it as upsB. A notable advantage of using SVM models is the interpretability of their decision function: the contribution weights of individual tetrapeptides can be extracted. This allows us to explore which regions of a gene – and which specific tetrapeptides – are most informative for classification into ups groups.
+In , we visualise the tetrapeptide decision weights across the sequence of Pf3D7_0420900. In the top panel, the decision weights fluctuate along the length of the gene, suggesting no single dominant signal, indicative of a complex or mosaic sequence. To interpret this more systematically, we calculated the cumulative sum of the positional weights (CS) score across the gene. For Pf3D7_0420900, the cumulative score strongly supports upsC. However, at the position corresponding to the tag (approximately amino acid position 184), there is a distinct dip in the cumulative score. The tag signal (green line) in this model is strongly associated with upsB, explaining the discrepancy in classification between the tag and full-length models. This suggests that the tag region is more similar to upsB, whereas the remainder of the gene aligns more closely with upsC.
+ A second example is shown in the bottom panel of , where both the tag and full-length sequence of Pf3D7_0412700 are classified as upsC. The cumulative sum of the positional weights score supports this, although the initial portion of the tag shows some signal associated with upsB, again suggesting a mixed origin.
+These regional fluctuations in signal, where different tetrapeptides contribute positively or negatively to distinct classes, may be indicative of historical recombination events. The ability to track such regional contributions across var genes provides new insights into their complex evolutionary history.
+
+## Application of upsML to global P. falciparum genome data
+Finally, we applied upsML to the varDB dataset, which contains approximately 2,500 P. falciparum genomes. Most var gene sequences in this dataset are near-complete exon 1 sequences. We utilised the linear SVM model for ‘exon 1’ classification, as it is the most computationally efficient, capable of classifying 100 sequences in approximately 5–15 seconds, while maintaining comparable accuracy to more complex models.
+Both classification models, the ups type and genomic location (internal vs subtelomeric), were applied. The resulting annotations have been uploaded to the varDB GitHub repository (https://github.com/ThomasDOtto/varDB/tree/master/Datasets/upsML).
+To minimise biases arising from uneven sampling across regions, we analysed a normalised subset of the dataset consisting of 660 isolates from eleven countries (60 isolates per region), with each isolate containing between 52 and 65 var genes, except for the Senegal dataset (average of 48) ( ). While the primary goal of this analysis was to demonstrate the scalability and speed of upsML for rapid ‘exon 1’ annotation, taking less than one second to annotate 1,200 var genes, it also provides an overview of geographical patterns in ups types. In line with expectations, upsA and upsE were the most confidently classified types, but we did not observe clear geographical structuring for upsA.
+ In contrast, our positional classifier revealed a consistent enrichment of internal CB-type var genes in isolates from the Asia regions ( , top). Frequencies were highest in Cambodia and Thailand (33.9% each) and lowest in Kenya and Mali (26.7% and 26.8%, respectively). To better understand those differences in all samples, we grouped the countries into East Africa (Kenya, Malawi, Congo – median 28.1%), West Africa (Senegal, The Gambia, Ghana, Mali – median 28.8%), and Asia (Thailand, Cambodia, Vietnam, Laos – median 32.6%, S1 Fig). Differences in internal var gene frequency were significant between Asia and the two African regions, p-values 3.4e-12 (West Africa) and 2.1e-09 (East Africa), but not within Africa (p-value = 0.04 – Welch Two Sample t-test). In contrast, we did not observe a similarly clear difference for upsC ( , bottom), likely reflecting the known difficulty of distinguishing upsB from upsC based on sequence features alone. Thus, internal var genes are significantly more frequent in Asia.
+While these observations highlight the utility of our positional classifier for large-scale comparative analyses, they must be interpreted with caution. The underlying varDB assemblies vary in sequencing technology, read length, sampling time, and assembly quality, which may differentially affect the recovery of specific var gene classes.
+To draw further robust biological conclusions regarding var gene distributions, more controlled datasets processed under uniform protocols should be used. For example, large-scale datasets such as Pf8 [ ] or RNA-Seq-derived contigs from clinical isolates stratified by disease phenotype [ ] would provide a stronger basis for assessing associations between ups types, genomic location, and disease outcomes.
+
+## Discussion
+Understanding the ups type of var genes is valuable for interpreting their functional properties and roles in Plasmodium falciparum biology. However, obtaining upstream sequence information is often challenging. This is especially true for tag sequences or RNA-Seq data, where the upstream region may not be captured, and even in whole-genome Illumina datasets, low-complexity and repetitive features of ups sequences hinder assembly [ ].
+To address this, we developed upsML, a machine learning–based tool that predicts ups types based on sequence features. We evaluated multiple classifiers using different input types. This is a non-trivial task, as var genes are known to recombine frequently, especially within internal gene clusters [ , , ]. Overall, larger k-mers generated better results, and the SVM models were slightly better than the other methods. Interestingly, the SVM model using only 1-mers already provides informative classification performance, suggesting that simple amino acid composition carries a signal for ups type discrimination. Future work using larger datasets could explore methods that incorporate positional information, such as recurrent neural networks or other deep learning approaches.
+The tool performs well for upsA and upsE genes, which are distinct and less prone to recombination. In contrast, classification of upsB and upsC types is more challenging due to frequent recombination, particularly in internal clusters. Consequently, sensitivity and specificity for these types can be as low as 0.27. Because of class imbalance, a B call is correct 93% of the time, whereas 73% of C types are misclassified as B. These metrics improve with sequence length: overall accuracy rises from 0.82 (tags) to 0.90 (‘exon 1’) and 0.92 (full-length PfEMP1 sequences). Interestingly, the inclusion of exon 2 shifts the sensitivity and specificity between upsB and upsC. While not formally tested, this suggests that exon 2 may be more tightly linked to the upstream region, potentially because recombination events are more likely to involve exon 1.
+To further investigate classification errors, we applied an explainable AI approach by analysing the contribution of individual tetrapeptides to upsB or upsC classification in a Pf3D7 var gene that showed discordant results between that tag and PfEMP1 sequences. For this gene, the tag sequence showed a strong upsB signal, whereas the remainder of the gene clearly leaned towards upsC. Interestingly, local drops in the cumulative classification signal aligned with potential recombination breakpoints, highlighting the mosaic structure of the gene. The mosaic nature of var genes has been frequently described [ , , ], but our ability to observe it using tetrapeptides linked to upstream sequence types offers a novel approach to identifying sequence features associated with recombination events.
+We also assessed whether increasing the amount of training data would improve performance. While this is likely, the recombinogenic nature of var genes imposes an inherent ceiling on classification accuracy. In comparing models, we found that performance was generally consistent across algorithms. However, for tag sequences, some models offered marginally higher accuracy at high computational cost – up to 100-fold slower than others. Given this, we opted for the fastest-performing model (linear SVM) for most input types and the polynomial SVM for tags. With trained models, annotating 1,200 var genes from 20 genomes takes approximately one second using linear SVM and 100 seconds using the polynomial model.
+We benchmarked upsML against cUps, an HMM-based tool that utilises tag sequences. On their dataset (using leave-one-out cross-validation), upsML outperformed cUps by 10 percentage points (0.83 vs. 0.74 accuracy, ). Notably, 17% of sequences in the cUps dataset were duplicates, suggesting the true accuracy is likely lower. When tested on our dataset, cUps’ overall accuracy was lower, although it showed improved performance on upsC types. The predominance of upsB sequences per genome obscures this distinction.
+Given the difficulty in distinguishing upsB and upsC, and the importance of chromosomal positioning in var gene biology, we developed an additional classifier to distinguish subtelomeric from internal var genes ( ). For tag sequences, accuracy reached 78%, and for full-length genes, up to 92%. This again suggests that exon 2 may be a strong indicator of chromosomal location [ ]. Because most studies rely on tag sequences or partially assembled genomes, this tool enables reasonably accurate inference of genomic position in approximately 78–84% of cases. Applying this positional classifier to a larger global var gene dataset [ ] ( ), we observed that the relative abundance of internally located var genes varies geographically. A major contrast between Asian and African parasite populations is transmission intensity, with higher transmission in central and eastern Africa and lower transmission in Asia. In low-transmission areas, parasites are expected to persist longer within individual hosts, favouring chronic infections. Nobel and colleagues [ ] predicted that chronicity would be associated with increased expression of upsC (internal) var genes, and our analysis supports this prediction. On the other hand, because those numbers are relative, isolates in Africa may have more subtelomeric var genes, perhaps due to different clinical phenotypes or multiple infections, to maintain higher diversity. More broadly, we note that upsML can be used to generate novel hypotheses and help interpret epidemiological differences in var gene architecture.
+More generally, despite the extreme polymorphism and recombination of var genes, our work demonstrates that machine learning methods can be applied effectively to classify these genes. Future work could focus on predicting functional features, such as domain cassettes, and linking these to clinical phenotypes.
+In conclusion, upsML offers a robust and efficient tool for annotating var genes by their ups type and genomic location. It holds promise for enabling deeper insights into var gene expression patterns in natural infections and facilitating large-scale comparative studies.
+
+## Methods
+All custom programs were written in Python and can be found on our GitHub site (https://github.com/sii-scRNA-Seq/upsML). The models used in this analysis are also available on our GitHub.
+
+## Preparation of var gene database
+A database of var genes was extracted from long-read assemblies and used as training data for models. For this, 23 Plasmodium falciparum long read assemblies were recovered from literature and publicly available datasets [ – ]. Genome sequences were downloaded from NCBI, and assemblies were annotated using AUGUSTUS [ ]. Var gene sequences were identified through a BLAST search on the list of protein-coding sequences. To this dataset, we added 2,835 var gene sequences from 43 isolates from The Gambia, which were extracted from high-quality PacBio HiFi long-read assemblies. The genomes were annotated through Companion v2 [ ]. Var genes were retrieved from all assemblies by screening for genes annotated as potentially coding PfEMP1 by the Companion pipeline and filtering for nucleotide lengths greater than 2500 bp. All identified var genes were passed through pre-established HMM models [ ] to define their domain composition. Copies of var2csa were identified by extracting var genes that had a DBLpam domain. Those genes were then extracted from the dataset and annotated as upsE.
+
+## Annotation of ups classifications
+To annotate and link var genes to their upstream groups (ups), we used a combination of cluster-based analyses and phylogenetic trees. Var genes of known ups groups were taken from published datasets [ ], and we mapped the ups annotations for those genes using SAMtools v1.18 [ ] and blastn v2.14.0 [ ] onto our sequences.
+Then, to cluster all var genes into ups groups, we used phylogenetic tree clustering. First, the 500 bp upstream sequences of all var genes were extracted, then aligned with MAFFT v7.520 [ ] and a phylogenetic tree was generated using FastTree 2v.1.11 [ ]. The var genes of the known ups group were then used to identify and label phylogenetic clades in the tree. Sequences clustering with var genes representative of ups group A, B and C were assigned the corresponding annotation. To generate our final training set, we added the upsE sequences and excluded 3D7 reference sequences.
+After assigning the ups types, we obtained a final set of 780 upsA, 2545 upsB, and 861 upsC var genes. Additionally, 110 var2csa sequences from the long read assemblies were then included in the dataset as upsE (S1 Table). To enhance the diversity found in the training datasets, highly similar sequences were filtered out. CD-HIT v4.8.1 [ ] was used to cluster sequences at a 98% identity threshold within each gene section set. This retained the unique representatives with the longest sequence in each cluster. A final diverse dataset of 2530 var genes was obtained. This resulted in 468 upsA, 1,516 upsB, 507 upsC, and 39 upsE.
+
+## Extraction of partial var sequences
+To prepare training datasets for ML models, var genes were translated to protein sequences. We generated four types of datasets ( ) by pulling out partial sequences corresponding to:
+Tags: a sequence of ~150 amino acids located in the DBLα domain that can be amplified through degenerated PCR primers in field isolates. The N-terminal sequence always starts with “LARSFADIG” [ ].
+Cassettes defined the DBLα-CIDRα cassette pair.
+‘Exon 1’: A sequence that contains the NTS domain and is at least 3.5 kb long, but does not contain either a var intron nor the ATS domain.
+Full-length PfEMP1: The complete coding sequence of the var gene, including both exons.
+This was performed through custom Python scripts.
+Amongst the var genes, some sequences lacked one or more of these components, but to maximise the information gathered from these var genes and gather the largest training datasets, all identified gene sections were used. Additionally, var genes of the canonical Pf3D7 reference genome were removed from this dataset, as it was used for model verification. After excluding identical var genes, a final diverse dataset of 2,530 full-length PfEMP1 sequences, 2,379 ‘exon 1’s, 1,995 domain cassettes, and 1,970 tags was then used to train the machine learning models (S2 Table).
+
+## Creating and testing machine learning models
+To classify var gene sequences, amino acid sequences of each partial sequence type were decomposed into their raw peptides (k-mer = 1), dipeptides (k-mer = 2), and tetrapeptides (k-mer = 4) count tables. Those were then used as features for six different machine learning algorithms: Random Forest, XGBoost, and SVMs with four different kernels (Linear, polynomial, Radial Basis Function and Sigmoid). All implementations were done in Python; the scikit-learn library v1.3.2 [ ] was used for all SVM and random forest models, while xgboost v2.1.1 was used for XGBoost. The hyperparameters of the models were optimised through the Python library optuna v4.1.0. The complete var genes datasets were split into 80% training, 20% test datasets and overall accuracies, precisions, sensitivities, and specificities were calculated and reported for each model using the Python libraries scikit-learn 1.3.2, Biopython 1.83, Pandas 2.0.3, and NumPy 1.24.4. [ ].
+
+## Comparison to cUps
+To ensure a fair comparison with cUps, we first downloaded their original reference dataset of 846 DBLα tag sequences 11. We then applied leave-one-out cross-validation (LOOCV) using the same dataset on the upsML models. This allowed a direct comparison of classification accuracy under the same evaluation strategy reported in the original cUps study 11. We then trained it with the same input as upsML for a comparison with our data.
+
+## Validation on reference 3D7 genome
+We used the upsML models to annotate the ups type of the 61 3D7 var genes [ ], with the tag sequences isolated from the full sequences using the previously mentioned method. The occurrence heatmap was done in Python with pandas 2.0.3, Seaborn 0.13.2, and Matplotlib 3.7.5.
+
+## Var gene localisation model
+Refined models with added information about var gene localisation were trained in a similar method. To do this, labels of the var sequences were changed to upsA, upsE, upsB_subtelomeric and upsBC_internal. We previously [ ] manually annotated the chromosomal position of the var genes. For the remaining genes, we verify their position on chromosomes known to harbour internal var genes and annotate the var genes accordingly. From the 2,545 upsB dataset, 1,016 subtelomeric and 297 internal sequences were successfully identified. This resulted in an annotated dataset of 780 upsA, 110 upsE, 1,016 upsB_subtelomeric, and 1,158 upsBC_internal full-length PfEMP1 sequences.
+To produce the models using this alternate dataset, the gene regions were extracted as previously mentioned. This led to final unique datasets of 1,550 tags, 1,541 cassettes, 1,890 ‘exon 1”s, and 1,980 full-length PfEMP1 sequences.
+
+## Explainable AI
+Feature importances were estimated for the tetrapeptide linear SVM model by fitting models that classify var sequences into the two classes, var group B/C or internal/external var genes. We used the weights of the SVM models, i.e., the coordinates of the vector orthogonal to the hyperplane separating the two classes [ ], as direct measures of each feature’s (amino acid k-mer sequence) contribution to classify a PfEMP1 sequence into one class or the other. This feature vector was defined in 01_feature_importance.py by the Python calculate_tetrapeptide_counts function. Here is the pseudo code:
+Input: sequence S
+Output: tetrapeptide count vector V
+If necessary, translate S to amino acid sequence.
+Slide a window of size 4 along S to extract all overlapping tetrapeptides.
+Count occurrences of each tetrapeptide.
+Output counts in a fixed order defined by ALL_TETRAPEPTIDES.
+The coef_ attribute of the scikit-learn LinearSVC class, defined in the documentation as the “weights assigned to the features”, was used to extract weights from linear SVM models. In these code snippets from 01_feature_importance.py, clf.coef_ stores the coefficients of the linear model learned by LinearSVC:
+Input: feature matrix X, label vector y, regularisation parameter C
+Output: feature weight vector W
+Initialise a linear Support Vector Machine classifier with parameter C.
+Train the classifier on X and y.
+Extract the learned feature weight vector W from the trained model.
+Return W.
+Using a sliding window, we then mapped the relative feature importances of each tetrapeptide along full PfEMP1 sequences. This allowed us to identify regions of PfEMP1 sequences associated with different classes ( ). By summing up the contributions of tetrapeptides along the protein sequences, we could also illustrate how tetrapeptide features progressively influenced the classification outcome from the start to the end of the sequence. The was done using the following function from 02_explainable_ai_plot.py that turns tetrapeptide SVM coefficients into a per-position “decision weight” signal across the sequence:
+Input: protein sequence S, tetrapeptide weight mapping Wdict
+Output: positional weight profile P along S
+Convert sequence S to uppercase.
+Initialise positional score array P of length equal to S with zeros.
+For each position i from 1 to length(S) − 3:
+Extract tetrapeptide T = substring of S from i to i + 3.
+Retrieve weight w = Wdict[T]; if T is not present, set w = 0.
+Determine centre position c = i + 1 (central residue of tetrapeptide).
+Add w to P[c].
+Return P.
+We calculated the cumulative sum (CS) across the entire PfEMP1 sequences (red line in and ) to capture the overall classification bias implied by the linear SVM model along the protein. A subregional CS (green line in and ) was also calculated to quantify the local contribution of features within shorter DBLa tag sequences. This calculation used the profile (the vector of per-position linear SVM decision weights) and the subregion (the amino-acid interval defining the DBLα tag). This was implemented in 02_explainable_ai_plot.py as:
+Input: positional weight profile P along sequence S, subregion interval [a, b]
+Output: full-sequence cumulative trace Cfull, subregional cumulative trace Csub
+Compute cumulative sum of P over the full sequence to obtain Cfull.
+Extract subregional profile segment Psub = P[a to b].
+Compute cumulative sum of Psub to obtain Csub.
+Return Cfull and Csub.
+
+## 3K genomes
+In 2018, we published the var genes of over 2500 field isolates [ ]. To attribute their ups type, the full and normalised datasets of var genes as amino acids was downloaded from https://github.com/ThomasDOtto/varDB/tree/master/Datasets/upsML. The upsML SVM linear models were used to attribute the ups and localisation types, with the results uploaded to varDB GitHub.
+
+## Supporting information
+S1 Table
+
+## Complete Training Set of Full Var Genes and ups Assignments used.
+(PDF)
+S2 Table
+
+## All and Unique Training Sets of Isolated Var Genes Components Regions.
+(PDF)
+S3 Table
+
+## Overall accuracy of upsML, including shorter peptide models.
+(PDF)
+S4 Table
+
+## upsML Model Speeds when training then classifying 60 3D7 complete PfEMP1 sequences.
+(PDF)
+S5 Table
+
+## Specificity and Sensitivity of Tetrapeptide Models for first model.
+Sensitivity refers to the proportion of true positives, while specificity refers to the proportion of true negatives.
+(PDF)
+S6 Table
+
+## Confusion Matrixes of Internal/ Subtelomeric Models.
+(PDF)
+S7 Table
+
+## Sensitivity and Specificity of Internal/Subtelomeric Models.
+Split of results for the different sequence types.
+(PDF)
+S1 Fig
+
+## Relative number of internal var genes per region.
+Data from Table 6, of 660 field isolates, from 11 regions, classified with upsML. The genes were grouped as follows: Asia: Thailand, Cambodia, Vietnam and Laos (median 32.6); East Africa: Mali, Kenya, Malawi & Congo (median 28.1); West Africa: Senegal, The Gambia, Mali and Ghana (median 28.8). Isolates with fewer than 30 var genes in the assembly were ignored. The differences in abundance between Asia and the two African regions were significant, as indicated by a Welch Two-Sample t-test (both <1e-08).
+(PDF)
+
+## Data Availability
+Relevant upsML data for this study are publicly available from the GitHub repository (https://github.com/sii-scRNA-Seq/upsML). All other relevant genome data sources for this study are available within the paper.
+
+## Funding Statement
+TDO was supported by the ExposUM Institute of the University of Montpellier (grants ANR-21-EXES-0005 and Occitanie Region) and the Wellcome Trust: 104111/Z/14/Z & A. EAP was funded by La Caixa Foundation - Health Research Program (HR20-00635). AC was supported by Fondation pour la Recherche Médicale FRM (ANR 18‐CE15‐0009‐01) and Service Programme d’Excellence I-Site, MUSE Pre-ERC, MOTIVATOR (EQU202303016290). The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+PLOS OnePLoS One10.1371/journal.pone.0344557.r001Author response to Decision Letter 0
+1642026214e0344557e0344557Collection date 2026.
+
+## Transfer Alert
+This paper was transferred from another journal. As a result, its full editorial history (including decision letters, peer reviews and author responses) may not be present.
+
+23 Jun 2025
+
+PLOS OnePLoS One10.1371/journal.pone.0344557.r002Decision Letter 0
+KassegneKokouviAcademic Editor© 2026 Kokouvi KassegneThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+8 Aug 2025
+
+Dear Dr. Otto,
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+Please submit your revised manuscript by Sep 21 2025 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosone@plos.org . When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+A rebuttal letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+If you would like to make changes to your financial disclosure, please include your updated statement in your cover letter. Guidelines for resubmitting your figure files are available below the reviewer comments at the end of this letter.
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: https://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols . Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at . Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols ..
+We look forward to receiving your revised manuscript.
+Kind regards,
+Kokouvi Kassegne
+Academic Editor
+PLOS ONE
+Journal Requirements:
+When submitting your revision, we need you to address these additional requirements.
+1. Please ensure that your manuscript meets PLOS ONE's style requirements, including those for file naming. The PLOS ONE style templates can be found at
+https://journals.plos.org/plosone/s/file?id=wjVg/PLOSOne_formatting_sample_main_body.pdf and
+
+https://journals.plos.org/plosone/s/file?id=ba62/PLOSOne_formatting_sample_title_authors_affiliations.pdf
+
+2. Thank you for stating the following financial disclosure: [TDO was supported by the ExposUM Institute of the University of Montpellier (grants ANR-21-EXES-0005 and Occitanie Region) and the Wellcome Trust: 104111/Z/14/Z & A. EAP was funded by La Caixa Foundation - Health Research Program (HR20-00635).].
+Please state what role the funders took in the study.  If the funders had no role, please state: """"The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.""""
+If this statement is not correct you must amend it as needed.
+Please include this amended Role of Funder statement in your cover letter; we will change the online submission form on your behalf.
+3. Please include captions for your Supporting Information files at the end of your manuscript, and update any in-text citations to match accordingly. Please see our Supporting Information guidelines for more information: http://journals.plos.org/plosone/s/supporting-information.
+4. If the reviewer comments include a recommendation to cite specific previously published works, please review and evaluate these publications to determine whether they are relevant and should be cited. There is no requirement to cite these works unless the editor has indicated otherwise.
+Additional Editor Comments:
+Please provide point-by-point response to the reviewers' comments and revise the manuscript accordingly to show where revisions have been made.
+[Note: HTML markup is below. Please do not edit.]
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+1. Is the manuscript technically sound, and do the data support the conclusions?
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+2. Has the statistical analysis been performed appropriately and rigorously? -->?>
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+3. Have the authors made all data underlying the findings in their manuscript fully available??>
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.-->
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+4. Is the manuscript presented in an intelligible fashion and written in standard English??>
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+Reviewer #1: Pangilinan et al present a new tool for predicting the upstream region classification of var genes encoding P .falciparum’s key virulence proteins , PfEMP1). This is important as the var genes, despite their extreme diversity generated though both recombination and mutation, are well organized in the genome with specific receptor-binding phenotypes linked to specific chromosomal locations and upstream regions. This has led reserachers to use these sequence signatures to link receptor binding phenotypes to clinical outcome, and speculate if also genetic regulation may be tied to e.g. parasites establishing low patent chronic “dry season “infections or fast switching at the eary onset of infection etc. The present tool for linking ups-type to gene fragments which can be extracted experimentally- most commonly and DBLa tags is a welcoming tool, not least as an earlier attempt for such a tool was considered highly inaccurate – a notion supported by the present analyses.
+A main challenge is within the biological limitations provided by the recombinogenic nature of the var genes.. ie the “truth” is that most likely not all var genes can be classified as either upsa, b or c – due to their recent recombination between the groups. As In addition to the upsABC the authors attempt to predict the chromosomal location from encoded sequence fragments, - again this may be inherently difficult for recently recombined genes.
+On this background the authors apply and compare three different computational approaches to tackle the classification. The reporting on this is sound hones and open about the limitations – which - as expected and supported by 2 examples of in-depth analysis of ups-type calling sequence elements tiled across the var sequence, - appear to reflect said biological limitations.
+It is this open and clear description of the limitations of the too, which makes the strength of the paper and will guide proper applications and data interpretations from the tool. I think this is well done.
+A key application will be the annotation of expressed DBLa tags as these are the most easily acquired through NGS. A challenge for using the tool is that it relies on protein sequence. Have the authors tried to apply raw error prone DBLa tag DNA sequences ? if this was possible this would omit need for cumbersome data curation of large DBLa tag datasets?
+In my view the use of DC is less likely to happen or be meaningful. The mention of domain cassettes (DCs) line 69 to 71, and throughout MS could be omitted as these have proven inaccurate and obsolete descriptions of both pfemp1 geno- and phenotypes. If kept i suggest some subtle changes below:
+Line 73: For instance, half of group A and some B variants (DC8) bind …, whereas group A and C variants bind CD36 and are… (ie remove “tend to”).
+Similarly the commonly used phrase "such as" on PfEMP1 endothelial receptors should changed as 1) it implies there is something grouping and common about CD36 EPCR and ICAM1 among endothelial receptors- there is not to my knowledge..2) also it implies some unspecific binding to a panel of receptors within ec receptors - this is not the case either..PfEMP1 have shown to be highly adapted to their human receptors.
+I suggest "via specific binding to host receptors including cd36, EPCR and ICAm1..."
+Line 64: strictly speaking: var2csa is not conserved ....
+Section from line 156: The use of "var" gene sequence regions is misleading as what was used is the translated pfemp1 (protein ) sequences.
+Reviewer #2: The authors address an important issue, the ability to infer further information about var gene sequences based on the partial sequences typically obtained from volunteer samples. This has value for evolutionary and genetics perspectives, attempting to understand the recombinations that underly the phylogeny of these gene family, and also may prove useful in identifying associations between var sequences and clinical phenotypes. Associations between ups types and severe disease have been frequently noted but remain unexplained, a robust means of predicting characteristics of these genes in the absence of the definitive upstream sequence data will allow such associations to be tested in larger datasets. The ultimate goal would be to predict the set of genes to which a tag or contig could belong and this work is a valuable step along that path.
+The developed tool has advantages and disadvantages compared to the already available cUPS namely upsAI classifies ups B better and cUPS classifies ups C better, this appears to be because upsAI claims more Cs as Bs and cUPS claims more Bs as Cs. As the authors note this difference affects accuracy due to the greater number of B than C genes in the genome. Combining the two approaches would enable a relatively stringent set of identifications to be made but would leave a large number of genes as either upsC or B.
+The authors made the interesting biological observations that he tools worked best on models that segregated genes by their chromosome position rather than by ups B/C. This suggests that constrained recombination due to genomic location has segregated the coding sequences for chromosomal internal upsB despite the homology between upsB sequences from telomeres or internal sites. Their tag analysis further substantiates this showing that tags can be associated with another ups type than the actual gene they belong to, presumably due to recombination.
+Overall this paper makes a useful contribution providing a novel tool for var gene classification and using it to make several interesting observations about var gene recombination that inform our understanding of the gene family’s evolution.
+I have only 2 minor suggestions,
+Line 22 “the best model of upsAI for DBLα-tags sequences achieves an overall accuracy of 83%, 92% and for full-length PfEMP1 sequences, therefore significantly outperforming existing tools.”
+There appears to be a typo in this sentence
+Lines 388-391
+“However, we advise caution in interpreting these patterns, as the underlying dataset is subject to biases related to sequencing quality and assembly methods. To draw robust biological conclusions regarding var gene distributions, more controlled datasets, such as RNA-Seq-derived contigs from clinical isolates stratified by disease phenotype, would be necessary. “
+Why would rnaseq be more informative about var distributions? Presumably not all the var repertoire would be expressed and there are more likely to issues with uneven 5' coverage from rnaseq. Clinical rnaseq would allow associations between ups type and clinical disease to be identfied. Could the authors clarify what they mean by this statement.
+Reviewer #3: Please see attached review.
+-----------------------------------------------------------------------
+**********
+what does this mean? ). If published, this will include your full peer review and any attached files.). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our For information about this choice, including consent withdrawal, please see our Privacy Policy .-->
+Reviewer #1: No
+Reviewer #2: No
+Reviewer #3: Yes: Yao-ban ChanYao-ban Chan
+**********
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com/ . PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Registration is free. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email PLOS at . PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Registration is free. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email PLOS at figures@plos.org . Please note that Supporting Information files do not need this step.. Please note that Supporting Information files do not need this step.
+AttachmentSubmitted filename: plosone25.pdf
+PLOS OnePLoS One10.1371/journal.pone.0344557.r003Author response to Decision Letter 1
+1642026214e0344557e0344557Collection date 2026.
+
+30 Sep 2025
+
+Reviewer #1:
+Pangilinan et al present a new tool for predicting the upstream region classification of var genes encoding P .falciparum’s key virulence proteins , PfEMP1). This is important as the var genes, despite their extreme diversity generated though both recombination and mutation, are well organized in the genome with specific receptor-binding phenotypes linked to specific chromosomal locations and upstream regions. This has led reserachers to use these sequence signatures to link receptor binding phenotypes to clinical outcome, and speculate if also genetic regulation may be tied to e.g. parasites establishing low patent chronic “dry season “infections or fast switching at the eary onset of infection etc. The present tool for linking ups-type to gene fragments which can be extracted experimentally- most commonly and DBLa tags is a welcoming tool, not least as an earlier attempt for such a tool was considered highly inaccurate – a notion supported by the present analyses.
+A main challenge is within the biological limitations provided by the recombinogenic nature of the var genes.. ie the “truth” is that most likely not all var genes can be classified as either upsa, b or c – due to their recent recombination between the groups. As In addition to the upsABC the authors attempt to predict the chromosomal location from encoded sequence fragments, - again this may be inherently difficult for recently recombined genes.
+On this background the authors apply and compare three different computational approaches to tackle the classification. The reporting on this is sound hones and open about the limitations – which - as expected and supported by 2 examples of in-depth analysis of ups-type calling sequence elements tiled across the var sequence, - appear to reflect said biological limitations.
+It is this open and clear description of the limitations of the too, which makes the strength of the paper and will guide proper applications and data interpretations from the tool. I think this is well done.
+Answer:
+We would like to thank the reviewer for their throughtful and positive reply.
+A key application will be the annotation of expressed DBLa tags as these are the most easily acquired through NGS. A challenge for using the tool is that it relies on protein sequence. Have the authors tried to apply raw error prone DBLa tag DNA sequences ? if this was possible this would omit need for cumbersome data curation of large DBLa tag datasets?
+Answer:
+We appreciate this important suggestion. At present, upsML requires error-free translated protein sequences as input. Our tests with raw, error-prone DBLa tag DNA sequences confirmed that upsML does not perform reliably without prior error correction or translation.
+We agree that developing methods to handle raw sequences directly would greatly simplify the workflow. Indeed, we are exploring a separate pre-processing pipeline to translate and error-correct DBLa tags prior to annotation, but we view this as a complementary tool rather than a core component of upsML.
+In my view the use of DC is less likely to happen or be meaningful. The mention of domain cassettes (DCs) line 69 to 71, and throughout MS could be omitted as these have proven inaccurate and obsolete descriptions of both pfemp1 geno- and phenotypes. If kept i suggest some subtle changes below:
+Line 73: For instance, half of group A and some B variants (DC8) bind …, whereas group A and C variants bind CD36 and are… (ie remove “tend to”).
+Answer:
+We appreciate the reviewer’s perspective regarding the validity of domain cassettes (DCs). We recognise that there has been debate about their accuracy; however, many recent studies on var gene expression and pathogenesis continue to use DC classification as a point of reference. For this reason, we believe it remains useful to include this terminology for readers who may encounter it in the literature.
+As suggested, we have revised line 73 to read:
+“For instance, group A and some B variants (DC8) bind to EPCR and are associated with cerebral malaria, whereas group B and C variants bind to CD36 and are linked to milder infections “
+Similarly the commonly used phrase "such as" on PfEMP1 endothelial receptors should changed as 1) it implies there is something grouping and common about CD36 EPCR and ICAM1 among endothelial receptors- there is not to my knowledge..2) also it implies some unspecific binding to a panel of receptors within ec receptors - this is not the case either..PfEMP1 have shown to be highly adapted to their human receptors.
+I suggest "via specific binding to host receptors including cd36, EPCR and ICAm1..."
+Answer:
+Thank you for highlighting this point and for suggesting clearer wording. We agree that “such as” could be misleading in this context. The introduction has been modified as suggested (lines 50–51) and now reads:
+PfEMP1 enables iRBCs to adhere to endothelial cells via specific binding to host receptors including CD36, EPCR, or ICAM1, allowing parasites to avoid splenic clearance but contributing to microvascular obstruction and inflammation, hallmarks of malaria pathology
+Line 64: strictly speaking: var2csa is not conserved ....
+Answer:
+The line has been modified to ‘nearly conserved sequence’ and now reads:
+" Group E comprises the unusual var gene named var2csa, which has a nearly conserved sequence.”
+Section from line 156: The use of "var" gene sequence regions is misleading as what was used is the translated pfemp1 (protein ) sequences.
+Answer:
+Yes, we agree. We modified it to ‘PfEMP1’ and is now:
+“To predict upstream types from PfEMP1 sequences, we tested Support Vector Machines (SVMs), Random Forest (RanFor), and XGBoost (XGB) across four categories of partial protein sequence types...”
+Reviewer #2:
+The authors address an important issue, the ability to infer further information about var gene sequences based on the partial sequences typically obtained from volunteer samples. This has value for evolutionary and genetics perspectives, attempting to understand the recombinations that underly the phylogeny of these gene family, and also may prove useful in identifying associations between var sequences and clinical phenotypes. Associations between ups types and severe disease have been frequently noted but remain unexplained, a robust means of predicting characteristics of these genes in the absence of the definitive upstream sequence data will allow such associations to be tested in larger datasets. The ultimate goal would be to predict the set of genes to which a tag or contig could belong and this work is a valuable step along that path.
+The developed tool has advantages and disadvantages compared to the already available cUPS namely upsAI classifies ups B better and cUPS classifies ups C better, this appears to be because upsAI claims more Cs as Bs and cUPS claims more Bs as Cs. As the authors note this difference affects accuracy due to the greater number of B than C genes in the genome. Combining the two approaches would enable a relatively stringent set of identifications to be made but would leave a large number of genes as either upsC or B.
+The authors made the interesting biological observations that he tools worked best on models that segregated genes by their chromosome position rather than by ups B/C. This suggests that constrained recombination due to genomic location has segregated the coding sequences for chromosomal internal upsB despite the homology between upsB sequences from telomeres or internal sites. Their tag analysis further substantiates this showing that tags can be associated with another ups type than the actual gene they belong to, presumably due to recombination.
+Overall this paper makes a useful contribution providing a novel tool for var gene classification and using it to make several interesting observations about var gene recombination that inform our understanding of the gene family’s evolution.
+Answer:
+We would like to thank the reviewer for their feedback and positive evaluation. We agree that for tags, Cups and upsML could be combined, however, the advantage of upsML is that it is designed and tested on different input types.
+I have only 2 minor suggestions,
+Line 22 “the best model of upsAI for DBLα-tags sequences achieves an overall accuracy of 83%, 92% and for full-length PfEMP1 sequences, therefore significantly outperforming existing tools.”
+There appears to be a typo in this sentence
+Answer:
+Thank you for spotting this, we modified it to:
+“The best model of upsML for DBLα-tags sequences achieves an overall accuracy of 83%, and 92% for full-length PfEMP1 sequences...”
+Lines 388-391
+“However, we advise caution in interpreting these patterns, as the underlying dataset is subject to biases related to sequencing quality and assembly methods. To draw robust biological conclusions regarding var gene distributions, more controlled datasets, such as RNA-Seq-derived contigs from clinical isolates stratified by disease phenotype, would be necessary. “
+Why would rnaseq be more informative about var distributions? Presumably not all the var repertoire would be expressed and there are more likely to issues with uneven 5' coverage from rnaseq. Clinical rnaseq would allow associations between ups type and clinical disease to be identfied. Could the authors clarify what they mean by this statement.
+Answer:
+Thank you for pointing this out. We agree that our original wording was unclear. Our intention was not to imply that RNA-Seq would provide a complete picture of var gene distributions across the entire repertoire. Rather, we meant that RNA-Seq datasets from clinical isolates—especially when processed with consistent protocols and stratified by disease phenotype—could enable associations between ups types and clinical outcomes to be explored in a controlled manner.
+To clarify, we have revised the text as follows:
+“However, we advise caution in interpreting these patterns, as the underlying dataset is subject to biases related to sequencing quality and assembly methods. To draw robust biological conclusions regarding var gene distributions, more controlled datasets processed under uniform protocols should be used. For example, large-scale datasets such as Pf7, or RNA-Seq-derived contigs from clinical isolates stratified by disease phenotype, could enable more reliable associations between ups types and clinical outcomes to be identified.”
+Reviewer #3: from attached PDF.
+In this paper, the authors develop a new machine learning method (based on support
+vector machines) to classify the upstream sequences of the var genes of Plasmodium falciparum, based on the protein sequences (or subsequences) of the gene itself. They show that their method is able to successfully classify with high accuracy, including on the upsB/C divide which has previously been difficult to separate, and outperforms current methods in the literature.
+The paper is well-written and easy to read, and the problem it tackles is interesting and
+topical. The results are good, and represent a significant advance on the current state-of-the-art. There are some issues that I would like to see addressed, and areas that I would like to see explored a bit further, but overall I think it is a nice addition to the literature.
+Major comments:
+1. The characterisation of the method as an “AI” method is inaccurate. The methods
+used here are well-known and well-established machine learning methods, but they are
+not AI methods in the modern sense of deep learning/neural networks. Having the
+term “AI” in the title and in the name of the method is misleading at best; when I
+read the title, I was indeed expecting some kind of deep neural network. To further
+characterise the method as “explainable AI”, when this is unrelated to the modern
+(and topical) sense of extracting meaning from “black box”-style models, seems to me
+to be a little disingenuous.
+Answer:
+This is indeed a very valid point, and we renamed the tools throughout the manuscript, GitHub and on the command line.
+2. Why were the models only trained with 1-, 2-, and 4-mers? The improving performance
+with respect to length suggests that longer lengths should have been tried. I understand
+that at some point there are too many feature dimensions, but certainly 3-mers (at the
+very least) should have been tried.
+Answer:
+Thank you for this suggestion. Our initial choice of 1-, 2-, and 4-mers was guided primarily by computational efficiency, as the feature space grows exponentially with increasing k-mer length and models with k ≥ 5 became computationally impractical for our datasets.
+In response to the reviewer’s comment, we re-ran the analyses using the fastest model (SVM Linear) with 3-mers included. As expected, performance improved with longer k-mers: 3-mers outperformed 2-mers, and 4-mers outperformed 3-mers, although the performance gains between successive k-mer lengths were modest (see Table below).
+Tripeptied (k=3) Tetrapeptied (k=4)
+tag 0.8350 0.8350
+cassette 0.8421 0.8697
+‘exon1’ 0.8845 0.8950
+PfEMP1 0.9111 0.9190
+3. It is somewhat improper to attempt several different machine learning methods and
+report the best classification accuracy among them as the final numerical answer.
+Due to random variation, one of the methods will always be slightly better than the
+others, but not systematically. Indeed, this is exactly what we see in (e.g.) Table
+11, where there is (to my eye) no significant difference between the methods, but the
+best number among them is being claimed as the “overall accuracy”. This leads to
+different methods being used for different input data types, for no biological reason.
+What should be done is that a single method should be chosen based on this Table
+(probably the linear SVM), and the accuracy of that one method reported from then
+on.
+Answer:
+We appreciate the reviewer’s point regarding the interpretation of classification accuracy across multiple methods. Our intention in presenting results from several machine learning methods was to provide users with a suite of approaches rather than to claim superiority of a single model. While we agree that the observed differences in overall accuracy are small, we included multiple methods to highlight potential trade-offs in sensitivity and specificity across different sequence types (e.g., tag sequences, domains, exon 1, and full-length genes).
+Because upsML allows users to analyse a variety of input data types, we believe it is informative to report the performance of multiple methods so that users can select the most appropriate approach for their specific dataset and research question. For this reason, we would prefer to keep the representation as is while clarifying in the text that the differences in overall accuracy are modest and not the main focus of our comparisons.
+4. l289: I would not characterise this as a “classifier for genome location”; I would expect
+such a thing to predict the actual position in the genome. What is being done here is
+rearranging the upsB/C divide according to genome location. I think this is interesting
+enough in its own right without overselling it. Likewise, I would consider l325–326 as
+somewhat overselling the ability to predict chromosomal position.
+Answer:
+We appreciate the reviewer’s point regarding the terminology used for this analysis. Our goal was not to imply prediction of absolute chromosomal coordinates but rather to classify var genes into the well-established subtelomeric versus internal genomic locations. Since the Plasmodium falciparum genome was first published in 2003, these two locations have been recognised as biologically meaningful, with recombination rates and phenotypic associations differing by location.
+Given the difficulty in distinguishing upsB and upsC groups, we felt it was important to highlight this classification explicitly, as it provides a novel way to integrate chromosomal positioning into var gene analyses. To clarify this point and avoid any sense of overstatement, we have revised the discussion as follows:
+“Given the difficulty in distinguishing upsB and upsC, and the interest in chromosomal positioning of var genes, we developed an additional classifier to disti
+AttachmentSubmitted filename: upsML.responce2editor.Rebuttal.pdf
+PLOS OnePLoS One10.1371/journal.pone.0344557.r004Decision Letter 1
+KassegneKokouviAcademic Editor© 2026 Kokouvi KassegneThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+10 Nov 2025
+
+Dear Dr. Otto
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+==============================
+Please submit your revised manuscript by Dec 25 2025 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosone@plos.org . When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+A rebuttal letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: https://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols . Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at . Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols ..
+We look forward to receiving your revised manuscript.
+Kind regards,
+Kokouvi Kassegne
+Academic Editor
+PLOS ONE
+Journal Requirements:
+If the reviewer comments include a recommendation to cite specific previously published works, please review and evaluate these publications to determine whether they are relevant and should be cited. There is no requirement to cite these works unless the editor has indicated otherwise.
+Please review your reference list to ensure that it is complete and correct. If you have cited papers that have been retracted, please include the rationale for doing so in the manuscript text, or remove these references and replace them with relevant current references. Any changes to the reference list should be mentioned in the rebuttal letter that accompanies your revised manuscript. If you need to cite a retracted article, indicate the article’s retracted status in the References list and also include a citation and full reference for the retraction notice.
+Additional Editor Comments :
+Please provide point-by-point to to the reviewer's minor comments and revise the manuscript accordingly to show (in tracking change mode) where revisions are made.
+[Note: HTML markup is below. Please do not edit.]
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+Reviewer #1: All comments have been addressed
+Reviewer #2: All comments have been addressed
+Reviewer #3: (No Response)
+**********
+2. Is the manuscript technically sound, and do the data support the conclusions??>
+Reviewer #1: Yes
+Reviewer #2: (No Response)
+Reviewer #3: Yes
+**********
+3. Has the statistical analysis been performed appropriately and rigorously? -->?>
+Reviewer #1: Yes
+Reviewer #2: (No Response)
+Reviewer #3: Yes
+**********
+4. Have the authors made all data underlying the findings in their manuscript fully available??>
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.-->
+Reviewer #1: Yes
+Reviewer #2: (No Response)
+Reviewer #3: Yes
+**********
+5. Is the manuscript presented in an intelligible fashion and written in standard English??>
+Reviewer #1: Yes
+Reviewer #2: (No Response)
+Reviewer #3: Yes
+**********
+Reviewer #1: The authors have addressed all my comments appropriately and made changes to the manuscript accordingly.
+Reviewer #2: (No Response)
+Reviewer #3: Please see attached pdf.
+I include some filler words here to attain the lower character limit. (This is a rather absurd requirement.)
+**********
+what does this mean? ). If published, this will include your full peer review and any attached files.). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our For information about this choice, including consent withdrawal, please see our Privacy Policy .-->
+Reviewer #1: No
+Reviewer #2: No
+Reviewer #3: No
+**********
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+To ensure your figures meet our technical requirements, please review our figure guidelines: https://journals.plos.org/plosone/s/figures
+You may also use PLOS’s free figure tool, NAAS, to help you prepare publication quality figures: https://journals.plos.org/plosone/s/figures#loc-tools-for-figure-preparation.
+NAAS will assess whether your figures meet our technical requirements by comparing each figure against our figure specifications.
+AttachmentSubmitted filename: plosone25b.pdf
+PLOS OnePLoS One10.1371/journal.pone.0344557.r005Author response to Decision Letter 2
+1642026214e0344557e0344557Collection date 2026.
+
+12 Dec 2025
+
+This is already in the submitted file, but we will paste it in again
+Reviewer 3:
+In this paper, the authors develop a new machine learning method (based on support
+vector machines) to classify the upstream sequences of the var genes of Plasmodium falci-
+parum, based on the protein sequences (or subsequences) of the gene itself. They show that
+their method is able to successfully classify with high accuracy, including on the upsB/C
+divide which has previously been difficult to separate, and outperforms current methods in
+the literature.
+Although the authors have made a credible attempt to address my points, and have
+mostly done so successfully, there remain some points which I am not completely convinced
+about. I go through these below, including my original review and the authors’ responses in
+italics.
+Major comments:
+1. It is somewhat improper to attempt several different machine learning methods and
+report the best classification accuracy among them as the final numerical answer.
+Due to random variation, one of the methods will always be slightly better than the
+others, but not systematically. Indeed, this is exactly what we see in (e.g.) Table
+1, where there is (to my eye) no significant difference between the methods, but the
+best number among them is being claimed as the “overall accuracy”. This leads to
+different methods being used for different input data types, for no biological reason.
+What should be done is that a single method should be chosen based on this Table
+(probably the linear SVM), and the accuracy of that one method reported from then
+on.
+We appreciate the reviewer’s point regarding the interpretation of classification accu-
+racy across multiple methods. Our intention in presenting results from several machine
+learning methods was to provide users with a suite of approaches rather than to claim
+superiority of a single model. While we agree that the observed differences in overall
+accuracy are small, we included multiple methods to highlight potential trade-offs in
+sensitivity and specificity across different sequence types (e.g., tag sequences, domains,
+exon 1, and full-length genes).
+Because upsML allows users to analyse a variety of input data types, we believe it
+is informative to report the performance of multiple methods so that users can select
+the most appropriate approach for their specific dataset and research question. For
+this reason, we would prefer to keep the representation as is while clarifying in the
+text that the differences in overall accuracy are modest and not the main focus of our
+comparisons.
+I’m afraid I am not really convinced by this argument. The problem here is that there
+is no biological distinction between the various approaches; rather the distinction is
+statistical, through the use of different kernel functions. If there were credible reasons
+that one of these kernel functions would work well for a certain data type and a different
+one would work well for another type, then it would make sense to present multiple
+approaches. However, as I observed earlier, the variation between the methods appears
+to be largely random noise, so that different approaches work better for different types
+simply because there must be a best method. Biologically, there is no reason that one
+should use e.g., a polynomial kernel for tags but a linear kernel for cassettes. From an
+end-user perspective, the approaches are largely interchangeable, and it is difficult to
+resolve conflicting outcomes. I think one should not resolve these differences based on
+differences in classification accuracy of 0.01.
+Response:
+We agree that we might have been focusing on small differences here. However, we do think it is legitimate to test different methods and understand sensitivity and specificity. Hence, we change the message of the paper as requested.
+For example in the abstract we write:
+Several models in upsML achieve an accuracy of 83% for DBLα-tags sequences and 92% for full-length PfEMP1 sequences. – rather than the best method.
+Next in the results we wrote:
+The differences between models within each sequence type were small (1–2%), which were not statistically significant.
+Several models perform similarly; therefore, we recommend using the one with the lowest runtime.
+We do think that it is interesting for the reader to under the differences between the models for the false positive (Table 2) and Fig 3 – the Pf3D7 test.
+And finally, we already wrote:
+However, for tag sequences, some models offered marginally higher accuracy at significant computational cost - up to 100-fold slower than others. Given this, we opted for the fastest-performing model (linear SVM) for most input types and the polynomial SVM for tags. With trained models, annotating 1,200 var genes from 20 genomes takes approximately one second using linear SVM and 100 seconds using the polynomial model
+So we think that with the changes, we make it clear that the approaches are very similar and we suggest to use the one that has a shorter runtime.
+Comment 2.
+Figure 4: In general I like this idea a lot and I think it clearly shows the inclination
+of various subsequences towards the different ups types, which to my knowledge has
+not been studied before. However, the details of the method used here need to be
+expanded; the Methods section (l539) does not give the mathematical formulas used. I
+can guess what is going on, but I should not have to. In the Results section, the AUC
+score is not defined in l339. I was hoping that it would be defined later, but when I
+read the relevant Methods section, there does not appear to be any mention of AUC.
+First, we agree that we have to include the calculation of the AUC into the methods,
+which we did. The calculation of feature importance is explained under “Creating and
+Testing Machine Learning Models”: (text removed for brevity)
+And later the calculation of AUC as used in Figure 4 is now covered in “Explainable
+AI”: (text removed for brevity)
+The Methods section is still not detailed enough for me to fully understand what is
+going on. (For context, I am a mathematician, and I would like to know the mathemat-
+ical details used here.) There is a repeated reference to the ‘weight’ of a tetrapeptide
+— how is that defined and extracted from the SVM model? The “Regional Decision
+Weight” is not clearly defined — for example, how large are the windows used? I also
+question if it makes sense to sum Regional Decision Weights along the sequence, since
+they are already local aggregates in a window. Similarly, what curve is the AUC the
+area under of? The traditional formulation of AUC as the area under an ROC or
+sensitivity/specificity curve doesn’t seem to apply here. What I would really like to
+see are concrete mathematical formulas that enable the reader to exactly identify and
+reproduced what is being calculated, and I think the authors have not gone far enough
+in this respect.
+ANSWER:
+We now understand the detail the referee wants to see. From line 581, we described in more details what was done. Especially, we define the “weights” and the windows size. We chose to describe this as the code we used, as it would make it easier for the readership than to read mathematical descriptions. We hope that the editor and reviewer agree here.
+Comment 3. l379: There should be more analysis of the results here than a simple table. The
+text considers that it is “informative to observe geographical variation”, but what
+information should be observed here?
+ANSWER:
+We wrote know down the interesting information, that the relative frequency of internal var genes is high in Asia.
+We added the text in three part of the paper.
+Abstract
+Additionally, we developed a model to distinguish internal from subtelomeric var genes, which we applied to a global collection of P. falciparum genomes, revealing a higher frequency of internal var genes in Asia.
+Results
+In contrast, our positional classifier revealed a consistent enrichment of internal CB-type var genes in isolates from Asia regions (Table 6, top). Frequencies were highest in Cambodia and Thailand (33.9% each) and lowest in Kenya and Mali (26.7% and 26.8%, respectively). To better understand those differences in all samples, we grouped the countries into East Africa (Kenya, Malawi, Congo – median 28.1%), West Africa (Senegal, The Gambia, Ghana, Mali – median 28.8%), and Asia (Thailand, Cambodia, Vietnam, Laos – median 32.6 %, Figure S1). Differences in internal var gene frequency were significant between Asia and the two African regions, p-values 3.4e-12 (West Africa) and 2.1e-09 (East Africa), but not within Africa (p-value = 0.04). In contrast, we did not observe a similarly clear difference for upsC (Table 6, bottom), likely reflecting the known difficulty of distinguishing upsB from upsC based on sequence features alone. Thus, internal var genes are significantly more frequent in Asia.
+Discussion
+Applying this positional classifier to a larger global var gene dataset [20] (Table 6), we observed that the relative abundance of internally located var genes varies geographically. A major contrast between Asian and African parasite populations is transmission intensity, with higher transmission in central and eastern Africa and lower transmission in Asia. In low-transmission areas, parasites are expected to persist longer within individual hosts, favouring chronic infections. Nobel and colleagues [25] predicted that chronicity would be associated with increased expression of upsC (internal) var genes, and our analysis supports this prediction. On the other hand, because those numbers are relative, isolates in Africa may have more subtelomeric var genes, perhaps due to different clinical phenotypes or multiple infections, to maintain higher diversity. More broadly, we note that upsML can be used to generate novel hypotheses and help interpret epidemiological differences in var gene architecture.
+Minor comments:
+Thank you for spotting those issues in the text.
+• l140: “mapping of all of them”
+We are not sure what the reviewer means here:
+Line 139 - 141 Sequences annotated as upsE, corresponding to the
+conserved var2csa, were excluded from phylogenetic-based clustering due to their distinct and
+well-characterised nature.
+• Table 3: The table is now too wide for the page.
+Fixed, but I hope that the Plos One type setter will also have a look here.
+• Table 4: The table now appears to be duplicated, and the first part of the second table
+looks a bit weird.
+Fixed
+• Table 5: The caption “Internal/telomeric” is not really in a sensible place.
+Fixed
+• l398: Doubled sentence
+Fixed.
+• l421: Although I take the meaning, GC content is not a property of amino acid com-
+position.
+Yes, stupid. Now reads:
+simple amino acid sequence composition features carry signal
+• l532: “the tetrapeptide linear SVM model”
+fixed
+• l562: Since all other instances of “AI” have been removed from the text, this heading
+no longer seems appropriate. Likewise the keyword (l47).
+Although we agree that the classifiers in upsML are not “AI” in the broad sense, the interpretability analyses we apply do fall within established definitions of Explainable AI (XAI). Our use of linear SVM coefficients for feature importance, the derivation of local and global explanatory profiles, and the regional model diagnostics all correspond to standard XAI methods. For this reason, we feel the heading remains appropriate, and we have clarified these steps in the revised Methods.
+• l592: “mentioned in the Methods”.
+We agree, but I think we need to keep it here explicitly as format of Plos one.
+• l598: Heading formatting
+Fixed
+AttachmentSubmitted filename: UpsML.PlosOne.Letter_rebuttal2.docx
+PLOS OnePLoS One10.1371/journal.pone.0344557.r006Decision Letter 2
+KassegneKokouviAcademic Editor© 2026 Kokouvi KassegneThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+18 Jan 2026
+
+Dear Dr. Thomas D Otto,
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+Please submit your revised manuscript by Mar 04 2026 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosone@plos.org . When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+A letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: https://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols . Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at . Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols ..
+We look forward to receiving your revised manuscript.
+Kind regards,
+Kokouvi Kassegne
+Academic Editor
+PLOS One
+Journal Requirements:
+If the reviewer comments include a recommendation to cite specific previously published works, please review and evaluate these publications to determine whether they are relevant and should be cited. There is no requirement to cite these works unless the editor has indicated otherwise.
+Please review your reference list to ensure that it is complete and correct. If you have cited papers that have been retracted, please include the rationale for doing so in the manuscript text, or remove these references and replace them with relevant current references. Any changes to the reference list should be mentioned in the rebuttal letter that accompanies your revised manuscript. If you need to cite a retracted article, indicate the article’s retracted status in the References list and also include a citation and full reference for the retraction notice.
+Additional Editor Comments:
+Minor revisions are requested; please refer to the attachment
+[Note: HTML markup is below. Please do not edit.]
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+Reviewer #3: (No Response)
+**********
+2. Is the manuscript technically sound, and do the data support the conclusions??>
+Reviewer #3: Yes
+**********
+3. Has the statistical analysis been performed appropriately and rigorously? -->?>
+Reviewer #3: Yes
+**********
+4. Have the authors made all data underlying the findings in their manuscript fully available??>
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.-->
+Reviewer #3: Yes
+**********
+5. Is the manuscript presented in an intelligible fashion and written in standard English??>
+Reviewer #3: Yes
+**********
+Reviewer #3: Please see attached review.
+-----------------------------------------------------------------------
+**********
+what does this mean? ). If published, this will include your full peer review and any attached files.). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our For information about this choice, including consent withdrawal, please see our Privacy Policy .-->
+Reviewer #3: No
+**********
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+To ensure your figures meet our technical requirements, please review our figure guidelines: https://journals.plos.org/plosone/s/figures
+You may also use PLOS’s free figure tool, NAAS, to help you prepare publication quality figures: https://journals.plos.org/plosone/s/figures#loc-tools-for-figure-preparation.
+NAAS will assess whether your figures meet our technical requirements by comparing each figure against our figure specifications.
+AttachmentSubmitted filename: plosone25c.pdf
+PLOS OnePLoS One10.1371/journal.pone.0344557.r007Author response to Decision Letter 3
+1642026214e0344557e0344557Collection date 2026.
+
+26 Jan 2026
+
+This is also attached as work document, but also pasted here:
+Reviewer 3
+In this paper, the authors develop a new machine learning method (based on support
+vector machines) to classify the upstream sequences of the var genes of Plasmodium falci-
+parum, based on the protein sequences (or subsequences) of the gene itself. They show that
+their method is able to successfully classify with high accuracy, including on the upsB/C
+divide which has previously been difficult to separate, and outperforms current methods in
+the literature.
+The authors have responded well to the points raised in my latest review. With one
+exception, I am happy with the changes and any remaining comments are minor.
+Major comment (original comment and response first):
+1. The Methods section is still not detailed enough for me to fully understand what is
+going on. (For context, I am a mathematician, and I would like to know the mathemat-
+ical details used here.) There is a repeated reference to the ‘weight’ of a tetrapeptide
+— how is that defined and extracted from the SVM model? The “Regional Decision
+Weight” is not clearly defined — for example, how large are the windows used? I also
+question if it makes sense to sum Regional Decision Weights along the sequence, since
+they are already local aggregates in a window. Similarly, what curve is the AUC the
+area under of? The traditional formulation of AUC as the area under an ROC or
+sensitivity/specificity curve doesn’t seem to apply here. What I would really like to
+see are concrete mathematical formulas that enable the reader to exactly identify and
+reproduced what is being calculated, and I think the authors have not gone far enough
+in this respect.
+Answer:
+We now understand more clearly the level of methodological detail the reviewer was seeking. In the revised manuscript (from line 581 onward), we expanded the description of the method. In particular, we define the tetrapeptide “weights” and the windows sizes used.
+While I appreciate the effort the authors have made to address this point, and I do find
+it sufficiently detailed now, I unfortunately do not agree that it is better explained via
+1code. While mathematics is a universal language (to a point), Python is not, and it is
+not beyond imagining that there are potential readers of the paper who do not know
+it. Using code makes the definitions not self-contained, since many of the variables are
+not previously defined (presumably being defined somewhere else in their code), and
+neither are the functions, so that the reader must either know what they do already
+or look them up somewhere else, neither of which is a desirable situation. It also
+makes things harder to read since there are also many lines which are unnecessary for
+understanding (e.g., “sequence = translate sequence(sequence)” or “from sklearn.svm
+import LinearSVC”). In my opinion, self-contained pseudocode is acceptable, but
+straight code is not.
+Answer:
+Our initial intention was to describe these steps using the actual implementation logic, as we felt this would be more accessible to the broad PLOS One readership than formal mathematical notation. However, we acknowledge the reviewer’s concern that including raw Python code within the manuscript is not ideal, as it is not self-contained and may hinder readability.
+We therefore fully agree with the reviewer on this point and have replaced the Python code with self-contained pseudo-code, with clearly defined inputs, outputs, and intermediate variables. This presentation removes implementation-specific details while preserving the precise computational logic, and we believe it substantially improves clarity and accessibility for readers from different backgrounds.
+While we respectfully maintain that formal mathematical expressions are not strictly necessary for this journal and audience, we believe that the revised pseudo-code, combined with the expanded textual explanation, now provides a sufficiently precise and transparent description of the method.
+The full, executable implementation remains available on GitHub for readers who wish to explore or reproduce the analysis in detail.
+[Reviewer:]
+that I do have an idea what is going on here I can comment a bit on the method
+itself. I think it is largely sensible, however some of the names are poorly chosen, which
+contributed to my confusion in earlier versions which were not as fully explained. The
+“regional decision weight” does not appear to be a “regional” weight at all, but a posi-
+tional weight which is then summed over a region to create a regional weight. Likewise,
+the “area under the curve” does not appear to be the area under any curve (and cer-
+tainly does not correspond to the traditional definition of AUC), but a cumulative sum
+of the positional weights. I think both these concepts are valid, but would suggest that
+they be renamed.
+Answer:
+We agree that some of the original names were potentially misleading and may have contributed to earlier confusion. In response, we have renamed the term “area under the curve” with “Cumulative Score” (CS). The term "regional decision weight” was replaced by “positional weight”.
+Minor comments:
+• l132: space before “[17]”
+Done
+• l142: “mapping of all of them”, not “mapping all of them”
+Done
+• l197: Since the method with the lowest runtime is always the linear SVM, I do not see
+why the authors cannot just say that they recommend the linear SVM.
+Good point, done
+• l283: opening double-quotes for “ “Known” ”
+Fixed opening and closing double-quotes - “Known”
+• l309: “subtelomeric”
+Fixed
+• l384: space before “(average of 48)”
+Added
+• l396: Specify the statistical test used here.
+Added that those were Welch Two Sample t-tests.
+• l398: It is interesting, and perhaps worth mentioning, that although the differences
+in Table 6 (bottom) are less significant, there is still a clear separation between the
+regions, with East African countries almost all on the bottom and all Asian countries
+on the top. I wonder if a rank-sum test could be used here.
+As the focus is on the tool, we prefer to keep it as with the focus on the top table.
+• l467: “var gene biology”
+Split gene & biology
+• l470: space before “[4]”
+Space added
+2• l481–3: “More broadly” is used in two sentences in a row, which sounds awkward.
+Changed the second to “More generally”
+• l492: capitalise “Python”
+We capitalised all occurences
+• l546: “var gene sequences”
+Fixed to singular
+• l583: “two classes, var group B/C or...”
+Added the comma
+• l592: “mentioned in the Methods”, not “mentioned in the method”
+Done
+AttachmentSubmitted filename: UpsML.RebuttalLetter.V3.docx
+PLOS OnePLoS One10.1371/journal.pone.0344557.r008Decision Letter 3
+KassegneKokouviAcademic Editor© 2026 Kokouvi KassegneThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+23 Feb 2026
+
+upsML: A high-accuracy machine learning classifier for predicting Plasmodium falciparum var gene upstream groups
+PONE-D-25-33506R3
+Dear Dr. Thomas D Otto,
+We’re pleased to inform you that your manuscript has been judged scientifically suitable for publication and will be formally accepted for publication once it meets all outstanding technical requirements.
+Within one week, you’ll receive an e-mail detailing the required amendments. When these have been addressed, you’ll receive a formal acceptance letter and your manuscript will be scheduled for publication.
+An invoice will be generated when your article is formally accepted. Please note, if your institution has a publishing partnership with PLOS and your article meets the relevant criteria, all or part of your publication costs will be covered. Please make sure your user information is up-to-date by logging into Editorial Manager at Editorial Manager®  and clicking the ‘Update My Information' link at the top of the page. For questions related to billing, please contact  and clicking the ‘Update My Information' link at the top of the page. For questions related to billing, please contact billing support ..
+If your institution or institutions have a press office, please notify them about your upcoming paper to help maximize its impact. If they’ll be preparing press materials, please inform our press team as soon as possible -- no later than 48 hours after receiving the formal acceptance. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information, please contact onepress@plos.org.
+Kind regards,
+Kokouvi Kassegne
+Academic Editor
+PLOS One
+Additional Editor Comments (optional):
+The authors have satisfactorily addressed all the comments. Two minor typos:
+Fig 4 still has "AUC"
+l599 "extract weights from"
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+Reviewer #3: All comments have been addressed
+**********
+2. Is the manuscript technically sound, and do the data support the conclusions??>
+Reviewer #3: Yes
+**********
+3. Has the statistical analysis been performed appropriately and rigorously? -->?>
+Reviewer #3: Yes
+**********
+4. Have the authors made all data underlying the findings in their manuscript fully available??>
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.-->
+Reviewer #3: Yes
+**********
+5. Is the manuscript presented in an intelligible fashion and written in standard English??>
+Reviewer #3: Yes
+**********
+Reviewer #3: The authors have satisfactorily addressed my comments. Two minor typos:
+Fig 4 still has "AUC"
+l599 "extract weights from"
+**********
+what does this mean? ). If published, this will include your full peer review and any attached files.). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our For information about this choice, including consent withdrawal, please see our Privacy Policy .-->
+Reviewer #3: No
+**********
+PLOS OnePLoS One10.1371/journal.pone.0344557.r009Acceptance letter
+KassegneKokouviAcademic Editor© 2026 Kokouvi KassegneThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.PONE-D-25-33506R3
+PLOS One
+Dear Dr. Otto,
+I'm pleased to inform you that your manuscript has been deemed suitable for publication in PLOS One. Congratulations! Your manuscript is now being handed over to our production team.
+At this stage, our production department will prepare your paper for publication. This includes ensuring the following:
+* All references, tables, and figures are properly cited
+* All relevant supporting information is included in the manuscript submission,
+* There are no issues that prevent the paper from being properly typeset
+You will receive further instructions from the production team, including instructions on how to review your proof when it is ready. Please keep in mind that we are working through a large volume of accepted articles, so please give us a few days to review your paper and let you know the next and final steps.
+Lastly, if your institution or institutions have a press office, please let them know about your upcoming paper now to help maximize its impact. If they'll be preparing press materials, please inform our press team within the next 48 hours. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information, please contact onepress@plos.org.
+You will receive an invoice from PLOS for your publication fee after your manuscript has reached the completed accept phase. If you receive an email requesting payment before acceptance or for any other service, this may be a phishing scheme. Learn how to identify phishing emails and protect your accounts at https://explore.plos.org/phishing.
+If we can help with anything else, please email us at customercare@plos.org.
+Thank you for submitting your work to PLOS ONE and supporting open access.
+Kind regards,
+PLOS ONE Editorial Office Staff
+on behalf of
+Dr. Kokouvi Kassegne
+Academic Editor
+PLOS One
+Associated Data
+
+## Supplementary Materials
+S1 Table
+
+## Complete Training Set of Full Var Genes and ups Assignments used.
+(PDF)
+S2 Table
+
+## All and Unique Training Sets of Isolated Var Genes Components Regions.
+(PDF)
+S3 Table
+
+## Overall accuracy of upsML, including shorter peptide models.
+(PDF)
+S4 Table
+
+## upsML Model Speeds when training then classifying 60 3D7 complete PfEMP1 sequences.
+(PDF)
+S5 Table
+
+## Specificity and Sensitivity of Tetrapeptide Models for first model.
+Sensitivity refers to the proportion of true positives, while specificity refers to the proportion of true negatives.
+(PDF)
+S6 Table
+
+## Confusion Matrixes of Internal/ Subtelomeric Models.
+(PDF)
+S7 Table
+
+## Sensitivity and Specificity of Internal/Subtelomeric Models.
+Split of results for the different sequence types.
+(PDF)
+S1 Fig
+
+## Relative number of internal var genes per region.
+Data from Table 6, of 660 field isolates, from 11 regions, classified with upsML. The genes were grouped as follows: Asia: Thailand, Cambodia, Vietnam and Laos (median 32.6); East Africa: Mali, Kenya, Malawi & Congo (median 28.1); West Africa: Senegal, The Gambia, Mali and Ghana (median 28.8). Isolates with fewer than 30 var genes in the assembly were ignored. The differences in abundance between Asia and the two African regions were significant, as indicated by a Welch Two-Sample t-test (both <1e-08).
+(PDF)
+AttachmentSubmitted filename: plosone25.pdf
+AttachmentSubmitted filename: upsML.responce2editor.Rebuttal.pdf
+AttachmentSubmitted filename: plosone25b.pdf
+AttachmentSubmitted filename: UpsML.PlosOne.Letter_rebuttal2.docx
+AttachmentSubmitted filename: plosone25c.pdf
+AttachmentSubmitted filename: UpsML.RebuttalLetter.V3.docx
+
+## Data Availability Statement
+Relevant upsML data for this study are publicly available from the GitHub repository (https://github.com/sii-scRNA-Seq/upsML). All other relevant genome data sources for this study are available within the paper.

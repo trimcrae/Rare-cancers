@@ -1,0 +1,212 @@
+Wellcome Open ResWellcome Open Res3196wopenres101696457Wellcome Open Research2398-502XThe Wellcome TrustPMC6823904PMC6823904.2682390468239053172367410.12688/wellcomeopenres.15355.22Software Tool ArticleArticlesGeneDB and Wikidata
+[version 2; peer review: 2 approved]
+ManskeMagnusConceptualizationMethodologySoftwareWriting – Original Draft Preparationhttps://orcid.org/0000-0001-5916-0947 BöhmeUlrikeData CurationValidationWriting – Review & Editinghttps://orcid.org/0000-0002-0248-5924 PütheChristophProject AdministrationWriting – Review & Editinghttps://orcid.org/0000-0003-2053-8740 BerrimanMattResourcesWriting – Review & Editinghttps://orcid.org/0000-0002-9581-0377 
+1Parasites and Microbes, Wellcome Trust Sanger Institute, Cambridge, CB10 1SA, UKamm6@sanger.ac.ukNo competing interests were disclosed.
+141020192019432920511410102019141020191211201913092021682390410.12688/wellcomeopenres.15355.1101082019682390410.12688/wellcomeopenres.15355.1101082019682390510.12688/wellcomeopenres.15355.2214102019Copyright: © 2019 Manske M et al.2019https://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Publishing authoritative genomic annotation data, keeping it up to date, linking it to related information, and allowing community annotation is difficult and hard to support with limited resources.
+ Here, we show how importing GeneDB annotation data into Wikidata allows for leveraging existing resources, integrating volunteer and scientific communities, and enriching the original information.
+
+GeneDBWikidataMediaWikiWikibasegenomereferenceannotationcurationWellcome Trust108443This work was supported by the Wellcome Trust through a Biomedical Resources Grant to MB [108443]. pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionyespmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYRevised
+
+## Amendments from Version 1
+We added/clarified text about Apollo, long-term sustainability, data license, and Rfam, as requested by reviewers. We also added the requested reference for Putman et al. (2017), and updated the Burgstaller-Muehlbacher citation.
+
+## Introduction
+The
+GeneDB website has presented genome annotation data from eukaryotic and prokaryotic pathogens
+ sequenced by the Wellcome Sanger Institute for more than 15 years. The underlying data are stored in a database, designed using the Chado
+ schema. The project was established to display genomes sequenced and annotated by the former Pathogen Sequencing Unit at the Sanger Institute, but over time the usage has changed. Now, genomes are stored and displayed if they are undergoing some level of curation or ongoing improvement. The site provides a way for curators and researchers to see changes to annotation long before those changes are integrated with other data types in a number of collaborating databases. To reflect the change of usage, where the website is often not the primary access point for many users, GeneDB has recently undergone a redesign and simplification
+ . In particular, the web-based genome annotation tool Apollo
+ has been adopted as a major entry point for viewing genome data. While this delivers a structured, multi-track view of the genome and annotated genomic features (genes, ncRNAs, etc), the current version of Apollo has a limited capability for displaying the rich functional descriptions of individual genes that were a major feature of the previous GeneDB website.
+
+Wikidata is a collaboratively edited, machine-readable and -writable knowledge base hosted by the Wikimedia Foundation, which also runs the collaboratively edited encyclopedia Wikipedia. Wikipedia has become the most accessed online encyclopedia and is unique in both its open, community-based editing, and a first port-of-call for public access to curated knowledge. Several bioinformatics projects make use of Wikipedia. The most successful of these is the Rfam project, where Wikipedia has been used to successfully manage free-text descriptions of RNA families
+ for over a decade. The Rfam-associated journal requires authors of new RNA families to create the matching Wikipedia page, tightly integrating Wikipedia into an entire field of research.
+Wikidata currently contains 55 million items, which represent a superset of all Wikipedia article topics in over 300 languages, including biographical items, locations, species, artworks, scientific publications, etc. Amongst these items, Wikidata already stores human and mouse genes and proteins, as part of the Gene Wiki project
+ , which originally started on Wikipedia
+ , and many prokaryotic genes, as part of the WikiGenome project
+ .
+Wikidata offers various application programming interfaces (APIs) to read or write information in an automated way, including a
+query service using SPARQL, a query language for data on the Semantic Web
+ . All these services are freely accessible by third-party users.
+In the present study, we describe how we have exported the contents of GeneDB into Wikidata to ensure the long term sustainability of high value curated information and to make the annotated gene and protein information available to a wider audience. Within Wikidata, potentially anyone can contribute to the annotation, for instance by adding further external cross-references to third-party databases, linking gene and proteins to the scientific literature, or even short free-text descriptions. These community changes can be detected, checked, and, in appropriate cases, imported back into GeneDB.
+We also describe utilising the Wikidata APIs to create a new version of the GeneDB website with content created solely based on Wikidata items. The design of the new GeneDB website closely mirrors the old one but now provides continuity and stability for incoming links from other websites. Furthermore, by building the site from Wikidata components, the new GeneDB website benefits from additional information and queries harvested from Wikidata.
+
+## Methods
+
+## Importing GeneDB into Wikidata
+GeneDB exports its Chado database monthly into publicly accessible files (
+ftp://ftp.sanger.ac.uk/pub/genedb/releases/) in
+general feature format version 3 (GFF3) and
+gene association file (GAF) format.
+These files are regularly parsed by bespoke code to create or update Wikidata items, for both genes and their protein products.
+This includes the addition of GO terms, as well as the creation and usage of Wikidata items about the scientific publications containing the respective findings.
+An item about a gene (example:
+https://www.wikidata.org/wiki/Q19044775) or a protein on Wikidata consists of labels and aliases, descriptions, and a list of statements. Each statement is comprised of the following: a property from a community-controlled vocabulary (e.g., “chromosome”, “found in species”, “GeneDB ID”); a value, usually a plain string or a link to another Wikidata item, but also a date, a location, or a number, depending on the property; an optional list of qualifiers; and an optional list of references.
+When updating an item, elements are added, altered, or removed on Wikidata if the current GeneDB information is different, and GeneDB is the authoritative source. All other elements of the Wikidata item remain unchanged during updates. Updates are performed automatically, utilizing the publicly exported GFF and GAF files based on Chado.
+
+## Importing community changes from Wikidata into GeneDB
+Community contributions on Wikidata can be divided into two parts. One part is the mass edit of items, by either bots (software-based robots that perform automated editing) or mass-editing tools. The other part are individual, usually manual edits, of low volume.
+Only some edits are directly relevant to GeneDB; a new description of a protein in Dutch will not be imported into the Chado database, and can therefore be ignored. Likewise, the addition of external identifiers to sources not tracked by GeneDB can be ignored.
+Individual edits that are both relevant to GeneDB, and not done by a Wikidata user on a “whitelist” of known, trusted users are summarized daily by an automated script, and sent to the GeneDB ticketing system for manual inspection. These changes are either ignored, reverted on Wikidata (e.g., vandalism), or imported into the GeneDB Chado database. The volume of such edits is quite low (~1/week) at this time, though we expect this to pick up with more members of the scientific community becoming aware of this venue into Wikidata.
+
+## Implementation
+The code to import and update Wikidata items was written in
+Rust
+ (rustc 1.36.0), using (amongst others) the
+rust-bio crate
+ for GFF and GAF reading. Rust was chosen as a language for its speed, security, low resource consumption, and available crates (libraries) to build on. Some of these crates, such as MediaWiki and Wikibase (Wikidata) API handling, were (co-)developed by the corresponding author independently. See software availability for source code
+ ,
+ 
+
+## Operation
+The Wikidata import code will run on any platform that Rust can be compiled for. Additional requirements are an internet connection, and login information for a Wikidata bot account.
+The website operates client-side using JavaScript, and can be deployed on any standard web server. Besides Wikidata, no additional server-side support is required.
+
+## Results/Use cases
+At this time (26/07/2019), 409,219 Wikidata items for genes (including 9,031 pseudogenes), and an additional 397,979 items for proteins, have been created (
+http://tinyurl.com/y6wpfyrn), covering 45 taxa.
+By exporting from GeneDB (Chado) into Wikidata, the data are intricately integrated into its ecosystem creating new functions with minimal project-specific development; for instance, links to and between publications, which in turn link to authors, institutions, etc. These connections between items allow for complex queries that were not possible before (
+ ).
+ 
+
+## Gene pages
+To replicate the way genes were represented on the previous version of the GeneDB website, a pure HTML/JavaScript site using
+vue.js was created. JavaScript components are written as modules. All pages and components are designed to work on both desktop and mobile. Web pages for genes, proteins, species, chromosomes, GO term
+ queries, and searches are generated on-the-fly utilising the Wikidata API and SPARQL interface, and Wikidata serves as the only back-end for these pages.
+Each gene item, and its associated protein item(s), can be viewed on a separate page (
+ ), that is rendered on-the-fly. This rendering includes a map of the gene on the chromosome, names, IDs, descriptions, links to other web resources (both from Wikidata statements, and auto-generated based on species and gene ID), a link to the Apollo browser view of the gene, a list of known orthologs.
+ Below that, each protein encoded by the gene is listed, as well as the known GO term ontology, complete with evidence and publication links, where available (
+ ).
+ If Wikidata contains items about publications that have the gene or protein as a “main subject”, these publications are listed at the bottom of the page. This is an example of additional, on-topic information that Wikidata provides on top of the GeneDB dataset.
+Gene/protein pages link out to other web-based databases via Wikidata-stored (e.g., UniProt) or computed (e.g., PlasmoDB) URLs. GO terms show supporting information, including citations of, and links to, the original publications. Also, a list of all publications on Wikidata with the respective gene as a subject is available on both GeneDB (example:
+https://www.genedb.org/gene/PF3D7_1200600) and the Scholia tool (example:
+https://tools.wmflabs.org/scholia/topic/Q18971176).
+
+## Other functionality
+The GeneDB search function utilizes Wikidata search, letting users find genes by name, alias, ID, and related information, across all covered species. The search will only return genes on Wikidata with a GeneDB identifier.
+Each species in GeneDB has its own page (
+ ), showing basic information about the species, links to other web resources, to the Apollo browser, and a list of chromosomes linking to the genes located there.
+ Genes/proteins annotated with specific GO terms can be listed, grouped by species (
+ ). These lists are linked from every GO term on a gene/protein page.
+ 
+
+## Discussion
+Wikidata has provided GeneDB with a venue to host and publish its data, and to invite community edits, without giving up on GeneDB’s curation authority. The simplified maintenance of the HTML/JS-only GeneDB website, compared to a previous one that combined a frontend and backend solution, frees technical and personnel resources. Linking genes and proteins to, and from, other Wikidata items allows for novel methods of querying the data, and for new questions to be asked. Publishing on Wikidata also exposes the data in new ways and potentially engages with a broader public audience.
+For sustained operation, we are working on a unified, curated update mechanism that takes user-generated input from Wikidata, Apollo, and Artemis
+ , and lets professional curators validate the changes before feeding them back to the Chado database. Changes on Wikidata that are not curated by the GeneDB project may be displayed on the GeneDB website without curation.
+
+## Data availability
+
+## Source data
+
+Chado-based GFF and GAF files
+
+ftp://ftp.sanger.ac.uk/pub/genedb/releases/
+
+Accession numbers in use cases
+
+GeneDB IDs
+Pathogen genomic data from GeneDB, Accession number PF3D7_0709000.
+https://identifiers.org/genedb:PF3D7_0709000
+
+Pathogen genomic data from GeneDB, Accession number: PF3D7_1200600.
+https://identifiers.org/genedb:PF3D7_1200600
+
+Pathogen genomic data from GeneDB, Accession number: PF3D7_1135600.
+https://identifiers.org/genedb:PF3D7_1135600
+
+Wikidata items
+Genomic data for VAR2CSA from Wikidata, Accession number: Q18971176.
+https://identifiers.org/wikidata:Q18971176
+
+Genomic data for CRT from Wikidata, Accession number: Q19044775.
+https://identifiers.org/wikidata:Q19044775
+
+Plasmodium gallinaceum data from Wikidata, Accession number: Q7201888.
+https://identifiers.org/wikidata:Q7201888
+
+GO terms
+Gene Ontology entry for nuclear condensin complex, Accession number: GO:0000799.
+https://identifiers.org/GO:0000799
+
+## Underlying data
+All data underlying the results are available as part of the article and no additional source data are required.
+All data is in the public domain (GeneDB)
+ or CC-0 (Wikidata), which are effectively equivalent.
+
+## Software availability
+GeneDBot, the code that updates Wikidata from Chado:
+Source code:
+https://github.com/sanger-pathogens/genedbot_rs
+
+Archived source code at time of publication:
+http://doi.org/10.5281/zenodo.3352001
+ 
+
+License:
+GPL v3.0
+
+The HTML/JS code for the GeneDB website (Wikidata display code is mostly in the htdocs/wd directory):
+Source code:
+https://github.com/sanger-pathogens/GeneDB-static
+
+Archived source code at time of publication:
+http://doi.org/10.5281/zenodo.3352003
+ 
+
+License:
+GPL v3.0
+
+ 10.21956/wellcomeopenres.16983.r36761Reviewer response for version 2
+WaagmeesterAndra Refereehttps://orcid.org/0000-0001-9773-4008
+1Micelio, Antwerp, Belgium
+Competing interests: No competing interests were disclosed.
+30102019Copyright: © 2019 Waagmeester A2019This is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Version 2recommendationapproveThe authors addressed the comments.
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+10.21956/wellcomeopenres.16983.r36762Reviewer response for version 2
+Burgstaller-MuehlbacherSebastian Refereehttps://orcid.org/0000-0003-4640-3510
+1Max Perutz Labs, Vienna Biocenter, Medical University of Vienna, Vienna, Austria
+Competing interests: No competing interests were disclosed.
+15102019Copyright: © 2019 Burgstaller-Muehlbacher S2019This is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Version 2recommendationapproveThe authors modified the original manuscript as suggested, no further comments from my side.
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+10.21956/wellcomeopenres.16772.r36100Reviewer response for version 1
+WaagmeesterAndra Refereehttps://orcid.org/0000-0001-9773-4008
+1Micelio, Antwerp, Belgium
+Competing interests: No competing interests were disclosed.
+2782019Copyright: © 2019 Waagmeester A2019This is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Version 1recommendationapprove-with-reservationsThis paper describes work done in linking data from the GeneDB website in Wikidata. GeneDB captures genome annotation data. The article also describes how a feedback loop is created enriching GeneDB with content from Wikidata. This is an exciting development where the UI directly leverages content from Wikidata, instead of using in-house caching databases.
+ I have some minor comments. 
+Wikidata uses a CC0 license on captured data. It is not clear if this is compatible with the applicable Guidelines on the use of data in publications on GeneDB (
+https://www.sanger.ac.uk/legal/). The terms for usage require explicitly attribution, which CC0 does not. I am curious how the authors solved this. A section on legalities of sharing GeneDB on Wikidata would be a welcome addition. 
+"The most successful of these is the Rfam project, where Wikipedia has been used to successfully manage free-text descriptions of RNA families
+5 for over a decade." Why is this the most successful project, who are the second and third runner up?
+
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard, however I have significant reservations, as outlined above.
+ManskeMagnus
+Competing interests: No competing interests were disclosed.
+10102019Thank you for your review, and your constructive suggestions. In reply to your individual points:
+Data from GeneDB is in the public domain, which is compatible with CC-0. The paper and the "data release" page of the GeneDB website have been updated accordingly.
+Regarding Rfm, we use "most successful" to describe the uptake of Wikipedia as a central part of the RNA families journal, and thereby, scientific community. This has been added to the manuscript.
+
+10.21956/wellcomeopenres.16772.r36099Reviewer response for version 1
+Burgstaller-MuehlbacherSebastian Refereehttps://orcid.org/0000-0003-4640-3510
+1Max Perutz Labs, Vienna Biocenter, Medical University of Vienna, Vienna, Austria
+Competing interests: No competing interests were disclosed.
+2082019Copyright: © 2019 Burgstaller-Muehlbacher S2019This is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Version 1recommendationapproveThe authors describe a new implementation and technical foundation of GeneDB, a database for eukaryotic and prokaryotic parasites. As a new technical foundation, the authors use Wikidata, an open, semantic web enabled graph database operated by the Wikimedia Foundation. To integrate GeneDB data into Wikidata, the authors wrote bots (robots/database clients) using the language Rust and imported GeneDB genes, proteins and Gene Ontology annotations into Wikidata. Furthermore, they created a website which renders the data imported into Wikidata in a comprehensive and more user-friendly way than a raw Wikidata data item would. Also, they integrate genome track views using Apollo.
+ Overall, the study opens up a new dataset to the public domain entirely. Data are imported and made available via the Wikidata API and the Wikidata SPARQL endpoint, allowing users of the data powerful queries. Having these data available and easily accessible to the parasite research community worldwide seems crucial. Easy access is also enabled by the web interface the authors implemented.
+ Moreover, due to the nature of Wikidata, contributions by the (research) community are relatively easy to accomplish. The authors also provide a reasonable approach for feeding back (research) community contributions into GeneDB, while avoiding vandalism.
+ Integration with the Apollo genome browser also provides a genome view, typical for a gene/genome centered database. However, the authors should describe in some more detail how they setup Apollo and where Apollo gets its genome tracks from (e.g. DNA sequences). This is relevant as such data typically cannot be stored in Wikidata and thus need to be drawn from a different source.
+ The manuscript is well-written, however the introduction should also mention the work of Putman
+et al. (2017
+ ), who follow a similar technical approach but for a different set of genomes. The discussion is rather brief and could profit from addressing the authors long-term maintenance plans, especially regarding curation of the inflow of community contributions to GeneDB.
+ In summary, this work by Manske
+et al. is very well performed, except for the minor points mentioned above. It’s an important data release for the parasite research community and enables, for the first time, collaborative work on genomic data integration and data annotation within this community. This should lower greatly the hurdles for worldwide collaboration on alleviating the severe diseases associated with many of the parasites in GeneDB.
+ Ad citation 7 of the manuscript: This preprint has now been published as Burgstaller-Muehlbacher
+et al. (2016
+ ).
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+ ManskeMagnus
+Competing interests: No competing interests were disclosed.
+10102019Thank you for your review, and your constructive suggestions. In reply to your individual points:
+The Apollo part of the GeneDB website is not part of this publication. Please see Böhme, Otto et al. (2019) for details.
+The reference to Putman et al. (2017) has been added.
+Some discussion of long-term sustainability has been added.
+The Burgstaller-Muehlbacher citation has been updated.

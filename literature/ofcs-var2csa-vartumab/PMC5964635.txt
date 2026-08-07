@@ -1,0 +1,290 @@
+Wellcome Open ResWellcome Open Res3196wopenresWellcome Open Research2398-502XThe Wellcome TrustPMC5964635PMC5964635.1596463559646352986232610.12688/wellcomeopenres.14571.11Research ArticleArticlesLong read assemblies of geographically dispersed
+Plasmodium falciparum isolates reveal highly structured subtelomeres
+[version 1; referees: 3 approved]
+OttoThomas D.ConceptualizationFormal AnalysisMethodologySoftwareVisualizationWriting – Original Draft Preparationhttps://orcid.org/0000-0002-1246-7404 BöhmeUlrikeData CurationValidationVisualizationWriting – Original Draft Preparation SandersMandyProject Administration ReidAdamFormal Analysis BruskeEllen I.Formal Analysis DuffyCraig W.Formal Analysishttps://orcid.org/0000-0001-9359-4888 BullPete C.Formal AnalysisResourceshttps://orcid.org/0000-0002-7674-6752 PearsonRichard D.Formal Analysishttps://orcid.org/0000-0002-7386-3566 AbdiAbdirahmanResourceshttps://orcid.org/0000-0001-7989-2125 DimonteSandraResources StewartLindsay B.Resourceshttps://orcid.org/0000-0002-9003-0160 CampinoSusanaResources KekreMihirResources HamiltonWilliam L.Resources ClaessensAntoineResourceshttps://orcid.org/0000-0002-4277-0914 VolkmanSarah K.Resources NdiayeDaoudaResources Amambua-NgwaAlfredResources DiakiteMahamadouResourceshttps://orcid.org/0000-0002-4268-8857 FairhurstRick M.Resources ConwayDavid J.Resourceshttps://orcid.org/0000-0002-8711-3037 FranckMatthiasResources NewboldChris I.ConceptualizationFunding AcquisitionResourcesWriting – Review & Editinghttps://orcid.org/0000-0002-9274-3789 BerrimanMattConceptualizationFunding AcquisitionWriting – Review & Editinghttps://orcid.org/0000-0002-9581-0377 
+1Wellcome Sanger Institute, Hinxton, UK
+2Centre of Immunobiology, Institute of Infection, Immunity & Inflammation, College of Medical, Veterinary and Life Sciences, University of Glasgow, Glasgow, UK
+3Institute of Tropical Medicine, University of Tübingen, Tübingen, Germany
+4London School of Hygiene and Tropical Medicine, London, UK
+5Department of Pathology, University of Cambridge, Cambridge, UK
+6Big Data Institute, Li Ka Shing Centre for Health Information and Discovery, Oxford, UK
+7KEMRI-Wellcome Trust Research Programme, Kilifi, Kenya
+8Harvard T.H. Chan School of Public Health, Boston, MA, USA
+9The Broad Institute of MIT and Harvard, Cambridge, MA, USA
+10Simmons College, Boston, MA, USA
+11Faculty of Medicine and Pharmacy, Université Cheikh Anta Diop, Dakar, Senegal
+12Medical Research Council Unit, Fajara, The Gambia
+13Malaria Research and Training Center, University of Bamako, Bamako, Mali
+14Laboratory of Malaria and Vector Research, National Institute of Allergy and Infectious Diseases, National Institutes of Health, Rockville, MD, USA
+15Weatherall Institute of Molecular Medicine, University of Oxford, John Radcliffe Hospital, Oxford, UKaThomasDan.Otto@glasgow.ac.ukbchris.newbold@rdm.ox.ac.ukcmb4@sanger.ac.ukNo competing interests were disclosed.
+35201820183306384522742018030520180106201812122020Copyright: © 2018 Otto TD et al.2018https://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.The author(s) is/are employees of the US Government and therefore domestic copyright protection in USA does not apply to this work. The work may be protected under the copyright laws of other jurisdictions when used in those jurisdictions.
+Background: Although thousands of clinical isolates of
+Plasmodium falciparum are being sequenced and analysed by short read technology, the data do not resolve the highly variable subtelomeric regions of the genomes that contain polymorphic gene families involved in immune evasion and pathogenesis. There is also no current standard definition of the boundaries of these variable subtelomeric regions.
+
+Methods: Using long-read sequence data (Pacific Biosciences SMRT technology), we assembled and annotated the genomes of 15
+P. falciparum isolates, ten of which are newly cultured clinical isolates. We performed comparative analysis of the entire genome with particular emphasis on the subtelomeric regions and the internal
+var genes clusters.
+  
+Results: The nearly complete sequence of these 15 isolates has enabled us to define a highly conserved core genome, to delineate the boundaries of the subtelomeric regions, and to compare these across isolates. We found highly structured variable regions in the genome. Some exported gene families purportedly involved in release of merozoites show copy number variation. As an example of ongoing genome evolution, we found a novel CLAG gene in six isolates.  We also found a novel gene that was relatively enriched in the South East Asian isolates compared to those from Africa.
+
+Conclusions: These 15 manually curated new reference genome sequences with their nearly complete subtelomeric regions and fully assembled genes are an important new resource for the malaria research community. We report the overall conserved structure and pattern of important gene families and the more clearly defined subtelomeric regions.
+
+Plasmodium falciparumLong read Assemblycomplete genomesdefinition of core genomeNational Institute of Allergy and Infectious DiseasesIntramuralResearchProgramWellcome Trust104792098051This work was supported by the Wellcome Trust [098051], C.I.N. is funded by a Wellcome Investigator Award (104792/Z/14/Z), and R.M.F. is funded by the Intramural Research Program of the NIAID, NIH.The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionyespmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY
+
+## Introduction
+
+Plasmodium falciparum is the most virulent of malaria parasites that infect humans and is responsible for hundreds of thousands of deaths each year
+ . In 2002, the first reference genome for
+P. falciparum was published using a lab adapted clone (3D7) that originated from an infection in Africa
+ . More than 2000 published studies have cited this single reference and cover a range of topics from functional and comparative genomics to population structure and drug resistance. Genome variation has predominantly been studied by aligning sequencing reads from strains or isolates to the genome sequence of the 3D7 clone. However, the limitations of using this single clone as a reference to map genome variation from all clinical isolates are largely unknown.
+This work is part of the ongoing
+PF3K project that aims to provide the research community with a comprehensive analysis of whole genome short read sequences from 3000
+P. falciparum isolates from around the world. Because of the highly polymorphic nature of the subtelomeric and internal
+var gene sequences, most short reads from these areas cannot be aligned to the reference genome.
+In this study, we used Pacific Bioscience’s SMRT sequencing technology to generate full genome sequence for 15 isolates comprising 5 long-maintained laboratory isolates and 10 recently cultured clinical isolates from different regions of the world. The long-read technology enabled the assembly of subtelomeric regions that contain highly variable genes involved in immune evasion and pathogenesis. We define a core region for each chromosome as the part that contains positionally conserved genes and is bounded by subtelomeres that cannot be aligned between isolates. The newly defined subtelomeres exclude several multigene families that were previously thought to be subtelomeric but appear to be in the much less recombinogenic core.
+
+## Methods
+
+## Ethical approval
+For all samples written informed consent was obtained directly from adult subjects and from parents or other legal guardians of all participating children, and additional assent was received from children themselves if they were 10 years of age or older. Collection and analysis of the clinical samples from the Guinea (GN01) was approved under 17/CNERS/12 (Comite National d’Ethique pour la Recherche en Sante, Republique de Guinee) and 6462 (Ethics Committee, London School of Hygiene and Tropical Medicine), and for Mali (ML01) under 2013/55/CE/FMPOS (Comite d’Ethique, University of Bamako) and 6462 (Ethics Committee, London School of Hygiene and Tropical Medicine). For the Senegal samples (SN01) the protocol was reviewed and approved by the ethical committees of the Senegal Ministry of Health (Senegal) and the Harvard T. H. Chan School of Public Health (CR-16330-05). The two Cambodian samples (KH01, KH02) are part of a study registered with ClinicalTrials.gov, number
+NCT00341003. The use of the Kenya parasite isolate (KE01) was approved under SSC 1131 that was reviewed and approved by the KEMRI Ethics Review Committee and University of Oxford Tropical Research Ethics Committee. The Gabon (GA01) sample was approved by the local ethics committee in Lambaréné, Gabon: CERMEL (Centre de Recherche Médicale de Lambaréné), Lambaréné, Gabon
+ . The isolates Sudan (SD01), Togo (TG01) and Congo (CD01) were culture adapted from diagnostic specimens submitted for routine malaria diagnosis at the University of Tübingen and therefore did not require separate ethical approval. The isolates 3D7, IT, Dd2, HB3, Gb4 and 7G8 are established laboratory strains, and do not require ethical approval.
+
+## Sample preparation and sequencing
+All cultured parasite lines were maintained under standard conditions
+ . 3D7 was from the same stock as the one used for the genome project published 2002
+ . IT, Dd2, HB3, GB4, 7G8 are routinely used laboratory isolates
+ –
+ . Clones of KH01 and KH02, previously named KH1-01 and KH2-0, were also used
+ . Isolate GA01 from Gabon refers to the MOA D2 Clone that was generated by limiting dilution from the MOA bulk cultures
+ . The isolates from Sudan (SD01), Togo (TG01) and Congo (CD01) were culture-adapted from diagnostic specimens submitted for routine malaria diagnosis to the laboratory of the outpatient clinic of the Institute of Tropical Medicine in Tübingen, Germany. The clinical samples ML01 from Nioro du Sahel, Mali (Lat 15.183, Long -9.550), and GN01 from Faranah, Guinea (Lat 10.040, Long -10.743) were directly obtained from patients presenting at local health facilities. The Senegalese sample SenT021.09 was collected in Thies, Senegal in 2009. The isolate PfKE01, also known as 9106, based on the naming system adopted at KEMR-Wellcome Trust laboratories for clinical
+P. falciparum isolates, was used in previous studies
+ .
+For each sample, we obtained between 6 – 20 ug of high molecular weight DNA and used Illumina and Pacific Biosciences sequencing platforms. For Illumina sequencing we used the PCR-free method
+ to generate the libraries, using 0.5 ug of DNA for each. Libraries were sequenced using the MiSeq Illumina platform with 250 bp paired end reads and a fragment length of 500 bp. In general, 3–4 samples were indexed and pooled per run.
+For the Pacific Biosciences SMRT technology we selected an ~8 kb fraction for each isolate and sequenced it using P6 polymerase and version 4 chemistry (P6/C4). For most isolates, 5 SMRT cells were used, resulting in over 100x coverage of the genome. DNA samples from
+P. falciparum 3D7 and IT clones were processed with earlier technology (P5/C3 chemistry) using 11 and 12 SMRT cells, respectively.
+
+## Assembly
+The raw reads from Pacific Bioscience sequencing were assembled using HGAP
+ version 2.3, using default parameters and a genome size of 23.5 Mb. The following steps were performed within HGAP: read correction, assembly with the Celera assembler and further corrections with Quiver.
+Post HGAP, the assembly was further improved. First, contigs smaller than 5 kb were excluded. MegaBLAST
+ version 2.2.25 was used (with parameters -W 40 –F F, ignoring hits shorter than 400 bp or less than 98% identity) to determine overlaps between contigs. Those that overlapped by more than 90% of their length and 99% identity with another contig were deleted. Overlapping contigs were merged if the overlap region was larger than 2 kb, shared greater than 99% sequence identity and the coverage of the Illumina reads was around 50% of the median coverage value determined across the whole assembly. After resolving overlaps, contigs were ordered using ABACAS2
+ (parameter 1 kb hits, >98% identity, version 2) against the Pf3D7 reference version 3 (from GeneDB
+ ), excluding the sequences where no one-to-one orthologues to other
+Plasmodium species exist. The apicoplast and the mitochondria were circularized with Circlator
+ (default settings, version 0.12.0). Single-base discrepancies and insertions or deletions (indels) up to 3 bp were corrected with iCORN2
+ version 0.95, with three iterations using the 250 bp Illumina reads. All of the steps after the HGAP assembly were performed using a bash script (IPA v1;
+https://github.com/ThomasDOtto/IPA). The Sudan sample (PfSD01) was also assembled with Canu
+ (version 1.6; parameters: genomeSize 24m errorRate 0.15).
+
+## Removal of contamination
+To eliminate possible contamination, the GC content for each contig not aligned to a reference chromosome was calculated. Next the number of hits to
+P. falciparum genes was counted on each contig. If a contig had no hits to a gene, a megaBLAST search (parameter: -F F E-value 1e-10, version 2.2.25) against the Pf3D7 reference and the human genome was performed. If a contig had no hits against
+P. falciparum genes or the human genome, it was BLAST-searched against the non-redundant database at NCBI and excluded if its top Blast hit was to another organism.
+
+## Annotation
+The contig set was annotated with Companion
+ , June 2016 version with default parameters. Companion used the Pf3D7 reference version from June 2015. Finally manual curation using Artemis
+ , version 16.0.9, was carried out to correct the over prediction of coding sequences, to manually curate
+var genes, to insert missing genes such as
+EBA-165, to rename some gene products and to correct some gene borders.
+
+## Bioinformatics analysis
+To identify potentially new genes and to enumerate the numbers of genes in gene families, the conceptual proteomes of the 15 isolates together with that of Pf3D7 were clustered using OrthoMCL
+ (version 1.4).
+ The amino acid sequences were compared using BLASTp all-against-all, version 2.2.25, with an E-value cut-off of 1e-6. To obtain the one-to-one orthologues to
+P. vivax P01
+ , the same parameters were used.
+Comparative analysis was performed using the Artemis Comparison Tool (ACT)
+ , (version 16.0.9), by comparing the new assemblies to each other and to the Pf3D7 reference.
+Multiple alignments were generated using Mafft
+ (version 7.205, parameter --auto) and trimmed with GBLOCKS
+ (version 0.91b) in Seaview
+ (version 4.6.1) before building phylogenetic trees with RaxML
+ (version 8.0.24) and 100 bootstrap samples. RaxML was also used to estimate the best fitting model. Visualization was done in FigTree
+ (version 1.4.2).
+Networks of BLASTp hits (version 2.2.25, with an E-value cut-off of 1e-6) were clustered with the Fruchterman algorithm option and visualized with Gephi
+ (version 0.9.1).
+To compute the global distribution of a novel gene that was absent in Pf3D7, we used the Pf3K dataset (
+ftp://ngs.sanger.ac.uk/production/pf3k/release_5/). All non-mapping reads were extracted with samtools view -f 12 (version 0.1.19-44428cd) from the downloaded bam files. The reads were mapped with BWA-MEM
+ (version 0.7.12-r1039) against the nucleotide sequence of PfIT_110029200 (one allele of the novel gene). If 10 reads from a Pf3K sample mapped to that gene it was assumed to be present. The novel gene was further analysed using Pfam
+ and I-Tasser
+ using the webpages from December 2017, with default settings.
+
+## Assembly evaluation and SNP calling
+We evaluated the assembly quality by comparing our novel long read assemblies of Pf3D7 with that of the reference genome.
+Regions of large-scale miss-assembly were identified by parsing the OrthoMCL output and visually inspecting the regions in ACT. To detect 1–5 base pair errors, we used the GATK pipeline
+ , version v3.4-46-gbc02625, following the best practice of GATK. We were not able to perform the SNP calling on alignments of complete chromosomes against Pf3D7 because of the extended runtime required (>1 day). We therefore called variants by cutting the genomes into 50kb sliding windows with a 1kb offset, generating 8x coverage on each strand (16x in total). As the assembled contigs/chromosomes did not have quality values, we used a default base quality score of 30. The resulting variant call format (VCF) file was used to find differences between the Pf3D7 reference and the PacBio assemblies, either before or after correction with iCORN2.
+
+## Definition of the core genome
+To define core conserved regions for each chromosome, the consensus sequences for each isolate were mapped with BWA-MEM (as above) against the corresponding Pf3D7 chromosome. The outer limits of the core for each chromosome were defined as the most telomere-proximal position covered by the majority (8 out of 15) of these aligned sequences. Regions of the subtelomeres that bound to heterochromatin protein 1 were obtained from the GEO repository (accession:
+GSE102695
+ ).
+To generate the plots of
+ , the above BWA-MEM alignments were used. The leftmost or rightmost position when a mapping was clipped (soft or hard) was used as the point at which synteny was lost. Where there was no clipping at the end of an alignment, (the assembly did not reach into the subtelomere), that isolate at that chromosome end was excluded. The cumulative distribution of mapping termination sites was then plotted using R (version 3.1.2).
+
+## Results
+
+## Evaluation of assembly approach
+The genome reference clone 3D7 was resequenced to assess the performance of using a combination of long (> 5kb, median 8kb) and short-read sequencing technologies to produce complete
+P. falciparum genome assemblies. The 14 nuclear chromosomes and 2 plastid genomes were represented in just 23 contigs. The contigs were aligned against the reference genome using BWA-MEM and variants called with GATK. Although ~25,000 indel discrepancies and ~1800 single nucleotide substitutions (
+ ) were initially found, correcting the contigs by iteratively mapping Illumina reads reduced the number of indels to ~5,800 and the single-nucleotide substitutions to ~1,000. The error rate in PacBio sequencing is known to increase in homopolymer regions (long runs of a single base), and such features (more than 6 identical nucleotides in a row) accounted for 93% of the indel discrepancies. Since 98% of homopolymer errors were in homopolymer tracks of >14bp these sequences were excluded from subsequent analyses. In addition, we observed large numbers of errors in TA repeat sequences. 96% of these errors were in repeats > 14bp, so they were also excluded from the analysis. Homopolymers and (TA)
+7+ repeats together comprised 5.6% of the reference genome sequence. Following this correction and filtering, approximately 1100 single nucleotide or indel discrepancies remained between the 3D7 PacBio assembly and the 3D7 reference genome (
+ ). A small number of larger errors were seen: a misassembled region within the repetitive rRNA gene cluster on chromosome 11 that could be bridged by longer reads in subsequent sequencing runs; a deletion at the end of chromosome 9 – a region that has previously been lost during
+in vitro growth
+ ; and frameshift errors in duplicated regions, notably the Rh2a and Rh2b genes that have largely identical sequences (
+ ). Differences in the length of the apicoplast sequences were also observed (
+ ). We anticipate that the correct size is around 34 kb, but our pipeline was unable to resolve the assembly of an inverted repeat > 5kb. No other sequences were found to be missing and, as detailed below, several large-scale differences between the PacBio assembly and the Pf3D7 reference were subsequently attributed to errors in the reference genome.
+ 
+
+## Genome assemblies from 15 unrelated isolates
+High quality genome assemblies were produced from 15 globally sampled
+P. falciparum isolates – ten clinical isolates recently adapted to
+in vitro cultivation and five commonly used laboratory clones (
+ ). The genomes of 13 isolates assembled into just 16–36 contigs (median = 21). Two isolates (PfTG01 and PfML01) comprised multiple infections and were excluded from the analysis unless stated. In the genomes assembled from single infections 5,300 – 5,700 genes were found without any spanning sequencing gaps. For 4,700 genes, clear one-to-one orthologues could be found using OrthoMCL, reflecting the high quality of the assembly and annotation. Many of the contigs terminated with telomeric repeats at either end and therefore appear to represent complete chromosomes (
+ ). Some chromosomes (e.g. chromosome 12) consistently appear to be complete in the assemblies across several isolates, whereas chromosome 6 was particularly problematic to assemble (
+ ).
+Within the 15 new genome assemblies we found two that had an error in the rRNA gene on chromosome 11, as we had observed in our assembly of Pf3D7. Using reads produced with the newer C4P6 PacBio chemistry that had a longer median length (≥ 12kb), the region was correctly assembled. Another large-scale misassembled region between chromosome four and seven, resulted from using HGAP to assemble PfSD01. Two contigs that shared a 12-kb region that is duplicated in the genome were incorrectly merged. With the use of an alternative assembler (Canu, see methods) the region was resolved into two contigs.
+ Comparing all of the PacBio based assemblies to the Pf3D7 reference, 104 single nucleotide and indel discrepancies were consistently found indicating that these are likely to be errors in the current reference genome (
+ ).
+ 
+
+## Chromosome structure
+Genes within
+Plasmodium species can be subdivided into two broad (but not exclusive) categories: genes with one-to-one orthologues across the genus that are generally positionally conserved and genes that have expanded either across the genus (e.g., the
+pir genes that include
+rif and
+stevor in
+P. falciparum), or in specific clades or species (e.g.
+var in
+P. falciparum). Expanded gene families are typically highly polymorphic and located within the subtelomeres or in internal clusters.
+To define the latter regions, we used the lack of ability to align chromosome assemblies from long PacBio reads of different genotypes to 3D7. Consensus sequences were aligned to the 3D7 reference and used to identify region boundaries for each chromosome as the point at which the assemblies cease to align. In general, these points are remarkably close together or identical regardless of the genotype being aligned (for complete data see
+ ) but for simplicity we hereafter define a general boundary as the point closest to a telomere at which 8/15 genotypes cease to align. Together with a detailed manual examination this analysis clearly partitions the genome into three distinct parts with defined boundaries; long regions that are conserved and co-linear between isolates (hereafter called the core), internal clusters of
+var genes, and the subtelomeres (
+ ,
+ ). It therefore appears that the core region of conserved genes for each chromosome extends much further towards the telomeres than previously thought
+ and that an abrupt increase in recombination (indicated by contigs for each isolate extending but no longer aligning) defines the true start of the subtelomere. This definition of the subtelomeres closely corresponds with the region known to bind heterochromatin protein 1, a protein whose location is limited to those areas harbouring genes that show mutually exclusive or highly heterogeneous expression patterns
+ (
+ ).
+ illustrates the subtelomeric boundary in more detail at the ends of chromosomes 12 and 14. Several multigene families, such as FIKK, SERA, Acyl-CoA synthase and SURFIN that have formerly been regarded as subtelomeric, do not appear to be in the highly recombinogenic part of the genome.
+ The “newly defined” subtelomeres have a similar structure but variable length across the isolates; telomeric heptamer repeats are in most cases followed by repetitive regions of several thousands of base pairs including REP20
+ (
+ ), followed by one
+var gene that is transcribed towards the centromere (
+ ). The numbers of
+var, rif and
+stevor genes in each of the subtelomeres are variable, as are the overall numbers per genome: 47-90
+var genes ≥ 2.5kb (median 62), 122-185
+rif genes
+ (median 152) and 22-44
+stevor genes (median 40) (
+ ). Genes considered subtelomeric by our definition include the PfMC-2TM genes and other families encoding exported proteins (
+ ). As previously described
+ , alleles of EPF1 (export protein family 1), PfMC-2TM, EPF3 and EPF4 commonly occur next to each other as a gene cassette. We found that these genes occur as cassettes in all genomes but with the number of cassettes varying from 4 to 9. In 3D7, 3.5 out of 9 of these cassettes are part of the subtelomeres. A network analysis (
+ ) revealed the level of sequence identity and sub-clustering that occurs in these genes. PfMC-2TM is the most diverse, and in the similarity graph we observe several small clusters. While the function of this group of four genes is not fully understood, Mbengue and colleagues reported that down-regulation of EPF1 is associated with inefficient release of merozoites
+ .
+ The Cytoadherence Linked Asexual Gene (CLAG) multigene family is found across the
+Plasmodium genus (
+ ). Despite their historic name these genes are now known not to be involved in cytoadherence. CLAG9 encodes a protein known to be a component of the rhoptry
+ whereas CLAG3 has been reported to be expressed in the infected red cell membrane and to be involved in nutrient uptake
+ . In addition to five known CLAG genes that are positionally conserved within the core region of
+P. falciparum, we identified a novel CLAG on different subtelomeres in our new assemblies. Given the broad range of important parasitological roles of characterised CLAG family members, determining the function of this new uncharacterised CLAG gene will be of great interest.
+ Our assemblies also revealed the conserved arrangement of the seven internal
+var gene clusters (
+ ) that are clusters with at least one functional
+var gene, within the core regions of the genome. No new internal
+var clusters were found. The orientation of the
+var genes within them were generally conserved with only six exceptions out of more than 300 genes. Four of the seven clusters have a highly conserved
+var pseudogene on the reverse strand that delimit the cluster boundary.
+ 
+
+## Differences between isolates within the core
+We did not find any genomic transpositions in the core. A few large deletions were found, like some reticulocyte binding proteins in KH01 (
+ ), at the KAHRP (knob-associated histidine-rich protein) locus in isolate Dd2 and near the end of chromosome 9 where several isolates have deleted a segment containing a number of genes as previously reported
+ . We were unable to find duplications larger than the median read length of 12 kb, since these would have been collapsed into single copies within our assemblies. By manual inspection we found a copy number variation in the promoter region of KAHRP in several isolates (
+ ). Whether this observation relates in any way to knob density at the red cell membrane remains to be determined.
+ Due to the completeness of our assemblies, it was possible to characterize other core genes that have been previously difficult to access. For example, the region on chromosome 10 (position 1,391,000 – 1,463,000) harbours many genes involved in merozoite invasion. With short reads, these genes are too diverse to be aligned well enough to enable confident SNP calling. As this locus is represented completely in the newly assembled isolates, it will enable the community to analyse those genes in more detail.
+
+## A new gene with a geographic signature
+This collection of genomes is not intended to assess whether the distribution of genomic features are geographically structured. Nevertheless, a new gene on chromosome 11 was only found in non-African isolates within the panel and is absent from the 3D7 reference (
+ ). The coding sequencing of the gene is highly repetitive and contains many homopolymeric stretches. It has a weak Pfam hit (1e-5) to an MgtE intracellular N domain found at the N-terminus of magnesium transporters within eubacteria. I-TASSER predicts a potential transferase (C-score=-0.70; Estimated TM-score = 0.62±0.14 and Estimated RMSD = 11.3±4.5Å). However, it lacks both a signal peptide and transmembrane regions. The laboratory strains with American origin (Pf7G8 and PfHB3) have the gene. To shed further light on this, we determined the presence or absence of this gene in 2,500 samples from the Pf3K project. We found that it was present with a frequency of around 15% in South East Asia, compared to 6% in Malawi and less than 1% in other African samples (
+ ). The gene is present as an intact copy in the two available samples from
+P. reichenowi
+ , a closely related parasite of chimpanzees. In the
+P. falciparum genomes that contain the gene, it therefore appears to have at least one frameshift. However, these are highly likely to be sequencing errors because the repetitive nature of the coding sequence presented a problem for PacBio sequencing (and sequence correction). The complete absence of the whole sequence from most of the African isolates argues against the alternative explanation that a pseudogene is being differentially maintained in different populations. Its higher frequency in South East Asia and the Americas may be due to a founder effect, or relatively weak purifying selection to remove the gene in these populations, as has been seen for removal of genomic copy number variants
+ .
+ 
+
+## Discussion
+Using long read technology we have generated 15 new genome sequences of
+P. falciparum that reveal a highly conserved genome architecture with no large scale structural differences, and collectively provide an improved reference for this important parasite species.
+A striking feature of
+P. falciparum chromosomes is that they each comprise a long interstitial region that is conserved across multiple species, flanked by large distal regions that contain polymorphic multigene families. Researchers have frequently referred to these regions as core and subtelomeric, respectively
+ ,
+ –
+ , yet it is surprising that there have been few attempts formally to demarcate their boundaries. The availability of high quality assemblies enables us to address this issue. The boundaries were previously assumed to be either the position of the last one-to-one orthologue between all
+Plasmodium genomes, or the first gene of one of the variable gene families, mostly
+rifin or
+stevor genes. Our new definition based on mapping is consistent with the hypothesis that the boundary of the core genome represents the last genes that are subject to consistent homologous recombination. This definition is only relevant at the population level because isolates that are the product of recent meioses will share extended regions of homology. Telomeric to the core regions, highly polymorphic variable gene families are found that show little sequence homology, some copy number variation but also considerable consistency in organisation such as the orientation of the most telomeric
+var gene. This suggests functional constraints to recombination also exist within the subtelomeric regions. The core region contains internal clusters of
+var genes that show positional conservation as well as a fairly consistent number and orientation.
+The clone 3D7 does indeed appear to be an accurate reference for the species as a whole in terms of gene content and organisation. There are however some important exceptions. We identify a novel gene that has a higher frequency in Asia and a new member of the CLAG gene family. Given the disparate yet important functions of existing CLAG paralogues, establishing the role of this new member should be a priority.
+
+## Data availability
+The raw sequence data (Illumina and Pacific Bioscience reads) can be retrieved from the European Nucleotide Archive (
+ERP009847); sample accession numbers (first Pacific Bioscience and then Illumina) Pf3D7: ERS782627 and ERS557779; IT: ERS480577 and ERS557780; Dd2: ERS639545 and ERS754081; HB3: ERS712858 and ERS754080; 7G8: ERS686280 and ERS754078; GB4: ERS686279 and ERS754079; Senegal: ERS637501 and ERS740935; Guinea: ERS739315 and ERS740940 Togo: ERS746008 and ERS747371; Mali: ERS755621 and ERS747373; Gabon: ERS739316 and ERS740939, Congo: ERS806988 and ERS1306147; Sudan: ERS746009 and ERS747372; Kenya: ERS525803 and ERS740937; Cambodia (KH01): ERS712859 and ERS747370; Cambodia (KH02): ERS686281 and ERS740936.
+The genome sequences are available at EBI under the accession number ERP009847.
+The annotation (embl) files of all isolates are available at:
+ftp://ftp.sanger.ac.uk/pub/project/pathogens/Plasmodium/falciparum/PF3K/. This page also has the OrthoMCL files used in the analysis. The genomes will be uploaded into PlasmoDB.
+The IPA software is available on GitHub:
+https://github.com/ThomasDOtto/IPA. Version 1.0.1 was used for this work.
+The software is also available on Zenodo:
+https://doi.org/10.5281/zenodo.806818
+ 
+
+License: GNU General Public License v3.0
+
+## Acknowledgments
+We would like to thank the patients who contributed samples and the health workers who assisted with the sample collections. We would also like to thank staff from the Illumina Bespoke Sequencing Team at the Wellcome Sanger Institute for their contribution, Amanda Lukens for providing the Dd2 sample, Eleanor Drury for DNA extraction and Alister Craig for his analysis contribution. We thank the Pf3k consortium, particularly Dan Neafsey and Dominic Kwiatkowski for discussions. This paper is published with permission from the Director of Kenya Medical Research Institute (KEMRI).
+ 10.21956/wellcomeopenres.15862.r33114Referee response for version 1
+DuffyMichael F. Refereehttps://orcid.org/0000-0001-5635-4033
+1School of Biosciences, Bio21 Institute, University of Melbourne,  Melbourne, Vic, Australia
+Competing interests: No competing interests were disclosed.
+2352018Version 1recommendationapproveOtto et al. provide very useful information about genome organisation in
+P. falciparum. Until now a single annotated complete
+P. falciparum assembly of the 3D7 clone and a partial assembly of the ItG clone have been widely used to map sequencing data. Genome sequence data from multiple other clones is available including smaller, assembled contigs that have been used to identify de novo assembled
+P. falciparum var genes from recombinogenic regions (e.g. Rask 2010 PLoS Comp Biol). However the genomic organisation of these contigs and their
+var genes remained unknown because assembly of the
+P. falciparum short reads is difficult in the low complexity intergenic sequence and in the recombinogenic regions containing var genes.
+ Otto et al. combine Illumina short reads and PacBio long reads to assemble 15
+P. falciparum genomes into large contigs. The experiments and analyses were performed to a high standard and the conclusions of the paper were justified. The PacBio sequences were prone to false indels in homopolymeric or AT repeats but if these were excluded the 3D7 PacBio assembly was faithful to the 3D7 reference genome giving confidence in the other assemblies.
+ The 15 genomes shared a highly conserved core but as predicted from previous partial assemblies the subtelomeric regions and chromosome internal var gene clusters were divergent. The authors chose a region where synteny is lost for half the clones to partition the chromosomes into conserved core and divergent subtelomeric regions. The definition of these boundaries is very useful information that could aid attempts to define sequences associated with recombination or nucleation/maintenance of chromatin boundaries. Subtelomeric sequence context affects var gene activation and the assembly of the subtelomeres might also help future studies investigate this effect.
+ A principal, convincing finding was that the new boundaries have reassigned several multi-gene families from the subtelomeric sites to the chromosome core. The comparison between multiple genomes was required for this formal proof of the subtelomeric boundary. However, it is unclear how this study has discriminated between the two proposed definitions (which require citations) of subtelomeric boundaries, i.e. “
+The boundaries were previously assumed to be either the position of the last one-to one orthologue between all Plasmodium genomes, or the first gene of one of the variable gene families, mostly rifin or stevor genes. Our new definition based on mapping is consistent with the hypothesis that the boundary of the core genome represents the last genes that are subject to consistent homologous recombination.”. From fig 4 the chromosome 14 LH boundary appears to be at an exported protein coding gene in a conserved location, whether this gene is itself conserved or variant should be indicated, and the RH boundary is intergenic between an exported protein coding gene in a conserved location and either genes encoding exported proteins or rif genes. Clearer annotation in this figure of the genes “subject to consistent homologous recombination” might help interpretation.
+ A gene is also reported that occurs in greater frequency in SE Asian than in African isolates. The gene has no known function and has assembled with a frameshift that the authors say may be due to problems with the assembly. This gene and a CLAG gene are the only novel genes reported so despite its lack of importance for the parasite it would be useful to Sanger sequence the gene to confirm whether it does indeed have a frameshift.
+ The column 5 heading “var array” in table 5 should be defined in the table footnotes.
+I have read this submission. I believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+10.21956/wellcomeopenres.15862.r33115Referee response for version 1
+DeitschKirk W. Referee
+1Department of Microbiology and Immunology, Weill Cornell Medical College, Cornell University, New York, NY, USA
+Competing interests: No competing interests were disclosed.
+1852018Version 1recommendationapproveThe report by Otto and colleagues provides another excellent resource for the malaria community, in particular to researchers interested in chromosome structure and the variability found within the subtelomeric regions of the chromosomes. Using long-read technology, the authors have assembled complete subtelomeric regions from 15 parasite isolates, something that has not been possible using previously available genome sequencing and assembly methods. This enables researchers to understand more fully the variability in these regions and to better understand where the boundaries with the core genome exist. The authors have provided a clear description of their work and a solid assessment of the findings. Overall this is a nice addition to the literature.
+ While the majority of the paper is easily understood, a few additional items could be addressed by the authors. 
+The authors mentioned that they chose 5 long-maintained laboratory isolates and 10 recently cultured clinical isolates for analysis. Did they find any consistent differences in genome structure that might be indicative of long-term growth in culture? For example, it has long been speculated that loss of the genes kahrp, hrp2 and hrp3 (through truncation of the associated subtelomeric domains) provide parasites with a growth advantage in culture but should be selected against in the field. However, there are recent reports of loss of hrp2 and hrp3 in field isolates. Similarly, truncation of chromosome ends through “telomere healing”, which often leads to a loss of rep20 and var genes, was also speculated to be a consequence of long-term culture. Is there any evidence for more frequent loss of subtelomeres (rep20, vars, etc) in long-term cultured isolates? This might be discernable from the data in Figure 3B, however it is not clear which isolates have longer subtelomeric regions. 
+It might be worth noting that in Figure 4, within the left end of chromosome 12, the core genome extends into a var gene. This might seem counterintuitive to some readers unless it is pointed out that this particular var gene is var2csa, a gene previously identified as “strain transcendent”. Its conservation is therefore expected. 
+It is not clear what information in Figure 5 is biologically interesting and what is simply an assessment of the efficiency of the sequencing method. For example, a lack of telomere repeats indicates the sequencing did not extend all the way to the end of the chromosome (chromosomes are not thought to be stable in the absence of a telomere), while loss of Rep20 could be due to incomplete sequencing or the result of changes in the chromosome structure (eg the result of telomere healing). If there are no telomere repeats, it is not clear if a lack of Rep20 or var genes is biologically meaningful or simply the result of incomplete sequencing. This figure indicates that many of the assembled chromosomes lacked telomere repeats and are therefore incomplete. How will this affect the assessment of the size of each chromosome and the total number of var genes? The paper is written in a way that leads the authors to believe that the differences in the number of var genes shown in Table 2 is reflective of variability found in the field, however can this be said with confidence if many of the chromosome ends are not complete?
+
+I have read this submission. I believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+10.21956/wellcomeopenres.15862.r33063Referee response for version 1
+SerreDavid Referee
+1Institute for Genome Sciences, University of Maryland School of Medicine, Baltimore, MD, USA
+Competing interests: No competing interests were disclosed.
+952018Version 1recommendationapproveThis is an straight-forward and interesting study describing the use of PacBio long reads to assemble the subtelomeric regions of several P. falciparum isolates. The data and analyses are sound and the conclusions interesting and well supported by the data. Overall no major comments. My main criticism is that some of the display items (e.g. T1, F1, T4, T5, F6) are not extremely informative and dilute the impact of the other figures. Could they be moved to supplemental information (not sure if this is supported by the journal)?
+ Minor comments:
+On page 6: "Comparing all of the PacBio based assemblies..." I assume this include the reassembled 3D7 but this should be clearly stated...
+On page 7: "abrupt increase in recombination..." This is not clear to me whether this statement is entirely correct. Could the recombination rate be comparable to neighboring regions but, due to high sequence homology between repeated elements, lead to non-homologous recombination and therefore sequence divergence? Same comment with "recombinogenic" a bit later in the paragraph.
+On page 11: the way it is written, it seems like the novel CLAG gene is on different chromosomes depending on the clone analyzed. Is this correct? If yes, this should be further discussed.
+On page 13: please indicate in the text the number of non-African isolates carrying the new gene (X out of X).
+
+I have read this submission. I believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.

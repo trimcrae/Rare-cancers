@@ -1,0 +1,344 @@
+pmcPLoS PathogPLoS Pathog349plospath101238921plosPLOS Pathogens1553-73661553-7374PLOSPMC9668162PMC9668162.1966816296681623638355910.1371/journal.ppat.1010924PPATHOGENS-D-22-009961Research ArticleBiology and Life SciencesCell BiologyCellular TypesAnimal CellsBlood CellsRed Blood CellsBiology and Life SciencesPhysiologyImmune PhysiologyAntibodiesBiology and Life SciencesImmunologyImmune System ProteinsAntibodiesMedicine and Health SciencesImmunologyImmune System ProteinsAntibodiesBiology and Life SciencesBiochemistryProteinsImmune System ProteinsAntibodiesMedicine and Health SciencesMedical ConditionsParasitic DiseasesMedicine and Health SciencesMedical ConditionsParasitic DiseasesMalariaMedicine and Health SciencesMedical ConditionsTropical DiseasesMalariaResearch and Analysis MethodsSpecimen Preparation and TreatmentStainingNegative StainingBiology and Life SciencesOrganismsEukaryotaProtozoansParasitic ProtozoansMalarial ParasitesResearch and Analysis MethodsImmunologic TechniquesImmunoassaysEnzyme-Linked ImmunoassaysPhysical SciencesChemistryPhysical ChemistryChemical BondingHydrogen BondingCryo-EM reveals the conformational epitope of human monoclonal antibody PAM1.4 broadly reacting with polymorphic malarial protein VAR2CSA
+Cryo-EM structure of human monoclonal antibody PAM1.4 broadly reacting with malarial protein VAR2CSARaghavanSai Sundar RajanConceptualizationData curationFormal analysisInvestigationMethodologyVisualizationWriting – original draftWriting – review & editing DagilRobertFormal analysisInvestigationMethodologyVisualizationWriting – original draftWriting – review & editing Lopez-PerezMaryFormal analysisInvestigationMethodologyVisualizationWriting – review & editing ConradJulianMethodology BassiMaria RosariaResourcesWriting – review & editing QuintanaMaria del PilarResourcesWriting – review & editing ChoudharySwatiFormal analysisWriting – review & editing GustavssonTobiasFormal analysisWriting – review & editing WangYongFormal analysisWriting – review & editing GourdonPontusFunding acquisitionWriting – review & editing OforiMichael FokuoResourcesWriting – review & editing ChristensenSebastian BojeInvestigationWriting – review & editing MinjaDaniel Thomas RemiasResourcesWriting – review & editing SchmiegelowChristentzeResourcesWriting – review & editing NielsenMorten AgertougConceptualizationFunding acquisitionWriting – review & editing BarfodLeaConceptualizationFunding acquisitionWriting – review & editing HviidLarsConceptualizationFunding acquisitionWriting – review & editing SalantiAliConceptualizationFunding acquisitionWriting – review & editing LavstsenThomasConceptualizationFunding acquisitionWriting – original draftWriting – review & editing https://orcid.org/0000-0002-5922-7109WangKaituoConceptualizationData curationWriting – original draftWriting – review & editing 1
+Centre for Medical Parasitology at Department for Immunology and Microbiology, Faculty of Health and Medical Sciences, University of Copenhagen, and Department of Infectious Diseases, Rigshospitalet, Copenhagen, Denmark2
+Swedish National Cryo-EM Facility, Science for Life Laboratories, Solna, Sweden3
+Joint Research Centre for Engineering Biology, Zhejiang University-University of Edinburgh Institute, College of Life Sciences, Zhejiang University, Hangzhou, Zhejiang, China4
+Department of Biomedical Sciences, University of Copenhagen, Copenhagen, Denmark5
+Department of Experimental Medical Science, Lund University, Lund, Sweden6
+Department of Immunology, Noguchi Memorial Institute for Medical Research, University of Ghana, Legon, Ghana7
+National Institute for Medical Research, Tanga Centre, Tanga, TanzaniaBeesonJames G.Editor . The atomic coordinates and electron-microscopy data have been deposited in the RCSB Protein Data Bank and in the Electron Microscopy Data Bank under the following entries: VAR2CSA complex with PAM1.4 (PDB:7Z12; EMDB ID: EMD-14438) and APO VAR2CSA (PDB:7Z1H, EMDB ID: EMD-14446).
+
+## Data Availability
+All data related to the findings in the article are contained in the manuscript and . The atomic coordinates and electron-microscopy data have been deposited in the RCSB Protein Data Bank and in the Electron Microscopy Data Bank under the following entries: VAR2CSA complex with PAM1.4 (PDB:7Z12; EMDB ID: EMD-14438) and APO VAR2CSA (PDB:7Z1H, EMDB ID: EMD-14446).
+
+## Introduction
+Each year, over 10 million women experience infection with Plasmodium falciparum malaria parasites during pregnancy. Placental malaria imposes significant threats to both mother and child health [ ], with risk of maternal anaemia, hypertension, stillbirth, premature delivery and low birth weight being particularly high in first pregnancies [ , ]. Placental malaria is caused by extensive accumulation of P. falciparum-infected erythrocytes in the placenta [ ]. P. falciparum parasites sequester from the blood circulation to escape splenic destruction of infected erythrocytes [ ]. The tissue sequestration of infected erythrocytes is mediated by members of the P. falciparum Erythrocyte Membrane Protein 1 (PfEMP1) family [ ] which has expanded to confer several mutually exclusive receptor binding phenotypes and diversified in sequence to avoid immune recognition (antigenic diversity) [ ]. In non-pregnant women, infected erythrocyte sequestration is mediated by PfEMP1 that can bind to endothelial receptors such as Endothelial Protein C Receptor (EPCR), Intracellular Adhesion Molecule 1 (ICAM-1) or CD36, which has been associated with severe malaria in immunologically naïve hosts (children) and asymptomatic infections in semi-immune hosts, respectively [ ]. In pregnancy, however, the placenta provides the parasite with an additional niche that enables parasite adhesion to CS via VAR2CSA-type PfEMP1 [ , ].
+VAR2CSA-type PfEMP1 are ~310 kDa large, multi-domain proteins embedded in the erythrocyte membrane. They are composed of a short and conserved intracellular domain, a transmembrane domain and a large, polymorphic ectodomain. Each parasite genome typically encodes one or two VAR2CSA variants with ectodomains differing in sequence within and among genomes [ , ].
+The VAR2CSA ecto-domain is composed of a short N-terminal segment, six Duffy Binding-Like (DBL) domains (DBL1-DBL6), and three inter-domain regions (ID1-3). All are unique to VAR2CSA-type PfEMP1. Extensive efforts to resolve the molecular basis of VAR2CSA binding (reviewed in [ ]), established the CS binding site to be contained within the region spanning ID1-DBL2-ID2. These studies recently culminated in the molecular resolution data of the interaction of the full ectodomain VAR2CSA protein variants with CS [ – ]. These studies confirmed speculations that all VAR2CSA variants adopt a similar fold with the ID1-DBL2-ID2-DBL3-DBL4-ID3 region forming a compact, stable core containing a CS binding pore. The core is decorated with highly diverse flexible loops and surface residues.
+The development of immunity against placental malaria correlates with acquisition of antibodies to VAR2CSA, and significant protection is gained after first pregnancies [ , , ]. Immunity is likely mediated by antibodies inhibiting VAR2CSA binding to placental CSA [ ] and opsonizing VAR2CSA+ infected erythrocytes for cell-mediated destruction [ – ]. Both variant-specific and broadly reactive antibodies are acquired by placental malaria-immune individuals [ ], with the latter possibly relying on conformational epitopes involving multiple domains. The exact epitopes recognized by broadly cross-reactive antibodies have not been identified, which has frustrated attempts to develop VAR2CSA-based vaccines against PM. Vaccination of rodents with truncated VAR2CSA proteins can elicit antibodies that inhibit diverse VAR2CSA variants like antibodies from naturally VAR2CSA-exposed women [ , ]. However, these vaccine candidates induced only low titres of antibodies and very limited cross-reactivity in human phase I clinical trials [ , , ].
+To date, only eight human monoclonal anti-VAR2CSA antibodies (mAbs) have been identified and characterized. Of these, five exhibit reactivity with several (but not all) sequence diverse natively expressed VAR2CSA variants, whereas one, PAM1.4, appears to recognize all (or at least most) native VAR2CSA variants [ – ]. PAM1.4 can efficiently opsonize infected erythrocytes for Fc receptor-dependent killing in vitro [ , ], whereas recent studies revoking early data have led to the consensus notion that PAM1.4 is unable to inhibit infected erythrocyte adhesion to CS [ ].
+Building on recent cryogenic Electron Microscopy (cryo-EM) protocols for structural studies of VAR2CSA, we analysed PAM1.4 Fab complexed with full-length VAR2CSA (FL VAR2CSA). We found that PAM1.4 Fab binds a highly conserved conformational epitope that involves several of the domains composing the core VAR2CSA structure.
+
+## Results
+
+## Reactivity of PAM1.4 Fab to recombinant and native VAR2CSA
+The ability of the PAM1.4 Fab fragment to bind recombinant full-length VAR2CSA and VAR2CSA domains were tested in ELISA with immobilized PAM1.4 Fab fragments. No binding was observed to the minimal CS-binding region proteins (ID1-ID2a and DBL1-ID2a), DBL4 or DBL5, whereas binding to full-length VAR2CSA showed saturation with a calculated KD of 12 nM ( ). The previously reported broad cross-reactivity of PAM1.4 with allelic variants of native VAR2CSA was confirmed by flow cytometry and three genotypically distinct parasite lines (IT4/FCR3, NF54 and 7G8) expressing VAR2CSA-type PfEMP1 (Figs and ). The binding of PAM1.4 Fab to recombinant full-length VAR2CSA was further investigated by negative stain electron microscopy. Comparing the negative stain density maps of APO VAR2CSA (un-complexed VAR2CSA) ( ) and PAM1.4 Fab VAR2CSA indicated that PAM1.4 Fab binds to the core structure of VAR2CSA ( ). Further model fitting of the previously published cryo-EM structure of VAR2CSA onto the negative stain map of PAM1.4 FabVAR2CSA complex suggested that the PAM1.4 Fab binds a conformational epitope involving multiple domains of the core structure ( ).
+ 
+
+## Cryo-EM structure of PAM1.4 Fab complexed with full length FCR3 VAR2CSA
+To understand the molecular details of PAM1.4 binding to VAR2CSA, we determined the cryo-EM structure of PAM1.4 Fab in complex with the full ectodomain of VAR2CSA (variant FCR3) ( ) at an overall resolution of 3 Å and with resolution of the binding region reaching 2.5 Å ( ). The PAM1.4 Fab was found to bind the globular VAR2CSA core structure away from the main surface-exposed CS binding site, which has also been suggested as the main entry point to the core-traversing CS-binding pore ( ). The antibody bound a concave face of the VAR2CSA core structure with an epitope spanning exposed residues of ID1, DBL2, ID2 and DBL4 (Figs and ). Comparing the PAM1.4 Fab VAR2CSA complex structure with structural data of APO VAR2CSA (RMSD: 0.909Å) derived here at a resolution of 3.12Å (Figs , and ), did not indicate major conformational change to the VAR2CSA core structure. These observations explain why PAM1.4 does not bind individual single domains of VAR2CSA but binds to full-length VAR2CSA with high affinity, and that predict PAM1.4 is unlikely to inhibit CS binding by VAR2CSA, directly or through induced conformational changes to VAR2CSA. In agreement with this, we did not observe inhibition of VAR2CSA+ infected erythrocyte adhesion to CS, neither by PAM1.4 IgG nor by PAM1.4 Fab ( ).
+ 
+
+## Molecular details of PAM1.4 Fab binding to VAR2CSA
+Our data show that PAM1.4 Fab interacts with ID1, DBL2, ID2 and DBL4 of VAR2CSA and that the CDR1, CDR2 and CDR3 regions of both the heavy and light chain of the antibody are involved. The binding is stabilized by hydrogen bonds, electrostatic and hydrophobic interactions.
+In ID1, residues K510 and R511 form hydrogen bonds with both light and heavy chain residues of PAM1.4 D47 (CDR-L1), N111 (CDR-L3) and T126 (CDR-H3) ( ). In comparison with the APO VAR2CSA structure, we observe stabilization of ID1 (N521 –K522) loops upon PAM1.4 Fab interaction ( ).
+ In DBL2, PAM1.4 Fab binding is mainly stabilized through interactions with residues placed in the loop (L905 –T992) leading to ID2. PAM1.4 residues Y51 (CDR-L1), Y110 (CDR-L3), and T72 (CDR-L2) form hydrogen bonds with VAR2CSA residues D906, D907 and N908, and PAM1.4 R120 (CDR-H3) forms an electrostatic interaction with VAR2CSA D907 ( ). In addition, PAM1.4 Y51 (CDR-H1) and N121 (CDR3-H3) each form a hydrogen bond with side chains of VAR2CSA Y958 and R959, respectively.
+ In DBL4, PAM1.4 D49 (CDR-H1) forms electrostatic and hydrogen bond with the side chain of R1617 from VAR2CSA ( ). There is also a non-CDR loop of the heavy chain interacting with VAR2CSA DBL4. N93 (IGVH-FRW3) forms a hydrogen bond with G1616 in DBL4 of VAR2CSA.
+Finally, PAM1.4 Fab binding to the DBL2 and DBL4 domains is further stabilized by hydrophobic interactions at residues K914-T918 of DBL2 and K1872-E1875 of DBL4. P94 (IGVH-FRW3) forms a hydrophobic contact with I1055 of ID2 loop ( ).
+
+## PAM1.4 epitope conservation
+The degree of conservation of the FCR3 VAR2CSA residues found to directly interact with PAM1.4 was assessed using a recently published sequence alignment of 3737 VAR2CSA variants representing the global diversity of the protein family [ ]. Contact residues in ID2 and DBL4 as well as residues L905-N908 and K914-T918 of DBL2 (Figs , and ) were all ~100% conserved. The ID1 residues K510-R511-G512 in FCR3 VAR2CSA were semi-conserved in 76% of VAR2CSA variants ( ). The sequences of four VAR2CSA variants that are recognized by PAM1.4 in their native form (NF54, FCR3, 7G8 and M200101 [ ]), represent the observed sequence diversity in position 510–511. However, the K510-R511 are absent from 24% of VAR2CSA variants as they are part of ID1, which segregates VAR2CSA-type PfEMP1 into variants with type 1 and type 2 ID1 regions, respectively [ ].
+Residues Y958 and R959 in FCR3 DBL2, which were found to interact with PAM1.4 N121 (CDR-H3) and Y51 (CDR-H1), respectively, are the least conserved contact residues in VAR2CSA ( ). PAM1.4 binding to native NF54 and M200101 VAR2CSA, both of which are H958-G959 variants, indicates that PAM1.4 can bind to VAR2CSA independent of Y958 and R959. The adjacent residues, Y960 and K961, are fully conserved among VAR2CSA. These residues homologous to Y958 and R959 are placed close to each other in a highly flexible loop. It is therefore possible that PAM1.4 bind to Y960 and K961 in VAR2CSA variants where Y958 and R959 are absent and replaced by H958 and G959.
+Overall, the sequence and structural conservation of the PAM1.4 epitope explains the previously observed broad cross-reactive nature of PAM1.4 and suggests that PAM1.4 would bind most of the VAR2CSA variants with high affinity.
+
+## PAM1.4 characteristics
+The PAM1.4 IGHV and IGLV sequences were analysed to infer the closest related germline sequence, boundaries of framework and complementarity-determining regions (FWRs and CDRs) as well as mutations from nearest germline sequence ( ). A total of 11 and six amino acid substitutions from nearest germline sequence were found in the IGHV and IGLV framework sequences, respectively. An additional five and two amino acid substitution of CDR1-2 was observed in PAM1.4 IGHV and IGKV, respectively. These amino acid mutations arise from 35 and 14 single nucleotide differences (silent and non-silent), which agrees with previously reported mutation rates for IgG sequences derived from memory B cells [ ]. Also, the observed CDR lengths (e.g. VH CDR3 = 16 amino acid residues) are as typically seen for human IgG [ ].
+
+## Discussion
+The VAR2CSA protein family is considered the main target of antibodies protecting women from adverse events due to P. falciparum infection during pregnancy [ , ]. Only a few human monoclonal VAR2CSA antibodies have been isolated, and only PAM1.4 has shown broad reactivity across the VAR2CSA-type PfEMP1 [ ]. The antibody was initially described as both broadly reactive and inhibitory to CS binding [ , ]. However, recent research by our and other research teams led to the consensus notion that PAM1.4 is cross-reactive but not neutralizing [ ]. The functional and structural data presented here support that PAM1.4 is indeed broadly cross-reactive, but that it does not inhibit the interaction between VAR2CSA and CS.
+In line with previous work [ ] and the ELISA results presented here, our molecular analysis showed that PAM1.4 binds a conformational epitope dependent on the assembly of the core VAR2CSA macromolecular structure. The PAM1.4 epitope is placed in the core structure at a position that is remote from the CSA binding site, at a region exposing closely spaced residues of multiple VAR2CSA domains: ID1, DBL2, ID2 and DBL4. The PAM1.4 interacts through both its heavy and light chains and appears to have undergone affinity maturation at a level normally seen for memory B-cell receptors. Based on sequence conservation of directly interacting VAR2CSA residues, we propose that PAM1.4 can bind all VAR2CSA variants with ID1 type 1 sequences corresponding to three quarters of all VAR2CSA variants. The structure of the ID1 type 2 is unknown and PAM1.4 interaction with in-silico predicted structures is unlikely to provide definitive proof of interaction. Thus, further studies are needed to resolve this.
+Broadly reactive human monoclonal antibodies to VAR2CSA are likely to be common among women naturally exposed to VAR2CSA. Like PAM1.4, such antibodies may require intact multi-domain constructs to be detected and isolated–and indeed to be induced. In support of this, a recent paper showed that human VAR2CSA (polyclonal) IgG could be depleted from human sera by a single full-length VAR2CSA ectodomain [ ] but not by individual VAR2CSA domains [ ]. Moreover, affinity purification using a single VAR2CSA domain extracted the majority of cross-reactive inhibitory IgG from pooled serum IgG of malaria-exposed women. Thus, it is possible that broadly neutralizing VAR2CSA antibodies function by direct competition with CS at the CS binding site or sterically inhibiting upon binding near the CS epitopes. CS-binding inhibition is thought to be a key mechanism of acquired immunity to placental malaria [ ]. However, the relative importance of neutralization and opsonization remains unknown. Indeed, acquired antibodies to VAR2CSA are mainly cytophilic [ ] and importantly are markedly afucosylated [ ]. This trait is shared with IgG elicited by other host membrane-associated proteins such as antigens of enveloped virus [ ]. Thus, Fc-modulated versions of PAM1.4 and other broadly reactive but non-inhibitory antibodies may serve as useful tools for benchmarking vaccine-elicited cell-mediated immunity to placental malaria.
+The structural resolution of VAR2CSA has raised hopes that novel immunogen and vaccine strategies for boosting cross-reactive responses can be designed [ ]. However, for this to succeed, identification and characterization of new broadly reactive, and ideally, CS-binding inhibitory VAR2CSA antibodies are likely needed. Negative stain electron microscopy for polyclonal epitope mapping (nsEMPEM), is a novel method, which can help dissecting naturally acquired or vaccine-induced immunity. This technique has been developed to discern the polyclonal responses in non-human primates to vaccination with HIV immunogens and was used to assess the polyclonal human antibody response after vaccination against or infection with COVID-19 [ , ]. Here we have shown that VAR2CSA is a good candidate for nsEMPEM by mapping epitope binding region of PAM1.4 Fab based on negative stain ( ). Thus, nsEMPEM studies of naturally acquired and vaccine-induced antibody epitopes are now possible and could enhance the development and assessment of improved second-generation VAR2CSA vaccines.
+
+## Methods
+
+## Ethics statement
+Ethical clearance was granted by the Medical Research Coordinating Committee of the National Institute for Medical Research (reference number NIMR/HQ/R.8a/Vol. IX/1717).
+
+## Recombinant protein production
+VAR2CSA full length was produced in the baculo virus—insect cell expression system based on previously described method [ ]. Gene fragment from N terminal M1 to F2649 of DBL6 was cloned into baculovirus vector pAcGP67-A (BD Biosciences) with V5 and 6xHisTag on the C terminal. The construct was transfected into Sf9 cells (Spodoptera frugiperda-9) to generate and amplify the viral particles which were then used to infect High-Five (X5) insect cells. Expression was induced for 48h-60h. Cells were then pelleted by centrifugation at 10000xg for 15mins at 4°C and discarded. The media supernatant was concentrated, and buffer exchanged to PBS pH. 7.4 buffer using 50k MWCO hollow-fiber filter. Imidazole was added to a final concentration of 60mM and loaded onto 5ml HisTrap HP column (Cytiva). Protein was eluted through a linear gradient of PBS with 300mM Imidazole pH. 7.4 buffer. The protein was further purified by subjecting to size exclusion chromatography using Superose 6 Increase 10/300 column (Cytiva) in 20mM Tris-HCl, 150mM KCl, 0.05% Sodium Azide, pH. 7.5. Protein was concentrated to 1.4mg/ml using vivaspin (sartorius), 100kDA MWCO, aliquoted and stored at -80°C for further use.
+VAR2CSA fragments DBL1-ID2a, ID1-ID2a, DBL4 and DBL5 were produced using E. coli Shuffle cells (NEB). Briefly, cells were harvested and homogenized after IPTG induction. Expressed protein from the cytoplasmic fraction was purified using HisTrap HP column (Cytiva) followed by a cation exchange polishing step using HiTrap SP HP (Cytiva). Purity of the VAR2CSA fragments was assessed by SDS-PAGE ( ). Folding of the proteins was assessed by confirming CSPG binding and by reactivity of serum from placental malaria-exposed Tanzanian [ ] and Ghanaian (N = 20) women [ , ] and Ghanaian male adults ( ).
+
+## PAM1.4 IgG Expression and purification
+The human monoclonal IgG1 antibody PAM1.4 has been previously characterized [ ]. In this study, PAM1.4 was produced as recombinant secreted protein in suspension-adapted Human Embryonic Kidney cells (Expi293F Gibco), as described in [ ]. In brief, plasmids encoding the constant regions of the γ1-chain and of the κ-chain plus the variable domains of the PAM1.4 antibody were co-transfected into Expi293F cells using the Expi293 Expression System (Gibco), following manufacturer’s instructions. The secreted antibody was harvested six days post transfection, clarified by centrifugation and filtration, and subsequently purified using protein G plus agarose columns (Pierce). The antibody was eluted in 0.1 M glycine pH. 2.8 and immediately neutralized with Trizma hydrochloride solution 1 M pH 9.0. The PAM1.4 IgG was buffer exchanged into PBS using Amicon ultra centrifugal concentrators (Millipore) and quantified by NanoDrop2000 (Thermo Scientific).
+
+## PAM1.4 Fab production and purification
+To produce PAM1.4 Fab, PAM1.4 IgG was buffer exchanged into PBS, 20mM L-cysteine HCl, pH. 7.4. by 30kDa MWCO membrane centrifugal filter units (Cytiva). Fabs were generated by papain digestion using immobilized papain agarose beads (Sigma-aldrich) in PBS, 20mM L-cysteine-HCl, 2mM EDTA, pH. 7.4 for 120 mins at 37°C in a 1ml spin column. Papain beads were removed by centrifugation @ 1000xg for 2 mins, flow through was collected and subjected to Protein A spin column incubated 30 mins to remove undigested IgGs and Fc fragments. Flow through containing Fabs was collected, further purified by size exclusion chromatography using Superdex 200 increase 10/300 column (Cytiva) in TBS, pH. 7.5, before concentrating and storage at 4°C.
+
+## Enzyme Linked Immuno Sorbent Assay–ELISA
+A Falcon 96-well clear flat bottom microplate was coated with PAM1.4 Fab-fragment, decorin (Sigma-Aldrich) or VAR2CSA full-length and individual domains in PBS (3μg/ml) overnight at 4°C. After incubating the plate was blocked for 1h at RT with PBS-T (PBS, 0.05% (v/v) tween-20, 1% BSA (w/v), pH. 7.4). Full-length VAR2CSA and shorter constructs (ID1-ID2a, DBL1-ID2a, DBL4 and DBL5) were added in a 2-fold dilution series in PBS from 50nM-1.56nM. Serum binding was assessed by adding diluted serum in PBS-T (1:200, 1:400, 1:800, and 1:1600) to plates coated with VAR2CSA. After incubation for 1h, plates were washed and added anti-HIS HRP (Miltenyi) diluted 1:3000 for VAR2CSA detection or anti-human Fc (1:5000) for IgG in serum detection. The plates were developed using TMB-plus2 (kementec) and the absorbance at 450nm was read.
+
+## Immunomagnetic selection of P. falciparum-infected erythrocytes
+Erythrocytes infected by late-stage IT4/FCR3, NF54, and 7G8 parasites were selected for surface expression of VAR2CSA using protein A-coupled DynaBeads coated with PAM1.4 IgG as described previously [ ]. Surface expression of the corresponding PfEMP1 protein was monitored by flow cytometry [ ]. Intact and unfixed late-stage infected erythrocytes were acquired on a Beckman Coulter FC500 flow cytometer and data analyzed with FlowLogic software (version8.3; Inivai Technologies, Australia). The parasite genotypes and the absence of Mycoplasma contamination (MycoAlert Mycoplasma Detection Kit; Lonza) were verified regularly.
+
+## Reactivity to native VAR2CSA on the infected erythrocyte surface
+PAM1.4 IgG reactivity to native VAR2CSA expressed on the infected erythrocyte surface was detected by flow cytometry as previously described [ ]. Briefly, late-stage infected erythrocytes purified by MACS were labelled with PAM1.4 (0.16 to 10 μg/mL) followed by FITC-conjugated anti-human IgG (1:150; Vector Laboratories). Parasite nuclei were stained with ethidium bromide (2 μg/mL). Intact and unfixed infected erythrocytes were acquired by flow cytometry (Beckman Coulter FC500) and data analyzed using FlowLogic software (Inivai Technologies, Australia).
+
+## CS-specific adhesion of infected erythrocytes
+Static adhesion assays were employed to evaluate the capacity of human antibodies to inhibit the infected erythrocyte adhesion to CS, as described elsewhere [ , ]. The PAM1.4 Fab fragment, two preparations of total IgG purified from pools of ten plasma samples (non-pregnant Ghanaian women with natural P. falciparum exposure) with high and low levels of anti-VAR2CSA IgG, respectively, and purified non-immune human IgG (Sigma-Aldrich) were tested. Petri dishes were coated overnight with PBS containing 5 μg/mL decorin (chondroitin sulfate proteoglycan [CSPG]; Sigma-Aldrich). After blocking, a 20% parasite suspension of purified late-stage IT4VAR04 (aka FCR3 VAR2CSA) infected erythrocytes was preincubated with the antibodies (100 μg/mL) or soluble CSA (500 μg/mL) and allowed to adhere to petri dishes. Non-adhering erythrocytes were removed, and remaining bound cells fixed with 1.5% glutaraldehyde in PBS and stained with 10% Giemsa. Adhering cells were quantified by light microscopy as the number of infected erythrocytes bound/mm2 and compared with the level of binding in the absence of antibody (PBS, control for maximum binding).
+
+## Cryo-EM sample preparation
+Full-length VAR2CSA was complexed with PAM1.4 Fab by mixing at 1:1.5 molar ratio (VAR2CSA: PAM1.4 Fab) and the final concentration of VAR2CSA was 0.8mg/ml. Quantifoil 1.2/1.3 carbon grids were glow-discharged with Leica Coater ACE200 for 60s at 5mA current. Cryo-EM grids were prepared with Vitrobot Mark IV (Thermo Fisher) operated at 100% humidity and 4°C. 3μl of the complexed sample was applied to the grids, incubated 3s, blotted for 3s and plunge frozen in liquid ethane and then stored in liquid nitrogen for data collection [ ].
+
+## Cryo-EM data collection and processing
+Full-length VAR2CSA in complex with PAM1.4 Fab micrographs were collected on Titan Krios electron microscope (FEI)– 300kV. 4927 movies were obtained on Falcon3 direct electron detector operating in counting mode at a pixel size of 0.832Å and a total dose of 44 e/Å2 over 39 frames using a defocus range -1 to -2.8μm. 4927 movies were patch motion corrected for beam induced motion within cryoSPARC v3.31 [ ]. The non-dose weighted movies were used to estimate CTF parameters using CTFFIND4 [ ] plugged in cryoSPARC v3.31. Blob particle picking was done to all micrographs and particles were extracted to perform 2D classification. Template based particle selection was done to re-extract particles from micrographs by Local Motion Correction with dose-weighting at a box size of 440 pixels. An initial 925142 particle stack was extracted and subjected to iterative rounds of reference-free 2D classifications to identify class averages corresponding to FL VAR2CSA structural features. The initial Ab-initio classification, followed by heterogeneous refinement provided one good class with well- defined VAR2CSA structural characters with 414806 particles. These particles were further 3D classified and heterogeneously refined to reveal two distinct volumes, one is APO VAR2CSA without PAM1.4 Fab (207129 particles) and another, a complex of VAR2CSA and PAM1.4 Fab (165911 particles). Particles from APO VAR2CSA and PAM1.4 –VAR2CSA complexes were separately refined using non-uniform 3D refinement imposing C1 symmetry. APO VAR2CSA reached 3.12Å, and PAM1.4 –VAR2CSA complex reached 3.04Å final resolution according to the gold-standard FSC [ ].
+
+## Cryo-EM structure modelling and refinement
+Initial coordinates of VAR2CSA and PAM1.4 Fab were generated by docking individual chains of the reference structures into the density map in UCSF Chimera [ ] followed by molecular dynamics flexible fitting (MDFF) [ ]. For APO VAR2CSA, the model co-ordinate for VAR2CSA used was PDB ID: 7B52. For PAM1.4 Fab, initial model was generated by alphafold2-multimer [ ]. Heavy and light chain sequences were given as single input and the top ranked model generated the mean confidence score, pLDDT>96. The model building of APO VAR2CSA and VAR2CSA–PAM1.4 Fab was done iteratively using COOT [ ] followed by real space refinement in PHENIX package [ ]. Local resolution of the maps (APO VAR2CSA and PAM1.4 Fab–VAR2CSA) were calculated in cryoSPARC v3.31. Validation of model coordinates was performed in MolProbity [ ] and is reported in .
+
+## Epitope characterization and sequence analysis
+Structure figures were generated using PyMOL (Version 2.1 Schrodinger, LLC) or UCSF ChimeraX [ , , ]. The interacting residues and the figures for hydrogen bonds, electrostatic and hydrophobic interactions were generated using Ligplot+ [ ]. Epitope conservation analysis of VAR2CSA residues were performed using previously aligned 3737 VAR2CSA sequences and visualized using WebLogo 3 [ , ]. LOGO plots were generated based on 1388 sequences of NTS-DBL6 extracted from the var database, varDB PF3K [ ]. Antibody sequence analysis was performed using the IMGT (International ImMunoGeneTics information system)/V-QUEST (V-QUEry and STandardization) tool and database [ ].
+
+## Negative stain electron microscopy
+Purified APO VAR2CSA and VAR2CSA PAM1.4 Fab complex at a concentration of 20μg/ml were adsorbed on a glow discharged PureC 300 mesh carbon-coated copper grids (EMD Science) for 1 min followed by 2% Uranyl Acetate (Electron Microscopy Sciences) staining. Method was adopted from [ ] and the data collection parameters are detailed in . Raw Micrographs were recorded in TALOS Arctica 200kV (Thermo Fisher Scientific) with Falcon III direct electron detector (Thermo Fisher Scientific) at room temperature using SerialEM 3.7 [ ]. Images were collected in integrating mode at a pixel size of 1.54 Å/px, using flux of 1.8 e/Å2/sec and a total dose of 43.5 e/Å2 over a total of 24 frames, with defocus values ranging from -0.6 to -1.2μm at 0.2μm intervals. Images were processed in cryoSPARC v3.31, and a reference free particle stack was created by gaussian blob picker [ ]. Particles corresponding to PAM1.4 Fab complexed with VAR2CSA were identified by multiple rounds of 2D classification to identify classes displaying structural elements of Fabs on VAR2CSA. Particles were extracted to generate ab initio models in cryoSPARC v3.31 and further processed to segregate APO VAR2CSA and PAM1.4 complex structures. FSC (0.5) of VAR2CSA PAM1.4 Fab map was calculated to be 22Å ( ). Figures were prepared in UCSF Chimera [ , ].
+
+## Supporting information
+S1 Fig
+
+## Reactivity of PAM1.4 to native VAR2CSA expressed on the surface of infected erythrocytes.
+(a) Representative flow cytometry histogram of FCR3 VAR2CSA in the presence of 10μg/ml PAM1.4 IgG (cyan) and 10μg/ml IgG isotype control (gray). (b,c) Erythrocytes infected by FCR3 VAR2CSA were incubated with PAM1.4 (seven two-fold serial dilutions from 0.16 to 10μg/ml). The percentage of FITC-positive cells (infected erythrocytes binding PAM1.4 or IgG isotype control) and the median fluorescence intensity were estimated and used to create dose-response curves.
+(PDF)
+Click here for additional data file.
+S2 Fig
+
+## Model fitting of APO VAR2CSA (PDB ID: 7B52) to map the epitope region of PAM 1.4 Fab as a proof of concept technique to show VAR2CSA Full length is an ideal target for negative stain based polyclonal epitope mapping.
+(a) APO VAR2CSA structure is modelled in the negative stain density of VAR2CSA PAM 1.4 Fab complex to identify and split the density corresponding to the Fab (b) Potential epitopes mapped based on the surface area of the Fab interacting with APO VAR2CSA model structure (c) CryoEM structure of VAR2CSA PAM 1.4 Fab overlayed to verify the density fit and epitopes mapped.
+(PDF)
+Click here for additional data file.
+S3 Fig
+
+## CryoEM workflow on determining VAR2CSA PAM 1.4 Fab structure.
+(a) Representative micrograph of the CryoEM grid used for structure determination. (b) Representative 2D class averages with box size of 44nm. (c) Flow chart of the data processing. Detailed method flow is described in the method section and . (d) Final map of VAR2CSA PAM 1.4 Fab complex colored based on calculated resolution. Pam 1.4 Fab is magnified to highlight the resolution at the binding region of the Fab (Paratope). (e) Final map of APO VAR2CSA colored based on resolution. (f,g) Gold Standard Fourier Shell Correlation (FSC) curve of VAR2CSA PAM 1.4 (3.04 Å) and APO VAR2CSA (3.12 Å) respectively.
+(PDF)
+Click here for additional data file.
+S4 Fig
+
+## Different set of views of VAR2CSA + PAM1.4 Fab cryoEM density map and its corresponding refined ribbon model.
+(PDF)
+Click here for additional data file.
+S5 Fig
+
+## Molecular architecture of APO-VAR2CSA structure resolved from VAR2CSA unbound to PAM1.4 Fab particles and flipped 180° to the right.
+Domains are color coded as depicted above.
+(PDF)
+Click here for additional data file.
+S6 Fig
+
+## PAM1.4 does not inhibit the infected erythrocytes adhesion to CSA.
+Percentage of FCR3 VAR2CSA infected erythrocytes binding to CSA in the presence of 100 μg/ml antibodies or 500 μg/ml soluble CSA (sCSA). Control, absence of antibodies; Fab, PAM1.4 Fab fragment; PAM1.4, PAM1.4 whole IgG; high and low, corresponds to total IgG purified from a pool of plasma with high and low levels of anti-VAR2CSA, respectively; IgG, IgG isotype control. Median values ± 95% CI from two independent experiments and P values using Kruskal-Wallis test followed by Dunn’s multiple comparisons test are shown.
+(PDF)
+Click here for additional data file.
+S7 Fig
+
+## Quality of the cryoEM density.
+(a) ID1 loop: N505 –K522; DBL2: L905 –N908, K914 –W917, Y958 –A963; DBL4: E1614 –R1617, K1872 –E1875 (b) Heavy chain CDR loops, CDR–H1: D47 –G52; CDR–H2: I70 –K77; CDR–H3: R117 –N131. (c) Light chain CDR loops, CDR–L1: E46 –N50; CDR–L2: I67 –A70; CDR–L3: Q108 –A116. The volume surface is zoned at 2.5Å in UCSF ChimeraX for all the regions.
+(PDF)
+Click here for additional data file.
+S8 Fig
+
+## Epitopes of PAM 1.4 Fab interacting by hydrophobic contacts.
+Binding plot analysis is done using Ligplot+ v.2.7 as shown in Figs and . Hydrophobic interaction is shown as red spokes radiating from the residues involved in the interaction. DBL2 and DBL4 are involed in binding with CDR–L2, H2 and H3. Non-CDR residue P94 of heavy chain interacts with ID2 residue I1055. Weblogo is used to represent sequence conservation of the epitopes.
+(PDF)
+Click here for additional data file.
+S9 Fig
+
+## PAM1.4 sequence annotation.
+Alignment and annotation of frame work (FR) and complementarity-determining regions modified from IMTG/quest output. Green letters indicate amino acids with markedly different biochemical properties than the germline sequence. Red letters indicate residues forming hydrogen bonds or electrostatic interactions with VAR2CSA. Bold underlined letters indicate residues stabilizing VAR2CSA binding through hydrophobic interactions.
+(PDF)
+Click here for additional data file.
+S10 Fig
+
+## Quality control of individual domain proteins of VAR2CSA.
+(A) SDS representation of domain constructs both reduced and non-reduced bands corresponding to the molecular weight. DBL5 (37kDa), DBL4 (53kDa), ID1-ID2a (68kDa), DBL1-ID2a (110kDa). (B-D) ELISA binding of full-length VAR2CSA and individual domains by pools of serum derived from Tanzanian (B) and Ghanaian (C) placental malaria-exposed women and Ghanaian adult males (D), in a dilution series 1:200, 1:400, 1:800 and 1:1600. (E) Decorin CSPG binding assessed by ELISA. Only DBL1-ID2a and ID1-ID2a are showing interaction, as these constructs contain the CSA binding site.
+(PDF)
+Click here for additional data file.
+S11 Fig
+
+## GSFSC curve of VAR2CSA PAM 1.4 Fab negative stain map.
+The resolution calculated at 0.5 FSC is 22Å.
+(PDF)
+Click here for additional data file.
+S1 Table
+
+## CryoEM data collection and refinement statistics for VAR2PAM 1.4.
+(PDF)
+Click here for additional data file.
+S2 Table
+
+## Negative stain data collection parameters for VAR2PAM 1.4.
+(PDF)
+Click here for additional data file.
+
+SSRR and KTW acknowledge access to computational resources from the Danish National Supercomputer for Life Sciences (Computerome). We would very much like to acknowledge Core Facility for Integrated Microscopy (CFIM), University of Copenhagen for providing support during data collection. We also would like to acknowledge Swedish National Cryo-EM facility, Science for Life laboratory, Sweden for support on negative stain data collection.
+ 10.1371/journal.ppat.1010924.r001Decision Letter 0
+KimKamiSection EditorBeesonJames G.Associate Editor© 2022 Kim, Beeson2022Kim, Beesonhttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version0
+29 Aug 2022
+
+Dear Dr. wang,
+Thank you very much for submitting your manuscript "Cryo-EM reveals the conformational epitope of human monoclonal antibody PAM1.4 broadly reacting with polymorphic malarial protein VAR2CSA" for consideration at PLOS Pathogens. As with all papers reviewed by the journal, your manuscript was reviewed by members of the editorial board and by several independent reviewers. In light of the reviews (below this email), we would like to invite the resubmission of a significantly-revised version that takes into account the reviewers' comments.
+The reviewers have raised a number of issues that need to be addressed before your paper would be considered acceptable for publication in PLOS Pathogens. In particular, please consider their comments on the need for additional experimental controls, and more clearly address the potential protective functions of the MAb. Please comment on the ways in which these findings can inform vaccine development, as noted by Reviewer 2, since the MAb does not have the desired property of inhibition of binding to CS.
+We cannot make any decision about publication until we have seen the revised manuscript and your response to the reviewers' comments. Your revised manuscript is also likely to be sent to reviewers for further evaluation.
+When you are ready to resubmit, please upload the following:
+[1] A letter containing a detailed list of your responses to the review comments and a description of the changes you have made in the manuscript. Please note while forming your response, if your article is accepted, you may have the opportunity to make the peer review history publicly available. The record will include editor decision letters (with reviews) and your responses to reviewer comments. If eligible, we will contact you to opt in or out.
+[2] Two versions of the revised manuscript: one with either highlights or tracked changes denoting where the text has been changed; the other a clean version (uploaded as the manuscript file).
+Important additional instructions are given below your reviewer comments.
+Please prepare and submit your revised manuscript within 60 days. If you anticipate any delay, please let us know the expected resubmission date by replying to this email. Please note that revised manuscripts received after the 60-day due date may require evaluation and peer review similar to newly submitted manuscripts.
+Thank you again for your submission. We hope that our editorial process has been constructive so far, and we welcome your feedback at any time. Please don't hesitate to contact us if you have any questions or comments.
+Sincerely,
+James G. Beeson, MBBS, PhD
+Associate Editor
+PLOS Pathogens
+Kami Kim
+Section Editor
+PLOS Pathogens
+Kasturi Haldar
+Editor-in-Chief
+PLOS Pathogens
+​orcid.org/0000-0001-5065-158X
+Michael Malim
+Editor-in-Chief
+PLOS Pathogens
+
+orcid.org/0000-0002-7699-2064
+
+***********************
+The reviewers have raised a number of issues that need to be addressed before your paper would be considered acceptable for publication in PLOS Pathogens. In particular, please consider their comments on the need for additional experimental controls, and more clearly address the potential protective functions of the MAb. Please comment on the ways in which these findings can inform vaccine development, as noted by Reviewer 2
+Reviewer's Responses to Questions
+
+Part I - Summary
+
+Please use this section to discuss strengths/weaknesses of study, novelty/significance, general execution and scholarship.
+Reviewer #1: Understanding the molecular and structural basis for broadly inhibitory antibodies to VAR2CSA would be critical in the development of a broadly protective placental malaria vaccine. Here the authors use cryo-EM to evaluate the binding site of the broadly reactive antibody, PAM1.4 Fab, and found that it binds a highly conserved conformational epitope involving several domains of the core VAR2CSA structure. The authors suggest that while broadly reactive, that this antibody does not functionally block the interaction of VAR2CSA and CS.
+The study employs a useful technique for resolving protein structures – cryo-EM – to generate molecular details of the interaction of PAM 1.4. This data is compelling and adds additional details to the structure-based approaches for VAR2CSA vaccine target design, in addition to further validating the utility of negative stain and cryo-EM approaches for resolving protein structures in malaria, and specifically for VAR2CSA. The structural data is a strength of the paper. Some of the binding and functional experiments could be further strengthened and appropriate controls included so that the conclusions are truly justified by the data presented.
+The paper is clear and well-written. I hope that the suggestions below will help the authors improve the manuscript.
+Reviewer #2: This study has resolved the cryoEM structure of full length VAR2CSA ectodomain in complex with a broadly neutralizing antibody (Fab of PAM 1.4). The work is for the most part presented clearly and carefully performed. While the structure reveals the epitope of PAM 1.4, the study lacks defining a mechanism of action of the monoclonal antibody. This is further detailed in the "Major Issues" section of the review. Overall this is an interesting structural study and with some revisions could be further strengthened.
+**********
+
+Part II – Major Issues: Key Experiments Required for Acceptance
+
+Please use this section to detail the key new experiments or modifications of existing experiments that should be absolutely required to validate study conclusions.
+Generally, there should be no more than 3 such required experiments or major modifications for a "Major Revision" recommendation. If more than 3 experiments are necessary to validate the study conclusions, then you are encouraged to recommend "Reject".
+Reviewer #1: Results:
+1. Fig 1A. Line 91-93: Validation of the expressed VAR2CSA domains would be important especially when showing no direct binding. Can positive binding be demonstrated with polyclonal polygravid immune serum or vaccinated IgG? This would be important to demonstrate the protein domains are properly folded. This will be especially important to demonstrate given the conclusions stated in Lines 114-115. To make such claims, the authors should demonstrate that the protein domains themselves are properly folded and able to be bound by antibodies previously shown to react to these domains. This will make the contrast w with PAM 1.4 more dramatic and convincing.
+2. Fig 1B. Line 93-95: Can the authors verify that there is strain specific binding by flow of the other monoclonal antibodies? (Thus PAM1.4 Fab, in contrast to other antibodies, is truly pan-strain binding). A negative control condition (for example, non-CSA panned parasites of the same strains that should show decreased VAR2CSA expression and decreased binding, or DTT and Trypsin treatment to allow cleavage of VAR2CSA from the surface of the IEs), should be included to show that the positive binding is clearly specific and reversible. The flow-through from the mAb-bead-column preparations would also be a helpful control. Here, the authors used beads coupled with the mAb PAM1.4 to pre-select for PAM1.4 binding late trophozoites and schizonts. It would be helpful to see what percentage of VAR2CSA expressing IEs are truly recognized by PAM 1.4.
+3. Figure S1. It would be ideal if the authors could provide flow data using an isotype matched unrelated antibody as the negative control to rule out non-specific binding.
+4. Figure S7. A major finding of the paper, and a point of emphasis of the authors in the introduction and discussion, this data should be moved to the main text, but would require additional replicates. The error bars are a bit wide for the two replicates and appears that PAM1.4 inhibits more significantly in one experiment compared to the second. The authors should describe the characteristics of each antibody in the legend: Fab = PAM 1.4 Fab and IgG = PAM 1.4 total IgG?
+Reviewer #2: What is shown is that the antibody binds some conserved residues (up to 3/4 of VAR2CSA variants) that are distant from the binding site with CSA. The failure of PAM 1.4 to inhibit VAR2CSA binding to CSA is also shown (Figure S7). It would have been good for the authors to further examine mechanism. Does the PAM 1.4 IgG interact with complement, monocytes or Fc-gamma-Rs to carry out a broadly protective antibody-mediated activity? Or does PAM 1.4 IgG just bind a broad range of VAR2CSA variants without any correlates of protective immunity. These data are needed for the various claims in the manuscript around how this structural work could benefit future vaccine design. Should the above data not be available then the tone of the manuscript needs to be modified throughout. Some minor comments are also provided below.
+**********
+
+Part III – Minor Issues: Editorial and Data Presentation Modifications
+
+Please use this section for editorial suggestions as well as relatively minor modifications of existing data that would enhance clarity.
+Reviewer #1: Suggestions:
+1. The manuscript represents a very interesting finding and an important use of cryo-EM to help resolve structural interactions between an interesting mAb and its binding domain on VAR2CSA. However, the manuscript feels brief (almost as if it has been written in the format of a short report). Some of the additional data presented in supplemental (for example S3, S4, S5, S6, S7) could be moved to the main text as panels within the existing figures to provide more detail and clarity.
+Clarifications:
+2. Line 81-82 – The authors claim “whereas the early data indicating that PAM1.4 was also able to inhibit IE adhesion to CS have not been subsequently verified.” Please cite the source of this early data (reference if published) and indicate why there is controversy as to whether this data is credible, or in need of further verification. Do the authors mean that it has never been reproduced or independently verified? In the discussion (Lines 180-181), the authors mention that there is unpublished data from several groups. Can these data be listed as “personal communication” or “unpublished” and attributed to the groups/authors?
+3. Lines 142-147: Presented under results, it is unclear if the authors are referring to their own alignments or merely citing previously published studies of VAR2CSA diversity. It seems that the later is the case, which is fine, but if so this should be moved into the discussion. If the authors have generated sequence alignments themselves to look at diversity of the PAM 1.4 binding epitopes (perhaps of the specific strains they used in their binding assays), this data should be presented in the paper as a figure allowing the reader to visualize the highly conserved versus slighly more variable epitopes included in the mAb binding region.
+4. Lines 205-209: The authors’ final conclusion is that PAM 1.4 is broadly reactive, but not neutralizing. However, in the introduction, the authors mention that PAM1.4 can be protective via the mechanism of opsonization of IEs for Fc receptor-dependent killing in vitro, citing previous studies. The authors should comment on the relative contributions of these two mechanisms in the context of protection from placental malaria in the discussion.
+Some suggestions for typos/grammar:
+5. Line 55 – “VAR2CA variants” - VAR2CSA variants
+6. Throughout: even though the first mention of a term is correctly followed by an abbreviation, there are some abbreviations that feel unnecessary and are a little distracting. The authors might consider leaving the unabbreviated term, especially for shorter phrases (such as IEs – infected erythrocytes; PM – placental malaria, etc). This is merely a stylistic suggestion.
+Reviewer #2: Abstract, "High-resolution data shows..." the structure was determined at a global resolution of around 3Å and at around 2.5 Å at the antibody:antigen interface. This does not represent high resolution, but actually medium to low resolution data. Please modify here and and other references to high resolution in the manuscript.
+Lines 94 - 96 (Fig 1B and S1) describes flow cytometry of PAM1.4 binding to VAR2CSA variant infected RBCs. However, there is no suitable negative controls provided (a non-VAR2CSA parasite; isotype control - or at least this is not shown in the figure captions).
+Fig 1B. These ELISA plots are single lines without information about variation. How many replicates were performed and if sufficient repeats then appropriate errors should be included. If only duplicates it is best practice to plot both data points against the lines of best fit.
+Fig 2 is fine to give an overall representation of the cryoEM structure. It would be good to also include here or in a separate figure a cleaner set of views of the refined structural model.
+Fig 3 shows interactions but much of the details are hard to see. In particular text sizes are particularly small across this entire figure.
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #2: No
+
+Figure Files:
+
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email us at figures@plos.org.
+
+Data Requirements:
+
+Please note that, as a condition of publication, PLOS' data policy requires that you make available all data used to draw the conclusions outlined in your manuscript. Data must be deposited in an appropriate repository, included within the body of the manuscript, or uploaded as supporting information. This includes all numerical values that were used to generate graphs, histograms etc.. For an example see here on PLOS Biology: http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1001908#s5.
+
+Reproducibility:
+
+To enhance the reproducibility of your results, we recommend that you deposit your laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. Additionally, PLOS ONE offers an option to publish peer-reviewed clinical study protocols. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols
+10.1371/journal.ppat.1010924.r002Author response to Decision Letter 0
+Submission Version1
+15 Sep 2022
+
+AttachmentSubmitted filename: Response_to_reviewers.pdf
+Click here for additional data file.
+10.1371/journal.ppat.1010924.r003Decision Letter 1
+KimKamiSection EditorBeesonJames G.Associate Editor© 2022 Kim, Beeson2022Kim, Beesonhttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version1
+10 Oct 2022
+
+Dear Dr. wang,
+We are pleased to inform you that your manuscript 'Cryo-EM reveals the conformational epitope of human monoclonal antibody PAM1.4 broadly reacting with polymorphic malarial protein VAR2CSA' has been provisionally accepted for publication in PLOS Pathogens.
+Before your manuscript can be formally accepted you will need to complete some formatting changes, which you will receive in a follow up email. A member of our team will be in touch with a set of requests.
+Please note that your manuscript will not be scheduled for publication until you have made the required changes, so a swift response is appreciated.
+IMPORTANT: The editorial review process is now complete. PLOS will only permit corrections to spelling, formatting or significant scientific errors from this point onwards. Requests for major changes, or any which affect the scientific understanding of your work, will cause delays to the publication date of your manuscript.
+Should you, your institution's press office or the journal office choose to press release your paper, you will automatically be opted out of early publication. We ask that you notify us now if you or your institution is planning to press release the article. All press must be co-ordinated with PLOS.
+Thank you again for supporting Open Access publishing; we are looking forward to publishing your work in PLOS Pathogens.
+Best regards,
+James G. Beeson, MBBS, PhD
+Associate Editor
+PLOS Pathogens
+Kami Kim
+Section Editor
+PLOS Pathogens
+Kasturi Haldar
+Editor-in-Chief
+PLOS Pathogens
+​orcid.org/0000-0001-5065-158X
+Michael Malim
+Editor-in-Chief
+PLOS Pathogens
+
+orcid.org/0000-0002-7699-2064
+
+***********************************************************
+The authors have appropriately addressed the comments and requests from the reviewers.
+Reviewer Comments (if any, and for reference):
+Reviewer's Responses to Questions
+
+Part I - Summary
+
+Please use this section to discuss strengths/weaknesses of study, novelty/significance, general execution and scholarship.
+Reviewer #2: This study provides new insight into the interaction between a candidate monoclonal antibody and the main target of pregnancy-associated malaria, VAR2CSA. The cryoEM structure has been carefully determined and the analysis of the structural data is interesting. Some additional experiments have been provided to demonstrate the antibody specifically binds to its target and broadly cross-reacts with several common variants of VAR2CSA. A discussion of the monoclonal antibody mechanism of action is supported by previous publications and is relatively sound and interesting. Altogether, this work provides new insights relevant to the development of a monoclonal antibody candidate that may extend to vaccine development, although the path for using this information for effective vaccine design is a little less tangible. Overall this work is of general interest to the malaria immunity community and could provide support for future immunotherapies.
+**********
+
+Part II – Major Issues: Key Experiments Required for Acceptance
+
+Please use this section to detail the key new experiments or modifications of existing experiments that should be absolutely required to validate study conclusions.
+Generally, there should be no more than 3 such required experiments or major modifications for a "Major Revision" recommendation. If more than 3 experiments are necessary to validate the study conclusions, then you are encouraged to recommend "Reject".
+Reviewer #2: In their revisions the authors have addressed or adequately responded and revised their manuscript to address my original concerns. I have no further major or minor revisions to suggest.
+**********
+
+Part III – Minor Issues: Editorial and Data Presentation Modifications
+
+Please use this section for editorial suggestions as well as relatively minor modifications of existing data that would enhance clarity.
+Reviewer #2: No additional comments.
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #2: No
+10.1371/journal.ppat.1010924.r004Acceptance letter
+KimKamiSection EditorBeesonJames G.Associate Editor© 2022 Kim, Beeson2022Kim, Beesonhttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+2 Nov 2022
+
+Dear Dr. wang,
+We are delighted to inform you that your manuscript, "Cryo-EM reveals the conformational epitope of human monoclonal antibody PAM1.4 broadly reacting with polymorphic malarial protein VAR2CSA," has been formally accepted for publication in PLOS Pathogens.
+We have now passed your article onto the PLOS Production Department who will complete the rest of the pre-publication process. All authors will receive a confirmation email upon publication.
+The corresponding author will soon be receiving a typeset proof for review, to ensure errors have not been introduced during production. Please review the PDF proof of your manuscript carefully, as this is the last chance to correct any scientific or type-setting errors. Please note that major changes, or those which affect the scientific understanding of the work, will likely cause delays to the publication date of your manuscript. Note: Proofs for Front Matter articles (Pearls, Reviews, Opinions, etc...) are generated on a different schedule and may not be made available as quickly.
+Soon after your final files are uploaded, the early version of your manuscript, if you opted to have an early version of your article, will be published online. The date of the early version will be your article's publication date. The final article will be published to the same URL, and all versions of the paper will be accessible to readers.
+Thank you again for supporting open-access publishing; we are looking forward to publishing your work in PLOS Pathogens. 
+Best regards,
+Kasturi Haldar
+Editor-in-Chief
+PLOS Pathogens
+​orcid.org/0000-0001-5065-158X
+Michael Malim
+Editor-in-Chief
+PLOS Pathogens
+
+orcid.org/0000-0002-7699-2064

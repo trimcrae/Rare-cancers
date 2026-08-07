@@ -1,0 +1,1202 @@
+eLife1894elifeeLifeeLife2050-084XeLife Sciences Publications, LtdPMC4371882PMC4371882.1437188243718822549361810.7554/eLife.04106041061Research ArticleGenomics and Evolutionary BiologyMicrobiology and Infectious DiseaseGenome-wide regulatory dynamics of translation in the Plasmodium
+falciparum asexual blood stages
+CaroFlorence ). The apparent lack of dynamic
+transcriptional regulation suggested that complementary post-transcriptional mechanisms
+could play an important role in the regulation of parasite gene expression ( ). This is a reasonable
+assumption, given that global or gene-specific translational regulation of gene
+expression is a mechanism that allows fast adaptations during drastic changes in
+environmental conditions as well as during rapid transitions in developmental programs.
+Indeed a few examples of translational control in Plasmodium have been
+reported. In sporozoites present in the mosquito salivary gland, phosphorylation of the
+eukaryotic translation initiation factor eIF2α by the kinase IK2, inhibits
+translation and causes accumulation of mRNAs into granules. Translational repression is
+alleviated by eIF2α phosphatase during the transition into the mammalian host,
+allowing parasites to transform into the liver stages ( ). Similarly, PK4 kinase activity leads to the reduction of
+global protein synthesis through phosphorylation of eIF2α in schizonts and
+gametocytes and is essential for the completion of the parasite's erythrocytic cycle
+( ). Gene-specific
+translational regulation has also been observed in P. falciparum and is
+mediated by cis-acting sequences in combination with RNA-binding proteins. For example,
+dihydrofolate reductase-thymidylate synthase (DHFR-TS) binds within the coding region of
+its own cognate mRNA to repress translation ( ) and antifolate treatment has been shown to relieve this
+repressive effect without alteration of mRNA levels ( ). In Plasmodium berghei, storage of
+translationally repressed mRNAs prior to fertilization is mediated by mRNA binding via
+the RNA helicase DOZI and the Sm-like factor CITH ( , ). Upstream
+open reading frames (uORFs) found on 5′ UTRs of transcripts have been reported to
+regulate the translation of specific genes ( ). In P. falciparum, the only uORF described and
+functionally characterized to date is a 120 codon region upstream of the
+var2csa (PFL0030c) coding region, a unique variant of the surface
+antigen PfEMP1 that mediates adhesion to placenta in pregnant women ( ). In this case, translation of
+the uORF modulates repression of var2csa translation. Aside from these examples, the
+extent to which global and gene-specific translational control operates in P.
+falciparum during the IDC remains sparse.
+Since the P. falciparum genome was fully sequenced ( ), several large-scale studies
+have provided detailed insights into the expression of genes and proteins across the
+parasite's life cycle. Parallel mass spectrometry-based proteomics and genome-wide
+expression profiling revealed differences between mRNA abundance and the accumulation of
+the corresponding protein, supporting the notion that post-transcriptional regulation of
+gene expression is at play in this parasite ( ; ;
+ ). These methods, however,
+are limited in their ability to measure low abundance proteins and do not capture the
+underlying relationship between transcriptional activity and translational efficiency.
+More recently, polysome profiling was used to monitor discrepancies between
+polysome-associated and steady-state mRNAs in 30% of the P. falciparum
+blood stage transcriptome ( );
+however, this approach does not reveal the precise localization of the ribosomes, and
+thus can not be used to accurately assess the translational efficiency of a given mRNA
+( ).
+Here, we adapted the ribosome profiling technique ( ) to describe the translational dynamics of the
+P. falciparum asexual blood stage transcriptome. We simultaneously
+evaluate mRNA abundance, gene structure, ribosome positioning, and translational
+efficiency for genes expressed through five stages of the IDC. We demonstrate that the
+data are highly reproducible, and we find that the translational efficiency of the
+majority of mRNAs expressed follows a narrow distribution, exhibiting a tight coupling
+between transcription and translation. Only 10% of the genes expressed deviate from this
+trend and are translationally up- or down-regulated. We found a surprising amount of
+ribosome density associated with 5′ leaders of transcripts particularly in genes
+with functions associated with merozoite egress and invasion. Overall, the precision and
+depth of the dataset presented herein add significantly to our understanding of
+P. falciparum gene expression by linking transcriptional and
+translational dynamics throughout the blood stages.
+
+## Results
+
+## Overview of ribosome profiling in P. falciparum asexual blood
+stages
+To create whole-genome, high-resolution profiles of mRNA abundance and translation
+during in vivo blood stage development of P. falciparum, we adapted
+the ribosome profiling technique described by . Ribosome profiling is based on the deep sequencing
+of ribosome protected mRNA fragments obtained by nuclease digestion of polysomes,
+cycloheximide-arrested ribosomes bound to mRNA. These fragments represent the exact
+location of the ribosome at the moment the sample was harvested. Five stages
+representative of the 48-hr IDC of P. falciparum were harvested for
+both mRNA and polysome isolation; ring, early trophozoite, late trophozoite, schizont
+stages, and purified merozoites. To assess the reproducibility of the data, we
+harvested independent biological replicates of each stage. Polysomes were isolated in
+the presence of the translation elongation inhibitor cycloheximide, then nuclease
+digested to produce monosomes, and sedimented by centrifugation on a sucrose gradient
+( and ). To minimize isolation of
+RNA fragments bound by proteins other than 80S ribosomes, RNA was extracted only from
+the fractions of the sucrose gradient containing the monosome peak. The resulting
+∼30 nt fragments of RNA, corresponding to ribosome footprints, were processed
+into strand-specific deep sequencing libraries in parallel with the mRNA samples,
+fragmented to ∼30 nt for consistency. Despite the unusually high AT content of
+the P. falciparum genome, over 92% of all 30 nt sequenced reads,
+derived from coding sequences (CDSs), mapped uniquely to the genome ( and ). 
+ 
+ 
+
+To quantitatively obtain mRNA abundance and ribosome footprint density measures, we
+calculated rpkMs (reads per kilobase of exon model per million reads mapped, as in
+ for each gene. We
+established the minimum number of mRNA reads sequenced per coding region (rM; reads
+per million reads mapped) required to confidently include genes in downstream
+analyses, to be ≥ 32 rM (‘Materials and methods’, ). Using
+this conservative threshold, 3605 genes qualified for further analysis. Between
+biological replicates, Pearson correlation values were consistently high, ranging
+from r = 0.94 to r = 0.99 ( ), highlighting the quality and
+reproducibility of our data. In addition, we compared the RNA-seq transcriptome of
+the five stages sampled to our previously published transcriptome data set,
+originally generated using long oligo microarrays ( ). The RNA-Seq transcription profiles of the set of
+genes shared by the two data sets (n = 1829) were highly correlated (average
+r = 0.7) to the corresponding 11, 21, 31, 45, and 2 hr post
+merozoite invasion time points of the microarray data set, despite the use of
+different methodologies (microarray vs RNA-seq) and the use of different P.
+falciparum strains (HB3 vs W2, respectively). Because of the higher
+sensitivity of RNA-seq, we were able to accommodate an additional 743 genes into the
+cascade-like transcriptome extending it to a total of 3110 genes ( , ). The remaining 495 genes in our RNA-seq data set lacked sufficient
+variation over the five time points for inclusion within the phaseogram. These genes,
+referred to as non-phasic genes, are nevertheless included in all analyses. 
+
+## Gene expression and translation are tightly coupled during the P.
+falciparum IDC
+While RNA-Seq reveals the abundance and architecture of individual mRNAs, ribosome
+profiling provides a complementary and quantitative measure of mRNA translation.
+Ribosome occupancy along the CDS results in a profile that indicates the timing and
+magnitude of translation of a given mRNA, thus quantitatively delineating regions of
+each mRNA molecule that are actually bound by 80S ribosomes ( ). To inspect translation on a genome-wide
+scale, ribosome density values of each gene expressed in the data set were organized
+in the same order as the transcriptome. The translational profile of each gene
+displayed a cascade-like quality strikingly similar to the transcriptome ( ). Much like mRNA abundance, translation
+of phasic genes reaches a single maximum and a single minimum during the IDC. To
+determine the exact level of correlation between transcription and translation, we
+directly compared mRNA and ribosome footprint density measurements ( ). In general, translation is tightly
+correlated with transcription for all phasic and non-phasic genes in rings
+(r = 0.85), early trophozoites (r =
+0.93), late trophozoites (r = 0.91), schizonts
+(r = 0.89), and purified merozoites (r
+= 0.86). This indicates that when an mRNA is detected in one stage it is
+associated proportionally with ribosomes within the same stage. An example pair of
+genes is shown in . Here, mRNA
+abundance profiles of eukaryotic translation initiation factor eIF2 gamma subunit
+(PF14_0104) and the conserved protein PF14_0105, show that peak mRNA abundance for
+these two genes occurs at two different stages, early and late, respectively.
+Examination of ribosome occupancy of both genes reveals a ribosome density
+accumulation profile within the coding sequence that mirrors their respective mRNA
+profiles. As for the majority of genes, ribosome footprint density and mRNA abundance
+for these two genes are highly correlated (r = 0.98 and 0.93
+for PF14_0104 and PF14_0105, respectively), indicating that mRNA translation occurs
+proportionally during the same stages at which these genes are transcribed ( ; ).
+Globally, 77% of genes expressed in at least three stages of the IDC display high
+Pearson correlation (r ≥ 0.7) between mRNA abundance and
+translation ( ). Thus, our genome-wide analysis of translation establishes that for the
+majority of genes expressed during the IDC, transcription and translation occur proportionally. 
+
+## Ribosome profiling reveals instances of translational control of gene
+expression
+Ribosome profiling allows the monitoring of translation rates through the
+simultaneous quantitative measure of mRNA abundance and ribosome density on mRNAs.
+The ratio of the footprint rpkM to the mRNA rpkM for any given gene represents its
+relative translational efficiency (TE) ( ). To assess the dynamics of translational control and detect
+variations in control within and between developmental stages, we calculated the
+relative TE of all expressed genes in our data set ( ). The shape and the range of TE distributions obtained for each
+stage sampled is comparable to those seen in other eukaryotes ( ; ). Absolute mean translational efficiencies in all stages
+(log2TE µRings = −0.43, log2TE
+µE.trophs. = −0.56, log2TE
+µL.trophs. = −0.31, log2TE
+µSchizonts = −0.16 and log2TE
+µMerozoites = −0.68) had a maximum difference of
+1.47-fold observed between early trophozoites and schizonts. Translational
+efficiencies display a roughly 100-fold range in absolute values in each of the
+stages with the exception of the ring and merozoite stages, which exhibit more
+extreme values. In these stages, the distribution of absolute TE values displays an
+approximately fourfold larger spread than in early trophozoites, late trophozoites,
+or schizonts ( , ). In rings the gene with the largest TE is the merozoite surface protein
+9 (PFL1385c, log2TE = 4.1) and the gene with the lowest TE is the
+FIKK family serine/threonine protein kinase (PF14_0734, log2TE =
+−5.1). In merozoites the largest and lowest TE values correspond to the serine
+repeat antigen 5 (SERA5, PFB0340c, log2TE = 4.0) and the alpha
+adenylyl cyclase (PF14_0788a-c, log2TE = −4.7),
+respectively. 
+To determine the contribution of translational efficiency to the dynamic range of
+gene expression, we examined the genes lying at the extremes of the TE distribution.
+For the purpose of this analysis, genes with a translational efficiency of two
+standard deviations above or below the mean in any of the stages were considered
+translationally up- or down-regulated, respectively. A total of 301 genes, 8.3% of
+the transcriptome, are translationally regulated by this metric, with 124 genes
+translationally down-regulated and 177 genes translationally up-regulated ( , ). The timing of maximum mRNA expression does not influence TE for either
+of these two groups. Translational efficiencies remain high for the translationally
+up-regulated and low for the translationally down-regulated genes in all the stages
+at which they are expressed, regardless of the stage of peak mRNA abundance,
+suggesting that translational efficiency is largely, but not completely, programmed
+by the mRNA sequence itself, rather than global factors. For example, translational
+efficiency of the merozoite surface protein 6 (MSP6, PF10_0346) remains high
+(log2TE ≥ 2) across all stages irrespective of variations in its
+mRNA abundance. In contrast TE values for the eukaryotic initiation factor 2alpha
+kinase 1 (IK1, PF14_0423) are among the lowest measured despite high mRNA abundance
+across all stages ( ).
+An examination of the 124 translationally down-regulated genes yielded some expected,
+and in some cases, unexpected findings. As would be expected, two pseudogenes, the
+ring-infected erythrocyte surface antigen 2 (RESA-2, PF11_0512) and reticulocyte
+binding protein homologue 3 (PfRh3, PFL2520w), represent a clear example of low
+translational efficiency. The PfRh3 pseudogene ribosome profile shows that
+translation of the 5′ end of this transcript occurs up until the encounter of
+several in-frame stop codons, causing the reduction in ribosome density from this
+point on ( , ). This suggests that a
+truncated version of the PfRh3 protein is being produced in the W2 strain studied
+here. Evidence for peptides corresponding to the 5′ end of PfRh3 has been
+found in gametocytes and sporozoites (however not during the asexual stages) using
+mass spectrometry ( ;
+ ). We note that low
+levels of ribosomes can still be detected along the full length of this transcript in
+schizonts and merozoites. Whether these footprints derive from a low level of
+stop-codon read-through or accumulate via another unknown mechanism remains to be determined. 
+ 
+
+Ring-infected erythrocyte surface antigen 2, RESA2 (PF11_0512) was first described as
+a pseudogene based on the presence of an internal stop codon ( ). Since then, transcription of this gene has
+been demonstrated both in vivo ( ) and in vitro ( ). RESA-2 is transcribed but poorly translated in rings, early
+trophozoites and merozoites (log2TE −3.2, −2.7, −2.9,
+respectively). Accordingly, the ribosome profile of this gene in merozoites shows a
+general depletion of ribosomes along the CDS ( ). In rings, ribosome density
+diminishes at the second exon. To validate the RESA2 gene model, we used genomic DNA
+sequencing data derived from the P. falciparum W2 strain used in
+this study. We found that 69% (n = 151) of reads mapping to this locus support a
+single base deletion that creates a premature stop codon exactly at the site of
+ribosome footprint drop-off ( ). These data suggest that RESA2 is transcribed and
+actually translated into a shorter protein product of 461 amino acids. Whether or not
+the protein product is functional or undergoes post-translational degradation remains
+to be determined.
+In addition to expected instances of translational regulation, our data permit the
+discovery of previously uncharacterized translational regulation, especially at the
+extremes of the TE distributions. One of the most notable examples of translational
+silencing is the eIF2α kinase IK1 (PF14_0423) for which ribosome footprints
+accumulate at the 5′ leader and 3′ UTR but not on the CDS, resulting in
+an extremely low translational efficiency (log2TE = −3.6)
+despite relatively high transcript abundance across all stages ( ). The mechanism by which this gene is maintained in a
+translationally down-regulated state is unknown. Another example is the erythrocyte
+vesicle protein 1 (EVP1, PFD0495c) for which abundant transcript levels can be
+detected across all stages, with peak mRNA abundance occurring in rings and schizonts
+( ).
+Protein levels, however, have been shown to be undetectable ( ). Here, we find that translational
+efficiencies of this gene were low across all stages and lowest in rings and early
+trophozoites (log2TE = −2.6 and −2.9, respectively)
+demonstrating that post-transcriptional regulation at the level of translation is, at
+least in part, responsible for its scarcity as a protein.
+Thus, our ribosome profiling data set highlights instances of translational control
+of genes that may not be detected by proteomic methods. Indeed a search for mass
+spectrometric data showed no evidence for ∼70% of genes in this category
+( ). Including the
+aforementioned examples, our data set describes a total 124 translationally
+down-regulated genes (listed in ) for which translational
+efficiency values lie at the lower extremes of the distribution.
+Protein products of translationally up-regulated genes are likely to be abundant and
+readily detected using mass spectrometry. Previous proteomic studies show protein
+evidence in the blood stages for almost all (171 of 177) well-translated genes
+identified here ( ;
+ ). Mass spectrometric
+evidence for the remaining six genes is either absent (PFL0245w, PFL2510w, PF11_0204)
+or has only been found in sporozoites (PFE1615c, MAL7P1.300, PF13_0069a). Despite the
+lack of proteomic data, our data indicate that these genes are both transcribed and
+translated during the blood stages of the parasite. Whether post-translational
+control points exist for these proteins is unknown.
+Among the top ten most highly translated genes are proteins involved in merozoite
+egress and invasion MSP3, 6, 7, and 9 (merozoite surface proteins PF10_0345,
+PF10_0346, PF13_0197, and PFL1385c), serine repeat antigen 5 (SERA5, PFB0340c), and
+RAP1, 2, and 3 (PF14_0102, PFE0080c, and PFE0075c, respectively) ( ). Interestingly, 73 (41%) of all translationally up-regulated genes can
+be assigned to the repertoire of canonical functions for merozoite egress and
+invasion described to date ( ; ; ; ). Strikingly, for all genes in this set,
+maximum mRNA abundance is found during the late stages of the IDC (69 schizont and 4
+merozoite stage mRNAs) yet for the majority (50, 70%) peak translational efficiency
+occurs in rings. Consistent with this, peptides for most of these merozoite function
+proteins (58 of 73) have been detected in rings ( ; ). This mode of translational regulation whereby late stage transcripts
+are highly translated in rings was not exclusively limited to genes related to
+merozoite egress and invasion. We found evidence for an additional 14 genes with this
+profile, including, aquaglyceroporin (PF11_0338, log2TE = 3.8),
+tubulin beta chain (PF10_0084, log2TE = 1.8), and early transcribed
+membrane protein 2 (PFB0120w, log2TE = 2.5).
+Taken together these data demonstrate that transcription and translation are tightly
+correlated for the majority of genes expressed during the asexual life cycle of
+P. falciparum with few exceptions. These apply to a small subset
+of translationally down- and up-regulated genes for which translational efficiencies
+appear to be inherent properties of the mRNA, independent of changes in mRNA
+abundance. Genes in this category, especially those that exhibit high translational
+efficiencies, are enriched with functions associated with merozoite egress and
+invasion during the transition from late stages into rings.
+
+## Ribosome occupancy of 5′ leaders is commonly found on genes expressed
+during the IDC
+Ribosome profiling provides position specific information along each transcript
+allowing the detection of changes in ribosome distribution on the mRNA and their
+relationship to translational efficiency. To look for ribosome occupancy features
+beyond the CDS of transcripts, we first took advantage of the deep coverage and
+strand specificity of our RNA-seq data to identify 5′ leaders and 3′
+UTRs of the P. falciparum transcriptome. We constructed a hidden
+Markov model (HMM) to automatically delineate the boundaries of both 5′
+leaders and 3′ UTRs for known gene models (see ‘Materials and
+methods’). Within the limits imposed by our data, we were able to describe
+5′ mRNA leaders and/or 3′ UTRs for 3569 genes in at least one of the
+stages ( ,
+ ). 5′ leaders are on average longer than 3′ UTRs in each of
+the stages and median lengths across stages vary to a larger degree for 5′
+leaders (from 607 to 1040 nt) than for 3′ UTRs (518–622 nt). The
+longest 5′ mRNA leader was measured in late trophozoites (8229 nt) for the Ap2
+transcription factor, PF11_0404, and the longest 3′ UTR stretched 4773 nt for
+60S ribosomal protein L7-3, PF14_0231, in rings. An example pair of genes with mapped
+5′ leaders and 3′ UTRs is shown in . Here, our HMM predicts a 636 nt and a 781 nt 5′ leader
+and a 468 nt and 423 nt 3′ UTR for the Myb2 transcription factor (PF10_0327)
+and the bromodomain protein (PF10_0328), respectively. These genes, encoded on
+opposite strands, share a 1536-nt intergenic sequence; however, the span between the
+region delimited by their 5′ leader sequence is only 120 nt and presumably
+harbors their respective promoters. 
+
+Next, using mRNA boundaries derived from our data, we analyzed ribosome distribution
+along each transcript during life cycle progression. More than 80% of the ribosome
+footprints in rings, early trophozoites, late trophozoites, and schizonts, were
+mapped to CDS regions of the genome, except in merozoites, where only 68% were mapped
+to the CDS ( ). On average less than
+1% of all reads obtained were mapped to 3′ UTRs in each stage, and most
+transcripts had no observed footprints past the stop codon. In contrast, footprints
+were far more common in 5′ leaders (9.1%, 4.8%, 7.5%, and 4.8% in rings, early
+trophozoites, late trophozoites, and schizonts, respectively) particularly in
+merozoites (23%). Footprint enrichment is specific to 5′ leaders and not due
+to non-specific background since this would result in an increase of footprints
+mapping evenly along the length of the transcript, including the 3′ UTR, and
+not just the 5′ leader. Furthermore, these footprints most likely represent
+ribosomes because they derive from the 80S monosome fraction of the sucrose gradient,
+and their footprint read length distributions are equal to those of CDS mapping
+footprints, whereas they are significantly divergent from rRNA or tRNA read length
+distributions ( ). 
+ 
+ 
+ 
+ 
+ 
+
+Upstream open reading frames are a major source for 5′ leader ribosome density
+found from yeast to humans ( ; ), and these
+have been shown to play a role in translational regulation of the downstream ORF in a
+few well-studied examples ( ). In P. falciparum, ribosomes have been suggested to
+accumulate on 5′ leaders of genes displaying a delay in translation presumably
+due to long uORFs ( ).
+We defined 36,086 possible uORF regions in the 5′ leaders of genes expressed
+during the P. falciparum IDC using a liberal definition that
+includes any stretch of at least two amino acids, starting with an AUG codon ( ). Regardless of stage, half of the total ribosome footprint coverage in
+5′ leaders, in aggregate, or on a gene-by-gene basis did not overlap with
+these predicted uORFs ( , ). We could
+find no significant correlation between the number of uORFs per gene, the uORF
+lengths, or the degree to which ribosome density was enriched in uORFs with
+translational efficiency ( ). For example, erythrocyte binding antigen-175 (EBA-175,
+MAL7P1.176) is well translated in rings (log2TE = 1.4) and displays a
+large amount of 5′ leader ribosome occupancy. Half (49%) of the reads map
+within the nine predicted uORFs on the 5′ leader of this gene, the other half
+maps outside these uORFs ( ). Using
+this liberal definition of an uORF, the data do not support an association between
+ribosome occupancy in these regions, nor does it support an association between the
+presence of these regions and translational efficiency.
+Nonetheless, there exist at least two clear exceptions. First, we were able to
+validate translation of the reported uORF present in the 5′ leader sequence of
+the var2csa mRNA which is expressed only in rings ( ). The majority of ribosome footprint density localizes
+to this uORF, and to a second one just upstream, while the var2csa coding sequence is
+largely devoid of footprints (log2TERings = −4.2,
+ ),
+consistent with its translational repression during growth in the absence of
+plancental tissue. Second, another striking example of uORF translation was found on
+PFE1550w (unknown function) for which the ratio of uORF to total 5′ leader
+mapping reads is 0.9 ( ). Indeed, ribosome footprint density is concentrated on one of
+the 6 uORFs predicted in the 5′ leader of this gene, 56 amino acids long. This
+gene is also translationally down-regulated in all stages (log2TE =
+−2.7 on average). These two genes represent exceptional cases for which uORF
+translation negatively correlates with translation of the downstream ORF.
+Aside from these two exceptions, for the vast majority of genes, ribosome occupancy
+appears spread along 5′ leaders and not preferentially concentrated within
+possible uORFs. For this reason, we calculated 5′ leader ribosome density
+(5′RD) for each gene expressed during the IDC, defined as upstream ribosome
+occupancy normalized for mRNA expression level and size of the leader sequence
+(5′ leader ribosome footprint rpkM/5′ leader mRNA rpkM) ( ). No positive correlation exists between the number of uORFs per gene,
+the uORF lengths, or the degree to which ribosome density is enriched in uORFs and
+5′RD, reinforcing the notion that uORFs are not a requisite for ribosome
+association to 5′ leaders ( ). In fact 5′ ribosome density can be
+found on transcripts with 5′ leaders completely devoid of AUGs, and thus,
+without uORFs by definition, such as the highly translated aquaglyceroporin
+(log2TE = 3.8 and log25’RD = 2.9 in rings),
+and PFC0486c (unknown function, log2TE = 1.6 and
+log25′RD = 1.1 in rings) ( ).
+Overall, rings and merozoite stage parasites were found to express transcripts with
+the highest 5′RD (mean log25′RD −0.03, and 0.11,
+respectively) relative to early trophozoites, late trophozoites, and schizonts (mean
+log25′RD −1.11, −0.26, −0.83), where the
+range of 5′RD values is also narrower ( ). Interestingly, among genes at the extremes of the 5′RD
+distributions (mean ± 1 SD), we also found many of our identified
+translationally up- and down-regulated transcripts (66% and 40%, respectively). On
+average, 5′RD was enriched on translationally up-regulated transcripts (mean
+log25′RD = 0.83) and depleted for translationally
+down-regulated transcripts in all stages (mean log25′RD =
+−1.11), suggesting the possibility that 5′RD is a byproduct of
+translational efficiency itself ( ). 
+In order to determine whether a direct relationship between 5′RD and
+translational efficiency of the downstream ORF exists, we compared these values for
+each gene. 5′RD positively correlates, albeit moderately, with translational
+efficiency in all stages, particularly in rings and merozoites (r
+= 0.51 and 0.49, respectively). We focused on the subset of genes with highest
+and lowest 5′RD values (mean ± 2 SD) and found that only a fraction of
+the translationally up- and down-regulated genes overlap with this category of
+extreme 5′RDs in each stage ( ). The largest overlap occurred in rings where the highest 5′RD
+values were found in 43% (31 genes) of the translationally up-regulated genes,
+including MSP6, AQP, and SERA5. These results indicate that while in general a
+correspondence between 5′RD and translational efficiency exists, one is not
+necessarily predictive of the other and exceptions apply. This is the case, for
+example, of the translationally down-regulated transcript of the pseudogene PfRh3,
+which in rings has the second highest 5′RD value (log25′RD
+= 5.1).
+In summary, our data establish ribosome accumulation on 5′ leaders as a common
+feature of transcripts expressed during the IDC. Ribosome density is not restricted
+to predicted uORFs present within these regions and, with few exceptions, the uORF
+number, length, or coverage level, is not a requirement for 5′ ribosome
+density and has no measurable effects on the translation of the downstream ORF. Even
+though 5′RD is more commonly found on 5′ leaders of highly translated
+transcripts, this is not a universal trend since only a moderate correlation exists
+between 5′RD and the translational efficiency of the downstream ORF.
+
+## 3′ UTR ribosome occupancy is rare
+While our data showed 3′ UTRs to be relatively depleted of ribosomes, we
+searched for rare cases of high 3′ UTR ribosome density, possibly arising from
+stop codon read-through, alternative stop codon usage, or re-initiation of downstream
+ORFs ( ; ). We systematically
+searched for transcripts for which coverage, in a sliding window of 30 nt, was
+greater in the 3′ UTR than the CDS, and found 19 genes meeting this criterion.
+These genes could be qualitatively divided into two categories: 14 with putative stop
+codon read-through and/or alternate stop codon usage and 5 genes for which the origin
+of the 3′ UTR density is unclear (listed in ). An example of stop codon read-through is the conserved plasmodium
+protein (PF13_0160), shown in .
+Ribosomes not only extend beyond the annotated stop codon of this transcript but also
+skip subsequent in-frame stop codons present on the predicted 644 nt 3′ UTR.
+Interestingly, ribosome footprints accumulate in a single large peak approximately
+130 nt downstream of the annotated stop codon. On the 1290 nt 3′ UTR of the
+sodium-dependent phosphate transporter (MAL13P1.206), two large peaks of ribosome
+footprint density, one approximately 560 nt and the other 860 nt from the stop codon,
+can be observed ( ). The origin of
+these footprints is unclear, and it is possible that these are the product of
+nuclease protection by RNA-binding proteins that co-sediment with the 80S monosome.
+To confirm that 3′ UTR mapping reads are derived from ribosome footprints, we
+compared their cumulative read length distributions against a typical CDS footprint
+read length distribution ( ). For the 16 of the 19 genes we observed no significant
+difference in footprint size distributions localized to the CDS compared with the
+3′ UTR. For the remaining three genes, the sodium-dependent phosphate
+transporter (MAL13P1.206), the acyl-Coa synthetase (PFD0085c), and the conserved
+plasmodium protein (PF13_0160), 3′ UTR footprint size distributions were
+divergent from those on the CDS, implying that footprints found on these genes'
+3′ UTRs may be produced by nuclease protection of these regions by factors
+other than ribosomes that co-sediment with 80S ribosomes. 
+
+## Antisense detection
+Antisense transcription plays an important role in gene regulation from bacteria to
+humans, and while its role is increasingly studied in these organisms ( ), less is known
+about its relevance in P. falciparum. Previous serial analysis of
+gene expression (SAGE) ( ), nuclear run-on experiments ( ), and more recently antisense splicing events
+detected by RNA-seq ( ; ),
+suggest that antisense RNAs are synthesized by RNA pol II and may constitute up to
+∼12% of the erythrocytic-stage steady-state RNA ( ), yet their presence and biological
+role, if any, remains unclear. A more recent study found no correlation between
+natural antisense transcript levels and protein abundance ( ).
+The 30 nt fragmentation and RNA-ligase-based library preparation method employed here
+affords exquisite strand specificity by minimizing artifacts associated with random
+priming during reverse transcription. As evidence of this specificity, the highest
+expressed gene in our data set, histone h2a (PFF0860c), yielded a total of 765,510
+reads on the sense strand, and only two reads on the antisense strand, corresponding
+to a sense:antisense ratio greater than 105. Furthermore, our HMM mapping
+of 5′ leaders and 3′ UTRs facilitates the differentiation between
+independently transcribed antisense RNA and transcripts that occur by virtue of being
+part of an adjacent gene. We took advantage of the nature of our data set to identify
+antisense transcripts and looked for effects on sense mRNA translation.
+For this analysis only, we relaxed our stringent coverage threshold from ≥32
+rM to ≥16 rM for inclusion of antisense transcripts. We based our threshold on
+the presence of an antisense transcript to the sexual stage specific gene pfs16
+(PFD0310w) confirmed by strand-specific RT-PCR ( ). This antisense is predicted by the
+HMM to be ∼4 kb, extending over the complete coding sequence and beyond and
+with a coverage level of 23 rM over the sense CDS. Using the 16 rM threshold, we
+detected 84 antisense transcripts to several known ORFs (listed in ), including the nucleoside transporter pfNT4 (PFA0160c) depicted in . The merozoite stage contained the
+highest number of antisense transcripts (46), and the fewest (13) were found in early
+trophozoites. Manual inspection revealed that in 63% of these instances, the putative
+antisense transcript actually emanates from the 5′ leader or 3′ UTR of
+a neighboring gene (not defined by the HMM). Antisense reads for the
+para-hydroxybenzoate polyprenyltransferase (PFF0370w), for example, are actually
+derived from the 3′ UTR of the neighboring conserved protein PFF0375c ( ). 
+
+We next interrogated the impact of this set of antisense transcripts. Overall,
+antisense transcripts showed no effect on mRNA abundance and translational
+efficiencies of the cognate sense transcript. These observations parallel those
+described for antisense transcripts in yeast ( ). Thus, at first approximation antisense transcripts do not
+appear to play a role in translational regulation. However, these observations could
+be confounded due to the small number of genes in this set, and we cannot exclude the
+possibility of sense/anti-sense heterogeneity at the single cell level, obscured here
+at the population level.
+
+## Discussion
+Herein we present, for the first time, a comprehensive view of the coupled
+transcriptional and translational dynamics of the P. falciparum IDC by
+determination of transcript abundance and architecture together with ribosomal density
+and positioning. The quality of our data relies on several critical features: (1) high
+temporal specificity and reproducibility of fully independent biological replicas of
+five strictly staged cultures; (2) purified merozoites to allow discrete measurements in
+this stage without confounding contributions from schizonts or rings; (3) monosome
+isolation from sucrose gradients to specifically enrich for ribosome-derived footprints
+and avoid potential complications that can arise with methods like sucrose cushions
+which are prone to mRNA contamination; (4) sufficient sequencing depth of biological
+replicates to set a statistical threshold for minimum read coverage and to demonstrate
+reproducibility; (5) stringent strand specificity to facilitate an HMM for the
+description of transcript boundaries and the detection of antisense transcription.
+Previous studies of the transcript abundance in the malaria blood stages revealed a
+periodic cascade of gene expression, whereby the majority of expressed genes exhibit one
+peak of expression per cell cycle ( ). The global profile of transcriptional expression was subsequently found
+to be highly stereotypical across strains and appeared to lack dynamic responses to
+perturbation ( ; ). It has been suggested that
+translational control of protein expression could compensate for the lack of
+transcriptional dynamics. Proteomic studies described delays in peak mRNA and
+corresponding protein abundance implicating translational or post-translational
+mechanisms in the modulation of gene expression ( ; ).
+Our ribosome profiling results reveal a tight coupling of transcription and translation
+for the majority of expressed genes, indicating that most protein products are
+translated with highly similar timing and in proportion to their corresponding mRNA
+transcripts. Synthesized proteins are likely to exert their functions immediately upon
+translation but post-translational regulation, not captured by our data, could still be
+at play. Direct correlations of translational efficiencies measured in this study along
+with proteomic data sets are hampered by the reduced sensitivity of the latter and
+differences in temporal resolution and staging of the parasites between data sets.
+However, the available proteomic evidence is largely consistent with the results
+presented here, particularly for highly translated proteins. The simultaneous capture of
+mRNA abundance and translation is expected to be a more accurate proxy for protein
+levels than measurements of mRNA abundance alone ( ) and provides a critical resource for the identification
+of instances of post-translational regulation of gene expression. However, we note that
+this data set only provides a direct measure of relative changes in translational
+efficiencies rather than changes in bulk transcription and translation.
+While no up- or down-regulation of global translation efficiencies were observed in any
+particular stage, more extreme translational efficiencies were measured in subsets of
+genes expressed in rings and merozoites. We find 177 translationally up-regulated genes
+with functions predominantly related to merozoite egress and invasion, with peak mRNA in
+schizonts and peak translational efficiency in rings. It is likely that the genes with
+unknown functions, regulated in an analogous way during the merozoite to ring
+transition, are also associated with this process. Our data support a model whereby the
+transcripts of proteins necessary for merozoite structure and function are made in the
+previous stage in large abundance, are translationally up-regulated during the invasion
+process, and remain highly translated well into the ring stage despite rapid mRNA decay
+during this stage ( ). Whether
+the accumulation of 5′ leader ribosome density is a mechanism that assists in
+this process or is it merely a byproduct of more efficient ribosomal initiation on these
+templates remains to be tested. With the emergence of genome editing tools such as
+CRISPR/Cas9 ( ), it may be
+possible to create versions of genes with altered cis-acting sequences to test for
+modulation of 5′ ribosome density and its effect on translational efficiency.
+The global nature of ribosome accumulation within the 5′ leader sequences of many
+transcripts during the IDC and the lack of an association between 5′RD and the
+number or length of uORFs suggests that ribosomes accumulate on 5′ leaders
+through means other than a uORF model. For comparison, in yeast under starvation
+conditions the fraction of ribosome footprints derived from 5′ leaders is
+increased by sixfold and in some cases no single uORF can account for the entire
+distribution of ribosomes on the 5′ leader of a gene ( ), much like P. falciparum.
+What mechanism could account for global ribosome accumulation in the 5′ leader?
+The presence of apparent 80S ribosomes within the 5′ leader sequence, regardless
+of whether they cover uORFs or not, suggests an engagement mode in which the fidelity of
+start codon recognition is altered or suspended. Current models propose that the 43S
+pre-initiation complex loads onto the mRNA with the assistance of other initiation
+factors near the 5′ cap and proceeds to scan down the length of the mRNA until it
+encounters an AUG codon. This is followed by the assembly of the 48S preinitiation
+complex and then finally the 80S complex (for review, see ). The AUG that is ultimately chosen is not always
+the first one encountered, and its sequence context is important for recognition. The
+factors eIF1, eIF1A, and eIF5 have been implicated in recognition of the
+‘correct’ AUG ( ). In the case of P. falciparum, differential regulation
+or modification of these factors could plausibly result in altered start codon selection
+and 80S assembly. Whether prematurely initiated complexes are able to scan without
+synthesizing a peptide or are required to assemble and reassemble until encountering the
+right start codon remains an open question. Large 5′ ribosome accumulation on
+translationally up-regulated genes in the ring stage suggests that premature initiation
+on these transcripts is not detrimental. The development of an in vitro translation
+system that recapitulates upstream 80S assembly on P. falciparum
+5′ leaders will allow direct testing of premature initiation and its effect on
+translational efficiency in this parasite.
+Our ribosome profiling data add an important component to the rich compendium of
+genome-wide data, including transcript abundance ( ), mRNA decay ( ), splicing ( ), and proteomics for this parasite ( ; ). Features such as 5′ leaders, 3′ UTRs, introns, and antisense
+transcripts are clearly visible and often well delineated. While experimental validation
+of transcriptional start sites, terminators, and promoters is required, spanning regions
+between transcripts, such as the one shown in , can be used for the search and identification of such functional sites in a
+reduced sequence space. The data are available at NCBI GEO (accession #GSE58402) to
+facilitate future queries and normalized read coverage plots for all 5 timepoints are
+available packed as a single Mochiview file ( ). Together our results describe a simplified regulatory architecture
+of gene translation, albeit one that includes peculiar and potentially unique mechanisms
+specialized for its highly structured and coordinated lifecycle within erythrocytes.
+Further biochemical dissection of translational initiation mechanisms and determinants
+of translational efficiency unique to Plasmodium may reveal weaknesses
+that could be exploited for possible therapeutic intervention.
+
+## Materials and methods
+
+## Cell culture
+W2 strain cultures were maintained in Hyperflasks (Corning, Corning, NY) in 500 ml
+RPMIc (RPMI 1640 media supplemented with 0.25% Albumax II (GIBCO, Grand Island, NY),
+2 g/L sodium bicarbonate, 0.1 mM hypoxanthine, 25 mM HEPES (pH 7.4), and 50
+μg/L gentamycin), at 37°C, 5% O2, and 5% CO2, to
+maximum 10–15% parasitemia at 5% hematocrit (HC) and frequent media changes
+(at least every 6–8 hr). Cells were synchronized by two consecutive sorbitol
+treatments for three generations, for a total of six treatments. Maximum invasion,
+point at which half of the culture is either rings or schizonts, was defined as hour
+zero and independent time points containing ∼1010 parasites were
+harvested 11, 21, 31, and 45 hr later.
+
+## Polysome isolation and library generation
+Cultures were incubated for 5 min in 500 ml 37°C RPMIc, 100 µg/ml
+cycloheximide (Acros Organics, Bridgewater, NJ) and harvested by centrifugation for 8
+min at 3.65×g at room temperature. An aliquot was removed and
+flash frozen in liquid nitrogen for total RNA purification, followed by
+poly(A)-purification and chemical fragmentation with Zn2+ to
+∼30 nt for consistency in mRNA-Seq library preparation. The remaining culture
+was treated with ice-cold 0.1% saponin in 1X PBS, 100 µg/ml cycloheximide, for
+RBC lysis. Parasites were resuspended in ice-cold parasite lysis buffer (15 mM KOAc,
+15 mM MgOAc, 10 mM Tris HCl pH 7.4, 0.5 mM DTT, 0.5% Triton X-100, 100 μg/ml
+cycloheximide) and dripped into a conical tube filled with, and immersed in, liquid
+nitrogen. Frozen cells transferred placed in liquid nitrogen pre-chilled chambers and
+pulverized for 3 min at 15 Hz, on a Retsch MM301 mixer mill. Pulverized cells were
+thawed on ice, and cell debris was removed by centrifugation at 4°C,
+16,000×g for 10 min. The supernatant was treated with 2.88
+U/µg Micrococcal nuclease for 30 min at room temperature and immediately loaded
+onto sucrose gradients for ultracentrifugation at 35,000 rpm for 3 hr at 4°C in
+a L8-60 M Beckman centrifuge. Monosome fractions only, were collected to generate
+ribosome footprint libraries for deep sequencing using the HiSeq 2000 (Illumina, San
+Diego, CA), as described ( ).
+
+## Merozoite purification
+Late stage schizonts (40–44 hpi) were magnetically purified using MACS LD
+columns (Miltenyi Biotec, San Diego, CA) and resuspended in RPMIc without blood
+addition. After reaching maximum invasion (1:1 schizont to ring ratio), cultures were
+harvested by centrifugation at 1500 rpm at room temperature for 5 min. Pelleted
+cultures were resuspended into fresh RPMIc and placed at 37°C. Merozoites in the
+supernatant were treated with 100 µg/ml cycloheximide for 5 min at room
+temperature, harvested at 4000 rpm at 4°C for 5 min and resuspended in RPMIc and
+passaged again through a MACS LD column. Parasite lysis buffer was added to the
+merozoite-enriched flow-through and flash frozen in liquid nitrogen. This procedure
+was repeated three times every 45 min using the original culture. The same procedure
+described above was used for RNA extraction and library preparation.
+
+## SNP-corrected W2 genome
+W2 strain genomic DNA was isolated from >90% synchronized ring stage cultures.
+Paired end libraries were constructed using the Nextera DNA Sample Prep Kit
+(Epicenter Biotechnologies, Madison, WI) according to the manufacturer's instructions
+reducing PCR cycles from nine to six and using 80% A/T dNTPs. Libraries were
+sequenced using the HiSeq 2000 (Illumina). Reads were aligned to the P.
+falciparum PlasmoDB 3D7 version 7.1 genome using Bowtie 0.12.1 ( ) with parameters
+–v1 –m 1 (one mismatch allowed, unique mapping). A SNP was called when
+five or more W2 reads supported, with over 90% agreement, a different base than the
+one found in the P. falciparum 3D7 7.1 genome. 19401 SNPs (0.08% of
+total bases) were detected and used to produce the SNP-corrected W2 genome based on
+the 3D7 genome. Fastq files are available for download at NCBI SRA, accession
+#SRP042946.
+
+## Software pipeline, mappability, and rpkM calculation
+Quality-filtered ribosome footprints and mRNA sequencing reads were trimmed to remove
+library adapter sequence, filtered for P. falciparum rRNA using
+blast, and aligned uniquely to the W2 SNP-corrected genome using Bowtie 0.12.1 ( ) allowing no mismatches.
+The percentage mappability was calculated using an in silico library
+of the P. falciparum W2 SNP-corrected genome created using a single
+nucleotide sliding window of 30 nt. The in silico library was
+uniquely aligned to the genome allowing no mismatches. The mappability score is given
+by the number of 30 nt sequences covering each nt position in the genome, such that
+any position has a score that ranges from 0 to 30. Both mRNA and ribosome footprint
+rpkMs were calculated as in , excluding the first 50 bases of each gene to eliminate bias
+introduced by the observed ribosome accumulation peak near the start codon. Genes
+with fewer than 80% mappable bases (248 genes) or any overlapping non-CDS feature on
+the same strand (77 genes) were excluded from this calculation. Data are available
+for download at NCBI GEO, accession #GSE58402. MochiView genome browser data tracks
+are available in ( ).
+
+## Extended phaseogram
+The genes of the RNA-seq transcriptome obtained in this work were listed in the same
+phaseogram order as the previously published microarray transcriptome ( ). The criteria for
+inclusion of a gene into the phaseogram was mRNA ≥ 32 rM, >2 peak to
+trough ratios, and Pearson correlation coefficient >0.8 with the expression
+profiles of the two neighboring genes.
+
+## Hidden Markov model to describe transcript boundaries
+The HMM was built using RNA-Seq data obtained in this study and two states:
+transcript (t) or intergenic (i) with three
+possible emissions: (1) read present, (2) read not present but position is
+unmappable, (3) read not present but the position is mappable. Both state and
+emission probabilites were calculated using ∼30 kb training set of manually
+identified transcript and non-transcript regions. The initial probabilities were set
+to 0.5. Transition probabilities were estimated from the median length of intergenic
+regions of (1252 nt) and median lengths of CDS regions (2545 nt), where the
+Pt->i = (1/2545), P
+t->t = (2544/2545),
+Pi->t = (1251/1252), and
+Pi->i = (1/1252). We applied the Viterbi
+algorithm to predict the optimal path of transcript tracks per time point with a 10
+nt window resolution. HMM-defined 5′ leader and 3′ UTR coordinates are
+available for download at NCBI GEO, accession #GSE58402.
+
+## Strand-specific RT-PCR
+Total RNA from late stage parasites was isolated and reverse transcribed using
+SuperScript III (Invitrogen, Carlsbad, CA) according to manufacturer's instructions,
+using either an antisense-specific primer to Pfs16 (PFD0310w) or a random nonamer.
+cDNA was amplified using the Pfs16 antisense-specific primer as a forward primer in
+combination with one of five reverse primers ( ). 18S rRNA primers were used in the
+control reactions with the random nonamer-derived cDNA.
+
+## Funding Information
+This paper was supported by the following grants:
+http://dx.doi.org/10.13039/100000011Howard Hughes Medical
+Institute to Florence Caro, Vida Ahyong, Miguel Betegon, Joseph L DeRisi.
+http://dx.doi.org/10.13039/100000002National Institutes of
+Health
+UO1 AI075517 to Florence Caro.
+
+## Acknowledgements
+The authors would like to thank Dr Graham Ruby for technical expertise in devising the
+HMM for UTR description and Dr. Giselle Knudsen for technical support. We would also
+like to thank members of the Weissman Lab: Dr Eugene Oh, and Dr Gloria Brar for helpful
+experimental advice and suggestions for the analysis of data and Dr Jonathan Weissman
+for the use of a density gradient fractionator and for helpful discussions during
+article preparation.
+
+## Additional information
+
+## Competing interests
+The authors declare that no competing interests exist.
+
+## Author contributions
+FC, Conception and design, Acquisition of data, Analysis and interpretation of
+data, Drafting or revising the article.
+VA, Conception and design, Acquisition of data, Analysis and interpretation of
+data, Drafting or revising the article.
+MB, Conception and design, Analysis and interpretation of data.
+JLDR, Conception and design, Analysis and interpretation of data, Drafting or
+revising the article.
+
+## Additional files
+10.7554/eLife.04106.033Supplementary file 1.MochiView genome browser data tracks.
+DOI:
+http://dx.doi.org/10.7554/eLife.04106.033
+10.7554/eLife.04106.034Supplementary file 2.RESA2 mapping reads.
+DOI:
+http://dx.doi.org/10.7554/eLife.04106.034
+10.7554/eLife.04106.035Supplementary file 3.Strand-specific RT-PCR primers.
+DOI:
+http://dx.doi.org/10.7554/eLife.04106.035
+
+## Major datasets
+The following datasets were generated:
+Caro F,
+Ahyong V, Betegon M, DeRisi JL,
+2014, Ribosome Profiling in P. falciparum asexual
+blood stages, http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE58402, Publicly
+available at NCBI Gene Expression Omnibus.
+Caro F, Ahyong
+V, Betegon M, DeRisi JL, 2014, Publicly
+available at NCBI SRA.
+Caro F, Ahyong V, Betegon
+M, DeRisi JL,
+2014, Data from: Genome-wide Regulatory Dynamics of
+Translation in the Plasmodium falciparum Asexual Blood
+Stages, http://dx.doi.org/10.5061/dryad.vb855, Available at
+Dryad Digital Repository under a CC0 Public Domain
+Dedication.
+
+ 10.7554/eLife.04106.036Decision letter
+GingerasThomas RReviewing editorCold Spring Harbor Laboratory, United
+StateseLife posts the editorial decision letter and author response on a selection of the
+published articles (subject to the approval of the authors). An edited version of the
+letter sent to the authors after peer review is shown, indicating the substantive
+concerns or comments; minor concerns are not usually shown. Reviewers have the
+opportunity to discuss the decision before the letter is sent (see review
+process). Similarly, the author response typically shows only responses
+to the major concerns raised by the reviewers.
+Thank you for sending your work entitled “Genome-wide Regulatory Dynamics of
+Translation in the Plasmodium falciparum Asexual Blood Stages”
+for consideration at eLife. Your article has been favorably evaluated
+by Richard Losick (Senior editor) and 3 reviewers, one of whom is a member of our Board
+of Reviewing Editors.
+The Reviewing editor and the other reviewers discussed their comments before we reached
+this decision, and the Reviewing editor has assembled the following comments to help you
+prepare a revised submission.
+This manuscript presents genome-wide transcriptional maps and association of the
+detected steady-state RNAs to ribosomes as a means of studying the possible use of
+translation as a post-transcriptional control mechanism during 5 stages of development
+in P. falciparum. The use of such a regulatory strategy would help to
+explain why there is a continuous flow of transcription from the majority of genes in
+P. falciparum throughout the development cycle in place of a more
+regulated and dynamic gene expression strategy. In addition, the authors seek to enhance
+our understanding of how this regulatory strategy is enacted in this organism. Thus,
+this is a timely and potentially and important manuscript. However, overall, the
+manuscript contains several important issues that require attention to help readers
+better appreciate the messages communicated.
+1) Given the critiques of the riboseq approaches (Chew et al, 2013;119 Guttman et al,
+2013) it would be important to firmly establish that the RNAs isolated in the ribosome
+protocol are part of a productive polysome translation complex and instead of individual
+monosomes. This concern is given support in which shows considerable size 80s peaks in the
+untreated samples for the Late Troph, Schizonts and merozoites stages. In short, the
+detection of RNA protected by ribosomes in these footprint experiments cannot always be
+with associated with RNA destined for translation. Wilson & Masel, 2011 have
+reported that non-productive binding of single ribosomes to mRNA do not undergo
+productive translation. Thus, RNAseq results obtained from the 80S peak might be
+compared to RNAseq results obtained from RNAs isolated from the polysome peak. This
+would act as a control against this problematic possibility.
+2) Since the authors do not generate a proteomic dataset for their samples, it is not
+convincing that the translation efficiency values that they infer from their ribosomal
+occupancy profiles are direct indicators of protein synthesis. This is especially true
+given the delay in protein as compared to transcript detection observed during the
+P. falciparum IDC (Le Roch et al., Genome Biol., 2004 and Foth et
+al., Mol. Cell. Proteomics, 2011). It is also important to note that select noncoding
+RNAs show a translational efficiency similar to coding regions, even though they are not
+translated (Ingolia et al., Cell, 2011, and Guttman et al., Cell, 2013); these noncoding
+RNAs can be distinguished from coding regions only by their ribosomal release score,
+which was not calculated in this study. Together, the translation efficiency measured
+here is not enough to indicate if a protein product is being made. The authors have to
+provide additional evidence or analyses to conclusively state that there is a lack of
+“overt” translational control.
+3) Another reason for the detection of a transcript in the ribosomal occupancy profile
+could be due to its presence in other ribonucleoprotein complexes that associate or
+co-sediment with the 80S monosome fractions. The authors infer the same when they
+discuss the 3' UTRs of transcripts ( ). Could this be the case for other regions of apparent ribosomal occupancy such
+as the 5' leader sequence? The authors should discuss this in more detail. A
+straightforward experiment would be to determine the protein composition of the 80S
+monosome fractions isolated for ribosome profiling in different stages of the IDC. A
+related question: Is there a lack of polysomes in merozoite stages? This appears to be
+the case in .
+4) Another concern is that the authors do not discuss their data in light of the
+polysome occupancy study published by Bunnik et al., Genome Biology, 2013, and the
+delayed translation phenomenon that has been observed by Le Roch et al., Genome Biol.,
+2004, and Foth et al., Mol. Cell. Proteomics, 2011.
+5) The antisense RNAs section is not 'up-to-date' with the literature. Three
+recent studies have detected pervasive transcription of the parasite genome –
+López-Barragán et al., BMC Genomics, 2011; Siegel et al., BMC Genomics, 2014;
+Wei et al., PLOS One, 2014 – none of which are referenced and discussed here.
+6) The authors establish a threshold read count, in terms of reads per million mapped
+(rM), for downstream analysis. The threshold chosen here seems reasonable for this data
+set, but I do think there is an important clarification to be made. There are two
+separate questions that might be addressed by a read count threshold: a minimum
+expression level for biologically significant effects and a minimum count for
+statistically reliable analysis. An rM threshold is reasonable for the former, while a
+raw read count seems more appropriate for the latter. Doubling sequence coverage would
+permit statistically reliable detection of lower expression levels.
+7) At several points the authors discuss a correlation between mRNA abundance and
+translation, or between transcription and translation; these seem to be used
+interchangeably. The authors seem to mean that the amount of protein produced correlates
+well with the abundance of the mRNA that encodes it – but this phrase could also
+suggest that more abundant mRNAs are translated more highly. The authors should clarify
+this point when it's first mentioned.
+8) The authors discuss relative translational efficiency (TE). Measures of overall
+translation and TE in different samples are all scaled by the per-million-mapped factor
+to correct for differences in sequencing depth, etc. This correction obscures changes in
+the bulk mRNA content or translational activity between different stages. These effects
+are discussed in e.g. Lovén et al., Cell 2012. The authors state that
+“Absolute mean translational efficiencies were the same in all stages” but
+this conclusion is almost an arithmetic identity after applying per-million-mapped
+normalization. The polysome profiles presented in indicate large changes in overall
+translational activity at different developmental stages.
+9) In discussing RESA2 I was confused by until I realized that only the truncated reading
+frame was shown. It would be great to indicate the full-length reading frame on the
+graph.
+10) In discussing the eIF2alpha kinase IK1, the authors note that the gene is
+translationally silenced, perhaps reflecting one of the few uORF-mediated translational
+silencing events in Plasmodium. As eIF2alpha phosphorylation can induce a bypass of such
+silencing, this seems like a potentially interesting auto regulatory system – in
+animals, the eIF2alpha phosphatase GADD34 is regulated by uORF silencing in order to
+provide feedback; here it would seem that positive feedback may act instead.
+11) The authors discuss qualitatively the observation that many abundant but poorly
+translated mRNAs are not detectable by proteomics, in contrast to well-translated
+messages. It would be valuable to quantify detectability, controlling for mRNA
+abundance, and test less anecdotally whether detectability, as a proxy for protein
+abundance, follows translation better than mRNA abundance.
+12) It is striking that the 5' UTRs in Plasmodium were longer than the 3' UTRs
+– this differs from the situation in other eukaryotes, over a wide range of
+absolute UTR length. The authors should comment on this.
+10.7554/eLife.04106.037Author response
+1) Given the critiques of the riboseq approaches (Chew et al, 2013;119
+Guttman et al, 2013) it would be important to firmly establish that the RNAs
+isolated in the ribosome protocol are part of a productive polysome translation
+complex and instead of individual monosomes. This concern is given support
+in
+ 
+which shows considerable size 80s peaks in the untreated samples for the Late
+Troph, Schizonts and merozoites stages. In short, the detection of RNA protected by
+ribosomes in these footprint experiments cannot always be with associated with RNA
+destined for translation. Wilson & Masel, 2011 have reported that non-productive
+binding of single ribosomes to mRNA do not undergo productive translation. Thus,
+RNAseq results obtained from the 80S peak might be compared to RNAseq results
+obtained from RNAs isolated from the polysome peak. This would act as a control
+against this problematic possibility.
+We thank the reviewers for pointing out this important issue. Our response to this issue
+and #2 are linked; therefore please refer to the section below for our
+response.
+2) Since the authors do not generate a proteomic dataset for their samples, it
+is not convincing that the translation efficiency values that they infer from their
+ribosomal occupancy profiles are direct indicators of protein synthesis. This is
+especially true given the delay in protein as compared to transcript detection
+observed during the P. falciparum IDC (Le Roch et al., Genome Biol., 2004 and Foth et
+al., Mol. Cell. Proteomics, 2011). It is also important to note that select noncoding
+RNAs show a translational efficiency similar to coding regions, even though they are
+not translated (Ingolia et al., Cell, 2011, and Guttman et al., Cell, 2013); these
+noncoding RNAs can be distinguished from coding regions only by their ribosomal
+release score, which was not calculated in this study. Together, the translation
+efficiency measured here is not enough to indicate if a protein product is being
+made. The authors have to provide additional evidence or analyses to conclusively
+state that there is a lack of “overt” translational
+control.
+To summarize the questions raised by reviewer points #1 and #2:
+A) Do monosome fragments actually represent productive translating ribosomes?
+B) Given that there are footprints that apparently map to ncRNAs, which, by definition,
+are not expected to be translated, what is evidence that the TE values faithfully
+reflect translational efficiency?
+C) What about the Wilson & Masel findings with regard to unproductive ribosome
+binding?
+D) Given that we do not have a proteomic dataset to accompany this study, how do we
+reconcile our findings with the apparent delay in protein translation that is observed
+during the IDC as published by Le Roch and Foth?
+Issues A & B are inherently linked. First, a number of methods have recently arisen
+to assist in the discrimination of RNA fragments that derive from ribosome protection as
+opposed to anything else.
+In a recently published study by Ingolia et al. (Cell Rep., September
+2014), the authors propose a simple metric to distinguish true ribosome footprints from
+either spurious RNA fragments or non-ribosomal RNA binding proteins by comparing the
+cumulative read size distribution between protein coding genes and classical non-coding
+sequences (such as telomerase RNA or RNAse P). According to this study, comparison of
+read size distribution alone is sufficient to identify true ribosome footprints.
+Our manuscript actually uses this exact metric of read size distribution comparisons in
+Figure S8. Our data clearly shows a difference between footprints mapping to the
+5’ leader and CDS, as opposed to noncoding RNA derived fragments (rRNAs, tRNAs).
+Thus, for each region with sufficient numbers of mapped fragments, we assess whether the
+cumulative distribution of fragment lengths is consistent with ribosome binding or
+not.
+In another published paper by Guttman et al., the authors use a metric called the
+ribosomal release score (RRS) which is similar to the disengagement score (DS) from Chew
+et al, to distinguish true coding regions from noncoding RNAs by determining whether
+there is evidence for a substantial decrease in the number of ribosome footprints
+following the stop codon, a feature that would be expected for a legitimately translated
+region.
+We have further analyzed our dataset using the ribosomal release score (RSS) metric for
+a number of non-coding RNAs for which we have derived TE values and compared these
+ncRNAs with the rest of our protein coding genes (below). We find that TE values for
+protein coding genes are well correlated with the ribosome release scores (black dots),
+yet nearly all ncRNAs yield poor release scores, regardless of TE value (red dots). 
+Thus, both the method using cumulative distributions of fragment lengths and the RRS
+metric are consistent with ongoing translation in protein coding regions, as opposed to
+regions within classic ncRNAs (like tRNAs). However, it should be noted that not all
+regions fit neatly into one category or another. Regions such as the 5’ leader
+sequences reveal ribosome density with fragment length distributions that are
+indistinguishable from those within coding regions, yet in such regions, an RRS metric
+cannot be calculated. Ingolia et al. (Cell Rep., September 2014), argue that translation
+on transcripts outside of protein-coding regions can in fact produce polypeptides and
+therefore a TE value is valid for many non-coding sequences such as 5’UTRs or
+lncRNAs.
+Within coding regions, the legitimacy of ribosome protected fragments and their
+relationship to translational efficiency is now widely supported in a variety of
+organisms [Stern-Ginossar et al., Science 2012, Oh et al., Cell 2011, Dunn et al.,
+eLife 2013, Ingolia et al. Cell 2011, Smith et al., Cell Rep. 2014,
+reviewed in Ingolia, Nat. Rev Genet. 2014], yet clearly there is still some debate in
+the field with regard to unexpected ribosome density outside of coding regions.
+Realizing the complexity of this issue, we have chosen a conservative path for our
+manuscript, whereby we use TE to only refer to protein coding regions, and RD (ribosomal
+density) to refer to those outside of the coding regions (like 5’ RD).
+C) What about the Wilson & Masel findings with regard to unproductive ribosome
+binding?
+With specific regard to the Wilson & Masel 2011 paper cited by the reviewer, these
+authors report ribosomal association to stable unannotated transcripts, yet did not
+actually assess whether these complexes were engaged in actual translation and synthesis
+of a peptide. In fact they state:
+“While we do not know the extent to which this ribosomal association
+leads to translation, these SUTs, apart from RDT1, do not appear to encode functional,
+protein-coding genes.”
+The authors speculate that perhaps ribosome association to unannotated or short ORFs may
+indeed lead to translation “by accident at least at low levels” and
+“provide raw material for de novo birth of protein-coding
+genes.”
+D) How do we reconcile our findings with the apparent delay in protein translation that
+is observed during the IDC as published by Le Roch and Foth?
+With regards to a comparison between the data presented in this manuscript and previous
+mass spectrometry based studies, the reviewer cites two articles which report a delay in
+mRNA abundance with respect to protein detection, Le Roch et al., Genome Biol., 2004 and
+Foth et al., Mol. Cell. Proteomics, 2011.
+In Le Roch et al., the authors analyzed a total of 459 mRNA-protein pairs and found that
+for 171 genes transcript abundance in one stage correlated better with protein levels of
+the next stage (>0.5 increase in Spearman rank correlation). However, it should be
+noted that 45 of these 171 transcripts were also better correlated to the proteins in
+the previous stage. By excluding these genes, a delay between
+transcript abundance and the detection of its corresponding protein may be attributed to
+only 129 transcripts.
+In Foth et al. the authors analyze 125 mRNA-protein pairs and detect multiple isoforms
+for some of the proteins. A delay between mRNA abundance and protein detection is
+observed for 63.7% of 237 protein isoforms (it is unclear how many of the 125 genes
+analyzed this represents).
+Here, we report 177 and 124 translationally up- and down-regulated genes, respectively.
+This represents 295 genes, which is more than twice the number detected in Le Roch or
+Foth. However, these 295 genes represent only 8% of the 3,605 genes present in our
+analysis, and for remaining 92%, we find that transcript abundance is proportional to
+ribosome occupancy throughout the lifecycle.
+Thus, while we identify more instances of translational control than all prior studies,
+these instances appear to be the exception, and not the rule, as the vast majority of
+genes appear to lack overt translational control as measured by this assay.
+3) Another reason for the detection of a transcript in the ribosomal occupancy
+profile could be due to its presence in other ribonucleoprotein complexes that
+associate or co-sediment with the 80S monosome fractions. The authors infer the same
+when they discuss the 3' UTRs of transcripts ( ). Could this be the case for
+other regions of apparent ribosomal occupancy such as the 5' leader sequence?
+The authors should discuss this in more detail. A straightforward experiment would be
+to determine the protein composition of the 80S monosome fractions isolated for
+ribosome profiling in different stages of the IDC. A related question: Is there a
+lack of polysomes in merozoite stages? This appears to be the case in
+ .
+The issue of distinguishing between fragments that derive from actual ribosome binding
+as opposed to other RNA binding proteins is discussed above. In short, we use the
+cumulative distribution of read lengths in a manner identical to Ingolia et al. (Cell
+Rep., September 2014), as a discrimination method. Here, we find that the fragments
+deriving from the 5’ leaders show a perfectly overlapping cumulative distribution
+to coding regions. This is not the case for known ncRNAs, like tRNAs.
+Regardless, whether our 80S fractions contain binding activities other than ribosomes
+can be assessed by mass spectrometry, as the reviewer points out. During the course of
+this study, we in fact prepared schizont and merozoite monosome fractions and a pooled
+schizont polysome fraction for peptide sequencing by tandem mass spectrometry
+(LC-MS/MS). The results of this analysis are shown below: 
+These results indicate that the monosomes and polysome fractions that we collected
+contain mostly ribosomal components (89–100%). The remainder 4.3-10.4% of
+Plasmodium proteins that are non-ribosomal constitute highly expressed proteins such as
+heat shock proteins, exported proteins, membrane proteins, GAPDH, and other housekeeping
+genes.
+Only 0.26% of spectral counts in the schizont monosome fraction mapped to putative
+non-ribosomal RNA-binding proteins (such as the DNA/RNA-binding protein Alba). While we
+cannot exhaustively account for every protein that co-sediments with the 80S peak, this
+proteomic evidence confirms that the vast majority of the 80S proteins are
+ribosomal.
+With regard to the polysome profiles from merozoites, we agree that the relative peak
+height of the polysome region compared to the 80S appears reduced. This could be the
+result of a global reduction in overall translation at this stage. In this study, it
+should be noted that we do not directly assess bulk or absolute levels of overall
+translation activity. Rather, this study examines the relative translational efficiency
+of transcripts on a per-timepoint, per message basis. In merozoites, we do observe a
+slightly broader distribution of efficiencies, but not dramatically so.
+4) Another concern is that the authors do not discuss their data in light of the
+polysome occupancy study published by Bunnik et al., Genome Biology, 2013, and the
+delayed translation phenomenon that has been observed by Le Roch et al., Genome
+Biol., 2004, and Foth et al., Mol. Cell. Proteomics, 2011.
+For a comparison with Le Roch et al., Genome Biol., 2004, and Foth et al., Mol. Cell.
+Proteomics, 2011 please see our response to points #1 & #2, part D.
+The reviewers ask for a comparison with the work published by Bunnik et al. where
+polysome-associated mRNA was compared to total steady state mRNA. A major conclusion of
+this paper is that there exists strong translational control for 471 genes, where the
+peak of transcriptional abundance is in trophozoite or schizont stage, but they are most
+highly associated with polysomes in the ring stage.
+There are a number of confounding factors that obstruct a fair comparison on the work
+presented here and that of Bunnik et al. These factors include the strain, the time
+points sampled, the methodology for isolation of polysomes, and most importantly, the
+overall sequencing coverage. We discuss each of these factors below.
+In Bunnik et al., the authors used the 3D7 strain of P. falciparum to
+assess hours 0, 18, and 36 hours post invasion whereas we used the W2 strain to sample
+hours 11, 21, 31, 45 in addition to purified merozoites.
+A critical step in ribosome profiling is the isolation of intact polysomes. In our
+hands, directly using sucrose gradients yields polysome profiles enriched in higher
+order polysomes, with more than 3 ribosomes. Polysome profiles in Bunnik et al. are
+obtained by pelleting parasite lysates on sucrose cushions, and re-loading the ribosomal
+pellets on sucrose gradients. This additional step may cause the dissociation of
+ribosomes from mRNAs, and could explain the reduced amount of higher order polysomes in
+their profiles, which in turn may skew their assessment of translation towards lower
+values. (Compare Bunnik )
+Finally, sequencing coverage and biological replicates are the most important
+determinant of obtaining reliable data in our experiments. In Bunnik et al, there is
+only a single biological replicate (just the schizont stage). Their deepest exome-wide
+coverage for polysomes is 12.7x (Table 1, Bunnik et al), and their average coverage for
+polysomes is 5.3x. The average exome-wide coverage of our ribosome footprint data is
+159.9x, which is, on average, 30 times greater than Bunnik et al. (table
+below). 
+More importantly, the major difference between the Bunnik dataset and our own is the set
+of 471 genes that the authors identify as being translationally up-regulated in rings.
+Approximately 76% of these genes fall below our threshold for minimum read coverage
+(32rM) for analysis, despite the fact that our ring stage coverage is 456-fold greater
+than the Bunnik zero hour polysome sample (315x coverage compared to Bunnik’s
+0.69x).
+Of the remaining genes (excluding apicoplast genes, var, rifin, and stevors), we
+identified only five genes that we would consider to be translationally up-regulated in
+rings.
+Through our own biological replicates of each time point and our assessment of
+reliability with respect to sequencing coverage ( ), we believe it would be inappropriate to
+draw conclusions for genes or whole datasets that lack sufficient coverage, and thus it
+is not possible to cleanly compare the two datasets.
+5) The antisense RNAs section is not 'up-to-date' with the literature.
+Three recent studies have detected pervasive transcription of the parasite genome
+– López-Barragán et al., BMC Genomics, 2011; Siegel et al., BMC
+Genomics, 2014; Wei et al., PLOS One, 2014 – none of which are referenced and
+discussed here.
+We thank the reviewers for pointing this out. We updated our antisense section to
+reference López-Barragán et al., BMC Genomics, 2011 and Siegel et al., BMC
+Genomics, 2014. The text now reads “Previous serial analysis of gene expression
+(SAGE) ( ), nuclear run-on
+experiments ( ) and more
+recently antisense splicing events detected by RNA-seq ( ; ), suggest that antisense RNAs are
+synthesized by RNA pol II and may constitute up to ∼12% of the erythrocytic-stage
+steady-state RNA ( ), yet
+their presence and biological role, if any, remains unclear. A more recent study found
+no correlation between natural antisense transcript levels and protein abundance ( ).”
+The work by Wei et al. analyzes uncapped/non-adenylated intermediate size ncRNAs, which
+we do not focus on.
+6) The authors establish a threshold read count, in terms of reads per million
+mapped (rM), for downstream analysis. The threshold chosen here seems reasonable for
+this data set, but I do think there is an important clarification to be made. There
+are two separate questions that might be addressed by a read count threshold: a
+minimum expression level for biologically significant effects and a minimum count for
+statistically reliable analysis. An rM threshold is reasonable for the former, while
+a raw read count seems more appropriate for the latter. Doubling sequence coverage
+would permit statistically reliable detection of lower expression
+levels.
+We took a conservative approach by choosing a minimum of rM of 32 per gene. We agree
+with the reviewer that a reliable statistical analysis could still be obtained by
+lowering this threshold and we did so for the antisense analysis where we chose a
+≥16rM bar. Future studies into these low count reads will be necessary to
+establish their biological significance.
+7) At several points the authors discuss a correlation between mRNA abundance
+and translation, or between transcription and translation; these seem to be used
+interchangeably. The authors seem to mean that the amount of protein produced
+correlates well with the abundance of the mRNA that encodes it – but this
+phrase could also suggest that more abundant mRNAs are translated more highly. The
+authors should clarify this point when it's first mentioned.
+We fully agree with the reviewers and clarified the ambiguity by changing the text from
+“To determine the exact level of correlation between mRNA abundance and
+translation we directly compared mRNA and ribosome footprint density measurements ( ). In general, translation is tightly
+correlated with transcription for all phasic and non-phasic genes in rings (r =
+0.85), early trophozoites (r = 0.93), late trophozoites (r = 0.91), schizonts
+(r = 0.89) and purified merozoites (r = 0.86)”, to “To determine
+the exact level of correlation between transcription and translation we directly
+compared mRNA and ribosome footprint density measurements ( ). In general, translation is tightly correlated with
+transcription for all phasic and non-phasic genes in rings (r = 0.85), early
+trophozoites (r = 0.93), late trophozoites (r = 0.91), schizonts (r =
+0.89) and purified merozoites (r = 0.86). This indicates that when an mRNA is
+detected in one stage it is associated proportionally with ribosomes within the same
+stage.”
+We changed: “The simultaneous capture of transcription and translation is
+expected to be…” to “The simultaneous capture of mRNA abundance and
+translation is expected to be…”
+We changed the phrase “… peak transcription occurring in rings and
+schizonts” to “…peak mRNA abundance occurring in rings and
+schizonts”.
+8) The authors discuss relative translational efficiency (TE). Measures of
+overall translation and TE in different samples are all scaled by the
+per-million-mapped factor to correct for differences in sequencing depth, etc. This
+correction obscures changes in the bulk mRNA content or translational activity
+between different stages. These effects are discussed in e.g. Lovén et al., Cell
+2012. The authors state that “Absolute mean translational efficiencies were
+the same in all stages” but this conclusion is almost an arithmetic identity
+after applying per-million-mapped normalization. The polysome profiles presented
+in
+ 
+indicate large changes in overall translational activity at different
+developmental stages.
+This study measures the relative change in translational efficiency on a per-gene,
+per-time point basis, and does not measure absolute changes in bulk translation or
+transcription, as the reviewer correctly points out. To clarify this for the reader, we
+have added a statement in the Discussion highlighting this important point
+“However, we note that this dataset only provides a direct measure of relative
+changes in translational efficiencies rather than changes in bulk transcription and
+translation.”
+With respect to the statement that the reviewer highlights regarding mean translational
+efficiencies, we have corrected and amended this sentence, since the mean TEs are in
+fact not identical in all stages (for example, the mean TE in schizonts compared to
+early trophs are 1.47-fold different). As shown in , the shape of the TE distributions are not identical, and thus we
+would indeed expect some variation in the mean.
+The text now reads:
+“Absolute mean translational efficiencies in all stages (log2TE
+µRings = -0.43, log2TE
+µE.trophs. = -0.56, log2TE
+µL.trophs. = -0.31, log2TE
+µSchizonts = -0.16 and log2TE
+µMerozoites = -0.68) had a maximum fold
+difference of 1.47-fold observed between early trophozoites and schizonts.”
+9) In discussing RESA2 I was confused by until I realized that
+only the truncated reading frame was shown. It would be great to indicate the
+full-length reading frame on the graph.
+We thank the reviewers for indicating to us how to make the figure clearer. As advised,
+we added the annotated gene model described in PlasmoDB version 7.1, which is the
+version used for reference in this work. 
+10) In discussing the eIF2alpha kinase IK1, the authors note that the gene is
+translationally silenced, perhaps reflecting one of the few uORF-mediated
+translational silencing events in Plasmodium. As eIF2alpha phosphorylation can induce
+a bypass of such silencing, this seems like a potentially interesting auto regulatory
+system – in animals, the eIF2alpha phosphatase GADD34 is regulated by uORF
+silencing in order to provide feedback; here it would seem that positive feedback may
+act instead.
+We fully agree with the reviewers. Ribosome footprints partially overlap with 2 of the
+18 uORFs counted on the 5’ leader of the eIF2 alpha kinase transcript. Whether
+these uORFs or other 5’ leader motifs are responsible for the silencing of the
+downstream coding region remains an important question. Additionally, this gene presents
+the lowest ribosomal release score calculated, which strongly suggests that it is not
+being translated.
+11) The authors discuss qualitatively the observation that many abundant but
+poorly translated mRNAs are not detectable by proteomics, in contrast to
+well-translated messages. It would be valuable to quantify detectability, controlling
+for mRNA abundance, and test less anecdotally whether detectability, as a proxy for
+protein abundance, follows translation better than mRNA abundance.
+We did not wish to make the statement that genes that have high mRNA abundance would not
+be detected by proteomic methods, and we thank reviewers for highlighting this
+misunderstanding. We have therefore revised our manuscript as following:
+We changed the phrase from: “Thus, our ribosome profiling dataset highlights
+instances of translational control of genes for which, in the presence of abundant mRNA,
+the protein counterpart is unlikely to be detected by proteomic methods” to
+“Thus, our ribosome profiling dataset highlights instances of translational
+control of genes that may not be detected by proteomic methods.”
+12) It is striking that the 5' UTRs in Plasmodium were longer than the
+3' UTRs – this differs from the situation in other eukaryotes, over a
+wide range of absolute UTR length. The authors should comment on this.
+A review of the current literature reveals a wide distribution of different 5’UTR
+sizes in different types of organisms. Previous studies found that 5’UTRs of
+mRNAs encoding genes which need to be strongly and finely regulated are often longer
+than average (Kozak 1987; Hurowitz and Brown 2003; David et al. 2006; Nagalakshmi et al.
+2008; Bruno et al. 2010). On the other hand, Lynch et al. (2005) proposed that the
+length of the 5’UTR is driven mainly by random genetic drift and mutational
+processes that cause stochastic turnover in transcription-initiation sites and premature
+start codons, combined with a selective constrain against the premature initiation of
+translation. Additional sequencing and mapping of transcript architecture in other
+eukaryotes will help establish in the future whether or not P.
+falciparum truly lies at the extreme of the distribution.
