@@ -1,0 +1,139 @@
+{
+  "_what": "Routed map edits from the 2026-08-07 live re-verification of RT-FAP-RLT's superseding evidence. Reasoning and every figure: research/manuscripts/fap-rlt-2026-regrade.md.",
+  "_rule": "Every `current_text` was taken verbatim from the live file in this worktree and re-verified with a count == 1 check at authoring time. No number is retyped from the memo into the graph: each edit's `artifact` names the file that owns it (CLAUDE.md rule 1).",
+  "_not_applied_and_why": "DRY RUN ONLY. Three reasons. (1) systems/graph/** is generated-adjacent: any edit must be followed by `python3 systems/systems_check.py --write-views` in the same commit or the view-drift check turns the build red. (2) A8 must land BEFORE A2 or [V4] fails on an unresolvable supporting_evidence ref. (3) This agent was scoped to PROPOSE the re-grade, and a grade-owner move is a judgement call, not a clerical fix.",
+  "_apply_order": [
+    "A8",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A9"
+  ],
+  "_apply_with": "python3 research/manuscripts/route_map_edits.py research/manuscripts/fap-rlt-map-edits.json --target systems/graph/routes.json   # then repeat with --target systems/graph/evidence.json and --target research/manuscripts/emerging-modalities-scan-emc.md; the router takes ONE target per invocation and reports the others as dead anchors, which is correct behaviour and not a failure.",
+  "_what_this_deliberately_does_NOT_do": [
+    "It does NOT touch `readiness.missing`. \"any measurement in EMC\" survives verbatim -- that was the explicit test the re-grade had to pass, and A3 adds the evidence that it still holds rather than removing it.",
+    "It does NOT change `state.maturity` from `concept`. Nothing about EMC was computed.",
+    "It does NOT promote `readiness.attainable_today`. The class evidence moved and the EMC evidence did not; only the second of those is what readiness measures.",
+    "It does NOT add or retire a blocker. BLK-CLASS-INHERITANCE is more sharply true than before, not less.",
+    "It does NOT edit nr4a3-program-map.md, systems/views/** or path-family-synthesis.md."
+  ],
+  "_verification_ceiling": "⛔ Every ClinicalTrials.gov fact in the source memo is [search]-level, NOT [API]. The sandbox proxy denies clinicaltrials.gov on CONNECT and no CI path in this repository can fetch an arbitrary URL (fetch-literature.yml's targets_file takes a PATH in the checked-out ref). Nothing in these edits states a trial fact as measured.",
+  "generated": "2026-08-07",
+  "verified_against": "the worktree checkout of this branch; anchors counted at authoring time",
+  "n_edits": 9,
+  "map_edits_required": [
+    {
+      "id": "A8",
+      "section": "systems/graph/evidence.json → two new EV rows (tail append)",
+      "file": "systems/graph/evidence.json",
+      "field": "two new evidence rows",
+      "order": "FIRST -- A2 fails [V4] without it",
+      "anchor": "\"as\": \"Higuchi 2023\",",
+      "current_text": "    \"cited_in\": [\n      {\n        \"file\": \"research/manuscripts/pparg-direction-emc.md\",\n        \"as\": \"Higuchi 2023\",\n        \"role\": \"assertion\"\n      }\n    ]\n  }\n]",
+      "proposed_text": "    \"cited_in\": [\n      {\n        \"file\": \"research/manuscripts/pparg-direction-emc.md\",\n        \"as\": \"Higuchi 2023\",\n        \"role\": \"assertion\"\n      }\n    ]\n  },\n  {\n    \"id\": \"EV-FAP-RLT-SARCOMA-2026\",\n    \"canonical\": {\n      \"pmid\": \"42080808\",\n      \"pmcid\": null,\n      \"doi\": \"10.1097/rlu.0000000000006507\"\n    },\n    \"citation\": \"Jokar N, Juweid ME, Jafari E, et al. FAP-Targeted Theranostics in Advanced Sarcoma: A Pilot Study of 68Ga-FAPI-46 Imaging and 177Lu-FAPI-2286 Therapy. Clin Nucl Med 2026.\",\n    \"what_it_supports\": \"The FIRST prospective FAP-radioligand THERAPY series in sarcoma, and it bounds the class rather than supporting it: n = 6 treatment-refractory metastatic sarcoma, 2-4 cycles of 177Lu-FAPI-2286 at 3.7-7.4 GBq; no grade >=3 treatment-related toxicity; 3 of 6 died of progression before follow-up imaging; of 3 evaluable, one mixed / one SD / one PD, i.e. NO OBJECTIVE RESPONSE; median OS 4 months (95% CI 0-8.8). ⚠ 68Ga-FAPI-46 showed no statistically significant difference from 18F-FDG on SUVmean, SUVmax, MTV/FTV, TLG/TLF or tumour-to-liver ratio, which weakens the separate premise that FAP-PET makes eligibility directly measurable. ⛔ Not open access: abstract-level [API] only, and the histological subtypes of the 6 are NOT in the abstract.\",\n    \"aliases\": [\n      \"Jokar 2026\",\n      \"177Lu-FAPI-2286 sarcoma pilot\",\n      \"PMID 42080808\"\n    ],\n    \"misattributed_as\": [],\n    \"cited_in\": [\n      {\n        \"file\": \"research/manuscripts/fap-rlt-2026-regrade.md\",\n        \"as\": \"PMID 42080808\",\n        \"role\": \"assertion\"\n      },\n      {\n        \"file\": \"research/manuscripts/emc-unexplored-treatment-lanes.md\",\n        \"as\": \"PMID 42080808\",\n        \"role\": \"assertion\"\n      }\n    ]\n  },\n  {\n    \"id\": \"EV-FAP-PET-STS-2026\",\n    \"canonical\": {\n      \"pmid\": \"42128000\",\n      \"pmcid\": null,\n      \"doi\": \"10.1093/bjr/tqag106\"\n    },\n    \"citation\": \"Liu Y, Wan Z, Ding H, Wang K, Pu J, Huang Z. A pilot study of pretreatment [68Ga]Ga-FAPI-04 PET/CT: correlation of imaging parameters with prognosis and FAP expression in soft tissue sarcoma. Br J Radiol 2026.\",\n    \"what_it_supports\": \"That FAPI PET uptake tracks FAP immunohistochemistry in soft-tissue sarcoma — the premise a companion diagnostic rests on. Verbatim: \\\"Survival analyses included 22 patients, of whom 10 underwent FAP IHC staining. A significant association was observed between FAP levels and SUVmax for these STS patients (r = 0.88, P < 0.001).\\\" FAPI-avid tumour volume and total lesion FAP expression were independent predictors of PFS (HR 4.15, P = 0.01) and OS (HR 4.12, P = 0.02). ⛔ CORRECTION REGISTERED HERE: the r = 0.88 rests on n = 10, NOT n = 22 — 22 is the survival cohort. Abstract-level [API]; not open access.\",\n    \"aliases\": [\n      \"Liu 2026\",\n      \"68Ga-FAPI-04 STS prognosis\",\n      \"PMID 42128000\"\n    ],\n    \"misattributed_as\": [],\n    \"provenance_flag\": \"⚠ emc-unexplored-treatment-lanes.md §3.4 reports this as \\\"r = 0.88 in 22 STS patients\\\". SUPERSEDED, RETAINED: that denominator. The correction has one home: research/manuscripts/fap-rlt-2026-regrade.md §1 item 4.\",\n    \"cited_in\": [\n      {\n        \"file\": \"research/manuscripts/fap-rlt-2026-regrade.md\",\n        \"as\": \"PMID 42128000\",\n        \"role\": \"assertion\"\n      },\n      {\n        \"file\": \"research/manuscripts/emc-unexplored-treatment-lanes.md\",\n        \"as\": \"PMID 42128000\",\n        \"role\": \"assertion\"\n      }\n    ]\n  }\n]",
+      "why": "RT-FAP-RLT's supporting_evidence must name resolvable ids ([V4]). Both records were read live from Europe PMC through CI on 2026-08-07; both are abstract-level and say so.",
+      "artifact": "literature-cache: literature/lane-ab-exact-id-verify/_index.json"
+    },
+    {
+      "id": "A1",
+      "section": "systems/graph/routes.json → RT-FAP-RLT.grade + .grade_pointers",
+      "file": "systems/graph/routes.json",
+      "route": "RT-FAP-RLT",
+      "field": "grade",
+      "anchor": "\"anchor\": \"#2-fap-targeted-radioligand-therapy-fapi-rlt--emerging-plausibly-applies\"",
+      "current_text": "    \"grade\": {\n      \"value\": \"Emerging, plausible\",\n      \"owner\": {\n        \"file\": \"research/manuscripts/emerging-modalities-scan-emc.md\",\n        \"anchor\": \"#2-fap-targeted-radioligand-therapy-fapi-rlt--emerging-plausibly-applies\"\n      }\n    },\n    \"grade_pointers\": [\n      {\n        \"file\": \"research/IDEAS.md\",\n        \"asserts_grade\": true\n      }\n    ],",
+      "proposed_text": "    \"grade\": {\n      \"value\": \"Emerging; class evidence now MEASURED in sarcoma and weak; EMC still entirely unmeasured (2026-08-07)\",\n      \"owner\": {\n        \"file\": \"research/manuscripts/fap-rlt-2026-regrade.md\",\n        \"anchor\": null\n      }\n    },\n    \"grade_pointers\": [\n      {\n        \"file\": \"research/IDEAS.md\",\n        \"asserts_grade\": true\n      },\n      {\n        \"file\": \"research/manuscripts/emerging-modalities-scan-emc.md\",\n        \"asserts_grade\": true\n      }\n    ],",
+      "why": "The grade rested on a 2022 90Y-FAPI series. Re-verified live 2026-08-07: the first prospective FAP-RLT sarcoma therapy readout (PMID 42080808) shows no objective response, median OS 4 months, and FAP-PET not separating from FDG. The owner moves to the document where the 2026 evidence and its two corrections live; the previous owner stays as a grade_pointer (asserts_grade true) so its now-superseded prose is visible rather than orphaned.",
+      "artifact": "research/manuscripts/fap-rlt-2026-regrade.md §1-§2 (all figures from Europe PMC records retrieved through CI; literature-cache: literature/lane-ab-exact-id-verify/)",
+      "depends_on": "A9 (the superseded marker in the previous owner) should land in the same commit"
+    },
+    {
+      "id": "A2",
+      "section": "systems/graph/routes.json → RT-FAP-RLT.supporting_evidence + .remaining_unknowns",
+      "file": "systems/graph/routes.json",
+      "route": "RT-FAP-RLT",
+      "field": "supporting_evidence",
+      "anchor": "\"rationale\": \"EMC is a stroma-rich myxoid tumour,",
+      "current_text": "    \"supporting_evidence\": [],\n    \"remaining_unknowns\": [\n      \"Whether the stromal target is present in EMC's particular myxoid matrix — this has never been measured. ⚠ The surfaceome screen (ART-SURFACE-EXPRESSION) does return FAP selectivity_q = 0.1555 / myxoid 0.0 — but it is DepMap tumour-cell MONOCULTURE with no CAF compartment, so it cannot see the stroma this route targets and does not answer the question.\",\n      \"Whether a stromal-targeted radioligand delivers enough dose to the tumour cells.\"\n    ],",
+      "proposed_text": "    \"supporting_evidence\": [\n      {\n        \"ref\": \"EV-FAP-RLT-SARCOMA-2026\",\n        \"what_it_supports\": \"That FAP-targeted radioligand THERAPY has now been given to sarcoma patients at all, and what happened: n = 6, no grade >=3 toxicity, no objective response, median OS 4 months, and 68Ga-FAPI-46 not separating from 18F-FDG on any measured parameter. It bounds the class premise rather than strengthening it.\",\n        \"strength\": \"class_inherited\"\n      },\n      {\n        \"ref\": \"EV-FAP-PET-STS-2026\",\n        \"what_it_supports\": \"That FAP IHC and FAPI PET uptake track each other in soft-tissue sarcoma (r = 0.88, P < 0.001) — the premise that a scan can stand in for an expression measurement. ⚠ On the 10 of 22 patients who had IHC, not on 22.\",\n        \"strength\": \"class_inherited\"\n      }\n    ],\n    \"remaining_unknowns\": [\n      \"Whether the stromal target is present in EMC's particular myxoid matrix — this has never been measured. ⚠ The surfaceome screen (ART-SURFACE-EXPRESSION) does return FAP selectivity_q = 0.1555 / myxoid 0.0 — but it is DepMap tumour-cell MONOCULTURE with no CAF compartment, so it cannot see the stroma this route targets and does not answer the question. ⛔ AND THE `myxoid 0.0` FIGURE IS NOT AN EMC READING AT ALL (measured 2026-08-07, surfaceome-instrument-limits.json -> L5): n_myxoid = 1 and that single line is ACH-001519, whose EMC identity this repository RETRACTED on 2026-08-05 (Cellosaurus CVCL_1238 records no EWSR1 fusion; DepMap's filtered fusion caller names no FET gene). So the scan holds no EMC observation of FAP for two independent reasons, and the figure must not be quoted as though it bore on EMC.\",\n      \"Whether a stromal-targeted radioligand delivers enough dose to the tumour cells. ⚠ The repository's own BNCT negative generalises here by its own reasoning: a radioligand is dosed per unit VOLUME and delivered per CELL, and EMC is matrix-dominated. That is an argument, not a measurement, and is recorded as one.\",\n      \"⛔ Whether FAP is present in EMC — and as of 2026-08-07 this is an EXTRACTION REQUEST, not a void. A 642-record Europe PMC corpus on FAP radioligands in sarcoma returns ZERO titles or abstracts naming extraskeletal myxoid chondrosarcoma, NR4A3 or EWSR1 — but a proximity scan of its 483 retrieved FULL TEXTS returns one paper that matters: PMID 38964294 / PMC11797935 [FT] scored 133 soft-tissue sarcomas by FAP immunohistochemistry and lists its enrolled subtypes as including \"extraskeletal myxoid chondrosarcoma\". EMC tissue HAS been stained for FAP; the EMC-specific numbers were never reported (its only subtype-level analyses are WDLPS and UPS, and the EMC case count is not stated). So the ask is: how many EMC cases were in the Akita University cohort and what were their intratumoral and marginal FAP scores? ⚠ The nearest RADIOLIGAND datapoint is still one case of CONVENTIONAL chondrosarcoma (PMID 35025783), a different disease.\"\n    ],",
+      "why": "supporting_evidence was empty while the rationale rested on real transferred literature; `class_inherited` is the field that exists to keep that visible as transferred. The unknowns gain the two things that were measured today: the myxoid 0.0 figure is not an EMC reading, and the EMC literature absence is now a counted zero rather than an unexamined gap.",
+      "artifact": "research/modalities/surfaceome-instrument-limits.json -> limits.L5 ; research/manuscripts/fap-rlt-2026-regrade.md §3",
+      "depends_on": "A8 MUST land first -- [V4] fails the build on a supporting_evidence ref that resolves to nothing."
+    },
+    {
+      "id": "A3",
+      "section": "systems/graph/routes.json → RT-FAP-RLT.readiness",
+      "file": "systems/graph/routes.json",
+      "route": "RT-FAP-RLT",
+      "field": "readiness",
+      "anchor": "\"why_not_higher\": \"Entirely unmeasured in EMC.",
+      "current_text": "      \"attainable_today\": \"internal_note\",\n      \"why_not_higher\": \"Entirely unmeasured in EMC. The rationale is a plausible inference from the tumour's histology and nothing more.\",\n      \"missing\": [\n        \"any measurement in EMC\"\n      ]",
+      "proposed_text": "      \"attainable_today\": \"internal_note\",\n      \"why_not_higher\": \"Entirely unmeasured in EMC. The rationale is a plausible inference from the tumour's histology and nothing more. ⭐ RE-CHECKED 2026-08-07 AND IT HELD: the four 2025-26 items said to supersede the 2022 grade were verified live and all four are about SARCOMA, none about EMC; a 642-record corpus returns zero EMC titles or abstracts; and the one figure that looked like an EMC reading is not one. ⚠ IT HELD BY A NARROWER MARGIN THAN THE METADATA SCAN SUGGESTED: reading the 483 retrieved full texts found a published 133-case sarcoma cohort scored by FAP IHC whose enrolled subtypes INCLUDE extraskeletal myxoid chondrosarcoma (PMID 38964294 [FT]) — it simply never reported the EMC-specific numbers. What is missing is therefore a REPORTED measurement, not a performed one, which makes this a nameable extraction request rather than an experiment. The class evidence moved and this did not, which is why the readiness is unchanged while the grade is not.\",\n      \"missing\": [\n        \"any measurement in EMC\"\n      ],\n      \"evidence_required\": [\n        \"A REPORTED EMC-specific FAP readout. ⭐ The cheapest form of this is not an experiment: PMID 38964294's 133-case cohort already stained EMC cases for FAP and did not break the results out by subtype — so the first ask is the per-subtype extraction, addressed to that group. Failing that, a FAP expression or FAP-PET avidity readout on EMC tissue. ⚠ No in-silico substitute exists: the only surface instrument here is DepMap tumour-cell monoculture, which has no CAF compartment (surfaceome-instrument-limits.json -> L1).\"\n      ]",
+      "why": "The `missing` entry is unchanged BY DESIGN -- it was the explicit test the re-grade had to pass. What is added is the evidence that it still holds, so a future reader does not have to re-derive it, plus an `evidence_required` naming what would close it.",
+      "artifact": "research/manuscripts/fap-rlt-2026-regrade.md §3 ; research/modalities/surfaceome-instrument-limits.json -> limits.L1"
+    },
+    {
+      "id": "A4",
+      "section": "systems/graph/routes.json → RT-FAP-RLT.timing",
+      "file": "systems/graph/routes.json",
+      "route": "RT-FAP-RLT",
+      "field": "timing",
+      "anchor": "\"rationale\": \"Emerging and unmeasured. It is worth a row because the stromal angle",
+      "current_text": "      \"recommendation\": \"monitor\",\n      \"rationale\": \"Emerging and unmeasured. It is worth a row because the stromal angle is genuinely different from every other antigen route here, but there is nothing to do until a measurement exists.\",\n      \"six_month_delta\": \"None.\",\n      \"two_year_delta\": \"An EMC dataset, or a sarcoma radioligand series, would move it.\",",
+      "proposed_text": "      \"recommendation\": \"monitor\",\n      \"rationale\": \"Emerging and unmeasured IN EMC. It is worth a row because the stromal angle is genuinely different from every other antigen route here, but there is nothing to do until a measurement exists. ⚠ What changed on 2026-08-07 is that the CLASS is no longer unmeasured: the first prospective FAP-RLT therapy series in sarcoma reported, and it is weak (EV-FAP-RLT-SARCOMA-2026). Monitoring is now monitoring something specific rather than waiting in general.\",\n      \"six_month_delta\": \"Small but no longer zero: ATLAS (NCT07156565) is recruiting and dose-escalating, so a safety/dosimetry signal in sarcoma may land. It will not be EMC. ⚠ [search]-level only — ClinicalTrials.gov is denied at this repository's egress proxy and no CI path here can fetch an arbitrary URL.\",\n      \"two_year_delta\": \"An EMC dataset would move it. Otherwise the dated external event is ATLAS's estimated primary completion, January 2028 — a phase 2 expansion of up to 50 relapsed/refractory FAP-positive soft-tissue-sarcoma patients. ⚠ [search]-level, same reason. SUPERSEDED, RETAINED: \\\"An EMC dataset, or a sarcoma radioligand series, would move it.\\\" — the sarcoma radioligand series ARRIVED (PMID 42080808) and did not move the route, because it says nothing about EMC.\",",
+      "why": "`two_year_delta` named a sarcoma radioligand series as a thing that would move the route. That series has now been published and it does not move it -- which is exactly the kind of prediction that should be marked resolved rather than left standing.",
+      "artifact": "research/manuscripts/fap-rlt-2026-regrade.md §1 item 1, §2, §4"
+    },
+    {
+      "id": "A5",
+      "section": "systems/graph/routes.json → RT-FAP-RLT.closure_note",
+      "file": "systems/graph/routes.json",
+      "route": "RT-FAP-RLT",
+      "field": "closure_note + state.last_verified + next.best_next_action",
+      "anchor": "\"closure_note\": \"Emerging and unmeasured in EMC.\",",
+      "current_text": "    \"closure_kind\": \"open\",\n    \"revival_trigger\": [],\n    \"closure_note\": \"Emerging and unmeasured in EMC.\",",
+      "proposed_text": "    \"closure_kind\": \"open\",\n    \"revival_trigger\": [],\n    \"closure_note\": \"Open. Class evidence measured in sarcoma 2026 and weak; EMC unmeasured and now shown to be unmeasured rather than merely unchecked. SUPERSEDED, RETAINED: \\\"Emerging and unmeasured in EMC.\\\"\",",
+      "why": "the closure note said 'emerging'; the class evidence has stopped emerging and started reporting.",
+      "artifact": "research/manuscripts/fap-rlt-2026-regrade.md §5"
+    },
+    {
+      "id": "A6",
+      "section": "systems/graph/routes.json → RT-FAP-RLT.state.last_verified",
+      "file": "systems/graph/routes.json",
+      "route": "RT-FAP-RLT",
+      "field": "state.last_verified",
+      "anchor": "\"purpose\": \"Could a fibroblast-activation-protein radioligand reach EMC through its stroma?\"",
+      "current_text": "    \"purpose\": \"Could a fibroblast-activation-protein radioligand reach EMC through its stroma?\",\n    \"state\": {\n      \"work_state\": \"future\",\n      \"status\": \"blocked\",\n      \"maturity\": \"concept\",\n      \"confidence\": \"unknown\",\n      \"last_verified\": \"2026-08-05\"\n    },",
+      "proposed_text": "    \"purpose\": \"Could a fibroblast-activation-protein radioligand reach EMC through its stroma?\",\n    \"state\": {\n      \"work_state\": \"future\",\n      \"status\": \"blocked\",\n      \"maturity\": \"concept\",\n      \"confidence\": \"unknown\",\n      \"last_verified\": \"2026-08-07\"\n    },",
+      "why": "maturity stays `concept` deliberately: nothing about EMC was computed. Only the verification date moves, and it moves because the evidence WAS re-read rather than re-asserted.",
+      "artifact": "research/manuscripts/fap-rlt-2026-regrade.md §0"
+    },
+    {
+      "id": "A7",
+      "section": "systems/graph/routes.json → RT-FAP-RLT.next.best_next_action",
+      "file": "systems/graph/routes.json",
+      "route": "RT-FAP-RLT",
+      "field": "next.best_next_action",
+      "anchor": "\"automation_outlook\": \"Re-grade is automatic on new data.\"",
+      "current_text": "      \"automation_outlook\": \"Re-grade is automatic on new data.\",\n      \"revisit_trigger\": [\n        \"TECH-EMC-EXPRESSION-DATA\"\n      ]\n    },\n    \"next\": {\n      \"best_next_action\": \"Keep registered for automatic re-grade when EMC expression data lands.\",\n      \"cost\": \"$0\"",
+      "proposed_text": "      \"automation_outlook\": \"Re-grade is automatic on new data.\",\n      \"revisit_trigger\": [\n        \"TECH-EMC-EXPRESSION-DATA\"\n      ]\n    },\n    \"next\": {\n      \"best_next_action\": \"Keep registered for automatic re-grade when EMC expression data lands. ⭐ AND ONE $0 INFRASTRUCTURE ITEM THAT IS NOT ABOUT THIS ROUTE ALONE: every trial fact on this route is [search]-level because ClinicalTrials.gov is denied at the egress proxy and no CI path here accepts an arbitrary URL (fetch-literature.yml's targets_file takes a PATH in the checked-out ref). An inline targets_json input, or an NCT-id registry probe, would make the registry a first-class [API] channel for every route that cites a trial.\",\n      \"cost\": \"$0\"",
+      "why": "the verification ceiling found while doing this re-grade caps every trial claim in the portfolio, so it is recorded where somebody will trip over it rather than only in a memo.",
+      "artifact": "research/manuscripts/fap-rlt-2026-regrade.md §4"
+    },
+    {
+      "id": "A9",
+      "section": "research/manuscripts/emerging-modalities-scan-emc.md → §2",
+      "file": "research/manuscripts/emerging-modalities-scan-emc.md",
+      "field": "§2 -- the previous grade owner",
+      "anchor": "## 2. FAP-targeted radioligand therapy (FAPI-RLT) — emerging, plausibly applies. ",
+      "current_text": "## 2. FAP-targeted radioligand therapy (FAPI-RLT) — emerging, plausibly applies. \n",
+      "proposed_text": "## 2. FAP-targeted radioligand therapy (FAPI-RLT) — emerging, plausibly applies.\n\n> ⚠ **SUPERSEDED AS THE GRADE OWNER, RETAINED IN FULL (2026-08-07).** This section is the 2022-vintage\n> assessment and its two load-bearing premises have both been overtaken by evidence retrieved live on\n> 2026-08-07. **(a)** *\"⁹⁰Y-FAPI-46 RLT controlled disease in ~half of advanced-sarcoma patients\"* is\n> not contradicted, but the first **prospective FAP-RLT therapy** series in sarcoma has since reported\n> **no objective response** and a median OS of **4 months** (PMID 42080808). **(b)** *\"The same FAPI\n> tracer is diagnostic (FAP-PET), so eligibility is directly measurable\"* — in that same series\n> ⁶⁸Ga-FAPI-46 was **not statistically distinguishable from ¹⁸F-FDG** on any measured parameter.\n> The grade now lives in [`fap-rlt-2026-regrade.md`](./fap-rlt-2026-regrade.md); nothing below is\n> withdrawn, and the **\"Next\"** line's ask — confirm FAP expression / FAP-PET avidity **in EMC** —\n> was executed and returned a **measured zero**.\n\n",
+      "why": "rule 1.2 -- a superseded assessment stays quotable unless it is marked where it is read. This document is cited by IDEAS.md and by the route registry.",
+      "artifact": "research/manuscripts/fap-rlt-2026-regrade.md §1, §2"
+    }
+  ]
+}
