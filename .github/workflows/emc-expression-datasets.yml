@@ -66,7 +66,7 @@ on:
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "s4-fetch"]
+        options: ["part-b", "gse-series", "aso-junction", "s4-fetch", "s4-reach"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -78,6 +78,10 @@ on:
         description: "gse-series mode only: the GEO series accession to characterise."
         required: false
         default: "GSE299349"
+      reach_samples:
+        description: "s4-reach mode only: rigid-body placements per (arm x anchor x linker rung)."
+        required: false
+        default: "20000"
       acc_bridge_budget_s:
         description: >-
           part-b mode only. Seconds of TOTAL budget for the EST accession->symbol bridge
@@ -126,7 +130,7 @@ jobs:
           fi
 
       - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
-        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch'
+        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch' && inputs.mode != 's4-reach'
         timeout-minutes: 75
         env:
           # ⚠ Must stay comfortably BELOW `timeout-minutes` above. A step that times out returns
@@ -259,8 +263,48 @@ jobs:
           path: research/modalities/_s4_lane_inputs
           if-no-files-found: error
 
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # s4-reach — SCRATCH-BRANCH ONLY. The NBRE response-element linker-reach enumeration.
+      # It runs HERE and not in the dev sandbox for a measured reason: the sandbox box has 4 CPUs
+      # shared with several sibling agents' pytest suites, and this job's four workers were getting
+      # 3.8 %% CPU each (39 s of CPU in 17 min of wall clock). That is not a reason to shrink the
+      # sample budget — it is a reason to run it somewhere with dedicated cores (CLAUDE.md §6).
+      # $0: a GitHub-hosted CPU runner, pure stdlib, no pip, no GPU.
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      - name: "s4-reach — response-element reach enumeration on PDB 7WNH"
+        if: inputs.mode == 's4-reach'
+        timeout-minutes: 180
+        run: |
+          set -o pipefail
+          python research/modalities/nr4a3_re_reach.py \
+            --samples "${{ inputs.reach_samples || '20000' }}" --procs 4
+          echo "===BEGIN nr4a3-re-reach.md==="
+          cat research/modalities/nr4a3-re-reach.md
+          echo "===END nr4a3-re-reach.md==="
+
+      - name: "s4-reach — publish"
+        if: always() && inputs.mode == 's4-reach' && github.ref_type == 'branch'
+        timeout-minutes: 10
+        env:
+          BR: ${{ github.ref_name }}
+        run: |
+          set -e
+          bash research/compute/publish_artifacts.sh "$BR" \
+            "s4 lanes: response-element reach enumeration on 7WNH (CI, \$0)" \
+            research/modalities/nr4a3-re-reach.json research/modalities/nr4a3-re-reach.md
+
+      - name: "s4-reach — run artifact"
+        if: always() && inputs.mode == 's4-reach'
+        uses: actions/upload-artifact@v4
+        with:
+          name: s4-re-reach-${{ github.run_id }}
+          path: |
+            research/modalities/nr4a3-re-reach.json
+            research/modalities/nr4a3-re-reach.md
+          if-no-files-found: error
+
       - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
-        if: always() && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch'
+        if: always() && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch' && inputs.mode != 's4-reach'
         timeout-minutes: 10
         run: |
           if [ "${{ inputs.mode }}" = "gse-series" ]; then
@@ -273,7 +317,7 @@ jobs:
       # a freshly rebuilt panel must not land beside six files carrying retraction banners with
       # nothing in the directory to tell a reader which is which.
       - name: Publish the artifact and the inputs cache to the branch this run was dispatched from
-        if: always() && github.ref_type == 'branch' && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch'
+        if: always() && github.ref_type == 'branch' && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch' && inputs.mode != 's4-reach'
         timeout-minutes: 10
         env:
           BR: ${{ github.ref_name }}
@@ -343,7 +387,7 @@ jobs:
           PY
 
       - name: "Summary — part-b"
-        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch'
+        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch' && inputs.mode != 's4-reach'
         run: |
           python3 - <<'PY'
           import json
