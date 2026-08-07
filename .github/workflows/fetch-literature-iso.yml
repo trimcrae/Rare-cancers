@@ -168,4 +168,20 @@ jobs:
           cp -r "$tmp"/. "literature/$slug"/
           git add -A
           git commit -m "Literature cache update: $slug" || { echo "No changes"; exit 0; }
-          git push origin literature-cache
+          # Parallel sweeps publish different slugs to this same branch, so a push can lose a
+          # race with a concurrent run and be rejected non-fast-forward -- which already threw
+          # away a complete 76-target fetch. Re-apply this slug on top of whatever landed
+          # meanwhile and retry; the slugs are disjoint directories, so rebuilding from origin
+          # and re-copying is a clean merge, never a clobber.
+          for attempt in 1 2 3 4 5; do
+            if git push origin literature-cache; then echo "pushed on attempt $attempt"; break; fi
+            echo "push rejected (attempt $attempt) -- re-basing this slug onto origin"
+            sleep $(( attempt * 7 ))
+            git fetch origin literature-cache
+            git checkout -B literature-cache origin/literature-cache
+            rm -rf "literature/$slug"; mkdir -p "literature/$slug"
+            cp -r "$tmp"/. "literature/$slug"/
+            git add -A
+            git commit -m "Literature cache update: $slug" || true
+            if [ "$attempt" = 5 ]; then echo "::error::could not publish $slug after 5 attempts"; exit 1; fi
+          done
