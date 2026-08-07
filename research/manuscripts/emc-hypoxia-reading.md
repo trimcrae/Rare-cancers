@@ -336,12 +336,12 @@ Each claim this memo makes, and the single observation that would kill it.
 | F3 | The signal is not produced by proliferation | a series where EMC and comparators are matched on MKI67/TOP2A and the contrast disappears. Partly open already: proliferation is flat on GPL6244 and up on GPL3290. |
 | F4 | The signal is not produced by necrosis | a matched histopathological review scoring necrosis on these blocks and finding it higher in EMC. **Not answerable from transcript data** — the myeloid proxy points away from necrosis, and that is the most this instrument can say. |
 | F5 | The signal is not a reference-pool artefact | it is already falsifiable and did not falsify: the pool-matched DFSP-only contrast stays positive. A failure of that restricted contrast would kill it. |
-| F6 | "Six signatures" is one observation per platform, not six | a per-sample score correlation near zero between the six sets on a new dataset. Measured here at r = 0.66–0.96. |
+| F6 | "Six signatures" is one observation per platform, not six | a per-sample score correlation near zero between the six sets on a new dataset. The measured correlations are §2.6's and this row does not restate them. |
 | F7 | The axis is tissue-intrinsic rather than fusion-driven | EMC tumours (or an isogenic fusion-inducible model) in which hypoxia score rises with fusion output. The within-EMC NR4A3 correlation is negative on both platforms; a positive, reproducible one would overturn this. |
 | F8 | The glycolytic elevation is not an ENO3 artefact | already falsifiable and did not falsify: removing every enolase leaves *t* = +3.30 / +5.74. |
 | F9 | EMC's CS matrix is abundant but comparatively under-sulfated | a glycomics or antibody measurement on EMC tissue showing normal or elevated 4-*O*/CS-E sulfation. **This is a capacity proxy, not a sulfation measurement**, so a wet-lab result outranks it outright. |
 | F10 | CSPG4 is not a reproducible up-call in EMC tumour tissue | a third series in which CSPG4 is up. It is +7.42 on one platform and −0.40 on the other. |
-| F11 | The signature is not simply a set of the right size | the genome-wide random-gene-set null. **Currently NOT TAKEN** — the cached-universe version is biased conservative and 8–35 % of random sets already match the observed t. This is the open falsifier most likely to fire. |
+| F11 | The signature is not simply a set of the right size | the genome-wide random-gene-set null. **Currently NOT TAKEN** — and the biased-conservative cached-universe version, whose fractions §2.7 owns and this row does not restate, is already close enough to the observed *t* that this is **the open falsifier most likely to fire.** |
 
 ---
 
@@ -354,6 +354,27 @@ readable EMC expression series"* — reporting the confound audit **as the resul
 platform disagreement and the multiplicity deflation, rather than the headline.
 
 **What is missing before it is worth posting:** the genome-wide null (§2.7, F11), which is one $0 CI
-fetch; a third EMC series if one exists; and the retrieved clinical record for §5. Nothing here
-needs a wet lab to be *publishable* — it needs one to be *actionable*, which is a different
-sentence and this memo does not blur them.
+fetch; a third EMC series (below); and the retrieved clinical record for §5. Nothing here needs a
+wet lab to be *publishable* — it needs one to be *actionable*, which is a different sentence and this
+memo does not blur them.
+
+### 7.1 · The third series is not missing — it is unread, and for an instrument reason
+
+⭐ **`GSE28866` is the replication candidate, and what stops it is a probe→symbol bridge, not data.**
+The five EMC expression series this repository has found are characterised in
+[`emc-atr-vulnerability.json`](../modalities/emc-atr-vulnerability.json) →
+`part_b_emc_tumour_signature.series_readability`, which is their one home. Three of the five are
+unreadable and the reasons are not the same:
+
+| series | why it is not used |
+|---|---|
+| `GSE43632`, `GSE80126` | **n_EMC = 1** each. No contrast is computable at any effort. Genuinely closed. |
+| `GSE28866` | **4 EMC vs 27 comparators, and ZERO concepts scored on GPL10999** — that platform's probe mapping rate is recorded as `None`, i.e. the bridge from its probes to gene symbols did not resolve. ⛔ **That is an instrument limit, not a biological null**, and it is the same class of problem the GPL3290 EST-accession bridge already solved for `GSE4303`. |
+
+Why it is worth the attempt rather than merely possible: `GSE28866`'s comparator arm carries **six
+myxoid liposarcomas** — a myxoid *and* fusion-driven comparator that neither readable series
+contains. That is a sharper version of §2.1's test than either platform here can run, and it
+addresses F1 and F2 at the same time. ⚠ **Nothing here says the bridge will resolve** — GPL10999 was
+not attempted in this session and the honest state is "unattempted", not "solvable". The
+falsifiable form is: *a run that attempts the GPL10999 bridge either resolves enough probes to score
+a contrast, or records why it cannot* — and either outcome is worth more than the current silence.
