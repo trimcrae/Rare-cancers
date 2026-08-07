@@ -36,6 +36,7 @@ import gzip
 import io
 import json
 import os
+import re
 import sys
 import urllib.request
 
@@ -122,6 +123,46 @@ def _classify_columns(header_fields):
     return {"annotation_columns": ann, "sample_columns_n": len(samples),
             "sample_columns": samples, "gsm_named_columns_n": len(gsm_cols),
             "symbol_like_columns": symbol_like}
+
+
+def _groups(sample_cols):
+    """Split the 93 libraries into the 66 cancers and the 27 normals, FROM THE HEADER.
+
+    ⭐ THE GROUPING IS DERIVED AND THE DERIVATION IS TWO-SIDED, which is what makes it a reading
+    rather than a guess. Tumour libraries are named `<Type>_STT####` (GIST_STT…, EMC_STT…) and
+    normal libraries are a bare `STT####` with no tissue prefix. Counting the header gives 66
+    prefixed and 27 bare — and the series description independently says 66 cancer and 27 normal.
+    BOTH halves landing exactly is the evidence; either alone would be a coincidence worth
+    distrusting. `_grouping_check` below re-derives those counts at runtime and the verdict refuses
+    to emit a contrast if they ever stop matching.
+
+    ⚠ Three annotation columns (`hg18_coords`, `classification`,
+    `differentially_expressed_cancer_type`) sit among the sample columns because the header gives
+    them no distinguishing shape. They are dropped by name, and dropping them is what turns 96
+    into the 93 the series arithmetic requires.
+    """
+    ann = {"hg18_coords", "classification", "differentially_expressed_cancer_type"}
+    # ⚠ STRIP \r FIRST. One column ends `..._Adult_normal_breast\r` — the table carries Windows line
+    # endings, so the final field of the header keeps its carriage return. Matching `$` against it
+    # silently drops that library, which on a 27-library arm is a 3.7 % loss nobody would notice.
+    libs = [c.strip().strip('"') for c in sample_cols]
+    libs = [c for c in libs if c not in ann]
+    # ⛔ NORMALS ARE NAMED `STT####_<Adult|Fetal>_normal_<tissue>`, NOT a bare `STT####`. My first
+    # pattern assumed the bare form, matched ZERO normals, and the two-sided count check below
+    # REFUSED to emit a contrast rather than proceeding on a broken grouping. That refusal is the
+    # only reason this is right: a one-sided check would have accepted 57 tumours and said nothing.
+    normal = [c for c in libs if "_normal_" in c.lower()]
+    tumour = [c for c in libs if c not in normal]
+    emc = [c for c in tumour if c.upper().startswith("EMC_")]
+    # ⚠ TECHNICAL REPLICATES EXIST and are NOT independent samples: ESS_STT5520_rep1/_rep2 and
+    # LMS_STT516_rep1/_rep2. They are reported so any statistic can decide how to treat them
+    # instead of silently counting them twice. None is an EMC library.
+    reps = sorted({c for c in libs if c.lower().endswith(("_rep1", "_rep2"))})
+    return {"n_libraries": len(libs), "n_tumour": len(tumour), "n_normal": len(normal),
+            "n_emc": len(emc), "emc_columns": sorted(emc), "normal_columns": sorted(normal),
+            "technical_replicate_columns": reps,
+            "normal_tissues": sorted({c.lower().split("_normal_")[-1] for c in normal}),
+            "matches_series_description": len(tumour) == 66 and len(normal) == 27}
 
 
 def main(argv=None):
