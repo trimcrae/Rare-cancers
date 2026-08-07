@@ -9,8 +9,9 @@ The rules these pin, in order of how much damage each would do if it drifted:
      ever diverge, the "body-free upper bound" stops being an upper bound on the body results;
   3. the size partition must be checked against measured residue counts, never trusted because it was
      typed — the "a populated field is not a measured one" rule in its smallest form;
-  4. the effector-arm census must COUNT staged arms rather than assert a number, and must report zero
-     transcriptional effectors from the committed registry as it stands;
+  4. the effector-arm census must COUNT staged arms rather than assert a number, must read each arm's
+     partner class from its own RECORD rather than from which file it came out of, and must never let a
+     staged NAMED effector leak into the size-class pools that `birc2`/`mdm2` carry as proxies;
   5. the described-not-applied map edits must be ANCHOR-CHECKED against the live files — an edit whose
      `current_text` is not in the file it names is worse than no edit, because it reads as verified;
   6. the acceptance test must be E3-free, proven by a controlled reproduction rather than by reading
@@ -137,26 +138,83 @@ def test_a_mislabelled_size_partition_is_caught():
 # 4 · the census counts, and its answer is the finding that converts the lead
 # ---------------------------------------------------------------------------------------------------------
 def test_effector_arm_census_counts_rather_than_asserts():
+    """★ THE ASSERTION THAT USED TO BE HERE WAS `c["answer"] == 0`, AND THAT WAS THE BUG THIS FILE EXISTS TO
+    PREVENT, ONE LEVEL UP. A test pinning the answer to a literal 0 pins the CONCLUSION, not the counting —
+    it would have gone red the moment an effector was staged (correct behaviour arriving), and stayed green
+    forever if the census had silently stopped reading the effector registry (the failure). So what is
+    checked now is the ARITHMETIC: the total is the number of records across both registries, the effector
+    count is the number of EFFECTOR-classed records that are actually loadable, and no row's class is
+    invented."""
     c = T.effector_arm_census()
-    assert c["n_staged_arms_total"] == len(json.load(open(T.REGISTRY))["arms"])
-    # every staged arm in the committed registry is an E3 recruiter; the effector count is therefore zero,
-    # and THAT is what makes "one more anchor set" a missing STRUCTURE rather than a missing number
-    assert c["answer"] == 0
+    n_records = sum(len(json.load(open(p))["arms"])
+                    for p in (T.REGISTRY, T.EFFECTOR_REGISTRY) if os.path.exists(p))
+    assert c["n_staged_arms_total"] == n_records
     assert c["n_loadable"] >= 2
+    eff = [r for r in c["arms"]
+           if r["partner_class"] == T.EFFECTOR_PARTNER_CLASS and r["loadable_as_rigid_body"]]
+    assert c["answer"] == len(eff)
+    assert c["effector_arm_ids"] == [r["arm_id"] for r in eff]
+    for r in c["arms"]:
+        assert r["partner_class"] in (T.E3_PARTNER_CLASS, T.EFFECTOR_PARTNER_CLASS), r
+
+
+def test_the_census_reads_the_partner_class_from_the_record_not_from_the_filename():
+    """The old census hard-coded `E3 ubiquitin-ligase recruiter` for every row. Harmless while there was one
+    registry, and guaranteed to mislabel a staged effector as a ligase the moment there were two."""
+    c = T.effector_arm_census()
+    e3 = {r["arm_id"] for r in c["arms"] if r["partner_class"] == T.E3_PARTNER_CLASS}
+    assert {"vhl", "crbn", "birc2", "mdm2"} <= e3
+    if os.path.exists(T.EFFECTOR_REGISTRY):
+        staged = json.load(open(T.EFFECTOR_REGISTRY))["arms"]
+        for aid, rec in staged.items():
+            row = next(r for r in c["arms"] if r["arm_id"] == aid)
+            assert row["partner_class"] == rec["partner_class"]
+            assert row["partner_class"] == T.EFFECTOR_PARTNER_CLASS
+
+
+def test_a_named_effector_may_not_be_pooled_into_the_size_class_comparison():
+    """⛔ THE DISCIPLINE THE ROUTE MEMO TURNS ON. `birc2` and `mdm2` are size-and-shape PROXIES; a staged
+    effector must never leak into the pools that carry the size result, or a proxy number would be
+    laundered into an effector one."""
+    for aid in T.staged_effector_arm_ids():
+        assert aid not in T.SINGLE_DOMAIN_ARMS
+        assert aid not in T.MULTI_SUBUNIT_ARMS
+
+
+def test_the_named_effector_reading_says_so_when_nothing_is_staged():
+    out = T.named_effector_reading([], {}, {}, {}, [], {"arms": []})
+    assert out["status"] == "NO_NAMED_EFFECTOR_STAGED"
+    assert "SIZE CLASS" in out["_reading"]
 
 
 # ---------------------------------------------------------------------------------------------------------
 # 5 · the described-not-applied edits are anchor-checked against the live files
 # ---------------------------------------------------------------------------------------------------------
-def test_every_described_map_edit_names_text_that_is_actually_in_its_file():
+def test_every_described_map_edit_resolves_against_its_live_file():
+    """★ THE ASSERTION THAT USED TO BE HERE WAS `assert chk["current_text_found"]`, AND IT WENT RED THE DAY
+    ANOTHER LANE DID WHAT THESE EDITS ASK. An applied edit necessarily removes its own `current_text`, so
+    "the text I want to replace is still there" cannot be the invariant — it treats success and never-existed
+    as the same observation. What must hold is that each edit still RESOLVES: it is either still pending, or
+    verifiably applied. Only `STALE_ANCHOR` (neither text is in the file) is a real defect, because that is
+    the state in which an edit reads as verified while targeting nothing."""
     edits = T.map_edits_required(T.effector_arm_census(), {})
     assert edits
     for e in edits:
-        chk = e["anchor_check"]
-        if e["status"].startswith("VERIFIED") or e["file"].endswith(".json"):
+        if e["state"] == "NO_ANCHOR" or e["file"].endswith(".json"):
             continue
-        assert chk["file_present"], e["file"]
-        assert chk["current_text_found"], (e["file"], e["current_text"])
+        assert e["anchor_check"]["file_present"], e["file"]
+        assert e["state"] in ("PENDING", "APPLIED"), (e["file"], e["current_text"], e["state"])
+
+
+def test_an_applied_map_edit_is_recognised_as_applied_rather_than_as_a_broken_anchor(tmp_path):
+    """The discrimination itself, on a file whose content is known by construction."""
+    f = tmp_path / "doc.md"
+    f.write_text("intro\nthe NEW wording is here\ntail\n")
+    rel = os.path.relpath(str(f), T.REPO)
+    cur = T._anchor_check(rel, "the OLD wording")
+    prop = T._anchor_check(rel, "the NEW wording")
+    assert cur["current_text_found"] is False
+    assert prop["current_text_found"] is True
 
 
 def test_the_closure_kind_row_records_a_verified_state_and_asks_for_no_edit():

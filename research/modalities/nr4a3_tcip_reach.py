@@ -14,10 +14,25 @@ because *"the machinery exists and takes one more anchor set"*.
    terminus's ligand exit atom (`anchor_e3_xyz`). `a` is target-side and is reused unchanged. `b` is NOT an
    input anyone can type: it is PRODUCED by `nr4a3_basin_search.sample_placements`, which needs a staged
    RIGID BODY — a registry record carrying `receptor_pdb` coordinates and `ligand.exit_atom_xyz`. THAT is the
-   anchor set. The repository stages four such bodies, all E3 recruiters, and **zero transcriptional
-   effectors** (`effector_arm_census`, counted from the registry and from `results/` rather than asserted).
-   ⇒ "one more anchor set" is a staged effector STRUCTURE, and it does not exist in this repository. Getting
-     one needs RCSB, which the dev sandbox's egress proxy 403s, so that step is a CI-only path.
+   anchor set. ⇒ "one more anchor set" is a staged effector STRUCTURE, not a number. Getting one needs RCSB,
+   which the dev sandbox's egress proxy 403s, so that step is a CI-only path.
+
+★★ AND IT HAS NOW BEEN WALKED (2026-08-06). ⚠ SUPERSEDED, RETAINED: *"The repository stages four such
+   bodies, all E3 recruiters, and **zero transcriptional effectors** … it does not exist in this
+   repository."* That was true when this module first ran and is the finding that converted the lead's
+   status; it is false now. `nr4a3_effector_stage.py` stages NAMED transcriptional effectors through the
+   same schema, chosen out of the route's own motivating paper rather than recalled — EB-TCIP
+   (10.1021/jacs.5c05634) "recruits FKBP12(F36V)-tagged EWSR1::FLI1 to DNA sites bound by the
+   transcriptional regulator BCL6", through the BI3812 series, so the effector is **BCL6**, a BTB/POZ
+   transcriptional repressor. `effector_arm_census` COUNTS what is staged across both registries at run
+   time; it asserts no number, and the sentence it prints is built from the count.
+
+⛔ WHAT THAT DOES AND DOES NOT UPGRADE, because this is the exact place a proxy result could be laundered
+   into an effector one. UPGRADED: the admissibility statement, which is now computed on a named effector's
+   own coordinates (`★_named_effector`). NOT UPGRADED: the paired SIZE comparison, its within-class control
+   and the interface-floor ablation, all of which are still computed on the four committed E3 bodies with
+   `birc2`/`mdm2` as declared proxies — no effector arm enters those pools, and a test fails the build if
+   one ever does.
 
 ★★ WHAT IS THEREFORE RUN HERE, AND WHY IT IS THE STRONGER ANSWER RATHER THAN A SUBSTITUTE FOR THE MISSING
    ONE. Read against `sample_placements`, the second-terminus body enters the enumeration ONLY as (i) an
@@ -87,6 +102,11 @@ LADDER = sorted(set(PARAMS["linker_report_atoms"]) | {GATE_ATOMS, SEARCH_MAX_ATO
 
 BASINS = os.path.join(HERE, "nr4a3-orientation-basins.json")
 REGISTRY = os.path.join(HERE, "nr4a3-e3-arm-registry.json")
+# The SECOND registry, written by `nr4a3_effector_stage.py`. It is deliberately a separate file rather than
+# extra rows in the one above: `nr4a3_e3_stage.py` REWRITES its registry wholesale on every run, so an
+# effector arm merged into it would be silently deleted by the next E3 staging job. Each generator keeps one
+# home for its own output (CLAUDE.md rule 1) and this module reads both.
+EFFECTOR_REGISTRY = os.path.join(HERE, "nr4a3-effector-arm-registry.json")
 UNIQUE_JSON = os.path.join(HERE, "nr4a-paralogue-unique-residues.json")
 STRUCT_DIR = os.path.join(REPO, "results", "nr4a3-matrix")
 OUT = os.path.join(HERE, "nr4a3-tcip-reach.json")
@@ -101,54 +121,112 @@ SINGLE_DOMAIN_ARMS = ("birc2", "mdm2")
 MULTI_SUBUNIT_ARMS = ("vhl", "crbn")
 SINGLE_DOMAIN_MAX_RESIDUES = 200             # the boundary the partition is checked against
 
+E3_PARTNER_CLASS = "E3 ubiquitin-ligase recruiter"
+EFFECTOR_PARTNER_CLASS = "transcriptional effector"
+
+
+def load_registries(registry_path=REGISTRY, effector_registry_path=EFFECTOR_REGISTRY):
+    """Every staged arm this repository holds, from both registries, each carrying its OWN partner class.
+
+    ⚠ The class is read from the RECORD, not from which file it came out of, with the E3 registry's records
+    defaulting to `E3 ubiquitin-ligase recruiter` because that is what its generator stages and what all four
+    of its arms are. The earlier version of this census hard-coded that string for every row — harmless while
+    the only registry was the E3 one, and exactly the kind of populated-but-unmeasured field that would have
+    labelled a staged effector as a ligase the moment one existed.
+    """
+    out = {}
+    for path, default_class in ((registry_path, E3_PARTNER_CLASS),
+                                (effector_registry_path, EFFECTOR_PARTNER_CLASS)):
+        if not os.path.exists(path):
+            continue
+        with open(path) as fh:
+            reg = json.load(fh)
+        for aid, rec in (reg.get("arms") or {}).items():
+            out[aid] = (rec, os.path.relpath(path, REPO), rec.get("partner_class") or default_class)
+    return out
+
 
 # ==========================================================================================================
 # THE CENSUS THAT CONVERTS THE LEAD'S STATUS
 # ==========================================================================================================
-def effector_arm_census(registry_path=REGISTRY, struct_root=REPO):
+def effector_arm_census(registry_path=REGISTRY, effector_registry_path=EFFECTOR_REGISTRY, struct_root=REPO):
     """Is there a staged TRANSCRIPTIONAL-EFFECTOR arm in this repository? Counted, not recalled.
 
     A staged arm is a registry record that `nr4a3_basin_search.load_arm_from_registry` can turn into a rigid
     body: it needs `receptor_pdb` coordinates on disk and a `ligand.exit_atom_xyz`. Anything else is not an
-    anchor set, whatever it is called.
+    anchor set, whatever it is called — so the count below is of arms that are LOADABLE, not of records that
+    exist. A registry row whose coordinates are missing is a record, not an anchor set.
     """
-    with open(registry_path) as fh:
-        reg = json.load(fh)
     rows = []
-    for aid, rec in sorted(reg["arms"].items()):
-        pdb = os.path.join(struct_root, rec.get("receptor_pdb", ""))
+    for aid, (rec, src, klass) in sorted(load_registries(registry_path, effector_registry_path).items()):
+        pdb = os.path.join(struct_root, rec.get("receptor_pdb", "") or "")
+        present = bool(rec.get("receptor_pdb")) and os.path.exists(pdb)
         rows.append({
             "arm_id": aid,
             "recruiter": rec.get("recruiter"),
-            "partner_class": "E3 ubiquitin-ligase recruiter",
+            "partner_class": klass,
+            "effector_role": rec.get("effector_role"),
             "status": rec.get("status"),
+            "registry": src,
             "receptor_pdb": rec.get("receptor_pdb"),
-            "receptor_pdb_present": os.path.exists(pdb),
+            "receptor_pdb_present": present,
             "has_exit_atom": bool((rec.get("ligand") or {}).get("exit_atom_xyz")),
             "source_pdb_id": ((rec.get("provenance") or {}).get("receptor_entry") or {}).get("pdb_id"),
-            "loadable_as_rigid_body": os.path.exists(pdb) and bool(
-                (rec.get("ligand") or {}).get("exit_atom_xyz")),
+            "loadable_as_rigid_body": present and bool((rec.get("ligand") or {}).get("exit_atom_xyz")),
         })
-    n_effector = sum(1 for r in rows if r["partner_class"] != "E3 ubiquitin-ligase recruiter")
+    eff = [r for r in rows if r["partner_class"] == EFFECTOR_PARTNER_CLASS and r["loadable_as_rigid_body"]]
+    e3 = [r for r in rows if r["partner_class"] == E3_PARTNER_CLASS]
+    if eff:
+        reading = (
+            "%d staged transcriptional-effector arm(s) are loadable as rigid bodies (%s), alongside %d E3 "
+            "ubiquitin-ligase recruiters. `PUB-TCIP`'s stated reason for being unwritten — 'the machinery "
+            "exists and takes one more anchor set' — is DISCHARGED: the anchor set was a staged structure, "
+            "not a number, and it now exists. ⛔ A staged body is an excluded volume and one atom's "
+            "coordinates; it is not evidence that this effector binds anything, is recruited, or changes "
+            "transcription." % (len(eff), ", ".join("%s (%s)" % (r["arm_id"], r["source_pdb_id"])
+                                                    for r in eff), len(e3)))
+    else:
+        reading = (
+            "every staged arm in the registry is an E3 ubiquitin-ligase recruiter. The count of staged "
+            "transcriptional-effector arms is 0. `PUB-TCIP`'s stated reason for being unwritten — 'the "
+            "machinery exists and takes one more anchor set' — is therefore correct about the machinery and "
+            "understates the input: the anchor set is a STAGED STRUCTURE, not a number, and staging one "
+            "needs RCSB, which the dev sandbox's egress proxy 403s.")
     return {
         "_question": "how many staged TRANSCRIPTIONAL-EFFECTOR arms does this repository hold?",
-        "answer": n_effector,
+        "answer": len(eff),
+        "effector_arm_ids": [r["arm_id"] for r in eff],
         "n_staged_arms_total": len(rows),
         "n_loadable": sum(1 for r in rows if r["loadable_as_rigid_body"]),
         "arms": rows,
-        "_reading": (
-            "every staged arm in the registry is an E3 ubiquitin-ligase recruiter. The count of staged "
-            "transcriptional-effector arms is %d. `PUB-TCIP`'s stated reason for being unwritten — 'the "
-            "machinery exists and takes one more anchor set' — is therefore correct about the machinery and "
-            "understates the input: the anchor set is a STAGED STRUCTURE, not a number, and staging one "
-            "needs RCSB, which the dev sandbox's egress proxy 403s." % n_effector),
+        "_reading": reading,
         "_what_would_supply_it": (
-            "one `e3_recruiter_staging`-style CI fetch of a ligand-bound transcriptional-effector domain "
-            "(the TCIP literature's effector handle is a bromodomain-class ligand), staged into "
-            "nr4a3-e3-arm-registry.json's schema: receptor_pdb + ligand.exit_atom_xyz. Until that record "
-            "exists no NAMED effector can be enumerated, only a body of a stated size."),
-        "source_of_truth": "research/modalities/nr4a3-e3-arm-registry.json",
+            "one CI fetch of a ligand-bound transcriptional-effector domain (RCSB is 403'd at the dev "
+            "sandbox's egress proxy), staged into the same schema the E3 arms use: receptor_pdb + "
+            "ligand.exit_atom_xyz. ⚠ CORRECTED 2026-08-06 against the source rather than recalled: this "
+            "string previously guessed that 'the TCIP literature's effector handle is a bromodomain-class "
+            "ligand'. The route's own motivating paper (EB-TCIP, 10.1021/jacs.5c05634) states the effector "
+            "is BCL6 — a transcriptional repressor engaged through its BTB-domain lateral groove by the "
+            "BI3812 series — not a bromodomain. Staged by `nr4a3_effector_stage.py`."),
+        "source_of_truth": ["research/modalities/nr4a3-e3-arm-registry.json",
+                            "research/modalities/nr4a3-effector-arm-registry.json"],
     }
+
+
+def staged_effector_arm_ids(effector_registry_path=EFFECTOR_REGISTRY, struct_root=REPO):
+    """The effector arm ids the enumeration can actually run — derived from the registry, never a list typed
+    into this module. An arm whose coordinates are absent is not in it."""
+    if not os.path.exists(effector_registry_path):
+        return []
+    with open(effector_registry_path) as fh:
+        reg = json.load(fh)
+    out = []
+    for aid, rec in sorted((reg.get("arms") or {}).items()):
+        pdb = os.path.join(struct_root, rec.get("receptor_pdb", "") or "")
+        if rec.get("status") == "OK" and rec.get("receptor_pdb") and os.path.exists(pdb) \
+                and (rec.get("ligand") or {}).get("exit_atom_xyz"):
+            out.append(aid)
+    return out
 
 
 # ==========================================================================================================
@@ -649,6 +727,130 @@ def crosscheck_acceptance_is_e3_free(arms, poses, field3, n_samples=40000, seed=
     }
 
 
+def crosscheck_exit_vector_comparability(census, registries=None):
+    """★ IS THE NAMED EFFECTOR'S ARM COMPARABLE TO THE FOUR COMMITTED ONES, on the property that would
+    otherwise confound the comparison?
+
+    The sampler places a body by putting its LIGAND EXIT ATOM in the reach shell and rotating the body about
+    that point. So how far the exit atom sits from its own body's surface is not a detail: it is a fixed
+    offset that displaces the whole body relative to the target before any rotation happens. If a new arm's
+    exposure sits outside the range of the arms it is being compared with, a difference in its acceptance is
+    uninterpretable — the CHEMICAL MATTER is doing work the protein is being credited with.
+
+    ⚠ AND THE SIGN OF THAT EFFECT IS NOT PREDICTABLE, WHICH IS WHY THIS CHECK REPORTS COMPARABILITY AND NOT A
+    CORRECTION. An earlier draft of this docstring asserted that a far-dangling exit atom is "admitted more
+    easily FOR THAT REASON ALONE" — a plausible story, and the first data that could speak to it contradicted
+    the direction: `brd4_bd1` at 13.65 Å accepted LESS than `bcl6` at 5.44 Å, because a large offset also
+    pushes the body out of the shell it has to sit in. Two mechanisms with opposite signs, so the honest
+    output is "not comparable", never "comparable after allowing for it".
+
+    Measured, not assumed, and reported whichever way it comes out.
+    """
+    regs = registries if registries is not None else load_registries()
+    rows = []
+    for aid, (rec, _src, klass) in sorted(regs.items()):
+        lig = rec.get("ligand") or {}
+        if lig.get("exit_atom_dist_to_receptor_A") is None:
+            continue
+        rows.append({"arm_id": aid, "partner_class": klass,
+                     "ligand_het": lig.get("het_code"), "ligand_n_heavy": lig.get("n_heavy"),
+                     "exit_atom_exposure_A": lig["exit_atom_dist_to_receptor_A"]})
+    ref = [r["exit_atom_exposure_A"] for r in rows if r["partner_class"] == E3_PARTNER_CLASS]
+    if not ref:
+        return {"status": "UNREAD", "reason": "no committed E3 arm to calibrate against", "rows": rows}
+    lo, hi = min(ref), max(ref)
+    for r in rows:
+        r["inside_the_committed_E3_range"] = bool(lo <= r["exit_atom_exposure_A"] <= hi)
+    eff = [r for r in rows if r["partner_class"] == EFFECTOR_PARTNER_CLASS]
+    outside = [r for r in eff if not r["inside_the_committed_E3_range"]]
+    named = [r["arm_id"] for r in eff if r["inside_the_committed_E3_range"]]
+    return {
+        "status": "AGREES" if eff and not outside else ("FLAGS" if outside else "UNREAD"),
+        "committed_E3_exposure_range_A": [lo, hi],
+        "effector_arms_inside_that_range": named,
+        "effector_arms_outside_it": [{"arm_id": r["arm_id"], "exit_atom_exposure_A": r["exit_atom_exposure_A"]}
+                                     for r in outside],
+        "rows": rows,
+        "_reading": ("the exit-atom offset displaces a body relative to the target before any rotation, so "
+                     "an arm whose exposure sits outside the committed arms' range is NOT COMPARABLE with "
+                     "them and its acceptance may not be pooled with or ranked against theirs. ⚠ The SIGN "
+                     "is not predictable and is not claimed: a larger offset both moves the body clear of "
+                     "the target (easier) and pushes it out of the shell it must sit in (harder). This does "
+                     "not invalidate such an arm — it bounds what may be said with it."),
+    }
+
+
+def named_effector_reading(cells, summary, geom, free_pooled, effector_ids, census):
+    """What the enumeration can now say about a NAMED effector, kept strictly apart from the size-class
+    statement it does not replace.
+
+    ⛔ THE DISCIPLINE THIS FUNCTION EXISTS TO ENFORCE. `birc2` and `mdm2` are size-and-shape PROXIES; the
+    route memo forbids naming an effector on their basis, and nothing here may launder a proxy number into an
+    effector one. So the proxy pooling above is left exactly as it was — its arm lists are explicit tuples
+    and no effector arm enters them — and every named-effector number is computed here, from that arm's own
+    cells, and reported beside the proxy pools rather than merged into them.
+    """
+    out = {"_what": ("per-rung admissibility for each STAGED, NAMED transcriptional effector, computed from "
+                     "that arm's own cells only"),
+           "effector_arms": {}, "_still_a_size_class_statement": [], "by_linker_atoms": {}}
+    if not effector_ids:
+        out["status"] = "NO_NAMED_EFFECTOR_STAGED"
+        out["_reading"] = ("no transcriptional-effector arm is staged, so every statement this module makes "
+                           "about an effector is a statement about a SIZE CLASS, carried by two explicit "
+                           "proxies (birc2, mdm2) that are not transcriptional effectors.")
+        return out
+    by_class = {r["arm_id"]: r for r in census["arms"]}
+    for aid in effector_ids:
+        if aid not in summary:
+            continue
+        row = by_class.get(aid, {})
+        out["effector_arms"][aid] = {
+            "effector": row.get("recruiter"),
+            "effector_role": row.get("effector_role"),
+            "source_pdb_id": row.get("source_pdb_id"),
+            "n_residues": geom[aid]["n_residues"],
+            "chains": geom[aid]["chains"],
+            "size_class_by_residue_count": geom[aid]["size_class"],
+            "shortest_linker_atoms_with_any_admissible_placement":
+                summary[aid]["shortest_linker_atoms_with_any_admissible_placement"],
+            "admits_within_the_%d_atom_gate" % GATE_ATOMS:
+                summary[aid]["admits_within_the_gate_%d_atoms" % GATE_ATOMS],
+            "admits_within_the_chemically_routine_%d_atoms" % CHEM_MAX_ATOMS:
+                summary[aid]["admits_within_the_chemically_routine_%d_atoms" % CHEM_MAX_ATOMS],
+        }
+    for n in sorted({c["linker_atoms"] for c in cells}):
+        free = free_pooled[str(n)]["mean_fraction_admissible"]
+        blk = {}
+        for aid in effector_ids:
+            grp = [c for c in cells if c["linker_atoms"] == n and c["arm_id"] == aid]
+            if not grp:
+                continue
+            k = sum(c["n_accepted"] for c in grp)
+            s = sum(c["n_samples"] for c in grp)
+            rate = k / s if s else None
+            blk[aid] = {
+                "n_poses": len(grp),
+                "n_poses_with_any_admissible_placement": sum(1 for c in grp if c["n_accepted"] > 0),
+                "acceptance_rate": round(rate, 8) if rate is not None else None,
+                "acceptance_ci95": wilson(k, s),
+                "body_cost": round(rate / free, 6) if rate and free else None,
+            }
+        if blk:
+            out["by_linker_atoms"][str(n)] = blk
+    out["status"] = "STAGED"
+    out["_still_a_size_class_statement"] = [
+        "the PAIRED SIZE COMPARISON (`★_paired_body_size_comparison`) and everything derived from it — the "
+        "within-class spread control, the pooled single/multi ratio and the interface-floor ablation — are "
+        "computed on the four committed bodies ONLY. `birc2` and `mdm2` remain size-and-shape PROXIES there "
+        "and nothing about a named effector may be read off them.",
+        "the interface-floor ablation is a statement about the SAMPLER's inherited degrader parameter, not "
+        "about any effector; it is unchanged by staging one.",
+        "`admits` remains a gate that no tested body has failed, so a named effector admitting is not "
+        "evidence of anything beyond excluded volume.",
+    ]
+    return out
+
+
 def crosscheck_size_partition(geom):
     """The `single_domain` / `multi_subunit` labels must agree with the measured residue counts."""
     bad = []
@@ -665,7 +867,7 @@ def crosscheck_size_partition(geom):
 # ==========================================================================================================
 # VERDICT
 # ==========================================================================================================
-def verdict(summary, envelope_free, required, paired, ablation=None):
+def verdict(summary, envelope_free, required, paired, ablation=None, named=None):
     eff = [a for a in SINGLE_DOMAIN_ARMS if a in summary]
     e3 = [a for a in MULTI_SUBUNIT_ARMS if a in summary]
     shortest_eff = [summary[a]["shortest_linker_atoms_with_any_admissible_placement"] for a in eff]
@@ -679,7 +881,54 @@ def verdict(summary, envelope_free, required, paired, ablation=None):
     ratios = [b["size_ratio_single_over_multi"] for b in paired.values()
               if b["size_ratio_single_over_multi"] is not None]
     gate_blk = paired.get(str(GATE_ATOMS), {})
+    named = named or {}
+    named_arms = named.get("effector_arms") or {}
+    # ⛔ THE SENTENCE IS BUILT FROM THE COUNT, NOT TYPED. Whether this module may name an effector at all is
+    #   a function of what is staged, and a hand-written "no named effector has been staged" would go on
+    #   reading true for as long as nobody remembered to change it — the exact failure mode this file's own
+    #   `★_reading` was rewritten to avoid.
+    if named_arms:
+        named_shortest = {a: v["shortest_linker_atoms_with_any_admissible_placement"]
+                          for a, v in named_arms.items()}
+        live_named = [s for s in named_shortest.values() if s is not None]
+        what_it_is_not = (
+            "It is not evidence that %s binds anything, is recruited, is retained on chromatin, or changes "
+            "transcription. It is an excluded-volume statement: a body of this shape has somewhere to sit "
+            "while its partner ligand occupies the NR4A3 cryptic pocket. ⛔ And it does NOT upgrade the "
+            "size-class result: `birc2` and `mdm2` remain size-and-shape proxies, the paired size "
+            "comparison is still computed on the four E3 bodies alone, and nothing measured on a proxy may "
+            "be restated as an effector result. The route's paralogue-discrimination requirement is "
+            "untouched by geometry and is not addressed here at all."
+            % ", ".join(sorted(v["effector"] for v in named_arms.values() if v.get("effector"))))
+    else:
+        named_shortest, live_named = {}, []
+        what_it_is_not = (
+            "It is not evidence that any transcriptional effector binds, is recruited, is retained on "
+            "chromatin, or changes transcription. It is an excluded-volume statement: a body of the stated "
+            "size has somewhere to sit while its partner ligand occupies the NR4A3 cryptic pocket. The "
+            "effector bodies are SIZE PROXIES and not effectors; no NAMED effector has been staged. And the "
+            "second half of the route's requirement set — paralogue discrimination on the binder — is "
+            "untouched by geometry and is not addressed here at all.")
     return {
+        "★_the_named_effector": {
+            "_what": ("what the enumeration can say about a NAMED transcriptional effector, as opposed to a "
+                      "body of effector SIZE. This is the distinction the route memo turns on."),
+            "status": named.get("status", "NO_NAMED_EFFECTOR_STAGED"),
+            "n_named_effectors_enumerated": len(named_arms),
+            "effectors": {a: {"effector": v.get("effector"), "source_pdb_id": v.get("source_pdb_id"),
+                              "n_residues": v.get("n_residues"),
+                              "shortest_linker_atoms": v.get(
+                                  "shortest_linker_atoms_with_any_admissible_placement"),
+                              "admits_at_the_%d_atom_gate" % GATE_ATOMS: v.get(
+                                  "admits_within_the_%d_atom_gate" % GATE_ATOMS)}
+                          for a, v in sorted(named_arms.items())},
+            "answer": ("ADMITS" if live_named and min(live_named) <= CHEM_MAX_ATOMS
+                       else "DOES NOT ADMIT" if live_named else "NOT ASKED — none staged"),
+            "⚠_the_gate_still_cannot_fail": (
+                "a named effector admitting is the same gate the proxies already passed at every rung. What "
+                "changed is WHOSE excluded volume was tested, not how discriminating the test is."),
+            "_what_remains_a_size_class_statement": named.get("_still_a_size_class_statement", []),
+        },
         "★_the_size_axis": {
             "_what": ("the paired comparison that can return either way: does a single-domain "
                       "effector-size second terminus get MORE, LESS or the SAME admissible orientation "
@@ -735,13 +984,7 @@ def verdict(summary, envelope_free, required, paired, ablation=None):
             "the SIZE AXIS above: what the enumeration measures when the second terminus changes from a "
             "ligase to an effector-size body."),
         "required_distances": required,
-        "⛔_what_this_answer_is_not": (
-            "It is not evidence that any transcriptional effector binds, is recruited, is retained on "
-            "chromatin, or changes transcription. It is an excluded-volume statement: a body of the stated "
-            "size has somewhere to sit while its partner ligand occupies the NR4A3 cryptic pocket. The "
-            "effector bodies are SIZE PROXIES and not effectors; no NAMED effector has been staged. And the "
-            "second half of the route's requirement set — paralogue discrimination on the binder — is "
-            "untouched by geometry and is not addressed here at all."),
+        "⛔_what_this_answer_is_not": what_it_is_not,
         "_e3_comparator": ("the same test on the two downselected E3 bodies, run in the same pass from the "
                            "same anchors, is the paired comparator; %s"
                            % ("both admit" if len(live_e3) == len(e3) and live_e3 else
@@ -752,7 +995,13 @@ def verdict(summary, envelope_free, required, paired, ablation=None):
 # ==========================================================================================================
 # MAP EDITS — described, never applied (the `map_edits_required` convention)
 # ==========================================================================================================
-def _anchor_check(rel_path, needle):
+def _strip_emphasis(s):
+    """Markdown emphasis and code ticks removed, whitespace collapsed — so `retires **only `R12`**` and
+    `retires only R12` compare equal. Used ONLY by the applied-edit check; see `map_edits_required`."""
+    return " ".join(s.replace("*", "").replace("`", "").replace("_", "").split())
+
+
+def _anchor_check(rel_path, needle, normalise=False):
     """Anchor discipline (the `map_edits` convention): a described edit must name text that is ACTUALLY in
     the live file. An entry that cannot be targeted says so rather than being silently wrong."""
     p = os.path.join(REPO, rel_path)
@@ -760,17 +1009,64 @@ def _anchor_check(rel_path, needle):
         return {"file_present": False, "current_text_found": False, "line": None}
     with open(p) as fh:
         lines = fh.read().split("\n")
+    if normalise:
+        needle = _strip_emphasis(needle)
     for i, ln in enumerate(lines, 1):
-        if needle in ln:
-            return {"file_present": True, "current_text_found": True, "line": i}
+        hay = _strip_emphasis(ln) if normalise else ln
+        if needle in hay:
+            return {"file_present": True, "current_text_found": True, "line": i,
+                    "matched_ignoring_markdown_emphasis": bool(normalise)}
     return {"file_present": True, "current_text_found": False, "line": None}
 
 
 def map_edits_required(census, summary):
+    """★★ THE STATE OF A DESCRIBED EDIT IS DERIVED FROM THE FILE, NOT CARRIED IN A TYPED `status` STRING
+    (2026-08-06 — this function's own convention failed on its first real success).
+
+    A described-not-applied edit has a life cycle, and the first version of this only modelled its start.
+    When another lane APPLIED four of these edits, their `current_text` correctly vanished from the files —
+    and the anchor check, which only ever asked "is the text I want to replace still there?", reported
+    `current_text_found: false` for all four. That is indistinguishable from the failure the check exists to
+    catch (an edit naming text that was never in the file), so a lane doing exactly what was asked turned
+    the build red and read as drift.
+
+    ⛔ THE FIX IS NOT TO RELAX THE CHECK — it is to ask the second question the file can also answer. Both
+    texts are looked for, and the state falls out:
+
+      PENDING          `current_text` is present  → the edit is still owed, exactly as described.
+      APPLIED          `current_text` is gone AND `proposed_text` is present → someone did it. Verified in
+                       the file, not asserted by a status string, and NOT a failure.
+      ⚠ STALE_ANCHOR   neither is present → the file moved in a way neither text matches. THIS is the real
+                       defect, and it is now the only thing that can fail the build.
+    """
     edits = _map_edits(census, summary)
     for e in edits:
         f = e["file"].split(" (")[0]
-        e["anchor_check"] = _anchor_check(f, e["current_text"]) if e.get("current_text") else None
+        if not e.get("current_text"):
+            e["anchor_check"] = None
+            e["state"] = "NO_ANCHOR"
+            continue
+        cur = _anchor_check(f, e["current_text"])
+        # ⚠ THE APPLIED CHECK IS EMPHASIS-INSENSITIVE AND THE PENDING ONE IS NOT, DELIBERATELY.
+        #   A lane that applies a described edit is free to bold or code-format it — the roadmap's Q12 fix
+        #   landed as "retires **only `R12`**" against a proposal of "retires only `R12`" — and an exact
+        #   match would have called a correctly applied edit STALE. The PENDING check stays exact, because
+        #   there the question is "is the text I intend to replace literally still here", and a fuzzy yes
+        #   would send someone to edit a line that no longer says what they think.
+        prop = _anchor_check(f, e["proposed_text"], normalise=True) if e.get("proposed_text") else None
+        e["anchor_check"] = cur
+        e["applied_check"] = prop
+        if not cur["file_present"]:
+            e["state"] = "FILE_MISSING"
+        elif cur["current_text_found"]:
+            e["state"] = "PENDING"
+        elif prop and prop["current_text_found"]:
+            e["state"] = "APPLIED"
+            e["_applied_note"] = ("the text this edit asked for is IN the file and the text it asked to "
+                                  "replace is gone — applied by another lane, verified here by reading the "
+                                  "file rather than by trusting a status field")
+        else:
+            e["state"] = "STALE_ANCHOR"
     return edits
 
 
@@ -845,23 +1141,49 @@ def _map_edits(census, summary):
         {
             "file": "systems/graph/routes.json",
             "anchor": "RT-TCIP.readiness.why_not_higher / .missing",
-            "current_text": "The enumeration machinery exists and takes one more anchor set.",
-            "proposed_text": ("The enumeration machinery exists and its E3-free half has now been run "
-                              "(nr4a3-tcip-reach.json). What is still missing is a STAGED transcriptional-"
-                              "effector arm: the repository holds %d, and staging one needs an RCSB fetch in "
-                              "CI." % census["answer"]),
+            # ⚠ REWRITTEN 2026-08-06 (second pass). Superseded, retained: this entry asked for "The
+            #   enumeration machinery exists and takes one more anchor set." to become a sentence saying
+            #   the effector arm was still MISSING. The graph lane applied it — and then the arm was
+            #   staged, so the APPLIED text is itself stale, in the same direction. Both texts are derived
+            #   from the census below rather than typed, so the next state change cannot go stale silently.
+            "current_text": "What it cannot yet name is an effector",
+            "proposed_text": ("It can now name an effector: %d transcriptional-effector bodies are staged "
+                              "(%s) and the enumeration runs on them, so the admissibility statement is no "
+                              "longer proxy-carried. What is still proxy-carried is the SIZE comparison, "
+                              "which is computed on the four E3 bodies alone."
+                              % (census["answer"], ", ".join(census["effector_arm_ids"]) or "none")),
             "why": ("'one more anchor set' reads as an input someone can type. Measured, it is a staged "
-                    "structure with coordinates and a ligand exit vector, and the count of them is %d."
-                    % census["answer"]),
+                    "structure with coordinates and a ligand exit vector, and the count of them is now %d "
+                    "(%s). `readiness.missing` should drop 'a staged transcriptional-effector body' and "
+                    "keep every other entry."
+                    % (census["answer"], ", ".join(census["effector_arm_ids"]) or "none")),
             "status": "DESCRIBED, NOT APPLIED — systems/graph is off-limits to this lane",
         },
         {
             "file": "systems/graph/routes.json",
             "anchor": "RT-TCIP.artifacts",
-            "current_text": "[]",
-            "proposed_text": "[\"research/modalities/nr4a3-tcip-reach.json\"]",
-            "why": "the route now holds a computed result of its own; today it holds none",
+            # ⚠ Superseded, retained: this asked for `[]` → `["research/modalities/nr4a3-tcip-reach.json"]`.
+            #   The graph lane applied it as the ID `ART-TCIP-REACH`, which is the register's convention and
+            #   is better than what was asked for. The remaining edit is the SECOND artifact.
+            "current_text": "\"ART-TCIP-REACH\"",
+            "proposed_text": "\"ART-TCIP-REACH\",\n    \"ART-TCIP-EFFECTOR-ARMS\"",
+            "why": ("the route now also holds a staged-input artifact of its own — the effector arm "
+                    "registry that made the named-effector statement possible. The full proposed "
+                    "artifacts.json record is in research/modalities/nr4a3-tcip-route-memo.md section 10."),
             "status": "DESCRIBED, NOT APPLIED",
+        },
+        {
+            "file": "systems/graph/artifacts.json",
+            "anchor": "ART-TCIP-REACH.note — the trailing 'no effector arm is staged' clause",
+            "current_text": "no effector arm is staged in this repository",
+            "proposed_text": ("they alone carry the paired size comparison. From 2026-08-06 the enumeration "
+                              "ALSO runs %d NAMED transcriptional effectors staged in "
+                              "ART-TCIP-EFFECTOR-ARMS; the admissibility statement is upgraded for those "
+                              "arms and the size comparison is NOT. Superseded, retained: 'no effector arm "
+                              "is staged in this repository.'" % census["answer"]),
+            "why": ("the registered note asserts a count that is now wrong, and it is the note a reader "
+                    "consults to decide whether this artifact may be quoted about an effector at all."),
+            "status": "DESCRIBED, NOT APPLIED — systems/graph is off-limits to this lane",
         },
         {
             "file": "systems/graph/routes.json (ALREADY CORRECT — recorded so it is not 'fixed' twice)",
@@ -920,14 +1242,89 @@ def to_markdown(d):
       % (v["answer"], "admits" if v["answer"] == "ADMITS" else "does not admit", CHEM_MAX_ATOMS, GATE_ATOMS,
          v["admits_at_the_%d_atom_gate" % GATE_ATOMS]))
     A("")
-    A("| body | size class | residues | shortest linker (backbone atoms) with any admissible placement |")
-    A("|---|---|---|---|")
+    nv0 = v.get("★_the_named_effector") or {}
+    if (nv0.get("effectors") or {}):
+        A("★★ **And it is no longer only a SIZE statement.** %d NAMED transcriptional effector(s) are now "
+          "staged and enumerated — %s — so the envelope's answer for them is **%s**, computed from their own "
+          "coordinates rather than from a proxy of similar size. **The size-class result is unchanged and is "
+          "still carried by proxies; see §1b for exactly which sentences may and may not be upgraded.**"
+          % (nv0["n_named_effectors_enumerated"],
+             ", ".join("%s (%s, %s)" % (r["effector"], a, r["source_pdb_id"])
+                       for a, r in sorted(nv0["effectors"].items())),
+             nv0["answer"]))
+        A("")
+    ne = d.get("★_named_effector") or {}
+    named_arms = ne.get("effector_arms") or {}
+    A("| body | what it is | size class | residues | shortest linker (backbone atoms) with any admissible "
+      "placement |")
+    A("|---|---|---|---|---|")
     for aid, s in sorted(d["summary"].items()):
-        A("| `%s` | %s | %d | **%s** |" % (aid, s["size_class"], s["n_residues"],
-                                           s["shortest_linker_atoms_with_any_admissible_placement"]))
+        if aid in named_arms:
+            what = "**NAMED transcriptional effector** — %s" % named_arms[aid]["effector"]
+        elif aid in SINGLE_DOMAIN_ARMS:
+            what = "E3 recruiter, used as an effector-SIZE proxy"
+        else:
+            what = "E3 recruiter (replication target)"
+        A("| `%s` | %s | %s | %d | **%s** |"
+          % (aid, what, s["size_class"], s["n_residues"],
+             s["shortest_linker_atoms_with_any_admissible_placement"]))
     A("")
     A("⛔ %s" % v["⛔_what_this_answer_is_not"])
     A("")
+
+    if named_arms:
+        nv = v["★_the_named_effector"]
+        A("## 1b · ★★ The NAMED effector — what changed, and what did not")
+        A("")
+        A("%s" % ne["_what"])
+        A("")
+        A("| effector | what it is | source PDB | body | residues | shortest admitting linker | admits at "
+          "the %d-atom gate |" % GATE_ATOMS)
+        A("|---|---|---|---|---|---|---|")
+        for aid, r in sorted(named_arms.items()):
+            A("| **%s** (`%s`) | %s | %s | %s | %d | **%s** | %s |"
+              % (r["effector"], aid, (r["effector_role"] or "").split(";")[0], r["source_pdb_id"],
+                 "+".join(r["chains"]), r["n_residues"],
+                 r["shortest_linker_atoms_with_any_admissible_placement"],
+                 r["admits_within_the_%d_atom_gate" % GATE_ATOMS]))
+        A("")
+        A("| linker atoms | " + " | ".join("`%s` acceptance (95 %% CI)" % a for a in sorted(named_arms))
+          + " | " + " | ".join("`%s` body cost" % a for a in sorted(named_arms)) + " |")
+        A("|---|" + "---|" * (2 * len(named_arms)))
+        for n in sorted(ne["by_linker_atoms"], key=int):
+            b = ne["by_linker_atoms"][n]
+            rates = ["%s [%s, %s]" % (b[a]["acceptance_rate"], b[a]["acceptance_ci95"][0],
+                                      b[a]["acceptance_ci95"][1]) if a in b else "—"
+                     for a in sorted(named_arms)]
+            costs = [str(b[a]["body_cost"]) if a in b else "—" for a in sorted(named_arms)]
+            A("| %s | %s | %s |" % (n, " | ".join(rates), " | ".join(costs)))
+        A("")
+        A("⚠ %s" % nv["⚠_the_gate_still_cannot_fail"])
+        A("")
+        A("⛔ **What is still a SIZE-CLASS statement and may not be restated as an effector one:**")
+        for s in nv["_what_remains_a_size_class_statement"]:
+            A("- %s" % s)
+        A("")
+        ex = (d.get("cross_checks") or {}).get("exit_vector_comparability") or {}
+        if ex.get("status") in ("AGREES", "FLAGS"):
+            A("### 1c · Is the named arm comparable to the committed four?")
+            A("")
+            A("%s" % ex["_reading"])
+            A("")
+            A("| arm | partner class | ligand | heavy atoms | exit-atom exposure (Å) | inside the committed "
+              "E3 range |")
+            A("|---|---|---|---|---|---|")
+            for r in ex["rows"]:
+                A("| `%s` | %s | %s | %s | %s | %s |"
+                  % (r["arm_id"], r["partner_class"], r["ligand_het"], r["ligand_n_heavy"],
+                     r["exit_atom_exposure_A"], r.get("inside_the_committed_E3_range")))
+            A("")
+            A("Committed E3 exposure range: **%s–%s Å**. Effector arms inside it: %s. Outside it: %s."
+              % (ex["committed_E3_exposure_range_A"][0], ex["committed_E3_exposure_range_A"][1],
+                 ", ".join("`%s`" % a for a in ex["effector_arms_inside_that_range"]) or "none",
+                 ", ".join("`%s` (%s Å)" % (r["arm_id"], r["exit_atom_exposure_A"])
+                           for r in ex["effector_arms_outside_it"]) or "none"))
+            A("")
 
     A("## 2 · What \"one more anchor set\" is, measured")
     A("")
@@ -957,7 +1354,7 @@ def to_markdown(d):
                                               r["min_fraction_admissible"], r["max_fraction_admissible"]))
     A("")
 
-    A("## 4 · The paired placement envelope — same anchors, same sampler, four real bodies")
+    A("## 4 · The paired placement envelope — same anchors, same sampler, %d real bodies" % len(d["summary"]))
     A("")
     A("| linker atoms | " + " | ".join("`%s` (%s)" % (a, d["summary"][a]["size_class"].replace("_", " "))
                                        for a in sorted(d["summary"])) + " |")
@@ -1075,14 +1472,19 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
     reactive = BS.load_reactive_map(UNIQUE_JSON, m3)
     poses = BS.build_pose_ensemble(m3, reactive, field3, 12, random.Random(BASIN_SEED))
 
-    with open(REGISTRY) as fh:
-        reg = json.load(fh)
+    regs = load_registries()
+    # The staged NAMED effectors are DERIVED from the effector registry, never a list typed here — a typed
+    # list is how an arm that failed to stage gets enumerated anyway, and a `status: OK` a defaulted record
+    # could also have written is exactly what this repository has been bitten by. `staged_effector_arm_ids`
+    # requires the coordinates to be on disk.
+    effector_ids = staged_effector_arm_ids()
     arms, geom = {}, {}
-    for aid in (arms_wanted or list(SINGLE_DOMAIN_ARMS) + list(MULTI_SUBUNIT_ARMS)):
-        rec = reg["arms"].get(aid)
-        if rec is None:
-            refusals.append({"what": aid, "reason": "not in the registry"})
+    for aid in (arms_wanted or list(SINGLE_DOMAIN_ARMS) + list(MULTI_SUBUNIT_ARMS) + effector_ids):
+        entry = regs.get(aid)
+        if entry is None:
+            refusals.append({"what": aid, "reason": "not in either registry"})
             continue
+        rec = entry[0]
         try:
             arm = BS.load_arm_from_registry(rec)
         except Exception as exc:                                   # noqa: BLE001 — refuse, never guess
@@ -1133,6 +1535,8 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
     #   repository has already paid for one of those.
     ablation = interface_floor_ablation(arms, poses, field3, n_samples=ablation_samples)
     census = effector_arm_census()
+    named = named_effector_reading(cells, summary, geom, pooled,
+                                   [a for a in effector_ids if a in arms], census)
     req = required_distances()
 
     d = {
@@ -1144,10 +1548,10 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
         "_status": ("GEOMETRY ONLY, $0 CPU, pure stdlib. No binding, potency, selectivity, transcriptional, "
                     "efficacy, safety, therapeutic-window or clinical claim is made or implied. An 'admits' "
                     "answer is an excluded-volume statement, never an activity one."),
-        "_method": ("PAIRED: the body-free anchor envelope and four real staged bodies computed in one pass "
+        "_method": ("PAIRED: the body-free anchor envelope and %d real staged bodies computed in one pass "
                     "from identical warhead anchors, an identical target frame, an identical distance field "
                     "and `nr4a3_basin_search.sample_placements` UNCHANGED — only the rigid body differs. The "
-                    "committed E3 run is a REPLICATION TARGET, not the comparator."),
+                    "committed E3 run is a REPLICATION TARGET, not the comparator." % len(arms)),
         "_inherits": [
             "every warhead anchor is conditional on the cryptic pocket being the site, which `V3` left "
             "INCONCLUSIVE — the `R5` SITE half, carried whole from the E3 lane",
@@ -1158,9 +1562,16 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
             "POSE this enumeration does not use, so it is not inherited as a coordinate error here — what is "
             "inherited is the site premise both rest on",
             "one opened NR4A3 model frame; no ensemble, no dynamics, no induced fit of the target",
-            "the second-terminus bodies are single deposited conformers, and the two used as effector-size "
-            "proxies are NOT transcriptional effectors — they are size-and-shape proxies and are labelled so "
-            "everywhere",
+            "the second-terminus bodies are single deposited conformers, and `birc2`/`mdm2` are NOT "
+            "transcriptional effectors — they are size-and-shape proxies, they are labelled so everywhere, "
+            "and they alone carry the paired SIZE comparison",
+            "⛔ a staged NAMED effector is its LIGAND-BINDING DOMAIN, not the full-length protein: a BCL6 "
+            "BTB dimer is not BCL6 and a bromodomain is not BRD4. Everything outside the deposited "
+            "construct is absent from the excluded volume, so an admitting answer is an UPPER bound on what "
+            "the full protein would allow — and the full protein is what a cell contains",
+            "⛔ the DNA and chromatin a transcriptional effector is bound to are absent entirely; a "
+            "DNA-bound effector's accessible volume is smaller than a free domain's, and this enumeration "
+            "cannot see that",
             "`BLK-INDUCED-COMPLEX` is untouched: nothing here assembles or scores an induced complex, and no "
             "NR4A3 ternary of any kind has been correctly assembled by anyone",
             "the route's paralogue-discrimination requirement (`R7`) is not a geometry question and is not "
@@ -1193,6 +1604,7 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
             "cells": cells,
         },
         "summary": summary,
+        "★_named_effector": named,
         "★_paired_body_size_comparison": paired,
         "★_interface_floor_ablation": ablation,
         "cross_checks": {
@@ -1201,12 +1613,13 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
             "replicates_the_committed_E3_acceptance": crosscheck_replicates_committed_acceptance(cells),
             "size_labels_match_the_coordinates": crosscheck_size_partition(geom),
             "acceptance_test_is_E3_free": crosscheck_acceptance_is_e3_free(arms, poses, field3),
+            "exit_vector_comparability": crosscheck_exit_vector_comparability(census, regs),
         },
         "refusals": refusals,
         "unread_inputs": unread,
         "runtime_s": round(time.time() - t0, 1),
     }
-    d["verdict"] = verdict(summary, pooled, req, paired, ablation)
+    d["verdict"] = verdict(summary, pooled, req, paired, ablation, named)
     d["map_edits_required"] = map_edits_required(census, summary)
     return d
 
