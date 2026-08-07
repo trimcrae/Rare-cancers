@@ -1,0 +1,230 @@
+pmcFront ImmunolFront Immunol1754frontimmuFront. Immunol.Frontiers in Immunology1664-3224Frontiers Media SAPMC12061905PMC12061905.112061905120619054035293110.3389/fimmu.2025.15110291ImmunologyReviewDiscovery of drug transporter inhibitors tied to long noncoding RNA in resistant cancer cells; a computational model -in silico- study
+DiabMohanad HamdiAmel Al-ObeidatFeras HafezWael Cherrez-OjedaIvan GadorMuneir RashidGowhar ElkhazinSana F. IbrahimMahmad Anwar IsmailTarek Farag AlkafaasSamar Sami 
+1
+Mediclinic Airport Road Hospital, Abu Dhabi, United Arab Emirates
+
+2
+Molecular biology and Hematology, Abu Dhabi University, Abu Dhabi, United Arab Emirates
+
+3
+College of Technological Innovation at Zayed University, Abu Dhabi, United Arab Emirates
+
+4
+NMC Royal Hospital, Abu Dhabi, United Arab Emirates
+
+5
+Department of Internal Medicine, Medical Research and Clinical Studies Institute, The National Research Center, Cairo, Egypt
+
+6
+School of Health, Universidad Espíritu Santo-Ecuador, Samborondón, Guayas, Ecuador
+
+7
+Respiralab Research Group, Guayaquil, Guayas, Ecuador
+
+8
+Department of Clinical Biochemistry, Sher-i-Kashmir Institute of Medical Sciences (SKIMS), Srinagar, India
+
+9
+Sheikh Khalifa Hospital, Al Fujairah, United Arab Emirates
+
+10
+Molecular Cell Biology Unit, Division of Biochemistry, Department of Chemistry, Faculty of Science, Tanta University, Tanta, Egypt
+Edited by: Noha Mousaad Elemam, University of Sharjah, United Arab Emirates
+Reviewed by: Hauke Busch, University of Lübeck, Germany
+Priya Mondal, Central Food Technological Research Institute (CSIR), India
+*Correspondence: Amel Hamdi, amel.hamdi@adu.ac.ae; Wael Hafez, Wael.hafez@nmc.ae; Feras Al-Obeidat, feras.al-obeidat@zu.ac.ae
+†These authors have contributed equally to this work and share first authorship
+25420252025164805691511029141020242632025010120250905202512052025Copyright © 2025 Diab, Hamdi, Al-Obeidat, Hafez, Cherrez-Ojeda, Gador, Rashid, Elkhazin, Ibrahim, Ismail and Alkafaas2025Diab, Hamdi, Al-Obeidat, Hafez, Cherrez-Ojeda, Gador, Rashid, Elkhazin, Ibrahim, Ismail and Alkafaashttps://creativecommons.org/licenses/by/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.Chemotherapeutic resistance is a major obstacle to chemotherapeutic failure. Cancer cell resistance involves several mechanisms, including epithelial-to-mesenchymal transition (EMT), signaling pathway bypass, drug efflux activation, and impairment of drug entry. P-glycoproteins (P-gp) are an efflux transporter that pumps chemotherapeutic drugs out of cancer cells, resulting in chemotherapeutic resistance. Several types of long noncoding RNA (lncRNAs) have been identified in resistant cancer cells, including ODRUL, MALAT1, and ANRIL. The high expression level of ODRUL is related to the induction of ATP-binding cassette (ABC) gene expression, resulting in the emergence of doxorubicin resistance in osteosarcoma. lncRNAs are observed to be regulators of drug transporters in cancer cells such as MALAT1 and ANRIL. Targeting P-gp expression using natural products is a new strategy to overcome cancer cell resistance and improve the sensitivity of resistant cells toward chemotherapies. This review validates the inhibitory effects of natural products on P-gp expression and activity using in silico molecular docking. In silico analysis showed that Delphinidin and Asparagoside-f are the most significant natural product inhibitors of p-glycoprotein-1. These inhibitors can reverse multi-drug resistance and induce the sensitivity of resistant cancer cells toward chemotherapy based on in silico molecular docking. It is important to validate that pre-elementary docking can be confirmed using in vitro and in vivo experimental data.
+
+## Graphical Abstract
+
+ 
+
+chemoresistancep-glycoprotein-1lncRNAefflux transportersin silico analysisThe author(s) declare that no financial support was received for the research and/or publication of this article. 2.1
+
+## Tumor heterogeneity
+Tumor heterogeneity is a significant factor underlying resistance to cancer drugs and is considered a fundamental feature of tumor progression and adaptation to different conditions. The evolutionary power of tumors is mainly linked to heterogeneity; colonies with more robust heterogeneity are favored during cancer progression and become dominant ( ). Tumor heterogeneity can be attributed to both intrinsic and extrinsic factors. Generally, intrinsic factors are cellular in origin and can accumulate due to alterations in the levels of DNA, RNA, protein, epigenetics, and signal transduction. Genetic alterations include mutations, gene amplification, chromosomal aberrations, and miRNA gene changes. Alterations in transcriptomics, proteomics, and epigenetics could also originate from DNA alterations, which could modulate the cell cycle and its overall regulation ( ). Additionally, modification of cancer stem cells (CSCs) supports heterogeneity, tumor plasticity, and resistance ( ). Downregulation of pro-apoptotic molecules and upregulation of anti-apoptotic players participate in heterogeneity-associated resistance ( ). Moreover, differences in signaling contribute to heterogeneity in cancer drug resistance heterogeneity ( ). Tumors could possess a high level of stochasticity due to de novo differences in enzymatic signal transduction cascades that promote biological noise and subsequently develop feedback inhibition motifs to decrease biological noise ( ).
+Conversely, extrinsic or microenvironmental factors can promote heterogeneity and resistance through spatial differences in cells, blood supply, pH, hypoxia, and paracrine signaling ( , ). Additionally, the vascular network and contact with cancer cells are arbitrary, resulting in fluctuations in the nutrient and metabolic status of different cancer cells ( ).
+
+2.2
+
+## Tumor burden and physical barriers
+There is a significant association between tumor size and tumor resistance, and tumor size could be a determinant of tumor capacity to develop drug resistance mutations. Tumor growth and response to therapy have an inverse relationship with the growth rate ( ). However, cancers can reveal spatial gradients that limit the blood supply and oxygen enrichment, creating an isolated hypoxic pro-tumorigenic environment with low contact with chemotherapy ( ).
+
+2.3
+
+## Tumor microenvironment
+Tumor microenvironment (TME) interactions with tumor cells can aid in resistance. Tumors are not fully homogeneous but include different classes of cells and extracellular matrix (ECM), such as immune and inflammatory cells, fibroblast blood vessels, multiple nutrients, and signaling molecules ( ). TME could be attributed to the pharmacological outcomes that force the cells to adapt to chemotherapy. One TME factor is pH; tumor cells typically exhibit a reversed pH gradient, with intracellular pH higher than extracellular pH, which promotes resistance to chemotherapy ( ). Furthermore, alkaline pH modulates ion trapping, reduces drug efficacy, and helps cancer cells avoid apoptosis, promoting cell proliferation, tumor aggressiveness, invasion, and resistance to the immune response ( ). Cycles of hypoxia, reoxygenation, and lack of O2 produce reactive oxygen species (ROS) that are associated with heterogeneity and resistance ( ). In addition, EMT and CSCs have carcinogenic effects by helping cancer cells avoid apoptosis ( ). Additionally, resistance could be attributed to TME attenuation of the immune clearance of cancer cells, and the TME could enhance resistance by inducing paracrine growth factors to mediate cancer cell growth ( ). Chemotherapy pressure forces cells to possess a robust phenotype against stress ( ). In addition, external pressure can modulate the expression of anti-apoptotic markers and epithelial-to-mesenchymal transition (EMT).
+
+2.4
+
+## Cancer stem cells
+The presence of stem cells in cancer tissues is linked to the resistance of many cancers, such as a long lifetime, high expression of drug exporters, elevated DNA repair mechanisms, and attenuated apoptosis ( ). Stem-cell-dependent resistance is generally dependent on EMT machinery ( ).
+
+2.5
+
+## EMT
+The EMT process is distinguished by the loss of both cell-cell contacts and apico–basal polarity associated with epithelial cells, ultimately acquiring mesenchymal features ( ). The EMT program is mainly initiated by TME paracrine signaling by fibroblasts, macrophages, or immunocytes ( ). EMT permits cancer cells to possess the ability to resist anticancer drugs and avoid apoptosis. EMT is characterized by elevation of transforming growth factor-beta (TGF-β), which significantly aids in resistance ( ). EMT-linked transcription factors, including Twist1, Snail, Slug, ZEB, and FOXC2, are associated with drug resistance in cancer ( ). These transcription factors support resistance by promoting drug efflux, such as ABC transporters, in addition to avoiding apoptosis via an immune response that shares similarities with the resistance profile of stem cancer cells ( – ). The EMT also has the capacity to self-renew and escape apoptosis. EMT is the initial step in escape from neighboring tissues and subsequent metastasis ( ).
+
+2.6
+
+## Drug manipulation
+Drug efflux machinery, such as ABC transporter and efflux pump P-glycoprotein (P-gp), are enhanced through EMT, stem cells, miRNAs, and as a response to pharmaceutical pressure ( ). Generally, drug uptake into cells occurs through diffusion through the plasma membrane (PM), transporter activity, and endocytosis. During cancer development, alterations are accompanied by changes in the lipid composition of the PM, such as phosphatidylserine (PS). In cancer cells, PS is exposed to an extracellular environment opposite to normal PM, which gives the cell more negative charge-altering drug entry ( , ). Additionally, the attenuated pH of the extracellular media of cancer cells affects the ionization status of drugs and their entry ( ). Drug entry is also dependent on several transporters called carriers (SLC), such as OATP1B3 and OCT6, which were found to be attenuated during treatment with doxorubicin and cisplatin ( ). Moreover, elevated rigidity of endosomes affects the endocytosis process, thereby affecting drug entry ( , ). In addition, alterations in drug targets, such as protein mutations or expression aberrations, suppress the robustness of targeted therapy. For instance, a missense variant in the epidermal growth factor receptor (EGFR) subsequently impairs the binding of gefitinib/erlotinib to the kinase ( ).
+
+2.7
+
+## Epigenetic alterations
+Epigenetic modifications include methylation, histone modifications, and non-coding RNAs disturbances ( ). Oncogene promoters can be demethylated and subsequently gene expression is elevated, as observed in several genes, including ID4, ERp29/MGMT, ETS-1,
+and miR-663, which are involved in breast cancer resistance against several chemotherapeutics ( , ). Similarly, the MDR1 and PD-L1/DNMT1 axes are hypomethylated in HCC cells treated with Doxorubicin and sorafenib, respectively ( ). However, some gene promoters are hypermethylated, causing attenuation of gene expression and subsequent resistance, such as TGBI and ER-α, in breast cancer when Trastuzumab and Antiestrogen are administered, respectively ( , ). Moreover, target genes and export pump functions can be enhanced by histone demethylation and acetylation ( ). Furthermore, miRNA alterations that affect gene expression are involved in drug cancer resistance. For instance, miR-15b promotes resistance to cisplatin by targeting PEBP4- and RKIP-mediated EMT, similar to miR-27a ( ). In addition, lncRNAs are overexpressed and promote proteins related to cancer drug resistance ( ).
+
+2.8
+
+## DNA damage repair
+The DNA damage repair (DDR) machinery is controlled by several genes that are enhanced during cancer therapy, leading to resistance. Thus, impairment of the DDR can increase pharmaceutical sensitivity ( ). O-6-Methylguanine-DNA Methyltransferase (MGMT) is responsible for the clearance of alkyl adducts from the O6 position of guanine; inactivation of this machinery was found to be a therapeutic target for sensitizing cells to O6-alkylating agents ( ). DNA-dependent protein kinase (DNA-PK) is part of the double-strand break repair machinery (DSBs), and inhibition of this mechanism could promote radio/chemosensitivity of cancer cells ( ).
+
+2.9
+
+## Cell cycle
+Irreversible cell arrest “senescence” could be provoked by several factors, including oncogenic genetic alterations, telomere erosion, and DNA damage linked to pharmaceutical therapy. However, the surviving cell populations may be more vigorous and highly proliferative ( ). However, some cancer cells evade irreversible cell arrest and “senescence” by modifying apoptotic pathways to promote chemoresistance ( ).
+
+2.10
+
+## Energy alterations
+Cancer cells develop characteristic metabolic phenotypes, especially glycolysis, known as the Warburg effect, which allows cancer cells to possess significantly higher intracellular ATP levels than normal cells of the same origin ( ). Interestingly, cancer cell chemoresistance is correlated with ATP levels, and attenuation can sensitize cells ( ). Increased cytosolic ATP levels are accompanied by elevated mitochondrial ATP levels in cancer- resistant cells. This phenomenon promotes drug efflux through ABC transporters, which in turn increases drug resistance ( ). In contrast, the presence of extracellular ATP (eATP) in tumor cells is remarkably higher than that in normal cells, which is attributed to the elevated ATP produced from apoptosis and autophagy during therapy ( ). Firstly, eATP can be transported to cells to promote resistance, as discussed earlier. Additionally, eATP signaling can promote EMT, cell growth, survival, and proliferation ( ).
+
+3
+
+## Drug efflux variations
+49 of ATP-binding cassette transporters efflux chemical drugs from cancer cells, resulting in multidrug resistance (MDR). P-glycoprotein (P-gp), multi-drug-resistant associate protein (MRP), and adenosine triphosphate-binding cassette superfamily G member 2 (ABCG2) are the most common efflux transporters in ovarian and breast cancers ( ). It has been observed that high expression levels of P-gp transporters in colorectal cancer and neuroblastoma lead to poor prognosis ( ). P-gp transporters are encoded by the gene (MDR1) during the transformation of normal tissues into neoplastic tissues ( ). Downstream receptors and proteins GTPase H-Ras, Mitogen-activated protein kinase 1/2 (MEK1/2), and Raf- 1 are involved in the mitogen-activated protein kinase (MAPK) pathway associated with high P-gp expression levels. On the other hand, Katayama, Imai, and their co-workers observed that inhibition of the extracellular signal-regulated kinase (ERK) pathway downregulates the expression level of P-gp ( , ).
+
+4
+
+## Effect of P-glycoprotein in tumor immunity
+The high expression level of P-gp in immune cells induces their activation, modulation of their activity, and the release of cytokines. In the peripheral circulating system, the number of monocytes is very low, on the other hand, it increases in tissue tumor-infiltrating macrophages ( ). The expression of P-gp in dendritic cells depends on its activation with a professional antigen ( , ). Lloberas and his co-workers observed that using Valspodar to block P-gp prevented the maturation of dendritic cells and their activation markers CD80 and CD40 ( ). Natural killer (NK (cells have a high P-gp expression level. There is a strong relationship between P-gp expression and the cytotoxic effects of NK. The high expression level of P-gp downregulates the cytotoxicity of NK cells by increasing the binding of Fas-mediated (Fas/FasL) P-gp+ NK cells to target cells. This triggers apoptosis of target cells by inducing the release of secretory granules with an inflammatory cytotoxic effect ( ). In adaptive immunity, individual cell types determine the role of p-g expression. For example, in lymph nodes, the migration and transitional phenotype of B cells depends on the expression level of P-gp ( , ). In CD4+T cells, Th1 and Th17 are effectors of T cells, and their inflammatory effect is associated with the expression level of P-gp. In contrast, the anti-inflammatory effect of T regulatory cells (Treg) limits the expression level of P-gp ( , ). Kooij and his co-workers declared that memory (IL18Rα+CD161+CD62Llo) phenotype in CD8+T cells determines the expression level of P-gp ( ). Bidirectional responses of P-gp expression were observed in CD8+ memory T cells in mucosal cells. In mucosal cells, P-gp normally effluxes xenobiotic toxins out of the cell; however, if a normal microbiome is distributed, this leads to enhanced effector responses and causes the emergence of autoimmune diseases such as Crohn’s disease. In acute myeloid leukemia, immune cells, including follicular lymphoma and B-cell lymphoma, boost P-gp expression levels, leading to chemotherapeutic resistance ( , ). High MAP kinase/ERK signaling is associated with the induction of P-gp expression, which has a significant role in resistant myeloid leukemia ( ). Ling et co-workers observed high P-gp expression levels in CD8+T cells derived from human colorectal cancer ( ). In addition, chemoresistance in AML patients results from long-term chemotherapy and is correlated with the expression of CD4+CD161+P-gp+ T cells ( ). On the other hand, Th17 and Th1 CD4+T-helper cells have been observed to trigger cytokine secretion, such as TNFα, and IL-17 which have anti-cancer activity ( ). In this context, breast cancer cells have CD4+T-cells (CD4+CD73+T cells) that express P-gp and enhance the secretion of inflammatory and anticancer cytokines ( , ). There is a conflicting role for P-gp in cancer cells, which is expressed in the pro-tumor effect of MΦ2-macrophage and the anti-cancer effect of NK-cell and Th17/CD4+T cells. Therefore, it is important to study the role of P-gp in immune cells.
+
+5
+
+## lncRNAs related to p-glycoprotein
+Several studies have shown that lncRNAs play a significant role in increasing the expression levels of P-gp transporters and inducing multidrug, as shown in . ODRUL was observed to be highly expressed in osteosarcoma cell lines. The high expression level of ODRUL is related to the induction of ABCB1 gene and results in the emergence of doxorubicin resistance in osteosarcoma ( ). Knockdown of the expression level of ODRUL leads to a decrease in the expression level of ABCB1 gene and improves the responsiveness of osteosarcoma toward doxorubicin ( ). In addition, high expression levels of lncRNA HOTTIP have been observed in resistant pancreatic ductal adenocarcinoma (PDAC) ( ). HOTTIP was associated with gemcitabine-resistant PDAC cells. In vitro and in vivo studies showed that HOTTIP induces proliferation, invasion, and gemcitabine resistance in cancer cells by modulating HOXA13 gene ( ). HOTTIP knockdown improves the sensitivity of cancer cells toward gemcitabine ( ). It was also observed that H19 mRNA in resistant HepG2 cells induces the expression of p-glycoprotein transporters. High levels of H19 mRNA induce doxorubicin resistance in HepG2 cells ( ). Knockdown of H19 mRNA induces the responsiveness and sensitivity of resistant cancer cells toward doxorubicin by increasing its accumulation and toxicity in both resistant and normal hepatoma cancer cells ( ). Furthermore, knockdown of H19 mRNA induces methylation of MDR1 and then decreases P-glycoprotein expression ( ). Linc-ROR lncRNA is upregulated in sorafenib-resistant HCC cells towards sorafenib. Knockdown of linc-ROR induces sorafenib toxicity and cancer cell death ( ). High expression levels of CCAL lncRNAs induce multidrug resistance in colorectal cancer cells ( ). CCAL lncRNA triggers a decrease in the signaling AP-2α protein-activated Wnt/β-catenin pathway, leading to upregulation of p-glycoprotein expression ( ). On the other hand, low expression levels of snaR induce chemotherapeutic resistance in colon cancer toward 5-fluorouracil ( ). High snaR expression induces apoptosis in colon cancer cells ( ). High expression levels of HOTAIR induce platinum resistance in ovarian cancer cells. A high level of HOTAIR repairs the DNA damaged by platinum therapy, which activates NF-κB signaling, resulting in chemoresistance ( ). Fang et co-workers observed that a high expression level of MALAT1 is observed in cisplatin-resistant lung cancer. MALAT1 induces cisplatin efflux from cells through efflux transporters (MDR1 and MRP1) after STAT3 activation ( ). Furthermore, ANRIL was observed to induce the expression of efflux transporter proteins in resistant gastric cancer cells. Efflux transporter proteins pump cisplatin and 5-fluorouracil (5-FU) from cells, resulting in chemoresistance in gastric cancer cells ( ). ANRIL knockdown increased the responsiveness of resistant cancer cells toward chemotherapeutic drugs by decreasing the levels of transporter proteins ( ). MRUL increases the expression of ABCB1, which induces multidrug resistance. ABCB1 gene is associated with efflux transporter proteins that pump doxorubicin out of cancer cells ( ). ABCB1 knockdown reduces drug efflux, leading to drug accumulation, toxicity, and apoptosis ( ). The high expression levels of linc-VLDLR is implicated in the expression of the ABCG2. Chemotherapeutic drugs, including doxorubicin, sorafenib, and camptothecin, induce the expression of linc-VLDLR in both inside cells and in extracellular vesicles (EVs). Knockdown of linc-VLDLR reduces the level of ABCG2 drug efflux transporters and decreases cancer cell proliferation ( ). lncRNA XIST controls the expression of Serum- and Glucocorticoid-Regulated Kinase 1 (SGK1), which sponges miR-124, resulting in doxorubicin resistance in colorectal cancer cells ( ). Knockdown of XIST decreases the expression of p-glycoproteins and improved the responsiveness of resistant cancer cells toward DOX ( ). Hu et co-workers observed that high expression levels of KCNQ1OT1 are associated with oxaliplatin resistance in hepatoma cancer cells via the upregulation of efflux transporter genes, including MRP5, MDR1, and LRP1 ( ). KCNQ1OT1 knockdown decreases gene-related resistance and cancer cell growth, invasion, and migration. A KCNQ1OT1 sponge with the 3′-UTR of miR-7-5p regulates the expression level of ABCC1 mRNA in hepatoma cancer cells ( ). LINC00518 induces chemotherapeutic resistance in breast cancer cells by sponging miR- 199a ( ). High levels of miR- 199a induce the expression of chemoresistant MRP1, resulting in paclitaxel, vincristine, and doxorubicin resistance in breast cancer. Knockdown of LINC00518 expression level induces breast cancer cell sensitivity toward chemotherapy ( ). Bladder cancer-associated transcript-1 (BLACAT1) is observed in resistant gastric cancer cells ( ). A high expression level of BLACAT1 is associated with oxaliplatin resistance in gastric cancer cells. In vitro and in vivo studies observed that knockdown of BLACAT1 downregulates the expression of ABCB1 protein and inhibits the proliferation of gastric cancer cells. miR-361 interacts with the 3′-UTR of BLACAT1 and ABCB1mRNA resulting in chemoresistance ( ). In conclusion, targeting p-glycoprotein and chemoresistance associated with lncRNAs is a new strategy for improving the responsiveness of resistant cancer cells toward chemotherapy.
+ 
+6
+
+## Phytochemicals target both lncRNAs and p-glycoprotein to overcome chemoresistance
+Several studies have reported that different types of natural products act as P-gp inhibitors ( ). Natural products decrease chemoresistance by targeting p-glycoprotein expression ( ) ( ). Natural products are characterized by having groups of methoxy, allyloxy, or acetylamino substituents, chiral configuration at C-3, and chromanol scaffolds, which can modulate the activity of p-glycoproteins ( ). Baicalin and baicalein are natural products derived from the root of Scutellaria baicalensis Georgi that can downregulate P-gp expression in Caco-2 cells. Baicalin and baicalein showed significant anti-cancer activity, with IC50 = 479-332 μg/mL against Caco-2 cells. Miao et coworkers reported that in vitro studies of baicalein showed that baicalein has a greater inhibitory effect against P-gp than baicalin due to the presence of a glucosyl group ( ). Chalcone is a natural phenolic compound that is extracted from apples, tomatoes, and licorice. In vitro studies have shown that chalcone inhibits p-glycoprotein activity, resulting in improved sensitivity of cancer cells toward chemotherapy ( ). Cyanidin is a flavonoid extracted from leaves, vegetables, and fruits such as grapes, cherries, apples, beans, and cabbage. Cyanidin is cytotoxic to cancer cells by inducing apoptosis ( ). Kitagawa observed that cyanidin decreased the expression levels of P-gp proteins and decreased chemoresistance ( ). Quercetin is a flavonoid extracted from onion skin that has antioxidant activity. Quercetin inhibits chemotherapy transport by suppressing ATPase activity of ABCB1 ( ). Rutin is a flavonoid extracted from the papaya plant. In vitro studies have shown that rutin inhibits P-gp activity and improves the responsiveness of cancer cells toward paclitaxel ( ). Curcumin is a natural polyphenolic compound extracted from Curcuma longa. Curcumin inhibits the activity of P-glycoprotein regardless of the substrate formulation in LS180 Cells ( ). Cinnamyl acetate is a natural phenylpropanoid compound extracted from the cinnamon bark. Cinnamyl acetate inhibits the expression of P-gp transporters and decreases chemoresistance in cancer cells ( ). Hesperidin is a natural flavonoid extracted from citrus fruit. Kong et co-workers observed that hesperidin suppressed P-gp expression and induced the accumulation of chemotherapy in A549 cancer cells ( ). Ursolic acid (UA) is a natural triterpene extracted from Annurca apples. Ursolic acid inhibits cancer cell proliferation by inducing apoptosis and upregulating caspase levels in resistant hepatoma cancer cells ( ). Kaempferol is a flavonoid extracted from tea, curly kale, and blueberries. Kaempferol inhibits P-gp activity and decreases multi-drug resistance in KB-V1 cells ( ). Luteolin is a natural product produced by Helicteres hirsute. Luteolin triggers cell death in cancer cells expressing efflux transporter proteins (ABCG2 and P-gp) by inducing ROS generation and DNA damage via inhibition of the NF-kB signaling pathway and downregulation of anti-apoptotic markers ( a). Sarsasapogenin is a steroid compound extracted from Anemarrhena asphodeloides Bunge. Sarsasapogenin suppresses the inflammatory activity that results from lipopolysaccharide ( ). Fisetin is a flavone that is extracted from strawberries and apples. Kaempferol significantly inhibits P-gp expression more than fisetin, resulting in the efficient accumulation of daunorubicin ( ). Glycyrrhizin is a natural product that is extracted from liquid plants. Glycyrrhizin inhibits P-gp activity and interacts with its substrate to inhibit P-gp transport ( ). Noscapine is an alkaloid extracted from Papaver somniferum. Noscapine has been observed to have an inhibitory effect on P-gp, resulting in the suppression of multi-drug resistance in cancer cells ( ). Allicin is a natural product that is extracted from garlic. Allicin can overcome p-glycoprotein and BCRP activity and induce the accumulation of sulfadiazine and florfenicol ( ). Gingerol has also been extracted from Zingiber officinale. Gingerol inhibits P-gp activity and induces the accumulation of 3-H digoxin in Caco-2 cells ( ). Gallocatechin gallate was extracted from green tea leaves. Gallocatechin gallate interacts with P-gp and decreases multidrug resistance in cancer cells ( ). In conclusion, natural products can act as significant inhibitors to overcome multi-drug resistance and improve the sensitivity of cancer cells toward chemotherapy. Mondal et et al. observed that mahanimbine induced P-gp ATPase activity and decreased cancer cell resistance ( ). Diindolylmethane is a dietary bioactive compound that modulates the efflux of ABC transporters and improves the efficacy of Centchroman in breast cancer cells ( ). In addition, in vitro and in vivo studies have shown that betulinic acid downregulates the expression level of MALAT1 which is associated with hepatoma-resistant cells. In addition, bharangin is a natural product with a quinone- methide structure derived from Pygmacopremna herbacea ( ). Studies have shown that bharangin downregulates the expression of H19 lncRNA in resistant breast cancer cells. Curcumin also reduces H19 lncRNA expression, which is associated with resistance in MCF-7 breast cancer cells ( ). Curcumin affects EMT biomarkers, including N-cadherin and E-cadherin levels. It reduced the levels of N-cadherin and increased the levels of E-cadherin. In vitro studies have shown that curcumin decreases renal cancer cell migration and invasion by downregulating the expression of HOTAIR ( ). Resveratrol is extracted from pistachios, plums, grapes, and berries ( ). The expression level of MALAT1 is increased in resistant colon cancer cells. Resveratrol decreases colon cancer resistance by downregulating MALAT1 and mediating the Wnt/β-catenin signaling pathway. Silibinin decreases the expression of HOTAIR by modulating the PI3K pathway ( ). Therefore, the inhibitory effect of the natural products was validated by in silico molecular docking analysis; however, future in vitro and in vivo experiments are needed to confirm our preliminary docking results.
+ 
+7
+
+## How specific lncRNAs regulate drug transporters like P-gp
+The regulation of P-gp by lncRNAs typically occurs through various signaling pathways and mechanisms. Here’s a more specific look at how lncRNAs may regulate P-gp expression and function:
+7.1
+
+## Transcriptional regulation
+Some lncRNAs can regulate the transcription of the ABCB1 gene, which encodes P-gp, through various transcription factors. LncRNAs may act as scaffolds or guides for transcription factors or chromatin remodeling complexes to either promote or repress the expression of ABCB1 [1]. The lncRNA MALAT1 has been reported to influence the transcriptional regulation of drug resistance genes, including P-gp, in cancer cells. MALAT1 can interact with specific transcription factors and chromatin modifiers to enhance the expression of ABCB1, increasing the efflux of chemotherapeutic agents and promoting drug resistance [2].
+
+7.2
+
+## Epigenetic regulation
+lncRNAs can interact with chromatin-modifying complexes and enzymes to modify the chromatin structure and regulate the expression of P-gp through epigenetic mechanisms [3, 4]. This regulation often involves histone modifications or DNA methylation patterns at the ABCB1 gene locus. The lncRNA HOTAIR is known to regulate the expression of P-gp through epigenetic modifications. HOTAIR interacts with polycomb repressive complexes to silence genes that may inhibit the expression of P-gp, potentially increasing its activity in the context of drug resistance [4].
+
+7.3
+
+## miRNA sponging
+Many lncRNAs can act as miRNA sponges, sequestering specific microRNAs (miRNAs) that normally target the ABCB1 gene or its associated regulatory pathways. By binding to these miRNAs, lncRNAs prevent them from inhibiting the expression of P-gp [1]. The lncRNA H19 has been shown to sponge miR-675, which could normally suppress ABCB1 expression. By binding to miR-675, H19 indirectly promotes P-gp expression and drug resistance in certain cancers [5].
+
+7.4
+
+## Interaction with signaling pathways
+LncRNAs can modulate multiple signaling pathways, such as the PI3K/Akt, NF-kB, and MAPK pathways, which are known to regulate the expression of drug transporters like P-gp [6].
+
+PI3K/Akt Pathway: LncRNAs such as LncRNA-ATB have been shown to regulate the PI3K/Akt signaling pathway, which can enhance the expression of P-gp. This pathway is involved in cellular responses to stress and can influence drug transporter activity in cancer cells [7].
+
+NF-kB Pathway: Some lncRNAs, including LncRNA-MALAT1, may regulate the NF-kB signaling pathway, which is involved in inflammation and immune responses. NF-kB activation can also upregulate P-gp expression, particularly in the context of inflammation or drug resistance [8].
+
+7.5
+
+## Post-transcriptional regulation
+In addition to transcriptional regulation, lncRNAs can also affect P-gp at the post-transcriptional level. For instance, lncRNAs may modulate the stability of ABCB1 mRNA or influence its translation [1]. LncRNAs like TUG1 can regulate the stability of specific mRNAs through interactions with RNA-binding proteins, influencing the translation of P-gp and its levels in cells [1, 9].
+
+7.6
+
+## Involvement in drug resistance mechanisms
+lncRNAs are implicated in the development of drug resistance through their ability to modulate drug transporters like P-gp. For example, overexpression of certain lncRNAs can lead to increased P-gp activity, reducing the intracellular concentration of chemotherapeutic agents and thus contributing to resistance[10]. LncRNA-CCAT2 has been reported to be involved in chemoresistance by regulating the expression of P-gp. This lncRNA modulates the cellular response to chemotherapy drugs and enhances P-gp-mediated drug efflux [11].
+
+8
+
+## Computational and preclinical studies of p-glycoprotein -1 in chemoresistance cancer cells
+In this review, we validate the potential effects of natural products against p-glycoprotein-1 to understand their association with cancer cell resistance. To perform molecular docking and illustrate inhibitor reactions, we used both the Molecular Operating Environment software (MOE, 2015.10) and BIOVIA Discovery Studio Visualizer ( ). We followed the steps of a previously reported procedure to illustrate the reactions of inhibitors with significant amino acids or protein hotspots ( – ). The 3D structures of the targeted proteins were obtained from the Protein Data Bank (PDB). As shown in , docking of the human P-glycoprotein in the ATP-bound, outward-facing conformation was performed using PDB 6C0V for p-glycoprotein -1 inhibitors. The exact binding site of bioactive compounds is the active site at which the co-crystallized ligand binds. All structure minimizations were conducted until an RMSD gradient of 0.05 kcal··mol−1Å−1 with MMFF94x force field, and partial charges were automatically calculated. Furthermore, all water molecules were removed from the compounds and p-glycoprotein-1 was prepared for docking using the Protonate 3D protocol in MOE with default parameters. To calculate both docking and scoring, we employed the triangle Matcher placement method and London dG scoring function. First, self-docking of the cocrystallized ligand near the protein- binding site was performed to ensure the docking protocol steps. Subsequently, ligand-receptor interactions at the target protein-binding site for the reported natural products in the active site were studied using a validated docking protocol (RMSD < 2) to predict their binding approach and binding affinity. The inhibitory activity of the tested substances was compared with that of the most potent p-glycoprotein inhibitor (mifepristone) through computational analysis. The plausible modes of binding between these substances and their target binding sites were determined. Delphinidin 3,5-di(6-acetylglucoside) (docking score: S = -10.0549 kcal/mol) was found to have the most significant inhibitory activity in the p-glycoprotein-1 inhibitor group ( ), with a higher potency than that of the control (mifepristone) (S = -5.1600 kcal/mol). Delphinidin 3,5-di (6-acetyl glucoside) interacts with the p-glycoprotein-1 active site via hydrogen bonds with the LEU 531 H-donor, GLN535 H-donor, ASP 805 H-donor, ASP 805 H-donor, SER 1077 H-acceptor, and TYR 1044 pi-pi. In addition, asparagoside-f (docking score: S = -9.0916 kcal/mol) was found to have the 2nd highest inhibitory activity within the group, as shown in . Furthermore, Quercetin, caflanone, rutin, curcumin, kaempferol, and kazinol-f had more potent inhibitory effects than the control (mifepristone) (S = -5.1600 kcal/mol). Based on docking simulations, it can be concluded that these inhibitors can effectively inhibit p-glycoprotein-1 and are therefore considered potent drugs to treat chemoresistance or increase the responsiveness of cancer toward chemotherapy. Our molecular docking results represent the first step toward overcoming chemoresistance. In this context, future in vitro and in vivo, future experiments are required to confirm our results.
+ 
+9
+
+## Conclusion
+Improving cancer cell responsiveness is a significant step toward enhancing the efficiency of chemotherapeutic drugs. Resistance to chemotherapy is one of the main causes of chemotherapeutic failure. P-gp is a membrane transporter that causes efflux of drugs from cancer cells and results in drug resistance. Several types of lncRNAs have been identified in resistant cancer cells, including ODRUL, MALAT1, and ANRIL. This review discusses the use of natural products as natural inhibitors of P-gp expression. In silico analysis showed that Delphinidin and Asparagoside-f are the most significant natural product inhibitors of p-glycoprotein-1 to overcome resistance. Our findings could open new hope in minimizing the immorality of chemoresistance and improving the outcome of several types of cancers.
+
+## Author contributions
+MD: Conceptualization, Investigation, Resources, Supervision, Writing – original draft, Data curation. AH: Conceptualization, Supervision, Writing – original draft, Formal analysis, Funding acquisition, Writing – review & editing. FA-O: Writing – original draft, Writing – review & editing, Investigation, Software, Data curation, Methodology, Validation. WH: Investigation, Software, Writing – original draft, Writing – review & editing, Conceptualization, Formal analysis, Project administration, Resources, Supervision. IC-O: Formal analysis, Investigation, Resources, Writing – original draft, Writing – review & editing. MG: Data curation, Formal analysis, Investigation, Methodology, Writing – review & editing. GR: Investigation, Supervision, Validation, Writing – original draft, Writing – review & editing. SFE: Conceptualization, Formal analysis, Resources, Validation, Writing – review & editing. MAI: Conceptualization, Formal analysis, Resources, Validation, Writing – review & editing. TFI: Conceptualization, Formal analysis, Resources, Validation, Writing – review & editing. SSA: Conceptualization, Formal analysis, Resources, Software, Supervision, Validation, Writing – original draft, Writing – review & editing.
+
+## Conflict of interest
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Generative AI statement
+The author(s) declare that no Generative AI was used in the creation of this manuscript.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+ 
+
+## Glossary
+EMTEpithelial-to-mesenchymal transition
+lncRNALong non-coding RNA
+P-gpP-glycoproteins
+ABCATP-binding cassette
+MRP1Multidrug resistance protein 1
+MDR1Multidrug resistance gene 1
+CSCsCancer stem cells
+ECMExtracellular matrix
+ROSReactive Oxygen Species
+TGF-βTransforming growth factor-beta
+PMPlasma membrane
+PSPhosphatidylserine
+SLCSeveral transporters named carriers
+EGFREpidermal growth factor receptor
+OATP1B3Solute carrier organic anion transporter family member 1B3
+OCT6Organic cation transporter-6
+ERP29Endoplasmic reticulum protein 29
+ID4Inhibitor Of DNA Binding 4
+MGMTMethylated-DNA-protein-cysteine methyltransferase
+ETSETS proto-oncogene 1
+PD-L1Programmed Cell Death Ligand 1
+DNMT1DNA methyltransferase 1
+HCCHepatocellular carcinoma
+TGBITransforming Growth Factor Beta Induced
+ER-αEstrogen Receptors Alpha
+PEBP4Phosphatidylethanolamine binding protein 4
+RKIPRAF-kinase inhibitor protein
+DDRDNA damage repair
+MGMTO-6-Methylguanine-DNA Methyltransferase
+DNA-PKDNA-dependent protein kinase
+DSBsDouble-strand break repair machinery
+eATPExtracellular ATP
+ABCG2Adenosine triphosphate-binding cassette superfamily G member 2
+MEK1/2Mitogen-activated protein kinase 1/2
+Raf- 1RAF proto-oncogene
+ERKExtracellular signal-regulated kinase '
+PDACancreatic ductal adenocarcinoma
+ODRULOS doxorubicin resistance-related upregulated lncRNA
+HOTTIPHOXA transcript at the distal tip
+HOT AIRHOX antisense intergenic RNA
+LINC-RORLong Intergenic Non-Protein Coding RNA, Regulator of Reprogramming
+CCALColorectal cancer-associated lncRNA
+MALAT1metastasis-associated lung adenocarcinoma transcript 1
+ANRILAntisense Noncoding RNA in the INK4 Locus
+MRULMDR-related and upregulated lncRNA
+EVsExtracellular vesicles
+Linc-VLDLRLong intergenic non-coding RNA VLDLR
+SGK1Serum- and Glucocorticoid-Regulated Kinase 1
+miRNAmicroRNAs
+XISTX-inactive specific transcript
+LINC00518Long intergenic nonprotein coding RNA 518
+BLACAT1Bladder cancer-associated transcript-1
+STAT1Signal transducers and activators of transcription

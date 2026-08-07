@@ -1,0 +1,337 @@
+pmcRadiat OncolRadiat Oncol402radoncolRadiation Oncology (London, England)1748-717XBMCPMC10007763PMC10007763.110007763100077633690659010.1186/s13014-023-02241-422411ResearchSystematic in vitro analysis of therapy resistance in glioblastoma cell lines by integration of clonogenic survival data with multi-level molecular data
+SchnöllerLeon Emanuel PiehlmaierDaniel WeberPeter BrixNikko FleischmannDaniel Felix NietoAlexander Edward SelmansbergerMartin HeiderTheresa HessJulia NiyaziMaximilian BelkaClaus LauberKirsten UngerKristianunger@helmholtz-muenchen.de OrthMichaelmichael.orth@med.uni-muenchen.de 1grid.411095.80000 0004 0477 2585Department of Radiation Oncology, University Hospital, LMU München, Marchioninistrasse 15, 81377 Munich, Germany 2grid.4567.00000 0004 0483 2525Research Unit Radiation Cytogenetics (ZYTO), Helmholtz Center Munich, German Research Center for Environmental Health GmbH, 85764 Neuherberg, Germany 3grid.4567.00000 0004 0483 2525Clinical Cooperation Group ‘Personalized Radiotherapy in Head and Neck Cancer’ Helmholtz Center Munich, German Research Center for Environmental Health GmbH, Neuherberg, Germany 4grid.7497.d0000 0004 0492 0584German Cancer Consortium (DKTK), Munich, Germany 5grid.7497.d0000 0004 0492 0584German Cancer Research Center (DKFZ), Heidelberg, Germany 6Bavarian Cancer Research Center (BKFZ), Munich, Germany 113202320231842512951722023632023110320231203202304042026© The Author(s) 2023https://creativecommons.org/licenses/by/4.0/Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated in a credit line to the data.Despite intensive basic scientific, translational, and clinical efforts in the last decades, glioblastoma remains a devastating disease with a highly dismal prognosis. Apart from the implementation of temozolomide into the clinical routine, novel treatment approaches have largely failed, emphasizing the need for systematic examination of glioblastoma therapy resistance in order to identify major drivers and thus, potential vulnerabilities for therapeutic intervention. Recently, we provided proof-of-concept for the systematic identification of combined modality radiochemotherapy treatment vulnerabilities via integration of clonogenic survival data upon radio(chemo)therapy with low-density transcriptomic profiling data in a panel of established human glioblastoma cell lines. Here, we expand this approach to multiple molecular levels, including genomic copy number, spectral karyotyping, DNA methylation, and transcriptome data. Correlation of transcriptome data with inherent therapy resistance on the single gene level yielded several candidates that were so far underappreciated in this context and for which clinically approved drugs are readily available, such as the androgen receptor (AR). Gene set enrichment analyses confirmed these results, and identified additional gene sets, including reactive oxygen species detoxification, mammalian target of rapamycin complex 1 (MTORC1) signaling, and ferroptosis/autophagy-related regulatory circuits to be associated with inherent therapy resistance in glioblastoma cells. To identify pharmacologically accessible genes within those gene sets, leading edge analyses were performed yielding candidates with functions in thioredoxin/peroxiredoxin metabolism, glutathione synthesis, chaperoning of proteins, prolyl hydroxylation, proteasome function, and DNA synthesis/repair. Our study thus confirms previously nominated targets for mechanism-based multi-modal glioblastoma therapy, provides proof-of-concept for this workflow of multi-level data integration, and identifies novel candidates for which pharmacological inhibitors are readily available and whose targeting in combination with radio(chemo)therapy deserves further examination. In addition, our study also reveals that the presented workflow requires mRNA expression data, rather than genomic copy number or DNA methylation data, since no stringent correlation between these data levels could be observed. Finally, the data sets generated in the present study, including functional and multi-level molecular data of commonly used glioblastoma cell lines, represent a valuable toolbox for other researchers in the field of glioblastoma therapy resistance.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s13014-023-02241-4.
+
+## Keywords
+GlioblastomaTherapy resistanceMulti-level molecular dataCorrelation analysishttp://dx.doi.org/10.13039/501100002347Bundesministerium für Bildung und Forschung02NUK061C BMBF METABOLiST02NUK047C BMBF ZISStrans02NUK047C BMBF ZISStransSelmansbergerMartinBelkaClausLauberKirstenhttp://dx.doi.org/10.13039/501100001659Deutsche ForschungsgemeinschaftINST 409/126-1 FUGGINST 409/126-1 FUGGBelkaClausLauberKirstenFoeFoLe program, Medical Faculty, LMU MunichUniversitätsklinik München (6933)Open Access funding enabled and organized by Projekt DEAL.
+pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© The Author(s) 2023
+
+## Introduction
+Glioblastoma, despite immense efforts in preclinical, translational, and clinical research during the last decades still remains a daunting disease with highly dismal prognosis [ ]. Fractionated radio(chemo)therapy with 30 fractions of 2 Gy and concomitant administration of DNA-alkylating temozolomide (TMZ) in definitive or adjuvant settings, followed by TMZ-based maintenance therapy remains the standard of care [ , ]. However, glioblastoma is well-known for its high degree of inherent therapy resistance, both to ionizing radiation (IR) and TMZ, resulting in frequent treatment failure and early recurrence [ ]. Thus, a more detailed understanding of the biological and molecular mechanisms underlying glioblastoma therapy resistance is needed in order to open new perspectives for molecularly targeted therapy and to improve disease prognosis [ , ].
+Based on our recent proof-of-concept study [ ], we here present a systematic approach which integrates inherent resistance data of commonly used human glioblastoma cell lines to IR and TMZ with multi-level molecular data of those cell lines obtained under treatment-naive conditions, including spectral karyotyping (SKY FISH), array comparative genomic hybridization (aCGH), array-based DNA methylation, and transcriptomic (mRNA microarray) analyses. By integrating these data with scores of inherent therapy resistance as extracted by dimensionality reduction of clonogenic survival data ([ , ], Additional file : Table S1), and subsequent gene set enrichment analysis (GSEA) [ ], we could identify several candidate networks and signaling circuits which are associated with inherent treatment resistance of glioblastoma cells and can be readily targeted by clinically approved or at least clinically trialed drugs. Among these were pathways involved in homeostasis of reactive oxygen species (ROS), mammalian target of rapamycin complex 1 (mTORC1) signaling, and androgen receptor (AR) signaling [ , ]. Taken together, we present a novel integrative approach for the systematic identification of therapeutic vulnerabilities (not only) in glioblastoma as well as potential candidates whose targeting in conjunction with radiotherapy and/or TMZ may help to break glioblastoma therapy resistance.
+
+## Methods
+
+## Cell culture
+The human glioblastoma cell lines A172, LN18, LN229, T98G, U87 [ ], U138, and U251 were purchased from the American Type Culture Collection (ATCC, Manassas, VA, USA), or from Cell Lines Service GmbH (CLS, Eppelheim, Germany), and confirmed for identity by short tandem repeat (STR) typing according to the standards of the ATCC and the American National Standards Institute (ANSI, New York, NY, USA) of 2011 (ANSI/ATCC ASN-0002–2011) [ ]. All cell lines were cultured in Dulbecco’s Modified Eagle Medium (D-MEM) supplemented with 10% (v/v) heat-inactivated fetal calf serum (FCS), 100 U/ml penicillin, and 0.1 mg/mL streptomycin (all from Thermo Scientific, Schwerte, Germany) at 37 °C and 7.5% CO2. Cells were kept at low passage numbers (≤ 10 passages), and were regularly tested by MycoAlert assay (Lonza, Basel, Switzerland) to be free of mycoplasma contamination.
+
+## Determination of therapy resistance scores
+Resistance to therapy was determined by clonogenic survival assays as described [ ]. In brief, cells were seeded into 6-well plates and incubated for 4 h in order to adhere. Cells were irradiated at the indicated doses in single-shot or in intervals of 24 h (fractionated mode), and colony formation was allowed for up to 12 d. In case of TMZ treatment, cells were incubated with TMZ at the indicated doses for 24 h, medium was changed, and colony formation was performed in TMZ-free medium. For the combination treatment, cells were exposed to 5 µM TMZ for 24 h, irradiated at the indicated doses, and incubated in TMZ-free medium for colony formation. Colonies were fixed with 80% ethanol, stained with 0.8% methylene blue (both from Merck Millipore, Darmstadt, Germany), and counted with a Stemi 305 stereomicroscope (Carl Zeiss, Oberkochen, Germany) as described [ , ]. Percentages of colony forming cells were calculated and normalized to the respective plating efficiencies at approximately matched colony numbers. Resistance scores were extracted by principal component analysis (PCA) as scores of the first principal component (PC1) [ ].
+
+## Spectral karyotyping (SKY FISH)
+For spectral karyotyping (SKY FISH) analyses, cells at 80% confluency were accumulated in M-phase by treatment with 0.1 µg/ml colcemid (Roche Diagnostics, Basel, Switzerland) for 3 h. Cells were then harvested with TrypLE Express (Thermo Scientific), and incubated in 4.0% (w/v) potassium chloride for 45 min at 37 °C. Cells were fixed with fixative (methanol and glacial acetic acid at 3:1 ratio, both from Merck Millipore) for 45 min at 4 °C, washed, and resuspended in fixative. Cell suspensions were dripped onto microscope slides, and hybridization was performed using the denatured SKY-probe mixture kit SkyPAINT DNA (Applied Spectral Imaging, Carlsbad, CA, USA) as previously described [ ]. For staining, slides were incubated with anti-digoxigenin (Roche), avidin-Cy5, and avidin-Cy5.5 antibodies (Biomol, Hamburg, Germany), and counterstained with 0.1% (w/v) 4’,6-diamidino-2-phenylindole (DAPI, Sigma-Aldrich, Taufkirchen, Germany). Slides were supplemented with Vectashield mounting solution (Vector Laboratories, Burlingame, CA, USA), and spectral imaging was performed with a Zeiss Axioplan 2 fluorescence microscope (Carl Zeiss, Oberkochen, Germany) equipped with a SpectraCube device and SkyView software (both from Applied Spectral Imaging). Description of karyotypes was performed according to the international system of human cytogenetic nomenclature (ISCN, edition 2013) [ ].
+
+## Global gene expression microarrays
+To analyze global mRNA expression levels in glioblastoma cells, gene expression microarray analysis was performed. In brief, total RNA was extracted from cells using the Qiagen Allprep DNA/RNA mini kit (Qiagen). RNA concentration was determined with a Nanodrop ND-1000 spectrophotometer (Thermo Scientific), and RNA quality was assessed by a total RNA 6000 nano chip assay performed on an Agilent 2100 Bioanalyzer (Agilent Technologies, Santa Clara, CA, USA). To obtain global mRNA expression data, 50 ng of total RNA was subjected to Agilent SurePrint G3 human 8 × 60 k V2 microarray analysis (AMADID 039,494, Agilent Technologies). RNA from untransformed human astrocytes (Provitro AG, Berlin, Germany) served as reference. Results were collected using the Agilent feature extraction software (version 10.7, Agilent Technologies), and exported as text files. Assessment of data quality, filtering, and data processing were performed with the Bioconductor R packages Limma and Agi4 × 44PreProcess as previously described [ ], and data analysis was performed with R. The obtained data are available at Gene Expression Omnibus (GEO, super set accession number: GSE119637) and under the link https://www.ncbi.nih.gov/geo/query/acc.cgi?acc=GSE119637 using the token ‘sfqnocumrvofrmv’.
+
+## Array comparative genomic hybridization (aCGH)
+To identify genomic copy number alterations (CNAs) in glioblastoma cells, array comparative genomic hybridization (aCGH) analyses were performed as previously described [ ]. In brief, DNA was extracted from cells by Qiagen Allprep DNA/RNA mini kit (Qiagen), concentration and quality of DNA were assessed with a Nanodrop ND-1000 spectrophotometer (Thermo Scientific), and 120 ng DNA was fluorescently labelled using the CYTAG SuperCGH labelling kit (Enzo Life Sciences, New York, NY, USA). After removing free nucleotides using Microcon YM-30 columns (Merck Millipore), labelled DNA was subjected to oligonucleotide-based high-resolution SurePrint G3 Human 60 k CGH microarray analysis (AMADID 021,924, Agilent Technologies). Microarrays were scanned with a G2505C SureScan microarray scanning system (Agilent Technologies), raw data were extracted using the Agilent feature extraction software (version 10.7, Agilent Technologies), and CNA regions were identified using the Bioconductor R packages CGHcall and CGHregions [ , ]. A compilation of all molecular data collected in this study is deposited as an Excel file in the Additional file .
+
+## Array-based DNA methylation analyses
+Array-based DNA methylation analyses were performed as previously described [ ]. In brief, DNA was extracted by Qiagen Allprep DNA/RNA mini kit (Qiagen), concentration and quality of DNA were assessed with a Nanodrop ND-1000 spectrophotometer (Thermo Scientific), and 500 ng DNA was subjected to hybridization on an Infinium EPIC methylation array (Illumina, San Diego, CA; USA). The arrays were scanned, idat files were imported in R using the minfi package [ ], and processed in accordance to the Illumina BeadStudio data analysis workflow (Illumina). Beta values were used for downstream hierarchical clustering analysis along with the beta values retrieved for glioblastoma samples from TCGA database https://www.cancer.gov/tcga [ , ].
+
+## Comparison of transcriptome and methylome profiles of glioblastoma cell lines with those from glioblastoma and lower-grade glioma (LGG) patient samples
+Transcriptome profiles and methylome beta values from glioblastoma and LGG patient samples were retrieved from TCGA (https://tcga-data.nci.nih.gov/docs/publications/lgggbm_2015/) [ , ]. Transcriptome profiles of 560 glioblastoma and 463 LGG patients were corrected for putative batch effects and z-scaled per gene before combination with the transcriptomic data obtained from the cell lines in a common gene expression matrix. The top 20 differently expressed genes between glioblastoma and LGG samples were analyzed by hierarchical clustering (Fig.  b, clustering method ward.D and euclidean distance measure), and principal component analysis (PCA). 
+For DNA methylation, the profiles of 410 glioblastoma and 516 LGG patients were included, and a merged beta value matrix including the methylation profiles of glioblastoma and LGG patients as well as those of the glioblastoma cell lines matching the CpG island methylator phenotype (CIMP) signature by Ceccarelli et al. [ ] was generated. The methylation profiles were subjected to hierarchical clustering analysis (Fig.  c, clustering method ward.D and euclidean distance measure), and analyzed by PCA.
+
+## Molecular subtyping based on cytogenetic and transcriptomic data
+Molecular subtyping was performed via different approaches. For calculation of molecular subtype scores (Additional file : Table S3), the data derived from cytogenetic characterization (SKY FISH) and aCGH analyses together with the expression data of relevant driver genes were utilized. All molecular subtype features of a cell line were summed up before being divided by the total number of features (Fig.  c). Alternatively, molecular subtyping was performed by the single-sample gene set enrichment analysis (ssGSEA) algorithm provided as an R-package by Wang et al. [ ], and using the reduced transcriptomic signatures from Verhaak et al. [ ] (Fig.  d). The negative log10 values of the resulting p-values were used as molecular subtype scores, and according to the maximum value the molecular subtype was assigned. 
+
+## Integration of therapy resistance with microarray expression data
+Integration of therapy resistance data with microarray transcriptome data was performed via different alternative approaches. On single gene level, log2 expression values obtained by microarray analyses were subjected to Pearson's correlation with resistance scores as extracted from clonogenic survival data via PCA (Additional file : Table S1 and [ , ]). Similarly, but with focus on cancer-related genes, only members of the cancer gene consensus (CGC), a library of genes stored in the catalogue of somatic mutations in cancer (COSMIC) [ ] were used for correlation analyses. Thirdly, integration on gene set level was performed by ranking genes in accordance to their respective correlation coefficients with therapy resistance scores followed by pre-ranked gene set enrichment analyses (GSEAs) [ ]. Leading edge genes were visualized by functional interaction networks in Cytoscape (Cytoscape Consortium, San Diego, CA, USA) [ ]. Lastly, integration on gene set level was alternatively performed via an inverse workflow in which the complexity of microarray expression data was first reduced by gene set variation analysis (GSVA) [ ] in single samples, followed by Pearson's correlation analyses with therapy resistance scores.
+
+## Results
+
+## Major differences in global mRNA expression patterns do not match with scores of inherent therapy resistance in a panel of human glioblastoma cell lines
+The high degree of therapy resistance, the dismal prognosis, and the persisting lack of prognostic and/or predictive factors in glioblastoma demand for the identification of novel stratification markers for treatment responses on one hand, and potential vulnerabilities for combined modality strategies on the other [ , , ]. Very recently, we published a proof-of-concept screen in which scores of inherent treatment resistance of glioblastoma cells, both to IR and TMZ (Additional file : Table S1), were correlated with basal mRNA expression levels of genes related to the DNA damage response (DDR)—a promising target to undermine therapy resistance in glioblastoma [ ]. We were able to identify several DDR genes whose mRNA expression levels showed significant positive correlation with inherent therapy resistance, and pharmacological interference with the function of some of the corresponding gene products using specific inhibitors indeed resulted in sensitization of resistant glioblastoma cells to IR or TMZ treatment, respectively [ ].
+In the present study, we expanded this workflow to the global transcriptomic level and performed gene expression and DNA methylation microarray analyses using the same cell line panel as before (Fig.  a, [ ]). We first employed the transcriptome/methylome profiles of the cell lines to analyze their relatedness to clinical tumor samples, either from glioblastoma or from lower-grade glioma (LGG) patients as available from TCGA (Fig.  b, c). All glioblastoma cell lines clustered closer to the glioblastoma patient samples than to the LGG samples, both on the transcriptome (Fig.  b) and the methylome level (Fig.  c). However, the cell lines were located at the periphery of the glioblastoma sample cluster, indicating a traceable but limited relatedness which may derive from the absence of non-tumor cells in the cell lines, adaptation processes in cell culture, or other reasons, respectively. We next examined whether the most striking transcriptomic differences across the cell line panel can be linked to inherent therapy resistances of glioblastoma cells. However, sample-to-sample correlation analyses on basis of the 100 most differentially expressed genes resulted in clusters of cell lines without obvious associations to therapy resistance (Fig.  d). As an example, LN18 and T98G cells, the two most closely related cell lines according to sample-to-sample correlation of their expression profiles revealed strong differences in their respective levels of treatment resistance (Fig.  d, and [ ]) which was most obvious for regimens encompassing IR. Vice versa, cell lines with similar levels of treatment resistance, for instance A172 and U87, showed very far relatedness in sample-to-sample correlation of their gene expression profiles (Fig.  d). Thus, inherent therapy resistance of glioblastoma cells cannot be directly linked to major differences in global mRNA expression patterns, at least in the cell line panel we analyzed here. Obviously, more systematic approaches integrating large-scale molecular (OMICs) data with functional data are needed [ ].
+
+## Multi-level cytogenetic and molecular characterization of human glioblastoma cell lines allows their classification into defined molecular subtypes
+Several classification systems of glioblastoma on different molecular levels have been described [ ]. Emerging consensus is the categorization according to genomic and transcriptomic features into three defined subtypes, termed the classical, the proneural, and the mesenchymal subtype [ , ]. Model systems of these subtypes have been reported to exhibit marked differences in the response to therapy in vitro and in vivo [ , ], and the mesenchymal subtype was found to be the most refractory. Intriguingly, strong phenotypic plasticity between subtypes could be observed [ , ], and the transition from the proneural to the mesenchymal subtype was described to be an important driver of therapeutic failure [ – ]. Clinically, the mesenchymal subtype exhibits the most dismal and the proneural subtype the most benign prognosis, suggested to be driven by subtype-specific signaling pathways including DNA damage repair, cell cycle control, mesenchymal cell movement, mitogen-activated protein kinase (MAPK)/extracellular signal-regulated kinase (ERK) signaling, PI3K/AKT signaling, JAK/STAT signaling, and WNT pathways [ , , ].
+We therefore aimed to classify the glioblastoma cell lines of our panel according to these described subtypes. Firstly, we performed spectral karyotyping (SKY FISH) analyses (Fig.  a and Additional file : Table S2). The karyotypes ranged from a near-diploid chromosomal content in U87 cells up to a near-hexaploid one found in T98G (Fig.  a and Additional file : Table S2). We also noticed that some of the cell lines (A172, LN18, LN229, T98G, and U87) displayed different cytogenetic subclones (Fig.  a and Additional file : Table S2) which is indicative for enhanced chromosomal instability (CIN) in these cell lines [ ]. Increased CIN, in turn, is known to affect all major aspects of cancer pathogenicity including tumor progression, metastasis formation, and therapy resistance [ – ], and this also holds true for glioblastoma [ , ]. Mechanistically, elevated CIN leads to gene copy number alterations (CNAs), which in case of affecting oncogenic driver genes can give rise to the aforementioned subtypes [ , ]. Distinct CNAs were shown to be associated with different molecular subtypes [ , , ], and we therefore performed array comparative genomic hybridization (aCGH) analyses (Fig.  b and Additional file : Table S3). CNAs with documented association to the classical subtype, including amplification of 7p11.2 (EGFR), and focal deletions of 9p21.3 (CDKN2A) [ ], were detected in most of the cell lines (Fig.  b and Additional file : Table S3), whereas CNAs with association to the mesenchymal (loss of 17p11.2, NF1) or the proneural subtype (amplification of 4q12, PDGFRA) were only rarely detected. According to our transcriptomic analyses, driver genes of the mesenchymal subtype, such as TRADD, RELB, TNFRSF1A, and CASP1 [ , ], were widely expressed. On the contrary, expression of genes related to the proneural subtype including NKX2-2, OLIG2, SOX2, and ERBB3 [ , – ] was only detected in one cell line given by LN229 (Additional file : Table S3), and genes linked to the classical subtype such as NOTCH3, NES, and SMO [ ] were expressed heterogeneously across our panel. In synopsis, subtyping on the basis of cytogenetic and transcriptomic key features classified cell lines A172, T98G, and U251 as classical, and U138 as mesenchymal, but failed to deliver clear-cut classifications for cell lines LN18, LN229, and U87 (Fig.  e and Additional file : Table S3).
+Subtyping on the basis of transcriptomic signature genes according to Wang et al. [ ] revealed a more heterogeneous pattern of subtypes across our cell line panel (Fig.  c-e). For A172, LN18, and T98G no clear-cut classifications could be obtained (denoted as "mixed"). These cell lines were located on the proneural-mesenchymal axis (Fig.  c), presumably reflecting the aforementioned plasticity in proneural-mesenchymal transition. For LN229, U87, U138, and U251, on the contrary, clear-cut classifications could indeed be achieved, classifying LN229 as proneural, U251 as classical, and U87 and U138 as resembling the prognostically challenging mesenchymal subtype (Fig.  c-e). Reasons for the slight prevalence of this subtype among the panel could be excessive clonal selection and adaptation during initial establishment, and long-term cultivation of these cell lines.
+
+## Integrating global gene expression data with clonogenic survival data as a strategy to identify new markers of glioblastoma therapy resistance
+So far, our study has revealed that the annotation of defined molecular subtypes to established glioblastoma cell lines is challenging and yields different results depending on the molecular level and the key features employed. Furthermore, our data show that no direct association between the degree of therapy resistance and major transcriptomic differences or molecular subtypes can be drawn. Cell lines assigned to the highly treatment-refractory mesenchymal subtype (U138, U87) showed modest (U87) or even high (U138) sensitivity towards therapy, while the cell line U251 representing the classical subtype showed highest resistance (Fig.  e). We therefore subjected the therapy resistance data and the transcriptomic profiling data of our glioblastoma cell line panel to correlation analyses with different workflows ([ ], and Fig.  ). Firstly, utilizing whole transcriptome data, remaining on the single gene level, and setting a cutoff of |R|≥ 0.9 for the correlation of therapy resistance scores and log2 microarray expression values disclosed a limited set of genes whose expression levels were associated with resistance against IR and/or TMZ treatment. Most strikingly, the highest positive correlation for TMZ treatment (R > 0.99) was seen for O6-methylguanine-DNA-methyltransferase (MGMT), not only confirming the literature [ , ], but also providing a very strong proof-of-concept for the feasibility of our methodological approach. 
+This strategy allowed us to identify 14 genes that exhibited significant positive correlation with inherent resistance to at least two of the four tested treatments ([ ], and Fig.  a, b), and 8 genes showing negative correlation (Fig.  b and Additional file : Table S4). Three of the positively correlating genes were even linked to resistance towards three of the four treatments, including single-shot IR, fractionated IR, and single-shot IR plus TMZ (Fig.  a, b). These genes encoded for alpha-1,4-galactosyltransferase (A4GALT), DNA polymerase alpha 1 (POLA1), a replication-associated DNA polymerase for which specific inhibitors are currently developed [ ], and adaptor related protein complex 2 subunit beta 1 (AP2B1).
+In order to focus on cancer-related genes, we next took advantage of the Cancer Gene Consensus (CGC) gene collection, which encompasses 1133 genes with documented functions in development and progression of cancer [ ]. Using this compilation of reduced complexity compared to the whole transcriptome microarray and lowering the cut-off to |R|≥ 0.7 yielded a total of 27 cancer-related genes with positive, and 29 genes with negative correlation with resistance scores for at least two types of treatment (Fig.  a, b). For more detailed analyses, we concentrated on genes, whose expression levels correlated with resistance against three types of treatment, resulting in 22 genes in total, 11 with positive correlation, and 11 with negative correlation (Fig.  a, b). We then performed a search for drugs targeting the respective gene products with positive correlation with inherent therapy resistance (Fig.  a and Additional file : Table S5). The most interesting target with the strongest expression dynamics across the cell line panel as identified by this approach was the androgen receptor (AR) which has recently been reported to play an important role in prognosis and therapy resistance of glioblastoma [ – ]. Since AR also has roles in other cancer entities, mostly in prostate and in breast cancer [ , ], multiple inhibitors and antagonists of AR have been developed and trialed [ ], yielding successful therapeutic targeting of the AR in these cancer entities [ , ]. Another candidate for which targeted drugs with clinical approval in other cancer entities are readily available was the mitogen-activated protein kinase kinase 4 (MAP2K4) [ ]. Interestingly, in case of glioblastoma a link between AR and MAPK signaling with regard to therapy resistance has recently been described [ ]. Finally, our correlation analyses identified STAT5B as a druggable target [ , ] whose expression was associated with therapy resistance, yet with rather low expression dynamics across the glioblastoma cell line panel. 
+
+## Gene set enrichment analyses (GSEAs) identify several signaling circuits as potential contributors to inherent therapy resistance in glioblastoma cells
+Stepping from the single gene to the gene set level, we performed pre-ranked gene set enrichment analyses (GSEAs) on the bases of the obtained correlation coefficients (Figs.  and ) and the MSigDB Hallmarks collection which contains ground-truth derived gene sets reflecting the regulation of common biological processes [ ]. With an FDR q-value cut-off of ≤ 0.1, a total of 21 gene sets with positive enrichment were found, and 14 gene sets with negative enrichment (Fig.  a). Gene sets that showed positive/negative enrichment for resistance against at least two of the four treatments included process categories of the core metabolism, such as GLYCOLYSIS and OXIDATIVE_PHOSPHORYLATION, development (ADIPOGENESIS), and immune mechanisms (INTERFERON_ALPHA_RESPONSE), thus according with previous reports [ – ]. Hallmark gene sets found to be negatively enriched with resistance against at least two of the four treatments included EPITHELIAL_MESENCHYMAL_TRANSITION [ , ] and APICAL_JUNCTION [ ] (Fig.  a). For resistance against treatments comprising IR, the hallmark gene set REACTIVE_OXYGEN_SPECIES_PATHWAY was positively enriched, and the maximal intersect for enrichment with resistance against three treatments was observed for MTORC1_SIGNALING (positive), and TNFA_SIGNALING_VIA_NFKB (negative). Inverting this workflow by first reducing the dimensionality of the expression data by single-sample gene set variation analysis (GSVA), followed by correlation analyses with the obtained GSVA scores and therapy resistance scores basically confirmed these results (Fig.  b, c). 
+
+## Leading edge analyses (LEAs) of GSEA-derived gene sets identify druggable candidates and their functional interaction networks
+Among the gene sets we identified to be positively or negatively enriched in therapy-resistant glioblastoma cell lines (Fig.  a, b), we decided to concentrate on REACTIVE_OXYGEN_SPECIES_PATHWAY, MTORC1_SIGNALING and TNFA_SIGNALING_VIA_NFKB [ , , ]. Leading edge analyses (LEAs) were performed by constructing functional interaction networks in Cytoscape. For REACTIVE_OXYGEN_SPECIES_PATHWAY, the leading edge genes comprised a circuit of thioredoxin/peroxiredoxin metabolism and glutathione (GSH) synthesis [ – ] (Fig.  a and Additional file : Table S6) which in view of available drugs also appeared the most interesting vulnerabilities for sensitization in combined modality treatment approaches (Fig.  b and Additional file : Table S6). Corresponding analyses for MTORC1_SIGNALING revealed druggable subnetworks involved in chaperoning, prolyl hydroxylation, proteasomal function, and DNA synthesis and repair, plus individual genes overlapping with thioredoxin/peroxiredoxin metabolism and GSH synthesis as disclosed in the leading edge of REACTIVE_OXYGEN_SPECIES_PATHWAY and involved in ferroptosis and autophagy regulation [ , ] (Fig.  a, b and Additional file : Table S6). Finally, the leading edge of negatively enriched TNFA_SIGNALING_VIA_NFKB was mainly composed of candidates directly involved in TNF/NF-κB signaling [ , ] (Fig.  a, b and Additional file : Table S6). 
+
+## Expression of candidate genes for targeted sensitization of glioblastoma as identified by GSEA and LEA is not driven by corresponding CNAs and only marginally anti-correlates with respective promotor methylation
+In order to examine if expression of the leading edge genes identified by our correlation/GSEA workflow is reflected by CNAs on the DNA level or by CpG methylation, we integrated the corresponding data sets. Unexpectedly, no significant association between the transcriptome and the CNA level was observed (not shown). Furthermore, significant negative correlation with promotor methylation was only observed for a minor subset of genes (Fig.  ) suggesting that other mechanisms dominate gene expression in this context and that integrative approaches such as the one described in the present study require mRNA expression data, rather than CNA or DNA methylation data. 
+In summary, our data show that workflows correlating mRNA expression data with PCA-derived scores of inherent therapy resistance, followed by GSEA and LEA can reveal therapy resistance markers and potential vulnerabilities for pharmacological sensitization—both previously reported ones and hitherto unknown candidates, and thereby can open new perspectives for mechanism-based, combined modality treatment of glioblastoma and probably also of other cancer entities.
+
+## Discussion
+Inherent therapy resistance is a major challenge in the treatment of various malignancies. Glioblastoma is particularly well-known for its high degree of treatment resistance, accounting for its dismal prognosis [ ]. The identification of key regulators that orchestrate this resistance is therefore inevitable in order to disclose novel perspectives of targeted combined modality therapy and to improve treatment outcome [ ]. We recently showed that integrating scores of inherent therapy resistance as extracted from clonogenic survival data with mRNA expression data of the DNA damage response is a suitable approach to identify new candidates for targeted sensitization of glioblastoma [ , ]. Here, we expanded this workflow to global mRNA expression data and additional molecular levels, including DNA methylome and chromosomal CNAs—all collected under treatment-naive conditions which most closely resemble the clinical situation of tissue sampling in form of tumor biopsies and resections. In accordance with our preceding study, the identification of O6-methylguanine-DNA-methyltransferase (MGMT) as the best correlating candidate among all genes with positive correlation of mRNA expression with resistance to TMZ provided a proof-of-concept for the feasibility of our approach. Furthermore, on the single gene level, we identified the androgen receptor (AR) as a crucial positive correlator with inherent resistance to three of the four types of treatment—a candidate which is already successfully therapeutically addressed in several cancer entities, such as prostate cancer [ , , ], and thus is eligible to rapid evaluation in glioblastoma [ ]. Another gene whose expression level correlated positively with resistance to three types of glioblastoma treatment was mitogen-activated protein kinase kinase 4 (MAP2K4) [ ]. Various inhibitors of the MAP kinase family have been developed and several of them, including trametinib and cobimetinib, are readily approved for clinical use in other cancer entities [ ]. However, it is known that these compounds commonly do not pass the blood brain barrier (BBB) which for instance undermines efficient treatment of brain metastases originating from MAP kinase-driven melanoma [ , ]. Therefore, new BBB-passing MAP kinase inhibitors such as E6201 are currently in development [ – ]. Our data suggest that these inhibitors may be interesting candidates for targeted sensitization of glioblastoma to IR and/or TMZ.
+In order to identify gene sets, networks, and signaling circuits rather than single genes, we made use of pre-ranked gene set analyses (GSEAs) on the basis of the correlation coefficients (gene expression vs. therapy resistance) followed by leading edge analyses (LEAs). This indeed yielded several candidates whose pharmacological targeting appears interesting in the context of targeted radio- and/or chemosensitization of glioblastoma and—more importantly—for which refined drugs are readily available. Among these were the MSigDB hallmark gene sets REACTIVE_OXYGEN_SPECIES_PATHWAY and MTORC1_SIGNALING, both of which comprise candidates that can be well-targeted by various available drugs [ , ]. Mechanistically, the identified regulatory circuits have major implications for death and/or survival pathways, such as ferroptosis and autophagy [ , ], and crucial pro-survival players would represent interesting targets in order to break glioblastoma cell death evasion and resistance against IR [ – ] or TMZ [ ], respectively.
+When tracing the mRNA expression data back to the chromosomal CNA status, we did not observe relevant associations. Furthermore, CpG methylation status did only in part reflect the obtained mRNA expression data. Accordingly, other mechanisms, including posttranscriptional regulation of mRNA expression by micro-RNAs (miRNAs) [ ], may be involved in glioblastoma gene regulation accounting for the observed therapy resistance-associated mRNA expression patterns, and this would also fit with several recent reports identifying miRNA signatures as outcome prognosticators of glioblastoma [ – ]. It is in accordance with previous reports which found only marginal associations between the methylation status of MGMT promotor and mRNA or protein expression levels in glioblastoma patients [ , ]. Hence, it is feasible to assume that our integrative approach requires mRNA expression data, rather than DNA methylation or CNA data to obtain robust results. In how far (phospho-)proteomic data would further improve the study outcome remains to be investigated [ ].
+Similar systematic in vitro analyses of therapy resistance on the basis of clonogenic survival data and multi-level molecular data are rare [ , ], not only in glioblastoma [ – ]. Most studies of similar purpose integrate molecular data from patient material provided by publicly available databases such as TCGA with clinical data in order to identify genes with association to therapy resistance [ , – ]. However, the molecular data obtained from such cohorts are often of high complexity given that biopsied/resected patient material usually comprises complex tumor tissue, including tumor stroma and normal tissue cells rather than only tumor cells [ , ]. Furthermore, information on treatment courses and clinical endpoints commonly is scarce and/or incomplete, thus further hampering the interpretability of these data. Our results do not only provide proof-of-concept for the feasibility of the chosen integrative in vitro approach. The data sets generated in the present study comprising functional (clonogenic survival data) and multi-level molecular data (mRNA transcriptome, DNA methylome, chromosomal CNA, and SKY FISH) of very commonly used glioblastoma cell lines (in an unperturbed, untreated stage) also represent a valuable toolbox which can be readily interrogated by other researchers in the field of glioblastoma therapy resistance. Nevertheless, since dynamic changes on the analyzed molecular levels (particularly on the transcriptome and on the methylome level) are to be expected in response to therapy and may well be causative for the emergence of acquired therapy resistance [ , – ], further research is certainly needed. Finally, the integrative nature of the described workflow can be adapted to other disease models, such as 3D cell culture and organoids [ ], since this may impact both, global mRNA expression and therapy resistance [ – ].
+
+## Supplementary Information
+
+Additional file 1. Supplementary tables.
+Additional file 2. Compilation of all molecular data collected in this study.
+
+## Abbreviations
+A4GALTLactosylceramide 4-alpha-galactosyltransferase
+ABCATP binding cassette
+ABCC1ATP binding cassette subfamily C member 1
+aCGHArray comparative genomic hybridization
+ACTR3Actin related protein 3
+AKTV-Akt murine thymoma viral oncogene
+AKT1V-Akt murine thymoma viral oncogene 1
+ANSIAmerican National Standards Institute
+AP2Adaptor related protein complex 2
+AP2B1Adaptor related protein complex 2 subunit beta 1
+ARAndrogen receptor
+ARAP2ArfGAP with RhoGAP domain, ankyrin repeat and PH Domain 2
+ARHGAP39Rho GTPase activating protein 39
+ARL2ADP ribosylation factor like GTPase 2
+ARSDArylsulfatase D
+ASCT2Alanine serine cysteine transporter 2
+ASNSAsparagine synthetase
+ATCCAmerican Type Culture Collection
+BBBBlood brain barrier
+BCL2A1BCL2 related protein A1
+BCRBTB-Cul3-Rbx1
+BTBBR–C, Ttk and bab
+BTG3BTG anti-proliferation factor 3
+CASP1Caspase-1
+CATCatalase
+C1GALT1Core 1 glycoprotein-N-acetyl-galactosamine-3-beta-galactosyltransferase 1
+CCND1Cyclin D1
+CCNL1Cyclin L1
+CCT6AChaperonin containing TCP1 subunit 6A
+CDH18Cadherin 18
+CDK4Cyclin dependent kinase 4
+CDKN1ACyclin dependent kinase inhibitor 1A
+CDS1Phosphatidate cytidylyltransferase 1
+CFHComplement factor H
+CGCCancer gene consensus
+CHI3L1Chitinase-3-like protein 1
+CIMPCpG island methylator phenotype
+CINChromosomal instability
+CNACopy number alteration
+COSMICCatalogue of somatic mutations in cancer
+CSF1Colony stimulating factor 1
+CUL3Cullin 3
+CXCL1C-X-C motif chemokine ligand 1
+CXCR4C-X-C motif chemokine receptor 4
+D-MEMDulbecco’s modified eagle medium
+DAPI4′,6-Diamidino-2-phenylindole
+DDRDNA damage response
+DDX51DEAD-box helicase 51
+DNMT3ADNA methyltransferase 3 alpha
+DUSP1Dual specificity phosphatase 1
+DUSP2Dual specificity phosphatase 2
+EGFREpidermal growth factor receptor
+EGLN3Egl-9 family hypoxia inducible factor 3
+EGFRvIIIEpidermal growth factor receptor variant III
+EGR2Early growth response 2
+ELOVL5Fatty acid elongase 5
+EMTEpithelial-mesenchymal transition
+ERKExtracellular signal-regulated kinase
+FCSFetal calf serum
+FDRFalse recovery rate
+FIRFractionated IR
+FOXP3Forkhead box protein 3
+G6PDGlucose-6-phosphate dehydrogenase
+GCKIIIGerminal centre kinase III
+GCLCGlutamate-cysteine ligase catalytic subunit
+GCLMGlutamate-cysteine ligase modifier subunit
+GEOGene expression omnibus
+GLAGalactosidase alpha
+GPIGlucose-6-phosphate isomerase
+GSCGlioma stem cell
+GSEAGene set enrichment analysis
+GSHGlutathione
+GSRGlutathione-disulfide reductase
+GSSGGluthathione disulfide
+GSVAGene set variation analysis
+HLA-AMajor histocompatibility complex, class I, A
+HPRT1Hypoxanthine phosphoribosyltransferase 1
+HRASLS2HRAS-like suppressor 2
+HSPD1Heat shock protein family D member 1
+HAP1Huntingtin-associated protein 1
+HTTHuntingtin
+IDO1Indoleamine 2,3-dioxygenase 1
+IER2Immediate early response gene 2
+IL2Interleukin 2
+IL2RAInterleukin-2 receptor alpha
+IL4Interleukin 4
+IL23AInterleukin 23 subunit alpha
+IRIonizing radiation
+ISCNInternational system for cytogenetic nomenclature
+JAKJanus kinase
+JNKC-Jun N-terminal kinase
+JUNJun proto-oncogene
+JUNBJun B proto-oncogene
+KDSR3-Ketodihydrosphingosine reductase
+KEAP1Kelch like ECH associated protein 1
+KLF2Kruppel like factor 2
+KLF4Kruppel like factor 4
+KLF6Kruppel like factor 6
+KLHL11Kelch-like family member 11
+KLK2Kallikrein related peptidase 2
+KLK3Kallikrein related peptidase 3
+LDLRLow density lipoprotein receptor
+LEALeading edge analysis
+LGGLow-grade glioma
+LIFInterleukin 6 family cytokine
+LKB1Liver kinase B1
+MAFFMAF BZIP transcription factor F
+MAPMitogen-activated protein kinase
+MAP2K3Mitogen-activated protein kinase kinase 3
+MAP2K4Mitogen-activated protein kinase kinase 4
+MAPKMitogen-activated protein kinase
+MBPMyelin basic protein
+MCMediator complex
+MCL1Induced myeloid leukemia cell differentiation protein Mcl-1
+MCM4Minichromosome maintenance complex component 4
+MCM15Mediator complex subunit 15
+METTL16Methyltransferase 16
+MGMTO6-methylguanine-DNA-methyltransferase
+MGST1Microsomal glutathione S-transferase 1
+miRNAMicroRNA
+MSRAMethionine sulfoxide reductase A
+MTHFD2Methylene-tetrahydrofolate dehydrogenase 2
+mTORC1Mammalian target of rapamycin complex 1
+MYNNMyoneurin
+NDUFB4NADH-ubiquinone oxidoreductase subunit B4
+NESNestin
+NF-κBNuclear factor κB
+NF1Neurofibromin
+NOTCH3Notch receptor 3
+NPEPPSPuromycin-sensitive aminopeptidase M1
+NR4A1Nuclear receptor subfamily 4 group A member 1
+NR4A2Nuclear receptor subfamily 4 group A member 2
+NRF2NF-2-related factor 2
+NSCLCNon-small cell lung cancer
+PBSPhosphate-buffered saline
+PCAPrincipal component analysis
+PDGFRPlatelet-derived growth factor receptor
+PDGFRAPlatelet-derived growth factor receptor alpha
+PFKPPhosphofructokinase, platelet
+PGK1Phosphoglycerate kinase 1
+PHLDA1Pleckstrin homology like domain family A member 1
+PI3KPhosphatidylinositol 3-kinase
+PLAAT2Phospholipase A and acyltransferase 2
+PLAURPlasminogen activator, urokinase receptor
+POL1RNA polymerase 1
+POLA1DNA polymerase alpha 1, catalytic subunit
+POLD1DNA polymerase delta 1, catalytic subunit
+POLR1FRNA polymerase 1 subunit F
+PPA1Inorganic pyrophosphatase 1
+PRDX1Peroxiredoxin 1
+PRDX2Peroxiredoxin 2
+PRDX4Peroxiredoxin 4
+PRLProlactin
+PSAT1Phosphoserine aminotransferase 1
+PSMA4Proteasomal 20S subunit alpha 4
+PSMB3Proteasomal subunit beta 3
+PSMC2Proteasome 26S subunit, ATPase 2
+PSMG1Proteasome assembly chaperone 1
+PSMG2Proteasome assembly chaperone 2
+PSMG4Proteasome assembly chaperone 4
+RASRat sarcoma
+RBX1Ring box 1
+RELBTranscription factor RelB
+RINGReally interesting new gene
+RNAseqRNA sequencing
+ROSReactive oxygen species
+RPA1Replication protein A1
+rRNARibosomal RNA
+RRM2Ribonucleotide reductase regulatory subunit M2
+RTXRadiotherapy
+SAPStress-activated protein
+SBNO2Strawberry Notch homolog 2
+SCAF4SR-related CTD associated factor 4
+SDC4Syndecan 4
+SEC11ASEC11 homolog A
+SGK1Serum/glucocorticoid regulated kinase 1
+SKY FISHSpectral karyotyping fluorescent in situ hybridization
+SLC1A5Solute carrier family 1 member 5
+SLC2A1Solute carrier family 2 member 1
+SLC7A11Solute carrier family 7 member 11
+SLC25A11Solute carrier family 25 member 11
+SLC37A4Solute carrier family 37 member 4
+SMOSmoothened
+SNPSingle nucleotide polymorphism
+SOCS3Suppressor of cytokine signaling 3
+SOD1Superoxide dismutase 1
+SOXSry-type HMG box
+SOX2Sry-type HMG box 2
+SOX10Sry-type HMG box 10
+SPHK1Sphingosine kinase 1
+SS18SS18 subunit of BAF chromatin remodeling complex
+ssGSEASingle-sample GSEA
+SSIRSingle-shot IR
+STATSignal transducer and activator of transcription
+STAT5BSignal transducer and activator of transcription 5B
+STIP1Stress induced phosphoprotein 1
+STK25Serine/threonine kinase 25
+STRShort tandem repeat
+SYPL1Synaptophysin-like 1
+SYPL2Synaptophysin-like 2
+SYT14Synaptotagmin-14
+TAF15TATA-box binding protein associated factor 15
+TANKTRAF family member associated NF-κB activator
+TGFBR1Transforming growth factor beta receptor 1
+TGFBR2Transforming growth factor beta receptor 2
+TGIF1TGFβ induced factor homeobox 1
+TMEM97Transmembrane protein 97
+TMZTemozolomide
+TNCTenascin C
+TNFTumor necrosis factor
+TNFATumor necrosis factor alpha
+TNFAIP3Tumor necrosis factor alpha induced protein 3
+TNFAIP6Tumor necrosis factor alpha induced protein 6
+TNFRSF1ATumor necrosis factor receptor super family member 1A
+TP53BP2Tumor protein p53 binding protein 2
+TRADDTNFRSF1A associated via death domain
+TRAM1L1Translocation associated membrane protein 1 like 1
+TRAPPC6BTrafficking protein particle complex, subunit 6B
+TRIB3Tribbles pseudokinase 3
+TRXThioredoxin
+TSNAXIP1Translin-associated X-interacting protein 1
+TWISTNBTWIST neighbor
+TXNThioredoxin
+TXNDC17Thioredoxin domain containing protein 17
+TXNRD1Thioredoxin reductase 1
+UNGUracil DNA glycosylase
+WNTWingless and Int-1
+ZDHHC17Zinc finger DHHC-type palmitoyltransferase 17
+ZZEF1ZZ-type zinc finger and EF-hand domain-containing protein 1
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Kristian Unger and Michael Orth have equally contributing senior authors
+
+## Acknowledgements
+We thank Janina Mielke, Michael Ruiter, Isabella Zagorski, Laura Holler, and Steffen Heuer for technical assistance.
+
+## Author contributions
+LES, DP, PW, NB, DFF, AEN, MS, TH, JH, MN, CB, HZ, KL, KU, and MO conceived the experiments, analyzed the data, and discussed the data. LES, DP, PW, NB, DFF, AEN, MS, TH, JH, KU and MO performed the experiments. LES, KU, and KL prepared the figures, and performed bioinformatical and statistical analyses. MO, LES, KU, and KL wrote the manuscript. All the authors read and approved the final manuscript.
+
+## Funding
+Open Access funding enabled and organized by Projekt DEAL. This work was funded by the FoeFoLe program of the Medical Faculty of the Ludwig-Maximilians-Universität (LMU) Munich, the Deutsche Forschungsgemeinschaft (INST 409/126–1 FUGG, INST 409/20–1 FUGG, and INST 409/22–1 FUGG), and the Bundesministerium für Bildung und Forschung (German Cancer Consortium (DKTK), 02NUK047C BMBF ZiSStrans, and 02NUK061C BMBF METABOLiST).
+
+## Availability of data and materials
+The gene expression data and the array CGH data presented in this study are publicly available at Gene Expression Omnibus (GEO) under the super set accession number: GSE119637. For the review process, reviewers can access the data under the link https://www.ncbi.nih.gov/geo/query/acc.cgi?acc=GSE119637 using the token ‘sfqnocumrvofrmv’.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+All authors declare that there is no conflict of interest.

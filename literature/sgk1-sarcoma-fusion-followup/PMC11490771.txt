@@ -1,0 +1,107 @@
+2992heliyonHeliyonHeliyonElsevierPMC1149077111490771114907713943053410.1016/j.heliyon.2024.e38825Exploring the common targets of well-differentiated and dedifferentiated retroperitoneal liposarcoma via gene co-expression analysis
+ZhengJialiang LinZhenhang XiZhe GaoYilai ChengYingxue LiYihao WuTing LiWengang aCancer Research Center, School of Medicine, Xiamen University, Xiamen, 361102, ChinabSchool of Medicine, Zhejiang University, Hangzhou, 310058, China⁎Corresponding author. lwgang@xmu.edu.cn
+∗∗Corresponding author. wuting78@189.cn
+1These authors have contributed equally to this work.
+11020241019e38825e3882520102024© 2024 The Authors. Published by Elsevier Ltd.This is an open access article under the CC BY-NC license (http://creativecommons.org/licenses/by-nc/4.0/).
+
+## Abstract
+
+## Objective
+This study aimed to identify common therapeutic targets for well-differentiated and dedifferentiated retroperitoneal liposarcoma.
+
+## Methods
+Patient clinical data were obtained from the Surveillance, Epidemiology, and End Results (SEER) database, and survival differences were analyzed using the log-rank test. Gene expression data were sourced from the Gene Expression Omnibus (GEO) dataset GSE159659, with differential gene expression analysis conducted through GEO2R. Protein-protein interaction networks were developed using STRING and Cytoscape to identify key hub genes. Gene Ontology (GO) and KEGG pathway enrichment analyses were performed using R, and transcription factors associated with the hub genes were predicted with TRRUST.
+
+## Results
+Significant survival differences were found between patients with well-differentiated and dedifferentiated retroperitoneal liposarcoma. Ninety-six differentially expressed genes with similar expression patterns were identified in both types. A protein-protein interaction network highlighted 12 hub genes and 24 transcription factors. Enrichment analysis pointed to the importance of lipid localization, storage, cytokine signaling, and metal ion absorption in both liposarcoma subtypes. Four potential therapeutic drugs were successfully predicted.
+
+## Conclusion
+This study identifies common molecular targets in well-differentiated and dedifferentiated retroperitoneal liposarcoma, providing new avenues for mechanistic studies and potential therapeutic development.
+
+Keywords: Retroperitoneal liposarcoma, Gene co-expression analysis, Well-differentiated liposarcoma, Dedifferentiation liposarcoma, Therapeutic target, Prognosis
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Apr 10; Revised 2024 Sep 1; Accepted 2024 Sep 30; Collection date 2024 Oct 15.
+
+1.
+
+## Introduction
+Retroperitoneal sarcoma (RPS) is a relatively rare type of tumor, accounting for approximately 10 % of all soft tissue sarcomas and encompassing over 70 pathological subtypes, retroperitoneal liposarcoma (RPLS) accounts for the majority of RPS [ ]. Based on the tumor's morphology, RPLS can be further categorized into well-differentiated liposarcoma, dedifferentiated liposarcoma, myxoid liposarcoma, and pleomorphic liposarcoma, among these, well-differentiated and dedifferentiated liposarcomas are the most common, representing over 90 % of RPLS cases [ ]. Hence, this study focuses specifically on these two subtypes.
+Patients with RPLS generally have a poorer prognosis compared to those with limb sarcomas [ , ], and surgery remains the primary treatment option due to the lack of effective non-surgical therapies [ ]. Identifying new therapeutic targets is therefore of significant clinical importance. The prognosis of RPLS patients is closely related to the degree of tumor differentiation, with well-differentiated liposarcoma associated with a better outcome than dedifferentiated liposarcoma. Recent studies have shown that approximately 20 % of patients with well-differentiated RPLS develop dedifferentiation upon tumor recurrence [ ], suggesting a potential underlying mechanism for this transition. Common differential genes and pathways can provide insights into this malignant transformation, and targeting this transformation could help maintain the well-differentiated state and improve patient outcomes. Meanwhile, common differential genes and pathways can also provide potential therapeutic targets for targeting both well-differentiated and dedifferentiated RPLS.
+At the molecular level, the co-amplification of MDM2 and CDK4 is a common event in both well-differentiated and dedifferentiated RPLS. This genetic alteration can lead to the inactivation of p53 and uncontrolled cell cycle progression, driving the development of these tumors [ , , ]. Despite the clear link between tumor differentiation and prognosis, the specific therapeutic targets for well-differentiated and dedifferentiated RPLS remain undefined. Understanding their shared transcriptional characteristics may provide new insights into the mechanisms behind their transformation.
+In this study, we conducted a gene co-expression analysis using expression data from well-differentiated and dedifferentiated RPLS samples (GSE159659) obtained from the GEO database. We identified common differentially expressed genes, analyzed their functions, constructed protein interaction networks, and identified hub genes. We also predicted four potential therapeutic drugs. This research represents the first comprehensive investigation into the shared molecular mechanisms and common therapeutic targets of well-differentiated and dedifferentiated RPLS at the transcriptional level, offering new directions for future studies.
+
+2.
+
+## Methods
+2.1.
+
+## Data resource
+Clinical data, including survival time, survival status, and pathological classification for patients with well-differentiated and dedifferentiated retroperitoneal liposarcoma (RPLS), were collected from the Surveillance, Epidemiology, and End Results (SEER) database for the period 2000–2020. Gene expression data for well-differentiated and dedifferentiated RPLS (GSE159659) were obtained from the Gene Expression Omnibus (GEO) database. Drug sensitivity data were sourced from the CellMiner database [ , ].
+
+2.2.
+
+## Statistics
+Survival differences between patients with well-differentiated and dedifferentiated RPLS were evaluated using the log-rank test, with a significance level set at p < 0.05. Differentially expressed genes (DEGs) were identified using GEO2R by comparing well-differentiated RPLS with normal adipose tissue and dedifferentiated RPLS with normal adipose tissue. Genes with a Log 2 fold change (FC) absolute value greater than 1 and p < 0.05 were considered significant.
+The relationship between gene expression and survival was obtained from GEPIA [ ]. Gene Ontology (GO) and KEGG pathway enrichment analyses were performed using the 'clusterProfiler,’ 'pathview,’ and 'org.Hs.eg.db’ packages in R. Protein-protein interaction networks were constructed using STRING [ ] and visualized in Cytoscape [ ], with hub genes identified using the MCODE and cytoHubba plugins. The co-expression network of hub genes was developed using GeneMANIA [ ]. Transcription factors associated with hub genes were predicted using the TRRUST database [ ], with p < 0.05 considered significant. Drug sensitivity and IC50 data were analyzed using Pearson correlation tests.
+
+3.
+
+## Result
+3.1.
+
+## Differences in survival and identification of differentially expressed genes
+ A shows that patients with well-differentiated RPLS had a better overall survival prognosis than those with dedifferentiated RPLS. In well-differentiated RPLS tissues, compared to normal adipose tissue, 27 genes were upregulated and 81 genes were downregulated. In dedifferentiated RPLS tissues, 256 genes were upregulated and 571 genes were downregulated ( B). Additionally, 96 differentially expressed genes exhibited similar expression patterns in both well-differentiated and dedifferentiated RPLS tissues ( C).
+ 
+3.2.
+
+## Construction of protein interaction networks and functional analysis of genes
+The protein interaction network for the shared differentially expressed genes was successfully constructed using STRING and visualized in Cytoscape ( A). Differential gene clustering, performed with MCODE, identified three functional modules ( D). Gene Ontology (GO) analysis revealed that these genes were predominantly associated with cellular responses to metal ions, lipid storage and localization, and oxidative stress responses ( B and. E). KEGG pathway analysis indicated that the genes were mainly involved in mineral absorption, IL-17 signaling, TNF signaling, TGF-β signaling, FoxO signaling, adipocytokine signaling, p53 signaling, PI3K-Akt signaling pathways, as well as abnormal cytokine-receptor interactions and transcriptional regulation ( C and. F).
+ 
+3.3.
+
+## Construction and functional analysis of hub gene interaction network and prediction of transcription factors
+Using six algorithms from the cytoHubba tool, the top 20 hub genes were identified for each algorithm ( ). A Venn diagram analysis revealed 12 common hub genes: ADIPOQ, EGR1, FOSB, IL1B, IL6, IRF1, JUNB, LEP, MDM2, NFKBIA, NFKBIZ, and TLR2 ( A). GeneMANIA analysis of these hub genes and their co-expression network showed a co-expression rate of 72.11 %, a physical interaction rate of 17.45 %, and a co-localization rate of 6.29 % ( B).
+ Gene Ontology (GO) analysis revealed that the hub genes were primarily enriched in processes related to adipocyte differentiation, lipid localization, storage, transport, and metabolism. Additionally, they were involved in the regulation of tumor necrosis factor and chemokine production, as well as the Wnt signaling pathway ( C). KEGG analysis indicated that these genes were mainly associated with adipocytokine signaling, cytokine-cytokine receptor interactions, TNF and IL-17 signaling pathways, Toll-like receptor signaling, abnormal transcriptional regulation in cancer, and the PD-1 and PD-L1 pathways in cancer ( D). Furthermore, 24 transcription factors potentially regulating these hub genes were identified using the TRRUST database ( ).
+ 
+3.4.
+
+## Prognostic significance of hub genes and prediction of potential drugs
+We next analyzed the impact of the 12 hub genes on patient prognosis. The results indicated that high expression levels of IL-6, NFKBIA, and IRF1 were significantly associated with better patient outcomes. ( A–C). All three genes are downregulated in both well-differentiated and dedifferentiated RPLS, suggesting that activating these genes could potentially improve the prognosis for RPLS patients.
+ We then conducted a drug sensitivity analysis focusing on IL-6, NFKBIA, and IRF1 (see ). The results revealed that the IC50 values of four drugs—TAK-960, TAK-632, BGB-283, and Dabrafenib—were negatively correlated with the levels of IL-6 and NFKBIA. This suggests that upregulating IL-6 and NFKBIA could enhance the effectiveness of these drugs in killing tumor cells. Combining IL-6 and NFKBIA activation with these four drugs may offer a promising new therapeutic strategy for treating both well-differentiated and dedifferentiated RPLS.
+ 
+
+4.
+
+## Discussion
+RPLS encompasses various pathological subtypes, and understanding their pathogenesis is crucial for developing tailored diagnostic tools that could significantly benefit patients. As the most common subtype of retroperitoneal sarcoma (RPS), RPLS presents a clinical challenge, especially considering that studies suggest about 20 % of well-differentiated RPLS cases transform into dedifferentiated RPLS within 7–8 years [ ]. This potential for transformation indicates shared molecular pathways between these subtypes. The primary aim of this study was to identify commonly differentially expressed genes in both well-differentiated and dedifferentiated RPLS to uncover potential therapeutic targets.
+Previous studies have shown that a key feature of both well-differentiated and dedifferentiated RPLS is the amplification of the long arm of chromosome 12 (12q13-q15) [ ]. Within this region, the MDM2 and CDK4 genes are frequently amplified and are believed to be initial drivers of tumorigenesis in both subtypes [ ]. Amplification of MDM2 is considered one of the earliest events in their development [ ]. it acts as a negative regulator of the tumor suppressor protein p53, inhibiting p53 transcription and targeting it for degradation. Reduced p53 levels hinder the elimination of cells with damaged DNA, thereby promoting tumor development. Similarly, CDK4 phosphorylates the RB protein within the RB-E2F complex, releasing E2F to drive uncontrolled cell cycle progression and tumor formation. Additionally, the FRS2 gene in this amplified region encodes a signaling protein that links receptor tyrosine kinases to critical pathways such as MAPK/ERK and PI3K/AKT/mTOR [ ]. Consistent with previous findings, our study confirmed the high expression of MDM2 and CDK4 in both well-differentiated and dedifferentiated RPLS.
+This study identified 96 common differentially expressed genes between well-differentiated and dedifferentiated RPLS, including 12 hub genes. By constructing an interaction network from these genes, we identified key nodes, demonstrating the reliability of this integrative bioinformatics approach, which has proven effective in various diseases [ , ]. Gene Ontology (GO) and KEGG pathway enrichment analyses revealed significant involvement of these genes in processes related to lipid localization, storage, and metabolism, as well as mineral absorption, adipocyte differentiation, adipocytokines, inflammation, and immune response pathways. Previous research indicates that inhibiting adipogenesis can induce adipocyte dedifferentiation [ , ], and both well-differentiated and dedifferentiated liposarcomas are often associated with immune infiltration, particularly by macrophages and CD8+ T cells [ ]. Additionally, this study predicted 24 transcription factors that may regulate the 12 hub genes. The expression levels of IL-6, NFKBIA, and IRF1 are significantly associated with the prognosis of RPLS patients. In other diseases, these genes have been shown to play critical roles in both tumor cells and the tumor microenvironment. For example, IL-6 has a complex role in various contexts and is considered a potential target for immunotherapy [ ], Activation of NFKBIA transcription can stimulate NF-kappaB signaling, thereby inhibiting cancer progression [ ], while activation of IRF1 can enhance anti-tumor immunity by activating cDC1 dendritic cells [ ]. However, the specific mechanisms and roles of these three genes in RPLS have not yet been reported. Our study suggests that upregulating these genes could improve the prognosis of RPLS patients. Specifically, increasing IL-6 expression may enhance the sensitivity of tumor cells to TAK-960, and upregulating NFKBIA could potentiate the cytotoxic effects of BGB-283, Dabrafenib, and TAK-632 on tumor cells. Therefore, we conclude that the upregulation of these genes, in combination with their corresponding drugs, may synergistically enhance tumor cell killing and improve the prognosis of RPLS patients.
+Given the current challenges and scarcity in the research on the molecular mechanisms of well-differentiated and dedifferentiated RPLS, these research findings provide new insights and directions for the common molecular mechanisms of both subtypes, offering new perspectives for exploring therapeutic targets for RPLS. However, this study also has limitations. For instance, it is a retrospective study that requires external data validation. Additionally, the functions of hub genes need further validation in vitro and in vivo models, which will be a focus of future work.
+
+## Data availability statement
+Data pertaining to the SEER can be accessed through the SEER program database (https://seer.cancer.gov/), while genetic information is available in the Gene Expression Omnibus (GEO) database (https://www.ncbi.nlm.nih.gov/geo/), Cellminer database address is https://discover.nci.nih.gov/cellminer/home.do.
+
+## Funding
+This work was supported by National Natural Science Foundation of China (No. 82272935), Joint laboratory of School of Medicine, Xiamen University-Shanghai Jiangxia Blood Technology Co. Ltd (XDHT2020010C).
+
+## CRediT authorship contribution statement
+Jialiang Zheng: Writing – review & editing, Writing – original draft, Visualization, Validation, Software, Resources, Methodology, Investigation, Formal analysis, Conceptualization. Zhenhang Lin: Resources, Methodology, Conceptualization. Zhe Xi: Methodology, Conceptualization. Yilai Gao: Writing – review & editing, Validation, Resources. Yingxue Cheng: Writing – review & editing, Validation, Resources. Yihao Li: Writing – review & editing, Methodology. Ting Wu: Writing – review & editing, Validation, Supervision, Methodology. Wengang Li: Writing – review & editing, Validation, Supervision, Project administration, Methodology, Funding acquisition.
+
+## Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+## Acknowledgements
+We express our gratitude for the substantial support provided by the SEER, STRING, Cytoscape, Hiplot, GeneMANIA, and TRRUST project teams.
+
+## Contributor Information
+Jialiang Zheng, Email: zhengjialiang0017@163.com.
+Ting Wu, Email: wuting78@189.cn.
+Wengang Li, Email: lwgang@xmu.edu.cn.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+Data pertaining to the SEER can be accessed through the SEER program database (https://seer.cancer.gov/), while genetic information is available in the Gene Expression Omnibus (GEO) database (https://www.ncbi.nlm.nih.gov/geo/), Cellminer database address is https://discover.nci.nih.gov/cellminer/home.do.
