@@ -56,24 +56,26 @@ SUBMISSION STATUS: submission-ready draft, not yet submitted.
 
 ## Abstract
 
-Extraskeletal myxoid chondrosarcoma (EMC) is a rare translocation sarcoma driven, in most cases, by
-the EWSR1::NR4A3 fusion (Subramanian *et al.*, 2005; Brenca *et al.*, 2019). The fusion is presumed to
-be an aberrant transcription factor, yet the set of genes any NR4A3 chimera is shown to physically bind
-and drive is small, and whether those genes are elevated in EMC tissue has not been tested against a
-calibration for what an arbitrary gene set of the same size does on the same platform — without which
-almost every set scores "higher in EMC". We catalogued every primary-literature claim that an NR4A3
-fusion or native NR4A3 transcriptionally activates a named gene, recording evidence type, assay, cell
-system and species, and scored the resulting genes in three independent EMC cohorts on three platform
-families (GSE24369/GPL6244; GSE4303/GPL3290; GSE28866/3SEQ). Each array contrast was calibrated against
-a size-matched empirical null, and four instrument controls — including a directional falsifier with a
-published *down* prediction — were graded before any biology was read, under a decision rule fixed in
-advance. The direct-target set with a fusion DNA-binding assay behind it is three genes wide (*SEMA3C*,
+Extraskeletal myxoid chondrosarcoma (EMC) is a rare translocation sarcoma usually driven by the
+EWSR1::NR4A3 fusion. The fusion is presumed to act as an aberrant transcription factor, yet the set of
+genes any NR4A3 chimera is shown to bind and drive is small, and whether they are elevated in EMC
+tissue has not been tested against a calibration for what an arbitrary set of the same size does on the
+same platform — without which almost every set scores "higher in EMC". We
+catalogued every primary-literature claim that an NR4A3 fusion or native NR4A3 transcriptionally
+activates a named gene, recording evidence type, assay, cell system and species, and scored the
+resulting genes in three independent EMC cohorts on three platform families (GSE24369/GPL6244;
+GSE4303/GPL3290; GSE28866/3SEQ). Each array contrast was calibrated against a size-matched empirical
+null, and four instrument controls, including a directional falsifier with a published *down*
+prediction, were graded before any biology was read under a decision rule fixed in advance. The
+direct-target set with a fusion DNA-binding assay behind it is three genes wide (*SEMA3C*,
 *PPARG*, *ENO3*). All three are positive-signed on both array platforms (six of six readings) and higher
 in EMC than in both comparator arms of the independent 3SEQ cohort, each clearing its single-gene null
 on at least one platform; the aggregate set does not clear its null, while the published EMC
-transcriptional phenotype replicates at p = 0.0005 on both. No genome-wide chromatin experiment with an
-NR4A3 fusion was found in 2,276 full-text documents, so "elevated in EMC" and "driven by the fusion"
-cannot yet be separated for any gene named.
+transcriptional phenotype replicates at p = 0.0005 on both. Under an exact sample-label permutation
+test, *ENO3* survives multiple-testing correction on both platforms and *PPARG* on one, whereas
+*SEMA3C* does not reach significance on either; no row changes sign when any single EMC tumour is
+dropped. No genome-wide chromatin experiment with an NR4A3 fusion was found in 2,276 full-text
+documents, so "elevated in EMC" and "driven by the fusion" cannot yet be separated.
 
 ---
 
@@ -244,6 +246,29 @@ known set-specific signal on the same offset and asserts it does not. All analys
 open-source tooling; the committed artifact reproduces offline via `nr4a3_fusion_targets.py --check`
 (see Data and code availability).
 
+### 2.10 · Robustness tests
+
+The size-matched null of §2.4 is a **competitive** null: it asks whether a set is more extreme than an
+arbitrary set of the same size on the same platform, which is the right question for the pervasive
+"higher in EMC" pattern of §1.3, but it permutes *genes* and so cannot see gene–gene correlation. Four
+further tests were therefore run, all offline from the same cached inputs, all using the same scoring
+primitives so that the quantity tested is identical to the quantity reported.
+
+1. **Exact sample-label permutation** (a **self-contained** null). The EMC/comparator label is
+   permuted over samples and the *real* gene set is rescored each time, so the correlation structure is
+   carried through untouched. The classified arms are 6 versus 29 on GPL6244 and 10 versus 6 on
+   GPL3290, giving 1,623,160 and 8,008 distinct label assignments respectively — few enough to
+   **enumerate completely**, so the reported p is an exact permutation p rather than a sampled
+   estimate. Two-sided throughout.
+2. **Leave-one-out jackknife** over the EMC arm: each EMC tumour is dropped in turn and the contrast
+   recomputed, testing whether any single tumour carries a row.
+3. **Rank-based re-read**: the same contrast recomputed on the within-array percentile instead of the
+   z, which no background model and no small number of extreme probes can move.
+4. **Benjamini–Hochberg** q-values across the per-gene permutation p-values within each platform.
+
+Every row's observed delta is re-derived here and asserted equal to the committed primary artifact; the
+producer refuses to write if any row disagrees. Set-level permutation p-values are reported uncorrected.
+
 ---
 
 ## 3 · Results
@@ -341,6 +366,13 @@ the three (*ENO3*) was assayed with the TFG chimera and one (*PPARG*) in rat cel
 across six readings is what a coordinated programme predicts, and also what three individually
 EMC-associated genes predict; with three genes the two are not separable.
 
+⚠ **And the three genes are not equally supported — §3.12 separates them.** Under an exact
+sample-label permutation test, *ENO3* is significant on both platforms after multiple-testing
+correction and *PPARG* on one, while ***SEMA3C* does not reach significance on either** (p = 0.194 and
+0.165). Clearing the size-matched null is a statement that a gene's delta is extreme relative to other
+genes on the platform; it is not the same statement as the two arms differing for that gene. The
+sentence above is true as written of the size-matched null, and it must be read with §3.12 attached.
+
 ### 3.6 · A third cohort on a third platform family
 
 The 3SEQ arm carries both contrasts in one experiment: 32 non-EMC sarcoma libraries (the same lineage
@@ -436,6 +468,12 @@ in the same knockout experiment separating in opposite directions, on two platfo
 engaged receptor predicts, and it is not something a size or offset artefact produces, because the null
 controls both.
 
+⚠ **The two halves of that pattern are not equally robust (§3.12).** Under an exact sample-label
+permutation test the occupancy-derived arm remains strongly significant on both platforms
+(p = 0.00033 and 0.00075), but **the KO_UP falsifier does not reach significance on either**
+(p = 0.362 and 0.296). The falsifier half of the pattern therefore rests on the competitive null alone,
+and the sentence above should be read as such.
+
 The ceiling is not small. The adipogenesis process proxy is also set-specific up on both platforms, and
 it shares 44 genes with the ChEA arm (23% of the smaller set), the largest overlap in the table. PPARγ
 target output therefore cannot be separated from an adipogenic differentiation component in these data,
@@ -489,6 +527,70 @@ recorded rather than quietly rewritten: the branches were written over *set* sco
 measurement landed at the *gene* level. A per-gene sign-concordance result is weaker than a set result
 that clears its null, and §3.5 states it at that weight. A future version of this rule should carry an
 explicit gene-level branch.
+
+### 3.12 · Robustness: an exact permutation test separates what survives from what does not
+
+The four tests of §2.10 were run over the class-A genes, the instrument controls and the sets whose
+interpretation depends most on correlation. Every one of the 23 computable rows re-derived the primary
+artifact's delta exactly, so the tests below are about the same object the rest of this paper reports.
+Both platforms enumerated completely, so every p is exact.
+
+| row | platform | delta | exact permutation p | BH q | jackknife sign | rank re-read |
+|---|---|---:|---:|---:|---|---|
+| **ENO3** | GPL6244 | +0.807 | **0.000073** | **0.00044** | holds | same sign |
+| **ENO3** | GPL3290 | +3.811 | **0.000125** | **0.00063** | holds | same sign |
+| **PPARG** | GPL6244 | +0.307 | 0.049 | 0.097 | holds | same sign |
+| **PPARG** | GPL3290 | +2.481 | **0.00033** | **0.00083** | holds | same sign |
+| **SEMA3C** | GPL6244 | +0.730 | 0.194 | 0.233 | holds | same sign |
+| **SEMA3C** | GPL3290 | +0.623 | 0.165 | 0.165 | holds | same sign |
+| *NR4A3* (identity control) | GPL6244 | +0.742 | **0.00018** | **0.00055** | holds | same sign |
+| *PLAGL1* (directional falsifier) | GPL6244 | −0.423 | 0.083 | 0.124 | holds | same sign |
+| *PLAGL1* (directional falsifier) | GPL3290 | −2.134 | **0.0023** | **0.0039** | holds | same sign |
+| *SGK1* | GPL6244 | −0.181 | 0.369 | 0.369 | holds | same sign |
+| *SGK1* | GPL3290 | +0.616 | 0.156 | 0.165 | holds | same sign |
+| A+B pooled (19) | GPL6244 | +0.040 | 0.518 | — | holds | same sign |
+| A+B pooled (19) | GPL3290 | +0.330 | 0.011 | — | holds | same sign |
+| B native (16) | GPL6244 | −0.068 | 0.226 | — | holds | same sign |
+| B native (16) | GPL3290 | −0.145 | 0.257 | — | holds | same sign |
+| **D · Filion Table 1 (21)** | GPL6244 | +1.131 | **0.000001** | — | holds | same sign |
+| **D · Filion Table 1 (21)** | GPL3290 | +1.478 | **0.0005** | — | holds | same sign |
+| PPARγ ChEA occupancy (191) | GPL6244 | +0.080 | **0.00033** | — | holds | same sign |
+| PPARγ ChEA occupancy (191) | GPL3290 | +0.294 | **0.00075** | — | holds | same sign |
+| PPARγ KO_UP falsifier (246) | GPL6244 | −0.054 | 0.362 | — | holds | same sign |
+| PPARγ KO_UP falsifier (246) | GPL3290 | −0.112 | 0.296 | — | holds | same sign |
+| Adipogenesis proxy (200) | GPL6244 | +0.047 | 0.035 | — | holds | same sign |
+| Adipogenesis proxy (200) | GPL3290 | +0.218 | **0.0015** | — | holds | same sign |
+
+**What survives everything.** *ENO3* is significant on both platforms after multiple-testing correction
+(q = 0.0004 and 0.0006), its sign survives dropping any single EMC tumour, and it reads the same way on
+a rank statistic. *PPARG* survives on GPL3290 (q = 0.0008). The identity control (*NR4A3*), the
+directional falsifier (*PLAGL1*, on GPL3290) and the instrument-reads-EMC control (Filion Table 1, at
+p = 1 × 10⁻⁶ and 5 × 10⁻⁴) all behave as §3.3 and §3.7 report, now under an exact test. **No row in the
+whole panel changed sign in any leave-one-out fit, and none changed sign on the rank re-read** — so
+nothing here rests on one tumour or on the z-scoring convention.
+
+**⚠ What does not survive, stated plainly.** Two claims elsewhere in this paper are weaker under a
+self-contained null than under the competitive one, and the difference is not cosmetic:
+
+- ***SEMA3C* does not reach significance under the label-permutation test on either platform**
+  (p = 0.194 and 0.165). Its clearance of the size-matched null on GPL6244 (§3.5, p_emp 0.0245) is a
+  statement that its delta is extreme *relative to other genes on that platform*; it is not a
+  demonstration that the EMC and comparator arms differ for that gene. Both readings are reported, and
+  §3.5's per-gene claim must be read with this one attached. *PPARG* on GPL6244 is likewise nominally
+  significant but does not survive correction (q = 0.097).
+- **The PPARγ KO_UP falsifier is not significant under the permutation test on either platform**
+  (p = 0.362 and 0.296), although the occupancy-derived arm is strongly significant on both. So the
+  "two arms separating in opposite directions" pattern of §3.9 rests on the competitive null for its
+  falsifier half, and §3.9's reading is bounded accordingly. The adipogenic ceiling in that section is
+  unchanged and, if anything, firmer: the adipogenesis proxy is itself significant on both platforms.
+
+**And one claim becomes more interesting rather than weaker.** The A+B aggregate does *not* beat an
+arbitrary set of the same size on either platform (§3.7) — yet on GPL3290 it *does* differ between the
+arms more than chance relabelling would give (p = 0.011). That is not a contradiction; it is the
+cleanest available demonstration of this paper's own thesis. The aggregate target set really is higher
+in EMC, **and so is almost any set of that size on that platform**, which is precisely why a competitive
+null is the one that decides whether a gene set has told you anything. A reader who takes only the
+self-contained test away from this literature will over-read every set they score.
 
 ---
 
@@ -569,10 +671,16 @@ These are ceilings, not caveats: each one bounds what any sentence in §3 may be
 7. **Fusion type is unrecorded in every series.** Each EMC arm mixes EWSR1::NR4A3 with whatever
    TAF15::NR4A3 and rarer variants it contains, and those variants differ transcriptionally, so the
    mixture attenuates any fusion-specific signal by an unknown amount.
-8. **Uncorrected for multiple testing.** The empirical p is the calibrated quantity and it is not
-   corrected across genes or sets.
-9. **The empirical null is anti-conservative for coherent sets.** It controls the platform offset and
-   set size, not gene–gene correlation within a real pathway. It is a screen, not a test.
+8. **Multiple testing is corrected for the per-gene permutation results only.** §3.12 reports
+   Benjamini–Hochberg q-values across the per-gene exact permutation p-values within each platform;
+   the size-matched empirical p-values of §3.5 and §3.7, and the set-level permutation p-values, remain
+   uncorrected.
+9. **The size-matched null is a competitive null and is anti-conservative for coherent sets.** It
+   controls the platform offset and set size, not gene–gene correlation within a real pathway, so on
+   its own it is a screen rather than a test. §2.10 and §3.12 supply the complementary self-contained
+   null — an exact sample-label permutation that preserves the correlation structure — and the two
+   disagree for *SEMA3C* and for the PPARγ falsifier, which is reported rather than reconciled. The
+   residual limit is that neither null can make three genes into more than three genes.
 10. **GPL3290 is relative.** A two-colour log-ratio against a reference pool: only the between-group
     contrast is interpretable, never an absolute level. Its probe→symbol mapping runs through an EST
     accession bridge, so a gene unreadable there may be absent from the bridge rather than from the
@@ -635,6 +743,7 @@ submission:
 | `nr4a3-fusion-targets.json` — evidence table, global offsets, null calibrations, per-gene and per-set scores, controls, circularity grade | `nr4a3_fusion_targets.py` |
 | `emc-expression-panels.json` → `gene_reads` — the independent second implementation of the per-gene array reads | `emc_expression_panels.py` |
 | `gse28866-tumour-vs-normal.json` → `per_gene.values` — the 3SEQ arm | `gse28866_tumour_vs_normal.py` |
+| `nr4a3-fusion-targets-robustness.json` — exact label-permutation p-values, leave-one-out jackknife, rank-based re-read and BH q-values (§2.10, §3.12) | `nr4a3_fusion_targets_robustness.py` |
 | offline arithmetic guard | `tests/test_nr4a3_fusion_targets.py` |
 
 The null draw is seeded (20260807) and the pool size, seed and universe are recorded per platform, so

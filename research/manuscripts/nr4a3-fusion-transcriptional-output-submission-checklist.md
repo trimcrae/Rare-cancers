@@ -60,7 +60,7 @@ re-analyses of public data at no charge, and both Wiley journals above permit bi
 | requirement | target | status in manuscript |
 |---|---|---|
 | Article type | Original Research Article | ✔ declared |
-| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, ~280 words (trim to ≤250 if a stricter venue is chosen) |
+| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, 298 words (trim further if a stricter venue is chosen) |
 | Keywords | 5–7 | ✔ 7 keywords |
 | Structure | Introduction · Methods · Results · Discussion · Conclusion | ✔ full IMRaD |
 | References | GCC: any consistent style · J Pathol/EJC: ≤40–50 | ✔ 10 primary + gene-set resources, Vancouver style |
@@ -74,12 +74,12 @@ re-analyses of public data at no charge, and both Wiley journals above permit bi
 
 ## 3 · Element counts
 
-- **Abstract:** ~280 words (unstructured). Compliant with J Pathol (≤300) and GCC (flexible).
-- **Main text:** ~5,000 words excluding tables and references. GCC sets no fixed limit; **for *The
+- **Abstract:** 298 words (unstructured). Compliant with J Pathol (≤300) and GCC (flexible).
+- **Main text:** ~5,900 words excluding tables and references. GCC sets no fixed limit; **for *The
   Journal of Pathology* this would need trimming toward ~4,000** (candidate cuts: condense §3.9 PPARγ
   detail and §2 method prose, moving the full PPARγ arm table and the 22-row evidence catalogue to
   Supplementary Information).
-- **Display items:** 8 tables, 0 figures. Optional strengthening (§5).
+- **Display items:** 12 tables in the body (plus 2 in Data availability), 0 figures. Optional presentation work (§6).
 - **References:** 10 numbered primary references plus separately listed gene-set resources and the GEO
   series record.
 
@@ -93,7 +93,39 @@ pooled effect estimate, and the manuscript states in Limitation 2 that the three
 pooled. Where a reviewer requests it, a MOOSE- or SWiM-style summary of dataset identification can be
 added as a supplementary item.
 
-## 5 · Optional strengthening (not required for submission)
+## 5 · In-silico strengthening — done, and still available
+
+### Done (2026-08-07, offline, $0)
+
+A robustness package was added as Methods §2.10 and Results §3.12, produced by
+`nr4a3_fusion_targets_robustness.py` → `nr4a3-fusion-targets-robustness.json` with a `--check` mode.
+It closes two of the manuscript's own stated limitations and adds two orthogonal axes:
+
+- **Exact sample-label permutation test** — the self-contained null that preserves gene–gene
+  correlation, which the size-matched (competitive) null cannot see. Because the arms are 6-vs-29 and
+  10-vs-6, all 1,623,160 and 8,008 label assignments were **enumerated completely**, so the p-values are
+  exact rather than sampled. This is the single most reviewer-relevant addition: it directly answers
+  Limitation 9, which had conceded the empirical p was "a screen, not a test".
+- **Leave-one-out jackknife** over the EMC arm — no row in the panel changes sign when any single EMC
+  tumour is dropped.
+- **Rank-based re-read** on within-array percentiles — every row keeps its sign, so nothing rests on the
+  z-scoring convention.
+- **Benjamini–Hochberg** q-values across the per-gene permutation p-values (Limitation 8).
+
+⚠ **It was not uniformly flattering, and the manuscript now says so.** *ENO3* survives everything
+(q = 0.0004 / 0.0006); *PPARG* survives on GPL3290; **SEMA3C does not reach significance under the
+permutation test on either platform**, and the **PPARγ KO_UP falsifier does not either**. Those two
+demotions are stated in §3.12 and back-referenced from §3.5 and §3.9 rather than left in the artifact.
+
+### Still available (each needs a CI fetch — the sandbox proxy blocks these hosts)
+
+| test | what it would add | cost | gate |
+|---|---|---|---|
+| **NBRE promoter motif scan** of the up-in-EMC genes against a matched background (already named in Discussion §4.2, item 4) | An orthogonal, sequence-level line of evidence. It cannot demonstrate binding, but *no* NBRE enrichment among up-in-EMC genes would be a real negative | $0, CPU | needs promoter sequences (Ensembl/UCSC) — blocked in-sandbox, routable through GitHub Actions |
+| **Intersect with the Haller 2019 NR4A3 ChIP-seq peaks** (Zenodo doi 10.5281/zenodo.1483691, open) | Whether the NR4A3 DNA-binding domain reaches these genes in a human tumour. ⛔ Must be framed exactly as §4.2 frames it — acinic cell carcinoma carries *native* NR4A3, not a fusion, so it can never be cited as a fusion cistrome | $0, CPU | Zenodo blocked in-sandbox (403 at the egress proxy); routable through GitHub Actions |
+| **A fourth EMC expression cohort**, if one exists | A further independent replication | $0 | a GEO re-search |
+
+## 6 · Optional presentation work (not required for submission)
 
 - **Convert two tables to figures.** The per-gene null-calibrated result (§3.5) and the instrument-
   control panel (§3.3) would read more forcefully as figures; GCC and J Pathol both favour a figure for
@@ -107,7 +139,7 @@ added as a supplementary item.
   citations to the journal's numbered superscript (Vancouver) format is a one-pass reference-manager
   step at submission or first revision, and journals reformat references at production regardless.
 
-## 6 · Residual author-only steps before clicking "submit"
+## 7 · Residual author-only steps before clicking "submit"
 
 These are outward-facing or identity-bound actions that only the author can take; the manuscript
 content itself is submission-ready.

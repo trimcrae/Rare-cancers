@@ -1,0 +1,1632 @@
+{
+ "_do_not_hand_edit": "Regenerate with `python3 research/modalities/nr4a3_fusion_targets_robustness.py`. Every observed delta here is asserted equal to research/modalities/nr4a3-fusion-targets.json, which owns it; this file adds only the robustness columns.",
+ "_generated_by": "research/modalities/nr4a3_fusion_targets_robustness.py",
+ "_schema": "nr4a3-fusion-targets-robustness/1",
+ "method": {
+  "cost": "$0 -- CPU only, offline, from the committed inputs cache. No fetch, no GPU.",
+  "permutation": "two-sided over EMC/comparator label assignments; exhaustive when the number of assignments is <= 3000000, otherwise 200000 seeded draws with +1/+1 smoothing.",
+  "seed": 20260807,
+  "statistic": "identical to the manuscript's: mean within-sample z over readable members, EMC minus comparator. Every primitive is IMPORTED from nr4a3_fusion_targets.py rather than re-implemented."
+ },
+ "rows": [
+  {
+   "bh_fdr_q_across_genes_on_this_platform": 0.000438,
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.9787,
+    "min_delta": 0.6587,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": 0.7572,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.8594,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.7786,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.8122,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.9787,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.6587,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "gene",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 118,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 7.3e-05,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 1,
+   "name": "ENO3",
+   "observed_delta_in_manuscript_artifact": 0.8075,
+   "observed_delta_re_derived": 0.8074,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.3151,
+    "p_two_sided": 4.9e-05,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "bh_fdr_q_across_genes_on_this_platform": 0.097,
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.4152,
+    "min_delta": 0.1944,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": 0.2336,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.3201,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.4152,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.3612,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.3183,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.1944,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "gene",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 78723,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 0.0485,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 1,
+   "name": "PPARG",
+   "observed_delta_in_manuscript_artifact": 0.3071,
+   "observed_delta_re_derived": 0.3071,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.1153,
+    "p_two_sided": 0.059668,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "bh_fdr_q_across_genes_on_this_platform": 0.233119,
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.8018,
+    "min_delta": 0.5776,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": 0.8018,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.5776,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.7935,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.7768,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.7581,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.6708,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "gene",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 315324,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 0.194266,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 1,
+   "name": "SEMA3C",
+   "observed_delta_in_manuscript_artifact": 0.7298,
+   "observed_delta_re_derived": 0.7298,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.2601,
+    "p_two_sided": 0.067107,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "bh_fdr_q_across_genes_on_this_platform": 0.000552,
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.799,
+    "min_delta": 0.6168,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": 0.6962,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.784,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.6168,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.7839,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.799,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.7691,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "gene",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 298,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 0.000184,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 1,
+   "name": "NR4A3",
+   "observed_delta_in_manuscript_artifact": 0.7415,
+   "observed_delta_re_derived": 0.7415,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.2831,
+    "p_two_sided": 0.000146,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "bh_fdr_q_across_genes_on_this_platform": 0.123908,
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": -0.2862,
+    "min_delta": -0.6245,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": -0.2862,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": -0.4534,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": -0.3039,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": -0.5445,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": -0.6245,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": -0.3281,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "gene",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 134081,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 0.082605,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 1,
+   "name": "PLAGL1",
+   "observed_delta_in_manuscript_artifact": -0.4235,
+   "observed_delta_re_derived": -0.4234,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": -0.1482,
+    "p_two_sided": 0.015936,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "bh_fdr_q_across_genes_on_this_platform": 0.369002,
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": -0.0092,
+    "min_delta": -0.3,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": -0.0092,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": -0.1956,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": -0.2554,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": -0.3,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": -0.2511,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": -0.0731,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "gene",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 598950,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 0.369002,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 1,
+   "name": "SGK1",
+   "observed_delta_in_manuscript_artifact": -0.1807,
+   "observed_delta_re_derived": -0.1807,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": -0.0596,
+    "p_two_sided": 0.445976,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.0663,
+    "min_delta": 0.0045,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": 0.0663,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.0212,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.0482,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.0045,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.0494,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.052,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 840111,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 0.517577,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 19,
+   "name": "A_plus_B_all_dna_binding",
+   "observed_delta_in_manuscript_artifact": 0.0403,
+   "observed_delta_re_derived": 0.0403,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.0157,
+    "p_two_sided": 0.36406,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": -0.0333,
+    "min_delta": -0.1165,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": -0.0333,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": -0.0846,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": -0.067,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": -0.1165,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": -0.0698,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": -0.0335,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 366423,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 0.225747,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 16,
+   "name": "B_native_nr4a3_dna_binding_targets",
+   "observed_delta_in_manuscript_artifact": -0.0675,
+   "observed_delta_re_derived": -0.0675,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": -0.0245,
+    "p_two_sided": 0.137337,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 1.2475,
+    "min_delta": 0.9914,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": 0.9914,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 1.1541,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 1.1219,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 1.1993,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 1.2475,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 1.0726,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 1,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 1e-06,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 21,
+   "name": "D_filion_table1_emc_vs_137_sarcomas",
+   "observed_delta_in_manuscript_artifact": 1.1311,
+   "observed_delta_re_derived": 1.1311,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.2858,
+    "p_two_sided": 1e-06,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.0896,
+    "min_delta": 0.0668,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": 0.089,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.071,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.0896,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.0668,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.0762,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.0875,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 530,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 0.000327,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 188,
+   "name": "PPARG_pparg_chip_chea",
+   "observed_delta_in_manuscript_artifact": 0.08,
+   "observed_delta_re_derived": 0.08,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.0213,
+    "p_two_sided": 0.001238,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": -0.0206,
+    "min_delta": -0.084,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": -0.0256,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": -0.0585,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": -0.0579,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": -0.084,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": -0.0752,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": -0.0206,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 587420,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 0.361899,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 231,
+   "name": "PPARG_pparg_KO_UP_FALSIFIER",
+   "observed_delta_in_manuscript_artifact": -0.0536,
+   "observed_delta_re_derived": -0.0536,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": -0.0218,
+    "p_two_sided": 0.222558,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.0582,
+    "min_delta": 0.028,
+    "n_leave_one_out_fits": 6,
+    "per_fit": [
+     {
+      "delta": 0.0582,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.0493,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.0491,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.028,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.0487,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.0505,
+      "dropped_sample_index": 11
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 56017,
+    "n_labellings_considered": 1623160,
+    "n_labellings_total": 1623160,
+    "p_two_sided": 0.034511,
+    "smallest_p_this_design_can_report": 6.2e-07
+   },
+   "matrix_file": "GSE24369_series_matrix.txt.gz",
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_genes_readable": 189,
+   "name": "PPARG_adipogenesis_process_proxy",
+   "observed_delta_in_manuscript_artifact": 0.0473,
+   "observed_delta_re_derived": 0.0473,
+   "parity_with_artifact": true,
+   "platform": "GPL6244",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.0123,
+    "p_two_sided": 0.037594,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "bh_fdr_q_across_genes_on_this_platform": 0.000625,
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 3.8817,
+    "min_delta": 3.7465,
+    "n_leave_one_out_fits": 10,
+    "per_fit": [
+     {
+      "delta": 3.8118,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 3.7474,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 3.7753,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 3.8817,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 3.8426,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 3.8069,
+      "dropped_sample_index": 11
+     },
+     {
+      "delta": 3.8688,
+      "dropped_sample_index": 12
+     },
+     {
+      "delta": 3.8667,
+      "dropped_sample_index": 13
+     },
+     {
+      "delta": 3.7465,
+      "dropped_sample_index": 14
+     },
+     {
+      "delta": 3.7651,
+      "dropped_sample_index": 15
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "gene",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 1,
+    "n_labellings_considered": 8008,
+    "n_labellings_total": 8008,
+    "p_two_sided": 0.000125,
+    "smallest_p_this_design_can_report": 0.00012488
+   },
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "n_comparator": 6,
+   "n_emc": 10,
+   "n_genes_readable": 1,
+   "name": "ENO3",
+   "observed_delta_in_manuscript_artifact": 3.8113,
+   "observed_delta_re_derived": 3.8113,
+   "parity_with_artifact": true,
+   "platform": "GPL3290",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.8918,
+    "p_two_sided": 0.000125,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "bh_fdr_q_across_genes_on_this_platform": 0.000833,
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 2.6099,
+    "min_delta": 2.4293,
+    "n_leave_one_out_fits": 10,
+    "per_fit": [
+     {
+      "delta": 2.6099,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 2.4531,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 2.4648,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 2.4818,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 2.5187,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 2.4293,
+      "dropped_sample_index": 11
+     },
+     {
+      "delta": 2.4876,
+      "dropped_sample_index": 12
+     },
+     {
+      "delta": 2.4625,
+      "dropped_sample_index": 13
+     },
+     {
+      "delta": 2.4584,
+      "dropped_sample_index": 14
+     },
+     {
+      "delta": 2.4433,
+      "dropped_sample_index": 15
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "gene",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 1,
+    "n_labellings_considered": 3003,
+    "n_labellings_total": 3003,
+    "p_two_sided": 0.000333,
+    "smallest_p_this_design_can_report": 0.000333
+   },
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "n_comparator": 5,
+   "n_emc": 10,
+   "n_genes_readable": 1,
+   "name": "PPARG",
+   "observed_delta_in_manuscript_artifact": 2.4809,
+   "observed_delta_re_derived": 2.4809,
+   "parity_with_artifact": true,
+   "platform": "GPL3290",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.7353,
+    "p_two_sided": 0.000333,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "bh_fdr_q_across_genes_on_this_platform": 0.16521,
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.8424,
+    "min_delta": 0.5261,
+    "n_leave_one_out_fits": 10,
+    "per_fit": [
+     {
+      "delta": 0.5261,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.7047,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.8424,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.5707,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.6674,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.588,
+      "dropped_sample_index": 11
+     },
+     {
+      "delta": 0.5276,
+      "dropped_sample_index": 12
+     },
+     {
+      "delta": 0.5545,
+      "dropped_sample_index": 13
+     },
+     {
+      "delta": 0.6383,
+      "dropped_sample_index": 14
+     },
+     {
+      "delta": 0.6085,
+      "dropped_sample_index": 15
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "gene",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 1323,
+    "n_labellings_considered": 8008,
+    "n_labellings_total": 8008,
+    "p_two_sided": 0.16521,
+    "smallest_p_this_design_can_report": 0.00012488
+   },
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "n_comparator": 6,
+   "n_emc": 10,
+   "n_genes_readable": 1,
+   "name": "SEMA3C",
+   "observed_delta_in_manuscript_artifact": 0.6228,
+   "observed_delta_re_derived": 0.6228,
+   "parity_with_artifact": true,
+   "platform": "GPL3290",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.2413,
+    "p_two_sided": 0.097777,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": false,
+   "kind": "gene",
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "name": "NR4A3",
+   "platform": "GPL3290",
+   "why": "no contrast: n_EMC=9, n_comparator=2, floor is 3. An absent reading is not a reading of absence."
+  },
+  {
+   "bh_fdr_q_across_genes_on_this_platform": 0.003885,
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": -1.906,
+    "min_delta": -2.3899,
+    "n_leave_one_out_fits": 8,
+    "per_fit": [
+     {
+      "delta": -2.1534,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": -2.0797,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": -2.3899,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": -2.239,
+      "dropped_sample_index": 11
+     },
+     {
+      "delta": -2.1556,
+      "dropped_sample_index": 12
+     },
+     {
+      "delta": -2.0811,
+      "dropped_sample_index": 13
+     },
+     {
+      "delta": -1.906,
+      "dropped_sample_index": 14
+     },
+     {
+      "delta": -2.0677,
+      "dropped_sample_index": 15
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "gene",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 7,
+    "n_labellings_considered": 3003,
+    "n_labellings_total": 3003,
+    "p_two_sided": 0.002331,
+    "smallest_p_this_design_can_report": 0.000333
+   },
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "n_comparator": 6,
+   "n_emc": 8,
+   "n_genes_readable": 1,
+   "name": "PLAGL1",
+   "observed_delta_in_manuscript_artifact": -2.134,
+   "observed_delta_re_derived": -2.134,
+   "parity_with_artifact": true,
+   "platform": "GPL3290",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": -0.2835,
+    "p_two_sided": 0.008658,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "bh_fdr_q_across_genes_on_this_platform": 0.16521,
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.7003,
+    "min_delta": 0.4954,
+    "n_leave_one_out_fits": 10,
+    "per_fit": [
+     {
+      "delta": 0.6157,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.634,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.7003,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.5876,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.5523,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.698,
+      "dropped_sample_index": 11
+     },
+     {
+      "delta": 0.582,
+      "dropped_sample_index": 12
+     },
+     {
+      "delta": 0.6138,
+      "dropped_sample_index": 13
+     },
+     {
+      "delta": 0.6767,
+      "dropped_sample_index": 14
+     },
+     {
+      "delta": 0.4954,
+      "dropped_sample_index": 15
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "gene",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 1248,
+    "n_labellings_considered": 8008,
+    "n_labellings_total": 8008,
+    "p_two_sided": 0.155844,
+    "smallest_p_this_design_can_report": 0.00012488
+   },
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "n_comparator": 6,
+   "n_emc": 10,
+   "n_genes_readable": 1,
+   "name": "SGK1",
+   "observed_delta_in_manuscript_artifact": 0.6156,
+   "observed_delta_re_derived": 0.6156,
+   "parity_with_artifact": true,
+   "platform": "GPL3290",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.1079,
+    "p_two_sided": 0.257867,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.372,
+    "min_delta": 0.3008,
+    "n_leave_one_out_fits": 10,
+    "per_fit": [
+     {
+      "delta": 0.327,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.3288,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.3666,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.3095,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.372,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.3191,
+      "dropped_sample_index": 11
+     },
+     {
+      "delta": 0.35,
+      "dropped_sample_index": 12
+     },
+     {
+      "delta": 0.3184,
+      "dropped_sample_index": 13
+     },
+     {
+      "delta": 0.3086,
+      "dropped_sample_index": 14
+     },
+     {
+      "delta": 0.3008,
+      "dropped_sample_index": 15
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 89,
+    "n_labellings_considered": 8008,
+    "n_labellings_total": 8008,
+    "p_two_sided": 0.011114,
+    "smallest_p_this_design_can_report": 0.00012488
+   },
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "n_comparator": 6,
+   "n_emc": 10,
+   "n_genes_readable": 17,
+   "name": "A_plus_B_all_dna_binding",
+   "observed_delta_in_manuscript_artifact": 0.3301,
+   "observed_delta_re_derived": 0.3301,
+   "parity_with_artifact": true,
+   "platform": "GPL3290",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.0986,
+    "p_two_sided": 0.001499,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": -0.0977,
+    "min_delta": -0.1778,
+    "n_leave_one_out_fits": 10,
+    "per_fit": [
+     {
+      "delta": -0.1532,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": -0.1477,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": -0.1062,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": -0.1755,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": -0.0977,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": -0.156,
+      "dropped_sample_index": 11
+     },
+     {
+      "delta": -0.1078,
+      "dropped_sample_index": 12
+     },
+     {
+      "delta": -0.1611,
+      "dropped_sample_index": 13
+     },
+     {
+      "delta": -0.1702,
+      "dropped_sample_index": 14
+     },
+     {
+      "delta": -0.1778,
+      "dropped_sample_index": 15
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 2062,
+    "n_labellings_considered": 8008,
+    "n_labellings_total": 8008,
+    "p_two_sided": 0.257493,
+    "smallest_p_this_design_can_report": 0.00012488
+   },
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "n_comparator": 6,
+   "n_emc": 10,
+   "n_genes_readable": 14,
+   "name": "B_native_nr4a3_dna_binding_targets",
+   "observed_delta_in_manuscript_artifact": -0.1453,
+   "observed_delta_re_derived": -0.1453,
+   "parity_with_artifact": true,
+   "platform": "GPL3290",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": -0.0267,
+    "p_two_sided": 0.334915,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 1.6287,
+    "min_delta": 1.3843,
+    "n_leave_one_out_fits": 10,
+    "per_fit": [
+     {
+      "delta": 1.4184,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 1.3843,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 1.4809,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 1.516,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 1.6287,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 1.519,
+      "dropped_sample_index": 11
+     },
+     {
+      "delta": 1.4487,
+      "dropped_sample_index": 12
+     },
+     {
+      "delta": 1.4088,
+      "dropped_sample_index": 13
+     },
+     {
+      "delta": 1.4592,
+      "dropped_sample_index": 14
+     },
+     {
+      "delta": 1.5184,
+      "dropped_sample_index": 15
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 4,
+    "n_labellings_considered": 8008,
+    "n_labellings_total": 8008,
+    "p_two_sided": 0.0005,
+    "smallest_p_this_design_can_report": 0.00012488
+   },
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "n_comparator": 6,
+   "n_emc": 10,
+   "n_genes_readable": 18,
+   "name": "D_filion_table1_emc_vs_137_sarcomas",
+   "observed_delta_in_manuscript_artifact": 1.4783,
+   "observed_delta_re_derived": 1.4783,
+   "parity_with_artifact": true,
+   "platform": "GPL3290",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.3091,
+    "p_two_sided": 0.000375,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.3178,
+    "min_delta": 0.2701,
+    "n_leave_one_out_fits": 10,
+    "per_fit": [
+     {
+      "delta": 0.2936,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.2944,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.2898,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.3178,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.31,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.2811,
+      "dropped_sample_index": 11
+     },
+     {
+      "delta": 0.3124,
+      "dropped_sample_index": 12
+     },
+     {
+      "delta": 0.2926,
+      "dropped_sample_index": 13
+     },
+     {
+      "delta": 0.2701,
+      "dropped_sample_index": 14
+     },
+     {
+      "delta": 0.2757,
+      "dropped_sample_index": 15
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 6,
+    "n_labellings_considered": 8008,
+    "n_labellings_total": 8008,
+    "p_two_sided": 0.000749,
+    "smallest_p_this_design_can_report": 0.00012488
+   },
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "n_comparator": 6,
+   "n_emc": 10,
+   "n_genes_readable": 169,
+   "name": "PPARG_pparg_chip_chea",
+   "observed_delta_in_manuscript_artifact": 0.2938,
+   "observed_delta_re_derived": 0.2938,
+   "parity_with_artifact": true,
+   "platform": "GPL3290",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.0951,
+    "p_two_sided": 0.000375,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": -0.0945,
+    "min_delta": -0.1394,
+    "n_leave_one_out_fits": 10,
+    "per_fit": [
+     {
+      "delta": -0.1031,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": -0.1061,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": -0.1004,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": -0.1394,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": -0.1051,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": -0.0945,
+      "dropped_sample_index": 11
+     },
+     {
+      "delta": -0.1119,
+      "dropped_sample_index": 12
+     },
+     {
+      "delta": -0.1135,
+      "dropped_sample_index": 13
+     },
+     {
+      "delta": -0.1057,
+      "dropped_sample_index": 14
+     },
+     {
+      "delta": -0.1382,
+      "dropped_sample_index": 15
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 2374,
+    "n_labellings_considered": 8008,
+    "n_labellings_total": 8008,
+    "p_two_sided": 0.296454,
+    "smallest_p_this_design_can_report": 0.00012488
+   },
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "n_comparator": 6,
+   "n_emc": 10,
+   "n_genes_readable": 196,
+   "name": "PPARG_pparg_KO_UP_FALSIFIER",
+   "observed_delta_in_manuscript_artifact": -0.1118,
+   "observed_delta_re_derived": -0.1118,
+   "parity_with_artifact": true,
+   "platform": "GPL3290",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": -0.0469,
+    "p_two_sided": 0.084416,
+    "same_sign_as_z": true
+   }
+  },
+  {
+   "computed": true,
+   "jackknife_leave_one_emc_out": {
+    "_reading": "the sign of the contrast survives dropping any single EMC tumour",
+    "computed": true,
+    "max_delta": 0.2392,
+    "min_delta": 0.2021,
+    "n_leave_one_out_fits": 10,
+    "per_fit": [
+     {
+      "delta": 0.2157,
+      "dropped_sample_index": 6
+     },
+     {
+      "delta": 0.2182,
+      "dropped_sample_index": 7
+     },
+     {
+      "delta": 0.2223,
+      "dropped_sample_index": 8
+     },
+     {
+      "delta": 0.2392,
+      "dropped_sample_index": 9
+     },
+     {
+      "delta": 0.2217,
+      "dropped_sample_index": 10
+     },
+     {
+      "delta": 0.2044,
+      "dropped_sample_index": 11
+     },
+     {
+      "delta": 0.2329,
+      "dropped_sample_index": 12
+     },
+     {
+      "delta": 0.2167,
+      "dropped_sample_index": 13
+     },
+     {
+      "delta": 0.2021,
+      "dropped_sample_index": 14
+     },
+     {
+      "delta": 0.2095,
+      "dropped_sample_index": 15
+     }
+    ],
+    "sign_holds_in_every_fit": true
+   },
+   "kind": "set",
+   "label_permutation": {
+    "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+    "exact": true,
+    "n_at_least_as_extreme": 12,
+    "n_labellings_considered": 8008,
+    "n_labellings_total": 8008,
+    "p_two_sided": 0.001499,
+    "smallest_p_this_design_can_report": 0.00012488
+   },
+   "matrix_file": "GSE4303-GPL3290_series_matrix.txt.gz",
+   "n_comparator": 6,
+   "n_emc": 10,
+   "n_genes_readable": 176,
+   "name": "PPARG_adipogenesis_process_proxy",
+   "observed_delta_in_manuscript_artifact": 0.2183,
+   "observed_delta_re_derived": 0.2183,
+   "parity_with_artifact": true,
+   "platform": "GPL3290",
+   "rank_based_re_read": {
+    "_units": "within-array percentile (0-1), NOT SD units; the magnitude is not comparable to the z delta, only the sign and the p.",
+    "delta_percentile_points": 0.0891,
+    "p_two_sided": 0.00025,
+    "same_sign_as_z": true
+   }
+  }
+ ],
+ "what_this_answers": {
+  "limitation_8_multiple_testing": "Benjamini-Hochberg q-values across the per-gene permutation p-values, per platform.",
+  "limitation_9_gene_gene_correlation": "The manuscript's size-matched null permutes GENES, so it cannot see gene-gene correlation and is anti-conservative for coherent sets -- a screen, not a test. The label permutation here permutes SAMPLES and never resamples the gene set, so the correlation structure is preserved exactly. Where the arms are small enough the enumeration is COMPLETE and the p is exact.",
+  "small_n_fragility": "Leave-one-EMC-tumour-out jackknife: the full range of the contrast and whether the sign survives dropping any single tumour.",
+  "z_scoring_dependence": "The same contrast recomputed on the within-array percentile (a rank), which no background model and no handful of extreme probes can move."
+ }
+}
