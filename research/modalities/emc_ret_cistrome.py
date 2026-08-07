@@ -451,24 +451,41 @@ def get_json(url, **kw):
         return None
 
 
-def stream_lines(url, timeout=300):
-    """Stream a very large tab file line by line. Never holds it in memory."""
+def stream_lines(url, timeout=300, share_of_budget=0.4):
+    """Stream a very large tab file line by line. Never holds it in memory.
+
+    ⛔ THE BUDGET IS CHECKED PER LINE, NOT ONLY AT THE START. A catalogue that takes longer than
+    the whole budget would otherwise leave every retrieval after it recording `budget_exhausted`,
+    and a run that spent 50 minutes on one directory listing and reported nothing else would look
+    exactly like a run where the other catalogues held no NR4A data. A truncated stream is
+    recorded as TRUNCATED with the line count it reached — partial discovery is still discovery,
+    and it is labelled rather than silently complete-looking.
+    """
     if BUDGET.left() <= 30:
         _record(url, "budget_exhausted", note=f"{BUDGET.spent()}s spent")
         return
+    deadline = time.time() + max(60.0, BUDGET.left() * share_of_budget)
     try:
         req = urllib.request.Request(url, headers=UA)
         with urllib.request.urlopen(req, timeout=timeout) as r:
             gz = url.endswith(".gz")
             raw = gzip.GzipFile(fileobj=r) if gz else r
-            total = 0
+            total, nlines = 0, 0
             for ln in io.TextIOWrapper(raw, encoding="utf-8", errors="replace"):
                 total += len(ln)
+                nlines += 1
                 if total > MAX_BYTES_METADATA:
-                    _record(url, "truncated_at_cap", nbytes=total)
+                    _record(url, "truncated_at_cap", nbytes=total,
+                            note=f"{nlines} lines read before the size cap")
+                    return
+                if (nlines & 0x3FFF) == 0 and time.time() > deadline:
+                    _record(url, "truncated_at_budget", nbytes=total,
+                            note=f"{nlines} lines read before this stream's share of the "
+                                 f"network budget ran out. ⚠ PARTIAL — anything not found may "
+                                 f"simply be past this point in the file.")
                     return
                 yield ln
-        _record(url, 200, nbytes=total)
+        _record(url, 200, nbytes=total, note=f"{nlines} lines, complete")
     except urllib.error.HTTPError as exc:
         _record(url, exc.code, error=exc.reason)
     except Exception as exc:                 # noqa: BLE001
@@ -705,8 +722,14 @@ def discover_chip_atlas():
                 rec["extra_attributes"] = [x for x in f[len(CA_COLS):] if x][:12]
                 hits.append(rec)
         if n_lines:
+            # ⚠ COMPLETE vs TRUNCATED is recorded, because "searched N experiments and found none"
+            # and "searched the first N and ran out of budget" are different facts.
+            last = next((a for a in reversed(ATTEMPTS) if a["url"].startswith(url[:80])), {})
             out["_status"] = "read"
             out["source_url"] = url
+            out["stream_completeness"] = (
+                "complete" if last.get("status") == 200 else str(last.get("status")))
+            out["⚠_partial"] = last.get("status") != 200
             out["n_experiments_searched"] = n_lines
             out["experiments"] = hits
             out["n_matching"] = len(hits)
