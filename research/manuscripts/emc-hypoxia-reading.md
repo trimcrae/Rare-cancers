@@ -233,6 +233,16 @@ most oxygen-restricted HIF1 target available, with no recognised fusion-independ
 positive on both, and the circularity is handled by removing CA9 from the score it is correlated
 against. CA9 is also up between arms on both platforms.
 
+**Finding 5 — the sharper version of the same test, and it points the same way.** Because the
+hypoxia score is mostly glycolysis, correlating it with ENO3 partly asks whether glycolysis tracks
+glycolysis. The narrower question is whether the **rest of the glycolytic programme, with ENO3
+excluded from the score**, rises with ENO3 within EMC tumours. It does not reproduce: *r* = **−0.88**
+(n = 6, GPL6244) and **+0.69** (n = 10, GPL3290). So the largest single glycolytic effect on both
+platforms — ENO3, the published fusion target, at *t* = +3.61 and +13.22 between arms — sits **on top
+of** a glycolytic programme it does not co-vary with. That is the pattern a fusion-driven outlier
+over a differently-driven programme makes, and it is not the pattern a fusion-driven programme
+makes.
+
 **Reading.** On the evidence available, the axis behaves like **tissue state, not fusion output**:
 it tracks the oxygen-specific readout within EMC tumours on both platforms and does not track the
 fusion or its published target. ⚠ This is *n* = 6 and *n* = 9–10 with a stated probe caveat (on a

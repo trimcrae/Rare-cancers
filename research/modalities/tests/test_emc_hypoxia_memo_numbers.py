@@ -217,6 +217,24 @@ def test_the_glycolytic_decomposition_ranges_are_the_artifacts(art, memo):
         assert len(rest_t) == 6, f"{plat}: expected six scoreable remainders, got {len(rest_t)}"
 
 
+def test_finding_5_the_ENO3_vs_rest_of_glycolysis_test_is_the_artifacts(art, memo):
+    """The sharpest fusion-vs-tissue test: does ENO3 co-vary with the programme it sits in?
+
+    ⚠ The claim is `it does not reproduce`, and the only thing worth reading at n = 6 and n = 10 is
+    whether the SIGN agrees. So the test asserts the signs DISagree — if a future run made them
+    agree, the memo's sentence would be wrong in the direction that matters."""
+    body = _ascii_minus(memo)
+    rs = []
+    for plat in (G6, G3):
+        r = art["platforms"][plat]["fusion_vs_tissue"]["discriminators"][
+            "within_EMC_glycolysis_minus_ENO3_vs_ENO3"]["within_EMC_correlation"]["r"]
+        rs.append(r)
+        assert f"{r:.2f}" in body, f"{plat}: ENO3-vs-rest r {r} is not in the memo"
+    assert rs[0] * rs[1] < 0, (
+        "the memo says this correlation does not reproduce; the two platforms now agree in sign "
+        "and the sentence would have to change")
+
+
 def test_the_enolase_removal_figures_are_the_artifacts(art, memo):
     for plat in (G6, G3):
         full = _t(art, plat, ["fusion_vs_tissue", "discriminators", "glycolysis_curated",

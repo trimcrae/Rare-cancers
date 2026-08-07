@@ -277,7 +277,7 @@
    "n_positive": 12
   }
  },
- "generated_utc": "2026-08-07T17:10:55+00:00",
+ "generated_utc": "2026-08-07T17:25:12+00:00",
  "hypoxia_signature_sets_audited": {
   "hypoxia_buffa": {
    "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
@@ -2212,6 +2212,20 @@
          "r": -0.2809
         }
        }
+      }
+     },
+     "within_EMC_glycolysis_minus_ENO3_vs_ENO3": {
+      "_question": "within EMC tumours, does the glycolytic programme (ENO3 EXCLUDED) rise with ENO3?",
+      "_the_limit": "n is 6 or 10 EMC tumours. A correlation on that n is a direction, not an estimate, and only agreement of SIGN across the two platforms is worth reading at all.",
+      "_why_ENO3_is_excluded_from_the_score": "otherwise the correlation is partly ENO3 against itself, which would answer nothing.",
+      "across_classified_samples": {
+       "n": 35,
+       "r": 0.3226
+      },
+      "n_glycolytic_genes_in_the_score": 29,
+      "within_EMC_correlation": {
+       "n": 6,
+       "r": -0.8782
       }
      }
     }
@@ -4756,6 +4770,20 @@
          "r": -0.4018
         }
        }
+      }
+     },
+     "within_EMC_glycolysis_minus_ENO3_vs_ENO3": {
+      "_question": "within EMC tumours, does the glycolytic programme (ENO3 EXCLUDED) rise with ENO3?",
+      "_the_limit": "n is 6 or 10 EMC tumours. A correlation on that n is a direction, not an estimate, and only agreement of SIGN across the two platforms is worth reading at all.",
+      "_why_ENO3_is_excluded_from_the_score": "otherwise the correlation is partly ENO3 against itself, which would answer nothing.",
+      "across_classified_samples": {
+       "n": 16,
+       "r": 0.8222
+      },
+      "n_glycolytic_genes_in_the_score": 25,
+      "within_EMC_correlation": {
+       "n": 10,
+       "r": 0.6917
       }
      }
     }

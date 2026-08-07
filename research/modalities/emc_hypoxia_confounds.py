@@ -659,6 +659,32 @@ def _fusion_vs_tissue(tgt, emc, comp, zcache, sig_sets, reference_score):
                 [reference_score[i] for i in (emc + comp)], [z[i] for i in (emc + comp)]),
             "EMC_vs_comparator": _contrast(z, emc, comp),
         }
+    # ⭐ THE SHARPER FORM OF THE SAME TEST. The hypoxia score is mostly glycolysis (D1), so
+    # correlating it with ENO3 partly asks whether glycolysis tracks glycolysis. The question that
+    # discriminates is narrower: within EMC tumours, does the REST of the glycolytic programme —
+    # ENO3 excluded, so the correlation cannot be self-correlation — rise with ENO3? If the fusion
+    # drives a glycolytic programme through the mechanism ENO3 is the published example of, it
+    # should. If ENO3 is a fusion target sitting on top of an otherwise ordinary programme, it
+    # need not.
+    gly_no_eno3 = [g for g in GLYCOLYSIS if g != "ENO3"]
+    gly_score, gly_readable = _score(tgt, gly_no_eno3, zcache)
+    rec = {"_question": "within EMC tumours, does the glycolytic programme (ENO3 EXCLUDED) rise "
+                        "with ENO3?",
+           "_why_ENO3_is_excluded_from_the_score": "otherwise the correlation is partly ENO3 "
+                                                   "against itself, which would answer nothing.",
+           "n_glycolytic_genes_in_the_score": len(gly_readable)}
+    if gly_score is None or "ENO3" not in zcache:
+        rec["verdict"] = ("⛔ NOT SCOREABLE on this platform — ENO3 or the glycolytic programme is "
+                          "below the floor. The read could not be TAKEN; this is not a null.")
+    else:
+        rec["within_EMC_correlation"] = _pearson([gly_score[i] for i in emc],
+                                                 [zcache["ENO3"][i] for i in emc])
+        rec["across_classified_samples"] = _pearson([gly_score[i] for i in (emc + comp)],
+                                                    [zcache["ENO3"][i] for i in (emc + comp)])
+        rec["_the_limit"] = ("n is 6 or 10 EMC tumours. A correlation on that n is a direction, "
+                             "not an estimate, and only agreement of SIGN across the two platforms "
+                             "is worth reading at all.")
+    out["discriminators"]["within_EMC_glycolysis_minus_ENO3_vs_ENO3"] = rec
     out["discriminators"]["within_EMC_fusion_output_vs_hypoxia"] = within
 
     # D4 — CA9. The most oxygen-specific single readout available: a HIF1-restricted target with no
