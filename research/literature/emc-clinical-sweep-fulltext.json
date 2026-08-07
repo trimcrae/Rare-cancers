@@ -1,0 +1,55 @@
+{
+  "_readme": "EMC clinical/translational completeness sweep part 2, 2026-08-07: FULL TEXTS. Companion to emc-clinical-sweep-targets.json (registry+search APIs). Europe PMC fullTextXML endpoints are preferred over PMC article pages because they return clean OA text and are not behind the bot wall. Publisher landing pages are included for the non-OA items so at least the abstract and methods are captured verbatim rather than paraphrased from a search snippet.",
+
+  "ft_remiszewski2025_review": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12504171/fullTextXML",
+  "ft_masunaga2025_rtchemo": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12398172/fullTextXML",
+  "ft_chiusole2020": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7308468/fullTextXML",
+  "ft_drilon2008": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC2779719/fullTextXML",
+  "ft_sunitinib2012_csr": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3534218/fullTextXML",
+  "ft_tamoxifen_pgr_nr4a3": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9489176/fullTextXML",
+  "ft_imatinib_kit_emc": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8395296/fullTextXML",
+  "ft_nivolumab_emc": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9527174/fullTextXML",
+  "ft_anlotinib_sts": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11443219/fullTextXML",
+
+  "cancers2020_stateoftheart": "https://www.mdpi.com/2072-6694/12/9/2703",
+  "cancers2020_pdf": "https://www.mdpi.com/2072-6694/12/9/2703/pdf",
+  "springer_remiszewski2025": "https://link.springer.com/article/10.1007/s00432-025-06316-5",
+  "lancet_pazopanib_emc": "https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(19)30319-5/fulltext",
+  "asco_tamoxifen_pgr": "https://ascopubs.org/doi/10.1200/PO.22.00039",
+  "asco_pazopanib_abstract2017": "https://ascopubs.org/doi/abs/10.1200/JCO.2017.35.15_suppl.11062",
+  "clinsarcres_sunitinib": "https://clinicalsarcomaresearch.biomedcentral.com/articles/10.1186/2045-3329-2-22",
+
+  "epmc_pazopanib_emc_lancet": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=(pazopanib%20AND%20%22extraskeletal%20myxoid%20chondrosarcoma%22)&format=json&pageSize=100&resultType=core",
+  "epmc_sunitinib_emc_2014": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A24703573&format=json&resultType=core",
+  "epmc_pmid_36103645": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A36103645&format=json&resultType=core",
+  "epmc_emc_2024_2026": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22extraskeletal%20myxoid%20chondrosarcoma%22%20AND%20(FIRST_PDATE%3A%5B2024-01-01%20TO%202026-12-31%5D)&format=json&pageSize=500&resultType=core&sort=P_PDATE_D%20desc",
+  "epmc_emc_reviews": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22extraskeletal%20myxoid%20chondrosarcoma%22%20AND%20(PUB_TYPE%3A%22review%22)&format=json&pageSize=200&resultType=core&sort=P_PDATE_D%20desc",
+  "epmc_emc_trial_reports": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=(%22extraskeletal%20myxoid%20chondrosarcoma%22%20OR%20%22myxoid%20chondrosarcoma%22)%20AND%20(%22phase%20II%22%20OR%20%22phase%202%22%20OR%20%22clinical%20trial%22%20OR%20NCT*)&format=json&pageSize=200&resultType=core",
+  "epmc_immunosarc": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=ImmunoSarc%20OR%20(%22sunitinib%22%20AND%20%22nivolumab%22%20AND%20sarcoma)&format=json&pageSize=100&resultType=core",
+  "epmc_nr4a3_biology": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22EWSR1-NR4A3%22%20OR%20%22EWSR1%3A%3ANR4A3%22&format=json&pageSize=500&resultType=core&sort=P_PDATE_D%20desc",
+  "epmc_emc_advocacy": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=(%22extraskeletal%20myxoid%20chondrosarcoma%22)%20AND%20(%22patient%20advocacy%22%20OR%20foundation%20OR%20%22research%20priorities%22%20OR%20%22priority%20setting%22)&format=json&pageSize=100&resultType=core",
+  "epmc_emc_cure_id": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=(%22myxoid%20chondrosarcoma%22)%20AND%20(off-label%20OR%20repurpos*%20OR%20%22compassionate%20use%22%20OR%20%22expanded%20access%22)&format=json&pageSize=100&resultType=core",
+
+  "ct_emc_full_records": "https://clinicaltrials.gov/api/v2/studies?query.cond=extraskeletal+myxoid+chondrosarcoma&pageSize=100&format=json&fields=NCTId%7CBriefTitle%7COfficialTitle%7COverallStatus%7CPhase%7CStudyType%7CInterventionName%7CInterventionType%7CConditions%7CEligibilityCriteria%7CLocationCountry%7CLocationFacility%7CStartDate%7CCompletionDate%7CLeadSponsorName",
+  "ct_sarcoma_immunotherapy_open": "https://clinicaltrials.gov/api/v2/studies?query.cond=sarcoma&query.intr=pembrolizumab+OR+nivolumab+OR+atezolizumab+OR+durvalumab&filter.overallStatus=RECRUITING&pageSize=200&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CConditions",
+  "ct_sarcoma_tki_open": "https://clinicaltrials.gov/api/v2/studies?query.cond=sarcoma&query.intr=pazopanib+OR+regorafenib+OR+anlotinib+OR+cabozantinib+OR+lenvatinib+OR+sunitinib&filter.overallStatus=RECRUITING&pageSize=200&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CConditions",
+  "ct_fusion_positive_open": "https://clinicaltrials.gov/api/v2/studies?query.term=%22fusion+positive%22+OR+%22gene+fusion%22&filter.overallStatus=RECRUITING&pageSize=300&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CConditions",
+  "ct_uk_sarcoma": "https://clinicaltrials.gov/api/v2/studies?query.cond=sarcoma&filter.geo=distance(51.5,-0.12,500km)&filter.overallStatus=RECRUITING&pageSize=200&format=json&fields=NCTId%7CBriefTitle%7COverallStatus%7CPhase%7CInterventionName%7CConditions",
+
+  "cellosaurus_emc_disease": "https://api.cellosaurus.org/search/cell-line?q=di%3A%22Extraskeletal%20myxoid%20chondrosarcoma%22&format=json&rows=200&fields=id%2Cac%2Cdi%2Cox%2Csx%2Cage%2Ccc%2Cdr%2Csy%2Cst",
+  "cellosaurus_chondrosarcoma": "https://api.cellosaurus.org/search/cell-line?q=chondrosarcoma&format=json&rows=200&fields=id%2Cac%2Cdi%2Csy%2Cdr",
+  "cellosaurus_hemcss_by_name": "https://api.cellosaurus.org/search/cell-line?q=id%3AH-EMC-SS&format=json&rows=20",
+  "cellosaurus_usz_emc": "https://api.cellosaurus.org/search/cell-line?q=USZ-EMC&format=json&rows=20",
+  "cellosaurus_ncc_emc": "https://api.cellosaurus.org/search/cell-line?q=NCC-EMC&format=json&rows=20",
+
+  "gdsc_celllines": "https://www.cancerrxgene.org/api/celllines?list=all&export=json",
+  "depmap_models": "https://depmap.org/portal/api/download/files",
+  "cbioportal_sarcoma_studies": "https://www.cbioportal.org/api/studies?keyword=sarcoma&projection=SUMMARY&pageSize=200",
+  "pdcm_finder_emc": "https://www.cancermodels.org/api/search_index?search_terms=eq.extraskeletal%20myxoid%20chondrosarcoma&limit=100",
+  "pdcm_finder_chondro": "https://www.cancermodels.org/api/search_index?limit=200&select=external_model_id,data_source,histology,cancer_system,model_type",
+
+  "geo_gse_emc_summary": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=gds&term=(%22extraskeletal+myxoid+chondrosarcoma%22%5BAll+Fields%5D)&retmax=100&retmode=json&usehistory=y",
+  "geo_gse_nr4a3": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=gds&term=NR4A3%5BAll+Fields%5D&retmax=200&retmode=json",
+  "pubmed_emc_all": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=%22extraskeletal+myxoid+chondrosarcoma%22&retmax=1000&retmode=json&sort=date",
+  "pubmed_emc_therapy": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=%22extraskeletal+myxoid+chondrosarcoma%22+AND+(therapy%5Bsb%5D+OR+treatment%5Btiab%5D+OR+response%5Btiab%5D)&retmax=500&retmode=json&sort=date"
+}

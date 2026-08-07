@@ -47,7 +47,17 @@ permissions:
   contents: write
 
 concurrency:
-  group: fetch-literature
+  # Per-CORPUS group. Nine parallel research sweeps dispatch this file at once; a single shared
+  # group serialises them and (when a sibling's copy sets cancel-in-progress) kills queued runs
+  # outright — measured 2026-08-07, two runs on this branch cancelled while merely pending.
+  #
+  # ⚠ KEYING ON `github.ref_name` DOES NOT SEPARATE THEM, and that was the first fix attempted:
+  # the sweeps all run on ONE shared branch, so every dispatch lands in the same per-branch group
+  # and the contention is unchanged. What is actually distinct per sweep is the CORPUS it fetches,
+  # which is also exactly the right granularity — two dispatches of the SAME corpus genuinely
+  # should serialise (they publish to the same literature/<slug>/ directory), and two dispatches
+  # of DIFFERENT corpora have no reason to. Superseded, retained: `group: fetch-literature-${{ github.ref_name }}`.
+  group: fetch-literature-${{ github.ref_name }}-${{ inputs.slug || inputs.targets_file || inputs.query || 'default' }}
   cancel-in-progress: false
 
 jobs:
@@ -71,8 +81,64 @@ jobs:
       # ⚠ SO A DISPATCH WITH A QUERY SEARCHED FOR NOTHING, re-fetched the built-in URL list, and
       # reported SUCCESS. CLAUDE.md §6 names this workflow as the Europe PMC escape hatch, on the
       # strength of the header -- so the rule pointed every session at a search that did not run.
+      # ── LANE PROBE (slug == 'lane-probe') ───────────────────────────────────────────────
+      # A metadata-only mode: run scripts/lit_lane_probe.py's fixed query list against Europe PMC
+      # and commit the STRUCTURED HITS (pmid/doi/title/year/citations) + each query's hitCount back
+      # to the triggering branch. It exists because the two directions a research sweep needs are
+      # BOTH unavailable from the dev sandbox — the egress proxy 403s www.ebi.ac.uk,
+      # pubmed.ncbi.nlm.nih.gov and pmc.ncbi.nlm.nih.gov on CONNECT:
+      #   * a real PMID to cite, instead of a remembered one;
+      #   * a real hitCount of ZERO, which is the only honest basis for "nothing exists".
+      # It deliberately does NOT touch .cache/literature or the literature-cache branch — this is
+      # a citation index, not a full-text corpus, and mixing the two is the mislabelled-record bug
+      # documented in the publish step below.
+      - name: Lane probe — Europe PMC metadata only
+        if: ${{ inputs.slug == 'lane-probe' }}
+        run: python3 scripts/lit_lane_probe.py
+
+      # ⛔ PUSHING TO THE TRIGGERING BRANCH LOSES THE RESULT TO A RACE (measured 2026-08-07).
+      # Nine parallel sweeps share one working tree and push to each other's branches; run
+      # 31134790934 completed all 31 queries, committed 8,749 lines, and then died on
+      # `! [rejected] (fetch first)` — the retrieval was real and the artifact was discarded.
+      # A read-only citation index has no reason to contend for a shared ref at all, so it gets
+      # its own run-scoped ref, which cannot collide with anything by construction. Uploaded as a
+      # run artifact too, with if: always(), so a push failure can never again be total loss.
+      # ⛔ A RUN-SCOPED REF IS REFUSED, AND THE REASON IS NOT ABOUT THIS FILE'S CONTENT (2026-08-07).
+      # Pushing a NEW branch carries the whole tree, INCLUDING .github/workflows/fetch-literature.yml,
+      # and the Actions token has no `workflows` scope -> "refusing to allow a GitHub App to create or
+      # update workflow ... without `workflows` permission". Pushing to an EXISTING branch whose copy
+      # of the workflow is already identical is fine, because nothing about a workflow changes.
+      # So the ref push is best-effort (|| true) and the DIGEST IN THE JOB LOG is the real channel;
+      # the artifact upload below is the second. Never let this step's failure discard the retrieval.
+      - name: Publish lane probe to the triggering branch (best effort)
+        if: ${{ always() && inputs.slug == 'lane-probe' }}
+        continue-on-error: true
+        env:
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          [ -f research/literature/lane-probe-metabolism-strategy.json ] || {
+            echo "::error::lane probe produced no artifact"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/literature/lane-probe-metabolism-strategy.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "lane probe: Europe PMC citation index for the metabolism/strategy sweep"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::ref push failed; the digest in this log and the artifact are the record"
+
+      - name: Keep lane probe as a run artifact
+        if: ${{ always() && inputs.slug == 'lane-probe' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lane-probe-${{ github.run_id }}
+          path: research/literature/lane-probe-metabolism-strategy.json
+          if-no-files-found: error
+
       - name: Europe PMC search + open-access full text (the `query` path)
-        if: ${{ inputs.query != '' }}
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' }}
         env:
           QUERY: ${{ inputs.query }}
         run: node scripts/fetch-paper.mjs sync "$QUERY"
@@ -85,7 +151,7 @@ jobs:
       # description of the wiring. (Same lesson as tests/test_fleet_armed.py's exempt-lane wiring
       # test: a property asserted in prose about a value a caller passes is a hope, not a property.)
       - name: Assert the query path actually searched (non-empty + known-positive control)
-        if: ${{ inputs.query != '' }}
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
         run: python3 scripts/lit_query_assert.py
@@ -98,7 +164,7 @@ jobs:
       # the same contamination the publish step's slug guard below was written to prevent, arriving
       # from the other direction. A query-only run now runs the query path ONLY.
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
-        if: ${{ inputs.targets_file != '' || inputs.query == '' }}
+        if: ${{ (inputs.targets_file != '' || inputs.query == '') && inputs.slug != 'lane-probe' }}
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
           LIT_TARGETS_MODE: ${{ inputs.targets_mode }}

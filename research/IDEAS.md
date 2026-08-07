@@ -82,6 +82,29 @@ of what's shelved vs. active and the next step for each.
 > It also names, per pair, **which routes must never be conflated and the opposite blockers they
 > fail on** — the covalent probe and the monovalent modulator being the worked case.
 
+> **★★ AND WHAT THIS BOARD DOES NOT CONTAIN —
+> [`manuscripts/emc-unexplored-treatment-lanes.md`](./manuscripts/emc-unexplored-treatment-lanes.md)
+> (2026-08-07).** Ten parallel sweeps, screened against **all 40 routes** in `systems/graph/routes.json`
+> *and* against `emc-post-degrader-options.md` §3b's already-searched technique table, so nothing in it
+> is a re-proposal. **Its organising finding is that every sweep produced its strongest candidate by
+> declining to attack the fusion** — the portfolio's blockers are properties of one attack surface, and
+> ten independent searches all walked around it. ⛔ **Three of the four categories it opened were
+> invisible to this repo by INSTRUMENT SHAPE, not by oversight:** physical/locoregional modalities
+> (nothing here is a beam or a procedure), the matrix as a *target* rather than a barrier, and treatment
+> *strategy* (scheduling, sequencing, trial architecture). ⚠ **And it names two instrument limits that
+> produced false negatives reading as measured ones:** `emc_surfaceome_scan.py` ranks DepMap tumour-cell
+> monoculture mRNA, so it **cannot see a glycan or a stromal antigen** — its "the selective ∩
+> normal-tissue-restricted intersection is empty" is a statement about *classic protein antigens* — and
+> **`CSPG4` is absent from its seed set and all four outputs**, never rejected because never seen.
+> Its top lanes: **RET** (the only kinase measured as expressed *and activated* in EMC, two approved
+> selective inhibitors, no route here), **fusion-variant stratification**, an **open FET-fusion trial
+> EMC is eligible for and cannot find by histology search** (`NCT05918640`), and the **hybrid intron**
+> as a fusion-exclusive ASO target with kilobases of sequence where the gapmer route has ~20 nt.
+> ⚠ **It also carries 14 corrections in its §5**, several touching live route grades — including that
+> `RT-ICI-TKI`'s evidence predates a dedicated IMMUNOSARC II EMC cohort, that the trabectedin row's
+> `n = 5` is *EMCS-or-MCS* with the single objective response in an MCS patient, and that NR4A3 has
+> **exactly one PDB entry** against NR4A1's 21, so the anti-target is better resolved than the target.
+
 The goal pivoted away from the vaccine/coverage work (rigorous but unlikely to
 *yield a treatment*; economics favour a tumour-agnostic platform we don't control) toward routes
 that could actually drug or immuno-target EWSR1::NR4A3 EMC.

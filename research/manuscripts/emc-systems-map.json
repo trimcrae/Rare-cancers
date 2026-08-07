@@ -1401,6 +1401,36 @@
           "classification": "unaffected",
           "why_unaffected": "The use is the CAVEAT ITSELF, not a claim resting on the line. Verified, not assumed: no direction, dependency or expression NUMBER in these records is read off this model. The only claim that leans on the experiment run in it — that PPARγ AGONISM is favoured — is capped at T1-with-a-model-identity-caveat in pparg-direction-emc.md §5 and is nowhere asserted as an EMC result; the routes' own missing-item is a PPARγ ACTIVITY readout, which this line cannot supply. ⚠ Whether the Higuchi 2023 MOUSE arm used this line is UNREAD (not open access).",
           "correction_marker": "identity disputed"
+        },
+        {
+          "file": "research/literature/emc-clinical-sweep-targets.json",
+          "use": "Europe PMC QUERY STRING only. `epmc_emc_models` names \"H-EMC-SS\" as one disjunct among several (\"cell line\" OR xenograft OR organoid OR \"patient-derived\" OR PDX OR \"H-EMC-SS\" OR \"MUG-Chor\") to retrieve the literature ON EMC MODELS. Also carries `cellosaurus_hemcss`, a direct Cellosaurus record fetch.",
+          "classification": "unaffected",
+          "why_unaffected": "A retrieval target is not a reading. Asking what is published about a line, and fetching that line's own curated record, cannot ground an EMC claim -- it is the search that SURFACES the dispute rather than one that inherits it. Verified by inspection: the file contains URLs and labels only, no result, no value and no assertion about EMC."
+        },
+        {
+          "file": "research/literature/emc-clinical-sweep-c3.json",
+          "use": "Europe PMC and Cellosaurus QUERY STRINGS only: a name-scoped literature search (\"H-EMC-SS\" OR \"HEMC-SS\" OR \"H EMC SS\") and a Cellosaurus cell-line lookup.",
+          "classification": "unaffected",
+          "why_unaffected": "Same as the sibling target files: retrieval targets, no results and no assertions. This one is the strongest case of all -- a name-scoped search for everything published on the line is exactly the instrument that produced the identity verdict in the first place."
+        },
+        {
+          "file": "research/literature/emc-clinical-sweep-fulltext.json",
+          "use": "One Cellosaurus id-scoped QUERY STRING (`q=id:H-EMC-SS`).",
+          "classification": "unaffected",
+          "why_unaffected": "A single record-lookup URL. Grounds nothing."
+        },
+        {
+          "file": "research/literature/physical-modality-targets.json",
+          "use": "Europe PMC QUERY STRING. `epmc_emc_hypoxia_model` names \"H-EMC-SS\" beside \"myxoid chondrosarcoma\" to retrieve hypoxia / hypoxia-activated-prodrug / ICF05016 / proteoglycan literature.",
+          "classification": "unaffected",
+          "why_unaffected": "The query itself grounds nothing. BUT THIS ONE CARRIES A LIVE WARNING AND IT IS NOT A FORMALITY: the papers it is built to retrieve -- ICF05016 + external-beam RT (PMID 32948981) and the zaltoprofen/PPARgamma result (PMID 36636023) -- DID their in-vivo and in-vitro work IN this line. So every hit it returns is a use that must be classified ON ARRIVAL, and `unaffected` will usually be the wrong answer for the hit even though it is the right answer for the query. The 2026-08-07 physical-modality sweep leaned on PMID 32948981 as the load-bearing preclinical support for an EMC radiosensitivity/hypoxia argument while describing it as an 'EMC xenograft'; that description is what this object exists to stop."
+        },
+        {
+          "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+          "use": "Section 3.7 (the radioresistance reappraisal) cites PMID 32948981 -- dose-dependent radiosensitivity plus hypoxia-activated-prodrug potentiation -- which was performed in an H-EMC-SS xenograft. Section 6 additionally cites the myxofibrosarcoma BNCT cellularity finding and, in section 5, the zaltoprofen/PPARgamma result (PMID 36636023), also H-EMC-SS.",
+          "classification": "invalidated",
+          "why_invalidated": "The memo DISCOUNTS this evidence rather than resting on it, and says so in the same paragraph that introduces it: the sweep that produced section 3.7 offered PMID 32948981 as the load-bearing preclinical support for an EMC hypoxia/radiosensitivity argument, and the memo overrides that -- a real, profiled cell line was irradiated and responded, but 'EMC xenograft' is doing work the curated record does not support. The lane's grade therefore rests on the clinical series and the case-level BED evidence, not on this. Filed `invalidated` rather than `unaffected` because the claim it would otherwise support IS an EMC claim, which is exactly the case this object exists to stop -- and because the sibling entry for `physical-modality-targets.json` predicted this arrival in advance."
         }
       ],
       "distinct_from": [
