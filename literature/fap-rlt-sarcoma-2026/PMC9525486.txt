@@ -1,0 +1,155 @@
+pmcEJNMMI PhysEJNMMI Phys2782ejnmmiphy101658952EJNMMI Physics2197-7364SpringerPMC9525486PMC9525486.1952548695254863617853110.1186/s40658-022-00497-54971Original ResearchImpact of radiopharmaceutical therapy (177Lu, 225Ac) microdistribution in a cancer-associated fibroblasts model
+http://orcid.org/0000-0003-0509-9823TranelJonathanjonathan.tranel@ucsf.edu PalmStig GravesStephen A. FengFelix Y. HopeThomas A. 1grid.266102.10000 0001 2297 6811Department of Radiology and Biomedical Imaging, University of California San Francisco, BH103 1700 4th Street, San Francisco, CA 94158 USA 2grid.8761.80000 0000 9919 9582Department of Medical Radiation Sciences, Institute of Clinical Sciences, Sahlgrenska Academy, University of Gothenburg, Gothenburg, Sweden 3grid.214572.70000 0004 1936 8294Department of Radiology, University of Iowa, Iowa City, IA USA 4grid.266102.10000 0001 2297 6811Department of Radiation Oncology, University of California San Francisco, San Francisco, CA USA 5grid.266102.10000 0001 2297 6811Helen Diller Family Comprehensive Cancer Center, University of California San Francisco, San Francisco, CA USA 30920221220229398169673620222192022300920220210202203102022© The Author(s) 2022https://creativecommons.org/licenses/by/4.0/Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.
+
+## Background
+The aim of this study is to elucidate the difference in absorbed dose (Dabs) patterns in radiopharmaceutical therapies between alpha emitters (225Ac) and beta emitters (177Lu) when targeting cancer-associated fibroblasts (CAF) or tumor cells. Five spherical models with 3 mm diameter were created, representing spherical tumor masses that contain tumor clusters, interspersed with CAFs. The mean distance from a tumor cell to the nearest CAF (Lmean) varied throughout these models from 92 to 1030 µm. Dabs calculations were performed while selecting either CAFs or tumor cells as sources, with Convolution/Superposition with 177Lu and Monte Carlo simulations (GATE) with 225Ac. Analyses were conducted with Dose Volume Histograms and efficacy ratios (ER), which represents the ratio of mean Dabs that is deposited in the target volume.
+
+## Results
+225Ac is the most optimal radionuclide when CAFs are both targeted and irradiating themselves, as ERs increase from 1.5 to 3.7 when Lmean increases from 92 to 1030 µm. With 177Lu, these numbers vary from 1.2 to 2.7. Conversely, when CAFs are sources and tumors are targets with 225Ac, ERs decreased from 0.8 to 0.1 when Lmean increases from 92 to 1030 µm. With 177Lu, these numbers vary from 0.9 to 0.3
+
+## Conclusion
+When targeting CAFs to irradiate tumors, the efficacy of using 225Ac decreases as the average size of the tumor clusters (or Lmean) increases. In such situations, 177Lu will be more effective than 225Ac when targeting CAFs due to the longer beta particle range.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s40658-022-00497-5.
+
+## Keywords
+Cancer-associated fibroblastsDose voxel kernelRadiopharmaceutical therapyMonte Carlo simulationNIHR01 CA235741HopeThomas A.pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© The Author(s) 2022
+
+## Background
+Tumors include vascular structures, inflammatory cells, fibroblasts and collagen that together make up the tumor microenvironment or stroma. This stromal support sustains continuous tumor growth as cancer cells reprogram normal fibroblasts into pro-tumorigenic cancer-associated fibroblasts (CAFs), which is a major stroma constituent. CAFs create a niche where tumors are protected from conventional therapies. Consequently, CAFs are becoming a target of interest for diagnosis and prognosis, as depleting them from stroma structure can inhibit cancer growth by disrupting cancer-supportive functions [ ].
+Fibroblasts activation protein (FAP) is overexpressed on CAFs in many cancers types, such as breast, esophagus, lung, pancreatic, head-neck, colorectal cancers [ ]. FAP expression in normal tissues is absent or low, which makes it an appealing target for radiopharmaceutical therapies (RPTs) with antibodies [ ], small molecule inhibitors (FAPI) [ ] or peptides [ ]. As tumor lesions exceeding 1–2 mm in size require the formation of a supporting stroma [ ], targeting the stroma can lead to tumor growth suppression as depicted with 225Ac-FAPI-04 on xenograft mouse models [ ].
+Several clinical studies have yielded promising results when targeting FAP. Clinical studies with FAPI-04 [ ] and FAPI-46 [ ] with 90Y demonstrated a significant reduction in patient use of pain medication and a low rate of attributable adverse events on critical organs. In addition, a first clinical feasibility showed encouraging results on advanced adenocarcinomas with 177Lu-FAP-2286 peptide [ ]. Additionally, studies aiming to improve FAPI time retention can allow a larger flexibility with regard to the choice of the radionuclide [ , ].
+In radiopharmaceutical therapies (RPTs), beta emitters are the most commonly used radionuclides and are employed for the irradiation of large tumors [ ]. Targeting of FAP with therapeutic radionuclides is primarily intended to kill neighboring tumor cells, however destruction of CAFs may provide additional benefit. The variability of the spatial distribution of CAFs may play a critical role in the efficacy of CAF-targeted RPT [ ]. Although alpha emitters have a higher LET (greater by a factor 500) and shorter ranges (50–100 µm), which may reduce toxicity burden and improve tumor cell killing, the role of 225Ac in FAP-targeted RPT remains unknown [ , ].
+To investigate situations when the use of beta or alpha emitters might be optimal when targeting CAFs, we compare their absorbed dose estimates in 3D cellular models with CAFs and tumors intermingling. Modeling was performed with two radioisotopes currently under clinical investigation (177Lu and 225Ac) representing beta and alpha emitters. To represent the variability of the spatial distribution between CAFs and tumors, several degrees of clustering were modeled.
+
+## Methods
+
+## Analysis of CAFs immunochemistry images
+Figure  represents non-small cell lung cancer (NSCLC) and gastric adenocarcinoma. Cell nuclei are stained with the hematoxylin counterstain (blue) and FAP using SP325 FAP antibody (red). To extract information on the spatial distribution of CAF, the pixels of the three CAFs immunochemistry images were first downsampled to 20 µm × 20 µm using 3D Slicer (http://www.slicer.org, ). Second, CAF and tumors were segmented, considering the non-red areas as tumors, and the distance was calculated between each tumor cell and the nearest CAF (L) along the four cartesian directions using Python 3.7.7. Finally, L distance histograms were plotted and, tumor-to-CAF ratios and Lmean were calculated. 
+
+## Spherical mass (SM) model and variation of tumor clustering
+A 3-mm-diameter spherical model was created as a cellular mass. A voxel sampling of 20 × 20 × 20 μm3 was used, corresponding to the approximated dimensions of a cell. Therefore, a continuous distribution was assumed within the SM with a total of 1,767,063 individual voxels. The reference tissue for this model was the liver as it is a common location for metastases [ ]. The mass density of 1.05 g.cm−3 and the elemental compositions were extracted from the International Commission on Radiological Protection (ICRP 110) adult male computational phantom [ ]. Inspired by CAFs immunochemistry images, two types of cells were considered: tumors and the cancer-associated fibroblasts (CAF), with a constant allocation of 75% tumor cells and 25% CAFs within the SM.
+Additionally, tumor cells were gathered into clusters. Five models in total were created where the clusters were adjusted for their size and shape, depicting varying sizes of tumor clusters with interspersed CAFs (Fig.  ). This clustering was quantified by the Lmean, calculated using the same process as described in the Analysis of CAF immunochemistry images but in six cartesian directions as the models are in 3D. 
+Note that a constant allocation of 75% of tumor cells and 25% of CAFs was maintained within the SM, regardless of the clustering level.
+
+## Dosimetry
+Two radioisotopes of interest were selected for the dosimetry part: 177Lu for the beta emitters and 225Ac for the alpha emitters. 225Ac decays with four short-lived alphas emitters (with 221Fr, 217At and 213Bi/213Po according to the decay branch), among other minor emissions [ ] (Table ). The energy deposition in the voxels was evaluated for the five SM models with two methods applied to each radioisotope: Convolution/Superposition method with a Dose Voxel Kernel (DVK) for 177Lu and a full Monte Carlo modeling of radiation transport (MC) for 225Ac. 
+Tumor cells and CAFs were subsequently designated as sources with equal uptakes, leading to specific analyses on their absorbed dose (Dabs). As we focused on differences of resulting Dabs between tumor geometries, the radioisotopes were modeled to be within the source cells (i.e., the tumors or CAF voxels) and did not redistribute with time (i.e., biological clearance was not considered). In the majority of cancers, FAP is not expressed on tumor cells and therefore CAF and tumors were not considered sources at the same time; although FAP is expressed on sarcoma and mesothelioma tumor cells [ ].
+To provide approximately realistic activity residence in the tumor, a consistent number of decays were selected for 177Lu (109 decays) and 225Ac (106 decays). These decays were distributed uniformly among source cells—i.e., 109 decays means that decays per source vary from ~ 755 (when tumor cells are sources) to ~ 2264 (when CAFs are sources). For 106 decays, decays per source vary from ~ 0.8 to 2.3. For 225Ac, these variations of decays per source allows some stochastic variability with the spatial uptake distribution when using MC. In the context of alpha-RPT, due to the lower number of decays, the variability of activity per cell is higher with alpha particles compared to beta particles, which cannot be modeled with the Convolution/Superposition method with DVK. With all combinations of source and target, four analyses of Dabs were performed. Consistent with the MIRD formalism [ ], these combinations of sources and targets can be expressed with the following notation: S(vTarget ← vSource), leading to the Dabs analysis of S(vTumors ← vTumors), S(vCAF ← vTumors), S(vTumors ← vCAF) and S(vCAF ← vCAF). Additional analyses were conducted for the entire SM including CAFs and tumors: S(vSM ← vCAF) and S(vSM ← vTumors).
+
+## Convolution/superposition with dose voxel kernels (DVK) for 177Lu
+For 177Lu, the absorbed dose of the radioisotopes was calculated using Convolution/Superposition with a Dose Voxel Kernel (DVK) in Python 3.7.7. The number of primaries used for each SM model was 109 decays. According to the MIRD formalism [ ], the total Dabs within a voxel is the sum of energy deposition (divided by mass) from all source voxels (1):1\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document}$${D}_{i,j,k}{(v}_{s})= \sum_{s=0}^{N}\widetilde{A}{(v}_{s}).S({v}_{i, j, k}-{v}_{s})$$\end{document}Di,j,k(vs)=∑s=0NA~(vs).S(vi,j,k-vs) is the time-integrated activity of the source voxel , directly related with the uptake value, and is the absorbed dose in the target voxel per decay in the source voxel, which represent the DVK part with a sampling of 203 µm3.
+DVK methods requires a non-stochastic distribution around the source [ ] and therefore was used only for 177Lu. As a prerequisite for Convolution/Superposition, 177Lu DVK was pre-generated using GATE (Geant4 Application for Tomographic Emission) version 9.0 [ ], in the same density and composition as the model, namely the liver (1.05 g.cm−3), extracted from the ICRP 110 [ ]. The maximal beta emission range of 177Lu is 1.8 mm, thus, a specific filter size of 2013 voxels (2 mm range) was selected according to the radionuclide physical properties, so that the filter size encompasses more than 99% of the respective total energy deposition. The numbers of decays used for DVK generation for 177Lu were 107 which resulted in a relative standard deviation for the absorbed dose at the DVK source voxel of less than 0.04% (5% at 0.4 mm from the source). More detailed parameters for the DVK generation are common with the direct MC simulation, available in Monte Carlo simulation (MC) for 225Ac.
+
+## Monte Carlo simulation (MC) for 225Ac
+MC simulations were performed for 225Ac using GATE [ ] version 9.0 (release date: 03–2020) using 106 particles for each SM model. The Livermore physics model was selected which considers all atomic shells and has the best agreement with validation studies performed to low energies down to 10 eV [ ]. In the simulations, the step size limit or range cut-off parameter was arbitrary chosen to 1/20th of the voxel size, i.e., 1 μm. The GATE Radioactive Decay Module was enabled to ensure the full decay chain and its associated emissions were simulated [ ], and the Mersenne-Twister engine was selected. The entire energy spectra from parents and all daughters were considered in the Monte Carlo models of the deposited energy resulting from the radiation emitted from these radioisotopes. The model was embedded in a world size of 103 cm3.
+
+## Analysis of the SM models
+
+## Absorbed dose (Dabs) maps and statistics
+Dabs maps were created using 3D Slicer in 3D. Second, the percentage of target cells that received ≥ 10% of the maximum Dabs were calculated for both sources across the five tumor models. Third, the mean Dabs within the SM, including both CAFs and tumor cells, was calculated, e.g., S(vSM ← vCAF) and S(vSM ← vTumors).
+
+## Dose volume histograms (DVH)
+DVHs were calculated for S(vTumors ← vTumors), S(VCAF ← VCAF), S(vTumors ← vCAF) and S(vCAF ← vTumors) using Python 3.7.7. for both 177Lu and 225Ac using CAFs and tumor as targets and sources.
+
+## Efficacy ratios (ER)
+Ratios of mean Dabs were calculated for S(vTumors ← vCAF) and S(VCAF ← VCAF) relative to S(vSM ← vCAF), and for S(vTumors ← vTumors) and S(vCAF ← vTumors) relative to S(vSM ← vTumors) termed as efficacy ratios (ERs). The ER represents the fraction of mean Dabs measured on SPECT or PET imaging (when appropriate quantification is feasible) that is deposited in the target volume. The main difference with the MIRD 21 absorbed fraction [ ] is that ER do not consider the energy escaped out of the SM. An ER of 1 means that the target volume received an Dabs equal to the total of the Dabs of the SM.
+
+## Results
+
+## Analysis of CAFs immunochemistry images
+Figure  displays the three CAFs immunochemistry images with their respective CAFs and tumors segmentations, tumor ratios, L distributions and Lmean. Note that the segmentations and subsequent calculations were performed with a 20 µm × 20 µm undersampling. 
+The three CAFs immunochemistry images depict similar tumor-to-CAF ratios, with an average of 71.2% tumor cells, and an Lmean ranging from 95 to 271 µm (Fig.  ). Note that the Lmean of the five SM models covers the Lmean of the CAFs immunochemistry images (92 to 1030 µm, see Additional file : Fig. S1).
+
+## Analysis of the SM model
+
+## Absorbed dose (Dabs) maps and statistics
+Dabs maps were analyzed for both radioisotopes in two cases: with either CAFs or tumors as sources (Fig.  ). 
+The Dabs maps demonstrate that 177Lu is associated with a more homogeneous appearing Dabs than 225Ac. This is confirmed by the high percentages of CAFs and tumors cells receiving Dabs ≥ 10% of the maximum Dabs (Fig.  , Additional file : Table S1). Conversely, the use of 225Ac shows a more heterogeneous Dabs, as demonstrated by the low percentage of CAFs and tumors cells receiving ≥ 10% of the maximum Dabs. 
+The lowest percentage of CAFs and tumor cells receiving ≥ 10% of the maximum Dabs is seen with 225Ac for the model 5. In this model, when CAFs are sources and tumors are targets (i.e., S(VTumors ← VCAF) in solid green), 4.4% of the tumor cells receive ≥ 10% of the maximum Dabs. Additionally, the mean Dabs within the SM is minimally impacted by clustering for both 177Lu and 225Ac (Additional file : Fig. S2).
+
+## Dose volume histograms (DVH)
+DVHs were plotted in Fig.  for 177Lu and in Fig.  for 225Ac for the four combinations of targets and sources: S(vTumors ← vTumors), S(vCAF ← vTumors), S(vTumors ← vCAF) and S(vCAF ← vCAF). 
+For all the models, 177Lu and 225Ac are the most effective when targets and sources are identical (S(vTumors ← vTumors) and S(vCAF ← vCAF) in left columns). This trend is most critical for the model 5, where Lmean is the highest. In addition, the DVH slopes of 177Lu are steeper than those of 225Ac, due to a more homogeneous Dabs, as observed in 3.2.1. In the setting where sources and targets are different (S(vCAF ← vTumors) and S(vTumors ← vCAF) in right columns), the opposite is true. The shoulders of the DVH slopes for 225Ac become sharper when going from model 1 to 5. With 225Ac, when the targets and sources are different, a large percentage of the targets receive negligible doses as shown by extrapolated shoulder y-intercepts of less than 100%. For example, with model 5, 73% of CAFs for S(vCAF ← vTumors) and 88% of tumors for S(vTumors ← vCAF) receive nominally negligible dose. With model 1, this effect is minimized with only 2% of CAFs for S(vCAF ← vTumors) and 0% of tumors for S(vTumors ← vCAF) receiving negligible dose. Additionally, the mean Dabs within the SM is minimally impacted by clustering for both 177Lu and 225Ac (Additional file : Fig. S2).
+
+## Efficacy ratios (ER)
+
+ERs are plotted in Fig.  for 177Lu and 225Ac for S(vCAF ← vTumors), S(vTumors ← vCAF) and S(vCAF ← vCAF) and S(vTumors ← vTumors). 
+When Lmean increases (from 92 µm to 1030 µm), the most optimal combination is obtained with 225Ac and S(vCAF ← vCAF), with the ER reaching 3.7 in model 5. Conversely, the ER of 225Ac with S(vCAF ← vTumors) is the lowest at 0.1. Overall, 225Ac is the most impacted by changes in Lmean, with the ER increasing 2.2 (+ 147%) for S(vCAF ← vCAF), and decreasing 0.73 (−87%) for S(vTumors ← vCAF) and 0.74 (−88%) for S(vCAF ← vTumors) when going from model 1 to 5. The impact of Lmean is more muted for 177Lu, with the ER increasing 1.5 (+ 125%) with S(vCAF ← vCAF) and decreasing 0.6 (−66%) with S(vCAF ← vTumors) when going from model 1 to 5.
+
+## Discussion
+In this work, we have modeled a tumor comprised of a fixed ratio of tumor cells and CAFs, varying the cluster size of the tumor cells. We have shown that the use of alpha emitters results in a significant fraction of the target mass that receives negligible absorbed dose, which becomes more pronounced as clustering increases. Impact of clustering on target absorbed dose with beta particles is more muted than with alpha particles when the targets and sources are not the same, such as what would be the case with FAP-targeted RPT.
+The reason for this effect on cluster size for alpha particles is due its short range (~ 60 µm). Therefore, the effect of crossfire decreases when the mean distance between tumors and CAF (Lmean) increases. In contrast, due to their larger range (~ 0.6 mm for 177Lu [ ]), beta emitters benefit from crossfire irradiation as the clustering size increases, making beta particles more effective in larger clusters compared to alpha particles. The benefit of 177Lu is limited when the cluster size is larger than ~ 600–700 µm, which correspond to its maximal range in tissues.
+It is interesting to note that 225Ac ERs do not demonstrate a significant advantage over 177Lu ERs when tumors are both sources and target or S(vTumors ← vTumors). This is due to the high tumor cellular ratio (75% of the volume) which increases the probability of crossfire effect for 177Lu. An inverted ratio would favor the use of 225Ac over 177Lu.
+Understanding CAFs spatial distributions across types may help to personalize RPTs in regards to the choice of appropriate radionuclide [ ]. As an example, sarcoma and mesothelioma express FAPs on tumor cells [ ], and therefore the impact of clustering may be muted. In most tumors, FAP is not expressed on tumor cells [ ], and in these cases, consideration of clustering impacts the choice of radionuclide used.
+The overall deposited dose (mean Dabs) in the SM models was relatively consistent independent of clustering. This indicates that Dabs discrepancies due to the selection of CAF or tumors as sources, and various Lmean are not discernable when measuring the mean Dabs at the macroscopic scale, as performed in nuclear medicine with SPECT or PET [ ]. This is consistent with prior work, which has shown that measuring to the mean Dabs at the organ level may be inaccurate for quantifying biological effects, especially for alpha emitters [ , ]. For this reason, one must be careful when applying the promising imaging results of FAPI PET to predict subsequent efficacy to FAP-targeted RPT [ ].
+Our dosimetry results are consistent with the pancreas mouse model (PANC-1), using 177Lu and 225Ac with FAPI-46 [ ]. The authors observed that 177Lu effects were marginally superior to 225Ac. It was assumed that these effects were due to a better Dabs homogeneity throughout the tumor mass, whereas 225Ac irradiation were locally limited. These observations are consistent with a Lmean greater than 100 µm although these measures were not reported [ ].
+Limitations of this study are primarily the lack of in vitro correlates to our modeling. Additionally, further studies on the spatial distribution of CAFs and tumor cells are required to better elucidate clustering in vivo, and to better understand the relative benefit of alpha or beta emitters. This work could also be extended to comparison of 90Y against 177Lu (particularly when Lmean might exceed 500 µm), motivated by the interesting results of a 90Y-FAPI-46 feasibility study [ ]. Additionally, tumor mass radius greater than 3 mm, various tumor-to-CAF ratios or heterogeneous uptake distributions could be considered in our model, as CAFs and associated fibrosis can hamper the accessibility of RPTs within the tumoral mass [ ].
+In order to focus on the radiation properties of the isotopes, the complex biological reality was simplified. For example, CAFs and tumor cells were modeled as cubes and the entire SM volume was considered as sensitive and used for calculation of absorbed dose. Re-distribution of the parent or the 225Ac daughters were not simulated. Various developments for retaining 225Ac and its daughter radioisotopes are ongoing and might strength this approximation in the future. These techniques include for example the use of containing polymersomes containing nanoparticles, which revealed a 213Bi retention of at least 69% and a much-decreased renal uptake of free 213Bi compared to no retention strategies at all [ , ].
+Also, clearance was not considered, although several authors reported that the tumor retention time were particularly short for FAPI-02 and FAPI-04 [ , ], which can mitigate the selection of 225Ac and 177Lu, beyond the criterion of Lmean. If biological half-life were modeled, shorter half-life radionuclides would have potential benefit such as 211At. The alternative to shorter half-life radionuclides is to improve the retention of the radioligand as shown in recent promising results for FAPI-21, FAPI-46 [ ], and FAP-2286, even if their performance remain lower than 177Lu-PSMA, 177Lu-DOTATOC, or 177Lu-DOTATATE [ ].
+Another limitation is that this work did not model the difference in labelling rates between 177Lu and 225Ac. Labelling rates for 177Lu are around 20 FAP-ligand molecules per 177Lu atom [ ], versus one 225Ac atom per million molecules [ ]. This much lower labelling efficiency may result in target saturation, limiting CAF uptake of alpha labeled FAP-radioligands. Additionally, we based our efficacy criterion on the irradiation of the target cells in the spherical mass, ignoring bystander effects. However, DNA damage, cell death, apoptosis and cell transformation occurs even in non-irradiated cells [ ].
+Finally, this work is based on a spherical model which cannot represent the large heterogeneity of the CAF and tumor existing structures. The 75%/25% tumor-to-CAF ratio is not representative of all tumors but was selected as an example case, supported by the data of the three CAFs immunochemistry. Future work can explore more various tumor-to-CAF ratio, and heterogeneous uptakes which are specific of other pathologies. Furthermore, the blood vessels, immune cells or acellular components were not modeled, for simplification. However, we believe that our results are still informative as the lack of other components does not impact the specific expression of FAP either by CAF or tumor cells.
+
+## Conclusion
+Our work demonstrated that changes in tumor cell clustering may impact the efficacy of FAP-targeted RPTs, particularly with 225Ac due to the short radiation range. Measured absorbed dose using SPECT or PET will overestimate the relative benefit of alpha particles compared to beta particles when targeting CAFs. The longer radiation range of 177Lu helps mitigate the effect of cluster size. An improved understanding of tumor microenvironment distribution (CAFs and tumor cells) may help to optimize RPTs with respect to the choice of radionuclide (alpha or beta emitting agents) and the source/target combination (tumors and/or CAFs).
+
+## Supplementary Information
+
+Additional file 1:
+Fig. S1. Lmean rank of the five SM models and CAFs immunochemistry. Table S1. Percentage of CAFs and tumors receiving ≥10 % of the maximum Dabs within the SM model of the five models using either tumors and CAFs as sources for 177Lu and 225Ac. Fig. S2. Mean Dabs within the SM model of the five models using either tumors (brown) and CAFs (violet) as sources for 177Lu (dashed) and 225Ac (solid).
+
+## Abbreviations
+DabsAbsorbed dose
+RPTRadiopharmaceutical therapy
+CAFCancer-associated fibroblast
+DVHDose volume histogram
+EREfficacy ratio
+FAPFibroblast activation protein
+FAPIFibroblast activation protein inhibitor
+NSCLCNon-small cell lung cancer
+LDistance between each tumor cell and the nearest CAF
+LmeanMean distance between each tumor cell and the nearest CAF
+SMSpherical mass
+ICRPInternational Commission on Radiological Protection
+MCMonte Carlo
+MIRDMedical Internal Radiation Committee
+GATEGeant4 Application for Tomographic Emission
+SPECTSingle photon emission computed tomography
+PETPositron emission tomography
+PSMAProstate-specific metastasis antigen
+DOTATOCDOTA0-D-Phe1-Tyr3-octreotide
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Acknowledgements
+The authors are grateful to Clovis Oncology for providing images of Cancer-Associated Fibroblasts immunochemistry.
+
+## Author contributions
+JT and TH contributed to the design of the study. JT performed the data analysis, calculations and wrote the manuscript draft. TH, SP and SG were major contributors to the manuscript. The authors read, critically reviewed, and approved the final manuscript. TH and FY supervised the project. All authors read and approved the final manuscript.
+
+## Funding
+This work was performed under the NIH R01 CA235741 grant, PIs: T.A. Hope/F.Y. Feng.
+
+## Availability of data and materials
+The datasets used and/or analyzed during the current study are available from the corresponding author on reasonable request.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+TH has received an investigator-initiated trial grant from Clovis Oncology. SG is a consultant to RayzeBio and CDE Dosimetry Services.
