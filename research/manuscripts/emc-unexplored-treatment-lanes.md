@@ -279,9 +279,17 @@ bias analysis of the registry result. **Nobody has an α/β estimate for EMC.**
 ⛔ **And a correction to the strongest preclinical support for this lane.** The dose-dependent
 radiosensitivity plus hypoxia-prodrug potentiation result (**PMID 32948981**) was run in an
 **H-EMC-SS** xenograft — the line this repository determined is
-`NOT_FUSION_POSITIVE_PER_CURATED_RECORD` (2026-08-05). A real, profiled cell line was irradiated and
-responded; "EMC xenograft" is doing work the evidence cannot carry. Classified in
-[`emc-systems-map.json`](./emc-systems-map.json) → `OBJ-LINE-HEMCSS.read_by` this session.
+`NOT_FUSION_POSITIVE_PER_CURATED_RECORD` (2026-08-05). Cellosaurus `CVCL_1238` records, citing a
+primary source, that it *"does not harbor a gene fusion involving EWSR1 which is a hallmark of
+extraskeletal myxoid chondrosarcoma"*, and Cell Model Passports gives it **30.82 mutations/Mb**
+against real EMC's measured TMB of 0–2. **The identity of this model is disputed** — the canonical
+correction is
+[`emc-surface-target-landscape.md` → Amendment 1](./emc-surface-target-landscape.md), and this memo
+does not restate it. A real, profiled cell line was irradiated and responded; **"EMC xenograft" is
+doing work the evidence cannot carry**, so this lane's grade rests on the clinical series and the
+case-level dose evidence instead. The same caveat applies to the zaltoprofen/PPARγ result
+(**PMID 36636023**) cited in §5. Both uses are classified in
+[`emc-systems-map.json`](./emc-systems-map.json) → `OBJ-LINE-HEMCSS.read_by` as `invalidated`.
 
 ### 3.8 · Adaptive scheduling
 

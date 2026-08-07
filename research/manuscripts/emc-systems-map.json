@@ -1404,6 +1404,12 @@
           "use": "Europe PMC QUERY STRING. `epmc_emc_hypoxia_model` names \"H-EMC-SS\" beside \"myxoid chondrosarcoma\" to retrieve hypoxia / hypoxia-activated-prodrug / ICF05016 / proteoglycan literature.",
           "classification": "unaffected",
           "why_unaffected": "The query itself grounds nothing. BUT THIS ONE CARRIES A LIVE WARNING AND IT IS NOT A FORMALITY: the papers it is built to retrieve -- ICF05016 + external-beam RT (PMID 32948981) and the zaltoprofen/PPARgamma result (PMID 36636023) -- DID their in-vivo and in-vitro work IN this line. So every hit it returns is a use that must be classified ON ARRIVAL, and `unaffected` will usually be the wrong answer for the hit even though it is the right answer for the query. The 2026-08-07 physical-modality sweep leaned on PMID 32948981 as the load-bearing preclinical support for an EMC radiosensitivity/hypoxia argument while describing it as an 'EMC xenograft'; that description is what this object exists to stop."
+        },
+        {
+          "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+          "use": "Section 3.7 (the radioresistance reappraisal) cites PMID 32948981 -- dose-dependent radiosensitivity plus hypoxia-activated-prodrug potentiation -- which was performed in an H-EMC-SS xenograft. Section 6 additionally cites the myxofibrosarcoma BNCT cellularity finding and, in section 5, the zaltoprofen/PPARgamma result (PMID 36636023), also H-EMC-SS.",
+          "classification": "invalidated",
+          "why_invalidated": "The memo DISCOUNTS this evidence rather than resting on it, and says so in the same paragraph that introduces it: the sweep that produced section 3.7 offered PMID 32948981 as the load-bearing preclinical support for an EMC hypoxia/radiosensitivity argument, and the memo overrides that -- a real, profiled cell line was irradiated and responded, but 'EMC xenograft' is doing work the curated record does not support. The lane's grade therefore rests on the clinical series and the case-level BED evidence, not on this. Filed `invalidated` rather than `unaffected` because the claim it would otherwise support IS an EMC claim, which is exactly the case this object exists to stop -- and because the sibling entry for `physical-modality-targets.json` predicted this arrival in advance."
         }
       ],
       "distinct_from": [
