@@ -1,8 +1,8 @@
 {
- "_the_count_is_meant_to_fall": "Same idiom as systems_check's `last_verified: unverified` count. Resolve an entry with --verify-online (CI, $0, Europe PMC), which records the date and the returned title \u2014 never by relabelling it by hand.",
+ "_the_count_is_meant_to_fall": "Same idiom as systems_check's `last_verified: unverified` count. Resolve an entry with --verify-online (CI, $0, Europe PMC), which records the date and the returned title — never by relabelling it by hand.",
  "_what": "Every identifier that appears in this repository's PROSE and in none of its fetch products. Written once, on 2026-08-07, after a fabricated PMID reached a manuscript and passed lint_claims twice.",
- "_what_an_entry_means": "NOT that the citation is wrong. It means NOTHING IN THIS REPOSITORY CORROBORATES IT \u2014 no fetch, no registry curation, no graph record. Most of these are almost certainly real citations that no artifact has needed yet. The point is that the list exists and is finite, so the ones that are not real can be found.",
- "_what_this_does_not_prove": "An ANCHORED identifier is not thereby verified either. It means some artifact carries it, which is evidence of a fetch, not of correctness \u2014 an artifact can record an identifier a human typed into a curated field. This gate raises the floor; it is not a truth oracle.",
+ "_what_an_entry_means": "NOT that the citation is wrong. It means NOTHING IN THIS REPOSITORY CORROBORATES IT — no fetch, no registry curation, no graph record. Most of these are almost certainly real citations that no artifact has needed yet. The point is that the list exists and is finite, so the ones that are not real can be found.",
+ "_what_this_does_not_prove": "An ANCHORED identifier is not thereby verified either. It means some artifact carries it, which is evidence of a fetch, not of correctness — an artifact can record an identifier a human typed into a curated field. This gate raises the floor; it is not a truth oracle.",
  "entries": [
   {
    "files": [
@@ -2207,6 +2207,16 @@
    "kind": "PMID",
    "note": "",
    "status": "unverified_at_baseline"
+  },
+  {
+   "files": [
+    "research/manuscripts/nr4a3-fusion-transcriptional-output.md"
+   ],
+   "id": "8634690",
+   "key": "PMID:8634690",
+   "kind": "PMID",
+   "note": "VERIFIED BY FETCH, not by recollection. Retrieved from Europe PMC by scripts/lit_consensus_probe.py on 2026-08-08 (run 31264588578) and committed in research/literature/fusion-consensus-probe.json -> queries.fusion_cloning_primary: 1995, 'Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation', citedByCount 139. It replaces the unsourced 1995 attribution withdrawn in that manuscript's Appendix A. ⚠ IT NEEDS A LEDGER ENTRY ONLY BECAUSE THE GATE CANNOT READ ITS OWN FETCH FORMAT: the probe writes '\"pmid\": \"8634690\"' and lint_citations.PATTERNS['PMID'] is r'\\bPMID[:\\s]*(\\d{6,9})\\b', which allows a colon or whitespace between the label and the digits but not '\": \"'. So EVERY PMID retrieved by this repository's own Europe PMC probes is invisible to the anchor scan. Widening the pattern would also re-anchor an unknown share of the 211 baseline identifiers at a stroke, which is a deliberate change to the finding the baseline IS - so it is reported rather than done here.",
+   "status": "verified"
   },
   {
    "files": [

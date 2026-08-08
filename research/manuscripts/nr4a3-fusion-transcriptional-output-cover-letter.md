@@ -41,9 +41,13 @@ Dear Editor,
 I am pleased to submit the manuscript above for consideration as an Original Research Article in
 *Genes, Chromosomes & Cancer*. Extraskeletal myxoid chondrosarcoma (EMC) is a rare translocation
 sarcoma driven, in most cases, by the *EWSR1::NR4A3* fusion — a fusion transcription factor whose
-downstream transcriptional programme has been assumed for three decades but never assembled and tested
-against a proper calibration. The manuscript addresses exactly that gap, and it sits squarely within
-the journal's scope of genetic and genomic analysis of neoplasia.
+downstream transcriptional programme has been presumed since the fusion was cloned in 1995, and which
+I have not found assembled and tested against a calibration. The manuscript addresses exactly that
+gap, and it sits squarely within the journal's scope of genetic and genomic analysis of neoplasia.
+The gap is unusually literal: across 1,305 Europe PMC records naming the disease, 261 of them reviews,
+the three genes carrying a published DNA-binding assay against an NR4A3 chimera are named in 3, 1 and
+0 of those reviews respectively. I make no claim to have corrected a prevailing account, because the
+same search finds no prevailing account to correct.
 
 The work makes four contributions, each of which I have tried to state at its true weight rather than
 inflate. First, it assembles an **evidence-typed catalogue** of every gene any NR4A3 chimera or native

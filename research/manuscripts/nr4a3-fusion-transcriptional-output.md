@@ -97,11 +97,22 @@ fusion is a transcription factor with an aberrant output, and that output is whe
 
 ### 1.2 · The gap this addresses
 
-The hypothesis is thirty years old, and the evidence under it is thin in a specific, checkable way.
-Two questions are routinely conflated:
+The hypothesis dates from the fusion's cloning in 1995 (PMID 8634690), and the evidence under it is
+thin in a specific, checkable way. Two questions bear on it, and they are different questions:
 
 1. Which genes has anyone shown an NR4A3 chimera to physically bind and drive?
 2. Which genes are high in EMC tumours?
+
+**Neither is much discussed.** Measured against Europe PMC on 2026-08-08: of 1,305 records naming the
+disease, 261 are reviews, and the three genes with a published fusion DNA-binding assay are named in
+**3, 1 and 0 of those 261 reviews** respectively (*PPARG*, *SEMA3C*, *ENO3*; 37, 6 and 2 records in
+the corpus as a whole, and both *ENO3* records are about a different disease). The primary sources
+are, by contrast, ordinary references of this literature — 42–70% of their citations come from EMC
+records, and each is cited by four to six EMC reviews. So the gap this addresses is not a
+contested claim in need of correction; it is that a disease defined by a transcription-factor fusion
+has **no assembled account of what that fusion transcribes**, and the question is asked rarely enough
+that the distinction between the two above has had little occasion to be drawn. Query strings,
+counts and their limits are in the deposited probe artifact.
 
 The first is a mechanism claim; the second is an association. A gene can satisfy the second for reasons
 that have nothing to do with the fusion — EMC's cell of origin, its myxoid and hypocellular
@@ -867,7 +878,13 @@ not the soft tissue EMC arises in.
 Four things, each incremental; nothing here is a first-in-field claim:
 
 - **The catalogue is evidence-typed and the class-A count is stated.** The number of genes with a
-  DNA-binding assay against an NR4A3 chimera is three, and the field's prose does not usually say so.
+  DNA-binding assay against an NR4A3 chimera is three, and no prior source states that number. The
+  reason is measured rather than asserted (§1.2), and it is not that the field says something
+  different: the three genes are named in 3, 1 and 0 of 261 EMC review records, so there is no
+  competing account to correct. ⚠ **This is therefore a claim about a near-absence, and it is the
+  weaker of the two directions a citation index supports.** That the genes are seldom named is a
+  positive reading; that no source anywhere assembles them is not established by it, and a review
+  outside the searched corpus could do so.
 - **The calibration.** A size-matched empirical null on the platform's own genes converts a pervasive
   and uninformative "higher in EMC" into a statement that can be refused — and it refuses this work's
   own aggregate, at a quantified distance (39% and 88% of threshold) rather than as a bare negative.
@@ -1092,7 +1109,9 @@ Retained so that a superseded number stays quotable as history and not as a curr
 | Every `p_emp = 0.0005` written as an equality. | **corrected 2026-08-08** | 0.0005 is the resolution floor of a 4,000-draw two-sided null (2/4001) and is written `≤ 0.0005` (§2.3). |
 | "Four of four graded controls agree", with *PLAGL1*/GPL6244 marked "not graded". | **corrected 2026-08-08** | Five of six control × platform cells are computable and all five agree; *PLAGL1*/GPL6244 is *inside its null band* and is not a reading at this power. The three-state grading rule is now stated in §2.4. |
 | "Deep NR4A1 sets (ReMap2022) do recover both *SEMA3C* and *ENO3*" — offered in §3.11 as a near-miss worth noting. | **corrected 2026-08-08** | True and uninformative: 82.8% of a 198-gene background panel is also recovered by that catalogue. Calibrated, no class-A gene exceeds the panel in any NR4A peak set (§3.11, Table 9). The uncalibrated version was the same error §1.3 exists to refuse, inside the section that reports the paper's central negative. |
-| A background citation attributing the cloning of the EMC fusion to a 1995 paper. | **withdrawn** | The PMID traced to no held source and was written from recollection. The statement is now anchored on the verbatim GEO series record and on Brenca *et al.* |
+| A background citation attributing the cloning of the EMC fusion to a 1995 paper. | **withdrawn, then re-anchored 2026-08-08** | The original PMID traced to no held source and was written from recollection, and the statement was re-anchored on the GEO series record and Brenca *et al.* ⚠ That left §1.2's "the hypothesis is thirty years old" resting on a date with no source in the record — a dated claim escapes an identifier checker because a bare year carries no identifier. The cloning paper is now retrieved rather than recalled (PMID 8634690, 1995, reference 9a). |
+| "Two questions are **routinely conflated**" (§1.2) and "the field's prose **does not usually say** so" (§4.2). | **superseded 2026-08-08** | Both asserted what a literature does, and neither had been measured. Measured: the three class-A genes are named in 3, 1 and 0 of 261 EMC review records. A literature that seldom names these genes cannot routinely conflate claims about them; the true state is a near-absence of any account, not a mistaken one, and §1.2 and §4.2 now say that instead. The scientific results are untouched — nothing in §3 ever depended on what the field believed. |
+| "…never assembled and tested against a proper calibration" (cover letter). | **corrected 2026-08-08** | An unrestricted negative about all prior literature, resting on nothing. Narrowed to what was actually done — a search, reported as a search — and the novelty claim now rests on the measured near-absence rather than on an assertion that no prior assembly exists. |
 | "All twelve NR4A3-specific peak sets are too shallow to recover any gene at all", and the occupancy axis reported across **86** peak sets, **8** informative experiments and **24** tests. | **superseded 2026-08-08** | True of the twelve ChIP-Atlas sets and still stated of them, but no longer true of the axis: the Haller *et al.* acinic cell carcinoma deposit adds four NR4A3 cistromes at 8,501–18,666 peaks, 55–121× the deepest previously available. The axis is now 110 peak sets, 12 informative experiments and 36 tests (§3.11, Table 9). The conclusion is unchanged and better supported — 2 hits against 1.8 expected, binomial p 0.54 — and *PPARG*'s zero is now a negative rather than an absent reading. |
 | The occupancy verdict decided by comparing the observed hit count with its expected value. | **corrected 2026-08-08** | Expected is fractional and observed is an integer, so 2 against 1.8 read as an excess. The count is judged by a binomial tail (p = 0.54 for this many or more); no wording in any version of this paper rested on the earlier comparison. |
 
@@ -1134,6 +1153,10 @@ Retained so that a superseded number stays quotable as history and not as a curr
    fusion protein. *Biochem Biophys Res Commun* 2006. PMID 16756948; doi 10.1016/j.bbrc.2006.05.134.
 9. Subramanian S, West RB, Marinelli RJ, et al. The gene expression profile of extraskeletal myxoid
    chondrosarcoma. *J Pathol* 2005;206:433–444. PMID 15920699; doi 10.1002/path.1792.
+9a. Labelle Y, Zucman J, Stenman G, et al. Oncogenic conversion of a novel orphan nuclear receptor by
+   chromosome translocation. 1995. PMID 8634690. *(The cloning of the EMC fusion; the date under
+   §1.2. Recovered from Europe PMC 2026-08-08 and recorded in the deposited probe artifact — it
+   replaces the unsourced attribution withdrawn in Appendix A.)*
 10. Zhao X, Min X, Wang Z, et al. NR4A3 inhibits the tumor progression of hepatocellular carcinoma by
     inducing cell cycle G0/G1 phase arrest and upregulation of CDKN2AIP expression. *Int J Biol Sci*
     2024. PMID 39664575; PMCID PMC11628324; doi 10.7150/ijbs.95174.
