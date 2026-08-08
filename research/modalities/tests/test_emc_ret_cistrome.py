@@ -587,6 +587,30 @@ def test_the_zenodo_record_carries_its_not_the_fusion_caveat():
         assert meta["doi"] and meta["pmid"]
 
 
+def test_zenodo_is_fetched_before_the_catalogue_sweeps_that_would_starve_it():
+    """A source's ORDER inside a budget-paced fetch is part of whether it is reachable at all.
+
+    Zenodo was appended at the end of `fetch()` when it was added, which put a few-MB download that
+    a run may have been dispatched specifically to get last in line behind ChIP-Atlas and ReMap
+    sweeps measured in hundreds of megabytes. The budget is real (`RET_CISTROME_BUDGET_S`) and
+    `stream_lines` takes a share of it per catalogue, so the ordering silently made the highest-
+    value source the first to record `budget_exhausted`. Nothing else here would catch that: the
+    module would report success, the artifact would carry an honest "budget exhausted" line, and
+    the one peak set the run existed for would simply be absent.
+
+    Every other source degrades to a recorded partial and is already cached from previous runs.
+    This one is the only deep non-paralogue NR4A3 peak set known to be reachable. It goes first.
+    """
+    import inspect
+    src = inspect.getsource(M.fetch)
+    z = src.index("fetch_zenodo_peaksets()")
+    for later in ("fetch_chip_atlas_peaks(", "for tf, raw in remap_blobs.items()"):
+        assert z < src.index(later), (
+            f"`fetch_zenodo_peaksets()` now runs AFTER `{later}` — a budget-paced sweep can starve "
+            "it, and a starved run reports success with the peak set missing")
+    assert src.count("fetch_zenodo_peaksets()") == 1, "fetched twice would double-count peaksets"
+
+
 def test_peak_like_matching_accepts_beds_and_rejects_prose():
     assert M.PEAKISH.search("NR4A3_peaks.bed.gz")
     assert M.PEAKISH.search("x.narrowPeak")

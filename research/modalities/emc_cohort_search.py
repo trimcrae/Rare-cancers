@@ -84,7 +84,16 @@ KNOWN_NON_COHORT_DATASETS = {
 # ⭐ THE POSITIVE CONTROL. A search that finds no fourth cohort is worth nothing unless the same
 # queries recover the cohorts that DO exist — otherwise "we found nothing" and "the search is
 # broken" are the same output. These three must come back, or the negative is withdrawn.
+#
+# ⭐ AND THE ARM SIZE IS CHECKED, NOT JUST THE ACCESSION, which turned out to be the stronger test.
+# The counts below are the manuscript's own EMC arms. Recovering the accession only proves a query
+# reached a deposit; recovering SIX EMC samples in GSE24369 by reading GEO sample titles — with no
+# reference to the series matrix the manuscript actually scores — is an independent corroboration
+# of the n the paper reports. If GEO ever returns a different count, either the deposit changed or
+# this repository's copy is stale, and both are things a reader of the paper needs to know before
+# the negative is quoted.
 POSITIVE_CONTROLS = ["GSE24369", "GSE4303", "GSE28866"]
+EXPECTED_EMC_ARM = {"GSE24369": 6, "GSE4303": 10, "GSE28866": 4}
 
 # Deliberately overlapping. A query that returns nothing is indistinguishable from a dataset that
 # does not exist, so several are run and every one is recorded — the discipline `discover_geo` in
@@ -361,16 +370,31 @@ def derive(inp):
     # them is whether the same queries recovered the cohorts that DO exist.
     recovered = [a for a in POSITIVE_CONTROLS if a in res["candidates"]]
     missed = [a for a in POSITIVE_CONTROLS if a not in res["candidates"]]
+    arms, arm_disagreements = {}, []
+    for a in recovered:
+        got = res["candidates"][a].get("n_samples_naming_emc")
+        want = EXPECTED_EMC_ARM.get(a)
+        arms[a] = {"emc_samples_found_in_geo_sample_titles": got,
+                   "emc_arm_the_manuscript_reports": want,
+                   "agree": got == want}
+        if got is not None and got != want:
+            arm_disagreements.append(f"{a}: GEO sample titles give {got}, the manuscript reads "
+                                     f"{want}")
     res["positive_control"] = {
         "_why": ("a null result from an instrument that recovers no known positive is not a "
                  "negative, it is a broken search"),
         "cohorts_the_manuscript_reads": POSITIVE_CONTROLS,
         "recovered_by_these_queries": recovered,
         "not_recovered": missed,
-        "passes": not missed,
+        "emc_arm_sizes": arms,
+        "arm_size_disagreements": arm_disagreements or None,
+        "passes": not missed and not arm_disagreements,
         "_note": ("each is recovered and then EXCLUDED by the dedup, which is the intended path: "
                   "recovery proves the queries reach EMC deposits, exclusion proves the guard "
                   "recognises the ones already used"),
+        "_arm_note": ("the arm sizes are read from GEO SAMPLE TITLES here and from the series "
+                      "MATRIX in nr4a3_fusion_targets.py — two independent paths to the same "
+                      "number, which is why agreement is worth recording"),
     }
 
     new = sorted(a for a, c in res["candidates"].items() if c["grade"] == "NEW_CANDIDATE")
@@ -383,12 +407,20 @@ def derive(inp):
                                      if c["names_emc_in_prose"]),
         "new_fourth_cohorts": new,
         "ungraded_no_sample_level_read": ungraded,
+        # ⛔ THE HEADLINE KEYS ON THE WHOLE POSITIVE CONTROL, NOT JUST ON RECOVERY. The first
+        # version keyed on `missed` alone, so an arm-size disagreement set `passes: False` in one
+        # field and printed a clean negative in the next — a guard that noticed and did not act,
+        # which is worth less than no guard because it reads as reassurance. Whatever fails the
+        # control withholds the negative.
         "headline": (
             ("No fourth EMC expression cohort was found. Every series any query returned is either "
              "already used by the manuscript, shares a publication or samples with one, is not a "
-             "series at all, or carries too few EMC samples to contrast." if not missed else
-             "WITHHELD — the queries did not recover every cohort the manuscript already reads, so "
-             f"a null from them is uninterpretable. Not recovered: {missed}.")
+             "series at all, or carries too few EMC samples to contrast."
+             if res["positive_control"]["passes"] else
+             "WITHHELD — this search did not clear its own positive control, so a null from it is "
+             "uninterpretable. " + "; ".join(
+                 ([f"cohorts not recovered: {missed}"] if missed else []) +
+                 (arm_disagreements or [])) + ".")
             if not new else
             f"{len(new)} candidate fourth cohort(s) survived every dedup check: {new}. Each needs "
             "characterising at sample level before any number is read from it."),

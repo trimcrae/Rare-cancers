@@ -159,6 +159,29 @@ def test_the_positive_control_passes_when_all_three_cohorts_come_back():
     assert res["positive_control"]["recovered_by_these_queries"] == M.POSITIVE_CONTROLS
 
 
+def test_a_recovered_cohort_whose_arm_size_disagrees_withholds_the_negative():
+    """Recovering the accession only proves a query reached a deposit. Recovering the RIGHT NUMBER
+    of EMC samples, by reading GEO sample titles rather than the series matrix the manuscript
+    scores, is an independent corroboration of the paper's n -- and a disagreement means either the
+    deposit changed or this repository's copy is stale, both of which a reader needs before quoting
+    the negative."""
+    ctl = [_series(a, title=f"{a} record") for a in M.POSITIVE_CONTROLS]
+    # GSE24369 carries six EMC tumours; hand it four.
+    res = M.derive(_inp(ctl, {"GSE24369": _samples(
+        "Extraskeletal myxoid chondrosarcoma 1", "Extraskeletal myxoid chondrosarcoma 2",
+        "Extraskeletal myxoid chondrosarcoma 3", "Extraskeletal myxoid chondrosarcoma 4",
+        "Low-grade fibromyxoid sarcoma 1", start=940000)}))
+    pc = res["positive_control"]
+    assert pc["passes"] is False
+    assert pc["arm_size_disagreements"], pc
+    assert "GSE24369" in pc["arm_size_disagreements"][0]
+    assert res["verdict"]["headline"].startswith("WITHHELD")
+
+
+def test_the_expected_arm_sizes_are_the_ones_the_manuscript_reports():
+    assert M.EXPECTED_EMC_ARM == {"GSE24369": 6, "GSE4303": 10, "GSE28866": 4}
+
+
 def test_recovery_and_exclusion_are_both_required_of_a_positive_control():
     """Recovery proves the queries reach EMC deposits; exclusion proves the guard recognises what
     is already used. A control that was recovered and then COUNTED would be the worst outcome."""

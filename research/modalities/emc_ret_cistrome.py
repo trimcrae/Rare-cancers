@@ -2160,6 +2160,17 @@ def fetch():
 
     # ---- part 2: the peaks --------------------------------------------------------------------
     peaksets = {}
+
+    # ⛔ ZENODO FIRST, AND THE ORDER IS THE WHOLE POINT. It was appended at the END of this
+    # function when it was added, which put a small, deliberately-requested, few-MB download last
+    # in line behind a budget-paced sweep of catalogues measured in hundreds of megabytes — so the
+    # ONE source a run might have been dispatched specifically to get is the first thing the budget
+    # starves, and it would record `budget_exhausted` having cost the whole run. Every other source
+    # here is already cached from previous runs and degrades to a recorded partial; this one is the
+    # only deep non-paralogue NR4A3 peak set known to be reachable at all (see ZENODO_RECORDS), so
+    # it goes first and the sweeps take what is left. Cheap-and-decisive before slow-and-broad.
+    peaksets.update(fetch_zenodo_peaksets())
+
     ca = cache["chip_atlas"]
     if ca.get("_status") == "read" and ca.get("experiments"):
         peaksets.update(fetch_chip_atlas_peaks(ca["experiments"]))
@@ -2196,8 +2207,6 @@ def fetch():
                       "intersected — an intersection on an assumed build is the defect this "
                       "module refuses, and on chr10 it would not throw, it would silently "
                       "report another locus.")}
-    # Zenodo — the only deep non-paralogue NR4A3 route (see ZENODO_RECORDS).
-    peaksets.update(fetch_zenodo_peaksets())
     cache["peaksets"] = peaksets
     cache["attempts"] = ATTEMPTS
     cache["_budget_spent_s"] = BUDGET.spent()

@@ -451,7 +451,7 @@
    "title": "STT5592_EMC"
   }
  },
- "generated_utc": "2026-08-08T12:23:03Z",
+ "generated_utc": "2026-08-08T12:25:29Z",
  "known_cohorts": {
   "GSE170983": "⛔ NOT a fourth cohort — the same Brunner deposit as GSE28866, same PMID 22929540 and the same four EMC samples, under a different accession",
   "GSE24369": "GPL6244 array arm of the manuscript (6 EMC vs 29 comparators)",
@@ -460,13 +460,32 @@
  },
  "n_known_gsms": 157,
  "positive_control": {
+  "_arm_note": "the arm sizes are read from GEO SAMPLE TITLES here and from the series MATRIX in nr4a3_fusion_targets.py — two independent paths to the same number, which is why agreement is worth recording",
   "_note": "each is recovered and then EXCLUDED by the dedup, which is the intended path: recovery proves the queries reach EMC deposits, exclusion proves the guard recognises the ones already used",
   "_why": "a null result from an instrument that recovers no known positive is not a negative, it is a broken search",
+  "arm_size_disagreements": null,
   "cohorts_the_manuscript_reads": [
    "GSE24369",
    "GSE4303",
    "GSE28866"
   ],
+  "emc_arm_sizes": {
+   "GSE24369": {
+    "agree": true,
+    "emc_arm_the_manuscript_reports": 6,
+    "emc_samples_found_in_geo_sample_titles": 6
+   },
+   "GSE28866": {
+    "agree": true,
+    "emc_arm_the_manuscript_reports": 4,
+    "emc_samples_found_in_geo_sample_titles": 4
+   },
+   "GSE4303": {
+    "agree": true,
+    "emc_arm_the_manuscript_reports": 10,
+    "emc_samples_found_in_geo_sample_titles": 10
+   }
+  },
   "not_recovered": [],
   "passes": true,
   "recovered_by_these_queries": [
