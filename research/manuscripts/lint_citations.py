@@ -151,6 +151,19 @@ def _scan(paths):
         for kind in PATTERNS:
             for ident in extract(kind, text):
                 found[kind][ident].add(rel)
+        # ⛔ A THIRD FORM: A FETCH CORPUS KEYED BY THE BARE IDENTIFIER (measured 2026-08-08).
+        # `lit-targets-endpoint-benchmarks.json` stores rows as {"10913809": {...}} — no `PMID`
+        # token, no URL, no `EXT_ID`. Nine genuinely fetched-and-quoted identifiers read as
+        # unanchored, i.e. as suspected fabrications.
+        # ⚠ SCOPED TO THE CORPUS FILENAME ON PURPOSE, AND THE SCOPE IS THE WHOLE SAFETY ARGUMENT.
+        # A global bare-digit rule was written and deleted earlier today: 6-9 digit runs appear as
+        # object keys all over this repo (vast machine ids, run ids), so it could FALSELY ANCHOR a
+        # fabricated PMID that collided with an unrelated number — the one direction this gate must
+        # never move. `lit-targets-*.json` is the repo's fetch-corpus convention, so a quoted numeric
+        # KEY there means "a paper we retrieved" and means nothing of the sort anywhere else.
+        if re.match(r"^lit-targets-[\w.-]+\.jsonl?$", os.path.basename(rel)):
+            for m in re.findall(r'"(\d{6,9})"\s*:', text):
+                found["PMID"][m].add(rel)
     return found
 
 
