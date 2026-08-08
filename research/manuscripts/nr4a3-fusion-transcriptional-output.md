@@ -388,6 +388,8 @@ alone for that reason.
 
 **Figure 1** shows every tumour. **Figure 4** summarises which instrument supports which gene.
 
+**Table 5. The three class-A genes on both array platforms, under an exact label-permutation test.**
+
 | gene | class | GPL6244 Δ mean z (exact p, BH q) | GPL3290 Δ mean z (exact p, BH q) |
 |---|---|---|---|
 | **ENO3** | A · fusion | **+0.8075** (7.3 × 10⁻⁵, q 0.00044) | **+3.8113** (1.3 × 10⁻⁴, q 0.00063) |
@@ -422,6 +424,8 @@ contaminating tissue present.
 The comparator arm is not one thing, and the class-A genes behave very differently when it is taken
 apart. Each cell is the same contrast with the same EMC arm, its own exact permutation p in brackets.
 
+**Table 6. The same contrast against each comparator sub-arm separately.**
+
 | gene | vs LGFMS only (17) | vs myxoid only (23) | vs non-myxoid only (6) | GPL3290, pool-matched only (3) |
 |---|---|---|---|---|
 | **ENO3** | **+0.805** (1.7 × 10⁻⁴) | **+0.808** (8 × 10⁻⁵) | **+0.807** (0.022) | **+3.515** (0.0035, the design floor) |
@@ -453,6 +457,8 @@ is consistent with its elevation being comparator-driven rather than matrix-driv
 The 3SEQ arm carries both contrasts in one experiment: 32 non-EMC sarcoma libraries on an unrelated
 technology, and 27 normal-organ libraries. The median gene in this deposit has an EMC/normal ratio of
 1.05 and an EMC/sarcoma ratio of 1.05; the 95th percentiles are 1.89 and 1.89.
+
+**Table 7. The 3SEQ cohort, calibrated against all 14,120 genes in the same deposit.**
 
 | gene | peaks | EMC/normal | percentile | EMC/sarcoma | percentile |
 |---|---:|---:|---:|---:|---:|
@@ -497,6 +503,8 @@ first version of this analysis:
 Set D and the whole of GPL6244 are unaffected, which is why the replication in §3.9 stands.
 
 ### 3.9 · The aggregate does not clear its null; the published EMC phenotype clears it 12-fold
+
+**Table 8. Gene-set scores against their own size-matched nulls, with the threshold each had to clear.**
 
 | set | GPL6244 | GPL3290 |
 |---|---|---|

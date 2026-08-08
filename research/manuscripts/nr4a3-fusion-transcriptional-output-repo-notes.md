@@ -29,17 +29,26 @@ needs. Nothing here is part of the paper, and nothing here is a scientific claim
 
 ## What the manuscript is the one home for
 
+⚠ **Section numbers below were re-pointed on 2026-08-08**, when the manuscript was retitled and split
+into a main text plus `nr4a3-fusion-transcriptional-output-SI.md`. If a pointer here disagrees with a
+heading in the paper, the paper is authoritative.
+
 - The **evidence-typed catalogue** of published NR4A3 / NR4A3-fusion transcriptional targets, with
   assay, cell system, species and verbatim sentence per gene — machine-readable in
-  [`nr4a3_fusion_targets.py`](../modalities/nr4a3_fusion_targets.py) → `LITERATURE_TARGETS`.
+  [`nr4a3_fusion_targets.py`](../modalities/nr4a3_fusion_targets.py) → `LITERATURE_TARGETS`, tabulated
+  as Supplementary Table S1.
 - The **measurement that the native→fusion transfer assumption fails in both directions** (§3.2).
 - The **size-matched empirical null** as the required calibration for any gene-set read on these
-  platforms (§2.4), and the four instrument controls (§2.5).
+  platforms (§2.3), its **detectability threshold** per set (§3.9, Supplementary Table S2), and the
+  three-state instrument-control grading rule (§2.4, §3.3).
+- The **confound audit**: comparator composition read from the GEO sample titles, every stratum
+  contrasted separately, the reference-pool-matched contrast, the provenance-filtered covariate
+  adjustment and the skeletal-muscle admixture control (§3.4–§3.6, Supplementary §S5).
 - The **named discriminators** between the fusion driving a gene and the gene being correlated with
-  EMC (§4.2), and the **measured absence of any retrieved NR4A3-fusion cistrome** in 2,276 documents
-  (§3.10).
-- The **result** of the array/3SEQ run (§3.3–3.7) and the **PPARγ activity reading with its
-  adipogenic ceiling** (§3.9).
+  EMC (§4.3), and the **measured absence of any retrieved NR4A3-fusion cistrome** in 2,276 documents
+  (§3.11).
+- The **result** of the array/3SEQ run (§3.3–§3.9) and the **PPARγ activity reading with its
+  adipogenic ceiling** (Supplementary §S4).
 
 The PPARγ *direction* and *abundance* questions both have their one home in
 [`pparg-direction-emc.md`](./pparg-direction-emc.md); the interpretation of the 3SEQ arm has its one
