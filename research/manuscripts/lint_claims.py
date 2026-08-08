@@ -62,6 +62,19 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 DEFAULT_TARGETS = [
     "research/manuscripts/nr4a3-degrader-paper.md",
     "research/manuscripts/nr4a3-degrader-paper-SI.md",
+    # ⛔ ADDED 2026-08-08 — A MANUSCRIPT IS PICKED UP FROM THE PUBLICATION REGISTER; ITS SI IS NOT.
+    # `_publication_documents()` reads `publications.json` -> `publications[].document.file`, which
+    # names one file per endpoint. So the moment a paper is split into a main text plus an SI, HALF
+    # OF IT LEAVES THE LINTED SET AND NOTHING SAYS SO — the same shrinking-scope failure recorded
+    # below for `systems/views/plan.md`, and the degrader SI is in this list by hand for exactly
+    # that reason rather than by any rule.
+    #
+    # ⚠ AND THE SI IS NOT THE SAFE HALF. Splitting moves the DETAIL out, so what lands in the SI is
+    # the fuller version of every hedged sentence: for the transcriptional-output paper that is the
+    # six-arm PPARγ activity reading with its adipogenic ceiling, the pre-registered decision rule,
+    # and the complete evidence catalogue with its per-row assay claims. Those are the sentences most
+    # able to drift from "set-specific up against a size-matched null" into "PPARγ is active in EMC".
+    "research/manuscripts/nr4a3-fusion-transcriptional-output-SI.md",
     # Added 2026-08-02. The program map was linted by lint_consistency (pinned NUMBERS) but by
     # nothing that checks claim LANGUAGE -- which is how a table of bare "PASSES" verdicts and a
     # "Chemical basis: OK strong, and already measured" cell (whose owning artifact is not in this
