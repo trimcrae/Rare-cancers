@@ -505,6 +505,8 @@ def run_arms(budget_s: float = DEFAULT_BUDGET_S) -> dict:
     # ── (2) the arms, read from the association files ──
     assoc_files = sorted(fn for fn in sizes if "associations" in fn)
     per_file, label_counts, header_seen = {}, {}, {}
+    all_variants: set = set()
+    total_rows = 0
     for fn in assoc_files:
         gsm = sizes[fn]["gsm"]
         url = f"https://ftp.ncbi.nlm.nih.gov/geo/samples/{gsm[:-3]}nnn/{gsm}/suppl/{fn}"
@@ -527,10 +529,13 @@ def run_arms(budget_s: float = DEFAULT_BUDGET_S) -> dict:
                 best_col, best_hits = c, hits
         counts: dict = {}
         raw_labels: dict = {}
+        library: set = set()
         for r in rows:
             if best_col is None or len(r) <= best_col:
                 continue
             raw = r[best_col].strip().strip('"')
+            if raw:
+                library.add(raw)
             arm = _match_arm(raw)
             if arm:
                 counts[arm] = counts.get(arm, 0) + 1
@@ -540,11 +545,17 @@ def run_arms(budget_s: float = DEFAULT_BUDGET_S) -> dict:
             "header": header,
             "n_rows": len(rows),
             "variant_column_index": best_col,
+            "variant_column_name": ([h.strip().strip('"') for h in header.split(",")][best_col]
+                                    if best_col is not None
+                                    and best_col < len(header.split(",")) else None),
+            "n_distinct_variants": len(library),
             "arm_barcode_counts": counts,
             "raw_labels_matched": {k: sorted(v) for k, v in raw_labels.items()},
         }
+        all_variants |= library
         for arm, n in counts.items():
             label_counts[arm] = label_counts.get(arm, 0) + n
+        total_rows += len(rows)
         print(f"  [ok] {fn}: {len(rows)} rows, arms {counts}")
 
     # ── (3) the last two places a peak table could live ──
@@ -557,8 +568,29 @@ def run_arms(budget_s: float = DEFAULT_BUDGET_S) -> dict:
     go("europepmc_supplementary_files_zip",
        f"https://www.ebi.ac.uk/europepmc/webservices/rest/{SERIES_PMCID}/supplementaryFiles",
        max_bytes=60_000_000)
-    go("biorxiv_supplementary_material_page",
-       f"https://www.biorxiv.org/content/{PREPRINT_DOI}v1.supplementary-material")
+
+    # ⚠ A 429 IS NOT AN ANSWER. bioRxiv rate-limited the first attempt at this page (run
+    # 31276419635) and the repository's own rule is that an NCBI/bioRxiv 429 is re-run until it
+    # answers, never folded into a count as a zero. Backoff, then record whichever it was.
+    for attempt, wait in ((1, 0), (2, 15), (3, 45)):
+        if wait and not budget.exhausted():
+            time.sleep(min(wait, max(0, budget.left())))
+        r = go(f"biorxiv_supplementary_material_page_try{attempt}",
+               f"https://www.biorxiv.org/content/{PREPRINT_DOI}v1.supplementary-material")
+        if r["state"] == "ok":
+            break
+
+    # PMC renders supplementary materials as /articles/<PMCID>/bin/<file> links even for an
+    # author-manuscript deposit, so the article page is the one place left to look.
+    for host in ("https://pmc.ncbi.nlm.nih.gov/articles",
+                 "https://europepmc.org/article/MED"):
+        name = "pmc_article_page" if "pmc.ncbi" in host else "europepmc_article_page"
+        ident = SERIES_PMCID if "pmc.ncbi" in host else SERIES_PMID
+        r = go(name, f"{host}/{ident}/", max_bytes=6_000_000)
+        if r["state"] == "ok" and r.get("text"):
+            fetches[name + "::supplement_links"] = sorted({
+                m for m in re.findall(r'[^"\']*(?:/bin/[^"\']+|supplement[^"\']*\.(?:xlsx|xls|csv|zip|pdf|txt|bed[^"\']*))',
+                                      r["text"], re.I)})[:200]
 
     # the Europe PMC endpoint returns a ZIP; list its members with stdlib only
     suppl_zip_members = None
@@ -604,6 +636,9 @@ def run_arms(budget_s: float = DEFAULT_BUDGET_S) -> dict:
                 "filtering, and a barcode can be assigned and then dropped. A different number "
                 "here is not a contradiction of the paper and must never be written as one."),
             "barcode_counts_by_arm": label_counts,
+            "n_barcode_rows_total": total_rows,
+            "n_distinct_variants_in_library": len(all_variants),
+            "library_variant_labels": sorted(all_variants),
             "per_file": per_file,
             "headers_seen": header_seen,
         },
