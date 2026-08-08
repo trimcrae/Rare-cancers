@@ -63,6 +63,7 @@ USAGE
 from __future__ import annotations
 
 import argparse
+from collections import deque
 import gzip
 import json
 import math
@@ -340,10 +341,18 @@ def dinucleotide_shuffle(seq: str, rng: random.Random) -> str:
             rng.shuffle(rest)
             if v != last:
                 rest.append(tree[v])
-            pool[v] = rest
+            # ⚠ A `deque`, NOT a list, and the reason is asymptotic rather than stylistic.
+            # `rest` is shuffled as a LIST above, so every rng call and the resulting order are
+            # untouched by this line -- the deque only changes how the SAME sequence is consumed
+            # below. `list.pop(0)` is O(len), so walking a 25 kb window pops ~25,000 times out of
+            # four pools of ~6,250 and moves ~78 million elements PER SHUFFLE, times N_SHUFFLES.
+            # Measured 2026-08-08: that one quadratic made
+            # test_the_committed_artifact_rederives_from_its_inputs 3,718 s of a 3,842 s suite --
+            # 96.8% of the whole run, against a 45 s second-place. `popleft()` is O(1).
+            pool[v] = deque(rest)
         out, cur = [s[0]], s[0]
         for _ in range(len(s) - 1):
-            nxt = pool[cur].pop(0)
+            nxt = pool[cur].popleft()
             out.append(nxt)
             cur = nxt
         return "".join(out)
