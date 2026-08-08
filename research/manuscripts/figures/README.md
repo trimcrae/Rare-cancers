@@ -56,9 +56,12 @@ regenerated from committed data by a committed script, every caption states what
 
 ## Retired
 
-- **`fusion-target-evidence-matrix.svg`** and its generator `nr4a3_fusion_targets_figure.py`
-  (singular) — a hand-emitted SVG that violated the rule above. Superseded 2026-08-08 by `fig1`–`fig5`.
-- **`portfolio.svg`** + `portfolio_figure.py` — the single-tier predecessor of the quadrant PNG.
+- **`fusion-target-evidence-matrix.svg`** — a hand-emitted SVG that violated the rule above, and its
+  generator `nr4a3_fusion_targets_figure.py` (singular), both **deleted 2026-08-08** and superseded by
+  `fig1`–`fig5`. Do not confuse that retired name with the current
+  `nr4a3_fusion_targets_figures.py` (plural).
+- **`portfolio.svg`** and its generator `portfolio_figure.py`, both **deleted** and superseded by
+  `portfolio-quadrant.png`.
 
 *(Superseded, retained: this file previously said figures are "now inline in the manuscripts as
 Markdown tables and Mermaid diagrams, not hand-drawn SVG". Markdown and Mermaid remain fine for
