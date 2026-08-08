@@ -1142,6 +1142,30 @@ def run_overlap(budget_s: float = DEFAULT_BUDGET_S, flank: int = FLANK_BP,
             null3.append(k)
         n_ge3 = sum(1 for v in null3 if v >= n_sites_hit)
 
+        # ── NULL 4: RIGID SHIFT, AND IT IS THE ONE THAT ANSWERS THE REAL OBJECTION.
+        #    ENO3's NBRE 2 and NBRE 3 are 153 bp apart, so a single 500 bp interval covers BOTH.
+        #    They are therefore NOT independent, and nulls 2 and 3 — which draw 4 INDEPENDENT
+        #    uniform positions — quietly assume they are, which makes "3 of 4" look like three
+        #    successes when it is two. This null slides the WHOLE four-site configuration, at its
+        #    true spacing, to a uniformly random offset inside ENO3's own window, so the
+        #    clustering is present in the null exactly as it is in the observation.
+        rng4 = random.Random(SEED + 2)
+        span = max(e for _, e in rel) - min(s for s, _ in rel)
+        lo, hi = eno3["window"][0], eno3["window"][1] - span - 1
+        null4 = []
+        if hi > lo:
+            base = min(s for s, _ in rel)
+            for _ in range(n_draws):
+                off = rng4.randrange(lo, hi)
+                k = 0
+                for r0, r1 in rel:
+                    a = off + (r0 - base) - flank
+                    b = off + (r1 - base) + flank
+                    if covered(by_chrom, eno3["chrom"], a, b):
+                        k += 1
+                null4.append(k)
+        n_ge4 = sum(1 for v in null4 if v >= n_sites_hit)
+
         per_set[name] = {
             "n_intervals": ps["n_intervals"],
             "median_interval_width_bp": ps["median_width"],
@@ -1184,6 +1208,27 @@ def run_overlap(budget_s: float = DEFAULT_BUDGET_S, flank: int = FLANK_BP,
                     "n": n_draws, "n_at_or_above_observed": n_ge3,
                     "empirical_p": round((n_ge3 + 1) / (n_draws + 1), 5) if informative else None,
                     "mean_sites_covered": round(sum(null3) / len(null3), 3) if null3 else None,
+                    "⚠_treats_the_four_sites_as_independent": (
+                        "and they are not — NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp "
+                        "interval covers both. Read the rigid-shift null below instead; this one "
+                        "is kept because it is the conventional test and its optimism is the "
+                        "reason the rigid-shift null exists."),
+                },
+                "rigid_shift_of_the_whole_site_configuration": {
+                    "_what": (f"{n_draws} seeded draws (seed {SEED + 2}); the WHOLE four-site "
+                              f"configuration, at its true spacing, slid to a uniformly random "
+                              f"offset inside ENO3's own window"),
+                    "⭐_why_this_is_the_one_to_quote": (
+                        "it is the only null that carries BOTH of the two things that could "
+                        "manufacture the result: ENO3's promoter being open at all (it stays "
+                        "inside that window) and the sites being clustered (two of the four are "
+                        "153 bp apart, so one interval covers both and they are not independent "
+                        "draws)."),
+                    "n": len(null4), "n_at_or_above_observed": n_ge4,
+                    "empirical_p": (round((n_ge4 + 1) / (len(null4) + 1), 5)
+                                    if informative and null4 else None),
+                    "mean_sites_covered": (round(sum(null4) / len(null4), 3) if null4 else None),
+                    "distribution": {str(k): null4.count(k) for k in sorted(set(null4))},
                 },
             },
         }
@@ -1236,14 +1281,47 @@ def run_overlap(budget_s: float = DEFAULT_BUDGET_S, flank: int = FLANK_BP,
         "peakset_inventory": {k: {kk: vv for kk, vv in v.items() if kk != "intervals"}
                               for k, v in supp["peaksets"].items()},
         "per_peakset": per_set,
-        "_panel_source": ("emc-ret-cistrome-inputs.json -> genes.hg38, the 198-gene background "
-                          "panel assembled for the ATR/DDR concept universe, used unchanged by "
-                          "§3.11's Table 9 — so this reading and that one are commensurable"),
+        "controls": {
+            "_question": ("full-length wild-type NR4A3 and the reciprocal NR4A3-EWSR1 are the "
+                          "two arms the paper reports at ZERO differentially accessible peaks. "
+                          "Do they cover the ENO3 NBRE sites?"),
+            "interval_files_present_in_the_supplement": sorted(
+                k for k in supp["peaksets"]
+                if k.startswith("Supp_Data_1_new/") and "NR4A3" in k.upper()),
+            "wild_type_NR4A3_marker_file_present": any(
+                re.search(r"/NR4A3_markers\.bed$", k) for k in supp["peaksets"]),
+            "reciprocal_NR4A3_EWSR1_marker_file_present": any(
+                "NR4A3-EWSR1" in k for k in supp["peaksets"]),
+            "⚠_how_to_read_a_missing_file": (
+                "The supplement carries a `<FUSION>_markers.bed` for 32 of the library's "
+                "variants. Neither control is among them, which is what a variant with no "
+                "differentially accessible peaks looks like in this supplement and is "
+                "consistent with the paper's own report of zero for both. ⛔ It is NOT a "
+                "measured zero AT THESE COORDINATES — a file that does not exist was not "
+                "queried, and the honest statement is 'the fusion arms have interval sets and "
+                "the two controls have none', not 'the controls were tested here and came back "
+                "empty'."),
+        },
+        "_panel_source": (
+            "emc-ret-cistrome-inputs.json -> genes.hg38, the background panel assembled for the "
+            "ATR/DDR concept universe — the same panel §3.11's Table 9 calibrates against, so "
+            "this reading and that one are commensurable. ⚠ THE COUNT HERE IS NOT 198: that file "
+            "resolves 211 genes on hg38 and this read removes the 8 focus genes, leaving 203. "
+            "The manuscript's 198 is the same panel as the MOTIF scan resolved it. Same panel, "
+            "two resolutions — do not quote one figure for the other."),
+        "n_panel_genes_used": len(panel),
         "_uninformative_rule": {"min_panel_genes": MIN_PANEL_GENES,
                                 "min_panel_hit_rate": MIN_PANEL_HIT_RATE,
                                 "_why": ("a set that recovers no arbitrary gene cannot fail to "
                                          "recover a chosen one, so its silence is an absent "
-                                         "reading and is never evidence of absence")},
+                                         "reading and is never evidence of absence"),
+                                "⚠_imported_from_a_different_instrument_class": (
+                                    "these thresholds were set for FULL peak catalogues in "
+                                    "nr4a3-fusion-targets-occupancy.json. A DIFFERENTIAL marker "
+                                    "set is sparse by construction, so the rule is strict here. "
+                                    "It is applied unchanged rather than relaxed to fit, and the "
+                                    "raw panel counts are printed beside every verdict so a "
+                                    "reader can regrade.")},
         "_errors": supp["errors"],
     }
 
