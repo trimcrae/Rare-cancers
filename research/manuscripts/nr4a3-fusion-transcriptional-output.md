@@ -269,6 +269,19 @@ primitives so that the quantity tested is identical to the quantity reported.
 Every row's observed delta is re-derived here and asserted equal to the committed primary artifact; the
 producer refuses to write if any row disagrees. Set-level permutation p-values are reported uncorrected.
 
+### 2.11 · The NBRE motif scan
+
+Regulatory windows of −10 kb/+15 kb around each gene's Ensembl-canonical TSS — an asymmetric window
+fixed in advance on published regulatory architecture, before any sequence was read — were retrieved
+and scanned on both strands for the exact NBRE (5′-AAAGGTCA-3′) and the NurRE, with hits de-duplicated
+by genomic position so a palindromic match cannot be counted twice. Because an 8-mer occurs in 25 kb by
+chance, no raw count is reported as a result. Each count is calibrated against two nulls: a
+**dinucleotide-preserving shuffle** of the same window (2,000 shuffles, seeded), which holds base and
+dinucleotide composition — and therefore GC and CpG content — exactly; and a **background panel** of
+198 other genes' windows, read raw and restricted to a GC-matched subset (±0.05). The panel is a gene
+list this project had already assembled for an unrelated question, so it cannot have been chosen to
+flatter or damage any gene here. Sequences are cached, so the scan re-derives offline.
+
 ---
 
 ## 3 · Results
@@ -592,6 +605,62 @@ in EMC, **and so is almost any set of that size on that platform**, which is pre
 null is the one that decides whether a gene set has told you anything. A reader who takes only the
 self-contained test away from this literature will over-read every set they score.
 
+### 3.13 · A sequence axis: NBRE motif content of the class-A genes' regulatory windows
+
+The expression reading above cannot distinguish a gene the fusion drives from a gene that is merely
+high in EMC (§4.1). One orthogonal and independent line is available at no cost: whether the genes'
+regulatory windows carry the DNA element the NR4A family binds. NR4A3's monomer site is the NBRE,
+5′-AAAGGTCA-3′ (Wilson *et al.*, *Science* 1991, PMID 1902986); the dimer site is the NurRE (Philips
+*et al.*, *Mol Cell Biol* 1997, PMID 9315667).
+
+A TSS-centred window of −10 kb/+15 kb — fixed in advance on published regulatory architecture, before
+any sequence was read — was scanned on both strands with positional de-duplication, and the count
+calibrated against **two independent nulls**: a dinucleotide-preserving shuffle of the same window
+(2,000 shuffles, which holds GC and CpG content exactly), and a 198-window background panel of other
+genes' windows assembled for an unrelated question, read raw and GC-matched (±0.05).
+
+| gene | exact NBRE | shuffle-null p | background-panel p | GC-matched p |
+|---|---:|---:|---:|---:|
+| ***ENO3*** | **4** | **0.034** | **0.025** | **0.018** |
+| ***PPARG*** | 3 | 0.227 | 0.131 | 0.209 |
+| ***SEMA3C*** | **0** | 1.00 | 1.00 | 1.00 |
+| *NR4A3* | 0 | 1.00 | 1.00 | 1.00 |
+| *NR4A1* | 0 | 1.00 | 1.00 | 1.00 |
+
+The background panel averages 1.15 exact NBREs per 25 kb window, so a single hit is what an arbitrary
+window contains anyway; no NurRE occurs in any focus window.
+
+***ENO3* is the only class-A gene whose window carries more NBREs than its own composition predicts**,
+and it clears both nulls, most strongly the GC-matched one. *PPARG* carries three sites but not more
+than composition predicts. *SEMA3C* carries none.
+
+⛔ **Four things this scan does not establish, each of which bounds the row above it.**
+
+1. **A motif is not occupancy.** An 8-mer in a 25 kb window is a plausibility filter; only a chromatin
+   experiment shows binding, and §3.10 records that none exists for any NR4A3 fusion.
+2. **The *SEMA3C* zero does not contradict Brenca *et al.*** They report a *predicted NBRE-**like***
+   site assayed by ChAP-qPCR — an NBRE-like site is by construction not an exact NBRE, so an
+   exact-8-mer scan is not a test of their claim. *SEMA3C*'s window carries 39 one-mismatch sites, the
+   most of any gene scanned, but no null was computed for the one-mismatch count, so that number is
+   uncalibrated and may not be read as enrichment either way.
+3. **The hit positions do not reproduce the published coordinates.** Kim *et al.* report two NBREs
+   upstream of the *ENO3* TSS; this scan finds one upstream (−8.7 kb) and three downstream. Filion
+   *et al.* report a perfect NBRE at −675 bp of *PPARG*; the nearest hit here is −186. Both papers
+   numbered from their own promoter constructs, and *PPARG* has multiple promoters, so the offsets are
+   not directly comparable. **This scan neither confirms nor refutes the published site positions.**
+4. **A distal element outside the window is untested by construction**, and the window was frozen
+   before any result rather than chosen around one.
+
+⭐ **What the two axes say together.** *ENO3* is the only gene supported by every instrument applied
+here: elevated on both array platforms under an exact permutation test and after multiple-testing
+correction, stable to dropping any single tumour, unchanged on a rank statistic, higher in EMC in the
+independent 3SEQ cohort against both its comparator arms, and now carrying more NBREs than its own
+composition-matched null. *SEMA3C* is the mirror image — it fails the permutation test on both
+platforms and carries no exact NBRE. *PPARG* sits between them. **None of this converts association
+into causation for any of the three**, because every axis here is correlative and the discriminating
+experiment (§4.2) remains unperformed; what it does is order the three genes by how much independent
+support each currently has, which the sign-concordance reading of §3.5 alone could not do.
+
 ---
 
 ## 4 · Discussion
@@ -626,9 +695,11 @@ are not the soft tissue EMC arises in.
    attenuated by an unknown amount. Set G — the TAF15-high axon-guidance list — reading set-specific
    down on GPL6244 and flat on GPL3290 is the closest these data come to touching that axis, and it is
    not close enough to stratify anything.
-4. **An NBRE motif scan** of the promoters of the genes that read high, against a matched background.
-   Sequence work; needs no new data. It cannot demonstrate binding, but a set of up-in-EMC genes with no
-   NBRE enrichment would be a real negative.
+4. ✅ **An NBRE motif scan** of the regulatory windows of the genes that read high, against a matched
+   background — **performed, and reported in §3.13.** It cannot demonstrate binding, and it did not
+   resolve the question: *ENO3* is enriched against both nulls, *PPARG* is not, and *SEMA3C* carries no
+   exact NBRE. What remains genuinely undone on this axis is a one-mismatch (NBRE-like) scan with its
+   own null, which is the form of site *SEMA3C* was reported to carry.
 
 ### 4.3 · What is new here
 
@@ -691,7 +762,11 @@ These are ceilings, not caveats: each one bounds what any sentence in §3 may be
 12. **The PPARγ activity reading cannot be separated from adipogenic differentiation** (§3.9), and five
     of its six arms are mouse-derived.
 13. **Set E is circular on GPL3290** and is reported for completeness only (§3.8).
-14. **Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim**
+14. **The motif scan (§3.13) speaks to sequence, never to occupancy**, is restricted to exact NBREs in
+    a fixed −10 kb/+15 kb window, and does not reproduce the published site coordinates for either
+    *ENO3* or *PPARG* (§3.13, point 3). It orders the three genes by independent support; it does not
+    establish that any of them is bound.
+15. **Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim**
     for any agent, target or gene, and expression data cannot become that evidence. No drug, dose,
     schedule or patient population is named or implied.
 
@@ -744,6 +819,7 @@ submission:
 | `emc-expression-panels.json` → `gene_reads` — the independent second implementation of the per-gene array reads | `emc_expression_panels.py` |
 | `gse28866-tumour-vs-normal.json` → `per_gene.values` — the 3SEQ arm | `gse28866_tumour_vs_normal.py` |
 | `nr4a3-fusion-targets-robustness.json` — exact label-permutation p-values, leave-one-out jackknife, rank-based re-read and BH q-values (§2.10, §3.12) | `nr4a3_fusion_targets_robustness.py` |
+| `emc-ret-target-scan.json` → `part_1_nbre_scan` — NBRE/NurRE counts, the dinucleotide-preserving shuffle null and the background-panel ranks (§3.13). Ensembl sequences are cached in `emc-ret-target-scan-inputs.json`, so the scan re-derives offline | `emc_ret_target_scan.py` |
 | offline arithmetic guard | `tests/test_nr4a3_fusion_targets.py` |
 
 The null draw is seeded (20260807) and the pool size, seed and universe are recorded per platform, so
@@ -811,6 +887,12 @@ None.
 10. Zhao X, Min X, Wang Z, et al. NR4A3 inhibits the tumor progression of hepatocellular carcinoma by
     inducing cell cycle G0/G1 phase arrest and upregulation of CDKN2AIP expression. *Int J Biol Sci*
     2024. PMID 39664575; PMCID PMC11628324; doi 10.7150/ijbs.95174.
+11. Wilson TE, Fahrner TJ, Johnston M, Milbrandt J. Identification of the DNA binding site for NGFI-B
+    by genetic selection in yeast. *Science* 1991;252:1296–1300. PMID 1902986. *(The NBRE, used in
+    §2.11 and §3.13.)*
+12. Philips A, Lesage S, Gingras R, et al. Novel dimeric Nur77 signaling mechanism in endocrine and
+    lymphoid cells. *Mol Cell Biol* 1997;17:5946–5951. PMID 9315667. *(The NurRE, used in §2.11 and
+    §3.13.)*
 
 *Gene-set resources* are cited to the depth their source records supply (author, journal and year only;
 full bibliographic identifiers to be completed against the primary sources before submission): Enrichr —

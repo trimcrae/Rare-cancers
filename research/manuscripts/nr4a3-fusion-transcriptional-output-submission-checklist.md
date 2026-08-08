@@ -117,11 +117,36 @@ It closes two of the manuscript's own stated limitations and adds two orthogonal
 permutation test on either platform**, and the **PPARγ KO_UP falsifier does not either**. Those two
 demotions are stated in §3.12 and back-referenced from §3.5 and §3.9 rather than left in the artifact.
 
-### Still available (each needs a CI fetch — the sandbox proxy blocks these hosts)
+### Also done (2026-08-07) — the NBRE motif scan, via CI
+
+Discussion §4.2 item 4 named an NBRE scan as the paper's free next step. The scanner already existed
+(`emc_ret_target_scan.py`, built for the RET lane) with a dinucleotide-preserving shuffle null and a
+198-window background panel — but it had **never been run**: its artifact read `_status: NOT_RUN`,
+because the Ensembl fetch needs egress the dev sandbox does not have. It was one $0 CI dispatch away.
+
+`SEMA3C` was added to the scanner's focus panel (`ENO3` and `PPARG` were already there), the workflow
+was dispatched with `ref=<branch>` so the run used this branch's code, and the module was then extended
+to compute the background-panel rank for **every** focus gene rather than for RET alone — the
+RET-specific keys and verdict are untouched. Results are Methods §2.11 and Results §3.13:
+
+- ***ENO3*** carries 4 exact NBREs and clears **both** nulls (shuffle p = 0.034; panel p = 0.025;
+  GC-matched p = 0.018) — the only class-A gene enriched above its own composition.
+- ***PPARG*** carries 3, not above composition. ***SEMA3C*** carries **none**.
+- So the sequence axis converges with §3.12: *ENO3* is supported by every instrument applied,
+  *SEMA3C* by neither the permutation test nor the motif scan.
+- ⚠ Stated in the paper: a motif is not occupancy; *SEMA3C*'s zero does not contradict Brenca *et al.*,
+  who reported an NBRE-**like** site; and the hit positions do not reproduce the published coordinates
+  for either *ENO3* or *PPARG*.
+
+*(Side finding for the RET lane, not this paper: RET's own window scores `ELEMENT_PRESENT_BUT_NOT_ABOVE_CHANCE`
+— 1 NBRE, shuffle p = 0.577, panel p = 0.663. That is the RET lane's answer to its own question and is
+recorded in its artifact.)*
+
+### Still available (needs a CI fetch — the sandbox proxy blocks these hosts)
 
 | test | what it would add | cost | gate |
 |---|---|---|---|
-| **NBRE promoter motif scan** of the up-in-EMC genes against a matched background (already named in Discussion §4.2, item 4) | An orthogonal, sequence-level line of evidence. It cannot demonstrate binding, but *no* NBRE enrichment among up-in-EMC genes would be a real negative | $0, CPU | needs promoter sequences (Ensembl/UCSC) — blocked in-sandbox, routable through GitHub Actions |
+| **A one-mismatch (NBRE-like) scan with its own null** | The form of site *SEMA3C* was actually reported to carry. Its window has 39 one-mismatch matches, the most of any gene scanned, but no null was computed for that count so it is currently uncalibrated | $0, CPU | sequences already cached — this one is now offline-doable |
 | **Intersect with the Haller 2019 NR4A3 ChIP-seq peaks** (Zenodo doi 10.5281/zenodo.1483691, open) | Whether the NR4A3 DNA-binding domain reaches these genes in a human tumour. ⛔ Must be framed exactly as §4.2 frames it — acinic cell carcinoma carries *native* NR4A3, not a fusion, so it can never be cited as a fusion cistrome | $0, CPU | Zenodo blocked in-sandbox (403 at the egress proxy); routable through GitHub Actions |
 | **A fourth EMC expression cohort**, if one exists | A further independent replication | $0 | a GEO re-search |
 

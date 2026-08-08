@@ -8,11 +8,13 @@
   "_motifs": {
    "NBRE": {
     "consensus": "AAAGGTCA",
-    "source_pmid": "1902986"
+    "source_pmid": "1902986",
+    "source": "PMID 1902986"
    },
    "NurRE": {
     "consensus": "TGATATTT(N6)AAATGCCA",
     "source_pmid": "9315667",
+    "source": "PMID 9315667",
     "caveat": "NR4A3 homodimerises on NurRE more weakly than NR4A1/NR4A2 \u2014 nr4a3-emc-biology-evidence.md"
    }
   },
@@ -1386,6 +1388,132 @@
    "n_matched": 32,
    "n_at_least_as_many": 23,
    "empirical_p": 0.7273
+  },
+  "focus_gene_ranks_in_background": {
+   "_what": "for EVERY focus gene, the rank of its exact-NBRE count against the same 198-window background panel, raw and GC-matched (+/-0.05). Same arithmetic as the two RET-specific blocks above, which are retained unchanged.",
+   "_reading": "a HIGH empirical p means the window carries no more NBREs than an arbitrary gene window of similar composition. \u26d4 Neither an enrichment nor its absence is evidence about OCCUPANCY: only a chromatin experiment establishes binding.",
+   "ranks": {
+    "RET": {
+     "observed_nbre_count": 1,
+     "n_background_windows_with_at_least_as_many": 131,
+     "n_background": 198,
+     "empirical_p_vs_panel": 0.6633,
+     "gc_matched": {
+      "gc_window": [
+       0.5276,
+       0.6276
+      ],
+      "n_matched": 32,
+      "n_at_least_as_many": 23,
+      "empirical_p": 0.7273
+     }
+    },
+    "ENO3": {
+     "observed_nbre_count": 4,
+     "n_background_windows_with_at_least_as_many": 4,
+     "n_background": 198,
+     "empirical_p_vs_panel": 0.0251,
+     "gc_matched": {
+      "gc_window": [
+       0.4986,
+       0.5986
+      ],
+      "n_matched": 54,
+      "n_at_least_as_many": 0,
+      "empirical_p": 0.0182
+     }
+    },
+    "PPARG": {
+     "observed_nbre_count": 3,
+     "n_background_windows_with_at_least_as_many": 25,
+     "n_background": 198,
+     "empirical_p_vs_panel": 0.1307,
+     "gc_matched": {
+      "gc_window": [
+       0.3492,
+       0.4492
+      ],
+      "n_matched": 85,
+      "n_at_least_as_many": 17,
+      "empirical_p": 0.2093
+     }
+    },
+    "SEMA3C": {
+     "observed_nbre_count": 0,
+     "n_background_windows_with_at_least_as_many": 198,
+     "n_background": 198,
+     "empirical_p_vs_panel": 1.0,
+     "gc_matched": {
+      "gc_window": [
+       0.3206,
+       0.4206
+      ],
+      "n_matched": 50,
+      "n_at_least_as_many": 50,
+      "empirical_p": 1.0
+     }
+    },
+    "NR4A3": {
+     "observed_nbre_count": 0,
+     "n_background_windows_with_at_least_as_many": 198,
+     "n_background": 198,
+     "empirical_p_vs_panel": 1.0,
+     "gc_matched": {
+      "gc_window": [
+       0.4002,
+       0.5002
+      ],
+      "n_matched": 117,
+      "n_at_least_as_many": 117,
+      "empirical_p": 1.0
+     }
+    },
+    "NR4A1": {
+     "observed_nbre_count": 0,
+     "n_background_windows_with_at_least_as_many": 198,
+     "n_background": 198,
+     "empirical_p_vs_panel": 1.0,
+     "gc_matched": {
+      "gc_window": [
+       0.5038,
+       0.6038
+      ],
+      "n_matched": 49,
+      "n_at_least_as_many": 49,
+      "empirical_p": 1.0
+     }
+    },
+    "VEGFA": {
+     "observed_nbre_count": 2,
+     "n_background_windows_with_at_least_as_many": 66,
+     "n_background": 198,
+     "empirical_p_vs_panel": 0.3367,
+     "gc_matched": {
+      "gc_window": [
+       0.5137,
+       0.6137
+      ],
+      "n_matched": 44,
+      "n_at_least_as_many": 12,
+      "empirical_p": 0.2889
+     }
+    },
+    "KDR": {
+     "observed_nbre_count": 2,
+     "n_background_windows_with_at_least_as_many": 66,
+     "n_background": 198,
+     "empirical_p_vs_panel": 0.3367,
+     "gc_matched": {
+      "gc_window": [
+       0.3485,
+       0.4485
+      ],
+      "n_matched": 85,
+      "n_at_least_as_many": 38,
+      "empirical_p": 0.4535
+     }
+    }
+   }
   },
   "_status": "derived",
   "verdict": {

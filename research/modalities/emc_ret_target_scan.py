@@ -842,9 +842,17 @@ def _classify(annotation):
 def derive_part1(inputs):
     d = {"_question": "Does RET's TSS-centred regulatory window carry NBRE/NurRE elements at a "
                       "rate a composition-matched null does not already explain?",
-         "_motifs": {"NBRE": {"consensus": NBRE, "source_pmid": NBRE_PMID},
+         # ⛔ `source` CARRIES THE `PMID <digits>` FORM ON PURPOSE, beside the bare `source_pmid`.
+         # lint_citations matches `\bPMID[:\s]*(\d{6,9})\b`, and a JSON value of "1902986" under a
+         # key named source_pmid does NOT match it — the quote characters sit between the word and
+         # the digits. So an identifier this artifact genuinely sources read as prose-only and
+         # unanchored the moment a manuscript cited it, which is the opposite of what the gate is
+         # for: it would push an author to DROP a correctly-sourced citation to get a green build.
+         "_motifs": {"NBRE": {"consensus": NBRE, "source_pmid": NBRE_PMID,
+                              "source": f"PMID {NBRE_PMID}"},
                      "NurRE": {"consensus": f"{NURRE_LEFT}(N{NURRE_SPACER}){NURRE_RIGHT}",
                                "source_pmid": NURRE_PMID,
+                               "source": f"PMID {NURRE_PMID}",
                                "caveat": "NR4A3 homodimerises on NurRE more weakly than "
                                          "NR4A1/NR4A2 — nr4a3-emc-biology-evidence.md"}},
          "_window": {"upstream_of_tss": WINDOW_UPSTREAM, "downstream_of_tss": WINDOW_DOWNSTREAM,
@@ -929,6 +937,46 @@ def derive_part1(inputs):
                 "n_at_least_as_many": ge2,
                 "empirical_p": round((ge2 + 1) / (len(sub) + 1), 4) if sub else None,
             }
+    # ⭐ THE SAME TWO RANKS FOR EVERY FOCUS GENE, NOT ONLY RET (added 2026-08-07).
+    # The two blocks above answer "where does RET sit against the panel", because RET is this
+    # module's subject. But the panel is read once and costs nothing more to reuse, and a second
+    # lane now needs it: `nr4a3-fusion-transcriptional-output.md` §4.2 item 4 asks for exactly this
+    # scan over the class-A direct targets (ENO3, PPARG, SEMA3C) against a matched background.
+    # ⛔ The RET-specific keys above are LEFT EXACTLY AS THEY WERE — a reader or checker that
+    # already reads `ret_rank_in_background` is unaffected, and the RET verdict is still computed
+    # from them. This block only ADDS the same arithmetic for the other focus genes.
+    ranks = {}
+    for sym, rec in focus.items():
+        nb = rec.get("nbre_exact")
+        if not bg_counts or not nb:
+            continue
+        obs = nb["n"]
+        ge = sum(1 for b in bg_counts if b["nbre_exact"] >= obs)
+        row = {"observed_nbre_count": obs,
+               "n_background_windows_with_at_least_as_many": ge,
+               "n_background": len(bg_counts),
+               "empirical_p_vs_panel": round((ge + 1) / (len(bg_counts) + 1), 4)}
+        gc = rec.get("gc")
+        if gc is not None:
+            sub = [b for b in bg_counts if b["gc"] is not None and abs(b["gc"] - gc) <= 0.05]
+            ge2 = sum(1 for b in sub if b["nbre_exact"] >= obs)
+            row["gc_matched"] = {
+                "gc_window": [round(gc - 0.05, 4), round(gc + 0.05, 4)],
+                "n_matched": len(sub),
+                "n_at_least_as_many": ge2,
+                "empirical_p": round((ge2 + 1) / (len(sub) + 1), 4) if sub else None,
+            }
+        ranks[sym] = row
+    d["focus_gene_ranks_in_background"] = {
+        "_what": "for EVERY focus gene, the rank of its exact-NBRE count against the same 198-window "
+                 "background panel, raw and GC-matched (+/-0.05). Same arithmetic as the two "
+                 "RET-specific blocks above, which are retained unchanged.",
+        "_reading": "a HIGH empirical p means the window carries no more NBREs than an arbitrary "
+                    "gene window of similar composition. ⛔ Neither an enrichment nor its absence "
+                    "is evidence about OCCUPANCY: only a chromatin experiment establishes binding.",
+        "ranks": ranks,
+    }
+
     d["_status"] = "derived"
     ret_null = (ret.get("shuffle_null") or {})
     d["verdict"] = _part1_verdict(ret, ret_null, d.get("ret_rank_in_background"))
