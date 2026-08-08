@@ -248,25 +248,37 @@ def fetch_abstracts(ids: list[str]) -> dict[str, str]:
     epmc_ids = [i for i in ids if not i.startswith(("arXiv/", "chemRxiv/"))]
     arx_ids = [i.split("/", 1)[1] for i in ids if i.startswith("arXiv/")]
 
-    for i in epmc_ids:
-        # PPR/PPR123 and MED/123 carry their source; a bare PMC id does not.
-        bare = i.split("/", 1)[1] if "/" in i else i
-        q = f"EXT_ID:{bare}" if not bare.startswith("PMC") else f"PMCID:{bare}"
+    # ⛔ BATCHED, NOT ONE REQUEST PER PAPER (2026-08-08, second cancelled run). The first version
+    # issued one Europe PMC call per id with the default 3-try/60 s budget -- 60 papers meant 60
+    # sequential calls and, on any rate-limit, up to 186 s EACH. A single-trigger run sat in this
+    # loop for nine minutes and was cancelled. Europe PMC accepts an OR of ids in one query, so 60
+    # papers is 3 requests. The bug was mine twice over: I bounded ChemRxiv for exactly this
+    # failure and left the identical unbounded retry in the call site the fix existed to serve.
+    for chunk in [epmc_ids[k:k + 20] for k in range(0, len(epmc_ids), 20)]:
+        if not source_is_live("epmc_abstracts"):
+            break
+        terms = " OR ".join(f'EXT_ID:"{i.split("/", 1)[1] if "/" in i else i}"' for i in chunk)
+        by_bare = {(i.split("/", 1)[1] if "/" in i else i): i for i in chunk}
         try:
-            qs = urllib.parse.urlencode({"query": q, "format": "json",
-                                         "resultType": "core", "pageSize": "1"})
-            d = json.loads(_get(f"{EPMC}?{qs}").decode("utf-8", "replace"))
+            qs = urllib.parse.urlencode({"query": f"({terms})", "format": "json",
+                                         "resultType": "core", "pageSize": str(len(chunk))})
+            d = json.loads(_get(f"{EPMC}?{qs}", tries=1, timeout=SEARCH_TIMEOUT_S)
+                           .decode("utf-8", "replace"))
             for r in d.get("resultList", {}).get("result", []) or []:
-                if r.get("abstractText"):
-                    out[i] = re.sub(r"<[^>]+>", "", r["abstractText"]).strip()
-        except Exception:  # noqa: BLE001, S110 -- a missing abstract is not a run failure
-            pass
+                key = by_bare.get(str(r.get("id") or "")) or by_bare.get(str(r.get("pmid") or "")) \
+                    or by_bare.get(str(r.get("pmcid") or ""))
+                if key and r.get("abstractText"):
+                    out[key] = re.sub(r"<[^>]+>", " ", r["abstractText"]).strip()
+        except Exception:  # noqa: BLE001, S110 -- a missing abstract is never a run failure
+            note_source_failure("epmc_abstracts")
         time.sleep(SLEEP_S)
 
     for chunk in [arx_ids[k:k + 20] for k in range(0, len(arx_ids), 20)]:
+        if not source_is_live("arxiv_abstracts"):
+            break
         try:
             qs = urllib.parse.urlencode({"id_list": ",".join(chunk), "max_results": "40"})
-            root = ET.fromstring(_get(f"{ARXIV}?{qs}"))
+            root = ET.fromstring(_get(f"{ARXIV}?{qs}", tries=1, timeout=SEARCH_TIMEOUT_S))
             ns = {"a": "http://www.w3.org/2005/Atom"}
             for e in root.findall("a:entry", ns):
                 eid = (e.findtext("a:id", "", ns) or "").strip().rsplit("/", 1)[-1]
@@ -274,7 +286,7 @@ def fetch_abstracts(ids: list[str]) -> dict[str, str]:
                 if summ:
                     out[f"arXiv/{eid}"] = summ
         except Exception:  # noqa: BLE001, S110
-            pass
+            note_source_failure("arxiv_abstracts")
         time.sleep(SLEEP_S)
     return out
 
