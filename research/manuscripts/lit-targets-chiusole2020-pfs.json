@@ -1,0 +1,18 @@
+{
+  "_readme": "Corpus for ONE question: does Chiusole 2020 (Front Oncol 2020;10:828, PMID 32612944, PMCID PMC7308468) report a median progression-free survival for its chemotherapy patients? research/manuscripts/emc-systemic-therapy-pooling.json row A5 asserts it does not, and that assertion is a clinical NULL - it is the reason no chemotherapy median-PFS comparator exists for EMC in this repository. A null is exactly the kind of claim a fetch can refute and prose cannot, so it gets its own corpus. Fetched read-only from a CI runner (CLAUDE.md 6). No purchase, no contact, no wet lab.",
+  "_what_would_settle_it": "The Europe PMC full-text XML is the primary record and is fetched first. The PubMed and DOI-landing routes are independent acquisitions of the same paper, so a disagreement between them is detectable rather than invisible. Drilon 2008 is included because the figure this repository attributed to Chiusole (5.2 months) is Drilon's, and that attribution must remain checkable after any correction.",
+  "_bot_block_note": "A publisher 403 behind Cloudflare is a BOT-BLOCK, not a paywall and not an absence; a 429 is a rate limit, not a missing record. Either must be re-fetched and recorded as a retrieval failure, never read as evidence the figure does not exist.",
+
+  "chiusole2020_epmc_fulltext_xml": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7308468/fullTextXML",
+  "chiusole2020_pmc": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7308468/",
+  "chiusole2020_pubmed": "https://pubmed.ncbi.nlm.nih.gov/32612944/",
+  "chiusole2020_doi_landing": "https://www.frontiersin.org/articles/10.3389/fonc.2020.00828/full",
+  "chiusole2020_crossref": "https://api.crossref.org/works/10.3389/fonc.2020.00828",
+  "chiusole2020_epmc_record": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=PMCID%3APMC7308468&format=json&resultType=core",
+
+  "drilon2008_pubmed": "https://pubmed.ncbi.nlm.nih.gov/18951519/",
+  "drilon2008_epmc_record": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID%3A18951519&format=json&resultType=core",
+
+  "stacchiotti2013_anthracycline_pmc": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3879193/",
+  "stacchiotti2013_anthracycline_epmc_fulltext_xml": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3879193/fullTextXML"
+}

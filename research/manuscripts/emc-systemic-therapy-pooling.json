@@ -1,7 +1,7 @@
 {
  "_schema": "emc-systemic-therapy-pooling/1",
  "_generated_by": "research/manuscripts/emc_systemic_therapy_pooling.py",
- "_generated_utc": "2026-08-07T17:23:18Z",
+ "_generated_utc": "2026-08-08T20:37:51Z",
  "_do_not_hand_edit": "Every proportion and interval here is computed by the generator from the integer counts in its COHORTS table. To change a number, change the count in the script and regenerate - a hand edit will be silently overwritten and will not carry the quote the count was read from.",
  "title": "What systemic therapy does in advanced extraskeletal myxoid chondrosarcoma: a pooled synthesis of every published cohort with extractable counts",
  "method": {
@@ -523,7 +523,7 @@
    "pool_dc_reason": "best-response categories are given only as percentages (SD >=6 months in 25%, SD <6 months in 41%, progression in 34%) and none of the three converts to an integer on either candidate denominator",
    "quote": "'Twenty-one patients received 32 evaluable courses of chemotherapy. No significant radiologic or clinical responses were noted. The median time to disease progression while receiving chemotherapy was 5.2 months. The best physician-assessed response to chemotherapy was stable disease for at least 6 months in 25% of patients, stable disease for <6 months in 41% of patients, and disease progression in 34% of patients.'",
    "caveat": "Response here is PHYSICIAN-ASSESSED over patients treated between 1975 and 2008, not central RECIST review. It is included because a categorical statement that no responses occurred, with a stated denominator, is an extractable {0, 21} - but it is the weakest row in the table and it carries the largest chemotherapy denominator, so it dominates the cytotoxic pool.",
-   "correction_this_row_carries": "THE 5.2 MONTHS BELONGS TO THIS STUDY, NOT TO CHIUSOLE 2020. This repository's registry carried 'median PFS 5.2 months' on its Chiusole row; Chiusole 2020 reports no such figure anywhere, and 5.2 months is Drilon's median time to disease progression on chemotherapy. Two retrospective chemotherapy series had been merged into one row."
+   "correction_this_row_carries": "THE 5.2 MONTHS BELONGS TO THIS STUDY, NOT TO CHIUSOLE 2020. This repository's registry carried 'median PFS 5.2 months' on its Chiusole row, and 5.2 months is Drilon's median time to disease progression on chemotherapy - Chiusole's own Discussion attributes it to Drilon by name. Two retrospective chemotherapy series had been merged into one row. \u26a0 SUPERSEDED CLAUSE, RETAINED: this correction used to add 'Chiusole 2020 reports no such figure anywhere'. That was FALSE and it was the more damaging half of the sentence: Chiusole 2020 reports a median PFS of 9 months for first-line chemotherapy, twice (Results and Discussion), verified 2026-08-08 by Actions run 31276131242 across three independent acquisitions. The misattribution being corrected here was real; the null appended to it was not, and it removed the largest published EMC chemotherapy series' own median from this file for a year. See A5 -> \u26d4_a_null_this_file_asserted_and_that_was_wrong."
   },
   {
    "key": "apatinib_emc_subset",
@@ -624,7 +624,15 @@
    },
    "reported": "'Twenty patients received chemotherapy for metastatic disease; best response was partial response with clinical benefit in 50% of patients. Fourteen patients received a second line of chemotherapy, with 46.1% disease control rate.' Table 3 gives disease-control rate by line and regimen, with denominators.",
    "why_context_only": "Table 3 reports DISEASE CONTROL RATES, not response counts, and several of them do not convert to integers on their stated denominators (60% of 11 = 6.6; 46.1% of 14 = 6.5, though 46.1% of 13 assessable = 6). POLICY-evidence 2.1 forbids reconstructing counts from percentages, so this series contributes context and not a pooled count - which is a pity, because it is the largest EMC chemotherapy experience published and it is the one that reports outcome by regimen.",
-   "what_it_does_establish": "Within one series, first-line disease control was 60% with anthracyclines and 25% with oral cyclophosphamide, and second-line anthracycline rechallenge controlled disease in none of 3. The authors' own conclusion is that 'chemotherapy did not impact survival in unselected patients' and that its apparent negative association with survival is confounded by indication."
+   "what_it_does_establish": "Within one series, first-line disease control was 60% with anthracyclines and 25% with oral cyclophosphamide, and second-line anthracycline rechallenge controlled disease in none of 3. The authors' own conclusion is that 'chemotherapy did not impact survival in unselected patients' and that its apparent negative association with survival is confounded by indication.",
+   "median_pfs_months": 9.0,
+   "median_pfs_is_emc_specific": true,
+   "median_pfs_ci": null,
+   "median_pfs_range": null,
+   "median_pfs_population": "patients receiving FIRST-LINE chemotherapy for metastatic disease (20 patients received first-line chemotherapy in this series). The paper does not print a confidence interval, a range, or the number at risk for this median.",
+   "median_pfs_quote": "Results, Survival Analysis: 'Median progression-free survival for patients receiving first-line chemotherapy was 9 months.' And again in the Discussion: 'In our study, we observed a progression-free survival time of 9 months, which is higher than what was reported by Drillon et al. in 2008 in 21 patients (5.2 months) and consistent with data reported in 2013 on the use of anthracyclines in 11 patients in the series by Stacchiotti et al. (12, 14) (8 months), but shorter than median progression-free survival achieved with Pazopanib in a recent phase II trial that enrolled 23 patients (19 months) (1).'",
+   "median_pfs_retrieved_via": "Europe PMC full-text XML for PMC7308468 (HTTP 200), the PMC article HTML (HTTP 200) and the Frontiers publisher landing page for doi 10.3389/fonc.2020.00828 (HTTP 200) -- three independent acquisitions, each carrying both sentences. GitHub Actions run 31276131242, corpus literature/chiusole2020-pfs-verify on the literature-cache branch, targets research/manuscripts/lit-targets-chiusole2020-pfs.json.",
+   "\u26d4_why_this_was_missed_for_a_year": "THE ABSTRACT DOES NOT CONTAIN IT. The PubMed record for PMID 32612944 was fetched in the same run (HTTP 200) and carries the abstract only; the string does not appear in it. The abstract reports median OVERALL survival (180 months overall, 76 months metastatic) and disease-control rates, and no PFS at all. A reading of the abstract therefore supports 'this paper reports no median PFS' exactly as strongly as the truth supports the opposite -- which is why an ABSENCE claim about a full text may never be made from an abstract. An absent reading is not a reading of absence."
   }
  ],
  "single_patient_reports_excluded_as_a_class": {
@@ -1058,6 +1066,14 @@
       10.0
      ],
      "dispersion_reported_as": "observed range, not a confidence interval"
+    },
+    {
+     "cohort": "chiusole_metastatic_chemo",
+     "regimen": "chemotherapy for metastatic disease",
+     "median_pfs_months": 9.0,
+     "median_pfs_ci95": null,
+     "median_pfs_observed_range": null,
+     "dispersion_reported_as": "NONE REPORTED - the source prints this median with no interval, no range and no number at risk"
     }
    ],
    "figures_that_are_NOT_emc_medians_but_circulate_as_such": [
@@ -1079,7 +1095,7 @@
     {
      "figure": "5.2 months",
      "attributed_to": "anthracycline +/- ifosfamide (Chiusole)",
-     "actually": "Drilon's median time to disease progression on chemotherapy. Chiusole 2020 reports no median PFS for its chemotherapy patients."
+     "actually": "Drilon's median time to disease progression on chemotherapy, which Chiusole's own Discussion attributes to Drilon by name. Chiusole 2020's chemotherapy median PFS is 9 months, not 5.2 - it is listed in emc_specific_medians above."
     },
     {
      "figure": "48% 6-month PFS",
@@ -1087,7 +1103,45 @@
      "actually": "IMMUNOSARC I's whole mixed soft-tissue-sarcoma cohort"
     }
    ],
-   "note": "The five figures listed immediately above are quoted in the EMC literature and in this repository's own registry as EMC results, and none of them is one. Only three EMC median-PFS figures exist: 19 months on pazopanib, 13.2 months on sunitinib plus nivolumab, and 8 months on anthracycline-based chemotherapy - different lines of therapy in different eras, which is why they are listed here and not compared."
+   "\u26d4_a_null_this_file_asserted_and_that_was_wrong": {
+    "superseded_claim": "'Chiusole 2020 reports no median PFS for its chemotherapy patients.' Carried here, in the Drilon correction row, and in research/data/emc-clinical-registry.json until 2026-08-08.",
+    "what_is_true": "Chiusole 2020 reports a median progression-free survival of 9 months for patients receiving first-line chemotherapy, stated twice - once in Results (Survival Analysis) and once in the Discussion, where it is compared against Drilon's 5.2, Stacchiotti 2013's 8 and pazopanib's 19.",
+    "how_it_was_verified": "GitHub Actions run 31276131242: Europe PMC full-text XML, the PMC HTML and the Frontiers publisher landing page, three independent acquisitions at HTTP 200, each carrying both sentences. Corpus literature/chiusole2020-pfs-verify.",
+    "how_it_happened": "The abstract does not contain the figure. The PubMed record (PMID 32612944) was fetched in the same run and reports median OVERALL survival and disease-control rates only. The null was an abstract-level reading asserted about a full text.",
+    "what_did_NOT_change": "The 5.2-months correction stands and is unaffected: 5.2 is Drilon's median time to progression, this repository's registry had it on the Chiusole row, and Chiusole's own Discussion attributes it to Drilon. Two retrospective series had been merged into one row, and they still had been. Nothing pooled anywhere in this file moves: A5 merges no time-to-event endpoint, by policy."
+   },
+   "note": "The five figures listed immediately above are quoted in the EMC literature and in this repository's own registry as EMC results, and none of them is one. FOUR EMC median-PFS figures exist: 19 months on pazopanib, 13.2 months on sunitinib plus nivolumab, 9 months on first-line chemotherapy in the Chiusole series and 8 months on anthracycline-based chemotherapy - different lines of therapy in different eras, which is why they are listed here and not compared. (Superseded, retained: 'Only three EMC median-PFS figures exist', which omitted the Chiusole median on the strength of a null this file itself asserted wrongly.)",
+   "\u26a0_what_the_fourth_median_does_and_does_not_move": {
+    "reference": {
+     "cohort": "sunitinib_nivolumab_immunosarc2",
+     "median_pfs_months": 13.2,
+     "ci95": [
+      5.7,
+      20.7
+     ],
+     "note": "the only EMC median PFS in this file that comes with a published 95% CI"
+    },
+    "chemotherapy_medians_read_against_that_interval": [
+     {
+      "cohort": "anthracycline_italian_rcn",
+      "median_pfs_months": 8.0,
+      "inside_the_reference_ci95": true,
+      "arithmetic_difference_of_the_two_medians_months": 5.2,
+      "dispersion_this_source_reports": "observed range only"
+     },
+     {
+      "cohort": "chiusole_metastatic_chemo",
+      "median_pfs_months": 9.0,
+      "inside_the_reference_ci95": true,
+      "arithmetic_difference_of_the_two_medians_months": 4.2,
+      "dispersion_this_source_reports": "none"
+     }
+    ],
+    "\u26a0_a_5_point_2_appears_here_and_it_is_NOT_drilons": "13.2 - 8.0 = 5.2, which collides numerically with Drilon 2008's median time to disease progression (5.2 months) named elsewhere in this file. They are unrelated quantities and the coincidence is exactly the kind of thing this file exists to stop: the subtraction below is an arithmetic difference between two cohorts' medians; Drilon's 5.2 is one cohort's own measured time-to-progression. Neither may be substituted for the other.",
+    "\u26d4_this_is_not_a_significance_verdict": "No test statistic and no p-value is produced here or anywhere else in this repository for this comparison. A reader looking for one should read this entry as the reason there is none: the endpoints are not mergeable under POLICY-evidence 2.4, two of the four medians carry no interval at all, the cohorts are single-arm and separated by two decades and two response-assessment standards, and Chiusole's own authors name restaging-interval bias in the paragraph the figure appears in.",
+    "what_changed_on_2026_08_08": "The chemotherapy side of this reading went from ONE median (8 months, 11 patients) to TWO (8 months in 11 patients, and 9 months in the 20 first-line patients of the largest published EMC chemotherapy series). Both sit inside the modern cohort's published interval, as the first one already did, so nothing that was significant becomes non-significant and nothing that was non-significant becomes significant - there was no verdict to flip. What is genuinely different is the WEIGHT on the chemotherapy side, which had been understated by the largest series in the literature because this file wrongly recorded that series as reporting no median."
+   },
+   "\u26a0_and_four_is_still_not_a_comparison": "Adding a fourth median does not license ranking them. Two are single-arm prospective trials with central review, two are retrospective series in different eras with no central review and no stated interval; Chiusole's 9 months carries no confidence interval, no range and no number at risk, and its own authors describe restaging-interval bias in the same paragraph. POLICY-evidence 2.4 forbids merging them and nothing here compares them."
   },
   "A6_six_month_progression_free": {
    "question": "The endpoint both modern EMC trials chose. Can it be pooled?",
@@ -1206,7 +1260,7 @@
   "OBJECTIVE RESPONSE IS RARE IN EMC UNDER EVERY PROSPECTIVE PROTOCOL EVER RUN, AND THIS IS THE FIRST POOLED ESTIMATE OF IT. Six objective responses across the 47 advanced-EMC patients ever evaluated inside a prospective trial with central review. No publication states this figure, because no publication combines the three trials.",
   "BUT THOSE SAME PATIENTS ALMOST NEVER PROGRESS EITHER. Disease control was the best response in 42 of the same 47. The clinically meaningful signal in EMC is not tumour shrinkage but how long the disease sits still - which is why both modern trials chose 6-month PFS rather than response rate as their primary endpoint, and why judging this disease on response rate understates what its treatments do.",
   "THE '12.5-MONTH MEDIAN PFS FOR TRABECTEDIN IN EMC' IS NOT AN EMC FIGURE, AND IT LANDS ON A PATIENT WHO DID NOT HAVE EMC. The trabectedin arm was 2 EMC and 3 mesenchymal chondrosarcoma, not 5 EMC - stated in the paper's own Methods, with Table 2 labelling every subject, so this required no inference, only reading past the abstract. Both EMC subjects had stable disease, with PFS of 13.0 and 7.4 months, and the arm's single objective response was an MCS patient. The published 12.5 months is the arm's Kaplan-Meier median across all five subjects and it coincides with subject 5's own PFS - also mesenchymal chondrosarcoma.",
-  "AND IT IS NOT AN ISOLATED SLIP - FIVE NAMED TIME-TO-EVENT FIGURES IN CIRCULATION FOR SYSTEMIC THERAPY IN EMC DESCRIBE A DIFFERENT POPULATION OR A DIFFERENT QUANTITY. Beyond the trabectedin median: the apatinib 12.4 months is 33 patients across five chondrosarcoma subtypes of whom 3 had EMC; the sunitinib '8.5 months median PFS' is that study's median FOLLOW-UP, in a paper whose own words are 'Median progression free survival (PFS) has not been reached'; the 5.2 months attached to one chemotherapy series is a different series' median time to progression; and IMMUNOSARC I's 48% 6-month PFS is its whole mixed soft-tissue-sarcoma cohort. Only THREE median-PFS figures in this literature are EMC medians: 19 months on pazopanib, 13.2 on sunitinib plus nivolumab, 8 on anthracycline-based chemotherapy - and those three are different lines of therapy in different eras, which is why this file lists them and does not compare them.",
+  "AND IT IS NOT AN ISOLATED SLIP - FIVE NAMED TIME-TO-EVENT FIGURES IN CIRCULATION FOR SYSTEMIC THERAPY IN EMC DESCRIBE A DIFFERENT POPULATION OR A DIFFERENT QUANTITY. Beyond the trabectedin median: the apatinib 12.4 months is 33 patients across five chondrosarcoma subtypes of whom 3 had EMC; the sunitinib '8.5 months median PFS' is that study's median FOLLOW-UP, in a paper whose own words are 'Median progression free survival (PFS) has not been reached'; the 5.2 months attached to one chemotherapy series is a different series' median time to progression; and IMMUNOSARC I's 48% 6-month PFS is its whole mixed soft-tissue-sarcoma cohort. FOUR median-PFS figures in this literature are EMC medians: 19 months on pazopanib, 13.2 on sunitinib plus nivolumab, 9 on first-line chemotherapy in the Chiusole series and 8 on anthracycline-based chemotherapy - and those four are different lines of therapy in different eras, which is why this file lists them and does not compare them. \u26a0 SUPERSEDED, RETAINED: 'Only THREE median-PFS figures ... 19, 13.2, 8'. The fourth was missing because THIS FILE asserted that Chiusole 2020 reports no median PFS, an abstract-level null about a full text that the full text refutes twice over (verified 2026-08-08, Actions run 31276131242). A sweep whose whole subject is figures that describe a different quantity than they are quoted for had itself produced one - which is the reason this correction is recorded here and not quietly folded in.",
   "THE TWO HIGHEST-PROFILE EMC TKI RESULTS DISAGREE BY A FACTOR OF SEVEN AND NOTHING PUBLISHED CAN SETTLE IT. Sunitinib 6 of 10 versus sunitinib plus nivolumab 2 of 23, with pazopanib's 4 of 22 in between. The 6 of 10 comes from consecutive named-patient use without central radiology review; the 2 of 23 from a protocol trial with central pathology. Adding a PD-1 inhibitor to sunitinib is the one comparison the field would most want, and it is confounded with two decades, two designs and two response-assessment standards.",
   "THE NEWEST PROSPECTIVE DATAPOINT IN THIS DISEASE IS A CONFERENCE ABSTRACT WITH TWO UNRECONCILED ARITHMETIC INCONSISTENCIES AND NO FULL PAPER. IMMUNOSARC II's EMC cohort reports its primary endpoint as both 77% and 16/23 (= 69.6%), and its best-response counts sum to 22 rather than the 23 patients it says were evaluable. Its sibling cohorts in the same master trial have full papers in Cancer and Cancer Communications; this one does not, Europe PMC indexes no such paper, and ClinicalTrials.gov has no posted results for NCT03277924.",
   "THE LARGEST PUBLISHED EMC CHEMOTHERAPY EXPERIENCE CANNOT ENTER ANY POOL. Chiusole's 20 first-line and 14 second-line patients are reported as disease-control RATES by regimen, several of which do not convert to integers on their own denominators. It is the only series that reports outcome by regimen and line, and the evidence contract correctly refuses to reconstruct its counts."
@@ -1254,7 +1308,7 @@
     "correction": "drilon_chemotherapy",
     "regimen": "Cytotoxic chemotherapy (mixed regimens, 32 evaluable courses)",
     "sourceId": "drilon2008",
-    "detail": "THE 5.2 MONTHS BELONGS TO THIS STUDY, NOT TO CHIUSOLE 2020. This repository's registry carried 'median PFS 5.2 months' on its Chiusole row; Chiusole 2020 reports no such figure anywhere, and 5.2 months is Drilon's median time to disease progression on chemotherapy. Two retrospective chemotherapy series had been merged into one row."
+    "detail": "THE 5.2 MONTHS BELONGS TO THIS STUDY, NOT TO CHIUSOLE 2020. This repository's registry carried 'median PFS 5.2 months' on its Chiusole row, and 5.2 months is Drilon's median time to disease progression on chemotherapy - Chiusole's own Discussion attributes it to Drilon by name. Two retrospective chemotherapy series had been merged into one row. \u26a0 SUPERSEDED CLAUSE, RETAINED: this correction used to add 'Chiusole 2020 reports no such figure anywhere'. That was FALSE and it was the more damaging half of the sentence: Chiusole 2020 reports a median PFS of 9 months for first-line chemotherapy, twice (Results and Discussion), verified 2026-08-08 by Actions run 31276131242 across three independent acquisitions. The misattribution being corrected here was real; the null appended to it was not, and it removed the largest published EMC chemotherapy series' own median from this file for a year. See A5 -> \u26d4_a_null_this_file_asserted_and_that_was_wrong."
    },
    {
     "correction": "apatinib_emc_subset",
