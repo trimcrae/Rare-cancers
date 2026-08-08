@@ -657,8 +657,27 @@ GC-matched background p = 0.018). *PPARG* carries 3, which is what composition p
 ***SEMA3C* carries none.** The background panel averages 1.15 exact NBREs per 25 kb window, so a
 single hit is what an arbitrary window contains anyway.
 
-Four things this does not establish. **A motif is not occupancy** — only a chromatin experiment shows
-binding, and §3.11 records that none exists for any NR4A3 fusion. **The *SEMA3C* zero does not
+Four things this does not establish. **A motif is not occupancy**, and the chromatin experiment that
+would test it now exists, was run, and does not support these sites. Frenkel *et al.* expressed
+EWSR1-NR4A3, TAF15-NR4A3, TCF12-NR4A3 and TFG-NR4A3 in HEK293T inside a pooled variant library and
+resolved each one's effect on chromatin accessibility by single-cell ATAC (GSE243553; PMID 39048711).
+Their per-fusion accessibility calls were intersected with the four exact NBRE coordinates above on
+the matching genome build — the deposit declares hg38 and these coordinates are GRCh38, so no
+lift-over was required. **Three of the four sites fall inside TAF15-NR4A3's called intervals and none
+falls inside EWSR1-NR4A3's.** Neither observation supports the motif argument. The EWSR1-NR4A3 set is
+too sparse for its zero to be a reading — it recovers 2 of 203 promoters in a background gene panel
+assembled for an unrelated question, so a chosen gene could not have been recovered either — and the
+TAF15-NR4A3 co-location does not clear a null that slides the same four-site configuration, at its
+true spacing, to a random offset within the same window (*p* = 0.08, 20,000 seeded draws). That null
+is the one that matters here because two of the four sites are 153 bp apart and a single 500 bp
+interval covers both; nulls treating them as independent return *p* ≤ 0.002 and overstate the result
+by a factor of about forty. The TFG-NR4A3 arm — the fusion Kim *et al.* used for the published *ENO3*
+result — is likewise too sparse to grade. ⛔ Three conditions bound all of this: the cells are HEK293T
+and not EMC chromatin, accessibility is not binding, and *ENO3* is this study's own pre-designated
+positive control (§2.4), so a hit there would have been a check on the instrument rather than a
+discovery. **The sequence axis and the chromatin axis have now been made to meet at these coordinates,
+and they do not corroborate each other.** Method, seeds and the four nulls:
+[`gse243553-eno3-overlap-2026-08-08.md`](gse243553-eno3-overlap-2026-08-08.md). **The *SEMA3C* zero does not
 contradict Brenca *et al.***, who report a predicted NBRE-*like* site assayed by ChAP-qPCR; an
 NBRE-like site is by construction not an exact NBRE. That class was therefore scanned too, and
 *SEMA3C*'s 39 one-mismatch sites — the most of any gene scanned — are **exactly what its own
@@ -666,7 +685,8 @@ composition predicts** (null mean 33.7, p = 0.203; GC-matched p = 0.118), with o
 composition-naive raw rank suggesting enrichment (p = 0.040) in the most AT-rich window of the set.
 **The hit positions do not reproduce the published coordinates** for either *ENO3* or *PPARG*, both of
 which numbered from their own promoter constructs. **A distal element outside the window is untested
-by construction.**
+by construction** — while the elements *inside* the window have now been tested against an orthogonal
+instrument, and were not corroborated by it.
 
 ### 3.11 · Nothing has been measured in EMC chromatin — a bounded negative about a search
 
@@ -828,9 +848,31 @@ level, none of the seventeen carries an EMC sample.
 the disease nowhere in its GEO record is invisible to any term search, and a term search is not a
 systematic review — it does not reach other archives, controlled-access repositories, or supplementary
 tables of papers that never deposited at all. Within that reach, **no fourth EMC expression cohort
-exists**, and the three cohorts analysed here are the available public EMC transcriptional record. So
-n = 4, 6 and 10 is a ceiling imposed by the disease's rarity rather than by the search (§5,
+exists** on GEO, and the three cohorts analysed here are the available public EMC *whole-transcriptome*
+record. So n = 4, 6 and 10 is a ceiling imposed by the disease's rarity rather than by the search (§5,
 Limitation 1).
+
+⛔ **AND THE BOUND IS LOAD-BEARING, BECAUSE A DEPOSIT OUTSIDE IT EXISTS.** This search asked GEO. It
+does not reach a study registered in the Sequence Read Archive that was never given a GEO series, and
+**one such study is public**: `PRJNA1357027` / `SRP640302`, **12 FFPE EMC tumour BioSamples**,
+released 2025-11-11, all 12 runs downloadable, with **per-sample `EWSR1` break-apart FISH status**
+(8 positive, 4 negative), site, size and morphology — larger than any cohort read here, and carrying
+the per-sample fusion annotation none of the three has. It has no linked publication and no GEO
+mirror, which is exactly why a GEO term search cannot see it. Characterisation, every query, the three
+transport controls and the raw payloads:
+[`emc-fourth-cohort-sra-2026-08-08.md`](emc-fourth-cohort-sra-2026-08-08.md), artifact
+[`emc-sra-study.json`](../modalities/emc-sra-study.json).
+
+⚠ **It is not a drop-in fourth arm, and Limitation 1 is unchanged for the analyses this paper runs.**
+The deposit's `library_strategy` field says `RNA-Seq` while its own experiment title says
+**Targeted RNA-seq (TempO-Seq)** — a targeted panel, whose gene space is the panel's rather than the
+transcriptome's, and **the panel is named nowhere in the metadata**. A gene-set contrast run against it
+without naming the panel would return a matrix that is mostly zeros by construction, with nothing to
+warn the analyst. Reading `EWSR1`-negative as "not EMC" would be the same error in the other
+direction: a break-apart call names no partner, and a `TAF15::NR4A3` or `TCF12::NR4A3` case is
+`EWSR1`-negative by construction, so those four samples are **informative and unresolved**. What
+changes here is narrow and it is a claim about this paper's own sentence: *"no fourth EMC cohort
+exists"* is no longer sayable without the GEO-side qualifier.
 
 ⚠ **One instrument fault is recorded rather than smoothed over, because it nearly halved this
 search.** Four of the six queries first returned exactly zero, and all four shared a field-restriction
@@ -1195,6 +1237,8 @@ Retained so that a superseded number stays quotable as history and not as a curr
 | "All twelve NR4A3-specific peak sets are too shallow to recover any gene at all", and the occupancy axis reported across **86** peak sets, **8** informative experiments and **24** tests. | **superseded 2026-08-08** | True of the twelve ChIP-Atlas sets and still stated of them, but no longer true of the axis: the Haller *et al.* acinic cell carcinoma deposit adds four NR4A3 cistromes at 8,501–18,666 peaks, 55–121× the deepest previously available. The axis is now 110 peak sets, 12 informative experiments and 36 tests (§3.11, Table 9). The conclusion is unchanged and better supported — 2 hits against 1.8 expected, binomial p 0.54 — and *PPARG*'s zero is now a negative rather than an absent reading. |
 | The occupancy verdict decided by comparing the observed hit count with its expected value. | **corrected 2026-08-08** | Expected is fractional and observed is an integer, so 2 against 1.8 read as an excess. The count is judged by a binomial tail (p = 0.54 for this many or more); no wording in any version of this paper rested on the earlier comparison. |
 | **"No genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in 2,276 full-text documents across five corpora"** — §3.11, §4.2, §6, the abstract ("no chromatin experiment with an NR4A3 fusion was retrieved") and the cover letter, each reading the corpus count as an absence. | **retracted 2026-08-08** | **The corpus count is unchanged and was never wrong**: 2,276 documents were searched, 153 name both a genome-wide chromatin method and NR4A3/NOR-1/TEC, and none of the 153 applies one to an NR4A3 chimera. What is retracted is the **inference from that screen to an absence**. A wider search the same day — the primary sequence archives rather than the literature alone — retrieved **GEO GSE243553** (PMID 39048711, public 2024-07-24), a pooled single-cell ATAC screen in HEK293T whose library carries EWSR1-NR4A3, TAF15-NR4A3, TCF12-NR4A3 and TFG-NR4A3 with wild-type NR4A3 and the reciprocal NR4A3-EWSR1 as controls. The earlier screen could not reach it for two reasons, both recorded: the paper's title and abstract say only ">100 oncofusions" and name NR4A3 nowhere, and this project's prior chromatin census (`emc-ret-cistrome.json`) filtered on antigen ∈ {NR4A1, NR4A2, NR4A3} with a ChIP-seq-only method vocabulary, which no pooled ATAC deposit can satisfy. **The replacement claim is narrower and is what §3.11, §4.2, §6 and the abstract now carry:** *no experiment has measured where an NR4A3 fusion binds, or what chromatin does, in EMC material* — GSE243553 being accessibility rather than occupancy, and HEK293T rather than EMC — while the same archives hold chromatin maps for EWSR1::WT1, EWSR1::ATF1, EWSR1::FLI1, FUS::DDIT3 and (twice) HEY1::NCOA2. Full search record: [`nr4a3-cistrome-search-2026-08-08.md`](nr4a3-cistrome-search-2026-08-08.md); corpus: [`lit-targets-nr4a3-cistrome.json`](lit-targets-nr4a3-cistrome.json). No number in §3 moved and the occupancy axis of Table 9 is untouched. |
+| §3.10's first caveat: "**A motif is not occupancy** — only a chromatin experiment shows binding, and §3.11 records that none exists for any NR4A3 fusion." | **superseded 2026-08-08** | The second clause inherited the retracted absence directly above and was false the moment it was retracted. The experiment exists, and it has now been *run against these exact coordinates* rather than merely cited: the four exact NBREs were intersected with GSE243553's per-fusion accessibility calls on the matching build (deposit hg38, coordinates GRCh38, no lift-over). **Three of four sites fall inside TAF15-NR4A3's intervals and none inside EWSR1-NR4A3's, and neither observation supports the motif argument** — the EWSR1-NR4A3 set recovers only 2 of 203 background promoters, so its zero is not a reading, and the TAF15-NR4A3 co-location does not clear a null that slides the whole four-site configuration at its true spacing (*p* = 0.08, 20,000 seeded draws). ⚠ **The calibration is the finding, not the overlap.** Two of the four sites are 153 bp apart and one 500 bp interval covers both, so nulls treating the sites as independent return *p* ≤ 0.002 and overstate the result ≈40-fold; the geometry-preserving null is the honest one and it does not clear. Bounded three ways in the live text: HEK293T rather than EMC chromatin, accessibility rather than binding, and *ENO3* is this paper's own pre-designated positive control (§2.4), so a hit would have been a check on the instrument rather than a discovery. Method, seeds and all four nulls: [`gse243553-eno3-overlap-2026-08-08.md`](gse243553-eno3-overlap-2026-08-08.md). No number in §3.10's motif counts changed. |
+| §3.13: "Within that reach, **no fourth EMC expression cohort exists**", and "the three cohorts analysed here are the available public EMC transcriptional record". | **narrowed 2026-08-08** | The search was **GEO-side** and its reach caveat already said so; what it did not say is that a deposit outside that reach had been found. `PRJNA1357027` / `SRP640302` is public in the Sequence Read Archive — **12 FFPE EMC tumour BioSamples**, released 2025-11-11, all 12 runs downloadable, with **per-sample `EWSR1` break-apart FISH status** (8+/4−) — with no linked publication and no GEO mirror, which is precisely why a GEO term search cannot see it. ⚠ **Limitation 1's n = 4, 6 and 10 is UNCHANGED for the analyses this paper runs**, because the deposit is TempO-Seq targeted-panel data whose panel is named nowhere in its metadata while its `library_strategy` field reads `RNA-Seq` — a whole-transcriptome contrast run against it would return a matrix mostly zeros by construction with nothing warning the analyst. Nor may `EWSR1`-negative be read as "not EMC": a break-apart call names no partner and a `TAF15::NR4A3` case is `EWSR1`-negative by construction, so those four samples are informative and unresolved. What is retracted is only the unqualified sentence. Characterisation, every query and the three transport controls: [`emc-fourth-cohort-sra-2026-08-08.md`](emc-fourth-cohort-sra-2026-08-08.md). |
 
 ## Appendix B · What would change this paper's conclusions
 
