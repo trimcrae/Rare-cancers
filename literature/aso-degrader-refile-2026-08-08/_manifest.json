@@ -1,0 +1,235 @@
+[
+  {
+    "name": "ctrl_crossref_positive",
+    "url": "https://api.crossref.org/works/10.1038/nature14539",
+    "status": 200,
+    "final_url": "https://api.crossref.org/works/10.1038/nature14539",
+    "content_type": "application/json",
+    "chars": 40564
+  },
+  {
+    "name": "ctrl_crossref_negative",
+    "url": "https://api.crossref.org/works/10.9999/no-such-doi-zzz",
+    "status": 404,
+    "error": "HTTPError 404",
+    "chars": 19
+  },
+  {
+    "name": "ctrl_epmc_positive",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=lite&query=EXT_ID:26017442",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=lite&query=EXT_ID:26017442",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 868
+  },
+  {
+    "name": "ctrl_epmc_negative",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=lite&query=EXT_ID:99999999",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=lite&query=EXT_ID:99999999",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 178
+  },
+  {
+    "name": "ctrl_openalex_positive",
+    "url": "https://api.openalex.org/works/doi:10.1038/nature14539",
+    "status": 200,
+    "final_url": "https://api.openalex.org/works/doi:10.1038/nature14539",
+    "content_type": "application/json",
+    "chars": 22085
+  },
+  {
+    "name": "ctrl_openalex_negative",
+    "url": "https://api.openalex.org/works/doi:10.9999/no-such-doi-zzz",
+    "status": 404,
+    "error": "HTTPError 404",
+    "chars": 148
+  },
+  {
+    "name": "ctrl_s2_positive",
+    "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1038/nature14539?fields=title,abstract,year,authors",
+    "status": 404,
+    "error": "HTTPError 404",
+    "chars": 60
+  },
+  {
+    "name": "ctrl_s2_negative",
+    "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.9999/no-such-doi-zzz?fields=title,abstract",
+    "status": 404,
+    "error": "HTTPError 404",
+    "chars": 64
+  },
+  {
+    "name": "ctrl_pubmed_esummary_positive",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=26017442&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=26017442&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 1626
+  },
+  {
+    "name": "ctrl_pubmed_esummary_negative",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=999999999&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=999999999&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 149
+  },
+  {
+    "name": "a_epmc_core_23963702",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=core&query=EXT_ID:23963702",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=core&query=EXT_ID:23963702",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 8477
+  },
+  {
+    "name": "a_epmc_core_7567450",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=core&query=EXT_ID:7567450",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=core&query=EXT_ID:7567450",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 6849
+  },
+  {
+    "name": "a_pubmed_esummary_23963702",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=23963702&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=23963702&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 2486
+  },
+  {
+    "name": "a_pubmed_esummary_7567450",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=7567450&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=7567450&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 1959
+  },
+  {
+    "name": "a_pubmed_abstract_23963702",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=23963702&rettype=abstract&retmode=text",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=23963702&rettype=abstract&retmode=text",
+    "content_type": "text/plain; charset=UTF-8",
+    "chars": 2227
+  },
+  {
+    "name": "a_pubmed_abstract_7567450",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=7567450&rettype=abstract&retmode=text",
+    "status": 429,
+    "error": "HTTPError 429",
+    "chars": 86
+  },
+  {
+    "name": "a_crossref_10_1093_nar_gkt725",
+    "url": "https://api.crossref.org/works/10.1093/nar/gkt725",
+    "status": 200,
+    "final_url": "https://api.crossref.org/works/10.1093/nar/gkt725",
+    "content_type": "application/json",
+    "chars": 19924
+  },
+  {
+    "name": "a_crossref_10_1093_nar_23_17_3411",
+    "url": "https://api.crossref.org/works/10.1093/nar/23.17.3411",
+    "status": 200,
+    "final_url": "https://api.crossref.org/works/10.1093/nar/23.17.3411",
+    "content_type": "application/json",
+    "chars": 2512
+  },
+  {
+    "name": "c_crossref_jctc_5c00064",
+    "url": "https://api.crossref.org/works/10.1021/acs.jctc.5c00064",
+    "status": 200,
+    "final_url": "https://api.crossref.org/works/10.1021/acs.jctc.5c00064",
+    "content_type": "application/json",
+    "chars": 8228
+  },
+  {
+    "name": "c_crossref_jcim_4c01227",
+    "url": "https://api.crossref.org/works/10.1021/acs.jcim.4c01227",
+    "status": 200,
+    "final_url": "https://api.crossref.org/works/10.1021/acs.jcim.4c01227",
+    "content_type": "application/json",
+    "chars": 13056
+  },
+  {
+    "name": "c_epmc_doi_jctc_5c00064",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=core&query=DOI:%2210.1021/acs.jctc.5c00064%22",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=core&query=DOI:%2210.1021/acs.jctc.5c00064%22",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 7424
+  },
+  {
+    "name": "c_epmc_doi_jcim_4c01227",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=core&query=DOI:%2210.1021/acs.jcim.4c01227%22",
+    "status": 200,
+    "final_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=core&query=DOI:%2210.1021/acs.jcim.4c01227%22",
+    "content_type": "application/json;charset=UTF-8",
+    "chars": 8001
+  },
+  {
+    "name": "c_pubmed_esearch_jctc_5c00064",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=10.1021/acs.jctc.5c00064[DOI]&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=10.1021/acs.jctc.5c00064[DOI]&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 210
+  },
+  {
+    "name": "c_pubmed_esearch_jcim_4c01227",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=10.1021/acs.jcim.4c01227[DOI]&retmode=json",
+    "status": 200,
+    "final_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=10.1021/acs.jcim.4c01227[DOI]&retmode=json",
+    "content_type": "application/json; charset=UTF-8",
+    "chars": 210
+  },
+  {
+    "name": "c_openalex_jctc_5c00064",
+    "url": "https://api.openalex.org/works/doi:10.1021/acs.jctc.5c00064",
+    "status": 200,
+    "final_url": "https://api.openalex.org/works/doi:10.1021/acs.jctc.5c00064",
+    "content_type": "application/json",
+    "chars": 28015
+  },
+  {
+    "name": "c_openalex_jcim_4c01227",
+    "url": "https://api.openalex.org/works/doi:10.1021/acs.jcim.4c01227",
+    "status": 200,
+    "final_url": "https://api.openalex.org/works/doi:10.1021/acs.jcim.4c01227",
+    "content_type": "application/json",
+    "chars": 27916
+  },
+  {
+    "name": "c_s2_jctc_5c00064",
+    "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1021/acs.jctc.5c00064?fields=title,abstract,year,authors,venue,externalIds",
+    "status": 200,
+    "final_url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1021/acs.jctc.5c00064?fields=title,abstract,year,authors,venue,externalIds",
+    "content_type": "application/json",
+    "chars": 2561
+  },
+  {
+    "name": "c_s2_jcim_4c01227",
+    "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1021/acs.jcim.4c01227?fields=title,abstract,year,authors,venue,externalIds",
+    "status": 200,
+    "final_url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1021/acs.jcim.4c01227?fields=title,abstract,year,authors,venue,externalIds",
+    "content_type": "application/json",
+    "chars": 2801
+  },
+  {
+    "name": "c_acs_landing_jctc_5c00064",
+    "url": "https://pubs.acs.org/doi/10.1021/acs.jctc.5c00064",
+    "status": 403,
+    "error": "HTTPError 403",
+    "chars": 16
+  },
+  {
+    "name": "c_acs_landing_jcim_4c01227",
+    "url": "https://pubs.acs.org/doi/10.1021/acs.jcim.4c01227",
+    "status": 403,
+    "error": "HTTPError 403",
+    "chars": 16
+  }
+]
