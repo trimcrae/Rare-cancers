@@ -545,6 +545,11 @@ jobs:
           python research/modalities/emc_ret_cistrome.py --check \
             || echo "--check reported drift; non-blocking, but READ IT"
 
+      # ⚠ `-inputs-FAILED.json` IS UPLOADED AND MUST NEVER BE PUBLISHED. A refused run writes its
+      # cache there instead of over the real one, and uploading it is how that cache stays
+      # diagnosable without a commit — which is the whole point, since the publish arm below is
+      # `always()` and would otherwise ship a failure stub over 52 MB of peak coordinates. It did,
+      # once: commit 5190923.
       - name: "RET cistrome — upload the artifact and its inputs cache"
         if: always() && inputs.mode == 'ret-cistrome'
         uses: actions/upload-artifact@v4
@@ -554,6 +559,7 @@ jobs:
           path: |
             research/modalities/emc-ret-cistrome.json
             research/modalities/emc-ret-cistrome-inputs.json
+            research/modalities/emc-ret-cistrome-inputs-FAILED.json
 
       # ─────────────────────────────────────────────────────────────────────────────────────
       # cohort-search — is there a FOURTH EMC expression cohort?

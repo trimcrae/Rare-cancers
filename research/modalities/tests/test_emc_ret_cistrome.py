@@ -723,3 +723,46 @@ def test_every_recorded_attempt_carries_its_budget_stamp():
     assert "budget_at_s" in M.ATTEMPTS[-1]
     assert isinstance(M.ATTEMPTS[-1]["budget_at_s"], (int, float))
     M.ATTEMPTS.clear()
+
+
+def test_the_failure_cache_has_its_own_path_and_is_not_the_real_inputs_cache():
+    """A guard that protects one of the two files a result rests on protects neither.
+
+    Measured 2026-08-08: the write guard refused a starved run and saved `emc-ret-cistrome.json`,
+    the module then wrote its failure cache over `emc-ret-cistrome-inputs.json` "so the failure is
+    diagnosable", and the workflow's `always()` publish committed that 2,097-line stub over the
+    52 MB peak-coordinate cache (commit 5190923, 4,569,033 deletions). The occupancy module reads
+    that cache, so the paper's whole occupancy axis went to DRIFT while the artifact the guard was
+    watching stayed pristine. A diagnostic must never be written over the thing being diagnosed.
+    """
+    assert M.FAILED_INPUTS != M.INPUTS
+    assert "FAILED" in os.path.basename(M.FAILED_INPUTS)
+    import inspect
+    src = inspect.getsource(M.main)
+    refusal = src[src.index("REFUSING TO WRITE"):]
+    refusal = refusal[:refusal.index("return 3")]
+    assert "FAILED_INPUTS" in refusal, "the refusal branch does not use the failure path"
+    assert "open(INPUTS" not in refusal, (
+        "the refusal branch still writes the real inputs cache -- that is the incident, verbatim")
+
+
+def test_the_workflow_uploads_the_failure_cache_but_never_publishes_it():
+    """The two verbs are opposite here and the distinction is the whole fix.
+
+    UPLOADING the failure cache is how it stays diagnosable with no commit -- the sandbox could not
+    reach the last one, which is why the timing stamps had to be added at all. PUBLISHING it is the
+    incident: the publish arm is `always()` by design, so any path named there ships whatever is on
+    disk, and a 2,097-line failure stub shipped over 52 MB of peak coordinates.
+    """
+    wf = os.path.join(os.path.dirname(os.path.dirname(MOD)), ".github", "workflows",
+                      "emc-expression-datasets.yml")
+    if not os.path.exists(wf):
+        pytest.skip("workflow not in this checkout")
+    with open(wf) as fh:
+        text = fh.read()
+    name = os.path.basename(M.FAILED_INPUTS)
+    assert name in text, "the failure cache is not uploaded, so a refused run is undiagnosable"
+    publish = text[text.index("Publish the artifact and the inputs cache"):]
+    publish = publish[:publish.index("publish_artifacts.sh")]
+    assert name not in publish, (
+        "the failure cache is named in the publish arm and would be committed over the real cache")

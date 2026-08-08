@@ -69,6 +69,9 @@ from datetime import datetime, timezone
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "emc-ret-cistrome.json")
 INPUTS = os.path.join(HERE, "emc-ret-cistrome-inputs.json")
+# Where a REFUSED run puts its cache. Deliberately not `INPUTS`, and deliberately not published by
+# the workflow's publish arm — see the refusal branch in `main()` for the incident that earned it.
+FAILED_INPUTS = os.path.join(HERE, "emc-ret-cistrome-inputs-FAILED.json")
 
 sys.path.insert(0, HERE)
 
@@ -2521,10 +2524,21 @@ def main():
                     f"this run read {_n_peaksets_read(art)} peak set(s) against the committed "
                     f"artifact's {_old} — a partial fetch, not a smaller world "
                     f"(RET_CISTROME_ALLOW_SHRINK=1 to re-baseline deliberately)")
+            # ⛔ THE DIAGNOSTIC GOES TO ITS OWN PATH, NEVER OVER THE CACHE IT IS DIAGNOSING.
+            # Measured 2026-08-08, and the refusal above is what made it possible: the guard
+            # protected `emc-ret-cistrome.json` from a starved run, the module then wrote its
+            # failure cache to `INPUTS` "so the failure is diagnosable", and the workflow's
+            # `always()` publish committed that 2,097-line stub over the 52 MB peak-coordinate
+            # cache — commit 5190923, 4,569,033 deletions. `nr4a3_fusion_targets_occupancy.py`
+            # reads that cache, so the paper's whole occupancy axis went to DRIFT while the
+            # artifact the guard was watching stayed pristine. **A guard that protects one of two
+            # files a result rests on protects neither**, and writing a diagnostic over the thing
+            # being diagnosed is the specific way this one leaked.
             print(f"⛔ REFUSING TO WRITE: {_why} and the committed "
                   "artifact carries one. A weaker reading may not overwrite a stronger one. "
-                  "The inputs cache is written so the failure is diagnosable.", file=sys.stderr)
-            with open(INPUTS, "w", encoding="utf-8") as fh:
+                  f"The failure cache goes to {os.path.basename(FAILED_INPUTS)} — the real inputs "
+                  "cache is left untouched.", file=sys.stderr)
+            with open(FAILED_INPUTS, "w", encoding="utf-8") as fh:
                 json.dump(cache, fh, indent=1, sort_keys=False, default=str)
             return 3
         with open(INPUTS, "w", encoding="utf-8") as fh:
