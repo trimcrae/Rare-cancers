@@ -74,10 +74,11 @@ published — leaving evidence that fails correction. ***SEMA3C* survives nothin
 with the comparator (+1.66 against low-grade fibromyxoid sarcoma, −0.65 against desmoid
 fibromatosis). The aggregate target set reaches 39% and 88% of its null threshold while the published
 EMC phenotype clears it 11.9-fold and 4.2-fold. No chromatin experiment with an NR4A3 fusion exists, and
-the 86 NR4A peak sets that do cannot substitute: against a background panel
-**no class-A gene carries unusual occupancy**, the deep catalogues being saturated (82.8% of
-arbitrary genes carry a peak) and the NR4A3-specific sets recovering no gene at all. "Elevated in
-EMC" and "driven by the fusion" remain inseparable for all three.
+the 110 NR4A peak sets that do — including four deep NR4A3 cistromes in acinic cell carcinoma, a
+different disease driven by wild-type NR4A3 — cannot substitute: against a background panel
+**no class-A gene carries unusual occupancy** (2 of 36 tests at p < 0.05 against 1.8 expected;
+binomial p 0.54), and *PPARG* carries no peak in any of them. "Elevated in EMC" and "driven by the
+fusion" remain inseparable for all three.
 
 ---
 
@@ -295,15 +296,27 @@ was asserted equal to the primary artifact before anything was written.
 4. **The skeletal-muscle admixture control** (§3.5), plus a **leave-one-out jackknife** over the EMC
    arm, a **rank-based re-read** on within-array percentile, and **Benjamini–Hochberg** q-values
    across the per-gene permutation p-values within each platform.
-5. **NR4A occupancy** (§3.11). 86 published NR4A ChIP-seq peak sets from ChIP-Atlas and ReMap2022
-   were intersected with the class-A genes' regulatory windows — the same window as the motif scan,
-   so the sequence and occupancy axes ask about one region — and every count placed against a
-   background panel of 198 genes assembled for an unrelated question. Two rules govern the reading.
-   A **raw count is never reported as a finding**, because the deepest catalogue puts a peak in
-   82.8% of the panel. And a peak set that recovers (almost) no panel gene is marked
-   **uninformative**: it cannot fail to recover these three, so its silence is an absent reading and
-   is never counted as evidence of non-occupancy. Multiplicity is over distinct **experiments**, not
-   genome builds, since the same experiment appears once per build.
+5. **NR4A occupancy** (§3.11). 110 published NR4A ChIP-seq peak sets — ChIP-Atlas, ReMap2022 and the
+   Haller *et al.* acinic cell carcinoma deposit — were intersected with the class-A genes'
+   regulatory windows, the same window as the motif scan, so the sequence and occupancy axes ask
+   about one region, and every count placed against a background panel of 198 genes assembled for an
+   unrelated question. Four rules govern the reading. A **raw count is never reported as a finding**,
+   because the deepest catalogue puts a peak in 82.8% of the panel. A peak set that recovers (almost)
+   no panel gene is marked **uninformative**: it cannot fail to recover these three, so its silence
+   is an absent reading and is never counted as evidence of non-occupancy. **Only NR4A antigens are
+   scored** — the Haller deposit also carries CTCF, H3K27ac, H3K27me3, H3K4me3 and super-enhancer
+   calls, and a histone peak at a promoter reports that the promoter is active, not that an NR4A
+   protein is there. And the nominal-hit count is judged by a **binomial tail** against the number of
+   tests rather than by comparing an integer to a fractional expectation. Multiplicity is over
+   distinct **experiments**, not genome builds, since the same experiment appears once per build.
+
+   The Haller peak files carry no genome build, and a BED intersected on an assumed build does not
+   fail — on chr10 it silently reports another locus. The build was therefore **measured**: H3K4me3
+   marks active promoters, so on the correct build it must recover most of the same background panel
+   and on the wrong one it must not. All four samples independently gave **90.6–93.9% panel recovery
+   on hg19 against 32.2–33.6% on hg38**, and the deposit is read as hg19. Both an absolute floor
+   (0.80) and a ratio (2.0) are required, because the two builds agree over much of the genome, so
+   ~33% is the expected wrong-build floor rather than noise.
 
 ### 2.7 · The cohort search
 
@@ -645,35 +658,65 @@ open, unclaimed experiment rather than a dataset someone forgot to fetch.
 
 **The available surrogates were then measured rather than dismissed**, because "no fusion cistrome"
 invites the reasonable objection that *some* NR4A chromatin data exists and might substitute for one.
-86 NR4A peak sets from ChIP-Atlas and ReMap2022 were intersected with the class-A genes' regulatory
-windows — the same −10 kb/+15 kb window as the motif scan, so the two axes ask about one region — and
-each count was placed against a background panel of 198 genes assembled for an unrelated question
-(**Table 9**).
+110 NR4A peak sets — from ChIP-Atlas, ReMap2022, and the Haller *et al.* acinic cell carcinoma deposit
+described below — were intersected with the class-A genes' regulatory windows, the same −10 kb/+15 kb
+window as the motif scan, so the two axes ask about one region. Each count was placed against a
+background panel of 198 genes assembled for an unrelated question (**Table 9**).
+
+**Deep NR4A3 occupancy in human tissue does exist, in another disease.** Acinic cell carcinoma of the
+salivary gland activates *native* NR4A3 by enhancer hijacking, and Haller *et al.* mapped it: NR4A3
+ChIP-seq in three carcinomas and one normal parotid gland at 8,501–18,666 peaks each (Zenodo
+10.5281/zenodo.1483691). That is 55–121× the deepest NR4A3 peak set otherwise available, and it is the
+only NR4A3 cistrome in human tissue this analysis could reach. ⚠ **It is not a fusion**: these tumours
+carry over-expressed wild-type NR4A3, not EWSR1::NR4A3, and §3.2 records native NR4A3 failing to
+activate the *PPARG* promoter the fusion activates. It answers where the NR4A3 DNA-binding domain goes
+in a human tumour — a fourth axis of evidence — and it is never a substitute for the missing
+experiment.
 
 **Table 9. NR4A occupancy at the class-A genes, calibrated against a 198-gene background panel.**
+Peak counts are promoter-window peaks; *p* is empirical against the panel.
 
-| peak set | antigen | peaks | panel genes with a peak | *ENO3* | *PPARG* | *SEMA3C* |
+| experiment | antigen | peaks | panel genes with a peak | *ENO3* | *PPARG* | *SEMA3C* |
 |---|---|---:|---:|---|---|---|
 | ReMap2022 (merged) | NR4A1 | 83,773 | **82.8%** | 6, p 0.14 | 1, p 0.83 | 1, p 0.83 |
 | SRX1653204 | NR4A1 | 26,660 | 45.5% | 2, p 0.12 | 0, p 1.00 | 1, p 0.46 |
-| SRX1653203 | NR4A1 | 22,717 | 31.3% | 2, **p 0.050** | 0, p 1.00 | 1, p 0.32 |
+| SRX1653203 | NR4A1 | 22,717 | 31.3% | 2, p 0.050 | 0, p 1.00 | 1, p 0.32 |
+| **AciCC-1** (Haller) | **NR4A3** | **18,666** | 67.5% | 4, p 0.070 | **0, p 1.00** | 1, p 0.68 |
+| **AciCC-2** (Haller) | **NR4A3** | **9,810** | 56.0% | 3, p 0.094 | **0, p 1.00** | 0, p 1.00 |
+| **AciCC-3** (Haller) | **NR4A3** | **9,263** | 49.0% | 2, p 0.16 | **0, p 1.00** | 0, p 1.00 |
+| **Normal parotid gland** (Haller) | **NR4A3** | **8,501** | 50.5% | 4, **p 0.035** | **0, p 1.00** | 0, p 1.00 |
 | 5 further NR4A1 experiments | NR4A1 | 305–16,023 | 2.5–27.3% | 0–1, p ≥ 0.26 | 0, p 1.00 | 0, p 1.00 |
-| **12 NR4A3 peak sets** | **NR4A3** | **53–154** | **0.0%** | uninformative | uninformative | uninformative |
+| 12 ChIP-Atlas NR4A3 peak sets | NR4A3 | 53–154 | **0.0%** | uninformative | uninformative | uninformative |
 
 **The first number to read is the panel column, not the gene columns.** In the deepest catalogue
-**82.8% of arbitrary genes carry a promoter-window peak**, so "has an NR4A1 peak" is what almost
-every gene does, and a raw count would be the same uncalibrated reading §1.3 exists to refuse.
-Against the panel, one of 24 gene-by-experiment tests reaches p < 0.05 — *ENO3* at p = 0.050 in a
-single experiment — against 1.2 expected by chance at that many uncorrected tests. **No class-A gene
-carries unusual NR4A occupancy.**
+**82.8% of arbitrary genes carry a promoter-window peak**, so "has an NR4A1 peak" is what almost every
+gene does, and a raw count would be the same uncalibrated reading §1.3 exists to refuse. Across the 12
+informative experiments, **2 of 36 gene-by-experiment tests reach p < 0.05 against 1.8 expected by
+chance — a binomial p of 0.54 for that many or more, which is what chance routinely gives. No class-A
+gene carries unusual NR4A occupancy.**
 
-Two things this does **not** say. It is not evidence that these genes are unbound: every informative
-experiment is NR4A1, a paralogue whose peak sharing with NR4A3 is 0.347 in matched dendritic cells —
-substantial, and far from identity. And the twelve NR4A3-specific peak sets say nothing at all: at
-53–154 peaks they recover **no** panel gene either, so a peak set that cannot find an arbitrary gene
-cannot fail to find these three, and its silence is an absent reading. What the table does establish
-is that the surrogates cannot stand in for the missing experiment — the deep sets are saturated and
-the specific sets are empty — which is why §4.3's discriminating experiment remains a fusion
+Three readings, in descending order of what they support.
+
+- ***PPARG* carries zero promoter-window peaks in all four deep NR4A3 experiments** (p = 1.00 each).
+  This is a **negative, not an absent reading**: those experiments recover 49–68% of the background
+  panel, so they can find an arbitrary gene and did not find this one. It stands against Filion
+  *et al.*'s perfect NBRE at −675 bp, band shift, and NBRE-mutant luciferase (Table 3). The two are
+  reconcilable — a promoter can be bound by an over-expressed factor in a reporter assay and unbound
+  in a different lineage's chromatin — but the tension is real and is reported rather than resolved.
+- ***SEMA3C* carries at most one peak in one experiment**, consistent with every other axis on which
+  it fails.
+- ***ENO3* carries 2–4 peaks in every deep NR4A3 experiment and clears its panel in exactly one — the
+  NORMAL parotid gland (p = 0.035), not any carcinoma.** A signal present in normal tissue and absent
+  from the tumours is the opposite shape from a tumour-driven one, and one nominal hit in 36 tests is
+  what chance gives.
+
+Two things this still does **not** say. NR4A3 in acinic cell carcinoma is **not the fusion and not
+EMC**: it is wild-type protein in a salivary-gland tumour, and NR4A1 — which supplies 8 of the 12
+informative experiments — is a paralogue whose peak sharing with NR4A3 is 0.347 in matched dendritic
+cells. And the twelve ChIP-Atlas NR4A3 peak sets still say nothing at all: at 53–154 peaks they
+recover **no** panel gene, so their silence remains an absent reading. What the table establishes is
+that the surrogates cannot stand in for the missing experiment — now including a genuinely deep NR4A3
+cistrome in the wrong disease — which is why §4.3's discriminating experiment remains a fusion
 cistrome and not a re-analysis.
 
 ### 3.12 · What the instruments say together
@@ -686,8 +729,8 @@ that covariate differs, and 100% on the platform where it does not; the top 2% o
 independent cohort on an unrelated technology; flat muscle markers that are more muscle-restricted
 than it is; and more exact NBREs than its own composition-matched null. **The exception is the
 occupancy axis, and it is an exception for all three genes**: no class-A gene exceeds a background
-panel in any NR4A peak set (§3.11), and *ENO3*'s single borderline value (p = 0.050 in one of eight
-experiments) is what 24 uncorrected tests produce by chance. ***SEMA3C* is the mirror image** — it
+panel in any NR4A peak set (§3.11), and *ENO3*'s one nominally significant value falls in a **normal
+parotid gland** rather than any tumour — 2 hits in 36 tests against 1.8 expected, binomial p 0.54. ***SEMA3C* is the mirror image** — it
 fails the permutation test on both platforms, reverses sign with comparator choice, is p = 0.84
 against pool-matched comparators, and carries no exact NBRE. ***PPARG* sits between them, and lower than it
 first appeared**, because its strongest cell is circular.
@@ -781,8 +824,9 @@ queries while reporting six (SI §S7).
 > (§3.8) — which is neither support nor absence. The 3SEQ column carries no test: at n = 4 it is a
 > percentile within that deposit's own distribution. **The occupancy column is grey for all three
 > genes**, and is the only column on which no gene is supported: it reports the best empirical p any
-> of eight informative NR4A experiments gives against a 198-gene background panel, judged at a
-> Bonferroni threshold for those eight. It is **NR4A1, a paralogue, not the fusion** (§3.11).
+> of twelve informative NR4A experiments gives against a 198-gene background panel, judged at a
+> Bonferroni threshold for those twelve. Eight are **NR4A1, a paralogue**; four are **wild-type NR4A3
+> in acinic cell carcinoma**, a different disease. Neither is the fusion (§3.11).
 > **No cell asserts that the fusion binds or drives any gene**, and §3.11 records that no
 > NR4A3-fusion cistrome has been reported.
 
@@ -918,11 +962,15 @@ These are ceilings, not caveats: each one bounds what any sentence in §3 may be
 15. **Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim**
     for any agent, target or gene, and expression data cannot become that evidence. No drug, dose,
     schedule or patient population is named or implied.
-16. **The occupancy axis returned no reading, for anyone.** §3.11 is not evidence that these genes
-    are unbound. Every informative peak set is NR4A1, a paralogue sharing 0.347 of its peaks with
-    NR4A3 in matched cells; the deep catalogues are so saturated that a peak is uninformative; and
-    the twelve NR4A3-specific sets recover no gene at all. The axis bounds what surrogates can show
-    and nothing more.
+16. **The occupancy axis is measured on the wrong protein or the wrong disease, in every experiment.**
+    §3.11 is not evidence that these genes are unbound by the fusion. Eight of the twelve informative
+    experiments are NR4A1, a paralogue sharing 0.347 of its peaks with NR4A3 in matched cells; the
+    other four are **wild-type NR4A3 in acinic cell carcinoma**, where the protein is activated by
+    enhancer hijacking rather than fused, in a salivary-gland lineage that is not EMC. *PPARG*'s zero
+    in all four is a real negative about that setting and says nothing directly about EMC — §3.2
+    records native NR4A3 failing to activate the very promoter the fusion activates, so a native
+    cistrome is expected to disagree with a fusion one at exactly this gene. The axis bounds what
+    surrogates can show and nothing more.
 17. **The positive control and the surviving result are the same gene.** *ENO3* was designated the
     instrument's positive control before any biological read (§2.4) *and* is the gene that survives
     every subsequent test (§3.12). Its elevation in EMC is therefore not an independent finding of
@@ -950,9 +998,9 @@ reads EMC and does not read the aggregate.
 The binding constraint is not sample size and not statistics. It is that class A is three genes wide,
 and that no genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in 2,276
 full-text documents across five corpora (§3.11 — a bounded statement about a search, not a claim that
-none exists anywhere). Nor can the existing NR4A chromatin data stand in for it: across 86 peak sets,
-no class-A gene carries occupancy beyond a background panel, because the deep catalogues are
-saturated and the NR4A3-specific sets recover no gene at all. Until a fusion cistrome is in hand,
+none exists anywhere). Nor can the existing NR4A chromatin data stand in for it: across 110 peak sets — now
+including four deep NR4A3 cistromes in acinic cell carcinoma, a disease driven by wild-type NR4A3 —
+no class-A gene carries occupancy beyond a background panel. Until a fusion cistrome is in hand,
 "up in EMC" and "driven by the fusion" cannot be told apart for any gene named here, *ENO3*
 included.
 
@@ -989,7 +1037,7 @@ submission:
 | `gse28866-tumour-vs-normal.json` → `per_gene.values` and `ratio_calibration` — the 3SEQ arm and its percentile calibration against all 14,120 genes in the deposit | `gse28866_tumour_vs_normal.py` |
 | `nr4a3-fusion-targets-robustness.json` — exact label-permutation p-values, leave-one-out jackknife, rank-based re-read and BH q-values | `nr4a3_fusion_targets_robustness.py` |
 | `nr4a3-fusion-targets-confounds.json` — comparator composition, the muscle-admixture control, every stratified and reference-pool-matched contrast with its own exact permutation p, the covariate-adjusted sensitivity analysis, minimum detectable effects, and the within-EMC axis | `nr4a3_fusion_targets_confounds.py` |
-| `nr4a3-fusion-targets-occupancy.json` — NR4A ChIP-seq occupancy at the class-A genes across 86 peak sets, each count calibrated against a 198-gene background panel, with the depth rule that marks an undetectable peak set uninformative rather than negative | `nr4a3_fusion_targets_occupancy.py` (reads the committed `emc-ret-cistrome.json` and its cached peaks; no network) |
+| `nr4a3-fusion-targets-occupancy.json` — NR4A ChIP-seq occupancy at the class-A genes across 110 peak sets, each count calibrated against a 198-gene background panel, with the depth rule that marks an undetectable peak set uninformative rather than negative and the antigen rule that scores only NR4A ChIPs | `nr4a3_fusion_targets_occupancy.py` (reads the committed `emc-ret-cistrome.json` and its cached peaks; no network) |
 | `figures/fig1`–`fig5` (PNG + PDF) and `figures/figure-provenance.json` | `nr4a3_fusion_targets_figures.py` |
 | `emc-ret-target-scan.json` → `part_1_nbre_scan` — NBRE/NurRE counts, the dinucleotide-preserving shuffle null and the background-panel ranks. Ensembl sequences are cached, so the scan re-derives offline | `emc_ret_target_scan.py` |
 | offline arithmetic guards | `tests/test_nr4a3_fusion_targets.py`, `tests/test_nr4a3_fusion_targets_confounds.py`, `tests/test_nr4a3_fusion_targets_figures.py` |
@@ -1045,6 +1093,8 @@ Retained so that a superseded number stays quotable as history and not as a curr
 | "Four of four graded controls agree", with *PLAGL1*/GPL6244 marked "not graded". | **corrected 2026-08-08** | Five of six control × platform cells are computable and all five agree; *PLAGL1*/GPL6244 is *inside its null band* and is not a reading at this power. The three-state grading rule is now stated in §2.4. |
 | "Deep NR4A1 sets (ReMap2022) do recover both *SEMA3C* and *ENO3*" — offered in §3.11 as a near-miss worth noting. | **corrected 2026-08-08** | True and uninformative: 82.8% of a 198-gene background panel is also recovered by that catalogue. Calibrated, no class-A gene exceeds the panel in any NR4A peak set (§3.11, Table 9). The uncalibrated version was the same error §1.3 exists to refuse, inside the section that reports the paper's central negative. |
 | A background citation attributing the cloning of the EMC fusion to a 1995 paper. | **withdrawn** | The PMID traced to no held source and was written from recollection. The statement is now anchored on the verbatim GEO series record and on Brenca *et al.* |
+| "All twelve NR4A3-specific peak sets are too shallow to recover any gene at all", and the occupancy axis reported across **86** peak sets, **8** informative experiments and **24** tests. | **superseded 2026-08-08** | True of the twelve ChIP-Atlas sets and still stated of them, but no longer true of the axis: the Haller *et al.* acinic cell carcinoma deposit adds four NR4A3 cistromes at 8,501–18,666 peaks, 55–121× the deepest previously available. The axis is now 110 peak sets, 12 informative experiments and 36 tests (§3.11, Table 9). The conclusion is unchanged and better supported — 2 hits against 1.8 expected, binomial p 0.54 — and *PPARG*'s zero is now a negative rather than an absent reading. |
+| The occupancy verdict decided by comparing the observed hit count with its expected value. | **corrected 2026-08-08** | Expected is fractional and observed is an integer, so 2 against 1.8 read as an excess. The count is judged by a binomial tail (p = 0.54 for this many or more); no wording in any version of this paper rested on the earlier comparison. |
 
 ## Appendix B · What would change this paper's conclusions
 

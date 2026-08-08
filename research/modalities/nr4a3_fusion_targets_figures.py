@@ -353,7 +353,12 @@ def fig_matrix(plt, tgt, robust, seq3, motif, conf, occ):
             "each comparator stratum\nleast favourable exact $p$",
             "3SEQ cohort\nratio · percentile of 14,120 genes",
             "NBRE motif\nsequence, not occupancy",
-            "NR4A occupancy\nparalogue, vs 198-gene panel"]
+            # ⚠ "paralogue" alone was true until the Haller deposit arrived and is now wrong for a
+            # third of the column: 8 of the 12 informative experiments are NR4A1, but 4 are NR4A3
+            # itself — wild-type, in acinic cell carcinoma. Neither is the fusion, which is the
+            # point the header has to carry, and "paralogue" understates one axis while overstating
+            # the other's relevance.
+            "NR4A occupancy\nNR4A1 + native NR4A3, vs 198-gene panel"]
     cells = _cells(tgt, robust, seq3, motif, conf, occ)
     colour = {"supported": C_SUPP, "weak": C_NULL, "absent": C_ABSENT, "circular": "#b08a3e"}
     fig, ax = plt.subplots(figsize=(15.6, 4.9))

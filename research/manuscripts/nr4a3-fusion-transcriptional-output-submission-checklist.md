@@ -195,15 +195,48 @@ as main-text §3.4–§3.7 with the full tables as Supplementary S4–S6:
 Produced by `nr4a3_fusion_targets_occupancy.py` → `nr4a3-fusion-targets-occupancy.json`, reported as
 main-text §3.11 Table 9 and as a sixth column of Figure 4. It closes the paper's largest structural
 gap — it had **no chromatin data at all** — using 86 NR4A ChIP-seq peak sets already cached in this
-repository, with **no fetch**.
+repository, with **no fetch**. It has since grown to 110 peak sets; see the Haller entry below.
 
 ⚠ **It is a bounded negative, and the first pass got it backwards.** Read as raw counts, *ENO3*
 looked like the top of 13 loci. Calibrated against a 198-gene background panel it is not: the deepest
 catalogue puts a promoter peak in **82.8% of arbitrary genes**, so a bare count is the same
-uncalibrated reading §1.3 of the manuscript exists to refuse. One of 24 gene-by-experiment tests
-reaches p < 0.05 against 1.2 expected by chance. No class-A gene carries unusual NR4A occupancy, and
-all 12 NR4A3-specific peak sets are too shallow to recover any gene at all — so the surrogates cannot
-substitute for the missing fusion cistrome, which is the point.
+uncalibrated reading §1.3 of the manuscript exists to refuse. No class-A gene carries unusual NR4A
+occupancy — so the surrogates cannot substitute for the missing fusion cistrome, which is the point.
+⚠ *The counts in the first version of this entry (86 peak sets, 8 informative experiments, 1 of 24
+tests against 1.2 expected) are superseded by the Haller deposit below; the conclusion is unchanged.*
+
+### Also done (2026-08-08) — the Haller NR4A3 cistrome, and what it changed
+
+The one option this checklist listed as still available was retrieved. Zenodo 10.5281/zenodo.1483691
+(Haller *et al.*, PMID 30664630) carries NR4A3 ChIP-seq in three acinic cell carcinomas and one
+normal parotid gland at **8,501–18,666 peaks** — 55–121× the deepest NR4A3 peak set the repository
+previously held (154), and the first NR4A3 occupancy data in human tissue this paper has.
+
+⚠ **It is not a fusion and the manuscript says so in every place it appears.** Acinic cell carcinoma
+activates *wild-type* NR4A3 by enhancer hijacking. §3.2 records native NR4A3 failing to activate the
+*PPARG* promoter the fusion activates, so a native cistrome is *expected* to disagree with a fusion
+one at exactly that gene.
+
+- **The build was measured, not assumed.** A BED file carries no genome build, and on chr10 an
+  intersection on the wrong one does not fail — it silently reports another locus. H3K4me3 marks
+  active promoters, so on the correct build it must recover most of the background panel: **90.6–93.9%
+  on hg19 against 32.2–33.6% on hg38**, all four samples independently. Both an absolute floor and a
+  ratio are required, because the builds agree over much of the genome and ~33% is the wrong-build
+  floor rather than noise.
+- **The axis is now 110 peak sets, 12 informative experiments, 36 tests**, and the conclusion is
+  unchanged and better supported: 2 hits at p < 0.05 against 1.8 expected, **binomial p = 0.54**.
+- ⭐ ***PPARG*'s zero became a real negative.** It carries no promoter-window peak in any of the four
+  deep NR4A3 experiments, which recover 49–68% of the background panel — so they can find an
+  arbitrary gene and did not find this one. That sits against Filion *et al.*'s perfect NBRE at
+  −675 bp and band shift, and §3.11 reports the tension rather than resolving it.
+- ***ENO3*'s single nominal hit is in the NORMAL parotid gland** (p = 0.035), not any carcinoma —
+  the opposite shape from a tumour-driven signal.
+- ⛔ **Two defects the new data exposed, both one commit from the manuscript.** The occupancy module
+  recorded each peak set's antigen and never filtered on it, so the deposit's 20 CTCF/H3K27ac/
+  H3K27me3/H3K4me3/super-enhancer files entered an *NR4A occupancy* test. And the verdict decided
+  significance with `observed > expected`, which is not a test when expected is fractional: at 2
+  against 1.8 it flipped to "at least one class-A gene exceeds the background panel more often than
+  chance would give." Both fixed; the second is now a binomial tail.
 
 ### Also done (2026-08-08) — the fourth-cohort question, asked and answered
 

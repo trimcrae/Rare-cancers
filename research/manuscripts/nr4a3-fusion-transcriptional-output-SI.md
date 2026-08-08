@@ -11,7 +11,8 @@ purpose: >
   classification, the full set-score table with each set's detectability threshold, the complete
   robustness panel, every stratified comparator contrast with its own exact permutation p, the
   covariate-adjustment and muscle-admixture tables, the PPARγ activity reading, and the method
-  detail and pre-registered decision rule referenced from the main text.
+  detail and pre-registered decision rule referenced from the main text, the recorded GEO
+  cohort search, and how the Haller NR4A3 deposit's genome build was determined.
 scope: >
   Supplementary tables and method detail for one expression re-analysis. Asserts nothing about
   efficacy, selectivity, safety, a therapeutic window or clinical readiness for any agent, target or
@@ -30,7 +31,7 @@ cohorts.*
 
 Every table here is generated from a committed artifact and is not re-typed from prose; the
 producers are listed in the main text's Data and code availability section. Section numbers below
-are referenced from the main text as §S1–§S6.
+are referenced from the main text as §S1–§S8.
 
 ---
 
@@ -444,3 +445,54 @@ decision under records that never could.
 **Reproduction.** `research/modalities/emc_cohort_search.py` → `emc-cohort-search.json`, with the raw
 query record in `emc-cohort-search-inputs.json`. The derive half runs offline from the cached queries
 and `--check` re-derives the verdict and diffs it against the committed artifact.
+
+---
+
+## S8 · The Haller NR4A3 cistrome — how its genome build was determined
+
+Main-text §3.11 and Table 9 report four deep NR4A3 peak sets from Haller *et al.* (Zenodo
+10.5281/zenodo.1483691). This section records how they became usable, because the step is not
+routine and a reader should be able to reject it.
+
+**The problem.** A BED file carries no genome build. The deposit names none in its title, its
+description or its filenames, and the two candidate human builds differ by a large, position-dependent
+offset — on chr10, roughly 300 kb near *RET*. An intersection performed on the wrong build does not
+fail: it returns a plausible number for a different locus. This analysis therefore refuses to intersect
+any peak set whose build is unknown, and these four arrived in exactly that state.
+
+**The test.** H3K4me3 marks active promoters. The deposit includes an H3K4me3 peak set for each of the
+four samples, so on the correct build those peaks must recover most of a promoter panel — and on the
+wrong build they must not. The panel used is the same 198-gene background panel every count in Table 9
+is calibrated against, assembled for an unrelated question and never chosen with reference to these
+data.
+
+**Table S8. Promoter recovery of each H3K4me3 peak set, by candidate build.**
+
+| sample | peaks | panel promoters recovered, hg19 | hg38 |
+|---|---:|---:|---:|
+| AciCC-1 | 30,660 | **90.6%** | 33.6% |
+| AciCC-2 | 30,532 | **92.5%** | 32.2% |
+| AciCC-3 | 29,494 | **92.5%** | 33.2% |
+| Normal parotid gland | 28,407 | **93.9%** | 32.7% |
+
+The deposit is read as **hg19**, on a worst-case recovery of 0.906 against 0.322, a ratio of 2.81.
+
+**Why two thresholds and not one.** A build is assigned only if the worst sample clears an absolute
+floor (0.80) *and* beats the runner-up by a ratio (2.0). The ratio alone would accept two equally wrong
+builds; the absolute alone would accept a build on which peaks happen to be broadly distributed.
+⚠ **The 33% on hg38 is not noise** — the two builds are identical over much of the genome, so a
+substantial wrong-build recovery is expected, and a test that treated "it found some" as agreement
+would pass on either.
+
+**What the reader can check, and what would overturn it.** Four biological samples agree independently,
+which a coordinate error affecting one file would not produce; the mark used is the one with the
+strongest prior expectation of promoter localisation, and no transcription factor was used, because a
+factor that genuinely avoided promoters would mimic the wrong build; and the panel is the same one the
+occupancy calibration uses, so an error in it degrades the build call and the occupancy nulls together
+rather than silently favouring one build. **If the deposit is in fact hg38, every Table 9 row from it is
+void** — the class-A counts would refer to other loci — while the ChIP-Atlas and ReMap rows, whose
+builds come from their catalogues, are unaffected. Nothing else in the manuscript depends on it.
+
+**Reproduction.** `python3 research/modalities/emc_ret_cistrome.py --infer-builds`, offline, from the
+committed peak cache; the full per-build table is written to `emc-ret-cistrome-inputs.json` under
+`build_inference`.
