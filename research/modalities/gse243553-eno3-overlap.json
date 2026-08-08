@@ -1,15 +1,28 @@
 {
  "_errors": [],
  "_no_claim": "Retrieval and intersection only. Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness statement about any agent, target or gene.",
- "_panel_source": "emc-ret-cistrome-inputs.json -> genes.hg38, the 198-gene background panel assembled for the ATR/DDR concept universe, used unchanged by \u00a73.11's Table 9 \u2014 so this reading and that one are commensurable",
+ "_panel_source": "emc-ret-cistrome-inputs.json -> genes.hg38, the background panel assembled for the ATR/DDR concept universe \u2014 the same panel \u00a73.11's Table 9 calibrates against, so this reading and that one are commensurable. \u26a0 THE COUNT HERE IS NOT 198: that file resolves 211 genes on hg38 and this read removes the 8 focus genes, leaving 203. The manuscript's 198 is the same panel as the MOTIF scan resolved it. Same panel, two resolutions \u2014 do not quote one figure for the other.",
  "_peak_call_provenance": "The peak/marker intervals are the AUTHORS' OWN, taken from the paper's supplementary data (Springer ESM for doi 10.1038/s41587-024-02347-4). GEO's GSE243553 deposits fragments only \u2014 80.1 GB, no peak call \u2014 so nothing here is a peak this repository called.",
  "_uninformative_rule": {
   "_why": "a set that recovers no arbitrary gene cannot fail to recover a chosen one, so its silence is an absent reading and is never evidence of absence",
   "min_panel_genes": 50,
-  "min_panel_hit_rate": 0.02
+  "min_panel_hit_rate": 0.02,
+  "\u26a0_imported_from_a_different_instrument_class": "these thresholds were set for FULL peak catalogues in nr4a3-fusion-targets-occupancy.json. A DIFFERENTIAL marker set is sparse by construction, so the rule is strict here. It is applied unchanged rather than relaxed to fit, and the raw panel counts are printed beside every verdict so a reader can regrade."
  },
  "_what": "Do the paper's per-fusion accessibility calls for GSE243553 cover the ENO3 NBRE sites the manuscript's \u00a73.10 motif scan found, and would an arbitrary promoter have been covered as often?",
  "_why_this_flank": "\u00b1250 bp around each 8 bp NBRE, a 508 bp query interval. A called accessibility interval in this assay is a few hundred bp and a motif is 8 bp, so this asks 'is the motif inside a called accessible region' at about one interval width. Chosen and stated before any count was read.",
+ "controls": {
+  "_question": "full-length wild-type NR4A3 and the reciprocal NR4A3-EWSR1 are the two arms the paper reports at ZERO differentially accessible peaks. Do they cover the ENO3 NBRE sites?",
+  "interval_files_present_in_the_supplement": [
+   "Supp_Data_1_new/EWSR1-NR4A3_markers.bed",
+   "Supp_Data_1_new/TAF15-NR4A3_markers.bed",
+   "Supp_Data_1_new/TCF12-NR4A3_markers.bed",
+   "Supp_Data_1_new/TFG-NR4A3_markers.bed"
+  ],
+  "reciprocal_NR4A3_EWSR1_marker_file_present": false,
+  "wild_type_NR4A3_marker_file_present": false,
+  "\u26a0_how_to_read_a_missing_file": "The supplement carries a `<FUSION>_markers.bed` for 32 of the library's variants. Neither control is among them, which is what a variant with no differentially accessible peaks looks like in this supplement and is consistent with the paper's own report of zero for both. \u26d4 It is NOT a measured zero AT THESE COORDINATES \u2014 a file that does not exist was not queried, and the honest statement is 'the fusion arms have interval sets and the two controls have none', not 'the controls were tested here and came back empty'."
+ },
  "doi": "10.1038/s41587-024-02347-4",
  "eno3_nbre_sites": {
   "_source": "research/modalities/emc-ret-target-scan.json",
@@ -61,7 +74,7 @@
   }
  },
  "flank_bp": 250,
- "generated_utc": "2026-08-08T20:37:06Z",
+ "generated_utc": "2026-08-08T20:42:39Z",
  "genome_build": {
   "_how_established": "the deposit's own !Sample_data_processing: `Assembly: hg38`, and reads aligned with cellranger-atac to hg38",
   "builds_agree_no_liftover_needed": true,
@@ -70,6 +83,7 @@
   "\u26d4": "GRCh38 and hg38 are the same assembly on the primary chromosomes; an intersection across builds would be meaningless, so this is recorded as a reading rather than assumed"
  },
  "n_null_draws": 20000,
+ "n_panel_genes_used": 203,
  "peakset_inventory": {
   "Supp_Data_1_new/ACTB-GLI1_markers.bed": {
    "chroms": [
@@ -1756,6 +1770,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -1768,7 +1793,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -1835,6 +1861,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -1847,7 +1884,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -1914,6 +1952,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -1926,7 +1975,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -1991,6 +2041,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -2003,7 +2064,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2069,6 +2131,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -2081,7 +2154,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2146,6 +2220,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -2158,7 +2243,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2224,6 +2310,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -2236,7 +2333,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2301,6 +2399,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -2313,7 +2422,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2379,6 +2489,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -2391,7 +2512,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2457,6 +2579,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -2469,7 +2602,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2534,6 +2668,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -2546,7 +2691,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2611,6 +2757,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -2623,7 +2780,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2689,6 +2847,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -2701,7 +2870,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2766,6 +2936,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -2778,7 +2959,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2843,6 +3025,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -2855,7 +3048,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2921,6 +3115,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -2933,7 +3138,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -2999,6 +3205,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -3011,7 +3228,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3080,6 +3298,20 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 16997,
+      "1": 1426,
+      "2": 1412,
+      "3": 165
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.237,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -3092,7 +3324,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.16,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3158,6 +3391,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -3170,7 +3414,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3235,6 +3480,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -3247,7 +3503,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3312,6 +3569,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -3324,7 +3592,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3389,6 +3658,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -3401,7 +3681,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3466,6 +3747,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -3478,7 +3770,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3543,6 +3836,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -3555,7 +3859,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3620,6 +3925,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -3632,7 +3948,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3697,6 +4014,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -3709,7 +4037,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3774,6 +4103,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -3786,7 +4126,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3861,6 +4202,20 @@
      "n": 203,
      "n_at_or_above_observed": 0
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 15224,
+      "1": 1762,
+      "2": 1409,
+      "3": 1605
+     },
+     "empirical_p": 0.0803,
+     "mean_sites_covered": 0.47,
+     "n": 20000,
+     "n_at_or_above_observed": 1605,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 5e-05,
@@ -3873,7 +4228,8 @@
      "empirical_p": 0.0019,
      "mean_sites_covered": 0.304,
      "n": 20000,
-     "n_at_or_above_observed": 37
+     "n_at_or_above_observed": 37,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -3944,6 +4300,20 @@
      "n": 203,
      "n_at_or_above_observed": 0
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 16605,
+      "1": 1746,
+      "2": 1471,
+      "3": 178
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.261,
+     "n": 20000,
+     "n_at_or_above_observed": 1649,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -3956,7 +4326,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.161,
      "n": 20000,
-     "n_at_or_above_observed": 188
+     "n_at_or_above_observed": 188,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -4021,6 +4392,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -4033,7 +4415,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -4101,6 +4484,20 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 16969,
+      "1": 1389,
+      "2": 1472,
+      "3": 170
+     },
+     "empirical_p": 1.0,
+     "mean_sites_covered": 0.242,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": 1.0,
@@ -4113,7 +4510,8 @@
      "empirical_p": 1.0,
      "mean_sites_covered": 0.159,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
@@ -4178,6 +4576,17 @@
      "n": 203,
      "n_at_or_above_observed": 203
     },
+    "rigid_shift_of_the_whole_site_configuration": {
+     "_what": "20000 seeded draws (seed 20260810); the WHOLE four-site configuration, at its true spacing, slid to a uniformly random offset inside ENO3's own window",
+     "distribution": {
+      "0": 20000
+     },
+     "empirical_p": null,
+     "mean_sites_covered": 0.0,
+     "n": 20000,
+     "n_at_or_above_observed": 20000,
+     "\u2b50_why_this_is_the_one_to_quote": "it is the only null that carries BOTH of the two things that could manufacture the result: ENO3's promoter being open at all (it stays inside that window) and the sites being clustered (two of the four are 153 bp apart, so one interval covers both and they are not independent draws)."
+    },
     "seeded_resampling_in_panel_windows": {
      "_what": "20000 seeded draws (seed 20260808); each draw takes a random panel gene and 4 uniformly random positions in its window",
      "empirical_p": null,
@@ -4190,7 +4599,8 @@
      "empirical_p": null,
      "mean_sites_covered": 0.0,
      "n": 20000,
-     "n_at_or_above_observed": 20000
+     "n_at_or_above_observed": 20000,
+     "\u26a0_treats_the_four_sites_as_independent": "and they are not \u2014 NBRE 2 and NBRE 3 are 153 bp apart and one 500 bp interval covers both. Read the rigid-shift null below instead; this one is kept because it is the conventional test and its optimism is the reason the rigid-shift null exists."
     }
    },
    "panel": {
