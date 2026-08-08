@@ -1,0 +1,937 @@
+SOURCE URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC13105821/
+FINAL URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC13105821/
+HTTP: 200
+CONTENT-TYPE: text/html; charset=utf-8
+======================================================================
+Large-scale discovery of chromatin dysregulation induced by oncofusions and other protein-coding variants - PMC
+
+ Skip to main content
+
+ An official website of the United States government
+
+ Here's how you know 
+
+ Here's how you know 
+
+ Official websites use .gov 
+
+ A
+ .gov website belongs to an official
+ government organization in the United States.
+
+ Secure .gov websites use HTTPS 
+
+ A lock (
+
+ ) or https:// means you've safely
+ connected to the .gov website. Share sensitive
+ information only on official, secure websites.
+
+ Search
+
+ Log in 
+
+ Dashboard
+
+ Publications
+
+ Account settings
+
+ Log out
+
+ Search…
+
+ Search NCBI
+
+ Primary site navigation
+
+ Search
+
+ Logged in as:
+
+ Dashboard
+
+ Publications
+
+ Account settings
+
+ Log in
+
+ Search PMC Full-Text Archive 
+
+ Search in PMC 
+
+ Journal List
+
+ User Guide
+
+ PERMALINK
+
+ Copy 
+
+ As a library, NLM provides access to scientific literature. Inclusion in an NLM database does not imply endorsement of, or agreement with,
+ the contents by NLM or the National Institutes of Health.
+
+ Learn more:
+ PMC Disclaimer 
+ |
+ 
+ PMC Copyright Notice
+
+ Nat Biotechnol 
+. Author manuscript; available in PMC: 2026 Apr 24.
+
+ Published in final edited form as: Nat Biotechnol. 2024 Jul 24;43(6):996–1010. doi: 10.1038/s41587-024-02347-4 
+
+ Search in PMC 
+
+ Search in PubMed 
+
+ View in NLM Catalog 
+
+ Add to search 
+
+ Large-scale discovery of chromatin dysregulation induced by oncofusions and other protein-coding variants
+ 
+ Max Frenkel 
+ Max Frenkel 
+
+ 1 Cellular and Molecular Biology Graduate Program, University of Wisconsin, Madison, Wisconsin, USA
+
+ 2 Medical Scientist Training Program, University of Wisconsin School of Medicine and Public Health, Madison, Wisconsin, USA
+
+ 3 Department of Biochemistry, University of Wisconsin, Madison, Wisconsin, USA
+
+ Find articles by Max Frenkel 
+
+ 1, 2, 3 , James E Corban 
+ James E Corban 
+
+ 3 Department of Biochemistry, University of Wisconsin, Madison, Wisconsin, USA
+
+ Find articles by James E Corban 
+
+ 3 , Margaux LA Hujoel 
+ Margaux LA Hujoel 
+
+ 4 Division of Genetics, Department of Medicine, Brigham and Women’s Hospital and Harvard Medical School, Boston, MA, USA
+
+ 5 Center for Data Sciences, Brigham and Women’s Hospital and Harvard Medical School, Boston, MA, USA
+
+ 6 Program in Medical and Population Genetics, Broad Institute of MIT and Harvard, Cambridge, MA, USA
+
+ Find articles by Margaux LA Hujoel 
+
+ 4, 5, 6 , Zachary Morris 
+ Zachary Morris 
+
+ 7 Department of Human Oncology, University of Wisconsin School of Medicine and Public Health, Madison, Wisconsin, USA
+
+ Find articles by Zachary Morris 
+
+ 7 , Srivatsan Raman 
+ Srivatsan Raman 
+
+ 3 Department of Biochemistry, University of Wisconsin, Madison, Wisconsin, USA
+
+ 8 Department of Bacteriology, University of Wisconsin, Madison, Wisconsin, USA
+
+ 9 Department of Chemical and Biological Engineering, University of Wisconsin, Madison, Wisconsin, USA
+
+ Find articles by Srivatsan Raman 
+
+ 3, 8, 9, * 
+
+ Author information 
+
+ Article notes 
+
+ Copyright and License information 
+
+ 1 Cellular and Molecular Biology Graduate Program, University of Wisconsin, Madison, Wisconsin, USA
+
+ 2 Medical Scientist Training Program, University of Wisconsin School of Medicine and Public Health, Madison, Wisconsin, USA
+
+ 3 Department of Biochemistry, University of Wisconsin, Madison, Wisconsin, USA
+
+ 4 Division of Genetics, Department of Medicine, Brigham and Women’s Hospital and Harvard Medical School, Boston, MA, USA
+
+ 5 Center for Data Sciences, Brigham and Women’s Hospital and Harvard Medical School, Boston, MA, USA
+
+ 6 Program in Medical and Population Genetics, Broad Institute of MIT and Harvard, Cambridge, MA, USA
+
+ 7 Department of Human Oncology, University of Wisconsin School of Medicine and Public Health, Madison, Wisconsin, USA
+
+ 8 Department of Bacteriology, University of Wisconsin, Madison, Wisconsin, USA
+
+ 9 Department of Chemical and Biological Engineering, University of Wisconsin, Madison, Wisconsin, USA
+
+ Author contributions
+
+ M.F. conceived of the study, performed all experiments (unless otherwise noted), analyzed and interpreted all data, wrote the original manuscript, and made edits thereafter. J.E.C. carried out wet lab experiments for revisions: bulk ATAC sequencing, pooled proliferation screen, and clonal proliferation validation. M.L.A.H. mined fusion databases to create the in silico library and edited the manuscript. Z.M. supervised the work, provided helpful biological insight, acquired funding, and edited the manuscript. S.R. supervised the work, provided valuable guidance throughout the study, acquired funding, and edited the manuscript. All authors read and approved of the final manuscript.
+
+ * Correspondence: sraman4@wisc.edu (S.R.)
+
+ Issue date 2025 Jun.
+
+ PMC Copyright notice 
+
+ PMCID: PMC13105821 NIHMSID: NIHMS2166785 PMID: 39048711 
+
+ The publisher's version of this article is available at Nat Biotechnol 
+
+ Previous version available: This article is based on a previously available preprint posted on bioRxiv on September 21, 2023: " Discovering chromatin dysregulation induced by protein-coding perturbations at scale ".
+
+ Abstract
+
+ Population-scale databases have expanded to millions of protein-coding variants, yet insight into their mechanistic consequences has lagged. We present PROD-ATAC, a high-throughput method for discovering the effects of protein-coding variants on chromatin regulation. A pooled variant library is expressed in a disease-agnostic cell line, and single-cell ATAC resolves each variant’s effect on the chromatin landscape. Using PROD-ATAC, we characterized the effects of more than 100 oncofusions (cancer-causing chimeric proteins) and controls and revealed that chromatin remodeling is common to fusions spanning an enormous range of fusion frequencies. Further, fusion-induced dysregulation can be context-agnostic, as observed mechanisms often overlapped with cancer and cell-type specific prior knowledge. We also showed that gain-of-function activity is common among oncofusions. This work begins to outline a global map of fusion-induced chromatin alterations. We suggest that there might be convergent mechanisms among disparate oncofusions and shared modes of dysregulation among fusions present in tumors at different frequencies. PROD-ATAC is generalizable to any set of protein-coding variants.
+
+ Introduction
+
+ Advances in DNA sequencing have allowed geneticists to catalog millions of variants throughout the human genome in diverse populations, cell types, and disease states. At the same time, improvements in targeted genomic manipulation and DNA synthesis have allowed for the development of high-throughput methods for discovering variant effects. These methods achieve scale by almost universally sacrificing resolution. For instance, massively parallel reporter assays can measure between 10 3 and 10 6 variants per experiment by collapsing each variant’s effects onto a single reporter 1 – 5 . However, one putatively representative reporter may belie complexity especially for transcription factors and chromatin regulators which execute their functions differentially and widely across the genome. Similarly, assays based on selecting for cells with functional variants are rapidly scalable but are restricted to highly abstract phenotypes like cell viability 6 or protein stability 7 which limit our ability to define complex genomic mechanisms. On the other hand, deep phenotypic measurements like bulk RNA or ATAC sequencing can resolve global genomic complexity but are relegated to low-throughput, arrayed reverse genetics experiments. In several cases, the scale of pooled assays has been coupled to high resolution readouts like single-cell RNA and ATAC sequencing. In these cases, CRISPR guide RNAs serve as perturbations and single-cell sequencing serves as a variant-agonistic readout for resolving complex, genome-wide effects 8 – 12 . Only one method exists for annotating protein-coding (instead of CRISPR) perturbations by their influences on gene expression 13 . There is no comparable scalable method for understanding the mechanisms by which protein-coding variants alter epigenetic measures of cell state and regulation.
+
+ We created a scalable method that is both variant and disease agnostic for mapping the effects of protein-coding ( PR otein-c OD ing) variants to their chromatin perturbations using single-cell ATAC (PROD-ATAC). This method achieves both the scale of pooled assays and the resolution of deep phenotyping used in traditional bulk reverse genetics experiments. Here, libraries of protein-coding variants are expressed in a pooled format and a common cellular context (clonal 293T cells). The assay’s pooled nature allows users to profile hundreds to thousands of unique variants simultaneously. The common cellular context means that each variant represents a single, well-controlled reverse genetics experiment for unambiguously establishing causal mechanisms. To resolve each variant’s effect on global chromatin architecture, we modified an existing CRISPR-based single-cell ATAC sequencing method, Spear-ATAC 14 , to capture chromatin accessibility and the encoded variant from individual cells. These modifications generalize the method beyond small CRISPR guide RNAs to accommodate protein-coding libraries of arbitrary size and complexity. PROD-ATAC therefore allows controlled expression of protein-coding variants and retrieval of each variant’s impact on the chromatin landscape broadly ( Fig 1a ).
+
+ Figure 1: PROD-ATAC is a generalizable method for discovery of protein-coding perturbation effects at scale.
+
+ Open in a new tab 
+
+ (A) Overview of high-throughput mechanism discovery. Protein-coding variants alter chromatin landscapes and their mechanisms are recovered in a single pooled assay. (B) Scheme for resolving individual coding effects from pooled libraries. Bxb1 recombines pooled plasmid libraries of protein-coding variants with barcodes into HEK293T cells with a pre-integrated landing pad. Variant expression is induced and Spear-ATAC resolves chromatin accessibility and perturbation identity for individual nuclei. (C) Distribution of variants in the pooled plasmid library versus genomic DNA (gDNA) post-integration. Point size is proportional to the number of nuclei genotyped in Spear-ATAC. Linear regression and 95% confidence interval is displayed. (D) Variant proliferation score over 6 days of expression. Example fusions detrimental to proliferation are highlighted red and neutral fusions are highlighted grey. Error bars are standard errors. N = 3 biological replicates. (E) UMAP embedding after latent semantic indexing of 35,086 genotyped nuclei. Nuclei coloring is based on unsupervised clustering with Seurat. Clusters C2, C3, and C11 are highlighted for discriminating among variant-induced chromatin states. Clusters C1 and C15 represent natural heterogeneity within 293T culture (F) Fraction of cells for variant (n = 106) within each of the 16 identified clusters.
+ We applied PROD-ATAC to reveal chromatin dysregulation caused by over 100 potential oncogenic fusion proteins, chimeric proteins created by translocations that fuse the coding sequences of two unrelated proteins. Often, they contain the DNA binding domain of one protein fused to a regulatory domain of another thereby generating an aberrant protein that causes cancer 15 , 16 . For a few recurrent examples, these de novo proteins dysregulate chromatin and enhancer logic widely across the genome and in complex ways that cannot be understood with single-gene reporter assays 17 – 19 . At the same time the list of fusions without mechanistic annotation has grown to tens of thousands 20 . To begin addressing this and to demonstrate PROD-ATAC’s versatility, we profiled chromatin alterations induced by a diverse set of oncofusions and controls allowing us to unambiguously test causal hypotheses.
+
+ Our results revealed mechanisms for and relationships among fusions representing more than 30 unrelated cancer subtypes. Variants profiled also ranged widely in tumor frequencies spanning rare to highly recurrent. Unlike previous studies which focus on highly recurrent fusions in narrow cancer contexts, we show that chromatin remodeling is a common feature of many oncofusions regardless of tumor frequency or subtype. Profiling rare variants also allowed us to suggest there might be heterogenous chromatin dysregulation even among fusions that cause the same cancer types. As well, seemingly unrelated fusions may converge on similar modes of chromatin dysregulation. Finally, we showed that many fusions exhibit gain-of-function chromatin-altering activities not attributable to their component parts. Our systematic approach produced a global view of the oncogenic landscape across a diverse set of biological questions and contexts.
+
+ Results
+
+ A disease-agnostic method for measuring the epigenetic effects of protein-coding perturbations at scale
+
+ While several methods exist for profiling CRISPR-based perturbations with deep phenotypic readouts, these are limited technically to small guide RNAs and limited biologically to contexts where the target genes are expressed. A method for discovering genetic mechanisms at scale should be broadly applicable to any set of protein-coding variants regardless of variant size or potential mechanism, and it should evaluate each variant’s effect in a common context. Functional genomics assays for screening libraries of genetic variants often rely on lentiviral delivery; however, lentivirus production is sensitive to payload length 21 , lentivirus integrates into genomes with bias that can create context-specific effects 22 , and lentiviral template switching can shuffle barcode associations particularly for lengthy sequences 23 – 27 . These caveats are especially problematic for libraries of protein-coding perturbations. Protein variants can be many kilobases which limits lentiviral titers and promotes barcode shuffling. Introducing context-specific biases is problematic for single-cell sequencing readouts for which it is difficult to average over enough cells to deconvolve context-specific from variant-specific effects. We addressed each of these issues by using a system based on a site-specific recombinase (Bxb1) that is orthogonal to the mammalian genome, does not suffer from barcode shuffling, has no known cargo capacity limit, and does not require a low multiplicity of infection 28 ( Fig. 1b , Supp Fig 1a – c ). Pooled libraries of variants are recombined by Bxb1 into clonal 293T acceptor cell lines that contain a single copy of a pre-integrated landing site. Cells are selected for successful recombinants each containing exactly one variant controlled by an inducible expression system.
+
+ There are several challenges in retrieving single-copy encoded genotypes when capturing epigenetic information as in single-cell ATAC sequencing (scATAC-seq). Retrieving genotypes is relatively easy when genotypes are contained in expressed transcripts and single-cell RNA sequencing is the readout of choice (as in Perturb-seq) 9 , 10 , 29 . Spear-ATAC address this in the context of pooled guide RNA (gRNA) libraries by incorporating sequences (Nextera adapters and custom primer-binding sites) to amplify the gRNA perturbation alongside each nucleus’s chromatin library 14 . We adopted Spear-ATAC to generate amplicons for associating protein-coding perturbations to cells, and we modified the delivery construct to work for arbitrarily large coding sequences instead of small gRNAs. In lieu of directly capturing the gRNA, we added two molecular barcodes to each variant’s 3’ untranslated region (UTR). One barcode is synthesized with the protein-coding variant and the other is flanked by custom sequences (as in Spear-ATAC) such that it can be specifically enriched after the chromatin library is prepared. In this way, these 3’ UTR barcodes are proxies for each nucleus’s encoded protein-coding perturbation ( Methods , Supp Fig 1d ). By capturing and enriching for the 3’ UTR barcode in the same amplicon as the nuclear barcode (from 10X Genomics) we can create maps between each genotype and its associated high-content epigenetic phenotype using scATAC-seq.
+
+ This method allows pooled expression of arbitrary PR otein-c OD ing variants and discovery of their global effects on chromatin accessibility with single-cell ATAC (PROD-ATAC). We applied PROD-ATAC to determine the mechanisms by which oncofusions dysregulate chromatin at scale. While there are clear mechanisms by which a handful of well-known oncofusions disrupt chromatin 17 , 18 , 30 – 33 , there is a growing list of thousands for which we have no mechanistic insight. We mined the Catalogue of Somatic Mutations in Cancer (COSMIC) 34 and ChimerDB 20 to generate a list of oncofusions that partially represents the diversity of this unexplored space ( Supp Table 1 ). These include fusions with a wide range of tumor frequencies (from private to pathognomonic), known or suspected mechanisms, and derived from many histologic cancer subtypes ( Methods ). We added controls to test several a priori hypotheses and to benchmark the assay’s validity. The final library included 113 variants with tumor frequencies ranging from 0 to thousands of instances in COSMIC and as few as 1 instance in ChimerDB.
+
+ Each variant in the library was barcoded and cloned into the plasmid donor construct amenable for downstream Spear-ATAC sequencing. The pooled variant library was recombined into the clonal acceptor 293T sensor line, recombinants were selected for, and the final cell library was established with relatively uniform variant coverage which correlated well with the initial input distribution in the plasmid library ( Methods , Fig 1c ). Cells were induced to express their encoded variant before nuclei were prepared. To determine if expression of each variant would significantly change the library distribution, we performed a high-throughput proliferation screen ( Methods , Figure 1d ). Most variants exerted minimal proliferative effect on cells as the confidence interval for their effects overlapped with zero (i.e. were indistinguishable from cells expressing the empty vector control). There are a few notable exceptions. Cells expressing each fusion containing an intact kinases (e.g. ETV6-NTRK3) exhibited a significant growth defect whereas cells expressing the control EPHB3-PAX2 (which contains a catalytically dead kinase) grew comparably to empty vector control. Expression of many fusions with well-known pathogenicity did not affect proliferation including EWSR1-FLI1. Given that the proliferative changes were small on average, we reasoned that these differences should not skew the library distribution prior to single-cell sequencing. Spear-ATAC sequencing was used to create a chromatin accessibility library for 113,645 high-quality nuclei and a simultaneous dial-out genotyping library to assign nuclei to their encoded variant perturbations ( Supp Fig 1j ). Genotyping single cells based on single-copy sequences with ATAC sequencing is much more difficult than doing so with RNA sequencing where gene expression amplifies the signal by expressing the perturbation or barcode many hundreds of times. As a result, after applying rigorous genotyping criteria we unambiguously assigned variants to 35,201 nuclei. Although only 31.0%, this is comparable to previously published genotyping rates 14 . The unassigned cells were unedited, but instead went unassigned because of the difficulty in identifying single copy DNA sequences from single cells. Overall, the assigned nuclei represented 112 of 113 (99.1%) variants ( Methods ). On average, there were 314 genotyped nuclei (median 284) identified per variant and the number of genotyped nuclei per variant correlated well with the distribution of variants in both the plasmid and cell libraries ( Fig 1c , Supp Fig 1g ). In only a few cases could we not capture an appreciable number of nuclei during single-cell sequencing because of the proliferative defect exerted by the fusion’s expression (e.g. ASPSCR1-TFE3). We did capture an appreciable number of cells even for those cells disadvantaged by the expression of a catalytically active kinase (e.g. ETV6-NTRK3). Quality control metrics including transcription start site (TSS) enrichment scores and number of fragments in peaks were similar across all genotypes except for kinase-containing fusions which had lower TSS enrichment ( Supp Fig 1 j – l ). We reasoned that this was likely due to the proliferative disadvantage of kinase-expressing cells and possible cell death. We clonally validated that cells expressing kinases grow more slowly ( Supp Fig 1m ), and determined that this is due to their catalytic kinase activity given that the growth defect of cells expressing ETV6-NTRK3 (but not non-NTRK kinases like CCDC6-RET) is fully rescued by the addition of the NTRK inhibitor entrectinib ( Supp Fig 1n ).
+
+ To qualitatively assess the effect of expressing oncofusions on chromatin, we examined the relative distributions of cells containing each genotype across dimension-reduced space. Although any dimension reduction method can distort true distances between cells, 2-dimensional projects can provide useful visualizations of otherwise complex datasets by revealing broad-strokes cell-state shifts (in this case as a function of genotype). On all high-quality nuclei, we performed iterative latent sematic indexing with ArchR 35 followed by UMAP dimension reduction and unsupervised graph-based clustering with Seurat 36 which yielded 16 clusters ( Fig 1e ). We restricted the variants examined in all subsequent analysis to those with at least 30 high-quality nuclei (35,086 total nuclei representing 106 variants), and then compared the relative distributions of each genotype from the pooled library. By comparing each variant’s distribution across these clusters to that of empty vector (EV) control containing cells (and to cells of all other variants), we determined which clusters represent fusion-specific effects versus naturally occurring heterogeneity in 293T cells ( Fig 1f , Supp Fig 2 , Supp Table 2 ). First, cells containing empty vector (EV) control distributed widely and without clear structure, representing naturally occurring heterogeneity in 293T culture. Heterogeneity within cell culture at single-cell resolution (even in clonal populations) has been previously reported for K562 cells 14 , 37 . This is the case for cluster 1 and 15 (C1 and C15) which represents naturally occurring heterogeneity in 293T culture given that they contain an even distribution of all variant genotypes. Cells containing all of the controls (e.g. the reciprocal fusion NTRK3-ETV6, EWSR1 alone, NR4A3 alone, ATF1 alone, EPHB3-PAX2 which contains a catalytically dead kinase etc.) also displayed the same distribution as EV-containing cells. While EV-containing cells and the controls were widely distributed, they were almost never members of clusters C2 or C3. On the other hand, well-known known oncogenic fusion proteins (including all ETS-family containing fusions and all NR4A3-containing fusions) were often strongly redistributed with large abundances in C3. The cluster C2 was similarly fusion-specific and the four kinase-containing fusions (ETV6-NTRK3, FGFR3-TACC3, CCDC6-RET, and TPR-NTRK1) were dominant members of this cluster. Cells expressing the reciprocal fusion NTRK3-ETV6 (which does not encode a known functional protein) and the fusion EPHB3-PAX2 (which encodes a kinase that lacks a catalytically active domain) were almost never found in C2. While not as stark as C2 and C3, the five variants with the largest abundances in cluster C11 were fusions or controls that all contained polycomb-related proteins (EPC1-PHF1, MEAF6-PHF1, PHF1, MBDTD1-Cxorf67, and MLL4-GPS2). Several clusters therefore clearly discriminated fusions with shared known mechanisms and components. This suggests that oncofusion proteins disrupt chromatin and shift cell state distribution in ways consistent with their underlying mechanisms and that this redistribution is recoverable with PROD-ATAC.
+
+ Oncofusion proteins often dysregulate chromatin accessibility
+
+ To quantitatively assess the ability for each library member to alter chromatin we compared the chromatin landscape of each variant to that of empty vector control. First, we called peaks with MACS2 38 in all cells grouped by genotype. Next, we created pseudobulk replicates of the genotypes with which we then performed pairwise differential testing between all 105 experimental variants and EV control ( Fig 2a ). Again, the control variants (individual domains and full length counterparts of the fused components; reciprocal fusions; catalytically inert enzymes etc.) almost never altered chromatin accessibility. On the other hand, pathogenic fusions exhibit a wide range of abilities to alter chromatin accessibility. For well-known causal fusions, chromatin dysregulation is a common mechanism. Pathognomonic (i.e. characteristic) fusions such as EWSR1-FLI1 that causes Ewing sarcoma resulted in several thousand differentially accessible peaks as did rare fusions that cause Ewing sarcoma (e.g. EWSR1-ETV4), all fusions containing kinases, and those containing NR4A3. The fusions EWSR1-ATF1 and EWSR1-CREB1 both of which cause clear cell sarcoma also altered the accessibility of thousands of peaks. PAX7-FOXO1 which is pathognomonic for alveolar rhabdomyosarcoma induced several hundred differentially accessible peaks. In comparison, there were almost no differentially accessible peaks for many relevant controls despite capturing a similar number of nuclei as the fusions suggesting that our false discovery rate is well calibrated ( Supp Table 1 ). This included identifying 0 differentially accessible peaks for the reciprocal fusions ATF1-EWSR1, NTRK3-ETV6, NR4A3-EWSR1 (which do not encode known functional proteins), and the broken kinase EPHB3-PAX2. COL1A1-PDGFB was another useful negative control; given that it is a mitogen and does not contain a DNA binding domain, our prior was that it would be unlikely to alter chromatin directly, and we observed no differential peaks. This showed a wide range of abilities for unrelated oncofusions to disrupt chromatin and that our assay was well-calibrated for defining variant effects.
+
+ Figure 2: Oncofusion proteins frequently disrupt cell-state by altering chromatin.
+
+ Open in a new tab 
+
+ (A) Volcano plots for 105 variants comparing pseudobulk replicates to empty vector control. Each subplot shows −Log(False discovery rate) versus Log 2 FC for each called peak. Peaks with increased accessibility (FDR ≤ 0.1 and Log 2 FC ≥ 1) are colored red whereas those with reduced accessibility (FDR ≤ 0.1 and Log 2 FC ≤ −1) are colored blue. (B) Number of differentially accessible peaks for each fusion versus the number of instances the fusion is represented in COSMIC. Rare variants (fewer than 100 instances) with large effect size (>100 differentially accessible peaks compared to empty vector control) are highlighted blue whereas common variants with large effect size are highlighted green. (C) Effect size versus absolute value of the variant proliferation score from Figure 1d .
+ A few false negatives stood out. This included PAX3-FOXO1 which only differentially regulated 5 peaks despite being known to induce accessibility changes. When we repeated the assay with a smaller library and therefore more PAX3-FOXO1 expressing nuclei (n = 243 vs 107 nuclei, 127% increase), we saw a significant increase in the number of differentially accessible peaks (224 increased and 25 reduced peaks; Fig 2a , Supp Fig 3a ). We also found that 293T natively has relatively high accessibility at known PAX3-FOXO1 target sites 39 ( Supp Fig 3b ). Both low nuclei counts and natively accessible target chromatin limited our power for resolving PAX3-FOXO1’s effects (see also Fig 6 and down-sampling section). While most common synovial sarcoma fusions had no effect on chromatin accessibility (including SS18-SSX1, SS18-SSX2, SS18-SSX4) the rare synovial sarcoma fusion SS18L1-SSX1 did alter chromatin. We interpret this to mean that 293T cells are likely a poor model for common fusions that cause synovial sarcoma (see section on reproducibility and scalability). However, there may also be heterogeneity and rare synovial sarcoma fusions may exert mechanistically distinct forms of cancer compared to their common counterparts. This is notable given that SS18L1-SSX1 and SS18-SSX1 share the same SSX1 domain and overall ~60% of their primary amino acid sequence. Taken together, we show that chromatin dysregulation is a common feature of rare and common fusions and that our experiment is largely well-powered for discriminating variant effects.
+
+ Figure 6: PROD-ATAC is a reproducible and scalable method to discover mechanisms for hundreds of protein-coding variants simultaneously.
+
+ Open in a new tab 
+
+ (A) Hierarchically clustered Pearson correlation comparing bulk ATAC chromatin profiles to those of both PROD-ATAC replicate experiments. Correlation was calculated at dynamic sites defined by differential accessibility from PROD-ATAC replicate 1 (large scale experiment). (B) Down-sampling fusion-containing cells for 22 variants while maintaining constant number of empty vector control cells evaluated by Pearson correlation of log 2 (fold change) values (left) and number of recovered differentially accessible peaks (right). (C) Future applications of PROD-ATAC to learn disease mechanisms, identify drugs that target specific variants and mechanisms, and evaluate the mechanisms of synthetic factors for directing user-defined cell states.
+ In most cases, the preponderance of differentially accessible peaks was in the direction of increased accessibility upon expression of the fusion. This is consistent with known biases of many pioneer factors. There are two notable exceptions: FUS-DDIT3 which causes myxoid liposarcoma (1,708 or 91.9% of differential peaks were reduced in accessibility) and the rare fusion IRF2BP2-CDX1 (1,463 or 65.8% of differential peaks were reduced in accessibility). The reciprocal fusion DDIT3-FUS and the FUS only domain control had zero differentially accessible peaks while the DDIT3 domain only control had just 5 differentially accessible peaks (despite capturing more than 500 nuclei for each genotype) again suggesting the method is well-calibrated. Chromatin dysregulation is therefore a common mechanism of oncofusions and (with interesting exceptions) there is bias towards increasing chromatin accessibility.
+
+ While PROD-ATAC revealed well-known oncofusions as chromatin regulators, it also identified effects of rare variants that would otherwise be difficult to characterize from patient samples. We plotted the number of differentially accessible peaks for each fusion against each fusion’s frequency in the COSMIC database ( Fig 2b ). Several rare fusions exerted large changes both in increasing and decreasing chromatin accessibility at hundreds to thousands of loci. These included fusions that involve EWSR1 being fused to PBX1, POU5F1, SP3, or YY1 as well as the rare fusions IRF2BP2-CDX1, SS18L1-SSX1, ARFGEF2-HNF4A, and ACTB-GLI1. While highly recurrent fusions would be expected to dysregulate cell state as their causality is corroborated by their tumor frequency ( Fig 2b left panel), rare or even patient-specific fusions can be equally capable of altering chromatin accessibility ( Fig 2b right panel). Indeed, 20 of the total 73 (27.4%) non-control fusions that induced differential accessibility at more than 100 loci had fewer than 20 instances in the COSMIC database. Yet, 15 of those 20 (75%) fusions had more than 1,000 differentially accessible peaks. The fusion EWSR1-YY1 regulated the third largest number of loci (8,925 differentially accessible peaks) despite having only two instances in the COSMIC database. We then tested if there is a relationship between chromatin remodeling effect size and proliferative changes ( Fig 2c ). This was not the case (adjusted R 2 = 0.08). Many pathogenic variants with significant ability to remodel chromatin exerted little proliferative change (e.g. EWSR1-FLI1). This suggests that proliferation-based screens (while helpful) are imperfect for understanding variant effects and that PROD-ATAC provides complementary insight. In summary, both rare and highly recurrent fusions can be equally capable of altering chromatin and in most cases both are biased towards increasing accessibility.
+
+ We then sought to characterize higher-order relationships (rather than just fusion versus control) among all variants based on how they alter chromatin. We compared all 106 variants across 37,701 marker peaks and hierarchically clustered both the variants and the marker peaks ( Fig 3a ). This revealed clear structural relationships among the variants. Clades largely discriminated based on peaks with high z-scores (increased accessibility relative to the mean) consistent with variant bias towards inducing accessibility. Most of the control variants had few distinguishing peaks or clusters. On the other hand, all NR4A3-containing fusions, all kinases-containing fusions, all ETS-containing fusions, and all CREB family-containing fusions clearly separated into their requisite groups. These and other clades were largely separable based on the known mechanisms of the fusion components ( Fig 3b ) rather than the specific cancer subtype(s) they cause. For instance, all 4 kinase containing fusions strongly clustered together despite driving a wide range of cancer types and despite having a wide range of frequencies in tumor samples (e.g. CCDC6-RET, ETV6-NTRK3, and FGFR3-TACC3 are all present in > 0.1% of AACR GENIE cases whereas TPR-NTRK1 is present in only 0.04% of such cases 40 ). To determine how robust these relationships are to changes in the distance metric chosen, we calculated all pairwise distances with four distance metrics and took the variance of those estimators to be a measure of confidence in the grouping. That is, groupings that change when the distance metric is changed are less likely to be real than those groupings that remain regardless of the distance metric used. Indeed, the ETS, NR4A3, and CREB clades all had significantly lower variances than all other pairwise measurements ( Supp Fig 4 ). The distance between CCDC6-RET and FGFR3-TACC3 was also robust to change in the metric used; however, there was high variance for comparisons between these and either TPR-NTRK1 or ETV6-NTRK3 (the other two kinases). Given that only 48 and 84 nuclei were captured for TPR-NTRK1 and ETV6-NTRK3, respectively ( Supp Table 1 ), the uncertainty in their clustering likely reflects incomplete saturation of their effects, which can be overcome with future large-scale studies designed to examine subgroup heterogeneity.
+
+ Figure 3: Oncofusion-expressing cells cluster based on shared mechanisms of chromatin dysregulation.
+
+ Open in a new tab 
+
+ (A) Heatmap of z-score normalized accessibility at 37,701 peaks that are differentially accessible (FDR ≤ 0.1 and Log 2 FC ≥ 1) in at least one of the variants. Columns of peaks and rows of variants are both hierarchically clustered. Clear clades that discriminated based on mechanism are colored whereas some controls are highlighted in black. Mechanistic metadata is the same coloring scheme as in Fig 3B where light blue controls all cluster with empty vector near the center. (B) Hierarchical clustering of 106 variants based on z-score normalized peak accessibility by Pearson correlation (rows in panel A). Metadata is colored by known mechanism(s) of the oncofusions or their respective components. Clusters of shared mechanisms are highlighted in color in the dendrogram corresponding to those highlighted in panel A, and some relevant controls are highlighted in black.
+ Taken together, PROD-ATAC has revealed structure within this large library of protein variants that is consistent with known mechanisms but also revealed large scale genomic changes even for rare variants that haven’t previously been studied.
+
+ Mechanisms of oncofusion proteins are often context-agnostic
+
+ Assaying all 106 variants in the same genetic and cellular context is a useful approach for defining causality and making well-controlled comparisons. However, it is limited in its ability to ascertain context and cell-type specific effects. Nonetheless, we reasoned that many causal oncofusions would recapitulate similar chromatin remodeling in 293T cells as they would in their respective cells of origin because they are often the sole oncogenic drivers of their cancers 15 , 41 , 42 . First, we compared pseudobulk chromatin accessibility data from our experiment to context-specific data of the well-characterized fusion EWSR1-FLI1 in Ewing sarcoma. A high-confidence set of loci bound by EWSR1-FLI1 across 15 Ewing sarcoma cancer cell lines was previously published 33 . We examined the normalized ATAC signal at these 1,879 EWSR1-FLI1 bound sites after combining all nuclei for each variant in our library ( Fig 4a ). Accessibility was basally low in 293T cells containing the empty vector control. Fusions with no known relation to these loci (including EWSR1-ATF1, PAX3-FOXO1, and ETV6-NTRK) had no change in accessibility, whereas there was a substantial increase in accessibility at these sites for cells expressing EWSR1-FLI1. We extended this analysis to include all ETS-family fusions most of which cause Ewing sarcoma. All ETS fusions increased accessibility at Ewing sarcoma sites and often to a greater extent than the non-fused wild type FLI1 control alone ( Fig 4b ). While EWSR1-FLI1 is the most well-known cause of Ewing sarcoma and is present in 0.23% of AACR GENIE cases (1,333 instances in COSMIC), the fusions of EWSR1 with ETV1, ETV4, and FEV all cause similarly increased accessibility at the same loci despite being less common (4, 3, and 6 instances in COSMIC and 0.13%, 0.09%, and 0.04% of AACR GENIE cases, respectively). The same analysis for PAX3-FOXO1 expressing 293T cells at loci defined in rhabdomyosarcoma cells lines 39 and for EWSR1-ATF1 expressing 293T cells at loci defined in clear cell sarcoma cell lines 43 revealed a similar increase in accessibility at cancer-defined loci even in 293T cells, especially when a large number of nuclei were measured ( Supp Fig 3b , c ). Together this shows that despite the non-native context of 293T cells, oncofusion overexpression can recapitulate chromatin alterations found in diverse cancer contexts.
+
+ Figure 4: Recapitulation of known oncofusion mechanisms and discovery of novel chromatin disruption.
+
+ Open in a new tab 
+
+ (A) Metaplot comparing log(counts per million) (logCPM) normalized ATAC signal from pseudobulk samples of cells expressing one of 5 different fusions and empty vector (EV) control. Plot is centered at 1,879 peaks defined by EWSR1-FLI1 ChIP-Seq in Ewing sarcoma cell lines from Orth et al. 2022 (B) Metaplot and tornado plots for the same 1,879 Ewing sarcoma-specific sites across pseudobulk samples expressing one of 10 different variants or EV control. ETS-containing fusions are clustered as in Figure 3 . (C) Representative DNA motif enrichment within increased differentially accessible peaks for 9 different oncofusion variants. −log(adjusted p values) calculated with hypergeometric tests are plotted versus rank order for all queried motifs. (D) Clustering of motif enrichment across all fusions with enriched motifs. Within each comparison of variant to EV control, the adjusted p value of enrichment for all DNA motifs was normalized to that of the most significant DNA motif. Only variants with at least one enriched motif (p value < 0.01) and only motifs enriched in at least one pseudobulk sample are displayed. Motifs and variants were both clustered by Euclidean distance. P min is the smallest adjusted p-value for a given motif. All p values were calculated with hypergeometric tests. (E) Overlaps between differentially accessible peaks in pseudobulk for each fusion and significant ATAC peaks for cell types from ChIP-Atlas. Size of the dot corresponds to the fraction of fusion peaks that are contained in the overlap with each ChIP-Atlas cell type. Color is based on p value determined empirically by computing the overlap between random BED files and each ChIP-Atlas cell type. P values were calculated with two-tailed Fisher’s exact tests. Only fusions with >40 differential peaks compared to EV and significant overlap (-log p value > 3 and fraction > 0.2) with at least one ChIP-Atlas cell type are shown and the kinase fusions are omitted from the visualization.
+ To examine mechanisms across all variants in the library, we looked for DNA motifs that were enriched in each variant’s differentially accessible peaks. In all cases where a fusion contained a known DNA binding domain (DBD), the motif associated with that DBD was highly enriched in peaks with increased accessibility for that fusion ( Fig 4c , d ; Supp Fig 5 ). For instance, peaks induced by all fusions containing NR4A3 had enrichment of the Nur77 motif (a nuclear receptor 4A family protein), peaks from all fusions with ATF1 had enrichment of the ATF1 motif, and the most significantly enriched motif in EWSR1-NFATC2 regulated peaks was NFAT. The most significantly enriched motif for nuclei expressing EWSR1-FLI1 was the FLI1 binding motif GGAA ( Fig 4c , d ) and indeed EWSR1-FLI1 marker peaks have significantly higher content of GGAA repeats compared to marker peaks from control cell lines ( Supp Fig 3d ) consistent with previous data 44 – 46 . In one case, the enriched DNA motif was unexpected; we found that IRF2BP2-CDX1 altered chromatin at loci enriched for the p53 motif ( Fig 4d ). IRF2BP2-CDX1 has only been reported once and never mechanistically studied. However, IRF2BP2 overexpression alone has been shown to antagonize p53-induced activation of cell cycle and pro-apoptosis genes. That IRF2BP2-CDX1 increases accessibility at p53 loci suggests either that IRF2BP2’s fusion to CDX1 alters its interaction with p53 or that this interaction is not well modeled in 293T cells. In general, we find substantial concordance between fusion-induced chromatin remodeling and their respective domain components even for rare fusions.
+
+ We find chromatin accessibility changes even for fusions that are seemingly unable to directly bind DNA. Despite not having DBDs or known direct interaction with DNA, differential peaks for all 4 kinase fusions were heavily enriched in the Fos/Jun motif. ETV6-NTRK3 has been previously shown to activate the AP-1 complex 47 . This suggests that CCDC6-RET, FGFR3-TACC3, and TPR-NTRK1 likely activate the AP-1 complex in a similar fashion to ETV6-NTRK3. AP-1 activation in this context is likely not a simple stress or cell death response; while all four kinases exert a proliferative defect and show enrichment in Fos/Jun motif at differentially accessible sites, several other fusions also exert proliferative defects (e.g. PML-RARA and IRF2BP2-CDX1) and yet do not display a similar Fos/Jun enrichment ( Fig 1d , Supp Fig 1i , and Fig 4d ). Despite the proliferative defect caused by some variants, we are still recovering useful information that recapitulates in vivo cancer findings. Similarly, EPC1-PHF1 and MEAF6-PHF1 lack DNA binding domains but have significant enrichment of the Tcf4 motif at differentially accessible peaks. Tcf4 is a key mediator of Wnt signaling and both fusions cause low grade endometrial stromal sarcoma (LGESS) which has been shown to have increased Wnt signaling 48 . Our data suggests that Wnt activation in LGESS is directly due to fusion expression and is true for both of these causal fusions. Taken together, PROD-ATAC is therefore capable of resolving both direct and indirect modes of chromatin dysregulation.
+
+ Finally, we sought to determine whether signatures of cancer and cell-type specificity could be recovered from the fusion-produced chromatin alterations in 293T cells. To this end, we examined the overlaps between peaks regulated by fusions in 293T and signature ATAC peaks across thousands of known human cell types. For each fusion, we counted the number of overlaps between that fusion’s differentially accessible peaks (compared to EV control; Supp data 1 ) and those ATAC peaks of known human cell types from ChIP-Atlas. To determine the significance of the overlap, we used an empirical null distribution created by permuting the chromosomes within the list of fusion-specific peaks and recalculating the overlap with the same known cell types ( Supp data 2 ). Peaks defined for the four kinase-containing fusions overlapped with hundreds of cell types without an obvious pattern possibly owing to their aberrant activation of AP-1 complex ( Fig 4d ). Subsetting to the non-kinase fusions with non-zero effects revealed that many fusion-regulated peaks are shared with cell types relevant either to the cancer the fusion causes or to biological processes that the fusions’ components are known to regulate ( Fig 4e ). For instance, PAX7-FOXO1 peaks strongly overlapped with peaks from alveolar rhabdomyosarcoma (RMS) cell lines including RMS13, Rh4, and Rh30, which was also seen quantitatively at several loci in pseudobulk ( Supp Fig 4b ). The peaks from the rare fusion ACTB-GLI1 overlapped with some of the same RMS cell types. ACTB-GLI1 has not been seen in RMS, but it is exceptionally rare making a lack of association with this cancer type underpowered. GLI1 is recurrently amplified in RMS 49 and GLI1 upregulation has been found in drug-resistant RMS 50 suggesting a possible shared mechanism between PAX7-FOXO1, RMS, and this rare fusion. Together, this shows the fascinating feature of many driver fusions that their effects are context invariant and that seemingly cell-type specific knowledge can be recovered even from 293T cells.
+
+ Several additional known cell-type specific relationships appeared suggesting that many oncogenic mechanisms can be inferred even from 293T cells. This included a significant overlap between EWSR1-FLI1 peaks and the Ewing sarcoma cell line A-673, overlap between TMPRSS2-ERG and human umbilical vein endothelial cells (ERG is a canonical vascular endothelial cell regulator 51 ), and overlap between TMPRSS2-ERG and EWSR1-NFATC2 peaks with those of osteoclast precursor cells (both fusions regulate cancers that cause osteolytic lesions 52 or otherwise disrupt the osteoclast:osteoblast balance 53 ). Although not displayed, peaks from both EPC1-PHF1 and MEAF6-PHF1 which cause endometrial stromal sarcoma had highly significant overlaps with ATAC peaks from endometrial stromal cells (p = 0.001 and p=0.005, respectively, two-tailed t-test; Supp data 2 ). Peaks regulated by ARFGEF2-HNF4A strongly overlap with those from gastrointestinal cell types including the liver and colon. HNF4A is a transcription factor that plays an important role in the specification of GI cell types 54 and HNF4A amplification has been found in colorectal cancer 55 . While there are no publications of ARFGEF2-HNF4A and it has only been reported once in TCGA in an unspecified sarcoma 56 , this data would suggest that ARFGEF2-HNF4A might be altering chromatin at loci consistent with HNF4A’s known role in lineage specification during GI cell type development. These data collectively show that many oncofusions have context-invariant effects which are recovered by PROD-ATAC, and that it may be possible to learn certain cell-type relevant mechanisms even in a cancer-agnostic background.
+
+ Some oncofusions have gain-of-function chromatin remodeling abilities not attributable to their constituent parts
+
+ While some oncofusions exhibit gain-of-function effects compared to their individual domains 18 , 57 , it is not clear how widespread this property and what features govern whether or not a given fusion exhibits gain-of-functionality. Similarly, it is unclear whether fusions that share one (but not both) domains generally exert the same or different effects on chromatin. PROD-ATAC offers a large-scale approach to investigate these questions by examining the function of individual domains, full length wild-type proteins from which domains are derived, and their combined fusion products concurrently. To test these hypotheses, several controls for many of the most highly recurrent fusions and commonly involved domains were included in the library. This included several full length wild-type proteins from which part of recurrent fusions are derived including ATF1, NR4A3, DDIT3, EWSR1, and FLI1. We also included several domains alone to test if their overexpression alters cell-state even without the remaining component (whether from the fusion or the wild-type protein). These include EWSR1, FUS, ATF1, NTRK3, and ETV6. In some cases, gain-of-function features were strong enough that they were visible in the distribution of cells in UMAP space. For instance, nuclei containing the full length wild-type ATF1 protein largely overlap the distribution of cells that contain the empty vector control whereas cells expressing either EWSR1-ATF1 or EWSR1-CREB1 occupy a de novo cell state ( Fig 5a , left). Similarly, cells expressing the full length NR4A3 wild-type protein overlap with cells expressing the empty vector control but are clearly distinguishable from those expressing the TAF15-NR4A3 fusion ( Fig 5a , right). These gain of function features are also clear when examining marker peaks for each of these fusions ( Fig 5b ). EWSR1-ATF1, EWSR1-CREB1, and FUS-ATF1 have many similarities across thousands of peaks and almost none of the marker peaks for these three fusions are recapitulated with either the relevant full length wild-type or domain controls.
+
+ Figure 5: Some oncofusions have gain of function chromatin remodeling not attributable to individual components.
+
+ Open in a new tab 
+
+ (A) Density contours of UMAP embedding after latent semantic indexing with individual variants highlighted. Cells expressing EWSR1-ATF1 and EWSR1-CREB1 have an altered distribution relative to the full length ATF1 control as do cells expressing TAF15-NR4A3 relative to those expressing the full length NR4A3 control. (B) Heatmap of z-score normalized accessibility at 4,856 peaks with |z-score| > 1.5 for at least one of EWSR1-ATF1, EWSR1-CREB1, or FUS-ATF1. (C) Representative volcano plots of −log(false discover rate) versus log 2 (fold change) for peaks comparing fusions to relevant domain controls. Red peaks are increased in accessibility whereas blue peaks are decreased in accessibility.
+ We next systematically tested for gain-of-function activity among many previously never studied fusions. To this end, we made all relevant comparisons of pseudobulk replicates among individual domains and fusions. For example, while EWSR1-ATF1 significantly increased accessibility of over 1,000 peaks compared to empty vector control, there were 0 peaks that were differentially accessible when the full length wild-type ATF1 protein was expressed ( Fig 5c ). This is notable because EWSR1-ATF1 loci are highly enriched in the ATF1 motif ( Fig 4c ), suggesting that the EWSR1 N-terminus (but not the wild-type ATF1 N-terminus) is sufficient for increasing accessibility at ATF1 sites. Similarly, while TAF15-NR4A3 increased accessibility at almost 8,600 peaks within which the NR4A family motif was highly enriched ( Fig 4c ), expression of the full length NR4A3 wild-type protein alone changed 0 peaks. We also examined whether gain-of-function for a given fusion depends on the fusion partner. When directly compared, EWSR1-ATF1 and EWSR1-CREB1 had no significantly different peaks whereas the direct comparison of TAF15-NR4A3 and EWSR1-NR4A3 revealed only a few hundred altered peaks out of the 8,600 total affected. Generally, there were significantly fewer significant peaks when comparing fusions of the same class than when comparing fusions to controls ( Supp Fig 6 ). This suggests that DNA binding is unsurprisingly directed by the DBD but that chromatin changes are further orchestrated by the partnering domain in ways often not recapitulated by the wild type proteins. While such gain-of-function has been shown for EWSR1-FLI1, it has not been shown for EWSR1-ATF1, EWSR1-CREB1, TAF15-NR4A3, TFG-NR4A3, EWSR1-NR4A3, or TCF12-NR4A3 all of which are shown here. While these handful of pseudobulk comparison could have been made with bulk ATAC sequencing, it is prohibitive to perform hundreds of bulk experiments at once. On the other hand, it is easy to perform hundreds of pseudobulk experiments that all derive from one single-cell experiment. In this way, while any one hypothesis test could have been tested in bulk, PROD-ATAC’s power derives from its ability to perform hundreds of experiments at once. A corollary to the scale is that PROD-ATAC requires significantly less upfront consideration. Finding gain of function activities with bulk experiments has a much higher opportunity cost than using PROD-ATAC where gain of functionality was tested for dozens of variants simultaneously with dozens of other hypotheses. In summary, our data suggests that gain-of-function activity is a common feature shared among many oncofusion proteins.
+
+ PROD-ATAC is a reproducible and scalable method for triaging genetic mechanisms
+
+ PROD-ATAC’s power derives from its scalability and generalizability. PROD-ATAC can be scaled to measure the effects of many hundreds to thousands of genetic variants underlying diverse diseases, traits, and biological processes simultaneously. Besides oncofusions, libraries could contain missense variants in transcription factors, chromatin readers and writers, signaling effectors, and even structural proteins that alter chromatin architecture; short ORFs or microproteins of unknown function; ancestral protein variants and those that differ among extant organisms throughout the tree of life; synthetically designed proteins; or alternative isoforms of any protein. Primary determinants of PROD-ATAC’s applicability to this diverse list of biological problems are its reproducibility and scalability.
+
+ We evaluated PROD-ATAC’s internal reproducibility in two ways. First, we compared the pseudobulk profiles generated by single-cell sequencing to those from arrayed bulk ATAC sequencing experiments. Clonal 293T cell lines were created for 8 variants using the same acceptor landing pad system used to generate the pooled library of variants for PROD-ATAC. This allows for a direct comparison between PROD-ATAC’s sensitivity for resolving variant effects and the arrayed alternative. Second, we compared the results for the high-throughput PROD-ATAC experiment (n = 113 pooled variants) and the 8 arrayed bulk ATAC profiles to those of a second replicate of PROD-ATAC performed on a smaller library (n = 9 pooled variants) and with greater cell coverage per variant. Because the vast majority of Tn5 accessible sites are not regulated by the expressed variants and because a common cell line was used, the pairwise correlations of unfiltered ATAC profiles cluster based on experiment type (i.e. single cell versus bulk) and not by genotype ( Supp Fig 7a ). The high correlation between seemingly unrelated genotypes is a testament to the fact that a common cell line was used to assay all variants and that each was expressed from the same landing pad. Minimizing variance from background effects is critical for making causal variant effect claims, and the high correlation suggests background effects are unlikely to be confounding the variant-specific effects seen in our assays. However, when restricting to sites that are dynamic (much the same way that single-cell RNA sequencing data analysis always entails defining the most variably expressed genes before hierarchical clustering) we see high correlation by genotype and not by experiment type ( Fig 6a ). For instance, cells expressing EWSR1-FLI1 all had similar accessibility profiles regardless of whether they were assayed by bulk ATAC or single-cell sequencing. Single-cell sequencing replicates were highly correlated too. Correlation by genotype (rather than experiment) held for FGFR3-TACC3, EWSR1-FLI1 with the other ETS transcription factors fused to EWSR1, and for ARFGEF2-HNF4A. This was true when restricting to EWSR1-FLI1 bound sites in Ewing sarcoma cells ( Supp Fig 7b ). Taken together with the extensive external validation previously presented ( Fig 4 a – e ), PROD-ATAC is a reproducible assay.
+
+ These experiments also allowed us to further delineate reasons for notable false negatives in our primary PROD-ATAC experiment. For instance, the synovial sarcoma fusions SS18-SSX1 and SS18-SSX2 were expected to alter chromatin accessibility possibly by retargeting the BAF complex, yet we found no differentially accessible peaks with PROD-ATAC for either fusion despite capturing an appreciable number of nuclei (n = 272 and 404, respectively). Bulk ATAC sequencing of clonal SS18-SSX1 expressing 293T cells revealed just 1 differentially accessible peak; therefore, this particular null PROD-ATAC result is unlikely to be a function of the assay’s sensitivity. However, we did find over 3,000 differentially accessible peaks by bulk ATAC sequencing of cells expressing either SS18-SSX2 or SS18L1-SSX1, and indeed PROD-ATAC did identify SS18L1-SSX1 as being an active chromatin remodeler albeit with marginal effect size. In these two cases, the reduced sensitivity of single-cell measurements (at this particular scale) compared to bulk is partially responsible for the null result. Taken together, there are several possible reasons for false negatives, and it is likely that variants within this assay represent most possible causes and their combinations: low statistical power from few nuclei captured (e.g. ASPSCR1-TFE3), inappropriate basal chromatin context (e.g. PAX3-FOXO1), lower sensitivity of single-cell compared to bulk sequencing (e.g. SS18L-SSX1 and SS18-SSX2), and likely others too. Despite these false negatives, PROD-ATAC is clearly a useful way of triaging variants as we did recover dozens of high-quality variant effects.
+
+ Another key determinant of PROD-ATAC’s utility is its ability to be scaled to even larger libraries of variants. Scalability is determined by the number of nuclei needed to resolve each variant’s effects. This depends on the number of loci regulated by the variant, the variant’s effect size at each locus, and the likelihood of capturing that information given the known biases of Tn5. To guide future larger scale experiments, we evaluated the parameters required to resolve variant effects by progressively down-sampling the number of nuclei captured for many variants.
+
+ We captured many hundreds of nuclei per genotype (average 331, interquartile range 172 – 437 after filtering) and we resolved variant effects with as few as ~100 nuclei per variant ( Supp Fig 7c ). We also deeply sequenced the chromatin libraries resulting in more than 56,000 high-quality fragments per nucleus on average (interquartile range 48,769 – 61,911 after filtering). The information content for each genotype on average was therefore comparable to that of a typical bulk ATAC-seq experiment with tens of millions of reads per condition, which allowed us to resolve a wide range of effects. For instance, we detected that CCDC6-RET regulated nearly 20,000 differentially accessible peaks after having captured only 152 nuclei. Similarly, we detected 1,235 differentially accessible peaks when expressing EWSR1-NR4A3 across only 112 nuclei, yet we detected 0 peaks for the reciprocal control NR4A3-EWSR1 when averaging over 503 nuclei. That the false discovery rate is well-calibrated suggests that false positives are unlikely to be seriously problematic as the scale increases.
+
+ To determine how sensitive our measurements are to changes in the number of nuclei captured, we down-sampled the number of nuclei for several variants that exert a wide range of effects. In the case of EWSR1-YY1 (one of the fusions with the largest effect size in our library), the Pearson correlation between the down-sampled and full-scale data is robust to reducing either the number of EWSR1-YY1 nuclei or the number of empty vector control nuclei ( Supp Fig 7d , left). While we captured 1,510 empty vector control nuclei, only a few hundred are necessary to retain a high correlation coefficient. Similarly, the number of EWSR1-YY1 containing nuclei can be down-sampled to as few as ~300 nuclei (~600 nuclei originally) while retaining a high Pearson correlation coefficient (~0.8). In general, only a few hundred nuclei per genotype are required to resolve variant effects, which is comparable in information content to standard bulk ATAC-seq experiments.
+
+ While the Pearson correlation of fold changes for all peaks is robust to down-sampling, the number of recovered differentially accessible peaks (a metric of higher resolution) is significantly more sensitive. This is similar for fusion and empty vector containing nuclei both of which require many hundreds of nuclei to retrieve a large fraction of known differentially accessible peaks ( Supp Fig 7d , right). We tested the generality of this property by fixing the number of control empty vector cells and down-sampling fusion containing cells for 16 different fusions. These fusions had a wide range of effect sizes and mechanisms. In each case, the pattern held that the correlation with the original data is more robust to down-sampling than is the number of differentially accessible peaks retrieved ( Fig 6b ). Those variants with the most negative slopes were those with the fewest nuclei captured in total suggesting that we likely have not achieved saturation for these variant’s effects. The fact that the recovery of differentially accessible peaks does not plateau (like correlation does) is consistent with the fact that we’ve implicated power in several of the most obvious false negatives in our assay (e.g. PAX3-FOXO1, SS18L1-SSX1).
+
+ When taken together, this data suggests a framework with which PROD-ATAC can be used to quickly triage and subsequently mechanistically dissect large variant libraries. The fact that the Pearson correlation plateaus with only a fraction of the nuclei captured suggests that researchers can use a low-coverage PROD-ATAC experiment (e.g. 50–100 nuclei per variant) to triage thousands of variants simultaneously. With a low-depth but high-throughput screen, it is possible to identify variants with large effect sizes and those with chromatin-altering features that are worthy of higher resolution follow up. Just as down-sampling our data identified variants that were under-sampled (e.g. those farthest from saturation in Fig 6b ), so too could one down-sample future low-coverage PROD-ATAC experiments to identify variants for which the marginal gains of increasing coverage would be the greatest. We empirically demonstrated this point by increasing the number of PAX3-FOXO1 nuclei captured and showing that the power to detect peak-level differences increased. On the other extreme, EWSR1-YY1 (one of the largest effect size variants in this library) was more deeply sequenced, its peak-level insights are closer to saturation ( Fig 6b ) and we would expect that the marginal gains of increasing the power for this variant would be less. This iterative approach (i.e. down-sampling a low-coverage but high-throughput experiment to determine the most efficient use of future medium-throughput experiments) is likely generalizable.
+
+ Discussion
+
+ PROD-ATAC is a scalable method for interrogating genome-wide chromatin dysregulation induced by arbitrary sets of protein-coding variants. PROD-ATAC allows researchers to systematically explore the impacts of hundreds to thousands of protein-coding variants—without requiring any prior knowledge of variant effect—to learn both mechanisms of and relationships between variants in a relatively unbiased way. To our knowledge, no prior high-throughput experiments have examined the sufficiency of causal variants to disrupt chromatin for hundreds of variants simultaneously and outside of their native contexts. That expression of causal variants in non-native contexts can report on cell-type relevant mechanisms is fascinating and should promote future high-throughput screens in unified model systems like this. We found that cancer-specific oncofusions might have context- invariant chromatin remodeling abilities. Among many possible hypotheses, this suggests that the context-specific nature of fusion-directed oncogenesis does not lie in chromatin altering fusion functions but instead might lie either in the non-random generation of fusions (i.e. DNA breaks and translocations depending on the chromatin context) or in downstream gene expression changes that might be more context sensitive. For example, this is supported by the fact that the very rare Ewing sarcoma fusions EWSR1-FEV, EWSR1-ETV1, and EWSR1-ETV4 all seem to remodel chromatin in the same way that the most common fusion EWSR1-FLI1 does. This demonstrates that context-specific variants might exert context-invariant chromatin changes.
+
+ We used PROD-ATAC to produce a global view of the landscape of fusion-induced chromatin disruption. In most cases, the structure revealed was consistent with known prior mechanisms. For instance, clusters based on chromatin accessibility clearly discriminated among ETS family fusions, kinase-containing fusions, NR4A3-containing fusions, and CREB-family transcription factor containing fusions. This included identifying evidence of chromatin changes from direct DNA interactions (e.g. cases where fusions contained DNA binding domains and their motifs were heavily enriched in differentially accessible regions) and likely indirect activity too (i.e. kinase-containing fusions likely activating the AP-1 complex). However, we also learned non-intuitive relationships that would have otherwise been difficult to predict a priori or to learn with existing low-throughput reverse genetics methods. In some cases, we see evidence of convergent mechanisms among seemingly disparate fusions. For instance, the rare fusion ACTB-GLI1 (which causes mesenchymal tumors) and the relatively common fusion PAX7-FOXO1 (which causes rhabdomyosarcoma) converge on similar chromatin disruption (and indeed GLI1 amplification and overexpression is seen in rhabdomyosarcoma). There were also several false negatives for which we identified some causes. First, the pathogenic fusion ASPSCR1-TFE3 exerted a significant proliferative defect which inhibited us from capturing enough nuclei during PROD-ATAC to identify its chromatin effects. Second, there were few regions dysregulated by PAX3-FOXO1 likely because the native accessibility at its target sites is intrinsically high. This was partially overcome by increasing the nuclei captured. Similarly, the attenuated effects of SS18-SSX2 and SS18L1-SSX1 likely derived from reduced power given that bulk ATAC sequencing identified chromatin changes for both variants. Downsampling this data revealed that individual peak calls were highly sensitive to changes in power; however, we could have saturated the overall correlations in chromatin changes with many fewer nuclei per variant than was captured here. Taken together, these results all suggest that PROD-ATAC is a powerful triaging step where researchers can screen hundreds or thousands of variants simultaneously (and even test a priori hypotheses like gain of functionality) and identify variants worthy of follow up with deeper sequencing.
+
+ While we showed that many causal factors (of context-specific diseases) exert context-invariant effects, it is still no doubt the case that in vitro model systems cannot recapitulate all variant effects. First, our assay is based on overexpression. It’s known that many pioneer factor activities are sensitive concentration. This experiment does not specifically recapitulate the in vivo expression of each fusion; however, we still found significant corroboration of cancer-specific findings. The fact that PROD-ATAC is based on user-controlled variant expression with the Tet3G system also means that researchers can repeat PROD-ATAC with varying levels of doxycycline to create pseudo-concentration trajectories for each variant and its effects at each locus. This type of experiment was recently performed with CRISPR activation and inhibition using a single-cell RNA sequencing readout 58 ; PROD-ATAC is the only method to allow for the same type of experiment to study dose-dependent chromatin remodeling at scale. Second, in some cases we identified possible inconsistencies between the 293T and cancer-specific models (e.g. IRF2BP2-CDX1 increasing accessibility at loci with the p53 motif). While inaccuracies in cancer models can be problematic, cases of discordant findings lead to important hypotheses about context-specific mechanisms. In this way, having a unified context to study variant effects is not only a worthwhile tradeoff to increase throughput and to unambiguously identify causal effects, but it also allows researchers to probe context-specific effects. This is impossible in the complex milieu of patient samples and with low-throughput methods. However, this type of discordance was rare, and we showed recapitulation of known or suspected mechanisms of action across dozens of unique fusions representing dozens of cancer types. Taken together, this suggests that oncofusions may be sufficient (independent of context) for inducing oncogenic cell-state changes, a reasonable hypothesis given that fusion-positive sarcomas often have low mutational burdens 15 , 41 , 42 .
+
+ Rare and orphan variants are unlikely to be investigated if not for high-throughput methods like PROD-ATAC, and such variants represent patients who could benefit from having their oncogenic drivers studied. Population-scale sequencing efforts have revealed a preponderance of rare germline variants nearly half of which are singletons 59 ; a similar growing list of rare variants exists in cancer biology as more tumors have been sequenced. It is critical to identify the effects even of the rarest of variants. That biochemical features of oncofusions are robustly modeled in the 293T context allowed us to hypothesize about mechanisms even of rare fusions some of which have never been studied. Studying common and rare genetic variation will allow researchers to identify convergent mechanisms of disease that would be otherwise hidden from studies that focus only on common variants. Convergent mechanisms across the variant frequency spectrum are also more likely to be of biological significance. Systematically dissecting the landscape of variant effects with methods like PROD-ATAC will reveal more complete and compelling pictures of variant effects and allow researchers to identify a high-quality set of mechanisms that underlie complex biology for therapeutic targeting.
+
+ Based on our findings, we hypothesize that phase separation is a recurrent feature of oncofusions and might underlie their ability to alter chromatin. For example, we showed that many NR4A3 containing variants have gain of function abilities regardless of the N-terminal domain. Most of the N-terminal domains in these cases contain long stretches of prion-like domains (PLDs) 57 , 60 , 61 , and PLDs are frequently implicated in phase separation 62 , 63 . This result is notable given that a high-throughput screen exists for dissolving phase separated oncogenic condensates 64 . That the N-terminal component drives a biophysical property (i.e. phase separation) could also explain why these fusions induce similar chromatin alterations despite having seemingly diverse N-terminal domains. Experiments to definitively answer these questions would require several dozens of controls per fusion (individual domains, full length wild type proteins, all N-C terminal pairwise combinations swapped, etc.) which are intractable with current low-throughput methods.
+
+ We anticipate several applications of PROD-ATAC for the discovery of genetic mechanisms at scale ( Fig 6c ). First, questions regarding the context-specific nature of protein-coding variants can only be determined unequivocally in well-controlled settings like these. Sequencing primary samples is critical, but causality will be difficult to ascertain without controlled perturbation-based experiments. Using this method across many contexts (e.g. creating landing pad acceptor cells in various contexts) will allow researchers to ask how concomitant changes to cellular and genetic background impact hundreds of coding variants of interest simultaneously. While we and others have found that not all cell lines are amenable to landing pad generation and expression, there are several that are. Creating a biobank of landing pad cell lines will allow researchers to rapidly port libraries across different backgrounds to learn the rules of context specific and invariant effects. Second, because biochemical mechanisms are well-modeled, we anticipate that PROD-ATAC will be useful for screening libraries of small molecules or libraries of additional genetic perturbations that rescue or synergize with variant effects (e.g. CRISPR libraries combined with protein-coding libraries). That is, rather than be relegated to low-resolution screens based on cell growth or single-gene reporter fluorescence, researchers can use PROD-ATAC to identify modifiers of high-dimensional cell states. Of course, chromatin accessibility is not the only important complex cell state. We anticipate perturbation experiments with multi-omic measurements will be useful for creating networks of regulation altered by thousands of perturbations simultaneously. While chromatin regulation is related to gene expression changes, these are not one-to-one. Combining several modalities of high-content readouts with libraries of coding variants will complete the variant-to-function pipeline from chromatin regulation to gene expression to cellular morphology and behavior. Finally, PROD-ATAC imposes no limitations on the types of protein-coding variants examined. This will be a useful method for assaying libraries of both naturally occurring variants and synthetic variants towards engineering cell states and fates.
+
+ Methods
+
+ Cell culture
+
+ 293T cells were a gift from Peter Lewis’s laboratory who previously purchased them from ATCC. Cells were validated by STR analysis and regularly confirmed to be mycoplasma free by Venor GeM Mycoplasma Detection Kit (Milipore Sigma). 293T cells were cultured at 37 C; 5% CO 2 ; in high glucose DMEM supplemented with 10% tet-system approved FBS (Gibco), 1% penicillin-streptomycin, and 1% GlutaMAX (Gibco); and they were routinely passaged before achieving confluence.
+
+ Lentivirus production and landing pad generation
+
+ We created a clonal line of 293T cells that harbored a single-copy of a previously published landing pad for site-specific, irreversible library recombination. The attP-containing landing pad and several attB-containing control donor plasmids were gifts from Kenneth Matreyek. The landing pad used (pLenti-TetBxb1-BFP-rEF1a-rtTA3G, LLP-Growth) allows for inducible expression of recombined libraries and selection of recombined cells that is separate from selection of cells containing the landing pad itself. Lentivirus containing the landing pad sequence was produced by co-transfecting 293T cells at ~50% confluence with psVSV-G (Addgene #12259), psPAX2 (Addgene #12260), and LLP-Growth plasmid using lipofectamine 3000 at a ratio of 1 : 3.5 : 3.5, respectively. Supernatant containing virus was collected 48 hours after transfection, centrifuged at 500 × g for 10 min, filtered through an 0.45 μ m PES filter, and used immediately. To create the landing pad containing cell line, 293T cells in 6 well dishes at ~50% confluence were transduced with either 0, 100 μ L, 500 μ L, 1 mL, or 2 mL of viral supernatant. Replicate wells were induced with 2,000 ng/mL doxycycline at the same time of transduction and a separate well (that was seeded at the same time as all others) was trypsinized and counted to later estimate multiplicity of infection (MoI). 48 hours after induction the percent blue fluorescence protein (BFP) positive (BFP + ) cells was determined by flow cytometry. Conditions with an estimated MoI << 0.1 were retained and successfully transduced cells were selected for with the addition of 6 μ g/mL blasticidin for 10 days.
+
+ We then generated a clonal line of landing-pad containing cells from the condition that was initially transduced with 100 μ L virus; we chose this condition because it was the smallest amount of virus for which there were appreciable transductants (and therefore very few of these cells would contain multiple integrated landing pad sequences). After selecting with blasticidin, we induced expression of BFP with the addition of doxycycline and sorted single cells into wells of a 96 well plate. Blasticidin was added to all media for these cells in perpetuity. Individual cells were allowed to grow for approximately 1 week in media containing 20% FBS before being expanded and cultured under normal conditions. To determine those clones with the widest on and off state for transgene induction, we induced all outgrown clones with and without doxycycline and used flow cytometry to measure BFP expression. The clone 293T-B4 was chosen given that it had the lowest variance in BFP expression with doxycycline and least amount of leaky BFP expression without doxycycline ( Supp Fig 1a ). This clone was validated to contain a single copy of the landing pad transgene by two methods. First, we recombined a library containing equal parts attB-mCherry and attB-GFP. The lack of double positive cells suggested only a single copy of the landing pad was present ( Supp Fig 1b ). Second, we performed droplet digital PCR with primers for the landing pad sequencing and the housekeeping gene ALB . That the copy number of the landing pad was approximately half that of the endogenous ALB control also suggested that only a single copy is present ( Supp Fig 1c ). The 293T-B4 clonal line was used for creating all libraries in this work.
+
+ In silico oncofusion library curation
+
+ A list of fusions was downloaded from COSMIC 34 in October 2022. 3 distinct sets of fusions were considered; (1) any fusion in the COSMIC database with “sarcoma” present in the primary histology field (n=55), (2) known sarcoma fusions (n=76) derived from Table 1 of Perry et al. Annu. Rev. Cancer Biol . 2019 and from ChimerDB v4.0 20 (with the requirement that they were in-frame fusions, present ≥ 5 times, contained a known transcription factor domain, and had a Seq+ annotation), and (3) a list of 12 fusions not derived from sarcomas (e.g. TMPRSS2-ERG, TPR-NTRK1, CCDC6-RET, FGFR3-TACC3, PML-RARA, BCR-ABL1, BCR-JAK2, etc.). This resulted in 105 unique fusions considered further as 38 fusions were both in the known sarcoma fusions and COSMIC database with sarcoma in histology. We further restricted this list by only considering those fusions found in the COSMIC database. For each unique pair of 5’ and 3’ genes fused, the COSMIC ID for the most common variant (as assessed by number of unique sample IDs in fusion database) was considered. For this fusion ID, for the 5’ (respectively, 3’) gene, the chromosome, strand, last observed exon (first observed exon), genome start from, and genome stop from were extracted. Nucleotide sequences for relevant transcripts were found in GENCODE v28 65 and the coding sequence for the relevant parts of the gene included in the fusion were extracted, resulting in 2 nucleotide sequences corresponding to the sequence encoding the N terminal and C terminal domains separately. If the total length of the combined nucleotide sequences was divisible by 3, this sequence was finalized. If the combined sequence was not divisible by 3, each individual sequence was shortened by 1 or 2 base pairs to make it divisible by 3 to avoid introducing a frameshift. The amino acid sequences derived from human tumor samples for several well-known fusions are present in GenBank. In these cases, we confirmed that the sequences we mined matched those previously published. For instance, our SS18-SSX1 sequence was a 100% match with BAF56182.1 , our PAX3-FOXO1 sequence was a 100% match with AAC50053.1 , our SS18-SSX4 sequence was a 99.6% match with AAG31034.1 , and our CCDC6-RET sequence was a 100% match with BAM36435.1 . Our EWSR1-FL1 sequence matched entirely to ACA62796.1 and was a 98.8% match with ADX41459.1 . The difference between these two references is that the latter is missing 6 amino acids in the EWSR1 domain. The most common EWSR1 isoform lacks these 6 amino acids whereas some other isoforms include them. Fusions in patients have been found using both isoforms and because we used the most common isoform for all fusions, our EWSR1 sequences across all fusions lack these 6 amino acids. This is the same reason that our EWSR1-ATF1 sequence is a 98.9% match with ADX41457.1 , again differing only by those 6 amino acids. Overall, this shows that our method of generating fusion sequences was highly concordant with what is found in patient samples for those that are published.
+
+ In addition to the fusions, several controls were added to the library. Several of the most common domains from the fusion list (e.g. EWSR1, ATF1, FUS, FLI1, ETV6, NTRK3 etc.) were added without their fusion partner. Next, for several of the most common components we additionally included the full length wild-type counterpart (e.g. EWSR1, FLI1, ATF1, DDIT3, NR4A3 etc.). Sequences were then filtered to be less than 4.8 kb in total. Finally, an empty vector control sequence was added that did not contain an open reading frame. This yielded 116 total unique sequences. To help promote even expression across library members, ATG was added to initiate the open reading frame for all those sequences that did not already have a start (i.e. domain controls derived from the C terminal half of a fusion protein) with the exception of the empty vector control. Barcodes were added to these sequences (see Methods: Plasmid library construction and sequencing ). The final sequences were ordered from Twist Biosciences as clonal genes and only two were unable to be synthesized (EWSR1-ERG and NR4A3-TAF15).
+
+ Variant barcoding scheme
+
+ In Spear-ATAC, each nuclei needs to be associated with its expressed guide RNA (gRNA) perturbation 14 . Because gRNAs are small, Spear-ATAC directly reads out the gRNA from the enriched library for each nucleus. To make our method amenable to arbitrary protein-coding perturbations, some of which can be several kilobases long, we modified this scheme to include short DNA barcodes to represent each protein-coding perturbation. In this case, each protein-coding member of the library contains two barcodes ( Supp Fig 1d ). First, there is a hardcoded 12 nucleotide (nt) DNA barcode that is synthesized with each variant coding sequence. The DNABarcodes package in R was used to generate a list of 200 barcodes each that is 12 nt with minimum hamming distance of 5 and is GC balanced. Each member of the variant library was then randomly assigned to one of these molecular barcodes and that assignment was retained in perpetuity. Ideally, this barcode would be flanked by Nextera adapters such that it could be identified after enrichment from the single-cell library (like the gRNA is flanked in Spear-ATAC). In this hypothetical situation, only one barcode is needed. However, many commercial oligonucleotide synthesis companies disallow the inclusion of Nextera or TruSeq adapters internally given that they are also used for quality control with next-generation sequencing (NGS). To circumvent this, we added a second barcode of 16 random nucleotides between Nextera adapters that is cloned into a position adjacent to the hardcoded barcode. The random barcodes were synthesized as N 16 within primers ordered from Integrated DNA Technologies. The result is that the random barcode and hardcoded barcode are each within113 nt of each other. This allowed us to sequence the known (hardcoded) and random barcode together in one short-read sequencing run to create a transitive mapping between each variant, hardcoded barcode (known a priori ), and the random barcode. Finally, the necessary primer binding sites for Spear-ATAC were added. This includes the oSP1735 site (GCTTACATTTTACATGATAGGCTTGG) which allows for in droplet exponential amplification of the barcodes and the oSP2053 site (AAGTATCCCTTGGAGAACCACCTTG) which allows for subsequent linear amplification with a biotinylated primer. All of these noncoding primer bindings sites and the Nextera adapters were the same for all variants in the library. These sequences together allow for the generation of a barcode library alongside the single-cell ATAC library for genotyping each cell. When a particular random barcode was seen after Spear-ATAC, we would know (based on the short-read sequencing map) which hardcoded barcode it is associated with and therefore which variant is present for that nucleus. Having both barcodes therefore generalizes this format to any possible method of synthesizing the library of variants. This scheme also allowed us to quantify template switching and barcode hopping between hardcoded and random barcodes after recombination, which occurred exceptionally rarely (23 of 8,547, or 0.27%, random barcodes switched which hardcoded barcode they were assigned to after Bxb1-mediated recombination). The complete list of variant nucleotide sequences, expected protein product, and hardcoded barcodes is given in Supp Table 1 .
+
+ Plasmid library construction and sequencing
+
+ All oncofusion and control sequences were prepared for downstream one-pot BsmBI-based Golden Gate Assembly into an attB-containing donor plasmid for ultimate recombination into attP-containing 293T landing pad cell lines. This included codon-optimizing all open reading frames for human expression (with Twist Bioscience online software), removing internal BsmBI sites by creating synonymous substitutions that avoid rare codons, appending a C terminal G-A-G linker and HA epitope tag to all coding sequencing, adding the proper hardcoded barcode sequence as described above, and flanking this cassette by universal primer binding sites such that all library members could be amplified with a single primer pair. This primer pair notably includes part of the Nextera adapter sequences and the oSP2053 primer binding site needed for Spear-ATAC. The primers also contain BsmBI sites needed for Golden Gate Assembly with the attB-containing backbone (see below). All library members were ordered from Twist Bioscience and then amplified by PCR. Of the 114 unique sequences, 113 were amplified with one clearly dominant product at the correct size by agarose electrophoresis. PCR products for these 113 variants were quantified using the AccuClear Ultra High Sensitivity dsDNA Quantitation Kit and then pooled based on their sizes to achieve a uniform distribution with one exception: we intentionally doubled the amount of empty vector DNA. Our goal was to slightly bias the capture towards empty vector nuclei during single-cell ATAC sequencing so that we could create a robust empirical null distribution.
+
+ At the same time, the attB-containing backbone was linearized by PCR and prepared to accept the library inserts via BsmBI Golden Gate Assembly. This PCR contained primers that linearized the backbone and added an N 16 random barcode, part of the flanking Nextera adapters (the other part was supplied by primers used in the PCR that amplified the insert library), and BsmBI sites. The backbone PCR was followed by DpnI digest by spiking in 2 uL DpnI, 10 uL NEB rCutSmart buffer, and water to reach a total volume of 100 uL. The reaction proceeded at 37C for 1 hour followed by a 20 min inactivation at 80C before being cleaned up. A single Golden Gate Assembly reaction was then performed to insert the pool of variant members into the universal attB-containing backbone. This was performed by combining 150 ng of linearized, DpnI digested, and cleaned up backbone with cleaned up variant library PCR product for an approximately 2:1 molar ratio (the insert sizes varied because library member sizes vary, so this calculation was based on the median size). To this was added 2 uL T4 buffer, 1 uL BsmBI-v2, and water to bring the total reaction to 20 uL. The reaction proceeded at 42 C for 1 hour followed by 60 C for 5 minutes. The 20 uL product was dialyzed on a MF-Millipore Membrane Filter (0.025 um pore) for 1 hour with a dialysate of double distilled water.
+
+ From there, a bacterial stock of the library was generated. 2 uL of the dialyzed golden-gate product was transformed into 25 uL of electrocompetent DH10B E coli cells using a Bio-rad MicroPulser (165–2100), Ec2 setting (2 mm cuvette, 2.5 kV, one pulse). Two replicates of this procedure were performed. Cells were immediately recovered in 973 uL of pre-warmed SOC while shaking at 37 C for 1 hour. Critically, the transformation efficiency determines not only library coverage but also the number of expected random barcodes (which are thought to be in significant excess after Golden Gate compared to the number of successful transformants). To ensure that each library member receives several random barcodes (for redundancy) and to ensure that the number of random barcodes does not swamp the number of expected nuclei captured with single-cell sequencing (i.e. so that we would sequence each random barcode several times across several nuclei), we throttled the number of transformants retained. To determine the number of transformants to retain, we first created spot plates from each of the replicates. Each spot contained 2 uL of culture and we spotted undiluted, 1:10 diluted, and 1:100 diluted spots each in triplicate. These plates grew overnight at 37 C. At the same time, we split the two 1 mL liquid cultures into several subsets: 100 uL and 700 uL from replicate 1 and 50 uL, 100 uL, and 700 uL from replicate 2. To each of these, LB and carbenicillin was added and the cultures were grown overnight while shaking at 37 C. After overnight growth, the transformation efficiency was estimated based on the spot plate in both replicates to be ~150–220 colonies per variant. This meant that the 100 uL sample of the initial recovered culture would contain an appropriate number of barcodes. Replicate 1 with 100 uL was therefore plasmid prepped and a glycerol stock (25% v/v sterile glycerol stored at −80 C) was simultaneously prepared.
+
+ We sequenced the random barcode and the hardcoded barcode after insertion into the plasmid attB-containing backbone with 1 × 150 bp reads. To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: “AAATCCAAGC”, “CCAGAGCATG”, “CAAGGTGGTT”, and “ATACTGATTC”. This yielded 5,625,954 amplicons to analyze. We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize. This allowed for synthesis, sequencing, or PCR errors that would slightly alter the read-out hardcoded barcode compared to what the Twist order intended. For all but 4, we were able to identify a closest match using a maximum restricted Damerau-Levenshtein distance of 3. Each hardcoded barcode was assigned to its closest match and the 4 unmatched barcodes were discarded. We did not have such a white-list of the random barcodes and therefore could not do the same matching procedure for these. Instead, we first generated a list of unique hardcoded barcode – random barcode pairs of which there were 48,582 sequences that were approximately evenly distributed about the expected frequency except for a fat tail of rare pairs. Restricting that list to pairs to those that were seen more than once yielded 14,803 unique pairs. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode. That is, should a random barcode frequently map to more than one hardcoded barcode, we would not be able to confidently assign it to a particular perturbation. This criteria further restricted the pool yielding 12,269 confident barcode pairings with which we can ultimately assign each nuclei to a perturbation identity. There was a strong correlation between the distribution of confidently assigned random barcodes inserted into genomic DNA and those in the initial plasmid library ( Supp Fig 1g ). There was also a modest correlation between the insert size and the distribution in the plasmid library with a slightly increased proportion of cells containing the empty vector control as intended ( Supp Fig 1h ). While certain variants slightly changed the distribution by exerting proliferative defects ( Fig 1d , Supp Fig 1i ), the bias that was present in the initial plasmid library largely persisted throughout the duration of the experiment. This indicates that PROD-ATAC per se does not bias the library or information retrieved. Instead, users can define the library distribution they intend at the level of the plasmid library construction which will largely persist (proliferative changes which are difficult to know a priori notwithstanding).
+
+ Library recombination and sequencing
+
+ 293T-B4 attP-containing landing pad cells that were previously described were thawed and passaged twice before recombination. Three replicate wells of a 6 well plate were seeded at 400,000 cells per well and one T25 flask was seeded at 900,000 cells. These were allowed to attach overnight after which they were recombined with the plasmid attB-containing library. All 3 of the 6 wells were transfected with 100 ng of pCAG-NLS-HA-Bxb1 (Addgene #51271) and 1,500 ng of donor attB library whereas the T25 was transfected with 1,000 ng of the Bxb1 containing plasmid and 5,000 ng attB library. Transfection was carried out with lipofectamine 3000 that was constituted in Opti-MEM media. Liposomes were added to cells at ~30–40% confluence and allowed to incubate overnight. After incubation, media containing the liposomes was removed and fresh media containing puromycin at 0.8 ug/mL was added. After this point puromycin was added to all media in perpetuity to select for successfully recombined cells. After 3 days of puromycin selection, all 4 cultures were trypsinized, pooled, and scaled up to a T75 culture seeding 2.7e6 cells. These were routinely passaged before achieving confluence and selected for a total of 11 days in puromycin before several vials were frozen (5% sterile DMSO v/v stored in the vapor phase of a liquid nitrogen tank) and ~1 million cells were retained for DNA preparation. Genomic DNA (gDNA) was isolated using the PureLink Genomic DNA Mini kit.
+
+ We wanted to validate that the cell library distribution matched the input plasmid library distribution and examine for possible barcode swapping events. We amplified the same barcode containing amplicon off gDNA as we had previously off the plasmid library for NGS. This resulted in 4,649,308 sequences with the same four constant regions described before. Applying the same filtering criteria resulted in 12,269 unique hardcoded – random barcode pairs ( Supp Table 3 ) seen more than once and with more than 95% certainty in the pairing (16,779 in the plasmid library). Of the 8,547 random barcodes seen in both the plasmid library and the gDNA library, only 23 (0.27%) were mapped to different hardcoded barcodes than they previously were when we sequenced off of plasmid DNA. Template switching or otherwise barcode hopping during recombination from the plasmid library into the cell library is therefore exceptionally rare.
+
+ Arrayed variant cell line generation and assembly validation
+
+ We generated individual donor plasmids containing one of 28 different variants chosen from the initial library. For each of the 28 variants, we performed the same golden gate reaction that would have occurred had the variant been in the pooled library (i.e. the same insert PCR, the same backbone PCR, and the same conditions described above with the exception of the variants being arrayed now instead of pooled). We then picked 84 colonies that resulted from these 28 golden gates and screened the assemblies by colony PCR (KAPA2G robust PCR). 66 of the 84 (78.6%) generated an amplicon of a size that would suggest the assembly worked, 2 out of 84 (2.4%) generated an amplicon of the incorrect size, and the remaining 16 (19%) did not generate an amplicon. We purified plasmids from 53 colonies of the 66 that had correctly sized amplicons and performed full plasmid sequencing with Plasmidsaurus. Of the 53 plasmids, 29 (54.7%) did not contain a mutation anywhere in the plasmid. 15 had mutations but in noncoding regions that are irrelevant for our assay. In total, 44/53 (83%) did not have a mutation that would affect function. Of the remaining plasmids, 5 had mutations in noncoding regions that are essential for PCR during Spear-ATAC sequencing. These types of mutations would not cause spurious findings but would reduce the power of our assay and could contribute to false negatives should too few nuclei be able to be genotyped. Finally, 4 plasmids (7.5%) contained a missense variant which might alter the variants’ function and could too reduce the assays power by adding noise. We proceeded by generating arrayed 293T cell lines expressing 11 variants all of which were validated by full plasmid sequencing. These included empty vector, EWSR1-FLI1, ARFGEF2-HNF4A, EWSR1-FLI1, FGFR3-TACC3, CCDC6-RET, ETV6-NTRK3, SS18-SSX1, SS18-SSX2, SS18L1-SSX1, and EWSR1_FullLength. These cell lines were generated by the same procedure as the library generation, and recombination was verified by puromycin resistance and PCR of the inserted variation from genomic DNA.
+
+ Pooled library proliferation screen and clonal validation
+
+ To test whether expression of any of the variants had a proliferative effect and therefore altered the library distribution, we performed a pooled screen of the 293T library. We seeded 6 replicate wells of the library. 3 wells were induced with doxycycline (2 ug/mL) whereas the other 3 were treated with an equal volume of water. Replicates were split after 2 days, 4 days, and 6 days of induction. At each time point, 200,000 cells were taken for gDNA harvest and next-generation sequencing of the barcodes to report on the variant distribution. Sequencing and barcode filtering were performed as described above. Variant scores and standard errors were calculated following Rubin et al. 2017. Briefly, for each replicate the change in the variant’s frequency across all time points was summarized into a score and the scores were then summarized across replicates using a random-effects model 66 . We then clonally validated the proliferative effects seen for 4 of the fusion variants. For cell lines clonally expressing empty vector, CCDC6-RET, EWSR1-FLI1, ETV6-NTRK3, and FGFR3-TACC3, we seeded 6 wells each. For each genotype, the number of live cells was determined for 2 wells at 24 hours after doxycycline induction, for 2 wells at 48 hours post induction, and for the final 2 wells at 72 hours after induction. Live cells were determined by trypan blue exclusion and counted using a Countess 3 Cell Counter. To determine whether the proliferative defect we saw for the kinase-containing fusions was explicitly due to their kinase activity, we also performed a similar growth assay in the presence of the NTRK inhibitor entrectinib (MedChemExpress cat no: HY-12678). Entrectinib (Ent) was resuspended in sterile dimethylsulfoxide (DMSO). The same experimental design was used to count cells treated either with doxycycline and 100 nM entrectinib (simultaneously) or doxycycline with DMSO (0.5% v/v) over the course of 3 days.
+
+ Library and clonal expression validation
+
+ In addition to the full library, we performed the same process above to generate a small sub-library and several clonal controls. The clonal controls included EWSR1-FLI1 alone, PAX3-FOXO1 alone, and empty vector control alone. The smaller sub-library included 9 variants pooled: empty vector control, EWSR1-FLI1, EWSR1-ATF1, PAX3-FOXO1, COL1A1-PDGFB, FUS-DDIT3, ETV6-NTRK3, FUS-CREB3L2, and SS18-SSX2. Using these libraries, we validated that the transgenes were induced upon doxycycline expression at the RNA level both in clonal format and in the library format. To do this, 3 biological replicates of each genotype were cultured individually with doxycycline (2 ug/mL) for 48 hours and 3 replicates were cultured with equal volume water. RNA was harvested using Qiagen’s RNeasy Mini kit and the DNAse treatment step was included. One pot qRT-PCR was performed with NEB Luna Universal One-Step RT-qPCR kit and using primers specific to EWSR1-FLI1 or to PAX3-FOXO1. Reactions were monitored using Applied Biosystem’s 7500 Fast Real-Time PCR instrument ( Supp Fig 1f ) which showed high RNA expression with doxycycline induction for each clonal variant. This corroborated the high protein expression seen by flow cytometry when BFP was used as a proxy prior to transgene recombination ( Supp Fig 1a ). To determine if expression of any of the sub-library members induced a cell proliferation defect or advantage, we cultured duplicates of the 9-member library in either water or doxycycline for 2 days, 4 days, and 6 days, harvesting gDNA at each time point. We performed the same barcode quantification by sequencing as above and determined that none of the library members altered cell growth ( Supp Fig 1h ). Taken together, this suggested that a 4 day doxycycline induction of our library would likely be sufficient to induce transgene expression and was unlikely to result in large changes to the library’s distribution.
+
+ Bulk ATAC sequencing and analysis
+
+ For 8 of the arrayed variants described above, we generated bulk ATAC sequencing data to compare to our PROD-ATAC replicates. The 3 variants for which we generated cell lines but could not performed ATAC sequencing were all kinases that exerted significant proliferative defects and were difficult to culture without being rescued by a kinase inhibitor. Bulk ATAC was performed with biological duplicates and the Omni-ATAC protocol was used on the remaining 8 genotypes 67 . Briefly, for each replicate and sample, cells were induced and treated the same way that the full library was before Spear-ATAC sequencing. From each condition, 100,000 cells were harvested, nuclei were isolated, transposed, and the tagmented fragments of DNA were amplified and purified according to the published protocol. The only difference is that we used uniue dual indexed primers rather than single index primers as was the case in the original ATAC sequencing publication. Dual indexed 2×50 Illumina sequencing was performed targeting at least 50 million reads per sample.
+
+ We analyzed the bulk ATAC sequencing data in a way that was comparable to the analysis of the single-cell data. Paired-end reads were merged with NGmerge in adapter removal mode (-a -e 20). For each replicate, each set of reads (forward and reverse) were separately aligned to the same reference genome build as was used for single cell sequencing analysis (refdata-cellranger-arc-GRCh38–2020-A-2.0.0) using the same BWA software (i.e. calling bwa aln for each set of reads and then calling bwa sampe to create an aligned sam file for each sample). Bam files were generated and filtered to remove reads aligning to the mitochondrial genome (samtools idxstats bam_file.bam | cut -f 1 | grep -v NC_012920.1 | xargs samtools view - b bam_file.bam > bam_file_no_mito.bam). These were further analyzed in one of two separate ways. First, peaks were called on each sample with MACS2. CSAW identified differentially accessible narrow peaks when comparing cells containing each genotype to the empty vector control 68 . Second, pearson correlations were calculated for all pairwise comparisons. To do this, we merged the two biological replicate bam files for each sample (samtools merge) and created bigwig tracks for each combined sample (bamCoverage --normalizeUsing CPM). We then computed the average score either over all genome bins or over specifically defined regions with multiBigwigSummary. Outliers were excluded when calculating correlations (plotCorrelation --removeOutliers -c pearson). In Fig 6a , dynamic sites were defined as those that were differentially accessible in pseudobulk comparisons of EWSR1-FLI1, ARFGEF2-HNF4A, and FGFR3-TACC3 to empty vector control. In Supp Fig 7a the genome was binned and in Supp Fig 7b the same sites that were used in Figure 4a from Orth et al. 2022 were used.
+
+ Single-cell ATAC and dial-out library preparation
+
+ In preparation for sequencing, each library was seeded and allowed to attach over night before being induced with doxycycline (2 ug/mL) for 96 hours. One split was performed at 48 hours. Spear-ATAC is predicated on 10X Genomics single-cell ATAC sequencing. For this work, all sequencing was performed with v2 Chemistry. Nuclei were prepared according to 10X Genomics’ Nuclear Isolation for Single Cell ATAC Sequencing protocol with the following notes. IGEPAL CA-630 was used for the lysis buffer a 10% solution of which was prepared fresh on the day of nuclear isolation using 100% stock (Sigma i8896). After trypsinization and pelleting, cells were washed twice with ice cold PBS + 0.04% BSA before following the remainder of the nuclear isolation protocol. Lysis occurred for 4 minutes which previously was found to be appropriate time for cytoplasmic removal while retaining nuclear membrane architecture by DIC microscopy. Cells were resuspended in diluted nuclei buffer and triplicates were counted before proceeding with Spear-ATAC sequencing as previously published. In all cases, 10,000 nuclei were targeted for capture per 10X chip lane. Spear-ATAC included the following changes to the 10X scATAC library preparation protocol: the 1.2 uL per reaction of 50 uM oSP1735 oligonucleotide is spiked into the GEM generation master mix and the in-GEM PCR was increased from 12 to 15 cycles. Single-cell ATAC library fragment size distribution was analyzed by Tapestation prior to preparing enriched dial-out libraries for perturbation genotyping. The dial-out libraries were again prepared according to the Spear-ATAC protocol with the following changes: linear PCR with biotinylated oSP2053 was increased to 30 total cycles and the exponential PCR with oSP1594 and indexed P7 primers was increased to 18 total cycles. The indices on the P7 primers were increased from 8 bases to 10 bases.
+
+ Single-cell ATAC data processing
+
+ All data analysis was carried out on UW Madison’s Center for High Throughput Computing cluster 69 . Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here: https://support.10xgenomics.com/single-cell-atac/software/downloads/latest . We used ArchR (version 1.0.0) for most downstream single-cell ATAC-seq analysis ( https://greenleaflab.github.io/ArchR_Website/ ). Fragment files for each sample and the associated cell information file output from CellRanger were passed to ArchR to create Arrow Files. We did not filter doublets because there were few discrete clusters which are necessary for appropriate doublet identification. Next, we filtered for nuclei with TSS enrichment ≥ 7 and number of fragments ≥ 40,000. We did not subset to nuclei with known genotypes prior to generating dimension reduced visualizations reasoning that all nuclei (even if we were unable to genotype them because reads mapping to perturbations are sparse) contained useful information. The UMAP used throughout the manuscript was created with the default parameters though several others were created with various minimum distances and number of neighbors which did not change the interpretation. Most additional analyses were performed using ArchR. This entailed creating pseudobulk samples representing those of each known genotype and creating in silico replicates to perform statistical tests for defining differentially accessibile peaks. First, addGroupCoverages (minCells = 40, maxCells = 500, minReplicates = 2, maxReplicates =5) merged cells of a known genotype (see below). This produced a coverage file from which peaks were called using addReproduciblePeakSet. This called MACS2 and used the default parameters for peakcalling. Counts for each peak were determined with addPeakMatrix and then marker peaks were identified with getMarkerFeatures (using a Wilcoxon signed-rank test and otherwise default parameters). Marker peaks were defined based on a sufficiently low false discovery rate—which ArchR calculates from creating replicate pseudobulk samples—and high absolute value(log 2 fold change) as described within the text and legends (usually FDR <0.1 and absolute value(log 2 fold change) ≥ 1). We also made specific comparisons between two genotypes of interest by defining these genotypes when calling getMarkerFeatures. This usually entailed setting useGroups to the genotype of interest and bgdGroup to the empty vector control. From this comparison, we identified known motif enrichment within these differentially accessible peaks by calling peakAnnoEnrichment with the default parameters.
+
+ Genome annotations
+
+ All analysis were performed with the hg38 genome.
+
+ Calling cell perturbation identities with dial-out library sequencing
+
+ Dial-out enrichment libraries with which to call perturbation identities in individual nuclei were sequenced as in Spear-ATAC. However, in this case random barcodes were sequenced (instead of gRNAs) and those were then mapped back to hardcoded barcodes and therefore the encoded protein-coding variant. Random barcodes were identified by grepping for several constant sequences to ensure that amplicons of the correct format were analyzed: “AAATCCAAGC”, “CCAGAGCATG”, “CAAGGTGGTT”, and “ATACTGATTC”. Random barcodes were then isolated alongside their corresponding cell barcodes from the 10X library construction process (CBCs). We filtered on 10X CBCs that were seen at least 3 times and then only retained pairs of 10X CBC – Random barcode for which ≥ 90% of the reads were the same pair (i.e. a 10X CBC that was associated with equipoise to multiple random barcodes was not retained). Random barcodes from the dial-out library were then matched to random barcodes seen from sequencing the library from gDNA previously. For those random barcodes that matched one of the stringent set of random barcodes previously defined, we were able to confidently identify the protein-coding variant present for the associated cell barcode. The remainder of cell barcodes that were unidentified were not used in downstream analysis.
+
+ Comparing single-cell pseudobulk data to external references
+
+ We sought to determine how differential peaks in cells containing variants from our library compared to significant peaks from known human cell types. To do this, we created BED files for peaks increased in accessibility for each fusion compared to empty vector control (FDR < 0.1 and log 2 (fold change) ≥ 1) using ArchR’s ability to directly compare pseudobulk replicates of two groups. These BED files were then passed to ChIP-Atlas’s Enrichment Analysis feature with settings: Experiment type = ATAC-Seq, Cell type class = All cell types, Threshold for significance = 200, and dataset B (control dataset) = random permutations of dataset A 100 times. We combined the resulting data frames and for the purpose of visualization we subsetted to those overlaps which had −log(p value) > 3 and for which the fraction of fusion peaks overlapping with the given known cell type was above 0.2 as these are the likely most meaningful overlaps.
+
+ Down-sampling single-cell ATAC data
+
+ To ascertain the effect of capturing fewer cells on the resulting data, we systematically down-sampled the number of nuclei captured for several fusions and controls. In these cases, we created random samples of the existing genotyped cells ranging from 10 nuclei to the total number of nuclei captured for that genotype. In the case of empty vector control, this was performed at intervals of 100 nuclei whereas for all fusions it was performed at intervals of 20 nuclei. For each random sample, we used ArchR to directly compare the down-sampled datasets for each variant to empty vector control. We then determined the Pearson correlation between the log 2 (fold change) for each peak in the down-sampled comparison to that of the original comparison. Similarly, we determined the total number of differentially accessible peaks in the down-sampled comparison as a fraction of the total number of differentially accessibile peaks in the original comparison with all nuclei.
+
+ Supplementary Material
+
+ Supplementary Figures 
+
+ NIHMS2166785-supplement-Supplementary_Figures.pdf (7.2MB, pdf) 
+
+ Supplementary Table 1 
+
+ NIHMS2166785-supplement-Supplementary_Table_1.xlsx (122.2KB, xlsx) 
+
+ Supplementary Table 2 
+
+ NIHMS2166785-supplement-Supplementary_Table_2.xlsx (60KB, xlsx) 
+
+ Supplementary Table 3 
+
+ NIHMS2166785-supplement-Supplementary_Table_3.xlsx (406.9KB, xlsx) 
+
+ Supplementary Data 1 
+
+ NIHMS2166785-supplement-Supplementary_Data_1.zip (772.1KB, zip) 
+
+ Supplementary Data 2 
+
+ NIHMS2166785-supplement-Supplementary_Data_2.zip (7.5MB, zip) 
+
+ Acknowledgments
+
+ M.F. was supported by an NIH T32 fellowship (T32HG2760-17). This work was partially supported by the NIH Director’s New Innovator Award DP2GM132682 (S.R.) and UWCCC Core grant P30CA014520 (Z.M.). Thank you to UW-Madison’s Center for Genomic Science Innovation for providing the 10X Genomics Chromium X. We would also like to thank Rein in Sarcoma for a charitable donation that partially supported this work. We thank both Kenneth Matreyek and Peter Lewis for sharing plasmids and cells. We thank Silas Miller for his helpful discussion regarding barcoding and Christina Kendziorski for thoughtful advice regarding the analysis of this data. Most DNA amplicon sequencing was performed at the University of Wisconsin – Madison Biotechnology Center’s DNA Sequencing Facility (Research Resource Identifier – RRID:SCR_017759) as was all Tapestation analysis of single-cell library fragment distributions. Microscopy was performed at the University of Wisconsin-Madison Biochemistry Optical Core which was established with support from the University of Wisconsin-Madison Department of Biochemistry Endowment. Fluorescence activated cell sorting and flow cytometry were performed at UW-Madison Flow Cytometry core.
+
+ Footnotes
+
+ Competing interests
+
+ The authors declare no competing interests.
+
+ Data availability
+
+ All sequencing data was deposited in the Gene Expression Omnibus (accession GSE243553 ) which is publicly available. Plasmids generated in this study are available from the lead contact (S.R.) without restriction. Any other relevant data are available from the authors upon reasonable request.
+
+ Code availability
+
+ We are hosting a GitHub website that includes the code used in this study (mfrenkel16/OncofusionPRODATAC/).
+
+ References
+
+ 1. Przybyla L & Gilbert LA
+A new era in functional genomics screens. Nat. Rev. Genet
+1–15 (2021) doi: 10.1038/s41576-021-00409-w.
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 2. Findlay GM
+Linking genome variants to disease: scalable approaches to test the functional impact of human mutations. Hum. Mol. Genet
+30, R187–R197 (2021).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 3. Findlay GM
+et al. 
+Accurate classification of BRCA1 variants with saturation genome editing. Nature
+562, 217–222 (2018).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 4. Tewhey R
+et al. 
+Direct Identification of Hundreds of Expression-Modulating Variants using a Multiplexed Reporter Assay. Cell
+165, 1519–1529 (2016).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 5. van Arensbergen J
+et al. 
+High-throughput identification of human SNPs affecting regulatory element activity. Nat. Genet
+51, 1160–1169 (2019).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 6. Doench JG
+Am I ready for CRISPR? A user’s guide to genetic screens. Nat. Rev. Genet
+19, 67–80 (2018).
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 7. Fowler DM & Fields S
+Deep mutational scanning: a new style of protein science. Nat. Methods
+11, 801–807 (2014).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 8. Replogle JM
+et al. 
+Combinatorial single-cell CRISPR screens by direct guide RNA capture and targeted sequencing. Nat. Biotechnol
+1–8 (2020) doi: 10.1038/s41587-020-0470-y.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 9. Adamson B
+et al. 
+A Multiplexed Single-Cell CRISPR Screening Platform Enables Systematic Dissection of the Unfolded Protein Response. Cell
+167, 1867–1882.e21 (2016).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 10. Dixit A
+et al. 
+Perturb-Seq: Dissecting Molecular Circuits with Scalable Single-Cell RNA Profiling of Pooled Genetic Screens. Cell
+167, 1853–1866.e17 (2016).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 11. Datlinger P
+et al. 
+Pooled CRISPR screening with single-cell transcriptome readout. Nat. Methods
+14, 297–301 (2017).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 12. Kim HS
+et al. 
+Direct measurement of engineered cancer mutations and their transcriptional phenotypes in single cells. Nat. Biotechnol
+1–9 (2023) doi: 10.1038/s41587-023-01949-8.
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 13. Ursu O
+et al. 
+Massively parallel phenotyping of coding variants in cancer with Perturb-seq. Nat. Biotechnol
+40, 896–905 (2022).
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 14. Pierce SE, Granja JM & Greenleaf WJ
+High-throughput single-cell chromatin accessibility CRISPR screens enable unbiased identification of regulatory networks in cancer. Nat. Commun
+12, 2969 (2021).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 15. Mertens F, Johansson B, Fioretos T & Mitelman F
+The emerging complexity of gene fusions in cancer. Nat. Rev. Cancer
+15, 371–381 (2015).
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 16. F M, Cr A & F M
+Gene fusions in soft tissue tumors: Recurrent and overlapping pathogenetic themes. Genes. Chromosomes Cancer
+55, (2016). [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 17. Gryder BE
+et al. 
+PAX3–FOXO1 Establishes Myogenic Super Enhancers and Confers BET Bromodomain Vulnerability. Cancer Discov. 7, 884–899 (2017).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 18. Riggi N
+et al. 
+EWS-FLI1 utilizes divergent chromatin remodeling mechanisms to directly activate or repress enhancer elements in Ewing sarcoma. Cancer Cell
+26, 668–681 (2014).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 19. Boulay G
+et al. 
+Cancer-Specific Retargeting of BAF Complexes by a Prion-like Domain. Cell
+171, 163–178.e19 (2017).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 20. Jang YE
+et al. 
+ChimerDB 4.0: an updated and expanded database of fusion genes. Nucleic Acids Res. 48, D817–D824 (2020).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 21. Sweeney NP & Vink CA
+The impact of lentiviral vector genome size and producer cell genomic to gag-pol mRNA ratios on packaging efficiency and titre. Mol. Ther. Methods Clin. Dev
+21, 574–584 (2021).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 22. Milone MC & O’Doherty U
+Clinical use of lentiviral vectors. Leukemia
+32, 1529–1541 (2018).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 23. Xie S, Cooley A, Armendariz D, Zhou P & Hon GC
+Frequent sgRNA-barcode recombination in single-cell perturbation assays. PLOS ONE
+13, e0198635 (2018).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 24. Adamson B, Norman TM, Jost M & Weissman JS
+Approaches to Maximize sgRNA-Barcode Coupling in Perturb-Seq Screens. 298349
+ https://www.biorxiv.org/content/10.1101/298349v1 (2018) doi: 10.1101/298349. [ DOI ] [ Google Scholar ]
+
+ 25. Feldman D, Singh A, Garrity AJ & Blainey PC
+Lentiviral co-packaging mitigates the effects of intermolecular recombination and multiple integrations in pooled genetic screens. 262121 Preprint at 10.1101/262121 (2018). [ DOI ] [ Google Scholar ]
+
+ 26. Parekh U
+et al. 
+Mapping Cellular Reprogramming via Pooled Overexpression Screens with Paired Fitness and Single-Cell RNA-Sequencing Readout. Cell Syst. 7, 548–555.e8 (2018).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 27. Hill AJ
+et al. 
+On the design of CRISPR-based single-cell molecular screens. Nat. Methods
+15, 271–274 (2018).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 28. Matreyek KA, Stephany JJ, Chiasson MA, Hasle N & Fowler DM
+An improved platform for functional assessment of large protein libraries in mammalian cells. Nucleic Acids Res. 48, e1 (2020).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 29. Ursu O
+et al. 
+Massively parallel phenotyping of variant impact in cancer with Perturb-seq reveals a shift in the spectrum of cell states induced by somatic mutations. bioRxiv 2020.11.16.383307 (2020) doi: 10.1101/2020.11.16.383307. [ DOI ] [ Google Scholar ]
+
+ 30. Sánchez-Molina S
+et al. 
+RING1B recruits EWSR1-FLI1 and cooperates in the remodeling of chromatin necessary for Ewing sarcoma tumorigenesis. Sci. Adv
+6, eaba3058 (2020).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 31. Deng Q
+et al. 
+Oncofusion-driven de novo enhancer assembly promotes malignancy in Ewing sarcoma via aberrant expression of the stereociliary protein LOXHD1. Cell Rep. 39, 110971 (2022).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 32. Manceau L
+et al. 
+Divergent transcriptional and transforming properties of PAX3-FOXO1 and PAX7-FOXO1 paralogs. PLOS Genet. 18, e1009782 (2022).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 33. Orth MF
+et al. 
+Systematic multi-omics cell line profiling uncovers principles of Ewing sarcoma fusion oncogene-mediated gene regulation. Cell Rep. 41, 111761 (2022).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 34. Tate JG
+et al. 
+COSMIC: the Catalogue Of Somatic Mutations In Cancer. Nucleic Acids Res. 47, D941–D947 (2019).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 35. Granja JM
+et al. 
+ArchR is a scalable software package for integrative single-cell chromatin accessibility analysis. Nat. Genet
+53, 403–411 (2021).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 36. Hao Y
+et al. 
+Integrated analysis of multimodal single-cell data. Cell
+184, 3573–3587.e29 (2021).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 37. Jost M
+et al. 
+Titrating gene expression using libraries of systematically attenuated CRISPR guide RNAs. Nat. Biotechnol
+38, 355–364 (2020).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 38. Zhang Y
+et al. 
+Model-based Analysis of ChIP-Seq (MACS). Genome Biol. 9, R137 (2008).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 39. Sunkel BD
+et al. 
+Evidence of pioneer factor activity of an oncogenic fusion transcription factor. iScience
+24, 102867 (2021).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 40. AACR Project GENIE Consortium. AACR Project GENIE: Powering Precision Medicine through an International Consortium. Cancer Discov. 7, 818–831 (2017).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 41. Chang W-I
+et al. 
+Molecular Targets for Novel Therapeutics in Pediatric Fusion-Positive Non-CNS Solid Tumors. Front. Pharmacol
+12, (2022). [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 42. Perry JA, Seong BKA & Stegmaier K
+Biology and Therapy of Dominant Fusion Oncoproteins Involving Transcription Factor and Chromatin Regulators in Sarcomas. Annu. Rev. Cancer Biol
+3, 299–321 (2019). [ Google Scholar ]
+
+ 43. Möller E
+et al. 
+EWSR1-ATF1 dependent 3D connectivity regulates oncogenic and differentiation programs in Clear Cell Sarcoma. Nat. Commun
+13, 2267 (2022).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 44. Johnson KM
+et al. 
+Role for the EWS domain of EWS/FLI in binding GGAA-microsatellites required for Ewing sarcoma anchorage independent growth. Proc. Natl. Acad. Sci. U. S. A
+114, 9870–9875 (2017).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 45. Johnson KM, Taslim C, Saund RS & Lessnick SL
+Identification of two types of GGAA-microsatellites and their roles in EWS/FLI binding and gene regulation in Ewing sarcoma. PLOS ONE
+12, e0186275 (2017).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 46. Guillon N
+et al. 
+The oncogenic EWS-FLI1 protein binds in vivo GGAA microsatellite sequences with potential transcriptional activation function. PloS One
+4, e4932 (2009).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 47. Li Z
+et al. 
+ETV6-NTRK3 fusion oncogene initiates breast cancer from committed mammary progenitors via activation of AP1 complex. Cancer Cell
+12, 542–558 (2007).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 48. Przybyl J
+et al. 
+Gene expression profiling of low-grade endometrial stromal sarcoma indicates fusion protein-mediated activation of the Wnt signaling pathway. Gynecol. Oncol
+149, 388–393 (2018).
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 49. Gordon AT
+et al. 
+A novel and consistent amplicon at 13q31 associated with alveolar rhabdomyosarcoma. Genes. Chromosomes Cancer
+28, 220–226 (2000).
+ [ PubMed ] [ Google Scholar ]
+
+ 50. Yoon JW, Lamm M, Chandler C, Iannaccone P & Walterhouse D
+Up-regulation of GLI1 in vincristine-resistant rhabdomyosarcoma and Ewing sarcoma. BMC Cancer
+20, 511 (2020).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 51. Birdsey GM
+et al. 
+The endothelial transcription factor ERG promotes vascular stability and growth through Wnt/β-catenin signaling. Dev. Cell
+32, 82–96 (2015).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 52. Brcic I
+et al. 
+Implementation of Copy Number Variations-Based Diagnostics in Morphologically Challenging EWSR1/FUS::NFATC2 Neoplasms of the Bone and Soft Tissue. Int. J. Mol. Sci
+23, 16196 (2022).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 53. Deplus R
+et al. 
+TMPRSS2-ERG fusion promotes prostate cancer metastases in bone. Oncotarget
+8, 11827–11840 (2016). [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 54. Parviz F
+et al. 
+Hepatocyte nuclear factor 4alpha controls the development of a hepatic epithelium and liver morphogenesis. Nat. Genet
+34, 292–296 (2003).
+ [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 55. Zhang B
+et al. 
+Proteogenomic characterization of human colon and rectal cancer. Nature
+513, 382–387 (2014).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 56. Weinstein JN
+et al. 
+The Cancer Genome Atlas Pan-Cancer analysis project. Nat. Genet
+45, 1113–1120 (2013).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 57. Davis RB, Kaur T, Moosa MM & Banerjee PR
+FUS oncofusion protein condensates recruit mSWI/SNF chromatin remodeler via heterotypic interactions between prion-like domains. Protein Sci. Publ. Protein Soc
+30, 1454–1466 (2021). [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 58. Domingo J
+et al. 
+Non-linear transcriptional responses to gradual modulation of transcription factor dosage. 2024.03.01.582837 Preprint at 10.1101/2024.03.01.582837 (2024). [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 59. Backman JD
+et al. 
+Exome sequencing and analysis of 454,787 UK Biobank participants. Nature
+1–10 (2021) doi: 10.1038/s41586-021-04103-z. [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 60. Lancaster AK, Nutter-Upham A, Lindquist S & King OD
+PLAAC: a web and command-line application to identify proteins with prion-like amino acid composition. Bioinformatics
+30, 2501–2502 (2014).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 61. Farag M, Borcherds WM, Bremer A, Mittag T & Pappu RV
+Phase Separation in Mixtures of Prion-Like Low Complexity Domains is Driven by the Interplay of Homotypic and Heterotypic Interactions. 2023.03.15.532828 Preprint at 10.1101/2023.03.15.532828 (2023). [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 62. Boncella AE
+et al. 
+Composition-based prediction and rational manipulation of prion-like domain recruitment to stress granules. Proc. Natl. Acad. Sci
+117, 5826–5835 (2020).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 63. Sprunger ML & Jackrel ME
+Prion-Like Proteins in Phase Separation and Their Link to Disease. Biomolecules
+11, 1014 (2021).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 64. Wang Y
+et al. 
+Dissolution of oncofusion transcription factor condensates for cancer therapy. Nat. Chem. Biol (2023) doi: 10.1038/s41589-023-01376-5. [ DOI ] [ PubMed ] [ Google Scholar ]
+
+ 65. Frankish A
+et al. 
+GENCODE 2021. Nucleic Acids Res. 49, D916–D923 (2021).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 66. Rubin AF
+et al. 
+A statistical framework for analyzing deep mutational scanning data. Genome Biol. 18, 150 (2017).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 67. Corces MR
+An improved ATAC-seq protocol reduces background and enables interrogation of frozen tissues. Nat Methods
+14, (2017). [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 68. Reske JJ, Wilson MR & Chandler RL
+ATAC-seq normalization method can significantly affect differential accessibility analysis and interpretation. Epigenetics Chromatin
+13, 22 (2020).
+ [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 69. Center for High Throughput Computing. Center for High Throughput Computing. (2006) doi: 10.21231/GNT1-HW21. [ DOI ] [ Google Scholar ]
+
+ 70. Frenkel M, Corban JE, Hujoel MLA, Morris Z, Raman S
+Large-scale discovery of chromatin dysregulation induced by oncofusions and other protein-coding variants. Datasets. Gene Expression Omnibus
+ https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE243553 . (2024). [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ 71. Frenkel M, Corban JE, Hujoel MLA, Morris Z, Raman S
+Large-scale discovery of chromatin dysregulation induced by oncofusions and other protein-coding variants. Github. https://github.com/mfrenkel16/OncofusionPRODATAC . (2024). [ DOI ] [ PMC free article ] [ PubMed ] [ Google Scholar ]
+
+ Associated Data
+
+ This section collects any data citations, data availability statements, or supplementary materials included in this article. 
+
+ Supplementary Materials
+
+ Supplementary Figures 
+
+ NIHMS2166785-supplement-Supplementary_Figures.pdf (7.2MB, pdf) 
+
+ Supplementary Table 1 
+
+ NIHMS2166785-supplement-Supplementary_Table_1.xlsx (122.2KB, xlsx) 
+
+ Supplementary Table 2 
+
+ NIHMS2166785-supplement-Supplementary_Table_2.xlsx (60KB, xlsx) 
+
+ Supplementary Table 3 
+
+ NIHMS2166785-supplement-Supplementary_Table_3.xlsx (406.9KB, xlsx) 
+
+ Supplementary Data 1 
+
+ NIHMS2166785-supplement-Supplementary_Data_1.zip (772.1KB, zip) 
+
+ Supplementary Data 2 
+
+ NIHMS2166785-supplement-Supplementary_Data_2.zip (7.5MB, zip) 
+
+ Data Availability Statement
+
+ All sequencing data was deposited in the Gene Expression Omnibus (accession GSE243553 ) which is publicly available. Plasmids generated in this study are available from the lead contact (S.R.) without restriction. Any other relevant data are available from the authors upon reasonable request.
+
+ We are hosting a GitHub website that includes the code used in this study (mfrenkel16/OncofusionPRODATAC/).
+
+ ACTIONS
+
+ View on publisher site 
+
+ PDF (2.2 MB) 
+
+ Cite 
+
+ Collections 
+
+ Permalink 
+
+ PERMALINK
+
+ Copy 
+
+ RESOURCES
+
+ Similar articles
+
+ Cited by other articles
+
+ Links to NCBI Databases
+
+ Cite
+
+ Copy 
+
+ Download .nbib 
+ .nbib 
+
+ Format: 
+
+ AMA
+
+ APA
+
+ MLA
+
+ NLM
+
+ Add to Collections
+
+ Create a new collection 
+
+ Add to an existing collection 
+
+ Name your collection
+ * 
+
+ Choose a collection
+
+ Unable to load your collection due to an error
+
+ Please try again 
+
+ Add
+
+ Cancel
+
+ Follow NCBI
+
+ NCBI on X (formerly known as Twitter) 
+
+ NCBI on Facebook 
+
+ NCBI on LinkedIn 
+
+ NCBI on GitHub 
+
+ NCBI RSS feed 
+
+ Connect with NLM
+
+ NLM on X (formerly known as Twitter) 
+
+ NLM on Facebook 
+
+ NLM on YouTube 
+
+ National Library of Medicine
+ 
+ 8600 Rockville Pike
+ Bethesda, MD 20894 
+
+ Web Policies
+
+ FOIA
+
+ HHS Vulnerability Disclosure
+
+ Help
+
+ Accessibility
+
+ Careers
+
+ NLM
+
+ NIH
+
+ HHS
+
+ USA.gov
+
+ Back to Top
