@@ -800,7 +800,7 @@
       "verified_source": "Crossref",
       "verified_title": "Vepdegestrant, a PROTAC Estrogen Receptor Degrader, in Advanced Breast Cancer",
       "verified_year": 2025,
-      "defect": "AUTHOR ATTRIBUTION WRONG — the identifier is correct and resolves to the right paper, but the manuscript bylines reference 57 'Hurvitz SA, et al.' and Hurvitz is not among the paper's 27 authors. Crossref and Europe PMC agree: Campone M, De Laurentiis M, Jhaveri K, ... Hamilton EP, VERITAC-2 Study Group. N Engl J Med 393:556-568 (2025)."
+      "defect": "✅ CLOSED in the manuscript at commit 4cfa7b12b — reference 57 now reads 'Campone M, De Laurentiis M, Jhaveri K, et al.; VERITAC-2 Study Group', carries volume/pages 393:556–568, and the in-text 'Hurvitz 2025' is gone. The identifier itself was always correct. WAS: bylined 'Hurvitz SA, et al.' while Hurvitz is not among the paper's 27 authors — a resolving identifier under a byline that does not match the record, which reads as invention to anyone who pulls it."
     },
     {
       "files": [
@@ -1641,7 +1641,7 @@
       "verified_source": "EuropePMC",
       "verified_title": "Structural basis of binding of homodimers of the nuclear receptor NR4A2 to selective Nur-responsive DNA elements",
       "verified_year": "2019",
-      "defect": "YEAR DISCREPANCY — the manuscript gives reference 33 as J Biol Chem (2020); Europe PMC returns pubYear 2019 (J Biol Chem 294(52), DOI 10.1074/jbc.ra119.010730). Title and subject match."
+      "defect": "✅ CLOSED in the manuscript at commit 4cfa7b12b — reference 33 now reads J Biol Chem (2019). WAS: dated 2020 against a record of 2019 (J Biol Chem 294(52), doi 10.1074/jbc.ra119.010730, PMID 31723028). ⚠ Still open on this entry: the reference carries no author list, and the fetch supplies one (Jiang L, Dai S, Li J, Liang X, Qu L, Chen …)."
     },
     {
       "files": [
@@ -2225,7 +2225,7 @@
     },
     {
       "files": [
-        "research/manuscripts/nr4a3-degrader-paper.md"
+        "research/manuscripts/degrader-citation-audit-2026-08-08.md"
       ],
       "id": "37444483",
       "key": "PMID:37444483",
@@ -2237,7 +2237,7 @@
       "verified_source": "EuropePMC",
       "verified_title": "Post-Surgical Prognosis of Patients with Pineoblastoma: A Systematic Review and Individual Patient Data Analysis with Trends over Time",
       "verified_year": "2023",
-      "defect": "MISATTRIBUTED — resolves, but to a different work. Europe PMC returns 'Post-Surgical Prognosis of Patients with Pineoblastoma: A Systematic Review and Individual Patient Data Analysis with Trends over Time' (Nandoliya KR et al., Cancers 15:3374, DOI 10.3390/cancers15133374, PMC10340270). The manuscript attaches it to reference 15, the acinic-cell-carcinoma SEER study, whose real PMID is 37444484 — confirmed independently by the same reference's own PMCID (PMC10340722) and DOI (10.3390/cancers15133373), which both return the acinic-cell paper. One digit; adjacent article in the same issue. Fix: 37444483 -> 37444484."
+      "defect": "✅ CLOSED in the manuscript at commit 4cfa7b12b — reference 15 now reads PMID 37444484 and this identifier no longer appears in nr4a3-degrader-paper.md at all. RETAINED, because the row is what makes the correction auditable and because the identifier is REAL: it belongs to 'Post-Surgical Prognosis of Patients with Pineoblastoma…' (Nandoliya KR et al., Cancers 15:3374, doi 10.3390/cancers15133374, PMC10340270), which is why nothing automatic could have caught the swap. WAS: the manuscript attached it to the acinic-cell-carcinoma SEER study cited as reference 15; one digit, adjacent article in the same issue, exposed by the disagreement between that reference's own PMID, PMCID and DOI."
     },
     {
       "files": [
@@ -2324,7 +2324,7 @@
       "verified_source": "EuropePMC",
       "verified_title": "Vepdegestrant, a PROTAC Estrogen Receptor Degrader, in Advanced Breast Cancer",
       "verified_year": "2025",
-      "defect": "AUTHOR ATTRIBUTION WRONG — same paper as DOI:10.1056/NEJMoa2505725; see that entry. The identifier resolves correctly; the manuscript's byline for reference 57 does not match the record."
+      "defect": "✅ CLOSED in the manuscript at commit 4cfa7b12b — same paper and same fix as DOI:10.1056/NEJMoa2505725; see that entry. The identifier itself was always correct."
     },
     {
       "files": [
@@ -2535,5 +2535,5 @@
     "retracted",
     "known_absent_upstream"
   ],
-  "_defects_found": "2026-08-08, nr4a3-degrader-paper.md: all 74 of its unanchored identifiers RESOLVE — none is fabricated. FIVE defects across four references remain, recorded on six entries' `defect` fields (reference 57's defect is carried by both its PMID and its DOI) and enumerated in research/manuscripts/degrader-citation-audit-2026-08-08.md. ONE is disqualifying on its own: PMID 37444483 (reference 15) resolves to a pineoblastoma systematic review, not to the acinic-cell-carcinoma SEER study the manuscript cites; the correct PMID is 37444484. A second, reference 57, bylines a NEJM paper to an author who is not on it. `status: verified` means the identifier was fetched and answered — READ THE `defect` FIELD, because a resolving identifier attached to the wrong claim is still a fabricated citation to a reader."
+  "_defects_found": "2026-08-08, nr4a3-degrader-paper.md: all 74 of its unanchored identifiers RESOLVE — none is fabricated. FIVE defects across four references were found and enumerated in research/manuscripts/degrader-citation-audit-2026-08-08.md. ✅ THREE ARE NOW CLOSED IN THE MANUSCRIPT (commit 4cfa7b12b): the mis-transcribed PMID on reference 15 (37444483 -> 37444484, it pointed at a pineoblastoma review), the byline on reference 57 (Hurvitz SA -> Campone M et al., Hurvitz is not an author), and the year on reference 33 (2020 -> 2019). ⚠ TWO REMAIN OPEN and cannot be closed by a fetch: references 61 and 63 are filed under 'alchemical PROTAC' prior art while their titles say MOLECULAR GLUE and END-POINT respectively. Those need a human to read the papers. Each affected row keeps its `defect` field, closed rows included, because a correction with no record of what it corrected is not auditable. `status: verified` means the identifier was fetched and answered — READ THE `defect` FIELD."
 }

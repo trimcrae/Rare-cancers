@@ -37,6 +37,14 @@ related:
 **Headline: all 74 unanchored identifiers RESOLVE. None is fabricated. Five are defective anyway, and one of
 those is disqualifying on its own — a PMID that resolves cleanly to the wrong paper.**
 
+> ✅ **Status, 2026-08-08, later the same day: three of the five are FIXED in the manuscript (commit
+> `4cfa7b12b`)** — D1 (reference 15 now reads PMID 37444484), D2 (reference 57 now bylined Campone M et al.;
+> VERITAC-2 Study Group, with volume/pages, and the in-text *"Hurvitz 2025"* removed) and D3 (reference 33 now
+> dated 2019). **D4 and D5 remain open and no fetch can close them** — they are descriptor mismatches that need
+> a human to read the two papers. The defect text below is left in the past tense of the audit deliberately: a
+> correction with no record of what it corrected is not auditable, and each affected ledger row keeps its
+> `defect` field with the closure noted.
+
 | | count |
 |---|---|
 | identifiers audited (the paper's full unanchored set) | **74** |
