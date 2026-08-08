@@ -207,16 +207,62 @@ def find_all(seq: str, pattern: str, max_mismatch: int = 0):
     microseconds and a clever implementation would only add a place for a bug to hide.
     """
     n, m = len(seq), len(pattern)
+    # ⚠ THE DEGENERATE CASES ARE SPELLED OUT BECAUSE THE FAST PATH BELOW GETS THEM WRONG, and
+    # "equivalent except at the edges" is not equivalent. An empty pattern matches at every
+    # position including the one past the end; a pattern longer than the sequence matches
+    # nowhere; and once max_mismatch reaches the pattern length EVERY window matches trivially,
+    # which also breaks the pigeonhole argument by allowing k > m empty chunks. Real callers pass
+    # 8-mers at mm 0 or 1 and reach none of these, which is exactly why they would have rotted
+    # undetected.
+    if m == 0:
+        return list(range(n + 1))
+    if n < m:
+        return []
+    if max_mismatch >= m:
+        return list(range(n - m + 1))
+    # ⚠ THE NAIVE FORM WAS NOT "microseconds" AT THE CALL VOLUME THIS ACTUALLY SEES, and the
+    # docstring above said it was. One scan is microseconds; the shuffle null runs 2 * N_SHUFFLES
+    # of them per gene, so ~25,000 positions x 8 characters x 2 strands x 2,000 shuffles is
+    # hundreds of millions of interpreted comparisons. Both branches below return the SAME list,
+    # in the same ascending order, for every input -- pinned against a naive reference by
+    # tests/test_emc_ret_target_scan.py::test_find_all_matches_the_naive_reference_exactly.
+    if max_mismatch <= 0:
+        # `str.find` is the identical search done in C. Starting each probe at i+1 keeps
+        # OVERLAPPING occurrences, which the index loop also reported.
+        hits, i = [], seq.find(pattern)
+        while i != -1:
+            hits.append(i)
+            i = seq.find(pattern, i + 1)
+        return hits
+    # ⭐ PIGEONHOLE SEEDING, and it is exact rather than heuristic. Split the pattern into
+    # max_mismatch+1 contiguous chunks: a window with at most max_mismatch substitutions cannot
+    # corrupt every chunk, so at least one chunk matches EXACTLY. Seeding on chunk hits therefore
+    # cannot miss a match, and each candidate is then verified by the same character-by-character
+    # test the naive loop used. This holds for ANY alphabet -- a window containing `N` is still
+    # found and still verified, which a variant-enumeration approach over ACGT would have missed.
+    k = max_mismatch + 1
+    cand = set()
+    for j in range(k):
+        a, b = (j * m) // k, ((j + 1) * m) // k
+        chunk = pattern[a:b]
+        if not chunk:
+            continue
+        i = seq.find(chunk)
+        while i != -1:
+            start = i - a
+            if 0 <= start <= n - m:
+                cand.add(start)
+            i = seq.find(chunk, i + 1)
     hits = []
-    for i in range(n - m + 1):
+    for start in sorted(cand):
         mm = 0
         for j in range(m):
-            if seq[i + j] != pattern[j]:
+            if seq[start + j] != pattern[j]:
                 mm += 1
                 if mm > max_mismatch:
                     break
         else:
-            hits.append(i)
+            hits.append(start)
     return hits
 
 

@@ -332,3 +332,56 @@ def test_every_risk_term_appears_only_inside_a_disclaimer():
                 if term in low:
                     assert any(n in ctx for n in negations), \
                         f"{os.path.basename(path)}: '{term}' outside a disclaimer -> {s[:200]}"
+
+
+# ---------------------------------------------------------------------------------------------
+# ⭐ THE FAST `find_all` MUST BE THE NAIVE ONE, NOT MERELY "CLOSE TO IT" (added 2026-08-08).
+#
+# WHY THIS TEST EXISTS. `find_all` was a plain O(n*m) index loop, and its docstring justified that
+# as "deliberately naive ... a clever implementation would only add a place for a bug to hide".
+# The reasoning was right; the premise was not. One scan IS microseconds, but the shuffle null
+# runs two per shuffled window and N_SHUFFLES is 2000, so the naive form cost hundreds of millions
+# of interpreted comparisons per gene -- measured as the single dominant cost of the whole CI
+# suite. Replacing it with a C-level `str.find` plus pigeonhole seeding is a real speedup and a
+# real risk, so the docstring's warning is answered the only way it can be: the naive
+# implementation is KEPT HERE, as the reference, and the two are compared.
+#
+# ⛔ The degenerate cases are in the grid on purpose. Production only ever passes an 8-mer at
+# max_mismatch 0 or 1, so an empty pattern, a pattern longer than the sequence, and
+# max_mismatch >= len(pattern) would all rot undetected -- and the first fast version got each of
+# them wrong. `N` is in the alphabet for the same reason: a variant-enumeration shortcut over
+# ACGT would silently miss a window whose only mismatch IS the N.
+def _naive_find_all(seq: str, pattern: str, max_mismatch: int = 0):
+    """The original implementation, verbatim, kept as the reference."""
+    n, m = len(seq), len(pattern)
+    hits = []
+    for i in range(n - m + 1):
+        mm = 0
+        for j in range(m):
+            if seq[i + j] != pattern[j]:
+                mm += 1
+                if mm > max_mismatch:
+                    break
+        else:
+            hits.append(i)
+    return hits
+
+
+def test_find_all_matches_the_naive_reference_exactly():
+    import random as _random
+
+    rng = _random.Random(20260808)
+    compared = 0
+    for alphabet in ("ACGT", "ACGTN", "AC"):
+        for length in (0, 1, 7, 8, 9, 50, 400):
+            for _ in range(6):
+                seq = "".join(rng.choice(alphabet) for _ in range(length))
+                for pattern in (R.NBRE, R.NURRE_LEFT, "AC", "A", ""):
+                    for mm in (0, 1, 2):
+                        assert R.find_all(seq, pattern, mm) == _naive_find_all(seq, pattern, mm), (
+                            f"find_all diverged from the naive reference: alphabet={alphabet!r} "
+                            f"len={length} pattern={pattern!r} max_mismatch={mm}"
+                        )
+                        compared += 1
+    # A guard that silently compared nothing would pass forever.
+    assert compared >= 1000, f"the equivalence grid collapsed to {compared} cases"
