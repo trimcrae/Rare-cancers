@@ -1,0 +1,4714 @@
+{
+  "generated_utc": "2026-08-08T15:29:58Z",
+  "source": "Europe PMC REST search API",
+  "asks": "Is the view the transcriptional-output manuscript re-reads actually held by the field, or is the manuscript re-reading one or two papers nobody cites? Raised by trimcrae 2026-08-08 against research/manuscripts/nr4a3-fusion-transcriptional-output.md.",
+  "what_this_cannot_conclude": "A hit count is not a reading of prose. A citing review is evidence that the anchor is in the field's reference lists, NOT that the review restates the target claim - it may cite the paper for the cohort, the clinical series or the fusion biology. This probe can REFUTE a consensus claim outright (nothing cites it; no review names the gene) and can only support one weakly. Every zero is evidence of absence for its exact query only, and Europe PMC's CITES: index is not complete.",
+  "anchors": [
+    {
+      "key": "filion_2009_pparg",
+      "pmid": "18855877",
+      "cite": "Filion C, et al. J Pathol 2009;217(1):83-93",
+      "claim": "class-A source for PPARG; the manuscript reports its strongest EMC reading as circular and finds zero promoter-window peaks in four deep NR4A3 cistromes"
+    },
+    {
+      "key": "brenca_2019_sema3c",
+      "pmid": "31020999",
+      "cite": "Brenca M, et al. J Pathol 2019;249(1):90-101",
+      "claim": "class-A source for SEMA3C; the manuscript reports SEMA3C surviving nothing and reversing sign with the comparator"
+    },
+    {
+      "key": "kim_2016_eno3",
+      "pmid": "26310886",
+      "cite": "Kim AY, et al. Mol Carcinog 2016",
+      "claim": "class-A source for ENO3 (TFG::NR4A3, not EWSR1); the one gene that survives"
+    },
+    {
+      "key": "subramanian_2005_cohort",
+      "pmid": "15920699",
+      "cite": "Subramanian S, et al. J Pathol 2005;206:433-444",
+      "claim": "the GSE4303 cohort paper; the manuscript's circularity flag is that PPARG's strongest reading is scored on the cohort that first published it"
+    }
+  ],
+  "emc_clause": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\")",
+  "queries": {
+    "__control_cites_syntax": {
+      "query": "CITES:1902986_MED",
+      "hit_count": 1355,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "8381210",
+          "doi": "10.1038/361315a0",
+          "title": "Inositol trisphosphate and calcium signalling",
+          "journal": "Nature",
+          "year": "1993",
+          "cited_by": 4840,
+          "type": null
+        },
+        {
+          "pmid": "7624393",
+          "doi": "10.1152/physrev.1995.75.3.519",
+          "title": "Flow-mediated endothelial mechanotransduction",
+          "journal": "Physiological reviews",
+          "year": "1995",
+          "cited_by": 1825,
+          "type": null
+        },
+        {
+          "pmid": "1944469",
+          "doi": "10.1056/nejm199112123252403",
+          "title": "Activating mutations of the stimulatory G protein in the McCune-Albright syndrome",
+          "journal": "The New England journal of medicine",
+          "year": "1991",
+          "cited_by": 968,
+          "type": null
+        },
+        {
+          "pmid": "7834744",
+          "doi": "10.1016/0092-8674(95)90407-7",
+          "title": "Heterotrimeric G proteins: organizers of transmembrane signals",
+          "journal": "Cell",
+          "year": "1995",
+          "cited_by": 959,
+          "type": null
+        },
+        {
+          "pmid": "12040175",
+          "doi": "10.1126/science.1071550",
+          "title": "G protein pathways",
+          "journal": "Science (New York, N.Y.)",
+          "year": "2002",
+          "cited_by": 938,
+          "type": null
+        },
+        {
+          "pmid": "18043707",
+          "doi": "10.1038/nrm2299",
+          "title": "Heterotrimeric G protein activation by G-protein-coupled receptors",
+          "journal": "Nature reviews. Molecular cell biology",
+          "year": "2008",
+          "cited_by": 909,
+          "type": null
+        },
+        {
+          "pmid": "8521505",
+          "doi": "10.1016/0092-8674(95)90220-1",
+          "title": "The structure of the G protein heterotrimer Gi alpha 1 beta 1 gamma 2",
+          "journal": "Cell",
+          "year": "1995",
+          "cited_by": 905,
+          "type": null
+        },
+        {
+          "pmid": "8552184",
+          "doi": "10.1038/379311a0",
+          "title": "The 2.0 A crystal structure of a heterotrimeric G protein",
+          "journal": "Nature",
+          "year": "1996",
+          "cited_by": 864,
+          "type": null
+        },
+        {
+          "pmid": "9242920",
+          "doi": "10.1146/annurev.biochem.66.1.639",
+          "title": "G protein mechanisms: insights from structural analysis",
+          "journal": "Annual review of biochemistry",
+          "year": "1997",
+          "cited_by": 801,
+          "type": null
+        },
+        {
+          "pmid": "8355785",
+          "doi": "10.1038/364717a0",
+          "title": "Isolation of a Miller-Dieker lissencephaly gene containing G protein beta-subunit-like repeats",
+          "journal": "Nature",
+          "year": "1993",
+          "cited_by": 772,
+          "type": null
+        },
+        {
+          "pmid": "29323277",
+          "doi": "10.1038/s41594-017-0011-7",
+          "title": "Structure and dynamics of GPCR signaling complexes",
+          "journal": "Nature structural & molecular biology",
+          "year": "2018",
+          "cited_by": 765,
+          "type": null
+        },
+        {
+          "pmid": "1455506",
+          "doi": "10.1016/0968-0004(92)90005-t",
+          "title": "G proteins",
+          "journal": "Trends in biochemical sciences",
+          "year": "1992",
+          "cited_by": 706,
+          "type": null
+        },
+        {
+          "pmid": "1962211",
+          "doi": "10.1126/science.1962211",
+          "title": "Type-specific regulation of adenylyl cyclase by G protein beta gamma subunits",
+          "journal": "Science (New York, N.Y.)",
+          "year": "1991",
+          "cited_by": 671,
+          "type": null
+        },
+        {
+          "pmid": "20438756",
+          "doi": "10.1016/j.pharmthera.2010.04.005",
+          "title": "Molecular distinction between physiological and pathological cardiac hypertrophy: experimental findings and therapeutic strategies",
+          "journal": "Pharmacology & therapeutics",
+          "year": "2010",
+          "cited_by": 654,
+          "type": null
+        },
+        {
+          "pmid": "11104818",
+          "doi": "10.1128/mmbr.64.4.746-785.2000",
+          "title": "Signal transduction cascades regulating fungal development and virulence",
+          "journal": "Microbiology and molecular biology reviews : MMBR",
+          "year": "2000",
+          "cited_by": 654,
+          "type": null
+        },
+        {
+          "pmid": "19498085",
+          "doi": "10.1124/pr.109.001578",
+          "title": "International Union of Basic and Clinical Pharmacology. LXXIII. Nomenclature for the formyl peptide receptor (FPR) family",
+          "journal": "Pharmacological reviews",
+          "year": "2009",
+          "cited_by": 647,
+          "type": null
+        },
+        {
+          "pmid": "8756726",
+          "doi": "10.1016/s0092-8674(00)80117-8",
+          "title": "GAIP and RGS4 are GTPase-activating proteins for the Gi subfamily of G protein alpha subunits",
+          "journal": "Cell",
+          "year": "1996",
+          "cited_by": 613,
+          "type": null
+        },
+        {
+          "pmid": "9131251",
+          "doi": "10.1146/annurev.pharmtox.37.1.167",
+          "title": "G protein beta gamma subunits",
+          "journal": "Annual review of pharmacology and toxicology",
+          "year": "1997",
+          "cited_by": 600,
+          "type": null
+        },
+        {
+          "pmid": "12955148",
+          "doi": "10.1038/nature01905",
+          "title": "Proton-sensing G-protein-coupled receptors",
+          "journal": "Nature",
+          "year": "2003",
+          "cited_by": 594,
+          "type": null
+        },
+        {
+          "pmid": "8387644",
+          "doi": "10.1038/363274a0",
+          "title": "Substitution of three amino acids switches receptor specificity of Gq alpha to that of Gi alpha",
+          "journal": "Nature",
+          "year": "1993",
+          "cited_by": 585,
+          "type": null
+        },
+        {
+          "pmid": "12223533",
+          "doi": "10.1124/pr.54.3.527",
+          "title": "Cellular regulation of RGS proteins: modulators and integrators of G protein signaling",
+          "journal": "Pharmacological reviews",
+          "year": "2002",
+          "cited_by": 571,
+          "type": null
+        },
+        {
+          "pmid": "20148665",
+          "doi": "10.1146/annurev.physiol.010908.163111",
+          "title": "Cell death in the pathogenesis of heart disease: mechanisms and significance",
+          "journal": "Annual review of physiology",
+          "year": "2010",
+          "cited_by": 559,
+          "type": null
+        },
+        {
+          "pmid": "1739976",
+          "doi": "10.1016/0092-8674(92)90146-4",
+          "title": "Ssn6-Tup1 is a general repressor of transcription in yeast",
+          "journal": "Cell",
+          "year": "1992",
+          "cited_by": 557,
+          "type": null
+        },
+        {
+          "pmid": "9425898",
+          "doi": "10.1038/ng0198-45",
+          "title": "Association of a human G-protein beta3 subunit variant with hypertension",
+          "journal": "Nature genetics",
+          "year": "1998",
+          "cited_by": 549,
+          "type": null
+        },
+        {
+          "pmid": "9696685",
+          "doi": "10.1152/ajpcell.1998.274.6.c1429",
+          "title": "Proteinase-activated receptors: novel mechanisms of signaling by serine proteases",
+          "journal": "The American journal of physiology",
+          "year": "1998",
+          "cited_by": 534,
+          "type": null
+        }
+      ]
+    },
+    "filion_2009_pparg__record": {
+      "query": "EXT_ID:18855877 AND SRC:MED",
+      "hit_count": 1,
+      "returned": 1,
+      "top": [
+        {
+          "pmid": "18855877",
+          "doi": "10.1002/path.2445",
+          "title": "The EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor gene",
+          "journal": "The Journal of pathology",
+          "year": "2009",
+          "cited_by": 54,
+          "type": null
+        }
+      ]
+    },
+    "filion_2009_pparg__citing_all": {
+      "query": "CITES:18855877_MED",
+      "hit_count": 52,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "30664630",
+          "doi": "10.1038/s41467-018-08069-x",
+          "title": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell carcinomas of the salivary glands",
+          "journal": "Nature communications",
+          "year": "2019",
+          "cited_by": 157,
+          "type": null
+        },
+        {
+          "pmid": "24320889",
+          "doi": "10.1111/his.12269",
+          "title": "The diversity of soft tissue tumours with EWSR1 gene rearrangements: a review",
+          "journal": "Histopathology",
+          "year": "2014",
+          "cited_by": 120,
+          "type": null
+        },
+        {
+          "pmid": "19936782",
+          "doi": "10.1007/s00428-009-0854-3",
+          "title": "Soft tissue tumors associated with EWSR1 translocation",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2010",
+          "cited_by": 106,
+          "type": null
+        },
+        {
+          "pmid": "23288701",
+          "doi": "10.1002/path.4158",
+          "title": "Combining integrated genomics and functional genomics to dissect the biology of a cancer-associated, aberrant transcription factor, the ASPSCR1-TFE3 fusion oncoprotein",
+          "journal": "The Journal of pathology",
+          "year": "2013",
+          "cited_by": 59,
+          "type": null
+        },
+        {
+          "pmid": "22787122",
+          "doi": "10.1158/0008-5472.can-12-1319",
+          "title": "PDGF receptor alpha is an alternative mediator of rapamycin-induced Akt activation: implications for combination targeted therapy of synovial sarcoma",
+          "journal": "Cancer research",
+          "year": "2012",
+          "cited_by": 59,
+          "type": null
+        },
+        {
+          "pmid": "31331701",
+          "doi": "10.1016/s1470-2045(19)30319-5",
+          "title": "Pazopanib for treatment of advanced extraskeletal myxoid chondrosarcoma: a multicentre, single-arm, phase 2 trial",
+          "journal": "The Lancet. Oncology",
+          "year": "2019",
+          "cited_by": 58,
+          "type": null
+        },
+        {
+          "pmid": "29327709",
+          "doi": "10.1038/modpathol.2017.189",
+          "title": "INSM1 expression and its diagnostic significance in extraskeletal myxoid chondrosarcoma",
+          "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+          "year": "2018",
+          "cited_by": 55,
+          "type": null
+        },
+        {
+          "pmid": "30709442",
+          "doi": "10.1016/j.path.2018.10.007",
+          "title": "Mesenchymal Tumors with EWSR1 Gene Rearrangements",
+          "journal": "Surgical pathology clinics",
+          "year": "2019",
+          "cited_by": 51,
+          "type": null
+        },
+        {
+          "pmid": "32703985",
+          "doi": "10.1038/s41598-020-69015-w",
+          "title": "Transcriptome analysis of desmoplastic small round cell tumors identifies actionable therapeutic targets: a report from the Children's Oncology Group",
+          "journal": "Scientific reports",
+          "year": "2020",
+          "cited_by": 40,
+          "type": null
+        },
+        {
+          "pmid": "20182546",
+          "doi": "10.1155/2010/956427",
+          "title": "Therapeutic Implications of PPARgamma in Human Osteosarcoma",
+          "journal": "PPAR research",
+          "year": "2010",
+          "cited_by": 38,
+          "type": null
+        },
+        {
+          "pmid": "33753552",
+          "doi": "10.1158/1541-7786.mcr-20-0722",
+          "title": "Comprehensive Molecular Profiling of Desmoplastic Small Round Cell Tumor",
+          "journal": "Molecular cancer research : MCR",
+          "year": "2021",
+          "cited_by": 35,
+          "type": null
+        },
+        {
+          "pmid": "24934812",
+          "doi": "10.1158/0008-5472.can-13-3663",
+          "title": "EWS-WT1 oncoprotein activates neuronal reprogramming factor ASCL1 and promotes neural differentiation",
+          "journal": "Cancer research",
+          "year": "2014",
+          "cited_by": 35,
+          "type": null
+        },
+        {
+          "pmid": "24345066",
+          "doi": "10.1186/2045-3329-3-16",
+          "title": "Anthracycline-based chemotherapy in extraskeletal myxoid chondrosarcoma: a retrospective study",
+          "journal": "Clinical sarcoma research",
+          "year": "2013",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "33229458",
+          "doi": "10.1158/1078-0432.ccr-20-2585",
+          "title": "Therapeutic Potential of NTRK3 Inhibition in Desmoplastic Small Round Cell Tumor",
+          "journal": "Clinical cancer research : an official journal of the American Association for Cancer Research",
+          "year": "2021",
+          "cited_by": 28,
+          "type": null
+        },
+        {
+          "pmid": "32572850",
+          "doi": "10.1245/s10434-020-08737-7",
+          "title": "Extraskeletal Myxoid Chondrosarcoma with Molecularly Confirmed Diagnosis: A Multicenter Retrospective Study Within the Italian Sarcoma Group",
+          "journal": "Annals of surgical oncology",
+          "year": "2021",
+          "cited_by": 28,
+          "type": null
+        },
+        {
+          "pmid": "30348635",
+          "doi": "10.1158/1078-0432.ccr-18-0277",
+          "title": "The Ewing Family of Tumors Relies on BCL-2 and BCL-X<sub>L</sub> to Escape PARP Inhibitor Toxicity",
+          "journal": "Clinical cancer research : an official journal of the American Association for Cancer Research",
+          "year": "2019",
+          "cited_by": 28,
+          "type": null
+        },
+        {
+          "pmid": "31020999",
+          "doi": "10.1002/path.5284",
+          "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas",
+          "journal": "The Journal of pathology",
+          "year": "2019",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "23058004",
+          "doi": "10.1186/2045-3329-2-22",
+          "title": "Extraskeletal myxoid chondrosarcoma: tumor response to sunitinib",
+          "journal": "Clinical sarcoma research",
+          "year": "2012",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "31072811",
+          "doi": "10.1158/0008-5472.can-18-2403",
+          "title": "The Promoter-Associated Noncoding RNA <i>pncCCND1_B</i> Assembles a Protein-RNA Complex to Regulate Cyclin D1 Transcription in Ewing Sarcoma",
+          "journal": "Cancer research",
+          "year": "2019",
+          "cited_by": 25,
+          "type": null
+        },
+        {
+          "pmid": "28800357",
+          "doi": "10.1371/journal.pone.0182602",
+          "title": "Identification of differentially expressed genes through RNA sequencing in goats (Capra hircus) at different postnatal stages",
+          "journal": "PloS one",
+          "year": "2017",
+          "cited_by": 24,
+          "type": null
+        },
+        {
+          "pmid": "29697361",
+          "doi": "10.1186/s12920-018-0349-7",
+          "title": "Mut2Vec: distributed representation of cancerous mutations",
+          "journal": "BMC medical genomics",
+          "year": "2018",
+          "cited_by": 23,
+          "type": null
+        },
+        {
+          "pmid": "34841430",
+          "doi": "10.1242/dmm.047621",
+          "title": "Novel patient-derived models of desmoplastic small round cell tumor confirm a targetable dependency on ERBB signaling",
+          "journal": "Disease models & mechanisms",
+          "year": "2022",
+          "cited_by": 20,
+          "type": null
+        },
+        {
+          "pmid": "38588409",
+          "doi": "10.1158/0008-5472.can-23-3334",
+          "title": "Comprehensive Transcriptomic Analysis of EWSR1::WT1 Targets Identifies CDK4/6 Inhibitors as an Effective Therapy for Desmoplastic Small Round Cell Tumors",
+          "journal": "Cancer research",
+          "year": "2024",
+          "cited_by": 17,
+          "type": null
+        },
+        {
+          "pmid": "20418671",
+          "doi": "10.1097/pap.0b013e3181d98cbf",
+          "title": "The clinical relevance of molecular genetics in soft tissue sarcomas",
+          "journal": "Advances in anatomic pathology",
+          "year": "2010",
+          "cited_by": 17,
+          "type": null
+        }
+      ]
+    },
+    "filion_2009_pparg__citing_reviews": {
+      "query": "CITES:18855877_MED AND PUB_TYPE:\"Review\"",
+      "hit_count": 9,
+      "returned": 9,
+      "top": [
+        {
+          "pmid": "24320889",
+          "doi": "10.1111/his.12269",
+          "title": "The diversity of soft tissue tumours with EWSR1 gene rearrangements: a review",
+          "journal": "Histopathology",
+          "year": "2014",
+          "cited_by": 120,
+          "type": null
+        },
+        {
+          "pmid": "19936782",
+          "doi": "10.1007/s00428-009-0854-3",
+          "title": "Soft tissue tumors associated with EWSR1 translocation",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2010",
+          "cited_by": 106,
+          "type": null
+        },
+        {
+          "pmid": "30709442",
+          "doi": "10.1016/j.path.2018.10.007",
+          "title": "Mesenchymal Tumors with EWSR1 Gene Rearrangements",
+          "journal": "Surgical pathology clinics",
+          "year": "2019",
+          "cited_by": 51,
+          "type": null
+        },
+        {
+          "pmid": "20182546",
+          "doi": "10.1155/2010/956427",
+          "title": "Therapeutic Implications of PPARgamma in Human Osteosarcoma",
+          "journal": "PPAR research",
+          "year": "2010",
+          "cited_by": 38,
+          "type": null
+        },
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "20418671",
+          "doi": "10.1097/pap.0b013e3181d98cbf",
+          "title": "The clinical relevance of molecular genetics in soft tissue sarcomas",
+          "journal": "Advances in anatomic pathology",
+          "year": "2010",
+          "cited_by": 17,
+          "type": null
+        },
+        {
+          "pmid": "36736718",
+          "doi": "10.1016/j.biocel.2023.106383",
+          "title": "Molecular profiling in desmoplastic small round cell tumours",
+          "journal": "The international journal of biochemistry & cell biology",
+          "year": "2023",
+          "cited_by": 6,
+          "type": null
+        },
+        {
+          "pmid": "21170535",
+          "doi": "10.1007/s00292-010-1399-6",
+          "title": "[Update from the soft tissue tumour registry in Jena]",
+          "journal": "Der Pathologe",
+          "year": "2011",
+          "cited_by": 3,
+          "type": null
+        },
+        {
+          "pmid": "41055792",
+          "doi": "10.1007/s00432-025-06316-5",
+          "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma",
+          "journal": "Journal of cancer research and clinical oncology",
+          "year": "2025",
+          "cited_by": 2,
+          "type": null
+        }
+      ]
+    },
+    "filion_2009_pparg__citing_emc": {
+      "query": "CITES:18855877_MED AND (\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\")",
+      "hit_count": 22,
+      "returned": 22,
+      "top": [
+        {
+          "pmid": "30664630",
+          "doi": "10.1038/s41467-018-08069-x",
+          "title": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell carcinomas of the salivary glands",
+          "journal": "Nature communications",
+          "year": "2019",
+          "cited_by": 157,
+          "type": null
+        },
+        {
+          "pmid": "24320889",
+          "doi": "10.1111/his.12269",
+          "title": "The diversity of soft tissue tumours with EWSR1 gene rearrangements: a review",
+          "journal": "Histopathology",
+          "year": "2014",
+          "cited_by": 120,
+          "type": null
+        },
+        {
+          "pmid": "19936782",
+          "doi": "10.1007/s00428-009-0854-3",
+          "title": "Soft tissue tumors associated with EWSR1 translocation",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2010",
+          "cited_by": 106,
+          "type": null
+        },
+        {
+          "pmid": "31331701",
+          "doi": "10.1016/s1470-2045(19)30319-5",
+          "title": "Pazopanib for treatment of advanced extraskeletal myxoid chondrosarcoma: a multicentre, single-arm, phase 2 trial",
+          "journal": "The Lancet. Oncology",
+          "year": "2019",
+          "cited_by": 58,
+          "type": null
+        },
+        {
+          "pmid": "29327709",
+          "doi": "10.1038/modpathol.2017.189",
+          "title": "INSM1 expression and its diagnostic significance in extraskeletal myxoid chondrosarcoma",
+          "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+          "year": "2018",
+          "cited_by": 55,
+          "type": null
+        },
+        {
+          "pmid": "24345066",
+          "doi": "10.1186/2045-3329-3-16",
+          "title": "Anthracycline-based chemotherapy in extraskeletal myxoid chondrosarcoma: a retrospective study",
+          "journal": "Clinical sarcoma research",
+          "year": "2013",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "32572850",
+          "doi": "10.1245/s10434-020-08737-7",
+          "title": "Extraskeletal Myxoid Chondrosarcoma with Molecularly Confirmed Diagnosis: A Multicenter Retrospective Study Within the Italian Sarcoma Group",
+          "journal": "Annals of surgical oncology",
+          "year": "2021",
+          "cited_by": 28,
+          "type": null
+        },
+        {
+          "pmid": "31020999",
+          "doi": "10.1002/path.5284",
+          "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas",
+          "journal": "The Journal of pathology",
+          "year": "2019",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "23058004",
+          "doi": "10.1186/2045-3329-2-22",
+          "title": "Extraskeletal myxoid chondrosarcoma: tumor response to sunitinib",
+          "journal": "Clinical sarcoma research",
+          "year": "2012",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "28800357",
+          "doi": "10.1371/journal.pone.0182602",
+          "title": "Identification of differentially expressed genes through RNA sequencing in goats (Capra hircus) at different postnatal stages",
+          "journal": "PloS one",
+          "year": "2017",
+          "cited_by": 24,
+          "type": null
+        },
+        {
+          "pmid": "40140952",
+          "doi": "10.1111/cas.70071",
+          "title": "Real-World Data Analysis of Genomic Alterations Detected by a Dual DNA-RNA Comprehensive Genomic Profiling Test",
+          "journal": "Cancer science",
+          "year": "2025",
+          "cited_by": 13,
+          "type": null
+        },
+        {
+          "pmid": "22592656",
+          "doi": "10.1007/s13277-012-0415-2",
+          "title": "Identification of genes regulated by the EWS/NR4A3 fusion protein in extraskeletal myxoid chondrosarcoma",
+          "journal": "Tumour biology : the journal of the International Society for Oncodevelopmental Biology and Medicine",
+          "year": "2012",
+          "cited_by": 11,
+          "type": null
+        },
+        {
+          "pmid": "36948401",
+          "doi": "10.1016/j.modpat.2023.100161",
+          "title": "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion",
+          "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+          "year": "2023",
+          "cited_by": 7,
+          "type": null
+        },
+        {
+          "pmid": "37444484",
+          "doi": "10.3390/cancers15133373",
+          "title": "Acinic Cell Carcinoma in the 21st Century: A Population-Based Study from the SEER Database and Review of Recent Molecular Genetic Advances",
+          "journal": "Cancers",
+          "year": "2023",
+          "cited_by": 6,
+          "type": null
+        },
+        {
+          "pmid": "36875767",
+          "doi": "10.3389/fcell.2023.987153",
+          "title": "EWSR1 prevents the induction of aneuploidy through direct regulation of Aurora B",
+          "journal": "Frontiers in cell and developmental biology",
+          "year": "2023",
+          "cited_by": 6,
+          "type": null
+        },
+        {
+          "pmid": "32963861",
+          "doi": "10.1155/2020/2684746",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: Long-Term Survival in the Setting of Metastatic Disease",
+          "journal": "Case reports in orthopedics",
+          "year": "2020",
+          "cited_by": 4,
+          "type": null
+        },
+        {
+          "pmid": "36103645",
+          "doi": "10.1200/po.22.00039",
+          "title": "Identification of Novel PGR-NR4A3 Fusion in Extraskeletal Myxoid Chondrosarcoma and Resultant Patient Benefit From Tamoxifen Therapy",
+          "journal": "JCO precision oncology",
+          "year": "2022",
+          "cited_by": 3,
+          "type": null
+        },
+        {
+          "pmid": "41055792",
+          "doi": "10.1007/s00432-025-06316-5",
+          "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma",
+          "journal": "Journal of cancer research and clinical oncology",
+          "year": "2025",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "36636521",
+          "doi": "10.7759/cureus.33601",
+          "title": "Extraskeletal Myxoid Chondrosarcoma of the Vulva: A Case Report",
+          "journal": "Cureus",
+          "year": "2023",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "35665108",
+          "doi": "10.12998/wjcc.v10.i13.4301",
+          "title": "Primary intracranial extraskeletal myxoid chondrosarcoma: A case report and review of literature",
+          "journal": "World journal of clinical cases",
+          "year": "2022",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "20658218",
+          "doi": "10.1007/s12105-010-0193-3",
+          "title": "Clinical-pathological conference: case 1",
+          "journal": "Head and neck pathology",
+          "year": "2010",
+          "cited_by": 2,
+          "type": null
+        }
+      ]
+    },
+    "filion_2009_pparg__citing_emc_reviews": {
+      "query": "CITES:18855877_MED AND (\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND PUB_TYPE:\"Review\"",
+      "hit_count": 4,
+      "returned": 4,
+      "top": [
+        {
+          "pmid": "24320889",
+          "doi": "10.1111/his.12269",
+          "title": "The diversity of soft tissue tumours with EWSR1 gene rearrangements: a review",
+          "journal": "Histopathology",
+          "year": "2014",
+          "cited_by": 120,
+          "type": null
+        },
+        {
+          "pmid": "19936782",
+          "doi": "10.1007/s00428-009-0854-3",
+          "title": "Soft tissue tumors associated with EWSR1 translocation",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2010",
+          "cited_by": 106,
+          "type": null
+        },
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "41055792",
+          "doi": "10.1007/s00432-025-06316-5",
+          "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma",
+          "journal": "Journal of cancer research and clinical oncology",
+          "year": "2025",
+          "cited_by": 2,
+          "type": null
+        }
+      ]
+    },
+    "brenca_2019_sema3c__record": {
+      "query": "EXT_ID:31020999 AND SRC:MED",
+      "hit_count": 1,
+      "returned": 1,
+      "top": [
+        {
+          "pmid": "31020999",
+          "doi": "10.1002/path.5284",
+          "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas",
+          "journal": "The Journal of pathology",
+          "year": "2019",
+          "cited_by": 27,
+          "type": null
+        }
+      ]
+    },
+    "brenca_2019_sema3c__citing_all": {
+      "query": "CITES:31020999_MED",
+      "hit_count": null,
+      "returned": 0,
+      "top": []
+    },
+    "brenca_2019_sema3c__citing_reviews": {
+      "query": "CITES:31020999_MED AND PUB_TYPE:\"Review\"",
+      "hit_count": 9,
+      "returned": 9,
+      "top": [
+        {
+          "pmid": "33047515",
+          "doi": "10.15252/emmm.201911131",
+          "title": "Sarcoma treatment in the era of molecular medicine",
+          "journal": "EMBO molecular medicine",
+          "year": "2020",
+          "cited_by": 238,
+          "type": null
+        },
+        {
+          "pmid": "32967265",
+          "doi": "10.3390/cancers12092703",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Biology and Clinical Management",
+          "journal": "Cancers",
+          "year": "2020",
+          "cited_by": 50,
+          "type": null
+        },
+        {
+          "pmid": "33428234",
+          "doi": "10.1002/path.5617",
+          "title": "Genetic drivers and cells of origin in sarcomagenesis",
+          "journal": "The Journal of pathology",
+          "year": "2021",
+          "cited_by": 9,
+          "type": null
+        },
+        {
+          "pmid": "38261254",
+          "doi": "10.1007/s12035-024-03945-8",
+          "title": "Potential Roles of Nr4a3-Mediated Inflammation in Immunological and Neurological Diseases",
+          "journal": "Molecular neurobiology",
+          "year": "2024",
+          "cited_by": 8,
+          "type": null
+        },
+        {
+          "pmid": "40004005",
+          "doi": "10.3390/ijms26041542",
+          "title": "Chondrosarcoma: New Molecular Insights, Challenges in Near-Patient Preclinical Modeling, and Therapeutic Approaches",
+          "journal": "International journal of molecular sciences",
+          "year": "2025",
+          "cited_by": 7,
+          "type": null
+        },
+        {
+          "pmid": "36998041",
+          "doi": "10.1186/s13000-023-01330-y",
+          "title": "Epithelioid and spindle rhabdomyosarcoma with TFCP2 rearrangement in abdominal wall: a distinctive entity with poor prognosis",
+          "journal": "Diagnostic pathology",
+          "year": "2023",
+          "cited_by": 3,
+          "type": null
+        },
+        {
+          "pmid": "37705036",
+          "doi": "10.1186/s13000-023-01390-0",
+          "title": "Extraskeletal myxoid chondrosarcoma of the gingival: a rare case report and review of the literature",
+          "journal": "Diagnostic pathology",
+          "year": "2023",
+          "cited_by": 1,
+          "type": null
+        },
+        {
+          "pmid": "35118292",
+          "doi": "10.21037/med-20-38",
+          "title": "Primary mediastinal chondrosarcomas: do they really exist?",
+          "journal": "Mediastinum (Hong Kong, China)",
+          "year": "2020",
+          "cited_by": 1,
+          "type": null
+        },
+        {
+          "pmid": "41086256",
+          "doi": "10.1146/annurev-pathmechdis-111523-023434",
+          "title": "Molecular Pathogenesis of Uterine Sarcomas: Mechanisms and Implications for Treatment",
+          "journal": "Annual review of pathology",
+          "year": "2026",
+          "cited_by": 0,
+          "type": null
+        }
+      ]
+    },
+    "brenca_2019_sema3c__citing_emc": {
+      "query": "CITES:31020999_MED AND (\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\")",
+      "hit_count": 19,
+      "returned": 19,
+      "top": [
+        {
+          "pmid": "33047515",
+          "doi": "10.15252/emmm.201911131",
+          "title": "Sarcoma treatment in the era of molecular medicine",
+          "journal": "EMBO molecular medicine",
+          "year": "2020",
+          "cited_by": 238,
+          "type": null
+        },
+        {
+          "pmid": "31331701",
+          "doi": "10.1016/s1470-2045(19)30319-5",
+          "title": "Pazopanib for treatment of advanced extraskeletal myxoid chondrosarcoma: a multicentre, single-arm, phase 2 trial",
+          "journal": "The Lancet. Oncology",
+          "year": "2019",
+          "cited_by": 58,
+          "type": null
+        },
+        {
+          "pmid": "32967265",
+          "doi": "10.3390/cancers12092703",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Biology and Clinical Management",
+          "journal": "Cancers",
+          "year": "2020",
+          "cited_by": 50,
+          "type": null
+        },
+        {
+          "pmid": "32572850",
+          "doi": "10.1245/s10434-020-08737-7",
+          "title": "Extraskeletal Myxoid Chondrosarcoma with Molecularly Confirmed Diagnosis: A Multicenter Retrospective Study Within the Italian Sarcoma Group",
+          "journal": "Annals of surgical oncology",
+          "year": "2021",
+          "cited_by": 28,
+          "type": null
+        },
+        {
+          "pmid": "32612944",
+          "doi": "10.3389/fonc.2020.00828",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: Clinical and Molecular Characteristics and Outcomes of Patients Treated at Two Institutions",
+          "journal": "Frontiers in oncology",
+          "year": "2020",
+          "cited_by": 17,
+          "type": null
+        },
+        {
+          "pmid": "32856598",
+          "doi": "10.1158/1055-9965.epi-20-0447",
+          "title": "Long-term Outcomes for Extraskeletal Myxoid Chondrosarcoma: A SEER Database Analysis",
+          "journal": "Cancer epidemiology, biomarkers & prevention : a publication of the American Association for Cancer Research, cosponsored by the American Society of Preventive Oncology",
+          "year": "2020",
+          "cited_by": 16,
+          "type": null
+        },
+        {
+          "pmid": "38339014",
+          "doi": "10.3390/ijms25031735",
+          "title": "Identification of Novel/Rare <i>EWSR1</i> Fusion Partners in Undifferentiated Mesenchymal Neoplasms",
+          "journal": "International journal of molecular sciences",
+          "year": "2024",
+          "cited_by": 11,
+          "type": null
+        },
+        {
+          "pmid": "37057757",
+          "doi": "10.1002/gcc.23144",
+          "title": "TAF15::NR4A3 gene fusion identifies a morphologically distinct subset of extraskeletal myxoid chondrosarcoma mimicking myoepithelial tumors",
+          "journal": "Genes, chromosomes & cancer",
+          "year": "2023",
+          "cited_by": 10,
+          "type": null
+        },
+        {
+          "pmid": "36948401",
+          "doi": "10.1016/j.modpat.2023.100161",
+          "title": "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion",
+          "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+          "year": "2023",
+          "cited_by": 7,
+          "type": null
+        },
+        {
+          "pmid": "36224239",
+          "doi": "10.1038/s41598-022-21500-0",
+          "title": "Family cancer history and smoking habit associated with sarcoma in a Japanese population study",
+          "journal": "Scientific reports",
+          "year": "2022",
+          "cited_by": 7,
+          "type": null
+        },
+        {
+          "pmid": "36998041",
+          "doi": "10.1186/s13000-023-01330-y",
+          "title": "Epithelioid and spindle rhabdomyosarcoma with TFCP2 rearrangement in abdominal wall: a distinctive entity with poor prognosis",
+          "journal": "Diagnostic pathology",
+          "year": "2023",
+          "cited_by": 3,
+          "type": null
+        },
+        {
+          "pmid": "35665108",
+          "doi": "10.12998/wjcc.v10.i13.4301",
+          "title": "Primary intracranial extraskeletal myxoid chondrosarcoma: A case report and review of literature",
+          "journal": "World journal of clinical cases",
+          "year": "2022",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "34458187",
+          "doi": "10.4322/acr.2021.322",
+          "title": "A rare case of vulvar extraskeletal myxoid chondrosarcoma: mimics and diagnostic clues",
+          "journal": "Autopsy & case reports",
+          "year": "2021",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "37705036",
+          "doi": "10.1186/s13000-023-01390-0",
+          "title": "Extraskeletal myxoid chondrosarcoma of the gingival: a rare case report and review of the literature",
+          "journal": "Diagnostic pathology",
+          "year": "2023",
+          "cited_by": 1,
+          "type": null
+        },
+        {
+          "pmid": "35118292",
+          "doi": "10.21037/med-20-38",
+          "title": "Primary mediastinal chondrosarcomas: do they really exist?",
+          "journal": "Mediastinum (Hong Kong, China)",
+          "year": "2020",
+          "cited_by": 1,
+          "type": null
+        },
+        {
+          "pmid": "41755350",
+          "doi": "10.1111/his.70131",
+          "title": "A series of extraskeletal myxoid chondrosarcomas with rare morphological and molecular variations",
+          "journal": "Histopathology",
+          "year": "2026",
+          "cited_by": 0,
+          "type": null
+        },
+        {
+          "pmid": "41074947",
+          "doi": "10.1007/s00256-025-05050-w",
+          "title": "Clinical and magnetic resonance imaging features of soft tissue extraskeletal myxoid chondrosarcoma: A retrospective observational cohort study",
+          "journal": "Skeletal radiology",
+          "year": "2026",
+          "cited_by": 0,
+          "type": null
+        },
+        {
+          "pmid": "39086683",
+          "doi": "10.3389/fmmed.2023.1152550",
+          "title": "Whole genome sequencing for metastatic mutational burden in extraskeletal myxoid chondrosarcoma",
+          "journal": "Frontiers in molecular medicine",
+          "year": "2023",
+          "cited_by": 0,
+          "type": null
+        },
+        {
+          "pmid": "35910216",
+          "doi": "10.3389/fgene.2022.791675",
+          "title": "Case Report: Gene Heterogeneity in the Recurrent and Metastatic Lesions of a Myxoid Chondrosarcoma Patient With Aggressive Transformation",
+          "journal": "Frontiers in genetics",
+          "year": "2022",
+          "cited_by": 0,
+          "type": null
+        }
+      ]
+    },
+    "brenca_2019_sema3c__citing_emc_reviews": {
+      "query": "CITES:31020999_MED AND (\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND PUB_TYPE:\"Review\"",
+      "hit_count": 5,
+      "returned": 5,
+      "top": [
+        {
+          "pmid": "33047515",
+          "doi": "10.15252/emmm.201911131",
+          "title": "Sarcoma treatment in the era of molecular medicine",
+          "journal": "EMBO molecular medicine",
+          "year": "2020",
+          "cited_by": 238,
+          "type": null
+        },
+        {
+          "pmid": "32967265",
+          "doi": "10.3390/cancers12092703",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Biology and Clinical Management",
+          "journal": "Cancers",
+          "year": "2020",
+          "cited_by": 50,
+          "type": null
+        },
+        {
+          "pmid": "36998041",
+          "doi": "10.1186/s13000-023-01330-y",
+          "title": "Epithelioid and spindle rhabdomyosarcoma with TFCP2 rearrangement in abdominal wall: a distinctive entity with poor prognosis",
+          "journal": "Diagnostic pathology",
+          "year": "2023",
+          "cited_by": 3,
+          "type": null
+        },
+        {
+          "pmid": "37705036",
+          "doi": "10.1186/s13000-023-01390-0",
+          "title": "Extraskeletal myxoid chondrosarcoma of the gingival: a rare case report and review of the literature",
+          "journal": "Diagnostic pathology",
+          "year": "2023",
+          "cited_by": 1,
+          "type": null
+        },
+        {
+          "pmid": "35118292",
+          "doi": "10.21037/med-20-38",
+          "title": "Primary mediastinal chondrosarcomas: do they really exist?",
+          "journal": "Mediastinum (Hong Kong, China)",
+          "year": "2020",
+          "cited_by": 1,
+          "type": null
+        }
+      ]
+    },
+    "kim_2016_eno3__record": {
+      "query": "EXT_ID:26310886 AND SRC:MED",
+      "hit_count": 1,
+      "returned": 1,
+      "top": [
+        {
+          "pmid": "26310886",
+          "doi": "10.1002/mc.22384",
+          "title": "The TFG-TEC oncoprotein induces transcriptional activation of the human \u03b2-enolase gene via chromatin modification of the promoter region",
+          "journal": "Molecular carcinogenesis",
+          "year": "2016",
+          "cited_by": 12,
+          "type": null
+        }
+      ]
+    },
+    "kim_2016_eno3__citing_all": {
+      "query": "CITES:26310886_MED",
+      "hit_count": 12,
+      "returned": 12,
+      "top": [
+        {
+          "pmid": "28623321",
+          "doi": "10.1038/s41598-017-03804-8",
+          "title": "Dysbiosis in chronic periodontitis: Key microbial players and interactions with the human host",
+          "journal": "Scientific reports",
+          "year": "2017",
+          "cited_by": 165,
+          "type": null
+        },
+        {
+          "pmid": "30664630",
+          "doi": "10.1038/s41467-018-08069-x",
+          "title": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell carcinomas of the salivary glands",
+          "journal": "Nature communications",
+          "year": "2019",
+          "cited_by": 157,
+          "type": null
+        },
+        {
+          "pmid": "36838435",
+          "doi": "10.3390/microorganisms11020470",
+          "title": "Local and Systemic Effects of <i>Porphyromonas gingivalis</i> Infection",
+          "journal": "Microorganisms",
+          "year": "2023",
+          "cited_by": 62,
+          "type": null
+        },
+        {
+          "pmid": "39778006",
+          "doi": "10.1002/ctm2.70145",
+          "title": "The role of acetylation and deacetylation in cancer metabolism",
+          "journal": "Clinical and translational medicine",
+          "year": "2025",
+          "cited_by": 15,
+          "type": null
+        },
+        {
+          "pmid": "34431087",
+          "doi": "10.1111/imm.13409",
+          "title": "Metabolomic and lipidomic signatures associated with activation of human cDC1 (BDCA3<sup>+</sup> /CD141<sup>+</sup> ) dendritic cells",
+          "journal": "Immunology",
+          "year": "2022",
+          "cited_by": 12,
+          "type": null
+        },
+        {
+          "pmid": "35473556",
+          "doi": "10.1186/s12859-022-04687-x",
+          "title": "Accurate and highly interpretable prediction of gene expression from histone modifications",
+          "journal": "BMC bioinformatics",
+          "year": "2022",
+          "cited_by": 10,
+          "type": null
+        },
+        {
+          "pmid": "29977924",
+          "doi": "10.1155/2018/9684268",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: A Comparative Study of Imaging and Pathology",
+          "journal": "BioMed research international",
+          "year": "2018",
+          "cited_by": 9,
+          "type": null
+        },
+        {
+          "pmid": "34502178",
+          "doi": "10.3390/ijms22179270",
+          "title": "Identification and Validation of Esophageal Squamous Cell Carcinoma Targets for Fluorescence Molecular Endoscopy",
+          "journal": "International journal of molecular sciences",
+          "year": "2021",
+          "cited_by": 6,
+          "type": null
+        },
+        {
+          "pmid": "38162483",
+          "doi": "10.3389/fonc.2023.1249928",
+          "title": "Extraskeletal myxoid chondrosarcoma of the buttock: a case report and literature review",
+          "journal": "Frontiers in oncology",
+          "year": "2023",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": null,
+          "doi": "10.21203/rs.3.rs-2660921/v1",
+          "title": "Extraskeletal myxoid chondrosarcoma of the buttock: A case report and literature review",
+          "journal": null,
+          "year": "2023",
+          "cited_by": 0,
+          "type": null
+        },
+        {
+          "pmid": null,
+          "doi": "10.1101/857342",
+          "title": "The Trk fused gene-product (Tfg) is part of a 600-700kDa CARMA1 complex",
+          "journal": null,
+          "year": "2019",
+          "cited_by": 0,
+          "type": null
+        },
+        {
+          "pmid": "29922723",
+          "doi": "10.1016/j.bbrep.2018.05.008",
+          "title": "Experimental and bioinformatic approach to identifying antigenic epitopes in human \u03b1- and \u03b2-enolases",
+          "journal": "Biochemistry and biophysics reports",
+          "year": "2018",
+          "cited_by": 0,
+          "type": null
+        }
+      ]
+    },
+    "kim_2016_eno3__citing_reviews": {
+      "query": "CITES:26310886_MED AND PUB_TYPE:\"Review\"",
+      "hit_count": 2,
+      "returned": 2,
+      "top": [
+        {
+          "pmid": "36838435",
+          "doi": "10.3390/microorganisms11020470",
+          "title": "Local and Systemic Effects of <i>Porphyromonas gingivalis</i> Infection",
+          "journal": "Microorganisms",
+          "year": "2023",
+          "cited_by": 62,
+          "type": null
+        },
+        {
+          "pmid": "39778006",
+          "doi": "10.1002/ctm2.70145",
+          "title": "The role of acetylation and deacetylation in cancer metabolism",
+          "journal": "Clinical and translational medicine",
+          "year": "2025",
+          "cited_by": 15,
+          "type": null
+        }
+      ]
+    },
+    "kim_2016_eno3__citing_emc": {
+      "query": "CITES:26310886_MED AND (\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\")",
+      "hit_count": 4,
+      "returned": 4,
+      "top": [
+        {
+          "pmid": "30664630",
+          "doi": "10.1038/s41467-018-08069-x",
+          "title": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell carcinomas of the salivary glands",
+          "journal": "Nature communications",
+          "year": "2019",
+          "cited_by": 157,
+          "type": null
+        },
+        {
+          "pmid": "29977924",
+          "doi": "10.1155/2018/9684268",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: A Comparative Study of Imaging and Pathology",
+          "journal": "BioMed research international",
+          "year": "2018",
+          "cited_by": 9,
+          "type": null
+        },
+        {
+          "pmid": "38162483",
+          "doi": "10.3389/fonc.2023.1249928",
+          "title": "Extraskeletal myxoid chondrosarcoma of the buttock: a case report and literature review",
+          "journal": "Frontiers in oncology",
+          "year": "2023",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": null,
+          "doi": "10.21203/rs.3.rs-2660921/v1",
+          "title": "Extraskeletal myxoid chondrosarcoma of the buttock: A case report and literature review",
+          "journal": null,
+          "year": "2023",
+          "cited_by": 0,
+          "type": null
+        }
+      ]
+    },
+    "kim_2016_eno3__citing_emc_reviews": {
+      "query": "CITES:26310886_MED AND (\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND PUB_TYPE:\"Review\"",
+      "hit_count": 0,
+      "returned": 0,
+      "top": []
+    },
+    "subramanian_2005_cohort__record": {
+      "query": "EXT_ID:15920699 AND SRC:MED",
+      "hit_count": 1,
+      "returned": 1,
+      "top": [
+        {
+          "pmid": "15920699",
+          "doi": "10.1002/path.1792",
+          "title": "The gene expression profile of extraskeletal myxoid chondrosarcoma",
+          "journal": "The Journal of pathology",
+          "year": "2005",
+          "cited_by": 50,
+          "type": null
+        }
+      ]
+    },
+    "subramanian_2005_cohort__citing_all": {
+      "query": "CITES:15920699_MED",
+      "hit_count": 50,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "16407111",
+          "doi": "10.1073/pnas.0507321103",
+          "title": "A landscape effect in tenosynovial giant-cell tumor from activation of CSF1 expression by a translocation in a minority of tumor cells",
+          "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+          "year": "2006",
+          "cited_by": 390,
+          "type": null
+        },
+        {
+          "pmid": "17691072",
+          "doi": "10.1002/path.2209",
+          "title": "Sarcomas: genetics, signalling, and cellular origins. Part 1: The fellowship of TET",
+          "journal": "The Journal of pathology",
+          "year": "2007",
+          "cited_by": 119,
+          "type": null
+        },
+        {
+          "pmid": "18951519",
+          "doi": "10.1002/cncr.23978",
+          "title": "Extraskeletal myxoid chondrosarcoma: a retrospective review from 2 referral centers emphasizing long-term outcomes with surgery and chemotherapy",
+          "journal": "Cancer",
+          "year": "2008",
+          "cited_by": 109,
+          "type": null
+        },
+        {
+          "pmid": "19936782",
+          "doi": "10.1007/s00428-009-0854-3",
+          "title": "Soft tissue tumors associated with EWSR1 translocation",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2010",
+          "cited_by": 106,
+          "type": null
+        },
+        {
+          "pmid": "17989087",
+          "doi": "10.1093/nar/gkm861",
+          "title": "The Stanford Tissue Microarray Database",
+          "journal": "Nucleic acids research",
+          "year": "2008",
+          "cited_by": 63,
+          "type": null
+        },
+        {
+          "pmid": "29162563",
+          "doi": "10.1158/2159-8290.cd-17-0468",
+          "title": "FOXF1 Defines the Core-Regulatory Circuitry in Gastrointestinal Stromal Tumor",
+          "journal": "Cancer discovery",
+          "year": "2018",
+          "cited_by": 56,
+          "type": null
+        },
+        {
+          "pmid": "29327709",
+          "doi": "10.1038/modpathol.2017.189",
+          "title": "INSM1 expression and its diagnostic significance in extraskeletal myxoid chondrosarcoma",
+          "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+          "year": "2018",
+          "cited_by": 55,
+          "type": null
+        },
+        {
+          "pmid": "18855877",
+          "doi": "10.1002/path.2445",
+          "title": "The EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor gene",
+          "journal": "The Journal of pathology",
+          "year": "2009",
+          "cited_by": 54,
+          "type": null
+        },
+        {
+          "pmid": "32967265",
+          "doi": "10.3390/cancers12092703",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Biology and Clinical Management",
+          "journal": "Cancers",
+          "year": "2020",
+          "cited_by": 50,
+          "type": null
+        },
+        {
+          "pmid": "17130162",
+          "doi": "10.1093/nar/gkl766",
+          "title": "Absolute enrichment: gene set enrichment analysis for homeostatic systems",
+          "journal": "Nucleic acids research",
+          "year": "2006",
+          "cited_by": 46,
+          "type": null
+        },
+        {
+          "pmid": "17676582",
+          "doi": "10.1002/cncr.22948",
+          "title": "Cytopathology of extraskeletal myxoid chondrosarcoma: report of 8 cases",
+          "journal": "Cancer",
+          "year": "2007",
+          "cited_by": 34,
+          "type": null
+        },
+        {
+          "pmid": "18315599",
+          "doi": "10.1111/j.1365-2559.2008.02967.x",
+          "title": "Myxoid tumours of soft tissue: the so-called myxoid extracellular matrix is heterogeneous in composition",
+          "journal": "Histopathology",
+          "year": "2008",
+          "cited_by": 32,
+          "type": null
+        },
+        {
+          "pmid": "17545444",
+          "doi": "10.2106/jbjs.g.00075",
+          "title": "What's new in musculoskeletal oncology",
+          "journal": "The Journal of bone and joint surgery. American volume",
+          "year": "2007",
+          "cited_by": 31,
+          "type": null
+        },
+        {
+          "pmid": "24345066",
+          "doi": "10.1186/2045-3329-3-16",
+          "title": "Anthracycline-based chemotherapy in extraskeletal myxoid chondrosarcoma: a retrospective study",
+          "journal": "Clinical sarcoma research",
+          "year": "2013",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "18039122",
+          "doi": "10.1146/annurev.pathol.1.110304.100052",
+          "title": "Genetics of soft tissue tumors",
+          "journal": "Annual review of pathology",
+          "year": "2006",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "31020999",
+          "doi": "10.1002/path.5284",
+          "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas",
+          "journal": "The Journal of pathology",
+          "year": "2019",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "23058004",
+          "doi": "10.1186/2045-3329-2-22",
+          "title": "Extraskeletal myxoid chondrosarcoma: tumor response to sunitinib",
+          "journal": "Clinical sarcoma research",
+          "year": "2012",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "19594492",
+          "doi": "10.1111/j.1600-0463.2009.02461.x",
+          "title": "Markers aiding the diagnosis of chondroid tumors: an immunohistochemical study including osteonectin, bcl-2, cox-2, actin, calponin, D2-40 (podoplanin), mdm-2, CD117 (c-kit), and YKL-40",
+          "journal": "APMIS : acta pathologica, microbiologica, et immunologica Scandinavica",
+          "year": "2009",
+          "cited_by": 25,
+          "type": null
+        },
+        {
+          "pmid": "22888789",
+          "doi": "10.1186/1476-4598-11-54",
+          "title": "Interferon regulatory factor 4 binding protein is a novel p53 target gene and suppresses cisplatin-induced apoptosis of breast cancer cells",
+          "journal": "Molecular cancer",
+          "year": "2012",
+          "cited_by": 19,
+          "type": null
+        },
+        {
+          "pmid": "18680143",
+          "doi": "10.1002/jcb.21876",
+          "title": "Differential transactivation by orphan nuclear receptor NOR1 and its fusion gene product EWS/NOR1: possible involvement of poly(ADP-ribose) polymerase I, PARP-1",
+          "journal": "Journal of cellular biochemistry",
+          "year": "2008",
+          "cited_by": 19,
+          "type": null
+        },
+        {
+          "pmid": "16858150",
+          "doi": "10.1097/00125480-200607000-00003",
+          "title": "Microarray analysis of sarcomas",
+          "journal": "Advances in anatomic pathology",
+          "year": "2006",
+          "cited_by": 18,
+          "type": null
+        },
+        {
+          "pmid": "20418671",
+          "doi": "10.1097/pap.0b013e3181d98cbf",
+          "title": "The clinical relevance of molecular genetics in soft tissue sarcomas",
+          "journal": "Advances in anatomic pathology",
+          "year": "2010",
+          "cited_by": 17,
+          "type": null
+        },
+        {
+          "pmid": "18723399",
+          "doi": "10.1016/j.compbiolchem.2008.07.016",
+          "title": "Identifying the target mRNAs of microRNAs in colorectal cancer",
+          "journal": "Computational biology and chemistry",
+          "year": "2009",
+          "cited_by": 16,
+          "type": null
+        },
+        {
+          "pmid": "25995035",
+          "doi": "10.1007/s10120-015-0505-0",
+          "title": "The embryonic Brachyury transcription factor is a novel biomarker of GIST aggressiveness and poor survival",
+          "journal": "Gastric cancer : official journal of the International Gastric Cancer Association and the Japanese Gastric Cancer Association",
+          "year": "2016",
+          "cited_by": 14,
+          "type": null
+        }
+      ]
+    },
+    "subramanian_2005_cohort__citing_reviews": {
+      "query": "CITES:15920699_MED AND PUB_TYPE:\"Review\"",
+      "hit_count": 16,
+      "returned": 16,
+      "top": [
+        {
+          "pmid": "17691072",
+          "doi": "10.1002/path.2209",
+          "title": "Sarcomas: genetics, signalling, and cellular origins. Part 1: The fellowship of TET",
+          "journal": "The Journal of pathology",
+          "year": "2007",
+          "cited_by": 119,
+          "type": null
+        },
+        {
+          "pmid": "19936782",
+          "doi": "10.1007/s00428-009-0854-3",
+          "title": "Soft tissue tumors associated with EWSR1 translocation",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2010",
+          "cited_by": 106,
+          "type": null
+        },
+        {
+          "pmid": "32967265",
+          "doi": "10.3390/cancers12092703",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Biology and Clinical Management",
+          "journal": "Cancers",
+          "year": "2020",
+          "cited_by": 50,
+          "type": null
+        },
+        {
+          "pmid": "17545444",
+          "doi": "10.2106/jbjs.g.00075",
+          "title": "What's new in musculoskeletal oncology",
+          "journal": "The Journal of bone and joint surgery. American volume",
+          "year": "2007",
+          "cited_by": 31,
+          "type": null
+        },
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "18039122",
+          "doi": "10.1146/annurev.pathol.1.110304.100052",
+          "title": "Genetics of soft tissue tumors",
+          "journal": "Annual review of pathology",
+          "year": "2006",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "16858150",
+          "doi": "10.1097/00125480-200607000-00003",
+          "title": "Microarray analysis of sarcomas",
+          "journal": "Advances in anatomic pathology",
+          "year": "2006",
+          "cited_by": 18,
+          "type": null
+        },
+        {
+          "pmid": "20418671",
+          "doi": "10.1097/pap.0b013e3181d98cbf",
+          "title": "The clinical relevance of molecular genetics in soft tissue sarcomas",
+          "journal": "Advances in anatomic pathology",
+          "year": "2010",
+          "cited_by": 17,
+          "type": null
+        },
+        {
+          "pmid": "22922987",
+          "doi": "10.1007/s00018-012-1127-x",
+          "title": "MicroRNA-mediated gene regulations in human sarcomas",
+          "journal": "Cellular and molecular life sciences : CMLS",
+          "year": "2012",
+          "cited_by": 14,
+          "type": null
+        },
+        {
+          "pmid": "18725985",
+          "doi": "10.1155/2008/250568",
+          "title": "Chondrosarcoma and peroxisome proliferator-activated receptor",
+          "journal": "PPAR research",
+          "year": "2008",
+          "cited_by": 14,
+          "type": null
+        },
+        {
+          "pmid": "18925568",
+          "doi": "10.1002/dc.20931",
+          "title": "Spectrum of cytomorphological features, including literature review, of an extraskeletal myxoid chondrosarcoma with t(9;22)(q22;q12) (TEC/EWS) results in one case",
+          "journal": "Diagnostic cytopathology",
+          "year": "2008",
+          "cited_by": 11,
+          "type": null
+        },
+        {
+          "pmid": "26297069",
+          "doi": "10.1016/j.path.2015.06.001",
+          "title": "Advances in the Molecular Analysis of Soft Tissue Tumors and Clinical Implications",
+          "journal": "Surgical pathology clinics",
+          "year": "2015",
+          "cited_by": 10,
+          "type": null
+        },
+        {
+          "pmid": "25453364",
+          "doi": "10.1016/j.bbcan.2014.10.002",
+          "title": "Targeting protein kinase C in sarcoma",
+          "journal": "Biochimica et biophysica acta",
+          "year": "2014",
+          "cited_by": 8,
+          "type": null
+        },
+        {
+          "pmid": "28664413",
+          "doi": "10.1007/s00428-017-2174-3",
+          "title": "Molecular profiling of sarcomas: new vistas for precision medicine",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2017",
+          "cited_by": 7,
+          "type": null
+        },
+        {
+          "pmid": "35488288",
+          "doi": "10.1186/s13000-022-01222-7",
+          "title": "Mutation of KIT in cellular extraskeletal myxoid chondrosarcoma: a case report and literature review",
+          "journal": "Diagnostic pathology",
+          "year": "2022",
+          "cited_by": 6,
+          "type": null
+        },
+        {
+          "pmid": "41055792",
+          "doi": "10.1007/s00432-025-06316-5",
+          "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma",
+          "journal": "Journal of cancer research and clinical oncology",
+          "year": "2025",
+          "cited_by": 2,
+          "type": null
+        }
+      ]
+    },
+    "subramanian_2005_cohort__citing_emc": {
+      "query": "CITES:15920699_MED AND (\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\")",
+      "hit_count": 27,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "18951519",
+          "doi": "10.1002/cncr.23978",
+          "title": "Extraskeletal myxoid chondrosarcoma: a retrospective review from 2 referral centers emphasizing long-term outcomes with surgery and chemotherapy",
+          "journal": "Cancer",
+          "year": "2008",
+          "cited_by": 109,
+          "type": null
+        },
+        {
+          "pmid": "19936782",
+          "doi": "10.1007/s00428-009-0854-3",
+          "title": "Soft tissue tumors associated with EWSR1 translocation",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2010",
+          "cited_by": 106,
+          "type": null
+        },
+        {
+          "pmid": "29327709",
+          "doi": "10.1038/modpathol.2017.189",
+          "title": "INSM1 expression and its diagnostic significance in extraskeletal myxoid chondrosarcoma",
+          "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+          "year": "2018",
+          "cited_by": 55,
+          "type": null
+        },
+        {
+          "pmid": "18855877",
+          "doi": "10.1002/path.2445",
+          "title": "The EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor gene",
+          "journal": "The Journal of pathology",
+          "year": "2009",
+          "cited_by": 54,
+          "type": null
+        },
+        {
+          "pmid": "32967265",
+          "doi": "10.3390/cancers12092703",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Biology and Clinical Management",
+          "journal": "Cancers",
+          "year": "2020",
+          "cited_by": 50,
+          "type": null
+        },
+        {
+          "pmid": "17130162",
+          "doi": "10.1093/nar/gkl766",
+          "title": "Absolute enrichment: gene set enrichment analysis for homeostatic systems",
+          "journal": "Nucleic acids research",
+          "year": "2006",
+          "cited_by": 46,
+          "type": null
+        },
+        {
+          "pmid": "17676582",
+          "doi": "10.1002/cncr.22948",
+          "title": "Cytopathology of extraskeletal myxoid chondrosarcoma: report of 8 cases",
+          "journal": "Cancer",
+          "year": "2007",
+          "cited_by": 34,
+          "type": null
+        },
+        {
+          "pmid": "18315599",
+          "doi": "10.1111/j.1365-2559.2008.02967.x",
+          "title": "Myxoid tumours of soft tissue: the so-called myxoid extracellular matrix is heterogeneous in composition",
+          "journal": "Histopathology",
+          "year": "2008",
+          "cited_by": 32,
+          "type": null
+        },
+        {
+          "pmid": "24345066",
+          "doi": "10.1186/2045-3329-3-16",
+          "title": "Anthracycline-based chemotherapy in extraskeletal myxoid chondrosarcoma: a retrospective study",
+          "journal": "Clinical sarcoma research",
+          "year": "2013",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "31020999",
+          "doi": "10.1002/path.5284",
+          "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas",
+          "journal": "The Journal of pathology",
+          "year": "2019",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "23058004",
+          "doi": "10.1186/2045-3329-2-22",
+          "title": "Extraskeletal myxoid chondrosarcoma: tumor response to sunitinib",
+          "journal": "Clinical sarcoma research",
+          "year": "2012",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "19594492",
+          "doi": "10.1111/j.1600-0463.2009.02461.x",
+          "title": "Markers aiding the diagnosis of chondroid tumors: an immunohistochemical study including osteonectin, bcl-2, cox-2, actin, calponin, D2-40 (podoplanin), mdm-2, CD117 (c-kit), and YKL-40",
+          "journal": "APMIS : acta pathologica, microbiologica, et immunologica Scandinavica",
+          "year": "2009",
+          "cited_by": 25,
+          "type": null
+        },
+        {
+          "pmid": "22888789",
+          "doi": "10.1186/1476-4598-11-54",
+          "title": "Interferon regulatory factor 4 binding protein is a novel p53 target gene and suppresses cisplatin-induced apoptosis of breast cancer cells",
+          "journal": "Molecular cancer",
+          "year": "2012",
+          "cited_by": 19,
+          "type": null
+        },
+        {
+          "pmid": "18680143",
+          "doi": "10.1002/jcb.21876",
+          "title": "Differential transactivation by orphan nuclear receptor NOR1 and its fusion gene product EWS/NOR1: possible involvement of poly(ADP-ribose) polymerase I, PARP-1",
+          "journal": "Journal of cellular biochemistry",
+          "year": "2008",
+          "cited_by": 19,
+          "type": null
+        },
+        {
+          "pmid": "22592656",
+          "doi": "10.1007/s13277-012-0415-2",
+          "title": "Identification of genes regulated by the EWS/NR4A3 fusion protein in extraskeletal myxoid chondrosarcoma",
+          "journal": "Tumour biology : the journal of the International Society for Oncodevelopmental Biology and Medicine",
+          "year": "2012",
+          "cited_by": 11,
+          "type": null
+        },
+        {
+          "pmid": "18925568",
+          "doi": "10.1002/dc.20931",
+          "title": "Spectrum of cytomorphological features, including literature review, of an extraskeletal myxoid chondrosarcoma with t(9;22)(q22;q12) (TEC/EWS) results in one case",
+          "journal": "Diagnostic cytopathology",
+          "year": "2008",
+          "cited_by": 11,
+          "type": null
+        },
+        {
+          "pmid": "27488395",
+          "doi": "10.1186/s13000-016-0518-y",
+          "title": "DEF6 expression in ovarian carcinoma correlates with poor patient survival",
+          "journal": "Diagnostic pathology",
+          "year": "2016",
+          "cited_by": 10,
+          "type": null
+        },
+        {
+          "pmid": "36376703",
+          "doi": "10.1007/s00428-022-03453-x",
+          "title": "Extraskeletal myxoid chondrosarcoma: p53 and Ki-67 offer prognostic value for clinical outcome - an immunohistochemical and molecular analysis of 31 cases",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2023",
+          "cited_by": 9,
+          "type": null
+        },
+        {
+          "pmid": "36948401",
+          "doi": "10.1016/j.modpat.2023.100161",
+          "title": "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion",
+          "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+          "year": "2023",
+          "cited_by": 7,
+          "type": null
+        },
+        {
+          "pmid": "35488288",
+          "doi": "10.1186/s13000-022-01222-7",
+          "title": "Mutation of KIT in cellular extraskeletal myxoid chondrosarcoma: a case report and literature review",
+          "journal": "Diagnostic pathology",
+          "year": "2022",
+          "cited_by": 6,
+          "type": null
+        },
+        {
+          "pmid": "32724404",
+          "doi": "10.3892/ol.2020.11743",
+          "title": "Increased DEF6 expression is correlated with metastasis and poor prognosis in human osteosarcoma",
+          "journal": "Oncology letters",
+          "year": "2020",
+          "cited_by": 4,
+          "type": null
+        },
+        {
+          "pmid": "24185117",
+          "doi": "10.1097/pai.0b013e31829852e7",
+          "title": "Extraskeletal myxoid chondrosarcoma of the vulva with PLAG1 gene activation: molecular genetic characterization of 2 cases",
+          "journal": "Applied immunohistochemistry & molecular morphology : AIMM",
+          "year": "2014",
+          "cited_by": 4,
+          "type": null
+        },
+        {
+          "pmid": "41055792",
+          "doi": "10.1007/s00432-025-06316-5",
+          "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma",
+          "journal": "Journal of cancer research and clinical oncology",
+          "year": "2025",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "35665108",
+          "doi": "10.12998/wjcc.v10.i13.4301",
+          "title": "Primary intracranial extraskeletal myxoid chondrosarcoma: A case report and review of literature",
+          "journal": "World journal of clinical cases",
+          "year": "2022",
+          "cited_by": 2,
+          "type": null
+        }
+      ]
+    },
+    "subramanian_2005_cohort__citing_emc_reviews": {
+      "query": "CITES:15920699_MED AND (\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND PUB_TYPE:\"Review\"",
+      "hit_count": 6,
+      "returned": 6,
+      "top": [
+        {
+          "pmid": "19936782",
+          "doi": "10.1007/s00428-009-0854-3",
+          "title": "Soft tissue tumors associated with EWSR1 translocation",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2010",
+          "cited_by": 106,
+          "type": null
+        },
+        {
+          "pmid": "32967265",
+          "doi": "10.3390/cancers12092703",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Biology and Clinical Management",
+          "journal": "Cancers",
+          "year": "2020",
+          "cited_by": 50,
+          "type": null
+        },
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "18925568",
+          "doi": "10.1002/dc.20931",
+          "title": "Spectrum of cytomorphological features, including literature review, of an extraskeletal myxoid chondrosarcoma with t(9;22)(q22;q12) (TEC/EWS) results in one case",
+          "journal": "Diagnostic cytopathology",
+          "year": "2008",
+          "cited_by": 11,
+          "type": null
+        },
+        {
+          "pmid": "35488288",
+          "doi": "10.1186/s13000-022-01222-7",
+          "title": "Mutation of KIT in cellular extraskeletal myxoid chondrosarcoma: a case report and literature review",
+          "journal": "Diagnostic pathology",
+          "year": "2022",
+          "cited_by": 6,
+          "type": null
+        },
+        {
+          "pmid": "41055792",
+          "doi": "10.1007/s00432-025-06316-5",
+          "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma",
+          "journal": "Journal of cancer research and clinical oncology",
+          "year": "2025",
+          "cited_by": 2,
+          "type": null
+        }
+      ]
+    },
+    "emc_corpus_all": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\")",
+      "hit_count": 1305,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "23530248",
+          "doi": "10.1073/pnas.1303607110",
+          "title": "TERT promoter mutations occur frequently in gliomas and a subset of tumors derived from cells with low rates of self-renewal",
+          "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+          "year": "2013",
+          "cited_by": 1137,
+          "type": null
+        },
+        {
+          "pmid": "33179614",
+          "doi": "10.32074/1591-951x-213",
+          "title": "The 2020 WHO Classification of Soft Tissue Tumours: news and perspectives",
+          "journal": "Pathologica",
+          "year": "2021",
+          "cited_by": 761,
+          "type": null
+        },
+        {
+          "pmid": "29370992",
+          "doi": "10.1016/s1470-2045(18)30006-8",
+          "title": "Nivolumab with or without ipilimumab treatment for metastatic sarcoma (Alliance A091401): two open-label, non-comparative, randomised, phase 2 trials",
+          "journal": "The Lancet. Oncology",
+          "year": "2018",
+          "cited_by": 601,
+          "type": null
+        },
+        {
+          "pmid": "33479225",
+          "doi": "10.1038/s41467-020-20603-4",
+          "title": "Sarcoma classification by DNA methylation profiling",
+          "journal": "Nature communications",
+          "year": "2021",
+          "cited_by": 446,
+          "type": null
+        },
+        {
+          "pmid": "20434400",
+          "doi": "10.1016/s1470-2045(10)70071-1",
+          "title": "Neo-adjuvant chemotherapy alone or with regional hyperthermia for localised high-risk soft-tissue sarcoma: a randomised phase 3 multicentre study",
+          "journal": "The Lancet. Oncology",
+          "year": "2010",
+          "cited_by": 438,
+          "type": null
+        },
+        {
+          "pmid": "19451436",
+          "doi": "10.1200/jco.2008.20.4495",
+          "title": "Phase II study of sorafenib in patients with metastatic or recurrent sarcomas",
+          "journal": "Journal of clinical oncology : official journal of the American Society of Clinical Oncology",
+          "year": "2009",
+          "cited_by": 419,
+          "type": null
+        },
+        {
+          "pmid": "28882536",
+          "doi": "10.1016/s1470-2045(17)30622-8",
+          "title": "Gemcitabine and docetaxel versus doxorubicin as first-line treatment in previously untreated advanced unresectable or metastatic soft-tissue sarcomas (GeDDiS): a randomised controlled phase 3 trial",
+          "journal": "The Lancet. Oncology",
+          "year": "2017",
+          "cited_by": 407,
+          "type": null
+        },
+        {
+          "pmid": "20815032",
+          "doi": "10.1002/gcc.20819",
+          "title": "EWSR1-POU5F1 fusion in soft tissue myoepithelial tumors. A molecular analysis of sixty-six cases, including soft tissue, bone, and visceral lesions, showing common involvement of the EWSR1 gene",
+          "journal": "Genes, chromosomes & cancer",
+          "year": "2010",
+          "cited_by": 365,
+          "type": null
+        },
+        {
+          "pmid": "16604165",
+          "doi": "10.1621/nrs.04002",
+          "title": "The NR4A subgroup: immediate early response genes with pleiotropic physiological roles",
+          "journal": "Nuclear receptor signaling",
+          "year": "2006",
+          "cited_by": 346,
+          "type": null
+        },
+        {
+          "pmid": "27891213",
+          "doi": "10.1186/s13569-016-0060-4",
+          "title": "UK guidelines for the management of soft tissue sarcomas",
+          "journal": "Clinical sarcoma research",
+          "year": "2016",
+          "cited_by": 292,
+          "type": null
+        },
+        {
+          "pmid": "32213540",
+          "doi": "10.1158/2159-8290.cd-19-1014",
+          "title": "Targeting HER2 with Trastuzumab Deruxtecan: A Dose-Expansion, Phase I Study in Multiple Advanced Solid Tumors",
+          "journal": "Cancer discovery",
+          "year": "2020",
+          "cited_by": 289,
+          "type": null
+        },
+        {
+          "pmid": "25540867",
+          "doi": "10.1016/j.humpath.2014.11.001",
+          "title": "Prevalence of tumor-infiltrating lymphocytes and PD-L1 expression in the soft tissue sarcoma microenvironment",
+          "journal": "Human pathology",
+          "year": "2015",
+          "cited_by": 248,
+          "type": null
+        },
+        {
+          "pmid": "19451429",
+          "doi": "10.1200/jco.2008.20.9890",
+          "title": "Multicenter phase II trial of sunitinib in the treatment of nongastrointestinal stromal tumor sarcomas",
+          "journal": "Journal of clinical oncology : official journal of the American Society of Clinical Oncology",
+          "year": "2009",
+          "cited_by": 239,
+          "type": null
+        },
+        {
+          "pmid": "33047515",
+          "doi": "10.15252/emmm.201911131",
+          "title": "Sarcoma treatment in the era of molecular medicine",
+          "journal": "EMBO molecular medicine",
+          "year": "2020",
+          "cited_by": 238,
+          "type": null
+        },
+        {
+          "pmid": "21317715",
+          "doi": "10.1097/pas.0b013e318206b67b",
+          "title": "ERG transcription factor as an immunohistochemical marker for vascular endothelial tumors and prostatic carcinoma",
+          "journal": "The American journal of surgical pathology",
+          "year": "2011",
+          "cited_by": 237,
+          "type": null
+        },
+        {
+          "pmid": "22034177",
+          "doi": "10.1002/gcc.20937",
+          "title": "Identification of a novel, recurrent HEY1-NCOA2 fusion in mesenchymal chondrosarcoma based on a genome-wide screen of exon-level expression data",
+          "journal": "Genes, chromosomes & cancer",
+          "year": "2012",
+          "cited_by": 229,
+          "type": null
+        },
+        {
+          "pmid": "22495377",
+          "doi": "10.1097/pai.0b013e318244ff4b",
+          "title": "Sox10 and S100 in the diagnosis of soft-tissue neoplasms",
+          "journal": "Applied immunohistochemistry & molecular morphology : AIMM",
+          "year": "2012",
+          "cited_by": 225,
+          "type": null
+        },
+        {
+          "pmid": "20634933",
+          "doi": "10.1155/2010/506182",
+          "title": "Guidelines for the management of soft tissue sarcomas",
+          "journal": "Sarcoma",
+          "year": "2010",
+          "cited_by": 225,
+          "type": null
+        },
+        {
+          "pmid": "4261659",
+          "doi": "10.1016/s0046-8177(72)80042-x",
+          "title": "Extraskeletal myxoid chondrosarcoma. An analysis of 34 cases",
+          "journal": "Human pathology",
+          "year": "1972",
+          "cited_by": 224,
+          "type": null
+        },
+        {
+          "pmid": "19783543",
+          "doi": "10.1093/jmcb/mjp025",
+          "title": "The TET family of proteins: functions and roles in disease",
+          "journal": "Journal of molecular cell biology",
+          "year": "2009",
+          "cited_by": 219,
+          "type": null
+        },
+        {
+          "pmid": "29450452",
+          "doi": "10.1001/jamaoncol.2017.4996",
+          "title": "Effect of Neoadjuvant Chemotherapy Plus Regional Hyperthermia on Long-term Outcomes Among Patients With Localized High-Risk Soft Tissue Sarcoma: The EORTC 62961-ESHO 95 Randomized Clinical Trial",
+          "journal": "JAMA oncology",
+          "year": "2018",
+          "cited_by": 212,
+          "type": null
+        },
+        {
+          "pmid": "11865845",
+          "doi": "10.1309/lx9u-f7p0-uwdh-8y6r",
+          "title": "Immunohistochemical staining for KIT (CD117) in soft tissue sarcomas is very limited in distribution",
+          "journal": "American journal of clinical pathology",
+          "year": "2002",
+          "cited_by": 204,
+          "type": null
+        },
+        {
+          "pmid": "33630918",
+          "doi": "10.1371/journal.pone.0246958",
+          "title": "Nationwide incidence of sarcomas and connective tissue tumors of intermediate malignancy over four years using an expert pathology review network",
+          "journal": "PloS one",
+          "year": "2021",
+          "cited_by": 203,
+          "type": null
+        },
+        {
+          "pmid": "25724000",
+          "doi": "10.1097/pas.0000000000000398",
+          "title": "Sox10--a marker for not only schwannian and melanocytic neoplasms but also myoepithelial cell tumors of soft tissue: a systematic analysis of 5134 tumors",
+          "journal": "The American journal of surgical pathology",
+          "year": "2015",
+          "cited_by": 201,
+          "type": null
+        },
+        {
+          "pmid": "35705560",
+          "doi": "10.1038/s41467-022-30453-x",
+          "title": "Clinical sequencing of soft tissue and bone sarcomas delineates diverse genomic landscapes and potential therapeutic targets",
+          "journal": "Nature communications",
+          "year": "2022",
+          "cited_by": 195,
+          "type": null
+        }
+      ]
+    },
+    "emc_corpus_reviews": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND PUB_TYPE:\"Review\"",
+      "hit_count": 261,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "33179614",
+          "doi": "10.32074/1591-951x-213",
+          "title": "The 2020 WHO Classification of Soft Tissue Tumours: news and perspectives",
+          "journal": "Pathologica",
+          "year": "2021",
+          "cited_by": 761,
+          "type": null
+        },
+        {
+          "pmid": "16604165",
+          "doi": "10.1621/nrs.04002",
+          "title": "The NR4A subgroup: immediate early response genes with pleiotropic physiological roles",
+          "journal": "Nuclear receptor signaling",
+          "year": "2006",
+          "cited_by": 346,
+          "type": null
+        },
+        {
+          "pmid": "27891213",
+          "doi": "10.1186/s13569-016-0060-4",
+          "title": "UK guidelines for the management of soft tissue sarcomas",
+          "journal": "Clinical sarcoma research",
+          "year": "2016",
+          "cited_by": 292,
+          "type": null
+        },
+        {
+          "pmid": "33047515",
+          "doi": "10.15252/emmm.201911131",
+          "title": "Sarcoma treatment in the era of molecular medicine",
+          "journal": "EMBO molecular medicine",
+          "year": "2020",
+          "cited_by": 238,
+          "type": null
+        },
+        {
+          "pmid": "19783543",
+          "doi": "10.1093/jmcb/mjp025",
+          "title": "The TET family of proteins: functions and roles in disease",
+          "journal": "Journal of molecular cell biology",
+          "year": "2009",
+          "cited_by": 219,
+          "type": null
+        },
+        {
+          "pmid": "28762175",
+          "doi": "10.1007/s00439-017-1830-7",
+          "title": "Genetic mutations in RNA-binding proteins and their roles in ALS",
+          "journal": "Human genetics",
+          "year": "2017",
+          "cited_by": 173,
+          "type": null
+        },
+        {
+          "pmid": "28109176",
+          "doi": "10.1111/cas.13173",
+          "title": "Oncogenic roles of SMARCB1/INI1 and its deficient tumors",
+          "journal": "Cancer science",
+          "year": "2017",
+          "cited_by": 158,
+          "type": null
+        },
+        {
+          "pmid": "8203453",
+          "doi": null,
+          "title": "Chromosomal aberrations in soft tissue tumors. Relevance to diagnosis, classification, and molecular mechanisms",
+          "journal": "The American journal of pathology",
+          "year": "1994",
+          "cited_by": 153,
+          "type": null
+        },
+        {
+          "pmid": "24320889",
+          "doi": "10.1111/his.12269",
+          "title": "The diversity of soft tissue tumours with EWSR1 gene rearrangements: a review",
+          "journal": "Histopathology",
+          "year": "2014",
+          "cited_by": 120,
+          "type": null
+        },
+        {
+          "pmid": "26684580",
+          "doi": "10.1002/gcc.22335",
+          "title": "Gene fusions in soft tissue tumors: Recurrent and overlapping pathogenetic themes",
+          "journal": "Genes, chromosomes & cancer",
+          "year": "2016",
+          "cited_by": 117,
+          "type": null
+        },
+        {
+          "pmid": "29238848",
+          "doi": "10.1007/s00223-017-0372-2",
+          "title": "Biology of Bone Sarcomas and New Therapeutic Developments",
+          "journal": "Calcified tissue international",
+          "year": "2018",
+          "cited_by": 116,
+          "type": null
+        },
+        {
+          "pmid": "19936782",
+          "doi": "10.1007/s00428-009-0854-3",
+          "title": "Soft tissue tumors associated with EWSR1 translocation",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2010",
+          "cited_by": 106,
+          "type": null
+        },
+        {
+          "pmid": "21197473",
+          "doi": "10.1155/2011/837474",
+          "title": "Dr. Jekyll and Mr. Hyde: The Two Faces of the FUS/EWS/TAF15 Protein Family",
+          "journal": "Sarcoma",
+          "year": "2011",
+          "cited_by": 104,
+          "type": null
+        },
+        {
+          "pmid": "31276706",
+          "doi": "10.1016/j.pharmthera.2019.06.010",
+          "title": "TP53 in bone and soft tissue sarcomas",
+          "journal": "Pharmacology & therapeutics",
+          "year": "2019",
+          "cited_by": 101,
+          "type": null
+        },
+        {
+          "pmid": "29751586",
+          "doi": "10.3390/genes9050241",
+          "title": "Telomere Maintenance Mechanisms in Cancer",
+          "journal": "Genes",
+          "year": "2018",
+          "cited_by": 101,
+          "type": null
+        },
+        {
+          "pmid": "36817147",
+          "doi": "10.3389/fphar.2023.1120911",
+          "title": "LSD1 inhibitors for cancer treatment: Focus on multi-target agents and compounds in clinical trials",
+          "journal": "Frontiers in pharmacology",
+          "year": "2023",
+          "cited_by": 99,
+          "type": null
+        },
+        {
+          "pmid": "33946310",
+          "doi": "10.3390/ijms22094774",
+          "title": "Trastuzumab Deruxtecan: Changing the Destiny of HER2 Expressing Solid Tumors",
+          "journal": "International journal of molecular sciences",
+          "year": "2021",
+          "cited_by": 93,
+          "type": null
+        },
+        {
+          "pmid": "20490332",
+          "doi": null,
+          "title": "Molecular classification of soft tissue sarcomas and its clinical applications",
+          "journal": "International journal of clinical and experimental pathology",
+          "year": "2010",
+          "cited_by": 92,
+          "type": null
+        },
+        {
+          "pmid": "24111893",
+          "doi": "10.1111/his.12298",
+          "title": "Immunohistochemistry of soft tissue tumours - review with emphasis on 10 markers",
+          "journal": "Histopathology",
+          "year": "2014",
+          "cited_by": 91,
+          "type": null
+        },
+        {
+          "pmid": "25713799",
+          "doi": "10.3389/fsurg.2015.00004",
+          "title": "Retroperitoneal liposarcoma: current insights in diagnosis and treatment",
+          "journal": "Frontiers in surgery",
+          "year": "2015",
+          "cited_by": 89,
+          "type": null
+        },
+        {
+          "pmid": "16704491",
+          "doi": "10.1111/j.1440-1827.2006.01962.x",
+          "title": "Extrarenal rhabdoid tumors of soft tissue: clinicopathological and molecular genetic review and distinction from other soft-tissue sarcomas with rhabdoid features",
+          "journal": "Pathology international",
+          "year": "2006",
+          "cited_by": 88,
+          "type": null
+        },
+        {
+          "pmid": "25446259",
+          "doi": "10.1016/j.cellsig.2014.11.009",
+          "title": "The interplay of NR4A receptors and the oncogene-tumor suppressor networks in cancer",
+          "journal": "Cellular signalling",
+          "year": "2015",
+          "cited_by": 84,
+          "type": null
+        },
+        {
+          "pmid": "15998372",
+          "doi": "10.1111/j.1440-1827.2005.01853.x",
+          "title": "Extraskeletal myxoid chondrosarcoma: updated clinicopathological and molecular genetic characteristics",
+          "journal": "Pathology international",
+          "year": "2005",
+          "cited_by": 83,
+          "type": null
+        },
+        {
+          "pmid": "17545802",
+          "doi": "10.1097/cco.0b013e32812143d9",
+          "title": "Update on chondrosarcomas",
+          "journal": "Current opinion in oncology",
+          "year": "2007",
+          "cited_by": 82,
+          "type": null
+        },
+        {
+          "pmid": "21804475",
+          "doi": "10.12659/msm.881893",
+          "title": "Review of therapeutic strategies for osteosarcoma, chondrosarcoma, and Ewing's sarcoma",
+          "journal": "Medical science monitor : international medical journal of experimental and clinical research",
+          "year": "2011",
+          "cited_by": 81,
+          "type": null
+        }
+      ]
+    },
+    "emc_corpus_since_2019": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (FIRST_PDATE:[2019-01-01 TO 2030-12-31])",
+      "hit_count": 614,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "33179614",
+          "doi": "10.32074/1591-951x-213",
+          "title": "The 2020 WHO Classification of Soft Tissue Tumours: news and perspectives",
+          "journal": "Pathologica",
+          "year": "2021",
+          "cited_by": 761,
+          "type": null
+        },
+        {
+          "pmid": "33479225",
+          "doi": "10.1038/s41467-020-20603-4",
+          "title": "Sarcoma classification by DNA methylation profiling",
+          "journal": "Nature communications",
+          "year": "2021",
+          "cited_by": 446,
+          "type": null
+        },
+        {
+          "pmid": "32213540",
+          "doi": "10.1158/2159-8290.cd-19-1014",
+          "title": "Targeting HER2 with Trastuzumab Deruxtecan: A Dose-Expansion, Phase I Study in Multiple Advanced Solid Tumors",
+          "journal": "Cancer discovery",
+          "year": "2020",
+          "cited_by": 289,
+          "type": null
+        },
+        {
+          "pmid": "33047515",
+          "doi": "10.15252/emmm.201911131",
+          "title": "Sarcoma treatment in the era of molecular medicine",
+          "journal": "EMBO molecular medicine",
+          "year": "2020",
+          "cited_by": 238,
+          "type": null
+        },
+        {
+          "pmid": "33630918",
+          "doi": "10.1371/journal.pone.0246958",
+          "title": "Nationwide incidence of sarcomas and connective tissue tumors of intermediate malignancy over four years using an expert pathology review network",
+          "journal": "PloS one",
+          "year": "2021",
+          "cited_by": 203,
+          "type": null
+        },
+        {
+          "pmid": "35705560",
+          "doi": "10.1038/s41467-022-30453-x",
+          "title": "Clinical sequencing of soft tissue and bone sarcomas delineates diverse genomic landscapes and potential therapeutic targets",
+          "journal": "Nature communications",
+          "year": "2022",
+          "cited_by": 195,
+          "type": null
+        },
+        {
+          "pmid": "31971541",
+          "doi": "10.1001/jamaoncol.2019.6152",
+          "title": "Objective Response Rate Among Patients With Locally Advanced or Metastatic Sarcoma Treated With Talimogene Laherparepvec in Combination With Pembrolizumab: A Phase 2 Clinical Trial",
+          "journal": "JAMA oncology",
+          "year": "2020",
+          "cited_by": 162,
+          "type": null
+        },
+        {
+          "pmid": "30664630",
+          "doi": "10.1038/s41467-018-08069-x",
+          "title": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell carcinomas of the salivary glands",
+          "journal": "Nature communications",
+          "year": "2019",
+          "cited_by": 157,
+          "type": null
+        },
+        {
+          "pmid": "32313727",
+          "doi": "10.1080/2162402x.2020.1747340",
+          "title": "Tumor-associated macrophages and macrophage-related immune checkpoint expression in sarcomas",
+          "journal": "Oncoimmunology",
+          "year": "2020",
+          "cited_by": 152,
+          "type": null
+        },
+        {
+          "pmid": "33203665",
+          "doi": "10.1136/jitc-2020-001561",
+          "title": "Nivolumab and sunitinib combination in advanced soft tissue sarcomas: a multicenter, single-arm, phase Ib/II trial",
+          "journal": "Journal for immunotherapy of cancer",
+          "year": "2020",
+          "cited_by": 146,
+          "type": null
+        },
+        {
+          "pmid": "32910151",
+          "doi": "10.1001/jamaoncol.2020.3689",
+          "title": "Assessment of Doxorubicin and Pembrolizumab in Patients With Advanced Anthracycline-Naive Sarcoma: A Phase 1/2 Nonrandomized Clinical Trial",
+          "journal": "JAMA oncology",
+          "year": "2020",
+          "cited_by": 116,
+          "type": null
+        },
+        {
+          "pmid": "31276706",
+          "doi": "10.1016/j.pharmthera.2019.06.010",
+          "title": "TP53 in bone and soft tissue sarcomas",
+          "journal": "Pharmacology & therapeutics",
+          "year": "2019",
+          "cited_by": 101,
+          "type": null
+        },
+        {
+          "pmid": "36817147",
+          "doi": "10.3389/fphar.2023.1120911",
+          "title": "LSD1 inhibitors for cancer treatment: Focus on multi-target agents and compounds in clinical trials",
+          "journal": "Frontiers in pharmacology",
+          "year": "2023",
+          "cited_by": 99,
+          "type": null
+        },
+        {
+          "pmid": "33946310",
+          "doi": "10.3390/ijms22094774",
+          "title": "Trastuzumab Deruxtecan: Changing the Destiny of HER2 Expressing Solid Tumors",
+          "journal": "International journal of molecular sciences",
+          "year": "2021",
+          "cited_by": 93,
+          "type": null
+        },
+        {
+          "pmid": "30723300",
+          "doi": "10.1038/s41379-019-0206-z",
+          "title": "NUTM1-rearranged neoplasia: a multi-institution experience yields novel fusion partners and expands the histologic spectrum",
+          "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+          "year": "2019",
+          "cited_by": 91,
+          "type": null
+        },
+        {
+          "pmid": "34188019",
+          "doi": "10.1038/s41392-021-00647-8",
+          "title": "Molecular mechanisms underpinning sarcomas and implications for current and future therapy",
+          "journal": "Signal transduction and targeted therapy",
+          "year": "2021",
+          "cited_by": 80,
+          "type": null
+        },
+        {
+          "pmid": "31209222",
+          "doi": "10.1038/s41419-019-1705-z",
+          "title": "miR-665 expression predicts poor survival and promotes tumor metastasis by targeting NR4A3 in breast cancer",
+          "journal": "Cell death & disease",
+          "year": "2019",
+          "cited_by": 80,
+          "type": null
+        },
+        {
+          "pmid": "32205473",
+          "doi": "10.1097/pap.0000000000000256",
+          "title": "An Algorithmic Immunohistochemical Approach to Define Tumor Type and Assign Site of Origin",
+          "journal": "Advances in anatomic pathology",
+          "year": "2020",
+          "cited_by": 79,
+          "type": null
+        },
+        {
+          "pmid": "34925348",
+          "doi": "10.3389/fimmu.2021.775761",
+          "title": "Improving Immunotherapy Efficacy in Soft-Tissue Sarcomas: A Biomarker Driven and Histotype Tailored Review",
+          "journal": "Frontiers in immunology",
+          "year": "2021",
+          "cited_by": 78,
+          "type": null
+        },
+        {
+          "pmid": "32646614",
+          "doi": "10.1053/j.semdp.2020.05.005",
+          "title": "SWI/SNF complex-deficient soft tissue neoplasms: An update",
+          "journal": "Seminars in diagnostic pathology",
+          "year": "2021",
+          "cited_by": 77,
+          "type": null
+        },
+        {
+          "pmid": "31163577",
+          "doi": "10.3390/ijms20112718",
+          "title": "Signal Transduction in Ribosome Biogenesis: A Recipe to Avoid Disaster",
+          "journal": "International journal of molecular sciences",
+          "year": "2019",
+          "cited_by": 77,
+          "type": null
+        },
+        {
+          "pmid": "32860002",
+          "doi": "10.1038/s41379-020-00657-x",
+          "title": "Broadening the spectrum of NTRK rearranged mesenchymal tumors and usefulness of pan-TRK immunohistochemistry for identification of NTRK fusions",
+          "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+          "year": "2021",
+          "cited_by": 76,
+          "type": null
+        },
+        {
+          "pmid": "31078563",
+          "doi": "10.1016/j.humpath.2019.05.001",
+          "title": "EWSR1/FUS-NFATc2 rearranged round cell sarcoma: clinicopathological series of 4 cases and literature review",
+          "journal": "Human pathology",
+          "year": "2019",
+          "cited_by": 72,
+          "type": null
+        },
+        {
+          "pmid": "32179633",
+          "doi": "10.1136/jitc-2020-000530",
+          "title": "A first-in-human phase 1 dose escalation study of spartalizumab (PDR001), an anti-PD-1 antibody, in patients with advanced solid tumors",
+          "journal": "Journal for immunotherapy of cancer",
+          "year": "2020",
+          "cited_by": 71,
+          "type": null
+        },
+        {
+          "pmid": "31123606",
+          "doi": "10.1038/s41392-019-0049-6",
+          "title": "Pazopanib in advanced soft tissue sarcomas",
+          "journal": "Signal transduction and targeted therapy",
+          "year": "2019",
+          "cited_by": 70,
+          "type": null
+        }
+      ]
+    },
+    "restate_pparg": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (PPARG OR \"PPAR gamma\" OR \"PPARgamma\" OR \"peroxisome proliferator-activated receptor gamma\")",
+      "hit_count": 37,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "33047515",
+          "doi": "10.15252/emmm.201911131",
+          "title": "Sarcoma treatment in the era of molecular medicine",
+          "journal": "EMBO molecular medicine",
+          "year": "2020",
+          "cited_by": 238,
+          "type": null
+        },
+        {
+          "pmid": "30664630",
+          "doi": "10.1038/s41467-018-08069-x",
+          "title": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell carcinomas of the salivary glands",
+          "journal": "Nature communications",
+          "year": "2019",
+          "cited_by": 157,
+          "type": null
+        },
+        {
+          "pmid": "18951519",
+          "doi": "10.1002/cncr.23978",
+          "title": "Extraskeletal myxoid chondrosarcoma: a retrospective review from 2 referral centers emphasizing long-term outcomes with surgery and chemotherapy",
+          "journal": "Cancer",
+          "year": "2008",
+          "cited_by": 109,
+          "type": null
+        },
+        {
+          "pmid": "25713799",
+          "doi": "10.3389/fsurg.2015.00004",
+          "title": "Retroperitoneal liposarcoma: current insights in diagnosis and treatment",
+          "journal": "Frontiers in surgery",
+          "year": "2015",
+          "cited_by": 89,
+          "type": null
+        },
+        {
+          "pmid": "28439237",
+          "doi": "10.3389/fphar.2017.00150",
+          "title": "Biomarkers of Osteosarcoma, Chondrosarcoma, and Ewing Sarcoma",
+          "journal": "Frontiers in pharmacology",
+          "year": "2017",
+          "cited_by": 67,
+          "type": null
+        },
+        {
+          "pmid": "18855877",
+          "doi": "10.1002/path.2445",
+          "title": "The EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor gene",
+          "journal": "The Journal of pathology",
+          "year": "2009",
+          "cited_by": 54,
+          "type": null
+        },
+        {
+          "pmid": "32967265",
+          "doi": "10.3390/cancers12092703",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Biology and Clinical Management",
+          "journal": "Cancers",
+          "year": "2020",
+          "cited_by": 50,
+          "type": null
+        },
+        {
+          "pmid": "15920699",
+          "doi": "10.1002/path.1792",
+          "title": "The gene expression profile of extraskeletal myxoid chondrosarcoma",
+          "journal": "The Journal of pathology",
+          "year": "2005",
+          "cited_by": 50,
+          "type": null
+        },
+        {
+          "pmid": "25733820",
+          "doi": "10.2147/dddt.s73551",
+          "title": "Hsa-microRNA-181a is a regulator of a number of cancer genes and a biomarker for endometrial carcinoma in patients: a bioinformatic and clinical study and the therapeutic implication",
+          "journal": "Drug design, development and therapy",
+          "year": "2015",
+          "cited_by": 45,
+          "type": null
+        },
+        {
+          "pmid": "35163019",
+          "doi": "10.3390/ijms23031096",
+          "title": "Therapeutic Targets and Emerging Treatments in Advanced Chondrosarcoma",
+          "journal": "International journal of molecular sciences",
+          "year": "2022",
+          "cited_by": 34,
+          "type": null
+        },
+        {
+          "pmid": "35390276",
+          "doi": "10.1016/j.molcel.2022.03.019",
+          "title": "The FUS::DDIT3 fusion oncoprotein inhibits BAF complex targeting and activity in myxoid liposarcoma",
+          "journal": "Molecular cell",
+          "year": "2022",
+          "cited_by": 30,
+          "type": null
+        },
+        {
+          "pmid": "21718500",
+          "doi": "10.1186/1755-8794-4-53",
+          "title": "The functional cancer map: a systems-level synopsis of genetic deregulation in cancer",
+          "journal": "BMC medical genomics",
+          "year": "2011",
+          "cited_by": 30,
+          "type": null
+        },
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "23058004",
+          "doi": "10.1186/2045-3329-2-22",
+          "title": "Extraskeletal myxoid chondrosarcoma: tumor response to sunitinib",
+          "journal": "Clinical sarcoma research",
+          "year": "2012",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "28800357",
+          "doi": "10.1371/journal.pone.0182602",
+          "title": "Identification of differentially expressed genes through RNA sequencing in goats (Capra hircus) at different postnatal stages",
+          "journal": "PloS one",
+          "year": "2017",
+          "cited_by": 24,
+          "type": null
+        },
+        {
+          "pmid": "28423517",
+          "doi": "10.18632/oncotarget.15568",
+          "title": "Next generation sequencing of extraskeletal myxoid chondrosarcoma",
+          "journal": "Oncotarget",
+          "year": "2017",
+          "cited_by": 19,
+          "type": null
+        },
+        {
+          "pmid": "31440833",
+          "doi": "10.1007/s00428-019-02631-8",
+          "title": "Abstracts : 31 <sup>st</sup> European Congress of Pathology",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2019",
+          "cited_by": 6,
+          "type": null
+        },
+        {
+          "pmid": "35527321",
+          "doi": "10.1007/s00428-022-03333-4",
+          "title": "Cancerization of ducts in hilar cholangiocarcinoma",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2022",
+          "cited_by": 4,
+          "type": null
+        },
+        {
+          "pmid": "36636023",
+          "doi": "10.1080/15384101.2023.2166195",
+          "title": "A nonsteroidal anti-inflammatory drug, zaltoprofen, inhibits the growth of extraskeletal chondrosarcoma cells by inducing PPAR\u03b3, p21, p27, and p53",
+          "journal": "Cell cycle (Georgetown, Tex.)",
+          "year": "2023",
+          "cited_by": 3,
+          "type": null
+        },
+        {
+          "pmid": "36103645",
+          "doi": "10.1200/po.22.00039",
+          "title": "Identification of Novel PGR-NR4A3 Fusion in Extraskeletal Myxoid Chondrosarcoma and Resultant Patient Benefit From Tamoxifen Therapy",
+          "journal": "JCO precision oncology",
+          "year": "2022",
+          "cited_by": 3,
+          "type": null
+        },
+        {
+          "pmid": null,
+          "doi": null,
+          "title": "Abstracts",
+          "journal": "The Journal of molecular diagnostics : JMD",
+          "year": "2012",
+          "cited_by": 3,
+          "type": null
+        },
+        {
+          "pmid": "39596278",
+          "doi": "10.3390/ijms252212209",
+          "title": "The Role of Adenosine in Overcoming Resistance in Sarcomas",
+          "journal": "International journal of molecular sciences",
+          "year": "2024",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "27553392",
+          "doi": "10.1007/s00428-016-1997-7",
+          "title": "Oral Free Paper Sessions",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2016",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "20658218",
+          "doi": "10.1007/s12105-010-0193-3",
+          "title": "Clinical-pathological conference: case 1",
+          "journal": "Head and neck pathology",
+          "year": "2010",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "39875985",
+          "doi": "10.1186/s13008-024-00139-5",
+          "title": "ZNF169 promotes thyroid cancer progression via upregulating FBXW10",
+          "journal": "Cell division",
+          "year": "2025",
+          "cited_by": 1,
+          "type": null
+        }
+      ]
+    },
+    "restate_pparg_reviews": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (PPARG OR \"PPAR gamma\" OR \"PPARgamma\") AND PUB_TYPE:\"Review\"",
+      "hit_count": 3,
+      "returned": 3,
+      "top": [
+        {
+          "pmid": "25713799",
+          "doi": "10.3389/fsurg.2015.00004",
+          "title": "Retroperitoneal liposarcoma: current insights in diagnosis and treatment",
+          "journal": "Frontiers in surgery",
+          "year": "2015",
+          "cited_by": 89,
+          "type": null
+        },
+        {
+          "pmid": "32967265",
+          "doi": "10.3390/cancers12092703",
+          "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Biology and Clinical Management",
+          "journal": "Cancers",
+          "year": "2020",
+          "cited_by": 50,
+          "type": null
+        },
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        }
+      ]
+    },
+    "restate_sema3c": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (SEMA3C OR semaphorin)",
+      "hit_count": 6,
+      "returned": 6,
+      "top": [
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "31020999",
+          "doi": "10.1002/path.5284",
+          "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas",
+          "journal": "The Journal of pathology",
+          "year": "2019",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "27553392",
+          "doi": "10.1007/s00428-016-1997-7",
+          "title": "Oral Free Paper Sessions",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2016",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "41493844",
+          "doi": "10.1111/cas.70254",
+          "title": "Abstracts of the 84&lt;sup&gt;th&lt;/sup&gt; Annual Meeting of the Japanese Cancer Association",
+          "journal": "Cancer science",
+          "year": "2026",
+          "cited_by": 0,
+          "type": null
+        },
+        {
+          "pmid": "39634274",
+          "doi": "10.3389/fgene.2024.1440994",
+          "title": "<i>DElite</i>: a tool for integrated differential expression analysis",
+          "journal": "Frontiers in genetics",
+          "year": "2024",
+          "cited_by": 0,
+          "type": null
+        },
+        {
+          "pmid": null,
+          "doi": null,
+          "title": "This Month in AJP",
+          "journal": "The American journal of pathology",
+          "year": "2003",
+          "cited_by": 0,
+          "type": null
+        }
+      ]
+    },
+    "restate_sema3c_reviews": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (SEMA3C OR semaphorin) AND PUB_TYPE:\"Review\"",
+      "hit_count": 1,
+      "returned": 1,
+      "top": [
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        }
+      ]
+    },
+    "restate_eno3": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (ENO3 OR \"beta-enolase\" OR \"beta enolase\")",
+      "hit_count": 2,
+      "returned": 2,
+      "top": [
+        {
+          "pmid": "30664630",
+          "doi": "10.1038/s41467-018-08069-x",
+          "title": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell carcinomas of the salivary glands",
+          "journal": "Nature communications",
+          "year": "2019",
+          "cited_by": 157,
+          "type": null
+        },
+        {
+          "pmid": "32867110",
+          "doi": "10.3390/cancers12092433",
+          "title": "Oncogenic Orphan Nuclear Receptor NR4A3 Interacts and Cooperates with MYB in Acinic Cell Carcinoma",
+          "journal": "Cancers",
+          "year": "2020",
+          "cited_by": 21,
+          "type": null
+        }
+      ]
+    },
+    "restate_eno3_reviews": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (ENO3 OR \"beta-enolase\" OR \"beta enolase\") AND PUB_TYPE:\"Review\"",
+      "hit_count": 0,
+      "returned": 0,
+      "top": []
+    },
+    "prior_target_assembly": {
+      "query": "(NR4A3 OR \"NOR-1\" OR \"NOR1\" OR \"EWS/NOR1\" OR \"EWSR1-NR4A3\" OR \"EWSR1::NR4A3\" OR \"TEC oncoprotein\") AND (\"target gene\" OR \"target genes\" OR \"downstream target\" OR \"downstream targets\" OR \"transcriptional targets\" OR \"transcriptional program\" OR \"transcriptional programme\")",
+      "hit_count": 2562,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "25258085",
+          "doi": "10.1126/science.1251086",
+          "title": "Epigenetic programming of monocyte-to-macrophage differentiation and trained innate immunity",
+          "journal": "Science (New York, N.Y.)",
+          "year": "2014",
+          "cited_by": 1343,
+          "type": null
+        },
+        {
+          "pmid": "24679540",
+          "doi": "10.1016/j.cell.2014.03.012",
+          "title": "Nuclear Receptors, RXR, and the Big Bang",
+          "journal": "Cell",
+          "year": "2014",
+          "cited_by": 942,
+          "type": null
+        },
+        {
+          "pmid": "21346730",
+          "doi": "10.1038/nrm3072",
+          "title": "CREB and the CRTC co-activators: sensors for hormonal and metabolic signals",
+          "journal": "Nature reviews. Molecular cell biology",
+          "year": "2011",
+          "cited_by": 843,
+          "type": null
+        },
+        {
+          "pmid": "16923397",
+          "doi": "10.1016/j.cell.2006.06.049",
+          "title": "Anatomical profiling of nuclear receptor expression reveals a hierarchical transcriptional network",
+          "journal": "Cell",
+          "year": "2006",
+          "cited_by": 787,
+          "type": null
+        },
+        {
+          "pmid": "19345186",
+          "doi": "10.1016/j.cell.2009.01.038",
+          "title": "A Nurr1/CoREST pathway in microglia and astrocytes protects dopaminergic neurons from inflammation-induced death",
+          "journal": "Cell",
+          "year": "2009",
+          "cited_by": 775,
+          "type": null
+        },
+        {
+          "pmid": "36216928",
+          "doi": "10.1038/s41571-022-00689-z",
+          "title": "Clinical implications of T cell exhaustion for cancer immunotherapy",
+          "journal": "Nature reviews. Clinical oncology",
+          "year": "2022",
+          "cited_by": 759,
+          "type": null
+        },
+        {
+          "pmid": "30814732",
+          "doi": "10.1038/s41586-019-0985-x",
+          "title": "NR4A transcription factors limit CAR T cell function in solid tumours",
+          "journal": "Nature",
+          "year": "2019",
+          "cited_by": 752,
+          "type": null
+        },
+        {
+          "pmid": "28783718",
+          "doi": "10.1038/nature23306",
+          "title": "Integrative clinical genomics of metastatic cancer",
+          "journal": "Nature",
+          "year": "2017",
+          "cited_by": 720,
+          "type": null
+        },
+        {
+          "pmid": "31152140",
+          "doi": "10.1073/pnas.1905675116",
+          "title": "TOX and TOX2 transcription factors cooperate with NR4A transcription factors to impose CD8<sup>+</sup> T cell exhaustion",
+          "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+          "year": "2019",
+          "cited_by": 680,
+          "type": null
+        },
+        {
+          "pmid": "30078704",
+          "doi": "10.1016/j.cell.2018.06.052",
+          "title": "A Single-Cell Atlas of In\u00a0Vivo Mammalian Chromatin Accessibility",
+          "journal": "Cell",
+          "year": "2018",
+          "cited_by": 676,
+          "type": null
+        },
+        {
+          "pmid": "20022810",
+          "doi": "10.1016/s1470-2045(09)70343-2",
+          "title": "Relation between microRNA expression and progression and prognosis of gastric cancer: a microRNA expression analysis",
+          "journal": "The Lancet. Oncology",
+          "year": "2010",
+          "cited_by": 661,
+          "type": null
+        },
+        {
+          "pmid": "17553985",
+          "doi": "10.1523/jneurosci.0296-07.2007",
+          "title": "Histone deacetylase inhibitors enhance memory and synaptic plasticity via CREB:CBP-dependent transcriptional activation",
+          "journal": "The Journal of neuroscience : the official journal of the Society for Neuroscience",
+          "year": "2007",
+          "cited_by": 646,
+          "type": null
+        },
+        {
+          "pmid": "29211713",
+          "doi": "10.1038/nature24993",
+          "title": "Runx3 programs CD8<sup>+</sup> T cell residency in non-lymphoid tissues and tumours",
+          "journal": "Nature",
+          "year": "2017",
+          "cited_by": 597,
+          "type": null
+        },
+        {
+          "pmid": "27278775",
+          "doi": "10.7554/elife.16950",
+          "title": "Global, quantitative and dynamic mapping of protein subcellular localization",
+          "journal": "eLife",
+          "year": "2016",
+          "cited_by": 546,
+          "type": null
+        },
+        {
+          "pmid": "38331979",
+          "doi": "10.1038/s41392-024-01738-y",
+          "title": "Major depressive disorder: hypothesis, mechanism, prevention and treatment",
+          "journal": "Signal transduction and targeted therapy",
+          "year": "2024",
+          "cited_by": 499,
+          "type": null
+        },
+        {
+          "pmid": "30894700",
+          "doi": "10.1038/s41581-019-0135-6",
+          "title": "Epigenetics and epigenomics in diabetic kidney disease and metabolic memory",
+          "journal": "Nature reviews. Nephrology",
+          "year": "2019",
+          "cited_by": 465,
+          "type": null
+        },
+        {
+          "pmid": "22119741",
+          "doi": "10.1038/nbt.2051",
+          "title": "Screening ethnically diverse human embryonic stem cells identifies a chromosome 20 minimal amplicon conferring growth advantage",
+          "journal": "Nature biotechnology",
+          "year": "2011",
+          "cited_by": 458,
+          "type": null
+        },
+        {
+          "pmid": "24577401",
+          "doi": "10.1038/nrd4100",
+          "title": "REV-ERB and ROR nuclear receptors as drug targets",
+          "journal": "Nature reviews. Drug discovery",
+          "year": "2014",
+          "cited_by": 455,
+          "type": null
+        },
+        {
+          "pmid": "34356845",
+          "doi": "10.3390/biomedicines9070781",
+          "title": "Inflammatory Mechanisms Contributing to Endothelial Dysfunction",
+          "journal": "Biomedicines",
+          "year": "2021",
+          "cited_by": 428,
+          "type": null
+        },
+        {
+          "pmid": "9238002",
+          "doi": "10.1073/pnas.94.16.8479",
+          "title": "RAC3, a steroid/nuclear receptor-associated coactivator that is related to SRC-1 and TIF2",
+          "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+          "year": "1997",
+          "cited_by": 427,
+          "type": null
+        },
+        {
+          "pmid": "18442402",
+          "doi": "10.1186/1755-8794-1-13",
+          "title": "The gene expression profiles of primary and metastatic melanoma yields a transition point of tumor progression and metastasis",
+          "journal": "BMC medical genomics",
+          "year": "2008",
+          "cited_by": 399,
+          "type": null
+        },
+        {
+          "pmid": "34354714",
+          "doi": "10.3389/fimmu.2021.715234",
+          "title": "CD8<sup>+</sup> T Cell Exhaustion in Cancer",
+          "journal": "Frontiers in immunology",
+          "year": "2021",
+          "cited_by": 394,
+          "type": null
+        },
+        {
+          "pmid": "29242278",
+          "doi": "10.1096/fj.201700442r",
+          "title": "AMPK in skeletal muscle function and metabolism",
+          "journal": "FASEB journal : official publication of the Federation of American Societies for Experimental Biology",
+          "year": "2018",
+          "cited_by": 389,
+          "type": null
+        },
+        {
+          "pmid": "30109749",
+          "doi": "10.1002/pro.3496",
+          "title": "The nuclear receptor superfamily: A structural perspective",
+          "journal": "Protein science : a publication of the Protein Society",
+          "year": "2018",
+          "cited_by": 378,
+          "type": null
+        },
+        {
+          "pmid": "22993403",
+          "doi": "10.1158/2159-8290.cd-12-0120",
+          "title": "Dual roles of PARP-1 promote cancer growth and progression",
+          "journal": "Cancer discovery",
+          "year": "2012",
+          "cited_by": 374,
+          "type": null
+        }
+      ]
+    },
+    "prior_target_assembly_emc": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (\"target gene\" OR \"target genes\" OR \"downstream target\" OR \"downstream targets\" OR \"transcriptional targets\" OR \"transcriptional program\" OR \"transcriptional programme\")",
+      "hit_count": 150,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "19451436",
+          "doi": "10.1200/jco.2008.20.4495",
+          "title": "Phase II study of sorafenib in patients with metastatic or recurrent sarcomas",
+          "journal": "Journal of clinical oncology : official journal of the American Society of Clinical Oncology",
+          "year": "2009",
+          "cited_by": 419,
+          "type": null
+        },
+        {
+          "pmid": "20815032",
+          "doi": "10.1002/gcc.20819",
+          "title": "EWSR1-POU5F1 fusion in soft tissue myoepithelial tumors. A molecular analysis of sixty-six cases, including soft tissue, bone, and visceral lesions, showing common involvement of the EWSR1 gene",
+          "journal": "Genes, chromosomes & cancer",
+          "year": "2010",
+          "cited_by": 365,
+          "type": null
+        },
+        {
+          "pmid": "22034177",
+          "doi": "10.1002/gcc.20937",
+          "title": "Identification of a novel, recurrent HEY1-NCOA2 fusion in mesenchymal chondrosarcoma based on a genome-wide screen of exon-level expression data",
+          "journal": "Genes, chromosomes & cancer",
+          "year": "2012",
+          "cited_by": 229,
+          "type": null
+        },
+        {
+          "pmid": "19783543",
+          "doi": "10.1093/jmcb/mjp025",
+          "title": "The TET family of proteins: functions and roles in disease",
+          "journal": "Journal of molecular cell biology",
+          "year": "2009",
+          "cited_by": 219,
+          "type": null
+        },
+        {
+          "pmid": "28109176",
+          "doi": "10.1111/cas.13173",
+          "title": "Oncogenic roles of SMARCB1/INI1 and its deficient tumors",
+          "journal": "Cancer science",
+          "year": "2017",
+          "cited_by": 158,
+          "type": null
+        },
+        {
+          "pmid": "30664630",
+          "doi": "10.1038/s41467-018-08069-x",
+          "title": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell carcinomas of the salivary glands",
+          "journal": "Nature communications",
+          "year": "2019",
+          "cited_by": 157,
+          "type": null
+        },
+        {
+          "pmid": "15509776",
+          "doi": "10.1128/mcb.24.22.9705-9725.2004",
+          "title": "Retinoid X receptor regulates Nur77/TR3-dependent apoptosis [corrected] by modulating its nuclear export and mitochondrial targeting",
+          "journal": "Molecular and cellular biology",
+          "year": "2004",
+          "cited_by": 144,
+          "type": null
+        },
+        {
+          "pmid": "30459475",
+          "doi": "10.1038/s41379-018-0175-7",
+          "title": "Diagnosis of known sarcoma fusions and novel fusion partners by targeted RNA sequencing with identification of a recurrent ACTB-FOSB fusion in pseudomyogenic hemangioendothelioma",
+          "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+          "year": "2019",
+          "cited_by": 142,
+          "type": null
+        },
+        {
+          "pmid": "8634690",
+          "doi": "10.1093/hmg/4.12.2219",
+          "title": "Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation",
+          "journal": "Human molecular genetics",
+          "year": "1995",
+          "cited_by": 139,
+          "type": null
+        },
+        {
+          "pmid": "27458288",
+          "doi": "10.1200/jco.2016.67.6346",
+          "title": "Phase IB Study of Selinexor, a First-in-Class Inhibitor of Nuclear Export, in Patients With Advanced Refractory Bone or Soft Tissue Sarcoma",
+          "journal": "Journal of clinical oncology : official journal of the American Society of Clinical Oncology",
+          "year": "2016",
+          "cited_by": 136,
+          "type": null
+        },
+        {
+          "pmid": "28009602",
+          "doi": "10.1097/pas.0000000000000788",
+          "title": "EWSR1 Fusions With CREB Family Transcription Factors Define a Novel Myxoid Mesenchymal Tumor With Predilection for Intracranial Location",
+          "journal": "The American journal of surgical pathology",
+          "year": "2017",
+          "cited_by": 118,
+          "type": null
+        },
+        {
+          "pmid": "26684580",
+          "doi": "10.1002/gcc.22335",
+          "title": "Gene fusions in soft tissue tumors: Recurrent and overlapping pathogenetic themes",
+          "journal": "Genes, chromosomes & cancer",
+          "year": "2016",
+          "cited_by": 117,
+          "type": null
+        },
+        {
+          "pmid": "17690209",
+          "doi": "10.2353/jmoldx.2007.070053",
+          "title": "Undifferentiated small round cell sarcomas with rare EWS gene fusions: identification of a novel EWS-SP3 fusion and of additional cases with the EWS-ETV1 and EWS-FEV fusions",
+          "journal": "The Journal of molecular diagnostics : JMD",
+          "year": "2007",
+          "cited_by": 112,
+          "type": null
+        },
+        {
+          "pmid": "16980615",
+          "doi": "10.1128/mcb.00268-06",
+          "title": "DACH1 is a cell fate determination factor that inhibits cyclin D1 and breast tumor growth",
+          "journal": "Molecular and cellular biology",
+          "year": "2006",
+          "cited_by": 106,
+          "type": null
+        },
+        {
+          "pmid": "21197473",
+          "doi": "10.1155/2011/837474",
+          "title": "Dr. Jekyll and Mr. Hyde: The Two Faces of the FUS/EWS/TAF15 Protein Family",
+          "journal": "Sarcoma",
+          "year": "2011",
+          "cited_by": 104,
+          "type": null
+        },
+        {
+          "pmid": "31276706",
+          "doi": "10.1016/j.pharmthera.2019.06.010",
+          "title": "TP53 in bone and soft tissue sarcomas",
+          "journal": "Pharmacology & therapeutics",
+          "year": "2019",
+          "cited_by": 101,
+          "type": null
+        },
+        {
+          "pmid": "28404587",
+          "doi": "10.1158/0008-5472.can-16-3351",
+          "title": "<i>CIC-DUX4</i> Induces Small Round Cell Sarcomas Distinct from Ewing Sarcoma",
+          "journal": "Cancer research",
+          "year": "2017",
+          "cited_by": 94,
+          "type": null
+        },
+        {
+          "pmid": "20490332",
+          "doi": null,
+          "title": "Molecular classification of soft tissue sarcomas and its clinical applications",
+          "journal": "International journal of clinical and experimental pathology",
+          "year": "2010",
+          "cited_by": 92,
+          "type": null
+        },
+        {
+          "pmid": "24111893",
+          "doi": "10.1111/his.12298",
+          "title": "Immunohistochemistry of soft tissue tumours - review with emphasis on 10 markers",
+          "journal": "Histopathology",
+          "year": "2014",
+          "cited_by": 91,
+          "type": null
+        },
+        {
+          "pmid": "25446259",
+          "doi": "10.1016/j.cellsig.2014.11.009",
+          "title": "The interplay of NR4A receptors and the oncogene-tumor suppressor networks in cancer",
+          "journal": "Cellular signalling",
+          "year": "2015",
+          "cited_by": 84,
+          "type": null
+        },
+        {
+          "pmid": "21804475",
+          "doi": "10.12659/msm.881893",
+          "title": "Review of therapeutic strategies for osteosarcoma, chondrosarcoma, and Ewing's sarcoma",
+          "journal": "Medical science monitor : international medical journal of experimental and clinical research",
+          "year": "2011",
+          "cited_by": 81,
+          "type": null
+        },
+        {
+          "pmid": "34188019",
+          "doi": "10.1038/s41392-021-00647-8",
+          "title": "Molecular mechanisms underpinning sarcomas and implications for current and future therapy",
+          "journal": "Signal transduction and targeted therapy",
+          "year": "2021",
+          "cited_by": 80,
+          "type": null
+        },
+        {
+          "pmid": "31209222",
+          "doi": "10.1038/s41419-019-1705-z",
+          "title": "miR-665 expression predicts poor survival and promotes tumor metastasis by targeting NR4A3 in breast cancer",
+          "journal": "Cell death & disease",
+          "year": "2019",
+          "cited_by": 80,
+          "type": null
+        },
+        {
+          "pmid": "31163577",
+          "doi": "10.3390/ijms20112718",
+          "title": "Signal Transduction in Ribosome Biogenesis: A Recipe to Avoid Disaster",
+          "journal": "International journal of molecular sciences",
+          "year": "2019",
+          "cited_by": 77,
+          "type": null
+        },
+        {
+          "pmid": "29146882",
+          "doi": "10.1182/blood-2017-01-762393",
+          "title": "Physiological <i>Srsf2</i> P95H expression causes impaired hematopoietic stem cell functions and aberrant RNA splicing in mice",
+          "journal": "Blood",
+          "year": "2018",
+          "cited_by": 77,
+          "type": null
+        }
+      ]
+    },
+    "prior_target_assembly_reviews": {
+      "query": "(NR4A3 OR \"NOR-1\" OR \"EWS/NOR1\" OR \"EWSR1-NR4A3\" OR \"EWSR1::NR4A3\") AND (\"target gene\" OR \"target genes\" OR \"downstream targets\" OR \"transcriptional targets\") AND PUB_TYPE:\"Review\"",
+      "hit_count": 465,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "24679540",
+          "doi": "10.1016/j.cell.2014.03.012",
+          "title": "Nuclear Receptors, RXR, and the Big Bang",
+          "journal": "Cell",
+          "year": "2014",
+          "cited_by": 942,
+          "type": null
+        },
+        {
+          "pmid": "21346730",
+          "doi": "10.1038/nrm3072",
+          "title": "CREB and the CRTC co-activators: sensors for hormonal and metabolic signals",
+          "journal": "Nature reviews. Molecular cell biology",
+          "year": "2011",
+          "cited_by": 843,
+          "type": null
+        },
+        {
+          "pmid": "38331979",
+          "doi": "10.1038/s41392-024-01738-y",
+          "title": "Major depressive disorder: hypothesis, mechanism, prevention and treatment",
+          "journal": "Signal transduction and targeted therapy",
+          "year": "2024",
+          "cited_by": 499,
+          "type": null
+        },
+        {
+          "pmid": "30894700",
+          "doi": "10.1038/s41581-019-0135-6",
+          "title": "Epigenetics and epigenomics in diabetic kidney disease and metabolic memory",
+          "journal": "Nature reviews. Nephrology",
+          "year": "2019",
+          "cited_by": 465,
+          "type": null
+        },
+        {
+          "pmid": "29242278",
+          "doi": "10.1096/fj.201700442r",
+          "title": "AMPK in skeletal muscle function and metabolism",
+          "journal": "FASEB journal : official publication of the Federation of American Societies for Experimental Biology",
+          "year": "2018",
+          "cited_by": 389,
+          "type": null
+        },
+        {
+          "pmid": "30109749",
+          "doi": "10.1002/pro.3496",
+          "title": "The nuclear receptor superfamily: A structural perspective",
+          "journal": "Protein science : a publication of the Protein Society",
+          "year": "2018",
+          "cited_by": 378,
+          "type": null
+        },
+        {
+          "pmid": "21723500",
+          "doi": "10.1016/j.cmet.2011.06.003",
+          "title": "Hormonal regulation of hepatic glucose production in health and disease",
+          "journal": "Cell metabolism",
+          "year": "2011",
+          "cited_by": 346,
+          "type": null
+        },
+        {
+          "pmid": "21753790",
+          "doi": "10.1038/nrc3087",
+          "title": "Advances in sarcoma genomics and new therapeutic targets",
+          "journal": "Nature reviews. Cancer",
+          "year": "2011",
+          "cited_by": 323,
+          "type": null
+        },
+        {
+          "pmid": "9238851",
+          "doi": null,
+          "title": "Role of co-activators and co-repressors in the mechanism of steroid/thyroid receptor action",
+          "journal": "Recent progress in hormone research",
+          "year": "1997",
+          "cited_by": 308,
+          "type": null
+        },
+        {
+          "pmid": "27009502",
+          "doi": "10.1111/apha.12681",
+          "title": "MicroRNAs in metabolism",
+          "journal": "Acta physiologica (Oxford, England)",
+          "year": "2017",
+          "cited_by": 303,
+          "type": null
+        },
+        {
+          "pmid": "20392876",
+          "doi": "10.1210/me.2010-0015",
+          "title": "Minireview: Nuclear hormone receptor 4A signaling: implications for metabolic disease",
+          "journal": "Molecular endocrinology (Baltimore, Md.)",
+          "year": "2010",
+          "cited_by": 258,
+          "type": null
+        },
+        {
+          "pmid": "22669172",
+          "doi": "10.1038/npp.2012.86",
+          "title": "The role of histone acetylation in memory formation and cognitive impairments",
+          "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
+          "year": "2013",
+          "cited_by": 257,
+          "type": null
+        },
+        {
+          "pmid": "29921764",
+          "doi": "10.3390/molecules23061479",
+          "title": "Targeting Transcription Factors for Cancer Treatment",
+          "journal": "Molecules (Basel, Switzerland)",
+          "year": "2018",
+          "cited_by": 253,
+          "type": null
+        },
+        {
+          "pmid": "24088811",
+          "doi": "10.1038/nrn3597",
+          "title": "New technologies for examining the role of neuronal ensembles in drug addiction and fear",
+          "journal": "Nature reviews. Neuroscience",
+          "year": "2013",
+          "cited_by": 217,
+          "type": null
+        },
+        {
+          "pmid": "20631354",
+          "doi": "10.1161/atvbaha.109.191163",
+          "title": "NR4A orphan nuclear receptors: transcriptional regulators of gene expression in metabolism and vascular biology",
+          "journal": "Arteriosclerosis, thrombosis, and vascular biology",
+          "year": "2010",
+          "cited_by": 210,
+          "type": null
+        },
+        {
+          "pmid": "33077935",
+          "doi": "10.1038/s41577-020-00454-2",
+          "title": "Rethinking peripheral T cell tolerance: checkpoints across a T cell's journey",
+          "journal": "Nature reviews. Immunology",
+          "year": "2021",
+          "cited_by": 209,
+          "type": null
+        },
+        {
+          "pmid": "37225892",
+          "doi": "10.1038/s41580-023-00606-x",
+          "title": "Exercise metabolism and adaptation in skeletal muscle",
+          "journal": "Nature reviews. Molecular cell biology",
+          "year": "2023",
+          "cited_by": 204,
+          "type": null
+        },
+        {
+          "pmid": "23457206",
+          "doi": "10.1124/pr.112.006833",
+          "title": "Nuclear receptors and their selective pharmacologic modulators",
+          "journal": "Pharmacological reviews",
+          "year": "2013",
+          "cited_by": 192,
+          "type": null
+        },
+        {
+          "pmid": "34566723",
+          "doi": "10.3389/fpsyt.2021.724606",
+          "title": "Psychedelics and Neuroplasticity: A Systematic Review Unraveling the Biological Underpinnings of Psychedelics",
+          "journal": "Frontiers in psychiatry",
+          "year": "2021",
+          "cited_by": 183,
+          "type": null
+        },
+        {
+          "pmid": "28546081",
+          "doi": "10.1016/j.pharmthera.2017.05.011",
+          "title": "Targeting nuclear receptors for the treatment of fatty liver disease",
+          "journal": "Pharmacology & therapeutics",
+          "year": "2017",
+          "cited_by": 168,
+          "type": null
+        },
+        {
+          "pmid": "20939105",
+          "doi": "10.3748/wjg.v16.i38.4773",
+          "title": "Hepatic steatosis, low-grade chronic inflammation and hormone/growth factor/adipokine imbalance",
+          "journal": "World journal of gastroenterology",
+          "year": "2010",
+          "cited_by": 166,
+          "type": null
+        },
+        {
+          "pmid": "37596653",
+          "doi": "10.1186/s13045-023-01492-8",
+          "title": "Challenges and new technologies in adoptive cell therapy",
+          "journal": "Journal of hematology & oncology",
+          "year": "2023",
+          "cited_by": 153,
+          "type": null
+        },
+        {
+          "pmid": "18791037",
+          "doi": "10.1194/jlr.r800019-jlr200",
+          "title": "Thematic Review Series: Glycerolipids. Multiple roles for lipins/phosphatidate phosphatase enzymes in lipid metabolism",
+          "journal": "Journal of lipid research",
+          "year": "2008",
+          "cited_by": 149,
+          "type": null
+        },
+        {
+          "pmid": "24103914",
+          "doi": "10.1530/jme-13-0173",
+          "title": "Understanding nuclear receptor form and function using structural biology",
+          "journal": "Journal of molecular endocrinology",
+          "year": "2013",
+          "cited_by": 146,
+          "type": null
+        },
+        {
+          "pmid": "34269817",
+          "doi": "10.1042/bcj20210139",
+          "title": "Inhibitory feedback control of NF-\u03baB signalling in health and disease",
+          "journal": "The Biochemical journal",
+          "year": "2021",
+          "cited_by": 145,
+          "type": null
+        }
+      ]
+    },
+    "driver_premise": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (\"aberrant transcription factor\" OR \"chimeric transcription factor\" OR \"transcriptional activator\" OR \"aberrant transcriptional\" OR \"transactivation domain\")",
+      "hit_count": 73,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "19783543",
+          "doi": "10.1093/jmcb/mjp025",
+          "title": "The TET family of proteins: functions and roles in disease",
+          "journal": "Journal of molecular cell biology",
+          "year": "2009",
+          "cited_by": 219,
+          "type": null
+        },
+        {
+          "pmid": "28762175",
+          "doi": "10.1007/s00439-017-1830-7",
+          "title": "Genetic mutations in RNA-binding proteins and their roles in ALS",
+          "journal": "Human genetics",
+          "year": "2017",
+          "cited_by": 173,
+          "type": null
+        },
+        {
+          "pmid": "28109176",
+          "doi": "10.1111/cas.13173",
+          "title": "Oncogenic roles of SMARCB1/INI1 and its deficient tumors",
+          "journal": "Cancer science",
+          "year": "2017",
+          "cited_by": 158,
+          "type": null
+        },
+        {
+          "pmid": "14612408",
+          "doi": "10.1128/mcb.23.23.8651-8667.2003",
+          "title": "Mitogenic effect of orphan receptor TR3 and its regulation by MEKK1 in lung cancer cells",
+          "journal": "Molecular and cellular biology",
+          "year": "2003",
+          "cited_by": 158,
+          "type": null
+        },
+        {
+          "pmid": "8203453",
+          "doi": null,
+          "title": "Chromosomal aberrations in soft tissue tumors. Relevance to diagnosis, classification, and molecular mechanisms",
+          "journal": "The American journal of pathology",
+          "year": "1994",
+          "cited_by": 153,
+          "type": null
+        },
+        {
+          "pmid": "25873501",
+          "doi": "10.1309/ajcpn25njtounpnf",
+          "title": "Extensive survey of STAT6 expression in a large series of mesenchymal tumors",
+          "journal": "American journal of clinical pathology",
+          "year": "2015",
+          "cited_by": 146,
+          "type": null
+        },
+        {
+          "pmid": "8634690",
+          "doi": "10.1093/hmg/4.12.2219",
+          "title": "Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation",
+          "journal": "Human molecular genetics",
+          "year": "1995",
+          "cited_by": 139,
+          "type": null
+        },
+        {
+          "pmid": "17415412",
+          "doi": "10.1172/jci31222",
+          "title": "Ewing sarcoma gene EWS is essential for meiosis and B lymphocyte development",
+          "journal": "The Journal of clinical investigation",
+          "year": "2007",
+          "cited_by": 123,
+          "type": null
+        },
+        {
+          "pmid": "17690209",
+          "doi": "10.2353/jmoldx.2007.070053",
+          "title": "Undifferentiated small round cell sarcomas with rare EWS gene fusions: identification of a novel EWS-SP3 fusion and of additional cases with the EWS-ETV1 and EWS-FEV fusions",
+          "journal": "The Journal of molecular diagnostics : JMD",
+          "year": "2007",
+          "cited_by": 112,
+          "type": null
+        },
+        {
+          "pmid": "21197473",
+          "doi": "10.1155/2011/837474",
+          "title": "Dr. Jekyll and Mr. Hyde: The Two Faces of the FUS/EWS/TAF15 Protein Family",
+          "journal": "Sarcoma",
+          "year": "2011",
+          "cited_by": 104,
+          "type": null
+        },
+        {
+          "pmid": "28404587",
+          "doi": "10.1158/0008-5472.can-16-3351",
+          "title": "<i>CIC-DUX4</i> Induces Small Round Cell Sarcomas Distinct from Ewing Sarcoma",
+          "journal": "Cancer research",
+          "year": "2017",
+          "cited_by": 94,
+          "type": null
+        },
+        {
+          "pmid": "20490332",
+          "doi": null,
+          "title": "Molecular classification of soft tissue sarcomas and its clinical applications",
+          "journal": "International journal of clinical and experimental pathology",
+          "year": "2010",
+          "cited_by": 92,
+          "type": null
+        },
+        {
+          "pmid": "25446259",
+          "doi": "10.1016/j.cellsig.2014.11.009",
+          "title": "The interplay of NR4A receptors and the oncogene-tumor suppressor networks in cancer",
+          "journal": "Cellular signalling",
+          "year": "2015",
+          "cited_by": 84,
+          "type": null
+        },
+        {
+          "pmid": "31209222",
+          "doi": "10.1038/s41419-019-1705-z",
+          "title": "miR-665 expression predicts poor survival and promotes tumor metastasis by targeting NR4A3 in breast cancer",
+          "journal": "Cell death & disease",
+          "year": "2019",
+          "cited_by": 80,
+          "type": null
+        },
+        {
+          "pmid": "26371783",
+          "doi": "10.1097/pas.0000000000000492",
+          "title": "Novel PAX3-NCOA1 Fusions in Biphenotypic Sinonasal Sarcoma With Focal Rhabdomyoblastic Differentiation",
+          "journal": "The American journal of surgical pathology",
+          "year": "2016",
+          "cited_by": 78,
+          "type": null
+        },
+        {
+          "pmid": "31163577",
+          "doi": "10.3390/ijms20112718",
+          "title": "Signal Transduction in Ribosome Biogenesis: A Recipe to Avoid Disaster",
+          "journal": "International journal of molecular sciences",
+          "year": "2019",
+          "cited_by": 77,
+          "type": null
+        },
+        {
+          "pmid": "12598313",
+          "doi": "10.1016/s0002-9440(10)63875-8",
+          "title": "Studies on the molecular pathogenesis of extraskeletal myxoid chondrosarcoma-cytogenetic, molecular genetic, and cDNA microarray analyses",
+          "journal": "The American journal of pathology",
+          "year": "2003",
+          "cited_by": 77,
+          "type": null
+        },
+        {
+          "pmid": "10602520",
+          "doi": "10.1038/sj.onc.1203156",
+          "title": "Identification of a novel fusion gene involving hTAFII68 and CHN from a t(9;17)(q22;q11.2) translocation in an extraskeletal myxoid chondrosarcoma",
+          "journal": "Oncogene",
+          "year": "1999",
+          "cited_by": 77,
+          "type": null
+        },
+        {
+          "pmid": "25401475",
+          "doi": "10.1172/jci72124",
+          "title": "Long noncoding RNA EWSAT1-mediated gene repression facilitates Ewing sarcoma oncogenesis",
+          "journal": "The Journal of clinical investigation",
+          "year": "2014",
+          "cited_by": 74,
+          "type": null
+        },
+        {
+          "pmid": "31078563",
+          "doi": "10.1016/j.humpath.2019.05.001",
+          "title": "EWSR1/FUS-NFATc2 rearranged round cell sarcoma: clinicopathological series of 4 cases and literature review",
+          "journal": "Human pathology",
+          "year": "2019",
+          "cited_by": 72,
+          "type": null
+        },
+        {
+          "pmid": "12815108",
+          "doi": "10.1073/pnas.0932598100",
+          "title": "Nur77 as a survival factor in tumor necrosis factor signaling",
+          "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+          "year": "2003",
+          "cited_by": 64,
+          "type": null
+        },
+        {
+          "pmid": "9060841",
+          "doi": null,
+          "title": "Molecular analysis of the fusion of EWS to an orphan nuclear receptor gene in extraskeletal myxoid chondrosarcoma",
+          "journal": "The American journal of pathology",
+          "year": "1997",
+          "cited_by": 64,
+          "type": null
+        },
+        {
+          "pmid": "18855877",
+          "doi": "10.1002/path.2445",
+          "title": "The EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor gene",
+          "journal": "The Journal of pathology",
+          "year": "2009",
+          "cited_by": 54,
+          "type": null
+        },
+        {
+          "pmid": "22420726",
+          "doi": "10.2350/11-08-1078-pb.1",
+          "title": "Ewing sarcoma/peripheral primitive neuroectodermal tumor and related tumors",
+          "journal": "Pediatric and developmental pathology : the official journal of the Society for Pediatric Pathology and the Paediatric Pathology Society",
+          "year": "2012",
+          "cited_by": 52,
+          "type": null
+        },
+        {
+          "pmid": "31049020",
+          "doi": "10.1155/2019/9386390",
+          "title": "<i>EWSR1-NFATC2</i> and <i>FUS-NFATC2</i> Gene Fusion-Associated Mesenchymal Tumors: Clinicopathologic Correlation and Literature Review",
+          "journal": "Sarcoma",
+          "year": "2019",
+          "cited_by": 51,
+          "type": null
+        }
+      ]
+    },
+    "fusion_cloning_primary": {
+      "query": "((\"EWS\" OR EWSR1) AND (NOR1 OR \"NOR-1\" OR TEC OR NR4A3) AND (fusion OR chimeric OR \"t(9;22)\")) AND (FIRST_PDATE:[1993-01-01 TO 1999-12-31])",
+      "hit_count": 17,
+      "returned": 17,
+      "top": [
+        {
+          "pmid": "8634690",
+          "doi": "10.1093/hmg/4.12.2219",
+          "title": "Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation",
+          "journal": "Human molecular genetics",
+          "year": "1995",
+          "cited_by": 139,
+          "type": null
+        },
+        {
+          "pmid": "9781944",
+          "doi": "10.1002/(sici)1097-0142(19981015)83:8<1504::aid-cncr5>3.0.co;2-b",
+          "title": "Skeletal and extraskeletal myxoid chondrosarcoma: a comparative clinicopathologic, ultrastructural, and molecular study",
+          "journal": "Cancer",
+          "year": "1998",
+          "cited_by": 117,
+          "type": null
+        },
+        {
+          "pmid": "8570200",
+          "doi": null,
+          "title": "Fusion of the EWS gene to CHN, a member of the steroid/thyroid receptor gene superfamily, in a human myxoid chondrosarcoma",
+          "journal": "Oncogene",
+          "year": "1996",
+          "cited_by": 109,
+          "type": null
+        },
+        {
+          "pmid": "10537274",
+          "doi": null,
+          "title": "Fusion of the EWS-related gene TAF2N to TEC in extraskeletal myxoid chondrosarcoma",
+          "journal": "Cancer research",
+          "year": "1999",
+          "cited_by": 107,
+          "type": null
+        },
+        {
+          "pmid": "10602520",
+          "doi": "10.1038/sj.onc.1203156",
+          "title": "Identification of a novel fusion gene involving hTAFII68 and CHN from a t(9;17)(q22;q11.2) translocation in an extraskeletal myxoid chondrosarcoma",
+          "journal": "Oncogene",
+          "year": "1999",
+          "cited_by": 77,
+          "type": null
+        },
+        {
+          "pmid": "9060841",
+          "doi": null,
+          "title": "Molecular analysis of the fusion of EWS to an orphan nuclear receptor gene in extraskeletal myxoid chondrosarcoma",
+          "journal": "The American journal of pathology",
+          "year": "1997",
+          "cited_by": 64,
+          "type": null
+        },
+        {
+          "pmid": "10359536",
+          "doi": "10.1038/sj.onc.1202675",
+          "title": "The EWS/TEC fusion protein encoded by the t(9;22) chromosomal translocation in human chondrosarcomas is a highly potent transcriptional activator",
+          "journal": "Oncogene",
+          "year": "1999",
+          "cited_by": 60,
+          "type": null
+        },
+        {
+          "pmid": "10602519",
+          "doi": "10.1038/sj.onc.1203155",
+          "title": "Fusion of the RBP56 and CHN genes in extraskeletal myxoid chondrosarcomas with translocation t(9;17)(q22;q11)",
+          "journal": "Oncogene",
+          "year": "1999",
+          "cited_by": 56,
+          "type": null
+        },
+        {
+          "pmid": "9455670",
+          "doi": "10.1007/bf01834069",
+          "title": "Reliability of pedicle screw assessment utilizing plain radiographs versus CT reconstruction",
+          "journal": "European spine journal : official publication of the European Spine Society, the European Spinal Deformity Society, and the European Section of the Cervical Spine Research Society",
+          "year": "1997",
+          "cited_by": 45,
+          "type": null
+        },
+        {
+          "pmid": "9344317",
+          "doi": null,
+          "title": "Immunohistochemical and molecular genetic approaches to soft tissue tumor diagnosis: a primer",
+          "journal": "Seminars in oncology",
+          "year": "1997",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "18521227",
+          "doi": "10.1080/13577149878109",
+          "title": "Progress in the molecular biology of ewing tumors",
+          "journal": "Sarcoma",
+          "year": "1998",
+          "cited_by": 24,
+          "type": null
+        },
+        {
+          "pmid": "10523652",
+          "doi": "10.1128/mcb.19.11.7639",
+          "title": "Dual transforming activities of the FUS (TLS)-ERG leukemia fusion protein conferred by two N-terminal domains of FUS (TLS)",
+          "journal": "Molecular and cellular biology",
+          "year": "1999",
+          "cited_by": 23,
+          "type": null
+        },
+        {
+          "pmid": "10605398",
+          "doi": "10.1136/jcp.52.7.481",
+          "title": "Diagnostic and prognostic implications of the unfolding molecular biology of bone and soft tissue tumours",
+          "journal": "Journal of clinical pathology",
+          "year": "1999",
+          "cited_by": 18,
+          "type": null
+        },
+        {
+          "pmid": "8887663",
+          "doi": "10.1128/mcb.16.11.6338",
+          "title": "Myb-Ets fusion oncoprotein inhibits thyroid hormone receptor/c-ErbA and retinoic acid receptor functions: a novel mechanism of action for leukemogenic transformation by E26 avian retrovirus",
+          "journal": "Molecular and cellular biology",
+          "year": "1996",
+          "cited_by": 9,
+          "type": null
+        },
+        {
+          "pmid": "9294746",
+          "doi": "10.1007/bf01322444",
+          "title": "Lumbosacral arthrodesis using pedicular screws and ringed rods",
+          "journal": "European spine journal : official publication of the European Spine Society, the European Spinal Deformity Society, and the European Section of the Cervical Spine Research Society",
+          "year": "1997",
+          "cited_by": 3,
+          "type": null
+        },
+        {
+          "pmid": "9037350",
+          "doi": null,
+          "title": "Localization of TEC to 9q22.3-q31 by fluorescence in situ hybridization",
+          "journal": "Annales de genetique",
+          "year": "1996",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": null,
+          "doi": null,
+          "title": "Association for Molecular Pathology Annual Meeting Abstracts November 15-17, 1996 Baltimore, Maryland",
+          "journal": "The American journal of pathology",
+          "year": "1996",
+          "cited_by": 0,
+          "type": null
+        }
+      ]
+    },
+    "fusion_cloning_emc": {
+      "query": "(\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (FIRST_PDATE:[1993-01-01 TO 1999-12-31])",
+      "hit_count": 65,
+      "returned": 25,
+      "top": [
+        {
+          "pmid": "10366145",
+          "doi": "10.1097/00000478-199906000-00002",
+          "title": "Extraskeletal myxoid chondrosarcoma: a reappraisal of its morphologic spectrum and prognostic factors based on 117 cases",
+          "journal": "The American journal of surgical pathology",
+          "year": "1999",
+          "cited_by": 171,
+          "type": null
+        },
+        {
+          "pmid": "8203453",
+          "doi": null,
+          "title": "Chromosomal aberrations in soft tissue tumors. Relevance to diagnosis, classification, and molecular mechanisms",
+          "journal": "The American journal of pathology",
+          "year": "1994",
+          "cited_by": 153,
+          "type": null
+        },
+        {
+          "pmid": "8634690",
+          "doi": "10.1093/hmg/4.12.2219",
+          "title": "Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation",
+          "journal": "Human molecular genetics",
+          "year": "1995",
+          "cited_by": 139,
+          "type": null
+        },
+        {
+          "pmid": "9781944",
+          "doi": "10.1002/(sici)1097-0142(19981015)83:8<1504::aid-cncr5>3.0.co;2-b",
+          "title": "Skeletal and extraskeletal myxoid chondrosarcoma: a comparative clinicopathologic, ultrastructural, and molecular study",
+          "journal": "Cancer",
+          "year": "1998",
+          "cited_by": 117,
+          "type": null
+        },
+        {
+          "pmid": "10537274",
+          "doi": null,
+          "title": "Fusion of the EWS-related gene TAF2N to TEC in extraskeletal myxoid chondrosarcoma",
+          "journal": "Cancer research",
+          "year": "1999",
+          "cited_by": 107,
+          "type": null
+        },
+        {
+          "pmid": "10389622",
+          "doi": "10.1007/s004280050358",
+          "title": "Myoepitheliomas of the skin and soft tissues. Report of 12 cases",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "1999",
+          "cited_by": 97,
+          "type": null
+        },
+        {
+          "pmid": "8548119",
+          "doi": "10.1007/bf00199383",
+          "title": "Lipomatous tumours of soft tissues: an update",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "1995",
+          "cited_by": 78,
+          "type": null
+        },
+        {
+          "pmid": "10602520",
+          "doi": "10.1038/sj.onc.1203156",
+          "title": "Identification of a novel fusion gene involving hTAFII68 and CHN from a t(9;17)(q22;q11.2) translocation in an extraskeletal myxoid chondrosarcoma",
+          "journal": "Oncogene",
+          "year": "1999",
+          "cited_by": 77,
+          "type": null
+        },
+        {
+          "pmid": "7726361",
+          "doi": "10.1097/00000478-199505000-00003",
+          "title": "Ectomesenchymal chondromyxoid tumor of the anterior tongue. Nineteen cases of a new clinicopathologic entity",
+          "journal": "The American journal of surgical pathology",
+          "year": "1995",
+          "cited_by": 76,
+          "type": null
+        },
+        {
+          "pmid": "7635565",
+          "doi": "10.1002/ijc.2910620407",
+          "title": "Translocation t(9;22)(q22;q12) is a primary cytogenetic abnormality in extraskeletal myxoid chondrosarcoma",
+          "journal": "International journal of cancer",
+          "year": "1995",
+          "cited_by": 75,
+          "type": null
+        },
+        {
+          "pmid": "10478665",
+          "doi": "10.1097/00000478-199909000-00008",
+          "title": "Parachordoma is immunohistochemically and cytogenetically distinct from axial chordoma and extraskeletal myxoid chondrosarcoma",
+          "journal": "The American journal of surgical pathology",
+          "year": "1999",
+          "cited_by": 71,
+          "type": null
+        },
+        {
+          "pmid": "9293889",
+          "doi": "10.1007/s004280050073",
+          "title": "The role of cytogenetics in the classification of soft tissue tumours",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "1997",
+          "cited_by": 68,
+          "type": null
+        },
+        {
+          "pmid": "9060841",
+          "doi": null,
+          "title": "Molecular analysis of the fusion of EWS to an orphan nuclear receptor gene in extraskeletal myxoid chondrosarcoma",
+          "journal": "The American journal of pathology",
+          "year": "1997",
+          "cited_by": 64,
+          "type": null
+        },
+        {
+          "pmid": "8539235",
+          "doi": null,
+          "title": "t(9;22)(q22-31;q11-12) is a consistent marker of extraskeletal myxoid chondrosarcoma: evaluation of three cases",
+          "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+          "year": "1995",
+          "cited_by": 57,
+          "type": null
+        },
+        {
+          "pmid": "9490269",
+          "doi": "10.1016/s0046-8177(98)90220-9",
+          "title": "Keratin subsets and monoclonal antibody HBME-1 in chordoma: immunohistochemical differential diagnosis between tumors simulating chordoma",
+          "journal": "Human pathology",
+          "year": "1998",
+          "cited_by": 55,
+          "type": null
+        },
+        {
+          "pmid": "7900708",
+          "doi": "10.1097/00000421-199504000-00014",
+          "title": "Extraskeletal myxoid chondrosarcoma. Long-term experience with chemotherapy",
+          "journal": "American journal of clinical oncology",
+          "year": "1995",
+          "cited_by": 52,
+          "type": null
+        },
+        {
+          "pmid": "7773957",
+          "doi": "10.1016/0165-4608(94)00201-0",
+          "title": "Translocation (9;22)(q22;q12). A recurrent chromosome abnormality in extraskeletal myxoid chondrosarcoma",
+          "journal": "Cancer genetics and cytogenetics",
+          "year": "1995",
+          "cited_by": 49,
+          "type": null
+        },
+        {
+          "pmid": "10469211",
+          "doi": "10.1046/j.1365-2559.1999.00735.x",
+          "title": "High-grade extraskeletal myxoid chondrosarcoma: a high-grade epithelioid malignancy",
+          "journal": "Histopathology",
+          "year": "1999",
+          "cited_by": 42,
+          "type": null
+        },
+        {
+          "pmid": "9149016",
+          "doi": "10.1002/(sici)1097-0142(19970515)79:10<1903::aid-cncr10>3.0.co;2-z",
+          "title": "Myxoid chondrosarcoma (chordoid sarcoma) of bone: a report of two cases and review of the literature",
+          "journal": "Cancer",
+          "year": "1997",
+          "cited_by": 35,
+          "type": null
+        },
+        {
+          "pmid": "10564385",
+          "doi": "10.1046/j.1365-2559.1999.00724.x",
+          "title": "Malignant myxoid endobronchial tumour: a report of two cases with a unique histological pattern",
+          "journal": "Histopathology",
+          "year": "1999",
+          "cited_by": 34,
+          "type": null
+        },
+        {
+          "pmid": "9844602",
+          "doi": "10.1016/s0165-4608(98)00098-3",
+          "title": "Amplification of 12q13 and 12q15 sequences in a sclerosing epithelioid fibrosarcoma",
+          "journal": "Cancer genetics and cytogenetics",
+          "year": "1998",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "8118603",
+          "doi": "10.1097/00019606-199300020-00037",
+          "title": "Possible association of p53 overexpression and mutation with high-grade chondrosarcoma",
+          "journal": "Diagnostic molecular pathology : the American journal of surgical pathology, part B",
+          "year": "1993",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "9344317",
+          "doi": null,
+          "title": "Immunohistochemical and molecular genetic approaches to soft tissue tumor diagnosis: a primer",
+          "journal": "Seminars in oncology",
+          "year": "1997",
+          "cited_by": 27,
+          "type": null
+        },
+        {
+          "pmid": "9811331",
+          "doi": "10.1016/s0002-9440(10)65727-6",
+          "title": "Subtracted, unique-sequence, in situ hybridization: experimental and diagnostic applications",
+          "journal": "The American journal of pathology",
+          "year": "1998",
+          "cited_by": 25,
+          "type": null
+        },
+        {
+          "pmid": "8310804",
+          "doi": "10.1007/bf00228591",
+          "title": "Intracranial extraskeletal myxoid chondrosarcoma with special reference to lamellar inclusions in the rough endoplasmic reticulum",
+          "journal": "Acta neuropathologica",
+          "year": "1993",
+          "cited_by": 24,
+          "type": null
+        }
+      ]
+    },
+    "nr4a3_chromatin_any": {
+      "query": "(NR4A3 OR \"NOR-1\" OR \"EWS/NOR1\" OR \"EWSR1-NR4A3\" OR \"EWSR1::NR4A3\" OR \"TFG-TEC\") AND (\"ChIP-seq\" OR \"ChIP seq\" OR \"CUT&RUN\" OR \"CUT&Tag\" OR \"ChIP-exo\" OR cistrome OR \"ATAC-seq\")",
+      "hit_count": null,
+      "returned": 0,
+      "top": []
+    },
+    "nr4a3_fusion_chromatin": {
+      "query": "(\"EWS/NOR1\" OR \"EWSR1-NR4A3\" OR \"EWSR1::NR4A3\" OR \"TAF15-NR4A3\" OR \"TFG-TEC\" OR \"TFG-NR4A3\") AND (\"ChIP-seq\" OR \"CUT&RUN\" OR \"CUT&Tag\" OR cistrome OR \"genome-wide\" OR \"ChIP-chip\")",
+      "hit_count": 24,
+      "returned": 24,
+      "top": [
+        {
+          "pmid": "26849082",
+          "doi": "10.1002/cncr.29871",
+          "title": "Biologic and clinical characteristics of adolescent and young adult cancers: Acute lymphoblastic leukemia, colorectal cancer, breast cancer, melanoma, and sarcoma",
+          "journal": "Cancer",
+          "year": "2016",
+          "cited_by": 107,
+          "type": null
+        },
+        {
+          "pmid": "16980615",
+          "doi": "10.1128/mcb.00268-06",
+          "title": "DACH1 is a cell fate determination factor that inhibits cyclin D1 and breast tumor growth",
+          "journal": "Molecular and cellular biology",
+          "year": "2006",
+          "cited_by": 106,
+          "type": null
+        },
+        {
+          "pmid": "31276706",
+          "doi": "10.1016/j.pharmthera.2019.06.010",
+          "title": "TP53 in bone and soft tissue sarcomas",
+          "journal": "Pharmacology & therapeutics",
+          "year": "2019",
+          "cited_by": 101,
+          "type": null
+        },
+        {
+          "pmid": "32573957",
+          "doi": "10.1002/cjp2.174",
+          "title": "Sarcoma and the 100,000 Genomes Project: our experience and changes to practice",
+          "journal": "The journal of pathology. Clinical research",
+          "year": "2020",
+          "cited_by": 31,
+          "type": null
+        },
+        {
+          "pmid": "35390276",
+          "doi": "10.1016/j.molcel.2022.03.019",
+          "title": "The FUS::DDIT3 fusion oncoprotein inhibits BAF complex targeting and activity in myxoid liposarcoma",
+          "journal": "Molecular cell",
+          "year": "2022",
+          "cited_by": 30,
+          "type": null
+        },
+        {
+          "pmid": "22567356",
+          "doi": "10.4061/2011/497148",
+          "title": "Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas",
+          "journal": "Genetics research international",
+          "year": "2011",
+          "cited_by": 29,
+          "type": null
+        },
+        {
+          "pmid": "29759550",
+          "doi": "10.1016/j.critrevonc.2018.03.007",
+          "title": "Sarcoma-The standard-bearer in cancer discovery",
+          "journal": "Critical reviews in oncology/hematology",
+          "year": "2018",
+          "cited_by": 25,
+          "type": null
+        },
+        {
+          "pmid": "36779660",
+          "doi": "10.15252/emmm.202216863",
+          "title": "Unravelling homologous recombination repair deficiency and therapeutic opportunities in soft tissue and bone sarcoma",
+          "journal": "EMBO molecular medicine",
+          "year": "2023",
+          "cited_by": 24,
+          "type": null
+        },
+        {
+          "pmid": "28561686",
+          "doi": "10.1200/edbk_175378",
+          "title": "Advances in the Treatment of Pediatric Bone Sarcomas",
+          "journal": "American Society of Clinical Oncology educational book. American Society of Clinical Oncology. Annual Meeting",
+          "year": "2017",
+          "cited_by": 23,
+          "type": null
+        },
+        {
+          "pmid": "35626152",
+          "doi": "10.3390/cancers14102548",
+          "title": "The Molecular Biology of Soft Tissue Sarcomas: Current Knowledge and Future Perspectives",
+          "journal": "Cancers",
+          "year": "2022",
+          "cited_by": 20,
+          "type": null
+        },
+        {
+          "pmid": "35406801",
+          "doi": "10.3390/cells11071238",
+          "title": "Molecular Markers of Pediatric Solid Tumors-Diagnosis, Optimizing Treatments, and Determining Susceptibility: Current State and Future Directions",
+          "journal": "Cells",
+          "year": "2022",
+          "cited_by": 18,
+          "type": null
+        },
+        {
+          "pmid": "22112491",
+          "doi": "10.3233/cbm-2011-0170",
+          "title": "The molecular pathology of sarcomas",
+          "journal": "Cancer biomarkers : section A of Disease markers",
+          "year": "2010",
+          "cited_by": 13,
+          "type": null
+        },
+        {
+          "pmid": "40004005",
+          "doi": "10.3390/ijms26041542",
+          "title": "Chondrosarcoma: New Molecular Insights, Challenges in Near-Patient Preclinical Modeling, and Therapeutic Approaches",
+          "journal": "International journal of molecular sciences",
+          "year": "2025",
+          "cited_by": 7,
+          "type": null
+        },
+        {
+          "pmid": "36316541",
+          "doi": "10.1007/s13577-022-00818-x",
+          "title": "Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models",
+          "journal": "Human cell",
+          "year": "2023",
+          "cited_by": 7,
+          "type": null
+        },
+        {
+          "pmid": "39636306",
+          "doi": "10.1007/s00428-024-03977-4",
+          "title": "Reappraisal of soft tissue myoepithelial tumors by DNA methylation profiling reveals an epigenetically distinct group of mostly fusion-driven neoplasms",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2025",
+          "cited_by": 5,
+          "type": null
+        },
+        {
+          "pmid": "35954475",
+          "doi": "10.3390/cancers14153812",
+          "title": "Pathogenic Roles of RNA-Binding Proteins in Sarcomas",
+          "journal": "Cancers",
+          "year": "2022",
+          "cited_by": 5,
+          "type": null
+        },
+        {
+          "pmid": "33669307",
+          "doi": "10.3390/cancers13040824",
+          "title": "Rationale for Early Detection of &lt;i&gt;EWSR1&lt;/i&gt; Translocation-Associated Sarcoma Biomarkers in Liquid Biopsy",
+          "journal": "Cancers",
+          "year": "2021",
+          "cited_by": 3,
+          "type": null
+        },
+        {
+          "pmid": "39048711",
+          "doi": "10.1038/s41587-024-02347-4",
+          "title": "Large-scale discovery of chromatin dysregulation induced by oncofusions and other protein-coding variants",
+          "journal": "Nature biotechnology",
+          "year": "2025",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "27553392",
+          "doi": "10.1007/s00428-016-1997-7",
+          "title": "Oral Free Paper Sessions",
+          "journal": "Virchows Archiv : an international journal of pathology",
+          "year": "2016",
+          "cited_by": 2,
+          "type": null
+        },
+        {
+          "pmid": "42055626",
+          "doi": "10.21873/cgp.20580",
+          "title": "Cancer Cytogenetics: Deep Roots, New Branches in the Age of Omics",
+          "journal": "Cancer genomics & proteomics",
+          "year": "2026",
+          "cited_by": 0,
+          "type": null
+        },
+        {
+          "pmid": "41919250",
+          "doi": "10.3389/fonc.2026.1744382",
+          "title": "The genetics of cancer heterogeneity and mesothelioma",
+          "journal": "Frontiers in oncology",
+          "year": "2026",
+          "cited_by": 0,
+          "type": null
+        },
+        {
+          "pmid": "41769942",
+          "doi": "10.1167/tvst.15.3.3",
+          "title": "Beyond the Globe: Molecular Diagnostics of Optic Nerve, Orbital, and Adnexal Neoplasms",
+          "journal": "Translational vision science & technology",
+          "year": "2026",
+          "cited_by": 0,
+          "type": null
+        },
+        {
+          "pmid": "41268214",
+          "doi": "10.34133/research.0977",
+          "title": "Alternative Splicing: A Critical Regulator in Human Bone Biology and Tumor Progression",
+          "journal": "Research (Washington, D.C.)",
+          "year": "2025",
+          "cited_by": 0,
+          "type": null
+        },
+        {
+          "pmid": null,
+          "doi": null,
+          "title": "Abstracts",
+          "journal": "The Journal of molecular diagnostics : JMD",
+          "year": "2015",
+          "cited_by": 0,
+          "type": null
+        }
+      ]
+    }
+  },
+  "cites_syntax_control": {
+    "pmid": "1902986",
+    "floor": 50,
+    "hit_count": 1355,
+    "passed": true,
+    "means": "CITES: resolves, so a zero below is a real zero."
+  }
+}
