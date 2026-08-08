@@ -548,6 +548,14 @@ jobs:
       - name: "RET cistrome — fetch ONLY Zenodo and merge it into the committed inputs cache"
         if: inputs.mode == 'ret-cistrome-zenodo'
         timeout-minutes: 25
+        env:
+          # ⚠ MUST STAY COMFORTABLY BELOW `timeout-minutes`, the same rule every other network step
+          # in this file carries — and this step shipped without it. The module's default budget is
+          # 3000 s (50 min) against a 25-minute step timeout, so the graceful-exit path could NEVER
+          # fire: the runner would kill the step first, and a killed step prints nothing and writes
+          # nothing, which is precisely the diagnostic this mode exists to produce. One unresponsive
+          # peak file can take 20 minutes on its own here (`get` is tries=4 × timeout=300).
+          RET_CISTROME_BUDGET_S: "900"
         run: python research/modalities/emc_ret_cistrome.py --fetch-zenodo
 
       - name: "RET cistrome — reproduce check (the derive half must be offline-reproducible)"

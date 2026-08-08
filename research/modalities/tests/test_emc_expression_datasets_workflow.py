@@ -136,3 +136,40 @@ def test_the_hypoxia_confounds_mode_publishes_its_own_artifacts_and_nothing_part
         "the hypoxia-confounds mode would publish part B's grading artifact")
     assert "emc-expression-panels" not in paths, (
         "the hypoxia-confounds mode would publish the panels artifacts it only READS")
+
+
+def test_every_network_budget_stays_below_its_own_step_timeout():
+    """A budget above its step's timeout is a budget that can never fire.
+
+    Measured 2026-08-08 on the `ret-cistrome-zenodo` step: `timeout-minutes: 25` with the module's
+    default budget of 3000 s (50 min). The graceful-exit path — which prints the record-level
+    results and the per-attempt timings, and is the entire reason that mode exists — could not be
+    reached, because the runner kills the step first and a killed step writes nothing and prints
+    nothing. Several steps in this file already carry a prose comment saying the budget must stay
+    "comfortably BELOW `timeout-minutes`"; a rule stated in six comments and checked in none is how
+    the seventh step shipped without it.
+    """
+    import yaml
+    with open(WF) as fh:
+        doc = yaml.safe_load(fh)
+    steps = doc["jobs"][next(iter(doc["jobs"]))]["steps"]
+    checked = 0
+    for s in steps:
+        env = s.get("env") or {}
+        budgets = {k: v for k, v in env.items() if k.endswith("_BUDGET_S")}
+        if not budgets:
+            continue
+        timeout = s.get("timeout-minutes")
+        assert timeout, f"step {s.get('name')!r} sets a network budget and no timeout"
+        for k, v in budgets.items():
+            raw = str(v)
+            if "${{" in raw:            # a dispatch input; its DEFAULT is what ships
+                m = re.search(r"\|\|\s*'(\d+)'", raw)
+                if not m:
+                    continue
+                raw = m.group(1)
+            checked += 1
+            assert int(raw) < timeout * 60, (
+                f"{s.get('name')!r}: {k}={raw}s is not below timeout-minutes={timeout} "
+                f"({timeout * 60}s) — the budget can never fire, so the step dies with no output")
+    assert checked >= 3, f"only {checked} budget(s) checked; the guard is not reaching them"
