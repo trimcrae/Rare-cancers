@@ -559,3 +559,36 @@ def test_gpl_containment_ignores_mouse_builds():
                        "start": 118_160_000, "stop": 118_160_100}]}
     out = M._gpl_containment({}, probes, ens)
     assert "mm10" not in (out["RET_consistent_with"] or [])
+
+
+# =================================================================================================
+# ZENODO — the deep, non-paralogue NR4A3 route (Haller 2019).
+# =================================================================================================
+def test_the_build_is_read_from_the_deposit_and_ambiguity_refuses():
+    """A BED carries no build inside it, and on chr10 a wrong build does not throw — it silently
+    reports another locus. So the build is READ from the deposit's own prose, and a deposit naming
+    two builds yields None rather than a guess."""
+    assert M._build_from_text("NR4A3 ChIP-seq peaks, hg19") == "hg19"
+    assert M._build_from_text("aligned to GRCh38") == "hg38"
+    assert M._build_from_text("NR4A3_ACC1_hg38_peaks.bed") == "hg38"
+    assert M._build_from_text("mapped to hg19 and lifted to hg38") is None
+    assert M._build_from_text("no build mentioned") is None
+    assert M._build_from_text(None, "") is None
+
+
+def test_the_zenodo_record_carries_its_not_the_fusion_caveat():
+    """Acinic cell carcinoma is NATIVE NR4A3 by enhancer hijacking. A reader of the artifact must
+    not be able to reach this peak set without meeting that sentence."""
+    for rec, meta in M.ZENODO_RECORDS.items():
+        assert "not_the_fusion" in " ".join(meta.keys()), rec
+        caveat = meta["⛔ not_the_fusion"]
+        assert "NATIVE" in caveat
+        assert "never be cited as a fusion cistrome" in caveat
+        assert meta["doi"] and meta["pmid"]
+
+
+def test_peak_like_matching_accepts_beds_and_rejects_prose():
+    assert M.PEAKISH.search("NR4A3_peaks.bed.gz")
+    assert M.PEAKISH.search("x.narrowPeak")
+    assert not M.PEAKISH.search("readme.txt")
+    assert not M.PEAKISH.search("figure1.pdf")

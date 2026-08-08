@@ -1358,6 +1358,114 @@ def probe_other_catalogues():
 
 
 # =============================================================================================
+# ZENODO — the only route to a DEEP, NON-PARALOGUE NR4A3 peak set.
+# =============================================================================================
+# ⭐ WHY THIS SOURCE EXISTS. Every NR4A3 peak set this module otherwise retrieves is one of the
+# 53-154-peak dendritic-cell experiments, which recover no arbitrary gene and are therefore
+# UNINFORMATIVE: they cannot fail to find a locus. ReMap has no NR4A3
+# (`not_found_at_any_attempted_url`) and ENCODE has none (`failed_or_none`). So the occupancy
+# reading downstream of this module is carried entirely by NR4A1, a paralogue sharing 0.347 of its
+# peaks with NR4A3 in matched cells. Haller et al. 2019 is the one published NR4A3 ChIP-seq in a
+# human TUMOUR, and its processed data is openly deposited.
+#
+# ⛔ AND IT IS STILL NOT THE FUSION. Acinic cell carcinoma carries NATIVE NR4A3 up-regulated by
+# enhancer hijacking. The transcriptional-output manuscript measures native NR4A3 failing to
+# activate the PPARG promoter the fusion activates, so this answers "where does the NR4A3
+# DNA-binding domain go in a human tumour" and never "where does EWSR1::NR4A3 go". Any reader of
+# the artifact is told so on every record this produces.
+ZENODO_RECORDS = {
+    "1483691": {
+        "doi": "10.5281/zenodo.1483691",
+        "pmid": "30664630",
+        "what": "Haller et al., Nat Commun 2019;10:368 — NR4A3 ChIP-seq in three human acinic "
+                "cell carcinoma tumours, with H3K27ac / H3K4me3 / CTCF alongside, and a de-novo "
+                "NBRE motif recovered in all three.",
+        "⛔ not_the_fusion": "acinic cell carcinoma carries NATIVE NR4A3 up-regulated by enhancer "
+                            "hijacking, NOT an NR4A3 fusion. This peak set must never be cited "
+                            "as a fusion cistrome.",
+    },
+}
+ZENODO_API = "https://zenodo.org/api/records/{rec}"
+
+# A BED file carries no genome build inside it, and this module refuses to intersect on an assumed
+# one — on chr10 a wrong build does not throw, it silently reports a different locus. So the build
+# is read from the deposit's own prose and, failing that, the peak set is retrieved, recorded, and
+# NOT intersected.
+_BUILD_TOKENS = [("hg38", ("hg38", "grch38")), ("hg19", ("hg19", "grch37"))]
+
+
+def _build_from_text(*texts):
+    """The build named by the deposit itself, or None. Ambiguity is None, never a guess."""
+    blob = " ".join(t for t in texts if t).lower()
+    found = {b for b, toks in _BUILD_TOKENS if any(tok in blob for tok in toks)}
+    return found.pop() if len(found) == 1 else None
+
+
+def fetch_zenodo_peaksets():
+    """Peak-like files from each ZENODO_RECORDS deposit, parsed and build-graded.
+
+    Returns {name: peakset} in the same shape the ChIP-Atlas and ReMap loaders produce, so the
+    intersection and everything downstream of it needs no change."""
+    out = {}
+    for rec, meta in sorted(ZENODO_RECORDS.items()):
+        d = get_json(ZENODO_API.format(rec=rec), timeout=90)
+        if d is None:
+            out[f"ZENODO{rec}"] = {"_status": "record_unreadable", "antigen": None,
+                                   "peaks": [], "diag": {"_status": "absent"},
+                                   "⛔": "the deposit could not be read; this is an ABSENT "
+                                         "READING, not a deposit without peak files.",
+                                   **meta}
+            continue
+        desc = ((d.get("metadata") or {}).get("description") or "")
+        title = ((d.get("metadata") or {}).get("title") or "")
+        files = d.get("files") or []
+        record_build = _build_from_text(title, desc)
+        seen_any = False
+        for f in files:
+            key = f.get("key") or ""
+            if not PEAKISH.search(key):
+                continue
+            url = ((f.get("links") or {}).get("self") or (f.get("links") or {}).get("download"))
+            if not url:
+                continue
+            raw = get(url, timeout=300, max_bytes=200_000_000)
+            peaks, diag = parse_bed(raw, f"zenodo:{rec}:{key}")
+            if not peaks:
+                continue
+            seen_any = True
+            ag = next((p for p in PARALOGUES if p.lower() in key.lower()), None)
+            build = _build_from_text(key) or record_build
+            ok = build in BUILDS
+            out[f"ZENODO{rec}:{key}"] = {
+                "antigen": ag,
+                "genome": build if ok else None,
+                "cell_type": title[:120] or f"Zenodo {rec}",
+                "cell_type_class": "author-deposited peak call (not uniformly reprocessed)",
+                "qc": None, "peaks": peaks, "diag": diag,
+                "_status": "read" if ok else "read_but_build_unknown",
+                "build_evidence": {"from_filename": _build_from_text(key),
+                                   "from_record_text": record_build,
+                                   "_rule": "a build named unambiguously by the deposit, or none"},
+                "source_doi": meta["doi"], "source_pmid": meta.get("pmid"),
+                "⛔ not_the_fusion": meta.get("⛔ not_the_fusion"),
+                "⛔": None if ok else
+                     ("no genome build could be read from this deposit, so the peak set is "
+                      "retrieved and recorded but NOT intersected. An intersection on an assumed "
+                      "build would not throw; on chr10 it would silently report another locus."),
+            }
+        if not seen_any:
+            out[f"ZENODO{rec}"] = {
+                "_status": "no_peak_like_files", "antigen": None, "peaks": [],
+                "diag": {"_status": "absent"},
+                "n_files_in_deposit": len(files),
+                "file_keys": [f.get("key") for f in files][:40],
+                "⛔": "the deposit was READ and carries no file this module recognises as a peak "
+                      "call. That is a fact about the deposit's contents, not a failed fetch.",
+                **meta}
+    return out
+
+
+# =============================================================================================
 # PART 2 — peaks.
 # =============================================================================================
 
@@ -2088,6 +2196,8 @@ def fetch():
                       "intersected — an intersection on an assumed build is the defect this "
                       "module refuses, and on chr10 it would not throw, it would silently "
                       "report another locus.")}
+    # Zenodo — the only deep non-paralogue NR4A3 route (see ZENODO_RECORDS).
+    peaksets.update(fetch_zenodo_peaksets())
     cache["peaksets"] = peaksets
     cache["attempts"] = ATTEMPTS
     cache["_budget_spent_s"] = BUDGET.spent()
