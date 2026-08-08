@@ -90,6 +90,13 @@ SERIES = "GSE243553"
 SERIES_PMID = "39048711"
 SERIES_PMCID = "PMC13105821"
 PREPRINT_DOI = "10.1101/2023.09.20.555752"
+PUBLISHED_DOI = "10.1038/s41587-024-02347-4"
+# ⛔ THE CANONICAL FORM MATTERS. `lint_citations` captures a PMID as `PMID <digits>`,
+# case-sensitively, so a JSON key spelled `"pmid": "39048711"` anchors NOTHING — the
+# identifier reads as prose-only and the gate fails an artifact that DID fetch it.
+PRIMARY_PUBLICATION = (
+    f"PMID {SERIES_PMID} (Nat Biotechnol 2025); {SERIES_PMCID}; doi {PUBLISHED_DOI}; "
+    "preprint doi 10.1101/2023.09.20.555752")
 AUTHOR_REPO = "mfrenkel16/OncofusionPRODATAC"
 
 # The NBRE consensus, quoted from the scan artifact's own `_motifs` block rather than typed.
@@ -386,7 +393,7 @@ def run_recon(budget_s: float = DEFAULT_BUDGET_S) -> dict:
                       "safety, therapeutic-window or clinical-readiness statement about any agent, "
                       "target or gene."),
         "series": SERIES,
-        "pmid": SERIES_PMID,
+        "pmid": SERIES_PMID, "primary_publication": PRIMARY_PUBLICATION,
         "pmcid": SERIES_PMCID,
         "preprint_doi": PREPRINT_DOI,
         "author_repo": AUTHOR_REPO,
@@ -620,7 +627,7 @@ def run_arms(budget_s: float = DEFAULT_BUDGET_S) -> dict:
             recon["_constraints_that_travel_with_every_result"],
         "_no_claim": recon["_no_claim"],
         "series": SERIES,
-        "pmid": SERIES_PMID,
+        "pmid": SERIES_PMID, "primary_publication": PRIMARY_PUBLICATION,
         "pmcid": SERIES_PMCID,
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "file_sizes_bytes": sizes,
@@ -883,7 +890,7 @@ def run_suppl(budget_s: float = DEFAULT_BUDGET_S) -> dict:
             "Every candidate is now checked against the container's MAGIC BYTES and a 200 whose "
             "body is not the payload is `ok_but_not_the_file`, with the body kept. That is a "
             "different diagnosis from `not_retrieved` and it points at a different fix."),
-        "series": SERIES, "pmid": SERIES_PMID, "pmcid": SERIES_PMCID,
+        "series": SERIES, "pmid": SERIES_PMID, "primary_publication": PRIMARY_PUBLICATION, "pmcid": SERIES_PMCID,
         "doi": "10.1038/s41587-024-02347-4",
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "fetches": got,
@@ -1254,7 +1261,7 @@ def run_overlap(budget_s: float = DEFAULT_BUDGET_S, flank: int = FLANK_BP,
             "supplementary data (Springer ESM for doi 10.1038/s41587-024-02347-4). GEO's "
             "GSE243553 deposits fragments only — 80.1 GB, no peak call — so nothing here is a "
             "peak this repository called."),
-        "series": SERIES, "pmid": SERIES_PMID, "doi": "10.1038/s41587-024-02347-4",
+        "series": SERIES, "pmid": SERIES_PMID, "primary_publication": PRIMARY_PUBLICATION, "doi": "10.1038/s41587-024-02347-4",
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "genome_build": {
             "deposit_declares": "hg38",
@@ -1511,7 +1518,7 @@ def run_frag(samples: int, budget_s: float, flank: int = FLANK_BP,
             arms_art["_constraints_that_travel_with_every_result"],
         "_no_claim": arms_art["_no_claim"],
         "series": SERIES,
-        "pmid": SERIES_PMID,
+        "pmid": SERIES_PMID, "primary_publication": PRIMARY_PUBLICATION,
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "genome_build": {
             "deposit": "hg38",
