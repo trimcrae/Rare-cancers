@@ -251,4 +251,10 @@ jobs:
       # collecting whatever lands anywhere under research/ — and a suite that silently changes what
       # it runs is the same failure as a suite that silently stops running (the incident above).
       - if: always()
-        run: python -m pytest research/modalities/tests research/manuscripts/tests systems/tests -q --continue-on-collection-errors
+        # ⛔ `--durations` IS NOT DECORATION HERE, AND ITS ABSENCE COST A WHOLE DIAGNOSIS
+        # (2026-08-08). This step ran 22.7 min and nothing recorded WHERE. Profiling it locally
+        # was actively misleading: numpy, scipy, rdkit and boto3 are absent from the dev sandbox,
+        # so ~48 tests that run HERE do not run there, and the local profile put 96.8% of the cost
+        # on one test that is only ~7 min of this job. A suite can only be profiled where it
+        # actually runs. Cost of the flag itself: zero.
+        run: python -m pytest research/modalities/tests research/manuscripts/tests systems/tests -q --continue-on-collection-errors --durations=25
