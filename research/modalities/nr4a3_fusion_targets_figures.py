@@ -466,9 +466,9 @@ def build():
     occ = _load(OCC)
 
     figs = {
-        "fig1-per-sample-class-a": fig_per_sample(plt, tgt),
-        "fig2-size-matched-null": fig_null(plt, tgt, inputs),
-        "fig3-evidence-classes": fig_classes(plt, tgt),
+        "fig1-size-matched-null": fig_null(plt, tgt, inputs),
+        "fig2-evidence-classes": fig_classes(plt, tgt),
+        "fig3-per-sample-class-a": fig_per_sample(plt, tgt),
         "fig4-instrument-convergence": fig_matrix(plt, tgt, robust, seq3, motif, conf, occ),
         "fig5-muscle-admixture-control": fig_muscle(plt, conf),
     }

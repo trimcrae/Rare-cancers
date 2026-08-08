@@ -25,9 +25,7 @@ last_verified: 2026-08-08
 
 # Supplementary Information
 
-**For:** *The direct-target catalogue of EWSR1::NR4A3 is three genes wide, and one gene survives
-calibration: an evidence-typed re-analysis of extraskeletal myxoid chondrosarcoma across three
-cohorts.*
+**For:** *Almost every gene set reads higher in the index arm: a size-matched empirical null for small rare-tumour expression series, and what it leaves of the EWSR1::NR4A3 direct-target catalogue.*
 
 Every table here is generated from a committed artifact and is not re-typed from prose; the
 producers are listed in the main text's Data and code availability section. Section numbers below

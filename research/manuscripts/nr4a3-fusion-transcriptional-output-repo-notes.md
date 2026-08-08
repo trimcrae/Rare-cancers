@@ -16,8 +16,8 @@ scope: >
   manuscript and its committed artifacts. This file is never submitted anywhere.
 audience: [maintainers, autonomous research agents]
 related: [DOC-NR4A3-FUSION-TRANSCRIPTIONAL-OUTPUT]
-date: 2026-08-07
-last_verified: 2026-08-07
+date: 2026-08-08
+last_verified: 2026-08-08
 ---
 
 # Repository-internal notes for the EWSR1::NR4A3 transcriptional-output manuscript
@@ -32,6 +32,18 @@ needs. Nothing here is part of the paper, and nothing here is a scientific claim
 ⚠ **Section numbers below were re-pointed on 2026-08-08**, when the manuscript was retitled and split
 into a main text plus `nr4a3-fusion-transcriptional-output-SI.md`. If a pointer here disagrees with a
 heading in the paper, the paper is authoritative.
+
+⚠ **AND THE PAPER WAS REFRAMED LATER THE SAME DAY, WHICH MOVED §1.** *Superseded, retained: the
+title "The direct-target catalogue of EWSR1::NR4A3 is three genes wide, and one gene survives
+calibration".* The paper had been leading with its **weakest** result — *ENO3* is the pre-designated
+positive control (Limitation 17), the ordering rests on cohorts of 4, 6 and 10, and no gene here is
+separable from mere disease association — while the size-matched null is general, reusable beyond
+this disease, and untouched by any of that. The calibration is now the stated contribution and the
+gene ordering is the worked example. **§1 was reordered**: the old §1.3 (the calibration) is now
+**§1.1**, the old §1.1 (disease and driver) is **§1.2**, and the old §1.2 (the gap) is **§1.3**.
+**The figures were renumbered to match first mention** — the null is now **Figure 1**, the evidence
+classes **Figure 2**, and the per-tumour panel **Figure 3**; 4 and 5 are unchanged. **No number in
+§3 changed**, and nothing measured was withdrawn.
 
 - The **evidence-typed catalogue** of published NR4A3 / NR4A3-fusion transcriptional targets, with
   assay, cell system, species and verbatim sentence per gene — machine-readable in
@@ -104,7 +116,13 @@ paper because an external reader does not need the supersession history.
   `main` together with its producing modules; every class-A figure quoted in the manuscript's control
   table is byte-identical between refs, so the corroboration in §3.3 is corroboration rather than a
   dependency.
-- **An unsourced citation was removed.** A draft attributed the cloning of the EMC fusion to a 1995
-  paper with a PMID present in no committed source; it was written from recollection and withdrawn.
-  The background sentence is now anchored on the verbatim GEO series record and on Brenca *et al.*
+- **An unsourced citation was removed, and has now been replaced by a fetched one.** A draft
+  attributed the cloning of the EMC fusion to a 1995 paper with a PMID present in no committed
+  source; it was written from recollection and withdrawn, and the background sentence was re-anchored
+  on the GEO series record and Brenca *et al.* ⚠ *Superseded 2026-08-08:* that left §1.3's date claim
+  resting on nothing, because a bare year carries no identifier and so escapes `lint_citations`
+  entirely. The cloning paper was retrieved from Europe PMC (PMID 8634690, 1995, cited 139) and is
+  now reference 9a. It needed a `citation-provenance-ledger.json` entry despite being a genuine fetch
+  product, because `lint_citations.PATTERNS['PMID']` cannot read the `"pmid": "…"` form this
+  repository's own probes write — see that entry's note.
   (recorded in the manuscript's citation-provenance note).

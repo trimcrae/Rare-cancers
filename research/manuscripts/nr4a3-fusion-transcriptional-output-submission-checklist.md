@@ -14,16 +14,36 @@ scope: >
   scientific result.
 audience: [maintainers, external reviewers, collaborators]
 related: [DOC-NR4A3-FUSION-TRANSCRIPTIONAL-OUTPUT]
-date: 2026-08-07
-last_verified: 2026-08-07
+date: 2026-08-08
+last_verified: 2026-08-08
 ---
 
 # Submission checklist and journal-fit rationale
+
+⚠ **THE MANUSCRIPT WAS REFRAMED 2026-08-08 AND THIS FILE WAS RE-AUDITED AGAINST IT.** The paper now
+leads with the **size-matched empirical null** as its contribution and states the three-gene ordering
+as the worked example; §1 was reordered and the figures renumbered to match first mention (the null
+is Figure 1). What changed in *this* file: the venue rationale in §1 carries a re-examination note,
+and the word counts below were re-derived rather than carried over — one of them was stale by ~2,900
+words. **No number in the manuscript's §3 changed**, so every standards check below that was verified
+against a result still holds.
 
 Companion to [`nr4a3-fusion-transcriptional-output.md`](./nr4a3-fusion-transcriptional-output.md) and
 [`nr4a3-fusion-transcriptional-output-cover-letter.md`](./nr4a3-fusion-transcriptional-output-cover-letter.md).
 
 ## 1 · Recommended venue
+
+⚠ **RE-EXAMINED 2026-08-08, AFTER THE REFRAMING, AND THE ANSWER IS UNCHANGED.** The manuscript now
+leads with a methodological contribution — a size-matched empirical null for gene-set reads on small
+rare-tumour series — rather than with the gene ordering, and a venue chosen for its sarcoma audience
+deserves re-testing against that. It still holds: GCC publishes cancer-genomics *methodology* applied
+to neoplasia, not only disease findings, and the instrument's motivating example, its three cohorts
+and its readership are all sarcoma. **The relevant risk moved rather than disappeared**: the old
+framing risked a reviewer asking "why does this matter", and the new one risks "is this a methods
+paper in the wrong journal". The cover letter answers the second directly by naming the calibration
+as the contribution in its first paragraph. If GCC desk-rejects on that ground, the fallback order
+below should be revisited before resubmitting, because a pure-methods venue would then outrank
+*The Journal of Pathology*.
 
 **Primary: *Genes, Chromosomes & Cancer* (Wiley), Original Research Article.** It is the field's
 dedicated journal for the genetics and genomics of neoplasia, and specifically for fusion-driven
@@ -60,7 +80,7 @@ re-analyses of public data at no charge, and both Wiley journals above permit bi
 | requirement | target | status in manuscript |
 |---|---|---|
 | Article type | Original Research Article | ✔ declared |
-| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, 299 words by the command in §3 (which counts markdown emphasis tokens, so the prose count is slightly lower); at the J Pathol limit |
+| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, **296 words** by the command in §3 (which counts markdown emphasis tokens, so the prose count is slightly lower); inside the J Pathol limit |
 | Keywords | 5–7 | ✔ 7 keywords |
 | Structure | Introduction · Methods · Results · Discussion · Conclusion | ✔ full IMRaD, plus Limitations, two appendices and a Supplementary Information file |
 | References | GCC: any consistent style · J Pathol/EJC: ≤40–50 | ✔ 12 primary + gene-set resources, Vancouver style |
@@ -86,11 +106,16 @@ grep -c '^|---' $P          # all tables; subtract those after "## Data and code
 grep -c '^!\[Figure' $P
 ```
 
-- **Abstract:** 299 words by the command above, which counts markdown emphasis tokens as words; the prose count is slightly lower. At GCC's flexible limit and at J Pathol's ≤300.
-- **Main text:** ~7,090 words of prose from Abstract to Conclusion, excluding tables, figure captions
-  and back matter. GCC sets no fixed limit. **For *The Journal of Pathology* this would need trimming
-  toward ~4,000**; the material that would go first is §3.6's stratified narrative and §2.6's method
-  prose, both of which already have fuller versions in the SI.
+- **Abstract:** **296 words** by the command above, which counts markdown emphasis tokens as words;
+  the prose count is slightly lower. Inside GCC's flexible limit and J Pathol's ≤300.
+- **Main text:** **~10,410 words** by the command above, from Abstract to Conclusion, excluding
+  tables, figure captions and back matter. GCC sets no fixed limit. **For *The Journal of Pathology*
+  this would need trimming toward ~4,000**; the material that would go first is §3.6's stratified
+  narrative and §2.6's method prose, both of which already have fuller versions in the SI.
+  ⚠ *Superseded, retained: **"~7,090 words"**. That figure was stale by ~2,900 words before the
+  2026-08-08 reframing — re-running the command above against the pre-reframing commit gives 9,999,
+  so it had drifted through several revisions unnoticed. It is a hand-carried total of exactly the
+  kind rule 1 forbids: **re-run the command, do not quote this line from memory.***
 - **Display items:** **5 figures** (per-sample dots, the size-matched null, the evidence catalogue, the
   instrument-convergence matrix, the muscle-admixture control) and **9 numbered tables in the body**,
   plus 4 unnumbered tables in Data availability and the two appendices.

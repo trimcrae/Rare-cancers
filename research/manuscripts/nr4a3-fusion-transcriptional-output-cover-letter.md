@@ -14,8 +14,8 @@ scope: >
   refers to lives in the manuscript and its artifacts.
 audience: [maintainers, external reviewers, collaborators]
 related: [DOC-NR4A3-FUSION-TRANSCRIPTIONAL-OUTPUT]
-date: 2026-08-07
-last_verified: 2026-08-07
+date: 2026-08-08
+last_verified: 2026-08-08
 ---
 
 # Cover letter
@@ -32,9 +32,7 @@ article-processing charge is incurred.*
 
 **Date:** [DATE]
 
-**Re:** Submission of an Original Research Article — *"The direct-target catalogue of EWSR1::NR4A3 is
-three genes wide, and one gene survives calibration: an evidence-typed re-analysis of extraskeletal
-myxoid chondrosarcoma across three cohorts."*
+**Re:** Submission of an Original Research Article — *"Almost every gene set reads higher in the index arm: a size-matched empirical null for small rare-tumour expression series, and what it leaves of the EWSR1::NR4A3 direct-target catalogue."*
 
 Dear Editor,
 
@@ -49,30 +47,36 @@ the three genes carrying a published DNA-binding assay against an NR4A3 chimera 
 0 of those reviews respectively. I make no claim to have corrected a prevailing account, because the
 same search finds no prevailing account to correct.
 
-The work makes four contributions, each of which I have tried to state at its true weight rather than
-inflate. First, it assembles an **evidence-typed catalogue** of every gene any NR4A3 chimera or native
-NR4A3 is published to transcriptionally activate, recording the assay, cell system and species behind
-each — and finds that the set with a direct DNA-binding assay against a fusion is only three genes wide
-(*SEMA3C*, *PPARG*, *ENO3*). Second, it introduces a **size-matched empirical null** as the calibration
-that any gene-set read on these small rare-tumour expression series requires — without it, almost every
-gene set scores "higher in EMC" — and it applies that null to its own headline result rather than only
-to others'. Third, it **audits the confounds that could manufacture the result** rather than conceding
-them: the contrast is recomputed against every comparator stratum separately, against the
-reference-pool-matched comparators, and against a matrix-content covariate chosen to contain no
-EMC-selected gene, and the obvious objection to the strongest gene — that *ENO3* is muscle-specific
-β-enolase and EMC arises in the limb — is answered with two pooled skeletal-muscle samples the cohort
-contains.
+**The contribution is a calibration, and I have ordered the paper to say so.** On a series of this
+shape almost every gene set anyone scores comes back higher in the index arm — on GSE4303/GPL3290,
+PPARγ targets, hypoxia metagenes, adipogenesis and chondroitin-sulfate biosynthesis all move alike —
+because a set's per-sample score is one draw from a distribution whose width depends on the set's
+size and on the platform rather than on its biology. A **size-matched empirical null**, drawn from
+the platform's own genes and costing one seeded resampling, converts that uninterpretable "higher in"
+into a statement that can be refused. It is not specific to this disease or this gene set: any series
+with a small index arm and a heterogeneous comparator arm has the same failure mode, and in rare
+tumours those are the only series that exist. I apply it to my own headline result, and it refuses my
+aggregate.
 
-Fourth, and this is what the title now reports, that audit **separates the three genes rather than
-treating them alike**. *ENO3* survives every instrument applied. *PPARG*'s strongest reading proves to
-be circular — it is scored on the very cohort from which high *PPARG* in EMC was first published — and
-what remains does not survive multiple-testing correction. *SEMA3C* survives nothing and reverses sign
-depending on which sarcomas sit in the comparator arm. The manuscript is explicit about the ceiling on
-all of this: with three genes and no genome-wide chromatin experiment ever performed with an NR4A3
-fusion (a gap I document by a search of 2,276 full-text papers), "elevated in EMC" and "driven by the
-fusion" cannot yet be separated for any of them, *ENO3* included. I believe that honest boundary, drawn
-with a reusable instrument and a decision rule committed before the results were seen, is what makes
-the paper worth publishing — as is the fact that the strongest correction in it is one I applied to my
+The rest is that instrument applied to one worked example, chosen because its literature is small
+enough to enumerate exhaustively. An **evidence-typed catalogue** of every gene any NR4A3 chimera or
+native NR4A3 is published to activate — assay, cell system and species per claim — finds the set with
+a DNA-binding assay against a fusion to be three genes wide (*SEMA3C*, *PPARG*, *ENO3*). A **confound
+audit** recomputes the contrast against every comparator stratum separately, against the
+reference-pool-matched comparators, and against a matrix covariate containing no EMC-selected gene;
+the obvious objection to the strongest gene — that *ENO3* is muscle-specific β-enolase and EMC arises
+in the limb — is answered with two pooled skeletal-muscle samples the cohort contains. Calibrated,
+the three genes separate: *SEMA3C* survives nothing and reverses sign with the comparator, *PPARG*'s
+strongest reading is circular, *ENO3* survives every test. **I state plainly that *ENO3* was the
+pre-designated positive control and is therefore not an independent finding of this work**, and that
+the ordering rests on cohorts of 4, 6 and 10.
+
+The manuscript is equally plain about the ceiling: with three genes and no genome-wide chromatin
+experiment ever performed with an NR4A3 fusion (documented by a search of 2,276 full-text papers),
+"elevated in EMC" and "driven by the fusion" cannot yet be separated for any of them. It therefore
+names the single experiment that would settle it rather than gesturing at one. A reusable
+calibration, an honestly drawn boundary, and a specified missing experiment are what I think make the
+paper worth publishing — as is the fact that the strongest correction in it is one I applied to my
 own earlier reading.
 
 The manuscript is entirely computational and re-analyses only public, de-identified gene-expression
