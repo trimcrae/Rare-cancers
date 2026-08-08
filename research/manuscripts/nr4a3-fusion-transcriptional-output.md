@@ -188,6 +188,16 @@ only a limitation.
   kidney, lung, uterus). The 32 non-EMC sarcoma columns include two pairs of technical replicates of
   one specimen each (ESS_STT5520, LMS_STT516), so 32 libraries come from 30 specimens.
 
+Each cohort's EMC arm size in Table 2 was read from its series matrix. All three were separately
+recovered from GEO **sample titles** — an independent path to the same numbers, 6, 10 and 4 — during
+the cohort search of §2.7, where they serve as its positive control: a search that cannot find the
+datasets that exist says nothing about the ones that do not.
+
+⚠ One deposit is not a fourth cohort and is easy to mistake for one. **GSE170983** carries 99
+samples, four of them EMC, under its own accession — and it is the same Brunner deposit as GSE28866,
+with the same four tumours (GSM715466/715467/715470/715472) and the same linked publication.
+Counting the two separately would raise the apparent EMC total to 24 without adding a patient.
+
 ### 2.3 · Scoring and the size-matched empirical null
 
 Probes were mapped to symbols per platform (GPL6244: 20,230 of 28,459 probes → 18,694 distinct
@@ -295,7 +305,26 @@ was asserted equal to the primary artifact before anything was written.
    is never counted as evidence of non-occupancy. Multiplicity is over distinct **experiments**, not
    genome builds, since the same experiment appears once per build.
 
-### 2.7 · Reproduction
+### 2.7 · The cohort search
+
+Six deliberately overlapping queries were put to GEO — the disease name in full and abbreviated, the
+fusion rather than the disease, the 3′ partner plus lineage, and two over-broad terms chosen to
+return pan-sarcoma and general chondrosarcoma deposits in which EMC samples might sit under a generic
+title. Every query is recorded with its own stated purpose, including any returning nothing, because
+a query that returns nothing is indistinguishable from a dataset that does not exist unless the query
+itself is on the record.
+
+Three properties of the procedure matter more than the queries. **Every returned series is read at
+sample level**, not screened on its title: GEO titles are depositors' claims, and GSE24369 — titled
+after low-grade fibromyxoid sarcoma while carrying six EMC tumours — is the standing demonstration
+that a title-level screen would discard the very cohorts this analysis rests on. **Every candidate is
+deduplicated at three levels** — accession, linked publication, and sample identity against all 157
+GSM records the three cohorts read — because a re-deposit under a new accession is otherwise
+indistinguishable from a new cohort. And **the search is graded against a positive control**: the
+three cohorts already in use must be recovered by the same queries, with their EMC arm sizes, or the
+result is withheld as uninterpretable rather than reported as a negative.
+
+### 2.8 · Reproduction
 
 Every value in §3 derives from a committed artifact and is not re-typed from prose. All analyses are
 CPU-only, use open-source tooling, and reproduce offline from cached inputs with no network access;
@@ -667,6 +696,49 @@ first appeared**, because its strongest cell is circular.
 correlative; the discriminating experiment (§4.3) remains unperformed; and ordering three genes by
 independent support is not evidence that any of them is bound by the fusion in EMC.
 
+### 3.13 · No fourth EMC expression cohort — a second bounded negative
+
+The most direct way to strengthen an n of 4, 6 and 10 is a fourth cohort. Six queries (§2.7) returned
+22 GEO records, of which seven were series or curated datasets and the remainder individual sample
+and platform records.
+
+**Table 10. Every series or dataset the cohort search returned.**
+
+| accession | samples | EMC samples | why it is not a fourth cohort |
+|---|---|---|---|
+| **GSE24369** | 42 | **6** | already used — the GPL6244 arm |
+| **GSE4303** | 36 | **10** | already used — the GPL3290 arm |
+| **GSE28866** | 99 | **4** | already used — the 3SEQ arm |
+| GSE11185 | 4 | 2 (labels) | HEK293 cells carrying a tet-inducible EWS/NOR1 construct — not a tumour cohort |
+| GDS3481 | 4 | — | the curated dataset view of GSE11185, same four samples |
+| GSE43632 | 18 | **0** | *Large scale screening for fusion genes in sarcoma patient samples* — read at sample level; no EMC |
+| GSE80126 | 29 | **0** | *Impact of RNA degradation on fusion detection by RNA-seq* — read at sample level; no EMC |
+
+**The first three rows are the result, not the preamble.** They are the positive control: the same
+queries recovered all three cohorts already in use, and recovered their EMC arm sizes — 6, 10 and 4 —
+from GEO sample titles alone, an independent path to the three numbers Table 2 takes from the series
+matrices. A search that had failed to find them would have made the negative meaningless, so the
+negative is reported only because the control passed.
+
+The two generically titled sarcoma series matter for the opposite reason. Neither names EMC in its
+title or its summary, yet the full-disease-name query returned both — so GEO's `[All Fields]` index
+reaches text beyond the series prose, and this is precisely the case in which a title-level screen
+would have recorded a false absence. Read at sample level, they carry no EMC sample between them.
+
+**What this bounds, and what it does not.** The bound is reach, not existence: a deposit that names
+the disease nowhere in its GEO record is invisible to any term search. **No fourth EMC expression
+cohort is reachable by a term search of GEO**, and the three cohorts analysed here are, as far as that
+search extends, the available public EMC transcriptional record — so n = 4, 6 and 10 is a ceiling
+imposed by the disease's rarity rather than by the search (§5, Limitation 1).
+
+⚠ **Two further limits on this negative, both recorded rather than smoothed over.** Four of the six
+queries returned exactly zero and all four share a field-restriction clause the two productive
+queries lack, including one asking for human chondrosarcoma expression series — a question GEO cannot
+answer with nothing. The negative therefore rests on two queries, the disease name and the fusion,
+and the deliberately over-broad safety net was not in fact deployed (SI §S7). And a term search is
+not a systematic review: it does not reach deposits in other archives, controlled-access repositories,
+or supplementary tables of papers that never deposited at all.
+
 ![Figure 1](figures/fig1-per-sample-class-a.png)
 
 > **Figure 1. Every tumour, per gene and per comparator stratum.** Each point is one tumour; the
@@ -795,7 +867,13 @@ Four things, each incremental; nothing here is a first-in-field claim:
 These are ceilings, not caveats: each one bounds what any sentence in §3 may be read to mean.
 
 1. **n = 4, 6 and 10 EMC.** Nothing here survives being described as a distribution, and no result
-   should be read as a population estimate.
+   should be read as a population estimate. This is a ceiling on the disease, not on the search: a
+   term search of GEO returned 22 records, of which seven were series or curated datasets, and none
+   was a fourth EMC expression cohort (§3.13, Table 10). The bound is what a term search can reach —
+   a deposit naming the disease nowhere in its GEO record is invisible to it, and four of the six
+   queries were malformed (SI §S7) — but the two generically titled pan-sarcoma series it did return
+   (GSE43632, *Large scale screening for fusion genes in sarcoma patient samples*, and GSE80126) were
+   read at sample level rather than dismissed on their titles, and carry no EMC sample between them.
 2. **The three cohorts are never pooled, and must never be.** 3SEQ 3′-end read density is not array
    intensity; single-channel intensity and two-colour log-ratio are not the same quantity either. The
    concordance in §3.5–3.7 is sign agreement across three independent measurements, which is weaker

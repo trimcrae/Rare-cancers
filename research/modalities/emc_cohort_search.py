@@ -128,6 +128,14 @@ GEO_QUERIES = [
 EMC_TOKENS = re.compile(
     r"extraskeletal myxoid chondrosarcoma|myxoid chondrosarcoma|\bEMC\b|EWSR1[-:/ ]?NR4A3|"
     r"EWS[-/ ]?NOR-?1|TAF15[-:/ ]?NR4A3|NR4A3|NOR-?1\b", re.I)
+# An E-utilities field RESTRICTION — `[Filter]`, `[All Fields]`, `[Organism]` — and nothing else.
+# ⚠ It matches the bracket only, never the phrase in front of it. An earlier version swallowed the
+# search term with its restriction, which turns `"myxoid chondrosarcoma"[All Fields] AND
+# "expression profiling"[Filter]` into the empty string: a probe that asks GEO nothing, gets nothing
+# back, and reads as confirmation that the original zero was real. The probe has to ask the SAME
+# question with the restrictions lifted, or it is not a control.
+FIELD_TOKEN = re.compile(r"\[[A-Za-z ]+\]")
+
 EMC_SAMPLE_TOKENS = re.compile(
     r"extraskeletal myxoid chondrosarcoma|myxoid chondrosarcoma|EWSR1[-:/ ]?NR4A3|"
     r"EWS[-/ ]?NOR-?1|TAF15[-:/ ]?NR4A3", re.I)
@@ -135,6 +143,14 @@ EMC_SAMPLE_TOKENS = re.compile(
 
 def _r(x, nd=4):
     return None if x is None else round(x, nd)
+
+
+def _strip_field_tokens(term):
+    """The same question with the E-utilities field restrictions lifted, and nothing else changed."""
+    s = FIELD_TOKEN.sub("", term)
+    s = re.sub(r"\s+AND\s+(?=AND\s|$)", " ", s)
+    s = re.sub(r"^\s*AND\s+|\s+AND\s*$", "", s)
+    return re.sub(r"\s{2,}", " ", s).strip()
 
 
 # =================================================================================================
@@ -156,25 +172,62 @@ def fetch():
                 time.sleep(2 * (i + 1))
         return None
 
+    def esearch(term):
+        q = urllib.parse.urlencode({"db": "gds", "retmax": "80", "retmode": "json", "term": term})
+        es = get_json(f"{EUTILS}/esearch.fcgi?{q}")
+        if not es or "_error" in (es or {}):
+            return None, (es or {}).get("_error")
+        r = es.get("esearchresult") or {}
+        return r.get("idlist") or [], int(r.get("count") or 0)
+
     out = {"_generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
            "queries": [], "series": {}, "series_samples": {}}
     seen = {}
     for term, why in GEO_QUERIES:
-        q = urllib.parse.urlencode({"db": "gds", "retmax": "80", "retmode": "json", "term": term})
-        es = get_json(f"{EUTILS}/esearch.fcgi?{q}")
+        ids, count = esearch(term)
         rec = {"term": term, "why": why}
-        ids = []
-        if not es or "_error" in (es or {}):
+        if ids is None:
             rec["_status"] = "failed"
-            rec["error"] = (es or {}).get("_error")
+            rec["error"] = count
+            ids = []
         else:
-            r = es.get("esearchresult") or {}
-            ids = r.get("idlist") or []
             rec["_status"] = "read"
-            rec["count_reported_by_geo"] = int(r.get("count") or 0)
+            rec["count_reported_by_geo"] = count
             rec["n_ids_returned"] = len(ids)
-        out["queries"].append(rec)
         time.sleep(0.4)
+
+        # ⛔ A ZERO FROM A MALFORMED QUERY IS NOT A NEGATIVE, AND THE TWO ARE THE SAME LENGTH.
+        # Measured on the first real run: four of six queries returned EXACTLY zero, and all four
+        # shared an `"expression profiling"[Filter]` clause that the two returning 17 and 5 records
+        # did not have — including `"chondrosarcoma" AND "expression profiling" AND "Homo sapiens"`,
+        # a query GEO cannot honestly answer with nothing. Recorded as `read, 0 results`, a broken
+        # query is indistinguishable from a genuine absence, and four silently broken queries would
+        # have made "six queries, no fourth cohort" a far stronger claim than the evidence supports.
+        # So a zero-returning query with a bracketed field token is re-asked with those tokens
+        # stripped. If the stripped form returns records, the original is a SYNTAX failure and says
+        # so; the stripped form's records are the ones used, because a query that reaches GEO is
+        # worth more than one that parses cleanly and reaches nothing.
+        if not ids and rec["_status"] == "read" and FIELD_TOKEN.search(term):
+            stripped = _strip_field_tokens(term)
+            sids, scount = esearch(stripped)
+            rec["zero_return_probe"] = {
+                "_why": ("a zero and a malformed query are the same length; this asks the same "
+                         "question with the field tokens removed"),
+                "stripped_term": stripped,
+                "_status": "failed" if sids is None else "read",
+                "count_reported_by_geo": scount if sids is not None else None,
+                "n_ids_returned": len(sids or []),
+            }
+            if sids:
+                rec["_status"] = "read_after_syntax_repair"
+                rec["⛔ original_query_returned_zero"] = (
+                    "the field tokens in the original term matched nothing in db=gds; the stripped "
+                    "term returned records, so the original zero was a SYNTAX result and is not "
+                    "reported as an absence")
+                rec["n_ids_returned"] = len(sids)
+                ids = sids
+            time.sleep(0.4)
+        out["queries"].append(rec)
         if not ids:
             continue
         su = get_json(f"{EUTILS}/esummary.fcgi?db=gds&retmode=json&id={','.join(ids)}")
@@ -279,11 +332,31 @@ def derive(inp):
         "queries": inp.get("queries") or [],
         "candidates": {},
     }
-    n_read = sum(1 for q in res["queries"] if q.get("_status") == "read")
+    n_read = sum(1 for q in res["queries"]
+                 if q.get("_status") in ("read", "read_after_syntax_repair"))
+    repaired = [q["term"] for q in res["queries"]
+                if q.get("_status") == "read_after_syntax_repair"]
+    # A query that returned zero, was re-asked without its field restrictions, and returned zero
+    # AGAIN. That is the only kind of zero this module is willing to read as an absence.
+    zero_confirmed = [q["term"] for q in res["queries"]
+                      if q.get("_status") == "read" and not q.get("n_ids_returned")
+                      and (q.get("zero_return_probe") or {}).get("_status") == "read"]
+    zero_unprobed = [q["term"] for q in res["queries"]
+                     if q.get("_status") == "read" and not q.get("n_ids_returned")
+                     and not q.get("zero_return_probe")]
     res["query_summary"] = {
         "n_queries": len(res["queries"]), "n_read": n_read,
         "n_failed": len(res["queries"]) - n_read,
         "n_distinct_series_returned": len(inp.get("series") or {}),
+        "queries_repaired_after_a_syntax_zero": repaired,
+        "zeros_confirmed_by_an_unrestricted_reask": zero_confirmed,
+        "zeros_never_probed": zero_unprobed,
+        "_why_zeros_are_probed": (
+            "measured 2026-08-08: four of six queries returned EXACTLY zero and all four shared an "
+            "`\"expression profiling\"[Filter]` clause the two returning 17 and 5 records lacked — "
+            "including a chondrosarcoma query GEO cannot honestly answer with nothing. A zero and a "
+            "malformed query are the same length, and four silently broken queries would have made "
+            "'six queries, no fourth cohort' a far stronger claim than the evidence supports."),
         "_why_every_query_is_recorded": ("a query that returns nothing is indistinguishable from a "
                                          "dataset that does not exist unless the query itself is "
                                          "on the record"),
@@ -426,6 +499,11 @@ def derive(inp):
             "characterising at sample level before any number is read from it."),
         "⛔ scope": res["_what_a_negative_bounds"],
     }
+    if zero_unprobed:
+        res["verdict"]["⚠ unprobed zeros"] = (
+            f"{len(zero_unprobed)} quer{'y' if len(zero_unprobed) == 1 else 'ies'} returned zero "
+            "and carried no field restriction to lift, so the zero could not be cross-checked: " +
+            "; ".join(zero_unprobed))
     if ungraded:
         res["verdict"]["⚠ incomplete"] = (
             f"{len(ungraded)} series named EMC in prose and could not be read at sample level, so "

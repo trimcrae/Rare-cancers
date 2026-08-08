@@ -37,9 +37,13 @@ def _samples(*titles, start=900000):
 
 
 def _inp(series, series_samples=None):
+    # ⚠ The default queries all report having RETURNED something. They used to report zero, which
+    # made every fixture carry six unprobed zeros and made a deliberate zero in one test
+    # indistinguishable from the fixture's own noise.
     return {"_generated_utc": "2026-01-01T00:00:00Z",
-            "queries": [{"term": t, "why": w, "_status": "read", "count_reported_by_geo": 0,
-                         "n_ids_returned": 0} for t, w in M.GEO_QUERIES],
+            "queries": [{"term": t, "why": w, "_status": "read",
+                         "count_reported_by_geo": max(1, len(series)),
+                         "n_ids_returned": max(1, len(series))} for t, w in M.GEO_QUERIES],
             "series": {s["accession"]: s for s in series},
             "series_samples": series_samples or {}}
 
@@ -342,3 +346,66 @@ def test_the_committed_artifact_reproduces_from_its_own_cached_inputs():
     assert M._strip(M.derive(inp)) == M._strip(have), (
         "the committed verdict does not re-derive from the committed inputs; "
         "re-run emc_cohort_search.py")
+
+
+# =================================================================================================
+# A zero and a malformed query are the same length
+# =================================================================================================
+def test_stripping_field_tokens_keeps_the_question_and_drops_only_the_restriction():
+    """The probe has to ask the SAME question with restrictions lifted, or it is not a control.
+
+    An earlier version of the pattern swallowed the search phrase along with its bracket, turning
+    `"myxoid chondrosarcoma"[All Fields] AND "expression profiling"[Filter]` into the empty string
+    -- a probe that asks GEO nothing, gets nothing back, and reads as confirmation that the original
+    zero was real."""
+    assert M._strip_field_tokens('"myxoid chondrosarcoma"[All Fields] AND '
+                                 '"expression profiling"[Filter]') == \
+        '"myxoid chondrosarcoma" AND "expression profiling"'
+    assert M._strip_field_tokens('"chondrosarcoma"[All Fields] AND "expression profiling"[Filter] '
+                                 'AND "Homo sapiens"[Organism]') == \
+        '"chondrosarcoma" AND "expression profiling" AND "Homo sapiens"'
+    # A query with no restriction is returned unchanged, and never emptied.
+    plain = '(EWSR1 AND NR4A3) OR "EWS-NOR1"'
+    assert M._strip_field_tokens(plain) == plain
+    for term, _ in M.GEO_QUERIES:
+        assert M._strip_field_tokens(term).strip(), f"probe would ask GEO nothing for: {term}"
+
+
+def test_a_query_repaired_after_a_syntax_zero_is_reported_as_repaired():
+    inp = _inp([_series(a, title=f"{a} record") for a in M.POSITIVE_CONTROLS])
+    inp["queries"][1] = {
+        "term": M.GEO_QUERIES[1][0], "why": M.GEO_QUERIES[1][1],
+        "_status": "read_after_syntax_repair", "count_reported_by_geo": 0, "n_ids_returned": 7,
+        "zero_return_probe": {"stripped_term": "x", "_status": "read", "n_ids_returned": 7},
+        "⛔ original_query_returned_zero": "the field tokens matched nothing",
+    }
+    res = M.derive(inp)
+    q = res["query_summary"]
+    assert q["queries_repaired_after_a_syntax_zero"] == [M.GEO_QUERIES[1][0]]
+    assert q["n_read"] == len(M.GEO_QUERIES), "a repaired query still counts as read"
+    assert q["n_failed"] == 0
+
+
+def test_only_a_zero_that_survives_an_unrestricted_reask_counts_as_an_absence():
+    inp = _inp([_series(a, title=f"{a} record") for a in M.POSITIVE_CONTROLS])
+    inp["queries"][1] = {
+        "term": M.GEO_QUERIES[1][0], "why": M.GEO_QUERIES[1][1], "_status": "read",
+        "count_reported_by_geo": 0, "n_ids_returned": 0,
+        "zero_return_probe": {"stripped_term": "x", "_status": "read",
+                              "count_reported_by_geo": 0, "n_ids_returned": 0},
+    }
+    q = M.derive(inp)["query_summary"]
+    assert q["zeros_confirmed_by_an_unrestricted_reask"] == [M.GEO_QUERIES[1][0]]
+    assert q["zeros_never_probed"] == []
+
+
+def test_an_unprobed_zero_is_surfaced_in_the_verdict_not_silently_counted():
+    """A zero nobody could cross-check is a weaker fact than one that survived a re-ask, and the
+    difference has to reach the verdict or the two render alike."""
+    inp = _inp([_series(a, title=f"{a} record") for a in M.POSITIVE_CONTROLS])
+    inp["queries"][1] = {"term": "sarcoma", "why": "no field restriction to lift",
+                         "_status": "read", "count_reported_by_geo": 0, "n_ids_returned": 0}
+    res = M.derive(inp)
+    assert res["query_summary"]["zeros_never_probed"] == ["sarcoma"]
+    assert "⚠ unprobed zeros" in res["verdict"]
+    assert "could not be cross-checked" in res["verdict"]["⚠ unprobed zeros"]

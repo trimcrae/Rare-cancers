@@ -143,7 +143,7 @@ because the Ensembl fetch needs egress the dev sandbox does not have. It was one
 `SEMA3C` was added to the scanner's focus panel (`ENO3` and `PPARG` were already there), the workflow
 was dispatched with `ref=<branch>` so the run used this branch's code, and the module was then extended
 to compute the background-panel rank for **every** focus gene rather than for RET alone — the
-RET-specific keys and verdict are untouched. Results are Methods §2.11 and Results §3.13:
+RET-specific keys and verdict are untouched. Results are Methods §2.6 and Results §3.10:
 
 - ***ENO3*** carries 4 exact NBREs and clears **both** nulls (shuffle p = 0.034; panel p = 0.025;
   GC-matched p = 0.018) — the only class-A gene enriched above its own composition.
@@ -205,12 +205,39 @@ reaches p < 0.05 against 1.2 expected by chance. No class-A gene carries unusual
 all 12 NR4A3-specific peak sets are too shallow to recover any gene at all — so the surrogates cannot
 substitute for the missing fusion cistrome, which is the point.
 
+### Also done (2026-08-08) — the fourth-cohort question, asked and answered
+
+This checklist carried "**a fourth EMC expression cohort**, if one exists" as an open row for as long
+as it has existed. It was never a blocked item; it was an unasked question, and the whole cost of
+asking it was one $0 CI dispatch. `emc_cohort_search.py` (mode `cohort-search`) puts six deliberately
+overlapping queries to GEO, records every one including those returning nothing, and grades what
+comes back. **No fourth cohort.** Main-text §2.7 (method) and §3.13 Table 10 (result); Limitation 1
+is now bounded rather than merely stated.
+
+⚠ **Three things about it are worth more than the answer**, and two were found only by running it.
+
+- **A positive control, because a null from a search that finds nothing proves nothing.** The same
+  queries had to recover the three cohorts already in use — and their EMC arm sizes, 6, 10 and 4,
+  read from GEO **sample titles** rather than from the series matrices the paper scores. All three
+  agreed. Had they not, the module withholds the negative as uninterpretable rather than reporting
+  it, and the headline keys on the whole control (an early version keyed on recovery alone, so an
+  arm-size disagreement could set `passes: false` and still print a clean negative).
+- **A three-level dedup, because the trap is real.** `GSE170983` is 99 samples, four of them EMC,
+  under its own accession — and it is the same Brunner deposit as `GSE28866`, already the paper's
+  3SEQ arm, with the same four tumours. Counting it would have raised the apparent EMC total to 24
+  without adding a patient. Candidates are checked at accession, linked publication, and GSM identity
+  against all 157 samples the three cohorts read. Stated in the paper at §2.2.
+- **Sample-level reads for every series, not a title screen.** The first version gated the sample
+  read on whether a series' prose named EMC, which would have discarded `GSE43632` (*Large scale
+  screening for fusion genes in sarcoma patient samples*) and `GSE80126` on their titles — and, worse,
+  would have skipped `GSE24369`, the cohort titled after LGFMS that carries six EMC tumours and is
+  this paper's own standing example that a GEO title is a claim rather than a measurement.
+
 ### Still available (not required for submission)
 
 | option | what it would add | cost | blocked on |
 |---|---|---|---|
-| **Intersect with the Haller 2019 NR4A3 ChIP-seq peaks** (Zenodo doi 10.5281/zenodo.1483691, open) | Whether the NR4A3 DNA-binding domain reaches these genes in a human tumour. ⛔ Must be framed exactly as §4.3 frames it — acinic cell carcinoma carries *native* NR4A3, not a fusion, so it can never be cited as a fusion cistrome | $0, CPU | Zenodo blocked in-sandbox (403 at the egress proxy); routable through GitHub Actions |
-| **A fourth EMC expression cohort**, if one exists | A further independent replication | $0 | a GEO re-search |
+| **Intersect with the Haller 2019 NR4A3 ChIP-seq peaks** (Zenodo doi 10.5281/zenodo.1483691, open) | Whether the NR4A3 DNA-binding domain reaches these genes in a human tumour. ⛔ Must be framed exactly as §4.3 frames it — acinic cell carcinoma carries *native* NR4A3, not a fusion, so it can never be cited as a fusion cistrome | $0, CPU | dispatched 2026-08-08 (`ret-cistrome` at this branch); result pending |
 
 ## 6 · Optional presentation work (not required for submission)
 

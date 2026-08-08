@@ -451,7 +451,7 @@
    "title": "STT5592_EMC"
   }
  },
- "generated_utc": "2026-08-08T12:25:29Z",
+ "generated_utc": "2026-08-08T12:33:44Z",
  "known_cohorts": {
   "GSE170983": "⛔ NOT a fourth cohort — the same Brunner deposit as GSE28866, same PMID 22929540 and the same four EMC samples, under a different accession",
   "GSE24369": "GPL6244 array arm of the manuscript (6 EMC vs 29 comparators)",
@@ -540,10 +540,19 @@
  ],
  "query_summary": {
   "_why_every_query_is_recorded": "a query that returns nothing is indistinguishable from a dataset that does not exist unless the query itself is on the record",
+  "_why_zeros_are_probed": "measured 2026-08-08: four of six queries returned EXACTLY zero and all four shared an `\"expression profiling\"[Filter]` clause the two returning 17 and 5 records lacked — including a chondrosarcoma query GEO cannot honestly answer with nothing. A zero and a malformed query are the same length, and four silently broken queries would have made 'six queries, no fourth cohort' a far stronger claim than the evidence supports.",
   "n_distinct_series_returned": 22,
   "n_failed": 0,
   "n_queries": 6,
-  "n_read": 6
+  "n_read": 6,
+  "queries_repaired_after_a_syntax_zero": [],
+  "zeros_confirmed_by_an_unrestricted_reask": [],
+  "zeros_never_probed": [
+   "\"myxoid chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter]",
+   "NR4A3[All Fields] AND sarcoma[All Fields] AND \"expression profiling\"[Filter]",
+   "\"chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter] AND \"Homo sapiens\"[Organism]",
+   "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]"
+  ]
  },
  "verdict": {
   "headline": "No fourth EMC expression cohort was found. Every series any query returned is either already used by the manuscript, shares a publication or samples with one, is not a series at all, or carries too few EMC samples to contrast.",
@@ -552,6 +561,7 @@
   "new_fourth_cohorts": [],
   "positive_control_passes": true,
   "ungraded_no_sample_level_read": [],
+  "⚠ unprobed zeros": "4 queries returned zero and carried no field restriction to lift, so the zero could not be cross-checked: \"myxoid chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter]; NR4A3[All Fields] AND sarcoma[All Fields] AND \"expression profiling\"[Filter]; \"chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter] AND \"Homo sapiens\"[Organism]; sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
   "⛔ scope": "GEO esearch matches DEPOSITOR PROSE. A series whose title and summary never name EMC is invisible to every query here however many EMC samples it holds. A null result bounds what a term search over GEO can reach; it is NOT a statement that no fourth cohort exists."
  }
 }
