@@ -1,0 +1,388 @@
+440plosonePLoS ONEPLoS OnePLOSPMC8049301804930180493013385715310.1371/journal.pone.0249288Characteristics and expression profiles of circRNAs during abdominal adipose tissue development in Chinese Gushi chickens
+JinWenjiaoWriting – original draft ZhaoYinliConceptualization ZhaiBinMethodology, Software LiYuanfangData curation FanShengxinValidation YuanPengtaoValidation SunGuirongInvestigation JiangRuiruiMethodology WangYanbinValidation LiuXiaojunVisualization TianYadongSoftware KangXiangtaoSupervision LiGuoxiWriting – review & editing KogutMichael HEditor 1College of Animal Science and Technology, Henan Agricultural University, Zhengzhou, Henan Province, P.R. China2College of Biological Engineering, Henan University of Technology, Zhengzhou, Henan Province, P.R. China3USDA-Agricultural Research Service, UNITED STATESCompeting Interests: The authors declare that they have no competing interests.
+✉* E-mail: liguoxi0914@126.com
+#Contributed equally.
+1542021164e0249288e02492882142021© 2021 Jin et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+
+## Abstract
+Circular RNAs (circRNAs) play important roles in adipogenesis. However, studies on circRNA expression profiles associated with the development of abdominal adipose tissue are lacking in chickens. In this study, 12 cDNA libraries were constructed from the abdominal adipose tissue of Chinese domestic Gushi chickens at 6, 14, 22, and 30 weeks. A total of 1,766 circRNAs were identified by Illumina HiSeq 2500 sequencing. These circRNAs were primarily distributed on chr1 through chr10 and sex chromosomes, and 84.95% of the circRNAs were from gene exons. Bioinformatic analysis showed that each circRNA has 35 miRNA binding sites on average, and 62.71% have internal ribosome entry site (IRES) elements. Meanwhile, these circRNAs were primarily concentrated in TPM < 0.1 and TPM > 60, and their numbers accounted for 18.90% and 80.51%, respectively, exhibiting specific expression patterns in chicken abdominal adipose tissue. In addition, 275 differentially expressed (DE) circRNAs were identified by comparison analysis. Functional enrichment analysis showed that the parental genes of DE circRNAs were primarily involved in biological processes and pathways related to lipid metabolism, such as regulation of fat cell differentiation, fatty acid homeostasis, and triglyceride homeostasis, as well as fatty acid biosynthesis, fatty acid metabolism, and glycerolipid metabolism. Furthermore, ceRNA regulatory networks related to abdominal adipose development were constructed. The results of this study indicated that circRNAs can regulate lipid metabolism, adipocyte proliferation and differentiation, and cell junctions during abdominal adipose tissue development in chickens through complex ceRNA networks between circRNAs, miRNAs, genes, and pathways. The results of this study may help to expand the number of known circRNAs in abdominal adipose tissue and provide a valuable resource for further research on the function of circRNAs in chicken abdominal adipose tissue.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2020 Oct 24; Accepted 2021 Mar 15; Collection date 2021.
+
+## Introduction
+Chickens are an economically important agricultural animal [ ]. Excessive fat accumulation in the abdominal cavity not only reduces feed utilization efficiency but also affects meat quality in poultry production [ ]. Therefore, demonstrating the molecular mechanism governing chicken abdominal adipose tissue development is of great significance to chicken genetic breeding and production. CircRNAs are a type of nonphosphorylated, single-stranded, covalently closed noncoding RNA that is widely present in various tissues and cell types of different species [ ]. Many studies have shown that circRNAs may be involved in the regulation of various biological processes and affect cell physiology through various molecular mechanisms [ ]. In particular, some studies have shown that circRNAs are also involved in the regulation of adipogenesis. For example, circFUT10 has been reported to promote adipocyte proliferation and inhibit adipocyte differentiation through sponge adsorption of let-7 [ ]. Therefore, circRNAs can be employed as new targets to elucidate the molecular mechanism underlying chicken abdominal fat development.
+CircRNAs are produced by a special reverse splicing process that covalently closes the 5’ end of the upstream exon and the 3’ end of the downstream exon of pre-mRNA, which primarily exist in the cytoplasm [ ]. It is known that more than 20% of the expressed genes in the genome can produce circRNAs, which present notable abundance, stability, and diversity of expression profiles in various types of tissues and cells [ ]. CircRNAs can be used as miRNA- or RNA-binding protein decoys to regulate gene expression or protein translation [ ] and thus play pivotal roles in various physiological activities and diseases. Therefore, circRNAs have recently become a heavily researched topic in the field of RNA. At present, research on circRNAs related to fat deposition is primarily focused on identifying novel circRNAs from adipose tissue or adipocytes in different anatomic sites. For example, Sun (2020) detected the circRNA expression profiles of preadipocytes and adipocytes in human visceral adipose tissue by microarray technology. Compared with preadipocytes, 2,215 circRNAs were significantly upregulated, and 1,865 were downregulated, in adipocytes [ ]. In the Chinese Erhualian pig, Liu (2019) identified many DE circRNAs in adipose tissue of intramuscular, subcutaneous, peritoneal and mesenteric adipose tissues [ ] and between subcutaneous preadipocytes and adipocytes [ ]. In yaks (Bos grunniens), a previous study found 211 DE circRNAs from adipose tissue in yaks of two age groups [ ], and another study identified 7,203 circRNAs and 136 DE circRNAs during yak adipocyte differentiation [ ]. In addition, Huang (2019) identified 5,141 circRNAs and 252 DE circRNAs from the adipose tissue of adult and young Chinese buffaloes [ ]. These studies indicated that many circRNAs were involved in regulating adipose tissue development or adipose deposition in animals. Although these results helped to elucidate the molecular mechanisms underlying adipose tissue development or fat deposition, current research has primarily concentrated on humans and a few other species. In addition, only a few studies have described the mechanism of specific circRNAs in adipogenesis [ , , ]. At present, the function of circRNAs in the development or deposition of animal adipose tissue has not been fully elucidated. The expression of circRNAs is known to have obvious tissue or cell specificity [ ]. Therefore, the identification of circRNAs related to adipose tissue development in economically important animals is an important step to better study circRNA function in the formation of adipose tissue-related traits.
+In view of the importance of chickens in poultry production, the roles played circRNAs in the formation of economic traits have been studied increasingly frequently by researchers. Previous studies have identified many novel circRNAs. For instance, Shen (2019, 2020) quantified circRNAs from theca cells [ ] and granulosa cells [ ] during follicular development in chickens, counting 14,502 and 1,1642, respectively. Zhang (2019) studied the differential expression profiles of circRNAs in chicken hepatocytes in GHR antisense transcript overexpression groups and control groups and identified 4,772 circRNAs and 92 DE circRNAs [ ]. Ouyang (2018) identified 13,377 circRNAs and 462 DE circRNAs from the leg muscles of female Xinghua chickens of different embryo ages and at one day post-hatching [ ]. In addition, several studies have demonstrated the mechanism of action of specific circRNAs in chicken skeletal muscle satellite cells or myoblasts [ – ]. These studies have proven that many circRNAs participate in the formation and regulation of economically important traits in chickens, which helps to elucidate the molecular mechanism governing the formation and regulation of economically important traits in chicken. To the best of our knowledge, however, there have been no reports characterizing circRNAs in relation to adipose tissue development in chickens.
+Gushi chickens are native Chinese chickens that originate from Gushi County, Henan Province, China. These chickens have been bred on a large scale due to their excellent meat quality. To elucidate the role played by circRNAs in the development of abdominal fat, we constructed the circRNA transcriptome profile of 6-, 14-, 22- and 30-week-old Gushi chickens and the regulatory network of circRNAs related to abdominal fat development in Gushi chickens. The results of this study may not only help to elucidate the posttranscriptional regulation of abdominal fat deposition in chickens but also provide basic data for resource protection and the mining of useful characteristics in Gushi chickens.
+
+## Materials and methods
+
+## Ethics statement
+All animal experiments were performed according to the program approved by the Institutional Animal Care and Use Committee (IACUC) of Henan Agricultural University (Permit Number: 17–0118).
+
+## Experimental animals and total RNA extraction
+In this study, domestic Gushi chickens were used as experimental animals. The feeding method was as described by Fu (2018) [ ]. Before reaching 14 weeks of age, chickens were fed a diet containing 18.5% crude protein and 12.35 MJ/kg energy, and after reaching the age of 14 weeks, they were fed a diet containing 15.6% crude protein and 12.75 MJ/kg energy. At 6, 14, 22, and 30 weeks of age, three individuals were randomly selected at each developmental stage. After dissection, abdominal adipose tissues were collected and stored at -80°C. Total RNA was extracted by using TRIzol reagent (Takara, Dalian, China) according to the instructions of the manufacturer. A 1% agarose gel electrophoresis and Agilent Bioanalyzer 2100 system (Agilent, Santa Clara, CA, USA) were used to evaluate the quality of the total RNA.
+
+## Library construction and sequence analysis
+The initial total RNA content of each sample used for library construction was 5 μg. rRNA was removed from total RNA by an Epicentre Ribo-ZeroTM kit (Illumina, San Diego, USA). A short fragment of 250–300 bp was prepared as a template for the synthesis of double-stranded cDNA. Subsequently, the A tail was added, the sequencing adapter was connected, and a chain-specific cDNA library was obtained by PCR amplification and enrichment. The library was diluted to 1 ng/μl, and an Agilent 2100 (Agilent, Santa Clara, CA, USA) was used to detect the insert size of the library to meet the expected size. Quantitative PCR (qPCR) was used to quantify the library to ensure that the effective concentration of the library was > 2 nm. Finally, the qualified library was sequenced on the Illumina HiSeq 2500 platform (Novogene, Beijing, China). The quality of sequencing data was evaluated rigorously. The adaptor sequences and low-quality sequences in raw data were eliminated. The Q20, Q30 and GC contents of clean data were calculated. The obtained high-quality reads were used for subsequent analysis. The paired-end clean reads were compared with the reference genome by Bowtie software (Releases 1.2.3) [ ].
+
+## Identification of circRNAs
+CircRNAs were identified using find_circ [ ] and CIRI2 [ ] software. Circos software (v0.69–9) [ ] was used to construct circos diagrams. The reverse shear method was used to extract the connection points that were not aligned with reads. The prediction analysis of circRNAs for each software was performed according to the system default parameters. Only those sequences containing more than 2 independent junction-spanning reads that met the Breathnach-Chambon rule (GU/AG rule) were identified as potential circRNAs. To reduce false positives, the shared circRNAs in the results predicted by the two software programs were identified as circRNAs based on their position in the chromosomes.
+
+## Identification of DE circRNAs
+The read count of each circRNA in different libraries was calculated according to back-spliced reads per million mapped reads, and the transcripts per million clean tags (TPM) were used to correct it. The normalized expression value was calculated by the following formula: normalized expression level = (read count × 1,000,000)/libsize (libsize is the sum of circRNA read count). Based on the read count, DE circRNAs were analyzed by DESeq2 software (v3.12) [ ] in six comparison groups, including W14 vs. W6, W22 vs. W6, W30 vs. W6, W14 vs. W22, W14 vs. W30, and W22 vs. W30. p < 0.05 was considered to be the threshold criterion for determining the DE circRNAs.
+
+## Potential function analysis of circRNAs
+First, a functional enrichment analysis was performed on the parental genes of DE circRNAs. The GoSeq R package (v3.12) [ ] was used for enrichment analysis of Gene Ontology (GO), and Kyoto Encyclopedia of Genes and Genomes (KEGG) enrichment analysis was conducted using KOBAS software (v3.0) [ ]. p < 0.05 was used as the threshold for evaluating GO terms or KEGG pathways for significant enrichment. Second, miRNA target sites were predicted by miRanda software (Releases 3.3a), and the analysis of the interaction between circRNAs and miRNAs was completed. In addition, IRESfinder software (v1.1.0) [ ] was utilized to predict and identify the internal ribosome entry site (IRES) on the circRNA sequences to determine the circRNAs with the potential to translate polypeptides or proteins.
+
+## Interactive network analysis of circRNA-miRNA-gene pairs
+The mRNA and miRNA transcriptome profiles of Gushi chicken abdominal adipose tissue at 6, 14, 22, and 30 weeks were also constructed using the same tissue samples. Based on these sequencing data, miRanda software (Releases 3.3a) was used to predict the binding sites of DE miRNAs on circRNA and miRNA target genes. By Pearson’s correlation analysis, 5,455 DE circRNA-miRNA-gene pairs were identified according to the expression levels of circRNAs, miRNAs and genes in abdominal adipose tissue of Gushi chickens. The 431 target genes in these circRNA-miRNA-gene pairs were annotated with GO and KEGG using DAVID online tools (https://david.ncifcrf.gov/). In addition, the circRNA-miRNA-gene pairs were selected from the pathways associated with lipid metabolism, cell proliferation and differentiation, and cell junctions, and the interaction networks were constructed by Cytoscape software (v3.2).
+
+## Reliability verification of circRNAs
+First, reverse transcription PCR analysis and Sanger sequencing were used to verify the circRNA sequences from RNA-seq analysis. Total RNA was extracted from abdominal adipose tissue samples of Gushi chickens at different weeks. After the RNA quality was qualified, it was mixed in equal amounts for cDNA synthesis. Ten circRNAs, namely, gga_circ_0000348, gga_circ_0003969, gga_circ_0005065, gga_circ_0001623, gga_circ_0000833, gga_circ_0004577, gga_circ_0003686, gga_circ_0003828, gga_circ_0003244 and gga_circ_0002520, were randomly selected and verified by PCR amplification using divergent primers ( ). Subsequently, the PCR product fragment size was detected by gel electrophoresis; the sequence was determined by Sanger sequencing; finally, DNAMAN software (v6.25) was used to compare the sequence obtained by Sanger sequencing with RNA-seq data and the chicken reference genome.
+Second, the resistance of the above nine circRNAs to RNase R (Geneseed, Guangzhou, China) digestion was detected by quantitative real-time PCR (qRT-PCR). Before cDNA synthesis, total RNA was treated with RNase R (RNR-07250, Epicentre). Subsequently, using an RT-PCR kit (Takara, Dalian, China), RNA treated with RNase R and RNA without RNase R treatment were separately synthesized into cDNA. All qRT-PCR analyses were completed in accordance with the SYBR Green kit (Takara, Dalian, China) product instructions. All reactions were repeated three times. The 2−ΔΔct method [ ] was used to calculate the relative expression of circRNAs, and the linear gene glyceraldehyde-3-phosphate dehydrogenase (GAPDH) was used as a control.
+
+## Plasmid construction and dual luciferase reporter assay
+The miR-215-5p mimics and mimics NC were synthesized by GenePharma (Shanghai, China). For the construction of the dual-luciferase reporter vector, wild-type and mutated sequences in the 3′UTR of NCOA3 and the partial region of gga_circ_0002520 (named WT-NCOA3, Mut-NCOA3, gga_circ_2520-WT and gga_circ_2520-Mut, respectively), which contain the binding sites of miR-215-5p, were synthesized and inserted into psiCHECK2 vectors (Promega, Madison, WI, USA) according to instructions using XhoI and NotI restriction sites.
+After planting DF-1 cells evenly in 96-well plates and growing to 70%, four groups (wild-type psiCHECK2 plasmids and miR-215-5p mimics as the treatment, mutated psiCHECK2 plasmids and miR-215-5p mimics, wild-type psiCHECK2 plasmids and miR-215-5p mimics NC, mutated type psiCHECK2 plasmids and miR-215-5p mimics NC) were set and cotransfected. To confirm the target relationship between gga_circ_2520 and miR-215-5p, another dual-luciferase reporter assay method was employed. Three comparison groups (WT-NCOA3; WT-NCOA3 and miR-215-5p mimics; WT-NCOA3, miR-215-5p mimics and gga_circ_2520-WT) were set and cotransfected. After 48 h, a dual luciferase assay system kit (Promega, Madison, WI, USA) and fluorescence/multidetection microplate reader (BioTek, Winooski, VT, USA) were employed to detect luminescent signals. Firefly luciferase activities were normalized to Renilla luminescence in each well. Detailed protocols were described in the manufacturer’s instructions.
+
+## Results and discussion
+
+## Overview of library sequencing
+A total of 12 cDNA libraries were constructed using abdominal fat tissue obtained from Gushi chickens aged 6, 14, 22, and 30 weeks. Raw reads obtained from each library ranged from 93,729,158 to 116,176,278. After removing adapter reads and low-quality reads, the amount of clean base data obtained by each library ranged from 13.49 G to 16.73 G, accounting for more than 95%. In addition, reference genome mapping of the sequence was also completed. The results showed that the percent range of total mapped reads/clean reads in different libraries was 78.27–82.8%, of which the percent range of multiple mapped reads/clean reads was 2.21–8.29%, and the percent range of uniquely mapped reads/clean reads was 74.02–80.08%. Moreover, 64.46–70.7% reads were aligned to the protein-coding region, and 19.01–26.09% of the reads were compared to the intron region. The sequence output and quality evaluation of each library are shown in and .
+ 
+
+## CircRNAs expressed in chicken abdominal adipose tissues
+A total of 1,766 novel circRNAs were identified from the 12 cDNA libraries in Gushi chicken abdominal adipose tissue ( ). In total, 1,637, 1,711, 1,735 and 1,663 circRNAs were expressed in the abdominal adipose tissue of Gushi chicken at 6, 14, 22, and 30 weeks of age, respectively. These circRNAs were primarily located in exons of genes with an average ratio of 84.95% followed by intergenic regions (9.62%) and introns (5.43%). As shown in , the full length of these circRNAs ranged from 185 nt to 99,591 nt, and their splicing length was 43–1842 nt. The full length of 543 circRNAs was more than 10,000 nt, and the length range of 1,071 circRNAs was 1,000–9,999 nt. Moreover, these circRNAs were distributed on chr1 through chr28 and sex chromosomes, especially in chr1 (19.03%), chr2 (14.04%), chr3 (13.93%), chr4 (7.19%) chr5 (5.83%), chrZ (4.70%), chr6 (4.13%), chr7 (3.96%), chr8 (3.40%), chr10 (2.66%), and chr9 (1.98%) ( ).
+Previously, several studies have reported circRNAs expressed in adipose tissue, preadipocytes and adipocytes in different anatomical parts of humans and several other species, such as pigs, yaks, and buffalo [ – ]. These studies indicate that a large quantity of circRNAs participate in the regulation of fat tissue development or adipogenesis. The results of this study are consistent with the findings of previous studies, suggesting that the development or deposition of chicken abdominal fat is also regulated by many circRNAs. Ten circRNAs were randomly selected and verified by reverse transcription PCR analysis, Sanger sequencing and RNase R digestion tests. These results proved that the identification of circRNAs in this study was accurate and reliable (Figs , , ). Therefore, the results of this study provide a basis for further research on the molecular mechanism for the regulation of chicken abdominal adipogenesis by circRNAs.
+ 
+
+## Expression profiles of circRNAs during abdominal adipose development
+The expression of circRNAs is known to be tissue- and developmental stage-specific [ , ]. The TPM value distribution of circRNA in this study showed that the circRNA expression levels of all samples had two peaks, indicating that the expression patterns of circRNAs in the four stages of Gushi chicken abdominal fat development were highly consistent ( ). These circRNAs were mainly concentrated in TPM < 0.1 and TPM > 60, and their numbers accounted for 18.90% and 80.51%, respectively. This finding indicated that circRNAs had specific expression patterns in chicken abdominal adipose tissue. This specific expression pattern is similar to that of circRNAs in porcine intramuscular, subcutaneous, retroperitoneal, and mesenteric adipose tissues [ ].
+ However, the expression profiles of circRNAs were different in different developmental stages of abdominal adipose tissue in Gushi chickens. In particular, there were many circRNAs with notable changes in expression in each developmental stage ( ). Meanwhile, we found that 1,518 of the identified circRNAs were expressed in all four developmental stages. The expression profiles of these circRNAs exhibited clear temporal characteristics and were divided into eight different subclusters ( and ). We also found that one, three, six, and two circRNAs were expressed specifically in abdominal adipose tissue at 6, 14, 22, and 30 weeks of age, respectively ( ). In addition, 275 DE circRNAs were identified from six combinations ( ). Accordingly, the DE circRNAs in W14 vs. W6, W22 vs. W6, W30 vs. W6, W22 vs. W14, W30 vs. W14, W30 vs. W22 combinations were 50, 80, 87, 61, 67, 57, respectively. These DE circRNAs were clustered together repeatedly within the group, indicating that the differences within the group were less than the differences between the groups and proving that the data were reliable ( ). The expression patterns of these DE circRNAs were divided into four different modes and had clear temporal characteristics at different developmental stages of abdominal fat tissues ( ). The distribution of DE circRNAs showed that there was no common DE circRNA between all six comparison combinations or any five comparison combinations ( ). Only gga_circ_0001526 and gga_circ_0002515 were DE in four comparison combinations, including W22 vs. W6, W30 vs. W6, W22 vs. W14, and W30 vs. W14. These findings indicated that the expression profile of circRNAs in chicken abdominal adipose tissue had clear developmental stage specificity.
+ 
+
+## Potential function of circRNAs in chicken abdominal adipose tissues
+A large number of circRNAs are derived from protein-coding genes [ – ]. In this study, we observed that 1,579 circRNAs were derived from 1,076 known genes, and the parental genes of some circRNAs were closely related to lipid metabolism or adipogenesis. For example, the host gene ASXL2 of gga_circ_0005102 can increase the activity of liver X receptor alpha and play a key role in lipid metabolism [ , ], and the host gene cytochrome P450 family 39 subfamily A member 1 (CYP39A1) for gga_circ_0005166 can participate in lipoprotein transport and cholesterol metabolism [ ]. Moreover, the diacylglycerol O-acyltransferase 2 (DGAT2) gene, which can encode three circRNAs, gga_circ_0002513, gga_circ_0002515 and gga_circ_0002517, plays a vital role in the synthesis of triacylglycerol [ ]. To further elucidate the potential roles played by circRNAs in chicken abdominal fat deposition, functional enrichment analysis of the parental genes of DE circRNAs was performed. The results showed that the functions of DE circRNAs were significantly different in different developmental stages of abdominal adipose tissues. The biological functions of DE circRNAs in abdominal adipose tissue were mainly related to the regulation of fat cell differentiation between 6 and 14 weeks of age, and they functioned primarily in biological processes, such as fatty acid homeostasis, long-chain fatty-acyl-CoA metabolic process, fat pad development, and triglyceride homeostasis, after 14 weeks of age ( ). The regulatory effects of DE circRNAs were determined to be consistent with the physiological characteristics of abdominal adipose tissue development in Gushi chickens.
+ Moreover, the results of KEGG pathway analysis showed that some pathways related to lipid metabolism, such as pyruvate metabolism, fatty acid metabolism, fatty acid biosynthesis, the insulin signaling pathway and the Wnt signaling pathway, were enriched in the W22 vs. W6 combination ( ). The phosphatidylinositol signaling system and glycerolipid metabolism were significantly enriched in the W30 vs. W22 combination ( ). In particular, we found that the enrichment pathways propionic acid metabolism, fatty acid biosynthesis and pyruvate metabolism formed an interactive regulatory network through the DE circRNAs and their parental genes, as well as miRNAs and their targets ( ). Acetyl-CoA carboxylase alpha (ACACA) and acetyl-CoA carboxylase beta (ACACB) were significantly enriched in all three pathways, and they were the parental genes for gga_circ_0001526 and gga_circ_0001148, respectively. MiR-125b-5p, miR-1559-5p, miR-1736-5p and miR-187-3p had target sites with ACACA. Acyl-CoA synthetase short-chain family member 3 (ACSS3) was the parental gene of gga_circ_0002744 and gga_circ_0002746, and miR-193a-3p, miR-193b-3p, miR-194 and miR-30a-3p had target sites. These results indicate that circRNAs may participate in the regulation of abdominal fat development or deposition through their parental genes and corresponding pathways in chickens.
+ 
+
+## MiRNA target sites on circRNAs
+It is well-known that the most significant function of circRNAs is to serve as miRNA sponges and regulate the expression of target genes by inhibiting miRNA activity [ ]. Therefore, we predicted the binding sites of known chicken miRNAs on the identified circRNA sequences ( ). The results showed that there were 61,988 miRNA binding sites in 1,766 circRNAs with an average of 35 miRNA binding sites on each circRNA and a maximum of 185 miRNA binding sites. These sites could be bound by 1,235 known miRNAs. Thus, a single circRNA can bind to a considerable number of miRNAs, and a miRNA can also target many circRNAs simultaneously. These results are consistent with previous studies in human visceral preadipocytes and adipocytes [ ] and yak adipocytes [ ]. This finding suggests that circRNAs, as miRNA sponges, have a complex regulatory relationship in abdominal fat tissue development or adipogenesis in chickens.
+Literature mining determined that 35 miRNAs of the 1,235 miRNAs with binding sites on circRNAs, such as let-7b, miR-101-3p, miR-103-3p, and miR-10b-5p, were related to lipid metabolism or adipogenesis [ – ]. These miRNAs were also expressed during the development of abdominal fat in Gushi chickens [ ]. To characterize the complex interaction between circRNAs and miRNAs, we constructed a circRNA-miRNA interaction network using these 35 miRNAs ( ). In the network, some circRNAs contained multiple target sites for more than four different miRNAs, such as gga_circ_0000582, gga_circ_0001623, gga_circ_0008796, and gga_circ_0008809. Among these miRNAs decoyed by circRNAs, miR-20a can regulate adipocyte differentiation by targeting lysine-specific demethylase 6b [ ], miR-144-3p promotes fat formation by releasing C/EBPα from Klf3 and CtBP2 [ ], and miR-148a can modulate adipocyte differentiation of mesenchymal stem cells [ ]. In addition, miR-204 can target 11 different circRNAs, such as gga_circ_0007413, gga_circ_0007670, gga_circ_0007776, and gga_circ_0008100, in the network, and it has been shown to be involved in the regulation of bovine adipocyte proliferation, differentiation, and apoptosis [ ]. These studies indicate that circRNAs may play endogenous competitive regulatory roles through interaction with multiple miRNAs during the development of chicken abdominal fat tissue.
+ 
+
+## IRES elements on circRNAs
+The internal ribosome entry site (IRES) is an important regulatory element for RNA translation without relying on the 5′ cap structure, and it can mediate the assembly of ribosomal larger and smaller subunits. Studies have shown that circRNAs contain IRES, and some circRNAs can also encode proteins or functional peptides in vivo and in vitro [ – ]. Therefore, we predicted the potential IRES elements in the identified circRNA sequences. There were IRES elements on 1,108 circRNAs, accounting for 62.71% of the predicted circRNA number ( ). The top 10 circRNAs in the predicted scores were gga_circ_0007953, gga_circ_0005736, gga_circ_0005910, gga_circ_0001863, gga_circ_0001990, gga_circ_0005598, gga_circ_0006417, gga_circ_0007094, gga_circ_0004846, and gga_circ_0002156. These results indicated that most circRNAs in chicken abdominal adipose tissue may have the potential to encode peptides or proteins.
+ 
+
+## CircRNA-miRNA-gene networks during abdominal adipose development
+Abdominal fat tissue development is a complex process participating in many biological processes and cellular events, which are regulated by multiple signaling pathways. It is known that circRNAs regulate the function of miRNAs by a ceRNA mechanism [ ], thereby impacting the posttranscriptional regulation of miRNAs in downstream genes [ ] and regulating biological processes by affecting signaling pathways [ ]. For this reason, we analyzed the interactions among genes, miRNAs, circRNAs, and pathways during the development of Gushi chicken abdominal fat. Based on the results of KEGG enrichment analyses using the whole transcriptome sequencing data of Gushi chicken abdominal fat at 6, 14, 22, and 30 weeks of age, we identified 53, 83, and 56 circRNA-miRNA-gene pairs associated with lipid metabolism, cell proliferation and differentiation, and cell junction pathways, respectively, and constructed three ceRNA networks ( , and Figs). The lipid metabolism-related ceRNA network contains 32 circRNAs, 19 miRNAs, and 13 genes and involves 13 pathways, including glycerolipid metabolism, glycerophospholipid metabolism, fatty acid elongation, sphingolipid metabolism, fatty acid degradation, alpha-linolenic acid metabolism, adipocytokine signaling pathway, fatty acid metabolism, the PPAR signaling pathway, fatty acid biosynthesis, biosynthesis of unsaturated fatty acids, ether lipid metabolism and insulin signaling pathway ( ).
+ In these networks, some miRNAs, such as gga-miR-130b-3p, gga-miR-1744-3p, gga-miR-200a-3p, gga-miR-1a-3p, gga-miR-34c-5p, gga-miR-449a, gga-miR-454-3p, and gga-miR-9-5p, targeted multiple circRNAs, and some genes acted as components of multiple pathways and were targeted by multiple miRNAs. Meanwhile, some circRNAs, such as gga_circ_0000348, gga_circ_0000525, gga_circ_0007512, and gga_circ_0008796, interacted with more than two miRNAs. As key nodes, these factors constituted a complex ceRNA network and synergistically regulated lipid metabolism and multiple cellular events during the development of abdominal fat tissue in Gushi chickens. In addition, the ceRNA gga_circ_0002520-miR-215-5p-NCOA3 in the lipid metabolism-related circRNA-miRNA-gene interaction network was selected and verified by luciferase reporter assay. The results showed that there were target sites of miR-215-5p in the gga_circ_0002520 sequence and NCOA3 mRNA 3´-UTR ( ), which demonstrated that the results of our circRNA-miRNA-gene interaction analysis were reliable. These results indicated that circRNAs play critical roles in the regulation of chicken abdominal fat tissue development or fat deposition through the complex networks formed by circRNAs, miRNAs and genes and corresponding pathways.
+
+## Conclusions
+The present study identified many circRNAs and DE circRNAs related to abdominal adipose tissue development and assessed the characteristics of circRNAs and their expression profiles in abdominal adipose tissue during late development in Gushi chickens. We found that circRNAs had specific expression patterns and obvious temporal characteristics in chicken abdominal adipose tissue, and most circRNAs had the potential to encode proteins or functional peptides. In addition, we also found that the parental genes of DE circRNAs were primarily enriched in some pathways related to lipid metabolism, such as pyruvate metabolism, fatty acid metabolism, and fatty acid biosynthesis, and these circRNAs play critical roles in the regulation of chicken abdominal adipose tissue development by complex ceRNA networks. Our results provide novel insight and a valuable resource helping to elucidate the regulatory roles played by circRNAs in chicken abdominal adipose tissue. Further research is required to clarify the function of the identified circRNAs in chicken abdominal adipose tissue development or deposition.
+
+## Supporting information
+S1 Fig
+
+## Quality evaluation and processing of sequencing data.
+(A) The sequencing error rate of each base position. (B) The content of each base during the sequencing process. (C) The proportion of different types of raw data. (D) Classification of mapped reads in 12 libraries.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## Characteristics of the identified circRNAs.
+(A) Length distribution. (B) The distribution of circRNAs in different chromosomes.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Dynamic expression profile of the identified circRNAs.
+(TIF)
+Click here for additional data file.
+S4 Fig
+
+## CircRNA-miRNA-gene interaction network contains five pathways related to cell proliferation and differentiation.
+The ellipse, triangle and box nodes represent DE miRNAs, DE circRNAs, and DE mRNAs, respectively. Pink indicates upregulation, and blue indicates downregulation. The five pathways are the Wnt signaling pathway, FoxO signaling pathway, p53 signaling pathway, TGF-beta signaling pathway and MAPK signaling pathway.
+(TIF)
+Click here for additional data file.
+S5 Fig
+
+## CircRNA-miRNA-gene interaction network containing five cell junction-related pathways.
+The ellipse, triangle and box nodes represent miRNAs, circRNAs, mRNAs, respectively. Pink indicates upregulation, and blue indicates downregulation. The five pathways are cell adhesion molecules, focal adhesion, adherens junctions, tight junctions and gap junctions.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Primers used for the validation of circRNAs.
+(DOCX)
+Click here for additional data file.
+S1 File
+
+## Details of the circRNAs identified in this study.
+(XLSX)
+Click here for additional data file.
+S2 File
+
+## Details of the significant differentially expressed circRNAs identified in this study.
+(XLSX)
+Click here for additional data file.
+S3 File
+
+## Binding site analysis of miRNAs on the circRNAs.
+(XLSX)
+Click here for additional data file.
+S1 Raw images(PDF)
+Click here for additional data file.
+
+## Data Availability
+The raw data from this study have been stored in NCBI Sequence Read Archive (accession numbers PRJNA528858 and PRJNA551368).
+
+## Funding Statement
+This study was funded by a grant from the National Natural Science Foundation of China (32072692 and 31572356), the Program for Innovation Research Team of Ministry of Education (IRT16R23) and the Scientific Studio of Zhongyuan Scholars (No. 30601985).
+
+## References
+ 
+
+PLoS ONEPLoS One10.1371/journal.pone.0249288.r001Decision Letter 0
+KogutMichael HAcademic Editor© 2021 Michael H. KogutThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+4 Feb 2021
+
+PONE-D-20-33474
+Characterization and regulatory networks of circRNAs in developing abdominal adipose tissues in Chinese Gushi chicken
+PLOS ONE
+Dear Dr. Li,
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+==============================
+Both reviewers have a large number of editorial comments that need to be addressed in your revision.  I suggest that you ask a primary English speaker to proof read the revision before submission.  Further, there are comments about the title  not quite matching the narrative of your manuscript.  Review 1 also has suggested limiting the number of tables/figures and adding the rest as  an Appendix as well as limiting your Results and Discussion to the data presented.  We ask that in your revision cover letter that you provide a rebuttal or answer to each comment/question  made by the reviewers.   
+==============================
+Please submit your revised manuscript by Mar 21 2021 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosone@plos.org. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+Please include the following items when submitting your revised manuscript:
+A rebuttal letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+If you would like to make changes to your financial disclosure, please include your updated statement in your cover letter. Guidelines for resubmitting your figure files are available below the reviewer comments at the end of this letter.
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: http://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols
+We look forward to receiving your revised manuscript.
+Kind regards,
+Michael H. Kogut, Ph.D.
+Academic Editor
+PLOS ONE
+Journal Requirements:
+When submitting your revision, we need you to address these additional requirements.
+1) Please ensure that your manuscript meets PLOS ONE's style requirements, including those for file naming. The PLOS ONE style templates can be found at
+https://journals.plos.org/plosone/s/file?id=wjVg/PLOSOne_formatting_sample_main_body.pdf and
+https://journals.plos.org/plosone/s/file?id=ba62/PLOSOne_formatting_sample_title_authors_affiliations.pdf
+2)  PLOS ONE now requires that authors provide the original uncropped and unadjusted images underlying all blot or gel results reported in a submission’s figures or Supporting Information files. This policy and the journal’s other requirements for blot/gel reporting and figure preparation are described in detail at https://journals.plos.org/plosone/s/figures#loc-blot-and-gel-reporting-requirements and https://journals.plos.org/plosone/s/figures#loc-preparing-figures-from-image-files. When you submit your revised manuscript, please ensure that your figures adhere fully to these guidelines and provide the original underlying images for all blot or gel data reported in your submission. See the following link for instructions on providing the original image data: https://journals.plos.org/plosone/s/figures#loc-original-images-for-blots-and-gels.
+In your cover letter, please note whether your blot/gel image data are in Supporting Information or posted at a public data repository, provide the repository URL if relevant, and provide specific details as to which raw blot/gel images, if any, are not available. Email us at plosone@plos.org if you have any questions.
+3) PLOS requires an ORCID iD for the corresponding author in Editorial Manager on papers submitted after December 6th, 2016. Please ensure that you have an ORCID iD and that it is validated in Editorial Manager. To do this, go to ‘Update my Information’ (in the upper left-hand corner of the main menu), and click on the Fetch/Validate link next to the ORCID field. This will take you to the ORCID site and allow you to create a new iD or authenticate a pre-existing iD in Editorial Manager. Please see the following video for instructions on linking an ORCID iD to your Editorial Manager account: https://www.youtube.com/watch?v=_xcclfuvtxQ
+[Note: HTML markup is below. Please do not edit.]
+Reviewers' comments:
+Reviewer's Responses to Questions
+Comments to the Author
+1. Is the manuscript technically sound, and do the data support the conclusions?
+The manuscript must describe a technically sound piece of scientific research with data that supports the conclusions. Experiments must have been conducted rigorously, with appropriate controls, replication, and sample sizes. The conclusions must be drawn appropriately based on the data presented. 
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+2. Has the statistical analysis been performed appropriately and rigorously? 
+Reviewer #1: No
+Reviewer #2: Yes
+**********
+3. Have the authors made all data underlying the findings in their manuscript fully available?
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+4. Is the manuscript presented in an intelligible fashion and written in standard English?
+PLOS ONE does not copyedit accepted manuscripts, so the language in submitted articles must be clear, correct, and unambiguous. Any typographical or grammatical errors should be corrected at revision, so please note any specific errors here.
+Reviewer #1: No
+Reviewer #2: Yes
+**********
+5. Review Comments to the Author
+Please use the space provided to explain your answers to the questions above. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. (Please upload your review as an attachment if it exceeds 20,000 characters)
+Reviewer #1: The authors investigate different time points’ abdominal adipose tissues of old Gushi chicken by RNA-seq. They identified 275 circRNAs with significant differentially expressed（DE）were identified from 6 combinations. GO term and KEGG pathways enrichment analysis showed DE circRNAs related to lipid metabolism or deposition. The manuscript should be of interest to the readers. However, the results are not well presented and the statistical analysis would need to be revised. Some issues need to be addressed:
+1. The title is not properly summary the manuscript.
+2. There are too many figures in the manuscript which can’t point out the key points or the novel discovery at all. The authors have to simplify the manuscript. Like the part “Library sequencing and quality evaluation” could be move to method, or describe it briefly. The fig for this part should be go to supplementary fig or probably not needed.
+3. The authors only mentioned the total numbers of circRNAs they identified, can you list the identified numbers of each time point. The authors also should perform analysis for the variations of the different time points.
+4. The authors should have a figure panel to show the dynamic circRNA profile of abdominal adipose tissue.
+5. For the circRNA-miRNA-gene network, can you choose one circRNA-miRNA-gene pathway to validate your data?
+6. Did the authors identified some new circRNAs? If yes, they should demonstrate them and discuss them in the discussion part.
+Other Comments
+1. Line 246， 30 vs 22, should W30 vs W22.
+2. The figure quality was very low. Some pictures are pretty blurred.
+Reviewer #2: In this manuscript, the circRNAs expression profile characteristics of Gushi chicken abdominal adipose tissues was described where many circRNAs involved in chicken adipose tissue development or fat deposition were obtained, and ceRNA regulatory networks in developing abdominal adipose tissues were constructed. The research is very interesting and innovative. However, there are still existing some problems:
+(1) Reference list: Information of some references are incomplete and should be supplemented. Please make a complete revision of the reference list according to the magazine format requirements.
+(2) Check the whole manuscript to make sure the gene name is italicized. For example, line 481, 514, 569-570, and etc..
+(3) Version information of all the softwares used in the study should be provided.
+(4) In line 87, the source information of the "Epicentre Ribo-ZerotM kit" used in the study were incomplete. Please supplement and check the whole manuscript.
+(5) Check out the whole manuscript for the consistant usage of P value or p value. For example, the letter "P" in line 115 is lowercase; the "P" in line 121 is capitalized.
+(6) The names of "miRanda software" in line 123 and line 131 should be written in a consistent way.
+(7) The first letter of the word in the sentence is lowercase. Please check the whole manuscript and correct it. For example, the "Count" in line 112, the "Proportion" in line 175, and etc..
+(8) Grammar errors should be avoided. For example, a phrase " after 14 weeks of age" should be deleted from the sentence "After 14 weeks of age, the biological functions of DE circRNAs mainly participated in biological processes such as fatty acid homeostasis, long-chain fatty-acyl-CoA metabolic process, fat pad development, and triglyceride homeostasis after 14 weeks of age" in line 282-285. Please check the whole manuscript.
+(9) The spelling mistakes of the word in the sentence should be avoided. For example, the " GO items " in line 565, the "lipogene-sis" in abstract, and etc.. Please check the whole manuscript.
+**********
+6. PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: Yes: Xing Liu
+Reviewer #2: No
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com/. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Registration is free. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email PLOS at figures@plos.org. Please note that Supporting Information files do not need this step.
+PLoS ONEPLoS One10.1371/journal.pone.0249288.r002Author response to Decision Letter 0
+1542021164e0249288e0249288Collection date 2021.
+
+12 Mar 2021
+
+Dear editor and reviewers,
+Thank you very much for your hard work on my manuscript. According to the review comments of editors and reviewers and the requirements of the magazine, we have made a thorough revision of the manuscript entitled “Characterization and regulatory networks of circRNAs in developing abdominal adipose tissues in Chinese Gushi chicken” (PONE-D-20-33474). The contents are as follows：
+1. According to the review comments of reviewer 1, we changed the title to " Characteristics and expression profiles of circRNAs during abdominal adipose tissue development in Chinese Gushi chickens".
+2. The abstract and conclusion have been rewritten to simplify the content.
+3. In order to simplify the content of the manuscript, the results and discussion were merged into "Results and Discussion", and the integrated content has been rewritten.
+4. Modified and improved some secondary titles.
+5. According to the comments of reviewer 1, the number of pictures in the manuscript were reduced and the figures 1, 2, 11 and 12 were taken as additional files.
+6. According to the comments of reviewer 1, the verification result of a circRNA-miRNA-gene pathway was added, and figure 9 was added to show the result.
+7. The reference list has been adjusted and improved.
+8. The additional files have been improved .
+9. The language of revised manuscript has been refined and polished by the Novo Biology.
+In addition, the sections marked in red are the modified contents in the “Revised Manuscript with Track Changes”.
+The response to comments from Reviewer 1
+Thank you for your objective evaluation of our manuscript. We have revised the manuscript in accordance with your comments.
+Point 1: The title is not properly summary the manuscript.
+Response 1: Thank you for your comments. We have modified the title to " Characteristics and expression profiles of circRNAs during abdominal adipose tissue development in Chinese Gushi chickens".
+Point 2: There are too many figures in the manuscript which can’t point out the key points or the novel discovery at all. The authors have to simplify the manuscript. Like the part “Library sequencing and quality evaluation” could be move to method, or describe it briefly. The fig for this part should be go to supplementary fig or probably not needed.
+Response 2: Thank you so much for your comments. We have revised the original manuscript thoroughly according to your opinion. The results and discussion in the original manuscript are merged into "results and discussion", and the integrated content has been rewritten. The redundant languages have been removed. At the same time, the number of figures in the manuscript have been reduced, and figures 1, 2, 11 and 12 in the original manuscript have been taken as supplementary information. See the revised manuscript for details.
+Point 3: The authors only mentioned the total numbers of circRNAs they identified, can you list the identified numbers of each time point. The authors also should perform analysis for the variations of the different time points.
+Response 3: We apologize for not describing this clearly. We have supplemented the number of circRNAs identified at each time point (Page 6, Lines 208-210), and at the same time, we have also analyzed the variations at different time points (Page 7, Lines 263-267). The contents are as follows：
+In total, 1,637, 1,711, 1,735 and 1,663 circRNAs were expressed in the abdominal adipose tissue of Gushi chicken at 6, 14, 22, and 30 weeks of age, respectively. (Page 6, Lines 208-210)
+Meanwhile, we found that 1,518 of the identified circRNAs were expressed in all four developmental stages. The expression profiles of these circRNAs exhibited clear temporal characteristics and were divided into eight different subclusters (Fig. 2C and Fig. S3). We also found that one, three, six, and two circRNAs were expressed specifically in abdominal adipose tissue at 6, 14, 22, and 30 weeks of age, respectively (File S1). (Page 7, Lines 263-267)
+Point 4: The authors should have a figure panel to show the dynamic circRNA profile of abdominal adipose tissue.
+Response 4: Thank you for your comments. We have analyzed the dynamic expression profile of circRNA in abdominal adipose tissue (Page 7, Lines 263-265 and Fig 2C , S3 Fig). The contents are as follows：
+Meanwhile, we found that 1,518 of the identified circRNAs were expressed in all four developmental stages. The expression profiles of these circRNAs exhibited clear temporal characteristics and were divided into eight different subclusters (Fig. 2C and Fig. S3). (Page 7, Lines 263-265)
+Point 5: For the circRNA-miRNA-gene network, can you choose one circRNA-miRNA-gene pathway to validate your data?
+Response 5: Thank you for your valuable comments. A ceRNA network, gga_circ_0002520-miR-215-5p-NCOA3, has been verified (Page 11, Lines 422-427 and Fig 9). The contents are as follows：
+In addition, the ceRNA gga_circ_0002520-miR-215-5p-NCOA3 in the lipid metabolism-related circRNA-miRNA-gene interaction network was selected and verified by luciferase reporter assay. The results showed that there were target sites of miR-215-5p in the gga_circ_0002520 sequence and NCOA3 mRNA 3´-UTR (Fig. 9), which demonstrated that the results of our circRNA-miRNA-gene interaction analysis were reliable. (Page 11, Lines 422-427)
+Point 6: Did the authors identified some new circRNAs? If yes, they should demonstrate them and discuss them in the discussion part.
+Response 6: The circRNAs identified in this study are all new circRNAs. In the manuscript, we selected 10 newly identified circRNAs for verification and these results are shown in "Results and Discussion", and we have discussed these contents. For details, see line 207-208, lines 218-228, Fig 1 and Fig 9A and B of the revised manuscript. The contents are as follows：
+A total of 1,766 novel circRNAs were identified from the 12 cDNA libraries in Gushi chicken abdominal adipose tissue (File S1). (Page 6, Lines 207-208)
+Previously, several studies have reported circRNAs expressed in adipose tissue, preadipocytes and adipocytes in different anatomical parts of humans and several other species, such as pigs, yaks, and buffalo [7-12]. These studies indicate that a large quantity of circRNAs participate in the regulation of fat tissue development or adipogenesis. The results of this study are consistent with the findings of previous studies, suggesting that the development or deposition of chicken abdominal fat is also regulated by many circRNAs. Ten circRNAs were randomly selected and verified by reverse transcription PCR analysis, Sanger sequencing and RNase R digestion tests. These results proved that the identification of circRNAs in this study was accurate and reliable (Fig. 1 and Fig. 9, A and B). Therefore, the results of this study provide a basis for further research on the molecular mechanism for the regulation of chicken abdominal adipogenesis by circRNAs. (Page 6-7, Lines 218-228)
+Point 7: Line 246， 30 vs 22, should W30 vs W22.
+Response 7: Thank you for your comments. It has been revised, see lines 269 of the revised manuscript.
+Point 8: The figure quality was very low. Some pictures are pretty blurred.
+Response 8: Thank you for your comments. We have improved the quality of the pictures in accordance with the requirements of the magazine format.
+The response to comments from Reviewer 2
+Thank you for your objective evaluation of our manuscript. We have revised the manuscript in accordance with your comments.
+Point 1: Reference list: Information of some references are incomplete and should be supplemented. Please make a complete revision of the reference list according to the magazine format requirements.
+Response 1: Thanks for your comments. We have supplemented and improved the reference list based on your comments and journal format requirements. See the revised reference list No. 4, 8-9, 11-12, 16, 18-25, 28, 32, 36-38, 40-41, 43-48, 50, 58-60, 66, 70.
+Point 2: Check the whole manuscript to make sure the gene name is italicized. For example, line 481, 514, 569-570, and etc. 
+Response 2: Thank you for your comments. Based on your opinion, we have done a comprehensive inspection and modification. See lines 289 and 360 of the revised manuscript.
+Point 3: Version information of all the softwares used in the study should be provided.
+Response 3: Based on your opinion, we have improved the version information of the software. See lines 101, 104, 118, 123, 127, 129, 135, 143, and 154 of the revised manuscript.
+Point 4: In line 87, the source information of the "Epicentre Ribo-ZerotM kit" used in the study were incomplete. Please supplement and check the whole manuscript.
+Response 4: Thank you for your comments. According to your opinion, we have supplemented the source information of the reagents used. Please refer to line 89 and 93 of the revised manuscript.
+Point 5: Check out the whole manuscript for the consistant usage of P value or p value. For example, the letter "P" in line 115 is lowercase; the "P" in line 121 is capitalized.
+Response 5: Thank you for your comments. We have unified the "P" to lowercase. See lines 119 and 125 of the revised manuscript.
+Point 6: The names of "miRanda software" in line 123 and line 131 should be written in a consistent way.
+Response 6: Thank you for your comments. We have corrected them. See lines 127 and 135 of the revised manuscript.
+Point 7: The first letter of the word in the sentence is lowercase. Please check the whole manuscript and correct it. For example, the "Count" in line 112, the "Proportion" in line 175, and etc..
+Response 7: Thank you for your comments. We have thoroughly checked and revised the manuscript, and corrected the problems you mentioned.
+Point 8: Grammar errors should be avoided. For example, a phrase " after 14 weeks of age" should be deleted from the sentence "After 14 weeks of age, the biological functions of DE circRNAs mainly participated in biological processes such as fatty acid homeostasis, long-chain fatty-acyl-CoA metabolic process, fat pad development, and triglyceride homeostasis after 14 weeks of age" in line 282-285. Please check the whole manuscript.
+Response 8: Thank you for your comments. We have corrected the error you mentioned, see lines 300-303 of the revised manuscript. At the same time, the revised manuscript was sent to a professional company for language editing to avoid grammatical errors.
+Point 9: The spelling mistakes of the word in the sentence should be avoided. For example, the " GO items " in line 565, the "lipogene-sis" in abstract, and etc.. Please check the whole manuscript.
+Response 9: Thank you for your comments. We have checked and corrected the spelling of the words in the manuscript. Meanwhile, the revised manuscript was sent to a professional company for language editing to avoid spelling errors.
+AttachmentSubmitted filename: Response to Reviewers.docx
+Click here for additional data file.
+PLoS ONEPLoS One10.1371/journal.pone.0249288.r003Decision Letter 1
+KogutMichael HAcademic Editor© 2021 Michael H. KogutThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+16 Mar 2021
+
+Characteristics and expression profiles of circRNAs during abdominal adipose tissue development in Chinese Gushi chickens
+PONE-D-20-33474R1
+Dear Dr. Li,
+We’re pleased to inform you that your manuscript has been judged scientifically suitable for publication and will be formally accepted for publication once it meets all outstanding technical requirements.
+Within one week, you’ll receive an e-mail detailing the required amendments. When these have been addressed, you’ll receive a formal acceptance letter and your manuscript will be scheduled for publication.
+An invoice for payment will follow shortly after the formal acceptance. To ensure an efficient process, please log into Editorial Manager at http://www.editorialmanager.com/pone/, click the 'Update My Information' link at the top of the page, and double check that your user information is up-to-date. If you have any billing related questions, please contact our Author Billing department directly at authorbilling@plos.org.
+If your institution or institutions have a press office, please notify them about your upcoming paper to help maximize its impact. If they’ll be preparing press materials, please inform our press team as soon as possible -- no later than 48 hours after receiving the formal acceptance. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information, please contact onepress@plos.org.
+Kind regards,
+Michael H. Kogut, Ph.D.
+Academic Editor
+PLOS ONE
+Additional Editor Comments (optional):
+Reviewers' comments:
+PLoS ONEPLoS One10.1371/journal.pone.0249288.r004Acceptance letter
+KogutMichael HAcademic Editor© 2021 Michael H. KogutThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+6 Apr 2021
+
+PONE-D-20-33474R1 
+Characteristics and expression profiles of circRNAs during abdominal adipose tissue development in Chinese Gushi chickens 
+Dear Dr. Li:
+I'm pleased to inform you that your manuscript has been deemed suitable for publication in PLOS ONE. Congratulations! Your manuscript is now with our production department. 
+If your institution or institutions have a press office, please let them know about your upcoming paper now to help maximize its impact. If they'll be preparing press materials, please inform our press team within the next 48 hours. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information please contact onepress@plos.org.
+If we can help with anything else, please email us at plosone@plos.org. 
+Thank you for submitting your work to PLOS ONE and supporting open access. 
+Kind regards, 
+PLOS ONE Editorial Office Staff
+on behalf of
+Dr. Michael H. Kogut 
+Academic Editor
+PLOS ONE
+Associated Data
+
+## Supplementary Materials
+S1 Fig
+
+## Quality evaluation and processing of sequencing data.
+(A) The sequencing error rate of each base position. (B) The content of each base during the sequencing process. (C) The proportion of different types of raw data. (D) Classification of mapped reads in 12 libraries.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## Characteristics of the identified circRNAs.
+(A) Length distribution. (B) The distribution of circRNAs in different chromosomes.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Dynamic expression profile of the identified circRNAs.
+(TIF)
+Click here for additional data file.
+S4 Fig
+
+## CircRNA-miRNA-gene interaction network contains five pathways related to cell proliferation and differentiation.
+The ellipse, triangle and box nodes represent DE miRNAs, DE circRNAs, and DE mRNAs, respectively. Pink indicates upregulation, and blue indicates downregulation. The five pathways are the Wnt signaling pathway, FoxO signaling pathway, p53 signaling pathway, TGF-beta signaling pathway and MAPK signaling pathway.
+(TIF)
+Click here for additional data file.
+S5 Fig
+
+## CircRNA-miRNA-gene interaction network containing five cell junction-related pathways.
+The ellipse, triangle and box nodes represent miRNAs, circRNAs, mRNAs, respectively. Pink indicates upregulation, and blue indicates downregulation. The five pathways are cell adhesion molecules, focal adhesion, adherens junctions, tight junctions and gap junctions.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Primers used for the validation of circRNAs.
+(DOCX)
+Click here for additional data file.
+S1 File
+
+## Details of the circRNAs identified in this study.
+(XLSX)
+Click here for additional data file.
+S2 File
+
+## Details of the significant differentially expressed circRNAs identified in this study.
+(XLSX)
+Click here for additional data file.
+S3 File
+
+## Binding site analysis of miRNAs on the circRNAs.
+(XLSX)
+Click here for additional data file.
+S1 Raw images(PDF)
+Click here for additional data file.
+AttachmentSubmitted filename: Response to Reviewers.docx
+Click here for additional data file.
+
+## Data Availability Statement
+The raw data from this study have been stored in NCBI Sequence Read Archive (accession numbers PRJNA528858 and PRJNA551368).

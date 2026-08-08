@@ -1,0 +1,576 @@
+331plosgenPLOS GeneticsPLoS GenetPLOSPMC1217629712176297121762974049367910.1371/journal.pgen.1011719Role of the SAF-A/HNRNPU SAP domain in X chromosome inactivation, nuclear dynamics, transcription, splicing, and cell proliferation
+SharpJudith AConceptualization, Formal analysis, Investigation, Methodology, Resources, Validation, Visualization, Writing – original draft, Writing – review & editing SparagoEmilyFormal analysis, Investigation, Writing – review & editing ThomasRachaelInvestigation, Methodology, Visualization, Writing – review & editing AlimentiKaitlynInvestigation, Visualization, Writing – review & editing WangWeiInvestigation, Visualization BlowerMichael DConceptualization, Data curation, Formal analysis, Funding acquisition, Investigation, Methodology, Project administration, Resources, Software, Supervision, Validation, Visualization, Writing – original draft, Writing – review & editing GilbertNickEditor 1Department of Biochemistry and Cell Biology, Boston University Chobanian and Avedisian School of Medicine, Boston, Massachusetts, United States of America2The University of Edinburgh, UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELANDThe authors have declared that no competing interests exist.
+✉* E-mail: mblower@bu.edu
+1062025216e1011719e10117191862025© 2025 Sharp et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Previous version available: This article is based on a previously available preprint posted on bioRxiv on September 10, 2024: "Role of the SAF-A SAP domain in X inactivation, transcription, splicing, and cell proliferation".
+
+## Abstract
+SAF-A/HNRNPU is conserved throughout vertebrates and has emerged as an important factor regulating a multitude of nuclear functions, including lncRNA localization, gene expression, and splicing. Here we show the SAF-A protein is highly dynamic and interacts with nascent transcripts as part of this dynamic movement. This finding revises current models of SAF-A: rather than being part of a static nuclear scaffold/matrix structure that acts as a stable tether between RNA and chromatin, SAF-A executes nuclear functions as a dynamic protein, suggesting contacts between SAF-A, RNA, and chromatin are more high turnover interactions than previously appreciated. SAF-A has several functional domains, including an N-terminal SAP domain that binds directly to DNA and RNA. Phosphorylation of SAP domain serines S14 and S26 is important for SAF-A localization and function during mitosis, however, whether these serines are involved in interphase functions of SAF-A is not known. In this study we tested for the role of the SAP domain, and SAP domain serines S14 and S26 in X chromosome inactivation, protein dynamics, gene expression, splicing, and cell proliferation. Here we show that the SAP domain, and SAP domain serines S14 and S26 are required to maintain XIST RNA localization and XIST-dependent histone modifications on the inactive X chromosome, to execute normal protein dynamics, and to maintain normal cell proliferation. In addition, we present evidence that a Xi localization signal resides in the SAP domain, enabling SAF-A to engage with the Xi compartment in a manner distinct from other nuclear territories. We found that the SAP domain is not required to maintain gene expression and plays only a minor role in mRNA splicing. We propose a model whereby dynamic phosphorylation of SAF-A serines S14 and S26 mediates rapid turnover of SAF-A interactions with nuclear structures during interphase. Our data suggest that different nuclear compartments may have distinct requirements for the SAF-A SAP domain to execute nuclear functions, a level of control that was not previously known
+
+## Author summary
+Proper regulation of gene expression is critical for normal organismal development and control of cell growth. Defects in gene expression lead to a spectrum of developmental defects in humans. Gene expression is controlled through both primary DNA sequence as well as various factors that interact with DNA. An important and understudied factor regulating gene expression is the interaction of various types of RNA with chromatin. SAF-A/HNRNPU is a highly abundant nuclear protein that contains both RNA and DNA binding domains and has been hypothesized to tether RNA to chromatin. SAF-A is an essential gene and spontaneous heterozygous mutations in humans lead to neurodevelopmental defects and epilepsy. In this work we use genetically engineered human cell lines to explore the function of the SAF-A SAP domain. We find that the SAF-A SAP domain is important for controlling some aspects of SAF-A function and for access to specific nuclear compartments. Our broad phenotypic analysis provides insight into the essential functions of SAF-A and may illuminate the causes of a rare human disease.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Oct 30; Accepted 2025 May 8; Collection date 2025 Jun.
+
+## Introduction
+Recent work has shown that RNA plays an active role in forming compartments in the nucleus to regulate various essential functions, such as RNA processing and gene expression [ – ]. RNA and RNA-binding proteins are concentrated near active chromatin and act to organize a network of transcription factors and other chromatin regulators. The proper assembly of these structures is therefore important for essential nuclear functions and to prevent neurological disease [ , ].
+The SAF-A/HNRNPU protein is a highly abundant nuclear RNA-binding protein that is essential in mice [ , ] and cancer cells [ ]. Mutations in SAF-A in humans or mice lead to a variety of neurological defects [ – ]. SAF-A was originally described as a factor that binds to hnRNA and attaches RNA to nuclear scaffold attachment regions [ – ]. Since then, SAF-A has been implicated in regulation of mRNA splicing [ , , , ], gene expression [ , ], nuclear structure [ , ], and tethering of the XIST and FIRRE lncRNAs to chromatin [ – ]. The SAF-A protein has several conserved functional domains, including an N-terminal SAP domain, a D/E-rich acidic region, a SPRY domain of unknown function, a central ATPase domain, and a C-terminal RGG domain involved in binding RNA and DNA ( ; [ ]). At present, very little is known about which functional domains of SAF-A are required for each cellular process.
+ The SAP domain is a nucleic acid binding domain present in many factors that regulate aspects of chromosome metabolism [ ]. The SAF-A SAP domain binds directly to SAR DNA in vitro [ , ]. In addition, recent work has indicated that the SAF-A SAP domain can also bind directly to RNA both in vitro [ ] and in vivo [ ]. Two conserved serines present in the SAP domain, S14 and S26, are positioned in the DNA binding interface such that the electrostatic potential of the SAP domain is determined by the phosphorylation state of these two serines [ ]. As a result, the increased negative charge associated with SAP domain S14 and S26 phosphorylation greatly reduces the affinity of SAF-A binding to DNA relative to the unphosphorylated protein. We previously demonstrated that SAP domain S14 and S26 phosphorylation by Aurora-B plays a critical role in regulating the interaction of SAF-A RNP complexes with the surface of mitotic chromosomes [ ]. Since phosphopeptide evidence demonstrates that S14 and S26 are modified in interphase cells [ ], we aimed to determine whether S14 and S26 phosphorylation regulates SAF-A nuclear functions.
+In this study we present phenotypic analysis of cell lines either lacking SAF-A expression, or expressing a SAP domain allelic series, including mutations which mimic the phosphorylated and unphosphorylated state, and a SAP domain deletion. We found that the SAP domain and phosphorylatable serines S14 and S26 were important for SAF-A function in XIST RNA localization and activity, SAF-A dynamic nuclear mobility, interaction with nascent RNA, and cellular proliferation. In contrast, the contribution of SAF-A to gene expression and mRNA splicing is largely independent of the SAP domain. Taken together, our data suggest dynamic phosphorylation of SAP domain serines S14 and S26 impacts a subset of SAF-A nuclear functions during interphase.
+
+## Results
+
+## The SAF-A SAP domain is required for cell proliferation
+To investigate SAF-A nuclear functions in human cells, we first designed a cell line to degrade endogenous SAF-A in diploid, karyotypically stable human RPE-1 cells immortalized with hTERT ( [ ]; ). Both SAF-A genes were modified at the 3’ end to include the minimal auxin-inducible degron sequence and a mCherry fluorescent tag (SAF-A-AID-mCherry). A doxycycline-inducible TIR1 gene encoding the E3 ligase required for auxin-mediated protein degradation was integrated by lentivirus. Control experiments demonstrated efficient depletion of the SAF-A degron allele, resulting in complete depletion of SAF-A-AID-mCherry in ≥ 98% of cells after 24 hours of adding doxycycline and 3-indole acetic acid (IAA; , , and – ). Quantitative western blot analysis confirmed depletion of the degron allele ( and ). We observed that untreated SAF-A-AID-mCherry cells had reduced expression relative to the level of endogenous SAF-A in RPE-1 cells; however, this decrease in expression did not alter cell growth and resulted in very few changes in gene expression compared to RPE-1 cells ( – ).
+To evaluate the role of the SAP domain in SAF-A function, we then integrated doxycycline-inducible GFP-tagged rescue constructs encoding either full-length, wild-type SAF-A (SAF-Awt-GFP), the phosphomutant S14A S26A (SAF-AAA-GFP), the phosphomimetic allele S14D S26D (SAF-ADD-GFP), or a deletion of the SAP domain (SAF-AΔSAP-GFP). In this strategy, the addition of doxycycline and IAA triggers the simultaneous degradation of endogenous SAF-A-AID-mCherry and induction of GFP-tagged SAF-A rescue constructs. Analysis of SAF-A protein levels in these cell lines confirmed SAF-A-GFP expression and degradation of endogenous SAF-A-mAID-mCherry in cell extracts ( lanes 4–7) and cell cultures ( ) under these conditions. Quantitative analysis of expression levels of rescue constructs revealed that they are all expressed within a 2-fold difference of endogenous levels ( , , and ).
+SAF-A is an essential gene required for cell proliferation and embryonic viability [ , ]. We therefore tested whether our tagged SAF-A alleles supported essential functions of SAF-A by monitoring the number of cycling cells over 10 days, using PCNA and Ki-67 as markers for cell proliferation ( – ). Both SAF-A-mAID-mCherry and SAF-Awt-GFP maintained levels of PCNA- and Ki-67-positive cells comparable to wild-type RPE-1 cells, demonstrating that the tagged alleles encode functional proteins that complement the unmodified SAF-A gene and support essential functions of SAF-A. In contrast, SAF-A depletion caused a significant reduction in cycling cells over the time course of the experiment, as did the modification of SAP domain serines (SAF-AAA-GFP and SAF-ADD-GFP) and a SAP domain deletion (SAF-AΔSAP-GFP). We note that during the time course of the experiment, each SAP domain mutation resulted in fewer cycling cells compared to the SAF-A depletion, suggesting that the SAP domain alleles are loss of function mutations that display variable degrees of penetrance. Together, these data suggest that the SAP domain is required for essential functions of SAF-A, and that the two phosphorylatable serines S14 and S26 in the SAP domain are critical for the role of SAF-A in supporting normal levels of cell proliferation.
+
+## The SAF-A SAP domain serines are required for XIST RNA localization to the Xi
+Several studies have reported that SAF-A is required for the proper localization of the noncoding XIST RNA to the inactive X chromosome (Xi) in female cells [ – , , ]. We note these studies used a variety of methods (siRNA, Cre-Lox recombination, and constitutive CRISPR SAF-A KO) that require several days to completely deplete SAF-A from cells, likely due to the high abundance of SAF-A protein. Since our SAF-A degron cell line resulted in robust depletion of SAF-A within 24 hours of drug treatment ( ), we determined whether the XIST RNA localization defect was present after this more acute period of depletion.
+RPE-1 cells are female and harbor an Xi with XIST RNA expression and histone modifications associated with facultative heterochromatin [ ]. XIST RNA is present at ~50 copies per nucleus in cell culture models of X inactivation [ – ], yet appears as a “cloud” in the confocal light microscope due to the resolution limit described by the point spread function. To evaluate the role of SAF-A in XIST RNA localization, we developed a quantitative imaging assay designed to count resolvable XIST RNA foci in 3D confocal optical stacks, reasoning that a localization defect would result in an increased number of XIST RNA molecules distal to the Xi, therefore also increasing the number of resolvable XIST RNA foci per nucleus. In this assay, we note we are using standard confocal microscopy and are measuring the total number of XIST RNA foci, not single XIST molecules. Cells were treated for 24 hours to deplete endogenous SAF-A-AID-mCherry and induce the SAF-A-GFP transgenes prior to XIST RNA FISH hybridization. 3D optical stacks were then acquired for ≥ 100 interphase nuclei per genotype in two biological replicate experiments. Images were analyzed in batch to count XIST RNA foci using a script we developed in Fiji software (Materials and methods, and ). Representative XIST RNA FISH patterns are shown in ; quantitative analysis of the two biological replicates is depicted in as a violin superplot [ ].
+ Comparison of native RPE-1 cells (SAF-Awt) with cells expressing SAF-Awt-GFP demonstrated an equivalent number of XIST RNA foci per nucleus, demonstrating that the tagged construct complements for the role of SAF-A in XIST RNA localization to the Xi. Both SAF-Awt and SAF-Awt-GFP nuclei had relatively few resolvable foci, reflecting the close positioning of XIST RNA molecules within the Xi territory. In contrast, SAF-A depletion resulted in an average 2-fold increase in XIST RNA foci, with many events in the population having ~10–50 XIST RNA foci per cell ( ). Analysis of XIST RNA levels demonstrated that increased XIST foci did not result from increased expression in SAF-A mutant cell lines ( and ) These data confirm that SAF-A is required to maintain proper XIST RNA localization during this 24-hour experimental window, a period of time equivalent to one cell cycle in RPE-1 cells.
+Analysis of cell lines with SAP domain mutations demonstrated that deletion of the SAP domain caused an increase in XIST RNA foci comparable to complete depletion of the SAF-A protein ( and ). While the phosphomutant allele SAF-AAA-GFP caused no detectable XIST RNA phenotype, the phosphomimetic allele SAF-ADD-GFP resulted in potent XIST RNA mislocalization. These results indicate a critical role for the SAF-A SAP domain serines in maintaining proper XIST RNA localization to the Xi. While the allele modeling unphosphorylated SAP domain serines supports XIST RNA localization, the allele modeling constitutive phosphorylation of the two serines in the SAP domain antagonizes XIST RNA interactions with Xi chromatin.
+
+## The SAF-A SAP domain is required for maintenance of Polycomb-dependent histone modifications on the Xi
+XIST RNA triggers the modification of Xi chromatin by recruiting the histone modification enzymes PRC1 to catalyze histone H2AK119ub, and PRC2 to catalyze histone H3K27me3, through a mechanism genetically linked to multiple XIST RNA effector proteins [ ]. To investigate whether the SAF-A SAP domain is required to maintain XIST RNA-dependent chromatin modifications on the Xi, we performed immunofluorescence for H2AK119ub and H3K27me3 and scored Xi enrichment in cell populations expressing wild-type and mutant SAF-A-GFP alleles, 24 hours after drug treatment. In both mouse and human cells, H3K27me3 and H2AK119ub form a prominent nuclear body that colocalizes with XIST and the Xi. Comparison of native RPE-1 cell populations (SAF-Awt) to those expressing SAF-Awt-GFP demonstrated that both genotypes had similar frequencies of H2AK119ub and H3K27me3 Xi enrichment, again demonstrating the functionality of the GFP-tagged protein ( , , and S2C). In contrast, SAF-A depletion resulted in markedly decreased H2AK119ub and H3K27me3 Xi enrichment, with approximately half of the cell population having no detectable Xi enrichment of these histone modifications. This is consistent with previous results showing a loss of H3K27me3 on the Xi after siRNA-mediated depletion of SAF-A in mouse cells [ ]. We also observed significantly reduced H2AK119ub and H3K27me3 Xi enrichment in cell lines expressing SAF-AAA-GFP, SAF-ADD-GFP, and SAF-AΔSAP-GFP. These data demonstrate that the SAF-A SAP domain, and in particular SAP domain serines 14 and 26, are important for maintaining PRC1 and PRC2 functions on the Xi. Further, the data suggest dynamic phosphorylation of the SAF-A SAP domain is important for the role of SAF-A in maintaining XIST RNA-dependent chromatin modifications.
+
+## The SAF-A SAP domain contains a Xi localization signal
+Immunofluorescent detection of SAF-A has led to conflicting reports about whether it is enriched or excluded from the Xi chromosome territory [ – ] suggesting that differences in sera or fixation conditions can result in contradictory observations of SAF-A localization. To avoid these potential problems, we performed live imaging of our SAF-A-GFP cell lines to determine whether SAP domain mutations resulted in altered Xi localization. We observed that SAF-Awt-GFP was modestly enriched in the Xi chromosome territory as indicated by overlap with the Barr body, consistent with a prior report ([ ], ). SAF-AAA-GFP and SAF-ADD-GFP were also present in the Xi chromosome territory, with SAF-AAA-GFP showing modest Xi enrichment. SAF-ADD-GFP was present in the Xi territory but not observably enriched. In contrast, SAF-AΔSAP-GFP was distinctly excluded from the Xi territory. These data show that there is a Xi localization sequence present in the SAF-A SAP domain that is largely independent of serines 14 and 26. It is likely that underrepresentation of SAF-AΔSAP-GFP on the Xi is an important feature explaining the aberrant XIST RNA localization and Xi chromatin phenotypes associated with this mutation.
+ 
+
+## SAF-A exhibits rapid nuclear dynamics and interacts with nascent transcripts
+To test whether the SAP domain plays a role in potentiating SAF-A nuclear dynamics in living cells, we performed FRAP analysis in cells expressing SAF-A-GFP transgenes. SAF-Awt-GFP exhibited rapid nuclear dynamics such that the t1/2 of recovery was an average 2.58 seconds, representing a high degree of nuclear mobility. These rapid nuclear movements suggest that most of the cellular pool of SAF-A participates in high turnover, transient engagements with chromatin or other nuclear structures. Indeed, we note that only an average of 18% of SAF-Awt-GFP was estimated to be immobile in multiple experiments imaging cells for a duration of 30 seconds ( – ). Next, we compared SAF-A mobility in cells expressing the SAP domain allelic series: SAF-AAA-GFP, SAF-ADD-GFP, and SAF-AΔSAP-GFP. We found that all SAP domain mutations significantly decreased the t1/2 of recovery to approximately 2.0 seconds, representing much more rapid nuclear motion than the wild-type protein. These data suggest that the SAP domain is engaging transiently with nuclear structures to impact the nuclear dynamics of SAF-A.
+Recent work demonstrated that SAF-A localization and activity is responsive to nuclear transcription [ , ], suggesting that SAF-A may interact with nascent transcripts. To determine whether transcription inhibition affects SAF-A mobility, we performed FRAP after inhibition of transcriptional elongation using the CDK9 inhibitor LDC000067 (LDC) [ ]. Acute inhibition of CDK9 resulted in a strong decrease in nascent transcription ( ). Interestingly, SAF-Awt-GFP and all SAF-A SAP domain mutants exhibited increased nuclear mobility in the presence of LDC, suggesting that interaction of SAF-A with nascent transcripts is an important determinant of SAF-A nuclear dynamics. SAF-AΔSAP-GFP had the strongest increase in mobility after transcription inhibition, with SAF-AAA-GFP and SAF-ADD-GFP having a more modest increase in mobility relative to the SAF-Awt-GFP control. The SAF-A immobile fraction was reduced for all genotypes in the presence of LDC, suggesting there is a population of SAF-A molecules that are stably associated with nascent transcripts independently of the SAP domain ( ). Taken together, these data demonstrate that SAF-A is a highly dynamic protein that interacts with nascent transcripts and additional nuclear structures through the SAP domain.
+Our FRAP data stands in contrast to a prior study which reported much slower rate of SAF-A nuclear motion [ ]. We note there are experimental differences between that study and the data presented here. First, those experiments were conducted in transformed, aneuploid HEK293 cells which may have different nuclear properties than the system we describe in RPE-1 cells. In addition, the HEK293 cells were expressing SAF-A-GFP in addition to the endogenous protein, which could affect protein dynamics. We performed controls to ensure that SAF-Awt-GFP is the sole source of SAF-A expression in the RPE-1 SAF-A degron cell line, and that the expression level was comparable to untagged native protein levels (S1B, S1C, and ). In addition, we have tested our SAF-Awt-GFP reagent in multiple genetic assays and found that it complements for normal cell proliferation, normal chromosome segregation, Xi chromatin structure, global RNA transcription, RNA splicing, and cell cycle dependent localization (this study, [ ]). Finally, our measured SAF-A dynamics are concordant with those reported for SAF-A expressed from a transgene in RPE-1 cells in a recent preprint [ ]. For these reasons, we conclude that the rapid nuclear movements we observe with the SAF-Awt-GFP allele are an accurate measurement of normal SAF-A dynamics.
+We tested whether SAP domain mutations caused differential interaction with chromatin by analyzing SAF-A immunoprecipitations for the presence of histone H3 ( and .) SAF-Awt-GFP coprecipitated with histone H3 in a manner that was enriched relative to the no tag and no antibody controls. However, we did not observe significant differences in chromatin interactions for the SAP domain mutants in statistical comparisons to SAF-Awt-GFP ( ). While our live imaging data suggest SAF-A is highly mobile in the nucleus and is contacting nuclear structures transiently, the coimmunoprecipitation data suggest that SAP domain mutations may influence protein-RNA or protein-protein interactions more so than interactions of SAF-A with chromatin during interphase.
+
+## Maintenance of Xi gene expression and Xi chromatin structure in SAF-A depleted cells
+RPE-1 cells are a differentiated somatic cell type and therefore have an Xi chromosome in the epigenetically stable maintenance phase of X inactivation. During this phase, transcriptional silencing of the Xi can occur even if XIST RNA function is absent, and instead relies on other mechanisms such as DNA methylation to repress transcription [ – ]. We therefore tested whether the role for SAF-A on the Xi was solely epistatic to XIST RNA by monitoring for changes in Xi transcription and chromatin structure.
+Recently, the haplotype-resolved genome sequence of human RPE-1 cells was published [ ], suggesting that we could examine X-linked gene expression and chromatin structure using high-throughput sequencing techniques. To measure allele-specific expression we used the Personal Allele Caller software which was shown to have the highest accuracy and least mapping bias [ ]. Examining RNA-seq data from wild-type RPE-1 cells revealed that the vast majority of autosomal genes have equal expression from the maternal and paternal alleles ( ). In contrast, genes located on the X-chromosome exhibit a strong bias with most expression arising from the ‘a’ allele. We note RPE-1 cells contain a 73 MB duplication of chromosome 10 translocated to the X chromosome [ , ]. We detected a modest bias in allele-specific expression on chromosome 10 in our RNA sequencing data, suggesting that this translocation occurs onto the Xi. In contrast to most X-linked genes, 2 of 4 genes reported to escape X inactivation exhibited equal expression between both alleles ( red points). Although there are likely more genes that escape Xi silencing, we could detect only 4 with SNPs in RPE-1 cells.
+ To further validate our ability to detect allele-specific differential expression of genes on the X chromosome, we performed ATAC-seq [ ] and Cut-and-Run [ ] for the histone modifications H3K4me3 and H3K27Ac. Consistent with our allele-specific RNA-seq analysis, we found that chromatin accessibility and active chromatin modifications are equally represented on both alleles on all autosomes except chromosome 10, again likely due to the duplication/translocation to the Xi ( ). In contrast, for the X chromosome we observed a decrease in chromatin accessibility on the ‘b’ allele ( ) and a concomitant decrease in active histone marks on the ‘b’ allele ( and S4A). Taken together, the strong allelic bias in gene expression, chromatin accessibility, and active histone marks solely on the X chromosome strongly suggests that allele-specific sequencing is a viable strategy to monitor gene expression from the Xi in human RPE-1 cells.
+To determine if SAF-A depletion resulted in reactivation of genes on the Xi, we used edgeR to compare gene expression from the ‘a’ (active) and ‘b’ (silenced) alleles in RPE-1 cells with and without SAF-A depletion. We found that genes located on the X chromosome exhibited nearly identical gene expression after 24 hours of SAF-A depletion ( ). To determine if SAF-A depletion over a longer time frame would reactivate gene expression from the Xi, we performed RNA-seq at 48 and 72 hours after SAF-A depletion. SAF-A depletion did not globally reactivate Xi gene expression under any of these conditions (S4C and ). Similarly, none of the SAF-A SAP domain mutants reactivated gene expression on the Xi (S4E- ). We also tested whether SAF-A depletion resulted in altered chromatin accessibility or active chromatin modifications on the Xi, using ATAC-seq and Cut-and-Run for the H3K4Me3 and H3K27Ac histone modifications. Consistent with our RNA sequencing results, we did not observe changes in the chromatin structure of the Xi following SAF-A depletion ( , , and S4B).
+Collectively, the data argue that SAF-A impacts XIST RNA localization and XIST-dependent organization of PRC1 and PRC2 activity on the Xi, but does not affect other parallel pathways enforcing transcriptional silencing in the maintenance phase of X inactivation. This is in contrast to the documented role of SAF-A in establishment of the Xi during cell differentiation [ ]. We conclude that the role of SAF-A’s contribution to maintaining chromatin structure on the Xi is epistatic to XIST RNA.
+
+## SAF-A depletion results in transcriptional changes that accumulate over multiple cell divisions
+To understand how the loss of SAF-A affects steady-state RNA levels over time in RPE-1 cells, we performed RNA-seq on cells depleted for SAF-A for 24, 48, and 72 hours. Interestingly, we observed a gradual increase in the number of misregulated genes during the time course of SAF-A depletion, with a modest number of misregulated genes at 24 hours (227), additional genes misregulated at 48 hours (313) and increasingly more genes misregulated at 72 hours (1196; – ). At each time point, the majority of misexpressed genes in SAF-A depleted cells exhibited reduced expression relative to control datasets – ). Comparison of up- and down-regulated genes at each time point revealed a strong overlap between misregulated genes at 24, 48, and 72 hours ( and ). This suggests that a core subset of genes is misregulated after SAF-A depletion and that additional genes become misregulated after long-term SAF-A depletion, perhaps as a result of cellular responses to a decrease in proliferation. Gene ontology analysis of SAF-A downregulated gene categories over the time course identified a strong enrichment of terms associated with the extracellular matrix, cell adhesion, axon extension, and angiogenesis ( ). We note the modest effect of SAF-A on gene expression after acute depletion is consistent with a prior report [ ], suggesting that the majority of genes misregulated after extended SAF-A depletion are the result of indirect effects. These time-resolved datasets reveal that SAF-A depletion over multiple cell divisions results in cumulative changes in global gene expression.
+ We tested whether the SAP domain is involved in the role of SAF-A maintaining normal RNA levels ( ). We performed RNA-seq and compared gene expression in cells expressing SAF-Awt-GFP, SAF-AAA-GFP, SAF-ADD-GFP, and SAF-AΔSAP-GFP, and SAF-A depleted cells. As in SAF-A depleted cells, we observed only modest changes in gene expression in cells expressing SAF-AAA-GFP and SAF-ADD-GFP ( ). Interestingly, gene expression was mostly unaffected in cells expressing SAF-AΔSAP-GFP, suggesting that interruption of the SAP domain phosphorylation cycle impacts steady-state RNA levels more so than a SAP domain deletion.
+
+## The SAF-A SAP domain plays a minor role in mRNA splicing
+Foundational work identified that SAF-A regulates mRNA splicing in multiple organisms and tissue types [ , , ], through a mechanism involving maturation of the U2 snRNP [ ]. Presently, it is not known whether splicing defects in SAF-A depleted cells are emergent at early time points after depletion, or whether the SAP domain is required to promote normal mRNA splicing. To understand how SAF-A contributes to mRNA splicing, we used rMATS to analyze differential splicing in SAF-A depleted cells and all SAP domain mutant cell lines at 24 hours from the mRNA-seq data described above. Consistent with previous work, SAF-A depletion led to changes in the inclusion of ~1600 exons (FDR < 0.01; , , S6A, and S6B). SAF-A depletion tended to result in a loss of exon inclusion, but SAF-A was also required to promote exon exclusion for some transcripts. Gene ontology analysis of overrepresented functional groups exhibiting altered splicing revealed that SAF-A is required for the splicing of mRNAs encoding proteins important for transiting the nuclear pore, cell cycle control, and microtubule organization ( ). Comparison of changes in mRNA splicing to changes in gene expression revealed no correlation, suggesting that changes in mRNAs splicing do not directly cause changes in gene expression ( ).
+ To test whether the SAF-A SAP domain was involved in mRNA splicing, we compared splicing changes in cells expressing SAF-Awt-GFP, SAF-AAA-GFP, SAF-ADD-GFP, and SAF-AΔSAP-GFP, and SAF-A depleted cells ). Comparison of these genotypes revealed that SAF-A depleted cells showed the most significant shift from the wild-type condition (p-value 2.2 x 10-16 SAF-Awt-GFP vs. SAF-A depletion), with more minor changes observed in cells expressing SAF-AΔSAP-GFP (p-value 1.375 x 10-8 SAF-Awt-GFP vs. SAF-AΔSAP-GFP, ). In contrast, mutation of the SAP domain serines in cells expressing SAF-AAA-GFP and SAF-ADD-GFP had very little effect on splicing.
+To confirm the observed mRNA splicing changes, we used RT-PCR with primer pairs spanning regulated exons. We tested 4 mRNAs exhibiting both increased and decreased exon inclusion in the SAF-A mutants and confirmed the magnitude and direction of all changes predicted by mRNA sequencing ( and ). We conclude that SAF-A is important for mRNA splicing and that that the SAP domain plays a minor role in this process.
+To understand whether splicing changes accumulate over time after SAF-A depletion, we analyzed splicing changes at 24, 48 and 72 hours. Surprisingly, we did not observe a phenotypic gradient over time with mRNA splicing as we had observed with gene expression. Splicing changes were immediately apparent 24 hours after depletion, and the severity of splicing defects did not increase over time ( and ). We conclude that acute depletion of SAF-A leads to dramatic changes in splicing, suggesting that SAF-A plays a direct role in this process.
+Splicing can be regulated by protein binding to pre-mRNA transcripts at splicing enhancer and repressor sites both within exons, and upstream and downstream of regulated exons [ ]. To determine if specific sequence motifs are present in or around SAF-A regulated exons we used MEME [ ] and a custom k-mer enrichment program [ ] to analyze various regions in and around SAF-A regulated exons. We did not detect significant enrichment of any sequence motifs in any class of sequence ( – ). To determine if SAF-A binding is enriched in or around SAF-A regulated exons we utilized SAF-A eCLIP data from the ENCODE consortium from two different cell lines. We did not detect any SAF-A enrichment upstream, downstream or in regulated exons in the eCLIP data, consistent with a wide distribution of SAF-A binding throughout the transcriptome ( ) [ ]. In addition to sequence motifs, it is possible SAF-A could recognize secondary structure in mRNA. We used mfold [ ] to predict the free energy of control and SAF-A regulated exon regions, but detected no differences related to SAF-A regulation. We also found that SAF-A splicing regulation was not correlated with gene or intron length ( – ). In contrast, when we compared SAF-A regulated transcripts to RNAs identified as being stably associated with SAF-A [ ], we found that transcripts containing exons that exhibited increased inclusion after SAF-A depletion were significantly enriched in SAF-A IP samples (p-value 4.9 x 10-9, ). These data suggest that stable association of SAF-A with a transcript may promote exon exclusion, but that the mechanism targeting SAF-A to specific transcripts is currently unclear. Given the lack of sequence specificity among SAF-A-dependent spliced transcripts, it is possible that splicing defects in SAF-A depleted cells are more attributable to a general defect in the splicing machinery, such as defective U2 snRNP maturation [ ].
+
+## Discussion
+In this study, we describe how a degron system in diploid, karyotypically stable RPE-1 cells can be used to explore SAF-A function in several genetic assays. Given the high abundance of SAF-A in the nucleus [ ], one advantage of this system is that it allows for the rapid depletion of SAF-A, allowing for observation within 24 hours, as well as longer time periods. This allowed us to obtain time resolved datasets for the role of SAF-A in cell proliferation, gene expression, and splicing. The stable integration of inducible SAF-A transgenes allowed for expression to approximate normal protein levels as closely as possible. Matching endogenous SAF-A expression levels is important because overexpression of SAF-A has been shown repress transcription [ ]. In addition, because the SNPs present in RPE-1 cells have been mapped to each haplotype genome, this allowed us to examine X-linked gene expression and chromatin structure with allele-specific resolution. This RPE-1 degron system engineered to simultaneously deplete endogenous SAF-A and induce tagged SAF-A transgenes therefore represents a set of valuable reagents to study SAF-A cellular function.
+We used this system to explore the role of the SAF-A SAP domain and SAP domain phosphorylation in supporting XIST RNA localization, applying quantitative image analysis to evaluate XIST RNA localization among several genotypes. Using this assay, we found that a SAP domain deletion is defective for XIST RNA localization to the Xi in human cells, consistent with a prior study in mouse cells [ ]. Interestingly, the SAF-A alleles modeling the unphosphorylated (SAF-AAA-GFP) and phosphorylated state (SAF-ADD-GFP) had opposite XIST RNA localization phenotypes: SAF-AAA-GFP had normal XIST RNA localization, and SAF-ADD-GFP showed a disruption in XIST RNA localization. These phenotypes could be attributable to differences in the affinity of the phosphorylated SAP domain for RNA, or other nuclear structures.Interestingly, both SAF-AAA-GFP and SAF-ADD-GFP were defective in maintaining PRC1- and PRC2-dependent histone modifications on the Xi. XIST RNA is required to organize PRC1 and PRC2 activity on the Xi, but multiple studies suggest this occurs in a manner requiring one or more adapter proteins to bridge the interaction, such as hnRNP K or others [ ]. Taken together, these data suggest that the dynamic phosphorylation of SAF-A on serines S14 and S26 could regulate formation of a functional, mature XIST RNP. Since SAF-A localizes along the length of XIST RNA [ ], and SAF-A interacts with nascent transcripts ( and [ ], it is possible that SAF-A is interacting with newly transcribed XIST RNA molecules, facilitating contacts with effector proteins along the length of the RNA.
+We examined SAF-A nuclear dynamics and found that most of the SAF-A population is engaged with high turnover interactions with nascent transcripts or other nuclear structures. The observation that SAF-A is a highly dynamic protein prompts a re-evaluation of two concepts in the field. First, the data argue that most SAF-A molecules are not part of a static nuclear structure proposed by the scaffold/matrix model of the nucleus [ ]. Second, the data suggest that the SAF-A RNP makes rapid, transient engagements with chromatin or other nuclear elements, rather than being a stable tether to bridge RNA molecules to chromatin. Therefore, it is likely that SAF-A molecules bound to relatively immobile lncRNAs such as XIST RNA occur in the context of high turnover interactions [ , ], driven in part by dynamic phosphorylation on SAP domain serines S14 and 26.
+We observed that ~ 20% of the SAF-A population shows relatively immobile nuclear dynamics and is engaged with nascent RNA in a manner independent of the SAP domain ( ). We note SAF-A was originally isolated as one of the hnRNP proteins bound to nuclear RNA and has a second nucleic acid binding domain on the C terminus that has strong affinity for RNA ( , RGG domain; [ , ]). These observations suggest that the RGG domain may have a role in modulating SAF-A nuclear mobility, by determining SAF-A interactions with nascent RNA species.
+There are conflicting observations in the literature about whether SAF-A is enriched or depleted on the Xi in fixed cells [ , ]. We observed the modest enrichment of SAF-Awt-GFP on the Xi only in live imaging experiments, suggesting that there are changes occurring during cell permeabilization or fixation that are not accurately reporting the localization of SAF-A to the Xi. Therefore, we urge caution when interpreting SAF-A localization in fixed cells. Indeed, previous studies investigating localization of transcription factors demonstrated that live imaging was an indispensable tool to distinguish bona fide chromatin interactions from fixation artifacts [ – ]. For this reason, we used live imaging to confirm the enrichment of SAF-A in the Xi territory during interphase (this study), and to confirm that SAF-A is excluded from chromosomes during mitosis [ , ].
+The Xi chromosome territory is a distinct membraneless compartment in the nucleus. Although RNA Pol II can readily access Xi chromatin, its engagement with chromatin is reduced relative to the rest of the nucleus [ , ]. In addition, the Xi territory is characterized by concentrated assemblies of proteins nucleated by XIST RNA, including SPEN, PTPB1, MATR3, TBP43, CELF1, CIZ1 and others [ , – ], resulting in a network of protein assemblies that coordinate chromosome-wide transcriptional silencing. We were surprised to observe that cells expressing the SAF-AΔSAP-GFP allele showed marked exclusion from the Xi territory. This stands in contrast to the SAF-Awt-GFP allele, which was enriched on the Xi. These data suggest there is a Xi-localization signal within the SAP domain that is largely independent of SAP domain phosphorylation. Further, the imaging data suggests the Xi-targeting sequence present in the SAP domain enables SAF-A to engage with the Xi compartment in a manner distinct from how SAF-A interacts with the rest of the nucleus, possibly due to the reduced transcription on the Xi.
+Previous work demonstrated that short-term depletion of SAF-A using siRNAs resulted in very few changes in gene expression [ ]. Other studies in mice and human iPS cells found that depletion or mutation of SAF-A results in changes in the expression of hundreds of genes [ – ]. In this study, we used our system to explore the kinetics of gene expression changes in cells lacking SAF-A function and found that gene expression changes accumulate over multiple cell cycles. It is possible that this occurs through an indirect mechanism, such as a misexpressed gene or misspliced RNA causing long term amplification of gene expression changes. It is also possible that SAF-A affects a low turnover element of chromatin, such as a long-lived histone modification or chromatin modifier. Of note, we identified that SAF-A regulates the expression levels of a subset of RNAs that are distinct from those that are subject to SAF-A-dependent splicing, suggesting these processes are controlled by different mechanisms. Consistent with this idea, we found that cells expressing a SAP domain deletion maintained proper gene expression, but displayed splicing defects of some transcripts. Future work is needed to understand how SAF-A maintains the gene expression state, and which other conserved domains contribute to this function.
+In contrast to gene expression, the impact of SAF-A depletion on splicing, XIST RNA localization, and XIST RNA-dependent histone modifications was observed within the first cell cycle of depletion, suggesting that SAF-A is directly linked and continually required to execute each of these functions. Importantly, the ability to compare alleles across assays in this study revealed that the phosphomimetic allele, SAF-ADD-GFP, represents a separation of function mutation: whereas SAF-ADD-GFP has a relatively normal profile for mRNA splicing, SAF-ADD-GFP failed to enforce normal XIST RNA localization on the Xi. Therefore, the role of SAF-A in maintaining XIST RNA localization is independent of mRNA splicing. In addition, the SAF-AAA-GFP could execute normal XIST RNA localization but was defective in the recruitment of PRC1 and PRC2-dependent histone modifications. We note that localization and silencing activity are separable functions of the XIST RNA and are attributable to different functional repeat sequences on the RNA [ ].
+Our studies of cell cycle markers show that the SAF-A SAP domain, and SAP domain serines S14 and S26, are required to support normal cell proliferation. These data suggests that dynamic phosphorylation of S14 and S26 is important to fulfill essential roles of SAF-A. It is likely that this role is critical to maintaining rapid cell divisions during early development and could explain why knockout of the mouse Saf-a gene results in early embryonic lethality [ ]. In addition, we observed misexpressed genes in a number of categories important for normal organismal function ( ). We conclude the constellation of phenotypes we present here provide insight for SAF-A SAP domain functions at both the cellular and organismal levels.
+
+## Materials and methods
+
+## Cell culture and drug treatment
+hTERT-immortalized RPE-1 cells were a gift from Brian Chadwick (Florida State University, Tallahassee, FL; ATCC CRL-4000) and were cultured as described [ ]. The SAF-A degron cell line in RPE-1 cells has been described [ ]. Lentiviruses with SAF-Awt-GFP, SAF-AAA-GFP, SAF-ADD-GFP, and SAF-AΔSAPGFP were prepared and used to transduce the SAF-A-degron cell line. Individual clones were expanded and validated by immunofluorescent detection of GFP and western blot analysis.
+To induce SAF-A depletion + /- SAF-A-GFP expression, cells were treated with 0.5 μg/mL doxycycline (D3447; MilliporeSigma) and 100 μg/mL 3-indole acetic acid (IAA, I-5148 MilliporeSigma) for 24 hours. Control experiments determined that treatment with 0.5 μg/mL doxycycline resulted in SAF-A-GFP expression levels equivalent to the native, untagged protein. For the long-term depletion of SAF-A, media was replaced with fresh drug every 2–3 days.
+
+## Plasmids
+GFP-tagged SAF-A alleles were cloned into the lentiviral expression vector pLVX-TetOne-puro (Takara Bio). The lentiviral plasmids pMB1103 (SAF-Awt-GFP), pMB1109 (SAF-AAA-GFP), and pMB1311 (SAF-A ADD-GFP) have been described [ ]. pMB1316 (SAF-AΔSAPGFP) was prepared similarly.
+
+## Antibodies
+Primary antibodies used in this study were as follows: mouse anti-GFP (sc-9996, Santa Cruz Biotechnology), rabbit anti-mCherry (600–401-p16, Rockland), mouse anti-tubulin (DM1A, MilliporeSigma), GFP booster nanobody-ATTO488 (GBA488, Bulldog Bio), RFP booster nanobody-ATTO 594 (RBA594, Bulldog Bio), mouse-anti histones H1-H4 (MAB3422, MilliporeSigma), rabbit anti Ki-67 (ab16667, Abcam), rabbit anti-H2AK119ub (D27C4, Cell Signaling Technology), mouse anti-H3K27me3 (39537, Active Motif), mouse anti-histone H3 (1B1B2, Cell Signaling Technology), and human anti-PCNA (AK, a gift from Dr. Yoshinari Takasaki (Juntendo University School of Medicine, Japan).
+Secondary antibodies used in western blotting were as follows: donkey anti-mouse conjugated to 680RD (925–68072, LiCor) and donkey anti-rabbit conjugated to 680RD (925–68073, LiCor). Secondary antibodies used in immunofluorescent studies were donkey anti-mouse Alexa Fluor 647 (715-605-150, Jackson Immunoresearch), donkey anti-human Alexa Fluor 488 (709-545-149, Jackson Immunoresearch), donkey anti-human Cy3 (709-165-149, Jackson Immunoresearch), donkey anti-rabbit Alexa Fluor 488 (711-545-152, Jackson Immunoresearch), donkey anti-rabbit Cy3 (711-165-152, Jackson Immunoresearch), donkey anti-rabbit Alexa Fluor 647 (Jackson Immunoresearch), and donkey anti-mouse Cy3 (715-165-150, Jackson Immunoresearch).
+
+## Western blot analysis and immunoprecipitation
+Cells were grown on 15 cm dishes and washed once with 1X PBS. Cells were incubated for 30 min at 4°C in ice-cold lysis/IP buffer (1 ml per 15-cm plate) containing 25 mM Tris, pH 7.4, 150 mM KCl, 5 mM EDTA, 5 mM MgCl2, 1% NP-40, 0.5 mM DTT, and protease inhibitors (Pierce A32955). Cells were collected from the plate and passed several times through a syringe with a 25-gauge needle. Lysates were centrifuged for 30 min at 4°C (∼22,000 × g) to remove insoluble material. The protein concentration of the extract was determined using a Bradford assay. For each cell extract, 10 μg was loaded onto a 4–20% polyacrylamide gel (Bio-Rad 4561096) and run at 15 mA per gel to resolve the different SAF-A protein isoforms. Proteins were transferred to PVDF membrane and probed with antibodies specified above. Blots were exposed using a LI-COR Odyssey 9120 fluorescent imaging system. Blot quantitation was performed using Bio-Rad ImageQuant software.
+To immunoprecipitate SAF-A-GFP, cell extracts were prepared as described above, and protein concentration was adjusted to 1 mg/mL. Extracts were incubated with 25 μL pre-equilibrated bead slurry of GFP-Trap Magnetic Agarose (chromotek GTMA020, Bulldog Bio) or Binding Control Magnetic Agarose (chromotek BMAB020) according to the manufacturer’s instructions. After 1 hour incubation at 4oC, immune complexes were collected with a magnet and washed three times with lysis/IP buffer. After the last wash samples were eluted in 15 μL sample buffer and analyzed as described above.
+
+## Image acquisition and analysis
+All images were acquired using a Nikon A1R confocal microscope equipped with a 60 × 1.4NA Vc lens and laser lines at 405, 488, 562, and 647 nm. Images were collected using Nikon Elements software driving the galvano scanner. Images were acquired as Z stacks spaced 0.2 µm apart. Each experiment was repeated in at least two biological replicates. For immunofluorescent detection of SAF-A alleles and Ki-67 ( and ), we used the same fixation and detection conditions we previously described [ ]. For PCNA and immunofluorescent detection of histone H3K27me3 and histone H2AK119ub, we performed permeabilization with CSK buffer (100 mM NaCl, 300 mM sucrose, 3 mM MgCl2, 10 mM PIPES pH 6.8) for 30 seconds, followed by treatment with CSK buffer + 0.5% Triton-X-100, followed by CSK buffer for 30 seconds, and fixation with 4% paraformaldehyde (15710, Electron Microscopy Sciences) buffered with 1X PBS. Our FISH conditions to detect XIST RNA have been published previously [ , , ]. Images were rendered in Fiji software as a projection or single optical slice, as specified in the figure legends.
+
+## Live imaging and FRAP
+For live imaging of SAF-A-GFP alleles on the Xi, cells were plated onto fluorodishes (FD35–100, World Precision Instruments) and treated with doxycyline and IAA for 24 hours prior to observation. Hoechst 33342 dye (Molecular Probes) was added just prior to imaging. Cells were imaged on a Nikon A1R confocal microscope equipped with a stage- top incubator and CO2 chamber (Tokai Hit). For FRAP analysis, cells were plated as above, except without Hoechst dye. FRAP was performed as follows: the scan area was set to 128 x 128, at a scan zoom size of 8X. 10 images were acquired prior to bleaching. Bleach area was a 3 x 3 square. Bleaching was accomplished with 80% power of the 488 laser for 1 second. Images were acquired every 65 ms for 30 seconds following bleaching (456 images). For each allele, FRAP movies were collected from at least 25 cells in total on two different days. For experiments involving the transcriptional inhibitor LDC, the drug was added to the culture media 30 minutes prior to imaging. Movies were imported into Fiji and quantitative analysis of FRAP data was performed as described [ ]. FRAP curves were plotted in R from average values across all cells analyzed.
+
+## ATAC-seq
+1 million RPE-1 or SAF-A depleted cells were used as input for the Zymo-seq ATAC-seq kit (D5458). Libraries were constructed according to the manufacturer’s instructions. Libraries were sequenced to a depth of ~120 million reads at Novogene using paired-end 150 bp reads.
+
+## Cut-and-run
+1 million RPE-1 or SAF-A depleted cells were used as input for the EpiCypher CUTANA ChIC/CUT&RUN Kit Version 3 (14–1048), with anti-H3K4me3 (EpiCypher 13–0060), anti-H3K27Ac (Invitrogen, MA5–23516) or IgG antibodies. 5 ng of CUT&RUN enriched DNA was used as input for library construction with the EpiCypher CUT&RUN Library Prep Kit (14–1001). Libraries were sequenced at a depth of ~20 million reads at Novogene using paired-end 150 bp reads.
+
+## RNA-seq
+rRNA depleted samples were converted into libraries using the NEB Next Ultra II RNA library kit. Libraries were sequenced by Novogene using 150 bp paired-end reads.
+
+## RNA-seq analysis
+
+## Common QC and processing steps.
+All libraries were sequenced at Novogene using paired-end 150 bp reads. Raw fastq files were analyzed for quality, adaptor sequences were trimmed, and duplicate reads were removed using the fastp software suite [ ]. Unique, trimmed fastq files were used for all subsequent steps.
+
+## Differential gene expression analysis.
+De-duplicated, trimmed reads were aligned to the UCSC hg38 human genome sequence using Rsubread/subread [ ]. Reads per gene were quantitated using FeatureCounts in R with Entrez Gene IDs as the reference. Differential gene expression analysis between control and mutant cell lines was performed using edgeR [ ]. For the plots in this study we considered genes significant if they exhibited a logFC of>= 1 and FDR value less than 0.01. All MD plots were created using ggplot2 in R.
+
+## Gene ontology analysis.
+Significantly altered genes were selected from edgeR analysis. Differential genes were split into up- and down-regulated genes and submitted to EnrichR [ ] Gene Ontology analysis using Biological Process and Benjamani Hofberg p-value correction. Enriched categories were manually curated to combine redundant terms and plotted using the enrichR results and ClusterProfiler [ ].
+
+## Alternative splicing analysis.
+De-duplicated, trimmed reads were used as input for rMATS [ ] in conjunction with the ENSEMBL hg38 and ENSEMBL transcript annotations. RMATS output files were filtered as follows: first, we only considered splicing events supported by an average of 12.5 junction spanning reads per sample (e.g., for a comparison including two control and two experimental samples we required a total of 50 reads). For determination of the number of significant changes we filtered for a FDR < 0.01. To produce Sashimi plots we used rmats2sashimi.py. To conduct GeneOntology analysis of alternative splicing changes we used the ENSEMBL Gene names of significantly changed exons as input for EnrichR and ClusterProfiler. For analysis of conserved domains altered by alternative splicing we used SpliceTools and batch blast against the NCBI conserved domain database.
+
+## Motif analysis of alternatively spliced exons.
+To search for motifs near alternatively spliced exons we used bedtools to collect 100 bp upstream and downstream of regulated exons and unregulated exons (as a control). We also used bedtools to collect the sequences of all regulated exons and unregulated exons. We then used these sequences as input for STREME for discriminative identification mode. As an alternative approach we used these sequences as input for a custom Perl script that calculates the frequency of all k-mers in a set of experimental and control sequences then derived an enrichment score for each k-mer. For this analysis we analyzed hexamers but obtained similar results for k-mers ranging from 5-8. For secondary structure DeltaG prediction we used all the sequences described above as input for the Vienna RNAfold package. DeltaG values were extracted from the batch output using R and compared between regulated exons and nonregulated exons.
+
+## Allele-specific gene expression analysis.
+We used the Personalized Allele Caller [ ] software in conjunction with the RPE-1.vcf file [ ] of maternal and paternal SNPs to generate counts per gene from each RNA-seq library. To validate the RPE-1.vcf file with our own batch of RPE-1 cells we sequenced the genome of these cells to a depth of 20X using paired-end 150 bp reads. We then ran PAC on this DNA sequencing data using the published.vcf file. We eliminated all SNPs with 0 counts for either allele in the DNA sequencing experiment and all SNPs that exhibited an allele-specific bias of > 1 Standard Deviation from the mean. We used the filtered.vcf file for all subsequent experiments. We filtered the genes to only consider genes with a total of greater than 10 counts per gene. To compare maternal:paternal ratios in different conditions we created average maternal:paternal ratios for each gene from pairs of control and SAF-A depleted/mutant cells. For comparison of RPE-1 to SAF-A depleted cells, this consisted of 6 libraries for each condition. For comparison of RPE-1 to each SAF-A mutant it consisted of 2 libraries for each condition. For the time series of SAF-A depletion, it consisted of 2 libraries for each condition. Averaged ratios were used to create violin plots in R.
+
+## DGE analysis of gene reactivation on the inactive X chromosome.
+To determine if genes are reactivated on the inactive X chromosome, we used edgeR to calculate a logFC and FDR value for a:b ratios for each gene on the X chromosome. We then compared the logFC (a/b) and FDR values for different genotypes. The number of libraries compared for each condition is described above.
+
+## ATAC-seq library QC.
+Sequencing.fastq files were initially QCed using fastp as described above. Reads were aligned to hg38 using bwa-mem. Output.bam files were analyzed for fragment size and genomic location using ATACseqQC [ ]. To perform allele-specific ATAC-seq QCed trimmer, deduplicated fastq files were used as input for PAC with the modified.vcf file described above.
+
+## Cut&Run analysis.
+Sequencing fastq files were QCed using fastp as described above and aligned using PAC as described above. Allele specific read counts for IgG were subtracted from the read counts at the same gene in the antibody libraries to remove background. Genes were filtered for>= 0 reads on for each allele and >5 reads total. The ratio of “a” to “b” allele were calculated for each gene and averaged across replicates.
+
+## Quantitation of number of XIST particles in SAF-A depleted and SAP mutant cells
+3D images of XIST localization in RPE-1, SAF-A depleted cells, and all SAF-A-GFP cell lines were acquired in 0.2μm z stacks. To quantitate the number of XIST RNA particles in z-stack confocal images, we used a macro implemented in FIJI software. Briefly, we used the DAPI signal to create a mask for nuclei in each image slice after performing a Gausian blur, Otsu threshold, fill holes and exclude nuclei touching the image edges. Nuclei were then added to the 3D ROI Manager to create linked 3D objects. We then detected XIST RNA particles by segmenting the RNA FISH image using the Otsu method. XIST particles were then added to the 3D ROI manager. We then used the 3D ROI Manager to measure properties of all particles, measure colocalization between all particles, and measure distances between all particles. Three measurement files were saved for each image. We then used a custom Perl script to summarize the measurements for each nucleus from these three files. Measurements were performed in a batch manner with no user supervision. The FIJI macro and Perl scripts are listed in and .
+
+## Supporting information
+S1 Fig
+
+## Expression of SAF-A tagged and SAP domain mutant isoforms.
+A. Cells were scored for SAF-A-AID-mCherry expression after 24 hours of drug treatment. The graph depicts the average percent of cells (n = 100) expressing the degron allele; error bars depict the SD for two biological replicates. B. Western blot analysis with the mouse anti-SAF-A 3G6 monoclonal antibody to compare levels of endogenous SAF-A (lane 1), SAF-A-AID-mCherry -/ + drug treatment (lanes 2 and 3) and SAF-Awt-GFP (lane 4). C. Quantitation of SAF-A expression levels relative to the tubulin loading control in three different extract preparations. Error bars depict SD. D. MD plot comparing gene expression between wt RPE-1 cells and RPE-1 cells with the SAF-A-AID-mCherry expressed from the endogenous locus. Differentially expressed genes are highlighted in red and blue. E-F. Upset plots comparing the intersection of misregulated genes in untreated SAF-A-AID-mCherry cells to cells depleted of SAF-A by the addition of dox and IAA. G. Quantitation of SAF-A-GFP expression levels. We were unable to identify an antibody that recognizes all tagged versions of SAF-A and SAP domain mutations. Instead, we monitored expression levels of GFP-tagged SAP domain mutations using a GFP antibody and compared to the SAF-Awt-GFP control to infer approximate expression levels relative to the endogenous protein. We estimate expression levels of all GFP tagged transgenes is within a 2-fold difference compared to the endogenous protein.
+(TIF)
+S2 Fig
+
+## Characterization of XIST expression and Polycomb-dependent histone modifications in SAF-A depleted cells.
+A. MD plot comparing gene expression in 6 replicates of SAF-A depleted cells to wild type RPE-1 cells. XIST RNA expression is highlighted in orange. B. Table depicting the logFC and FDR of XIST RNA for all SAF-A depletion and mutant experiments as measured by RNA-seq. C. Immunofluorescence of H3K27me3 and H2AK119ub in SAF-Awt and SAF-A depleted cells. Scale bar is 10 µm.
+(TIF)
+S3 Fig
+
+## Validation of CDK9 inhibitor LDC.
+Cells were incubated with the CDK9 inhibitor LDC, or DMSO, for 30 minutes prior to the addition of EU. Nuclear EU fluorescence intensity was measured from two biological replicates.
+(TIF)
+S4 Fig
+
+## Analysis of X-linked chromatin and gene expression in SAF-A mutants.
+A. Allele-specific Cut-and-Run was performed with H3K27Ac antibodies and calculated using PAC. ‘a/b’ ratios are plotted for each gene by chromosome. B. Comparison of ‘a/b’ ratios for X linked genes in SAF-A depleted cells. C. Comparison of ‘a/b’ ratios for all X-linked genes after 48 hours of SAF-A depleted cells. D. Comparison of ‘a/b’ ratios for all X-linked genes after 72 hours of SAF-A depletion. E-H. Comparison of ‘a/b’ ratios for all X-linked genes after in all SAF-A SAP domain mutants.
+(TIF)
+S5 Fig
+
+## Gene expression profiles in cells expressing SAF-A SAP domain mutations.
+A-E. Gene expression was evaluated at 24 hours after addition of doxycycline and auxin, using RNA-seq and EdgeR. MD plots depict significantly differentially expressed genes for each mutant (FDR < 0.01). The gene expression profile of cells depleted for SAF-A, or expressing SAF-A alleles SAF-Awt-GFP, SAF-AAA-GFP, SAF-AAA-GFP, or SAF-AΔSAP-GFP were compared to RPE-1 cells as indicated on the y axis.
+(TIF)
+S6 Fig
+
+## MISO plots of additional regulated exons in each SAF-A mutant.
+A-B. MISO plots of SE events in WT RPE-1 cells, SAF-A depleted cells, and SAP domain mutants. C. Scatterplot comparison of changes in gene expression at 24h to changes in mRNA splicing.
+(TIF)
+S7 Fig
+
+## Validation of predicted splicing changes using RT-PCR.
+A. Illustration depicting included and skipped exons, and PAGE gel analysis of exon inclusion for 4 different genes with predicted changes in exon inclusion in SAF-A depleted cells. B. Quantitation of percentage spliced in in each mutant from three biological replicates.
+(TIF)
+S8 Fig
+
+## Splicing defects do not increase with time of SAF-A depletion.
+A. PCA analysis of skipped exons (SE) in SAF-A depleted cells, RPE-1, and SAF-A depleted cells rescued with SAF-Awt-GFP at each time point. B. CDF analysis of SE altered in SAF-A depleted cells at 24 hours in each cell type at each time point.
+(TIF)
+S9 Fig
+
+## Motif analysis of SAF-A regulated exons.
+A. STREME analysis of upstream and downstream intronic sequences surrounding SAF-A regulated exons. B. Hexamer enrichment in the same sequences as in A. C-D. STREME and hexamer analysis of sequences in and surrounding SAF-A regulated exons. Sequence sets tested are indicated on the plots.
+(TIF)
+S10 Fig
+
+## Analysis of SAF-A eCLIP data surrounding regulated exons.
+A. ENCODE project eCLIP data was analyzed using Deeptools in both HepG2 and K562 cells at SAF-A regulated exons (increased or decreased) and at unregulated genes. Average coverage and heatmap are depicted for all datasets. B. mFold calculation of ΔG for indicated sequenes. C-D. Calculated lengths of indicated sequence groups.
+(TIF)
+S1 File
+
+## XIST3D.ijm.
+ImageJ macro used to identify XIST foci in wild-type RPE-1 and SAF-A mutant cells.
+(IJM)
+S2 File3DNuclearParticlesNuclearVolume.pl. Perl script used to process the output files from the ImageJ macro in S1 File.
+(PL)
+S1 Data
+
+## Quantitation of SAF-A expression following IAA addition, quantitation of SAF-A levels after depletion and rescue.
+(XLSX)
+S2 Data
+
+## Quantitation of percentage of cells positive for Ki67 and PCNA following SAF-A depletion and rescue.
+(XLSX)
+S3 Data
+
+## Quantitation of co-immunoprecipitation of Histone H3 with various SAF-A mutants.
+(XLSX)
+S4 Data
+
+## Quantitation of number of XIST spots per cell from all SAF-A genotypes.
+(TXT)
+S5 Data
+
+## Quantitation of percentage of cells positive for H3K27Me3 or H2AK119Ub in all SAF-A genotypes.
+(XLSX)
+S6 Data
+
+## Normalized FRAP measurements for each SAF-A genotype with and without transcription inhibition.
+(TXT)
+S7 Data
+
+## Quantitation of normalized nuclear intensity of EU with and without transcription inhibition with LDC.
+(TXT)
+S8 Data
+
+## Quantitation of exon skipping or inclusion by RT-PCR in all SAF-A genotypes.
+(XLSX)
+
+## Acknowledgments
+The authors thank Reito Watanabe for helpful suggestions. We thank Chi Jing and Nelson Lau for preparation of the RPE-1 genome sequencing library. We thank Daniel Cifuentes for use of the LiCor fluorescent imager. We acknowledge that much of the computational work reported on in this paper was performed on the Shared Computing Cluster which is administered by Boston University’s Research Computing Services.
+
+## Data Availability
+All raw reads and summary files are available in GEO under the accession numbers: GSE277216, GSE277217, GSE277219, GSE277221.
+
+## Funding Statement
+This work was supported by the National Institutes of General Medical Sciences GM144352 to MB and National Institutes of General Medical Sciences GM122893 to MB. https://www.nigms.nih.gov/he funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+PLOS GeneticsPLoS Genet10.1371/journal.pgen.1011719.r001Author response to Decision Letter 0
+1062025216e1011719e1011719Collection date 2025 Jun.
+
+30 Oct 2024
+
+PLOS GeneticsPLoS Genet10.1371/journal.pgen.1011719.r002Decision Letter 0
+GilbertNickGuest Editor© 2025 Nick GilbertThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.PGENETICS-D-24-01290
+Nuclear compartments have distinct requirements for the SAF-A SAP domain
+PLOS Genetics
+Dear Dr. Blower,
+Thank you for submitting your manuscript to PLOS Genetics. Your manuscript has been evaluated by three reviewers who were all positive, but felt the manuscript required further revision. The reviewers have provided a list of corrections that should be addressed and which should improve the manuscript. One reviewer suggested that the title was too generalised, so please consider modifying the wording.
+Please submit your revised manuscript within 60 days Feb 18 2025 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosgenetics@plos.org. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pgenetics/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+Please include the following items when submitting your revised manuscript:
+* A rebuttal letter that responds to each point raised by the editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'. This file does not need to include responses to any formatting updates and technical items listed in the 'Journal Requirements' section below.
+* A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+* An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+If you would like to make changes to your financial disclosure, competing interests statement, or data availability statement, please make these updates within the submission form at the time of resubmission. Guidelines for resubmitting your figure files are available below the reviewer comments at the end of this letter.
+We look forward to receiving your revised manuscript.
+Kind regards,
+Nick Gilbert
+Guest Editor
+PLOS Genetics
+Wendy Bickmore
+Section Editor
+PLOS Genetics
+Aimée Dudley
+Editor-in-Chief
+PLOS Genetics
+Anne Goriely
+Editor-in-Chief
+PLOS Genetics
+
+Journal Requirements:
+
+1) Please ensure that the CRediT author contributions listed for every co-author are completed accurately and in full.
+At this stage, the following Authors/Authors require contributions: Judith A Sharp, Emily Sparago, Rachael Thomas, Wei Wang, and Michael Blower. Please ensure that the full contributions of each author are acknowledged in the "Add/Edit/Remove Authors" section of our submission form.
+The list of CRediT author contributions may be found here: https://journals.plos.org/plosgenetics/s/authorship#loc-author-contributions
+2) We ask that a manuscript source file is provided at Revision. Please upload your manuscript file as a .doc, .docx, .rtf or .tex. If you are providing a .tex file, please upload it under the item type u2018LaTeX Source Fileu2019 and leave your .pdf version as the item type u2018Manuscriptu2019.
+3) We noticed that you used the phrase 'unpublished data' in the manuscript. We do not allow these references, as the PLOS data access policy requires that all data be either published with the manuscript or made available in a publicly accessible database. Please amend the supplementary material to include the referenced data or remove the references.
+4) Please upload all main figures as separate Figure files in .tif or .eps format. For more information about how to convert and format your figure files please see our guidelines:
+
+https://journals.plos.org/plosgenetics/s/figures
+
+5) We notice that your supplementary Figures, and Tables are included in the manuscript file. Please remove them and upload them with the file type 'Supporting Information'. Please ensure that each Supporting Information file has a legend listed in the manuscript after the references list.
+6) We note that your Data Availability Statement is currently as follows: "All genomics data in this study is available at GEO". Please confirm at this time whether or not your submission contains all raw data required to replicate the results of your study. Authors must share the “minimal data set” for their submission. PLOS defines the minimal data set to consist of the data required to replicate all study findings reported in the article, as well as related metadata and methods (https://journals.plos.org/plosone/s/data-availability#loc-minimal-data-set-definition).
+For example, authors should submit the following data:
+- The values behind the means, standard deviations and other measures reported;
+- The values used to build graphs;
+- The points extracted from images for analysis..
+Authors do not need to submit their entire data set if only a portion of the data was used in the reported study.
+If your submission does not contain these data, please either upload them as Supporting Information files or deposit them to a stable, public repository and provide us with the relevant URLs, DOIs, or accession numbers. For a list of recommended repositories, please see https://journals.plos.org/plosone/s/recommended-repositories.
+If there are ethical or legal restrictions on sharing a de-identified data set, please explain them in detail (e.g., data contain potentially sensitive information, data are owned by a third-party organization, etc.) and who has imposed them (e.g., an ethics committee). Please also provide contact information for a data access committee, ethics committee, or other institutional body to which data requests may be sent. If data are owned by a third party, please indicate how others may request data access.
+7) Please ensure that the funders and grant numbers match between the Financial Disclosure field and the Funding Information tab in your submission form. Note that the funders must be provided in the same order in both places as well. State the initials, alongside each funding source, of each author to receive each grant. For example: "This work was supported by the National Institutes of Health (####### to AM; ###### to CJ) and the National Science Foundation (###### to AM)." State what role the funders took in the study. If the funders had no role in your study, please state: "The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.".
+If you did not receive any funding for this study, please simply state: u201cThe authors received no specific funding for this work.u201d
+
+Reviewers' comments:
+
+Reviewer's Responses to Questions
+
+Comments to the Authors:
+
+Please note here if the review is uploaded as an attachment.
+
+Reviewer #1: Overall this is an interesting manuscript which highlights the role of the SAP domain of HNRNPU in XIST RNA localisation and RNA splicing. The experiments are in general well controlled and executed. There are some areas where better representation of the existing literature would allow the reader to see a better context for the new data.
+1. HNRNPU is the official gene name and the name used in databases so it makes the article very inaccessible to persist in using the terminology SAF-A. To broaden access of this article it is important to include HNRNPU in both the title and abstract, otherwise many searches from scientists who came across this protein through a database would miss your article.
+2. Fig. 1d . It would be helpful to understand the extent of constitutive degradation caused by addition of the mini-Aid to the HNRNPU ORF by probing the Western blots with anti-HNRNPU antibody as well so we can see to what extent the – auxin condition is reflective of WT cells and to what extent the GFP fusions used for complementation are overexpressing HNRNPU relative to normal endogenous levels. Whilst I recognise it is challenging to mimic endogenous levels, overexpression may itself cause phenotypes (see for example Table 1 in PMID: 10490622). So, it would be helpful for the reader to understand any limitations of the system being used. Whilst the authors state they monitored transgene levels after induction with tet, it would be nice to see the actual data. Especially when they make this statement in the discussion “. The stable integration of inducible SAF-A transgenes allowed for precise titration of SAF-A expression level, in order to approximate normal protein levels as closely as possible.” I note also that in the original paper describing the generation of the RPE HNRNPU-AID cell line again no Western was provided showing HNRNPU levels probed with a HNRNPU antibody compared to the native RPE cells, only +/- auxin conditions of the engineered cell line. Finally I note for the RNAseqs the authors used RPE vs HNRNPU depletion as their two conditions, rather than -/+ auxin. Was this because the -auxin condition already had substantial depletion of HNRNPU due to the well-known constitutive degradation caused with some proteins tagged with auxin degrons?
+3. Fig. 1h . Are the DD, AA and delta SAP mutants in fact acting in a dominant negative manner since these cells seem to perform worse in both assays than the HNRNPU depleted condition?
+4. In discussing the data presented in figures 3b-d it would probably be worth mentioning that HNRNPU was defined as a HNRNP protein, all of which bind nascent, intronic RNA, moreover, a key RNA binding domain of HNRNPU is the C-terminal RGG box, in fact the phrase was first termed on the basis of its discovery in HNRNPU (PMID:1628625). Therefore, the observation that “there is a population of SAF-A molecules that are stably associated with nascent transcripts independently of the SAP domain (Figure 3d)” is consistent with the prior literature, including the prior work of these authors.
+5. Fig. 5. RNA-seq does not measure transcription. It measures the steady state levels of the transcriptome which can be influenced by multiple factors including transcription and decay rates. The text should reflect this and not infer effects on transcription.
+6. Fig S4 what do I and S mean? Perhaps a cartoon showing where the primers are on the gene structure and what is being amplified would be helpful for the reader.
+7. The discussion comments about HNRNPU being transiently associated with nuclear elements including RNA should be discussed in the context of its well known role as a HNRNP protein, which bind heterogeneous nuclear RNA i.e nascent RNA, which is, in general, chromatin associated via the transcribing polymerase it is exuding from. Furthermore, it has previously been shown that HNRNPU depletion leads to increased levels of U2 snRNP in the cell PMID: 22325991 and that this could account for the major changes in splicing seen following HNRNPU depletion. Especially given the binding sites for HNRNPU on pre-mRNA correlate poorly with splicing changes, implying a general effect on the splicing machinery is at play as suggested in PMID: 22325991. Such a conclusion is consistent with the data presented here in Fig. S7 and should be considered in the discussion.
+Minor points:
+1. Should LDC be described as a CDK9 inhibitor rather than a polII inhibitor
+2. p.14 line 23- Refers to Figure 5e, there is no figure 5e.
+P12 line 23- "normal" RPE-1 cells feels like a vague description, maybe qualify with "diploid" or "karyotypically normal" something to that effect. They use "normal, diploid" in the discussion
+3. p.17 line 26- close bracket "(Figure 3 and [20],"
+4. Supplemental figures:
+-inconsistent bolding of first "A." left over from bolding title in 4 and 7
+Supplemental figure 1 legend- "C.F" should be "C-F" to match formatting of other legends
+Supplemental figure 5- More descriptive/legible names for the figure legend would help readability, at least some underscores or dashes
+Supplemental figure 6 legend- replace "C. C-D" with "C-D"
+5. Methods- Can't find a description of how they've lysed their cells for the knock down validation western blot in results or methods.
+6. References
+p.28:There seems to be multiple places where fragments of the competing interests are inserted into references, see 3. 11. and 13. p.31
+p.8:
+line 8- Reference 17 doesn't seem relevant to the statement (unless I'm mistaken).
+Reviewer #2: In the manuscript ‘Nuclear compartments have distinct requirements for the SAF-A SAP domain’ the authors aim to characterise the effect of the N-terminal SAP domain on the functionality of SAF-A by generating a homozygous SAF-A-mCherry auxin mediated degron cell line in human RPE cells, and then complementing these cells with stable heterozygous integration of either WT SAF-A-GFP or a SAF-A mutant-GFP to the TRE3Gs locus. Expression of either a SAP domain deletion, a SAP AA mutant or a SAP DD phosphomimetic mutant is induced with the use of doxycycline.
+The authors present limited novel findings in this manuscript: They recapitulate the previous finding that depletion of SAF-A has an effect upon splicing, but none of the SAP domain mutants demonstrate this phenotype. Furthermore, transcriptomic analysis shows minimal effects of SAF-A depletion or expression of mutants unless cells are maintained for 48 or 72 hrs in the absence of SAF-A. As the authors demonstrate in Figure 1 that by this time such cells already exhibit significant cellular stress with 20-40% of cells in G0, and a clear decrease in replication, any analysis of transcription is likely to be unreliable. Likewise, any comparison of genes affected by splicing with genes that show aberrant transcription after 48 or 72hrs is unreliable for the same reason.
+A previous publication demonstrated that the mouse SAP domain was required for Xist localisation. A further publication identified Ser14 and 26 in the SAP domain of SAF-A as important during mitosis. The novel data in this manuscript relates to the recruitment of SAF-A and Xist to the inactive X in interphase human cells and its reliance upon dynamic phosphorylation of S14 and S26. This information is a useful contribution to the field, but there are major points which need to be addressed:
+Further major points:
+1) The authors suggest that there is ‘complete knockdown of endogenous SAF-A in the majority of cells after 24hrs’. Western blot analysis showing the full degree of knockdown after 24hrs should be shown, particularly as a proportion of cells can be seen to express SAF-A mCherry even after 24hr IAA treatment in Figure 1e.
+This is of further importance in Figure 1h, where complementation with the panel of mutant transgenes has more effect upon %PCNA positive cells and %Ki-67 positive cells than depletion of SAF-A in its entirety. This might be explained if there were a dominant negative effect on residual endogenous SAF-A mCherry.
+2) The authors state multiple times that transgene expression is equivalent to endogenous expression levels, but this is not shown (‘unpublished data’ in methods). This is an important omission from both the western blot and IF data.
+3) In figure 2 the authors use analysis of 3D confocal stacks of Xist foci. They suggest that as they are unable to resolve Xist RNA particles normally localised to the Xi with confocal microscopy, an increase in particles distal to the Xi would correlate to more particles that they can resolve. This approach is flawed as it does not distinguish between increased Xist molecules per nucleus versus the same number of Xist molecules that are more dispersed. Furthermore, in Figure 2a, delocalised Xist can be seen in examples provided, but if the images are representative they must be highly thresholded, for example in SAF-A depleted cells, the average Xist foci in the graph is 12 (range approx. 4-30), but approx. 35 foci are evident by eye! Likewise, the idea that an average of 4 Xist RNA foci are evident in the SAF-A WT cells is clearly so inaccurate that the axis should be re-labelled Xist aggregations.
+4) The authors do not present data addressing whether SAF-A GFP mutants are equally capable of binding chromatin as endogenous SAF-A. Even the FRAP data in Figure 3c/d does not address this as the dynamics of the GFP transgenes is not compared to that of endogenous SAF-A with an mCherry tag. Without further analysis of general chromatin binding, they cannot make definite claims that recruitment to the Xi is specifically affected.
+5) The authors suggest there is a ‘Xi-targeting signal or sequence in the SAP domain, that is largely independent of Ser 14 and 26’, and ‘distinct from other nuclear territories’, but provide no evidence for such sequence. Targeting might be mediated by protein structure and / or interaction with an accessory protein and no other functionality that requires chromatin binding is addressed.
+6) The authors cannot argue that ‘dynamic phosphorylation is required for the formation of a functional, mature Xist RNP’ as they present no evidence to suggest that Xist RNP formation is aberrant in any fashion, only that there is a defect in its recruitment / retention.
+Minor points:
+1) Details of the macro used for analysis of Xist particles should be provided to enable readers to reproduce experiments
+2) Figure 2c. Please include the SAF-A WT control and SAF-A depleted images that correlate to data the graph in Figure 2d.
+3) Figure 2c/d. Please correlate uH2A / K27 enrichment with an Xi marker – otherwise this data is based on educated guesswork as to where the Xi might be.
+7) The accompanying text to Figure 3a suggests there is enrichment of the SAF-A DD mutant on the Xi, but to a lesser extent to the SAF-A AA mutant. There is not enrichment evident in the example. Furthermore, it would be useful for the proportion of cells in which SAF-A Xi enrichment / exclusion is observed to be detailed.
+8) Figure 5. Please explain further why interruption of SAP phosphorylation would have more of an effect than deletion of the whole SAP domain on gene expression?
+9) When RNA-seq data from the RPE cells is analysed based on haplotype analysis in Figure 4 how many genes are able to be analysed on the X compared to the autosomes with this SNP based approach – it would appear far fewer on the X chromosome versus autosomes.
+10) The title is too generalised. The authors have not to my mind demonstrated that ‘nuclear compartments have distinct requirements for the SAF-A SAP domain’.
+Reviewer #3: This study focuses on the SAF-A protein’s SAP domain and its phosphorylation in nuclear processes. Using a degron-based system in human RPE-1 cells, the authors show that SAF-A is highly dynamic, transiently interacting with chromatin, RNA, and other nuclear structures. They identify phosphorylatable serines (S14, S26) in the SAP domain as critical for maintaining XIST RNA localization on the inactive X chromosome, enabling PRC1/PRC2-dependent histone modifications, and ensuring normal cell proliferation. Although depleting SAF-A affects mRNA splicing, the SAP domain itself appears to have limited influence on this process. Overall, these findings suggest that SAP domain phosphorylation drives rapid SAF-A turnover in distinct nuclear compartments, providing new insights into regulatory layers of nuclear organization and function. The manuscript is generally well written and concise, with data that largely support the authors’ conclusions. However, the lack of page, line, and figure numbers complicates the review process.
+The results will interest researchers in heterochromatin and RNA biology, even though the SAP domain’s physiological impact appears modest in RPE-1 cells. With a few specific issues addressed, this manuscript should be suitable for publication in PLOS Genetics.
+Major Points:
+1. The authors claim complete endogenous SAF-A depletion with auxin and doxycycline but only show Western blots using anti-fluorescent protein antibodies, not antibodies against endogenous SAF-A. Additionally, there is no genotyping data confirming both alleles are tagged with no remaining untagged allele. To meet PLOS Genetics standards, the authors should provide an antibody that recognizes endogenous SAF-A (if available) and present molecular validation of the knock-in strategy.
+2. In Figure 2, the conclusion that Xi targeting is defective is based on a more dispersed XIST signal. The authors should rule out the possibility that this dispersion is due to increased XIST levels rather than mislocalization.
+3. The authors use LDC to block transcription but do not include controls confirming effective transcriptional inhibition. Such a control should be provided.
+4. The authors mention that gene expression changes accumulate over time, but they do not show whether the same sets of genes are affected at different timepoints. Demonstrating overlap in misregulated genes would strengthen their conclusions.
+5. The authors frequently cite figure panels out of sequence (e.g., referring to panel c before panel b). Citing panels in order would improve readability and clarity.
+Minor Points:
+• In Fig. 2d, the authors should provide statistical analyses.
+• In the FRAP experiments, why authors do not examine SAF-A dynamics specifically at the Xi? It could provide direct evidence of distinct turnover in this compartment
+• In Fig. S2, the authors should include the number of misregulated genes, as done in Fig. 5.
+• The terminology for SAF-A degration (e.g., “depletion” vs. “knockdown”) should be used consistently throughout the manuscript to avoid confusion.
+**********
+
+Have all data underlying the figures and results presented in the manuscript been provided?
+
+Large-scale datasets should be made available via a public repository as described in the PLOS Genetics
+data availability policy , and numerical data that underlies graphs or summary statistics should be provided in spreadsheet form as supporting information.
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean? ). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy .
+Reviewer #1: No
+Reviewer #2: No
+Reviewer #3: No
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+
+Figure resubmission:
+
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com/. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Registration is free. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email PLOS at figures@plos.org. Please note that Supporting Information files do not need this step. If there are other versions of figure files still present in your submission file inventory at resubmission, please replace them with the PACE-processed versions.
+
+Reproducibility:
+
+To enhance the reproducibility of your results, we recommend that authors of applicable studies deposit laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. Additionally, PLOS ONE offers an option to publish peer-reviewed clinical study protocols. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols
+PLOS GeneticsPLoS Genet10.1371/journal.pgen.1011719.r003Author response to Decision Letter 1
+1062025216e1011719e1011719Collection date 2025 Jun.
+
+3 Apr 2025
+
+AttachmentSubmitted filename: Reponse to Reviewers 3-30-25.pdf
+PLOS GeneticsPLoS Genet10.1371/journal.pgen.1011719.r004Decision Letter 1
+GilbertNickGuest Editor© 2025 Nick GilbertThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Dear Dr Blower,
+We are pleased to inform you that your manuscript entitled "Role of the SAF-A/HNRNPU SAP domain in X chromosome inactivation, nuclear dynamics, transcription, splicing, and cell proliferation" has been editorially accepted for publication in PLOS Genetics. Congratulations!
+Before your submission can be formally accepted and sent to production you will need to complete our formatting changes, which you will receive in a follow up email. Please be aware that it may take several days for you to receive this email; during this time no action is required by you. Please note: the accept date on your published article will reflect the date of this provisional acceptance, but your manuscript will not be scheduled for publication until the required changes have been made.
+Once your paper is formally accepted, an uncorrected proof of your manuscript will be published online ahead of the final version, unless you’ve already opted out via the online submission form. If, for any reason, you do not want an earlier version of your manuscript published online or are unsure if you have already indicated as such, please let the journal staff know immediately at plosgenetics@plos.org.
+In the meantime, please log into Editorial Manager at https://www.editorialmanager.com/pgenetics/, click the "Update My Information" link at the top of the page, and update your user information to ensure an efficient production and billing process. Note that PLOS requires an ORCID iD for all corresponding authors. Therefore, please ensure that you have an ORCID iD and that it is validated in Editorial Manager. To do this, go to ‘Update my Information’ (in the upper left-hand corner of the main menu), and click on the Fetch/Validate link next to the ORCID field.  This will take you to the ORCID site and allow you to create a new iD or authenticate a pre-existing iD in Editorial Manager.
+If you have a press-related query, or would like to know about making your underlying data available (as you will be aware, this is required for publication), please see the end of this email. If your institution or institutions have a press office, please notify them about your upcoming article at this point, to enable them to help maximise its impact. Inform journal staff as soon as possible if you are preparing a press release for your article and need a publication date.
+Thank you again for supporting open-access publishing; we are looking forward to publishing your work in PLOS Genetics!
+Yours sincerely,
+Nick Gilbert
+Guest Editor
+PLOS Genetics
+Wendy Bickmore
+Section Editor
+PLOS Genetics
+Aimée Dudley
+Editor-in-Chief
+PLOS Genetics
+Anne Goriely
+Editor-in-Chief
+PLOS Genetics
+
+www.plosgenetics.org
+
+Twitter: @PLOSGenetics
+----------------------------------------------------
+Comments from the reviewers (if applicable):
+Reviewer's Responses to Questions
+
+Comments to the Authors:
+
+Please note here if the review is uploaded as an attachment.
+
+Reviewer #1: The manuscript is substantially improved and the authors have addressed all my original concerns.
+I noted a single typo in the Abstract:
+" We found that that a SAP domain deletion"
+Reviewer #2: I am satisfied that the authors have answered my questions adequately and appreciate the effort they have taken in providing additional data where required.
+Reviewer #3: I have read the revised version of the manuscript and appreciate the authors’ detailed and constructive responses to the comments raised during the initial review. In particular, I had requested further validation of the SAF-A depletion strategy. Specifically, I asked for evidence of endogenous SAF-A depletion using antibodies that recognize the untagged protein, as well as molecular confirmation of homozygous tagging. The revised manuscript addresses this point thoroughly: the authors now present Western blot analyses using the 3G6 monoclonal antibody, which detects both endogenous and tagged SAF-A isoforms. This analysis demonstrates successful homozygous targeting and efficient degradation of SAF-A-AID-mCherry following auxin treatment. These data, now included in Supplemental Figure 1, substantially strengthen the manuscript by validating the degron system.
+I also raised the possibility that the observed XIST mislocalization upon SAF-A depletion or mutation could be due to increased XIST RNA levels rather than mislocalization. The revised manuscript now explicitly presents XIST expression levels from RNA-seq datasets in Supplemental Figure 2. These data show that XIST expression is unchanged, supporting the conclusion that the phenotype reflects mislocalization rather than transcriptional upregulation.
+In addition, the authors now provide appropriate controls for transcriptional inhibition by LDC treatment, using EU incorporation assays included in Supplemental Figure 3. This control validates the effectiveness of transcriptional inhibition and supports the conclusions drawn from their FRAP experiments regarding the link between SAF-A dynamics and transcriptional activity.
+Beyond these points, the authors have made numerous improvements throughout the manuscript in response to feedback from all reviewers.
+Overall, the authors have satisfactorily addressed all major concerns, and the revised manuscript now meets the standards for publication in PLOS Genetics.
+**********
+
+Have all data underlying the figures and results presented in the manuscript been provided?
+
+Large-scale datasets should be made available via a public repository as described in the PLOS Genetics
+data availability policy , and numerical data that underlies graphs or summary statistics should be provided in spreadsheet form as supporting information.
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean? ). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy .
+Reviewer #1: No
+Reviewer #2: No
+Reviewer #3: No
+----------------------------------------------------
+
+Data Deposition
+
+If you have submitted a Research Article or Front Matter that has associated data that are not suitable for deposition in a subject-specific public repository (such as GenBank or ArrayExpress), one way to make that data available is to deposit it in the Dryad Digital Repository . As you may recall, we ask all authors to agree to make data available; this is one way to achieve that. A full list of recommended repositories can be found on our website .
+The following link will take you to the Dryad record for your article, so you won't have to re‐enter its bibliographic information, and can upload your files directly: 
+
+http://datadryad.org/submit?journalID=pgenetics&manu=PGENETICS-D-24-01290R1
+
+More information about depositing data in Dryad is available at http://www.datadryad.org/depositing. If you experience any difficulties in submitting your data, please contact help@datadryad.org for support.
+Additionally, please be aware that our data availability policy  requires that all numerical data underlying display items are included with the submission, and you will need to provide this before we can formally accept your manuscript, if not already present.
+----------------------------------------------------
+
+Press Queries
+
+If you or your institution will be preparing press materials for this manuscript, or if you need to know your paper's publication date for media purposes, please inform the journal staff as soon as possible so that your submission can be scheduled accordingly. Your manuscript will remain under a strict press embargo until the publication date and time. This means an early version of your manuscript will not be published ahead of your final version. PLOS Genetics may also choose to issue a press release for your article. If there's anything the journal should know or you'd like more information, please get in touch via plosgenetics@plos.org .
+PLOS GeneticsPLoS Genet10.1371/journal.pgen.1011719.r005Acceptance letter
+GilbertNickGuest Editor© 2025 Nick GilbertThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.PGENETICS-D-24-01290R1
+Role of the SAF-A/HNRNPU SAP domain in X chromosome inactivation, nuclear dynamics, transcription, splicing, and cell proliferation
+Dear Dr Blower,
+We are pleased to inform you that your manuscript entitled "Role of the SAF-A/HNRNPU SAP domain in X chromosome inactivation, nuclear dynamics, transcription, splicing, and cell proliferation" has been formally accepted for publication in PLOS Genetics! Your manuscript is now with our production department and you will be notified of the publication date in due course.
+The corresponding author will soon be receiving a typeset proof for review, to ensure errors have not been introduced during production. Please review the PDF proof of your manuscript carefully, as this is the last chance to correct any errors. Please note that major changes, or those which affect the scientific understanding of the work, will likely cause delays to the publication date of your manuscript.
+Soon after your final files are uploaded, unless you have opted out or your manuscript is a front-matter piece, the early version of your manuscript will be published online. The date of the early version will be your article's publication date. The final article will be published to the same URL, and all versions of the paper will be accessible to readers.
+Thank you again for supporting PLOS Genetics and open-access publishing. We are looking forward to publishing your work!
+With kind regards,
+Anita Estes
+PLOS Genetics
+On behalf of:
+The PLOS Genetics Team
+Carlyle House, Carlyle Road, Cambridge CB4 3DN | United Kingdom
+plosgenetics@plos.org | +44 (0) 1223-442823
+plosgenetics.org | Twitter: @PLOSGenetics
+Associated Data
+
+## Supplementary Materials
+S1 Fig
+
+## Expression of SAF-A tagged and SAP domain mutant isoforms.
+A. Cells were scored for SAF-A-AID-mCherry expression after 24 hours of drug treatment. The graph depicts the average percent of cells (n = 100) expressing the degron allele; error bars depict the SD for two biological replicates. B. Western blot analysis with the mouse anti-SAF-A 3G6 monoclonal antibody to compare levels of endogenous SAF-A (lane 1), SAF-A-AID-mCherry -/ + drug treatment (lanes 2 and 3) and SAF-Awt-GFP (lane 4). C. Quantitation of SAF-A expression levels relative to the tubulin loading control in three different extract preparations. Error bars depict SD. D. MD plot comparing gene expression between wt RPE-1 cells and RPE-1 cells with the SAF-A-AID-mCherry expressed from the endogenous locus. Differentially expressed genes are highlighted in red and blue. E-F. Upset plots comparing the intersection of misregulated genes in untreated SAF-A-AID-mCherry cells to cells depleted of SAF-A by the addition of dox and IAA. G. Quantitation of SAF-A-GFP expression levels. We were unable to identify an antibody that recognizes all tagged versions of SAF-A and SAP domain mutations. Instead, we monitored expression levels of GFP-tagged SAP domain mutations using a GFP antibody and compared to the SAF-Awt-GFP control to infer approximate expression levels relative to the endogenous protein. We estimate expression levels of all GFP tagged transgenes is within a 2-fold difference compared to the endogenous protein.
+(TIF)
+S2 Fig
+
+## Characterization of XIST expression and Polycomb-dependent histone modifications in SAF-A depleted cells.
+A. MD plot comparing gene expression in 6 replicates of SAF-A depleted cells to wild type RPE-1 cells. XIST RNA expression is highlighted in orange. B. Table depicting the logFC and FDR of XIST RNA for all SAF-A depletion and mutant experiments as measured by RNA-seq. C. Immunofluorescence of H3K27me3 and H2AK119ub in SAF-Awt and SAF-A depleted cells. Scale bar is 10 µm.
+(TIF)
+S3 Fig
+
+## Validation of CDK9 inhibitor LDC.
+Cells were incubated with the CDK9 inhibitor LDC, or DMSO, for 30 minutes prior to the addition of EU. Nuclear EU fluorescence intensity was measured from two biological replicates.
+(TIF)
+S4 Fig
+
+## Analysis of X-linked chromatin and gene expression in SAF-A mutants.
+A. Allele-specific Cut-and-Run was performed with H3K27Ac antibodies and calculated using PAC. ‘a/b’ ratios are plotted for each gene by chromosome. B. Comparison of ‘a/b’ ratios for X linked genes in SAF-A depleted cells. C. Comparison of ‘a/b’ ratios for all X-linked genes after 48 hours of SAF-A depleted cells. D. Comparison of ‘a/b’ ratios for all X-linked genes after 72 hours of SAF-A depletion. E-H. Comparison of ‘a/b’ ratios for all X-linked genes after in all SAF-A SAP domain mutants.
+(TIF)
+S5 Fig
+
+## Gene expression profiles in cells expressing SAF-A SAP domain mutations.
+A-E. Gene expression was evaluated at 24 hours after addition of doxycycline and auxin, using RNA-seq and EdgeR. MD plots depict significantly differentially expressed genes for each mutant (FDR < 0.01). The gene expression profile of cells depleted for SAF-A, or expressing SAF-A alleles SAF-Awt-GFP, SAF-AAA-GFP, SAF-AAA-GFP, or SAF-AΔSAP-GFP were compared to RPE-1 cells as indicated on the y axis.
+(TIF)
+S6 Fig
+
+## MISO plots of additional regulated exons in each SAF-A mutant.
+A-B. MISO plots of SE events in WT RPE-1 cells, SAF-A depleted cells, and SAP domain mutants. C. Scatterplot comparison of changes in gene expression at 24h to changes in mRNA splicing.
+(TIF)
+S7 Fig
+
+## Validation of predicted splicing changes using RT-PCR.
+A. Illustration depicting included and skipped exons, and PAGE gel analysis of exon inclusion for 4 different genes with predicted changes in exon inclusion in SAF-A depleted cells. B. Quantitation of percentage spliced in in each mutant from three biological replicates.
+(TIF)
+S8 Fig
+
+## Splicing defects do not increase with time of SAF-A depletion.
+A. PCA analysis of skipped exons (SE) in SAF-A depleted cells, RPE-1, and SAF-A depleted cells rescued with SAF-Awt-GFP at each time point. B. CDF analysis of SE altered in SAF-A depleted cells at 24 hours in each cell type at each time point.
+(TIF)
+S9 Fig
+
+## Motif analysis of SAF-A regulated exons.
+A. STREME analysis of upstream and downstream intronic sequences surrounding SAF-A regulated exons. B. Hexamer enrichment in the same sequences as in A. C-D. STREME and hexamer analysis of sequences in and surrounding SAF-A regulated exons. Sequence sets tested are indicated on the plots.
+(TIF)
+S10 Fig
+
+## Analysis of SAF-A eCLIP data surrounding regulated exons.
+A. ENCODE project eCLIP data was analyzed using Deeptools in both HepG2 and K562 cells at SAF-A regulated exons (increased or decreased) and at unregulated genes. Average coverage and heatmap are depicted for all datasets. B. mFold calculation of ΔG for indicated sequenes. C-D. Calculated lengths of indicated sequence groups.
+(TIF)
+S1 File
+
+## XIST3D.ijm.
+ImageJ macro used to identify XIST foci in wild-type RPE-1 and SAF-A mutant cells.
+(IJM)
+S2 File3DNuclearParticlesNuclearVolume.pl. Perl script used to process the output files from the ImageJ macro in S1 File.
+(PL)
+S1 Data
+
+## Quantitation of SAF-A expression following IAA addition, quantitation of SAF-A levels after depletion and rescue.
+(XLSX)
+S2 Data
+
+## Quantitation of percentage of cells positive for Ki67 and PCNA following SAF-A depletion and rescue.
+(XLSX)
+S3 Data
+
+## Quantitation of co-immunoprecipitation of Histone H3 with various SAF-A mutants.
+(XLSX)
+S4 Data
+
+## Quantitation of number of XIST spots per cell from all SAF-A genotypes.
+(TXT)
+S5 Data
+
+## Quantitation of percentage of cells positive for H3K27Me3 or H2AK119Ub in all SAF-A genotypes.
+(XLSX)
+S6 Data
+
+## Normalized FRAP measurements for each SAF-A genotype with and without transcription inhibition.
+(TXT)
+S7 Data
+
+## Quantitation of normalized nuclear intensity of EU with and without transcription inhibition with LDC.
+(TXT)
+S8 Data
+
+## Quantitation of exon skipping or inclusion by RT-PCR in all SAF-A genotypes.
+(XLSX)
+AttachmentSubmitted filename: Reponse to Reviewers 3-30-25.pdf
+
+## Data Availability Statement
+All raw reads and summary files are available in GEO under the accession numbers: GSE277216, GSE277217, GSE277219, GSE277221.

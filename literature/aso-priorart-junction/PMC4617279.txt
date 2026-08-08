@@ -1,0 +1,252 @@
+440plosonePLoS ONEPLoS OnePLOSPMC4617279461727946172792648570810.1371/journal.pone.0141214Identification and Characterization of Circular RNAs As a New Class of Putative Biomarkers in Human Blood
+MemczakSebastian PapavasileiouPanagiotis PetersOliver RajewskyNikolaus PfefferSebastienEditor 1Systems Biology of Gene Regulatory Elements, Berlin Institute for Medical Systems Biology, Max Delbrück Center for Molecular Medicine, Robert Rössle Straße 10, D-13125 Berlin, Germany2Department of Psychiatry, Charité - Universitätsmedizin Berlin, Campus Benjamin Franklin, D-12203 Berlin, Germany3French National Center for Scientific Research - Institut de biologie moléculaire et cellulaire, FRANCECompeting Interests: The authors NR, SM, and PP filed a patent (patent EP15187446) covering the use of blood circular RNAs as biomarkers in neurological diseases. This did not alter the authors' adherence to PLOS ONE policies on sharing data and materials.
+Conceived and designed the experiments: SM PP NR. Performed the experiments: SM. Analyzed the data: PP SM NR. Contributed reagents/materials/analysis tools: OP. Wrote the paper: SM PP NR.
+✉* E-mail: rajewsky@mdc-berlin.de
+#Contributed equally.
+201020151010e0141214e014121429102015© 2015 Memczak et alThis is an open-access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are properly credited.
+
+## Abstract
+Covalently closed circular RNA molecules (circRNAs) have recently emerged as a class of RNA isoforms with widespread and tissue specific expression across animals, oftentimes independent of the corresponding linear mRNAs. circRNAs are remarkably stable and sometimes highly expressed molecules. Here, we sequenced RNA in human peripheral whole blood to determine the potential of circRNAs as biomarkers in an easily accessible body fluid. We report the reproducible detection of thousands of circRNAs. Importantly, we observed that hundreds of circRNAs are much higher expressed than corresponding linear mRNAs. Thus, circRNA expression in human blood reveals and quantifies the activity of hundreds of coding genes not accessible by classical mRNA specific assays. Our findings suggest that circRNAs could be used as biomarker molecules in standard clinical blood samples.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2015 Sep 3; Accepted 2015 Oct 5; Collection date 2015.
+
+## Introduction
+Regulatory RNAs such as microRNAs (miRNAs) or long non-coding RNAs (lncRNAs) have been implicated in many biological processes and human diseases such as cancer (reviewed in [ , ]. Recent studies have drawn attention to a new class of RNA that is endogenously expressed as single-stranded, covalently closed circular molecules (circRNA, reviewed in [ ]). Most circRNAs are probably products of a ‘back-splice’ reaction that joins a splice donor site with an upstream splice acceptor site [ , ]. Circular RNA is known for several decades from viroids, viruses and tetrahymena [ – ], but until recently only few mammalian circRNAs were reported [ – ]. Sequencing based studies lately revealed that circRNAs are abundantly and prevalently expressed across life, oftentimes in a tissue- and developmental stage-specific manner [ – ]. The vast majority of circRNAs consists of 2–4 exons of protein coding genes, but they can also derive from intronic, non-coding, antisense, 5’ or 3’ untranslated or intergenic genomic regions [ ],[ ]. Although not fully understood, the biogenesis of many mammalian circRNAs depends on complementary sequences within flanking introns [ ],[ ],[ – ] and their expression can be modulated by antagonistic or activating trans-acting factors such as ADAR [ ] and Quaking [ ].
+Although the function of animal circRNAs is largely unknown, it was demonstrated that the circRNAs CDR1as (ciRS-7) and SRY can act as antagonists of specific miRNAs by functioning as miRNA sponges [ ],[ ]. Moreover, stable knockdown of CDR1as caused a migration defect in cell culture [ ] and a circRNA produced from the muscleblind transcript can bind muscleblind protein and likely regulate its expression levels [ ]. Besides these specific functions for the few in-depth analyzed circRNAs, a recent study uncovered a putatively more general competition mechanism between linear RNA splicing and co-transcriptional circular RNA splicing [ ].
+Since circularity renders RNA largely resistant to exonucleolytic activities, circRNAs are stable molecules as demonstrated by their long half lives in cells [ ],[ ],[ ]. This led us to ask whether circRNAs could serve as putative biomarker molecules in clinically relevant samples. Here, we report the discovery of thousands of circRNAs in clinical whole blood specimen which were processed following standard procedures. Strikingly, we observe hundreds of cases where circular RNA isoforms are readily detectable but the corresponding linear gene products are virtually absent. Thus, blood circRNA expression may contain disease relevant information which cannot be assessed by canonical RNA analysis.
+
+## Results
+
+## Thousands of circRNAs are reproducibly detected in human peripheral whole blood
+We first determined whether circRNAs are present in standard clinical blood specimen. To this end, we prepared total RNA from two biologically independent human peripheral whole blood samples and depleted ribosomal RNAs ( ). The samples were reverse transcribed using random primer to allow for circRNA detection and sequencing libraries were produced ( ). The raw reads were fed into our in silico circRNA detection pipeline [ ]. In short, the program filters reads that map continuously to the genome but saves unmapped reads. From those, terminal 20-mer anchors are extracted and independently aligned to the genome. If the anchors map in reverse orientation and can be extended to cover the whole read sequence, they are flagged as head-to-tail junction spanning, i.e. indicative for circRNAs. Anchors that aligned consecutively were used to determine linear splicing as an internal library quality control and to assess linear RNA isoform expression ( ).
+ From the RNA of two human donors we identified 4550 and 4105 unique circRNA candidates, respectively, by at least two independent reads spanning a head-to-tail splice junction ( ). In both datasets the number of total reads and linear splicing events were similar, indicating reproducible sample preparation ( , ). When considering RNAs found in both samples, we observed a high correlation of expression for both linear (R = 0.98) as well as circRNAs (R = 0.80, ). Between the two samples 1265 circRNAs (55%) with more than 5 reads overlap and 2442 (39%) circRNAs supported by at least 2 unique reads are shared ( , , technical reproducibility is shown in ). The later set will be considered as reproducibly detected circRNAs in the following analysis. circRNA candidates are derived from genes covering the whole dynamic range of RNA expression ( , right panel). We then compared the blood data to published ENCODE project datasets from cerebellum, representative of neuronal tissues that in general have high circRNA expression [ ] and to a non-neuronal primary tissue, liver. Overall we detect a strikingly high circRNA expression in blood compared to liver and cerebellum, measured as percent head-to-tail spanning reads of linear splicing reads ( ). We detect >15-fold higher general circRNA expression in blood compared to the liver samples, a level comparable to the circRNA rich cerebellum.
+Further, as observed in other human samples, we find that most circRNAs are derived from protein coding exonic regions or 5’ UTR sequences ( [ ],[ ]). GO term enrichment analysis on reproducibly detected, top expressed circRNAs and the same number of top linear RNAs showed significant enrichment of different biological function annotations ( ). Together with the broad expression spectrum of corresponding host genes, this finding argues that circRNA expression levels are largely independent of linear RNA isoform abundance.
+The predicted spliced length of blood circRNAs of 200–800 nt (median = 343 nt) is similar to that in liver or cerebellum (median = 394/448 nt) and previous observations in HEK293 cell cultures and other human samples ( and [ ]). However, we observed a high number of circRNAs per gene, with 23 genes giving rise to more than 10 circRNAs (‘circRNA hotspots’, ).
+To assess the reproducibility of the sequencing results we designed divergent circRNA specific primer and measured relative abundances of the top eight expressed circRNAs compared to linear control genes in qPCR ( ). circRNA candidate 8 could not be unambiguously amplified from cDNA, most likely due to overlapping RNA isoforms and was therefore excluded from further analysis. For the remaining seven circRNA candidates, we tested circularity using previously established assays: 1) resistance to the 3’-5’ exonuclease RNase R and 2) Sanger sequencing of PCR amplicons to confirm the sequence of predicted head-to-tail splice junctions. With these assays we validated 7/7 tested candidates suggesting that the overall false positive rate in our data sets is low ( ). Interestingly, these circRNAs are expressed from gene loci that so far were not shown to have a specific blood related function ( ) but show expression levels that by far exceed expression of housekeeping genes such as VCL or TFRC (4-100-fold, ).
+
+## Circular-to-linear RNA expression is high in blood
+When inspecting the read coverage in blood sequencing data, we noticed that oftentimes the expression of circularized exons was outstandingly high compared to the coverage of neighboring exons expressed in linear RNA isoforms of the same gene. For example, we observed that the two exons of circRNA candidate 5, which is product of the PCNT locus were densely covered with sequencing reads in the blood samples, while the upstream and downstream exons were barely detected ( ). This particular expression pattern was not observed in HEK293 cells, where all exons were equally covered. We investigated this observation further by qPCR, comparing linear to circular RNA expression with isoform specific primer sets in HEK293 and whole blood samples ( ). With this independent assay we confirmed the dominant expression of the tested candidates which was found to be at least 30-fold higher than the cognate linear isoforms. In contrast, this circRNA domination was not found in HEK293 cells where the same RNAs were probed, which argues for a tissue-specific pattern. Approx. 30% of blood circRNAs are also found in cerebellum while this fraction was around 10% for liver with higher fractions for both cases when constraining the analysis to highly expressed blood circRNAs ( ,comparison between total RNAs in ). In summary, circRNAs found in human whole blood in part overlap circRNAs expressed in cerebellum or liver, but also contain hundreds of other circRNAs.
+ We next analyzed the relative circular to linear RNA isoform abundance on a transcriptome wide scale. To this end, we compared read counts that span head-to-tail junctions and are therefore indicative of circRNAs, to the median number of read counts on linear splice site junctions on the same gene, the latter serving as a proxy for linear RNA expression ( ). We observed that many blood circRNAs are highly expressed while corresponding linear RNAs show average or low abundances ( ), a finding that was recapitulated by qPCR assays validating our approach ( , ). For the control samples cerebellum and liver this pattern was not observed ( ) as revealed by comparing the mean circular-to-linear RNA ratio, which we found to be significantly higher in blood than in the tested control tissues ( ). In summary, we observed that blood has an outstanding general tendency to express circRNAs at high levels while the corresponding linear transcripts are much more lowly expressed. This tendency was only found (to a much lower extent) in cerebellum but not in liver RNA as well as RNA from many other tissues or cell lines that we have analyzed.
+ Our results show that circRNAs are reproducibly and easily detected in clinical standard blood samples and therefore suggest that they may have the potential to serve as a new class of biomarker for human disease.
+
+## Discussion
+Recent publications show that circRNAs can be detected in plasma and saliva samples [ , ]. However, in both specimens only few (less than 100) circular RNAs with canonical splice sites were reported, which dramatically limits any further analysis. The circular transcriptome of whole blood presented here, suggests that the search for putative circRNA biomarker in peripheral blood is much more suitable to yield informative results. Using RNA-Seq of clinical standard samples we reproducibly found around 2400 circRNA candidates expressed in human whole blood and moreover observed, that the overall circRNA expression level in blood is unexpectedly similar to that of neuronal tissues, where circRNAs are highly abundant [ ]. To further assess the reproducibility of the sequencing results we repeated our analysis pipeline on three more, biologically independent samples and found that the high blood circRNA expression is reproducibly observed (total n = 5, ). It will be interesting to determine the origin of blood circRNAs. Accumulating evidence suggests that circRNAs are specifically expressed in a developmental stage- and tissue-specific manner, rather than being merely byproducts of splicing reactions [ , ]. Previously analyzed circRNA from neutrophils, B-cells and hematopoietic stem cells suggest that many circRNAs are constituents of hematocytes [ ]. However, there is also the intriguing possibility of circRNA excretion into the extracellular space, e.g. by vesicles such as exosomes which is supported by a recent study [ ]. Likewise, aberrant circRNA expression in disease may reflect, either a condition-specific transcriptome change in blood cells themselves, or a direct consequence of active or passive release of circRNA from diseased tissue. Here, we provide the first data to foster future studies aiming to elucidate these scenarios.
+Further, we demonstrated that many circRNAs have a high expression compared to linear RNA isoforms from the same locus, a feature that distinguishes blood circRNAs from other primary tissues such as cerebellum or liver. Considering that this was observed for hundreds of blood circRNA candidates ( , ) and that we further restricted our experimental setup to standard samples and preparation procedures, we want to caution that this feature of blood circRNA may distort RNA data analysis. Gene products that are dominated by circRNAs which typically comprise 2–4 exons (example in , ) will also dominate signals for the specific gene of interest in array assays, Northern Blots or qPCR experiments if the circularized exon expression is measured. Assays designed such that inadvertently circular isoforms are targeted will lead to misinterpretation of the results. A detailed assessment of this phenomenon will be published elsewhere. Further, it is presently not known if the high circular-to-linear RNA ratio in blood reflects a tissue specific RNA population or is an artifact of sample preparation procedures.
+Nevertheless, especially given the urgent need for non-invasive biomarker detection for many disease states, we think these findings encourage future in-depth follow up analysis of circRNAs. It will be interesting to search for circRNA biomarkers not only in blood but also in other clinical samples such as cerebrospinal fluid. Although in principle blood circRNA expression might be specifically altered in a plethora of human diseases, investigations of neurological conditions would be of particular interest, since circRNA expression is exceptionally high in neuronal tissues [ ] and the circRNA CDR1as was found to have Alzheimer’s Disease specific expression [ ].
+
+## Materials and Methods
+
+## Whole blood sample collection
+Blood sampling, processing and analysis performed in this study was approved by the Charité ethics committee, registration number EA4/078/14 and all participants gave written informed consent. 5 mL blood were drawn from subjects by venipuncture and collected in K2EDTA coated Vacutainer (BD, #368841) and stored on ice until used for RNA preparation. For downstream RNA analysis by sequencing or qPCR assays presented here, 100 μL blood (> 1 μg total RNA) is sufficient.
+
+## Cell Culture
+Human HEK293 Flp-In T-REx 293 (Life Technologies, Waltham, Massachusetts) were cultured in Dulbecco’s modified Eagle medium GlutaMax (Gibco) with 4.5 g/l glucose, supplemented with 10% FCS, at 5% CO2 and 37°C.
+
+## RNA isolation and RNase R treatment
+Total RNA was isolated from fresh whole blood samples. Blood was diluted 1:3 in PBS and 250 μL of the dilution were used for RNA preparation using 750 μL Trizol LS reagent (Thermo Scientific, Waltham, Massachusetts). Samples were homogenized by gentle vortexing and 200 μL chloroform was added. After centrifugation at 4°C, 15 min at full speed in a table top centrifuge, the aqueous phase was collected to a new tube (typically 400 μL). RNA was precipitated by adding an equal volume of cold isopropanol and incubation for ≥ 1 hour at -80°C. RNA pellets were recovered by spinning at 4°C, 30 min at full speed in a table top centrifuge. RNA pellets were washed with 1 mL 80% EtOH and subsequently air dried at room temperature for 5 min. The RNA was resuspended in 20 μL RNase-free water and treated with DNase I (Promega, Fitchburg, Wisconsin) for 15 min at 37°C with subsequent heat inactivation for 10 min at 65°C. HEK293 total RNA was prepared using 1 mL Trizol on cell pellets. For sequencing experiments the RNA preparations were additionally subjected to two rounds of ribosomal RNA depletion using a RiboMinus Kit (Life Technologies K1550-02 and A15020). Total RNA integrity and rRNA depletion were monitored using a Bioanalyzer 2001 (Agilent Technologies, Santa Clara, California). For qPCR analysis the samples were treated with RNase R (Epicentre, San Diego, California) for 15 min at 37°C at a concentration of 3 U/μg RNA. After treatment 5% C. elegans total RNA was spiked-in followed by phenol-chloroform extraction of the RNA mixture. For controls the RNA was mock treated without the enzyme.
+
+## cDNA library preparation for Deep Sequencing
+cDNA libraries were generated according to the Illumina TruSeq protocol (Illumina, San Diego, USA). Sample RNA was fragmented, adaptor ligated, amplified and sequenced on an Illumina HiSeq2000 in 1x 100 cycle runs. Sequencing data have been deposited at GEO under accession number GSE73570.
+
+## Quantitative PCR (qPCR)
+Total RNA was reverse transcribed using Maxima reverse transcriptase (Thermo Scientific) according to the manufacturer's protocol. qPCR reactions were performed using Maxima SYBR Green/Rox (Thermo Scientific) on a StepOne Plus System (Applied Biosystems). Primer sequences are available in the . RNase R assays were normalized to C. elegans RNA spike-in RNA. Error bars denote standard deviations (n = 3).
+
+## Sanger Sequencing
+PCR products were size separated by agarose gel electrophoresis, amplicons were extracted from gels and Sanger sequenced by standard methods (Eurofins, Luxembourg, Luxembourg).
+
+## Detection and annotation of circRNAs
+The detection of circular RNA was based on a previously published method [ ] with the following details. Human reference genome hg19 (Feb 2009, GRCh37) was downloaded from the UCSC genome browser [ ] and was used for all subsequent analysis. bowtie2 (version 2.1.0[ ] was employed for mapping of RNA sequencing reads. Reads were mapped to ribosomal RNA sequence data downloaded from the UCSC genome browser. Reads that do not map to rRNA were extracted for further processing. In a second step, all reads that mapped to the genome by aligning the whole read without any trimming (end-to-end mode) were neglected. Reads not mapping continuously to the genome were used for circRNA candidate detection. From those 20 nucleotide terminal sequences (anchors) were extracted and re-aligned independently to the genome. The anchor alignments were then extended until the full read sequence was covered. Consecutively aligning anchors indicate linear splicing events whereas alignment in reverse orientation indicates head-to-tail splicing as observed in circRNAs ( 
+). The resulting splicing events were filtered using the following criteria 1) GT/AG signal flanking the splice sites 2) unambiguous breakpoint detection 3) maximum of two mismatches when extending the anchor alignments 4) breakpoint no more than two nucleotides inside the alignment of the anchors 5) at least two independent reads supporting the head-to-tail splice junction 6) a minimum difference of 35 in the bowtie2 alignment score between the first and the second best alignment of each anchor 7) no more than 100 kilobases distance between the two splice sites.
+
+## circRNA annotation
+Genomic coordinates of circRNA candidates were intersected with published gene models (ENSEMBL, release 75 containing 22,827 protein coding genes, 7484 lncRNAs and 3411 miRNAs). circRNAs were annotated and exon-intron structure predicted as previously described [ ]. Known introns in circRNAs were assumed to be spliced out. Each circRNA was counted to a gene structure category if it overlaps fully or partially with the respective ENSEMBL feature ( , ).
+
+## Published RNA data sets
+In this study we used rRNA depleted RNA-seq data from whole blood samples (own data), fetal cerebellum (ENCODE accession: ENCSR000AEW) fetal liver (ENCODE accession: ENCSR000AFB) and HEK293 [ ] ( ). Expression values, coordinates and other details of the circRNAs reported here and all associated scripts are available at www.circbase.org/ [ ].
+
+## Quantification of circRNA and host gene expression
+The number of reads that span a particular head-to-tail junction were used as a measure for circRNA expression. To allow comparison of expression between samples, raw read counts were normalized to sequencing depth by dividing by the number of reads that map to protein coding gene regions and multiply by 1,000,000 ( 
+left, , Figs). To estimate host gene expression, RNA-seq data were first mapped to the reference genome with STAR [ ]. htseq-count [ ] was employed to count hits on genomic features of ENSEMBL gene models. The measure transcripts per million (TPM) was calculated for each transcript and sample in order to compare total host gene expression between samples ( , right).
+Circular-to-linear ratios were calculated for each circRNA by dividing raw head-to-tail read counts by the median number of reads that span linear spliced junctions of the respective host gene. For both measures one pseudo count was added to avoid division by zero. circRNAs from host genes without annotated splice junctions according to the ENSEMBL gene annotation, were not considered in this analysis.
+For analysis in a permutation test with 1000 Monte-Carlo replications was performed on pooled biological replicate data to approximate the exact conditional distribution. To adjust for different dataset sizes the respective larger data set of each comparison was randomly subsampled. The test was repeated for 1000 subsamples.
+
+## Supporting Information
+S1 Fig
+
+## Reproducibility of circRNA candidate detection.
+The overlap of 2,442 circRNAs found with at least 2 read counts in both samples is considered as reproducibly detected circRNA set.
+(PDF)
+Click here for additional data file.
+S2 Fig
+
+## Technical reproducibility of circRNA candidate detection.
+A library of blood Sample 1 was sequenced twice (see ).
+(PDF)
+Click here for additional data file.
+S3 Fig
+
+## GO annotation of circRNAs and linear RNAs in blood.
+Significantly enriched GO terms (p<0.05) for circRNAs found in both samples (n = 2,442) and for the same number of top expressed linear RNAs.
+(PDF)
+Click here for additional data file.
+S4 Fig
+
+## Predicted circRNA length.
+Predicted spliced circRNA length distributions for circRNA candidates detected in liver, cerebellum and blood.
+(PDF)
+Click here for additional data file.
+S5 Fig
+
+## circRNA candidate validation.
+(a) Top circRNA candidate expression was measured in qPCR using divergent primer on mock or RNase R treated total RNA preparation. 7/8 were successfully amplified while candidate 8 did not yield specific PCR products and is therefore excluded from further analysis. Linear RNAs and previously described circRNAs are shown as controls. (b) PCR amplicons for divergent and convergent primer sets (c—circular, l–linear) of the tested candidates, end point analysis after 40 cycles. (c) Standard curves for tested candidates, div—divergent primer for circular isoforms, con—convergent primer for linear RNA isoforms. (d) PCR amplicons were subjected to Sanger sequencing and checked for the presence of a head-to-tail junction, representative example result is shown.
+(PDF)
+Click here for additional data file.
+S6 Fig
+
+## Comparison of circRNA candidates in blood to liver and cerebellum.
+(a) Comparison of circular RNA candidates detected in blood (Sample 1) and cerebellum shown for the whole expression range. (b) fraction of circRNA candidates that overlap between the two samples binned by blood expression level. (c, d) Analysis as before but for liver circRNA candidates.
+(PDF)
+Click here for additional data file.
+S7 Fig
+
+## Correlation of linear RNAs in cerebellum and blood and liver and blood.
+Number of detected transcripts: blood = 29,908; cerebellum = 38,192; liver = 27,880; TPM = transcripts per million.
+(PDF)
+Click here for additional data file.
+S8 Fig
+
+## Comparison circular-to-linear expression by RNA-Seq and qPCR.
+Raw Ct values (Cycle threshold) and median linear splice junction spanning read counts are given for the respective RNA isoform.
+(PDF)
+Click here for additional data file.
+S9 Fig
+
+## Number of exons per circRNA in blood.
+Histogram of number of exons per circRNA. Reproducibly detected set (n = 2,442) without intergenic circRNAs (n = 27); median exon number: 2, mean exon number: 2.8.
+(PDF)
+Click here for additional data file.
+S1 Table
+
+## List of circRNAs detected in human blood.
+Genomic location, ENSEMBL gene identifier, gene symbols and gene biotype are given together with raw read counts for each circRNA candidate in each sample. In a second sheet head-to-tail junction reads and median linear splice site junction spanning reads are given for blood cerebellum and liver samples.
+(XLS)
+Click here for additional data file.
+S2 Table
+
+## Details on top expressed circRNA candidates.
+(XLS)
+Click here for additional data file.
+S3 Table
+
+## Reads continuously mapping to hemoglobin genes.
+(XLS)
+Click here for additional data file.
+S4 Table
+
+## Summary of RNA-sequencing results.
+(XLS)
+Click here for additional data file.
+S5 Table
+
+## List of oligos used in this study.
+(XLS)
+Click here for additional data file.
+
+## Acknowledgments
+We thank Mirjam Feldkamp and Claudia Langnick (Wei Chen lab) for sequencing and Carola Schipke (O. Peters lab) for sample collection. We wish to acknowledge Christine Kocks for critically reviewing the manuscript. SM and PP thank all members of the N. Rajewsky lab for helpful discussions.
+
+## Data Availability
+Sequencing data have been deposited at NCBI GEO under accession number GSE73570.
+
+## Funding Statement
+SM was supported by the grant DFG RA 838/7-1, PP was supported by the NYU/MDC Exchange Program, OP and NR were supported by the grant BIH CRG 2a TP7.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+S1 Fig
+
+## Reproducibility of circRNA candidate detection.
+The overlap of 2,442 circRNAs found with at least 2 read counts in both samples is considered as reproducibly detected circRNA set.
+(PDF)
+Click here for additional data file.
+S2 Fig
+
+## Technical reproducibility of circRNA candidate detection.
+A library of blood Sample 1 was sequenced twice (see ).
+(PDF)
+Click here for additional data file.
+S3 Fig
+
+## GO annotation of circRNAs and linear RNAs in blood.
+Significantly enriched GO terms (p<0.05) for circRNAs found in both samples (n = 2,442) and for the same number of top expressed linear RNAs.
+(PDF)
+Click here for additional data file.
+S4 Fig
+
+## Predicted circRNA length.
+Predicted spliced circRNA length distributions for circRNA candidates detected in liver, cerebellum and blood.
+(PDF)
+Click here for additional data file.
+S5 Fig
+
+## circRNA candidate validation.
+(a) Top circRNA candidate expression was measured in qPCR using divergent primer on mock or RNase R treated total RNA preparation. 7/8 were successfully amplified while candidate 8 did not yield specific PCR products and is therefore excluded from further analysis. Linear RNAs and previously described circRNAs are shown as controls. (b) PCR amplicons for divergent and convergent primer sets (c—circular, l–linear) of the tested candidates, end point analysis after 40 cycles. (c) Standard curves for tested candidates, div—divergent primer for circular isoforms, con—convergent primer for linear RNA isoforms. (d) PCR amplicons were subjected to Sanger sequencing and checked for the presence of a head-to-tail junction, representative example result is shown.
+(PDF)
+Click here for additional data file.
+S6 Fig
+
+## Comparison of circRNA candidates in blood to liver and cerebellum.
+(a) Comparison of circular RNA candidates detected in blood (Sample 1) and cerebellum shown for the whole expression range. (b) fraction of circRNA candidates that overlap between the two samples binned by blood expression level. (c, d) Analysis as before but for liver circRNA candidates.
+(PDF)
+Click here for additional data file.
+S7 Fig
+
+## Correlation of linear RNAs in cerebellum and blood and liver and blood.
+Number of detected transcripts: blood = 29,908; cerebellum = 38,192; liver = 27,880; TPM = transcripts per million.
+(PDF)
+Click here for additional data file.
+S8 Fig
+
+## Comparison circular-to-linear expression by RNA-Seq and qPCR.
+Raw Ct values (Cycle threshold) and median linear splice junction spanning read counts are given for the respective RNA isoform.
+(PDF)
+Click here for additional data file.
+S9 Fig
+
+## Number of exons per circRNA in blood.
+Histogram of number of exons per circRNA. Reproducibly detected set (n = 2,442) without intergenic circRNAs (n = 27); median exon number: 2, mean exon number: 2.8.
+(PDF)
+Click here for additional data file.
+S1 Table
+
+## List of circRNAs detected in human blood.
+Genomic location, ENSEMBL gene identifier, gene symbols and gene biotype are given together with raw read counts for each circRNA candidate in each sample. In a second sheet head-to-tail junction reads and median linear splice site junction spanning reads are given for blood cerebellum and liver samples.
+(XLS)
+Click here for additional data file.
+S2 Table
+
+## Details on top expressed circRNA candidates.
+(XLS)
+Click here for additional data file.
+S3 Table
+
+## Reads continuously mapping to hemoglobin genes.
+(XLS)
+Click here for additional data file.
+S4 Table
+
+## Summary of RNA-sequencing results.
+(XLS)
+Click here for additional data file.
+S5 Table
+
+## List of oligos used in this study.
+(XLS)
+Click here for additional data file.
+
+## Data Availability Statement
+Sequencing data have been deposited at NCBI GEO under accession number GSE73570.

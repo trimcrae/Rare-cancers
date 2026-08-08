@@ -1,0 +1,758 @@
+4347advgenetAdvanced GeneticsAdv Genet (Hoboken)WileyPMC1024240910242409102424093728816710.1002/ggn2.202200024Transcriptomics for Clinical and Experimental Biology Research: Hang on a Seq
+StokesTanner CenHaoning Howard KapranovPhilipp GallagherIain J PitsillidesAndrew A VolmarClaude‐Henry KrausWilliam E JohnsonJames D PhillipsStuart M WahlestedtClaes TimmonsJames A 
+1
+Faculty of Science, McMaster University, Hamilton, L8S 4L8, Canada
+2
+Life Sciences Institute, University of British Columbia, Vancouver, V6T 1Z3, Canada
+3
+School of Medicine, Huaqiao University, Xiamen, 362021, China
+4
+School of Applied Sciences, Edinburgh Napier University, Edinburgh, EH11 4BN, UK
+5
+Comparative Biomedical Sciences, Royal Veterinary College, London, NW1 0TU, UK
+6
+Miller School of Medicine, University of Miami, Miami, FL, 33136, USA
+7
+School of Medicine, Duke University, Durham, NC, 27701, USA
+8
+William Harvey Research Institute, Queen Mary University London, London, EC1M 6BQ, UK
+9
+Augur Precision Medicine LTD, Stirling, FK9 5NF, UK*
+E‐mail: CWahlestedt@med.miami.edu; jamie@augurprecisionmedicine.com
+
+✉Corresponding author.
+17120234222000242200024762023© 2023 The Authors. Advanced Genetics published by Wiley Periodicals LLCThis is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Sequencing the human genome empowers translational medicine, facilitating transcriptome‐wide molecular diagnosis, pathway biology, and drug repositioning. Initially, microarrays are used to study the bulk transcriptome; but now short‐read RNA sequencing (RNA‐seq) predominates. Positioned as a superior technology, that makes the discovery of novel transcripts routine, most RNA‐seq analyses are in fact modeled on the known transcriptome. Limitations of the RNA‐seq methodology have emerged, while the design of, and the analysis strategies applied to, arrays have matured. An equitable comparison between these technologies is provided, highlighting advantages that modern arrays hold over RNA‐seq. Array protocols more accurately quantify constitutively expressed protein coding genes across tissue replicates, and are more reliable for studying lower expressed genes. Arrays reveal long noncoding RNAs (lncRNA) are neither sparsely nor lower expressed than protein coding genes. Heterogeneous coverage of constitutively expressed genes observed with RNA‐seq, undermines the validity and reproducibility of pathway analyses. The factors driving these observations, many of which are relevant to long‐read or single‐cell sequencing are discussed. As proposed herein, a reappreciation of bulk transcriptomic methods is required, including wider use of the modern high‐density array data—to urgently revise existing anatomical RNA reference atlases and assist with more accurate study of lncRNAs.
+Keywords: arrays, cDNA, cRNA, diagnostics, drug repurposing, lncRNA, noncoding RNA, RNA, sequencing, splicing
+
+Transcriptome‐wide molecular profiling of cells or tissue is used for multiple purposes including classification, pathway biology and drug repositioning. Replacement of microarray technology by short‐read RNA sequencing is premised on its superior performance. An equitable comparison reveals that the modern array yields a more reliable representation of the constitutively expressed transcriptome, while RNA‐seq does not accurately represent the long noncoding transcriptome nor pathway‐level modulation.
+
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Sep 2; Collection date 2023 Jun.
+
+1.
+
+## Introduction
+High‐throughput profiling technologies are increasingly used to define the molecular repertoire of disease at the (epi)genomic, transcriptomic, proteomic, and metabolomic level.[
+ , , , , , , , , , , , , , 
+] Such technologies can be used to establish that patients, normally categorized to a single disease, display molecular heterogeneity;[
+ 
+] this may be linked to prognosis or be used to select more active drug combinations.[
+ , , , , 
+] Transcriptomics has led to various tools for stratified medicine[
+ , , , , 
+] by identifying signatures that better match patients to drugs.[
+ , , , , , , 
+] Typical statistical analyses applied to clinical transcriptomics data includes differential gene expression (DE) based on group mean differences;[
+ , , 
+] regression analyses of transcript abundance versus clinical status;[
+ , , , , , , 
+] and classification approaches.[
+ , , , , , , , , 
+] Regression and DE analyses are then used to identify the molecular pathways regulated between groups.
+Capturing RNA expression is not done merely as a surrogate for measuring protein abundance;[
+ 
+] although this can be done when applied appropriately.[
+ , , 
+] Rather, RNA expression acts as a “biosensor”, integrating environmental,[
+ , , , 
+] epigenetic, and genetic[
+ , , 
+] influences. Modeling transcriptomic data provides information about the activity of proteins in a pathway, for instance, transcription factor status.[
+ , 
+] While protein abundance may not inform on protein activity,[
+ , 
+] transcriptome analysis can identify protein activity across networks and canonical pathways[
+ , , 
+] and thus extends beyond a simple surrogate for protein abundance. Each multi‐omic technology captures distinct and shared information, while each also introduces its own specific sources of variance. The recent trend to report that global transcriptomics fails to capture biology identified only by proteomics[
+ 
+] can be explained by poorer quality transcriptomics,[
+ 
+] including use of relative count RNA‐seq data, a lack of consideration of temporal relationships between transcription, translation, and proteostasis or the reliability of pathway or network models used to report differences.[
+ 
+] In general, studying any mismatch between RNA and protein requires a more equitable and balanced view on the limitations of all the laboratory methods employed.[
+ 
+] Thus, while the trend towards integrating multi‐omic data continues,[
+ , , , 
+] in a translational medicine setting, a single robust technology may deliver sufficient information and use fewer resources when applied to disease diagnosis or prognosis.[
+ 
+] For these reasons, transcriptome profiling will remain at the forefront of precision and stratified medicine efforts.[
+ , , , , , 
+]
+
+Herein, we reflect on the methods used for transcriptomics applied to translational medicine studies, including the reliability to cover the expressed transcriptome and the validity of pathway analysis. Processive technologies must ensure good reproducibility with comprehensive and accurate quantification of the transcriptome to ensure down‐stream analysis is reliable. Large‐scale tissue/blood sample acquisition from clinical trials or from biobank initiatives are costly, especially if accompanied by deep clinical phenotyping. We focus on the merits of the two main bulk transcriptome technologies (RNA‐seq and modern arrays) and consider these in light of whether there is limited clinical materials and study costs. In doing so, we seek to rebalance what we consider to be the overly “enthusiastic” introduction of short‐read RNA‐seq,[
+ 
+] and the persistent overly pessimistic view of arrays.[
+ 
+] We do not consider 3rd generation (long read) RNA sequencing methods in detail[
+ , 
+] as they are costly with limited throughput, representing basic research tools with very fluid and evolving laboratory and informatics protocols. We do not discuss single‐cell sequencing technologies[
+ , , , 
+] for similar reasons. Notably, the myriad of distinct single‐cell methods provide fractional (and often 3’ directed) coverage of the transcriptome, dominated by higher abundance genes,[
+ 
+] and thus provides a biased view of the single‐cell transcriptome.[
+ 
+] Such limitations affect the validity of any pathway analyses[
+ , , , 
+] representing an issue shared with 2nd generation short‐read RNA‐seq assays.[
+ 
+] The reader is directed elsewhere to in‐depth discussions of the biases inherent to single‐cell methods.[
+ 
+]
+
+2.
+
+## Historical Overview of Gene Expression Profiling Methods from Bulk RNA Samples
+Technological advances in the latter half of the 20th century made characterization of the tissue transcriptome possible, most notably the ability to “sequence” DNA to define the human genome. Nucleic acid sequencing began in the 1960s with decrypting the 76 nucleotides of alanine tRNA, a project that took over three years.[
+ 
+] Over a decade later, Sanger introduced “chain‐terminating” sequencing, enabling similar results in days.[
+ 
+] First‐generation sequencers employed a modified version of the Sanger method, permitted parallel running of 96 reactions and ≈200 bases per sample, to be sequenced per hour.[
+ , , 
+] This approach is highly accurate and can remain a method of choice for diagnosing rare diseases. Today, Affymetrix array and short‐read RNA‐seq are the two most widely used approaches for gene expression profiling of clinical samples (Table  ). These methods both relied on the genome sequencing revolution—and profile RNA extracted from a few milligrams of tissue, ideally using between ≈500 ng (Affymetrix) to a microgram (RNA‐seq) of total RNA. In comparison, direct long‐read RNA sequencing, using Nanopore technology, still requires up to ten times more RNA.[
+ 
+]
+
+ 2.1.
+
+## Introduction to Microarrays
+Various array designs emerged in the 1990's, each with various designs and technical capabilities[
+ , 
+]—with the Affymetrix array emerging as the most popular.[
+ , 
+] Arrays contain a “lawn” of oligonucleotide probes immobilized on a solid glass surface that bind complementary DNA molecules, that is, it is a dedicated, non‐competitive quantification strategy (i.e., each nucleic acid sequence has its own “detection” system). A biotinylated “sandwich” assay then yields a fluorescent signal in proportion to the concentration of the copy DNA (cDNA)—a facsimile of RNA as a strand‐specific DNA.[
+ 
+] Early Affymetrix array designs required 5 “chips” per clinical sample to cover the complete draft of the transcriptome.[
+ 
+] Each probe was designed to measure the 3’ end of transcripts. The drive to unravel the complexity of transcriptome, combined with the availability of the draft genome sequence, led to the development of the “chromosome tiling” array[
+ 
+] which studied transcription from the entire chromosome or genome.[
+ , , 
+] However, these were costly and never intended as a routine tool to quantify transcript abundance.
+Modern high‐density arrays, relying on ≈7 million probes to cover the known transcriptome, became available in 2015[
+ 
+] and provide equitable profiling of the coding and non‐coding transcriptomes.[
+ , , 
+] Informatic analysis of this technology involves bringing together the signal from multiple copies of 25‐mer probes, distributed across the array surface. The probe level signal is assembled by combining a minimum of three probes into “probe‐sets”. The exact composition of each probe‐set is defined by reference to a “map” called a chip definition file (CDF); which is routinely configured to exon or transcript level resolution.[
+ 
+] Regardless of when the array was designed, the design of the CDF can be updated regularly to ensure this process remains accurate.[
+ 
+] The physical design of the array can also be updated as the transcriptome becomes more complete. The raw data from each array experiment is retained as a binary “CEL file”. For very large‐scale projects, the high throughput lower density “peg” array may be useful, processing clinical samples in 96‐ and 384‐well format using a GeneTitan workstation (Thermofisher Inc). This format provides coverage of the known protein‐coding transcriptome, but with limited resolution, while the equivalent non‐coding array remains to be developed.
+Modern high density arrays generate a signal ranging from <1 to 16 on the log2 scale.[
+ , , 
+] Through cross‐reference with the literature, the minimal signal for genuinely expressed genes appears to vary between 2 and 3 log2 units. By this criteria, low expressed genes essential physiological roles can be detected, for example, for muscle we observe expression of nicotinic acetylcholine receptor RNA from the neuromuscular junction.[
+ , , 
+] Identification of physiologically active, but low‐expressed genes, for each tissue type, along with statistical thresholds, is required to define the lower end of the biological signal. Further, a study‐specific probe‐level scan can be used to remove probes with aberrant signals, before probes are combined into transcript level CDF design.[
+ 
+] This study‐specific approach typically removes ≈20% of probes, while realignment—to check probe specificity—removes a further 15%. Thereafter, greater than 90% of the remaining probe‐sets produce a signal above the empirical threshold of between 2 and 3 log2 units.[
+ , , 
+] The signal from each probe on the high‐density arrays can also be scaled by their guanine and cytosine (GC) content (Thermofisher Inc, SST‐GCCN Whitepaper) by processing the CEL file. This process makes the signal generated more comparable across genes (further distinguishing this data type from RNA‐seq based relative counts). In the end, about 5 from 7 million probes are typically used to detect ≈500,000 exons or ≈100 000 transcript probe‐sets in each human tissue type, using a Human Transcriptome Array (HTA) 2.0 array.[
+ 
+] Transcript signals can be further summarized in a targeted manner for statistical analysis; for example, the signal originating only from the untranslated region can be extracted and compared across conditions, identifying regulatory events unseen with conventional gene level analysis.[
+ 
+] Finally, it should be noted that the quantification of very short transcripts (<30 base pairs (bp)) by an array will not be ideal as such a signal would rely on less than three distinct probes.
+
+2.2.
+
+## Introduction to Short‐Read RNA‐Seq
+Next‐generation sequencing short‐read RNA‐seq emerged in 2008, reflecting advances in several laboratories.[
+ , 
+] An approach developed by Solexa (acquired by Illumina) generates most of the sequencing data deposited on the Sequence Read Archive (SRA) and thus is the focus of this review.[
+ 
+] Short‐read RNA‐seq requires making a DNA copy of RNA before analysis, after which in situ cluster formation by amplification is tracked. DNA clusters are generated on a flow cell using a modification of PCR, called bridge amplification, where DNA polymerase directs chain elongation from DNA templates using reversible chain‐terminating nucleotides. Each cluster of amplified nucleotides is then “read” – typically via a four‐color system for base calls—to determine sequence information.[
+ , 
+] Short‐read RNA‐seq has several laboratory requirements that array protocols do not, such as initial depletion of the most abundantly expressed genes (e.g., ribosomal RNA—rRNA) which if not removed, dominates most of the sequence reads.
+Short‐read RNA‐seq “counts” are based on counting reads of 50–200 bases, and gene abundance is inferred from the number of counts that map back to a given gene,[
+ , 
+] scaled to the total number of mapped reads in the sequencing run. Mapping each signal to an individual gene is mostly done using a reference transcriptome/genome. Allocation of multi‐mapping reads is achieved using probabilistic‐based estimates, which remains a source of bias and uncertainty.[
+ 
+] Counts represent the relative expression of the gene within the cDNA library during a single sequencing run.[
+ 
+] Longer genes yield more reads, but other factors such as nucleotide content also influence the number of reads counted,[
+ 
+] rendering the quantification of transcripts a nontrivial challenge.[
+ 
+] The influence of gene length on data processing can artificially result in significant pathways in down‐stream statistical analysis.[
+ 
+]
+
+Laboratories specializing in genomics, carry out complex “de novo” assembly of sequencing data to discover novel transcripts, often in non‐mammalian species without completed reference genomes.[
+ 
+] Here, reads are assembled using various complex models, with or without the use of a genome from a related species. While any initial alignment can be quick,[
+ 
+] the complete process is iterative[
+ 
+] and may take weeks or months fully evaluate the validity of the modeling choices. Such analyses are not part of the standard transcriptomics service, while the lack of precise reporting of the hundreds of potential experimental options[
+ 
+] for RNA‐seq limits meaningful replication.[
+ 
+] Thus, despite the potential capacity for transcript discovery,[
+ 
+] most short‐read RNA‐seq studies are not designed to report novel transcripts.[
+ , 
+]
+
+3.
+
+## Performance Metrics for Short‐Read RNA‐seq versus Modern High‐Density Arrays
+Several influential articles compared RNA‐seq with (older) array technology,[
+ , 
+] explicitly reflecting on the “death of the microarray”[
+ 
+] and these have fueled a persistent inaccurate view of arrays.[
+ 
+] To re‐examine this topic, it is critical to contrast the most common short‐read RNA‐seq method with the latest modern high‐density array and reflect on empirical performance rather than any hypothetical advantages. Using a variety of published datasets produced from human clinical samples (in this case snap‐frozen human skeletal muscle) we present easy‐to‐follow head‐to‐head comparisons. We have reported comparable observations using post‐mortem human brain as well as from snap‐frozen RNA form blood and adipose tissue, elsewhere.[
+ , , , , , , , 
+]
+
+For a gene profiling technology to be useful for modeling disease biology (pathways or networks), it must capture the complexity of the transcriptome with limited bias, and that bias must be quantifiable. To have cost‐effective clinical utility, it should be reproducible, generate consistent data comparable to a reference, and have a quick turnaround cycle involving robust computational pipelines. Costs of raw data storage should also not be overlooked. Short‐read RNA‐seq produces gigabytes of summarized data per sample, while each modern array raw data file is 70 MB. While short‐read RNA‐seq technology benefits from efforts to make all forms of DNA sequencing more cost‐effective[
+ 
+] these improvements have not led short‐read RNA‐seq to become cost effective compared with the modern array, reflecting longer laboratory and informatics processing times than arrays (Table  ).
+A highly influential 2009 review (with > 13 500 citations) provides the basis for the often‐stated superior performance of RNA‐seq.[
+ 
+] It highlighted a comparison with the now discontinued BeadChip array (probes for ≈13 000 genes) and, unsurprisingly, found that RNA‐seq detected ≈25% more genes.[
+ 
+] Yet had an old Affymetrix U133+2 array been used; it would have performed as well as RNA‐seq at this time. A detailed comparison[
+ 
+] was made with the “chromosome tiling” array,[
+ 
+] reporting that RNA‐seq had less background noise, improved ability to differentiate between transcript isoforms, and greater dynamic range as well as better reproducibility for DE analysis.[
+ 
+] These comparisons are not terribly meaningful as the “chromosome tiling” array was not designed[
+ 
+] as a quantitative tool, nor does this comparison accurately reflect the performance of a modern array.
+An in‐depth comparison of short‐read RNA seq and arrays was made by the Array/Sequencing Quality Control Consortium in 2014 (SEQC/MAQC‐III Consortium or SEQC for short) in a series of publications. SEQC considered sensitivity, transcriptome coverage and DE.[
+ 
+] SEQC utilized the Affymetrix U133+2 array (older array with 3’ biased probes) and compared performance with at the time state of the art RNA‐seq (which was not like‐for‐like in terms of cost). RNA‐seq unsurprisingly discovered novel exon‐exon junctions and transcripts versus what was possible with the older array. SEQC also reported that relative expression results were consistent among different RNA‐seq platforms, but only if specific ad hoc filters were used.[
+ , 
+] Notably, SEQC reported a comparable performance between RNA‐seq and the U133+2 array technology, with the best DE results produced by the U133+2 array (See Figure 3e in ref. [ ]). These observations had little impact on how array performance was presented. Note that the data provided by the 2014 SEQC consortium study is summarized to “ref_seq” RNA identifiers and thus the total number of genes detected by RNA‐seq was at least 50% lower than claimed (See https://doi.org/10.5281/zenodo.7430956 for more details). In general, we believe that the conclusions reached in 2014 need to be revisited to accommodate comparison between typical RNA‐seq and modern high‐density array using best practices.[
+ , 
+]
+
+The SEQC publications did not discuss technical reproducibility of short‐read RNA‐seq in much detail nor did they study biological replicates.[
+ 
+] They did note that including genes with very high counts (top 10%) exaggerates any reproducibility calculation (See Figure S22, Supporting Information[
+ 
+]). For the remaining transcriptome, technical reproducibility was reported as being R
+2 = 0.7, similar for biological replicates using the HTA 2.0 array (R
+2 = 0.8,[
+ 
+]). Unfortunately, many studies still quote erroneous values for reproducibility. As mentioned above, specialized sequencing protocols will probably profile short RNAs (<50 nucleotides) better than arrays.[
+ , 
+] However, independent technical replicates are difficult to locate for this type of RNA‐seq data, and estimating consistency has numerous caveats. In general, discussion of technical reproducibility is rare in the literature. In addition, raw RNA‐seq count data can often be modified—prior to statistical modeling—adding a small positive signal to all values prior to log transformation. When applied to the extremes of signal abundance this can lead to misleading conclusions (See Figure 5 in Ma et al.[
+ 
+]).
+Does RNA‐seq deliver the promised unbiased coverage[
+ , 
+] of the transcriptome? According to the latest release from the Genome Reference Consortium, the human genome (GRCh38.p13) consists of >20 000 protein‐coding genes, >24 500 non‐coding genes,[
+ 
+] and >15 000 pseudogenes[
+ 
+] and these collectively give rise to >245000 possible transcripts. While >50% will show low or no level of expression in any given cell type, low‐expressed genes nonetheless serve vital roles in physiology, for example, transcription factors, signaling kinases and receptors. For RNA‐seq, a gene known to be expressed but not detected (false negative) in a cDNA library, returns a “zero value”; while a value will be generated for each probed expressed gene, in each sample, using the modern array, down to the level of detection of that platform. Existence of “zero values” across sample rows is an underappreciated problem for RNA‐seq,[
+ 
+] representing up to 50% of the data file for projects using typical sequencing depths (30–100 million read alignments). How those “zero values” are modelled is critical and can impact on estimates of variance within the dataset and thus influence false discovery rate (FDR) calculations.[
+ , , 
+] Missing values are problematic for classification and regression models because they modify the sample size being analyzed per gene. Further, if the aim is to test the performance of a multi‐gene classifier, the assessment in any individual sample may be compromised by the stochastic coverage achieved with RNA‐seq. If instead of raw count values, the investigator is provided “transformed” data by a core facility service, the complexity introduced by “zero counts” would be obscured.
+To illustrate the constitutively expressed transcriptome for human muscle tissue, we produced plots for five RNA‐seq studies of human muscle tissue.[
+ , , , , 
+] Details of the code used, and input data can be found here https://doi.org/10.5281/zenodo.7430956. We found that between 12 000 and 15 000 genes are consistently detected in all samples from each individual study. Notably, only 8700 protein‐coding genes were expressed in all samples across all studies (Figure  ) while the expected figure should be closer to 16 000 protein coding genes for muscle tissue.[
+ 
+] After removing Study B, somewhat greater consistency was observed across the remaining studies (Figure  ). Muscle tissue obviously does not express all protein‐coding genes, yet it is implausible that healthy human muscle expresses such a wide repertoire of study‐specific protein‐coding genes (Figure  ). Further, only a small number of non‐protein‐coding genes were detected across these RNA‐seq studies and in an inconsistent manner. Thus, each study consistently detected a few thousand genes that were not consistently expressed in the other four studies and therefore the detectable transcriptome (or background) for the same tissue varies greatly between each RNA‐seq study. This variation has major implications for the validity and reproducibility of any subsequent pathway analysis ([
+ , 
+], see below).
+ Due to improvements in design since the 2014 SEQC studies,[
+ , 
+] modern arrays now cover most of the annotated transcriptome, detecting ≈10% more protein‐coding genes than RNA‐seq, in the example we present (Figure  ). For noncoding RNAs, the difference between RNA‐seq and modern arrays is far more pronounced. Long noncoding RNA (lncRNA) can be human‐specific[
+ , 
+] modulate key epigenetic events[
+ , , 
+] and, despite their name, are increasingly noted to also contain atypical open reading frames,[
+ 
+] that code for novel short peptides,[
+ 
+] or catalytic RNAs.[
+ 
+] When RNA‐seq was used to define the human tissue transcriptome in 2015,[
+ 
+] we noted a major under‐reporting of lncRNA expression[
+ , 
+] in three human tissues.[
+ , , 
+] In fact, RNA‐seq consistently detects only ≈1000 lncRNAs in human muscle per study, and with moderate overlap between studies (Figure  ). Arrays contain probes for nearly 10 000 lncRNAs using an ensembl‐based CDF map (Figure  ) and most of the lncRNAs detected across the four RNA‐seq data sets are detected by the array. When a conservative signal detection filter is applied to the array data, there are still >8000 lncRNA detected (Figure  ) and of those removed, 20% were detected in at least one of the RNA‐seq studies. Thus, routine short‐read RNA‐seq profiling of human tissue appears to miss most of the lncRNA transcriptome.
+Failure to be represented in the cDNA library is the most likely reason RNA‐seq data show poor agreement for lncRNAs across data sets and only a fraction of those detected by array (Figure  ). LncRNAs lack extensive poly‐A tails and are therefore not efficiently incorporated into cDNA libraries by routine RNA‐seq protocols.[
+ 
+] What drives the stochastic nature of lncRNA detection between comparable RNA‐seq studies? We illustrate that lncRNAs detected by RNA‐seq originate from across the range of expression values (array data) and thus are not just a subsample from higher abundant lncRNAs (Figure  ). In fact, lncRNAs are routinely described as “low abundance transcripts”[
+ 
+] but this reflects a reliance on RNA‐seq data. Using the HTA 2.0 array and a probe‐filtered custom CDF[
+ , 
+] the abundance of lncRNAs is near‐identical to protein‐coding genes (Figure  ). Other classes of non‐translated RNAs—such as pseudo genes—which act as miRNA decoys and regulatory molecules[
+ 
+]—are also expressed with abundance not that distinct from protein coding genes (Figure  ). A genuine low abundance gene, represented in a cDNA library, combined with very deep sequencing would result in counts, while an array might not report a signal (the modern array is able to detect transcripts form minor cell populations[
+ 
+]—see below). This hypothetical benefit of RNA‐seq is not encountered in most clinical studies, as the cost of very deep sequencing is prohibitive and deep sequencing introduces other biases, compromising the analysis of the data (see below).
+ In contrast, RNA‐seq detected lncRNAs did tend to originate from those which exhibit less variable expression (array data) across muscle samples (Figure  ). This more consistent expression may partly explain why they were detected consistently in all RNA‐seq profiles, for a given study—but not their lack of consistent expression across studies. A lack of appreciation of biases within RNA‐seq data has led to an increasing number of erroneous conclusions regarding tissue‐ and cell‐specific expression for lncRNAs.[
+ , , , 
+] This aspect of transcriptome coverage also impacts on pathway analysis of single‐cell sequencing, as most methods to date quantify three or four thousand transcripts per cell. Biased in high abundance RNA from metabolic genes, this has implications for the nature of sub‐clusters of cells based on gene expression.[
+ , 
+] In summary, cDNA libraries produced by RNA‐seq protocols appear to have stochastic properties, ensuring genes are missing seemingly at random, such that in practice modern arrays provide broader and less biased—by biotype—coverage of the transcriptome.
+The ability of each method to reliably model DE is also important. Coverage is vital in this context; however, variance in gene expression (biological and technical) is key. Variance is not equally distributed across the rank order of counts (RNA‐seq) or signal (array), and thus power to detect DE modeling will be influenced by gene “abundance”. It is estimated that for RNA sequencing to quantify DE of lower expressed genes to the same degree as modern arrays, 150 million[
+ 
+] or even up to 1 billion reads may be required.[
+ 
+] For protein‐coding genes, commonly detected in both RNA‐seq and HTA 2.0 array, the coefficient of variation (CoV) for the RNA‐seq data is greater than observed using the array (Figure  ), particularly as the rank of normalized count values decrease (Figure  ). This relationship is not seen with array data (Figure  ), implying there is less bias in quantifying DE using the array (at least in this example).
+ Data generated by modern arrays or short‐read RNA‐seq differs in other substantial ways. Observations presented above indicate that in practice the modern array detects more of the tissue transcriptome, with less bias (biotype and abundance). Greater variation, with RNA‐seq, should convey a disadvantage in detecting DE, yet the SEQC reported that RNA seq outperformed old arrays for drug‐induced DE,[
+ 
+] particularly for genes expressed at low levels. However, the opposite has since been reported when RNA‐seq was compared with a modern array, with the HTA 2.0 array detecting ≈25% more DE than RNA‐seq—leading to the discovery of more regulated pathways.[
+ 
+] The same authors noted that several low‐expressed protein‐coding genes detected by the array were not detected by RNA‐seq.[
+ 
+] Recent modelling concluded that modern arrays quantify “low signal” genes more accurately,[
+ 
+] with highly abundant genes being assayed more equivalently. Indeed, DE analysis of abundant genes will generally produce similar conclusions when comparing arrays with RNA‐seq[
+ 
+] yet this sort of outcome does not satisfy the intended purpose or utility of global transcriptomics. Other recent reports have also concluded that modern high‐density arrays are more sensitive;[
+ 
+] and this is before any added benefit of using an optimized CDF design. Thus, any claim that RNA‐seq is superior at detecting DE—in a like‐for‐like setting—is probably incorrect, especially for the many genuinely expressed genes, it fails to detect. Systematic differences between the occurrence of zero counts between cases and controls requires special attention in DE analysis of RNA‐seq data, given that zero counts are not synonymous with “not expressed”, and the profound influence zeros (or “adjusted” zeros) have on any estimation of group mean variance.
+Thus, so far, we have noted that many transcriptomic articles often begin with restating that RNA‐seq produces less biased data and are more sensitive than microarray‐based methods,[
+ 
+] claims that are partly attributable to early inequitable comparisons[
+ 
+] and claims that now should be retired. In practice, the modern high‐density array offers superior coverage for similar costs, and in the following sections, we cover some of the reasons that underpin these empirical observations (Figures  , , ). We highlight why coverage that is broad and of limited bias determines the validity of downstream pathway analysis—something very relevant for correctly modelling single‐cell sequencing data. We also note that the array relies on a more standardized informatic workflow, using methods found to be robust,[
+ , 
+] and produces raw data files which have much lower long term storage requirements (Figure  ).
+ 
+4.
+
+## Key Differences between Transcriptome Profiling Technologies
+4.1.
+
+## Composition of the cDNA Library and Depth of Sequencing
+Short‐read RNA‐seq profiles a cDNA library (not RNA) and this cDNA library is not a complete representation (“coverage”) of the transcriptome. Even exceptionally deep (and costly) sequencing will only detect a gene if a copy is present in the cDNA library.[
+ , , 
+] Coverage is sensitive to RNA degradation, and signals from inferior cDNA cannot be salvaged by deeper sequencing.[
+ 
+] If a low expressed transcript is “jackpotted” during cDNA synthesis – an early, random selective PCR amplification event—then deeper sequencing can further exaggerate this bias. Estimates have been made for the necessary sequencing depth per experiment, but these will be context specific (genes of interest, library quality etc.), and reassurances that 20–50 million read alignments are sufficient will not cover every situation. Characterizing array performance as an equivalent depth of sequencing is also difficult. For example, ≈65 million reads are reported to match the older 3’ Agilent array[
+ 
+] and 40 million aligned reads for the old U133+2 array.[
+ 
+] To match the HTA 2.0 Affymetrix array, the required read depth has been estimated to be >150 million paired‐end reads (ThermoFisher.com). The fact that the HTA 2.0 array provides quantification for >50% more transcripts than 50 million paired‐end reads (Figure  ), illustrates that these estimates are not reliable. Variations in “effective” sequencing depth is mostly ignored, that is the depth of sequencing for most expressed genes, after consideration of the extreme number of counts attributed to the few very high abundance genes, for example, in muscle this would be mitochondrial genes.
+If the background transcriptome (constitutively expressed protein coding genes) is not easily defined or varies between replicate studies (Figure  ) then ontology pathway analysis will have questionable validity and reduced comparability across studies.[
+ , 
+] Failure for a genuinely expressed gene to make it into an RNA‐seq cDNA library results in a “zero count” entry in the data file—providing the exact same profile as a gene that is not expressed. Visual inspection of raw count data reveals that “zero counts” predominate for ≈50% of the genome in any given RNA‐seq study. A small positive value can be added before the transformation of counts to other units, results in obfuscating these “zeros”. This type of standard data manipulation complicates the estimate of variance across the data[
+ , 
+] impacting for example, on permutation‐based FDR calculations.[
+ 
+] It is challenging to know if the “zero counts” represents a failure in the cDNA library, a genuine lack of expression or insufficient depth of sequencing. For lncRNA, we show that lack of detection almost certainly reflects a failure in the cDNA step, with limited consistency and low coverage across five independent RNA‐seq studies, yet most “RNA‐seq detected lncRNAs” are detected using the array (Figure  ).
+Two further conclusions can be reached if we consider the relationship between the number of samples in a study with zero counts (for each gene) and the average expression (excluding the influence of those zero values). First, when we plot the frequency of zero counts (RNA‐seq), against the relative abundance of protein‐coding genes determined by RNA‐seq or array we can see that many genes even with relatively low counts, for example, 6–50 reads, have consistent signals in all samples (blue box in Figure  ). Second, many protein‐coding genes with >50 counts are detected only in a subset of human muscle tissue (Figure  , red box). Some of these may relate to variations in phenotype. However, when we utilize the gene expression abundance values from the array data, we also observe that abundance does not explain “zero counts”, as there are genes with low signal (array) yet have zero counts in 0–100% in the biological replicates (Figure  , orange box), as well as robustly expressed (array) genes (Figure  , purple box) with zero counts. Together these observations indicate that zero counts do not reliably reflect lack of expression[
+ , 
+] but reflect other technical deficits in the RNA‐seq process. Heuristics to include genes across fewer than 100% of all samples might help address the question of whether a gene is expressed in a subgroup of patients, yet it then alters the working sample size for data modeling, complicates the definition of “background expression” and the threshold chosen should be gene specific and thus complex to implement.
+ 
+
+5.
+
+## The Influence of RNA Processing Protocols
+Sample processing steps impact what is discernible by any transcriptomic technology.[
+ 
+] However, certain steps are probably far more influential than others. Ribosomal RNA (rRNA) represents most of the RNA in a clinical sample and will account for >80% of all sequencing reads if not removed (notably, rRNAs are physiologically relevant in the context of aging and growth). Thus, rRNA is usually depleted using hybridization‐based capture approaches[
+ 
+] prior to making the cDNA library for RNA‐seq (leaving behind <20% of the rRNA). Alternatively, oligo‐dT primers can be used to enrich the cDNA library in polyadenylated (poly‐A) transcripts (avoiding rRNA). Libraries prepared with rRNA depletion can better represent the diversity of RNA molecules (e.g., those without poly‐A tails), whereas those using poly‐A enrichment primarily detect protein‐coding genes.[
+ 
+] Depletion protocols for rRNA are in turn sensitive to RNA purification methods.[
+ 
+] Both of these methods introduce bias, for example poly‐A selection approaches fail to capture the expression of repetitive non‐coding RNA elements—which can be important for defining treatment responses.[
+ 
+] These two methods also alter gene quantification among commonly detected genes, resulting in ≈50% of genes demonstrating DE from the two cDNA libraries created from the same RNA sample.[
+ 
+] This result is predictable as many protein‐coding transcripts can be poorly polyadenylated, yet it illustrates that the choice of RNA processing strategy is hugely influential.
+As well as the additional costs, time, and variation introduced by the rRNA depletion protocol, cDNA libraries created following rRNA depletion typically require greater depth of sequencing (≈2.5×) to achieve comparable coverage of protein‐coding genes as poly‐A enrichment.[
+ 
+] Further, rRNA is not the only high abundance RNA species, for example, mRNA encoding mitochondrial genes (in highly metabolic tissues) or globin RNA in the case of blood, and the contribution of these genes to total reads is highly variable across samples.[
+ 
+] The result is that there is large variation in the effective depth of coverage per sample, that is, the sequencing depth for most of the transcriptome. Avoiding poly‐A‐based selection strategies may enable greater inclusion of non‐coding RNA in the cDNA library[
+ 
+] however the library remains deficient in lncRNA molecules, and this has led to erroneous conclusions regarding cell‐specific patterns of lncRNA expression.[
+ , , , 
+]
+
+Further, variation in RNA preparation is apparent when analyzing formalin‐fixed and paraffin‐embedded (FFPE) samples—a storage choice for many clinical histopathology specimens. RNA derived from FFPE samples suffers from degradation and is poorly suited to poly‐A enrichment protocols. Following rRNA depletion, coverage can be limited, with reports of only ≈20% of sequencing reads mapping to coding regions[
+ , 
+] while more recently others[
+ 
+] report better success from FFPE (>80% mapping), particularly with large amounts of RNA (1 µg). Often degraded, substantial additional quality control steps are required to remove artifacts from the FFPE RNA‐seq data.[
+ 
+] Array protocols can reliably profile the transcriptome from FFPE samples,[
+ 
+] producing results at least comparable to fresh‐frozen tissue analyzed by RNA‐sequencing.[
+ 
+] Thus, the necessity for RNA selection protocols to remove high abundance RNAs during short‐read RNA‐seq workflows introduces bias and extra time and costs and no current protocol resolves all the identified issues.[
+ , , , , , 
+] We recommend that the high‐density array is used with the whole‐transcriptome (WT) reagent kit[
+ 
+] as it does not require RNA selection prior to amplification or use of PCR and is associated with a broad representation of both coding and noncoding RNA.
+
+6.
+
+## The RNA Amplification Step: PCR‐ versus T7‐Based Linear Methods
+Each cell expresses a physiologically biased subset of the genome that reflects function. The abundance will also vary, and a cell may express some transcripts at >1000 copies, while many are expressed at <20 copies.[
+ 
+] For most RNA‐seq technologies, quantification of transcripts expressed at these lower levels requires amplification of the input RNA and this is accomplished predominantly using PCR, a method[
+ 
+] that enabled next‐generation sequencing by allowing amplification of adaptor‐ligated cDNA in hours, instead of days. However, not all RNA species are amplified with the same efficiency, and some are lost, while others are selectively amplified. As many mRNAs for signaling proteins or transcription factors are expressed less abundantly than those coding for structural or metabolic proteins, biased amplification impacts on pathway analysis[
+ 
+]—where the background of “expressed” genes is ill‐defined[
+ 
+]—see below. Furthermore, any biases introduced by the RNA isolation steps can be magnified with each PCR cycle, and such events are not resolvable using informatics.[
+ 
+] Errors introduced before or during PCR amplification are detectable using bar‐coding or unique molecular identifiers (UMI). UMI attempt to identify PCR duplicates (multiple reads amplified from the same cDNA molecule[
+ 
+]) and indicate that the most influential factors for PCR duplication events are RNA input and sequencing depth. Interestingly, UMIs are now being used to assemble “synthetic” long reads from standard short‐read sequencing of the fragmented cDNA library.[
+ 
+]
+
+In contrast, profiling of the transcriptome using arrays can be done without amplification using biotin‐labelled first‐strand cDNA synthesis.[
+ 
+] More commonly in vitro transcription (IVT), based on Eberwine's work on linear RNA amplification,[
+ 
+] is used instead of PCR and only requires an RNA input of 100 ng.[
+ 
+] IVT involves cDNA synthesis, first primed with an oligonucleotide containing a T7‐phage promoter recognition site.[
+ 
+] Following double‐stranded cDNA production, T7 polymerase is added and directs the synthesis of antisense RNA from the cDNA template, yielding cRNA (also called aRNA—“antisense RNA”). This approach can amplify input RNA one million‐fold after two cycles, only relying on RNA from a single cell.[
+ 
+] The amplified aRNA pool is reported to closely resemble the composition of the original input mRNA population, suggesting that the amplification process has limited bias.[
+ 
+] It also appears that each RNA, especially for lower abundance genes, is more consistent across samples, compared to PCR‐amplified RNA.[
+ 
+]
+
+Thus, it is assumed that library strategies produce an amplified DNA library that faithfully reflects the original RNA input. Any major deviations from this assumption have major implications for cDNA library composition and the validity of downstream informatics analyses.[
+ , 
+] An IVT approach has been adapted for RNA‐seq and was noted to remove several PCR‐related biases and more closely approximate the original sample composition[
+ 
+] but it is not routinely used. The more recent adoption of cost‐effective UMIs and 3’ biased sequencing protocols, reduce the influence of PCR artifacts, but cannot then address alternative exon usage (“splicing”)—something RNA‐seq was supposed to deliver. UMI barcoding is also a common strategy for single‐cell and single nucleus sequencing, where transcript signals are estimated at a gene level.[
+ 
+] Direct RNA sequencing is an alternative and very promising approach for transcript characterization (including RNA editing and allele specific analysis) that remains in development,[
+ 
+] requiring large amounts of starting materials, limited throughput, and high costs.
+In short, there are no good methods to account for the preferential amplification of certain mRNA molecules and the dropout of others when PCR amplification is relied on, as is the case for most RNA‐seq protocols. All solutions that might address the fundamental characteristics of either PCR‐based cDNA library or count‐based sequencing also appear to introduce bias.[
+ 
+] The choice of library preparation kit substantially influences study outcomes; thus, without due consideration, many of these factors can explain the lack of replication of detailed findings across laboratories when using RNA‐seq[
+ 
+] or when a comparison is made between RNA and proteomics.[
+ 
+] In our view, the best strategy is to avoid PCR amplification (including any array protocol that uses PCR).
+
+7.
+
+## Data Analysis Steps that Contribute to the Performance Characteristics of the Transcriptome Profiling Technologies
+The type of the raw data produced by arrays and sequencing differs fundamentally. While in‐depth discussion of all the implications is beyond the scope of this review, we will explore some of the key differences. Regardless of the method, the raw “signal” must be processed through several steps, including quality control, normalization, quantification/scaling, and summarization of gene expression (ideally at the transcript level). These steps enable statistical comparisons for the same RNA across conditions or relative to a clinical phenotype. RNA‐seq analysis needs to implement a model to estimate how each read relates to the transcriptome, then to “count.” In contrast, Affymetrix array probes are manufactured as a fixed 25‐mer DNA sequence (which needs to be checked for specificity). Data processing of modern array data relies on few options, such that there is a good consensus after ≈17 years of use (1998–2015). Analysis of RNA‐seq data has proven far more challenging and 15 years on (2007 to 2022) there is no consensus; and one is unlikely to be reached that serves all types of data.[
+ , , , 
+] Indeed, major limitations of the most frequently used RNA‐seq computational tools, applied to clinical sample sizes, have only recently been uncovered,[
+ 
+] implying that many “unknown unknowns”[
+ 
+] remain. Arguably more informaticians than ever are working with transcriptomic data; far more than ever worked with array data, which conveys the nature of the challenge ahead for reaching a consensus for the most appropriate informatic solutions for all types of novel transcriptomics.
+Before discussing the distinct signals produced by arrays and short‐read RNA‐seq, it is worth briefly commenting on laboratory validation methods. Real‐time qPCR[
+ 
+] is often portrayed as a gold standard validation tool in transcriptomics. The SEQC transcriptomic quality assurance concluded that two qPCR results were no more reliable or quantitative than two sequencing results; presumably because both rely on PCR.[
+ 
+] Real‐time qPCR has no standard for RNA input and lacks widely adhered to laboratory standard conditions. It is also often used without regard to the exact RNA sequence (pre‐configured kits) and can produce a signal from a very minor component of a tissue biopsy (a positive or a negative characteristic depending on how the data is being presented). That real‐time qPCR has been put forward as a “gold standard” tool for validating the results of genome‐wide transcriptomics is not, in our view, logical. Not least because when used, only a few of the “best candidates” from the transcript wide profiling are selected. Real‐time qPCR also relies on housekeeping strategies for quantification, distinct from global methods and often does not measure the same sequence as the global method. Carefully considered real‐time qPCR can be useful for qualitatively confirming differential exon usage, but when used to claim validation of new informatic models, transcriptomic identified candidates should be selected from across the range of false discovery rates (FDR) noted in the study[
+ 
+] to better illustrate the model's true performance.
+7.1.
+
+## Processing the Signal from Modern Arrays
+Arrays produce a continuous signal, for a given RNA, via hybridization of labelled fragments to short 25‐mer DNA probes dedicated to a single RNA sequence. These probes are combined to estimate the abundance of a transcript, and at the transcriptome level, these continuous signals are approximately normally distributed when plotted on a log2 scale. Early in their development the scanners used to process arrays had a limited dynamic range easily leading to signal saturation. In practice, a majority of probe‐sets show a wide dynamic range—at least 7 log2 units[
+ 
+] or more. For example, across muscles from 191 sedentary fasted adults,[
+ 
+] the signal for the mitochondrial gene, pyruvate dehydrogenase kinase‐4 (PDK4, ENST00000473796) staggeringly varies from 141 to 2800 unlogged units. Interestingly, this heterogeneity might explain why PDK4 is frequently identified as differentially expressed in small human studies.[
+ 
+] Signals from the HTA array probe‐set that detects expression of a contractile protein known to vary greatly across people, Myosin Heavy Chain IIx (MYH1, ENST00000226207,[
+ 
+]), ranges from 14 to 7660 unlogged units.[
+ 
+] This illustrates, contrary to predominant opinion, that modern arrays possess considerable dynamic range.[
+ , 
+] The continuous nature of the signal from modern high‐density arrays enables well‐established statistical methods for DE and regression analysis, with limited raw data processing.[
+ , 
+] The lack of 3’ bias (as probes are designed against all exons and both untranslated regions (UTR) ) and the more quantitative nature of the GC corrected signal should also help when modelling differential exon usage.[
+ , 
+] On the other hand, the HTA array is not optimal for profiling small RNAs, such as mature miRNAs, as these are shorter than a single probe, and here—with the help of a modified library protocol—sequencing may have some advantages.[
+ , 
+]
+
+Array and RNA‐seq data requires “normalization” to be made more comparable across samples, prior to group based statistical analysis and such methods assume that most of the transcriptome remains unchanged across conditions, such that most data acts as a housekeeping signal.[
+ , , 
+] Physiology studies, often using small sample sizes, reporting that 50% of genes are differentially regulated, are for this reason, unlikely to be correctly processed. We have noticed this is not uncommon with RNA‐seq studies and speculate it may also reflect the influence and mishandling of zero counts. Pre‐processing and normalization algorithms for arrays, such as MAS5, PLIER, and dChip, are no longer used and the most common method employed for Affymetrix arrays is robust multi‐array averaging (RMA).[
+ 
+] Packages that implement RMA can to some extent increase low‐level correlative structure across the transcriptome while compressing the dynamic range of the data.[
+ 
+] Iterative rank‐order normalization (IRON) allows the combination of some of the most favorable features from dChip, MAS5, and RMA—yielding some improvements in performance.[
+ 
+] The default implementation of IRON is far more time and data‐storage efficient (implemented in C program via terminal) than RMA (implemented in aroma.affymetrix R package) and is our preferred choice. Using IRON, one can process new samples, without reprocessing all previous samples (something that RMA cannot do). We also prefer IRON as it appears to limit introduction of correlative structure compared with RMA, a factor that can influence network or classification analyses.
+Normalization is applied within a study and to a particular array type. Merging raw data across different technologies remains a risky pursuit, despite some enthusiasm,[
+ 
+] and it is not advisable in our view—not least because the probe design varies across arrays, use of a gene level identifier can hide substantial differences in the sequence that is being quantified. Methods developed to remove batch‐related “noise” cannot easily distinguish biological from technical variation in routinely collected samples.[
+ , 
+] The large number of technical considerations[
+ 
+] and a lack of substantial positive control data (coupled with pathway level validation issues discussed below), means that merging raw data across technologies is not likely to be a valid pursuit. Meta‐analysis of individually processed data is a reasonable alternative.[
+ 
+]
+
+There are nonetheless some options prior to applying statistical analysis to data generated by the modern array. For example, using an HTA array with a custom CDF typically produces 100 000 rows of data (probe‐set) summarized at the transcript ID level. In the processed data file, each row represents a transcript (e.g., ENST) but includes recycled data—as an exon can belong to more than one transcript. It is not easy to know a priori which ENST is the more representative transcript for your experiment, and many cells express more than one variant.[
+ , 
+] It is possible to select one expressed ENST per gene (resulting in ≈30 000 rows of data (genes) for a human tissue profile) based on which shows the greatest signal or greatest variation, or some heuristic combination, across your samples or between groups. This remains a stage in array data processing that could be optimized using machine learning. Overall, the narrow suite of analytical options for processing modern arrays ensures that it is much easier to track analysis from the raw data, promoting research transparency, and reproducibility. Thereafter, DE analysis can be carried out using simple ANOVA models combined with correction for multiple testing or utilize methods such as Significance analysis of microarray data (SAMR) that models a false discovery rate.[
+ , 
+] Modest changes in array analysis software have tended to only lead to subtle changes in the outcome of any analysis—except for the issue of accurately defining the “background” reference for pathway or ontology analysis (see below).
+
+7.2.
+
+## Processing the Signal from Short‐Read RNA‐seq
+Computational methods for adequately processing of RNA‐seq data are still evolving, and the optimal choice may be experiment specific.[
+ 
+] Processing raw sequencing data is more complex than for array data, and there are hundreds of potential combinations of methods,[
+ 
+] with dozens in common use.[
+ 
+] A recent comparison of 278 different options, including mapping, quantification, and normalization steps, found that the pipeline chosen profoundly impacted on gene expression analysis.[
+ 
+] Others report that the number of DE genes substantially varies depending on the processing method, from 208 to 9500 DE[
+ 
+]—with the later challenging the validity of the normalization or modelling of counts. Other fields have recognized limitations of transforming counts to enable statistical analysis.[
+ 
+] This is particularly problematic in the case of RNA‐seq, where a zero count may reflect a laboratory failure and not the biology of the sample, or failure to sequencing to a sufficient depth (or variation introduced by “effective” depth).
+The first step maps short reads to a reference annotation of the genome, a process that can be non‐trivial.[
+ , , 
+] The numerous options introduce bias, yet normalization, and DE algorithms are thought to contribute most to the variability between analyses or across studies.[
+ , 
+] Traditional alignment tools are slow, and more recent methods, that is, Salmon and Kallisto[
+ , 
+]) were introduced to save time and estimate which transcript a read belong to, using graph theory. Salmon adjusts for nucleotide bias, impacting on subsequent statistical analyses[
+ 
+] to debatable extent (https://www.liorpachter.wordpress.com/tag/salmon/). While very informative, Pachter's commentary does not dwell on the 2–4% difference between these two near‐identical methods, a difference that would yield thousands of distinctly quantified transcripts; more than a typical biology‐driven DE signature. In the Salmon paper, >1000 regulated transcripts were found from the simulation analysis when there should be none.[
+ 
+]
+
+Results from traditional alignment tools and pseudo‐alignment tools[
+ , 
+] differ for lower count genes,[
+ 
+] that is, a majority of the rows of “data” in an RNA‐seq study (Figure 5 and see ref. [ ]). Further, reads are typically assigned to a gene (and not a transcript) and this obviates the production of information on alternative splicing. Indeed, Stark et al. recently illustrated several additional methodological weaknesses in short‐read RNA‐seq informatics pipelines,[
+ 
+] including that use of “fast” tools that introduce variation[
+ 
+] on how multi‐mapped reads are assigned to the estimate of gene expression (as a source of bias,[
+ 
+]). One promising DE strategy, to address the uncertainty regarding which transcript to assign a read too, is to calculate an aggregated p‐value from analysis of each possible option.[
+ 
+] This strategy has also been applied to ontology analysis, but this may be far more challenging to interpret (see below). Further refinement, aggregating DE analysis across exons has also been explored.[
+ 
+]
+
+Typically, once reads are assigned to a specific part of the genome, counts can be adjusted to the total number of mapped reads in a sequencing run, for example, counts per million (CPM). At this point, counts are still not comparable between “genes” as counts require adjustment for GC content[
+ 
+] and length related bias. Fragments per million reads mapped (FPKM) and the transcripts per million (TPM) are attempts to scale counts data within a sample[
+ 
+] or if multiplexed using barcodes, within a sequencing lane. Note that multiplexed sequencing assumes that each sample contributes equally to the library prior to sequencing. Introduction of these types of transformations led to expectations that count values would be quantitative, and comparable across labs, or sequencing runs.[
+ , 
+] FPKM, aims to correct counts per gene by length (“counts per kilo base”) and library size (total counts in million units) to scale data and allow comparison within sample runs. It does not consider the idea of what we call “effective” sequencing depth (depth after considering variable coverage because of extremely high abundance transcripts). TPM is a related transformation, adjusting the “counts per kilo base” for the total “counts per kilo base” of each sample (million units)[
+ 
+] yet as we illustrate here (Figure  ), the impact of adjustment is not consistent.
+ A read can be legitimately assigned to more than one transcript from the same gene, and thus it is unknown which transcript “length” to correct for. We illustrate the influence of transcript length by plotting transformed count data (using FPKM and TPM), correcting to the longest and shortest transcripts for each gene. FPKM is systematically influenced by length, and this is a problem as the transcript used may shift between the conditions (Figure  ). The influence of changing transcript length on TPM values is inconsistent (Figure  ) because the choice affects both the nominator (“counts per kilo base”) and the denominator (total “counts per kilo base” in each sample). The bias introduced by attempting to scale count data by gene length impacts on downstream statistical models.[
+ 
+] Adjusting by the wrong transcript length results in DE under conditions when differential splicing has occurred or as articulated by Stark et al.;[
+ 
+] “if the main isoform in one condition is half the length of the main isoform expressed in the second condition (but expressed at twice the “level”) it would look as if the gene was not regulated”.
+Even after conversion of a read into a “scaled” count, the data are not necessarily “normalized” in the traditional sense applied to arrays or protein blots.[
+ 
+] Global normalization requires a general consistency of RNA expression to be true,[
+ 
+] but in projects sequencing libraries from clinical tissue samples, reads for very high abundance genes can vary dramatically across samples, greatly altering the fraction of total reads they make up. This means that the effective sequencing depth across samples—for most genes—is not well scaled by total aligned reads. Systematic flaws in scaling strategies could lead to a high proportion of genes being called DE. Recently, graph‐based strategies have explored normalization methods that may not be so dependent on these traditional assumptions.[
+ 
+] However, these methods, benchmarked by DE metrics, may not be valid for all types of analyses, while attempts to fit the count‐based data to a distribution model, appropriate for DE methods, are less accurate and control FDR less well than desirable.[
+ 
+] Stark et al. highlight that iterative evaluation and selection of a normalization procedure may be critical to discover the validity of your pipeline, but final choices must not be based on the outcome that fits best with the original hypothesis.[
+ 
+] Indeed, to avoid such a scenario, the inclusion of two or more independently produced clinical data sets should be incorporated in a single publication, to validate any pipeline choices.[
+ , , 
+]
+
+Thus, if the analysis of an RNA‐seq data set is to be done thoroughly, many parallel data processing options should be considered,[
+ 
+] but this is almost never done due to a lack of specialist expertise or perhaps a rush to publish. The increasing number of models, especially those evaluated using simulated data, may never solve the inherent limitations of the RNA‐seq laboratory steps.[
+ , 
+] It has taken nearly a decade to identify limitations[
+ 
+] of the most utilized RNA‐seq analysis tools (DESeq2 and edgeR)—despite over 65 000 citations—and it may take years for updated solutions to be fully explored. To complicate matters further, RNA‐seq software packages are frequently updated, and the use of different versions affects the results obtained.[
+ 
+] For example, the choice of pipeline to analyze tumor samples impacts on survival predictions.[
+ 
+] Lack of reporting software versions and lack of clarity over optional settings for your study, will drive a lack of reproducibility.[
+ 
+] Thus, specific recommendations for processing RNA‐seq data are not easily made—and this would normally limit the utility of the technology for translational or stratified medicine. Nevertheless, RNA‐seq has become the dominant technology and there is now an urgent and ethical prerogative that these limitations are more widely discussed, not least because alternatives methods exist.
+
+7.3.
+
+## Implications of Bias for Pathway Analysis and Other Downstream Analyses
+Identifying DE genes to then model which pathways are regulated, represents a very common type of OMIC analysis. Most methods used for DE analysis of RNA‐seq data, typically involves small sample sizes, and these same methods do not appear to control the FDR adequately in larger clinical sample cohorts[
+ 
+] (how they adequately control FDR in a sample size of three biological replicates is also unclear). Methods applied to array data to calculate DE are well established and, in our experience, appear robust across independent data sets.[
+ , , , , 
+] Linear modelling or logistic regression can be applied to array data[
+ 
+] and reliably identify genes correlated with a clinical status, even across a variety of types of arrays.[
+ , , 
+] Unless filtered to model genes only expressed in all samples, regression modeling of rows of RNA‐seq data would encounter lots of missing data,[
+ 
+] with the actual sample size (per rows or column) impractical to define. For quantitative network analysis, modeling can utilize databases (e.g., protein‐protein interaction data) or take a direct data‐driven approach.[
+ 
+] The basic principles[
+ 
+] of data‐driven quantitative network analysis apply to all OMIC methods, whereby hundreds (or even thousands) of independent samples are required to produce stable network results.[
+ , 
+] Most researchers do not adhere to such criteria, instead favoring methods that are simple to implement yet do not provide reliable estimates of network stability or adjust for multiple correlations.[
+ 
+] Database driven pathway or gene‐ontology analysis[
+ , , 
+] is used in many transcriptomic projects and increasingly to summarize the conclusions of multi‐omic analyses (where their validity is especially unclear)—and often relies on web‐based tools[
+ , , , , , 
+] which can be difficult to replicate.
+Pathway‐based analysis represents an additional “statistical” hurdle beyond DE analysis—one that should confirm that a list of DE genes reflects the biology of the experiment and not one driven by noise or chance.[
+ 
+] Pathway analysis can start with a list of DE genes, identified by choosing an FDR threshold, that is, an approximation of what is regulated. These adjusted p‐values (FDR) do not confirm that the driver for DE is biological—it could still be driven by bias relating to RNA handling, cDNA library production or sample processing order. Most transcriptomic studies include a table or plot of the enriched pathways as a major general summary of the study. A recent survey identified that >80% of published pathway analyses have serious problems,[
+ 
+] quantifying our earlier concerns.[
+ 
+] In fact, the assumptions for calculating valid p‐values for enrichment analyses are also known to be violated (anti‐conservative) to some degree.[
+ 
+] In general, in our experience, pathway FDR values in the 1 × 10−2 to 1 × 10−5 range probably do not reflect genuine differences, but rather defects in the informatics procedures and biases in the laboratory method.
+It is simple to carry out a “less biased” pathway analysis, but the consequences are usually loss of any significant results because, in our experience, many results are driven by inappropriately defined background[
+ 
+] transcriptome. This is especially true when you model a targeted proteomics data set and contrast that data with the ontology database or genome, rather than the narrow set of proteins measured. To calculate if a pre‐defined pathway (ontology) is enriched in a DE gene list, the list must be compared with all genes that were possible to measure.[
+ 
+] The list should not be compared with the entire content of a database or the genome (Figure  ) as this largely reports on differences between the biology of your sampled tissue and the database.[
+ 
+] Failure to use the appropriate background generates significant FDR values irrespective of whether a real DE gene list or one reflecting an artefact is used.[
+ , , 
+] While it can be reasonably clear which genes were measured in an array experiment (Figure  , Pale Green Circle), as we have illustrated above, this is not the case for short‐read RNA‐seq—where for the same tissue, the background protein coding transcriptome varied dramatically. In RNA‐seq data consistently expressed gene can be identified using thresholds of a minimum of 5, 8, or 16 raw counts per gene[
+ 
+] and some metric for the number of biological replicates that should exceed this threshold. Alternatively, a minimum of 1 count per million reads (5–100) has been used, yet it is understood that some minimal level of signal may reflect genomic DNA and other artefacts.[
+ , , , , 
+] When data quality is poor, authors often choose thresholds of <1 count on average across samples to define the detected genes and include genes that are not expressed in many of the samples.[
+ 
+] This approach not only influences the DE analysis, but it renders the definition of the background transcriptome a moving target.
+ In the example provided for RNA‐seq performance across clinical studies (Figure  ), we illustrate that each yields a distinct detectable background transcriptome for human muscle. Plotting the results of each different background list with the consistent and default contents of the pathway database, readily exposes the pathway level bias in these “backgrounds” (Figure  ). In this example we used g:Profiler and the Reactome database[
+ 
+] and three RNA‐seq backgrounds and report that each lists exhibit different biases, only some of which reflects the specialized biology of muscle tissue. The HTA array “detectable background” also had some bias, but in this case for only a few biology‐driven metabolic and contractile‐related pathways, while the rest had moderate adjusted p‐values (Figure  ) which can arguably be ignored by using a more conservative pathway enrichment threshold. In contrast, for two RNA‐seq data sets, >400 significant categories are noted (Figure  ), many with 1 × 10−6 adjusted p‐values or better. Sampling sets of a few hundred genes at random, to mimic a DE list from this data, would yield some of these significant pathways each time. Thus, even when a study is underpowered, and the validity of the DE analysis is doubtful, “highly significant” pathways will still be “discovered”. This problem is not removed simply by larger sample sizes[
+ 
+] or deeper sequencing because it also reflects what we defined as “technology” bias[
+ 
+]—factors inherent in the laboratory steps.
+ Additional problems are revealed when a single list of DE genes is compared with the different backgrounds generated from muscle tissue. In our example, a 729 DE gene list was obtained from a clinical signature of muscle tissue adapting to exercise,[
+ 
+] and these genes are involved with extracellular matrix remodeling, angiogenesis, and metabolic adaptation[
+ , , , , 
+]—well validated processes. The biological process (BP) ontology category in DAVID[
+ 
+] was used, with the entire BP ontology database (obviously incorrect as it contains genes that are not expressed in the experiment) and three muscle background transcriptomes used to analyse the 729 DE list (Figure  ). There were >450 or >300 significant BP ontologies (FDR <5%) enriched when using the DAVID database background or an RNA‐seq background, respectively (Figure  ), of which 162 are unique to the database background, and 59 are unique to the RNA‐seq background. Use of the array‐based muscle expressed background resulted in ≈50% fewer BP categories, with 178 non‐redundant GO BP processes being significant (Figure  ) with a median FDR of 25%. Alarmingly, using the DAVID GO BP background[
+ 
+]—not so unusual to observe—yields a median FDR of between 5% and 10% for all categories! Many of the GO BP ontologies deemed significant using these inappropriate backgrounds, tended to have modest fold enrichment ratios and this metric can be used as an additional way to filter out bias driven enrichment results. Notably, the common complaint that pathway results are often generic in nature may reflect the widespread misuse of the method.[
+ , 
+]
+
+ Use of an inappropriate background does not just yield false‐positive data, it can also lead to loss of information. Methods such as TopGO or REVIGO can be used to prune the redundant nature of the GO results produced by DAVID,[
+ , 
+] identifying sub‐categories responsible for driving the enrichment statistics. Applying this approach to the data in Figure  , resulted in the array background having 68 categories with an FDR <5%, while the RNA‐seq background produces 143 categories. Notably, the use of the RNA‐seq background resulted in several categories related to endothelial remodeling being missed (Figure  )—a core physiological processes during muscle remodeling,[
+ , , , , 
+] reflecting angiogenesis. In contrast, when we utilized an “age gene expression signature”—one enriched in mitochondrial genes[
+ 
+]—and repeated the process used for Figure  , no enrichment in mitochondrial pathways was noted when using the RNA‐seq background. This may reflect bias in the muscle RNA‐seq data, reflecting greater counts derived from high abundance mitochondrial genes,[
+ 
+] yet clearly it represents a flawed pathway result. In our experience, background bias usually introduces false positive GO results, but as we have illustrated in some cases real observations, reflecting important but subtle gene expression programs, will be missed.
+
+8.
+
+## Modeling Alternative Splicing with Bulk Transcriptomics
+Alternative RNA splicing (AS, or alternative exon usage, AEU) is a central determinant of the complexity of the proteome, occurring with >90% of multi‐exon genes.[
+ , , , , 
+] Accurate modeling of AS/AEU provides information beyond transcript abundance, allowing transcriptomics to capture an even greater proportion of the biological variance in a clinical dataset. Currently, long‐read sequencing and advanced profiling strategies[
+ , , 
+] are used to establish if isoform‐specific transcripts are produced or not. Short‐read RNA‐seq was proposed as a method[
+ , 
+] for routine quantification of AS/AEU events. As exons are shared between isoforms of a gene, mapping RNA‐seq reads to specific transcripts is challenging, and the problem scales with the number of shared exons.[
+ , , , , 
+] Established methods are mostly suited to detect extreme changes—such as those that occur in cancer or between cell types—rather than during physiological modulation of transcript isoforms, or with less severe changes in clinical disease status. Many reads that are exon‐spanning are also challenging to assign to specific isoforms as they can be shared across several isoforms.[
+ 
+] Clearly, any method—like many newer RNA‐seq protocols—that relies on a cDNA method biased toward the 3’ end of the transcript, cannot study AS/AEU. Recent attempts using iterative models, to assign reads to specific transcripts report improved performance over Cufflinks, SLIDE and StringTie—but still report precision and recall performance at <70% and 40%, respectively.[
+ 
+] This performance may be improved using long‐read technologies. Ongoing attempts to develop laboratory methods, segregating transcripts by length prior to processing and sequencing, partly serves to illustrate the wide acceptance that existing methods to model transcript‐level data need improved.[
+ 
+]
+
+Both the HTA 2.0 and the updated version, the Clariom D array, contain probes designed to span individual exons (“junction probes”) in known transcripts, and these were intended to improve the detection of AS of cassette exons.[
+ 
+] There are very few methods for studying AS/AEU using high‐density arrays,[
+ 
+] with only one making direct use of these exon–exon junction spanning probes,[
+ 
+] and one which has subsequently been adapted for RNA‐seq.[
+ 
+] We developed a pipeline to model AEU called iGEMS,[
+ 
+] building on a statistical model from Robinson et al.[
+ 
+] iGEMS aimed to reduce false‐positive results and reliance on laborious visual inspection. Studies of AS/AEU in cells with large treatment effects may indicate a method is working, but it does not establish that the method will be generally applicable.[
+ 
+] Given that many algorithms formulate AEU as an “outlier detection problem”, optimizing the removal of noise, e.g., poorly performing probes prior to signal summarization may also improve existing methods. Thus, in general, AS/AEU modeling of short‐read RNA‐seq and modern array data is challenging and often relies on multiple strategies, including laborious visual inspection of results.[
+ 
+]
+
+To illustrate the performance of splicing analysis using RNA‐seq versus the HTA array, consider the 2015 Science article, where RNA‐seq was used to profile multiple post‐mortem tissues.[
+ 
+] This project (GTEx) reported 23–516 AEU events across two‐way comparisons[
+ 
+] including 370 AEU events between adipose and muscle tissue. A major conclusion was that tissue specificity was determined primarily by differences in gene expression abundance rather than through differences in AS/AEU. At the same time, using the HTA 2.0 array[
+ 
+] we identified >1500 AEU events between adipose and muscle (with some independent validation using exon specific qPCR). The splicing ratio statistic used by the GTEx project has high uncertainty at lower count thresholds[
+ 
+] and we noted that the AEU events they reported[
+ 
+] were only among abundant genes and biased for events related to cassette exons. More recently, the muscle FUSION project studied AS/AEU using RNA‐seq, reporting one isoform relevant to metabolic status. This analysis used a simple ratio method to detect AS/AEE and the event was not replicated in a comparable array analysis.[
+ 
+]
+
+While there are several explanations for limited AEU detection using short‐read RNA‐seq, including those mentioned above, Xu et al. identified that, at a comparable sequencing depth, variability in expression is high for features with fewer than 20 mapped reads, which included ≈60% of the exons quantified. Evaluation of ten commonly used tools for differential splicing analysis using RNA‐seq, found minimal overlap in the number of genes detected, ranging from 0 to more than 14 000, depending on the method used.[
+ 
+] This suggest that short‐read RNA‐seq has limited utility for large‐scale discovery of AS/AEU, and there is no evidence that it offers better resolution than modern arrays.[
+ 
+] While modeling AS/AEU using arrays provides many candidates, the data will be incomplete and direct long‐read RNA profiling technologies offer a clear advantage.[
+ , , 
+] Whether the latter offer reproducible quantification suitable for large‐scale clinical projects remains unknown. There are still opportunities to improve available methods for studying AS/AEU using modern arrays. For example, no method uses the exon‐exon junction spanning probes while properly adjusting the FDR for gene length.
+
+9.
+
+## General Conclusions
+Reductions in cost coupled with a number of deep‐rooted misconceptions led to 2nd generation short‐read RNA‐seq becoming the method of choice for most bulk transcriptomics, replacing the microarray. While efforts are being made to reduce costs and provide greater throughput for RNA‐seq these do not address fundamental limitations (e.g., bias in the cDNA library or the nature of count‐based data). Indeed, some modification may make matters worse. Fundamental characteristics of the RNA‐seq methodology, can be shown to compromise the validity of downstream statistical analyses, where numerous biases rather than biology drive significant results. Notably, cost‐effective routine RNA‐seq analyses, using reference databases, do not discover novel transcripts, nor many gene‐splicing events. RNA‐seq also generates huge data files (packed with millions of estimated counts of a few abundant genes), representing an incomplete transcriptomic record of a clinical sample and significant long‐term storage costs. Equally we recognize that 3rd generation direct RNA sequencing technologies are powerful tools for building transcriptome databases, studying allele specific transcription and characterizing their post‐transcriptional modifications. These newer methods do not however appear suitable yet to generate cost‐effective quantitative transcriptomes for large translational medicine projects. Studies contrasting the global transcriptome and proteomics need to reflect on the relative count nature of RNA‐seq data, and better integrate the temporal nature of transcription, translation, and proteostasis. Finally, many genomic databases use RNA‐seq data to define the landscape of the human transcriptome[
+ 
+] and this confounds the literature with inaccurate claims regarding the anatomy of gene expression.[
+ 
+] We strongly advise against using any RNA‐seq reference, commonly linked within genomic browsers, as a view on whether a gene is expressed or not in human tissue, particularly GTEx (which is further confounded by disease, postmortem delay and drug treatment). Together, we resist concluding that short‐read RNA‐seq and arrays are “complementary technologies” and close instead by stating that high‐density modern arrays are a more robust and cost‐effective option for many types of studies, especially when aiming to profile long noncoding RNAs.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Author Contributions
+T.S. and H.H.C. contributed equally to this work. T.S., H.H.C., and J.A.T. drafted the manuscript and completed the literature review. H.H.C. and J.A.T. performed bioinformatics analysis on previously published datasets. All authors critiqued and edited the manuscript.
+
+Stokes T., Cen H. H., Kapranov P., Gallagher I. J., Pitsillides A. A., Volmar C.‐H., Kraus W. E., Johnson J. D., Phillips S. M., Wahlestedt C., Timmons J. A., Transcriptomics for Clinical and Experimental Biology Research: Hang on a Seq. Advanced Genetics
+2023, 4, 2200024. 10.1002/ggn2.202200024
+
+## Contributor Information
+Claes Wahlestedt, Email: CWahlestedt@med.miami.edu.
+James A. Timmons, Email: jamie@augurprecisionmedicine.com.
+
+## References

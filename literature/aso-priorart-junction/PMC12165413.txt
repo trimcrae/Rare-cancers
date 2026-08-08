@@ -1,0 +1,546 @@
+349plospathPLOS PathogensPLoS PathogPLOSPMC1216541312165413121654134046034510.1371/journal.ppat.1012293Role of the CTCF binding site in Human T-Cell Leukemia Virus-1 pathogenesis
+JosephAncyData curation, Formal analysis, Investigation, Methodology, Validation, Writing – original draft ChengXiaogangData curation, Formal analysis, Investigation, Methodology, Supervision, Validation, Writing – original draft HardingJohnInvestigation, Methodology Al-SaleemJacobMethodology GreenPatrickFunding acquisition, Methodology, Project administration, Supervision GriffithMalachiData curation, Formal analysis, Investigation, Methodology, Validation VeisDeborahData curation, Investigation, Methodology, Validation RauchDaniel AData curation, Formal analysis, Investigation, Methodology, Project administration, Supervision, Validation, Writing – original draft RatnerLeeConceptualization, Formal analysis, Funding acquisition, Investigation, Methodology, Project administration, Supervision, Validation, Writing – original draft BanghamCharles R MEditor 1Department of Medicine, Washington University School of Medicine, St Louis, Missouri, United States of America2Center for Retrovirus Research and Department of Veterinary Biosciences, The Ohio State University, Columbus, Ohio, United States of America3Department of Pathology & Immunology, Washington University School of Medicine, St Louis, Missouri, United States of America4Department of Molecular Microbiology, Washington University School of Medicine, St Louis, Missouri, United States of America5Imperial College London Faculty of Medicine, UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELANDThe authors have declared that no competing interests exist.
+✉* E-mail: lratner@wustl.edu
+362025216e1012293e10122931362025© 2025 Joseph et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Previous version available: This article is based on a previously available preprint posted on bioRxiv on May 28, 2024: "Role of the CTCF Binding Site in Human T-Cell Leukemia Virus-1 Pathogenesis".
+
+## Abstract
+During HTLV-1 infection, the virus integrates into the host cell genome as a provirus with a single CCCTC binding protein (CTCF) binding site (vCTCF-BS), which acts as an insulator between transcriptionally active and inactive regions. Previous studies have shown that the vCTCF-BS is important for maintenance of chromatin structure, regulation of viral expression, and DNA and histone methylation. Here, we show that the vCTCF-BS also regulates viral infection and pathogenesis in vivo in a humanized (Hu) mouse model of adult T-cell leukemia/lymphoma. Three cell lines were used to initiate infection of the Hu-mice, i) HTLV-1-WT which carries an intact HTLV-1 provirus genome, ii) HTLV-1-CTCF, which contains a provirus with a mutated vCTCF-BS which abolishes CTCF binding, and a stop codon immediately upstream of the mutated vCTCF-BS which deletes the last 23 amino acids of the p12 gene, and iii) HTLV-1-p12stop that contains the intact vCTCF-BS, but retains the same stop codon in p12 as in the HTLV-1-CTCF cell line. Hu-mice were infected with mitomycin-treated or irradiated HTLV-1 producing cell lines. There was a delay in pathogenicity when Hu-mice were infected with the HTLV-1-CTCF virus compared to mice infected with either HTLV-1-p12 stop or HTLV-1-WT virus. Proviral load (PVL), spleen weights, and CD4 T cell counts were significantly lower in HTLV-1-CTCF infected mice compared to HTLV-1-p12stop infected mice. Furthermore, we found a direct correlation between the PVL in peripheral blood and death of HTLV-1-CTCF infected mice. In cell lines, we found that the vCTCF-BS regulates Tax expression in a time-dependent manner. The scRNAseq analysis of splenocytes from infected mice suggests that the vCTCF-BS plays an important role in activation and expansion of T lymphocytes in vivo. Overall, these findings indicate that the vCTCF-BS regulates Tax expression, proviral load, and HTLV pathogenicity in vivo.
+
+## Author summary
+Human T-cell leukemia virus type 1 (HTLV-1) is a cause of leukemia and lymphoma, and several inflammatory medical disorders. The virus integrates in the host cell DNA, and it includes a single binding site for a cellular protein designated CTCF. This protein is important in regulation of many viruses, as well as properties of normal and malignant cells. In order to define the role of CTCF in HTLV-1 pathogenesis in vivo, we analyzed a mutant virus lacking the binding site in humanized mice. We found that this mutation slowed virus spread and attenuated the development of disease. Gene expression studies demonstrated a dynamic role of CTCF in regulating viral gene expression and T lymphocyte activation.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 May 29; Accepted 2025 May 13; Collection date 2025 Jun.
+
+## Introduction
+Human T-cell leukemia virus type-1 (HTLV-1) is the cause of adult T-cell leukemia/lymphoma (ATLL) [ ]. HTLV-1 is a delta-retrovirus which encodes plus (+) strand classical retrovirus genes, gag, pol, pr, env, as well as regulatory genes, tax and rex, auxilary genes, p12, p30, and p13, and minus (-) strand gene, hbz. The tax and hbz gene products both have oncogenic activity in tissue culture and mouse models [ , ]. The Tax protein enhances viral and cellular gene transcription, and it has post-transcriptional roles inhibiting apoptosis and DNA repair, and promoting cellular proliferation [ ]. Tax is expressed intermittently in a small proportion of ATLL cells at any given time [ , ]. The Hbz protein represses multiple transcriptional pathways, whereas the hbz RNA promotes T-cell proliferation [ ]. Hbz is expressed continuously by most ATLL cells, and the Hbz protein is critical for viral persistence and disease development [ ].
+Most ATLL cells have a single copy of the provirus integrated at a wide variety of different chromosomal sites [ ]. The 5’portion of the integrated provirus is heavily DNA methylated with histone post-translational modifications consistent with epigenetic silencing [ ]. In contrast, the 3’portion of the provirus exhibits little DNA methylation and has characteristic histone modifications of open chromatin. At the border is a binding site for the chromatin barrier element known as 11-zinc finger protein or CCCTC-binding factor (CTCF). There is a single viral CTCF-binding site (vCTCF-BS) in HTLV-1, which is conserved in almost all HTLV-1 strains and other delta-retroviruses [ – ]. In contrast, there are about 55,000 CTCF-binding sites in the cellular genome [ ]. CTCF has been shown to be a chromatin insulator resulting in transcriptional suppression or activation, as well as DNA looping activity [ ]. The latter is mediated through binding to the cohesin complex [ ]. CTCF is important for regulation of latency, replication, and pathogenicity of many DNA viruses, including Kaposi sarcoma herpes virus (KSHV), Epstein-Barr virus (EBV), cytomegalovirus (CMV), herpes simplex virus (HSV), and adenovirus [ ].
+Studies of cell lines and primary cells infected with HTLV-1 ex vivo showed that the vCTCF-BS modulates transcription of the viral genome and cellular genes within several hundred bases of the provirus [ , , ]. In order to assess the role of the vCTCF-BS in HTLV-1 replication and pathogenesis, we examined the effect of vCTCF-BS mutation in vivo, using a humanized mouse model (Hu-mice). For this purpose, we used non-obese diabetic scid IL2 receptor gamma c null kit (NBSGW) mice injected intra-hepatic with human cord blood CD34+ hematopoietic stem cells (HSCs) or injected intra-tibial with human cord blood CD133+ HSCs, and allowed to engraft without irradiation [ ]. The rationale for use of two different humanized mouse infection models is that they more closely simulate the effects seen in lymphomatous (humanized mice with intrahepatic injection of newborn mice with CD34+ HSCs) and acute leukemic forms of ATLL (humanized with intra-tibial injection of CD133+ HSCs). Infection of these mice at 13–16 weeks of age perturbs human thymic alpha-beta T-cell development, resulting in expansion in the thymus of mature single-positive CD4+ and CD8+ lymphocytes at the expense of immature and double-positive (DP) thymocytes ( ) [ ]. Human lymphocytes from the thymus, spleen, and lymph nodes are activated in this model, with increased expression of nuclear factor kappa-B (NFκB)-dependent genes. These mice manifest hepatosplenomegaly, lymphadenopathy, and lymphoma.
+ 
+
+## Results
+
+## Role of vCTCF-BS in HTLV-1 replication in humanized mice
+Hu-mice, 13–16 weeks of age, were assessed for levels of human leukocytes in the peripheral blood by FACS analysis with an antibody to human CD45. Mice from each litter with at least 5% human CD45+ cells, were separated into groups based on levels of human CD45+ cells. Mice were then inoculated intraperitoneally with lethally mitomycin-treated human 729B lymphoid cells infected with an HTLV-1 mutant with a premature stop codon in the p12-coding gene that does not affect known functions of p12, 23 codons from the 3’end of the 297 nucleotide long gene (HTLV-1-p12stop) (n = 10) ( and ) [ ]. Another group of mice was also infected with HTLV-1 with the same mutation found in the HTLV-1-p12stop virus, as well as an additional mutation that abrogates the vCTCF-BS (HTLV-1-CTCF) (n = 17) [ ]. Use of the p12stop mutant virus was a necessary control since the vCTCF-BS overlaps the p12 coding sequence, and mutation of the vCTCF-BS would alter the p12 protein, if it had not been truncated. Hereafter, the p12stop virus was used as a control for all experiments to assess the effects of vCTCF-BS mutation in HTLV-1. Mice were monitored clinically for up to 12.5 weeks after infection, with analysis of blood samples obtained every 2.5 weeks. Eight litters of mice were used to obtain a sufficient number of mice for statistically valid results, with similar numbers, and levels of CD34+ cells in mice within each litter allocated for infection with HTLV-1-WT, HTLV-1-p12stop, or HTLV-1-CTCF ( and and ). Infected mice that showed symptoms of disease such as 20% decrease in body mass, loss of hair or hunched back, or dehydration were necropsied.
+Hu-mice infected with p12stop HTLV-1 showed disease development with a median survival of 4.3 weeks, whereas only 35% of the HTLV-1-CTCF infected mice developed disease within 12.5 weeks of infection ( ). Experiments were terminated at 12.5 weeks, since this time point is three standard deviations beyond that of the mean survival of HTLV-1-p12stop infected mice. Mice infected with HTLV-1-CTCF had lower mean spleen weights (162 vs 302 mg, p = 0.0074; ) and lower absolute lymphocyte counts at the time of necropsy (1289 vs 7600 cell/ul, p = 0.03; ) than those infected with HTLV-1-p12stop. In addition, the percent of CD4+ per CD45+ cells in the spleen, liver, and bone marrow were significantly lower in HTLV-1-CTCF infected than HTLV-1-p12stop infected mice ( ). Mice infected with HTLV-1-WT showed median survival rate of 5.0 weeks ( ) and no significant differences were seen in spleen weight, absolute lymphocyte counts, or in the proportion of CD4+ cells in blood and tissues in comparison with HTLV-1-p12stop infected mice ( ).
+Mice were also humanized via intra-tibial injection of CD133 hematopoietic progenitor cells, and infected 13–16 weeks later ( and ). Infection with HTLV-1-CTCF (n = 7) resulted in delayed onset of lymphoproliferative disease compared to mice infected with HTLV-1-WT (n = 6) or HTLV-1-p12stop (n = 3) ( ). At the time of necropsy there were no significant differences in spleen weight ( ), absolute lymphocyte counts ( ), or percentages of CD4+ lymphocytes in the liver in HTLV-1-CTCF compared to HTLV-1-WT infected mice that had been humanized with CD133 hematopoietic cells ( ). However, significant differences in CD4+ lymphocytes were found in the blood, spleen, and bone marrow when compared to combined HTLV-1-WT and HTLV-1-p12stop infected CD133 humanized mice as compared to HTLV-1-CTCF infected mice ( ). Differences in lymphocyte and neutrophil percentages were seen at necropsy in HTLV-1-CTCF compared to HTLV-1-WT infected mice ( and ). There were insufficient mice infected with HTLV-p12stop for statistical analysis in these experiments. An example of a HTLV-1-WT infected Hu-mouse with ATLL-like flower cells and dramatic leukocytosis is shown in .
+Proviral load (PVL) in CD34+ or CD133+ Hu mice blood were assessed by digital droplet PCR every 2.5 wks [ ]. The assay measures the number of copies of provirus using primers within the tax gene, normalized to number of copies of human ribosomal P subunit p30 gene ( ). At 2.5 wks post-infection, PVL levels in HTLV-1-p12stop infected mice varied between 0.1 and 1.8 copies/cell, with average level of 0.78 copies/cell ( and ). However, in HTLV-1-CTCF mice, levels were between 0 and 0.02 copies/cell, with average level 0.02 copies/cell that was significantly lower than that in the HTLV-1-WT and HTLV-1-p12stop infected mice (p = 0.0002) ( , , and ). PVL was also measured at the time of necropsy in blood, spleen, liver, and bone marrow samples ( and ). In each case, PVL was lower in HTLV-1-CTCF than HTLV-1-p12stop and HTLV-1-WT infected mice. The one exception was that the PVL was lower in HTLV-1-WT than HTLV-1-p12stop infected mouse liver, but the number of animals available for this analysis were small, and this may have been due to a sampling error as a result of heterogeneous levels of virus infected cells within the liver ( ). Similarly, in CD133+ cell humanized mice, lower proviral loads were seen in HTLV-1-CTCF infected mice compared to HTLV-1-WT infected mice ( and ). A significant inverse correlation between the proviral load in blood at time of necropsy and survival rate was found in CTCF infected Cd133+ Hu-mice (p value 0.004) ( ).
+ 
+
+## Role of vCTCF-BS in HTLV-1 pathogenesis
+The results for HTLV-1-CTCF mice were stratified into two groups, depending upon whether the blood absolute lymphocyte count at time of necropsy was greater than (HTLV-1-CTCF-A; n = 8) or less than 400 cells/μl (HTLV-1-CTCF-B; n = 7; and ). Levels of total lymphocytes at necropsy were higher in the blood of HTLV-1-CTCF-A than HTLV-1-CTCF-B infected mice, and similar to those seen in HTLV-1-WT and HTLV-1-p12 infected mice at the time of necropsy ( and ). In contrast, the number of neutrophils in the blood were higher at necropsy in HTLV-1-CTCF-B than HTLV-1-CTCF-A infected mice ( and ). Thirty eight percent of the HTLV-1-CTCF-A infected mice died by 7.5 weeks post-infection, whereas no disease was seen in HTLV-1-CTCF-B infected mice ( ). Spleen weight at necropsy ( ) and PVL was higher at 2.5 and 5 weeks post-infection in HTLV-1-CTCF-A compared to HTLV-1-CTCF-B infected mice ( ). The ratio CD4+ to CD45+ cells at necropsy in the blood, spleen, liver, and bone marrow were higher in HTLV-1-CTCF-A than HTLV-1-CTCF-B infected mice ( ). There was an inverse correlation between PVL at 5 wks and survival in HTLV-1-CTCF infected mice (p = 0.0005; ). There were no significant differences in levels of human CD45+ cells in animals prior to infection of mice that were subsequently classified as HTLV-1-CTCF-A or HTLV-1-CTCF-B.
+ Pathological analysis of infected mice that succumbed from infection demonstrated a lymphoproliferative disorder, with diffuse infiltration in the spleen, liver, and lungs ( , and ). The infiltrating cells were found to be predominantly CD4+ lymphocytes, as demonstrated by immunohistochemistry ( and ). In comparison, control human tissues are shown highlighting CD4+ lymphocytes in normal tonsil, and in biopsies from lymphomatous tissues from two different HTLV-positive patients with ATLL. Furthermore, no pathological abnormalities were seen in HTLV-1-CTCF-B infected mouse tissues ( and ).
+ 
+
+## Effects of vCTCF-BS on transcriptomic profiles
+Single cell RNAseq (scRNAseq) analysis was performed on HTLV-1-CTCF-A mice with the highest proviral loads ( ). ScRNAseq analysis performed on a HTLV-1-CTCF-B mouse could not be analyzed due to lack of adequate numbers of human cells. Levels of human cells in splenocytes of HTLV-1-CTCF-B infected mice were 4.5-fold lower than those in HTLV-1-CTCF-A infected mice ( ).
+ Viral gene expression was observed in infected splenocytes from 7 animals with lymphoproliferative disease submitted for scRNAseq ( ). Although 10X scRNAseq reads are not strand specific, splice donor and splice acceptor sites for single-spliced and double-spliced, sense-strand transcripts and for spliced anti-sense transcripts enabled delineation and quantitation of tax and hbz transcripts ( ) compared to spliced transcripts of human actin in each sample ( ). Interestingly, unlike in infected cells in tissue culture [ ], hbz transcripts were as abundant as plus strand viral transcripts in infected splenocytes in vivo ( ) for both HTLV-1-CTCF (n = 3) and HTLV-1-p12stop infected Hu-mice (n = 4). There were no significant differences in the percent of TCR+ cells that are hbz+ in HTLV-1-CTCF infected splenocytes compared to HTLV-1-p12stop infected splenocytes (6.4 ± 3.3 vs 4.6 ± 1.6%, respectively, p = 0.36). The sequence reads also provided confirmation that the nucleotide substitutions used to create the HTLV-1-CTCF and HTLV-1-p12stop viruses were present in 100% of viral transcripts, and that reversion back to the WT sequence did not occur ( and ).
+Analyses of env transcripts in infected splenocytes identified the presence of mutations in tryptophan codons resulting in termination codons in 22–56% of reads from HTLV-1-CTCF-A infected mice, but not from HTLV-1-p12stop infected mice ( and ). Similar mutations in env transcripts were also seen at other tryptophan codons at positions 387 and 431 in 1–14% of reads in both HTLV-1-CTCF-A and HTLV-1-p12stop infected mice, and at codons 88, 133, 174, and 438 in 1–6% of reads in HTLV-1-p12stop, but not HTLV-1-CTCF-A infected mice. Analyses of env DNA sequences from HTLV-1-CTCF and HTLV-1-p12stop infected splenocytes demonstrated mutations at 1–7% frequency at codon 427, and 4–15% at codon 431, with higher levels seen in at codons 427 (65%) and 431 (61%) in one HTLV-1-CTCF-A mouse each.
+Human transcripts, which were clearly separated from murine transcripts, were also analyzed in the scRNAseq results [ ]. Although the 729B cells, used as a donor in humanized mice for HTLV-1 infection, contain the EBV genome [ ], no EBV transcripts were detectable in the HTLV-1 infected humanized mice at the time of necropsy. Human cells in the spleen of the hematopoietic stem cell transplanted NBSGW mice were exclusively lymphoid cells ( ). They included clusters of CD4+, CD8+, CD25+, TCR+, and more rarely, NKT, and B lymphocytes. Interestingly, the TCR+ cells of each T cell subset were enriched in T cell activation factors, protein tyrosine phosphatase receptor type C-associated protein (PTPRCAP) and interferon-induced transmembrane protein 1 (IFITM1) ( ).
+At the time of necropsy, reads corresponding to HTLV-1 transcripts were detected in a small subset of splenocytes ( ). Characteristics of predominant T cell clones, including CD4+, CD8+, Treg, and double CD4+ CD8+ clones, varied in each sample, and detection of viral transcripts was not restricted to a single T cell clone. T cell clonality was high for all samples, with the Gini coefficient ranging from 0.54 to 0.67, and the Shannon Diversity Index ranging from 3.7 to 5.2 ( ). There were no significant differences in clonality indices in HTLV-1-p12stop and HTLV-1-CTCF-A infected humanized mouse splenocytes.
+Integration site clonality was assessed in infected splenocytes of two HTLV-1-p12stop and two HTLV-1-CTCF-A mice for which sufficient DNA was available. This study examined unique integration sites of the provirus using a novel PCR approach and next generation sequence analysis [ ]. In HTLV-1-p12stop infected splenocytes, the Gini coefficients were 0.51-0.91, whereas in the HTLV-1-CTCF infected splenocytes, the Gini coefficients were 0.65-0.7 ( ). Thus, in both cases, when lymphoproliferative disease is present, a high level of clonality is seen.
+String network analysis of genes significantly upregulated in CD4+ T cells demonstrated expanded lymphocyte populations in both HTLV-1-CTCF and HTLV-1-p12stop infected mice ( ). The cells expressed genes previously associated with ATLL, including CADM1, IL2RA, FOXP3, BATF3, CD28, and CTLA4.
+When comparing HTLV-1-CTCF-A infected mice to control HTLV-1-p12stop infected mice, several patterns emerged. First, activated CD8+ T cells were much more abundant in the spleen of HTLV-1-p12stop infected mice ( ). Granzyme B (GZMB) expressing CD8+ cells were enriched in transcripts for natural killer cell granule protein 7 (NKG7) and granulysin (GNLY), indicating these cells were cytotoxic effector T cells or cytotoxic vesicle releasing cells ( ) [ ]. Second, the expression of 5-lipoxygenase activating protein (ALOX5AP), a regulator of tumor immunity associated with “hot” tumors [ ], was a distinguishing characteristic between mice infected HTLV-1-CTCF-A and HTLV-1-p12stop ( and ). Third, double negative CD4-CD8-TCR+ T cells were more abundant in the spleens of HTLV-1-CTCF-A mice ( ). Although these cells lacked transcripts for CD4 or CD8, they were enriched in transcripts for calcium-binding helix-loop-helix S100A protein family members (including S100A4, A6, A10, and A11) and interferon-induced transmembrane protein (IFITM) family members (IFITM1 and M2) [ ]. Finally, the number of cells in T cell clones carrying a glycine-leucine-alanine-glycine (GLAG) motif in CDR3 of T-cell receptor (TCR) β, previously identified as a Tax-specific epitope [ ] was more abundant in HTLV-1-CTCF-A than HTLV-1-p12stop infected mice ( and ). These data suggest that loss of the vCTCF-BS results in significant effects on gene expression and expansion of human T cell populations in vivo.
+
+## Effects of vCTCF-BS on temporal viral gene expression
+In order to examine the effect of vCTCF-BS on the temporal expression of Tax, we transfected 293T cells with the molecular clones expressing HTLV-1-WT, HTLV-1-p12stop, or HTLV-1-CTCF ( ). After 48 hrs, these cells produced equivalent quantities of HTLV-1 p19 antigen (5.6 ± 1.2 and 5.4 ± 1.0 ng/ml, in HTLV-1-p12stop and -CTCF expressing 293T cells, respectively). The transfected 293T cells were co-cultivated with Jurkat cells carrying a Tax-responsive red fluorescent protein td tomato (RFP) indicator (JET cells). IncuCyte analysis was performed to assess temporal changes in Tax expression, as measured by RFP fluorescence ( and ). The number of RFP-positive cells was significantly higher in HTLV-1-p12stop than HTLV-1-CTCF infected cultures from 1-3.5 days of culture, but similar thereafter ( ). The total RFP intensity was greater in HTLV-1-p12 stop than HTLV-1-CTCF infected cultures from 0-2.5 days of infection, but lower during 2.5-5 days of infection ( ). Cell viability was assessed using Cytolight rapid dye, and no differences were detected. Similar results were obtained after cocultivation of HTLV-1 infected 729B cells with JET cells ( ). These results suggest that the vCTCF-BS has dynamic regulation of HTLV-1 gene expression.
+ 
+
+## Discussion
+Our previous studies of the role of the vCTCF-BS examined in transfected Jurkat cells and PBMCs, the role of mutation of the vCTCF-BS on virus gene expression [ ]. We found that mutation of the vCTCF-BS did not disrupt the kinetics and levels of virus gene expression. Furthermore, there was no effect on the establishment or reactivation from latency. Nevertheless, the mutation disrupted the epigenetic barrier function, resulting in enhanced DNA CpG methylation downstream of the vCTCF-BS on both strands of the integrated provirus. We also found enhanced methylation of histones H3 K4, K27, and K36 bound to the provirus.
+In our previous study, we also examined the role of CTCF in clonal latently infected Jurkat cell lines carrying the HTLV-1 provirus at different integration sites [ ]. For this purpose, we induced viral gene expression with phorbol ester and ionomycin in the presence of a shRNA to repress CTCF expression or a control shRNA. In the majority of these cell lines, knockdown of CTCF resulted in enhanced plus strand gene expression. However, in a minority of cell lines, knockdown of CTCF had no effect on plus strand gene expression. We did not identify cell lines in which knockdown of CTCF decreased virus gene expression. Knockdown of CTCF had no effect on virus gene expression from cell lines with mutation of the vCTCF-BS. Moreover, no effects on minus strand gene expression were seen in any of these cell lines. We found that cell lines manifesting enhanced plus gene expression with CTCF knockdown also exhibited decreased DNA CpG methylation downstream of the CTCF binding site. However, no significant changes were seen in DNA CpG methylation in cell lines not exhibiting alterations of gene expression with CTCF knockdown.
+Previously, Martinez et al found that the vCTCF-BS was dispensable for persistent infection in rabbits [ ]. However, they noted a decrease in HTLV-1-specific antibody response in rabbits infected with HTLV-1-CTCF. Two significant differences of the rabbit model from the humanized mouse model are that the rabbits are immunocompetent and do not develop high virus load or disease. The contribution of each of these features to differences in pathogenesis in Hu-mice infected with HTLV-1 with or without vCTCF-BS remains to be deciphered.
+In the current work, we examined the effects of the vCTCF-BS mutation in vivo in a humanized mouse model [ ]. In this model, human CD34+ cells were injected into the liver of newborn mice. After 13–16 weeks, sufficient lymphoid reconstitution occurred to allow HTLV-1 infection, replication, and lymphoproliferative disease. However, we have not detected HTLV-1 antibodies in this model system, suggesting at least partially compromised immune responses to viral infection.
+The vCTCF-BS overlaps with the p12 and Hbz coding genes. Mutation of the vCTCF-BS to abrogate binding of CTCF required conservative mutations in these overlapping genes. The p12 mutation truncates the predicted protein product from 99 to 76 amino acids. This truncated protein is similar to that expressed from simian T cell leukemia virus type 1 [ ]. Previously, we demonstrated that deletion of the C-terminus of p12 did not affect its ability to functionally enhance nuclear factor of activated T cells (NFAT) [ ]. We also showed that the conservative mutation in Hbz had no effect on its ability to repress Tax-mediated viral trans-activation or canonical NFκB activity. The mutations in p12 and Hbz used in this study did not have a significant effect on HTLV-1 replication and pathogenicity in Hu-mice, based on similar results with HTLV-1-WT and HTLV-1-p12stop infected animals.
+Mutation of the vCTCF-BS delayed virus spread and delayed or abrogated lymphoproliferative disease in infected Hu-mice ( ). However, the lymphoproliferative disease occurring at late time points in the minority of HTLV-1-CTCF infected Hu-mice were derived from CD4+ lymphocytes as in the case of HTLV-1-WT and HTLV-1-p12stop mice ( ). There was no qualitative change in the characteristics of the lymphoproliferative disease occurring in HTLV-1-CTCF-A infected Hu-mice compared to that present in HTLV-1-WT and HTLV-1-p12stop infected mice.
+Single cell RNAseq is a powerful tool for evaluating human lymphocytes within the spleen of infected Hu-mice. The presence of human T cell subsets confirmed that CD34+ hematopoietic stem cells were capable of differentiating into CD4+ and CD8+ T cells in vivo. Mature (TCR+) cells were consistently enriched in T cell activation factors PTPRCAP and IFITM1. PTPRCAP is a transmembrane phosphoprotein specifically associated with CD45, a key regulator of T cell activation and differentiation. Along with CD45, CD71, and lymphocyte-specific protein tyrosine kinase (LCK), PTPRCAP (also known as lymphocyte phosphatase-associated phosphoprotein, LPAP) is known to be a major component of the CD4 receptor complex [ ]. IFITM1 is a member of a family of interferon-inducible transmembrane proteins that can confer resistance to viral infections, regulate adaptive immunity, and regulate T cell differentiation [ ]. Multi-omic evaluation of TCR sequences offered clear evidence of extensive clonal T cell expansion in this model, established that viral gene expression could be detected in expanded clones, and confirmed that the expanded CD4+ T cells were enriched in genes frequently expressed in ATLL cells, including CD25 and cell adhesion molecular 1 (CADM1).
+Surprisingly, the most significant difference in the spleens of Hu-mice infected with virus carrying the vCTCF-BS mutation was discovered in the CD8+ T cell population in which the abundance and activity of CD8+ T cells was suppressed relative to control. There were fewer CD8+ T cells, and the CD8+ T cells expressed less Granzyme B and less arachidonate 5-lipoxygenase activating protein (ALOX5AP). Granzyme B is a serine protease and abundant component of cytotoxic granules which when released results in caspase-independent pyroptosis or caspase-dependent apoptosis [ ]. Granzyme B is an essential component of immunity and wound healing, and it is also capable of causing injury to healthy tissue or even elevated risk of death [ ]. ALOX5AP (also known as 5-lipoxygenase activating protein, FLAP) is required for leukotriene synthesis; it has been implicated in inflammatory responses, stroke, and myocardial infarction; and it is an indicator for predicting high CD8+ tumor infiltration and a “hot” tumor microenvironment [ ]. These data establish that scRNAseq can effectively detect human and viral gene expression in mouse spleen in infected Hu-mice, confirm that the expanded lymphocyte populations in this model retain characteristics similar to those described in ATLL, and supports the hypothesis that the vCTCF-BS is involved in viral regulation of immunity and pathogenesis in vivo.
+An unexpected discovery from this study was the recurring emergence of viral variants that express envelope transcripts carrying termination codons in the transmembrane subunit. While it is not unexpected that APOBEC3G mediated deamination of TGG can produce TAG stop codons [ ], it was striking that the W427* substitution was found in mice in which viral pathogenesis was suppressed. Expression of soluble envelope proteins by a viral reservoir could be a mechanism to block spreading infection and promote latency and host survival [ ].
+The results of the current study suggest that CTCF binding to the HTLV-1 provirus regulates Tax expression in a time-dependent manner ( and ). Initially, CTCF promotes higher levels of Tax, which results in enhanced plus strand gene transcription, antigen expression, virus production, and enhanced clonal expansion of lymphocytes. However, high levels of Tax and other plus strand genes are associated with enhanced senescence, apoptosis, and immune-mediated responses to virus-infected cells. We conjecture that this results in rapid onset of acute disease in Hu-mice infected with HTLV-1 possessing the vCTCF-BS. In the absence of the vCTCF-BS, there are lower levels of Tax, plus strand gene expression, and virus production, diminished senescence and cytotoxicity, and more gradual lymphocyte expansion resulting in slower development of disease, if disease develops at all. Although mutation of the vCTCF-BS results in an asymptomatic infection or smoldering lymphoproliferative disease in humanized mice rather than an acute leukemic or lymphomatous form of disease, it is premature to suggest that this specific genetic element alone determines the disease phenotype in infected humans.
+ The mechanism for the effects of CTCF on HTLV-1 transcription could be related to its known silencer effects on initiation or elongation of RNA. This may be a result of monomeric CTCF binding to the provirus or dimeric CTCF-cohesin complexes promoting chromatin looping. High levels of Tax and plus strand transcription at early time points after infection, promote clonal expansion of infected lymphocytes and enhanced viral particle and viral antigen production. Under these conditions, Tax has been shown to induce cellular senescence [ ], whereas the viral envelope may induce fusion [ ], and multiple viral proteins can induce cell death through direct effects or through immune-mediated cytotoxicity [ ]. In contrast, in the absence of CTCF binding to the provirus, there is a more gradual level of Tax expression, resulting in delayed onset or smoldering disease, or asymptomatic infection. It is possible that CTCF activity may contribute to differences in disease subtypes seen in infected patients.
+Previous studies by Bangham and colleagues, reported that removal of the vCTCF-BS had no discernible impact on virus transcription or epigenetic modifications in 2 different cell clones of HTLV-1 infected lymphocytes [ ]. However, mutation of the vCTCF-BS resulted in altered clone-specific transcription in cis at non-contiguous loci up to more than 300 kb from the integration site, suggested to be due to disruption of chromatin loops [ ]. Our previous studies contrast with those of Miura et al, in that we examined the effects on viral transcription with loss of vCTCF-BS in a large number of cells ex vivo and in vivo. In our previous studies with infected rabbits, mutation of the vCTCF-BS did not affect virus replication or spread [ ]. However, it is notable that there was a decreased HTLV-1-specific antibody response in this model. Perhaps HTLV-1-specific antibody responses reflect the peak levels of plus strand transcription after infection. It is notable that lymphoproliferative disease does not occur in the rabbit model.
+These data suggest a working model in which CTCF regulates Tax, that simulates the in vivo survival data, and that HTLV-1-CTCF is less pathogenic than HTLV-1-WT or HTLV-1-p12stop. The scRNAseq gene expression data of 12.5 week old diseased HTLV-1-CTCF-A infected mice look very similar to 5 week old diseased HTLV-1-p12stop mice. The IncuCyte data showed that Tax activity per infected cell is elevated on day 1 and depressed on day 3 in pHTLV-1-p12stop but not HTLV-1-CTCF infected cells, and the number of Tax-positive cells shows rapid expansion in HTLV-1-p12stop but not HTLV-1-CTCF infected mice. Previously published data on latent cell lines show that CTCF is a suppressor of Tax in latent or already suppressed cell clones. This model also explains the observation that although HTLV-1-CTCF and HTLV-1p12stop virus particles are equally infectious, HTLV-1-p12stop infected Hu-mice develop much higher viral loads in the peripheral blood at an accelerated rate compared to HTLV-1-CTCF infected Hu-mice, because the vCTCF-BS present in HTLV-1p12stop infected Hu-mice is an enhancer of Tax and virus production.
+A limitation of the current work is that the temporal regulation of Tax expression by CTCF during the first five days of infection was performed in tissue culture models and remains to be confirmed in vivo. Such studies require development of highly sensitive assays of virus expression and replication over the course of the first few days of infection in vivo. An additional limitation of the study is the requirement for use of irradiated or mitomycin-treated virus-producer cell lines, which although balanced for virus production, infectivity, and immunophenotype, could have more subtle differences in viral or cellular characteristics, that affect virus replication in vivo.
+In summary, our results demonstrate an important role of CTCF binding to the HTLV-1 provirus in dynamic regulation of virus replication and pathogenicity and support a potentially new discovery that CTCF regulates TAX in vivo.
+
+## Materials and methods
+
+## Ethics statement
+All the experiments in mice were performed in accordance with ethical and regulatory standards set by NIH for animal experimentation. The animal use protocol (20180321) was approved by Washington University Department of Comparative Medicine. Cord blood samples obtained in this study were obtained from Cleveland Cord Blood Center (CCBC). Verbal informed consent was obtained from all the donors, who were anonymous to the investigators. The study and consent documents were approved by the Washington University Human Research Protection Office.
+
+## Plasmids and sources of cells
+The infectious HTLV-1 ACH wild type and mutant clones pHTLV-1(WT), pHTLV-1(p12stop) and pHTLV-1(CTCF) were used in this study [ ]. JET cells (JET WT35) and stable 729B HTLV-1 producer cell lines, 729B-HTLV-1(WT), 729B-HTLV-1(p12stop) and 729B-HTLV-1(CTCF) were described in our previous study [ ].
+Mononuclear cells were isolated by density gradient centrifugation using Ficoll-Paque premium (Sigma Aldrich) and 50 ml SepMate tubes (STEM CELL Technologies) according to the manufacturer’s protocol, and CD34+ hematopoietic stem cells (HSCs) were isolated from these mononuclear cells using CD34 microbead kit (Miltenyi Biotec CD34 MicroBead Kit, Human). The purity of isolated CD34+ cells were accessed by flow cytometry using mouse anti human CD34 (BD Bioscience).
+
+## Generation of CD34+ humanized mice (CD34+ HuMice)
+NBSGW (NOD.Cg-KitW-41J Tyr+ Prkdcscid Il2rgtm1Wjl/ThomJ), hereafter referred as NBSGW mice were purchased from Jackson laboratories. All mice were kept in animal housing in a pathogen-free environment with ambient temperature, humidity and controlled light cycles. The NBSGW mice breeding colonies were produced in house. After birth, 0–3 day old pups were injected, using a 27 gauge insulin syringe, intra-hepatically with 5x104 CD 34+ hematopoietic stem cells (HSCs); which were isolated from cord samples collected from full term deliveries (Miltenyi Biotec CD34 MicroBead Kit, Human). Human CD45+ levels were assessed at 13–16 weeks post transplantation (wpt) by flow cytometry analysis.
+
+## Generation of CD133+ humanized mice (CD133+ HuMice)
+After birth, 4–5 weeks old pups were anesthetized and each mouse was injected with 5x104 CD 133+ hematopoietic stem cells (HSCs), by intra tibial injection, which were isolated from cord blood samples collected from full term deliveries (Miltenyi Biotec CD133 MicroBead Kit, Human). Human CD45+ levels were assessed at 13–16 weeks post transplantation (wpt) by flow cytometry analysis.
+
+## Infection of humanized mice with HTLV-1
+Stable 729B HTLV-1 producer cell lines: WT HTLV-1(WT), HTLV-1(CTCF), or HTLV-1(p12stop), which were generated previously [ ], were used in this study. Cell lines were maintained in RPMI media (Sigma) supplemented with 10% Fetal Bovine Serum,100 u/ml Penicillin and Streptomycin (Gibco). One million cells/ml were plated in 12 well plates and HTLV-1 p19 antigen in the supernatant was assessed (ZeptoMetrix HTLV p19 Antigen ELISA kit) after 24 hrs. of culture according to the manufacture’s protocol. Based on p19 values, cell numbers corresponding to 70 ng p19/mice were used for infection. Before infection HTLV -1 producing cell lines were treated for 90 min with 20 ug/ml of mitomycin C (Sigma Aldrich) to inhibit replication/proliferation of producer cells. Hu-mice were injected with infected cell lines intraperitonially and then were monitored for a period of 12.5 weeks post infection (wpi) for signs of disease. Blood was collected at every 2.5 wpi for proviral load analysis. Mice were anesthetized and necropsied when the body weight dropped by 20% or more of their initial body mass prior to infection. The experimental end point was 12.5 wpi as most of the infected mice showed symptoms by 5 wpi. All the mice were necropsied at the experiment endpoint time (12.5 wpi). Blood, bone marrow, spleen, liver, tumors, and enlarged lymph nodes were collected at the time of necropsy. Complete blood counts (CBC) and Giemsa staining was performed on the peripheral blood smears at the time of necropsy. Infection was confirmed by the presence of detectable PVL in at least one tissue from the humanized mouse.
+
+## Flow cytometry
+Peripheral blood was collected by mandibular cheek bleed every 2.5 weeks post infection and at time of necropsy by cardiac puncture after anesthesia with 100  mg/kg ketamine and 20 mg/kg xylazine). Single cell suspensions were made from spleen and liver by, crushing the organs using a wide 1 ml tip and then passing the cell suspension through a sterile 100 µm mesh. PBS supplemented with 2% FBS was used as media. Bone marrow was collected from both femurs by dissection, and then flushing the bones with PBS. All the collected cells were treated with RBC lysis buffer (Sigma-Aldrich) and stained using PE mouse anti-human 45 (BD bioscience) and APC mouse anti-human CD4 antibodies (BD Bioscience). Flow cytometry was performed using BD FACScan (BD Biosciences) and data was analyzed using FlowJo software.
+
+## DNA isolation and proviral load analysis
+DNA was extracted from peripheral blood and bone marrow by conventional phenol-chloroform method and Blood and Tissue kit (Qiagen) was used to extract DNA from spleen and liver. A minimum of 50 ng of DNA was used to quantify proviral load. Proviral loads were measured by digital droplet PCR as previously described [ , ].
+
+## Histopathologic analysis
+Tissue samples were fixed using neutral buffered formalin (Fisher Scientific) for 24 hours, parafilm embedded and stained with Hematoxylin and Eosin (H&E) solution. To detect the presence of human CD4+ cells, immunohistochemistry was performed using anti-CD4 (SP35) rabbit monoclonal primary antibody (Ventana Medical systems) according to manufacturer’s instruction with slight modification in cell conditioning for 64 min followed by antibody incubation for 40 min at 36 °C. CD4 staining was performed using BenchMark Ultra staining module. Stained sections were observed under a light microscope, and images of whole sections were captured (Nanozoomer) and viewed using the NDP 2.00 viewer (Hamamatsu, Japan).
+
+## JET cell infection, imaging and analysis using IncuCyte system
+HEK293T cells were transfected with 2 µg of either pHTLV-1(p12stop) or pHTLV-1(CTCF) using 1 mg/ml polyethylenimine (PEI40K, Polyscience) by a ratio of 3:1 plasmid concentration. After 48 hrs, cells were irradiated (30 Gy) and co-cultured with JET cells [ ] and placed in an IncuCyte live cell S3 analysis system (Sartorius). The cells were then continuously imaged for RFP every 3 hrs for 5 days. The IncuCyte software was used to calculate the read mean intensity and total red object count.
+
+## Single cell RNAseq and analysis
+Samples of viably cryopreserved mouse splenocytes stored in liquid nitrogen were retrieved immediately before sample processing and submission. Cells were thawed partially in a 37ºC water bath and then placed on ice immediately. Single cell suspensions were revived in ice cold medium by gently adding the cell suspension to 10 ml of RPMI medium supplemented with 10% FBS. Cells were centrifuged and gently washed with PBS with 2% FBS and passed through a 70 µM cell strainer to avoid clumps while processing samples. Cells were stained with 0.4% trypan blue to quantify viability and submitted to the McDonnell Genome Institute for processing for scRNAseq using the 10X Genomics 5’ GEX plus TCR V(D)J enrichment. Libraries were prepared using the 10x Genomics 5′ or 3’ immune profiling kit-snRNA-seq protocol (GTAC@MGI) and sequenced on an Illumina S4 flow cell. Alignment and gene expression quantification was performed using the CellRanger multi pipeline (v7.1.0). Reads were mapped against the human genome (GRCh38/hg38), the HTLV-1 genome (ViralProj15434; GCA_000863585.1), and the EBV genome (strain B95-8; GCA_002402265.1) and visualized using t-distributed stochastic neighbor embedding (t-SNE) or uniform manifold approximation and projection (UMAP) plots clustered to enable cell type identification. Custom analysis, differential expression, and creation of feature plots was performed using Loupe Browser 8. BAM files generated from CellRanger pipeline were visualized on IGV_2.16.0.
+
+## PCR HTLV-1 env gene and DNA sequencing
+DNA was isolated from spleen cells of infected humanized mice by phenol-chloroform extraction. HTLV-1 env gene was amplified using the forward primer 5’-ATGGGTAAGTTTCTCGCCAC and reverse primer 5’- TTACAGGGATGACTCAGGGT. Amplified DNA underwent gel purification and Sanger sequencing.
+
+## Deep DNA sequencing and bioinformatic analysis
+DNA libraries were prepared by following the protocol of Rosewick et al [ ]. Briefly DNA was isolated from mouse spleen and sheared by sonication. Fragments containing the junction of HTLV-1 LTR and human genome was initially amplified by a linear extension PCR with incorporation of biotinylated dUTP. Then biotinylated DNA was selected with streptavidin beads and ligated to a partially double-stranded DNA linker. DNA libraries were finally generated by a nest PCR using primers targeting HTLV-1 LTR U5 and the linker sequence. The libraries were sequenced with paired ends and a read length 150 bp.
+
+## Statistics
+P values were determined by unpaired t tests. using GraphPad Prism version 10.0.0 for Windows, GraphPad Software (Boston, Massachusetts). The Spearman correlation method was used to determine statistically significant correlation between proviral load and survival curve. Results were considered to be significant if the p value was ≤ 0.05 (* indicates p value ≤ 0.05, ** for ≤0.01, *** for ≤ 0.001, **** for ≤ 0.0001).
+
+## Supporting information
+S1 Fig
+
+## Infection of humanized mice resulted in decrease in pathogenicity in HTLV-1-CTCF infected mice.
+Mice humanized with CD34+ cells (A) or CD133+ cells (B) were infected with HTLV-1-WT, HTLV-1-p12stop, and HTLV-1-CTCF viruses for 12.5 weeks or when signs of viral pathogenesis were evident (20% weight loss and lethargy) and evaluated based on; i) survival, ii) spleen weight, iii) absolute lymphocyte count, iv) and human CD4+ lymphocyte count in blood, spleen, liver, and bone marrow. Mice infected with HTLV-1-CTCF had longer median survival, and fewer human CD4+ lymphocytes in spleen and bone marrow than mice infected with HTLV-1-WT or HTLV-1-p12stop in both models. (* indicates p value < 0.05; ** < 0.01; *** < 0.001, **** < 0.0001.)(In S1Aiii-S1Av Fig Wt-1 5, 6, p12-2,3,CTCF5,6,16,17 some data were not included due to less availability of sample, Raw data in and ).
+(PNG)
+S2 Fig
+
+## Infection of CD133+ humanized mice resulted in decrease in pathogenicity in HTLV-1-CTCF infected mice.
+Comparison of A) lymphocyte and B) neutrophil percentages in the peripheral blood in HTLV-1-WT, -p12stop and -CTCF infected mice at the time of necropsy. C) Blood smear of HTLV-1-WT infected mouse #5 at 8 weeks of infection with wbc count of 142,000/µl in which flower cells are evident. * indicates p value < 0.05.
+(PNG)
+S3 Fig
+
+## Repressed proviral loads in CD 34+ Hu-mice infected with HTLV-1-CTCF.
+Proviral load calculated as the ratio of proviral DNA to human DNA (quantitated by ddPCR) in peripheral blood obtained at 2.5 weeks post infection A) for each mouse in the study and B) as an average of each group. C) Average proviral load in blood, spleen, liver, and bone marrow cells of each group of infected mice at time of necropsy. * indicates p value < 0.05; ** < 0.01; *** < 0.001(For WT,p12 stop and CTCF mice some PVL not available for bone marrow due to sample limit, Refer to ).
+(PNG)
+S4 Fig
+
+## Proviral load in blood was decreased in HTLV-1 infected CD133+ Hu-mice when vCTCF-BS was deleted.
+Proviral load calculated as the ratio of proviral DNA to human DNA (quantitated by ddPCR) in peripheral blood of infected CD133 humanized mice obtained A) at 2.5 weeks and 5 weeks post infection and B) time of necropsy as an average of each group. C) A double-Y plot showing A significant correlation between the proviral load on left axis and survival in weeks post infection on the right axis for each CD133+ mouse infected with HTLV-1-CTCF. ** indicates p value lower than 0.01)(For PVL load at week time point in and , some samples data not available due to sample limitation, refer )
+(PNG)
+S5 Fig
+
+## Differential Cell Counts and Proviral loads in CD 34+ Hu-Mice.
+At the time of necropsy, complete blood count with differential was performed and proviral loads were determined on blood, spleen, liver, and bone marrow. A) Lymphocyte and neutrophil percentage in two groups of CTCF infected CD34 humanized mice and B). lymphocyte and neutrophil percentages in HTLV-1-WT, HTLV-1-p12stop and HTLV-1-CTCF infected mice. C) Comparison of Proviral loads in blood, spleen, liver in two groups of HTLV-1-CTCFmice with p12 stop infected mice at the time of necropsy. * indicates p value < 0.05; ** < 0.01; **** < 0.0001.(CTCF-5, 16, 17 mice not included in the grouping as we couldn’t obtain differential blood count; mouse dead before sample collection).
+(PNG)
+S6 Fig
+
+## Pathology of spleen, liver in infected CD34 hu-mice at time of necropsy- Enlarged view.
+Hematoxylin and Eosin staining (original magnification 20 X) of spleen showing infiltrating lymphocytes in spleen, in which mitosis can be observed in several cells (upper panel), and liver showing lymphoid infiltration into the periportal/ midzonal/ centrilobular region in the liver (lower panel). Spleen and liver from WT-5, p12-10 and CTCF-9 are shown as representative images to show lymphoid infiltration.
+(PNG)
+S7 Fig
+
+## Histopathological changes in spleen and liver of infected CD34+ Hu-mice.
+A. Hematoxylin and Eosin staining (original magnification 10 X) of spleen showing infiltrating lymphocytes in spleen (upper panel), and liver showing lymphoid infiltration into the periportal, midzonal and centrilobular region in the liver (lower panel). Infiltration of lymphoid cells are marked with arrow. B. IHC stain for human CD4 in patient samples as well as humanized mice infected with HTLV-1(original magnification 20 X). Controls for IHC include human tonsil, and samples from two patients who had HTLV-1-associated lymphoma, including a paratracheal lymph node (HTLV-patient 1) and sphenoid mass (HTLV-patient 2). The lower panel shows CD4 staining in HTLV-1-WT-5, HTLV-1-p12stop-10, and HTLV-1-CTCF-9 infected Hu-mice.
+(PNG)
+S8 Fig
+
+## Viral gene expression in human cells in spleen of CD34 humanized mice infected with HTLV-1-p12stop and HTLV-1-CTCF.
+Bam files visualized in IGV of reads from CellRanger 10x scRNAseq mapped to A) the HTLV-1 genome or, B) the human genome (ACTB gene). Samples of splenocytes were submitted for scRNAseq in two batches (indicated by name colors). Reads spanning splice junctions are indicated by arcs. Numbers for each arc indicate depth of splice-junction spanning reads. C) Sequence of HTLV-1-WT, HTLV-1-p12stop, and HTLV-1-CTCF virus at positions 6708–6737 of the viral genome and D) actual reads of viral transcripts expressed from infected splenoyctes demonstrating that 100% of expressed transcripts carry the correct nucleotide sequence and no reversion has occurred in vivo.
+(PNG)
+S9 Fig
+
+## Replacement of Tryptophan with Stop Codons in Envelope Transcripts in Infected Splenocytes from CD34 hu-mice.
+A) HTLV-1 proviral genome with magnification of the envelope gene (ENV; gp62) composed of the surface (SU; gp46) and transmembrane (TM; gp21) subunits and including the N-terminal signal peptide (S), the fusion peptide (F), the membrane spanning domain (T), and the cytoplasmic tail (C). The HTLV-1 envelope gene contains 13 tryptophan (W) residues, a cluster of three of which (W427, W431, W438) are near the membrane spanning region (G446-L464) of TM. B) Read coverage visualized using IGV of scRNAseq transcripts obtained from splenocytes of infected humanized mice show TAG (stop) codons in transcripts from CTCF-infected mice at position W427. Visualization of allele frequency threshold set at 0.2 These reads would be predicted to result in a truncated envelope protein lacking the membrane spanning region and the cytoplasmic tail but retaining the surface exposed receptor binding domains in SU and TM.
+(PNG)
+S10 Fig
+
+## Replacement of Tryptophan with Stop Codons in HTLV-1 DNA and RNA Obtained from Infected Splenocytes from CD34 hu-mice.
+Percent of HTLV-1 envelope transcripts (RNA reads detected by scRNAseq) or HTLV-1 envelope proviral sequences (DNA reads detected by PCR and sanger sequencing) in infected splenocytes in which tryptophan residues are replaced with termination codons.
+(PNG)
+S11 Fig
+
+## TCR+ Cells Express PTPRCAP and IFITM1.
+A. Volcano plots comparing gene expression in TCR+ cells to TCR- cells for two representative samples. Data points representing PTPRCAP and IFITM1 are shown in color. B. TSNE plots showing enrichment for PTPRCAP and IFITM1 among the CD3+ TCR+ population of cells. C. Table of average reads per cell of PTPRCAP and IFITM1 in CD3+ TCR+ cells vs. CD3+ TCR- cells in each sample with corresponding fold change and p value.
+(PNG)
+S12 Fig
+
+## Clonality Analysis.
+A) Calculation of the Gini index of the cumulative proportion of cells per clone in the cumulative proportion of clones for B) Each T cell subtype in each sample, or C. Each sample as a whole compared to the Shannon Diversity Index for each sample.
+(PNG)
+S13 Fig
+
+## Clonality analysis of infected mouse cells.
+DNA was isolated from the spleen of humanized mice infected with HTLV-1. Unique integration sites and GINI index were calculated after deep sequencing. Each integration site was indicated with different color on the pie graphs and the size of each piece represents the clone size (only showing the number of major clones). P12-4, P12-6, P12-3, P12-10 and CTCF-1, CTCF-8, CTCF-9 are two groups of mice infected with either P12 (wt control) or CTCF mutant virus respectively.
+(PNG)
+S14 Fig
+
+## Gene Expression in CD8 T cells.
+A) Volcano plots and B) String analysis of genes enriched in human CD8+ T cells among splenocytes in infected CD34 hu-mice.
+(PNG)
+S15 Fig
+
+## ALOX5AP Expression.
+A) The number of ALOX5AP+ and ALOX5AP- cells among TCR+ CD4+ and TCR+ CD8+ populations in each sample; the ratio of ALOX5AP+ to ALOX5AP- cells for each sample; normalized to CD4 for each sample; also depicted in graphical form. B) tSNE plots for the same ALOX5AP populations in each scRNAseq sample.
+(PNG)
+S16 Fig
+
+## Double Negative (DN) T cells Abundance and Gene Expression.
+A) Table and corresponding graph indicating the number of TCR+ CD4-CD8- cells in each sample. B) Volcano plots of gene expression in DN T cells in two representative samples.
+(PNG)
+S17 Fig
+
+## Variation of temporal expression of Tax in JET cells infected with HTLV-1-CTCF and -p12stop.
+729B cells producing equal amounts of HTLV-1-p12stop, or HTLV-1-CTCF virus were co-cultured with JET cells, carrying a Tax-dependent td tomato (RFP) indicator. In order to examine the time course of infection, co-cultured cells were placed in the IncuCyte and were observed for 5 days. A. The total red object count is shown for cells infected with HTLV-1-p12stop or -CTCF. B. The total red intensity per object in infected cells is shown. C. Graph showing infectivity of stable clones of 729B cells with HTLV-1-p12stop, or HTLV-1-CTCF when co-cultured with JULR cells which carries a luciferase reporter gene. Infectivity was measured after 48 hrs of co-culture by luciferase assay. JET cells co-cultured with JULR was used as negative control.(Error bar represents standard error in and ).
+(PNG)
+S1 Table
+
+## Raw data for all CD34+ humanized mice.
+(PDF)
+S2 Table
+
+## Raw data for all CD133+ humanized mice.
+(PDF)
+S3 Table
+
+## Raw data for CTCF infected mice grouped into HTLV-1-CTCF-A infection, or having absolute lymphocyte count greater than 400 cells/µl and HTLV-1-CTCF-B less than or equal to 400 cells/µl.
+(PDF)
+S4 Table
+
+## TCR V(D)J sequencing and subtyping.
+Columns include the number of individual cells within each clone for the ten most abundant clones in each sample; the V(D)J and CDR3 read for TRB and TRA for each clone; the T cell subtype of each clone (Treg, CD4, CD8, Double Positive); and the number of HTLV reads detected per clone.
+(PDF)
+
+## Acknowledgments
+We thank the Alvin J. Siteman Cancer Center at Washington University School of Medicine and Barnes-Jewish Hospital in St. Louis, MO. and the Institute of Clinical and Translational Sciences (ICTS) at Washington University in St. Louis, for the use of the Genome Technology Access Center, which provided scRNAseq services and support. ICTS is funded by the National Institutes of Health’s NCATS Clinical and Translational Science Award (CTSA) program grant #UL1 TR002345.
+
+## Data Availability
+The data that support the findings of this study is publicly available from SRA (Sequence Read Archive at the NCBI) with accession number PRJNA1246134.
+
+## Funding Statement
+This work was supported by National Cancer Institute grants to L.R. (R01 CA258359, R21 CA252869) and P.G. (P01 CA100730). The Siteman Cancer Center is supported in part by an NCI Cancer Center Support Grant CA091842. A.J, X.C, J.H., D.R. and L.R received salary support from R01 CA258359 and R21 CA252869. A.J., X.C., J.H., J.A-S., P.G. D.V., D.R. and L.R. received salary support from P01 CA100730. L.R. received salary support from NCI Cancer Center Support Grant CA091842. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+PLOS PathogensPLoS Pathog10.1371/journal.ppat.1012293.r001Author response to Decision Letter 0
+362025216e1012293e1012293Collection date 2025 Jun.
+
+29 May 2024
+
+PLOS PathogensPLoS Pathog10.1371/journal.ppat.1012293.r002Decision Letter 0
+KoupRichard ASection EditorBanghamCharles R MAcademic Editor© 2025 Koup, BanghamThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Dear Lee,
+Thank you very much for submitting your manuscript "Role of the CTCF Binding Site in Human T-Cell Leukemia Virus-1 Pathogenesis" for consideration at PLOS Pathogens. As with all papers reviewed by the journal, your manuscript was reviewed by members of the editorial board and by several independent reviewers. In light of the reviews (below this email), we would like to invite the resubmission of a significantly-revised version that takes into account the reviewers' comments.
+Thank you for your patience in awaiting feedback on your manuscript. We have now received comments from three reviewers. While all three found your results of interest, all also made a considerable number of comments and suggestions regarding the phrasing of the paper and, more substantially, the interpretation of the experimental results and the extent of the claims made.
+We cannot make any decision about publication until we have seen the revised manuscript and your response to the reviewers' comments. Your revised manuscript is also likely to be sent to reviewers for further evaluation.
+When you are ready to resubmit, please upload the following:
+[1] A letter containing a detailed list of your responses to the review comments and a description of the changes you have made in the manuscript. Please note while forming your response, if your article is accepted, you may have the opportunity to make the peer review history publicly available. The record will include editor decision letters (with reviews) and your responses to reviewer comments. If eligible, we will contact you to opt in or out.
+[2] Two versions of the revised manuscript: one with either highlights or tracked changes denoting where the text has been changed; the other a clean version (uploaded as the manuscript file).
+Important additional instructions are given below your reviewer comments.
+Please prepare and submit your revised manuscript within 60 days. If you anticipate any delay, please let us know the expected resubmission date by replying to this email. Please note that revised manuscripts received after the 60-day due date may require evaluation and peer review similar to newly submitted manuscripts.
+Thank you again for your submission. We hope that our editorial process has been constructive so far, and we welcome your feedback at any time. Please don't hesitate to contact us if you have any questions or comments.
+With best wishes,
+Charles
+Charles R M Bangham, ScD FRS
+Academic Editor
+PLOS Pathogens
+Richard Koup
+Section Editor
+PLOS Pathogens
+Michael Malim
+Editor-in-Chief
+PLOS Pathogens
+orcid.org/0000-0002-7699-2064
+***********************
+Thank you for your patience in awaiting feedback on your paper. We have now received comments from three reviewers. While all three found your results of interest, all also made a considerable number of comments and suggestions regarding the phrasing of the paper and, more substantially, the interpretation of the experimental results and the extent of the claims made.
+Reviewer's Responses to Questions
+
+Part I - Summary
+
+Please use this section to discuss strengths/weaknesses of study, novelty/significance, general execution and scholarship.
+Reviewer #1: In the present study, Joseph et al. investigate the in vivo role of the HTLV-1-CTCF binding site (vCTCF-BS), using 2 humanized mouse models.
+Infection was initiated with 729B cells transfected with: i) HTLV-1-WT, ii) HTLV-1-CTCF, which contains a provirus with a mutated vCTCF-BS, and a stop codon, which deletes the last 23 amino acids of p12, and iii) HTLV-1-p12stop, which contains the intact vCTCF-BS, but retains the same stop codon in p12.
+Based on their observations, the Authors suggest a key role of the CTCF binding site in HTLV-1 replication and pathogenicity in vivo.
+Reviewer #2: In Joseph et al, the authors assess the role of the HTLV-1 CTCF binding site in viral replication and pathogenesis in vivo using a humanized mouse model. Mutation of the vCTCF-BS delayed virus spread and delayed or abrogated lymphoproliferative disease in HTLV-1 infected Hu-mice. The data further suggest that loss of the vCTCF-BS results in significant effects on host gene expression and expansion of human T cell populations in vivo, including suppression of activity of CD8+ T-cells, and that the vCTCF-BS has dynamic regulation of HTLV-1 gene expression.
+Interestingly, previous in vitro studies carried out by the same group revealed that mutation of the vCTCF-BS did not disrupt the kinetics and levels of virus gene expression. Moreover, no effects on minus strand gene expression were seen in vitro.
+This is an interesting study for the field. It exploits humanized mouse models to unravel the role of a unique CTCF motif present in the HTLV-1 provirus on the regulation of both the host genome in which it integrates and the viral genome in vivo. A weakness of the study is that the impact of the viral CTCF on Tax expression was assessed in an in vitro model, while there was no evidence for this effect in Hu-mice in vivo.
+Reviewer #3: Joseph et al. present an investigation into the role of the viral CTCF binding site in a mutated virus that encodes a truncated p12 protein, in a humanised mouse model of infection and pathogenesis. Authors observe a number of markers that are consistent with reduced pathogenicity upon mutation of the CTCF binding site. The manuscript is very clearly written, and easy to follow. However, there are several confounding factors that make it difficult to interpret the data presented.
+**********
+
+Part II – Major Issues: Key Experiments Required for Acceptance
+
+Please use this section to detail the key new experiments or modifications of existing experiments that should be absolutely required to validate study conclusions.
+Generally, there should be no more than 3 such required experiments or major modifications for a "Major Revision" recommendation. If more than 3 experiments are necessary to validate the study conclusions, then you are encouraged to recommend "Reject".
+Reviewer #1: In general, the manuscript is written in a rather convoluted and, at points, confusing manner.
+Although addressing the relevant question of the importance of the CTCF in HTLV-1 infection in vivo, the study is weakened by several drawbacks.
+• The p12 stop codon and mutations introduced in the CTCF binding site also change amino acids in the viral regulatory protein p30 (80V to D; 83R to L) and truncate p8. The introduced mutations may also change HBZ non-coding RNA, which is known to be critical for T-cell immortalization. All these consideration make it difficult to pinpoint any of the observed differences solely to the function of the CTCF binding site. Consistent with this concern, in many of the analyses the p12stop virus seems to differ markedly from WT (e.g. Fig. 2).
+• Many of the differences are observed between HTLV-1-CTCF and p12 stop, but not WT (see Figs. 1 and 2).
+• In Fig. 2C the Bone Marrow plot should show a red bar for p12stop and a green bar for HTLV-1-CTCF. Was bone marrow analyzed in the WT virus group?
+• The 2 humanized models yield somewhat different results.
+• In the CD133 Hu model the experimental groups’ numerosity is not well matched (WT N=7, CTCF N=6, p12stop N=3). In the CD34 Hu model, the experimental groups’ numerosity is not indicated.
+• The scRNAseq image is of extremely poor quality, making it hard to interpret the results. In which cell subset did the Authors see HTLV-1 expression? In which cell types does HTLV-1 persist?
+• The Authors suggest that lack of CTCF results in delayed onset/smoldering disease. This statement needs to be validated by testing the expression levels (or function) of CTCF in samples form HC vs. smoldering or acute ATL.
+Reviewer #2: (No Response)
+Reviewer #3: Major Concerns
+● Authors state that the p12-stop mutant is comparable to WT virus in cellular assays. However, throughout this manuscript, there are many instances where the p12-stop mutant behaves differently to the WT virus, seemingly increasing the pathogenicity of HTLV-1. In line 145, authors attribute differences between wt and p12-stop to sampling errors, however a consistent trend seen throughout the manuscript suggests truncating p12 might indeed alter pathogenicity in HuMice, which is confounding. Other studies (PMID: 26929370) mutate the CTCF binding site without truncating p12. This mutant should also be included in the study, to control for both substitutions (as was a concern in previous work), and the truncation.
+● Line 172: While it is interesting that vCTCF BS mutant HuMice can be stratified into two groups that correlates with PVL, it is important to present this data much more comprehensively. In Fig. 4F, assignment of each mouse into group 1 or 2 needs to be explicitly marked, and in all panels in Fig 4. Data from WT and P12 controls needs to be included in all the main figure panels, especially as authors state that group 1 mice behave similarly to controls (line 176).
+● It would be interesting to know whether mice that stratify into two groups behave differently at early time points. Is the PVL consistently higher throughout the study? There are some datapoints in the vCTCF BS mutant mice that seem more comparable to controls, are these the group 1 mice? Given the variability seen in this condition, readers would benefit from a supplementary table, summarising each mouse used throughout the study, including information such as levels of human CD45+ cells, PVL at each time point, disease status, etc.
+● Proceeding to perform scRNA-seq on only group 2 vCTCF BS mutants biases for those with a low PVL and no markers of disease progression, and therefore analysis is confounded, and changes in gene expression or cell populations cannot be attributed to perturbation of CTCF binding alone. RNA-seq should be performed on group 1 samples as well, and should be matched with controls for equivalent PVL from both WT and p12-stop groups, to ascertain the effect of CTCF binding.
+● Representative data in Fig S4. is really informative. It looks as though there may be some heterogeneity in HTLV-1 transcript expression, as has been observed before. Is this the same for HTLV-1 expressing cells? The tSNE presented in Fig 5B should be presented for each sample as a supplementary figure and expanded to show the different transcripts (single spliced, double spliced, spliced HBZ) as was done in S10 for ALOX5AP expression, and Fig S4 A and B should be expanded to show genome browser tracks for all 7 samples.
+● Although the in vitro data presented in Fig 6. is really compelling, the model in Fig 7. is difficult to address while concerns around RNA-seq, and thus functional effects of abrogating viral CTCF binding in vivo, have not been resolved
+**********
+
+Part III – Minor Issues: Editorial and Data Presentation Modifications
+
+Please use this section for editorial suggestions as well as relatively minor modifications of existing data that would enhance clarity.
+Reviewer #1: n/a
+Reviewer #2: Main comments
+Introduction
+Tax is expressed intermittently in a small proportion of ATLL cells at any given time [4, 5].
+Is this consistently observed in any ATLL case? A proportion of ATLLs carry a tax-deficient provirus, either a mutation in the tax ORF that abolishes the transactivation or oncogenic potential of HTLV-1, or a 5’LTR-deficient provirus that has lost the capacity to express Tax. Did the authors examine nucleotide sequences of such proviruses, and is the CTCF consensus sequence conserved in these proviruses (> 30% of ATLLs).
+The authors use two distinct methods for humanizing NBSGW mice, intrahepatic injection of human cord blood CD34+ cells, and intratibial injection of CD133 progenitor cells. They describe the CD34+ model at the end of the introduction and refer to Fig 1A. This figure illustrates both the CD34- and CD133-driven models, CD133 being shown on top. It is confusing for the reader to have this figure in the introduction, while CD133 has not yet been described. We suggest to move the figure from the introduction section to Results, with CD34 on top, and CD133 at the bottom (invert).
+The reason for using the CD133 model is not clear. The results (line 122-134), although suggesting decreased pathogenicity of the CTCF infected mice, are obviously different, however the numbers insufficient for statistical analysis.
+Fig S3: p12stop infected mice (claimed to be the better control) do also have lower proviral loads. The p-values are estimated for CTCF versus wt-infected animals (3B) not CTCF versus p12stop.
+Monitoring disease: how is disease measured during the course of infection before death, are signs of disease only assessed by body weight loss (dropped by 20% or more of their initial body mass), or is this also based on cell counts in the blood? Do the mice die from the disease in some cases (line 166: succumbed from infection) or are they systematically euthanized according to the weight loss criteria indicated above? How do you distinguish between a benign lymphoproliferation and leukemia/lymphoma (malignant disease)? Is it correct that mice do never develop “leukemia” (acute ATLL in human) but only “lymphoma” (lymphoma-subtype ATLL in human)?
+Line 99: Mice were then inoculated intraperitoneally with …. An equal number of mice were also infected with HTLV-1 with the same mutation found in the HTLV-1-p12stop virus, as well as an additional mutation that abrogates the vCTCF-BS (HTLV-1-CTCF). Eight litters of mice were used to obtain a sufficient number of mice for statistically valid results, with similar numbers, sexes, and levels of CD34+ cells in mice within each litter allocated for infection with HTLV-1-WT, HTLV-1-p12stop, or HTLV-1-CTCF.
+Provide specific numbers for the CD34+ experiment. Numbers are given for the CD133 experiment (Infection with HTLV-1-CTCF (n=6) resulted in delayed onset of lymphoproliferative disease compared to mice infected with HTLV-1-WT (n=7) or HTLV-1-p12stop (n=3) (Figure S1A). For the main model, CD34+, how many animals in each group? Among each group, how many were assessed by scRNA-seq? How many are shown in the figures and how were they selected. Show data of remaining animals in Supplemental material.
+Example: How did the authors select the animals (7) examined by scRNA-seq? How many did develop lymphoproliferative disease in each group? In Fig S3, sequencing reads of 4 mice are illustrated in IGV while 7 mice have been sequenced. Do the three other samples have similar transcriptional patterns (provide the number of reads observed for each spicing type if not showing the reads in the figure)?
+Role in HTLV-1 pathogenesis:
+The stratification in CTCF-1: n=8 and CTCF-2: n=7
+Fig 4F illustrates the inverse correlation between PVL at 5 weeks and survival. 14/15 mice are shown, how did the 15th mouse behave? For each of the CTCF mice shown in Fig 4F, indicate to which category it belongs, CTCF-1 or CTCF-2.
+scRNA-seq transcriptional profiles: Fig 5B indicates color labels for CD4+, CD8+, CD25+ and TCR+ cells (clustering), it also indicates “T-cells” (blue label in the legend). Clarify how colors are used, and do they overlap? i.e. CD4+ cells are also TCR+ etc … Regarding viral reads in scRNA-seq data, the data were described earlier in the manuscript (line 155 and further). It feels confsing for the reader to have this described at two distinct places in the paper, especially that the first description does not mention the CTCF-2 distinction and that only these mice were used for scRNA-seq analysis.
+Transcriptional profiles: T cell clonality was high for all samples as revealed by Gini coefficient and Shanon Diversity index. This quantifies the clonal distribution in terms of TCR and does not discriminate between infected and uninfected T-cell clones. Providing a measure of HTLV-1 integration site distribution by assessing viral clonality using DNA of the same tissues will provide an estimate of the nature and relative integration site abundances even in low PVL animals.
+RNA-seq data and Supplementary table: while the TCR sequences are informative, HTLV-1 reads per clone are not a good proxy for the presence of the virus since many cells carrying the virus do not express viral genes, or do express these genes at a low level not detectable via scRNA-seq. Examining HTLV-1 clonality in these cells is technically possible and will define the viral IS landscape. Data can then be combined with TCR clonality (RNA, table) and the number of infected cells extrapolated via PVL values to provide a global T-cell/HTLV-1 clonality picture in CTCF versus p12stop animals.
+Role of CTCF on Tax expression
+Line 365: … support a potentially new discovery that CTCF regulates TAX in vivo.
+There is no evidence for this statement from this study in Hu-mice. scRNA-seq data did not reveal significant differences in Tax expression between CTCF and p12stop infected animals. This assumption is based on in vitro work, which, although elegant and convincing by itself in the Jet model system, does not confirm this effect in vivo. The authors may think about a design to better exploit scRNA-seq, i.e. perform scRNA-seq of the splenocytes (human lymphocytes) collected from the same Hu-mice ex vivo and after in vitro culture, or propose an in vivo experiment to assess this assumption.
+In the abstract: Overall, these findings indicate that the vCTCF-BS regulates Tax expression, proviral load, and HTLV pathogenicity in vivo. The effect on Tax expression in vivo was not demonstrated, therefore, this statement should be rephrased.
+scRNAseq:
+Information in the scRNA-seq paragraph of the Methods section is scarce and should be further explained. What was the viability of the cells used for scRNA-seq and how could the authors differentiate between viable mouse cells and viable human lymphocytes? Custom analysis: what does this mean, the type of analysis, how and why it was performed should be clarified.
+Figure 5: B: TSNE plots of a representative data set: clarify. A single animal? How was this animal selected? Line 201: Characteristics of predominant T cell clones, including CD4+, CD8+, Treg, and double CD4+CD8+ clones, varied in each sample. The six remaining datasets should be reported in Supplemental material.
+Minor comment:
+Line 218: “mice infected HTLV-1-CTCF-2 and HTLV-1-p12stop” -> mice infected WITH HTLV-1-CTCF-2 and HTLV-1-p12stop
+Reviewer #3: Minor Issues
+● If PVL was undetectable in many mice, particularly those harbouring CTCF mutant virus, how was infection confirmed?
+● Authors should state the rationale for using the two complementary methods for generating mice
+● Line 60: typo - pr instead of pro
+● Lines 75-77: CTCF’s role is oversimplified to the point where it is inaccurate. It primarily functions as an insulator protein, which acts by restraining cohesion mediated loop extrusion, and is associated with both transcriptional activation and repression of cellular genes.
+● Line 156: “Interestingly, unlike in infected cells in tissue culture [14], hbz transcripts were the most abundant viral mRNAs in infected splenocytes in vivo” and this is also unlike in individuals with HTLV-1 (PMID: 29062917, PMC4847349) however, it’s worth highlighting that individuals with ATL have higher levels of hbz transcripts, which is consistent with lymphoproliferative disease development seen in the Hu-mice
+● More detail is needed for Fig S9A. and S11B legend. Volcano plots are showing log2FC between what conditions?
+● Legend for Fig S4: causes confusion to say “BAM files of unmapped reads from a subset of 4 samples on IGV”, convention would be to say reads mapping to the HTLV-1 proviral genome
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean? ). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy .
+Reviewer #1: No
+Reviewer #2: No
+Reviewer #3: No
+
+Figure Files:
+
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email us at figures@plos.org.
+
+Data Requirements:
+
+Please note that, as a condition of publication, PLOS' data policy requires that you make available all data used to draw the conclusions outlined in your manuscript. Data must be deposited in an appropriate repository, included within the body of the manuscript, or uploaded as supporting information. This includes all numerical values that were used to generate graphs, histograms etc.. For an example see here on PLOS Biology: http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1001908#s5.
+
+Reproducibility:
+
+To enhance the reproducibility of your results, we recommend that you deposit your laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. Additionally, PLOS ONE offers an option to publish peer-reviewed clinical study protocols. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols
+PLOS PathogensPLoS Pathog10.1371/journal.ppat.1012293.r003Author response to Decision Letter 1
+362025216e1012293e1012293Collection date 2025 Jun.
+
+29 Mar 2025
+
+AttachmentSubmitted filename: Response to Critiques.26MAR2025.docx
+PLOS PathogensPLoS Pathog10.1371/journal.ppat.1012293.r004Decision Letter 1
+KoupRichard ASection EditorBanghamCharles R MAcademic Editor© 2025 Koup, BanghamThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Dear Lee,
+Thank you for submitting the revised manuscript, with the detailed point-by-point response to reviewers. We are pleased to inform you that your manuscript 'Role of the CTCF Binding Site in Human T-Cell Leukemia Virus-1 Pathogenesis' has been provisionally accepted for publication in PLOS Pathogens.
+Before your manuscript can be formally accepted you will need to complete some formatting changes, which you will receive in a follow up email. A member of our team will be in touch with a set of requests.
+Please note that your manuscript will not be scheduled for publication until you have made the required changes, so a swift response is appreciated.
+IMPORTANT: The editorial review process is now complete. PLOS will only permit corrections to spelling, formatting or significant scientific errors from this point onwards. Requests for major changes, or any which affect the scientific understanding of your work, will cause delays to the publication date of your manuscript.
+Should you, your institution's press office or the journal office choose to press release your paper, you will automatically be opted out of early publication. We ask that you notify us now if you or your institution is planning to press release the article. All press must be co-ordinated with PLOS.
+Thank you again for supporting Open Access publishing; we are looking forward to publishing your work in PLOS Pathogens.
+Best wishes,
+Charles
+Charles R M Bangham, ScD FRS
+Academic Editor
+PLOS Pathogens
+Richard Koup
+Section Editor
+PLOS Pathogens
+Sumita Bhaduri-McIntosh
+Editor-in-Chief
+PLOS Pathogens
+orcid.org/0000-0003-2946-9497
+Michael Malim
+Editor-in-Chief
+PLOS Pathogens
+orcid.org/0000-0002-7699-2064
+***********************************************************
+Reviewer Comments (if any, and for reference):
+Reviewer's Responses to Questions
+
+Part I - Summary
+
+Please use this section to discuss strengths/weaknesses of study, novelty/significance, general execution and scholarship.
+Reviewer #1: The authors have made an appreciable effort to improve the qualityt of their manuscript that is now acceptable for publication.
+Reviewer #2: The authors investigated the effects of the vCTCF-BS mutation in vivo using a humanized mouse model. Their findings highlight the critical role of CTCF binding to the HTLV-1 provirus in the dynamic regulation of viral replication and pathogenicity. Although one limitation of the study is that the temporal regulation of Tax expression by CTCF during the early stages of infection was assessed only in tissue culture models and has yet to be confirmed in vivo, this work overall supports a potentially novel discovery that CTCF regulates Tax expression.
+The revised manuscript is of high quality. The authors have addressed all my comments thoroughly and have clarified all previously unclear sections. I am satisfied with the new experiments performed, as well as the changes made to the main text and the new supplementary figures.
+Reviewer #4: Joseph et al. have provided a revised manuscript of their study into the in vivo role of the viral CTCF binding site, exploring viral replication, pathogenicity and cellular transcription upon mutating vCTCF-BS, alongside measuring the effect of vCTCF-BS on Tax expression in vitro in HEK293T cells. There is a lack of information and inconsistencies that make interpretation of the data, and therefore assessing the quality of this manuscript unfeasible.
+**********
+
+Part II – Major Issues: Key Experiments Required for Acceptance
+
+Please use this section to detail the key new experiments or modifications of existing experiments that should be absolutely required to validate study conclusions.
+Generally, there should be no more than 3 such required experiments or major modifications for a "Major Revision" recommendation. If more than 3 experiments are necessary to validate the study conclusions, then you are encouraged to recommend "Reject".
+Reviewer #1: none
+Reviewer #2: -
+Reviewer #4: - “Mice from each litter with at least 5% human CD45+ cells, were separated into groups based on levels of human CD45+ cells.”
+5% reconstitution is very low, most hu-mice studies (even in non-irradiated mice) are >> 5%. How was this cutoff decided and justified? It has impeded abilities to perform downstream analyses “HTLV-1-CTCF-B mouse could not be analyzed due to lack of adequate numbers of human cells” Reconstitution rates need to be included in the new supplementary tables, as this is important for interpreting results – eg. Are the mice that reconstituted poorly those that form group B?
+- Authors state in their revised manuscript:
+“Single cell RNAseq analysis was performed on HTLV-1-CTCF-A mice with the highest proviral loads (Figure 5). Sc RNAseq analysis performed on a HTLV-1-CTCF-B mouse could not be analyzed due to lack of adequate numbers of human cells. Levels of human cells in splenocytes of HTLV-1-CTCF-B mice were 4.5-fold lower than those in HTLV-1-CTCF1 mice (Fig 3E).”
+However in the first submission, analysis was performed on “3 HTLV-1-CTCF-2 (renamed to group B in the revised manuscript)” mice. Authors need to clarify why why Group 2 (now B) was analysed previously?
+In Figure S4 of the first submission CTCF-7 and CTCF-8 were included in group 2 (now B). In the revised manuscript CTCF-8 has been allocated to group A. Is this just a name change? Or have samples been changed? The counts have changed since the first submission, have these data been reanalysed?
+In authors response to reviewers "Response: Revised Fig S8 shows the transcripts in each of the 7 animals examined by scRNAseq. Fig S15 shows tSNE plots for each of the 7 animals."
+The reviewer requested variation in viral transcripts be presented for each individual animal, not ALOX5AP. This was requested to assess variation in detection of viral transcript expression. This should be included as supplemental information.
+"These data suggest that loss of the vCTCF-BS results in significant effects on gene expression and expansion of human T cell populations in vivo."
+This concluding statement is vague. Differences in gene expression discussed seem to be selected for discussion as genes of interest, rather than through a robust statistical analysis. Furthermore, the plots in figure S14 are variable and don't support the statements in text. And figure s16 shows only a single representative sample from each condition, again, this is not statistically robust. Either aggregate data for all replicated should be presented, or individual volcano plots for each mouse.
+**********
+
+Part III – Minor Issues: Editorial and Data Presentation Modifications
+
+Please use this section for editorial suggestions as well as relatively minor modifications of existing data that would enhance clarity.
+Reviewer #1: none
+Reviewer #2: -
+Reviewer #4: The analyses of the genomics data is unfocused, and unintegrated. There are interesting observations regarding say eg. the mutations acquired in the viral transcripts, and proviral integration site. However these data are mixed within the transcriptomics data, and are not integrated. It would be better to include these in a seperate analyses, not in the middle of the analysis of scRNAseq
+(Figure 11B) should read (Figure S11B)
+**********
+PLOS authors have the option to publish the peer review history of their article (what does this mean? ). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy .
+Reviewer #1: No
+Reviewer #2: No
+Reviewer #4: No
+PLOS PathogensPLoS Pathog10.1371/journal.ppat.1012293.r005Acceptance letter
+KoupRichard ASection EditorBanghamCharles R MAcademic Editor© 2025 Koup, BanghamThis is an open access article distributed under the terms of the Creative Commons Attribution License , which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Dear Dr. Ratner,
+We are delighted to inform you that your manuscript, "Role of the CTCF Binding Site in Human T-Cell Leukemia Virus-1 Pathogenesis," has been formally accepted for publication in PLOS Pathogens.
+We have now passed your article onto the PLOS Production Department who will complete the rest of the pre-publication process. All authors will receive a confirmation email upon publication.
+The corresponding author will soon be receiving a typeset proof for review, to ensure errors have not been introduced during production. Please review the PDF proof of your manuscript carefully, as this is the last chance to correct any scientific or type-setting errors. Please note that major changes, or those which affect the scientific understanding of the work, will likely cause delays to the publication date of your manuscript. Note: Proofs for Front Matter articles (Pearls, Reviews, Opinions, etc...) are generated on a different schedule and may not be made available as quickly.
+Soon after your final files are uploaded, the early version of your manuscript, if you opted to have an early version of your article, will be published online. The date of the early version will be your article's publication date. The final article will be published to the same URL, and all versions of the paper will be accessible to readers.
+Thank you again for supporting open-access publishing; we are looking forward to publishing your work in PLOS Pathogens.
+Best regards,
+Sumita Bhaduri-McIntosh
+Editor-in-Chief
+PLOS Pathogens
+orcid.org/0000-0003-2946-9497
+Michael Malim
+Editor-in-Chief
+PLOS Pathogens
+orcid.org/0000-0002-7699-2064
+Associated Data
+
+## Supplementary Materials
+S1 Fig
+
+## Infection of humanized mice resulted in decrease in pathogenicity in HTLV-1-CTCF infected mice.
+Mice humanized with CD34+ cells (A) or CD133+ cells (B) were infected with HTLV-1-WT, HTLV-1-p12stop, and HTLV-1-CTCF viruses for 12.5 weeks or when signs of viral pathogenesis were evident (20% weight loss and lethargy) and evaluated based on; i) survival, ii) spleen weight, iii) absolute lymphocyte count, iv) and human CD4+ lymphocyte count in blood, spleen, liver, and bone marrow. Mice infected with HTLV-1-CTCF had longer median survival, and fewer human CD4+ lymphocytes in spleen and bone marrow than mice infected with HTLV-1-WT or HTLV-1-p12stop in both models. (* indicates p value < 0.05; ** < 0.01; *** < 0.001, **** < 0.0001.)(In S1Aiii-S1Av Fig Wt-1 5, 6, p12-2,3,CTCF5,6,16,17 some data were not included due to less availability of sample, Raw data in and ).
+(PNG)
+S2 Fig
+
+## Infection of CD133+ humanized mice resulted in decrease in pathogenicity in HTLV-1-CTCF infected mice.
+Comparison of A) lymphocyte and B) neutrophil percentages in the peripheral blood in HTLV-1-WT, -p12stop and -CTCF infected mice at the time of necropsy. C) Blood smear of HTLV-1-WT infected mouse #5 at 8 weeks of infection with wbc count of 142,000/µl in which flower cells are evident. * indicates p value < 0.05.
+(PNG)
+S3 Fig
+
+## Repressed proviral loads in CD 34+ Hu-mice infected with HTLV-1-CTCF.
+Proviral load calculated as the ratio of proviral DNA to human DNA (quantitated by ddPCR) in peripheral blood obtained at 2.5 weeks post infection A) for each mouse in the study and B) as an average of each group. C) Average proviral load in blood, spleen, liver, and bone marrow cells of each group of infected mice at time of necropsy. * indicates p value < 0.05; ** < 0.01; *** < 0.001(For WT,p12 stop and CTCF mice some PVL not available for bone marrow due to sample limit, Refer to ).
+(PNG)
+S4 Fig
+
+## Proviral load in blood was decreased in HTLV-1 infected CD133+ Hu-mice when vCTCF-BS was deleted.
+Proviral load calculated as the ratio of proviral DNA to human DNA (quantitated by ddPCR) in peripheral blood of infected CD133 humanized mice obtained A) at 2.5 weeks and 5 weeks post infection and B) time of necropsy as an average of each group. C) A double-Y plot showing A significant correlation between the proviral load on left axis and survival in weeks post infection on the right axis for each CD133+ mouse infected with HTLV-1-CTCF. ** indicates p value lower than 0.01)(For PVL load at week time point in and , some samples data not available due to sample limitation, refer )
+(PNG)
+S5 Fig
+
+## Differential Cell Counts and Proviral loads in CD 34+ Hu-Mice.
+At the time of necropsy, complete blood count with differential was performed and proviral loads were determined on blood, spleen, liver, and bone marrow. A) Lymphocyte and neutrophil percentage in two groups of CTCF infected CD34 humanized mice and B). lymphocyte and neutrophil percentages in HTLV-1-WT, HTLV-1-p12stop and HTLV-1-CTCF infected mice. C) Comparison of Proviral loads in blood, spleen, liver in two groups of HTLV-1-CTCFmice with p12 stop infected mice at the time of necropsy. * indicates p value < 0.05; ** < 0.01; **** < 0.0001.(CTCF-5, 16, 17 mice not included in the grouping as we couldn’t obtain differential blood count; mouse dead before sample collection).
+(PNG)
+S6 Fig
+
+## Pathology of spleen, liver in infected CD34 hu-mice at time of necropsy- Enlarged view.
+Hematoxylin and Eosin staining (original magnification 20 X) of spleen showing infiltrating lymphocytes in spleen, in which mitosis can be observed in several cells (upper panel), and liver showing lymphoid infiltration into the periportal/ midzonal/ centrilobular region in the liver (lower panel). Spleen and liver from WT-5, p12-10 and CTCF-9 are shown as representative images to show lymphoid infiltration.
+(PNG)
+S7 Fig
+
+## Histopathological changes in spleen and liver of infected CD34+ Hu-mice.
+A. Hematoxylin and Eosin staining (original magnification 10 X) of spleen showing infiltrating lymphocytes in spleen (upper panel), and liver showing lymphoid infiltration into the periportal, midzonal and centrilobular region in the liver (lower panel). Infiltration of lymphoid cells are marked with arrow. B. IHC stain for human CD4 in patient samples as well as humanized mice infected with HTLV-1(original magnification 20 X). Controls for IHC include human tonsil, and samples from two patients who had HTLV-1-associated lymphoma, including a paratracheal lymph node (HTLV-patient 1) and sphenoid mass (HTLV-patient 2). The lower panel shows CD4 staining in HTLV-1-WT-5, HTLV-1-p12stop-10, and HTLV-1-CTCF-9 infected Hu-mice.
+(PNG)
+S8 Fig
+
+## Viral gene expression in human cells in spleen of CD34 humanized mice infected with HTLV-1-p12stop and HTLV-1-CTCF.
+Bam files visualized in IGV of reads from CellRanger 10x scRNAseq mapped to A) the HTLV-1 genome or, B) the human genome (ACTB gene). Samples of splenocytes were submitted for scRNAseq in two batches (indicated by name colors). Reads spanning splice junctions are indicated by arcs. Numbers for each arc indicate depth of splice-junction spanning reads. C) Sequence of HTLV-1-WT, HTLV-1-p12stop, and HTLV-1-CTCF virus at positions 6708–6737 of the viral genome and D) actual reads of viral transcripts expressed from infected splenoyctes demonstrating that 100% of expressed transcripts carry the correct nucleotide sequence and no reversion has occurred in vivo.
+(PNG)
+S9 Fig
+
+## Replacement of Tryptophan with Stop Codons in Envelope Transcripts in Infected Splenocytes from CD34 hu-mice.
+A) HTLV-1 proviral genome with magnification of the envelope gene (ENV; gp62) composed of the surface (SU; gp46) and transmembrane (TM; gp21) subunits and including the N-terminal signal peptide (S), the fusion peptide (F), the membrane spanning domain (T), and the cytoplasmic tail (C). The HTLV-1 envelope gene contains 13 tryptophan (W) residues, a cluster of three of which (W427, W431, W438) are near the membrane spanning region (G446-L464) of TM. B) Read coverage visualized using IGV of scRNAseq transcripts obtained from splenocytes of infected humanized mice show TAG (stop) codons in transcripts from CTCF-infected mice at position W427. Visualization of allele frequency threshold set at 0.2 These reads would be predicted to result in a truncated envelope protein lacking the membrane spanning region and the cytoplasmic tail but retaining the surface exposed receptor binding domains in SU and TM.
+(PNG)
+S10 Fig
+
+## Replacement of Tryptophan with Stop Codons in HTLV-1 DNA and RNA Obtained from Infected Splenocytes from CD34 hu-mice.
+Percent of HTLV-1 envelope transcripts (RNA reads detected by scRNAseq) or HTLV-1 envelope proviral sequences (DNA reads detected by PCR and sanger sequencing) in infected splenocytes in which tryptophan residues are replaced with termination codons.
+(PNG)
+S11 Fig
+
+## TCR+ Cells Express PTPRCAP and IFITM1.
+A. Volcano plots comparing gene expression in TCR+ cells to TCR- cells for two representative samples. Data points representing PTPRCAP and IFITM1 are shown in color. B. TSNE plots showing enrichment for PTPRCAP and IFITM1 among the CD3+ TCR+ population of cells. C. Table of average reads per cell of PTPRCAP and IFITM1 in CD3+ TCR+ cells vs. CD3+ TCR- cells in each sample with corresponding fold change and p value.
+(PNG)
+S12 Fig
+
+## Clonality Analysis.
+A) Calculation of the Gini index of the cumulative proportion of cells per clone in the cumulative proportion of clones for B) Each T cell subtype in each sample, or C. Each sample as a whole compared to the Shannon Diversity Index for each sample.
+(PNG)
+S13 Fig
+
+## Clonality analysis of infected mouse cells.
+DNA was isolated from the spleen of humanized mice infected with HTLV-1. Unique integration sites and GINI index were calculated after deep sequencing. Each integration site was indicated with different color on the pie graphs and the size of each piece represents the clone size (only showing the number of major clones). P12-4, P12-6, P12-3, P12-10 and CTCF-1, CTCF-8, CTCF-9 are two groups of mice infected with either P12 (wt control) or CTCF mutant virus respectively.
+(PNG)
+S14 Fig
+
+## Gene Expression in CD8 T cells.
+A) Volcano plots and B) String analysis of genes enriched in human CD8+ T cells among splenocytes in infected CD34 hu-mice.
+(PNG)
+S15 Fig
+
+## ALOX5AP Expression.
+A) The number of ALOX5AP+ and ALOX5AP- cells among TCR+ CD4+ and TCR+ CD8+ populations in each sample; the ratio of ALOX5AP+ to ALOX5AP- cells for each sample; normalized to CD4 for each sample; also depicted in graphical form. B) tSNE plots for the same ALOX5AP populations in each scRNAseq sample.
+(PNG)
+S16 Fig
+
+## Double Negative (DN) T cells Abundance and Gene Expression.
+A) Table and corresponding graph indicating the number of TCR+ CD4-CD8- cells in each sample. B) Volcano plots of gene expression in DN T cells in two representative samples.
+(PNG)
+S17 Fig
+
+## Variation of temporal expression of Tax in JET cells infected with HTLV-1-CTCF and -p12stop.
+729B cells producing equal amounts of HTLV-1-p12stop, or HTLV-1-CTCF virus were co-cultured with JET cells, carrying a Tax-dependent td tomato (RFP) indicator. In order to examine the time course of infection, co-cultured cells were placed in the IncuCyte and were observed for 5 days. A. The total red object count is shown for cells infected with HTLV-1-p12stop or -CTCF. B. The total red intensity per object in infected cells is shown. C. Graph showing infectivity of stable clones of 729B cells with HTLV-1-p12stop, or HTLV-1-CTCF when co-cultured with JULR cells which carries a luciferase reporter gene. Infectivity was measured after 48 hrs of co-culture by luciferase assay. JET cells co-cultured with JULR was used as negative control.(Error bar represents standard error in and ).
+(PNG)
+S1 Table
+
+## Raw data for all CD34+ humanized mice.
+(PDF)
+S2 Table
+
+## Raw data for all CD133+ humanized mice.
+(PDF)
+S3 Table
+
+## Raw data for CTCF infected mice grouped into HTLV-1-CTCF-A infection, or having absolute lymphocyte count greater than 400 cells/µl and HTLV-1-CTCF-B less than or equal to 400 cells/µl.
+(PDF)
+S4 Table
+
+## TCR V(D)J sequencing and subtyping.
+Columns include the number of individual cells within each clone for the ten most abundant clones in each sample; the V(D)J and CDR3 read for TRB and TRA for each clone; the T cell subtype of each clone (Treg, CD4, CD8, Double Positive); and the number of HTLV reads detected per clone.
+(PDF)
+AttachmentSubmitted filename: Response to Critiques.26MAR2025.docx
+
+## Data Availability Statement
+The data that support the findings of this study is publicly available from SRA (Sequence Read Archive at the NCBI) with accession number PRJNA1246134.

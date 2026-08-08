@@ -1,0 +1,863 @@
+Nat Cell BiolNat. Cell Biol.358wtpa100890575Nature cell biology1465-73921476-4679pmc-is-collection-domainyespmc-collection-titleUKPMC Funders Author ManuscriptsPMC7212045PMC7212045.172120457212045EMS859823225139910.1038/s41556-020-0504-1EMS85982WTPA85982WTMS85982UKMS859821ArticleLSM2-8 and XRN-2 contribute to the silencing of H3K27me3-marked genes
+through targeted RNA decay
+MattoutAnna Friedrich Miescher Institute for Biomedical Research,
+Maulbeerstrasse 66, CH-4058 Basel, Switzerland; Université Paul
+Sabatier- CNRS UMR 5088, Toulouse FranceGaidatzisDimosPadekenJanSchmidChristophFriedrich Miescher Institute for Biomedical Research, Maulbeerstrasse
+66, CH-4058 Basel, SwitzerlandAeschlimannFlorian Friedrich Miescher Institute for Biomedical Research,
+Maulbeerstrasse 66, CH-4058 Basel, Switzerland; Faculty of Natural Sciences,
+University of Basel, Basel, SwitzerlandKalckVéroniqueFriedrich Miescher Institute for Biomedical Research,
+Maulbeerstrasse 66, CH-4058 Basel, SwitzerlandGasserSusan M.http://orcid.org/0000-0003-3610-9123 Friedrich Miescher Institute for Biomedical Research,
+Maulbeerstrasse 66, CH-4058 Basel, Switzerland; Faculty of Natural Sciences,
+University of Basel, Basel, Switzerland*Correspondence to: Susan M. Gasser
+susan.gasser@fmi.ch#current address: Université Paul Sabatier- CNRS UMR 5088, 118
+Route de Narbonne, 31062 Toulouse, France
++University of Basel, Faculty of Science, Klingelbergstrasse 70,
+CH-4056 Basel, Switzerland
+0642020520202253574165795900603202006102020061020201205202016062024Users may view, print, copy, and download text and data-mine the content in such documents, for the purposes of academic research, subject always to the full Conditions of use:http://www.nature.com/authors/editorial_policies/license.html#terms
+
+## Summary
+In fission yeast and plants, RNA-processing and degradation contribute to
+heterochromatin silencing, alongside conserved pathways of transcriptional
+repression. It was unknown if similar pathways exist in metazoans. Here we
+describe a pathway of silencing in C. elegans somatic cells, in
+which the highly conserved RNA binding complex LSM2-8 contributes selectively to
+the repression of heterochromatic reporters and endogenous genes bearing the
+Polycomb mark, histone H3K27me3. It acts by degrading selected transcripts
+through the XRN-2 exoribonuclease. Disruption of the LSM2-8 pathway leads to
+mRNA stabilization. Unlike previously described pathways of heterochromatic RNA
+degradation, LSM2-8-mediated RNA degradation does not require nor deposit H3K9
+methylation. Rather, loss of this pathway coincides with a localized reduction
+in H3K27me3 at lsm-8-sensitive loci. Thus, we have uncovered a
+mechanism of RNA degradation that selectively contributes to the silencing of a
+subset of H3K27me3-marked genes, revealing a previously unrecognized layer of
+post-transcriptional control in metazoan heterochromatin.
+
+LSM8XRN2RNA degradationPolycombPRC2mes-2C. elegansHeterochromatin silencingH3K27me3epigeneticsLSM complexpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptyespmc-prop-open-manuscriptyespmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyes
+
+## Introduction
+Organization of genomic DNA into highly condensed, dark-staining
+heterochromatin correlates with reduced gene expression – .
+Heterochromatin is generally classified as either constitutive or facultative.
+Trimethylation of histone H3 lysine 9 (H3K9me3) typifies constitutive
+heterochromatin, and is highly enriched on repetitive elements , . Polycomb-mediated trimethylation of H3K27 is the hallmark of
+facultative heterochromatin, and silences genes in response to temporal and spatial
+conditions , . Both are thought to act primarily
+by repressing transcription, although pathways that silence post-transcriptionally
+have been documented in fission yeast and plants , .
+Transcription and noncoding RNAs are implicated in the establishment of
+H3K9me3-mediated repression in fission yeast , , either through the
+RNAi machinery and the RITS complex ,
+ , , or through, RNAi-independent RNA degradation via the
+exosome . This latter
+mechanism was later extended to heterochromatic repeat silencing in
+Drosophila ,
+and centromeric and pericentromeric repression in
+Arabidopsis ,
+ . In S.
+pombe, multiple RNA associated factors promote H3K9me2/3 silencing in a
+partially redundant manner, including HP1(Swi6) , Red1 and Mmi1 – , Pla1 and
+Pab2 , , and Dhp1/Xrn2 , . To date no
+compelling parallel has been reported for facultative (e.g.,
+Polycomb) repression of genes in animals, although the Polycomb repressive complex 2
+has been shown to bind RNA , .
+Using a genome-wide RNAi screen to identify repressors of an integrated
+heterochromatic reporter in C. elegans embryos, we identified 29
+validated hits ( ). Although most were chromatin
+modifiers, three were subunits of RNA-binding Like-SM (LSM) complexes
+(gut-2/lsm-2, lsm-5 and lsm-6) . The C. elegans
+LSM proteins share up to 94% homology with their human counterparts ( ), and are found across all
+species in two LSM complexes, one cytoplasmic (LSM1-7) and one nuclear
+(LSM2-8) – . Both are implicated in RNA
+metabolism; LSM1-7 complex partners with decapping enzymes to render mRNA sensitive
+to the 5' to 3' XRN-1 exonuclease, while the LSM2-8 complex stabilizes
+U6 snRNA and promotes nuclear RNA decay in yeast , .
+RNAi against the C elegans lsm-2, lsm-5 and
+lsm-6 genes led to robust derepression of the heterochromatic
+reporter pkIs1582 in worm embryos ( ).
+This integrated reporter array bearing histone H3K9me2/3 and H3K27me3 contains 200
+to 300 copies of a GFP-encoding reporter under control of a ubiquitously active
+promoter (let-858p::gfp) , , , . Loss
+of either of the two H3K9 methyltransferases (MET-2, SET-25) or of the EZH2 homolog,
+MES-2, derepressed this reporter .
+We now show that the LSM2-8 complex contributes to Polycomb-mediated
+silencing at all developmental stages and in all somatic cells. LSM2-8 works through
+XRN-2 to mediate post-transcriptional RNA decay, selectively targeting transcripts
+that arise from endogenous genes bearing H3K27me3. The LSM1-7 complex is not
+involved. The level of H3K27me3 on these LSM8-sensitive loci drops
+in animals lacking lsm-8, suggesting a feedback loop in which
+LSM2-8 serves as an intermediary that triggers the degradation of transcripts
+arising specifically from Polycomb-marked genes, concomitantly enhancing the
+repressive chromatin state. This argues that the nuclear degradation of transcripts
+from H3K27me3-marked genes can supplement the transcriptional repression mediated by
+this mark.
+
+## Results
+
+## LSM proteins selectively silence heterochromatic reporters throughout somatic
+differentiation
+We first extended the initial observations of Towbin et
+al. by
+analyzing repression of the heterochromatic reporter pkIs1582
+throughout C. elegans development ( ; ). Following RNAi against lsm-2, lsm-5 and
+lsm-6, we found the reporter-encoded GFP to be robustly
+derepressed at all stages, including embryos, L1 to L4 larval stages and adult
+worms ( , ). GFP levels were elevated in nearly
+every somatic cell type.
+The ubiquitous derepression of the reporter allowed quantification of
+GFP expression by flow cytometry, generating robust population-wide
+measurements. These confirmed a statistically significant up-regulation of GFP
+in L1 larvae following RNAi for lsm-2, lsm-5 and
+lsm-6 and for the positive control
+mes-4 , relative to the L4440/mock control RNAi ( ). To ask whether the
+derepression depended on sequence characteristics of the reporter, we monitored
+the effect of lsm RNAi on the expression of four different
+heterochromatic reporters each with a unique combination of promoter, reporter
+gene (encoding GFP or mCherry), 3’ UTR, site of integration and basal
+expression level ( , ). All the
+heterochromatic reporters showed significant derepression ( , ). In contrast, none of the two euchromatic reporters (single
+copy transgenes integrated into a non-heterochromatic genomic region) with
+either low or high expression level, showed any change in expression following
+lsm RNAi ( ,
+ , ). We concluded
+that neither the sequence of the reporter, nor basal expression level correlated
+with lsm sensitivity, yet LSM proteins contributed specifically
+to the repression of reporters with heterochromatic, but not euchromatic,
+features.
+We further confirmed that the increased expression following
+lsm RNAi is due to changes in mRNA level, and not altered
+protein synthesis or turnover, by scoring gfp mRNA levels from
+let-858p::gfp/GW306 and eft-3p::gfp/GW1108
+by qPCR. The heterochromatic let-858p::gfp reporter showed
+higher steady-state levels of gfp mRNA following
+lsm-6 and lsm-7 RNAi, while the
+euchromatic eft-3p::gfp mRNA was unchanged ( ). Thus, LSM factors silence
+exclusively reporters with heterochromatic features by altering mRNA levels,
+both during and after somatic cell differentiation.
+
+## RNAi implicates LSM2-7 and XRN-2, but not LSM-1 and XRN-1, in reporter
+repression
+The LSM proteins 2 through 7 are shared by two related complexes: the
+cytoplasmic LSM1-7 complex and the nuclear LSM2-8 complex ( ). LSM1-7 acts together with the
+5’→3’exoribonucleases, XRN-1 and the decapping enzymes
+DCAP-1 and DCAP-2 to mediate cytoplasmic RNA decay, while LSM2-8 was suggested
+to work with the nuclear 5’→3’exoribonuclease
+XRN-2 . To determine
+which LSM complex contributes to heterochromatic gene silencing, we compared
+reporter derepression levels after RNAi against lsm-1, the only
+unique LSM1-7 subunit, with that against shared subunits, lsm-4
+and lsm-7. Strong derepression was scored upon knockdown of
+lsm-4 and lsm-7, while the down-regulation
+of lsm-1 RNAi had no effect ( ). We confirmed that RNAi efficiency was similar for
+lsm-1 and lsm-7 ( ). In addition, RNAi against LSM1-7-
+associated factors, dcap-2 and xrn-1, failed
+to provoke heterochromatic reporter derepression, while RNAi against
+xrn-2 did ( ).
+
+## Deletion of lsm-8 leads to derepression, while
+lsm-1 or dacp-2 deletions do not
+These RNAi results implicated LSM2-8, but not LSM1-7, in silencing. To
+confirm this, we first generated a full lsm-8 deletion by
+CRISPR/Cas9. We replaced the lsm-8 locus with a red fluorescent
+marker gene with pharynx-specific expression, through which we could track the
+null allele through development ( ). To stably maintain the lsm-8 deletion, it
+required the nT1[qIs51] balancer, which expresses a GFP marker
+in the pharynx. This allowed us to sort homozygous from heterozygous worms:
+heterozygous lsm-8+/- worms have both red and green
+pharyngeal fluorescence, while homozygous lsm8-/-
+worms express only the red marker ( ).
+We found that lsm-8-/- animals developed to
+adulthood and that gonad formation was similar to wild-type larvae up through
+the L4 stage ( ).
+However, adult homozygous mutants were 100% sterile, since gonads in
+lsm-8 -/- young adults became abnormal and
+failed to support oocyte maturation (no oocytes; ). Moreover, adult mutants had protruding vulva
+phenotype ( ), empty cavities or
+vacuoles in differentiated tissues, and died prematurely after 6 days as adults
+( ). Worms lacking
+lsm-2 or lsm-5 were phenotypically similar
+to lsm-8-/- mutants ( ), unlike lsm-1
+mutants .
+We then monitored expression from the integrated heterochromatic
+reporter pkIs1582 in lsm-8 null animals.
+Derepression was equivalent to that scored after lsm-7 RNAi and
+was not seen in heterozygous lsm-8+/- animals ( ). To confirm specificity for the
+LSM2-8 complex, we obtained and backcrossed animals bearing homozygous genomic
+deletions of lsm-1 or dcap-2, with the
+pkIs1582 reporter strain. The
+lsm-8-/- larvae had stronger nuclear GFP
+expression compared to the WT background level, reflecting reporter
+derepression. lsm-1 and dcap-2 deficient
+animals did not ( ). Thus, the loss
+of heterochromatic silencing stems exclusively from loss of a functional LSM2-8
+complex.
+Given the sterility in the lsm-8-/- animals,
+we investigated the heterochromatic reporter derepression in the gonad.
+pkIs1582 was derepressed in the somatic gonadal cells
+(distal tip cell, gonadal sheath, and spermathecal cells, ), as in nearly every somatic cell of
+the lsm-8-/- L4 larvae, or after
+lsm-7 RNAi. In contrast, the germline itself (germ cells,
+ ) had no sign of
+reporter derepression. We tested redundancy with the piRNA pathway, which
+mediates germline specific silencing , but the coupling of
+lsm8-/- with RNAi against the piRNA-related
+factor, csr-1 showed no germline GFP expression ( ). Thus, the LSM2-8
+effect is detectable primarily in somatic cells.
+
+## LSM2-8 is required to maintain silent endogenous heterochromatin
+To see if the lsm-8-/- mutation induces
+changes in endogenous transcript levels, we performed a strand-specific total
+RNA-seq on WT and homozygous lsm-8-/- sorted L3
+larvae ( ). We compared the effect of
+LSM2-8 with that of the H3K9me-deficient met-2-/-
+set-25-/- mutant , , or of the triple met-2-/-
+set-25-/-; lsm-8-/- mutant, to determine
+if the two silencing pathways (LSM2-8 and the classic H3K9me heterochromatin
+repression) are epistatic or additive. For each genotype, worms were sorted by
+fluorescence and by size, to generate uniform populations of L3 stage larvae
+( ). Developmental
+timing was determined (see ) using
+the characteristic temporal fluctuation of a subset of somatic genes as markers
+for synchrony . Shifts
+between replicates of 1-2 h were detected, reflecting variation in the time
+required for sorting. To minimize the effect of developmental shifts, we
+performed a comparative analysis on samples from the four genotypes for which
+the developmental timing was best matched ( ).
+Deletion of lsm-8 resulted in the up-regulation of
+transcripts of 122 genes (false discovery rate (FDR) <0.05 and fold
+change (Fc) >4), while only 9 genes were down-regulated ( ). Using less stringent cut-off values
+(Fc >2), there were 1332 genes selectively up-regulated in
+lsm-8-/- larvae ( ). A similar
+trend for up-regulation and down-regulation was observed upon loss of
+met-2 set-25, and 36% of the derepressed genes overlapped
+between the two mutants ( ; yellow
+shading). We confirmed that the gene expression changes in lsm-8
+-/- L3 larvae (or in other mutants) did not reflect
+the slight differences in developmental timing between samples ( ).
+We found large subsets of derepressed genes that were up-regulated
+exclusively in the lsm-8-/- or in the
+met-2-/- set-25-/- mutant,
+suggesting that LSM2-8 and H3K9me repression pathways are at least partially
+independent ( , blue and pink
+shading, ).
+Consistently, the triple mutant had the largest number of genes strongly
+derepressed (367 genes, FDR <0.05 and Fc >4, vs
+122 and 219; , ), indicating
+additivity. Moreover, both pathways seems to work in parallel for commonly
+regulated genes. To illustrate this additivity, we selected a group of genes
+that were mildly up-regulated by either lsm 8-/- or
+met-2-/- set-25-/- (Fc <2;
+red boxed area in ) but highly
+derepressed Fc>4 in the triple mutant (orange dots). GFP expression from
+the heterochromatic reporter, which bears both H3K9me3 and H3K27me3, showed
+again additivity in the triple mutant ( ). Together this suggests that the LSM2-8 pathway of silencing is
+distinct from the H3K9me-mediated repression, although some genes, like the
+array-borne gfp reporter, are silenced by both pathways. This
+phenotypic additivity extends beyond gene silencing. Unlike the adult lethality
+at 6-10 days in lsm 8-/-, when the mutations were
+combined, early lethality was strongly enhanced ( ), arguing that LSM and H3K9me function on parallel
+pathways.
+
+## Over 93% of LSM2-8 silenced genes bear H3K27 trimethylation
+Given the selectivity of the LSM2-8 pathway for heterochromatic
+reporters, we examined whether the genes up-regulated by
+lsm-8-/- share a common set of histone
+modifications. We plotted our L3 RNA-seq data against the normalized ChIP-seq
+data generated by ModEncode for common histone modifications ( , ). In L3 larvae,
+as in most organisms, H3K4me2, H3K4me3, and H3K27ac are associated with active
+genes , , ,
+while H3K9me2/3 and H3K27me3 generally co-localized with
+heterochromatin , . The genes silenced by LSM2-8,
+derepressed in the lsm-8-/- mutant (Fc>4 and
+FDR<0.05), were depleted for active marks and for H3K9me1 in WT L3 larvae
+( ; ), but were almost exclusively
+enriched for the repressive Polycomb mark, H3K27me3. Over 95% of the genes that
+were derepressed in the lsm-8-/- mutant were
+enriched for H3K27me3 ( ). This was
+true not only for the genes that met the stringent cut-off values (Fc>4
+and FDR <0.05), but also for genes mildly up-regulated
+(2<Fc<4) in lsm-8-/- ( , ). In
+contrast, only 20% of the lsm-8-/- targets carried
+H3K9me2, matching the genome-wide distribution of H3K9me2 on genes I L3 larvae
+( ). Approximately 40% of LSM-8
+target genes bore H3K9me3, and importantly 100% of those also carry H3K27me3
+( , ). This is
+similar to the level of overlap reported for H3K27me3 and H3K9me3 in L3 larvae
+in C.elegans .
+Consistent with its role in Polycomb-mediated repression , – , we
+found that most of the genes that are significantly up-regulated by
+lsm-8-/-, are genes that have very low
+steady-state expression levels in WT worms ( ). lsm-8-sensitive genes were not enriched on
+chromosomal arms nor depleted from chromosome cores ( ), unlike H3K9me3-repressed repeats
+ . Other types of
+repression at the L3 stage, mediated by the Rb-like repressor, LIN-35, or the
+PRG-1/PIWI pathway, repressed genes that were not enriched for H3K27me3 ( ). Together, this
+argues strongly that LSM2-8 selectively silences endogenously H3K27me3-marked
+genes.
+To assess whether LSM2-8 targets H3K27me3-marked genes in other
+developmental stages than L3 larvae, we performed total RNA-seq on synchronized
+and sorted WT and homozygous lsm-8-/- at the L1
+larval stage. The lsm-8-/- mutation led to the
+up-regulation of transcripts of 151 genes (FDR <0.05 and Fc >4;
+1501 genes at Fc >2), while 59 genes were down-regulated ( , ).
+Importantly, lsm-8-sensitive genes were again significantly
+depleted for euchromatic histone marks, while 93% of the
+lsm-8-sensitive genes were enriched for H3K27me3 ( , ).
+Consistent with the engagement of Polycomb in cell-type or
+stage-specific gene repression ,
+ – , we find that in L3 larvae
+lsm-8-sensitive genes are enriched for genes involved in
+the innate immune response, body morphogenesis and cell shape regulation ( ). These
+processes are regulated by Polycomb in other species as well. Interestingly, the
+22 genes that are up-regulated in lsm-8-/- at both
+L1 and L3 larval stages are involved in innate immunity ( ).
+
+## HOX gene silencing by LSM2-8 is cell-type specific
+In C. elegans, PRC2 consists of MES-2/E(z)/EZH2, MES-3,
+and MES-6/Esc , , .
+Loss of lsm-8 did not alter expression of the PRC2-complex, or
+of the PRC1-like factors sor-1 and sop-2
+( ), ruling
+out that lsm-8 directly controls PRC1/2. We were surprised that
+HOX genes, canonical targets of Polycomb with a role in body patterning, were
+missing from the strongly derepressed genes in the
+lsm-8-/- transcriptome. For example, the
+egl-5 gene, a conserved and Polycomb-regulated HOX
+gene , , which is expressed in the
+tail regions of both hermaphrodites and males, and required for male tail
+development , 
+showed only mild derepression in all
+lsm-8-/- replicates (log2 Fc = 0.32).
+However, if HOX genes are expressed in a subset of cells, it is possible that
+they may be below the limit of detection in whole larval RNA-seq. We therefore
+analyzed the expression pattern of the egl-5::gfp reporter by
+microscopy, comparing adult males treated with lsm-7,
+mes-2 or control RNAi.
+As reported in Ross and Zarkower , males lacking
+mes-2 displayed ectopic derepression of this reporter in
+the male tail region ( ) and
+occasionally displayed anterior expansions of tail structure ( ). Similar misexpression was found
+after lsm-7 RNAi, in up to 45 cells ( ). Thus, cell-specific HOX locus repression is
+lsm-8-sensitive, strengthening the link between LSM2-8 and
+Polycomb.
+
+## lsm-8 mutation does not induce transcription from both
+strands nor alter splicing efficiency
+To elucidate the mechanism of LSM2-8 silencing, we carried out a careful
+analysis of strand-specificity by mapping the RNAs recovered in the
+lsm-8 mutant. This showed that derepression occurs over
+normal gene-coding sequences, without inaccurate termination or initiation, nor
+complementary strand transcription ( ). Given that the LSM2-8 complex bind ( ) and is known to stabilize U6
+snRNA , , , we checked our RNA-seq data for splicing defects and
+found no prominent ones. Out of 134'836 exon-exon junctions examined,
+only 18 junctions, which mapped to 13 genes, were reproducibly affected by
+lsm-8-/- ( ). Besides binding U6 snRNA, we also found
+that LSM2-8 co-precipitates with a transcript from a H3K27me3-marked gene that
+it regulates, and not with a lsm-8-insensitive transcript
+( ).
+
+## LSM2-8 silences gene expression cooperatively with XRN-2
+To see if LSM2-8 mediates RNA degradation, we examined further the role
+of XRN-2, which is an exonuclease whose loss led to reporter derepression ( ). The comparison of RNA-seq datasets
+from L4 larvae treated with xrn-2 RNAi and
+lsm-8-/- L3 larvae ( ) showed that 71% of the genes up-regulated by
+lsm-8-/- were also derepressed following
+xrn-2 RNAi ( ,
+yellow) and 95% of those genes are enriched for H3K27me3 ( ). This
+argued that LSM-8 and XRN-2 likely function in the same heterochromatin
+silencing pathway. Nonetheless, a subset of LSM2-8 target genes (< 33%,
+pink) were unaffected by xrn-2 RNAi, and many genes were
+affected by xrn-2 independently of lsm-8
+(green). This is consistent with the fact that XRN-2 has a broader range of
+functions , . Importantly, the genes
+silenced only by xrn-2 (green) showed no H3K27me3 enrichment
+( ), confirming
+that cooperation with LSM2-8 is only part of XRN-2’s role.
+To see if RNA Pol II is involved in the LSM-8 pathway , , we examined the effects of two RNA Pol II subunits
+(rpb-12, rpb-7) and the type II poly(A) binding protein
+pabp-2 (HsPABPN1 and
+SpPab2). We found that rpb-12, rpb-7 and
+pabp-2 RNAi each derepresses the heterochromatic reporter,
+as does xrn-2 RNAi ( ). To see if XRN-2, RPB-12, RPB-7 and PABP-2 act on a common
+pathway with LSM-8, we performed RNAi against these factors in WT and in
+lsm-8-/- worms, and scored for additive or
+epistatic effects on GFP derepression ( ). We found that down-regulation of xrn-2, pabp-2
+rpb-12 or rpb-7, and lsm-7 was
+fully epistatic with lsm-8 deletion for reporter derepression
+( ). RNAi against the Polycomb
+HMT mes-2 was additive with lsm-8 deletion,
+albeit less so than either set-25 (H3K9me3 HMT) or
+mes-4 (H3K36 HMT). We conclude that LSM2-8 acts on a
+pathway of silencing that is dependent on XRN-2-mediated RNA metabolism, and in
+part on RNA pol II cofactors.
+The fact that lsm-8 and mes-2 are not
+fully epistatic is expected, assuming that Polycomb-mediated repression is not
+entirely dependent on LSM-8 ( ,).
+We next asked if LSM2-8 silencing requires the presence of H3K27me3. To this
+end, we tried to combine a mes-2 null mutant with the balanced
+lsm-8 deletion, but because each provoked sterility, this
+was not possible. Moreover, RNAi was extremely inefficient in the
+mes-2 null background. Instead, we asked whether the loss
+of LSM2-8 alters the accumulation of H3K27me3. Indeed, quantitative ChIP-qPCR
+for H3K27me3 on lsm-8 target genes showed a significant
+decrease (>50%) in H3K27me3 levels in
+lsm-8-/- vs WT larvae ( ). Several lsm-8-insensitive genes
+did not. This suggests that the LSM2-8 complex feeds back to maintain H3K27me3
+levels selectively at H3K27me3-marked loci, either directly or indirectly.
+
+## LSM-8 and XRN-2 cooperate to promote RNA decay
+The cooperation between the RNA-binding LSM2-8 complex and XRN-2
+suggests that LSM2-8 may silence genes by triggering mRNA degradation. To test
+this, we added α-amanitin, an inhibitor of RNA pol II and pol III
+elongation, to L3 larvae and monitored RNA decay over 6 hours by RT-qPCR
+comparing WT, lsm-8-/- and
+mes-2-/- strains. mRNA signals were
+normalized to 18S rRNA levels which are insensitive to α-amanitin ( ). We monitored a
+delayed rate of decay for lsm-8-sensitive genes in the absence
+of LSM-8 ( ). The rate varied
+slightly among the three genes monitored (far-3, grl-23 and
+ZK970.2), yet all were significantly different from
+lsm-8-insensitive control genes (eft-3,
+F08G2.8; ,
+ ). This suggests
+that the elevated levels of mRNA detected in
+lsm-8-/- worms stem from RNA stabilization and
+that the LSM2-8 complex can silence by targeting specific transcripts for
+degradation. Importantly, a similar increase in mRNA stability was scored in the
+mes-2 mutant for lsm-8-sensitive
+transcripts ( , ), implicating H3K27me3 as a
+pre-requisite for LSM8-mediated RNA degradation.
+To see whether RNA degradation is co- or post-transcriptional
+(i.e. acting primarily on nascent or mature transcripts),
+we compared the levels of unspliced and spliced mRNA derived from the
+pkIS1582 reporter, following lsm-7,
+xrn-2 and mes-2 RNAi. The
+set-25 RNAi served as a control. We reasoned that if
+spliced mRNA levels are higher than the pre-mRNA levels following
+lsm-7 RNAi, then the mRNA degradation is likely to be
+post-transcriptional. Loss of H3K9me HMT SET-25 altered pre-RNA and mRNA levels
+equally, as we could expect for transcriptional repression ( ). In contrast, qPCR showed a much stronger
+accumulation of mature mRNA over pre-mRNA following lsm-7 and
+xrn-2 RNAi. This suggests that LSM2-8 and XRN-2 act
+primarily on degradation of mature RNAs. The mes-2 RNAi had an
+intermediate effect that could be interpreted as a dual role: both targeting
+LSM2-8 to degrade mRNA and it repressing transcription ( ).
+Our data suggest that LSM2-8/XRN-2 confers a secondary level of
+regulation for the repression of Polycomb-marked genes, by mediating the
+degradation of processed RNAs ( ).
+
+## Discussion
+We show here that nematodes use a conserved RNA binding nuclear complex,
+LSM2-8, and a nuclear 5’-3’ exoribonuclease, XRN-2, to ensure tight
+repression of facultative heterochromatin bearing the Polycomb deposited mark,
+H3K27me3. This is achieved post-transcriptionally through specific degradation of
+mRNA. Heterochromatin-linked RNA processing pathways in plants and fission yeast,
+which include the RITS, TRAMP and exosome complexes – , , silence by targeting a H3K9
+histone methyltransferase to heterochromatic regions. While the principle of using
+post-transcriptional silencing to reinforce transcriptional repression seems to be
+similar, the C. elegans pathway acts independently of H3K9-specific
+HMTs. We observe LSM2-8-mediated silencing of endogenous transcripts arising almost
+exclusively from genes marked with H3K27me3, in the transcriptomes of both L1 and L3
+larvae. Derepression of a Polycomb-marked reporter could be detected in nearly every
+somatic cell and tissue of lsm-8 deficient worms, with exception of
+the germline. The process seems to require, at least in part, the presence of the
+C. elegans EZH2 homolog MES-2, and acts in parallel to
+H3K27me3-mediated transcriptional repression.
+ illustrates a proposed mode
+of action. LSM2-8 complex could be targeted either by H3K27me3, by MES-2 (EZH2), or
+by a unique but unknown feature of the nascent transcripts, such as a specific
+structure, 5’cap, RNA modification, or poly-A/U tail. The conserved nature of
+the LSM proteins and of other factors implicated in this pathway (XRN-2, MES-2, and
+PABP-2) suggests that this mechanism might be active in other species.
+Our genetic studies implicate the type II poly(A) binding protein
+(PABP-2) and the RNA Pol
+II subunits, RPB-12 and RBP-7, in LSM-8-targeted RNA decay. The pathway acts
+independently of DCAP-2, XRN-1, LSM-1 and H3K9me-binding factors. PABP-2 is nuclear
+and appears to regulate 3’UTR and poly(A) tail length and binds nascent RNAs early
+during the elongation step , . Given that the LSM2-8 complex is
+known to bind to the 3’ oligo(U) tail of the U6 snRNA , as well as 3’ poly(A+)
+nuclear RNAs , we hypothesize
+that PABP-2 could contribute to the specificity of LSM2-8/XRN-2 transcript
+degradation by modulating the 3’ end of mRNAs derived from H3K27me3-marked
+genes.
+The misregulation of egl-5, however, was only observed in
+~45 posterior cells in male worms – , , , mimicking the derepression scored upon loss of MES-2, the
+EZH2 homologue. This suggests that LSM2-8 and XRN-2 likely regulate even more
+developmentally relevant, tissue-specific H3K27me3-marked genes.
+Many other factors may be involved in the observed degradation events,
+although two other Polycomb-like factors, SOR-1 and SOP-2, did not score as hits in
+our genome-wide screen for array derepression . Nonetheless, they contribute to HOX gene
+silencing , , and may help target LSM2-8/XRN-2
+message degradation. Similarly, the loss of the RNA Pol II subunits RBP-7 and RBP-12
+were shown to derepress a H3K27me3-marked reporter epistatically with
+lsm-8-/-. The S. pombe RBP-7
+homolog has been implicated in centromeric repeat transcription and RNAi-directed
+silencing , while in
+S. cerevisiae, the same RNA Pol II subunit contributes to
+Pat1/Lsm1-7 mediated mRNA decay in the cytoplasm , . Thus we can
+hypothesize that RPB-7 and RPB-12 somehow tag LSM2-8-regulated transcripts for XRN-2
+degradation.
+Finally, we have shown by ChIP that H3K27me3 levels drop on LSM-8-sensitive
+genes in lsm-8-/- animals, suggesting that there is
+feedback from the post-transcriptional silencing machinery to the chromatin, to
+enhance transcriptional repression. A recent but still debated suggestion was made
+that ncRNAs that bind PRC2, such as Xist or HOTAIR, help target Polycomb in
+cis or in trans to target gene – . This could parallel the feedback loop documented here.
+Overall, our study shows that facultative heterochromatin in a multicellular
+organism can be silenced through a mechanism of selective transcript degradation,
+and not only by transcriptional repression. LSM2-8-mediated gene silencing
+furthermore links a specific epigenetic state to transcript degradation, adding an
+additional layer of control over differentiation and development.
+
+## Methods
+
+## Worm strains and growing conditions
+ lists
+the strains and primers used in this study. Strains with deletion alleles and
+reporters obtained from the C. elegans knockout consortium or
+made by the CRISPR/Cas9 system were outcrossed 2 to 6 times to the N2 (WT)
+strain. Worms were grown on OP50 and maintained at 22.5°C, except when
+frozen or manipulated at room temperature (RT).
+The lsm-8 deletion allele xe17 (sequence below) was
+generated by replacing the entire coding sequence of the lsm-8
+gene with the red pharynx marker [myo2p::mCherry::unc54
+3’UTR] using an adapted version of the CRISPR/Cas9
+technique . For this,
+the N2 worms were injected with the following mix pDD162 (Cas9) 100 ng/μl, LSM8 sgRNA1
+(Fwd) in PIK111 100 ng/μl, LSM8 sgRNA3 (Rev) in PIK111 100 ng/μl,
+the indel plasmid lsm-8Δ-mCherry in pIK37 100
+ng/μl and Pmyo-3::gfp 5 ng/μl.
+
+## DAPI staining and live microscopy
+DAPI staining was carried out on WT and
+lsm-8-/- (handpicked) worms from different
+developmental stage (not mixed) and mounted on poly-L-lysine coated slides. Two
+independent biological replicates were performed. The freeze cracking of worms
+by liquid nitrogen in Eppendorf tubes was followed by fixation for 5 min in
+methanol at -20°C, and 2 min in 1% paraformaldehyde at RT for all stages.
+After fixation, 3 x 5 min washes with PBS supplemented with 0.25% TritonX100
+(PBSX) were done with the last wash optionally lasting overnight (ON) at
+4°C. DAPI (1μg/ml) was added for 10 min at RT and was washed twice
+before mounting the slides with n-propyl gallate. For live imaging, animals were
+mounted on slides coated with 2% agarose pads, supplemented with 0.1% sodium
+azide and 1mM levamisole, in most cases.
+Microscopy was carried out on a spinning disc confocal microscope
+(AxioImager M1 [Carl Zeiss] + Yokogawa CSU-22 scan head, Plan-Neofluar
+100×/1.45 NA oil objective, EM-CCD camera [Cascade II; Photometrics], and
+VisiView 2.1.4 software, either Axo imager 2.1 Zeiss, ( , ,
+ , , ). Images, 3D reconstruction (maximum intensity Z-projections)
+and fluorescence intensity analysis were generated using Fiji/ImageJ
+software.
+
+## RNAi experiments
+RNAi was performed at 22.5°C by placing synchronized L1 worms on
+feeding plates as previously described . Synchronized L1 larvae were obtained by bleaching
+gravid adults and the eggs recovered were left to hatch overnight at RT in M9.
+All RNAi clones used against LSM complexes subunits and used in the targeted
+RNAi screen were sequenced and a blast analysis performed first to confirm the
+specificity of the targets. At least, three independent biological replicates
+were performed for each RNAi experiment. As a mock RNAi control, the L4440
+vector (Fire vector library) was modified by removing an EcoRV
+fragment containing 25b.
+For RNAi against xrn-2, bacteria expressing dsRNA were
+diluted with mock RNAi bacteria to feed the GW306 and GW1119 strain in order to
+get a milder phenotype and thus enough progeny in which to assess derepression.
+Both lsm-8 heterozygous and homozygous worms (GW1119) were
+subjected to RNAi treatment, but only homozygous worms were used to assess the
+RNAi effect. For the RNAi with LSM-8 potential co-factors, most of the chosen
+candidates were LSM2-8 subunits related or controls. Co-regulated genes, such as
+rpb-7, rpb-12 and pabp-2
+were predicted though a clustering analysis in SPELL (http://spell.caltech.edu:3000/).The derepression was assessed by
+the worm sorter as described in 
+for RNAi hits that produce L1 larvae in the next generation.
+
+## Quantitation of derepression
+Derepression was scored at specific developmental stages by fluorescence
+microscopy using standardized exposure and illumination conditions. Quantitation
+of GFP intensity in different conditions was done using Fiji/ImageJ software and
+the ROI manager, for semi-automated analyses.
+Quantitation of derepression by the worm sorter, COPAS BIOSORT (Union
+Biometrica), was performed in L1 worms according to manufacturer’s
+guidelines. Visual inspection of the selected and monitored worms showed that
+>99% of all worms matched the size criteria ( ). Data corresponding to the
+fluorescence intensity (PH Green or PH Red) were analyzed and plotted in
+boxplots using R studio. The EXT (1-5) was extracted to exclude possible
+remaining bacteria. The reporter fluorescence intensity can fluctuate even in
+mock RNAi condition or WT according to the laser intensity (that can fluctuate
+slightly over time), to the room temperature, and possibly to additional
+parameters. Therefore, each derepression assay refers to its controls.
+
+## Survival assay
+Worms of indicated genotypes were synchronized by bleaching, and when
+they reached the L4 stage (Day 2 at 22.5°C), ten worms were isolated onto
+plates containing OP50 bacteria. Four independent biological replicates were
+performed. The number of worms alive was determined every 24h. At Day 4,
+surviving adults worms from each genotype (even sterile ones,
+lsm-8-/- and met-2 set-25;
+lsm-8-/-) were transferred to a new plate to avoid
+contamination with the progeny and at Day 6, only adults of WT and met-2
+set-25 strains were transferred, since the other sterile worms were
+too fragile to move without being killed.
+
+## Chromatin Immunoprecipitation (ChIP) experiments
+~20,000 WT and lsm-8-/- homozygous
+L3-L4 larvae stage were isolated using the COPAS BIOSORT instrument (Union
+Biometrica), according to manufacturer’s guidelines. Three independent
+biological replicates were performed. Visual inspection of the sorted worms
+showed that >90% of all worms were expressing appropriate markers
+(i.e., red fluorescence but no GFP expression in the
+pharynx for lsm-8-/-, and no markers for the WT) and
+90% matched the desired size and morphological criteria that corresponds to the
+stage of interest.
+Antibodies used for the ChIP were rabbit anti-H3K27me3 (ChIP, Millipore,
+07-449), whose specificity was confirmed by peptide binding, and IF on a
+mes-2 mutant.
+H3K27me3 ChIP was performed as previously described . In brief, chromatin was
+incubated overnight with 3 µg of antibody coupled to Dynabeads Sheep
+Anti-Rabbit IgG (Invitrogen), in FA-buffer (50 mM HEPES/KOH pH7.5, 1 mM EDTA, 1%
+Triton X-100, 0.1% sodium deoxycholate, 150 mM NaCl) containing 1% SDS.
+Chromatin/ antibody complexes were washed with the following buffers: 3 x 5 min
+FA buffer; 5 min FA buffer with 1M NaCl; 10 min FA buffer with 500 mM NaCl; 5
+min with TEL buffer (0.25 M LiCl, 1% NP-40, 1% sodium deoxycholate, 1 mM EDTA,
+10 mM Tris-HCl, pH 8.0) and twice for 5 min with TE. Complexes were eluted at
+65°C in 100 µl of elution buffer (1% SDS in TE with 250 mM NaCl)
+for 15 min. Both input and IP samples were incubated with 20 µg of RNAse
+A for 30 minutes at 37°C and 20 µg of proteinase K for 1 h at
+55°C. Crosslinks were reversed overnight at 65°C. DNA was purified
+using a Zymo DNA purification column (Zymo Research).
+
+## RNA-IP in native conditions
+Enriched L3 stage worms (GW1004 which contains extrachromosomal arrays
+expressing LSM-4-GFP/3xFLAG-tagged from a fosmid which was obtained from the
+“C. elegans TransgeneOme” consortium) were
+collected as 300-500 μl of pelleted worms and lysed at 4°C with a
+Dounce Tissue Grinder (150 strokes for each 500 μl, BC Scientific, Miami,
+FL, USA) in an equal volume of lysis buffer (30 mM HEPES/KOH pH 7.4, 100 mM KCl,
+1.5 mM MgCl2, 0.1% Triton X-100, Protease Inhibitor Cocktail Tablets,
+EDTA-free, Roche Rnase inhibitor, rRNAsin 1.25μl/ml of lysis buffer).
+Lysates were cleared at 16 000 x g for 15 min. 4 mg of lysate
+proteins were incubated with 40 μl of pre-washed anti-FLAG M2 magnetic
+beads (Sigma–Aldrich) for 2 h. Washes were performed in lysis buffer. For
+RNA extraction, washed magnetic beads were resuspended with 100 μl of
+lysis buffer and 400 μl Trizol® (Ambion) and the samples were
+snap-frozen in liquid nitrogen. Two independent biological replicates were
+performed.
+
+## RNA extraction
+For the RNA-seq experiment WT, met-2 set-25,
+lsm-8-/-, and met-2 set-25;
+lsm-8-/- worms were isolated using the COPAS BIOSORT
+instrument according to the fluorescent criteria (non-green pharynx worms, ) using the size criteria of
+L3 stage larvae in 4 independent biological replicates. For L1 RNA-seq
+experiment, worms were synchronized prior to the sorting process. Synchronized
+L1 larvae were obtained by bleaching gravid adults and the eggs recovered were
+left to hatch 16h at RT in M9.The isolation of WT and
+lsm-8-/- L1 larvae was made similarly with the
+fluorescent criteria (non-green pharynx worms) and the size criteria of L1 stage
+larvae. The larvae were refed for 2.5h after the sorting process. For all RNA
+based experiments, before RNA extraction, worms were washed 3x in M9 and
+re-suspended in 100μl of M9, 400μl of Trizol® (Ambion) and
+snap-frozen in liquid nitrogen.
+Extraction of RNA used 4 freeze-thaw cycles from liquid nitrogen to a
+42°C heat bath, followed by the addition of 200μl of
+Trizol® to each sample. Vigorous vortexing at RT in 5 cycles (30 sec
+vortex, 30 sec on ice), was followed by 5 min at RT. RNA extraction was with
+140μl chloroform, vigorous shaking for 15 sec, and 2 min at RT. The
+samples were centrifuged at 12000 rcf at 4°C, and the aqueous phases were
+transferred to fresh tubes. An equal volume of 70% EtOH was added slowly and the
+homogeneous mixture was transferred to a Qiagen RNeasy spin column (RNeasy kit,
+QIAGEN 74104). QIAGEN protocols including a subsequent 30 min DNAse treatment.
+For L1 RNA-seq samples, the extraction was done using the Zymo DirectZol
+microRNA kit (R2060).
+
+## RT-qPCR
+Primers were designed to be exon-junction spanning where possible, and
+are listed below. cDNA synthesis was performed using the (AMV cDNA kit, NEB,
+E6550S) according to the manufacturer’s protocol using random primers and
+0.1-3 µg of total RNA per sample according to the experiment. qPCR was
+performed on a StepOnePlus real time PCR system (Applied Biosystems) using SYBR
+Green Mastermix (Applied Biosystems; 4309155). Further analysis was done in
+Microsoft Excel. All primer pairs were tested and selected for amplification
+efficiencies ranging from 85-100%. For gene expression analysis in and , ΔΔCT method was used,
+his-56 and pmp-3 were used for sample
+normalization. For ChIP-qPCR, sample data were normalized to corresponding input
+chromatin. Candidate genes were chosen in based on their expression changes and on their enrichment for
+H3K27me3 in WT worms. For RIP-qPCR in , RNA levels were normalized to corresponding input and to
+the U1snRNA levels.
+
+## RNA decay assay
+WT, lsm-8-/- and mes-2-/
+- (F2) L3 larvae were sorted and re-fed with OP50 in
+liquid culture for 1 h at RT. Subsequently α-amanitin (Sigma-Aldrich) was
+added to a final concentration of 50 mg/ml, to block transcription and stall
+larval development . About
+750 worms were harvested in duplicate in each of the three independent
+biological replicates, and for each sampling point. They were washed twice with
+M9 medium, resuspended in 400 ml of Trizol® (Life Technologies) and
+frozen in liquid nitrogen. To assess the RNA decay, RNA levels of genes affected
+or not by the LSM2-8 complex (expression level) were quantified before and after
+the transcriptional inhibition in each genotype. LSM-8 target genes were
+selected by their higher expression levels in
+lsm-8-/- versus WT (RNA-seq), and their
+enrichment for H3K27me3 in L3 larvae, yet it was desired to have detectable
+levels in WT control. In this assay, cDNA was generated from total RNA by the
+SuperScript III First-Strand Synthesis System (Thermo Fisher Scientific) using
+random primers and the 5x FS buffer for better yields. Three micrograms of total
+RNA were used as a template for reverse transcription reaction (20μl),
+and 0.66μl of the reaction was used for qPCR reaction (10μl).
+RT-qPCR for this assay was performed using PowerUp SYBR Green Master Mix (Thermo
+Fisher Scientific), specific primers for mature/spliced mRNAs (complementary to
+an exon-exon junction; grl-23, F08G2.8) or for pre- and mature
+mRNAs (far-3, ZK970.7) or for pre-mRNA only
+(eft-3) and using StepOnePlus Real-time PCR Systems
+(Applied Biosystems) according to the suppliers’ protocols. For primer
+sequences for eft-3 and 18S ribosomal RNA, see . Because pre-mRNA levels are
+expected to be more directly affected by transcription inhibition,
+eft-3 pre-mRNA was used by us and by others as a control for the
+efficiency of the α-amanitin treatment in inhibiting transcription. The
+high expression levels of eft-3 makes it an adequate control to
+verify the potential extent of the transcriptional inhibition. In addition,
+eft-3 is also a control gene in the sense that it is not
+regulated by lsm-8.
+
+## RNA-seq
+Total RNA was treated for the L3 samples additionally with the Turbo DNA
+free kit (Ambion, AM1907), depleted for rRNA using Ribo-Zero Gold kit from
+Epicentre and depletion validated through Agilent Bioanalyzer analysis.
+Subsequent library preparation was performed with a ScriptSeq v2 RNA-Seq library
+preparation kit, stranded (Epicentre). Library preparation for the L1 samples
+was performed with the TrueSeq Total RNA preparation kit, stranded (Illumina).
+The quality of the resulting libraries was assessed with an Agilent Bioanalyzer
+and concentrations were measured with a Qubit fluorometer prior to pooling. 50
+bp single-end sequencing was done on an Illumina HiSeq 2500.
+
+## Processing of the RNA-seq and ChIP-Seq data
+The RNA-seq samples from four independent biological replicate samples
+L3 were mapped to the C. elegans genome (ce6) with the R
+package QuasR v1.22.0, (www.bioconductor.org/packages/2.12/bioc/html/QuasR.html) with
+the included aligner bowtie 
+considering only uniquely mapping reads for mRNA. The command "proj
+<-qAlign("samples.txt","BSgenome.
+Celegans.UCSC.ce6")" instructs bowtie to align using the
+parameters "-m 1 --best --strata --phred33-quals". Since the used
+replicas differed slightly in timing ( ), we incorporated a blocking factor in the linear model
+treating the replicates as different batches. For splice junction quantification
+we used the spliced alignment algorithm SpliceMap . The command used was "proj <-
+qAlign("samples.txt","BSgenome.Celegans.
+UCSC.ce6",splicedAlignment=TRUE)". The command to create various
+count tables was qCount(proj,exons,orientation="same"). For gene
+quantification, gene annotation from WormBase was used (WS190). The EdgeR
+package v 3.24.0 was used to determine fold changes (Fc) and false discovery
+rates (FDR) of differential transcript abundances. The repeat element
+quantitation was based on UCSC (genome.uscsc.edu) repeat annotation. To
+normalize for sequencing depth, each sample was divided by the total number of
+reads and multiplied by the average library size. Transformation into log2 space
+was performed after the addition of a pseudocount of 8 in order to minimize
+large changes in expression caused by low count numbers. The various count
+tables used throughout this study were normalized separately. To determine the
+developmental timing of each RNA-seq sample, we previously used a set of 2050
+genes shown to gradually rise between 25h and 36h post hatching at 25°C
+(all rising genes) . While
+most of those genes are germline genes and thus stop being expressed in
+glp-4 mutants which are devoid of germ cells ( ), we noticed that a
+subset of those rising genes (n=162) actually still continued to rise even in
+glp-4 mutant worms ( ). We therefore split the 2050 genes into two separate groups, a
+germline developmental signature (n=1888) and a somatic developmental signature
+(n=162) and used the latter to infer developmental timing ( ). To quantify potential changes in
+splicing in lsm-8-/- as opposed to WT, we quantified
+the expression of all the exon-exon junctions from the spliced alignments using
+no annotation. The command used to create the exon-exon junction count table was
+qCount(proj2,NULL,reportLevel="junction"). These junction counts were then
+normalized for library size (as described above) and overlapped with gene
+annotation to assign them to their host gene. Junctions overlapping multiple
+genes were discarded. The assignment to the host gene was then used to correct
+the junction expression levels for differences in gene expression. This was done
+by dividing the junction counts of either WT or
+lsm-8-/- by the respective gene expression
+change depending on the direction of the change. This procedure ensured that
+junction counts were always deflated and not inflated by the gene expression
+correction. Finally a pseudocount of 8 was added and the data were log2
+transformed. We specifically chose to not use reads overlapping intronic
+sequences for this analysis as they can reflect changes in mRNA
+transcription and
+thus would potentially complicate the interpretation of those results in the
+light of alternative splicing. The RNA-seq L1 samples were mapped to the
+C. elegans genome (ce10) and processed otherwise as mention
+above (no blocking factor applied, as for L3). The ChIP-seq data for
+L3_H3K9me1/2/3 (5036, 5050, 5037, 5040), L3_H3K27me3 (5045, 5051), L3_H3K27ac
+(5054), L3_H3K4me2/3 (5055, 3576) were downloaded from ModEncode (http://data.modencode.org/) and mapped to ce6 and ce10 using
+bowtie considering only uniquely mapping reads. Quantitation for each gene was
+performed by counting the reads overlapping the gene-body. All samples were
+normalized for total library size, log2 transformed after adding a pseudocount
+of 8 and and Fc enrichments (log2) were calculated by subtracting the log2
+transformed values of the specified input sample (3576, Rep-1) from each
+ChIP-seq sample.
+Misregulated genes in the prg-1 and
+lin-35 mutants , were
+converted into WB gene names through the Gene ID conversion tool (DAVID), and
+the resulting genes were compared to their enrichment in H3K27me3 similarly as
+for the misregulated genes in the lsm-8 mutant ( ). Sequence
+information for xe17 allele [lsm8 indel
+myo2p::mcherry::unc-54 3'UTR] and flanking regions
+can be found in .
+
+## Statistics and reproducibility
+Experiments shown in this study were performed independently two to four
+times as indicated in the figure legends, and no inconsistent results were
+observed. The exact information on number of independent biological replicates
+and exact sample size of each is indicated in each figure legend. RNA-seq data
+of each genotype was performed in four replicates for the L3 stage. The two
+closest (developmentally timed), were used for the main analysis, but the other
+datasets were used for additional validations. Data plotted as Notched box plots
+have whiskers: 25th and 75th percentiles, minima and
+maxima 5th and 95th percentiles, black circles are
+outliers, thick lines: median, and the Notch around the median represents 95%
+confidence interval of the median. Some data are plotted in bar graphs as mean
+± s.d, unless specified otherwise. Bar graphs are overlaid with dots
+representing individual biological replicates or sample values, as stated in the
+legends. Statistical testing to assess p values was performed using unpaired
+two-tailed t tests. False Discovery Rate (FDR) index was calculated with the
+edgeR package, see . Details of the
+particular statistical analyses used, precise P values,
+statistical significance, number of biological replicas and sample sizes for all
+of the graphs are indicated in the figure or figure legends. n represents the
+number of animals tested, unless mentioned otherwise. The source data for all
+figures are provided.
+
+## Extended Data
+ 
+
+## Supplementary Material
+Supplementary informationSupplementary Information
+
+## Acknowledgements
+The accession number for the RNA-seq data is NCBI Gene Expression Omnibus is
+GSE92851. Some strains were provided by the Caenorhabditis Genetics
+Center (CGC), which is funded by NIH Office of Research Infrastructure Programs (P40
+OD010440). We thank I. Katiç, the FMI Genomics and Microscopy facilities, P.
+Zeller and M. Fukushima for technical help, advice and discussion, and T.S. Miki for
+access to data and discussions. We thank M. Bühler, H. Großhans and W.
+Filipowicz for discussions and proofreading of the text. The authors acknowledge
+support of the Novartis Research Foundation, as well as a Marie Curie Intra-European
+grant (#PIEF-GA-2010-276589) and Swiss National Science Foundation Marie-Heim
+Vögtlin grant (#PMPDP3_151381, # PMPDP3_168717) to AM; SNF grant
+(#310030B_156936) to SMG and support of the NCCR RNA & Disease to H.
+Großhans (to FA.). This project received funding from the European Research
+Council under the European Union’s Horizon 2020 Research and Innovation
+programme (Epiherigans - grant agreement No 743312 to S.M.G.).
+Data availability
+RNA–seq data that support the findings of this study have been
+deposited in the Gene Expression Omnibus (GEO) under accession codes GSE92851.
+Previously published ChIP-seq data that were re-analysed here are available from
+ModEncode (http://data.modencode.org/), for L3_H3K9me1/2/3 (5036, 5050,
+5037, 5040), L3_H3K27me3 (5045, 5051), L3_H3K27ac (5054), L3_H3K4me2/3 (5055,
+3576). All other data supporting the findings of this study are available from
+the corresponding author on reasonable request.
+Author Contributions
+A.M. planned and executed most experiments, evaluated results and wrote
+the paper; S.M.G. planned experiments, evaluated results and wrote the paper;
+D.G. analyzed with A.M. the RNA-seq data and other genome wide data, C.S
+analyzed the L1 RNA-seq data, J.P. performed the H3K27me3 ChIP-qPCR experiment
+and analysis; V.K. performed the gonad staining and analysis and F.A. helped
+generate the lsm-8 mutant strain.
+Competing financial interests: The authors declare no competing
+financial interests.

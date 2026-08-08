@@ -1,0 +1,156 @@
+2786medicineMedicineMedicine (Baltimore)Wolters Kluwer HealthPMC9678523967852396785233640139310.1097/MD.0000000000031839LncRNA DIRC1 is a novel prognostic biomarker and correlated with immune infiltrates in stomach adenocarcinoma
+LinYuningMaster’s degree ZhangZhongyingBachelor’s degree LiYingMaster’s degree ChenYongquanMaster’s degree SuMeiyingBachelor’s degree ZhaoWenzhenBachelor’s degree a Xiamen Key Laboratory of Biomarker Translational Medicine, Medical Laboratory of Xiamen Humanity Hospital Fujian Medical University, Xiamen, Chinab Ultrasonography Department, Women and Children’s Hospital, School of Medicine, Xiamen University, Xiamen, China.✉* Correspondence: Zhongying Zhang, Xiamen Key Laboratory of Biomarker Translational Medicine, Medical Laboratory of Xiamen Humanity Hospital Fujian Medical University, No.3777 Xianyue Road, Xiamen, Fujian Province 361009, China (e-mail: zhangzy1121@xmu.edu.cn).
+1811202210146e31839e3183922112022Copyright © 2022 the Author(s). Published by Wolters Kluwer Health, Inc.This is an open-access article distributed under the terms of the Creative Commons Attribution-Non Commercial License 4.0 (CCBY-NC), where it is permissible to download, share, remix, transform, and buildup the work provided it is properly cited. The work cannot be used commercially without permission from the journal.
+
+## Abstract
+The potential application value of Long non-coding RNA disrupted in renal carcinoma 1 (DIRC1) has not yet been explored, the purpose of this study was to explore the relationship between DIRC1 and stomach adenocarcinoma (STAD) based on the cancer genome atlas database. Wilcoxon rank sum test, Chi-square test, Fisher test and logistic regression were used to evaluate relationships between clinical-pathologic features and DIRC1 expression. Receiver operating characteristic (ROC) curves were used to describe binary classifier value of DIRC1 using area under curve (AUC) score. Kaplan-Meier method was used to assess the impact of DIRC1 on prognosis and the impact of DIRC1-related hub genes on prognosis. Gene oncology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) enrichment analysis were used to predict the function of differentially expressed genes associated with DIRC1. Gene set enrichment analysis (GSEA) was used to predict biological states or processes associated with DIRC1. Immune infiltration analysis was performed to identify the significantly involved functions of DIRC1. Protein–protein interaction (PPI) networks were established and 10 hub genes identified with Cytoscape software. Real time-polymerase chain reaction (RT-PCR) was used to detect the expression of DIRC1 in Gastric Cancer patients and healthy people. Increased DIRC1 expression in STAD was associated with T stage (P = .004), race (P = .045), histologic grade (P = .029) and anatomic neoplasm subdivision (P = .034). ROC curve suggested the significant diagnostic ability of DIRC1 (AUC = 0.779). High DIRC1 expression predicted a poorer Overall survival (P = .004, hazard ratio: 1.63; 95% confidence interval: 1.17‐2.27; P = .034). GO and KEGG analysis demonstrated that DIRC1 is related to epidermis, collagen-containing extracellular matrix, receptor-ligand activity, protein digestion and absorption, etc. GSEA demonstrated that E2F target, G2M checkpoint, Myc target, interferon γ reaction were differentially enriched in the high DIRC1 expression phenotype. SsGSEA and Spearman correlation revealed the relationships between DIRC1 and macrophages, dendritic cells, and Th1 cells were the strongest. Coregulatory proteins were included in the PPI network, higher expressions of 4 hub genes were associated with worse prognosis in STAD. RT-PCR showed that the expression of DIRC1 in the serum of Gastric Cancer patients was higher than healthy people (P = .027). DIRC1 expression was significantly correlated with poor survival and immune infiltrations in STAD, and it may be a promising prognostic biomarker in STAD.
+Keywords: biomarker, DIRC1, LncRNA, stomach adenocarcinoma
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Mar 2; Received 2022 Sep 6; Accepted 2022 Sep 7; Collection date 2022 Nov 18.
+
+## 1. Introduction
+Stomach adenocarcinoma (STAD) is a common malignant tumor in the world and poses a serious threat to human health,[ ] and STAD is 1 of the world’s top 5 cancers and a leading cause of cancer-related deaths, regardless of country development.[ ] Since STAD mostly exists as nonspecific symptoms in the early stage of the disease, STAD is usually discovered after the disease progresses to a more serious state, and the high mortality and poor prognosis are due to metastasis, intra-tumor heterogeneity and chemotherapy resistance.[ , ] STAD has high mortality and poor prognosis, and the prognosis of STAD is closely related to clinical stage. The 5-years survival rate of early-stage STAD is 90%, while the 5-years survival rate of middle-advanced STAD is <30%.[ ] Due to China’s dietary characteristics, lack of screening awareness and other reasons, the disease may have developed to an advanced stage by the time it is tested.[ ]
+At present, the early diagnosis of gastric cancer mainly relies on the pathological diagnosis of gastroscopy and biopsy tissue. The procedure is complicated and expensive, and the invasive procedure brings great pain to the subject, thus limiting the application of gastric cancer screening and early diagnosis in large-scale community population. Previous chemotherapy-based treatments only extended the median overall survival of patients with advanced STAD by 7 to 11 months.[ ] Patients with early STAD have a good prognosis, but patients with advanced STAD have a poor prognosis due to the lack of effective targeted drugs and the tendency to develop drug resistance. Currently, only trastuzumab, ramucirumab, apatinib and Papalizumab have been approved for the targeted treatment of advanced STAD. The clinical application of these targeted agents is challenging.[ ] In recent years, with the development of molecular biology, genetics and other disciplines and high-throughput omics technology, it is possible to explore the biomarkers related to the early diagnosis of gastric cancer from the multi-omics level, providing important evidence for the prevention of gastric cancer.
+It was found that in the mammalian genome, < 2% of the transcripts have protein coding functions, and the remaining 98% are non coding RNAs. According to the length of nucleotide sequence, non coding RNAs can be divided into short chain ncRNAs and long chain ncRNAs.[ , ] Long non-coding RNAs (LncRNAs) are ≥ 200 nucleotides in length and do not encode proteins. According to its position and background in the genome, lncRNA can be divided into 5 main types: intergenic lncRNAs, intragenic lncRNAs, bidirectional lncRNAs, sense lncRNAs and antisense lncRNAs.[ ] The mechanisms of lncRNA regulating gene expression mainly include transcriptional repression, RNA–DNA interaction (chromatin remodeling), nuclear RNA–RNA interaction and cytoplasmic RNA–RNA interaction. Their functions are to regulate a series of cellular biological processes, including chromatin remodeling, transcriptional and post-transcriptional events.[ , ] The most recognized molecular mechanism of lncRNAs is to act as a miRNA “sponge” to regulate downstream target genes.[ , ] LncRNAs is abnormally expressed in various types of cancer cells and plays an important role in several common hallmarks of cancer.[ ]Wu et al demonstrated that the upregulation of lncRNA MER52A is associated with poor prognosis in hepatocellular carcinoma which can serve as a therapeutic target.[ ] Lang et al demonstrated that the lncRNA PCAT7 functions as an oncogenic lncRNA associated with bone metastatic status and as a potential therapeutic target for prostate cancer bone metastasis.[ ] In addition, some limited studies have shown that different lncRNAs are involved in human immune processes against cancer, such as immune activation, immune cell infiltration, and immune escape.[ – ] Currently, many studies have shown that some lncRNAs can serve as potential biomarkers for the diagnosis, treatment or prognosis of STAD.[ – ]
+Disrupted in renal cancer 1 (DIRC1), initially characterized as a chromosome 2q33 breakpoint-spanning gene in a chromosomal translocation, has been closely associated with the development of renal cancer previously. Up to now, there are few studies on DIRC1.The study of Li et al showed that the knockdown of DIRC1 may reduce the carcinogenicity of Gastric cancer by inhibiting Akt/mTOR signal, and provide a potential therapeutic target for the treatment of Gastric cancer.[ ] In the study of T druck et al, the low-level expression of DIRC1 was detected in adult placenta, testis, ovary and prostate, as well as fetal kidney, spleen and skeletal muscle through real time-polymerase chain reaction (RT-PCR), but the function of DIRC1 was not further explored.[ ]
+This study aimed to elucidate the association between lncRNA DIRC1 and STAD using the cancer genome atlas (TCGA) database. We found that the expression level of DIRC1 in STAD tissues was significantly higher than that in adjacent tissues. High expression of DIRC1 is associated with some clinicopathological features. Kaplan-Meier analysis showed that patients with high DIRC1 expression had lower overall survival than patients with low DIRC1 expression. These results suggest that lncRNA DIRC1 may be an independent biomarker for poor prognosis in STAD.
+
+## 2. Methods
+
+## 2.1. RNA-sequencing data and bioinformatics analysis
+We used TCGA database (https://portal.gdc.cancer.gov/) to collect RNA-seq data and clinical information from 407 cases of STAD projects, including 27 cases with matched adjacent tissues. The downloaded data format was level 3 HTSeq- fragments per kilobase per million and then was converted into transcripts per million (TPM) format for subsequent analysis. We also download TPM format RNA-seq data in TCGA and genotype-tissue expression (GTEx) database that uniformly processed by Toil process from UCSC Xena (https://xenabrowser.net/datapages/).[ ]All procedures performed in this study were in accordance with the Declaration of Helsinki (as revised in 2013). We used R package (DESeq2) to go differential analysis of DIRC1 expression, adjusted P value < 0.05 and |logFC| > 1.5 were consider as cut off criteria, the differentially expressed genes (DEGs) obtained were used for gene oncology (GO), Kyoto encyclopedia of genes and genomes (KEGG) analysis. And adjusted P < .05 and |logFC| > 1.0 were consider as another cut off criteria, the DEGs obtained were used for gene set enrichment analysis (GSEA). According to the default statistical method, the process was repeated 1000 times for each analysis and selected h.all.v7.2.symbols.gmt in MSigDB Collections as the reference gene collection, false discovery rate (FDR) q-value < 0.25 and adjusted P adjust < 0.05 were considered to be significantly enriched.
+
+## 2.2. Immune infiltration analysis by ssGSEA
+The immune infiltration analysis of STAD was performed by single sample GSEA (ssGSEA) method from R (v.3.6.3) package GSVA (version 1.34.0), and we quantified the infiltration levels of 24 immune cell types from gene expression profile in the literature. In order to discover the correlation between DIRC1 and the infiltration levels of 24 immune cells, P values were determined by the Pearson and Wilcoxon rank sum test.
+
+## 2.3. Protein–protein interaction analysis
+Search tool for the retrieval of interacting genes (STRING) is an online database that searches for known proteins and predicts protein interaction relationships, including direct physical interactions between proteins and indirect functional correlations. The STRING database collects, evaluates, and integrates all publicly available protein-protein interaction information and complements this information with computational predictions to build a protein-protein interaction network. The software analyzes all DEGs; the interaction score threshold was set at .400.
+
+## 2.4. Total RNA extraction, reverse transcription and RT-PCR
+Total RNAs from all samples were isolated with magnetic bead nucleic acid extraction reagent (TIB, Xiamen, China). RNA reverse transcription was performed using transcription kit (TIAGEN, Beijing, China).RT-PCR was done with Power SYBR Green RT-PCR reagent (Tiagen, Beijing, China) and ABI Quant Studio fluorescence quantitative PCR instrument (Applied Biosystems Inc., Foster City, CA).Primers for DIRC1 and β-actin were show as follows:
+DIRC1-F: CCAGCCATGCATGTCCACTA
+DIRC1-R: AGTGTCAGGGGGAAAGGAGT
+β-actin-F: GTGGATCAGCAAGCAGGAGT
+β-actin-R: CTCGGCCACATTGTGAACTT
+
+## 2.5. Statistical analysis
+All statistical analyses were performed using R (v.3.6.3). Wilcoxon rank sum test, chi-square test, Fisher exact test and logistic regression were used to analyze the relationship between clinical pathologic features and DIRC1. Kaplan-Meier method was used to calculate the overall survival rate and progression free interval of STAD patients from TCGA. Univariate and multivariate analysis were performed to estimate the association between clinical and genetic clinical characteristics. Overall survival (OS) were analyzed by Cox proportional hazard models. P values < 0.05 were considered statistically significant. area under curve value between 0.5 and 0.7 was of low accuracy; between 0.7 and 0.9, of medium accuracy; and above 0.9, of high accuracy.
+
+## 3. Results
+
+## 3.1. DIRC1 expression is correlated with poor clinicopathological features of STAD
+Downloaded RNA-seq data in TPM format from TCGA and GTEx was processed uniformly using the Toil process from XENA (https://xenabrowser.net/datapages/) by the University of California, Santa Cruz.[ ] As shown in Figure A, the Wilcoxon rank sum test was used to compare the expression of DIRC1 in GTEx and normal TCGA samples with corresponding TCGA tumor samples.DIRC1 expression is significantly different in the following cancers: bladder urothelial carcinoma, breast-infiltrating carcinoma, colon cancer (STAD), diffuse large B-cell lymphoma, esophageal cancer, glioblastoma multiforme, head and neck squamous cell carcinoma, kidney renal clear cell carcinoma, acute myeloid leukemia, brain lower grade glioma, liver hepatocellular carcinoma, lung adenocarcinoma, lung squamous carcinoma, ovarian serous cystadenocarcinoma, pancreatic cancer, rectal adenocarcinoma, skin melanoma, stomach adenocarcinoma (STAD), testicular germ cell tumors, thyroid carcinoma, thymoma, uterine carcinosarcoma.
+ In order to identify the difference of DIRC1 expression between STAD and normal tissues, we analyzed the expression level of DIRC1 in 375 STAD tissues and 32 adjacent normal tissues, and found that DIRC1 was highly expressed in STAD tissues (P < .001, Fig. B). Meanwhile, we also analyzed the expression of DIRC1 in 27 STAD tissues and their matched adjacent tissues. The results indicated that STAD tissues highly expressed DIRC1 (P < .001, Fig. C). Moreover, the Wilcoxon rank sum test was used to compare the expression of DIRC1 in normal GTEx samples and TCGA STAD samples (Fig. D).
+
+## 3.2. Identification of DEGs
+According to the expression of lncRNA DIRC1 in tumor samples, qualified HTSeq-counts format data were divided into high and low expression groups according to the median value. Then, 207 DEGs were obtained using the DESeq2 package. |log2FC| > 1.5 and adjusted P < .05 were used as the screening threshold for the DEGs. Among them, 75 were upregulated, and 132 were downregulated (Fig. E).
+
+## 3.3. Clinical characteristics
+The characteristics of patients with STAD in TCGA were collected. According to the median expression of lncRNA DIRC1, 188 patients were assigned to the low-expression group, and 187 patients were assigned to the high-expression group. The χ2 test or Fisher’s exact test determined that lncRNA DIRC1 expression was significantly associated with T stage (P = .004), race (P = .045), histologic grade (P = .029) and anatomic neoplasm subdivision (P = .034). No correlation existed between lncRNA DIRC1 expression and the other clinicopathological features, as shown in Table .
+ Univariate logistic regression revealed that the increased lncRNA DIRC1 expression was related to poor prognostic clinicopathological characteristics, including a greater primary tumor extent (odds ratio [OR] = 1.734; 95% CI, 1.088–2.787) for T3 and T4 stages versus T1 and T2 stages (P = .021), histological type (OR = 2.187; 95% CI, 1.124‐4.321) for diffuse type & signet ring type versus tubular type (P = .022), histologic grade (OR = 1.677; 95% CI, 1.102‐2.563) for G3 versus G1 & G2 (P = .016), as shown in Table .The results showed that Stomach adenocarcinoma with increased expression of lncRNA DIRC1 is prone to adverse clinicopathological factors.
+ 
+
+## 3.4. ROC differentiates normal tissue from tumor tissue
+The data from para-carcinoma tissue of patients and carcinoma tissue of patients were applied to draw the receiver operating characteristic curve and evaluate the diagnostic value of lncRNA DIRC1. Its area under curve was .779, predicting a very efficient discrimination value for Stomach adenocarcinoma (Fig. A).
+ 
+
+## 3.5. Role of lncRNA DIRC1 in gastric adenocarcinoma survival (Including clinicopathological subgroup analysis)
+Kaplan-Meier survival analysis showed that a high expression level of lncRNA DIRC1 was significantly correlated with a poorer OS of patients hazard ratio (HR) = 1.63; 95% confidence interval (CI), 1.17‐2.27; P = .004) (Fig. B).In these subgroup analysis, the T3 subgroup of DIRC1 for the T stage was statistically significant (HR = 1.67; 95% CI, 1.04–2.68; P = .033) (Fig. C), the N2 subgroup for the N stage was statistically significant (HR = 3.01; 95% CI, 1.33–6.83; P = .004) (Fig. D), and the M0 subgroup for the M stage was statistically significant (HR = 1.79; 95% CI, 1.25–2.57; P = .002) (Fig. E). Furthermore, the subgroups of G2 histologic grade had statistical significance (HR = 1.95; 95% CI, 1.08–3.54; P = .028) (Fig. F).
+
+## 3.6. LncRNA DIRC1 related GSEA analysis
+GSEA was used to identify DIRC1-related signaling pathways. GSEA revealed significant differences (Padj < 0.05, FDR < 0.25) in enrichment of MSigDB Collection (h.all.v7.2.symbols.gmt [Hallmarks]).[ ] A total of 27 data sets met the requirements of FDR < 0.25 and adjusted P < .05. This analysis revealed that, in the lncRNA DIRC1 high-expression phenotype, 19 pathways were significantly differentially enriched. In addition, 8 pathways in the lncRNA DIRC1 low-expression phenotype were recognized (Table S1, Supplemental Digital Content, http://links.lww.com/MD/H952).We selected the top 6 data sets with high value of normalized enrichment score in the lncRNA DIRC1 high-expression phenotype and top 3 data sets with high value of normalized enrichment score in the lncRNA DIRC1 low-expression phenotype (Fig. A‐I).
+ 
+
+## 3.7. DIRC1 related GO and KEGG analysis
+To estimate the potential functions of DEGs in high-risk versus (vs) low-risk groups, we identify DEGs of DIRC1 in TCGA-STAD data under cutoff criteria of adjusted P value < 0.05 and |logFC|>1.5. KEGG pathway and GO annotation were performed by R package cluster Profiler (3.14.3). GO reveals the catalogs of biological process, cellular component, and molecular function. After multiple-test correction, KEGG pathways and GO terms with corrected P (P adjust) value < 0.05 were considered to be prominently enriched in DEGs. We selected top 9 of the lowest adj. P value of GO and KEGG pathway enrichment analysis of 207 DEGs related to DIRC1 in TCGA-STAD data (Fig. ).
+ 
+
+## 3.8. Immune infiltration analysis by ssGSEA
+The immune infiltration analysis of STAD was performed by single sample GSEA (ssGSEA) method from R (v.3.6.3) package GSVA (version 1.34.0),[ ] and we quantified the infiltration levels of 24 immune cell types from gene expression profile in the literature.[ ] In order to discover the correlation between DIRC1 and the infiltration levels of 24 immune cells (Fig. A), P values were determined by the Spearman and Wilcoxon rank sum test LncRNA DIRC1 expression was significantly positively correlated with Macrophages, dendritic cells (DC), Th1 cells, Tem, immature dendritic cells and so on. Helper T17 (Th17) cells and nature kill (NK) CD56bright cells were negatively correlated with lncRNA DIRC1 expression (P < .05). As show in Figure B‐G, macrophages (R = 0.535, P < .001), DC (R = 0.392, P < .001), Th1 cells (R = 0.367, P < .001), T effector memory cells (R = 0.337, P < .001) showed positive association with DIRC1. However, NK CD56bright cells (r = −0.166, P = .001) and Th17 cells (r = −0.126, P < .014) showed negative association with DIRC1.
+ 
+
+## 3.9. PPI network and hub gene identification
+The search tool (STRING, https://string-db.org/) is a database for finding interacting genes, with which we constructed a protein–protein interaction (PPI) network.[ ] 145 intersection target genes were imported into the STRING database and the species were selected as “Homo sapiens” to obtain the interaction relationship between the targets. Genes with significant interactions were identified based on a confidence level≥0.4, other irrelevant genes were excluded. The screening results were input into Cytoscape software 3.8.2[ ] for network visualization (Fig. ).
+ 
+
+## 3.10. Verification of the prognostic value of 10 hub genes
+The maximum clique centrality (MCC) value of each node is calculated by the CytoHubba plugin in Cytoscape. In this study, the 10 genes with the highest MCC values were selected as hub genes. In co-expression networks, the MCC algorithm is considered to be the most efficient method to identify central nodes.[ ]
+After the identification of 10 hub genes (ALB, ORM1, APOH, FGA, ITIH2, PAH, AHSG, FGG, TTR, ORM2) using the CytoHubba plug-in, we verified the prognostic value of these 10 hub genes with survival-related data in TCGA. The OS analysis of the 10 hub genes was performed with the Kaplan–Meier plotter using the R survival package. The analysis showed the expression level of ALB, ITIH1, APOH and FGG were significantly correlated with OS in STAD patients (P < .05; Fig. ). Our results showed that the high expression of ALB, ITIH1, APOH and FGG indicate worse prognosis of patients with STAD.
+ 
+
+## 3.11. Relative expression of DIRC1 in the serum of gastric cancer patients and normal people
+PT-PCR analysis showed that, the relative expression level is expressed as N (N = 2-∆Ct, ∆Ct = Ct (DIRC1) – Ct (β-actin),the relative expression of DIRC1 in the serum of Gastric Cancer patients is was higher than that in normal people (P = .027, Fig. ).
+ 
+
+## 4. Discussion
+More recently, the understanding of lncRNAs has evolved to identify new insights into their involvement in disease pathogenesis. LncRNAs regulate gene expression through a variety of mechanisms, such as interactions with RNA or protein molecules. At present, many lncRNAs have been identified as important biomarkers of STAD. In general, lncRNAs exert regulatory functions at different levels of gene expression, including chromatin modification, transcription, and post-transcription.[ ] lncRNAs can interact with chromatin remodeling complexes to induce heterochromatin formation at specific genomic sites and reduce gene expression. In addition, lncRNAs interact with RNA-binding proteins and transcription factor co-activators, or regulate transcription by regulating the main promoters of their target genes. Mechanically, lncRNAs can communicate with DNA, mRNAs, ncRNAs and proteins and play cancer-related regulatory roles, such as, such as signals, decoys, scaffolds and guidelines.[ , ]
+In this study, we collected and organized STAD data using high-throughput RNA sequencing from TCGA database, and we verified that lncRNA DIRC1 was significantly upregulated in STAD tissues compared with in adjacent normal or normal tissues.
+Moreover, analyzing the relationship between the clinicopathological features of STAD and the dichotomy of high and low DIRC1 levels by using the logistic regression method, we showed that DIRC1 was also significantly correlated with T stage, histological grade, race and Anatomic neoplasm subdivision.
+Upregulated lncRNA DIRC1 in STAD tissues was positively correlated with higher T stage; advanced histological grade; and poorer overall survival. Elevated lncRNA DIRC1 was related to advanced clinicopathological features. These results suggest that lncRNA DIRC1 might be an independent biomarker of poor outcomes for STAD.
+We also used GSEA to study the function of lncRNA DIRC1 in STAD tissues, and the results showed that in the lncRNA DIRC1 high-expression phenotype,19 pathways were significantly differentially enriched, including the E2F target, G2M checkpoint, MYC Target, INF-α reaction, INF-γ reaction, MTORC1 signal and so on. In addition, 8 pathways in the lncRNA DIRC1 low-expression phenotype were recognized, including Epithelial mesenchymal transition, early response to estrogenas, down-regulated in response to ultraviolet (UV) radiation and so on. Epithelial mesenchymal transformation (EMT) is essential in development, wound healing, and stem cell behavior, and contributes pathologically to fibrosis and cancer progression.[ ]Entry into mitosis is regulated by checkpoints at the G2 and M (G2/M) boundaries of the cell cycle, and misregulation of entry into mitosis usually leads to tumorigenesis or cell death.[ ]
+In this study, ssGSEA and Spearman correlation were used to reveal the relationship between lncRNA DIRC1 expression and immune infiltration level in STAD. We found the strongest relationship between lncRNA DIRC1 and Macrophages, DC, Th1 cells and Tem. In contrast, the levels of NK CD56 bright cells and Th17 cells were negatively correlated with lncRNA DIRC1 expression. Therefore, LncRNA DIRC1 may play a major role in immune cell infiltration and serve as a prognostic biomarker of STAD.
+To discover the molecular significance of DIRC1, coregulatory proteins were included in the PPI network analysis. According to the MCC scores of the CytoHubba plug-in in Cytoscape, the first 10 genes (ALB, ORM1, APOH, FGA, ITIH2, PAH, AHSG, FGG, TTR, ORM2) related to DIRC1 were screened. Among the 10 hub genes associated with DIRC1, the high expression of 4 genes (ALB, ITIH1, APOH and FGG) are related to THE OS of STAD. Therefore, we believe that DIRC1 has a good prognostic value for STAD.
+To confirm the relationship between lncRNA DIRC1 and overall STAD survival, Kaplan–Meier survival analysis was performed for stratified clinicopathological features. Kaplan-Meier survival analysis showed a significant correlation between lncRNA DIRC1 expression level and overall survival of T3, N2, M0 and G2 histological grade, suggesting that lncRNA DIRC1 expression level remains a strong predictor of prognosis in these subpopulations.
+Although this study improves our understanding of the association between lncRNA DIRC1 and STAD, some limitations remain. First, in order to fully clarify the special role of lncRNA DIRC1 in the development and progression of STAD, all clinical factors, such as details of the patient’s treatment process, such as surgical treatment, chemotherapy or radiotherapy, should be included. However, such information is lacking or inconsistently processed in public databases. Second, this study only provides biological information analysis and a small amount of experimental verification, and in 18 Gastric cancer samples, it does not distinguish the types of Gastric cancer such as squamous cell carcinoma and adenocarcinoma, which has certain limitations. More blood samples, cell samples and tissue samples are needed for RT-PCR and immunohistochemical analysis to further study the function and mechanism of lncRNA DIRC1 from multiple perspectives. Third, the understanding of gene function by single omics is not comprehensive, so it should be extended to multi-omics research, especially the study of protein level and its functional mechanism. Fourth, the lack of external data set validation can lead to bias. Finally, retrospective study has its limitations. Prospective studies must be conducted in the future. In this study, we found that lncRNA DIRC1 was an independent predictor of lower overall STAD survival.
+
+## 5. Conclusion
+LncRNA DIRC1 expression was significantly correlated with poor survival and immune infiltrations in STAD, and it may be a promising prognostic biomarker in STAD. Furthermore, these findings provide clues to further explore the possible role of lncRNA DIRC1 in STAD.
+
+## Acknowledgments
+Xiantao Academic provides technical support for R analysis.
+
+## Author contributions
+Conceptualization: Yuning Lin, Ying Li.
+Data curation: Yuning Lin, Ying Li.
+Formal analysis: Yuning Lin, Ying Li, Yongquan Chen.
+Funding acquisition: Yuning Lin.
+Investigation: Yuning Lin, Ying Li.
+Methodology: Yuning Lin, Ying Li.
+Project administration: Yuning Lin.
+Resources: Yuning Lin, Zhongying Zhang, Yongquan Chen.
+Software: Yuning Lin, Zhongying Zhang.
+Supervision: Yuning Lin, Zhongying Zhang, Yongquan Chen.
+Validation: Yuning Lin, Zhongying Zhang, Yongquan Chen, Meiying Su, Wenzhen Zhao.
+Visualization: Yuning Lin, Zhongying Zhang, Yongquan Chen.
+Writing – original draft: Yuning Lin, Zhongying Zhang, Ying Li.
+Writing – review & editing: Yuning Lin, Zhongying Zhang.
+
+## Supplementary Material
+ 
+
+## Abbreviations:
+DC =dendritic cells
+DEGs =differentially expressed genes
+DIRC1 =Disrupted In Renal Carcinoma 1
+FDR =false discovery rate
+GO =gene oncology
+GSEA =gene set enrichment analysis
+GTEx =genotype-tissue expression
+KEGG =Kyoto encyclopedia of genes and genomes
+lncRNA =long non-coding RNA
+MCC =maximum clique centrality
+NK =nature kill
+OR =odds ratio
+OS =overall survival
+PPI =protein–protein interaction
+RT-PCR =real time-polymerase chain reaction
+STAD =stomach adenocarcinoma
+STRING =search tool for the retrieval of interacting genes
+TCGA =the cancer genome atlas
+TPM =transcripts per million
+
+The authors have no conflicts of interest to disclose.
+This study was supported by Xiamen Medical and Health Guidance Project (No. 3502Z20209072).
+The datasets generated during and/or analyzed during the current study are publicly available.
+The data were downloaded from the TCGA database (https://portal.gdc.cancer.gov/).
+Supplemental Digital Content is available for this article.
+How to cite this article: Lin Y, Zhang Z, Li Y, Chen Y, Su M, Zhao W. LncRNA DIRC1 is a novel prognostic biomarker and correlated with immune infiltrates in stomach adenocarcinoma. Medicine 2022;101:46(e31839).
+
+## Contributor Information
+Yuning Lin, Email: 287170933@qq.com.
+Ying Li, Email: 514416027@qq.com.
+Yongquan Chen, Email: 773993382@qq.com.
+Meiying Su, Email: 1908253706@qq.com.
+Wenzhen Zhao, Email: 2245077367@qq.com.
+
+## References
