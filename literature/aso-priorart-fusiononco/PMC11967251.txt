@@ -1,0 +1,171 @@
+2682casCancer ScienceCancer SciWileyPMC1196725111967251119672513980570210.1111/cas.16451IGF2BP3 Triggers STAT3 Pathway by Stabilizing SRC RNA in an m6A‐Dependent Manner to Promote Lymphatic Metastasis in LUAD
+DingJiapei WangXuequan YangHaihua ZhangLele YingYongquan PiWenhu DengGuozhong ZhuYaqun 
+1
+Department of Radiotherapy & Oncology, The Second Affiliated Hospital of Soochow University, Suzhou, Jiangsu, China
+2
+Key Laboratory of Radiation Oncology of Taizhou, Radiation Oncology Institute of Enze Medical Health Academy, Taizhou Hospital Affiliated to Wenzhou Medical University, Taizhou, Zhejiang, China
+3
+Department of Radiation Oncology, Taizhou Hospital of Zhejiang Province, Wenzhou Medical University, Taizhou, Zhejiang, China
+4
+School of Laboratory Medicine, Ningxia Medical University, Yinchuan, China
+5
+Department of Thoracic Surgery, Taizhou Hospital of Zhejiang Province, Wenzhou Medical University, Taizhou, Zhejiang, China*
+
+Correspondence:
+ 
+Yaqun Zhu (happiness19890110@126.com)
+
+✉Corresponding author.
+13120251164936936–950442025© 2025 The Author(s). Cancer Science published by John Wiley & Sons Australia, Ltd on behalf of Japanese Cancer Association.This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## ABSTRACT
+Lymph node metastasis significantly affects the NSCLC patients' staging, treatment strategy, and prognosis. Studies have shown that IGF2BP3, an oncofetal protein and an m6A reader, overexpresses and correlates to lymph node metastasis and worse overall survival in histopathological studies including NSCLC, but its mechanism needs further study. This study explored IGF2BP3's function and mechanism in LUAD lymphatic metastasis using public databases, a human LUAD tissue microarray, human LUAD cells, and a lymphatic metastasis model in male BALB/c nude mice. Firstly, we proved that IGF2BP3 overexpression was positively correlated to patients' lymph node metastasis and worse overall survival in bioinformatics and a human LUAD tissue microarray analysis. IGF2BP3 was knocked out or overexpressed in human LUAD cell lines. Functionally, IGF2BP3 facilitated NCI‐H1299, NCI‐H358, and A549 cell growth, migration, invasion, and EMT in vitro, and promoted tumorigenesis, lymphangiogenesis, and lymphatic metastasis of NCI‐H1299 cells in BALB/c nude mice. Mechanically, RIP, RNA pull‐down assay, MeRIP, mRNA stability assays, rescue experiments, and immunohistochemical assays were conducted. IGF2BP3 was demonstrated to bind to the m6A site of the 3′UTR region of SRC, stabilizing its mRNA and activating the downstream STAT3 signaling pathway and lymphatic growth factors such as VEGF‐C, therefore affecting lymphatic metastasis. The cell migration and EMT function of IGF2BP3 were partially rescued by utilizing SRC siRNA or AZD0530, an SRC inhibitor. This study demonstrated that IGF2BP3 promotes lymphatic metastasis in LUAD via activating the m6A‐SRC‐STAT3‐VEGFC signaling axis, indicating that IGF2BP3 is a potential therapeutic target to overcome metastasis in LUAD patients.
+Keywords: IGF2BP3, LUAD, lymphatic metastasis, N6‐methyladenosine, SRC
+
+This study unveiled the mechanism wherein IGF2BP3 was overexpressed in human LUAD tissues, promoted cell migration and invasion, EMT, lymphangiogenesis, and lymph node metastasis by binding the m6A site of the 3′UTR region of SRC and maintaining its stability to activate STAT3 signaling pathway, and promote VEGFC expression in LUAD. It is promising to develop inhibitors targeting IGF2BP3 to overcome lymph node metastasis and distant metastasis in patients with LUAD.
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2024 Dec 24; Received 2024 Aug 22; Accepted 2025 Jan 3; Collection date 2025 Apr.
+
+## Abbreviations
+EMTepithelial–mesenchymal transition
+GOgene ontology
+GSEAGene Set Enrichment Analysis
+KEGGKyoto Encyclopedia of Genes and Genomes
+LUADlung adenocarcinoma
+m6AN6‐methyl‐adenosine
+MeRIPmethylated RNA immunoprecipitation
+NSCLCnon–small cell lung cancer
+OSoverall survival
+RIPRNA binding protein immunoprecipitation
+TCGAthe Cancer Genome Atlas
+UTRUntranslated Regions
+1.
+
+## Introduction
+Lung cancer is the leading cause of cancer death in the world, and non–small cell lung cancer (NSCLC) is the predominant histologic subtype of lung cancer [ ]. A significant challenge to NSCLC is its penchant for metastasis, with over 70% of patients presenting with lymph node involvement or distant metastasis at diagnosis [ , ]. Survival rates in NSCLC patients drop to between 13% and 53% for those with lymph node metastases, compared to 60%–92% for those without lymph node involvement [ , ]. Studies have confirmed that regional lymph node metastasis remains a critical determiner of a patient's staging, therapeutic decisions, quality of life, and prognosis in several solid tumors including NSCLC [ ]. The transition from the status without lymph node metastatic (N0) to the status with lymph node metastatic (N+) in NSCLC has attracted increasing attention and requires further investigation.
+Studies have focused on the epigenetics of lymphatic metastasis. RNA methylations, accounting for more than 50% of all RNA modification, include N1‐methyladenosine (m1A), N6‐methyl‐adenosine (m6A), N3‐methylcytosine (m3C), 5‐methylcytosine (m5C), and N7‐methylguanosine (m7G) [ ]. These modifications are orchestrated by an ensemble of molecules: methyltransferases (“writers”), demethylases (“erasers”), and relative RNA binding proteins (“readers”) [ ]. Among these, m6A methylation is the most prevalent type of eukaryotic mRNA modification, characterized by the methylation at the N6‐position of adenosine, regulating cell function and fate by controlling RNA metabolism [ ]. Studies have begun to elucidate the mechanism of m6A methylation regulating tumor lymphatic metastasis [ , , , , ]. IGF2BPs, as famous m6A readers, playing a critical role in carcinogenesis and metastasis, have been promising therapeutic targets. However, the study of IGF2BPs on lymphatic metastasis is still in its infancy.
+IGF2BP3, an oncofetal protein and an m6A reader, is a member of the IGF2BPs family, playing a crucial role in metabolism, oncogenesis, cell migration in early embryogenesis, and metastasis [ , ]. Histopathological studies have shown that IGF2BP3 overexpression is correlated to higher histological grade, lymph node metastasis, bad TNM stage, and worse overall survival in NSCLC [ , ], gastric cancer [ , ], colon cancer [ , ], cervical squamous cell carcinoma [ ], endometrial carcinomas [ ], intrahepatic cholangiocarcinoma [ ], and melanoma [ ]. But whether IGF2BP3 contributes to lymphatic metastasis needs further experimental validation and mechanism research. Unraveling the mechanisms of lymphatic metastasis could unlock new therapeutic targets and refine our understanding of metastatic progression in NSCLC. Above all, IGF2BP3 is implicated in lymph node metastasis, necessitating further investigation to elucidate its underlying mechanism.
+Accordingly, this study explored IGF2BP3's function and its mechanism in lung adenocarcinoma (LUAD) lymphatic metastasis.
+
+2.
+
+## Material and Methods
+The public databases and a human LUAD tissue microarray were analyzed to investigate the correlation between IGF2BP3 expression and lymphatic metastasis. The correlations between IGF2BP3 expression and clinical characteristics of the 80 patients are shown in Table  . IGF2BP3 was knocked out or overexpressed in human LUAD cells. Then, cell proliferation assay, wound‐healing assay, cell migration assay, western blotting of EMT proteins in vitro, and lymphatic metastasis model in male BALB/c nude mice were conducted. Furthermore, an RNA‐sequencing analysis, bioinformatics analysis, qRT‐PCR, western blot, rescue experiments, immunohistochemical assays (IHC), RNA binding protein immunoprecipitation (RIP), RNA pull‐down assay, methylated RNA immunoprecipitation (MeRIP), and mRNA stability assays were utilized to delve into the mechanism of IGF2BP3 in human LUAD cells. Detailed information can be found in Methods . Antibodies, primers, targeted sequences, and siRNA sequences used in this project can be found in Tables  .
+ 
+3.
+
+## Results
+3.1.
+
+## 
+IGF2BP3 Overexpresses and Correlates to Lymph Node Metastasis in Human LUAD Tissues
+We analyzed the RNA levels of 42 recognized RNA methylation regulators in the TCGA LUAD database to study their influence on LUAD (Figure  ). Five out of the 42 m6A regulatory genes showed a significant upregulation in LUAD tissues when compared to normal tissues (Figure  ). The five genes included three m5C genes (NSUN2, NOP2, and DNMT3B), and 2 m6A “readers” (IGF2BP1 and IGF2BP3), among which only IGF2BP3 RNA had a significant relationship with N stages in LUAD (Figure  ). Moreover, a substantial correlation was observed between IGF2BP3 RNA expression and N stages in multiple tumors including LUAD based on TCGA data (Figure  ). Importantly, gene set enrichment analysis (GSEA) results showed that IGF2BP3 RNA expression was significantly correlated with angiogenesis, migration, and type‐3 epithelial–mesenchymal transition (EMT) (Figure  ; Figure  ) [ ]. In addition, high‐level IGF2BP3 RNA expression indicated shorter overall and disease‐specific survival in LUAD based on TCGA data (Figure  ).
+ A human LUAD tissue microarray and immunohistochemistry assays were utilized to assess IGF2BP3 protein expression and its correlations to clinical characteristics. This study revealed that the IGF2BP3 protein expression in LUAD tissue was significantly elevated compared to paired normal tissues (Figure  ). Furthermore, patients with high IGF2BP3 protein expression exhibited higher grade tumors (p = 0.001), more lymph node metastases (p < 0.001), and more advanced TNM stages (p < 0.001) than those with diminished IGF2BP3 expression (Table  ). Additionally, LUAD patients with lymph node metastases and higher IGF2BP3 protein expression had poorer overall survival (OS) rates (Figure  ). Patients with N+ or N0 had a median OS of 33 (67–16) and 70 (74–52) months (p < 0.0001), respectively. Those with high or low IGF2BP3 protein expression had a median OS of 31 (53−16) and 70 (77–39) months (p = 0.0006), respectively. IGF2BP3 was an independent prognostic factor in LUAD patients based on univariate and multivariate Cox regression analysis of IGF2BP3 protein expression and patients' clinical characteristics (Table  ). To summarize, these results indicate IGF2BP3 overexpresses and significantly correlates to lymphatic metastasis in human LUAD tissues.
+ 
+3.2.
+
+## 
+IGF2BP3 Promotes Cell Migration, Invasion, and EMT in Human LUAD Cells
+Lymphatic metastasis encompasses a range of mechanisms, including lymphangiogenesis induction, metastatic niche preconditioning (enhanced cell migration and invasion), and immune modulation. To explore the function of the IGF2BP3 in LUAD cells, we utilized CRISPR‐Cas9 gene‐editing technology to construct IGF2BP3 knockout and the control cell lines in the NCI‐H1299 and A549 LUAD cells. Lentivirus was used to establish IGF2BP3 overexpression and the control cell lines in NCI‐H1299 and NCI‐H358 cell lines. The effectiveness of knockout was confirmed through western blot analysis, showing the successful knockout of IGF2BP3 at the protein levels in NCI‐H1299 and A549 cells (Figure  ). The transduction efficiency of Lentivirus was validated using GFP fluorescence imaging following the puromycin selection (Figure  ). The effectiveness of overexpression was confirmed through RT‐qPCR and western blot analysis, demonstrating successful IGF2BP3 overexpression at both the mRNA and protein levels in NCI‐H1299 and NCI‐H358 cells (Figure  ).
+ In addition, we next investigated whether IGF2BP3 can promote the growth, migration, and invasion of LUAD cells. The knockout of IGF2BP3 dramatically impaired cell proliferation, colony formation abilities, migration, and invasiveness and reduced N‐Cadherin and vimentin protein expression but increased E‐Cadherin protein expression in NCI‐H1299 and A549 cells compared with the control cells; whereas the overexpression of IGF2BP3 promoted cell proliferation, colony formation abilities, migration, invasiveness, and increased N‐Cadherin and vimentin protein expression, but reduced E‐Cadherin protein expression in NCI‐H1299 and NCI‐H358 cells compared with the control cells (Figure  ). The collective findings indicate that IGF2BP3 boosts the growth, movement, and invasiveness of LUAD cells, and is essential in controlling the EMT process in LUAD cells.
+
+3.3.
+
+## Identification of SRC as the IGF2BP3 Target in LUAD
+
+To explore the fundamental processes involving IGF2BP3 in the development of LUAD, an RNA‐sequencing analysis was carried out on IGF2BP3 knockout and control NCI‐H1299 cells. The analysis revealed that IGF2BP3 knockout resulted in 1700 differential expression genes including 621 upregulated genes and 1079 downregulated genes (Figure  ; Figure  ). Furthermore, the KEGG and GO enrichment analysis revealed that the differential expression genes were involved in cell adhesion, cell junction, integrin binding, angiogenesis, and metabolism (Figure  ; Figure  ). GSEA pathway enrichment revealed that the differential expression genes significantly enriched in the focal adhesion, adherens junction, gap junction, tight junction, JAK–STAT signaling pathway, VEGF signaling pathway, and SRC was an important member of the above pathways (Figure  ; Figure  ). The Pearson correlation analysis revealed a significant positive correlation between SRC expression and IGF2BP3 expression in the LUAD TCGA database, indicating a potential positive regulatory mechanism between IGF2BP3 and SRC in LUAD (Figure  ). Thus, SRC, as a potential therapeutic target in NSCLC, was identified as the target gene of IGF2BP3 for further study based on the literature [ , ]. The SRC expression was assessed in LUAD cells with different IGF2BP3 expression levels to elucidate IGF2BP3 regulatory effect on SRC. RT‐qPCR and western blot assays demonstrated that the knockout of IGF2BP3 reduced SRC mRNA and protein expression in NCI‐H1299 and A549 cells, while overexpression of IGF2BP3 increased SRC at both mRNA and protein levels in NCI‐H1299 and NCI‐H358 cells (Figure  ).
+ 
+3.4.
+
+## 
+IGF2BP3 Regulates the Stability of SRC mRNA Through m6A Modification
+Our study focused on the role of IGF2BP3 as an RNA binding protein in m6A RNA modification and its potential regulation of SRC expression through m6A modification. Initially, RIP‐qPCR assays were conducted in NCI‐H1299 and A549 cells, showing a significant enrichment of SRC mRNA in the anti‐IGF2BP3 antibody group compared to the IgG control group, confirming the interaction between IGF2BP3 protein and SRC mRNA (Figure  ). According to the RM2Target database (GSE138063), we predicted four IGF2BP3 binding regions in the 3′‐untranslated regions (UTRs) of SRC mRNA and synthesized four biotin‐labeled RNA probes (Figure  ). RNA pull‐down assays demonstrated that endogenous IGF2BP3 was prone to bind to probe #3 (Figure  ), which indicated that IGF2BP3 protein binds to the “UCAAAUCUGGGCUCACUCACCCCA” in the 3′UTR region of SRC. Then, based on GSM1166139 in RMBase v3.0, IGF2BP3 tends to bind to the common m6A motif shown in Figure  . We predicted the “UCAAAUC” as a potential m6A binding site between IGF2BP3 and SRC mRNA. A mutant RNA probe #3 was synthesized by single‐nucleotide replacement of “UCAAAUC” to “UCAAUUC” (Figure  ). RNA pull‐down assays revealed that mutant RNA probe #3 remarkably abolished IGF2BP3 association with SRC mRNA (Figure  ), thus “UCAAAUC” contributes to the interaction between SRC mRNA and IGF2BP3. Next, RNA pull‐down assays using the recombinant IGF2BP3 protein and the RNA probes showed a direct association between IGF2BP3 and RNA probe #3 (Figure  ). Further, a positive primer to amplify the “UCAAAUC” regions in the 3′‐UTRs of SRC mRNA and a negative primer were generated. MeRIP‐qPCR assays demonstrated the m6A site in the 3′‐UTRs of SRC mRNA (Figure  ). At last, mRNA stability assays revealed reduced mRNA expression and half‐lives of SRC in IGF2BP3 knockout NCI‐H1299 cells compared with the control cells (Figure  ). Overall, our findings indicate that IGF2BP3 protein directly binds to the 3′UTR region of SRC, dependent on m6A modification, thereby stabilizing its mRNA.
+ 
+3.5.
+
+## 
+IGF2BP3 Activates the SRC‐Mediated JAK‐STAT3 Signaling Pathway and Regulates Lymphatic Growth Factors in LUAD Cells
+The two most well‐described SRC‐mediated pathways involved in tumor progression, metastasis, and angiogenesis include the activation of STAT3 and FAK [ ]. SRC induces tyrosine residue phosphorylation and thus activation of STAT3 and FAK [ ]. Therefore, we speculated that IGF2BP3 might activate SRC‐mediated JAK‐STAT3 pathway or FAK pathway to regulate the tumor lymphatic metastasis. Western blot verified that the knockout of IGF2BP3 could inhibit STAT3 phosphorylation effectively; however, STAT3, FAK, and p‐FAK remained unchanged (Figure  ).
+ The VEGF family of growth factors, IGF‐1, IGF‐2, PDGF‐BB, HGF, FGF2, IL‐7, sphingosine‐1‐phosphate, angiopoietin‐2, and adrenomedullin are well‐known lymphatic growth factors [ , , ]. In RNA‐sequencing analysis with IGF2BP3 knockout NCI‐H1299 cells and the control cells, there was statistical significance in the differential expression of VEGF‐B, VEGF‐C, PDGF‐D, and HGF among the above‐mentioned lymphatic growth factors (Figure  ). GEPIA 2's correlation analysis revealed that only VEGF‐C and PDGF‐D RNA expressions showed significant positive correlations with IGF2BP3 in LUAD tissue (Figure  ). RT‐qPCR assays demonstrated that the knockout of IGF2BP3 reduced VEGF‐C and PDGF‐D mRNA in NCI‐H1299 cells (Figure  ). Thus, we concluded that IGF2BP3 regulated SRC, and then activated the downstream STAT3 pathway and lymphatic growth factors (VEGF‐C and PDGF‐D) to promote tumor lymphangiogenesis and lymph node metastasis.
+Our study delved deeper into the roles of SRC in the IGF2BP3‐regulated STAT3 signaling pathway and promoting cell growth and EMT in LUAD cells, despite the well‐established understanding of SRC's involvement in regulating the STAT3 signaling pathway and promoting EMT. Colony formation assays and CCK‐8 assays demonstrated that silencing SRC attenuated the enhanced cell proliferation resulting from IGF2BP3 overexpression in NCI‐H1299 cells (Figure  ). The western blot analysis revealed that silencing SRC in NCI‐H1299 cells could reverse the IGF2BP3‐mediated phosphorylation of STAT3 and the downregulation of E‐Cadherin and upregulation of vimentin (Figure  ). The findings indicated that IGF2BP3 interacted with SRC to enhance STAT3 phosphorylation and promote EMT. Moreover, wound‐healing assays demonstrated that silencing SRC or using the SRC inhibitor Saracatinib (AZD0530, MCE, CAS No. 379231‐04‐6) attenuated the enhanced cell migration resulting from IGF2BP3 overexpression in NCI‐H1299 cells (Figure  ).
+
+3.6.
+
+## 
+IGF2BP3 Facilitates Tumor Lymphangiogenesis and Lymph Node Metastasis in Xenograft Mice
+We investigated the influence of IGF2BP3 on lymphatic metastasis in LUAD by establishing a lymph node metastasis xenograft mouse model [ ]. We chose NCI‐H1299 for the study of lymph node metastasis in vivo because the NCI‐H1299 cell line was derived from metastatic lymph nodes in an LUAD patient. IGF2BP3 knockout NCI‐H1299 cells (KO group) and the negative control NCI‐H1299 cells (NC group) were injected into the right footpad of six BALB/c nude mice, respectively. The lymph node metastasis was monitored using in vivo bioluminescence imaging after an 8‐week period [ , ]. IGF2BP3 knockout significantly inhibited the lymph node metastasis of NCI‐H1299 cells in BALB/c nude mice (Figure  ). Furthermore, the IGF2BP3 knockout group exhibited reduced size and weight of footpad tumors, popliteal lymph nodes, and inguinal lymph nodes compared to the negative control group, indicating suppression of tumorigenesis and lymph node metastasis in LUAD (Figure  ). Additionally, the IGF2BP3 knockout group showed a lower lymph node metastatic rate than the negative control group (Figure  ).
+ IGF2BP3 knockout decreased SRC expression at both mRNA and protein levels in NCI‐H1299 xenograft tumors (Figure  ). Immunohistochemical analysis also showed reduced protein levels of IGF2BP3, SRC, VEGF‐C, CD 31, LYVE 1, and microlymphatic vessel density of the footpad tumors in the IGF2BP3 knockout group, compared with the control group (Figure  ). Hematoxylin and eosin staining of lymph node tissue confirmed the presence of lymph node metastasis (Figure  ). Overall, these results indicate that IGF2BP3 knockout significantly reduces tumor lymphangiogenesis and lymph node metastasis in vivo, suggesting that IGF2BP3 plays an important role in lymphatic metastasis in LUAD.
+The mechanism graphic in this study is displayed in Figure  .
+ 
+
+4.
+
+## Discussion
+This study has three novel findings. Firstly, this study has demonstrated that IGF2BP3 overexpression promotes tumor lymphatic metastasis in LUAD and has explored the mechanism, which has been rarely reported. Secondly, this study reveals that SRC expression is regulated by an m6A gene, which has been hardly ever reported. Thirdly, this study has identified a novel pathway regulated by IGF2BP3, which has been rarely reported. In summary, IGF2BP3 contributes to tumor lymphatic metastasis in LUAD via stabilizing SRC mRNA in an m6A‐dependent manner, activating the STAT3 signaling pathway, and triggering VEGF‐C expression.
+This study demonstrated that IGF2BP3 overexpression was correlated to lymphatic metastasis in LUAD. IGF2BP3 immunohistochemical expression was observed in 27%–55% of LUAD cases and 75%–90% of LUSC cases of the lung [ ]. Previous pathological studies have indicated that IGF2BP3 overexpression was correlated with poorly differentiated histological grade, lymphatic metastases, advanced TNM stage, and worse survival in several tumors including NSCLC, but the mechanism requires further investigation [ , , , , , , , , , ]. Consistent with previous studies, this study showed that elevated IGF2BP3 expression was associated with lower tumor differentiation, increased lymph node metastasis, advanced TNM stage, and worse OS in LUAD. Tumor lymphangiogenesis plays relevant roles in tumor growth, lymphatic metastasis, tumor cell dissemination, and survival in NSCLC [ , ]. We found that IGF2BP3 knockout in NCI‐H1299 effectively impeded the development of micro lymphatic vessels and lymph node metastasis compared to the control group via establishing a lymph node metastasis model in BALB/c nude mice. Collectively, this study demonstrated that IGF2BP3 facilitated lymphatic metastasis in LUAD.
+This study identified SRC mRNA as a potential target of IGF2BP3 in regulating lymphangiogenesis and lymph node metastasis in LUAD cells. Numerous studies have found that the SRC is overexpressed and highly activated in a variety of human tumor cells including NSCLC, and is crucial to tumor size, lymphatic involvement, and distant metastasis [ , , , , , , , ]. The NSCLC cell lines exhibited the highest median SRC activity in an assessment of 60 cancer cell lines [ ]. This study identified SRC as an IGF2BP3 target gene via a comprehensive analysis of RNA sequencing technology and public databases. IGF2BP3 knockout reduced the binding between IGF2BP3 protein and SRC, decreased SRC mRNA stability, and led to SRC mRNA downregulation, which was confirmed by western blot, qRT‐PCR in LUAD cells and BALB/c nude mice, and RIP‐qPCR, RNA pull‐down, MeRIP‐qPCR, and RNA stability assays in LUAD cells. IGF2BP3 knockout led to the downregulation of SRC as well as p‐SRC at the protein level, which was consistent with previous studies. The SRC protein triggers self‐phosphorylation, which, in turn, positively impacts SRC activity [ ]. IGF2BP3 might also regulate SRC expression via other mechanisms (covalent modification, isomerization, ubiquitination, microRNA regulation, etc.), which needs further study [ ].
+We explored the pathways regulated by IGF2BP3 in LUAD cell lines. Consistent with previous studies, IGF2BP3 positively regulated MAPK and PI3K/AKT pathways [ , ]. Additionally, we found that IGF2BP3 significantly positively regulated the STAT3 signaling pathway. Previous studies have shown that SRC stimulates EMT and lymphatic metastases via diverse mechanisms including activating STAT3/VEGF‐C, FAK, MAPK/VEGF‐C, IL‐6/VEGF‐C, and so on [ , , , ]. STAT3 upregulates the expression of E‐cadherin and downregulates the expression of N‐cadherin, vimentin, VEGF‐C, and PDGF‐D [ , , ]. This study certificated that IGF2BP3 knockout decreased VEGF‐C expression. Aberrantly elevated STAT3 activity has been estimated to occur in > 70% of human cancers including NSCLC, and plays a crucial role in lymphatic metastasis in NSCLC [ ], gastric cancer [ ], prostate cancer [ ], cervical squamous cell carcinoma [ ], and melanoma [ ]. To sum up, we conclude that IGF2BP3 enhances lymphatic metastasis in LUAD via the SRC/STAT3/VEGF‐C signaling pathway. Several molecular mechanisms of lymphatic metastasis have been reported in lung cancer including some growth factors (VEGF‐C/D, PDGF, EGF, angiopoietins, etc.), inflammation factors (CCR7, IL‐1α, and CXCR4), and extracellular vesicle components (EV‐miR‐106b, EV‐miR‐378, EV‐miR203a‐3p, circR‐0056285, and AGAP2 antisense RNA 1) [ , , , ]. Whether IGF2BP3 promotes lymphatic metastasis by regulating the above molecules needs further study.
+To date, targeted therapy aimed at lymphatic metastasis in lung cancer is still in its infancy [ ]. Several compounds targeting SRC or STAT3 have reached clinical trials [ ]. Dasatinib treatment targeting SRC family kinases inhibits tumor growth and lymphatic metastasis in an orthotopic nude mouse model of prostate cancer [ ]. The SRC and BCR‐Abl inhibitors saracatinib and AZD0424 are in clinical trials for a variety of solid tumors including lung cancers [ ]. Giacomo Canesin demonstrated that the STAT3 inhibitor galiellalactone effectively reduces growth and lymphatic metastasis of prostate cancer in an orthotopic xenograft mouse model [ ]. In this study, IGF2BP3 knockout significantly reduced the growth and lymphatic metastasis of NCI‐H1299 cells via regulating SRC expression and JAK‐STAT3 signaling pathway in a xenograft mouse model. Accordingly, it is promising to develop inhibitors targeting IGF2BP3 to overcome lymph node metastasis and distant metastasis in patients with LUAD.
+In summary, our research findings have demonstrated that IGF2BP3 overexpression is correlated to increased lymph node metastasis and worse overall survival in LUAD; IGF2BP3 contributes to tumor lymphangiogenesis and lymph node metastasis in LUAD via stabilizing SRC mRNA in an m6A‐dependent manner, activating STAT3 signaling pathway, and triggering VEGF‐C expression. It is promising to develop inhibitors targeting IGF2BP3 to inhibit tumor growth and metastasis.
+
+## Author Contributions
+
+Jiapei Ding: conceptualization, data curation, formal analysis, investigation, methodology, visualization, writing – original draft. Xuequan Wang: funding acquisition, project administration, resources, software, writing – review and editing. Haihua Yang: funding acquisition, resources, supervision. Lele Zhang: methodology, validation. Yongquan Ying: methodology, writing – review and editing. Wenhu Pi: methodology, writing – review and editing. Guozhong Deng: methodology. Yaqun Zhu: funding acquisition, supervision.
+
+## Ethics Statement
+Approval of the research protocol by an Institutional Review Board: The study was carried out following the Declaration of Helsinki and was approved by the Ethics Committee of Taizhou Hospital Affiliated to Wenzhou Medical University (No: K20230224).
+Informed consent: N/A.
+Registry and the registration no. of the study/trial: N/A.
+Animal studies: Animal experiments were approved by the Animal Committee of Taizhou Hospital Affiliated to Wenzhou Medical University (No. tzy‐2023019), and animal care was performed following Wenzhou Medical University guidelines for animal experiments.
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Supporting information
+
+Figure S1. Bioinformatics analysis in TCGA database.
+
+Figure S2. Bioinformatics analysis in RNA sequencing data and GEPIA 2’s correlation analysis.
+
+Table S1. List of antibodies used for western blot.
+
+Table S2. List of primers used in this project.
+
+Table S3. Sequences of sgRNAs targeted to the BsmBI of IGF2BP3 in this project.
+
+Table S4. List of siRNA sequences in this project.
+
+Table S5. List of RNA probe sequences in this project.
+
+## Acknowledgments
+The authors thank the instrumental and technical support from Taizhou Hospital in Zhejiang Province.
+
+Funding: This study was supported by the Natural Science Foundation of Zhejiang province (LGF22H160058), Suzhou Radiotherapy Clinical Medical Center (Szlcyxzx202103), and the Research Foundation of Taizhou Anti‐Cancer Association (TACA‐B03).
+Jiapei Ding, Xuequan Wang, and Haihua Yang contributed equally to this work and should be considered co‐first authors.
+
+## Data Availability Statement
+The RNA sequencing data in this study are available from GEO (GSE270702, NCBI tracking system #24693996). The data in this research can be accessed by anyone upon request.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Figure S1. Bioinformatics analysis in TCGA database.
+
+Figure S2. Bioinformatics analysis in RNA sequencing data and GEPIA 2’s correlation analysis.
+
+Table S1. List of antibodies used for western blot.
+
+Table S2. List of primers used in this project.
+
+Table S3. Sequences of sgRNAs targeted to the BsmBI of IGF2BP3 in this project.
+
+Table S4. List of siRNA sequences in this project.
+
+Table S5. List of RNA probe sequences in this project.
+
+## Data Availability Statement
+The RNA sequencing data in this study are available from GEO (GSE270702, NCBI tracking system #24693996). The data in this research can be accessed by anyone upon request.

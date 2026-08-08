@@ -1,0 +1,227 @@
+721bibBriefings in BioinformaticsBrief BioinformOxford University PressPMC1290702312907023129070234169309210.1093/bib/bbag059A de novo assembly based fusion gene detection concept based on DNA-seq data of 100 Ewing sarcoma cases
+ZhaoXinwei HotfilderMarc KorschingEberhard 1
+Institute of Bioinformatics, Faculty of Medicine, University of Münster, Münster D-48149, Germany2
+Department of Pediatric Hematology and Oncology, Neuro-Oncology, University Hospital Münster, Münster D-48149, Germany3
+Institute of Bioinformatics, Faculty of Medicine, University of Münster, Münster D-48149, Germany✉Corresponding author. Institute of Bioinformatics, Faculty of Medicine, University of Münster, Niels-Stensen-Str. 14, Münster D-48149, Germany. E-mail: eberhard.korsching@uni-muenster.de
+1622026271bbag059bbag0591722026© The Author(s) 2026. Published by Oxford University Press.This is an Open Access article distributed under the terms of the Creative Commons Attribution-NonCommercial License (https://creativecommons.org/licenses/by-nc/4.0/), which permits non-commercial re-use, distribution, and reproduction in any medium, provided the original work is properly cited. For commercial re-use, please contact reprints@oup.com for reprints and translation rights for reprints. All other permissions can be obtained through our RightsLink service via the Permissions link on the article page on our site—for further information please contact journals.permissions@oup.com.
+
+## Abstract
+Ewing sarcoma refers to a family of bone tumors primarily characterized by various fusion gene types, with EWSR1-FLI1 being the most common. These fusion genes lead to the development of tumors growth over time. While most fusion gene detection tools rely on RNA-based data, few utilize genomic data. Existing methodologies face challenges in sensitivity and accuracy of detection. To improve genomic understanding, a novel de novo assembly-based analysis tool, DenovoFusion, was developed. DenovoFusion is a specialized tool designed to detect DNA-level chimeric events and address current limitations in accurate breakpoint identification. The complex fusion detection pipeline includes contig assembly, alignment, and realignment steps that can be customized to the user’s needs, focusing on identifying potential fusion breakpoints. After validation using simulated datasets and 100 Ewing sarcoma DNA sequencing datasets from a study at the Curie Institute in Paris, this approach was compared with the approaches of related tools such as HMFtools, Genefuse and FACTERA. In the analysis of 100 samples, DenovoFusion demonstrated superior accuracy and a false-positive rate of zero when compared to FACTERA. It also performed comparably to methods that utilize predefined fusion lists. By examining ETS family-related fusions in all samples, known fusions were validated, and rare breakpoint variants, including novel ones within the intronic region between EWSR1 exon 11 and FLI1 exon 6, were discovered. The novel assembly-based approach for fusion gene detection improves accuracy in short-read sequencing data, offers a customizable research platform, and shows promise for future applications with long-read sequencing technologies.
+Keywords: fusion gene, de novo assembly, breakpoint detection, EWSR1 gene, ETS transcription factors, chromoplexy
+
+## Graphical Abstract
+
+ 
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Sep 29; Revised 2025 Dec 12; Accepted 2026 Jan 24; Collection date 2026 Jan.
+
+## Introduction
+Since the identification of the EWSR1-FLI1 fusion in 1992, numerous studies have deepened our understanding of its molecular mechanisms in the tumorigenesis of Ewing sarcoma, a tumor classified as a ‘small round blue cell tumor’ (SRBCTs) [ ]. This fusion, resulting from the incorrect translocation of two chromosomal parts at an early organ stem cell level, alters the gene regulatory network, leading to the development of a cancerous phenotype [ ].
+The fusion is most prominently composed of the Ewing’s sarcoma RNA binding protein 1 gene (EWSR1) from the TAT family and a gene from the ETS family of transcription factors, most commonly FLI1 [ ]. This involves the chromosomal translocation t(11;22)(q24;q12) in ~85%–90% of cases. Other less common fusions include EWSR1 with ERG, FEV, ETV1, and ETV4 [ ]. The EWSR1-FLI1 fusion protein can bind to GGAA ETS-binding sites, allowing multimers to recruit the SWI/SNF chromatin-remodeling complex and enzymes that catalyze histone modifications [ ]. Polymorphisms in GGAA-repeat length also affect the transcriptional activity of EWSR1-FLI1 [ ]. Ultimately, these fusions have a significant impact on the central mechanisms of gene expression control.
+As an oncogenic transcription factor, the EWSR1-FLI1 fusion influences downstream molecular activity through various mechanisms. It upregulates oncogenic genes such as NKX2–2, NR0B1, and CCND1 [ , ], while down-regulating tumor suppressor genes like TP53 [ ] and TGFB1 pathway genes [ ]. Additionally, it plays a role in epigenetic remodeling by altering chromatin accessibility, recruiting chromatin remodelers, and converting normal enhancers to super-enhancers. This process makes Ewing sarcoma highly sensitive to transcriptional inhibitors such as CDK7 or BRD4 [ ].
+Recent studies have also revealed that this fusion gene interacts with DNA damage response pathways by accumulating R-loops and causing replication stress [ ]. It impairs homologous recombination through its interaction with BRCA1 and the transcription machinery, ultimately compromising DNA repair mechanisms. The knowledge established on the EWSR1-FLI1 fusion gene has led to the development of several therapeutic strategies to mitigate its effects using retroviral vectors [ ] and other interventions targeting DNA and RNA levels. These include RNA interference (RNAi), antisense oligonucleotide (ASO) technology targeting EWSR1-FLI1 mRNA, as well as the use of the CRISPR/Cas9 system or small molecule inhibitors to block transcriptional activity. These strategies underscore the potential of precision treatments customized for the EWSR1 fusion gene, leading to more effective and targeted therapeutic approaches [ ].
+Given the critical role of fusion genes in tumorigenesis, their early and accurate detection is increasingly important. Over the last decade, algorithms for fusion gene detection have advanced due to the widespread adoption of Next-Generation Sequencing (NGS) technology [ ]. However, there remains a need for more precise and comprehensive genomic profiling to enhance our understanding for personalized diagnostic, prognostic, and therapeutic options.
+Currently, many researchers prioritize RNA sequencing (RNA-seq) for fusion detection because it captures transcript-level insights, enriches for actively expressed fusions, and reduces computational complexity compared to DNA-based approaches [ ]. These algorithms are typically based on an alignment-first strategy, which utilizes spanning reads or encompassing reads [ ]. Examples include FusionCatcher [ ], PRADA [ ], and Arriba [ ]. Despite their utility, these tools often struggle to balance sensitivity and specificity, leading to a high false-positive rate due to sequencing errors, mapping artifacts, repetitive regions, and algorithmic limitations [ ].
+Another type of RNA-based approach uses assembly algorithms, as proposed by Davidson et al. [ ] and Swanson et al. [ ], to overcome the limitations of short reads. These tools merge short reads into longer, ungapped contigs, which can enhance the precision of detecting fusion genes and breakpoints. However, due to algorithmic complexities, these assembly-based tools have not yet demonstrated significant advantages over alignment-based strategies [ ] .
+DNA sequencing (DNA-seq) can provide more precise breakpoint resolution, especially within intronic regions. However, existing DNA-based tools have specific limitations: HMFtools does not generate interpretable reports or identify new fusions, GeneFuse focuses solely on known or suspected fusions [ ], and FACTERA operates on pre-aligned short-read data, relying on alignment constraints and the limitations of short reads [ ].
+Therefore, the objective is to establish a de novo assembly strategy based on a reliable and fast C++ program for large-scale DNA-seq fusion detection. This program, named DenovoFusion, aims to address several limitations of existing methods. Unlike tools that rely on curated databases, DenovoFusion is designed to predict novel fusion events. Instead of analyzing short reads directly like FACTERA, it identifies fusions from assembled contigs, enabling the detection of complex fusions that read-based strategies may miss. The concept is also open to adopting long-read sequencing technologies as an input format.
+The developed DenovoFusion algorithm was applied to simulated datasets and publicly available Ewing sarcoma DNA sequencing data from the Curie Institute and compared to the reported fusion events. To assess its performance, a comparison with three established tools - HMFtools, FACTERA, and GeneFuse—was conducted on the mentioned datasets, providing valuable insights into the advantages of this new approach.
+
+## Methods
+
+## Datasets processing
+Semi-synthetic whole genome sequencing (WGS) datasets were generated by using ART_Illumina (GRCh37), incorporating nine fusion events stratified in three groups by allele frequency (0.2–0.5) and sequence divergence (0%–5%) to systematically test algorithmic limits. Simulations spanned a sequencing depth gradient of 10× to 80× (100 bp paired-end reads) with proportional background noise, as detailed in .
+WGS data for 100 Ewing sarcoma patients were obtained from the Institut Curie ICGC project (EGA accession: EGAS00001000855; technical details in ) [ ]. Sequencing was performed on an Illumina HiSeq2000 system (TruSeq protocol), yielding 101-bp paired-end reads from a fragment size of ~450 bp, with >20× coverage across 96% of the genome. Following quality control using FastQC (v0.12.1) and MultiQC (v1.25) [ ], raw reads were aligned to the reference genome using Bowtie2 (v2.5.1) [ ] to generate BAM files for downstream analysis.
+
+## Overview data analysis pipeline
+The computational workflow integrates existing bioinformatics tools with the newly developed core program, DenovoFusion ( ), to detect and analyze fusion genes. The workflow comprises four major steps: (i) De novo assembly of short reads into long contigs. (ii) Alignment of contigs to the reference genome, selecting chimeric candidates based on features like significant soft clipping. (iii) Re-alignment of raw reads to candidate contigs to confirm discordant alignments. (iv) A final filtering procedure based on prior information. At the file level, raw reads (fastq) are assembled into contigs (fasta), which are then aligned to the reference genome to produce alignment files (psl). DenovoFusion analyzes these files to identify potential fusion events. Reads are then realigned to selected contigs to generate support read files (sam), which are used for final quality assessment. The pipeline outputs intermediate (tsv) and final fusion genes lists (tsv).
+ 
+
+## Pre-processing and algorithm application
+The raw sequencing data underwent a series of pre-processing steps, including de novo assembly with MEGAHIT (1.2.9) [ ] and local alignment with pblat (2.5.1) [ ], to generate the necessary contigs and alignment files for the core analysis. These detailed methods, along with specific tool versions and parameters, are fully described in the .
+
+## DenovoFusion—stage 1—contig alignment and selection
+The objective is to identify the most effective alignment or combination of alignments that accurately represents a contig, maximizing coverage while minimizing redundancy ( and ). A contig is modeled as a linear sequence from base 1 to n, where n is its length. It may have multiple overlapping alignments, each covering bases i to j . By analyzing base positions, alignment length, and start and end points, we calculate the proportion of each aligned segment relative to the contig length.
+ All possible full or partial, potentially overlapping alignments from the PSL file were used, excluding unaligned regions. For each alignment, three properties were calculated: (i) inclusion (total aligned bases), (ii) overlap (overlapping bases with other alignments), and (iii) gap (unaligned bases). Each alignment is thus represented as a triplet (inclusion, overlap, gap). The first two are used in formulas 1a and 1b. The number of alignments per contig is also determined and included in the Score formula. Although gaps may exist, they are not used in score calculations. Formula 1c uses only alignment information from the PSL file.
+Formula 2 combines results from formulas 1a–1c with the number of alignments per contig. The default weighting in formula 2 is {1, 1, 1}, but users may adjust these weights to emphasize inclusion, overlap, or alignment count, reflecting fusion breakpoint characteristics. Among all alignments for each contig, the one with the highest score is selected for downstream analysis, provided its inclusion exceeds the default threshold of 90%. Detailed metric definitions are described below.
+
+1a. Inclusion (I): The fraction of bases on the contig that are covered by at least one alignment.
+
+ , n refer to the total counts of this contig.
+
+1b. Overlap (O): The proportion of bases covered by more than one alignment.
+
+ , n refer to the base counts of this contig.
+
+1c. Percent Identity Score (S): A metric for alignment quality, reflecting the proportion of matching bases in the alignment compared to the reference genome. Higher values indicate greater alignment accuracy.
+
+ , mismatch, qnuminsert, and NumBasedAligned are acquired from the PSL file (more information can be found at https://genomebrowser.wustl.edu/FAQ/FAQblat.html.).
+
+2. Score The summary formula is given as a set of alignments , each represented by its range on the contig. The objective is to search for a subset of alignments that maximizes the following function:
+where: 
+ is the identity score of alignment a,
+
+ is the inclusion fraction,
+
+ is the overlap fraction,
+
+ is the count of alignments,
+
+ are weighting factors to balance identity, inclusion, and penalization of overlap or redundancy. By default they are set to 1. The user is able to customize these parameters.
+
+## DenovoFusion—stage 2—grouping the selected alignments of the contigs
+Alignments representing each contig are classified into six structural categories:
+
+Single alignment – Contig fully aligns without gaps, shows no chimeric feature, and is excluded.
+
+Paired alignments – small overlap, same strand – Two segments align with slight overlap on the same strand, considered fusion candidates and retained.
+
+Paired alignments – small overlap, different strands – Two segments align on opposite strands and are excluded.
+
+Paired alignments – small gap, same strand – PSL format may report a single alignment with >2 blocks, indicating a small intrasegment gap on the same strand; these are included.
+
+Paired alignments – small gap, different strands – Excluded from analysis.
+
+Multiple alignments – Contigs with ≥3 segments are excluded as they are beyond the scope of classic chimeric gene detection.
+For paired alignments (categories 2 and 4), a filter was applied based on strand orientation and spatial proximity: retained pairs must (i) lie on the same strand and (ii) have overlap or gap <5 bases (default). Contigs that met these criteria were chosen as potential fusion candidates for further downstream analysis.
+
+## DenovoFusion—stage 3—alignment from raw paired-end reads against contigs
+The contigs selected in stage 2 were used as a reference sequence and all raw paired-end reads were realigned to these contigs again ( ). Reads which were not either split reads or span reads were discarded. Split reads are defined as reads that span a breakpoint, with at least 15 bases on each side of the breakpoint (adjustable parameter). Span reads are paired reads that align on opposite sides of the breakpoint without overlapping the breakpoint region itself.
+Bowtie2 is particularly suited for this task because it can output perfectly aligned paired-end reads with high precision, ensuring both ends map concordantly to the target contig without mismatches or gaps. Therefore Bowtie2 was used in this stage with the following parameters:
+—no-mixed —no-discordant —no-contain —no-overlap —no-head —no-sq -k 1 —no-unal.
+Bowtie2’s output is saved in SAM format.
+
+## DenovoFusion – Stage 4: Filtering
+To minimize false positives, a series of stringent filters were applied to remove contigs and alignments failing predefined quality or structural criteria ( ). These filters target artifacts from ambiguous mapping, sequencing errors, or assembly chimeras, thereby improving specificity and reliability.
+
+Minimal support – Each fusion must be supported by ≥1 split read and ≥ 3 spanning reads.
+
+Duplication removal – Redundant events are collapsed by comparing genes, breakpoints, strands, and contigs, retaining unique calls only.
+
+Mitochondrial chromosomes – Excluded due to limited biological relevance [ ].
+
+Long gaps – Same-chromosome candidates with long gaps and short flanking segments are removed to avoid poorly supported events.
+
+Internal tandem duplication (ITD) – Removed if both breakpoints fall within the same coding gene (exonic ± minor intronic), in upstream-to-downstream order, and ≤ 1 kb apart.
+
+Small fragments – Candidates with fragment size ratios below threshold are excluded to ensure balanced fusion segments.
+
+Homologs – Removed if breakpoint coordinates recur across multiple alignments of the same contig, reducing homolog-induced false positives.
+
+Recovery of known fusions – Discarded candidates overlapping curated ‘known fusion’ breakpoints are restored and labeled as ‘recovered.’
+Filters are applied sequentially, progressively refining the candidate set. Discarded genes are reported in the same order. Further details are provided in .
+
+## DenovoFusion—stage 5—breakpoint sequence clustering
+For a specific fusion gene, it is interesting to determine if all the potentially established physical breakpoint positions in a patient sample have unique positions or are distributed around an average position ( ). To analyze this scenario, agglomerative hierarchical clustering (AHC) as described by Jin et al. [ ] was utilized. This bottom-up hierarchical clustering algorithm was used to group adjacent candidate breakpoints into clusters based on coverage signals and positional relationships within the breakpoint region, thereby identifying possible fusion breakpoint hotspots. The algorithm can adjust to variable breakpoint densities and cluster closely spaced positions without the need for a predefined number of clusters. The candidate breakpoints, identified by genomic positions and marked by read coverage, create a one-dimensional feature space.
+A custom distance metric was used: , where ‘pos’ represents the genomic coordinate and ‘coverage’ indicates local sequencing depth. The weighting factor ‘w’ was used to balance the impact of genomic distance and coverage difference, enabling the algorithm to differentiate true breakpoint clusters from background noise.
+Merging was stopped when all inter-cluster distances exceeded a predefined threshold ‘D’ (e.g. fixed at 10 bases or twice the average insert size). This approach helps in identifying breakpoint hotspots linked to fusion events while reducing the impact of isolated artifacts. Genomic positions with varying coverages were utilized to identify representative breakpoints by detecting significant increases or decreases between positions. A fold change of ≥2-fold was set as the threshold in this context.
+
+## Comparison with DNA-based fusion detection tools—HMFtools, FACTERA, and Genefuse
+DenovoFusion was systematically benchmarked against HMFtools, FACTERA [ ], and GeneFuse [ ] using identical input data and standardized parameters. The performance evaluation focused on sensitivity, breakpoint accuracy, and false positive rate. Detailed commands and complete benchmarking results are provided in .
+
+## Consistency and agreement statistics between the programs
+Pairwise tool comparisons were performed using McNemar’s test and Cohen’s Kappa to assess consistency and agreement in fusion detection. Logistic regression, with DenovoFusion as the reference, quantified relative tool performance. All P-values were adjusted using the Benjamini–Hochberg FDR method to control for multiple testing.
+Breakpoint distributions were tested for normality to evaluate positional dispersion, and samples with EWSR1-related fusions detected by ≥2 tools were compared for breakpoint concordance using a ± 50 bp threshold. The genomic position of breakpoints and exon-domain annotations were retrieved with biomaRt.
+All statistical analyses and visualizations were performed in R (v4.4.2). Statistical significance was set at P < .05, with figures denoting ‘*’: P < .05, ‘**’: P < .01, and ‘***’: P < .001.
+
+## Results
+
+## Performance evaluation on simulated datasets
+The detection limits and algorithmic stability of DenovoFusion are evaluated by comparing to three established tools HMFtools, GeneFuse, and FACTERA across a sequencing depth gradient from 10× to 80×. As visualized in the performance heatmaps ( ), DenovoFusion demonstrated the most robust and comprehensive detection profile. The results of the main examination can be found in the .
+ In the standard group (AF = 0.5, ), both DenovoFusion and HMFtools achieved consistent 100% recall (3/3) across all depths, validating their baseline reliability. However, performance diverged significantly in challenging scenarios. In the Low-VAF Group (AF = 0.2, ), DenovoFusion exhibited superior sensitivity, reaching a 100% (3/3) detection rate at the standard clinical depth of 40×, while the comparable tools struggled to identify sub-clonal events (HMFtools: 1/3, GeneFuse: 1/3). Notably, DenovoFusion initiated detection as early as 20× coverage, highlighting its efficiency in low-pass sequencing contexts. Furthermore, the High-SNP group ( ) underscored the advantage of the assembly-first strategy. While alignment-dependent tools (GeneFuse and FACTERA) completely failed to detect fusions in hyper-mutated regions (0/3 across all depths), DenovoFusion maintained stable detection (2/3) even at 10× coverage, matching the performance of the complex structural variant caller HMFtools. Overall, DenovoFusion achieved the highest aggregate sensitivity (89% at 40×, ), confirming its utility as a versatile tool for resolving complex and low-frequency fusions in whole genome sequence (WGS) data.
+
+## Curie DNA sample processing with DenovoFusion
+
+## De novo assembly of robust contigs
+High-quality contigs were generated from Ewing sarcoma sequencing data, with all samples showing minimal adapter contamination, low duplication (<10%), and consistent GC content (39%–40%). MEGAHIT and SPAdes were evaluated for a representative sample (IC009T, harboring EWSR1-FLI1). MEGAHIT produced 667 k contigs (>1 kb) with an N50 of 14 kb, genome fraction of 92%, and lower misassembly rates, while SPAdes yielded higher contiguity (N50 21 kb) but increased misassemblies. Based on overall accuracy and computational efficiency, MEGAHIT was selected for downstream analysis ( , ).
+ 
+
+## Aligning contigs to the reference genome
+Contigs were mapped to GRCh38 using pblat, resulting in 3.13 million of 3.5 million input contigs (89.3%) aligned and covering 84.7% of the genome. Each contig produced between 1 and 797 alignments, reflecting the high resolution of the mapping. Detailed alignment statistics and PSL file data are provided in .
+
+## DenovoFusion
+DenovoFusion selects the optimal alignment for each contig using a composite scoring system, implemented in C++ for faster processing and greater flexibility. In IC009T, ~12 million alignments were reduced to ~2.95 million, enabling one-to-one contig mapping and identification of structural rearrangements, including 6452 paired alignments indicative of candidate fusions. Raw paired-end reads were realigned to 366 extracted contigs to validate structural integrity using span and split reads. Sequential filtering of 68 annotated contigs yielded five high-confidence fusion candidates. Base-level coverage analysis defined precise breakpoints, including one resolved in a 5-base overlap (109; 16 540; 12 767; 13 757; 14 803), ensuring consistent, data-driven breakpoint determination (see ).
+
+## Qualitative comparison of DenovoFusion with HMFtools, FACTERA, and Genefuse on the curie data
+The tools differ in input requirements, output formats, and computational performance. Some rely on split-read or paired-end signals, others on assembly or graph-based methods. Input formats (BAM, FASTQ, or contigs) and output structures vary, requiring tailored preprocessing and post-analysis. Computational time ranges from minutes to hours per sample. Key features, strengths, and limitations are outlined below.
+The Curie group investigated only EWSR1 and ETS rearrangements rather than performing genome-wide searches. Nearly all RT-PCR-detected EWSR1-ETS fusions are supported by corresponding WGS fusions events found by sequence analysis. The few unsupported cases were due to low tumor cell ratio or uneven coverage [ ]. Therefore, the Curie EWSR1-related fusions serve as a baseline reference.
+Based on ETS-related fusions, HMFtools identified EWSR1-FLI1 in 61% of samples, the highest recovery. EWSR1-ERG detection by HMFtools was comparable to Genefuse. FACTERA detected no fusions with default parameters due to stringent filtering. Tuning the -r parameter from 5 to 4 allowed detection of at least 30% of candidates. DenovoFusion identified 27% of EWSR1-FLI1 fusions. All detected events are subsets of the Curie benchmark.
+HMFtools and Genefuse detected more target fusions, likely due to curated fusion lists. FACTERA and DenovoFusion using an unbiased approach, yielding lower sensitivity but higher specificity through stringent filtering ( ).
+ To evaluate the detection performance of the four tools, EWS family-related fusion detection results were classified in relation to the reference baseline derived from Curie wet lab results. Sensitivity is defined as the proportion of true detected fusions among all actual fusion events . Specificity is calculated as the proportion of true undetected cases among all negative events . Accuracy presents the overall correctness of detection, computed as the sum of TP and TN divided by the total number of events . The F1 score, balancing precision and sensitivity, was calculated as .
+The performance among all tools is presented in . DenovoFusion, the new assembly based method, showed a balanced trade-off between sensitivity and specificity. Although its sensitivity (0.34) was lower than that of HMFtools (0.73) and Genefuse (0.60), it achieved perfect specificity (1.00), with no false positives detected, indicating high reliability in positive calls. In contrast, HMF_tools and Genefuse produced several false positives, lowering their specificity (0.65 and 0.71 respectively). FACTERA failed to detect any true positives, highlighting its limited applicability to this DNA-based dataset. Overall, DenovoFusion’s zero false-positive rate underscores its potential value in scenarios where precision is critical, even if sensitivity is sacrificed.
+ To evaluate the concordance and discrepancies among the four fusion detection tools, pairwise McNemar’s test and Cohen’s Kappa statistic were applied. McNemar’s test was used to assess significant differences in discordant detection outcomes, while Cohen’s Kappa was used to quantify inter-tool agreement beyond chance.
+Using DenovoFusion as the reference, most pairwise comparisons showed statistically significant discordance according to McNemar’s test, except for HMFtools versus Genefuse, where no significant difference was observed ( ). However, Cohen’s Kappa analysis revealed only moderate agreement for this pair, indicating residual inconsistencies despite similar overall detection counts ( ).
+ Furthermore, logistic regression analysis using DenovoFusion as the reference confirmed that FACTERA exhibited substantially lower detection confidence, while the fusion list-based tools HMFtools and Genefuse consistently demonstrated better performance ( ). These findings align with the results based on sensitivity, specificity, and F1-score.
+From a computational perspective, the four tools showed notable differences in resource consumption and efficiency ( and ). DenovoFusion required the highest memory usage due to the incorporation of a de novo assembly step and had the second longest runtime among all tools, so shorter than FACTERA.
+To further assess the efficiency of the fusion detection processes exclusively, the computational performance of each tool was benchmarked ( ). The results showed that DenovoFusion achieved a more efficient decline in computational burden relative to its initial resource demand, outperforming the other tools in terms of efficiency improvement.
+
+## An overview of breakpoint distribution across all samples
+The most likely breakpoint for each fusion gene pair was determined from 100 experiments providing fusion-specific results across a well-defined cohort. In addition to DenovoFusion, HMFtools and Genefuse also report breakpoints for each detected fusion. To evaluate agreement among methods, a comparative analysis assessed consistency of identified breakpoints. A 20-base threshold was applied to group breakpoints from different tools into the same region, accounting for small coordinate shifts during alignment and variant-calling. Only samples with fusions detected by at least two methods were included to balance outlier bias.
+
+ summarizes breakpoint consistency across the three tools for main Ewing Sarcoma fusions. For EWSR1-FLI1, 49 of 70 samples were suitable, 48 samples (97.9%) had consistent 5′ breakpoints, 46 samples (93.8%) had consistent 3′ breakpoints, and 46 samples (93.8%) had both breakpoints consistently. EWSR1-ERG showed complete consistency in the two eligible samples. No suitable samples existed for EWSR1-ETV1.
+ The breakpoint distribution for EWSR1-FLI1 fusions ( ) was identified within the genomic interval of 29 683 128–29 691 578 on chromosome 22 and 128 642 947–128 678 978 on chromosome 11. For EWSR1-ERG fusions, breakpoints were located between 29 683 214 and 29 685 681 on chromosome 22, and between 39 759 973 and 39 772 237 on chromosome 21. The breakpoint distributions exhibited an approximately normal distribution pattern, and the identified coordinates are consistent with previously reported findings [ ]. Notably, two distinct area were observed on the EWSR1 side, whereas no prominent area was detected on the FLI1 side ( and ). Furthermore, as shown in , most breakpoints are distributed within an average span of ~40 000 base pairs.
+ To investigate the potential impact of breakpoint variability on functional domain composition, the exon locations on both sides of the breakpoints was analyzed ( ). The most frequent fusion subtype is the fusion of EWSR1 exon 7 with FLI1 exon 6, commonly referred to as the ‘7/6’ or ‘type 1’ fusion, which accounts for ~50%–60% of all EWSR1-FLI1 fusions. A second relatively frequent subtype is the ‘7/5’ or ‘type 2’ fusion (EWSR1 exon 7 fused to FLI1 exon 5), comprising roughly 20%–30% of cases [ ], In addition, rare fusion variants involving breakpoints between EWSR1 intron 9 and exon 11 have been reported [ ]. Notably, the result demonstrated a similar subtype distribution, while also revealing certain differences in the relative frequencies of rare fusion forms.
+ To further assess the potential functional consequences of breakpoint heterogeneity, domain annotation of the resulting chimeric proteins was performed. The EWSR1 gene in its N-terminal part shows molecular interactions with TFIID and RNA pol II but maybe not in the EWSR1-FLI1 fusion structure [ ], while FLI1 contributes a highly conserved ETS DNA-binding domain essential for its transcription factor activity. The precise location of the breakpoint determines how much of each domain is retained within the fusion protein, potentially modulating its oncogenic potential.
+The representative breakpoint categories observed in the cohort was selected to illustrate domain retention patterns ( ). For breakpoints involving EWSR1 exon 7, nearly the full-length N-terminal low-complexity domain (LCD) is preserved, while variations occurring at EWSR1 exons 8 or 11 result in partial truncation of this region. On the FLI1 side, the ETS domain remains largely intact across most fusion variants, although subtle differences in upstream exon inclusion may influence regulatory regions adjacent to the ETS domain.
+As an example, presents the supporting sequencing evidence for case IC009T, where short-read alignment profiles confirm the predicted fusion junction and its consistency with the corresponding fusion isoforms. Collectively, these findings suggest that while the majority of EWSR1-FLI1 fusion events retain the critical functional domains required for oncogenic activity, variability in breakpoint locations may contribute to structural and potentially functional heterogeneity of the fusion proteins, which may be relevant for downstream biological effects or clinical behavior.
+
+## Discussion
+Fusion gene detection from short-read sequencing has long been a challenging field, characterized by complex computational algorithms, high false-positive rates, and unresolved intricate chromosomal translocations [ ]. Building on the existing basis of current research, DenovoFusion was developed as a new concept in contrast to existing fusion gene detection methods. The absence of an assembly based method for a DNA-seq based fusion breakpoint detection method inspired to implement an improved concept here with the advantages of improved detection accuracy on the base-level and an awareness to adopt long read sequencing technologies in the future.
+Compared with traditional short-read DNA-seq data, contigs obtained from de novo assembly significantly improve sequence continuity. For example, in sample IC009T, 100 bp reads were assembled into long contigs with an N50 of 14 305, reducing the impact of gaps or low-coverage regions. This strategy enhances the reliability of fusion detection in complex genomic regions or low-abundance events [ ]. Previous studies have also noted that local alignment of short reads is prone to generating fragmented contigs or missing true variants [ ]. Therefore, the chosen strategy should be reasonably stable and well selected for the purpose of fusion breakpoint detection.
+Contigs were aligned to the reference genome with pblat using a high identity threshold (>98%), ensuring precise mapping necessary for detecting complex SVs and fusion breakpoints. Unlike short-read aligners like Bowtie2, BLAT maintains long-sequence accuracy and continuity, reducing fragmented alignment errors [ ]. Selecting the optimal BLAT alignment involves multiple constraints (detailed in Methods and Results), followed by realignment of raw reads to chimeric contigs to statistically support fusion breakpoints using split and span reads, though coverage may vary due to sample differences.
+Shifting the focus away from the DenovoFusion algorithm, this tool is compared with three other published methods: HMFtools, FACTERA, and Genefuse. All four approaches were examined by simulated datasets based on a ground truth of nine well described fusion genes in three groups, standard, low VAF and high SNP. The rigorous semi-synthetic benchmarking underscores the mechanistic superiority of the assembly-first strategy, particularly in resolving complex genomic architectures. Unlike alignment-dependent tools that failed in hyper-mutated regions (5% SNP rate) due to mapping penalties, DenovoFusion utilized k-mer connectivity to reconstruct events with high robustness, maintaining stable detection even at lower sequencing depths. This architectural advantage translates directly into enhanced clinical sensitivity, as evidenced by the complete recovery of sub-clonal events (AF = 0.2) at standard coverage (40×), confirming the algorithm’s reliability for identifying therapeutic targets in samples with low tumor purity or high mutational burdens. Notably, the FGFR3-TACC3 fusion was excluded by our ‘long gap’ filter, reflecting a design choice to prioritize inter-chromosomal specificity over proximal intra-chromosomal sensitivity.
+In the examination of the 100 Ewing sarcoma real world samples from Institut Curie, DenovoFusion achieved 100% specificity but exhibited a sensitivity trade-off (0.34), detecting 27 out of 83 benchmark EWSR1-related fusions. This detection rate which is lower than alignment-based tools (HMFtools and GeneFuse) in our simulated results, likely originating from biological factors such as low tumor purity and technical challenges in a specific genomic context that hinder assembly graph connectivity. Nevertheless, the analysis identified the assembly procedure itself as the critical factor. Specifically, utilizing a shorter k-mer step length in MEGAHIT improves the quality and confidence of contigs. Although this adjustment increases computational time, it represents an acceptable cost for single-sample analysis to enhance detection rates in complex scenarios.
+Nevertheless, every processing pipeline with many computational steps might lead to some error accumulation. In the case of DenovoFusion, as the discussion before exemplified, this might not be a major restriction because of the good comparability to the wet lab results. Fusion gene detection is inherently complex and error-prone due to the limitations of short reads and computational power, highlighting the need for further investigation and refinement throughout the entire process [ ]. One possible refinement involves optimizing alignment strategies to precisely define the junction boundary using split-read analysis, as attempted in tools like Fusionmap [ ] and deFuse [ ].
+At the level of different assembly tools, the performance may vary considerably on the same dataset [ ]. Compared with local alignment-based methods, precision can decrease in complex or repetitive regions or when detecting low-abundance events, often leading to ambiguous mappings and false-positive breakpoints [ ]. On the side of alignment tools, BLAT generates many ambiguous fragments, offering both combinatorial opportunities and challenges. Selecting proper alignments is a key step for DenovoFusion.
+A comprehensive analysis of breakpoint locations and their impact on the surviving functional domains of both fusion partners, in this case EWSR1-FLI1, was conducted after running all four methods on 100 samples, only breakpoints that were independently supported by at least two tools with identical coordinates were retained for further analysis. According to previous reports [ ] breakpoints within EWSR1 mainly occur between exons 7 and 11, while breakpoints within FLI1 are typically located between exons 4 and 9. In the EWSR1–FLI1 fusion, the 5′ partner EWSR1 contributes an N-terminal transcriptional activation domain, while the 3′ partner FLI1 retains the ETS DNA-binding domain. This domain combination confers aberrant transcriptional activity, redirecting strong activation potential to ETS target sequences, and underlies the oncogenic function of the fusion protein in Ewing sarcoma [ , ].
+A new discovery in this study is the identification of exon 11 from EWSR1 and exon 6 from FLI1 in the Curie samples, which had not been previously reported. An in-depth genomic analysis of functional elements is therefore essential for tools like DenovoFusion, which are closely linked to the investigation of genetic abnormalities and, at a clinical level, to the prognosis of patients [ ].
+Despite the general and specific limitations of DenovoFusion, it currently presents a convincing compromise between speed and accuracy with promising features for the future. With advancements in third-generation sequencing approaches such as PacBio [ ] and Nanopore [ ], many of the previously mentioned limitations could be addressed with long reads up to 50 k or even 1 m bases. Fusion detection procedures, in particular, stand to benefit from this development due to the improved continuity and distinct coverage of chimeras. Some initial approaches based on third-generation sequencing data, such as LongGF [ ] and Fusionseeker [ ], have already been introduced. However, a new challenge arises from the high error rate of up to 15% [ ], which requires these tools to focus primarily on error correction rather than fusion breakpoint identification. Nevertheless, as sequencing technology advances, these challenges are expected to be overcome in due course.
+
+## Key Points
+General conceptual approach for the detection of fusion genes and structural variants without prior knowledge
+Applicable to both contigs and long-reads with corresponding short reads
+Algorithm with code extensibility, but also directly applicable
+Comprehensive protocol in the form of a text-based log file covering important processing steps
+
+## Supplementary Material
+S1_simulation_dataset_bbag059S2_sample_infos_bbag059S3_supplementary_methods_and_results_bbag059S4_discarded_fusions_bbag059S5_control_methods_bbag059S6_coverage_per_base_bbag059S7_multiqc_summary_bbag059S8_de_novo_assembly_comparison_bbag059S9_HMFtools_related_bbag059
+
+## Acknowledgements
+The authors thank the scientists and doctors at the Curie Institute for making the large dataset available for Open Science.
+
+## Contributor Information
+Xinwei Zhao, 
+Institute of Bioinformatics, Faculty of Medicine, University of Münster, Münster D-48149, Germany.
+Marc Hotfilder, 
+Department of Pediatric Hematology and Oncology, Neuro-Oncology, University Hospital Münster, Münster D-48149, Germany.
+Eberhard Korsching, 
+Institute of Bioinformatics, Faculty of Medicine, University of Münster, Münster D-48149, Germany.
+
+## Author contributions
+Xinwei Zhao (Methodology, Software, Validation, Formal analysis, Writing—original draft, Visualization), Marc Hotfilder (Conceptualization, Validation), and Eberhard Korsching (Conceptualization, Validation, Resources, Data curation, Writing—review & editing, Supervision, Project administration, Funding acquisition)
+
+## Conflict of interest
+The authors declare no conflicts of interest.
+
+## Funding
+Support was received from the Open Access Publication Fund of the University of Münster.
+
+## Data availability
+The DNA sequencing data analyzed in this study are publicly available from European Genome-phenome Archive (EGA) under accession number EGAS00001000855. The source code of DenovoFusion and simulated dataset are available at https://github.com/korpleul/DenovoFusion.
+
+## Institutional review board statement
+NA.
+
+## Informed consent statement
+NA.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+S1_simulation_dataset_bbag059S2_sample_infos_bbag059S3_supplementary_methods_and_results_bbag059S4_discarded_fusions_bbag059S5_control_methods_bbag059S6_coverage_per_base_bbag059S7_multiqc_summary_bbag059S8_de_novo_assembly_comparison_bbag059S9_HMFtools_related_bbag059
+
+## Data Availability Statement
+The DNA sequencing data analyzed in this study are publicly available from European Genome-phenome Archive (EGA) under accession number EGAS00001000855. The source code of DenovoFusion and simulated dataset are available at https://github.com/korpleul/DenovoFusion.

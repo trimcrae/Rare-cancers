@@ -1,0 +1,291 @@
+2992heliyonHeliyonHeliyonElsevierPMC7970325797032579703253374847910.1016/j.heliyon.2021.e06408DNA repair pathway activation features in follicular and papillary thyroid tumors, interrogated using 95 experimental RNA sequencing profiles
+VladimirovaUliana RumiantsevPavel ZolotovskaiaMarianna AlbertEugene AbrosimovAleksander SlashchukKonstantin NikiforovichPetr ChukhachevaOlga GaifullinNurshat SuntsovaMaria ZakharovaGalina GluskerAlexander NikitinDaniil GarazhaAndrew LiXinmin KamashevDmitriy DrobyshevAlexei Kochergina-NikitskayaIrina SorokinMaxim BuzdinAnton aI.M. Sechenov First Moscow State Medical University, Moscow, 119991, RussiabEndocrinology Research Centre, Moscow, 117312, RussiacOmicsway Corp., Walnut, CA, 91789, USAdMoscow Institute of Physics and Technology, Dolgoprudny, Moscow Region, 141701, RussiaePirogov Russian National Research Medical University, Moscow, 117997, RussiafFaculty of Fundamental Medicine, Lomonosov Moscow State University, Moscow, 119992, RussiagShemyakin-Ovchinnikov Institute of Bioorganic Chemistry, Moscow, 117997, RussiahDepartment of Pathology and Laboratory Medicine, University of California, Los Angeles, CA, 90095, USA∗Corresponding author. buzdin@oncobox.com
+133202173e06408e064081932021© 2021 The Author(s)This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+DNA repair can prevent mutations and cancer development, but it can also restore damaged tumor cells after chemo and radiation therapy. We performed RNA sequencing on 95 human pathological thyroid biosamples including 17 follicular adenomas, 23 follicular cancers, 3 medullar cancers, 51 papillary cancers and 1 poorly differentiated cancer. The gene expression profiles are annotated here with the clinical and histological diagnoses and, for papillary cancers, with BRAF gene V600E mutation status. DNA repair molecular pathway analysis showed strongly upregulated pathway activation levels for most of the differential pathways in the papillary cancer and moderately upregulated pattern in the follicular cancer, when compared to the follicular adenomas. This was observed for the BRCA1, ATM, p53, excision repair, and mismatch repair pathways. This finding was validated using independent thyroid tumor expression dataset PRJEB11591. We also analyzed gene expression patterns linked with the radioiodine resistant thyroid tumors (n = 13) and identified 871 differential genes that according to Gene Ontology analysis formed two functional groups: (i) response to topologically incorrect protein and (ii) aldo-keto reductase (NADP) activity. We also found RNA sequencing reads for two hybrid transcripts: one in-frame fusion for well-known NCOA4-RET translocation, and another frameshift fusion of ALK oncogene with a new partner ARHGAP12. The latter could probably support increased expression of truncated ALK downstream from 4th exon out of 28. Both fusions were found in papillary thyroid cancers of follicular histologic subtype with node metastases, one of them (NCOA4-RET) for the radioactive iodine resistant tumor. The differences in DNA repair activation patterns may help to improve therapy of different thyroid cancer types under investigation and the data communicated may serve for finding additional markers of radioiodine resistance.
+Keywords: DNA repair, Follicular thyroid adenoma, RNA sequencing, Thyroid cancer, Personalized medicine, Molecular biomarkers, Molecular pathway analysis, Radiation iodine therapy resistance, Papillary thyroid cancer, Systems biology
+
+DNA repair, follicular thyroid adenoma, RNA sequencing, thyroid cancer, personalized medicine, molecular biomarkers, molecular pathway analysis, radiation iodine therapy resistance, papillary thyroid cancer, systems biology.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2020 Sep 4; Revised 2020 Dec 22; Accepted 2021 Feb 26; Collection date 2021 Mar.
+
+1.
+
+## Introduction
+About 300 000 new cases of thyroid cancer are recorded globally each year [ ]. Thyroid cancer is also the fifth most common cancer in women [ , ], and it can move to the fourth place during the next decade [ ]. Thyroid cancer is a common term for several heterogenous malignancies of thyroid gland, and its clinical manifestation, treatment and prognosis are generally defined by specific tumor subtypes. There are three main types of cells from which thyroid cancers are derived: follicular thyroid cells, Hurthle cells, and parafollicular C cells [ ]. The most common subtypes of thyroid cancer are follicular thyroid cell-derived tumors, including papillary thyroid cancer (PC), follicular thyroid cancer (FC), and poorly differentiated thyroid cancer [ ]. In addition, a small proportion of thyroid malignancies belongs to parafollicular C cell-derived medullary thyroid cancer (MC) [ ]. Molecular characterization of thyroid cancer subtypes can partially solve the problem of understanding specific carcinogenesis mechanisms and selecting appropriate treatments.
+In addition, resistance of recurrent thyroid cancers to radioactive iodine treatment, confirmed by observations, poses another challenge for early diagnostics of tumors prone not to respond to the standard therapy regimens [ ]. Such diagnostics could be used to individually tune treatments, e.g. by adjusting dosage of therapeutic agents and timeline of treatment [ ]. Two decades ago, a connection between thyroid cancer radioactive iodine resistance and activity of sodium iodide symporter gene SLC5A5 was discovered [ ]. Also, BRAF and TERT mutations were found as the predictors of radio iodine refractory thyroid cancer, especially in duet [ , , ]. However, it is clear that the problem has not been solved yet as there are no effective instruments in clinics to predict thyroid cancer resistance to radiation therapy [ ].
+DNA damage is one of the major causes that trigger the development of tumors [ , ]. However, it also is an important focus in chemo and radiation therapy [ , , ]. DNA repair mechanisms restore damaged DNA and may have a dual effect on the tumor: they prevent new somatic mutations and may restrict tumor development, but they also restore tumor cells with damaged DNA after chemo and radiation therapy [ ]. Thus, when planning the chemo and/or radiation therapy, the possibility of DNA repair must be taken into account [ ]. Low activities of DNA repair genes can make tumor cells more sensitive to the therapy, but at the same time not-repaired damaged tumor cells can form more new clones of treatment resistant cells [ , ]. High activities of certain DNA repair genes, however, can counteract therapy of tumors [ , ]. Therefore, the selection of relevant therapy should ideally be based on the state of DNA repair in an individual tumor. Recently, defects in DNA repair were shown to play an important role in the clonal evolution of thyroid cancer [ ]. Currently, the thyroid cancer subtypes need more detailed characterization in terms of molecular aspects of DNA repair. This is probably due to the apparent shortage of publicly available gene expression data associated with histological diagnoses of thyroid tumors [ , , ].
+RNA sequencing is currently a method of choice for generating cancer gene expression data [ ]. The Genomic Data Commons portal at National Cancer Institute (GDC) [ ] provides limited access to 502 RNA sequencing profiles of thyroid cancer samples (accessed at June 30, 2020). Nevertheless, GDC dataset can be used for only a limited number of applications because it contains data for only papillary histotype of thyroid cancer (PC) and does not provide immediate open access to raw reads, thus complicating data analysis and limiting its usefulness.
+Therefore, more open-access collections of clinically annotated profiles are needed for different types of malignant and benign thyroid tumors and their histotypes, that would be compatible with the reference data for healthy thyroid tissues.
+Here we present the subtype-specific characteristic of DNA repair pathway activation in human thyroid tumors. We performed RNA sequencing on 95 human pathological thyroid biosamples including 17 follicular adenomas, 23 follicular cancers, 3 medullar cancers, 51 papillary cancers and 1 poorly differentiated cancer. The gene expression profiles were annotated with the clinical and histological diagnoses and, for papillary cancers, with BRAF gene V600E mutation status. Gene expression data were obtained using the same equipment, reagents, and protocols as for the previously published ANTE database, including six profiles for healthy thyroid tissues [ ]. DNA repair molecular pathway analysis showed strongly upregulated pathway activation levels for most of the differential pathways in the papillary cancer and moderately upregulated pattern in the follicular cancer, when compared to the follicular adenomas. This was observed in the BRCA1, ATM, p53, excision repair, and mismatch repair pathways. However, the G2/M checkpoint pathway followed the opposite trend. We also analyzed gene expression patterns linked with the radioiodine resistant thyroid tumors (n = 13) and identified 871 differential genes that according to Gene Ontology analysis formed two functional groups: (i) response to topologically incorrect protein and (ii) aldo-keto reductase (NADP) activity. We also found RNA sequencing reads for two hybrid transcripts: one in-frame fusion for well-known NCOA4-RET translocation, and another frameshift fusion of ALK oncogene with a new partner ARHGAP12. The latter could probably support increased expression of truncated ALK downstream from 4th exon out of 28. The differences in DNA repair activation patterns may help to improve therapy of different thyroid cancer types under investigation and the data communicated may serve for finding additional markers of radioiodine resistance.
+
+2.
+
+## Results
+2.1.
+
+## Expression of known molecular mRNA markers of thyroid cancer
+Overall, 51 papillary thyroid cancer (PC), 23 follicular thyroid cancer (FC), 3 medullary thyroid cancer (MC), 1 poorly differentiated thyroid cancer (PDC), and 17 follicular thyroid adenoma (FA) samples were investigated. Clinical annotations and quality control metrics of tumor specimens investigated are summarized in the Supplementary files 1 and 2.
+To initially characterize molecular data presented here we analyzed expression levels of several mRNA molecules previously reported to be differentially regulated in thyroid tumors. For example, SERPINA1 [ ], LAMB3 [ ], and TACSTD2 [ ] genes are known to be overexpressed in PC, which was also the case in our dataset ( , Supplementary file 3). On the other hand, in line with the overall mediocre concordance between FC expression biomarkers reported in the previous studies, we did not observe any differences between FA and FC samples for two out of four marker genes proposed in a recent meta-analysis paper [ ]: CPQ and TFF3. However, the other two other marker genes ACVRL1 and PLVAP demonstrated upregulated trends in FA versus other tumors ( , Supplementary file 3).
+ We also compared expression of sodium iodide symporter gene SLC5A5 in the biosamples from tumors, which were resistant to radioactive iodine therapy, with all other thyroid tumors profiled in this study. In line with the previous data [ , , ], in our dataset SLC5A5 was statistically significantly downregulated (p = 3.44∗10−3) in radioactive iodine-resistant tumor samples ( ).
+ Thyroid hormone biosynthesis requires active hydrogen peroxide production which may also be responsible for the high level of oxidative DNA damage. The NADPH oxidase/dual oxidase family members are the only known oxidoreductases whose primary function is production of reactive oxygen species, and their increased expression levels were previously shown in thyroid cancer [ ]. We compared expressions of NOX1, NOX3, NOX4, NOX5, DUOX1, and DUOX2 genes in our experimental FA, FC, and PC samples and found no significant differences between the above thyroid tumor types (data not shown).
+
+2.2.
+
+## BRAF (V600E) mutation status
+In PC patients, BRAF (V600E) mutation status is an important diagnostic and prognostic biomarker for tumor aggressiveness and relapse [ ]. We therefore screened all PC specimens for this mutation and identified 15 mutant and 27 wild-type cases (Supplementary file 1). Notably, neither PCA nor Euclidean distance-based hierarchical clustering identified any specific pattern associated with mutated or wild-type status BRAF V600E in the tumor samples ( ). We found no differentially expressed genes with q < 0.1 by Wilcoxon test for the groups of BRAF (V600E) mutation positive and negative PCs.
+ 
+2.3.
+
+## Activities of DNA repair pathways in different types of thyroid tumors
+We then attempted to evaluate the differences in the activities of DNA repair pathways between the normal thyroid samples, benign tumors, and thyroid cancer subtypes.
+Pathway activation level (PAL) is an integral parameter that characterizes activation of a molecular pathway using high-throughput gene expression data [ , ]. It utilizes aggregation of logarithmic fold-change expression levels (case compared with control samples) for the gene products involved in a certain molecular pathway, using functional flags indicating specific activator or repressor roles of a gene product in the molecular pathway [ ]. Positive PAL value indicates upregulation of the molecular pathway, negative value – its downregulation, whereas zero means unaffected level compared with the controls [ ].
+For our assay, we selected 38 DNA repair pathways, which were obtained by manual curation of Reactome [ ], NCI Pathway Interaction [ ], Kyoto Encyclopedia of Genes and Genomes [ ], Biocarta [ ], and Qiagen [ ] databases, and which include at least ten gene products. For these pathways, we then calculated PAL values for the tumor samples while taking six healthy thyroid tissue gene expression profiles from ANTE database [ ] as the controls. Then we compared PAL values for the selected DNA repair pathways between the normal samples, benign tumors, and the thyroid cancer subtypes. In total, we performed nine comparisons to assess differential PAL activation trends: malignant and benign (PC + FC + FA) were compared with the normal samples (i); follicular adenoma (FA) was compared with the normal samples (ii); FC and PC were compared with normal samples (iii); FC and PC were compared with FA (iv); FC was compared with PC (v), FA was compared with FC (vi); PC was compared with FA (vii), PC was compared with the normal samples (viii); and FC was compared with the normal samples (ix).
+We found statistically significantly differentially regulated DNA repair pathways in only three out of these nine comparisons ( , Supplementary File 4). In particular, six pathways were differential in the comparison (iv) FC + PC vs FA; four pathways were differential in the comparison (v) FC vs PC; twelve pathways were differential in the comparison (vii) PC vs FA ( ).
+ The boxplot presentations of PAL values for all differential pathway comparisons are shown in . We also assessed variation of each group under comparison separately and together, both on pathway ( , Supplementary file 4) and gene levels (Supplementary file 5). We calculated the following statistical characteristics: mean, standard deviation, interquartile range (IQR), Range (the difference between maximum and minimum), ratio of IQR and Range, the coefficient of quartile variation (CQV), confidence interval (CI) for CQV (Supplementary file 4). At the level of pathway activation, CQV was calculated for (PAL-minimal (PAL)) because PAL can take negative values [ ]. We marked the pathways, for which CQV of two compared groups together was higher than CQV of each separate group ( , Supplementary file 4), there were six such differential pathways ( ): ATM Pathway, ATM Pathway Cell Survival, BRCA1 Pathway, NCI ATM pathway, NCI ATM Pathway (G1 S transition checkpoint), Biocarta cell cycle G2M checkpoint pathway.
+ We then applied the same comparison parameters for individual DNA repair pathway member genes to identify genes which contribute to differential regulation of the pathways (Supplementary file 5). For example, Biocarta cell cycle G2M checkpoint pathway had seven differentially expressed genes for PC vs FA comparison (ATR, CCNB1, CDKN2D, MDM2, PI4KA, RASGRF1, SFN), Supplementary file 5. Most of differential genes were up-regulated in PC (Supplementary file 5) which resulted in up-regulation of most of the pathways. However, Biocarta cell cycle G2M checkpoint pathway was down-regulated in PC because most of the differential genes have negative activator/repressor role coefficients (ARR) for this pathway [ , , ].
+In total, 15 individual DNA repair pathways were differential in at least one comparison. Among them, five pathways were differential simultaneously in two comparisons, and three – in three comparisons ( ).
+While PAL values were positive for certain pathways in PC and FC, the PAL differences between the tumors and normal thyroid samples were not significant. To test that we calculated PAL level for each normal sample (Supplementary file 6). PAL level for a normal sample can be interpreted as an activation level of a pathway in a normal sample when compared to the average of all normal samples. This is needed to test the significance of the differences when comparing the group of normal samples with other groups. Lack of significance between normal samples and tumors is linked with a high heterogeneity of PAL values in normal samples (Supplementary file 4).
+Thus, no pathway activation changes distinctive for all tumor types versus normal samples have been found. There were also no differentially regulated patterns between all benign and malignant thyroid neoplasms. We conclude, therefore, that we could not identify marker DNA repair pathway alterations for thyroid tumorigenesis in general, but several DNA repair pathways were characteristic for follicular and papillary neoplasms.
+We then assessed clustering of thyroid tumors according to the PAL values of fifteen DNA repair pathways found to be significantly differential in the previous comparisons ( ). We observed a trend with either PC-, or FC and FA-enriched clusters ( ). Unlike the other cancer types, the PC samples had mostly positive PAL values for the DNA repair pathways, which suggested their overall stronger activation. However, there were also two pathways related to passing through G2 phase of the cell cycle, that were downregulated in most of the thyroid cancer specimens including PC: ATM Pathway G2-Mitosis progression and Biocarta cell cycle g2 m checkpoint pathway.
+ To further characterize tumor type-specific pathway activation profiles, we used average PAL values to build radar-charts for the 15 differential DNA repair pathways for the FA, FC, and PC tumor types ( A,D,G). We did not consider medullar thyroid cancer and poorly differentiated thyroid cancer because these tumor types did not have enough samples to enable statistically robust investigation. For most of the pathways, this analysis revealed downregulated activation pattern in FA, strongly enhanced pattern in PC, and intermediate pattern in FC ( , A,D,G). However, the observed activation patterns did not relate to the two pathways associated with passing through the G2 phase of the cell cycle. The ATM Pathway G2-Mitosis progression pathway was strongly downregulated in all the tumor types investigated. The Biocarta cell cycle g2 m checkpoint pathway showed another trend: it was upregulated in FA and to a lesser extent in FC, and downregulated in PC ( , A,D,G).
+ We repeated the above comparative analysis with greater amount of control samples by using normal thyroid RNA sequencing profiles from public databases GTEx (446 samples) and TCGA (58 samples) which showed, however, strong platform-specific bias ( ). Unlike for the ANTE dataset, different equipment, reagents and protocols for RNA isolation, ribosomal RNA depletion, library preparation and sequencing were used for the GTEx and TCGA data. This led to significant changes of the absolute pathway activation levels when calculated using GTEx and TCGA norms (Supplementary File 4). However, the intratumoral comparisons resulted in the same conclusions as before, and we obtained the same 15 differential pathways using both types of new normal datasets ( , Supplementary File 4). Although pathway activation level (PAL) values depended on the normal dataset used, the trends of PAL expression in thyroid tumor types was consistent regardless of the normal set used: minimal overall activation of DNA repair pathways in FA samples ( A, B, C), medium in FC samples ( D,E,F), and maximal in PC samples ( I).
+ We then reconstructed the joint molecular networks by combining the differential DNA repair pathways for each of the above three comparisons ( ): PC vs FC, PC + FC vs FA, and PC vs FA (Figures  , , and , Supplementary file 5). For example, the joined network for the comparison “FC vs PC” included p53 signaling pathway, KEGG Base excision repair pathway, biocarta cell cycle g2 m checkpoint pathway, KEGG Fanconi anemia pathway and ATM pathway with its branches responsible for cell survival (i) and passing through G2 stage during cell cycle progression (ii) ( ).
+ Overall, in PC compared with FC, we detected upregulated ATM, p53 and base excision repair pathways and downregulated KEGG Fanconi anemia and cell cycle g2-m checkpoint pathways ( ). P53 signaling pathway is involved in many mechanisms of DNA repair [ , , ]. ATM-related pathways participate in double strand DNA breaks repair [ ]. Fanconi anemia pathway coordinate a complex mechanism that enlists elements of three classic DNA repair types: homologous recombination, nucleotide excision repair, and mutagenic translesion synthesis in response to genotoxic insults [ , ]. Thus, we can highlight that PC compared with FC has more active double strand DNA breaks repair and base excision repair pathways, and also more intensively involves homologous recombination, nucleotide excision repair, and mutagenic translesion synthesis mechanisms.
+Furthermore, when comparing PC + FC versus FA, in addition to the upregulated ATM and p53 pathways we also detected upregulated BRCA1 pathway and NCI ATM pathway with its branch G1 S transition checkpoint. In turn, the Cell cycle G2M checkpoint pathway was downregulated in PC + FC compared with FA ( , ). G1 S transition checkpoint branch of NCI ATM pathway was upregulated, unlike the G2M checkpoint pathway. The BRCA1 pathway is responsible for the regulation of DNA damage-induced cell cycle checkpoints and controls multiple DNA repair processes, including homologous recombination, non-homologous end-joining, and single-strand annealing [ , ]. Thus, we conclude that PC + FC have higher activation levels of double strand DNA breaks repair, if compared with FA.
+ Finally, in the comparison of PC vs FA we observed the greatest number of differential pathways. The previously mentioned pathways (ATM pathway with its branch Cell Survival, p53 pathway, BRCA1 pathway, Biocarta cell cycle G2M checkpoint pathway, KEGG Base excision repair pathway) followed the same regulation trends, but there were also several new pathways. These were KEGG Homologous recombination pathway, Nucleotide excision repair effect pathway, Reactome Mismatch repair MMR directed by MSH2, MSH6, MutSalpha pathway, Reactome Mismatch repair MMR directed by MSH2, MSH3, MutS beta pathway, and specific branch of p53 pathway Gene Expression DNA Replication and Repair via TP53 ( , ). All the pathways were upregulated in PC compared with FA except for the cell cycle G2M checkpoint pathway, which was downregulated. We, therefore, conclude that PC, if compared with FA, had more active double strand DNA breaks repair, nucleotide excision and mismatch repair mechanisms, but less active G2M checkpoint transition pathway.
+ We then analyzed gene compositions of the reconstructed comparison-specific DNA repair networks and found statistically significantly differential genes (according to Wilcoxon test) that may represent the key regulated pathway nodes. We adjusted Wilcoxon p-value by Benjamini-Hochberg false discovery rate test and obtained the differential gene set with q-value less than 0.05 for each reconstructed pathway: totally 68, 73, and 91 genes for the three comparisons, respectively (Supplementary file 5). The gene compositions in these three lists were highly redundant and totally represented 96 individual genes. Top-10 of these differential genes sorted by the fold change value are shown on .
+ In some cases, the transcriptional activity of genes can be unrelated to the corresponding protein levels due to specific translation regulation mechanisms. To investigate whether transcriptional changes reflect DNA repair effector protein concentrations in cancer tissues we used published datasets to assess correlation of expression at the transcriptomic and proteomic levels for four DNA repair effector genes: ATM, BRCA1, H2AFX, and TP53 in different cancers. We found that transcription and protein concentration were statistically significantly positively correlated in most of the cases, which can support adequacy of the transcriptome-based approach to DNA repair pathway analyzes ( ).
+ 
+2.4.
+
+## DNA repair pathway activities in thyroid tumors and in adjacent pathologically normal tissues
+We explored previously published thyroid tumor gene expression dataset PRJEB11591 [ , ] to validate the activation trend revealed for the activities of DNA repair pathways in three types of thyroid tumors. The literature dataset contained RNA sequencing data for 25 FAs, 30 minimally invasive FCs, 48 follicular variants of PC (FVs), 77 classical papillary thyroid carcinomas (PCs) and 81 adjacent pathologically normal thyroid tissues. The adjacent normal samples corresponded to 18 FAs, 19 FCs, 11 FVs and 33 PCs. As before, we performed differential pathway analyses (for 38 DNA repair pathways) and obtained the statistically significant q-value in at least one comparison for 36 out of 38 DNA repair pathways investigated (Supplementary file 7). We used 81 adjacent normal samples as the controls to calculate PAL of DNA repair pathways.
+Using these data we confirmed the previously revealed tendency that the majority of differential DNA repair pathways have minimal activation signature in FA, medium in FC and maximal in PC ( ). FV (follicular variant of PC) had intermediate pathway activation values between FC and PC ( ). DNA repair pathway activation levels in adjacent pathologically normal tissues were very similar to the levels observed in the corresponding tumors (R Pearson = 0.8492, p-value < 2.2e-16, ). This finding may reflect tumor influence on gene expression in adjacent pathologically normal tissue.
+ 
+2.5.
+
+## APOBEC activity in thyroid tumors
+Mutational signature of thyroid cancer specimens suggests involvement of DNA-modifying APOBEC family enzymes [ ]. APOBEC family cytidine deaminases convert cytidine to uracil, coupled to activity of the base excision repair and DNA replication processes [ , , ]. We explored expression of APOBEC family genes in experimental samples under investigation for thyroid tumor type-specific patterns ( ). Four genes showed tumor type-specific differential expression, which was increased in PC compared to FA and FC: APOBEC3C, APOBEC3F, APOBEC3G, and APOBEC4 ( A). Furthermore, we also explored APOBEC family gene signature which was the sum of logarithmic expression levels of all family members under study: AICDA, APOBEC2, APOBEC3A, APOBEC3A_B, APOBEC3B, APOBEC3C, APOBEC3D, APOBEC3F, APOBEC3G, APOBEC3H, APOBEC4. The APOBEC signature was also differential for the comparisons of FA vs PC, and FC vs PC ( B). The direction of expression changes of APOBEC family gene signature and separate genes (APOBEC3C, APOBEC3F, APOBEC3G, and APOBEC4) coincides with direction of expression changes in DNA repair pathways (expression is higher in PC than in FC and FA).
+ 
+2.6.
+
+## Gene expression pattern specific for radioactive iodine resistant tumors
+We then attempted to identify the radioiodine resistance (RAIR)-specific gene expression patterns using our experimental RNA sequencing dataset. To this end, we compared 13 RAIR samples with 62 thyroid cancer samples: 18 follicular cancers and 44 papillary cancers. We did not consider 17 samples of follicular adenoma and 3 samples of medullar cancer in this comparison. We found no statistically significant differences for all 38 DNA repair pathways, thus, we investigated expression on gene level. We selected 217 differentially regulated genes using Wilcoxon statistical test with Benjamini-Hochberg FDR-adjusted p-value<0.05. However, well known RAIR biomarker gene SLC5A5 was not included in the list because it did not pass the FDR criterion. We, therefore, modified the candidate gene search criterion so that it would be maximally strict and at the same time would allow SLC5A5 (p = 0.00344) to be selected. Thus, we marked as differential all the genes with Wilcoxon test p-value less than 0.0035.
+As a result, we identified 871 differential genes (Supplementary File 8) and then characterized partly their functional impacts using Gene Ontology (GO) analysis. Only 550 of these genes had functional GO annotation, and five statistically significantly enriched GO terms were identified in total ( ). ClueGo [ ] software analysis showed that these terms belong to two functional groups.
+ The first group deals with response to topologically incorrect (misfolded and unfolded) proteins. Unfolded protein response (UPR) is a cellular process related to the endoplasmic reticulum (ER) stress [ ]. The information about the protein folding status is sensed in the ER lumen and transmitted to the cytoplasm and the nucleus. UPR signaling pathway includes transcriptional induction of UPR genes, global attenuation of translation, and ER-associated protein degradation. If the protein folding defect is not corrected, cells undergo apoptosis [ ]. We found no previous references in the scientific literature to the association between the response to unfolded proteins and radioiodine resistance in thyroid cancer. However, induction of UPR was reported to promote radiosensibilization in radioresistant colorectal cancer cells [ ].
+The second functional group included only one GO term: aldo-keto reductase (NADP) activity. The aldo-keto reductase (AKR) superfamily comprises several enzymes that catalyze redox transformations involved in biosynthesis, intermediary metabolism, and detoxification [ ]. We found no publications linking AKRs with radioiodine resistance of thyroid cancer. However, it was previously reported that small interfering RNA specific to AKR1C3 gene could significantly enhance sensitivity to radiation therapy in non-small cell lung cancer cells [ ]. In contrast, overexpression of AKR1C3 also increased radioresistance of prostate and esophageal cancer cells [ , ]. Meanwhile, increased aldehyde reductase expression mediates acquired radioresistance of laryngeal cancer via p53-related mechanism [ ].
+In addition, five differential genes out of 871 identified belonged to the DNA repair pathways ( ). One of them (GTF2H2C) is involved in nucleotide excision repair and RNA transcription [ ]. For the other four genes, a link to radiation therapy was previously mentioned in the literature.
+ RFC5 gene product is part of the Rad17-RFC complex, which is one of the mechanisms of cellular recognition of a radiation insult [ ]. The complex can dock on fractured DNA or near the site of damaged DNA and initiate downstream signaling, including activation of ATM and ATR kinases [ ]. Then the ATM and ATR signaling pathways activate downstream effectors and thus regulate cell cycle arrest, DNA repair, and apoptosis [ , , , , ].
+Cdc42 belongs to the Rho subfamily of GTPases, which plays a key role in the initiation and progression of cancer by transmitting oncogenic signals from the cell surface receptors and from activated guanine nucleotide exchange factors (GEF) signaling [ ]. Alternatively, Cdc42 can be activated by the PI3K signaling through activation of PIP3-regulated GEFs, such as P-Rex, Vav, Sos, and SWAP70 [ ]. Recently, Rac1 inhibition has been shown to sensitize pancreatic and breast cancer cells to radiation therapy, therefore, Rac and, similarly, Cdc42 may be regarded as the putative targets for chemosensitization of radiotherapy [ , , ].
+RBX1 contributes to the G1 phase-specific degradation of Exonuclease 1 (EXO1), which is responsible for the protruding 3′ single stranded DNA formation during processing of double-strand breaks. RBX1 knockdown decreases the degradation of EXO1 [ ], and its depletion causes radiosensibilization of cervical cancer cells and deficiency in DNA double-strand breaks repair [ ]. RBX1 silencing significantly sensitizes radioresistant glioblastoma and lung cancer cells to the radiation with sensitivity enhancement ratios of 1.5 and 1.3, respectively [ ].
+Finally, the RPS27A gene was reported to be over-expressed in breast fibroadenomas, colorectal, renal cancers, chronic myeloid leukemia and acute leukemia [ , , ]. Ubiquitin is encoded by four different genes that are highly homologous in eukaryotes. UBA52 and RPS27A genes code for a single copy of ubiquitin fused to the ribosomal proteins L40 and S27a, respectively. Knock-down of ubiquitin increased the radiosensitivity in H1299 cells, thus RPS27A may contribute to radioresistance of tumor cells [ ].
+
+2.7.
+
+## Fusion gene transcripts
+We screened RNA sequencing reads for the clinically relevant hybrid transcripts with eleven oncogenes: ALK, ROS1, RET, NTRK1, NTRK2, NTRK3, FGFR1, FGFR2, FGFR3, BCR, and ABL1. We found reads directly supporting two fusion transcripts with genes ALK and RET. One was in-frame fusion for well-known NCOA4-RET translocation [107] ( A), and another one was frameshift fusion of ALK oncogene with a previously unknown upstream partner ARHGAP12 ( A). Seventh exon of NCOA4 was fused with the eleventh exon of RET. In turn, third exon of ARHGAP12 was fused with the fourth exon of ALK. In both cases, exon coverage also supported fusion status for the ALK ( B) and RET ( B) genes as the relative coverage downstream to the fusion site was higher than upstream (Figures  B, B).
+ Both fusions were found in papillary thyroid cancers of follicular histologic subtype with node metastases, one of them (NCOA4-RET) in the radioactive iodine resistant tumor. We didn't detect any outstanding DNA repair pathway activation features in the samples with fusion transcripts ( ).
+ 
+
+3.
+
+## Discussion
+Here we present clinically annotated RNA sequencing data for 95 human thyroid tumor biosamples corresponding to 17 follicular adenomas, 23 follicular, 51 papillary, 1 poorly differentiated, and 3 medullar thyroid cancers cases. These molecular data are fully compatible with the previously published ANTE database, which includes RNA sequencing profiles for healthy human tissues, including thyroid tissue [ ]. The gene expression dataset is assembled in a machine-readable format and annotated by the available patients’ data, including type and histological subtype of thyroid tumor, sex, age, diagnosis, and BRAF (V600E) mutation status and gene fusion status. This dataset will hopefully be useful to those interested in thyroid tumor biology, especially in the context of relevant data accumulation from different sources. The use of this material in further analytic investigations can make it possible to identify and validate thyroid tumor type-specific expression biomarkers.
+These data allowed us to analyze characteristic features of DNA repair pathway regulation in different thyroid tumor types. Follicular and papillary cancers demonstrated higher activation level of DNA repair pathways than the follicular adenomas. Our results suggest that papillary cancers have more activated DNA repair pathways than follicular neoplasms, with the remarkable exception of a G2M transition checkpoint pathway which showed an opposite trend. We found that most of DNA repair pathways were minimally activated (among tumors) in follicular adenomas. This trend was also confirmed for literature dataset PRJEB11591. We hypothesize that lower DNA repair pathway activation strengths in follicular adenomas compared to thyroid tumors can be linked with relatively lower level of DNA replication defects. Alternatively, this effect can be also connected with hypoxia which frequently accompanies benign tumors and inhibits DNA repair pathways [ ].
+Thus, our results demonstrate that DNA repair activity is increased in malignant compared to benign tumors. The same trend was also established for the tumor-adjacent pathologically normal tissues. These two evidences highlight the link between tumor progression and increased level of DNA repair and are consistent with the previous literature data on DNA repair in thyroid tumors [ , ]. In agreement with that, the increased level of DNA damage marker 8-oxo-dG had been previously reported for thyroid tumors [ ]. The same trend was also observed for another reactive oxygen marker, cytoplasmic 4-HNE, which characterizes lipid peroxidation level [ ].
+We also reconstructed DNA repair networks that were differential in the FC versus PC, FC + PC versus FA, and PC versus FA comparisons, and identified statistically significantly differential nodes. It is of note that the differential gene lists were very similar in these three comparisons. This fact may suggest that molecular differences between the follicular and papillary neoplasms are bigger than between the malignant and benign tumors.
+In this study we identified statistically differential features of DNA repair pathway activation between follicular and papillary thyroid cancers. Uncovering these differences may not only contribute to understanding of molecular mechanisms of thyroid tumors but also may help further developing new molecular-based therapeutic approaches for different types and subtypes of TCs. DNA repair has dual significance by simultaneously slowing down tumor evolution but also by protecting tumor cells from the treatment of replication targeting therapeutics. Thus, controlled inhibition of DNA repair activities can be considered personalized therapeutic option [ , ]. On the other hand, we found no differential DNA repair pathways between radioiodine resistant and sensitive tumor samples. This may suggest that the molecular differences between thyroid tumor types are more significant than differences between radioiodine resistant and sensitive tumors.
+Another key point of this study deals with the expression patterns of tumor-adjacent pathologically normal tissues learned from the literature dataset PRJEB11591. We showed that activation levels of DNA repair pathways strongly correlated between the tumor and adjacent normal tissues (R Pearson = 0.8492, p-value < 2.2e-16, B). This observation is consistent with some previous studies [ , ] and suggests that tumor-adjacent pathologically normal tissues can be strongly affected by the tumor and must be considered with care when comparing cancerous and healthy tissues.
+Annotations for 23 molecular profiles published here include the response data on radioactive iodine therapy, of them 10 were for the treatment responders and 13 for the non-responders. This sampling is modest in terms of robust biomarker discovery. However, these datasets can be combined with the previously published or future data collections e.g. using harmonization of gene expression profiles data formats [ ]. Alternatively, advanced methods of reducing data dimensionality can be applied in order to make use of machine learning and other artificial intelligence approaches to further analyze the data [ , , ].
+Finally, we identified fusion transcripts for ALK and RET oncogenes. One of them represents a well-known NCOA4-RET translocation, and another one is a new hybrid transcript of ALK oncogene with a previously unknown upstream fusion partner ARHGAP12. The latter can probably drive increased transcription of truncated ALK downstream from the fusion site because its normalized expression is one-two orders of magnitude higher in the normal tissues than for the ALK gene (UCSC Genome Browser, https://genome.ucsc.edu). This was also the case for our experimental dataset of thyroid tumor tissues, where mean normalized ARHGAP12 expression was ~12-fold greater than the expression of ALK.
+We hope that the data communicated here could be used for fundamental cancer research applications and for revising lists of tumor specific gene expression biomarkers, including those that distinguish between malignant and benign thyroid tumors and predict response to iodine radiation therapy.
+
+4.
+
+## Materials and methods
+4.1.
+
+## Biosamples
+Biosamples were obtained from patients diagnosed with primary thyroid tumors who had undergone surgery at Endocrinology Research Centre, Moscow. For all the biosamples, informed written consents to participate in the study were collected from the patients or their legal representatives. The study was conducted in accordance with the Declaration of Helsinki ethical principles. The consent procedure and the design of the study were approved by the local ethical committee of the Endocrinology Research Centre, Moscow, protocol number 19 (October 25, 2017, Chairman Dr. E.N. Andreeva). From the patients TC16, TC18, TC19, TC26 and TC127, the consent was obtained for disclosure of sex, histological tumor type, and molecular data including RNA sequencing data but excluding whole-genome and/or whole-exome sequencing data; from the patients TC11, TC12, TC17, TC37 and TC125 - for disclosure of sex, histological tumor type, diagnosis, and molecular data including RNA sequencing data but excluding whole-genome and/or whole-exome sequencing data; for the rest of the patients - for disclosure of sex, age, histological tumor type, diagnosis, and molecular data including RNA sequencing data but excluding whole-genome and/or whole-exome sequencing data.
+Tissue specimens were formalin-fixed and embedded in paraffin. Tumors were evaluated by a pathologist to determine histological type and to estimate proportion of tumor cells. All the specimens used in this study contained at least 60% of tumor cells.
+Overall, 51 papillary thyroid cancer (PC), 23 follicular thyroid cancer (FC), 3 medullary thyroid cancer (MC), 1 poorly differentiated thyroid cancer (PDC), and 17 follicular thyroid adenoma (FA) samples were investigated. There were 21 male and 74 female patients. The mean age of patients was 47 years (range 11–88 years). Additionally, 6 healthy thyroid tissue samples from ANTE database [ ] were used to normalize gene expression levels in molecular pathway analysis. Clinical annotations of tumor specimens investigated are summarized in the Supplementary file 1.
+
+4.2.
+
+## RNA sequencing
+RNA libraries were generated, sequenced, and processed as described in [ ]. RNA extraction was performed with the RecoverAll™ Total Nucleic Acid Isolation Kit (Invitrogen), following the manufacturer's protocol. RNA Integrity Number (RIN) was measured using Agilent 2100 bioanalyzer. RNA concentration was measured with Agilent RNA 6000 Nano or Qubit RNA Assay Kits. Depletion of ribosomal RNA was performed using RNA Hyper with RiboErase (KAPA Biosystem) Kit. Library concentrations and quality were measured with Qubit ds DNA HS Assay kit (Life Technologies) and Agilent Tapestation (Agilent). The samples were sequenced using Illumina HiSeq 3000 equipment for single end sequencing, 50 bp read length, for approximately 30 million raw reads per sample. Data quality check was conducted using Illumina SAV. De-multiplexing was performed using Illumina Bcl2fastq2 v 2.17 software [ ].
+
+4.3.
+
+## Processing of RNA sequencing data
+RNA sequencing FASTQ files were processed with STAR aligner [ ]. We used ‘GeneCounts’ mode with the Ensembl human transcriptome annotation (Build version GRCh38 and transcript annotation GRCh38.89). Complete HGNC dataset [ ], version of July 13, 2017, was used to convert Ensembl gene IDs to HGNC gene symbols.
+
+4.4.
+
+## Evaluation of BRAF (V600E) mutation status
+Detection of BRAF (V600E) mutation was performed using allele-specific PCR with dual-labeled probe as described in [ ]. PCR cycling conditions were pre-denaturation step 95°С – 2 min, followed by 50 cycles of denaturation (94°С, 10 s), annealing, and elongation (60°С, 15 s). Mutation status was considered positive if the mutant allele content was 3% or more of the wild-type allele.
+
+4.5.
+
+## Histological characterization of samples
+All samples were subjected to histological analysis, representative microphotographs of preparations of the thyroid tumor types investigated are shown in .
+ Specific histology subtypes of the specimens are given in the Supplementary file 1. For further analyses, we grouped specimens by major tumor types: PC, FC, MC, and FA.
+
+4.6.
+
+## Quality control of mRNA sequencing profiles
+Detailed annotation of RNA sequencing reads mapping statistic produced by STAR aligner [ ] and quality control metrics produced by NCBI MAGIC software [ ] are shown in the Supplementary file 2. Minimal number of reads uniquely mapped on mRNA sequences of known genes was ~3,4∗106 with the mean of ~9,2∗106 (Supplementary file 2). Average mapping rate, taking into account only uniquely mapped reads, was 78%. Typical per base and per sequence quality scores visualized by fastQC software [ ] demonstrated high values for individual base pairs and read sequences ( A, B).
+ Principal component analysis (PCA) and hierarchical clustering based on Euclidian distance in normalized counts (lg(RPM)) space did not reveal any outliers ( C, D). In comparison with other FC and PC samples, three FC samples formed a distant cluster (TC2, TC4, TC124; C, circled). These three cluster members had 150 differentially expressed genes with q-value<0.05 by Wilcoxon test (Supplementary File 9). The gene contribution coefficients for the first two principal components are given in Supplementary File 9.
+We performed sequencing of two technical replicates of samples TC63 and TC116, Spearman's correlation coefficient between gene expression profiles was 0.95 for both cases. We also found that the replicates tightly clustered on the dendrogram ( ) which confirmed data consistency of the RNA sequencing protocol used.
+ Overall, our data quality assay did not identify any significant internal problems or internal bias in the RNA sequencing data presented. We did not include the poorly differentiated thyroid cancer sample in our further analysis because it cannot be used for group comparisons. We used reads per million (RPM) normalization of expression data. We filtered low-expressed values (less than one) to reduce data noise.
+
+4.7.
+
+## Data records
+Original gene expression data were deposited in Gene Expression Omnibus database (GEO) under accession number GSE138042. Raw fastq data are available in SRA archive under accession number PRJNA588725. Description of clinically relevant (age, sex, diagnosis, tumor histotype, BRAF (V600E) mutation status) and technical (RIN, date of sequencing) information is given in the Supplementary file 1. Results of RNA sequencing reads quality assay are given for mRNA in the Supplementary file 2.
+
+4.8.
+
+## Structures of DNA repair pathways
+The gene structures and molecular architectures of 38 DNA repair pathways were obtained from the public databases Reactome [ ], NCI Pathway Interaction Database [ ], Kyoto Encyclopedia of Genes and Genomes [ ], Biocarta [ ], and Qiagen [ ], and manually curated as described in [ ]. Only molecular pathways which include ten or more genes [ ] were considered in calculations of pathway activation level (PAL) in order to increase statistical accuracy.
+
+4.9.
+
+## Alternative thyroid tissue datasets
+We used published RNA sequencing gene expression profiles of normal thyroid tissues from TCGA [ ] and GTEx [ ] project databases, amounting to 58 and 446 profiles, correspondingly. Samples barcodes are shown in Supplementary File 6. Raw gene counts were processed as reads per million (RPM).
+Alternatively, thyroid tumor and normal thyroid RNA sequencing profiles from dataset PRJEB11591 [ , ] were used. The dataset includes data for 25 FA, 30 minimally invasive FC, 48 follicular variant of PC (FV), 77 classical papillary thyroid carcinomas (PC) and 81 adjacent normal thyroid tissues. FASTQ files were processed by STAR aligner [ ] to get raw gene counts that were processed as RPM.
+The proteome datasets from CPTAC [ ] and corresponding transcriptome datasets from gdc-portal [ ] were used to assess correlation between expression on transcriptome and proteome level for key genes in tumor and normal tissues. We totally used 102 paired RNA sequencing and proteome profiles of breast, 53 - colon, 210 – lung, 108 – brain, 62 – ovary, 151 – head and neck tissues.
+
+4.10.
+
+## Calculation of pathway activation level
+Pathway activation level (PAL) characterizes cumulative changes in expression levels of genes belonging to a certain molecular pathway [ , , ]. PAL is calculated as follows:
+PALp=∑nARRnp∗lg(CNRn)/∑n|ARRnp|,where PALp is PAL for pathway p, CNRn is case-to-normal ratio, the ratio of gene n expression level in a tumor sample under study to an average level in the control group; ARR (activator/repressor role) is a Boolean flag that depends on the function of gene n product in pathway p. ARR value is −1 if gene product n inhibits pathway p; 1 if n activates the pathway; 0 if n has ambiguous or unclear role in the pathway; 0.5 or −0.5, if n is more a pathway activator or its inhibitor, respectively. For convenience, in this article we use modified PAL = PAL∗100. PAL values for all samples under investigation are given in Supplementary File 6.
+
+4.11.
+
+## Gene ontology analysis and visualization of molecular pathways
+Gene Ontology (GO) analysis was performed using ClueGO software [ ] with GO database from 28.04.2020. GO-analysis results and molecular pathways were visualized using Cytoscape 3.8.0 [ ].
+
+4.12.
+
+## Identification of fusion transcripts
+Fusion transcripts were initially screened using STAR-Fusion software. Preliminary files containing fusion candidates for genes ALK, ROS1, RET, NTRK1, NTRK2, NTRK3, FGFR1, FGFR2, FGFR3, BCR, ABL1 were generated and the corresponding RNA sequencing reads were extracted. The output data were manually inspected using UCSC BLAT and UCSC Browser (https://genome.ucsc.edu/) to interrogate fusion candidates according to the following criteria: (i) does the read cover exon junction of two different transcripts, (ii) if the junction point exactly corresponds to exon termini of known genes with canonic splice sites, (iii) if both transcripts are in the same orientation. The inputs with three positive flags were considered as those supporting fusion transcripts.
+
+## Declarations
+
+## Author contribution statement
+Anton Buzdin, Maxim Sorokin: Conceived and designed the experiments; Analyzed and interpreted the data; Wrote the paper.
+Uliana Vladimirova: Conceived and designed the experiments; Performed the experiments; Analyzed and interpreted the data; Wrote the paper.
+Pavel Rumiantsev, Dmitriy Kamashev: Conceived and designed the experiments; Analyzed and interpreted the data.
+Marianna Arsenovna Zolotovskaia: Conceived and designed the experiments; Analyzed and interpreted the data; Wrote the paper.
+Eugene Albert: Analyzed and interpreted the data; Wrote the paper.
+Aleksander Abrosimov: Performed the experiments.
+Konstantin Slashchuk, Petr Nikiforovich, Olga Chukhacheva: Contributed reagents, materials, analysis tools or data.
+Nurshat Gaifullin: Conceived and designed the experiments; Wrote the paper.
+Maria Suntsova, Xinmin Li: Conceived and designed the experiments; Performed the experiments.
+Galina Zakharova, Andrew Garazha: Analyzed and interpreted the data.
+Alexander Glusker: Conceived and designed the experiments.
+Daniil Nikitin: Analyzed and interpreted the data; Wrote the paper.
+Alexei Drobyshev, Irina Kochergina-Nikitskaya: Performed the experiments; Analyzed and interpreted the data.
+
+## Funding statement
+This work was supported by Omicsway Corp., USA, and by Russian Foundation for Basic Research grant (19-29-01108).
+
+## Data availability statement
+Data associated with this study has been deposited at GEO and SRA repositories and published under GEO accession id GSE138042.
+
+## Declaration of interests statement
+The authors declare no conflict of interest.
+
+## Additional information
+No additional information is available for this paper.
+
+Appendix A.
+
+## Supplementary data
+The following is the supplementary data related to this article:
+
+## Supplementary_file 1.xlsx
+Clinical annotation, mRNA sequencing file IDs and QC RIN scores of all patients analyzed in this study.
+Supplementary_file 1.xlsx
+
+## Supplementary_file 2.xlsx
+STAR alignment and MAGIC quality control statistics of mRNA sequencing data obtained in this study.
+Supplementary_file 2.xlsx
+
+## Supplementary_file 3.xlsx
+Statistical parameters for differential expression of SERPINA1, LAMB3, TACSTD2, CPQ, TFF3, ACVRL1, PLVAP genes.
+Supplementary_file 3.xlsx
+
+## Supplementary_file 4.xlsx
+Alterations of pathway activation levels for 38 DNA repair pathways in differential comparisons of follicular adenoma (FA), follicular cancer (FC), papillary cancer (PC) and normal tissues (ANTE, GTEX and TCGA databases), and statistic characteristics of compared groups.
+Supplementary_file 4.xlsx
+
+## Supplementary_file 5.xlsx
+Node and gene characteristics for reconstructed pathways.
+Supplementary_file 5.xlsx
+
+## Supplementary_file 6.xlsx
+PAL values for all thyroid tissue samples investigated.
+Supplementary_file 6.xlsx
+
+## Supplementary_file 7.xlsx
+Alterations of pathway activation levels for 38 DNA repair pathways(dataset PRJEB11591) in differential comparisons of follicular adenoma (FA), follicular cancer (FC), follicular variant of papillary cancer (FV), classical variant of papillary cancer (PC) and adjacent normal tissues.
+Supplementary_file 7.xlsx
+
+## Supplementary_file 8.xlsx
+List of 871 differential genes between radioiodine resistance (RAIR) tumor samples and other thyroid cancers.
+Supplementary_file 8.xlsx
+
+## Supplementary_file 9.xlsx
+Gene contribution coefficients in the first two principal components according to Figure 19C.
+Supplementary_file 9.xlsx
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Supplementary_file 1.xlsx
+Clinical annotation, mRNA sequencing file IDs and QC RIN scores of all patients analyzed in this study.
+Supplementary_file 1.xlsx
+
+## Supplementary_file 2.xlsx
+STAR alignment and MAGIC quality control statistics of mRNA sequencing data obtained in this study.
+Supplementary_file 2.xlsx
+
+## Supplementary_file 3.xlsx
+Statistical parameters for differential expression of SERPINA1, LAMB3, TACSTD2, CPQ, TFF3, ACVRL1, PLVAP genes.
+Supplementary_file 3.xlsx
+
+## Supplementary_file 4.xlsx
+Alterations of pathway activation levels for 38 DNA repair pathways in differential comparisons of follicular adenoma (FA), follicular cancer (FC), papillary cancer (PC) and normal tissues (ANTE, GTEX and TCGA databases), and statistic characteristics of compared groups.
+Supplementary_file 4.xlsx
+
+## Supplementary_file 5.xlsx
+Node and gene characteristics for reconstructed pathways.
+Supplementary_file 5.xlsx
+
+## Supplementary_file 6.xlsx
+PAL values for all thyroid tissue samples investigated.
+Supplementary_file 6.xlsx
+
+## Supplementary_file 7.xlsx
+Alterations of pathway activation levels for 38 DNA repair pathways(dataset PRJEB11591) in differential comparisons of follicular adenoma (FA), follicular cancer (FC), follicular variant of papillary cancer (FV), classical variant of papillary cancer (PC) and adjacent normal tissues.
+Supplementary_file 7.xlsx
+
+## Supplementary_file 8.xlsx
+List of 871 differential genes between radioiodine resistance (RAIR) tumor samples and other thyroid cancers.
+Supplementary_file 8.xlsx
+
+## Supplementary_file 9.xlsx
+Gene contribution coefficients in the first two principal components according to Figure 19C.
+Supplementary_file 9.xlsx
+
+## Data Availability Statement
+Data associated with this study has been deposited at GEO and SRA repositories and published under GEO accession id GSE138042.

@@ -1,0 +1,168 @@
+96cancellCancer Cell InternationalCancer Cell IntBMCPMC6449960644996064499603099269110.1186/s12935-019-0803-4RNF8 is responsible for ATRA resistance in variant acute promyelocytic leukemia with GTF2I/RARA fusion, and inhibition of the ubiquitin–proteasome pathway contributes to the reversion of ATRA resistance
+YanWenzhe LiJi ZhangYang YinYafei ChengZhao WangJiayi HuGuoyu LiuSufang WangYewei XuYunxiao PengHongling ZhangGuangsen 1Department of Hematology, The Secong Xiangya Hospital, Central South University, Changsha, 410011 Hunan China 2Department of Oncology, The Secong Xiangya Hospital, Central South University, Changsha, 410011 Hunan China 3Department of Hematology, Xiangtan Central Hospital, Changsha, 410011 Hunan China 4Department of Nephrology, The Secong Xiangya Hospital, Central South University, Changsha, 410011 Hunan China 5Department of Hematology, Zhuzhou No.1 Hospital, Zhuzhou, 410011 Hunan China ✉Corresponding author.
+4420191984841642019© The Author(s) 2019Open AccessThis article is distributed under the terms of the Creative Commons Attribution 4.0 International License (http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were made. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated.
+
+## Abstract
+
+## Background
+GTF2I-RARA is a newly identified RARA fusion gene in variant acute promyelocytic leukemia (APL) patients with t(7;17)(q11;q21). Clinical manifestation in the patient showed that it is a sort of ATRA-insensitive oncogene and is different from the classic PML-RARA in terms of therapeutic reaction.
+
+## Methods
+To reveal the functional characteristics and regulating mechanism of the GTF2I-RARA fusion gene, we established a GTF2I-RARA-transfected HL60 cell model and examined its sensitivity to ATRA by western blot, MTT assay, flow cytometry, and Wright-Giemsa staining. Coimmunoprecipitation and confocal microscopy were used to examine the binding of GTF2I-RARA and transcriptional corepressors. We also performed ChIP-seq to search for potential target genes. Immunoprecipitation, ubiquitination assay, western blot, luciferase assay, and real-time PCR were used to analyze the effects of RNF8 on RARA. Flow cytometry and Wright-Giemsa staining were used to study the effect of MG132 and ATRA on the GTF2I-RARA-transfected HL60 cell model.
+
+## Result
+We confirmed resistance of GTF2I-RARA to ATRA. Compared with PML-RARA, GTF2I-RARA has a higher affinity to HDAC3 under ATRA treatment. Using the ChIP-sequencing approach, we identified 221 GTF2I-RARA binding sites in model cells and found that the RING finger protein 8 (RNF8) is a target gene of GTF2I-RARA. RNF8 participates in disease progression and therapy resistance in APL with the GTF2I-RARA transcript. Elevated RNF8 expression promotes the interaction between RARA and RNF8 and induces RARA Lys-48 linkage ubiquitylation and degradation, resulting in attenuated transcriptional activation of RARA.
+
+## Conclusion
+Our results suggest that RNF8 is a key GTF2I-RARA downstream event. Using the combination of MG132 and ATRA to treat GTF2I-RARA-HL60 cells, a synergistic effect leading to GTF2I-RARA-HL60 cell differentiation was confirmed. Taken together, the targeting of RNF8 may be an alternative choice for treatment in variant APL with GTF2I-RARA fusion.
+
+## Electronic supplementary material
+The online version of this article (10.1186/s12935-019-0803-4) contains supplementary material, which is available to authorized users.
+
+Keywords: APL, GTF2I-RARA, RNF8, RARA, Proteasome inhibitor
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2018 Dec 5; Accepted 2019 Mar 23; Collection date 2019.
+
+## Background
+Acute promyelocytic leukemia (APL) is a distinct subtype of acute myeloid leukemia that is mostly driven by the chimeric oncoprotein PML-RARA [ ]. Accruing evidence indicates that PML-RARA-driven APL is sensitive to both all-trans retinoic acid (ATRA) and arsenic trioxide (ATO) therapy [ , ]. The combination of ATRA and chemotherapy or ATO dramatically improves the prognosis of APL. Key elements of PML-RARA-induced leukemogenesis have been elucidated. Generally, PML-RARA exhibits a high affinity for the corepressor proteins N-CoR and SMRT, and only the introduction of pharmacological doses of ATRA (1–2 μM) induces corepressor release and coactivator recruitment, as well as the degradation of PML-RARA [ , ]. PML-RARA also acts as a transcriptional repressor of RARA- and non-RARA-target genes, which are involved in processes such as differentiation, apoptosis, blocking promyelocyte differentiation, and contributing to the proliferation of leukemic blasts [ , ]. However, the extent to which the RARA fusion protein acquires altered DNA-binding capacities that may result in the aberrant expression of genes normally regulated by wild-type RARA is still not well understood. Hoemme et al. [ ] identified a total of 372 target genes of PML-RARA using chromatin immunoprecipitation (ChIP)-on-chip. Subsequent genome-wide studies conducted by Martens et al. and Wang et al. identified nearly 3000 binding sites of PML-RARA, suggesting that PML-RARA-associated epigenetic alterations and regulatory mechanisms are very sophisticated [ , ].
+There is a subset of patients with variant APL in whom t(15;17) cannot be detected, either at a cytogenetic or molecular level. To date, 13 variant fusion genes in APL have been identified and reported [ – ]. Clinically, patients with variant APL manifest different clinical or laboratory phenotypes and treatment outcomes [ ]. All variant APL cases show the same breakpoint within the RARA gene, whereas their partner genes are variable. Therefore, the nature of the RARA partner has a decisive impact on the disease phenotypes and therapeutic response to ATRA and ATO.
+We have previously identified and reported a novel fusion gene GTF2I-RARA (GenBank no. KP100665.1) in a variant APL patient with cryptic t(7;17)(q11;q21) [ ]. Like other RARA fusion genes, GTF2I-RARA shares a common RARA portion and acts as a dominant-negative regulator in RARA/RXR pathways. Our case manifested a high leukocyte count and was resistant to retinoic acid differentiation induction and chemotherapy attempts [ ]. In this study, we show that a cell line harboring the GTF2I-RARA transcript is resistant to ATRA. Using ChIP-sequencing (ChIP-seq) technology, we screened and identified 221 binding sites of GTF2I-RARA and focused specifically on the RING finger protein 8 (RNF8) gene. We found that RNF8 is abnormally over expressed and can interact with RARA. The RNF8/RARA complex is able to promote RARA Lys48-linkage ubiquitinating degradation and block promyelocytic cell differentiation. In combination with MG132—a proteasome inhibitor—and ATRA in vitro to treat the GTF2I-RARA-positive cells, a facilitating effect of differentiation is observed. Our results indicate that RNF8 is a key target molecular for GTF2I-RARA and is responsible for ATRA resistance. Targeting of the proteasome and RARA receptor may provide an alternative therapeutic strategy in GTF2I-RARA-positive APL patients.
+
+## Materials and methods
+
+## Generation of stable cell lines expressing GTF2I-RARA, RNF8, or Ub
+To generate cells stably expressing GTF2I-RARA-FLAG or control-FLAG, lentiviral vectors (GTF2I-RARA-FLAG) were transfected into HL60 cells. For details on the transfection conditions, please refer to the Additional file .
+
+## Western blot and immunofluorescence staining
+After cell culturing, cells were harvested and lysed in 1 × RIPA buffer supplemented with a protease inhibitor for western blotting. For immunofluorescence staining, fluorescent signals were acquired using a confocal microscope (Carl Zeiss AG, Oberkochen, Germany). For details on the operating steps, please refer to the Additional file .
+
+## Cell viability assay
+Cell viability was analyzed with methylthiazolyldiphenyl-tetrazolium bromide (MTT) assays. Briefly, cells were seeded into 96-well plates followed by the administration of ATRA treatments for 24 h, 48 h, and 72 h. After this point, 20 μl of MTT solution was transferred to each well. After incubation for 4 h, cell viability assays were performed.
+
+## Coimmunoprecipitation
+A coimmunoprecipitation (CoIP) experiment was performed as per the manufacturer’s instructions (Thermo Fisher Scientific, Waltham, MA, USA). Briefly, cell pellets were collected and lysed for 30 min on ice. Soluble lysates were incubated with an antibody coupled with resin at 4 °C overnight, and the proteins were eluted by boiling in 1 × SDS sample buffer before SDS-PAGE. The precipitated proteins were subsequently subjected to SDS-PAGE and blotted with specific antibodies.
+
+## Cell differentiation analysis
+NB4 cells and GTF2I-RARA-positive HL60 cells were treated with 1 μM of ATRA for 72 h. The cells were then incubated with PE-conjugated anti-human CD11b antibody (BioLegend, San Diego, CA, USA) and examined by flow cytometry. The percentage of CD11b-positive cells was analyzed using the FlowJo software (FlowJo LLC, Ashland, OR, USA). For morphological analysis, cytospin slides of each sample were stained with Wright-Giemsa staining and observed under an optical microscope.
+
+## ChIP-seq
+ChIP was essentially performed on FLAG-GTF2I-RARA-HL60 cells using ANTI-FLAG as per the manufacturer’s instructions (Thermo Fisher Scientific, Waltham, MA, USA). Raw data and experimental methods are available in the Additional file .
+
+## Quantitative reverse transcription polymerase chain reaction
+Total RNA was extracted from cells using TRIzol reagent (Takara Bio, Inc., Otsu, Japan), according to the manufacturer’s protocols. Primer sequences for VRK2, Notch2, WDR26, ANAPC7, RNF8, EMP2, HDAC9, PTPN1, RARA, RXRA, and β-actin messenger RNA (mRNA) are listed in the Additional file .
+
+## In vivo ubiquitination assay
+Ubiquitination of proteins requires the covalent attachment of 8.6-kDa ubiquitin (Ub) to multiple lysine residues, forming poly-Ub chains bound to target proteins, and can be seen as a ladder of high-molecular-mass species on SDS–polyacrylamide gels. For details on the experimental design, please refer to the Additional file .
+
+## Luciferase assay
+Transcriptional activity of RARA was assessed by a luciferase assay. For details on the experimental design, please refer to the Additional file .
+
+## Statistical analysis
+Data were expressed as mean ± standard error of the mean. Comparisons between two groups were performed by an unpaired Student’s t test or one-way analysis of variance test. p < 0.05 was considered statistically significant.
+
+## Results
+
+## GTF2I-RARA confers ATRA resistance and inhibits ATRA-induced leukemic cell differentiation
+Western blot confirmed that the GTF2I-RARA protein is stably expressed in GTF2I-RARA-positive HL60 cells (Fig.  a). When ATRA is exposed to the GTF2I-RARA-positive HL60 and NB4 for 48 h, the PML-RARA protein expression in NB4 cells decreases in a dose-dependent manner, while there is no change regarding the effect in GTF2I-RARA-positive HL60 cells (Fig.  b). MTT results show that ATRA might inhibit NB4 cell proliferation in a dose- and time-dependent fashion, while the GTF2I-RARA-positive HL60 cells display resistance to ATRA-mediated growth inhibition, especially when exposed to high doses of ATRA (1–2 μM) (Fig.  c).
+
+ To check whether GTF2I-RARA impacts ATRA-induced leukemic cell differentiation, the myeloid lineage differential marker CD11b was detected by flow cytometry. Results showed that the percentage of CD11b-positive cells significantly increases in a dose-dependent manner on NB4 cells under ATRA treatment. However, GTF2I-RARA-positive cells exhibit insensitivity to ATRA-induced differentiation (Fig.  d). Consistent with the findings of CD11b, morphological features (Wright-Giemsa staining) confirmed GTF2I-RARA-positive cells show attenuated differentiation even with ATRA treatment (Fig.  e).
+
+## GTF2I-RARA recruits N-CoR/SMRT/HDAC3 transcriptional corepressors and resists the dissociation of HDAC3 of ATRA induction
+The RARA chimeric proteins commonly exhibit increased affinity for transcriptional corepressors, N-CoR/SMRT/HDAC3, which are recruited to RARE, resulting in repression of the RARA target gene [ ]. To assess whether GTF2I-RARA could also recruit these transcriptional corepressors, we performed FLAG-tagged GTF2I-RARA pcDNA3.1 plasmid transfection and coimmunoprecipitation assays. Consistent with other RARA fusion proteins, GTF2I-RARA is able to be coimmunoprecipitated with N-CoR, SMRT, and HDAC3 (Fig.  a). Immunofluorescence localization revealed that FLAG-tagged-GTF2I-RARA colocalizes with HDAC3 mainly in the nucleus and with N-CoR mainly in the cytoplasm, while it colocalizes with SMRT in both the nucleus and cytoplasm in 293T cells (Fig.  c).
+
+ It has been shown that pharmacological doses of ATRA may precipitate the dissociation of RARA fusion proteins from transcriptional corepressors and re-recruit transcriptional activators [ – ]. As shown in Fig.  b, our results indicate that a low dose of ATRA does not dissociate the GTF2I-RARA/HDAC3 complex but could impel the release of SMRT and N-CoR from the GTF2I-RARA/SMRT/N-CoR complexes. Consistent with coimmunoprecipitation, the intracellular distribution of GTF2I-RARA and corepressors changed, in that N-CoR and SMRT migrate to the cytoplasm and separate from GTF2I-RARA. Meanwhile, the GTF2I-RARA/HDAC3 complex fails to disassociate and remains colocalized in the nucleus, suggesting that HDAC3 plays a role to a certain extent in GTF2I-RARA-driven transcriptional regulation (Fig.  c).
+
+## Genome-wide recognition of GTF2I-RARA binding sites and differentially expressed genes
+To map genome-wide binding sites of GTF2I-RARA, we carried out a ChIP-seq experiment. We identified 221 binding sites of GTF2I-RARA with significant enrichment (Fig.  a). Using Multiple EM for Motif Elicitation software, motif analysis was performed. The rank 1 de novo motif of GTF2I-RARA was detected in 9% of the DNA regions (Fig.  c), which is not in agreement with the classic RARE. The raw data files have been uploaded to NCBI (GEO accession number: GSE122354).
+
+ While analyzing the 221 predicted peaks in the gene body, most of the peaks were found to be dispersed in introns (37.7%) and intergenic regions (42.3%), with only a few binding to exonic areas (Fig.  b). The number of genes proximal to the GTF2I-RARA binding sites [within 5 kb upstream from the transcription start site (TSS), the gene body, and 5 kb downstream from the TTS] was 123. Known RARA target genes, such as RARb2, ASB2, IL8, CEBPE, and PRAM1 [ – ], were not included in the 123 genes. To identify reliable novel target genes for GTF2I-RARA, we reviewed the biological function of the 123 annotated genes and focused on VRK2, ANAPC7, PTPN1, EMP2, WDR26, RNF8, NOTCH2, and HDAC9 genes, which are involved in cell proliferation, differentiation, and apoptosis [ – ]. We compared the target gene expression between GTF2I-RARA-positive HL60 and control HL60 cells. Among the eight genes mentioned above, only RNF8 expression is significantly upregulated at both the mRNA and protein level (Fig.  d, e). Because GTF2I-RARA can bind both exonic and intronic regions of RNF8 and functional RNF8 is known to act as a key Ub ligase (E3), we speculate that RNF8 might play an important role in the pathogenesis of the variant APL and confer ATRA resistance.
+
+## GTF2I-RARA promotes interactions between RARA/RNF8 and RXRA/RNF8
+RNF8 is able to bind RXRA through the N-terminal regions of both proteins [ ]. The confirmed fact that RARA binds to RXRA as a heterodimer, in turn, results in the transcriptional activation of RA target genes [ ]. We presume that RNF8 likely interacts with RARA and participates in RARA ubiquitination. Our preliminary results showed that there is downregulated expression for RARA in GTF2I-RARA-positive HL60 cells; however, there is no change in the RXRA level (Fig.  a). Coimmunoprecipitation results confirmed RNF8 not only is bound to RXRA but also interacts with RARA (Fig.  b), suggesting that RNF8 can form a heterodimer with RARA or RXRA and regulate transcriptional activation or inhibition of RA targeting genes. The intracellular localization results for RNF8, RXRA, and RARA proteins revealed that RNF8 is predominantly distributed in the cytoplasm, while RXRA and RARA are localized both in the nucleus and cytoplasm (Fig.  c, left panel). Furthermore, in GTF2I-RARA-positive HL60 cells, RNF8 displays overt co-localization with RXRA or RARA mainly in the cytoplasm (Fig.  c, right panel), suggesting that GTF2I-RARA mediates the transposition of RNF8 and the formation of RNF8/RXRA or RNF8/RARA heterodimers. To prove whether RNF8 disturbs RARA expression by downregulation, RNF8-overexpressed or knocked down HL60 cell models were constructed. Results showed that the protein level, not the mRNA level of RARA, is downregulated in RNF8-overexpressed HL60 cells. Meanwhile, RNF8-siRNA HL60 cells exhibit upregulated RARA protein expression and have no effect on RARA mRNA expression (Fig.  d, e). These results confirm that RNF8 is a negative control factor for the RARA protein and might influence the post-translational modification of RARA. This could be responsible for GTF2I-RARA-driven ATRA resistance.
+
+ 
+
+## RNF8 triggers Lys48-linkage Ub modification on RARA and contributes to ATRA-induced differentiation arrest
+RNF8 plays a critical role in catalyzing both K48- and K63-linked Ub chains. While functions of many of these distinct Ub chains remain obscure, polyubiquitin chains composed of K48-linkages are generally associated with commitment for proteasomal degradation, whereas K63-linked polyubiquitylation plays established roles in DNA damage–repair, protein kinase activation, and receptor endocytosis [ , ]. We presume that RNF8 might also be involved in RARA ubiquitination. To validate this assumption and further illustrate the ubiquitin landscape on RARA, we first used the proteasome inhibitor MG132 at different concentrations and applied it to HL60 cells expressing RNF8. Results showed that RNF8 overexpression could antagonize MG132-induced RARA expression (Fig.  a). To investigate linkage-specific polyubiquitin conjugation on RARA, we further performed coimmunoprecipitation in 293T cells following co-overexpression of RNF8, RARA-Ha, GTF2I-RARA, wild type (WT)-Ub-His, or lysine-only mutant (K48, K63) Ub, in which all lysine residues except one were mutated to arginine. We found that overexpression of RNF8 or GTF2I-RARA leads to a marked increase in RARA Lys48-linkage Ub modification, as well as Ub modification, but it has a minimal effect on K63-linked ubiquitination of RARA (Fig.  b). These results support the idea that RNF8 is responsible for K48-ubiquitin chain formation of RARA and has been associated with RARA proteasomal degradation. It is known that RARA plays a critical role in myeloid differentiation. Hence, we further assessed the effects of RNF8 on the transcriptional activity of RARA. Luciferase assay results indicated that RNF8 could significantly suppress the transcriptional activity of RARE (Fig.  c), while knockdown of RNF8 by siRNF8 exhibits an ATRA-induced transcriptional activation in GTF2I-RARA-positive 293T cells (Fig.  d). To uncover whether overexpression of RNF8 could counteract ATRA-induced cell differentiation, RNF8-transduced HL60 cells were treated with various concentrations of ATRA, and CD11b was detected by flow cytometry. The results showed that the proportion of CD11b-positive cells is found at a lower level in RNF8-transduced HL60 cells compared with the control group (Fig.  e). Wright-Giemsa staining also confirmed that HL60 with RNF8 overexpression represents attenuated ATRA-induced differentiation (Fig.  g). However, knockdown of RNF8 in GTF2I-RARA-positive HL60 cells increases the percentage of CD11b-positive cells and confers sensitivity of differentiation to ATRA (Fig.  f). Cell morphological observation showed that downregulated RNF8 reverses the effects of differentiation arrest of GTF2I-RARA on ATRA (Fig.  h).
+
+ 
+
+## MG132 possesses synergistic effects in ATRA-induced GTF2I-RARA-positive cell differentiation
+Based on the results above, we envisage that inhibiting RARA degradation might help to restore sensitivity to ATRA in GTF2I-RARA-positive HL60 cells. Therefore, we treated GTF2I-RARA-positive HL60 cells with both MG132 (0–0.2 μM) and ATRA (1.0 μM) and observed cell differentiation status. Our results showed that the proportion of CD11b-positive cells is significantly increased in the MG132 + ATRA group compared with ATRA alone (Fig.  a). Additionally, cell morphology revealed that GTF2I-RARA-positive cells possess differentiated characteristics following the progressive increases of MG132 concentration (Fig.  b).
+
+ 
+
+## Discussion
+We call attention to our previous findings regarding a variant APL patient with t(7; 17) in whom a novel GTF2I-RARA fusion was determined [ ]. Just as ZBTB16-RARA or STAT5b-RARA fusions exist, this new subtype of APL manifested insensitivity to ATRA and conventional chemotherapy and had a poor prognosis. It has been shown that the nature and gene structures of the fusion partners have decisive impacts on the disease state and therapeutic response of ATRA [ ]. In this study, we constructed a cell line expressing GTF2I-RARA, certified the phenotype of ATRA resistance, and further probed into the molecular mechanisms for ATRA resistance and transcriptional regulation arising from GTF2I-RARA.
+It has been confirmed that ATRA can induce APL cell differentiation by promoting the fusion protein to undergo degradation [ , ]. Meanwhile, ATRA can interact with RARA, leading to ligand-dependent transactivation of target genes, and induce APL cell differentiation; additionally, overdose of ATRA further promotes APL cell apoptosis [ , ]. In order to investigate the mechanism and resistant phenotype of GTF2I-RARA, we established a GTF2I-RARA stably expressed cell line by lentivirus infection. We showed that when a therapeutic dose of ATRA was used, GTF2I-RARA protein levels did not change in GTF2I-RARA-positive cells, suggesting that ATRA could not degrade GTF2I-RARA. As GTF2I-RARA-positive cells were exposed to different doses of ATRA, an effect of ATRA-mediated growth inhibition was attenuated, and ATRA-induced cell differentiation action was blocked. These results indicate that GTF2I-RARA is different from the typical PML/RARA, which displays ATRA resistance and differentiation arrest. Moreover, the GTF2I-RARA-positive cell model greatly mimics the clinical therapeutic response seen with our earlier patient and paves the way for further work. Results from Lin et al. showed TBLR1-RARA fusion can recruit transcriptional corepressors, including N-CoR, SMRT, and HDACs [ ]. N-CoR/SMRT can recruit HDAC3 to enhance its activity for transcriptional repression [ ]. Most RARA fusion proteins repress transcription to a greater extent than RARA and block myeloid differentiation at the promyelocyte stage [ , ]. Only pharmacological doses of ATRA may dissociate transcriptional corepressors and recruit transcriptional coactivators, resulting in the differentiation of APL cells [ ]. GTF2I is reported to recruit corepressor complexes such as HDAC1, HDAC3, LSD1, and PRC [ – ], and the recruitment is associated with the conserved N-terminal leucine zipper (LZ) (amino acids 23–44) of GTF2I [ ]. In our study, we found that GTF2I-RARA was also associated with N-CoR, SMRT, and HDAC3. However, when exposed to 1 μM of ATRA for 48 h, GTF2I-RARA released N-CoR and SMRT but did not influence the interaction between HDAC3 and GTF2I-RARA, suggesting that the GTF2I-RARA-HDAC3 complex contributes to the repression of RARA target genes and confers ATRA resistance. The N-terminal leucine zipper (amino acids 23–44) on GTF2I mediates homo- or heteromeric interaction [ ]. In the GTF2I-RARA fusion protein, the first 195 amino acids of GTF2I, including the LZ and the first I-repeat (R1, 104–176), are retained, providing the possibility of GTF2I-RARA/HDAC3 multimerization.
+Using state-of-the-art ChIP-seq and ChIP-on-chip technologies, some groups have shed light on the majority of direct downstream targets of PML-RARA [ , ]. To determine the essential downstream target genes of GTF2I-RARA, we performed ChIP-seq to search for key target genes that interact with GTF2I-RARA. Among the identified 123 peaks relative to annotative genes, we discovered RNF8 was significantly upregulated at both the mRNA and protein level and speculated that RNF8 may be an important target gene of GTF2I-RARA. RNF8 belongs to the member of the RING-type subfamily and encodes an E3 Ub ligase. RNF8 plays a critical role in transducing DNA damage signals, interacting with E2s, and catalyzing both K48- and K63-linked Ub chains [ ]. Polyubiquitin chains, mainly consisting of K48 linkages, are associated with proteasomal degradation. Different E3 Ub ligases can bind to relevant substrate proteins. RNF8 could act as a regulator of RXRA, by mediating transcriptional activity through interaction between respective N-terminal regions [ ]. Our results demonstrated that RNF8 interacts with both RARA and RXRA and that RNF8 colocalizes with RXRA and RARA. In GTF2I-RARA-positive cells, an upregulated RNF8 protein expression coupled with a downregulated RARA protein level suggests a mechanism in which RNF8 may mediate the degradation and transcriptional activation of RARA.
+RARA and RXRA can form heterodimers, which transduce signals by binding to RARE in the promoter regions of target genes [ ]. We revealed that overexpression of RNF8 in HL60 cells attenuates the transcriptional activity of the RARE reporter gene. When RNF8 was knocked down in GTF2I-RARA-positive cells, transcriptional activity increases, and the sensibility of ATRA-induced cell differentiation is regained. Consistent with luciferase assays, overexpressed RNF8 decreases the sensitivity of HL60 cells to ATRA and blocks cell differentiation, indicating that RNF8 plays an important role in impeding cell differentiation and ATRA resistance.
+It has been reported that RNF8 catalyzes Ub chain formation via differential RING-dependent interactions with its E2 s. RNF8 overexpression may facilitate RARA ubiquitination. Our data revealed that RARA Lys-48 specific ubiquitination is enhanced in GTF2I-RARA/RNF8-overexpressed cells, which indicates that the RNF8-dependent K48-ubiquitin chains may lead to downregulated RARA protein levels. Using MG132 in combination with ATRA, we observed a synergistic effect on ATRA-induced GTF2I-RARA-positive cell differentiation, suggesting that the inhibition of RARA ubiquitination contributes to reverse the ATRA resistance of GTF2I-RARA-positive cells.
+Based on our results, a model of an ATRA-resistance mechanism on GTF2I-RARA-positive cells is outlined in Fig.  . As a transcriptional factor, GTF2I-RARA fusion selectively binds to RNF8 and upregulates the expression of RNF8. RNF8 interacts with RARA and promotes RARA ubiquitination and degradation. As a result, the transcriptional activity of RARA is impaired, leading to the blocking of cell differentiation and ATRA resistance.
+
+ 
+
+## Conclusion
+This study reveals the mechanism of GTF2I-RARA-driven ATRA resistance and identifies potential target genes involved in cell differentiation regulation. ATRA resistance on GTF2I-RARA-positive cells is mainly attributed to upregulated RNF8 expression, which could lead to RARA degradation. Aberrant recruitment of HDAC3 by GTF2I-RARA may play a minor role. Moreover, combining MG132 and ATRA can increase the sensitivity of ATRA-induced cell differentiation on GTF2I-RARA-positive cells and reverse ATRA tolerance. In conclusion, these findings provide us new therapy targets to reverse the ATRA resistance of GTF2I-RARA.
+
+## Additional file
+
+Additional file 1. Name of genes proximal to the GTF2I-RARA binding sites and supplementary instruction for the experimental methods.
+
+## Authors’ contributions
+GSZ designed and performed the research, analyzed data, and wrote the paper. WZY and JL performed the research, collected and analyzed data, and wrote the paper. Y.Z., YFY, and JYW finished parts of the experiments. GYH and SFL performed cytogenetic and flow cytometric analysis. ZC provided data collection. HLP was partly involved in experimental studies. YWW performed morphological analysis. YXX contributed some suggestions to the study and reviewed the manuscript. All authors read and approved the final manuscript.
+
+## Acknowledgements
+Not applicable.
+
+## Competing interests
+The authors declare that they have no competing interests.
+
+## Availability of data and materials
+All data generated or analyzed during this study are included in this article and its Additional files. The raw data files of ChIP-seq have been uploaded to NCBI (GEO accession number: GSE122354).
+
+## Consent for publication
+Not applicable.
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Funding
+This study was supported by the National Natural Science Foundation of China (81470323) and the Famous Clinical Doctors in Xiang-Ya Medical College of Central South University (2012–2014) project.
+
+## Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Abbreviations
+APLacute promyelocytic leukemia
+RNF8RING finger protein 8
+ATRAall-trans retinoic acid
+ATOarsenic trioxide
+ChIP-seqChIP-sequencing
+CoIPcoimmunoprecipitation
+mRNAmessenger RNA
+
+## Contributor Information
+Wenzhe Yan, Email: yanwz1988@sina.com.
+Ji Li, Email: lijiji26@163.com.
+Yang Zhang, Email: yangzhang626@163.com.
+Yafei Yin, Email: 2402807329@qq.com.
+Zhao Cheng, Email: echocz@126.com.
+Jiayi Wang, Email: joey12345wjy@aliyun.com.
+Guoyu Hu, Email: 594424284@qq.com.
+Sufang Liu, Email: 36753787@qq.com.
+Yewei Wang, Email: wangyewei@csu.edu.cn.
+Yunxiao Xu, Email: XYX1426@163.com.
+Hongling Peng, Email: penghongling@aliyun.com.
+Guangsen Zhang, Phone: 86-73186292166, Email: zhangguangsen@csu.edu.cn.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Additional file 1. Name of genes proximal to the GTF2I-RARA binding sites and supplementary instruction for the experimental methods.
+
+## Data Availability Statement
+All data generated or analyzed during this study are included in this article and its Additional files. The raw data files of ChIP-seq have been uploaded to NCBI (GEO accession number: GSE122354).

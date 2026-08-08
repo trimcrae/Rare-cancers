@@ -1,0 +1,164 @@
+pmcHeliyonHeliyon2992heliyon101672560Heliyon2405-8440ElsevierPMC11369509PMC11369509.111369509113695093922952010.1016/j.heliyon.2024.e36133S2405-8440(24)12164-0e361331Research ArticleCircRAPGEF5 acts as a modulator of RAS/RAF/MEK/ERK signaling during colorectal carcinogenesis
+YinZhipeng LiHao ZhaoHeng Bentum-EnninLutterodt XiaYang WangZaibiao HuWanglai GuHaoguhao@ahmu.edu.cn ZhangShangxinzhangshangxin123@sina.com LiGuangyunliguangyun6130@163.com aDepartment of Gastrointestinal Surgery, The People's Hospital of Bozhou, The Affiliated Bozhou Hospital of Anhui Medical University, Bozhou, ChinabDepartment of Immunology, School of Basic Medical Sciences, Anhui Medical University, Hefei, ChinacGenome Center, KingMed Center for Clinical Laboratory Co., Ltd., Hefei, ChinadTranslational Research Institute, People's Hospital of Zhengzhou University, Academy of Medical Science, Henan International Joint Laboratory of Non-coding RNA and Metabolism in Cancer, Zhengzhou University, Zhengzhou, ChinaeDepartment of Gastrointestinal Surgery, Department of General Surgery, First Affiliated Hospital of Anhui Medical University, Hefei, China⁎Corresponding author. guhao@ahmu.edu.cn⁎⁎Corresponding author. zhangshangxin123@sina.com⁎⁎⁎Corresponding author. liguangyun6130@163.com1These authors contributed equally.
+308202410820241016469567e36133262024882024982024100820240309202404092024© 2024 The Authors2024https://creativecommons.org/licenses/by-nc/4.0/This is an open access article under the CC BY-NC license (http://creativecommons.org/licenses/by-nc/4.0/).Mutations in oncogenes such as KRAS, NRAS and BRAF promote the growth and survival of tumors, while excessive RAS/RAF/MEK/ERK activation inhibits tumor growth. In this study we examined the precise regulatory machinery that maintains a moderate RAS/RAF/MEK/ERK pathway activation during CRC. Here, using bioinformatic analysis, transcriptomic profiling, gene silencing and cellular assays we discovered that a circular RNA, circRAPGEF5, is significantly upregulated in KRAS mutant colorectal cancer (CRC) cells. CircRAPGEF5 suppressed mutant and constitutively activated KRAS and the expression of the death receptor TNFRSF10A. Silencing of circRAPGEF5-induced RAS/RAF/MEK/ERK signaling hyperactivation and apoptosis in CRC cells suggesting that an upregulation of circRAPEF5 may suppress the expression of TNFRSF10A and aid CRC progression by preventing apoptosis, while the direct interactions between circRAPGEF5 and elements of the RAS/RAF/MEK/ERK pathway was not identified, which nevertheless can be the basis for future research. Moreover, EIF4A3, was observed to share a similar expression pattern with circRAPEF5 and demonstrated to be a major controller of circRAPGEF5 via the promotion of circRAPGEF5 circularization and its silencing reduced circRAPGEF5 levels. Taken together, our findings reveal a mechanism of accurate RAS/RAF/MEK/ERK signaling regulation during CRC progression maintained by upregulation of circRAPGEF5 which may be a plausible target for future clinical applications that seek to induce CRC cell apoptosis via the RAS/RAF/MEK/ERK signaling pathway.
+
+## Keywords
+CircRAPGEF5Colorectal cancerApoptosisRAS/RAF/MEK/ERK signalingpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC1
+
+## Introduction
+Colorectal cancer (CRC) represents over 10 % of all cancer cases globally and is the third most common cause of cancer-related deaths [ ]; therefore, understanding the underlying mechanisms regulating CRC progression is crucial for improving the treatment and prognosis of CRC. Several mutations in oncogenes and tumor suppressor genes have been demonstrated to contribute to CRC occurrence and development significantly. For example, in a study of 552 CRC cases, at least one mutation (in fifty selected genes) was found in 90 % of all cases with the highest frequency of mutations occurring in TP53, KRAS, APC, KDR, PIK3CA, SMAD4, BRAF, FBXW7, NRAS MET, and PTEN [ ]. Among these dysregulated genes, KRAS harbors a point mutation in nearly half of CRC patients [ , ], resulting in constitutive activation of its downstream signaling pathways, such as the RAF/MEK/ERK pathway [ ].
+The RAS/RAF/MEK/ERK pathway, which is evolutionarily conserved, transduces extracellular signal cascades to maintain cell activity and homeostasis [ ]. Under physiological conditions, RAS/RAF/MEK/ERK activation is tightly restricted, although it is essential for promoting cell proliferation and survival [ ]. However, owing to mutations in oncogenes such as KRAS, NRAS and BRAF in a high percentage of CRC cases, the RAS/RAF/MEK/ERK pathway is persistently activated which leads to ERK nuclear translocation and the activation of proliferative and proto-oncogenes genes such as c-Jun, c-FOS and c-MYC, resulting in strong cellular proliferative signals that lead to the sustained growth of tumor cells [ , ]. Interestingly, in certain conditions, such as hyperactivation of RAS or RAF, the RAS/RAF/MEK/ERK pathway can suppress cell proliferation [ ]. This observation suggests that a fine and proper regulation of the activation signal is essential for tumor growth. After hyperactivation, ERK downstream signaling can induce cellular apoptosis, senescence and autophagy which together or individually can suppress tumor growth [ , ]. To modulate the apoptotic pathway, RAS/RAF/MEK/ERK signaling can either cause the secretion of cytochrome c from mitochondria by modifying the expression of Bcl-2 family proteins, increase p53 phosphorylation and stability, or increase the expression of death ligands and receptors [ , , , ]. TNFRSF10A is one of the death receptors discovered to be upregulated by RAS/RAF/MEK/ERK signaling [ ]. TNFRSF10A belongs to the TNF receptor superfamily and is activated by binding of the death ligand TNFSF10 (TRAIL), which leads to caspase cleavage and subsequent apoptosis [ , ]. Thus, RAS/RAF/MEK/ERK signaling can be a double-edged sword in tumorigenesis and its oncogenic potential relies on a fine-tuned and measured activation [ , ]. Currently, the process by which CRC cells with RAS or RAF mutations maintain the appropriate level of RAS/RAF/MEK/ERK signaling for CRC proliferation and development remains unclear. However, it is undeniable that understanding the mechanism of maintaining this careful regulation may increase the latitude of approaches available to us in the bid to target RAS/RAF/MEK/ERK signaling which has been fraught with challenges. Therefore, this study sought to understand the mechanism(s) that underpin the fine regulation of RAS/RAF/MEK/ERK activation in CRC.
+By performing a preliminary high-throughput screen to identify unknown factors that influence CRC progression, some circular RNAs (circRNAs) that had varying expression patterns across tumor and normal tissues caught our attention. CircRNAs are produced from precursor mRNAs of thousands of genes via a covalent linkage between the downstream 5′ and upstream 3’ splice sites [ ], and they play critical roles during tumorigenesis. For example, circ-E-Cad promotes glioblastoma development through EGFR–STAT3 signaling [ ]. The circRNA F-circEA produced from the EML4-ALK fusion gene increases metastasis in non-small cell lung cancer [ ]. CircACC1 regulates the assembly and activation of the AMPK complex in CRC cells [ ]. However, the biological functions of a significantly large proportion of circRNAs remain unknown, and we thus explored the mechanism by which circRAPGEF5 participates in CRC development and investigated its role in RAS/RAF/MEK/ERK mutation-driven CRC.
+
+2
+
+## Results
+2.1
+
+## CircRAPGEF5 is upregulated in CRC
+In a previous study, 20 paired tumor and adjacent noncancerous CRC clinical samples were analyzed by high-throughput sequencing (GEO: GSE211804) [ ]. With cutoff criteria of log2 (fold change) ≥ 1.8 or ≤ −1.8 and p value < 0.05 we identified 29 circRNAs that showed differential expression between CRC tissues and paired neighboring normal tissues. Out of these, 14 circRNAs were found to be elevated, while 15 circRNAs had a reduced expression.
+( A and B). One of the identified upregulated circRNAs was circRAPGEF5, whose function has not been studied in CRC, and we continued by examining its expression in additional clinical samples. After analyzing a public database, we observed that the expression circRAPGEF5 was indeed higher in CRC tissues ( C). Additionally, compared to healthy colonic epithelial cells, circRAPGEF5 expression was higher in CRC cell lines ( D). These results suggested that circRAPGEF5 was generally upregulated in CRC and that low circRAPGEF5 expression was negatively correlated with CRC malignant features. Thus, circRAPGEF5 was designated as a potential modulator of CRC progression for further investigation. 
+
+2.2
+
+## Characterization of circRAPGEF5
+CircRAPGEF5 is transcribed from the RAPGEF5 gene, found on chromosome 7 in the human genome, by linkage of exon 2 to exon 7 via back-splicing to create a covalently closed loop. First, Sanger sequencing for determination of nucleic acid sequences affirmed that the head-to-tail splice junction sequence matched the predictions made in the circBase database (http://www.circbase.org/) annotation ( A). Moreover, the head-to-tail splicing of endogenous circRAPGEF5 was verified by reverse transcription–polymerase chain reaction (RT-PCR) with convergent and divergent primers. Consistent with the circular structure of circRAPGEF5, PCR with the divergent primers specific for circRAPGEF5 but not those specific for β-actin mRNA resulted in amplification of a product ( B). Circular RNAs tend to be more stable than their linear counterparts hence, we further differentiated circRAPGEF5 from its linear form by determining its stability resistance to RNase and Actinomycin D treatment. A quantitative PCR (qPCR) analysis of total RNA revealed that circRAPGEF5 was resistant to RNase treatment, while GAPDH and RAPGEF5 linear mRNAs were degraded by RNase ( C). Also, circRAPGEF5 exhibited greater stability compared to linear RAPGEF5 mRNA following exposure to actinomycin D (ActD) ( D). To observe the cellular localization of circRAPGEF5, fluorescence in situ hybridization (FISH), and nuclear and cytoplasmic fractionation were carried out and circRAPGEF5 was detected primarily in the cytoplasm ( E and F). 
+
+2.3
+
+## Silencing circRAPGEF5 induces apoptosis
+We further explored the significance of circRAPGEF5 in CRC cell lines in detail and designed two specific short hairpin RNAs (shRNAs) using an online tool from Merck ™ online tool to target the back-splicing site of circRAPGEF5. Transduction of the circRAPGEF5 shRNAs successfully knocked down circRAPGEF5 expression without affecting RAPGEF5 mRNA transcription in HCT116 cells ( A). After silencing of circRAPGEF5, there was a significant decline in the growth of CRC cells after four days (P < 0.05), Also, the colony formation assay further showed that cellular proliferation declined when circRAPGEF5 was depleted ( B and C), which suggests that circRAPGEF5 promotes CRC growth. Furthermore, overexpression of circRAPGEF5 increased the CRC cell proliferation rate ( D and E). Targeting apoptosis has been deemed a potent anti-cancer strategy that can retard cancer growth while promising less immune fallout thus, we decided to investigate the effect of circRAPGEF5 silencing on apoptosis. Intriguingly, apoptosis was detected in HCT116 cells after circRAPGEF5 knockdown, and was reversed via caspase inhibition using Z-VAD-FMK ( F–H), indicating that the suppressive effect of circRAPGEF5 deficiency on tumor growth is attributed to apoptosis possibly due to a hyperactivity in RAS/RAF/MEK/ERK signaling caused by a reduction in circRAPGEF5. 
+
+2.4
+
+## CircRAPGEF5 inhibits the expression of TNFRSF10A
+We then performed RNA sequencing using circRAPGEF5 knockdown and control HCT116 cells to determine how circRAPGEF5 regulates apoptosis ( A). Genes Set Enrichment Analysis (GSEA) was then performed, and we discovered an enrichment of the apoptosis pathway, of which TNFRSF10A had the highest fold change ( A and B). When circRAPGEF5 was silenced in CRC cells, mRNA expression and protein levels of TNFRSF10A were both significantly elevated ( C and D). TNFRSF10A plays an important role in the transduction of apoptotic signals into the cell and its upregulation increases the sensitivity of the cell to apoptosis via the TRAIL-induced death signaling pathways and in turn hinders CRC progression. Therefore, we further examined whether TNFRSF10A mediates the increase in apoptosis in circRAPGEF5-silenced cells. As expected, the apoptotic phenotype was abolished in TNFRSF10A knockdown cells treated with or without TRAIL ( E and F). 
+
+2.5
+
+## CircRAPGEF5 modulates the activity of RAS/RAF/MEK/ERK signaling
+TNFRSF10A expression has been shown to be controlled by RAS/RAF/MEK/ERK signaling; therefore, we examined whether circRAPGEF5 silencing increases TNFRSF10A expression through this pathway. We observed a significant activation of the RAS/RAF/MEK/ERK pathway in cells when circRAPGEF5 was silenced, suggesting that circRAPGEF5 had an inhibitory role ( A). Furthermore, after treatment with the MEK inhibitor U0126, the increase in the level of TNFRSF10A in circRAPGEF5 knockdown CRC cells was reversed, suggesting that circRAPGEF5 might target the components of the RAS/RAF/MEK/ERK cascade that are upstream of MEK, such as RAS and RAF, for suppression ( B). CircRNAs interact with proteins to regulate protein expression and activity. However, the binding of circRAPGEF5 to the KRAS or BRAF protein was not observed in further analysis ( C and D). Interestingly, in circRAPGEF5-silenced cells, the increased activation of the RAS/RAF/MEK/ERK cascade was partially reversed by knocking down KRAS, suggesting a role for circRAPGEF5 in indirectly suppressing constitutively activated KRAS ( E). Given that the levels of circRAPGEF5 in CRC cell lines bearing KRAS mutations (HCT116 and SW480) were higher than in cell lines with unmutated KRAS (HT29 and RKO) ( D), the function of circRAPGEF5 in suppressing hyperactivated RAS/RAF/MEK/ERK signaling was further validated. 
+
+2.6
+
+## CircRAPGEF5 is regulated by EIF4A3
+To determine how circRAPGEF5 is regulated during CRC occurrence and development, we employed bioinformatic tools (https://circinteractome.irp.nia.nih.gov/) to analyze the potential regulatory factors involved in the circularization of circRAPGEF5, and EIF4A3 was predicted to associate with and promote the circularization of RAPGEF5 mRNA ( ). In CRC cells, EIF4A3 depletion had no effect the expression of RAPGEF5 mRNA, while that of circRAPGEF5 decreased ( A and B). Ectopic EIF4A3 expression increased the expression of circRAPGEF5 but not that of RAPGEF5 mRNA ( C). Moreover, in clinical CRC samples, the levels of EIF4A3 were elevated in tumor tissues in contrast to non-cancerous tissues, consistent with circRAPGEF5 expression patterns ( D). In conclusion, EIF4A3 increases the expression of circRAPGEF5 by promoting its circularization and as such lends itself as a possible therapeutic target to reduce circRAPGEF5 formation and disrupt RAS/RAF/MEK/ERK signaling control. 
+
+3
+
+## Discussion
+In this study, we sought to uncover the mechanism maintaining moderate RAS/RAF/MEK/ERK signaling. Here, we discovered that circRAPGEF5 is an oncogenic noncoding RNA with upregulated expression in CRC cells. We also observed that circRAPGEF5 suppressed TNFRSF10A expression and apoptosis by impacting RAS/RAF/MEK/ERK signaling and thus suggesting that circRAPGEF5 is oncogenic by nature and promotes tumor progression by preventing apoptosis. Finally, EIF4A3 was found to promote the circularization of circRAPGEF5 making it a possible therapeutic target to disrupt the fine regulation required for tumorigenic RAS/RAF/MEK/ERK signaling. Mechanistically, circRAPGEF5 promotes tumorigenesis through its inhibitory role in apoptosis. Other circRNAs have been demonstrated to influence apoptotic cell death. For example, silencing circSEPT9 suppresses the growth of triple-negative breast cancer cells through the induction of apoptosis [ ] and circ-ZEB1 promotes PIK3CA expression, which affects apoptosis in hepatocellular carcinoma cells [ ]. Some circRNA's also have other extra-apoptotic roles such as immune escape and epithelial to mesenchymal cell transformation however these other roles (i.e in the context of circRAPGEF5) were not investigated in this study and may be open to future research [ , ].
+We found that circRAPGEF5 suppressed TNFRSF10A expression by controlling the status of RAS/RAF/MEK/ERK signaling, which increases the level of TNFRSF10A when hyperactivated. The RAS/RAF/MEK/ERK signaling cascade is usually considered a pathway that promotes cell proliferation, however, its hyperactivation may lead to a suppressive effect on tumor growth. Such hyperactivation has been reported in synthetic lethality studies where gain-of-function mutations occurring concurrently in KRAS and EGFR leads to RAS toxicity and cancer cell death [ ]. We studied the role of circRAPGEF5 in a KRAS mutant background, in which KRAS is persistently activated, and we believe that the RAS/RAF/MEK/ERK cascade acts as a growth inhibitory signal under this condition. Moreover, we also believe that the role of circRAPGEF5 in these cells is to suppress KRAS and maintain the activation of RAS/RAF/MEK/ERK signaling at a moderate level to sustain tumor growth. CircRNAs can regulate gene expression by sequestering microRNAs or proteins and can be translated to polypeptides. However, no direct interaction between circRAPGEF5 and any component of the RAS/RAF/MEK/ERK pathway was observed, including KRAS. Whether circRAPGEF5 can function by sponging microRNAs and encoding polypeptides should be validated in further investigations.
+CircRAPGEF5 is generated from its host gene, RAPGEF5. Another circular RNA derived from the RAPGEF5 transcript, cRAPGEF5, has been reported to promote papillary thyroid cancer progression but inhibits the proliferation and metastatic spread of renal cell carcinoma, showing its diverse roles in different tumors [ , ]. However, cRAPGEF5 is produced using exons 2 to 6 whereas circRAPGEF5 is generated from exons 2 to 7 of the RAPGEF5 gene. Therefore, it is worth determining whether these two circRNAs exhibit the same mechanisms in tumorigenesis; moreover, exon 7 of RAPGEF5, which accounts for the difference between cRAPGEF5 and circRAPGEF5, is crucial for the different roles of RAPGEF5-derived circRNAs and requires further investigation. Intriguingly, RAPGEF5 is a guanine nucleotide exchange factor that activates RAS by facilitating GTP binding to sustain an active GTP-bound state [ ], showing the functional correlation between circRAPGEF5 and its host gene.
+The circularization of circRAPGEF5 is regulated by EIF4A3, an RNA-binding protein involved in translation initiation and alterations in RNA structure [ ]. EIF4A3 was predicted by bioinformatic analysis to generate circRAPGEF5 from RAPGEF5 mRNA. Consistent with the expression of circRAPGEF5, the levels of EIF4A3 were also increased in tumor tissues. These findings align with previous research that have shown the oncogenic nature of EIF4A3 in multiple types of cancer and through numerous pathways [ , ]; thus, it is another potential target for CRC treatment, in addition to circRAPGEF5 identified in our study. The intracellular factors regulating EIF4A3 expression and the chemical agents binding to EIF4A3 and inhibiting its activity deserve further study. These agents, if found to be clinically safe, may translate into clinical interventions for patients whose neoplasms are driven by mutations in KRAS or BRAF. In fact, if we consider the slowly rising notoriety of EIF4A3 as an oncogene that operates in other tumorigenic pathways [ , ], it is possible that therapeutic targeting of EIF4A3 may yield additive or even synergistic antitumor effects. Unfortunately, our inability to show the direct interaction between circRAPGEF5 and elements of the RAS/RAF/MEK/ERK activation cascade or KRAS and BRAF may constitute a major limitation of this study. Future studies can therefore expand the scope of research to involve the upstream transcriptional regulators of RAS or RAF to see if an effect or interaction will be observed either through circRNA sponging or polypeptide synthesis. Furthermore, any attempts at appropriating our findings for clinical use will require answering the question of the possible systemic effects of circRAPGEF5 silencing considering the widespread utility of RAS/RAF/MEK/ERK signaling in various cells and organs. Also, even though the current data suggests that circRAPGEF5 exerts its influence in situations of RAS/RAF/MEK/ERK signaling hyperactivation its effect on infiltrating and intra-tumoral immune cells or adjacent normal cells with normal RAS/RAF/MEK/ERK signaling was not determined in this study and may require further research.
+
+4
+
+## Conclusion
+Altogether, our data elucidates the role of circRAPGEF5 in CRC progression through the control of RAS/RAF/MEK/ERK signaling activity while providing novel therapeutic targets for cancer therapy, especially for patients resistant to RAS/RAF/MEK/ERK-targeting drugs. Furthermore, the identification of EIF4A3 as an anti-apoptotic agent via circRAPGEF5 corroborates previous findings of its oncogenic activity hence targeting EIF4A3 may have multifaceted and possibly synergistic benefits since it is involved in other tumor-promoting pathways and multiple cancers. Finally, we did not identify any direct interactions of circRAPGEF5 with components of the RAS/RAF/MEK/ERK signaling cascade hence, future research should focus on determining the precise path of intersection between circRAPGEF5 and RAS/RAF/MEK/ERK signaling.
+
+5
+
+## Materials and methods
+5.1
+
+## Cell culture
+The cells (HCT116, SW480, HT29, RKO and HEK293T) were incubated at 37 °C with 5 % CO2 in DMEM (Solarbio, Beijing, China) supplemented with 10 % fetal bovine serum (Gibco, Shanghai, China) and 1 % penicillin/streptomycin. All of the cell lines underwent short tandem repeat assay authentication and were obtained from the Cell Bank of Type Culture Collection of CAS in Shanghai, China, also, their Mycoplasma contamination tests were negative.
+
+5.2
+
+## Antibodies and reagents
+A list of antibodies and reagents can be found in .
+
+5.3
+
+## RNA interference and gene overexpression
+21-mer shRNA sequences were generated using an online tool that lists predesigned ShRNA obtained from The RNAi consortium (TRC) libraries that are compatible with our chosen vector (pLKO.1) and a local company was then contracted to make the oligonucleotides. Using HEK293T cells, lentiviruses for either overexpression or knockdown of specific genes were generated using co-transfection with pLKO.1-shRNA, pGAG, pREV, and pVSVG in a 2:2:2:1 ratio, or pCDH, pSPAX2, and pMD2.G at a 2:1.5:1 ratio. Supernatants were harvested after 36–48 h and clarified using a 0.45 μm syringe filter before target cell infection. After infection for 24 h, 5 μg/ml puromycin was used to select for successfully transduced cells. The targeting sequences used are listed in .
+
+5.4
+
+## Western blotting
+Sodium dodecyl sulfate (SDS) loading buffer was added to the samples, and heated for 10 min at 95 °C. The samples were then separated using SDS-polyacrylamide gel electrophoresis (SDS-PAGE) and then blotted onto nitrocellulose membranes. The relevant primary and secondary antibodies conjugated to horseradish peroxidase (HRP) were incubated with the membranes following blocking with 8 % nonfat milk. Then, the bands were visualized by via a chemiluminescence detector (Tanon, Shanghai, China).
+
+5.5
+
+## FISH
+Following the manufacturer's instructions, RNA FISH was carried out using an RNA-FISH Kit (GenePharma, Shanghai, China). Prior to the addition of DAPI to the cells for nuclear staining, they were washed with PBS. A Zeiss LSM 880 confocal laser scanning microscope was used to capture the fluorescence images.
+
+5.6
+
+## Actinomycin D and RNase R treatment
+Actinomycin D (5 μg/ml; Schleck, Shanghai, China) was applied to cells that were about 70–80 % confluent, and the cells were harvested at the designated intervals. For 15 min, the total RNA samples were incubated at 37 °C with 3 U/μg RNase R (Epicenter, San Diego, CA, USA). Following ActD or RNase R treatment, TRIzol (Invitrogen, Shanghai, China) was used to isolate the RNA, which was then subjected to qPCR analysis.
+
+5.7
+
+## RT‒PCR and qPCR
+One microgram of total RNA extracted with TRIzol (quantified by nanodrop) was converted to cDNA using HiScript II QRT SuperMix for qPCR (Vazyme, Nanjing, China) following the manufacturer's instructions. qPCR was done on a LightCycler 96 instrument (Roche, Shanghai, China) by using AceQ qPCR SYBR Green Master Mix (Vazyme) and the appropriate primers. The circRNA and mRNA levels normalization was done in relation to that of β-actin. The relative levels of mRNA expression were determined via the 2−ΔΔCt method. The primer sequences are shown in .
+
+5.8
+
+## Nuclear/cytoplasmic fractionation
+After cells were collected by trypsin digest or scraping they were incubated on ice for 5 min in a hypotonic buffer (25 mM Tris-HCl (pH 7.4), 1 mM MgCl2, 5 mM KCl). An equivalent amount of hypotonic buffer containing 1 % NP-40 was added for an additional 5 min. The cytosolic fraction was obtained by collecting the supernatant following a 15-min centrifugation at 5000×g at 4 °C. Subsequently, the pellets underwent two washes in hypotonic buffer before being resuspended in a nuclear resuspension buffer (20 mM HEPES (pH 7.9), 400 mM NaCl, 1 mM EDTA, 1 mM EGTA, 1 mM DTT, 1 mM PMSF). Following a 30 min incubation on ice, the samples underwent a 15-min 4 °C centrifugation at 12,000×g, the resulting supernatant is the nuclear fraction.
+
+5.9
+
+## RNA immunoprecipitation (RIP)
+Adherent cells were detached by scraping 48 h post-transfection (cells were transfected with either 3xflag-KRAS or 3xflag-BRAF) and at a confluency of 80–90 % and lysed on ice for an hour in RIP buffer supplemented with RNase and protease inhibitors. The supernatant was transferred to a new EP tube post centrifugation, 40 μL was taken and added to an equal volume of 2 × SDS loading buffer, and boiled at 95 °C for 10 min as protein input. Another 40 μL was added to 500 μL of TRIzol to extract the total RNA as RNA Input. The remaining supernatant was incubated with anti-3xflag antibodies overnight at 4 °C. After overnight incubation, protein A/G-agarose beads (Santa Cruz Biotechnology, Shanghai, China) were added for incubation at 4 °C for 2 h. The agarose beads were then washed via centrifugation for several times, and the captured proteins were quantified via a Western blot whiles the RNA was quantified by RT-qPCR.
+
+5.10
+
+## Colony formation assay
+2000 cells were seeded per each well (in complete medium) of a six-well plate for two weeks. The resultant cell colonies were fixed with 4 % paraformaldehyde and stained with 0.1 % crystal violet. The percentage area covered by stained cell colonies and staining intensity were quantified and analyzed using the Image J software.
+
+5.11
+
+## MTT assay
+The MTT assay was using an MTT Assay Kit from Beyotime, Shanghai, China. According to the manufacturer's instructions, 1 × 103 cells were seeded into a 96-well plate, and MTT stock solution was added to each well. Following a 4-h incubation at 37 °C in the dark, DMSO was added to each well and the plate was shaken for 10 min. The absorbance was read with a spectrophotometer at 490 nm (Cloud-Clone, Wuhan, China).
+
+5.12
+
+## Flow cytometry
+Cells undergoing apoptosis were identified and identified with the Annexin V/FITC Apoptosis Detection Kit (Bestbio, Shanghai, China). To begin, the cells were pelleted in a centrifuge tube, and then then washed two times with cold PBS and resuspended in 5 μl of Annexin V-FITC staining solution diluted with binding buffer (cell concentration = 1 × 106 cells/ml). 5–10 μl of propidium iodide was added to each tube after incubating at 4 °C for 15 min, and the tubes were incubated at 4 °C for 5 min in the dark, and the cells were analyzed within an hour using the FACSCanto flow cytometer (BD, Shanghai, China).
+
+5.13
+
+## RNA sequencing
+Paired-end libraries were generated with a TruSeq® RNA Sample Preparation Kit (Illumina, San Diego, CA, USA) from whole cellular RNA (extracted with the RNeasy Mini Kit, Qiagen, Shanghai, China) following the manufacturer's guide. Raw sequencing reads were cleaned by removing reads corresponding to rRNA, sequencing adapters, short fragments and other low-quality reads. We then mapped the clean reads to the human hg38 reference genome using HISAT2 (version: 2.0.4), allowing two mismatches. Using the reference annotation, StringTie (version: 1.3.0) was then used to generate fragments per kilobase of transcript per million mapped reads (FPKM) values for known gene models. Differentially expressed genes were identified using edgeR. The false discovery rate was used to set the significance threshold for the p-value in multiple tests. The fold changes were also estimated based on the FPKM of each sample. Gene Set Enrichment Analysis was performed using the GSEA software (https://www.broadinstitute.org/gsea/) with permutation = geneset, metric = Diff_of_classes, metric = weighted, #permutation = 2500.
+
+5.14
+
+## Statistical analysis
+To compare the experimental groups, statistical analysis was performed using the GraphPad Prism program. Unpaired, two-tailed Student's t-test were used to determine statistical significance. Alpha was set at 0.05: *P < 0.05, **P < 0.01, ***P < 0.001, and ****P < 0.0001.
+
+5.15
+
+## Reproducibility
+All experiments were repeated at least three times and a sample size of at least 3 was chosen to detect a pre-determined effect size. All displayed Western blot data are representative of three independent experiments. All data from cell line studies was obtained independently via instrumentation, eliminating human bias.
+
+## Funding
+This work was supported by grants from the Health Research Program of Anhui (AHWJ2023A30072) and the 10.13039/501100001809National Natural Science Foundation of China (82002968, 82022054).
+
+## Data availability statement
+The original RNA-seq data generated in this manuscript will be made available on request. The other data generated or analyzed during this study are included in this published article and its Supplementary Files.
+
+## CRediT authorship contribution statement
+Zhipeng Yin: Writing – review & editing, Resources, Investigation. Hao Li: Validation, Investigation. Heng Zhao: Validation. Lutterodt Bentum-Ennin: Writing – review & editing. Yang Xia: Resources. Zaibiao Wang: Resources. Wanglai Hu: Project administration, Funding acquisition. Hao Gu: Writing – original draft, Funding acquisition. Shangxin Zhang: Supervision, Funding acquisition, Conceptualization. Guangyun Li: Resources, Project administration, Conceptualization.
+
+## Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+ Appendix A
+
+## Supplementary data
+The following are the Supplementary data to this article:
+
+## Multimedia component 1
+Multimedia component 1
+
+## Multimedia component 2
+Multimedia component 2
+
+## Multimedia component 3
+Multimedia component 3 
+
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.heliyon.2024.e36133.

@@ -1,0 +1,210 @@
+2057peerjPeerJPeerJPeerJ, IncPMC8162247816224781622473411348810.7717/peerj.11429Analysis of ceRNA networks and identification of potential drug targets for drug-resistant leukemia cell K562/ADR
+LiuZhaoping WangYanyan XuZhenru YuanShunling OuYanglin LuoZeyu WenFeng LiuJing ZhangJi OyelereAdegboyega
+1Department of Clinical Laboratory, Shenzhen Traditional Chinese Medicine Hospital, Shenzhen, Guangdong, China
+2Department of Clinical Laboratory, The First Affiliated Hospital, University of South China, Hengyang, Hunan, China
+3Department of Clinical Laboratory, The Second Affiliated Hospital, Hainan Medical University, Haikou, Hainan, China
+4Department of Hematology, The First Affiliated Hospital, University of South China, Hengyang, Hunan, China
+5Molecular Biology Research Center & Center for Medical Genetics, School of Life Sciences, Central South University, Changsha, Hunan, China✉Corresponding author.
+#Contributed equally.
+25520219e11429e11429962021© 2021 Liu et al.This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, reproduction and adaptation in any medium and for any purpose provided that it is properly attributed. For attribution, the original author(s), title, publication source (PeerJ) and either DOI or URL of the article must be cited.
+
+## Abstract
+
+## Background
+Drug resistance is the main obstacle in the treatment of leukemia. As a member of the competitive endogenous RNA (ceRNA) mechanism, underlying roles of lncRNA are rarely reported in drug-resistant leukemia cells.
+
+## Methods
+The gene expression profiles of lncRNAs and mRNAs in doxorubicin-resistant K562/ADR and sensitive K562 cells were established by RNA sequencing (RNA-seq). Expression of differentially expressed lncRNAs (DElncRNAs) and DEmRNAs was validated by qRT-PCR. The potential biological functions of DElncRNAs targets were identified by GO and KEGG pathway enrichment analyses, and the lncRNA-miRNA-mRNA ceRNA network was further constructed. K562/ADR cells were transfected with CCDC26 and LINC01515 siRNAs to detect the mRNA levels of GLRX5 and DICER1, respectively. The cell survival rate after transfection was detected by CCK-8 assay.
+
+## Results
+The ceRNA network was composed of 409 lncRNA-miRNA pairs and 306 miRNA-mRNA pairs based on 67 DElncRNAs, 58 DEmiRNAs and 192 DEmRNAs. Knockdown of CCDC26 and LINC01515 increased the sensitivity of K562/ADR cells to doxorubicin and significantly reduced the half-maximal inhibitory concentration (IC50) of doxorubicin. Furthermore, knockdown of GLRX5 and DICER1 increased the sensitivity of K562/ADR cells to doxorubicin and significantly reduced the IC50 of doxorubicin.
+
+## Conclusions
+The ceRNA regulatory networks may play important roles in drug resistance of leukemia cells. CCDC26/miR-140-5p/GLRX5 and LINC01515/miR-425-5p/DICER1 may be potential targets for drug resistance in K562/ADR cells. This study provides a promising strategy to overcome drug resistance and deepens the understanding of the ceRNA regulatory mechanism related to drug resistance in CML cells.
+
+Keywords: Long non-coding RNA, ceRNA network, Drug resistance, Bioinformatics, Leukemia
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2020 Nov 13; Accepted 2021 Apr 19; Collection date 2021.
+
+## Introduction
+Multidrug resistance (MDR) can be caused by one kind of chemotherapeutic drug, and it can also result in resistance to other chemotherapeutic drugs with distinct structures and mechanisms of action. This phenomenon is common in various cancers after long-term chemotherapy, which makes cancers more and more difficult to treat ( ; ). Leukemia is not only a malignant clonal disease of hematopoietic stem cells (HSCs), but also a fatal cancer, which seriously threatens human health ( ). Chronic myeloid leukemia (CML) is a myeloproliferative disease characterized by Philadelphia (Ph) chromosome and BCR-ABL oncogene ( ; ). Although TKIs such as imatinib are promising for the treatment of CML, there are still a large proportion of patients in blast crisis (BC) refractory or resistant to TKIs ( ). Combining doxorubicin, vincristine or some other drugs with imatinib or dasatinib is effective for treating BC-CML ( ). It is worth noting that there are two main mechanisms of TKIs resistance: BCR-ABL-dependent and BCR-ABL-independent mechanisms ( ). BCR-ABL-independent mechanisms include overexpression of ABCB1/MDR1/P-gp. P-gp can bind to lipophilic imatinib. Therefore, the role of MDR1 in imatinib resistance has attracted great attention ( ). The ATP-binding-cassette transporter (ABC transporter) and the solute carrier (SLC) are considered as the most related transporters to MDR. They affect the absorption, distribution, metabolism, excretion and toxicity of TKIs. In this study, the results of mRNA-seq showed that ABCB1 is significantly upregulated and ranked first in K562/ADR cells compared with K562 cells. Moreover, K562/ADR cell line is considered as multidrug-resistant cell line ( ; ). Therefore, clarifying the molecular mechanism of MDR in leukemia through K562 ADR cell model is conducive to the development of new drugs and therapies and improve the therapeutic effect in leukemia.
+Long non-coding RNA (lncRNA) is defined as a non-coding RNA longer than 200 nucleotides ( ). It controls gene expression at various levels during physiological and developmental process, including epigenetic modification, transcription and scaffold assembly, and is a key factor in determining the cell fate. LncRNA plays pivotal roles in drug resistance of numerous cancers, but the detailed mechanism is still poorly understood ( ; ; ). LncRNA is composed of introns and other fragments, and its length can reach thousands of nucleotides, which establishes a good basis for adsorption and binding of a large number of microRNAs (miRNAs) ( ; ). LncRNA, like a sponge, can buffer and inhibit the ability of the target mRNA to encode proteins by competitively binding with miRNA response elements (MREs) on mRNA, which is called the competitive endogenous RNA (ceRNA) mechanism ( ; ). analyzed the relationship between ceRNA mechanism and drug resistance in many types of cancers, and found that the imbalance of ceRNA networks may be one of the mechanisms leading to drug resistance. In addition, recent studies have shown that lncRNA UCA1 promotes imatinib resistance by acting as a ceRNA of miR-16 in CML cells ( ).
+To explore the role of ceRNA mechanism underlying drug-resistant leukemia cells, we analyzed RNA sequencing (RNA-seq) data of doxorubicin-resistant K562 (K562/ADR) cells and doxorubicin-sensitive K562 cells, and screened out the differentially expressed lncRNAs (DElncRNAs) and mRNAs (DEmRNAs). We predicted the possible biological functions of DElncRNAs’ targets and potential signaling pathways by Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) analyses, and constructed a lncRNA-miRNA-mRNA co-expression network to further explore the potential ceRNA regulatory mechanism related to drug resistance in CML. What’s more, our results have indicated that CCDC26/miR-140-5p/GLRX5 and LINC01515/miR-425-5p/DICER1 axes might play potential regulatory roles in resistance to doxorubicin through ceRNA networks, which provides a basis for the discovery of new therapeutic targets for overcoming drug resistance and novel chemotherapeutic drugs, and has clinical potential for further research in this field.
+
+## Materials & Methods
+
+## Cell culture
+Doxorubicin-sensitive K562 and doxorubicin-resistant K562 (K562/ADR) cells were kindly provided by Prof Jing Liu’s group from the Molecular Biology Research Center & Center for Medical Genetics, School of Life Sciences, Central South University. K562 and K562/ADR cells were maintained in RPMI-1640 medium (Hyclone, MA, USA) with 10% fetal bovine serum (Gibco, NY, USA). One μg/mL of doxorubicin was added to maintain drug resistance of K562/ADR cells and was withdrawn 1 day before the experiment. All cells were cultured in an incubator with 5% CO2 at 37 °C.
+
+## SiRNA transfection
+K562/ADR cells in the logarithmic growth phase were inoculated into 12-well plates at 2.5 × 105 cells per well. Transfection was conducted with Ribo FECT™ CP reagent (Ribo, Guangzhou, China) according to the manufacturer’s instructions in RPMI-1640 culture medium without serum and antibiotic. The final concentration of siRNAs was 100 nM. Six hours after transfection, we continued to culture the cells in the medium containing serum for at least 48 h before the subsequent experiments. The transfection efficiency was determined by quantitative real-time PCR (qRT-PCR). All siRNAs were purchased from Genepharma (Suzhou, China). SiRNA sequences are listed in .
+ 
+
+## Screening of DElncRNAs and DEmRNAs
+RNA was isolated with Trizol reagent (Invitrogen, CA, USA) according to the manufacturer’s protocol. Agarose gel electrophoresis was performed to analyze the integrity of sample RNA and whether there was DNA contamination. The preparation and deep sequencing of the whole transcriptome library were performed by Novogene (Beijing, China). Having been constructed, the library was preliminarily quantified through Qubit 2.0 and diluted to 1 ng/μL. Then, the library’s insert size was detected with Agilent 2100 and the effective concentration was accurately quantified to ensure the quality of library (the effective concentration > 2 nM). After the library was qualified, RNA-seq was conducted on the Illumina Hi-Seq 4000 sequencing platform, and paired-end reads of 150 bp were created according to the protocol. Before screening, Cuffmerge software was first used to splice each sample. The transcripts were merged, and the transcripts with uncertain chain directions were removed to obtain the complete transcriptome information of this sequencing. Afterwards, the combined transcript collection was screened for lncRNA. Different types of transcripts (lncRNA and mRNA) were analyzed. The screening threshold of volcano plots was set as |log2 (fold change)| > 1 and q-value < 0.05 by default. The Fragments Per Kilobase of transcript per Million Fragments (FPKM) value of the differential transcripts under different experimental conditions was used as the expression level for hierarchical clustering.
+
+## Quantitative real-time PCR
+The total RNA was reverse transcribed with SuperScript III reverse transcriptase (Invitrogen, NY, USA). qRT-PCR was performed using LightCycler® 96 real-time fluorescent quantitative PCR instrument and SYBR Green I Master (Roche, Germany). The cycling conditions were 95 °C for 5 min, followed by 40 cycles at 95 °C for 10 s and cycles at 60 °C for 1 min. GAPDH served as an internal standardized control. The expression levels of lncRNA and mRNA were quantified by normalization to the endogenous GAPDH expression level by the 2−∆∆CT method. lists the specific primers used in qRT-PCR.
+ 
+
+## GO enrichment and KEGG pathway analyses
+The co-locations of lncRNA and protein-coding genes were used to predict their biological functions ( ; ). The co-location threshold was set as 100 kb upstream and downstream of lncRNA. Pearson correlation coefficient was employed to analyze the correlation between lncRNA and mRNA, and mRNA genes with an absolute correlation coefficient value of 0.95 were selected for functional enrichment analysis to predict the biological functions of lncRNA. The DElncRNA target genes were used for GO and KEGG enrichment analyses with David and KOBAS software respectively. Furthermore, mRNAs enriched in the ceRNA network were analyzed with GO and KEGG ( ).
+
+## Construction of lncRNA-miRNA-mRNA regulatory network
+The relationship between DElncRNAs and DEmiRNAs was explored by the database starBase v3.0 based on CLIP-seq data research and the database miRcode based on the GENCODE database ( ). TargetScan, miRcode and MiRanda were further used to decode the interaction between DEmiRNAs and DEmRNAs. Finally, according to the interaction between lncRNA, miRNA and mRNA, a ceRNA regulatory network was constructed and visualized by Cytoscape 3.6.1.
+
+## Cell viability assay
+Cell counting kit-8 assay (CCK-8) (Bimake, Houston, TX, USA) was used to monitor the cell viability with its provided protocol. Transfected cells were seeded into 96-well plates at 8 × 103 cells per well. Doxorubicin was added to cells at concentrations of 0, 0.5, 1, 2, 4 and 8 μg/mL, and incubated for 48 h. Then 10 μL/well of CCK-8 reagent was added to the 96-well plates. Two hours later, the absorbance was measured by the microplate reader (ELX800; BioTek, Winooski, VT, USA) at wavelength of 450 nm. The IC50 value was determined by GraphPad Prism 7.0. All experiments were independently repeated three times.
+
+## Statistical analysis
+We analyzed all data with SPSS 22.0 and presented them by GraphPad Prism 7.0. All data were indicated as mean ± SD. We compared differences between two independent groups with Student’s t-test. Correlations between different parameters were analyzed using Spearman’s rank correlation test. Independent experiments were repeated three times. P-value < 0.05 was considered statistically significant.
+
+## Results
+
+## DElncRNAs and DEmRNAs between K562/ADR and K562 cells
+The DElncRNAs between drug-resistant K562/ADR and sensitive K562 cell lines were screened through RNA-seq conducted by Novogene. Usually, genes are distributed regularly on chromosomes, and genes close to each other may perform similar biological functions or participate in the same metabolic pathways. We visualized the global abundances of lncRNAs and mRNAs on different chromosomes based on sample expression through mapping all transcripts to the human reference genome ( and ). The differences of lncRNAs and mRNAs expression between K562/ADR and K562 cells were visualized by volcano plots ( and ) and cluster heatmaps (|log2 (fold change)| > 1 and q-value < 0.05) ( and ). Results have shown that a total of 176 dysregulated lncRNAs were identified. Among them, 91 lncRNAs were upregulated in K562/ADR cells compared with K562 cells, while the other 85 lncRNAs were downregulated. The 1801 DEmRNAs in K562/ADR cells compared with K562 cells included 751 upregulated mRNAs and 1,050 downregulated mRNAs. The top 10 upregulated and downregulated lncRNAs are listed in , moreover, the top 20 upregulated and downregulated mRNAs are shown in . These results reflect the differential expression profiles of lncRNAs and mRNAs between K562/ADR and K562 cells, implying that lncRNAs may play significant roles in the mechanism of drug resistance in CML induced by K562/ADR cells.
+ 
+
+## Validation of lncRNA and mRNA expression by qRT-PCR
+Nine lncRNAs and nine mRNAs were randomly chosen to validate the RNA-seq data by qRT-PCR. The results suggested that the expression of these lncRNAs (LINC01515, CCDC26, LINC01419, LINC00857, DUXAP8, LINC02506, LINC01029, lnc-ALX1 and ZEB1-AS1) and mRNAs (ABCB1, DMTF1, CROT, MS4A4A, GNG12, MARCKS, DICER1, GLRX5 and TSPAN5) were upregulated in K562/ADR cells compared with K562 cells ( and ), which was consistent with the RNA-seq results, indicating that the RNA-seq data was highly reliable.
+ 
+
+## GO and KEGG pathway enrichment analyses of target genes of DElncRNAs
+So far, the function of lncRNA has not been fully elucidated. But previous studies have shown that part of lncRNAs interact with proteins to regulate chromatin modification, transcription and pre-mRNA splicing, and act as scaffolds for protein complex assembly ( ). To further understand the mechanism of lncRNA involving in MDR-leukemia cells, the co-located targets of DElncRNAs were analyzed by GO and KEGG pathway enrichment analyses. The results of GO enrichment analysis showed that the target genes of upregulated DElncRNAs were mainly enriched in nucleoplasm, nucleosome, nucleosome assembly, regulation of gene expression, epigenetic, and cellular protein metabolic process. Target genes of downregulated DElncRNAs were mainly involved in nucleus, nucleoplasm, cell-cell adhesion, cadherin binding involved in cell-cell adhesion and cell-cell adherens junction ( and ). Additionally, KEGG pathway analysis suggested that target genes of DElncRNAs were significantly enriched in cancer-related signaling pathways, such as the MAPK, VEGF, PI3K/Akt and p53 signaling pathways ( and ).
+ 
+
+## Construction of lncRNA-miRNA-mRNA co-expression network in drug-resistant K562/ADR cells based on bioinformatics prediction
+Recently, complex interactions between lncRNA and miRNA have been disclosed. LncRNA can act as a miRNA sponge in the cytoplasm, thereby regulating mRNA expression ( ). In order to explore the mechanism of the involvement of lncRNA in drug resistance, we constructed a ceRNA interaction network composed of 409 lncRNA-miRNA pairs and 306 miRNA-mRNA pairs based on 67 DElncRNAs, 58 DEmiRNAs and 192 DEmRNAs, which was visualized with Cytoscape software ( ). Furthermore, we focused on three DElncRNAs (CCDC26, LINC01515 and LINC01419) with the highest logFC in K562/ADR cells compared with K562 cells ( ). To further explore the functions of DEmRNAs in drug resistance of leukemia cells, we conducted the functional enrichment analysis of them with the BiNGO plugin. As a result, GO enrichment analysis ( and ) showed that upregulated DEmRNAs were mainly enriched in cytoplasm, nucleoplasm, extracellular exosome, negative regulation of transcription from RNA polymerase II promoter and RNA binding. Downregulated DEmRNAs were mainly involved in nucleoplasm, ATP binding, poly (A) RNA binding, membrane and Golgi apparatus.
+ 
+
+## Knockdown of CCDC26 and LINC01515 can enhance the sensitivity of drug-resistant K562/ADR cells
+To further investigate the role of lncRNAs in sensitivity of drug-resistant K562/ADR cells, three lncRNAs (CCDC26, LINC01515 and LINC01419) with the highest fold changes in our RNA-seq data were selected, and siRNAs were used to knock down the function of these lncRNAs. Using qRT-PCR, we found that 48 h later, the expression of CCDC26 and LINC01515 decreased compared with the negative control (si-NC) group ( and ). CCK-8 analysis showed that compared with the si-NC group (half-maximal inhibitory concentration (IC50) = 4.800 μg/mL), targeted inhibition of CCDC26 by siRNA-1 and siRNA-2 decreased the IC50 to 1.548 and 2.164 μg/mL, respectively. After knocking down LINC01515 by siRNA-1 and siRNA-2, the IC50 decreased to 1.951 and 2.283 μg/mL, respectively ( and ). These results indicated that knockdown of CCDC26 and LINC01515 could increase the sensitivity of K562/ADR cells to doxorubicin. However, decreasing the expression of LINC01419 did not affect the sensitivity of K562/ADR cells ( ).
+ 
+
+## Knockdown of GLRX5 and DICER1 can enhance the sensitivity of drug-resistant K562/ADR cells
+To dissect the possible regulatory mechanisms of CCDC26 and LINC01515 in drug resistance of CML, we separately extracted the ceRNA networks of them based on the constructed ceRNA networks shown in . The results showed that CCDC26 and LINC01515 each have four potential ceRNA regulatory networks in CML sequencing ( ). Interestingly, studies have reported that GLRX5 (target gene of CCDC26) and DICER1 (target gene of LINC01515) are associated with drug resistance ( ; ). In CML cell lines, we found that knocking down the expression of CCDC26 and LINC01515 can reduce the mRNA levels of GLRX5 ( ) and DICER1 ( ), respectively. CCK-8 analysis showed that compared with the si-NC group (IC50 = 4.800 μg/mL), targeted inhibition of GLRX5 by siRNA-1 and siRNA-2 ( ) decreased the IC50 to 1.568 and 2.245 μg/mL, respectively ( ). After knocking down DICER1 by siRNA-1 and siRNA-2 ( ), the IC50 decreased to 2.036 and 2.609 μg/mL, respectively ( ). These results indicated that knockdown of GLRX5 and DICER1 could increase the sensitivity of K562/ADR cells to doxorubicin. Therefore, combined with the results shown in , CCDC26/miR-140-5p/GLRX5 and LINC01515/miR-425-5p/DICER1 may be potential ceRNA regulatory networks in drug resistance of CML.
+ 
+
+## Discussion
+MDR is related to the overexpression of ABC transporters, of which P-glycoprotein (encoded by ABCB1) is the most classical transporter. ABCB1 gene has been widely studied as a reliable biomarker of drug resistance. It is usually abnormally expressed in drug-resistant cancers ( ; ). Studies have reported that lncRNA is related to a variety of cellular biological processes of cancer, including proliferation, apoptosis, metastasis and invasion ( ). Therefore, lncRNA has attracted wide attention as a potential biomarker for the diagnosis and prognosis of leukemia. A number of studies have shown that lncRNA is associated with chemotherapy resistance in leukemia ( ; ). For example, lncRNA TUG1 induces drug resistance to doxorubicin in AML through inhibiting the expression of miR-34a via EZH2 ( ). On the contrary, lncRNA FENDRR downregulates MDR1 expression via sponging miR-184 and RNA binding protein HuR, thus reversing resistance of CML cells to doxorubicin ( ). But the underlying mechanism of MDR in K562/ADR cells caused by lncRNA is still poorly understood. Therefore, an in-depth understanding of lncRNA’s role in the progression and drug resistance of CML is essential for the discovery of novel prognostic markers and therapeutic targets and the development of reasonable and effective treatment strategies. In this study, we first reported the lncRNA expression profiles of K562/ADR cells, doxorubicin-resistant cells of CML, and further explored the possible lncRNA-miRNA-mRNA ceRNA mechanism of drug resistance by bioinformatics analysis.
+To explore the biological mechanism of MDR in CML, we performed GO and KEGG enrichment analyses of targets of DElncRNAs between K562 and K562/ADR cells. As a result, GO enrichment analysis showed that the expression of DElncRNAs targets is closely related to metabolic pathway. Improving metabolic profile may play a positive role in the treatment of diseases ( ). Studies have shown that drug resistance is closely related to metabolic changes. For example, in primary central nervous system lymphoma (CNS) derived cells, methotrexate (MTX) resistance is associated with changes of urea cycle and amino acid metabolism ( ). In addition, GO enrichment analysis showed that the expression of these genes is closely related to epigenetics. Hypermethylation of genes like BRCA1 and HOXA9 could potentially correlate with drug resistance ( ). Therefore, targets of DElncRNAs between K562 and K562/ADR cells may result in the MDR of CML through affecting metabolism and epigenetics. Our results of KEGG pathway enrichment analysis showed that DElncRNAs targets are mainly enriched in cancer-related pathways. Dihydromyricetin improves the sensitivity of doxorubicin-resistant cells via downregulating the expression of MDR1 and P-gp through the MAPK/ERK pathway ( ). Similarly, EGCG reduces the expression of MDR1 and P-gp through the TFAP2A/VEGF pathway, thus restoring the sensitivity of gastric cancer cells to 5-fluorouracil (5-FU) ( ). Above results suggest that MDR may be closely related to cell metabolism and cancer-related pathways, including MAPK and VEGF signaling pathways, which may help to overcome the MDR in CML. Therefore, these findings are of great significance to explore the pathogenesis and treatment of CML.
+Some literatures have shown that ceRNA network participates in the occurrence of MDR in cancers, including nasopharyngeal carcinoma ( ) and AML ( ). However, except for one paper ( ), there is no other report on ceRNA regulatory network and its role in MDR-CML. What’s more, sequencing data is lacking to support studies on the ceRNA networks in MDR-CML. In order to explore the mechanism of the involvement of lncRNAs in MDR-CML, we constructed a ceRNA interaction network composed of 409 lncRNA-miRNA pairs and 306 miRNA-mRNA pairs based on 67 DElncRNAs, 58 DEmiRNAs and 192 DEmRNAs, which was visualized with Cytoscape software. Based on the sequencing results, we selected three lncRNAs with the highest expression levels (CCDC26, LINC01515 and LINC01419) for verification. The results showed that CCDC26, LINC01515 and LINC01419 were highly expressed in K562/ADR cells and inhibition of CCDC26 and LINC01515, but not inhibition of LINC01419, could enhance the sensitivity of K562/ADR cells to doxorubicin.
+Previous studies have found that the most common copy number alterations in pediatric AML genome is an increase of burden in a region of the CCDC26 locus ( ). A new study on leukemia showed that CCDC26 is highly expressed in AML cells HL-60 and CML cells K562. CCDC26 promotes cell proliferation and invasion, and inhibits the apoptosis of HL-60 and K562 cells ( ). However, the biological function of LINC01515 has not been reported. LINC01419 can promote the cell proliferation and metastasis in gastric cancer, hepatocellular carcinoma, lung adenocarcinoma and osteosarcoma ( ; ; ; ). Although LINC01419 is overexpressed in K562/ADR compared with K562 cell line, knockdown of LINC01419 does not increase the sensitivity of K562/ADR cells to doxorubicin. The reason may be that its high expression was caused by other molecules’ indirect regulation. It may not be an effector molecule directly regulating drug resistance. In this study, we first found that inhibition of CCDC26 and LINC01515 could enhance the sensitivity to doxorubicin in MDR-CML cells. GLRX5 and DICER1 are reported to be associated with drug resistance ( ; ). Silence of GLRX5 can reverse cisplatin resistance of head and neck cancer (HNC) cells through inducing ferroptosis ( ). DICER1 involves in cisplatin resistance of epithelial ovarian cancer (EOC) cells through the miR-98-5p/DICER1/miR-152 pathway ( ). By using starBase v3.0 and miRcode database to predict the miRNAs that can be combined with CCDC26 and GLRX5, we found that miR-425-5p has the highest comprehensive score in the database; while miR-140-5p had the highest comprehensive score in the database among the miRNAs that could bind to LINC01515 and DICER1. In this study, we first found that CCDC26/miR-140-5p/GLRX5 and LINC01515/miR-425-5p/DICER1 may be potential ceRNA regulatory networks in the development and drug resistance of CML. CCDC26 and LINC01515 could positively regulate GLRX5 and DICER1, respectively. Inhibition of GLRX5 and DICER1 could enhance the sensitivity of K562/ADR cells to doxorubicin. In addition, as a member of ceRNA networks, miR-140-5p is involved in the chemotherapy resistance of cancers such as non-small cell lung cancer (NSCLC) ( ), breast cancer ( ) and hepatocellular carcinoma (HCC) ( ). In breast cancer, miR-191 and miR-425 are highly expressed and promote the cell proliferation and metastasis by suppressing the expression of DICER1 ( ). Previous studies have shown that high expression of miR-425-5p promotes cancer cells migration, invasion and proliferation. Knockout of miR-425-5p inhibits proliferation and migration of breast cancer cells ( ). PWRN1 inhibits cell proliferation and metastasis through the p53 signaling pathway as a ceRNA targeting miR-425-5p, thus inhibiting the development of gastric cancer ( ). It is worth noting that miR-425-5p promotes the chemoresistance of several cancer cells, including 5-FU and oxaliplatin (OX)-resistant colorectal cancer cells and cisplatin-resistant laryngeal cancer cells ( ; ). Therefore, we postulated that CCDC26/miR-140-5p/GLRX5 and LINC01515/miR-425-5p/DICER1 may be potential ceRNA regulatory networks in disease development and drug resistance.
+As far as we know, this is the first report to construct and analyze the ceRNA network of lncRNAs, miRNAs and mRNAs related to chemotherapeutic drug or targeted drug resistance in K562/ADR cells. What needs to be admitted is that our research has some limitations. For example, the specific roles of miR-140-5p and miR-425-5p in drug resistance of CML have not been verified in K562/ADR cells, and clear ceRNA mechanism has not been confirmed by RNA immunoprecipitation (RIP) or luciferase gene reporter assays. Further studies are still needed to clarify other biological functions of CCDC26, LINC01515, GLRX5 and DICER1 in CML.
+
+## Conclusions
+In summary, we have constructed a ceRNA network, which may be linked to MDR in CML. Furthermore, we found that CCDC26/miR-140-5p/GLRX5 and LINC01515/miR-425-5p/DICER1 may be potential ceRNA regulatory networks in the development and drug resistance of CML. LncRNA-miRNA-mRNA ceRNA regulatory network is promising to act as a therapeutic target of CML disease development and drug resistance. These results will foster our insights into the ceRNA mechanism of leukemia drug resistance.
+
+## Supplemental Information
+Supplemental Information 1
+
+## GO and KEGG analyses of DElncRNA target genes between K562/ADR and K562 cells.
+10.7717/peerj.11429/supp-1Click here for additional data file.
+Supplemental Information 2
+
+## The top 10 upregulated and downregulated DElncRNAs.
+10.7717/peerj.11429/supp-2Click here for additional data file.
+Supplemental Information 3
+
+## The top 20 upregulated and downregulated DEmRNAs.
+10.7717/peerj.11429/supp-3Click here for additional data file.
+Supplemental Information 4
+
+## qRT-PCR was used to validate the expression of mRNAs in the drug-resistant K562/ADR cell line.
+All data are represented as mean ± SD for at least three independent experiments. *P < 0.05, **P < 0.01 and ***P < 0.001 were statistically significant compared with the control group.
+10.7717/peerj.11429/supp-4Click here for additional data file.
+Supplemental Information 5
+
+## LINC01419 expression in K562/ADR cells transfected with siRNAs and the cell survival rate after transfection.
+48 hours after transfection with siRNAs in K562/ADR cells, LINC01419 expression was downregulated (A). Knockdown of LINC01419 did not affect the sensitivity of K562/ADR cells to doxorubicin (B). *P < 0.05, **P < 0.01 and ***P < 0.001 were statistically significant compared with the si-NC group.
+10.7717/peerj.11429/supp-5Click here for additional data file.
+Supplemental Information 6
+
+## qRT-PCR was used to validate the expression of lncRNAs and mRNAs in the drug-resistant K562/ADR cell line.
+Raw data on the expression of lncRNAs and mRNAs in the drug-resistant K562/ADR cell line; these data were applied in data analysis and preparation of Figs. 3 and S1.
+10.7717/peerj.11429/supp-6Click here for additional data file.
+Supplemental Information 7
+
+## qRT-PCR was used to detect the expression of CCDC26, LINC01515, LINC01419, GLRX5 and DICER1 in K562/ADR cells transfected with siRNAs.
+Raw data on the expression of CCDC26, LINC01515, LINC01419, GLRX5 and DICER1 in K562/ADR cells transfected with siRNAs; these data were applied in data analysis and preparation of Figs. 7, 8 and S2.
+10.7717/peerj.11429/supp-7Click here for additional data file.
+Supplemental Information 8
+
+## The cell survival rate of K562/ADR cells transfected with siRNAs.
+These data were applied in data analysis and preparation of Figs. 7, 8 and S2.
+10.7717/peerj.11429/supp-8Click here for additional data file.
+
+## Funding Statement
+This work was supported by the National Natural Science Foundation of China (Nos. 81870105 and 81770107), the Scientific Research Fund Project of Hunan Provincial Health Commission (No. 20201921), and the Scientific Research and Innovation Project of postgraduates in Hunan Province (No. CX20200970). There was no additional external funding received for this study. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## Additional Information and Declarations
+
+## Competing Interests
+The authors declare that they have no competing interests.
+
+## Author Contributions
+Zhaoping Liu conceived and designed the experiments, performed the experiments, analyzed the data, prepared figures and/or tables, authored or reviewed drafts of the paper, and approved the final draft.
+Yanyan Wang conceived and designed the experiments, performed the experiments, analyzed the data, prepared figures and/or tables, authored or reviewed drafts of the paper, and approved the final draft.
+Zhenru Xu conceived and designed the experiments, performed the experiments, analyzed the data, authored or reviewed drafts of the paper, and approved the final draft.
+Shunling Yuan analyzed the data, authored or reviewed drafts of the paper, and approved the final draft.
+Yanglin Ou analyzed the data, authored or reviewed drafts of the paper, and approved the final draft.
+Zeyu Luo performed the experiments, prepared figures and/or tables, authored or reviewed drafts of the paper, and approved the final draft.
+Feng Wen conceived and designed the experiments, authored or reviewed drafts of the paper, and approved the final draft.
+Jing Liu conceived and designed the experiments, authored or reviewed drafts of the paper, and approved the final draft.
+Ji Zhang conceived and designed the experiments, authored or reviewed drafts of the paper, and approved the final draft.
+
+## DNA Deposition
+The following information was supplied regarding the deposition of DNA sequences:
+The CCDC26 and LINC01515 sequences are available at GenBank: NR_130917 and NR_120647.
+
+## Data Availability
+The following information was supplied regarding data availability:
+The Homo sapiens LncRNA Raw sequence reads are available at NCBI SRA: PRJNA648744. The raw data are available in the .
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplemental Information 1
+
+## GO and KEGG analyses of DElncRNA target genes between K562/ADR and K562 cells.
+10.7717/peerj.11429/supp-1Click here for additional data file.
+Supplemental Information 2
+
+## The top 10 upregulated and downregulated DElncRNAs.
+10.7717/peerj.11429/supp-2Click here for additional data file.
+Supplemental Information 3
+
+## The top 20 upregulated and downregulated DEmRNAs.
+10.7717/peerj.11429/supp-3Click here for additional data file.
+Supplemental Information 4
+
+## qRT-PCR was used to validate the expression of mRNAs in the drug-resistant K562/ADR cell line.
+All data are represented as mean ± SD for at least three independent experiments. *P < 0.05, **P < 0.01 and ***P < 0.001 were statistically significant compared with the control group.
+10.7717/peerj.11429/supp-4Click here for additional data file.
+Supplemental Information 5
+
+## LINC01419 expression in K562/ADR cells transfected with siRNAs and the cell survival rate after transfection.
+48 hours after transfection with siRNAs in K562/ADR cells, LINC01419 expression was downregulated (A). Knockdown of LINC01419 did not affect the sensitivity of K562/ADR cells to doxorubicin (B). *P < 0.05, **P < 0.01 and ***P < 0.001 were statistically significant compared with the si-NC group.
+10.7717/peerj.11429/supp-5Click here for additional data file.
+Supplemental Information 6
+
+## qRT-PCR was used to validate the expression of lncRNAs and mRNAs in the drug-resistant K562/ADR cell line.
+Raw data on the expression of lncRNAs and mRNAs in the drug-resistant K562/ADR cell line; these data were applied in data analysis and preparation of Figs. 3 and S1.
+10.7717/peerj.11429/supp-6Click here for additional data file.
+Supplemental Information 7
+
+## qRT-PCR was used to detect the expression of CCDC26, LINC01515, LINC01419, GLRX5 and DICER1 in K562/ADR cells transfected with siRNAs.
+Raw data on the expression of CCDC26, LINC01515, LINC01419, GLRX5 and DICER1 in K562/ADR cells transfected with siRNAs; these data were applied in data analysis and preparation of Figs. 7, 8 and S2.
+10.7717/peerj.11429/supp-7Click here for additional data file.
+Supplemental Information 8
+
+## The cell survival rate of K562/ADR cells transfected with siRNAs.
+These data were applied in data analysis and preparation of Figs. 7, 8 and S2.
+10.7717/peerj.11429/supp-8Click here for additional data file.
+
+## Data Availability Statement
+The following information was supplied regarding data availability:
+The Homo sapiens LncRNA Raw sequence reads are available at NCBI SRA: PRJNA648744. The raw data are available in the .

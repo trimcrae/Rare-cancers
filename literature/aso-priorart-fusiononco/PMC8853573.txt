@@ -1,0 +1,562 @@
+pmcPLoS OnePLoS One440plosone101285081plosPLoS ONE1932-6203PLOSPMC8853573PMC8853573.1885357388535733517605210.1371/journal.pone.0263262PONE-D-21-157501Research ArticleMedicine and Health SciencesPharmacologyDrugsAntimicrobialsAntibioticsDoxycyclineBiology and Life SciencesMicrobiologyMicrobial ControlAntimicrobialsAntibioticsDoxycyclineMedicine and Health SciencesPharmacologyDrugsAntimalarialsDoxycyclineBiology and Life SciencesMolecular BiologyMolecular Biology TechniquesTransfectionResearch and Analysis MethodsMolecular Biology TechniquesTransfectionBiology and Life SciencesGeneticsGene ExpressionBiology and Life SciencesBioengineeringGenome EngineeringSynthetic Genome EditingCrisprEngineering and TechnologyBioengineeringGenome EngineeringSynthetic Genome EditingCrisprBiology and Life SciencesSynthetic BiologySynthetic GenomicsSynthetic Genome EditingCrisprEngineering and TechnologySynthetic BiologySynthetic GenomicsSynthetic Genome EditingCrisprMedicine and Health SciencesHealth CareHealth Care PolicyScreening GuidelinesBiology and Life SciencesGeneticsGene Identification and AnalysisGenetic ScreensBiology and Life SciencesCell BiologyCell ProcessesCell DeathApoptosisResearch and Analysis MethodsSpecimen Preparation and TreatmentStainingCell StainingConsiderations and practical implications of performing a phenotypic CRISPR/Cas survival screen
+A CRISPR/Cas survival screen reveals unexpected mechanisms of rescueAshotiAtorConceptualizationData curationFormal analysisInvestigationMethodologyWriting – original draft LimoneFrancescoData curationFormal analysis van KranenburgMelissaData curationInvestigation AlemanyAnnaFormal analysis BaakMirnaFormal analysis ViviéJudithData curationFormal analysis https://orcid.org/0000-0003-1210-3210PiccioniFredericaFormal analysis DijkersPascale F.Writing – review & editing CreyghtonMennoSupervision EgganKevinSupervision https://orcid.org/0000-0003-3592-4353GeijsenNielsConceptualizationFunding acquisitionProject administrationResourcesSupervisionWriting – review & editing 1
+Hubrecht Institute, Developmental Biology and Stem Cell Research, Utrecht, The Netherlands2
+Department of Stem Cell and Regenerative Biology, Harvard University Cambridge, MA, United States of America3
+Stanley Center for Psychiatric Research, Broad Institute of MIT and Harvard, Cambridge, MA, United States of America4
+Single Cell Discoveries, Utrecht, The Netherlands5
+Broad Institute, Cambridge, MA, United States of AmericaFujiiHodakaEditor , ]. Although not the first genome editing method, CRISPR/Cas9 has proven to be much more user friendly due to its easy adaptability, and being more cost-, labor- and time-efficient compared to its predecessors: transcription activator-like effector nucleases (TALENs) [ – ] and ZINC-fingers nucleases (ZFNs) [ – ]. Its ability to knock out any gene by creating a double-stranded break [ – ] in such an easy manner, makes this technique very suitable for genome-wide loss-of-function studies. The advantages and ease of use of the CRISPR/Cas9 technology inspired us to perform a genome-wide screen on a FSHD in vitro model, to find potential modulators that contribute or aggravate the FSHD pathophysiology. Successful performance of a FSHD genome-wide screen will critically depend on the cell system being used. The cells should be highly proliferative, easily transfected and display a robust DUX4-induced phenotype.
+Facioscapulohumeral muscular dystrophy (FSHD) is an autosomal dominant degenerative muscle disease. It is one of the most prevalent neuromuscular disorders [ ], characterized by progressive and asymmetric muscle weakness which generally starts in facial muscles, and then slowly progresses to muscles of the shoulders, upper limbs and eventually the lower extremities [ ]. The age of onset is highly variable, but calculations based on a 122-case study demonstrate that the mean age of onset is in the early twenties [ ]. The primary cause of the disease is the misexpression of the double homeobox 4 (DUX4) transcription factor, due to failure in epigenetic silencing [ – ]. DUX4 is normally expressed early in development in the cleavage stage embryo [ , ], in the adult testis [ ] and in the thymus [ ]. De-repression of DUX4 in muscle activates a large cascade of events, triggering the activation of many pathways [ , – ], with target genes being involved in biological processes such as RNA splicing and processing (DBR1 [ , – ], CWC15 [ , , ], PNN [ , ], CLP1 [ , , ], TFIP11 [ , – ]), spermatogenesis (CCNA1 [ , – ], ZNF296 [ , – ], TESK2 [ , , ]), early embryonic development (ZSCAN4 [ , – ], LEUTX [ – ], STIL [ , , ]), protein processing and degradation (SIAH1 [ , – ], RHOBTB1 [ , , ], TRIM36 [ , , ]), and cell motility and migration (CXCR4 [ , , ], ROCK1 [ , ], SNAI1 [ , – ]).
+We hypothesized that of one or more factors downstream of DUX4 expression are responsible for the rapid apoptotic response that follows DUX4 induction. Knowing if there are key downstream targets of DUX4 can have important clinical applications as they could direct intelligent therapeutic design. We tested this hypothesis by performing a genome-wide CRISPR/Cas9 knockout screen.
+DUX4 is a so-called pioneer factor [ , ], capable of regulating its target genes independent of their chromatin state, in the human context. The network of genes activated by pioneer factors is therefore less affected by cellular identity. Indeed, Jones and colleagues have demonstrated that DUX4 activates the same downstream target genes in human B-lymphocytes as previously identified in human skeletal muscle myoblasts [ , ]. Using an adherent leukemic cell line that is frequently used for genome-wide screening purposes (KBM7 [ , ]), we performed an exhaustive CRISPR knockout screen to identify factors that could mitigate DUX4-induced cytotoxicity. We inserted a doxycycline-inducible DUX4 transgene into the KBM7 cells [ , ] to generate DUX4 inducible expression (DIE) cells. Using the Brunello CRISPR/Cas9 library [ ], we screened for modulators of DUX4 cytotoxicity. Our results suggest that no single gene knockout, other than DUX4, is capable of rescuing DUX4-triggered apoptosis in our transgene model system.
+This study does however, provide interesting insights into critical parameters that need to be considered when executing a genome-wide CRISPR screen.
+
+## Results
+
+## Generation and validation of a DUX4-inducible cell line
+To perform a successful genome-wide screen, a cellular model is required that is highly proliferative, has a high viral transduction efficiency and displays a robust phenotype. An adherent clone of the KBM7 cell line possess all these characteristics and has already been used extensively in a wide variety of functional screens [ , – ]. The cells were initially reported to be near-haploid [ , ], but subsequently rediploidized [ , ]. These adherent diploid KBM7 cells were used for the generation of our inducible DUX4 cell line.
+Low levels of DUX4 expression can efficiently induce apoptosis [ , , ], which interfered with the generation of our model system. To circumvent premature DUX4 toxicity caused by leaky expression of the Tet-On system [ , ], we inserted a LoxP-DsRed-LoxP stop-cassette (LSL) in between the Tet-operator and a DUX4 transgene. The DUX4 transgene element itself consisted of the three exons (starting with the translational start site) and the two introns of the DUX4 gene, including the polyA sequence. This is the same sequence found in the most common pathology-associated haplotype, 4A161 [ ]. This construct was introduced in the adherent KBM7 cells in combination with a constitutive rtTA3-expressing construct. After stable integration of the construct, the stop-cassette was removed using CRE recombinase, placing DUX4 under the control of the TRE, that can be induced by rtTA3 ( ). Eighty monoclonal lines were derived by single-cell flow cytometry sorting, of which one displayed tight doxycycline-dependent DUX4 induction and robust cell death upon doxycycline addition ( and ). A monoclonal cell line was derived from this positive clone, which we named the ‘DUX4-Inducible Expression’ (DIE) cell line.
+ To further analyze the functional effect of DUX4 induction, DIE cells were stained with AnnexinV-Alexa Fluor 488 and propidium iodine (PI) ( ). As shown in the supplementary videos (S1-S3 videos), during 12 hours of doxycycline exposure DIE cells became positive for the apoptotic marker AnnexinV. To show that the apoptotic phenotype was dependent on the induction of the DUX4 transgene, we targeted the DUX4 transgene using CRISPR/Cas9. To target the DUX4 transgene, 2 independent single guide RNAs (sgRNAs) were used, one targeting the C-terminal domain of the DUX4 open reading frame (ORF) and the other close to the polyA tail of DUX4, thus generating DUX4 knockout DIE cells (DIE-KO). RT-qPCR and Western blot (WB) analysis of the DIE and the DIE DUX4 knockout (DIE KO) cells demonstrated successful knockout of the DUX4 transgene at both RNA and protein level ( ). CRISPR/Cas9-mediated targeting of the DUX4 transgene successfully rescued the DIE cells from apoptosis upon doxycycline administration ( ), demonstrating that apoptosis upon doxycycline administration in the DIE line is mediated by DUX4. DUX4 induction in the DIE cells resulted in induction of its known downstream target genes (LEUTX, ZSCAN4, PRAMEF1 and ZNF217) but not in DIE KO cells ( ), demonstrating that inducing DUX4 expression induces downstream target genes that are also induced by endogenous DUX4.
+
+## DUX4 gene expression signature in DIE cells
+Next, we analyzed the downstream transcriptional changes that were induced by DUX4 in the DIE cells by RNA sequencing. We compared 4 induced and uninduced technical replicates of two lines: the DIE line, and the DIE-KO line, where addition of doxycycline does not induce DUX4 expression ( ). As shown in , doxycycline treatment resulted in progressive temporal changes in gene expression in DIE cells, but not in DIE-KO cells, demonstrating DUX4-specific gene induction. shows the magnitude of the combined transcriptional changes induced by DUX4, visualized by comparing DIE cells to DIE-KO cells at different time intervals which emphasizes both the increasing number of differentially transcribed genes as well as the speed at which these transcriptional changes occur over time. Indeed, DUX4 induction resulted in a profound and progressive increase in the number of differentially expressed genes, with 64 differentially expressed transcripts at 4.5 hours post induction and 467 differentially expressed transcripts at 8.5 hours after induction ( ). The number of induced genes is greater than those with reduced expression levels, as can be seen in , consistent with DUX4’s role as a pioneer transcription factor [ ]. Differential expression analysis reflects this, demonstrating more differentially upregulated genes in both induced DIE samples compared to uninduced DIE samples [Padj value ≤ 0.01, Log2fold change ≥ 1] ( , ). Most differentially expressed genes are shared between the two induced samples that were treated with Doxycycline for 4.5 or 8.5 hours ( ). Among the upregulated genes are well known downstream targets of DUX4, including LEUTX, ZSCAN4, PRAMEF1 and ZNF217 ( ). We next used Enrichr [ , ] to search for other similar studies that show similarities in their transcriptome. Based on Enrichr entries, the upregulated genes in induced DIE cells are linked to DUX4 activity [-Log10(P-value) = 100.3], as are the downregulated genes [-Log10(P-value) = 3.8] ( and ). It shows high similarity between data from our study and one other DUX4 study that has been entered into the Enrichr database (GSE33799) [ ]. Interestingly, PAX5 appears to also be linked to the upregulation of some of the same genes as DUX4 ( ). The PAX7 and PAX3 members of the Paired box (PAX) family of genes have previously been linked to FSHD and DUX4 [ , , ]. While PAX5 itself may not be associated with FSHD, it binds to the same target sequence as PAX3, PAX7 and DUX4, which may explain how DUX4 overexpression might therefore induce similar downstream target genes as previously reported for PAX5.
+ We next compared the list of differentially expressed genes in DIE cells that were induced for 8.5h (DIE_8.5h) with 4 other studies that have previously explored the DUX4 transcriptional network in myoblast models or patient-derived muscle biopsies (Geng, Rickard, Jagannathan and Heuvel) [ , – ]. As shown in (panel i), we observed a high percentage of overlap between our dataset and those previously reported. The overlap between the upregulated genes is greater than the overlap that can be seen in the downregulated genes ( , panel ii). This applies not only for the overlap seen between our data and the other datasets, but also between the 4 other datasets. This confirms that DUX4 can directly activate transcription, and that the downregulated genes might be more influenced by cell type. In addition, overlapping data seen here are likely an underrepresentation, due to the presence of gene families containing paralogs and pseudogenes in either reference genome databases, which can lead to multi-mapped or ambiguous reads [ ]. To conclude, data shown here strongly suggest that in our DIE cell system, DUX4 induces transcriptional changes similar to those found in myoblasts from FSHD patients.
+
+## Genome-wide CRISPR screen reveals large chromosomal truncations
+Using our DIE cell system, we aimed to identify modulators of DUX4 cytotoxicity by performing a genome-wide CRISPR/Cas9 knockout screen. The Brunello human CRISPR knockout pooled library, optimized for maximal on-target activity and minimal off-target activity, was used for this purpose [ ]. This library contains 77.441 sgRNAs, targeting all protein-coding genes, with an average of 4 sgRNAs per gene as well as 1000 non-coding control sgRNAs. To optimize the signal-to-noise ratio of the experimental system, we titrated the timing and dose of the doxycycline-mediated DUX4 induction ( ) and selected two doxycycline concentrations: low (250ng/ml) and high (1000ng/ml) doxycycline, with an exposure time of 24h). At these concentrations, respectively 95 to 99% of the cells die. outlines the setup of the screen. In addition to the high and low doxycycline concentrations, cells were harvested at two timepoints after doxycycline addition to allow recovery, early harvest (24h) and late harvest (72h), ultimately resulting in 4 separate 4 screens: low doxycycline/early harvest, low doxycycline/late harvest, high doxycycline/early harvest, and high doxycycline/late harvest.
+ Following doxycycline administration and induction of DUX4 expression, surviving cells were harvested, genomic DNA was extracted, and the sgRNA sequence was amplified and sent for sequencing. Sequencing results of the treated samples revealed many significantly enriched hits ( and ). These hits included DUX4 itself, demonstrating the sensitivity of the screen. In addition, we identified hits that rescued cells as well as the DUX4 sgRNAs did.
+Upon closer examination, we saw that most of these enriched guides were located on the q arm of chromosome 5 ( ), suggesting that the q-arm in its entirety contains an essential modulator of cell survival following doxycycline addition. Indeed, the rtTA3 transgene responsible for DUX4 induction is located on the 5q arm ( ). This suggests that targeting Cas9 to the q arm of chromosome 5 resulted in the removal of the rtTA3 transgene, potentially through generation of a large deletion, a chromosomal truncation, or a chromosomal rearrangement. As the rtTA3 integration site is located at the end of chromosome 5q, single guide RNAs targeting genes upstream of this site (towards the centromere) can potentially cause a Cas9-mediated truncation, thereby removing the rtTA3 ( , for phenograms of all 4 screens see ). The correlation between the significance of a hit and its position along chromosome 5 highlights the strong association of these unexpected chromosomal rearrangements and the integration of rtTA3 at the end of chromosome 5, where the most significant hits reside in all four screens ( ). We also identified an enrichment of sgRNAs on chromosome 19 that enhanced survival at the location where the DUX4 transgene was inserted ( ). The effect of the sgRNAs that target Cas9 to this locus is possibly a result of interfering with expression of the DUX4 transgene, rather than interfering with expression of the genes that the sgRNAs are directed against.
+The hotspot of hits on chromosome 15 can be explained by the genetic makeup of the original HAP1 cell line. In this cell line, a region of chromosome 15 integrated on chromosome 19q [ ]. The hotspot of hits on chromosome 15 correlates to the region that has integrated on chromosome 19q, close to the MED25 site. Thus, targeting the region of chromosome 15 that has integrated on chromosome 19 possibly interferes with the DUX4 transgene expression, and at the same time also targets the same region in chromosome 15.
+To confirm whether the identified hits act by inducing a knockout of their target gene or via an alternative mechanism, we tested some of these guides (the chromosomal locations of the genes they target are shown in ) individually in DIE cells constitutively expressing Cas9 (DIE-Cas9 cells). In this experiment, we did not select for the rtTA3 or DUX4 transgene ( ), the reason for this is that the absence of selection for the transgene allows us to pick up deletions that involve the rtTA3 transgene (including the selection marker). No increased survival was detected compared to the background-surviving cells that were seen in the non-target control situation ( ). This suggests that the Cas9-induced truncation of a chromosomal arm and subsequent removal of rtTA3 activity is a rare event that was only identified due to the high sensitivity of our screen.
+
+## Filtering the hits of the genome-wide CRISPR screen results revealed no single candidate
+Since potential hits that mitigated DUX4 toxicity were likely obscured by the large number of false-positive hits that resulted from Cas9-mediated elimination of either the DUX4 or the rtTA3 transgenes, we filtered the screen results to remove all hits located on the q-arm of chromosome 5, or the p-arm of chromosome 19 ( ). After analyzing individual guides for their apparent effectiveness in the genome-wide screen (instead of the group average), a list of potential hits emerged (p-value ≤ 0.05, Log2(fold change) ≥ 1) for each of the 4 screens. shows the number of potential hits that met these criteria for each screen and how many of these hits are shared between them (see for the full list of hits). We focused further on hits that emerged in at least 3 out of the 4 screens. Hits were validated by performing individual knockouts in the DIE-Cas9 cells. Of these hits, only the knockout of MED25 increased cell survival ( ). MED25 is a subunit of Mediator, a large complex that functions as a bridge between transcription factors and the transcriptional machinery. This includes RNA polymerase II, needed for the transcription of all protein coding genes in eukaryotes (reviewed by Soutourina [ ]). The rescue seen in doxycycline-induced DIE cells after MED25 knockout diminished upon higher doxycycline exposure, suggesting that loss of MED25 provided a partial rescue. Other genes belonging to the same mediator complex, that initially did not meet our criteria, were re-evaluated by lowering the parameters (P ≤ 0.05, fold change of ≥ 1.5), identifying several other subunits. When individual knockouts of these genes were performed, two more subunits of the Mediator-complex, MED16 and MED24 showed partial rescue ( ). A potential role for the Mediator complex in DUX4 signaling is supported by a physical interaction between DUX4 and different subunits of the Mediator complex [ ].
+ The hits in our screen appeared to interfere with DUX4 expression rather than with the DUX4-induced toxicity. Loss of function of components of our doxycycline-inducible system allows DIE cells to survive in the presence of doxycycline. Therefore, we developed a method to visualize the functionality of components of our doxycycline-inducible system. This method will exclude false-positive hits that interfere with DUX4 expression. We focused on rtTA3 transgene that binds to the tetracycline response element (TRE) and thus controls DUX4 expression ( ). An inducible eGFP under control of TRE was introduced in DIE-Cas9 cells (DIE-ieGFP-Cas9), resulting in rtTA3/TRE-dependent eGFP expression. This allowed to identify cells that survive by interfering with TRE-mediated expression (and thus expression of DUX4): cells containing a guide whose target can mitigate the apoptotic phenotype without interfering with the inducible system should not only survive but also have similar levels of eGFP as DIE-Cas9 cells in which DUX4 was knocked out ( ). To examine eGFP expression, cells with a single gene knockout were analyzed by flow cytometry. FACS analysis revealed that knockout of Mediator genes resulted in reduced induction of eGFP expression in surviving DIE cells ( ). This suggests that knockout of Mediator-complex components interferes with the ability of rtTA3 to induce TRE-mediated transgene transcription. Effect of MED25 knockout appeared therefore a result of impaired DUX4 activation, rather than true modulation of DUX4 cytotoxicity.
+In a recent study by Shadle and colleagues, a siRNA screen was performed targeting the “druggable” genome to identify pathways of DUX4 toxicity. The study revealed the MYC-mediated apoptotic pathway and the viral dsRNA-mediated innate immune response pathway to be involved in DUX4-induced apoptosis [ ]. When we examined our data for enrichment of sgRNA sequences that target the genes identified in the Shadle study, we did not observe significant enrichment in our CRIPSR screen data of these sequences ( and Figs). Technical differences, such as the screening method, the complete or partial loss of function of genes, the scale of the screens (druggable genome vs whole genome) and the different cellular backgrounds, most likely all attributed to the little correlation seen between the two studies.
+Another recently published genome-wide CRISPR/Cas9 study, where a similar methodology was used in a DUX4-inducible, immortalized myoblast line, identified the HIF1 oxidative stress pathway as a modulator of DUX4-induced apoptosis [ ]. These data, as well as previous reports, clearly demonstrated the role of the HIF1 hypoxia pathway in DUX4-mediated cytotoxicity [ – ]. Members of the HIF1 pathways were not identified in our screen ( ), and neither did the other 14 significantly enriched hits they identified in their study, apart from MED25, which may be a false positive in both datasets. This indicates that changes in this pathway are likely not the only DUX4-induced cellular changes that push cells towards apoptosis. The fact that the HIF1 pathway was not identified in our screen could also indicate differences in sensitivity to oxidative stress between cellular systems, as different cell types experience and respond to oxidative stress differently.
+
+## Discussion
+The development use of CRISPR/Cas9 to carry out genome-wide forward genetic screens by knocking out gene expression has allowed analysis of virtually any aspect of mammalian biology (reviewed by Yu et al. [ ]). These screens are more sensitive and efficient methods than knocking down gene expression by RNA interference due to incomplete knock down of gene expression.
+Here, we aimed to obtain insight into the downstream targets of a transcription factor, DUX4, that are responsible for its cellular toxicity. We hypothesized that inhibition of key downstream DUX4 effectors would slow or abrogate the cytotoxic process, and set out to identify such genes by performing a genome-wide CRISPR/Cas9 screen. We carried out 4 parallel screens with different levels of DUX4 expression as well as different recovery times after DUX4 induction. The goal of the screen was to identify targets that can mitigate DUX4-induced toxicity. The screen’s technical execution went very well and displayed high sensitivity and specificity toward candidate editing events that indeed mitigated cytotoxicity in our transgene model. We know the screen was exhaustive because we picked up rare chromosomal rearrangements. However, none of the obtained hits had a direct effect on the DUX4 downstream transcriptional network but seemed to specifically affect the experimental system itself. We noticed that the chromosomal location of the hits overlapped with the insertion sites of either the DUX4 transgene or the rtTA3 inducer of the tetracycline-inducible system responsible for DUX4 transgene induction.
+The main contributor for the effect seen when targeting Cas9 to genes that map to either chromosome 5 or 19 is likely a rare Cas9-induced chromosomal truncation or deletion, that deletes the transgenes when targeted to the chromosomal arm in which they have integrated. Although these events appear to be rare, nearly all guides that targeted genes located on the chromosomal arm to which rtTA3 had integrated (5q), were robustly enriched, underscoring the sensitivity of this screening method.
+Most remaining hits (that were located on sites other than where the transgenes were inserted) did not appear to affect DIE cell survival upon individual validation, but members of the Mediator complex did show a positive effect on survival. However, these mediator subunit genes seemed to generally suppress rtTA3-mediated transcription, so their mitigating effect was not mediated by specifically altering DUX4 cytotoxicity. We therefore concluded, based on the conditions used in this study, that there is no individual target (other than DUX4 itself) that, upon knockout, can strongly inhibit DUX4-induced cytotoxicity. Efforts should therefore be redirected to the direct modulation of DUX4.
+While sgRNAs in our library only target protein-coding genes, we believe we would have picked up any mitigating non-coding RNAs as well, had they provided a strong rescue from the DUX4 cytotoxic effects. In that case, one would have expected to see a similar hotspot of sgRNAs on and around the true target sites, as we observed for MED16, where a hotspot of sgRNAs was observed on the p-arm of chromosome 19, corresponding to the location of MED16. Another hotspot can be seen on the q arm of chromosome 19, corresponding to the location of MED25.
+Recent attempts at targeting DUX4 directly include systems that do not lead to DNA damage, such as the use of antisense morpholino oligonucleotides to target and knock down the DUX4 transcript [ ]. In another study, a catalytically inactive Cas9 fused to a Krüppel-associated box (dCas9-KRAB) was used to target the promotor of DUX4, inducing epigenetic repression of DUX4 [ ]. Both studies show the ability to successfully diminish DUX4 expression in patient-derived cells. However, the effect of these types of interference may be transient, which make them less ideal for long-term treatment of FSHD. When these types of targeting strategies are combined with a gene therapy approach, as reported by Rashnonejad et al. [ ].
+While our screen did not identify target genes that can mitigate DUX4 cytotoxicity, it does illustrate some important aspects that need to be considered when performing phenotypic CRISPR/Cas9 screens. One aspect is the large chromosomal truncations that can be induced by Cas9, a phenomenon also recently reported by Cullot et al. [ ]. While these are rare events in a cell population, our results demonstrate that in a sufficiently sensitive screening system, they are robustly identified and can crowd other potential positive hits. Continued selection for the transgenes that mediate expression the screened phenotype (in our case of DUX4) will help in this aspect by removing cells that have lost their resistance marker (linked to the transgenes that mediate expression) is therefore essential. Another aspect that needs consideration are the endogenous genes that have a general effect on transcription and translation, in this case effecting the inducible system, like subunits of the mediator complex identified in this study. Potential hits will always need to be validated individually in such a way that can exclude this possibility, like shown here, or by Shadle et al., where some of the same genes were identified affecting their inducible Tet-On system [ ].
+Our findings demonstrate the importance of including controls into the screen setup to ensure that the different components to carry out CRISPR/ Cas9 knockout screens are intact, and thus exclude potential false positives. We have provided a control to exclude false-positives that visualizes whether rtTA3 can still induce TRE-mediated expression (to induce DUX4 expression) by verifying expression of eGFP that is also under the control of TRE. By using this control, we were able to demonstrate that the attenuating effect of genes of the MED25 on survival was a result of a decrease in rtTA3-mediated expression (as measured by a decrease in eGFP levels).
+This study started out with the aim of trying to contribute to the understanding of the underlying molecular mechanisms of FSHD, by performing a genome-wide CRISPR-Cas9 phenotypic screen. However, with no significant hits that can explain their contribution to the apoptotic phenotype, this story also tells a cautionary tale for knockout screens with CRISPR-Cas9. Our data, and suggestions to circumvent potential false-positives, will benefit future groups planning to execute similar screens.
+
+## Methods
+
+## Cloning and generating the DIE cell line
+To generate the inducible DsRed/DUX4 system, the third generation lenti-viral plasmid pRRLsincPPT-wpre [ ] was used as the backbone. The linearized viral backbone was created by restriction digestion using the following enzymes: HpaI and SalI (NEB). All inserts were generated with PCR amplification using phusion DNA polymerase (Fischer Scientific). Insert were created with 15bp adapter sequences, matching the backbone or neighboring fragments, for in-fusion cloning (Clontech). The first fragment consisted of cPPT/CTS-TRE-mCMV sequences, and the second fragment contained the LoxP-DsRed-LoxP (LSL) sequence. After inserting these two fragments into the pRRLsincPPT-wpre backbone, this newly cloned construct was transformed into chemically competent Stbl3 Escherichia coli (E.coli). The plasmid was isolated and purified from the Stbl3 cells using the HiPure plasmid kits from Invitrogen (Fischer scientific). This TRE-LSL plasmid was then opened up using restriction enzymes XbaI and EcoRI (NEB), after which the remaining three inserts: DUX4(exon1-3), mPGK and PuroR-WPRE, were cloned downstream from the LoxP-DsRed-LoxP in similar fashion.
+The DIE cell line was obtained by transducing diploid KBM7 cells with lentiviral particles containing the inducible DsRed/DUX4 cassette mentioned above. 2 days after lentiviral transduction, transfected cells were selected with puromycin. After establishing a stable line by puromycin selection, lentiviral particles containing CMV-rtTA3-BlastR were added to the DsRed/DUX4-containing KBM7 cells. Positively transfected cells were subsequently selected with blasticidin, and FACS-sorted for DsRed expression upon exposure to doxycycline. The pLenti CMV rtTA3 Blast (w756-1) was a gift from Eric Campeau (Addgene plasmid #26429).
+
+## Cell culture
+KBM7 cells were cultured in IMDM media (Fischer Scientific) supplemented with 10% FBS. The DIE cells were cultured in IMDM media supplemented with 10% Tet system approved FBS (Clontech), 5μg/ml Puromycin and 6μg/ml Blasticidin, 100μM 2-mercaptoethanol.
+
+## Cloning p2T-Cas9, p2T-ieGFP and sgRNA constructs, and generating DIE-Cas9 and DIE-Cas9-ieGFP cell lines
+The p2T-CAG-spCas9-NeoR mammalian expression plasmid was created by replacing the Blasticidin resistance gene (BlastR) in the p2T-CAG-spCas9-BlastR (Addgene: 107190) [ ] with a Neomycin resistance gene (NeoR). The p2T-CAG-spCas9-BlastR plasmid is contained in a p2Tol2 backbone [ ]. The BlastR gene was removed using restriction digestion, using MfeI and AflII (NEB). Cloning the NeoR DNA fragment into the p2T-CAG-spCas9 backbone was done in similar fashion as described above. The p2T-CAG-SpCas9-BlastR was a gift from Richard Sherwood. The p2T-TetO-eGFP-HygroR plasmid was generated in a similar way as the p2T-CAG-spCas9-NeoR. In short, all sequences between transposable elements of a p2T plasmid were removed by restriction digestion using AleI and EcoRI (NEB). The TetO-eGFP-HygroR cassette was created by amplifying each subunit individually from already excising constructs, and thereafter cloned into the empty p2T backbone, using in-fusion cloning.
+Both p2T-CAG-spCas9-NeoR and p2T-TetO-eGFP-HygroR were introduced in the DIE cell line by using Transposase. The p2T-CAG-spCas9-NeoR was introduced into DIE cells together with a plasmid encoding for transposase, using Polyethylenimine (PEI) transfection reagent (4ug PEI per 1ug DNA). The DIE cells were exposed to the transfection mixture for 14-16h, after which the transfection media was replaced with growth media. Geneticin g418 selection was started two days post transfection, generating the DIE-Cas9 line. The DIE-Cas9-ieGFP cell line was created by adding Transposase and p2T-TetO-eGFP-HygroR the DIE-Cas9 line, described as above.
+spCas9-sgRNA constructs were cloned using a plasmid containing a U6 promotor, 2 BsmBI sites directly adjacent to the tracrRNA sequence, and a Hygromycin resistance gene (made in-house). This U6-2xBsmBI-Tracr-HygroR plasmid was digested with the BsmBI restriction enzymes (NEB), after which the CRISPR inserts were ligated in using T4 DNA ligase (NEB). CRISPR inserts were generated by annealing two complementary oligos containing a 4bp adapter serving as the BsmBI sticky end.
+All plasmids mentioned in this study were transformed in chemically competent Stbl3 Escherichia coli (E. coli), and prepped using a HiPure plasmid Midi or Maxi kit (Invitrogen).
+
+## RNA extraction and RT-qPCR
+Cultured cells were rinsed with DPBS just prior to the additional of TRIzol reagent (Thermo Scientific), and stored at -80°C until further processing. Total RNA samples were subsequently extracted by addition of chloroform, and isopropanol precipitation, and finally treated with RNase free DNase I (Promega). Reverse transcription was performed using the Superscript III kit (Invitrogen) and random primers (Promega), generating cDNA. Quantitative PCR was then initiated using IQ SYBR Green Supermix (Bio-Rad 1708880), 50 ng of cDNA, and the following gene-specific primers:
+DUX4: 5’-CCCAGGTACCAGCAGACC-3’,
+5’-TCCAGGAGATGTAACTCTAATCCA-3’ [ ];
+ZSCAN4: 5’-GTGGCCACTGCAATGACAA-3’,
+5’-AGCTTCCTGTCCCTGCATGT-3’ [ ];
+ZNF217: 5’-AAGCCCTATGGTGGCTCC-3’,
+5’-TTGATATGACACAGGCCTTTTTC-3 [ ]’;
+PRAMEF1: 5’-CTCCAAGGACGGTTAGTTGC-3’,
+5’-AGTTCTCCAAGGGGTTCTGG-3 [ ]’;
+LEUTX: 5’- GGCCACGCACAAGATTTCTC-3’,
+5’- TCTTGAACCAGATCTTTACTACGGA-3’;
+GAPDH: 5’-TCCAAAATCAAGTGGGGCGA-3’,
+5’-AAATGAGCCCCAGCCTTCTC-3’;
+18S: 5’-GTAACCCGTTGAACCCCATT-3,
+5’-CCATCCAATCGGTAGTAGCG-3
+HPRT: 5’- CCTGGCGTCGTGATTAGTGA-3’,
+5’- CGAGCAAGACGTTCAGTCCT-3’ [ ].
+A two-step qPCR program was initiated with a denaturing temperature of 95°C, and an annealing and elongation temperature of 95°C. A melt curve analysis was performed at the end of the 40 amplification cycles, from 55 to 95°C with increasing increments of 0.5°C. All samples were generated in triplicate, and with experiment being repeated 3x (n = 3). No template (blanc) controls of each primer set were also taken along in triplicate, with each experiment. Three loading controls (18S, GAPDH, and HPRT) were tested for their effect on expression between treated and untreated samples. The loading control that showed minimal difference in Ct value between all samples ( ) was chosen for data normalization. Data was normalized to HPRT expression by using the following primer pair: 5’- CCTGGCGTCGTGATTAGTGA-3’, 5’- CGAGCAAGACGTTCAGTCCT-3’ [ ]. All samples with a Ct value higher than 35 were not included in the data analysis. All samples demonstrating multiple peaks in their melting curve were also removed before analysis. The reference genes HPRT, GAPDH and 18S displayed no change in Ct values upon doxycycline treatment ( ). Data were normalized to HPRT expression and are displayed as fold change (2^-ddCt) between untreated and doxycycline-treated samples. Data were analyzed by ANOVA using Prism software.
+
+## Protein extraction and western blot
+DIE cells were harvested by trypsinization and lysed with RIPA buffer. Total protein concentrations were determined using a Pierce BCA protein assay kit (Fischer Scientific). 20ug protein was denatured using 4x Laemmli sample buffer (Bio-Rad) with 10% BME (Sigma), and boiled for 5 minutes. Samples were run on a 15% SDS-polyacrylamide gel and transferred to a PVDF membrane (Merck). Membranes were blocked for an hour using 5% BSA in TBST, and were subsequently incubated overnight with anti-DUX4 antibody [E5-5] (Abcam, ab124699) in blocking solution (5% BSA in TBST), at 4°C. Membranes were than incubated for an hour with secondary goat anti-rabbit-HRP antibody (Santa Cruz, sc-2004), and primary rabbit mAb β-Actin HRP conjugated antibody (Cell signaling, 5125s) in blocking buffer. Chemiluminescent signal was detected using GE ImageQuant LAS 4000 imager, upon admission of Pierce ECL Plus Western Blotting substrate (Fischer Scientific).
+
+## RNAseq sample preparation and sequencing
+Cultured cells were rinsed with DPBS just prior to the additional of TRIzol reagent (Thermo Scientific). Total RNA samples were subsequently extracted by addition chloroform, and isopropanol precipitation. The library prep was performed using CEL-seq1 primers [ ] and the Life technologies Ambion kit (AM1751) [ ], and were processed using CEL-seq2 protocol [ ]. Samples were sequenced using Illumina Nextseq 500, 2x75 kit, high output. Four technical replicates per samples were sent for sequencing, and were sequenced to an average of 600,000 reads per replicate (combined read count of 2.4 million reads per sample). Differential expression analysis was done using the DESeq2 package [ ].
+
+## Doxycycline titration curve
+200,000 cells were seeded into wells of a 24-wells plate and incubated overnight at 5% CO2, at 37°C. When cells reached a density of 90–100% confluency, different concentrations of doxycycline were added to the vertical lanes (100ng/ml, 250ng/ml, 500ng/ml, 750ng/ml, 1000ng/ml), with the horizontal lanes experiencing different exposure times (48h, 36h, 24h, 12h). After a recovery period of 96h (after doxy exposure was ended), cells were washed with DPBS, and fixed with Methanol for 10 minutes. Giemsa stain, modified solution (Sigma) was subsequently added for 45 minutes, after which it was removed, and the wells were washed with demineralized water.
+
+## Genome-wide CRISPR screen
+The screen on the DIE line was performed as previously described by Doench et al. [ ] and Sanson et al. [ ]. Due to a shared selection marker between the DIE line and the all-in-one Brunello lentiviral library, transfected cells could not be selected for, thus the total number of cells was raised to 1500 cells per guide, when considering an average transfection efficiency of 30–50% in all cell lines tested by Doench et al. [ ]. To minimize the probability of multiple sgRNA plasmids entering one cell, we determined the transfection efficiency and calculated the MOI. With 1500 cells per guide (total of 77,441 guides), each of the three replicates contained 120*10E6 cells. These cells were spin transfected for 2h at 1000g with 82*10E6 Brunello virus particles (LentiCRISPRv2, Addgene 73179-LV, all-in-one system in which every plasmid contains SpCas9, and a guide RNA) reaching a MOI of 0.65, and a transfection efficiency of around 60% upon testing the viral library on the KBM7 parental line. After transfection the 120*10E6 transfected cells (contained in 40 wells of 12-well tissue culturing plates) were trypsinized and passaged to 60 145mm TC plates. Mutagenized cells were maintained for 6 days, before inducing a set of 24 plates with either a low or high doxycycline concentration (low: 250ng/ml, high: 1000ng/ml). The remaining 12 plates were harvested for cryofreezing (7 plates) and for determining library coverage (5 plates). After a 24h doxycycline induction period, 12 plates were given a 24h recovery period (early harvest) of both the low and high doxycycline-exposed sets. The remaining 24 plates received an additional 48h of recovery time (late harvest), before harvesting the surviving cells for sequencing ( ). Cell Pellets were stored at -80°C until further processing. The Human Brunello CRISPR knockout pooled lentiviral prep library was a gift from David Root and John Doench (Broad Institute, MA, U.S.A.).
+
+## Library prep, sequencing and analysis
+Genomic DNA (gDNA) was isolated using NucleoSpin Blood Mini (less than 5 million cells), Midi (L) (5–20 million cells) and Maxi (XL) (more than 20 million cells) kits, depending on the size of cell pellet. Libraries were prepared and sequenced on a HiSeq2000 (Illumina) as described by Doench et al. Analysis was conducted using “STARS”, gene-ranking method to generate FDR values developed by Doench et al. that was used to generate p-values and FDR rates [ ]. Chromosomal ideogram were generated by using the phenoGram webtool from the Ritchie lab from the university of Pennsylvania [ ].
+
+## Individual knock outs cell survival Giemsa staining
+DIE-Cas9 and DIE-Cas9-ieGFP were seeded in 24-well plates. The next day, when the cells had reached 70–90% confluency, cells were transfected with 500ng guide plasmid per well using 4ug PEI per 1ug DNA. During the overnight transfection no selection markers were present in the media, however growth media was supplemented with 100U/ml pen-strep. Cells were passaged with or without selection markers during a period of 6–7 days, after which doxycycline was added (100, 250 or 1000 ng/ml) for a 24h period. Wells were washed with DPBS to remove dead cells and debris. Remaining cells were given the opportunity to grow out, or to die (if they had already entered the apoptotic pathway) for an additional 48–96 hours. The wells were stained using Giemsa modified solution, as described previously.
+
+## Flowcytometry sorting (FACS) and analysis
+DIE-Cas9-ieGFP cells were induced with 250ng/ml doxycycline 24h prior to FACS analysis. After the 24h doxycycline exposure, cells were trypsinized using 0.25% Trypsin-EDTA, resuspended in iMDM media supplemented with Tet approved FBS and DAPI nuclear staining, and strained using a Cell-strainer capped tubes (Falcon). Cells were analyzed using the Beckman coulter Cytoflex S flow cytometer.
+
+## Imaging DIE cells
+Untreated and doxycycline-treated DIE cells were stained with AnnexinV-Alexa Fluor 488 and PI (Thermo Scientific), by adding the staining solutions directly to growth medium at a 1:50 and 1:100 ratio respectively. Cells were incubated overnight in growth medium containing staining solution(s) and with or without doxycycline treatment. Live imaging during treatment of these cells was carried out using a Confocal microscopy (Zeiss LSM 700). Still images were taken after the overnight incubation with an EVOS Digital Color Fluorescence Microscope (Invitrogen).
+
+## Supporting information
+S1 Fig
+
+## Execution of the CRIPSR/Cas9 genome-wide screens.
+A schematic representation of the execution of the CRISPR/Cas9 knockout screens. PB: Polybrene, TC: Tissue culture, LE: Low doxycycline/Early harvest, HE: High doxycycline/Early harvest, LL: Low doxycycline/Late harvest, HL: High doxycycline/Late harvest (see also ), Library rep: Library representation.
+(PDF)
+Click here for additional data file.
+S2 Fig
+
+## Analysis of apoptosis in DIE cells and expression of reference genes following doxycycline treatment.
+(A) Uninduced (top panel) and doxycycline-induced (bottom panel) DIE cells, stained with Propidium Iodide (PI) (middle panel) and AnnexinV-Alexa Fluor 488 (right panel), with a phase contrast image in the left panel. DIE cells in the bottom panel are stained positive for AnnexinV, with no increasing PI signal compared to uninduced DIE cells (top panel). (B) Analysis of the fraction of viable cells with and without doxycycline treatment (1000ng/ml). (C) Expression of HPRT, GAPDH and 18S in KBM7 cells or in DIE cells with and without doxycycline treatment, analyzed by qRT-PCR. Data were analyzed by ANOVA analysis. (D) HPRT Ct values of KBM7 cells, DIE cells and DIE KO cells that were untreated or treated with doxycycline (1000ng/ml). These values were used to normalize induction of gene expression in . Doxycycline did not significantly affect HPRT expression in the different cell lines that were tested. Data were analyzed by ANOVA analysis.
+(PDF)
+Click here for additional data file.
+S3 Fig
+
+## Analysis of enriched sgRNAs from screen data processed with a one-sided analysis.
+Volcano plots illustrating enrichment of sgRNAs in the surviving population of DIE cells of all 4 screens (see ). Due to the one-sided analysis, depletion data should not be taken into consideration. For a two-sided analysis see . The Log2(fold change) (log2FC) is plotted on the X-axis and the -Log10(p-value), (-log10PV) is plotted on the Y-axis. Data shown here show the average log2FC and -log10PV of each guide set (set: 4 guides per gene). Blue points represent guide sets that are significantly enriched in this data set (Log2FC ≥ 1, -log10PV ≥ 2), purple points represent the false-positive hits that on chromosome 5q and chromosome 19p, green point are the positive controls (DUX4, MAST1, MGAT4B), red points represent the Non-Target control guides.
+(PDF)
+Click here for additional data file.
+S4 Fig
+
+## PhenoGrams showing enriched hits in the human genome.
+Chromosomal ideogram indicating the location of enriched hits in the human genome, for each of the 4 screens. PhenoGram is a software created by the Ritchie lab from the university of Pennsylvania [ ].
+(PDF)
+Click here for additional data file.
+S5 Fig
+
+## Data plot displaying enriched hits on chromosome 5q and chromosome 19.
+The average-Log(p-value) is plotted on the Y-axis, and the X-axis is displaying the position on the chromosome. The vertical abline indicates the position of the centromere. All points above the horizontal abline (in blue) indicating significantly enriched hits that fall below the 5% False Discovery Rate (FDR) threshold. The location of the transgene is annotated with a blue arrow on the X-axis.
+(PDF)
+Click here for additional data file.
+S6 Fig
+
+## Individual knock-outs in DIE-ieGFP-Cas9 cells demonstrating eGFP activation in cells with a functional TetO-inducible system.
+Phase contrast (top panel) and fluorescent images (bottom panel) of DIE-ieGFP cells containing a DUX4 KO (left panel), and rtTA3 KO (right panel) induced with 250 ng/ml doxycycline.
+(PDF)
+Click here for additional data file.
+S7 Fig
+
+## Validation of genes involved in the MYC-mediated apoptotic pathway and the viral dsRNA-mediated innate immune response pathway.
+(A) Data plots showing the significance and enrichment of sgRNAs targeting DUX4, MED25, RPS25 and CISD, in all 4 screens. The Log2(fold-change) (L2FC) of each individual guide is plotted on the left y-axis indicated in blue, and the–Log10(P-value) is plotted on the right y-axis, in red. When guides fall above the blue and red intermitted ablines, they are considered significant (Log2(fold change) > 1, -Log10(P-value) > 1.3). The sgRNAs that are significantly enriched in all 4 screens are underlined. All 4 sgRNAs targeting DUX4 are significantly enriched. 3 out of 4 sgRNAs targeting MED25 are significantly enriched (guides 1, 2 and 3). sgRNAs 1 and 4 targeting PRS25 are significantly enriched, and CISD has one sgRNA that is significantly enriched in all 4 screens. (B) Data plots showing the enrichment of sgRNAs targeting FOSB, RNASEL, MYC, FXN and EAF1. None of the 4 guides show significant enrichment in any of the 4 screens. (C) Viability staining showing surviving DIE- Cas9 cells (DIE cells constitutively expressing Cas9) containing single knockouts of genes involved in the MYC-mediated apoptotic pathway and the dsRNA-mediated immune response pathway (Top panel). Controls can be found in the bottom panel and are as followed, positive controls: DUX4, rtTA3, MED24, MED16 and MED25; Negative non-target control: NT.
+(PDF)
+Click here for additional data file.
+S8 Fig
+
+## Validation of genes involved in the HIF1 hypoxia pathway.
+(A) Data plots showing the enrichment of sgRNA targeting HIF1A. HIF1B/ARNT, CDKN1A. The LFC value of each individual guide is plotted on the left y-axis, indicated in blue, and the–Log10 P-value is plotted on the right y-axis, in red. Guides located above the blue and red intermitted ablines are considered significant (blue: LFC > 1, red: -Log10 P-value > 1.3). (B) Viability staining of untreated DIE-Cas9 cells (top panel) and treated with 1000ng/ml doxycycline (lower panel), transfected with DUX4, rtTA3, HIF1A and non-targeting (NT) sgRNA-coding plasmids.
+(PDF)
+Click here for additional data file.
+S1 Table
+
+## Differentially expressed genes after 4.5h of doxycycline induction.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## TF perturbations followed by expression.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## Shared differentially upregulated genes between 8.5h induced DIE cells and other datasets.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## Enriched sgRNAs and their corresponding genes.
+(XLSX)
+Click here for additional data file.
+S1 Video
+
+## Effect of doxycycline on KBM7 cells.
+KBM7 cells were treated with doxycycline (100ng/ml) and imaged for 12 hours to visualize AnnexinV staining.
+(MP4)
+Click here for additional data file.
+S2 Video
+
+## DIE cells without doxycycline.
+DIE cells were left untreated and imaged for 12 hours to visualize AnnexinV staining.
+(MP4)
+Click here for additional data file.
+S3 Video
+
+## Effect of doxycycline on DIE cells.
+DIE cells were treated with doxycycline (100ng/ml) and imaged for 12 hours to visualize AnnexinV staining.
+(MP4)
+Click here for additional data file.
+S1 File(DOCX)
+Click here for additional data file.
+
+The authors like to thank Nune Schelling, Peng Shang, Stefan van der Elst, and Reinier van der Linden for excellent technical assistance.
+ 10.1371/journal.pone.0263262.r001Decision Letter 0
+FujiiHodakaAcademic Editor© 2022 Hodaka Fujii2022Hodaka Fujiihttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version0
+28 Jun 2021
+
+PONE-D-21-15750
+A CRISPR/Cas survival screen reveals unexpected mechanisms of rescue
+PLOS ONE
+Dear Dr. Geijsen,
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+Your manuscript has been reviewed by three experts. Please revise it according to their suggestions.
+Please submit your revised manuscript by Aug 08 2021 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosone@plos.org. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+Please include the following items when submitting your revised manuscript:
+
+A rebuttal letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+
+If you would like to make changes to your financial disclosure, please include your updated statement in your cover letter. Guidelines for resubmitting your figure files are available below the reviewer comments at the end of this letter.
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: http://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols. Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols.
+We look forward to receiving your revised manuscript.
+Kind regards,
+Hodaka Fujii, M.D., Ph.D.
+Academic Editor
+PLOS ONE
+Journal Requirements:
+Please review your reference list to ensure that it is complete and correct. If you have cited papers that have been retracted, please include the rationale for doing so in the manuscript text, or remove these references and replace them with relevant current references. Any changes to the reference list should be mentioned in the rebuttal letter that accompanies your revised manuscript. If you need to cite a retracted article, indicate the article’s retracted status in the References list and also include a citation and full reference for the retraction notice.
+When submitting your revision, we need you to address these additional requirements.
+1. Please ensure that your manuscript meets PLOS ONE's style requirements, including those for file naming. The PLOS ONE style templates can be found at
+https://journals.plos.org/plosone/s/file?id=wjVg/PLOSOne_formatting_sample_main_body.pdf and
+
+https://journals.plos.org/plosone/s/file?id=ba62/PLOSOne_formatting_sample_title_authors_affiliations.pdf
+
+2. In your Methods section, please provide additional details regarding the cell lines used in your study and ensure you have described the source. For more information regarding PLOS' policy on materials sharing and reporting, see https://journals.plos.org/plosone/s/materials-and-software-sharing#loc-sharing-materials, and for more information on PLOS ONE's guidelines for research using cell lines, see https://journals.plos.org/plosone/s/submission-guidelines#loc-cell-lines.
+[Note: HTML markup is below. Please do not edit.]
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+1. Is the manuscript technically sound, and do the data support the conclusions?
+The manuscript must describe a technically sound piece of scientific research with data that supports the conclusions. Experiments must have been conducted rigorously, with appropriate controls, replication, and sample sizes. The conclusions must be drawn appropriately based on the data presented. 
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+2. Has the statistical analysis been performed appropriately and rigorously? 
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+3. Have the authors made all data underlying the findings in their manuscript fully available?
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+4. Is the manuscript presented in an intelligible fashion and written in standard English?
+PLOS ONE does not copyedit accepted manuscripts, so the language in submitted articles must be clear, correct, and unambiguous. Any typographical or grammatical errors should be corrected at revision, so please note any specific errors here.
+Reviewer #1: Yes
+Reviewer #2: Yes
+Reviewer #3: Yes
+**********
+5. Review Comments to the Author
+Please use the space provided to explain your answers to the questions above. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. (Please upload your review as an attachment if it exceeds 20,000 characters)
+Reviewer #1: The manuscript by Ashoti et al. describes a CRISPR/Cas9 rescue screen for modulators of DUX4 toxicity in adherent leukemic cells stably transduced with a lentiviral vector carrying a doxycycline-inducible DUX4 transgene. Unfortunately, the study did not find target genes that could mitigate DUX4 toxicity. The article is easy to understand and well written. I have several comments
+This kind of approach is not new: 1 group has already published a similar approach in muscle cells (Lek et al, Science Translational medicine 2020); 1 group performed a siRNA screen in RD cells (Shadle et al, Plos Genetivs 2017). Lek identified hypoxia signalling inhibitors that attenuate DUX4-induced cell death and Shadle identified MYC-mediated apoptotic pathway and components of the double-stranded RNA (dsRNA) innate immune response. None of these pathways were not found in the current study. This can be related to the cellular system and/or method used. It would be useful to compare the sensitivity to death of myoblasts, adherent leukemic cells and RD cells. Does a same level of DUX4 leads to similar cell death? This could impact the interpretation of the results.
+The differentially expressed genes have been compared with 4 other studies. Did the authors also compare their results with the Lek study? It may help to find muscle specific targets.
+Fig1: the chronology for the different experiments is not clearly indicated. From E, it seems that all the cells are dead, but if so, how to nalyse the genes downstream of DUX4?
+Fig1F: A two-tailed student t-test is not the right test to perform when more than 2 populations are compared
+qPCR analysis: Are the MIQE guidelines followed? Which statistical analysis was performed to choose HPRT as the normalizer?
+The authors removed false-positive hits that resulted from Cas9-mediated elimination of either the DUX4 or the rtTA transgenes on chromosomes 5q and 19p. However, they did not remove the false positive hits on chromosome 15, which correlates to the region that has integrated on chromosome 19p. Why?
+Minor:
+L186: DUX4 is not described as an “activating” factor.
+A drawing of the generation of the DIE cells, including the final cassettes, might be useful.
+According to NCBI primer blast website, the forward primer for PRAMF1 contains 1 mutation.
+L174: PAX5 is not described to be linked to FSHD. Only PAX7 was. PAX5 was described to be subject to allele-specific regulation during B-lymphopoiesis (Nutt, 1999).
+The paragraph about the Shadle article should be in the discussion along with a paragraph on the Lek paper.
+Reviewer #2: Title: A CRISPR/Cas survival screen reveals unexpected mechanisms of rescue
+By Ashoti, A. et al.
+Ashoti, A. et al. performed an exhaustive genome-wide CRISPR/Cas9 phenotypic rescue screen to identify modulators of cytotoxicity induced by DUX4, a transcription factor that causes Facioscapulohumeral muscular dystrophy (FSHD). Ashoti, A. et al. was not able to find key effectors other than DUX4.
+Major comments:
+Ashoti, A. et al. aim was to find downstream effectors of DUX4-induced activation of gene expression for the purpose to find potential therapeutic targets or treatment options. By using a doxycycline-inducible cell line, Ashoti, A. et al. was not able to find effectors other than DUX4. Their take home message was to emphasize on the importance of the chosen cell line and CRISPR/Cas9 gRNA library when performing a CRISPR/Cas9 loss-of-function screens. Overall, the paper was well written and does not raise major concerns.
+Minor comments:
+1) The abstract has some redundant sentences. Also, please write FSHD in full with FSHD abbreviation between brackets. In lines 35-36, the authors put a strong statement about FSHD onset. In some FSHD patients, muscle weakness starts elsewhere.
+2) Some additional clarifications need to be addressed in figure legends to allow the reader to understand the data without going back to the main text (e.g. state doxycycline concentration, time points, and statistics such as number of replicates etc…).
+3) Line 51: Please find another synonym to manipulability.
+4) Line 64: “disorderS” in plural.
+5) Lines 86-90: The author has to be careful in its statement about the similarity in the network of DUX4-activated genes between cell lines. For example, the network of DUX4-activated genes in mice is not similar to that found in human cell lines.
+6) Lines 123-124: The author stated that the sorted cell line as robust cell death upon doxycycline addition without providing any data related to that.
+7) Line 201: The author chose two doxycycline concentrations to perform the screen. However, the author hasn’t provided any evidence about their cytotoxicity? Is there any information that can be provided to show that these chosen concentrations are not toxic to the used cell line?
+8) Lines 221-22: Please be consistent in the “rtTA3” nomenclature.
+9) Line 300: “virtual” is not a written English.
+10) Line 312: Please put “of” between “…as well as levels” and DUX4 expression.
+11) Line 317: Please remove “its” from the sentence.
+12) Line 331: Please replace “effect” with affect.
+13) Line 339: “Despite our library only TARGETS protein-coding genes…
+14) Line 340: “…picked up any mitigating non-coding gRNAs…”.
+15) Line 430: “BsmBI sites with directly adjacent TO the tracrRNA sequence…”.
+16) Line 441: “…extracted by addition OF chloroform…”.
+17) Line 479 and 483: 600 thousands reads should be written with a comma not at dot.
+18) Line 532: is it 6-7 days?
+19) Figure 2E: The colors of the different dots are indistinguishable. Please chose better representation of the data.
+20) Figure 4E: the authors measured number of eGFP positive cells. Measuring eGFP fluorescent intensity is more accurate as a representation of knock-out efficiency.
+Reviewer #3: This is an important study demonstrating DUX4 is the only key effector for FSHD disease. It was shown that no single gene knockout other than DUX4 could rescue DUX4-triggered apoptosis in their transgene model. The study is well done, and the paper is nicely prepared. There are few comments;
+Minore;
+1- in line 29, "...identify essential genes or genes that are lethal." could this sentence be re-written to prevent redundancy in genes and genes words? or could the "essential genes" be deleted and only use "...genes..." in this sentence?
+2- Authored mentioned that only DUX4 knockout can rescue DUX4-triggered apoptosis in their in vitro system. They used CRISPR-Cas9 gRNA to knockout the DUX4 gene, but we know that DUX4 and other DUX genes in the human genome have very similar sequences. Do authors think that their gRNA may target all DUX genes, including DUXA, DUXC, etc., along with DUX4? If true, Do authors believe that it is difficult to say that only DUX4 knockout is essential for preventing apoptosis? Please explain more in this case.
+3- Authors used 24 and 72 hours as early and late time points for doxycycline treatment (204-205). Since DUX4 is so toxic and its expression in patient biopsies is very low which can not be detected easily by western blot or qRT-PCR, do author think that timepoints below 24hr may show lower cell a different pattern of gene expression they found in 24hr and 72hr more relevant to FSHD patient ones?
+4- Recently published paper shows that DUX4 mRNA silencing using U7-snRNA can prevent apoptosis in FSHD patient myoblasts and myotubes and reduce DUX4-activated biomarkers (DOI:https://doi.org/10.1016/j.omtn.2020.12.004). Authors can compare their results with this study's results since both demonstrate the importance of DUX4 silencing as a disease modulator.
+**********
+6. PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #2: No
+Reviewer #3: No
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com/. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Registration is free. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email PLOS at figures@plos.org. Please note that Supporting Information files do not need this step.
+10.1371/journal.pone.0263262.r002Author response to Decision Letter 0
+Submission Version1
+25 Oct 2021
+
+Reviewer #1: The manuscript by Ashoti et al. describes a CRISPR/Cas9 rescue screen for modulators of DUX4 toxicity in adherent leukemic cells stably transduced with a lentiviral vector carrying a doxycycline-inducible DUX4 transgene. Unfortunately, the study did not find target genes that could mitigate DUX4 toxicity. The article is easy to understand and well written. I have several comments
+* This kind of approach is not new: 1 group has already published a similar approach in muscle cells (Lek et al, Science Translational medicine 2020); 1 group performed a siRNA screen in RD cells (Shadle et al, Plos Genetivs 2017). Lek identified hypoxia signalling inhibitors that attenuate DUX4-induced cell death and Shadle identified MYC-mediated apoptotic pathway and components of the double-stranded RNA (dsRNA) innate immune response. None of these pathways were not found in the current study. This can be related to the cellular system and/or method used. It would be useful to compare the sensitivity to death of myoblasts, adherent leukemic cells and RD cells. Does a same level of DUX4 leads to similar cell death? This could impact the interpretation of the results.
+- We thank the reviewer for the thoughtful and encouraging comments on our manuscript. We compared DUX4 expression between the different manuscripts and observed that the inducible cell model in the Shadle et al. and the Lek et al. screens (see figure below) showed approximately a 100-fold increase in DUX4 expression when comparing induced (4h/8h) to uninduced RD cells (see figure below). Our qPCR data show between 45-89-fold difference in DUX4 expression between 8h-induced DIE cells and uninduced DIE cells. Thus, the induction of DUX4 expression falls approximately in the same range between the different manuscripts. This suggests that indeed a same level of DUX4 leads to similar death in the different cell systems used.
+Shadle et al. 2017. Supp. Figure 5
+- As the reviewer suggested, some of the differences in findings can indeed be explained by the differences in cellular systems that were used in the different manuscripts. For example, myoblasts (used in Lek et al.) respond differently to hypoxia, compared to tumor/cancer cells that we used that have adapted to thrive even through hypoxic conditions. 
+- With respect to the question whether DUX4 expression leads to similar death: one explanation for the differences between the manuscripts is that DUX4-induced apoptosis can occur in multiple ways, and that inhibiting hypoxia-induced apoptosis might not always rescue DUX4-affected cells. 
+* The differentially expressed genes have been compared with 4 other studies. Did the authors also compare their results with the Lek study? It may help to find muscle specific targets.
+- We have compared our result with the Lek study. The Lek study found 18 enriched hits. When overlapping these hits with our data, only MED25 was shared as significantly enriched in all our datasets. MED16 and MED24 also showed some enrichment, but most guides did not reach statistical significance (LFC > 1, -log10(p-value) >2) in most of the screens. SIN3B also showed a small but significant enrichment in the early-screen datasets, with 3 out of the 4 guides. However, this gene lies on chromosome 19p, to which the DUX4 transgene has also integrated, and was therefore filtered out of our analysis. Thus, while we have indications that we identified muscle-specific genes, they did not reach statistical significance, which was true for other genes as well. 
+* Fig1: the chronology for the different experiments is not clearly indicated. From E, it seems that all the cells are dead, but if so, how to nalyse the genes downstream of DUX4?
+- We have changed the order of the graphs as well as the figure legends to clarify the chronology and the methods of the different experiments.
+- The cells in figure 1E were treated with doxycycline for at least 24hours. We clarified this in the text. This exposure allowed us to see surviving DUX4 knockout cells when cells were treated with Cas9 and DUX4 sgRNA. However, to analyze downstream DUX4 targets, we used a time frame of 4.5-8.5 hours of doxycycline treatment. This allows us to see the early events that are triggered upon doxycycline induction.
+* Fig1F: A two-tailed student t-test is not the right test to perform when more than 2 populations are compared. 
+-We always only compared 2 populations. We clarified this in the figure.
+* qPCR analysis: Are the MIQE guidelines followed? Which statistical analysis was performed to choose HPRT as the normalizer?
+- We followed the MIQE guidelines and added additional information to the Material and methods section, to clarify the procedure in more detail, and to comply as much as possible to the MIQE guidelines. We chose HPRT (after testing 3 different loading controls), after verifying that HPRT did not change more than 2 Ct values between all the different samples (so between treated and untreated). Thus, doxy exposure does not significantly affect HPRT. 
+* The authors removed false-positive hits that resulted from Cas9-mediated elimination of either the DUX4 or the rtTA transgenes on chromosomes 5q and 19p. However, they did not remove the false positive hits on chromosome 15, which correlates to the region that has integrated on chromosome 19p. Why?
+- We did not remove these hits as they are related to the MED25 gene, and not the transgene. While these hits turned out to be a false positive, they did not obscure the rest of the data. We also corrected a typo in the text: chromosome 19p should be 19q. 
+Minor:
+* L186: DUX4 is not described as an “activating” factor.
+- We have adjusted this in the text.
+* A drawing of the generation of the DIE cells, including the final cassettes, might be useful.
+- We have added an updated figure 1A that includes the different constructs that were used and included also the final DUX4 cassette, that allows doxycycline-inducible DUX4 expression.
+* According to NCBI primer blast website, the forward primer for PRAMF1 contains 1 mutation.
+- We thank the reviewer for his sharp eye. The sequence of the primers for PRAMEF1 come from a previously published paper: * Ferreboeuf, M. et al. DUX4 and DUX4 downstream target genes are expressed in fetal FSHD muscles. Hum. Mol. Genet. 23, 171–181 (2014)
+- The “mutation” is at position 17 of the primer, so at the 5’ end of the primer. The first 16 base pairs are complementary, and the qPCR raw data showed a clear melting curve with only one significant peak. We are therefore confident that the primers yielded the correct PCR product. 
+- Also, the primer sequence was derived from a paper from Ferreboeuf et al. from 2014. The sequence could be a SNV (which would be a missense mutation), which is also indicated as a possibility in ENSEMBL. 
+
+https://www.ensembl.org/Homo_sapiens/Variation/Mappings?db=core;g=ENSG00000116721;r=1:12791397-12796628;t=ENST00000332296;v=rs1063776;vdb=variation;vf=803761#ENST00000332296_803761_C_tablePanel
+
+* L174: PAX5 is not described to be linked to FSHD. Only PAX7 was. PAX5 was described to be subject to allele-specific regulation during B-lymphopoiesis (Nutt, 
+1999).
+- Indeed, PAX5 is expressed in blood cells and is important in B-cell development. Upon comparing gene expression profiles similar to that induced by DUX4, we found a correlation with our DUX4-induced genes and a study that identified PAX5-induced genes. This can be explained by the fact that both DUX4 and PAX genes are homeodomain factors and both bind to homeodomain-binding motifs.
+* The paragraph about the Shadle article should be in the discussion along with a paragraph on the Lek paper.
+- We added information to this paragraph that included and discussed the Lek paper.
+Reviewer #2: Title: A CRISPR/Cas survival screen reveals unexpected mechanisms of rescue
+By Ashoti, A. et al.
+Ashoti, A. et al. performed an exhaustive genome-wide CRISPR/Cas9 phenotypic rescue screen to identify modulators of cytotoxicity induced by DUX4, a transcription factor that causes Facioscapulohumeral muscular dystrophy (FSHD). Ashoti, A. et al. was not able to find key effectors other than DUX4.
+Major comments:
+Ashoti, A. et al. aim was to find downstream effectors of DUX4-induced activation of gene expression for the purpose to find potential therapeutic targets or treatment options. By using a doxycycline-inducible cell line, Ashoti, A. et al. was not able to find effectors other than DUX4. Their take home message was to emphasize on the importance of the chosen cell line and CRISPR/Cas9 gRNA library when performing a CRISPR/Cas9 loss-of-function screens. Overall, the paper was well written and does not raise major concerns.
+>We thank the reviewer for these comments.
+Minor comments:
+1) The abstract has some redundant sentences. Also, please write FSHD in full with FSHD abbreviation between brackets. In lines 35-36, the authors put a strong statement about FSHD onset. In some FSHD patients, muscle weakness starts elsewhere.
+- We have changed the wording in the text to make the statement less strong: “As the name implies, FSHD generally starts in the muscles of the face and shoulder girdle”.
+2) Some additional clarifications need to be addressed in figure legends to allow the reader to understand the data without going back to the main text (e.g. state doxycycline concentration, time points, and statistics such as number of replicates etc…).
+- We have added clarifications in the figures legends that allows the reader to understand them without having to go back to the main text.
+3) Line 51: Please find another synonym to manipulability.
+- We have changed it to “adaptability”
+4) Line 64: “disorderS” in plural. 
+- We have adjusted this.
+5) Lines 86-90: The author has to be careful in its statement about the similarity in the network of DUX4-activated genes between cell lines. For example, the network of DUX4-activated genes in mice is not similar to that found in human cell lines.
+- We have changed the text to clarify this. “The network of genes activated by pioneer factors is therefore less affected by cellular identity, in the human context.” 
+- 
+6) Lines 123-124: The author stated that the sorted cell line as robust cell death upon doxycycline addition without providing any data related to that.
+- We have added FACS data using Annexin5 staining that quantified the portion of DIE cells that stained positive for this marker upon doxycycline induction: 24h after doxycycline treatment only 0.5% of the DIE cells survived compared to 91% of untreated cells. We have added this information to Suppl. Figure 2.
+7) Line 201: The author chose two doxycycline concentrations to perform the screen. However, the author hasn’t provided any evidence about their cytotoxicity? Is there any information that can be provided to show that these chosen concentrations are not toxic to the used cell line?
+Our data demonstrate that the toxicity of doxycycline is mediated by DUX4 expression and not by toxicity of doxycycline. We have shown this in a number of ways, using a high concentration of doxycline (1000nl/ml), which was the highest concentration in the screens. We observed the following:
+1. We have shown that doxycycline (1000ng/ml) does not induce cell death in the DIE cell line when DUX4 was knocked out (DIE-KO) (Fig. 1E).
+2. When comparing gene expression in untreated versus doxycycline (1000ng/ml)-treated DIE cells or DIE-KO cells, there was a robust induction of gene expression in treated DIE cells compared to untreated cells but not in treated DIE-KO cells compared to untreated cells.
+3. We have examined cell death in the parental cell line treated with doxycycline (1000ng/ml), treated or untreated DIE cells by live cell imaging and observed a very robust induction of cell death in treated DIE cells but not in untreated DIE cells or the treated parental cell line. The small induction of cell death in untreated DIE cells or the treated parental cell line can be attributed to the suboptimal conditions at the microscope. 
+Altogether, these data show that with the highest doxycycline concentration there is little toxic effect on the cells. 
+8) Lines 221-22: Please be consistent in the “rtTA3” nomenclature. 
+- We have adjusted this in the figures and in the text.
+9) Line 300: “virtual” is not a written English.
+- We have changed this to “virtual”.
+10) Line 312: Please put “of” between “…as well as levels” and DUX4 expression.
+- We have adjusted this.
+11) Line 317: Please remove “its” from the sentence.
+- We have removed ‘its’.
+12) Line 331: Please replace “effect” with affect.
+- We have replaced it.
+13) Line 339: “Despite our library only TARGETS protein-coding genes…
+- We have changed it to “While sgRNAs in our library only target protein-coding genes …”
+14) Line 340: “…picked up any mitigating non-coding gRNAs…”. –
+- We have changed it to RNAs.
+15) Line 430: “BsmBI sites with directly adjacent TO the tracrRNA sequence…”.
+- We have adjusted this.
+16) Line 441: “…extracted by addition OF chloroform…”.
+- We have adjusted this.
+17) Line 479 and 483: 600 thousands reads should be written with a comma not at dot.
+- We have adjusted this.
+18) Line 532: 6-7 
+- We have adjusted this to 6-7 days.
+19) Figure 2E: The colors of the different dots are indistinguishable. Please chose better representation of the data.
+- We have changed the colors and have also made every sample a different bullet point, to better represent the data. 
+20) Figure 4E: the authors measured number of eGFP positive cells. Measuring eGFP fluorescent intensity is more accurate as a representation of knock-out efficiency.
+- We have clarified the figure to indicate that on the Y-axis the GFP intensity is shown. 
+Reviewer #3: This is an important study demonstrating DUX4 is the only key effector for FSHD disease. It was shown that no single gene knockout other than DUX4 could rescue DUX4-triggered apoptosis in their transgene model. The study is well done, and the paper is nicely prepared. There are few comments;
+Minore;
+1- in line 29, "...identify essential genes or genes that are lethal." could this sentence be re-written to prevent redundancy in genes and genes words? or could the "essential genes" be deleted and only use "...genes..." in this sentence? 
+- We have adjusted this to remove the redundant part.
+2- Authored mentioned that only DUX4 knockout can rescue DUX4-triggered apoptosis in their in vitro system. They used CRISPR-Cas9 gRNA to knockout the DUX4 gene, but we know that DUX4 and other DUX genes in the human genome have very similar sequences. Do authors think that their gRNA may target all DUX genes, including DUXA, DUXC, etc., along with DUX4? If true, Do authors believe that it is difficult to say that only DUX4 knockout is essential for preventing apoptosis? Please explain more in this case.
+- Since we have overexpressed DUX4 and other DUX genes are not expressed (except for the DUX4 transgene), there will not be an effect of the gRNA targeting DUX4.
+- We introduced DUX4 as a doxycycline-inducible transgene, and upon doxycycline admission the cells died. This cell death is rescued with 6 different DUX4-specific guides.
+- The sgRNAs were designed so that they would specifically target the gene that they were designed for. Given the little overlap in sequence between DUX4 and the other DUX genes, the chance of a guide RNA that targets DUX4 to target other DUX genes is negligible.
+3- Authors used 24 and 72 hours as early and late time points for doxycycline treatment (204-205). Since DUX4 is so toxic and its expression in patient biopsies is very low which can not be detected easily by western blot or qRT-PCR, do author think that timepoints below 24hr may show lower cell a different pattern of gene expression they found in 24hr and 72hr more relevant to FSHD patient ones?
+- We agree with the reviewer that time points shorter than 24h will show gene expression that is more relevant to FSHD patients. In a system where DUX4 expression is inducible, these shorter time points will show DUX4-induced expression and provides insight into the network of genes that is induced downstream of DUX4. Given this, we analyzed gene expression in DIE cells 4.5h or 8.5h after doxycycline induction (Fig. 2A). 
+- In contrast, in our screen we allowed the induced DIE cells to recover after doxycycline exposure for 24h or 72h respectively. This allowed amplification of the surviving cells, and subsequent identification of the guide RNA in the surviving cells. At earlier time points, we would have taken along a lot of cells that are in the process of dying. This would give too much background. 
+4- Recently published paper shows that DUX4 mRNA silencing using U7-snRNA can prevent apoptosis in FSHD patient myoblasts and myotubes and reduce DUX4-activated biomarkers (DOI:https://doi.org/10.1016/j.omtn.2020.12.004). Authors can compare their results with this study's results since both demonstrate the importance of DUX4 silencing as a disease modulator.
+- Similar to this paper, we also show that abrogating DUX4 expression prevents apoptosis in our cell line, underscoring the importance of DUX4 as a therapeutic target. In our paper we focused on identifying DUX4 targets that account for its toxic effect, with the hope to find potential targets in addition to DUX4. We clarified the importance of DUX4 silencing as a disease modulator in the manuscript.
+AttachmentSubmitted filename: Rebuttal reviewers PloS ONE_Final.docx
+Click here for additional data file.
+10.1371/journal.pone.0263262.r003Decision Letter 1
+FujiiHodakaAcademic Editor© 2022 Hodaka Fujii2022Hodaka Fujiihttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version1
+29 Nov 2021
+
+PONE-D-21-15750R1Considerations and practical implications of performing a phenotypic CRISPR/Cas survival screen
+PLOS ONE
+Dear Dr. Geijsen,
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+In Fig. 1F, the student t-test cannot be used as the Reviewer 1 correctly pointed out. This is because you were implicitly comparing 6 samples and performed multiple t-tests. In such cases, “Even if all null hypotheses were true, the chance that at least one of these P values would be less than 0.05 by coincidence is far higher than 5%.” (from “Intuitive Biostatistics”, Oxford University Press, pp. 255). In fact, this is the most common error in scientific publications. Please use ANOVA as  the Reviewer 1 suggested. Also, please read a textbook of statistics such as one mentioned above and get assistance from statisticians about this issue.
+In addition, as the Reviewer 1 pointed out, the MIQE guideline (PMID: 19246619) states in “8.1 normalization” that “Normalization against a single reference gene is not acceptable unless the investigators present clear evidence for the reviewers that confirms its invariant expression under the experimental conditions described. The optimal number and choice of reference genes must be experimentally determined and the method reported (PMIDs: 12184808; 11972351; 15289330).” Please follow their guidelines to show your reference genes are suitable for normalization. I was also not convinced by your argument about Ct values.
+Please submit your revised manuscript by Jan 13 2022 11:59PM. If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosone@plos.org. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+Please include the following items when submitting your revised manuscript:A rebuttal letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+If you would like to make changes to your financial disclosure, please include your updated statement in your cover letter. Guidelines for resubmitting your figure files are available below the reviewer comments at the end of this letter.
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: https://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols. Additionally, PLOS ONE offers an option for publishing peer-reviewed Lab Protocol articles, which describe protocols hosted on protocols.io. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols.
+We look forward to receiving your revised manuscript.
+Kind regards,
+Hodaka Fujii, M.D., Ph.D.
+Academic Editor
+PLOS ONE
+Journal Requirements:
+Please review your reference list to ensure that it is complete and correct. If you have cited papers that have been retracted, please include the rationale for doing so in the manuscript text, or remove these references and replace them with relevant current references. Any changes to the reference list should be mentioned in the rebuttal letter that accompanies your revised manuscript. If you need to cite a retracted article, indicate the article’s retracted status in the References list and also include a citation and full reference for the retraction notice.
+[Note: HTML markup is below. Please do not edit.]
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+1. If the authors have adequately addressed your comments raised in a previous round of review and you feel that this manuscript is now acceptable for publication, you may indicate that here to bypass the “Comments to the Author” section, enter your conflict of interest statement in the “Confidential to Editor” section, and submit your "Accept" recommendation.
+Reviewer #1: All comments have been addressed
+Reviewer #3: All comments have been addressed
+**********
+2. Is the manuscript technically sound, and do the data support the conclusions?
+The manuscript must describe a technically sound piece of scientific research with data that supports the conclusions. Experiments must have been conducted rigorously, with appropriate controls, replication, and sample sizes. The conclusions must be drawn appropriately based on the data presented. 
+Reviewer #1: Yes
+Reviewer #3: Yes
+**********
+3. Has the statistical analysis been performed appropriately and rigorously? 
+Reviewer #1: No
+Reviewer #3: Yes
+**********
+4. Have the authors made all data underlying the findings in their manuscript fully available?
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.
+Reviewer #1: Yes
+Reviewer #3: Yes
+**********
+5. Is the manuscript presented in an intelligible fashion and written in standard English?
+PLOS ONE does not copyedit accepted manuscripts, so the language in submitted articles must be clear, correct, and unambiguous. Any typographical or grammatical errors should be corrected at revision, so please note any specific errors here.
+Reviewer #1: Yes
+Reviewer #3: Yes
+**********
+6. Review Comments to the Author
+Please use the space provided to explain your answers to the questions above. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. (Please upload your review as an attachment if it exceeds 20,000 characters)
+Reviewer #1: Overall, the authors responded to questions and comments. However, I do not approve of the way the reference gene was chosen for the qPCR (no statistical analysis but instead they verify that the reference gene did not change more than 2 Ct values between all the different samples). Why 2 Ct values? how do you know if 2Ct is acceptable? an ANOVA analysis should have been performed.
+For fig.1F, I previously mentioned that A two-tailed student t-test is not the right test to perform when more than 2
+populations are compared. The authors answered that they always only compared 2 populations. But again, this is not rigorous when you have several populations on the same graph. Again, a one-way ANOVA should have been used and not a T-test.
+Reviewer #3: This is a very well written paper and authors appropriately addressed all reviewer's comments. The manuscript is acceptable to be published.
+**********
+7. PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #3: No
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com/. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Registration is free. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email PLOS at figures@plos.org. Please note that Supporting Information files do not need this step.
+10.1371/journal.pone.0263262.r004Author response to Decision Letter 1
+Submission Version2
+24 Dec 2021
+
+Rebuttal letter revision
+In Fig. 1F, the student t-test cannot be used as the Reviewer 1 correctly pointed out. 
+>In Fig. 1D as well as in Fig. 1F, we have re-analyzed our data using ANOVA analysis (using Prism software). We have indicated the significance in our graphs for the relevant comparisons and can provide the ANOVA analysis if needed. 
+While we acknowledge errors in the prior analysis, the raw data unequivocally prove induction of doxycycline-mediated DUX4 expression in DIE cells, as well as DUX4-mediated gene expression. We have now plotted the data as fold change (2^-ddCt) upon doxycycline treatment. Upon comparing doxycycline-mediated induction of DUX4 or DUX4 target genes, only doxycycline treatment in DIE cells yielded significant induction of these genes. We also included different doses of doxycyline demonstrating dose-dependent induction of DUX4 expression in DIE cells.
+In addition, as the Reviewer 1 pointed out, the MIQE guideline (PMID: 19246619) states in “8.1 normalization” that “Normalization against a single reference gene is not acceptable unless the investigators present clear evidence for the reviewers that confirms its invariant expression under the experimental conditions described. The optimal number and choice of reference genes must be experimentally determined and the method reported (PMIDs: 12184808; 11972351; 15289330).” Please follow their guidelines to show your reference genes are suitable for normalization. I was also not convinced by your argument about Ct values.
+>We agree with the reviewer that clear evidence should be presented for the invariant expressioni of reference genes. We included (1) data showing that doxycycline treatment does not influence gene expression in DIE cells, using three reference genes (HPRT, 18S and GAPDH) and (2) data showing the invariant expression of HPRT under the described experimental conditions (Suppl. Fig. S2).
+AttachmentSubmitted filename: Rebuttal letter revision.docx
+Click here for additional data file.
+10.1371/journal.pone.0263262.r005Decision Letter 2
+FujiiHodakaAcademic Editor© 2022 Hodaka Fujii2022Hodaka Fujiihttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.Submission Version2
+18 Jan 2022
+
+Considerations and practical implications of performing a phenotypic CRISPR/Cas survival screen
+PONE-D-21-15750R2
+Dear Dr. Geijsen,
+We’re pleased to inform you that your manuscript has been judged scientifically suitable for publication and will be formally accepted for publication once it meets all outstanding technical requirements.
+Within one week, you’ll receive an e-mail detailing the required amendments. When these have been addressed, you’ll receive a formal acceptance letter and your manuscript will be scheduled for publication.
+An invoice for payment will follow shortly after the formal acceptance. To ensure an efficient process, please log into Editorial Manager at http://www.editorialmanager.com/pone/, click the 'Update My Information' link at the top of the page, and double check that your user information is up-to-date. If you have any billing related questions, please contact our Author Billing department directly at authorbilling@plos.org.
+If your institution or institutions have a press office, please notify them about your upcoming paper to help maximize its impact. If they’ll be preparing press materials, please inform our press team as soon as possible -- no later than 48 hours after receiving the formal acceptance. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information, please contact onepress@plos.org.
+Kind regards,
+Hodaka Fujii, M.D., Ph.D.
+Academic Editor
+PLOS ONE
+Additional Editor Comments (optional):
+Reviewers' comments:
+Reviewer's Responses to Questions
+
+Comments to the Author
+
+1. If the authors have adequately addressed your comments raised in a previous round of review and you feel that this manuscript is now acceptable for publication, you may indicate that here to bypass the “Comments to the Author” section, enter your conflict of interest statement in the “Confidential to Editor” section, and submit your "Accept" recommendation.
+Reviewer #3: All comments have been addressed
+**********
+2. Is the manuscript technically sound, and do the data support the conclusions?
+The manuscript must describe a technically sound piece of scientific research with data that supports the conclusions. Experiments must have been conducted rigorously, with appropriate controls, replication, and sample sizes. The conclusions must be drawn appropriately based on the data presented. 
+Reviewer #3: Yes
+**********
+3. Has the statistical analysis been performed appropriately and rigorously? 
+Reviewer #3: Yes
+**********
+4. Have the authors made all data underlying the findings in their manuscript fully available?
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.
+Reviewer #3: Yes
+**********
+5. Is the manuscript presented in an intelligible fashion and written in standard English?
+PLOS ONE does not copyedit accepted manuscripts, so the language in submitted articles must be clear, correct, and unambiguous. Any typographical or grammatical errors should be corrected at revision, so please note any specific errors here.
+Reviewer #3: Yes
+**********
+6. Review Comments to the Author
+Please use the space provided to explain your answers to the questions above. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. (Please upload your review as an attachment if it exceeds 20,000 characters)
+Reviewer #3: This is an important paper and the authors appropriately addressed all comments. The paper is acceptable to be published.
+**********
+7. PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #3: No
+10.1371/journal.pone.0263262.r006Acceptance letter
+FujiiHodakaAcademic Editor© 2022 Hodaka Fujii2022Hodaka Fujiihttps://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+24 Jan 2022
+
+PONE-D-21-15750R2 
+Considerations and practical implications of performing a phenotypic CRISPR/Cas survival screen 
+Dear Dr. Geijsen:
+I'm pleased to inform you that your manuscript has been deemed suitable for publication in PLOS ONE. Congratulations! Your manuscript is now with our production department. 
+If your institution or institutions have a press office, please let them know about your upcoming paper now to help maximize its impact. If they'll be preparing press materials, please inform our press team within the next 48 hours. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information please contact onepress@plos.org.
+If we can help with anything else, please email us at plosone@plos.org. 
+Thank you for submitting your work to PLOS ONE and supporting open access. 
+Kind regards, 
+PLOS ONE Editorial Office Staff
+on behalf of
+Dr. Hodaka Fujii 
+Academic Editor
+PLOS ONE

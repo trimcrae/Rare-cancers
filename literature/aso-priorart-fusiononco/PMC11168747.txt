@@ -1,0 +1,660 @@
+1894elifeeLifeeLifeeLife Sciences Publications, LtdPMC1116874711168747111687473886517510.7554/eLife.88375RAPSYN-mediated neddylation of BCR-ABL alternatively determines the fate of Philadelphia chromosome-positive leukemia
+ZhaoMengya DaiBeiying LiXiaodong ZhangYixin QiaoChun QinYaru LiZhao LiQingmei WangShuzhen YangYong ChenYijun VermaAmit KReviewing Editor El-DeiryWafik SSenior Editor 1Laboratory of Chemical Biology, School of Life Science and Technology, China Pharmaceutical University, Nanjing, China2State Key Laboratory of Natural Medicines, China Pharmaceutical University, Nanjing, China3Department of Hematology, The First Affiliated Hospital of Nanjing Medical University, Jiangsu Province Hospital, Nanjing, China4Chongqing Innovation Institute of China Pharmaceutical University, Chongqing, China5Albert Einstein College of Medicine, United States6Brown University, United States†These authors contributed equally to this work.
+✉Corresponding author.
+126202412RP88375RP883751262024© 2023, Zhao, Dai, Li et alThis article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited.Previous version available: This article is based on a previously available preprint with doi: .Previous version available: This article is based on a previously available preprint with doi: .Previous version available: This article is based on a previously available preprint with doi: .
+
+## Abstract
+Philadelphia chromosome-positive (Ph+) leukemia is a fatal hematological malignancy. Although standard treatments with tyrosine kinase inhibitors (TKIs) have achieved remarkable success in prolonging patient survival, intolerance, relapse, and TKI resistance remain serious issues for patients with Ph+ leukemia. Here, we report a new leukemogenic process in which RAPSYN and BCR-ABL co-occur in Ph+ leukemia, and RAPSYN mediates the neddylation of BCR-ABL. Consequently, neddylated BCR-ABL enhances the stability by competing its c-CBL-mediated degradation. Furthermore, SRC phosphorylates RAPSYN to activate its NEDD8 E3 ligase activity, promoting BCR-ABL stabilization and disease progression. Moreover, in contrast to in vivo ineffectiveness of PROTAC-based degraders, depletion of RAPSYN expression, or its ligase activity decreased BCR-ABL stability and, in turn, inhibited tumor formation and growth. Collectively, these findings represent an alternative to tyrosine kinase activity for the oncoprotein and leukemogenic cells and generate a rationale of targeting RAPSYN-mediated BCR-ABL neddylation for the treatment of Ph+ leukemia.
+Research organism: Mouse
+
+## eLife digest
+Chronic myeloid leukemia (CML for short) accounts for about 15% of all blood cancers diagnosed in adults in the United States. The condition is characterized by the overproduction of immature immune cells that interfere with proper blood function. It is linked to a gene recombination (a type of mutation) that leads to white blood cells producing an abnormal ‘BCR-ABL’ enzyme which is always switched on. In turn, this overactive protein causes the cells to live longer and divide uncontrollably.
+Some of the most effective drugs available to control the disease today work by blocking the activity of BCR-ABL. Yet certain patients can become resistant to these treatments over time, causing them to relapse. Other approaches are therefore needed to manage this disease; in particular, a promising avenue of research consists in exploring whether it is possible to reduce the amount of the enzyme present in diseased cells.
+As part of this effort, Zhao, Dai, Li, Zhang et al. focused on RAPSYN, a scaffolding protein previously unknown in CML cells. In other tissues, it has recently been shown to participate in neddylation – a process by which proteins receive certain chemical ‘tags’ that change the way they behave. The experiments revealed that, compared to healthy volunteers, RAPSYN was present at much higher levels in the white blood cells of CML patients. Experimentally lowering the amount of RAPSYN in CML cells led these to divide less quickly – both in a dish and when injected in mice, while also being linked to decreased levels of BCR-ABL.
+Additional biochemical experiments indicated that RAPSYN sticks with BCR-ABL to add chemical ‘tags’ that protect the abnormal protein against degradation, therefore increasing its overall levels.
+Finally, the team showed that SRC, an enzyme often dysregulated in emerging cancers, can activate RAPSYN’s ability to conduct neddylation; such mechanism could promote BCR-ABL stabilization and, in turn, disease progression.
+Taken together, these experiments indicate a new way by which BCR-ABL levels are controlled. Future studies should investigate whether RAPSYN also stabilizes BCR-ABL in patients whose leukemias have become resistant to existing drugs. Eventually, RAPSYN may offer a new target for overcoming drug-resistance in CML patients.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoCollection date 2024.
+
+## Introduction
+Philadelphia chromosome-positive (Ph+) leukemia is a myeloproliferative neoplasm characterized by the reciprocal translocation between the long arms of chromosomes 9 and 22, t (9;22) (q34.1; q11.2) ( ; ). This cytogenetic abnormality results in a BCR-ABL fusion gene, which encodes the chimeric protein BCR-ABL with enhanced tyrosine kinase activity ( ). Based on its oncogenic role in Ph+ leukemia, BCR-ABL has been regarded as the most pivotal target for Ph+ leukemia therapy, especially for chronic myeloid leukemia (CML). Tyrosine kinase inhibitors (TKIs) have been the main treatment option for Ph+ leukemia, remarkably prolonging the patients’ lifespan and improving their quality of life ( ; ). However, most patients develop TKI resistance and relapse after long-term treatment ( ). It is worth noting that the increase of BCR-ABL expression can affect the sensitivity to TKIs and eventually determine the rate of TKI resistance in patients with Ph+ leukemia in addition to the mutations in the kinase domain ( ). Mutations in the kinase domain can change the conformation of BCR-ABL, thus interfering with the binding between TKIs and BCR-ABL and resulting in decreased therapeutic efficacy ( ). In parallel, the increase of BCR-ABL expression can affect the sensitivity to TKIs and eventually determine the rate of disease progression and TKI resistance in patients with Ph+ leukemia ( ). Therefore, effective degradation of BCR-ABL could address the issues on TKI resistance and leukemia-initiating cells (LICs), and PROTAC-based protein degradation strategy may represent a new therapeutic approach ( ). Currently, based on different ubiquitin E3 ligases, including VHL, CRBN, and IAP, PROTAC-based degraders at nM level have shown significant degradation of BCR-ABL in CML cell lines, cell lines carrying mutations in BCR-ABL as well as patient-derived primary cells containing multiple BCR-ABL mutations ( ; ; ; ; ; ). Unfortunately, the excellent cellular activity by the PROTAC-based degraders has not been able to translate to in vivo efficacy, even in rare examples of xenografted mouse models ( ; ), resulting in uncertain usefulness of these degraders. Nonetheless, the unsatisfactory results are not really surprising because the underlying mechanism of elevated BCR-ABL expression remains largely unclear.
+Receptor-associated protein of the synapse (RAPSYN) has been identified as a classic synaptic adaptor protein that binds to the acetylcholine receptor (AChR) and several cytoskeleton-associated proteins, contributing to AChR clustering and neuromuscular junction formation ( ; ). Later, RAPSYN was found to exert NEDD8 E3 ligase activity to catalyze the neddylation for AChR aggregation ( ). Despite the extensive studies of RAPSYN in muscular and neuronal cells and tissues ( ; ), with regard to its involvement in leukemogenesis, there is no available information thus far except for our previous finding. Previously, RAPSYN was found to be located in the cytosol of the typical Ph+ leukemia cell line K562 when a small molecule was used to probe its binding proteins using a proteomics approach ( ). Because of its newly identified E3 ligase activity for neddylation and its occurrence in the Ph+ leukemia cell line, we speculated that RAPSYN might contribute to Ph+ leukemia development through its enzymatic activity instead of only serving as a scaffolding protein.
+As a type of post-translational modification (PTM), neddylation is sequentially catalyzed by the neuronal precursor cell-expressed developmentally downregulated protein 8 (NEDD8)-activating enzyme E1 (NAE1), NEDD8-conjugating enzyme E2 (UBE2M/UBC12 or UBE2F), and a substrate-specific NEDD8 E3 ligase to complete the covalent conjugation of NEDD8 to a lysine residue of its substrates ( ; ). The neddylation of proteins can be reversed by deneddylases such as NEDP1. In the last two decades, accumulating evidence indicated the strong involvement of dysregulated neddylation in tumor progression, neurodegenerative and cardiac diseases, aberrant immunoregulation and others ( ; ; ; ), which rationalizes the modulation of neddylation as a feasible therapeutic strategy.
+In this study, we report that RAPSYN is highly expressed along with BCR-ABL in patients with Ph+ leukemia and promotes disease progression, presumably by stabilizing the BCR-ABL fusion protein via neddylation. The neddylation of BCR-ABL by RAPSYN subsequently competes its ubiquitination-dependent degradation to increase the stability of BCR-ABL. Additionally, the NEDD8 E3 ligase activity of RAPSYN can be substantially increased by SRC-mediated phosphorylation, leading to enhanced stability and activity of RAPSYN.
+
+## Results
+
+## High protein levels of RAPSYN promoted Ph+ leukemia progression
+Prior to investigating the biological roles of RAPSYN in the pathogenesis of Ph+ leukemia, its expression at both mRNA and protein levels was analyzed. We analyzed mRNA levels of RAPSN in RNA-seq datasets of GSE13204, GSE13159, GSE138883, and GSE140385, and no difference of RAPSN mRNA levels in peripheral blood mononuclear cells (PBMCs) was found between CML patients and healthy donors ( ). Neither a publicly available database nor our collection of patient samples and cell lines showed a significant increase in mRNA levels ( ). The protein levels of RAPSYN were substantially elevated in the PBMCs of Ph+ CML (#8–11) and the bone marrow of ALL (#7) patient samples in comparison to that of healthy donors (#1–6), which was in a direct accordance with the expression of BCR-ABL ( ). This co-expression of RAPSYN and BCR-ABL was also found in Ph+ cell lines ( ), suggesting that the function of RAPSYN in Ph+ leukemia could be closely related to BCR-ABL.
+ 
+To examine the relationship between RAPSYN and Ph+ leukemia progression, we first performed knockdown of its expression by using shRNAs. Whereas notable cytotoxicity following marked reduction of RAPSYN was observed in all tested Ph+ leukemia cell lines and CML patient PBMCs ( , ), transduction with the shRNA for RAPSN did not affect cell viability of RAPSYN- and BCR-ABL-negative HS-5 cells, indicating the dependence on the presence and expression level of BCR-ABL. Conversely, exogenous expression of RAPSN rescued Ph+ leukemia cells from shRNA-generated toxicity ( ). Knockdown of RAPSN also changed the phenotypes of Ph+ leukemia cells, including proliferation, G0/G1 cell cycle arrest, and apoptosis ( ).
+Next, we subcutaneously implanted shRAPSN #3- or the empty vector-transduced K562 cells into NCG mice to establish a cell line-derived xenotransplantation mouse model ( ). Tumor growth was significantly inhibited by RAPSN silencing ( , ). Meanwhile, immunoblotting of tumor samples showed a notable downregulation of RAPSYN expression, along with the reduction of BCR-ABL levels ( ). After knockout of RAPSN for remarkable depletion of BCR-ABL expression in K562 cells ( , ), these cells along with the empty vector-transduced K562 cells were intravenously injected into NCG mice to establish the leukemogenic mouse model ( ). Consequently, the survival of tumor-bearing mice was profoundly prolonged by the knockout of RAPSN compared to the controls ( ). Altogether, our findings indicate that RAPSYN is highly expressed at protein level with the accordance to BCR-ABL in Ph+ leukemia and its depletion results in inhibiting the progression of Ph+ leukemia.
+
+## RAPSYN directly neddylated BCR-ABL
+Previous reports determined that both nicotinic AChR subunit α7 and muscarinic AChR subtypes M2, M3, and M4 were involved in the cell proliferation of K562 cells ( ; ). Furthermore, RAPSYN was found to exert its NEDD8 E3 ligase activity toward AChR in neuronal systems ( ). To determine whether RAPSYN functioned in a similar manner in leukemogenic cells, we investigated whether RAPSYN promoted Ph+ leukemia progression through neddylation of AChRs. Despite the expression of AChR subunits α7, M2, M3, and M4 at protein level in all tested Ph+ leukemia cells, no change in their neddylation was observed upon RAPSYN ablation ( ). In addition, we also examined mRNA levels of RAPSYN-related neddylation enzymes, including E1 (NAE1), E2 (UBE2M), NEDD8, and NEDP1, in above GSE databases, and no significant differences of these neddylation-related genes were found between CML patients and healthy donors as well ( ). On the basis of the co-expression of RAPSYN and BCR-ABL, we postulated that RAPSYN could specifically mediate neddylation of BCR-ABL to promote Ph+ leukemia development.
+To test this hypothesis, reciprocal immunoprecipitation was performed to reveal a strong interaction between RAPSYN and BCR-ABL in Ph+ leukemia cells ( , ). Similar results were obtained with exogenous expression in HEK293T cells ( ), further confirming the specific interaction of RAPSYN with BCR-ABL. Furthermore, GST pull-down assay with purified proteins displayed specific binding of GST-tagged RAPSYN to His-tagged BCR-ABL ( ), indicating that BCR-ABL is the primary target of RAPSYN-mediated neddylation. Domain mapping revealed that the Δ1 domain (1–927 aa) of BCR-ABL was responsible for the interaction with RAPSYN ( ).
+ 
+ 
+Next, we studied whether RAPSYN could directly mediate BCR-ABL neddylation. Strong BCR-ABL neddylation could be detected in all Ph+ leukemia cell lines ( , ). More importantly, the neddylation of BCR-ABL was validated by immunoprecipitation using the PBMCs from two CML patients ( ). Treatment with the NAE1 inhibitor, MLN4924, significantly dampened the neddylation of BCR-ABL ( , ). In addition, the mutation of two glycine residues at the C-terminus of NEDD8 required for its covalent conjugating ability, or the co-expression of NEDP1 (NEDD8-specific protease 1) essentially diminished the neddylation of BCR-ABL ( ). As shown in , we co-expressed either WT-RAPSYN or its C366A mutant along with BCR-ABL and NEDD8, revealing that mutation of Cys to Ala at the catalytic residue C366 significantly decreased the neddylation level of BCR-ABL. Additionally, knockout of RAPSN abrogated BCR-ABL neddylation in the cells, and this effect was restored by transduction of RAPSN cDNA ( ). These results were further corroborated by in vitro experiments, which showed that BCR-ABL could hardly be neddylated in the absence of RAPSYN ( ). Consistently, the amount of neddylated BCR-ABL was markedly reduced in tumors generated by K562 cells transfected with shRAPSN#3 ( ), indicating an essential role of the ligase activity of RAPSYN in BCR-ABL neddylation.
+In addition, neither overall BCR-ABL expression nor its neddylation levels were affected after the knockdown of AChRs ( ). Similarly, modulation of AChR activities and their downstream PKC–RAS–ERK and JAK2–AKT signaling pathways ( ; ) by either an agonist (carbachol) ( ) or antagonists (benzethonium and homatropine) ( ) did not alter the expression or neddylation status of BCR-ABL ( ).
+Subsequently, we tried to identified specific modification sites on BCR-ABL. The purified proteins were used for in vitro neddylation reactions, and the target bands were digested with trypsin for liquid chromatography–mass spectrometry (LC–MS/MS) analyses. Eight lysine residues were found to be potential NEDD8 accepting sites in BCR-ABL ( ). To confirm these modification sites, a series of individual Lys-to-Arg mutants were generated. Except for K257, neddylation levels of BCR-ABL at other candidate sites were all significantly reduced, confirming the modification sites of these Lys residues ( ).
+
+## RAPSYN attenuated c-CBL-mediated BCR-ABL ubiquitination and degradation
+As decreased neddylation of BCR-ABL following either MLN4924 treatment or RAPSN KO was accompanied by a strong decline in its overall protein expression level ( and , , and ), we asked whether RAPSYN-mediated BCR-ABL neddylation affects protein stability. Subsequently, the protein synthesis inhibitor CHX was applied to K562 cells transduced with vectors encoding doxycycline-inducible RAPSN shRNA #3. Indeed, the expression levels of BCR-ABL declined much faster in cells with the induction of shRNA expression ( ). Meanwhile, we found that a clear inverse correlation between the neddylation and ubiquitination levels of BCR-ABL was observed ( ). BCR-ABL ubiquitination was remarkably reduced in the cells transfected with NEDD8 ( ). Consistent with these results, treatment of the cells with the proteasome inhibitor MG132 significantly increased the amount of ubiquitinated BCR-ABL accompanied by the decrease of BCR-ABL neddylation ( ).
+ 
+To clarify the molecular basis of the battle between BCR-ABL neddylation and its ubiquitination, we detected that whether RAPSYN competes for binding to BCR-ABL with c-CBL, a reported E3 ligase mediating BCR-ABL ubiquitin–proteasome degradation ( ). As a result, exogenous expression of RAPSN interfered with the interactions between BCR-ABL and c-CBL, whereas RAPSN ablation in K562 cells promoted c-CBL binding to BCR-ABL ( ). These data indicated that RAPSYN competes with c-CBL for binding to BCR-ABL, leading to subsequent BCR-ABL neddylation to enhance BCR-ABL stability by counteracting its proteasomal degradation.
+
+## SRC-mediated phosphorylation stabilized RAPSYN by repressing its proteasomal degradation
+SRC-family protein tyrosine kinases are capable of phosphorylating RAPSYN in neuronal system, among which SRC exerts the strongest function ( ). In addition, SRC has been shown to be highly expressed in primary CML cells ( ). We then studied whether SRC acts as an upstream regulator to mediate RAPSYN. SRC inhibition with saracatinib or shRNA not only significantly downregulated phosphorylated (Tyr418) SRC, but also inhibited the phosphorylation of endogenous RAPSYN, resulting in a substantial decline in its protein level, whereas heterologous expression of SRC increased RAPSYN phosphorylation ( , ). Furthermore, in vitro incubation with recombinant RAPSYN, SRC, and ATP resulted in strong phosphorylation of RAPSYN, which could be fully abrogated by saracatinib treatment ( ). LC–MS/MS analyses indicated that Tyr residues at positions 59, 152, and 336 in RAPSYN are potential phosphorylation sites by SRC ( ). Then, after mutagenesis of these sites from Tyr to Phe, Y336, an evolutionarily conserved Tyr residue, was confirmed to be the primary site of RAPSYN phosphorylation ( , ). As SRC has no effect on RAPSN mRNA levels ( ), implying that SRC-mediated phosphorylation also affects RAPSYN stability. In fact, Ph+ leukemia cells were treated with saracatinib, SRC silencing or mutation of the key phosphorylation site significantly accelerated the diminishment of RAPSYN expression following CHX treatment, conversely, expressing exogenous SRC cDNA prolonged the half-life of RAPSYN ( ).
+ 
+To explore the molecular mechanisms responsible for the increased stability of phosphorylated RAPSYN, Ph+ leukemia cells were treated with saracatinib or transduction of shSRC followed by incubation with MG132. In all circumstances, MG132 could rescue the decrease of RAPSYN induced by saracatinib treatment or shSRC knockdown ( ). Clearly, the specific phosphorylation of RAPSYN at Y336 by SRC led to its increased stability by preventing the proteasomal degradation, thereby maintaining the high levels of RAPSYN in Ph+ leukemia.
+
+## Phosphorylated RAPSYN potentiated its NEDD8 E3 ligase activity and promoted BCR-ABL stabilization
+To dissect the role of SRC-mediated phosphorylation of RAPSYN, we tested whether phosphorylation of RAPSYN at Y336 affects its ligase activity. Immunoblotting revealed saracatinib treatment or SRC silencing reduced BCR-ABL neddylation and its protein expression, while exogenous expression of SRC cDNA strongly increased it ( ). Additionally, co-expression in HEK293T cells showed that Y336F mutation had no impact on BCR-ABL neddylation compared to co-transfection with SRC ( ). These results were supported by stronger neddylation of endogenous BCR-ABL in cells overexpressing WT RAPSN, but not in the Y336F mutant ( ). Furthermore, protein turnover rates of BCR-ABL were determined in Ph+ leukemia cells and the cells with exogenous RAPSNY336F expression displayed larger decrease in BCR-ABL level than those expressing RAPSNWT ( ). Therefore, RAPSYN phosphorylation at Y336 by SRC was a major contributing factor to its NEDD8 E3 ligase activity and BCR-ABL stability in Ph+ leukemia cells.
+ 
+
+## Phosphorylation of RAPSYN at Y336 promoted Ph+ leukemia progression
+To assess the extent to which SRC-mediated phosphorylation of RAPSYN at Y336 contributes to the enhanced viability of RAPSYN-dependent Ph+ leukemia cells, we first identified a specific shSRC by screening five candidates using toxicity tests and then performing rescue experiments with SRC cDNA. Toxicity tests revealed that, albeit to varying degrees, shSRC #2-, #4-, and #5-induced cytotoxicity in all Ph+ leukemia cell lines ( , ). However, exogenous SRC cDNA expression only restored the growth of Ph+ leukemia cells transduced with shSRC #2 ( , ).
+ 
+Subsequently, we performed rescue experiments by introducing RAPSNWT/Y336F cDNA or an empty vector into shSRC #2-transducted Ph+ leukemia cells and found that virtually complete RAPSNWT-induced rescue was detected in both cell lines, but RAPSNY336F exhibited no restoring effect ( ). In addition, transduction of RAPSNWT cDNA conferred an increased resistance against saracatinib treatment, whereas the expression of RAPSNY336F cDNA did not affect the drug sensitivity of the cells ( ). Furthermore, knockdown of RAPSN substantially sensitized both cell lines to saracatinib ( ).
+In animal models, while the overall survival of mice intravenously injected with K562 cells expressing control empty vector was significantly improved by either saracatinib administration or shRNA-mediated SRC inhibition, overexpression of WT RAPSN fully counteracted these effects and shortened the lifespan of mice to the levels comparable to those of mice injected with K562 cells without SRC inhibition. In contrast, expression of exogenous RAPSNY336F attenuated the protective effects of SRC inhibition to a much lesser extent ( ). Taken together, these results suggest that phosphorylation at Y336 by SRC is a major event in the pro-leukemogenic functions of RAPSYN in Ph+ leukemia development.
+
+## Discussion
+In this study, we identified a novel role of RAPSYN in hematology. Indeed, RAPSYN inhibition significantly suppressed the survival of Ph+ leukemia. This phenotype was found to be linked to the NEDD8 E3 ligase activity of RAPSYN, which mediated BCR-ABL neddylation to enhance its stability for promoting leukemogenesis.
+Balanced protein synthesis and degradation are pivotal for maintaining protein homeostasis and normal cellular function. Neddylation is a type of important PTMs that mainly modulates protein stability. Accumulating evidence has shown that targeting the neddylation process could be an appealing strategy for anticancer therapy, with a particular efficacy shown in hematologic malignancies ( ; ; ; ). On the other hand, neddylation is a specific PTM that modifies multiple Lys residues in BCR-ABL, shielding this oncoprotein to compete ubiquitination-mediated degradation, which provides a reasonable explanation on the poor in vivo efficacy of PROTAC-based degraders for BCR-ABL ( ). MLN4924, a NEDD8-activating E1 enzyme inhibitor, has been shown to inhibit the survival of both wild-type (WT) and T315I-BCR-ABL leukemia cells as well as LICs ( ; ; ). Moreover, clinical trials of MLN4924 in combination with anticancer agents in acute myeloid leukemia have progressed to phase II (NCT03745352 and PEVENAZA [NCT04266795]) and III (PANTHER [NCT03268954] and PEVOLAM [NCT04090736]). However, the neddylation system works in a substrate- and context-dependent manner, which essentially defines its role in tumorigenesis as anti or pro, particularly relying on the substrate specificity of the NEDD8 E3 ligase. Neddylation can either facilitate ubiquitination-dependent degradation of its substrates, such as EGFR ( ) and c-SRC ( ), or enhance protein stability in the cases of HuR ( ) and TGF-β type II receptor ( ). Thus, the antitumor effects of MLN4924 are the integrative outcome of inhibiting more pro- than anti-tumorigenic neddylation activities in the reported tumor types. Recent studies uncovered that neddylation could also inhibit tumor progression and MLN4924 stimulates tumor sphere formation and wound healing as well as promotes glycolysis ( ; ; ). Therefore, rather than suppressing the entire neddylation system to affect a wide range of proteins, targeted inhibition of substrate-specific NEDD8 E3 ligase, such as RAPSYN, might offer a potential therapeutic opportunity for more elegant anticancer intervention with fewer side effects.
+Functional studies on RAPSYN have focused on its contribution to neuromuscular transmission ( ; ). In this study, we found that RAPSYN promotes disease progression by neddylating BCR-ABL for its resistance to c-CBL-mediated proteasomal degradation. Additionally, its NEDD8 E3 ligase activity was increased by SRC-mediated phosphorylation. Previously, the residue Y86 in RAPSYN was identified as a phosphorylation site by muscle-associated receptor tyrosine kinase (MuSK) at the neuromuscular junction endplate ( ), which could enhance the ligase activity of RAPSYN by mediating its self-association ( ). Differently, we found that SRC phosphorylates RAPSYN at Y336 residue located between its CC and RING domains in Ph+ leukemia cells, suggesting that the phosphorylation of RAPSYN might be kinase or tissue specific. So far, multiple RAPSYN mutations have been reported to be causative ( ; ). In particular, N88K mutation could significantly reduce MuSK-mediated Y86 phosphorylation of RAPSYN to affect its E3 NEDD8 ligase activity ( ). However, the precise process by which N88K mutation is involved in modulating RAPSYN phosphorylation is unclear. On the other hand, N88 was predicted to be a N-glycosylation site with the highest score among all putative ones in RAPSYN ( ), implicating that N-glycosylation of RAPSYN could be a prerequisite for normal RAPSYN phosphorylation and activation. In the present study, we unveiled that SRC-mediated RAPSYN phosphorylation could substantially potentiate its NEDD8 E3 ligase activity and enhance its protein stability, once again suggesting the hematological specificity. In addition, given the fact that neddylation and sumoylation have both shown, as also in the present study, to be capable of antagonizing the ubiquitination of their substrates ( ; ), the potential self-modification of RAPSYN is likely to promote its own stabilization. Collectively, it is of great importance to further dissect different PTMs of RAPSYN and their interactions in order to better understand RAPSYN’s biological functions.
+It is well known that the generation of BCR-ABL fusion protein is a decisive characteristic of Ph+ leukemia ( ). Aside from the occurrence of RAPSYN in patients with Ph+ leukemia, the present study revealed a fascinating finding that BCR-ABL expression levels were correlated with those of RAPSYN, demonstrating the specificity of RAPSYN-mediated neddylation of BCR-ABL. Moreover, as a new type of PTM for BCR-ABL, RAPSYN-mediated neddylation was found to compete c-CBL-mediated ubiquitination, causing a reduction in BCR-ABL degradation. Given the fact that the increase of BCR-ABL expression can affect the sensitivity to TKIs and eventually determine the rate of TKI resistance and LIC population in patients with Ph+ leukemia ( ; ), effective degradation of BCR-ABL is an alternative opportunity for the treatment. Although recent studies have greatly advanced our understanding of the regulation of BCR-ABL degradation ( ; ; ), most reported modulatory proteins are not ideal for translation to clinical settings because of their pivotal roles in sustaining normal hematological functions. In contrast, RAPSYN was nearly unexpressed in the blood of healthy donors. Thus, it is reasonable to expect that the inhibition of RAPSYN expression could lead to cytotoxicity in Ph+ leukemia with high specificity and marginal side effects. Furthermore, our present results showed that knockdown of RAPSYN significantly increased the sensitivity of leukemia cells to saracatinib, implying that a combination of RAPSYN inhibition and TKI treatment can effectively control mutations and LIC-derived TKI resistance in Ph+ leukemia.
+In summary, our work has uncovered the pivotal role that RAPSYN exerts its NEDD8 E3 ligase activity in neddylating and stabilizing BCR-ABL in the pathogenesis of Ph+ leukemia and thus delineate it as a potential novel therapeutic target for the treatment of Ph+ leukemia. More importantly, our results shed a light on future investigations that may help to extend to other cancer types for broadening our understanding of RAPSYN’s involvement in hematology and oncology.
+
+## Materials and methods
+ 
+
+## Human clinical samples
+This study was approved by the ethics committee of the First Affiliated Hospital of Nanjing Medical University (2019-SR-485.A1). Human peripheral blood samples were obtained from the remaining material utilized for routine laboratory tests at the First Affiliated Hospital of Nanjing Medical University (Nanjing, China) and derived from 21 patients with Ph+ CML and six healthy volunteers. And one human bone marrow sample of Ph+ acute lymphoblastic leukemia patient was obtained from the remaining material utilized for routine laboratory tests at the First Affiliated Hospital of Nanjing Medical University (Nanjing, China). Peripheral blood and bone marrow mononuclear cells were isolated by density gradient centrifugation using the Ficoll Paque Plus solution (17-1440-02, GE Healthcare).
+
+## Cell cultures
+K562 (female; CBP60529), MEG-01 (male; BP61104), KU812 (male; BP60732), and Jurkat cells were purchased from COBIOER and cultured in Roswell Park Memorial Institute 1640 medium (RPMI 1640; KGM31800, KeyGEN BioTECH) containing 10–20% fetal bovine serum (FBS; FS301-02, TransGen Biotech) and 100 mg/ml streptomycin/penicillin (FG101-01, TransGen Biotech). HS-5 (male; CRL11882, ATCC), purchased from the American Type Culture Collection (ATCC) and HEK293T (KG405) from KeyGEN BioTECH were cultured in Dulbecco’s modified Eagle’s medium (KGM12800, KeyGEN BioTECH) containing 10% FBS and 100 mg/ml streptomycin/penicillin. All cells were cultured in a humidified incubator with 5% CO2 at 37°C. All the cell lines were authenticated using short tandem repeat matching analysis and tested negative for mycoplasma contamination.
+
+## Animal studies
+Female NOD/ShiLtJGpt-Prkdcem26Cd52Il2rgem26Cd22/Gpt (NCG) mice (6–8 weeks), purchased from GemPharmatech Co, Ltd, were used for all in vivo studies. Mice were housed under specific pathogen-free conditions at 24 ± 1°C and 55 ± 5% humidity in a barrier facility with 12 hr light–dark cycles. All animal experiments were performed in accordance with the National Institutes of Health Guide for the Care and Use of Laboratory Animals with the approval of the Center for New Drug Evaluation and Research, China Pharmaceutical University (approval number: B20190925-1; Nanjing, China).
+
+## Apoptosis assay
+A total of 1–5 × 105 cells were washed with phosphate-buffered saline (PBS; 02-024-1ACS, Biological Industries) and resuspended in 100 μl of Annexin V binding buffer (E-CK-A211, Elabscience). The cell suspension was incubated with 2.5 μl of Annexin V-AF647 (E-CK-A211, Elabscience) and 2.5 μl of propidium iodide (PI; E-CK-A211, Elabscience) for 20 min in the dark, followed by the addition of 400 μl of Annexin V binding buffer and detection by flow cytometry (Thermo Attune NxT, MA, USA).
+
+## Cell viability assay
+Cells were seeded at a density of 5000 (K562) or 20,000 cells (MEG-01) per well in round-bottom 96-well plates and incubated with different concentrations of saracatinib (AZD0530, Selleck) or the corresponding amount of solvent for 72 hr. Cells were then transferred to flat-bottom 96-well plates for the determination of cell viability using the CCK-8 Cell Counting Kit (A311-01, Vazyme) following the manufacturer’s instructions. Each experiment was performed at least three times for individual cell line.
+
+## Cell proliferation assay
+Cells were washed twice with PBS, resuspended with a cell number of 2 × 106 in 1 ml PBS, and incubated with 2.5 μM carboxyfluorescein succinimidyl ester (CFSE) solution (1948076, Thermo Scientific) or 5 µM carboxylic acid, acetate, and succinimidyl ester (SNARF-1) solution (S-22801, Invitrogen) for 20 min at 37°C in the dark, respectively. Subsequently, 1 ml of FBS was added to stop the staining, and the cells were washed twice with complete media. Cell division was monitored by measuring CFSE or SNARF-1 dilution using flow cytometry via channels BL1 and YL1.
+
+## Cell cycle analysis
+A total of 1 × 106 cells were washed once with pre-chilled PBS, fixed in ice-cold 70% ethanol, vortexing and kept for at least 20 min at −20°C. The fixed cells were washed twice with PBS and stained with 20 µg/ml PI containing 100 mg/ml RNAse A (740505, MACHEREY-NAGEL) for 15 min at room temperature. Stained nuclei were analyzed by flow cytometry and quantified using FlowJo software (BD Biosciences, NJ, USA).
+
+## Cell transfection and viral transduction
+Transfection of the indicated DNA plasmids into HEK293T cells was performed using Lipofectamine 2000 (11668500, Thermo Fisher Scientific), according to the manufacturer’s instructions. Briefly, transfection of HEK293T was performed when cell confluency reached 60–70%. Plasmids and Lipofectamine 2000 reagent were diluted in Opti-MEM medium (31985-070, Thermo Fisher Scientific) and incubated for 5 min at room temperature. They were then mixed together, incubated for another 20 min at room temperature, and added to the target cells. The transfected cells were collected after 48 hr for further analysis.
+
+## GST pull-down assay
+Recombinantly expressed and purified GST or GST-RAPSYN (GenBank: NM_005055.5; 1236 bp open reading frame (ORF) sequence) proteins were incubated with glutathione beads 4FF (SA010010, Smart-Lifescience) overnight at 4°C in binding buffer (0.14 M NaCl, 2.68 mM KCl, 2 mM KH2PO4, 0.01 M Na2HPO4, 10 mM 1,4-dithiothreitol (DTT), pH 7.4), respectively, and incubated with purified His-BCR-ABL (p210 BCR-ABL (b3a2); 6126 bp ORF sequence) protein for another 4 hr at 4°C. Beads were washed three times with washing buffer (0.14 M NaCl, 2.68 mM KCl, 2 mM KH2PO4, 0.01 M Na2HPO4, 0.5 mM reduced glutathione (GSH), 10 mM DTT, pH 7.4), eluted with elution buffer (0.14 M NaCl, 2.68 mM KCl, 2 mM KH2PO4, 0.01 M Na2HPO4, 10 mM reduced GSH, 10 mM DTT, pH 7.4), and subjected to immunoblotting detection.
+
+## Immunoblotting
+The cells were lysed on ice with Nonidet P-40 (NP-40) lysis buffer (150 mM NaCl, 100 mM NaF, 50 mM Tris–HCl (pH 7.6), and 0.5% NP-40) supplemented with a protease inhibitor cocktail (78446, Thermo Fisher Scientific). Lysates were centrifuged, quantified, subjected to sodium dodecyl sulfate–polyacrylamide gel electrophoresis (SDS–PAGE), and transferred to polyvinylidene difluoride (PVDF) membranes using a Bio-Rad transfer apparatus. Membranes were blocked with 5% non-fat milk in Tris-buffered saline buffer containing 0.1% Tween-20 (TBST) at 20–25°C for 2 hr, followed by incubation with primary antibody overnight at 4°C. The membranes were then washed three times in TBST buffer and incubated with species-specific horseradish peroxidase (HRP)-conjugated secondary antibodies for 2 hr at room temperature. Then, the membranes were washed three times in TBST buffer, developed using the enhanced chemiluminescence (ECL) reagent, and exposed to the ChemiDoc Imaging System (Tanon, Shanghai, China). The antibodies for immunoblotting or immunoprecipitation are list in Key Resources Table.
+
+## Immunoprecipitation
+Immunoprecipitation assays were performed in accordance with the manufacturer’s instructions. Briefly, the cells were lysed on ice with NP-40 lysis buffer supplemented with a protease inhibitor cocktail. Cell lysates were centrifuged, quantified, and incubated with the appropriate primary antibody overnight at 4°C, and subsequently with protein A agarose beads (16–125, Millipore) for another 4 hr at 4°C. Agarose was washed three times with lysis buffer and eluted with SDS–PAGE loading buffer. The eluted immunocomplexes were separated by SDS–PAGE and transferred to PVDF membranes. The membranes were then probed with primary and corresponding secondary antibodies, washed three times in TBST buffer, developed using ECL reagent and exposed by ChemiDoc Imaging System.
+
+## In vitro neddylation assay
+A 30-μl reaction mixture containing 2 mM ATP-Mg2+ (B-20, R&D), 50 ng E1 (APPBP1/UBA3; E-313-25, R&D), 400 ng E2 (UBE2M; E2-656-100, R&D), 0.25 μg NEDD8 (UL-812-500, R&D), 0.35 μg His-BCR-ABL, with or without 4.77 µg recombinant RAPSYN was incubated at 37°C for 4 hr. Reaction was terminated with SDS–PAGE loading buffer and assayed using immunoblotting.
+
+## In vitro phosphorylation assay
+A 40-μl reaction mixture containing 2 mM ATP-Mg2+, 3 μg recombinant RAPSYN, and 1 μg recombinant SRC (GenBank: NM_005417.5; 1608 bp ORF sequence) protein, with or without 2 µM saracatinib (AZD0530, Selleck), was incubated at 30°C for 30 min. Reaction was terminated with SDS–PAGE loading buffer and assayed by immunoblotting.
+
+## Animal experiments with mouse models
+Female NCG mice aged 6–8 weeks were used in all the animal experiments. In the subcutaneous tumor experiment shown in , 20 mice were randomly divided into two groups, followed by subcutaneous injection of 1 × 106 K562-shNC or K562-shRAPSN #3 cells in 60 μl Matrigel (354234, Corning) into the right foreleg. Tumor size was measured every 2 days using a digital caliper. The tumor volume was quantified using the following equation: tumor volume = 0.5 × (long diameter) × (short diameter)2. When the average volume of the control group exceeded 2000 mm3, the mice were sacrificed. The tumors were separated, and their weights were measured. As shown in the survival experiment in , NCG mice were inoculated with K562-RAPSNWT or K562-RAPSNKO (1 × 107 cells/mouse) via the tail vein. The survival time was recorded until the mice died. As shown in the survival experiment of , 40 mice were randomly divided into 4 groups and intravenously inoculated with K562-OE-NC2 (20 mice), K562-OE-RAPSNWT (10 mice), or K562-OE-RAPSNY336F (10 mice). From days 6 to 26 after tumor cell inoculation, 10 mice inoculated with K562-OE-NC2 were treated with vehicle orally, while the other 30 mice inoculated with K562-OE-NC2, K562-OE-RAPSNWT, or K562-OE-RAPSNWT, 10 mice in each group, were administered saracatinib orally (50 mg/kg/day). The survival time was recorded until the mice died. In the survival experiment shown in , 40 mice were randomly divided into four groups and intravenously inoculated with double-transfected K562 cells, as indicated. The survival time was recorded until the mice died.
+
+## Identification of modification sites
+To determine which lysine residues in BCR-ABL were neddylated by NEDD8, an in vitro neddylation reaction (50 μl) was performed. After incubation at 37°C for 4 hr, the reaction mixture was separated by SDS–PAGE, and silver-stained bands were excised and sent to BiotechPack Scientific Co, Ltd (Beijing, China) for LC–MS/MS analysis. To determine which tyrosines in RAPSYN were phosphorylated by SRC, a phosphorylation reaction (50 μl) was performed. After a 30-min reaction, the reaction mixture was separated by SDS–PAGE, and silver-stained bands were excised and sent to Applied Protein Technology Co, Ltd (Shanghai, China) for LC–MS/MS analysis.
+
+## Plasmid construction
+Eukaryotic expression vectors encoding His-, GST-, HA-, Myc-, or Flag-tagged proteins were generated by inserting PCR-amplified fragments into the pcDNA3.1(+) mammalian expression vector (V79020, Invitrogen). Eukaryotic expression vectors encoding green fluorescent protein (GFP)-tagged proteins were generated by inserting PCR-amplified fragments into pd1-EGFP-N1 vector (6073-1, Clontech). Prokaryotic plasmids encoding GST-fusion proteins were constructed using pGEX-4T-1 bacterial expression vector (27-4580-01, Addgene). Mutants of His-, HA-, GST-, or GFP-tagged proteins were generated using QuickMutation Site-Directed Mutagenesis Kit (D0206, Beyotime) according to the manufacturer’s instructions. Briefly, whole plasmid DNA was amplified by PCR for 20 cycles with specific mutant primers ( ) using QuickMutation site-directed mutagenesis kit. Next, 1 µl DpnI was directly added to the PCR reaction mixture, followed by incubation at 37°C for 30 min and transformation to E. coli cells. To verify the mutation sites, single colonies were selected for DNA sequencing and subsequent protein expression.
+
+## Preparation of stable RAPSYN-KO K562 cell line
+RAPSN KO K562 cells were generated using CRISPR/Cas9 system (Genloci Biotechnologies Inc). Single-guide RNAs for RAPSN (sgRNAs) were designed using online CRISPR design tool (http://crispr.mit.edu/). The sgRNA sequences were ATGGGGCGCTTCCGCGTGCTGGG, GTAGCGGCCCATCTCCGAGTGGG, and TCTGGTTGGACTGGTACAGCTGG, which were cloned into pGK1.1/CRISPR/Cas9 vector (Genloci Biotechnologies Inc). To obtain single clones of RAPSN KO cells, K562 cells were transfected with pGK1.1/CRISPR/Cas9 plasmid containing the aforementioned sgRNA sequence, expanded, selected with puromycin (0120A21, LEAGENE), and isolated by single-cell culturing. Single clones obtained from RAPSN KO cells were validated by DNA sequencing and immunoblotting.
+
+## Preparation of stable RAPSN-KD and SRC-KD cell lines
+Lentivirus-producing shRNA targeting either human RAPSN or SRC mRNA was used to inhibit endogenous RAPSYN or SRC expression, respectively. All shRNAs ( ) were designed using online shRNA design tools (https://rnaidesigner.thermofisher.com and https://portals.broadinstitute.org). The shRNA primers were ordered from GenScript (Nanjing, China) and annealed in a thermal cycler according to following procedure (95°C, 2 min; 85°C, 9 min; 75°C, 9 min; 65°C, 9 min; 55°C, 9 min; 45°C, 9 min; 35°C, 9 min; 25°C, 10 min; 4°C, hold) in the presence of NE Buffer 2.1 (B7202S, New England BioLabs) to form a double strand with EcoRI and AgeI sticky ends. Using T4 DNA ligase (M0202L, NEW ENGLAND BioLabs), the double-stranded shRNAs were ligated with either lentiviral backbone plasmid vector pLKO-EGFP-puro or a tet pLKO-EGFP-puro, which was digested with the restriction enzymes EcoRI-HF (R3101S, NEW ENGLAND BioLabs) and AgeI-HF (R3552S, NEW ENGLAND BioLabs). Plasmids containing shRNA or corresponding empty vector were co-transfected with lentivirus packaging plasmids (pLP1, pLP2, and pLP/VSVG) into HEK293T cells using linear polyethylenimine (23966, Polyscience) transfection method. After transfection for 6–8 hr, the transfection reagent was replaced with a fresh medium. After incubation at 37°C, 5% CO2 for 48 and 72 hr, the resulting lentivirus supernatant was collected, respectively, and filtrated through a 0.22-μm disc filter. Then, 15 ml of filtered lentivirus supernatant was concentrated through a 100-kDa ultrafiltration tube at 1500 × g and 4°C for 1 hr. Ph+ leukemia cell lines were infected with concentrated lentivirus supernatant containing 8 μg/ml polybrene (H9268, Sigma). The culture plate or dish was centrifuged in a horizontal rotor centrifuge at 2000 × g and 32°C for 1.5 hr. After 48 hr, the viral particles were replaced with fresh medium, and 3 μg/ml puromycin was added for selection for another 48–72 hr. Protein expression levels were analyzed by immunoblotting with the antibodies of anti-RAPSYN (ab118491, Abcam) or SRC (11097-1-AP, Proteintech).
+
+## Preparation of stable RAPSN-WT, RAPSN-Y336F, or SRC expression cell lines
+The lentiviruses for overexpressing RAPSN-WT, SRC (both with corresponding empty vector OE-NC1), or RAPSN-Y336F (with corresponding empty vector OE-NC2) were obtained from GenePharma. The volume of virus required was calculated using the following equation: Ph+ leukemia cell lines were infected using the spin-infection method described above. After infection for 48 hr, the viral particles were replaced with fresh medium. Stable RAPSYN-WT, RAPSYNY-336F, or SRC expressing cells were selected in the presence of 3 μg/ml puromycin for 48–72 hr. Protein expression levels were analyzed by immunoblotting with anti-RAPSYN or anti-SRC antibodies.
+virus volume =MOI×cellnumbervirus titer
+
+## Protein expression and purification
+Recombinant pGEX-4T-1-GST-RAPSYN plasmid were transformed into the ArcticExpress (DE3) pRARE2 competent E. coli cells (AYBIO-G6023, ANGYUBIO) and treated with 0.4 mM isopropyl-β-D-thiogalactoside (367-93-1, Sangon Biotech) to induce fusion protein expression at 18°C. After 50 hr, bacterial cells were harvested, resuspended in PBS (0.14 M NaCl, 2.68 mM KCl, 2 mM KH2PO4, 0.01 M Na2HPO4, 10 mM DTT, pH 7.4), and sonicated on ice. Precipitates were removed from cell lysates by centrifugation. Recombinant GST-RAPSYN was purified from the supernatant by GST-affinity chromatography (SA010010, Smart-Lifescience) and size-exclusion chromatography (17-0060-01, GE Healthcare). Purified GST-RAPSYN protein was digested with thrombin (T8021, Solarbio) for 6 hr at 4°C to remove GST tag. Recombinant pcDNA3.1-His-BCR-ABL plasmids were transfected into HEK293T cells and were collected after 48 hr culturing. The cells were then lysed on ice using NP-40 lysis buffer with a protease inhibitor cocktail. Cell lysates were centrifuged, and then the supernatant fraction was incubated with anti-BCR-ABL antibody overnight at 4°C and subsequently with protein A magnetic beads (73778, Cell Signaling Technology) for another 4 hr at 4°C. The bead complexes were washed three times with washing buffer (25 mM Tris–HCl, 0.15 M NaCl, 0.005% Tween-20, pH 7.5), eluted with elution buffer (0.1 M glycine, pH 2.0), and mixed with neutralization buffer (1 M Tris–HCl, pH 9.0) for neutralization of purified protein.
+
+## Protein stability assay
+RAPSNWT, RAPSNY336F, or BCR-ABL-transfected Ph+ leukemia cells were incubated with 100 mg/ml cycloheximide (CHX, A8244; Cell Signaling Technology) for indicated time points. Cells were harvested and lysed on ice using NP-40 lysis buffer supplemented with a protease inhibitor cocktail. The supernatant was collected and subjected to immunoblotting using anti-RAPSYN or anti-SRC antibodies.
+
+## Quantitative reverse transcription-PCR
+High-quality RNA was isolated from cells or tissues using Trizol reagent (AJF1807A, Takara) according to the manufacturer’s instructions. cDNA was synthesized from 1 μg of total RNA using HiScriptIIRT SuperMix for qPCR (R233-01, Vazyme). The ChamQ SYBR qPCR Master Mix (Q331-02, Vazyme) was used for two-step reverse transcription-PCR analysis on an Applied Biosystems StepOnePlus Real-Time PCR instrument. The samples were analyzed in triplicate. The expression value of target gene in a given sample was normalized to the corresponding expression of ACTB or GAPDH. The 2-∆∆Ct method was used to calculate relative expression of target genes. The primers used are listed in .
+
+## Cytotoxicity assay
+Lentiviruses co-expressing GFP were used to assess the toxicity of shRNAs. Flow cytometry was performed 2 days after shRNA transduction to determine initial GFP-positive proportion of live cells for each shRNA. Subsequently, the cells were sampled every 2 days over the time. The GFP-positive proportion at each time point was normalized to that of day 2. Each shRNA experiment was performed at least three times for individual cell line.
+
+## Statistical analysis
+All in vitro experiments were repeated at least three times. Animals were randomly assigned to different groups for each in vivo study. Kaplan–Meier survival analysis was used for all survival studies, and the log-rank test was used to determine significant differences between groups. Differences with *p < 0.05, **p < 0.01, ***p < 0.001, and ****p < 0.0001 were considered significant. Prism 8 (GraphPad Software, CA, USA) was used for statistical analysis. Representative results from at least three independent replicates are shown. Data are presented as mean ± standard deviation (SD), and significant differences were determined using Student’s t-test, unpaired Student’s t-test, or one-way analysis of variance test.
+
+## Acknowledgements
+This work was supported by the grants of National Key R&D Program of China (2018YFA0902000), National Science Foundation of China (No. 81872924, 81973386, and 82002971), 'Double First-Class' University Project (CPU2022QZ014), Project Program of the State Key Laboratory of Natural Medicines, China Pharmaceutical University (SKLNMZZ202201), and PAPD of Jiangsu Province.
+
+## Funding Statement
+The funders had no role in study design, data collection, and interpretation, or the decision to submit the work for publication.
+
+## Contributor Information
+Shuzhen Wang, Email: shuzhenwang@cpu.edu.cn.
+Yong Yang, Email: yy@cpu.edu.cn.
+Yijun Chen, Email: yjchen@cpu.edu.cn.
+Amit K Verma, Albert Einstein College of Medicine, United States.
+Wafik S El-Deiry, Brown University, United States.
+
+## Funding Information
+This paper was supported by the following grants:
+
+National Key Research and Development Program of China
+
+2018YFA0902000 to Yijun Chen.
+
+National Natural Science Foundation of China
+
+81973386 to Yijun Chen.
+
+National Natural Science Foundation of China
+
+81872924 to Shuzhen Wang.
+
+National Natural Science Foundation of China
+
+82002971 to Beiying Dai.
+
+"Double First-Class" University Project
+
+CPU2022QZ014 to Yijun Chen.
+
+Project Program of the State Key Laboratory of Natural Medicines
+
+SKLNMZZ202201 to Yijun Chen.
+
+Key Research and Development Project of Guangdong Province
+
+2022B1111070004 to Yijun Chen.
+
+## Additional information
+
+## Competing interests
+listed as an inventor on Chinese patent 202210107464.7 (patent protection filed for by China Pharmaceutical University on RAPSYN).
+No competing interests declared.
+
+## Author contributions
+Data curation, Formal analysis, Investigation, Visualization, Methodology, Writing – original draft.
+Data curation, Formal analysis, Funding acquisition, Investigation, Methodology, Writing – original draft, Project administration.
+Data curation, Formal analysis, Investigation, Methodology.
+Data curation, Formal analysis, Investigation, Visualization, Methodology.
+Data curation.
+Data curation.
+Data curation.
+Data curation.
+Conceptualization, Supervision, Funding acquisition, Project administration, Writing – review and editing.
+Conceptualization, Resources, Supervision.
+Conceptualization, Resources, Data curation, Supervision, Funding acquisition, Writing – review and editing.
+
+## Ethics
+This study was approved by the ethics committee of the First Affiliated Hospital of Nanjing Medical University (2019-SR-485.A1). Human peripheral blood samples were obtained from the remaining material utilized for routine laboratory tests at the First Affiliated Hospital of Nanjing Medical University (Nanjing, China) and derived from 21 patients with Ph+ chronic myeloid leukemia (CML), and six healthy volunteers. And one human bone marrow sample of Ph+ acute lymphoblastic leukemia patient was obtained from the remaining material utilized for routine laboratory tests at the First Affiliated Hospital of Nanjing Medical University (Nanjing, China).
+All animal experiments were performed in accordance with the National Institutes of Health Guide for the Care and Use of Laboratory Animals with the approval of the Center for New Drug Evaluation and Research, China Pharmaceutical University (approval number: B20190925-1; Nanjing, China).
+
+## Additional files
+Supplementary file 1.
+
+## Sequences of shRNA and primer pairs used for real-time PCR to determine the mRNA levels.
+MDAR checklist
+
+## Data availability
+All data generated or analyzed during this study are included in the manuscript and supporting files.
+The following previously published datasets were used:
+
+Kohlmann A, Kipps TJ, Rassenti LZ, Downing JR, Shurtleff SA, Mills KI, Gilkes AF, Hofmann WK, Basso G, Dell'orto MC, Foà R, Chiaretti S, De Vos J, Rauhut S, Papenhausen PR, Hernández JM, Lumbreras E, Yeoh AE, Koay ES, Li R, Haferlach T. 2009. An international standardization programme towards the application of gene expression profiling in routine leukaemia diagnostics: the Microarray Innovations in LEukemia study prephase. NCBI Gene Expression Omnibus. GSE13159
+
+Haferlach T, Kohlmann A, Wieczore KL, Basso G, Kronnie GT, Béné MC, De Vos J, Hernández JM, Hofmann WK, Mills KI, Gilkes A, Chiaretti S, Shurtleff SA, Kipps TJ, Rassenti LZ, Yeoh AE, Papenhausen PT, Liu WM, Williams PM, Foa R. 2009. Clinical utility of microarray-based gene expression profiling in the diagnosis and subclassification of leukemia: report from the International Microarray Innovations in Leukemia Study Group. NCBI Gene Expression Omnibus. GSE13204
+
+Herrmann H, Sadovnik I, Eisenwort G, Rülicke T, Blatt K, Herndlhofer S, Willmann M, Stefanz IG, Baumgartner S, Greiner G, Schulenburg A, Mueller N, Rabitsch W, Bilban M, Hoermann G, Streubel B, Vallera DA, Sperr WR, Valent P. 2020. Delineation of target expression profiles in CD34+/CD38- and CD34+/CD38+ stem and progenitor cells in AML and CMLIG. NCBI Gene Expression Omnibus. GSE138883
+
+Sinnakannu JR, Lee KL, Cheng S, Li J, Yu M, Tan SP, CCH Ong, Li H, Than H, Anczuków-Camarda O, Krainer AR, Roca X, Rozen SG, Iqbal J, Yang H, Chuah C, Ong ST. 2020. SRSF1 mediates cytokine-induced impaired imatinib sensitivity in chronic myeloid leukemia. NCBI Gene Expression Omnibus. GSE140385
+
+## References
+ 
+
+eLifeeLife10.7554/eLife.88375.3.sa0eLife assessment
+VermaAmit KReviewing Editor 1Albert Einstein College of Medicine, United StatesKeywords: Convincing
+
+Keywords: Important
+
+In this important study, the authors describe a novel function for RAPSYN in bcr-abl fusion associated leukemia, presenting convincing evidence that RAPSYN stabilizes the oncogenic BCR-ABL fusion protein. Compared to an earlier version of the manuscript, the authors have added data using primary samples that strengthen the conclusions.
+eLifeeLife10.7554/eLife.88375.3.sa1Reviewer #1 (Public Review):
+AnonymousReviewerThe manuscript by Zhao et al describes the identification of RAPSYN, a NEDD8 E3 ligase previously studied for its role in acetylcholine receptor clustering and neuromuscular junction formation, as a factor promoting the stabilisation of the BCR-ABL oncogene in Chronic Myeloid Leukemia (CML) cells. The authors have identified that NEDDylation of BCR-ABL by RAPSYN antagonises its poly-ubiquitin and subsequent proteasome-based degradation. Knocking down RAPSYN with shRNA led to increased poly-ubiquitination and faster turnover of BCR-ABL. Furthermore, they describe that SRC-dependent phosphorylation of RAPSYN facilitates its NEDD8-ligase activity.
+The authors' findings are primarily rooted in a series of well-conducted in vitro experiments using two CML cell lines, K562 and MEG-01. They have performed some further validations using primary CML samples, which have strengthened their claims.
+The author's initial discoveries have come from interrogating a number of publicly available gene expression datasets, both microarray-based and RNA-seq, which revealed that RAPSYN is increased at the protein level but that RNA levels are not different between healthy and CML samples. This is a very interesting observation which warrants further future investigation.
+The conclusions of this revised manuscript are broadly supported by the data and the analyses. It also describes novel findings that can spur future studies, both into the basic cellular biology of CML as well as into potential new therapeutic strategies.
+Comments on revised version:
+I thank the authors for addressing my concerns in the initial review. The revised manuscript with additional data is much stronger.
+eLifeeLife10.7554/eLife.88375.3.sa2Reviewer #2 (Public Review):
+AnonymousReviewerIn this study the authors aim to elucidate the role of RAPSYN in BCR-ABL-mediated leukemogenesis. RAPSYN is mainly known as a scaffolding protein for anchoring acetylcholine receptors (AChRs) to the cytoskeleton in muscle cells, facilitating AChR clustering through neddylation (Li et al., 2016). The authors demonstrate, through a broad and rigorous array of biochemical assays, that RAPSYN also plays a crucial role in the neddylation of BCR-ABL in leukemia cells. Their results indicate that this process shields BCR-ABL from ubiquitination and subsequent degradation, likely through a mechanism involving competition for binding with the BCR-ABL ubiquitin ligase c-CBL. In addition, the authors delve into the regulatory mechanisms underlying RAPSYN stability, demonstrating that it is enhanced through phosphorylation by SRC. This discovery further deepens our understanding of the complex dynamics of the molecular interactions that regulate BCR-ABL stability in leukemia.
+To confirm the physiological significance of their findings, the authors effectively utilize cell viability assays and in vivo models. The integration of these approaches lends strength and validity to their conclusions.
+The implications of the findings presented in this study are important, particularly in relation to our understanding of the pathogenesis and potential therapeutic strategies for Philadelphia chromosome-positive leukemias. By illuminating the role of RAPSYN in the regulation of BCR-ABL stability, this research potentially uncovers avenues for the development of targeted therapies, making a significant contribution to the field.
+Two areas of the study could benefit from additional validation and exploration:
+(1) The authors propose that targeting RAPSYN in Ph+ leukemia could have a high therapeutic index, suggesting that inhibition of RAPSYN may lead to cytotoxicity in Ph+ leukemia with high specificity and minimal side effects. The authors now include data showing RAPSYN knockdown in HS-5 cells does not affect cell growth (Figure 1C), supporting this assertion. This observation presents a contrast to DepMap data (https://depmap.org/), where RNAi and CRISPR-mediated RAPSYN depletion across hundreds of cell lines does not exhibit obvious differential effects on cell viability compared to Ph+ leukemia cell lines. Therefore, while the current results are promising, they call for additional validation by future studies to confirm RAPSYN as a viable therapeutic target in this context.
+(2) A particularly notable yet underexplored aspect of this study is the observed disparity between RAPSYN protein and mRNA levels in Ph+ patient samples and cell lines. There is a marked enrichment of RAPSYN protein levels (Figure 1A, B) despite seemingly unchanged mRNA levels (Supplementary Figure 1 A-C). The authors convincingly demonstrate that RAPSYN stabilizes BCR-ABL, while SRC-mediated phosphorylation in turn stabilizes RAPSYN. This points to a specific, SRC-driven stabilization mechanism of RAPSYN in the Ph+ leukemia context. Consequently, the question arises whether BCR-ABL (through activation of SRC) reciprocally stabilize RAPSYN? Exploring the effects of BCR-ABL depletion on RAPSYN levels could shed light on this potential two-way stabilization mechanism, offering deeper insight into the complex molecular dynamics of RAPSYN and BCR-ABL in Ph+ leukemias.
+In conclusion, this study represents a pivotal advancement in our understanding of Philadelphia chromosome-positive leukemias. It uniquely positions RAPSYN, a protein previously not associated with leukemogenesis, as a key regulator of BCR-ABL stability. Future research is essential to establish RAPSYN's potential as a therapeutic target and to more comprehensively understand its role in this context.
+Comments on revised version:
+I acknowledge and appreciate the author responses. Below are our comments on each reply:
+Reply 1: Your response and the inclusion of data regarding RAPSYN knockdown in HS-5 cells adequately address the concerns.
+Reply 2: The issue of the disparity between RAPSYN protein and mRNA levels in Ph+ leukemias has not sufficiently been resolved. Refer to point 2 in the revised review for more details. If conducting the proposed experiment is not feasible, I recommend a more thorough discussion in the manuscript to address and hypothesize about the causes of this discrepancy between protein and mRNA levels.
+Reply 3: Your rationale for not performing additional assays with inactive mutants is satisfactory.
+Reply 4: The clarification provided in your revision of the method section and the reorganization of Figure 6 successfully resolve the previously noted discrepancies. However, to ensure consistency and clarity across the paper, I recommend that you also specify the batches of constructs/viruses used in other relevant figures, such as Figure 1E.
+Reply 5: The clarification provided on the immunoblots sufficiently addresses the concern raised.
+eLifeeLife10.7554/eLife.88375.3.sa3Author response
+ZhaoMengyaAuthor DaiBeiyingAuthor LiXiaodongAuthor ZhangYixinAuthor QiaoChunAuthor QinYaruAuthor LiZhaoAuthor LiQingmeiAuthor WangShuzhenAuthor YangYongAuthor ChenYijunAuthor 1China Pharmaceutical University, Nanjing, China2China Pharmaceutical University, Nanjing, China3China Pharmaceutical University, Nanjing, China4China Pharmaceutical University, Nanjing, China5China Pharmaceutical University, Nanjing, China6China Pharmaceutical University, Nanjing, China7China Pharmaceutical University, Nanjing, China8China Pharmaceutical University, Nanjing, China9China Pharmaceutical University, Nanjing, China10China Pharmaceutical University, Nanjing, China11China Pharmaceutical University, Nanjing, China126202412RP88375RP88375Collection date 2024.
+
+The following is the authors’ response to the original reviews.
+
+Reviewer #1 (Public Review):
+
+(1) The authors' findings are primarily rooted in a series of well-conducted in vitro experiments using two CML cell lines, K562 and MEG-01. While the findings are interesting and novel, further work to corroborate these findings in primary CML samples would have greatly strengthened the potential real-world relevance of these discoveries. The authors appear to have some PBMCs from primary CML patients and a BM sample from a Ph+ ALL in which they performed western blot analyses (Fig 1). Couldn't these samples have been used to at least confirm some of the key discoveries? For example, the neddylation of BCR-ABL, or; sensitivity of primary leukemic cells to RAPSYN knockdown, and/or; phosphorylation of RAPSYN by SRC?
+We agree with your points and really appreciate your comments. To demonstrate the clinical relevance, we have conducted a series of experiments to address your concerns.
+(1) after a thorough optimization on the transduction process, we have managed to show that shRNA-mediated gene silencing of RAPSYN impaired the growth of primary CML samples. These additional data are presented as Figure 1D in the revised manuscript with its corresponding figure legend and description, lines 136-141.
+(2) we have invested tremendous time and effort to deal with “key discoveries” regardless of the almost impossible task with a great technical difficulty. With 5 mL (ethical approval) of PBMCs on hands, we have finally managed to confirm BCR-ABL neddylation by IP from two newly acquired CML patients. The results are as presented in Figure 2F in the revised manuscript with its corresponding figure legend and description, lines 186-187.
+(2) The authors initially interrogated a fairly dated (circa 2009) microarray-based primary dataset to show that the increase in RAPSYN is primarily a post-transcriptional event, as mRNA levels are not different between healthy and CML samples. It would be interesting to see whether differences might be more readily seen in more recent RNA-seq datasets from CML patients, given the well-known differences in sensitivity between the two platforms. Additionally, I wonder if there would be transcriptional signatures of increased NEDDylation (or RAPSYN-induced NEDDylation) that could be interrogated in primary samples? Furthermore, there are proteomics datasets of CML cells made resistant to TKIs (through in vitro selection experiments) that could be interrogated for independent validation of the authors' discoveries. For example: from K562 cells, PMID: 30730747 or PMID: 34922009.
+Thank you very much for your constructive comments. Based on your suggestion, we have (1) analyzed mRNA level of RAPSYN in RNA-seq datasets GSE13159 (2009), GSE138883 (2020) and GSE140385 (2020), indicating no difference between CML patients and healthy donors. We have included the results in Figure1-figure supplementary 1A and in the revised manuscript (lines 123-127); (2) examined the RNA levels of RAPSYN-related neddylation enzymes, including E1 (NAE1), E2 (UBE2M), NEDD8 and NEDP1 in these databases, and no significant differences of these neddylation-related genes were found between CML patients and healthy donors as well (Supplementary Figure 2C, lines 168-172).
+We have also analyzed the proteomics datasets from PMID: 30730747 and PMID: 34922009 according to your suggestion. Unfortunately, no information on RAPSYN expression is available in these datasets. To avoid potential negligence, we have examined all CML-related proteomics datasets from 2002 to 2024, still resulting in no information about protein expression of RAPSYN. Consequently, our finding on the higher expression of RAPSYN in the PBMCs of Ph+ patients in this study appears to be an observation for the first time. And we believe that our results should be more clinically relevant than those, if any, from the cells by in vitro selection.
+
+Reviewer #2 (Public Review):
+
+Most of the conclusions drawn in this paper are well supported by data, but some aspects of the data need to be clarified and extended:
+(1) The authors propose that targeting RAPSYN in Ph+ leukemia could have a high therapeutic index, suggesting that inhibition of RAPSYN may lead to cytotoxicity in Ph+ leukemia with high specificity and minimal side effects. To substantiate this assertion, the authors should investigate the impact on cell viability upon RAPSYN knockdown in non-Ph leukemic cell lines or HS-5 cells (similar to Figure 1C), despite their lower RAPSYN protein levels.
+We appreciate your valuable comments. When we used shRNA to knockdown the expression of RAPSYN in HS-5 cells, it did not affect the cell growth of HS-5 cells. We have included the data in Figure 1C, modified its figure legend, and added corresponding description, lines 136-141.
+(2) The authors intriguingly show that the protein levels of RAPSYN are significantly enriched in Ph+ patient samples and cell lines (Figure 1A, B), even though the mRNA levels remain unchanged (Supplementary Figure 1 A-C). This observation merits a clear explanation in the context of the presented results. The data in the manuscript does imply a feedforward loop mechanism (Figure 7), where BCR-ABL activates SRC, which subsequently stabilizes RAPSYN, which in turn helps protect BCR-ABL from c-CBL-mediated degradation. If this is the working hypothesis, it would be beneficial for the reader to see supporting evidence.
+Thank you very much for pointing out the issue. We have realized the inappropriateness of Figure 7, which was originally placed as a summarizing figure. To avoid potential confusion and misleading, this figure has been deleted, which does not affect the results and conclusions of this study. In addition, the differences on mRNA levels and protein expressions have been responded to Reviewer #1.
+(3) The authors present compelling evidence to suggest that RAPSYN may possess direct NEDD8-ligase activity on BCR-ABL. To strengthen this claim, it may be valuable to conduct further assays involving a ligase-deficient mutant, such as C366A, beyond its use in Figure 2J. Incorporating this mutant into the in vitro assay illustrated in Figure 2K, for instance, could offer substantial validation for the claim. In addition, showing whether the ligase-deficient mutant is capable of phenocopying the phosphorylation-mutant Y336F, as showcased in Figures 5E, F, and 6D, F, would be beneficial.
+We are grateful to your comments. In the manuscript, we have provided sufficient data to support the direct neddylation of BCR-ABL by RAPSYN, as you commented “The authors present compelling evidence to suggest that RAPSYN may possess direct NEDD8-ligase activity on BCR-ABL.”. Cys366 was previously demonstrated as the catalytic residue essential for E3 activity of RAPSYN (Li et al. 2016, PMID: 27839998), and the phosphorylation at Phe336 was thoroughly verified by site-directed mutagenesis and the treatments of SRC-specific inhibitor saracatinib in present cellular experiments. Therefore, while we fully respect your opinions, we do not think it would be necessary to perform tedious in vitro reactions for expected negative results, which was the reason for us not to conduct enzymatic reactions with known inactive mutants, such as C366A and Y336F, in the first place.
+(4) The observations presented in Figures 6 C-G require additional clarification. Notably, there are discrepancies in relative cell viability effects in K562 cells, and to some extent in MEG-01 cells, under conditions that are indicated as being either identical or highly similar. For instance, this inconsistency is observable when comparing the left panels of Figure 6C and 6D in the case of NC overexpression + shSRC#2, and the left panels of Figure 6E and 6G with NC overexpression or shNC, respectively. Listing potential causes of these discrepancies would strengthen the overall validity of the findings and their subsequent interpretation.
+Thank you for your comments and apologize for the confusion. To make a meaningful comparison, we have revised the method part “Preparation of stable RAPSYNWT, RAPSYNY336F or SRC expression cell lines” (lines 625-627) and reorganized Figure 6 to reflect the differences on the negative controls. In fact, we first used LV6 (EF-1a/Puro; OE-NC1) vector for the overexpression of RAPSYNWT and SRC. Due to low expression level with LV6 and long period of time for subsequent selection, we switched to LV18 (CMV/Puro; OE-NC2) for the overexpression of RAPSYNY336F. Since the sensitivities of K562/MEG01-OE-NC cells to shSRC transduction in Figure 6C (now revised to K562/MEG01-OE-NC1) and 6D (now revised to K562/MEG01-OE-NC2) were noticeably different, we have separated RAPSYNWT and RAPSYNY336F cells as 6C and 6D with their own corresponding empty vector as negative control, instead of merging the results into a single figure with one negative control of OE-NC. In addition, given the fact that K562/MEG01 cells reacted differently upon saracatinib treatments after transduction with the empty vector, we have also distinguished the negative controls as OE-NC1 in Figure 6E, OE-NC2 in Figure 6F and shNC in Figure 6G. Afterall, the transduction of K562/MEG01 cells with different expression vectors and viral particles caused the discrepancies in the experiments of cell viability, which has been clarified by reorganizing Figure 6 in the revision.
+(5) Throughout the manuscript, immunoblots which showcase immunoprecipitations of BCR-ABL or His-BCR-ABL depict poly-neddylation (e.g. Figures 2E-M, 3D-G, and 5A-E) and poly-ubiquitination (e.g. Figures 3D-G) patterns/smears where these patterns seem to extend below the molecular weight of BCR-ABL. To enhance clarity, it would be valuable for the authors to provide an explanation in the text or the figure legend for this observation. Is it reflective of potential degradation of BCR-ABL or is there another explanation behind it?
+Thank you for your valuable comments. After carefully checking original immunoblots, we have ascertained that the protein band of BCR-ABL was at 250 KDa and the smear bands appeared to be higher than 250 KDa were likely caused by the conjugation of NEDD8 (neddylation) or Ubiquitin (ubiquitination) onto BCR-ABL. Regarding the molecular weight of modified BCR-ABL lower than expected, whether it is a common feature as previously reported (Mao, J., et al, 2010, PMID: 21118980) or possible degradation during the modification process or sample preparation requires further investigation. We have corrected the labeling of figures in the revised manuscript.
+
+Reviewer #1 (Recommendations For The Authors):
+
+(1) It would really nail the real-world relevance of these nice findings if the authors are able to confirm some aspects of their cell line-based discoveries in publicly available 'omics datasets generated from primary CML samples. I have suggested some of these in the public review as well.
+Alternatively, if they are able to investigate samples from murine CML models (eg. BALB/c CML models), it would represent a step towards real-world relevance.
+Thank you very much for your constructive comments. According to your suggestion, we have examined and analyzed RAPSYN mRNA and protein in updated and publicly available datasets as replied in the public response.
+(2) The Discussion repeats some of the information already presented in the Introduction (for example, lines 311-327 of the merged document, or lines 349-358). I would urge the authors to instead expand more about how RAPSYN might be upregulated at the post-transcriptional level, or its potential post-translational regulation by SRC-mediated phosphorylation.
+Thanks for your constructive suggestion. We have re-written this part according to your suggestion and marked in red color in the revised manuscript, lines 319-325 and lines 351-378.
+(3) There are instances of clunky phrases/grammatical mistakes in the manuscript which detract from its readability (eg: lines 142-143: "...empty body transduced shRAPSN#3 or K562 cells into...."; lines 163-164: "Despite AChR subunits α7, M2, M3, and M4 were expressed in all tested cells, no change..."; line 178: "Preeminent BCR-ABL neddylation was detected in..."). A closer proof-reading of the final manuscript is advisable.
+We appreciate the valuable comments. We have made changes for improvement, which is marked in red color in the revised manuscript, lines 145-147, lines 166-168 and line 185.
+(4) The western blot in Fig 5C (particularly the control "OE-NC" of K562) looks drastically different from the corresponding control lanes in Figs 5A and 5B.Similarly, the cell viability curves presented in Fig 6D and 6F (for both K562 and MEG-01, control conditions) look very different from the corresponding curves in Figs 6A and 6B.
+We appreciate for your valuable comments. Because we accidently used the imagines with different exposure time, the western blots in Fig 5C (particularly the control "OE-NC" of K562) look very different from corresponding control lanes in Figs 5A and 5B. We have replaced images with the same exposure time in the revised manuscript.
+For readers to clearly understand, we have revised the method part “Preparation of stable RAPSYNWT, RAPSYNY336F or SRC expression cell lines” (lines 625-627) and related figure legends to reflect the differences.
+We have publicly responded the discrepancy on cell viability.
+
+Reviewer #2 (Recommendations For The Authors):
+
+In reviewing your study, I must insist that the completeness and robustness of your work would significantly benefit from a more exhaustive listing of the antibodies used for immunoblotting and immunoprecipitation within the Materials and Methods section. A number of antibodies have been accounted for, however, crucial ones targeting BCR-ABL, c-CBL, Ubiquitin, NEDD8, HA, Myc, and others appear to be omitted. To maintain rigorous scientific standards, I strongly encourage you to include these.
+We appreciate your comments. We have carefully checked the section of Methods and added detailed information of antibodies for Immunoblotting and Immunoprecipitation in the revised manuscript, lines 502-516.
+Associated Data
+
+## Data Citations
+ 
+
+## Supplementary Materials
+Figure 1—source data 1.
+
+## Original file for the Western blot analysis in (anti-BCR-ABL, anti-RAPSYN, anti-GAPDH).
+Figure 1—source data 2.
+
+## PDF containing and original scan of the relevant Western blot analysis (anti-BCR-ABL, anti-RAPSYN, anti-GAPDH) with highlighted bands and sample labels.
+Figure 1—source data 3.
+
+## Original file for the Western blot analysis in (anti-BCR-ABL, anti-RAPSYN, anti-β-Tubulin).
+Figure 1—source data 4.
+
+## PDF containing and original scan of the relevant Western blot analysis (anti-BCR-ABL, anti-RAPSYN, anti-β-Tubulin) with highlighted bands and sample labels.
+Figure 1—source data 5.
+
+## Original file for the Western blot analysis in (anti-BCR-ABL, anti-RAPSYN, anti-β-Tubulin).
+Figure 1—source data 6.
+
+## PDF containing and original scan of the relevant Western blot analysis (anti-BCR-ABL, anti-RAPSYN, anti-β-Tubulin) with highlighted bands and sample labels.
+Figure 1—source data 7.
+
+## Original file for the Western blot analysis in (anti-BCR-ABL, anti-RAPSYN, anti-β-Tubulin).
+Figure 1—source data 8.
+
+## PDF containing and original scan of the relevant Western blot analysis (anti-BCR-ABL, anti-RAPSYN, anti-β-Tubulin) with highlighted bands and sample labels.
+Figure 1—figure supplement 1—source data 1.
+
+## Original file for the Western blot analysis in (anti-RAPSYN, anti-GAPDH).
+Figure 1—figure supplement 1—source data 2.
+
+## PDF containing and original scan of the relevant Western blot analysis (anti-RAPSYN, anti-GAPDH) with highlighted bands and sample labels.
+Figure 2—source data 1.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 2.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 3.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 4.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 5.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 6.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 7.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 8.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 9.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 10.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 11.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 12.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 13.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 14.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 15.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 16.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 17.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 18.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 19.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 20.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 21.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 22.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 23.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 24.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 25.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 26.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—source data 27.
+
+## Original file for the Western blot analysis in .
+Figure 2—source data 28.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—figure supplement 1—source data 1.
+
+## Original file for the Western blot analysis in .
+Figure 2—figure supplement 1—source data 2.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—figure supplement 1—source data 3.
+
+## Original file for the Western blot analysis in .
+Figure 2—figure supplement 1—source data 4.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—figure supplement 1—source data 5.
+
+## Original file for the Western blot analysis in .
+Figure 2—figure supplement 1—source data 6.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—figure supplement 1—source data 7.
+
+## Original file for the Western blot analysis in .
+Figure 2—figure supplement 1—source data 8.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—figure supplement 1—source data 9.
+
+## Original file for the Western blot analysis in .
+Figure 2—figure supplement 1—source data 10.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—figure supplement 1—source data 11.
+
+## Original file for the Western blot analysis in .
+Figure 2—figure supplement 1—source data 12.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—figure supplement 1—source data 13.
+
+## Original file for the Western blot analysis in .
+Figure 2—figure supplement 1—source data 14.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 2—figure supplement 1—source data 15.
+
+## Original file for the Western blot analysis in .
+Figure 2—figure supplement 1—source data 16.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 3—source data 1.
+
+## Original file for the Western blot analysis in .
+Figure 3—source data 2.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 3—source data 3.
+
+## Original file for the Western blot analysis in .
+Figure 3—source data 4.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 3—source data 5.
+
+## Original file for the Western blot analysis in .
+Figure 3—source data 6.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 3—source data 7.
+
+## Original file for the Western blot analysis in .
+Figure 3—source data 8.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 3—source data 9.
+
+## Original file for the Western blot analysis in .
+Figure 3—source data 10.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 3—source data 11.
+
+## Original file for the Western blot analysis in .
+Figure 3—source data 12.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 3—source data 13.
+
+## Original file for the Western blot analysis in .
+Figure 3—source data 14.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 3—source data 15.
+
+## Original file for the Western blot analysis in .
+Figure 3—source data 16.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 3—source data 17.
+
+## Original file for the Western blot analysis in .
+Figure 3—source data 18.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 3—figure supplement 1—source data 1.
+
+## Original file for the Western blot analysis in .
+Figure 3—figure supplement 1—source data 2.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—source data 1.
+
+## Original file for the Western blot analysis in .
+Figure 4—source data 2.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—source data 3.
+
+## Original file for the Western blot analysis in .
+Figure 4—source data 4.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—source data 5.
+
+## Original file for the Western blot analysis in .
+Figure 4—source data 6.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—source data 7.
+
+## Original file for the Western blot analysis in .
+Figure 4—source data 8.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—source data 9.
+
+## Original file for the Western blot analysis in .
+Figure 4—source data 10.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—source data 11.
+
+## Original file for the Western blot analysis in .
+Figure 4—source data 12.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—source data 13.
+
+## Original file for the Western blot analysis in .
+Figure 4—source data 14.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—source data 15.
+
+## Original file for the Western blot analysis in .
+Figure 4—source data 16.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—source data 17.
+
+## Original file for the Western blot analysis in .
+Figure 4—source data 18.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—source data 19.
+
+## Original file for the Western blot analysis in .
+Figure 4—source data 20.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—source data 21.
+
+## Original file for the Western blot analysis in .
+Figure 4—source data 22.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 4—figure supplement 1—source data 1.
+
+## Original file for the Western blot analysis in .
+Figure 4—figure supplement 1—source data 2.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 5—source data 1.
+
+## Original file for the Western blot analysis in .
+Figure 5—source data 2.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 5—source data 3.
+
+## Original file for the Western blot analysis in .
+Figure 5—source data 4.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 5—source data 5.
+
+## Original file for the Western blot analysis in .
+Figure 5—source data 6.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 5—source data 7.
+
+## Original file for the Western blot analysis in .
+Figure 5—source data 8.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 5—source data 9.
+
+## Original file for the Western blot analysis in .
+Figure 5—source data 10.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Figure 5—source data 11.
+
+## Original file for the Western blot analysis in .
+Figure 5—source data 12.
+
+## PDF containing and original scan of the relevant Western blot analysis with highlighted bands and sample labels.
+Supplementary file 1.
+
+## Sequences of shRNA and primer pairs used for real-time PCR to determine the mRNA levels.
+MDAR checklist
+
+## Data Availability Statement
+All data generated or analyzed during this study are included in the manuscript and supporting files.
+The following previously published datasets were used:
+
+Kohlmann A, Kipps TJ, Rassenti LZ, Downing JR, Shurtleff SA, Mills KI, Gilkes AF, Hofmann WK, Basso G, Dell'orto MC, Foà R, Chiaretti S, De Vos J, Rauhut S, Papenhausen PR, Hernández JM, Lumbreras E, Yeoh AE, Koay ES, Li R, Haferlach T. 2009. An international standardization programme towards the application of gene expression profiling in routine leukaemia diagnostics: the Microarray Innovations in LEukemia study prephase. NCBI Gene Expression Omnibus. GSE13159
+
+Haferlach T, Kohlmann A, Wieczore KL, Basso G, Kronnie GT, Béné MC, De Vos J, Hernández JM, Hofmann WK, Mills KI, Gilkes A, Chiaretti S, Shurtleff SA, Kipps TJ, Rassenti LZ, Yeoh AE, Papenhausen PT, Liu WM, Williams PM, Foa R. 2009. Clinical utility of microarray-based gene expression profiling in the diagnosis and subclassification of leukemia: report from the International Microarray Innovations in Leukemia Study Group. NCBI Gene Expression Omnibus. GSE13204
+
+Herrmann H, Sadovnik I, Eisenwort G, Rülicke T, Blatt K, Herndlhofer S, Willmann M, Stefanz IG, Baumgartner S, Greiner G, Schulenburg A, Mueller N, Rabitsch W, Bilban M, Hoermann G, Streubel B, Vallera DA, Sperr WR, Valent P. 2020. Delineation of target expression profiles in CD34+/CD38- and CD34+/CD38+ stem and progenitor cells in AML and CMLIG. NCBI Gene Expression Omnibus. GSE138883
+
+Sinnakannu JR, Lee KL, Cheng S, Li J, Yu M, Tan SP, CCH Ong, Li H, Than H, Anczuków-Camarda O, Krainer AR, Roca X, Rozen SG, Iqbal J, Yang H, Chuah C, Ong ST. 2020. SRSF1 mediates cytokine-induced impaired imatinib sensitivity in chronic myeloid leukemia. NCBI Gene Expression Omnibus. GSE140385
