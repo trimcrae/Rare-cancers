@@ -687,5 +687,163 @@
       }
     },
     "genes_with_no_peak_in_this_deposit": []
+  },
+  "ratio_calibration": {
+    "_what": "each wanted gene's EMC/comparator ratio expressed as a percentile of the same ratio computed for EVERY gene in this deposit",
+    "_why": "a fold-change is not a reading until an arbitrary gene's fold-change is known. This is the manuscript's own §1.3 standard applied to the arm that lacked it.",
+    "_not_a_test": "a percentile is a RANK, not a p-value. n_EMC = 4 and no test is computed or implied anywhere in this block.",
+    "n_genes_in_deposit": 14120,
+    "n_genes_with_a_normal_ratio": 13708,
+    "n_genes_with_a_sarcoma_ratio": 13247,
+    "_genes_without_a_ratio": "a gene whose comparator median is zero has NO ratio and is excluded from the distribution rather than ranked at the top.",
+    "distribution_emc_over_normal": {
+      "median": 1.0518,
+      "p75": 1.276,
+      "p90": 1.5757,
+      "p95": 1.8862,
+      "p99": 3.335
+    },
+    "distribution_emc_over_sarcoma": {
+      "median": 1.0545,
+      "p75": 1.2499,
+      "p90": 1.5257,
+      "p95": 1.8913,
+      "p99": 3.4845
+    },
+    "per_gene": {
+      "ALCAM": {
+        "emc_over_normal": 0.9165,
+        "emc_over_normal_percentile": 33.1,
+        "emc_over_sarcoma": 1.5338,
+        "emc_over_sarcoma_percentile": 90.2,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "BGN": {
+        "emc_over_normal": 1.9107,
+        "emc_over_normal_percentile": 95.2,
+        "emc_over_sarcoma": 2.4936,
+        "emc_over_sarcoma_percentile": 97.7,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "CD248": {
+        "emc_over_normal": 0.8385,
+        "emc_over_normal_percentile": 25.8,
+        "emc_over_sarcoma": 0.6507,
+        "emc_over_sarcoma_percentile": 7.1,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "CD276": {
+        "emc_over_normal": 1.2962,
+        "emc_over_normal_percentile": 76.6,
+        "emc_over_sarcoma": 1.4172,
+        "emc_over_sarcoma_percentile": 86.3,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "CD44": {
+        "emc_over_normal": 1.6939,
+        "emc_over_normal_percentile": 92.4,
+        "emc_over_sarcoma": 1.6351,
+        "emc_over_sarcoma_percentile": 92.2,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "CDH17": {
+        "emc_over_normal": 0.9115,
+        "emc_over_normal_percentile": 32.5,
+        "emc_over_sarcoma": 0.5046,
+        "emc_over_sarcoma_percentile": 4.4,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "CSPG4": {
+        "emc_over_normal": 3.3113,
+        "emc_over_normal_percentile": 99.0,
+        "emc_over_sarcoma": 2.5053,
+        "emc_over_sarcoma_percentile": 97.8,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "ENO3": {
+        "emc_over_normal": 2.5315,
+        "emc_over_normal_percentile": 98.0,
+        "emc_over_sarcoma": 2.0152,
+        "emc_over_sarcoma_percentile": 95.9,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "FAP": {
+        "emc_over_normal": 1.6301,
+        "emc_over_normal_percentile": 91.2,
+        "emc_over_sarcoma": 1.5948,
+        "emc_over_sarcoma_percentile": 91.5,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "GPC3": {
+        "emc_over_normal": 0.0902,
+        "emc_over_normal_percentile": 3.4,
+        "emc_over_sarcoma": 0.482,
+        "emc_over_sarcoma_percentile": 4.1,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "L1CAM": {
+        "emc_over_normal": 0.3334,
+        "emc_over_normal_percentile": 5.8,
+        "emc_over_sarcoma": 1.6232,
+        "emc_over_sarcoma_percentile": 92.1,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "MSLN": {
+        "emc_over_normal": 0.273,
+        "emc_over_normal_percentile": 4.8,
+        "emc_over_sarcoma": 1.2316,
+        "emc_over_sarcoma_percentile": 73.3,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "NR4A3": {
+        "emc_over_normal": 1.9638,
+        "emc_over_normal_percentile": 95.6,
+        "emc_over_sarcoma": null,
+        "emc_over_sarcoma_percentile": null,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "PPARG": {
+        "emc_over_normal": 1.415,
+        "emc_over_normal_percentile": 84.0,
+        "emc_over_sarcoma": 2.1189,
+        "emc_over_sarcoma_percentile": 96.4,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "PRAME": {
+        "emc_over_normal": null,
+        "emc_over_normal_percentile": null,
+        "emc_over_sarcoma": 0.5253,
+        "emc_over_sarcoma_percentile": 4.7,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "RET": {
+        "emc_over_normal": 3.5087,
+        "emc_over_normal_percentile": 99.1,
+        "emc_over_sarcoma": 3.6694,
+        "emc_over_sarcoma_percentile": 99.1,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "SEMA3C": {
+        "emc_over_normal": 1.8175,
+        "emc_over_normal_percentile": 94.2,
+        "emc_over_sarcoma": 1.6622,
+        "emc_over_sarcoma_percentile": 92.6,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "SSTR2": {
+        "emc_over_normal": 1.5441,
+        "emc_over_normal_percentile": 89.2,
+        "emc_over_sarcoma": 1.3722,
+        "emc_over_sarcoma_percentile": 84.0,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      },
+      "VCAN": {
+        "emc_over_normal": 3.3279,
+        "emc_over_normal_percentile": 99.0,
+        "emc_over_sarcoma": 2.0106,
+        "emc_over_sarcoma_percentile": 95.8,
+        "_absent_means": "null is an unreadable ratio -- no peak, or a zero comparator median -- NOT a ratio of zero."
+      }
+    }
   }
 }
