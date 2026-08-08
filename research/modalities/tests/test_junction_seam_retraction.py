@@ -202,6 +202,33 @@ def test_the_sweep_tool_is_staged_before_the_branch_switch_because_the_branch_ha
         "the staged tool must be pointed at the checked-out artifact tree with --dir")
 
 
+def test_a_sweep_dispatch_stages_nothing_from_the_checkout():
+    """⛔ THIS ONE COST DATA BEFORE IT EXISTED, WHICH IS WHY IT IS ASSERTED AND NOT DESCRIBED.
+
+    Run 31277458528 (2026-08-08), the first seam-sweep dispatch: no science step ran, so the
+    publish step's unconditional `cp research/modalities/<globs> $RUNNER_TEMP/res/` staged the
+    REPOSITORY's committed copies and wrote them over the branch's own. `hybrid-intron-model.json`
+    went from 134,817 bytes on `modalities-cache` to the repo's 16,934-byte copy — a 3,130-line
+    deletion inside a commit whose subject said it was bannering seams.
+
+    A mode that runs no producer has no outputs; copying a checked-in file is not a result. The
+    branch is the accumulating home for these artifacts and the checkout is not, so a sweep must
+    stage nothing at all.
+    """
+    text = open(WORKFLOW, encoding="utf-8").read()
+    i_stage = text.index('cp research/modalities/junction-aso-designs*.json "$RUNNER_TEMP/res/"')
+    guard_window = text[max(0, i_stage - 1500):i_stage]
+    assert 'inputs.seam_retraction_sweep }}" != "true" ]; then' in guard_window, (
+        "the publish step stages checkout copies unconditionally; a seam-sweep dispatch will "
+        "overwrite modalities-cache artifacts with whatever is committed in the repo")
+    # every staged glob must sit inside that guard, not just the first one
+    i_else = text.index("else", i_stage)
+    staged = text[i_stage:i_else]
+    for glob_ in ("junction-aso-offtarget*.json", "aso-insilico-evaluation*.json",
+                  "junction-sirna-designs*.json", "hybrid-intron-model.json"):
+        assert glob_ in staged, "%s is staged outside the sweep guard" % glob_
+
+
 def test_the_sweep_failure_actually_blocks_the_push():
     """A guard whose failure is swallowed by `|| true` is a report, not a guard.
 

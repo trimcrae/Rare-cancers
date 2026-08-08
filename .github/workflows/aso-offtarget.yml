@@ -187,11 +187,27 @@ jobs:
           python3 "$RUNNER_TEMP/tool/junction_seam_retraction.py" --check --dir "$RUNNER_TEMP/selftest" || {
             echo "::error::the staged seam-sweep tool cannot run — refusing to publish"; exit 1; }
 
-          cp research/modalities/junction-aso-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/junction-aso-offtarget*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/aso-insilico-evaluation*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/junction-sirna-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/hybrid-intron-model.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          # ⛔⛔ A SWEEP DISPATCH MUST STAGE NOTHING FROM THE CHECKOUT, AND LEARNING THAT COST DATA.
+          # MEASURED, run 31277458528 (2026-08-08): the first seam-sweep dispatch ran no science
+          # step, so these `cp`s staged the *repository's committed copies* of these globs and the
+          # publish then wrote them over the branch's own. `hybrid-intron-model.json` went from
+          # 134,817 bytes on `modalities-cache` to the 16,934-byte copy tracked in the repo — a
+          # 3,130-line deletion in a commit whose subject said it was bannering seams.
+          # ⛔ THAT IS THIS FILE'S OWN RECORDED FAILURE, REINTRODUCED BY A NEW MODE: the
+          # hybrid-intron step above carries the note about run 31130625823, where a swallowed
+          # command let the publish "republish stale artifacts under a fresh-screen commit
+          # message". The commit message here was honest; the staging was not. A mode that runs no
+          # producer has no outputs, and copying a checked-in file is not a result.
+          # The branch is the accumulating home for these artifacts; the checkout is not.
+          if [ "${{ inputs.seam_retraction_sweep }}" != "true" ]; then
+            cp research/modalities/junction-aso-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+            cp research/modalities/junction-aso-offtarget*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+            cp research/modalities/aso-insilico-evaluation*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+            cp research/modalities/junction-sirna-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+            cp research/modalities/hybrid-intron-model.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          else
+            echo "seam sweep: staging nothing from the checkout — the branch's artifacts are the subject, not the output"
+          fi
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
