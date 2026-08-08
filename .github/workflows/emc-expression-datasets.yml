@@ -152,10 +152,14 @@ on:
           cohort-search = ask GEO whether a FOURTH EMC expression cohort exists, and dedup every
           candidate at accession, publication and SAMPLE level before counting it. Writes its OWN
           artifact; reads no expression value and can perturb nothing.
+          gse243553-eno3 = RECON of GEO GSE243553 (the pooled oncofusion scATAC screen, PMID
+          39048711): establish EXACTLY what is deposited, on which genome build, and whether any
+          per-fusion peak call exists to intersect with the ENO3 NBRE coordinates §3.10 reports.
+          Writes its OWN artifact and reads no expression value.
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "ret-cistrome-zenodo"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "ret-cistrome-zenodo", "gse243553-eno3"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -258,7 +262,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${MODE:-}" in
-            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search|ret-cistrome-zenodo) PART_B=false ;;
+            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search|ret-cistrome-zenodo|gse243553-eno3) PART_B=false ;;
             *)                                               PART_B=true  ;;
           esac
           echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
@@ -316,6 +320,16 @@ jobs:
             # reading as new, and a series with NO sample-level read being promoted rather than
             # marked ungraded. All three are asserted here, before one byte is fetched.
             python -m pytest research/modalities/tests/test_emc_cohort_search.py -q
+          elif [ "${{ inputs.mode }}" = "gse243553-eno3" ]; then
+            # ⛔ NOT OPTIONAL. The two ways this module could lie are both offline arithmetic and
+            # both were caught by this selftest before a byte was fetched: (1) the ENO3 NBRE
+            # coordinates are DERIVED from the committed motif scan rather than typed, and the
+            # derivation's first version assumed a strand-oriented `offset_from_tss` that the
+            # artifact does not use — it failed on KDR, a minus-strand gene, by 29,657 bp;
+            # (2) a non-200 fetch must render as `not_retrieved`, never as an empty file listing,
+            # which is the difference between "GEO holds no peak call" and "we could not read GEO".
+            python research/modalities/gse243553_eno3_overlap.py --selftest
+            python -m pytest research/modalities/tests/test_gse243553_eno3_overlap.py -q
           elif [ "${{ inputs.mode }}" = "hypoxia-confounds" ]; then
             # ⛔ THE MERGE GUARD IS THE ONE THAT MATTERS HERE. This mode fetches a SECOND cache of
             # the same two matrices and the audit reads both; if they could disagree silently,
@@ -616,6 +630,38 @@ jobs:
             research/modalities/emc-cohort-search-inputs.json
 
       # ─────────────────────────────────────────────────────────────────────────────────────
+      # gse243553-eno3 — RECON FIRST, because the deposit may not support the analysis
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      #
+      # ⭐ WHY RECON IS ITS OWN STEP AND ITS OWN ARTIFACT. The question is whether EWSR1-NR4A3's
+      # differentially accessible peaks in GSE243553 overlap the ENO3 NBRE coordinates §3.10
+      # reports. Answering it needs a PEAK CALL, and the cistrome search's one read of GEO's file
+      # list recorded only `*_fullfusion_fragments-N.tsv.gz` + `*_SampleN_merged_associations.csv.gz`
+      # — fragments and a barcode->variant map. If that holds there is no deposited peak set to
+      # intersect, and "the deposit does not support the analysis" is the finding. Re-calling peaks
+      # here would be a DIFFERENT experiment wearing this one's name.
+      #
+      # So this step reads four independent places a peak call could live — the series suppl
+      # directory, every SAMPLE's suppl directory and SOFT record, the authors' analysis repo, and
+      # the preprint's media list — and records every filename and every HTTP status verbatim.
+      - name: "GSE243553 recon — what is deposited, on which build, and is there a peak call?"
+        if: inputs.mode == 'gse243553-eno3'
+        timeout-minutes: 30
+        env:
+          GSE243553_BUDGET_S: "1200"
+        run: python research/modalities/gse243553_eno3_overlap.py --stage recon --fetch
+
+      - name: "GSE243553 recon — upload"
+        if: always() && inputs.mode == 'gse243553-eno3'
+        uses: actions/upload-artifact@v4
+        with:
+          name: gse243553-eno3-overlap
+          if-no-files-found: warn
+          path: |
+            research/modalities/gse243553-eno3-overlap-recon.json
+            research/modalities/gse243553-eno3-overlap.json
+
+      # ─────────────────────────────────────────────────────────────────────────────────────
       # ret-motif — the sibling sequence instrument (emc-ret-lane.md §6, next step 2)
       # ─────────────────────────────────────────────────────────────────────────────────────
 
@@ -769,6 +815,10 @@ jobs:
             MSG="EMC cohort search: is there a fourth EMC expression cohort? (CI)"
             PATHS="research/modalities/emc-cohort-search.json
                    research/modalities/emc-cohort-search-inputs.json"
+          elif [ "${{ inputs.mode }}" = "gse243553-eno3" ]; then
+            MSG="GSE243553 recon: what the oncofusion scATAC deposit actually holds (CI)"
+            PATHS="research/modalities/gse243553-eno3-overlap-recon.json
+                   research/modalities/gse243553-eno3-overlap.json"
           elif [ "${{ inputs.mode }}" = "gse28866" ]; then
             MSG="GSE28866 header read: is the tumour-vs-normal EMC deposit gene-indexed? (CI)"
             PATHS="research/modalities/gse28866-tumour-vs-normal.json"
@@ -959,6 +1009,51 @@ jobs:
           if v.get("⚠ incomplete"):
               print(" ", v["⚠ incomplete"])
           print(" ", v["⛔ scope"])
+          PY
+
+      # ⭐ THE FILE LIST PRINTS IN FULL. The whole value of this mode is "what is ACTUALLY
+      # deposited", and a summary that prints a verdict instead of the filenames would be exactly
+      # the shape that made GSE243553 invisible to a year of NR4A3-keyed queries.
+      - name: "Summary — gse243553-eno3"
+        if: always() && inputs.mode == 'gse243553-eno3'
+        run: |
+          python3 - <<'PY'
+          import json, os
+          p = "research/modalities/gse243553-eno3-overlap-recon.json"
+          if not os.path.exists(p):
+              print("no recon artifact — the fetch step did not complete"); raise SystemExit(0)
+          d = json.load(open(p))
+          e = d["eno3_nbre_sites"]
+          print("=== THE COORDINATES BEING ASKED ABOUT (derived, not typed) ===")
+          print(f"  {e['gene']} {e['assembly']} {e['chrom']} TSS {e['tss']} "
+                f"strand {e['gene_strand_derived']} | window {e['window']}")
+          for s in e["sites"]:
+              print(f"    {s['chrom']}:{s['start']}-{s['end']} ({s['strand_of_motif']}) "
+                    f"offset {s['offset_from_tss']:+d}")
+          print()
+          print("=== WHAT GEO ACTUALLY HOLDS ===")
+          print(f"  samples parsed: {d['n_samples_parsed']}")
+          print(f"  series-level supplementary files: {d['series_supplementary_files']}")
+          seen = {}
+          for gsm, r in d["per_sample_supplementary_files"].items():
+              for f in r.get("files", []):
+                  seen.setdefault(f.split("_", 1)[-1], []).append(gsm)
+          for shape, gsms in sorted(seen.items()):
+              print(f"    {shape}  x{len(gsms)}  e.g. {gsms[0]}")
+          print(f"  peak-call-shaped filenames: {d['filenames_matching_a_peak_call_pattern']}")
+          print(f"  deposit_supports_a_peak_overlap: {d['deposit_supports_a_peak_overlap']}")
+          print()
+          print("=== GENOME BUILD, FROM THE DEPOSIT'S OWN WORDS ===")
+          print(f"  token counts: {d['genome_build']['token_counts']}")
+          for ln in d["genome_build"]["data_processing_lines"]:
+              print(f"    {ln[:200]}")
+          print()
+          print("=== FETCHES ===")
+          for k, r in sorted(d["fetches"].items()):
+              print(f"  [{r['state']:>16}] http={r['http']} {r['bytes']:>9}B  {k}")
+          print()
+          for c in d["_constraints_that_travel_with_every_result"]:
+              print("  ⛔", c)
           PY
 
       # ⭐ THE BUILD AND THE POSITIVE CONTROLS PRINT BEFORE THE RESULT, ON PURPOSE. A RET peak
