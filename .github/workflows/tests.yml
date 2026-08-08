@@ -82,6 +82,27 @@ jobs:
       # and the mode being guarded against is succeeding while finding nothing.
       - name: Parser guard (every registered parser can still find what it parses)
         run: python3 systems/parser_guard.py
+      # The partner-stratified clinical pool. Same standalone-step reasoning as the verify modes
+      # above, and the same reason the systemic-therapy one has: this artifact is nothing BUT
+      # patient-level event counts — partner-stratified deaths, local recurrences and metastases,
+      # pooled with Wilson intervals under systems/POLICY-evidence.md §2.1–§2.4.
+      #
+      # ⛔ THE MODE THIS INVOKES DID NOT EXIST UNTIL 2026-08-08, AND IT IS THE SECOND INSTANCE OF
+      # THE SAME DEFECT FOUND THAT DAY. `emc_fusion_partner_pooling.py` parsed no arguments at all:
+      # `--check` was accepted by the shell, ignored by the script, the artifact was OVERWRITTEN and
+      # the run exited 0 — so the `_do_not_hand_edit` banner the artifact carries in its own body
+      # was unenforced and a hand-edited pooled clinical event count persisted with nothing able to
+      # say so. ⚠ Wiring alone is worth nothing here, because the failure being replaced produces NO
+      # SYMPTOM: a `--check` that regenerates its own reference compares the generator against
+      # itself and exits 0 forever. What makes this step evidence rather than decoration is
+      # research/manuscripts/tests/test_emc_fusion_partner_pooling_check.py, which perturbs the REAL
+      # committed artifact on disk — a pooled event count, a Wilson bound, a per-cohort stratum, the
+      # tumour-size defeater and the `_do_not_hand_edit` note itself — and asserts the REAL
+      # `--check` refuses each AND writes nothing. That last assertion is the discriminating one:
+      # return code alone cannot separate the repair from the defect, because a regenerating check
+      # returns 0 precisely because it just made the file match.
+      - name: EMC fusion-partner pooling — the committed artifact re-derives from its counts
+        run: python3 research/manuscripts/emc_fusion_partner_pooling.py --check
       # Same standalone-step reasoning, for the two CI-shape linters. Both exist because a guard
       # that fails OPEN leaves no trace: a `skipped` step and a silently-loosened threshold both
       # render as a green tick, so the only place they can be caught is before they merge.
