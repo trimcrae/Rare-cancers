@@ -4,7 +4,7 @@
  "_lane": "emc-unexplored-treatment-lanes.md \u00a73.1 / emc-ret-lane.md \u00a72d next-step 1",
  "_sibling_instrument": "emc_ret_target_scan.py \u2014 the NBRE motif scan. Different question, allowed to disagree.",
  "_generated_from": "emc-ret-cistrome-inputs.json",
- "generated_utc": "2026-08-08T13:59:03+00:00",
+ "generated_utc": "2026-08-08T20:30:01+00:00",
  "_language_discipline": "Nothing in this file asserts that any RET inhibitor is selective for, effective in, safe in, or ready for extraskeletal myxoid chondrosarcoma, and nothing here recommends giving any agent to any patient. No EMC patient has received a selective RET inhibitor.",
  "part_0_genome_build": {
   "_what": "The genome build, established from two independent sources per build and never lifted over. This block is a RESULT, not metadata (CLAUDE.md \u00a74: this lane has twice been burned by a coordinate convention that produced a plausible file).",
@@ -4703,10 +4703,29 @@
      "supp_file_field": null,
      "_found_by": "(NR4A1 OR NR4A2 OR NR4A3) AND (cDC2 OR \"conventional dendritic\" OR \"dendritic cell\")",
      "\u26a0": "the title and summary are the depositors' CLAIM, not a measurement."
+    },
+    "GSE254076": {
+     "accession": "GSE254076",
+     "title": "Effect of depletion of NR4A3 on vascular calcification [CUT&Tag_NR4A3]",
+     "gdsType": null,
+     "taxon": "Mus musculus",
+     "n_samples": 4,
+     "gpl": null,
+     "gse": null,
+     "pubmed": null,
+     "summary": "Medial arterial calcification is a chronic systemic vascular disorder distinct from atherosclerosis and is commonly observed in patients with chronic kidney disease (CKD), diabetes mellitus, and aging individuals. We previously showed that orphan nuclear receptor NR4A3 is a key regulator in the progression of apolipoprotein (apo) A-IV-induced atherosclerosis; however, little is known about its role in vascular calcification. NR4A3 expression was upregulated in calcified aortic tissues from CKD mice or 1,25(OH)2VitD3 overload-induced mice, and in human calcified aorta. NR4A3 deficiency preserved VSMCs contractile phenotype, inhibited the expression of osteoblast differentiation-related genes, and reduced calcium deposition in the vasculature.",
+     "ftp": null,
+     "supp_file_field": null,
+     "_status": "read",
+     "_found_by": "NAMED_GEO_SERIES \u2014 fetched by accession, not returned by any query",
+     "\u26a0": "the title and summary are the depositors' CLAIM, not a measurement.",
+     "why_named": "NR4A3 CUT&Tag \u2014 the only genome-wide NR4A3 occupancy dataset this lane has found outside the ChIP-Atlas/GEO ChIP-seq set. Missed by every query above because GEO types it `Other` and the assay is CUT&Tag, not ChIP-seq.",
+     "\u26a0 limitation": "MOUSE, WILD-TYPE, NON-EMC. Mus musculus (taxid 10090), primary aortic vascular smooth muscle cells, assembly mm10, wild-type Nr4a3 \u2014 NOT the EWSR1::NR4A3 fusion and not a human tumour. It extends the occupancy axis by one experiment in a new tissue; it answers nothing about human EMC, and any cross-species read requires an orthology step this module does not perform.",
+     "verified_from": "the GEO series and per-sample records, fetched on a GitHub runner 2026-08-08 (fetch-literature.yml run 31276151977, corpus literature-cache:literature/gse254076-cuttag-verify-2026-08-08/)"
     }
    },
    "_status": "read",
-   "n_series": 92
+   "n_series": 93
   },
   "geo_supplementary": {
    "GSE102393": {
@@ -5003,6 +5022,17 @@
     "n_files": 3,
     "files": [
      "GSE79491_RAW.tar",
+     "filelist.txt",
+     "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+    ],
+    "peak_like": []
+   },
+   "GSE254076": {
+    "_status": "read",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE254nnn/GSE254076/suppl/",
+    "n_files": 3,
+    "files": [
+     "GSE254076_RAW.tar",
      "filelist.txt",
      "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
     ],
@@ -7012,6 +7042,24 @@
     "status": 200,
     "budget_at_s": 1245.8,
     "bytes": 702289
+   },
+   {
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=gds&retmode=json&term=GSE254076[ACCN]",
+    "status": 200,
+    "budget_at_s": 1.4,
+    "bytes": 341
+   },
+   {
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=gds&retmode=json&id=200254076",
+    "status": 200,
+    "budget_at_s": 1.7,
+    "bytes": 1699
+   },
+   {
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE254nnn/GSE254076/suppl/",
+    "status": 200,
+    "budget_at_s": 2.2,
+    "bytes": 673
    }
   ]
  },
