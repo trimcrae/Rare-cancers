@@ -57,8 +57,11 @@ classes **Figure 2**, and the per-tumour panel **Figure 3**; 4 and 5 are unchang
   contrasted separately, the reference-pool-matched contrast, the provenance-filtered covariate
   adjustment and the skeletal-muscle admixture control (§3.4–§3.6, Supplementary §S5).
 - The **named discriminators** between the fusion driving a gene and the gene being correlated with
-  EMC (§4.3), and the **measured absence of any retrieved NR4A3-fusion cistrome** in 2,276 documents
-  (§3.11).
+  EMC (§4.3), and the **measured absence of any chromatin experiment on EMC material** — no NR4A3-fusion
+  cistrome retrieved in 2,276 documents, and, measured 2026-08-08 across seven archives, zero deposits
+  on EMC material under any chromatin library strategy, against sibling-fusion chromatin maps that do
+  exist (§3.11). ⚠ The one genome-wide chromatin readout carrying NR4A3 fusions, GSE243553, is
+  accessibility in HEK293T and is reported as such, never as a cistrome.
 - The **result** of the array/3SEQ run (§3.3–§3.9) and the **PPARγ activity reading with its
   adipogenic ceiling** (Supplementary §S4).
 

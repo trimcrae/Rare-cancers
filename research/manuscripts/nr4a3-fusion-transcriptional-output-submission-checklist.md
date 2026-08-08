@@ -194,7 +194,12 @@ most AT-rich of the set. *ENO3*'s one-mismatch count is likewise not enriched (p
 signal sits in exact NBREs rather than degenerate ones.
 
 **Nothing further on the sequence axis is worth running.** Sequence cannot settle occupancy; the
-discriminating experiment is a cistrome in a fusion-expressing cell, which no computation supplies.
+discriminating experiment is occupancy of an NR4A3 fusion in EMC chromatin, which no computation
+supplies. ⚠ Narrowed 2026-08-08 from "a cistrome in a fusion-expressing cell": GSE243553 is a
+chromatin readout in fusion-expressing cells and does *not* discriminate, because it measures
+accessibility in HEK293T rather than occupancy in EMC — so the cell type and the channel are both
+part of the specification (§3.11, and
+[`nr4a3-cistrome-search-2026-08-08.md`](nr4a3-cistrome-search-2026-08-08.md)).
 
 ### Also done (2026-08-08) — the confound audit, offline
 

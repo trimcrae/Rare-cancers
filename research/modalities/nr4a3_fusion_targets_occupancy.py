@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
 """Occupancy axis for the EWSR1::NR4A3 transcriptional-output manuscript.
 
-WHAT THIS IS. The manuscript's §3.11 reports that no genome-wide chromatin experiment has ever been
-performed with an NR4A3 fusion, and then stops — so every other instrument in that paper is an
+WHAT THIS IS. The manuscript's §3.11 reports that no experiment has measured where an NR4A3 fusion
+binds — or what chromatin does — IN EMC MATERIAL, so every other instrument in that paper is an
 expression or a sequence read and none of them touches DNA occupancy. This module asks the nearest
 answerable question from data already cached in this repository: **in the NR4A ChIP-seq experiments
 that DO exist, is there unusual protein occupancy at SEMA3C, PPARG or ENO3?**
+
+⚠ SUPERSEDED WORDING, RETAINED SO IT IS NOT QUOTED AGAIN. This docstring previously opened "no
+genome-wide chromatin experiment has ever been performed with an NR4A3 fusion". That is FALSE as of
+2026-08-08: GEO GSE243553 (PMID 39048711) is a pooled single-cell ATAC screen in HEK293T carrying
+EWSR1-NR4A3, TAF15-NR4A3, TCF12-NR4A3 and TFG-NR4A3. It changes NOTHING this module computes — it is
+chromatin ACCESSIBILITY in a biosensor cell line, not protein occupancy and not EMC, so it is not a
+peak set and does not enter the 110 scored here. See research/manuscripts/nr4a3-cistrome-search-2026-08-08.md.
 
 THE ANSWER IS NO, AND THE WAY IT IS NO MATTERS. Calibrated against a background panel of 198 genes
 this lane did not choose, none of the three class-A genes carries more promoter-window occupancy than

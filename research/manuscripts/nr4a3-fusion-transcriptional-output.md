@@ -73,10 +73,12 @@ comparator stratum separately, a matrix covariate and a muscle control then sepa
 usually treated alike: *SEMA3C* survives nothing and reverses sign with the comparator; *PPARG*'s
 strongest reading is circular, scored on the cohort that first published it; *ENO3* survives
 everything, but was the pre-designated positive control and is not an independent finding here.
-**The binding constraint is not sample size.** No chromatin experiment with an NR4A3 fusion was
-retrieved, and the 110 NR4A peak sets that exist cannot substitute — no class-A gene carries unusual
-occupancy against a background panel. Until a fusion cistrome exists, "elevated in EMC" and "driven
-by the fusion" are inseparable. The null is not EMC-specific: any series with a small index arm and
+**The binding constraint is not sample size.** No experiment has measured where an NR4A3 fusion binds,
+or what chromatin does, in EMC material — the one genome-wide chromatin readout that exists for these
+fusions reads *accessibility* in HEK293T (GSE243553), and the 110 NR4A peak sets that exist are the
+wrong protein or the wrong disease, with no class-A gene carrying unusual occupancy against a
+background panel. Until a fusion cistrome in EMC chromatin exists, "elevated in EMC" and "driven by
+the fusion" are inseparable. The null is not EMC-specific: any series with a small index arm and
 heterogeneous comparators fails the same way.
 
 ---
@@ -666,18 +668,47 @@ composition-naive raw rank suggesting enrichment (p = 0.040) in the most AT-rich
 which numbered from their own promoter constructs. **A distal element outside the window is untested
 by construction.**
 
-### 3.11 · No NR4A3-fusion cistrome was retrieved — a bounded negative about a search
+### 3.11 · Nothing has been measured in EMC chromatin — a bounded negative about a search
 
 The obvious discriminator between *driving* and *correlation* is a cistrome, so five corpora totalling
 **2,276 full-text documents** (3,669 catalogued Europe PMC records) were searched. 153 of those
 documents name both a genome-wide chromatin method (ChIP-seq, CUT&RUN, CUT&Tag, ChIP-exo, ChIP-PET,
-ATAC-seq, ChAP) and NR4A3/NOR-1/TEC. **None applies one to an NR4A3 chimera.** The only chromatin
-experiment performed with a fusion anywhere in the corpus is Brenca *et al.*'s ChAP-qPCR —
+ATAC-seq, ChAP) and NR4A3/NOR-1/TEC. **None of the 153 applies one to an NR4A3 chimera**, and the only
+chromatin experiment performed with a fusion anywhere in that corpus is Brenca *et al.*'s ChAP-qPCR —
 target-specific amplification at one locus, not a genome-wide map.
 
-Stated as what it is: no EWSR1::NR4A3 cistrome has been retrieved in 2,276 documents across five
-corpora. That is not "no such dataset exists" — this searched retrieved full text, not all of PubMed,
-and a dataset can be deposited without a paper. What it does show is that a fusion cistrome is an
+⚠ **That count is a fact about a literature screen, and the absence it was read as does not follow from
+it.** A wider search on 2026-08-08 — the primary sequence archives rather than the literature alone,
+179 API endpoints across six rounds with every query string committed — retrieved a genome-wide
+chromatin experiment performed with NR4A3 fusions. **GEO GSE243553** (Frenkel *et al.*, PMID 39048711;
+public 2024-07-24) is a pooled single-cell ATAC screen of more than 100 oncofusions expressed in
+HEK293T, and its 116-member variant library carries **EWSR1-NR4A3, TAF15-NR4A3, TCF12-NR4A3 and
+TFG-NR4A3** together with two controls this paper's argument needs: **full-length wild-type NR4A3**,
+and the reciprocal **NR4A3-EWSR1**. Quoted from that paper and not re-derived here: TAF15-NR4A3
+increased accessibility at ≈8,600 peaks, within which the NR4A-family motif was enriched;
+EWSR1-NR4A3 gave 1,235 differentially accessible peaks across 112 nuclei; full-length wild-type NR4A3
+changed 0 peaks; and the reciprocal NR4A3-EWSR1 gave 0 peaks over 503 nuclei. **Why a screen of
+retrieved full text could not reach it is worth recording, because the shape recurs**: in a pooled
+screen the perturbation identity is data rather than metadata, so `NR4A3` appears zero times in that
+paper's abstract and zero times across all 24 of the series' GEO sample records, and this project's
+prior chromatin census was antigen-centric with a ChIP-seq-only method vocabulary, which no ATAC
+deposit can satisfy. Search record, per-query counts and the retrieval-failure ledger:
+[`nr4a3-cistrome-search-2026-08-08.md`](nr4a3-cistrome-search-2026-08-08.md).
+
+⛔ **It is accessibility and not occupancy, HEK293T and not EMC, ectopic and not endogenous**, so it is
+not a fusion cistrome and must never be cited as one. What is missing is therefore narrower than a
+blanket absence, and can be stated exactly: **no experiment has measured where an NR4A3 fusion binds,
+or what chromatin does, in EMC material.** Across GEO, SRA, BioProject, BioSample,
+ArrayExpress/BioStudies, ENA and ChIP-Atlas, searched on 2026-08-08, an EMC disease term returns zero
+deposits carrying any chromatin library strategy; the 46 SRA runs an EMC term does return are every one
+RNA-Seq, WXS, WGS, Targeted-Capture or CAGE; and ChIP-Atlas's complete antigen index carries NR4A3 in
+one cell type only (CD1c⁺ dendritic cells) and EWSR1 in seven, none of them EMC. **The negative is
+sharpest stated comparatively, because the field runs this experiment routinely for the sibling fusions
+and has never run it here** — ChIP-seq for EWSR1::WT1 and for EWSR1::ATF1, ATAC-seq for EWSR1::FLI1 and
+FUS::DDIT3 (GSE235218), and ChIP-seq twice for HEY1::NCOA2 mesenchymal chondrosarcoma (GSE163585,
+GSE196000). ⚠ It remains a statement about what has been deposited under a label an archive indexes,
+not about what exists: GSE243553 was itself invisible to every gene-keyed query in that sweep and was
+reached only through a paper's full text. Within that bound, a fusion cistrome in EMC chromatin is an
 open, unclaimed experiment rather than a dataset someone forgot to fetch.
 
 **The available surrogates were then measured rather than dismissed**, because "no fusion cistrome"
@@ -740,8 +771,8 @@ informative experiments — is a paralogue whose peak sharing with NR4A3 is 0.34
 cells. And the twelve ChIP-Atlas NR4A3 peak sets still say nothing at all: at 53–154 peaks they
 recover **no** panel gene, so their silence remains an absent reading. What the table establishes is
 that the surrogates cannot stand in for the missing experiment — now including a genuinely deep NR4A3
-cistrome in the wrong disease — which is why §4.3's discriminating experiment remains a fusion
-cistrome and not a re-analysis.
+cistrome in the wrong disease — which is why §4.3's discriminating experiment remains **occupancy of
+an NR4A3 fusion in EMC chromatin** and not a re-analysis.
 
 ### 3.12 · What the instruments say together
 
@@ -851,8 +882,9 @@ queries while reporting six (SI §S7).
 > of twelve informative NR4A experiments gives against a 198-gene background panel, judged at a
 > Bonferroni threshold for those twelve. Eight are **NR4A1, a paralogue**; four are **wild-type NR4A3
 > in acinic cell carcinoma**, a different disease. Neither is the fusion (§3.11).
-> **No cell asserts that the fusion binds or drives any gene**, and §3.11 records that no
-> NR4A3-fusion cistrome has been reported.
+> **No cell asserts that the fusion binds or drives any gene**, and §3.11 records that no NR4A3-fusion
+> cistrome has been retrieved and that nothing at all has been deposited on EMC material under any
+> chromatin library strategy.
 
 ![Figure 5](figures/fig5-muscle-admixture-control.png)
 
@@ -899,12 +931,15 @@ Nothing here is a first-in-field claim.
   heterogeneous comparator arm has the same failure mode, and in rare tumours such series are the
   only ones that exist. Every biological claim below could be overturned tomorrow by a cistrome
   without touching this.
-- **The map of what is missing, and the experiment that closes it.** Class A is three genes wide, no
-  genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in 2,276 documents,
-  and the 110 NR4A peak sets that do exist are measured — not assumed — to be unable to substitute
-  (§3.11). §4.3 then names the discriminating experiment rather than gesturing at one. For a disease
-  with no fusion cistrome, a specified missing experiment is a more useful output than another
-  correlative reading, and it is the part of this paper addressed to anyone with a laboratory.
+- **The map of what is missing, and the experiment that closes it.** Class A is three genes wide;
+  nothing has been deposited on EMC material under any chromatin library strategy, so no experiment
+  has measured where an NR4A3 fusion binds or what chromatin does in EMC chromatin — while the same
+  archives hold chromatin maps for EWSR1::WT1, EWSR1::ATF1, EWSR1::FLI1, FUS::DDIT3 and HEY1::NCOA2,
+  and hold one *accessibility* screen carrying four NR4A3 fusions in HEK293T (GSE243553); and the 110
+  NR4A peak sets that do exist are measured — not assumed — to be unable to substitute (§3.11). §4.3
+  then names the discriminating experiment rather than gesturing at one. For a disease with no fusion
+  cistrome, a specified missing experiment is a more useful output than another correlative reading,
+  and it is the part of this paper addressed to anyone with a laboratory.
 - **The confound audit.** Comparator composition read from the GEO sample titles rather than from a
   grouping label; the contrast recomputed against every stratum, against the reference-pool-matched
   comparators, and against a provenance-filtered matrix covariate; and a skeletal-muscle control for
@@ -934,7 +969,12 @@ established by it, and a review outside the searched corpus could do so.
    load-bearing: acinic cell carcinoma carries *native* NR4A3 up-regulated by enhancer hijacking, not
    a fusion. Given §3.2's measurement that native NR4A3 does not activate the *PPARG* promoter the
    fusion does, that dataset answers "where does the NR4A3 DNA-binding domain go in a human tumour"
-   and not "where does EWSR1::NR4A3 go". It must never be cited as the latter.
+   and not "where does EWSR1::NR4A3 go". It must never be cited as the latter. The nearest dataset in
+   which an NR4A3 *fusion* is the perturbation is GSE243553 (§3.11), and it is subject to the same
+   restriction from the other direction: it reads chromatin **accessibility** in HEK293T, not
+   occupancy in EMC chromatin, so it cannot be intersected with these expression reads to call a gene
+   driven. The experiment named here is occupancy of an NR4A3 fusion in EMC material, and §3.11 shows
+   the field performs exactly that experiment routinely for neighbouring fusions.
 2. **Fusion knockdown or degradation in a genuinely fusion-positive EMC model, with RNA-seq.** No such
    experiment was retrieved.
 3. **Fusion-type-stratified EMC expression data.** Brenca *et al.* show class-3 versus class-4–6
@@ -1046,14 +1086,19 @@ elevation is not an independent finding of this work (Limitation 17), and the or
 cohorts of 4, 6 and 10. It is a demonstration of the instrument, not a settled result.
 
 **The binding constraint on the biology is not sample size and not statistics.** It is that class A
-is three genes wide, and that no genome-wide chromatin experiment performed with an NR4A3 fusion was
-retrieved in 2,276 full-text documents across five corpora (§3.11 — a bounded statement about a
-search, not a claim that none exists anywhere). Nor can the existing NR4A chromatin data stand in for
-it: across 110 peak sets — including four deep NR4A3 cistromes in acinic cell carcinoma, a disease
-driven by wild-type NR4A3 — no class-A gene carries occupancy beyond a background panel. Until a
-fusion cistrome is in hand, "up in EMC" and "driven by the fusion" cannot be told apart for any gene
-named here, *ENO3* included. **That experiment is specified in §4.3 and is the one thing that would
-change any of this.** No further correlative re-analysis of these deposits will.
+is three genes wide, and that **no experiment has measured where an NR4A3 fusion binds, or what
+chromatin does, in EMC material** (§3.11 — a bounded statement about what has been deposited under a
+label an archive indexes, not a claim that no such data exists anywhere). The one genome-wide
+chromatin readout that carries NR4A3 fusions at all reads *accessibility* in HEK293T (GSE243553), not
+occupancy in EMC chromatin, and cannot close the gap; nor can the existing NR4A chromatin data stand
+in for it, since across 110 peak sets — including four deep NR4A3 cistromes in acinic cell carcinoma,
+a disease driven by wild-type NR4A3 — no class-A gene carries occupancy beyond a background panel.
+⭐ **The sharpest form of that negative is comparative: the field performs this experiment routinely
+for the sibling fusions — EWSR1::WT1, EWSR1::ATF1, EWSR1::FLI1, FUS::DDIT3 and, twice, HEY1::NCOA2 —
+and has never performed it on EMC material.** Until it is, "up in EMC" and "driven by the fusion"
+cannot be told apart for any gene named here, *ENO3* included. **That experiment is specified in §4.3
+and is the one thing that would change any of this.** No further correlative re-analysis of these
+deposits will.
 
 ---
 
@@ -1149,6 +1194,7 @@ Retained so that a superseded number stays quotable as history and not as a curr
 | "…never assembled and tested against a proper calibration" (cover letter). | **corrected 2026-08-08** | An unrestricted negative about all prior literature, resting on nothing. Narrowed to what was actually done — a search, reported as a search — and the novelty claim now rests on the measured near-absence rather than on an assertion that no prior assembly exists. |
 | "All twelve NR4A3-specific peak sets are too shallow to recover any gene at all", and the occupancy axis reported across **86** peak sets, **8** informative experiments and **24** tests. | **superseded 2026-08-08** | True of the twelve ChIP-Atlas sets and still stated of them, but no longer true of the axis: the Haller *et al.* acinic cell carcinoma deposit adds four NR4A3 cistromes at 8,501–18,666 peaks, 55–121× the deepest previously available. The axis is now 110 peak sets, 12 informative experiments and 36 tests (§3.11, Table 9). The conclusion is unchanged and better supported — 2 hits against 1.8 expected, binomial p 0.54 — and *PPARG*'s zero is now a negative rather than an absent reading. |
 | The occupancy verdict decided by comparing the observed hit count with its expected value. | **corrected 2026-08-08** | Expected is fractional and observed is an integer, so 2 against 1.8 read as an excess. The count is judged by a binomial tail (p = 0.54 for this many or more); no wording in any version of this paper rested on the earlier comparison. |
+| **"No genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in 2,276 full-text documents across five corpora"** — §3.11, §4.2, §6, the abstract ("no chromatin experiment with an NR4A3 fusion was retrieved") and the cover letter, each reading the corpus count as an absence. | **retracted 2026-08-08** | **The corpus count is unchanged and was never wrong**: 2,276 documents were searched, 153 name both a genome-wide chromatin method and NR4A3/NOR-1/TEC, and none of the 153 applies one to an NR4A3 chimera. What is retracted is the **inference from that screen to an absence**. A wider search the same day — the primary sequence archives rather than the literature alone — retrieved **GEO GSE243553** (PMID 39048711, public 2024-07-24), a pooled single-cell ATAC screen in HEK293T whose library carries EWSR1-NR4A3, TAF15-NR4A3, TCF12-NR4A3 and TFG-NR4A3 with wild-type NR4A3 and the reciprocal NR4A3-EWSR1 as controls. The earlier screen could not reach it for two reasons, both recorded: the paper's title and abstract say only ">100 oncofusions" and name NR4A3 nowhere, and this project's prior chromatin census (`emc-ret-cistrome.json`) filtered on antigen ∈ {NR4A1, NR4A2, NR4A3} with a ChIP-seq-only method vocabulary, which no pooled ATAC deposit can satisfy. **The replacement claim is narrower and is what §3.11, §4.2, §6 and the abstract now carry:** *no experiment has measured where an NR4A3 fusion binds, or what chromatin does, in EMC material* — GSE243553 being accessibility rather than occupancy, and HEK293T rather than EMC — while the same archives hold chromatin maps for EWSR1::WT1, EWSR1::ATF1, EWSR1::FLI1, FUS::DDIT3 and (twice) HEY1::NCOA2. Full search record: [`nr4a3-cistrome-search-2026-08-08.md`](nr4a3-cistrome-search-2026-08-08.md); corpus: [`lit-targets-nr4a3-cistrome.json`](lit-targets-nr4a3-cistrome.json). No number in §3 moved and the occupancy axis of Table 9 is untouched. |
 
 ## Appendix B · What would change this paper's conclusions
 
@@ -1160,6 +1206,8 @@ Retained so that a superseded number stays quotable as history and not as a curr
 | An EMC expression series recording fusion type per sample | Would test whether *SEMA3C*'s comparator-dependence is really EWSR1-versus-TAF15 heterogeneity inside the EMC arm. |
 | A soft-tissue normal comparator arm | Would remove confound (a), the one this paper cannot narrow. |
 | Any deep NR4A3 ChIP-seq in any human tissue | Would make the §3.11 depth argument testable rather than a bounded negative about a search. |
+| A per-arm reanalysis of GSE243553's barcode→variant files placing the four NR4A3-fusion arms' accessibility calls against a background panel | Would convert §3.11's quoted figures into measured ones and give the first calibrated chromatin read of an NR4A3 *fusion* — in HEK293T, so it would still not make any gene here fusion-driven in EMC. |
+| Any chromatin experiment deposited on EMC material under a label an archive indexes | Would remove the bound §3.11 places on its own negative, which is reach and not existence. |
 
 ---
 
@@ -1179,6 +1227,15 @@ Retained so that a superseded number stays quotable as history and not as a curr
 5. Filion C, Motoi T, Olshen AB, et al. The EWSR1/NR4A3 fusion protein of extraskeletal myxoid
    chondrosarcoma activates the PPARG nuclear receptor gene. *J Pathol* 2009;217(1):83–93. PMID 18855877;
    PMCID PMC4429309; doi 10.1002/path.2445.
+5a. Frenkel M, Corban JE, Hujoel MLA, Morris Z, Raman S. Large-scale discovery of chromatin
+   dysregulation induced by oncofusions and other protein-coding variants. *Nat Biotechnol*
+   2025;43(6):996–1010. PMID 39048711; PMCID PMC13105821; doi 10.1038/s41587-024-02347-4.
+   *(The pooled single-cell ATAC screen behind GEO GSE243553, cited in §3.11 for its four NR4A3-fusion
+   arms and their wild-type and reciprocal controls. Identifiers are held in
+   `lit-targets-nr4a3-cistrome.json`; author list, title, journal, volume and pages are reproduced
+   from the Europe PMC core record retrieved 2026-08-08 by that corpus's `r3_epmc_39048711_core`
+   target and recorded in `lit-frenkel-2025-record.json`. Every figure attributed to it in §3.11 is
+   quoted from that paper and has not been re-derived here.)*
 6. Haller F, et al. Enhancer hijacking activates oncogenic transcription factor NR4A3 in acinic cell
    carcinomas of the salivary glands. *Nat Commun* 2019;10:368. PMID 30664630; PMCID PMC6341107.
 7. Kim AY, Lim B, Choi J, Kim J. The TFG-TEC oncoprotein induces transcriptional activation of the human
