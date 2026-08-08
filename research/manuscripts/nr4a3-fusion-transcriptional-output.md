@@ -410,6 +410,22 @@ the platform*; it is not the same statement as the two arms differing for that g
 panel changed sign in any leave-one-out fit, and none changed sign on the rank re-read, so nothing
 here rests on one tumour or on the z-scoring convention.
 
+***ENO3* is also this study's positive control, and that has to be said plainly.** §2.4 designates
+it the control whose failure would mean "report the instrument, not the biology" — so its elevation
+in EMC is not an independent finding of this work. It was chosen as the control *because* Kim
+*et al.* published it as fusion-driven and a separately written module had already committed its
+value on both platforms. Two things keep the rest of the reading from being circular, and a reader
+should weigh them rather than take the word "survives" at face value. First, the control role tested
+one proposition only — is it up on both platforms — and **everything that separates *ENO3* from
+*PPARG* and *SEMA3C* here was not part of it**: the exact permutation p, invariance across five
+comparator strata, the reference-pool-matched contrast, the matrix adjustment, the 3SEQ percentile,
+the muscle control and the NBRE enrichment could each have failed and did not. Second, the finding
+this paper reports is the **ordering** of the three genes, not *ENO3*'s elevation, and an ordering
+cannot be manufactured by having selected one member in advance. What remains true regardless is
+Limitation 16: a design in which the positive control and the surviving result are the same gene is
+structurally weaker than one in which they are not, and only an independent gene reaching the same
+bar would remove that.
+
 **The muscle-admixture objection, and its answer (Figure 5).** *ENO3* is muscle-specific β-enolase and
 EMC arises in deep soft tissue of the limb, so admixed skeletal muscle is the first alternative
 explanation a reader should reach for. GSE24369 contains two pooled skeletal-muscle RNA samples, in
@@ -779,6 +795,13 @@ These are ceilings, not caveats: each one bounds what any sentence in §3 may be
 15. **Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim**
     for any agent, target or gene, and expression data cannot become that evidence. No drug, dose,
     schedule or patient population is named or implied.
+16. **The positive control and the surviving result are the same gene.** *ENO3* was designated the
+    instrument's positive control before any biological read (§2.4) *and* is the gene that survives
+    every subsequent test (§3.12). Its elevation in EMC is therefore not an independent finding of
+    this work — it was selected as the control because it was expected to be elevated. §3.5 sets out
+    why the rest of the reading is not thereby circular: the control tested one proposition, and none
+    of the tests that separate the three genes was part of it. The structural weakness remains, and
+    the observation that would remove it is a gene other than *ENO3* clearing the same bar.
 
 ---
 
