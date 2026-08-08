@@ -1092,45 +1092,194 @@ A digest "🆕" that crosses one of these is a prompt to update the cited sectio
 
 ## References
 
-Verified reference pool (appear verified in the repo):
+> **⭐ RETRIEVAL STATUS (2026-08-08).** Every identifier below was **returned by a Europe PMC search run on
+> a GitHub runner on 2026-08-08** and is quoted from that returned record; none was written from
+> recollection. The machine record — the six queries, their run IDs, the verbatim abstracts and the
+> known-positive control that makes a green run mean an actual retrieval — is
+> [`lit-targets-aso-verify.json`](./lit-targets-aso-verify.json), which is also the artifact
+> [`lint_citations.py`](./lint_citations.py) anchors this prose against. The assessment of what the
+> retrieval **changes** — including the two items where the sources argue *against* this manuscript — is
+> [`aso-citations-priorart-2026-08-08.md`](./aso-citations-priorart-2026-08-08.md).
+> ⚠ **Journal names are deliberately absent from entries added in that pass.** The fetch path stores Europe
+> PMC's `journalTitle`, which was null for nearly every record, so no journal name would be a retrieved
+> fact — and typing one from memory is the exact failure `lint_citations.py` exists for. The citation key
+> is the PMID/PMCID/DOI, which a reader can check.
 
-- **Sjögren H, et al.** *EWSR1/NR4A3 fusion in extraskeletal myxoid chondrosarcoma.* (EMC defining fusion.)
-- **Panagopoulos I, et al.** *Fusion variants and partners in EMC* (incl. TAF15, TCF12, TFG, FUS).
-- **Crooke ST, et al.** *Antisense technology: an overview and prospectus.* **Nat Rev Drug Discov** 2021.
-  doi:10.1038/s41573-021-00162-z. (Antisense / gapmer / RNase-H1 mechanism overview.)
-- **Bangerter, et al.** USZ-EMC patient-derived EMC model (2023).
-- **Iwata S, et al.** NCC-EMC patient-derived EMC cell lines.
-- **Mullican SE, et al.** *Abrogation of Nr4a3 and Nr4a1 leads to acute myeloid leukemia.* **Nat Med** 2007.
-  (Wild-type NR4A1/NR4A3 loss → AML — the tumour-suppressor liability the junction ASO avoids.)
-- **Safe S, Karki K.** *The paradoxical roles of orphan nuclear receptor 4A (NR4A) in cancer.* **Mol Cancer
-  Res** 2021. (NR4A3 tumour-suppressor roles in HCC/breast/lymphoma.)
-- **Le Guilloux V, Schmidtke P, Tufféry P.** *Fpocket.* **BMC Bioinformatics** 2009. (Referenced for the
-  companion structural/degrader work; not used in this RNA-level analysis.)
+### Reference pool — now carrying retrieved identifiers
+
+- **Labelle Y, Zucman J, Stenman G, Kindblom LG, Knight J, Turc-Carel C, Dockhorn-Dworniczak B, Mandahl N,
+  Desmaze C, Peter M.** *Oncogenic conversion of a novel orphan nuclear receptor by chromosome
+  translocation.* 1995. **PMID: 8634690 · doi:10.1093/hmg/4.12.2219**. The EMC-defining EWS::TEC(NR4A3)
+  fusion; *"three different junction types"*, each joining the EWS transactivation domain to *"the entire
+  TEC protein"*.
+  ⚠ *Superseded, retained:* this slot previously read **"Sjögren H, et al. *EWSR1/NR4A3 fusion in
+  extraskeletal myxoid chondrosarcoma.* (EMC defining fusion.)"** — a **mis-attribution**, found only once
+  the entry was given an identifier. The discovery paper is Labelle et al.; Sjögren's EMC papers report the
+  *variant* 5′ partners (next entry). Both groups are Stenman's, which is the likely origin of the merge.
+- **Sjögren H, et al.** — the variant-partner series: **PMID: 10537274** (TAF2N/TAF15 exon 6 → *"the entire
+  coding region of TEC"*, 1999) · **PMID: 11156374** (TCF12 → *"the entire TEC protein"*, 2000) ·
+  **PMID: 12598313 · PMC1868116 · doi:10.1016/s0002-9440(10)63875-8** (EWS-TEC 5, TAF2N-TEC 4, TCF12-TEC 1
+  across 10 EMCs, 2003).
+- **Panagopoulos I, Mertens F, Isaksson M, Domanski HA, Brosjö O, Heim S, Bjerkehagen B, Sciot R, Dal Cin P,
+  Fletcher JA, Fletcher CD, Mandahl N.** *Molecular genetic characterization of the EWS/CHN and RBP56/CHN
+  fusion genes in extraskeletal myxoid chondrosarcoma.* 2002. **PMID: 12378528 · doi:10.1002/gcc.10127**.
+  Fusion variants and partners **and** the recurrent-junction rank order (see below).
+- **Crooke ST, Baker BF, Crooke RM, Liang XH.** *Antisense technology: an overview and prospectus.* **Nat Rev
+  Drug Discov** 2021. **PMID: 33762737 · doi:10.1038/s41573-021-00162-z**. (Antisense / gapmer / RNase-H1
+  mechanism overview.)
+- **Bangerter JL, Harnisch KJ, Chen Y, Hagedorn C, Planas-Paz L, Pauli C.** *Establishment, characterization
+  and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models.* 2023.
+  **PMID: 36316541 · PMC9813045 · doi:10.1007/s13577-022-00818-x**. USZ20-EMC1 (EWSR1-NR4A3) and USZ22-EMC2
+  (TAF15-NR4A3).
+- **Iwata S, Noguchi R, Osaki J, Adachi Y, Shiota Y, Osaki S, Nishino S, Yoshida A, Ohtori S, Kawai A,
+  Kondo T.** *Establishment and characterization of NCC-EMC1-C1: a novel patient-derived cell line of
+  extraskeletal myxoid chondrosarcoma.* 2025. **PMID: 40580361 · doi:10.1007/s13577-025-01250-7**.
+  ⚠ **Not open access — PAYWALLED.** Only the abstract could be retrieved.
+- **Mullican SE, et al.** *Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute
+  myeloid leukemia.* **Nat Med** 2007. **PMID: 17515897 · doi:10.1038/nm1579**. (Wild-type NR4A1/NR4A3 loss
+  → AML — the tumour-suppressor liability the junction ASO avoids.) *Superseded, retained:* this entry
+  previously carried an abbreviated title.
+- **Safe S, Karki K.** *The Paradoxical Roles of Orphan Nuclear Receptor 4A (NR4A) in Cancer.* **Mol Cancer
+  Res** 2021. **PMID: 33106376 · PMC7864866 · doi:10.1158/1541-7786.mcr-20-0707**.
+- **Le Guilloux V, Schmidtke P, Tufféry P.** *Fpocket: an open source platform for ligand pocket detection.*
+  **BMC Bioinformatics** 2009. **PMID: 19486540 · PMC2700099 · doi:10.1186/1471-2105-10-168**. (Companion
+  structural/degrader work; **not used in this RNA-level analysis** — a reference used by nothing belongs in
+  the companion paper, not here.)
 - **Varadi M, et al.** *AlphaFold Protein Structure Database.* **Nucleic Acids Res** 2022.
-  doi:10.1093/nar/gkab1061. (Referenced for the companion structural work; not used here.)
+  **PMID: 34791371 · PMC8728224 · doi:10.1093/nar/gkab1061**. (Companion structural work; **not used here** —
+  same note as above.)
 
-To verify (do **not** treat as established until sourced):
+### Formerly "to verify" — six resolved, two closed as evidence-backed absences
 
-- B7-H3 (CD276) surface expression in EMC specifically — **[citation to verify]** (broadly expressed across
-  other sarcomas, but no EMC-specific study is known to us; §3c states this).
-- EMC-enriched surface receptor(s) suitable for AOC / targeted-nanoparticle delivery — **[citation to verify]**.
-- EMC-specific surface expression of the surfaceome-scan shortlist (CDH11, FGFR1, GPC2, PTK7, MCAM/CD146) —
-  **[citation to verify]** (the scan ranks these in an EMC-*surrogate* sarcoma class, not EMC; §3c).
-- Whether the EMC-line establishment papers (**Bangerter 2023 / USZ-EMC; Iwata 2025 / NCC-EMC1-C1**) report an
-  **immunophenotype / surface-marker IHC** and/or **deposited RNA-seq (GEO/SRA)** — **[citation to verify]**;
-  either would replace the §3c surrogate with real EMC surface/expression data (the flagged decisive upgrade).
-- Rank-order of recurrent EMC exon junctions (the commonly reported **EWSR1 exon-7/12 :: NR4A3 exon-3**
-  fusion) — **[citation to verify]**; the in-repo companion ([`novel-modalities.md`](./novel-modalities.md)
-  §3.3) resolves EWSR1 exons 7/9/10/11/12/13 → predominantly NR4A3 exon 3 from Ensembl exon structure.
-  ⛔ **That companion is itself downstream of the retracted exon index.** The seven junctions it
-  resolved are the seven `fusion-neoantigen-retraction.json` grades — six `SEAM_NOT_PRODUCED`, one
-  `SEAM_RELABELLED`, **zero with a reproduced NR4A3 label**. What survives is only the *declared
-  window* (`fusion_breakpoints.EWSR1_EXON_WINDOW` / `NR4A3_EXON_WINDOW`), which is a literature input,
-  not a derived result. **So this line's citation flag is not optional bookkeeping: the exon rank-order
-  now has no in-repo support at all and rests entirely on the unfetched primary literature.**
-- Quantitative RNase-H1 tolerance of a single **gap-internal** mismatch (the basis of the "gap mismatch ⇒
-  non-cleaving" heuristic used in §3a-quater) — **[citation to verify]**.
-- Specific non-EWSR1/FET recurrent-fusion cancers as platform extensions — **[citation to verify]** per indication.
+- ✅ **Rank-order of recurrent EMC exon junctions — RESOLVED from the primary literature.**
+  **PMID: 12378528**: across 18 EMCs, *"The most frequent EWS/CHN transcript (type 1; 10 tumors), involved
+  fusion of EWS exon 12 with CHN exon 3, and the second most common (type 5; two cases) was fusion of EWS
+  exon 13 with CHN exon 3. In all tumors with RBP56/CHN fusion, exon 6 of RBP56 was fused to exon 3 of
+  CHN. … In CHN, 12 breakpoints were found in intron 2 and only two in intron 1. In EWS, the breaks occurred
+  in introns 7 (one break), 12 (eight breaks), and 13 (one break)"* (`CHN` = `TEC` = *NR4A3*;
+  `RBP56` = `TAF2N` = *TAF15*). Independent corroboration: **PMID: 11679947 ·
+  doi:10.1053/hupa.2001.28226** (*"EWS-CHN type 1 in 11 cases, EWS-CHN type 2 in 1, and TAF2N-CHN in 3"*
+  of 18) and **PMID: 9060841 · PMC1857890**. Further NR4A3 5′ partners: **PMID: 34124809 ·
+  doi:10.1002/gcc.22976** (SMARCA2 exon 3 → NR4A3 exon 3); an EMC driven by **NR4A2** rather than NR4A3:
+  **PMID: 41315062 · doi:10.1007/s00428-025-04352-7**.
+  ⭐ **This is also external corroboration of the 2026-08-06 exon-index correction.** Twelve of fourteen
+  genomic breaks map to *CHN* **intron 2**, and Labelle (**PMID: 8634690**) and Sjögren (**PMID: 10537274**,
+  **PMID: 11156374**) all describe the product as containing the **entire** TEC/NR4A3 protein — i.e. NR4A3
+  resuming at residue 1, which is the corrected
+  [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json)
+  `nr4a3_resume_range_across_plausible_breakpoints` of **[1, 1]**, and is incompatible with the retracted
+  panels' residue 361. ⚠ *Superseded, retained:* *"the exon rank-order now has no in-repo support at all and
+  rests entirely on the unfetched primary literature."* The literature is no longer unfetched; the in-repo
+  situation is unchanged and the retraction stands.
+- ⛔ **Quantitative RNase-H1 tolerance of a single gap-internal mismatch — RESOLVED, AND THE SOURCES ARGUE
+  AGAINST THE HEURISTIC §3a-quater USES.** **PMID: 23963702 · PMC3834808 · doi:10.1093/nar/gkt725**
+  (Østergaard et al.): *"ASOs have been previously shown to discriminate single nucleotide changes in
+  targeted RNAs with ∼5-fold selectivity. Based on RNase H enzymology, we enhanced single nucleotide
+  discrimination by positional incorporation of chemical modifications within the oligonucleotide to limit
+  RNase H cleavage of the non-targeted transcript. The resulting oligonucleotides demonstrate >100-fold
+  discrimination for a single nucleotide change at an SNP site…"* — so a single mismatch in the catalytic
+  window of an **unmodified** gapmer reduces cleavage roughly **five-fold rather than abolishing it**, and
+  the >100-fold figure requires chemistry this manuscript's designs do not carry. Concordant:
+  **PMID: 28624195 · PMC5363678 · doi:10.1016/j.omtn.2017.02.001** (*"Certain mismatches, however, allow
+  ASOs to bind at physiological conditions and result in RNA cleavage mediated by RNase H"*);
+  **PMID: 28970564 · PMC5624880 · doi:10.1038/s41598-017-12844-z** (of *"over 120 gapmers tested"*, three
+  gave preferential mutant cleavage in cells); **PMID: 38993932 · PMC11238192 ·
+  doi:10.1016/j.omtn.2024.102237** (*"Initial gapmer ASO design exhibited high efficiency but poor
+  specificity for the mutant allele"*); **PMID: 42327837 · PMC13276142 · doi:10.1016/j.omtn.2026.102937**
+  (a 2′-OMe placed at gap position 2 *"to … restrict RNase H1 cleavage"* — engineered, not intrinsic);
+  **PMID: 7731809 · PMC306791 · doi:10.1093/nar/23.6.954**; **PMID: 26544037 · PMC4704561 ·
+  doi:10.1371/journal.pone.0142139**; **PMID: 32092825 · PMC7033438 · doi:10.1016/j.omtn.2020.01.012**;
+  **PMID: 35085461 · doi:10.1089/nat.2021.0009**. Measured gapmer off-target behaviour:
+  **PMID: 29790953 · doi:10.1093/nar/gky397**, **PMID: 31637814 · doi:10.1111/gtc.12730**,
+  **PMID: 36276652 · doi:10.7150/thno.77830**.
+  ⚠ **Directly relevant to this manuscript's 16-mer geometry: PMID: 7567450 · PMC307218 ·
+  doi:10.1093/nar/23.17.3411** — *"Short oligonucleotides (12- or 13mers) centered on the mutation had a very
+  high discriminatory efficiency. Longer oligonucleotides (16mers) did not discriminate efficiently between
+  the mutated and the normal mRNA."*
+  ⛔ **Therefore §3a-quater's "2 of 5 predicted off-target-clean" is a RANKING, not a clean/dirty call**, and
+  the sentence there calling "gap mismatch ⇒ no cleavage" *conservative* no longer holds: against a ~5-fold
+  figure it is optimistic. No retrieved source reports a tolerance number for a 6-nt DNA gap between 5-nt LNA
+  wings specifically, so the ~5-fold value must be cited as the field's general figure. Re-scoring is flagged,
+  not yet applied.
+- ✅ **Non-EWSR1/FET recurrent-fusion cancers as platform extensions — RESOLVED, and they are prior art
+  rather than prospects.** See the prior-art subsection below.
+- ◐ **Whether the EMC-line papers report an immunophenotype / surface-marker IHC and/or deposited RNA-seq —
+  ANSWERED for one, PAYWALLED for the other.** **PMID: 36316541** is open access and was retrieved in full:
+  *"The cells were molecularly characterized using DNA sequencing and methylation profiling."* Its full text
+  contains **no** immunohistochemistry, **no** RNA-seq and **no** GEO/SRA accession — so the §3c "decisive
+  upgrade" is not merely on request for this paper, it is not in it. **PMID: 40580361** is **paywalled**;
+  its abstract reports a 221-agent drug screen and carries no immunophenotype and no accession, and the item
+  stays open **for that paper by name**.
+- ⛔ **B7-H3 (CD276) surface expression in EMC specifically — CLOSED AS AN EVIDENCE-BACKED ABSENCE.** A
+  754-record EMC corpus whose query **named** `B7-H3` and `CD276` returned **zero** EMC records mentioning
+  either in title or abstract, and a full-text grep across its 449 open-access bodies found no EMC-specific
+  B7-H3 result. Quote the query, never the bare zero — the query is in
+  [`lit-targets-aso-verify.json`](./lit-targets-aso-verify.json). This is concordant with §3c, which already
+  calls the B7-H3 nomination an extrapolation from other sarcomas.
+- ⛔ **EMC-specific surface expression of the surfaceome-scan shortlist (CDH11, FGFR1, GPC2, PTK7,
+  MCAM/CD146), and an EMC-enriched receptor for AOC / targeted-nanoparticle delivery — NOT A MISSING
+  CITATION, A MISSING STUDY.** The same query named CDH11, GPC2, PTK7, MCAM and CD146; no EMC record reports
+  surface expression of any of them in EMC. There is no citation to supply, and the shortlist stays
+  surrogate-derived exactly as §3c states.
+
+### Prior art — junction-directed oligonucleotides against fusion oncogenes (retrieved 2026-08-08)
+
+⚠ **This manuscript has no related-work section, and the modality it proposes has a 35-year, continuous,
+clinically-tested precedent.** The full assessment — including which of this paper's claims survive it — is
+[`aso-citations-priorart-2026-08-08.md`](./aso-citations-priorart-2026-08-08.md). Two corpora totalling
+5,385 records were searched; the sources are listed here so the manuscript cites the precedent rather than
+being shown it.
+
+- **The rationale, already stated as a general principle.** **PMID: 16083345 ·
+  doi:10.1517/14728222.9.4.825** (Maksimenko & Malvy, 2005): *"the junction point at the mRNA level offers a
+  target for short therapeutic nucleic acids that is present only in the cancer cells and not in the normal
+  tissues of a patient. Several teams have, therefore, investigated the activity of antisense
+  oligonucleotides and siRNAs targeted against the junction point."*
+- **Antisense at a fusion breakpoint, RNase-H-dependent, in a sarcoma.** **PMID: 9049825 ·
+  doi:10.1023/a:1005716926800** (Toretsky et al., 1997): *"a series of antisense ODN directed toward the
+  breakpoint region … Exogenously added RNase H was found to be required for translation inhibition."*
+  Earlier and adjacent: **PMID: 1794439** (BCR/ABL breakpoint ODN with a scrambled control sparing normal
+  marrow, 1991), **PMID: 7566963** (1995), **PMID: 9005992 · PMC507791 · doi:10.1172/jci119152** (1997).
+- **Catalytic-nucleic-acid route, with an explicit warning about long junction arms.** **PMID: 7987829**
+  (PML/RARα-discriminating ribozyme, 1994), **PMID: 8127665 · PMC523580 · doi:10.1093/nar/22.3.301**,
+  **PMID: 9150886**, **PMID: 9224607 · PMC146844 · doi:10.1093/nar/25.15.3074** (*"Several hammerhead
+  ribozymes with relatively long junction-recognition sequences have poor substrate-specificity"*).
+- **Junction-restricted design methodology already exists.** **PMID: 26627251 · PMC4672813 ·
+  doi:10.1073/pnas.1517039112** (*"in some cases (e.g., a fusion junction site) region choice is restricted.
+  In these instances, alternative approaches are necessary"*) and **PMID: 31728968 ·
+  doi:10.1007/978-1-4939-9904-0_11** (*"sequence homology restricts the targeting region to the chimeric
+  junction and can result in off-target effects on the parental genes"*, with design guidelines and the
+  controls §4 proposes).
+- **Parental sparing demonstrated at a bench, repeatedly.** **PMID: 33241214 · PMC7680176 ·
+  doi:10.1093/noajnl/vdaa132** (FGFR3-TACC3 breakpoint siRNAs *"did not affect levels of wild-type (WT)
+  FGFR3 or TACC3"*); **PMID: 36265509 · PMC10101799 · doi:10.4143/crt.2022.910** (BRD4-NUTM1 junction siRNA
+  *"without affecting the endogenous expression of the parent genes"*); **PMID: 36302174 · PMC9811160 ·
+  doi:10.1158/1078-0432.ccr-22-1851** (shRNAs *"tiled over the fusion junction"* of DNAJB1-PRKACA);
+  **PMID: 23052253 · PMC3525716** and **PMID: 31614005 · PMC6925833** (TMPRSS2/ERG);
+  **PMID: 21846246 · PMC3237690** (PML-RARα); **PMID: 31104089 · PMC7116733** and **PMID: 40991849 ·
+  PMC12824707 · doi:10.1182/blood.2025028988** (BCR-ABL, RUNX1::RUNX1T1).
+- **Sarcoma fusions specifically.** **PMID: 20648560 · doi:10.1002/ijc.25564** (siRNA *"targeting the
+  breakpoint of EWS/Fli-1"*); **PMID: 27261335 · doi:10.1016/j.jconrel.2016.05.063** (siRNA *"directed
+  against the breakpoint of P3F"* — PAX3-FOXO1 — in RGD-targeted nanoparticles);
+  **PMID: 20198325 · doi:10.3892/ijo_00000559** and **PMID: 23716114 · PMC3916608** (SS18-SSX1, synovial
+  sarcoma); **PMID: 14620508 · doi:10.1023/a:1026122914852** (*"Oligonucleotides targeted against a junction
+  oncogene are made efficient by nanotechnologies"*).
+- **The closest program-level precedent, and the one that bears on §3c.** **PMID: 37980543 · PMC10787139 ·
+  doi:10.1016/j.ymthe.2023.11.012** — a GalNAc-conjugated siRNA against the DNAJB1::PRKACA **fusion
+  junction** in fibrolamellar hepatocellular carcinoma, i.e. a rare fusion-driven cancer in which the
+  targeting arm was supplied by a receptor conjugate. ⚠ ASGPR/GalNAc is hepatocyte-directed and is **not**
+  available to a soft-tissue sarcoma, so this bears on §3c as evidence that the delivery gate is passable in
+  principle, **not** as a route for EMC.
+- **Clinical stage.** **PMID: 27166877 · PMC5023384 · doi:10.1038/mt.2016.93** — bi-shRNA EWS/FLI1 lipoplex,
+  which *"targets the identical type 1 translocation junction region of the EWS/FLI1 transcribed mRNA"*, taken
+  through IND-enabling work; follow-through in patients at **PMID: 36780200 · PMC10150239**. Review, 2026:
+  **PMID: 42110475 · PMC13156592 · doi:10.1016/j.omton.2026.201213**.
+- **What the search did NOT find.** No junction-directed oligonucleotide against **EWSR1::NR4A3**, or against
+  any NR4A3 fusion, in 5,385 records; and no **gapmer** — as distinct from siRNA/shRNA/ribozyme/unmodified
+  ODN — directed at any fusion junction in a modern LNA/cEt architecture. ⚠ Read the second of those
+  together with the RNase-H1 item above before treating it as an opportunity: a gapmer's single-base
+  discrimination is poor without engineered gap chemistry, which is a plausible reason the field went to
+  RNAi for junctions.
 
 **Reproducibility.** The real results cited here are committed CPU outputs (snapshotted on the main branch;
 refreshed by GitHub Actions on the `modalities-cache` branch):
@@ -1169,6 +1318,23 @@ refreshed by GitHub Actions on the `modalities-cache` branch):
   `aso-insilico-evaluation-e{7,12}n3.json`, **all six carrying a `_RETRACTED_SEAM` banner.** The
   `e9n3`, `e10n3` and `e13n3` variants and **every** exon-mode siRNA file are absent from
   `origin/main`, from `origin/modalities-cache` and from every commit reachable in this clone.
+  ⚠ **THE `origin/modalities-cache` HALF OF THAT SENTENCE IS FALSE — MEASURED 2026-08-08.**
+  `git cat-file -e origin/modalities-cache:<path>` finds **13 of those 14 files present at the tip of
+  `origin/modalities-cache`**; only `junction-aso-designs-e9n3.json` is genuinely absent everywhere.
+  Thirteen were added in one commit — `30eb56842`, 2026-07-03, `github-actions[bot]`, *"ASO
+  real/reference junction screens: design + gap-resolved BLAST + uncapped eval + siRNA"*, 13 files,
+  3,400 insertions — reachable from `origin/modalities-cache` and from no other ref. The `origin/main`
+  half of the sentence is correct; this is the branch-drift failure of CLAUDE.md §7, where an artifact
+  whose only home is a non-default branch reads as non-existent from `main`.
+  **What this does and does not change.** It removes the *second, independent* ground for withdrawal
+  ("unverifiable") — those files are verifiable. It changes **nothing** about the seam defect, which
+  retracts the claims on its own and is unaffected. ⛔ **And it exposes a worse state than the one it
+  corrects:** those 13 cache-branch files carry the retracted seam **with no banner** — e.g.
+  `junction-sirna-designs-e12n3.json` there still reads `"junction_context_mRNA":
+  "AATGGTTTGATG|TTGTCCGTACAG"` with `"assumption": false` and `"n_passing_all_filters": 3`. The
+  `e7n3`/`e12n3` files on `main` were regenerated at the corrected seam on 2026-08-06; their
+  cache-branch siblings were not. Reported, not fixed — that branch is written by a workflow. Full
+  measurement: [`aso-citations-priorart-2026-08-08.md`](./aso-citations-priorart-2026-08-08.md) Part 3.
   ✅ **Those six were REGENERATED at the corrected seam on 2026-08-06 and no longer carry the banner
   (§3a-sexies).** ⚠ *Superseded, retained: "all six carrying a `_RETRACTED_SEAM` banner."* The count
   is unchanged — **six files, two junctions** — and the `e9n3`/`e10n3`/`e13n3` and siRNA variants are

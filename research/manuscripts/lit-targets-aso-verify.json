@@ -1,0 +1,739 @@
+{
+ "_note": "Retrieval record for the fusion-junction ASO manuscript's citations and for its prior-art search. EVERY identifier below was RETURNED BY A EUROPE PMC SEARCH RUN ON A GITHUB RUNNER on 2026-08-08 and is quoted from that returned record - none was typed from recollection. This file is the ANCHOR that research/manuscripts/lint_citations.py checks the manuscript's prose identifiers against; if an identifier appears in fusion-junction-aso-paper.md it must appear here, and it got here by a fetch.",
+ "_limits": [
+  "An identifier returned by Europe PMC is evidence the RECORD EXISTS with that title and author list. It is NOT evidence that the paper supports the sentence it is attached to - read the quoted abstract.",
+  "JOURNAL TITLES ARE DELIBERATELY ABSENT. scripts/fetch-paper.mjs stores Europe PMC's `journalTitle` field, which was null for nearly every record in this pull, so no journal name here would be a retrieved fact. Rather than type journal names from memory - the exact failure mode lint_citations.py exists for - the citation key is PMID/PMCID/DOI, which is checkable.",
+  "abstract_verbatim is the publisher abstract as Europe PMC returned it, with markup stripped. Structured-abstract headings (Purpose/Methods/Results) were HTML in the source and are removed.",
+  "open_access_full_text_retrieved=false means only the abstract was retrievable. Where the manuscript needs a claim from the body of such a paper, that claim is UNVERIFIED and is named as such."
+ ],
+ "generated_utc": "2026-08-08T18:07:12Z",
+ "generated_et": "2026-08-08, afternoon ET",
+ "produced_by": {
+  "workflow": ".github/workflows/fetch-literature.yml (query path -> scripts/fetch-paper.mjs sync)",
+  "dispatched_at_ref": "claude/paper-paths-emc-treatment-ad72sg",
+  "assertion": "scripts/lit_query_assert.py - fails the run on an empty index or a missing known-positive PMID",
+  "corpora_published_to": "branch literature-cache, under literature/<slug>/ (_index.json + open-access full texts)"
+ },
+ "known_positive_control": {
+  "pmid_injected_into_every_query": "PMID: 29370992",
+  "as_query_clause": "EXT_ID:29370992",
+  "why": "A wired-up search that matches nothing still exits 0 and publishes an empty corpus. Every query below carries one PMID that MUST come back, taken from an identifier already anchored in this repository (research/literature/lane-probe-metabolism-strategy.json), and lit_query_assert.py fails the run if it does not. All six runs passed the control.",
+  "cost_of_the_control": "one irrelevant record per corpus, declared here so nobody mistakes it for a citation"
+ },
+ "queries": [
+  {
+   "slug": "aso-priorart-junction",
+   "run_id": 31270048626,
+   "records_returned": 1133,
+   "published": true,
+   "query": "((\"breakpoint junction\" OR \"fusion junction\" OR \"junction-spanning\" OR \"junction spanning\" OR \"chimeric junction\" OR \"breakpoint-spanning\" OR \"fusion breakpoint\") AND (antisense OR \"antisense oligonucleotide\" OR oligodeoxynucleotide OR gapmer OR siRNA OR \"small interfering RNA\" OR shRNA OR \"RNase H\" OR ribozyme OR \"peptide nucleic acid\" OR \"locked nucleic acid\")) OR EXT_ID:29370992"
+  },
+  {
+   "slug": "aso-priorart-fusiononco",
+   "run_id": 31270054985,
+   "records_returned": 4252,
+   "published": true,
+   "query": "((\"EWS-FLI1\" OR \"EWS-FLI-1\" OR \"EWSR1-FLI1\" OR \"PAX3-FOXO1\" OR \"PAX3-FKHR\" OR \"BCR-ABL\" OR \"BCR-ABL1\" OR \"SS18-SSX\" OR \"SYT-SSX\" OR \"EWS-WT1\" OR \"EWSR1-WT1\" OR \"EWS-NR4A3\" OR \"EWSR1-NR4A3\" OR \"EWS-CHN\" OR \"PML-RARA\" OR \"AML1-ETO\" OR \"MLL-AF9\" OR \"EML4-ALK\") AND (antisense OR gapmer OR \"antisense oligonucleotide\" OR siRNA OR \"small interfering RNA\" OR shRNA OR \"RNase H\" OR \"locked nucleic acid\" OR \"peptide nucleic acid\" OR ribozyme) AND (breakpoint OR junction OR \"fusion-specific\" OR \"fusion specific\" OR chimeric OR \"allele-specific\")) OR EXT_ID:29370992"
+  },
+  {
+   "slug": "aso-rnaseh-mismatch",
+   "run_id": 31270823762,
+   "records_returned": 646,
+   "published": true,
+   "query": "((gapmer OR \"gapmers\") AND (mismatch OR \"allele-selective\" OR \"allele selective\" OR \"single-nucleotide polymorphism\" OR discrimination)) OR ((\"antisense oligonucleotide\" OR \"antisense oligonucleotides\") AND \"RNase H\" AND (\"single mismatch\" OR \"central mismatch\" OR \"mismatch discrimination\" OR \"allele-selective\")) OR EXT_ID:29370992"
+  },
+  {
+   "slug": "emc-junction-rankorder",
+   "run_id": 31270643528,
+   "records_returned": 206,
+   "published": true,
+   "query": "((\"extraskeletal myxoid chondrosarcoma\" OR \"chordoid sarcoma\") AND (NR4A3 OR CHN OR \"NOR-1\" OR TEC) AND (exon OR breakpoint OR \"fusion transcript\" OR variant)) OR EXT_ID:29370992"
+  },
+  {
+   "slug": "emc-lines-surface",
+   "run_id": 31270072213,
+   "records_returned": 754,
+   "published": true,
+   "query": "((\"extraskeletal myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\") AND (\"cell line\" OR \"cell lines\" OR \"patient-derived\" OR xenograft OR organoid OR \"ex vivo\" OR immunohistochemistry OR immunophenotype OR \"RNA sequencing\" OR RNA-seq OR transcriptome OR \"gene expression profiling\" OR B7-H3 OR CD276 OR CDH11 OR GPC2 OR PTK7 OR MCAM OR CD146 OR \"cell surface\" OR \"surface antigen\")) OR EXT_ID:29370992"
+  },
+  {
+   "slug": "aso-refpool-ids",
+   "run_id": 31270887502,
+   "records_returned": 37,
+   "published": true,
+   "query": "(AUTH:\"Mullican SE\" AND Nr4a3) OR (AUTH:\"Karki K\" AND NR4A AND cancer) OR (AUTH:\"Le Guilloux V\" AND fpocket) OR (AUTH:\"Crooke ST\" AND \"antisense technology\") OR DOI:\"10.1038/s41573-021-00162-z\" OR DOI:\"10.1093/nar/gkab1061\" OR EXT_ID:29370992"
+  }
+ ],
+ "records": [
+  {
+   "id": "PMID: 1794439",
+   "title": "Gene-targeted specific inhibition of chronic myeloid leukemia cell growth by BCR-ABL antisense oligodeoxynucleotides.",
+   "authors": "Skórski T, Szczylik C, Malaguarnera L, Calabretta B.",
+   "year": 1991,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 16,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "Philadelphia-chromosome positive chronic myeloid leukemia cells in chronic phase (CML-CP) or blast crisis (CML-BC) and normal bone marrow cells (NBMC) were incubated in vitro with antisense oligonucleotide specific against the BCR/ABL breakpoint junction to examine the possibility of selective inhibition of leukemia growth. Growth capability was determined in vitro by colony assay in semisolid medium in the presence of interleukin 3 (IL-3) and granulocyte-macrophage colony stimulating factor (GM-CSF). The 18-mer antisense directed against the specific BCR/ABL mRNA breakpoint region diminished the colony formation by CML-CP and CML-BC cells, but not by NBMC. Scrambled oligomer did not affect significantly the growth of leukemic and normal cells. If CML-BC cells were mixed with NMBC and incubated with specific BCR/ABL antisense oligomer, leukemic colonies were selectively inhibited, as was shown by reverse, transcriptase-polymerase chain reaction (RT-PCR) performed to detect BCR/ABL mRNA in single colonies. These results confirm the possibility of selective inhibition of leukemia cells by antisense treatment.",
+   "role": "PRIOR ART — BCR-ABL breakpoint-junction antisense ODN, selective inhibition of CML vs normal marrow (1991)."
+  },
+  {
+   "id": "PMID: 7987829",
+   "title": "A ribozyme which discriminates in vitro between PML/RAR alpha, the t(15;17)-associated fusion RNA of acute promyelocytic leukemia, and PML and RAR alpha, the transcripts from the nonrearranged alleles.",
+   "authors": "Pace U, Bockman JM, MacKay BJ, Miller WH, Dmitrovsky E, Goldberg AR.",
+   "year": 1994,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 8,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "Acute promyelocytic leukemia (FAB M3) is distinguished by the presence of the t(15;17) and clinical response to all-trans retinoic acid (RA) treatment. Acute promyelocytic leukemia is associated with a chromosomal translocation which results in the fusion of genes encoding a putative transcription factor (PML) and the retinoic acid receptor alpha (RAR alpha). It is suggested that the PML/RAR alpha fusion protein functions as an inhibitor of myeloid differentiation. The potential use of ribozymes as therapeutic agents has been investigated in the present study. Hammerhead ribozymes, which by hybridizing to both PML and RAR alpha sequences discriminate between the fusion transcript and the normal transcripts from the nonrearranged alleles, were designed and synthesized. Two hammerhead cleavage sites were targeted: site 1, an AUU located 4 nucleotides 3' to the fusion junction; and site 2, a UUC located 26 nucleotides 3' to the junction. Both sites are located in the RAR alpha portion of the fusion transcript. Using a full-length PML/RAR alpha RNA or an RNA corresponding to 788 nucleotides of the PML/RAR alpha mRNA and a full-length RAR alpha RNA or an RNA corresponding to 960 nucleotides of the RAR alpha mRNA as model substrates, the catalytic behavior of several ribozymes was studied. A modified hammerhead directed against site 2 displayed the highest degree of selectivity for PML/RAR alpha. It is hypothesized that ribozyme-mediated inactivation of PML/RAR alpha provides a new approach to study the role of PML/RAR alpha in the deregulated growth and RA response of acute promyelocytic leukemia.",
+   "role": "PRIOR ART — hammerhead ribozyme discriminating PML/RARa fusion RNA from both parental transcripts (1994)."
+  },
+  {
+   "id": "PMID: 8127665 · PMC523580 · doi:10.1093/nar/22.3.301",
+   "title": "Selective cleavage of bcr-abl chimeric RNAs by a ribozyme targeted to non-contiguous sequences.",
+   "authors": "Pachuk CJ, Yoon K, Moelling K, Coney LR.",
+   "year": 1994,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 27,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "Conventionally designed ribozymes may be unable to cleave RNA at sites which are inaccessible due to secondary structure. In addition, it may also be difficult to specifically target a conventionally designed ribozyme to some chimeric RNA molecules. Novel approaches for ribozyme targeting were developed by using the L6 bcr-abl fusion RNA as a model. Using one approach, we successfully directed ribozyme nucleation to a site on the bcr-abl RNA that is distant from the GUA cleavage site. These ribozymes bound to the L6 substrate RNA via an anchor sequence that was complementary to bcr sequences. The anchor was necessary for efficient cleavage as the anchor minus ribozyme, a conventionally designed ribozyme, was inefficient at catalyzing cleavage at this same site. The effect of anchor sequences on catalytic rates was determined for two of these ribozymes. Ribozymes generated by a second approach were designed to cleave at a CUU site in proximity to the bcr-abl junction. Both approaches have led to the development of a series of ribozymes specific for both the L6 and K28 bcr-abl chimeric RNAs, but not normal abl or bcr RNAs. The specificity of the ribozyme correlated in part with the ability of the ribozyme to bind substrate as demonstrated by gel shift analyses. Secondary structure predictions for the RNA substrate support the experimental results and may prove useful as a theoretical basis for the design of ribozymes.",
+   "role": "PRIOR ART — ribozyme selectivity for bcr-abl chimeric RNA via non-contiguous anchoring (1994)."
+  },
+  {
+   "id": "PMID: 7566963",
+   "title": "Loss of tumorigenicity of Ewing's sarcoma cells expressing antisense RNA to EWS-fusion transcripts.",
+   "authors": "Ouchida M, Ohno T, Fujimura Y, Rao VN, Reddy ES.",
+   "year": 1995,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 84,
+   "corpus": "literature/aso-priorart-fusiononco (branch literature-cache)",
+   "abstract_verbatim": "Cytogenetic analysis of Ewing's sarcoma, primitive neuroectodermal tumors and Askin tumors revealed characteristic translocations t(11;22) or t(21;22). Molecular analysis of these translocations revealed 5'-region of EWS gene (from band 22q12) is fused to the 3'-region of either Fli-1 gene (from band 11q24) or erg gene (from band 21q22). Functional characterization of the EWS-Fli-1 and EWS-erg chimeric proteins suggested that they function as transcriptional activators. In order to develop therapeutic agents, it is essential to know whether expression of the EWS-fusion gene products is coupled to tumorigenicity of Ewing's sarcoma cells and if targeting the EWS-fusion products results in loss of tumorigenicity of Ewing's sarcoma cells. For this reason, we have made stable Ewing's sarcomas expressing antisense EWS-Fli-1 or EWS-erg expression plasmids. Expression of antisense EWS fusion transcripts resulted in a significant loss of endogenous EWS-Fli-1 and EWS-erg proteins in Ewing's sarcoma cells. These cells expressing antisense EWS fusion transcripts showed loss of anchorage independent growth and tumorigenicity in nude mice unlike the parental Ewing's sarcoma cells. These results demonstrate the necessity of a certain threshold level of expression of EWS-fusion products in the clonogenicity and tumorigenicity of Ewing's sarcoma cells and therefore emphasizes the importance of targeting the EWS-fusion products as a therapy for Ewing family of tumors.",
+   "role": "PRIOR ART — antisense RNA to EWS fusion transcripts abolishes Ewing tumorigenicity (1995)."
+  },
+  {
+   "id": "PMID: 7567450 · PMC307218 · doi:10.1093/nar/23.17.3411",
+   "title": "Rational design of point mutation-selective antisense DNA targeted to codon 12 of Ha-ras mRNA in human cells.",
+   "authors": "Duroux I, Godard G, Boidot-Forget M, Schwab G, Hélène C, Saison-Behmoaras T.",
+   "year": 1995,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 18,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "Antisense oligodeoxynucleotides targeted to Ha-ras mRNA have been designed to discriminate between the codon 12-mutated oncogene and the normal proto-oncogene. An in vitro assay using two different sources of RNase H (rabbit reticulocyte lysates and nuclear extract from HeLa cells) was used to characterize oligonucleotide binding to normal and mutated Ha-ras mRNA. Short oligonucleotides (12- or 13mers) centered on the mutation had a very high discriminatory efficiency. Longer oligonucleotides (16mers) did not discriminate efficiently between the mutated and the normal mRNA. We have tested the efficacy of dodecanucleotides to induce RNase H cleavage of the full-length mRNA, moving the target sequence from the loop to the stem region which is formed in the vicinity of mutated codon 12. The most selective oligonucleotides were centered on the mutation which is located near the junction between the loop and stem regions even though they were less efficient at inducing RNase H cleavage than those targeted to the loop region. The 12mer antisense oligonucleotide with the highest discriminatory power was selected for cell culture studies. This oligonucleotide inhibited the proliferation of a human cell line which had been transformed with the mutated Ha-ras gene (HBL100ras1) but had no effect on the parental cell line which was transfected with the vector DNA (HBL 100neo) and expressed only the normal Ha-ras gene. Growth inhibition of HBL100ras1 cells was associated with specific ablation of targeted Ha-ras mRNA as shown by RT-PCR. These results show that 'in vitro' evaluation using an RNase H assay allowed us to select an antisense oligonucleotide which elicited a selectivity towards point-mutated Ha-ras mRNA when added at 10 microM concentration to the culture medium of cells expressing wild type and mutated Ha-ras mRNA.",
+   "role": "TO-VERIFY (a) — discrimination is LENGTH-dependent: 12-13mers centred on the mismatch discriminate, 16mers do not."
+  },
+  {
+   "id": "PMID: 7731809 · PMC306791 · doi:10.1093/nar/23.6.954",
+   "title": "Single base discrimination for ribonuclease H-dependent antisense effects within intact human leukaemia cells.",
+   "authors": "Giles RV, Ruddell CJ, Spiller DG, Green JA, Tidd DM.",
+   "year": 1995,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 53,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "We have previously demonstrated, in vitro, that phosphodiester and phosphorothioate antisense oligodeoxynucleotides could direct ribonuclease H to cleave non-target RNA sites and that chimeric methylphosphonodiester/phosphodiester analogue structures were substantially more specific. In this report we show that such chimeric molecules can promote point mutation-specific scission of target mRNA by both Escherichia coli and human RNases H in vitro. Intact human leukaemia cells 'biochemically microinjected' with antisense effectors demonstrated efficient suppression of target mRNA expression. It was noted that the chimeric methylphosphonodiester/phosphodiester structures showed single base discrimination, whereas neither the phosphodiester nor phosphorothioate compounds were as stringent. Finally, we show that the antisense effects obtained in intact cells were due to endogenous RNase H activity.",
+   "role": "TO-VERIFY (a) — single-base discrimination is chemistry-dependent, not automatic."
+  },
+  {
+   "id": "PMID: 8634690 · doi:10.1093/hmg/4.12.2219",
+   "title": "Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation.",
+   "authors": "Labelle Y, Zucman J, Stenman G, Kindblom LG, Knight J, Turc-Carel C, Dockhorn-Dworniczak B, Mandahl N, Desmaze C, Peter M.",
+   "year": 1995,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 139,
+   "corpus": "literature/emc-junction-rankorder (branch literature-cache)",
+   "abstract_verbatim": "A recurrent t(9;22) (q22;q12) chromosome translocation has been described in extraskeletal myxoid chondrosarcoma (EMC). Fluorescent in situ hybridization experiments performed on one EMC tumour indicated that the chromosome 22 breakpoint occurred in the EWS gene. Northern blot analysis revealed an aberrant EWS transcript which is cloned by a modified RT-PCR procedure. This transcript consists of an in-frame fusion of the 5' end of EWS to a previously unidentified gene, which was named TEC. This fusion transcript was detected in six of eight EMC studied, and three different junction types between the two genes were found. In all junction types, the putative translation product contained the amino-terminal transactivation domain of EWS linked to the entire TEC protein. Homology analysis showed that the predicted TEC protein contains a DNA-binding domain characteristic of nuclear receptors. The highest identity scores were observed with the NURR1 family of orphan nuclear receptors. These receptors are involved in the control of cell proliferation and differentiation by modulating the response to growth factors and retinoic acid. This work provides, after the PML/RAR alpha gene fusion, the second example of the oncogenic conversion of a nuclear receptor and the first example involving the orphan subfamily. Analysis of the disturbance induced by the EWS/TEc protein in the nuclear receptor network and their target genes may lead to new approaches for EMC treatment.",
+   "role": "REF-POOL · EMC-defining fusion (EWS::TEC/NR4A3) — the primary discovery paper. NOTE: the manuscript attributed this slot to \"Sjögren H, et al.\"; the discovery paper is Labelle et al. Stenman is a co-author of both."
+  },
+  {
+   "id": "PMID: 9150886 · doi:10.1016/s0300-9084(97)86731-4",
+   "title": "In vitro catalytic activities of DNA/RNA chimeric hammerhead ribozymes against AML1-MTG8 mRNA, a fused gene transcript in acute myeloid leukemia with t(8;21).",
+   "authors": "Kozu T, Sueoka E, Okabe S, Sueoka N, Komori A, Fujiki H.",
+   "year": 1996,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 2,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "In order to design the best construct for therapeutic hammerhead ribozymes against AML1-MTG8, the t(8;21)-associated fusion mRNA of acute myeloid leukemia, we synthesized DNA/RNA chimeric ribozymes directed to the area adjacent to the fusion point between AML1 and MTG8. Catalytic efficiency and fusion gene specificity of ribozymes were examined by kinetic studies of the cleavage reactions of AML1-MTG8, AML1, and MTG8 RNAs transcribed in vitro. Ribozyme 2 (Rz2) specifically cleaved AML1-MTG8 RNA at three nucleotides downstream of the fusion junction with high efficiency. The highest cleavage efficiency was achieved by Rz4.3, which targeted non-contiguous sequences and cleaved at 19 nucleotides downstream of the fusion junction. Rz4.3 also cleaved MTG8 RNA but the cleavage efficiency was three orders of magnitude lower than that for AML1-MTG8 RNA. Therefore, Rz4.3 and Rz2 are the proper ribozymes for in vivo application to modulate gene expression of the AML1-MTG8.",
+   "role": "PRIOR ART — hammerhead ribozymes against the AML1-MTG8 fusion point (1996)."
+  },
+  {
+   "id": "PMID: 9005992 · PMC507791 · doi:10.1172/jci119152",
+   "title": "EWS-Fli1 antisense oligodeoxynucleotide inhibits proliferation of human Ewing's sarcoma and primitive neuroectodermal tumor cells.",
+   "authors": "Tanaka K, Iwakuma T, Harimaya K, Sato H, Iwamoto Y.",
+   "year": 1997,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 193,
+   "corpus": "literature/aso-priorart-fusiononco (branch literature-cache)",
+   "abstract_verbatim": "The translocation t(11;22) is a common chromosomal abnormality detected both in Ewing's sarcoma and in primitive neuroectodermal tumor cells. The translocation results in an EWS-Fli1 fusion gene, made up of the 5' half of the EWS gene on chromosome 22 fused to the 3' half of the Fli1 gene on chromosome 11. Recent studies have evaluated possible roles of the fusion gene products. However, the biological significance of EWS-Fli1 is still unknown. Using a competitive polymerase chain reaction technique, we show here that there might be a correlation between the expression levels of the EWS-Fli1 fusion gene and the proliferative activities of Ewing's sarcoma and primitive neuroectodermal tumor cells. When the EWS-Fli1 expression is inhibited by antisense oligodeoxynucleotides against the fusion RNA, the growth of the tumor cells is significantly reduced both in vitro and in vivo. The data further indicate the growth inhibition of the cells by the antisense sequence might be mediated by G0/G1 block in the cell cycle progression. These results suggest that EWS-Fli1 may play an important role in the proliferation of the tumor cells, and the EWS-Fli1 fusion RNA could be used as a target to inhibit the growth of Ewing's sarcoma and primitive neuroectodermal tumor with the specific antisense oligonucleotide.",
+   "role": "PRIOR ART — EWS-Fli1 antisense oligodeoxynucleotide, growth inhibition in vitro and in vivo (1997)."
+  },
+  {
+   "id": "PMID: 9049825 · doi:10.1023/a:1005716926800",
+   "title": "Inhibition of EWS-FLI-1 fusion protein with antisense oligodeoxynucleotides.",
+   "authors": "Toretsky JA, Connell Y, Neckers L, Bhat NK.",
+   "year": 1997,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 62,
+   "corpus": "literature/aso-priorart-fusiononco (branch literature-cache)",
+   "abstract_verbatim": "Ewing's sarcoma family of tumors (EFT) contain reciprocal translocations, of which approximately 90% occur between the long arm of chromosomes 11 and 22,t(11;22)(q24;q12) resulting in the formation of chimeric proteins generated by a fusion of the EWS and FLI-1 genes. To determine if EWS-FLI-1 protein is responsible for the Ewing sarcoma phenotype we have used sequence-specific antisense oligodeoxynucleotides (ODN) to block its expression. We have evaluated a series of antisense ODN directed toward the breakpoint region in an effort to prevent translation of the fusion messenger RNA. ODN were first evaluated in a cell-free in vitro translation system. Exogenously added RNase H was found to be required for translation inhibition. ODN that showed complete inhibition of translation were electroporated into TC-32 cells, a EFT cell line. Fusion protein and EWS protein levels were evaluated by Western blot analysis. A 40-60% decrease in the fusion protein was observed in TC-32 cells with antisense ODN directed toward the breakpoint region. Cell viability was reduced with antisense sequences in TC-32 cells but not in a prostate cancer cell line. Since inhibition of t(11:22) gene product is correlated to effects on cell viability reduction of the fusion protein may thus offer insight into the biology of EFT.",
+   "role": "PRIOR ART — CLOSEST MECHANISTIC PRECEDENT: antisense ODN series directed at the EWS-FLI-1 BREAKPOINT REGION, with exogenous RNase H required for translation inhibition (1997)."
+  },
+  {
+   "id": "PMID: 9060841 · PMC1857890",
+   "title": "Molecular analysis of the fusion of EWS to an orphan nuclear receptor gene in extraskeletal myxoid chondrosarcoma.",
+   "authors": "Brody RI, Ueda T, Hamelin A, Jhanwar SC, Bridge JA, Healey JH, Huvos AG, Gerald WL, Ladanyi M.",
+   "year": 1997,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 64,
+   "corpus": "literature/emc-junction-rankorder (branch literature-cache)",
+   "abstract_verbatim": "The pathogenesis of myxoid chondrosarcoma (CS) is poorly understood. A recurrent translocation, t(9;22) (q22;q12), has been recognized in CS, specifically in extraskeletal myxoid CS. Recently, this translocation has been shown to represent a rearrangement of the EWS gene at 22q12 with a novel gene at 9q22 designated CHN (or TEC). Sequence analysis suggests that CHN encodes a novel orphan nuclear receptor with a zinc finger DNA-binding domain. The structure of this gene fusion has been characterized in only a limited number of extraskeletal myxoid CSs and its presence in other types of CS has not been extensively examined. We studied 46 cases of CS (8 extraskeletal myxoid, 4 skeletal myxoid, 4 mesenchymal, and 30 other) for the EWS/CHN gene fusion by reverse transcriptase polymerase chain reaction, Southern blotting, and long-range DNA polymerase chain reaction. The EWS/CHN gene fusion was present in 6 of 8 extraskeletal myxoid CSs and was not detected in any of the remaining cases, including the 4 skeletal myxoid CSs. The negative findings in the latter cases suggest that skeletal myxoid CS is pathogenetically distinct from its extraskeletal counterpart. Notably, 2 cases of extraskeletal myxoid CS showed neither an EWS/CHN fusion transcript nor EWS/CHN genomic fusion nor EWS or CHN genomic rearrangement, suggesting genetic heterogeneity within extraskeletal myxoid CS. Finally, we also provide evidence for alternative splicing of the 3' end of the fusion transcript. Extraskeletal myxoid CS thus represents yet another sarcoma type containing a gene fusion involving EWS.",
+   "role": "TO-VERIFY (b) corroboration — independent EWS/CHN series."
+  },
+  {
+   "id": "PMID: 9224607 · PMC146844 · doi:10.1093/nar/25.15.3074",
+   "title": "Comparison of the specificities and catalytic activities of hammerhead ribozymes and DNA enzymes with respect to the cleavage of BCR-ABL chimeric L6 (b2a2) mRNA.",
+   "authors": "Kuwabara T, Warashina M, Tanabe T, Tani K, Asano S, Taira K.",
+   "year": 1997,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 43,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "With the eventual goal of developing a treatment for chronic myelogenous leukemia (CML), attempts have been made to design hammerhead ribozymes that can specifically cleave BCR-ABL fusion mRNA. In the case of L6 BCR-ABL fusion mRNA (b2a2 type; BCR exon 2 is fused to ABL exon 2), which has no effective cleavage sites for conventional hammerhead ribozymes near the BCR-ABL junction, it has proved very difficult to cleave the chimeric mRNA specifically. Several hammerhead ribozymes with relatively long junction-recognition sequences have poor substrate-specificity. Therefore, we explored the possibility of using newly selected DNA enzymes that can cleave RNA molecules with high activity to cleave L6 BCR-ABL fusion (b2a2) mRNA. In contrast to the results with the conventional ribozymes, the newly designed DNA enzymes, having higher flexibility for selection of cleavage sites, were able to cleave this chimeric RNA molecule specifically at sites close to the junction. Cleavage occurred only within the abnormal BCR-ABL mRNA, without any cleavage of the normal ABL or BCR mRNA. Thus, these chemically synthesized DNA enzymes seem to be potentially useful for application in vivo , especially for the treatment of CML, if we can develop exogenous delivery strategies.",
+   "role": "PRIOR ART — ribozymes vs DNA enzymes at the BCR-ABL b2a2 junction; ribozymes with long junction-recognition arms had POOR substrate specificity (1997)."
+  },
+  {
+   "id": "PMID: 10537274",
+   "title": "Fusion of the EWS-related gene TAF2N to TEC in extraskeletal myxoid chondrosarcoma.",
+   "authors": "Sjögren H, Meis-Kindblom J, Kindblom LG, Aman P, Stenman G.",
+   "year": 1999,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 107,
+   "corpus": "literature/emc-junction-rankorder (branch literature-cache)",
+   "abstract_verbatim": "Extraskeletal myxoid chondrosarcomas (EMCs) are characterized by a recurrent t(9;22)(q22;q12) translocation, resulting in the fusion of the EWS gene in 22q12 and the TEC gene in 9q22. Here we report that a third member of the EWS, TLS/FUS gene family, TAF2N, can replace EWS as a fusion partner to TEC in EMC. Two tumors, one with a novel t(9;17)(q22;q11) variant translocation and one with an apparently normal karyotype, expressed TAF2N-TEC fusion transcripts. In both cases, the chimeric transcripts were shown to contain exon 6 of TAF2N fused to the entire coding region of TEC. This transcript is structurally and functionally very similar to the EWS-TEC fusions. The exchange of the EWS NH2-terminal part with the TAF2N NH2-terminal part in EMC further underscores the oncogenic potential of these protein domains as partners in fusion genes.",
+   "role": "REF-POOL Sjögren — TAF2N(TAF15)::TEC variant partner."
+  },
+  {
+   "id": "PMID: 11156374",
+   "title": "Fusion of the NH2-terminal domain of the basic helix-loop-helix protein TCF12 to TEC in extraskeletal myxoid chondrosarcoma with translocation t(9;15)(q22;q21).",
+   "authors": "Sjögren H, Wedell B, Meis-Kindblom JM, Kindblom LG, Stenman G.",
+   "year": 2000,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 82,
+   "corpus": "literature/emc-junction-rankorder (branch literature-cache)",
+   "abstract_verbatim": "Extraskeletal myxoid chondrosarcomas (EMCs) are characterized by recurrent t(9;22) or t(9;17) translocations resulting in fusions of the NH2-terminal transactivation domains of EWS or TAF2N to the entire TEC protein. We report here an EMC with a novel translocation t(9; 15)(q22;q21) and a third type of TEC-containing fusion gene. The chimeric transcript encodes a protein in which the first 108 amino acids of the NH2-terminus of the basic helix-loop-helix (bHLH) protein TCF12 is linked to the entire TEC protein. The translocation separates the NH2-terminal domain of TCF12 from the bHLH domain as well as from a potential leucine zipper domain located immediately downstream of the breakpoint. These results demonstrate that the NH2-terminal transactivation domains of EWS or TAF2N are not unique in their ability to convert the TEC protein into an oncogenically active fusion protein, and that they may be replaced by a domain from a bHLH protein that presumably endows the fusion protein with similar functions.",
+   "role": "REF-POOL Sjögren — TCF12::TEC variant partner."
+  },
+  {
+   "id": "PMID: 11679947 · doi:10.1053/hupa.2001.28226",
+   "title": "Extraskeletal myxoid chondrosarcoma: a clinicopathologic, immunohistochemical, and molecular analysis of 18 cases.",
+   "authors": "Okamoto S, Hisaoka M, Ishida T, Imamura T, Kanda H, Shimajiri S, Hashimoto H.",
+   "year": 2001,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 95,
+   "corpus": "literature/emc-junction-rankorder (branch literature-cache)",
+   "abstract_verbatim": "Extraskeletal myxoid chondrosarcoma (EMCS) is an uncommon clinicopathologically well-defined tumor, but its pathogenesis and biologic behavior are poorly understood. We reviewed 18 cases of EMCS to verify clinicopathologic features and immunohistochemical profiles together with molecular detection of the tumor-specific fusion genes. The tumors were located mainly in the proximal extremities and limb girdles (72%). Two tumors arose at unusual anatomic sites: the finger and the hip joint. Nine of the 17 followed-up patients were alive and disease free, 4 were alive with recurrences and/or metastases, and 4 died of the tumor. Fifteen tumors showed typical features of EMCS, and 3 had hypercellular areas in addition to conventional EMCS areas. The tumors were variably immunoreactive for S-100 protein (50%), NSE (89%), peripherin (60%), and synaptophysin (22%). Chromogranin A and some epithelial markers (AE1/AE3, CAM5.2, and epithelial membrane antigen) were entirely negative. Frequent expressions of the neural/neuroendocrine markers suggest possible neural/neuroendocrine differentiation in at least some EMCSs, in addition to chondroid differentiation. In a reverse-transcription polymerase chain reaction (RT-PCR) assay using paraffin-embedded specimens, EWS-CHN or TAF2N-CHN fusion gene transcripts characteristic of EMCS could be detected in 15 (83%) of the 18 cases: EWS-CHN type 1 in 11 cases, EWS-CHN type 2 in 1, and TAF2N-CHN in 3. Three fusion-negative cases included 2 conventional EMCSs and 1 considered a \"cellular\" variant of the tumor. None of 30 other soft tissue and bone tumors with myxoid or chondroid morphology that we examined contained these fusion genes. Thus, RT-PCR detection of EWS-CHN or TAF2N-CHN fusion gene using archival paraffin-embedded tissue is a feasible and useful ancillary technique for the diagnosis of EMCS.",
+   "role": "TO-VERIFY (b) corroboration — independent fusion-type counts in 18 EMCs."
+  },
+  {
+   "id": "PMID: 12378528 · doi:10.1002/gcc.10127",
+   "title": "Molecular genetic characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid chondrosarcoma.",
+   "authors": "Panagopoulos I, Mertens F, Isaksson M, Domanski HA, Brosjö O, Heim S, Bjerkehagen B, Sciot R, Dal Cin P, Fletcher JA, Fletcher CD, Mandahl N.",
+   "year": 2002,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 72,
+   "corpus": "literature/emc-junction-rankorder (branch literature-cache)",
+   "abstract_verbatim": "Extraskeletal myxoid chondrosarcoma (EMC) is a soft-tissue neoplasm cytogenetically characterized by the translocations t(9;22)(q22;q11-12) or t(9;17)(q22;q11), generating EWS/CHN or RBP56/CHN fusion genes, respectively. In the present study, 18 EMCs were studied both cytogenetically and at the molecular level. Chromosomal aberrations were detected in 16 samples: 13 with involvement of 9q22 and 22q11-12, and three with rearrangements of 9q22 and 17q11. Fifteen cases had an EWS/CHN fusion transcript and three had an RBP56/CHN transcript. The most frequent EWS/CHN transcript (type 1; 10 tumors), involved fusion of EWS exon 12 with CHN exon 3, and the second most common (type 5; two cases) was fusion of EWS exon 13 with CHN exon 3. In all tumors with RBP56/CHN fusion, exon 6 of RBP56 was fused to exon 3 of CHN. By genomic XL PCR and sequence analyses, the breakpoints from 14 cases were mapped in the EWS, RBP56, and CHN genes. In CHN, 12 breakpoints were found in intron 2 and only two in intron 1. In EWS, the breaks occurred in introns 7 (one break), 12 (eight breaks), and 13 (one break), and in RBP56 in intron 6. Repetitive elements such as Alu and LINE sequences seem to have limited, if any, importance in the genesis of EWS/CHN and RBP56/CHN chimeras. Furthermore, there were no chi, chi-like, topoisomerase II, or translin consensus sequences in the introns harboring the translocation breakpoints, nor could the number of topo I sites in EWS, RBP56, and CHN introns explain the uneven distribution of the breakpoints among EWS or CHN introns. Additional genetic events, such as nucleotide insertions, homologies at the junction, deletions, duplications, and inversions, were found to accompany the translocations, indicating that the chromosomal translocations do not require sequence-specific recombinases or extensive homology between the recombined sequences.",
+   "role": "REF-POOL Panagopoulos + TO-VERIFY (b) exon rank-order — THE source for the recurrent-junction rank order."
+  },
+  {
+   "id": "PMID: 12598313 · PMC1868116 · doi:10.1016/s0002-9440(10)63875-8",
+   "title": "Studies on the molecular pathogenesis of extraskeletal myxoid chondrosarcoma-cytogenetic, molecular genetic, and cDNA microarray analyses.",
+   "authors": "Sjögren H, Meis-Kindblom JM, Orndal C, Bergh P, Ptaszynski K, Aman P, Kindblom LG, Stenman G.",
+   "year": 2003,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 77,
+   "corpus": "literature/emc-junction-rankorder (branch literature-cache)",
+   "abstract_verbatim": "Extraskeletal myxoid chondrosarcomas (EMCs) are characterized by recurrent chromosome translocations resulting in fusions of the nuclear receptor TEC to various NH(2)-terminal partners. Here we describe the phenotypic, cytogenetic, and molecular genetic characteristics of a series of 10 EMCs. Using spectral karyotyping and fluorescence in situ hybridization, clonal chromosome abnormalities were detected in all but one tumor. A t(9;22)(q22;q12) translocation was found in three cases; a del(22)(q12-13)in one case; and variant translocations, including t(9;17)(q22;q11-12), t(7;9;17)(q32;q22;q11), and t(9;15)(q22;q21), were detected in one case each. Recurrent, secondary abnormalities, including trisomy 1q, 7, 8, 12, and 19, were found in seven tumors. All tumors contained translocation-generated or cryptic gene fusions, including EWS-TEC (five cases, of which one was a novel fusion), TAF2N-TEC (four cases), and TCF12-TEC (one case). cDNA microarray analysis of the gene expression patterns of two EMCs and a myxoid liposarcoma reference tumor revealed a remarkably distinct and uniform expression profile in both EMCs despite the fact that they had different histologies and expressed different fusion transcripts. The most differentially expressed gene in both tumors was CHI3L1, which encodes a secreted glycoprotein (YKL-40) previously implicated in various pathological conditions of extracellular matrix degradation as well as in cancer. Our findings suggests that EMC exhibits a tumor-specific gene expression profile, including overexpression of several cancer-related genes as well as genes implicated in chondrogenesis and neural-neuroendocrine differentiation, thus distinguishing it from other soft tissue sarcomas.",
+   "role": "REF-POOL Sjögren — EMC molecular pathogenesis series (partner frequencies)."
+  },
+  {
+   "id": "PMID: 14620508 · doi:10.1023/a:1026122914852",
+   "title": "Oligonucleotides targeted against a junction oncogene are made efficient by nanotechnologies.",
+   "authors": "Maksimenko A, Malvy C, Lambert G, Bertrand JR, Fattal E, Maccario J, Couvreur P.",
+   "year": 2003,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 21,
+   "corpus": "literature/aso-priorart-fusiononco (branch literature-cache)",
+   "abstract_verbatim": "PurposeAntisense oligonucleotides (AON) against junction EWS-Fli-1 oncogene (which is responsible for the Ewing Sarcoma) are particularly interesting for targeting chromosomal translocations that are only found in tumor cells. However, these AON have proved in the past to be ineffective in vivo because of their susceptibility to degradation and their poor intracellular penetration. The aim of this study was to improve the delivery of these molecules through the use of nanotechnologies.MethodTwo different AONs, and their controls, both targeted against the junction area of the fusion gene EWS-Fli-1 were used. Nanocapsules were employed to deliver a phosphorothioate AON and its control. The nanospheres were used to deliver a chimeric phosphorothioate, phosphodiester AON, with 5 additional bases in 5' which allow this AON to be structured with a loop. These formulations were injected intratumorally to nude mice bearing the experimental EWS-Fli-1 tumor. The tumour volume was estimated during the experiments by two perpendicular measurements length (a) and width (b) of the tumour and was calculated as ab(2)/2. Northern blot analysis was also performed after removing the tumors 24 h after the treatment with a single dose of AON either free or associated with nanotechnologies.ResultsThis study shows for the first time that AON against EWS-Fli-1 oncogene may inhibit with high specificity the growth of an EWS-Fli-1 dependent tumor grafted to nude mice provided they are delivered by nanocapsules or nanospheres. In this experience, the antisense effect was confirmed by the specific down regulation of EWS-Fli-1 mRNA.ConclusionThus, both nanocapsules and nanospheres may be considered as promising systems for AON delivery in vivo.",
+   "role": "PRIOR ART — \"Oligonucleotides targeted against a junction oncogene are made efficient by nanotechnologies\" (2003) — junction ASO plus a delivery vehicle, intratumoural."
+  },
+  {
+   "id": "PMID: 16083345 · doi:10.1517/14728222.9.4.825",
+   "title": "Oncogene-targeted antisense oligonucleotides for the treatment of Ewing sarcoma.",
+   "authors": "Maksimenko A, Malvy C.",
+   "year": 2005,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 29,
+   "corpus": "literature/aso-priorart-fusiononco (branch literature-cache)",
+   "abstract_verbatim": "The genetic hallmark of the Ewing sarcoma family of tumours (ESFT) is the presence of the t(11;22)(q24;q12) translocation, present in up to 85% of cases of ESFT, which creates the EWS/FLI1 fusion gene and results in the expression of a chimeric protein regulating many other genes. The inhibition of this protein by antisense strategies has shown its predominant role in the transformed phenotype of Ewing cells. In addition, the junction point at the mRNA level offers a target for short therapeutic nucleic acids that is present only in the cancer cells and not in the normal tissues of a patient. Several teams have, therefore, investigated the activity of antisense oligonucleotides and siRNAs targeted against the junction point in mRNA; thus, inhibiting EWS/FLI1 synthesis. Generally speaking, the molecules induce a cell growth inhibition in culture. Apoptosis has also been reported. One laboratory has reported the in vivo tumour inhibitory effect of phosphorothioate antisense oligonucleotide directed against the EWS part of EWS/FlI1 when injected intratumourally. Independently, a tumour inhibitory effect of oligonucleotides targeting the junction point has been demonstrated provided they are delivered by polymeric nanoparticles through the intratumoural route. Alongside this target, other genes participating to the maintenance of the transformed phenotype of Ewing cells have been downregulated by antisense strategies.",
+   "role": "PRIOR ART — review: \"the junction point at the mRNA level offers a target for short therapeutic nucleic acids that is present only in the cancer cells and not in the normal tissues of a patient\" (2005). The manuscript's central rationale, stated in a review 21 years earlier."
+  },
+  {
+   "id": "PMID: 17515897 · doi:10.1038/nm1579",
+   "title": "Abrogation of nuclear receptors Nr4a3 and Nr4a1 leads to development of acute myeloid leukemia.",
+   "authors": "Mullican SE, Zhang S, Konopleva M, Ruvolo V, Andreeff M, Milbrandt J, Conneely OM.",
+   "year": 2007,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 268,
+   "corpus": "literature/aso-refpool-ids (branch literature-cache)",
+   "abstract_verbatim": "Nur77 (NR4A1) and Nor-1 (NR4A3) are highly homologous orphan nuclear receptors that regulate the transcription of overlapping target genes. The transcriptional activity of both proteins is regulated in a ligand-independent manner by cell- and stimulus-specific gene induction and protein phosphorylation. Nor-1 and Nur77 have been implicated in a variety of cellular processes, including the transduction of hormonal, inflammatory, mitogenic, apoptotic and differentiative signals. Cellular responses to these proteins suggest that they may function as homeostatic regulators of proliferation, apoptosis and differentiation, and thus may regulate cellular susceptibility to tumorigenesis. Their physiological functions, however, remain poorly understood. Here we describe a previously unsuspected function of Nor-1 and Nur77-as critical tumor suppressors of myeloid leukemogenesis. The abrogation of these proteins in mice led to rapidly lethal acute myeloid leukemia (AML), involving abnormal expansion of hematopoietic stem cells (HSCs) and myeloid progenitors, decreased expression of the AP-1 transcription factors JunB and c-Jun and defective extrinsic apoptotic (Fas-L and TRAIL) signaling. We found that downregulation of NR4A3 ( NOR-1 ) and NR4A1 ( NUR77 ) was a common feature in leukemic blasts from human AML patients, irrespective of karyotype. Thus Nor-1 and Nur77 may provide potential targets for therapeutic intervention in AML.",
+   "role": "REF-POOL Mullican — Nr4a1/Nr4a3 loss to AML."
+  },
+  {
+   "id": "PMID: 19486540 · PMC2700099 · doi:10.1186/1471-2105-10-168",
+   "title": "Fpocket: an open source platform for ligand pocket detection.",
+   "authors": "Le Guilloux V, Schmidtke P, Tuffery P.",
+   "year": 2009,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 1142,
+   "corpus": "literature/aso-refpool-ids (branch literature-cache)",
+   "abstract_verbatim": "BackgroundVirtual screening methods start to be well established as effective approaches to identify hits, candidates and leads for drug discovery research. Among those, structure based virtual screening (SBVS) approaches aim at docking collections of small compounds in the target structure to identify potent compounds. For SBVS, the identification of candidate pockets in protein structures is a key feature, and the recent years have seen increasing interest in developing methods for pocket and cavity detection on protein surfaces.ResultsFpocket is an open source pocket detection package based on Voronoi tessellation and alpha spheres built on top of the publicly available package Qhull. The modular source code is organised around a central library of functions, a basis for three main programs: (i) Fpocket, to perform pocket identification, (ii) Tpocket, to organise pocket detection benchmarking on a set of known protein-ligand complexes, and (iii) Dpocket, to collect pocket descriptor values on a set of proteins. Fpocket is written in the C programming language, which makes it a platform well suited for the scientific community willing to develop new scoring functions and extract various pocket descriptors on a large scale level. Fpocket 1.0, relying on a simple scoring function, is able to detect 94% and 92% of the pockets within the best three ranked pockets from the holo and apo proteins respectively, outperforming the standards of the field, while being faster.ConclusionFpocket provides a rapid, open source and stable basis for further developments related to protein pocket detection, efficient pocket descriptor extraction, or drugablity prediction purposes. Fpocket is freely available under the GNU GPL license at http://fpocket.sourceforge.net.",
+   "role": "REF-POOL Fpocket."
+  },
+  {
+   "id": "PMID: 20198325 · doi:10.3892/ijo_00000559",
+   "title": "Downregulation of SS18-SSX1 expression in synovial sarcoma by small interfering RNA enhances the focal adhesion pathway and inhibits anchorage-independent growth in vitro and tumor growth in vivo.",
+   "authors": "Takenaka S, Naka N, Araki N, Hashimoto N, Ueda T, Yoshioka K, Yoshikawa H, Itoh K.",
+   "year": 2010,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 28,
+   "corpus": "literature/aso-priorart-fusiononco (branch literature-cache)",
+   "abstract_verbatim": "Synovial sarcoma (SS) is an aggressive soft-tissue malignancy characterized by a unique t(X;18) translocation resulting in expression of SS18-SSX fusion protein. In order to investigate the biological function of this fusion protein and to develop a novel therapeutic option, we examined downregulation of SS18-SSX1 expression by small interfering RNA targeting SS18-SSX1 in three human SS cell lines. Microarray analysis comparing SS18-SSX1-silenced cells with control cells in three SS cell lines showed that SS18-SSX1 mainly affected the focal adhesion pathway. In accord with the array data, silencing of SS18-SSX1 enhances adhesion to the extracellular matrix through the induction of expression of myosin light-chain kinase. Furthermore, the silencing of SS18-SSX1 inhibits anchorage-independent growth in vitro and systemic delivery of siRNA against SS18-SSX1 using a nanoparticle system inhibited tumor growth in a nude mouse xenograft model. Our results demonstrate that siRNA targeting of SS18-SSX1 has therapeutic potential for the treatment of SS.",
+   "role": "PRIOR ART — siRNA against SS18-SSX1 in synovial sarcoma, systemic nanoparticle delivery in vivo (2010)."
+  },
+  {
+   "id": "PMID: 20648560 · doi:10.1002/ijc.25564",
+   "title": "Synthetic siRNA targeting the breakpoint of EWS/Fli-1 inhibits growth of Ewing sarcoma xenografts in a mouse model.",
+   "authors": "Takigami I, Ohno T, Kitade Y, Hara A, Nagano A, Kawai G, Saitou M, Matsuhashi A, Yamada K, Shimizu K.",
+   "year": 2011,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 38,
+   "corpus": "literature/aso-priorart-fusiononco (branch literature-cache)",
+   "abstract_verbatim": "The EWS/Fli-1 fusion gene, a product of the translocation t(11;22, q24;q12), is detected in 85% of Ewing sarcomas and primitive neuroectodermal tumors. It is thought to be a transcriptional activator that plays a significant role in tumorigenesis. In this study, we developed a novel EWS/Fli-1 blockade system using RNA interference and tested its application for inhibiting the proliferation of Ewing sarcoma cells in vitro and the treatment of mouse tumor xenografts in vivo. We designed and synthesized a small interfering RNA (siRNA) possessing an aromatic compound at the 3'-end targeting the breakpoint of EWS/Fli-1. As this sequence is present only in tumor cells, it is a potentially relevant target. We found that the siRNA targeting EWS/Fli-1 significantly suppressed the expression of EWS/Fli-1 protein sequence specifically and also reduced the expression of c-Myc protein in Ewing sarcoma cells. We further demonstrated that inhibition of EWS/Fli-1 expression efficiently inhibited the proliferation of the transfected cells but did not induce apoptotic cell death. In addition, the siRNA possessing the aromatic compound at the 3'-end was more resistant to nucleolytic degradation than the unmodified siRNA. Administration of the siRNA with atelocollagen significantly inhibited the tumor growth of TC-135, a Ewing sarcoma cell line, which had been subcutaneously xenografted into mice. Moreover, modification of the 3'-end with an aromatic compound improved its efficiency in vivo. Our data suggest that specific downregulation of EWS/Fli-1 by RNA interference is a possible approach for the treatment of Ewing sarcoma.",
+   "role": "PRIOR ART — synthetic siRNA targeting the EWS/Fli-1 BREAKPOINT, xenograft efficacy (2011)."
+  },
+  {
+   "id": "PMID: 21846246 · PMC3237690 · doi:10.1089/hum.2011.079",
+   "title": "Targeting expression of the leukemogenic PML-RARα fusion protein by lentiviral vector-mediated small interfering RNA results in leukemic cell differentiation and apoptosis.",
+   "authors": "Ward SV, Sternsdorf T, Woods NB.",
+   "year": 2011,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 9,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "Acute promyelocytic leukemia (APL) results from a chromosomal translocation that gives rise to the leukemogenic fusion protein PML-RARα (promyelocytic leukemia-retinoic acid α receptor). Differentiation of leukemic cells and complete remission of APL are achieved by treatment of patients with pharmacological doses of all-trans retinoic acid (ATRA), making APL a model disease for differentiation therapy. However, because patients are resistant to further treatment with ATRA on relapse, it is necessary to develop alternative treatment strategies to specifically target APL. We therefore sought to develop a treatment strategy based on lentiviral vector-mediated delivery of small interfering RNA (siRNA) that specifically targets the breakpoint region of PML-RARα. Unlike treatment with ATRA, which resulted in differentiation of leukemic NB4 cells, delivery of siRNA targeting PML-RARα into NB4 cells resulted in both differentiation and apoptosis, consistent with the specific knockdown of PML-RARα. Intraperitoneal injection of NB4 cells transduced with lentiviral vectors delivering PML-RARα-specific siRNA but not control siRNA prevented development of disease in nonobese diabetic/severe combined immunodeficient (NOD/SCID) mice. Taken together, these results indicate that development of PML-RARα-specific siRNA may represent a promising treatment strategy for ATRA-resistant APL.",
+   "role": "PRIOR ART — siRNA targeting the PML-RARa breakpoint region (2011)."
+  },
+  {
+   "id": "PMID: 23052253 · PMC3525716 · doi:10.1158/1078-0432.ccr-12-2715",
+   "title": "Highly specific targeting of the TMPRSS2/ERG fusion gene using liposomal nanovectors.",
+   "authors": "Shao L, Tekedereli I, Wang J, Yuca E, Tsang S, Sood A, Lopez-Berestein G, Ozpolat B, Ittmann M.",
+   "year": 2012,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 47,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "PurposeThe TMPRSS2/ERG (T/E) fusion gene is present in half of all prostate cancer tumors. Fusion of the oncogenic ERG gene with the androgen-regulated TMPRSS2 gene promoter results in expression of fusion mRNAs in prostate cancer cells. The junction of theTMPRSS2- and ERG-derived portions of the fusion mRNA constitutes a cancer-specific target in cells containing the T/E fusion gene. Targeting the most common alternatively spliced fusion gene mRNA junctional isoforms in vivo using siRNAs in liposomal nanovectors may potentially be a novel, low-toxicity treatment for prostate cancer.Experimental designWe designed and optimized siRNAs targeting the two most common T/E fusion gene mRNA junctional isoforms (type III or type VI). Specificity of siRNAs was assessed by transient co-transfection in vitro. To test their ability to inhibit growth of prostate cancer cells expressing these fusion gene isoforms in vivo, specific siRNAs in liposomal nanovectors were used to treat mice bearing orthotopic or subcutaneous xenograft tumors expressing the targeted fusion isoforms.ResultsThe targeting siRNAs were both potent and highly specific in vitro. In vivo they significantly inhibited tumor growth. The degree of growth inhibition was variable and was correlated with the extent of fusion gene knockdown. The growth inhibition was associated with marked inhibition of angiogenesis and, to a lesser degree, proliferation and a marked increase in apoptosis of tumor cells. No toxicity was observed.ConclusionsTargeting the T/E fusion junction in vivo with specific siRNAs delivered via liposomal nanovectors is a promising therapy for men with prostate cancer.",
+   "role": "PRIOR ART — siRNA against two TMPRSS2/ERG junctional isoforms in liposomal nanovectors, in vivo (2012)."
+  },
+  {
+   "id": "PMID: 23963702 · PMC3834808 · doi:10.1093/nar/gkt725",
+   "title": "Rational design of antisense oligonucleotides targeting single nucleotide polymorphisms for potent and allele selective suppression of mutant Huntingtin in the CNS.",
+   "authors": "Østergaard ME, Southwell AL, Kordasiewicz H, Watt AT, Skotte NH, Doty CN, Vaid K, Villanueva EB, Swayze EE, Bennett CF, Hayden MR, Seth PP.",
+   "year": 2013,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 128,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "Autosomal dominant diseases such as Huntington's disease (HD) are caused by a gain of function mutant protein and/or RNA. An ideal treatment for these diseases is to selectively suppress expression of the mutant allele while preserving expression of the wild-type variant. RNase H active antisense oligonucleotides (ASOs) or small interfering RNAs can achieve allele selective suppression of gene expression by targeting single nucleotide polymorphisms (SNPs) associated with the repeat expansion. ASOs have been previously shown to discriminate single nucleotide changes in targeted RNAs with ∼5-fold selectivity. Based on RNase H enzymology, we enhanced single nucleotide discrimination by positional incorporation of chemical modifications within the oligonucleotide to limit RNase H cleavage of the non-targeted transcript. The resulting oligonucleotides demonstrate >100-fold discrimination for a single nucleotide change at an SNP site in the disease causing huntingtin mRNA, in patient cells and in a completely humanized mouse model of HD. The modified ASOs were also well tolerated after injection into the central nervous system of wild-type animals, suggesting that their tolerability profile is suitable for advancement as potential allele-selective HD therapeutics. Our findings lay the foundation for efficient allele-selective downregulation of gene expression using ASOs-an outcome with broad application to HD and other dominant genetic disorders.",
+   "role": "TO-VERIFY (a) — THE QUANTITATIVE ANCHOR: unmodified RNase-H-active ASOs discriminate a single-nucleotide change ~5-fold; >100-fold needs positional chemical modification."
+  },
+  {
+   "id": "PMID: 23716114 · PMC3916608 · doi:10.1007/s11999-013-3065-9",
+   "title": "Loss of SS18-SSX1 inhibits viability and induces apoptosis in synovial sarcoma.",
+   "authors": "Carmody Soni EE, Schlottman S, Erkizan HV, Uren A, Toretsky JA.",
+   "year": 2014,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 28,
+   "corpus": "literature/aso-priorart-fusiononco (branch literature-cache)",
+   "abstract_verbatim": "BackgroundMost synovial sarcomas contain a chromosomal translocation t(X;18), which results in the formation of an oncoprotein SS18-SSX critical to the viability of synovial sarcoma.Questions/purposesWe (1) established and characterized three novel synovial sarcoma cell lines and asked (2) whether inhibition of SS18-SSX1 decreases cell viability in these cell lines; and (3) whether reduction in viability after SS18-SSX1 knockdown is caused by apoptosis. After identifying a specific posttranscriptional splice variant in our cell lines, we asked (4) whether this provides a survival benefit in synovial sarcoma.MethodsCells lines were characterized. SS18-SSX1 knockdown was achieved using a shRNA system. Cell viability was assessed by WST-1 analysis and apoptosis examined by caspase-3 activity.ResultsWe confirmed the SS18-SSX1 translocation in all cell lines and identified a consistent splicing variant. We achieved successful knockdown of SS18-SSX1 and with this saw a significant reduction in cell viability. Decreased viability was a result of increased apoptosis. Reintroduction of the exon 8 sequence into cells reduced cell viability in all cell lines.ConclusionsWe confirmed the presence of the SS18-SSX1 translocation in our cell lines and its importance in the survival of synovial sarcoma. We have also demonstrated that reduction in cell viability is related to an increase in apoptosis. In addition, we have identified a potential mediator of SS18-SSX function in exon 8.Clinical relevanceSS18-SSX represents a tumor-specific target in synovial sarcoma. Exploitation of SS18-SSX and its protein partners will allow us to develop potent tumor-specific therapeutic agents.",
+   "role": "PRIOR ART — SS18-SSX1 loss inhibits synovial sarcoma viability (2014)."
+  },
+  {
+   "id": "PMID: 26544037 · PMC4704561 · doi:10.1371/journal.pone.0142139",
+   "title": "A Tandem Oligonucleotide Approach for SNP-Selective RNA Degradation Using Modified Antisense Oligonucleotides.",
+   "authors": "Magner D, Biala E, Lisowiec-Wachnicka J, Kierzek E, Kierzek R.",
+   "year": 2015,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 10,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "Antisense oligonucleotides have been studied for many years as a tool for gene silencing. One of the most difficult cases of selective RNA silencing involves the alleles of single nucleotide polymorphisms, in which the allele sequence is differentiated by a single nucleotide. A new approach to improve the performance of allele selectivity for antisense oligonucleotides is proposed. It is based on the simultaneous application of two oligonucleotides. One is complementary to the mutated form of the targeted RNA and is able to activate RNase H to cleave the RNA. The other oligonucleotide, which is complementary to the wild type allele of the targeted RNA, is able to inhibit RNase H cleavage. Five types of SNPs, C/G, G/C, G/A, A/G, and C/U, were analyzed within the sequence context of genes associated with neurodegenerative disorders such as Alzheimer's disease, Parkinson's disease, ALS (Amyotrophic Lateral Sclerosis), and Machado-Joseph disease. For most analyzed cases, the application of the tandem approach increased allele-selective RNA degradation 1.5-15 fold relative to the use of a single antisense oligonucleotide. The presented study proves that differentiation between single substitution is highly dependent on the nature of the SNP and surrounding nucleotides. These variables are crucial for determining the proper length of the inhibitor antisense oligonucleotide. In the tandem approach, the comparison of thermodynamic stability of the favorable duplexes WT RNA-inhibitor and Mut RNA-gapmer with the other possible duplexes allows for the evaluation of chances for the allele-selective degradation of RNA. A larger difference in thermodynamic stability between favorable duplexes and those that could possibly form, usually results in the better allele selectivity of RNA degradation.",
+   "role": "TO-VERIFY (a) — SNP-selective degradation is SNP-type- and context-dependent; a second blocking oligo buys 1.5-15x."
+  },
+  {
+   "id": "PMID: 26627251 · PMC4672813 · doi:10.1073/pnas.1517039112",
+   "title": "Enhancing potency of siRNA targeting fusion genes by optimization outside of target sequence.",
+   "authors": "Gavrilov K, Seo YE, Tietjen GT, Cui J, Cheng CJ, Saltzman WM.",
+   "year": 2015,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 13,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "Canonical siRNA design algorithms have become remarkably effective at predicting favorable binding regions within a target mRNA, but in some cases (e.g., a fusion junction site) region choice is restricted. In these instances, alternative approaches are necessary to obtain a highly potent silencing molecule. Here we focus on strategies for rational optimization of two siRNAs that target the junction sites of fusion oncogenes BCR-ABL and TMPRSS2-ERG. We demonstrate that modifying the termini of these siRNAs with a terminal G-U wobble pair or a carefully selected pair of terminal asymmetry-enhancing mismatches can result in an increase in potency at low doses. Importantly, we observed that improvements in silencing at the mRNA level do not necessarily translate to reductions in protein level and/or cell death. Decline in protein level is also heavily influenced by targeted protein half-life, and delivery vehicle toxicity can confound measures of cell death due to silencing. Therefore, for BCR-ABL, which has a long protein half-life that is difficult to overcome using siRNA, we also developed a nontoxic transfection vector: poly(lactic-coglycolic acid) nanoparticles that release siRNA over many days. We show that this system can achieve effective killing of leukemic cells. These findings provide insights into the implications of siRNA sequence for potency and suggest strategies for the design of more effective therapeutic siRNA molecules. Furthermore, this work points to the importance of integrating studies of siRNA design and delivery, while heeding and addressing potential limitations such as restricted targetable mRNA regions, long protein half-lives, and nonspecific toxicities.",
+   "role": "PRIOR ART — DESIGN METHODOLOGY for junction siRNAs: when \"region choice is restricted (e.g. a fusion junction site)\", terminal G-U wobble / asymmetry-enhancing mismatches raise potency (BCR-ABL, TMPRSS2-ERG) (2015)."
+  },
+  {
+   "id": "PMID: 27166877 · PMC5023384 · doi:10.1038/mt.2016.93",
+   "title": "Preclinical Justification of pbi-shRNA EWS/FLI1 Lipoplex (LPX) Treatment for Ewing's Sarcoma.",
+   "authors": "Rao DD, Jay C, Wang Z, Luo X, Kumar P, Eysenbach H, Ghisoli M, Senzer N, Nemunaitis J.",
+   "year": 2016,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 35,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "The EWS/FLI1 fusion gene is well characterized as a driver of Ewing's sarcoma. Bi-shRNA EWS/FLI1 is a functional plasmid DNA construct that transcribes both siRNA and miRNA-like effectors each of which targets the identical type 1 translocation junction region of the EWS/FLI1 transcribed mRNA sequence. Previous preclinical and clinical studies confirm the safety of this RNA interference platform technology and consistently demonstrate designated mRNA and protein target knockdown at greater than 90% efficiency. We initiated development of pbi-shRNA EWS/FLI1 lipoplex (LPX) for the treatment of type 1 Ewing's sarcoma. Clinical-grade plasmid was manufactured and both sequence and activity verified. Target protein and RNA knockdown of 85-92% was demonstrated in vitro in type 1 human Ewing's sarcoma tumor cell lines with the optimal bi-shRNA EWS/FLI1 plasmid. This functional plasmid was placed in a clinically tested, liposomal (LP) delivery vehicle followed by in vivo verification of activity. Type 1 Ewing's sarcoma xenograft modeling confirmed dose related safety and tumor response to pbi-shRNA EWS/FLI1 LPX. Toxicology studies in mini-pigs with doses comparable to the demonstrated in vivo efficacy dose resulted in transient fever, occasional limited hypertension at low- and high-dose assessment and transient liver enzyme elevation at high dose. These results provide the justification to initiate clinical testing.",
+   "role": "PRIOR ART — CLINICAL-STAGE: pbi-shRNA EWS/FLI1 lipoplex, \"targets the identical type 1 translocation junction region\", IND-enabling package (2016)."
+  },
+  {
+   "id": "PMID: 27261335 · doi:10.1016/j.jconrel.2016.05.063",
+   "title": "RGD liposome-protamine-siRNA (LPR) nanoparticles targeting PAX3-FOXO1 for alveolar rhabdomyosarcoma therapy.",
+   "authors": "Rengaswamy V, Zimmer D, Süss R, Rössler J.",
+   "year": 2016,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 31,
+   "corpus": "literature/aso-priorart-fusiononco (branch literature-cache)",
+   "abstract_verbatim": "Alveolar rhabdomyosarcoma (ARMS) are aggressive soft tissue tumors harboring specific fusion transcripts, notably PAX3-FOXO1 (P3F). Current therapy concepts result in unsatisfactory survival rates making the search for innovative approaches necessary: targeting PAX3-FOXO1 could be a promising strategy. In this study, we developed integrin receptor-targeted Lipid-Protamine-siRNA (LPR) nanoparticles using the RGD peptide and validated target specificity as well as their post-silencing effects. We demonstrate that RGD-LPRs are specific to ARMS in vitro and in vivo. Loaded with siRNA directed against the breakpoint of P3F, these particles efficiently down regulated the fusion transcript and inhibited cell proliferation, but did not induce substantial apoptosis. In a xenograft ARMS model, LPR nanoparticles targeting P3F showed statistically significant tumor growth delay as well as inhibition of tumor initiation when injected in parallel with the tumor cells. These findings suggest that RGD-LPR targeting P3F are promising to be highly effective in the setting of minimal residual disease for ARMS.",
+   "role": "PRIOR ART — RGD-targeted LPR nanoparticles carrying siRNA \"directed against the breakpoint of P3F\" (PAX3-FOXO1), alveolar rhabdomyosarcoma xenografts (2016)."
+  },
+  {
+   "id": "PMID: 28624195 · PMC5363678 · doi:10.1016/j.omtn.2017.02.001",
+   "title": "Fluorinated Nucleotide Modifications Modulate Allele Selectivity of SNP-Targeting Antisense Oligonucleotides.",
+   "authors": "Østergaard ME, Nichols J, Dwight TA, Lima W, Jung ME, Swayze EE, Seth PP.",
+   "year": 2017,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 26,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "Antisense oligonucleotides (ASOs) have the potential to discriminate between subtle RNA mismatches such as SNPs. Certain mismatches, however, allow ASOs to bind at physiological conditions and result in RNA cleavage mediated by RNase H. We showed that replacing DNA nucleotides in the gap region of an ASO with other chemical modification can improve allele selectivity. Herein, we systematically substitute every position in the gap region of an ASO targeting huntingtin gene (HTT) with fluorinated nucleotides. Potency is determined in cell culture against mutant HTT (mtHTT) and wild-type HTT (wtHTT) mRNA and RNase H cleavage intensities, and patterns are investigated. This study profiled five different fluorinated nucleotides and showed them to have predictable, site-specific effects on RNase H cleavage, and the cleavage patterns were rationalized from a published X-ray structure of human RNase H1. The results herein can be used as a guide for future projects where ASO discrimination of SNPs is important.",
+   "role": "TO-VERIFY (a) — \"Certain mismatches, however, allow ASOs to bind at physiological conditions and result in RNA cleavage mediated by RNase H.\""
+  },
+  {
+   "id": "PMID: 28970564 · PMC5624880 · doi:10.1038/s41598-017-12844-z",
+   "title": "Influence of mismatched and bulged nucleotides on SNP-preferential RNase H cleavage of RNA-antisense gapmer heteroduplexes.",
+   "authors": "Magner D, Biala E, Lisowiec-Wachnicka J, Kierzek R.",
+   "year": 2017,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 17,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "This study focused on determining design rules for gapmer-type antisense oligonucleotides (ASOs), that can differentiate cleavability of two SNP variants of RNA in the presence of ribonuclease H based on the mismatch type and position in the heteroduplex. We describe the influence of structural motifs formed by several arrangements of multiple mismatches (various types of mismatches and their position within the ASO/target RNA duplex) on RNase H cleavage selectivity of five different SNP types. The targets were mRNA fragments of APP, SCA3, SNCA and SOD1 genes, carrying C-to-G, G-to-C, G-to-A, A-to-G and C-to-U substitutions. The results show that certain arrangements of mismatches enhance discrimination between wild type and mutant SNP alleles of RNA in vitro as well as in HeLa cells. Among the over 120 gapmers tested, we found two gapmers that caused preferential degradation of the mutant allele APP 692 G and one that led to preferential cleavage of the mutant SNCA 53 A allele, both in vitro and in cells. However, several gapmers promoted selective cleavage of mRNA mutant alleles in in vitro experiments only.",
+   "role": "TO-VERIFY (a) — 120+ gapmers tested across 5 SNP types; only 2-3 achieved preferential mutant cleavage in cells."
+  },
+  {
+   "id": "PMID: 29370992 · PMC6126546 · doi:10.1016/s1470-2045(18)30006-8",
+   "title": "Nivolumab with or without ipilimumab treatment for metastatic sarcoma (Alliance A091401): two open-label, non-comparative, randomised, phase 2 trials.",
+   "authors": "D'Angelo SP, Mahoney MR, Van Tine BA, Atkins J, Milhem MM, Jahagirdar BN, Antonescu CR, Horvath E, Tap WD, Schwartz GK, Streicher H.",
+   "year": 2018,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 601,
+   "corpus": "literature/aso-refpool-ids (branch literature-cache)",
+   "abstract_verbatim": "BackgroundPatients with metastatic sarcoma have limited treatment options. Nivolumab and ipilimumab are monoclonal antibodies targeting PD-1 and CTLA-4, respectively. We investigated the activity and safety of nivolumab alone or in combination with ipilimumab in patients with locally advanced, unresectable, or metastatic sarcoma.MethodsWe did a multicentre, open-label, non-comparative, randomised, phase 2 study that enrolled patients aged 18 years or older and had central pathology confirmation of sarcoma with at least one measurable lesion by Response Evaluation Criteria In Solid Tumors (RECIST) 1.1, evidence of metastatic, locally advanced or unresectable disease, an ECOG performance status of 0-1, and received at least one previous line of systemic therapy. Patients were assigned to treatment in an unblinded manner, as this trial was conducted as two independent, non-comparative phase 2 trials. Enrolled patients were assigned (1:1) via a dynamic allocation algorithm to intravenous nivolumab 3 mg/kg every 2 weeks, or nivolumab 3 mg/kg plus ipilimumab 1 mg/kg every 3 weeks for four doses. Thereafter, all patients received nivolumab monotherapy (3 mg/kg) every 2 weeks for up to 2 years. The primary endpoint was the proportion of patients with locally advanced, unresectable or metastatic soft tissue sarcoma achieving a confirmed objective response. Analysis was per protocol. This study is ongoing although enrolment is closed. It is registered with ClinicalTrials.gov, number NCT02500797.FindingsBetween Aug 13, 2015, and March 17, 2016, 96 patients from 15 sites in the USA underwent central pathology review for eligibility and 85 eligible patients, including planned over-enrolment, were allocated to receive either nivolumab monotherapy (43 patients) or nivolumab plus ipilimumab (42 patients). The primary endpoint analysis was done according to protocol specifications in the first 76 eligible patients (38 patients per group). The number of confirmed responses was two (5% [92% CI 1-16] of 38 patients) in the nivolumab group and six (16% [7-30] of 38 patients) in the nivolumab plus ipilimumab group. The most common grade 3 or worse adverse events were anaemia (four [10%] patients), decreased lymphocyte count (three [7%]), and dehydration, increased lipase, pain, pleural effusion, respiratory failure, secondary benign neoplasm, and urinary tract obstruction (two [5%] patients each) among the 42 patients in the nivolumab group and anaemia (eight [19%] patients), hypotension (four [10%] patients), and pain and urinary tract infection (three [7%] patients each) among the 42 patients in the nivolumab plus ipilimumab group. Serious treatment-related adverse events occurred in eight (19%) of 42 patients receiving monotherapy and 11 (26%) of 42 patients receiving combination therapy, and included anaemia, anorexia, dehydration, decreased platelet count, diarrhoea, fatigue, fever, increased creatinine, increased alanine aminotransferase, increased aspartate aminotransferase, hyponatraemia, pain, pleural effusion, and pruritus. There were no treatment-related deaths.InterpretationNivolumab alone does not warrant further study in an unselected sarcoma population given the limited efficacy. Nivolumab combined with ipilimumab demonstrated promising efficacy in certain sarcoma subtypes, with a manageable safety profile comparable to current available treatment options. The combination therapy met its predefined primary study endpoint; further evaluation of nivolumab plus ipilimumab in a randomised study is warranted.FundingAlliance Clinical Trials in Oncology, National Cancer Institute Cancer Therapy Evaluation Program, Bristol-Myers Squibb, Cycle for Survival.",
+   "role": "KNOWN-POSITIVE CONTROL only — not cited by the manuscript. Injected into every query (EXT_ID:29370992) and asserted by scripts/lit_query_assert.py so a green run cannot mean \"searched for nothing\"."
+  },
+  {
+   "id": "PMID: 29790953 · PMC6009603 · doi:10.1093/nar/gky397",
+   "title": "Identifying and avoiding off-target effects of RNase H-dependent antisense oligonucleotides in mice.",
+   "authors": "Hagedorn PH, Pontoppidan M, Bisgaard TS, Berrera M, Dieckmann A, Ebeling M, Møller MR, Hudlebusch H, Jensen ML, Hansen HF, Koch T, Lindow M.",
+   "year": 2018,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 50,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "Antisense oligonucleotides that are dependent on RNase H for cleavage and subsequent degradation of complementary RNA are being developed as therapeutics. Besides the intended RNA target, such oligonucleotides may also cause degradation of unintended RNA off-targets by binding to partially complementary target sites. Here, we characterized the global effects on the mouse liver transcriptome of four oligonucleotides designed as gapmers, two targeting Apob and two targeting Pcsk9, all in different regions on their respective intended targets. This study design allowed separation of intended- and off-target effects on the transcriptome for each gapmer. Next, we used sequence analysis to identify possible partially complementary binding sites among the potential off-targets, and validated these by measurements of melting temperature and RNase H-cleavage rates. Generally, our observations were as expected in that fewer mismatches or bulges in the gapmer/transcript duplexes resulted in a higher chance of those duplexes being effective substrates for RNase H. Follow-up experiments in mice and cells show, that off-target effects can be mitigated by ensuring that gapmers have minimal sequence complementarity to any RNA besides the intended target, and that they do not have exaggerated binding affinity to the intended target.",
+   "role": "TO-VERIFY (a) context — RNase-H ASO off-target effects are real in vivo and are found by transcriptome-wide screening."
+  },
+  {
+   "id": "PMID: 31104089 · PMC7116733 · doi:10.1007/s00277-019-03713-y",
+   "title": "Lipid nanoparticle-mediated siRNA delivery for safe targeting of human CML in vivo.",
+   "authors": "Jyotsana N, Sharma A, Chaturvedi A, Budida R, Scherr M, Kuchenbauer F, Lindner R, Noyan F, Sühs KW, Stangel M, Grote-Koska D, Brand K, Vornlocher HP, Eder M, Thol F, Ganser A, Humphries RK, Ramsay E, Cullis P, Heuser M.",
+   "year": 2019,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 80,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "Efficient and safe delivery of siRNA in vivo is the biggest roadblock to clinical translation of RNA interference (RNAi)-based therapeutics. To date, lipid nanoparticles (LNPs) have shown efficient delivery of siRNA to the liver; however, delivery to other organs, especially hematopoietic tissues still remains a challenge. We developed DLin-MC3-DMA lipid-based LNP-siRNA formulations for systemic delivery against a driver oncogene to target human chronic myeloid leukemia (CML) cells in vivo. A microfluidic mixing technology was used to obtain reproducible ionizable cationic LNPs loaded with siRNA molecules targeting the BCR-ABL fusion oncogene found in CML. We show a highly efficient and non-toxic delivery of siRNA in vitro and in vivo with nearly 100% uptake of LNP-siRNA formulations in bone marrow of a leukemic model. By targeting the BCR-ABL fusion oncogene, we show a reduction of leukemic burden in our myeloid leukemia mouse model and demonstrate reduced disease burden in mice treated with LNP-BCR-ABL siRNA as compared with LNP-CTRL siRNA. Our study provides proof-of-principle that fusion oncogene specific RNAi therapeutics can be exploited against leukemic cells and promise novel treatment options for leukemia patients.",
+   "role": "PRIOR ART — LNP-delivered BCR-ABL siRNA in vivo (2019)."
+  },
+  {
+   "id": "PMID: 31637814 · PMC6915909 · doi:10.1111/gtc.12730",
+   "title": "Evaluation of off-target effects of gapmer antisense oligonucleotides using human cells.",
+   "authors": "Yoshida T, Naito Y, Yasuhara H, Sasaki K, Kawaji H, Kawai J, Naito M, Okuda H, Obika S, Inoue T.",
+   "year": 2019,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 65,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "Antisense oligonucleotide (ASO) has the potential to induce off-target effects due to complementary binding between the ASO and unintended RNA with a sequence similar to the target RNA. Conventional animal studies cannot be used to assess toxicity induced by off-target effects because of differences in the genome sequence between humans and other animals. Consequently, the assessment of off-target effects with in silico analysis using a human RNA database and/or in vitro expression analysis using human cells has been proposed. Our previous study showed that the number of complementary regions of ASOs with mismatches in the human RNA sequences increases dramatically as the number of tolerated mismatches increases. However, to what extent the expression of genes with mismatches is affected by off-target effects at the cellular level is not clear. In this study, we evaluated off-target effects of gapmer ASOs, which cleave the target RNA in an RNase H-dependent manner, by introducing the ASO into human cells and performing microarray analysis. Our data indicate that gapmer ASOs induce off-target effects depending on the degree of complementarity between the ASO and off-target candidate genes. Based on our results, we also propose a scheme for the assessment of off-target effects of gapmer ASOs.",
+   "role": "TO-VERIFY (a) context — measured gapmer off-target effects in human cells."
+  },
+  {
+   "id": "PMID: 31614005 · PMC6925833 · doi:10.1002/pros.23918",
+   "title": "Targeting the TMPRSS2/ERG fusion mRNA using liposomal nanovectors enhances docetaxel treatment in prostate cancer.",
+   "authors": "Shao L, Kahraman N, Yan G, Wang J, Ozpolat B, Ittmann M.",
+   "year": 2020,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 24,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "BackgroundThe TMPRSS2/ERG (TE) fusion gene is present in half of the prostate cancers (PCas). The TMPRSS2 and ERG junction of the fusion messenger RNA (mRNA) constitutes a cancer-specific target. Although docetaxel-based chemotherapy is the second line of therapy following development resistance to androgen ablation therapies, it is not curative. Therefore, the development of nontoxic novel monotherapies for targeting TE mRNA in PCa patients and for increasing the clinical efficacy of docetaxel treatment are needed.MethodsWe evaluated multiple approaches to enhance the delivery of TE small interfering RNA (siRNA) containing liposomes including PEGylation, topical treatment with nitroglycerin (NG) to increase permeability and retention, and three different PEG modifications: folate, RGD cyclic peptide, and a bFGF fibroblast growth factor receptor-targeting peptide. The efficacy of the optimized TE siRNA liposome in combination with docetaxel was then evaluated in vivo with or without topical NG in vivo using a VCaP xenograft model. TE fusion protein knockdown in residual tumors was assessed using Western blotting and immunohistochemistry.ResultsIn vivo therapeutic targeting of TE fusion gene by systemic delivery of RGD-peptide-coated liposomal siRNA nanovectors led to sustained target silencing, suppressed tumor growth in xenograft models and enhanced the efficacy of docetaxel chemotherapy. Simultaneous application of the vasodilator NG to the skin further increased tissue the delivery of siRNA and enhanced target knockdown.ConclusionTE-targeted gene silencing therapy using liposomal nanovectors is a potential therapeutic strategy as a monotherapy and to enhance the efficacy of chemotherapy in patients with advanced PCa.",
+   "role": "PRIOR ART — the same TMPRSS2/ERG junction siRNA advanced with targeted liposomes (2020)."
+  },
+  {
+   "id": "PMID: 31728968 · doi:10.1007/978-1-4939-9904-0_11",
+   "title": "Knockdown of Chimeric RNA by RNAi.",
+   "authors": "Qin F, Shi X, Li H.",
+   "year": 2020,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 2,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "Knockdown assays are widely used to study the functions of a gene of interest. RNA interference (RNAi) describes a set of well-known methods used to reduce the expression of a target gene by degrading its mRNA with short hairpin RNAs (shRNAs) or short interfering RNAs (siRNAs). Knockdown of chimeric RNAs present different challenges than standard RNAi targeting for regular genes. Most specifically, sequence homology restricts the targeting region to the chimeric junction and can result in off-target effects on the parental genes. In this chapter, we provide guidelines and procedures for RNAi design of chimeric RNAs, knockdown of chimeric RNAs, downstream experiments for chimeric RNA functional studies and necessary controls to accompany each set of experiments.",
+   "role": "PRIOR ART — protocol chapter: \"sequence homology restricts the targeting region to the chimeric junction and can result in off-target effects on the parental genes\"; gives RNAi design guidelines and controls for chimeric RNAs (2020)."
+  },
+  {
+   "id": "PMID: 32092825 · PMC7033438 · doi:10.1016/j.omtn.2020.01.012",
+   "title": "Allele-Selective Knockdown of MYH7 Using Antisense Oligonucleotides.",
+   "authors": "Anderson BR, Jensen ML, Hagedorn PH, Little SC, Olson RE, Ammar R, Kienzle B, Thompson J, McDonald I, Mercer S, Vikesaa J, Nordbo B, Iben L, Cao Y, Natale J, Dalton-Kay G, Cacace A, Hansen BR, Hedtjärn M, Koch T, Bristow LJ.",
+   "year": 2020,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 24,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "Hundreds of dominant-negative myosin mutations have been identified that lead to hypertrophic cardiomyopathy, and the biomechanical link between mutation and disease is heterogeneous across this patient population. To increase the therapeutic feasibility of treating this diverse genetic population, we investigated the ability of locked nucleic acid (LNA)-modified antisense oligonucleotides (ASOs) to selectively knock down mutant myosin transcripts by targeting single-nucleotide polymorphisms (SNPs) that were found to be common in the myosin heavy chain 7 (MYH7) gene. We identified three SNPs in MYH7 and designed ASO libraries to selectively target either the reference or alternate MYH7 sequence. We identified ASOs that selectively knocked down either the reference or alternate allele at all three SNP regions. We also show allele-selective knockdown in a mouse model that was humanized on one allele. These results suggest that SNP-targeting ASOs are a promising therapeutic modality for treating cardiac pathology.",
+   "role": "TO-VERIFY (a) — allele-selective gapmer design against SNPs in practice (MYH7)."
+  },
+  {
+   "id": "PMID: 33241214 · PMC7680176 · doi:10.1093/noajnl/vdaa132",
+   "title": "RNAi technology targeting the FGFR3-TACC3 fusion breakpoint: an opportunity for precision medicine.",
+   "authors": "Parker Kerrigan BC, Ledbetter D, Kronowitz M, Phillips L, Gumin J, Hossain A, Yang J, Mendt M, Singh S, Cogdell D, Ene C, Shpall E, Lang FF.",
+   "year": 2020,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 17,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "BackgroundFusion genes form as a result of abnormal chromosomal rearrangements linking previously separate genes into one transcript. The FGFR3-TACC3 fusion gene (F3-T3) has been shown to drive gliomagenesis in glioblastoma (GBM), a cancer that is notoriously resistant to therapy. However, successful targeting of F3-T3 via small molecular inhibitors has not revealed robust therapeutic responses, and specific targeting of F3-T3 has not been achieved heretofore. Here, we demonstrate that depleting F3-T3 using custom siRNA to the fusion breakpoint junction results in successful inhibition of F3-T3+ GBMs, and that exosomes can successfully deliver these siRNAs.MethodsWe engineered 10 unique siRNAs (iF3T3) that specifically spanned the most common F3-T3 breakpoint with varying degrees of overlap, and assayed depletion by qPCR and immunoblotting. Cell viability assays were performed. Mesenchymal stem cell-derived exosomes (UC-MSC) were electroporated with iF3T3, added to cells, and F3-T3 depletion measured by qPCR.ResultsWe verified that depleting F3-T3 using shRNA to FGFR3 resulted in decreased cell viability and improved survival in glioma-bearing mice. We then demonstrated that 7/10 iF3T3 depleted F3-T3, and importantly, did not affect levels of wild-type (WT) FGFR3 or TACC3. iF3T3 decreased cell viability in both F3T3+ GBM and bladder cancer cell lines. UC-MSC exosomes successfully delivered iF3T3 in vitro, resulting in F3-T3 depletion.ConclusionTargeting F3-T3 using siRNAs specific to the fusion breakpoint is capable of eradicating F3T3+ cancers without toxicity related to inhibition of WT FGFR3 or TACC3, and UC-MSC exosomes may be a plausible vehicle to deliver iF3T3.",
+   "role": "PRIOR ART — 10 siRNAs tiled across the FGFR3-TACC3 breakpoint; 7/10 deplete the fusion \"and importantly, did not affect levels of wild-type FGFR3 or TACC3\" (2020)."
+  },
+  {
+   "id": "PMID: 33106376 · PMC7864866 · doi:10.1158/1541-7786.mcr-20-0707",
+   "title": "The Paradoxical Roles of Orphan Nuclear Receptor 4A (NR4A) in Cancer.",
+   "authors": "Safe S, Karki K.",
+   "year": 2021,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 101,
+   "corpus": "literature/aso-refpool-ids (branch literature-cache)",
+   "abstract_verbatim": "The three-orphan nuclear receptor 4A genes are induced by diverse stressors and stimuli, and there is increasing evidence that NR4A1 (Nur77), NR4A2 (Nurr1), and NR4A3 (Nor1) play an important role in maintaining cellular homeostasis and in pathophysiology. In blood-derived tumors (leukemias and lymphomas), NR4A expression is low and NR4A1-/-/NR4A3-/- double knockout mice rapidly develop acute myelocytic leukemia, suggesting that these receptors exhibit tumor suppressor activity. Treatment of leukemia and most lymphoma cells with drugs that induce expression of NR4A1and NR4A3 enhances apoptosis, and this represents a potential clinical application for treating this disease. In contrast, most solid tumor-derived cell lines express high levels of NR4A1 and NR4A2, and both receptors exhibit pro-oncogenic activities in solid tumors, whereas NR4A3 exhibits tumor-specific activities. Initial studies with retinoids and apoptosis-inducing agents demonstrated that their cytotoxic activity is NR4A1 dependent and involved drug-induced nuclear export of NR4A1 and formation of a mitochondrial proapoptotic NR4A1-bcl-2 complex. Drug-induced nuclear export of NR4A1 has been reported for many agents/biologics and involves interactions with multiple mitochondrial and extramitochondrial factors to induce apoptosis. Synthetic ligands for NR4A1, NR4A2, and NR4A3 have been identified, and among these compounds, bis-indole derived (CDIM) NR4A1 ligands primarily act on nuclear NR4A1 to inhibit NR4A1-regulated pro-oncogenic pathways/genes and similar results have been observed for CDIMs that bind NR4A2. Based on results of laboratory animal studies development of NR4A inducers (blood-derived cancers) and NR4A1/NR4A2 antagonists (solid tumors) may be promising for cancer therapy and also for enhancing immune surveillance.",
+   "role": "REF-POOL Safe & Karki — NR4A paradoxical roles in cancer."
+  },
+  {
+   "id": "PMID: 33762737 · doi:10.1038/s41573-021-00162-z",
+   "title": "Antisense technology: an overview and prospectus.",
+   "authors": "Crooke ST, Baker BF, Crooke RM, Liang XH.",
+   "year": 2021,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 521,
+   "corpus": "literature/aso-refpool-ids (branch literature-cache)",
+   "abstract_verbatim": "Antisense technology is now beginning to deliver on its promise to treat diseases by targeting RNA. Nine single-stranded antisense oligonucleotide (ASO) drugs representing four chemical classes, two mechanisms of action and four routes of administration have been approved for commercial use, including the first RNA-targeted drug to be a major commercial success, nusinersen. Although all the approved drugs are for use in patients with rare diseases, many of the ASOs in late- and middle-stage clinical development are intended to treat patients with very common diseases. ASOs in development are showing substantial improvements in potency and performance based on advances in medicinal chemistry, understanding of molecular mechanisms and targeted delivery. Moreover, the ASOs in development include additional mechanisms of action and routes of administration such as aerosol and oral formulations. Here, we describe the key technological advances that have enabled this progress and discuss recent clinical trials that illustrate the impact of these advances on the performance of ASOs in a wide range of therapeutic applications. We also consider strategic issues such as target selection and provide perspectives on the future of the field.",
+   "role": "REF-POOL Crooke 2021 — antisense/gapmer/RNase-H1 overview."
+  },
+  {
+   "id": "PMID: 34124809 · doi:10.1002/gcc.22976",
+   "title": "SMARCA2-NR4A3 is a novel fusion gene of extraskeletal myxoid chondrosarcoma identified by RNA next-generation sequencing.",
+   "authors": "Wei S, Pei J, von Mehren M, Abraham JA, Patchefsky AS, Cooper HS.",
+   "year": 2021,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 19,
+   "corpus": "literature/emc-junction-rankorder (branch literature-cache)",
+   "abstract_verbatim": "Extraskeletal myxoid chondrosarcoma (EMC) is a rare sarcoma of uncertain differentiation, characterized by recurrent chromosomal translocation involving NR4A3 (9q22.33) in more than 90% of cases. Five fusion partners for NR4A3 have been described including: EWSR1 (22q12.2), TAF15 (17q12), FUS (16p11.2), TCF12 (15q21), and TFG (3q12.2). This report describes a patient with an EMC at the dorsum of the right foot. The tumor showed a cord-like and reticular pattern in a background of myxoid matrix. The tumor cells demonstrated an epithelioid morphology with prominent nucleoli. The tumor cells were positive for synaptophysin, GFAP, with focal positivity for CD117, S100, Cam5.2, and NSE, and negative for AE1/3, desmin, and SMA. An RNA next-generation sequencing test showed a SMARCA2-NR4A3 gene fusion which has not been previously reported. The exon 3 of SMARCA2 was fused to exon 3 of NR4A3. This fusion was confirmed by NR4A3 break-apart FISH, although both SMARCA2 (9p24.3) and NR4A3 (9q22.33) are located on chromosome 9. The tumor cells showed retained expression of INI1 and SMARCA2 by immunohistochemistry.",
+   "role": "TO-VERIFY (b) context — a further NR4A3 5' partner (SMARCA2), exon 3 of SMARCA2 to exon 3 of NR4A3."
+  },
+  {
+   "id": "PMID: 34791371 · PMC8728224 · doi:10.1093/nar/gkab1061",
+   "title": "AlphaFold Protein Structure Database: massively expanding the structural coverage of protein-sequence space with high-accuracy models.",
+   "authors": "Varadi M, Anyango S, Deshpande M, Nair S, Natassia C, Yordanova G, Yuan D, Stroe O, Wood G, Laydon A, Žídek A, Green T, Tunyasuvunakool K, Petersen S, Jumper J, Clancy E, Green R, Vora A, Lutfi M, Figurnov M, Cowie A, Hobbs N, Kohli P, Kleywegt G, Birney E, Hassabis D, Velankar S.",
+   "year": 2022,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 6766,
+   "corpus": "literature/aso-refpool-ids (branch literature-cache)",
+   "abstract_verbatim": "The AlphaFold Protein Structure Database (AlphaFold DB, https://alphafold.ebi.ac.uk) is an openly accessible, extensive database of high-accuracy protein-structure predictions. Powered by AlphaFold v2.0 of DeepMind, it has enabled an unprecedented expansion of the structural coverage of the known protein-sequence space. AlphaFold DB provides programmatic access to and interactive visualization of predicted atomic coordinates, per-residue and pairwise model-confidence estimates and predicted aligned errors. The initial release of AlphaFold DB contains over 360,000 predicted structures across 21 model-organism proteomes, which will soon be expanded to cover most of the (over 100 million) representative sequences from the UniRef90 data set.",
+   "role": "REF-POOL Varadi — AlphaFold Protein Structure Database."
+  },
+  {
+   "id": "PMID: 35085461 · doi:10.1089/nat.2021.0009",
+   "title": "Allele-Selective LNA Gapmers for the Treatment of Fibrodysplasia Ossificans Progressiva Knock Down the Pathogenic ACVR1R206H Transcript and Inhibit Osteogenic Differentiation.",
+   "authors": "Maruyama R, Nguyen Q, Roshmi RR, Touznik A, Yokota T.",
+   "year": 2022,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 11,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "Fibrodysplasia ossificans progressiva (FOP) is a rare autosomal dominant disorder characterized by episodic heterotopic ossification. The median life span of people with this disorder is ∼40 years, and currently, there is no effective treatment available. More than 95% of cases are caused by a recurrent mutation (c.617G>A; R206H) of Activin A receptor, type I (ACVR1)/Activin receptor-like kinase-2 (ALK2), a bone morphogenetic protein type I receptor. The mutation renders ACVR1 responsive to activin A, which does not activate wild-type ACVR1. Ectopic activation of ACVR1R206H by activin A induces heterotopic ossification. Since ACVR1R206H is a hyperactive receptor, a promising therapeutic strategy is to decrease the activity of mutated ACVR1. To accomplish this goal, we developed locked nucleic acid (LNA) gapmers. These are short DNA oligonucleotides with LNA modification at both ends. They induce targeted mRNA degradation and specific knockdown of gene expression. We demonstrated that some of these gapmers efficiently knocked down ACVR1R206H expression at RNA levels, while ACVR1WT was mostly unaffected in human FOP fibroblasts. Also, the gapmers suppressed osteogenic differentiation induced by ACVR1R206H and activin A. These gapmers may be promising drug candidates for FOP. This novel strategy will also pave the way for antisense-mediated therapy of other autosomal dominant disorders.",
+   "role": "TO-VERIFY (a) — allele-selective LNA gapmers, ACVR1 R206H."
+  },
+  {
+   "id": "PMID: 36276652 · PMC9576606 · doi:10.7150/thno.77830",
+   "title": "Specificity of oligonucleotide gene therapy (OGT) agents.",
+   "authors": "Nedorezova DD, Dubovichenko MV, Belyaeva EP, Grigorieva ED, Peresadina AV, Kolpashchikov DM.",
+   "year": 2022,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 25,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "Oligonucleotide gene therapy (OGT) agents (e. g. antisense, deoxyribozymes, siRNA and CRISPR/Cas) are promising therapeutic tools. Despite extensive efforts, only few OGT drugs have been approved for clinical use. Besides the problem of efficient delivery to targeted cells, hybridization specificity is a potential limitation of OGT agents. To ensure tight binding, a typical OGT agent hybridizes to the stretch of 15-25 nucleotides of a unique targeted sequence. However, hybrids of such lengths tolerate one or more mismatches under physiological conditions, the problem known as the affinity/specificity dilemma. Here, we assess the scale of this problem by analyzing OGT hybridization-dependent off-target effects (HD OTE) in vitro, in animal models and clinical studies. All OGT agents except deoxyribozymes exhibit HD OTE in vitro, with most thorough evidence of poor specificity reported for siRNA and CRISPR/Cas9. Notably, siRNA suppress non-targeted genes due to (1) the partial complementarity to mRNA 3'-untranslated regions (3'-UTR), and (2) the antisense activity of the sense strand. CRISPR/Cas9 system can cause hundreds of non-intended dsDNA breaks due to low specificity of the guide RNA, which can limit therapeutic applications of CRISPR/Cas9 by ex-vivo formats. Contribution of this effects to the observed in vivo toxicity of OGT agents is unclear and requires further investigation. Locked or peptide nucleic acids improve OGT nuclease resistance but not specificity. Approaches that use RNA marker dependent (conditional) activation of OGT agents may improve specificity but require additional validation in cell culture and in vivo.",
+   "role": "TO-VERIFY (a) context — review of oligonucleotide specificity."
+  },
+  {
+   "id": "PMID: 36265509 · PMC10101799 · doi:10.4143/crt.2022.910",
+   "title": "Cancer-Specific Sequences in the Diagnosis and Treatment of NUT Carcinoma.",
+   "authors": "Lee MS, An S, Song JY, Sung M, Jung K, Chang ES, Choi J, Oh DY, Jeon YK, Yang H, Lakshmi C, Park S, Han J, Lee SH, Choi YL.",
+   "year": 2023,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 3,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "PurposeNUT carcinoma (NC) is a solid tumor caused by the rearrangement of NUTM1 that usually develops in midline structures, such as the thorax. No standard treatment has been established despite high lethality. Thus, we investigated whether targeting the junction region of NUTM1 fusion breakpoints could serve as a potential treatment option for NC.Materials and methodsWe designed and evaluated a series of small interfering RNAs (siRNAs) targeting the junction region of BRD4-NUTM1 fusion (B4N), the most common form of NUTM1 fusion. Droplet digital polymerase chain reaction using the blood of patients was also tested to evaluate the treatment responses by the junction sequence of the B4N fusion transcripts.ResultsAs expected, the majority of NC fusion types were B4N (12 of 18, 67%). B4N fusion-specific siRNA treatment on NC cells showed specific inhibitory effects on the B4N fusion transcript and fusion protein without affecting the endogenous expression of the parent genes, resulting in decreased relative cell growth and attenuation of tumor size. In addition, the fusion transcript levels in platelet-rich-plasma samples of the NC patients with systemic metastasis showed a negative correlation with therapeutic effect, suggesting its potential as a measure of treatment responsiveness.ConclusionThis study suggests that tumor-specific sequences could be used to treat patients with fusion genes as part of precision medicine for a rare but deadly disease.",
+   "role": "PRIOR ART — siRNAs against the BRD4-NUTM1 junction; fusion-specific knockdown \"without affecting the endogenous expression of the parent genes\" (2023)."
+  },
+  {
+   "id": "PMID: 36302174 · PMC9811160 · doi:10.1158/1078-0432.ccr-22-1851",
+   "title": "Oncogenic Addiction of Fibrolamellar Hepatocellular Carcinoma to the Fusion Kinase DNAJB1-PRKACA.",
+   "authors": "Neumayer C, Ng D, Jiang CS, Qureshi A, Lalazar G, Vaughan R, Simon SM.",
+   "year": 2023,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 27,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "PurposeGene fusions are drivers of many pediatric tumors. In fibrolamellar hepatocellular carcinoma (FLC), a fusion of DNAJB1 and PRKACA is the dominant recurrent mutation. Expression of the DNAJB1-PRKACA fusion gene in mice results in a tumor that recapitulates FLC. However, it is not known whether transient expression of DNAJB1-PRKACA is sufficient only to trigger tumor formation or whether ongoing expression is necessary for maintenance and progression.Experimental designWe screened short hairpin RNAs (shRNA) tiled over the fusion junction and identified several potent and specific candidates in vitro and two independent FLC patient-derived xenografts (PDX).ResultsWe show that continued DNAJB1-PRKACA expression is not only required for continued tumor growth, but additionally its inhibition results in cell death. Inhibition of DNAJB1-PRKACA by an inducible shRNA in cells of PDX of FLC resulted in cell death in vitro. Induction of the shRNA inhibits FLC tumors growing in mice with no effect on xenografts from a hepatocellular carcinoma cell line engineered to express DNAJB1-PRKACA.ConclusionsOur results validate DNAJB1-PRKACA as the oncogene in FLC and demonstrate both a continued requirement for the oncogene for tumor growth as well as an oncogenic addiction that can be exploited for targeted therapies. We anticipate our approach will be useful for investigations of other fusion genes in pediatric cancers and spur development of precision therapies.",
+   "role": "PRIOR ART — shRNAs TILED ACROSS the DNAJB1-PRKACA fusion junction, PDX models (2023)."
+  },
+  {
+   "id": "PMID: 36316541 · PMC9813045 · doi:10.1007/s13577-022-00818-x",
+   "title": "Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models.",
+   "authors": "Bangerter JL, Harnisch KJ, Chen Y, Hagedorn C, Planas-Paz L, Pauli C.",
+   "year": 2023,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 7,
+   "corpus": "literature/emc-junction-rankorder (branch literature-cache)",
+   "abstract_verbatim": "Extraskeletal myxoid chondrosarcoma (EMC) is a malignant mesenchymal neoplasm of uncertain differentiation as classified by the WHO Classification of Tumours 2020. Although often associated with pronlonged survival, EMC has high rates of distant recurrences and disease-associated death. EMCs are translocation sarcomas and harbor in > 90% of the cases an NR4A3 rearrangement. The molecular consequences of the NR4A3 gene fusions are not yet fully elucidated as well-characterized ex vivo cell models for EMC are lacking. Patient-derived ex vivo models are important and essential tools for investigating disease mechanisms associated with diseases that are rare, that exhibit poor prognosis and for the identification of potential novel treatment options. We established two novel EMC ex vivo models (USZ20-EMC1 and USZ22-EMC2) for functional testing and research purposes. USZ20-EMC1 and USZ22-EMC2 were established and maintained as sarco-sphere cell models for several months in culture. The cells were molecularly characterized using DNA sequencing and methylation profiling. Both cell models represent their native tumor tissue as confirmed by histomorphology and their molecular profiles, suggesting that native tumor cell function can be recapitulated in the ex vivo models. Using a functional screening approach, novel anti-cancer drug sensitivities including potential synergistic combinations were identified. In conclusion, two novel EMC ex vivo cell models (USZ20-EMC1 and USZ22-EMC2) were successfully established and characterized from native tumor tissues. Both cell models will be useful tools for further investigating disease mechanisms and for answering basic and translational research questions.",
+   "role": "TO-VERIFY (d) EMC line — USZ20-EMC1 / USZ22-EMC2 [Bangerter]."
+  },
+  {
+   "id": "PMID: 36780200 · PMC10150239 · doi:10.1158/1078-0432.ccr-22-2292",
+   "title": "Pilot Study of Recurrent Ewing's Sarcoma Management with Vigil/Temozolomide/Irinotecan and Assessment of Circulating Tumor (ct) DNA.",
+   "authors": "Anderson P, Ghisoli M, Crompton BD, Klega KS, Wexler LH, Slotkin EK, Stanbery L, Manning L, Wallraven G, Manley M, Horvath S, Bognar E, Nemunaitis J.",
+   "year": 2023,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 17,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "PurposeTreatment options for recurrent or refractory Ewing's sarcoma (ES) are limited. Vigil is a novel autologous tumor cell therapy expressing bi-shRNA furin/GMCSF plasmid, which previously demonstrated monotherapy activity in advanced ES. Herein we report safety and evidence of benefit to Vigil for ES as potential treatment.Patients and methodsIn this pilot trial, eligible patients with recurrent or refractory ES who failed initial standard-of-care therapy received treatment with temozolomide (TEM) 100 mg/m2/day oral and irinotecan (IRI) 50 mg/m2/day oral, Days 1 to 5, in combination with Vigil (1 × 106-107 cells/mL/day intradermal, Day 15), every 21 days (Vigil/TEM/IRI). Objective response rate (ORR) by RECIST v1.1, progression-free survival (PFS), and overall survival (OS) were assessed. Circulating tumor (ct) DNA analysis was done by patient-specific droplet digital PCR on baseline and serially collected on-treatment samples.ResultsEight of 10 enrolled patients were evaluable for safety and efficacy (mean age 24.6; 12.6-46.1 years old); 2 did not receive Vigil. Seven of 8 patients previously received TEM/IRI. No Vigil-related adverse events were reported. Common ≥Grade 3 chemotherapy-related toxicity included neutropenia (50%) and thrombocytopenia (38%). We observed two partial response patients by RECIST; both showed histologic complete response without additional cancer therapy. Median PFS was 8.2 months (95% confidence interval, 4.3-NA). Five patients showed stable disease or better for ≥6 months. Patient-specific EWS/FLI1 ctDNA was detectable in all 8 evaluable patients at baseline. Changes in ctDNA levels corresponded to changes in disease burden.ConclusionsResults demonstrated safety of combination Vigil/TEM/IRI.",
+   "role": "PRIOR ART — clinical follow-through in recurrent Ewing sarcoma (Vigil bi-shRNA platform) (2023)."
+  },
+  {
+   "id": "PMID: 37980543 · PMC10787139 · doi:10.1016/j.ymthe.2023.11.012",
+   "title": "GalNAc-conjugated siRNA targeting the DNAJB1-PRKACA fusion junction in fibrolamellar hepatocellular carcinoma.",
+   "authors": "Neumayer C, Ng D, Requena D, Jiang CS, Qureshi A, Vaughan R, Prakash TP, Revenko A, Simon SM.",
+   "year": 2024,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 12,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "Fibrolamellar hepatocellular carcinoma (FLC) is a rare liver cancer caused by a dominant recurrent fusion of the heat shock protein (DNAJB1) and the catalytic subunit of protein kinase A (PRKACA). Current therapies such as chemotherapy and radiation have limited efficacy, and new treatment options are needed urgently. We have previously shown that FLC tumors are dependent on the fusion kinase DNAJB1::PRKACA, making the oncokinase an ideal drug target. mRNA degrading modalities such as antisense oligonucleotides or small interfering RNAs (siRNAs) provide an opportunity to specifically target the fusion junction. Here, we identify a potent and specific siRNA that inhibits DNAJB1::PRKACA expression. We found expression of the asialoglycoprotein receptor in FLC to be maintained at sufficient levels to effectively deliver siRNA conjugated to the GalNAc ligand. We observe productive uptake and siRNA activity in FLC patient-derived xenografts (PDX) models in vitro and in vivo. Knockdown of DNAJB1::PRKACA results in durable growth inhibition of FLC PDX in vivo with no detectable toxicities. Our results suggest that this approach could be a treatment option for FLC patients.",
+   "role": "PRIOR ART — CLOSEST PROGRAM-LEVEL PRECEDENT: GalNAc-conjugated siRNA against the DNAJB1::PRKACA fusion junction in a rare fusion-driven cancer, durable PDX growth inhibition, delivery solved by a receptor conjugate (2024)."
+  },
+  {
+   "id": "PMID: 38993932 · PMC11238192 · doi:10.1016/j.omtn.2024.102237",
+   "title": "Strategies to improve the design of gapmer antisense oligonucleotide on allele-specific silencing.",
+   "authors": "Aguti S, Cheng S, Ala P, Briggs S, Muntoni F, Zhou H.",
+   "year": 2024,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 10,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "Gapmer antisense oligonucleotides (ASOs) hold therapeutic promise for allele-specific silencing, but face challenges in distinguishing between mutant and wild-type transcripts. This study explores new design strategies to enhance ASO specificity, focusing on a common dominant mutation in COL6A3 gene associated with Ullrich congenital muscular dystrophy. Initial gapmer ASO design exhibited high efficiency but poor specificity for the mutant allele. We then adopted a mixmer design, incorporating additional RNA bases based on computational predictions of secondary structures for both mutant and wild-type alleles, aiming to enhance ASO accessibility to mutant transcripts. The mixmer ASO design demonstrated up to a 3-fold increase in specificity compared with the classical gapmer design. Further refinement involved introducing a nucleotide mismatch as a structural modification, resulting in a 10-fold enhancement in specificity compared with the gapmer design and a 3-fold over the mixmer design. Additionally, we identified for the first time a potential role of the RNA-induced silencing complex (RISC), alongside RNase H1, in gapmer-mediated silencing, in contrast with what was observed with mixmer ASOs, where only RNase H1 was involved. In conclusion, this study presents a novel design concept for allele-specific ASOs leveraging mRNA secondary structures and nucleotide mismatching and suggests a potential involvement of RISC in gapmer-mediated silencing.",
+   "role": "TO-VERIFY (a) — \"Initial gapmer ASO design exhibited high efficiency but poor specificity for the mutant allele.\""
+  },
+  {
+   "id": "PMID: 40580361 · doi:10.1007/s13577-025-01250-7",
+   "title": "Establishment and characterization of NCC-EMC1-C1: a novel patient-derived cell line of extraskeletal myxoid chondrosarcoma.",
+   "authors": "Iwata S, Noguchi R, Osaki J, Adachi Y, Shiota Y, Osaki S, Nishino S, Yoshida A, Ohtori S, Kawai A, Kondo T.",
+   "year": 2025,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 0,
+   "corpus": "literature/emc-lines-surface (branch literature-cache)",
+   "abstract_verbatim": "Extraskeletal myxoid chondrosarcoma (EMC) is a rare soft tissue sarcoma characterized by a myxoid matrix and a distinctive lobulated architecture, composed of cords and clusters of uniform round-to-rhabdoid cells. At the molecular level, EMC is defined by specific gene fusions involving NR4A3, most frequently EWSR1::NR4A3. The responses to conventional chemotherapy are limited, and the prognosis for patients with advanced or metastatic disease remains poor. We successfully developed the NCC-EMC1-C1 cell line using surgically resected tumor tissue from a patient with EMC. NCC-EMC1-C1 cells exhibited constant proliferation in monolayer culture, spheroid formation in low-attachment plates, and migration. High-throughput screening of 221 anticancer drugs using NCC-EMC1-C1 identified three candidates, brigatinib, panobinostat, and romidepsin, that demonstrated low IC50 values. These data indicated the utility of NCC-EMC1-C1 for the experiments based on screening. We conclude that NCC-EMC1-C1 is a valuable tool for preclinical and basic research on EMC.",
+   "role": "TO-VERIFY (d) EMC line — NCC-EMC1-C1 [Iwata]. PAYWALLED (not open access); abstract only."
+  },
+  {
+   "id": "PMID: 40991849 · PMC12824707 · doi:10.1182/blood.2025028988",
+   "title": "Fusion gene depletion eliminates stemness and induces bidirectional differentiation of acute myeloid leukemia.",
+   "authors": "Derevyanko PK, Swart LE, Mata Casimiro LD, van Oort A, du Plessis M, van den Brink L, Ashtiani M, Zwaan CM, Krippner-Heidenreich A, Bonifer C, Schiffelers R, Vormoor J, Kellaway SG, Heidenreich O.",
+   "year": 2025,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 1,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "AbstractChromosomal rearrangements that generate novel fusion genes are a hallmark of acute myeloid leukemia (AML). Depletion experiments in cell line models have suggested that their continued expression is required for maintaining their leukemic phenotype and that fusion genes therefore represent ideal cancer-specific therapeutic targets. However, the extent to which this result holds true for the different stages of hematopoietic development in primary cells and whether therapeutic agents can be efficiently delivered to those cells is still unclear. In this study, we demonstrate that primary AML cells harboring the chromosomal translocation t(8;21) are critically dependent on the corresponding fusion gene, RUNX1::RUNX1T1, to suppress differentiation and maintain stemness. Silencing RUNX1::RUNX1T1 expression using small interfering RNA (siRNA)-loaded lipid nanoparticles induces substantial changes in chromatin accessibility, thereby redirecting the leukemia-associated transcriptional network toward a myeloid differentiation program. Single-cell analyses reveal that this transcriptional reprogramming is associated with the depletion of immature stem and progenitor-like cell populations, accompanied by an expansion of granulocytic and eosinophilic/mast cell-like populations with impaired self-renewal capacity. These findings underscore the essential role of RUNX1::RUNX1T1 in sustaining AML and highlight the therapeutic potential of targeting fusion gene expression in primary AML cells.",
+   "role": "PRIOR ART — siRNA-loaded lipid nanoparticles depleting RUNX1::RUNX1T1 in primary AML (2025)."
+  },
+  {
+   "id": "PMID: 41315062 · doi:10.1007/s00428-025-04352-7",
+   "title": "Novel HSPA8-NR4A2 rearrangement in extraskeletal myxoid chondrosarcoma: a sarcoma mimicker of neuroendocrine neoplasia.",
+   "authors": "Barresi S, Passa R, Vallese S, Miele E, Patrizi S, Rabitti C, Vincenzi B, Valeri S, Camassei FD, Minucci A, Pieraccioli M, Sette C, Alaggio R, Rindi G.",
+   "year": 2025,
+   "open_access_full_text_retrieved": false,
+   "europepmc_cited_by": 0,
+   "corpus": "literature/emc-junction-rankorder (branch literature-cache)",
+   "abstract_verbatim": "Extraskeletal myxoid chondrosarcoma (EMC) is a rare mesenchymal neoplasm of uncertain differentiation associating with diagnostic NR4A3 gene rearrangements. An unusual case of EMC harboring the novel HSPA8::NR4A2 gene fusion and neuroendocrine phenotype is described. The tumor exhibited a lobular architecture, myxoid stroma, and epithelioid tumor cells with a complete neuroendocrine phenotype by specific immunohistochemistry and transmission electron microscopy. The lesions showed a low tumor mutational burden (1.9 muts/Mb), a microsatellite stable status, no cancer driver gene mutations, no canonical NR4A3 fusion and low copy number variation. A novel in-frame fusion between HSPA8 (exon 2) and NR4A2 (exon 3) was identified by RNA-sequencing and methylation analysis placed the lesion into the EMC class (0.99 score). Transcriptome cluster comparative analysis placed its expression profile close to pancreas neuroendocrine tumors. This case suggests NR4A2 as a functionally substitute for NR4A3 in tumorigenesis and a neuroendocrine lineage differentiation for a subset of EMC.",
+   "role": "TO-VERIFY (b) context — NR4A2 (not NR4A3) rearrangement in an EMC; bears on \"the fusion is the single clonal driver\" scope."
+  },
+  {
+   "id": "PMID: 42110475 · PMC13156592 · doi:10.1016/j.omton.2026.201213",
+   "title": "RNA-based precision medicine in glioblastoma driven by oncogenic gene fusions.",
+   "authors": "Bouillon M, Lapoujade C, Basset L, Fontaine A, Hollenstein M, Garcion E, Rousseau A.",
+   "year": 2026,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 0,
+   "corpus": "literature/aso-priorart-junction (branch literature-cache)",
+   "abstract_verbatim": "Glioblastoma, the most common primary central nervous system tumor, is the leading cause of death in neuro-oncology. Gene fusions, caused by chromosomal rearrangements, may act as drivers of tumorigenesis in glioblastoma. These fusions result from the juxtaposition of two genes, leading to the production of a chimeric protein and, in most cases, constitutive activation of a tyrosine kinase receptor. Despite the use of tyrosine kinase inhibitors to block the oncogenic activity of gene fusions, clinical responses in glioblastoma remain poor compared to those in other cancers, highlighting the need for innovative therapeutic strategies. RNA interference, using small interfering RNAs or micro-RNAs, offers a promising approach to target these oncogenic fusions. Through specific silencing, small interfering RNAs spare healthy cells, avoiding the adverse effects associated with tyrosine kinase inhibitors. Recent advances in biotechnology (e.g., antisense oligonucleotides and aptamers) and delivery systems have improved small interfering RNA stability, specificity, and ability to cross the blood-brain barrier. This review discusses these advances and their potential applications to target oncogenic gene fusions in glioblastoma. RNA interference-based therapy represents a critical area of research that could improve the survival of patients with glioblastoma.",
+   "role": "PRIOR ART — 2026 review of RNA-based targeting of oncogenic gene fusions (glioblastoma)."
+  },
+  {
+   "id": "PMID: 42327837 · PMC13276142 · doi:10.1016/j.omtn.2026.102937",
+   "title": "Single-base 2'OMe-modified LNA and MOE gapmers selectively silence ACVR1 R206H in fibrodysplasia ossificans progressiva.",
+   "authors": "Anwar S, Hay S, Moriyama H, Mir F, Maruyama R, Yokota T.",
+   "year": 2026,
+   "open_access_full_text_retrieved": true,
+   "europepmc_cited_by": 0,
+   "corpus": "literature/aso-rnaseh-mismatch (branch literature-cache)",
+   "abstract_verbatim": "Fibrodysplasia ossificans progressiva (FOP) is an ultra-rare disorder caused by gain-of-function mutations in ACVR1, most commonly c.617G>A (R206H), leading to progressive heterotopic ossification. In this study, we developed novel antisense gapmers selectively targeting the mutant ACVR1 R206H transcript while sparing the wild-type allele. We engineered locked nucleic acid (LNA) and 2'-O-methoxyethyl (MOE) gapmers incorporating a single 2'-O-methyl (2'OMe) modification at gap position 2. This is hypothesized to synergize with the wild-type sequence mismatch to restrict RNase H1 cleavage, limiting wild-type degradation while preserving mutant target engagement. In FOP patient-derived fibroblasts carrying the endogenous ACVR1 R206H mutation and in murine-derived C2C12 cells ectopically expressing ACVR1 R206H constructs, 2'OMe-modified gapmers demonstrated robust and preferential suppression of ACVR1 R206H at both RNA and protein levels. Gapmer treatment also reduced osteogenic differentiation, as shown by decreased alkaline phosphatase and Alizarin Red S staining, and lower expression of osteogenic markers. In wild-type mice, 2'OMe modification was associated with higher apparent gapmer levels in skeletal muscle and tendon and lower hepatic and renal stress marker readouts. These findings provide preliminary proof-of-concept that a single-base chemical modification can modulate allele selectivity and biodistribution of gapmers targeting ACVR1 R206H . Further studies in disease-relevant FOP models will be needed to establish therapeutic efficacy and long-term safety.",
+   "role": "TO-VERIFY (a) — a deliberate 2'OMe at gap position 2 is used TO restrict RNase H1 cleavage of the mismatched wild-type: engineering, not an intrinsic property of a mismatch."
+  }
+ ],
+ "evidence_of_absence": [
+  {
+   "question": "TO-VERIFY (c): B7-H3 (CD276) surface expression in EMC specifically",
+   "method": "754-record EMC corpus (slug emc-lines-surface) whose query NAMED B7-H3 and CD276 as OR terms, so any EMC record mentioning either in title/abstract would have been returned; then a full-text grep over the 449 open-access bodies in that corpus.",
+   "result": "ZERO records with B7-H3/CD276 in title or abstract. Four open-access bodies mention B7-H3/CD276; two of those also contain the string 'extraskeletal myxoid' (PMC10196192, a pediatric precision-oncology review, and PMC9379246, a pathology congress abstract book) and in neither is the B7-H3 text about EMC.",
+   "verdict": "NO EMC-SPECIFIC B7-H3 STUDY WAS FOUND. This is evidence of absence FOR THIS QUERY ONLY - quote the query, never the bare zero. It confirms the manuscript's own statement that naming B7-H3 for EMC was an extrapolation from other sarcomas."
+  },
+  {
+   "question": "TO-VERIFY (e): EMC-specific surface expression of the surfaceome-scan shortlist (CDH11, FGFR1, GPC2, PTK7, MCAM/CD146)",
+   "method": "same corpus and query, which named CDH11, GPC2, PTK7, MCAM and CD146 as OR terms.",
+   "result": "no EMC record returned that reports surface-protein expression of any shortlist gene in EMC.",
+   "verdict": "UNRESOLVED BY LITERATURE - the shortlist remains surrogate-derived, exactly as the manuscript says. Not a citation that can be supplied; a study that has not been done."
+  },
+  {
+   "question": "Has anyone published an oligonucleotide directed at an EWSR1::NR4A3 (EMC) breakpoint junction?",
+   "method": "the two prior-art corpora (1133 + 4252 records) both included NR4A3/EWS-NR4A3/EWS-CHN terms; full-text grep for NR4A3 across the open-access bodies of the junction corpus.",
+   "result": "two bodies mention NR4A3; neither concerns a junction-directed oligonucleotide (one is an NR4A3/EWSR1 study in bladder cancer, PMC12326571).",
+   "verdict": "NO PRIOR JUNCTION-DIRECTED OLIGONUCLEOTIDE AGAINST EWSR1::NR4A3 WAS FOUND. This is the manuscript's genuine novelty claim, and it is an INDICATION-LEVEL claim, not a method-level one - see the prior art below."
+  }
+ ],
+ "unresolved": [
+  {
+   "item": "TO-VERIFY (d), second half: whether the EMC-line papers report an immunophenotype / surface-marker IHC or deposited RNA-seq",
+   "status": "PARTIALLY RESOLVED, and the answer is NO for the one paper that can be read.",
+   "evidence": "Bangerter 2023 (PMID: 36316541) is open access and was retrieved in full. Its own abstract says the cells 'were molecularly characterized using DNA sequencing and methylation profiling'; the full text contains ZERO occurrences of 'immunohisto', no RNA-seq, and no GEO/SRA accession. Iwata 2025 (PMID: 40580361) is NOT open access - abstract only, and the abstract reports drug screening with no immunophenotype and no accession. So the second paper's body is PAYWALLED and this item stays open for it, by name."
+  },
+  {
+   "item": "TO-VERIFY (a), the exact numeric tolerance for a GAP-INTERNAL mismatch in the specific 5-6-5 LNA/DNA/LNA geometry used by this manuscript",
+   "status": "THE GENERAL QUANTITY IS NOW SOURCED; THE GEOMETRY-SPECIFIC ONE IS NOT.",
+   "evidence": "PMID: 23963702 gives ~5-fold for an unmodified RNase-H-active ASO and >100-fold only with positional chemical modification. Neither that paper nor any other retrieved here reports a number for a 6-nt DNA gap flanked by 5-nt LNA wings. The manuscript must therefore cite the ~5-fold figure as the field's value and stop treating 'gap mismatch' as binary."
+  }
+ ]
+}
