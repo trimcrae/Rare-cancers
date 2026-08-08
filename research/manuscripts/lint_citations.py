@@ -58,6 +58,17 @@ LEDGER = os.path.join(HERE, "citation-provenance-ledger.json")
 #: ⚠ ANCHORED IS ABOUT ORIGIN, NOT ABOUT FILE TYPE. `.json`/`.jsonl` are what fetches, registry
 #: curations and graph edits write; prose is what a model types. That asymmetry is the whole test.
 ANCHOR_SUFFIXES = (".json", ".jsonl")
+
+#: ⚠ KNOWN NARROW HOLE, MEASURED 2026-08-08 AND LEFT OPEN DELIBERATELY. A fetch corpus may carry a
+#: KNOWN-NEGATIVE CONTROL — an identifier chosen because it must NOT resolve, proving the endpoint
+#: can answer "not found" (the degrader audit used `PMID 99999999` this way). The scanner cannot tell
+#: a control from a retrieval, so such an identifier ANCHORS ITSELF: cite it in prose and the gate
+#: passes it. This is the 2026-08-07 self-anchoring incident's shape — an artifact that lists
+#: identifiers as EXAMPLES being read as evidence FOR them — surviving in a corner the ledger fix did
+#: not reach, because that fix excluded one named file rather than a class of use.
+#: Not closed here because the honest repair is a corpus-side convention (mark control rows so the
+#: scanner can skip them), which needs agreement across every `lit-targets-*.json` and is a schema
+#: change, not a linter change. Recorded so the next reader finds it before a reviewer does.
 PROSE_SUFFIXES = (".md",)
 
 #: ⛔ Each pattern captures the BARE identifier so prose and artifact forms compare equal. A PMID
@@ -110,6 +121,24 @@ def _tracked():
     return r.stdout.split("\n")
 
 
+def extract(kind, text):
+    """Every identifier of `kind` in `text`, normalised — the ONE place a form becomes an identity.
+
+    ⛔ THIS EXISTS SO THE TESTS CANNOT DRIFT FROM THE SCANNER. `PATTERNS` became a tuple per kind
+    when the URL forms were added, and the two tests that had been calling `re.findall(PATTERNS[k])`
+    directly broke with a TypeError — they were re-implementing `_scan`'s inner loop against a data
+    shape they did not own. Re-implementing the thing under test is how a test ends up passing
+    against its own copy of the logic; both now call this.
+    """
+    out = []
+    for pat in PATTERNS[kind]:
+        for m in re.findall(pat, text):
+            ident = m.strip().rstrip(TRAILING)
+            if ident:
+                out.append(ident)
+    return out
+
+
 def _scan(paths):
     """{kind: {identifier: {files}}} over `paths`."""
     found = collections.defaultdict(lambda: collections.defaultdict(set))
@@ -119,12 +148,9 @@ def _scan(paths):
             text = open(p, encoding="utf-8", errors="replace").read()
         except (OSError, IsADirectoryError):
             continue
-        for kind, pats in PATTERNS.items():
-            for pat in pats:
-                for m in re.findall(pat, text):
-                    ident = m.strip().rstrip(TRAILING)
-                    if ident:
-                        found[kind][ident].add(rel)
+        for kind in PATTERNS:
+            for ident in extract(kind, text):
+                found[kind][ident].add(rel)
     return found
 
 
