@@ -1,5 +1,5 @@
 {
- "_inputs_generated_utc": "2026-08-08T12:15:57Z",
+ "_inputs_generated_utc": "2026-08-08T12:22:53Z",
  "_language_discipline": "A search result is not a cohort and a cohort is not a result. Nothing here is an efficacy, selectivity, safety or clinical-readiness claim, and no expression value is computed in this module.",
  "_what": "Is there a FOURTH EMC expression cohort anyone could read?",
  "_what_a_negative_bounds": "GEO esearch matches DEPOSITOR PROSE. A series whose title and summary never name EMC is invisible to every query here however many EMC samples it holds. A null result bounds what a term search over GEO can reach; it is NOT a statement that no fourth cohort exists.",
@@ -67,17 +67,24 @@
    "entrytype": "GSE",
    "excluded_because": [
     "accession already used: GPL6244 array arm of the manuscript (6 EMC vs 29 comparators)",
-    "neither title nor summary names EMC, NR4A3 or the fusion, and no sample-level read contradicted that"
+    "42 sample(s) already read by an existing cohort (e.g. ['GSM600928', 'GSM600929', 'GSM600930', 'GSM600931'])"
    ],
    "found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
    "gpl": null,
    "grade": "EXCLUDED",
-   "gsm_overlap_examples": [],
+   "gsm_overlap_examples": [
+    "GSM600928",
+    "GSM600929",
+    "GSM600930",
+    "GSM600931",
+    "GSM600932",
+    "GSM600933"
+   ],
    "is_new_fourth_cohort": false,
-   "n_gsm_overlapping_a_known_cohort": 0,
-   "n_gsm_read": null,
+   "n_gsm_overlapping_a_known_cohort": 42,
+   "n_gsm_read": 42,
    "n_samples": 42,
-   "n_samples_naming_emc": null,
+   "n_samples_naming_emc": 6,
    "names_emc_in_prose": false,
    "parent_gse": null,
    "pubmed": [],
@@ -87,17 +94,24 @@
    "entrytype": "GSE",
    "excluded_because": [
     "accession already used: 3SEQ arm (4 EMC); Brunner et al., PMID 22929540",
-    "neither title nor summary names EMC, NR4A3 or the fusion, and no sample-level read contradicted that"
+    "99 sample(s) already read by an existing cohort (e.g. ['GSM715426', 'GSM715427', 'GSM715428', 'GSM715429'])"
    ],
    "found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
    "gpl": null,
    "grade": "EXCLUDED",
-   "gsm_overlap_examples": [],
+   "gsm_overlap_examples": [
+    "GSM715426",
+    "GSM715427",
+    "GSM715428",
+    "GSM715429",
+    "GSM715430",
+    "GSM715431"
+   ],
    "is_new_fourth_cohort": false,
-   "n_gsm_overlapping_a_known_cohort": 0,
-   "n_gsm_read": null,
+   "n_gsm_overlapping_a_known_cohort": 99,
+   "n_gsm_read": 99,
    "n_samples": 99,
-   "n_samples_naming_emc": null,
+   "n_samples_naming_emc": 4,
    "names_emc_in_prose": false,
    "parent_gse": null,
    "pubmed": [],
@@ -133,7 +147,7 @@
   "GSE43632": {
    "entrytype": "GSE",
    "excluded_because": [
-    "neither title nor summary names EMC, NR4A3 or the fusion, and no sample-level read contradicted that"
+    "0 sample(s) name EMC at sample level; floor is 3"
    ],
    "found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
    "gpl": null,
@@ -141,9 +155,9 @@
    "gsm_overlap_examples": [],
    "is_new_fourth_cohort": false,
    "n_gsm_overlapping_a_known_cohort": 0,
-   "n_gsm_read": null,
+   "n_gsm_read": 18,
    "n_samples": 18,
-   "n_samples_naming_emc": null,
+   "n_samples_naming_emc": 0,
    "names_emc_in_prose": false,
    "parent_gse": null,
    "pubmed": [],
@@ -152,7 +166,7 @@
   "GSE80126": {
    "entrytype": "GSE",
    "excluded_because": [
-    "neither title nor summary names EMC, NR4A3 or the fusion, and no sample-level read contradicted that"
+    "0 sample(s) name EMC at sample level; floor is 3"
    ],
    "found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
    "gpl": null,
@@ -160,9 +174,9 @@
    "gsm_overlap_examples": [],
    "is_new_fourth_cohort": false,
    "n_gsm_overlapping_a_known_cohort": 0,
-   "n_gsm_read": null,
+   "n_gsm_read": 29,
    "n_samples": 29,
-   "n_samples_naming_emc": null,
+   "n_samples_naming_emc": 0,
    "names_emc_in_prose": false,
    "parent_gse": null,
    "pubmed": [],
@@ -437,7 +451,7 @@
    "title": "STT5592_EMC"
   }
  },
- "generated_utc": "2026-08-08T12:20:32Z",
+ "generated_utc": "2026-08-08T12:23:03Z",
  "known_cohorts": {
   "GSE170983": "⛔ NOT a fourth cohort — the same Brunner deposit as GSE28866, same PMID 22929540 and the same four EMC samples, under a different accession",
   "GSE24369": "GPL6244 array arm of the manuscript (6 EMC vs 29 comparators)",
