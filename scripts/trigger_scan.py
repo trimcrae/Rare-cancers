@@ -108,12 +108,12 @@ TIMEOUT_S = 60
 # --------------------------------------------------------------------------- fetch helpers
 
 
-def _get(url: str, tries: int = 3) -> bytes:
+def _get(url: str, tries: int = 3, timeout: int | None = None) -> bytes:
     last = None
     for i in range(tries):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
-            with urllib.request.urlopen(req, timeout=TIMEOUT_S) as r:
+            with urllib.request.urlopen(req, timeout=timeout or TIMEOUT_S) as r:
                 return r.read()
         except (urllib.error.URLError, urllib.error.HTTPError, OSError) as e:  # noqa: PERF203
             last = e
@@ -173,6 +173,31 @@ def epmc_preprint_search(query: str, page_size: int = 25) -> list[dict]:
     return [dict(h, is_preprint=True) for h in epmc_search(f"({query}) AND SRC:PPR", page_size)]
 
 
+#: Consecutive failures after which a source is dropped for the REST OF THE RUN.
+#: ⛔ ADDED AFTER A MEASURED HANG (2026-08-08). ChemRxiv was added as a new source with no
+#: bounded failure, and `_get` retries 3 times against a 60 s timeout -- so ONE unreachable
+#: source costs ~186 s per query, and the scan issues 2 ChemRxiv queries per trigger. The run
+#: was cancelled at 25 minutes on a projected 3.4 HOURS, having produced nothing: the abstract
+#: fetch runs after the query phase, so a slow source starves the step it was added to serve.
+#: ⚠ The breaker must be LOUD. A source that silently stops being queried is the
+#: credited-but-silent scanner this repository keeps rediscovering -- so tripping it writes an
+#: error into the run log, which the board renders.
+SOURCE_FAILURE_LIMIT = 3
+#: Shorter than TIMEOUT_S: a search API that has not answered in this long is not going to.
+SEARCH_TIMEOUT_S = 20
+_source_failures: dict[str, int] = {}
+
+
+def source_is_live(source: str) -> bool:
+    return _source_failures.get(source, 0) < SOURCE_FAILURE_LIMIT
+
+
+def note_source_failure(source: str) -> bool:
+    """Record a failure; return True if this one TRIPPED the breaker."""
+    _source_failures[source] = _source_failures.get(source, 0) + 1
+    return _source_failures[source] == SOURCE_FAILURE_LIMIT
+
+
 def chemrxiv_search(term: str, max_results: int = 15) -> list[dict]:
     """ChemRxiv, which NEITHER existing source reaches.
 
@@ -184,7 +209,8 @@ def chemrxiv_search(term: str, max_results: int = 15) -> list[dict]:
     every one of them would have been invisible here.
     """
     qs = urllib.parse.urlencode({"term": term, "limit": str(max_results), "sort": "PUBLISHED_DATE_DESC"})
-    data = json.loads(_get(f"{CHEMRXIV}?{qs}").decode("utf-8", "replace"))
+    data = json.loads(_get(f"{CHEMRXIV}?{qs}", tries=1, timeout=SEARCH_TIMEOUT_S)
+                      .decode("utf-8", "replace"))
     out = []
     for row in data.get("itemHits", []) or []:
         it = row.get("item") or {}
@@ -885,12 +911,21 @@ def main() -> int:
         # ChemRxiv has no per-trigger query list: its API is a single free-text `term`, so the
         # trigger's own must_match vocabulary IS the query, and _matches() filters the return.
         for term in (search.get("chemrxiv") or must[:2]) if PREPRINT_LANE else []:
+            if not source_is_live("chemrxiv"):
+                break
             s["queries"] += 1
             run["queries"] += 1
             try:
                 results += chemrxiv_search(term)
             except Exception as e:  # noqa: BLE001
-                run["errors"].append(f"{t['id']} chemrxiv: {e}")
+                if note_source_failure("chemrxiv"):
+                    run["errors"].append(
+                        f"chemrxiv: DROPPED FOR THIS RUN after {SOURCE_FAILURE_LIMIT} consecutive "
+                        f"failures (last: {e}). Every ChemRxiv query below was SKIPPED -- this run's "
+                        f"preprint coverage is Europe PMC + arXiv only, and an empty ChemRxiv result "
+                        f"is not a reading of absence.")
+                else:
+                    run["errors"].append(f"{t['id']} chemrxiv: {e}")
             time.sleep(SLEEP_S)
 
         s["seen"] = len(results)
