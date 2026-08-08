@@ -302,4 +302,36 @@ jobs:
           cp -r "$tmp"/. "literature/$slug"/
           git add -A
           git commit -m "Literature cache update: $slug" || { echo "No changes"; exit 0; }
-          git push origin literature-cache
+
+          # ⚠ THE PUSH THAT CARRIES THE CORPUS WAS THE ONE WITH NO RETRY (measured 2026-08-08).
+          # The two lane-probe pushes above have retried 3x for months; this one — the only push that
+          # publishes the fetched papers — was bare. Five parallel sweeps dispatched this workflow at
+          # once and TWO reported `failure` with every file ALREADY FETCHED, having lost a
+          # non-fast-forward race on this shared ref.
+          # ⛔ THE COST IS A MISREAD, NOT A LOST FETCH: the run's conclusion says `failure`, so a
+          # session reading only the conclusion concludes THE SOURCES WERE UNREACHABLE — the opposite
+          # of what happened — and re-plans around a retrieval failure that did not occur. The papers
+          # were on disk the whole time, and the run artifact below still held them.
+          # ⚠ RE-APPLY ONTO THE NEW TIP, NEVER FORCE. The race is with a SIBLING SLUG, so a force-push
+          # would resolve our failure by destroying their corpus — trading a visible error for a
+          # silent deletion. Each attempt re-fetches, resets to the new tip, and lays this slug back
+          # down; `$tmp` is $RUNNER_TEMP, outside the work tree, so the reset cannot eat our own copy.
+          for attempt in 1 2 3 4 5; do
+            if git push origin literature-cache; then
+              echo "pushed '$slug' on attempt $attempt"; exit 0
+            fi
+            echo "push rejected (attempt $attempt) — re-applying '$slug' onto the new tip"
+            sleep $(( attempt * 5 ))
+            git fetch origin literature-cache || true
+            git reset --hard origin/literature-cache
+            rm -rf "literature/$slug"
+            mkdir -p "literature/$slug"
+            cp -r "$tmp"/. "literature/$slug"/
+            git add -A
+            git commit -m "Literature cache update: $slug" \
+              || { echo "No changes after re-apply — a sibling already carries this slug"; exit 0; }
+          done
+          echo "::error::Corpus push for '$slug' failed after 5 attempts. THE PAPERS WERE FETCHED —" \
+               "read them from the 'literature-${{ github.run_id }}' run artifact above, and do NOT" \
+               "record these sources as unreachable."
+          exit 1

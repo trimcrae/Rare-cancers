@@ -76,18 +76,25 @@ def test_identifier_forms_normalise_so_prose_and_artifact_compare_equal():
     fails to match a real anchor, so a correctly-cited PMID would be flagged and the noise would bury
     the one real hit.
     """
-    import re
-    pat = lc.PATTERNS["PMID"]
-    for form in ("PMID: 12345678", "PMID12345678", "PMID:12345678", "(PMID 12345678)"):
-        assert re.findall(pat, form) == ["12345678"], form
+    for form in ("PMID: 12345678", "PMID12345678", "PMID:12345678", "(PMID 12345678)",
+                 # A fetch corpus names a paper by URL, never by the token "PMID" — and every
+                 # lit-targets-*.json in this repo is a {name: url} map, so without these two the
+                 # scanner cannot see the repository's own evidence of a retrieval.
+                 "https://pubmed.ncbi.nlm.nih.gov/12345678/",
+                 "…/search?query=EXT_ID:12345678&resultType=core"):
+        assert lc.extract("PMID", form) == ["12345678"], form
 
 
 def test_a_doi_does_not_carry_prose_punctuation_into_its_identity():
     """A DOI at the end of a sentence picks up the full stop; unstripped, it never matches its anchor."""
-    import re
-    got = re.findall(lc.PATTERNS["DOI"], "see 10.1038/s41586-020-2649-2.")
-    assert got, "DOI pattern matched nothing"
-    assert got[0].rstrip(lc.TRAILING) == "10.1038/s41586-020-2649-2"
+    for form in ("see 10.1038/s41586-020-2649-2.",
+                 # The prose scanned is MARKDOWN, and the DOI character class eats these, so an
+                 # unstripped backtick or bold marker makes a cited DOI a DIFFERENT identifier from
+                 # the one sitting in the artifact — a false fabrication alarm on an honest citation.
+                 "`10.1038/s41586-020-2649-2`",
+                 "**10.1038/s41586-020-2649-2.**"):
+        got = lc.extract("DOI", form)
+        assert got == ["10.1038/s41586-020-2649-2"], form
 
 
 def test_the_ledger_is_well_formed_and_says_what_an_entry_does_not_mean():
@@ -126,11 +133,30 @@ def test_the_ledger_does_not_anchor_itself():
     condition never changed (a new fabrication is in neither the ledger nor an artifact), and that is
     what made it dangerous: the guard kept working while its readout went vacuous, and 0 is the one
     number nobody re-examines. A guard whose output stops meaning anything is not half-working.
+
+    ⚠ THE ORIGINAL ASSERTIONS ENCODED A STRICTER RULE THAN THE INCIDENT, AND IT PENALISED THE FIX.
+    They demanded (a) no entry anchored by ANY artifact and (b) `len(unanchored) == len(entries)`.
+    Both go red the moment somebody anchors a previously-unanchored identifier — i.e. the moment
+    somebody does the work the ledger exists to request — and the ledger's own
+    `_the_count_is_meant_to_fall` says that count SHOULD drop. Measured 2026-08-08: 76 identifiers
+    were legitimately anchored by real fetches and this test called it a regression. §7's warning is
+    exactly this shape: a gate that goes red on honest work gets switched off, taking the case it
+    exists for with it. What the incident actually requires is narrower and is what is asserted now.
     """
-    _, anchors = lc.survey()
+    prose, anchors = lc.survey()
     led = lc.load_ledger()
+    ledger_rel = os.path.relpath(lc.LEDGER, lc.ROOT).replace(os.sep, "/")
+
+    # (a) THE REAL INVARIANT: the ledger file may never be one of the files that ANCHORS an entry.
+    # Anchoring by a genuine fetch product is the desired outcome and must stay legal.
     self_anchored = [e["key"] for e in led["entries"]
-                     if e["id"] in anchors.get(e["kind"], {})]
+                     if ledger_rel in anchors.get(e["kind"], {}).get(e["id"], set())]
     assert not self_anchored, "ledger entries anchored by the ledger itself: %s" % self_anchored[:5]
-    un = lc.unanchored(*lc.survey())
-    assert len(un) == len(led["entries"]), (len(un), len(led["entries"]))
+
+    # (b) The pass condition `check()` enforces is a SUBSET rule, not an equality: every still
+    # unanchored identifier must be enumerated. The ledger may legitimately be larger, because a row
+    # is retained after its identifier is anchored — that history is the audit trail.
+    un = lc.unanchored(prose, anchors)
+    known = {lc._norm_stored_key(e["key"]) for e in led["entries"]}
+    missing = [lc._key(k, i) for k, i, _ in un if lc._key(k, i) not in known]
+    assert not missing, "unanchored identifiers absent from the ledger: %s" % missing[:5]

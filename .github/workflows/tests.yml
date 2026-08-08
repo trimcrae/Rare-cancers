@@ -61,6 +61,27 @@ jobs:
           git fetch --no-tags --depth=1 origin main:refs/remotes/origin/main || \
             echo "could not fetch origin/main -- the claim check will fall back and say so"
           python3 research/manuscripts/emc_systems_map_check.py --check
+
+      # ⛔ GENERATED EVIDENCE ARTIFACTS COULD DRIFT FROM THEIR GENERATORS AND NOTHING CHECKED
+      # (measured 2026-08-08). Each carries `_do_not_hand_edit`, and these files hold the pooled
+      # clinical proportions and the endpoint readings the EMC papers quote — so a silent drift is a
+      # wrong figure in a manuscript, not a stale cache.
+      #
+      # ⚠ ONLY TWO OF THE THREE ARE WIRED, AND THE OMISSION IS THE POINT.
+      # `emc_systemic_therapy_pooling.py` was going to be added here too. It was tested first, and it
+      # PARSES NO ARGUMENTS AT ALL: `--check` is ignored, the script REGENERATES AND OVERWRITES the
+      # artifact, and exits 0 unconditionally. Adding it would have (a) rewritten an evidence artifact
+      # on every CI run and (b) passed every time no matter what — a guard that measures nothing,
+      # wearing the name of one, over the repository's pooled clinical numbers.
+      # ⛔ AND ITS OWN HEADER IS THEREFORE FALSE TODAY: the file promises a hand edit "will be
+      # silently overwritten", which is only true if something regenerates it, and nothing does. A
+      # hand edit to the pooled proportions currently persists undetected. Fixing that means giving
+      # the generator a real verify mode (regenerate to a temp path, diff, exit non-zero on a
+      # difference) — a code change, not a workflow line, so it is NOT smuggled in here.
+      - name: EMC evidence artifacts reproduce from their generators
+        run: |
+          python3 research/manuscripts/emc_endpoint_discordance.py --check
+          python3 research/manuscripts/emc_endpoint_alternatives.py --check
       # The systems model (systems/graph/*.json) and its generated views. Standalone for the same
       # reason as the linters above -- a doc author who breaks it should see the failing step name,
       # not a traceback in ~1500 tests. Three distinct things fail here, all red:
