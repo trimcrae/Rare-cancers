@@ -1,0 +1,569 @@
+{
+ "_generated_utc": "2026-08-08T12:15:57Z",
+ "queries": [
+  {
+   "_status": "read",
+   "count_reported_by_geo": 17,
+   "n_ids_returned": 17,
+   "term": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "why": "the disease name in full, the highest-precision term"
+  },
+  {
+   "_status": "read",
+   "count_reported_by_geo": 0,
+   "n_ids_returned": 0,
+   "term": "\"myxoid chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter]",
+   "why": "the shortened name, restricted to expression series"
+  },
+  {
+   "_status": "read",
+   "count_reported_by_geo": 5,
+   "n_ids_returned": 5,
+   "term": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "why": "the fusion rather than the disease — catches a deposit indexed by its driver"
+  },
+  {
+   "_status": "read",
+   "count_reported_by_geo": 0,
+   "n_ids_returned": 0,
+   "term": "NR4A3[All Fields] AND sarcoma[All Fields] AND \"expression profiling\"[Filter]",
+   "why": "the 3' partner plus lineage, for a pan-sarcoma deposit that names NR4A3 but not EMC"
+  },
+  {
+   "_status": "read",
+   "count_reported_by_geo": 0,
+   "n_ids_returned": 0,
+   "term": "\"chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter] AND \"Homo sapiens\"[Organism]",
+   "why": "deliberately over-broad: EMC samples inside a general chondrosarcoma series"
+  },
+  {
+   "_status": "read",
+   "count_reported_by_geo": 0,
+   "n_ids_returned": 0,
+   "term": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "why": "translocation-sarcoma panels, the kind of deposit EMC hides inside"
+  }
+ ],
+ "series": {
+  "GDS3481": {
+   "_found_by": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "accession": "GDS3481",
+   "entrytype": "GDS",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 4,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Analysis of cells overexpressing NOR1 or the EWS/NOR1 fusion gene. NOR1 encodes an orphan nuclear receptor.  The EWS gene is involved in various malignancies by way of chromosomal translocations, and the EWS/NOR1 gene fusion is implicated in the pathogenesis of extraskeletal myxoid chondrosarcomas.",
+   "taxon": "Homo sapiens",
+   "title": "NOR1 gene and EWS/NOR1 fusion gene overexpression",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GPL570": {
+   "_found_by": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "accession": "GPL570",
+   "entrytype": "GPL",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 177506,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Affymetrix submissions are typically submitted to GEO using the GEOarchive method described at http://www.ncbi.nlm.nih.gov/projects/geo/info/geo_affy.html  June 03, 2009: annotation table updated with netaffx build 28 June 06, 2012: annotation table updated with netaffx build 32 June 23, 2016: annotation table updated with netaffx build 35 Protocol: see manufacturer's web site  Complete coverage of the Human Genome U133 Set plus 6,500 additional genes for analysis of over 47,000 transcripts All probe sets represented on the GeneChip Human Genome U133 Set are identically replicated on the GeneChip Human Genome U133 Plus 2.0 Array. The sequences from which these probe sets were derived were selected from GenBank®, dbEST, and RefSeq. The sequence clusters were created from the UniGene database (Build 133, April 20, 2001) and then refined by analysis and comparison with a number of other publicly available databases, including the Washington University EST trace repository and the University of California, Santa Cruz Golden-Path human genome database (April 2001 release). In addition, there are 9,921 new probe sets representing approximately 6,500 new genes. These gene sequences were s",
+   "taxon": "Homo sapiens",
+   "title": "[HG-U133_Plus_2] Affymetrix Human Genome U133 Plus 2.0 Array",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE11185": {
+   "_found_by": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "accession": "GSE11185",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 4,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "To examine the differences between NOR1 and its fusion gene product EWS/NOR1, we compared the gene expression profiles of NOR1- and EWS/NOR1-overexpressing 293 cells. Keywords: gene comparison",
+   "taxon": "Homo sapiens",
+   "title": "Differences between NOR1 and EWS/NOR1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE24369": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSE24369",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 42,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Analysis of gene expression in 17 low-grade fibromyxoid sarcoma (LGFMS) samples compared to that of histologically similar tumors. LGFMS is characterized by the specific translocations t(7;16)(q33;p11) or t(11;16)(p11;p11) and corresponding fusion genes FUS-CREB3L2 or FUS-CREB3L1. The results identifies a LGFMS-specific gene expression profile and provide insight into FUS-CREB3L2 regulated gene expression.",
+   "taxon": "Homo sapiens",
+   "title": "Gene expression profiling of low-grade fibromyxoid sarcoma (LGFMS)",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE28866": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSE28866",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 99,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Molecular characterization of tumors has been critical for identifying important genes in cancer biology and for improving tumor classification and diagnosis. Long non-coding RNAs (lncRNAs), as a new, relatively unstudied class of transcripts, provide a rich opportunity to identify both functional drivers and cancer-type specific biomarkers. However, despite the potential importance of lncRNAs to the cancer field, no comprehensive survey of lncRNA expression across various cancers has been reported. We used 3'-End Sequencing for Expression Quantification (3SEQ) to quantify transcript abundance across 64 solid tumors representing 17 diagnostic subtypes of adenocarcinomas, squamous cell carcinomas, and sarcomas. We identified hundreds of transcripts from among the known 1,065 lncRNAs surveyed that show variability in transcript levels between the tumor types, and therefore, make potential biomarker candidates. We discovered 1,071 novel intergenic transcribed regions and demonstrate that these show similar patterns of variability between tumor types. We find that many of these differentially expressed cancer transcripts are also expressed in normal tissues. One such novel transcript s",
+   "taxon": "Homo sapiens",
+   "title": "Transcriptional profiling of lncRNAs and novel transcribed regions across a diverse panel of archived human cancers",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE4303": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSE4303",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 36,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Abstract: Extraskeletal myxoid chondrosarcoma (EMC) is a soft tissue tumour that occurs primarily in the extremities and is characterized by a balanced translocation most commonly involving t(9;22) (q22;q12). The morphological spectrum of EMC is broad and thus a diagnosis based on histology alone can be difficult. Currently, no systemic therapy exists that improves survival in patients with EMC. In the present study, gene expression profiling has been performed to discover new diagnostic markers and potential therapeutic targets for this tumour type. Global gene expression profiling of ten EMCs and 26 other sarcomas using 42,000 spot cDNA microarrays revealed that the cases of EMC were closely related to each other and distinct from the other tumours profiled. Significance analysis of microarrays (SAM) identified 86 genes that distinguished EMC from the other sarcomas with 0.25% likelihood of false significance. NMB, DKK1, DNER, CLCN3, and DEF6 were the top five genes in this analysis. In situ hybridization for NMB gene expression on tissue microarrays (TMAs) containing a total of 1164 specimens representing 62 different sarcoma types and 15 different carcinoma types showed that NM",
+   "taxon": "Homo sapiens",
+   "title": "Gene expression profile of extraskeletal myxoid chondrosarcoma.",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE43632": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSE43632",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 18,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "We have utilized our custom array GPL11054 to screen a set of sarcoma patient samples for fusion genes One negative control was included in the study.",
+   "taxon": "Homo sapiens",
+   "title": "Large scale screening for fusion genes in sarcoma patient samples",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE80126": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSE80126",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 29,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Purpose: Popular methods for library preparation in RNA-seq such as Illumina TruSeq® RNA v2 kit use a poly-A pulldown strategy. Such methods can cause loss of coverage at the 5’ end of genes, impacting the ability to detect fusions when used on degraded samples. The goal of this study was to quantify the effects RNA degradation has on fusion detection when using poly-A selected mRNA and to identify the variables involved in this process Methods: Total RNA was extracted from solid tumor tissue and whole blood using the Qiagen® miRNeasy Micro and Mini kits, respectively. The KU812 cell line was purchased from Sigma-Aldrich (St. Louis, MO) and UHR (Universal Human Reference RNA) was purchased from Agilent (Santa Clara, CA). UHR is a mixture of cell lines derived from breast adenocarcinoma, hepatoblastoma, cervix adenocarcinoma, testis embryonal carcinoma, gliobastoma, melanoma, liposarcoma, histiocytic lymphoma, lymphoblastic leukemia and plasmocytoma. For Degradation experiments, two micrograms of human universal reference RNA (UHR) (Agilent Technologies, Santa Clara, CA) and 1ug of RNA extracted from KU812 cell line (purchased from ATCC) were degraded at 74oC from 1 to 11 minutes in",
+   "taxon": "Homo sapiens",
+   "title": "Impact of RNA degradation on fusion detection by RNA-seq",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1067329": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM1067329",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Patient 168-97",
+   "taxon": "Homo sapiens",
+   "title": "Sample 168-97",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM2113301": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM2113301",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Cell culture",
+   "taxon": "Homo sapiens",
+   "title": "V1-34",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM281777": {
+   "_found_by": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "accession": "GSM281777",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "293-tet-On-EWS/NOR1 cells, doxycycline untreated",
+   "taxon": "Homo sapiens",
+   "title": "293-tet-On-EWS/NOR1 without doxycycline",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM281778": {
+   "_found_by": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "accession": "GSM281778",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "293-tet-On-EWS/NOR1 cells, doxycycline treated",
+   "taxon": "Homo sapiens",
+   "title": "293-tet-On-EWS/NOR1 with doxycycline",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600934": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600934",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600935": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600935",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 2",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600936": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600936",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 3",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600937": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600937",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 4",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600938": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600938",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 5",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600939": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600939",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 6",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM715466": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM715466",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Extraskeletal myxoid chondrosarcoma",
+   "taxon": "Homo sapiens",
+   "title": "STT5525_EMC",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM715467": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM715467",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Extraskeletal myxoid chondrosarcoma",
+   "taxon": "Homo sapiens",
+   "title": "STT5526_EMC",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM715470": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM715470",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Extraskeletal myxoid chondrosarcoma",
+   "taxon": "Homo sapiens",
+   "title": "STT5527_EMC",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM715472": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM715472",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Extraskeletal myxoid chondrosarcoma",
+   "taxon": "Homo sapiens",
+   "title": "STT5592_EMC",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  }
+ },
+ "series_samples": {
+  "GSE11185": {
+   "n_gsm_read": 4,
+   "samples": [
+    {
+     "gsm": "GSM281778",
+     "summary": "293-tet-On-EWS/NOR1 cells, doxycycline treated",
+     "title": "293-tet-On-EWS/NOR1 with doxycycline"
+    },
+    {
+     "gsm": "GSM281777",
+     "summary": "293-tet-On-EWS/NOR1 cells, doxycycline untreated",
+     "title": "293-tet-On-EWS/NOR1 without doxycycline"
+    },
+    {
+     "gsm": "GSM281776",
+     "summary": "293-tet-On-NOR1 cells, doxycycline treated",
+     "title": "293-tet-On-NOR1 with doxycycline"
+    },
+    {
+     "gsm": "GSM281775",
+     "summary": "293-tet-On-NOR1 cells, doxycycline untreated",
+     "title": "293-tet-On-NOR1 without doxycycline"
+    }
+   ]
+  },
+  "GSE4303": {
+   "n_gsm_read": 36,
+   "samples": [
+    {
+     "gsm": "GSM98507",
+     "summary": "CRH mRNA (channel 1) STT607D mRNA (channel 2)",
+     "title": "STT607D-LEIO"
+    },
+    {
+     "gsm": "GSM98508",
+     "summary": "CRG mRNA (channel 1) STT854 mRNA (channel 2)",
+     "title": "STT854-SS"
+    },
+    {
+     "gsm": "GSM98505",
+     "summary": "CRH mRNA (channel 1) STT709B mRNA (channel 2)",
+     "title": "STT709B-MFH"
+    },
+    {
+     "gsm": "GSM98504",
+     "summary": "CRH mRNA (channel 1) STT1778 mRNA (channel 2)",
+     "title": "STT1778-LEIO"
+    },
+    {
+     "gsm": "GSM98502",
+     "summary": "CRH mRNA (channel 1) STT695B mRNA (channel 2)",
+     "title": "STT695B-MFH"
+    },
+    {
+     "gsm": "GSM98501",
+     "summary": "CRH mRNA (channel 1) STT680B mRNA (channel 2)",
+     "title": "STT680B-MFH"
+    },
+    {
+     "gsm": "GSM98498",
+     "summary": "CRH mRNA (channel 1) STT742F mRNA (channel 2)",
+     "title": "STT742F-LEIO"
+    },
+    {
+     "gsm": "GSM98497",
+     "summary": "CRH mRNA (channel 1) STT417B mRNA (channel 2)",
+     "title": "STT417B-MFH"
+    },
+    {
+     "gsm": "GSM98513",
+     "summary": "CRH-mRNA (channel 1) STT2528(2)-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT2528(2)-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98512",
+     "summary": "CRH-mRNA (channel 1) STT2003-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT2003-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98511",
+     "summary": "CRH-mRNA (channel 1) STT1169-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT1169-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98510",
+     "summary": "CRH-mRNA (channel 1) STT3780-Myxoid chondrosarcoma (channel 2)",
+     "title": "STT3780-Myxoid chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98509",
+     "summary": "CRH-mRNA (channel 1) STT3714-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT3714-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98506",
+     "summary": "CRH-mRNA (channel 1) STT3783-Myxoid chondrosarcoma (channel 2)",
+     "title": "STT3783-Myxoid chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98503",
+     "summary": "CRH-mRNA (channel 1) STT3782-Myxoid chondrosarcoma (channel 2)",
+     "title": "STT3782-Myxoid chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98499",
+     "summary": "CRH-mRNA (channel 1) STT3697-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT3697-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98496",
+     "summary": "CRH-mRNA (channel 1) STT3698-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT3698-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98495",
+     "summary": "CRH-mRNA (channel 1) STT3699-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT3699-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98500",
+     "summary": "CRG mRNA (channel 1) STT1324-I mRNA (channel 2)",
+     "title": "STT1324-I-SS"
+    },
+    {
+     "gsm": "GSM91405",
+     "summary": "UHR (channel 1) STT94b-GIST-Total RNA (channel 2)",
+     "title": "STT94b-GIST-Total RNA-exon9"
+    },
+    {
+     "gsm": "GSM91397",
+     "summary": "UHR (channel 1) STT794b-GIST-Total RNA (channel 2)",
+     "title": "STT794b-GIST-Total RNA-PDGFRa"
+    },
+    {
+     "gsm": "GSM91381",
+     "summary": "UHR (channel 1) STT2001c-GIST-Total RNA (channel 2)",
+     "title": "STT2001c-GIST-Total RNA-WT"
+    },
+    {
+     "gsm": "GSM91393",
+     "summary": "UHR (channel 1) SX322-GIST_Total RNA-exon11 (channel 2)",
+     "title": "SX322-GIST_Total RNA-exon11"
+    },
+    {
+     "gsm": "GSM91389",
+     "summary": "UHR (channel 1) SX242-GIST_Total RNA-exon11 (channel 2)",
+     "title": "SX242-GIST_Total RNA-exon11"
+    },
+    {
+     "gsm": "GSM89924",
+     "summary": "CRH (channel 1) STT3053-DFSP mRNA (channel 2)",
+     "title": "STT3053-DFSP"
+    },
+    {
+     "gsm": "GSM89898",
+     "summary": "CRH (channel 1) STT3068-DFSP mRNA (channel 2)",
+     "title": "STT3068-DFSP"
+    },
+    {
+     "gsm": "GSM89883",
+     "summary": "CRH (channel 1) STT3126-DFSP mRNA (channel 2)",
+     "title": "STT3126-DFSP"
+    },
+    {
+     "gsm": "GSM89925",
+     "summary": "CRG mRNA (channel 1) STT491B-DFSP mRNA (channel 2)",
+     "title": "STT491B-DFSP"
+    },
+    {
+     "gsm": "GSM89913",
+     "summary": "CRG mRNA (channel 1) STT154-DFSP mRNA (channel 2)",
+     "title": "STT154-DFSP"
+    },
+    {
+     "gsm": "GSM89930",
+     "summary": "CRG mRNA (channel 1) STT1984 mRNA (channel 2)",
+     "title": "STT1984-DFSP"
+    },
+    {
+     "gsm": "GSM89893",
+     "summary": "CRG mRNA (channel 1) STT1971 mRNA (channel 2)",
+     "title": "STT1971-DFSP"
+    },
+    {
+     "gsm": "GSM89892",
+     "summary": "CRH (channel 1) STT1975-DFSP mRNA (channel 2)",
+     "title": "STT1975-DFSP"
+    },
+    {
+     "gsm": "GSM77789",
+     "summary": "CRG mRNA (channel 1) STT108B mRNA (channel 2)",
+     "title": "STT108B-SS"
+    },
+    {
+     "gsm": "GSM77763",
+     "summary": "CRG mRNA (channel 1) STT850 mRNA (channel 2)",
+     "title": "STT850-SS"
+    },
+    {
+     "gsm": "GSM77781",
+     "summary": "CRG mRNA (channel 1) STT840B mRNA (channel 2)",
+     "title": "STT840B-LEIO"
+    },
+    {
+     "gsm": "GSM77765",
+     "summary": "CRG mRNA (channel 1) STT638 mRNA (channel 2)",
+     "title": "STT638-SS"
+    }
+   ]
+  }
+ }
+}
