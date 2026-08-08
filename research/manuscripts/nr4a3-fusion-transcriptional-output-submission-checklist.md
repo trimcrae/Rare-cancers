@@ -79,7 +79,7 @@ re-analyses of public data at no charge, and both Wiley journals above permit bi
   Journal of Pathology* this would need trimming toward ~4,000** (candidate cuts: condense §3.9 PPARγ
   detail and §2 method prose, moving the full PPARγ arm table and the 22-row evidence catalogue to
   Supplementary Information).
-- **Display items:** 12 tables in the body (plus 2 in Data availability), 0 figures. Optional presentation work (§6).
+- **Display items:** 1 figure (the evidence-convergence matrix, §3.13) and 12 tables in the body, plus 2 tables in Data availability.
 - **References:** 10 numbered primary references plus separately listed gene-set resources and the GEO
   series record.
 
@@ -152,9 +152,9 @@ recorded in its artifact.)*
 
 ## 6 · Optional presentation work (not required for submission)
 
-- **Convert two tables to figures.** The per-gene null-calibrated result (§3.5) and the instrument-
-  control panel (§3.3) would read more forcefully as figures; GCC and J Pathol both favour a figure for
-  the headline result.
+- ✅ **A headline figure now exists** — the evidence-convergence matrix (Figure 1, §3.13), dependency-free
+  SVG generated from the committed artifacts with a `--check` mode. Converting the instrument-control
+  panel (§3.3) into a second figure remains optional.
 - **A promoter NBRE-motif scan** of the up-in-EMC genes (Discussion §4.2, item 4) is a no-new-data
   analysis that would add an orthogonal line of evidence; it is named in the manuscript as future work
   and is not required for this submission.

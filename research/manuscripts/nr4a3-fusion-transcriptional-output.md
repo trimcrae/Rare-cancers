@@ -661,6 +661,22 @@ into causation for any of the three**, because every axis here is correlative an
 experiment (§4.2) remains unperformed; what it does is order the three genes by how much independent
 support each currently has, which the sign-concordance reading of §3.5 alone could not do.
 
+![Figure 1](figures/fusion-target-evidence-matrix.svg)
+
+> **Figure 1. Independent instruments applied to the three published EWSR1::NR4A3 direct targets.**
+> Rows are the class-A genes; columns are the five contrasts reported here — the two array cohorts
+> (Δ mean z, with Benjamini–Hochberg q over exact sample-label permutation p-values), the two arms of
+> the independent 3SEQ cohort (median ratios), and the exact-NBRE count against a
+> dinucleotide-preserving null. **The columns are deliberately not commensurable and the glyph is not
+> scaled by effect size**, so no area comparison across columns is possible: colour encodes only
+> whether that instrument supported the gene, and each cell prints its own statistic in its own units.
+> The 3SEQ cohort is drawn as *direction only* because at n = 4 it carries no test, and rendering it
+> like a significant array result would claim support it cannot give. *ENO3* is supported on every
+> axis that carries a test; *SEMA3C* on none; *PPARG* on one array platform and not on the sequence
+> axis. **No cell asserts that the fusion binds or drives any gene** — every axis here is correlative,
+> and §3.10 records that no NR4A3-fusion cistrome has been reported. Generated from the committed
+> artifacts by `nr4a3_fusion_targets_figure.py`, which refuses to draw a cell it could not read.
+
 ---
 
 ## 4 · Discussion
@@ -819,6 +835,7 @@ submission:
 | `emc-expression-panels.json` → `gene_reads` — the independent second implementation of the per-gene array reads | `emc_expression_panels.py` |
 | `gse28866-tumour-vs-normal.json` → `per_gene.values` — the 3SEQ arm | `gse28866_tumour_vs_normal.py` |
 | `nr4a3-fusion-targets-robustness.json` — exact label-permutation p-values, leave-one-out jackknife, rank-based re-read and BH q-values (§2.10, §3.12) | `nr4a3_fusion_targets_robustness.py` |
+| `figures/fusion-target-evidence-matrix.svg` — Figure 1, drawn from the four artifacts above with a `--check` mode that fails if it is stale | `nr4a3_fusion_targets_figure.py` |
 | `emc-ret-target-scan.json` → `part_1_nbre_scan` — NBRE/NurRE counts, the dinucleotide-preserving shuffle null and the background-panel ranks (§3.13). Ensembl sequences are cached in `emc-ret-target-scan-inputs.json`, so the scan re-derives offline | `emc_ret_target_scan.py` |
 | offline arithmetic guard | `tests/test_nr4a3_fusion_targets.py` |
 
