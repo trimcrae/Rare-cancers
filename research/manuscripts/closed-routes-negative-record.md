@@ -374,6 +374,22 @@ transcript is reported as EWSR1 exons 1–12 fused to **NR4A3 exons 3–8**, and
 described as splicing into a cryptic exon *"prior to the NR4A3 ATG"* — both of which place the start
 codon in exon 3 (`EV-PMC6766969`, `EV-PMC3335514`).
 
+⭐ **A third, independent source states the retention directly rather than at the exon level, and it was
+found by accident (2026-08-08).** Huang SC et al., *Mod Pathol* 2023 (PMID 36948401,
+doi 10.1016/j.modpat.2023.100161) — a 15-institution Taiwanese EMC series read for an entirely different
+purpose, the per-partner outcome counts folded into
+[`emc-fusion-partner-stratification.md`](./emc-fusion-partner-stratification.md) — describes the *NR4A3*
+fusions as containing **"the transactivation domain of the N-terminal partners and the whole coding sequence
+of NR4A3"**. *The whole coding sequence* is the same statement as "NR4A3 is retained from residue 1", reached
+with no exon arithmetic at all, by pathologists describing the fusion rather than by a gene-model computation.
+**That is corroboration of a different kind from the two above, which is why it is worth recording:** the
+exon-level literature agreement and the Ensembl audit are both *coordinate* claims and could in principle
+share a coordinate error; a prose statement about protein content cannot. ⚠ Read from the published PDF by a
+human, because the publisher's edge returns HTTP 403 to automated fetchers while designating the same PDF free
+— provenance in [`emc-fusion-partner-pooling.json`](./emc-fusion-partner-pooling.json) → `citations.huang2023`.
+⚠ And it corroborates the **retention**, not any particular patient-level breakpoint: the caveat immediately
+below is untouched by it.
+
 ⚠ **What this does not settle**, stated because the artifacts state it: the *patient-level* breakpoint
 is not pinned by exon arithmetic, and only a primary breakpoint report can pin it. The claim above is
 therefore conditional in a way that is stronger than it sounds — **the AF-1 is retained under every
@@ -485,6 +501,7 @@ confident in both directions and is checkable in neither.
 | a permanent blocker may not name a retiring technology | [`systems/systems_check.py`](../../systems/systems_check.py) → `check_blockers` `[B1]` |
 | zinc-finger vs LBD paralogue identity | [`target-route-census.json`](../modalities/target-route-census.json) → `zinc_finger_window.identity`, `paralogue_identity_by_domain` |
 | NR4A3 exons 1–2 are non-coding; exon 3 encodes residue 1 | [`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json) |
+| the same retention, stated as protein content by an independent source rather than as coordinates | Huang SC et al., *Mod Pathol* 2023, PMID 36948401 — *"the transactivation domain of the N-terminal partners and the whole coding sequence of NR4A3"*; provenance in [`emc-fusion-partner-pooling.json`](./emc-fusion-partner-pooling.json) → `citations.huang2023` |
 | NR4A3's 5′ UTR is 699 nt on the same transcript — the independent corroboration | [`emc-fet-construct-designs.json`](../modalities/emc-fet-construct-designs.json) → `gene_models.NR4A3.utr5_len` |
 | the junction resolution that predated the RT-6MP closure by one day | [`target-route-census.json`](../modalities/target-route-census.json) → `fusion_model_disagreement.resolution` |
 | AF-1 retained in all 9 DBD-retaining breakpoint windows; the FET low-complexity region present breakpoint-independently | [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json) → `plausible_breakpoints` |

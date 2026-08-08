@@ -333,7 +333,13 @@ reported and never gated.
 **Why EMC is arguably the *cleanest* member of the class.** EMC's three commonest 5′ partners —
 **EWSR1, TAF15 and FUS** — are the three FET-family genes. From two published series: **EWSR1 62 % /
 TAF15 27 % / TCF12 4 %** (n = 26, [Agaram et al., *Hum Pathol* 2014](https://pmc.ncbi.nlm.nih.gov/articles/PMC4015728/))
-and **EWSR1 79 % / TAF15 16 % / TCF12 3 %** (n = 58, [Warmke/Antonescu-type series, *Mod Pathol* 2023](https://pubmed.ncbi.nlm.nih.gov/36948401/)).
+and **EWSR1 79 % / TAF15 16 % / TCF12 3 %** (n = 58, [Huang SC et al., *Mod Pathol* 2023](https://pubmed.ncbi.nlm.nih.gov/36948401/)).
+⚠ *Attribution corrected 2026-08-08; superseded, retained: "Warmke/Antonescu-type series".* PMID 36948401 is
+**Huang SC et al.**, a 15-institution **Taiwanese** cohort led from Chang Gung Memorial Hospital — not MSKCC,
+not Warmke. Verified against the Europe PMC core record for that PMID. **Warmke LM is a real author with a
+real and *different* TAF15::NR4A3 paper** (PMID 37057757, *Genes Chromosomes Cancer* 2023,
+doi 10.1002/gcc.23144), cited correctly elsewhere in this repository — so this correction must be applied by
+identifier and never by name.
 So **≈ 89–95 % of EMC carries a FET-family 5′ partner** — a higher FET fraction than any tumour in the
 paper's own panel, because Ewing's *EWSR1::ERG* and *FUS::ERG* variants are the exception there and
 here the FET partner is the rule. ⚠ Stated at its true weight: that is an *inclusion* argument, not

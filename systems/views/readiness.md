@@ -36,7 +36,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | ST-DEPENDENCY | `preprint` | an EMC-specific measurement |
 | [RT-DEGRADER](L2-rt-degrader.md) | ST-PROXIMITY | `preprint` | a passing selectivity known-answer control; an anti-target panel that recovers its own cognate ligands |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | ST-IMMUNO | `preprint` | a cellular persistence readout |
-| [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | ST-REPURPOSING | `preprint` | per-partner event counts from Huang 2023 (Mod Pathol, n = 58) and Paioli 2021 (Ann Surg Oncol, n = 67); the pazopanib trial's full partner distribution and prior-therapy table (Lan |
+| [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | ST-REPURPOSING | `preprint` | a non-zero TAF15 event count on the RESPONSE endpoint - the entire published TAF15::NR4A3 antiangiogenic-TKI experience is 3-5 patients with ZERO responses, and a zero-event arm yi |
 | [RT-TCIP](L2-rt-tcip.md) | ST-PROXIMITY | `preprint` | a staged transcriptional-effector body, so the result can name an effector rather than a size class |
 | [RT-ASYMMETRIC](L2-rt-asymmetric.md) | ST-OCCUPANCY | `reproducible_workflow` | — |
 | [RT-6MP](L2-rt-6mp.md) | ST-REPURPOSING | `internal_note` | — |

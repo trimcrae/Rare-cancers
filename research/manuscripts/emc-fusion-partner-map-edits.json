@@ -9,7 +9,7 @@
     "research/manuscripts/emc-unexplored-treatment-lanes.md",
     "systems/graph/publications.json"
   ],
-  "n_edits": 3,
+  "n_edits": 4,
   "map_edits_required": [
     {
       "id": "F1",
@@ -46,14 +46,29 @@
     },
     {
       "id": "F3",
+      "status": "APPLIED 2026-08-08",
       "serves": "citation hygiene",
       "file": "research/data/emc-clinical-registry.json",
-      "section": "registry.citations.warmke2023",
-      "anchor": "\"warmke2023\": {",
-      "current_text": "\"short\": \"Warmke 2023\",",
-      "proposed_text": "\"short\": \"Huang 2023\",",
-      "artifact": "research/manuscripts/emc-fusion-partner-pooling.json -> citations.huang2023",
-      "why": "The entry's identifier, title, DOI and PMID (36948401) are correct and resolve to Huang SC et al., Mod Pathol 2023; only the display label names a different author. NOT APPLIED HERE because the registry is gate 5 of preflight and this synthesis did not otherwise touch it; the entry is currently referenced by no cohort or patient row, so nothing renders the wrong label today. POLICY-evidence.md s1.3 - a citation label that names the wrong authors is a laundering risk the moment something starts citing it."
+      "section": "registry.citations.warmke2023 -> registry.citations.huang2023",
+      "anchor": "\"huang2023\": {",
+      "anchor_note": "⚠ The anchor was `\"warmke2023\": {` until this edit was applied. Applying it renamed the key, which DESTROYED its own anchor and made the edit resolve NOT_FOUND - a failure state, not the APPLIED state a landed edit should reach (measured with research/modalities/map_edit_anchors.py). Re-pointed at the post-application key so the row reads APPLIED: anchor present, `current_text` gone. This is the same shape as the retired `count(anchor)==1 and count(current_text)==1` predicate the repository has already rejected twice - an anchor that only survives while the edit is unapplied cannot distinguish 'landed' from 'lost'. ⚠ AND `current_text`/`proposed_text` HAD TO BE WIDENED TO TWO LINES for the same reason: a one-token label swap yields a 22-character probe, which `build_probe` reports as NON-DISCRIMINATING (too short to be meaningful and not absent from its own current_text), so APPLIED could not be tested at all and the status fell back to `current_text` alone -- i.e. NOT_FOUND. Carrying the key line as well as the label line makes the difference long enough to probe. The applied edit is unchanged; only the routed record's framing of it is.",
+      "current_text": "\"warmke2023\": {\n        \"short\": \"Warmke 2023\",",
+      "proposed_text": "\"huang2023\": {\n        \"short\": \"Huang 2023\",",
+      "applied_as": "Both the display label AND the citation key were changed - `warmke2023` -> `huang2023`, `\"Warmke 2023\"` -> `\"Huang 2023\"`. The key was in scope because no `sourceId` in the registry referenced it (grep: one hit, the definition), so renaming it resolves nothing to nothing; leaving an id that names the wrong author is the same laundering risk as leaving the label. scripts/validate-registry.mjs passes: 23 citations, 14 cohorts, 0 warnings.",
+      "artifact": "research/manuscripts/emc-fusion-partner-pooling.json -> citations.huang2023.registry_note",
+      "why": "The entry's identifier, title, DOI and PMID (36948401) are correct and resolve to Huang SC et al., Mod Pathol 2023; only the display label named a different author. POLICY-evidence.md s1.3 - a citation label that names the wrong authors is a laundering risk the moment something starts citing it. ⚠ Superseded, retained: 'NOT APPLIED HERE because the registry is gate 5 of preflight and this synthesis did not otherwise touch it' - and that ordinal was itself wrong, the registry evidence contract is gate 6 of preflight's 7."
+    },
+    {
+      "id": "F4",
+      "status": "APPLIED 2026-08-08",
+      "serves": "medical integrity / attribution",
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "section": "the FET-family 5' partner prevalence paragraph",
+      "anchor": "[Warmke/Antonescu-type series, *Mod Pathol* 2023](https://pubmed.ncbi.nlm.nih.gov/36948401/)",
+      "current_text": "[Warmke/Antonescu-type series, *Mod Pathol* 2023](https://pubmed.ncbi.nlm.nih.gov/36948401/)",
+      "proposed_text": "[Huang SC et al., *Mod Pathol* 2023](https://pubmed.ncbi.nlm.nih.gov/36948401/)",
+      "artifact": "research/manuscripts/emc-fusion-partner-pooling.json -> citations.huang2023.identity_confirmed",
+      "why": "PMID 36948401 is Huang SC et al., a 15-institution TAIWANESE cohort led from Chang Gung Memorial Hospital - not MSKCC and not Warmke. Verified against the Europe PMC core record (literature-cache:literature/emc-partner-events/huang2023_epmc_core.txt, HTTP 200): doi 10.1016/j.modpat.2023.100161, Mod Pathol 36(7):100161, first author Shih-Chiang Huang, Linkou Chang Gung Memorial Hospital, Taoyuan. ⛔ DO NOT APPLY THIS BY PATTERN TO OTHER `Warmke` HITS: Warmke LM is a real author with a real and DIFFERENT TAF15::NR4A3 paper (PMID 37057757, Genes Chromosomes Cancer 62(10):581-588, doi 10.1002/gcc.23144), cited CORRECTLY as reference 20 of research/manuscripts/nr4a3-degrader-paper.md, which was checked and deliberately left alone. Third attribution error of this kind in two days."
     }
   ]
 }

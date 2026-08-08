@@ -32,6 +32,39 @@ and not the targets file.**
 
 ---
 
+## 0 · ✅ RESOLVED THE SAME DAY, BY THE REMEDY THIS DOCUMENT NAMED
+
+**Everything below is retained exactly as written, because it is the record of an attempt and the attempt is
+what it records. What follows is what happened next.**
+
+§2.1 concluded that Huang 2023 is **not paywalled but bot-blocked**, that two independent indexes designate a
+free published-version PDF, and — in terms — that *"a person can open that URL and read the survival table
+today."* **A person did, on 2026-08-08.** The per-partner event counts in Huang 2023's Table 1 have been read
+from the published PDF and folded into
+[`emc_fusion_partner_pooling.py`](./emc_fusion_partner_pooling.py) → `COHORTS[huang-2023-outcome].strata`, and
+[`emc-fusion-partner-pooling.json`](./emc-fusion-partner-pooling.json) has been regenerated from it.
+
+| what this document said | what is now true |
+|---|---|
+| *"No per-partner event count was retrieved from any source."* | Still true **of a fetch**. Huang's counts were obtained by a human reading the PDF, which is a different provenance and is labelled as one wherever the counts appear. |
+| §4: *"Can PUB-FUSION-PARTNER state a MAGNITUDE now? **No.**"* | **Half of it can.** ⭐ **PROGNOSIS: yes** — the outcome pool is now two non-overlapping cohorts and 73 patients, and pooled disease-specific death is **7/15 (46.7 %, 95 % CI 24.8–69.9)** with TAF15::NR4A3 against **6/58 (10.3 %, 4.8–20.8)** with EWSR1::NR4A3. ⛔ **RESPONSE: no, and §4's diagnosis of *why* was exactly right** — the blocker is a **zero-event arm**, which yields no magnitude at any denominator, and Huang 2023 contains no antiangiogenic-TKI data of any kind. |
+| §2.1: the abstract is *"concordant with — rather than an extension of"* the paper. | Correct about the **abstract**. The extension was in the tables, behind the 403, exactly where §2.1 said it was. |
+| §6 item 1: `retrieval_provenance.not_retrievable` *"is now wrong in two places"*. | **Both applied.** Huang and the `NCT02066285` eligibility entry now live in a `resolved_2026_08_08` block in the artifact rather than in `not_retrievable`. |
+| §6 item 4: *"the ask for that paper is narrower and easier: read the table."* | **Done.** Huang is off §6 of the paper's ask table; the two documents that remain there (Stacchiotti 2019, Paioli 2021) are genuinely closed, per §2.2 and §2.3 below. |
+
+⚠ **What did NOT change, and it is the item §3.1 was most careful about.** The trial's exclusion criterion
+still has not been acted on: `COHORTS[sunitinib-2014].contextReason` is still `population-overlap` and the
+headline TAF15 denominator is still the range 3–5. That is a **pooling decision**, and this session folded in
+**counts**; separating the two is deliberate, and §3.1's three limits on how the criterion may be read stand
+unaltered.
+
+⚠ **One arithmetic inconsistency in Huang's Table 1, found on reading it and recorded rather than resolved:**
+the EWSR1 arm's >10 cm cell prints as *12/46 (28 %)* and 12/46 is 26.1 %. The integers are recorded as printed
+and the discrepancy with them; §2.1(2) of the evidence contract forbids back-deriving a count from a percentage
+to close a gap like this. No figure anywhere depends on that cell.
+
+---
+
 ## 1 · The question this was sent to answer
 
 [`systems/views/readiness.md`](../../systems/views/readiness.md) records that
@@ -55,7 +88,7 @@ second closes a route** — that distinction is what produced the one real resul
 
 | source | per-partner event counts? | status after this attempt |
 |---|---|---|
-| **Huang 2023**, Mod Pathol, PMID 36948401 | ❌ **not retrieved** | **Not a paywall — a bot block.** Two independent indexes say a free publisher PDF exists; it returns 403 to CI. |
+| **Huang 2023**, Mod Pathol, PMID 36948401 | ❌ **not retrieved by this fetch** — ✅ **obtained the same day by a human reading the PDF, see §0** | **Not a paywall — a bot block.** Two independent indexes say a free publisher PDF exists; it returns 403 to CI. |
 | **Paioli 2021**, Ann Surg Oncol, PMID 32572850 | ❌ **not retrieved** | **Genuinely closed.** No OA copy anywhere; both institutional-repository records are metadata-only. |
 | **Stacchiotti 2019** pazopanib trial, PMID 31331701 | ❌ **not retrieved** | Closed everywhere. **But its prior-therapy question was answered from the registries — §3.** |
 | **Stacchiotti 2014** sunitinib series, PMID 24703573 | ❌ **not retrieved** | Closed; no OA location in any index. |
@@ -200,6 +233,10 @@ partner distribution is therefore in the Lancet Oncology paper and **nowhere els
 
 ## 4 · Can PUB-FUSION-PARTNER state a MAGNITUDE now?
 
+> ⚠ **ANSWERED "NO" BY THIS RETRIEVAL AND OVERTAKEN HOURS LATER — READ §0 FIRST.** The reasoning below is
+> correct and is the reason the answer split in two: the **response** blocker is a zero-event arm and is
+> untouched, while the **prognosis** blocker was the unread table, which a human then read. Retained verbatim.
+
 **No. It still states a direction.** Plainly, because this is the question the task was sent to answer:
 
 - **The blocker was never the overlap.** It is that **the TAF15 arm has zero events**, and a zero-event arm
@@ -226,8 +263,8 @@ Searching what cites Huang 2023 and Paioli 2021 surfaced a cohort the paper does
 (abstract, Europe PMC core record, HTTP 200) rather than recalled:
 
 **Suemitsu Y, Chang HY, Saoud C, Dermawan JK, Hameed M, Singer S, Tap WD, Antonescu CR. "Secondary Genetic
-Alterations in Extraskeletal Myxoid Chondrosarcoma." *Genes, chromosomes & cancer* 2025;64. PMID 40828003 ·
-doi:10.1002/gcc.70076.** Eighteen patients, MSK-IMPACT. Verbatim:
+Alterations in Extraskeletal Myxoid Chondrosarcoma." *Genes, chromosomes & cancer* 2025;64.** PMID 40828003 ·
+doi:10.1002/gcc.70076. Eighteen patients, MSK-IMPACT. Verbatim:
 
 > "the most common NR4A3 fusion subtype involved EWSR1 (14/18, 78%), while two cases involved TAF15 gene
 > partner, and one each TCF12 and FUS genes, respectively."
@@ -254,6 +291,8 @@ stratified by fusion partner at all**).
 ---
 
 ## 6 · What this document deliberately does NOT do
+
+> ✅ **Items 1 and 4 below were applied on 2026-08-08 (§0). Item 2 was NOT — deliberately. Item 3 was not.**
 
 **No number in [`emc-fusion-partner-pooling.json`](./emc-fusion-partner-pooling.json) was changed, and
 [`emc-fusion-partner-stratification.md`](./emc-fusion-partner-stratification.md) was not edited.** No
@@ -293,8 +332,8 @@ URL, final URL, HTTP status and content type in its own header. Rounds, run IDs 
 requested: [`lit-targets-partner-events.json`](./lit-targets-partner-events.json).
 
 ⚠ **One retrieval defect in this work, recorded rather than quietly fixed.** Round 4's `unpaywall_37057757`
-target was built from a **guessed** DOI (`10.1016/j.humpath.2023.04.002`, assuming Human Pathology). PMID
-37057757 is in *Genes, chromosomes & cancer*, `10.1002/gcc.23144`. The guessed DOI **resolved to a real but
+target was built from a **guessed** DOI, doi:10.1016/j.humpath.2023.04.002, assuming Human Pathology. PMID
+37057757 is in *Genes, chromosomes & cancer*, doi:10.1002/gcc.23144. The guessed DOI **resolved to a real but
 entirely unrelated paper** about colonic sessile serrated lesions, and Unpaywall returned a confident
 `is_oa: true` about that paper. Nothing errored. It was caught only by comparing the returned title against the
 expected one. **An invented identifier that resolves is more dangerous than one that 404s**, because every
