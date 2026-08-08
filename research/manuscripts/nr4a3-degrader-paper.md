@@ -767,9 +767,12 @@ CRBN/IMiD positive control, and the standard three-body cooperative-equilibrium 
 experimentally measured or validated ensemble-weighted binary affinities in future work** — we do **not**
 derive Kd values from the current raw ABFE absolutes (whose scale is not validated, §3).
 
-**Prior art and honest novelty positioning.** All-atom alchemical *ternary-cooperativity* free-energy
-calculation — the same ΔΔG_coop = ternary − binary thermodynamic cycle, including VHL–BRD4/MZ1 applications
-and paralogue-selectivity applications — is an **active, already-published area** [60–63]. Nothing in the
+**Prior art and honest novelty positioning.** Computational *ternary-cooperativity* free-energy calculation
+is an **active, already-published area** [60–63], by two distinct method classes: the alchemical
+ΔΔG_coop = ternary − binary thermodynamic cycle, on PROTACs including VHL–BRD4/MZ1 [60, 62] and on molecular
+glues [61], and the end-point MM/PB(GB)SA route on PROTAC ternary systems [63]. ⚠ *No paralogue-selectivity
+application is claimed for any of [60–63]: the entry that carried that descriptor makes no such claim in its
+own abstract, and the descriptor is withdrawn (Appendix A, entry 67).* Nothing in the
 ternary work reported here is a landmark methodological first: what is offered is an **open-source
 OpenFE-based implementation applied honestly to the NR4A family**, i.e. an *incremental* methods contribution
 plus a new biological application, and any future ternary-cooperativity result from this program must be
@@ -1550,8 +1553,8 @@ not a paralogue-selectivity readout and not a sensitivity range.
 ### 2.10 A mechanism-first prospective degrader-design stage: categorical paralogue handles, a negative on E3 breadth, and a virtual linker library (all CPU, no GPU)
 
 *Novelty positioning, carried forward from §2.5 rather than restated: nothing in this section is a
-methodological first.* All-atom alchemical ternary-cooperativity free-energy calculation is an active
-published area [60–63], orientation/pose sampling around a tethered ternary is standard practice, and the
+methodological first.* Ternary-cooperativity free-energy calculation is an active published area [60–63] —
+alchemical [60–62] and end-point [63] — orientation/pose sampling around a tethered ternary is standard practice, and the
 geometric kernels used here are textbook. What is offered is an **open-source implementation applied honestly
 to the NR4A family with its negatives reported**, plus the two structure-derived corrections below — an
 incremental methods contribution, and any future quantitative result from this line must be benchmarked
@@ -3118,22 +3121,31 @@ ERα LBD + estradiol (1ERE; Brzozowski et al., Nature 389:753, 1997); NR4A holo 
     (2024), ASCO; AR degrader **bavdegalutamide (ARV-110)**, ASCO GU 2022 (ARDENT). [Conference/early-access
     sources; response figures as reported at the cited data cut-offs.]
 
-**Prior art in alchemical ternary-cooperativity free-energy calculation** (cited in §2 to position this work's
+**Prior art in ternary-cooperativity free-energy calculation** (cited in §2 to position this work's
 novelty as incremental; these are the benchmarks any ternary-cooperativity result from this program must be
-compared against). *Entries 60–63 are identifier-anchored: DOI/year/journal as recorded in the project's
-`nr4a3-program-map.md`; author-title strings for 61–63 were not retrievable from a primary source in this environment
-and are deliberately left blank rather than reconstructed. They must be completed from the publisher record
-before submission.*
+compared against). *Entry 60 remains identifier-free — no DOI for it is recorded anywhere in this project, so
+nothing here can check it, and it is deliberately left as the manuscript found it rather than reconstructed.
+Entries 61–63 were completed from the publisher record on 2026-08-08 and each is now filed by what its own
+abstract says it is; two of the three were previously mis-filed (Appendix A, entries 66 and 67).*
 
 60. Chen et al. (2023). [Alchemical ternary-complex cooperativity free-energy calculations for PROTAC systems,
     incl. VHL–BRD4/MZ1. Full citation to be completed from the publisher record; the DOI was not recorded in
     `nr4a3-program-map.md`.]
-61. *J Chem Theory Comput* (2025). doi 10.1021/acs.jctc.5c00064. [Alchemical PROTAC ternary-cooperativity
-    ΔΔG_coop cycle. Authors/title to be completed at submission.]
-62. *J Chem Theory Comput* (2025). doi 10.1021/acs.jctc.5c00736. [Alchemical PROTAC ternary-cooperativity
-    ΔΔG_coop cycle. Authors/title to be completed at submission.]
-63. *J Chem Inf Model* (2024). doi 10.1021/acs.jcim.4c01227. [PROTAC ternary cooperativity / paralogue
-    selectivity by free-energy calculation. Authors/title to be completed at submission.]
+61. Dudas B, Athanasiou C, Mobarec JC, Rosta E. *Quantifying Cooperativity through Binding Free Energies in
+    Molecular Glue Degraders.* J Chem Theory Comput 21:5712–5723 (2025). PMID 40326883; PMC12159975;
+    doi 10.1021/acs.jctc.5c00064. [**Molecular glue**, not PROTAC — CRBN modulators targeting IKZF2. The
+    METHOD is alchemical: a combined ligand-and-protein free energy perturbation cycle for ternary
+    cooperativity, benchmarked against CRBN–Ikaros data. Cited here for the alchemical cooperativity cycle,
+    on a glue rather than a bifunctional degrader.]
+62. Chen S-Y, Solazzo R, Fouché M, Roth H-J, Dittrich B, Riniker S. *Cooperative Free Energy: Induced
+    Protein–Protein Interactions and Cooperative Solvation in Ternary Complexes.* J Chem Theory Comput
+    21:8557–8570 (2025). doi 10.1021/acs.jctc.5c00736. [Alchemical ternary-cooperativity free energy.]
+63. Xu K, Wang Z, Xiang S, Tang R, Deng Q, Ge J, Jiang Z, Yang K, Hou T, Sun H. *Characterizing the
+    Cooperative Effect of PROTAC Systems with End-Point Binding Free Energy Calculation.* J Chem Inf Model
+    64:7666–7678 (2024). PMID 39361611; doi 10.1021/acs.jcim.4c01227. [⚠ **END-POINT (MM/PB(GB)SA), not
+    alchemical**, and it makes **no paralogue-selectivity claim** — it characterises the stabilisation and
+    hook effects of PROTAC ternary systems. Cited as the end-point counterpart to 60–62, not as alchemical
+    prior art.]
 
 **Sources added for the mechanism-first prospective stage (§2.10) and the celastrol mechanism (§2.2, §2.5).**
 *Entries 64–73 were verified against the primary record on 2026-07-25 by machine query (Crossref for journal

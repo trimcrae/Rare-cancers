@@ -241,7 +241,39 @@ GEO_QUERIES = [
     ('NR4A3 AND (Schwann OR sciatic OR "peripheral nerve")',
      "the PMID 42028030 Schwann-cell dataset (GSA CRA032324) — is it mirrored in GEO?"),
     ('(NR4A1 OR NR4A2 OR NR4A3) AND "genome binding"', "GEO's own ChIP assay type string"),
+    # ⛔ EVERY QUERY ABOVE ASKS FOR ChIP. CUT&Tag AND CUT&RUN ARE OCCUPANCY AND ARE NOT ChIP, AND
+    # THAT IS HOW GSE254076 WAS MISSED (found 2026-08-08 by the cistrome search, and the reason it
+    # names). GEO types that series `Other`, so neither a DataSet-Type filter nor a ChIP-seq
+    # keyword reaches it — an absent reading that read as an absence of data.
+    ('(NR4A1 OR NR4A2 OR NR4A3) AND ("CUT&Tag" OR "CUT and Tag" OR CUTandTag OR "CUT&RUN" '
+     'OR "CUT and RUN" OR CUTandRUN)',
+     "NR4A-family CUT&Tag / CUT&RUN occupancy, any organism — the assay class every ChIP-worded "
+     "query above is blind to"),
 ]
+
+# ⭐ SERIES WE KNOW ABOUT THAT NO QUERY IS GUARANTEED TO RETURN. A keyword query is a hypothesis
+# about how a depositor described their data; a named accession is not. Anything here is fetched by
+# accession and folded into the same series set, so a dataset found by a human search cannot be lost
+# again the next time the query list changes.
+# ⚠ EACH ENTRY CARRIES ITS OWN LIMITATION, because this repository's question is HUMAN EMC and a
+# mouse wild-type dataset must never read as an answer to it (CLAUDE.md §4: a populated field is not
+# a measured one, and a plausible-looking record is the dangerous kind).
+NAMED_GEO_SERIES = {
+    "GSE254076": {
+        "why_named": ("NR4A3 CUT&Tag — the only genome-wide NR4A3 occupancy dataset this lane has "
+                      "found outside the ChIP-Atlas/GEO ChIP-seq set. Missed by every query above "
+                      "because GEO types it `Other` and the assay is CUT&Tag, not ChIP-seq."),
+        "⚠ limitation": ("MOUSE, WILD-TYPE, NON-EMC. Mus musculus (taxid 10090), primary aortic "
+                         "vascular smooth muscle cells, assembly mm10, wild-type Nr4a3 — NOT the "
+                         "EWSR1::NR4A3 fusion and not a human tumour. It extends the occupancy "
+                         "axis by one experiment in a new tissue; it answers nothing about human "
+                         "EMC, and any cross-species read requires an orthology step this module "
+                         "does not perform."),
+        "verified_from": ("the GEO series and per-sample records, fetched on a GitHub runner "
+                          "2026-08-08 (fetch-literature.yml run 31276151977, corpus "
+                          "literature-cache:literature/gse254076-cuttag-verify-2026-08-08/)"),
+    },
+}
 
 # Papers whose data-availability we need. Europe PMC's `resultType=core` carries a CURATED
 # dbCrossReferenceList, which is exactly the instrument for "the accession is not in the text".
@@ -1069,9 +1101,53 @@ def discover_geo():
                 "_found_by": term,
                 "⚠": "the title and summary are the depositors' CLAIM, not a measurement.",
             }
+    out["series"].update(fetch_named_geo_series(skip=set(out["series"])))
     out["_status"] = "read" if out["series"] or any(
         q.get("_status") == "read" for q in out["queries"]) else "NOT_RUN"
     out["n_series"] = len(out["series"])
+    return out
+
+
+def fetch_named_geo_series(skip=()):
+    """Fetch every NAMED_GEO_SERIES accession directly, in the same shape a query result takes.
+
+    ⛔ A NAMED ACCESSION IS FETCHED, NEVER TYPED. The seed table above says WHY an accession is here
+    and what its limitation is; every FACT below — title, organism, sample count, platform, type —
+    comes from GEO's own esummary for that accession. If the fetch fails the row says so and carries
+    no facts, because a hand-written stand-in is exactly the fabricated-record failure this
+    repository's citation gate exists for."""
+    out = {}
+    for acc, meta in sorted(NAMED_GEO_SERIES.items()):
+        if acc in skip:
+            continue
+        es = get_json(f"{EUTILS}/esearch.fcgi?db=gds&retmode=json"
+                      f"&term={urllib.parse.quote(acc)}[ACCN]")
+        ids = ((es or {}).get("esearchresult") or {}).get("idlist") or []
+        # the SERIES uid for GSEnnnnnn is 200<digits>; sample uids (3…) and platform uids (100…)
+        # come back from the same query and must not be summarised as the series.
+        uid = next((i for i in ids if i.endswith(re.sub(r"\D", "", acc))
+                    and i.startswith("200")), None)
+        if not uid:
+            out[acc] = {"accession": acc, "_status": "series_uid_not_returned",
+                        "_found_by": "NAMED_GEO_SERIES", **meta}
+            continue
+        su = get_json(f"{EUTILS}/esummary.fcgi?db=gds&retmode=json&id={uid}")
+        r = ((su or {}).get("result") or {}).get(uid)
+        if not isinstance(r, dict):
+            out[acc] = {"accession": acc, "_status": "esummary_failed",
+                        "_found_by": "NAMED_GEO_SERIES", **meta}
+            continue
+        out[acc] = {
+            "accession": acc, "title": r.get("title"), "gdsType": r.get("gdsType"),
+            "taxon": r.get("taxon"), "n_samples": r.get("n_samples"),
+            "gpl": r.get("GPL"), "gse": r.get("GSE"), "pubmed": r.get("PubMedIds"),
+            "summary": (r.get("summary") or "")[:900],
+            "ftp": r.get("FTPLink"), "supp_file_field": r.get("suppFile"),
+            "_status": "read",
+            "_found_by": "NAMED_GEO_SERIES — fetched by accession, not returned by any query",
+            "⚠": "the title and summary are the depositors' CLAIM, not a measurement.",
+            **meta,
+        }
     return out
 
 
@@ -1737,9 +1813,15 @@ def derive(cache):
                                          "reading": "every experiment ChIP-Atlas's metadata "
                                                     "offered was fetched; no cap was hit."}),
         "peaksets_not_intersected_and_why": {
-            k: v.get("why") or v.get("⛔") or v.get("_status")
-            for k, v in sorted(peaksets.items())
-            if k != "_TRUNCATION" and (v.get("_status") != "read" or not v.get("peaks"))},
+            **{k: v.get("why") or v.get("⛔") or v.get("_status")
+               for k, v in sorted(peaksets.items())
+               if k != "_TRUNCATION" and (v.get("_status") != "read" or not v.get("peaks"))},
+            # ⛔ A DISCOVERY THAT SERVES NO COORDINATES MUST SAY SO HERE, OR ITS ABSENCE FROM
+            # per_peakset READS AS AN OVERSIGHT. GSE254076 is the case this was written for: a real
+            # NR4A3 CUT&Tag series, added to part 1 by NAMED_GEO_SERIES, whose only supplementary
+            # file is a `_RAW.tar`. "Found but not intersected, and here is why" and "never looked"
+            # are different facts, and this lane keeps them different everywhere else too.
+            **_named_geo_not_intersected(cache)},
         "_windows": {
             "promoter": f"-{WINDOW_UPSTREAM} / +{WINDOW_DOWNSTREAM} around the TSS, strand-aware. "
                         f"⛔ Imported from emc_ret_target_scan, not re-typed: the asymmetry exists "
@@ -2148,8 +2230,15 @@ def fetch():
         gse = acc if acc.startswith("GSE") else (s.get("gse") and f"GSE{s['gse']}")
         if not gse:
             continue
+        # ⛔ THE SAME ChIP-ONLY BLIND SPOT AS GEO_QUERIES, ONE STAGE LATER AND WORSE. Even once a
+        # CUT&Tag series is RETURNED, this filter used to drop it before its supplementary listing
+        # was read — so widening the query alone would have retrieved the accession and then thrown
+        # its peak files away, and the artifact would have looked like "we looked and there was
+        # nothing". Both halves are widened together or neither is.
         blob = f"{s.get('title','')} {s.get('gdsType','')} {s.get('summary','')}".lower()
-        if not any(t in blob for t in ("chip", "genome binding", "occupancy")):
+        if not any(t in blob for t in ("chip", "genome binding", "occupancy",
+                                       "cut&tag", "cut and tag", "cutandtag",
+                                       "cut&run", "cut and run", "cutandrun")):
             continue
         sup[gse] = list_geo_supplementary(gse)
         if sup[gse].get("peak_like"):
@@ -2514,6 +2603,114 @@ def infer_builds_in_cache():
     return 0
 
 
+def _named_geo_not_intersected(cache):
+    """One row per NAMED_GEO_SERIES accession that carries no peak-like supplementary file.
+
+    Derived from the cache's own supplementary listing, never asserted: a series that later starts
+    serving a BED drops out of this dict by itself. A listing we could not READ says so, because an
+    absent reading is not a reading of absence (CLAUDE.md §4)."""
+    rows, sup = {}, (cache.get("geo_supplementary") or {})
+    for acc, meta in sorted(NAMED_GEO_SERIES.items()):
+        s = sup.get(acc)
+        if s is None:
+            continue
+        if s.get("_status") != "read":
+            rows[f"{acc}:supplementary"] = (
+                f"named GEO series, supplementary listing {s.get('_status')} — this is an ABSENT "
+                f"READING of the listing, not a finding that the series serves no peaks")
+            continue
+        if s.get("peak_like"):
+            continue
+        rows[f"{acc}:no_peak_file_served"] = (
+            f"named GEO series, retrieved and characterised in part 1, but its supplementary "
+            f"directory serves no peak-like file ({s.get('n_files')} file(s): "
+            f"{', '.join(f for f in (s.get('files') or []) if not f.startswith('http'))}). Peak "
+            f"calls live in the supplementary directory or nowhere reachable at $0, so this series "
+            f"is a DISCOVERY and is not one of the intersected peak sets — it neither adds to nor "
+            f"subtracts from the RET reading. {meta.get('⚠ limitation', '')}")
+    return rows
+
+
+def fetch_named_geo_into_cache():
+    """Fetch ONLY the NAMED_GEO_SERIES accessions and merge them into the committed inputs cache.
+
+    ⛔ SAME REASON `fetch_zenodo_into_cache` EXISTS, AND THE SAME REFUSALS. `fetch()` is
+    all-or-nothing: adding one dataset would otherwise require a complete successful sweep of every
+    catalogue, which two dispatches have shown is not reliably available. This makes a handful of
+    HTTP calls — one esearch and one esummary per accession, plus one FTP supplementary listing —
+    merges the result into the committed cache and re-derives. It cannot starve.
+
+    ⚠ WHAT THIS MODE CANNOT DO, STATED SO NOBODY READS ITS SUCCESS AS MORE THAN IT IS. It adds a
+    dataset to part 1 (DISCOVERY). It does NOT add a peak set to part 2: a series enters
+    `per_peakset` only if its supplementary listing serves peak-like coordinates, and a series whose
+    only supplementary file is a `_RAW.tar` serves none. That distinction is the whole point of
+    `peaksets_not_intersected_and_why`, and a discovery that cannot be intersected must show up
+    there rather than inflating the intersected count."""
+    if not os.path.exists(INPUTS):
+        print("⛔ REFUSING: no committed inputs cache to merge into. This mode ADDS a source to an "
+              "existing retrieval; it cannot produce one. Run --fetch first.", file=sys.stderr)
+        return 4
+    with open(INPUTS, "r", encoding="utf-8") as fh:
+        cache = json.load(fh)
+    geo = cache.get("geo") or {}
+    if not (geo.get("series") or {}):
+        print("⛔ REFUSING: the committed inputs cache holds no GEO series at all, so merging into "
+              "it would build a result on an absent reading.", file=sys.stderr)
+        return 4
+
+    named = fetch_named_geo_series()
+    read = {k: v for k, v in named.items() if v.get("_status") == "read"}
+    print(f"named-GEO merge: {len(named)} accession(s), {len(read)} read", file=sys.stderr)
+    for k, v in sorted(named.items()):
+        print(f"  {k:<14} {str(v.get('_status')):<26} taxon={v.get('taxon')!r} "
+              f"n_samples={v.get('n_samples')}", file=sys.stderr)
+    if not read:
+        print("⛔ REFUSING: not one named accession was read. An endpoint that is down and an "
+              "accession that does not exist are indistinguishable here, so nothing is merged.",
+              file=sys.stderr)
+        return 4
+
+    sup = dict(cache.get("geo_supplementary") or {})
+    for acc in sorted(read):
+        sup[acc] = list_geo_supplementary(acc)
+        print(f"  {acc} supplementary: {sup[acc].get('_status')} "
+              f"n_files={sup[acc].get('n_files')} peak_like={sup[acc].get('peak_like')}",
+              file=sys.stderr)
+    geo.setdefault("series", {}).update(named)
+    geo["n_series"] = len(geo["series"])
+    cache["geo"] = geo
+    cache["geo_supplementary"] = sup
+    cache["attempts"] = (cache.get("attempts") or []) + ATTEMPTS
+    cache["_merged_sources"] = (cache.get("_merged_sources") or []) + [{
+        "source": "named_geo_series",
+        "records": sorted(NAMED_GEO_SERIES),
+        "fetched_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "base_cache_generated_utc": cache.get("_generated_utc"),
+        "series_added": sorted(named),
+        "n_read": len(read),
+        "⚠": ("this artifact is a MERGE of retrievals on different dates. These series were "
+              "fetched at `fetched_utc`; every catalogue at `base_cache_generated_utc`. Adding a "
+              "series to part 1 does NOT add a peak set to part 2 — see "
+              "part_2_intersection.peaksets_not_intersected_and_why."),
+    }]
+
+    art = derive(cache)
+    if would_downgrade(art):
+        print("⛔ REFUSING TO WRITE: the merged cache derives fewer readable peak sets than the "
+              "committed artifact. Nothing is written; the real inputs cache is untouched.",
+              file=sys.stderr)
+        with open(FAILED_INPUTS, "w", encoding="utf-8") as fh:
+            json.dump(cache, fh, indent=1, sort_keys=False, default=str)
+        return 3
+    with open(INPUTS, "w", encoding="utf-8") as fh:
+        json.dump(cache, fh, indent=1, sort_keys=False, default=str)
+    with open(OUT, "w", encoding="utf-8") as fh:
+        json.dump(art, fh, indent=1, sort_keys=False, default=str)
+    print(json.dumps({"series_added": sorted(read), "n_series": geo["n_series"],
+                      "peaksets": _n_peaksets_read(art)}, indent=1))
+    return 0
+
+
 def fetch_zenodo_into_cache():
     """Fetch ONLY the Zenodo deposits and merge them into the committed inputs cache.
 
@@ -2723,6 +2920,9 @@ def main():
     ap.add_argument("--fetch", action="store_true")
     ap.add_argument("--fetch-zenodo", action="store_true",
                     help="fetch ONLY the Zenodo deposits and merge them into the cached inputs")
+    ap.add_argument("--fetch-named-geo", action="store_true",
+                    help="fetch ONLY the NAMED_GEO_SERIES accessions and merge them into the "
+                         "cached inputs (part-1 discovery only; adds no peak set to part 2)")
     ap.add_argument("--infer-builds", action="store_true",
                     help="measure the build of every build-unknown deposit from the cached peaks")
     ap.add_argument("--check", action="store_true")
@@ -2741,6 +2941,9 @@ def main():
 
     if args.fetch_zenodo:
         return fetch_zenodo_into_cache()
+
+    if args.fetch_named_geo:
+        return fetch_named_geo_into_cache()
 
     if args.infer_builds:
         return infer_builds_in_cache()

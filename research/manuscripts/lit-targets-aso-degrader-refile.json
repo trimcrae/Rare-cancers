@@ -1,0 +1,283 @@
+{
+ "_what": "Fetch record for the 2026-08-08 verification of two ASO-panel discrimination sources and two degrader-paper references. One row per identifier, carrying what each registry RETURNED — not what a manuscript asserts.",
+ "_how": "GitHub Actions, .github/workflows/fetch-literature.yml, targets_json path, $0. Run 31276141296, published to branch literature-cache under literature/aso-degrader-refile-2026-08-08/. PMIDs -> PubMed esummary/efetch + Europe PMC REST (EXT_ID / DOI) + Crossref; DOIs -> Crossref, Europe PMC, Semantic Scholar graph, OpenAlex, and the publisher landing page.",
+ "_controls": "Every endpoint carried a known-positive and a known-negative, because a run of all-failures and a run where the endpoint is down are otherwise identical. The raw readings are in `controls` below. Crossref 200/404, Europe PMC hitCount 1/0, OpenAlex 200/404 and PubMed esummary all discriminated correctly.",
+ "⛔ _one_control_failed_and_it_is_recorded_rather_than_dropped": "THE SEMANTIC SCHOLAR POSITIVE CONTROL FAILED. `DOI:10.1038/nature14539` returned HTTP 404 — indistinguishable from that endpoint's known-NEGATIVE — so the S2 arm's readings carry no control and may not be relied on alone. ⚠ THIS DOES NOT TOUCH THE (c) FILING DECISION, and the reason is corroboration rather than argument: for BOTH target DOIs the S2 record agrees title-for-title and author-for-author with Europe PMC and Crossref, the PMIDs it supplied (40326883, 39361611) are exactly the idlists PubMed's esearch-by-DOI returned, and the ABSTRACT the decision rests on is carried independently by Europe PMC — whose own positive control passed. Had Europe PMC not carried the abstract, this run would not have settled (c) and would have had to say so.",
+ "_deliberately_not_a_targets_file": "This is NOT the {name: url} corpus that was dispatched. A URL corpus carries every identifier it ASKS about, so committing one would anchor an identifier on the strength of a 404. This file carries only identifiers a registry ANSWERED for. The dispatch inputs live in the Actions run named above.",
+ "_limits": [
+  "An identifier a registry returns is evidence the RECORD EXISTS with that title and author list. It is NOT evidence that the paper supports the sentence it is attached to — read the quoted abstract.",
+  "pubs.acs.org answered HTTP 403 behind a Cloudflare interstitial for both ACS DOIs. That is a BOT-BLOCK, not a paywall, and it is flagged for a human: the (c) filing decisions rest on title + abstract, not full text. PMC12159975 (reference 61) is open access if a full read is ever needed.",
+  "PMID 7567450's PubMed efetch arm returned HTTP 429 (rate limit, NOT a missing record). Its esummary arm on the same endpoint returned 200 in the same run, and Europe PMC and Crossref both answered, so the byline and title are verified on three registries anyway."
+ ],
+ "audit": "STRATEGY.md Appendix A rows 66, 67, 68",
+ "controls": {
+  "ctrl_crossref_positive": {
+   "http": "200",
+   "body_head": "{\"status\":\"ok\",\"message-type\":\"work\",\"message-version\":\"1.0.0\",\"message\":{\"indexed\":{\"date-parts\":[[2026,8,8]]"
+  },
+  "ctrl_crossref_negative": {
+   "http": "404",
+   "body_head": "Resource not found."
+  },
+  "ctrl_epmc_positive": {
+   "http": "200",
+   "body_head": "{\"version\":\"6.9\",\"hitCount\":1,\"request\":{\"queryString\":\"EXT_ID:26017442\",\"resultType\":\"lite\",\"cursorMark\":\"*\","
+  },
+  "ctrl_epmc_negative": {
+   "http": "200",
+   "body_head": "{\"version\":\"6.9\",\"hitCount\":0,\"request\":{\"queryString\":\"EXT_ID:99999999\",\"resultType\":\"lite\",\"cursorMark\":\"*\","
+  },
+  "ctrl_openalex_positive": {
+   "http": "200",
+   "body_head": "{\"id\":\"https://openalex.org/W2919115771\",\"doi\":\"https://doi.org/10.1038/nature14539\",\"title\":\"Deep learning\",\""
+  },
+  "ctrl_openalex_negative": {
+   "http": "404",
+   "body_head": "404 Not Found   Not Found   The requested URL was not found on the server. If you entered the URL manually ple"
+  },
+  "ctrl_s2_positive": {
+   "http": "404",
+   "body_head": "{\"error\":\"Paper with id DOI:10.1038/nature14539 not found\"} "
+  },
+  "ctrl_s2_negative": {
+   "http": "404",
+   "body_head": "{\"error\":\"Paper with id DOI:10.9999/no-such-doi-zzz not found\"} "
+  },
+  "ctrl_pubmed_esummary_positive": {
+   "http": "200",
+   "body_head": "{\"header\":{\"type\":\"esummary\",\"version\":\"0.3\"},\"result\":{\"uids\":[\"26017442\"],\"26017442\":{\"uid\":\"26017442\",\"pubd"
+  },
+  "ctrl_pubmed_esummary_negative": {
+   "http": "200",
+   "body_head": "{\"header\":{\"type\":\"esummary\",\"version\":\"0.3\"},\"result\":{\"uids\":[\"999999999\"],\"999999999\":{\"uid\":\"999999999\",\"e"
+  }
+ },
+ "records": [
+  {
+   "role": "(a) re-verification of a discrimination source behind the ASO panel re-score",
+   "identifier": "PMID: 23963702",
+   "resolved_identifiers": [
+    "PMID: 23963702",
+    "PMCID: PMC3834808",
+    "DOI: 10.1093/nar/gkt725"
+   ],
+   "europepmc": {
+    "hitCount": 1,
+    "pmid": "23963702",
+    "pmcid": "PMC3834808",
+    "doi": "10.1093/nar/gkt725",
+    "title": "Rational design of antisense oligonucleotides targeting single nucleotide polymorphisms for potent and allele selective suppression of mutant Huntingtin in the CNS.",
+    "authorString": "Østergaard ME, Southwell AL, Kordasiewicz H, Watt AT, Skotte NH, Doty CN, Vaid K, Villanueva EB, Swayze EE, Bennett CF, Hayden MR, Seth PP.",
+    "pubYear": "2013",
+    "pageInfo": "9634-9650",
+    "journal": "Nucleic acids research",
+    "abstract_verbatim": "Autosomal dominant diseases such as Huntington's disease (HD) are caused by a gain of function mutant protein and/or RNA. An ideal treatment for these diseases is to selectively suppress expression of the mutant allele while preserving expression of the wild-type variant. RNase H active antisense oligonucleotides (ASOs) or small interfering RNAs can achieve allele selective suppression of gene expression by targeting single nucleotide polymorphisms (SNPs) associated with the repeat expansion. ASOs have been previously shown to discriminate single nucleotide changes in targeted RNAs with ∼5-fold selectivity. Based on RNase H enzymology, we enhanced single nucleotide discrimination by positional incorporation of chemical modifications within the oligonucleotide to limit RNase H cleavage of the non-targeted transcript. The resulting oligonucleotides demonstrate >100-fold discrimination for a single nucleotide change at an SNP site in the disease causing huntingtin mRNA, in patient cells and in a completely humanized mouse model of HD. The modified ASOs were also well tolerated after injection into the central nervous system of wild-type animals, suggesting that their tolerability profile is suitable for advancement as potential allele-selective HD therapeutics. Our findings lay the foundation for efficient allele-selective downregulation of gene expression using ASOs-an outcome with broad application to HD and other dominant genetic disorders."
+   },
+   "pubmed_esummary": {
+    "title": "Rational design of antisense oligonucleotides targeting single nucleotide polymorphisms for potent and allele selective suppression of mutant Huntingtin in the CNS.",
+    "source": "Nucleic Acids Res",
+    "volume": "41",
+    "issue": "21",
+    "pages": "9634-50",
+    "pubdate": "2013 Nov",
+    "authors": [
+     "Østergaard ME",
+     "Southwell AL",
+     "Kordasiewicz H",
+     "Watt AT",
+     "Skotte NH",
+     "Doty CN",
+     "Vaid K",
+     "Villanueva EB",
+     "Swayze EE",
+     "Bennett CF",
+     "Hayden MR",
+     "Seth PP"
+    ]
+   },
+   "crossref": {
+    "title": "Rational design of antisense oligonucleotides targeting single nucleotide polymorphisms for potent and allele selective suppression of mutant Huntingtin in the CNS",
+    "DOI": "10.1093/nar/gkt725",
+    "volume": "41",
+    "page": "9634-9650",
+    "container": "Nucleic Acids Research",
+    "authors": [
+     "Østergaard Michael E.",
+     "Southwell Amber L.",
+     "Kordasiewicz Holly",
+     "Watt Andrew T.",
+     "Skotte Niels H.",
+     "Doty Crystal N.",
+     "Vaid Kuljeet",
+     "Villanueva Erika B.",
+     "Swayze Eric E.",
+     "Frank Bennett C.",
+     "Hayden Michael R.",
+     "Seth Punit P."
+    ],
+    "issued_year": 2013
+   }
+  },
+  {
+   "role": "(a) re-verification of a discrimination source behind the ASO panel re-score",
+   "identifier": "PMID: 7567450",
+   "resolved_identifiers": [
+    "PMID: 7567450",
+    "PMCID: PMC307218",
+    "DOI: 10.1093/nar/23.17.3411"
+   ],
+   "europepmc": {
+    "hitCount": 1,
+    "pmid": "7567450",
+    "pmcid": "PMC307218",
+    "doi": "10.1093/nar/23.17.3411",
+    "title": "Rational design of point mutation-selective antisense DNA targeted to codon 12 of Ha-ras mRNA in human cells.",
+    "authorString": "Duroux I, Godard G, Boidot-Forget M, Schwab G, Hélène C, Saison-Behmoaras T.",
+    "pubYear": "1995",
+    "pageInfo": "3411-3418",
+    "journal": "Nucleic acids research",
+    "abstract_verbatim": "Antisense oligodeoxynucleotides targeted to Ha-ras mRNA have been designed to discriminate between the codon 12-mutated oncogene and the normal proto-oncogene. An in vitro assay using two different sources of RNase H (rabbit reticulocyte lysates and nuclear extract from HeLa cells) was used to characterize oligonucleotide binding to normal and mutated Ha-ras mRNA. Short oligonucleotides (12- or 13mers) centered on the mutation had a very high discriminatory efficiency. Longer oligonucleotides (16mers) did not discriminate efficiently between the mutated and the normal mRNA. We have tested the efficacy of dodecanucleotides to induce RNase H cleavage of the full-length mRNA, moving the target sequence from the loop to the stem region which is formed in the vicinity of mutated codon 12. The most selective oligonucleotides were centered on the mutation which is located near the junction between the loop and stem regions even though they were less efficient at inducing RNase H cleavage than those targeted to the loop region. The 12mer antisense oligonucleotide with the highest discriminatory power was selected for cell culture studies. This oligonucleotide inhibited the proliferation of a human cell line which had been transformed with the mutated Ha-ras gene (HBL100ras1) but had no effect on the parental cell line which was transfected with the vector DNA (HBL 100neo) and expressed only the normal Ha-ras gene. Growth inhibition of HBL100ras1 cells was associated with specific ablation of targeted Ha-ras mRNA as shown by RT-PCR. These results show that 'in vitro' evaluation using an RNase H assay allowed us to select an antisense oligonucleotide which elicited a selectivity towards point-mutated Ha-ras mRNA when added at 10 microM concentration to the culture medium of cells expressing wild type and mutated Ha-ras mRNA."
+   },
+   "pubmed_esummary": {
+    "title": "Rational design of point mutation-selective antisense DNA targeted to codon 12 of Ha-ras mRNA in human cells.",
+    "source": "Nucleic Acids Res",
+    "volume": "23",
+    "issue": "17",
+    "pages": "3411-8",
+    "pubdate": "1995 Sep 11",
+    "authors": [
+     "Duroux I",
+     "Godard G",
+     "Boidot-Forget M",
+     "Schwab G",
+     "Hélène C",
+     "Saison-Behmoaras T"
+    ]
+   },
+   "crossref": {
+    "title": "Rational design of point mutation-selective antisense DNA targeted to codon 12 of Ha-<i>ras</i>mRNA in human cells",
+    "DOI": "10.1093/nar/23.17.3411",
+    "volume": "23",
+    "page": "3411-3418",
+    "container": "Nucleic Acids Research",
+    "authors": [
+     "Duroux Isabelle",
+     "Godard Gérard",
+     "Boidot-Forget Marc",
+     "Schwab Gisela",
+     "Hélène Claude",
+     "Saison-Behmoaras Tula"
+    ],
+    "issued_year": 1995
+   }
+  },
+  {
+   "role": "(c) settling how degrader-paper reference 61 should be filed",
+   "manuscript_reference": "61",
+   "identifier": "DOI: 10.1021/acs.jctc.5c00064",
+   "semantic_scholar": {
+    "title": "Quantifying Cooperativity through Binding Free Energies in Molecular Glue Degraders",
+    "venue": "Journal of Chemical Theory and Computation",
+    "year": 2025,
+    "externalIds": {
+     "PubMedCentral": "12159975",
+     "DOI": "10.1021/acs.jctc.5c00064",
+     "CorpusId": 278337972,
+     "PubMed": "40326883"
+    },
+    "authors": [
+     "B. Dudas",
+     "C. Athanasiou",
+     "J. Mobarec",
+     "E. Rosta"
+    ],
+    "abstract_verbatim": "Molecular glues represent a novel therapeutic modality facilitating the stabilization of protein–protein interactions (PPIs), thus enabling the targeting of previously “undruggable” proteins. We develop a computational procedure to screen for molecular glues using a pathway-independent free energy calculation method for accurately assessing the cooperativity. We employ a combined ligand and protein free energy perturbation (FEP) method to calculate the cooperative effect of a ligand for ternary binding. We study the cooperative binding mechanisms of molecular glue degraders, specifically cereblon (CRBN) modulators targeting Ikaros family zinc finger 2 (IKZF2), a transcription factor implicated in cancer immunotherapy. We present a comprehensive computational protocol for screening large molecular libraries to identify potent molecular glues. By leveraging cooperative binding principles in ternary complex formation, our approach effectively predicts ligand-induced PPIs and their degradation potential. Benchmarking against experimental data for CRBN–Ikaros complexes, our protocol demonstrates high accuracy in identifying superior molecular glues, highlighting L4 and L5 as top performers. Furthermore, our high-throughput screening identified novel candidates from extensive chemical libraries, validated through advanced FEP+ simulations. This study not only underscores the transformative potential of molecular glues in targeted protein degradation but also sets the stage for their broader application across diverse protein targets, paving the way for innovative therapeutic strategies in drug discovery."
+   },
+   "europepmc": {
+    "hitCount": 1,
+    "pmid": "40326883",
+    "pmcid": "PMC12159975",
+    "doi": "10.1021/acs.jctc.5c00064",
+    "title": "Quantifying Cooperativity through Binding Free Energies in Molecular Glue Degraders.",
+    "authorString": "Dudas B, Athanasiou C, Mobarec JC, Rosta E.",
+    "pubYear": "2025",
+    "pageInfo": "5712-5723",
+    "abstract_verbatim": "Molecular glues represent a novel therapeutic modality facilitating the stabilization of protein-protein interactions (PPIs), thus enabling the targeting of previously \"undruggable\" proteins. We develop a computational procedure to screen for molecular glues using a pathway-independent free energy calculation method for accurately assessing the cooperativity. We employ a combined ligand and protein free energy perturbation (FEP) method to calculate the cooperative effect of a ligand for ternary binding. We study the cooperative binding mechanisms of molecular glue degraders, specifically cereblon (CRBN) modulators targeting Ikaros family zinc finger 2 (IKZF2), a transcription factor implicated in cancer immunotherapy. We present a comprehensive computational protocol for screening large molecular libraries to identify potent molecular glues. By leveraging cooperative binding principles in ternary complex formation, our approach effectively predicts ligand-induced PPIs and their degradation potential. Benchmarking against experimental data for CRBN-Ikaros complexes, our protocol demonstrates high accuracy in identifying superior molecular glues, highlighting L4 and L5 as top performers. Furthermore, our high-throughput screening identified novel candidates from extensive chemical libraries, validated through advanced FEP+ simulations. This study not only underscores the transformative potential of molecular glues in targeted protein degradation but also sets the stage for their broader application across diverse protein targets, paving the way for innovative therapeutic strategies in drug discovery."
+   },
+   "pubmed_esearch_by_doi": [
+    "40326883"
+   ],
+   "resolved_identifiers": [
+    "PMID: 40326883",
+    "PMCID: PMC12159975",
+    "DOI: 10.1021/acs.jctc.5c00064"
+   ],
+   "_resolved_identifiers_provenance": "europepmc.pmid == semantic_scholar.externalIds.PubMed == pubmed_esearch_by_doi[0]; agreement across three registries is why this line may be written at all.",
+   "publisher_landing_page": {
+    "url": "https://pubs.acs.org/doi/10.1021/acs.jctc.5c00064",
+    "http": "403",
+    "body_first_line": [
+     "Just a moment..."
+    ],
+    "⚠": "HTTP 403 with a Cloudflare interstitial body is a BOT-BLOCK, not a paywall. Recorded as such and flagged for a human: the filing decision below was settled on TITLE + ABSTRACT, not on full text."
+   }
+  },
+  {
+   "role": "(c) settling how degrader-paper reference 63 should be filed",
+   "manuscript_reference": "63",
+   "identifier": "DOI: 10.1021/acs.jcim.4c01227",
+   "semantic_scholar": {
+    "title": "Characterizing the Cooperative Effect of PROTAC Systems with End-Point Binding Free Energy Calculation",
+    "venue": "Journal of Chemical Information and Modeling",
+    "year": 2024,
+    "externalIds": {
+     "DBLP": "journals/jcisd/XuWXTDGJYHS24",
+     "DOI": "10.1021/acs.jcim.4c01227",
+     "CorpusId": 273100073,
+     "PubMed": "39361611"
+    },
+    "authors": [
+     "Kexin Xu",
+     "Zhe Wang",
+     "Sutong Xiang",
+     "Rongfan Tang",
+     "Qirui Deng",
+     "Jingxuan Ge",
+     "Zhiliang Jiang",
+     "Kaimo Yang",
+     "Tingjun Hou",
+     "Huiyong Sun"
+    ],
+    "abstract_verbatim": "Proteolytic targeting chimeras (PROTACs), as an emerging type of drug, function by proximity-based modalities that narrow the distance between a target protein and the E3 ubiquitin ligase to facilitate the ubiquitination labeling of the target protein for degradation. Although it is evidenced that the cooperativity of the PROTAC ternary interaction is one of the key factors affecting the degradation rate of a target protein, PROTAC design utilizing this indicator is still challenging because of the complicated/flexible interactions in a target-PROTAC-E3 ternary system. Therefore, developing reliable and practicable computational methods is of great interest for PROTAC design. Hence, in this study, we investigate the feasibility of using the end-point binding free energy calculation method, represented by molecular mechanics/Poisson-Boltzmann (generalized-Born) surface area (MM/PB(GB)SA), for characterizing cooperativity (including the stabilization and hook effects) of the PROTAC systems. The result shows that MM/GBSA is a good predictor in characterizing these effects under a relatively long molecular dynamics adjustment (50-100 ns) and low dielectric constant (εin = 1), with the Pearson correlation coefficient (rp) > 0.5 and 0.6 for the stabilization and hook effect, respectively. This study provides a feasible strategy for characterizing the cooperativity of the PROTAC systems, facilitating the rational design of PROTAC molecules."
+   },
+   "europepmc": {
+    "hitCount": 1,
+    "pmid": "39361611",
+    "pmcid": null,
+    "doi": "10.1021/acs.jcim.4c01227",
+    "title": "Characterizing the Cooperative Effect of PROTAC Systems with End-Point Binding Free Energy Calculation.",
+    "authorString": "Xu K, Wang Z, Xiang S, Tang R, Deng Q, Ge J, Jiang Z, Yang K, Hou T, Sun H.",
+    "pubYear": "2024",
+    "pageInfo": "7666-7678",
+    "abstract_verbatim": "Proteolytic targeting chimeras (PROTACs), as an emerging type of drug, function by proximity-based modalities that narrow the distance between a target protein and the E3 ubiquitin ligase to facilitate the ubiquitination labeling of the target protein for degradation. Although it is evidenced that the cooperativity of the PROTAC ternary interaction is one of the key factors affecting the degradation rate of a target protein, PROTAC design utilizing this indicator is still challenging because of the complicated/flexible interactions in a target-PROTAC-E3 ternary system. Therefore, developing reliable and practicable computational methods is of great interest for PROTAC design. Hence, in this study, we investigate the feasibility of using the end-point binding free energy calculation method, represented by molecular mechanics/Poisson-Boltzmann (generalized-Born) surface area (MM/PB(GB)SA), for characterizing cooperativity (including the stabilization and hook effects) of the PROTAC systems. The result shows that MM/GBSA is a good predictor in characterizing these effects under a relatively long molecular dynamics adjustment (50-100 ns) and low dielectric constant (ε<sub>in</sub> = 1), with the Pearson correlation coefficient (<i>r</i><sub>p</sub>) > 0.5 and 0.6 for the stabilization and hook effect, respectively. This study provides a feasible strategy for characterizing the cooperativity of the PROTAC systems, facilitating the rational design of PROTAC molecules."
+   },
+   "pubmed_esearch_by_doi": [
+    "39361611"
+   ],
+   "resolved_identifiers": [
+    "PMID: 39361611",
+    null,
+    "DOI: 10.1021/acs.jcim.4c01227"
+   ],
+   "_resolved_identifiers_provenance": "europepmc.pmid == semantic_scholar.externalIds.PubMed == pubmed_esearch_by_doi[0]; agreement across three registries is why this line may be written at all.",
+   "publisher_landing_page": {
+    "url": "https://pubs.acs.org/doi/10.1021/acs.jcim.4c01227",
+    "http": "403",
+    "body_first_line": [
+     "Just a moment..."
+    ],
+    "⚠": "HTTP 403 with a Cloudflare interstitial body is a BOT-BLOCK, not a paywall. Recorded as such and flagged for a human: the filing decision below was settled on TITLE + ABSTRACT, not on full text."
+   }
+  }
+ ]
+}

@@ -155,7 +155,7 @@ on:
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "sra-study", "ret-cistrome-zenodo", "gse243553-eno3"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "sra-study", "ret-cistrome-zenodo", "gse243553-eno3", "ret-cistrome-named-geo"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -258,7 +258,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${MODE:-}" in
-            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search|sra-study|ret-cistrome-zenodo|gse243553-eno3) PART_B=false ;;
+            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search|sra-study|ret-cistrome-zenodo|gse243553-eno3|ret-cistrome-named-geo) PART_B=false ;;
             *)                                               PART_B=true  ;;
           esac
           echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
@@ -281,7 +281,8 @@ jobs:
           elif [ "${{ inputs.mode }}" = "aso-junction" ]; then
             python -m pytest research/modalities/tests/test_junction_aso_seam.py -q
           elif [ "${{ inputs.mode }}" = "ret-cistrome" ] \
-            || [ "${{ inputs.mode }}" = "ret-cistrome-zenodo" ]; then
+            || [ "${{ inputs.mode }}" = "ret-cistrome-zenodo" ] \
+            || [ "${{ inputs.mode }}" = "ret-cistrome-named-geo" ]; then
             # ⛔ NOT OPTIONAL. Two of the three ways this module could lie are pure arithmetic and
             # are assertable with no network: a half-open/inclusive off-by-one, and a cross-build
             # intersection that would silently report another locus on chr10. The third — an
@@ -579,8 +580,25 @@ jobs:
           RET_CISTROME_BUDGET_S: "900"
         run: python research/modalities/emc_ret_cistrome.py --fetch-zenodo
 
+      # ⭐ SAME SHAPE AS THE ZENODO MERGE, DIFFERENT BLIND SPOT. Every GEO query this module runs
+      # asks for ChIP, and CUT&Tag / CUT&RUN are occupancy but are not ChIP — which is how
+      # GSE254076 (NR4A3 CUT&Tag, mouse VSMC) sat unretrieved while the lane reported that it had
+      # searched GEO for NR4A3 occupancy. This mode fetches the NAMED_GEO_SERIES accessions by
+      # accession, merges them into the committed inputs cache and re-derives.
+      # ⚠ IT ADDS DISCOVERY, NOT A PEAK SET. A series enters part 2 only if its supplementary
+      # listing serves peak coordinates; one whose only supplementary file is a _RAW.tar serves
+      # none, and must land in peaksets_not_intersected_and_why rather than inflating the count.
+      - name: "RET cistrome — fetch ONLY the named GEO accessions and merge them"
+        if: inputs.mode == 'ret-cistrome-named-geo'
+        timeout-minutes: 25
+        env:
+          # ⚠ Comfortably below `timeout-minutes`, per the sibling step's rule: a killed step
+          # prints nothing and writes nothing, which is the opposite of the diagnostic wanted.
+          RET_CISTROME_BUDGET_S: "900"
+        run: python research/modalities/emc_ret_cistrome.py --fetch-named-geo
+
       - name: "RET cistrome — reproduce check (the derive half must be offline-reproducible)"
-        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo')
+        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo' || inputs.mode == 'ret-cistrome-named-geo')
         timeout-minutes: 10
         run: |
           python research/modalities/emc_ret_cistrome.py --check \
@@ -592,7 +610,7 @@ jobs:
       # `always()` and would otherwise ship a failure stub over 52 MB of peak coordinates. It did,
       # once: commit 5190923.
       - name: "RET cistrome — upload the artifact and its inputs cache"
-        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo')
+        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo' || inputs.mode == 'ret-cistrome-named-geo')
         uses: actions/upload-artifact@v4
         with:
           name: emc-ret-cistrome
@@ -883,7 +901,8 @@ jobs:
           # own mode WRITES and nothing it merely READS; `test_emc_expression_datasets_workflow.py`
           # asserts that for hypoxia-confounds specifically, because that is the arm the merge broke.
           if [ "${{ inputs.mode }}" = "ret-cistrome" ] \
-            || [ "${{ inputs.mode }}" = "ret-cistrome-zenodo" ]; then
+            || [ "${{ inputs.mode }}" = "ret-cistrome-zenodo" ] \
+            || [ "${{ inputs.mode }}" = "ret-cistrome-named-geo" ]; then
             MSG="RET cistrome: NR4A1/2/3 ChIP-seq occupancy at the RET locus (CI)"
             PATHS="research/modalities/emc-ret-cistrome.json
                    research/modalities/emc-ret-cistrome-inputs.json"
@@ -1304,7 +1323,7 @@ jobs:
       # a number nobody can grade — and a null from an instrument that recovers no positive
       # control is not a negative at all.
       - name: "Summary — ret-cistrome"
-        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo')
+        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo' || inputs.mode == 'ret-cistrome-named-geo')
         run: |
           python3 - <<'PY'
           import json

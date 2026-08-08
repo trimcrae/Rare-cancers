@@ -105,13 +105,20 @@ Real CPU results now back the comparison (no GPU/AWS):
   scan (running) tests whether favorable breakpoints exist.
 
 **Update (per-breakpoint scan + degradation model, just computed):**
-- **ASO specificity is achievable at a favorable breakpoint — demonstrated in-silico.** The breakpoint scan
+- **ASO specificity is breakpoint-conditional, and the separation is large — but no design is clean.** The
+  breakpoint scan
   (390 modelled) finds **243 (62%) favorable** by GC/complexity triage; the *canonical* is an unlucky
-  GC-rich one. The full BLAST screen on a favorable breakpoint (200/8), **resolved to gap-mismatch position**
-  (RNase-H can't cleave a near-match whose mismatch falls in the DNA gap), shows **2 of 5 gapmers are
-  predicted genuinely clean — zero true cleavage risks** (the residual 14/16 hits are gap-disrupted). So the
-  workflow breakpoint-triage → per-oligo BLAST → gap-mismatch resolution **yields clean candidates**;
-  specificity is achievable, not merely improvable. Caveats: predicted (not wet-lab-confirmed), modelled
+  GC-rich one. The full BLAST screen on a favorable breakpoint (200/8), **resolved to gap-mismatch position**,
+  separates the five gapmers by predicted residual cleavage load across **more than an order of magnitude**.
+  ⚠ *Superseded, retained: "2 of 5 gapmers are predicted genuinely clean — zero true cleavage risks (the
+  residual 14/16 hits are gap-disrupted) … yields clean candidates; specificity is achievable."* That count
+  treated a gap-internal mismatch as **abolishing** RNase-H cleavage, which no retrieved source supports —
+  PMID 23963702 measures ~5-fold for an unmodified ASO and PMID 7567450 reports none at 16-mer length — so
+  the re-scored figure is **0 of 5**
+  ([`junction-aso-offtarget-bp200-8-gapres-graded.json`](../modalities/junction-aso-offtarget-bp200-8-gapres-graded.json);
+  [STRATEGY.md Appendix A](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims) 68). The
+  workflow breakpoint-triage → per-oligo BLAST → gap-mismatch resolution **ranks candidates**; it does not
+  clear them. Caveats: predicted (not wet-lab-confirmed), modelled
   breakpoint, and **delivery remains the separate unsolved gate**. ASO stays #1 on mechanism *and* now has
   demonstrated in-silico specificity feasibility.
 - **AND-gate degradation window is *narrower* than its binding window.** A cooperative ternary model shows
@@ -130,8 +137,9 @@ druggability); and the AND-gate's selectivity is real but modest and dose-fragil
 
 ## Publishing decision (2026-06-26, trimcrae)
 **The two papers to publish FIRST are the NR4A3-degrader paper and the fusion-junction ASO paper** (the
-standout of this set — most-likely-to-work, with a complete in-silico arc ending in predicted-clean gapmers;
-delivery is its one gate). Of the five fusion-unique routes here, **only the ASO is promoted to a standalone
+standout of this set — most-likely-to-work, with a complete in-silico arc ending in a *ranked* gapmer panel;
+delivery is its one gate). ⚠ *Superseded, retained: "ending in predicted-clean gapmers" — no design is
+called clean; see the re-score above.* Of the five fusion-unique routes here, **only the ASO is promoted to a standalone
 priority paper.** The other four (neoantigen, AND-gate degrader, condensate, PPI) are **not** separate papers
 yet — they become the **comparative design space inside the fusion-exclusivity *framework* paper** (this
 overview, grown into a perspective/methods piece: *"target-selective ≠ fusion-selective — the computable

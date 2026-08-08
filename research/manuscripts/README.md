@@ -29,8 +29,10 @@ documents. To avoid the "which of these is *the paper*?" confusion, the rule is:
 > 2. **[`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md)** — **fusion-exclusive result
 >    paper**: an RNase-H gapmer / siRNA against the EWSR1::NR4A3 breakpoint junction that silences the
 >    chimera while **sparing wild-type NR4A3** — the most-likely-to-work fusion-unique route, with a
->    complete in-silico arc (design → off-target → breakpoint-favorability scan → gap-mismatch-resolved
->    predicted-clean gapmers; delivery is the one remaining gate). The standout of the fusion-exclusive set.
+>    complete in-silico arc (design → off-target → breakpoint-favorability scan → a gap-mismatch-resolved
+>    panel that RANKS the gapmers rather than clearing any; delivery is the one remaining gate). The standout
+>    of the fusion-exclusive set. ⚠ *Superseded, retained: "predicted-clean gapmers" — the re-scored figure
+>    is 0 of 5 predicted off-target-clean; see the paper's §3a-quater.*
 >
 > **Next tier (not the first two):** **[`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)** (the
 > EMC-program paper: driver-directed framework, categorical-gap landscape, fusion-specific routes) and the
