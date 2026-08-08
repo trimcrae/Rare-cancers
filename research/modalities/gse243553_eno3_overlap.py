@@ -654,6 +654,499 @@ def run_arms(budget_s: float = DEFAULT_BUDGET_S) -> dict:
 
 
 # ───────────────────────────────────────────────────────────────────────────────────────────────
+# STAGE 2b — THE PAPER'S SUPPLEMENT, WHICH IS WHERE THE PEAK TABLE ACTUALLY LIVES
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+#
+# ⭐ THIS IS THE STEP THAT CHANGED THE ANSWER, AND IT IS WORTH RECORDING WHY IT WAS NEARLY MISSED.
+# GEO's deposit is 80.1 GB of fragments and no peak call, and it would have been easy to stop
+# there and report "the deposit does not support the analysis". Europe PMC's supplementaryFiles
+# endpoint agreed, in a way that reads like an absence and is not one: HTTP 200 carrying
+# `Article with id PMC13105821 is not open access one`. bioRxiv answered 429 three times.
+#
+# But the article IS in PMC as an author manuscript (NIHMS2166785), and PMC serves author-
+# manuscript supplements from `/articles/instance/<id>/bin/`. Scraping the article page for that
+# path found six files, two of them `Supplementary_Data_*.zip`. ⛔ THREE "NO" ANSWERS FROM THREE
+# SERVICES DID NOT MEAN THE DATA WAS ABSENT — they meant three doors were shut. CLAUDE.md §4.
+
+SUPPL2_OUT = os.path.join(HERE, "gse243553-eno3-overlap-supplement.json")
+PMC_BIN = "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/"
+
+# Column names that make a table a genomic interval table. Matching is case-insensitive.
+PEAKISH_COLS = ("chr", "chrom", "seqnames", "start", "end", "peak", "idx", "log2fc",
+                "fdr", "fusion", "variant")
+
+
+def _xlsx_overview(raw: bytes, max_rows: int = 6) -> dict:
+    """Sheet names, the header row and a few data rows of an .xlsx — stdlib only.
+
+    An .xlsx is a zip of XML, so this needs no third-party reader. It reads the shared-string
+    table and then the first `max_rows` rows of every sheet.
+    """
+    import xml.etree.ElementTree as ET
+    import zipfile
+    ns = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+    out = {"sheets": {}}
+    with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+        names = zf.namelist()
+        shared = []
+        if "xl/sharedStrings.xml" in names:
+            root = ET.fromstring(zf.read("xl/sharedStrings.xml"))
+            for si in root.findall(f"{ns}si"):
+                shared.append("".join(t.text or "" for t in si.iter(f"{ns}t")))
+        titles = []
+        if "xl/workbook.xml" in names:
+            wb = ET.fromstring(zf.read("xl/workbook.xml"))
+            titles = [s.get("name") for s in wb.iter(f"{ns}sheet")]
+        sheets = sorted(n for n in names if re.match(r"xl/worksheets/sheet\d+\.xml$", n))
+        for i, sn in enumerate(sheets):
+            root = ET.fromstring(zf.read(sn))
+            rows, n_rows = [], 0
+            for r in root.iter(f"{ns}row"):
+                n_rows += 1
+                if len(rows) >= max_rows:
+                    continue
+                vals = []
+                for c in r.findall(f"{ns}c"):
+                    v = c.find(f"{ns}v")
+                    txt = v.text if v is not None else None
+                    if c.get("t") == "s" and txt is not None and txt.isdigit():
+                        txt = shared[int(txt)] if int(txt) < len(shared) else txt
+                    vals.append(txt)
+                rows.append(vals)
+            out["sheets"][titles[i] if i < len(titles) else sn] = {
+                "n_rows": n_rows, "first_rows": rows}
+    return out
+
+
+def run_suppl(budget_s: float = DEFAULT_BUDGET_S) -> dict:
+    import zipfile
+    budget = Budget(budget_s)
+    files = ["NIHMS2166785-supplement-Supplementary_Data_1.zip",
+             "NIHMS2166785-supplement-Supplementary_Data_2.zip",
+             "NIHMS2166785-supplement-Supplementary_Table_1.xlsx",
+             "NIHMS2166785-supplement-Supplementary_Table_2.xlsx",
+             "NIHMS2166785-supplement-Supplementary_Table_3.xlsx"]
+    got, saved = {}, {}
+    cache = os.environ.get("GSE243553_SUPPL_DIR", "/tmp/gse243553_suppl")
+    os.makedirs(cache, exist_ok=True)
+
+    for fn in files:
+        url = PMC_BIN + fn
+        rec = {"url": url, "http": None, "bytes": 0, "state": None, "error": None}
+        if budget.exhausted():
+            rec["state"] = "budget_exhausted"
+            got[fn] = rec
+            continue
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=300) as fh:
+                rec["http"] = fh.status
+                raw = fh.read(400_000_000)
+            rec["bytes"] = len(raw)
+            rec["state"] = "ok"
+            path = os.path.join(cache, fn)
+            with open(path, "wb") as out_fh:
+                out_fh.write(raw)
+            saved[fn] = path
+        except urllib.error.HTTPError as exc:
+            rec["http"], rec["error"], rec["state"] = exc.code, str(exc), "not_retrieved"
+        except Exception as exc:                # noqa: BLE001
+            rec["error"], rec["state"] = f"{type(exc).__name__}: {exc}", "not_retrieved"
+        got[fn] = rec
+        print(f"  [{rec['state']:>16}] http={rec['http']} {rec['bytes']:>10}B  {fn}")
+
+    contents: dict = {}
+    for fn, path in saved.items():
+        with open(path, "rb") as fh:
+            raw = fh.read()
+        try:
+            if fn.endswith(".zip"):
+                with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+                    members = [{"name": i.filename, "size": i.file_size}
+                               for i in zf.infolist()]
+                    contents[fn] = {"kind": "zip", "members": members}
+                    # peek at every member small enough to peek at
+                    peek = {}
+                    for i in zf.infolist():
+                        if i.file_size > 400_000_000 or i.is_dir():
+                            continue
+                        with zf.open(i) as mf:
+                            head = mf.read(4096)
+                        if i.filename.endswith(".gz"):
+                            try:
+                                head = gzip.GzipFile(fileobj=io.BytesIO(head)).read(4096)
+                            except OSError:
+                                pass
+                        peek[i.filename] = head.decode("utf-8", "replace")[:600]
+                    contents[fn]["first_bytes"] = peek
+            else:
+                contents[fn] = {"kind": "xlsx", **_xlsx_overview(raw)}
+        except Exception as exc:                # noqa: BLE001
+            contents[fn] = {"kind": "unreadable", "error": f"{type(exc).__name__}: {exc}"}
+
+    # which of these, if any, is a genomic interval table?
+    verdict = {}
+    for fn, c in contents.items():
+        found = []
+        if c.get("kind") == "zip":
+            for name, head in (c.get("first_bytes") or {}).items():
+                first = (head.splitlines() or [""])[0].lower()
+                cols = [p for p in PEAKISH_COLS if p in first]
+                if len(cols) >= 2:
+                    found.append({"member": name, "matched_columns": cols,
+                                  "header": (head.splitlines() or [""])[0][:300]})
+        elif c.get("kind") == "xlsx":
+            for sheet, s in (c.get("sheets") or {}).items():
+                hdr = " ".join(str(x or "") for x in (s.get("first_rows") or [[]])[0]).lower()
+                cols = [p for p in PEAKISH_COLS if p in hdr]
+                if len(cols) >= 2:
+                    found.append({"sheet": sheet, "n_rows": s.get("n_rows"),
+                                  "matched_columns": cols, "header": hdr[:300]})
+        verdict[fn] = found
+
+    return {
+        "_what": ("The paper's supplementary files, from PMC's author-manuscript store — the "
+                  "place a differential-peak table actually lives when GEO deposits only raw "
+                  "fragments."),
+        "_why_this_was_nearly_missed": (
+            "Europe PMC's supplementaryFiles endpoint answers HTTP 200 with `Article with id "
+            "PMC13105821 is not open access one`, and bioRxiv answered 429 three times. Neither "
+            "is an absence. PMC serves author-manuscript supplements from "
+            "/articles/instance/<id>/bin/, and scraping the article page for that path found "
+            "six files."),
+        "series": SERIES, "pmid": SERIES_PMID, "pmcid": SERIES_PMCID,
+        "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "fetches": got,
+        "contents": contents,
+        "genomic_interval_tables_found": verdict,
+        "_absent_reading_rule": ("every fetch carries its HTTP status; a non-200 is "
+                                 "`not_retrieved`, never an empty result"),
+    }
+
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+# STAGE 3 — THE FRAGMENT READ. WHAT THE DEPOSIT *CAN* ANSWER.
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+#
+# ⛔ READ THIS BEFORE READING ANY NUMBER THIS STAGE PRODUCES.
+#
+# THE QUESTION AS POSED — "do EWSR1-NR4A3's differentially accessible PEAKS overlap the ENO3 NBRE
+# sites" — CANNOT BE ANSWERED FROM THIS DEPOSIT, and stage 1 is why: GEO holds 12 fragment files
+# and 12 barcode->variant maps and NOT ONE PEAK CALL. Re-calling peaks here would be a different
+# experiment wearing this one's name.
+#
+# What the deposit CAN answer is strictly weaker and is stated as such everywhere it appears:
+# **per-arm Tn5 insertion density at the NBRE coordinates, against two nulls.** That is
+# accessibility measured directly from fragments rather than through the authors' peak caller. It
+# is a real reading and it is NOT a peak overlap; the artifact's own field names say so.
+#
+# THREE THINGS MAKE IT WORTH TAKING ANYWAY:
+#   * the arms carry their own controls — full-length wild-type NR4A3 and the reciprocal
+#     NR4A3-EWSR1, both of which the paper reports at ZERO peaks. A signal that appears in the
+#     fusion arm and not in those two is worth far more than a signal alone;
+#   * the calibration is already built. `emc-ret-cistrome-inputs.json` carries the 198-gene
+#     background panel this project assembled for an unrelated question, with hg38 coordinates.
+#     The same panel calibrates §3.11's Table 9, so this read and that one are commensurable;
+#   * it costs $0.
+#
+# ⚠ AND IT MAY WELL COME BACK UNINFORMATIVE. EWSR1-NR4A3 is 312 assigned barcodes. The repository's
+# own rule (`nr4a3-fusion-targets-occupancy.json._uninformative_rule`) is that an instrument which
+# recovers (almost) no ARBITRARY gene cannot fail to recover a chosen one, so its silence is an
+# ABSENT READING and is never counted as evidence of non-occupancy. That rule is applied here,
+# with the same thresholds, and an arm that fails it emits `informative: false` and NO verdict.
+
+FRAG_OUT = os.path.join(HERE, "gse243553-eno3-overlap.json")
+CISTROME_INPUTS = os.path.join(HERE, "emc-ret-cistrome-inputs.json")
+
+SEED = 20260808
+FLANK_BP = 250          # see `_why_this_flank` in the artifact
+FOCUS_GENES = ("RET", "ENO3", "PPARG", "SEMA3C", "NR4A3", "NR4A1", "VEGFA", "KDR")
+
+# Same thresholds as the occupancy artifact, so the two reads are graded on one rule.
+MIN_PANEL_GENES = 50
+MIN_PANEL_HIT_RATE = 0.02
+
+
+def panel_windows(upstream: int, downstream: int) -> dict:
+    """The 198-gene background panel's promoter windows, hg38, strand-aware.
+
+    ⭐ THE PANEL IS NOT CHOSEN HERE AND COULD NOT HAVE BEEN. It was assembled for the ATR/DDR
+    concept universe, long before this question existed, and it is the same panel §3.11's Table 9
+    calibrates against — which is what makes a fragment reading and a peak reading commensurable.
+    """
+    with open(CISTROME_INPUTS, "r", encoding="utf-8") as fh:
+        genes = json.load(fh)["genes"]["hg38"]
+    out = {}
+    for sym, g in genes.items():
+        if sym in FOCUS_GENES:
+            continue
+        if not g.get("chrom") or g.get("start") is None:
+            continue
+        strand = int(g.get("strand", 1))
+        tss = int(g["start"]) if strand >= 0 else int(g["end"])
+        w = ((tss - upstream, tss + downstream) if strand >= 0
+             else (tss - downstream, tss + upstream))
+        out[sym] = {"chrom": g["chrom"], "start": w[0], "end": w[1], "tss": tss,
+                    "strand": strand}
+    return out
+
+
+class WindowIndex:
+    """Interval lookup over a few hundred windows. Half-open [start, end) throughout.
+
+    ⚠ HALF-OPEN, EVERYWHERE. An inclusive/half-open mix is the classic silent off-by-one in
+    exactly this kind of intersection, and the selftest below pins both boundaries.
+    """
+
+    def __init__(self):
+        self._by_chrom: dict = {}
+
+    def add(self, chrom: str, start: int, end: int, key: str) -> None:
+        self._by_chrom.setdefault(chrom, []).append((int(start), int(end), key))
+
+    def finalize(self) -> None:
+        import bisect                                                  # noqa: F401
+        for c in self._by_chrom:
+            self._by_chrom[c].sort()
+
+    def hits(self, chrom: str, pos: int):
+        """Every window containing `pos` (half-open)."""
+        ivs = self._by_chrom.get(chrom)
+        if not ivs:
+            return ()
+        return tuple(k for s, e, k in ivs if s <= pos < e)
+
+
+def _norm_chrom(c: str) -> str:
+    c = c.strip()
+    return c if c.startswith("chr") else "chr" + c
+
+
+def run_frag(samples: int, budget_s: float, flank: int = FLANK_BP,
+             probe_bytes: int = 0) -> dict:
+    """Stream fragment files, keep only arm barcodes, and count Tn5 insertions per window.
+
+    `probe_bytes > 0` reads only that many bytes of the FIRST file — the shakeout that proves the
+    barcode join before an 80 GB read is attempted (CLAUDE.md §6: smoke -> one real leg -> fleet).
+    """
+    import bisect
+    import random
+    import subprocess
+
+    if not os.path.exists(SUPPL_OUT):
+        raise SystemExit(f"{SUPPL_OUT} missing — run --stage arms --fetch first")
+    with open(SUPPL_OUT, "r", encoding="utf-8") as fh:
+        arms_art = json.load(fh)
+
+    budget = Budget(budget_s)
+    eno3 = load_nbre_sites("ENO3")
+    up = eno3["window_spec"]["upstream_of_tss"]
+    down = eno3["window_spec"]["downstream_of_tss"]
+    panel = panel_windows(up, down)
+
+    # ── the windows we count into ──
+    idx = WindowIndex()
+    for i, s in enumerate(eno3["sites"]):
+        idx.add(s["chrom"], s["start"] - flank, s["end"] + flank, f"ENO3_NBRE_{i + 1}")
+    idx.add(eno3["chrom"], eno3["window"][0], eno3["window"][1], "ENO3_PROMOTER_WINDOW")
+    for sym, w in panel.items():
+        idx.add(w["chrom"], w["start"], w["end"], f"PANEL::{sym}")
+    idx.finalize()
+
+    # ── barcode -> arm, per sample, from the association files ──
+    sizes = arms_art["file_sizes_bytes"]
+    frag_files = sorted((fn for fn in sizes if "fragments" in fn),
+                        key=lambda f: int(re.search(r"fragments-(\d+)", f).group(1)))
+    assoc_by_n = {}
+    for fn in sizes:
+        m = re.search(r"Sample(\d+)_merged_associations", fn)
+        if m:
+            assoc_by_n[int(m.group(1))] = fn
+
+    counts: dict = {}          # arm -> key -> insertions
+    arm_depth: dict = {}       # arm -> total insertions retained (genome-wide, arm barcodes only)
+    per_sample_diag = []
+    join_examples = {}
+
+    for frag_fn in frag_files[:samples]:
+        n = int(re.search(r"fragments-(\d+)", frag_fn).group(1))
+        assoc_fn = assoc_by_n.get(n)
+        if not assoc_fn:
+            per_sample_diag.append({"sample": n, "state": "no_association_file"})
+            continue
+        gsm_assoc = sizes[assoc_fn]["gsm"]
+        gsm_frag = sizes[frag_fn]["gsm"]
+
+        rec = fetch(f"https://ftp.ncbi.nlm.nih.gov/geo/samples/{gsm_assoc[:-3]}nnn/"
+                    f"{gsm_assoc}/suppl/{assoc_fn}", budget, timeout=180,
+                    max_bytes=120_000_000)
+        if rec["state"] != "ok":
+            per_sample_diag.append({"sample": n, "state": "assoc_" + rec["state"]})
+            continue
+        lines = rec["text"].splitlines()
+        hdr = [h.strip().strip('"') for h in lines[0].split(",")]
+        try:
+            ci_cbc, ci_fus = hdr.index("CBC"), hdr.index("Fusion")
+        except ValueError:
+            per_sample_diag.append({"sample": n, "state": "assoc_columns_not_found",
+                                    "header": hdr})
+            continue
+        bc2arm = {}
+        for ln in lines[1:]:
+            f = ln.split(",")
+            if len(f) <= max(ci_cbc, ci_fus):
+                continue
+            arm = _match_arm(f[ci_fus].strip().strip('"'))
+            if arm:
+                bc2arm[f[ci_cbc].strip().strip('"')] = arm
+        if not bc2arm:
+            per_sample_diag.append({"sample": n, "state": "no_arm_barcodes"})
+            continue
+
+        # ── stream the fragments ──
+        url = (f"https://ftp.ncbi.nlm.nih.gov/geo/samples/{gsm_frag[:-3]}nnn/"
+               f"{gsm_frag}/suppl/{frag_fn}")
+        bc_path = os.path.join("/tmp", f"bc_{n}.txt")
+        with open(bc_path, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(bc2arm) + "\n")
+        head = f"head -c {probe_bytes} | " if probe_bytes else ""
+        # ⚠ `zcat` on a TRUNCATED gzip stream exits non-zero after emitting every complete block,
+        # which is exactly what the probe wants; `|| true` keeps that from failing the pipeline.
+        cmd = (f"curl -sL --max-time 5400 {url!r} | {head}"
+               f"(zcat 2>/dev/null || true) | "
+               f"awk -F'\\t' 'NR==FNR{{bc[$1]=1;next}} ($4 in bc)' {bc_path!r} -")
+        t0 = time.time()
+        n_lines = n_bad = 0
+        proc = subprocess.Popen(["bash", "-o", "pipefail", "-c", cmd],
+                                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True,
+                                bufsize=1024 * 1024)
+        for line in proc.stdout:
+            f = line.rstrip("\n").split("\t")
+            if len(f) < 4:
+                n_bad += 1
+                continue
+            arm = bc2arm.get(f[3])
+            if arm is None:
+                continue
+            try:
+                chrom, s, e = _norm_chrom(f[0]), int(f[1]), int(f[2])
+            except ValueError:
+                n_bad += 1
+                continue
+            n_lines += 1
+            arm_depth[arm] = arm_depth.get(arm, 0) + 2      # two Tn5 insertions per fragment
+            for pos in (s, e - 1):
+                for key in idx.hits(chrom, pos):
+                    counts.setdefault(arm, {})
+                    counts[arm][key] = counts[arm].get(key, 0) + 1
+            if len(join_examples) < 3:
+                join_examples[f[3]] = {"arm": arm, "line": line.rstrip("\n")[:120]}
+        proc.wait()
+        per_sample_diag.append({
+            "sample": n, "state": "ok" if n_lines else "no_arm_fragments_matched",
+            "gsm_fragments": gsm_frag, "gsm_associations": gsm_assoc,
+            "n_arm_barcodes": len(bc2arm), "n_arm_fragments": n_lines,
+            "n_unparseable_lines": n_bad, "elapsed_s": round(time.time() - t0, 1),
+            "probe_bytes": probe_bytes or None,
+        })
+        print(f"  sample {n}: {n_lines} arm fragments from {len(bc2arm)} barcodes "
+              f"in {time.time() - t0:.0f}s")
+        try:
+            os.unlink(bc_path)
+        except OSError:
+            pass
+
+    # ── informativeness, on the repository's own rule ──
+    per_arm = {}
+    rng = random.Random(SEED)
+    for arm, c in sorted(counts.items()):
+        panel_hits = {k[7:]: v for k, v in c.items() if k.startswith("PANEL::")}
+        n_panel = len(panel)
+        hit_rate = len(panel_hits) / n_panel if n_panel else 0.0
+        informative = (n_panel >= MIN_PANEL_GENES and hit_rate >= MIN_PANEL_HIT_RATE)
+        eno3_window = c.get("ENO3_PROMOTER_WINDOW", 0)
+        site_total = sum(c.get(f"ENO3_NBRE_{i + 1}", 0) for i in range(len(eno3["sites"])))
+        # empirical p for the PROMOTER-WINDOW count, against the panel — the same convention and
+        # the same panel as the occupancy artifact, so the two are directly comparable
+        vals = [panel_hits.get(s, 0) for s in panel]
+        n_ge = sum(1 for v in vals if v >= eno3_window)
+        per_arm[arm] = {
+            "n_arm_insertions_total": arm_depth.get(arm, 0),
+            "panel": {
+                "n_genes": n_panel,
+                "n_genes_with_an_insertion_in_their_promoter_window": len(panel_hits),
+                "fraction_with_an_insertion": round(hit_rate, 4),
+            },
+            "informative": informative,
+            "⚠_if_not_informative": (None if informative else
+                                     "this arm recovers too few ARBITRARY genes to be able to "
+                                     "recover a chosen one, so its silence at ENO3 is an ABSENT "
+                                     "READING and is NOT evidence of non-accessibility"),
+            "ENO3": {
+                "promoter_window_insertions": eno3_window,
+                "nbre_site_insertions_total": site_total,
+                "per_site": {f"ENO3_NBRE_{i + 1}": c.get(f"ENO3_NBRE_{i + 1}", 0)
+                             for i in range(len(eno3["sites"]))},
+                "empirical_p_promoter_window_vs_panel": (
+                    round((n_ge + 1) / (n_panel + 1), 4) if informative and n_panel else None),
+                "_p_convention": "(ge+1)/(n+1), never ge/n — it can never print a 0 the panel "
+                                 "size does not support",
+            },
+        }
+
+    out = {
+        "_what": ("Per-arm Tn5 insertion density at the ENO3 NBRE coordinates in GSE243553, read "
+                  "directly from the deposited fragments."),
+        "⛔_this_is_not_a_peak_overlap": (
+            "The question as posed asks whether EWSR1-NR4A3's differentially accessible PEAKS "
+            "overlap these sites. GSE243553 deposits NO peak call (see the recon artifact), so "
+            "that question cannot be answered from it. What is measured here is insertion "
+            "density, which is weaker: it is accessibility read without the authors' peak caller, "
+            "their QC, or their differential test."),
+        "_constraints_that_travel_with_every_result":
+            arms_art["_constraints_that_travel_with_every_result"],
+        "_no_claim": arms_art["_no_claim"],
+        "series": SERIES,
+        "pmid": SERIES_PMID,
+        "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "genome_build": {
+            "deposit": "hg38",
+            "_how_established": ("the deposit's own !Sample_data_processing line reads "
+                                 "`Assembly: hg38`; reads were aligned with cellranger-atac to "
+                                 "hg38 (recon artifact)"),
+            "nbre_coordinates": eno3["assembly"],
+            "builds_agree_no_liftover_needed": True,
+            "⛔_if_they_had_disagreed": ("an intersection computed across builds is meaningless; "
+                                        "this field exists so the agreement is a reading rather "
+                                        "than an assumption"),
+        },
+        "eno3_nbre_sites": eno3,
+        "flank_bp": flank,
+        "_why_this_flank": (
+            f"±{flank} bp around each 8 bp NBRE, i.e. a {2 * flank + NBRE_LEN} bp interval. A "
+            f"called ATAC peak in this assay class is a few hundred bp wide and a motif is 8 bp, "
+            f"so a flank of this size asks 'is the motif inside an accessible region' at roughly "
+            f"one peak width. It is a choice, it is stated, and it is fixed before any count is "
+            f"read."),
+        "seed": SEED,
+        "samples_read": samples,
+        "per_sample": per_sample_diag,
+        "barcode_join_examples": join_examples,
+        "per_arm": per_arm,
+        "raw_counts": counts,
+        "_panel_source": ("emc-ret-cistrome-inputs.json -> genes.hg38, the 198-gene background "
+                          "panel assembled for the ATR/DDR concept universe and used unchanged by "
+                          "§3.11's Table 9 — so this reading and that one are commensurable"),
+        "_uninformative_rule": {"min_panel_genes": MIN_PANEL_GENES,
+                                "min_panel_hit_rate": MIN_PANEL_HIT_RATE,
+                                "_why": ("an instrument that recovers no arbitrary gene cannot "
+                                         "fail to recover a chosen one")},
+    }
+    _ = (bisect, rng)
+    return out
+
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
 # selftest — the arithmetic that can lie, asserted with no network
 # ───────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -741,7 +1234,7 @@ def selftest() -> int:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["recon", "arms"], default="recon")
+    ap.add_argument("--stage", choices=["recon", "arms", "suppl"], default="recon")
     ap.add_argument("--fetch", action="store_true")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--selftest", action="store_true")
@@ -760,6 +1253,18 @@ def main(argv=None) -> int:
         print(json.dumps({k: d[k] for k in
                           ("series", "n_samples_parsed", "deposit_supports_a_peak_overlap",
                            "filenames_matching_a_peak_call_pattern")}, indent=1))
+        return 0
+
+    if args.fetch and args.stage == "suppl":
+        out = run_suppl(args.budget_s)
+        with open(SUPPL2_OUT, "w", encoding="utf-8") as fh:
+            json.dump(out, fh, indent=1, sort_keys=True)
+            fh.write("\n")
+        print(f"\nwrote {SUPPL2_OUT}")
+        for fn, found in out["genomic_interval_tables_found"].items():
+            print(f"  {fn}: {len(found)} interval-shaped table(s)")
+            for f in found:
+                print(f"      {f}")
         return 0
 
     if args.fetch and args.stage == "arms":
