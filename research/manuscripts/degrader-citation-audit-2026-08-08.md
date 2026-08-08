@@ -1,3 +1,37 @@
+---
+id: DOC-DEGRADER-CITATION-AUDIT-2026-08-08
+title: Citation-provenance audit of nr4a3-degrader-paper.md — all 74 unanchored identifiers resolve, six are defective anyway
+level: L3
+kind: memo
+status: live
+canonical_for:
+  - the resolution status of every citation identifier in nr4a3-degrader-paper.md that no fetch product anchored
+  - the enumerated citation defects blocking submission of the degrader paper
+purpose: >
+  Answer, for each of the 74 citation identifiers that research/manuscripts/nr4a3-degrader-paper.md
+  carried with no fetch-product anchor anywhere in this repository, whether it resolves — and, where
+  it does, whether it resolves to the work the manuscript says it does. The paper is aimed at journal
+  submission, and 74 unchecked identifiers is a publication-blocking defect independent of the science.
+scope: >
+  Identifier resolution and bibliographic metadata (title, authors, journal, volume, pages, year),
+  fetched from Crossref, Europe PMC, data.rcsb.org and the DOI handle system. It deliberately does NOT
+  establish that any cited work SUPPORTS the sentence citing it — that requires reading the papers, and
+  the two characterization flags below are exactly the cases where the title alone says it may not.
+  Covers this paper's unanchored set only; the other 140 unanchored identifiers in the repository, and
+  reference entries carrying no identifier at all, are out of scope and named as such.
+audience:
+  - maintainers
+  - autonomous research agents
+  - external reviewers
+date: 2026-08-08
+last_verified: 2026-08-08
+related:
+  - research/manuscripts/citation-provenance-ledger.json
+  - research/manuscripts/lit-targets-degrader-citations.json
+  - research/manuscripts/lint_citations.py
+  - research/manuscripts/nr4a3-degrader-paper.md
+---
+
 # Citation-provenance audit — `nr4a3-degrader-paper.md`, 2026-08-08
 
 **Headline: all 74 unanchored identifiers RESOLVE. None is fabricated. Six carry a defect anyway, and one of
@@ -11,8 +45,9 @@ those is disqualifying on its own — a PMID that resolves cleanly to the wrong 
 | **PAYWALLED** — blocked the check | **0** (see *What "paywalled" means here*) |
 | **defective anyway** — resolves, but not to what the manuscript says | **6** (2 integrity failures, 1 factual, 3 flags) |
 
-The paper carried the largest unanchored block in the repository — 74 identifiers against 1 for the
-fusion-output paper, 3 for partner-stratification and 6 for the endpoint paper. Under
+The paper carried **by far the largest unanchored block in the repository**: 74 identifiers, against 22 for the
+next file down (`emc-unexplored-treatment-lanes.md`) and 17 for the one after that — more than a third of the
+214-identifier baseline the ledger was opened with on 2026-08-07. Under
 [`lint_citations.py`](./lint_citations.py) "unanchored" means the identifier appeared in **no tracked
 `.json`/`.jsonl` fetch product anywhere in this repository**, i.e. *nobody had ever checked it.* That is now
 false: every one of the 74 has a machine-fetched bibliographic record in
@@ -194,7 +229,32 @@ audit verifies that each identifier exists and names the work the manuscript say
 that the work supports the sentence citing it** — that requires reading the papers, and the two
 characterization flags (D4, D5) are precisely the cases where the title alone says the descriptor may be wrong.
 
-## 5 · Verdict
+## 5 · One identifier outside this paper, checked because it was free
+
+While this audit was running, `lint_citations.py` was widened (b1b9f7b65) so the anchor scan recognises the
+`{name: url}` form every `lit-targets-*.json` uses, and so `TRAILING` strips backticks and asterisks. Two
+consequences landed on the ledger, and both are recorded here because the ledger has one owner and this audit
+was it:
+
+* **35 baseline rows were stored under a punctuation-laden key** (`…/anie.201806037` + a stray backtick) and
+  were orphaned by the widening — which does not fail safe: an orphaned baseline row reappears as a NEW
+  unanchored identifier, i.e. the gate accuses already-triaged citations of being fabrications. The gate now
+  normalises stored keys on read; the ledger was additionally re-keyed to the clean form and 13 rows that had
+  become exact duplicates of each other were merged, files-lists unioned, statuses preserved. 215 rows → 202.
+  No status was changed by that operation and no identifier was added or dropped.
+* **`PMID 41712689` became visible for the first time**, in `research/IDEAS.md:412` and
+  `research/field-scan-log.md:89`. It is pre-existing prose written as a `pubmed.ncbi.nlm.nih.gov/…` URL, which
+  the old pattern could not see, so it is baseline material and not a new citation. ⚠ **The two files describe
+  it differently** — IDEAS.md as MOF-nanoparticle ASO delivery, the field-scan log as immunity — and it is a
+  *delivery* citation, which is load-bearing for PUB-ASO, so the disagreement mattered. **Fetched, and it is not
+  a disagreement:** Europe PMC returns *"Strengthening Antisense Oligonucleotide-Mediated Anti-Tumor Immunity
+  via Metal-Organic Framework Nanoparticles"* — Nowak JA, Cho E, Davis MA, … Farha OK, Teplensky MH, Nano Lett,
+  doi 10.1021/acs.nanolett.5c05579. A MOF-nanoparticle ASO-delivery paper whose endpoint is anti-tumour
+  immunity. Both descriptions are the same paper seen from different ends; **neither file is wrong**.
+  ⚠ That settles *which paper it is*. It does not establish that the paper supports the delivery claim built on
+  it — that needs the paper read, and this audit did not read it.
+
+## 6 · Verdict
 
 **On citation grounds this paper is not yet submittable, and the blocker is small and specific.** No identifier
 in it is invented — the failure mode that produced
