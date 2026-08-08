@@ -100,6 +100,43 @@ jobs:
         if: ${{ inputs.slug == 'lane-probe' }}
         run: python3 scripts/lit_lane_probe.py
 
+      # ── CONSENSUS PROBE (slug == 'consensus-probe') ─────────────────────────────────────
+      # Same metadata-only shape as the lane probe, different question: how much of the field
+      # actually holds the view the transcriptional-output manuscript re-reads. Added 2026-08-08
+      # after trimcrae asked whether that paper is refuting a consensus or two papers nobody
+      # cites — a question the repository had no artifact for. Rationale, queries and the limits
+      # of what a hit count can conclude are in scripts/lit_consensus_probe.py's docstring.
+      - name: Consensus probe — Europe PMC citation weight of the anchors
+        if: ${{ inputs.slug == 'consensus-probe' }}
+        run: python3 scripts/lit_consensus_probe.py
+
+      - name: Publish consensus probe to the triggering branch (best effort)
+        if: ${{ always() && inputs.slug == 'consensus-probe' }}
+        continue-on-error: true
+        env:
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          [ -f research/literature/fusion-consensus-probe.json ] || {
+            echo "::error::consensus probe produced no artifact"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/literature/fusion-consensus-probe.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "consensus probe: Europe PMC citation weight of the fusion paper's anchors"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::ref push failed; the digest in this log and the artifact are the record"
+
+      - name: Keep consensus probe as a run artifact
+        if: ${{ always() && inputs.slug == 'consensus-probe' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: consensus-probe-${{ github.run_id }}
+          path: research/literature/fusion-consensus-probe.json
+          if-no-files-found: error
+
       # ⛔ PUSHING TO THE TRIGGERING BRANCH LOSES THE RESULT TO A RACE (measured 2026-08-07).
       # Nine parallel sweeps share one working tree and push to each other's branches; run
       # 31134790934 completed all 31 queries, committed 8,749 lines, and then died on
@@ -154,7 +191,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           QUERY: ${{ inputs.query }}
@@ -180,7 +217,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
@@ -194,7 +231,7 @@ jobs:
       # the same contamination the publish step's slug guard below was written to prevent, arriving
       # from the other direction. A query-only run now runs the query path ONLY.
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
-        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' }}
+        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' }}
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
           LIT_TARGETS_JSON: ${{ inputs.targets_json }}
