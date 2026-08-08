@@ -811,12 +811,16 @@ def run_suppl(budget_s: float = DEFAULT_BUDGET_S) -> dict:
             print(f"  [{str(last.get('state')):>20}] http={last.get('http')} "
                   f"{last.get('bytes'):>10}B  {fn}")
 
+    # ⚠ KEYED ON THE SAVED PATH, NOT ON `fn`. The Springer candidates are named `SPRINGER::3::zip`
+    # so that the ESM index and extension stay legible in the record — and `"SPRINGER::3::zip"`
+    # does not end with `".zip"`, so the first version of this loop silently parsed NOTHING for
+    # the two files that actually contained the peak calls, while reporting success.
     contents: dict = {}
     for fn, path in saved.items():
         with open(path, "rb") as fh:
             raw = fh.read()
         try:
-            if fn.endswith(".zip"):
+            if path.endswith(".zip"):
                 with zipfile.ZipFile(io.BytesIO(raw)) as zf:
                     members = [{"name": i.filename, "size": i.file_size}
                                for i in zf.infolist()]
@@ -835,8 +839,11 @@ def run_suppl(budget_s: float = DEFAULT_BUDGET_S) -> dict:
                                 pass
                         peek[i.filename] = head.decode("utf-8", "replace")[:600]
                     contents[fn]["first_bytes"] = peek
-            else:
+            elif path.endswith(".xlsx"):
                 contents[fn] = {"kind": "xlsx", **_xlsx_overview(raw)}
+            else:
+                contents[fn] = {"kind": "other", "bytes": len(raw),
+                                "head": raw[:200].decode("utf-8", "replace")}
         except Exception as exc:                # noqa: BLE001
             contents[fn] = {"kind": "unreadable", "error": f"{type(exc).__name__}: {exc}"}
 
@@ -983,6 +990,262 @@ class WindowIndex:
 def _norm_chrom(c: str) -> str:
     c = c.strip()
     return c if c.startswith("chr") else "chr" + c
+
+
+def overlapping(ivs_by_chrom: dict, chrom: str, a: int, b: int) -> list:
+    """Every interval overlapping the half-open query [a, b).
+
+    ⛔ HALF-OPEN ON BOTH SIDES, AND THAT IS THE WHOLE OF THE ARITHMETIC THAT CAN LIE HERE. An
+    inclusive/half-open mix is the classic silent off-by-one in a genomic intersection: it turns
+    two features that merely ABUT into an overlap, or drops a real 1 bp one. BED is half-open, the
+    motif intervals are constructed half-open, and `--selftest` pins both boundaries.
+    """
+    return [(s, e) for s, e in ivs_by_chrom.get(chrom, ()) if s < b and e > a]
+
+
+def _peaksets_from_springer(budget: Budget) -> dict:
+    """Every per-fusion interval file inside the two Springer ESM zips, parsed.
+
+    ⛔ THESE ARE THE PAPER'S OWN CALLS, NOT PEAKS THIS REPOSITORY MADE. GEO deposits no peak set
+    (recon), so the alternative to using these would have been re-running the authors' ArchR
+    pipeline over 80.1 GB of fragments — a different experiment wearing this one's name.
+    """
+    import zipfile
+    out = {"zips": {}, "peaksets": {}, "errors": []}
+    for n, ext in ((3, "zip"), (4, "zip")):
+        url = SPRINGER_ESM.format(n=n, ext=ext)
+        rec = _get_binary(url, budget)
+        raw = rec.pop("raw", None)
+        out["zips"][f"MOESM{n}_ESM.{ext}"] = {k: v for k, v in rec.items() if k != "raw"}
+        if rec["state"] != "ok" or not raw or not raw.startswith(b"PK\x03\x04"):
+            out["errors"].append(f"MOESM{n}: {rec['state']} {rec.get('error')}")
+            continue
+        with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+            out["zips"][f"MOESM{n}_ESM.{ext}"]["members"] = [
+                {"name": i.filename, "size": i.file_size} for i in zf.infolist()]
+            for info in zf.infolist():
+                if info.is_dir() or info.file_size == 0:
+                    continue
+                body = zf.read(info).decode("utf-8", "replace")
+                ivs, header, bad = [], None, 0
+                for j, line in enumerate(body.splitlines()):
+                    if not line.strip():
+                        continue
+                    f = re.split(r"[\t,]", line.strip())
+                    if j == 0 and not re.match(r"^(chr)?[\dXYM]", f[0]):
+                        header = line[:300]
+                        continue
+                    if len(f) < 3:
+                        bad += 1
+                        continue
+                    try:
+                        ivs.append((_norm_chrom(f[0].strip('"')),
+                                    int(float(f[1])), int(float(f[2]))))
+                    except ValueError:
+                        bad += 1
+                out["peaksets"][info.filename] = {
+                    "n_intervals": len(ivs),
+                    "n_unparseable_lines": bad,
+                    "header": header,
+                    "intervals": ivs,
+                    "chroms": sorted({c for c, _, _ in ivs})[:30],
+                    "median_width": (sorted(e - s for _, s, e in ivs)[len(ivs) // 2]
+                                     if ivs else None),
+                }
+    return out
+
+
+def run_overlap(budget_s: float = DEFAULT_BUDGET_S, flank: int = FLANK_BP,
+                n_draws: int = 20000) -> dict:
+    """THE ANSWER: do the paper's per-fusion peak calls cover the ENO3 NBRE sites, and would an
+    arbitrary promoter have been covered just as often?"""
+    import random
+
+    budget = Budget(budget_s)
+    eno3 = load_nbre_sites("ENO3")
+    up = eno3["window_spec"]["upstream_of_tss"]
+    down = eno3["window_spec"]["downstream_of_tss"]
+    panel = panel_windows(up, down)
+    supp = _peaksets_from_springer(budget)
+    covered = overlapping
+    per_set = {}
+    for name, ps in supp["peaksets"].items():
+        if not ps["intervals"]:
+            continue
+        by_chrom: dict = {}
+        for c, s, e in ps["intervals"]:
+            by_chrom.setdefault(c, []).append((s, e))
+
+        # ── the reading ──
+        site_hits = []
+        for i, site in enumerate(eno3["sites"]):
+            a, b = site["start"] - flank, site["end"] + flank
+            ov = covered(by_chrom, site["chrom"], a, b)
+            site_hits.append({
+                "site": f"ENO3_NBRE_{i + 1}",
+                "motif": f"{site['chrom']}:{site['start']}-{site['end']}",
+                "offset_from_tss": site["offset_from_tss"],
+                "query_window": f"{site['chrom']}:{a}-{b}",
+                "n_peaks_overlapping": len(ov),
+                "overlapping_peaks": [f"{site['chrom']}:{s}-{e}" for s, e in ov][:20],
+            })
+        n_sites_hit = sum(1 for h in site_hits if h["n_peaks_overlapping"] > 0)
+        promoter_peaks = covered(by_chrom, eno3["chrom"], eno3["window"][0], eno3["window"][1])
+
+        # ── informativeness: does this set recover an ARBITRARY gene at all? ──
+        panel_hit = {sym: len(covered(by_chrom, w["chrom"], w["start"], w["end"]))
+                     for sym, w in panel.items()}
+        n_panel = len(panel)
+        n_panel_hit = sum(1 for v in panel_hit.values() if v)
+        hit_rate = n_panel_hit / n_panel if n_panel else 0.0
+        informative = n_panel >= MIN_PANEL_GENES and hit_rate >= MIN_PANEL_HIT_RATE
+
+        # ── NULL 1: an ARBITRARY PROMOTER. Place ENO3's own 4-site geometry (the same relative
+        #    offsets) inside each of the 198 panel genes' windows and count how many of the 4
+        #    would have been covered there. Deterministic; no seed needed.
+        rel = [(s["start"] - eno3["window"][0], s["end"] - eno3["window"][0])
+               for s in eno3["sites"]]
+        null1 = []
+        for sym, w in panel.items():
+            k = 0
+            for r0, r1 in rel:
+                a, b = w["start"] + r0 - flank, w["start"] + r1 + flank
+                if covered(by_chrom, w["chrom"], a, b):
+                    k += 1
+            null1.append(k)
+        n_ge1 = sum(1 for v in null1 if v >= n_sites_hit)
+
+        # ── NULL 2: SEEDED RESAMPLING inside the panel's windows — 4 uniformly random positions
+        #    per draw, so the null is not tied to ENO3's particular spacing.
+        rng = random.Random(SEED)
+        null2, syms = [], list(panel)
+        for _ in range(n_draws):
+            w = panel[syms[rng.randrange(len(syms))]]
+            k = 0
+            for _ in range(len(rel)):
+                p = rng.randrange(w["start"], max(w["start"] + 1, w["end"] - NBRE_LEN))
+                if covered(by_chrom, w["chrom"], p - flank, p + NBRE_LEN + flank):
+                    k += 1
+            null2.append(k)
+        n_ge2 = sum(1 for v in null2 if v >= n_sites_hit)
+
+        # ── NULL 3: WITHIN ENO3'S OWN WINDOW. Controls for the promoter simply being open: are
+        #    the NBRE positions covered more often than arbitrary positions in the same window?
+        rng3 = random.Random(SEED + 1)
+        null3 = []
+        for _ in range(n_draws):
+            k = 0
+            for _ in range(len(rel)):
+                p = rng3.randrange(eno3["window"][0], eno3["window"][1] - NBRE_LEN)
+                if covered(by_chrom, eno3["chrom"], p - flank, p + NBRE_LEN + flank):
+                    k += 1
+            null3.append(k)
+        n_ge3 = sum(1 for v in null3 if v >= n_sites_hit)
+
+        per_set[name] = {
+            "n_intervals": ps["n_intervals"],
+            "median_interval_width_bp": ps["median_width"],
+            "arm": _match_arm(re.sub(r"^.*/|_markers\.bed$|\.(bed|txt|csv|tsv)$", "", name)),
+            "informative": informative,
+            "⚠_if_not_informative": (None if informative else
+                                     "this set recovers too few ARBITRARY genes to be able to "
+                                     "recover a chosen one; its silence at ENO3 is an ABSENT "
+                                     "READING, not evidence of no accessibility change"),
+            "panel": {"n_genes": n_panel, "n_genes_with_an_interval": n_panel_hit,
+                      "fraction": round(hit_rate, 4)},
+            "ENO3": {
+                "n_of_4_nbre_sites_covered": n_sites_hit,
+                "per_site": site_hits,
+                "n_intervals_in_promoter_window": len(promoter_peaks),
+                "intervals_in_promoter_window":
+                    [f"{eno3['chrom']}:{s}-{e}" for s, e in promoter_peaks][:20],
+            },
+            "nulls": {
+                "_convention": "(ge+1)/(n+1), never ge/n — it can never print a 0 the null size "
+                               "does not support",
+                "arbitrary_promoter_same_geometry": {
+                    "_what": ("ENO3's own 4-site geometry placed at the same relative offsets "
+                              "inside each of the 198 background-panel promoter windows"),
+                    "n": n_panel, "n_at_or_above_observed": n_ge1,
+                    "empirical_p": round((n_ge1 + 1) / (n_panel + 1), 5) if informative else None,
+                    "distribution": {str(k): null1.count(k) for k in sorted(set(null1))},
+                },
+                "seeded_resampling_in_panel_windows": {
+                    "_what": (f"{n_draws} seeded draws (seed {SEED}); each draw takes a random "
+                              f"panel gene and 4 uniformly random positions in its window"),
+                    "n": n_draws, "n_at_or_above_observed": n_ge2,
+                    "empirical_p": round((n_ge2 + 1) / (n_draws + 1), 5) if informative else None,
+                    "mean_sites_covered": round(sum(null2) / len(null2), 3) if null2 else None,
+                },
+                "seeded_resampling_inside_ENO3s_own_window": {
+                    "_what": (f"{n_draws} seeded draws (seed {SEED + 1}) of 4 random positions "
+                              f"inside ENO3's OWN window — this one controls for the promoter "
+                              f"simply being accessible, which the two above do not"),
+                    "n": n_draws, "n_at_or_above_observed": n_ge3,
+                    "empirical_p": round((n_ge3 + 1) / (n_draws + 1), 5) if informative else None,
+                    "mean_sites_covered": round(sum(null3) / len(null3), 3) if null3 else None,
+                },
+            },
+        }
+
+    return {
+        "_what": ("Do the paper's per-fusion accessibility calls for GSE243553 cover the ENO3 "
+                  "NBRE sites the manuscript's §3.10 motif scan found, and would an arbitrary "
+                  "promoter have been covered as often?"),
+        "⛔_two_constraints_that_travel_with_every_number_here": [
+            "HEK293T is not EMC chromatin, and ATAC accessibility is not protein binding. A "
+            "covered site says a region was called accessible in an engineered cell line "
+            "ectopically expressing the fusion. It does not say the fusion binds there, and it "
+            "says nothing directly about EMC tumour material.",
+            "ENO3 is this manuscript's own designated POSITIVE CONTROL (§2.4 — 'UP on both "
+            "platforms — the positive control'). A hit VALIDATES THE INSTRUMENT and must never "
+            "be written as an unexpected discovery.",
+        ],
+        "_no_claim": ("Retrieval and intersection only. Nothing here is an efficacy, "
+                      "selectivity, safety, therapeutic-window or clinical-readiness statement "
+                      "about any agent, target or gene."),
+        "_peak_call_provenance": (
+            "The peak/marker intervals are the AUTHORS' OWN, taken from the paper's "
+            "supplementary data (Springer ESM for doi 10.1038/s41587-024-02347-4). GEO's "
+            "GSE243553 deposits fragments only — 80.1 GB, no peak call — so nothing here is a "
+            "peak this repository called."),
+        "series": SERIES, "pmid": SERIES_PMID, "doi": "10.1038/s41587-024-02347-4",
+        "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "genome_build": {
+            "deposit_declares": "hg38",
+            "_how_established": ("the deposit's own !Sample_data_processing: `Assembly: hg38`, "
+                                 "and reads aligned with cellranger-atac to hg38"),
+            "nbre_coordinates": eno3["assembly"],
+            "builds_agree_no_liftover_needed": eno3["assembly"] == "GRCh38",
+            "⛔": ("GRCh38 and hg38 are the same assembly on the primary chromosomes; an "
+                   "intersection across builds would be meaningless, so this is recorded as a "
+                   "reading rather than assumed"),
+        },
+        "eno3_nbre_sites": eno3,
+        "flank_bp": flank,
+        "_why_this_flank": (
+            f"±{flank} bp around each 8 bp NBRE, a {2 * flank + NBRE_LEN} bp query interval. A "
+            f"called accessibility interval in this assay is a few hundred bp and a motif is "
+            f"8 bp, so this asks 'is the motif inside a called accessible region' at about one "
+            f"interval width. Chosen and stated before any count was read."),
+        "seed": SEED,
+        "n_null_draws": n_draws,
+        "supplementary_zips": {k: {kk: vv for kk, vv in v.items() if kk != "members"}
+                               for k, v in supp["zips"].items()},
+        "supplementary_members": {k: v.get("members") for k, v in supp["zips"].items()},
+        "peakset_inventory": {k: {kk: vv for kk, vv in v.items() if kk != "intervals"}
+                              for k, v in supp["peaksets"].items()},
+        "per_peakset": per_set,
+        "_panel_source": ("emc-ret-cistrome-inputs.json -> genes.hg38, the 198-gene background "
+                          "panel assembled for the ATR/DDR concept universe, used unchanged by "
+                          "§3.11's Table 9 — so this reading and that one are commensurable"),
+        "_uninformative_rule": {"min_panel_genes": MIN_PANEL_GENES,
+                                "min_panel_hit_rate": MIN_PANEL_HIT_RATE,
+                                "_why": ("a set that recovers no arbitrary gene cannot fail to "
+                                         "recover a chosen one, so its silence is an absent "
+                                         "reading and is never evidence of absence")},
+        "_errors": supp["errors"],
+    }
 
 
 def run_frag(samples: int, budget_s: float, flank: int = FLANK_BP,
@@ -1277,6 +1540,23 @@ def selftest() -> int:
     if _match_arm("NR4A3-EWSR1") == _match_arm("EWSR1-NR4A3"):
         fails.append("the fusion and its reciprocal control match the same arm")
 
+    # 4c. the intersection arithmetic — half-open on both sides, both boundaries pinned
+    ivs = {"chr17": [(1000, 2000)]}
+    checks = [
+        ((999, 1000), 0, "an interval that ENDS where the query STARTS does not overlap"),
+        ((999, 1001), 1, "a 1 bp overlap at the left edge counts"),
+        ((1999, 2000), 1, "a 1 bp overlap at the right edge counts"),
+        ((2000, 2001), 0, "an interval that STARTS where the query ENDS does not overlap"),
+        ((1400, 1500), 1, "a query fully inside counts"),
+        ((0, 5000), 1, "a query fully containing counts"),
+    ]
+    for (a, b), want, why in checks:
+        got = len(overlapping(ivs, "chr17", a, b))
+        if got != want:
+            fails.append(f"overlapping({a},{b}) -> {got}, expected {want}: {why}")
+    if overlapping(ivs, "chr9", 1400, 1500):
+        fails.append("overlapping matched on the WRONG CHROMOSOME")
+
     # 5. SOFT parsing keeps one record per ^SAMPLE
     soft = ("^SAMPLE = GSM1\n!Sample_title = a\n!Sample_data_processing = hg38\n"
             "^SAMPLE = GSM2\n!Sample_title = b\n")
@@ -1297,7 +1577,9 @@ def selftest() -> int:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["recon", "arms", "suppl"], default="recon")
+    ap.add_argument("--stage", choices=["recon", "arms", "suppl", "overlap"], default="recon")
+    ap.add_argument("--flank-bp", type=int, default=FLANK_BP)
+    ap.add_argument("--n-draws", type=int, default=20000)
     ap.add_argument("--fetch", action="store_true")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--selftest", action="store_true")
@@ -1316,6 +1598,19 @@ def main(argv=None) -> int:
         print(json.dumps({k: d[k] for k in
                           ("series", "n_samples_parsed", "deposit_supports_a_peak_overlap",
                            "filenames_matching_a_peak_call_pattern")}, indent=1))
+        return 0
+
+    if args.fetch and args.stage == "overlap":
+        out = run_overlap(args.budget_s, args.flank_bp, args.n_draws)
+        with open(FRAG_OUT, "w", encoding="utf-8") as fh:
+            json.dump(out, fh, indent=1, sort_keys=True)
+            fh.write("\n")
+        print(f"\nwrote {FRAG_OUT}")
+        for name, r in sorted(out["per_peakset"].items()):
+            if r.get("arm") or r["ENO3"]["n_of_4_nbre_sites_covered"]:
+                print(f"  {name}: arm={r['arm']} n={r['n_intervals']} "
+                      f"ENO3 sites covered {r['ENO3']['n_of_4_nbre_sites_covered']}/4 "
+                      f"informative={r['informative']}")
         return 0
 
     if args.fetch and args.stage == "suppl":

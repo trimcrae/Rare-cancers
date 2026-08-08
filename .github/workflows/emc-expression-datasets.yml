@@ -679,6 +679,21 @@ jobs:
           python research/modalities/gse243553_eno3_overlap.py --stage suppl --fetch \
             --budget-s "${GSE243553_SUPPL_BUDGET_S}"
 
+      # ⭐ AND THIS IS THE ANSWER. The paper's own per-fusion accessibility calls (Springer ESM
+      # for doi 10.1038/s41587-024-02347-4 — GEO has none) intersected with the ENO3 NBRE
+      # coordinates from §3.10's own committed scan, on a build that was READ from the deposit,
+      # against THREE nulls: an arbitrary promoter carrying ENO3's own site geometry, a seeded
+      # resampling in the panel's windows, and a seeded resampling inside ENO3's OWN window — the
+      # last of which is the one that controls for the promoter merely being open.
+      - name: "GSE243553 overlap — the ENO3 NBRE sites against the paper's own peak calls"
+        if: inputs.mode == 'gse243553-eno3'
+        timeout-minutes: 45
+        env:
+          GSE243553_OVERLAP_BUDGET_S: "1800"
+        run: |
+          python research/modalities/gse243553_eno3_overlap.py --stage overlap --fetch \
+            --budget-s "${GSE243553_OVERLAP_BUDGET_S}"
+
       - name: "GSE243553 recon — upload"
         if: always() && inputs.mode == 'gse243553-eno3'
         uses: actions/upload-artifact@v4
@@ -1105,19 +1120,55 @@ jobs:
           sp = "research/modalities/gse243553-eno3-overlap-supplement.json"
           if os.path.exists(sp):
               S = json.load(open(sp))
-              print("=== THE PAPER'S SUPPLEMENTARY FILES (PMC author-manuscript store) ===")
-              for fn, r in sorted(S["fetches"].items()):
-                  print(f"  [{r['state']:>16}] http={r['http']} {r['bytes']:>10}B  {fn}")
+              print("=== THE PAPER'S SUPPLEMENTARY FILES ===")
+              # ⚠ EVERY VALUE HERE IS A LIST OF ATTEMPTS, not one record. This printer was written
+              # against the single-record shape and failed the run when the retry loop was added.
+              for fn, attempts in sorted(S["fetches"].items()):
+                  for r in (attempts if isinstance(attempts, list) else [attempts]):
+                      if r["state"] == "not_retrieved" and fn.startswith("SPRINGER::"):
+                          continue
+                      print(f"  [{str(r['state']):>20}] http={r['http']} "
+                            f"{r['bytes']:>10}B  {fn}")
               for fn, c in sorted(S["contents"].items()):
                   print(f"  -- {fn} [{c.get('kind')}]")
-                  for m in (c.get("members") or [])[:40]:
+                  for m in (c.get("members") or [])[:60]:
                       print(f"       {m['size']:>12}  {m['name']}")
                   for sheet, s in (c.get("sheets") or {}).items():
                       print(f"       sheet {sheet!r}: {s['n_rows']} rows")
                       for row in s["first_rows"][:2]:
                           print(f"          {row}")
-              print("  INTERVAL-SHAPED TABLES:",
-                    json.dumps(S["genomic_interval_tables_found"])[:1500])
+              print()
+
+          op = "research/modalities/gse243553-eno3-overlap.json"
+          if os.path.exists(op):
+              O = json.load(open(op))
+              print("=== THE ANSWER ===")
+              print("  build:", O["genome_build"])
+              print("  flank:", O["flank_bp"], "| seed:", O["seed"],
+                    "| null draws:", O["n_null_draws"])
+              rows = [(n, r) for n, r in O["per_peakset"].items()]
+              rows.sort(key=lambda kv: (kv[1]["arm"] is None, kv[0]))
+              for n, r in rows:
+                  if r["arm"] is None and not r["ENO3"]["n_of_4_nbre_sites_covered"]:
+                      continue
+                  print(f"  {n}")
+                  print(f"      arm={r['arm']} intervals={r['n_intervals']} "
+                        f"median_width={r['median_interval_width_bp']} "
+                        f"informative={r['informative']}")
+                  print(f"      ENO3 NBRE sites covered: "
+                        f"{r['ENO3']['n_of_4_nbre_sites_covered']}/4 | promoter-window intervals "
+                        f"{r['ENO3']['n_intervals_in_promoter_window']}")
+                  for h in r["ENO3"]["per_site"]:
+                      print(f"        {h['site']} {h['motif']} ({h['offset_from_tss']:+d}) -> "
+                            f"{h['n_peaks_overlapping']} {h['overlapping_peaks'][:3]}")
+                  for k, nl in r["nulls"].items():
+                      if k.startswith("_"):
+                          continue
+                      print(f"        null {k}: p={nl['empirical_p']} "
+                            f"({nl['n_at_or_above_observed']}/{nl['n']})")
+              print()
+              for c in O["⛔_two_constraints_that_travel_with_every_number_here"]:
+                  print("  ⛔", c)
               print()
           for c in d["_constraints_that_travel_with_every_result"]:
               print("  ⛔", c)
