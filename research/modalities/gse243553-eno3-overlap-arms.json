@@ -1,0 +1,803 @@
+{
+ "_absent_reading_rule": "every fetch carries its HTTP status; a non-200 is recorded as `not_retrieved` and NEVER as an empty result (CLAUDE.md \u00a74).",
+ "_constraints_that_travel_with_every_result": [
+  "HEK293T is not EMC chromatin, and ATAC accessibility is not protein binding. An open peak says a region became accessible in an engineered cell line ectopically expressing the fusion; it does not say the fusion binds there, and it says nothing directly about EMC tumour material.",
+  "ENO3 is this manuscript's own designated POSITIVE CONTROL (\u00a72.4). A hit VALIDATES THE INSTRUMENT and must never be written as an unexpected discovery."
+ ],
+ "_no_claim": "Retrieval and intersection only. Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness statement about any agent, target or gene.",
+ "_what": "Stage 2: every deposited file's size MEASURED, the NR4A3 arms read from the deposited barcode->variant maps rather than from the paper's prose, and the two remaining places a differential-peak table could live.",
+ "arms": {
+  "_what_is_counted": "BARCODES ASSIGNED TO A VARIANT in the deposited *_merged_associations.csv.gz files, summed over the 12 technical-replicate samples.",
+  "barcode_counts_by_arm": {
+   "EWSR1-NR4A3": 312,
+   "NR4A3 (full-length wild type control)": 1007,
+   "NR4A3-EWSR1 (reciprocal control)": 1291,
+   "TAF15-NR4A3": 420,
+   "TCF12-NR4A3": 576,
+   "TFG-NR4A3": 358
+  },
+  "headers_seen": {
+   "GSM7790871_Sample1_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+   "GSM7790872_Sample2_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+   "GSM7790873_Sample3_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+   "GSM7790874_Sample4_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+   "GSM7790875_Sample5_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+   "GSM7790876_Sample6_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+   "GSM7790877_Sample7_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+   "GSM7790878_Sample8_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+   "GSM7790879_Sample9_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+   "GSM7790880_Sample10_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+   "GSM7790881_Sample11_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+   "GSM7790882_Sample12_merged_associations.csv.gz": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\""
+  },
+  "per_file": {
+   "GSM7790871_Sample1_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 78,
+     "NR4A3 (full-length wild type control)": 222,
+     "NR4A3-EWSR1 (reciprocal control)": 258,
+     "TAF15-NR4A3": 75,
+     "TCF12-NR4A3": 107,
+     "TFG-NR4A3": 71
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 16867,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   },
+   "GSM7790872_Sample2_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 28,
+     "NR4A3 (full-length wild type control)": 62,
+     "NR4A3-EWSR1 (reciprocal control)": 96,
+     "TAF15-NR4A3": 30,
+     "TCF12-NR4A3": 66,
+     "TFG-NR4A3": 39
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 6980,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   },
+   "GSM7790873_Sample3_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 13,
+     "NR4A3 (full-length wild type control)": 67,
+     "NR4A3-EWSR1 (reciprocal control)": 74,
+     "TAF15-NR4A3": 25,
+     "TCF12-NR4A3": 38,
+     "TFG-NR4A3": 21
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 4969,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   },
+   "GSM7790874_Sample4_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 17,
+     "NR4A3 (full-length wild type control)": 66,
+     "NR4A3-EWSR1 (reciprocal control)": 75,
+     "TAF15-NR4A3": 25,
+     "TCF12-NR4A3": 32,
+     "TFG-NR4A3": 20
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 5405,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   },
+   "GSM7790875_Sample5_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 14,
+     "NR4A3 (full-length wild type control)": 37,
+     "NR4A3-EWSR1 (reciprocal control)": 64,
+     "TAF15-NR4A3": 17,
+     "TCF12-NR4A3": 32,
+     "TFG-NR4A3": 14
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 4112,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   },
+   "GSM7790876_Sample6_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 26,
+     "NR4A3 (full-length wild type control)": 106,
+     "NR4A3-EWSR1 (reciprocal control)": 127,
+     "TAF15-NR4A3": 27,
+     "TCF12-NR4A3": 46,
+     "TFG-NR4A3": 21
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 7784,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   },
+   "GSM7790877_Sample7_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 27,
+     "NR4A3 (full-length wild type control)": 104,
+     "NR4A3-EWSR1 (reciprocal control)": 92,
+     "TAF15-NR4A3": 45,
+     "TCF12-NR4A3": 54,
+     "TFG-NR4A3": 23
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 9026,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   },
+   "GSM7790878_Sample8_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 12,
+     "NR4A3 (full-length wild type control)": 35,
+     "NR4A3-EWSR1 (reciprocal control)": 35,
+     "TAF15-NR4A3": 8,
+     "TCF12-NR4A3": 28,
+     "TFG-NR4A3": 12
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 3485,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   },
+   "GSM7790879_Sample9_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 21,
+     "NR4A3 (full-length wild type control)": 60,
+     "NR4A3-EWSR1 (reciprocal control)": 79,
+     "TAF15-NR4A3": 23,
+     "TCF12-NR4A3": 42,
+     "TFG-NR4A3": 28
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 5437,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   },
+   "GSM7790880_Sample10_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 25,
+     "NR4A3 (full-length wild type control)": 64,
+     "NR4A3-EWSR1 (reciprocal control)": 102,
+     "TAF15-NR4A3": 41,
+     "TCF12-NR4A3": 42,
+     "TFG-NR4A3": 21
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 6593,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   },
+   "GSM7790881_Sample11_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 17,
+     "NR4A3 (full-length wild type control)": 93,
+     "NR4A3-EWSR1 (reciprocal control)": 145,
+     "TAF15-NR4A3": 31,
+     "TCF12-NR4A3": 56,
+     "TFG-NR4A3": 40
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 8173,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   },
+   "GSM7790882_Sample12_merged_associations.csv.gz": {
+    "arm_barcode_counts": {
+     "EWSR1-NR4A3": 34,
+     "NR4A3 (full-length wild type control)": 91,
+     "NR4A3-EWSR1 (reciprocal control)": 144,
+     "TAF15-NR4A3": 73,
+     "TCF12-NR4A3": 33,
+     "TFG-NR4A3": 48
+    },
+    "header": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"",
+    "n_rows": 10037,
+    "raw_labels_matched": {
+     "EWSR1-NR4A3": [
+      "EWSR1-NR4A3"
+     ],
+     "NR4A3 (full-length wild type control)": [
+      "NR4A3"
+     ],
+     "NR4A3-EWSR1 (reciprocal control)": [
+      "NR4A3-EWSR1"
+     ],
+     "TAF15-NR4A3": [
+      "TAF15-NR4A3"
+     ],
+     "TCF12-NR4A3": [
+      "TCF12-NR4A3"
+     ],
+     "TFG-NR4A3": [
+      "TFG-NR4A3"
+     ]
+    },
+    "state": "ok",
+    "variant_column_index": 7
+   }
+  },
+  "\u26d4_not_the_same_quantity_as_the_papers_nuclei_count": "The paper reports nuclei that survive ArchR QC (112 for EWSR1-NR4A3, 503 for the reciprocal NR4A3-EWSR1). An association file is the assignment BEFORE that filtering, and a barcode can be assigned and then dropped. A different number here is not a contradiction of the paper and must never be written as one."
+ },
+ "fetches": {
+  "assoc::GSM7790871_Sample1_merged_associations.csv.gz": {
+   "bytes": 260388,
+   "elapsed_s": 0.41,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAA\",\"AGAGAATCGTAGAGGT\",7,7,1,1,\"FUS-FEV\"\n\"2\",\"AAAA\",\"AGAGAATACCGTAGAG\",1663,1675,10,0.992835820895522,\"FUS-FEV\"\n\"3\",\"AAAA\",\"TGACTCAGACTTTAGG\",134,142,7,0.943661971830986,\"FUS-FEV\"\n\"4\",\"AAAA\",\"AGAGAATACCGTAAGG\",4,4,1,1,\"FUS-FEV\"\n\"5\",\"AAAA\",\"AGAGAATACATCATCG\",4,4,1,1,\"FUS-FEV\"\n\"6\",\"AAAA\"",
+   "text_full_len": 1184001,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790871/suppl/GSM7790871_Sample1_merged_associations.csv.gz"
+  },
+  "assoc::GSM7790872_Sample2_merged_associations.csv.gz": {
+   "bytes": 132116,
+   "elapsed_s": 0.31,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAA\",\"CCATGCTACTGGGCCT\",140,143,3,0.979020979020979,\"FUS-FEV\"\n\"2\",\"AAAA\",\"CCTGAGGACTGTGGGA\",3,3,1,1,\"FUS-FEV\"\n\"3\",\"AAAA\",\"CCATGCTAGTGGGCCT\",5,5,1,1,\"FUS-FEV\"\n\"4\",\"AAAAAAATACCTGAAT\",\"ACCTCAGCTCTGGAAG\",3,3,1,1,\"EWSR1-DDIT3\"\n\"5\",\"AAAAAACAATAATGAA\",\"TGGATTGACAATAGCA\",9,9,1,1,\"CREB3L2\"\n\"6\",\"",
+   "text_full_len": 514030,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790872/suppl/GSM7790872_Sample2_merged_associations.csv.gz"
+  },
+  "assoc::GSM7790873_Sample3_merged_associations.csv.gz": {
+   "bytes": 95154,
+   "elapsed_s": 0.29,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAA\",\"GTCCTACACCCTTCCA\",13,13,1,1,\"FUS-FEV\"\n\"2\",\"AAAAAAATACCTGAAT\",\"ACCGTTGCTGGCAGTA\",19,20,2,0.95,\"EWSR1-DDIT3\"\n\"3\",\"AAAAAAGAATCAAAAT\",\"CATCAGAACCGTGCAC\",5,5,1,1,\"Empty\"\n\"4\",\"AAAAACATGTCAATCA\",\"TCGTTCGTGGTGAGCA\",66,67,2,0.985074626865672,\"ARFGEF2-HNF4A\"\n\"5\",\"AAAAACCCCTCTAAAA\",\"AGTAGAAA",
+   "text_full_len": 363512,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790873/suppl/GSM7790873_Sample3_merged_associations.csv.gz"
+  },
+  "assoc::GSM7790874_Sample4_merged_associations.csv.gz": {
+   "bytes": 103017,
+   "elapsed_s": 0.33,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAA\",\"TTGCGTCACAGCTTTG\",21,21,1,1,\"FUS-FEV\"\n\"2\",\"AAAAAAAAATCCGGCG\",\"CGACCTTTGTTTCGCC\",14,15,2,0.933333333333333,\"FLI1\"\n\"3\",\"AAAAAAAAATCCGGCG\",\"TTCCGGACTTGCAAGG\",19,21,3,0.904761904761905,\"FLI1\"\n\"4\",\"AAAAAAACTATAGTCT\",\"ATGGGAGTGAGCTTTG\",201,201,1,1,\"FUS\"\n\"5\",\"AAAAAAATACCTGAAT\",\"TGGAAGTCT",
+   "text_full_len": 396056,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790874/suppl/GSM7790874_Sample4_merged_associations.csv.gz"
+  },
+  "assoc::GSM7790875_Sample5_merged_associations.csv.gz": {
+   "bytes": 77320,
+   "elapsed_s": 0.26,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAA\",\"AAGAACCCTTCCTACC\",6,6,1,1,\"FUS-FEV\"\n\"2\",\"AAAA\",\"ATCTGCCTGTTGTGAC\",25,26,2,0.961538461538462,\"FUS-FEV\"\n\"3\",\"AAAAAAGAATCAAAAT\",\"TGGGTGCACACCGTGC\",24,25,2,0.96,\"Empty\"\n\"4\",\"AAAAACACTCGCCCCC\",\"GTCATTTCTGAATAGT\",3,3,1,1,\"NTRK3\"\n\"5\",\"AAAAACACTCGCCCCC\",\"GTCATATCTGAATAGT\",98,100,2,0.98,\"N",
+   "text_full_len": 295185,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790875/suppl/GSM7790875_Sample5_merged_associations.csv.gz"
+  },
+  "assoc::GSM7790876_Sample6_merged_associations.csv.gz": {
+   "bytes": 144306,
+   "elapsed_s": 0.36,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAA\",\"TCTGAGCCTCCAGGCT\",60,60,1,1,\"FUS-FEV\"\n\"2\",\"AAAAAAAAATCCGGCG\",\"TGAGAATGATTCGGGC\",189,197,4,0.959390862944162,\"FLI1\"\n\"3\",\"AAAAAAATACCTGAAT\",\"TGTCGCTTGGCTTACA\",80,85,5,0.941176470588235,\"EWSR1-DDIT3\"\n\"4\",\"AAAAAATCTTTGATTC\",\"GAAGGCATGAGCTTTG\",141,144,3,0.979166666666667,\"FUS\"\n\"5\",\"AAA",
+   "text_full_len": 567300,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790876/suppl/GSM7790876_Sample6_merged_associations.csv.gz"
+  },
+  "assoc::GSM7790877_Sample7_merged_associations.csv.gz": {
+   "bytes": 159668,
+   "elapsed_s": 0.38,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAA\",\"GGGATCGGACGATTAC\",3,3,1,1,\"FUS-FEV\"\n\"2\",\"AAAA\",\"GGGATCAGACGATTAC\",192,195,4,0.984615384615385,\"FUS-FEV\"\n\"3\",\"AAAAAAATAAAGGGAT\",\"CCTTCTTTGCACCTAA\",86,90,5,0.955555555555556,\"CD83-EHF\"\n\"4\",\"AAAAAAATACCTGAAT\",\"ACACGTTGACGTTAGT\",311,320,6,0.971875,\"EWSR1-DDIT3\"\n\"5\",\"AAAAAAATACCTGAAT\",",
+   "text_full_len": 648046,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790877/suppl/GSM7790877_Sample7_merged_associations.csv.gz"
+  },
+  "assoc::GSM7790878_Sample8_merged_associations.csv.gz": {
+   "bytes": 65515,
+   "elapsed_s": 0.3,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAA\",\"ATGGCTATGCCAAACT\",3,3,1,1,\"FUS-FEV\"\n\"2\",\"AAAAAAAAATCCGGCG\",\"GACCAGGCTCTTAGTG\",3,3,1,1,\"FLI1\"\n\"3\",\"AAAAAAATACCTGAAT\",\"ATCGGTCCTCGGTTTA\",35,36,2,0.972222222222222,\"EWSR1-DDIT3\"\n\"4\",\"AAAAAATCTTTGATTC\",\"CATGGAGGAAGGTGCA\",331,333,3,0.993993993993994,\"FUS\"\n\"5\",\"AAAAAATCTTTGATTC\",\"GTTTGA",
+   "text_full_len": 246784,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790878/suppl/GSM7790878_Sample8_merged_associations.csv.gz"
+  },
+  "assoc::GSM7790879_Sample9_merged_associations.csv.gz": {
+   "bytes": 106325,
+   "elapsed_s": 0.33,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAA\",\"TTCTAGTACAACGCAG\",58,58,1,1,\"FUS-FEV\"\n\"2\",\"AAAA\",\"TCAGTCCTGGAACAGC\",69,69,1,1,\"FUS-FEV\"\n\"3\",\"AAAAAAAAATCCGGCG\",\"GTGATAAGATGGCTTA\",3,3,1,1,\"FLI1\"\n\"4\",\"AAAAAAAAATCCGGCG\",\"GCCTAGTCTGGTATGG\",227,250,4,0.908,\"FLI1\"\n\"5\",\"AAAAAAACTATAGTCT\",\"TGGTAAGCTAATAGCA\",3,3,1,1,\"FUS\"\n\"6\",\"AAAAAAACTA",
+   "text_full_len": 403094,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790879/suppl/GSM7790879_Sample9_merged_associations.csv.gz"
+  },
+  "assoc::GSM7790880_Sample10_merged_associations.csv.gz": {
+   "bytes": 125486,
+   "elapsed_s": 0.34,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAA\",\"GTCGCATCTCGATTAC\",224,229,6,0.978165938864629,\"FUS-FEV\"\n\"2\",\"AAAA\",\"TCGCATCTCGATTACG\",3,3,1,1,\"FUS-FEV\"\n\"3\",\"AAAAAAATAAAGGGAT\",\"CACACCACTGCTCAGC\",65,67,3,0.970149253731343,\"CD83-EHF\"\n\"4\",\"AAAAAAATACCTGAAT\",\"TATGGTTCTCGGGTAA\",69,74,6,0.932432432432432,\"EWSR1-DDIT3\"\n\"5\",\"AAAAAACAATA",
+   "text_full_len": 486830,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790880/suppl/GSM7790880_Sample10_merged_associations.csv.gz"
+  },
+  "assoc::GSM7790881_Sample11_merged_associations.csv.gz": {
+   "bytes": 150069,
+   "elapsed_s": 0.34,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAAAAAAATCCGGCG\",\"GCCAGCACGAATAGTG\",3,3,1,1,\"FLI1\"\n\"2\",\"AAAAAACAATAATGAA\",\"GGGTTCTCTACTCGAT\",180,185,6,0.972972972972973,\"CREB3L2\"\n\"3\",\"AAAAAAGAATCAAAAT\",\"ACGTGGCTGCGTTCTC\",69,74,4,0.932432432432432,\"Empty\"\n\"4\",\"AAAAAAGAATCAAAAT\",\"GCCAGTCGATACCAAC\",310,317,7,0.977917981072555,\"Empty\"\n\"5",
+   "text_full_len": 596480,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790881/suppl/GSM7790881_Sample11_merged_associations.csv.gz"
+  },
+  "assoc::GSM7790882_Sample12_merged_associations.csv.gz": {
+   "bytes": 178279,
+   "elapsed_s": 0.35,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "\"\",\"VBC_formatted\",\"CBC\",\"n\",\"TotalReadsForCBC\",\"NumberRandomBCs\",\"FractionReadsForGivenRandomBC\",\"Fusion\"\n\"1\",\"AAAA\",\"TCTTGAGGAATAGCAA\",78,78,1,1,\"FUS-FEV\"\n\"2\",\"AAAAAACAATAATGAA\",\"GTACTGAACCCGGCTA\",113,118,6,0.957627118644068,\"CREB3L2\"\n\"3\",\"AAAAAAGAATCAAAAT\",\"CAACGCGTGCGGCACT\",32,32,1,1,\"Empty\"\n\"4\",\"AAAAAATAAGTAAAAT\",\"GGTCTAAACAACGTTC\",83,85,3,0.976470588235294,\"UCK2-PBX1\"\n\"5\",\"AAAAAATCTTTGATTC\",",
+   "text_full_len": 726332,
+   "text_truncated_at_chars": 400,
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790882/suppl/GSM7790882_Sample12_merged_associations.csv.gz"
+  },
+  "biorxiv_supplementary_material_page": {
+   "bytes": 0,
+   "elapsed_s": 0.16,
+   "error": "HTTPError 429 Too Many Requests",
+   "http": 429,
+   "state": "not_retrieved",
+   "text": null,
+   "url": "https://www.biorxiv.org/content/10.1101/2023.09.20.555752v1.supplementary-material"
+  },
+  "europepmc_supplementary_files_zip": {
+   "bytes": 165,
+   "elapsed_s": 0.56,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><errorBean><errCode>0</errCode><errMsg>Article with id PMC13105821 is not open access one</errMsg></errorBean>",
+   "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC13105821/supplementaryFiles"
+  }
+ },
+ "file_sizes_bytes": {
+  "GSM7790859_fullfusion_fragments-1.tsv.gz": {
+   "content_length": 6770908350,
+   "error": null,
+   "gsm": "GSM7790859",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790859/suppl/GSM7790859_fullfusion_fragments-1.tsv.gz"
+  },
+  "GSM7790860_fullfusion_fragments-2.tsv.gz": {
+   "content_length": 7972815632,
+   "error": null,
+   "gsm": "GSM7790860",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790860/suppl/GSM7790860_fullfusion_fragments-2.tsv.gz"
+  },
+  "GSM7790861_fullfusion_fragments-3.tsv.gz": {
+   "content_length": 6829851695,
+   "error": null,
+   "gsm": "GSM7790861",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790861/suppl/GSM7790861_fullfusion_fragments-3.tsv.gz"
+  },
+  "GSM7790862_fullfusion_fragments-4.tsv.gz": {
+   "content_length": 6347119149,
+   "error": null,
+   "gsm": "GSM7790862",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790862/suppl/GSM7790862_fullfusion_fragments-4.tsv.gz"
+  },
+  "GSM7790863_fullfusion_fragments-5.tsv.gz": {
+   "content_length": 6575802225,
+   "error": null,
+   "gsm": "GSM7790863",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790863/suppl/GSM7790863_fullfusion_fragments-5.tsv.gz"
+  },
+  "GSM7790864_fullfusion_fragments-6.tsv.gz": {
+   "content_length": 6136178557,
+   "error": null,
+   "gsm": "GSM7790864",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790864/suppl/GSM7790864_fullfusion_fragments-6.tsv.gz"
+  },
+  "GSM7790865_fullfusion_fragments-7.tsv.gz": {
+   "content_length": 6363416953,
+   "error": null,
+   "gsm": "GSM7790865",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790865/suppl/GSM7790865_fullfusion_fragments-7.tsv.gz"
+  },
+  "GSM7790866_fullfusion_fragments-8.tsv.gz": {
+   "content_length": 6497497688,
+   "error": null,
+   "gsm": "GSM7790866",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790866/suppl/GSM7790866_fullfusion_fragments-8.tsv.gz"
+  },
+  "GSM7790867_fullfusion_fragments-9.tsv.gz": {
+   "content_length": 6651574172,
+   "error": null,
+   "gsm": "GSM7790867",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790867/suppl/GSM7790867_fullfusion_fragments-9.tsv.gz"
+  },
+  "GSM7790868_fullfusion_fragments-10.tsv.gz": {
+   "content_length": 6433220106,
+   "error": null,
+   "gsm": "GSM7790868",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790868/suppl/GSM7790868_fullfusion_fragments-10.tsv.gz"
+  },
+  "GSM7790869_fullfusion_fragments-11.tsv.gz": {
+   "content_length": 6891758752,
+   "error": null,
+   "gsm": "GSM7790869",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790869/suppl/GSM7790869_fullfusion_fragments-11.tsv.gz"
+  },
+  "GSM7790870_fullfusion_fragments-12.tsv.gz": {
+   "content_length": 6624071188,
+   "error": null,
+   "gsm": "GSM7790870",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790870/suppl/GSM7790870_fullfusion_fragments-12.tsv.gz"
+  },
+  "GSM7790871_Sample1_merged_associations.csv.gz": {
+   "content_length": 260388,
+   "error": null,
+   "gsm": "GSM7790871",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790871/suppl/GSM7790871_Sample1_merged_associations.csv.gz"
+  },
+  "GSM7790872_Sample2_merged_associations.csv.gz": {
+   "content_length": 132116,
+   "error": null,
+   "gsm": "GSM7790872",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790872/suppl/GSM7790872_Sample2_merged_associations.csv.gz"
+  },
+  "GSM7790873_Sample3_merged_associations.csv.gz": {
+   "content_length": 95154,
+   "error": null,
+   "gsm": "GSM7790873",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790873/suppl/GSM7790873_Sample3_merged_associations.csv.gz"
+  },
+  "GSM7790874_Sample4_merged_associations.csv.gz": {
+   "content_length": 103017,
+   "error": null,
+   "gsm": "GSM7790874",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790874/suppl/GSM7790874_Sample4_merged_associations.csv.gz"
+  },
+  "GSM7790875_Sample5_merged_associations.csv.gz": {
+   "content_length": 77320,
+   "error": null,
+   "gsm": "GSM7790875",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790875/suppl/GSM7790875_Sample5_merged_associations.csv.gz"
+  },
+  "GSM7790876_Sample6_merged_associations.csv.gz": {
+   "content_length": 144306,
+   "error": null,
+   "gsm": "GSM7790876",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790876/suppl/GSM7790876_Sample6_merged_associations.csv.gz"
+  },
+  "GSM7790877_Sample7_merged_associations.csv.gz": {
+   "content_length": 159668,
+   "error": null,
+   "gsm": "GSM7790877",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790877/suppl/GSM7790877_Sample7_merged_associations.csv.gz"
+  },
+  "GSM7790878_Sample8_merged_associations.csv.gz": {
+   "content_length": 65515,
+   "error": null,
+   "gsm": "GSM7790878",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790878/suppl/GSM7790878_Sample8_merged_associations.csv.gz"
+  },
+  "GSM7790879_Sample9_merged_associations.csv.gz": {
+   "content_length": 106325,
+   "error": null,
+   "gsm": "GSM7790879",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790879/suppl/GSM7790879_Sample9_merged_associations.csv.gz"
+  },
+  "GSM7790880_Sample10_merged_associations.csv.gz": {
+   "content_length": 125486,
+   "error": null,
+   "gsm": "GSM7790880",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790880/suppl/GSM7790880_Sample10_merged_associations.csv.gz"
+  },
+  "GSM7790881_Sample11_merged_associations.csv.gz": {
+   "content_length": 150069,
+   "error": null,
+   "gsm": "GSM7790881",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790881/suppl/GSM7790881_Sample11_merged_associations.csv.gz"
+  },
+  "GSM7790882_Sample12_merged_associations.csv.gz": {
+   "content_length": 178279,
+   "error": null,
+   "gsm": "GSM7790882",
+   "http": 200,
+   "state": "ok",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790882/suppl/GSM7790882_Sample12_merged_associations.csv.gz"
+  }
+ },
+ "fragment_bytes": 80094214467,
+ "generated_utc": "2026-08-08T20:15:04Z",
+ "pmcid": "PMC13105821",
+ "pmid": "39048711",
+ "series": "GSE243553",
+ "supplementary_table_search": {
+  "_why": "a differential-peak table is far more often a paper supplement than a GEO file; this is the last place one could be, and it is free to ask",
+  "europepmc_zip_members": {
+   "error": "BadZipFile: File is not a zip file"
+  }
+ },
+ "total_deposited_bytes": 80095812110
+}
