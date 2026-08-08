@@ -52,11 +52,11 @@ The methods paper on the program's own failure record has NO scientific blocker 
 
 **Unblocks:** `RT-METHODS-PAPER`, `RT-ASO`, `RT-ATR-ASSESS`
 
-### MS-2026H2-SCAN-GAPS — Close the five technology dependencies nothing is scanning for
+### MS-2026H2-SCAN-GAPS — Scan coverage — closed on breadth, and the remaining gap is depth, not count
 
 *capability · confidence high*
 
-Five registered dependencies have no literature query, so they could land without anyone noticing — which makes their forecasts unfalsifiable in practice. Adding a query to the scan registry is free. The generated technology view flags them on every render until they are closed.
+✅ CLOSED ON THE COUNT, measured 2026-08-08: exactly ONE registered dependency now has no literature query — TECH-COMPUTE-COST — and it carries an explicit `not_scannable_because` saying a literature search cannot see a GPU price, which is read from a live market instead. That is a stated exemption, not a hole. ⚠ Superseded, retained: 'Five registered dependencies have no literature query, so they could land without anyone noticing.' True when written; it had been fixed without this milestone being re-graded, which is the failure mode a milestone that restates a count always has. ⭐ WHAT REPLACED IT IS A DEPTH GAP, found the same day by keying a preprint board to blockers: the scan reached the PUBLISHED corpus plus arXiv, so ChemRxiv — where the chemistry half of these dependencies posts — was searched by nothing at all, and Europe PMC's preprint records arrived only incidentally. Coverage is now published + SRC:PPR + arXiv + ChemRxiv. The live question is no longer how many dependencies are scanned but how early each is seen.
 
 ## 2027
 

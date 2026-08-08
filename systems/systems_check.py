@@ -837,6 +837,75 @@ def check_supporting_evidence_refs(g, f):
                               f"an unresolvable id cannot be audited")
 
 
+#: Triggers claiming a blocker their technology does not unblock. ⛔ A LEDGER, NOT A WALL -- the
+#: same shape as lint_citations' baseline, and for the same reason: 12 disagreements existed the
+#: day the check was written and a gate that goes red on everything gets switched off. The count
+#: is the finding and it is meant to FALL. Anything NEW fails immediately.
+#: ⚠ COUNTED PER TRIGGER x BLOCKER, not per trigger -- TRG-GLUE-PROSPECTIVE-DESIGN over-claims TWO
+#: blockers, so a per-trigger tally reads 11 and hides one. The first baseline written here was 11
+#: for exactly that reason and the check caught it on its first run.
+TRIGGER_BLOCKER_BASELINE = 12
+
+
+def check_trigger_blocker_agreement(g, f):
+    """⭐ The trigger registry and the technology register BOTH say which blockers a capability
+    would reopen, and nothing compared them (added 2026-08-08, found via the preprint lane).
+
+    ⛔ HOW IT SURFACED, because the mechanism matters more than the count. A preprint board keyed
+    by blocker read `reopens.registry_blockers` and filed 28 preprints under
+    BLK-FUNCTIONAL-ACTIONABILITY -- a `requires_wet_lab` blocker that TECH-VIRTUAL-CELL does not
+    claim to unblock. The board was faithfully rendering a field nothing had ever checked.
+
+    ⛔ THE DANGEROUS CASE IS NOT A COUNT. `TRG-JUNCTION-PHLA` listed BLK-ANTIGEN-COLD, which is
+    `fundamental_biological_limit` -- PERMANENT. [B1] fails the build when a TECHNOLOGY claims to
+    retire a permanent blocker, and `TECH-JUNCTION-PMHC.unblocks.blockers` is deliberately empty
+    for that reason (see check_revisit_trigger_reachability). So the exact conflation
+    `taxonomy/blockers.md` exists to prevent was entering through a second registry, by a route
+    [B1] could not see. A rule enforced on one of two homes for the same edge is not enforced.
+
+    research/method-watch-triggers.json's own `_reconciliation` says that file is the one home for
+    HOW TO SEARCH and not for what a trigger reopens -- so this is the contract it already
+    declares, finally checked.
+    """
+    trg_path = os.path.join(REPO, "research", "method-watch-triggers.json")
+    try:
+        with open(trg_path, encoding="utf-8") as fh:
+            triggers = json.load(fh).get("triggers", [])
+    except (OSError, ValueError) as e:
+        f.warn("[B8]", f"trigger registry unreadable ({e}) -- trigger/technology agreement unchecked")
+        return
+    by_trg, blk = {t["id"]: t for t in triggers}, by_id(g["blockers"])
+    disagreements = []
+    for tech in g["technologies"]:
+        owned = set((tech.get("unblocks") or {}).get("blockers") or [])
+        for tid in tech.get("scan_trigger") or []:
+            t = by_trg.get(tid)
+            if t is None:
+                continue                       # trigger_scan.py --check owns unknown-id reporting
+            for b in set((t.get("reopens") or {}).get("registry_blockers") or []) - owned:
+                if b in blk and blk[b]["permanent"]:
+                    f.err("[B8]", f"{tid} claims to reopen {b}, which is PERMANENT "
+                                  f"({blk[b]['kind']}) -- [B1] forbids this of a technology and the "
+                                  f"trigger registry must not be the back door. Move it to "
+                                  f"`bears_on_permanent_blocker`: what lands can change whether a "
+                                  f"permanent blocker stays DECISIVE for a route, never retire it")
+                else:
+                    disagreements.append(f"{tid}→{b} (via {tech['id']})")
+    n = len(disagreements)
+    if n > TRIGGER_BLOCKER_BASELINE:
+        f.err("[B9]", f"{n} trigger/technology blocker disagreements, above the baseline of "
+                      f"{TRIGGER_BLOCKER_BASELINE} -- a NEW one was added. Either the technology's "
+                      f"`unblocks.blockers` is missing an edge or the trigger over-claims, and both "
+                      f"need saying: {', '.join(sorted(disagreements)[:4])}…")
+    elif n < TRIGGER_BLOCKER_BASELINE:
+        f.info("[B9]", f"trigger/technology blocker disagreements down to {n} from a baseline of "
+                       f"{TRIGGER_BLOCKER_BASELINE} -- lower TRIGGER_BLOCKER_BASELINE to hold the gain")
+    else:
+        f.warn("[B9]", f"{n} trigger(s) claim a blocker their technology does not unblock. Each is "
+                       f"either a missing technology edge or an over-claiming trigger; the count is "
+                       f"the finding and is meant to fall")
+
+
 def check_revisit_trigger_reachability(g, f):
     """⭐ A `revisit_trigger` must be able to MOVE the route (added 2026-08-06, route framing audit).
 
@@ -2127,6 +2196,7 @@ def run_checks(g, f):
     check_pointers(g, f)
     check_instrument_support(g, f)
     check_supporting_evidence_refs(g, f)
+    check_trigger_blocker_agreement(g, f)
     check_revisit_trigger_reachability(g, f)
     check_compute_case(g, f)
     return f

@@ -1420,10 +1420,11 @@
           "RT-JUNCTION-NEOANTIGEN",
           "RT-VACCINE"
         ],
-        "registry_blockers": [
+        "registry_blockers": [],
+        "bears_on_permanent_blocker": [
           "BLK-ANTIGEN-COLD"
         ],
-        "note": "Three antigen routes share this gate. A clinical success against a DIFFERENT fusion raises the prior; it does not clear the abundance problem."
+        "note": "Three antigen routes share this gate. A clinical success against a DIFFERENT fusion raises the prior; it does not clear the abundance problem. ⛔ BLK-ANTIGEN-COLD sat in `registry_blockers` until 2026-08-08 and is now in `bears_on_permanent_blocker` instead. It is `fundamental_biological_limit` — PERMANENT — and `registry_blockers` means *would reopen*. [B1] fails the build if a TECHNOLOGY claims to retire a permanent blocker, and TECH-JUNCTION-PMHC correctly carries `unblocks.blockers: []` for exactly that reason; the claim was entering through the trigger registry, which nothing checked. The first sentence of this very note already said the capability does not clear the abundance problem, so the field contradicted the prose beside it. The three ROUTES are the honest payload: what lands changes whether a permanent blocker stays DECISIVE for them, without retiring it."
       },
       "on_fire": "Re-grade the three junction-antigen routes together and state whether the evidence is about presentation, about abundance, or only about a different fusion.",
       "search": {

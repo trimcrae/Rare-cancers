@@ -351,6 +351,45 @@ def append_to_ideas(bullets: list[str]) -> bool:
     return True
 
 
+def _permanent_blockers() -> set[str]:
+    """Blocker ids that no advance retires, read from the systems graph -- the one home for `kind`.
+
+    A missing or unreadable graph returns an EMPTY set, which is fail-OPEN, and that is deliberate
+    here: this is a second wall behind systems_check [B8], and a scanner that refused to render a
+    board because a sibling file moved would trade a visible wrong row for an invisible missing
+    one. The banner already says every row is unrefereed and unread.
+    """
+    try:
+        with open(os.path.join(_ROOT, "systems", "graph", "blockers.json"), encoding="utf-8") as fh:
+            return {b["id"] for b in json.load(fh)
+                    if b.get("kind") == "fundamental_biological_limit"}
+    except (OSError, ValueError, KeyError, TypeError):
+        return set()
+
+
+def _tech_backed_blockers() -> dict[str, set[str]]:
+    """trigger id -> the blockers its TECHNOLOGY actually claims to unblock.
+
+    Lets the board distinguish a section the technology register corroborates from one asserted by
+    the trigger registry alone. Both are printed -- suppressing the uncorroborated ones would hide
+    the disagreement instead of showing it -- but they must not READ alike, which is the same rule
+    as CLAUDE.md section 1's "a row we are paying and a row the gate refused must never render
+    alike". systems_check [B9] holds the count; this makes it visible where a reader would
+    otherwise over-read a tall stack of preprints.
+    """
+    try:
+        with open(os.path.join(_ROOT, "systems", "graph", "technologies.json"), encoding="utf-8") as fh:
+            techs = json.load(fh)
+    except (OSError, ValueError):
+        return {}
+    out: dict[str, set[str]] = {}
+    for t in techs:
+        owned = set((t.get("unblocks") or {}).get("blockers") or [])
+        for tid in t.get("scan_trigger") or []:
+            out.setdefault(tid, set()).update(owned)
+    return out
+
+
 def _is_preprint(h: dict) -> bool:
     """DERIVED, never trusted from the record.
 
@@ -383,6 +422,15 @@ def write_preprint_board(cfg: dict, ledger: dict, run: dict) -> None:
     ⛔ A PREPRINT IS THE WEAKEST THING ON THE BOARD. Unrefereed, title-matched, unread. It cannot
     move a forecast and must never be cited. Its whole value is warning -- months of it.
     """
+    # ⛔ PERMANENT BLOCKERS ARE EXCLUDED FROM THIS BOARD BY CONSTRUCTION (2026-08-08). Filing a
+    # preprint under a `fundamental_biological_limit` would say a paper might lift something no
+    # paper can, which is the conflation taxonomy/blockers.md exists to prevent -- and it is not
+    # hypothetical: TRG-JUNCTION-PHLA listed BLK-ANTIGEN-COLD until this board was built, so the
+    # first render would have printed it. The trigger data is fixed and systems_check [B8] now
+    # fails the build on a recurrence; this is the second wall, because the renderer must not
+    # depend on a sibling registry staying correct.
+    permanent = _permanent_blockers()
+    corroborated = _tech_backed_blockers()
     trgs = [t for t in cfg["triggers"] if (t.get("search") or {}).get("europepmc")
             or (t.get("search") or {}).get("arxiv")]
     by_blocker: dict[str, list[tuple[dict, dict]]] = {}
@@ -391,6 +439,8 @@ def write_preprint_board(cfg: dict, ledger: dict, run: dict) -> None:
         if not pres:
             continue
         for b in (t.get("reopens", {}) or {}).get("registry_blockers") or ["(no blocker mapped)"]:
+            if b in permanent:
+                continue
             by_blocker.setdefault(b, []).extend((t, h) for h in pres)
 
     L = [
@@ -424,13 +474,21 @@ def write_preprint_board(cfg: dict, ledger: dict, run: dict) -> None:
         L.append("_No preprint hits in the ledger yet._\n")
     for b in sorted(by_blocker):
         rows = sorted(by_blocker[b], key=lambda th: th[1].get("date", ""), reverse=True)
+        backed = any(b in corroborated.get(t["id"], set()) for t, _ in rows)
         L.append(f"## {b}\n")
+        if not backed:
+            L.append("⚠ **The technology register does not corroborate this mapping.** Every trigger "
+                     "below claims this blocker, and the technology it is registered under does NOT "
+                     "list it in `unblocks.blockers` — so these preprints may be stacked against a "
+                     "blocker the capability would not actually retire. Counted by systems_check "
+                     "`[B9]`; resolve by adding the technology edge or narrowing the trigger.\n")
         L.append("| posted | preprint | venue | via trigger |")
         L.append("|---|---|---|---|")
         for t, h in rows:
             title = (h.get("title") or "")[:110].replace("|", "\\|")
+            mark = "" if b in corroborated.get(t["id"], set()) else " ⚠"
             L.append(f"| {h.get('date','—')} | [{title}]({h.get('url','')}) "
-                     f"| {h.get('venue','—')} | `{t['id']}` |")
+                     f"| {h.get('venue','—')} | `{t['id']}`{mark} |")
         L.append("")
     with open(PREPRINT_BOARD, "w", encoding="utf-8") as fh:
         fh.write("\n".join(L))
