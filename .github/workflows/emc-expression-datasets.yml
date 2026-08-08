@@ -155,7 +155,7 @@ on:
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "ret-cistrome-zenodo"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -258,7 +258,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${MODE:-}" in
-            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search) PART_B=false ;;
+            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search|ret-cistrome-zenodo) PART_B=false ;;
             *)                                               PART_B=true  ;;
           esac
           echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
@@ -280,7 +280,8 @@ jobs:
             echo "gse28866: header read only, no offline suite to gate on"
           elif [ "${{ inputs.mode }}" = "aso-junction" ]; then
             python -m pytest research/modalities/tests/test_junction_aso_seam.py -q
-          elif [ "${{ inputs.mode }}" = "ret-cistrome" ]; then
+          elif [ "${{ inputs.mode }}" = "ret-cistrome" ] \
+            || [ "${{ inputs.mode }}" = "ret-cistrome-zenodo" ]; then
             # ⛔ NOT OPTIONAL. Two of the three ways this module could lie are pure arithmetic and
             # are assertable with no network: a half-open/inclusive off-by-one, and a cross-build
             # intersection that would silently report another locus on chr10. The third — an
@@ -538,8 +539,19 @@ jobs:
           RET_CISTROME_BUDGET_S: ${{ inputs.cistrome_budget_s || '3000' }}
         run: python research/modalities/emc_ret_cistrome.py --fetch
 
+      # ⭐ ADD ONE SOURCE WITHOUT RE-FETCHING EVERY CATALOGUE. `--fetch` is all-or-nothing, and two
+      # dispatches showed that is not reliably available: one spent its whole 3000 s budget and
+      # retrieved zero peak sets where an earlier run spent 344 s of 2400 s and retrieved 86. The
+      # peak coordinates are already committed, so this makes a handful of HTTP calls, merges
+      # Zenodo into that cache and re-derives. It cannot starve, and it is still subject to the
+      # coverage guard — a merge that would shrink the artifact is refused like any other write.
+      - name: "RET cistrome — fetch ONLY Zenodo and merge it into the committed inputs cache"
+        if: inputs.mode == 'ret-cistrome-zenodo'
+        timeout-minutes: 25
+        run: python research/modalities/emc_ret_cistrome.py --fetch-zenodo
+
       - name: "RET cistrome — reproduce check (the derive half must be offline-reproducible)"
-        if: always() && inputs.mode == 'ret-cistrome'
+        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo')
         timeout-minutes: 10
         run: |
           python research/modalities/emc_ret_cistrome.py --check \
@@ -551,7 +563,7 @@ jobs:
       # `always()` and would otherwise ship a failure stub over 52 MB of peak coordinates. It did,
       # once: commit 5190923.
       - name: "RET cistrome — upload the artifact and its inputs cache"
-        if: always() && inputs.mode == 'ret-cistrome'
+        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo')
         uses: actions/upload-artifact@v4
         with:
           name: emc-ret-cistrome
@@ -723,7 +735,8 @@ jobs:
           # publish step, which is the worst place for it. Every arm below publishes exactly what its
           # own mode WRITES and nothing it merely READS; `test_emc_expression_datasets_workflow.py`
           # asserts that for hypoxia-confounds specifically, because that is the arm the merge broke.
-          if [ "${{ inputs.mode }}" = "ret-cistrome" ]; then
+          if [ "${{ inputs.mode }}" = "ret-cistrome" ] \
+            || [ "${{ inputs.mode }}" = "ret-cistrome-zenodo" ]; then
             MSG="RET cistrome: NR4A1/2/3 ChIP-seq occupancy at the RET locus (CI)"
             PATHS="research/modalities/emc-ret-cistrome.json
                    research/modalities/emc-ret-cistrome-inputs.json"
@@ -946,7 +959,7 @@ jobs:
       # a number nobody can grade — and a null from an instrument that recovers no positive
       # control is not a negative at all.
       - name: "Summary — ret-cistrome"
-        if: always() && inputs.mode == 'ret-cistrome'
+        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo')
         run: |
           python3 - <<'PY'
           import json

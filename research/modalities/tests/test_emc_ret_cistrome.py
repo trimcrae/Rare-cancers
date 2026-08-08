@@ -766,3 +766,97 @@ def test_the_workflow_uploads_the_failure_cache_but_never_publishes_it():
     publish = publish[:publish.index("publish_artifacts.sh")]
     assert name not in publish, (
         "the failure cache is named in the publish arm and would be committed over the real cache")
+
+
+# =================================================================================================
+# The Zenodo merge mode — adding ONE source without re-fetching everything
+# =================================================================================================
+def _cache_with(n_read, tmp_path, monkeypatch):
+    """A committed inputs cache holding `n_read` readable peak sets, at a temp INPUTS path."""
+    base = M._synthetic_cache(ret_peak=True, control_peak=True)
+    for i in range(n_read):
+        base["peaksets"][f"BASE{i}"] = {
+            "antigen": "NR4A1", "genome": "hg38", "cell_type": "x", "cell_type_class": "x",
+            "qc": None, "peaks": [("chr10", 43_000_000, 43_000_100, 5.0)],
+            "diag": {"_status": "read"}, "_status": "read"}
+    p = tmp_path / "inputs.json"
+    p.write_text(json.dumps(base, default=str))
+    monkeypatch.setattr(M, "INPUTS", str(p))
+    monkeypatch.setattr(M, "OUT", str(tmp_path / "out.json"))
+    monkeypatch.setattr(M, "FAILED_INPUTS", str(tmp_path / "failed.json"))
+    return base, p
+
+
+def test_the_merge_refuses_when_there_is_no_cache_to_merge_into(tmp_path, monkeypatch):
+    """This mode ADDS a source to an existing retrieval; it cannot produce one."""
+    monkeypatch.setattr(M, "INPUTS", str(tmp_path / "absent.json"))
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", lambda: {"Z": {"_status": "read"}})
+    assert M.fetch_zenodo_into_cache() == 4
+
+
+def test_the_merge_refuses_to_build_on_a_cache_with_no_readable_peak_set(tmp_path, monkeypatch):
+    p = tmp_path / "inputs.json"
+    p.write_text(json.dumps({"peaksets": {"A": {"_status": "budget_exhausted", "peaks": []}}}))
+    monkeypatch.setattr(M, "INPUTS", str(p))
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", lambda: {"Z": {"_status": "read"}})
+    assert M.fetch_zenodo_into_cache() == 4
+
+
+def test_the_merge_refuses_when_the_zenodo_fetch_did_not_run_at_all(tmp_path, monkeypatch):
+    """An empty return is not 'the deposit has no peaks' -- the loader emits a record-level refusal
+    for that. Empty means it never executed, and merging nothing must not rewrite the cache."""
+    _, p = _cache_with(5, tmp_path, monkeypatch)
+    before = p.read_text()
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", dict)
+    assert M.fetch_zenodo_into_cache() == 4
+    assert p.read_text() == before, "the cache was rewritten by a fetch that never ran"
+
+
+def test_the_merge_keeps_every_existing_peakset_and_adds_the_new_ones(tmp_path, monkeypatch):
+    base, p = _cache_with(6, tmp_path, monkeypatch)
+    n_before = len(base["peaksets"])
+    zen = {"ZENODO1483691:peaks.bed.gz": {
+        "antigen": "NR4A3", "genome": "hg38", "cell_type": "acinic cell carcinoma",
+        "cell_type_class": "author-deposited peak call (not uniformly reprocessed)", "qc": None,
+        "peaks": [("chr10", 43_000_000, 43_000_100, 9.0)], "diag": {"_status": "read"},
+        "_status": "read"}}
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", lambda: dict(zen))
+    assert M.fetch_zenodo_into_cache() == 0
+    merged = json.loads(p.read_text())
+    assert len(merged["peaksets"]) == n_before + 1
+    for k in base["peaksets"]:
+        assert k in merged["peaksets"], f"the merge dropped {k}"
+    assert "ZENODO1483691:peaks.bed.gz" in merged["peaksets"]
+
+
+def test_the_merge_records_that_the_artifact_now_has_two_fetch_dates(tmp_path, monkeypatch):
+    """After a merge the artifact is not the product of one run, and a reader comparing dates would
+    otherwise have no way to know."""
+    base, p = _cache_with(6, tmp_path, monkeypatch)
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", lambda: {"Z:x.bed": {
+        "antigen": "NR4A3", "genome": "hg38", "cell_type": "x", "cell_type_class": "x",
+        "qc": None, "peaks": [("chr10", 1, 100, 1.0)], "diag": {"_status": "read"},
+        "_status": "read"}})
+    assert M.fetch_zenodo_into_cache() == 0
+    rec = json.loads(p.read_text())["_merged_sources"][-1]
+    assert rec["source"] == "zenodo"
+    assert rec["base_cache_generated_utc"] == base.get("_generated_utc")
+    assert rec["fetched_utc"] and rec["fetched_utc"] != rec["base_cache_generated_utc"]
+    assert "MERGE of two retrievals" in rec["⚠"]
+    assert rec["peaksets_added"] == ["Z:x.bed"]
+
+
+def test_the_merge_is_still_subject_to_the_coverage_guard(tmp_path, monkeypatch):
+    """The merge cannot be a back door around the guard that the full fetch has to clear."""
+    _, p = _cache_with(6, tmp_path, monkeypatch)
+    rich = _art("read", n_read=86)
+    with open(M.OUT, "w") as fh:
+        json.dump(rich, fh)
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", lambda: {"Z:x.bed": {
+        "antigen": "NR4A3", "genome": "hg38", "cell_type": "x", "cell_type_class": "x",
+        "qc": None, "peaks": [("chr10", 1, 100, 1.0)], "diag": {"_status": "read"},
+        "_status": "read"}})
+    before = p.read_text()
+    assert M.fetch_zenodo_into_cache() == 3
+    assert p.read_text() == before, "a refused merge rewrote the real inputs cache"
+    assert os.path.exists(M.FAILED_INPUTS)

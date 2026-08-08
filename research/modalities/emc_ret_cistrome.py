@@ -2360,6 +2360,97 @@ def _n_peaksets_read(art):
                if isinstance(v, dict) and v.get("_status") == "read")
 
 
+def fetch_zenodo_into_cache():
+    """Fetch ONLY the Zenodo deposits and merge them into the committed inputs cache.
+
+    ⛔ WHY THIS MODE EXISTS, AND WHY THE OBVIOUS ALTERNATIVE DOES NOT WORK. `fetch()` is
+    all-or-nothing: it re-retrieves every catalogue on every run, so adding ONE source requires a
+    complete successful sweep of all of them. Two dispatches proved that is not reliably available
+    — one spent its entire 3000 s budget and retrieved zero peak sets where an earlier run had spent
+    344 s of 2400 s and retrieved 86.
+
+    ⚠ AND THE FIX ATTEMPTED FIRST DID NOT DO WHAT IT CLAIMED. Moving `fetch_zenodo_peaksets()` to
+    the front of part 2 made it first among the PEAKS and left it behind parts 1 and 0 — GEO
+    discovery, the ChIP-Atlas experiment-list stream, the supplementary listing and two gene-span
+    services — which is where the budget actually goes (`stream_lines` alone takes 40% of what
+    remains, per catalogue). "Even a starved run retrieves Zenodo" was false, and the ordering fix
+    is kept only because it is right on its own terms.
+
+    The cached peak coordinates are already on disk and already committed. So this makes a handful
+    of HTTP calls, merges the result into that cache, and re-derives. It cannot starve, and the
+    merged cache carries 97+ peak sets rather than 5, so it does not trip the coverage guard the way
+    a starved full fetch would.
+
+    ⛔ THE MERGE IS RECORDED AS A MERGE. After this runs the artifact is no longer the product of a
+    single fetch, and a reader comparing dates would otherwise have no way to know. Both fetch dates
+    and the exact peak sets this call contributed are written into the cache.
+    """
+    if not os.path.exists(INPUTS):
+        print("⛔ REFUSING: no committed inputs cache to merge into. This mode ADDS a source to an "
+              "existing retrieval; it cannot produce one. Run --fetch first.", file=sys.stderr)
+        return 4
+    with open(INPUTS, "r", encoding="utf-8") as fh:
+        cache = json.load(fh)
+    existing = cache.get("peaksets") or {}
+    n_before = sum(1 for v in existing.values()
+                   if isinstance(v, dict) and v.get("_status") == "read" and v.get("peaks"))
+    if n_before == 0:
+        print(f"⛔ REFUSING: the committed inputs cache holds {len(existing)} peak set(s) and none "
+              "is readable, so merging into it would build a result on an absent reading.",
+              file=sys.stderr)
+        return 4
+
+    zen = fetch_zenodo_peaksets()
+    added = {k: v for k, v in zen.items() if v.get("_status") in ("read", "read_but_build_unknown")}
+    print(f"zenodo merge: {len(zen)} record-level result(s), {len(added)} usable peak set(s)",
+          file=sys.stderr)
+    for k, v in sorted(zen.items()):
+        print(f"  {k[:70]:<70} {str(v.get('_status')):<24} "
+              f"peaks={len(v.get('peaks') or [])} genome={v.get('genome')}", file=sys.stderr)
+    for r in slowest_attempts(ATTEMPTS, n=6):
+        print(f"  ⏱ {r['took_s']:>6.1f}s  {str(r['status']):<18} {str(r['url'])[:100]}",
+              file=sys.stderr)
+    if not zen:
+        print("⛔ REFUSING: the Zenodo fetch returned nothing at all — not even a record-level "
+              "refusal, which means it did not run. Nothing is merged.", file=sys.stderr)
+        return 4
+
+    existing.update(zen)
+    cache["peaksets"] = existing
+    cache["attempts"] = (cache.get("attempts") or []) + ATTEMPTS
+    # ⛔ Provenance, because this artifact now has two fetch dates and a reader must be able to see
+    # that without diffing two files.
+    cache["_merged_sources"] = (cache.get("_merged_sources") or []) + [{
+        "source": "zenodo",
+        "records": sorted(ZENODO_RECORDS),
+        "fetched_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "base_cache_generated_utc": cache.get("_generated_utc"),
+        "peaksets_added": sorted(zen),
+        "n_usable_added": len(added),
+        "⚠": ("this artifact is a MERGE of two retrievals on different dates, not the product of "
+              "one run. The catalogues were retrieved at `base_cache_generated_utc`; these peak "
+              "sets at `fetched_utc`."),
+    }]
+
+    art = derive(cache)
+    n_after = _n_peaksets_read(art)
+    if would_downgrade(art):
+        print(f"⛔ REFUSING TO WRITE: the merged cache derives {n_after} readable peak set(s), "
+              "below the committed artifact's coverage. Nothing is written; the real inputs cache "
+              "is untouched.", file=sys.stderr)
+        with open(FAILED_INPUTS, "w", encoding="utf-8") as fh:
+            json.dump(cache, fh, indent=1, sort_keys=False, default=str)
+        return 3
+    with open(INPUTS, "w", encoding="utf-8") as fh:
+        json.dump(cache, fh, indent=1, sort_keys=False, default=str)
+    with open(OUT, "w", encoding="utf-8") as fh:
+        json.dump(art, fh, indent=1, sort_keys=False, default=str)
+    print(json.dumps({"peaksets_in_cache": len(existing), "readable_before": n_before,
+                      "readable_after_derive": n_after, "zenodo_added": len(added),
+                      "verdict": (art.get("verdict") or {}).get("headline")}, indent=1))
+    return 0
+
+
 def would_downgrade(new_art, out_path=None):
     """True if writing `new_art` would replace a real reading with a WEAKER one.
 
@@ -2476,6 +2567,8 @@ def report(art):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fetch", action="store_true")
+    ap.add_argument("--fetch-zenodo", action="store_true",
+                    help="fetch ONLY the Zenodo deposits and merge them into the cached inputs")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--report", action="store_true",
@@ -2489,6 +2582,9 @@ def main():
         with open(OUT, "r", encoding="utf-8") as fh:
             print(report(json.load(fh)))
         return 0
+
+    if args.fetch_zenodo:
+        return fetch_zenodo_into_cache()
 
     if args.fetch:
         cache = fetch()
