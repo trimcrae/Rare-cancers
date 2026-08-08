@@ -153,6 +153,40 @@ def test_every_control_is_actually_dispatched_by_the_fetch_code():
         assert stem in body, f"the fetch round never issues a {suffix} call for the controls"
 
 
+def test_the_ena_sample_endpoint_is_never_asked_with_a_project_accession():
+    """⛔ Measured 2026-08-08, run 31276593535: passing the project accession to ENA's `sample`
+    endpoint returns HTTP 400 for both targets. A 400 and an archive with no samples produce the
+    same row count, so the request must be built from sample accessions harvested from the run
+    report — asserted here because the failure mode is silent."""
+    src = open(os.path.join(MOD, "emc_sra_study.py"), "r", encoding="utf-8").read()
+    body = src.split("def _fetch_round(")[1].split("\ndef fetch(")[0]
+    assert '"result": "sample"' in body, "the sample endpoint is no longer queried at all"
+    seg = body.split('"result": "sample"')[0]
+    tail = seg[-400:]
+    assert "sample_accs" in tail, (
+        "the sample-endpoint request is not built from harvested sample accessions — if it "
+        "passes the project accession again, ENA answers 400 and the rows read as zero")
+    assert "not_attempted" in body, (
+        "a skipped sample query must be recorded as not_attempted, never left absent, or a "
+        "missing key reads as a zero-sample deposit")
+
+
+def test_a_zero_from_the_biosample_term_search_is_labelled_as_a_query_shape():
+    """The `biosample` esearch returned 0 for both real accessions while 12 BioSamples existed."""
+    src = open(os.path.join(MOD, "emc_sra_study.py"), "r", encoding="utf-8").read()
+    fetch_body = src.split("def _fetch_round(")[1].split("\ndef fetch(")[0]
+    assert "elink.fcgi" in fetch_body, (
+        "nothing asks for BioSamples by LINK; the term search alone returns 0 for a project "
+        "accession and that zero would stand unchallenged")
+    r = M.derive(_inputs(_controls() +
+                         [_es(f"tgt_{M.TARGET_BIOPROJECT}_bioproject_esearch", 1),
+                          _es(f"tgt_{M.TARGET_BIOPROJECT}_biosample_esearch", 0)]))
+    n = r["targets"][M.TARGET_BIOPROJECT]["ncbi"]
+    assert n["biosample_esearch_count"] == 0
+    assert "⚠ biosample_esearch_note" in n, "the zero is unlabelled and reads as an absence"
+    assert n["biosample_linked_uids"] is None, "an unread link must be None, never 0"
+
+
 def test_the_committed_artifact_if_present_re_derives_from_its_own_cached_payloads():
     """The published verdict must be a function of the published payloads, not of a past run."""
     out, inp = M.OUT, M.INPUTS

@@ -232,6 +232,18 @@ def _fetch_round():
         eutils_pair(f"tgt_{acc}_bioproject", "bioproject", f"{acc}[All Fields]")
         sra_ids = eutils_pair(f"tgt_{acc}_sra", "sra", f"{acc}[All Fields]")
         eutils_pair(f"tgt_{acc}_biosample", "biosample", f"{acc}[All Fields]")
+        # ⛔ AND THE SAME QUESTION BY LINK RATHER THAN BY TERM. Measured 2026-08-08, run
+        # 31276593535: `biosample` esearch on the bare accession returned `count: 0` for BOTH
+        # target accessions — while the SRA XML for the same deposit carried twelve fully
+        # populated BioSample attribute sets. A term search over `biosample` simply does not
+        # index a project accession, so that zero was a QUERY SHAPE and not an absence, and it
+        # is exactly the reading this module refuses to make anywhere else. `elink` asks by
+        # relationship instead of by string.
+        if sra_ids:
+            q = urllib.parse.urlencode(
+                {"dbfrom": "sra", "db": "biosample", "retmode": "json",
+                 "id": ",".join(sra_ids[:200])})
+            get(f"tgt_{acc}_elink_sra_to_biosample", f"{EUTILS}/elink.fcgi?{q}", "json")
         if sra_ids:
             # The FULL SRA XML is the only NCBI payload carrying per-run library strategy,
             # platform and the BioSample attribute list in one document. Everything Q2 needs.
@@ -244,11 +256,36 @@ def _fetch_round():
     # and `filereport` answers Q3 in a way NCBI's esummary does not: a run whose `fastq_ftp` is
     # empty is registered and not downloadable.
     for acc in (TARGET_BIOPROJECT, TARGET_SRA_STUDY):
-        for result, fields in (("read_run", ENA_RUN_FIELDS), ("sample", ENA_SAMPLE_FIELDS)):
+        q = urllib.parse.urlencode({
+            "accession": acc, "result": "read_run",
+            "fields": ",".join(ENA_RUN_FIELDS), "format": "tsv", "limit": "0"})
+        rr = get(f"tgt_{acc}_ena_read_run", f"{ENA_PORTAL}/filereport?{q}", "tsv")
+
+        # ⛔ THE SAMPLE ENDPOINT TAKES SAMPLE ACCESSIONS, NOT A PROJECT ACCESSION. Measured
+        # 2026-08-08, run 31276593535: passing the project accession returned HTTP 400 with the
+        # server's own explanation — "Accession(s) PRJNA1357027 not valid for search requests on
+        # sample data" — for both targets. That is a malformed request, not an archive that has
+        # no samples, and the two are indistinguishable from the row count alone. So the sample
+        # accessions are harvested from the run report that just succeeded and asked for by name.
+        sample_accs = []
+        if rr.get("_status") == "read":
+            rows, _ = _tsv_rows(rr)
+            for r in (rows or []):
+                for key in ("sample_accession", "secondary_sample_accession"):
+                    v = (r.get(key) or "").strip()
+                    if v and v not in sample_accs:
+                        sample_accs.append(v)
+        if sample_accs:
             q = urllib.parse.urlencode({
-                "accession": acc, "result": result,
-                "fields": ",".join(fields), "format": "tsv", "limit": "0"})
-            get(f"tgt_{acc}_ena_{result}", f"{ENA_PORTAL}/filereport?{q}", "tsv")
+                "accession": ",".join(sample_accs[:200]), "result": "sample",
+                "fields": ",".join(ENA_SAMPLE_FIELDS), "format": "tsv", "limit": "0"})
+            get(f"tgt_{acc}_ena_sample", f"{ENA_PORTAL}/filereport?{q}", "tsv")
+        else:
+            fetches.append({
+                "key": f"tgt_{acc}_ena_sample", "_status": "not_attempted",
+                "⚠ why": "the run report returned no sample accessions to ask about, so there was "
+                         "nothing to send to the sample endpoint; this is NOT a reading that the "
+                         "deposit has no samples"})
         get(f"tgt_{acc}_ena_xml", f"{ENA_BROWSER}/xml/{acc}", "xml")
 
     # ── The controls, through the SAME code paths ──────────────────────────────────────────────
@@ -301,6 +338,20 @@ def _esearch_count(rec):
         return int(r.get("count") or 0), len(r.get("idlist") or []), "read"
     except (TypeError, ValueError):
         return None, None, "unparseable"
+
+
+def _elink_count(rec):
+    """How many BioSample UIDs the SRA records LINK to. `None` means the link was not read."""
+    if not rec or rec.get("_status") != "read":
+        return None
+    try:
+        n = 0
+        for ls in (rec.get("json") or {}).get("linksets") or []:
+            for db in ls.get("linksetdbs") or []:
+                n += len(db.get("links") or [])
+        return n
+    except Exception:                                        # noqa: BLE001
+        return None
 
 
 def _tsv_rows(rec):
@@ -393,6 +444,11 @@ def _read_target(fk, acc):
             "bioproject_esearch_count": bp_c, "bioproject_status": bp_s,
             "sra_esearch_count": sra_c, "sra_ids_returned": sra_n, "sra_status": sra_s,
             "biosample_esearch_count": bs_c, "biosample_status": bs_s,
+            "⚠ biosample_esearch_note": (
+                "a term search over `biosample` does not index a PROJECT accession, so a zero "
+                "here is a query shape and not an absence — the linked count below, and the "
+                "BioSample attributes inside the SRA XML, are the readings that count"),
+            "biosample_linked_uids": _elink_count(fk.get(f"tgt_{acc}_elink_sra_to_biosample")),
         },
         "ena": {
             "read_run_status": runs_s,
