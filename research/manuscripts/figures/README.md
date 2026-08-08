@@ -34,9 +34,13 @@ regenerated from committed data by a committed script, every caption states what
   python3 research/modalities/nr4a3_fusion_targets_figures.py --check   # stdlib-only, draws nothing
   ```
 
-  ⚠ **Nothing in CI redraws or checks these.** `--check` compares a stamped content hash of every
-  artifact each figure reads against the artifacts on disk, which is the only staleness signal that
-  exists. Run it, and commit a regenerated figure in the same commit as any number it draws.
+  ⚠ **Nothing in CI redraws these — but staleness IS detected.** `figure-provenance.json` stamps a
+  content hash of every artifact each figure was drawn from, and
+  `tests/test_nr4a3_fusion_targets_figures.py::test_the_provenance_stamp_matches_the_committed_artifacts`
+  compares that stamp against the artifacts on disk. That test is collected by
+  `.github/workflows/tests.yml`, so **changing a number a figure draws and not regenerating it turns
+  the build red.** The correct response is to re-run the generator and commit the figure in the same
+  commit as the number — not to re-stamp.
 
   ⭐ **Look at the PNG before committing it.** Three lookup bugs in the first run each produced a
   finished-*looking* figure — an evidence-class chart with four empty bars, a matrix whose two array

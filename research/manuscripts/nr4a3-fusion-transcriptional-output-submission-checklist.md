@@ -203,8 +203,10 @@ as main-text §3.4–§3.7 with the full tables as Supplementary S4–S6:
   `nr4a3_fusion_targets_figures.py` and emitted as 300 dpi PNG plus vector PDF. The earlier
   hand-emitted SVG was retired: `AGENTS.md` bans hand-computed SVG because it has no text measurement
   and cannot be rasterised for inspection before commit, and the retired figure was exactly that.
-  Staleness is checked by `--check` against a stamped content hash of every artifact each figure reads,
-  because no CI job redraws them.
+  Staleness is checked against a stamped content hash of every artifact each figure was drawn from —
+  by `--check` locally, and in CI by
+  `tests/test_nr4a3_fusion_targets_figures.py::test_the_provenance_stamp_matches_the_committed_artifacts`,
+  so changing a number a figure draws without regenerating it turns the build red.
 - ✅ **The promoter NBRE-motif scan is done** and is main-text §3.10 with full parameters in
   Supplementary §S6. *(This bullet previously said the scan was future work while §5 of this same
   document reported it as complete — two states of the same fact in one file.)*
