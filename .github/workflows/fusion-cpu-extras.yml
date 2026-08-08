@@ -189,7 +189,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
-            "cysteine-chemoproteomics NR4A coverage precheck (C03, CI)" \
+            "cysteine-chemoproteomics NR4A coverage precheck (IC-3, CI)" \
             research/modalities/cys-chemoproteomics-precheck.json
 
   nr4a_unique_residues:

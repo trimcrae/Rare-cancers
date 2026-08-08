@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-`C03` — the $0 PRECHECK: does a usable public cysteine-chemoproteomics dataset cover NR4A3 or a close
+`IC-3` — the $0 PRECHECK: does a usable public cysteine-chemoproteomics dataset cover NR4A3 or a close
 paralogue AT ALL? (roadmap §10.1a `Q6`)
 
 ★★ WHY THIS EXISTS, AND WHY IT IS A PRECHECK RATHER THAN A RESULT.
@@ -9,7 +9,7 @@ places that electrophile reactivity and promiscuity *"require chemoproteomics, w
 have"* — filing a WET-LAB TECHNIQUE where a PUBLIC DATASET belongs. That framing hid an available data axis
 on the covalent mechanism, which is the program's strongest surviving one. But the correction licenses a
 **check**, not a claim: whether any public dataset actually contains NR4A3 C397 or NR4A1 C551 is unverified,
-and `C03`'s own entry says **no source, dataset or value may be cited before a precheck returns.** This is
+and `IC-3`'s own entry says **no source, dataset or value may be cited before a precheck returns.** This is
 that precheck.
 
 ⛔ WHAT A GOOD OUTCOME LOOKS LIKE. `STOP_NO_REFERENCE` is a **result**, not a failure — it converts
@@ -368,7 +368,7 @@ def main(argv=None):
     v = verdict(rows)
     scale = aggregate_scale(rows)
     doc = {
-        "_title": ("`C03` precheck — is there a public cysteine-chemoproteomics known-answer set for the "
+        "_title": ("`IC-3` precheck — is there a public cysteine-chemoproteomics known-answer set for the "
                    "NR4A covalent axis? (roadmap §10.1a `Q6`)"),
         "_status": ("$0. Network reads only — no GPU, no rental, no CPU science. This is a PRECHECK about "
                     "an INSTRUMENT, not a result about the protein. Nothing here is a claim about binding, "
@@ -377,7 +377,7 @@ def main(argv=None):
         "_serves": ["V17 (its failed positive control — NR4A1 Cys551)", "R8", "Q2", "Q5", "Route B"],
         "_claim_ceiling": (
             "Roadmap §2.3: a requirement may never be claimed above the validation status of the instrument "
-            "that would produce it. `C03` is at *proposed*; this precheck does not move it. Even a "
+            "that would produce it. `IC-3` is at *proposed*; this precheck does not move it. Even a "
             "REFERENCE_FOUND verdict establishes only that a known-answer set EXISTS — the instrument would "
             "still have to be built and tested against it before any requirement rises."
         ),

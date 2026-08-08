@@ -559,33 +559,18 @@ def build_map_edits(ruling, dropped, census, lit):
     n_c = census["cysteine_warhead"]["n_at_or_inside_Y419_distance_shell"]
 
     entries = [
-        ME.edit(
-            text, "§8 Route B — the heading clause",
-            "BUT ONLY ON THE RULER THIS PAGE PERMITS, AND BOTH READINGS",
-            "The clause says the axis is wider 'BUT ONLY ON THE RULER THIS PAGE PERMITS', which reads as a "
-            "concession — as though the permitted ruler were the weaker of two. It is the only one this "
-            "page permits BECAUSE the other is KNOWN-DEFECTIVE in its own instrument table. Stating that "
-            "positively is the difference between a hedge and a ruling.",
-            art,
-            ME.replace_in_line(
-                "BUT ONLY ON THE RULER THIS PAGE PERMITS, AND BOTH READINGS",
-                "ON THE RULER THIS PAGE MANDATES, WHICH IS THE ONLY ONE IT PERMITS — AND BOTH READINGS")),
-        ME.edit(
-            text, "§8 Route B — 'neither reading is chosen here'",
-            "The sweep cuts both ways and neither reading is chosen here",
-            "⛔ THE MANDATE VIOLATION, in one sentence. path-family-synthesis.md §2 Tier-1 row 6 says "
-            "'take the threshold-free rank as the roadmap mandates and STOP QUOTING BOTH RULERS AS EQUALS'. "
-            "'Neither reading is chosen here' is precisely quoting them as equals, and it lets a reader "
-            "pick the criterion this page's own instrument table marks KNOWN-DEFECTIVE. A superseded "
-            "reading is registered, never offered.",
-            art,
-            ME.replace_in_line(
-                "**The sweep cuts both ways and neither reading is chosen here:**",
-                "**The sweep cuts both ways — and the reading that BINDS is the threshold-free RANK, per "
-                "[`path-family-synthesis.md`](path-family-synthesis.md) §2 row 6. The cutoff reading is "
-                "registered as SUPERSEDED, not offered as an alternative** "
-                "([`sufex-second-handle.json`](../modalities/sufex-second-handle.json) "
-                "`the_reported_ruler`):")),
+        # ⛔ TWO EDITS WERE RETIRED HERE ON 2026-08-08 BECAUSE THE ROADMAP HAS ADOPTED THEM.
+        # They were `§8 Route B — the heading clause` ("BUT ONLY ON THE RULER THIS PAGE PERMITS" ->
+        # "ON THE RULER THIS PAGE MANDATES, WHICH IS THE ONLY ONE IT PERMITS") and `§8 Route B —
+        # 'neither reading is chosen here'` (-> the threshold-free RANK binds, the cutoff reading is
+        # registered as SUPERSEDED). Verified before removal: the roadmap contains each edit's
+        # PROPOSED text and no longer contains its CURRENT text, which is what an applied edit looks
+        # like from here.
+        # ⛔ AN APPLIED EDIT MUST BE REMOVED, NOT LEFT TO GO STALE. `ME.edit` derives `current_text` by
+        # locating its anchor in the live map, so once the map adopts the edit the anchor is gone and
+        # the entry reports ANCHOR_NOT_FOUND for ever. That is indistinguishable, in the artifact, from
+        # an edit that was never targetable — so a proposal nobody needs any more would keep a real
+        # verification failure permanently lit and train a reader to ignore it.
         ME.edit(
             text, "§8 Route B — the superseded cutoff bullet",
             "the cysteines and lysines already committed.",
@@ -639,7 +624,13 @@ def build_map_edits(ruling, dropped, census, lit):
             # ⚠ ANCHORED ON THE LAST TABLE ROW, NOT ON THE HEADING. The §10.1 heading is followed by a prose
             # paragraph before the table header, so appending a `|`-row under the heading would land outside
             # the table and render as broken markdown.
-            "| **29** | **The categorical axis's cross-system decoy null (`IC-2`)**",
+            # ⚠ `C02`, NOT `IC-2`, AND THAT IS DELIBERATE. This string is a VERBATIM QUOTATION of a
+            # roadmap row, not a reference to the instrument. `instrument_register_renumber` rewrote it
+            # to `IC-2` — but the roadmap is excluded from that script by design and is migrated only
+            # through its own routed map-edit, which has not been applied, so the live row still reads
+            # `C02` and the anchor stopped matching. A quotation has to track what is quoted; when the
+            # roadmap's routed rename lands, this string moves to `IC-2` in the same commit.
+            "| **29** | **The categorical axis's cross-system decoy null (`C02`)**",
             "The second-handle question is on no ranked row. It is the difference between Route B having a "
             "single point of failure that is a FACT ABOUT THE PROTEIN and one that was an artefact of "
             "sweeping two residue classes — and the one thing that would settle how much Y419 is worth is a "

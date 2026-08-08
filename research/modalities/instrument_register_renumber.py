@@ -27,7 +27,8 @@ rewritten, by a rule that is stated, auditable and deliberately conservative:
     PADDED  `C01`..`C09`   -> REGISTER, always. §0.6: "a configuration id is `C` + an UNPADDED number and
                               nothing else", so a padded id cannot be a configuration item.
     `C10`..`C16`           -> REGISTER **only** inside `REGISTER_FILES` (the register's own two files,
-                              whose JSON says in its own words "IDs ARE THIS FILE'S NAMESPACE ONLY"),
+                              whose JSON says in its own words "IDs ARE THIS FILE'S NAMESPACE ONLY",
+                              plus any file listed there on evidence -- see the constant's comment),
                               or where the occurrence is preceded by an explicit instrument-candidate
                               marker within `MARKER_WINDOW` characters.
                            -> CONFIGURATION otherwise, and left alone. ⛔ THIS IS THE CONSERVATIVE
@@ -74,6 +75,22 @@ MAP_EDITS_OUT = os.path.join(ROOT, "research", "manuscripts", "instrument-regist
 REGISTER_FILES = (
     "research/modalities/instrument-options.json",
     "research/modalities/instrument-options.md",
+    # ⭐ ADDED 2026-08-08, ON EVIDENCE RATHER THAN ON READING. This workflow runs three instruments and
+    # cites them by bare id, but it carries none of the MARKERS within MARKER_WINDOW, so the ambiguous
+    # band fell to CONFIGURATION and `C10`/`C12` were left behind while `C03` renamed around them —
+    # leaving a file whose own title read "IC-3 + C12".
+    # ⛔ THAT IS WORSE THAN AN UNMIGRATED FILE, AND IT IS WHY THE CONSERVATIVE DEFAULT NEEDED AN
+    # EXCEPTION HERE. The conservative direction is justified by §0.6's writing rule — a missed rename
+    # "leaves a citation that still reads correctly". That justification EXPIRED the moment the register
+    # itself finished migrating: `instrument-options.json` now holds `IC-1`..`IC-16` and ZERO `C0x`, so a
+    # bare `C12` no longer resolves to anything at all. A dangling citation is not a citation that reads
+    # correctly.
+    # The evidence that these are register ids, not configuration items, is that the register's own
+    # descriptions match the workflow's steps verbatim: IC-10 is "Symmetric reciprocal-uniqueness + indel
+    # census across all residue classes" and the step is named exactly that; IC-12 is "Thiol pKa /
+    # intrinsic nucleophilicity for C397" and the step is the measured-pKa precheck for that thiol.
+    # ⚠ `C397` is untouched by construction — it is a residue, and ANY_ID is bounded to a two-digit id.
+    ".github/workflows/covalent-axis-prechecks.yml",
 )
 
 #: An explicit instrument-candidate marker in the preceding text promotes an occurrence to REGISTER.
@@ -94,6 +111,44 @@ NEVER_REWRITE = (
     "research/modalities/instrument_register_renumber.py",
     "research/modalities/tests/test_instrument_register_prefix.py",
     "research/manuscripts/instrument-register-prefix-map-edits.json",
+)
+
+#: ⛔⛔ A `map_edits_required` BLOCK IS A VERBATIM QUOTATION OF THE ROADMAP, AND THE ROADMAP IS THE ONE
+#: FILE THIS SCRIPT REFUSES TO REWRITE. Its `current_text` is required by contract to be a byte-exact
+#: substring of the live map, and `map_edit_anchors.verify()` fails when it is not — so renaming an id
+#: inside a quotation does not update a reference, it BREAKS THE ANCHOR, and the routed edit can never
+#: be applied again.
+#: ⚠ Measured 2026-08-08, after `--apply` did exactly this. Restored from git, and the damage is the
+#: argument for the rule: in `q-queue-2026-08-07-map-edits.json` the run rewrote the sentence
+#: *"PDB atom names are spelled exactly `C01`, `C02`, `C07`"* into *"`IC-1`, `IC-2`, `IC-7`"* — a
+#: statement that is now simply false, since a PDB atom name IS `C01` — and turned §0.6's own writing
+#: rule *"above `C09`, write an instrument id in words"* into *"above `IC-9`"*, which renames the rule
+#: that exists because the rename had not happened. Those lines ARE the evidence for the migration,
+#: which is precisely the category `NEVER_REWRITE` already protects; they were missed only because the
+#: list is exact paths and these files are generated under many names.
+#: ⭐ SO THE RULE IS BY SHAPE, NOT BY PATH: anything whose job is to quote the map is quoted, not
+#: rewritten. When the roadmap's own routed rename lands, these files' quotations move with it, in that
+#: same commit, because that is when what they quote actually changes.
+QUOTATION_MARKERS = ("map-edits", "map_edits")
+
+
+def _is_a_quotation_of_the_roadmap(path: str, text: str = "") -> bool:
+    base = os.path.basename(path)
+    if any(m in base for m in QUOTATION_MARKERS):
+        return True
+    # ⭐ BY CONTENT, NOT ONLY BY NAME. `sufex-second-handle.json` carries a `map_edits_required` block
+    # and is named nothing like a map-edits file, so a filename rule alone would have left exactly the
+    # artifact whose anchors broke. Any file that CARRIES the block is quoting the map.
+    if "map_edits_required" in text:
+        return True
+    # A generator that hardcodes a map anchor is quoting just as much as the JSON it emits.
+    return path in QUOTATION_GENERATORS
+
+
+#: Modules that hold a roadmap anchor as a literal. Kept explicit rather than sniffed: a module is only
+#: listed here once its anchors have been read and confirmed to be quotations.
+QUOTATION_GENERATORS = (
+    "research/modalities/sufex_second_handle.py",
 )
 
 PADDED = re.compile(r"\bC0[1-9]\b")
@@ -158,7 +213,7 @@ def classify(path, text, match):
     under §0.6's writing rule; a wrong rename silently re-points a criterion at a GPU purchase, or
     corrupts an atom record.
     """
-    if path in NEVER_REWRITE:
+    if path in NEVER_REWRITE or _is_a_quotation_of_the_roadmap(path, text):
         return "QUOTED"
     if path in REGISTER_FILES:
         return "REGISTER"
