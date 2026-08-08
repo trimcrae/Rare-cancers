@@ -99,6 +99,20 @@
     "TRG-ANTITARGET-PANEL-PROTOCOL chemrxiv: GET failed after 3 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=off-target&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden"
    ],
    "signals_recorded": 130
+  },
+  {
+   "date": "2026-08-08",
+   "mode": "scan",
+   "triggers": 1,
+   "queries": 8,
+   "new_hits": 0,
+   "appended": 0,
+   "errors": [
+    "TRG-VIRTUAL-CELL-NO-LINE chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=virtual+cell&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden",
+    "TRG-VIRTUAL-CELL-NO-LINE chemrxiv: GET failed after 1 tries: https://chemrxiv.org/engage/chemrxiv/public-api/v1/items?term=perturbation&limit=15&sort=PUBLISHED_DATE_DESC :: HTTP Error 403: Forbidden"
+   ],
+   "signals_recorded": 0,
+   "abstracts_fetched": 58
   }
  ],
  "hits": {
@@ -141,7 +155,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1293267",
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 3
+    "age_days_at_first_seen": 3,
+    "abstract": "Protein-ligand co-folding models hold promise in structure-based drug discovery and small molecule interaction prediction, but often fail in predicting correct small molecule binding poses. We present Boltz-Perturb, a framework for addressing this through perturbing model conditioning signals during model inference, and show that such perturbations improve correct ligand binding mode predictions. We first show with true-coordinate injection experiments that the model's learned energy landscape contains correct binding-mode basins, allowing us to reframe the problem as one of sampling deficiency. We then introduce two inference-time perturbation strategies, Token Bias Perturbation (TBP) and Token Conditioning Perturbation (TCP), which increase exploration of alternative binding poses. Across diverse protein-ligand systems, TCP improves top-20 oracle success rates by 2.6 to 7.8 fold. Boltz-Perturb attains higher oracle success rates compared to the Boltz-2 high diffusion temperature variant while requiring over 75% less compute. To our knowledge, this is the first systematic perturbation analysis of a co-folding architecture for small-molecule binding mode diversity. We demonstrate that inference-time perturbations can unlock latent structural diversity in generative co-folding models and improve protein-ligand predictions without costly retraining."
    }
   },
   "TRG-TERNARY-GEN-NO-SITES": {
@@ -163,7 +178,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1255325",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 47
+    "age_days_at_first_seen": 47,
+    "abstract": "Motivation   Proteolysis-targeting chimeras (PROTACs) enable targeted protein degradation through ternary complex formation with E3 ubiquitin ligase. However, the rational design of PROTACs remains highly challenging due to limited structure\u2013activity relationship data and the vast conformational diversity of linkers. Existing computational approaches can be broadly divided into structure-based ternary modelling methods and fragment-based linker generation models. Although these approaches have advanced PROTAC design, they typically neglect key physicochemical constraints and linker-length control during the generation process, causing the generated PROTACs to lack balanced structural properties required for effective ternary complex formation with drug-like characteristics.  Results   To address these limitations, we propose DesignMaster, a diffusion-based generative framework that explicitly incorporates linker length and physicochemical properties as controllable conditioning signals. DesignMaster employs an E(3)-equivariant graph Transformer with a gated multi-condition fusion module to inject linker length and physicochemical constraints throughout the diffusion process, enabling fine-grained and constraint-aware molecular generation. Experiments on PROTAC-DB 2.0 and 3.0 demonstrate that DesignMaster outperforms state-of-the-art baselines, with a 3.2% improvement in validity and a 34.4% improvement in recovery. The Case study shows DesignMaster achieves a 51.78% reduction in RMSD when predicting the linker of PROTAC BCPyr targeting 6W7O, highlighting its potential for practical structure-guided PROTAC design.  Availability   The source code and datasets are available at  https://github.com/ABILiLab/DesignMaster ."
    },
    "MED/42500035": {
     "id": "MED/42500035",
@@ -193,7 +209,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2607.22143v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 10
+    "age_days_at_first_seen": 10,
+    "abstract": "Molecular glue degraders have emerged as a promising strategy for targeted protein degradation by inducing ternary complex formation between an E3 ubiquitin ligase and a target protein. Despite their therapeutic potential, computational design of molecular glues remains largely unexplored. Unlike conventional structure-based drug design, molecular glue design is governed by the unknown protein-protein interface and requires the simultaneous modeling of ligand generation, protein-protein docking, and ternary complex assembly. In this work, we formulate molecular glue design as a ternary complex generation problem and propose a biology-inspired generative framework, TriGlue. Motivated by the mechanism of molecular glue action, we decompose ternary complex generation into two coupled stages: interface estimation and interface-conditioned complex generation. First, we develop an SE(3)-equivariant interface estimation module that predicts a geometrically constrained protein-protein interface from unbound monomer structures. Second, we introduce an interface-conditioned ternary flow matching network that jointly generates the molecular glue and predicts the rigid-body transformation required to assemble the ternary complex. Extensive experiments demonstrate that TriGlue generates chemically valid molecules and produces plausible ternary complexes, which highlight the potential of biology-inspired generative modeling for accelerating molecular glue discovery. Our code is available at https://anonymous.4open.science/r/molecular-glue-design-806B."
    },
    "arXiv/2607.22143v2": {
     "id": "arXiv/2607.22143v2",
@@ -204,7 +221,8 @@
     "url": "http://arxiv.org/abs/2607.22143v2",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "duplicate_of_title": true
+    "duplicate_of_title": true,
+    "abstract": "Molecular glue degraders have emerged as a promising strategy for targeted protein degradation by inducing ternary complex formation between an E3 ubiquitin ligase and a target protein. Despite their therapeutic potential, computational design of molecular glues remains largely unexplored. Unlike conventional structure-based drug design, molecular glue design is governed by the unknown protein-protein interface and requires the simultaneous modeling of ligand generation, protein-protein docking, and ternary complex assembly. In this work, we formulate molecular glue design as a ternary complex generation problem and propose a biology-inspired generative framework, TriGlue. Motivated by the mechanism of molecular glue action, we decompose ternary complex generation into two coupled stages: interface estimation and interface-conditioned complex generation. First, we develop an SE(3)-equivariant interface estimation module that predicts a geometrically constrained protein-protein interface from unbound monomer structures. Second, we introduce an interface-conditioned ternary flow matching network that jointly generates the molecular glue and predicts the rigid-body transformation required to assemble the ternary complex. Extensive experiments demonstrate that TriGlue generates chemically valid molecules and produces plausible ternary complexes, which highlight the potential of biology-inspired generative modeling for accelerating molecular glue discovery. Our code is available at https://github.com/yuliangyan0807/molecular-glue-design."
    }
   },
   "TRG-FEP-CRYPTIC-POCKET": {
@@ -248,7 +266,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1238498",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 71
+    "age_days_at_first_seen": 71,
+    "abstract": "The free-energy surfaces that underlie the conformational distributions of intrinsically disordered proteins (IDPs) are shallow and lack the deep minima characteristic of stable, folded structures. However, even in the absence of secondary or tertiary structure, sequence patterning can lead to conformational preferences and changes in chain dimensions as a function of solution conditions. While patterning effects have received extensive attention from simulation and theory, there is little corresponding data from experiment. Here we investigate the impact of charge patterning on chain dimensions and dynamics in a set of specifically designed polyampholytic IDP variants across the natural range of charge segregation with single-molecule FRET, nanosecond fluorescence correlation, circular dichroism, and NMR spectroscopy. We find that the conformational ensembles and their cooperative response to salt concentration show prominent and systematic dependencies on charge patterning, and to some extent on residue type. In contrast, the chain dynamics remain in the tens-of-nanosecond range, consistent with the absence of pronounced free-energy barriers. In close combination with molecular simulations, we show how the concept of susceptibility can be used to quantify cooperativity in the absence of barriers and relate it to the shallow free-energy surfaces of IDPs."
    }
   },
   "TRG-ATOM-MAPPER-FLOOR": {},
@@ -272,7 +291,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2605.13789v2",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 82
+    "age_days_at_first_seen": 82,
+    "abstract": "Protein structure tokenizers (PSTs) are workhorses in protein language modeling, function prediction, and evolutionary analysis. However, existing PSTs only capture local geometry of static structures, and miss the correlated motions and alternative conformational states revealed by protein ensembles. Here we introduce Ensembits, the first tokenizer of protein conformational ensembles. Ensembits address challenges inherent to tokenizing dynamics: deriving informative geometric descriptors across conformations, permutation-invariance encoding of variable-size ensembles, and conquering sparsity in dynamics data. Trained with a Residual VQ-VAE using a frame distillation objective on a large molecular dynamics corpus, Ensembits outperforms all related methods on RMSF prediction, and is the strongest standalone structural tokenizer on an token-conditioned ANOVA test on per-residue motion amplitude. Ensembits further matches or exceeds static tokenizers on EC, GO, binding site/affinity prediction, and zero-shot mutation-effect prediction despite using far less pretraining data. Notably, the distillation objective enables Ensembits to predict dynamics token from one single predicted structure, which alleviates dynamics data sparsity. As the field moves from static structure prediction toward ensemble generation, Ensembits offer the discrete vocabulary needed to bring dynamics into protein language modeling and design."
    },
    "arXiv/2605.09832v1": {
     "id": "arXiv/2605.09832v1",
@@ -282,7 +302,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2605.09832v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 84
+    "age_days_at_first_seen": 84,
+    "abstract": "Knowledge of a protein's atomic conformational ensemble is critical to determining its function, yet state-of-the-art ensemble prediction models are limited by lack of high-quality conformational data from simulation or experiment. Recent advances in heterogeneous reconstruction for cryo-electron microscopy (cryo-EM) have enabled scientists to visualize ensembles of density maps for larger proteins and complexes not typically accessible through simulation, but building atomic models into these maps remains a challenge. Traditionally, ensemble prediction models are trained via a two-stage process: experimental density maps are converted into atomic structural ensembles through model building, after which these structures are used to train sequence-to-atomic ensemble predictors. In this work, we propose a new principle for fine-tuning pre-trained static structure prediction models such as Boltz-2 directly on raw cryo-EM maps, bypassing the two-stage process. We apply this technique to the problem of atomic model building by fine-tuning Boltz-2 to generate atomic conformations from an input ensemble of cryo-EM maps, achieving superior model building accuracy compared to prior work. Beyond overfitting to individual map ensembles, our method, CryoSampler, also shows preliminary evidence of in-domain generalization after fine-tuning, sampling diverse atomic conformations for an unseen sequences within the same protein family without requiring cryo-EM data. These capabilities indicate that CryoSampler holds the potential to train next-generation atomic ensemble prediction models directly on raw cryo-EM measurements."
    },
    "arXiv/2605.03394v2": {
     "id": "arXiv/2605.03394v2",
@@ -292,7 +313,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2605.03394v2",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 90
+    "age_days_at_first_seen": 90,
+    "abstract": "Understanding protein conformational dynamics is essential for elucidating biological function but remains challenging due to the wide range of timescales and the complexity of collective motions. Enhanced sampling methods overcome timescale limitations of conventional molecular dynamics, yet their effectiveness depends on the choice of collective variables (CVs), which are often difficult to define and may lack physical interpretability. In particular, collective variables derived from machine learning or collective vibrational modes can efficiently capture slow dynamics but are not easily mapped onto intuitive structural descriptors. Here, we present a fully automated framework that transforms enhanced sampling trajectories into human-readable representations of protein dynamics. Our approach combines enhanced sampling along CVs derived from frequency-selective anharmonic mode analysis with a post hoc analysis of biased trajectories using weighted dynamic cross-correlation matrices. From these, we identify residue pairs and domains exhibiting correlated and anti-correlated motions, yielding simple domain-domain distances that serve as physically interpretable CVs. We apply this method to five proteins, including KRAS and HIV-1 protease, and show that it consistently identifies biologically relevant domains and motions without prior system-specific knowledge. Projection onto these distances produces free energy surfaces that reproduce known conformational states with low statistical uncertainty while maximizing independent dynamical information. This workflow enables systematic recasting of complex CVs into simple geometric descriptors without loss of essential dynamics. Its generality and automation make it broadly applicable for interpreting enhanced sampling simulations and generating interpretable conformational ensembles for integration with emerging machine learning approaches."
    },
    "PPR/PPR1288818": {
     "id": "PPR/PPR1288818",
@@ -303,7 +325,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1288818",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 10
+    "age_days_at_first_seen": 10,
+    "abstract": "Deep learning structure predictors, most prominently AlphaFold2 (the field-standard tool benchmarked against throughout this study), have substantially expanded access to protein structural information, yet characteristically return a single static conformation per target. This is an incomplete representation of the binding-competent state for the many pharmacologically relevant targets whose recognition geometry is intrinsically dependent on receptor flexibility, including cryptic-pocket, induced-fit, and water-mediated binding mechanisms. We present a category-stratified, statistically powered benchmark comparing pose prediction from receptor conformational ensembles against AlphaFold2, used as a matched static-structure baseline, across 29 protein-ligand systems spanning cryptic-pocket, induced-fit, water-mediated, and autoimmune-indication target classes. Considering the most accurate pose available from each method's full candidate output, ensemble-derived poses achieved lower RMSD to the experimental structure than AlphaFold on 21 of 29 targets (72.4%), with a mean RMSD of 3.39 A versus 5.60 A: a clear, statistically decisive advantage (paired Wilcoxon signed-rank test, W = 93.0, p = 0.0060). Rather than being diffuse, this advantage was concentrated precisely where mechanistic theory predicts it should be: in induced-fit and water-mediated categories, the classes in which static-structure prediction is expected to be least representative of the bound state: a result that constitutes direct, quantitative confirmation of the ensemble hypothesis, not merely a favorable average. Independent assessment against a field-standard physical-validity framework confirmed that this accuracy gain was achieved without any trade-off in chemical or geometric realism. We further quantify, rather than assume, the extent to which this advantage is recoverable by fully autonomous pose selection, using a proprietary ensemble-aware scoring model with no access to the correct answer, and report a substantial, discriminative signal (cross-validated mean AUC 0.92) with a partial, and clearly characterized, recovery under the strictest accuracy criteria (mean AUPR 0.36), which we identify as the principal, now precisely quantified, determinant of near-term translational progress. Under this same fully autonomous, ground-truth-blind setting, AlphaFold's own top-ranked poses currently match or modestly exceed Mavchen-1's autonomously selected poses on strict success-rate criteria (e.g., 17.2% vs. 20.7% at the combined RMSD-and-validity threshold), a result we report without qualification as the clearest current benchmark for near-term development. Together, these results provide compelling, statistically rigorous evidence that conformational ensemble sampling is a mechanistically grounded and substantial source of improved pose accuracy relative to static-structure prediction, and establish a quantitative benchmark against which continued methodological development can be measured and demonstrably improved upon."
    },
    "PPR/PPR1281868": {
     "id": "PPR/PPR1281868",
@@ -314,7 +337,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1281868",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 19
+    "age_days_at_first_seen": 19,
+    "abstract": "A  bstract    Molecular dynamics (MD) provides a principled method for modeling equilibrium protein conformational energy landscapes, but its computational cost limits access to long timescales and larger protein systems. Recently, generative protein ensemble models and machine-learned coarse-grained force fields have emerged as complementary approaches for accelerating conformational sampling. However, they are typically developed separately despite modeling the same underlying equilibrium distribution. We introduce  UniFlow , the first scalable generative model that unifies protein ensemble generation and machine-learned coarse-grained force fields for molecular dynamics simulation within a single framework. UniFlow employs an internal-coordinate normalizing flow that supports efficient i.i.d. sampling, exact likelihood evaluation, and differentiable energy and force computation. Across diverse protein systems, UniFlow generates ensembles that closely match reference MD simulations, generalizes to proteins beyond its training dataset, and samples substantially faster than diffusion-based ensemble-generation baselines. The same learned density further enables stable long-timescale molecular dynamics simulations. Together, UniFlow paves the way for a unified class of models that bridges generative ensemble modeling with physics-based molecular simulation.   Code   https://github.com/Harrydirk41/UniFlow.git"
    },
    "PPR/PPR1253272": {
     "id": "PPR/PPR1253272",
@@ -325,7 +349,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1253272",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 53
+    "age_days_at_first_seen": 53,
+    "abstract": "A  bstract    Molecular dynamics (MD) simulations remain the standard tool for characterizing protein conformational landscapes, but their high computational cost limits large-scale and long-timescale applications. Recent generative models, especially diffusion-based approaches, provide promising alternatives by learning equilibrium conformational distributions across diverse protein systems. We present  ConformFlow , the first scalable normalizing-flow framework for sequence-conditioned protein conformational ensemble generation. ConformFlow combines a continuous backbone latent representation with a RealNVP-style flow parameterized by sequence-aware Transformer coupling networks, enabling exact likelihood training, single-step sampling, and plug-and-play conditioning on flexible geometric constraints. Across diverse protein systems, ConformFlow generates ensembles that agree well with reference MD simulations, generalizes to proteins beyond its training data, and achieves substantially faster sampling than diffusion-based baselines. These results establish ConformFlow as an efficient and controllable alternative for protein conformational ensemble generation.   Code   https://github.com/Harrydirk41/ConformFlow.git"
    }
   },
   "TRG-CRYPTIC-POCKET-PREDICTION": {
@@ -388,7 +413,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1245581",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 65
+    "age_days_at_first_seen": 65,
+    "abstract": "Abstract    The voltage-gated potassium ion channel Kv1.3 is an attractive therapeutic target due to its central role in effector memory T cell activation and autoimmune disease. Achieving subtype-selective inhibition remains challenging due to the high sequence conservation across the Kv1 family and the lack of structural insight into binding for selective small molecule inhibitors. Here, using a ligand-based virtual screening approach seeded from an existing dichlorophenol scaffold, we identify a novel indole-based chemotype as a highly selective small molecule inhibitor of human Kv1.3. Through a combination of site-directed mutagenesis and cryoEM, we map the binding site and elucidate the inhibitory mechanism of both chemotypes. We show that dichlorophenol and indole inhibitors bind to a cryptic pocket in the P-loop adjacent to the selectivity filter, with four ligands occupying this site per Kv1.3 tetramer. Inhibitor binding induces an expansion of the selectivity filter, disrupts key hydrogen bonds, and stabilizes a channel conformation resembling the C-type inactivated state. This inhibitory mechanism is distinct from a pore block and accesses a site previously restricted to peptide-based inhibitors. This study provides the first atomic-level view of small molecule engagement to Kv1.3 and expanding the mechanistic repertoire of voltage-gated ion channel inhibition. Together, our findings enable future comparison of state-dependent inhibition and downstream effector function while establishing a structural framework for the rational development of selective small molecule voltage-gated ion channel therapeutics."
    },
    "PPR/PPR1237662": {
     "id": "PPR/PPR1237662",
@@ -399,7 +425,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1237662",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 77
+    "age_days_at_first_seen": 77,
+    "abstract": "Finding:   and targeting cryptic pockets could dramatically expand the druggable proteome. However, discovering these sites remains challenging since they are only open a fraction of the time. It is also difficult to predict the functional relevance of a cryptic site as this often requires insight into allostery. Here we introduce attention enabled (AE-)PocketMiner, an artificial intelligence (AI) method that uses a graph neural network with an attention mechanism to simultaneously predict the locations of cryptic pockets and their allosteric coupling to the rest of the protein from a single input structure. We show that AE-PocketMiner outperforms past methods for identifying cryptic pockets and recapitulates known allosteric interactions. Moreover, we experimentally confirm newly predicted cryptic pockets and mutations that allosterically control pocket opening. AE-PocketMiner thus provides a powerful framework for multiple steps of the drug discovery process\u2014including pocket identification, prioritization, and assay design\u2014that will help expand the druggable proteome."
    }
   },
   "TRG-ENDPOINT-SELECTIVITY-READOUT": {},
@@ -422,7 +449,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1241216",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 68
+    "age_days_at_first_seen": 68,
+    "abstract": "The RAS-RAF-MEK-ERK (MAPK) signaling cascade is a central regulator of cellular proliferation and differentiation, and its dysregulation is a frequent driver of oncogenesis. RAF activation requires recruitment by GTP-bound RAS at the plasma membrane, however, the precise molecular determinants governing RAS-RAF engagement remain incompletely understood. Here, we show that the BRAF N-terminal region forms a cooperative BSR-CRD autoinhibitory gate that restricts RAS engagement and encodes isoform-specific kinetic behavior. Using OpenSPR and BLI, together with NanoBiT cellular assays, we reveal a kinetic encoding mechanism in which KRAS and NRAS define distinct regimes of BRAF engagement: KRAS exhibits stability-driven, long-lived complex formation, whereas NRAS displays frequency-driven, transient interactions. Oncogenic mutations reshape these regimes by selectively stabilizing RAS-BRAF association without uniformly increasing affinity, amplifying isoform-specific kinetic signatures. Pharmacological profiling further reveals isoform-dependent sensitivity of RAS-RAF disruption governed by nucleotide state and compatibility with the BSR-CRD gate. Together, these findings establish that KRAS and NRAS operate through distinct kinetic regimes of BRAF engagement governed by a structurally gated N-terminal regulatory architecture encoding temporal and pharmacological specificity in MAPK signaling.  Significance   This study defines a structural and kinetic framework governing RAS-BRAF engagement in MAPK signaling. We define the BRAF BSR-CRD region as a cooperative autoinhibitory gate that controls RAS accessibility and encodes isoform-specific interaction dynamics. KRAS and NRAS exhibit distinct kinetic regimes of BRAF engagement, which are further reshaped by oncogenic mutations. We further show that inhibitor sensitivity is strongly influenced by nucleotide state and isoform-specific Switch II pocket architecture. Together, these findings establish kinetic encoding as a key determinant of RAF activation and therapeutic response in RAS-driven cancers."
    },
    "MED/42334193": {
     "id": "MED/42334193",
@@ -647,7 +675,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2607.22143v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 10
+    "age_days_at_first_seen": 10,
+    "abstract": "Molecular glue degraders have emerged as a promising strategy for targeted protein degradation by inducing ternary complex formation between an E3 ubiquitin ligase and a target protein. Despite their therapeutic potential, computational design of molecular glues remains largely unexplored. Unlike conventional structure-based drug design, molecular glue design is governed by the unknown protein-protein interface and requires the simultaneous modeling of ligand generation, protein-protein docking, and ternary complex assembly. In this work, we formulate molecular glue design as a ternary complex generation problem and propose a biology-inspired generative framework, TriGlue. Motivated by the mechanism of molecular glue action, we decompose ternary complex generation into two coupled stages: interface estimation and interface-conditioned complex generation. First, we develop an SE(3)-equivariant interface estimation module that predicts a geometrically constrained protein-protein interface from unbound monomer structures. Second, we introduce an interface-conditioned ternary flow matching network that jointly generates the molecular glue and predicts the rigid-body transformation required to assemble the ternary complex. Extensive experiments demonstrate that TriGlue generates chemically valid molecules and produces plausible ternary complexes, which highlight the potential of biology-inspired generative modeling for accelerating molecular glue discovery. Our code is available at https://anonymous.4open.science/r/molecular-glue-design-806B."
    },
    "MED/42561560": {
     "id": "MED/42561560",
@@ -668,7 +697,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1257326",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 47
+    "age_days_at_first_seen": 47,
+    "abstract": "Molecular glue degraders (MGDs) are proximity-inducing molecules that promote the destruction of disease-causing proteins by stabilizing novel interfaces between E3 ubiquitin ligases and target proteins. The rational design of MGDs remains exceptionally challenging, historically relying on serendipitous discoveries. Here, we deployed a high-throughput, mass spectrometry (MS)-based screen evaluating thousands of cereblon (CRBN)-directed compounds to expedite the identification of novel neosubstrates. This workflow led to the discovery of  NE26394 , a first-in-class MGD that selectively eliminates cyclin-dependent kinase 4 (CDK4), a critical oncogenic driver of cell cycle progression. Mechanistically,  NE26394 -induced CDK4 recognition by CRBN depends on the co-recruitment of endogenous INK4 family proteins. In CDK4-dependent cancer models,  NE26394 effectively mimics the anti-proliferative RB-E2F pathway perturbations induced by clinical CDK4 inhibitors, rendering it an attractive candidate for further preclinical development."
    },
    "PPR/PPR1220565": {
     "id": "PPR/PPR1220565",
@@ -679,7 +709,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1220565",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 151
+    "age_days_at_first_seen": 151,
+    "abstract": "Cereblon (CRBN)-based molecular glue degraders (MGDs) induce the degradation of diverse disease-relevant proteins, underscoring their broad therapeutic potential. Here we systematically expand the CRBN neosubstrate landscape using a target-agnostic discovery approach. By integrating deep proteomic and ubiquitinomic profiling of a 960-compound library, we identify compound-induced ubiquitination and depletion of over 230 endogenous proteins. Among these, 124 represent previously unreported CRBN neosubstrates, with over half lacking a predicted G-loop degron. We provide this dataset via an interactive resource,  NeosubstratesDB . Complementary cellular and biochemical assays mechanistically define the interaction domain of IRAK1 and establish G-loop-dependent degradation for BCL6. Interpretable machine learning (iML) integrating proteomic profiles with chemical structures highlights key molecular fingerprints driving neosubstrate selectivity for targets such as CSNK1A1, ZFP91 and WEE1. Together, these findings significantly expand the repertoire of CRBN neosubstrates and provide a framework for rational design of next-generation MGDs."
    },
    "PPR/PPR1164287": {
     "id": "PPR/PPR1164287",
@@ -690,7 +721,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1164287",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 151
+    "age_days_at_first_seen": 151,
+    "abstract": "Abstract    This study reports the discovery and characterization of novel CRBN molecular glues that selectively induce the proteasomal degradation of the hematopoietic-specific signaling protein VAV1, a key target in hematological malignancies and autoimmune diseases. Utilizing unbiased global proteomics, we identified phenyl-glutarimide derivatives NGT-201-12, as effective VAV1 degraders, with its C-terminal SH3 domain (SH3-2) being crucial for this interaction. A significant finding is the elucidation of a non-canonical RT-loop degron (RDxS motif, residues 796-799) within VAV1 SH3-2, distinct from previously characterized G-loop degrons. This discovery, supported by advanced computational modeling using the physics- and AI-driven GluePlex workflow and validated by site-directed mutagenesis, highlights versatility of CRBN in recognizing diverse neosubstrate motifs. Furthermore, we demonstrate that applying Free Energy Perturbation (FEP) calculations to these predicted ternary structures yields cooperativity metrics that correlate with experimental degradation potency, overcoming the limitations of standard molecular docking. This establishes a robust workflow where, once a ternary complex is predicted\u2014even with initial weak binders\u2014FEP can be utilized to prospectively rank analogs and optimize molecular glue potency. Additionally, we demonstrate that strategic chemical modifications, particularly conformational restriction via halogen substitution (e.g., NGT-201-18), markedly potentiate VAV1 degradation, a principle supported by density functional theory (DFT) calculations. Comprehensive structure-activity relationship (SAR) studies provided a roadmap for designing next-generation VAV1 degraders. Importantly, dose-response proteomics not only confirmed VAV1 as the primary target but also revealed LIMD1, possessing a canonical G-loop, as an off-target for some analogs, indicating a single molecular glue can engage disparate degron motifs. The identification of the VAV1 RT-loop degron prompted a proteome-wide search, revealing other SH3-containing proteins as potential targets or off-targets. In conclusion, this research unveils a novel non-canonical RT-loop degron in VAV1, demonstrates the utility of conformational restriction in enhancing degrader potency, and underscores the critical role of integrating global proteomics with advanced structural modeling and FEP calculations for understanding degrader potency and selectivity. These findings offer a promising therapeutic strategy for targeting VAV1 and significantly expand the landscape of CRBN neosubstrate recognition and the rational design of molecular glue degraders."
    },
    "arXiv/2607.22143v2": {
     "id": "arXiv/2607.22143v2",
@@ -701,7 +733,8 @@
     "url": "http://arxiv.org/abs/2607.22143v2",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "duplicate_of_title": true
+    "duplicate_of_title": true,
+    "abstract": "Molecular glue degraders have emerged as a promising strategy for targeted protein degradation by inducing ternary complex formation between an E3 ubiquitin ligase and a target protein. Despite their therapeutic potential, computational design of molecular glues remains largely unexplored. Unlike conventional structure-based drug design, molecular glue design is governed by the unknown protein-protein interface and requires the simultaneous modeling of ligand generation, protein-protein docking, and ternary complex assembly. In this work, we formulate molecular glue design as a ternary complex generation problem and propose a biology-inspired generative framework, TriGlue. Motivated by the mechanism of molecular glue action, we decompose ternary complex generation into two coupled stages: interface estimation and interface-conditioned complex generation. First, we develop an SE(3)-equivariant interface estimation module that predicts a geometrically constrained protein-protein interface from unbound monomer structures. Second, we introduce an interface-conditioned ternary flow matching network that jointly generates the molecular glue and predicts the rigid-body transformation required to assemble the ternary complex. Extensive experiments demonstrate that TriGlue generates chemically valid molecules and produces plausible ternary complexes, which highlight the potential of biology-inspired generative modeling for accelerating molecular glue discovery. Our code is available at https://github.com/yuliangyan0807/molecular-glue-design."
    }
   },
   "TRG-VIRTUAL-CELL-NO-LINE": {
@@ -743,7 +776,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1286571",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 7
+    "age_days_at_first_seen": 7,
+    "abstract": "Single-cell perturbation experiments measure how interventions alter cellular phenotypes. However, the number of possible perturbations and biological contexts far exceeds what can be tested experimentally. Motivated by this constraint, predictive models aim to extrapolate cellular responses to unseen conditions. Despite substantial efforts in model development, benchmark studies have reached inconsistent conclusions about the capabilities of current perturbation-response models. A major challenge is that evaluation protocols vary widely across studies, making results difficult to compare. Furthermore, the lack of consensus on evaluation hampers progress because it is unclear which predictive capabilities new models should prioritize. To help build consensus on evaluation principles, we develop a taxonomy that decomposes evaluation protocols into their representation, metric, score transformation, and reporting strategies. We characterize how these choices determine which aspects of prediction quality a benchmark measures and discuss criteria for selecting and assessing protocols in relation to specific benchmarking goals. We additionally provide scPertEval, a Python package with reference implementations of selected evaluation protocols, and use it to assess protocol behavior across seven publicly available single-cell perturbation datasets. By making evaluation choices and their underlying trade-offs explicit, we aim to stimulate a community discussion about developing more comparable and task-aligned evaluation protocols.  Graphical Abstract"
    },
    "PPR/PPR1283345": {
     "id": "PPR/PPR1283345",
@@ -753,7 +787,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1283345",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 12
+    "age_days_at_first_seen": 12,
+    "abstract": "Abstract    The \u201cAI virtual cell\u201d has become a rallying vision for computational biology: a learned model that represents cell state and simulates how cells respond to genetic and chemical perturbations. A rapidly growing zoo of candidate models\u2014from purpose-built perturbation predictors (GEARS, CPA, chemCPA, scGen) to single-cell foundation-model embeddings (Geneformer, scGPT, scFoundation, UCE) to the recent integrated State model\u2014is now marketed under this banner, but they are trained, evaluated and reported so heterogeneously that it is unclear which capabilities are real. We assemble a unified benchmark of eleven methods spanning five model families across six task families and nine public datasets, holding data splits, preprocessing and metrics fixed, and paying explicit attention to strong simple baselines and to how the choice of metric shapes conclusions. Three results stand out. First, on unseen single-gene perturbations no method dramatically beats a well-tuned additive/linear baseline: the best model (State) improves over a cell-mean baseline by 26% versus 19% for the linear baseline and 22% for GEARS, and several foundation-model predictors fall below the linear baseline\u2014echoing recent critical benchmarks. Second, the apparent success of virtual cells is highly metric-dependent: an all-genes Pearson correlation, still widely reported, is maximized by a model that predicts no change and barely separates good from useless predictors; differential-expression and discrimination metrics tell a very different story. Third, the picture is not uniformly negative\u2014deep models earn clear, reproducible gains on combinatorial (non-additive) perturbations, on cross-context transfer to unseen cell types, and above all on representation tasks (annotation and integration), where foundation embeddings decisively beat linear baselines. We connect this representation-strong/prediction-weak profile to interpretability evidence that these models encode organized, largely correlational cell-type structure rather than causal regulatory logic. We argue that the field is closer to a useful virtual microscope than a virtual simulator, and we release the benchmark to make that distinction measurable."
    },
    "PPR/PPR1276286": {
     "id": "PPR/PPR1276286",
@@ -763,7 +798,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1276286",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 25
+    "age_days_at_first_seen": 25,
+    "abstract": "Recent benchmarks show that deep-learning models for perturbation prediction do not outperform simple baselines operating in principal-component (PCA) space. We explain this with an information-theoretic ceiling: for any orthonormal projection basis  \u03a6 , the squared correlation between prediction and truth is bounded by the variance the basis explains (  r 2 \u2264 VE), so no model complexity can recover signal discarded at projection. On chemical perturbations (sciPlex3, LINCS L1000), the eigenbasis of a gene association network captures only 10\u201312% of drug-response variance and yields chance-level predictions, while PCA captures 90\u201399%. Graph wavelets built on the same network recover \u223c88%, localising the drug signal in high-frequency modes that the standard low-pass eigenbasis discards. On CRISPRa genetic perturbations the ranking inverts: the network basis outperforms PCA across all dimensions tested. Controls on topology, null networks and data leakage confirm the effect is structural. The right basis depends on the perturbation modality: PCA captures the variance that drives chemical responses, the network basis captures the cascade structure that drives genetic ones, and bases that access the network\u2019s full graph spectrum (such as graph wavelets) recover both from the same topology."
    },
    "PPR/PPR1259881": {
     "id": "PPR/PPR1259881",
@@ -773,7 +809,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1259881",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 40
+    "age_days_at_first_seen": 40,
+    "abstract": "Predicting how organoids respond to chemical perturbations is central to disease modeling and drug discovery. Existing virtual cell models operate at the single-cell level, producing static endpoint predictions from destructive assays. This leaves a critical gap at the organoid scale, where biological identity is defined by tissue-level architecture and continuous developmental dynamics rather than single-cell features. Here we introduce V3Cell, a vision-guided framework that constructs in silico surrogates of organoids directly from non-invasive bright-field microscopy. A foreground-aware model constructs static virtual 3D cells across colon, stomach, and lung organoid lineages. These virtual 3D cells closely match real samples across distributional metrics, micro-texture, and lineage-specific morphometrics, with small effect sizes for most descriptors. A temporal module further predicts developmental fate from as few as six early-frame observations and models fate-conditioned spatiotemporal trajectories that closely recapitulate real perturbation responses. V3Cell requires no omics profiling or fluorescent labeling, establishing a non-invasive brightfield-based paradigm for organoid-scale perturbation prediction. Our code and data are publicly available at  https://github.com/Laineyoulu/V3Cell ."
    },
    "PPR/PPR1255210": {
     "id": "PPR/PPR1255210",
@@ -783,7 +820,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1255210",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 46
+    "age_days_at_first_seen": 46,
+    "abstract": "Next-token prediction has produced predictable scaling in language, but the recipe presumes a sequence of tokens with a meaningful order. Single-cell RNA-seq counts have no natural gene ordering, so applying the recipe directly to raw expression fails under an ill-suited left-to-right bias. We instead ask whether a learned latent can supply the structure the recipe needs. We introduce  ExpressionVAE (eVAE), a discrete-latent perturbation model that compresses each cell into a short sequence of discrete codes through a finite-scalar-quantization (FSQ) bottleneck and trains a perturbation-conditioned discrete prior over those codes. On Replogle and Parse 1M, eVAE sets a new state of the art on every distributional metric and leads on most cell-eval perturbation metrics, with Fr\u00e9chet distance and MMD  2 roughly 3 to 20\u00d7 lower than the strongest continuous-latent baseline. Swapping the prior between autoregressive and masked discrete diffusion leaves performance near-identical, isolating the gain to the discrete latent itself rather than the prior family. A decoder-head ablation then exposes a single design axis, the richness of the predictive distribution at inference, that splits the standard metrics into two groups, variance-sensitive and mean-sensitive, which move in opposite directions along the axis. Finally, on a held-out CRISPRi reversion benchmark of 1,732 perturbations under inflammatory cytokine stress, the frozen eVAE encoder outperforms UMAP and differential expression and matches scGPT on perturbation ranking at a fraction of the data.  1 We release our code.  2"
    },
    "PPR/PPR1250494": {
     "id": "PPR/PPR1250494",
@@ -793,7 +831,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1250494",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 53
+    "age_days_at_first_seen": 53,
+    "abstract": "Predicting single-cell transcriptional responses to genetic, chemical and cytokine perturbations is a fundamental challenge in computational biology and AI Virtual Cell (AIVC) modeling, with direct implications for drug discovery and the elucidation of gene regulatory networks. Existing approaches often rely on auxiliary cell-state encoders, hierarchical variational autoencoders, dedicated Transformer encoder-decoder modules, or gene-interaction priors to compress high-dimensional expression profiles into latent representations. While effective, these designs increase architectural complexity and may limit scalability and generalizability. This paper introduces OCOO-T  1 , a minimalist flow-matching-based AIVC model for transcriptional perturbation response prediction. OCOO-T utilizes a vanilla Transformer stack that operates directly on continuous gene expression profiles and formulates perturbation response prediction as a continuous-time denoising process. Perturbation embeddings, dosage information, and cell-line/cell-type specificity are integrated through adaptive layer normalization and in-context tokens. Comprehensive evaluations on Tahoe100M, Replogle, and PBMC benchmarks demonstrate that OCOO-T achieves state-of-the-art performance across diverse perturbations and cell types while effectively scaling to long transcriptional profiles through patching and depatching of cellular contexts. By leveraging the simplicity of Transformer-based denoising for single-cell omics, OCOO-T provides an effective and scalable framework for in-silico cellular simulation."
    },
    "PPR/PPR1249392": {
     "id": "PPR/PPR1249392",
@@ -803,7 +842,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1249392",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 54
+    "age_days_at_first_seen": 54,
+    "abstract": "Abstract    Single-cell perturbation prediction benchmarks depend on model outputs and the metric conventions that summarize high-dimensional transcriptional responses. When an official scorer reports a distance but benchmark tables are interpreted as correlation-style scores, scorer orientation becomes part of the scientific result. We present TCPE, a metric-calibrated replay framework that makes scorer orientation, top-k response restriction, seed aggregation, and reference-margin comparison explicit components of a benchmark statement. On Replogle_K562essential, the official scPerturBench scoring function with the documented PCC transform records a PCC-delta top100 score of 0.676556, a margin of +0.004196 over the locked CPA reference 0.672361, and a frozen-versus-replay reconciliation gap of 2.06 x 10^-7. The claim is scoped to the scorer, dataset, seed layout, and reference comparison fixed in the replay protocol; reconstructed-protocol RPE1 and contextual Blind455 analyses are retained as separate evidence tiers."
    },
    "arXiv/2607.23447v1": {
     "id": "arXiv/2607.23447v1",
@@ -813,7 +853,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2607.23447v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 8
+    "age_days_at_first_seen": 8,
+    "abstract": "Predicting cellular responses to unseen chemical perturbations is challenging due to unknown targets and mechanisms, high-dimensional expression responses, and limited experimental coverage of the large small-molecule design space. We propose PerturbPFN, a PFN-style amortized model for unknown-target perturbation prediction under a hierarchical synthetic structural prior. Instead of directly regressing high-dimensional expression responses, PerturbPFN infers a latent system graph, sparse atomic intervention targets, and intervention strengths, then propagates their effects through an SCM decoder. The model is trained entirely on prior-predictive synthetic episodes generated from biologically motivated graph and expression simulators, enabling structured in-context learning without test-time gradient updates. We evaluate PerturbPFN on both real single-cell perturbation data and synthetic benchmarks, covering effect prediction, target identification, and regulatory structure discovery. Our results show that PerturbPFN offers a complementary trade-off to specialized baselines, achieving competitive perturbation prediction with low inference cost while exposing interpretable intermediate estimates of targets, strengths, and system structure."
    },
    "arXiv/2607.17227v1": {
     "id": "arXiv/2607.17227v1",
@@ -823,7 +864,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2607.17227v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 15
+    "age_days_at_first_seen": 15,
+    "abstract": "Single-cell and spatial foundation models promise transferable biological representations, yet their generality remains largely untested across modalities, biological domains and analytical tasks. We benchmarked six representative models, Nicheformer, CellPLM, scGPT-spatial, GenePT, scELMo and Novae, using a harmonised framework spanning scRNA-seq, spatial transcriptomics and Perturb-seq. We evaluated zero-shot and continually pretrained clustering, supervised annotation, marker-gene concordance and perturbation prediction. Model performance was strongly conditional: expression-trained cell-level transformers best resolved many cell-identity tasks, spatial and graph-aware models better preserved tissue architecture, and language-derived gene embeddings were competitive for selected perturbation-response metrics. No model dominated across tasks, and rankings shifted with modality, preprocessing, tokenisation, biological prior, domain shift and metric choice. This benchmark provides practical guidance for model selection and argues that future models should be judged by biological generalisation, interpretability and perturbation-grounded validity, not by scale or leaderboard performance alone."
    },
    "arXiv/2606.30695v2": {
     "id": "arXiv/2606.30695v2",
@@ -833,7 +875,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2606.30695v2",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 35
+    "age_days_at_first_seen": 35,
+    "abstract": "Single-cell drug perturbation models should capture transcriptional response magnitude and whether a treatment changes the proliferative state of the cell. This is difficult because cell-cycle variation is often treated as a nuisance factor, and benchmark processing rarely makes drug-induced phase changes a primary prediction target. We introduce scCycleMol, a cell-cycle-aware perturbation prediction framework built on a curated 24-hour SciPlex3 benchmark with standardized molecule identities, dose and cell-line metadata, modeled genes, and expression-derived cell-cycle supervision. scCycleMol derives cell-cycle supervision from the treated state and applies it to predicted treated expression without using phase as an input covariate. The model includes a learnable full-expression cell-cycle head with circular G1/S/G2M targets, and we evaluate readout-only supervision (with stop-gradient) versus closed-loop supervision (backpropagating through decoder, dose-response module, and drug representation). We also compare molecular representations and pretraining sources to isolate the effect of the cell-cycle objective. On a processed 24-hour SciPlex3 benchmark (635,541 cells, 186 perturbations, 188 compound embeddings, 3 cell lines, 4 doses plus DMSO, 5,080 genes), the best LINCS-pretrained circular variant reaches 0.9093 mean all-gene R-squared and 0.6843 mean DE-gene R-squared. Under matched preprocessing, closed-loop cell-cycle supervision improves phase accuracy by 0.54-0.62 points while keeping mean all-gene R-squared within 0.003 of matched chemCPA no-cell-cycle models; Tahoe-pretrained readout-only circular supervision achieves the strongest phase accuracy at 0.9609."
    },
    "arXiv/2606.27752v1": {
     "id": "arXiv/2606.27752v1",
@@ -843,7 +886,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2606.27752v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 38
+    "age_days_at_first_seen": 38,
+    "abstract": "Single-cell perturbation models can reduce costly wet-lab screening by predicting how cells respond transcriptionally to interventions. While recent generative models improve population-level prediction, individual generated cells are not explicitly checked for biological consistency. We introduce PerturbCellRL, a reinforcement learning (RL) framework that post-trains a pretrained single-cell transcriptomic generator using a suite of cell-level verifiers as rewards. These verifiers define four rewards: Pearson top-k similarity, RMSE top-k proximity, DE Spearman, and Pathway activity. The Pathway activity verifier rewards cells whose pathway responses match known perturbation biology. We evaluate PerturbCellRL on multiple genetic and chemical perturbation benchmarks. Across these benchmarks, PerturbCellRL improves over the pretrained flow-matching generator on reward-aligned evaluation metrics and a held-out evaluation metric. Moreover, PerturbCellRL remains competitive with state-of-the-art methods on population-level metrics. Together, these results frame trustworthy single-cell prediction as verifier-guided generative alignment, moving beyond matching expression distributions toward predictions whose single-cell perturbation effects are explicitly checked for biological consistency."
    },
    "arXiv/2606.13713v1": {
     "id": "arXiv/2606.13713v1",
@@ -853,7 +897,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2606.13713v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 54
+    "age_days_at_first_seen": 54,
+    "abstract": "Predicting cellular transcriptional responses to genetic perturbations is a central problem in single-cell biology, especially in the zero-shot setting where the perturbed gene or gene combination is unseen during training. A major difficulty is that perturbation effects are not determined by expression state alone: they depend on how the perturbed gene product influences other genes and proteins, how those downstream factors act on cis-regulatory elements, and which regulatory programs are active in the current cell state. To better capture this biological complexity, we propose CisTransCell, a cell-conditioned multi-modal framework for single-cell perturbation prediction that augments each gene with two complementary priors: a regulatory-sequence prior that captures how the gene is controlled, and a coding-sequence prior that captures what the gene product does. By integrating these priors with cellular expression state, CisTransCell models perturbation response as a cascade from gene function to regulatory control to downstream transcriptional change. Experiments on benchmark single-cell perturbation datasets show that CisTransCell achieves strong performance in zero-shot perturbation prediction."
    },
    "arXiv/2605.25581v1": {
     "id": "arXiv/2605.25581v1",
@@ -863,7 +908,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2605.25581v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 70
+    "age_days_at_first_seen": 70,
+    "abstract": "Single-cell perturbation prediction aims to infer how cells respond to unseen interventions and to achieve out-of-distribution (OOD) generalization, providing a computational route to understanding how perturbations reshape cellular programs over time. Existing machine learning methods have made important progress, but typically capture only one side of the response. Latent causal approaches seek mechanisms that support generalization and interpretation, yet often treat perturbation effects as static outcomes. Temporal models describe how gene expression changes across time, but usually do not explicitly recover the latent causal generative mechanisms driving these changes. In practice, perturbation effects are both latent and dynamical: interventions act through unobserved cellular programs, whose states evolve over time and give rise to observed expression profiles. Motivated by this view, we propose a latent dynamical causal generative model for single-cell perturbation data that jointly captures latent cellular programs, perturbation-conditioned mechanisms, and temporal evolution. We further provide an identifiability analysis showing that, under suitable conditions, the latent causal variables are recoverable up to standard equivalence classes. Guided by this analysis, we develop CITE-VAE, a learning framework for recovering latent cellular programs and their perturbation-driven dynamics from single-cell sequencing data. Experiments on Causal-3DIdent validate the theoretical results and the effectiveness of the proposed method in controlled settings. Additional experiments on real-world CRISPR-based single-cell perturbation data show improved generalization to unseen perturbations compared with state-of-the-art baselines, highlighting the practical robustness of our approach."
    },
    "arXiv/2605.19343v1": {
     "id": "arXiv/2605.19343v1",
@@ -873,7 +919,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2605.19343v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 76
+    "age_days_at_first_seen": 76,
+    "abstract": "Single-cell perturbation modeling is fundamental for understanding and predicting cellular responses to genetic perturbations. However, existing approaches, from causal representation learning to foundation models, often struggle with an overlooked challenge: gene expression is dominated by perturbation-invariant information, while perturbation-specific signals are intrinsically sparse. As a result, learned representations either entangle invariant and perturbation-specific information, leading to spurious and non-generalizable predictors, or suppress perturbation-specific signals altogether, rendering them ineffective for prediction. To address this, we propose PerturbedVAE, a general framework designed to resolve this signal imbalance. The framework explicitly separates perturbation-specific information from dominant invariant structure and recovers causal representations to effectively utilize such information for prediction. We further provide an identifiability analysis that characterizes the conditions under which sparse perturbation effects can be reliably recovered, thereby clarifying how the framework can be concretely specified under such conditions. Empirically, PerturbedVAE achieves state-of-the-art performance on a widely used benchmark across multiple evaluation settings, yielding significant gains on out-of-distribution combinatorial predictions and uncovering interpretable perturbation-response programs."
    },
    "arXiv/2605.16104v1": {
     "id": "arXiv/2605.16104v1",
@@ -883,7 +930,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2605.16104v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 80
+    "age_days_at_first_seen": 80,
+    "abstract": "Predicting drug-induced cellular state changes at single-cell resolution remains a central challenge in virtual cell modeling, particularly under out-of-distribution (OOD) conditions. Current approaches predominantly rely on RNA-based assays, which often fail to adequately capture the diverse cellular states underlying drug responses. Moreover, conditional distribution shifts and low signal-to-noise ratios frequently cause models to learn spurious correlations rather than genuine state transitions. To address these limitations, we introduce StateXDiff, a cell State-contextualized multimodal (X) Diffusion framework for predicting single-cell responses to drug perturbations. The framework operates sequentially: first, it learns a disentangled, multimodal representation of cellular state by integrating transcriptomic profiles with inferred protein features; second, it employs a conditional diffusion model to generate perturbation-specific changes. Our approach introduces a Virtual Multimodal Cell State, which augments RNA-based representations with protein-level context, and a Mechanism-aware Drug-Gene Template, which consolidates multi-source biological knowledge for accurate drug representation. Generation is driven by a latent-space diffusion Transformer, regularized through quality-aware triplet constraints, including positive drug-protein pairs or protein-drug mismatched pairs, and explicit protein-reliability weighting. Extensive evaluation demonstrates that StateXDiff consistently enhances generalization performance across three challenging settings: unseen cell lines, unseen drugs, and combinatorial perturbations."
    },
    "arXiv/2604.19606v2": {
     "id": "arXiv/2604.19606v2",
@@ -893,7 +941,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2604.19606v2",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 104
+    "age_days_at_first_seen": 104,
+    "abstract": "Systematic ablations are essential to attribute performance gains in AI Virtual Cells, yet they are rarely performed because biological repositories are under-standardized and tightly coupled to domain-specific data and formats. While recent coding agents can translate ideas into implementations, they typically stop at producing code and lack a verifier that can reproduce strong baselines and rigorously test which components truly matter. We introduce AblateCell, a reproduce-then-ablate agent for virtual cell repositories that closes this verification gap. AblateCell first reproduces reported baselines end-to-end by auto-configuring environments, resolving dependency and data issues, and rerunning official evaluations while emitting verifiable artifacts. It then conducts closed-loop ablation by generating a graph of isolated repository mutations and adaptively selecting experiments under a reward that trades off performance impact and execution cost. Evaluated on three single-cell perturbation prediction repositories (CPA, GEARS, BioLORD), AblateCell achieves 88.9% (+29.9% to human expert) end-to-end workflow success and 93.3% (+53.3% to heuristic) accuracy in recovering ground-truth critical components. These results enable scalable, repository-grounded verification and attribution directly on biological codebases."
    },
    "arXiv/2607.19400v1": {
     "id": "arXiv/2607.19400v1",
@@ -903,7 +952,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2607.19400v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 28
+    "age_days_at_first_seen": 28,
+    "abstract": "Pre-trained foundation models (FMs) have begun transforming single-cell genomics, but scaling them raises privacy concerns. Moreover, unlike text data, single-cell data is unordered and exhibits a unique tabular structure that current single-cell FMs overlook. We introduce Tabula, a privacy-preserving FM designed with federated learning (FL) that explicitly models the tabular structure of single-cell data. To deploy Tabula, we further developed Chiron, a decentralized AI agent-enabled platform for collaborative training across institutions without sharing raw data. Beyond strong performance across downstream benchmarks, Tabula reveals combinatorial regulatory logic across diverse biological systems, including hematopoiesis, pancreatic endogenesis, neurogenesis, and cardiogenesis. Using a new scRNA-seq dataset of paired young and aged human fibroblasts, Tabula nominates rejuvenation factors through age- and identity score-guided in silico prioritization, outperforming conventional approaches. Thus, Tabula represents an important advance in single-cell foundation modeling by integrating tabular learning with FL, paving the way toward privacy-preserving virtual cells for human health."
    },
    "arXiv/2607.04595v1": {
     "id": "arXiv/2607.04595v1",
@@ -913,7 +963,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2607.04595v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 28
+    "age_days_at_first_seen": 28,
+    "abstract": "Most classification problems assume the classes are roughly separable, so that an individual sample can usually be assigned to one class. Single-cell perturbation data violates this assumption: two perturbations can produce different populations of cells while overlapping so much that an individual cell could belong to either. Per-cell accuracy then measures this overlap rather than model quality. We see this on Tahoe-100M and the Virtual Cell Challenge, where a linear classifier, an MLP, and a Transformer all plateau near macro-F1 0.2-0.3 even though almost every pair of perturbations is statistically distinguishable. The fix is to score perturbations across the whole population rather than cell by cell. We average a classifier's per-cell probability vectors over all cells of a perturbation to form a population profile, then rank candidate perturbations by this profile; we call the resulting score the Classifier Discrimination Score (CDS). Taking the top-ranked class recovers the winning perturbation. It needs no retraining, costs linear time in the number of cells, and recovers near-perfect identification from the same weak models. CDS differs from the pseudobulk-based Perturbation Discrimination Score (PDS) used in recent benchmarks only in where the average is taken, raw gene expression for PDS versus a learned discriminative space for CDS, and identifies the true perturbation more reliably on both datasets, with the gap widening as cells grow scarce. Because a metric that misranks the ground truth will misrank the models scored against it, per-cell accuracy and raw-pseudobulk scores should be used with caution when comparing perturbation models."
    },
    "arXiv/2606.28465v1": {
     "id": "arXiv/2606.28465v1",
@@ -923,7 +974,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2606.28465v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 38
+    "age_days_at_first_seen": 38,
+    "abstract": "This work examines perturbation generalization in spatial foundation-model embeddings derived from fluorescence microscopy images. Although these models can discriminate drug conditions accurately, it remains unclear whether the learned representations reflect patterns consistent with expected perturbation axes that transfer across drugs. We introduce SVC-Probe, a perturbation-aware framework that combines Subcellular Embedding Atlas Stability, Mondrian Neighborhood Graphs, and a Foundation Model Perturbation Probe to assess embedding stability, neighborhood rewiring, and centroid prediction under drug treatment. Applied to the CM4AI MDA-MB-468 chemical-perturbation atlas comprising 462 antibody labels and SubCell 1536-dimensional embeddings, SVC-Probe demonstrates that 98.6% three-way condition accuracy does not correlate with reliable cross-drug prediction, with cosine similarity diminishing from 0.944 in-domain to 0.30 under leave-one-drug-out evaluation, constituting a two-drug stress test rather than a general benchmark. Null calibration indicates that raw residual-turnover coupling is largely influenced by generic embedding structure, whereas a drug-specific signal emerges under vorinostat and is consistent with chromatin-related reorganization. In contrast, the paclitaxel axis is not robustly reconstructed, likely due to sparse coverage of microtubule-associated proteins. Together, these results introduce and demonstrate a reusable diagnostic framework for stress-testing spatial virtual-cell representations and indicate that perturbation generalization may serve as a stricter and more informative benchmark than baseline condition discrimination."
    },
    "arXiv/2606.21109v1": {
     "id": "arXiv/2606.21109v1",
@@ -933,7 +985,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2606.21109v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 45
+    "age_days_at_first_seen": 45,
+    "abstract": "Virtual-cell and perturbation models are increasingly used to predict cellular responses for biomedical discovery, but chemical and genetic perturbations are not automatically interchangeable. Existing evaluations often study chemical response prediction or genetic perturbation prediction separately, leaving target-matched chemical-to-genetic translation under-tested. We introduce Chem2Gen-Bench, a benchmark comprising 260,084 chemical and 1,099,045 genetic perturbation profiles organized into cell-target contexts, and evaluate pairwise alignment, retrieval, protocol covariate associations, feature spaces, and foundation-model embeddings. Across matched contexts, translation fidelity is measurable but heterogeneous; background adjustment increases the association between pairwise similarity and retrieval success, while paired tests show lower mean retrieval success after adjustment under the evaluated settings. In a target-matched K562 audit, the evaluated foundation-model embeddings did not consistently improve over gene-delta baselines. Chem2Gen-Bench provides an auditable framework for testing when chemical and genetic perturbations align around shared targets and when representation gains are supported by matched perturbation evidence."
    },
    "arXiv/2606.12838v1": {
     "id": "arXiv/2606.12838v1",
@@ -943,7 +996,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2606.12838v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 53
+    "age_days_at_first_seen": 53,
+    "abstract": "Predicting single-cell transcriptional responses to genetic, chemical and cytokine perturbations is a fundamental challenge in computational biology and AI Virtual Cell (AIVC) modeling, with direct implications for drug discovery and the elucidation of gene regulatory networks. Existing approaches often rely on auxiliary cell-state encoders, hierarchical variational autoencoders, dedicated Transformer encoder-decoder modules, or gene-interaction priors to compress high-dimensional expression profiles into latent representations. While effective, these designs increase architectural complexity and may limit scalability and generalizability. This paper introduces OCOO-T, a minimalist flow-matching-based AIVC model for transcriptional perturbation response prediction. OCOO-T utilizes a vanilla Transformer stack that operates directly on continuous gene expression profiles and formulates perturbation response prediction as a continuous-time denoising process. Perturbation embeddings, dosage information, and cell-line/cell-type specificity are integrated through adaptive layer normalization and in-context tokens. Comprehensive evaluations on Tahoe100M, Replogle, and PBMC benchmarks demonstrate that OCOO-T achieves state-of-the-art performance across diverse perturbations and cell types while effectively scaling to long transcriptional profiles through patching and depatching of cellular contexts. By leveraging the simplicity of Transformer-based denoising for single-cell omics, OCOO-T provides an effective and scalable framework for in-silico cellular simulation."
    },
    "arXiv/2606.08816v1": {
     "id": "arXiv/2606.08816v1",
@@ -953,7 +1007,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2606.08816v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 57
+    "age_days_at_first_seen": 57,
+    "abstract": "Predicting the effect of an unseen gene knockout perturbation on transcriptomic gene expression remains a highly challenging problem for virtual cell models. Recent progress has been made by leveraging biological knowledge graphs to provide a notion of similar perturbation, allowing for improved extrapolation beyond the set of training perturbations. In this work, we demonstrate that the simplest model to leverage these assumptions - a K-nearest neighbour from the knowledge graph - achieves highly competitive performance on this task, and that this can be improved further using LLMs optimised via reinforcement learning (RL) for predictive performance. Specifically, we find that the K-nearest neighbour approach beats almost all methods on out-of-distribution perturbation prediction, and when a reasoning LLM is trained via RL to make changes to the neighbourhood, it obtains equivalent performance to current state of the art methods on the cell lines from Replogle et al. (2022). We also demonstrate that the RL training improves the LLM's performance on the downstream task of differential expression prediction, despite not being trained on this directly. Overall, these findings demonstrate the efficacy of knowledge graphs as model priors, and show early signs that RL can refine LLMs into generalizable tools for predicting complex biological responses."
    },
    "arXiv/2606.01042v1": {
     "id": "arXiv/2606.01042v1",
@@ -963,7 +1018,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2606.01042v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 64
+    "age_days_at_first_seen": 64,
+    "abstract": "Perturbation experiments are central to understanding cellular mechanisms, but remain costly and sparse, motivating prediction of gene expression responses for unobserved conditions. A promising recent direction leverages large language models (LLMs) as \"virtual cell\" simulators-using stepwise, knowledge-grounded mechanistic reasoning to infer differential expression-pointing toward an interpretable, knowledge-driven paradigm that transcends purely data-driven approaches. However, we find that plausibility is not prediction: despite producing biologically plausible explanations, these methods fail to capture perturbation-specific effects: systematically overestimating differential expression, often underperforming a simple gene-frequency baseline in aggregate evaluations, and collapsing to chance-level performance at the per-gene level. This reveals a reliance on intrinsic gene response tendencies rather than true perturbation reasoning. We trace this failure to how evidence is presented: existing methods evaluate perturbation-gene pairs in isolation, without exposing how related perturbations differ in their effects on the same gene. To address this limitation, we introduce CORE (Contrastive Organization of Relational Evidence), which reframes prediction as a comparison task by organizing evidence into positive and negative outcomes from related perturbations. Using a biomedical knowledge graph for evidence retrieval, CORE improves calibration and substantially boosts perturbation-specific prediction in both LLM-based and non-LLM settings: for example, on drug-perturbation data, CORE-Reasoning improves Qwen3.5-9B aggregate metrics by up to 28.6%, while on generic perturbation data, CORE-Voting raises macro-per-gene AUROC from chance to 0.703 in average across four cell lines. This highlights contrastive evidence organization as essential to reliable LLM-based perturbation reasoning"
    },
    "arXiv/2605.28111v1": {
     "id": "arXiv/2605.28111v1",
@@ -973,7 +1029,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2605.28111v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 68
+    "age_days_at_first_seen": 68,
+    "abstract": "Predicting how a cell will change its transcriptional state under a developmental signal or a genetic perturbation is the computational core of in-silico biology and the AI Virtual Cell program. Existing approaches either fit static control-to-treated maps that discard time, or solve multi-step ODE / Schr\u00f6dinger-bridge problems on each dataset independently. We introduce Chreode, a one-step cell world model that predicts action-conditioned cell-state transitions through a structured residual transition operator. It shifts distributional evolution from inference time to training time, enabling single-pass generation while preserving a Waddington-inspired decomposition into downhill landscape flow, rotational in-tangent dynamics, and stochastic spread. The model is pretrained with a shared scVI encoder and a DiT-based dynamics backbone on a 2.4M-cell mouse embryonic atlas spanning 7 datasets. As a fine-tuning initialization, Chreode improves per-target Sinkhorn distance on Weinreb hematopoiesis and Veres islet differentiation over matched scratch models, PI-SDE, and PRESCIENT. As a transferable gene-state embedding for GEARS, the pretrained dynamics representation reduces shared-vocabulary DE20 mean squared error on Norman Perturb-seq from 0.2121 to 0.1858, a 12.4% relative improvement, without changing the GEARS training procedure. We interpret this transfer to perturbation prediction as evidence that pretrained developmental-trajectory dynamics encode differentiation primitives transferable to CRISPR-induced state shifts, since both involve cell-state transitions in a shared latent geometry. The pretrained backbone additionally produces zero-shot clonal fate scores on Weinreb that are competitive with strong dynamic-OT baselines."
    },
    "arXiv/2605.10876v1": {
     "id": "arXiv/2605.10876v1",
@@ -983,7 +1040,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2605.10876v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 84
+    "age_days_at_first_seen": 84,
+    "abstract": "Recent advances in machine learning and large-scale biological data collections have revived the prospect of building a virtual cell, a computational model of cellular behavior that could accelerate biological discovery. One of the most compelling promises of this vision is the ability to perform in silico phenotypic screens, in which a model predicts the effects of cellular perturbations in unseen biological contexts. This task combines heterogeneous textual inputs with diverse phenotypic outputs, making it particularly well-suited to LLMs and agentic systems. Yet, no standard benchmark currently exists for this task, as existing efforts focus on narrower molecular readouts that are only indirectly aligned with the phenotypic endpoints driving many real-world drug discovery workflows. In this work, we present AssayBench, a benchmark for phenotypic screen prediction, built from 1,920 publicly available CRISPR screens spanning five broad classes of cellular phenotypes. We formulate the screen prediction task as a gene rank prediction for each screen and introduce the adjusted nDCG, a continuous metric for comparing performance across heterogeneous assays. Our extensive evaluation shows that existing methods remain far from empirically estimated performance ceilings and zero-shot generalist LLMs outperform biology-specific LLMs and trainable baselines. Optimization techniques such as fine-tuning, ensembling, and prompt optimization can further improve LLM performance on this task. Overall, AssayBench offers a practical testbed for measuring progress toward in silico phenotypic screening and, more broadly, virtual cell models."
    },
    "arXiv/2605.07335v1": {
     "id": "arXiv/2605.07335v1",
@@ -993,7 +1051,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2605.07335v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 87
+    "age_days_at_first_seen": 87,
+    "abstract": "Virtual Cell Modeling (VCM) requires models that not only predict perturbation responses, but also support targeted revision when predictions fail. Current LLM-assisted modeling workflows face a refinement-routing problem: prediction discrepancies are observed through executable implementations, but the relevant revision may involve the modeling assumption, representation design, implementation, or task constraint. Without structured feedback propagation across these levels, iterative refinement may repair code while failing to revise the assumption responsible for the discrepancy. We propose CellScientist, a dual-space hierarchical framework that couples a high-level hypothesis space with a low-level executable implementation space. CellScientist represents modeling decisions as structured states, realizes them as admissible programs under task and interface constraints, and routes execution discrepancies back to targeted hypothesis or implementation updates. This enables a closed Hypothesis -> Implementation -> Hypothesis loop where failures become structured signals for model refinement rather than debugging events. Across morphology and transcriptomic benchmarks, with additional single-cell perturbation evaluations, the final executable models selected by CellScientist improve over reference baselines under fixed split and evaluation protocols, while the workflow produces auditable refinement traces."
    },
    "arXiv/2604.27646v1": {
     "id": "arXiv/2604.27646v1",
@@ -1003,7 +1062,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2604.27646v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 95
+    "age_days_at_first_seen": 95,
+    "abstract": "Virtual cell (VC) models aim to predict cellular responses to any perturbations in silico and have emerged as a promising approach for drug discovery and precision medicine. Yet, a clear gap still remains: while models routinely reported impressive results on standard benchmarks, it is unclear whether their predictions are truly meaningful in practice. This is mainly due to limitations in current evaluation setups, which are often overly simplified or inconsistent, and do not reflect the complexity and variability of real biological systems. Here, we introduce a standardized and modular benchmarking framework for virtual cell prediction. Our framework evaluates diverse models under in-the-wild challenging scenarios, including unseen cell contexts, unseen perturbations, and cross-dataset generalization, which better reflect practical applications. Our analysis shows that model performance is highly context-dependent and shaped by task design and evaluation criteria. In commonly used setups, performance is often overestimated, and naive dataset aggregation can even reduce performance. When evaluated under more strict conditions, model performance drops markedly, indicating limited robustness to shifts across cellular contexts. In unseen perturbation settings, models including simple linear approaches capture global transcriptional trends but fail to recover fine-grained perturbation-specific effects. In addition, different evaluation metrics focus on different biological properties, leading to substantially different model rankings. Together, our framework provides a more reliable and biologically grounded evaluation, offering clearer guidance for applying virtual cell models in real scenarios."
    },
    "arXiv/2604.20263v1": {
     "id": "arXiv/2604.20263v1",
@@ -1013,7 +1073,8 @@
     "source": "arxiv",
     "url": "http://arxiv.org/abs/2604.20263v1",
     "first_seen": "2026-08-03",
-    "age_days_at_first_seen": 103
+    "age_days_at_first_seen": 103,
+    "abstract": "Virtual cell modeling predicts molecular state changes under genetic perturbations in silico, which is essential for biological mechanism studies. However, existing approaches suffer from unconstrained reasoning, uninterpretable predictions, and retrieval signals that are weakly aligned with regulatory topology. To address these limitations, we propose AROMA, an Augmented Reasoning Over a Multimodal Architecture for virtual cell genetic perturbation modeling. AROMA integrates textual evidence, graph-topology information, and protein sequence features to model perturbation-target dependencies, and is trained with a two-stage optimization strategy to yield predictions that are both accurate and interpretable. We also construct two knowledge graphs and a perturbation reasoning dataset, PerturbReason, containing more than 498k samples, as reusable resources for the virtual cell domain. Experiments show that AROMA outperforms existing methods across multiple cell lines, and remains robust under zero-shot evaluation on an unseen cell line, as well as in knowledge-sparse, long-tail scenarios. Overall, AROMA demonstrates that combining knowledge-driven multimodal modeling with evidence retrieval provides a promising pathway toward more reliable and interpretable virtual cell perturbation prediction. Model weights are available at https://huggingface.co/blazerye/AROMA. Code is available at https://github.com/blazerye/AROMA."
    },
    "PPR/PPR1294148": {
     "id": "PPR/PPR1294148",
@@ -1023,7 +1084,8 @@
     "source": "europepmc",
     "url": "https://europepmc.org/article/PPR/PPR1294148",
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 1
+    "age_days_at_first_seen": 1,
+    "abstract": "Predicting cellular responses to genetic perturbations is central to understanding gene function and prioritizing therapeutic targets, but experimental screens cannot exhaustively cover genes, cell types, and perturbation combinations. Recent benchmarks have shown that simple baselines can match or outperform substantially more complex models, suggesting that informative biological priors may be as important as model capacity. Here we present SLIM, a lightweight extension of the bilinear model of Ahlmann-Eltze et al. SLIM represents perturbations with 64-dimensional embeddings derived from the STRING protein network and predicts mean transcriptional responses through a closed-form ridge-regression estimator. It then constructs single-cell populations by retrieving training cells and rescaling each gene to match the predicted mean. We evaluated SLIM against four deep learning models and two simple baselines on four single-gene perturbation datasets and one combinatorial perturbation dataset. Across these within-dataset benchmarks, SLIM achieved competitive mean-response accuracy, ranked first in eight of twelve single-gene dataset-metric comparisons, and produced substantially lower maximum mean discrepancy values than the evaluated alternatives. The model has 640 trainable parameters and fitted each benchmark dataset in under 10 seconds on a CPU. These results show that compact biological representations can support accurate and computationally efficient perturbation prediction. Code is available at https://github.com/RasmussenLab/SLIM."
    },
    "PPR/PPR1247490": {
     "id": "PPR/PPR1247490",
@@ -1034,7 +1096,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1247490",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 62
+    "age_days_at_first_seen": 62,
+    "abstract": "Gene regulatory networks govern cell fate transitions through dynamic causal mechanisms  1 . Since exhaustively mapping this vast perturbation space experimentally is prohibitive  2 , scalable computational models are essential. Yet, current frameworks fall short because they infer statistical co-expression rather than physical mechanisms, remain blind to non-canonical regulators lacking classical DNA-binding motifs, and fail to generalize across unseen perturbation factors or cell lines. Here we show that a multimodal biophysical framework, VitaGRN, overcomes these barriers by constructing a biophysical regulatory scaffold from multimodal evidence and propagating interactions to capture non-canonical regulators. By leveraging structurally aligned protein embeddings, VitaGRN predicts zero-shot perturbation responses and uncovers non-canonical translational control programs. Notably, VitaGRN demonstrates robust generalization across unseen factors, cell lines, and developmental transitions. Ultimately, VitaGRN generates a confidence-calibrated virtual perturbation atlas spanning over a thousand factors. This resource reframes gene regulatory networks from static correlation graphs into dynamically generalizable and mechanistically trans-parent models, streamlining wet-lab candidate prioritization."
    },
    "PPR/PPR1213794": {
     "id": "PPR/PPR1213794",
@@ -1045,7 +1108,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1213794",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 108
+    "age_days_at_first_seen": 108,
+    "abstract": "Foundation models and deep learning systems are increasingly proposed as core components of \u201cvirtual cells\u201d capable of forecasting transcriptomic responses to unseen perturbations. Yet rigorous evaluation of perturbation prediction in high-dimensional gene expression space remains challenging, raising concerns of reported performances. Here, we introduce the SBB principles (Signal, Bounds, and Baselines) for evaluating biological perturbation prediction. The Signal pillar introduces diagnostic meta-metrics and promotes differentially expressed gene (DEG)-based weighting or filtering to verify and recover metric sensitivity to biological signal masked by high-dimensional noise. The Bounds pillar provides perturbation-wise metric calibration against empirical reference points, transforming raw metric values into interpretable quantities that clarify the actual scale of model improvements. The Baselines pillar establishes a hierarchy of interpretable linear models that serve as rigorous performance floors. Applying these principles across seven transcriptomic perturbation datasets, including single and double perturbations, we demonstrate that complex deep learning methods, including foundation models, often still fail to meaningfully surpass simple linear baselines, and that substantial room for improvement remains even where they do. These principles provide a critical standard for distinguishing genuine biological signal from statistical artifacts and for guiding more robust model development."
    },
    "PPR/PPR1210606": {
     "id": "PPR/PPR1210606",
@@ -1056,7 +1120,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1210606",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 88
+    "age_days_at_first_seen": 88,
+    "abstract": "The increasing number of computational methods designed to predict the effects of genetic perturbations on cellular gene expression profiles has led to a need for rigorous evaluation metrics. Recent benchmarking studies rely on correlation or cosine similarity of differential expression relative to a shared population of control cells. We show that these metrics are systematically inflated by statistical bias induced by reusing the same control population to define both quantities being compared. As a result, even non-informative methods can appear to perform well, particularly in datasets with limited numbers of control cells. Reanalysis of published datasets using a simple control-splitting procedure that removes this bias leads to a substantial reduction in performance previously attributed to biological signal."
    },
    "PPR/PPR1210147": {
     "id": "PPR/PPR1210147",
@@ -1067,7 +1132,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1210147",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 85
+    "age_days_at_first_seen": 85,
+    "abstract": "Recent deep learning models for L1000 chemical perturbation prediction incorporate dedicated drug molecular encoders. We retrained seven such models from scratch with zeroed or shuffled drug inputs, and compared them with a multilayer perceptron that uses only cell-line basal expression. Under drug-blind evaluation, ablation caused negligible performance changes and the drug-free baseline matched all models. Current architectures do not yet utilise drug molecular features for generalisation to unseen compounds."
    },
    "arXiv/2608.01734v1": {
     "id": "arXiv/2608.01734v1",
@@ -1078,7 +1144,8 @@
     "url": "http://arxiv.org/abs/2608.01734v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 5
+    "age_days_at_first_seen": 5,
+    "abstract": "Predicting transcriptomic responses to small-molecule perturbations across cell lines is central to drug discovery, but exhaustive profiling of drug-cell combinations is infeasible. We frame molecular perturbation prediction as retrieve-and-aggregate: approximate an unmeasured drug's response in a cell line by aggregating measured responses of a small set of biologically related compounds. We propose LLM-Guided Retrieval (LGR), where a large language model (LLM) ranks candidate neighbor drugs (restricted to those profiled in the target cell line); after which a fixed mean aggregator combines their observed expression deltas to form the prediction. We evaluate on the Tahoe-100M single-cell perturbation atlas under unseen-drug, unseen-cell-line, and open-world regimes. LGR consistently improves over drug mean, ChemCPA, and chemistry-based kNN baselines, with the strongest gains for unseen cell-line generalization, where it achieves higher correlation and lower error than mean baselines. Across settings, LGR improves directional (sign) accuracy of gene regulation, indicating better recovery of biologically meaningful perturbation effects even when magnitude-based metrics are similar. These results suggest that retrieval quality, rather than predictor complexity, is a key driver of zero-shot molecular perturbation prediction, and that LLMs can provide a useful biological prior when used as constrained retrieval modules."
    },
    "arXiv/2608.00152v1": {
     "id": "arXiv/2608.00152v1",
@@ -1089,7 +1156,8 @@
     "url": "http://arxiv.org/abs/2608.00152v1",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 8
+    "age_days_at_first_seen": 8,
+    "abstract": "Predicting the magnitude of a CRISPRi perturbation's transcriptomic effect on held-out target genes is an important open problem in single-cell biology. Recent work has documented that simple baselines often match or exceed deep perturbation predictors on related protocols. We study this phenomenon on the Virtual Cell Challenge (VCC) benchmark under a strict held-out target-gene split, identify the specific low-dimensional signal that drives the gap, and characterize how it transfers across cell types. The target is the log Anderson-Darling distance from non-targeting controls, which is strongly predictable from four deterministic scalar functions of the 2,000-dimensional input. A deep MLP encoder with direct access to the full input collapses toward the marginal training mean, and standard remedies do not close the gap. A linear regression on the four magnitude scalars alone exceeds the strongest x-only classical model, while a Random Forest on the input plus the four scalars substantially outperforms our deep proof-of-concept encoder. Two pre-specified controls attribute the magnitude gain to per-row alignment rather than added dimensionality. Under zero-shot transfer to two external CRISPRi screens evaluated against a target-gene endpoint rebuilt from single-cell data, magnitude-only predictors transfer positively whereas expression-only predictors are negative or unresolved. Exposing magnitude to the deep encoder improves transfer over its expression-only counterpart, yet the encoder does not outperform a four-scalar linear regression on the same features. We also find that the Anderson-Darling column distributed with these screens measures transcriptome-wide response breadth rather than target-gene effect strength, so evaluating transfer against it scores a different outcome."
    }
   },
   "TRG-OLIGO-DELIVERY-TECH": {
@@ -1334,7 +1402,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1242050",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 71
+    "age_days_at_first_seen": 71,
+    "abstract": "Ronapreve, a combination of two neutralising monoclonal antibodies, casirivimab and imdevimab, was amongst the authorised treatments against SARS-CoV-2 early in the COVID-19 pandemic. Ronapreve has lost some of its efficiency with the rise of new virus variants, however, it remains a valuable tool for experimental studies to gain insights into the mechanisms and effects of anti-viral drugs. In this study we combined morphological, pharmacokinetic and molecular approaches (including multiomics) to investigate the biodistribution of Ronapreve in the K18-hACE2 murine model of SARS-CoV-2 neuroinvasion, as well as possible consequences for the brain. We also investigated the effect of the treatment on the infection status. Our results showed that after intraperitoneal injection, Ronapreve accumulates in the serum and is unable to cross the blood-brain barrier, thus not reaching the brain parenchyma; treatment has only a minimal effect on the brain transcriptome, with no significant changes in the brain lipidome or metabolome. Nonetheless, post-exposure Ronapreve treatment resulted in reduced viral loads in the lung and, in particular, the brain, with markedly reduced tissue response in the brain, as shown by the transcriptomic analysis. The results suggest a peripheral mode of action of Ronapreve to block brain infection, possibly by lowering viral replication in the nasal epithelium, reducing a subsequent spread to the brain."
    },
    "PPR/PPR1238335": {
     "id": "PPR/PPR1238335",
@@ -1345,7 +1414,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1238335",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 75
+    "age_days_at_first_seen": 75,
+    "abstract": "Abstract      An open-source physiologically based pharmacokinetic\u2013pharmacodynamic (PBPK\u2013PD) framework was developed to translate   in vitro   tuberculosis drug potency into clinical exposure\u2013response predictions across clinically relevant subpopulations, formulations, and adherence scenarios. A whole-body rifampicin PBPK model was implemented in PK-Sim/MoBi to simulate plasma concentration\u2013time profiles under once-daily oral dosing (10 mg/kg) for 14 days across virtual cohorts (n\u2009=\u2009100 per scenario), including pregnancy, pediatrics, geriatrics, and hepatic impairment. Controlled-release formulations were implemented via digitized   in vitro   dissolution profiles. The multistate tuberculosis pharmacometrics (MTP) model was translated from NONMEM to mrgsolve without structural modification, and PBPK-predicted concentrations were coupled to the MTP model in R as time-varying forcing functions. Treatment success was defined as a\u2009\u2265\u20093-log\u2081\u2080 reduction in total bacterial burden by day 14, normalized to the adult reference. Pregnancy simulations predicted attenuated normalized success in the first trimester (0.84), recovering in trimesters 2\u20133 (1.01). Among pediatric cohorts, neonates (1.03) and toddlers (1.01) matched the adult response, whereas preschool children showed reduced success (0.90). Geriatric and hepatically impaired cohorts showed higher success (1.23\u20131.28). Slower-release formulations progressively reduced success, and consecutive missed doses (0.83) had a greater impact than a single interruption (0.95). This proof-of-concept framework mechanistically links physiology-driven rifampicin exposure to multistate bacterial killing, identifies vulnerable subgroups, and demonstrates how interoperable open-source tools can support model-informed drug development for tuberculosis."
    }
   },
   "TRG-VECTOR-DELIVERY-SOLID-TUMOUR": {},
@@ -1641,7 +1711,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1264024",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 38
+    "age_days_at_first_seen": 38,
+    "abstract": "Duchenne muscular dystrophy (DMD) is caused by mutations in the DMD gene that disrupt the reading frame and abolish expression of functional dystrophin protein. Antisense oligonucleotides (ASO) can restore production of partially functional dystrophins by inducing exon skipping to restore the reading frame of dystrophin transcripts. While exon skipping is an FDA approved therapeutic strategy, there are currently no approved therapies for patients amenable to exon 44 skipping (8% of DMD patients). Here, we carried out a discovery campaign to identify phosphorothioate (PS) ASOs that efficiently induce exon 44 skipping and to define key sequence and chemistry features associated with activity. A tiling and micro-tiling approach with 18mer fully PS and 2-O-methoxyethyl (MOE) modified ASOs in patient-derived myotubes identified five exonic target regions that promote skipping. ASO activity was strongly correlated across skeletal muscle and iPSC-derived cardiomyocytes, indicating similar exon 44 splicing regulation across cell types. Optimization studies showed that for MOE PS ASOs, 16 - 20mers were generally most active, while longer ASOs often had reduced activity due in part to impaired productive uptake into cells. Swapping out MOE modifications at both terminal positions for locked nucleic acids (LNAs) rarely improved activity and could also reduce it. Finally, promising candidates were tested in a humanized mouse model with an exon 44 skippable deletion, where one ASO outperformed others, inducing dose-dependent exon 44 skipping and dystrophin restoration in mouse models. These findings define practical design rules for exon 44-targeted ASOs and provide a foundation for therapeutic development."
    },
    "PPR/PPR1252331": {
     "id": "PPR/PPR1252331",
@@ -1652,7 +1723,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1252331",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 55
+    "age_days_at_first_seen": 55,
+    "abstract": "Small interfering RNAs (siRNAs) are a clinically validated therapeutic modality, yet designing potent chemically modified siRNAs remains a costly and iterative process, limited by scarce public data. Computational prediction of siRNA efficacy is therefore essential for rational design and accelerated preclinical development. However, despite the critical role of chemical modifications in therapeutic performance, current state-of-the-art machine learning methods either are not designed to model the chemical diversity of therapeutic siRNAs, or exhibit poor generalization performance. Here, we present FENNEC (Fine-Tuned Ensemble of Neural Networks for siRNA Efficiency Characterization), a machine-learning framework for predicting siRNA activity across chemically diverse design spaces. To support this effort, we curated the largest patent-derived dataset to date of chemically modified siRNAs from 42 patents using OCR-based table extraction and stringent filtering. FENNEC combines temporal convolutional networks with thermodynamic descriptors, experimental covariates, and embeddings from RNA foundation models to capture both local chemical determinants and broader target-context information. Importantly, we show that language-model-derived embeddings provide meaningful higher-order representations of target transcripts, particularly in data-scarce settings. FENNEC achieved robust predictive performance across both gene-level and scaffold-level validation settings, with additional experimental validation on a novel AHSA1-targeting dataset further supporting its generalizability across chemically modified siRNAs. In benchmarking, FENNEC outperformed classical machine-learning and state-of-the-art deep learning models, demonstrating generalization to unseen chemistry. Model interpretation recovered established design principles, including position-specific effects of glycol nucleic acid, 2\u2019-fluoro modifications, and phosphorothioate backbones. Furthermore, in silico perturbation analyses suggest that FENNEC can serve not only as a predictive model, but also as an oracle for the design and optimization of chemically modified siRNAs. Together, our work addresses a key gap in the field by enabling chemically aware deep learning for siRNA design, supported by a large and diverse collection of chemically modified siRNA measurements."
    },
    "PPR/PPR1223467": {
     "id": "PPR/PPR1223467",
@@ -1663,7 +1735,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1223467",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 172
+    "age_days_at_first_seen": 172,
+    "abstract": "RNA interference (RNAi) is a crucial biological post-transcriptional gene silencing mechanism where small interfering RNA (siRNA) guides RNA-induced silencing complex (RISC) to bind with messenger RNA (mRNA) thereby silencing it and stopping protein formation. We exploit this process to prevent the formation of harmful proteins by silencing mRNA before it is translated into protein through an effective siRNA. There exists a need to develop a computational model that predicts the effectiveness of siRNA on a given mRNA.  Design:   ing a model is challenging, as the data availability is either scarce or biased, and existing models lack generalization ability, even though the parameters to training samples ratio is very high. To overcome these challenges, we introduce RNAiSpline, which incorporates self-supervised pretraining and fine-tuning with Kalmogorov-Arnold Network (KAN), Convolutional Neural Network (CNN), and Transformer Encoder. Evaluation on the independent test dataset yields an ROC-AUC of 0.8175, an F1 score of 0.7717, and Pearson correlation of 0.6032, making RNAiSpline a robust model for siRNA efficacy prediction."
    },
    "PPR/PPR1223110": {
     "id": "PPR/PPR1223110",
@@ -1674,7 +1747,8 @@
     "url": "https://europepmc.org/article/PPR/PPR1223110",
     "is_preprint": true,
     "first_seen": "2026-08-08",
-    "age_days_at_first_seen": 170
+    "age_days_at_first_seen": 170,
+    "abstract": "Antisense oligonucleotides (ASOs) are a promising class of therapeutic drugs that can target and modulate genes associated with various diseases. This study benchmarks Large Language Models (LLMs) for predicting ASO therapeutic efficacy through a two-stage approach: (1) molecular embedding-based fine-tuning using SMILES representations, and (2) prompt engineering with zero-shot and few-shot learning using DNA sequences with target gene information. We evaluated general-purpose models (GPT-3.5-Turbo, LLaMA2-7B, Galactica-6.7B) and chemistry-specific models (ChemBERTa, Molformer, BERT) across three datasets: PFRED (522 sequences), openASO (1708 sequences), and ASOptimizer (1267 sequences). DNA sequence inputs with target gene information outperformed SMILES representations. GPT-3.5-Turbo achieved R  2 values of 0.6381 (PFRED) and 0.6340 (ASOptimizer) for few-shot prompting with k=3 examples.  Code and datasets available at:  https://github.com/asundar0128/IndependentStudy"
    },
    "PPR/PPR1222576": {
     "id": "PPR/PPR1222576",
