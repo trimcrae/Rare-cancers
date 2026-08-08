@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-FUSION-OUTPUT — The fusion's transcriptional output, read in EMC tissue
 
-**Family:** [ST-DISSEMINATION](L1-st-dissemination.md) · **state:** ✓ active · validated_in_silico · confidence moderate · verified 2026-08-07
+**Family:** [ST-DISSEMINATION](L1-st-dissemination.md) · **state:** ✓ active · validated_in_silico · confidence moderate · verified 2026-08-08
 
-**Grade** (owned by [`research/manuscripts/nr4a3-fusion-transcriptional-output.md`](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md#6--conclusion)): A measured, null-calibrated per-gene concordance result with an explicitly stated ceiling: all three genes carrying a DNA-binding assay against an NR4A3 chimera are positive-signed on both readable array platforms and in an independent third cohort, while the AGGREGATE target set does not clear its size-matched null on either array platform. The binding constraint is not sample size — it is that the class-A set is three genes wide and that no genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in 2,276 full-text documents across five committed corpora, which is a bounded statement about a search rather than a claim that none exists.
+**Grade** (owned by [`research/manuscripts/nr4a3-fusion-transcriptional-output.md`](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md#6--conclusion)): A null-calibrated, confound-audited per-gene result that ORDERS the three published direct-target genes rather than treating them alike. ENO3 survives every instrument applied: both array platforms under an exact label-permutation test and after multiple-testing correction (q 0.0004 and 0.0006), every comparator stratum separately including the myxoid-matched arm (23/29 of the GPL6244 comparators are themselves myxoid) and the reference-pool-matched arm on GPL3290, the 98th percentile of 14,120 genes in the independent 3SEQ deposit, a skeletal-muscle admixture control that does not explain it (three markers MORE muscle-restricted than ENO3 are flat between the arms), and more exact NBREs than its own composition-matched null. PPARG's strongest reading is CIRCULAR — GSE4303 is the cohort from which high PPARG in EMC was first published — and what remains does not survive correction. SEMA3C survives nothing and reverses sign with the choice of comparator (+1.66 vs LGFMS, -0.65 vs desmoid fibromatosis). The AGGREGATE target set reaches only 39% and 88% of its null threshold while the published EMC phenotype clears the same threshold 11.9-fold and 4.2-fold, so the instrument demonstrably reads EMC and does not read the aggregate. The binding constraint is not sample size: it is that the class-A set is three genes wide and that no genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in 2,276 full-text documents across five committed corpora, which is a bounded statement about a search rather than a claim that none exists.
 
 ## What has to land for this route to move
 
@@ -53,7 +53,7 @@ EMC is defined by an NR4A3 fusion, so the disease's central molecular hypothesis
 |---|---|---|---|
 | The instrument must recover known published answers on these exact platforms before any set score is read — a positive control, a tumour-identity control, a directional falsifier with a published DOWN prediction, and a transcript/protein discordance control. ✅ DONE 2026-08-07, run 31200817686: all four agree on every platform where a contrast could be computed, `all_checks_pass: true`, zero disagreeing | V1 | yes | — |
 | Any raw 'higher in EMC' contrast must be refused unless it clears a size-matched empirical null drawn from the same platform's own genes. ✅ DONE — 4,000 seeded draws per set per platform; the refusal fired on this route's own aggregate class-A+B set on both platforms and is reported rather than worked around | ⛔ none built | yes | — |
-| An NBRE motif scan of the promoters of the genes that read high, against a matched background. Sequence work: needs no new data, no dispatch and no money. It cannot demonstrate binding, but a set of up-in-EMC genes with NO NBRE enrichment would be a real negative. NOT DONE | ⛔ none built | yes | — |
+| An NBRE motif scan of the regulatory windows of the genes that read high, against a composition-matched background. Sequence work: no new data, no dispatch, no money. It cannot demonstrate binding, but a set of up-in-EMC genes with NO NBRE enrichment would be a real negative. DONE 2026-08-07 and reported as §3.10 of the manuscript: a -10kb/+15kb window fixed in advance, scanned on both strands with positional de-duplication, calibrated against a 2,000-shuffle dinucleotide-preserving null AND a 198-window GC-matched background panel. ENO3 carries 4 exact NBREs and clears both nulls (p 0.034 and 0.018); PPARG carries 3, which is what its composition predicts; SEMA3C carries none, and its one-mismatch count — the class Brenca et al. actually report — is also exactly what its composition predicts. A motif is not occupancy and the scan is reported as a prioritisation, never as a target-gene claim. | ⛔ none built | yes | — |
 | An NR4A3 ChIP-seq peak set with the FUSION expressed, intersected with these expression reads: a gene up in EMC that carries a fusion-bound NBRE in its regulatory region is driven, and a gene up with no peak is correlated. ⛔ No such dataset was retrieved. The nearest available (Haller et al. 2019, PMID 30664630; processed data Zenodo doi 10.5281/zenodo.1483691, open) is NATIVE NR4A3 in acinic cell carcinoma, not a fusion — and given the measurement that native NR4A3 does not activate the PPARG promoter the fusion does, it answers a different question and must never be cited as answering this one | ⛔ none built | **no** | — |
 | Fusion knockdown or degradation in a genuinely fusion-positive EMC model, with RNA-seq. No such experiment was retrieved in the corpora searched | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
 | Fusion-type-stratified EMC expression data, so the EWSR1 and TAF15 arms can be read apart rather than as a mixture | ⛔ none built | **no** | BLK-NO-EMC-DATA |
@@ -68,26 +68,19 @@ EMC is defined by an NR4A3 fusion, so the disease's central molecular hypothesis
 
 ## Readiness — what this could become today
 
-**`preprint`**
+**`journal_submission`**
 
-The result is a per-gene sign-concordance reading over three genes in cohorts of 4, 6 and 10, with the aggregate refused by its own null and no occupancy evidence in EMC. That is honest preprint content and it is not a journal-submission argument: a reviewer's first question — 'is any of this the fusion?' — has no answer here, and the paper says so rather than working around it. What would raise it is a cistrome intersection, not more writing.
-
-**Missing:**
-- the NBRE promoter scan, which is free and unstarted
-- a cistrome measured with an NR4A3 fusion expressed — an open, unclaimed experiment rather than an unfetched dataset
-
-**Evidence required:**
-- occupancy evidence in a fusion-expressing cell, for any gene named
+The reviewer's first question — 'is any of this the fusion?' — still has no answer, and the paper says so rather than working around it. What has changed is that the result is no longer a bare sign-concordance reading over three genes: the three are now ORDERED by how much independent support each carries, one of them (SEMA3C) is shown to be an artefact of comparator choice, another (PPARG) has its strongest cell graded circular, and the surviving gene has been put through a confound audit that names and tests the specific alternative explanations. That is a journal-submission argument about what the field's direct-target catalogue actually supports. Raising it further needs a cistrome intersection, which is somebody else's experiment.
 
 ## Where this route ends — the paper
 
-**[PUB-FUSION-OUTPUT](L3-publications.md)** — [Published transcriptional targets of EWSR1::NR4A3 are elevated in extraskeletal myxoid chondrosarcoma tissue across three cohorts and three platforms: an evidence-typed, null-calibrated re-analysis](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md)
+**[PUB-FUSION-OUTPUT](L3-publications.md)** — [The direct-target catalogue of EWSR1::NR4A3 is three genes wide, and one gene survives calibration: an evidence-typed re-analysis of extraskeletal myxoid chondrosarcoma across three cohorts](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md)
 
-`primary` · ◐ `drafted` · aimed at `preprint`
+`primary` · ◐ `drafted` · aimed at `journal_submission`
 
 **This route contributes:** The whole paper: the evidence-typed catalogue of every published NR4A3 / NR4A3-fusion transcriptional target with the verbatim sentence per gene, the size-matched empirical null that makes any gene-set read on these platforms interpretable, the four instrument controls, the three-cohort per-gene concordance reading with its ceiling, and the measured absence of any retrieved NR4A3-fusion cistrome.
 
-**The paper would claim:** Across a retrieved corpus of 2,276 full-text documents, the set of genes any NR4A3 chimera has been shown to physically bind and drive is three genes wide — and those three read higher in EMC tumour tissue than in comparator tumours in every one of six array readings and in an independent third cohort on an unrelated technology, while the AGGREGATE target set does not clear a size-matched empirical null on either readable array platform and the published EMC transcriptional phenotype does clear it, on both. Reading a gene set in these EMC series is uninterpretable without that null calibration. No genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in that corpus, so no gene named can yet be told apart from a gene that is merely associated with the disease.
+**The paper would claim:** Across a retrieved corpus of 2,276 full-text documents, the set of genes any NR4A3 chimera has been shown to physically bind and drive is three genes wide — and those three are not equally supported in EMC tumour tissue. ENO3 is elevated on both readable array platforms under an exact permutation test and after multiple-testing correction, against every comparator stratum separately, in the top 2% of 14,120 genes in an independent third cohort on an unrelated technology, with a skeletal-muscle admixture control that does not explain it. PPARG's strongest reading is circular, being scored on the cohort from which the claim was first published. SEMA3C reverses sign with the choice of comparator and survives no test applied here. The aggregate target set does not clear a size-matched empirical null on either array platform while the published EMC transcriptional phenotype clears it 11.9-fold and 4.2-fold, so the instrument reads EMC and does not read the aggregate. No genome-wide chromatin experiment with an NR4A3 fusion was retrieved, so 'elevated in EMC' and 'driven by the fusion' cannot be told apart for any of the three.
 
 ## Strategic timing — the wait equation
 
@@ -120,7 +113,7 @@ The measurement has run, the instrument passed its known-answer controls, and th
 
 ## Best next action
 
-Run an NBRE motif scan over the promoter regions of the class-A and Filion-Table-1 genes against a size- and GC-matched background drawn from the same genome build, and record per-gene motif hits beside the existing per-gene deltas in `nr4a3-fusion-targets.json`. $0, sequence-only, no dispatch and no new data.
+Submit. The free in-silico work on this route is done: catalogue, null calibration, instrument controls, three cohorts, exact permutation tests, the confound audit and the motif scan have all run, and the remaining question (does the fusion BIND any of these genes in EMC) cannot be answered from expression or sequence data at any price. The residual steps are author-only submission furniture — ORCID, a Zenodo DOI at the submitted commit, and completing the gene-set-resource bibliographic identifiers.
 
 *Cost:* $0
 
