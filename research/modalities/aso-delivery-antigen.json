@@ -1,0 +1,1229 @@
+{
+ "_what": "Can any antigen be NAMED as the antibody\u2013oligonucleotide-conjugate delivery arm of the EWSR1::NR4A3 fusion-junction ASO? Both axes \u2014 elevated in EMC TUMOUR tissue and restricted in NORMAL tissue \u2014 scored against three EMC cohorts.",
+ "_why": "readiness.md records RT-ASO's one missing item as 'a named delivery candidate', and fusion-junction-aso-paper.md \u00a73c's AOC shortlist came from a DepMap surrogate with no EMC and no normal tissue in it. Three EMC tumour cohorts and 27 normal-organ libraries now exist. This re-asks the question on that basis.",
+ "_execution_model": "$0. Pure stdlib, no network, no GPU. Every number is read or derived from a committed artifact named in `_inputs`.",
+ "_language_discipline": "\u26d4 NOTHING HERE ASSERTS EFFICACY, SAFETY, SELECTIVITY, A THERAPEUTIC WINDOW, ANTIGEN DENSITY, INTERNALISATION OR CLINICAL READINESS, AND NO SUCH QUANTITY IS COMPUTED ANYWHERE IN THIS MODULE. Every reading is TRANSCRIPT. No EMC patient has received any agent named here, and naming an antigen is not naming a therapy.",
+ "_not_preregistered": "\u26a0 STATED PLAINLY: this analysis was written AFTER its input artifacts were visible, so no threshold here may be described as pre-registered. Two things limit the freedom that gives: the array rule (|t| >= 2) is `emc_expression_panels._cross_platform_verdict`'s OWN rule and is not chosen here, and the 3SEQ rule is the 90th percentile of the deposit's own distribution of the same ratio over 13,708 genes \u2014 a yardstick that existed in the artifact before this module did. Neither was tuned to the answer.",
+ "_inputs": {
+  "lineage_axis_arrays": "research/modalities/emc-expression-panels.json -> gene_reads",
+  "exposure_axis_and_3SEQ_lineage_arm": "research/modalities/gse28866-tumour-vs-normal.json -> per_gene.values and ratio_calibration.per_gene",
+  "normal_tissue_prior": "research/modalities/emc-surface-normal-window.json -> antigens",
+  "stage_1_surrogate_coverage": "research/modalities/emc-surfaceome-scan.json"
+ },
+ "instrument_reach": {
+  "_read_this_first": "The exposure axis is the new thing and it is much narrower than 'EMC vs normal'. Its ceiling is stated here so no verdict below can be read past it.",
+  "exposure_axis": {
+   "deposit": "GSE28866 (3SEQ 3'-end read density)",
+   "n_EMC_libraries": 4,
+   "n_normal_organ_libraries": 27,
+   "organs_present": [
+    "bowel",
+    "breast",
+    "colon",
+    "kidney",
+    "lung",
+    "uterus"
+   ],
+   "organs_and_tissue_classes_ABSENT_REPO_CURATED": [
+    "peripheral nerve",
+    "brain / CNS",
+    "thyroid",
+    "adrenal",
+    "heart",
+    "skeletal muscle",
+    "any normal SOFT TISSUE (fibrous, adipose, cartilage, perichondrium)",
+    "skin",
+    "bone marrow",
+    "circulating blood cells",
+    "liver",
+    "pancreas",
+    "stomach",
+    "prostate",
+    "testis",
+    "ovary",
+    "placenta",
+    "spleen",
+    "lymph node",
+    "thymus",
+    "oesophagus",
+    "bladder"
+   ],
+   "\u26d4_no_normal_soft_tissue_at_all": "EMC is a soft-tissue tumour and the normal arm contains no fibrous, adipose, cartilaginous or perichondrial tissue. An antigen shared with normal soft tissue is INVISIBLE to this axis.",
+   "n_genes_with_a_committed_per_gene_row": 19,
+   "genes_with_a_committed_per_gene_row": [
+    "ALCAM",
+    "BGN",
+    "CD248",
+    "CD276",
+    "CD44",
+    "CDH17",
+    "CSPG4",
+    "ENO3",
+    "FAP",
+    "GPC3",
+    "L1CAM",
+    "MSLN",
+    "NR4A3",
+    "PPARG",
+    "PRAME",
+    "RET",
+    "SEMA3C",
+    "SSTR2",
+    "VCAN"
+   ],
+   "n_genes_in_the_deposit_used_for_calibration": 14120,
+   "ratio_calibration_used_as_the_threshold": {
+    "emc_over_normal": {
+     "median": 1.0518,
+     "p75": 1.276,
+     "p90": 1.5757,
+     "p95": 1.8862,
+     "p99": 3.335
+    },
+    "emc_over_sarcoma": {
+     "median": 1.0545,
+     "p75": 1.2499,
+     "p90": 1.5257,
+     "p95": 1.8913,
+     "p99": 3.4845
+    },
+    "_why": "the deposit's MEDIAN gene already moves ~1.05x between arms, so a raw fold-change is not a reading until it is placed in that distribution. UP here means >= the 90th percentile of all genes."
+   },
+   "_it_is_a_contrast_not_a_safety_statement": "27 libraries from six organs, transcript only, n = 4 EMC medians with no test and no confidence interval. This is an EXPOSURE READING and it is not, and cannot be, a normal-tissue safety assessment."
+  },
+  "lineage_axis": {
+   "instruments": [
+    "GSE24369 / GPL6244 \u2014 6 EMC vs 29 comparator sarcomas, single-channel intensity",
+    "GSE4303 / GPL3290 \u2014 10 EMC vs 6 comparator sarcomas, two-colour log-ratio",
+    "GSE28866 / 3SEQ \u2014 4 EMC vs 32 non-EMC sarcoma libraries, read density"
+   ],
+   "\u26d4_never_pooled": "three platform families, three different physical quantities. Only the STATES are tallied; the values are never combined.",
+   "n_genes_on_the_committed_surface_board": 100
+  },
+  "joint_universe": {
+   "_definition": "a plausible cell-surface AOC address (REPO-CURATED topology) that carries BOTH a lineage reading AND a measured exposure reading.",
+   "n": 12,
+   "genes": [
+    "ALCAM",
+    "CD248",
+    "CD276",
+    "CD44",
+    "CDH17",
+    "CSPG4",
+    "FAP",
+    "GPC3",
+    "L1CAM",
+    "MSLN",
+    "RET",
+    "SSTR2"
+   ],
+   "surface_addresses_with_no_measured_exposure_reading": [],
+   "genes_on_the_exposure_axis_excluded_on_topology": {
+    "BGN": "SECRETED small leucine-rich proteoglycan \u2014 extracellular matrix, not a cell-surface address",
+    "ENO3": "CYTOSOLIC enolase",
+    "NR4A3": "NUCLEAR receptor / transcription factor",
+    "PPARG": "NUCLEAR receptor / transcription factor",
+    "PRAME": "INTRACELLULAR cancer-testis antigen; reachable only as an HLA-presented peptide, which is a TCR/ImmTAC address and not an antibody-internalisation address",
+    "SEMA3C": "SECRETED semaphorin",
+    "VCAN": "SECRETED large chondroitin-sulfate proteoglycan \u2014 matrix, not a cell-surface address"
+   },
+   "genes_on_the_exposure_axis_with_no_topology_call": [],
+   "n_surface_board_genes_the_exposure_axis_cannot_reach": 86,
+   "\u26d4_the_ceiling": "12 antigens can be asked the two-axis question AT ALL. Every other surface antigen this repository has ever discussed \u2014 including all 86 genes on the committed surface board with no row in the exposure deposit \u2014 is UNSCOREABLE on exposure, which is an absent reading and never a negative."
+  },
+  "what_no_instrument_here_can_resolve": [
+   "PROTEIN. Every reading is transcript; transcript-to-protein correlation for membrane proteins is modest and is not measured anywhere in this repository.",
+   "SURFACE LOCALISATION and ANTIGEN DENSITY \u2014 the two quantities an antibody arm actually sees.",
+   "INTERNALISATION. An AOC must be endocytosed to release its oligonucleotide; nothing in this repository measures endocytic rate for any antigen.",
+   "COMPARTMENT. Bulk archival tissue cannot say whether a transcript sits in the tumour cell, the stroma, the vasculature, the immune infiltrate or an entrapped nerve \u2014 and EMC is hypocellular and matrix-dominated, which is where this bites hardest. A single-cell or spatial EMC dataset would settle it; none is in hand.",
+   "THE REST OF DELIVERY. Blood -> tumour -> cell -> endosomal escape is unaddressed by an antigen name, and the myxoid matrix is itself a diffusion barrier."
+  ]
+ },
+ "scoring_rules": {
+  "lineage_axis": {
+   "array": "UP if Welch t >= 2.0, DOWN if t <= -2.0, else FLAT. REUSED from emc_expression_panels._cross_platform_verdict, not invented here.",
+   "3SEQ": "UP if the EMC/other-sarcoma ratio sits at or above the 90th percentile of the same ratio across every gene in the deposit; DOWN at or below the 10th.",
+   "verdict": "ELEVATED requires >= 2 instruments UP and 0 DOWN. One DOWN anywhere refuses the antigen outright."
+  },
+  "exposure_axis": {
+   "measured": "EMC/normal-organ ratio at or above the 90th percentile of the deposit's own distribution.",
+   "prior": "HPA window must be RESTRICTED. ENHANCED_BROAD, BROAD_LIABILITY and VITAL_OR_IMMUNE_LIABILITY all refuse; an absent row is an ABSENT READING and refuses NAMING without being evidence against the antigen."
+  },
+  "naming": "An antigen may be NAMED only if it clears both axes on EVERY instrument that can read it AND no decision-relevant instrument is absent. Anything less is a ranked residual, never a name."
+ },
+ "per_antigen": {
+  "ALCAM": {
+   "gene": "ALCAM",
+   "surface_address_basis_REPO_CURATED": "single-pass type-I transmembrane adhesion molecule (CD166); an ADC binder has reached patients \u2014 alcam-precedent.json -> modality_ladder",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "UP",
+      "t": 7.008,
+      "df": 12.4,
+      "delta": 1.0907,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.9879
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "UP",
+      "t": 2.214,
+      "df": 8.5,
+      "delta": 0.7535,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.7141
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "UP",
+      "ratio": 1.5338,
+      "percentile_of_all_genes": 90.2
+     }
+    },
+    "n_up": 3,
+    "n_down": 0,
+    "n_instruments_that_could_not_read_it": 0,
+    "verdict": "ELEVATED_ON_AT_LEAST_TWO_INSTRUMENTS"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "FLAT",
+     "ratio": 0.9165,
+     "percentile_of_all_genes": 33.1,
+     "emc_median": 0.57833625,
+     "normal_median": 0.6310590444999999,
+     "n_peaks": 2,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "CONFINED",
+     "window": "RESTRICTED",
+     "rna_tissue_specificity": "Tissue enriched",
+     "rna_tissue_distribution": "Detected in many",
+     "rna_blood_cell_specificity": "Immune cell enhanced",
+     "plasma_membrane_confirmed": false,
+     "_question": "is the antigen CONFINED in normal tissue? (a DISTRIBUTION, many tissues, NO EMC and no tumour anywhere in it)"
+    },
+    "verdict": "FAILS_THE_MEASURED_EXPOSURE_AXIS",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "FAILS_THE_EXPOSURE_AXIS"
+  },
+  "CD248": {
+   "gene": "CD248",
+   "surface_address_basis_REPO_CURATED": "single-pass type-I transmembrane C-type-lectin-like receptor (endosialin/TEM1) \u2014 cd248-precedent.json",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "DOWN",
+      "t": -2.319,
+      "df": 6.9,
+      "delta": -0.6983,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.5911
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "UNREADABLE",
+      "t": null,
+      "delta": null,
+      "_meaning": "\u26d4 AN INSTRUMENT STATEMENT. No probe mapped to this symbol on this platform. It is NOT a low reading and NOT evidence about expression."
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "DOWN",
+      "ratio": 0.6507,
+      "percentile_of_all_genes": 7.1
+     }
+    },
+    "n_up": 0,
+    "n_down": 2,
+    "n_instruments_that_could_not_read_it": 1,
+    "verdict": "NOT_ELEVATED_AN_INSTRUMENT_READS_IT_DOWN"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "FLAT",
+     "ratio": 0.8385,
+     "percentile_of_all_genes": 25.8,
+     "emc_median": 1.766684664,
+     "normal_median": 2.1068718245,
+     "n_peaks": 2,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "VITAL_OR_IMMUNE",
+     "window": "VITAL_OR_IMMUNE_LIABILITY",
+     "rna_tissue_specificity": "Tissue enhanced",
+     "rna_tissue_distribution": "Detected in many",
+     "rna_blood_cell_specificity": "Immune cell enriched",
+     "plasma_membrane_confirmed": true,
+     "_question": "is the antigen CONFINED in normal tissue? (a DISTRIBUTION, many tissues, NO EMC and no tumour anywhere in it)"
+    },
+    "verdict": "FAILS_THE_MEASURED_EXPOSURE_AXIS",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "FAILS_THE_LINEAGE_AXIS"
+  },
+  "CD276": {
+   "gene": "CD276",
+   "surface_address_basis_REPO_CURATED": "single-pass type-I transmembrane immunoglobulin-superfamily member (B7-H3), the antigen \u00a73c named by extrapolation",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "DOWN",
+      "t": -2.549,
+      "df": 8.0,
+      "delta": -0.249,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.7915
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "UNREADABLE",
+      "t": null,
+      "delta": null,
+      "_meaning": "\u26d4 AN INSTRUMENT STATEMENT. No probe mapped to this symbol on this platform. It is NOT a low reading and NOT evidence about expression."
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "FLAT",
+      "ratio": 1.4172,
+      "percentile_of_all_genes": 86.3
+     }
+    },
+    "n_up": 0,
+    "n_down": 1,
+    "n_instruments_that_could_not_read_it": 1,
+    "verdict": "NOT_ELEVATED_AN_INSTRUMENT_READS_IT_DOWN"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "FLAT",
+     "ratio": 1.2962,
+     "percentile_of_all_genes": 76.6,
+     "emc_median": 0.285691831,
+     "normal_median": 0.220399016,
+     "n_peaks": 3,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "BROAD",
+     "window": "BROAD_LIABILITY",
+     "rna_tissue_specificity": "Low tissue specificity",
+     "rna_tissue_distribution": "Detected in many",
+     "rna_blood_cell_specificity": "Not detected in immune cells",
+     "plasma_membrane_confirmed": false,
+     "_question": "is the antigen CONFINED in normal tissue? (a DISTRIBUTION, many tissues, NO EMC and no tumour anywhere in it)"
+    },
+    "verdict": "FAILS_THE_MEASURED_EXPOSURE_AXIS",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "FAILS_THE_LINEAGE_AXIS"
+  },
+  "CD44": {
+   "gene": "CD44",
+   "surface_address_basis_REPO_CURATED": "single-pass type-I transmembrane hyaluronan receptor; HPA subcellular call includes plasma membrane",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "UP",
+      "t": 7.859,
+      "df": 16.9,
+      "delta": 0.7112,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.9954
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "UP",
+      "t": 3.042,
+      "df": 13.0,
+      "delta": 0.7066,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "n_probes_mapping": 4,
+      "EMC_mean_array_percentile": 0.4486
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "UP",
+      "ratio": 1.6351,
+      "percentile_of_all_genes": 92.2
+     }
+    },
+    "n_up": 3,
+    "n_down": 0,
+    "n_instruments_that_could_not_read_it": 0,
+    "verdict": "ELEVATED_ON_AT_LEAST_TWO_INSTRUMENTS"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "UP",
+     "ratio": 1.6939,
+     "percentile_of_all_genes": 92.4,
+     "emc_median": 0.43296996,
+     "normal_median": 0.2556067,
+     "n_peaks": 7,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "BROAD",
+     "window": "BROAD_LIABILITY",
+     "rna_tissue_specificity": "Tissue enhanced",
+     "rna_tissue_distribution": "Detected in all",
+     "rna_blood_cell_specificity": "Low immune cell specificity",
+     "plasma_membrane_confirmed": true,
+     "_question": "is the antigen CONFINED in normal tissue? (a DISTRIBUTION, many tissues, NO EMC and no tumour anywhere in it)"
+    },
+    "verdict": "ABOVE_NORMAL_ORGANS_BUT_THE_WIDER_PRIOR_REFUSES_IT",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "CLEARS_BOTH_MEASURED_AXES_BUT_THE_WIDER_NORMAL_TISSUE_PRIOR_REFUSES_IT"
+  },
+  "CDH17": {
+   "gene": "CDH17",
+   "surface_address_basis_REPO_CURATED": "single-pass type-I transmembrane cadherin",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "DOWN",
+      "t": -4.666,
+      "df": 8.7,
+      "delta": -0.1351,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.1405
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "FLAT",
+      "t": 0.923,
+      "df": 7.6,
+      "delta": 0.5152,
+      "n_EMC": 9,
+      "n_comparator": 6,
+      "n_probes_mapping": 3,
+      "EMC_mean_array_percentile": 0.2188
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "DOWN",
+      "ratio": 0.5046,
+      "percentile_of_all_genes": 4.4
+     }
+    },
+    "n_up": 0,
+    "n_down": 2,
+    "n_instruments_that_could_not_read_it": 0,
+    "verdict": "NOT_ELEVATED_AN_INSTRUMENT_READS_IT_DOWN"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "FLAT",
+     "ratio": 0.9115,
+     "percentile_of_all_genes": 32.5,
+     "emc_median": 0.066320055,
+     "normal_median": 0.07275742,
+     "n_peaks": 3,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "VITAL_OR_IMMUNE",
+     "window": "VITAL_OR_IMMUNE_LIABILITY",
+     "rna_tissue_specificity": "Tissue enriched",
+     "rna_tissue_distribution": "Detected in some",
+     "rna_blood_cell_specificity": "Immune cell enriched",
+     "plasma_membrane_confirmed": false,
+     "_question": "is the antigen CONFINED in normal tissue? (a DISTRIBUTION, many tissues, NO EMC and no tumour anywhere in it)"
+    },
+    "verdict": "FAILS_THE_MEASURED_EXPOSURE_AXIS",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "FAILS_THE_LINEAGE_AXIS"
+  },
+  "CSPG4": {
+   "gene": "CSPG4",
+   "surface_address_basis_REPO_CURATED": "single-pass type-I transmembrane proteoglycan (MCSP/NG2)",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "UP",
+      "t": 7.419,
+      "df": 7.7,
+      "delta": 0.8852,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.8055
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "FLAT",
+      "t": -0.403,
+      "df": 10.1,
+      "delta": -0.1893,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.749
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "UP",
+      "ratio": 2.5053,
+      "percentile_of_all_genes": 97.8
+     }
+    },
+    "n_up": 2,
+    "n_down": 0,
+    "n_instruments_that_could_not_read_it": 0,
+    "verdict": "ELEVATED_ON_AT_LEAST_TWO_INSTRUMENTS"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "UP",
+     "ratio": 3.3113,
+     "percentile_of_all_genes": 99.0,
+     "emc_median": 8.729579519000001,
+     "normal_median": 2.636317921,
+     "n_peaks": 1,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "BROAD_WITH_A_PEAK",
+     "window": "ENHANCED_BROAD",
+     "rna_tissue_specificity": "Tissue enhanced",
+     "rna_tissue_distribution": "Detected in many",
+     "rna_blood_cell_specificity": "Not detected in immune cells",
+     "plasma_membrane_confirmed": true,
+     "_question": "is the antigen CONFINED in normal tissue? (a DISTRIBUTION, many tissues, NO EMC and no tumour anywhere in it)"
+    },
+    "verdict": "ABOVE_NORMAL_ORGANS_BUT_THE_WIDER_PRIOR_REFUSES_IT",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "CLEARS_BOTH_MEASURED_AXES_BUT_THE_WIDER_NORMAL_TISSUE_PRIOR_REFUSES_IT"
+  },
+  "FAP": {
+   "gene": "FAP",
+   "surface_address_basis_REPO_CURATED": "type-II single-pass transmembrane serine protease",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "FLAT",
+      "t": -0.806,
+      "df": 8.2,
+      "delta": -0.2652,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.879
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "FLAT",
+      "t": -0.553,
+      "df": 14.0,
+      "delta": -0.1438,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "n_probes_mapping": 2,
+      "EMC_mean_array_percentile": 0.6391
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "UP",
+      "ratio": 1.5948,
+      "percentile_of_all_genes": 91.5
+     }
+    },
+    "n_up": 1,
+    "n_down": 0,
+    "n_instruments_that_could_not_read_it": 0,
+    "verdict": "ELEVATED_ON_ONE_INSTRUMENT_ONLY"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "UP",
+     "ratio": 1.6301,
+     "percentile_of_all_genes": 91.2,
+     "emc_median": 0.5707522785,
+     "normal_median": 0.350143141,
+     "n_peaks": 1,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "BROAD_WITH_A_PEAK",
+     "window": "ENHANCED_BROAD",
+     "rna_tissue_specificity": "Tissue enhanced",
+     "rna_tissue_distribution": "Detected in many",
+     "rna_blood_cell_specificity": "Not detected in immune cells",
+     "plasma_membrane_confirmed": false,
+     "_question": "is the antigen CONFINED in normal tissue? (a DISTRIBUTION, many tissues, NO EMC and no tumour anywhere in it)"
+    },
+    "verdict": "ABOVE_NORMAL_ORGANS_BUT_THE_WIDER_PRIOR_REFUSES_IT",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "LINEAGE_AXIS_ON_ONE_INSTRUMENT_ONLY"
+  },
+  "GPC3": {
+   "gene": "GPC3",
+   "surface_address_basis_REPO_CURATED": "GPI-anchored surface proteoglycan",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "DOWN",
+      "t": -3.246,
+      "df": 31.1,
+      "delta": -0.5079,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.2768
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "UP",
+      "t": 2.145,
+      "df": 7.4,
+      "delta": 0.8037,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.0264
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "DOWN",
+      "ratio": 0.482,
+      "percentile_of_all_genes": 4.1
+     }
+    },
+    "n_up": 1,
+    "n_down": 2,
+    "n_instruments_that_could_not_read_it": 0,
+    "verdict": "NOT_ELEVATED_AN_INSTRUMENT_READS_IT_DOWN"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "DOWN",
+     "ratio": 0.0902,
+     "percentile_of_all_genes": 3.4,
+     "emc_median": 0.1018351885,
+     "normal_median": 1.128719625,
+     "n_peaks": 1,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "CONFINED",
+     "window": "RESTRICTED",
+     "rna_tissue_specificity": "Tissue enriched",
+     "rna_tissue_distribution": "Detected in many",
+     "rna_blood_cell_specificity": "Immune cell enhanced",
+     "plasma_membrane_confirmed": true,
+     "_question": "is the antigen CONFINED in normal tissue? (a DISTRIBUTION, many tissues, NO EMC and no tumour anywhere in it)"
+    },
+    "verdict": "FAILS_THE_MEASURED_EXPOSURE_AXIS",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "FAILS_THE_LINEAGE_AXIS"
+  },
+  "L1CAM": {
+   "gene": "L1CAM",
+   "surface_address_basis_REPO_CURATED": "single-pass type-I transmembrane adhesion molecule",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "FLAT",
+      "t": 0.861,
+      "df": 6.6,
+      "delta": 0.0958,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.4366
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "UP",
+      "t": 3.933,
+      "df": 10.1,
+      "delta": 1.8828,
+      "n_EMC": 10,
+      "n_comparator": 5,
+      "n_probes_mapping": 2,
+      "EMC_mean_array_percentile": 0.3345
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "UP",
+      "ratio": 1.6232,
+      "percentile_of_all_genes": 92.1
+     }
+    },
+    "n_up": 2,
+    "n_down": 0,
+    "n_instruments_that_could_not_read_it": 0,
+    "verdict": "ELEVATED_ON_AT_LEAST_TWO_INSTRUMENTS"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "DOWN",
+     "ratio": 0.3334,
+     "percentile_of_all_genes": 5.8,
+     "emc_median": 0.0817961725,
+     "normal_median": 0.245335187,
+     "n_peaks": 1,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "BROAD_WITH_A_PEAK",
+     "window": "ENHANCED_BROAD",
+     "rna_tissue_specificity": "Tissue enhanced",
+     "rna_tissue_distribution": "Detected in many",
+     "rna_blood_cell_specificity": "Not detected in immune cells",
+     "plasma_membrane_confirmed": true,
+     "_question": "is the antigen CONFINED in normal tissue? (a DISTRIBUTION, many tissues, NO EMC and no tumour anywhere in it)"
+    },
+    "verdict": "FAILS_THE_MEASURED_EXPOSURE_AXIS",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "FAILS_THE_EXPOSURE_AXIS"
+  },
+  "MSLN": {
+   "gene": "MSLN",
+   "surface_address_basis_REPO_CURATED": "GPI-anchored surface glycoprotein",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "DOWN",
+      "t": -2.532,
+      "df": 8.4,
+      "delta": -0.0863,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.4194
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "UP",
+      "t": 2.095,
+      "df": 10.8,
+      "delta": 0.8345,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "n_probes_mapping": 2,
+      "EMC_mean_array_percentile": 0.3573
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "FLAT",
+      "ratio": 1.2316,
+      "percentile_of_all_genes": 73.3
+     }
+    },
+    "n_up": 1,
+    "n_down": 1,
+    "n_instruments_that_could_not_read_it": 0,
+    "verdict": "NOT_ELEVATED_AN_INSTRUMENT_READS_IT_DOWN"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "DOWN",
+     "ratio": 0.273,
+     "percentile_of_all_genes": 4.8,
+     "emc_median": 0.25683398,
+     "normal_median": 0.9407865559999999,
+     "n_peaks": 2,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "BROAD_WITH_A_PEAK",
+     "window": "ENHANCED_BROAD",
+     "rna_tissue_specificity": "Tissue enhanced",
+     "rna_tissue_distribution": "Detected in many",
+     "rna_blood_cell_specificity": "Immune cell enhanced",
+     "plasma_membrane_confirmed": true,
+     "_question": "is the antigen CONFINED in normal tissue? (a DISTRIBUTION, many tissues, NO EMC and no tumour anywhere in it)"
+    },
+    "verdict": "FAILS_THE_MEASURED_EXPOSURE_AXIS",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "FAILS_THE_LINEAGE_AXIS"
+  },
+  "RET": {
+   "gene": "RET",
+   "surface_address_basis_REPO_CURATED": "single-pass type-I transmembrane receptor tyrosine kinase",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "UP",
+      "t": 2.613,
+      "df": 5.5,
+      "delta": 0.4568,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.5763
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "UP",
+      "t": 4.077,
+      "df": 12.8,
+      "delta": 1.1068,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "n_probes_mapping": 2,
+      "EMC_mean_array_percentile": 0.8563
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "UP",
+      "ratio": 3.6694,
+      "percentile_of_all_genes": 99.1
+     }
+    },
+    "n_up": 3,
+    "n_down": 0,
+    "n_instruments_that_could_not_read_it": 0,
+    "verdict": "ELEVATED_ON_AT_LEAST_TWO_INSTRUMENTS"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "UP",
+     "ratio": 3.5087,
+     "percentile_of_all_genes": 99.1,
+     "emc_median": 0.63741138225,
+     "normal_median": 0.18166726449999998,
+     "n_peaks": 4,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "ABSENT_FROM_THE_COMMITTED_PRIOR",
+     "window": null,
+     "_meaning": "\u26d4 AN ABSENT READING, NOT A READING OF ABSENCE. This gene has never been queried against HPA by `emc_surface_normal_window.py`, so this repository holds NO normal-tissue distribution for it \u2014 favourable or unfavourable. It is one string in that module's `GENES_BY_SYMBOL` away from being closed, at $0."
+    },
+    "verdict": "ABOVE_NORMAL_ORGANS_BUT_THE_WIDER_PRIOR_IS_ABSENT",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "CLEARS_BOTH_MEASURED_AXES_BUT_THE_WIDER_NORMAL_TISSUE_PRIOR_IS_ABSENT"
+  },
+  "SSTR2": {
+   "gene": "SSTR2",
+   "surface_address_basis_REPO_CURATED": "seven-pass G-protein-coupled receptor",
+   "lineage_axis_vs_comparator_sarcomas": {
+    "per_instrument": {
+     "GPL6244_vs_29_comparator_sarcomas": {
+      "state": "FLAT",
+      "t": -0.397,
+      "df": 5.3,
+      "delta": -0.0424,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "n_probes_mapping": 1,
+      "EMC_mean_array_percentile": 0.5978
+     },
+     "GPL3290_vs_6_comparator_sarcomas": {
+      "state": "UNREADABLE",
+      "t": null,
+      "delta": null,
+      "_meaning": "\u26d4 AN INSTRUMENT STATEMENT. No probe mapped to this symbol on this platform. It is NOT a low reading and NOT evidence about expression."
+     },
+     "3SEQ_vs_32_other_sarcoma_libraries": {
+      "state": "FLAT",
+      "ratio": 1.3722,
+      "percentile_of_all_genes": 84.0
+     }
+    },
+    "n_up": 0,
+    "n_down": 0,
+    "n_instruments_that_could_not_read_it": 1,
+    "verdict": "FLAT_ON_EVERY_INSTRUMENT_THAT_READ_IT"
+   },
+   "exposure_axis_vs_normal_tissue": {
+    "measured_contrast_3SEQ_vs_27_normal_organ_libraries": {
+     "state": "FLAT",
+     "ratio": 1.5441,
+     "percentile_of_all_genes": 89.2,
+     "emc_median": 0.35226653750000003,
+     "normal_median": 0.22813325550000002,
+     "n_peaks": 2,
+     "n_emc_libraries": 4,
+     "n_normal_libraries": 27,
+     "_question": "is EMC ABOVE the normal-organ median? (a CONTRAST, six organs, n=4 EMC)"
+    },
+    "hpa_normal_tissue_prior": {
+     "state": "BROAD_WITH_A_PEAK",
+     "window": "ENHANCED_BROAD",
+     "rna_tissue_specificity": "Tissue enhanced",
+     "rna_tissue_distribution": "Detected in many",
+     "rna_blood_cell_specificity": "Low immune cell specificity",
+     "plasma_membrane_confirmed": false,
+     "_question": "is the antigen CONFINED in normal tissue? (a DISTRIBUTION, many tissues, NO EMC and no tumour anywhere in it)"
+    },
+    "verdict": "FAILS_THE_MEASURED_EXPOSURE_AXIS",
+    "_the_two_are_not_redundant": "A low measured ratio can mean EMC does not express the antigen rather than that normal tissue expresses it heavily \u2014 GPC3 is exactly that case, and its HPA verdict (RESTRICTED) is not thereby contradicted. The prior cannot see EMC; the contrast cannot see 22 organ classes. Neither substitutes for the other."
+   },
+   "joint_verdict": "FAILS_THE_LINEAGE_AXIS"
+  }
+ },
+ "by_joint_verdict": {
+  "CLEARS_BOTH_MEASURED_AXES_BUT_THE_WIDER_NORMAL_TISSUE_PRIOR_IS_ABSENT": [
+   "RET"
+  ],
+  "CLEARS_BOTH_MEASURED_AXES_BUT_THE_WIDER_NORMAL_TISSUE_PRIOR_REFUSES_IT": [
+   "CD44",
+   "CSPG4"
+  ],
+  "FAILS_THE_EXPOSURE_AXIS": [
+   "ALCAM",
+   "L1CAM"
+  ],
+  "FAILS_THE_LINEAGE_AXIS": [
+   "CD248",
+   "CD276",
+   "CDH17",
+   "GPC3",
+   "MSLN",
+   "SSTR2"
+  ],
+  "LINEAGE_AXIS_ON_ONE_INSTRUMENT_ONLY": [
+   "FAP"
+  ]
+ },
+ "controls": {
+  "positive_lineage_control_NR4A3": {
+   "expected": "detected in EMC; median across the 32 other-sarcoma libraries = 0.000",
+   "emc_median": 0.2164123305,
+   "sarcoma_median": 0.0,
+   "GPL6244_t": 4.662,
+   "passed": true,
+   "\u26a0": "a zero comparator median means NR4A3 has NO `emc_over_sarcoma` ratio in the calibration block \u2014 an undefined ratio, which this module reports as UNREADABLE rather than as an infinite score."
+  },
+  "positive_transactivation_control_ENO3": {
+   "expected": "up on both arrays and above both 3SEQ arms (PMID 26310886)",
+   "GPL6244_t": 3.607,
+   "GPL3290_t": 13.221,
+   "emc_over_normal_percentile": 98.0,
+   "emc_over_sarcoma_percentile": 95.9,
+   "passed": true,
+   "\u26a0": "ENO3 is a CYTOSOLIC enzyme. It controls the tissue instrument and is not, and could never be, a delivery antigen."
+  },
+  "negative_exposure_controls": {
+   "expected": "each reads BELOW the normal-organ median in EMC",
+   "per_gene": {
+    "GPC3": {
+     "emc_over_normal": 0.0902,
+     "percentile_of_all_genes": 3.4,
+     "below_normal": true
+    },
+    "MSLN": {
+     "emc_over_normal": 0.273,
+     "percentile_of_all_genes": 4.8,
+     "below_normal": true
+    },
+    "L1CAM": {
+     "emc_over_normal": 0.3334,
+     "percentile_of_all_genes": 5.8,
+     "below_normal": true
+    },
+    "CDH17": {
+     "emc_over_normal": 0.9115,
+     "percentile_of_all_genes": 32.5,
+     "below_normal": true
+    }
+   },
+   "passed": true
+  },
+  "hard_control_PRAME_an_undefined_ratio_must_not_score": {
+   "normal_median": 0.0,
+   "emc_over_normal": null,
+   "scored_by_this_module": false,
+   "passed": true,
+   "_why": "PRAME's normal-organ median is 0.000, so its EMC/normal ratio is UNDEFINED. An instrument that let that read as a perfect exposure score would name a candidate off a division by zero. It is excluded on topology first (intracellular) and would be UNREADABLE on the ratio anyway \u2014 both guards, independently."
+  },
+  "artifact_self_consistency_recomputed_welch_t": {
+   "_what": "every array t used below, re-derived from the committed per-sample z values",
+   "n_disagreements": 0,
+   "disagreements": [],
+   "passed": true
+  },
+  "_pass": true,
+  "\u26d4": "A working control licenses reading the other rows and NOTHING MORE. It is not evidence for any antigen and it is not a validation of any verdict."
+ },
+ "the_two_normal_tissue_instruments_where_they_disagree": {
+  "per_gene": {
+   "ALCAM": {
+    "hpa_prior": "CONFINED",
+    "hpa_window": "RESTRICTED",
+    "measured_state": "FLAT",
+    "measured_emc_over_normal": 0.9165,
+    "measured_percentile_of_all_genes": 33.1
+   },
+   "CD248": {
+    "hpa_prior": "VITAL_OR_IMMUNE",
+    "hpa_window": "VITAL_OR_IMMUNE_LIABILITY",
+    "measured_state": "FLAT",
+    "measured_emc_over_normal": 0.8385,
+    "measured_percentile_of_all_genes": 25.8
+   },
+   "CD276": {
+    "hpa_prior": "BROAD",
+    "hpa_window": "BROAD_LIABILITY",
+    "measured_state": "FLAT",
+    "measured_emc_over_normal": 1.2962,
+    "measured_percentile_of_all_genes": 76.6
+   },
+   "CD44": {
+    "hpa_prior": "BROAD",
+    "hpa_window": "BROAD_LIABILITY",
+    "measured_state": "UP",
+    "measured_emc_over_normal": 1.6939,
+    "measured_percentile_of_all_genes": 92.4
+   },
+   "CDH17": {
+    "hpa_prior": "VITAL_OR_IMMUNE",
+    "hpa_window": "VITAL_OR_IMMUNE_LIABILITY",
+    "measured_state": "FLAT",
+    "measured_emc_over_normal": 0.9115,
+    "measured_percentile_of_all_genes": 32.5
+   },
+   "CSPG4": {
+    "hpa_prior": "BROAD_WITH_A_PEAK",
+    "hpa_window": "ENHANCED_BROAD",
+    "measured_state": "UP",
+    "measured_emc_over_normal": 3.3113,
+    "measured_percentile_of_all_genes": 99.0
+   },
+   "FAP": {
+    "hpa_prior": "BROAD_WITH_A_PEAK",
+    "hpa_window": "ENHANCED_BROAD",
+    "measured_state": "UP",
+    "measured_emc_over_normal": 1.6301,
+    "measured_percentile_of_all_genes": 91.2
+   },
+   "GPC3": {
+    "hpa_prior": "CONFINED",
+    "hpa_window": "RESTRICTED",
+    "measured_state": "DOWN",
+    "measured_emc_over_normal": 0.0902,
+    "measured_percentile_of_all_genes": 3.4
+   },
+   "L1CAM": {
+    "hpa_prior": "BROAD_WITH_A_PEAK",
+    "hpa_window": "ENHANCED_BROAD",
+    "measured_state": "DOWN",
+    "measured_emc_over_normal": 0.3334,
+    "measured_percentile_of_all_genes": 5.8
+   },
+   "MSLN": {
+    "hpa_prior": "BROAD_WITH_A_PEAK",
+    "hpa_window": "ENHANCED_BROAD",
+    "measured_state": "DOWN",
+    "measured_emc_over_normal": 0.273,
+    "measured_percentile_of_all_genes": 4.8
+   },
+   "RET": {
+    "hpa_prior": "ABSENT_FROM_THE_COMMITTED_PRIOR",
+    "hpa_window": null,
+    "measured_state": "UP",
+    "measured_emc_over_normal": 3.5087,
+    "measured_percentile_of_all_genes": 99.1
+   },
+   "SSTR2": {
+    "hpa_prior": "BROAD_WITH_A_PEAK",
+    "hpa_window": "ENHANCED_BROAD",
+    "measured_state": "FLAT",
+    "measured_emc_over_normal": 1.5441,
+    "measured_percentile_of_all_genes": 89.2
+   }
+  },
+  "prior_says_CONFINED_but_EMC_is_not_above_normal_organs": [
+   "ALCAM",
+   "GPC3"
+  ],
+  "prior_REFUSES_but_EMC_is_above_normal_organs": [
+   "CD44",
+   "CSPG4",
+   "FAP"
+  ],
+  "n_agree_on_a_pass": 0,
+  "\u2b51_the_row_that_matters": "ALCAM is the antigen the surface-target manuscript reports as the ONLY one concordantly elevated on both EMC arrays, and the HPA prior passes it as RESTRICTED. The measured contrast puts its EMC median BELOW the normal-organ median. So the single antigen a prior-only pipeline would have promoted is the one the measured exposure axis refuses \u2014 which is exactly the failure mode the exposure axis was wanted for, demonstrating itself on the first antigen it was pointed at.",
+  "\u26a0_read_GPC3_out_of_the_disagreement_list": "GPC3 also appears as `prior CONFINED / measured not above normal`, and it is NOT a disagreement: GPC3 is one of the prior's own positive controls (a tumour-restricted onco-fetal antigen) and its measured EMC/normal ratio of 0.09 means EMC does not express it \u2014 which is what the negative exposure control expects. Both instruments are behaving. ALCAM is the row where they genuinely point different ways.",
+  "\u26d4_not_a_verdict_on_HPA": "HPA reads many tissues this deposit does not; the deposit reads EMC, which HPA does not. Neither instrument is graded here. What is established is that a normal-tissue PRIOR is not a substitute for a tumour-versus-normal CONTRAST, and stage 1 had only the prior."
+ },
+ "hpa_vital_tissue_override_is_inert": {
+  "n_antigens_scored_in_the_prior": 45,
+  "n_with_a_null_rna_tissue_specific_nTPM": 45,
+  "n_with_any_vital_tissue_hit": 0,
+  "vital_tissue_override_ever_fired": false,
+  "n_reaching_VITAL_OR_IMMUNE_LIABILITY_via_the_blood_branch": 9,
+  "genes_reaching_it_via_the_blood_branch": [
+   "CD248",
+   "CD3E",
+   "CDH17",
+   "EPHA2",
+   "KIT",
+   "NCAM1",
+   "PTK7",
+   "ROR2",
+   "VCAN"
+  ],
+  "verdict": "\u26d4 INERT \u2014 the vital-tissue override has never fired on any antigen in the committed prior, because the field it reads is null in every record.",
+  "consequence_for_this_module": "Every `window: RESTRICTED` in the prior means 'not low-specificity, not detected-in-all, not blood-confined'. It does NOT mean 'checked against vital tissue and found clear'. So the prior is used here as a NECESSARY condition that is weaker than it reads, never as a sufficient one, and no antigen is named on it.",
+  "routed_fix": "`emc_surface_normal_window.py` -> the HPA query column list / `classify`. Not this module's file to change; recorded so its owner can."
+ },
+ "stage_1_coverage_over_this_universe": {
+  "_what": "membership of each jointly-scoreable antigen in the stage-1 surrogate artifact",
+  "per_gene": {
+   "ALCAM": {
+    "in_actionable_antigens": true,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": true
+   },
+   "CD248": {
+    "in_actionable_antigens": true,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": true
+   },
+   "CD276": {
+    "in_actionable_antigens": true,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": true
+   },
+   "CD44": {
+    "in_actionable_antigens": true,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": true
+   },
+   "CDH17": {
+    "in_actionable_antigens": false,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": false
+   },
+   "CSPG4": {
+    "in_actionable_antigens": false,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": false
+   },
+   "FAP": {
+    "in_actionable_antigens": true,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": true
+   },
+   "GPC3": {
+    "in_actionable_antigens": true,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": true
+   },
+   "L1CAM": {
+    "in_actionable_antigens": true,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": true
+   },
+   "MSLN": {
+    "in_actionable_antigens": true,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": true
+   },
+   "RET": {
+    "in_actionable_antigens": false,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": false
+   },
+   "SSTR2": {
+    "in_actionable_antigens": false,
+    "in_top_candidates": false,
+    "appears_anywhere_in_the_stage_1_artifact": false
+   }
+  },
+  "genes_with_NO_per_gene_row_anywhere_in_stage_1": [
+   "CDH17",
+   "CSPG4",
+   "RET",
+   "SSTR2"
+  ],
+  "n_absent": 4,
+  "n_universe": 12,
+  "\u26d4_whether_they_were_SCANNED_is_undecidable": "The scan unioned ~2,820 UniProt genes and then recorded only 40 top candidates, 47 seed antigens and one line's top 30 \u2014 it never recorded the scanned gene list. So 'absent from the outputs' is NOT 'not scanned' (surfaceome-instrument-limits.json -> limits.L4_cspg4_coverage_gap says the same of CSPG4). What IS decidable: no per-gene number exists for these genes anywhere in the surrogate record, so the surrogate never measured them and never rejected them."
+ },
+ "headline": {
+  "can_a_delivery_candidate_be_NAMED": false,
+  "antigens_that_clear_both_axes_on_every_instrument_that_can_read_them": [],
+  "ranked_residual_clears_the_measured_axes_but_cannot_be_named": [
+   "CD44",
+   "CSPG4",
+   "RET"
+  ],
+  "n_antigens_scoreable_on_both_axes": 12,
+  "n_antigens_passed_by_BOTH_normal_tissue_instruments": 0,
+  "statement": "\u26d4 NO. Of the 12 antigens that can be asked the two-axis question at all, NONE clears both axes on every instrument that can read it, so no delivery candidate can be named. 3 clear the two MEASURED axes and are refused only by the wider normal-tissue prior or by its absence (CD44, CSPG4, RET). What has changed is the BASIS of the refusal: the ASO's delivery gate is now bounded by a measurement in EMC tumour tissue against normal organs, not by a translocation-sarcoma surrogate."
+ },
+ "what_this_changes_for_PUB_ASO": {
+  "_scope": "fusion-junction-aso-paper.md \u00a73c (the AOC delivery arm) and systems/views/readiness.md -> RT-ASO 'a named delivery candidate'.",
+  "can_now_say": [
+   "The AOC targeting arm has been tested against EMC TUMOUR tissue and against NORMAL organ tissue, not only against a translocation-sarcoma surrogate. \u00a73c's honest bound \u2014 'the toxicity-relevant tumour-vs-normal window (GTEx/HPA) is the flagged next filter \u2026 not done here' \u2014 is no longer the state of the evidence; the filter has been applied on both a prior and a measured contrast.",
+   "The delivery gate is bounded by a NEGATIVE with a named basis: no antigen this repository can score clears both axes on every instrument that can read it.",
+   "The specific antigen \u00a73c names by extrapolation, B7-H3/CD276, is refused on the lineage axis in EMC tumour tissue itself (FAILS_THE_LINEAGE_AXIS), not merely on the surrogate's selectivity test.",
+   "The size of the answerable question is now measured: 12 antigens can be asked the two-axis question at all, and that ceiling belongs in the limitations of any delivery claim."
+  ],
+  "must_now_retire_or_amend_in_section_3c": [
+   "\u26d4 'a data-ranked alternative shortlist' / 'This is a nameable, prioritised targeting-arm shortlist for an EMC AOC' \u2014 the named members are surrogate ranks. Two of them, FGFR1 and PTK7, are CONCORDANT_DOWN_ON_BOTH arrays in EMC tumour tissue (emc-surface-target-landscape.md \u00a73.5), i.e. the shortlist's leads point the wrong way in the disease.",
+   "\u26d4 'A public real-EMC tumour dataset exists (GSE4303) but was tried and is UNUSABLE for this' and 'the public-data route to real-EMC surface expression is exhausted' \u2014 superseded by emc-surface-target-landscape.md \u00a73.10; GSE4303's GPL3290 arm is readable through an accession bridge, and two further EMC cohorts are read.",
+   "\u26a0 'the toxicity-relevant tumour-vs-normal window \u2026 is the flagged next filter, not done here' \u2014 it is now done, on two independent normal-tissue instruments."
+  ],
+  "still_cannot_say": [
+   "That any antigen is a delivery handle. Nothing here measures protein, surface density, internalisation or endosomal escape.",
+   "That the local/intratumoural route in \u00a73c is displaced. It remains the only delivery hypothesis in \u00a73c that needs no antigen at all, and this analysis strengthens rather than weakens that ordering.",
+   "That the readiness register's missing item is discharged. 'A named delivery candidate' is still missing, and this module makes the reason precise instead of open."
+  ]
+ },
+ "routed_next_steps": [
+  {
+   "step": "Add the missing antigens to the HPA normal-tissue prior",
+   "detail": "`emc_surface_normal_window.py` -> `GENES_BY_SYMBOL` does not contain RET. Those antigens carry a measured EMC-vs-normal-organ reading and NO wider normal-tissue prior, which is the single reason they cannot be graded.",
+   "cost": "$0 \u2014 one string per gene, then `emc-expression-datasets.yml mode=panels`.",
+   "why_it_is_decisive": "the exposure panel holds six visceral organs. For any receptor with documented neural, endocrine or soft-tissue normal expression, the tissues that would refuse it are exactly the ones the panel lacks, so the wider prior is not a formality.",
+   "owner": "not this module's file \u2014 routed, not applied."
+  },
+  {
+   "step": "Recover the two NORMAL SOFT-TISSUE libraries already inside GSE24369",
+   "detail": "GSM600968 and GSM600969 are 'Skeletal muscle pooled RNA' samples on GPL6244. `emc_expression_panels.py` classifies them `unclassified` and drops them from `per_sample`, correctly \u2014 feeding normal tissue into a tumour comparator arm was a real bug the RET lane found and fixed. But as their OWN arm they are the only normal SOFT-tissue libraries anywhere in the three cohorts, and the 3SEQ exposure panel has none. n = 2 and pooled, so no distribution \u2014 a second exposure reading on a different normal tissue class, not a test.",
+   "cost": "$0 \u2014 the series is already fetched by an existing mode.",
+   "owner": "not this module's file \u2014 routed, not applied."
+  },
+  {
+   "step": "Repair the inert vital-tissue override in the normal-tissue prior",
+   "detail": "see `hpa_vital_tissue_override_is_inert.routed_fix`.",
+   "cost": "$0.",
+   "owner": "not this module's file \u2014 routed, not applied."
+  },
+  {
+   "step": "The measurement that would actually decide it",
+   "detail": "For any residual antigen (CD44, CSPG4, RET): IHC or surface proteomics on archival EMC with a normal-tissue comparison, plus a single-cell or spatial EMC dataset to assign the compartment. Neither is obtainable from public deposits and neither is in hand.",
+   "cost": "collaborator-held; not $0.",
+   "owner": "the EMC model groups \u2014 see emc-surface-target-landscape.md \u00a77."
+  }
+ ],
+ "\u26d4_what_this_file_does_NOT_claim": [
+  "That any antigen named or ranked here is on the EMC cell surface. Every reading is transcript.",
+  "That any antigen is safe, selective, or has a therapeutic window in EMC. No such quantity is computed here or in any artifact this module reads.",
+  "That an antigen absent from the exposure deposit is low in EMC or absent from normal tissue. It was not measured. \u26d4 An absent reading is not a reading of absence.",
+  "That the HPA prior's RESTRICTED verdicts are vital-tissue-checked \u2014 they are not; see `hpa_vital_tissue_override_is_inert`.",
+  "That naming an antigen would solve delivery. Blood-to-tumour distribution, matrix penetration, internalisation and endosomal escape are all untouched by anything here."
+ ]
+}

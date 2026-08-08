@@ -1486,6 +1486,20 @@
           "classification": "invalidated",
           "why_invalidated": "Same shape as the sibling routed-edit files (fap-rlt-map-edits.json, ofcs-cspg4-map-edits.json): the file carries a withdrawal, draws no reading from the model, and proposes no claim that rests on it. Filed `invalidated` rather than `unaffected` because the sentence it carries is ABOUT an EMC claim that was withdrawn, which is the case this object exists to keep visible.",
           "correction_marker": "disputed-identity line ACH-001519"
+        },
+        {
+          "file": "research/manuscripts/lit-targets-nr4a3-cistrome.json",
+          "use": "The NR4A3-fusion cistrome search corpus (2026-08-08). Names the line in exactly three query strings — the GEO DataSets queries `gds_14_emc_cell_lines` and `r2_gds_14_emc_cell_lines` (`\"H-EMC-SS\" OR \"HEMC SS\" OR \"H EMC SS\" OR MUG-Chor1`) and the Europe PMC query `r2_epmc_emc_cellline_chromatin`. It is an INTERROGATED SEARCH TERM, never a source of a property.",
+          "classification": "unaffected",
+          "why_unaffected": "⭐ THE SEARCH ASKED WHETHER ANY CHROMATIN DATASET IS KEYED TO THIS LINE, AND THE ANSWER WAS NO — so nothing was read off the model in either direction. Measured 2026-08-08: `r2_gds_14_emc_cell_lines` returned 53 GEO records, of which exactly 3 name the line (GSM1669877, GSM959004, GSM827448) and all 3 are EXPRESSION samples inside multi-line panels; `gds_04_disease_x_methods` (an EMC disease term AND any chromatin method) returned 0; and ChIP-Atlas's complete antigen index carries no experiment in this line. ⛔ AND THE DISPUTE CUTS THE SAME WAY AS THE FINDING, WHICH IS WHY THIS IS `unaffected` RATHER THAN `invalidated`: the deliverable is whether a genome-wide chromatin experiment exists FOR AN NR4A3 FUSION, and per this object's own verdict a dataset keyed to this line would NOT have been evidence of one. Had the query returned a chromatin dataset, the honest reading would have been 'a chromatin dataset on a line whose fusion status the curated record contradicts' — not a fusion cistrome; the zero makes that counterfactual moot, and either way no claim rests on the model. ⚠ The mention is deliberately NOT deleted: a search record that hides which models were interrogated cannot be re-run, and 'we looked at that line and found nothing' is a different fact from 'we never looked'. Findings: research/manuscripts/nr4a3-cistrome-search-2026-08-08.md §4.",
+          "correction_marker": "interrogated as a search term only; returned no chromatin dataset"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-cistrome-search-2026-08-08.md",
+          "use": "The findings note for the same search. Names the line in §4 (the cell-line query and its result) and in §6's scope statement — reporting what the query returned, never reading a property off the model.",
+          "classification": "unaffected",
+          "why_unaffected": "Identical to the corpus file it reports on: the line is named as a search term that returned no chromatin dataset, and the note's conclusion (that no genome-wide chromatin experiment exists on EMC material, while one exists for four NR4A3 fusions in HEK293T — GSE243553) does not depend on this model in any direction. ⚠ Naming it is required rather than optional: a reproducible negative has to say which models were interrogated, and this object's own verdict is part of why a hit on this line would not have counted.",
+          "correction_marker": "interrogated as a search term only; returned no chromatin dataset"
         }
       ],
       "distinct_from": [

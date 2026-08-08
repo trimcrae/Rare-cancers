@@ -1,0 +1,1084 @@
+{
+ "_schema": "emc-endpoint-alternatives/1",
+ "_generated_by": "research/manuscripts/emc_endpoint_alternatives.py",
+ "_generated_utc": "2026-08-08T19:06:58Z",
+ "_do_not_hand_edit": "Regenerate with `python3 research/manuscripts/emc_endpoint_alternatives.py`. Integer counts and citations come from research/manuscripts/emc-systemic-therapy-pooling.json; the reporting census comes from research/manuscripts/emc-endpoint-discordance.json; every other figure is either arithmetic over those, or a retrieved constant carried in this file's source WITH the verbatim quote and the literature-cache path it was read from. Hand-editing would sever a value from its quote, which is the only thing that makes any of it checkable.",
+ "title": "What should be measured in advanced extraskeletal myxoid chondrosarcoma, what the field's chosen endpoint is benchmarked against, and how the published record reads when the benchmark is named",
+ "answers_the_questions": {
+  "A": "what outcome variable should be tracked in advanced EMC",
+  "B": "how the published trial record would read differently if that variable, and a sourced benchmark, had been used"
+ },
+ "method": {
+  "policy": "systems/POLICY-evidence.md sections 2.1-2.4",
+  "pooling": "crude denominator-weighted proportions",
+  "interval": "Wilson score 95%",
+  "counts": "explicit integers only; never back-derived from a published percentage",
+  "populations": "non-overlapping only",
+  "time_to_event": "never merged",
+  "design_arithmetic": "exact binomial, no normal approximation, because at n around 20 the approximation is the difference between a design that holds its stated alpha and one that does not",
+  "the_one_modelling_assumption": "a constant hazard, used ONLY to convert a published median into a fixed-timepoint rate where no rate was published, and validated against the three EMC cohorts that publish both",
+  "sources_of_committed_counts": [
+   "research/manuscripts/emc-systemic-therapy-pooling.json",
+   "research/manuscripts/emc-endpoint-discordance.json"
+  ],
+  "retrieval_corpus_for_every_other_figure": "research/manuscripts/lit-targets-endpoint-benchmarks.json"
+ },
+ "E1_design_ledger": {
+  "question": "For each prospective trial that has ever reported an EMC-specific efficacy endpoint, what was the primary endpoint, what null was it tested against, and where did that null come from?",
+  "why_this_had_to_be_built_first": "PUB-ENDPOINT's D5 established that the two modern EMC trials chose DIFFERENT primary endpoints six years apart -- objective response in 2019, 6-month progression-free rate in 2025 -- and that the migration was never argued in print. That is a fact about which endpoint. It says nothing about the THRESHOLD each endpoint was read against, and the threshold is what decides whether a trial reports a positive result. Neither threshold was recorded anywhere in this repository before this file.",
+  "correction_this_extends": {
+   "from": "research/manuscripts/emc-endpoint-discordance.json -> D5_primary_endpoint_correction",
+   "what_D5_settled": "The 2019 pazopanib trial's primary endpoint was the RECIST objective-response rate, not 6-month progression-free survival -- the source file's own verbatim quote of that trial reads '22 patients ... were evaluable for the primary endpoint: four (18% [95% CI 1-36]) had a RECIST objective response'. So the two modern prospective EMC trials did NOT both choose a progression-free endpoint; they chose DIFFERENT ones, six years apart.",
+   "what_this_adds": "D5 corrected WHICH endpoint each trial used. This ledger adds the null, the alternative, the error rates, the decision threshold and the stated justification for each -- all of which were retrievable at zero cost from the trial registry and the published abstract, and none of which had been read."
+  },
+  "trials": [
+   {
+    "trial": "pazopanib phase 2, EMC stratum",
+    "sourceId": "stacchiotti2019pazopanib",
+    "registration": "NCT02066285",
+    "year_published": 2019,
+    "primary_endpoint": "objective response rate (RECIST 1.1), modified intention-to-treat",
+    "design_family": "Simon optimal two-stage",
+    "p0": 0.05,
+    "p1": 0.25,
+    "alpha": 0.1,
+    "beta": 0.1,
+    "stage1_n": 9,
+    "stage1_stop_if_responses_at_most": 0,
+    "total_n_planned": 24,
+    "reject_null_if_responses_at_least": 3,
+    "observed": {
+     "events": 4,
+     "denom": 22,
+     "what": "RECIST objective responses / evaluable"
+    },
+    "design_verbatim": "To estimate the simple size for stratum 2 (EMC), a Simon's optimal 2-stage phase II design has been used, having considered the very scarce published information on response rate based on RECIST criteria. For a design with P0= 0.05, P1= 0.25, alpha=0.1 and beta=0.1. At the first stage, 9 patients should be enrolled into the study, if there are not responses the trial will be terminated and it will be concluded that pazopanib is not sufficiently active. If there is at least 1 response in this first stage, the trial will be continued and at the second stage, another 15 patients (total 24 patients) would be enrolled into the study. To reject the null hypothesis for the EMC stratum 3 responses or more (RECIST criteria), out of the 24 patients, are needed.",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/ctgov_nct02066285_full.txt",
+    "how_the_null_was_justified": "'having considered the very scarce published information on response rate' -- the null is justified by the ABSENCE of data, and the registry entry says so in as many words. That is an honest thing to write and it is also the whole problem: a 5% null in a disease with no published response rate is a statement about the literature, not about the disease.",
+    "sibling_stratum_in_the_same_protocol": {
+     "stratum": "solitary fibrous tumour",
+     "response_criterion": "Choi",
+     "p0": 0.4,
+     "p1": 0.6,
+     "alpha": 0.1,
+     "beta": 0.1,
+     "verbatim": "To estimate the sample size for stratum 1 (SFT), a Simon's optimal 2-stage phase II design has been used, having considered the published response rate based on Choi criteria in SFT patients which correspond to 40% in monotherapy. For a design with P0=0.40, P1=0.60; alpha=0.1 and beta=0.1.",
+     "why_this_matters_here": "ONE PROTOCOL, ONE DRUG, ONE ERA, TWO STRATA -- and the response criterion and the null were chosen per histology: Choi with a 40% null for SFT, RECIST with a 5% null for EMC. Both strata received the same antiangiogenic agent, which is the setting Choi criteria were developed for. No rationale for reading EMC by RECIST rather than by Choi appears in the registry record or in the published EMC paper. ⚠ AND THE REGISTRY IS AMBIGUOUS ABOUT WHETHER CHOI WAS REGISTERED FOR EMC AT ALL, WHICH IS WHY THIS FILE DOES NOT CLAIM IT WAS. The primary-outcome text names both criteria without assigning either -- 'measured using Choi and RECIST 1.1 criteria' -- while the brief summary assigns them with the word 'respectively' (SFT to Choi, EMC to RECIST) and the detailed statistical design powers the EMC stratum on RECIST. The defensible statement is narrower and is enough: the same protocol judged its other stratum, on the same drug, by Choi -- so the criterion was thought fit for this setting by these investigators -- and the EMC scans that a Choi read would use were taken."
+    }
+   },
+   {
+    "trial": "IMMUNOSARC II, EMC cohort",
+    "sourceId": "immunosarc2emc2025",
+    "registration": "NCT03277924",
+    "year_published": 2025,
+    "primary_endpoint": "6-month progression-free survival rate (RECIST 1.1)",
+    "design_family": "stated only as a threshold; the stage-1 paper of the same master protocol used a one-arm one-stage Brookmeyer-Crowley-like survival design",
+    "p0": 0.5,
+    "p1": 0.8,
+    "alpha": 0.05,
+    "beta": 0.1,
+    "total_n_planned": 22,
+    "reject_null_if_events_at_least": 15,
+    "observed": {
+     "events": 16,
+     "denom": 23,
+     "what": "patients free of progression at 6 months / evaluable"
+    },
+    "observed_as_published_km_pct": 77.0,
+    "design_verbatim": "The primary endpoint was 6-month(m)-PFS rate, and the statistical assumptions were obtaining a 6m-PFSR in at least 15 pts out of 22 pts, with H0 = 50% and H1 = 80%, (alpha 0.05; beta 0.10) to consider the combination as promising.",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/../emc-systemic-therapy-2026-08-07/im2_crossref_doi.txt (Crossref JATS abstract) and .../im2_s2_doi.txt (Semantic Scholar), independently",
+    "how_the_null_was_justified": "IT IS NOT. The only published account of this cohort is a conference abstract, and it states the numbers 50% and 80% without attributing either to a source. There is no full paper and ClinicalTrials.gov posts no results for NCT03277924. The registry's own outcome-measure text for this cohort defines the endpoint but states no threshold."
+   }
+  ],
+  "the_asymmetry_in_the_two_justifications": "The 2019 EMC stratum's null is JUSTIFIED IN THE REGISTRY -- 'having considered the very scarce published information on response rate' -- and is therefore auditable, even though what it audits to is an absence. The 2025 EMC cohort's null is stated as a number and attributed to nothing, in the only document that exists about it. A null with a bad reason can be argued with. A null with no stated reason cannot, and it is the one that carries a field's conclusion forward.",
+  "what_a_reader_should_take_from_this_section_alone": "Nothing about any drug. Two designs, both single-arm, both without a comparator, each declaring a result against a threshold chosen by the investigators. That is the normal and accepted way to run a phase 2 trial in an ultra-rare disease; the question this file asks is whether the thresholds were EMC-appropriate, not whether the trials were properly conducted."
+ },
+ "E2_emc_six_month_progression_free_ladder": {
+  "question": "What 6-month progression-free rates does the published EMC record actually contain, and how many of them are rates rather than conversions?",
+  "rows": [
+   {
+    "cohort": "drilon_chemotherapy",
+    "sourceId": "drilon2008",
+    "year": 2008,
+    "regimen": "cytotoxic chemotherapy, mixed regimens",
+    "published_6mo_pct": 40.0,
+    "published_median_months": 5.2,
+    "kind": "Kaplan-Meier rate, published directly",
+    "verbatim": "The median PFS was 5.2 months (Kaplan-Meier 95% CI, 3.4 months-7.1 months). Estimated PFS rates (Kaplan-Meier) at 3 months, 4 months, 6 months, and 9 months were 69%, 65%, 40%, and 26%, respectively.",
+    "authors_own_framing_verbatim": "Although there are biases inherent in retrospective analyses, these data provide a benchmark for time to disease progression for the study of new agents for the treatment of patients with this diagnosis.",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks-r2/pmc_html_drilon.txt",
+    "caveats": "denominator is COURSES, not patients -- 32 evaluable courses in 21 patients, with time to progression determinable in 29 of 32; response was physician-assessed, not central RECIST; treatment era 1975-2006",
+    "exponential_implied_6mo_pct": 44.9
+   },
+   {
+    "cohort": "anthracycline_italian_rcn",
+    "sourceId": "stacchiotti2013anthracycline",
+    "year": 2013,
+    "regimen": "anthracycline-based chemotherapy (10 of 11 with ifosfamide)",
+    "published_6mo_pct": 50.0,
+    "published_median_months": 8.0,
+    "kind": "rate stated in the text beside the Kaplan-Meier median",
+    "verbatim": "The median PFS for the entire group was 8 months (range 2-10), with 50% patients progression-free at 6 months (Figure 2).",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks-r2/epmc_ft_anthracycline_PMC3879193.txt",
+    "caveats": "n = 11 advanced EMC, retrospective, Italian Rare Cancer Network, central pathology review and molecular confirmation; front line in 10 of 11",
+    "exponential_implied_6mo_pct": 59.5
+   },
+   {
+    "cohort": "chiusole_metastatic_chemo",
+    "sourceId": "chiusole2020",
+    "year": 2020,
+    "regimen": "first-line chemotherapy for metastatic disease",
+    "published_6mo_pct": null,
+    "published_median_months": 9.0,
+    "kind": "median only; no fixed-timepoint rate published",
+    "verbatim": "Median progression-free survival for patients receiving first-line chemotherapy was 9 months.",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks-r2/epmc_ft_chiusole_PMC7308468.txt",
+    "caveats": "n = 20 patients treated with chemotherapy for metastatic disease across two institutions, 1980-2018, retrospective; the paper's own conclusion is that chemotherapy did not improve survival in unselected patients and that the association is confounded by indication",
+    "exponential_implied_6mo_pct": 63.0
+   },
+   {
+    "cohort": "sunitinib_nivolumab_immunosarc2",
+    "sourceId": "immunosarc2emc2025",
+    "year": 2025,
+    "regimen": "sunitinib + nivolumab",
+    "published_6mo_pct": 77.0,
+    "published_median_months": 13.2,
+    "kind": "Kaplan-Meier rate, published directly, alongside a crude count of 16/23",
+    "verbatim": "among the 23 evaluable pts, 6m-PFSR was 77% with 16/23 pts free of progression at 6 mos, and a median PFS of 13.2 mos (95%CI 5.7-20.7)",
+    "retrieved_file": "already committed at research/manuscripts/emc-systemic-therapy-pooling.json -> cohorts[].quote",
+    "caveats": "conference abstract only; the 77% and the 16/23 (69.6%) are not reconciled in the abstract and no full paper exists",
+    "exponential_implied_6mo_pct": 73.0
+   },
+   {
+    "cohort": "pazopanib_phase2",
+    "sourceId": "stacchiotti2019pazopanib",
+    "year": 2019,
+    "regimen": "pazopanib 800 mg/day",
+    "published_6mo_pct": null,
+    "published_median_months": 19.0,
+    "kind": "median only at 6 months; 12- and 24-month rates published",
+    "verbatim": "median PFS of 19 months (95% CI 11-27); PFS 74% at 12 months and 40% at 24 months -- read from the Remiszewski 2025 review's account of the trial, which is why research/manuscripts/emc-systemic-therapy-pooling.json marks these figures secondary provenance",
+    "retrieved_file": "already committed at research/manuscripts/emc-systemic-therapy-pooling.json",
+    "caveats": "the trial's own paper reports the objective-response primary endpoint; the time-to-event figures reach this repository through a review",
+    "exponential_implied_6mo_pct": 80.3
+   }
+  ],
+  "the_two_that_are_published_as_rates": [
+   "drilon_chemotherapy",
+   "anthracycline_italian_rcn"
+  ],
+  "⭐_the_finding_that_was_not_in_this_repository": "AN EMC-SPECIFIC 6-MONTH PROGRESSION-FREE BENCHMARK HAS EXISTED SINCE 2008 AND A SECOND SINCE 2013. Drilon 2008 published a 6-month Kaplan-Meier progression-free rate of 40% on chemotherapy and stated in its own conclusion that the data 'provide a benchmark ... for the study of new agents'. Stacchiotti 2013 published 50% progression-free at 6 months on anthracycline-based chemotherapy. Neither figure appears in research/manuscripts/emc-systemic-therapy-pooling.json -> analyses.A6, which records that '6-month progression-free as a count' is extractable for exactly one of nine EMC cohorts -- which is TRUE AND REMAINS TRUE, because neither of these two is an integer count and POLICY-evidence 2.1 forbids reconstructing one from a percentage. ⚠ THE DISTINCTION IS THE WHOLE POINT: a figure can be unpoolable and still be the best benchmark the disease has. A6 measured poolability and answered correctly; nobody had asked the different question of whether a comparator existed.",
+  "conversion_validation": {
+   "what_is_being_validated": "Two of the five rows publish a median and no 6-month rate, so a conversion is unavoidable if they are to enter the ladder at all. The conversion assumes a constant hazard. Three rows publish BOTH quantities, so the assumption can be measured rather than asserted.",
+   "rows": [
+    {
+     "cohort": "drilon_chemotherapy",
+     "published_median_months": 5.2,
+     "published_6mo_pct": 40.0,
+     "exponential_implied_6mo_pct": 44.9,
+     "error_pct_points": 4.9
+    },
+    {
+     "cohort": "anthracycline_italian_rcn",
+     "published_median_months": 8.0,
+     "published_6mo_pct": 50.0,
+     "exponential_implied_6mo_pct": 59.5,
+     "error_pct_points": 9.5
+    },
+    {
+     "cohort": "sunitinib_nivolumab_immunosarc2",
+     "published_median_months": 13.2,
+     "published_6mo_pct": 77.0,
+     "exponential_implied_6mo_pct": 73.0,
+     "error_pct_points": -4.0
+    }
+   ],
+   "max_absolute_error_pct_points": 9.5,
+   "mean_absolute_error_pct_points": 6.1,
+   "direction": "not one-sided -- the conversion over-predicts on the two chemotherapy cohorts and under-predicts on the sunitinib+nivolumab cohort, so it carries no systematic bias that would flatter or damage any row",
+   "reading": "Across the three EMC cohorts that publish both, a constant-hazard conversion from the median to the 6-month rate is accurate to within about 10 percentage points, with no consistent direction. Every converted value in this file should therefore be read with a band of roughly +/- 10 points, and no conclusion below is allowed to turn on a converted value alone -- the two conclusions that matter (E3, E5) both rest on PUBLISHED rates.",
+   "⚠_this_is_a_calibration_not_a_proof": "Three cohorts, of 11, 21 and 23 patients. A calibration on three small retrospective and single-arm datasets bounds the conversion error roughly; it does not establish that EMC progression is exponentially distributed, and the pazopanib cohort's own published points argue that it is not -- 74% at 12 months against a constant-hazard prediction of 64.5% from its 19-month median, but 40% at 24 months against a prediction of 41.7%."
+  },
+  "the_ladder": [
+   {
+    "cohort": "drilon_chemotherapy",
+    "year": 2008,
+    "regimen": "cytotoxic chemotherapy, mixed regimens",
+    "six_month_progression_free_pct": 40.0,
+    "basis": "published rate"
+   },
+   {
+    "cohort": "anthracycline_italian_rcn",
+    "year": 2013,
+    "regimen": "anthracycline-based chemotherapy (10 of 11 with ifosfamide)",
+    "six_month_progression_free_pct": 50.0,
+    "basis": "published rate"
+   },
+   {
+    "cohort": "chiusole_metastatic_chemo",
+    "year": 2020,
+    "regimen": "first-line chemotherapy for metastatic disease",
+    "six_month_progression_free_pct": 63.0,
+    "basis": "converted from the published median under a constant hazard"
+   },
+   {
+    "cohort": "sunitinib_nivolumab_immunosarc2",
+    "year": 2025,
+    "regimen": "sunitinib + nivolumab",
+    "six_month_progression_free_pct": 77.0,
+    "basis": "published rate"
+   },
+   {
+    "cohort": "pazopanib_phase2",
+    "year": 2019,
+    "regimen": "pazopanib 800 mg/day",
+    "six_month_progression_free_pct": 80.3,
+    "basis": "converted from the published median under a constant hazard"
+   }
+  ],
+  "span_pct_points": 40.3,
+  "⛔_every_row_is_a_treated_row": "All five are measured on patients receiving systemic therapy. None is an untreated or observation cohort. So this ladder can calibrate one treatment against another; it cannot calibrate any of them against natural history, and PUB-ENDPOINT Sec. 6.1's objection survives every number in it intact."
+ },
+ "E3_benchmark_provenance": {
+  "question": "The 2025 EMC cohort tested a 6-month progression-free rate against H0 = 50% and H1 = 80%. Where do those two numbers come from, and are they appropriate for an indolent tumour?",
+  "the_hypothesis_this_section_was_built_to_test": "That H0 = 50% was taken from the Van Glabbeke / EORTC soft-tissue-sarcoma progression-free-rate reference values, which are derived from aggressive histologies, and would therefore be cleared by an indolent tumour's natural history alone.",
+  "⛔_that_hypothesis_is_not_what_the_record_shows": "It is refuted in its specific form and survives in a more damaging general form. Refuted: Van Glabbeke's second-line reference value -- the one the master trial actually cites -- is a 6-month progression-free rate of 14%, not 50%, and 80% exceeds every 6-month figure in that paper. Survives: the number 50% coincides exactly with a published EMC-specific figure, and 80% coincides to within a point with another, so the null and the alternative both appear to be EMC-derived -- and BOTH ARE MEASURED ON PATIENTS RECEIVING CHEMOTHERAPY OR A TYROSINE-KINASE INHIBITOR. An EMC-derived null is better than an aggressive-histology null and still cannot answer the question the endpoint was chosen to answer.",
+  "provenance_chain_that_IS_documented": {
+   "citation": {
+    "short": "Martin-Broto 2020 (IMMUNOSARC I)",
+    "pmid": "33203665",
+    "pmcid": "PMC7674086",
+    "doi": "10.1136/jitc-2020-001561",
+    "journal": "Journal for ImmunoTherapy of Cancer",
+    "year": 2020,
+    "registration": "NCT03277924",
+    "openAccess": true
+   },
+   "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_immunosarc1_fulltext.txt",
+   "statistical_section_verbatim": "Sample size has been obtained for a one-arm, one-stage survival design based on Brookmeyer-Crowley-like test. The statistical test for survival probability was based on non-parametric estimation of survival distribution. For STS second-line cohort sample size has been obtained for the primary endpoint: 6 month PFSR. The estimated accrual time was 24 months. In this population, a 5% PFSR was considered not promising, whereas a 15% PFSR was considered promising. With a 0.05 type I error alpha and a power of 0.80, 48 patients were needed in this cohort.",
+   "discussion_section_verbatim": "In this phase Ib/II trial, we found that the 6-month PFSR was 48% according to RECIST and independent central review. This outcome widely exceeds the 15% considered promising in the statistical assumption of this trial. This threshold was based on the European Organisation for Research and Treatment of Cancer (EORTC) recommendation cut-off for activity, in terms of 6-month PFSR, in second line drugs of advanced STS.",
+   "reference_22_verbatim": "Van Glabbeke M , Verweij J , Judson I , et al Progression-free rate as the principal end-point for phase II trials in soft-tissue sarcomas . Eur J Cancer 2002 ; 38 : 543 - 9 . 10.1016/S0959-8049(01)00398-7 11872347",
+   "what_this_establishes": "The master trial's 6-month progression-free threshold is EXPLICITLY sourced to Van Glabbeke 2002, by the investigators, in a peer-reviewed full paper. So the Van Glabbeke framework is demonstrably in use in this trial family, and the question 'is that reference appropriate for EMC' is a real question about a real chain rather than a supposition.",
+   "what_this_does_NOT_establish": "It does not establish that the stage-2 EMC cohort's 50%/80% came from Van Glabbeke. It did not: stage 1's 15% is the EORTC second-line cut-off the paper explicitly cites, which Van Glabbeke states as 14% -- the one-point difference is the trial's rounding and not this file's inference, since the attribution is the paper's own. The EMC cohort's null of 50% is more than three times it. The stage-1 and stage-2 nulls are different numbers with different provenance, and only stage 1's is stated anywhere."
+  },
+  "van_glabbeke_reference_values": {
+   "citation": {
+    "short": "Van Glabbeke 2002",
+    "title": "Progression-free rate as the principal end-point for phase II trials in soft-tissue sarcomas.",
+    "authorString": "Van Glabbeke M, Verweij J, Judson I, Nielsen OS, EORTC Soft Tissue and Bone Sarcoma Group.",
+    "journal": "European Journal of Cancer",
+    "year": 2002,
+    "volume": "38",
+    "issue": "4",
+    "pages": "543-549",
+    "pmid": "11872347",
+    "doi": "10.1016/s0959-8049(01)00398-7",
+    "openAccess": false,
+    "retrieved_via": "Europe PMC REST search on the exact title (resultType=core) from a GitHub Actions runner, and independently confirmed against Crossref's bibliographic query, which returned the same DOI, volume and page range",
+    "retrieved_files": [
+     "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_vanglabbeke_title.txt",
+     "literature-cache branch, literature/emc-endpoint-benchmarks-r2/crossref_vanglabbeke_biblio.txt"
+    ],
+    "verified": true
+   },
+   "abstract_verbatim": "We have estimated progression-free rates (PFR) for various groups of soft-tissue sarcoma patients from our clinical trials database, to provide reference values for conducting phase II studies with PFR as the principal end-point. In 146 pretreated patients receiving an active agent, the PFR estimates were 39 and 14% at 3 and 6 months; with inactive regimens (234 patients), those estimates were 21 and 8% respectively. In 1154-non-pretreated patients, PFR estimates varied from 77% (synovial sarcoma) to 57% (malignant fibrous histiocytoma (MFH)) at 3 months, and from 56% (synovial sarcoma) to 38% (MFH) at 6 months. In 61 leiomyosarcomas from gastrointestinal origin, the corresponding figures were 44 and 30%, respectively. Consequently, for first-line therapy, a 6-month PFR of > or = 30-56% (depending on histology) can be considered as a reference value to suggest drug activity; for second-line therapy, a 3-month PFR of > or = 40% would suggest a drug activity, and < or = 20% would suggest inactivity.",
+   "reference_values_pct": {
+    "second_line_active_agent": {
+     "n_patients": 146,
+     "pfr_3mo": 39,
+     "pfr_6mo": 14
+    },
+    "second_line_inactive_regimens": {
+     "n_patients": 234,
+     "pfr_3mo": 21,
+     "pfr_6mo": 8
+    },
+    "first_line_non_pretreated": {
+     "n_patients": 1154,
+     "pfr_3mo_range": [
+      57,
+      77
+     ],
+     "pfr_3mo_range_histologies": [
+      "MFH (low)",
+      "synovial sarcoma (high)"
+     ],
+     "pfr_6mo_range": [
+      38,
+      56
+     ],
+     "pfr_6mo_range_histologies": [
+      "MFH (low)",
+      "synovial sarcoma (high)"
+     ]
+    },
+    "gastrointestinal_leiomyosarcoma": {
+     "n_patients": 61,
+     "pfr_3mo": 44,
+     "pfr_6mo": 30
+    }
+   },
+   "histologies_the_abstract_names": [
+    "synovial sarcoma",
+    "malignant fibrous histiocytoma",
+    "gastrointestinal leiomyosarcoma"
+   ],
+   "what_the_abstract_does_not_say": "It does not name extraskeletal myxoid chondrosarcoma, and it does not name any indolent histology. Whether the 1154 non-pretreated patients contained any EMC cannot be settled from the abstract, and the full text is paywalled (isOpenAccess: N on the Europe PMC core record). What IS settled by the abstract's own wording is that the reference value is explicitly histology-dependent -- 'a 6-month PFR of >= 30-56% (depending on histology)' -- and that the spread it observed across the four histologies it does name is 18 percentage points at 6 months."
+  },
+  "where_50_and_80_sit_against_van_glabbeke": {
+   "H0_50pct_vs_second_line_active_agent_6mo": {
+    "van_glabbeke": 14,
+    "trial_H0": 50,
+    "reading": "The null is more than three times Van Glabbeke's second-line active-agent reference value, which is the value the same master trial cited for its stage-1 cohort. The EMC cohort's null is not that value."
+   },
+   "H0_50pct_vs_first_line_band_6mo": {
+    "van_glabbeke_band": [
+     38,
+     56
+    ],
+    "trial_H0": 50,
+    "reading": "50% sits inside Van Glabbeke's first-line band of 38-56% but near its top, and the top of that band is synovial sarcoma. Sitting inside a band is not provenance: the band is 18 points wide across four histologies, none of which is EMC or is indolent."
+   },
+   "H1_80pct_vs_every_6mo_value_in_that_paper": {
+    "highest_6mo_value_in_van_glabbeke": 56,
+    "trial_H1": 80,
+    "reading": "The alternative hypothesis exceeds the highest 6-month progression-free rate anywhere in the reference paper by 24 percentage points, so it cannot have been read off it."
+   }
+  },
+  "⭐_the_coincidences_that_point_somewhere_else": {
+   "H0_50pct": {
+    "matches": "stacchiotti2013anthracycline",
+    "published_value_pct": 50.0,
+    "verbatim": "The median PFS for the entire group was 8 months (range 2-10), with 50% patients progression-free at 6 months",
+    "author_overlap": "S. Stacchiotti is the first author of the 2013 anthracycline series and is a co-author of the 2025 IMMUNOSARC II EMC abstract, as read from the Semantic Scholar author list retrieved for that abstract.",
+    "⚠_this_is_a_coincidence_plus_an_author_overlap_and_NOT_an_attribution": "The abstract states no source for its null. An exact numerical match with the only published EMC 6-month figure equal to 50%, by an author common to both, is strong circumstantial evidence for an EMC-specific derivation and is not proof of one. It is recorded as what it is. A full paper, or a protocol, would settle it in one sentence."
+   },
+   "H1_80pct": {
+    "matches": "pazopanib_phase2",
+    "converted_value_pct": 80.3,
+    "how": "the pazopanib EMC trial's published median progression-free survival of 19 months implies a 6-month rate of 80.3% under the constant-hazard conversion validated in E2",
+    "⚠_this_one_rests_on_a_conversion": "and the conversion carries a +/- 10-point band, so the match is 'consistent with' rather than 'equal to'. It is reported because the pattern it completes is coherent: null = EMC on chemotherapy, alternative = EMC on the previous trial's drug."
+   }
+  },
+  "the_emc_specific_benchmark_that_existed_and_was_not_used": {
+   "what": "Drilon 2008's 6-month Kaplan-Meier progression-free rate of 40% on chemotherapy, offered by its authors in their own conclusion as 'a benchmark ... for the study of new agents for the treatment of patients with this diagnosis'.",
+   "cited_by_the_2019_trial": false,
+   "cited_by_the_2025_abstract": false,
+   "evidence_for_those_two_answers": "The 2019 EMC stratum's registered design says its null was set 'having considered the very scarce published information on response rate' -- a response rate, which Drilon reports as zero, not a progression-free rate, and the design cites no source. The 2025 abstract cites no source for anything. ⚠ NEITHER STATEMENT IS A READING OF THE 2019 FULL PAPER'S REFERENCE LIST, which is paywalled and was not retrieved; the 2019 paper may well cite Drilon 2008 in its introduction. What is established is narrower and is enough: neither trial's STATED DESIGN JUSTIFICATION uses the EMC-specific progression benchmark that existed when it was written.",
+   "and_it_would_have_made_the_null_LOWER_not_higher": "40% against the 50% actually used. So on this axis the 2025 design was conservative, not lax, and any argument that the trial cleared an easy bar has to reckon with the fact that the only EMC-specific 6-month benchmark in print is 10 points below the null it chose. That is the opposite of the prior hypothesis and it is reported as such."
+  },
+  "the_null_restated_as_a_progression_speed": {
+   "why": "A null expressed as '50% progression-free at 6 months' is hard to sanity-check. The same null expressed as a median progression-free survival is immediately checkable against the disease's own published medians.",
+   "H0_50pct_is_a_median_of_months": 6.0,
+   "H1_80pct_is_a_median_of_months": 18.64,
+   "published_emc_medians_months": {
+    "drilon_chemotherapy": 5.2,
+    "anthracycline_italian_rcn": 8.0,
+    "chiusole_metastatic_chemo": 9.0,
+    "sunitinib_nivolumab_immunosarc2": 13.2,
+    "pazopanib_phase2": 19.0
+   },
+   "reading": "The null assumes a disease whose median progression-free survival is 6.0 months. Four of the five published EMC medians are longer than that -- 8, 9, 13.2 and 19 months -- and the fifth, Drilon's 5.2 months, is shorter. The alternative assumes 18.6 months, which is within half a month of the pazopanib trial's observed 19. So the design's two hypotheses bracket the EMC literature almost exactly: H0 is at the chemotherapy end of it and H1 is at the tyrosine-kinase-inhibitor end. That is a coherent and defensible way to choose a null AND IT MAKES THE TRIAL A COMPARATIVE ONE IN A SINGLE-ARM COSTUME."
+  },
+  "⭐_verdict_on_appropriateness": {
+   "is_the_50pct_null_an_aggressive_histology_import": "NO, on the evidence retrieved. It is not Van Glabbeke's second-line value, and the one number in the EMC literature it matches exactly is EMC's own.",
+   "is_it_therefore_appropriate": "NO -- for a different and more fundamental reason. Every candidate benchmark of either provenance is measured on patients receiving systemic therapy: Van Glabbeke's on EORTC trial patients receiving active or inactive regimens, Drilon's on chemotherapy courses, Stacchiotti 2013's on anthracyclines. NO UNTREATED EMC PROGRESSION RATE APPEARS ANYWHERE IN THE RETRIEVED RECORD -- E9 records exactly what was searched, and how far that absence does and does not reach. So a 6-month progression-free rate benchmarked in this way answers 'does this regimen keep disease still for longer than the last regimen did', which is a real and useful question, and it CANNOT answer 'does this regimen keep disease still for longer than nothing does', which is the question an indolent tumour forces. The endpoint inherits exactly the confound PUB-ENDPOINT Sec. 6.1 says it cannot remove, and changing the number does not remove it.",
+   "what_would_make_it_appropriate": "Either an untreated or observation-arm EMC progression rate, which was not retrieved and is not a realistic ask in this disease; or an endpoint that carries its own control inside each patient, which is what E6 grades and what E7 prices.",
+   "⚠_the_scope_of_this_verdict": "It is about a MEASURING INSTRUMENT and its calibration. It is not a statement that any trial was wrongly conducted, that any conclusion is false, or that any agent does or does not work. Every one of those would require evidence this file does not have and does not claim."
+  },
+  "trial_this_verdict_is_about": "IMMUNOSARC II, EMC cohort"
+ },
+ "E4_operating_characteristics": {
+  "question": "If the true 6-month progression-free rate of the patients enrolled were equal to each published EMC value in turn, how often would the 2025 design have declared the regimen promising?",
+  "the_design_as_published": {
+   "n": 22,
+   "r": 15,
+   "p0": 0.5,
+   "p1": 0.8,
+   "stated_alpha": 0.05,
+   "stated_beta": 0.1,
+   "exact_one_sided_type_I_error": 0.0669,
+   "exact_power_at_H1": 0.9439
+  },
+  "the_exact_binomial_design_meeting_the_same_stated_error_rates": {
+   "n": 23,
+   "reject_null_if_at_least": 16,
+   "exact_type_I_error": 0.0466,
+   "exact_power_at_p1": 0.9285
+  },
+  "⚠_these_two_are_not_the_same_design_and_that_is_not_an_error": "An exact single-stage binomial design at H0 = 50%, H1 = 80%, alpha = 0.05, beta = 0.10 requires 23 patients with a threshold of 16. The trial published '15 out of 22', whose exact one-sided type I error is 0.0669 -- above the stated 0.05. THIS DOES NOT MEAN THE TRIAL MISCALCULATED: the stage-1 paper of the same master protocol states that its sample size came from a Brookmeyer-Crowley-like one-arm one-stage SURVIVAL design with non-parametric estimation, not from a binomial, and a survival-based design need not land on the same (n, r) as a binomial one. It is recorded because a reader re-deriving the design from the abstract's stated parameters will land on 23/16 and should know why.",
+  "and_the_observed_result_clears_both": {
+   "observed": {
+    "events": 16,
+    "denom": 23,
+    "what": "patients free of progression at 6 months / evaluable"
+   },
+   "clears_published_threshold_15_of_22": true,
+   "clears_exact_binomial_threshold": true,
+   "note": "16 of 23 were accrued and analysed against a threshold written for 22, which the abstract does not comment on. Both readings are positive, so nothing in this file turns on it."
+  },
+  "operating_characteristics_against_each_published_emc_rate": [
+   {
+    "cohort": "drilon_chemotherapy",
+    "year": 2008,
+    "regimen": "cytotoxic chemotherapy, mixed regimens",
+    "true_6mo_rate_pct": 40.0,
+    "basis": "published rate",
+    "P_declares_promising_published_design_15of22": 0.007,
+    "P_declares_promising_exact_design_16of23": 0.004
+   },
+   {
+    "cohort": "anthracycline_italian_rcn",
+    "year": 2013,
+    "regimen": "anthracycline-based chemotherapy (10 of 11 with ifosfamide)",
+    "true_6mo_rate_pct": 50.0,
+    "basis": "published rate",
+    "P_declares_promising_published_design_15of22": 0.0669,
+    "P_declares_promising_exact_design_16of23": 0.0466
+   },
+   {
+    "cohort": "chiusole_metastatic_chemo",
+    "year": 2020,
+    "regimen": "first-line chemotherapy for metastatic disease",
+    "true_6mo_rate_pct": 63.0,
+    "basis": "converted median",
+    "P_declares_promising_published_design_15of22": 0.396,
+    "P_declares_promising_exact_design_16of23": 0.3374
+   },
+   {
+    "cohort": "sunitinib_nivolumab_immunosarc2",
+    "year": 2025,
+    "regimen": "sunitinib + nivolumab",
+    "true_6mo_rate_pct": 77.0,
+    "basis": "published rate",
+    "P_declares_promising_published_design_15of22": 0.8888,
+    "P_declares_promising_exact_design_16of23": 0.8623
+   },
+   {
+    "cohort": "pazopanib_phase2",
+    "year": 2019,
+    "regimen": "pazopanib 800 mg/day",
+    "true_6mo_rate_pct": 80.3,
+    "basis": "converted median",
+    "P_declares_promising_published_design_15of22": 0.9486,
+    "P_declares_promising_exact_design_16of23": 0.9344
+   }
+  ],
+  "reading": "Against the two EMC-specific rates that are published as rates, the design behaves as a null should: it would declare promising less than 5% of the time at Drilon's 40% and just under 5% at Stacchiotti 2013's 50%. Against the rate implied by the largest published EMC chemotherapy series -- Chiusole 2020's 9-month median, converted -- it would declare promising about a third of the time. The design is therefore well calibrated to the chemotherapy era it was implicitly benchmarked against and poorly calibrated to distinguish the regimen from a modern chemotherapy comparator, which is a property of the null, not of the regimen.",
+  "⛔_what_this_table_is_not": "It is not a re-analysis of the trial and it does not estimate how well any regimen worked. Each row asks a conditional question about the DESIGN -- 'if the truth were this number, how often would this rule fire' -- and the numbers it conditions on are other cohorts' results, not this cohort's patients."
+ },
+ "E5_conclusion_sensitivity": {
+  "question": "Exactly which published EMC trial conclusions would read differently if the endpoint had been benchmarked against an EMC-specific comparator rather than against the threshold each trial chose?",
+  "the_2025_cohort": {
+   "observed": {
+    "events": 16,
+    "denom": 23,
+    "what": "patients free of progression at 6 months / evaluable"
+   },
+   "crude_pct": 69.6,
+   "wilson95_pct": [
+    49.1,
+    84.4
+   ],
+   "published_conclusion_verbatim": "The combination of sunitinib and nivolumab has shown to be active in advanced extraskeletal myxoid chondrosarcoma. Our data suggest that using this combo in upfront lines provides a greater benefit.",
+   "sensitivity_of_that_conclusion_to_the_null": [
+    {
+     "candidate_null_from": "drilon_chemotherapy",
+     "year": 2008,
+     "regimen": "cytotoxic chemotherapy, mixed regimens",
+     "null_6mo_rate_pct": 40.0,
+     "basis": "published rate",
+     "one_sided_exact_p_for_16_of_23": 0.004,
+     "significant_at_0.05": true
+    },
+    {
+     "candidate_null_from": "anthracycline_italian_rcn",
+     "year": 2013,
+     "regimen": "anthracycline-based chemotherapy (10 of 11 with ifosfamide)",
+     "null_6mo_rate_pct": 50.0,
+     "basis": "published rate",
+     "one_sided_exact_p_for_16_of_23": 0.0466,
+     "significant_at_0.05": true
+    },
+    {
+     "candidate_null_from": "the null the trial actually used",
+     "year": 2025,
+     "regimen": "-",
+     "null_6mo_rate_pct": 50.0,
+     "basis": "the design's stated H0",
+     "one_sided_exact_p_for_16_of_23": 0.0466,
+     "significant_at_0.05": true
+    },
+    {
+     "candidate_null_from": "chiusole_metastatic_chemo",
+     "year": 2020,
+     "regimen": "first-line chemotherapy for metastatic disease",
+     "null_6mo_rate_pct": 63.0,
+     "basis": "converted median",
+     "one_sided_exact_p_for_16_of_23": 0.3374,
+     "significant_at_0.05": false
+    },
+    {
+     "candidate_null_from": "pazopanib_phase2",
+     "year": 2019,
+     "regimen": "pazopanib 800 mg/day",
+     "null_6mo_rate_pct": 80.3,
+     "basis": "converted median",
+     "one_sided_exact_p_for_16_of_23": 0.9344,
+     "significant_at_0.05": false
+    }
+   ],
+   "⭐_the_margin": {
+    "p_at_the_null_used": 0.0466,
+    "alpha": 0.05,
+    "distance_from_alpha": 0.0034,
+    "largest_null_the_result_still_clears_at_0.05_pct": 50.3,
+    "robustness_of_the_chiusole_row_to_the_conversion_band": {
+     "why_this_check_exists": "The row that flips the conclusion -- Chiusole 2020 at 63% -- is a CONVERTED value, and E2 measures the conversion error at up to 9.5 percentage points. A conclusion that survived only at the point estimate would be an artifact of the conversion, so the whole band is tested.",
+     "band_pct": [
+      53.0,
+      73.0
+     ],
+     "one_sided_p_at_band_floor": 0.0821,
+     "one_sided_p_at_point": 0.3376,
+     "one_sided_p_at_band_ceiling": 0.7349,
+     "significant_anywhere_in_the_band": false,
+     "reading": "Not significant anywhere in the band, including at its most favourable end. The band floor of 53% is already above the 50.3% ceiling of nulls this result clears, so the finding does not depend on the conversion landing on 63% -- it depends only on the Chiusole median being 9 months rather than 6, which is published."
+    },
+    "reading": "16 of 23 clears a 50% null at a one-sided exact p of 0.0466, inside alpha = 0.05 by 0.0034. Raise the null to the rate implied by the largest published EMC chemotherapy series and the same data are not significant. THE CONCLUSION IS A PROPERTY OF THE NULL AS MUCH AS OF THE DATA, and the null is the number nobody wrote down a source for."
+   },
+   "what_would_change_and_what_would_not": {
+    "would_change": "The word 'active'. A single-arm result that clears a null derived from EMC patients on chemotherapy supports a comparative statement -- longer disease stability than a historical chemotherapy comparator -- and not an activity statement, because the comparator is itself a treatment. Under an EMC-specific reading the honest sentence names the comparator.",
+    "would_NOT_change": "The counts. 16 of 23 patients free of progression at 6 months is what was observed and nothing here disputes it, nor the 13.2-month median, nor the safety profile. Nothing in this file re-analyses a patient.",
+    "⛔_and_this_is_not_a_claim_that_the_regimen_is_inactive": "A result that fails to clear a higher null is not evidence of absence. The 23-patient Wilson interval on the observed rate is 49.1-84.4%, which contains most of the ladder. What the sensitivity shows is that the evidence base cannot separate the candidate nulls, not that one of them is true."
+   }
+  },
+  "the_2019_cohort": {
+   "observed": {
+    "events": 4,
+    "denom": 22,
+    "what": "RECIST objective responses / evaluable"
+   },
+   "null_used": 0.05,
+   "one_sided_exact_p_for_4_of_22_against_p0_0.05": 0.0222,
+   "would_the_conclusion_change": "NO, and this is the cleaner of the two results. Four RECIST objective responses in 22 patients against a 5% null is significant by a wide margin, and an objective response is the one observation in this disease that natural history struggles to explain -- PUB-ENDPOINT Sec. 7.2 makes exactly that point. The 2019 trial's difficulty is not its threshold; it is that its endpoint could only ever describe 4 of the 22 patients it enrolled.",
+   "what_would_change_is_what_ELSE_it_reported": "No Choi read of the EMC stratum has been published, in a protocol that judged its sibling stratum on the same drug by Choi at a 40% null and whose registered primary-outcome text names both criteria (see sibling_stratum_in_the_same_protocol for why that text is ambiguous and what is claimed here instead). No 6-month progression-free rate has been published either, although the 12- and 24-month rates were. Both are readable off scans the trial has already taken."
+  },
+  "the_field_level_consequence": "A re-reading of the whole EMC systemic-therapy literature under a progression-based endpoint is NOT POSSIBLE from what is published. research/manuscripts/emc-endpoint-discordance.json -> D3_reporting_completeness records that a 6-month progression-free status is extractable as an integer count for 1 of 9 cohorts. This file adds two more cohorts that publish the rate without a count, which raises the number of cohorts with ANY 6-month figure from 1 to 3 of 9 -- and leaves 6 of 9 with none. The endpoint the field migrated to is still the one it reports least."
+ },
+ "E6_endpoint_matrix": {
+  "question": "Graded against three criteria that were fixed before the grading: statistical power at the n this disease can accrue; immunity to the natural-history confound; and computability from what is already published.",
+  "criteria": {
+   "power_at_achievable_n": "n is about 20-25. The two modern prospective EMC cohorts enrolled 22 and 23 response-evaluable patients.",
+   "natural_history_immunity": "does the endpoint contain its own control, or does it borrow one from a historical cohort that was also treated?",
+   "computable_from_published_data": "can it be recovered from the 9 EMC cohort rows in research/manuscripts/emc-systemic-therapy-pooling.json under POLICY-evidence 2.1?"
+  },
+  "rows": [
+   {
+    "what_it_measures": "proportion of patients whose tumour shrinks by a criterion amount",
+    "power_at_n_about_20": "POOR. The pooled EMC rate is 12.8%, so a 20-patient trial has a material chance of observing no event at all, which is uninterpretable rather than negative -- research/manuscripts/emc-endpoint-discordance.json -> D4 owns that arithmetic.",
+    "natural_history_immunity": "HIGH. A confirmed shrinkage is the one observation in this disease that indolence does not readily explain, which is why PUB-ENDPOINT Sec. 7.2 refuses to abandon it.",
+    "computable_from_published": "YES, best of any endpoint: extractable as integer counts for 7 of 9 cohorts.",
+    "patient_cost": "none additional; it is already collected",
+    "verdict": "KEEP AS A SECONDARY. Its problem is being used as the SUMMARY, not being collected.",
+    "endpoint": "objective_response_rate"
+   },
+   {
+    "what_it_measures": "proportion with complete response, partial response or stable disease",
+    "power_at_n_about_20": "POOR IN THE OPPOSITE DIRECTION. The pooled EMC rate is 89.4%, so nearly every patient is an event and there is almost no room to distinguish anything.",
+    "natural_history_immunity": "NONE. This is the confound in its purest form.",
+    "computable_from_published": "PARTLY: 5 of 9 cohorts.",
+    "patient_cost": "none additional",
+    "verdict": "REPORT, NEVER SUMMARISE BY. PUB-ENDPOINT Sec. 6.1 is the reason.",
+    "endpoint": "disease_control_rate"
+   },
+   {
+    "what_it_measures": "the median time from enrolment to progression or death",
+    "power_at_n_about_20": "MODERATE, and its confidence interval at this n is very wide -- the pazopanib cohort's is 11-27 months on 22-23 patients.",
+    "natural_history_immunity": "NONE on its own; it acquires some only against a comparator, which is what E3 shows the field has been doing implicitly.",
+    "computable_from_published": "PARTLY: EMC-specific medians exist for 3 of 9 cohorts in the census, and this file adds Chiusole 2020's, which the source artifact records as absent -- see corrections_owed_to_the_source_file.",
+    "patient_cost": "high in FOLLOW-UP rather than in patients: a median of 19 months needs years of follow-up before it is estimable",
+    "verdict": "REPORT. Not a primary endpoint at this n, because the interval swamps it.",
+    "endpoint": "progression_free_survival_median"
+   },
+   {
+    "what_it_measures": "proportion progression-free at a stated time, usually 6 months",
+    "power_at_n_about_20": "GOOD -- it is the only endpoint here whose event rate sits near 50-80% in this disease, which is where a binomial design has the most information per patient.",
+    "natural_history_immunity": "NONE, and E3 is the whole argument: it is only as good as its null, every available null is measured on treated patients, and no untreated EMC rate was retrieved.",
+    "computable_from_published": "WORST OF THE COMMON ENDPOINTS: extractable as an integer count for 1 of 9 cohorts; as a published rate for 3 of 9 once Drilon 2008 and Stacchiotti 2013 are counted.",
+    "patient_cost": "none additional; see E8 for what raising the null costs",
+    "verdict": "KEEP AS PRIMARY, FIX THE BENCHMARK AND STATE IT. The endpoint is right for the disease's event rates; its null has never been sourced in print.",
+    "endpoint": "progression_free_rate_at_a_fixed_timepoint"
+   },
+   {
+    "what_it_measures": "the ratio of time to progression on the study treatment to time to progression on the patient's immediately preceding treatment (TTP2/TTP1), conventionally called a benefit at >= 1.33",
+    "power_at_n_about_20": "MODERATE as a proportion endpoint, and it is the only candidate with a published sarcoma-wide reference proportion to be powered against -- see E7.",
+    "natural_history_immunity": "HIGHEST OF ANY CANDIDATE, AND UNIQUELY SO. Each patient is their own control, so a patient whose disease is intrinsically slow contributes a long TTP1 as well as a long TTP2 and the ratio is unmoved. This is the only endpoint on this list that attacks PUB-ENDPOINT Sec. 6.1 rather than inheriting it.",
+    "computable_from_published": "NO -- ZERO of 47 patients. See E7. This is the finding that decides the recommendation.",
+    "patient_cost": "ZERO ADDITIONAL PATIENTS. It reuses the patients a trial is already enrolling and needs one extra date per patient. Its cost is data capture, not accrual, and that is what makes it the cheapest real improvement available.",
+    "verdict": "ADOPT AS A CO-PRIMARY OR MANDATORY SECONDARY. It costs no patients.",
+    "endpoint": "growth_modulation_index"
+   },
+   {
+    "what_it_measures": "a continuous growth-rate parameter fitted to serial tumour measurements, before and during treatment",
+    "power_at_n_about_20": "POTENTIALLY HIGH -- a continuous per-patient slope carries far more information than a binary category, which is the same argument PUB-ENDPOINT Sec. 1.2 makes against categorising a continuous observation.",
+    "natural_history_immunity": "HIGH IF a pre-treatment growth rate is measured, because that is a within-patient control; NONE if it is not.",
+    "computable_from_published": "NO. It needs serial per-lesion measurements, which no EMC report publishes. The only per-patient tumour-size datum anywhere in the corpus is the trabectedin sub-analysis's two EMC subjects' change in sum of diameters.",
+    "patient_cost": "zero additional patients; requires prospective imaging at a fixed cadence and archived measurements, plus at least one PRE-treatment scan pair",
+    "verdict": "STRONG SECOND CHOICE, BLOCKED ON DATA. Worth prospectively capturing; not recoverable from the published record.",
+    "endpoint": "tumour_growth_rate_volumetric"
+   },
+   {
+    "what_it_measures": "time from starting a treatment to starting the next one, or death",
+    "power_at_n_about_20": "MODERATE; it is a time-to-event endpoint with the usual width at n~20.",
+    "natural_history_immunity": "LOW. In an indolent tumour a clinician may defer the next line for reasons unrelated to the drug, so the endpoint measures decision-making as much as disease. ⚠ The diseases where it IS established are ones with published treatment-initiation criteria, which is what converts that discretion into a rule; EMC has no such criteria, so in EMC the discretion stays unmeasured. THAT LAST CLAUSE IS A JUDGEMENT, not a retrieval -- no search here established the absence of EMC treatment-initiation criteria.",
+    "computable_from_published": "NO. No EMC report publishes it, and its published use base is somewhere else: a Europe PMC TITLE search for 'time to next treatment' returned 26 records, of the 25 returned 18 are titled in an indolent LYMPHOID malignancy (chronic lymphocytic leukaemia, cutaneous T-cell lymphoma / mycosis fungoides, Waldenstrom, follicular lymphoma, myeloma) and ZERO in any sarcoma. ⚠ That is a reading of 25 titles from one query, not a systematic review -- it says where the endpoint is used, not that it could not be used elsewhere.",
+    "patient_cost": "zero additional patients; needs longer follow-up",
+    "verdict": "NOT RECOMMENDED AS PRIMARY in EMC specifically, because clinician discretion about when to treat an indolent tumour is exactly the noise it cannot separate.",
+    "endpoint": "time_to_next_treatment"
+   },
+   {
+    "what_it_measures": "how long an objective response lasts",
+    "power_at_n_about_20": "USELESS AS A PRIMARY. It is conditioned on responding, and the pooled EMC response denominator is 6 events in 47 patients.",
+    "natural_history_immunity": "HIGH, but on a sample of six.",
+    "computable_from_published": "NO EMC cohort publishes it.",
+    "patient_cost": "zero additional patients",
+    "verdict": "REPORT WHEN A RESPONSE OCCURS. Never a primary in this disease.",
+    "endpoint": "duration_of_response"
+   },
+   {
+    "what_it_measures": "response by attenuation change as well as size change, developed for antiangiogenic treatment of gastrointestinal stromal tumour",
+    "power_at_n_about_20": "BETTER THAN RECIST for antiangiogenic agents, because it converts some of the stable-disease mass into a category; unquantified in EMC because no Choi read of any EMC cohort is published.",
+    "natural_history_immunity": "SAME AS RECIST -- it changes what counts as a response, not whether the change is due to the drug.",
+    "computable_from_published": "NO, AND THIS IS THE MOST RECOVERABLE MISSING ITEM IN THE WHOLE FILE. The 2019 trial registered its primary outcome as response 'measured using Choi and RECIST 1.1 criteria' and powered its sibling SFT stratum on Choi at a 40% null, so the measurements exist in that trial's database and have never been printed for EMC. ⚠ IMMUNOSARC's registered outcome list carries Choi response ONLY for its stage-1 phase 2 population; the stage-2 EMC cohort's registered outcomes do not include it, so the 2025 cohort is NOT a second source for this item.",
+    "patient_cost": "ZERO. The scans have already been taken and the criterion is registered.",
+    "verdict": "PUBLISH THE CHOI READ THAT WAS ALREADY REGISTERED. It costs no patients, no scans and no money, and it is the one item here that a single existing trial group can supply unilaterally.",
+    "endpoint": "choi_rather_than_recist"
+   },
+   {
+    "what_it_measures": "not an endpoint but a DESIGN: treat everyone, then randomise only the patients with stable disease to continue or to placebo",
+    "power_at_n_about_20": "NOT ACHIEVABLE. It needs enough patients to reach the randomised stage AFTER a run-in, and the two modern EMC trials accrued 26 and 24 patients over three and four years respectively across 9-11 European centres.",
+    "natural_history_immunity": "COMPLETE, and it is the only option on this list that is. It was invented for this exact problem -- see randomized_discontinuation_design_sources.",
+    "computable_from_published": "not applicable; it is a design, not a re-analysis",
+    "patient_cost": "THE HIGHEST BY FAR. Every patient randomised to placebo is a patient the disease's total accrual cannot spare, and the design is additionally known to be LESS efficient than upfront randomisation under some growth models (PMID 15983399).",
+    "verdict": "THE RIGHT ANSWER TO THE RIGHT QUESTION, AND UNAFFORDABLE IN THIS DISEASE. Naming it is not proposing it -- PUB-ENDPOINT Sec. 7.3 already said so.",
+    "endpoint": "randomized_discontinuation_design"
+   }
+  ],
+  "randomized_discontinuation_design_sources": [
+   {
+    "pmid": "12431972",
+    "year": 2002,
+    "title": "Randomized discontinuation design: application to cytostatic antineoplastic agents.",
+    "verbatim": "In the setting of renal cell carcinoma, some patients' tumors will grow slowly naturally. An appropriate design has to distinguish antiproliferative activity attributable to the novel agent from indolent disease. We propose a randomized discontinuation design that initially treats all patients with the study agent (stage 1) and then randomizes in a double-blind fashion to continuing therapy or placebo only those patients whose disease is stable (stage 2). This design allows the investigators to determine if apparent slow tumor growth is attributable to the drug or to selection of patients with naturally slow-growing tumors.",
+    "why_it_is_here": "This is the EMC problem, stated in the literature 23 years before this file, for a different disease. The design exists precisely to separate drug effect from indolence, which is the question PUB-ENDPOINT Sec. 6.1 says the published EMC record cannot answer.",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_rdd_title.txt"
+   },
+   {
+    "pmid": "15983399",
+    "year": 2005,
+    "title": "Evaluation of randomized discontinuation design.",
+    "verbatim": "The randomized discontinuation design is not as efficient as upfront randomization if treatment has a fixed effect on tumor growth rate or if treatment benefit is restricted to slower-growing tumors.",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_rdd_title.txt"
+   },
+   {
+    "pmid": "17008711",
+    "year": 2006,
+    "title": "Problems with the randomized discontinuation design.",
+    "note": "Retrieved as a title-level record; no abstract was returned by the search.",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_rdd_title.txt"
+   }
+  ],
+  "growth_modulation_index_sources": [
+   {
+    "what": "the design the GMI operationalises",
+    "pmid": "10913809",
+    "year": 2000,
+    "title": "Phase II clinical trial design for noncytotoxic anticancer agents for which time to disease progression is the primary endpoint",
+    "verbatim": "We examine a phase II trial design that evaluates clinical benefit by comparing sequentially measured paired failure times within each treated patient. ... Assuming patients eligible for a phase II study of a new cytostatic agent have failed previous cancer treatment, their most recent prior time to progression interval, TTP(1), is uncensored. Time to progression after the cytostatic agent, TTP(2), may or may not be censored at analysis. The design is motivated by a 'growth modulation index' (TTP(2)/TTP(1))",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_mick_ttp_design.txt"
+   },
+   {
+    "what": "the lecture the 1.33 threshold is conventionally traced to",
+    "pmid": "9607564",
+    "year": 1998,
+    "title": "There are no bad anticancer agents, only bad clinical trial designs--twenty-first Richard and Hinda Rosenthal Foundation Award Lecture",
+    "note": "Retrieved and confirmed to exist with this exact title. ⚠ THE 1.33 THRESHOLD ITSELF IS NOT IN THE RETRIEVED ABSTRACT, and this file does not attribute it to this source. What IS retrieved is that three independent later sources -- Cousin 2013, GEISTRA 2021 and the 2026 ROSEWOOD analysis -- all use 1.33 as the threshold, so the convention is evidenced by its use rather than by a citation this file has verified.",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_vonhoff_karnofsky.txt"
+   },
+   {
+    "what": "sample-size methodology for a GMI-primary single-arm phase II",
+    "pmid": "30458583",
+    "year": 2019,
+    "title": "Phase II trial design with growth modulation index as the primary endpoint.",
+    "verbatim": "we derived a sample size formula for the score test under a log-linear model of the GMI. Study designs using the derived sample size formula are illustrated under a bivariate exponential model, the Weibull frailty model, and the generalized treatment effect size.",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_gmi_title.txt",
+    "why_it_is_named_but_not_used": "A GMI-primary design has a published sample-size methodology, so 'nobody knows how to power this' is not a valid objection. This file does NOT reproduce that formula -- doing so would require the paper's full text, which was not retrieved -- so the patient cost of a GMI-primary design is reported below as the binomial cost of a GMI>1.33 PROPORTION endpoint, which is computable here, and the log-linear alternative is named as existing rather than costed."
+   },
+   {
+    "what": "how the GMI is reported in practice, and how badly",
+    "pmid": "40156702",
+    "year": 2025,
+    "title": "The Growth Modulation Index (GMI) as an Efficacy Outcome in Cancer Clinical Trials: A Scoping Review with Suggested Reporting",
+    "verbatim": "The terminology employed to refer to the GMI, as well as its definitions, are highly variable in the literature. Some uses of the GMI are arbitrary and not based on any scientific rationale. ... Among 227 included documents, 166 of which discussed GMI specifically.",
+    "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_gmi_title.txt"
+   }
+  ],
+  "⭐_the_recommendation": {
+   "headline": "NO SINGLE ENDPOINT SATISFIES ALL THREE CRITERIA, AND SAYING OTHERWISE WOULD BE THE ERROR PUB-ENDPOINT CRITICISES. The recommendation is a PAIR, because the two halves fix different failures and neither costs a patient.",
+   "primary": "KEEP the 6-month progression-free rate -- it is the only endpoint whose event rate sits where a 20-patient binomial design has information -- but REQUIRE THE NULL TO BE SOURCED IN PRINT, and source it to an EMC-specific published figure. Two exist: Drilon 2008's 40% and Stacchiotti 2013's 50%. A trial that states which one it used, and why, can be argued with; the 2025 abstract cannot.",
+   "co_primary_or_mandatory_secondary": "THE GROWTH MODULATION INDEX. It is the only candidate that carries its own control inside each patient, it costs ZERO additional patients, and its entire cost is one extra date per patient -- the date of progression on the immediately preceding line, which is in every enrolling centre's notes and is in nobody's published table. It is the cheapest available answer to the objection PUB-ENDPOINT states as the one that would sink it.",
+   "free_immediate_item": "PUBLISH THE CHOI READ AND THE 6-MONTH COUNT FOR THE 2019 EMC STRATUM. Both are registered outcome measures of a completed trial, both are already in its database, and neither has been printed.",
+   "what_is_explicitly_NOT_recommended": "A randomised discontinuation design, which is the only complete answer and is unaffordable at this disease's accrual; and time to next treatment, which in an indolent tumour measures clinician discretion. Naming a design is not proposing it.",
+   "⛔_and_none_of_this_is_a_treatment_recommendation": "Every sentence above is about how to MEASURE a trial in this disease. Nothing here says any agent should or should not be given to any patient, and the choice of endpoint has no bearing on which treatment a person with EMC should receive, which belongs with a specialist sarcoma centre."
+  }
+ },
+ "E7_growth_modulation_index_data_availability": {
+  "question": "The recommended co-primary is the growth modulation index. Can it be computed, for even one EMC patient, from anything that has been published?",
+  "what_the_index_needs": "two dated intervals per patient -- time to progression on the immediately preceding line (TTP1) and on the study treatment (TTP2). Neither may be a cohort median; both must be per-patient.",
+  "rows": [
+   {
+    "cohort": "pazopanib_phase2",
+    "prospective": true,
+    "publishes_per_patient_time_to_progression_on_study": false,
+    "n_patients_with_a_per_patient_value": 0,
+    "publishes_time_to_progression_on_the_PRIOR_line": false,
+    "fields_that_could_have_carried_one": [],
+    "what_it_publishes_about_prior_therapy": "the line of therapy is described in words ('after anthracycline in most patients (progressive advanced disease)') with no per-patient dates or intervals"
+   },
+   {
+    "cohort": "sunitinib_nivolumab_immunosarc2",
+    "prospective": true,
+    "publishes_per_patient_time_to_progression_on_study": false,
+    "n_patients_with_a_per_patient_value": 0,
+    "publishes_time_to_progression_on_the_PRIOR_line": false,
+    "fields_that_could_have_carried_one": [],
+    "what_it_publishes_about_prior_therapy": "the line of therapy is described in words ('mixed; 13/24 (54%) treatment-naive') with no per-patient dates or intervals"
+   },
+   {
+    "cohort": "trabectedin_emc_subset",
+    "prospective": true,
+    "publishes_per_patient_time_to_progression_on_study": true,
+    "n_patients_with_a_per_patient_value": 2,
+    "publishes_time_to_progression_on_the_PRIOR_line": false,
+    "fields_that_could_have_carried_one": [],
+    "what_it_publishes_about_prior_therapy": "the line of therapy is described in words ('after failure of / intolerance to standard chemotherapy') with no per-patient dates or intervals"
+   },
+   {
+    "cohort": "sunitinib_italian_named_use",
+    "prospective": false,
+    "publishes_per_patient_time_to_progression_on_study": false,
+    "n_patients_with_a_per_patient_value": 0,
+    "publishes_time_to_progression_on_the_PRIOR_line": false,
+    "fields_that_could_have_carried_one": [],
+    "what_it_publishes_about_prior_therapy": "the line of therapy is described in words ('progressive metastatic disease') with no per-patient dates or intervals"
+   },
+   {
+    "cohort": "anthracycline_italian_rcn",
+    "prospective": false,
+    "publishes_per_patient_time_to_progression_on_study": false,
+    "n_patients_with_a_per_patient_value": 0,
+    "publishes_time_to_progression_on_the_PRIOR_line": false,
+    "fields_that_could_have_carried_one": [],
+    "what_it_publishes_about_prior_therapy": "the line of therapy is described in words ('front line in 10 of 11') with no per-patient dates or intervals"
+   },
+   {
+    "cohort": "drilon_chemotherapy",
+    "prospective": false,
+    "publishes_per_patient_time_to_progression_on_study": false,
+    "n_patients_with_a_per_patient_value": 0,
+    "publishes_time_to_progression_on_the_PRIOR_line": false,
+    "fields_that_could_have_carried_one": [],
+    "what_it_publishes_about_prior_therapy": "the line of therapy is described in words ('unresectable disease, mixed lines') with no per-patient dates or intervals"
+   },
+   {
+    "cohort": "apatinib_emc_subset",
+    "prospective": false,
+    "publishes_per_patient_time_to_progression_on_study": false,
+    "n_patients_with_a_per_patient_value": 0,
+    "publishes_time_to_progression_on_the_PRIOR_line": false,
+    "fields_that_could_have_carried_one": [],
+    "what_it_publishes_about_prior_therapy": "the line of therapy is described in words ('inoperable metastatic or locally advanced, mixed lines') with no per-patient dates or intervals"
+   },
+   {
+    "cohort": "immunosarc1_sts_cohort",
+    "prospective": true,
+    "publishes_per_patient_time_to_progression_on_study": false,
+    "n_patients_with_a_per_patient_value": 0,
+    "publishes_time_to_progression_on_the_PRIOR_line": false,
+    "fields_that_could_have_carried_one": [],
+    "what_it_publishes_about_prior_therapy": "nothing"
+   }
+  ],
+  "counts": {
+   "prospective_trial_patients_in_the_pooled_set": 47,
+   "with_a_published_per_patient_time_to_progression_on_study": 2,
+   "with_a_published_per_patient_time_to_progression_on_the_prior_line": 0,
+   "cohorts_publishing_any_per_patient_time_to_progression": 1,
+   "cohorts_publishing_prior_line_time_to_progression": 0
+  },
+  "⭐_the_answer": "NO -- FOR ZERO PATIENTS. Exactly one of the nine curated EMC cohorts prints a per-patient time to progression: the trabectedin sub-analysis's Table 2, which gives 13.0 and 7.4 months for its two EMC subjects. NONE of the nine gives any patient's time to progression on their PREVIOUS line of therapy -- the predicate above scans every field of every committed row for one and returns nothing. The growth modulation index is therefore computable for 0 of the 47 patients evaluated for response inside a prospective EMC trial, and for 0 in the retrospective rows as well. ⚠ THE SCOPE OF THIS IS THE CURATED CORPUS, WHICH IS EVERY SYSTEMIC-THERAPY REPORT THIS REPOSITORY HAS FOUND FOR EMC -- it is a reading of nine reports, not a proof about a literature nobody has fully enumerated. The distinction does not soften the conclusion: one unfound report would move the count from 0 to a handful, and a handful of paired intervals is still not an analysis.",
+  "the_near_misses_make_the_point_sharper": {
+   "immunosarc2_prior_antiangiogenic": "The 2025 abstract reports that 6 of 23 patients had received a prior antiangiogenic and compares their median progression-free survival on study (7 months versus 13). So the trial HAS the prior-line information at patient level -- it stratified on it -- and published a group median instead of the paired intervals. This is the closest any EMC report comes, and it stops one column short.",
+   "pazopanib_line_of_therapy": "The 2019 trial required RECIST progression in the previous 6 months as an entry criterion, which means the DATE of the previous progression was recorded for every enrolled patient by protocol. The interval before it -- the start of the prior line -- is in the same case report forms.",
+   "reading": "The data exists. It has been collected, by protocol, in both trials. It has not been printed. That is a REPORTING failure, not a measurement one, and PUB-ENDPOINT Sec. 4.2 found the same shape for the endpoint counts."
+  },
+  "⭐_the_minimal_ask": {
+   "what": "For each patient in the two prospective EMC cohorts, one anonymised row: date of start of the immediately preceding systemic line, date of progression on it, date of start of study treatment, date of progression on study or censoring. Four dates. No new patient, no new scan, no new consent beyond what trial protocols already cover for anonymised outcome data.",
+   "who_can_supply_it": "the trial groups that ran both -- the same Spanish, Italian, French and UK sarcoma networks appear on both papers",
+   "how_many_patients_it_would_yield": {
+    "upper_bound": "45 -- the 22 evaluable in the 2019 trial plus the 23 evaluable in the 2025 cohort",
+    "realistic_bound": "smaller, because the index is undefined for a treatment-naive patient: 13 of 24 in the 2025 cohort were treatment-naive, so at most 11 of that cohort could contribute, and the 2019 trial enrolled after anthracycline in most but not all patients",
+    "⚠_and_the_two_cohorts_are_not_independent": "PUB-ENDPOINT Sec. 6.5 records that some of the 6 previously-antiangiogenic patients in the 2025 cohort may be patients from the 2019 trial. For a growth modulation index that is not a contamination -- it is the ideal case, a patient whose TTP1 is another trial's measured endpoint -- but it must be declared.",
+    "⭐_and_the_overlap_can_only_run_ONE_WAY_which_makes_it_cleaner_still": "The 2019 trial's Exclusion Criteria, read from the ClinicalTrials.gov v2 record fetched for this file, contain verbatim: 'Patients who have received previous antiangiogenic agents.' So a patient who had already had an antiangiogenic could not enter the 2019 trial, while nothing stops a 2019 trial patient from later entering the 2025 cohort -- where they would be one of the 6 of 23 recorded as previously antiangiogenic-treated. The overlap therefore runs 2019 -> 2025 and cannot run the other way. For a paired-interval endpoint that is the best case available in this disease: TTP1 would be a PROTOCOL-MEASURED endpoint of a published trial rather than a date recovered from notes. ⚠ THIS IS THE PROTOCOL'S RULE, NOT A PATIENT-LEVEL AUDIT -- registries publish eligibility criteria, not enrolment decisions, and waivers and deviations appear in neither. The honest form is 'the trial's own criterion excludes it', never 'no patient appeared in both'. Same criterion, same wording, independently corroborated on the EU Clinical Trials Register for EudraCT 2013-005456-15 by a sibling retrieval the same day -- research/manuscripts/partner-event-counts-2026-08-08.md Sec. 3."
+   },
+   "why_this_is_the_ask_and_not_a_new_trial": "Because it converts a completed, already-funded, already-consented body of work into the one endpoint that answers the objection nobody can otherwise answer, at a cost of four dates per patient and zero additional patients. Every other route to the same answer -- an observation arm, a randomised discontinuation design, a prospective growth-rate study -- costs patients this disease does not have."
+  },
+  "if_it_were_supplied_what_would_it_be_powered_against": {
+   "rows": [
+    {
+     "study": "Cousin 2013 (French Sarcoma Group)",
+     "pmid": "23904460",
+     "year": 2013,
+     "population": "advanced STS receiving second-line treatment after doxorubicin-based regimens",
+     "gmi_gt_133_events": 69,
+     "denom": 227,
+     "verbatim": "The population consisted in 106 men and 121 women, 110 patients (48%) received 'active drugs'. ... Sixty-nine patients experienced GMI >1.33 (30.4%).",
+     "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_gmi_title.txt",
+     "also_states_verbatim": "Second-line treatments were classified as 'active' according to the EORTC-STBSG criteria (3-month progression-free rate >40% or 6-month PFR >14%).",
+     "why_that_second_quote_matters": "It is an independent, later restatement of the Van Glabbeke second-line reference values, by a different group, in a different country -- so the two numbers this file reads out of the 2002 abstract are corroborated by a 2013 source that was retrieved separately."
+    },
+    {
+     "study": "Martinez-Trufero 2021 (GEISTRA, Spanish sarcoma group)",
+     "pmid": "33672857",
+     "year": 2021,
+     "population": "advanced STS receiving trabectedin as second- or further-line, 19 Spanish centres",
+     "gmi_gt_133_events": 118,
+     "denom": 357,
+     "verbatim": "The median GMI was 0.82 (0-69), with 198 patients (55%) with a GMI < 1, 41 (11.5%) with a GMI 1-1.33 and 118 (33.1%) with a GMI > 1.33.",
+     "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_gmi_title.txt"
+    }
+   ],
+   "pooled": {
+    "events": 187,
+    "denom": 584,
+    "proportion_pct": 32.0,
+    "wilson95_pct": [
+     28.4,
+     35.9
+    ],
+    "method": "crude denominator-weighted proportion with a Wilson score 95% interval, POLICY-evidence 2.2, over explicit integer counts only",
+    "what_it_is": "the proportion of advanced soft-tissue-sarcoma patients whose growth modulation index exceeded 1.33 on a subsequent line of treatment, across two national sarcoma groups",
+    "non_overlap_argument": "one French Sarcoma Group series and one Spanish sarcoma-group series, different countries and different regimens -- POLICY-evidence 2.3 permits pooling distinct populations. ⚠ NEITHER SERIES CONTAINS ANY STATED EMC PATIENT and this is NOT an EMC figure; it is the sarcoma-wide reference a first-ever EMC growth-modulation-index design would have to be powered against, in the absence of anything closer.",
+    "⚠_and_it_is_a_treated_reference_too": "Both series measure patients receiving a subsequent line of therapy, so this reference proportion inherits the same limitation as every benchmark in E3. What the index fixes is the WITHIN-PATIENT confound; it does not by itself supply an untreated comparator, and this file does not claim it does."
+   }
+  },
+  "⛔_what_this_section_does_not_claim": "It does not claim that a growth modulation index computed on these patients would show anything in particular, in either direction. It claims only that the quantity is currently uncomputable and that four dates per patient would make it computable. A negative about data availability is a result; a prediction about what the data would show would not be."
+ },
+ "E8_patient_cost": {
+  "question": "What does each proposed change cost, measured in patients?",
+  "method": "exact single-stage single-arm binomial designs, one-sided alpha 0.05, at 90% and 80% power. Two-stage designs would be smaller in expectation and are not computed here; the single-stage figure is the honest upper bound and it is the same machinery for every row, so the rows are comparable.",
+  "scenarios": [
+   {
+    "label": "the 2025 design as published",
+    "p0": 0.5,
+    "p1": 0.8,
+    "why": "H0 and H1 as stated in the abstract",
+    "exact_single_stage_n_at_90pct_power": {
+     "n": 23,
+     "reject_null_if_at_least": 16,
+     "exact_type_I_error": 0.0466,
+     "exact_power_at_p1": 0.9285
+    },
+    "exact_single_stage_n_at_80pct_power": {
+     "n": 18,
+     "reject_null_if_at_least": 13,
+     "exact_type_I_error": 0.0481,
+     "exact_power_at_p1": 0.8671
+    },
+    "feasible_at_this_disease_accrual": "the two modern EMC cohorts accrued 26 and 24 patients over 2014-2017 and 2020-2024 respectively, so an n above roughly 30 is a decade of international accrual"
+   },
+   {
+    "label": "null sourced to Drilon 2008's EMC 6-month rate",
+    "p0": 0.4,
+    "p1": 0.8,
+    "why": "the lower of the two published EMC-specific 6-month rates",
+    "exact_single_stage_n_at_90pct_power": {
+     "n": 13,
+     "reject_null_if_at_least": 9,
+     "exact_type_I_error": 0.0321,
+     "exact_power_at_p1": 0.9009
+    },
+    "exact_single_stage_n_at_80pct_power": {
+     "n": 11,
+     "reject_null_if_at_least": 8,
+     "exact_type_I_error": 0.0293,
+     "exact_power_at_p1": 0.8389
+    },
+    "feasible_at_this_disease_accrual": "the two modern EMC cohorts accrued 26 and 24 patients over 2014-2017 and 2020-2024 respectively, so an n above roughly 30 is a decade of international accrual"
+   },
+   {
+    "label": "null sourced to Chiusole 2020's largest EMC chemotherapy series",
+    "p0": 0.63,
+    "p1": 0.85,
+    "why": "its 9-month median converted; the alternative is raised in step so the design still asks a comparably sized question",
+    "exact_single_stage_n_at_90pct_power": {
+     "n": 36,
+     "reject_null_if_at_least": 28,
+     "exact_type_I_error": 0.0445,
+     "exact_power_at_p1": 0.9199
+    },
+    "exact_single_stage_n_at_80pct_power": {
+     "n": 26,
+     "reject_null_if_at_least": 21,
+     "exact_type_I_error": 0.0426,
+     "exact_power_at_p1": 0.815
+    },
+    "feasible_at_this_disease_accrual": "the two modern EMC cohorts accrued 26 and 24 patients over 2014-2017 and 2020-2024 respectively, so an n above roughly 30 is a decade of international accrual"
+   },
+   {
+    "label": "null at the pazopanib-implied rate (a same-class active comparator)",
+    "p0": 0.803,
+    "p1": 0.92,
+    "why": "what it would cost to ask whether a new regimen beats the current best EMC result",
+    "exact_single_stage_n_at_90pct_power": {
+     "n": 77,
+     "reject_null_if_at_least": 68,
+     "exact_type_I_error": 0.046,
+     "exact_power_at_p1": 0.9134
+    },
+    "exact_single_stage_n_at_80pct_power": {
+     "n": 58,
+     "reject_null_if_at_least": 52,
+     "exact_type_I_error": 0.0446,
+     "exact_power_at_p1": 0.8205
+    },
+    "feasible_at_this_disease_accrual": "the two modern EMC cohorts accrued 26 and 24 patients over 2014-2017 and 2020-2024 respectively, so an n above roughly 30 is a decade of international accrual"
+   },
+   {
+    "label": "a growth-modulation-index proportion endpoint against the sarcoma reference",
+    "p0": 0.32,
+    "p1": 0.6,
+    "why": "the pooled proportion with index > 1.33 across two national sarcoma series, rounded; see E7 -> if_it_were_supplied_what_would_it_be_powered_against",
+    "exact_single_stage_n_at_90pct_power": {
+     "n": 29,
+     "reject_null_if_at_least": 14,
+     "exact_type_I_error": 0.0496,
+     "exact_power_at_p1": 0.929
+    },
+    "exact_single_stage_n_at_80pct_power": {
+     "n": 19,
+     "reject_null_if_at_least": 10,
+     "exact_type_I_error": 0.0499,
+     "exact_power_at_p1": 0.8139
+    },
+    "feasible_at_this_disease_accrual": "the two modern EMC cohorts accrued 26 and 24 patients over 2014-2017 and 2020-2024 respectively, so an n above roughly 30 is a decade of international accrual"
+   }
+  ],
+  "⭐_the_cost_summary": {
+   "raising_the_null_from_50_to_63_percent": "takes the trial from 23 patients to 36 at 90% power, a factor of 1.57. That is the real price of the E3 verdict and it is why the recommendation is NOT 'raise the null': at this disease's accrual, that factor means not running the trial. Asking whether a new regimen beats the pazopanib result costs 77 -- three times what the disease has ever accrued into one cohort.",
+   "sourcing_the_null_in_print": "ZERO patients. It is a sentence.",
+   "adding_a_growth_modulation_index": "ZERO additional patients. It reuses the enrolled cohort and adds one date per patient. The n column for the index row above is what a STANDALONE index-primary trial would cost; as a co-primary on a trial that is happening anyway, the marginal patient cost is nil.",
+   "publishing_the_choi_read_and_the_six_month_count_for_the_2019_stratum": "ZERO patients. Both are registered outcome measures of a completed trial.",
+   "a_randomised_discontinuation_design": "not costed here, because it requires assumptions about the run-in stabilisation rate that no EMC data supports; what is certain is that it costs MORE than any row above, since every row above is single-arm."
+  },
+  "reading": "The three changes that cost nothing are the three this file recommends. The one change that would most directly fix the benchmark -- raising the null -- is the one the disease cannot afford, which is exactly why the benchmark has to be fixed by making it auditable and by adding a within-patient control, rather than by making the bar higher."
+ },
+ "E9_the_natural_history_gap": {
+  "indolence_figures": {
+   "sourceId": "remiszewski2025",
+   "pmid": "41055792",
+   "year": 2025,
+   "verbatim": "Recurrence-free survival (RFS) varies: local recurrence (LR) rates range from 13 to 42% across studies, and distant metastases develop in around 35-45% of patients, primarily in the lungs. The median time to metastasis is approximately 28 months. Overall survival (OS) reflects the typically indolent yet metastatic course: 5-year OS 66-88%, and 10-year disease-specific survival approximately 85%.",
+   "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_emc_indolent_naturalhistory.txt"
+  },
+  "the_only_retrieved_direct_evidence_that_untreated_emc_can_regress": {
+   "pmid": "41321774",
+   "year": 2025,
+   "title": "Spontaneous regression of metastatic disease after palliative debulking surgery for heavily pre-treated extraskeletal myxoid chondrosarcoma",
+   "verbatim": "We report spontaneous regression of lung metastases in a patient with EMC after re-resection of the primary tumour, which was performed with palliative intent for symptom control after multiple lines of systemic treatment. The patient has remained disease-free and is now more than 5 years post-surgery. To our knowledge, this is the first described case of spontaneous regression of metastatic disease following resection of a primary tumour in a patient with EMC.",
+   "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_emc_indolent_naturalhistory.txt",
+   "⛔_what_this_is_not": "n = 1. A case report is not a rate, and this one follows surgery rather than observation, so it is not even a clean observation of untreated behaviour. It is recorded because it is the ONLY retrieved direct evidence in this disease that metastatic EMC can regress without systemic therapy, and because 'the field's single documented instance is a case report' is itself the measurement of how empty this space is. It supports no rate, no null and no design."
+  },
+  "the_quantity_that_was_not_retrieved": "A 6-month progression-free rate, or any fixed-timepoint progression rate, measured on advanced EMC patients who are receiving no systemic therapy. Every figure in E2_emc_six_month_progression_free_ladder is measured on treated patients. Nothing retrieved for this file supplies an untreated rate, and PUB-ENDPOINT Sec. 7.3 already records that a randomised no-treatment arm in an ultra-rare indolent sarcoma is not a realistic ask.",
+  "⚠_and_that_is_an_absence_OF_A_READING_not_a_reading_OF_ABSENCE": "Three Europe PMC searches were run for it -- epmc_emc_untreated_metastases, epmc_emc_indolent_naturalhistory and epmc_emc_time_to_metastasis, each returning the top 25 relevance-ranked hits -- and none of the returned records reports such a rate; neither does any of the nine curated EMC systemic-therapy cohort rows. That is what was measured. It is NOT a proof that no such figure exists in the literature, and CLAUDE.md Sec. 4 is explicit that the two are different claims. The honest form is: this repository has looked, in the places named, and has not found one."
+ },
+ "E10_indolent_tumour_placebo_calibration": {
+  "⛔_read_this_first": "DESMOID FIBROMATOSIS IS NOT EMC AND NO NUMBER BELOW MAY BE USED AS AN EMC RATE. Desmoid is a locally aggressive fibroblastic neoplasm that does not metastasise; EMC does, in 35-45% of patients. Their natural histories are different diseases' natural histories. This block exists for ONE purpose: to answer whether the natural-history component of a progression-based endpoint in an indolent soft-tissue tumour is a theoretical worry or a measured quantity. Everything below is offered as an EXISTENCE PROOF about endpoints, never as a transferable rate.",
+  "randomised_placebo_controlled": {
+   "study": "Gounder 2018, sorafenib versus placebo in desmoid tumours",
+   "pmid": "30575484",
+   "year": 2018,
+   "design": "double-blind phase 3, 87 patients randomised, crossover permitted on progression",
+   "verbatim": "In this double-blind, phase 3 trial, we randomly assigned 87 patients with progressive, symptomatic, or recurrent desmoid tumors to receive either sorafenib (400-mg tablet once daily) or matching placebo. ... With a median follow-up of 27.2 months, the 2-year progression-free survival rate was 81% (95% confidence interval [CI], 69 to 96) in the sorafenib group and 36% (95% CI, 22 to 57) in the placebo group (hazard ratio for progression or death, 0.13; 95% CI, 0.05 to 0.31; P<0.001). Before crossover, the objective response rate was 33% (95% CI, 20 to 48) in the sorafenib group and 20% (95% CI, 8 to 38) in the placebo group.",
+   "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_desmoid_sorafenib_title.txt",
+   "⭐_the_two_readings_that_matter_here": {
+    "a_progression_free_RATE_has_a_large_placebo_component": "36% of patients on PLACEBO were progression-free at 2 years, in a population enrolled for progressive, symptomatic or recurrent disease -- the same progression-before-entry design feature PUB-ENDPOINT Sec. 6.1 names as what BOUNDS the confound. It bounds it; it does not remove it. A fixed-timepoint progression-free rate benchmarked against a historical treated cohort could not have told 36% from 81% without the placebo arm.",
+    "⚠_and_so_does_OBJECTIVE_RESPONSE_which_qualifies_a_claim_this_repository_makes": "20% of patients on PLACEBO had an objective response (95% CI 8-38). PUB-ENDPOINT Sec. 7.2 argues that a response is 'an unambiguous observation and the few that occur are informative precisely because they are hard to explain by natural history'. This measurement shows that claim is DISEASE-SPECIFIC rather than general: in at least one indolent soft-tissue tumour, one patient in five responded to nothing. ⛔ IT DOES NOT REFUTE Sec. 7.2 FOR EMC -- spontaneous regression is a documented and well-known feature of desmoid biology, whereas the whole of the retrieved EMC evidence for it is a single 2025 case report (E9). What it does is convert 'responses are hard to explain by natural history' from a general principle into a claim that has to be argued per disease, and in EMC it has not been."
+   }
+  },
+  "untreated_observation_cohort": {
+   "study": "National Cancer Centre Singapore desmoid series",
+   "pmid": "42052362",
+   "year": 2026,
+   "design": "retrospective single-centre, 1999-2023; active surveillance versus resection",
+   "verbatim": "A total of 76 patients with desmoid tumours were seen in NCCS between September 1999 and October 2023; 19 patients were placed on active surveillance, and the remaining 57 patients underwent R0/ R1/ R2 wide excision of desmoid tumour. At one-year, progressive disease was observed in 5 out of 19 patients (26.3%) on active surveillance",
+   "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_desmoid_active_surveillance.txt",
+   "progression_free_at_12_months": {
+    "events": 14,
+    "denom": 19,
+    "proportion_pct": 73.7,
+    "wilson95_pct": [
+     51.2,
+     88.2
+    ],
+    "method": "Wilson score 95% on explicit integer counts, POLICY-evidence 2.2",
+    "⚠": "the interval spans most of the plausible range, which is what n = 19 buys. It is reported so the point estimate is never quoted alone."
+   },
+   "⚠_caveats_that_are_not_optional": "n = 19, retrospective, single centre, a different disease, and an active-surveillance population is SELECTED for expected indolence -- which is the same selection bias that makes a single-arm result uninterpretable, running the other way. It is included because it is the ONLY untreated-cohort fixed-timepoint progression rate retrieved for any indolent soft-tissue tumour, and because the contrast with EMC is the point: EMC has no equivalent, not even a biased one."
+  },
+  "⭐_what_this_block_licenses_and_what_it_forbids": {
+   "licensed": "The statement that the natural-history confound in a progression-based endpoint is NOT hypothetical. In the one indolent soft-tissue tumour where a randomised placebo arm exists, the placebo 2-year progression-free rate was 36% and the placebo objective response rate was 20%. An endpoint benchmarked only against treated historical cohorts would have been unable to see either.",
+   "forbidden": "Any transfer of 36%, 20% or 14/19 to EMC, in any direction, for any purpose. Desmoid does not metastasise and EMC does; these are different diseases and their untreated behaviour is not interchangeable. Nothing in this file uses any of these numbers as an EMC null, and no future work should.",
+   "and_what_it_says_about_the_recommendation": "It is the strongest available argument FOR the growth modulation index and AGAINST relying on any historical benchmark: the one time anyone measured the placebo component of these endpoints in an indolent soft-tissue tumour, it was large enough to account for a substantial part of a single-arm result. The index is the only recommended change that measures that component per patient instead of assuming it away."
+  },
+  "question": "Is the natural-history component of a progression-based endpoint a theoretical worry, or has anyone ever measured it in an indolent soft-tissue tumour?"
+ },
+ "corrections_owed_to_the_source_file": {
+  "policy": "CLAUDE.md rule 1.2 and the pattern set by research/manuscripts/emc-endpoint-discordance.json -> D5: a discrepancy found in a source file is RECORDED here, dated and with its evidence, and FIXED in the file that owns the sentence. This file does not edit that file.",
+  "items": [
+   {
+    "id": "C1_chiusole_does_report_a_median_pfs",
+    "where": "research/manuscripts/emc-systemic-therapy-pooling.json -> analyses.A5_time_to_event_never_pooled.figures_that_are_NOT_emc_medians_but_circulate_as_such",
+    "the_source_says": "Chiusole 2020 reports no median PFS for its chemotherapy patients.",
+    "what_the_full_text_says": "Median progression-free survival for patients receiving first-line chemotherapy was 9 months.",
+    "and_again_in_its_discussion": "In our study, we observed a progression-free survival time of 9 months, which is higher than what was reported by Drillon et al. in 2008 in 21 patients (5.2 months) and consistent with data reported in 2013 on the use of anthracyclines in 11 patients in the series by Stacchiotti et al. (8 months), but shorter than median progression-free survival achieved with Pazopanib in a recent phase II trial that enrolled 23 patients (19 months).",
+    "evidence": "literature-cache branch, literature/emc-endpoint-benchmarks-r2/epmc_ft_chiusole_PMC7308468.txt (HTTP 200, Europe PMC fullTextXML)",
+    "severity": "MODERATE, and it cuts against this repository rather than for it. The correction the source row actually carries -- that 5.2 months belongs to Drilon 2008 and not to Chiusole 2020 -- is CORRECT and stands. The additional sentence it appended, that Chiusole reports no median at all, is falsified by that paper's own Results and Discussion. A FOURTH EMC-specific median progression-free survival exists and this repository recorded that it did not.",
+    "why_it_matters_to_this_file": "Chiusole 2020's 9-month median is the largest published EMC chemotherapy experience and is the candidate null under which the 2025 cohort's result stops being significant (E5). A finding that rests on a number the source file says does not exist would be worthless, which is why it was checked against the full text before being used.",
+    "correction_owed_to": "research/manuscripts/emc-systemic-therapy-pooling.json"
+   },
+   {
+    "id": "C2_two_emc_six_month_rates_exist_and_are_not_recorded",
+    "where": "research/manuscripts/emc-systemic-therapy-pooling.json -> analyses.A6_six_month_progression_free",
+    "the_source_says": "there is only one EMC cohort that reports it as an integer count",
+    "status": "TRUE AND NOT A DEFECT",
+    "what_is_nonetheless_missing": "A6 answers the poolability question correctly and completely. What no artifact in this repository records is that two EMC cohorts publish a 6-month progression-free RATE without a count -- Drilon 2008 at 40% and Stacchiotti 2013 at 50% -- and that the first of them was offered by its own authors as a benchmark for future trials. Those two figures cannot be pooled and are the best EMC-specific calibration the endpoint has.",
+    "correction_owed_to": "nothing -- this is an ADDITION, and its home is this file's E2. It is listed here so a reader of A6 is not left believing the disease has no 6-month benchmark."
+   }
+  ]
+ },
+ "candidate_endpoints_considered": [
+  "objective_response_rate",
+  "disease_control_rate",
+  "progression_free_survival_median",
+  "progression_free_rate_at_a_fixed_timepoint",
+  "growth_modulation_index",
+  "tumour_growth_rate_volumetric",
+  "time_to_next_treatment",
+  "duration_of_response",
+  "choi_rather_than_recist",
+  "randomized_discontinuation_design"
+ ],
+ "not_a_recommendation": "Nothing here endorses, discourages or ranks any therapy, and nothing here states or implies that any agent is effective, safe, selective, or ready for clinical use in EMC. The subject of this file is the measuring instrument: which endpoint, read against which null, computed from which published quantity. Where a trial's stated conclusion is shown to depend on its choice of null, that is a finding about the null. It is not a finding about the treatment, it is not a re-analysis of any patient, and it must never be quoted as evidence that any regimen did or did not work. Treatment decisions in EMC belong with a specialist sarcoma centre."
+}

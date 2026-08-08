@@ -150,7 +150,7 @@ more directly, the heterobifunctional PROTAC class reached its first regulatory 
 vepdegestrant (ARV-471), an oral cereblon-recruiting **estrogen-receptor** degrader, was approved by the FDA for
 ESR1-mutated ER+/HER2− advanced breast cancer (FDA 2026), on the strength of the phase-3 VERITAC-2 trial in which
 — in the ESR1-mutant population — median progression-free survival was 5.0 vs 2.1 months versus fulvestrant
-(HR 0.57; objective response 19% vs 4%; Hurvitz 2025). The benefit was confined to the ESR1-mutant subgroup and
+(HR 0.57; objective response 19% vs 4%; Campone 2025). The benefit was confined to the ESR1-mutant subgroup and
 was not significant in the intention-to-treat population, with the label restricted accordingly — a reminder that
 degrader efficacy, like any modality's, is context-dependent and not guaranteed by target removal alone. Several
 other oncology PROTACs show substantial single-agent activity short of approval: the BTK degraders BGB-16673 and
@@ -2983,7 +2983,7 @@ cited without a formal article title (conference/early-access or database entrie
     Carcinoma.* Cancers 12(9):2433 (2020). PMC7565926; doi 10.3390/cancers12092433.
 15. Khan J, Ullah A, Goodbee M, Lee KT, Yasinzai AQK, Lewis JS Jr, Mesa H. *Acinic Cell Carcinoma in the 21st
     Century: A Population-Based Study from the SEER Database and Review of Recent Molecular Genetic Advances.*
-    Cancers 15(13):3373 (2023). PMID 37444483; PMC10340722; doi 10.3390/cancers15133373.
+    Cancers 15(13):3373 (2023). PMID 37444484; PMC10340722; doi 10.3390/cancers15133373.
 16. Stacchiotti S, Baldi GG, Morosi C, Gronchi A, Maestro R. *Extraskeletal Myxoid Chondrosarcoma: State of
     the Art and Current Research on Biology and Clinical Management.* Cancers 12(9):2703 (2020). PMC7563993;
     doi 10.3390/cancers12092703.
@@ -3034,7 +3034,7 @@ Additional EMC-biology sources cited in §4 (data-derived numbers such as the De
 are in the reproducibility archive, not the literature list):
 
 33. *Structural basis of binding of homodimers of the nuclear receptor NR4A2 to selective Nur-responsive DNA
-    elements.* J Biol Chem (2020). PMC6926456. [NR4A DNA-binding grammar; PDB 6L6Q/6L6L.]
+    elements.* J Biol Chem (2019). PMC6926456. [NR4A DNA-binding grammar; PDB 6L6Q/6L6L.]
 34. *ETV6 dependency in Ewing sarcoma by antagonism of EWS-FLI1-mediated enhancer activation.* Nat Cell Biol
     25:298–308 (2023). PMID 36658219; PMC10101761; doi 10.1038/s41556-022-01060-1. [FET-fusion
     enhancer-reprogramming transfer prior.]
@@ -3105,9 +3105,10 @@ ERα LBD + estradiol (1ERE; Brzozowski et al., Nature 389:753, 1997); NR4A holo 
     T cells by inducing degradation of T cell repressors Ikaros and Aiolos (IKZF1 and IKZF3) via modulation of
     the E3 ubiquitin ligase complex CRL4^CRBN.* Br J Haematol 164(6):811–821 (2014). PMID 24328678;
     doi 10.1111/bjh.12708.
-57. Hurvitz SA, et al. *Vepdegestrant, a PROTAC Estrogen Receptor Degrader, in Advanced Breast Cancer.*
-    N Engl J Med (2025). PMID 40454645; doi 10.1056/NEJMoa2505725. [VERITAC-2 phase 3; PFS benefit confined to
-    the ESR1-mutant subgroup, not significant in ITT.]
+57. Campone M, De Laurentiis M, Jhaveri K, et al.; VERITAC-2 Study Group. *Vepdegestrant, a PROTAC Estrogen
+    Receptor Degrader, in Advanced Breast Cancer.* N Engl J Med 393:556–568 (2025). PMID 40454645;
+    doi 10.1056/NEJMoa2505725. [VERITAC-2 phase 3; PFS benefit confined to the ESR1-mutant subgroup, not
+    significant in ITT.]
 58. U.S. Food and Drug Administration. *FDA approves vepdegestrant for ER-positive, HER2-negative, ESR1-mutated
     advanced or metastatic breast cancer.* 2026-05-01. https://www.fda.gov/drugs/resources-information-approved-drugs/fda-approves-vepdegestrant-er-positive-her2-negative-esr1-mutated-advanced-or-metastatic-breast
     [First FDA-approved heterobifunctional PROTAC.]
