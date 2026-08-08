@@ -1,0 +1,242 @@
+pmcAdv Sci (Weinh)Adv Sci (Weinh)2933advsciADVSAdvanced Science2198-3844WileyPMC13205658PMC13205658.113205658132056584183131510.1002/advs.202514972ADVS748171Research ArticleResearch ArticleNeuid: A Novel Neuron‐Enriched LncRNA that Connects Epigenetic Gene Silencing to Alzheimer's Disease
+PradhanRanjit PetrovicZorica Sadman SakibM. SchröderSophie Manfred KrügerDennis PenaTonatiuh DinizEren BurkhardtSusanne SchützAnna‐Lena GisaVerena GrzadzielewskaIga ToischerKarl SteinThor D. BlusztajnJan Krzysztof DelalleIvana RadulovicJelena SananbenesiFarahnaz FischerAndrehttps://orcid.org/0000-0001-8546-1161 andre.fischer@dzne.de
+
+1
+
+Department For Epigenetics and Systems Medicine in Neurodegenerative Diseases
+German Center for Neurodegenerative Diseases (DZNE)
+Göttingen
+Germany
+
+2
+
+Dominick P. Purpura Department of Neuroscience
+Albert Einstein College of Medicine
+Bronx
+New York
+USA
+
+3
+
+Bioinformatics Unit
+German Center for Neurodegenerative Diseases (DZNE)
+Göttingen
+Germany
+
+4
+
+Research Group for Genome Dynamics in Brain Diseases
+German Center for Neurodegenerative Diseases
+Göttingen
+Germany
+
+5
+
+Cluster of Excellence “Multiscale Bioimaging: from Molecular Machines to Networks of Excitable Cells” (MBExC)
+University of Göttingen
+Göttingen
+Germany
+
+6
+
+German Center for Cardiovascular Diseases (DZKH)
+Göttingen
+Germany
+
+7
+
+Department of Cardiology and Pneumology
+Georg‐August‐University
+Goettingen
+Germany
+
+8
+
+Department of Pathology and Laboratory Medicine
+Boston University Chobanian and Avedisian School of Medicine
+Boston
+Massachusetts
+USA
+
+9
+
+VA Boston Healthcare System
+Boston
+Massachusetts
+USA
+
+10
+
+Department of Veterans Affairs Medical Center
+Bedford
+Massachusetts
+USA
+
+11
+
+Boston University Alzheimer's Disease Research Center
+Boston University Chobanian and Avedisian School of Medicine
+Boston
+Massachusetts
+USA
+
+12
+
+Department of Biomedicine
+Aarhus University
+PROMEMO, DANDRITE
+Aarhus University
+Aarhus
+Denmark
+
+13
+
+Dominick P. Purpura Department of Neuroscience and Department of Psychiatry and Behavioral Sciences
+Psychiatry Research Institute Montefiore Einstein (PRIME)
+Albert Einstein College of Medicine
+Bronx
+New York
+USA
+
+14
+
+Department For Psychiatry and Psychotherapy
+University Medical Center of Göttingen
+Georg‐August University
+Göttingen
+Germany
+143202652026132951431810.1002/advs.v13.29e14972
+0222026
+0682025
+0632026
+140320262705202610062026© 2026 The Author(s). Advanced Science published by Wiley‐VCH GmbHhttps://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## ABSTRACT
+The increasing evidence that non‐coding RNAs can become deregulated during pathogenesis is dramatically expanding the space for drug discovery beyond the protein‐coding genome. Long noncoding RNAs (lncRNAs) are emerging as key regulators of cellular function, yet most remain uncharacterized. Here, we identify a previously unstudied lncRNA, which we named Neuronal Identity (Neuid), a conserved, brain‐enriched transcript expressed in neurons. Neuid is downregulated in the brains of Alzheimer's disease (AD) patients. Mechanistically, Neuid maintains neuronal identity by repressing developmental and glial genes via interaction with the PRC2 subunit EZH2 and regulation of H3K27me3. Knockdown of Neuid disrupts this repression, leading to impaired neuronal activity and memory formation. Importantly, CRISPRa‐mediated Neuid overexpression restores neuronal function in Aβ42‐treated neurons. These findings identify NeuID as a critical regulator of neuronal plasticity and position it as a promising therapeutic target for AD
+
+ 
+
+brainepigeneticslong‐non‐coding RNAneurodegenerationnon‐coding RNA
+ID, JKB and TDS are supported by NIH
+RF1AG078299
+TDS and JKB are supported by NIH grants
+P30AG072978U19AG068753
+JKB is supported by NIH grant
+RF1AG078299
+National Heart, Lung and Blood Institute
+HC‐2519575N92019D00031HHSN268201500001
+Veterans Health Administration, BLRD Merit Award
+I01BX005933R01MH108837
+AF is supported by German Ministry and Science and Education
+EPINEURODEVOEPI‐3EGoBIOmiRassay(16LW0055)GoBIOmiRassay(16LW0055) We began our analysis with mouse tissue by performing fluorescence‐activated nuclear sorting (FANS) on the hippocampal CA1 region, a brain area essential for memory formation and among the first affected in AD. We isolated neuronal (NeuN+) and non‐neuronal (NeuN−) nuclei from three‐month‐old wild‐type mice (Figure ) and performed total RNA sequencing (Figure  
+, box 1). This analysis identified 247 lncRNAs that were significantly enriched in NeuN+ compared to NeuN− nuclei (padj < 0.05, log2FC > 3; Table ).
+Next, we investigated whether any of these lncRNAs had human homologs (Figure  
+, box 2). We identified homologous lncRNAs based on shared syntenic genomic loci and a minimum sequence similarity of 40% [ , ]. Using this approach, we identified 15 candidate lncRNAs (Table ). To further refine this selection, we leveraged a human RNA tissue atlas [ , ] and the GTEx database (https://gtexportal.org) to filter for brain‐enriched expression patterns (Figure  , box 3; Figure ). This led us to a lncRNA, previously unstudied, referred to as ENSG00000283183 in humans and Gm10419 in mice, which showed the highest enrichment in the human brain compared to other tissues (Figure  
+; Figure ). Outside the brain, expression of ENSG00000283183 was detected only in the pituitary, for which data were available in the GTEx database but not in the RNA Atlas. Moreover, the GTEx portal suggests relevant levels of ENSG00000283183 expression in skin, whereas the RNA Atlas reports very low to non‐detectable expression in the dermal system. Given our later findings, we named this lncRNA Neuronal
+
+Id
+
+entity (NEUID). In the following, Neuid refers to the mouse transcript, and NEUID to its human homologue.
+To further validate the neuronal and brain‐specific expression of Neuid, we performed qPCR analysis on NeuN+ and NeuN− nuclei isolated from the mouse hippocampal CA1 region. Consistent with our sequencing data, qPCR confirmed that Neuid was exclusively expressed in NeuN+ nuclei (Figure  ). Additionally, single‐nucleus RNA sequencing (snRNA‐seq) of mouse brain tissue confirmed that Neuid is highly enriched in neurons compared to glial cells (Figure  ).
+To determine whether a similar expression pattern exists in the human brain, we performed FANS on NeuN+ and NeuN− nuclei isolated from the prefrontal cortex of individuals without neurodegenerative disorders (Figure ). qPCR analysis revealed that NEUID was highly enriched in NeuN+ nuclei, mirroring our findings in mice (Figure  ). Furthermore, snRNA‐seq analysis of the human prefrontal cortex confirmed that NEUID is significantly enriched in neurons compared to glial cells (Figure  ). Please note that expression levels from the mouse and human snucRNA‐seq datasets should not be compared directly, as the mouse data were generated using the 10x Genomics platform [ ], whereas the human data were obtained using a modified Takara iCELL8‐based protocol optimized for improved lncRNA detection [ ].
+Finally, we further validated these findings in bulk tissue by performing qPCR analysis on total RNA isolated from the human prefrontal cortex and heart (left ventricle). The heart was chosen since, next to the brain, it is the only other organ that mainly consists of postmitotic and excitable cells. NEUID expression was significantly higher in the brain, with negligible expression detected in the heart (Figure  ).
+We also assessed Neuid expression across different mouse brain regions using qPCR and compared it to expression levels in the heart and liver. Neuid was consistently highly expressed in all analyzed brain regions, with minimal or undetectable expression in the heart and liver (Figure  ).
+In summary, we identified NEUID as a previously uncharacterized lncRNA with a neuron‐specific and brain‐enriched expression pattern in both mice and humans. Next we wanted to test if NEUID is deregulated in neurodegenerative diseases (Figure  
+, Box 4).
+
+3.2
+
+## NEUID is Down‐Regulated in the Brains of AD Patients
+Given the emerging role of ncRNAs as novel drug targets in neurodegenerative diseases, we investigated whether NEUID is dysregulated in the brains of AD patients. Analysis of data from the AGORA database, which includes over 1000 brain samples from healthy individuals and AD patients, revealed that NEUID expression is significantly reduced in the parahippocampal gyrus (PHG), dorsolateral prefrontal cortex (DLPFC), and temporal cortex (TCX) of AD patients compared to controls (Figure  ).
+ To confirm this observation, we performed qPCR analysis on a smaller cohort of postmortem brain samples characterized by Braak & Braak (B&B) stage IV. B&B staging is a widely used classification system for assessing the severity of AD pathology. B&B stages range from stage 1, representing minimal neurofibrillary tangle deposition, to stage 6, which indicates advanced, widespread pathology [ ]. In agreement with the AGORA findings, NEUID expression was significantly decreased in the prefrontal cortex (B&B stage IV, representing an early to moderate disease stage in the prefrontal cortex) when compared to controls (Figure  ).
+We further analyzed NEUID expression using the previously‐described RNASeq dataset from brain tissue (prefrontal cortex, area 9) from the Framingham Heart Study [ , ], focusing on samples spanning all B&B stages. Consistent with our prior results, NEUID expression was negatively correlated with B&B stages (r = 0,31; p = 0,049), indicating a progressive decline as pathology worsens (Figure  ).
+It is important to note that NEUID expression varies substantially among individuals, which is not unexpected in analyses of postmortem human tissue and is likely attributable to factors that, at present, cannot be controlled for, such as environmental factors, medication or inter‐individual genetic background.
+Interestingly, no significant changes in NEUID expression were detected in RNA‐seq datasets derived from postmortem brain tissue of patients with frontotemporal lobar degeneration (FTLD) [ , ] (Figure  ), Parkinson's disease (PD) (GEO dataset GSE156928) (Figure  ), or schizophrenia [ ] (Figure  ). This indicates that NEUID dysregulation may be primarily associated with AD pathology and moreover suggest that decreased NEUID levels are not simply a result of neuronal cell death. To further address this issue, we analyzed the expression of the neuronal marker gene RBFOX3 (NEUN), which can serve as a proxy for neurodegeneration when tissue for immunohistochemical analysis is not available [ ]. Within the AGORA dataset, there was no significant correlation between NEUID and RBFOX3 changes across all analyzed tissues (Pearson's R2
+ = 0.008; p = 0.82). Moreover, unlike NEUID, RBFOX3 was not significantly decreased in the TCX and DLPFC. However, its levels were reduced in the PHG (Figure ), which is in agreement with findings showing that the PHG is affected much earlier during the course of AD pathogenesis compared to the TCX or DLPFC [ ]. In line with this observation, RBFOX3 levels were not altered when we performed qPCR analysis of prefrontal cortex postmortem tissue samples used in Figure  , or when we analyzed data from the FHS (Figure ). Finally, It should be mentioned that there is a non‐significant trend for decreased expression of NEUID in PD patients and that it would be interesting to analyze a larger dataset in future studies.
+
+3.3
+
+## Knock Down of NeuID Affects Neuronal Gene‐expression
+To the best of our knowledge, Neuid has not been studied in any cellular context. Given our data showing that NEUID is enriched in neurons, almost exclusively expressed in the brain, and decreased in the brains of AD patients, we sought to elucidate its function.
+Since lncRNAs perform regulatory functions specific to their cellular localization [ ], we first assessed the localization of Neuid. To this end, we performed RNAscope in adult mouse brain sections, combined with NEUN staining to label neuronal nuclei. Our data confirmed that Neuid is highly expressed in neurons and further suggested that Neuid is enriched in neuronal nuclei, as shown by the high proportion of Neuid‐positive nuclei co‐labeling with the neuronal marker NeuN (Figure  ). Interestingly, two to ten bright foci of Neuid of different size were observed per neuronal nucleus, a pattern consistent with previous lncRNA studies and has been associated with the regulation of chromatin dynamics [ , ]. Consistent with this observation, qPCR analysis revealed that Neuid is enriched in nuclear fractions isolated from the mouse hippocampus compared to cytoplasmic fractions (Figure  ), further suggesting a potential role in gene expression regulation.
+ To investigate Neuid's function, we performed Neuid knockdown (KD) in primary hippocampal neurons using Gapmers, single‐stranded antisense oligonucleotides that mediate RNase H‐dependent degradation of nuclear RNA transcripts. As a negative control, we used Gapmers with no known target in the genome.
+First, we assessed the efficacy of Neuid knockdown by qPCR analysis at multiple time points (0.5, 1, 1.5, 2, 4, 6, 7, 25, and 72 h) after Gapmer administration. Neuid expression was fully suppressed 72 h post‐treatment (Figure  ) and still detectable when measured up to 16 days post‐treatment (Figure ). We decided to use the 72 h time point for RNA sequencing (RNA‐seq) to determine the effects of Neuid KD on the hippocampal neuronal transcriptome. Neuid knockdown efficacy was confirmed by qPCR for the RNAseq experiment (Figure  ). RNA‐seq analysis revealed 892 upregulated and 597 downregulated genes following Neuid KD (false discovery rate [FDR]; padj < 0.05, FC > 0.5 or < ‐ 0.5; Figure  
+; Tables and ). Gene Ontology (GO) term analysis showed that upregulated genes were enriched in biological processes (Table ) related to development and glia cell function including the GO terms such as “regulation of developmental processes”, “nervous system development”, “gliogenesis” and “glia cell differentiation” (Figure  . For the down‐regulated genes we detected much less significant GO‐terms, when compared to the up‐regulated genes including the GO terms “signal transduction”, “gene expression” and “neuropeptide signaling pathway” (Figure  
+; Table ). These data indicate that Neuid loss drives a coordinated transcriptional shift toward glial and developmental gene programs, as reflected by enrichment of astrocyte‐ and oligodendrocyte‐expressed genes among upregulated transcripts and neuronal genes among downregulated transcripts (Figure  ).
+To validate these RNA‐seq findings, we confirmed the altered expression of selected genes using qPCR. Our data show increased expression of non‐neuronal genes, including oligodendrocyte transcription factor 2 (Olig2), which is normally expressed in oligodendrocytes; S100 calcium‐binding protein B (S100B) normally expressed in astrocytes and apolipoprotein E (ApoE), normally expressed in astrocytes and microglia (Figure  ). Conversely, genes such as gamma‐aminobutyric acid type A receptor subunit alpha‐3 (Gabra3), regulator of G‐protein signaling 4 (Rgs4), and 5‐hydroxytryptamine receptor 5A (Htr5a), whose loss of function has been linked to cognitive impairments [ , , ], were downregulated (Figure  ). These data indicate that Neuid plays a role in the orchestration of neuron‐specific gene expression, as its reduced levels lead to increased expression of non‐neuronal genes linked to developmental glial‐related processes. This is paralleled by the downregulation of neuronal genes linked to memory function.
+
+3.4
+
+## Neuid Regulates Neuronal Activity, Synapse Number and Memory Formation in Mice
+The analysis of neuronal gene‐expression upon Neuid KD suggests that Neuid may play an important role in the regulation of neuronal functions and the loss of Neuid expression, as observed in AD patients, may cause deregulation of neuronal plasticity. To address this directly we decided to study neuronal network plasticity upon Neuid KD. Therefore, primary hippocampal neurons were subjected to electrical recordings using multi‐electrode arrays (MEA). Although NEUID downregulation in AD patients was assessed in cortical tissue, Neuid expression is highly comparable across hippocampal and cortical regions in adult mice (see Figure  and Figure  ), indicating that its physiological expression is not region‐restricted within the forebrain. Importantly, the hippocampus is among the earliest and most severely affected regions in AD [ , ], and high‐quality human hippocampal tissue from early disease stages was not available to us either through tissue banks or through large transcriptomic resources such as the AGORA database. Consequently, cortical tissue provides the most reliable window into NEUID deregulation in patients, whereas the hippocampus represents the most appropriate model system to mechanistically dissect how loss of Neuid affects neuronal plasticity. Therefore, hippocampal neurons were plated on MEA plates and Neuid KD was performed on DIV7. The MEA activity was recorded 72 h later at DIV10 for 15 min.
+Loss of Neuid resulted in severe impairments of neuronal network activity as indicated by a reduced neural activity score (NAS), a composite score that serves as an objective metric to compare neuronal activity in MEA [ , ] (Figure  ) and a significantly decreased mean firing rate, which reflects the average number of action potentials detected per electrode per second and serves as an indicator of global neuronal excitability (Figure  ). These data suggest that neuronal network function is impaired when Neuid levels are reduced. We therefore examined the role of Neuid in synchronized network burst activity. Neuid KD led to sparse electrical activity which is evident from the raster plots showing MEA spike activity in control and Neuid‐KD neuronal networks (Figure  ). In these plots, each vertical line represents an action potential (“spike”) detected on a single electrode over time. Dense clusters of vertical lines occurring simultaneously across many electrodes (highlighted by magenta rectangles) correspond to synchronized network bursts, indicating high‐frequency firing events involving a large proportion of the network (Figure  ). Neuid KD cultures showed markedly fewer and less coordinated bursts. Quantification of these data confirmed decreased frequency of network bursts upon Neuid KD (Figure  ). Consistent with these findings, the synchronicity index was decreased in Neuid KD neurons when compared to the control group (Figure  ). We confirmed these findings in cortical neurons (Figure ). These results indicate that decreased levels of Neuid impaired spontaneous neuronal firing and impedes synchronized network activity. One possibility to explain these data could be that Neuid might be important for maintaining the number and function of physiological synapses within a neuronal network. To test this hypothesis, we employed immunohistochemical approaches to measure synaptic markers informing about the density and number of synapses in response to Neuid KD. Our analyses revealed that KD of Neuid decreased dendritic spine density (Figure  ) as measured by DIL dye staining, and led to a reduction in synapse numbers as measured by synaptophysin (Syn) and postsynaptic density 95 (PSD95) costaining (Figure  ).
+ Collectively, these data support the view that Neuid plays a key role in the regulation of neuronal activity.
+
+3.5
+
+## Decreased Levels of Neuid Impair Memory Formation in Mice
+Our findings suggest that Neuid might affect cognitive processes such as memory consolidation. To test this possibility directly, we employed stereotactic injections to administer Neuid Gapmer's into the dorsal hippocampus of wild‐type mice and subjected them to a battery of behavioral tests to assess hippocampus‐dependent memory formation. To this end, a group of mice was injected into the hippocampus with Neuid Gapmer's or control oligomers, and hippocampal tissue was isolated 2, 4, or 8 days later (Figure  ). qPCR analysis revealed decreased Neuid levels in mice that received Neuid Gapmers compared to the control group (Figure  ). Similar results were obtained when we analyzed the Neuid signal by RNAscope in brain sections obtained from mice 4 days after injection (Figure  ). We also performed qPCR for Apoe, which we previously found to be upregulated upon Neuid knockdown in primary hippocampal neurons (see Figure  ). Consistently, the in vivo qPCR data reveal a significant upregulation of Apoe expression upon Neuid knockdown (Figure  ). While these data show that Neuid levels can be significantly reduced in vivo, it is important to note that stereotactic injection does not affect all hippocampal neurons, which may dilute the overall effect when analyzing whole‐tissue extracts. However, previous studies have demonstrated that hippocampus‐dependent memory impairment is detectable even when genes essential for memory formation are disrupted in as little as 10%–20% of all hippocampal neurons [ ].
+ Therefore, we injected another group of mice into the dorsal hippocampus with either NeuID Gapmers or control oligonucleotides. Three days later, we subjected them to a fear conditioning paradigm which allows the measurement of contextual and trace fear conditioning, both of which are well‐established hippocampus‐dependent associative learning tasks (Figure  ).
+During the training session, activity levels and responses to the electric foot shock were similar between groups (Figure  ). Freezing behavior, a widely used measure of memory consolidation, was significantly impaired in NeuID Gapmer‐treated mice when tested 24 h after training. The memory test consisted of a re‐exposure to the conditioning context (Context A), during which control mice displayed robust freezing, whereas mice injected with Neuid Gapmers showed significantly reduced freezing behavior (Figure  ). This impairment was accompanied by increased locomotor activity during the test session (Figure  ). Notably, increased locomotor activity during contextual fear testing does not indicate elevated anxiety, as anxiogenic states typically suppress locomotion and increase thigmotaxis in freely moving tasks. Instead, heightened movement during the freezing test is consistent with a failure to maintain the conditioned fear response and therefore reflects impaired memory retrieval rather than altered anxiety levels. Supporting this interpretation, Neuid KD mice did not differ from controls in the open field test (Figure ), indicating that Neuid knockdown does not induce anxiety‐like behavior.
+We observed similar results in the trace fear conditioning test. During training, mice were placed in Context A, and after 3 min, exposed to a tone for 30 s followed by a 15‐s trace period during which no stimuli were presented, terminating with a 2‐s electric footshock. The tone‐trace shock sequence was repeated 3 times, separated by 60‐s intertrial (ITI) intervals. Memory recall was tested 24 h later by placing the mice into a novel environment (Context B) and presenting the tone. During the test, freezing behavior significantly increased in both experimental groups in Context B when the tone was played and during the trace period, but decreased during the inter‐trial interval (ITI), when no stimulus was present.
+
+NeuID Gapmer‐treated mice exhibited a significantly impaired freezing response throughout the memory tests (Figure  ), indicating deficient associative memory. Notably, Neuid KD mice failed to show the normal modulation of freezing across tone–trace–ITI blocks that is characteristic of intact associative learning, consistent with impaired stimulus discrimination. This impairment was again accompanied by increased locomotor activity (Figure  ), further supporting the hypothesis that NeuID KD disrupts hippocampus‐dependent memory formation.
+
+3.6
+
+## CRISPR‐Mediated Overexpression of NeuID Rescues Aβ‐Mediated Loss of Neuronal Plasticity
+In summary, our findings provide strong evidence that physiological expression levels of Neuid are essential for neuronal plasticity and memory function, while decreased levels are observed in patients who develop AD. Based on this, we hypothesized that Neuid could be a novel drug target for AD.
+To test this, we employed neurons treated with amyloid beta (Aβ) 42 oligomers as a model system, since our data suggest that Neuid expression decreases early in disease progression, and amyloid pathology is widely accepted as one of the earliest molecular changes observed in AD patients [ ]. Therefore, we first investigated the effect of Aβ42 exposure on Neuid expression in primary hippocampal neurons. qPCR analysis, performed 24 h after treatment, revealed that NeuID levels were significantly decreased in Aβ42‐treated neurons compared to the vehicle control group (Figure  ). Notably, this treatment did not affect neuronal viability, further suggesting that the decreased NEUID levels observed in the brains of AD patients do not simply reflect neuronal cell loss (Figure ). To confirm the efficacy of Aβ42 treatment and establish a relevant read out for amyloid pathology, we assessed neuronal activity via MEA recordings. While neuronal activity was similar across all cultures before hippocampal neurons were treated with Aβ42 or vehicle control at DIV10, the data have been normalized to these baseline conditions. Recordings were performed 24 h later for 15 min. The data show that Aβ42 treatment led to sparse electrical activity (Figure  ). In agreement with this, the NAS (Figure  ), the mean firing rate (Figure  ) and the frequency of network bursts (Figure  ) were significantly reduced upon Aβ42 treatment. These results show that exposure to Aβ42 leads to reduced Neuid levels and decreased neuronal activity. While the precise mechanisms by which Neuid levels decrease remain to be elucidated, acute changes in neuronal activity are unlikely to be the driving force, since treatment of neurons with TTX, bicuculline, or muscimol, using the same experimental conditions as for the Aβ42 treatment did not significantly alter Neuid expression levels (Figure ).
+ Having established that MEA recordings provide a suitable readout for amyloid pathology in our experimental setting, we next sought to determine whether increasing Neuid levels could reverse these phenotypes. To achieve Neuid overexpression, we used the CRISPR‐based activation (CRISPRa) method. We generated a guide (g) RNA targeting the Neuid promoter, along with a corresponding control gRNA with no target in the genome. To test this approach, primary hippocampal neurons were transfected with the AAVs carrying CRISPRa plasmid together with AAVs containing either scramble or Neuid‐targeting gRNAs at DIV7, followed by RNA isolation 48 h later. Upon transfection with the CRISPRa plasmid and Neuid‐targeting gRNA, we observed an approximately onefold increase in Neuid expression in primary hippocampal neurons (Figure  ).
+Next, using the same experimental setting we transfected neurons with CRISPRa carrying either the Neuid or control gRNA and subjected them to Aβ42 treatment 48 h after transfection. Neurons transfected with CRISPRa and the control gRNA, but treated only with the vehicle, served as an additional control (Figure  ). We confirmed that Aβ42 reduces Neuid expression and that CRISPRa‐mediated activation restores Neuid levels (Figure ). MEA analysis revealed that CRISPRa‐mediated Neuid overexpression rescued the Aβ42‐mediated defects in electrical activity (Figure  ), NAS (Figure  ), mean firing rate (Figure  ) and frequency of network bursts (Figure  ). Since expression changes in Neuid did not have a direct effect on Aβ42 (Figure ), these findings suggest that increasing Neuid expression could serve as a novel therapeutic strategy for AD.
+
+3.7
+
+## NeuID Interacts with EZH2 Methyltransferase and Regulates the Expression of Olig2 Transcription Factor
+Finally, we wanted to elucidate the mechanisms by which Neuid regulates neuronal function. Previous data have shown that nuclear lncRNAs can contribute to gene expression control by binding to regulatory elements on DNA, such as promoter regions, while simultaneously interacting with transcriptional regulators, including chromatin‐modifying enzymes [ , , ]. Through this mode of action, lncRNAs can either recruit transcriptional regulators to specific genomic locations or act as molecular decoys [ , , ]. To explore if such a mode of action may apply to Neuid, we employed Enrichr, an integrative tool that compiles multiple gene‐set libraries to identify gene‐regulatory mechanisms [ ]. This analysis revealed that genes deregulated upon Neuid knock down are likely controlled, at least in part, by EZH2 (Figure  ). EZH2 is a subunit of the Polycomb Repressive Complex 2 (PRC2) that mediates gene‐repression via histone 3 lysine 27 trimethylation (H3K27me3). Previous studies have shown that lncRNAs can recruit PRC2 to specific chromatin locations to silence gene‐expression [ , ]. Moreover, reduced EZH2 function in the adult brain has been linked to the loss of neuronal identity and neurodegenerative phenotypes [ ]. EZH2 was shown to bind the lncRNA HOX antisense intergenic RNA (Hotair) [ ]. The identified binding region contains short guanine repeats that fold into guanine quadruplexes (G‐quadruplexes) which are essential for RNA‐protein interactions [ ]. Therefore, the nucleotide sequences from mouse Neuid and human NEUID variants were screened for G‐quadruplex and i‐motifs using G4Boost [ ] and iM‐seeker [ ]. While no i‐motifs could be detected, we detected one similar G‐quadruplex motif which is similar to the reported EZH2 binding site within Hotair (Figure  ). These data suggests that Neuid may interact with the PRC2 complex and more specifically with EZH2. To test this, we performed RNA immunoprecipitation (RNA‐IP) using an EZH2‐targeting antibody, with an IgG isotype antibody serving as a control. Following immunoprecipitation, RNA was isolated from the IP fractions, and Neuid levels were quantified via qPCR. Neuid enrichment in the EZH2 or IgG IP fractions is shown as the percentage of Neuid transcripts in the IP relative to the corresponding input fractions. This experiment confirmed that Neuid binds to EZH2, as Neuid was specifically enriched in the EZH2 IP compared to the IgG control (Figure  ). In the case of Hotair it was shown that its binding to EZH2 regulates its ability to maintain H3K27me3 thereby helping to maintain gene‐expression control [ ]. Therefore, we hypothesized that KD of NeuID might alter neuronal H3K27me3 levels, which could help explain the increased expression of non‐neuronal genes observed upon NeuID KD. To explore this hypothesis, we performed H3K27me3 ChIP‐sequencing on primary hippocampal neurons treated with either control or NeuID Gapmers. Principal component analysis (PCA) revealed that neuronal H3K27me3 patterns are affected by NeuID KD (Figure  ).
+ Next, we performed a differential binding analysis to identify H3K27me3 peaks that significantly differed between control and NeuID KD neurons. Our differential binding analysis revealed 854 genes with decreased H3K27me3 and 645 genes with increased H3K27me3 upon Neuid knockdown (KD) (FDR < 0.1; |FC| > 1; see Table and Figure ). A GO term analysis of genes with altered H3K27me3 indicated enrichment for developmental programs. Importantly, GO term enrichment among genes with decreased H3K27me3 was more significant than that among genes that gain H3K27me3, highlighting processes such as “cell differentiation” and “central nervous system development.” These findings are consistent with our other results suggesting that loss of Neuid compromises EZH2 function, leading to reduced H3K27me3 at genes linked to early developmental programs, which subsequently become upregulated and disrupt neuronal homeostasis (Figure ).
+We then intersected the genes showing decreased H3K27me3 in ChIP‐seq (Figure  ) with the transcripts that were significantly upregulated upon Neuid KD in RNA‐seq, and identified 31 genes that exhibited reduced H3K27me3 occupancy and were significantly upregulated following Neuid KD (Figure  
+; Figure ). These genes are bona fide candidates to be directly regulated by Neuid acting through the PRC2 complex. GO term analysis of these genes revealed that they represent developmental processes such as “brain development”, “neurogenesis” and “regulation of neuronal differentiation”) (Figure  
+; Table ). Upon closer inspection of the genes that exhibit decreased H3K27me3 binding and increased expression upon Neuid knock down, we detected 4 key transcription factors linked to neurodevelopmental processes and that are specific to glial cells under physiological conditions in the adult brain, namely Etv5, Hes1, Olig2, and Tcfl2 (Figure  
+; Figures and ). Therefore we hypothesized that the increased expression of the four transcription factors may help explain, at least in part, the differential expression of genes that were upregulated following NeuID knockdown. To test this, we performed a promoter region analysis to determine how many of the 892 genes upregulated upon Neuid knockdown contained promoter binding sites for Etv5, Hes1, Olig2, and/or Tcf7l2. The data revealed that the majority of these genes can be regulated by Olig2 (646), followed by Hes1 (356), Etv5 (129), and Tcf7l2 [ ] (Figure  ). A combined analysis of the predicted target genes of the four transcription factors showed that in total 734 (84%) of the 892 upregulated genes could potentially be explained by increased activity of these factors (Figure  ; Table ). A small subset of genes (n = 8) exhibited increased H3K27me3 together with reduced expression upon Neuid KD. Because these genes did not cluster into any coherent functional category, they are unlikely to account for the broader transcriptional downregulation observed upon Neuid knockdown. Instead, the 597 downregulated genes most likely reflect secondary transcriptional consequences of impaired neuronal homeostasis, rather than direct primary targets of Neuid‐dependent H3K27me3 regulation (Figure ).
+
+4
+
+## Discussion
+In this study, we report the discovery and first functional characterization of Neuid, a previously unstudied, neuron‐specific, and brain‐enriched lncRNA. Through integrative transcriptomic analysis across human and mouse datasets, we identified NEUID as one of the few lncRNAs that is conserved, enriched in the brain, and selectively expressed in neuronal populations. We have previously used this approach to identify lncRNAs in other cell types relevant to AD pathology. For example, we characterized the astrocyte‐specific lncRNA PRDM16‐DT and demonstrated its functional relevance in AD [ , , , , ]. These findings are in line with previous data reporting roles for lncRNAs in AD pathogenesis such as BACE1‐AS, BDNF‐AS or MEG3 [ ] are likely to support further discovery of lncRNAs involved in neurodegeneration, emphasizing the utility of our strategy in exploring the lncRNAome for therapeutic targets.
+
+NEUID is significantly downregulated in three independent cohorts of AD brain samples, and its expression inversely correlates with B&B staging, suggesting a role in early disease progression. To date, our analyses rely on bulk tissue expression data and the qPCR cohort is rather small. Future studies should therefore assess NEUID expression in a cell type–specific manner using absolute quantification approaches, such as laser‐capture microdissection followed by digital PCR. Importantly, Neuid levels are also reduced in response to Aβ42 in vitro, under conditions that do not readily induce neurodegeneration, while NEUID levels are not altered in FTD, indicating that NEUID loss is not merely a secondary effect of neuronal cell death. Future research should aim to elucidate the precise mechanisms leading to Aβ42‐mediated downregulation of NEUID and to determine whether other AD risk factors also alter NEUID expression.
+Mechanistically, our data suggest that Neuid operates through an epigenetic axis involving the PRC2 complex. We show that Neuid interacts with EZH2, affecting H3K27me3 levels at loci associated with developmental and glial‐specific genes. This is consistent with previous studies demonstrating that the lncRNA Hotair recruits EZH2 to specific chromatin regions to direct H3K27me3 deposition [ , ]. Supporting a similar mechanism for human and mouse NEUID/Neuid, we identified a conserved EZH2‐binding motif within its sequence, homologous to the EZH2 interaction domain in Hotair.
+Notably, Neuid loss does not lead to a global reduction of PRC2 activity, but instead results in a selective derepression of developmental and glial gene programs, while other genes remain largely unaffected. This suggests that Neuid confers locus‐ and context‐specific guidance to PRC2 in neurons, stabilizing H3K27me3‐mediated repression at regulatory regions that must remain silenced to preserve neuronal identity.
+While we cannot exclude that Neuid has additional binding partners and that future research should address the DNA, RNA, and protein interactions of Neuid in a context‐specific manner, our findings support the emerging hypothesis that cell‐type–specific lncRNAs orchestrate the activity of ubiquitously expressed chromatin regulators such as EZH2, thereby maintaining cellular identity. This concept, previously proposed in other systems [ , , ], is here extended to the context of neuronal identity and neurodegeneration. In line with this model, we have previously shown that the astrocyte‐specific lncRNA PRDM16‐DT also interacts with EZH2 but functions as a molecular recruiter to establish astrocyte‐specific chromatin states [ ], highlighting that distinct cell‐type–restricted lncRNAs can tune PRC2 activity in mechanistically different ways to reinforce lineage identity.
+In Neuid‐deficient neurons, we observed derepression of 892 genes, many involved in developmental or glial pathways, consistent with a loss of neuronal identity. Among them, 62 genes showed decreased H3K27me3 occupancy, suggesting direct regulation by Neuid. These 62 genes were enriched for developmental and glial‐specific pathways, and notably included key transcription factors such as Olig2, Etv5, Tcf7l2, and Hes1, which are important for brain development and are linked to glia cell function in the adult brain [ , , , ]. Our motif analysis indicates that these transcription factors may explain up to 85% of secondary transcriptional changes observed upon NeuID KD, further supporting the view that a key function of Neuid is to orchestrate the silencing of non‐neuronal genes in neurons by guiding the PRC2 complex. Future studies combining high‐resolution chromatin profiling with RNA‐centered proximity‐labeling approaches will be required to define the precise genomic binding sites and interaction partners of Neuid and to further dissect how neuronal lncRNAs selectively modulate PRC2 activity.
+Furthermore, these data imply that Neuid functions as a molecular recruiter of PRC2 to the promoter of non‐neuronal target genes. This contrasts with the recently described lncRNA PRDM16‐DT, which interacts with PRC2 as a decoy, blocking its activity to preserve astrocyte identity. Together, these findings suggest that in the brain, one function of nuclear, cell‐type–specific lncRNAs may be to either guide or prevent PRC2 activity to maintain the correct cell‐type specific epigenetic landscape. Clearly more research is needed to further test this hypothesis for PRC2 and other chromatin modifying complexes.
+Loss of Neuid not only altered gene expression but also disrupted neuronal physiology. We observed reduced dendritic spine density, fewer synapses, impaired neuronal network synchronization, and deficits in hippocampus‐dependent memory, which was accompanied by decreased expression of genes linked to neuronal plasticity. This is in line with previous studies showing that manipulation of lncRNAs can affect neuronal plasticity and memory function [ , , ]. Since we did not observe evidence that Neuid directly regulates these genes, we suggest that the loss of neuronal function and the downregulation of genes related to neuronal plasticity is a secondary effect, reflecting the consequences of neurons entering a developmental and glial cell‐specific gene expression program.
+Notably, Neuid was downregulated by Aβ42 exposure, a hallmark of early AD pathology, and CRISPRa‐mediated overexpression of Neuid restored physiological expression levels and reinstated Aβ42‐induced defects in neuronal network activity. To the best of our knowledge, this is the first time such an effect is described for a neuronal lncRNA, although previous studies have reported that lncRNAs can exhibit altered expression in models for amyloid pathology [ , , ]. Importantly, since Neuid overexpression was performed before Aβ42 exposure, the observed effects should be interpreted as protective rather than therapeutic, and additional in vivo studies will be necessary to test whether Neuid can rescue pathology once it is already established.
+Although we show that Neuid regulates H3K27me3 via EZH2, the broader epigenetic impact of NeuID remains incompletely mapped. Many of the transcriptional changes observed upon Neuid KD are likely indirect. This view is supported by our finding that, out of the 892 upregulated genes, only 62 may be directly regulated by NeuID through its interaction with EZH2. Notably, among these 62 genes were key transcription factors that could account for up to 85% of the upregulated genes following Neuid KD. Most prominent was OLIG2, which is consistent with previous studies showing that elevated levels of OLIG2 in neural progenitor cells are linked to the pathogenesis of Down syndrome, an intellectual disability disorder associated with beta amyloid pathology [ , ].
+As this is the first report of Neuid there are several other key questions to be addressed in future research. For example, the mechanisms governing Neuid’s neuron‐specific expression remain not well understood. It may also be worth exploring whether Neuid becomes upregulated in non‐neuronal cell types under pathological conditions. In this context, testing whether ectopic Neuid expression in glial cells can repress glia‐specific gene programs would be particularly interesting. To determine whether Neuid serves similar functions in different neuronal subtypes (e.g., inhibitory versus excitatory neurons) would be an important direction for future research. In addition, it would be interesting to elucidate how AD risk factors such as Aβ42 downregulate NeuID and eventually the therapeutic potential for targeting Neuid needs to be tested in animal models and human iPSC derived cells. It is also interesting to note an unreviewed UniProt entry (Q3URA8) lists Gm10419 (NEUID) as a hypothetical small protein. While this prediction dates from 2005, lacks experimental support and modern annotation databases (Ensembl, GENCODE) classify Gm10419 (NEUID) as a lncRNA, it cannot be fully excluded that under specific conditions NEUID may be translated.
+From a medical translational perspective, it would also be important to assess NEUID expression in liquid biopsies from patients at various stages of AD pathogenesis. The analysis of non‐coding RNAs (ncRNAs) as biomarkers for AD is an active area of research, particularly in the case of microRNAs [ , , ]. However, emerging data also support the view that analyzing lncRNAs in blood may represent a promising strategy for the development of novel biomarkers in AD [ , ]. This could support the development of stratified therapies towards lncRNA expression and/or function that might be applied in combination with other approaches, such as anti‐amyloid‐based treatments. In this context, it will also be important to conduct future in vivo studies in AD mouse models to assess whether activation of Neuid can ameliorate neuronal dysfunction and cognitive deficits.
+From a translational perspective, RNA‐based targeting of Neuid/NEUID will require careful consideration of delivery, target engagement, and safety in the central nervous system. Although efficient brain delivery remains challenging, clinically validated strategies already exist. In particular, intrathecal administration of antisense oligonucleotides (ASO), as established for Nusinersen (to treat spinal muscle ataxia) or Tofersen (to treat amyotrophic lateral sclerosis), enables durable neuronal target engagement with infrequent dosing and has demonstrated safety in human CNS [ , ]. Clinical trials to target AD‐associated proteins Tau and APP are ongoing (NCT05399888; NCT05231785). In parallel, emerging approaches such as receptor‐mediated blood–brain barrier shuttles, intranasal delivery, and optimized RNA chemistries may further expand the therapeutic window for lncRNA‐based interventions [ , ]. Given the strict neuronal specificity and nuclear mode of action of NEUID, targeted activation strategies may minimize off‐target effects in non‐neuronal tissues. Future in vivo studies will be required to assess delivery efficiency, durability, and long‐term safety in AD models.
+In summary, our findings identify NeuID as a critical regulator of neuronal identity and plasticity, with direct implications for AD. Its strict neuronal specificity and defined mechanism of action position it at the intersection of epigenetic control, synaptic integrity, and memory function, making it a compelling and precise target for RNA‐based therapeutic strategies in neurodegeneration.
+
+## Author Contributions
+R.P. conducted most of the experiments, analyzed data and generated figures. Z.P. and J.R. performed stereotactic injection and performed behavioral experiments. M.S.S. and I.F. contributed to the initial discovery of Neuid. V.G. performed FANS. S.S. performed RNAscope. D.M.K. and T.P. contributed to the bioinformatic analysis. E.D. performed DIL dye staining. T.D.S., K.B., and I.D. analyzed the FHS data and I.D. provided postmortem brain tissue. K.T. provided human heart biopsies and S.B., A.L.S. and F.S. performed RNAseq experiments. A.F. conceived and supervised the project.
+
+## Funding
+A.F. was supported by the DFG (Deutsche Forschungsgemeinschaft) SFB1286 and GRK2824; The German Federal Ministry of Science and Education (BMBF) via the ERA‐NET Neuron project EPINEURODEVO; The EU Joint Programme‐ Neurodegenerative Diseases (JPND)—EPI‐3E; Germany's Excellence Strategy—EXC 2067/1 390729940. A.F. and V.G. were supported by the DFG graduate school GRK2824. F.S. was supported by the GoBIO project miRassay (16LW0055) by the German Federal Ministry of Science and Education. I.D., J.K.B. and T.D.S. were supported by NIH RF1AG078299. TDS and JKB are supported by NIH grants P30AG072978 and U19AG068753. J.K.B. was supported by NIH grant RF1AG078299 and T.D.S. received funding from the National Heart, Lung and Blood Institute (N01‐HC‐25195, 75N92019D00031 and HHSN268201500001) and the United States Department of Veterans Affairs, Veterans Health Administration, BLRD Merit Award I01BX005933 (T.D.S.). J.S. was supported by project R01MH108837 (NIH/NIMH).
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Supporting information
+
+Supporting File 1: advs74817‐sup‐0001‐SuppMat.pdf.
+
+Supporting File 2: advs74817‐sup‐0002‐Tables.xlsx.
+
+## Acknowledgements
+R.P., M.S.S., and E.D. are students of the IMPRS Neuroscience programme (University Göttingen) and S.S. is a student of the IMPRS Genome Science Programme (University Göttingen). V.G. is a student of the International Max Planck Research School for Genome Science.
+Open access funding enabled and organized by Projekt DEAL.
+
+## Data Availability Statement
+RNA Sequencing data is available via GEO accession GSE296334. ChIP‐seq data is available via GSE296334. The human snucRNAseq is from (30).

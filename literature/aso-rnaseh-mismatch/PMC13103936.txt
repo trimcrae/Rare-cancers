@@ -1,0 +1,1210 @@
+822acssdAnalytical ChemistryAnal ChemPMC1310393613103936131039364180533010.1021/acs.analchem.5c06656Advances in
+Analysis of Therapeutic Oligonucleotides
+with Chromatography Coupled to Mass Spectrometry
+Al BardawilSandy BarthélémyPhilippe FereyLudivine 1
+Univ. Bordeaux, CNRS, INSERM,
+ARNA, UMR 5320, U1212, F-33000
+Bordeaux, France
+*Email: ludivine.ferey@u-bordeaux.fr
+103202698151089510895–109122442026© 2026 The Authors. Published by American Chemical SocietyThis article is licensed under CC-BY-NC-ND 4.0
+
+## Abstract
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Oct 24; Accepted 2026 Feb 27; Revised 2026 Feb 26; Collection date 2026 Apr 21.
+
+## Introduction
+Therapeutic oligonucleotides (ONs) have
+emerged as a promising
+drug modality for a broad spectrum of diseases, particularly those
+previously deemed undruggable by small molecules or monoclonal antibodies,
+such as spinal muscular atrophy, polyneuropathy of hereditary transthyretin-mediated
+amyloidosis, and acute hepatic porphyria.
+,
+ Since
+the first FDA approval in 1998, a total
+of 21 therapeutic oligonucleotide products have received FDA approval.
+,
+ Additionally, two products, alicaforsen
+−
+
+ and olezarsen, are currently in the preregistration stage, and
+one product, volanesorsen,
+,
+ has been approved by
+the EMA. These include 15 antisense oligonucleotides (ASOs), 6 small
+interfering RNAs (siRNAs), 2 aptamers, and one formulation comprising
+a mixture of single- and double-stranded polydeoxyribonucleotides
+( ). While early
+approvals were largely restricted to rare diseases, the approval of
+inclisiran in 2020 for the treatment of atherosclerotic cardiovascular
+disease marked a significant milestone,
+highlighting the broader therapeutic potential of this modality.
+ Therapeutic oligonucleotides exert their effects
+by targeting mRNA
+(mRNA) directly or indirectly, thereby modulating protein expression
+at the transcriptional or post-transcriptional level. Their sequence-based
+design enables high target specificity, while chemical modifications
+and advanced delivery strategies are employed to improve stability,
+cellular uptake, and pharmacokinetic properties. Structurally, ONs
+typically consist of approximately 20 nucleotides per strand and can
+be single- or double-stranded, depending on their mechanism of action.
+This diverse class includes antisense single-stranded oligonucleotides
+(ASOs), small interfering RNAs (siRNAs), microRNAs (miRNAs), and aptamers.
+
+To enhance their
+drug-like properties, therapeutic ONs are extensively
+modified at the nucleobase, sugar, and backbone levels. Common backbone
+modifications include phosphorothioate (PS) linkages
+−
+
+ and phosphorodiamidate morpholino (PMO) motifs, while frequently used sugar modifications involve 2′-fluoro,
+2′-O-methyl, and 2′-O-methoxyethyl (MOE) substitutions
+( ). In addition,
+bioconjugation strategies, such as attachment of N-acetylgalactosamine
+(GalNAc) or lipids are widely applied to enhance tissue targeting (e.g., hepatocytes)
+and cellular uptake. While these modifications substantially enhance
+efficacy and stability, they also introduce significant structural
+complexity. In particular, phosphorothioate linkages generate chiral
+centers at each modified phosphorus atom, producing complex mixtures
+of diastereomers that may influence biological activity and toxicity in vivo.
+,
+
+ Within this landscape, siRNAs represent a distinct
+and analytically
+challenging subclass of therapeutic ONs. siRNAs are double-stranded
+RNA molecules, typically ∼ 21 base pairs in length, consisting
+of a pharmacologically active antisense strand and a complementary
+sense (passenger) strand.
+−
+
+ The hydrophilic nature and relatively
+large size (∼13 kDa) of siRNAs make it difficult for them to
+enter cells without the help of specialized carriers. This need has
+driven the development of delivery systems, most notably lipid nanoparticles
+(LNPs).
+−
+
+ The clinical success of LNP-formulated siRNAs, exemplified by the
+FDA approval of Onpattro, the first LNP-encapsulated siRNA therapeutic, and the widespread use of LNPs in mRNA COVID-19
+vaccines, underscores the critical role
+of formulation in siRNA therapeutics.
+The rapid progress of
+therapeutic oligonucleotides through clinical
+pipelines, has intensified the demand for robust, sensitive, and orthogonal
+analytical methods to support quality control. These methods are essential
+for identity confirmation, assay determination, analysis of PS diastereomers,
+impurity profiling, and stability assessment.
+,,−
+
+ Analytical characterization is particularly challenging
+due to the structural diversity of ONs and the wide range of potential
+process- and degradation-related impurities. These impurities include
+shortmers (n-1, n-2, etc.), longmers (n+1, n+2, etc.), phosphodiester
+(PO) linkages in PS ONs, depurination and deamination products, and
+residual protecting group adducts, such as N3-(2-cyanoethyl)­thymine
+(CNET).
+−
+
+Comprehensive identification and quantification
+of these impurities
+are critical to ensuring the quality, safety, and efficacy of ON-based
+therapeutics. A detailed overview of oligonucleotide impurity formation
+and mass spectrometric characterization has been provided by Pourshahian
+(2019), including characteristic mass
+shifts associated with common impurity classes. For conjugated ONs,
+such as GalNAc- or lipid-modified species, it is also essential to
+monitor the distribution of unconjugated material, fully conjugated
+target product, and free conjugating agents. In the case of double-stranded
+siRNAs, analytical strategies must address both single-strand purity
+and duplex integrity, further increasing analytical complexity.
+,,
+
+In addition, regulatory
+expectations (FDA/EMA) place strong emphasis
+on predefined quality attributes, including identity, purity and impurity
+profiles, assay, and stability, which require highly selective and
+orthogonal analytical workflows.
+−
+
+ The recently published
+EMA guideline on oligonucleotide development and manufacture indicates that identification and qualification
+thresholds of 1.0% and 1.5%, respectively, are generally acceptable.
+When defining a reporting threshold, the primary consideration is
+the lower limit of quantification (LOQ) of the analytical method used
+to measure impurities. Capaldi et al. noted that although the specific value depends on the size and complexity
+of the oligonucleotide, a reporting threshold of approximately 0.2%
+should be achievable in most cases. Meeting these requirements is
+further complicated by the limited availability of qualified reference
+standards, especially for low-abundance or structurally related impurities,
+making accurate quantification difficult. These challenges underscore
+the need for reliable reference materials and for validated methods
+capable of addressing the specific chemical diversity and degradation
+pathways of therapeutic ONs.
+Mass spectrometry (MS) has become
+an indispensable tool for the
+identification and structural characterization of ONs and their impurities.
+However, efficient MS-based analysis relies heavily on the availability
+of compatible and selective chromatographic separations.
+Ion-pair
+reversed-phase liquid chromatography (IP-RPLC) has been
+extensively studied and remains the gold standard for ON analysis,
+combining high selectivity and separation efficiency with MS compatibility,
+although mobile phase additives may introduce some constraints.
+,
+ Anion-exchange chromatography (AEX) is another well-established
+technique that provides high resolution, although historically its use has been limited by poor MS compatibility
+due to nonvolatile salts.
+The structural complexity of therapeutic
+oligonucleotides, arising
+from chemical modifications, conjugation moieties, and diastereomeric
+mixtures, together with the challenge of resolving closely related
+impurities, clearly demonstrates that no single chromatographic technique
+can address all analytical requirements. Comprehensive characterization
+therefore necessitates orthogonal analytical approaches capable of
+probing distinct physicochemical properties and resolving species
+that may coelute under a single separation mode.
+Within this
+framework, the need for MS-compatible, orthogonal,
+and more sustainable separation strategies has stimulated growing
+interest in hydrophilic interaction liquid chromatography (HILIC).
+HILIC represents an attractive alternative particularly for highly
+polar oligonucleotides and offers complementary selectivity relative
+to IP-RPLC.
+,
+ However, its broader implementation
+is still limited by complex retention mechanisms and, at the current
+stage of development, by challenges related to robustness and method
+selectivity. Nevertheless, HILIC can provide complementary selectivity
+and enable the separation of impurity classes that cannot be simultaneously
+resolved by IP-RPLC, while employing more environmentally friendly
+and MS-compatible mobile phases. Finally,
+multidimensional LC strategies, combining complementary modes such
+as IP-RPLC or AEX in the first dimension and HILIC in the second,
+may offer substantial potential to increase peak capacity and improve
+impurity profiling. However, their broader
+adoption is currently limited by the technical complexity of implementation
+and the demanding instrumental setup required.
+In this context,
+the present review summarizes recent advances
+in chromatographic methods coupled with MS for the characterization
+of therapeutic oligonucleotides. It focuses on IP-RPLC, HILIC, and
+multidimensional LC, discussing their strengths, limitations, complementarity,
+and the analytical challenges posed by chemically modified, conjugated,
+and structurally complex ONs. A dedicated section addresses MS detection
+for structural characterization, including charge-state distributions,
+adduct formation, in-source fragmentation, and the need for optimized
+acquisition strategies and tailored data-processing workflows. Beyond
+drug substance characterization, bioanalytical applications are reviewed,
+highlighting the role of LC–MS in pharmacokinetic and biodistribution
+studies and in monitoring metabolites and degradation products. Finally,
+future directions toward more robust, sustainable, MS-compatible,
+and bioanalysis-ready analytical strategies are discussed to support
+continued development, regulatory compliance, and industrial implementation.
+
+## Ion-Pairing Reversed-Phase Liquid Chromatography (IP-RPLC)
+Effective analysis of oligonucleotide therapeutics relies on the
+development of robust, sensitive, and selective methods that can accurately
+identify, separate, and quantify impurities. This task is particularly
+challenging because many oligonucleotide-related impurities are structurally
+similar to the parent sequence in both size and physicochemical properties,
+making chromatographic separation difficult not only from the main
+component but also among individual impurity species. These challenges
+are further amplified for PS oligonucleotides, as the presence of
+multiple diastereomers results in peak broadening and reduced chromatographic
+resolution. As a result, high selectivity is crucial during method
+development to reliably distinguish the parent oligonucleotide from
+closely related impurities.
+
+Historically,
+AEX
+,−
+
+ and capillary
+gel electrophoresis (CGE)
+,−
+
+ have been widely used for oligonucleotide analysis due to their
+high resolving power. However, their lack of compatibility with mass
+spectrometry (MS) limits their applicability for comprehensive structural
+characterization. To overcome this limitation,
+IP-RPLC has emerged as the predominant technique, combining high chromatographic
+resolution with MS compatibility.
+,
+
+IP-RPLC
+exploits the negatively charged oligonucleotide backbone,
+which forms ion pairs with positively charged alkylamine reagents
+added to the mobile phase. These ion-paired
+complexes exhibit increased hydrophobicity and enhanced affinity for
+the reversed-phase stationary phase, leading to improved retention
+and separation. Although ion-pair formation can reduce the direct
+influence of sequence composition, chemical modifications, or conjugated
+groups on chromatographic behavior, ion-pairing agents remain essential
+to enhance retention and achieve adequate resolution. Under optimized
+conditions, IP-RPLC enables effective separation of truncated species,
+sequence variants, and conjugated oligonucleotides, although certain
+degradation products, such as depurinated species, may remain difficult
+to resolve.
+Alkylamines used at concentrations of approximately
+5–20
+mM as ion-pairing (IP) reagents enable compatibility with electrospray
+ionization mass spectrometry (ESI-MS). In IP-RPLC, the choice of alkylamine
+primarily governs oligonucleotide retention and chromatographic resolution,
+whereas the buffering acid largely determines MS sensitivity. The
+ion-pairing strength of alkylamines is mainly dictated by their hydrophobicity
+and volatility, which together define overall chromatographic performance.
+,
+ Among physicochemical descriptors, boiling point has proven to be
+a reliable descriptor of alkylamine hydrophobicity, allowing classification
+into weak (e.g., triethylamine, propylamine), moderate (e.g., dibutylamine,
+dimethylcyclohexylamine), and strong (e.g., tributylamine) ion-pairing
+systems.
+
+Weak IP reagents typically
+provide limited retention and selectivity,
+whereas more hydrophobic amines enhance retention and resolution but
+may compromise MS sensitivity due to increased ion suppression.
+,
+ Even alkylamines with comparable ion-pairing strength can differ
+substantially in performance, as variations in chain length, branching,
+or cyclicity influence interactions with the stationary phase and
+the oligonucleotide, as well as reagent volatility and ionization
+efficiency.
+,
+ Consequently, careful selection
+of the IP reagent is essential to balance chromatographic resolution
+and MS compatibility.
+To enhance selectivity, IP-RPLC methods
+are adopting dual ion-pairing
+strategies, moving beyond the limitations of single-reagent systems.
+This concept was introduced early by Levin et al., who demonstrated
+that combining two or more IP reagents in the mobile phase can significantly
+improve peak shape and resolution compared to the use of a single
+IP reagent. Building on this principle,
+subsequent developments have focused on dynamically modulating ion-pairing
+strength during the separation.
+One effective implementation
+of dual IP concepts involves ion-pairing
+gradients, in which a weak IP reagent is progressively replaced by
+a stronger one as the organic solvent strength increases. This simultaneous
+modulation of solvent composition and ion-pairing strength broadens
+the elution window and enhances resolution for complex oligonucleotide
+mixtures relative to conventional single-IP systems. Systematic studies by Fekete et al. demonstrated that neither
+weak nor strong IP systems alone are universally optimal: weak systems
+frequently suffer from coelution, whereas strong systems may widen
+the elution window without fully resolving closely related variants.
+In contrast, controlled weak-to-strong IP gradients substantially
+reduced coelution and enabled baseline separation across diverse oligonucleotide
+mixtures. However, it should be noted
+that this approach has not yet been applied to the real impurity profiling
+of therapeutic oligonucleotides.
+A very recent study by the
+same authors introduced a highly flexible
+IP-RPLC strategy for oligonucleotide separations, decoupling the cosolvent
+and IP reagent gradients using a quaternary pump. This approach allows independent optimization of solvent
+strength and ion-pairing transitions, enabling segmented gradients
+and flexible weak-to-strong IP modulation. As a result, both selectivity
+( ) and retention
+predictability were markedly improved for complex oligonucleotide
+separations.
+ Regarding counterions, although acetate was initially
+used in IP-RPLC, 1,1,1,3,3,3-hexafluoroisopropanol
+(HFIP) has
+now become the standard. HFIP offers
+several advantages in ESI-MS applications: its high volatility promotes
+efficient droplet desolvation, reducing ion suppression and increasing
+sensitivity, often by 2–3 orders of magnitude. It also sharpens chromatographic peaks, improving resolution
+in IP-RPLC, in part by suppressing separation of PS diastereomers.
+Additionally, HFIP contributes buffering capacity, helping to stabilize
+mobile phase pH.
+However, HFIP has notable limitations. It promotes
+higher and multiple
+charge states in MS, complicating spectra and potentially reducing
+detection sensitivity. As a perfluoroalkyl
+substance (PFAS), HFIP raises toxicological and environment concerns
+due to persistence, bioaccumulation, and toxicity. Additionally, it
+is relatively expensive, which may limit routine use in high-throughput
+settings, and can cause persistent contamination in LC-MS systems,
+requiring extensive cleaning or dedicated instrumentation. Finally,
+HFIP also exhibits limited solubility in acetonitrile at higher concentrations,
+sometimes requiring methanol as the organic modifier. One effective
+strategy to mitigate these drawbacks is to reduce HFIP concentration
+by operating IP-RPLC at higher mobile-phase pH, enabled by hybrid
+silica-based C18 phases. Elevated pH lowers dependence on HFIP, reducing
+PFAS burden, system contamination, and MS spectral complexity while
+maintaining chromatographic selectivity. Alternatively, a very recent
+study demonstrated that HFIP can be replaced by an acetate/triethylamine/glycine
+mobile phase. Glycine, a hydrophilic
+amino acid, significantly enhances electrospray ionization, providing
+MS sensitivity comparable to HFIP/TEA. These findings highlight hydrophilic
+additives as a promising, environmentally safer, and cost-effective
+approach for HFIP-free IP-RPLC-MS of oligonucleotides. Nevertheless,
+the use of nonvolatile additives may pose long-term risks for instrument
+compatibility and limit broader applicability, indicating that further
+optimization may be needed.
+There is no universal combination
+of alkylamine and buffering acid
+that guarantees optimal separation for all oligonucleotides. Ion-pairing efficiency strongly depends on oligonucleotide
+length and composition. Strong, hydrophobic
+alkylamines often provide better separation for longer oligonucleotides
+at low concentrations (typically 5–10 mM), but their solubility
+in water is restricted. In such cases, acetic acid is often used instead
+of HFIP, which is commonly paired with weaker IP reagents.
+A
+recent study by Obata et al. demonstrated that a tributylamine/heptanoic
+acid system achieves optimal selectivity for separating PS oligonucleotides
+from common impurities, including phosphodiester (PO) byproducts and
+n–1 truncated sequences. Using
+tertiary or quaternary alkylamines minimized diastereomeric resolution,
+reducing PS peak broadening. Additionally, the use of hydrophobic
+alkyl carboxylic acids further enhanced selectivity between PS oligonucleotides
+and impurities. This combination enabled
+clear separation of PS oligonucleotides from both PO and n–1
+variants, even in the presence of positional isomers ( ), with reliable quantitative
+performance across 0.2–5% impurity levels. However, the use
+of heptanoic acid can pose challenges for MS detection, as its relatively
+low volatility compared to shorter-chain acids may increase source
+contamination and suppress ionization, potentially reducing sensitivity.
+ Mobile phase pH is another critical parameter that
+influences retention,
+selectivity, and MS sensitivity. It can be adjusted by varying the
+concentrations of triethylamine (TEA), which increases pH, and HFIP,
+which lowers it. A pH range of 8–9 often represents an optimal
+compromise, offering enhanced oligonucleotide ionization, which in
+turn improves retention, resolution, and selectivity. At lower pH values, nonspecific adsorption and ion suppression
+are more pronounced due to higher additive concentrations. Conversely, at high pH values, alkylamine ionization
+decreases, aggregates may form, and mobile phase lifetime is reduced.
+
+C18 columns are generally the most widely
+used in reversed-phase
+chromatography and remain the preferred choice for oligonucleotide
+separations. While porous silica-based
+particles are standard, alternative materials, such as nonsilica polystyrene-divinylbenzene
+resins
+,
+ and superficially porous particles, have
+also shown effective separation performance.
+,
+ Various alkyl- and aryl-based stationary phases, including C4, C8,
+C18, and phenyl ligands immobilized on silica, have been evaluated
+in IP-RPLC for oligonucleotide analysis.
+,
+ Overall, as noted by experts, the type of reversed-phase sorbent
+has only a minor impact on selectivity for routine analytical purposes,
+since oligonucleotide retention is predominantly governed by ion-pairing
+interactions, particularly for more hydrophobic amines.
+,
+ Minor differences between stationary phases may arise under specific
+conditions, such as the partial, often undesired, resolution of phosphorothioate
+diastereomers or during preparative-scale separations. Overall, C18 remains dominant over phenyl or
+other phases due to widespread adoption and robustness, but C4, C8,
+and phenyl phases generally provide similar selectivity when the type
+and concentration of ion-pairing agent, gradient, and mobile phase
+conditions are properly optimized.
+
+Nonspecific adsorption (NSA) onto various components of the LC
+system, especially the column hardware, is a major limitation in oligonucleotide
+liquid chromatography. It is especially critical for trace-level LC–MS
+analyses (<pmol per injection), where adsorption to metal surfaces
+can cause analyte loss, peak distortion, and poor reproducibility.
+,
+ NSA is generally less critical in routine LC–UV applications
+at higher loadings (>100 pmol per injection). To address these
+issues,
+conventional stainless-steel columns have been replaced by a range
+of bioinert materials, such as titanium-lined, PEEK-lined, and hybrid
+organic/inorganic surfaces. Comparative studies with stainless-steel
+columns demonstrated that adsorption of oligonucleotides occurs predominantly
+within the column hardware, particularly on internal surfaces such
+as column walls and frits, which account for most of the sample flow
+path and present a substantial metal oxide surface area. Bioinert materials markedly reduce NSA from
+the very first injection, whereas stainless-steel columns often require
+multiple injections to saturate active adsorption sites. Furthermore, although stainless-steel column
+conditioning can temporarily mitigate NSA, this effect is transient
+and can be easily reversed during routine use (e.g., high-pH flushing),
+limiting both long-term applicability and method transferability.
+Another important parameter in ON separation is the column temperature. Ideally, separations should be performed at
+elevated temperatures, typically around 60 °C. In some
+cases, even higher temperatures (80–90 °C) are
+necessary to disrupt stable secondary structures, particularly in
+G-rich sequences that can form G-quadruplexes, which otherwise complicate
+chromatographic analysis. Operating at high temperatures offers several
+advantages: it linearizes ONs, thereby improving separation efficiency;
+in the case of PS ONs, it also suppresses diastereomeric separation,
+resulting in sharper peaks. Additionally,
+higher temperatures lead to lower backpressure and faster analyses.
+Column temperature is especially a critical factor in the analysis
+of siRNA duplexes, as it directly influences the melting behavior
+of the duplexes within the column. The effect of temperature depends
+on the specific melting temperature (T
+m) of each duplex.
+,
+ Nondenaturing conditions, achieved
+at temperatures below T
+m, preserve duplex
+integrity, allowing resolution from any excess single-stranded oligonucleotides
+in the sample. In contrast, denaturing conditions, applied at temperatures
+well above T
+m, result in fully single-stranded
+oligonucleotides, enabling assessment of strand purity. LC separations
+performed at temperatures close to T
+m should
+be avoided, as partial on-column duplex melting may lead to peak broadening,
+distortion, and reduced resolution.
+The IP-RPLC-UV-MS platform
+plays a central role in the identification,
+assay, and impurity profiling of both active substances and finished
+oligonucleotide products, particularly antisense oligonucleotides
+(ASOs) and siRNAs. Public assessment
+reports from the European Medicines Agency (EMA) Committee for Medicinal
+Products for Human Use (CHMP) highlight the analytical procedures
+employed by manufacturers to ensure product quality prior to regulatory
+approval.
+,
+ While UV detection remains the standard
+for quantitation, the compatibility of IP-RPLCwith mass spectrometry
+enables accurate mass measurement and detailed MS/MS characterization.
+This is particularly useful for identifying and quantifying impurities
+that are not well separated from the main oligonucleotide peak by
+chromatography alone. As a result, IP-RPLC/ESI-MS
+has become the standard method for routine analysis of ONs.
+,,
+
+The growing clinical importance
+of PS oligonucleotides has intensified
+interest in diastereomer separation. PS
+modifications increase stereochemical complexity, generating thousands
+of possible isomers in antisense oligonucleotides. Regulatory agencies
+now emphasize advanced analytical tools to assess diastereomer distribution
+and batch-to-batch reproducibility, recognizing their potential impact
+on drug efficacy and safety.
+,
+
+Historically,
+method development focused on minimizing diastereomer
+influence during impurity profiling. More recent approaches aim for
+direct separation and characterization of PS diastereomers, with Sp
+and Rp configurations increasingly recognized as key determinants
+of oligonucleotide conformation and chromatographic behavior.
+,
+ A 2023 review summarizes advances in separating PS diastereomers,
+highlighting how oligonucleotide structure, sugar modifications, and
+nucleotide sequence can either enhance or hinder resolution. Using a 2′-OMe-modified CUUUU marker,
+SpRp (or RpSp) diastereomers eluted after SpSp forms, emphasizing
+the impact of sugar modifications on conformation and retention. Chiral
+assignments were based on the predominance of Sp configurations generated
+during solid-phase synthesis with tetrazole activators such as BTT.
+Complementary work by Gilar et al. demonstrated that diastereomer
+separation in IP-RPLC depends on nucleobase composition, with guanosine
+providing the greatest resolution and uridine the least. Studies have further shown that hydrophilic
+ion-pairing systems enhance diastereomer separation, whereas stronger
+hydrophobic ion-pairing agents tend to suppress it. Recent work by Vosáhlová et al. investigated the influence of counterion selection
+(acetate vs HFIP) and alkylamine properties on the separation of PS
+diastereoisomers of varying lengths (2–6 mers and 21 mers)
+with different chemical modifications. The study confirmed that both
+alkylamine and counterion choice critically affect diastereomeric
+resolution. Hydrophobic alkylamines reduced diastereomer separation,
+producing narrower peaks and improved resolution of n/n-x oligonucleotide
+mixtures ( ).
+Substituting acetate with HFIP further reduced PS diastereomer separation.
+Column temperature was also shown to play a key role: elevated temperatures
+suppressed diastereomeric resolution while simultaneously improving
+the separation of n/n-x species.
+ Focusing on siRNAs, Enmark et al. reported that
+increasing the
+ionic strength of the IP-RPLC mobile phase with phosphate-buffered
+saline (PBS) enhanced duplex stability and improved diastereomer separation. They also emphasized that oligonucleotide structure
+strongly influences diastereomer resolution, consistent with earlier
+observations.
+
+## Hydrophilic Interaction Chromatography (HILIC)
+Hydrophilic
+Interaction Liquid Chromatography (HILIC) has emerged
+as a powerful method for separating polar and charged compounds, including
+ONs. Since Alpert’s pioneering
+1990 study on oligothymidylic acids (12–30 bases), HILIC has become a widely adopted alternative
+to IP-RPLC. Unlike IP-RPLC, HILIC does
+not require ion-pairing agents or HFIP additives, simplifying mobile
+phase composition, reducing cost and toxicity, and enhancing environmental
+sustainability. This simplicity also makes HILIC well-suited for scale-up
+to preparative HPLC applications.
+Retention in HILIC primarily
+arises from partitioning between a
+water-rich layer immobilized on the polar stationary phase and the
+predominantly organic mobile phase (typically acetonitrile). Water acts as the strongest eluent, so retention
+is maximized under weakly aqueous conditions, where hydrophilic partitioning
+dominates. Additional electrostatic and
+hydrogen-bonding interactions further contribute to retention, particularly
+for highly charged ONs.
+−
+
+For oligonucleotides, the
+mobile phase often contains 30–70%
+water, which can disrupt the water layer, diminishing hydrophilic
+partitioning and making electrostatic interactions (often repulsive)
+and hydrogen bonding the main retention drivers.
+,
+ Retention is influenced by nucleotide composition, backbone chemistry
+(phosphorothioate vs phosphodiester), sugar modifications (e.g., 2′-OMe,
+2′-F), and mobile phase parameters. In general, ONs elute in
+order of increasing chain length, with
+retention following base hydrophilicity (A < T < G < C < U), roughly the reverse trend of IP-RPLC.
+,,
+ Sugar- and PS-modified oligonucleotides
+generally exhibit lower retention, and
+PS species often produce broader peaks than phosphodiester ONs, likely
+due to diastereomeric heterogeneity.
+
+HILIC separations of ONs commonly use neutral stationary phases,
+such as amide
+,,,,−
+
+ and diol groups.
+,,
+ Zwitterionic phases have also shown promise for ON characterization. The BEH amide column is widely used, and its
+bioinert variant, the PREMIER BEH amide column, enhances analyses
+by minimizing nonspecific adsorption (NSA). Lardeux et al. systematically identified column hardware, specifically
+walls and frits, as the primary sources of NSA, with adsorption more
+pronounced under HILIC than IP-RPLC, particularly for long ONs (40–100
+bases).
+
+Unlike IP-RPLC, column
+temperature has minimal impact on HILIC
+retention. Typical operating ranges are 40–60 °C,
+,,,
+ with only slight increases in retention observed at higher temperatures.
+,
+ For siRNAs, temperature plays a critical role in duplex stability
+and separation selectivity, as previously highlighted in a recent
+application note. Using a siRNA standard,
+the study showed that the duplex remained stable below its T
+m, yielding a single sharp peak. As the temperature
+approached Tm, partial dissociation occurred, producing
+a broad, early eluting zone, while temperatures above T
+m led to complete strand separation and the appearance
+of two distinct peaks. These results demonstrate that temperature
+can be strategically used to switch between nondenaturing and denaturing
+HILIC conditions, directly modulating retention behavior and separation
+outcomes.
+
+Buffered, ion-pairing-free
+mobile phases, such as ammonium acetate
+or formate, are widely used in HILIC for MS compatibility. Increasing
+salt concentration enhances retention by stabilizing the water layer,
+which strengthens hydrophilic partitioning, and by reducing electrostatic repulsion between ONs and silanol
+groups. However, to maintain MS sensitivity, moderate concentrations
+(5–25 mM) are preferred. Mobile phase pH also influences retention
+by altering the ionization states of both residual silanols and ON
+phosphate groups: at low pH (∼3.5) adsorption is favored, while
+higher pH (5.5–7.5) increases negative charge, enhancing electrostatic
+repulsion and reducing retention. CAN
+is the preferred organic modifier, as protic solvents like methanol
+may compete for hydrogen-bonding sites and disrupt the water layer,
+if present, though MeOH can provide distinct
+selectivity and remains underexplored.
+ESI-MS is the benchmark
+for ON identification and impurity detection,
+producing multiply charged negative ions due to phosphate deprotonation. HILIC’s ion-pairing-free, high-organic
+mobile phases reduce LC and source contamination and can enhance negative-ion
+ESI. However, despite early expectations, HILIC generally provides
+lower sensitivity than IP-RPLC with alkylamine/HFIP systems (typically
+5–50 mM),
+,
+ although it better preserves
+ON structural integrity, resulting in narrower charge-state distributions
+compared to IP-RPLC ( ). Kilanowska et al. systematically evaluated HILIC stationary phases
+and mobile phase conditions for various DNA-based antisense oligonucleotides
+and observed that IP-RPLC consistently produced higher MS signal intensity.
+The lower sensitivity of HILIC-MS was attributed to increased alkali
+metal adduction, ion suppression from acetonitrile, and suboptimal
+desorption during electrospray ionization at lower pH. Similarly, Huang et al. demonstrated that using
+moderate concentrations of ammonium acetate at higher pH improved
+HILIC-MS/MS signal for most ONs, with
+accurate mass determination achievable despite low-abundance adduct
+peaks. Although promising, comparisons between IP-RPLC and HILIC-MS
+must be interpreted with care, as they often reveal differing charge
+state distributions that can affect both sensitivity and data interpretation.
+Comparative studies by Lobue et al. further indicate that HILIC-MS
+can, in somes cases, yield steeper response curves and improved limits
+of quantification compared to IP-RPLC-MS, highlighting its potential as a complementary MS-compatible separation
+approach.
+ HILIC has also been shown to provide orthogonal
+selectivity relative
+to AEX and IP-RPLC, making it a valuable complementary technique for
+comprehensive oligonucleotide analysis. This complementarity was further demonstrated by Gilar et al., who
+studied a fully phosphorothioated 25-mer oligonucleotide and its truncated
+(n–1) and PO impurities. HILIC
+improved separation of G- and C-containing truncated products and
+reversed the elution order of PO impurities, which appeared after
+the full-length product. This behavior
+contrasts with IP-RPLC, where the hydrophobicity of alkylamine ion-pairing
+agents often causes PO impurities to coelute with truncated species,
+complicating analysis. In this study, the 24-mer n–1 impurities
+eluted before the full-length 25-mer, while PO impurities appeared
+afterward, illustrating how HILIC enables oligonucleotide resolution
+based on apparent hydrophilicity and improves chromatographic separation
+of both truncated and PO impurities ( ).
+ To exploit the orthogonality of chromatographic
+modes, Goyon and
+Zhang recently developed a multidimensional LC–HRMS approach
+for impurity profiling of fully PS oligonucleotides. This 2D-LC method couples either AEX or IP-RP LC in the
+first dimension with HILIC in the second, which simultaneously serves
+as an effective desalting step. By optimizing
+sample loop volumes and column dimensions, the authors achieved high-resolution
+separation and detected impurities down to 0.3%. IP-RPLC provided
+superior resolution in the first dimension compared to AEX, while
+HILIC in the second dimension enabled further separation of additional
+impurities, including PO and dithioate species. Notably, this 2D-LC setup allowed direct coupling of AEX
+or IP-RP to HILIC without requiring solvent modulation or specialized
+instrumentation.
+Similarly to IP-RP HPLC, HILIC suffers from
+peak broadening due
+to partial separation of PS diastereomers, which can be detrimental
+to the analysis of phosphorothioate oligonucleotides. Strategies in
+HILIC should therefore be considered to more effectively suppress
+diastereomer separation. Vosáhlová et al. studied nusinersen,
+an 18-mer antisense oligonucleotide with sugar and phosphate backbone
+modifications, using a bioinert amide column to minimize nonspecific
+adsorption. To reduce diastereomer separation,
+they optimized mobile phase pH, salt concentration, and column temperature,
+identifying a neutral to slightly basic pH and 40 °C as
+optimal. Despite these adjustments, PS diastereomers still exhibited
+∼ 25% broader peaks than phosphodiester analogs, indicating
+incomplete suppression of diastereomer effects.
+
+Conversely, HILIC can enhance diastereomer resolution
+under certain
+conditions. Goyon et al. demonstrated improved separation for oligonucleotides
+with rigid ribose modifications, including 2′-methoxy, 2′-fluoro,
+or locked nucleic acids, although separation efficiency depends on
+oligonucleotide length, the type and position of chemical modifications,
+and PS linkage location. Lardeux et al.
+further advanced PS siRNA analysis, identifying higher-order RNA structures
+as the key determinant of diastereomer separation in HILIC. By combining folding predictions, melting profiles,
+and mass spectrometry, they established a direct link between siRNA
+conformation and diastereomer separation. This work not only provides deeper insight into the underlying mechanisms
+but also presents a robust strategy to control and fine-tune diastereomer
+separation, enabling reliable batch-to-batch monitoring of full-length
+PS siRNAs and providing a robust strategy to control diastereomer
+resolution.
+HILIC has also proven useful for bioconjugated oligonucleotides.
+For example, a C16 lipid-conjugated 16-mer MOE gapmer ASO with a fully
+PS backbone was analyzed at 75 °C using 25 mM ammonium
+acetate to minimize diastereomeric peak splitting. Under these conditions, two isobaric species and an additional
+unidentified impurity were successfully resolved, illustrating HILIC’s
+potential for distinguishing hydrophilic-related impurities in lipid-conjugated
+oligonucleotides.
+Finally, in HILIC analysis of oligonucleotides,
+sample diluent
+selection presents a major challenge. While water is commonly used
+to dilute samples in IP-RPLC ensuring oligonucleotide solubility,
+in HILIC it acts as a strong solvent, compromising retention and causing
+peak distortion and loss of efficiency.
+−
+
+ Dissolving samples in 70–80% acetonitrile improves chromatographic
+performance but may be limited by oligonucleotide solubility. Reducing
+injection volume allows aqueous samples to be injected but at the
+cost of sensitivity. Bracketing injection strategies, such as the
+Performance Optimizing Injection Sequence (POISe), offer a promising
+by coinjecting a defined volume of weak solvent with the sample to
+enhance retention during loading, thereby reducing or eliminating
+the impact of a strong sample diluent. However, these approaches remain
+underutilized for oligonucleotides. Notably, despite its critical
+impact on chromatographic performance, the influence of sample diluent
+is rarely investigated in HILIC studies of oligonucleotides.
+,,
+
+Despite its promise and
+demonstrated complementarity to IP-RPLC,
+broader adoption of HILIC remains limited. Its selectivity is generally
+lower than IP-RPLC, particularly for oligonucleotides longer than
+∼ 35 nucleotides. Moreover, HILIC-MS sensitivity typically
+falls 1–2 orders of magnitude below optimized IP-RPLC methods
+using alkylamine/HFIP mobile phases, and sodium/potassium adduct formation
+is more pronounced at low analyte concentrations, complicating data
+interpretation. Additionally, HILIC retention mechanisms are complex,
+involving a combination of adsorption, partitioning, and ionic interactions,
+which are not yet fully understood. These factors make method development
+less predictable and more time-consuming. Addressing these challenges
+will be crucial to fully exploiting the potential of HILIC for routine
+analysis of therapeutic oligonucleotides.
+
+## Multidimensional LC
+The complementarity of different
+HPLC modes in oligonucleotide
+analysis has been extensively investigated. For example, a 23-mer
+synthetic oligonucleotide bearing phosphorothioate and ribose modifications
+(2′F, 2′OMe) was used to evaluate chromatographic orthogonality
+across IP-RP, HILIC, and AEX modes for nine common impurities. Retention time comparisons revealed that coupling
+HILIC with either AEX or IP-RP provided the highest orthogonality,
+reflecting the distinct retention behavior of hydrophilic nucleobases
+under HILIC conditions. While IP-RP achieved the best overall resolution,
+HILIC and AEX exhibited more coelution. Coefficients of determination
+(R2) between modes ranged from 0.54 to 0.84 (IP-RP vs HILIC:
+0.64; IP-RP vs AEX: 0.84; AEX vs HILIC: 0.54), indicating varying
+levels of orthogonality.
+The complementarity between HILIC and
+IP-RPLC is further illustrated
+by Gilar et al., who showed that n/n–1 separations of modified
+nucleotides are strongly influenced by the hydrophobicity of adjacent
+bases. Specifically, the loss of a hydrophilic
+nucleotide at the n position, when adjacent to a hydrophobic nucleotide
+at n–1, reduces resolution in IP-RPLC but improved separation
+in HILIC. Conversely, truncation of a hydrophobic nucleotide next
+to a hydrophilic one produces the opposite effect. The extent of this
+effect depends on the relative hydrophobicity difference between the
+involved nucleotides. Additionally, PO impurities eluted later than
+the PS oligonucleotide in HILIC, whereas the reverse order was observed
+in IP-RPLC.
+
+To exploit this orthogonality
+for increased peak capacity, several
+studies have implemented two-dimensional LC (2D-LC) for oligonucleotide
+analysis. Li et al. developed a comprehensive 2D method for di- to
+deca-oligonucleotides, using HILIC in
+the first dimension and IP-RPLC in the second, with a C18 trap column
+and aqueous makeup flow for effective ON immobilization between dimensions.
+Using 27 oligonucleotide standards, the method achieved a high peak
+capacity of 500 and enabled ESI-MS detection in negative ion mode
+for clear ON identification.
+Goyon and Zhang extended this approach
+to ASO impurity profiling,
+developing a versatile multiple heart-cutting 2D-LC method combining
+AEX or IP-RPLC in the first dimension with MS-compatible HILIC (25 mM
+ammonium acetate) in the second, coupled to HRMS. This setup allowed detection of impurities down to 0.3%,
+with particularly high-resolution using IP-RPLC in the first dimension.
+Optimization of sample loop volumes and column dimensions enabled
+seamless coupling without solvent modulation. Moreover, the HILIC
+second dimension provided online desalting of AEX and IP-RPLC eluates,
+preventing TEA/HFIP contamination in the MS source.
+Despite
+these successful demonstrations of two-dimensional LC for
+oligonucleotide analysis, several inherent limitations merit consideration.
+Orthogonality between IP-RPLC, HILIC, and AEX modes is moderate, as
+retention in all three techniques is primarily governed by oligonucleotide
+length rather than other physicochemical properties. While even limited
+orthogonality can increase peak capacity, this underscores that oligonucleotides
+remain particularly challenging analytes for 2D LC approaches. Moreover,
+online 2D LC setups are technically complex, and most methods are
+still performed offline, limiting routine applicability.
+
+## Mass Spectrometry
+Mass spectrometry is an essential
+tool for the structural characterization
+of therapeutic oligonucleotides and their impurities. Nevertheless, MS detection of ONs presents several analytical
+challenges that can compromise sensitivity, spectral clarity, and
+data interpretation. ONs typically produce complex MS spectra characterized
+by broad charge-state distributions and extensive adduct formation, often accompanied by low signal-to-noise ratios.
+These issues are particularly critical when analyzing low-abundance
+impurities on single-quadrupole instruments, which lack the sensitivity
+and resolving power of high-resolution Orbitrap-based systems. Therefore,
+sufficient sample loading and careful optimization of acquisition
+parameters are essential for reliable analysis.
+Broad m/z acquisition windows
+are generally required for intact mass confirmation but inherently
+dilute signal intensity across multiple charge states, reducing sensitivity.
+As a result, quantitative impurity analysis is commonly performed
+using narrow m/z windows targeting
+a single, abundant charge state for extracted-ion chromatograms (EICs),
+typically combined with higher sample loads (≈20–50
+pmol). In practice, intact mass deconvolution over wide m/z ranges is used for component identification,
+whereas targeted EIC-based approaches are preferred for sensitive
+impurity detection and quantification.
+Adduct formation further
+complicates spectral interpretation and
+deconvolution. Alkali metal adducts (Na+, K+, NH4
++) are particularly prevalent in HILIC-MS,
+while IP-RPLC-MS spectra often show adducts involving triethylamine
+(TEA+) and HFIP-related species. The extent of adduction
+is strongly influenced by solvent purity, glassware contamination,
+LC system memory effects, and ion-source conditions. Mitigation strategies
+include rigorous system cleaning (e.g., methane-sulfonic acid flushing),
+the use of high-purity solvents and glassware, and careful control
+of source parameters. Partial removal of TEA/HFIP adducts can also
+be achieved through increased in-source activation by raising gas
+flows or temperatures.
+However, overly harsh source conditions
+may induce in-source fragmentation
+(e.g., base loss) or oxidation, generating artifacts that are difficult
+to distinguish from process- or degradation-related impurities, thereby
+complicating impurity profiling. Such
+species typically coelute with the full-length product (FLP), complicating
+impurity profiling. A careful balance must therefore be struck between
+adduct suppression and analyte integrity. Typical starting conditions
+include ion transfer tube temperatures around 320 °C, vaporizer
+gas temperatures near 350 °C, and source CID energies of approximately
+10 eV, which can then be refined as needed.
+Validated workflows
+often combine intact mass deconvolution for
+identification with EIC-based quantification of impurities. To streamline
+this process, several HPLC–MS suppliers have developed automated
+data-processing solutions that perform intact mass deconvolution of
+the FLP and its impurities and generate EIC-based quantitative reports,
+providing relative abundance information for all detected species
+in a standardized format.
+
+Tandem
+mass spectrometry (MS/MS) plays a central role in the structural
+elucidation of therapeutic ONs, enabling sequence confirmation, impurity
+identification, and investigation of degradation pathways.
+,,
+ Fragmentation is most commonly
+induced by collision-induced dissociation (CID) or higher-energy collisional
+dissociation (HCD), yielding informative backbone fragments. However,
+fragmentation behavior is highly dependent on precursor charge state,
+sequence length, chemical modifications, and applied collision energy.
+As a consequence, MS/MS spectra often exhibit incomplete sequence
+coverage, dominant neutral losses, or preferential fragmentation pathways.
+Targeted precursor selection, charge-state control, and careful optimization
+of collision energies are therefore essential to obtain reproducible
+and structurally meaningful spectra.
+Despite its power, MS/MS
+analysis of oligonucleotides remains challenging.
+Spectra are frequently congested with multiple charge states, metal
+adducts, and modification-dependent fragmentation patterns, hindering
+automated data interpretation. Moreover, most commercially available
+software tools are not fully adapted to the chemical diversity of
+therapeutic ONs, often necessitating extensive manual validation of
+fragment assignments, particularly for phosphorothioate/phosphodiester
+chimeras, LNA- and PMO-based chemistries, or conjugated constructs.
+These limitations highlight the need for optimized MS/MS acquisition
+strategies and continued development of dedicated bioinformatics tools.
+Ion mobility mass spectrometry (IMS) is increasingly recognized
+as a powerful yet still emerging analytical tool for oligonucleotide
+characterization.
+,,
+ By introducing a gas-phase separation based on ion size, shape,
+and charge, IMS adds a structural dimension that complements conventional
+LC-MS strategies. Specifically, IMS enables discrimination of conformers,
+positional isomers, or sequence variants that are otherwise indistinguishable
+by m/z alone. As demonstrated in a recent study, the integration of IMS
+within an online LC–IMS–CID–MS workflow enables
+the simultaneous separation of multiple charge states in a single
+injection, facilitating charge-state-specific fragmentation and significantly
+enhancing sequencing information content and analytical throughput. Nevertheless, limitations remain, including
+incomplete sequence coverage for longer or chemically modified oligonucleotides,
+as well as the need for analyte-specific optimization of collision
+energies and advanced data-processing workflows.
+Earlier work
+by Demelenne et al. demonstrated that IMS-derived
+collision cross-section (CCS) measurements provide valuable, sequence-independent
+structural information, enabling discrimination between phosphodiester
+and phosphorothioate backbones while supporting the assessment of
+oligonucleotide length and conformational heterogeneity. More recently, Bill et al. showed that although
+intact siRNA strands exhibit limited ion mobility differences, a fragment-based
+IMS–MS/MS approach enables gas-phase resolution and quantitative
+analysis of PTO diastereomers. These
+studies, together with other recent reports, highlight that IMS, particularly
+when combined with gas-phase fragmentation, offers a unique and powerful
+complement to LC-MS methods for the characterization of PTO diastereomers
+that would otherwise be challenging to resolve.
+,,,
+
+Despite its clear advantages, IMS remains costly, technically
+demanding,
+and not yet widely accessible. Fully integrated LC–IMS–MS
+platforms require advanced instrumentation, specialized expertise,
+and complex data analysis, limiting routine adoption, particularly
+in regulated environments. IMS separations are highly sensitive to
+ion charge state and experimental conditions and often rely on indirect
+strategies, such as gas-phase fragmentation, rather than direct separation
+of intact species. Furthermore, drift-time reproducibility, calibration
+strategies, and standardized data-processing workflows are still under
+development for pharmaceutical QC applications. Nevertheless, these
+studies demonstrate that IMS provides a substantial analytical advantage
+and strong future potential for oligonucleotide analysis, especially
+for complex, modified, and stereochemically heterogeneous systems
+where conventional LC–MS approaches reach their limits.
+
+## Bioanalysis for PK/PD Study
+The bioanalysis of ONs
+has progressed rapidly to support the growing
+needs of preclinical and clinical pharmacokinetic/pharmacodynamic
+(PK/PD) studies. LC–MS has become
+the dominant analytical platform due to its ability to provide both
+quantitative sensitivity and structural selectivity, particularly
+for differentiating full-length ONs from structurally similar nuclease-generated
+metabolites.
+IP-RPLC–MS remains the most established
+approach, delivering
+high sensitivity at subng/mL levels and improved, though still challenging,
+selectivity between parent oligonucleotides and truncated metabolites.
+−
+
+ Indeed, chromatographic resolution remains a major bottleneck, especially
+for closely related or isobaric metabolites, and the selection of
+optimal ion-pairing reagents continues to rely largely on empirical,
+trial-and-error approaches.
+As a result, ion-pair-free alternatives
+such as HILIC–MS
+have gained increasing attention.
+,,
+ HILIC methods employing amide stationary phases and
+ammonium-based mobile phases have demonstrated promising performance
+for ON bioanalysis. However, this approach is currently limited by
+relatively low chromatographic resolution, highlighting the need for
+further development of HILIC sorbents specifically tailored for oligonucleotide
+separation.
+Sample preparation continues to be a critical determinant
+of assay
+performance in complex biological matrices. Ion-pair-free extraction strategies, including solid-phase extraction
+and hybridization-based methods, are increasingly explored to reduce
+ion suppression and improve MS compatibility. However, these approaches require further optimization
+of sorbent chemistry and extraction mechanisms, as insufficient recovery
+and poor reproducibility can still limit their broader application.
+,
+
+Overall, current limitations in therapeutic ON bioanalysis
+stem
+primarily from insufficient chromatographic resolution and suboptimal
+extraction performance, particularly for low-abundance metabolites.
+In this context, high-resolution mass spectrometry offers a clear
+advantage over unit-resolution instruments by improving selectivity,
+mitigating crossed-ion interferences, and enabling retrospective metabolite
+identification. Continued advances in chromatographic materials and
+high-resolution quantitative MS are expected to further strengthen
+PK/PD and biodistribution studies of therapeutic oligonucleotides.
+
+## Perspectives
+The analysis of therapeutic oligonucleotides
+faces both growing
+challenges and exciting opportunities, driven by the rapid expansion
+of this field. As oligonucleotide-based therapies continue to evolve
+in terms of chemical modifications, formulation complexity, and regulatory
+expectations, there is an increasing need for analytical methods that
+are robust, high-performance, and adaptable. At the same time, there
+is a strong push toward greener and more sustainable practices, particularly
+regarding the use of ion-pairing reagents and perfluoroalkyl substances
+in IP-RPLC, which raise environmental and operational concerns. To
+address these issues while maintaining MS compatibility, alternative
+strategies such as ion-pair-free reverse-phase and HILIC approaches
+are being explored. Notably, a recently developed ammonium bicarbonate–based
+non-IP-RP-LC-MS method achieves sensitivity comparable to conventional
+IP-RPLC-MS while avoiding environmentally problematic ion-pairing
+reagents.
+
+Alternative reversed-phase
+strategies are being developed to reduce
+reliance on toxic reagents, with phenyl-based stationary phases emerging
+as promising MS-compatible options that maintain high selectivity
+and separation performance.
+,
+ Retention is influenced
+by oligonucleotide secondary structure and π–π
+interactions, highlighting the need to consider molecular properties
+in method design. In parallel, greener chromatographic approaches,
+such as micro-LC systems operating at low flow rates, offer the potential
+to substantially reduce solvent consumption, lower costs, and minimize
+the environmental footprint of oligonucleotide analysis.
+Therapeutic
+oligonucleotides commonly incorporate chemical modifications
+or bioconjugations, including lipid
+,,
+ and sugar conjugates,
+,,
+ that substantially alter their chromatographic behavior.
+In IP-RPLC, more lipophilic sugar modifications, such as locked nucleic
+acids LNAs, 2′-O-methyl, 2′-MOE, and 2′-fluoro
+substitutions, typically increase retention relative to unmodified
+DNA or RNA.
+,
+ This effect scales with modification
+density and is particularly pronounced for LNAs, owing to their rigid
+C3′-endo sugar conformation. In contrast, in HILIC, increasing
+modification lipophilicity leads to decreased retention and reshapes
+selectivity, revealing an inverse trend relative to IP-RPLC. Moreover,
+HILIC is highly sensitive to the interplay between nucleotide hydrophobicity
+and hydration, making highly modified oligonucleotides especially
+difficult to resolve in this mode. These
+analytical difficulties are further amplified for charge-neutral backbones
+such as PMOs, where separation of full-length species from n–1
+deletion impurities is particularly challenging and depends largely
+on nucleobase ionization.
+,
+ Taken together, despite
+increasing interest and recent progress, there remains a clear need
+for more systematic studies explicitly linking chemical modifications
+and bioconjugations with chromatographic behavior, analytical performance,
+and selectivity. Likewise, systematic impurity profiling of these
+conjugates is still limited, representing a significant analytical
+gap as such chemistries gain prominence in next-generation oligonucleotide
+therapeutics.
+,,
+
+Multidimensional LC strategies and high-resolution MS offer
+enhanced
+separation, selectivity, and structural characterization, yet their
+routine adoption in industrial and QC settings remains limited due
+to complexity, instrumentation requirements, and cost.
+In addition,
+higher-order oligonucleotide structuring, particularly
+in lipid-conjugated systems, remains an important yet challenging
+aspect to characterize. Techniques such
+as circular dichroism, spectroscopic methods, melting temperature
+analysis, and phosphorus NMR provide valuable insights into oligonucleotide
+secondary structure and stability.
+−
+
+Stereochemistry
+adds another layer of analytical complexity, as
+phosphorothioate diastereomers can significantly affect efficacy,
+pharmacokinetics, and safety.
+,,−
+
+ While recent advances have improved chromatographic
+separation, confident stereochemical assignment remains challenging. Retention trends in IP-RPLC often correlate
+with Sp content, but exceptions arising from certain sugar modifications
+underscore the need for confirmatory approaches, such as stereoselective
+nuclease digestion or stereopure reference standards. However, nuclease
+activity can be affected by sugar chemistry, and access to stereopure
+markers remains limited by cost, yield, and achievable oligonucleotide
+length. Looking ahead, the separation of diastereoisomers of bioconjugated
+oligonucleotides is expected to present an additional analytical challenge. On the production side, high-resolution preparative
+HPLC combined with advances in stereocontrolled synthesis is expected
+to enable the generation of stereochemically defined oligonucleotides. Together, these analytical and synthetic developments
+are essential for the advancement of next-generation stereochemically
+pure oligonucleotide therapeutics, a field in which alicaforsen remains
+the only compound to have reached preregistration.
+,
+
+MS detection is undeniably a key tool for oligonucleotide
+analysis
+to detect and characterize the structure of low-abundance impurities
+and metabolites. HRMS provides a decisive advantage for the analysis
+of therapeutic oligonucleotides by enabling accurate mass measurements
+and confident discrimination of closely related impurities, metabolites,
+and full-length sequences. However, HRMS alone cannot fully overcome
+limitations arising from chromatographic coelution, ion suppression,
+or in-source artifacts, particularly for quantitative applications,
+underscoring the need for highly selective and orthogonal analytical
+methods to ensure robust identification and quantification. In addition,
+the high cost and limited availability of HRMS in quality control
+laboratories currently restrict routine use. Nevertheless, as affordability
+and automation improve, HRMS is expected to become more widely implemented,
+shaping future regulatory and quality control strategies for oligonucleotide
+therapeutics.
+In bioanalysis, accurate quantification of therapeutic
+oligonucleotides
+and their metabolites in complex biological matrices remains a major
+challenge, particularly to meet the growing demands of both preclinical
+and clinical development.
+,,
+ Chromatographic resolution is often limiting when distinguishing
+full-length sequences from closely related nuclease-derived metabolites,
+while matrix effects, ion suppression, and low-abundance metabolites
+further compromise sensitivity and reproducibility. Sample extraction is essential to reduce ion suppression,
+but suboptimal extraction strategies can adversely affect recovery
+and reproducibility, representing a critical bottleneck in bioanalytical
+workflows. Robust, highly sensitive methods are therefore essential
+for pharmacokinetic and biodistribution analyses. In this context,
+high-resolution MS, combined with optimized chromatographic and extraction
+strategies, offers a clear advantage by improving selectivity and
+enabling confident metabolite identification.
+
+Looking ahead, the pharmaceutical industry requires
+analytical
+methods that combine robustness, speed, and automation to meet current
+regulatory standards while anticipating future requirements. To enable
+efficient technology transfer and routine implementation, methods
+must be not only scientifically rigorous but also compatible with
+high-throughput and industrial workflows. A major challenge remains
+the lack of standardized and harmonized analytical protocols for oligonucleotide
+analysis, which hampers interlaboratory comparability and limits widespread
+adoption in quality control environments.
+As oligonucleotide
+manufacturing scales up, analytical strategies
+must also be adapted to preparative purification workflows that employ
+cleaner, more industrially compatible conditions, while ensuring compliance
+with Good Manufacturing Practices (GMP). In parallel, the emergence
+of new oligonucleotide modalities, including mRNA, CRISPR guide RNAs,
+and aptamers, introduces additional complexity due to their distinct
+physicochemical properties and impurity profiles, underscoring the
+need for novel and adaptable analytical solutions. Overall, the future
+of oligonucleotide analysis will rely on integrated, high-resolution,
+and flexible strategies that balance analytical performance, regulatory
+compliance, scalability, and environmental sustainability.
+
+## Conclusion
+The field of therapeutic oligonucleotides
+has witnessed unprecedented
+growth in recent years, driven by advances in chemical modifications,
+delivery strategies, and clinical success stories. This expansion
+has created parallel challenges in the analytical domain, where precise
+characterization of increasingly complex structures and impurities
+remains critical. Traditional approaches such as IP-RPLC continue
+to provide a robust foundation, but their reliance on ion-pairing
+reagents and HFIP additives raises sustainability concerns and can
+compromise MS compatibility. Complementary MS-compatible techniques
+such as HILIC, IP-free RPLC, along with multidimensional LC–MS
+workflows, are emerging as powerful tools to address selectivity,
+sensitivity, and orthogonality needs. Importantly, the rise of bioconjugated,
+sugar- or lipid-modified oligonucleotides highlights the necessity
+of tailored analytical solutions rather than universal methods. At
+the same time, the drive toward greener and more cost-effective practices
+is redefining oligonucleotide analysis in laboratories. Moving forward,
+progress will depend on integrating complementary chromatographic
+strategies with advanced mass spectrometry, while continuously adapting
+to evolving regulatory expectations. Ultimately, developing robust,
+sensitive, and eco-friendly methods will be key to ensuring the safety,
+effectiveness, and accessibility of next-generation oligonucleotide
+therapeutics.
+
+## Acknowledgments
+This project received funding
+from the French State, managed
+by the Agence Nationale de la Recherche (ANR) under reference ANR-20-SFRI-0001,
+and from the Graduate School SiTH (Science and Technology for Health)
+of the University of Bordeaux. The authors thank NAXIA Discovery for
+their valuable advice and careful review of the manuscript.
+
+## Biographies
+
+Sandy Al Bardawil is currently a PhD student in Analytical
+Chemistry within the DNAlytics group at the ARNA Research Unit (INSERM
+U1212, CNRS 5320, University of Bordeaux, France), under the supervision
+of Dr. Ludivine Ferey and Prof. Philippe Barthélémy,
+and supported by a SiTH doctoral fellowship. She obtained her Master’s
+degree in Analytical Chemistry from the University of Bordeaux in
+2024. Her research focuses on developing liquid chromatography–mass
+spectrometry methods for the characterization of therapeutic oligonucleotides,
+with particular emphasis on structural identification, impurity profiling,
+and degradation product analysis.
+
+Philippe Barthélémy is a French chemist
+and professor whose research focuses on nucleic acid–based
+nanomaterials and amphiphilic oligonucleotides for biomedical applications.
+He is recognized for developing lipid–oligonucleotide conjugates
+that self-assemble into functional nanostructures for enhanced gene
+regulation and therapeutic delivery, particularly in cancer or neurological
+diseases.
+
+Ludivine Ferey is currently an Assistant Professor
+in the Department of Analytical Chemistry at the UFR of Pharmaceutical
+Sciences, University of Bordeaux, France, where she has held a faculty
+position for 12 years, and a researcher at the ARNA Research Unit
+(INSERM U1212, CNRS 5320, University of Bordeaux, France). She is
+part of the direction of the DNAlytics group within ARNA. She obtained
+her PhD in Analytical Chemistry from AgroParisTech in 2013. Her research
+focuses on the development of innovative and environmentally friendly
+separation methods for pharmaceutical compounds, with particular emphasis
+on LC-MS and CE for the analysis of therapeutic oligonucleotides.
+
+Sandy
+Al Bardawil: Writing – review and editing. Philippe
+Barthélémy: Writing – review and editing,
+Supervision, Project administration, Funding acquisition. Ludivine
+Ferey: Writing – original, Writing – review and
+editing, Supervision, Funding acquisition
+
+The authors
+declare the following competing financial interest(s): P.B. holds
+equity in NAXIA Discovery, a start-up company. All other authors have
+no competing interests.
+
+Published
+as part of Analytical Chemistry
+special issue “Fundamental and Applied Reviews
+in Analytical Chemistry 2026”.
+
+## References
