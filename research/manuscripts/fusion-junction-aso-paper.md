@@ -235,8 +235,16 @@ tiling and a breakpoint-keyed per-patient panel), and we are explicit that the g
 we discuss only at the hypothesis level (e.g. a B7-H3-targeted antibody–oligonucleotide conjugate or a
 receptor-targeted nanoparticle). We ask others to run one decisive experiment: junction-ASO versus
 scrambled-control knockdown in patient-derived EMC lines (USZ-EMC [Bangerter]; NCC-EMC [Iwata]), with
-specificity confirmed by sparing of the parental transcripts. The platform generalises to any
-recurrent-fusion cancer with a defined breakpoint; EMC is the proof-of-concept entry indication.
+specificity confirmed by sparing of the parental transcripts. ⛔ **We state the prior art rather than
+imply novelty we do not have: junction-directed oligonucleotides against fusion oncogenes are a continuous
+35-year lineage that has reached clinical testing, and the modality has already been generalised across ten
+indications by other groups (§1a).** ⚠ *Superseded, retained: "The platform generalises to any
+recurrent-fusion cancer with a defined breakpoint; EMC is the proof-of-concept entry indication."* — true,
+and not ours to claim. **This paper's method-level novelty is nil; its one first-in-kind claim is
+indication-level**: across 5,153 unique retrieved records, four name EWSR1::NR4A3 and none is an
+oligonucleotide study, so EMC is an untouched indication for an established modality — and what we add
+beyond that is an EMC-specific degrader-versus-ASO argument, a breakpoint-favorability *selection* step, and
+the negative that this junction is intrinsically bad.
 
 ---
 
@@ -465,8 +473,10 @@ a real, committed result, not hidden.
 > **predominantly to NR4A3 exon 3** (the companion breakpoint-resolved work resolved EWSR1 exons 7/9/10/11/12/13
 > → NR4A3 exon 3; [`novel-modalities.md`](./novel-modalities.md) §3.3), whereas "NR4A3 from codon 2" retains
 > almost the entire NR4A3 CDS — so the *modelled* junction seam is not the seam of the commonly reported
-> EWSR1 exon-7/12 :: NR4A3 exon-3 fusion ([citation to verify] for the rank-order of recurrent exon
-> junctions).
+> EWSR1 exon-7/12 :: NR4A3 exon-3 fusion. ✅ *The rank-order marker that stood here is RESOLVED from the
+> primary literature:* **PMID 12378528** reports EWS exon 12 :: CHN exon 3 as type 1 (10 of 18 EMCs) and
+> exon 13 :: exon 3 as type 5, with 12 of 14 genomic breaks in CHN intron 2; corroborated by
+> **PMID 11679947** and **PMID 9060841** (`CHN` = `TEC` = *NR4A3*).
 > ⛔ *Superseded, retained: "The full pipeline **has since been run on those real exon-3 junctions**
 > (§3a-quinquies), which turn out to be far more GC-favorable than this modelled reference."* It was
 > run on a seam graded `SEAM_NOT_PRODUCED`, and the corrected comparison is **UNKNOWN** until the CI
@@ -1157,16 +1167,23 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
 
 ## 7. Broader indications
 
-The junction-ASO concept is a **platform**, not an EMC-only tactic: it applies to **any recurrent-fusion
-cancer with a defined, sequenced breakpoint**, because the only requirement is a tumour-specific mRNA seam
-absent from both parent transcripts. Natural extensions include other **FET-family / EWSR1-fusion
-sarcomas** (the EWSR1-rearranged sarcoma spectrum more broadly), where the same design-and-screen pipeline
-([`junction_aso.py`](../modalities/junction_aso.py) plus the §3b CPU off-target screen) applies with only
-the breakpoint sequence changed. EMC is the proof-of-concept entry indication precisely because it is the
-cleanest case — a quiet genome with a single near-clonal fusion driver — so a positive parental-sparing
-knockdown result here is the strongest possible demonstration that the platform discriminates fusion from
-wild-type at the RNA level. *(Specific partner cancers beyond the EWSR1/FET family are not enumerated here
-to avoid over-claiming; each would need its own breakpoint sourcing — [citation to verify] per indication.)*
+⛔ **THIS SECTION IS NOT A CLAIM OF REACH; IT IS AN ACKNOWLEDGEMENT THAT THE REACH IS ALREADY DEMONSTRATED
+BY OTHERS.** The junction-oligo concept is a platform, and per §1a it has **already been generalised** —
+junction-directed oligonucleotides have been published against **BCR::ABL1**, **PML::RARA**,
+**RUNX1::RUNX1T1**, **TMPRSS2::ERG**, **FGFR3::TACC3**, **BRD4::NUTM1**, **DNAJB1::PRKACA**,
+**EWSR1::FLI1**, **PAX3::FOXO1** and **SS18::SSX1**, with parental sparing demonstrated in several and one
+agent taken into clinical testing (**PMID 27166877**). ⚠ *Superseded, retained: "The junction-ASO concept
+is a **platform**, not an EMC-only tactic … EMC is the proof-of-concept entry indication."* The statement is
+true; presenting it as this paper's contribution was the error, and the resolved per-indication sourcing
+below replaces the `[citation to verify]` that stood here.
+
+What follows from that for **this** paper is narrower and is the honest position: EMC is not a
+proof-of-concept for the platform — the platform does not need one — it is **an indication the platform has
+never been applied to**, and this paper reports what happens when it is. The same design-and-screen pipeline
+([`junction_aso.py`](../modalities/junction_aso.py) plus the §3b CPU off-target screen) transfers to other
+**FET-family / EWSR1-fusion sarcomas** with only the breakpoint sequence changed; what does not transfer is
+the EMC-specific degrader-versus-ASO argument (§1a), which exists only because NR4A3's LBD is retained
+intact in the fusion.
 
 ---
 
@@ -1387,8 +1404,12 @@ A digest "🆕" that crosses one of these is a prompt to update the cited sectio
 
 ### Prior art — junction-directed oligonucleotides against fusion oncogenes (retrieved 2026-08-08)
 
-⚠ **This manuscript has no related-work section, and the modality it proposes has a 35-year, continuous,
-clinically-tested precedent.** The full assessment — including which of this paper's claims survive it — is
+✅ **§1a IS THAT RELATED-WORK SECTION, added 2026-08-08.** It is built only from what this subsection and
+[`lit-targets-aso-verify.json`](lit-targets-aso-verify.json) establish, it concedes in its first sentence
+that the method-level novelty is nil, and it states what remains as an **indication-level** claim.
+⚠ *Superseded, retained: "This manuscript has no related-work section, and the modality it proposes has a
+35-year, continuous, clinically-tested precedent."* The second clause is unchanged and true; only the
+first is out of date. The full assessment — including which of this paper's claims survive it — is
 [`aso-citations-priorart-2026-08-08.md`](./aso-citations-priorart-2026-08-08.md). Two corpora totalling
 5,385 records were searched; the sources are listed here so the manuscript cites the precedent rather than
 being shown it.

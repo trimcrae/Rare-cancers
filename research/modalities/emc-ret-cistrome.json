@@ -4,7 +4,7 @@
  "_lane": "emc-unexplored-treatment-lanes.md \u00a73.1 / emc-ret-lane.md \u00a72d next-step 1",
  "_sibling_instrument": "emc_ret_target_scan.py \u2014 the NBRE motif scan. Different question, allowed to disagree.",
  "_generated_from": "emc-ret-cistrome-inputs.json",
- "generated_utc": "2026-08-08T20:30:01+00:00",
+ "generated_utc": "2026-08-08T20:35:41+00:00",
  "_language_discipline": "Nothing in this file asserts that any RET inhibitor is selective for, effective in, safe in, or ready for extraskeletal myxoid chondrosarcoma, and nothing here recommends giving any agent to any patient. No EMC patient has received a selective RET inhibitor.",
  "part_0_genome_build": {
   "_what": "The genome build, established from two independent sources per build and never lifted over. This block is a RESULT, not metadata (CLAUDE.md \u00a74: this lane has twice been burned by a coordinate convention that produced a plausible file).",
@@ -7093,7 +7093,8 @@
    "SRX3075751@mm9": "genome 'mm9' is not one this module intersects (['hg19', 'hg38', 'mm10', 'mm39']); no liftover is performed, so this is an ABSENT READING for that build and not a negative",
    "SRX6927319@mm9": "genome 'mm9' is not one this module intersects (['hg19', 'hg38', 'mm10', 'mm39']); no liftover is performed, so this is an ABSENT READING for that build and not a negative",
    "SRX868176@mm9": "genome 'mm9' is not one this module intersects (['hg19', 'hg38', 'mm10', 'mm39']); no liftover is performed, so this is an ABSENT READING for that build and not a negative",
-   "SRX868179@mm9": "genome 'mm9' is not one this module intersects (['hg19', 'hg38', 'mm10', 'mm39']); no liftover is performed, so this is an ABSENT READING for that build and not a negative"
+   "SRX868179@mm9": "genome 'mm9' is not one this module intersects (['hg19', 'hg38', 'mm10', 'mm39']); no liftover is performed, so this is an ABSENT READING for that build and not a negative",
+   "GSE254076:no_peak_file_served": "named GEO series, retrieved and characterised in part 1, but its supplementary directory serves no peak-like file (3 file(s): GSE254076_RAW.tar, filelist.txt). Peak calls live in the supplementary directory or nowhere reachable at $0, so this series is a DISCOVERY and is not one of the intersected peak sets \u2014 it neither adds to nor subtracts from the RET reading. MOUSE, WILD-TYPE, NON-EMC. Mus musculus (taxid 10090), primary aortic vascular smooth muscle cells, assembly mm10, wild-type Nr4a3 \u2014 NOT the EWSR1::NR4A3 fusion and not a human tumour. It extends the occupancy axis by one experiment in a new tissue; it answers nothing about human EMC, and any cross-species read requires an orthology step this module does not perform."
   },
   "_windows": {
    "promoter": "-10000 / +15000 around the TSS, strand-aware. \u26d4 Imported from emc_ret_target_scan, not re-typed: the asymmetry exists because RET's only validated distal element (HOXB5 MCS+9.7, PMID 24794774) is in the first intron.",

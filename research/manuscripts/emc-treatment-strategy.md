@@ -381,9 +381,15 @@ first*. The two priorities:
    fusion-unique modalities (proven knockdown class + strong fusion-addiction prior). It now carries a
    complete in-silico arc — gapmer/siRNA design → transcriptome-wide off-target screen → a per-breakpoint
    favorability scan (the canonical junction is GC-rich/specificity-poor, but **62% of modelled breakpoints
-   are favorable**) → a **gap-mismatch-resolved** off-target screen that finds **predicted-clean gapmers
-   (2/5) at a favorable breakpoint** — plus a reusable specificity workflow that generalizes to any
-   recurrent-fusion ASO. **Delivery is a stated limitation INSIDE the deliverable, not a gate on posting it.**
+   are favorable**) → a **gap-mismatch-resolved** off-target screen that **ranks the five gapmers at a
+   favorable breakpoint across >1 order of magnitude of predicted off-target cleavage load, with none
+   predicted clean** — plus a reusable specificity workflow that generalizes to any
+   recurrent-fusion ASO.
+   ⚠ *Superseded, retained: "finds **predicted-clean gapmers (2/5) at a favorable breakpoint**." That count
+   assumed a gap-internal mismatch abolishes RNase-H cleavage; the retrieved literature reports ~5-fold
+   (PMID 23963702) and none at 16-mer length (PMID 7567450), so the re-scored figure is 0 of 5 —
+   [STRATEGY.md Appendix A](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims) 68.*
+   **Delivery is a stated limitation INSIDE the deliverable, not a gate on posting it.**
    ⚠ *Superseded, retained: "Delivery is its one remaining gate." `emc-post-degrader-options.md` Tier 1
    rank 2 says the opposite in terms — the delivery gate is stated honestly inside the deliverable rather
    than being a precondition for having one, and the open GPU item is "an upgrade, not a gate on

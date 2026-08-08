@@ -1813,9 +1813,15 @@ def derive(cache):
                                          "reading": "every experiment ChIP-Atlas's metadata "
                                                     "offered was fetched; no cap was hit."}),
         "peaksets_not_intersected_and_why": {
-            k: v.get("why") or v.get("⛔") or v.get("_status")
-            for k, v in sorted(peaksets.items())
-            if k != "_TRUNCATION" and (v.get("_status") != "read" or not v.get("peaks"))},
+            **{k: v.get("why") or v.get("⛔") or v.get("_status")
+               for k, v in sorted(peaksets.items())
+               if k != "_TRUNCATION" and (v.get("_status") != "read" or not v.get("peaks"))},
+            # ⛔ A DISCOVERY THAT SERVES NO COORDINATES MUST SAY SO HERE, OR ITS ABSENCE FROM
+            # per_peakset READS AS AN OVERSIGHT. GSE254076 is the case this was written for: a real
+            # NR4A3 CUT&Tag series, added to part 1 by NAMED_GEO_SERIES, whose only supplementary
+            # file is a `_RAW.tar`. "Found but not intersected, and here is why" and "never looked"
+            # are different facts, and this lane keeps them different everywhere else too.
+            **_named_geo_not_intersected(cache)},
         "_windows": {
             "promoter": f"-{WINDOW_UPSTREAM} / +{WINDOW_DOWNSTREAM} around the TSS, strand-aware. "
                         f"⛔ Imported from emc_ret_target_scan, not re-typed: the asymmetry exists "
@@ -2595,6 +2601,34 @@ def infer_builds_in_cache():
                       "readable_after_derive": _n_peaksets_read(art),
                       "verdict": (art.get("verdict") or {}).get("headline")}, indent=1))
     return 0
+
+
+def _named_geo_not_intersected(cache):
+    """One row per NAMED_GEO_SERIES accession that carries no peak-like supplementary file.
+
+    Derived from the cache's own supplementary listing, never asserted: a series that later starts
+    serving a BED drops out of this dict by itself. A listing we could not READ says so, because an
+    absent reading is not a reading of absence (CLAUDE.md §4)."""
+    rows, sup = {}, (cache.get("geo_supplementary") or {})
+    for acc, meta in sorted(NAMED_GEO_SERIES.items()):
+        s = sup.get(acc)
+        if s is None:
+            continue
+        if s.get("_status") != "read":
+            rows[f"{acc}:supplementary"] = (
+                f"named GEO series, supplementary listing {s.get('_status')} — this is an ABSENT "
+                f"READING of the listing, not a finding that the series serves no peaks")
+            continue
+        if s.get("peak_like"):
+            continue
+        rows[f"{acc}:no_peak_file_served"] = (
+            f"named GEO series, retrieved and characterised in part 1, but its supplementary "
+            f"directory serves no peak-like file ({s.get('n_files')} file(s): "
+            f"{', '.join(f for f in (s.get('files') or []) if not f.startswith('http'))}). Peak "
+            f"calls live in the supplementary directory or nowhere reachable at $0, so this series "
+            f"is a DISCOVERY and is not one of the intersected peak sets — it neither adds to nor "
+            f"subtracts from the RET reading. {meta.get('⚠ limitation', '')}")
+    return rows
 
 
 def fetch_named_geo_into_cache():
