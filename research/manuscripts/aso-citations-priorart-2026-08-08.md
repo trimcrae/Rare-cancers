@@ -222,7 +222,7 @@ surface — the entry had no PMID, so nothing could check it.
 
 ## Part 2 — prior art: junction-directed oligonucleotides against fusion oncogenes
 
-Two corpora, 5,385 records, filtered to those whose title or abstract carries **both** an
+Two corpora, 5,385 rows (5,153 unique records), filtered to those whose title or abstract carries **both** an
 oligonucleotide modality **and** a junction/breakpoint targeting term. This is the section the
 manuscript does not have, and it is the section a reviewer will open first.
 
@@ -309,11 +309,37 @@ modeling confirmed dose related safety and tumor response… These results provi
   chimeric RNAs… and **necessary controls** to accompany each set of experiments."* The manuscript's
   §4 control design is a solved, published protocol.
 
-### What was NOT found
+### What was NOT found — and the accounting that makes that auditable
 
-**No junction-directed oligonucleotide against EWSR1::NR4A3, or against any NR4A3 fusion, in either
-corpus** (5,385 records, both queries carrying NR4A3/EWS-NR4A3/EWS-CHN terms; full-text grep over the
-open-access bodies of the junction corpus returns two NR4A3 papers, neither an oligonucleotide study).
+**No junction-directed oligonucleotide against EWSR1::NR4A3, or against any NR4A3 fusion.** The two
+corpora are 5,385 rows / **5,153 unique records** (232 papers matched both queries), and both queries
+carried NR4A3 / EWS-NR4A3 / EWS-CHN terms. A bare "we found nothing" is not checkable, so here is the
+per-fusion accounting behind it — a record counts under a fusion if its title or abstract names it, and
+the two narrowing columns additionally require an oligonucleotide term and a junction/breakpoint term:
+
+| fusion | records naming it | + oligo modality | + junction/breakpoint |
+|---|---:|---:|---:|
+| **EWSR1::NR4A3 (EMC)** | **4** | **0** | **0** |
+| BCR::ABL1 (CML) | 409 | 170 | 108 |
+| EWSR1::FLI1 (Ewing) | 182 | 55 | 37 |
+| PAX3::FOXO1 (ARMS) | 64 | 9 | 4 |
+| RUNX1::RUNX1T1 (AML) | 51 | 12 | 8 |
+| SS18::SSX (synovial) | 50 | 6 | 2 |
+| PML::RARA (APL) | 30 | 8 | 5 |
+| TMPRSS2::ERG (prostate) | 30 | 8 | 5 |
+| EWSR1::WT1 (DSRCT) | 24 | 4 | 2 |
+| FGFR3::TACC3 (GBM) | 9 | 3 | 2 |
+| DNAJB1::PRKACA (FLC) | 6 | 5 | 3 |
+| BRD4::NUTM1 (NUT ca.) | 4 | 2 | 2 |
+
+The four EWSR1::NR4A3 rows are three distinct papers and **not one is an oligonucleotide study**:
+PMID: 40762284 (NR4A3/EWSR1 in bladder cancer), PMID: 29937513 (a *KIT* mutation in an EMC case report)
+and PMID: 25097177 (a myelofibrosis miRNA analysis). An independent full-text grep across the
+open-access bodies of the junction corpus agrees — two NR4A3 papers, neither an oligonucleotide study.
+⚠ **The method is title/abstract-only, so every number above is a LOWER bound** — which is the right
+direction for this particular claim, because a lower-bound method cannot manufacture a zero it did not
+observe. Against 108 junction+oligo records for BCR::ABL1, EMC is not a thin search result; it is an
+untouched indication.
 **Also not found: any gapmer** — as opposed to siRNA/shRNA/ribozyme/unmodified ODN — **directed at a
 fusion junction in a modern LNA/cEt architecture.** The 1990s work is unmodified or
 phosphorothioate ODN; the 2010s–2020s work is overwhelmingly RNAi. That gap is real but it is a

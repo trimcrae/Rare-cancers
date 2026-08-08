@@ -1274,8 +1274,15 @@ being shown it.
   which *"targets the identical type 1 translocation junction region of the EWS/FLI1 transcribed mRNA"*, taken
   through IND-enabling work; follow-through in patients at **PMID: 36780200 · PMC10150239**. Review, 2026:
   **PMID: 42110475 · PMC13156592 · doi:10.1016/j.omton.2026.201213**.
-- **What the search did NOT find.** No junction-directed oligonucleotide against **EWSR1::NR4A3**, or against
-  any NR4A3 fusion, in 5,385 records; and no **gapmer** — as distinct from siRNA/shRNA/ribozyme/unmodified
+- **What the search did NOT find, with the accounting that makes it auditable.** No junction-directed
+  oligonucleotide against **EWSR1::NR4A3**, or against any NR4A3 fusion. Across the two corpora — 5,385 rows,
+  **5,153 unique records** — EWSR1::NR4A3 is named in **4 rows (3 distinct papers) and none carries an
+  oligonucleotide modality** (**PMID: 40762284**, **PMID: 29937513**, **PMID: 25097177**), against **108**
+  records combining an oligonucleotide modality with a junction/breakpoint term for BCR::ABL1, **37** for
+  EWSR1::FLI1, **8** for RUNX1::RUNX1T1 and **4** for PAX3::FOXO1. Per-fusion table:
+  [`lit-targets-aso-verify.json`](./lit-targets-aso-verify.json) → `prior_art_accounting`. ⚠ The method is
+  title/abstract-only, so every count is a **lower** bound — the right direction here, since a lower-bound
+  method cannot manufacture a zero it did not observe. Also not found: no **gapmer** — as distinct from siRNA/shRNA/ribozyme/unmodified
   ODN — directed at any fusion junction in a modern LNA/cEt architecture. ⚠ Read the second of those
   together with the RNase-H1 item above before treating it as an opportunity: a gapmer's single-base
   discrimination is poor without engineered gap chemistry, which is a plausible reason the field went to

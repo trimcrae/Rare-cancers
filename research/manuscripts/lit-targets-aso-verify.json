@@ -719,7 +719,7 @@
   },
   {
    "question": "Has anyone published an oligonucleotide directed at an EWSR1::NR4A3 (EMC) breakpoint junction?",
-   "method": "the two prior-art corpora (1133 + 4252 records) both included NR4A3/EWS-NR4A3/EWS-CHN terms; full-text grep for NR4A3 across the open-access bodies of the junction corpus.",
+   "method": "the two prior-art corpora (1,133 + 4,252 records = 5,385 rows, 5,153 unique after de-duplication; 232 papers matched both queries) both included NR4A3/EWS-NR4A3/EWS-CHN terms; full-text grep for NR4A3 across the open-access bodies of the junction corpus.",
    "result": "two bodies mention NR4A3; neither concerns a junction-directed oligonucleotide (one is an NR4A3/EWSR1 study in bladder cancer, PMC12326571).",
    "verdict": "NO PRIOR JUNCTION-DIRECTED OLIGONUCLEOTIDE AGAINST EWSR1::NR4A3 WAS FOUND. This is the manuscript's genuine novelty claim, and it is an INDICATION-LEVEL claim, not a method-level one - see the prior art below."
   }
@@ -735,5 +735,134 @@
    "status": "THE GENERAL QUANTITY IS NOW SOURCED; THE GEOMETRY-SPECIFIC ONE IS NOT.",
    "evidence": "PMID: 23963702 gives ~5-fold for an unmodified RNase-H-active ASO and >100-fold only with positional chemical modification. Neither that paper nor any other retrieved here reports a number for a 6-nt DNA gap flanked by 5-nt LNA wings. The manuscript must therefore cite the ~5-fold figure as the field's value and stop treating 'gap mismatch' as binary."
   }
- ]
+ ],
+ "prior_art_accounting": {
+  "_note": "Per-fusion accounting behind the absence claim, so a reader can AUDIT it rather than take it. Computed over the two prior-art corpora combined: 5,385 rows, 5,153 unique records, 232 papers returned by both queries. A record counts under a fusion if its title or abstract names that fusion; the two narrowing columns additionally require an oligonucleotide modality term and a junction/breakpoint term.",
+  "_limits": "Title/abstract only - a paper that names a fusion solely in its body is not counted, so every figure here is a LOWER bound on the literature and the NR4A3 zero is a lower bound on absence too. That is the right direction for the claim being made: the claim is that nothing was found, and a lower-bound method cannot manufacture a zero it did not observe. The open-access full-text grep reported under evidence_of_absence is the second, independent pass.",
+  "columns": [
+   "records_naming_the_fusion",
+   "…and an oligonucleotide modality",
+   "…and a junction/breakpoint term"
+  ],
+  "by_fusion": {
+   "EWSR1::NR4A3 (EMC)": {
+    "records_naming_the_fusion": 4,
+    "…and an oligonucleotide modality": 0,
+    "…and a junction/breakpoint term": 0,
+    "example_pmids": []
+   },
+   "EWSR1::FLI1 (Ewing)": {
+    "records_naming_the_fusion": 182,
+    "…and an oligonucleotide modality": 55,
+    "…and a junction/breakpoint term": 37,
+    "example_pmids": [
+     "27166877",
+     "34830820",
+     "32204428",
+     "30700749"
+    ]
+   },
+   "PAX3::FOXO1 (ARMS)": {
+    "records_naming_the_fusion": 64,
+    "…and an oligonucleotide modality": 9,
+    "…and a junction/breakpoint term": 4,
+    "example_pmids": [
+     "27261335",
+     "25398439",
+     "8917562"
+    ]
+   },
+   "SS18::SSX (synovial)": {
+    "records_naming_the_fusion": 50,
+    "…and an oligonucleotide modality": 6,
+    "…and a junction/breakpoint term": 2,
+    "example_pmids": [
+     "29491688",
+     "29491688"
+    ]
+   },
+   "EWSR1::WT1 (DSRCT)": {
+    "records_naming_the_fusion": 24,
+    "…and an oligonucleotide modality": 4,
+    "…and a junction/breakpoint term": 2,
+    "example_pmids": [
+     "39412947",
+     "12923058"
+    ]
+   },
+   "BCR::ABL1 (CML)": {
+    "records_naming_the_fusion": 409,
+    "…and an oligonucleotide modality": 170,
+    "…and a junction/breakpoint term": 108,
+    "example_pmids": [
+     "26627251",
+     "15199413",
+     "23114125",
+     "9224607"
+    ]
+   },
+   "PML::RARA (APL)": {
+    "records_naming_the_fusion": 30,
+    "…and an oligonucleotide modality": 8,
+    "…and a junction/breakpoint term": 5,
+    "example_pmids": [
+     "21846246",
+     "7987829",
+     "14528273",
+     "14583478"
+    ]
+   },
+   "RUNX1::RUNX1T1 (AML)": {
+    "records_naming_the_fusion": 51,
+    "…and an oligonucleotide modality": 12,
+    "…and a junction/breakpoint term": 8,
+    "example_pmids": [
+     "9150886",
+     "21577204",
+     "17464329",
+     "10947849"
+    ]
+   },
+   "TMPRSS2::ERG (prostate)": {
+    "records_naming_the_fusion": 30,
+    "…and an oligonucleotide modality": 8,
+    "…and a junction/breakpoint term": 5,
+    "example_pmids": [
+     "31614005",
+     "23052253",
+     "26627251",
+     "30538195"
+    ]
+   },
+   "DNAJB1::PRKACA (FLC)": {
+    "records_naming_the_fusion": 6,
+    "…and an oligonucleotide modality": 5,
+    "…and a junction/breakpoint term": 3,
+    "example_pmids": [
+     "36302174",
+     "37980543",
+     "36302174"
+    ]
+   },
+   "BRD4::NUTM1 (NUT ca.)": {
+    "records_naming_the_fusion": 4,
+    "…and an oligonucleotide modality": 2,
+    "…and a junction/breakpoint term": 2,
+    "example_pmids": [
+     "36265509",
+     "36265509"
+    ]
+   },
+   "FGFR3::TACC3 (GBM)": {
+    "records_naming_the_fusion": 9,
+    "…and an oligonucleotide modality": 3,
+    "…and a junction/breakpoint term": 2,
+    "example_pmids": [
+     "33241214",
+     "33241214"
+    ]
+   }
+  },
+  "the_finding": "EWSR1::NR4A3 is named in 4 rows (3 distinct papers) of 5,385 and **none** carries an oligonucleotide modality: PMID 40762284 (NR4A3/EWSR1 in bladder cancer), PMID 29937513 (a KIT mutation in an EMC case report) and PMID 25097177 (myelofibrosis miRNA analysis). Against 108 junction+oligo records for BCR::ABL1 and 37 for EWSR1::FLI1, the contrast is not a thin search - it is an untouched indication."
+ }
 }
