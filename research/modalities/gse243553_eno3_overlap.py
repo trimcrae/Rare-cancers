@@ -718,6 +718,53 @@ def _xlsx_overview(raw: bytes, max_rows: int = 6) -> dict:
     return out
 
 
+# ⛔ A 200 IS NOT THE FILE. Measured, run 31276875402: every one of the five PMC `/bin/` URLs
+# returned HTTP 200 with 1,817 bytes — an interstitial page, not a 3 MB zip — and the first
+# implementation recorded all five as `state: ok` and then failed to unzip them. A status code is
+# not a payload check. Every candidate is now verified by MAGIC BYTES, and a 200 whose body is not
+# the container it claims to be is recorded as `ok_but_not_the_file` with the body kept, which is
+# a completely different diagnosis from `not_retrieved`.
+MAGIC = {".zip": b"PK\x03\x04", ".xlsx": b"PK\x03\x04", ".pdf": b"%PDF"}
+
+# Springer's ESM path is the publisher's own copy and is frequently reachable when the article
+# body is not. The article is doi 10.1038/s41587-024-02347-4.
+SPRINGER_ESM = ("https://static-content.springer.com/esm/"
+                "art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/"
+                "41587_2024_2347_MOESM{n}_ESM.{ext}")
+
+
+def _candidate_urls(fn: str) -> list:
+    """Every host that could serve this supplement, in order of likelihood."""
+    return [
+        PMC_BIN + fn,
+        f"https://www.ncbi.nlm.nih.gov/pmc/articles/{SERIES_PMCID}/bin/{fn}",
+        f"https://europepmc.org/articles/{SERIES_PMCID}/bin/{fn}",
+        f"https://pmc.ncbi.nlm.nih.gov/articles/{SERIES_PMCID}/bin/{fn}",
+    ]
+
+
+def _get_binary(url: str, budget: Budget, cap: int = 400_000_000) -> dict:
+    rec = {"url": url, "http": None, "bytes": 0, "state": None, "error": None,
+           "body_head": None, "raw": None}
+    if budget.exhausted():
+        rec["state"] = "budget_exhausted"
+        return rec
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=300) as fh:
+            rec["http"] = fh.status
+            raw = fh.read(cap)
+        rec["bytes"] = len(raw)
+        rec["raw"] = raw
+        rec["state"] = "ok"
+        rec["body_head"] = raw[:300].decode("utf-8", "replace")
+    except urllib.error.HTTPError as exc:
+        rec["http"], rec["error"], rec["state"] = exc.code, str(exc), "not_retrieved"
+    except Exception as exc:                    # noqa: BLE001
+        rec["error"], rec["state"] = f"{type(exc).__name__}: {exc}", "not_retrieved"
+    return rec
+
+
 def run_suppl(budget_s: float = DEFAULT_BUDGET_S) -> dict:
     import zipfile
     budget = Budget(budget_s)
@@ -726,34 +773,43 @@ def run_suppl(budget_s: float = DEFAULT_BUDGET_S) -> dict:
              "NIHMS2166785-supplement-Supplementary_Table_1.xlsx",
              "NIHMS2166785-supplement-Supplementary_Table_2.xlsx",
              "NIHMS2166785-supplement-Supplementary_Table_3.xlsx"]
+    # the publisher's own copies, tried by index because the ESM numbering is not the PMC naming
+    for n in range(1, 9):
+        for ext in ("zip", "xlsx", "pdf"):
+            files.append(f"SPRINGER::{n}::{ext}")
+
     got, saved = {}, {}
     cache = os.environ.get("GSE243553_SUPPL_DIR", "/tmp/gse243553_suppl")
     os.makedirs(cache, exist_ok=True)
 
     for fn in files:
-        url = PMC_BIN + fn
-        rec = {"url": url, "http": None, "bytes": 0, "state": None, "error": None}
-        if budget.exhausted():
-            rec["state"] = "budget_exhausted"
-            got[fn] = rec
-            continue
-        try:
-            req = urllib.request.Request(url, headers={"User-Agent": UA})
-            with urllib.request.urlopen(req, timeout=300) as fh:
-                rec["http"] = fh.status
-                raw = fh.read(400_000_000)
-            rec["bytes"] = len(raw)
-            rec["state"] = "ok"
-            path = os.path.join(cache, fn)
-            with open(path, "wb") as out_fh:
-                out_fh.write(raw)
-            saved[fn] = path
-        except urllib.error.HTTPError as exc:
-            rec["http"], rec["error"], rec["state"] = exc.code, str(exc), "not_retrieved"
-        except Exception as exc:                # noqa: BLE001
-            rec["error"], rec["state"] = f"{type(exc).__name__}: {exc}", "not_retrieved"
-        got[fn] = rec
-        print(f"  [{rec['state']:>16}] http={rec['http']} {rec['bytes']:>10}B  {fn}")
+        if fn.startswith("SPRINGER::"):
+            _, n, ext = fn.split("::")
+            urls = [SPRINGER_ESM.format(n=n, ext=ext)]
+            want = MAGIC.get("." + ext)
+        else:
+            urls = _candidate_urls(fn)
+            want = MAGIC.get(os.path.splitext(fn)[1])
+        attempts = []
+        for url in urls:
+            rec = _get_binary(url, budget)
+            raw = rec.pop("raw", None)
+            if rec["state"] == "ok" and want and raw and not raw.startswith(want):
+                rec["state"] = "ok_but_not_the_file"
+                rec["error"] = (f"HTTP 200 but the body does not start with {want!r}; this is a "
+                                f"page, not the payload")
+            attempts.append(rec)
+            if rec["state"] == "ok" and raw:
+                path = os.path.join(cache, os.path.basename(url))
+                with open(path, "wb") as out_fh:
+                    out_fh.write(raw)
+                saved[fn] = path
+                break
+        got[fn] = attempts
+        last = attempts[-1] if attempts else {}
+        if last.get("state") != "not_retrieved" or not fn.startswith("SPRINGER::"):
+            print(f"  [{str(last.get('state')):>20}] http={last.get('http')} "
+                  f"{last.get('bytes'):>10}B  {fn}")
 
     contents: dict = {}
     for fn, path in saved.items():
@@ -814,7 +870,14 @@ def run_suppl(budget_s: float = DEFAULT_BUDGET_S) -> dict:
             "is an absence. PMC serves author-manuscript supplements from "
             "/articles/instance/<id>/bin/, and scraping the article page for that path found "
             "six files."),
+        "⛔_a_200_is_not_the_file": (
+            "Measured, run 31276875402: all five PMC /bin/ URLs answered HTTP 200 with 1,817 "
+            "bytes — an interstitial page, not a multi-megabyte zip — and were recorded `ok`. "
+            "Every candidate is now checked against the container's MAGIC BYTES and a 200 whose "
+            "body is not the payload is `ok_but_not_the_file`, with the body kept. That is a "
+            "different diagnosis from `not_retrieved` and it points at a different fix."),
         "series": SERIES, "pmid": SERIES_PMID, "pmcid": SERIES_PMCID,
+        "doi": "10.1038/s41587-024-02347-4",
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "fetches": got,
         "contents": contents,
