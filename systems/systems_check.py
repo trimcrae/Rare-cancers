@@ -261,7 +261,8 @@ def _blocker_resolution(b, techs, fc_by_ref):
     reader can see the spread the headline compresses.
     """
     if b["permanent"]:
-        return {"class": "permanent", "when": "never", "basis": None, "via": [], "per_tech": []}
+        return {"class": "permanent", "when": "never", "basis": None, "confidence": None,
+                "via": [], "per_tech": []}
 
     per_tech = []
     for t in b["retired_by_technology"]:
@@ -272,22 +273,26 @@ def _blocker_resolution(b, techs, fc_by_ref):
         per_tech.append({
             "tech": t, "state": techs.get(t, {}).get("current_state", "—"),
             "basis": c.get("basis", "—"),
+            # ⚠ The band's OWN confidence, carried separately from `basis` -- see the note below.
+            "confidence": sc.get("expected", {}).get("confidence", "—"),
             **{k: sc.get(k, {}).get("date_band", "—")
                for k in ("optimistic", "expected", "conservative")},
         })
     if per_tech:
         soonest = min(per_tech, key=lambda p: (p["expected"], p["optimistic"]))
         return {"class": "forecast", "when": soonest["expected"], "basis": soonest["basis"],
+                "confidence": soonest["confidence"],
                 "via": [p["tech"] for p in per_tech],
                 "per_tech": sorted(per_tech, key=lambda p: p["expected"])}
 
     if b.get("kind") == "requires_authorization":
-        return {"class": "decision", "when": "on request", "basis": None, "via": [], "per_tech": []}
+        return {"class": "decision", "when": "on request", "basis": None, "confidence": None,
+                "via": [], "per_tech": []}
     if b.get("retired_by_action"):
         return {"class": "action", "when": "not forecast — an action, not an advance",
-                "basis": None, "via": [], "per_tech": []}
+                "basis": None, "confidence": None, "via": [], "per_tech": []}
     return {"class": "unforecast", "when": "⚠ no forecast and no action",
-            "basis": None, "via": [], "per_tech": []}
+            "basis": None, "confidence": None, "via": [], "per_tech": []}
 
 
 # ───────────────────────────── derivations ─────────────────────────────
@@ -3040,10 +3045,12 @@ def render_blockers(g):
         if res["per_tech"]:
             out += ["- **when it could lift:**",
                     "",
-                    "  | via | state | optimistic | **expected** | conservative | basis |",
-                    "  |---|---|---|---|---|---|"]
+                    "  | via | state | optimistic | **expected** | conservative | band confidence "
+                    "| basis (of the STATE) |",
+                    "  |---|---|---|---|---|---|---|"]
             out += [f"  | `{p['tech']}` | `{p['state']}` | {p['optimistic']} | **{p['expected']}** "
-                    f"| {p['conservative']} | `{p['basis']}` |" for p in res["per_tech"]]
+                    f"| {p['conservative']} | `{p['confidence']}` | `{p['basis']}` |"
+                    for p in res["per_tech"]]
             out.append("")
         else:
             out.append(f"- **when it could lift:** {BLOCKER_RESOLUTION_NOTE[res['class']]}")
@@ -3083,18 +3090,26 @@ def _render_blocker_forecasts(g):
            "⚠ **A band is a forecast, not a measurement, and `basis` is the part that says which.** "
            "`evidence_based` rests on something already partly landed; `extrapolated` on a trend; "
            "`speculative` on an event nobody has scheduled. A row's date means nothing without it.\n",
+           "⛔ **`basis` GRADES THE TECHNOLOGY'S CURRENT STATE, NOT THE DATE — read `confidence` for "
+           "the date** (2026-08-08, after `evidence_based` on BLK-TERNARY-GEOMETRY was read as "
+           "evidence for **2027** and is not). Its forecast is `evidence_based` because one arm HAS "
+           "landed — high inter-chain accuracy when both binding sites are given. The 2027 band's own "
+           "rationale is a pace argument about how fast the field iterates, and its `confidence` is "
+           "`moderate`. A strong `basis` beside a soft band is the shape most likely to be misread "
+           "here, so both columns are printed and neither is derived from the other.\n",
            "⚠ **Earliest-wins.** Where several technologies claim the same blocker they are "
            "ALTERNATIVES, so the soonest `expected` band governs and the rest are upside. The full "
            "spread is in each blocker's detail section below.\n",
            "⛔ **A coming capability justifies waiting and re-running. It never licences claiming "
            "the result before the method can support it.**\n",
-           "| blocker | routes held | reach | expected | basis | via |",
-           "|---|---:|---|---|---|---|"]
+           "| blocker | routes held | reach | expected | band confidence | basis (of the STATE) | via |",
+           "|---|---:|---|---|---|---|---|"]
     for b in rows:
         r = b["resolution"]
         when = f"**{r['when']}**" if r["class"] == "forecast" else f"*{r['when']}*"
         via = ", ".join(f"`{t}`" for t in r["via"]) or "—"
         out.append(f"| **{b['id']}** | {len(b['inherited_by'])} | {b['reach']} | {when} "
+                   f"| {'`' + r['confidence'] + '`' if r.get('confidence') else '—'} "
                    f"| {'`' + r['basis'] + '`' if r['basis'] else '—'} | {via} |")
     unforecast = [b["id"] for b in rows if b["resolution"]["class"] == "unforecast"]
     out.append("")

@@ -66,30 +66,32 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 ⚠ **A band is a forecast, not a measurement, and `basis` is the part that says which.** `evidence_based` rests on something already partly landed; `extrapolated` on a trend; `speculative` on an event nobody has scheduled. A row's date means nothing without it.
 
+⛔ **`basis` GRADES THE TECHNOLOGY'S CURRENT STATE, NOT THE DATE — read `confidence` for the date** (2026-08-08, after `evidence_based` on BLK-TERNARY-GEOMETRY was read as evidence for **2027** and is not). Its forecast is `evidence_based` because one arm HAS landed — high inter-chain accuracy when both binding sites are given. The 2027 band's own rationale is a pace argument about how fast the field iterates, and its `confidence` is `moderate`. A strong `basis` beside a soft band is the shape most likely to be misread here, so both columns are printed and neither is derived from the other.
+
 ⚠ **Earliest-wins.** Where several technologies claim the same blocker they are ALTERNATIVES, so the soonest `expected` band governs and the rest are upside. The full spread is in each blocker's detail section below.
 
 ⛔ **A coming capability justifies waiting and re-running. It never licences claiming the result before the method can support it.**
 
-| blocker | routes held | reach | expected | basis | via |
-|---|---:|---|---|---|---|
-| **BLK-TERNARY-GEOMETRY** | 5 | single-family | **2027** | `evidence_based` | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
-| **BLK-INDUCED-COMPLEX** | 3 | single-family | **2027** | `evidence_based` | `TECH-COFOLD-ASSEMBLY` |
-| **BLK-REACH-CATEGORICAL** | 2 | single-family | **2027H2** | `extrapolated` | `TECH-EXPOSURE-CRITERION` |
-| **BLK-NO-EMC-DATA** | 19 | portfolio-wide | **2028** | `extrapolated` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
-| **BLK-PARALOGUE-DDG** | 9 | cross-family | **2028** | `extrapolated` | `TECH-FE-CRYPTIC-POCKET` |
-| **BLK-CLASS-INHERITANCE** | 4 | cross-family | **2028** | `extrapolated` | `TECH-VIRTUAL-CELL` |
-| **BLK-PARALOGUE-CONTROL** | 1 | single-family | **2028** | `speculative` | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
-| **BLK-NO-WET-LAB** | 9 | portfolio-wide | **2029** | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
-| **BLK-R4-BINDS** | 8 | cross-family | **2029** | `speculative` | `TECH-EMC-MODEL-ACCESS` |
-| **BLK-ENDPOINT-MD** | 1 | single-family | **2029** | `speculative` | `TECH-E1-POWERED` |
-| **BLK-FUNCTIONAL-ACTIONABILITY** | 1 | single-family | **2029** | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
-| **BLK-DELIVERY** | 1 | single-family | **2029** | `extrapolated` | `TECH-OLIGO-DELIVERY` |
-| **BLK-VECTOR-DELIVERY** | 3 | single-family | **2030** | `speculative` | `TECH-VECTOR-DELIVERY` |
-| **BLK-UNSIZED-REQUIREMENT** | 3 | cross-family | *not forecast — an action, not an advance* | — | — |
-| **BLK-TCIP-INTERFACE-FLOOR** | 1 | single-family | *not forecast — an action, not an advance* | — | — |
-| **BLK-NOT-FUSION-SELECTIVE** | 14 | portfolio-wide | *never* | — | — |
-| **BLK-ANTIGEN-COLD** | 8 | single-family | *never* | — | — |
-| **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED** | 1 | single-family | *on request* | — | — |
+| blocker | routes held | reach | expected | band confidence | basis (of the STATE) | via |
+|---|---:|---|---|---|---|---|
+| **BLK-TERNARY-GEOMETRY** | 5 | single-family | **2027** | `moderate` | `evidence_based` | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
+| **BLK-INDUCED-COMPLEX** | 3 | single-family | **2027** | `moderate` | `evidence_based` | `TECH-COFOLD-ASSEMBLY` |
+| **BLK-REACH-CATEGORICAL** | 2 | single-family | **2027H2** | `low` | `extrapolated` | `TECH-EXPOSURE-CRITERION` |
+| **BLK-NO-EMC-DATA** | 19 | portfolio-wide | **2028** | `low` | `extrapolated` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-PARALOGUE-DDG** | 9 | cross-family | **2028** | `low` | `extrapolated` | `TECH-FE-CRYPTIC-POCKET` |
+| **BLK-CLASS-INHERITANCE** | 4 | cross-family | **2028** | `low` | `extrapolated` | `TECH-VIRTUAL-CELL` |
+| **BLK-PARALOGUE-CONTROL** | 1 | single-family | **2028** | `low` | `speculative` | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
+| **BLK-NO-WET-LAB** | 9 | portfolio-wide | **2029** | `low` | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-R4-BINDS** | 8 | cross-family | **2029** | `low` | `speculative` | `TECH-EMC-MODEL-ACCESS` |
+| **BLK-ENDPOINT-MD** | 1 | single-family | **2029** | `low` | `speculative` | `TECH-E1-POWERED` |
+| **BLK-FUNCTIONAL-ACTIONABILITY** | 1 | single-family | **2029** | `low` | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-DELIVERY** | 1 | single-family | **2029** | `low` | `extrapolated` | `TECH-OLIGO-DELIVERY` |
+| **BLK-VECTOR-DELIVERY** | 3 | single-family | **2030** | `low` | `speculative` | `TECH-VECTOR-DELIVERY` |
+| **BLK-UNSIZED-REQUIREMENT** | 3 | cross-family | *not forecast — an action, not an advance* | — | — | — |
+| **BLK-TCIP-INTERFACE-FLOOR** | 1 | single-family | *not forecast — an action, not an advance* | — | — | — |
+| **BLK-NOT-FUSION-SELECTIVE** | 14 | portfolio-wide | *never* | — | — | — |
+| **BLK-ANTIGEN-COLD** | 8 | single-family | *never* | — | — | — |
+| **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED** | 1 | single-family | *on request* | — | — | — |
 
 ✅ Every blocker resolves to a forecast band, a permanent verdict, a decision or an action — none is left as an unanalysed gap.
 
@@ -106,10 +108,10 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-EMC-EXPRESSION-DATA, TECH-VIRTUAL-CELL
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-VIRTUAL-CELL` | `early_signals` | 2027H1 | **2028** | 2030 | `extrapolated` |
-  | `TECH-EMC-EXPRESSION-DATA` | `early_signals` | 2027 | **2029** | beyond-2031 | `speculative` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-VIRTUAL-CELL` | `early_signals` | 2027H1 | **2028** | 2030 | `low` | `extrapolated` |
+  | `TECH-EMC-EXPRESSION-DATA` | `early_signals` | 2027 | **2029** | beyond-2031 | `low` | `speculative` |
 
 - **owner:** `research/IDEAS.md`
 
@@ -135,9 +137,9 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-FE-CRYPTIC-POCKET
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-FE-CRYPTIC-POCKET` | `absent` | 2027H1 | **2028** | 2030 | `extrapolated` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-FE-CRYPTIC-POCKET` | `absent` | 2027H1 | **2028** | 2030 | `low` | `extrapolated` |
 
 - **owner:** `research/manuscripts/nr4a3-program-map.md#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged`
 
@@ -152,10 +154,10 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-CLOUD-WET-LAB, TECH-EMC-MODEL-ACCESS
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-CLOUD-WET-LAB` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `extrapolated` |
-  | `TECH-EMC-MODEL-ACCESS` | `absent` | 2027H2 | **2029** | beyond-2031 | `speculative` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-CLOUD-WET-LAB` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `low` | `extrapolated` |
+  | `TECH-EMC-MODEL-ACCESS` | `absent` | 2027H2 | **2029** | beyond-2031 | `low` | `speculative` |
 
 - **owner:** `research/manuscripts/what-a-civilian-can-buy.md`
 
@@ -170,9 +172,9 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-EMC-MODEL-ACCESS
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-EMC-MODEL-ACCESS` | `absent` | 2027H2 | **2029** | beyond-2031 | `speculative` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-EMC-MODEL-ACCESS` | `absent` | 2027H2 | **2029** | beyond-2031 | `low` | `speculative` |
 
 - **owner:** `research/manuscripts/nr4a3-program-map.md#32--the-rv-coverage-matrix--where-the-holes-are`
 
@@ -198,11 +200,11 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-COFOLD-ASSEMBLY, TECH-E3-RECRUITER-STRUCTURE, TECH-OBSERVED-CRL
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-COFOLD-ASSEMBLY` | `partially_landed` | 2026H2 | **2027** | 2028 | `evidence_based` |
-  | `TECH-E3-RECRUITER-STRUCTURE` | `absent` | 2027 | **2028** | 2030 | `speculative` |
-  | `TECH-OBSERVED-CRL` | `absent` | 2027 | **2028** | beyond-2031 | `speculative` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-COFOLD-ASSEMBLY` | `partially_landed` | 2026H2 | **2027** | 2028 | `moderate` | `evidence_based` |
+  | `TECH-E3-RECRUITER-STRUCTURE` | `absent` | 2027 | **2028** | 2030 | `low` | `speculative` |
+  | `TECH-OBSERVED-CRL` | `absent` | 2027 | **2028** | beyond-2031 | `low` | `speculative` |
 
 - **owner:** `research/manuscripts/nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language`
 
@@ -218,9 +220,9 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **⭐ retired by an action we can take:** State plainly, wherever the transfer argument is used, that no NR4A3 fusion has been tested for the phenotype. The blocker cannot be retired by us, but its misreading can. $0.
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-VIRTUAL-CELL` | `early_signals` | 2027H1 | **2028** | 2030 | `extrapolated` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-VIRTUAL-CELL` | `early_signals` | 2027H1 | **2028** | 2030 | `low` | `extrapolated` |
 
 - **owner:** `research/manuscripts/emc-post-degrader-options.md#route-1---atr-inhibitor-synthetic-lethality-emc-inherits-a-class-vulnerability-it-has-never-been-tested-for`
 
@@ -235,9 +237,9 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-VECTOR-DELIVERY
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-VECTOR-DELIVERY` | `absent` | 2028 | **2030** | beyond-2031 | `speculative` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-VECTOR-DELIVERY` | `absent` | 2028 | **2030** | beyond-2031 | `low` | `speculative` |
 
 - **owner:** `research/manuscripts/emc-post-degrader-options.md#routes-813--why-each-sits-in-tier-3`
 
@@ -252,9 +254,9 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-COFOLD-ASSEMBLY
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-COFOLD-ASSEMBLY` | `partially_landed` | 2026H2 | **2027** | 2028 | `evidence_based` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-COFOLD-ASSEMBLY` | `partially_landed` | 2026H2 | **2027** | 2028 | `moderate` | `evidence_based` |
 
 - **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#1--the-route-stated-precisely--and-the-split-that-decides-it`
 
@@ -283,9 +285,9 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **⭐ retired by an action we can take:** Re-run the reach enumeration under a criterion that passes its own positive control, and report the result as a rank rather than a verdict until one exists. $0.
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-EXPOSURE-CRITERION` | `absent` | 2026H2 | **2027H2** | 2029 | `extrapolated` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-EXPOSURE-CRITERION` | `absent` | 2026H2 | **2027H2** | 2029 | `low` | `extrapolated` |
 
 - **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#3--the-0-test-built-run-and-it-came-back-against-the-route`
 
@@ -300,9 +302,9 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-E1-POWERED
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-E1-POWERED` | `absent` | 2027H2 | **2029** | beyond-2031 | `speculative` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-E1-POWERED` | `absent` | 2027H2 | **2029** | beyond-2031 | `low` | `speculative` |
 
 - **owner:** `research/manuscripts/nr4a3-program-map.md#-gate-failed--the-smarca24-sensitivity-control-returns-null-on-an-adequately-powered-design-2026-08-02-1042-pm-et`
 
@@ -317,9 +319,9 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-NONCOVALENT-PARALOGUE-CONTROL
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-NONCOVALENT-PARALOGUE-CONTROL` | `absent` | 2027 | **2028** | beyond-2031 | `speculative` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-NONCOVALENT-PARALOGUE-CONTROL` | `absent` | 2027 | **2028** | beyond-2031 | `low` | `speculative` |
 
 - **owner:** `research/manuscripts/nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language`
 
@@ -334,10 +336,10 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-CLOUD-WET-LAB, TECH-EMC-MODEL-ACCESS
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-CLOUD-WET-LAB` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `extrapolated` |
-  | `TECH-EMC-MODEL-ACCESS` | `absent` | 2027H2 | **2029** | beyond-2031 | `speculative` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-CLOUD-WET-LAB` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `low` | `extrapolated` |
+  | `TECH-EMC-MODEL-ACCESS` | `absent` | 2027H2 | **2029** | beyond-2031 | `low` | `speculative` |
 
 - **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#2--the-crux-is-the-pocket-functionally-actionable--and-is-it-actionable-in-the-fusion`
 
@@ -352,9 +354,9 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-OLIGO-DELIVERY
 - **when it could lift:**
 
-  | via | state | optimistic | **expected** | conservative | basis |
-  |---|---|---|---|---|---|
-  | `TECH-OLIGO-DELIVERY` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `extrapolated` |
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-OLIGO-DELIVERY` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `low` | `extrapolated` |
 
 - **owner:** `research/manuscripts/fusion-junction-aso-paper.md`
 

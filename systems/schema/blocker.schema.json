@@ -90,7 +90,7 @@
     "resolution": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["class", "when", "basis", "via", "per_tech"],
+      "required": ["class", "when", "basis", "confidence", "via", "per_tech"],
       "description": "DERIVED join: blocker -> technology -> forecast. The arrival bands live in the forecast register keyed by TECHNOLOGY, so 'when does this blocker lift' was a join every reader made by hand across two files. Computed here so a re-forecast moves it automatically and it can never disagree with registers/technologies.md. ⚠ A PERMANENT blocker resolves to class `permanent` with NO band -- [B1] already forbids a technology claiming to retire one, and a date printed beside one would reintroduce exactly that conflation.",
       "properties": {
         "class": {
@@ -100,7 +100,11 @@
         "when": { "type": "string", "description": "The governing `expected` band for class `forecast`; otherwise a word, never a date." },
         "basis": {
           "enum": ["evidence_based", "extrapolated", "speculative", null],
-          "description": "The basis of the forecast supplying `when`, carried BESIDE the date because a band without it reads as a measurement. Null for every non-`forecast` class."
+          "description": "The basis of the forecast supplying `when`, carried BESIDE the date because a band without it reads as a measurement. ⛔ It grades the technology's CURRENT STATE, NOT the date -- `evidence_based` means something has partly landed, which is compatible with a soft band whose own rationale is a pace argument. Read `confidence` for the date. Null for every non-`forecast` class."
+        },
+        "confidence": {
+          "enum": ["high", "moderate", "low", null],
+          "description": "The `expected` scenario's OWN confidence, from the forecast register. Printed beside `basis` and never derived from it: a strong `basis` next to a soft band is the shape most likely to be misread, which is exactly what happened to BLK-TERNARY-GEOMETRY (2026-08-08) -- `evidence_based` was read as evidence for 2027, when it is evidence that one arm of the capability already exists. Null for every non-`forecast` class."
         },
         "via": { "type": "array", "items": { "type": "string", "pattern": "^TECH-[A-Z0-9-]+$" } },
         "per_tech": {
