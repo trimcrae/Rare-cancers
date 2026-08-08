@@ -152,10 +152,15 @@ on:
           cohort-search = ask GEO whether a FOURTH EMC expression cohort exists, and dedup every
           candidate at accession, publication and SAMPLE level before counting it. Writes its OWN
           artifact; reads no expression value and can perturb nothing.
+          sra-study = the SRA-SIDE SIBLING of cohort-search. That mode asks GEO, and its own header
+          bounds its negative to what a GEO term search can reach; a deposit that lives in SRA and
+          never got a GEO series is invisible to it. This mode CHARACTERISES one named archive
+          study across NCBI E-utilities AND EBI/ENA, with three transport controls. Writes its OWN
+          artifact; reads no expression value and can perturb nothing.
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "ret-cistrome-zenodo"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "sra-study", "ret-cistrome-zenodo"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -258,7 +263,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${MODE:-}" in
-            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search|ret-cistrome-zenodo) PART_B=false ;;
+            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search|sra-study|ret-cistrome-zenodo) PART_B=false ;;
             *)                                               PART_B=true  ;;
           esac
           echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
@@ -316,6 +321,17 @@ jobs:
             # reading as new, and a series with NO sample-level read being promoted rather than
             # marked ungraded. All three are asserted here, before one byte is fetched.
             python -m pytest research/modalities/tests/test_emc_cohort_search.py -q
+          elif [ "${{ inputs.mode }}" = "sra-study" ]; then
+            # ⛔ NOT OPTIONAL, and the asymmetry is the reason. This mode's output is a verdict on
+            # whether an accession exists, and the two ways of being wrong cost different things:
+            # a false "does not exist" retires the highest-value lead on the board (BLK-NO-EMC-DATA
+            # holds more routes than any other blocker), while a false "exists" puts a phantom
+            # cohort into the graph. Both are offline arithmetic over cached payloads — the
+            # transport gate in both directions, and the run-count/sample-count separation that
+            # keeps "12 runs" from being read as 12 patients. The selftest runs first so a broken
+            # derivation costs seconds rather than the fetch.
+            python research/modalities/emc_sra_study.py --selftest
+            python -m pytest research/modalities/tests/test_emc_sra_study.py -q
           elif [ "${{ inputs.mode }}" = "hypoxia-confounds" ]; then
             # ⛔ THE MERGE GUARD IS THE ONE THAT MATTERS HERE. This mode fetches a SECOND cache of
             # the same two matrices and the audit reads both; if they could disagree silently,
@@ -616,6 +632,49 @@ jobs:
             research/modalities/emc-cohort-search-inputs.json
 
       # ─────────────────────────────────────────────────────────────────────────────────────
+      # sra-study — the SRA-side sibling: characterise ONE named archive study
+      # ─────────────────────────────────────────────────────────────────────────────────────
+
+      # ⭐ WHY IT IS A SEPARATE MODE FROM cohort-search, WHICH ASKS THE SAME QUESTION.
+      # `emc_cohort_search.py` asks GEO, and its own header bounds the negative it produces to what
+      # a GEO term search can reach. `nr4a3-fusion-transcriptional-output.md` §3.13 records "no
+      # fourth EMC cohort exists" off a GEO-side search too. An SRA-only deposit — registered in
+      # SRA, never given a GEO series — is outside BOTH, and `SRP640302` is already named in this
+      # repository with a title and nothing else (`emc-atr-vulnerability-inputs.json` ->
+      # part_b.dataset_search.sra.studies[0]). A title is not a characterisation.
+      #
+      # ⛔ IT PUBLISHES, on the same test `panels` and `cohort-search` pass: NEW artifacts under
+      # NEW names nothing has ever cited, so there is no file it can be confused with, and it
+      # cannot perturb part B's committed grading artifact or the GEO-side cohort search's verdict.
+      # The two are allowed to disagree — they searched different archives.
+      - name: "SRA study — characterise the named deposit across NCBI and ENA, with controls"
+        if: inputs.mode == 'sra-study'
+        timeout-minutes: 30
+        run: python research/modalities/emc_sra_study.py --fetch
+
+      - name: "SRA study — derive the verdict from the payloads just cached"
+        if: always() && inputs.mode == 'sra-study'
+        timeout-minutes: 10
+        run: python research/modalities/emc_sra_study.py
+
+      - name: "SRA study — the verdict must re-derive offline from its own cached payloads"
+        if: always() && inputs.mode == 'sra-study'
+        timeout-minutes: 10
+        run: |
+          python research/modalities/emc_sra_study.py --check \
+            || echo "--check reported drift; non-blocking, but READ IT"
+
+      - name: "SRA study — upload the verdict and every raw payload"
+        if: always() && inputs.mode == 'sra-study'
+        uses: actions/upload-artifact@v4
+        with:
+          name: emc-sra-study
+          if-no-files-found: warn
+          path: |
+            research/modalities/emc-sra-study.json
+            research/modalities/emc-sra-study-inputs.json
+
+      # ─────────────────────────────────────────────────────────────────────────────────────
       # ret-motif — the sibling sequence instrument (emc-ret-lane.md §6, next step 2)
       # ─────────────────────────────────────────────────────────────────────────────────────
 
@@ -769,6 +828,10 @@ jobs:
             MSG="EMC cohort search: is there a fourth EMC expression cohort? (CI)"
             PATHS="research/modalities/emc-cohort-search.json
                    research/modalities/emc-cohort-search-inputs.json"
+          elif [ "${{ inputs.mode }}" = "sra-study" ]; then
+            MSG="EMC SRA study characterisation: PRJNA1357027 / SRP640302 (CI)"
+            PATHS="research/modalities/emc-sra-study.json
+                   research/modalities/emc-sra-study-inputs.json"
           elif [ "${{ inputs.mode }}" = "gse28866" ]; then
             MSG="GSE28866 header read: is the tumour-vs-normal EMC deposit gene-indexed? (CI)"
             PATHS="research/modalities/gse28866-tumour-vs-normal.json"
@@ -958,6 +1021,80 @@ jobs:
           print("  new fourth cohorts:", v["new_fourth_cohorts"] or "none")
           if v.get("⚠ incomplete"):
               print(" ", v["⚠ incomplete"])
+          print(" ", v["⛔ scope"])
+          PY
+
+      # ⭐ THE CONTROLS PRINT BEFORE THE VERDICT, ON PURPOSE, AND THE VERDICT IS MEANINGLESS
+      # WITHOUT THEM. This mode's headline is "the accession does/does not exist", and NCBI 403s
+      # to CONNECT from the dev sandbox — a proxy refusal, a rate-limit and a genuinely absent
+      # record all arrive as "no records". A reader who cannot see that the two known-real
+      # accessions came back and the known-absent one did not has no way to tell an absence from
+      # an outage.
+      - name: "Summary — sra-study"
+        if: always() && inputs.mode == 'sra-study'
+        run: |
+          python3 - <<'PY'
+          import json
+          d = json.load(open("research/modalities/emc-sra-study.json"))
+          print("=== TRANSPORT CONTROLS (the verdict is gated on these) ===")
+          for k, c in d["transport_controls"].items():
+              print(f"  [{'PASS' if c['passed'] else 'FAIL'}] {k:<22} {c['accession']:<14} "
+                    f"expect={c['expect']:<8} ncbi_bioproject={c['ncbi_bioproject_count']} "
+                    f"ncbi_sra={c['ncbi_sra_count']} ena_runs={c['ena_read_run_rows']}")
+              if c.get("⛔ meaning"):
+                  print(f"        {c['⛔ meaning']}")
+          print("  gate passed:", d["transport_gate_passed"])
+          print()
+          print("=== WHAT EACH ACCESSION RETURNED ===")
+          for acc, t in d["targets"].items():
+              n, e = t["ncbi"], t["ena"]
+              print(f"  {acc}: resolved={d['resolved'].get(acc)}")
+              print(f"      ncbi  bioproject={n['bioproject_esearch_count']}"
+                    f"({n['bioproject_status']}) sra={n['sra_esearch_count']}"
+                    f"({n['sra_status']}) biosample={n['biosample_esearch_count']}"
+                    f"({n['biosample_status']})")
+              print(f"      ena   read_run_rows={e['n_read_run_rows']}({e['read_run_status']}) "
+                    f"sample_rows={e['n_sample_rows']}({e['sample_status']})")
+              for ttl in (n.get("bioproject_records") or [])[:3]:
+                  print(f"      title: {str(ttl.get('project_title'))[:120]}")
+              for ttl in (e.get("xml_titles") or [])[:3]:
+                  print(f"      ena title: {str(ttl)[:120]}")
+              r = t.get("runs") or {}
+              if r:
+                  print(f"      runs={r['n_runs']} experiments={r['n_distinct_experiments']} "
+                        f"samples={r['n_distinct_samples']}  ⚠ these are different numbers")
+                  print(f"      strategy={r['library_strategy_values']} "
+                        f"selection={r['library_selection_values']} "
+                        f"platform={r['instrument_platform_values']}")
+                  print(f"      first_public={r['first_public_values']}")
+                  print(f"      sample titles: {r['sample_titles'][:12]}")
+                  for name, p in (r.get("assay_probes") or {}).items():
+                      if p.get("matched"):
+                          print(f"      assay probe {name}: matched {p['matched_text']!r}")
+              x = t.get("ncbi_sra_xml") or {}
+              if x.get("_parsed"):
+                  print(f"      ncbi xml: packages={x.get('n_experiment_packages')} "
+                        f"runs={x.get('n_runs')} samples={x.get('n_distinct_samples')} "
+                        f"strategy={x.get('library_strategy_values')}")
+                  for blob in (x.get("sample_attribute_blobs") or [])[:25]:
+                      print(f"        attr {blob[:110]}")
+              a = t.get("data_availability") or {}
+              if a:
+                  print(f"      DATA: {a['state']} "
+                        f"runs_with_fastq={a['n_runs_with_fastq_ftp']} "
+                        f"bytes={a['total_fastq_bytes']}")
+              em = t.get("emc_evidence") or {}
+              print(f"      EMC: study_prose={em.get('study_level_prose_names_emc')} "
+                    f"({em.get('study_level_matched_text')!r}) "
+                    f"sample_blobs_read={em.get('n_sample_blobs_read')} "
+                    f"strict_hits={em.get('n_sample_blobs_naming_emc_strict')}")
+          print()
+          print("=== PAIRING CLAIM ===", d["pairing_check"])
+          v = d["verdict"]
+          print()
+          print("=== VERDICT ===")
+          print(" ", v["grade"])
+          print(" ", v["headline"])
           print(" ", v["⛔ scope"])
           PY
 
