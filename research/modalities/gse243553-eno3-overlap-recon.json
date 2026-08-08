@@ -1,0 +1,928 @@
+{
+ "_absent_reading_rule": "every fetch carries its HTTP status; a non-200 is recorded as `not_retrieved` and NEVER as an empty result (CLAUDE.md \u00a74).",
+ "_constraints_that_travel_with_every_result": [
+  "HEK293T is not EMC chromatin, and ATAC accessibility is not protein binding. An open peak says a region became accessible in an engineered cell line ectopically expressing the fusion; it does not say the fusion binds there, and it says nothing directly about EMC tumour material.",
+  "ENO3 is this manuscript's own designated POSITIVE CONTROL (\u00a72.4). A hit VALIDATES THE INSTRUMENT and must never be written as an unexpected discovery."
+ ],
+ "_no_claim": "Retrieval and intersection only. Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness statement about any agent, target or gene.",
+ "_question": "Do EWSR1-NR4A3's differentially accessible peaks in GSE243553 overlap the ENO3 NBRE sites reported by the manuscript's \u00a73.10 motif scan?",
+ "_what": "Recon of GSE243553: exactly what is deposited, on which genome build, and whether any per-fusion peak call exists to intersect.",
+ "all_deposited_filenames": [
+  "GSE243553_RAW.tar",
+  "GSM7790859_fullfusion_fragments-1.tsv.gz",
+  "GSM7790860_fullfusion_fragments-2.tsv.gz",
+  "GSM7790861_fullfusion_fragments-3.tsv.gz",
+  "GSM7790862_fullfusion_fragments-4.tsv.gz",
+  "GSM7790863_fullfusion_fragments-5.tsv.gz",
+  "GSM7790864_fullfusion_fragments-6.tsv.gz",
+  "GSM7790865_fullfusion_fragments-7.tsv.gz",
+  "GSM7790866_fullfusion_fragments-8.tsv.gz",
+  "GSM7790867_fullfusion_fragments-9.tsv.gz",
+  "GSM7790868_fullfusion_fragments-10.tsv.gz",
+  "GSM7790869_fullfusion_fragments-11.tsv.gz",
+  "GSM7790870_fullfusion_fragments-12.tsv.gz",
+  "GSM7790871_Sample1_merged_associations.csv.gz",
+  "GSM7790872_Sample2_merged_associations.csv.gz",
+  "GSM7790873_Sample3_merged_associations.csv.gz",
+  "GSM7790874_Sample4_merged_associations.csv.gz",
+  "GSM7790875_Sample5_merged_associations.csv.gz",
+  "GSM7790876_Sample6_merged_associations.csv.gz",
+  "GSM7790877_Sample7_merged_associations.csv.gz",
+  "GSM7790878_Sample8_merged_associations.csv.gz",
+  "GSM7790879_Sample9_merged_associations.csv.gz",
+  "GSM7790880_Sample10_merged_associations.csv.gz",
+  "GSM7790881_Sample11_merged_associations.csv.gz",
+  "GSM7790882_Sample12_merged_associations.csv.gz",
+  "filelist.txt",
+  "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+ ],
+ "author_repo": "mfrenkel16/OncofusionPRODATAC",
+ "budget_left_s": 1195.4,
+ "budget_s": 1200.0,
+ "deposit_supports_a_peak_overlap": false,
+ "eno3_nbre_sites": {
+  "_source": "research/modalities/emc-ret-target-scan.json",
+  "_source_note": "one home for these coordinates: the committed output of the same NBRE scan the manuscript's \u00a73.10 and SI \u00a7S6 report. Not re-typed here.",
+  "assembly": "GRCh38",
+  "chrom": "chr17",
+  "ensembl_id": "ENSG00000108515",
+  "gene": "ENO3",
+  "gene_strand_derived": "+",
+  "n_exact_nbre": 4,
+  "sites": [
+   {
+    "chrom": "chr17",
+    "end": 4939303,
+    "offset_from_tss": -8739,
+    "start": 4939295,
+    "strand_of_motif": "+"
+   },
+   {
+    "chrom": "chr17",
+    "end": 4950801,
+    "offset_from_tss": 2759,
+    "start": 4950793,
+    "strand_of_motif": "+"
+   },
+   {
+    "chrom": "chr17",
+    "end": 4950954,
+    "offset_from_tss": 2912,
+    "start": 4950946,
+    "strand_of_motif": "-"
+   },
+   {
+    "chrom": "chr17",
+    "end": 4951704,
+    "offset_from_tss": 3662,
+    "start": 4951696,
+    "strand_of_motif": "-"
+   }
+  ],
+  "tss": 4948034,
+  "window": [
+   4938034,
+   4963034
+  ],
+  "window_spec": {
+   "downstream_of_tss": 15000,
+   "upstream_of_tss": 10000
+  }
+ },
+ "fetches": {
+  "biorxiv_preprint_detail": {
+   "bytes": 1760,
+   "elapsed_s": 0.2,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "{\"messages\":[{\"status\":\"ok\",\"category\":\"all\"}], \"collection\":[{\"title\":\"Discovering chromatin dysregulation induced by protein-coding perturbations at scale\",\"authors\":\"Frenkel, M.; Hujoel, M. L. A.; Morris, Z.; Raman, S.\",\"author_corresponding\":\"Srivatsan Raman\",\"author_corresponding_institution\":\"University of Wisconsin-Madison\",\"doi\":\"10.1101\\/2023.09.20.555752\",\"date\":\"2023-09-21\",\"version\":\"1\",\"type\":\"new results\",\"license\":\"cc_by_nc_nd\",\"category\":\"genomics\",\"jatsxml\":\"https:\\/\\/www.biorxiv.org\\/content\\/early\\/2023\\/09\\/21\\/2023.09.20.555752.source.xml\",\"abstract\":\"Although population-scale databases have expanded to millions of protein-coding variants, insight into variant mechanisms has not kept pace. We present PROD-ATAC, a high-throughput method for discovering the effects of protein-coding variants on chromatin. A pooled library of variants is expressed in a disease-agnostic cell line, and single-cell ATAC resolves each variants effect on chromatin. Using PROD-ATAC, we characterized the effects of >100 oncofusions (a class of cancer-causing chimeric proteins) and controls and revealed that pioneer activity is a common feature of fusions spanning an enormous range of fusion frequencies. Further, fusion-induced dysregulation can be context-agnostic as observed mechanisms often overlapped with cancer and cell-type specific prior knowledge. We also showed that gain-of-function pioneering is common among oncofusions. This work provides a global view of fusion-induced chromatin. We uncovered convergent mechanisms among disparate oncofusions and shared modes of dysregulation across different cancers. PROD-ATAC is generalizable to any set of protein-coding variants.\",\"funder\":\"NA\",\"published\":\"NA\",\"server\":\"bioRxiv\"}]}\r\n\r\n\r\n\r\n",
+   "url": "https://api.biorxiv.org/details/biorxiv/10.1101/2023.09.20.555752"
+  },
+  "europepmc_suppfiles_probe": {
+   "bytes": 7887,
+   "elapsed_s": 0.66,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "{\"version\":\"6.9\",\"hitCount\":1,\"request\":{\"queryString\":\"EXT_ID:39048711\",\"resultType\":\"core\",\"cursorMark\":\"*\",\"pageSize\":25,\"sort\":\"\",\"synonym\":false},\"resultList\":{\"result\":[{\"id\":\"39048711\",\"source\":\"MED\",\"pmid\":\"39048711\",\"pmcid\":\"PMC13105821\",\"fullTextIdList\":{\"fullTextId\":[\"PMC13105821\"]},\"doi\":\"10.1038/s41587-024-02347-4\",\"title\":\"Large-scale discovery of chromatin dysregulation induced by oncofusions and other protein-coding variants.\",\"authorString\":\"Frenkel M, Corban JE, Hujoel MLA, Morris Z, Raman S.\",\"authorList\":{\"author\":[{\"fullName\":\"Frenkel M\",\"firstName\":\"Max\",\"lastName\":\"Frenkel\",\"initials\":\"M\",\"authorAffiliationDetailsList\":{\"authorAffiliation\":[{\"affiliation\":\"Cellular and Molecular Biology Graduate Program, University of Wisconsin-Madison, Madison, WI, USA.\"},{\"affiliation\":\"Medical Scientist Training Program, University of Wisconsin School of Medicine and Public Health, Madison, WI, USA.\"},{\"affiliation\":\"Department of Biochemistry, University of Wisconsin-Madison, Madison, WI, USA.\"}]}},{\"fullName\":\"Corban JE\",\"firstName\":\"James E\",\"lastName\":\"Corban\",\"initials\":\"JE\",\"authorId\":{\"type\":\"ORCID\",\"value\":\"0000-0002-0132-4352\"},\"authorAffiliationDetailsList\":{\"authorAffiliation\":[{\"affiliation\":\"Department of Biochemistry, University of Wisconsin-Madison, Madison, WI, USA.\"}]}},{\"fullName\":\"Hujoel MLA\",\"firstName\":\"Margaux L A\",\"lastName\":\"Hujoel\",\"initials\":\"MLA\",\"authorId\":{\"type\":\"ORCID\",\"value\":\"0000-0001-9116-1712\"},\"authorAffiliationDetailsList\":{\"authorAffiliation\":[{\"affiliation\":\"Division of Genetics, Department of Medicine, Brigham and Women's Hospital and Harvard Medical School, Boston, MA, USA.\"},{\"affiliation\":\"Center for Data Sciences, Brigham and Women's Hospital and Harvard Medical School, Boston, MA, USA.\"},{\"affiliation\":\"Program in Medical and Population Genetics, Broad Institute of MIT and Harvard, Cambridge, MA, USA.\"}]}},{\"fullName\":\"Morris Z\",\"firstName\":\"Zachary\",\"lastName\":\"Morris\",\"initials\":\"Z\",\"authorId\":{\"type\":\"ORCID\",\"value\":\"0000-0001-5558-3547\"},\"authorAffiliationDetailsList\":{\"authorAffiliation\":[{\"affiliation\":\"Department of Human Oncology, University of Wisconsin School of Medicine and Public Health, Madison, WI, USA.\"}]}},{\"fullName\":\"Raman S\",\"firstName\":\"Srivatsan\",\"lastName\":\"Raman\",\"initials\":\"S\",\"authorId\":{\"type\":\"ORCID\",\"value\":\"0000-0003-2461-1589\"},\"authorAffiliationDetailsList\":{\"authorAffiliation\":[{\"affiliation\":\"Department of Biochemistry, University of Wisconsin-Madison, Madison, WI, USA. sraman4@wisc.edu.\"},{\"affiliation\":\"Department of Bacteriology, University of Wisconsin-Madison, Madison, WI, USA. sraman4@wisc.edu.\"},{\"affiliation\":\"Department of Chemical and Biological Engineering, University of Wisconsin-Madison, Madison, WI, USA. sraman4@wisc.edu.\"}]}}]},\"authorIdList\":{\"authorId\":[{\"type\":\"ORCID\",\"value\":\"0000-0001-5558-3547\"},{\"type\":\"ORCID\",\"value\":\"0000-0001-9116-1712\"},{\"type\":\"ORCID\",\"value\":\"0000-0002-0132-4352\"},{\"type\":\"ORCID\",\"value\":\"0000-0003-2461-1589\"}]},\"dataLinksTagsList\":{\"dataLinkstag\":[\"altmetrics\",\"related_data\",\"supporting_data\"]},\"journalInfo\":{\"issue\":\"6\",\"volume\":\"43\",\"journalIssueId\":3961600,\"dateOfPublication\":\"2025 Jun\",\"monthOfPublication\":6,\"yearOfPublication\":2025,\"printPublicationDate\":\"2025-06-01\",\"journal\":{\"title\":\"Nature biotechnology\",\"medlineAbbreviation\":\"Nat Biotechnol\",\"essn\":\"1546-1696\",\"isoabbreviation\":\"Nat Biotechnol\",\"issn\":\"1087-0156\",\"nlmid\":\"9604648\"}},\"pubYear\":\"2025\",\"pageInfo\":\"996-1010\",\"abstractText\":\"Population-scale databases have expanded to millions of protein-coding variants, yet insight into their mechanistic consequences has lagged. Here we present PROD-ATAC, a high-throughput method for discovering the effects of protein-coding variants on chromatin regulation. A pooled variant library is expressed in a disease-agnostic cell line, and single-cell assay for transposase-accessible chromatin resolves each variant's effect on the chromatin landscape. Using PROD-ATAC, we characterized the effects of more than 100 oncofusions (cancer-causing chimeric proteins) and controls and revealed that chromatin remodeling is common to fusions spanning an enormous range of fusion frequencies. Furthermore, fusion-induced dysregulation can be context agnostic, as observed mechanisms often overlapped with cancer and cell-type-specific prior knowledge. We also showed that gain-of-function activity is common among oncofusions. This work begins to outline a global map of fusion-induced chromatin alterations. We suggest that there might be convergent mechanisms among disparate oncofusions and shared modes of dysregulation among fusions present in tumors at different frequencies. PROD-ATAC is generalizable to any set of protein-coding variants.\",\"affiliation\":\"Cellular and Molecular Biology Graduate Program, University of Wisconsin-Madison, Madison, WI, USA.\",\"publicationStatus\":\"ppublish\",\"language\":\"eng\",\"pubModel\":\"Print-Electronic\",\"pubTypeList\":{\"pubType\":[\"research-article\",\"Journal Article\"]},\"grantsList\":{\"grant\":[{\"grantId\":\"DP2 GM132682\",\"agency\":\"U.S. Department of Health &amp; Human Services | National Institutes of Health\",\"orderIn\":0},{\"grantId\":\"DP2 GM132682\",\"agency\":\"NIGMS NIH HHS\",\"acronym\":\"GM\",\"orderIn\":0},{\"grantId\":\"P30 CA014520\",\"agency\":\"NCI NIH HHS\",\"acronym\":\"CA\",\"orderIn\":0},{\"grantId\":\"T32 HG002760\",\"agency\":\"NHGRI NIH HHS\",\"acronym\":\"HG\",\"orderIn\":0}]},\"meshHeadingList\":{\"meshHeading\":[{\"majorTopic_YN\":\"N\",\"descriptorName\":\"Cell Line, Tumor\"},{\"majorTopic_YN\":\"Y\",\"descriptorName\":\"Chromatin\",\"meshQualifierList\":{\"meshQualifier\":[{\"abbreviation\":\"GE\",\"qualifierName\":\"genetics\",\"majorTopic_YN\":\"N\"},{\"abbreviation\":\"ME\",\"qualifierName\":\"metabolism\",\"majorTopic_YN\":\"N\"}]}},{\"majorTopic_YN\":\"N\",\"descriptorName\":\"Humans\"},{\"majorTopic_YN\":\"Y\",\"descriptorName\":\"Neoplasms\",\"meshQualifierList\":{\"meshQualifier\":[{\"abbreviation\":\"GE\",\"qualifierName\":\"genetics\",\"majorTopic_YN\":\"N\"}]}},{\"majorTopic_YN\":\"N\",\"descriptorName\":\"Chromatin Assembly and Disassembly\",\"meshQualifierList\":{\"meshQualifier\":[{\"abbreviation\":\"GE\",\"qualifierName\":\"genetics\",\"majorTopic_YN\":\"N\"}]}},{\"majorTopic_YN\":\"N\",\"descriptorName\":\"Open Reading Frames\",\"meshQualifierList\":{\"meshQualifier\":[{\"abbreviation\":\"GE\",\"qualifierName\":\"genetics\",\"majorTopic_YN\":\"N\"}]}}]},\"chemicalList\":{\"chemical\":[{\"name\":\"Chromatin\",\"registryNumber\":\"0\"}]},\"subsetList\":{\"subset\":[{\"code\":\"IM\",\"name\":\"Index Medicus\"}]},\"fullTextUrlList\":{\"fullTextUrl\":[{\"availability\":\"Subscription required\",\"availabilityCode\":\"S\",\"documentStyle\":\"doi\",\"site\":\"DOI\",\"url\":\"https://doi.org/10.1038/s41587-024-02347-4\"},{\"availability\":\"Free\",\"availabilityCode\":\"F\",\"documentStyle\":\"html\",\"site\":\"Europe_PMC\",\"url\":\"https://europepmc.org/articles/PMC13105821\"},{\"availability\":\"Free\",\"availabilityCode\":\"F\",\"documentStyle\":\"pdf\",\"site\":\"Europe_PMC\",\"url\":\"https://europepmc.org/articles/PMC13105821?pdf=render\"},{\"availability\":\"Free\",\"availabilityCode\":\"F\",\"documentStyle\":\"doi\",\"site\":\"DOI\",\"url\":\"https://doi.org/10.1038/s41587-024-02347-4\"}]},\"commentCorrectionList\":{\"commentCorrection\":[{\"id\":\"37781603\",\"source\":\"MED\",\"reference\":\"bioRxiv. 2023 Sep 21:2023.09.20.555752. doi: 10.1101/2023.09.20.555752.\",\"type\":\"Update of\",\"orderIn\":1}]},\"isOpenAccess\":\"N\",\"inEPMC\":\"Y\",\"inPMC\":\"Y\",\"hasPDF\":\"Y\",\"hasBook\":\"N\",\"hasSuppl\":\"Y\",\"citedByCount\":2,\"hasData\":\"Y\",\"hasReferences\":\"Y\",\"hasTextMinedTerms\":\"Y\",\"hasDbCrossReferences\":\"Y\",\"dbCrossReferenceList\":{\"dbName\":[\"EMBL\"]},\"hasLabsLinks\":\"Y\",\"hasEvaluations\":\"N\",\"authMan\":\"Y\",\"epmcAuthMan\":\"N\",\"nihAuthMan\":\"Y\",\"manuscriptId\":\"NIHMS2166785\",\"hasTMAccessionNumbers\":\"Y\",\"tmAccessionTypeList\":{\"accessionType\":[\"gen\"]},\"dateOfCompletion\":\"2025-06-15\",\"dateOfCreation\":\"2024-07-24\",\"firstIndexDate\":\"2024-07-25\",\"fullTextReceivedDate\":\"2026-04-24\",\"dateOfRevision\":\"2026-04-24\",\"electronicPublicationDate\":\"2024-07-24\",\"firstPublicationDate\":\"2024-07-24\"}]}}",
+   "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:39048711&resultType=core&format=json"
+  },
+  "geo_all_samples_soft": {
+   "bytes": 104676,
+   "elapsed_s": 1.16,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "^SAMPLE = GSM7790859\r\n!Sample_title = Replicate 1, scATAC-seq\r\n!Sample_geo_accession = GSM7790859\r\n!Sample_status = Public on Jul 24 2024\r\n!Sample_submission_date = Sep 19 2023\r\n!Sample_last_update_date = Jul 24 2024\r\n!Sample_type = SRA\r\n!Sample_channel_count = 1\r\n!Sample_source_name_ch1 = HEK293T\r\n!Sample_organism_ch1 = Homo sapiens\r\n!Sample_taxid_ch1 = 9606\r\n!Sample_characteristics_ch1 = cell line: HEK293T\r\n!Sample_molecule_ch1 = genomic DNA\r\n!Sample_extract_protocol_ch1 = Nuclei were prepared according to 10X Genomics\u2019 Nuclear Isolation for Single Cell ATAC Sequencing protocol with the following notes. IGEPAL CA-630 was used for the lysis buffer a 10% solution of which was prepared fresh on the day of nuclear isolation using 100% stock (Sigma i8896). After trypsinization and pelleting, cells were washed twice with ice cold PBS + 0.04% BSA before following the remainder of the nuclear isolation protocol. Lysis occurred for 4 minutes which previously was found to be appropriate time for cytoplasmic removal while retaining nuclear membrane architecture by DIC microscopy. Cells were resuspended in diluted nuclei buffer and triplicates were counted before proceeding with Spear-ATAC sequencing as previously published.\r\n!Sample_extract_protocol_ch1 = Library construction was performed according to 10X Genomics scATAC-seq v2 Chemistry and Spear-ATAC with the following modifications and notes. 10,000 nuclei were targeted for capture per 10X chip lane. Spear-ATAC included the following changes to the 10X scATAC library preparation protocol: the 1.2 uL per reaction of 50 uM oSP1735 oligonucleotide is spiked into the GEM generation master mix and the in-GEM PCR was increased from 12 to 15 cycles. Single-cell ATAC library fragment size distribution was analyzed by Tapestation prior to preparing enriched dial-out libraries for perturbation genotyping. The dial-out libraries were again prepared according to the Spear-ATAC protocol with the following changes: linear PCR with biotinylated oSP2053 was increased to 30 total cycles and the exponential PCR with oSP1594 and indexed P7 primers was increased to 18 total cycles. The indices on the P7 primers were increased from 8 bases to 10 bases.\r\n!Sample_data_processing = For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest\r\n!Sample_data_processing = For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.\r\n!Sample_data_processing = Assembly: hg38\r\n!Sample_data_processing = Supplementary files format and content: Tab separated values\r\n!Sample_platform_id = GPL24676\r\n!Sample_contact_name = Max,,Frenkel\r\n!Sample_contact_email = mfrenkel@wisc.edu\r\n!Sample_contact_institute = UW Madison\r\n!Sample_contact_address = 433 babcock drive\r\n!Sample_contact_city = Madison\r\n!Sample_contact_zip/postal_code = 53706\r\n!Sample_contact_country = USA\r\n!Sample_instrument_model = Illumina NovaSeq 6000\r\n!Sample_library_selection = other\r\n!Sample_library_source = genomic single cell\r\n!Sample_library_strategy = ATAC-seq\r\n!Sample_relation = BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN37458228\r\n!Sample_relation = SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX21825916\r\n!Sample_supplementary_file_1 = ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790859/suppl/GSM7790859_fullfusion_fragments-1.tsv.gz\r\n!Sample_series_id = GSE243553\r\n!Sample_data_row_count = 0\r\n^SAMPLE = GSM7790860\r\n!Sample_title = Replicate 2, scATAC-seq\r\n!Sample_geo_accession = GSM7790860\r\n!Sample_status = Public on Jul 24 2024\r\n!Sample_submission_date = Sep 19 2023\r\n!Sample_last_update_date = Jul 24 2024\r\n!Sample_type = SRA\r\n!Sample_channel_count = 1\r\n!Sample_source_name_ch1 = HEK293T\r\n!Sample_organism_ch1 = Homo sapiens\r\n!Sample_taxid_ch1 = 9606\r\n!Sample_characteristics_ch1 = cell line: HEK293T\r\n!Sample_molecule_ch1 = genomic DNA\r\n!Sample_extract_protocol_ch1 = Nuclei were prepared according to 10X Genomics\u2019 Nuclear Isolation for Single Cell ATAC Sequencing protocol with the following notes. IGEPAL CA-630 was used for the lysis buffer a 10% solution of which was prepared fresh on the day of nuclear isolation using 100% stock (Sigma i8896). After trypsinization and pelleting, cells were washed twice with ice cold PBS + 0.04% BSA before following the remainder of the nuclear isolation protocol. Lysis occurred for 4 minutes which previously was found to be appropriate time for cytoplasmic removal while retaining nuclear membrane architecture by DIC microscopy. Cells were resuspended in diluted nuclei buffer and triplicates were counted before proceeding with Spear-ATAC sequencing as previously published.\r\n!Sample_extract_protocol_ch1 = Library construction was performed according to 10X Genomics scATAC-seq v2 Chemistry and Spear-ATAC with the following modifications and notes. 10,000 nuclei were targeted for capture per 10X chip lane. Spear-ATAC included the following changes to the 10X scATAC library preparation protocol: the 1.2 uL per reaction of 50 uM oSP1735 oligonucleotide is spiked into the GEM generation master mix and the in-GEM PCR was increased from 12 to 15 cycles. Single-cell ATAC library fragment size distribution was analyzed by Tapestation prior to preparing enriched dial-out libraries for perturbation genotyping. The dial-out libraries were again prepared according to the Spear-ATAC protocol with the following changes: linear PCR with biotinylated oSP2053 was increased to 30 total cycles and the exponential PCR with oSP1594 and indexed P7 primers was increased to 18 total cycles. The indices on the P7 primers were increased from 8 bases to 10 bases.\r\n!Sample_data_processing = For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest\r\n!Sample_data_processing = For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.\r\n!Sample_data_processing = Assembly: hg38\r\n!Sample_data_processing = Supplementary files format and content: Tab separated values\r\n!Sample_platform_id = GPL24676\r\n!Sample_contact_name = Max,,Frenkel\r\n!Sample_contact_email = mfrenkel@wisc.edu\r\n!Sample_contact_institute = UW Madison\r\n!Sample_contact_address = 433 babcock drive\r\n!Sample_contact_city = Madison\r\n!Sample_contact_zip/postal_code = 53706\r\n!Sample_contact_country = USA\r\n!Sample_instrument_model = Illumina NovaSeq 6000\r\n!Sample_library_selection = other\r\n!Sample_library_source = genomic single cell\r\n!Sample_library_strategy = ATAC-seq\r\n!Sample_relation = BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN37458227\r\n!Sample_relation = SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX21825917\r\n!Sample_supplementary_file_1 = ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790860/suppl/GSM7790860_fullfusion_fragments-2.tsv.gz\r\n!Sample_series_id = GSE243553\r\n!Sample_data_row_count = 0\r\n^SAMPLE = GSM7790861\r\n!Sample_title = Replicate 3, scATAC-seq\r\n!Sample_geo_accession = GSM7790861\r\n!Sample_status = Public on Jul 24 2024\r\n!Sample_submission_date = Sep 19 2023\r\n!Sample_last_update_date = Jul 24 2024\r\n!Sample_type = SRA\r\n!Sample_channel_count = 1\r\n!Sample_source_name_ch1 = HEK293T\r\n!Sample_organism_ch1 = Homo sapiens\r\n!Sample_taxid_ch1 = 9606\r\n!Sample_characteristics_ch1 = cell line: HEK293T\r\n!Sample_molecule_ch1 = genomic DNA\r\n!Sample_extract_protocol_ch1 = Nuclei were prepared according to 10X Genomics\u2019 Nuclear Isolation for Single Cell ATAC Sequencing protocol with the following notes. IGEPAL CA-630 was used for the lysis buffer a 10% solution of which was prepared fresh on the day of nuclear isolation using 100% stock (Sigma i8896). After trypsinization and pelleting, cells were washed twice with ice cold PBS + 0.04% BSA before following the remainder of the nuclear isolation protocol. Lysis occurred for 4 minutes which previously was found to be appropriate time for cytoplasmic removal while retaining nuclear membrane architecture by DIC microscopy. Cells were resuspended in diluted nuclei buffer and triplicates were counted before proceeding with Spear-ATAC sequencing as previously published.\r\n!Sample_extract_protocol_ch1 = Library construction was performed according to 10X Genomics scATAC-seq v2 Chemistry and Spear-ATAC with the following modifications and notes. 10,000 nuclei were targeted for capture per 10X chip lane. Spear-ATAC included the following changes to the 10X scATAC library preparation protocol: the 1.2 uL per reaction of 50 uM oSP1735 oligonucleotide is spiked into the GEM generation master mix and the in-GEM PCR was increased from 12 to 15 cycles. Single-cell ATAC library fragment size distribution was analyzed by Tapestation prior to preparing enriched dial-out libraries for perturbation genotyping. The dial-out libraries were again prepared according to the Spear-ATAC protocol with the following changes: linear PCR with biotinylated oSP2053 was increased to 30 total cycles and the exponential PCR with oSP1594 and indexed P7 primers was increased to 18 total cycles. The indices on the P7 primers were increased from 8 bases to 10 bases.\r\n!Sample_data_processing = For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest\r\n!Sample_data_processing = For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.\r\n!Sample_data_processing = Assembly: hg38\r\n!Sample_data_processing = Supplementary files format and content: Tab separated values\r\n!Sample_platform_id = GPL24676\r\n!Sample_contact_name = Max,,Frenkel\r\n!Sample_contact_email = mfrenkel@wisc.edu\r\n!Sample_contact_institute = UW Madison\r\n!Sample_contact_address = 433 babcock drive\r\n!Sample_contact_city = Madison\r\n!Sample_contact_zip/postal_code = 53706\r\n!Sample_contact_country = USA\r\n!Sample_instrument_model = Illumina NovaSeq 6000\r\n!Sample_library_selection = other\r\n!Sample_library_source = genomic single cell\r\n!Sample_library_strategy = ATAC-seq\r\n!Sample_relation = BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN37458226\r\n!Sample_relation = SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX21825919\r\n!Sample_supplementary_file_1 = ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790861/suppl/GSM7790861_fullfusion_fragments-3.tsv.gz\r\n!Sample_series_id = GSE243553\r\n!Sample_data_row_count = 0\r\n^SAMPLE = GSM7790862\r\n!Sample_title = Replicate 4, scATAC-seq\r\n!Sample_geo_accession = GSM7790862\r\n!Sample_status = Public on Jul 24 2024\r\n!Sample_submission_date = Sep 19 2023\r\n!Sample_last_update_date = Jul 24 2024\r\n!Sample_type = SRA\r\n!Sample_channel_count = 1\r\n!Sample_source_name_ch1 = HEK293T\r\n!Sample_organism_ch1 = Homo sapiens\r\n!Sample_taxid_ch1 = 9606\r\n!Sample_characteristics_ch1 = cell line: HEK293T\r\n!Sample_molecule_ch1 = genomic DNA\r\n!Sample_extract_protocol_ch1 = Nuclei were prepared according to 10X Genomics\u2019 Nuclear Isolation for Single Cell ATAC Sequencing protocol with the following notes. IGEPAL CA-630 was used for the lysis buffer a 10% solution of which was prepared fresh on the day of nuclear isolation using 100% stock (Sigma i8896). After trypsinization and pelleting, cells were washed twice with ice cold PBS + 0.04% BSA before following the remainder of the nuclear isolation protocol. Lysis occurred for 4 minutes which previously was found to be appropriate time for cytoplasmic removal while retaining nuclear membrane architecture by DIC microscopy. Cells were resuspended in diluted nuclei buffer and triplicates were counted before proceeding with Spear-ATAC sequencing as previously published.\r\n!Sample_extract_protocol_ch1 = Library construction was performed according to 10X Genomics scATAC-seq v2 Chemistry and Spear-ATAC with the following modifications and notes. 10,000 nuclei were targeted for capture per 10X chip lane. Spear-ATAC included the following changes to the 10X scATAC library preparation protocol: the 1.2 uL per reaction of 50 uM oSP1735 oligonucleotide is spiked into the GEM generation master mix and the in-GEM PCR was increased from 12 to 15 cycles. Single-cell ATAC library fragment size distribution was analyzed by Tapestation prior to preparing enriched dial-out libraries for perturbation genotyping. The dial-out libraries were again prepared according to the Spear-ATAC protocol with the following changes: linear PCR with biotinylated oSP2053 was increased to 30 total cycles and the exponential PCR with oSP1594 and indexed P7 primers was increased to 18 total cycles. The indices on the P7 primers were increased from 8 bases to 10 bases.\r\n!Sample_data_processing = For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest\r\n!Sample_data_processing = For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.\r\n!Sample_data_processing = Assembly: hg38\r\n!Sample_data_processing = Supplementary files format and content: Tab separated values\r\n!Sample_platform_id = GPL24676\r\n!Sample_contact_name = Max,,Frenkel\r\n!Sample_contact_email = mfrenkel@wisc.edu\r\n!Sample_contact_institute = UW Madison\r\n!Sample_contact_address = 433 babcock drive\r\n!Sample_contact_city = Madison\r\n!Sample_contact_zip/postal_code = 53706\r\n!Sample_contact_country = USA\r\n!Sample_instrument_model = Illumina NovaSeq 6000\r\n!Sample_library_selection = other\r\n!Sample_library_source = genomic single cell\r\n!Sample_library_strategy = ATAC-seq\r\n!Sample_relation = BioSample: https://www.ncbi.nlm.nih.gov/biosample/SAMN37458225\r\n!Sample_relation = SRA: https://www.ncbi.nlm.nih.gov/sra?term=SRX21825918\r\n!Sample_supplementary_file_1 = ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790862/suppl/GSM7790862_fullfusion_fragments-4.tsv.gz\r\n!Sample_series_id = GSE243553\r\n!Sample_data_row_count = 0\r\n^SAMPLE = GSM7790863\r\n!Sample_title = Replicate 5, scATAC-seq\r\n!Sample_geo_accession = GSM7790863\r\n!Sample_status = Public on Jul 24 2024\r\n!Sample_submission_date = Sep 19 2023\r\n!Sample_last_update_date = Jul 24 2024\r\n!Sample_type = SRA\r\n!Sample_channel_count = 1\r\n!Sample_source_name_ch1 = HEK293T\r\n!Sample_organism_ch1 = Homo sapiens\r\n!Sample_taxid_ch1 = 9606\r\n!Sample_characteristics_ch1 = cell line: HEK293T\r\n!Sample_molecule_ch1 = genomic DNA\r\n!Sample_extract_protocol_ch1 = Nuclei were prepared according to 10X Genomics\u2019 Nuclear Isolation for Single Cell ATAC Sequencing protocol with the following notes. IGEPAL CA-630 was used for the lysis buffer a 10% solution of which was prepared fresh on the day of nuclear isolation using 100% stock (Sigma i8896). After trypsinization and pelleting, cells were washed twice with ice cold PBS + 0.04% BSA before following the remainder of the nuclear isolation protocol. Lysis occurred for 4 minutes which previously was found to be appropriate time for cytoplasmic removal while retaining nuclear membrane architecture by DIC microscopy. Cells were resuspended in diluted nuclei buffer and triplicates were counted before proceeding with Spear-ATAC sequencing as previously published.\r\n!Sample_extract_protocol_ch1 = Library construction was performed according to 10X Genomics scATAC-seq v2 Chemistry and Spear-ATAC with the following modifications and notes. 10,000 nuclei were targeted for capture per 10X chip lane. Spear-ATAC included the following changes to the 10X scATAC library preparation protocol: the 1.2 uL per reaction of 50 uM oSP1735 oligonucleotide is spiked into the GEM generation master mix and the in-GEM PCR was increased from 12 to 15 cycles. Single-cell ATAC library fragment size distribution was analyzed by Tapestation prior to preparing enriched dial-out libraries for perturbation genotyping. The dial-out libraries were again prepared according to the Spear-ATAC protocol with the following changes: linear PCR with biotinylated oSP2053 was increased to 30 total cycles and the exponential PCR with oSP1594 and indexed P7 primers was increased to 18 total cycles. The indices on the P7 primers were increased from 8 bases to 10 bases.\r\n!Sample_data_processing = For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest\r\n!Sample_data_processing = For dialout libraries: To filter for reads that contain the correct structure of am",
+   "text_full_len": 104196,
+   "text_truncated_at_chars": 20000,
+   "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE243553&targ=gsm&form=text&view=brief"
+  },
+  "geo_series_soft": {
+   "bytes": 3819,
+   "elapsed_s": 0.23,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "^SERIES = GSE243553\r\n!Series_title = Large-scale discovery of chromatin dysregulation induced by oncofusions and other protein-coding variants \r\n!Series_geo_accession = GSE243553\r\n!Series_status = Public on Jul 24 2024\r\n!Series_submission_date = Sep 19 2023\r\n!Series_last_update_date = Oct 23 2024\r\n!Series_pubmed_id = 39048711\r\n!Series_web_link = https://pubmed.ncbi.nlm.nih.gov/39048711/\r\n!Series_summary = Although population-scale databases have expanded to millions of genetic variants, mechanistic insight into variant function has not kept pace. We present PROD-ATAC, a high-throughput method for discovering the effects of protein-coding variants on chromatin regulation. A pooled library of variants is expressed in a disease-agnostic biosensor cell line, and single-cell ATAC resolves each variant\u2019s effect on chromatin. Using PROD-ATAC, we characterized the impacts of >100 oncogenic fusions and controls. We showed that pioneer activity is a common feature of fusions spanning an enormous range of frequencies. Further, fusion-induced dysregulation can be context-agnostic as observed mechanisms overlapped with cancer and cell-type specific prior knowledge. We also showed that gain-of-function pioneering is a common feature among oncofusions. This work provides a global view of fusion-induced chromatin disruption across many fusion frequencies and cancer types. Systematically dissecting this landscape revealed convergent mechanisms among seemingly disparate oncofusions and shared modes of chromatin dysregulation across different cancers.\r\n!Series_overall_design = A pooled library of >100 oncofusions and controls was expressed in HEK293T cells where each cell contained one protein-coding perturbation. 10X Genomics' droplet platform was used to capture ~120,000 nuclei (~10,000 nuclei per sample for 12 samples) and Spear-ATAC was used to resolve the effects of each variant on chromatin regulation. Note in this case the 12 samples all dervied from the same biological library of cells and are in this way replicates used to increase the number of nuclei captured (but they are not different biological conditions).\r\n!Series_type = Genome binding/occupancy profiling by high throughput sequencing\r\n!Series_contributor = Max,,Frenkel\r\n!Series_contributor = Margaux,L,Hujoel\r\n!Series_contributor = Zachary,,Morris\r\n!Series_contributor = Srivatsan,,Raman\r\n!Series_sample_id = GSM7790859\r\n!Series_sample_id = GSM7790860\r\n!Series_sample_id = GSM7790861\r\n!Series_sample_id = GSM7790862\r\n!Series_sample_id = GSM7790863\r\n!Series_sample_id = GSM7790864\r\n!Series_sample_id = GSM7790865\r\n!Series_sample_id = GSM7790866\r\n!Series_sample_id = GSM7790867\r\n!Series_sample_id = GSM7790868\r\n!Series_sample_id = GSM7790869\r\n!Series_sample_id = GSM7790870\r\n!Series_sample_id = GSM7790871\r\n!Series_sample_id = GSM7790872\r\n!Series_sample_id = GSM7790873\r\n!Series_sample_id = GSM7790874\r\n!Series_sample_id = GSM7790875\r\n!Series_sample_id = GSM7790876\r\n!Series_sample_id = GSM7790877\r\n!Series_sample_id = GSM7790878\r\n!Series_sample_id = GSM7790879\r\n!Series_sample_id = GSM7790880\r\n!Series_sample_id = GSM7790881\r\n!Series_sample_id = GSM7790882\r\n!Series_contact_name = Max,,Frenkel\r\n!Series_contact_email = mfrenkel@wisc.edu\r\n!Series_contact_institute = UW Madison\r\n!Series_contact_address = 433 babcock drive\r\n!Series_contact_city = Madison\r\n!Series_contact_zip/postal_code = 53706\r\n!Series_contact_country = USA\r\n!Series_supplementary_file = ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE243nnn/GSE243553/suppl/GSE243553_RAW.tar\r\n!Series_platform_id = GPL24676\r\n!Series_platform_id = GPL30173\r\n!Series_platform_organism = Homo sapiens\r\n!Series_platform_taxid = 9606\r\n!Series_sample_organism = Homo sapiens\r\n!Series_sample_taxid = 9606\r\n!Series_relation = BioProject: https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1018922\r\n",
+   "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE243553&targ=self&form=text&view=brief"
+  },
+  "geo_series_suppl_dir": {
+   "bytes": 673,
+   "elapsed_s": 0.15,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n<html>\n <head>\n  <title>Index of /geo/series/GSE243nnn/GSE243553/suppl</title>\n </head>\n <body>\n<h1>Index of /geo/series/GSE243nnn/GSE243553/suppl</h1>\n<pre>Name                             Last modified      Size  <hr><a href=\"/geo/series/GSE243nnn/GSE243553/\">Parent Directory</a>                                      -   \n<a href=\"GSE243553_RAW.tar\">GSE243553_RAW.tar</a>                2024-07-24 00:30   75G  \n<a href=\"filelist.txt\">filelist.txt</a>                     2024-07-24 00:30  2.0K  \n<hr></pre>\n<a href=\"https://www.hhs.gov/vulnerability-disclosure-policy/index.html\">HHS Vulnerability Disclosure</a>\n",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE243nnn/GSE243553/suppl/"
+  },
+  "github_author_repo_tree": {
+   "bytes": 2300,
+   "elapsed_s": 0.16,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "text": "{\"sha\":\"95aa416a1b662d6b4c62c820668eda443a922653\",\"url\":\"https://api.github.com/repos/mfrenkel16/OncofusionPRODATAC/git/trees/95aa416a1b662d6b4c62c820668eda443a922653\",\"tree\":[{\"path\":\"BC_Mapping.R\",\"mode\":\"100644\",\"type\":\"blob\",\"sha\":\"d89c74b9fd49ef526f56ed4c4ea28db69afb42d6\",\"size\":3243,\"url\":\"https://api.github.com/repos/mfrenkel16/OncofusionPRODATAC/git/blobs/d89c74b9fd49ef526f56ed4c4ea28db69afb42d6\"},{\"path\":\"ChipAtlas.R\",\"mode\":\"100644\",\"type\":\"blob\",\"sha\":\"6c55d7ce19bd3db44130d83f8b9ac80b405972d0\",\"size\":31302,\"url\":\"https://api.github.com/repos/mfrenkel16/OncofusionPRODATAC/git/blobs/6c55d7ce19bd3db44130d83f8b9ac80b405972d0\"},{\"path\":\"Clust_analysis.R\",\"mode\":\"100644\",\"type\":\"blob\",\"sha\":\"fa867758f3f6c0ab9b00d699b626b565c5bc4f66\",\"size\":5574,\"url\":\"https://api.github.com/repos/mfrenkel16/OncofusionPRODATAC/git/blobs/fa867758f3f6c0ab9b00d699b626b565c5bc4f66\"},{\"path\":\"Dialout_Analysis.R\",\"mode\":\"100644\",\"type\":\"blob\",\"sha\":\"11bc8567c032b85de7f54e0c14a9df1de9be565c\",\"size\":19687,\"url\":\"https://api.github.com/repos/mfrenkel16/OncofusionPRODATAC/git/blobs/11bc8567c032b85de7f54e0c14a9df1de9be565c\"},{\"path\":\"Downsampling.R\",\"mode\":\"100644\",\"type\":\"blob\",\"sha\":\"51fa62dfac06df3993d58b2f256e8583f0a02969\",\"size\":21666,\"url\":\"https://api.github.com/repos/mfrenkel16/OncofusionPRODATAC/git/blobs/51fa62dfac06df3993d58b2f256e8583f0a02969\"},{\"path\":\"FF_ArchR.R\",\"mode\":\"100644\",\"type\":\"blob\",\"sha\":\"4438c7a95d01ad52eedbb9fdb993d77dfa63e5d5\",\"size\":15621,\"url\":\"https://api.github.com/repos/mfrenkel16/OncofusionPRODATAC/git/blobs/4438c7a95d01ad52eedbb9fdb993d77dfa63e5d5\"},{\"path\":\"GGAA_analysis.R\",\"mode\":\"100644\",\"type\":\"blob\",\"sha\":\"f2acc326dcf5c135c33778bc71c54ba15a5b9991\",\"size\":4388,\"url\":\"https://api.github.com/repos/mfrenkel16/OncofusionPRODATAC/git/blobs/f2acc326dcf5c135c33778bc71c54ba15a5b9991\"},{\"path\":\"Motif.R\",\"mode\":\"100644\",\"type\":\"blob\",\"sha\":\"b4c2fe62768551f278cce920d64e907555f33841\",\"size\":1250,\"url\":\"https://api.github.com/repos/mfrenkel16/OncofusionPRODATAC/git/blobs/b4c2fe62768551f278cce920d64e907555f33841\"},{\"path\":\"README.md\",\"mode\":\"100644\",\"type\":\"blob\",\"sha\":\"c6103f225cba9d746ed41f9e80c4668820c26dc0\",\"size\":2151,\"url\":\"https://api.github.com/repos/mfrenkel16/OncofusionPRODATAC/git/blobs/c6103f225cba9d746ed41f9e80c4668820c26dc0\"}],\"truncated\":false}",
+   "url": "https://api.github.com/repos/mfrenkel16/OncofusionPRODATAC/git/trees/HEAD?recursive=1"
+  }
+ },
+ "filenames_matching_a_peak_call_pattern": [],
+ "generated_utc": "2026-08-08T20:49:25Z",
+ "genome_build": {
+  "_how_established": "token counts over every !Sample_* line of the series' own SOFT records \u2014 the deposit's own words, not an assumption",
+  "data_processing_lines": [
+   "Assembly: hg38",
+   "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+   "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+   "Library strategy: Spear-ATAC",
+   "Supplementary files format and content: Tab separated values"
+  ],
+  "token_counts": {
+   "GRCh37": 0,
+   "GRCh38": 0,
+   "hg18": 0,
+   "hg19": 0,
+   "hg38": 48
+  }
+ },
+ "n_samples_parsed": 24,
+ "per_sample_supplementary_files": {
+  "GSM7790859": {
+   "files": [
+    "GSM7790859_fullfusion_fragments-1.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790860": {
+   "files": [
+    "GSM7790860_fullfusion_fragments-2.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790861": {
+   "files": [
+    "GSM7790861_fullfusion_fragments-3.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790862": {
+   "files": [
+    "GSM7790862_fullfusion_fragments-4.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790863": {
+   "files": [
+    "GSM7790863_fullfusion_fragments-5.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790864": {
+   "files": [
+    "GSM7790864_fullfusion_fragments-6.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790865": {
+   "files": [
+    "GSM7790865_fullfusion_fragments-7.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790866": {
+   "files": [
+    "GSM7790866_fullfusion_fragments-8.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790867": {
+   "files": [
+    "GSM7790867_fullfusion_fragments-9.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790868": {
+   "files": [
+    "GSM7790868_fullfusion_fragments-10.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790869": {
+   "files": [
+    "GSM7790869_fullfusion_fragments-11.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790870": {
+   "files": [
+    "GSM7790870_fullfusion_fragments-12.tsv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790871": {
+   "files": [
+    "GSM7790871_Sample1_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790872": {
+   "files": [
+    "GSM7790872_Sample2_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790873": {
+   "files": [
+    "GSM7790873_Sample3_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790874": {
+   "files": [
+    "GSM7790874_Sample4_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790875": {
+   "files": [
+    "GSM7790875_Sample5_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790876": {
+   "files": [
+    "GSM7790876_Sample6_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790877": {
+   "files": [
+    "GSM7790877_Sample7_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790878": {
+   "files": [
+    "GSM7790878_Sample8_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790879": {
+   "files": [
+    "GSM7790879_Sample9_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790880": {
+   "files": [
+    "GSM7790880_Sample10_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790881": {
+   "files": [
+    "GSM7790881_Sample11_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  },
+  "GSM7790882": {
+   "files": [
+    "GSM7790882_Sample12_merged_associations.csv.gz",
+    "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+   ],
+   "http": 200,
+   "state": "ok"
+  }
+ },
+ "pmcid": "PMC13105821",
+ "pmid": "39048711",
+ "preprint_doi": "10.1101/2023.09.20.555752",
+ "primary_publication": "PMID 39048711 (Nat Biotechnol 2025); PMC13105821; doi 10.1038/s41587-024-02347-4; preprint doi 10.1101/2023.09.20.555752",
+ "samples": [
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790859",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790859/suppl/GSM7790859_fullfusion_fragments-1.tsv.gz"
+   ],
+   "title": "Replicate 1, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790860",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790860/suppl/GSM7790860_fullfusion_fragments-2.tsv.gz"
+   ],
+   "title": "Replicate 2, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790861",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790861/suppl/GSM7790861_fullfusion_fragments-3.tsv.gz"
+   ],
+   "title": "Replicate 3, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790862",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790862/suppl/GSM7790862_fullfusion_fragments-4.tsv.gz"
+   ],
+   "title": "Replicate 4, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790863",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790863/suppl/GSM7790863_fullfusion_fragments-5.tsv.gz"
+   ],
+   "title": "Replicate 5, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790864",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790864/suppl/GSM7790864_fullfusion_fragments-6.tsv.gz"
+   ],
+   "title": "Replicate 6, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790865",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790865/suppl/GSM7790865_fullfusion_fragments-7.tsv.gz"
+   ],
+   "title": "Replicate 7, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790866",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790866/suppl/GSM7790866_fullfusion_fragments-8.tsv.gz"
+   ],
+   "title": "Replicate 8, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790867",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790867/suppl/GSM7790867_fullfusion_fragments-9.tsv.gz"
+   ],
+   "title": "Replicate 9, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790868",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790868/suppl/GSM7790868_fullfusion_fragments-10.tsv.gz"
+   ],
+   "title": "Replicate 10, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790869",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790869/suppl/GSM7790869_fullfusion_fragments-11.tsv.gz"
+   ],
+   "title": "Replicate 11, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values"
+   ],
+   "gsm": "GSM7790870",
+   "instrument": "Illumina NovaSeq 6000",
+   "library_strategy": "ATAC-seq",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790870/suppl/GSM7790870_fullfusion_fragments-12.tsv.gz"
+   ],
+   "title": "Replicate 12, scATAC-seq"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790871",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790871/suppl/GSM7790871_Sample1_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 1, dialout library"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790872",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790872/suppl/GSM7790872_Sample2_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 2, dialout library"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790873",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790873/suppl/GSM7790873_Sample3_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 3, dialout library"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790874",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790874/suppl/GSM7790874_Sample4_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 4, dialout library"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790875",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790875/suppl/GSM7790875_Sample5_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 5, dialout library"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790876",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790876/suppl/GSM7790876_Sample6_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 6, dialout library"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790877",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790877/suppl/GSM7790877_Sample7_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 7, dialout library"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790878",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790878/suppl/GSM7790878_Sample8_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 8, dialout library"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790879",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790879/suppl/GSM7790879_Sample9_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 9, dialout library"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790880",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790880/suppl/GSM7790880_Sample10_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 10, dialout library"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790881",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790881/suppl/GSM7790881_Sample11_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 11, dialout library"
+  },
+  {
+   "data_processing": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "genome_build_field": [
+    "For scATAC/Spear-ATAC libraries: Sequencing data was converted to fastq files using cellranger-atac mkfastq (10x Genomics, version 2.1.0). Reads were then aligned to the hg38 reference genome and quantified using cellranger-atac count. The current version of Cell Ranger can be accessed here:https://support.10xgenomics.com/single-cell-atac/software/downloads/latest",
+    "For dialout libraries: To filter for reads that contain the correct structure of amplicon, we grepped for 4 constants sequences that flanked the barcodes: \u201cAAATCCAAGC\u201d, \u201cCCAGAGCATG\u201d, \u201cCAAGGTGGTT\u201d, and \u201cATACTGATTC\u201d. . We then matched each of the supposed hardcoded barcodes to one of the known hardcoded barcodes from the list that we intended to synthesize by identifying a closest match using a maximum restricted Damerau-Levenshtein distance of 3. We then generated a list of unique hardcoded barcode \u2013 random barcode pairs. We restricted that list to pairs to those that were seen more than once. Finally, we required that, for a given random barcode, more than 95% of the reads had to match to the same hardcoded barcode.",
+    "Assembly: hg38",
+    "Supplementary files format and content: Tab separated values",
+    "Library strategy: Spear-ATAC"
+   ],
+   "gsm": "GSM7790882",
+   "instrument": "NextSeq 2000",
+   "library_strategy": "OTHER",
+   "organism": "Homo sapiens",
+   "supplementary_file": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7790nnn/GSM7790882/suppl/GSM7790882_Sample12_merged_associations.csv.gz"
+   ],
+   "title": "Replicate 12, dialout library"
+  }
+ ],
+ "series": "GSE243553",
+ "series_supplementary_files": [
+  "GSE243553_RAW.tar",
+  "filelist.txt",
+  "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+ ]
+}
