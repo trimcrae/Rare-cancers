@@ -3,73 +3,445 @@
  "_what": "The paper's supplementary files, from PMC's author-manuscript store \u2014 the place a differential-peak table actually lives when GEO deposits only raw fragments.",
  "_why_this_was_nearly_missed": "Europe PMC's supplementaryFiles endpoint answers HTTP 200 with `Article with id PMC13105821 is not open access one`, and bioRxiv answered 429 three times. Neither is an absence. PMC serves author-manuscript supplements from /articles/instance/<id>/bin/, and scraping the article page for that path found six files.",
  "contents": {
-  "NIHMS2166785-supplement-Supplementary_Data_1.zip": {
+  "SPRINGER::1::pdf": {
    "error": "BadZipFile: File is not a zip file",
    "kind": "unreadable"
   },
-  "NIHMS2166785-supplement-Supplementary_Data_2.zip": {
+  "SPRINGER::2::pdf": {
    "error": "BadZipFile: File is not a zip file",
    "kind": "unreadable"
   },
-  "NIHMS2166785-supplement-Supplementary_Table_1.xlsx": {
-   "error": "BadZipFile: File is not a zip file",
-   "kind": "unreadable"
+  "SPRINGER::3::zip": {
+   "kind": "xlsx",
+   "sheets": {}
   },
-  "NIHMS2166785-supplement-Supplementary_Table_2.xlsx": {
-   "error": "BadZipFile: File is not a zip file",
-   "kind": "unreadable"
-  },
-  "NIHMS2166785-supplement-Supplementary_Table_3.xlsx": {
-   "error": "BadZipFile: File is not a zip file",
-   "kind": "unreadable"
+  "SPRINGER::4::zip": {
+   "kind": "xlsx",
+   "sheets": {}
   }
  },
+ "doi": "10.1038/s41587-024-02347-4",
  "fetches": {
-  "NIHMS2166785-supplement-Supplementary_Data_1.zip": {
-   "bytes": 1817,
-   "error": null,
-   "http": 200,
-   "state": "ok",
-   "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Data_1.zip"
-  },
-  "NIHMS2166785-supplement-Supplementary_Data_2.zip": {
-   "bytes": 1816,
-   "error": null,
-   "http": 200,
-   "state": "ok",
-   "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Data_2.zip"
-  },
-  "NIHMS2166785-supplement-Supplementary_Table_1.xlsx": {
-   "bytes": 1817,
-   "error": null,
-   "http": 200,
-   "state": "ok",
-   "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Table_1.xlsx"
-  },
-  "NIHMS2166785-supplement-Supplementary_Table_2.xlsx": {
-   "bytes": 1817,
-   "error": null,
-   "http": 200,
-   "state": "ok",
-   "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Table_2.xlsx"
-  },
-  "NIHMS2166785-supplement-Supplementary_Table_3.xlsx": {
-   "bytes": 1817,
-   "error": null,
-   "http": 200,
-   "state": "ok",
-   "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Table_3.xlsx"
-  }
+  "NIHMS2166785-supplement-Supplementary_Data_1.zip": [
+   {
+    "body_head": "\n\n\n\n<html>\n  <head>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Preparing to download ...</title>\n    <style type=\"text/css\">\n      body{font-size:1rem;line-height:1.5;}\n      #main{width:100%;max-width:60em;max-height:100%;left:50%;top:50%;transform:transla",
+    "bytes": 1817,
+    "error": "HTTP 200 but the body does not start with b'PK\\x03\\x04'; this is a page, not the payload",
+    "http": 200,
+    "state": "ok_but_not_the_file",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Data_1.zip"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 404: Not Found",
+    "http": 404,
+    "state": "not_retrieved",
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Data_1.zip"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "RemoteDisconnected: Remote end closed connection without response",
+    "http": null,
+    "state": "not_retrieved",
+    "url": "https://europepmc.org/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Data_1.zip"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 404: Not Found",
+    "http": 404,
+    "state": "not_retrieved",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Data_1.zip"
+   }
+  ],
+  "NIHMS2166785-supplement-Supplementary_Data_2.zip": [
+   {
+    "body_head": "\n\n\n\n<html>\n  <head>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Preparing to download ...</title>\n    <style type=\"text/css\">\n      body{font-size:1rem;line-height:1.5;}\n      #main{width:100%;max-width:60em;max-height:100%;left:50%;top:50%;transform:transla",
+    "bytes": 1816,
+    "error": "HTTP 200 but the body does not start with b'PK\\x03\\x04'; this is a page, not the payload",
+    "http": 200,
+    "state": "ok_but_not_the_file",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Data_2.zip"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 404: Not Found",
+    "http": 404,
+    "state": "not_retrieved",
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Data_2.zip"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "RemoteDisconnected: Remote end closed connection without response",
+    "http": null,
+    "state": "not_retrieved",
+    "url": "https://europepmc.org/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Data_2.zip"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 404: Not Found",
+    "http": 404,
+    "state": "not_retrieved",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Data_2.zip"
+   }
+  ],
+  "NIHMS2166785-supplement-Supplementary_Table_1.xlsx": [
+   {
+    "body_head": "\n\n\n\n<html>\n  <head>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Preparing to download ...</title>\n    <style type=\"text/css\">\n      body{font-size:1rem;line-height:1.5;}\n      #main{width:100%;max-width:60em;max-height:100%;left:50%;top:50%;transform:transla",
+    "bytes": 1817,
+    "error": "HTTP 200 but the body does not start with b'PK\\x03\\x04'; this is a page, not the payload",
+    "http": 200,
+    "state": "ok_but_not_the_file",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Table_1.xlsx"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 404: Not Found",
+    "http": 404,
+    "state": "not_retrieved",
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Table_1.xlsx"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "RemoteDisconnected: Remote end closed connection without response",
+    "http": null,
+    "state": "not_retrieved",
+    "url": "https://europepmc.org/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Table_1.xlsx"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 404: Not Found",
+    "http": 404,
+    "state": "not_retrieved",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Table_1.xlsx"
+   }
+  ],
+  "NIHMS2166785-supplement-Supplementary_Table_2.xlsx": [
+   {
+    "body_head": "\n\n\n\n<html>\n  <head>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Preparing to download ...</title>\n    <style type=\"text/css\">\n      body{font-size:1rem;line-height:1.5;}\n      #main{width:100%;max-width:60em;max-height:100%;left:50%;top:50%;transform:transla",
+    "bytes": 1816,
+    "error": "HTTP 200 but the body does not start with b'PK\\x03\\x04'; this is a page, not the payload",
+    "http": 200,
+    "state": "ok_but_not_the_file",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Table_2.xlsx"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 404: Not Found",
+    "http": 404,
+    "state": "not_retrieved",
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Table_2.xlsx"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "RemoteDisconnected: Remote end closed connection without response",
+    "http": null,
+    "state": "not_retrieved",
+    "url": "https://europepmc.org/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Table_2.xlsx"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 404: Not Found",
+    "http": 404,
+    "state": "not_retrieved",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Table_2.xlsx"
+   }
+  ],
+  "NIHMS2166785-supplement-Supplementary_Table_3.xlsx": [
+   {
+    "body_head": "\n\n\n\n<html>\n  <head>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Preparing to download ...</title>\n    <style type=\"text/css\">\n      body{font-size:1rem;line-height:1.5;}\n      #main{width:100%;max-width:60em;max-height:100%;left:50%;top:50%;transform:transla",
+    "bytes": 1817,
+    "error": "HTTP 200 but the body does not start with b'PK\\x03\\x04'; this is a page, not the payload",
+    "http": 200,
+    "state": "ok_but_not_the_file",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Table_3.xlsx"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 404: Not Found",
+    "http": 404,
+    "state": "not_retrieved",
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Table_3.xlsx"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "RemoteDisconnected: Remote end closed connection without response",
+    "http": null,
+    "state": "not_retrieved",
+    "url": "https://europepmc.org/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Table_3.xlsx"
+   },
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 404: Not Found",
+    "http": 404,
+    "state": "not_retrieved",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13105821/bin/NIHMS2166785-supplement-Supplementary_Table_3.xlsx"
+   }
+  ],
+  "SPRINGER::1::pdf": [
+   {
+    "body_head": "%PDF-1.6\r%\ufffd\ufffd\ufffd\ufffd\r\n147 0 obj\r<</Linearized 1/L 7748745/O 150/E 225359/N 9/T 7745684/H [ 996 458]>>\rendobj\r           \r\nxref\r\n147 35\r\n0000000016 00000 n\r\n0000001454 00000 n\r\n0000001590 00000 n\r\n0000001719 00000 n\r\n0000002168 00000 n\r\n0000002195 00000 n\r\n0000002333 00000 n\r\n0000003534 00000 n\r\n0000003571",
+    "bytes": 7748745,
+    "error": null,
+    "http": 200,
+    "state": "ok",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM1_ESM.pdf"
+   }
+  ],
+  "SPRINGER::1::xlsx": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM1_ESM.xlsx"
+   }
+  ],
+  "SPRINGER::1::zip": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM1_ESM.zip"
+   }
+  ],
+  "SPRINGER::2::pdf": [
+   {
+    "body_head": "%PDF-1.7\n\n4 0 obj\n<<\n/BitsPerComponent 8\n/ColorSpace /DeviceRGB\n/Filter /DCTDecode\n/Height 148\n/Length 19092\n/Subtype /Image\n/Type /XObject\n/Width 943\n>>\nstream\n\ufffd\ufffd\ufffd\ufffd\u0000\u0010JFIF\u0000\u0001\u0001\u0001\u0000`\u0000`\u0000\u0000\ufffd\ufffd\u0000C\u0000\r\t\n\u000b\n\b\r\u000b\u000b\u000b\u000f\u000e\r\u0010\u0014!\u0015\u0014\u0012\u0012\u0014(\u001d\u001e\u0018!0*21/*.-4;K@48G9-.BYBGNPTUT3?]c\\RbKSTQ\ufffd\ufffd\u0000C\u0001\u000e\u000f\u000f\u0014\u0011\u0014'\u0015\u0015'Q6.6QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ",
+    "bytes": 1957025,
+    "error": null,
+    "http": 200,
+    "state": "ok",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM2_ESM.pdf"
+   }
+  ],
+  "SPRINGER::2::xlsx": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM2_ESM.xlsx"
+   }
+  ],
+  "SPRINGER::2::zip": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM2_ESM.zip"
+   }
+  ],
+  "SPRINGER::3::pdf": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM3_ESM.pdf"
+   }
+  ],
+  "SPRINGER::3::xlsx": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM3_ESM.xlsx"
+   }
+  ],
+  "SPRINGER::3::zip": [
+   {
+    "body_head": "PK\u0003\u0004\u0014\u0000\u0000\u0000\u0000\u0000\ufffd\ufffdQW\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0010\u0000 \u0000Supp_Data_1_new/UT\r\u0000\u0007\t\u0017/e\ufffd:1e?\ufffd|fux\u000b\u0000\u0001\u0004\ufffd\u0001\u0000\u0000\u0004\u0014\u0000\u0000\u0000PK\u0003\u0004\u0014\u0000\b\u0000\b\u0000K^\u0018W\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000;\u000f\u0000\u0000%\u0000 \u0000Supp_Data_1_new/TPR-NTRK1_markers.bedUT\r\u0000\u0007O\ufffd\ufffdd\ufffd\u0000{f\ufffd\u0000{fux\u000b\u0000\u0001\u0004\ufffd\u0001\u0000\u0000\u0004\u0014\u0000\u0000\u0000M\ufffd;\ufffd,\ufffd\u000e\u0000\ufffd\ufffd\u0000B\u001fv2\ufffd8\u03de\ufffd\u001b/\ufffdD\u07498q:[\ufffd\u0002!\ufffd\ufffd\u007f\ufffd\ufffd\ufffd\ufffd\ufffdl\u0011\ufffdqa/\u0019\u007f\ufffd\ufffdbU\ufffdC\ufffd/@\ufffd\ufffd{\ufffd1\ufffd@\ufffd\ufffd\ufffd|\ufffd:\ufffd/\ufffd:%v\u001d|1+\b\ufffd\u0003\u0019K\u0017\ufffd\ufffd\ufffd\ufffd6\ufffdx\u0014\ufffdG\ufffd5\u001fYZ`KK<\ufffd\u001eK\ufffdV\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd#M\ufffd",
+    "bytes": 788065,
+    "error": null,
+    "http": 200,
+    "state": "ok",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM3_ESM.zip"
+   }
+  ],
+  "SPRINGER::4::pdf": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM4_ESM.pdf"
+   }
+  ],
+  "SPRINGER::4::xlsx": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM4_ESM.xlsx"
+   }
+  ],
+  "SPRINGER::4::zip": [
+   {
+    "body_head": "PK\u0003\u0004\u0014\u0000\u0000\u0000\u0000\u0000\ufffd\ufffdQW\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0010\u0000 \u0000Supp_Data_2_new/UT\r\u0000\u0007\t\u0017/e\ufffd:1e?\ufffd|fux\u000b\u0000\u0001\u0004\ufffd\u0001\u0000\u0000\u0004\u0014\u0000\u0000\u0000PK\u0003\u0004\u0014\u0000\b\u0000\b\u0000!^\u0018W\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000)\ufffd\u001c\u0000\u001f\u0000 \u0000Supp_Data_2_new/EWSR1NFATC2.txtUT\r\u0000\u0007\ufffd\ufffd\ufffdd\ufffd\u0000{f\ufffd\u0000{fux\u000b\u0000\u0001\u0004\ufffd\u0001\u0000\u0000\u0004\u0014\u0000\u0000\u0000\ufffd\ufffdYw\\\ufffdr%\ufffd\\\ufffd\u0015xo\u0003_\ufffd\ufffd[\ufffd\u0010%\ufffd\u0012t\ufffd\bJ\ufffd~\ufffd@X\u013a @\u0003\ufffd\ufffd\ufffd\ufffd_\ufffd\ufffd3\u0016\n\u0015\ufffd\u0005u\ufffdk]MV\ufffd:\ufffddF\u01b0c\ufffd\ufffd\ufffd\u007f\ufffd\ufffdS\ufffd\ufffdl^}xuz|~\ufffd\u07dbW\ufffd\ufffdW\u000f\u000f\ufffd\u007f\ufffd\\\u001d]~\ufffd\ufffd\ufffd|\ufffdx}\ufffdy}w{\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\u0457\ufffd\ufffd\u02ef\ufffd",
+    "bytes": 7823631,
+    "error": null,
+    "http": 200,
+    "state": "ok",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM4_ESM.zip"
+   }
+  ],
+  "SPRINGER::5::pdf": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM5_ESM.pdf"
+   }
+  ],
+  "SPRINGER::5::xlsx": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM5_ESM.xlsx"
+   }
+  ],
+  "SPRINGER::5::zip": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM5_ESM.zip"
+   }
+  ],
+  "SPRINGER::6::pdf": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM6_ESM.pdf"
+   }
+  ],
+  "SPRINGER::6::xlsx": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM6_ESM.xlsx"
+   }
+  ],
+  "SPRINGER::6::zip": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM6_ESM.zip"
+   }
+  ],
+  "SPRINGER::7::pdf": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM7_ESM.pdf"
+   }
+  ],
+  "SPRINGER::7::xlsx": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM7_ESM.xlsx"
+   }
+  ],
+  "SPRINGER::7::zip": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM7_ESM.zip"
+   }
+  ],
+  "SPRINGER::8::pdf": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM8_ESM.pdf"
+   }
+  ],
+  "SPRINGER::8::xlsx": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM8_ESM.xlsx"
+   }
+  ],
+  "SPRINGER::8::zip": [
+   {
+    "body_head": null,
+    "bytes": 0,
+    "error": "HTTP Error 403: Forbidden",
+    "http": 403,
+    "state": "not_retrieved",
+    "url": "https://static-content.springer.com/esm/art%3A10.1038%2Fs41587-024-02347-4/MediaObjects/41587_2024_2347_MOESM8_ESM.zip"
+   }
+  ]
  },
- "generated_utc": "2026-08-08T20:26:13Z",
+ "generated_utc": "2026-08-08T20:29:39Z",
  "genomic_interval_tables_found": {
-  "NIHMS2166785-supplement-Supplementary_Data_1.zip": [],
-  "NIHMS2166785-supplement-Supplementary_Data_2.zip": [],
-  "NIHMS2166785-supplement-Supplementary_Table_1.xlsx": [],
-  "NIHMS2166785-supplement-Supplementary_Table_2.xlsx": [],
-  "NIHMS2166785-supplement-Supplementary_Table_3.xlsx": []
+  "SPRINGER::1::pdf": [],
+  "SPRINGER::2::pdf": [],
+  "SPRINGER::3::zip": [],
+  "SPRINGER::4::zip": []
  },
  "pmcid": "PMC13105821",
  "pmid": "39048711",
- "series": "GSE243553"
+ "series": "GSE243553",
+ "\u26d4_a_200_is_not_the_file": "Measured, run 31276875402: all five PMC /bin/ URLs answered HTTP 200 with 1,817 bytes \u2014 an interstitial page, not a multi-megabyte zip \u2014 and were recorded `ok`. Every candidate is now checked against the container's MAGIC BYTES and a 200 whose body is not the payload is `ok_but_not_the_file`, with the body kept. That is a different diagnosis from `not_retrieved` and it points at a different fix."
 }
