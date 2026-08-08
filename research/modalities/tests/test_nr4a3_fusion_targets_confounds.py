@@ -28,6 +28,7 @@ MOD = os.path.dirname(HERE)
 sys.path.insert(0, MOD)
 
 import nr4a3_fusion_targets_confounds as C  # noqa: E402
+from nr4a3_fusion_targets_robustness import _label_permutation as _label_permutation_ref  # noqa: E402
 
 
 @pytest.fixture(scope="module")
@@ -247,6 +248,43 @@ def test_minimum_detectable_effect_never_calls_a_set_cleared_inside_its_own_band
             assert r["cleared"] is not inside, f"{name}/{plat}"
             if not r["cleared"]:
                 assert r["fraction_of_threshold_reached"] <= 1.0000001
+
+
+def test_no_exact_permutation_reports_a_p_below_what_its_design_can_report(artifact):
+    """An exact enumeration CONTAINS the observed labelling, so p >= 1/n_labellings always.
+
+    A p below that floor means the observed statistic and the enumerated statistic are not the
+    same quantity. That happened: `_welch` rounds its delta to 4 decimals, and when rounding
+    pushed the reported value above the true one (3.5154 against 3.515391...) the real labelling
+    failed its own `>=` test and was not counted, so ENO3/GPL3290 returned p = 0."""
+    seen = 0
+    for plat, v in artifact["platforms"].items():
+        for g, row in v["restricted_comparator_arms"]["per_gene"].items():
+            if row.get("_status"):
+                continue
+            for arm, cell in row.items():
+                perm = cell.get("permutation") if isinstance(cell, dict) else None
+                if not perm or not perm.get("exact"):
+                    continue
+                seen += 1
+                assert perm["p_two_sided"] >= perm["smallest_p_this_design_can_report"], (
+                    f"{plat}/{g}/{arm}: p={perm['p_two_sided']} below floor "
+                    f"{perm['smallest_p_this_design_can_report']}")
+                assert perm["n_at_least_as_extreme"] >= 1, (
+                    f"{plat}/{g}/{arm}: the observed labelling did not count itself")
+    assert seen > 20, "too few exact permutations were checked for this to mean anything"
+
+
+def test_a_rounded_observed_delta_would_be_caught_rather_than_reported():
+    """The guard itself, exercised directly: feed a deliberately-too-large observed value."""
+    vals = [3.0, 3.1, 3.2, 0.1, 0.2, 0.3]
+    true = sum(vals[:3]) / 3 - sum(vals[3:]) / 3
+    good = _label_permutation_ref(vals, 3, true)
+    assert good["p_two_sided"] >= good["smallest_p_this_design_can_report"]
+    bad = _label_permutation_ref(vals, 3, true + 1e-6)
+    assert bad["n_at_least_as_extreme"] == 0
+    assert bad["p_two_sided"] < bad["smallest_p_this_design_can_report"], (
+        "if this ever stops being true the production guard is testing nothing")
 
 
 def test_the_language_discipline_note_denies_the_forbidden_claims(artifact):

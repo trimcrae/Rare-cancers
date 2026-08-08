@@ -6,7 +6,7 @@
  },
  "_language_discipline": "Nothing in this file is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim for any agent, target or gene, and no such quantity is computed. No test here measures occupancy: nothing shows any gene being bound by any fusion protein.",
  "_what": "Confound audit and sensitivity analysis for the EWSR1::NR4A3 transcriptional-output reading.",
- "generated_utc": "2026-08-08T02:12:47Z",
+ "generated_utc": "2026-08-08T02:18:51Z",
  "minimum_detectable_effect": {
   "_what": "for every set the manuscript scores, the delta required to clear the 95% band of its own size-matched null, and how far the observed delta got.",
   "_why": "a negative that does not say what it could have detected is not interpretable. This is a DETECTABILITY threshold on this instrument at these arm sizes, not a statistical power calculation -- no alternative hypothesis is assumed.",
@@ -712,6 +712,15 @@
        "delta": 0.8047,
        "df": 5.4,
        "n_comparator": 17,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 17,
+        "n_labellings_considered": 100947,
+        "n_labellings_total": 100947,
+        "p_two_sided": 0.000168,
+        "smallest_p_this_design_can_report": 9.91e-06
+       },
        "t": 3.598
       },
       "class_desmoid_fibromatosis_only": {
@@ -727,6 +736,15 @@
        "delta": 0.8069,
        "df": 9.3,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 20,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.021645,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": 2.953
       },
       "class_fibrosarcoma_only": {
@@ -742,6 +760,15 @@
        "delta": 0.8158,
        "df": 7.6,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 10,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.010823,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": 3.297
       },
       "myxoid_comparators_only": {
@@ -757,6 +784,15 @@
        "delta": 0.8076,
        "df": 5.4,
        "n_comparator": 23,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 38,
+        "n_labellings_considered": 475020,
+        "n_labellings_total": 475020,
+        "p_two_sided": 8e-05,
+        "smallest_p_this_design_can_report": 2.11e-06
+       },
        "t": 3.617
       },
       "non_myxoid_comparators_only": {
@@ -772,6 +808,15 @@
        "delta": 0.8069,
        "df": 9.3,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 20,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.021645,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": 2.953
       }
      },
@@ -789,6 +834,15 @@
        "delta": 0.839,
        "df": 8.2,
        "n_comparator": 17,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 16,
+        "n_labellings_considered": 100947,
+        "n_labellings_total": 100947,
+        "p_two_sided": 0.000158,
+        "smallest_p_this_design_can_report": 9.91e-06
+       },
        "t": 5.079
       },
       "class_desmoid_fibromatosis_only": {
@@ -804,6 +858,15 @@
        "delta": 0.8369,
        "df": 7.9,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 2,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.002165,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": 5.017
       },
       "class_fibrosarcoma_only": {
@@ -819,6 +882,15 @@
        "delta": 0.37,
        "df": 9.9,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 116,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.125541,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": 1.907
       },
       "myxoid_comparators_only": {
@@ -834,6 +906,15 @@
        "delta": 0.7166,
        "df": 8.2,
        "n_comparator": 23,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 270,
+        "n_labellings_considered": 475020,
+        "n_labellings_total": 475020,
+        "p_two_sided": 0.000568,
+        "smallest_p_this_design_can_report": 2.11e-06
+       },
        "t": 4.336
       },
       "non_myxoid_comparators_only": {
@@ -849,6 +930,15 @@
        "delta": 0.8369,
        "df": 7.9,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 2,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.002165,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": 5.017
       }
      },
@@ -866,6 +956,15 @@
        "delta": -0.1689,
        "df": 5.8,
        "n_comparator": 17,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 43466,
+        "n_labellings_considered": 100947,
+        "n_labellings_total": 100947,
+        "p_two_sided": 0.430582,
+        "smallest_p_this_design_can_report": 9.91e-06
+       },
        "t": -0.569
       },
       "class_desmoid_fibromatosis_only": {
@@ -881,6 +980,15 @@
        "delta": -0.7333,
        "df": 5.6,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 40,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.04329,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": -2.491
       },
       "class_fibrosarcoma_only": {
@@ -896,6 +1004,15 @@
        "delta": -0.8346,
        "df": 9.9,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 58,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.062771,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": -2.175
       },
       "myxoid_comparators_only": {
@@ -911,6 +1028,15 @@
        "delta": -0.3426,
        "df": 6.4,
        "n_comparator": 23,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 86966,
+        "n_labellings_considered": 475020,
+        "n_labellings_total": 475020,
+        "p_two_sided": 0.183079,
+        "smallest_p_this_design_can_report": 2.11e-06
+       },
        "t": -1.124
       },
       "non_myxoid_comparators_only": {
@@ -926,6 +1052,15 @@
        "delta": -0.7333,
        "df": 5.6,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 40,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.04329,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": -2.491
       }
      },
@@ -943,6 +1078,15 @@
        "delta": 0.1969,
        "df": 7.0,
        "n_comparator": 17,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 22247,
+        "n_labellings_considered": 100947,
+        "n_labellings_total": 100947,
+        "p_two_sided": 0.220383,
+        "smallest_p_this_design_can_report": 9.91e-06
+       },
        "t": 1.089
       },
       "class_desmoid_fibromatosis_only": {
@@ -958,6 +1102,15 @@
        "delta": 0.4731,
        "df": 8.7,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 40,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.04329,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": 2.38
       },
       "class_fibrosarcoma_only": {
@@ -973,6 +1126,15 @@
        "delta": 0.4536,
        "df": 9.7,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 64,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.069264,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": 2.105
       },
       "myxoid_comparators_only": {
@@ -988,6 +1150,15 @@
        "delta": 0.2638,
        "df": 6.7,
        "n_comparator": 23,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 47634,
+        "n_labellings_considered": 475020,
+        "n_labellings_total": 475020,
+        "p_two_sided": 0.100278,
+        "smallest_p_this_design_can_report": 2.11e-06
+       },
        "t": 1.475
       },
       "non_myxoid_comparators_only": {
@@ -1003,6 +1174,15 @@
        "delta": 0.4731,
        "df": 8.7,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 40,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.04329,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": 2.38
       }
      },
@@ -1020,6 +1200,15 @@
        "delta": 1.6574,
        "df": 16.6,
        "n_comparator": 17,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 12,
+        "n_labellings_considered": 100947,
+        "n_labellings_total": 100947,
+        "p_two_sided": 0.000119,
+        "smallest_p_this_design_can_report": 9.91e-06
+       },
        "t": 6.226
       },
       "class_desmoid_fibromatosis_only": {
@@ -1035,6 +1224,15 @@
        "delta": -0.6455,
        "df": 8.1,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 14,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.015152,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": -3.09
       },
       "class_fibrosarcoma_only": {
@@ -1050,6 +1248,15 @@
        "delta": -0.5232,
        "df": 8.6,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 126,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.136364,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": -1.589
       },
       "myxoid_comparators_only": {
@@ -1065,6 +1272,15 @@
        "delta": 1.0885,
        "df": 23.8,
        "n_comparator": 23,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 21895,
+        "n_labellings_considered": 475020,
+        "n_labellings_total": 475020,
+        "p_two_sided": 0.046093,
+        "smallest_p_this_design_can_report": 2.11e-06
+       },
        "t": 3.455
       },
       "non_myxoid_comparators_only": {
@@ -1080,6 +1296,15 @@
        "delta": -0.6455,
        "df": 8.1,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 14,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.015152,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": -3.09
       }
      },
@@ -1097,6 +1322,15 @@
        "delta": -0.0317,
        "df": 6.7,
        "n_comparator": 17,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 88788,
+        "n_labellings_considered": 100947,
+        "n_labellings_total": 100947,
+        "p_two_sided": 0.879551,
+        "smallest_p_this_design_can_report": 9.91e-06
+       },
        "t": -0.126
       },
       "class_desmoid_fibromatosis_only": {
@@ -1112,6 +1346,15 @@
        "delta": -0.167,
        "df": 6.9,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 478,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.517316,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": -0.65
       },
       "class_fibrosarcoma_only": {
@@ -1127,6 +1370,15 @@
        "delta": -0.6167,
        "df": 8.1,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 44,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.047619,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": -2.264
       },
       "myxoid_comparators_only": {
@@ -1142,6 +1394,15 @@
        "delta": -0.1843,
        "df": 6.7,
        "n_comparator": 23,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 192644,
+        "n_labellings_considered": 475020,
+        "n_labellings_total": 475020,
+        "p_two_sided": 0.405549,
+        "smallest_p_this_design_can_report": 2.11e-06
+       },
        "t": -0.73
       },
       "non_myxoid_comparators_only": {
@@ -1157,6 +1418,15 @@
        "delta": -0.167,
        "df": 6.9,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 478,
+        "n_labellings_considered": 924,
+        "n_labellings_total": 924,
+        "p_two_sided": 0.517316,
+        "smallest_p_this_design_can_report": 0.00108225
+       },
        "t": -0.65
       }
      }
@@ -1521,6 +1791,15 @@
        "delta": 3.5154,
        "df": 4.1,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 1,
+        "n_labellings_considered": 286,
+        "n_labellings_total": 286,
+        "p_two_sided": 0.003497,
+        "smallest_p_this_design_can_report": 0.0034965
+       },
        "t": 13.517
       },
       "class_GIST_only": {
@@ -1536,6 +1815,15 @@
        "delta": 4.1072,
        "df": 2.5,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 1,
+        "n_labellings_considered": 286,
+        "n_labellings_total": 286,
+        "p_two_sided": 0.003497,
+        "smallest_p_this_design_can_report": 0.0034965
+       },
        "t": 9.291
       },
       "non_myxoid_comparators_only": {
@@ -1551,6 +1839,15 @@
        "delta": 3.8113,
        "df": 8.5,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 1,
+        "n_labellings_considered": 8008,
+        "n_labellings_total": 8008,
+        "p_two_sided": 0.000125,
+        "smallest_p_this_design_can_report": 0.00012488
+       },
        "t": 13.222
       },
       "reference_pool_matched_only": {
@@ -1566,6 +1863,15 @@
        "delta": 3.5154,
        "df": 4.1,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 1,
+        "n_labellings_considered": 286,
+        "n_labellings_total": 286,
+        "p_two_sided": 0.003497,
+        "smallest_p_this_design_can_report": 0.0034965
+       },
        "t": 13.517
       }
      },
@@ -1601,6 +1907,15 @@
        "delta": -1.6593,
        "df": 7.3,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 7,
+        "n_labellings_considered": 165,
+        "n_labellings_total": 165,
+        "p_two_sided": 0.042424,
+        "smallest_p_this_design_can_report": 0.00606061
+       },
        "t": -4.704
       },
       "class_GIST_only": {
@@ -1616,6 +1931,15 @@
        "delta": -2.6087,
        "df": 8.7,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 1,
+        "n_labellings_considered": 165,
+        "n_labellings_total": 165,
+        "p_two_sided": 0.006061,
+        "smallest_p_this_design_can_report": 0.00606061
+       },
        "t": -6.878
       },
       "non_myxoid_comparators_only": {
@@ -1631,6 +1955,15 @@
        "delta": -2.134,
        "df": 11.3,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 7,
+        "n_labellings_considered": 3003,
+        "n_labellings_total": 3003,
+        "p_two_sided": 0.002331,
+        "smallest_p_this_design_can_report": 0.000333
+       },
        "t": -5.147
       },
       "reference_pool_matched_only": {
@@ -1646,6 +1979,15 @@
        "delta": -1.6593,
        "df": 7.3,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 7,
+        "n_labellings_considered": 165,
+        "n_labellings_total": 165,
+        "p_two_sided": 0.042424,
+        "smallest_p_this_design_can_report": 0.00606061
+       },
        "t": -4.704
       }
      },
@@ -1663,6 +2005,15 @@
        "delta": 2.6789,
        "df": 2.3,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 1,
+        "n_labellings_considered": 286,
+        "n_labellings_total": 286,
+        "p_two_sided": 0.003497,
+        "smallest_p_this_design_can_report": 0.0034965
+       },
        "t": 5.052
       },
       "class_GIST_only": {
@@ -1682,6 +2033,15 @@
        "delta": 2.4809,
        "df": 5.3,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 1,
+        "n_labellings_considered": 3003,
+        "n_labellings_total": 3003,
+        "p_two_sided": 0.000333,
+        "smallest_p_this_design_can_report": 0.000333
+       },
        "t": 6.243
       },
       "reference_pool_matched_only": {
@@ -1697,6 +2057,15 @@
        "delta": 2.6789,
        "df": 2.3,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 1,
+        "n_labellings_considered": 286,
+        "n_labellings_total": 286,
+        "p_two_sided": 0.003497,
+        "smallest_p_this_design_can_report": 0.0034965
+       },
        "t": 5.052
       }
      },
@@ -1714,6 +2083,15 @@
        "delta": 0.1132,
        "df": 9.4,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 241,
+        "n_labellings_considered": 286,
+        "n_labellings_total": 286,
+        "p_two_sided": 0.842657,
+        "smallest_p_this_design_can_report": 0.0034965
+       },
        "t": 0.334
       },
       "class_GIST_only": {
@@ -1729,6 +2107,15 @@
        "delta": 1.1325,
        "df": 4.6,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 17,
+        "n_labellings_considered": 286,
+        "n_labellings_total": 286,
+        "p_two_sided": 0.059441,
+        "smallest_p_this_design_can_report": 0.0034965
+       },
        "t": 2.481
       },
       "non_myxoid_comparators_only": {
@@ -1744,6 +2131,15 @@
        "delta": 0.6228,
        "df": 12.4,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 1323,
+        "n_labellings_considered": 8008,
+        "n_labellings_total": 8008,
+        "p_two_sided": 0.16521,
+        "smallest_p_this_design_can_report": 0.00012488
+       },
        "t": 1.547
       },
       "reference_pool_matched_only": {
@@ -1759,6 +2155,15 @@
        "delta": 0.1132,
        "df": 9.4,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 241,
+        "n_labellings_considered": 286,
+        "n_labellings_total": 286,
+        "p_two_sided": 0.842657,
+        "smallest_p_this_design_can_report": 0.0034965
+       },
        "t": 0.334
       }
      },
@@ -1776,6 +2181,15 @@
        "delta": -0.198,
        "df": 10.8,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 166,
+        "n_labellings_considered": 286,
+        "n_labellings_total": 286,
+        "p_two_sided": 0.58042,
+        "smallest_p_this_design_can_report": 0.0034965
+       },
        "t": -0.991
       },
       "class_GIST_only": {
@@ -1791,6 +2205,15 @@
        "delta": 1.4292,
        "df": 2.6,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 4,
+        "n_labellings_considered": 286,
+        "n_labellings_total": 286,
+        "p_two_sided": 0.013986,
+        "smallest_p_this_design_can_report": 0.0034965
+       },
        "t": 2.664
       },
       "non_myxoid_comparators_only": {
@@ -1806,6 +2229,15 @@
        "delta": 0.6156,
        "df": 6.9,
        "n_comparator": 6,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 1248,
+        "n_labellings_considered": 8008,
+        "n_labellings_total": 8008,
+        "p_two_sided": 0.155844,
+        "smallest_p_this_design_can_report": 0.00012488
+       },
        "t": 1.316
       },
       "reference_pool_matched_only": {
@@ -1821,6 +2253,15 @@
        "delta": -0.198,
        "df": 10.8,
        "n_comparator": 3,
+       "permutation": {
+        "_what_is_permuted": "the EMC / comparator LABEL over samples. The gene set is never resampled, so gene-gene correlation is carried through untouched -- which is the property the size-matched gene-set null does not have.",
+        "exact": true,
+        "n_at_least_as_extreme": 166,
+        "n_labellings_considered": 286,
+        "n_labellings_total": 286,
+        "p_two_sided": 0.58042,
+        "smallest_p_this_design_can_report": 0.0034965
+       },
        "t": -0.991
       }
      }

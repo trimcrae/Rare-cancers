@@ -69,6 +69,9 @@ from emc_hypoxia_confounds import (  # noqa: E402
     _reference_token, _zrow,
 )
 from fet_ddr_axis_scan import _welch  # noqa: E402
+# The exact two-sided label-permutation null the manuscript's §3.12 already uses, imported from the
+# module that OWNS it so a stratified contrast is tested by the same instrument as a pooled one.
+from nr4a3_fusion_targets_robustness import _label_permutation  # noqa: E402
 
 MIN_GROUP_N_FOR_A_CONTRAST = 3
 DECIMALS = 4
@@ -445,8 +448,30 @@ def _contrast_across_arms(tgt, genes, emc, arms):
             if not w:
                 row[name] = {"_status": "BELOW_FLOOR", "n_comparator": spec["n"]}
                 continue
+            # The same exact two-sided label permutation the manuscript uses for its pooled
+            # contrasts, so a stratified row carries the same kind of p as the row it qualifies.
+            #
+            # THE OBSERVED DELTA PASSED HERE MUST BE UNROUNDED. `_welch` rounds it to 4 decimals,
+            # and the permutation counts labellings with |d| >= |observed|. When rounding pushes
+            # the reported value ABOVE the true one (3.5154 against 3.515391...), the real
+            # labelling fails its own test, is not counted, and the enumeration returns p = 0 --
+            # which is impossible for an exact test that contains the observed labelling. Measured
+            # on ENO3/GPL3290 before this was fixed.
+            ea = [z[i] for i in emc if z[i] is not None]
+            ba = [z[i] for i in spec["idx"] if z[i] is not None]
+            observed_exact = math.fsum(ea) / len(ea) - math.fsum(ba) / len(ba)
+            vals = ea + ba
+            perm = _label_permutation(vals, len(ea), observed_exact)
+            if perm and perm["p_two_sided"] < perm["smallest_p_this_design_can_report"]:
+                raise SystemExit(
+                    f"nr4a3_fusion_targets_confounds: exact permutation for {g}/{name} returned "
+                    f"p={perm['p_two_sided']}, below the smallest p this design can report "
+                    f"({perm['smallest_p_this_design_can_report']}). An exact enumeration contains "
+                    "the observed labelling, so it can never do that -- the observed statistic and "
+                    "the enumerated one are not the same quantity.")
             row[name] = {"n_comparator": spec["n"], "delta": w["delta_a_minus_b"],
-                         "t": w["t"], "df": w["df"], "ci": _welch_ci(w)}
+                         "t": w["t"], "df": w["df"], "ci": _welch_ci(w),
+                         "permutation": perm}
         out[g] = row
     return out
 
