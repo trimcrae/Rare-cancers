@@ -28,15 +28,20 @@ HONEST LIMITS, STATED BECAUSE THEY DETERMINE HOW TO READ THE OUTPUT
   * Matching is on the TITLE only. A paper that fires a trigger in its abstract and not its
     title is missed. This is deliberate -- the alternative (abstract matching) floods.
   * Europe PMC indexes preprint servers unevenly and arXiv is queried separately for exactly
-    that reason; a method paper posted to a venue neither indexes is missed.
+    that reason; a method paper posted to a venue none of the sources indexes is missed.
+  * PREPRINTS ARE UNREFEREED BY CONSTRUCTION. The preprint lane exists to see a capability
+    COMING, not to credit it as arrived -- a preprint hit is the weakest lead on the board and
+    is marked as one. It never moves a forecast on its own; it says where to look.
   * A miss is silent. The run log records what was SEARCHED, so an empty result is
     distinguishable from a scan that did not run -- CLAUDE.md section 4: an absent reading is
     not a reading of absence.
 
 SOURCES (both need unrestricted egress -- this cannot run in the dev sandbox; CLAUDE.md
 section 6 routes it through GitHub Actions):
-  * Europe PMC REST   https://www.ebi.ac.uk/europepmc
-  * arXiv Atom API    https://export.arxiv.org
+  * Europe PMC REST   https://www.ebi.ac.uk/europepmc   (published + SRC:PPR preprints)
+  * arXiv Atom API    https://export.arxiv.org           (preprints)
+  * ChemRxiv API      https://chemrxiv.org/engage        (preprints -- the chemistry half that
+                                                          neither of the other two reaches)
 
 OUTPUTS
   research/method-watch-trigger-hits.json   ledger: every hit ever emitted + run history.
@@ -76,6 +81,8 @@ _ROOT = os.path.dirname(_HERE)
 TRIGGERS = os.path.join(_ROOT, "research", "method-watch-triggers.json")
 LEDGER = os.path.join(_ROOT, "research", "method-watch-trigger-hits.json")
 BOARD = os.path.join(_ROOT, "research", "method-watch-trigger-scan.md")
+#: The preprint pipeline board -- what is coming, keyed by the BLOCKER it would reopen.
+PREPRINT_BOARD = os.path.join(_ROOT, "research", "method-watch-preprint-pipeline.md")
 IDEAS = os.path.join(_ROOT, "research", "IDEAS.md")
 #: The systems model's technology register. The scan writes UNGRADED SIGNALS into it and nothing else.
 TECHNOLOGIES = os.path.join(_ROOT, "systems", "graph", "technologies.json")
@@ -84,9 +91,16 @@ IDEAS_SECTION = "## 🔄 Auto-captured field-scan advances (review + integrate i
 
 EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 ARXIV = "https://export.arxiv.org/api/query"
+CHEMRXIV = "https://chemrxiv.org/engage/chemrxiv/public-api/v1/items"
 UA = "rare-cancers-trigger-scan (https://github.com/trimcrae/Rare-cancers)"
 
-# Politeness. Both APIs are public and free; neither is ours to hammer.
+#: Preprint lane -- the SRC:PPR pass and ChemRxiv. On by default: a preprint is the earliest
+#: observable signal that a forecast band is about to move, and the whole point of the register
+#: is to see a capability coming rather than to learn it landed. Set TRIGGER_PREPRINTS=0 to run
+#: the published-only corpus (e.g. to reproduce a pre-2026-08-08 board).
+PREPRINT_LANE = os.environ.get("TRIGGER_PREPRINTS", "1") not in ("0", "false", "no")
+
+# Politeness. These APIs are public and free; none is ours to hammer.
 SLEEP_S = float(os.environ.get("TRIGGER_SCAN_SLEEP", "1.5"))
 TIMEOUT_S = 60
 
@@ -141,6 +155,55 @@ def epmc_search(query: str, page_size: int = 25) -> list[dict]:
     return out
 
 
+def epmc_preprint_search(query: str, page_size: int = 25) -> list[dict]:
+    """The SAME curated query, scoped to Europe PMC's preprint records (`SRC:PPR`).
+
+    ⭐ WHY THIS REUSES THE QUERY RATHER THAN ADDING A NEW ONE (2026-08-08, trimcrae: "scan for
+    open not yet published pre-prints ... that could help us plan what's coming"). Each trigger's
+    europepmc queries are hand-curated against a named capability, and its `must_match` /
+    `exclude_match` lists are what stop `ternary alloy` scoring as a ternary-complex paper. A
+    second hand-written preprint query set would be a SECOND home for the same search intent and
+    would drift from the first -- rule 1's exact failure mode. Appending the source filter keeps
+    one home for the intent and changes only the corpus.
+
+    ⚠ A preprint is a LEADING indicator and nothing more. It is unrefereed by construction, so it
+    moves a forecast's `what_would_move_this` no further than a claim does; what it buys is
+    warning. `on_fire` still says read the paper and check the criterion.
+    """
+    return [dict(h, is_preprint=True) for h in epmc_search(f"({query}) AND SRC:PPR", page_size)]
+
+
+def chemrxiv_search(term: str, max_results: int = 15) -> list[dict]:
+    """ChemRxiv, which NEITHER existing source reaches.
+
+    ⛔ MEASURED GAP, and the reason this is worth a new source rather than a widened query: this
+    scanner's own header records that "Europe PMC indexes preprint servers unevenly", and arXiv is
+    queried separately for exactly that reason -- but arXiv is where the ML-methods half posts and
+    ChemRxiv is where the CHEMISTRY half does. Free-energy methods, degrader chemistry and
+    induced-proximity design papers routinely appear on ChemRxiv months before a journal, and
+    every one of them would have been invisible here.
+    """
+    qs = urllib.parse.urlencode({"term": term, "limit": str(max_results), "sort": "PUBLISHED_DATE_DESC"})
+    data = json.loads(_get(f"{CHEMRXIV}?{qs}").decode("utf-8", "replace"))
+    out = []
+    for row in data.get("itemHits", []) or []:
+        it = row.get("item") or {}
+        doi = (it.get("doi") or "").strip()
+        short = doi.rsplit("/", 1)[-1] if doi else (it.get("id") or "")[:40]
+        out.append(
+            {
+                "id": f"chemRxiv/{short}",
+                "title": re.sub(r"\s+", " ", (it.get("title") or "")).strip().rstrip("."),
+                "date": (it.get("statusDate") or it.get("publishedDate") or "")[:10],
+                "venue": "ChemRxiv",
+                "source": "chemrxiv",
+                "url": f"https://doi.org/{doi}" if doi else "https://chemrxiv.org",
+                "is_preprint": True,
+            }
+        )
+    return out
+
+
 def arxiv_search(query: str, max_results: int = 15) -> list[dict]:
     qs = urllib.parse.urlencode(
         {
@@ -167,6 +230,7 @@ def arxiv_search(query: str, max_results: int = 15) -> list[dict]:
                 "venue": "arXiv",
                 "source": "arxiv",
                 "url": eid or f"https://arxiv.org/abs/{short}",
+                "is_preprint": True,
             }
         )
     return out
@@ -285,6 +349,91 @@ def append_to_ideas(bullets: list[str]) -> bool:
     with open(IDEAS, "w", encoding="utf-8") as fh:
         fh.write(text)
     return True
+
+
+def _is_preprint(h: dict) -> bool:
+    """DERIVED, never trusted from the record.
+
+    ⛔ The flag was added 2026-08-08 and the ledger predates it, so every hit already banked --
+    including a live arXiv lead on the ternary-generator trigger -- carries no flag at all. A
+    renderer that filtered on the stored field would have shown an EMPTY board while the ledger
+    held exactly the rows it was built to surface, and an empty preprint board reads as "nothing
+    is coming". CLAUDE.md section 4: an absent reading is not a reading of absence. So the fact is
+    recomputed from source and id, which every record has always had, and the stored flag is only
+    a fast path.
+    """
+    if h.get("is_preprint"):
+        return True
+    if (h.get("source") or "") in ("arxiv", "chemrxiv"):
+        return True
+    return str(h.get("id") or "").startswith(("PPR/", "arXiv/", "chemRxiv/"))
+
+
+def write_preprint_board(cfg: dict, ledger: dict, run: dict) -> None:
+    """What is in the preprint pipeline, grouped by the BLOCKER it would reopen.
+
+    ⭐ WHY BLOCKER-KEYED AND NOT TRIGGER-KEYED (2026-08-08). The existing board is keyed by
+    trigger, which is the right shape for "did my watch fire". It is the wrong shape for the
+    question actually asked -- *what is coming that could unblock us* -- because a reader then has
+    to map trigger to blocker to forecast by hand, which is the same two-file join the blocker
+    register just stopped requiring. Keyed by blocker, a row reads directly against
+    `systems/views/registers/blockers.md`: here is the 2028 band, and here is what is on the
+    preprint servers that might move it.
+
+    ⛔ A PREPRINT IS THE WEAKEST THING ON THE BOARD. Unrefereed, title-matched, unread. It cannot
+    move a forecast and must never be cited. Its whole value is warning -- months of it.
+    """
+    trgs = [t for t in cfg["triggers"] if (t.get("search") or {}).get("europepmc")
+            or (t.get("search") or {}).get("arxiv")]
+    by_blocker: dict[str, list[tuple[dict, dict]]] = {}
+    for t in trgs:
+        pres = [h for h in (ledger["hits"].get(t["id"]) or {}).values() if _is_preprint(h)]
+        if not pres:
+            continue
+        for b in (t.get("reopens", {}) or {}).get("registry_blockers") or ["(no blocker mapped)"]:
+            by_blocker.setdefault(b, []).extend((t, h) for h in pres)
+
+    L = [
+        "---",
+        "id: DOC-METHOD-WATCH-PREPRINT-PIPELINE",
+        "title: Preprint pipeline — what is coming, by blocker",
+        "level: —",
+        "kind: index",
+        "status: live",
+        "canonical_for: []",
+        'purpose: "Unrefereed preprints matching a named reopening trigger, grouped by the blocker '
+        'they would reopen — a leading indicator for the forecast bands in the blocker register."',
+        'scope: "Preprints only (Europe PMC SRC:PPR, arXiv, ChemRxiv). The published corpus is on '
+        'the trigger-scan board."',
+        "audience: [maintainers, autonomous research agents]",
+        f"date: {run['date']}",
+        "last_verified: unverified",
+        "---",
+        "# Preprint pipeline — what is coming, by blocker\n",
+        f"**Last run: {run['date']}** (UTC date stamp from the runner).\n",
+        "⛔ **EVERYTHING HERE IS UNREFEREED, TITLE-MATCHED AND UNREAD.** A preprint is the weakest "
+        "lead this repository records. It cannot move a forecast band, it is not evidence, and "
+        "nothing here may be cited. Its value is WARNING — it is the earliest point at which a "
+        "capability becomes visible, often months before the journal version.\n",
+        "⚠ **An empty section is not a reading of absence** — it may mean the trigger's queries "
+        "do not reach the venue where that work posts. The run log records what was searched.\n",
+        "Forecast bands for each blocker: "
+        "[`systems/views/registers/blockers.md`](../systems/views/registers/blockers.md).\n",
+    ]
+    if not by_blocker:
+        L.append("_No preprint hits in the ledger yet._\n")
+    for b in sorted(by_blocker):
+        rows = sorted(by_blocker[b], key=lambda th: th[1].get("date", ""), reverse=True)
+        L.append(f"## {b}\n")
+        L.append("| posted | preprint | venue | via trigger |")
+        L.append("|---|---|---|---|")
+        for t, h in rows:
+            title = (h.get("title") or "")[:110].replace("|", "\\|")
+            L.append(f"| {h.get('date','—')} | [{title}]({h.get('url','')}) "
+                     f"| {h.get('venue','—')} | `{t['id']}` |")
+        L.append("")
+    with open(PREPRINT_BOARD, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(L))
 
 
 def write_board(cfg: dict, ledger: dict, run: dict, per_trigger: dict) -> None:
@@ -550,8 +699,12 @@ def main() -> int:
                     help="cap on IDEAS.md bullets per trigger per run")
     ap.add_argument("--only", default=os.environ.get("TRIGGER_ONLY", ""),
                     help="comma-separated trigger ids to scan (default: all enabled)")
+    ap.add_argument("--no-preprints", action="store_true",
+                    help="skip the preprint lane (SRC:PPR + ChemRxiv); published corpus only")
     ap.add_argument("--dry-run", action="store_true", help="write nothing; print what would happen")
     args = ap.parse_args()
+    if args.no_preprints:
+        globals()["PREPRINT_LANE"] = False
 
     with open(TRIGGERS, encoding="utf-8") as fh:
         cfg = json.load(fh)
@@ -592,6 +745,15 @@ def main() -> int:
             except Exception as e:  # noqa: BLE001
                 run["errors"].append(f"{t['id']} europepmc: {e}")
             time.sleep(SLEEP_S)
+            if PREPRINT_LANE:
+                # Same curated query, preprint corpus. See epmc_preprint_search.
+                s["queries"] += 1
+                run["queries"] += 1
+                try:
+                    results += epmc_preprint_search(q)
+                except Exception as e:  # noqa: BLE001
+                    run["errors"].append(f"{t['id']} europepmc/preprint: {e}")
+                time.sleep(SLEEP_S)
         for q in search.get("arxiv", []) or []:
             s["queries"] += 1
             run["queries"] += 1
@@ -599,6 +761,16 @@ def main() -> int:
                 results += arxiv_search(q)
             except Exception as e:  # noqa: BLE001
                 run["errors"].append(f"{t['id']} arxiv: {e}")
+            time.sleep(SLEEP_S)
+        # ChemRxiv has no per-trigger query list: its API is a single free-text `term`, so the
+        # trigger's own must_match vocabulary IS the query, and _matches() filters the return.
+        for term in (search.get("chemrxiv") or must[:2]) if PREPRINT_LANE else []:
+            s["queries"] += 1
+            run["queries"] += 1
+            try:
+                results += chemrxiv_search(term)
+            except Exception as e:  # noqa: BLE001
+                run["errors"].append(f"{t['id']} chemrxiv: {e}")
             time.sleep(SLEEP_S)
 
         s["seen"] = len(results)
@@ -666,6 +838,7 @@ def main() -> int:
         json.dump(ledger, fh, indent=1, sort_keys=False)
         fh.write("\n")
     write_board(cfg, ledger, run, per_trigger)
+    write_preprint_board(cfg, ledger, run)
 
     summary = (
         f"trigger-scan {today_s} ({run['mode']}): {run['triggers']} triggers, {run['queries']} queries, "
