@@ -26,16 +26,16 @@ mpl = pytest.importorskip if False else None
 def art():
     return {name: F._load(p) for name, p in
             (("tgt", F.TARGETS), ("robust", F.ROBUST), ("seq3", F.SEQ3),
-             ("motif", F.MOTIF), ("conf", F.CONF))}
+             ("motif", F.MOTIF), ("conf", F.CONF), ("occ", F.OCC))}
 
 
 def test_every_cell_of_the_convergence_matrix_resolves_to_a_real_statistic(art):
     """The bug that shipped a finished-looking figure: a lookup that misses renders as
     'not computed', which is indistinguishable from a contrast that genuinely cannot be run."""
-    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"])
+    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"], art["occ"])
     assert set(cells) == set(F.GENES)
     for g, row in cells.items():
-        assert len(row) == 5, g
+        assert len(row) == 6, g
         for txt, state in row:
             assert state in ("supported", "weak", "absent", "circular"), (g, txt)
         # None of these five instruments is genuinely uncomputable for any class-A gene.
@@ -43,7 +43,7 @@ def test_every_cell_of_the_convergence_matrix_resolves_to_a_real_statistic(art):
 
 
 def test_the_array_columns_carry_the_q_values_the_manuscript_reports(art):
-    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"])
+    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"], art["occ"])
     assert "0.000438" in cells["ENO3"][0][0]        # GPL6244 BH q
     assert "0.000625" in cells["ENO3"][1][0]        # GPL3290 BH q
     assert "0.097" in cells["PPARG"][0][0]
@@ -54,7 +54,7 @@ def test_the_circular_PPARG_cell_is_marked_and_not_coloured_as_support(art):
 
     Colouring that cell as independent support would let the figure make a claim the manuscript
     explicitly refuses for the equivalent gene SET."""
-    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"])
+    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"], art["occ"])
     txt, state = cells["PPARG"][1]
     assert state == "circular"
     assert "circular" in txt.lower()
@@ -62,15 +62,29 @@ def test_the_circular_PPARG_cell_is_marked_and_not_coloured_as_support(art):
 
 
 def test_the_NBRE_column_reads_the_composition_matched_null_not_the_raw_count(art):
-    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"])
+    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"], art["occ"])
     eno = cells["ENO3"][4][0]
     assert "4 exact sites" in eno and "p=" in eno
     assert cells["ENO3"][4][1] == "supported"
     assert cells["SEMA3C"][4][1] == "weak", "SEMA3C carries no exact NBRE"
 
 
+def test_the_occupancy_column_is_present_and_supports_no_gene(art):
+    """The axis exists and it is negative for all three — the state §3.11 reports.
+
+    If any gene ever turns green here, the abstract, §3.11 and §3.12 must be rewritten; this test
+    is what makes that impossible to do by accident."""
+    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"], art["occ"])
+    for g in F.GENES:
+        txt, state = cells[g][5]
+        assert "experiments" in txt, f"{g} occupancy cell is not reporting its test count: {txt}"
+        assert state == "weak", (
+            f"{g} is now supported on the occupancy axis — the manuscript must be revised, not "
+            "this test")
+
+
 def test_the_3seq_column_uses_the_percentile_calibration_not_the_bare_ratio(art):
-    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"])
+    cells = F._cells(art["tgt"], art["robust"], art["seq3"], art["motif"], art["conf"], art["occ"])
     for g in F.GENES:
         txt, _ = cells[g][3]
         assert "ᵗʰ" in txt, f"{g} 3SEQ cell shows no percentile: {txt}"

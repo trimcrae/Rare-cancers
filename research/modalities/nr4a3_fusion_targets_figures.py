@@ -46,9 +46,10 @@ ROBUST = os.path.join(HERE, "nr4a3-fusion-targets-robustness.json")
 SEQ3 = os.path.join(HERE, "gse28866-tumour-vs-normal.json")
 MOTIF = os.path.join(HERE, "emc-ret-target-scan.json")
 CONF = os.path.join(HERE, "nr4a3-fusion-targets-confounds.json")
+OCC = os.path.join(HERE, "nr4a3-fusion-targets-occupancy.json")
 STAMP = os.path.join(FIGDIR, "figure-provenance.json")
 
-SOURCES = [TARGETS, INPUTS, ROBUST, SEQ3, MOTIF, CONF]
+SOURCES = [TARGETS, INPUTS, ROBUST, SEQ3, MOTIF, CONF, OCC]
 
 GENES = ["ENO3", "PPARG", "SEMA3C"]
 P6 = "GSE24369_series_matrix.txt.gz"
@@ -275,7 +276,7 @@ def fig_classes(plt, tgt):
 # =================================================================================================
 # FIGURE 4 -- which instrument supports which gene
 # =================================================================================================
-def _cells(tgt, robust, seq3, motif, conf):
+def _cells(tgt, robust, seq3, motif, conf, occ):
     """One row per gene, one entry per instrument: (text, state). State drives colour only."""
     qmap = {}
     for r in robust.get("rows", []):
@@ -332,18 +333,30 @@ def _cells(tgt, robust, seq3, motif, conf):
             row.append((f"{n} exact site{'s' if n != 1 else ''}" +
                         (f"\np={p:.3g}" if p is not None else ""),
                         "supported" if (p is not None and p < 0.05) else "weak"))
+        # NR4A occupancy, calibrated against the 198-gene background panel. Reported as the best p
+        # any informative EXPERIMENT gives, beside the number of tests -- a raw peak count here is
+        # meaningless because the deepest catalogue recovers 82.8% of arbitrary genes.
+        osum = (occ.get("per_gene_summary") or {}).get(g) or {}
+        best = osum.get("best_empirical_p_vs_panel")
+        nexp = osum.get("n_informative_experiments")
+        if best is None:
+            row.append(("no informative\npeak set", "absent"))
+        else:
+            row.append((f"best $p$ = {best:.3g}\nof {nexp} experiments",
+                        "supported" if best < 0.05 / max(1, nexp) else "weak"))
         out[g] = row
     return out
 
 
-def fig_matrix(plt, tgt, robust, seq3, motif, conf):
+def fig_matrix(plt, tgt, robust, seq3, motif, conf, occ):
     cols = ["GPL6244 array\nΔ mean $z$ · BH $q$", "GPL3290 array\nΔ mean $z$ · BH $q$",
             "each comparator stratum\nleast favourable exact $p$",
             "3SEQ cohort\nratio · percentile of 14,120 genes",
-            "NBRE motif\nsequence, not occupancy"]
-    cells = _cells(tgt, robust, seq3, motif, conf)
+            "NBRE motif\nsequence, not occupancy",
+            "NR4A occupancy\nparalogue, vs 198-gene panel"]
+    cells = _cells(tgt, robust, seq3, motif, conf, occ)
     colour = {"supported": C_SUPP, "weak": C_NULL, "absent": C_ABSENT, "circular": "#b08a3e"}
-    fig, ax = plt.subplots(figsize=(13.6, 4.9))
+    fig, ax = plt.subplots(figsize=(15.6, 4.9))
     for ci, c in enumerate(cols):
         ax.text(ci + 0.5, len(GENES) + 0.16, c, ha="center", va="bottom", fontsize=8.4,
                 color=C_INK, linespacing=1.6)
@@ -445,12 +458,13 @@ def build():
                          "ytick.color": C_MUTE})
     tgt, inputs = _load(TARGETS), _load(INPUTS)
     robust, seq3, motif, conf = _load(ROBUST), _load(SEQ3), _load(MOTIF), _load(CONF)
+    occ = _load(OCC)
 
     figs = {
         "fig1-per-sample-class-a": fig_per_sample(plt, tgt),
         "fig2-size-matched-null": fig_null(plt, tgt, inputs),
         "fig3-evidence-classes": fig_classes(plt, tgt),
-        "fig4-instrument-convergence": fig_matrix(plt, tgt, robust, seq3, motif, conf),
+        "fig4-instrument-convergence": fig_matrix(plt, tgt, robust, seq3, motif, conf, occ),
         "fig5-muscle-admixture-control": fig_muscle(plt, conf),
     }
     written = []

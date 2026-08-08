@@ -60,7 +60,7 @@ re-analyses of public data at no charge, and both Wiley journals above permit bi
 | requirement | target | status in manuscript |
 |---|---|---|
 | Article type | Original Research Article | ✔ declared |
-| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, 303 words by the command in §3 (which counts markdown emphasis tokens, so the prose count is slightly lower); at the J Pathol limit |
+| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, 299 words by the command in §3 (which counts markdown emphasis tokens, so the prose count is slightly lower); at the J Pathol limit |
 | Keywords | 5–7 | ✔ 7 keywords |
 | Structure | Introduction · Methods · Results · Discussion · Conclusion | ✔ full IMRaD, plus Limitations, two appendices and a Supplementary Information file |
 | References | GCC: any consistent style · J Pathol/EJC: ≤40–50 | ✔ 12 primary + gene-set resources, Vancouver style |
@@ -86,13 +86,13 @@ grep -c '^|---' $P          # all tables; subtract those after "## Data and code
 grep -c '^!\[Figure' $P
 ```
 
-- **Abstract:** 303 words by the command above, which counts markdown emphasis tokens as words; the prose count is slightly lower. At GCC's flexible limit and at J Pathol's ≤300.
+- **Abstract:** 299 words by the command above, which counts markdown emphasis tokens as words; the prose count is slightly lower. At GCC's flexible limit and at J Pathol's ≤300.
 - **Main text:** ~7,090 words of prose from Abstract to Conclusion, excluding tables, figure captions
   and back matter. GCC sets no fixed limit. **For *The Journal of Pathology* this would need trimming
   toward ~4,000**; the material that would go first is §3.6's stratified narrative and §2.6's method
   prose, both of which already have fuller versions in the SI.
 - **Display items:** **5 figures** (per-sample dots, the size-matched null, the evidence catalogue, the
-  instrument-convergence matrix, the muscle-admixture control) and **8 numbered tables in the body**,
+  instrument-convergence matrix, the muscle-admixture control) and **9 numbered tables in the body**,
   plus 4 unnumbered tables in Data availability and the two appendices.
 - **Supplementary Information:** `nr4a3-fusion-transcriptional-output-SI.md`, ~5,480 words, 6 numbered
   supplementary tables (S1–S6) and six method sections (§S1–§S6).
@@ -189,6 +189,21 @@ as main-text §3.4–§3.7 with the full tables as Supplementary S4–S6:
 - **a percentile calibration of the 3SEQ arm** against all 14,120 genes in that deposit
   (`gse28866_tumour_vs_normal.py` → `ratio_calibration`), which was the one arm reported without the
   calibration the paper's own §1.3 demands.
+
+### Also done (2026-08-08) — the occupancy axis, offline
+
+Produced by `nr4a3_fusion_targets_occupancy.py` → `nr4a3-fusion-targets-occupancy.json`, reported as
+main-text §3.11 Table 9 and as a sixth column of Figure 4. It closes the paper's largest structural
+gap — it had **no chromatin data at all** — using 86 NR4A ChIP-seq peak sets already cached in this
+repository, with **no fetch**.
+
+⚠ **It is a bounded negative, and the first pass got it backwards.** Read as raw counts, *ENO3*
+looked like the top of 13 loci. Calibrated against a 198-gene background panel it is not: the deepest
+catalogue puts a promoter peak in **82.8% of arbitrary genes**, so a bare count is the same
+uncalibrated reading §1.3 of the manuscript exists to refuse. One of 24 gene-by-experiment tests
+reaches p < 0.05 against 1.2 expected by chance. No class-A gene carries unusual NR4A occupancy, and
+all 12 NR4A3-specific peak sets are too shallow to recover any gene at all — so the surrogates cannot
+substitute for the missing fusion cistrome, which is the point.
 
 ### Still available (not required for submission)
 
