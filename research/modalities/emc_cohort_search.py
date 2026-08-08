@@ -71,6 +71,21 @@ KNOWN_COHORTS = {
 }
 KNOWN_PMIDS = {"22929540", "15920699", "21536545"}
 
+# Datasets the repository already reads that a query returns and that are NOT EMC tumour cohorts.
+# Naming them here rather than letting the floor throw them out silently: "excluded because 2 of its
+# 4 samples name EMC" is true of GSE11185 and tells a reader nothing, while "HEK293 cells carrying a
+# tet-inducible construct, already read, and not a tumour cohort at all" tells them everything.
+KNOWN_NON_COHORT_DATASETS = {
+    "GSE11185": "293 cells overexpressing NOR1 or EWS/NOR1 — a CELL-LINE construct experiment, not "
+                "an EMC tumour cohort. Already read by `gse11185_wt_vs_fusion.py`.",
+    "GDS3481": "the curated DataSet view of GSE11185, same four samples.",
+}
+
+# ⭐ THE POSITIVE CONTROL. A search that finds no fourth cohort is worth nothing unless the same
+# queries recover the cohorts that DO exist — otherwise "we found nothing" and "the search is
+# broken" are the same output. These three must come back, or the negative is withdrawn.
+POSITIVE_CONTROLS = ["GSE24369", "GSE4303", "GSE28866"]
+
 # Deliberately overlapping. A query that returns nothing is indistinguishable from a dataset that
 # does not exist, so several are run and every one is recorded — the discipline `discover_geo` in
 # `emc_ret_cistrome.py` already uses for the ChIP-seq side of this lane.
@@ -181,10 +196,16 @@ def fetch():
 
     # Sample-level identity for every candidate that could plausibly be a cohort. This is what
     # catches a re-deposit; an accession and a PMID can both differ while the samples are identical.
+    # ⛔ EVERY GSE, NOT ONLY THE ONES WHOSE PROSE NAMES EMC. The first version gated this on the
+    # prose screen, and the first real run showed why that is wrong: GEO returned `GSE43632` ("Large
+    # scale screening for fusion genes in sarcoma patient samples") and `GSE80126` from queries that
+    # name EWSR1/NR4A3 — so GEO matched them on SOMETHING — while the title and the 1200 characters
+    # of summary this module captures name no EMC token. Excluding them as "does not name EMC" would
+    # have been an artifact of that truncation, in exactly the case the docstring warns about: EMC
+    # samples inside a pan-sarcoma deposit under a generic title. There are tens of series here, not
+    # thousands, so the honest thing is to read them all at sample level and let the samples decide.
     for acc, s in sorted(out["series"].items()):
         if not str(acc).startswith("GSE"):
-            continue
-        if not EMC_TOKENS.search(f"{s.get('title') or ''} {s.get('summary') or ''}"):
             continue
         # GSM listing via the series' own esummary relation is unreliable; use esearch over gsm.
         q2 = urllib.parse.urlencode({"db": "gds", "retmax": "400", "retmode": "json",
@@ -272,7 +293,26 @@ def derive(inp):
         shared_pmid = sorted(set(pmids) & KNOWN_PMIDS)
         parent = s.get("parent_gse")
 
+        # ⛔ RECORD TYPE FIRST, BECAUSE MOST OF WHAT `db=gds` RETURNS IS NOT A SERIES AT ALL. The
+        # first real run returned 22 "candidates" of which ten were individual GSM sample records
+        # and one was a GPL platform record — and six of those GSMs were GSE24369's own EMC samples,
+        # sitting in the ungraded list while `_known_gsms` held every one of their accessions. A
+        # single sample is not a cohort under any reading, and a platform is not a deposit; grading
+        # them as if they might be buried the ONE record that genuinely needed a decision.
+        kind = (s.get("entrytype") or ("GSM" if str(acc).startswith("GSM")
+                else "GPL" if str(acc).startswith("GPL")
+                else "GDS" if str(acc).startswith("GDS") else "GSE"))
+
         reasons = []
+        if kind == "GSM":
+            owner = known_gsms.get(acc)
+            reasons.append(
+                f"a single SAMPLE record, not a cohort" +
+                (f" — and it is one this manuscript already reads, from {owner}" if owner else ""))
+        elif kind == "GPL":
+            reasons.append("a platform record, not a deposit")
+        if acc in KNOWN_NON_COHORT_DATASETS:
+            reasons.append(KNOWN_NON_COHORT_DATASETS[acc])
         if acc in KNOWN_COHORTS:
             reasons.append(f"accession already used: {KNOWN_COHORTS[acc]}")
         if parent and parent in KNOWN_COHORTS and parent != acc:
@@ -283,8 +323,9 @@ def derive(inp):
         if overlap:
             reasons.append(f"{len(overlap)} sample(s) already read by an existing cohort "
                            f"(e.g. {overlap[:4]})")
-        if not names_emc:
-            reasons.append("neither title nor summary names EMC, NR4A3 or the fusion")
+        if not names_emc and not samp:
+            reasons.append("neither title nor summary names EMC, NR4A3 or the fusion, and no "
+                           "sample-level read contradicted that")
         elif samp and len(emc_samples) < MIN_EMC_SAMPLES:
             reasons.append(f"{len(emc_samples)} sample(s) name EMC at sample level; "
                            f"floor is {MIN_EMC_SAMPLES}")
@@ -315,19 +356,40 @@ def derive(inp):
             "excluded_because": reasons or None,
         }
 
+    # ⭐ THE POSITIVE CONTROL, AND IT IS REPORTED BEFORE THE VERDICT. "No fourth cohort exists" and
+    # "this search does not work" produce the same empty list, and the only thing that separates
+    # them is whether the same queries recovered the cohorts that DO exist.
+    recovered = [a for a in POSITIVE_CONTROLS if a in res["candidates"]]
+    missed = [a for a in POSITIVE_CONTROLS if a not in res["candidates"]]
+    res["positive_control"] = {
+        "_why": ("a null result from an instrument that recovers no known positive is not a "
+                 "negative, it is a broken search"),
+        "cohorts_the_manuscript_reads": POSITIVE_CONTROLS,
+        "recovered_by_these_queries": recovered,
+        "not_recovered": missed,
+        "passes": not missed,
+        "_note": ("each is recovered and then EXCLUDED by the dedup, which is the intended path: "
+                  "recovery proves the queries reach EMC deposits, exclusion proves the guard "
+                  "recognises the ones already used"),
+    }
+
     new = sorted(a for a, c in res["candidates"].items() if c["grade"] == "NEW_CANDIDATE")
     ungraded = sorted(a for a, c in res["candidates"].items()
                       if c["grade"] == "UNGRADED_NO_SAMPLE_LEVEL_READ")
     res["verdict"] = {
+        "positive_control_passes": res["positive_control"]["passes"],
         "n_candidates_examined": len(res["candidates"]),
         "n_naming_emc_in_prose": sum(1 for c in res["candidates"].values()
                                      if c["names_emc_in_prose"]),
         "new_fourth_cohorts": new,
         "ungraded_no_sample_level_read": ungraded,
         "headline": (
-            "No fourth EMC expression cohort was found. Every series any query returned is either "
-            "already used by the manuscript, shares a publication or samples with one, or does not "
-            "name EMC at all." if not new else
+            ("No fourth EMC expression cohort was found. Every series any query returned is either "
+             "already used by the manuscript, shares a publication or samples with one, is not a "
+             "series at all, or carries too few EMC samples to contrast." if not missed else
+             "WITHHELD — the queries did not recover every cohort the manuscript already reads, so "
+             f"a null from them is uninterpretable. Not recovered: {missed}.")
+            if not new else
             f"{len(new)} candidate fourth cohort(s) survived every dedup check: {new}. Each needs "
             "characterising at sample level before any number is read from it."),
         "⛔ scope": res["_what_a_negative_bounds"],

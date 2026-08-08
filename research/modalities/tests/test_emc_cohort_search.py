@@ -104,6 +104,70 @@ def test_a_curated_GDS_view_of_a_known_series_is_excluded_by_its_parent():
 # =================================================================================================
 # The refusal
 # =================================================================================================
+def test_a_single_GSM_record_is_never_a_cohort_and_is_named_to_its_owner():
+    """`db=gds` returns individual SAMPLE records as top-level hits. The first real run graded ten
+    of them as candidates -- six being GSE24369's own EMC samples, sitting in the ungraded list
+    while `_known_gsms` held every one of their accessions. A sample is not a cohort, and burying
+    the one record that needed a decision under ten that never could is its own failure."""
+    res = M.derive(_inp([_series("GSM600934", title="Extraskeletal myxoid chondrosarcoma 1",
+                                 entrytype="GSM", n_samples="")]))
+    c = res["candidates"]["GSM600934"]
+    assert c["grade"] == "EXCLUDED"
+    why = " ".join(c["excluded_because"])
+    assert "not a cohort" in why
+    assert "GSE24369" in why, "a sample of a cohort already read must say which cohort"
+
+
+def test_a_platform_record_is_not_a_deposit():
+    res = M.derive(_inp([_series("GPL570", title="[HG-U133_Plus_2] Affymetrix Human Genome U133",
+                                 entrytype="GPL", n_samples="177506")]))
+    assert res["candidates"]["GPL570"]["grade"] == "EXCLUDED"
+    assert any("platform record" in r for r in res["candidates"]["GPL570"]["excluded_because"])
+
+
+def test_a_known_non_cohort_dataset_is_excluded_by_name_not_by_the_floor():
+    """GSE11185 is 293 cells carrying a tet-inducible EWS/NOR1 construct. "2 of its 4 samples name
+    EMC" is true and tells a reader nothing; the record type is the fact that matters."""
+    res = M.derive(_inp(
+        [_series("GSE11185", title="Differences between NOR1 and EWS/NOR1", n_samples="4")],
+        {"GSE11185": _samples("293-tet-On-EWS/NOR1 without doxycycline",
+                              "293-tet-On-EWS/NOR1 with doxycycline", start=281777)}))
+    why = " ".join(res["candidates"]["GSE11185"]["excluded_because"])
+    assert "CELL-LINE" in why and "not an EMC tumour cohort" in why
+    assert "gse11185_wt_vs_fusion" in why, "say where it is already read"
+
+
+# =================================================================================================
+# The positive control
+# =================================================================================================
+def test_the_negative_is_withheld_if_the_queries_miss_a_cohort_the_manuscript_already_reads():
+    """"No fourth cohort exists" and "this search is broken" produce the same empty list. The only
+    thing that separates them is whether the same queries recover the cohorts that DO exist."""
+    res = M.derive(_inp([_series("GSE24369", title="LGFMS profiling")]))
+    pc = res["positive_control"]
+    assert pc["passes"] is False
+    assert set(pc["not_recovered"]) == {"GSE4303", "GSE28866"}
+    assert res["verdict"]["positive_control_passes"] is False
+    assert res["verdict"]["headline"].startswith("WITHHELD"), res["verdict"]["headline"]
+    assert "uninterpretable" in res["verdict"]["headline"]
+
+
+def test_the_positive_control_passes_when_all_three_cohorts_come_back():
+    res = M.derive(_inp([_series(a, title=f"{a} record") for a in M.POSITIVE_CONTROLS]))
+    assert res["positive_control"]["passes"] is True
+    assert res["verdict"]["headline"].startswith("No fourth EMC expression cohort was found")
+    assert res["positive_control"]["recovered_by_these_queries"] == M.POSITIVE_CONTROLS
+
+
+def test_recovery_and_exclusion_are_both_required_of_a_positive_control():
+    """Recovery proves the queries reach EMC deposits; exclusion proves the guard recognises what
+    is already used. A control that was recovered and then COUNTED would be the worst outcome."""
+    res = M.derive(_inp([_series(a, title=f"{a} record") for a in M.POSITIVE_CONTROLS]))
+    for a in M.POSITIVE_CONTROLS:
+        assert res["candidates"][a]["grade"] == "EXCLUDED"
+    assert res["verdict"]["new_fourth_cohorts"] == []
+
+
 def test_a_series_with_no_sample_level_read_is_ungraded_and_never_new():
     """The defect this test exists for: an accession that is new, a PMID that is new and NO sample
     evidence at all was scoring as a clean pass. An absent reading is not a reading of absence."""
@@ -120,9 +184,32 @@ def test_a_series_with_no_sample_level_read_is_ungraded_and_never_new():
 
 
 def test_an_ungraded_series_is_not_counted_as_a_fourth_cohort_anywhere():
-    res = M.derive(_inp([_series("GSE999003", title="Myxoid chondrosarcoma expression")]))
+    res = M.derive(_inp([_series(a, title=f"{a} record") for a in M.POSITIVE_CONTROLS] +
+                        [_series("GSE999003", title="Myxoid chondrosarcoma expression")]))
     assert res["verdict"]["new_fourth_cohorts"] == []
     assert "No fourth EMC expression cohort was found" in res["verdict"]["headline"]
+    assert res["verdict"]["ungraded_no_sample_level_read"] == ["GSE999003"]
+
+
+def test_a_generically_titled_sarcoma_deposit_is_read_at_sample_level_before_being_dismissed():
+    """The case the module exists to not miss, and the first real run showed the first version
+    would have. GEO returned `GSE43632` ("Large scale screening for fusion genes in sarcoma patient
+    samples") from a query naming EWSR1/NR4A3 -- so GEO matched it on something -- while the title
+    and the captured summary name no EMC token. Dismissing it on prose alone would have been an
+    artifact of a 1200-character truncation, in exactly the "EMC hiding in a pan-sarcoma deposit"
+    case the docstring warns about. A sample-level read must be able to overrule the prose screen.
+    """
+    samp = _samples("Extraskeletal myxoid chondrosarcoma 1", "Extraskeletal myxoid chondrosarcoma 2",
+                    "Extraskeletal myxoid chondrosarcoma 3", "Synovial sarcoma 1", start=950000)
+    res = M.derive(_inp(
+        [_series(a, title=f"{a} record") for a in M.POSITIVE_CONTROLS] +
+        [_series("GSE999006", title="Large scale screening for fusion genes in sarcoma",
+                 summary="Fusion gene screening across sarcoma patient samples.", pubmed=["40000001"])],
+        {"GSE999006": samp}))
+    c = res["candidates"]["GSE999006"]
+    assert c["names_emc_in_prose"] is False, "the premise of the test is a generic title"
+    assert c["grade"] == "NEW_CANDIDATE", c["excluded_because"]
+    assert res["verdict"]["new_fourth_cohorts"] == ["GSE999006"]
 
 
 # =================================================================================================
