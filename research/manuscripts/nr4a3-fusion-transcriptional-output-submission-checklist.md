@@ -60,10 +60,10 @@ re-analyses of public data at no charge, and both Wiley journals above permit bi
 | requirement | target | status in manuscript |
 |---|---|---|
 | Article type | Original Research Article | ✔ declared |
-| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, 300 words (trim further if a stricter venue is chosen) |
+| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, 303 words by the command in §3 (which counts markdown emphasis tokens, so the prose count is slightly lower); at the J Pathol limit |
 | Keywords | 5–7 | ✔ 7 keywords |
-| Structure | Introduction · Methods · Results · Discussion · Conclusion | ✔ full IMRaD |
-| References | GCC: any consistent style · J Pathol/EJC: ≤40–50 | ✔ 10 primary + gene-set resources, Vancouver style |
+| Structure | Introduction · Methods · Results · Discussion · Conclusion | ✔ full IMRaD, plus Limitations, two appendices and a Supplementary Information file |
+| References | GCC: any consistent style · J Pathol/EJC: ≤40–50 | ✔ 12 primary + gene-set resources, Vancouver style |
 | Data availability statement | required | ✔ public accessions + open code repository, Zenodo archive planned |
 | Funding statement | required | ✔ "None" |
 | Competing-interests statement | required | ✔ "None" |
@@ -86,8 +86,7 @@ grep -c '^|---' $P          # all tables; subtract those after "## Data and code
 grep -c '^!\[Figure' $P
 ```
 
-- **Abstract:** 304 words (unstructured). Within GCC's flexible limit; **4 words over J Pathol's ≤300**,
-  so trim two clauses if that venue is chosen.
+- **Abstract:** 303 words by the command above, which counts markdown emphasis tokens as words; the prose count is slightly lower. At GCC's flexible limit and at J Pathol's ≤300.
 - **Main text:** ~7,090 words of prose from Abstract to Conclusion, excluding tables, figure captions
   and back matter. GCC sets no fixed limit. **For *The Journal of Pathology* this would need trimming
   toward ~4,000**; the material that would go first is §3.6's stratified narrative and §2.6's method
@@ -114,7 +113,7 @@ added as a supplementary item.
 
 ### Done (2026-08-07, offline, $0)
 
-A robustness package was added as Methods §2.10 and Results §3.12, produced by
+A robustness package was added — now Methods §2.6 and Results §3.5, with the full panel as Supplementary Table S3 — produced by
 `nr4a3_fusion_targets_robustness.py` → `nr4a3-fusion-targets-robustness.json` with a `--check` mode.
 It closes two of the manuscript's own stated limitations and adds two orthogonal axes:
 

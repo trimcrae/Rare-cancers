@@ -148,7 +148,7 @@ and the multiple is printed so the two are never read alike.
 |---|---|---:|---:|---|---:|---:|---|
 | A_fusion_dna_binding_targets | GPL6244 | 3 | — | — | — | — | no score (below floor) |
 | A_fusion_dna_binding_targets | GPL3290 | 3 | — | — | — | — | no score (below floor) |
-| A_plus_B_all_dna_binding | GPL6244 | 19 | +0.0403 | [-0.1418, +0.1047] | 0.10465 | 38% | not distinguishable |
+| A_plus_B_all_dna_binding | GPL6244 | 19 | +0.0403 | [-0.1418, +0.1047] | 0.10465 | 39% | not distinguishable |
 | A_plus_B_all_dna_binding | GPL3290 | 17 | +0.3301 | [-0.2972, +0.3765] | 0.37648 | 88% | not distinguishable |
 | B_native_nr4a3_dna_binding_targets | GPL6244 | 16 | -0.0675 | [-0.1568, +0.1142] | -0.15684 | 43% | not distinguishable |
 | B_native_nr4a3_dna_binding_targets | GPL3290 | 14 | -0.1453 | [-0.3357, +0.3971] | -0.33573 | 43% | not distinguishable |

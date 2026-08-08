@@ -59,19 +59,19 @@ SUBMISSION STATUS: submission-ready draft, not yet submitted.
 
 Extraskeletal myxoid chondrosarcoma (EMC) is a rare sarcoma usually driven by the EWSR1::NR4A3
 fusion, presumed to act as an aberrant transcription factor. We catalogued every published claim
-that an NR4A3 fusion or native NR4A3 activates a named gene, recording evidence type, assay, cell
-system and species. **Across 2,276 retrieved full-text documents, the set of genes for which any
-NR4A3 chimera has been shown to bind DNA is three: *SEMA3C*, *PPARG* and *ENO3*.** We scored those
-genes in three independent EMC cohorts on three platform families (GSE24369/GPL6244;
-GSE4303/GPL3290; GSE28866/3SEQ), calibrating every array contrast against a size-matched empirical
-null and grading four instrument controls first under a rule fixed in advance. Because a gene merely
-higher in EMC is not thereby driven by the fusion, each was then put through four further tests:
-exact sample-label permutation; the contrast recomputed against every comparator stratum separately;
-adjustment for a matrix-content covariate chosen to exclude any EMC-derived gene; and, for *ENO3*
-(muscle-specific β-enolase), a skeletal-muscle admixture control built on two pooled-muscle samples
-the cohort contains. ***ENO3* survives all of them**: exact p = 7.3 × 10⁻⁵ and 1.3 × 10⁻⁴,
-significant against every comparator stratum including myxoid-matched ones, 98th percentile of
-14,120 genes in the 3SEQ deposit, and flat in three markers more muscle-restricted than it is.
+that an NR4A3 fusion or native NR4A3 activates a named gene, recording assay, cell system and
+species. **Across 2,276 retrieved full-text documents, the set of genes any NR4A3 chimera has been
+shown to bind is three: *SEMA3C*, *PPARG* and *ENO3*.** We scored them in three independent EMC
+cohorts on three platform families (GSE24369/GPL6244; GSE4303/GPL3290; GSE28866/3SEQ), calibrating
+every array contrast against a size-matched empirical null and grading four instrument controls
+first under a rule fixed in advance. Because a gene merely higher in EMC is not thereby driven by
+the fusion, each was then put through four further tests: exact sample-label permutation; the
+contrast recomputed against every comparator stratum separately; adjustment for a matrix-content
+covariate containing no EMC-derived gene; and, for *ENO3* (muscle-specific β-enolase), a
+skeletal-muscle admixture control built on two pooled-muscle samples the cohort contains. ***ENO3*
+survives all of them**: exact p = 7.3 × 10⁻⁵ and 1.3 × 10⁻⁴, significant against every stratum
+including myxoid-matched ones, retaining 75% of its effect under matrix adjustment, 98th percentile
+of 14,120 genes in the 3SEQ deposit, and flat in three markers more muscle-restricted than it is.
 ***PPARG*'s strongest reading is circular** — GSE4303 is the cohort from which high *PPARG* in EMC
 was first published — leaving evidence that does not survive correction. ***SEMA3C* survives
 nothing**, reversing sign with the choice of comparator (+1.66 against low-grade fibromyxoid
@@ -396,8 +396,11 @@ alone for that reason.
 | **PPARG** | A · fusion | +0.3071 (0.049, q 0.097) | +2.4809 (3.3 × 10⁻⁴, q 0.00083) — **circular, §3.8** |
 | **SEMA3C** | A · fusion | +0.7298 (0.194, q 0.233) | +0.6228 (0.165, q 0.165) |
 
-All three genes are positive-signed on both platforms — six of six readings, no reversal — and each
-clears its size-matched single-gene null on at least one. But sign concordance across three genes is
+All three genes are positive-signed on both platforms — six of six readings, no reversal **against the
+pooled comparator arm**, and each clears its size-matched single-gene null on at least one. That
+qualifier is load-bearing: §3.6 shows *SEMA3C* reversing sign once the comparator arm is taken apart,
+so "no reversal" is a property of one particular way of pooling the comparators and not of the gene.
+Sign concordance across three genes is in any case
 what a coordinated programme predicts *and* what three individually EMC-associated genes predict, and
 the three are not equally supported once the self-contained null is applied. Under exact sample-label
 permutation, ***ENO3* is significant on both platforms after multiple-testing correction**, *PPARG* on
@@ -439,6 +442,18 @@ design. ***SEMA3C* reverses sign**: it is strongly up against LGFMS and signific
 desmoid fibromatosis, and on GPL3290 it is +0.113 (p = 0.84) against the pool-matched comparators. Its
 apparent elevation is a property of which sarcomas happen to be in the comparator arm, not of EMC.
 *PPARG* is intermediate and comparator-dependent.
+
+**Two readings of this table are worth stating explicitly, because both are easy to miss.** First,
+*SEMA3C* is *not* significant against the pooled comparator arm (p = 0.194, Table 5) yet is
+significant against two of its strata in **opposite directions**. That is not a contradiction: the
+pooled arm averages a stratum where *SEMA3C* is low (LGFMS) with strata where it is high, and EMC
+lands between them, so two strong opposite effects cancel into a null. A pooled contrast can
+therefore conceal large stratum effects, and a gene that looks flat against a heterogeneous
+comparator arm has not been shown to be flat. Second, and conversely, the stratified panel is where a
+gene can most easily be flattered: with five contrasts per gene on GPL6244 and no correction across them
+(Limitation 8), the least favourable stratum is the honest summary, which is what **Figure 4**
+reports. On that measure *ENO3* is significant at its worst stratum (p = 0.022) and *SEMA3C* is not
+(p = 0.136 at its worst).
 
 The reference-pool correction matters and does not overturn *ENO3*: restricting GPL3290 to the three
 pool-matched DFSP comparators moves it from +3.811 to +3.515, still the smallest p that a
@@ -742,7 +757,9 @@ These are ceilings, not caveats: each one bounds what any sentence in §3 may be
    amount.
 8. **Multiple testing is corrected for the per-gene permutation results only.** The size-matched
    empirical p-values and the set-level and stratified permutation p-values remain uncorrected; the
-   stratified panel in particular reports four contrasts per gene.
+   stratified panel in particular reports five contrasts per gene on GPL6244 (three comparator
+   classes plus their myxoid and non-myxoid aggregations, which are not independent of the classes),
+   which is why §3.6 reads it on the least favourable stratum rather than the best.
 9. **The size-matched null is competitive and anti-conservative for coherent sets**; the exact
    permutation null is self-contained but cannot make three genes into more than three genes. The two
    disagree for *SEMA3C*, which is reported rather than reconciled.
