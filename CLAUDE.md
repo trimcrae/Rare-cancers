@@ -81,6 +81,26 @@ to progress.
 
 ## 1 · Writing and reporting
 
+- **✍ WRITE IN SIMPLIFIED TECHNICAL ENGLISH — ONE TERM, ONE MEANING; ACTIVE VOICE; SHORT SENTENCES
+  (trimcrae, 2026-08-08).** Applies to everything: chat replies, docs, commit messages, manuscripts.
+  The four rules that carry the value, adapted from **ASD-STE100**:
+  1. **One term, one meaning — and never a synonym for variety.** If a thing is a *leg*, it is a leg in
+     every sentence; it is not also a *unit*, a *shard* or a *job*. Elegant variation is how one object
+     becomes three in a reader's head, which is the same defect rule 1 below forbids for numbers.
+  2. **Active voice, and name the actor.** "The gate refused the offer", not "the offer was refused" —
+     a passive hides *who did it*, and half the incidents in this file were mis-attributed that way.
+  3. **One sentence, one claim.** Prefer ≤25 words. A sentence carrying two claims gets quoted for one.
+  4. **Plain words where a plain word exists** — *use* not *utilise*, *start* not *commence*, *about*
+     not *approximately*, *so* not *accordingly*.
+  ⚠ **THIS IS STE'S DISCIPLINE, NOT ASD-STE100 CONFORMANCE, AND THE DIFFERENCE IS DELIBERATE.** The real
+  standard was built for **maintenance procedures**; this repo writes **scientific hedging**, where the
+  qualifier IS the content. Its ~900-word approved dictionary admits none of *paralogue*, *cistrome*,
+  *alchemical*, *Wilson interval*, and its 20-word ceiling would split constructions whose whole job is
+  to survive being split. **So three things are EXEMPT and must never be simplified away:** a stated
+  limitation or caveat; a `⚠ Superseded, retained:` line and the value it registers; and any sentence
+  drawing a distinction the repo exists to hold (*"an absent reading is not a reading of absence"*,
+  *"a resolving identifier is not a correct one"*). **Shorten the prose, never the hedge** — if a rule
+  and a caveat collide, the caveat wins and the sentence stays long.
 - **📏 ONE FACT, ONE PLACE — AND WHEN YOU CORRECT A NUMBER, REGISTER THE OLD ONE (trimcrae, 2026-07-25, after a
   cleanup found the ladder total at THREE values in one file, a high band that did not sum, a spine
   contradicting the table it summarised, and a rung recorded as both UNPRICED and PRICED).** Every number, gate
