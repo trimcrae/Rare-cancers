@@ -353,16 +353,53 @@ def dinucleotide_shuffle(seq: str, rng: random.Random) -> str:
 
 
 def shuffle_null(seq: str, n: int, seed: int):
-    """Empirical null for the NBRE count in THIS window, composition held fixed."""
+    """Empirical null for the NBRE count in THIS window, composition held fixed.
+
+    ⭐ COMPUTES THE ONE-MISMATCH NULL ON THE SAME SHUFFLES (added 2026-08-08). An exact 8-mer is
+    not the only site an NR4A protein reads: Brenca et al. report a predicted NBRE-**LIKE** site at
+    SEMA3C, and this module's own exact scan finds zero exact NBREs there against 39 one-mismatch
+    matches — the most of any window scanned. A bare count of 39 says nothing, because a degenerate
+    8-mer with one substitution allowed occurs far more often by chance and its expected rate
+    depends on composition; without a null it can be read as "plenty of sites" or "none", which is
+    exactly the uncalibrated number this module exists to refuse.
+    ⛔ The two counts are taken from the SAME shuffled sequences on purpose. It costs one extra scan
+    per shuffle instead of a second 2,000-shuffle pass, and — because `dinucleotide_shuffle` is the
+    only consumer of `rng` — the number and order of random draws is unchanged, so every EXACT
+    figure this function already published is byte-identical. A cheaper null that perturbed the
+    committed exact numbers would have been the wrong trade at any speed.
+    """
     rng = random.Random(seed)
     obs = len(scan_nbre(seq))
+    obs_1mm = len(scan_nbre(seq, max_mismatch=1))
     counts = []
+    counts_1mm = []
     for _ in range(n):
-        counts.append(len(scan_nbre(dinucleotide_shuffle(seq, rng))))
+        sh = dinucleotide_shuffle(seq, rng)
+        counts.append(len(scan_nbre(sh)))
+        counts_1mm.append(len(scan_nbre(sh, max_mismatch=1)))
     ge = sum(1 for c in counts if c >= obs)
     mean = sum(counts) / len(counts)
     var = sum((c - mean) ** 2 for c in counts) / (len(counts) - 1) if len(counts) > 1 else 0.0
+    ge1 = sum(1 for c in counts_1mm if c >= obs_1mm)
+    mean1 = sum(counts_1mm) / len(counts_1mm)
+    var1 = (sum((c - mean1) ** 2 for c in counts_1mm) / (len(counts_1mm) - 1)
+            if len(counts_1mm) > 1 else 0.0)
+    one_mismatch = {
+        "observed_nbre_1mm_count": obs_1mm,
+        "n_shuffles": n,
+        "null_mean": round(mean1, 4),
+        "null_sd": round(math.sqrt(var1), 4),
+        "n_shuffles_ge_observed": ge1,
+        "empirical_p_one_sided": round((ge1 + 1) / (n + 1), 5),
+        "_reading": ("the same null, for octamers matching the NBRE with AT MOST ONE substitution "
+                     "— the class of site a 'predicted NBRE-like element' belongs to. ⛔ A "
+                     "one-mismatch match is a WEAKER claim than an exact NBRE, not a stronger one: "
+                     "it admits 24 sequences per position set, most of which no NR4A protein has "
+                     "been shown to bind. This calibrates a count; it does not license calling any "
+                     "hit a site."),
+    }
     return {
+        "one_mismatch": one_mismatch,
         "observed_nbre_count": obs,
         "n_shuffles": n,
         "null_mean": round(mean, 4),
@@ -906,7 +943,11 @@ def derive_part1(inputs):
         if sym in FOCUS_GENES:
             continue
         bg_counts.append({"symbol": sym, "gc": r.get("gc"),
-                          "nbre_exact": len(scan_nbre(r["sequence"]))})
+                          "nbre_exact": len(scan_nbre(r["sequence"])),
+                          # the one-mismatch count for the same window, so a focus gene's 1mm count
+                          # can be ranked against real gene windows and not only against its own
+                          # shuffles. One extra scan per background window; no extra fetch.
+                          "nbre_1mm": len(scan_nbre(r["sequence"], max_mismatch=1))})
     d["background_panel"] = {
         "n": len(bg_counts),
         "source": BACKGROUND_SOURCE,
@@ -957,6 +998,7 @@ def derive_part1(inputs):
                "n_background": len(bg_counts),
                "empirical_p_vs_panel": round((ge + 1) / (len(bg_counts) + 1), 4)}
         gc = rec.get("gc")
+        sub = None
         if gc is not None:
             sub = [b for b in bg_counts if b["gc"] is not None and abs(b["gc"] - gc) <= 0.05]
             ge2 = sum(1 for b in sub if b["nbre_exact"] >= obs)
@@ -966,6 +1008,26 @@ def derive_part1(inputs):
                 "n_at_least_as_many": ge2,
                 "empirical_p": round((ge2 + 1) / (len(sub) + 1), 4) if sub else None,
             }
+        # The same two ranks for the ONE-MISMATCH count, which is the class of site a "predicted
+        # NBRE-like element" belongs to and the only quantity on which SEMA3C is not simply zero.
+        nb1 = rec.get("nbre_1mm")
+        if nb1 and nb1.get("n") is not None and all(b.get("nbre_1mm") is not None
+                                                    for b in bg_counts):
+            o1 = nb1["n"]
+            g1 = sum(1 for b in bg_counts if b["nbre_1mm"] >= o1)
+            row["one_mismatch"] = {
+                "observed_nbre_1mm_count": o1,
+                "n_background_windows_with_at_least_as_many": g1,
+                "n_background": len(bg_counts),
+                "empirical_p_vs_panel": round((g1 + 1) / (len(bg_counts) + 1), 4),
+            }
+            if sub:
+                g1g = sum(1 for b in sub if b["nbre_1mm"] >= o1)
+                row["one_mismatch"]["gc_matched"] = {
+                    "n_matched": len(sub),
+                    "n_at_least_as_many": g1g,
+                    "empirical_p": round((g1g + 1) / (len(sub) + 1), 4),
+                }
         ranks[sym] = row
     d["focus_gene_ranks_in_background"] = {
         "_what": "for EVERY focus gene, the rank of its exact-NBRE count against the same 198-window "

@@ -282,6 +282,14 @@ dinucleotide composition — and therefore GC and CpG content — exactly; and a
 list this project had already assembled for an unrelated question, so it cannot have been chosen to
 flatter or damage any gene here. Sequences are cached, so the scan re-derives offline.
 
+The same three calibrations were computed for octamers matching the NBRE with **at most one
+substitution** — the class a "predicted NBRE-like element" belongs to, and the form of site reported
+at *SEMA3C*. Both counts are taken from the *same* shuffled sequences, which costs one extra scan per
+shuffle rather than a second 2,000-shuffle pass and leaves every exact figure unchanged. ⛔ A
+one-mismatch match is a **weaker** claim than an exact NBRE, not a stronger one: it admits many
+sequences per position, most of which no NR4A protein has been shown to bind. The calibration bounds
+a count; it does not license calling any hit a site.
+
 ---
 
 ## 3 · Results
@@ -640,9 +648,18 @@ than composition predicts. *SEMA3C* carries none.
    experiment shows binding, and §3.10 records that none exists for any NR4A3 fusion.
 2. **The *SEMA3C* zero does not contradict Brenca *et al.*** They report a *predicted NBRE-**like***
    site assayed by ChAP-qPCR — an NBRE-like site is by construction not an exact NBRE, so an
-   exact-8-mer scan is not a test of their claim. *SEMA3C*'s window carries 39 one-mismatch sites, the
-   most of any gene scanned, but no null was computed for the one-mismatch count, so that number is
-   uncalibrated and may not be read as enrichment either way.
+   exact-8-mer scan is not a test of their claim, and a motif scan cannot refute a measured binding
+   event at a named locus in any case.
+   **The NBRE-like class was therefore scanned too, with its own null** (Methods §2.11). *SEMA3C*'s
+   window carries **39** one-mismatch sites, the most of any gene scanned — and that count is **what
+   its own composition predicts**: against the dinucleotide-preserving shuffle of the same window the
+   null mean is 33.7 and p = 0.203, and against the GC-matched background panel p = 0.118. Only the
+   composition-naive raw panel rank suggests enrichment (p = 0.040), and *SEMA3C*'s window is the most
+   AT-rich of the set (GC 0.371) while the NBRE itself is AT-leaning — which is exactly the artefact
+   GC-matching exists to remove. **So the one number on which *SEMA3C* was not simply zero does not
+   survive calibration either.** ⭐ Note the converse for *ENO3*: its one-mismatch count is *not*
+   enriched (28 against a null mean of 25.6, p = 0.336), so its signal sits in exact NBREs rather than
+   in degenerate ones.
 3. **The hit positions do not reproduce the published coordinates.** Kim *et al.* report two NBREs
    upstream of the *ENO3* TSS; this scan finds one upstream (−8.7 kb) and three downstream. Filion
    *et al.* report a perfect NBRE at −675 bp of *PPARG*; the nearest hit here is −186. Both papers
@@ -714,8 +731,10 @@ are not the soft tissue EMC arises in.
 4. ✅ **An NBRE motif scan** of the regulatory windows of the genes that read high, against a matched
    background — **performed, and reported in §3.13.** It cannot demonstrate binding, and it did not
    resolve the question: *ENO3* is enriched against both nulls, *PPARG* is not, and *SEMA3C* carries no
-   exact NBRE. What remains genuinely undone on this axis is a one-mismatch (NBRE-like) scan with its
-   own null, which is the form of site *SEMA3C* was reported to carry.
+   exact NBRE. The one-mismatch (NBRE-like) class — the form of site *SEMA3C* was reported to carry —
+   was scanned with its own null in the same pass, and is not enriched for any gene either (§3.13).
+   **What remains undone on this axis is not another scan**: sequence cannot settle occupancy, and the
+   discriminating experiment is item 1 above.
 
 ### 4.3 · What is new here
 

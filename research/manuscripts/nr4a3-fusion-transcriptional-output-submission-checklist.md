@@ -142,11 +142,18 @@ RET-specific keys and verdict are untouched. Results are Methods §2.11 and Resu
 — 1 NBRE, shuffle p = 0.577, panel p = 0.663. That is the RET lane's answer to its own question and is
 recorded in its artifact.)*
 
-### Still available (needs a CI fetch — the sandbox proxy blocks these hosts)
+### Also done (2026-08-08) — the one-mismatch (NBRE-like) null, offline
 
-| test | what it would add | cost | gate |
-|---|---|---|---|
-| **A one-mismatch (NBRE-like) scan with its own null** | The form of site *SEMA3C* was actually reported to carry. Its window has 39 one-mismatch matches, the most of any gene scanned, but no null was computed for that count so it is currently uncalibrated | $0, CPU | sequences already cached — this one is now offline-doable |
+The remaining sequence question was whether *SEMA3C*'s 39 one-mismatch matches — the most of any gene
+scanned, and the form of site Brenca *et al.* actually reported — meant anything. Computed on the same
+shuffles (one extra scan per shuffle, no second pass, every exact figure unchanged): **it does not.**
+Against its own composition the null mean is 33.7 (p = 0.203) and the GC-matched panel gives p = 0.118;
+only the composition-naive raw panel rank suggests enrichment (p = 0.040), and *SEMA3C*'s window is the
+most AT-rich of the set. *ENO3*'s one-mismatch count is likewise not enriched (p = 0.336), so its
+signal sits in exact NBREs rather than degenerate ones.
+
+**Nothing further on the sequence axis is worth running.** Sequence cannot settle occupancy; the
+discriminating experiment is a cistrome in a fusion-expressing cell, which no computation supplies.
 | **Intersect with the Haller 2019 NR4A3 ChIP-seq peaks** (Zenodo doi 10.5281/zenodo.1483691, open) | Whether the NR4A3 DNA-binding domain reaches these genes in a human tumour. ⛔ Must be framed exactly as §4.2 frames it — acinic cell carcinoma carries *native* NR4A3, not a fusion, so it can never be cited as a fusion cistrome | $0, CPU | Zenodo blocked in-sandbox (403 at the egress proxy); routable through GitHub Actions |
 | **A fourth EMC expression cohort**, if one exists | A further independent replication | $0 | a GEO re-search |
 
