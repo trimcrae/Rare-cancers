@@ -34,7 +34,7 @@ related:
 
 # Citation-provenance audit — `nr4a3-degrader-paper.md`, 2026-08-08
 
-**Headline: all 74 unanchored identifiers RESOLVE. None is fabricated. Six carry a defect anyway, and one of
+**Headline: all 74 unanchored identifiers RESOLVE. None is fabricated. Five are defective anyway, and one of
 those is disqualifying on its own — a PMID that resolves cleanly to the wrong paper.**
 
 | | count |
@@ -43,7 +43,7 @@ those is disqualifying on its own — a PMID that resolves cleanly to the wrong 
 | **RESOLVES** — registry returned a record | **74** |
 | **DOES NOT RESOLVE** — no such identifier | **0** |
 | **PAYWALLED** — blocked the check | **0** (see *What "paywalled" means here*) |
-| **defective anyway** — resolves, but not to what the manuscript says | **6** (2 integrity failures, 1 factual, 3 flags) |
+| **defective anyway** — resolves, but not to what the manuscript says | **5** across 4 references: 2 citation-integrity failures (D1, D2), 1 wrong year (D3), 2 descriptor flags needing a human read (D4, D5). D6 below is a sixth entry from the same block, checked and **clean**. |
 
 The paper carried **by far the largest unanchored block in the repository**: 74 identifiers, against 22 for the
 next file down (`emc-unexplored-treatment-lanes.md`) and 17 for the one after that — more than a third of the
