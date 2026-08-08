@@ -123,6 +123,51 @@ def test_truncation_of_a_stored_response_is_marked_never_silent():
     assert out["text_truncated_at_chars"] == 10 and out["text_full_len"] == 50
 
 
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+# the arm matcher — the fusion and its own reciprocal control must never collapse
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+
+@pytest.mark.parametrize("raw,want", [
+    ("EWSR1-NR4A3", "EWSR1-NR4A3"),
+    ("ewsr1_nr4a3", "EWSR1-NR4A3"),
+    ("NR4A3-EWSR1", "NR4A3-EWSR1 (reciprocal control)"),
+    ("TAF15-NR4A3", "TAF15-NR4A3"),
+    ("TCF12-NR4A3", "TCF12-NR4A3"),
+    ("TFG-NR4A3", "TFG-NR4A3"),
+    ("NR4A3", "NR4A3 (full-length wild type control)"),
+    ("EWSR1-FLI1", None),
+    ("NR4A1", None),
+    ("NR4A3-TAF15", None),
+    ("", None),
+])
+def test_the_arm_matcher_separates_every_arm_from_every_control(raw, want):
+    assert M._match_arm(raw) == want
+
+
+def test_the_fusion_and_its_zero_peak_reciprocal_never_collapse():
+    """⛔ EWSR1-NR4A3 is the arm; NR4A3-EWSR1 is the control that opened zero peaks. A substring
+    matcher that merged them would fold an arm into its own negative control, and every count
+    downstream would be meaningless while looking entirely normal."""
+    assert M._match_arm("EWSR1-NR4A3") != M._match_arm("NR4A3-EWSR1")
+    assert M._match_arm("NR4A3") != M._match_arm("EWSR1-NR4A3")
+
+
+def test_a_head_size_that_could_not_be_read_is_none_never_zero():
+    src = open(os.path.join(MOD_DIR, "gse243553_eno3_overlap.py"), encoding="utf-8").read()
+    i = src.index("def head_size(")
+    block = src[i:i + 900]
+    assert '"content_length": None' in block, (
+        "head_size must initialise content_length to None; a 0 would read as an empty file")
+
+
+def test_the_barcode_count_is_labelled_as_not_the_papers_nuclei_count():
+    """A barcode assignment is pre-QC; the paper's 112 is post-ArchR-QC. Conflating them would
+    manufacture a contradiction with the published figure out of two different quantities."""
+    src = open(os.path.join(MOD_DIR, "gse243553_eno3_overlap.py"), encoding="utf-8").read()
+    assert "⛔_not_the_same_quantity_as_the_papers_nuclei_count" in src
+    assert "BARCODES ASSIGNED TO A VARIANT" in src
+
+
 def test_the_two_constraints_are_carried_in_the_artifact_not_only_in_prose():
     """⛔ Both must survive into the machine-readable output, because a reader who quotes only the
     result is exactly the reader who would drop them."""

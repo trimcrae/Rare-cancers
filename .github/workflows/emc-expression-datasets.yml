@@ -651,6 +651,21 @@ jobs:
           GSE243553_BUDGET_S: "1200"
         run: python research/modalities/gse243553_eno3_overlap.py --stage recon --fetch
 
+      # ⭐ STAGE 2 RUNS IN THE SAME DISPATCH BECAUSE IT IS 13 SECONDS BEHIND STAGE 1 AND ANSWERS
+      # THE THREE QUESTIONS "THE DEPOSIT HAS NO PEAK CALL" IS NOT ALLOWED TO SKIP: what a
+      # re-analysis would actually cost (every file HEAD-sized, so the figure is a reading and not
+      # the one "75G" in an FTP listing), whether the NR4A3 arms are really in the deposited
+      # barcode->variant maps (the cistrome note says those files "have not been opened"), and
+      # whether a differential-peak table exists as a PAPER SUPPLEMENT rather than a GEO file.
+      - name: "GSE243553 arms — sizes measured, arms read from the data, supplement searched"
+        if: inputs.mode == 'gse243553-eno3'
+        timeout-minutes: 30
+        env:
+          GSE243553_ARMS_BUDGET_S: "1200"
+        run: |
+          python research/modalities/gse243553_eno3_overlap.py --stage arms --fetch \
+            --budget-s "${GSE243553_ARMS_BUDGET_S}"
+
       - name: "GSE243553 recon — upload"
         if: always() && inputs.mode == 'gse243553-eno3'
         uses: actions/upload-artifact@v4
@@ -659,7 +674,7 @@ jobs:
           if-no-files-found: warn
           path: |
             research/modalities/gse243553-eno3-overlap-recon.json
-            research/modalities/gse243553-eno3-overlap.json
+            research/modalities/gse243553-eno3-overlap-arms.json
 
       # ─────────────────────────────────────────────────────────────────────────────────────
       # ret-motif — the sibling sequence instrument (emc-ret-lane.md §6, next step 2)
@@ -818,7 +833,7 @@ jobs:
           elif [ "${{ inputs.mode }}" = "gse243553-eno3" ]; then
             MSG="GSE243553 recon: what the oncofusion scATAC deposit actually holds (CI)"
             PATHS="research/modalities/gse243553-eno3-overlap-recon.json
-                   research/modalities/gse243553-eno3-overlap.json"
+                   research/modalities/gse243553-eno3-overlap-arms.json"
           elif [ "${{ inputs.mode }}" = "gse28866" ]; then
             MSG="GSE28866 header read: is the tumour-vs-normal EMC deposit gene-indexed? (CI)"
             PATHS="research/modalities/gse28866-tumour-vs-normal.json"
@@ -1052,6 +1067,24 @@ jobs:
           for k, r in sorted(d["fetches"].items()):
               print(f"  [{r['state']:>16}] http={r['http']} {r['bytes']:>9}B  {k}")
           print()
+          a = "research/modalities/gse243553-eno3-overlap-arms.json"
+          if os.path.exists(a):
+              A = json.load(open(a))
+              print("=== EVERY DEPOSITED FILE, SIZE MEASURED ===")
+              for fn, s in sorted(A["file_sizes_bytes"].items()):
+                  print(f"  {s['content_length'] if s['content_length'] is not None else 'UNREAD':>14}  {fn}")
+              print(f"  TOTAL {A['total_deposited_bytes']:,} B "
+                    f"(fragments {A['fragment_bytes']:,} B)")
+              print()
+              print("=== THE NR4A3 ARMS, READ FROM THE DEPOSITED BARCODE->VARIANT MAPS ===")
+              print("  ", A["arms"]["_what_is_counted"])
+              for arm, n in sorted(A["arms"]["barcode_counts_by_arm"].items()):
+                  print(f"    {arm:<42} {n}")
+              print("  ⛔", A["arms"]["⛔_not_the_same_quantity_as_the_papers_nuclei_count"])
+              print()
+              print("=== IS THERE A PEAK TABLE IN THE PAPER'S SUPPLEMENT? ===")
+              print("  ", A["supplementary_table_search"]["europepmc_zip_members"])
+              print()
           for c in d["_constraints_that_travel_with_every_result"]:
               print("  ⛔", c)
           PY

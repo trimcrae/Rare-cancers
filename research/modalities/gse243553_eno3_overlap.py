@@ -352,10 +352,14 @@ def run_recon(budget_s: float = DEFAULT_BUDGET_S) -> dict:
     series_files = _dir_listing(series_suppl)
 
     # ── the build question, answered from the deposit's own words ──
-    build_blob = "\n".join(
-        (gsm_soft.get("text") or ""),
-    )
-    build_counts = scan_for_build(build_blob)
+    # ⛔ THIS LINE WAS `"\n".join(text)` AND THAT IS A REAL BUG, CAUGHT BY READING THE OUTPUT
+    # (run 31276157603). `str.join` over a STRING interleaves the separator between every
+    # CHARACTER, so `hg38` became `h\ng\n3\n8` and every `\bhg38\b` count came back 0 — while the
+    # `data_processing_lines` printed beside it said `Assembly: hg38` in plain text. A scanner that
+    # reports all zeros over a blob that visibly contains the token is fail-quiet: had the
+    # per-line dump not been in the same artifact, "no build token found" would have read as "the
+    # deposit does not declare a build". The tokens are now counted over the raw text.
+    build_counts = scan_for_build(gsm_soft.get("text") or "")
     processing_lines = sorted({ln for r in sample_rows for ln in r["data_processing"]})
 
     # ── is there anything that could BE a peak call? ──
@@ -411,6 +415,210 @@ def run_recon(budget_s: float = DEFAULT_BUDGET_S) -> dict:
 
 
 # ───────────────────────────────────────────────────────────────────────────────────────────────
+# STAGE 2 — THE ARMS, MEASURED; THE FILE SIZES, MEASURED; AND THE LAST TWO PLACES A PEAK
+# TABLE COULD LIVE
+# ───────────────────────────────────────────────────────────────────────────────────────────────
+#
+# Recon settled that GEO holds fragments + a barcode->variant map and NO peak call. Three things
+# follow, all of them $0, and all of them needed before "the deposit does not support the
+# analysis" is allowed to be the answer:
+#
+#   (1) THE SIZE MUST BE MEASURED, NOT REMEMBERED. "75G" appears in one FTP directory listing for
+#       the bundled tar. Every per-file size is taken by HEAD here, so the statement about what a
+#       re-analysis would cost is a reading rather than a recollection.
+#   (2) THE ARMS MUST BE READ FROM THE DATA. The cistrome note quotes the paper's nuclei counts
+#       (112 for EWSR1-NR4A3, 503 for the reciprocal) and says explicitly that the association
+#       files "have not been opened". They are small. Opening them turns "the library contains
+#       four NR4A3 fusions and two controls" from a quotation into a measurement.
+#       ⚠ AND THE TWO NUMBERS ARE NOT THE SAME QUANTITY. What is counted here is BARCODES
+#       ASSIGNED TO A VARIANT in the deposited association files. The paper's figure is nuclei
+#       surviving ArchR QC. A barcode count that differs from 112 is not a contradiction and must
+#       never be written as one.
+#   (3) A PEAK TABLE IS FAR MORE OFTEN A PAPER SUPPLEMENT THAN A GEO FILE. Europe PMC's
+#       supplementaryFiles endpoint and the bioRxiv supplementary-material page are the two
+#       remaining places it could be, and both are free.
+
+SUPPL_OUT = os.path.join(HERE, "gse243553-eno3-overlap-arms.json")
+
+# The library members this manuscript's argument turns on. Matching is SUBSTRING and
+# case-insensitive over the association file's variant column, and every distinct raw label that
+# matched is recorded, so a rename in the deposit shows up as a label rather than as a silent zero.
+NR4A3_ARMS = {
+    "EWSR1-NR4A3": ["ewsr1-nr4a3", "ewsr1_nr4a3", "ewsr1nr4a3"],
+    "TAF15-NR4A3": ["taf15-nr4a3", "taf15_nr4a3"],
+    "TCF12-NR4A3": ["tcf12-nr4a3", "tcf12_nr4a3"],
+    "TFG-NR4A3": ["tfg-nr4a3", "tfg_nr4a3"],
+    "NR4A3-EWSR1 (reciprocal control)": ["nr4a3-ewsr1", "nr4a3_ewsr1"],
+}
+
+
+def _match_arm(label: str) -> str | None:
+    low = (label or "").strip().lower()
+    for arm, pats in NR4A3_ARMS.items():
+        if any(p in low for p in pats):
+            return arm
+    # full-length wild-type NR4A3: NR4A3 with no partner on either side
+    if re.fullmatch(r"[^a-z0-9]*nr4a3[^a-z0-9]*", low):
+        return "NR4A3 (full-length wild type control)"
+    return None
+
+
+def head_size(url: str, budget: Budget) -> dict:
+    """Content-Length only. A size we could not read is `None`, never 0."""
+    rec = {"url": url, "http": None, "content_length": None, "state": None, "error": None}
+    if budget.exhausted():
+        rec["state"] = "budget_exhausted"
+        return rec
+    req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": UA})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as fh:
+            rec["http"] = fh.status
+            cl = fh.headers.get("Content-Length")
+            rec["content_length"] = int(cl) if cl and cl.isdigit() else None
+            rec["state"] = "ok"
+    except Exception as exc:                    # noqa: BLE001
+        rec["error"] = f"{type(exc).__name__}: {exc}"
+        rec["state"] = "not_retrieved"
+    return rec
+
+
+def run_arms(budget_s: float = DEFAULT_BUDGET_S) -> dict:
+    if not os.path.exists(RECON_OUT):
+        raise SystemExit(f"{RECON_OUT} missing — run --stage recon --fetch first")
+    with open(RECON_OUT, "r", encoding="utf-8") as fh:
+        recon = json.load(fh)
+
+    budget = Budget(budget_s)
+    fetches: dict = {}
+    print(f"== arms {SERIES} ==  budget {budget_s:.0f}s")
+
+    # ── (1) every deposited file's size, measured ──
+    sizes = {}
+    for gsm, r in recon["per_sample_supplementary_files"].items():
+        for fn in r.get("files", []):
+            if not fn.endswith(".gz"):
+                continue
+            url = f"https://ftp.ncbi.nlm.nih.gov/geo/samples/{gsm[:-3]}nnn/{gsm}/suppl/{fn}"
+            sizes[fn] = {**head_size(url, budget), "gsm": gsm}
+            print(f"  size {fn}: {sizes[fn]['content_length']}")
+
+    # ── (2) the arms, read from the association files ──
+    assoc_files = sorted(fn for fn in sizes if "associations" in fn)
+    per_file, label_counts, header_seen = {}, {}, {}
+    for fn in assoc_files:
+        gsm = sizes[fn]["gsm"]
+        url = f"https://ftp.ncbi.nlm.nih.gov/geo/samples/{gsm[:-3]}nnn/{gsm}/suppl/{fn}"
+        rec = fetch(url, budget, timeout=180, max_bytes=120_000_000)
+        fetches[f"assoc::{fn}"] = {k: v for k, v in _slim(rec, 400).items()}
+        if rec["state"] != "ok" or not rec.get("text"):
+            per_file[fn] = {"state": rec["state"], "error": rec.get("error")}
+            print(f"  [{rec['state']}] {fn}")
+            continue
+        lines = rec["text"].splitlines()
+        header = lines[0] if lines else ""
+        header_seen[fn] = header
+        # find the column that carries the variant label: the one whose values match an arm
+        rows = [ln.split(",") for ln in lines[1:] if ln.strip()]
+        ncol = max((len(r) for r in rows), default=0)
+        best_col, best_hits = None, -1
+        for c in range(ncol):
+            hits = sum(1 for r in rows if len(r) > c and _match_arm(r[c]))
+            if hits > best_hits:
+                best_col, best_hits = c, hits
+        counts: dict = {}
+        raw_labels: dict = {}
+        for r in rows:
+            if best_col is None or len(r) <= best_col:
+                continue
+            raw = r[best_col].strip().strip('"')
+            arm = _match_arm(raw)
+            if arm:
+                counts[arm] = counts.get(arm, 0) + 1
+                raw_labels.setdefault(arm, set()).add(raw)
+        per_file[fn] = {
+            "state": "ok",
+            "header": header,
+            "n_rows": len(rows),
+            "variant_column_index": best_col,
+            "arm_barcode_counts": counts,
+            "raw_labels_matched": {k: sorted(v) for k, v in raw_labels.items()},
+        }
+        for arm, n in counts.items():
+            label_counts[arm] = label_counts.get(arm, 0) + n
+        print(f"  [ok] {fn}: {len(rows)} rows, arms {counts}")
+
+    # ── (3) the last two places a peak table could live ──
+    def go(name: str, url: str, **kw) -> dict:
+        rec = fetch(url, budget, **kw)
+        fetches[name] = _slim(rec)
+        print(f"  [{rec['state']:>16}] http={rec['http']} {rec['bytes']:>9}B  {name}")
+        return rec
+
+    go("europepmc_supplementary_files_zip",
+       f"https://www.ebi.ac.uk/europepmc/webservices/rest/{SERIES_PMCID}/supplementaryFiles",
+       max_bytes=60_000_000)
+    go("biorxiv_supplementary_material_page",
+       f"https://www.biorxiv.org/content/{PREPRINT_DOI}v1.supplementary-material")
+
+    # the Europe PMC endpoint returns a ZIP; list its members with stdlib only
+    suppl_zip_members = None
+    z = fetches.get("europepmc_supplementary_files_zip") or {}
+    if z.get("state") == "ok" and (z.get("http") == 200):
+        try:
+            import zipfile
+            raw = fetch(
+                f"https://www.ebi.ac.uk/europepmc/webservices/rest/{SERIES_PMCID}"
+                f"/supplementaryFiles", budget, max_bytes=60_000_000)
+            if raw["state"] == "ok":
+                data = raw["text"].encode("utf-8", "surrogateescape")
+                with zipfile.ZipFile(io.BytesIO(data)) as zf:
+                    suppl_zip_members = [{"name": i.filename, "size": i.file_size}
+                                         for i in zf.infolist()]
+        except Exception as exc:                # noqa: BLE001
+            suppl_zip_members = {"error": f"{type(exc).__name__}: {exc}"}
+
+    total_bytes = sum(v["content_length"] or 0 for v in sizes.values())
+    frag_bytes = sum(v["content_length"] or 0 for k, v in sizes.items() if "fragments" in k)
+
+    out = {
+        "_what": ("Stage 2: every deposited file's size MEASURED, the NR4A3 arms read from the "
+                  "deposited barcode->variant maps rather than from the paper's prose, and the "
+                  "two remaining places a differential-peak table could live."),
+        "_constraints_that_travel_with_every_result":
+            recon["_constraints_that_travel_with_every_result"],
+        "_no_claim": recon["_no_claim"],
+        "series": SERIES,
+        "pmid": SERIES_PMID,
+        "pmcid": SERIES_PMCID,
+        "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "file_sizes_bytes": sizes,
+        "total_deposited_bytes": total_bytes,
+        "fragment_bytes": frag_bytes,
+        "arms": {
+            "_what_is_counted": (
+                "BARCODES ASSIGNED TO A VARIANT in the deposited *_merged_associations.csv.gz "
+                "files, summed over the 12 technical-replicate samples."),
+            "⛔_not_the_same_quantity_as_the_papers_nuclei_count": (
+                "The paper reports nuclei that survive ArchR QC (112 for EWSR1-NR4A3, 503 for the "
+                "reciprocal NR4A3-EWSR1). An association file is the assignment BEFORE that "
+                "filtering, and a barcode can be assigned and then dropped. A different number "
+                "here is not a contradiction of the paper and must never be written as one."),
+            "barcode_counts_by_arm": label_counts,
+            "per_file": per_file,
+            "headers_seen": header_seen,
+        },
+        "supplementary_table_search": {
+            "europepmc_zip_members": suppl_zip_members,
+            "_why": ("a differential-peak table is far more often a paper supplement than a GEO "
+                     "file; this is the last place one could be, and it is free to ask"),
+        },
+        "fetches": fetches,
+        "_absent_reading_rule": recon["_absent_reading_rule"],
+    }
+    return out
+
+
+# ───────────────────────────────────────────────────────────────────────────────────────────────
 # selftest — the arithmetic that can lie, asserted with no network
 # ───────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -454,6 +662,30 @@ def selftest() -> int:
     if c["hg38"] != 2 or c["hg19"] != 1:
         fails.append(f"scan_for_build mis-counted: {c}")
 
+    # 4b. the arm matcher must separate the fusion from BOTH controls, in both orientations
+    cases = {
+        "EWSR1-NR4A3": "EWSR1-NR4A3",
+        "ewsr1_nr4a3": "EWSR1-NR4A3",
+        "NR4A3-EWSR1": "NR4A3-EWSR1 (reciprocal control)",
+        "TAF15-NR4A3": "TAF15-NR4A3",
+        "TCF12-NR4A3": "TCF12-NR4A3",
+        "TFG-NR4A3": "TFG-NR4A3",
+        "NR4A3": "NR4A3 (full-length wild type control)",
+        " nr4a3 ": "NR4A3 (full-length wild type control)",
+        "EWSR1-FLI1": None,
+        "NR4A1": None,
+        "": None,
+    }
+    for raw, want in cases.items():
+        got = _match_arm(raw)
+        if got != want:
+            fails.append(f"_match_arm({raw!r}) -> {got!r}, expected {want!r}")
+    # ⛔ THE ORIENTATION TEST IS THE ONE THAT MATTERS. `EWSR1-NR4A3` and `NR4A3-EWSR1` are the
+    # fusion and its ZERO-PEAK reciprocal control; a substring matcher that collapsed them would
+    # merge the arm with its own negative control and make any result meaningless.
+    if _match_arm("NR4A3-EWSR1") == _match_arm("EWSR1-NR4A3"):
+        fails.append("the fusion and its reciprocal control match the same arm")
+
     # 5. SOFT parsing keeps one record per ^SAMPLE
     soft = ("^SAMPLE = GSM1\n!Sample_title = a\n!Sample_data_processing = hg38\n"
             "^SAMPLE = GSM2\n!Sample_title = b\n")
@@ -474,7 +706,7 @@ def selftest() -> int:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--stage", choices=["recon"], default="recon")
+    ap.add_argument("--stage", choices=["recon", "arms"], default="recon")
     ap.add_argument("--fetch", action="store_true")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--selftest", action="store_true")
@@ -493,6 +725,16 @@ def main(argv=None) -> int:
         print(json.dumps({k: d[k] for k in
                           ("series", "n_samples_parsed", "deposit_supports_a_peak_overlap",
                            "filenames_matching_a_peak_call_pattern")}, indent=1))
+        return 0
+
+    if args.fetch and args.stage == "arms":
+        out = run_arms(args.budget_s)
+        with open(SUPPL_OUT, "w", encoding="utf-8") as fh:
+            json.dump(out, fh, indent=1, sort_keys=True)
+            fh.write("\n")
+        print(f"\nwrote {SUPPL_OUT}")
+        print(f"total deposited bytes: {out['total_deposited_bytes']:,}")
+        print(f"arm barcode counts:    {out['arms']['barcode_counts_by_arm']}")
         return 0
 
     if args.fetch:
