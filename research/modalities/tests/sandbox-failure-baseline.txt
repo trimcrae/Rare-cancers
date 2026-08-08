@@ -1,0 +1,74 @@
+# Tests known to FAIL in the dev sandbox because a scientific dependency is absent.
+#
+# ⛔ THIS FILE EXISTS BECAUSE A COUNT LET A REAL FAILURE THROUGH (2026-08-08). The pytest gate in
+# scripts/preflight.sh tolerated a NUMBER of sandbox failures and asserted they were "all dep-related"
+# without checking. A genuine regression -- test_lint_citations.py::test_the_ledger_does_not_anchor_itself,
+# broken by a newly committed artifact -- took the count from 48 to 49, sat under the baseline of 50, and
+# the gate printed PREFLIGHT OK. That tree was pushed and turned `main` red. CI with full deps reported
+# exactly one failure against 7,363 passes, so nothing about the failure was ambiguous; the local gate
+# simply could not see it. preflight.sh's own comments had already recorded the limitation in words --
+# "This script stores no baseline LIST, only a COUNT, so the excess cannot be identified here" -- which is
+# why the fix is a list and not a bigger number.
+#
+# ⚠ THIS IS NOT AN IGNORE LIST. An ignore list suppresses; this one NAMES what is tolerated, fails the
+# build on anything absent from it, and reports entries that have started passing so the list shrinks.
+# A test may only be added here after its failure is traced to a missing module IN THIS SANDBOX -- not
+# because it is inconvenient. Every entry below was traced on 2026-08-08: all are ModuleNotFoundError for
+# rdkit, boto3 or numpy, including test_vast_machine_blacklist.py::test_clear_requires_snapshot, whose
+# AssertionError is a subprocess exit code that differs only because boto3 is missing inside it.
+#
+# Regenerate deliberately, in a commit, when the sandbox's installed packages change:
+#   python3 -m pytest research/modalities/tests/ -q --continue-on-collection-errors \
+#     --ignore=research/modalities/tests/test_ternary_endpoint_align.py \
+#   | grep '^FAILED' | sed 's/^FAILED //; s/ - .*//' | sort > research/modalities/tests/sandbox-failure-baseline.txt
+#   (then re-add this header)
+#
+# 5 further modules cannot be IMPORTED here and are counted separately by the gate, not listed here.
+research/modalities/tests/test_apo_pose_recovery.py::test_an_atom_count_mismatch_is_refused_not_guessed
+research/modalities/tests/test_congeneric_fanout.py::test_SEED_0_leaves_the_rng_exactly_as_the_18_landed_edges_had_it
+research/modalities/tests/test_congeneric_fanout.py::test_credential_preflight_fails_closed_on_every_unusable_outcome
+research/modalities/tests/test_congeneric_fanout.py::test_the_engine_applies_the_seed_to_every_stream_it_can_actually_reach
+research/modalities/tests/test_nr4a3_5bt.py::test_a_fetch_that_fails_is_a_refusal_not_a_silent_ternary_fallback
+research/modalities/tests/test_nr4a3_5bt.py::test_build_arm_runs_end_to_end_and_the_snap_masks_are_non_empty
+research/modalities/tests/test_nr4a3_5bt.py::test_every_substructure_role_is_unique
+research/modalities/tests/test_nr4a3_5bt.py::test_no_unserialisable_object_can_reach_the_writer
+research/modalities/tests/test_nr4a3_5bt.py::test_plan_mode_resolves_every_committed_input
+research/modalities/tests/test_nr4a3_5bt.py::test_resolve_e3_binary_runs_end_to_end_offline
+research/modalities/tests/test_nr4a3_5bt.py::test_the_docked_warhead_is_a_substructure_of_the_degrader
+research/modalities/tests/test_nr4a3_5bt.py::test_the_docking_box_is_derived_not_typed
+research/modalities/tests/test_nr4a3_5bt.py::test_the_e3_binary_detail_is_json_serialisable_and_keeps_the_molecule_identity
+research/modalities/tests/test_nr4a3_5bt.py::test_the_refusal_names_every_offending_path_not_only_the_first
+research/modalities/tests/test_nr4a3_5bt.py::test_the_screening_sdf_is_NOT_a_source_of_the_warhead_pose
+research/modalities/tests/test_nr4a3_ternary_fep.py::test_expected_heavy_map_size_is_derived_from_the_frozen_endpoints
+research/modalities/tests/test_nrv04_pe_stage_probe.py::test_a_heavy_atom_absent_from_the_raw_cofold_is_attributed_to_our_prep
+research/modalities/tests/test_nrv04_pe_stage_probe.py::test_close_contacts_finds_the_clash_excludes_bonded_and_names_who_placed_it
+research/modalities/tests/test_nrv04_pe_stage_probe.py::test_with_no_raw_cofold_nothing_may_be_attributed_to_boltz
+research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_a_held_unit_is_reported_every_tick_never_silently
+research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_a_quarantine_eligible_unit_ON_A_HOST_is_visible_but_untouched
+research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_supervision_does_not_buy_a_unit_that_was_never_authorised
+research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_supervision_still_re_places_a_unit_that_lost_its_host
+research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_the_40_percent_deadlock_is_broken_end_to_end
+research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_the_breaker_denominator_is_the_streak_not_the_lifetime_count
+research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_the_quarantine_costs_nothing_and_is_visible
+research/modalities/tests/test_nrv04_retro_launch.py::test_a_blocked_unit_is_never_re_bought_by_the_replacer
+research/modalities/tests/test_nrv04_retro_launch.py::test_a_launch_that_rented_nothing_does_not_report_success
+research/modalities/tests/test_nrv04_retro_launch.py::test_an_explicit_pilot_that_gets_skipped_fails_the_job
+research/modalities/tests/test_nrv04_retro_launch.py::test_default_pilot_rents_the_unrun_unit_when_the_pinned_one_has_landed
+research/modalities/tests/test_nrv04_retro_launch.py::test_retro_reap_refuses_without_a_key_instead_of_silently_doing_nothing
+research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_refuses_to_condemn_on_a_read_it_did_not_get
+research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_replaces_hostless_unrun_units_through_the_lanes_own_launcher
+research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_without_a_key_buys_and_destroys_nothing
+research/modalities/tests/test_selcal_stage.py::test_audit_ignores_intra_residue_bonds
+research/modalities/tests/test_selcal_stage.py::test_audit_passes_a_normal_assembly
+research/modalities/tests/test_selcal_stage.py::test_audit_refuses_the_measured_failure_signature
+research/modalities/tests/test_short_linker_probe.py::test_the_candidate_has_a_recorded_and_reparsed_structure
+research/modalities/tests/test_short_linker_probe.py::test_the_probe_reproduces_its_committed_artifact
+research/modalities/tests/test_step1_map_diag.py::test_exactly_one_fanout_edge_has_a_strict_map_below_its_floor
+research/modalities/tests/test_step1_map_diag.py::test_the_escalation_is_dead_code_for_edges_whose_strict_map_already_clears_its_floor[COC(=O)c1c[nH]c2ccc(Br)cc12-COC(=O)c1c[nH]c2ccc(N)cc12-cw_ev_5nh2]
+research/modalities/tests/test_step1_map_diag.py::test_the_escalation_is_dead_code_for_edges_whose_strict_map_already_clears_its_floor[COC(=O)c1c[nH]c2ccc(Br)cc12-COC(=O)c1c[nH]c2ccc(O)cc12-cw_ev_5oh]
+research/modalities/tests/test_step1_map_diag.py::test_the_provable_floor_condemns_the_strict_map_and_admits_the_agnostic_one
+research/modalities/tests/test_step1_map_diag.py::test_the_strict_map_is_severed_by_the_ester_to_amide_substitution
+research/modalities/tests/test_vast_machine_blacklist.py::test_clear_refuses_without_a_snapshot
+research/modalities/tests/test_vast_machine_blacklist.py::test_snapshot_refuses_to_overwrite_an_existing_record
+research/modalities/tests/test_vast_machine_blacklist.py::test_the_cli_actually_reads_its_command_line
+research/modalities/tests/test_vast_machine_blacklist.py::test_the_cli_runs_as_a_SCRIPT_not_just_as_an_import

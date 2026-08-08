@@ -189,24 +189,54 @@ if [ "${SKIP_TESTS:-0}" != "1" ]; then
     echo "           be a statement about an empty run. Last lines:"
     tail -5 "$out"
     rc=1
-  elif [ "$failed" -gt "$BASELINE_FAILURES" ]; then
-    # ⛔ THIS USED TO SAY "these are NEW:" ABOVE A `head -20` OF *ALL* FAILURES, AND THAT WAS A LIE THE
-    # READER COULD NOT DETECT (measured 2026-08-07). With a baseline of 48 and 50 failures, it printed 20
-    # lines under a heading claiming every one was a regression, when at most 2 could be and the 20 shown
-    # were simply the alphabetically-first. Two sessions in a row chased dep-gap failures believing they
-    # had broken something. This script stores no baseline LIST, only a COUNT, so the excess cannot be
-    # identified here -- and saying so is strictly better than naming innocents.
-    echo "   FAILED: $failed failures exceeds baseline $BASELINE_FAILURES (excess: $((failed - BASELINE_FAILURES)))"
-    echo "   ⚠ THE $((failed - BASELINE_FAILURES)) NEW FAILURE(S) ARE NOT IDENTIFIED BELOW. This gate tracks a COUNT, not a"
-    echo "     list, so it cannot tell you WHICH failed tests are new. The lines below are the first 20 of"
-    echo "     ALL $failed failures, most of which are the known dep gap. To find the real regression, diff"
-    echo "     against a clean checkout: git worktree add /tmp/pf-clean HEAD && (cd /tmp/pf-clean && \\"
-    echo "     python3 -m pytest research/modalities/tests -q --continue-on-collection-errors)"
-    grep -E '^FAILED' "$out" | head -20
-    rc=1
   else
-    echo "   OK ($failed failures, at/below the $BASELINE_FAILURES sandbox baseline -- all dep-related,"
-    echo "       green in CI; $errored module(s) could not be imported here and are counted separately)"
+    # ⛔ THE GATE NOW DIFFS A LIST, NOT A COUNT, AND THAT CHANGE IS AN INCIDENT FIX (2026-08-08).
+    # A count cannot tell a new real failure from a missing module. Measured: a genuine regression
+    # (test_lint_citations.py::test_the_ledger_does_not_anchor_itself, broken by a newly committed
+    # artifact) took the count 48 -> 49, sat under the baseline of 50, and this gate printed
+    # PREFLIGHT OK -- "all dep-related, green in CI", asserted without checking. That tree was pushed
+    # and turned `main` red, where CI with full deps reported exactly 1 failure against 7,363 passes.
+    #
+    # ⚠ THE PREVIOUS VERSION KNEW THIS ABOUT ITSELF. It printed, correctly, "THE NEW FAILURE(S) ARE NOT
+    # IDENTIFIED BELOW ... This gate tracks a COUNT, not a list", and that honesty was mistaken for
+    # sufficiency -- a limitation stated in prose is still a limitation. It only ever printed when the
+    # count was EXCEEDED, so the case that actually bit (a real failure that fits under the ceiling,
+    # because a dep failure was fixed or never counted) produced no warning at all.
+    # Superseded, retained (CLAUDE.md rule 1.2): the `-gt "$BASELINE_FAILURES"` count comparison and
+    # its "excess:" readout. BASELINE_FAILURES is kept only as the cross-check below.
+    base=research/modalities/tests/sandbox-failure-baseline.txt
+    if [ ! -f "$base" ]; then
+      echo "   FAILED: $base is missing. Without it this gate would fall back to trusting a count,"
+      echo "           which is the defect it was built to remove. Restore it from git."
+      rc=1
+    else
+      got=$(mktemp); known=$(mktemp)
+      grep -E '^FAILED' "$out" | sed 's/^FAILED //; s/ - .*//' | sed 's/[[:space:]]*$//' | sort -u >"$got"
+      grep -v '^#' "$base" | sed '/^[[:space:]]*$/d' | sort -u >"$known"
+      new=$(comm -23 "$got" "$known"); fixed=$(comm -13 "$got" "$known")
+      if [ -n "$new" ]; then
+        echo "   FAILED: $(printf '%s\n' "$new" | wc -l | tr -d ' ') failure(s) NOT in the sandbox baseline."
+        echo "   ⚠ These are NEW and are named in full -- they are not the known dep gap:"
+        printf '%s\n' "$new" | sed 's/^/     /'
+        echo "   If one is genuinely a missing-dependency failure, trace it to the module and add it to"
+        echo "   $base in the same commit, with the reason. Never add one to silence it."
+        rc=1
+      else
+        echo "   OK ($failed failure(s), every one named in the sandbox baseline as dep-related;"
+        echo "       $errored module(s) could not be imported here and are counted separately)"
+      fi
+      if [ -n "$fixed" ]; then
+        # Not a failure: the list is meant to shrink, and a stale entry quietly widens what is tolerated.
+        echo "   ⓘ $(printf '%s\n' "$fixed" | wc -l | tr -d ' ') baseline entr(y/ies) no longer fail -- prune them from $base:"
+        printf '%s\n' "$fixed" | sed 's/^/     /'
+      fi
+      # Cross-check the retained count against the list, so the two can never disagree silently.
+      if [ "$failed" -gt "$BASELINE_FAILURES" ] && [ -z "$new" ]; then
+        echo "   ⓘ $failed failures exceeds the retained count baseline $BASELINE_FAILURES, but every one is"
+        echo "     in the list. Lower BASELINE_FAILURES or re-check the list -- they have drifted apart."
+      fi
+      rm -f "$got" "$known"
+    fi
   fi
   rm -f "$out"
 fi
