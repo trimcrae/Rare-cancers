@@ -106,6 +106,34 @@ rather than duplicated: a peak set carrying (i) the factor and construct that wa
 genome build, and (iii) peak coordinates or nearest-gene assignments. Given those three fields, the
 per-gene and per-set reads become peak-intersected in one offline pass with no new fetch.
 
+## Open machine-doable step — the figure-stamped artifact and its generator have diverged
+
+⚠ **`nr4a3_fusion_targets.py` now writes a retraction field that `nr4a3-fusion-targets.json` does not
+carry, and closing that gap is a two-command pass nothing here can run.** When the chromatin-absence
+inference was retracted (2026-08-08), the retraction went into the **generator**; the artifact was
+deliberately left alone because `figures/figure-provenance.json` stamps its content hash
+(`nr4a3-fusion-targets.json` → `548dca5c6178aa88`), so regenerating it invalidates that stamp and the
+figures must be redrawn in the same pass.
+
+**Nothing committed is false and nothing is red** — verified 2026-08-08: the artifact still matches
+its recorded hash, and `tests/test_nr4a3_fusion_targets_figures.py` passes (8 passed, 1 skipped). The
+artifact's `result` field is explicitly scoped to the 2,276-document corpus, which the retraction did
+not touch. No CI step checks this artifact against its generator, so this cannot surface as a build
+failure; it will surface as a **silent divergence the first time somebody regenerates**.
+
+⛔ **Do NOT re-stamp the hash without redrawing the figures.** A hash in that file asserts *these
+figures were drawn from this artifact*; re-stamping alone converts a detectable staleness into an
+undetectable false claim, which is the opposite of what the stamp is for.
+
+⛔ **And do not redraw them in an arbitrary sandbox.** `matplotlib` and `numpy` are absent from the
+dev container, and installing whatever version pip resolves would rewrite every PNG and PDF byte for
+version reasons rather than data reasons — churn that reads as a data change. Same argument as
+CLAUDE.md §6's environment-parity rule: the stack that redraws should be the stack that drew.
+
+**The pass, in order, wherever those dependencies are pinned:**
+`python3 research/modalities/nr4a3_fusion_targets.py` → `python3 research/modalities/nr4a3_fusion_targets_figures.py`
+→ confirm `figure-provenance.json` re-stamped and `tests/test_nr4a3_fusion_targets_figures.py` green.
+
 ## Corrections register (repository-internal supersessions)
 
 Retained from the manuscript's former Appendix A; these are repository bookkeeping, removed from the
