@@ -39,8 +39,23 @@ REPRODUCTION (offline; reads only committed caches, never the network)
 import argparse
 import bisect
 import json
+import math
 import os
 from datetime import datetime, timezone
+
+
+def _binom_tail_ge(k, n, p):
+    """P(X >= k) for X ~ Binomial(n, p). Exact, stdlib only.
+
+    Exists because `observed > expected` is not a test: expected is fractional and observed is an
+    integer, so 5 against 4.8 -- a coin flip -- read as an excess and flipped this module's verdict
+    to a positive occupancy finding the first time a data refresh moved the counts.
+    """
+    if k <= 0:
+        return 1.0
+    if k > n:
+        return 0.0
+    return math.fsum(math.comb(n, i) * p ** i * (1 - p) ** (n - i) for i in range(k, n + 1))
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CISTROME = os.path.join(HERE, "emc-ret-cistrome.json")
@@ -56,6 +71,9 @@ UPSTREAM, DOWNSTREAM = 10000, 15000
 # A peak set that recovers this fraction of the background panel or less cannot discriminate: it is
 # not finding arbitrary genes either, so its silence at a focus gene is an absent reading.
 MIN_PANEL_HIT_RATE = 0.02
+# The proteins this axis is ABOUT. A peak set for anything else is read and recorded, and excluded
+# from the occupancy test — see the antigen guard below for the deposit that made this necessary.
+NR4A_ANTIGENS = ("NR4A1", "NR4A2", "NR4A3")
 MIN_PANEL_GENES = 50
 
 
@@ -184,8 +202,24 @@ def derive():
         panel = {g: v for g, v in counts.items() if g not in focus_loci}
         panel_vals = list(panel.values())
         hit_rate = (sum(1 for v in panel_vals if v > 0) / len(panel_vals)) if panel_vals else None
-        informative = (
-            panel_vals and len(panel_vals) >= MIN_PANEL_GENES and hit_rate > MIN_PANEL_HIT_RATE)
+        # ⛔ THE ANTIGEN MUST BE AN NR4A PROTEIN, AND IT WAS NOT CHECKED UNTIL THE HALLER DEPOSIT
+        # ARRIVED. Every peak set in the cistrome cache used to BE an NR4A ChIP, so recording the
+        # antigen and never filtering on it cost nothing and looked fine. That deposit carries
+        # CTCF, H3K27ac, H3K27me3, H3K4me3 and super-enhancer calls beside its NR4A3 ChIPs — 20 of
+        # them — and they sailed straight into an "NR4A occupancy" test, taking it from 24
+        # gene-by-experiment tests to 96. An H3K27ac peak at a promoter says the promoter is active;
+        # it says nothing whatever about whether an NR4A protein is there, and averaging the two
+        # produces a denominator that means nothing. Those sets are read, recorded and EXCLUDED from
+        # this axis, which is the same discipline the module already applies to depth.
+        # ⚠ CASE-INSENSITIVE, because mouse gene symbols are `Nr4a1`, not `NR4A1`. A membership test
+        # against the human casing silently reclassified all seven mouse NR4A peak sets as "not an
+        # NR4A antigen" the moment this guard was added — turning a correctly-recorded absent
+        # reading (no background panel on the mouse builds) into a wrong reason for the same
+        # exclusion. Same outcome, different explanation, and the explanation is what a reader uses.
+        is_nr4a = (ps.get("antigen") or "").upper() in NR4A_ANTIGENS
+        informative = bool(
+            is_nr4a and panel_vals and len(panel_vals) >= MIN_PANEL_GENES
+            and hit_rate > MIN_PANEL_HIT_RATE)
 
         rec = {
             "antigen": ps.get("antigen"), "genome": build, "cell_type": ps.get("cell_type"),
@@ -197,7 +231,15 @@ def derive():
             "informative": bool(informative),
         }
         if not informative:
-            if not panel_vals:
+            if not is_nr4a:
+                rec["_status"] = "NOT_AN_NR4A_ANTIGEN"
+                _ag = ps.get("antigen") or "an antigen this module could not name"
+                rec["_means"] = (
+                    f"this peak set assays {_ag}, not an NR4A protein. It is retrieved and recorded "
+                    "because it came from the same deposit, and it is EXCLUDED from the occupancy "
+                    "axis: a histone or CTCF peak at a promoter says the promoter is active and "
+                    "says nothing about whether an NR4A protein is there.")
+            elif not panel_vals:
                 # Mouse builds carry only the orthologous focus loci in this cache, so there is no
                 # background panel to place a count against — and the manuscript's genes are human.
                 rec["_status"] = "NO_BACKGROUND_PANEL_ON_THIS_BUILD"
@@ -272,6 +314,14 @@ def derive():
     n_tests = len(experiments) * len(CLASS_A)
     n_enr = sum(s["n_experiments_enriched_at_0_05"] for s in res["per_gene_summary"].values())
     expected = round(0.05 * n_tests, 2)
+    # ⛔ `observed > expected` IS NOT A TEST, AND IT SAID SO OUT LOUD THE FIRST TIME THE DATA MOVED.
+    # Expected is fractional; observed is an integer. When the Haller peak sets took the panel from
+    # 8 experiments to 32, the counts went to 5 observed against 4.8 expected — indistinguishable
+    # from chance by any reading — and the bare `>` flipped the verdict to "at least one class-A
+    # gene exceeds the background panel more often than chance would give." That sentence would have
+    # gone into the paper as a POSITIVE occupancy finding on a coin flip. The right question is how
+    # often chance alone gives at least this many, which is a binomial tail.
+    p_excess = _binom_tail_ge(n_enr, n_tests, 0.05)
     res["verdict"] = {
         "n_peaksets_read": len(res["per_peakset"]),
         "n_informative_peaksets": len(informative),
@@ -281,18 +331,25 @@ def derive():
             "n_tests": n_tests,
             "n_enriched_at_0_05_observed": n_enr,
             "n_enriched_at_0_05_expected_by_chance": expected,
+            "p_this_many_or_more_by_chance": round(p_excess, 4),
+            "excess_over_chance_at_0_05": bool(p_excess < 0.05),
             "_reading": ("with this many gene x experiment tests and no correction, this many "
-                         "nominal hits are expected at p < 0.05 whether or not anything is bound"),
+                         "nominal hits are expected at p < 0.05 whether or not anything is bound. "
+                         "`p_this_many_or_more_by_chance` is the binomial tail — the fraction of "
+                         "the time chance alone gives at least this many — and it, not a bare "
+                         "comparison of an integer to a fractional expectation, is what decides "
+                         "whether the count means anything."),
         },
         "headline": (
             f"No class-A gene carries unusual NR4A occupancy. Across {len(experiments)} distinct "
             f"experiments deep enough to recover an arbitrary gene, {n_enr} of {n_tests} "
             f"gene-by-experiment tests reach p < 0.05 against a background panel, against "
-            f"{expected} expected by chance. ENO3 is the only gene with even a borderline value and "
-            "it comes from a single experiment."
-            if n_enr <= expected else
-            "At least one class-A gene exceeds the background panel more often than chance would "
-            "give; read the per-gene table before quoting this."),
+            f"{expected} expected by chance (binomial p = {round(p_excess, 3)} for this many or "
+            "more, i.e. what chance alone routinely gives)."
+            if p_excess >= 0.05 else
+            f"{n_enr} of {n_tests} gene-by-experiment tests reach p < 0.05 against "
+            f"{expected} expected, more than chance alone gives (binomial p = "
+            f"{round(p_excess, 4)}); read the per-gene table before quoting this."),
         "⛔ what_this_is_not": (
             "NOT a measurement of the fusion, and NOT evidence that these genes are unbound. Every "
             "informative experiment here is NR4A1, a paralogue whose matched-cell-type peak sharing "

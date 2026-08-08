@@ -2360,6 +2360,160 @@ def _n_peaksets_read(art):
                if isinstance(v, dict) and v.get("_status") == "read")
 
 
+# A deposit's build is INFERRED only if a promoter mark recovers most of the background panel on one
+# build and far less on the other. Both conditions are load-bearing: the ratio alone would accept two
+# equally-wrong builds, and the absolute alone would accept a build on which everything happens to be
+# broadly covered. `hg19` and `hg38` agree over much of the genome, so ~33% on the wrong build is the
+# expected floor, not noise — which is exactly why a bare "it found some" test would not do.
+BUILD_INFER_MIN_CONCORDANCE = 0.80
+BUILD_INFER_MIN_RATIO = 2.0
+# Marks whose peaks are SUPPOSED to sit at promoters. The inference is only as good as this premise,
+# so it is stated rather than assumed: a transcription factor is not usable here, because a TF that
+# genuinely avoided promoters would look like the wrong build.
+PROMOTER_MARKS = ("H3K4me3",)
+
+
+def promoter_concordance(peaks, genes_for_build, build):
+    """Fraction of the background panel's promoter windows carrying at least one peak."""
+    hit = 0
+    for _sym, gene in genes_for_build.items():
+        lo, hi = promoter_window_bed(gene)
+        if intersect_locus(peaks, (gene["chrom"], lo, hi), build, build):
+            hit += 1
+    n = len(genes_for_build)
+    return {"n_panel_genes": n, "n_with_a_promoter_peak": hit,
+            "fraction": round(hit / n, 4) if n else None}
+
+
+def infer_deposit_build(peaksets, genes, candidate_builds=("hg19", "hg38")):
+    """Which build a deposit's coordinates are on, MEASURED, or None.
+
+    ⛔ WHY THIS IS NOT THE GUESS THE MODULE REFUSES. A BED file carries no build, and this module's
+    standing rule is that an intersection on an ASSUMED build does not throw — on chr10 it silently
+    reports another locus. That rule is about assuming. This measures, against a premise that can
+    fail loudly: H3K4me3 marks active promoters, so on the correct build it must recover most of a
+    background gene panel assembled for an unrelated question, and on the wrong one it must not.
+
+    Measured on Zenodo 1483691 (Haller 2019, acinic cell carcinoma): H3K4me3 recovers 90.6-93.9% of
+    the panel on hg19 against 32.2-33.6% on hg38, in all four samples independently. The 33% floor is
+    the two builds agreeing over much of the genome, which is why a ratio alone is not enough and the
+    absolute threshold is not enough either.
+
+    The call is made ONCE PER DEPOSIT from its promoter marks and applied to every file in it, because
+    the files are one study through one pipeline. Inferring per file would let a TF that genuinely
+    avoids promoters read as the wrong build.
+    """
+    refs = {k: v for k, v in peaksets.items()
+            if any(m.lower() in k.lower() for m in PROMOTER_MARKS) and (v.get("peaks") or [])}
+    ev = {"_method": ("promoter concordance of a promoter mark against the background gene panel, "
+                      "per candidate build"),
+          "promoter_marks_used": sorted(refs),
+          "min_concordance": BUILD_INFER_MIN_CONCORDANCE, "min_ratio": BUILD_INFER_MIN_RATIO,
+          "per_build": {}}
+    if not refs:
+        ev["_status"] = "NO_PROMOTER_MARK_IN_DEPOSIT"
+        ev["⛔"] = ("no H3K4me3-like peak set to calibrate against, so the build cannot be measured "
+                    "here. This is an ABSENT READING: the deposit is retrieved and NOT intersected.")
+        return None, ev
+
+    for b in candidate_builds:
+        gb = genes.get(b) or {}
+        if not gb:
+            continue
+        per = {}
+        for name, v in sorted(refs.items()):
+            peaks = [tuple(p) for p in (v.get("peaks") or [])]
+            per[name] = promoter_concordance(peaks, gb, b)
+        fr = [r["fraction"] for r in per.values() if r["fraction"] is not None]
+        ev["per_build"][b] = {"per_peakset": per,
+                              "min_fraction": min(fr) if fr else None,
+                              "mean_fraction": round(sum(fr) / len(fr), 4) if fr else None}
+
+    scored = [(r["min_fraction"], b) for b, r in ev["per_build"].items()
+              if r.get("min_fraction") is not None]
+    if len(scored) < 2:
+        ev["_status"] = "TOO_FEW_CANDIDATE_BUILDS"
+        return None, ev
+    scored.sort(reverse=True)
+    (best_f, best), (next_f, _next_b) = scored[0], scored[1]
+    ratio = (best_f / next_f) if next_f else float("inf")
+    ev.update({"best_build": best, "best_min_fraction": best_f,
+               "runner_up_min_fraction": next_f, "ratio": round(ratio, 3)})
+    if best_f >= BUILD_INFER_MIN_CONCORDANCE and ratio >= BUILD_INFER_MIN_RATIO:
+        ev["_status"] = "INFERRED"
+        return best, ev
+    ev["_status"] = "NOT_DECISIVE"
+    ev["⛔"] = (f"best build {best} reaches {best_f} against a runner-up {next_f} (ratio "
+               f"{ev['ratio']}). That does not clear both thresholds, so no build is assigned and "
+               "these peak sets are NOT intersected.")
+    return None, ev
+
+
+def infer_builds_in_cache():
+    """Measure the build of every `read_but_build_unknown` deposit, offline, from the cached peaks.
+
+    Separate from the fetch on purpose: it needs no network, so the inference can be re-run, argued
+    with and re-thresholded without spending another retrieval — and a build assignment is exactly
+    the kind of call that should be reproducible from committed data rather than from a live host.
+    """
+    if not os.path.exists(INPUTS):
+        print("⛔ REFUSING: no committed inputs cache.", file=sys.stderr)
+        return 4
+    with open(INPUTS, "r", encoding="utf-8") as fh:
+        cache = json.load(fh)
+    peaksets, genes = cache.get("peaksets") or {}, cache.get("genes") or {}
+
+    deposits = {}
+    for name, v in peaksets.items():
+        if not isinstance(v, dict) or v.get("_status") != "read_but_build_unknown":
+            continue
+        deposits.setdefault(name.split(":")[0], {})[name] = v
+    if not deposits:
+        print("infer-builds: no build-unknown peak set in the cache; nothing to do")
+        return 0
+
+    changed, record = 0, {}
+    for dep, members in sorted(deposits.items()):
+        build, ev = infer_deposit_build(members, genes)
+        record[dep] = ev
+        print(f"{dep}: {ev['_status']}"
+              + (f" -> {build} (min fraction {ev.get('best_min_fraction')} vs "
+                 f"{ev.get('runner_up_min_fraction')}, ratio {ev.get('ratio')})" if build else ""),
+              file=sys.stderr)
+        for b, r in sorted((ev.get("per_build") or {}).items()):
+            print(f"    {b}: min {r.get('min_fraction')} mean {r.get('mean_fraction')}",
+                  file=sys.stderr)
+        if not build:
+            continue
+        for name, v in members.items():
+            v["genome"] = build
+            v["_status"] = "read"
+            v["build_evidence"] = dict(v.get("build_evidence") or {},
+                                       inferred_build=build, inference=ev["_status"],
+                                       _rule=("MEASURED by promoter concordance against the "
+                                              "background panel, not read from the file and not "
+                                              "assumed — see infer_deposit_build"))
+            v.pop("⛔", None)
+            changed += 1
+
+    if not changed:
+        print("infer-builds: no deposit cleared the thresholds; nothing written", file=sys.stderr)
+        return 3
+    cache["build_inference"] = record
+    art = derive(cache)
+    if would_downgrade(art):
+        print("⛔ REFUSING TO WRITE: the re-derive would reduce coverage.", file=sys.stderr)
+        return 3
+    with open(INPUTS, "w", encoding="utf-8") as fh:
+        json.dump(cache, fh, indent=1, sort_keys=False, default=str)
+    with open(OUT, "w", encoding="utf-8") as fh:
+        json.dump(art, fh, indent=1, sort_keys=False, default=str)
+    print(json.dumps({"peaksets_assigned_a_build": changed,
+                      "readable_after_derive": _n_peaksets_read(art),
+                      "verdict": (art.get("verdict") or {}).get("headline")}, indent=1))
+    return 0
+
+
 def fetch_zenodo_into_cache():
     """Fetch ONLY the Zenodo deposits and merge them into the committed inputs cache.
 
@@ -2569,6 +2723,8 @@ def main():
     ap.add_argument("--fetch", action="store_true")
     ap.add_argument("--fetch-zenodo", action="store_true",
                     help="fetch ONLY the Zenodo deposits and merge them into the cached inputs")
+    ap.add_argument("--infer-builds", action="store_true",
+                    help="measure the build of every build-unknown deposit from the cached peaks")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--report", action="store_true",
@@ -2585,6 +2741,9 @@ def main():
 
     if args.fetch_zenodo:
         return fetch_zenodo_into_cache()
+
+    if args.infer_builds:
+        return infer_builds_in_cache()
 
     if args.fetch:
         cache = fetch()

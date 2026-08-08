@@ -18,18 +18,18 @@
   "strand_aware": true,
   "upstream_bp": 10000
  },
- "generated_utc": "2026-08-08T11:33:45Z",
+ "generated_utc": "2026-08-08T14:03:29Z",
  "parity_with_committed_artifact": {
   "_what": "every promoter-window count re-derived here, compared with the committed emc-ret-cistrome.json intersection",
   "agrees": true,
   "disagreements": [],
   "n_disagreeing": 0,
-  "n_rows_checked": 1027
+  "n_rows_checked": 1339
  },
  "per_gene_summary": {
   "ENO3": {
    "_reading": "the smallest p any informative NR4A experiment gives this gene against a background panel of genes chosen without reference to it. One value per EXPERIMENT, not per genome build.",
-   "best_empirical_p_vs_panel": 0.0498,
+   "best_empirical_p_vs_panel": 0.0348,
    "empirical_p_by_experiment": {
     "REMAP2022_NR4A1": 0.1407,
     "SRX10478650": 1.0,
@@ -38,10 +38,14 @@
     "SRX2423524": 1.0,
     "SRX2423525": 0.2637,
     "SRX359913": 1.0,
-    "SRX5242458": 1.0
+    "SRX5242458": 1.0,
+    "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed": 0.0697,
+    "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed": 0.0945,
+    "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed": 0.1592,
+    "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed": 0.0348
    },
-   "n_experiments_enriched_at_0_05": 1,
-   "n_informative_experiments": 8
+   "n_experiments_enriched_at_0_05": 2,
+   "n_informative_experiments": 12
   },
   "PPARG": {
    "_reading": "the smallest p any informative NR4A experiment gives this gene against a background panel of genes chosen without reference to it. One value per EXPERIMENT, not per genome build.",
@@ -54,10 +58,14 @@
     "SRX2423524": 1.0,
     "SRX2423525": 1.0,
     "SRX359913": 1.0,
-    "SRX5242458": 1.0
+    "SRX5242458": 1.0,
+    "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed": 1.0,
+    "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed": 1.0,
+    "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed": 1.0,
+    "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed": 1.0
    },
    "n_experiments_enriched_at_0_05": 0,
-   "n_informative_experiments": 8
+   "n_informative_experiments": 12
   },
   "SEMA3C": {
    "_reading": "the smallest p any informative NR4A experiment gives this gene against a background panel of genes chosen without reference to it. One value per EXPERIMENT, not per genome build.",
@@ -70,10 +78,14 @@
     "SRX2423524": 1.0,
     "SRX2423525": 1.0,
     "SRX359913": 1.0,
-    "SRX5242458": 1.0
+    "SRX5242458": 1.0,
+    "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed": 0.6766,
+    "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed": 1.0,
+    "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed": 1.0,
+    "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed": 1.0
    },
    "n_experiments_enriched_at_0_05": 0,
-   "n_informative_experiments": 8
+   "n_informative_experiments": 12
   }
  },
  "per_peakset": {
@@ -1550,10 +1562,418 @@
     "fraction_with_a_promoter_peak": 0.0051,
     "n_genes": 198
    }
+  },
+  "ZENODO1483691:AciCC1_CTCF_peaks_2167aeb49f637ea6a124e3679ce1722d.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 47663,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.875,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC1_H3K27Ac_peaks_8e63eed24d0cc6cb362aa8c8da6f74ed.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 46159,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.895,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC1_H3K27me3_peaks_7ba6a30bdabbf46f6e67deab447f5f98.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 32657,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.245,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC1_H3K4me3_peaks_88cdce01aeededcdae869c5a68657d89.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 30660,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.915,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed": {
+   "antigen": "NR4A3",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.0697,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 13,
+     "n_peaks_promoter_window": 4
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 0.6766,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 135,
+     "n_peaks_promoter_window": 1
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 18666,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.675,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC1_super_enhancer_peaks_3c3622d06160797a049f1e5b35efb068.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 853,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.11,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_CTCF_peaks_3b0fde69ad4c01f71d4a5ef07f1a8daf.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 46716,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.85,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_H3K27Ac_peaks_36d1d3116fa41220ea57494961972245.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 46773,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.89,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_H3K27me3_peaks_7f8f1745a20638c9db7f24c101556d12.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 34898,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.23,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_H3K4me3_peaks_838e68c7c58e69ff02c6a9cea9bdfda9.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 30532,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.925,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed": {
+   "antigen": "NR4A3",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.0945,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 18,
+     "n_peaks_promoter_window": 3
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 9810,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.56,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_super_enhancer_peaks_5714ac0f2fd6ef3cf59d69d5114356e4.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 850,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.115,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_CTCF_peaks_c611c1d548f65c802f4f88aedba9f768.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 34230,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.77,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_H3K27Ac_peaks_97e804349bba944e7d5d1b8ede631466.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 49150,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.82,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_H3K27me3_peaks_fb2e726ae020cdbe2aa9512e31ea0d41.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 35241,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.21,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_H3K4me3_peaks_f783774d435cce4e7b412c68ec40939d.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 29494,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.93,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed": {
+   "antigen": "NR4A3",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.1592,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 31,
+     "n_peaks_promoter_window": 2
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 9263,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.49,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_super_enhancer_peaks_ff95672c1b911065d69046579a65992d.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 792,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.1,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_CTCF_peaks_651723dd871e8a81ca6890e05137880b.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 46777,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.89,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_H3K27Ac_peaks_126438a74560e776bcf8ec776cdd4640.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 43530,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.87,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_H3K27me3_peaks_a3930e0c6493f6297169e80148ae8fef.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 38284,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.3,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_H3K4me3_peaks_186fc855845537c54dc14bd16821f812.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 28407,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.94,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed": {
+   "antigen": "NR4A3",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.0348,
+     "enriched_at_0_05": true,
+     "n_panel_genes_at_or_above": 6,
+     "n_peaks_promoter_window": 4
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 8501,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.505,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_super_enhancer_peaks_35c87c26ee2f9666ae6e24b3dd376e68.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 867,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.085,
+    "n_genes": 200
+   }
   }
  },
  "verdict": {
-  "headline": "No class-A gene carries unusual NR4A occupancy. Across 8 distinct experiments deep enough to recover an arbitrary gene, 1 of 24 gene-by-experiment tests reach p < 0.05 against a background panel, against 1.2 expected by chance. ENO3 is the only gene with even a borderline value and it comes from a single experiment.",
+  "headline": "No class-A gene carries unusual NR4A occupancy. Across 12 distinct experiments deep enough to recover an arbitrary gene, 2 of 36 gene-by-experiment tests reach p < 0.05 against a background panel, against 1.8 expected by chance (binomial p = 0.543 for this many or more, i.e. what chance alone routinely gives).",
   "informative_experiments": [
    "REMAP2022_NR4A1",
    "SRX10478650",
@@ -1562,17 +1982,23 @@
    "SRX2423524",
    "SRX2423525",
    "SRX359913",
-   "SRX5242458"
+   "SRX5242458",
+   "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed",
+   "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed",
+   "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed",
+   "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed"
   ],
   "multiplicity": {
-   "_reading": "with this many gene x experiment tests and no correction, this many nominal hits are expected at p < 0.05 whether or not anything is bound",
-   "n_enriched_at_0_05_expected_by_chance": 1.2,
-   "n_enriched_at_0_05_observed": 1,
-   "n_tests": 24
+   "_reading": "with this many gene x experiment tests and no correction, this many nominal hits are expected at p < 0.05 whether or not anything is bound. `p_this_many_or_more_by_chance` is the binomial tail — the fraction of the time chance alone gives at least this many — and it, not a bare comparison of an integer to a fractional expectation, is what decides whether the count means anything.",
+   "excess_over_chance_at_0_05": false,
+   "n_enriched_at_0_05_expected_by_chance": 1.8,
+   "n_enriched_at_0_05_observed": 2,
+   "n_tests": 36,
+   "p_this_many_or_more_by_chance": 0.5433
   },
-  "n_informative_experiments": 8,
-  "n_informative_peaksets": 15,
-  "n_peaksets_read": 86,
+  "n_informative_experiments": 12,
+  "n_informative_peaksets": 19,
+  "n_peaksets_read": 110,
   "⛔ what_this_is_not": "NOT a measurement of the fusion, and NOT evidence that these genes are unbound. Every informative experiment here is NR4A1, a paralogue whose matched-cell-type peak sharing with NR4A3 is 0.347. All 12 NR4A3-specific peak sets are UNINFORMATIVE by the rule above — they recover no arbitrary gene either. So this is a bound on what the available surrogates can show, and it is why the manuscript's discriminating experiment remains a fusion cistrome rather than any re-analysis of existing data."
  }
 }
