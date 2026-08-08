@@ -104,6 +104,7 @@ jobs:
           name: trigger-scan-${{ github.run_id }}
           path: |
             research/method-watch-trigger-scan.md
+            research/method-watch-preprint-pipeline.md
             research/method-watch-trigger-hits.json
           retention-days: 30
           if-no-files-found: warn
@@ -139,6 +140,7 @@ jobs:
           bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
             "Reopening-trigger scan $(date -u +%Y-%m-%d) (CI)" \
             research/method-watch-trigger-scan.md \
+            research/method-watch-preprint-pipeline.md \
             research/method-watch-trigger-hits.json \
             research/IDEAS.md \
             systems/graph/technologies.json

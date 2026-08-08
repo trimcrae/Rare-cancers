@@ -204,6 +204,55 @@ def chemrxiv_search(term: str, max_results: int = 15) -> list[dict]:
     return out
 
 
+def fetch_abstracts(ids: list[str]) -> dict[str, str]:
+    """Abstracts for specific hit ids. Europe PMC by query, arXiv by id_list.
+
+    ⭐ WHY THE SCANNER FETCHES THESE AND NOT A HUMAN (2026-08-08, trimcrae: "You're not going to
+    read the papers? You should at least read the abstracts right?"). The board's whole banner is
+    that every row is UNREAD -- and it was, because the sandbox cannot reach EBI or arXiv, so
+    reading one meant a CI round-trip nobody was going to make per paper. A title is not enough to
+    grade a trigger: `TRG-COFOLD-TERNARY-ASSEMBLY`'s own `on_fire` says do NOT read a global
+    accuracy number as an assembly claim, and a title cannot tell you which one a paper reports.
+    Batch-fetching the abstract is the cheapest thing that makes the criterion checkable at all.
+
+    ⚠ AN ABSTRACT IS STILL NOT THE PAPER. It is enough to REJECT a false positive with confidence
+    and only enough to PROMOTE a lead to "worth the full read". No status changes from this.
+    """
+    out: dict[str, str] = {}
+    epmc_ids = [i for i in ids if not i.startswith(("arXiv/", "chemRxiv/"))]
+    arx_ids = [i.split("/", 1)[1] for i in ids if i.startswith("arXiv/")]
+
+    for i in epmc_ids:
+        # PPR/PPR123 and MED/123 carry their source; a bare PMC id does not.
+        bare = i.split("/", 1)[1] if "/" in i else i
+        q = f"EXT_ID:{bare}" if not bare.startswith("PMC") else f"PMCID:{bare}"
+        try:
+            qs = urllib.parse.urlencode({"query": q, "format": "json",
+                                         "resultType": "core", "pageSize": "1"})
+            d = json.loads(_get(f"{EPMC}?{qs}").decode("utf-8", "replace"))
+            for r in d.get("resultList", {}).get("result", []) or []:
+                if r.get("abstractText"):
+                    out[i] = re.sub(r"<[^>]+>", "", r["abstractText"]).strip()
+        except Exception:  # noqa: BLE001, S110 -- a missing abstract is not a run failure
+            pass
+        time.sleep(SLEEP_S)
+
+    for chunk in [arx_ids[k:k + 20] for k in range(0, len(arx_ids), 20)]:
+        try:
+            qs = urllib.parse.urlencode({"id_list": ",".join(chunk), "max_results": "40"})
+            root = ET.fromstring(_get(f"{ARXIV}?{qs}"))
+            ns = {"a": "http://www.w3.org/2005/Atom"}
+            for e in root.findall("a:entry", ns):
+                eid = (e.findtext("a:id", "", ns) or "").strip().rsplit("/", 1)[-1]
+                summ = re.sub(r"\s+", " ", e.findtext("a:summary", "", ns) or "").strip()
+                if summ:
+                    out[f"arXiv/{eid}"] = summ
+        except Exception:  # noqa: BLE001, S110
+            pass
+        time.sleep(SLEEP_S)
+    return out
+
+
 def arxiv_search(query: str, max_results: int = 15) -> list[dict]:
     qs = urllib.parse.urlencode(
         {
@@ -489,6 +538,14 @@ def write_preprint_board(cfg: dict, ledger: dict, run: dict) -> None:
             mark = "" if b in corroborated.get(t["id"], set()) else " ⚠"
             L.append(f"| {h.get('date','—')} | [{title}]({h.get('url','')}) "
                      f"| {h.get('venue','—')} | `{t['id']}`{mark} |")
+        abs_rows = [(t, h) for t, h in rows if h.get("abstract")]
+        if abs_rows:
+            L.append("")
+            L.append("<details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>\n")
+            for t, h in abs_rows:
+                L.append(f"**{h.get('title','')}** — {h.get('venue','—')}, {h.get('date','—')}\n")
+                L.append(f"> {h['abstract'][:1400]}\n")
+            L.append("</details>")
         L.append("")
     with open(PREPRINT_BOARD, "w", encoding="utf-8") as fh:
         fh.write("\n".join(L))
@@ -757,6 +814,11 @@ def main() -> int:
                     help="cap on IDEAS.md bullets per trigger per run")
     ap.add_argument("--only", default=os.environ.get("TRIGGER_ONLY", ""),
                     help="comma-separated trigger ids to scan (default: all enabled)")
+    ap.add_argument("--no-abstracts", action="store_true",
+                    help="skip abstract fetching for preprint hits")
+    ap.add_argument("--max-abstracts", type=int,
+                    default=int(os.environ.get("TRIGGER_MAX_ABSTRACTS", "60")),
+                    help="cap on abstracts fetched per run (the rest fill in next run)")
     ap.add_argument("--no-preprints", action="store_true",
                     help="skip the preprint lane (SRC:PPR + ChemRxiv); published corpus only")
     ap.add_argument("--dry-run", action="store_true", help="write nothing; print what would happen")
@@ -896,6 +958,24 @@ def main() -> int:
         json.dump(ledger, fh, indent=1, sort_keys=False)
         fh.write("\n")
     write_board(cfg, ledger, run, per_trigger)
+    # Abstracts for preprints that do not have one yet. Bounded per run so a first pass over a
+    # cold ledger cannot turn into a several-hundred-request job; the rest fill in next run.
+    if not args.no_abstracts:
+        want = []
+        for tid, hits in ledger["hits"].items():
+            for hid, h in hits.items():
+                if _is_preprint(h) and not h.get("abstract"):
+                    want.append((tid, hid))
+        want = want[: args.max_abstracts]
+        if want:
+            got = fetch_abstracts([hid for _, hid in want])
+            for tid, hid in want:
+                if hid in got:
+                    ledger["hits"][tid][hid]["abstract"] = got[hid]
+            run["abstracts_fetched"] = len(got)
+            with open(LEDGER, "w", encoding="utf-8") as fh:
+                json.dump(ledger, fh, indent=1, sort_keys=False)
+                fh.write("\n")
     write_preprint_board(cfg, ledger, run)
 
     summary = (
