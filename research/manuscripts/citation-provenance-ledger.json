@@ -28,16 +28,6 @@
    "files": [
     "research/manuscripts/nr4a3-degrader-paper.md"
    ],
-   "id": "10.1002/gcc.23144",
-   "key": "DOI:10.1002/gcc.23144",
-   "kind": "DOI",
-   "note": "",
-   "status": "unverified_at_baseline"
-  },
-  {
-   "files": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
    "id": "10.1002/jcc.10128",
    "key": "DOI:10.1002/jcc.10128",
    "kind": "DOI",
@@ -606,16 +596,6 @@
   },
   {
    "files": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "id": "10.1038/s41586-019-0985-x",
-   "key": "DOI:10.1038/s41586-019-0985-x",
-   "kind": "DOI",
-   "note": "",
-   "status": "unverified_at_baseline"
-  },
-  {
-   "files": [
     "research/manuscripts/emc-treatment-roadmap.md",
     "research/manuscripts/novel-modalities.md",
     "research/manuscripts/nr4a3-degrader-paper.md"
@@ -1112,27 +1092,6 @@
    ],
    "id": "10.3389/fimmu.2021.701006/full",
    "key": "DOI:10.3389/fimmu.2021.701006/full",
-   "kind": "DOI",
-   "note": "",
-   "status": "unverified_at_baseline"
-  },
-  {
-   "files": [
-    "research/manuscripts/nr4a3-degrader-broader-indications.md",
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "id": "10.3390/cancers12092433",
-   "key": "DOI:10.3390/cancers12092433",
-   "kind": "DOI",
-   "note": "",
-   "status": "unverified_at_baseline"
-  },
-  {
-   "files": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "id": "10.3390/cancers15133373",
-   "key": "DOI:10.3390/cancers15133373",
    "kind": "DOI",
    "note": "",
    "status": "unverified_at_baseline"
@@ -2259,5 +2218,8 @@
   "verified",
   "retracted",
   "known_absent_upstream"
+ ],
+ "_removals": [
+  "2026-08-08: four DOIs left this ledger because research/literature/fusion-consensus-probe.json now anchors them — the consensus probe's Europe PMC results carry each one with its title, year and journal, which is a fetch and not a recollection. 10.1002/gcc.23144 (TAF15::NR4A3 EMC subset, GCC 2023), 10.1038/s41586-019-0985-x (NR4A limits CAR T function, Nature 2019), 10.3390/cancers12092433 (NR4A3-MYB in AciCC, Cancers 2020) and 10.3390/cancers15133373 (AciCC SEER study, Cancers 2023). This is the count falling the way '_the_count_is_meant_to_fall' intends: a citation nobody had checked is now corroborated by an artifact, so it is no longer unanchored. It was NOT removed by hand-verification."
  ]
 }
