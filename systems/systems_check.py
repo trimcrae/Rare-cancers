@@ -223,6 +223,78 @@ def by_id(rows):
     return {r["id"]: r for r in rows}
 
 
+# ── how much a blocker blocks, and when anything could retire it ────────────────────────────
+#
+# ⭐ WHY THIS EXISTS (2026-08-08, trimcrae asked for "all the blockers, how much they block, and
+# when we predict them to resolve"). The register already answered the first two — it is ordered by
+# routes held and names the technology that would retire each row. It could not answer the THIRD:
+# the arrival bands live in the forecast register, keyed by TECHNOLOGY, so "when does this blocker
+# lift" was a join nobody had written and every reader re-derived by hand across two files. Both
+# halves already had one home; what was missing was the edge between them, which is why this is
+# DERIVED here rather than typed into the blocker rows.
+#
+# ⚠ Two honesty constraints, both load-bearing:
+#   (a) A permanent blocker gets NO date. `check_blockers` [B1] already forbids a technology
+#       claiming to retire one; a forecast column that quietly printed a band for it would
+#       reintroduce exactly the conflation `taxonomy/blockers.md` exists to prevent.
+#   (b) A date is never reported without its `basis`. `speculative` and `evidence_based` bands are
+#       not the same kind of statement, and a bare year reads as a measurement.
+
+REACH_BANDS = ((5, "portfolio-wide"), (2, "cross-family"), (1, "single-family"))
+
+
+def _blocker_reach(n_families, n_total):
+    """Named reach band, derived from families spanned. Never a synthetic score -- a 0-100 number
+    would imply a precision the inputs do not carry, and the bands are what a reader acts on."""
+    for floor, label in REACH_BANDS:
+        if n_families >= floor:
+            return label
+    return "holds nothing"
+
+
+def _blocker_resolution(b, techs, fc_by_ref):
+    """When, if ever, a registered advance retires this blocker.
+
+    ⚠ EARLIEST-WINS, and the view says so. `unblocks.blockers` asserts that a technology retires a
+    blocker, so where several claim the same one they are ALTERNATIVES and the soonest governs. The
+    per-technology bands stay visible in the detail section rather than being collapsed away, so a
+    reader can see the spread the headline compresses.
+    """
+    if b["permanent"]:
+        return {"class": "permanent", "when": "never", "basis": None, "confidence": None,
+                "via": [], "per_tech": []}
+
+    per_tech = []
+    for t in b["retired_by_technology"]:
+        c = fc_by_ref.get(t)
+        if not c:
+            continue
+        sc = c.get("scenarios", {})
+        per_tech.append({
+            "tech": t, "state": techs.get(t, {}).get("current_state", "—"),
+            "basis": c.get("basis", "—"),
+            # ⚠ The band's OWN confidence, carried separately from `basis` -- see the note below.
+            "confidence": sc.get("expected", {}).get("confidence", "—"),
+            **{k: sc.get(k, {}).get("date_band", "—")
+               for k in ("optimistic", "expected", "conservative")},
+        })
+    if per_tech:
+        soonest = min(per_tech, key=lambda p: (p["expected"], p["optimistic"]))
+        return {"class": "forecast", "when": soonest["expected"], "basis": soonest["basis"],
+                "confidence": soonest["confidence"],
+                "via": [p["tech"] for p in per_tech],
+                "per_tech": sorted(per_tech, key=lambda p: p["expected"])}
+
+    if b.get("kind") == "requires_authorization":
+        return {"class": "decision", "when": "on request", "basis": None, "confidence": None,
+                "via": [], "per_tech": []}
+    if b.get("retired_by_action"):
+        return {"class": "action", "when": "not forecast — an action, not an advance",
+                "basis": None, "confidence": None, "via": [], "per_tech": []}
+    return {"class": "unforecast", "when": "⚠ no forecast and no action",
+            "basis": None, "confidence": None, "via": [], "per_tech": []}
+
+
 # ───────────────────────────── derivations ─────────────────────────────
 # Everything here is COMPUTED from the graph and never stored, so the same edge can never be
 # written in two places and disagree with itself.
@@ -253,11 +325,17 @@ def derive(g):
         for b in t.get("unblocks", {}).get("blockers", []):
             tech_for[b].append(t["id"])
 
+    rt_family = {r["id"]: r.get("strategy") for r in routes}
+    tech_by_id, fc_by_ref = by_id(techs), {c.get("tech_ref"): c for c in g.get("forecasts", [])}
+
     for b in blockers:
         b["inherited_by"] = sorted(inh.get(b["id"], []))
         b["retired_by"] = sorted(ret.get(b["id"], []))
         b["retired_by_technology"] = sorted(tech_for.get(b["id"], []))
         b["permanent"] = b.get("kind") in PERMANENT_KINDS
+        b["families_held"] = sorted({rt_family[r] for r in b["inherited_by"] if rt_family.get(r)})
+        b["reach"] = _blocker_reach(len(b["families_held"]), len(strategies))
+        b["resolution"] = _blocker_resolution(b, tech_by_id, fc_by_ref)
 
     # technology fan-out: how much comes back if it lands
     for t in techs:
@@ -757,6 +835,75 @@ def check_supporting_evidence_refs(g, f):
                 f.err("[V4]", f"{r['id']}.supporting_evidence names {ref}, which resolves to nothing "
                               f"in evidence/artifacts/objects/instruments/claims. A strength label on "
                               f"an unresolvable id cannot be audited")
+
+
+#: Triggers claiming a blocker their technology does not unblock. ⛔ A LEDGER, NOT A WALL -- the
+#: same shape as lint_citations' baseline, and for the same reason: 12 disagreements existed the
+#: day the check was written and a gate that goes red on everything gets switched off. The count
+#: is the finding and it is meant to FALL. Anything NEW fails immediately.
+#: ⚠ COUNTED PER TRIGGER x BLOCKER, not per trigger -- TRG-GLUE-PROSPECTIVE-DESIGN over-claims TWO
+#: blockers, so a per-trigger tally reads 11 and hides one. The first baseline written here was 11
+#: for exactly that reason and the check caught it on its first run.
+TRIGGER_BLOCKER_BASELINE = 12
+
+
+def check_trigger_blocker_agreement(g, f):
+    """⭐ The trigger registry and the technology register BOTH say which blockers a capability
+    would reopen, and nothing compared them (added 2026-08-08, found via the preprint lane).
+
+    ⛔ HOW IT SURFACED, because the mechanism matters more than the count. A preprint board keyed
+    by blocker read `reopens.registry_blockers` and filed 28 preprints under
+    BLK-FUNCTIONAL-ACTIONABILITY -- a `requires_wet_lab` blocker that TECH-VIRTUAL-CELL does not
+    claim to unblock. The board was faithfully rendering a field nothing had ever checked.
+
+    ⛔ THE DANGEROUS CASE IS NOT A COUNT. `TRG-JUNCTION-PHLA` listed BLK-ANTIGEN-COLD, which is
+    `fundamental_biological_limit` -- PERMANENT. [B1] fails the build when a TECHNOLOGY claims to
+    retire a permanent blocker, and `TECH-JUNCTION-PMHC.unblocks.blockers` is deliberately empty
+    for that reason (see check_revisit_trigger_reachability). So the exact conflation
+    `taxonomy/blockers.md` exists to prevent was entering through a second registry, by a route
+    [B1] could not see. A rule enforced on one of two homes for the same edge is not enforced.
+
+    research/method-watch-triggers.json's own `_reconciliation` says that file is the one home for
+    HOW TO SEARCH and not for what a trigger reopens -- so this is the contract it already
+    declares, finally checked.
+    """
+    trg_path = os.path.join(REPO, "research", "method-watch-triggers.json")
+    try:
+        with open(trg_path, encoding="utf-8") as fh:
+            triggers = json.load(fh).get("triggers", [])
+    except (OSError, ValueError) as e:
+        f.warn("[B8]", f"trigger registry unreadable ({e}) -- trigger/technology agreement unchecked")
+        return
+    by_trg, blk = {t["id"]: t for t in triggers}, by_id(g["blockers"])
+    disagreements = []
+    for tech in g["technologies"]:
+        owned = set((tech.get("unblocks") or {}).get("blockers") or [])
+        for tid in tech.get("scan_trigger") or []:
+            t = by_trg.get(tid)
+            if t is None:
+                continue                       # trigger_scan.py --check owns unknown-id reporting
+            for b in set((t.get("reopens") or {}).get("registry_blockers") or []) - owned:
+                if b in blk and blk[b]["permanent"]:
+                    f.err("[B8]", f"{tid} claims to reopen {b}, which is PERMANENT "
+                                  f"({blk[b]['kind']}) -- [B1] forbids this of a technology and the "
+                                  f"trigger registry must not be the back door. Move it to "
+                                  f"`bears_on_permanent_blocker`: what lands can change whether a "
+                                  f"permanent blocker stays DECISIVE for a route, never retire it")
+                else:
+                    disagreements.append(f"{tid}→{b} (via {tech['id']})")
+    n = len(disagreements)
+    if n > TRIGGER_BLOCKER_BASELINE:
+        f.err("[B9]", f"{n} trigger/technology blocker disagreements, above the baseline of "
+                      f"{TRIGGER_BLOCKER_BASELINE} -- a NEW one was added. Either the technology's "
+                      f"`unblocks.blockers` is missing an edge or the trigger over-claims, and both "
+                      f"need saying: {', '.join(sorted(disagreements)[:4])}…")
+    elif n < TRIGGER_BLOCKER_BASELINE:
+        f.info("[B9]", f"trigger/technology blocker disagreements down to {n} from a baseline of "
+                       f"{TRIGGER_BLOCKER_BASELINE} -- lower TRIGGER_BLOCKER_BASELINE to hold the gain")
+    else:
+        f.warn("[B9]", f"{n} trigger(s) claim a blocker their technology does not unblock. Each is "
+                       f"either a missing technology edge or an over-claiming trigger; the count is "
+                       f"the finding and is meant to fall")
 
 
 def check_revisit_trigger_reachability(g, f):
@@ -2049,6 +2196,7 @@ def run_checks(g, f):
     check_pointers(g, f)
     check_instrument_support(g, f)
     check_supporting_evidence_refs(g, f)
+    check_trigger_blocker_agreement(g, f)
     check_revisit_trigger_reachability(g, f)
     check_compute_case(g, f)
     return f
@@ -2917,10 +3065,11 @@ def render_lanes(g):
 def render_blockers(g):
     out = [fm(id="DOC-VIEW-BLOCKERS", title="Blocker register", level="cross-cutting", kind="generated",
               status="generated", generator="systems/systems_check.py",
-              purpose="Every reason work is stalled, typed, ordered by how much of the portfolio it holds down.",
+              purpose="Every reason work is stalled, typed, ordered by how much of the portfolio it "
+                      "holds down, and joined to the forecast band that would retire it.",
               scope="All blockers. Vocabulary and selection rules: systems/taxonomy/blockers.md",
               audience=["maintainers", "autonomous research agents"],
-              date="2026-08-05", last_verified="2026-08-05"),
+              date="2026-08-08", last_verified="2026-08-08"),
            BANNER, "# Blocker register\n",
            "Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are **never conflated**:",
            "*the biology forbids it*, *today's method cannot resolve it*, *nobody has run the assay* and",
@@ -2932,15 +3081,23 @@ def render_blockers(g):
     for k in sorted(counts):
         out.append(f"| `{k}` | {counts[k]} | {'**yes**' if k in PERMANENT_KINDS else 'no'} |")
     out += ["", "## By fan-out — the portfolio's shape\n",
-            "| blocker | kind | routes held | routes that retire it | what would retire it |",
-            "|---|---|---:|---:|---|"]
-    for b in sorted(g["blockers"], key=lambda x: -len(x["inherited_by"])):
+            "**Reach** is derived from the strategy families a blocker spans, not from the route "
+            f"count alone: `portfolio-wide` ≥ {REACH_BANDS[0][0]} of {len(g['strategies'])} families, "
+            f"`cross-family` ≥ {REACH_BANDS[1][0]}, `single-family` 1. Two blockers can hold the same "
+            "number of routes and mean very different things — one concentrated in a single family is "
+            "a route-selection problem, one spread across six is a program-level one.\n",
+            "| blocker | kind | routes held | families | reach | routes that retire it "
+            "| what would retire it |",
+            "|---|---|---:|---:|---|---:|---|"]
+    for b in sorted(g["blockers"], key=lambda x: (-len(x["families_held"]), -len(x["inherited_by"]))):
         outs = ", ".join(f"`{t}`" for t in b["retired_by_technology"])
         if not outs:
             outs = ("**permanent — nothing**" if b["permanent"]
                     else (b.get("retired_by_action", "—")[:120] + "…" if b.get("retired_by_action") else "—"))
         out.append(f"| **{b['id']}**<br/>{esc(b['name'][:90])} | `{b['kind']}` | {len(b['inherited_by'])} "
+                   f"| {len(b['families_held'])} | {b['reach']} "
                    f"| {len(b['retired_by'])} | {esc(outs)} |")
+    out += _render_blocker_forecasts(g)
     out += ["", "## Detail\n"]
     for b in sorted(g["blockers"], key=lambda x: -len(x["inherited_by"])):
         out += [f"### {b['id']}\n", f"**{esc(b['name'])}**\n",
@@ -2954,10 +3111,84 @@ def render_blockers(g):
             out.append(f"- **⭐ retired by an action we can take:** {b['retired_by_action']}")
         if b.get("evidence"):
             out.append("- **evidence:** " + " / ".join(b["evidence"]))
+        res = b["resolution"]
+        if res["per_tech"]:
+            out += ["- **when it could lift:**",
+                    "",
+                    "  | via | state | optimistic | **expected** | conservative | band confidence "
+                    "| basis (of the STATE) |",
+                    "  |---|---|---|---|---|---|---|"]
+            out += [f"  | `{p['tech']}` | `{p['state']}` | {p['optimistic']} | **{p['expected']}** "
+                    f"| {p['conservative']} | `{p['confidence']}` | `{p['basis']}` |"
+                    for p in res["per_tech"]]
+            out.append("")
+        else:
+            out.append(f"- **when it could lift:** {BLOCKER_RESOLUTION_NOTE[res['class']]}")
         own = b.get("owner", {})
-        out += [f"- **owner:** `{own.get('file','—')}{own.get('anchor','')}`", ""]
+        # ⚠ `.get(k, '')` returns None when the key EXISTS with a null value, which is how four rows
+        # rendered as `research/IDEAS.mdNone` -- a path that looks like a real anchor and is not.
+        out += [f"- **owner:** `{own.get('file') or '—'}{own.get('anchor') or ''}`", ""]
     out.append("[← L0](../L0-ecosystem.md)\n")
     return "\n".join(out)
+
+
+BLOCKER_RESOLUTION_NOTE = {
+    "permanent": "**never** — a fact about what the objects are. No technology in the register "
+                 "claims to retire it, and [B1] fails the build if one ever does. What CAN change "
+                 "is whether it stays decisive for a given route: a route either sidesteps it by "
+                 "construction or it does not.",
+    "decision": "**on request** — this is waiting on a person, not a capability. No forecast "
+                "applies, and it is the cheapest row in the register to retire.",
+    "action": "**not forecast** — retired by an action we can take, not by an advance we wait for. "
+              "The action is the row above.",
+    "unforecast": "⚠ **neither forecast nor action** — mis-typed or under-analysed; [B2] fails the "
+                  "build on this.",
+}
+
+
+def _render_blocker_forecasts(g):
+    """The join the register could not previously make: blocker → technology → arrival band.
+
+    ⚠ The bands are NOT this file's to state — they come from the forecast register via the
+    technology that claims to retire the blocker. This table is a projection, so a re-forecast
+    moves it automatically and it can never disagree with `registers/technologies.md`.
+    """
+    rows = sorted(g["blockers"], key=lambda b: (b["resolution"]["when"] in ("never", "on request"),
+                                                b["resolution"]["when"],
+                                                -len(b["inherited_by"])))
+    out = ["", "## When each blocker could lift\n",
+           "⚠ **A band is a forecast, not a measurement, and `basis` is the part that says which.** "
+           "`evidence_based` rests on something already partly landed; `extrapolated` on a trend; "
+           "`speculative` on an event nobody has scheduled. A row's date means nothing without it.\n",
+           "⛔ **`basis` GRADES THE TECHNOLOGY'S CURRENT STATE, NOT THE DATE — read `confidence` for "
+           "the date** (2026-08-08, after `evidence_based` on BLK-TERNARY-GEOMETRY was read as "
+           "evidence for **2027** and is not). Its forecast is `evidence_based` because one arm HAS "
+           "landed — high inter-chain accuracy when both binding sites are given. The 2027 band's own "
+           "rationale is a pace argument about how fast the field iterates, and its `confidence` is "
+           "`moderate`. A strong `basis` beside a soft band is the shape most likely to be misread "
+           "here, so both columns are printed and neither is derived from the other.\n",
+           "⚠ **Earliest-wins.** Where several technologies claim the same blocker they are "
+           "ALTERNATIVES, so the soonest `expected` band governs and the rest are upside. The full "
+           "spread is in each blocker's detail section below.\n",
+           "⛔ **A coming capability justifies waiting and re-running. It never licences claiming "
+           "the result before the method can support it.**\n",
+           "| blocker | routes held | reach | expected | band confidence | basis (of the STATE) | via |",
+           "|---|---:|---|---|---|---|---|"]
+    for b in rows:
+        r = b["resolution"]
+        when = f"**{r['when']}**" if r["class"] == "forecast" else f"*{r['when']}*"
+        via = ", ".join(f"`{t}`" for t in r["via"]) or "—"
+        out.append(f"| **{b['id']}** | {len(b['inherited_by'])} | {b['reach']} | {when} "
+                   f"| {'`' + r['confidence'] + '`' if r.get('confidence') else '—'} "
+                   f"| {'`' + r['basis'] + '`' if r['basis'] else '—'} | {via} |")
+    unforecast = [b["id"] for b in rows if b["resolution"]["class"] == "unforecast"]
+    out.append("")
+    out.append(f"⚠ **{len(unforecast)} blocker(s) carry neither a forecast nor an action:** "
+               f"{', '.join(unforecast)} — [B2] fails the build on these."
+               if unforecast else
+               "✅ Every blocker resolves to a forecast band, a permanent verdict, a decision or an "
+               "action — none is left as an unanalysed gap.")
+    return out
 
 
 def render_technologies(g):

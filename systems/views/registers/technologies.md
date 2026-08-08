@@ -69,6 +69,10 @@ as coverage.
 
 **Why it matters.** The cell-line repositories exclude unaffiliated individuals by published policy rather than by price, so no budget reaches this and every confirm-gated row is gated on a person. It is the highest fan-out non-method dependency in the portfolio, and it is about ACCESS rather than capability.
 
+> ⏳ **1 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-EMC-FUNCTIONAL-MODEL` · *Model-dependent GD2 upregulation in Ewing sarcoma with the EZH2 inhibitor tazemetostat: Prerequisites for combination with GD2-specific CAR T cells* (PPR, 2026-07-24) — seen 2026-08-08
+
 **What the state assessment rests on:**
 - Repository policies exclude individuals; no collaborator has been secured.
 
@@ -125,6 +129,10 @@ as coverage.
 
 **Why it matters.** EMC is nearly absent from public functional genomics: one line, no CRISPR data. This is the repository-wide rate-limiter and it is a DATA dependency, not a method one — it fans out across every route whose in-silico half is bounded by a sample size of one.
 
+> ⏳ **1 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-SARCOMA-ATRI-RESPONSE-PANEL` · *Elimusertib enhances cytotoxic effects of conventional chemotherapy and sensitizes to radiation in preclinical Ewing sarcoma models* (Sci Rep, 2026-03-27) — seen 2026-08-08
+
 **What the state assessment rests on:**
 - The weekly scan fired on this trigger with new hits in its most recent run; none has yet been graded as a usable deposit.
 
@@ -151,6 +159,10 @@ as coverage.
 *Category:* `structure_prediction` · *state:* `partially_landed` · *confidence in that state:* `high`
 
 **Why it matters.** One co-folder failing is not the class failing: the same harness already recognises a correct ternary when both binding sites are supplied, so the plumbing is not what missed. What is missing is a model benchmarked on the assembly problem itself, and a benchmark discipline that reports inter-chain rather than per-chain accuracy.
+
+> ⏳ **1 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-COFOLD-TERNARY-ASSEMBLY` · *Boltz-Perturb: Improving Diversity and Accuracy in Protein-Ligand Co-Folding through Training-Free Conditioning Perturbation* (PPR, 2026-08-05) — seen 2026-08-08
 
 **What the state assessment rests on:**
 - Open tools now exist for induced-complex prediction and one reaches high inter-chain accuracy WHEN BOTH SITES ARE GIVEN.
@@ -182,6 +194,14 @@ as coverage.
 
 **Why it matters.** It collapses the per-target cost of opening a cryptic pocket from GPU-days to pennies, which decides whether a cryptic-pocket druggability survey is a focused target class or proteome-scale. For this program it is an orthogonal, unbiased cross-check on a biased sampling result.
 
+> ⏳ **5 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-GENERATIVE-ENSEMBLE` · *Mavchen 1: A Conformational Ensemble Platform for Protein Ligand Pose Prediction That Substantially Outperforms Static Structure Prediction in a Category-Stratified Benchmark* (PPR, 2026-07-29) — seen 2026-08-08
+> - `TRG-GENERATIVE-ENSEMBLE` · *UniFlow: Unifying protein conformational ensemble generation and machine-learned force fields with a scalable normalizing Flow* (PPR, 2026-07-20) — seen 2026-08-08
+> - `TRG-GENERATIVE-ENSEMBLE` · *ConformFlow: scalable normalizing flow for protein conformational ensemble generation* (PPR, 2026-06-16) — seen 2026-08-08
+> - `TRG-CRYPTIC-POCKET-PREDICTION` · *Highly selective small molecule Kv1.3 inhibitors bind to a cryptic pocket and stabilize the channel in a C-type inactive conformation* (PPR, 2026-06-04) — seen 2026-08-08
+> - `TRG-CRYPTIC-POCKET-PREDICTION` · *AE-PocketMiner Uses Attention to Simultaneously Predict Cryptic Pockets and Their Allosteric Coupling* (PPR, 2026-05-23) — seen 2026-08-08
+
 **What the state assessment rests on:**
 - The detection arm landed: a sequence-only generative ensemble model detects the site and opens it to a druggable state in a minority of frames, concordant in direction with an experimental NMR ensemble.
 - The CALIBRATION arm has not landed: the model is uncalibrated on rare-open populations and apo is its weakest regime, so the result is a qualitative cross-check and not a population estimate.
@@ -211,6 +231,18 @@ as coverage.
 *Category:* `structure_prediction` · *state:* `absent` · *confidence in that state:* `moderate`
 
 **Why it matters.** Two independent site-transfer routes both place the site at zero in regime, and two disjoint scoring functions disagree in orientation at a median far above their centroid separation. So the non-convergence belongs to the system, not to one scoring function — and a single better docking program is therefore not the trigger. Every pose-conditional claim in the program depends on this.
+
+> ⏳ **29 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-POSE-ORIENTATION-CONVERGENCE` · *Exploring the neuroprotective mechanism of lumbrokinase against ischemic stroke based on network pharmacology, molecular docking and experimental validation* (J Ethnopharmacol, 2026-06-19) — seen 2026-08-08
+> - `TRG-POSE-ORIENTATION-CONVERGENCE` · *Neuroprotective effects of aqueous extract of Pterocarpus mildbraedii Harms. on some biochemical markers in Alzheimer's disease using an AlCl&lt;sub&gt;3&lt;/sub&gt;-induced rat model: Integrated ADMET, network pharmacology, molecular docking, and in vivo experimental validation* (J Ethnopharmacol, 2026-06-09) — seen 2026-08-08
+> - `TRG-POSE-ORIENTATION-CONVERGENCE` · *Revealing the mechanism of heptamethoxyflavone against diabetic kidney disease: an integrated study combining network pharmacology, molecular docking and experimental validation* (Biochem Biophys Res Commun, 2026-07-08) — seen 2026-08-08
+> - `TRG-POSE-ORIENTATION-CONVERGENCE` · *Integrating network toxicology, molecular docking and experimental validation reveals potential mechanisms of DEHP in osteoarthritis* (Exp Gerontol, 2026-06-11) — seen 2026-08-08
+> - `TRG-POSE-ORIENTATION-CONVERGENCE` · *Integrated network pharmacology, molecular docking, and experimental validation reveal synergistic inhibition of EGFR and PI3K-Akt/JAK2-STAT3 pathways by Esculin and Esculetin to exert anti-colorectal cancer effects* (Toxicol Appl Pharmacol, 2026-08-04) — seen 2026-08-08
+> - `TRG-POSE-ORIENTATION-CONVERGENCE` · *Integrative screening of plant volatiles through transient receptor potential channel docking, olfactometry, and field validation in Bemisia tabaci* (Pest Manag Sci, 2026-04-16) — seen 2026-08-08
+> - `TRG-POSE-ORIENTATION-CONVERGENCE` · *Mechanisms of Qing-Shen-Du formula in treating diabetic kidney disease: Integrating network pharmacology, molecular docking, molecular dynamics, transcriptomics, and experimental validation* (J Chromatogr B Analyt Technol Biomed Life Sci, 2026-07-27) — seen 2026-08-08
+> - `TRG-POSE-ORIENTATION-CONVERGENCE` · *[(Bromomethyl)phenyl]methyl-Conjugated Chalcone Derivatives as Potential Lung Cancer Inhibitors: Structure Modification, Molecular Docking, Molecular Dynamics and In Vitro Validation* (Int J Mol Sci, 2026-07-08) — seen 2026-08-08
+> - …and 21 more
 
 **What the state assessment rests on:**
 - Nothing is currently scanning for this — it was registered as a revival trigger with no corresponding literature query.
@@ -269,6 +301,18 @@ as coverage.
 
 **Why it matters.** The standing exposure cutoff fails that positive control, so anything it adjudicates inherits a demonstrated false negative and only a threshold-free rank survives. A criterion that passes the control makes the whole covalent screen readable again rather than rank-only.
 
+> ⏳ **16 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-COVALENT-EXPOSURE-CRITERION` · *Substituted cysteine accessibility method (SCAM) in membrane transporters studies: Learn from lactose permease* (Biochimie, 2026-05-30) — seen 2026-08-08
+> - `TRG-COVALENT-EXPOSURE-CRITERION` · *Fine-tuning thiosemicarbazones with heterocyclic substituents: identification of styryl-dependent cysteine reactivity and potent anti-cancer activity* (Chem Sci, 2026-07-15) — seen 2026-08-08
+> - `TRG-COVALENT-EXPOSURE-CRITERION` · *A FRET-Based Assay for Assessing Covalent Warhead Reactivity* (ACS Omega, 2026-06-24) — seen 2026-08-08
+> - `TRG-COVALENT-EXPOSURE-CRITERION` · *Covalent character of Cellobiose-Water hydrogen bonds revealed by ELF and QTAIM for enhanced dewatering and reactivity* (J Mol Graph Model, 2026-07-02) — seen 2026-08-08
+> - `TRG-COVALENT-EXPOSURE-CRITERION` · *Photoinitiated thiol-ene reactions of glycals: Effect of C2-substitution on reactivity and regio- and stereoselectivity* (Carbohydr Res, 2026-04-17) — seen 2026-08-08
+> - `TRG-COVALENT-EXPOSURE-CRITERION` · *Cysteine-mapping efforts offer new tools for drug development and discovery: Research groups are characterizing cysteine binding and reactivity traits to provide important new starting points for drug design* (Cancer Cytopathol, 2026-06-01) — seen 2026-08-08
+> - `TRG-COVALENT-EXPOSURE-CRITERION` · *Correction: Assessment of solvent exposure of native cysteines in human Hsp90 using thiol-reactive functional tags* (Org Biomol Chem, 2026-06-10) — seen 2026-08-08
+> - `TRG-COVALENT-EXPOSURE-CRITERION` · *A Global Ligandability Map of Tryptoline Butynamide Stereoprobes Identifies Covalent Inhibitors of the Actin Maturation Protease* (J Am Chem Soc, 2026-05-20) — seen 2026-08-08
+> - …and 8 more
+
 **What the state assessment rests on:**
 - Nothing is currently scanning for this.
 
@@ -295,6 +339,16 @@ as coverage.
 *Category:* `foundation_model_biology` · *state:* `early_signals` · *confidence in that state:* `moderate`
 
 **Why it matters.** It would let the fusion-dependence question — the make-or-break premise beneath the degrader and the oligonucleotide routes alike — be asked without an EMC cell line. That is the one question this program currently delegates entirely.
+
+> ⏳ **7 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-VIRTUAL-CELL-NO-LINE` · *SLIM: A small linear model with STRING embeddings for single-cell genetic perturbation prediction* (PPR, 2026-08-07) — seen 2026-08-08
+> - `TRG-VIRTUAL-CELL-NO-LINE` · *Multimodal physical evidence uncovers interpretable gene regulatory networks for perturbation prediction* (PPR, 2026-06-07) — seen 2026-08-08
+> - `TRG-VIRTUAL-CELL-NO-LINE` · *Signal, Bounds, and Baselines: Principles for Evaluating Virtual Cell Perturbation Models* (PPR, 2026-04-22) — seen 2026-08-08
+> - `TRG-VIRTUAL-CELL-NO-LINE` · *Spurious correlation inflates performance in single-cell perturbation prediction* (PPR, 2026-05-12) — seen 2026-08-08
+> - `TRG-VIRTUAL-CELL-NO-LINE` · *Deep learning models for chemical perturbation prediction do not yet utilise drug molecular features* (PPR, 2026-05-15) — seen 2026-08-08
+> - `TRG-VIRTUAL-CELL-NO-LINE` · *LLM-Guided Retrieval for Prediction of Molecular Perturbation Responses* (arXiv, 2026-08-03) — seen 2026-08-08
+> - `TRG-VIRTUAL-CELL-NO-LINE` · *Response Magnitude as a Dominant Signal for Held-Out CRISPRi Perturbation Effect Prediction* (arXiv, 2026-07-31) — seen 2026-08-08
 
 **What the state assessment rests on:**
 - Perturbation-prediction models exist and are improving; held-out phenotype prediction in an untrained rare cell type is not demonstrated.
@@ -407,6 +461,13 @@ as coverage.
 *Category:* `generative_design` · *state:* `early_signals` · *confidence in that state:* `moderate`
 
 **Why it matters.** A glue has no linker, so it has no covalent axis and no designed exit vector — it removes several of this program's hardest sub-problems at once. It is also the modality most likely to arrive from someone else's screen rather than from this program's design, which is why it is watched rather than built.
+
+> ⏳ **4 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-GLUE-PROSPECTIVE-DESIGN` · *Discovery of molecular glue degrader for treatment of IMiDs-resistant multiple myeloma based on GLUT-mediated tumor targeting strategy* (Bioorg Chem, 2026-07-28) — seen 2026-08-08
+> - `TRG-GLUE-PROSPECTIVE-DESIGN` · *Discovery of CDK4-selective molecular glue degraders by high-throughput proteomics* (PPR, 2026-06-22) — seen 2026-08-08
+> - `TRG-GLUE-PROSPECTIVE-DESIGN` · *Integrated proteomic screening reveals design principles of CRBN molecular glue degraders* (PPR, 2026-03-10) — seen 2026-08-08
+> - `TRG-GLUE-PROSPECTIVE-DESIGN` · *Leveraging High-Throughput Proteomics and AI-Based Protein Folding to Accelerate VAV1 Molecular Glue Discovery* (PPR, 2026-03-10) — seen 2026-08-08
 
 **What the state assessment rests on:**
 - Generative interface-design methods are advancing; none is demonstrated prospectively on an out-of-training neosubstrate interface.
@@ -543,6 +604,15 @@ as coverage.
 
 **Why it matters.** Three antigen-directed routes are parked on one shared finding: the EWSR1::NR4A3 junction is a WEAK peptide-HLA, and general presentation predictors are not validated on fusion junctions, so the repo's own coverage instrument is disclosed as failing rather than supporting. Until something can either predict junction presentation credibly or reach a low-abundance pHLA in practice, all three routes rest on the same unmeasured premise and re-grading any one of them alone would be arbitrary. ⚠ IT DOES NOT RETIRE BLK-ANTIGEN-COLD. That blocker is a fundamental_biological_limit -- a fact about what the junction IS -- and no method changes it. What lands here changes whether that fact remains DECISIVE for these three routes, which is why `unblocks` names the routes and not the blocker. The blocker taxonomy draws exactly this line and [B1] enforces it.
 
+> ⏳ **6 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-JUNCTION-PHLA` · *TCR-FramePose: a local-frame representation for decomposing global docking and CDR3 loop geometry in TCR-pMHC recognition* (PPR, 2026-07-04) — seen 2026-08-08
+> - `TRG-JUNCTION-PHLA` · *CD8-mediated organization of the TCR–pMHC interface shapes its force response and dissociation pathways* (PPR, 2026-06-20) — seen 2026-08-08
+> - `TRG-JUNCTION-PHLA` · *FairTCR: Equity-Aware TCR–pMHC Binding Prediction Across HLA Alleles and Cohort Strata* (PPR, 2026-04-17) — seen 2026-08-08
+> - `TRG-JUNCTION-PHLA` · *Active Learning for Budget-Constrained TCR–pMHC Wet-Lab Validation* (PPR, 2026-04-17) — seen 2026-08-08
+> - `TRG-JUNCTION-PHLA` · *AI-enabled virtual immunopeptidomics links quantitative neoantigen presentation to immunogenicity* (PPR, 2026-05-10) — seen 2026-08-08
+> - `TRG-JUNCTION-PHLA` · *PepBridge for peptide-bridged, unified and structure-aware modeling of pMHC-TCR recognition* (PPR, 2026-04-28) — seen 2026-08-08
+
 **What the state assessment rests on:**
 - The repo's own HLA-coverage instrument is recorded as disclosed_failing on all three routes, not as support.
 - No public benchmark validates a presentation or immunogenicity predictor specifically on fusion-junction neopeptides; the training sets are dominated by point-mutation neoantigens.
@@ -573,6 +643,11 @@ as coverage.
 
 **Why it matters.** Delivery is the single remaining gate on the most structurally sound route in the portfolio, and it is engineering rather than biology. The honest bottleneck is not that delivery cannot be simulated — it is that no validated way to deliver an oligonucleotide to an EMC tumour exists. A single characterised EMC surface antigen or a working soft-tissue-sarcoma conjugate would change this route's standing more than any predictor could.
 
+> ⏳ **2 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-OLIGO-DELIVERY-PREDICTOR` · *The biodistribution and effect of post-exposure neutralising monoclonal antibody treatment in a mouse model of SARS-CoV-2 infection with viral spread to the brain* (PPR, 2026-05-29) — seen 2026-08-08
+> - `TRG-OLIGO-DELIVERY-PREDICTOR` · *A Mechanistic PBPK-PD Framework to Predict Clinical Success of Tuberculosis Treatments Across Populations: A Proof- of-Concept Study* (PPR, 2026-05-25) — seen 2026-08-08
+
 **What the state assessment rests on:**
 - Conjugate and targeted-nanoparticle platforms are advancing generally; none is demonstrated in a non-hepatic solid tumour at the required scope.
 
@@ -599,6 +674,18 @@ as coverage.
 *Category:* `structure_prediction` · *state:* `absent` · *confidence in that state:* `moderate`
 
 **Why it matters.** Several panel receptors miss their own cognate ligand, so the panel is unreadable — and because the published scope clauses are maximum-over-the-panel statements, one unreadable receptor makes all of them unreadable. A failing target may not be dropped, which is what makes this a protocol problem rather than a curation one.
+
+> ⏳ **12 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-ANTITARGET-PANEL-PROTOCOL` · *Cytotoxic and genotoxic effects of oxime β-lapachone in human cancer cells: selectivity toward NCI-H460 and insights from molecular docking* (Hum Cell, 2026-07-27) — seen 2026-08-08
+> - `TRG-ANTITARGET-PANEL-PROTOCOL` · *Conformation-dependent donor selectivity in the xanthan gum glycosyltransferase GumK revealed by AI-based docking* (Sci Rep, 2026-07-07) — seen 2026-08-08
+> - `TRG-ANTITARGET-PANEL-PROTOCOL` · *DeepKinomeWeb: a quantitative, panel-level platform for kinase inhibitor screening and selectivity profiling* (Nucleic Acids Res, 2026-07-01) — seen 2026-08-08
+> - `TRG-ANTITARGET-PANEL-PROTOCOL` · *Limitations of Molecular Docking in Predicting the Selectivity of Selective Androgen Receptor Modulators (SARMs): A Comparative Study of YK11 and Ostarine Across Five Nuclear Receptors* (Int J Mol Sci, 2026-06-26) — seen 2026-08-08
+> - `TRG-ANTITARGET-PANEL-PROTOCOL` · *AI-assisted molecular docking and molecular dynamics simulations for predicting off-target effects of AKT1 ATP-competitive inhibitors* (J Biomol Struct Dyn, 2026-06-27) — seen 2026-08-08
+> - `TRG-ANTITARGET-PANEL-PROTOCOL` · *Integrated Experimental and Computational Profiling of Curcumin-Derived Diarylpentanoids Reveals Mechanistic Determinants of COX1/COX2 Inhibition and Selectivity* (ACS Omega, 2026-06-03) — seen 2026-08-08
+> - `TRG-ANTITARGET-PANEL-PROTOCOL` · *The Selectivity Implications of Docking Libraries with Greater and Lesser Similarities to Bio-like Molecules* (J Med Chem, 2026-05-08) — seen 2026-08-08
+> - `TRG-ANTITARGET-PANEL-PROTOCOL` · *Evidence of off-target probe binding affecting 10x Genomics Xenium gene panels compromise accuracy of spatial transcriptomic profiling* (Elife, 2026-05-01) — seen 2026-08-08
+> - …and 4 more
 
 **What the state assessment rests on:**
 - Nothing is currently scanning for this.
@@ -653,6 +740,18 @@ as coverage.
 *Category:* `autonomous_research_agent` · *state:* `partially_landed` · *confidence in that state:* `moderate`
 
 **Why it matters.** This program is one person with no bench, and its binding constraint after money is attention. An agent that can hold a long thread would change what a solo program can attempt rather than merely how fast it goes. It is also the dependency this repository is best placed to notice arriving, because it is already operated this way.
+
+> ⏳ **38 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *Autonomous biomedical research with an artificial intelligence agent* (Science, 2026-07-09) — seen 2026-08-08
+> - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *A Modular and Affordable Self-Driving Laboratory for Vision-Guided Optimization of Metal Electrodeposition* (ACS Appl Mater Interfaces, 2026-06-30) — seen 2026-08-08
+> - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *Transforming Molecular Science With Large Language Models: From Molecule Understanding to Autonomous Scientific Discovery* (Chem Asian J, 2026-06-01) — seen 2026-08-08
+> - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *Autonomous pathology research using agentic AI shows potential in oncology* (Nat Med, 2026-06-01) — seen 2026-08-08
+> - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *An agentic framework for autonomous scientific discovery in cancer pathology* (Nat Med, 2026-04-29) — seen 2026-08-08
+> - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *Research on Reinforcement Learning-Based Autonomous Navigation and Obstacle Avoidance Methods for AGVs in Unknown Hospital Environments* (Sensors (Basel), 2026-05-29) — seen 2026-08-08
+> - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *From Experimental Planning to Autonomous Discovery: The Changing Role of Design of Experiments in Nanotechnology* (Chimia (Aarau), 2026-05-27) — seen 2026-08-08
+> - `TRG-AUTONOMOUS-RESEARCH-AGENT` · *Toward Intelligent Sensing Systems: Non-Equilibrium Materials as Platforms for AI-Enabled Autonomous Discovery* (Sensors (Basel), 2026-05-12) — seen 2026-08-08
+> - …and 30 more
 
 **What the state assessment rests on:**
 - Agents already execute this repository's compute lanes, monitoring and document generation.
@@ -711,6 +810,10 @@ as coverage.
 
 **Why it matters.** One closed route turns entirely on a single measured biological fact about this receptor, so only a contradicting primary measurement of that same fact reopens it. No method advance does — which is exactly why it is registered as a measurement dependency and not a capability one.
 
+> ⏳ **1 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-NR4A3-DIRECT-MATTER` · *NR4A3 knockdown ameliorates metabolic dysfunction-associated steatotic liver disease through ATF3 transcriptional repression* (PPR, 2026-06-30) — seen 2026-08-08
+
 **What the state assessment rests on:**
 - The published negative stands unchallenged.
 
@@ -737,6 +840,16 @@ as coverage.
 *Category:* `foundation_model_biology` · *state:* `absent` · *confidence in that state:* `moderate`
 
 **Why it matters.** The junction oligonucleotide's predicted specificity currently rests on a deliberately conservative heuristic, and its potency ranking on a local-fold proxy. A calibrated model would let both be re-graded on evidence rather than on caution — which could move the route in either direction, and that is the point.
+
+> ⏳ **7 UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly scan matched them on this dependency's own queries. ⚠ **They are unvalidated leads, machine-matched on a title and not read** — the scan deliberately cannot change `current_state`, so nothing below reflects them yet.
+>
+> - `TRG-ASO-EFFICACY-ACCESSIBILITY` · *Sequence determinants of efficient exon 44 skipping in Duchenne muscular dystrophy define design principles for steric-blocking antisense oligonucleotides* (PPR, 2026-07-01) — seen 2026-08-08
+> - `TRG-ASO-EFFICACY-ACCESSIBILITY` · *FENNEC: Fine-Tuned Ensemble Neural Networks Accelerate Chemically Modified siRNA Design and Screening* (PPR, 2026-06-14) — seen 2026-08-08
+> - `TRG-ASO-EFFICACY-ACCESSIBILITY` · *RNAiSpline: A Deep learning model for siRNA efficacy prediction* (PPR, 2026-02-17) — seen 2026-08-08
+> - `TRG-ASO-EFFICACY-ACCESSIBILITY` · *Benchmarking Large Language Models for Predicting Therapeutic Antisense Oligonucleotide Efficacy* (PPR, 2026-02-19) — seen 2026-08-08
+> - `TRG-ASO-EFFICACY-ACCESSIBILITY` · *OligoGraph: A novel geometric graph-based approach for siRNA efficacy prediction* (PPR, 2026-02-24) — seen 2026-08-08
+> - `TRG-ASO-EFFICACY-ACCESSIBILITY` · *Systemic delivery of cationic liposome-mediated siRNA EGFR enhances therapeutic efficacy in a human colorectal cancer model* (PPR, 2026-03-31) — seen 2026-08-08
+> - `TRG-ASO-EFFICACY-ACCESSIBILITY` · *A generative-AI framework for target-Specific MicroRNAs towards RNAi-based drug design* (PPR, 2026-05-11) — seen 2026-08-08
 
 **What the state assessment rests on:**
 - No calibrated cleavage-activity predictor is established for this design class.
