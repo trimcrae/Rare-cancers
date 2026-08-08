@@ -559,3 +559,304 @@ def test_gpl_containment_ignores_mouse_builds():
                        "start": 118_160_000, "stop": 118_160_100}]}
     out = M._gpl_containment({}, probes, ens)
     assert "mm10" not in (out["RET_consistent_with"] or [])
+
+
+# =================================================================================================
+# ZENODO — the deep, non-paralogue NR4A3 route (Haller 2019).
+# =================================================================================================
+def test_the_build_is_read_from_the_deposit_and_ambiguity_refuses():
+    """A BED carries no build inside it, and on chr10 a wrong build does not throw — it silently
+    reports another locus. So the build is READ from the deposit's own prose, and a deposit naming
+    two builds yields None rather than a guess."""
+    assert M._build_from_text("NR4A3 ChIP-seq peaks, hg19") == "hg19"
+    assert M._build_from_text("aligned to GRCh38") == "hg38"
+    assert M._build_from_text("NR4A3_ACC1_hg38_peaks.bed") == "hg38"
+    assert M._build_from_text("mapped to hg19 and lifted to hg38") is None
+    assert M._build_from_text("no build mentioned") is None
+    assert M._build_from_text(None, "") is None
+
+
+def test_the_zenodo_record_carries_its_not_the_fusion_caveat():
+    """Acinic cell carcinoma is NATIVE NR4A3 by enhancer hijacking. A reader of the artifact must
+    not be able to reach this peak set without meeting that sentence."""
+    for rec, meta in M.ZENODO_RECORDS.items():
+        assert "not_the_fusion" in " ".join(meta.keys()), rec
+        caveat = meta["⛔ not_the_fusion"]
+        assert "NATIVE" in caveat
+        assert "never be cited as a fusion cistrome" in caveat
+        assert meta["doi"] and meta["pmid"]
+
+
+def test_zenodo_is_fetched_before_the_catalogue_sweeps_that_would_starve_it():
+    """A source's ORDER inside a budget-paced fetch is part of whether it is reachable at all.
+
+    Zenodo was appended at the end of `fetch()` when it was added, which put a few-MB download that
+    a run may have been dispatched specifically to get last in line behind ChIP-Atlas and ReMap
+    sweeps measured in hundreds of megabytes. The budget is real (`RET_CISTROME_BUDGET_S`) and
+    `stream_lines` takes a share of it per catalogue, so the ordering silently made the highest-
+    value source the first to record `budget_exhausted`. Nothing else here would catch that: the
+    module would report success, the artifact would carry an honest "budget exhausted" line, and
+    the one peak set the run existed for would simply be absent.
+
+    Every other source degrades to a recorded partial and is already cached from previous runs.
+    This one is the only deep non-paralogue NR4A3 peak set known to be reachable. It goes first.
+    """
+    import inspect
+    src = inspect.getsource(M.fetch)
+    z = src.index("fetch_zenodo_peaksets()")
+    for later in ("fetch_chip_atlas_peaks(", "for tf, raw in remap_blobs.items()"):
+        assert z < src.index(later), (
+            f"`fetch_zenodo_peaksets()` now runs AFTER `{later}` — a budget-paced sweep can starve "
+            "it, and a starved run reports success with the peak set missing")
+    assert src.count("fetch_zenodo_peaksets()") == 1, "fetched twice would double-count peaksets"
+
+
+def test_peak_like_matching_accepts_beds_and_rejects_prose():
+    assert M.PEAKISH.search("NR4A3_peaks.bed.gz")
+    assert M.PEAKISH.search("x.narrowPeak")
+    assert not M.PEAKISH.search("readme.txt")
+    assert not M.PEAKISH.search("figure1.pdf")
+
+
+# =================================================================================================
+# The write guard must protect COVERAGE, not only the presence of a reading
+# =================================================================================================
+def _art(status="read", n_read=0, n_other=0):
+    per = {f"S{i}": {"_status": "read", "antigen": "NR4A1"} for i in range(n_read)}
+    per.update({f"X{i}": {"_status": "budget_exhausted"} for i in range(n_other)})
+    return {"part_2_intersection": {"_status": status, "per_peakset": per}}
+
+
+def _write(tmp_path, art):
+    p = tmp_path / "committed.json"
+    p.write_text(json.dumps(art))
+    return str(p)
+
+
+def test_an_absent_reading_still_cannot_overwrite_a_real_one(tmp_path):
+    old = _write(tmp_path, _art("read", n_read=86))
+    assert M.would_downgrade(_art("NO_PEAK_SET_RETRIEVED"), out_path=old) is True
+    assert M.would_downgrade(_art("NOT_RUN"), out_path=old) is True
+
+
+def test_a_collapsed_reading_cannot_overwrite_a_full_one(tmp_path):
+    """The regression a correct fix introduced, and the reason this test exists.
+
+    `fetch()` used to run its slowest sources last, so a budget-starved run retrieved NOTHING,
+    landed on NO_PEAK_SET_RETRIEVED and was refused -- the guard was safe by accident. Moving the
+    small, high-value Zenodo fetch to the front (correct on its own terms: it was otherwise the
+    first source the budget starved) removed that accident. A starved run now retrieves the five
+    Zenodo sets, reports `_status: "read"`, and under the old binary check would have replaced an
+    86-peak-set artifact with a five-peak-set one that looks entirely healthy.
+    """
+    old = _write(tmp_path, _art("read", n_read=86))
+    assert M.would_downgrade(_art("read", n_read=5), out_path=old) is True, (
+        "a five-peak-set run overwrote an eighty-six-peak-set artifact")
+    assert M.would_downgrade(_art("read", n_read=40), out_path=old) is True
+
+
+def test_ordinary_catalogue_churn_is_not_treated_as_a_partial_fetch(tmp_path):
+    """A guard that fires on every re-run gets switched off. Losing one or two experiments to
+    catalogue churn is normal; losing most of them is not."""
+    old = _write(tmp_path, _art("read", n_read=86))
+    assert M.would_downgrade(_art("read", n_read=86), out_path=old) is False
+    assert M.would_downgrade(_art("read", n_read=90), out_path=old) is False
+    assert M.would_downgrade(_art("read", n_read=80), out_path=old) is False   # ~7% loss
+    assert M.COVERAGE_FLOOR == 0.9
+
+
+def test_only_peaksets_actually_read_count_toward_coverage(tmp_path):
+    """A run that ATTEMPTED 86 and read 5 must not pass by counting its failures."""
+    old = _write(tmp_path, _art("read", n_read=86))
+    assert M.would_downgrade(_art("read", n_read=5, n_other=81), out_path=old) is True
+
+
+def test_nothing_is_protected_when_the_committed_artifact_is_itself_absent(tmp_path):
+    old = _write(tmp_path, _art("NO_PEAK_SET_RETRIEVED"))
+    assert M.would_downgrade(_art("read", n_read=5), out_path=old) is False
+    assert M.would_downgrade(_art("NOT_RUN"), out_path=old) is False
+
+
+def test_a_missing_committed_artifact_blocks_nothing(tmp_path):
+    assert M.would_downgrade(_art("read", n_read=1),
+                             out_path=str(tmp_path / "nope.json")) is False
+
+
+def test_the_committed_artifact_would_not_refuse_itself():
+    """A re-run that reproduces the committed coverage must be writable, or the lane is frozen."""
+    if not os.path.exists(M.OUT):
+        pytest.skip("cistrome artifact not in this checkout")
+    with open(M.OUT) as fh:
+        art = json.load(fh)
+    assert M._n_peaksets_read(art) > 50, M._n_peaksets_read(art)
+    assert M.would_downgrade(art) is False
+
+
+def test_slowest_attempts_brackets_time_between_consecutive_stamps():
+    """`budget_at_s` is a stamp, not a duration; the duration is the gap to the previous stamp.
+
+    Added because a run spent its entire 3000 s budget and retrieved zero peak sets while the
+    previous successful run spent 344 s of 2400 s -- and nothing in the artifact could say which
+    endpoint absorbed the difference.
+    """
+    attempts = [{"url": "a", "status": 200, "budget_at_s": 1.0},
+                {"url": "b", "status": 200, "budget_at_s": 3.0},
+                {"url": "slow", "status": "truncated_at_budget", "budget_at_s": 2900.0},
+                {"url": "d", "status": "budget_exhausted", "budget_at_s": 2900.5}]
+    rows = M.slowest_attempts(attempts, n=2)
+    assert rows[0]["url"] == "slow"
+    assert rows[0]["took_s"] == 2897.0
+    assert rows[1]["url"] == "b" and rows[1]["took_s"] == 2.0
+    assert len(rows) == 2
+
+
+def test_slowest_attempts_survives_attempts_with_no_stamp():
+    """Every artifact committed before the stamp existed has none, and must not raise."""
+    assert M.slowest_attempts([{"url": "old", "status": 200}]) == []
+    mixed = [{"url": "old", "status": 200}, {"url": "new", "status": 200, "budget_at_s": 5.0}]
+    assert [r["url"] for r in M.slowest_attempts(mixed)] == ["new"]
+
+
+def test_every_recorded_attempt_carries_its_budget_stamp():
+    M.ATTEMPTS.clear()
+    M._record("https://example.invalid/x", 200, nbytes=10)
+    assert "budget_at_s" in M.ATTEMPTS[-1]
+    assert isinstance(M.ATTEMPTS[-1]["budget_at_s"], (int, float))
+    M.ATTEMPTS.clear()
+
+
+def test_the_failure_cache_has_its_own_path_and_is_not_the_real_inputs_cache():
+    """A guard that protects one of the two files a result rests on protects neither.
+
+    Measured 2026-08-08: the write guard refused a starved run and saved `emc-ret-cistrome.json`,
+    the module then wrote its failure cache over `emc-ret-cistrome-inputs.json` "so the failure is
+    diagnosable", and the workflow's `always()` publish committed that 2,097-line stub over the
+    52 MB peak-coordinate cache (commit 5190923, 4,569,033 deletions). The occupancy module reads
+    that cache, so the paper's whole occupancy axis went to DRIFT while the artifact the guard was
+    watching stayed pristine. A diagnostic must never be written over the thing being diagnosed.
+    """
+    assert M.FAILED_INPUTS != M.INPUTS
+    assert "FAILED" in os.path.basename(M.FAILED_INPUTS)
+    import inspect
+    src = inspect.getsource(M.main)
+    refusal = src[src.index("REFUSING TO WRITE"):]
+    refusal = refusal[:refusal.index("return 3")]
+    assert "FAILED_INPUTS" in refusal, "the refusal branch does not use the failure path"
+    assert "open(INPUTS" not in refusal, (
+        "the refusal branch still writes the real inputs cache -- that is the incident, verbatim")
+
+
+def test_the_workflow_uploads_the_failure_cache_but_never_publishes_it():
+    """The two verbs are opposite here and the distinction is the whole fix.
+
+    UPLOADING the failure cache is how it stays diagnosable with no commit -- the sandbox could not
+    reach the last one, which is why the timing stamps had to be added at all. PUBLISHING it is the
+    incident: the publish arm is `always()` by design, so any path named there ships whatever is on
+    disk, and a 2,097-line failure stub shipped over 52 MB of peak coordinates.
+    """
+    wf = os.path.join(os.path.dirname(os.path.dirname(MOD)), ".github", "workflows",
+                      "emc-expression-datasets.yml")
+    if not os.path.exists(wf):
+        pytest.skip("workflow not in this checkout")
+    with open(wf) as fh:
+        text = fh.read()
+    name = os.path.basename(M.FAILED_INPUTS)
+    assert name in text, "the failure cache is not uploaded, so a refused run is undiagnosable"
+    publish = text[text.index("Publish the artifact and the inputs cache"):]
+    publish = publish[:publish.index("publish_artifacts.sh")]
+    assert name not in publish, (
+        "the failure cache is named in the publish arm and would be committed over the real cache")
+
+
+# =================================================================================================
+# The Zenodo merge mode — adding ONE source without re-fetching everything
+# =================================================================================================
+def _cache_with(n_read, tmp_path, monkeypatch):
+    """A committed inputs cache holding `n_read` readable peak sets, at a temp INPUTS path."""
+    base = M._synthetic_cache(ret_peak=True, control_peak=True)
+    for i in range(n_read):
+        base["peaksets"][f"BASE{i}"] = {
+            "antigen": "NR4A1", "genome": "hg38", "cell_type": "x", "cell_type_class": "x",
+            "qc": None, "peaks": [("chr10", 43_000_000, 43_000_100, 5.0)],
+            "diag": {"_status": "read"}, "_status": "read"}
+    p = tmp_path / "inputs.json"
+    p.write_text(json.dumps(base, default=str))
+    monkeypatch.setattr(M, "INPUTS", str(p))
+    monkeypatch.setattr(M, "OUT", str(tmp_path / "out.json"))
+    monkeypatch.setattr(M, "FAILED_INPUTS", str(tmp_path / "failed.json"))
+    return base, p
+
+
+def test_the_merge_refuses_when_there_is_no_cache_to_merge_into(tmp_path, monkeypatch):
+    """This mode ADDS a source to an existing retrieval; it cannot produce one."""
+    monkeypatch.setattr(M, "INPUTS", str(tmp_path / "absent.json"))
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", lambda: {"Z": {"_status": "read"}})
+    assert M.fetch_zenodo_into_cache() == 4
+
+
+def test_the_merge_refuses_to_build_on_a_cache_with_no_readable_peak_set(tmp_path, monkeypatch):
+    p = tmp_path / "inputs.json"
+    p.write_text(json.dumps({"peaksets": {"A": {"_status": "budget_exhausted", "peaks": []}}}))
+    monkeypatch.setattr(M, "INPUTS", str(p))
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", lambda: {"Z": {"_status": "read"}})
+    assert M.fetch_zenodo_into_cache() == 4
+
+
+def test_the_merge_refuses_when_the_zenodo_fetch_did_not_run_at_all(tmp_path, monkeypatch):
+    """An empty return is not 'the deposit has no peaks' -- the loader emits a record-level refusal
+    for that. Empty means it never executed, and merging nothing must not rewrite the cache."""
+    _, p = _cache_with(5, tmp_path, monkeypatch)
+    before = p.read_text()
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", dict)
+    assert M.fetch_zenodo_into_cache() == 4
+    assert p.read_text() == before, "the cache was rewritten by a fetch that never ran"
+
+
+def test_the_merge_keeps_every_existing_peakset_and_adds_the_new_ones(tmp_path, monkeypatch):
+    base, p = _cache_with(6, tmp_path, monkeypatch)
+    n_before = len(base["peaksets"])
+    zen = {"ZENODO1483691:peaks.bed.gz": {
+        "antigen": "NR4A3", "genome": "hg38", "cell_type": "acinic cell carcinoma",
+        "cell_type_class": "author-deposited peak call (not uniformly reprocessed)", "qc": None,
+        "peaks": [("chr10", 43_000_000, 43_000_100, 9.0)], "diag": {"_status": "read"},
+        "_status": "read"}}
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", lambda: dict(zen))
+    assert M.fetch_zenodo_into_cache() == 0
+    merged = json.loads(p.read_text())
+    assert len(merged["peaksets"]) == n_before + 1
+    for k in base["peaksets"]:
+        assert k in merged["peaksets"], f"the merge dropped {k}"
+    assert "ZENODO1483691:peaks.bed.gz" in merged["peaksets"]
+
+
+def test_the_merge_records_that_the_artifact_now_has_two_fetch_dates(tmp_path, monkeypatch):
+    """After a merge the artifact is not the product of one run, and a reader comparing dates would
+    otherwise have no way to know."""
+    base, p = _cache_with(6, tmp_path, monkeypatch)
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", lambda: {"Z:x.bed": {
+        "antigen": "NR4A3", "genome": "hg38", "cell_type": "x", "cell_type_class": "x",
+        "qc": None, "peaks": [("chr10", 1, 100, 1.0)], "diag": {"_status": "read"},
+        "_status": "read"}})
+    assert M.fetch_zenodo_into_cache() == 0
+    rec = json.loads(p.read_text())["_merged_sources"][-1]
+    assert rec["source"] == "zenodo"
+    assert rec["base_cache_generated_utc"] == base.get("_generated_utc")
+    assert rec["fetched_utc"] and rec["fetched_utc"] != rec["base_cache_generated_utc"]
+    assert "MERGE of two retrievals" in rec["⚠"]
+    assert rec["peaksets_added"] == ["Z:x.bed"]
+
+
+def test_the_merge_is_still_subject_to_the_coverage_guard(tmp_path, monkeypatch):
+    """The merge cannot be a back door around the guard that the full fetch has to clear."""
+    _, p = _cache_with(6, tmp_path, monkeypatch)
+    rich = _art("read", n_read=86)
+    with open(M.OUT, "w") as fh:
+        json.dump(rich, fh)
+    monkeypatch.setattr(M, "fetch_zenodo_peaksets", lambda: {"Z:x.bed": {
+        "antigen": "NR4A3", "genome": "hg38", "cell_type": "x", "cell_type_class": "x",
+        "qc": None, "peaks": [("chr10", 1, 100, 1.0)], "diag": {"_status": "read"},
+        "_status": "read"}})
+    before = p.read_text()
+    assert M.fetch_zenodo_into_cache() == 3
+    assert p.read_text() == before, "a refused merge rewrote the real inputs cache"
+    assert os.path.exists(M.FAILED_INPUTS)

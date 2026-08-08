@@ -30,11 +30,11 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-SSTR2](L2-rt-sstr2.md) | ST-RADIOLIGAND | `experimental_proposal` | any expression measurement in EMC |
 | [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | ST-REPURPOSING | `experimental_proposal` | a PPARγ ACTIVITY readout in EMC, not an abundance one — the direction is stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md |
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) | ST-DISSEMINATION | `journal_submission` | — |
+| [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) | ST-DISSEMINATION | `journal_submission` | — |
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | ST-DISSEMINATION | `journal_submission` | the MM-GBSA decoy null's primary run output committed as a JSON — it lives in S3, and it is the headline evidence of the recommended framing (the $0 CI job named in paper-framing-o |
 | [RT-ASO](L2-rt-aso.md) | ST-NUCLEIC-ACID | `chemrxiv` | a named delivery candidate |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | ST-DEPENDENCY | `preprint` | an EMC-specific measurement |
 | [RT-DEGRADER](L2-rt-degrader.md) | ST-PROXIMITY | `preprint` | a passing selectivity known-answer control; an anti-target panel that recovers its own cognate ligands |
-| [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) | ST-DISSEMINATION | `preprint` | the NBRE promoter scan, which is free and unstarted; a cistrome measured with an NR4A3 fusion expressed — an open, unclaimed experiment rather than an unfetched dataset |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | ST-IMMUNO | `preprint` | a cellular persistence readout |
 | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | ST-REPURPOSING | `preprint` | per-partner event counts from Huang 2023 (Mod Pathol, n = 58) and Paioli 2021 (Ann Surg Oncol, n = 67); the pazopanib trial's full partner distribution and prior-therapy table (Lan |
 | [RT-TCIP](L2-rt-tcip.md) | ST-PROXIMITY | `preprint` | a staged transcriptional-effector body, so the result can name an effector rather than a size class |

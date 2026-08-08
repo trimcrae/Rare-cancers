@@ -44,7 +44,7 @@ last_verified: 2026-08-06
 | **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
 | **PUB-EMC-PROGRAM**<br/>[Attacking an "undruggable" fusion oncoprotein by computation alone: a d…](../../research/manuscripts/emc-treatment-roadmap.md) | ◐ `drafted` | `journal_submission` | 2 | — |
 | **PUB-ENDPOINT**<br/>[Objective response is the wrong endpoint for extraskeletal myxoid chond…](../../research/manuscripts/emc-response-endpoint-paper.md) | ◐ `drafted` | `journal_submission` | 1 | — |
-| **PUB-FUSION-OUTPUT**<br/>[Published transcriptional targets of EWSR1::NR4A3 are elevated in extra…](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-FUSION-OUTPUT**<br/>[The direct-target catalogue of EWSR1::NR4A3 is three genes wide, and on…](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-FUSION-PARTNER**<br/>[Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a…](../../research/manuscripts/emc-fusion-partner-stratification.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-HLA-COVERAGE**<br/>[Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunoth…](../../research/manuscripts/hla-coverage-emc.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
@@ -170,11 +170,11 @@ Summarising systemic therapy in an indolent ultra-rare sarcoma by its objective-
 |---|---|---|
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) — Reframe the endpoint advanced-EMC systemic therapy i | `primary` | The whole paper: the two endpoints on one denominator, the 36 discordant patients, the reporting-completeness census, the small-trial arithmetic, and the limitations section that states the natural-history confound at full strength. |
 
-### PUB-FUSION-OUTPUT — Published transcriptional targets of EWSR1::NR4A3 are elevated in extraskeletal myxoid chondrosarcoma tissue across three cohorts and three platforms: an evidence-typed, null-calibrated re-analysis
+### PUB-FUSION-OUTPUT — The direct-target catalogue of EWSR1::NR4A3 is three genes wide, and one gene survives calibration: an evidence-typed re-analysis of extraskeletal myxoid chondrosarcoma across three cohorts
 
-**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/nr4a3-fusion-transcriptional-output.md`](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md)**
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/nr4a3-fusion-transcriptional-output.md`](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md)**
 
-Across a retrieved corpus of 2,276 full-text documents, the set of genes any NR4A3 chimera has been shown to physically bind and drive is three genes wide — and those three read higher in EMC tumour tissue than in comparator tumours in every one of six array readings and in an independent third cohort on an unrelated technology, while the AGGREGATE target set does not clear a size-matched empirical null on either readable array platform and the published EMC transcriptional phenotype does clear it, on both. Reading a gene set in these EMC series is uninterpretable without that null calibration. No genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in that corpus, so no gene named can yet be told apart from a gene that is merely associated with the disease.
+Across a retrieved corpus of 2,276 full-text documents, the set of genes any NR4A3 chimera has been shown to physically bind and drive is three genes wide — and those three are not equally supported in EMC tumour tissue. ENO3 is elevated on both readable array platforms under an exact permutation test and after multiple-testing correction, against every comparator stratum separately, in the top 2% of 14,120 genes in an independent third cohort on an unrelated technology, with a skeletal-muscle admixture control that does not explain it. PPARG's strongest reading is circular, being scored on the cohort from which the claim was first published. SEMA3C reverses sign with the choice of comparator and survives no test applied here. The aggregate target set does not clear a size-matched empirical null on either array platform while the published EMC transcriptional phenotype clears it 11.9-fold and 4.2-fold, so the instrument reads EMC and does not read the aggregate. No genome-wide chromatin experiment with an NR4A3 fusion was retrieved, so 'elevated in EMC' and 'driven by the fusion' cannot be told apart for any of the three.
 
 | route | role | what it contributes |
 |---|---|---|
@@ -349,7 +349,7 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-ENDPOINT** ◐ | `journal_submission` | `primary` |
-| [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `preprint` | **PUB-FUSION-OUTPUT** ◐ | `preprint` | `primary` |
+| [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-FUSION-OUTPUT** ◐ | `journal_submission` | `primary` |
 | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `preprint` | **PUB-FUSION-PARTNER** ◐ | `preprint` | `primary` |
 | [RT-VACCINE](L2-rt-vaccine.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-HLA-COVERAGE** ◐ | `preprint` | `primary` |
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-METHODS** ◐ | `journal_submission` | `primary` |

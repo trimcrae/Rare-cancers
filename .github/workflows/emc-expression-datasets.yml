@@ -149,10 +149,13 @@ on:
           hypoxia metagene; NR2F1; and from 2026-08-07 a SURFACE-ANTIGEN panel). Writes its OWN
           artifact and cannot perturb part B's. The authoritative list of reads is
           `emc_expression_panels.PANELS`, not this description.
+          cohort-search = ask GEO whether a FOURTH EMC expression cohort exists, and dedup every
+          candidate at accession, publication and SAMPLE level before counting it. Writes its OWN
+          artifact; reads no expression value and can perturb nothing.
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds", "gse28866", "cohort-search", "ret-cistrome-zenodo"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -255,7 +258,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${MODE:-}" in
-            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866) PART_B=false ;;
+            gse-series|aso-junction|panels|hypoxia-confounds|fusion-targets|ret-cistrome|ret-motif|gse28866|cohort-search|ret-cistrome-zenodo) PART_B=false ;;
             *)                                               PART_B=true  ;;
           esac
           echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
@@ -277,7 +280,8 @@ jobs:
             echo "gse28866: header read only, no offline suite to gate on"
           elif [ "${{ inputs.mode }}" = "aso-junction" ]; then
             python -m pytest research/modalities/tests/test_junction_aso_seam.py -q
-          elif [ "${{ inputs.mode }}" = "ret-cistrome" ]; then
+          elif [ "${{ inputs.mode }}" = "ret-cistrome" ] \
+            || [ "${{ inputs.mode }}" = "ret-cistrome-zenodo" ]; then
             # ⛔ NOT OPTIONAL. Two of the three ways this module could lie are pure arithmetic and
             # are assertable with no network: a half-open/inclusive off-by-one, and a cross-build
             # intersection that would silently report another locus on chr10. The third — an
@@ -304,6 +308,14 @@ jobs:
             # constructs a KNOWN set-specific signal on the same offset and asserts it does not.
             # A build whose null calibration is broken must not be able to emit an artifact.
             python -m pytest research/modalities/tests/test_nr4a3_fusion_targets.py -q
+          elif [ "${{ inputs.mode }}" = "cohort-search" ]; then
+            # ⛔ NOT OPTIONAL, and the reason is that this mode's most likely output is a NEGATIVE.
+            # A negative is only worth anything if the thing producing it could have said yes, and
+            # every way this module could say the wrong thing is offline arithmetic over a cached
+            # search: a re-deposit passing the dedup, a curated GDS view of a cohort already used
+            # reading as new, and a series with NO sample-level read being promoted rather than
+            # marked ungraded. All three are asserted here, before one byte is fetched.
+            python -m pytest research/modalities/tests/test_emc_cohort_search.py -q
           elif [ "${{ inputs.mode }}" = "hypoxia-confounds" ]; then
             # ⛔ THE MERGE GUARD IS THE ONE THAT MATTERS HERE. This mode fetches a SECOND cache of
             # the same two matrices and the audit reads both; if they could disagree silently,
@@ -527,15 +539,39 @@ jobs:
           RET_CISTROME_BUDGET_S: ${{ inputs.cistrome_budget_s || '3000' }}
         run: python research/modalities/emc_ret_cistrome.py --fetch
 
+      # ⭐ ADD ONE SOURCE WITHOUT RE-FETCHING EVERY CATALOGUE. `--fetch` is all-or-nothing, and two
+      # dispatches showed that is not reliably available: one spent its whole 3000 s budget and
+      # retrieved zero peak sets where an earlier run spent 344 s of 2400 s and retrieved 86. The
+      # peak coordinates are already committed, so this makes a handful of HTTP calls, merges
+      # Zenodo into that cache and re-derives. It cannot starve, and it is still subject to the
+      # coverage guard — a merge that would shrink the artifact is refused like any other write.
+      - name: "RET cistrome — fetch ONLY Zenodo and merge it into the committed inputs cache"
+        if: inputs.mode == 'ret-cistrome-zenodo'
+        timeout-minutes: 25
+        env:
+          # ⚠ MUST STAY COMFORTABLY BELOW `timeout-minutes`, the same rule every other network step
+          # in this file carries — and this step shipped without it. The module's default budget is
+          # 3000 s (50 min) against a 25-minute step timeout, so the graceful-exit path could NEVER
+          # fire: the runner would kill the step first, and a killed step prints nothing and writes
+          # nothing, which is precisely the diagnostic this mode exists to produce. One unresponsive
+          # peak file can take 20 minutes on its own here (`get` is tries=4 × timeout=300).
+          RET_CISTROME_BUDGET_S: "900"
+        run: python research/modalities/emc_ret_cistrome.py --fetch-zenodo
+
       - name: "RET cistrome — reproduce check (the derive half must be offline-reproducible)"
-        if: always() && inputs.mode == 'ret-cistrome'
+        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo')
         timeout-minutes: 10
         run: |
           python research/modalities/emc_ret_cistrome.py --check \
             || echo "--check reported drift; non-blocking, but READ IT"
 
+      # ⚠ `-inputs-FAILED.json` IS UPLOADED AND MUST NEVER BE PUBLISHED. A refused run writes its
+      # cache there instead of over the real one, and uploading it is how that cache stays
+      # diagnosable without a commit — which is the whole point, since the publish arm below is
+      # `always()` and would otherwise ship a failure stub over 52 MB of peak coordinates. It did,
+      # once: commit 5190923.
       - name: "RET cistrome — upload the artifact and its inputs cache"
-        if: always() && inputs.mode == 'ret-cistrome'
+        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo')
         uses: actions/upload-artifact@v4
         with:
           name: emc-ret-cistrome
@@ -543,6 +579,41 @@ jobs:
           path: |
             research/modalities/emc-ret-cistrome.json
             research/modalities/emc-ret-cistrome-inputs.json
+            research/modalities/emc-ret-cistrome-inputs-FAILED.json
+
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # cohort-search — is there a FOURTH EMC expression cohort?
+      # ─────────────────────────────────────────────────────────────────────────────────────
+
+      # ⭐ THE GUARD IS THE DELIVERABLE AS MUCH AS THE SEARCH IS, which is why this is its own mode
+      # rather than a few extra queries bolted onto part B. GSE170983 is 99 samples, four of them
+      # EMC, with its own accession and its own series record — and it is the SAME Brunner deposit
+      # as GSE28866, already this paper's 3SEQ arm, with the same four tumours. A search that
+      # returned it and counted it would have inflated the manuscript's n while every number in the
+      # manuscript stayed arithmetically correct. So every candidate is checked at accession,
+      # publication AND sample level, and a candidate with no sample-level read is graded UNGRADED
+      # rather than promoted.
+      - name: "Cohort search — ask GEO for a fourth EMC expression cohort, dedup at sample level"
+        if: inputs.mode == 'cohort-search'
+        timeout-minutes: 30
+        run: python research/modalities/emc_cohort_search.py --fetch
+
+      - name: "Cohort search — the verdict must re-derive offline from its own cached queries"
+        if: always() && inputs.mode == 'cohort-search'
+        timeout-minutes: 10
+        run: |
+          python research/modalities/emc_cohort_search.py --check \
+            || echo "--check reported drift; non-blocking, but READ IT"
+
+      - name: "Cohort search — upload the verdict and the raw query record"
+        if: always() && inputs.mode == 'cohort-search'
+        uses: actions/upload-artifact@v4
+        with:
+          name: emc-cohort-search
+          if-no-files-found: warn
+          path: |
+            research/modalities/emc-cohort-search.json
+            research/modalities/emc-cohort-search-inputs.json
 
       # ─────────────────────────────────────────────────────────────────────────────────────
       # ret-motif — the sibling sequence instrument (emc-ret-lane.md §6, next step 2)
@@ -672,7 +743,8 @@ jobs:
           # publish step, which is the worst place for it. Every arm below publishes exactly what its
           # own mode WRITES and nothing it merely READS; `test_emc_expression_datasets_workflow.py`
           # asserts that for hypoxia-confounds specifically, because that is the arm the merge broke.
-          if [ "${{ inputs.mode }}" = "ret-cistrome" ]; then
+          if [ "${{ inputs.mode }}" = "ret-cistrome" ] \
+            || [ "${{ inputs.mode }}" = "ret-cistrome-zenodo" ]; then
             MSG="RET cistrome: NR4A1/2/3 ChIP-seq occupancy at the RET locus (CI)"
             PATHS="research/modalities/emc-ret-cistrome.json
                    research/modalities/emc-ret-cistrome-inputs.json"
@@ -693,6 +765,10 @@ jobs:
             PATHS="research/modalities/emc-hypoxia-confounds.json
                    research/modalities/emc-hypoxia-null-background.json
                    research/modalities/emc-hypoxia-therapeutic-status.json"
+          elif [ "${{ inputs.mode }}" = "cohort-search" ]; then
+            MSG="EMC cohort search: is there a fourth EMC expression cohort? (CI)"
+            PATHS="research/modalities/emc-cohort-search.json
+                   research/modalities/emc-cohort-search-inputs.json"
           elif [ "${{ inputs.mode }}" = "gse28866" ]; then
             MSG="GSE28866 header read: is the tumour-vs-normal EMC deposit gene-indexed? (CI)"
             PATHS="research/modalities/gse28866-tumour-vs-normal.json"
@@ -848,13 +924,50 @@ jobs:
                         f"pm={a.get('plasma_membrane_confirmed')}")
           PY
 
+      # ⭐ THE QUERIES PRINT BEFORE THE VERDICT, ON PURPOSE, AND SO DOES EVERY EXCLUSION. The
+      # expected output of this mode is "no fourth cohort", and a negative is readable only if the
+      # reader can see what was asked and why each candidate was thrown out. A headline with the
+      # working hidden is indistinguishable from a search that never ran.
+      - name: "Summary — cohort-search"
+        if: always() && inputs.mode == 'cohort-search'
+        run: |
+          python3 - <<'PY'
+          import json
+          d = json.load(open("research/modalities/emc-cohort-search.json"))
+          q = d["query_summary"]
+          print("=== WHAT WAS ASKED ===")
+          for r in d["queries"]:
+              print(f"  [{r.get('_status'):>6}] geo_count={r.get('count_reported_by_geo')} "
+                    f"returned={r.get('n_ids_returned')}  {r['term'][:90]}")
+              print(f"           why: {r['why']}")
+          print(f"  queries read {q['n_read']}/{q['n_queries']} | distinct series returned "
+                f"{q['n_distinct_series_returned']}")
+          print()
+          print("=== EVERY CANDIDATE AND WHY IT DID OR DID NOT COUNT ===")
+          for acc, c in sorted(d["candidates"].items(), key=lambda kv: kv[1]["grade"]):
+              print(f"  {acc:<12} {c['grade']:<30} n={c.get('n_samples')} "
+                    f"emc_samples={c.get('n_samples_naming_emc')} "
+                    f"overlap={c.get('n_gsm_overlapping_a_known_cohort')}")
+              print(f"      {str(c.get('title'))[:110]}")
+              for r in (c.get("excluded_because") or []):
+                  print(f"      - {r}")
+          v = d["verdict"]
+          print()
+          print("=== VERDICT ===")
+          print(" ", v["headline"])
+          print("  new fourth cohorts:", v["new_fourth_cohorts"] or "none")
+          if v.get("⚠ incomplete"):
+              print(" ", v["⚠ incomplete"])
+          print(" ", v["⛔ scope"])
+          PY
+
       # ⭐ THE BUILD AND THE POSITIVE CONTROLS PRINT BEFORE THE RESULT, ON PURPOSE. A RET peak
       # count read without knowing (a) which genome build the locus was taken on and (b) whether
       # the peak set recovers a locus a published chromatin experiment already placed NR4A3 at, is
       # a number nobody can grade — and a null from an instrument that recovers no positive
       # control is not a negative at all.
       - name: "Summary — ret-cistrome"
-        if: always() && inputs.mode == 'ret-cistrome'
+        if: always() && (inputs.mode == 'ret-cistrome' || inputs.mode == 'ret-cistrome-zenodo')
         run: |
           python3 - <<'PY'
           import json

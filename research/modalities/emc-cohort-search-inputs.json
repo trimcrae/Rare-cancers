@@ -1,0 +1,3231 @@
+{
+ "_generated_utc": "2026-08-08T12:36:39Z",
+ "queries": [
+  {
+   "_status": "read",
+   "count_reported_by_geo": 17,
+   "n_ids_returned": 17,
+   "term": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "why": "the disease name in full, the highest-precision term"
+  },
+  {
+   "_status": "read_after_syntax_repair",
+   "count_reported_by_geo": 0,
+   "n_ids_returned": 2,
+   "term": "\"myxoid chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter]",
+   "why": "the shortened name, restricted to expression series",
+   "zero_return_probe": {
+    "_status": "read",
+    "_why": "a zero and a malformed query are the same length; this asks the same question with the field tokens removed",
+    "count_reported_by_geo": 2,
+    "n_ids_returned": 2,
+    "stripped_term": "\"myxoid chondrosarcoma\" AND \"expression profiling\""
+   },
+   "⛔ original_query_returned_zero": "the field tokens in the original term matched nothing in db=gds; the stripped term returned records, so the original zero was a SYNTAX result and is not reported as an absence"
+  },
+  {
+   "_status": "read",
+   "count_reported_by_geo": 5,
+   "n_ids_returned": 5,
+   "term": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "why": "the fusion rather than the disease — catches a deposit indexed by its driver"
+  },
+  {
+   "_status": "read",
+   "count_reported_by_geo": 0,
+   "n_ids_returned": 0,
+   "term": "NR4A3[All Fields] AND sarcoma[All Fields] AND \"expression profiling\"[Filter]",
+   "why": "the 3' partner plus lineage, for a pan-sarcoma deposit that names NR4A3 but not EMC",
+   "zero_return_probe": {
+    "_status": "read",
+    "_why": "a zero and a malformed query are the same length; this asks the same question with the field tokens removed",
+    "count_reported_by_geo": 0,
+    "n_ids_returned": 0,
+    "stripped_term": "NR4A3 AND sarcoma AND \"expression profiling\""
+   }
+  },
+  {
+   "_status": "read_after_syntax_repair",
+   "count_reported_by_geo": 0,
+   "n_ids_returned": 4,
+   "term": "\"chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter] AND \"Homo sapiens\"[Organism]",
+   "why": "deliberately over-broad: EMC samples inside a general chondrosarcoma series",
+   "zero_return_probe": {
+    "_status": "read",
+    "_why": "a zero and a malformed query are the same length; this asks the same question with the field tokens removed",
+    "count_reported_by_geo": 4,
+    "n_ids_returned": 4,
+    "stripped_term": "\"chondrosarcoma\" AND \"expression profiling\" AND \"Homo sapiens\""
+   },
+   "⛔ original_query_returned_zero": "the field tokens in the original term matched nothing in db=gds; the stripped term returned records, so the original zero was a SYNTAX result and is not reported as an absence"
+  },
+  {
+   "_status": "read_after_syntax_repair",
+   "count_reported_by_geo": 0,
+   "n_ids_returned": 32,
+   "term": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "why": "translocation-sarcoma panels, the kind of deposit EMC hides inside",
+   "zero_return_probe": {
+    "_status": "read",
+    "_why": "a zero and a malformed query are the same length; this asks the same question with the field tokens removed",
+    "count_reported_by_geo": 32,
+    "n_ids_returned": 32,
+    "stripped_term": "sarcoma AND \"translocation\" AND \"expression profiling\""
+   },
+   "⛔ original_query_returned_zero": "the field tokens in the original term matched nothing in db=gds; the stripped term returned records, so the original zero was a SYNTAX result and is not reported as an absence"
+  }
+ ],
+ "series": {
+  "GDS3481": {
+   "_found_by": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "accession": "GDS3481",
+   "entrytype": "GDS",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 4,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Analysis of cells overexpressing NOR1 or the EWS/NOR1 fusion gene. NOR1 encodes an orphan nuclear receptor.  The EWS gene is involved in various malignancies by way of chromosomal translocations, and the EWS/NOR1 gene fusion is implicated in the pathogenesis of extraskeletal myxoid chondrosarcomas.",
+   "taxon": "Homo sapiens",
+   "title": "NOR1 gene and EWS/NOR1 fusion gene overexpression",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GPL1261": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GPL1261",
+   "entrytype": "GPL",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 59170,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Affymetrix submissions are typically submitted to GEO using the GEOarchive method described at http://www.ncbi.nlm.nih.gov/projects/geo/info/geo_affy.html  June 03, 2009: annotation table updated with netaffx build 28 June 07, 2012: annotation table updated with netaffx build 32 June 23, 2016: annotation table updated with netaffx build 35 Protocol: see manufacturer's web site  All probe sets represented on the GeneChip Mouse Expression Set 430 are included on the GeneChip Mouse Genome 430 2.0 Array. The sequences from which these probe sets were derived were selected from GenBank«, dbEST, and RefSeq. The sequence clusters were created from the UniGene database (Build 107, June 2002) and then refined by analysis and comparison with the publicly available draft assembly of the mouse genome from the Whitehead Institute for Genome Research (MGSC, April 2002). ",
+   "taxon": "Mus musculus",
+   "title": "[Mouse430_2] Affymetrix Mouse Genome 430 2.0 Array",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GPL570": {
+   "_found_by": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "accession": "GPL570",
+   "entrytype": "GPL",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 177506,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Affymetrix submissions are typically submitted to GEO using the GEOarchive method described at http://www.ncbi.nlm.nih.gov/projects/geo/info/geo_affy.html  June 03, 2009: annotation table updated with netaffx build 28 June 06, 2012: annotation table updated with netaffx build 32 June 23, 2016: annotation table updated with netaffx build 35 Protocol: see manufacturer's web site  Complete coverage of the Human Genome U133 Set plus 6,500 additional genes for analysis of over 47,000 transcripts All probe sets represented on the GeneChip Human Genome U133 Set are identically replicated on the GeneChip Human Genome U133 Plus 2.0 Array. The sequences from which these probe sets were derived were selected from GenBank®, dbEST, and RefSeq. The sequence clusters were created from the UniGene database (Build 133, April 20, 2001) and then refined by analysis and comparison with a number of other publicly available databases, including the Washington University EST trace repository and the University of California, Santa Cruz Golden-Path human genome database (April 2001 release). In addition, there are 9,921 new probe sets representing approximately 6,500 new genes. These gene sequences were s",
+   "taxon": "Homo sapiens",
+   "title": "[HG-U133_Plus_2] Affymetrix Human Genome U133 Plus 2.0 Array",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GPL8300": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GPL8300",
+   "entrytype": "GPL",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 6446,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Affymetrix submissions are typically submitted to GEO using the GEOarchive method described at http://www.ncbi.nlm.nih.gov/projects/geo/info/geo_affy.html  June 03, 2009: annotation table updated with netaffx build 28 June 08, 2012: annotation table updated with netaffx build 32 June 27, 2016: annotation table updated with netaffx build 35 Protocol: see manufacturer's web site  Based on this UniGene build and associated annotations, the HG-U95Av2 array represents approximately 10,000 full-length genes. ",
+   "taxon": "Homo sapiens",
+   "title": "[HG_U95Av2] Affymetrix Human Genome U95 Version 2 Array",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GPL96": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GPL96",
+   "entrytype": "GPL",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 43657,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Affymetrix submissions are typically submitted to GEO using the GEOarchive method described at http://www.ncbi.nlm.nih.gov/projects/geo/info/geo_affy.html  June 03, 2009: annotation table updated with netaffx build 28 June 08, 2012: annotation table updated with netaffx build 32 June 24, 2016: annotation table updated with netaffx build 35 Protocol: see manufacturer's web site  The U133 set includes 2 arrays with a total of 44928 entries and was indexed 29-Jan-2002. The set includes over 1,000,000 unique oligonucleotide features covering more than 39,000 transcript variants, which in turn represent greater than 33,000 of the best characterized human genes. Sequences were selected from GenBank, dbEST, and RefSeq. Sequence clusters were created from Build 133 of UniGene (April 20, 2001) and refined by analysis and comparison with a number of other publicly available databases including the Washington University EST trace repository and the University of California, Santa Cruz golden-path human genome database (April 2001 release). In addition, ESTs were analyzed for untrimmed low-quality sequence information, correct orientation, false priming, false clustering, alternative splicing ",
+   "taxon": "Homo sapiens",
+   "title": "[HG-U133A] Affymetrix Human Genome U133A Array",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE11185": {
+   "_found_by": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "accession": "GSE11185",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 4,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "To examine the differences between NOR1 and its fusion gene product EWS/NOR1, we compared the gene expression profiles of NOR1- and EWS/NOR1-overexpressing 293 cells. Keywords: gene comparison",
+   "taxon": "Homo sapiens",
+   "title": "Differences between NOR1 and EWS/NOR1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE12475": {
+   "_found_by": "\"chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter] AND \"Homo sapiens\"[Organism]",
+   "accession": "GSE12475",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 17,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Gene expression profiling of 17 fresh frozen chondrosarcoma biopsies using the Human-6 v2 Expression BeadChip (Illumina Inc., San Diego, CA, USA). DNA copy number analyses was also performed in these tumors.  Keywords: chondrosarcoma, gene expression profiling, Illumina",
+   "taxon": "Homo sapiens",
+   "title": "Genomic profiling of chondrosarcoma: chromosomal patterns in central and peripheral tumors (Illumina)",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE12592": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSE12592",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 6,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Global gene expression analysis was performed in cases 1, 2, 5, 6 and 8 as well as in five pooled myxofibrosarcomas using the Affymetrix GeneChip Human Gene 1.0 ST Arrays (Affymetrix Inc., Santa Clara, CA, USA). Unsupervised hierarchical clustering analysis, using Pearson correlation and average linkage clustering, separated the control pool and case 6 from the rest of the cases. Cases 1 and 5, both harboring t(1;10)(p22;q24), were in turn segregated from cases 2 and 8. Tumors with t(1;10)(p22;q24) thus seemed to have a more distinct expression pattern than tumors affected by amplification of regions on chromosome 3. Tumors with t(1;10) showed increased expression levels of NPM3 and FGF8 compared with tumors without such a translocation, including the control pool. No other gene in the 5 Mb region proximal to the breakpoint on chromosome 10 displayed a more pronounced difference between the two groups. Of the genes located in the commonly amplified region on chromosome 3, VGLL3 and CHMP2B showed a higher expression in tumors affected by the amplification.",
+   "taxon": "Homo sapiens",
+   "title": "Gene expression analysis of myxoinflammatory fibroblastic sarcoma, and morphologically similar lesions",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE14469": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSE14469",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 5,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Synovial sarcoma-like tumors were generated in mice by conditionally expressing the human t(X;18) translocation-derived SYT-SSX2 fusion protein. Using a Tamoxifen-inducible CreER system, we show here that sporadic expression of SYT-SSX2 across multiple tissue types leads to exclusive formation of synovial sarcoma-like tumors while its widespread expression is lethal.  CreER-based sporadic expression both avoids the severe early developmental phenotypes     associated with widespread SYT-SSX2 expression and better models natural pathogenesis of cancers where transformed cells usually arise within an environment of largely normal cells.",
+   "taxon": "Mus musculus",
+   "title": "Expression data from  synovial sarcoma-like tumors induced in a genetically engineered mouse model",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE150474": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSE150474",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 51,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "We employed RNA sequencing-based clustering analysis to better understand the relationship of this unique entity to its closest histopathologic and immunophenotypic counterparts, including ASPS, conventional PEComa, and Xp11 translocation RCC",
+   "taxon": "Homo sapiens",
+   "title": "Malignant melanotic Xp11 neoplasms exhibit a clinicopathological spectrum and gene expression profiling akin to alveolar soft part sarcoma: a proposal for reclassification",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE168560": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSE168560",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 8,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Sarcoma is a rare form of tumor characterized by the presence of oncogenic fusion, that is often the only aberration identified. U133A Affymetrix arrays were used to identify the expression signature of 3 different types of sarcoma: AFH, CCS and GI-CCS harboring the EWSR1-CREB1 and EWSR1-ATF1 chromosomal translocation.",
+   "taxon": "Homo sapiens",
+   "title": "Expression data from Sarcoma Tumors expressing the EWSR1-CREB fusions [microarray]",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE196000": {
+   "_found_by": "\"chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter] AND \"Homo sapiens\"[Organism]",
+   "accession": "GSE196000",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 6,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Mesenchymal chondrosarcoma is a rare and often aggressive cancer that accounts for 2-10% of all chondrosarcomas. Genetically, this tumor is characterized by the recurrent HEY1-NCOA2 fusion. However, the oncogenic function of HEY1-NCOA2 fusion in mesenchymal chondrosarcoma remains to be elucidated. We stably transduced HEK293 as well as iPSC-derived mesenchymal stem cells (MSCs) with inducible- expression HEY1, NCOA2 and HEY1-NCOA2 construct, respectively. Using the stably transduced cell lines, we investigated the intracellular localization of HEY1-NCOA2 fusion protein and performed genome-wide chromatin Immunoprecipitation sequencing (ChIP-seq) and expression profiling (RNA-seq) to identify HEY1-NCOA2-dependent transcriptional regulation. In this study, HEY1-NCOA2 fusion protein was found to be localized to the nucleus, like wild-type HEY1; and extreme similarity in genome-wide DNA-binding pattern between HEY1-NCOA2 and wild-type HEY1 was observed. By gene expression profiling, HEY1-NCOA2-expression (MSC-HN+), HEY1-expression (MSC-HEY1+) and NCOA2-expression (MSC-NCOA2+) iPSC-MSCs can be robustly separated, and the combined differential gene expression (DGE) analysis and Gene Set ",
+   "taxon": "Homo sapiens",
+   "title": "Genomic profiling identifies genes and pathways dysregulated by HEY1-NCOA2 fusion and shed a light on mesenchymal chondrosarcoma tumorigenesis [ChIP-seq]",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE196002": {
+   "_found_by": "\"chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter] AND \"Homo sapiens\"[Organism]",
+   "accession": "GSE196002",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 12,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Mesenchymal chondrosarcoma is a rare and often aggressive cancer that accounts for 2-10% of all chondrosarcomas. Genetically, this tumor is characterized by the recurrent HEY1-NCOA2 fusion. However, the oncogenic function of HEY1-NCOA2 fusion in mesenchymal chondrosarcoma remains to be elucidated. We stably transduced HEK293 as well as iPSC-derived mesenchymal stem cells (MSCs) with inducible- expression HEY1, NCOA2 and HEY1-NCOA2 construct, respectively. Using the stably transduced cell lines, we investigated the intracellular localization of HEY1-NCOA2 fusion protein and performed genome-wide chromatin Immunoprecipitation sequencing (ChIP-seq) and expression profiling (RNA-seq) to identify HEY1-NCOA2-dependent transcriptional regulation. In this study, HEY1-NCOA2 fusion protein was found to be localized to the nucleus, like wild-type HEY1; and extreme similarity in genome-wide DNA-binding pattern between HEY1-NCOA2 and wild-type HEY1 was observed. By gene expression profiling, HEY1-NCOA2-expression (MSC-HN+), HEY1-expression (MSC-HEY1+) and NCOA2-expression (MSC-NCOA2+) iPSC-MSCs can be robustly separated, and the combined differential gene expression (DGE) analysis and Gene Set ",
+   "taxon": "Homo sapiens",
+   "title": "Genomic profiling identifies genes and pathways dysregulated by HEY1-NCOA2 fusion and shed a light on mesenchymal chondrosarcoma tumorigenesis [RNA-seq]",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE24369": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSE24369",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 42,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Analysis of gene expression in 17 low-grade fibromyxoid sarcoma (LGFMS) samples compared to that of histologically similar tumors. LGFMS is characterized by the specific translocations t(7;16)(q33;p11) or t(11;16)(p11;p11) and corresponding fusion genes FUS-CREB3L2 or FUS-CREB3L1. The results identifies a LGFMS-specific gene expression profile and provide insight into FUS-CREB3L2 regulated gene expression.",
+   "taxon": "Homo sapiens",
+   "title": "Gene expression profiling of low-grade fibromyxoid sarcoma (LGFMS)",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE28866": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSE28866",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 99,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Molecular characterization of tumors has been critical for identifying important genes in cancer biology and for improving tumor classification and diagnosis. Long non-coding RNAs (lncRNAs), as a new, relatively unstudied class of transcripts, provide a rich opportunity to identify both functional drivers and cancer-type specific biomarkers. However, despite the potential importance of lncRNAs to the cancer field, no comprehensive survey of lncRNA expression across various cancers has been reported. We used 3'-End Sequencing for Expression Quantification (3SEQ) to quantify transcript abundance across 64 solid tumors representing 17 diagnostic subtypes of adenocarcinomas, squamous cell carcinomas, and sarcomas. We identified hundreds of transcripts from among the known 1,065 lncRNAs surveyed that show variability in transcript levels between the tumor types, and therefore, make potential biomarker candidates. We discovered 1,071 novel intergenic transcribed regions and demonstrate that these show similar patterns of variability between tumor types. We find that many of these differentially expressed cancer transcripts are also expressed in normal tissues. One such novel transcript s",
+   "taxon": "Homo sapiens",
+   "title": "Transcriptional profiling of lncRNAs and novel transcribed regions across a diverse panel of archived human cancers",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE289237": {
+   "_found_by": "\"chondrosarcoma\"[All Fields] AND \"expression profiling\"[Filter] AND \"Homo sapiens\"[Organism]",
+   "accession": "GSE289237",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 6,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Chondrosarcoma (CHS) is a malignant bone tumour resistant to adjuvant treatment, with high-grade patients suffering an unfavorable prognosis. The high mobility group A2 (HMGA2) protein is a non‑histone architectural transcription factor influencing a variety of biological processes, including the cell cycle process, DNA damage repair process, apoptosis, senescence and epithelial‑mesenchymal transition. We here aimed to investigate the role of HMGA2 in CHS.",
+   "taxon": "Homo sapiens",
+   "title": "Effect of overexpression of HMGA2 in human chondrosarcoma SW1353 cell line overexpression and control cells.",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE29085": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSE29085",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 4,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Ewing’s sarcoma family tumors (ESFT) are the second most common bone malignancy in children and young adults, characterized by the expression of a unique chromosomal translocation, that in 85% of cases lead to the expression of the EWS-FLI-1 fusion protein. ESW-FLI-1 functions as an aberrant transcription factor that can both induce and suppress its target genes. We have recently demonstrated that microRNA (miRNA) 145 is a direct EWS-FLI-1 target implicated in ESFT development. Here, we use global miRNA array profiling to show that ESFT display a distinct miRNA signature characterized by the induction or repression of a limited number of miRNAs, including the oncogenic and tumor suppressor miRNA 17-92 and let-7 families, respectively. We demonstrate that repression of the let-7 family member let-7a may be due to direct binding of EWS-FLI-1 to the let-7a promoter and that it participates in the tumorigenic potential of ESFT cells in vivo. The mechanism whereby let-7a repression enhances ESFT growth is shown to be the induction of its target gene HMGA2, as overexpression of let-7a or repression of HMGA2 blocked ESFT cell tumorigenicity. Consistent with these observations, systemic de",
+   "taxon": "Mus musculus; Rattus norvegicus; Homo sapiens; synthetic construct",
+   "title": "MicroRNA expression profiling of Ewing sarcoma cell lines",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE315379": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSE315379",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 18,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Synovial sarcoma is a deadly malignancy of soft-tissue with a predilection for adolescents and young adults that consistently associates with a t(X;18) chromosomal translocation and expression of the resultant fusion oncoprotein SS18::SSX. Here, the dependency on MDM2 that has been observed in multiple synovial sarcoma cell lines is presented. Very few synovial sarcomas in humans demonstrate TP53 mutation or loss, CDKN2A loss, or MDM2 gains, each common among other sarcoma types. Silencing of homologous Trp53 in a mouse model of SS18::SSX-expression-induced sarcomagenesis leads to a slightly reduced latency to tumorigenesis, but no increase in de-differentiated phenotypes, or nuclear pleiomorphism. Transcriptome analysis revealed minimal change in p53 target gene expression, suggesting that expression of the fusion alone was sufficient to impact these. Treatment of mice with the MDM2-p53-intereaction inhibitor, HDM201, was modestly successful at slowing tumor growth, alone. Combined treatment with HDM201 and the HDAC inhibitor panobinostat, known to be capable of derepressing Cdkn2a expression, synergized to curtail synovial sarcoma development.",
+   "taxon": "Mus musculus",
+   "title": "Epigenetic regulation of p53 represents a targetable dependency in synovial sarcoma",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE4303": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSE4303",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 36,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Abstract: Extraskeletal myxoid chondrosarcoma (EMC) is a soft tissue tumour that occurs primarily in the extremities and is characterized by a balanced translocation most commonly involving t(9;22) (q22;q12). The morphological spectrum of EMC is broad and thus a diagnosis based on histology alone can be difficult. Currently, no systemic therapy exists that improves survival in patients with EMC. In the present study, gene expression profiling has been performed to discover new diagnostic markers and potential therapeutic targets for this tumour type. Global gene expression profiling of ten EMCs and 26 other sarcomas using 42,000 spot cDNA microarrays revealed that the cases of EMC were closely related to each other and distinct from the other tumours profiled. Significance analysis of microarrays (SAM) identified 86 genes that distinguished EMC from the other sarcomas with 0.25% likelihood of false significance. NMB, DKK1, DNER, CLCN3, and DEF6 were the top five genes in this analysis. In situ hybridization for NMB gene expression on tissue microarrays (TMAs) containing a total of 1164 specimens representing 62 different sarcoma types and 15 different carcinoma types showed that NM",
+   "taxon": "Homo sapiens",
+   "title": "Gene expression profile of extraskeletal myxoid chondrosarcoma.",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE43045": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSE43045",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 23,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Clear cell sarcoma (CCS) of tendons and aponeuroses is a deadly soft-tissue malignancy resembling melanoma, with a predilection for young adults. EWS-ATF1, the fusion product of a balanced chromosomal translocation between chromosomes 22 and 12, is considered the definitional feature of the tumor. Conditional expression of the EWS-ATF1 human cDNA in the mouse generates CCS-like tumors with 100 percent penetrance. Tumors, developed through varied means of initiating expression of the fusion oncogene, model human CCS morphologically, immunohistochemically, and by genome-wide expression profiling. We also demonstrate that while fusion oncogene expression in later stages of differentiation can transform mesenchymal progenitor cells and generate tumors resembling CCS generally, expression in cells retaining stem cell markers permits the full melanoma-related phenotype.  Nielsen et al. (\"Molecular characterisation of soft tissue tumours: a gene expression study\"; PMID 11965276) used microarray to compare a variety of soft-tissue neoplasms morphologically similar to clear cell sarcoma. In our study, we use their expression data (not previously submitted) in the profiling of our mouse muta",
+   "taxon": "Homo sapiens",
+   "title": "Clear cell sarcoma human HEEBO microarray data",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE43632": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSE43632",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 18,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "We have utilized our custom array GPL11054 to screen a set of sarcoma patient samples for fusion genes One negative control was included in the study.",
+   "taxon": "Homo sapiens",
+   "title": "Large scale screening for fusion genes in sarcoma patient samples",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE44934": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSE44934",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 22,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Background: Ewing sarcoma, a highly aggressive tumor of children and young adults, is characterized most commonly by an 11;22 chromosomal translocation that fuses EWSR1 located at 22q12 with FLI1, coding for a member of the ETS family of transcription factors. Although genetic changes in Ewing sarcoma have been extensively researched, our understanding of the role of epigenetic modifications in this neoplasm is limited.",
+   "taxon": "Homo sapiens",
+   "title": "Pharmacologic Inhibition of Epigenetic Modification Reveals Targets of Aberrant Promoter Methylation in Ewing Sarcoma",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE52677": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSE52677",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 16,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Rhabdomyosarcomas (RMS) are rare but very aggressive tumours of childhood that arise as a consequence of regulatory disruption of the growth and differentiation pathways of myogenic precursor cells. Based on morphology, two major RMS subtypes can be identified: embryonal RMS (ERMS) and alveolar (ARMS). To better understand the global function of miRNA in RMS, we analyzed the expression profile of 8 different RMS cell lines (3 PAX3/FOXO1 positive and 5 PAX3/FOXO1 negative RMS) using the mirVana miRNA Probe Set V1 (Ambion). The miRNA microarray platform was able to distinguish PAX3/FOXO1 positive (RH4, RH30, RH28) and negative RMS (RD, CCA, SMS-CTR, RH36, RH18) cell lines through the expression pattern of about 90 miRNAs. Since the translocation positive RMS patients fared worse than the negative counterpart our results demonstrated the potential of miRNA expression profiling to classify different RMS subtypes, in agreement to previous gene expression studies, and set the basis for a further functional characterization of selected miRNAs implicated in RMS pathogenesis and in the different clinical behaviour and aggressiveness of the two RMS subtypes. We decided to study miRNAs with t",
+   "taxon": "Mus musculus; Homo sapiens",
+   "title": "miRNA expression profiling in rhabdomyosarcoma cell lines",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE52679": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSE52679",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 22,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "This SuperSeries is composed of the SubSeries listed below.  Background: Rhabdomyosarcomas (RMS) are rare but very aggressive tumors of childhood that arise as a consequence of regulatory distruption of the growth and differentiation pathways of myogenic precursor cells. Based on morphology, two major RMS subtypes can be identified: embryonal RMS (ERMS) and alveolar (ARMS). So, it is essential to unravel the molecular mechanisms involved in cancer pathogenesis and in disease progression. MicroRNAs are endogenous small non-coding RNAs with a key role in tumorigenesis. Methodology/Principal Findings: To better understand the involvement of miRNAs in RMS, we analyzed the expression profile of 8 different RMS cell lines (4 ARMS and 4 ERMS). The miRNA population from each cell line was compared to a reference sample consisting of a pool of each total RNA sample mixed in equal amount. We identified a 16 miRNAs signature that discriminates translocation positive (ARMS) and negative RMS (ERMS). We focused our attention on the role of miR-27a that is up-regulated in the more aggressive RMS cell lines (ARMS translocation positive) where probably it acts as an oncogene. miR-27a-overexpressing",
+   "taxon": "Homo sapiens; Mus musculus",
+   "title": "microRNA-27a contributes to rhabdomyosarcoma cell proliferation through suppression of RARA and RXRA",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE62747": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSE62747",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 8,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "In order to identify new key molecules in the pathogenesis of myxoid liposarcoma, we performed comparative gene expression profiling in myxoid liposarcoma and fat tissue samples.",
+   "taxon": "Homo sapiens",
+   "title": "Whole genome microarray analysis in myxoid liposarcoma",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSE80126": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSE80126",
+   "entrytype": "GSE",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": 29,
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Purpose: Popular methods for library preparation in RNA-seq such as Illumina TruSeq® RNA v2 kit use a poly-A pulldown strategy. Such methods can cause loss of coverage at the 5’ end of genes, impacting the ability to detect fusions when used on degraded samples. The goal of this study was to quantify the effects RNA degradation has on fusion detection when using poly-A selected mRNA and to identify the variables involved in this process Methods: Total RNA was extracted from solid tumor tissue and whole blood using the Qiagen® miRNeasy Micro and Mini kits, respectively. The KU812 cell line was purchased from Sigma-Aldrich (St. Louis, MO) and UHR (Universal Human Reference RNA) was purchased from Agilent (Santa Clara, CA). UHR is a mixture of cell lines derived from breast adenocarcinoma, hepatoblastoma, cervix adenocarcinoma, testis embryonal carcinoma, gliobastoma, melanoma, liposarcoma, histiocytic lymphoma, lymphoblastic leukemia and plasmocytoma. For Degradation experiments, two micrograms of human universal reference RNA (UHR) (Agilent Technologies, Santa Clara, CA) and 1ug of RNA extracted from KU812 cell line (purchased from ATCC) were degraded at 74oC from 1 to 11 minutes in",
+   "taxon": "Homo sapiens",
+   "title": "Impact of RNA degradation on fusion detection by RNA-seq",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1067329": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM1067329",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Patient 168-97",
+   "taxon": "Homo sapiens",
+   "title": "Sample 168-97",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273948": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273948",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RD, ERMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RD_biol. rep. 1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273949": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273949",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RD, ERMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RD_biol. rep. 2",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273950": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273950",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) SMS-CTR, ERMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "SMS-CTR_biol. rep. 1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273951": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273951",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) SMS-CTR, ERMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "SMS-CTR_biol. rep. 2",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273952": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273952",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RH18, ARMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RH18_biol. rep. 1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273953": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273953",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RH18, ARMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RH18_biol. rep. 2",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273954": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273954",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RH36, ERMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RH36_biol. rep. 1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273955": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273955",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RH36, ERMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RH36_biol. rep. 2",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273956": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273956",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) CCA, ERMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "CCA_biol. rep. 1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273957": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273957",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) CCA, ERMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "CCA_biol. rep. 2",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273958": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273958",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RH4, ARMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RH4_biol. rep. 1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273959": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273959",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RH4, ARMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RH4_biol. rep. 2",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273960": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273960",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RH30, ARMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RH30_biol. rep. 1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273961": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273961",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RH30, ARMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RH30_biol. rep. 2",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273962": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273962",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RH28, ARMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RH28_biol. rep. 1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM1273963": {
+   "_found_by": "sarcoma[All Fields] AND \"translocation\"[All Fields] AND \"expression profiling\"[Filter]",
+   "accession": "GSM1273963",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "pool of the 8 RMS cell lines, control (channel 1) RH28, ARMS cell line (channel 2)",
+   "taxon": "Homo sapiens",
+   "title": "RH28_biol. rep. 2",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM2113301": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM2113301",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Cell culture",
+   "taxon": "Homo sapiens",
+   "title": "V1-34",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM281777": {
+   "_found_by": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "accession": "GSM281777",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "293-tet-On-EWS/NOR1 cells, doxycycline untreated",
+   "taxon": "Homo sapiens",
+   "title": "293-tet-On-EWS/NOR1 without doxycycline",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM281778": {
+   "_found_by": "(EWSR1 AND NR4A3) OR \"EWS-NOR1\" OR \"EWSR1-NR4A3\" OR \"TAF15-NR4A3\"",
+   "accession": "GSM281778",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "293-tet-On-EWS/NOR1 cells, doxycycline treated",
+   "taxon": "Homo sapiens",
+   "title": "293-tet-On-EWS/NOR1 with doxycycline",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600934": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600934",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 1",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600935": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600935",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 2",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600936": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600936",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 3",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600937": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600937",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 4",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600938": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600938",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 5",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM600939": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM600939",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "soft tissue",
+   "taxon": "Homo sapiens",
+   "title": "Extraskeletal myxoid chondrosarcoma 6",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM715466": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM715466",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Extraskeletal myxoid chondrosarcoma",
+   "taxon": "Homo sapiens",
+   "title": "STT5525_EMC",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM715467": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM715467",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Extraskeletal myxoid chondrosarcoma",
+   "taxon": "Homo sapiens",
+   "title": "STT5526_EMC",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM715470": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM715470",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Extraskeletal myxoid chondrosarcoma",
+   "taxon": "Homo sapiens",
+   "title": "STT5527_EMC",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  },
+  "GSM715472": {
+   "_found_by": "\"extraskeletal myxoid chondrosarcoma\"[All Fields]",
+   "accession": "GSM715472",
+   "entrytype": "GSM",
+   "gdsType": null,
+   "gpl": null,
+   "n_samples": "",
+   "parent_gse": null,
+   "pubmed": null,
+   "summary": "Extraskeletal myxoid chondrosarcoma",
+   "taxon": "Homo sapiens",
+   "title": "STT5592_EMC",
+   "⚠": "title and summary are the depositors' CLAIM, not a measurement"
+  }
+ },
+ "series_samples": {
+  "GSE11185": {
+   "n_gsm_read": 4,
+   "samples": [
+    {
+     "gsm": "GSM281778",
+     "summary": "293-tet-On-EWS/NOR1 cells, doxycycline treated",
+     "title": "293-tet-On-EWS/NOR1 with doxycycline"
+    },
+    {
+     "gsm": "GSM281777",
+     "summary": "293-tet-On-EWS/NOR1 cells, doxycycline untreated",
+     "title": "293-tet-On-EWS/NOR1 without doxycycline"
+    },
+    {
+     "gsm": "GSM281776",
+     "summary": "293-tet-On-NOR1 cells, doxycycline treated",
+     "title": "293-tet-On-NOR1 with doxycycline"
+    },
+    {
+     "gsm": "GSM281775",
+     "summary": "293-tet-On-NOR1 cells, doxycycline untreated",
+     "title": "293-tet-On-NOR1 without doxycycline"
+    }
+   ]
+  },
+  "GSE12475": {
+   "n_gsm_read": 17,
+   "samples": [
+    {
+     "gsm": "GSM313341",
+     "summary": "Case 63",
+     "title": "Chondrosarcoma_case_63"
+    },
+    {
+     "gsm": "GSM313340",
+     "summary": "Case 62",
+     "title": "Chondrosarcoma_case_62"
+    },
+    {
+     "gsm": "GSM313339",
+     "summary": "Case 55",
+     "title": "Chondrosarcoma_case_55"
+    },
+    {
+     "gsm": "GSM313338",
+     "summary": "Case 50",
+     "title": "Chondrosarcoma_case_50"
+    },
+    {
+     "gsm": "GSM313337",
+     "summary": "Case 38",
+     "title": "Chondrosarcoma_case_38"
+    },
+    {
+     "gsm": "GSM313336",
+     "summary": "Case 37",
+     "title": "Chondrosarcoma_case_37"
+    },
+    {
+     "gsm": "GSM313335",
+     "summary": "Case 34",
+     "title": "Chondrosarcoma_case_34"
+    },
+    {
+     "gsm": "GSM313334",
+     "summary": "Case 29",
+     "title": "Chondrosarcoma_case_29"
+    },
+    {
+     "gsm": "GSM313333",
+     "summary": "Case 28",
+     "title": "Chondrosarcoma_case_28"
+    },
+    {
+     "gsm": "GSM313332",
+     "summary": "Case 26",
+     "title": "Chondrosarcoma_case_26"
+    },
+    {
+     "gsm": "GSM313331",
+     "summary": "Case 21",
+     "title": "Chondrosarcoma_case_21"
+    },
+    {
+     "gsm": "GSM313330",
+     "summary": "Case 20",
+     "title": "Chondrosarcoma_case_20"
+    },
+    {
+     "gsm": "GSM313329",
+     "summary": "Case 15",
+     "title": "Chondrosarcoma_case_15"
+    },
+    {
+     "gsm": "GSM313328",
+     "summary": "Case 14",
+     "title": "Chondrosarcoma_case_14"
+    },
+    {
+     "gsm": "GSM313327",
+     "summary": "Case 11",
+     "title": "Chondrosarcoma_case_11"
+    },
+    {
+     "gsm": "GSM313326",
+     "summary": "Case 4",
+     "title": "Chondrosarcoma_case_4"
+    },
+    {
+     "gsm": "GSM313325",
+     "summary": "Case 2",
+     "title": "Chondrosarcoma_case_2"
+    }
+   ]
+  },
+  "GSE12592": {
+   "n_gsm_read": 6,
+   "samples": [
+    {
+     "gsm": "GSM315708",
+     "summary": "Case control",
+     "title": "MIFS_case_control"
+    },
+    {
+     "gsm": "GSM315707",
+     "summary": "Case 8",
+     "title": "MIFS_case_8"
+    },
+    {
+     "gsm": "GSM315706",
+     "summary": "Case 6",
+     "title": "MIFS_case_6"
+    },
+    {
+     "gsm": "GSM315705",
+     "summary": "Case 5",
+     "title": "MIFS_case_5"
+    },
+    {
+     "gsm": "GSM315704",
+     "summary": "Case 2",
+     "title": "MIFS_case_2"
+    },
+    {
+     "gsm": "GSM315703",
+     "summary": "Case 1",
+     "title": "MIFS_case_1"
+    }
+   ]
+  },
+  "GSE14469": {
+   "n_gsm_read": 5,
+   "samples": [
+    {
+     "gsm": "GSM361390",
+     "summary": "Tumors generated in a male mouse not exposed  Tamoxifen.",
+     "title": "Synovial Sarcoma-like tumor from R-CreER/SSM2 mouse (RCS10)"
+    },
+    {
+     "gsm": "GSM361389",
+     "summary": "Tumors generated in a female mouse exposed to one pulse of 0.1mg/gm Tamoxifen at 3 months of age.",
+     "title": "Synovial Sarcoma-like tumor from R-CreER/SSM2 mouse (RCS9)"
+    },
+    {
+     "gsm": "GSM361388",
+     "summary": "Tumors generated in a female mouse exposed to one pulse of 0.1mg/gm Tamoxifen at 3 months of age.",
+     "title": "Synovial Sarcoma-like tumor from R-CreER/SSM2 mouse (RCS8)"
+    },
+    {
+     "gsm": "GSM361387",
+     "summary": "Tumors generated in a male mouse not exposed  Tamoxifen.",
+     "title": "Synovial Sarcoma-like tumor from R-CreER/SSM2 mouse (RCS6)"
+    },
+    {
+     "gsm": "GSM361386",
+     "summary": "Tumors generated in a female mouse exposed to one pulse of 0.1mg/gm Tamoxifen at 3 months of age.",
+     "title": "Synovial Sarcoma-like tumor from R-CreER/SSM2 mouse (RCS5)"
+    }
+   ]
+  },
+  "GSE150474": {
+   "n_gsm_read": 51,
+   "samples": [
+    {
+     "gsm": "GSM4551086",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-14"
+    },
+    {
+     "gsm": "GSM4551085",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-13"
+    },
+    {
+     "gsm": "GSM4551084",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-12"
+    },
+    {
+     "gsm": "GSM4551083",
+     "summary": "tumor",
+     "title": "Alveolar soft part sarcoma-8"
+    },
+    {
+     "gsm": "GSM4551082",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-11"
+    },
+    {
+     "gsm": "GSM4551081",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-10"
+    },
+    {
+     "gsm": "GSM4551080",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-9"
+    },
+    {
+     "gsm": "GSM4551079",
+     "summary": "normal tissue",
+     "title": "Normal tissue-7"
+    },
+    {
+     "gsm": "GSM4551078",
+     "summary": "normal tissue",
+     "title": "Normal tissue-6"
+    },
+    {
+     "gsm": "GSM4551077",
+     "summary": "normal tissue",
+     "title": "Normal tissue-5"
+    },
+    {
+     "gsm": "GSM4551076",
+     "summary": "normal tissue",
+     "title": "Normal tissue-4"
+    },
+    {
+     "gsm": "GSM4551075",
+     "summary": "normal tissue",
+     "title": "Normal tissue-3"
+    },
+    {
+     "gsm": "GSM4551074",
+     "summary": "normal tissue",
+     "title": "Normal tissue-2"
+    },
+    {
+     "gsm": "GSM4551073",
+     "summary": "normal tissue",
+     "title": "Normal tissue-1"
+    },
+    {
+     "gsm": "GSM4551072",
+     "summary": "tumor",
+     "title": "Alveolar soft part sarcoma-7"
+    },
+    {
+     "gsm": "GSM4551071",
+     "summary": "tumor",
+     "title": "Alveolar soft part sarcoma-6"
+    },
+    {
+     "gsm": "GSM4551070",
+     "summary": "tumor",
+     "title": "Alveolar soft part sarcoma-5"
+    },
+    {
+     "gsm": "GSM4551069",
+     "summary": "tumor",
+     "title": "Alveolar soft part sarcoma-4"
+    },
+    {
+     "gsm": "GSM4551068",
+     "summary": "tumor",
+     "title": "Alveolar soft part sarcoma-3"
+    },
+    {
+     "gsm": "GSM4551067",
+     "summary": "tumor",
+     "title": "Alveolar soft part sarcoma-2"
+    },
+    {
+     "gsm": "GSM4551066",
+     "summary": "tumor",
+     "title": "Alveolar soft part sarcoma-1"
+    },
+    {
+     "gsm": "GSM4551065",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-8"
+    },
+    {
+     "gsm": "GSM4551064",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-7"
+    },
+    {
+     "gsm": "GSM4551063",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-6"
+    },
+    {
+     "gsm": "GSM4551062",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-5"
+    },
+    {
+     "gsm": "GSM4551061",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-4"
+    },
+    {
+     "gsm": "GSM4551060",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-3"
+    },
+    {
+     "gsm": "GSM4551059",
+     "summary": "tumor",
+     "title": "PEComa-9"
+    },
+    {
+     "gsm": "GSM4551058",
+     "summary": "tumor",
+     "title": "PEComa-8"
+    },
+    {
+     "gsm": "GSM4551057",
+     "summary": "tumor",
+     "title": "PEComa-7"
+    },
+    {
+     "gsm": "GSM4551056",
+     "summary": "tumor",
+     "title": "PEComa-6"
+    },
+    {
+     "gsm": "GSM4551055",
+     "summary": "tumor",
+     "title": "PEComa-5"
+    },
+    {
+     "gsm": "GSM4551054",
+     "summary": "tumor",
+     "title": "PEComa-4"
+    },
+    {
+     "gsm": "GSM4551053",
+     "summary": "tumor",
+     "title": "PEComa-3"
+    },
+    {
+     "gsm": "GSM4551052",
+     "summary": "tumor",
+     "title": "PEComa-2"
+    },
+    {
+     "gsm": "GSM4551051",
+     "summary": "tumor",
+     "title": "PEComa-1"
+    },
+    {
+     "gsm": "GSM4551050",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-12"
+    },
+    {
+     "gsm": "GSM4551049",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-2"
+    },
+    {
+     "gsm": "GSM4551048",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-11"
+    },
+    {
+     "gsm": "GSM4551047",
+     "summary": "tumor",
+     "title": "MITF renal cell carcinoma"
+    },
+    {
+     "gsm": "GSM4551046",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-10"
+    },
+    {
+     "gsm": "GSM4551045",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-9"
+    },
+    {
+     "gsm": "GSM4551044",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-8"
+    },
+    {
+     "gsm": "GSM4551043",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-7"
+    },
+    {
+     "gsm": "GSM4551042",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-6"
+    },
+    {
+     "gsm": "GSM4551041",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-5"
+    },
+    {
+     "gsm": "GSM4551040",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-4"
+    },
+    {
+     "gsm": "GSM4551039",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-3"
+    },
+    {
+     "gsm": "GSM4551038",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-2"
+    },
+    {
+     "gsm": "GSM4551037",
+     "summary": "tumor",
+     "title": "Xp11 renal cell carcinoma-1"
+    },
+    {
+     "gsm": "GSM4551036",
+     "summary": "tumor",
+     "title": "Melanotic Xp11 neoplasm-1"
+    }
+   ]
+  },
+  "GSE168560": {
+   "n_gsm_read": 8,
+   "samples": [
+    {
+     "gsm": "GSM5145918",
+     "summary": "Knee",
+     "title": "CCSBA63"
+    },
+    {
+     "gsm": "GSM5145917",
+     "summary": "Hip",
+     "title": "CCSAM49"
+    },
+    {
+     "gsm": "GSM5145916",
+     "summary": "arm",
+     "title": "CCS11610"
+    },
+    {
+     "gsm": "GSM5145915",
+     "summary": "thigh",
+     "title": "CCS3409"
+    },
+    {
+     "gsm": "GSM5145914",
+     "summary": "colon",
+     "title": "GICCS11497"
+    },
+    {
+     "gsm": "GSM5145913",
+     "summary": "n/a",
+     "title": "AFH6"
+    },
+    {
+     "gsm": "GSM5145912",
+     "summary": "n/a",
+     "title": "AFH5"
+    },
+    {
+     "gsm": "GSM5145911",
+     "summary": "n/a",
+     "title": "AFH4"
+    }
+   ]
+  },
+  "GSE196000": {
+   "n_gsm_read": 6,
+   "samples": [
+    {
+     "gsm": "GSM5857737",
+     "summary": "MSC",
+     "title": "ChIPseq.MSC_Vec-CONTROL_rep2"
+    },
+    {
+     "gsm": "GSM5857736",
+     "summary": "MSC",
+     "title": "ChIPseq.MSC_Vec-CONTROL_rep1"
+    },
+    {
+     "gsm": "GSM5857735",
+     "summary": "MSC",
+     "title": "ChIPseq.MSC_HEY1_rep2"
+    },
+    {
+     "gsm": "GSM5857734",
+     "summary": "MSC",
+     "title": "ChIPseq.MSC_HEY1_rep1"
+    },
+    {
+     "gsm": "GSM5857733",
+     "summary": "MSC",
+     "title": "ChIPseq.MSC_HEY1-NCOA2_rep2"
+    },
+    {
+     "gsm": "GSM5857732",
+     "summary": "MSC",
+     "title": "ChIPseq.MSC_HEY1-NCOA2_rep1"
+    }
+   ]
+  },
+  "GSE196002": {
+   "n_gsm_read": 12,
+   "samples": [
+    {
+     "gsm": "GSM5857767",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_NCOA2_rep2"
+    },
+    {
+     "gsm": "GSM5857766",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_NCOA2_rep1"
+    },
+    {
+     "gsm": "GSM5857765",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_NCOA2_Ctrl_rep2"
+    },
+    {
+     "gsm": "GSM5857764",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_NCOA2_Ctrl_rep1"
+    },
+    {
+     "gsm": "GSM5857763",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_HEY1_rep2"
+    },
+    {
+     "gsm": "GSM5857762",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_HEY1_rep1"
+    },
+    {
+     "gsm": "GSM5857761",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_HEY1_Ctrl_rep2"
+    },
+    {
+     "gsm": "GSM5857760",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_HEY1_Ctrl_rep1"
+    },
+    {
+     "gsm": "GSM5857759",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_HEY1-NCOA2_rep2"
+    },
+    {
+     "gsm": "GSM5857758",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_HEY1-NCOA2_rep1"
+    },
+    {
+     "gsm": "GSM5857757",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_HEY1-NCOA2_Ctrl_rep2"
+    },
+    {
+     "gsm": "GSM5857756",
+     "summary": "MSC",
+     "title": "RNAseq.MSC_HEY1-NCOA2_Ctrl_rep1"
+    }
+   ]
+  },
+  "GSE24369": {
+   "n_gsm_read": 42,
+   "samples": [
+    {
+     "gsm": "GSM600969",
+     "summary": "soft tissue",
+     "title": "Skeletal muscle pooled RNA 2"
+    },
+    {
+     "gsm": "GSM600968",
+     "summary": "soft tissue",
+     "title": "Skeletal muscle pooled RNA 1"
+    },
+    {
+     "gsm": "GSM600967",
+     "summary": "soft tissue",
+     "title": "Solitary fibrous tumor 5"
+    },
+    {
+     "gsm": "GSM600966",
+     "summary": "soft tissue",
+     "title": "Solitary fibrous tumor 4"
+    },
+    {
+     "gsm": "GSM600965",
+     "summary": "soft tissue",
+     "title": "Solitary fibrous tumor 3"
+    },
+    {
+     "gsm": "GSM600964",
+     "summary": "soft tissue",
+     "title": "Solitary fibrous tumor 2"
+    },
+    {
+     "gsm": "GSM600963",
+     "summary": "soft tissue",
+     "title": "Solitary fibrous tumor 1"
+    },
+    {
+     "gsm": "GSM600962",
+     "summary": "soft tissue",
+     "title": "Myxofibrosarcoma 6"
+    },
+    {
+     "gsm": "GSM600961",
+     "summary": "soft tissue",
+     "title": "Myxofibrosarcoma 5"
+    },
+    {
+     "gsm": "GSM600960",
+     "summary": "soft tissue",
+     "title": "Myxofibrosarcoma 4"
+    },
+    {
+     "gsm": "GSM600959",
+     "summary": "soft tissue",
+     "title": "Myxofibrosarcoma 3"
+    },
+    {
+     "gsm": "GSM600958",
+     "summary": "soft tissue",
+     "title": "Myxofibrosarcoma 2"
+    },
+    {
+     "gsm": "GSM600957",
+     "summary": "soft tissue",
+     "title": "Myxofibrosarcoma 1"
+    },
+    {
+     "gsm": "GSM600956",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 17"
+    },
+    {
+     "gsm": "GSM600955",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 16"
+    },
+    {
+     "gsm": "GSM600954",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 15"
+    },
+    {
+     "gsm": "GSM600953",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 14"
+    },
+    {
+     "gsm": "GSM600952",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 13"
+    },
+    {
+     "gsm": "GSM600951",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 12"
+    },
+    {
+     "gsm": "GSM600950",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 11"
+    },
+    {
+     "gsm": "GSM600949",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 10"
+    },
+    {
+     "gsm": "GSM600948",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 9"
+    },
+    {
+     "gsm": "GSM600947",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 8"
+    },
+    {
+     "gsm": "GSM600946",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 7"
+    },
+    {
+     "gsm": "GSM600945",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 6"
+    },
+    {
+     "gsm": "GSM600944",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 5"
+    },
+    {
+     "gsm": "GSM600943",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 4"
+    },
+    {
+     "gsm": "GSM600942",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 3"
+    },
+    {
+     "gsm": "GSM600941",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 2"
+    },
+    {
+     "gsm": "GSM600940",
+     "summary": "soft tissue",
+     "title": "Low-grade fibromyxoid sarcoma 1"
+    },
+    {
+     "gsm": "GSM600939",
+     "summary": "soft tissue",
+     "title": "Extraskeletal myxoid chondrosarcoma 6"
+    },
+    {
+     "gsm": "GSM600938",
+     "summary": "soft tissue",
+     "title": "Extraskeletal myxoid chondrosarcoma 5"
+    },
+    {
+     "gsm": "GSM600937",
+     "summary": "soft tissue",
+     "title": "Extraskeletal myxoid chondrosarcoma 4"
+    },
+    {
+     "gsm": "GSM600936",
+     "summary": "soft tissue",
+     "title": "Extraskeletal myxoid chondrosarcoma 3"
+    },
+    {
+     "gsm": "GSM600935",
+     "summary": "soft tissue",
+     "title": "Extraskeletal myxoid chondrosarcoma 2"
+    },
+    {
+     "gsm": "GSM600934",
+     "summary": "soft tissue",
+     "title": "Extraskeletal myxoid chondrosarcoma 1"
+    },
+    {
+     "gsm": "GSM600933",
+     "summary": "soft tissue",
+     "title": "Desmoid fibromatosis 6"
+    },
+    {
+     "gsm": "GSM600932",
+     "summary": "soft tissue",
+     "title": "Desmoid fibromatosis 5"
+    },
+    {
+     "gsm": "GSM600931",
+     "summary": "soft tissue",
+     "title": "Desmoid fibromatosis 4"
+    },
+    {
+     "gsm": "GSM600930",
+     "summary": "soft tissue",
+     "title": "Desmoid fibromatosis 3"
+    },
+    {
+     "gsm": "GSM600929",
+     "summary": "soft tissue",
+     "title": "Desmoid fibromatosis 2"
+    },
+    {
+     "gsm": "GSM600928",
+     "summary": "soft tissue",
+     "title": "Desmoid fibromatosis 1"
+    }
+   ]
+  },
+  "GSE28866": {
+   "n_gsm_read": 99,
+   "samples": [
+    {
+     "gsm": "GSM984235",
+     "summary": "Breast cancer cell line",
+     "title": "ZR-75-30"
+    },
+    {
+     "gsm": "GSM984234",
+     "summary": "Breast cancer cell line",
+     "title": "UACC-812"
+    },
+    {
+     "gsm": "GSM984233",
+     "summary": "Breast cancer cell line",
+     "title": "SUM 44PE"
+    },
+    {
+     "gsm": "GSM984232",
+     "summary": "Breast cancer cell line",
+     "title": "HCC1500"
+    },
+    {
+     "gsm": "GSM984231",
+     "summary": "Breast cancer cell line",
+     "title": "HCC1419"
+    },
+    {
+     "gsm": "GSM984230",
+     "summary": "Breast cancer cell line",
+     "title": "CAMA-1"
+    },
+    {
+     "gsm": "GSM984229",
+     "summary": "Fetal normal kidney 14wks",
+     "title": "STT5685_Fetal_normal_kidney"
+    },
+    {
+     "gsm": "GSM984228",
+     "summary": "Fetal normal kidney 15wks",
+     "title": "STT5684_Fetal_normal_kidney"
+    },
+    {
+     "gsm": "GSM984227",
+     "summary": "Fetal normal kidney 15wks",
+     "title": "STT5683_Fetal_normal_kidney"
+    },
+    {
+     "gsm": "GSM984226",
+     "summary": "Fetal normal bowel 13wks",
+     "title": "STT5682_Fetal_normal_bowel"
+    },
+    {
+     "gsm": "GSM984225",
+     "summary": "Fetal normal bowel 15wks",
+     "title": "STT5681_Fetal_normal_bowel"
+    },
+    {
+     "gsm": "GSM984224",
+     "summary": "Fetal normal bowel 14wks",
+     "title": "STT5680_Fetal_normal_bowel"
+    },
+    {
+     "gsm": "GSM984223",
+     "summary": "Fetal normal lung 13wks",
+     "title": "STT5688_Fetal_normal_lung"
+    },
+    {
+     "gsm": "GSM984222",
+     "summary": "Fetal normal lung 15wks",
+     "title": "STT5687_Fetal_normal_lung"
+    },
+    {
+     "gsm": "GSM984221",
+     "summary": "Fetal normal lung 14wks",
+     "title": "STT5686_Fetal_normal_lung"
+    },
+    {
+     "gsm": "GSM984220",
+     "summary": "Fetal normal lung",
+     "title": "STT5588_Fetal_normal_lung"
+    },
+    {
+     "gsm": "GSM984219",
+     "summary": "Adult normal uterus",
+     "title": "STT5609_Adult_normal_uterus"
+    },
+    {
+     "gsm": "GSM984218",
+     "summary": "Adult normal kidney",
+     "title": "STT5696_Adult_normal_kidney"
+    },
+    {
+     "gsm": "GSM984217",
+     "summary": "Adult normal kidney",
+     "title": "STT5695_Adult_normal_kidney"
+    },
+    {
+     "gsm": "GSM984216",
+     "summary": "Adult normal kidney",
+     "title": "STT5694_Adult_normal_kidney"
+    },
+    {
+     "gsm": "GSM984215",
+     "summary": "Adult normal colon",
+     "title": "STT5693_Adult_normal_colon"
+    },
+    {
+     "gsm": "GSM984214",
+     "summary": "Adult normal colon",
+     "title": "STT5692_Adult_normal_colon"
+    },
+    {
+     "gsm": "GSM984213",
+     "summary": "Adult normal colon",
+     "title": "STT5610_Adult_normal_colon"
+    },
+    {
+     "gsm": "GSM984212",
+     "summary": "Adult normal lung",
+     "title": "STT5699_Adult_normal_lung"
+    },
+    {
+     "gsm": "GSM984211",
+     "summary": "Adult normal lung",
+     "title": "STT5698_Adult_normal_lung"
+    },
+    {
+     "gsm": "GSM984210",
+     "summary": "Adult normal lung",
+     "title": "STT5697_Adult_normal_lung"
+    },
+    {
+     "gsm": "GSM984209",
+     "summary": "Adult normal lung",
+     "title": "STT5603_Adult_normal_lung"
+    },
+    {
+     "gsm": "GSM984208",
+     "summary": "Adult normal lung",
+     "title": "STT5601_Adult_normal_lung"
+    },
+    {
+     "gsm": "GSM984207",
+     "summary": "Adult normal breast",
+     "title": "STT5761_Adult_normal_breast"
+    },
+    {
+     "gsm": "GSM984206",
+     "summary": "Adult normal breast",
+     "title": "STT5620_Adult_normal_breast"
+    },
+    {
+     "gsm": "GSM984205",
+     "summary": "Adult normal breast",
+     "title": "STT5510_Adult_normal_breast"
+    },
+    {
+     "gsm": "GSM984204",
+     "summary": "Adult normal breast",
+     "title": "STT5451_Adult_normal_breast"
+    },
+    {
+     "gsm": "GSM984203",
+     "summary": "Adult normal breast",
+     "title": "STT5425_Adult_normal_breast"
+    },
+    {
+     "gsm": "GSM715498",
+     "summary": "Dedifferentiated liposarcoma",
+     "title": "STT5518_DDLPS"
+    },
+    {
+     "gsm": "GSM715497",
+     "summary": "Dedifferentiated liposarcoma",
+     "title": "STT5517_DDLPS"
+    },
+    {
+     "gsm": "GSM715496",
+     "summary": "Dedifferentiated liposarcoma",
+     "title": "STT5534_DDLPS"
+    },
+    {
+     "gsm": "GSM715495",
+     "summary": "Leiomyosarcoma",
+     "title": "STT5528_LMS"
+    },
+    {
+     "gsm": "GSM715494",
+     "summary": "Leiomyosarcoma",
+     "title": "STT1220_LMS"
+    },
+    {
+     "gsm": "GSM715493",
+     "summary": "Leiomyosarcoma",
+     "title": "STT516_LMS_rep2"
+    },
+    {
+     "gsm": "GSM715492",
+     "summary": "Leiomyosarcoma",
+     "title": "STT516_LMS_rep1"
+    },
+    {
+     "gsm": "GSM715491",
+     "summary": "Gastrointestinal stromal tumor",
+     "title": "STT5599_GIST"
+    },
+    {
+     "gsm": "GSM715490",
+     "summary": "Gastrointestinal stromal tumor",
+     "title": "STT5597_GIST"
+    },
+    {
+     "gsm": "GSM715489",
+     "summary": "Gastrointestinal stromal tumor",
+     "title": "STT5594_GIST"
+    },
+    {
+     "gsm": "GSM715488",
+     "summary": "Gastrointestinal stromal tumor",
+     "title": "STT5593_GIST"
+    },
+    {
+     "gsm": "GSM715487",
+     "summary": "Gastrointestinal stromal tumor",
+     "title": "STT2145_GIST"
+    },
+    {
+     "gsm": "GSM715486",
+     "summary": "Gastrointestinal stromal tumor",
+     "title": "STT1823_GIST"
+    },
+    {
+     "gsm": "GSM715485",
+     "summary": "Gastrointestinal stromal tumor",
+     "title": "STT111_GIST"
+    },
+    {
+     "gsm": "GSM715484",
+     "summary": "Myxoid liposarcoma",
+     "title": "STT5596_MLS"
+    },
+    {
+     "gsm": "GSM715483",
+     "summary": "Myxoid liposarcoma",
+     "title": "STT5595_MLS"
+    },
+    {
+     "gsm": "GSM715482",
+     "summary": "Myxoid liposarcoma",
+     "title": "STT5591_MLS"
+    },
+    {
+     "gsm": "GSM715481",
+     "summary": "Myxoid liposarcoma",
+     "title": "STT5590_MLS"
+    },
+    {
+     "gsm": "GSM715480",
+     "summary": "Myxoid liposarcoma",
+     "title": "STT5531_MLS"
+    },
+    {
+     "gsm": "GSM715479",
+     "summary": "Myxoid liposarcoma",
+     "title": "STT5530_MLS"
+    },
+    {
+     "gsm": "GSM715478",
+     "summary": "Synovial sarcoma",
+     "title": "STT5533_SS"
+    },
+    {
+     "gsm": "GSM715477",
+     "summary": "Synovial sarcoma",
+     "title": "STT5532_SS"
+    },
+    {
+     "gsm": "GSM715475",
+     "summary": "Synovial sarcoma",
+     "title": "STT3705_SS"
+    },
+    {
+     "gsm": "GSM715472",
+     "summary": "Extraskeletal myxoid chondrosarcoma",
+     "title": "STT5592_EMC"
+    },
+    {
+     "gsm": "GSM715470",
+     "summary": "Extraskeletal myxoid chondrosarcoma",
+     "title": "STT5527_EMC"
+    },
+    {
+     "gsm": "GSM715467",
+     "summary": "Extraskeletal myxoid chondrosarcoma",
+     "title": "STT5526_EMC"
+    },
+    {
+     "gsm": "GSM715466",
+     "summary": "Extraskeletal myxoid chondrosarcoma",
+     "title": "STT5525_EMC"
+    },
+    {
+     "gsm": "GSM715465",
+     "summary": "Ewing's sarcoma",
+     "title": "STT5600_EWS"
+    },
+    {
+     "gsm": "GSM715464",
+     "summary": "Ewing's sarcoma",
+     "title": "STT5598_EWS"
+    },
+    {
+     "gsm": "GSM715463",
+     "summary": "Ewing's sarcoma",
+     "title": "STT5523_EWS"
+    },
+    {
+     "gsm": "GSM715462",
+     "summary": "Ewing's sarcoma",
+     "title": "STT5522_EWS"
+    },
+    {
+     "gsm": "GSM715461",
+     "summary": "Endometrial stromal sarcoma",
+     "title": "STT5543_ESS"
+    },
+    {
+     "gsm": "GSM715460",
+     "summary": "Endometrial stromal sarcoma",
+     "title": "STT5521_ESS"
+    },
+    {
+     "gsm": "GSM715459",
+     "summary": "Endometrial stromal sarcoma",
+     "title": "STT5520_ESS_rep2"
+    },
+    {
+     "gsm": "GSM715458",
+     "summary": "Endometrial stromal sarcoma",
+     "title": "STT5520_ESS_rep1"
+    },
+    {
+     "gsm": "GSM715457",
+     "summary": "Endometrial stromal sarcoma",
+     "title": "STT5519_ESS"
+    },
+    {
+     "gsm": "GSM715456",
+     "summary": "Nasopharyngeal carcinoma",
+     "title": "STT5553_NPC"
+    },
+    {
+     "gsm": "GSM715455",
+     "summary": "Nasopharyngeal carcinoma",
+     "title": "STT5552_NPC"
+    },
+    {
+     "gsm": "GSM715454",
+     "summary": "Nasopharyngeal carcinoma",
+     "title": "STT5551_NPC"
+    },
+    {
+     "gsm": "GSM715453",
+     "summary": "Papillary urothelial carcinoma",
+     "title": "STT5550_PUC"
+    },
+    {
+     "gsm": "GSM715452",
+     "summary": "Papillary urothelial carcinoma",
+     "title": "STT5549_PUC"
+    },
+    {
+     "gsm": "GSM715451",
+     "summary": "Lung squamous cell carcinoma",
+     "title": "STT5548_Lung_SCC"
+    },
+    {
+     "gsm": "GSM715449",
+     "summary": "Lung squamous cell carcinoma",
+     "title": "STT5547_Lung_SCC"
+    },
+    {
+     "gsm": "GSM715448",
+     "summary": "Skin squamous cell carcinoma",
+     "title": "STT5565_Skin_SCC"
+    },
+    {
+     "gsm": "GSM715447",
+     "summary": "Skin squamous cell carcinoma",
+     "title": "STT5564_Skin_SCC"
+    },
+    {
+     "gsm": "GSM715446",
+     "summary": "Skin squamous cell carcinoma",
+     "title": "STT5563_Skin_SCC"
+    },
+    {
+     "gsm": "GSM715445",
+     "summary": "Head and neck squamous cell carcinoma",
+     "title": "STT5546_HN_SCC"
+    },
+    {
+     "gsm": "GSM715444",
+     "summary": "Head and neck squamous cell carcinoma",
+     "title": "STT5545_HN_SCC"
+    },
+    {
+     "gsm": "GSM715443",
+     "summary": "Head and neck squamous cell carcinoma",
+     "title": "STT5544_HN_SCC"
+    },
+    {
+     "gsm": "GSM715442",
+     "summary": "Head and neck squamous cell carcinoma",
+     "title": "STT5542_HN_SCC"
+    },
+    {
+     "gsm": "GSM715441",
+     "summary": "Head and neck squamous cell carcinoma",
+     "title": "STT5535_HN_SCC"
+    },
+    {
+     "gsm": "GSM715440",
+     "summary": "Prostate adenocarcinoma",
+     "title": "STT5562_Prostate"
+    },
+    {
+     "gsm": "GSM715439",
+     "summary": "Prostate adenocarcinoma",
+     "title": "STT5561_Prostate"
+    },
+    {
+     "gsm": "GSM715438",
+     "summary": "Prostate adenocarcinoma",
+     "title": "STT5560_Prostate"
+    },
+    {
+     "gsm": "GSM715437",
+     "summary": "Colon adenocarcinoma",
+     "title": "STT5559_Colon"
+    },
+    {
+     "gsm": "GSM715436",
+     "summary": "Colon adenocarcinoma",
+     "title": "STT5558_Colon"
+    },
+    {
+     "gsm": "GSM715435",
+     "summary": "Colon adenocarcinoma",
+     "title": "STT5557_Colon"
+    },
+    {
+     "gsm": "GSM715434",
+     "summary": "Lung adenocarcinoma",
+     "title": "STT5556_Lung"
+    },
+    {
+     "gsm": "GSM715433",
+     "summary": "Lung adenocarcinoma",
+     "title": "STT5555_Lung"
+    },
+    {
+     "gsm": "GSM715432",
+     "summary": "Lung adenocarcinoma",
+     "title": "STT5554_Lung"
+    },
+    {
+     "gsm": "GSM715431",
+     "summary": "Breast invasive ductal carcinoma",
+     "title": "STT5581_Breast"
+    },
+    {
+     "gsm": "GSM715430",
+     "summary": "Breast invasive ductal carcinoma",
+     "title": "STT5575_Breast"
+    },
+    {
+     "gsm": "GSM715429",
+     "summary": "Breast invasive ductal carcinoma",
+     "title": "STT5572_Breast"
+    },
+    {
+     "gsm": "GSM715428",
+     "summary": "Breast invasive ductal carcinoma",
+     "title": "STT5477_Breast"
+    },
+    {
+     "gsm": "GSM715427",
+     "summary": "Breast invasive ductal carcinoma",
+     "title": "STT5474_Breast"
+    },
+    {
+     "gsm": "GSM715426",
+     "summary": "Breast invasive ductal carcinoma",
+     "title": "STT5463_Breast"
+    }
+   ]
+  },
+  "GSE289237": {
+   "n_gsm_read": 6,
+   "samples": [
+    {
+     "gsm": "GSM8787511",
+     "summary": "bone",
+     "title": "SW1353 cells, HMGA2 overexpression,  rep3"
+    },
+    {
+     "gsm": "GSM8787510",
+     "summary": "bone",
+     "title": "SW1353 cells, HMGA2 overexpression,  rep2"
+    },
+    {
+     "gsm": "GSM8787509",
+     "summary": "bone",
+     "title": "SW1353 cells, HMGA2 overexpression,  rep1"
+    },
+    {
+     "gsm": "GSM8787508",
+     "summary": "bone",
+     "title": "SW1353 cells, control,  rep3"
+    },
+    {
+     "gsm": "GSM8787507",
+     "summary": "bone",
+     "title": "SW1353 cells, control,  rep2"
+    },
+    {
+     "gsm": "GSM8787506",
+     "summary": "bone",
+     "title": "SW1353 cells, control,  rep1"
+    }
+   ]
+  },
+  "GSE29085": {
+   "n_gsm_read": 4,
+   "samples": [
+    {
+     "gsm": "GSM720623",
+     "summary": "Ewing sarcoma cell line (channel 1) miRXplore Universal Reference (channel 2)",
+     "title": "Ewing cell line TC252"
+    },
+    {
+     "gsm": "GSM720622",
+     "summary": "Ewing sarcoma cell line (channel 1) miRXplore Universal Reference (channel 2)",
+     "title": "Ewing cell line A673"
+    },
+    {
+     "gsm": "GSM720621",
+     "summary": "human pediatric mesenchymal stem cells (channel 1) miRXplore Universal Reference (channel 2)",
+     "title": "hpMSC sample 2"
+    },
+    {
+     "gsm": "GSM720620",
+     "summary": "human pediatric mesenchymal stem cells (channel 1) miRXplore Universal Reference (channel 2)",
+     "title": "hpMSC sample 1"
+    }
+   ]
+  },
+  "GSE315379": {
+   "n_gsm_read": 18,
+   "samples": [
+    {
+     "gsm": "GSM9426441",
+     "summary": "mouse tumor",
+     "title": "SSM2;TP53fl/fl rep3"
+    },
+    {
+     "gsm": "GSM9426440",
+     "summary": "mouse tumor",
+     "title": "SSM2;TP53fl/fl rep2"
+    },
+    {
+     "gsm": "GSM9426439",
+     "summary": "mouse tumor",
+     "title": "SSM2;TP53fl/fl rep1"
+    },
+    {
+     "gsm": "GSM9426438",
+     "summary": "mouse tumor",
+     "title": "SSM2 rep3"
+    },
+    {
+     "gsm": "GSM9426437",
+     "summary": "mouse tumor",
+     "title": "SSM2 rep2"
+    },
+    {
+     "gsm": "GSM9426436",
+     "summary": "mouse tumor",
+     "title": "SSM2 rep1"
+    },
+    {
+     "gsm": "GSM9426435",
+     "summary": "mouse tumor",
+     "title": "Vehicle rep3"
+    },
+    {
+     "gsm": "GSM9426434",
+     "summary": "mouse tumor",
+     "title": "Panobinostat rep3"
+    },
+    {
+     "gsm": "GSM9426433",
+     "summary": "mouse tumor",
+     "title": "HDM201 rep3"
+    },
+    {
+     "gsm": "GSM9426432",
+     "summary": "mouse tumor",
+     "title": "HDM201 rep2"
+    },
+    {
+     "gsm": "GSM9426431",
+     "summary": "mouse tumor",
+     "title": "Panobinostat rep2"
+    },
+    {
+     "gsm": "GSM9426430",
+     "summary": "mouse tumor",
+     "title": "Panobinostat rep1"
+    },
+    {
+     "gsm": "GSM9426429",
+     "summary": "mouse tumor",
+     "title": "HDM201 rep1"
+    },
+    {
+     "gsm": "GSM9426428",
+     "summary": "mouse tumor",
+     "title": "Vehicle rep2"
+    },
+    {
+     "gsm": "GSM9426427",
+     "summary": "mouse tumor",
+     "title": "Vehicle rep1"
+    },
+    {
+     "gsm": "GSM9426426",
+     "summary": "mouse tumor",
+     "title": "Combination rep3"
+    },
+    {
+     "gsm": "GSM9426425",
+     "summary": "mouse tumor",
+     "title": "Combination rep2"
+    },
+    {
+     "gsm": "GSM9426424",
+     "summary": "mouse tumor",
+     "title": "Combination rep1"
+    }
+   ]
+  },
+  "GSE4303": {
+   "n_gsm_read": 36,
+   "samples": [
+    {
+     "gsm": "GSM98507",
+     "summary": "CRH mRNA (channel 1) STT607D mRNA (channel 2)",
+     "title": "STT607D-LEIO"
+    },
+    {
+     "gsm": "GSM98508",
+     "summary": "CRG mRNA (channel 1) STT854 mRNA (channel 2)",
+     "title": "STT854-SS"
+    },
+    {
+     "gsm": "GSM98505",
+     "summary": "CRH mRNA (channel 1) STT709B mRNA (channel 2)",
+     "title": "STT709B-MFH"
+    },
+    {
+     "gsm": "GSM98504",
+     "summary": "CRH mRNA (channel 1) STT1778 mRNA (channel 2)",
+     "title": "STT1778-LEIO"
+    },
+    {
+     "gsm": "GSM98502",
+     "summary": "CRH mRNA (channel 1) STT695B mRNA (channel 2)",
+     "title": "STT695B-MFH"
+    },
+    {
+     "gsm": "GSM98501",
+     "summary": "CRH mRNA (channel 1) STT680B mRNA (channel 2)",
+     "title": "STT680B-MFH"
+    },
+    {
+     "gsm": "GSM98498",
+     "summary": "CRH mRNA (channel 1) STT742F mRNA (channel 2)",
+     "title": "STT742F-LEIO"
+    },
+    {
+     "gsm": "GSM98497",
+     "summary": "CRH mRNA (channel 1) STT417B mRNA (channel 2)",
+     "title": "STT417B-MFH"
+    },
+    {
+     "gsm": "GSM98513",
+     "summary": "CRH-mRNA (channel 1) STT2528(2)-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT2528(2)-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98512",
+     "summary": "CRH-mRNA (channel 1) STT2003-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT2003-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98511",
+     "summary": "CRH-mRNA (channel 1) STT1169-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT1169-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98510",
+     "summary": "CRH-mRNA (channel 1) STT3780-Myxoid chondrosarcoma (channel 2)",
+     "title": "STT3780-Myxoid chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98509",
+     "summary": "CRH-mRNA (channel 1) STT3714-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT3714-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98506",
+     "summary": "CRH-mRNA (channel 1) STT3783-Myxoid chondrosarcoma (channel 2)",
+     "title": "STT3783-Myxoid chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98503",
+     "summary": "CRH-mRNA (channel 1) STT3782-Myxoid chondrosarcoma (channel 2)",
+     "title": "STT3782-Myxoid chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98499",
+     "summary": "CRH-mRNA (channel 1) STT3697-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT3697-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98496",
+     "summary": "CRH-mRNA (channel 1) STT3698-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT3698-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98495",
+     "summary": "CRH-mRNA (channel 1) STT3699-Myxoid Chondrosarcoma (channel 2)",
+     "title": "STT3699-Myxoid Chondrosarcoma"
+    },
+    {
+     "gsm": "GSM98500",
+     "summary": "CRG mRNA (channel 1) STT1324-I mRNA (channel 2)",
+     "title": "STT1324-I-SS"
+    },
+    {
+     "gsm": "GSM91405",
+     "summary": "UHR (channel 1) STT94b-GIST-Total RNA (channel 2)",
+     "title": "STT94b-GIST-Total RNA-exon9"
+    },
+    {
+     "gsm": "GSM91397",
+     "summary": "UHR (channel 1) STT794b-GIST-Total RNA (channel 2)",
+     "title": "STT794b-GIST-Total RNA-PDGFRa"
+    },
+    {
+     "gsm": "GSM91381",
+     "summary": "UHR (channel 1) STT2001c-GIST-Total RNA (channel 2)",
+     "title": "STT2001c-GIST-Total RNA-WT"
+    },
+    {
+     "gsm": "GSM91393",
+     "summary": "UHR (channel 1) SX322-GIST_Total RNA-exon11 (channel 2)",
+     "title": "SX322-GIST_Total RNA-exon11"
+    },
+    {
+     "gsm": "GSM91389",
+     "summary": "UHR (channel 1) SX242-GIST_Total RNA-exon11 (channel 2)",
+     "title": "SX242-GIST_Total RNA-exon11"
+    },
+    {
+     "gsm": "GSM89924",
+     "summary": "CRH (channel 1) STT3053-DFSP mRNA (channel 2)",
+     "title": "STT3053-DFSP"
+    },
+    {
+     "gsm": "GSM89898",
+     "summary": "CRH (channel 1) STT3068-DFSP mRNA (channel 2)",
+     "title": "STT3068-DFSP"
+    },
+    {
+     "gsm": "GSM89883",
+     "summary": "CRH (channel 1) STT3126-DFSP mRNA (channel 2)",
+     "title": "STT3126-DFSP"
+    },
+    {
+     "gsm": "GSM89925",
+     "summary": "CRG mRNA (channel 1) STT491B-DFSP mRNA (channel 2)",
+     "title": "STT491B-DFSP"
+    },
+    {
+     "gsm": "GSM89913",
+     "summary": "CRG mRNA (channel 1) STT154-DFSP mRNA (channel 2)",
+     "title": "STT154-DFSP"
+    },
+    {
+     "gsm": "GSM89930",
+     "summary": "CRG mRNA (channel 1) STT1984 mRNA (channel 2)",
+     "title": "STT1984-DFSP"
+    },
+    {
+     "gsm": "GSM89893",
+     "summary": "CRG mRNA (channel 1) STT1971 mRNA (channel 2)",
+     "title": "STT1971-DFSP"
+    },
+    {
+     "gsm": "GSM89892",
+     "summary": "CRH (channel 1) STT1975-DFSP mRNA (channel 2)",
+     "title": "STT1975-DFSP"
+    },
+    {
+     "gsm": "GSM77789",
+     "summary": "CRG mRNA (channel 1) STT108B mRNA (channel 2)",
+     "title": "STT108B-SS"
+    },
+    {
+     "gsm": "GSM77763",
+     "summary": "CRG mRNA (channel 1) STT850 mRNA (channel 2)",
+     "title": "STT850-SS"
+    },
+    {
+     "gsm": "GSM77781",
+     "summary": "CRG mRNA (channel 1) STT840B mRNA (channel 2)",
+     "title": "STT840B-LEIO"
+    },
+    {
+     "gsm": "GSM77765",
+     "summary": "CRG mRNA (channel 1) STT638 mRNA (channel 2)",
+     "title": "STT638-SS"
+    }
+   ]
+  },
+  "GSE43045": {
+   "n_gsm_read": 23,
+   "samples": [
+    {
+     "gsm": "GSM1055603",
+     "summary": "myxoid liposarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "Myxoid LPS-6"
+    },
+    {
+     "gsm": "GSM1055602",
+     "summary": "synovial sarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "SS-3"
+    },
+    {
+     "gsm": "GSM1055601",
+     "summary": "melanoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "MEL-1"
+    },
+    {
+     "gsm": "GSM1055600",
+     "summary": "myxoid liposarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "Myxoid LPS-5"
+    },
+    {
+     "gsm": "GSM1055599",
+     "summary": "solitary fibrous tumor (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "SFT-7"
+    },
+    {
+     "gsm": "GSM1055598",
+     "summary": "myxoid liposarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "Myxoid LPS-4"
+    },
+    {
+     "gsm": "GSM1055597",
+     "summary": "myxoid liposarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "Myxoid LPS-3"
+    },
+    {
+     "gsm": "GSM1055596",
+     "summary": "clear cell sarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "CCS-3"
+    },
+    {
+     "gsm": "GSM1055595",
+     "summary": "clear cell sarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "CCS-2"
+    },
+    {
+     "gsm": "GSM1055594",
+     "summary": "clear cell sarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "CCS-1"
+    },
+    {
+     "gsm": "GSM1055593",
+     "summary": "solitary fibrous tumor (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "SFT-6"
+    },
+    {
+     "gsm": "GSM1055592",
+     "summary": "synovial sarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "SS-2"
+    },
+    {
+     "gsm": "GSM1055591",
+     "summary": "synovial sarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "SS-1"
+    },
+    {
+     "gsm": "GSM1055590",
+     "summary": "leiomyosarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "LMS-3"
+    },
+    {
+     "gsm": "GSM1055589",
+     "summary": "solitary fibrous tumor (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "SFT-5"
+    },
+    {
+     "gsm": "GSM1055588",
+     "summary": "solitary fibrous tumor (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "SFT-4"
+    },
+    {
+     "gsm": "GSM1055587",
+     "summary": "solitary fibrous tumor (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "SFT-3"
+    },
+    {
+     "gsm": "GSM1055586",
+     "summary": "solitary fibrous tumor (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "SFT-2"
+    },
+    {
+     "gsm": "GSM1055585",
+     "summary": "solitary fibrous tumor (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "SFT-1"
+    },
+    {
+     "gsm": "GSM1055584",
+     "summary": "myxoid liposarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "Myxoid LPS-2"
+    },
+    {
+     "gsm": "GSM1055583",
+     "summary": "myxoid liposarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "Myxoid LPS-1"
+    },
+    {
+     "gsm": "GSM1055582",
+     "summary": "leiomyosarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "LMS-2"
+    },
+    {
+     "gsm": "GSM1055581",
+     "summary": "leiomyosarcoma (channel 1) Universal Human Reference RNA (channel 2)",
+     "title": "LMS-1"
+    }
+   ]
+  },
+  "GSE43632": {
+   "n_gsm_read": 18,
+   "samples": [
+    {
+     "gsm": "GSM1067343",
+     "summary": "Patient 2430-90 vol 2011",
+     "title": "Sample 2430-90 vol 2011"
+    },
+    {
+     "gsm": "GSM1067342",
+     "summary": "Patient 244-09",
+     "title": "Sample 244-09"
+    },
+    {
+     "gsm": "GSM1067341",
+     "summary": "Patient 3214 vol 2011",
+     "title": "Sample 3214 vol 2011"
+    },
+    {
+     "gsm": "GSM1067340",
+     "summary": "Patient 2492-08",
+     "title": "Sample 2492-08"
+    },
+    {
+     "gsm": "GSM1067339",
+     "summary": "Patient 3490-00",
+     "title": "Sample 3490-00"
+    },
+    {
+     "gsm": "GSM1067338",
+     "summary": "Patient 885-89",
+     "title": "Sample 885-89"
+    },
+    {
+     "gsm": "GSM1067337",
+     "summary": "Patient 10908",
+     "title": "Sample 10908"
+    },
+    {
+     "gsm": "GSM1067336",
+     "summary": "Patient 4640",
+     "title": "Sample 4640"
+    },
+    {
+     "gsm": "GSM1067335",
+     "summary": "Patient 14319",
+     "title": "Sample 14319"
+    },
+    {
+     "gsm": "GSM1067334",
+     "summary": "Patient 6499",
+     "title": "Sample 6499"
+    },
+    {
+     "gsm": "GSM1067333",
+     "summary": "Patient 14476",
+     "title": "Sample 14476"
+    },
+    {
+     "gsm": "GSM1067332",
+     "summary": "Patient 9972",
+     "title": "Sample 9972"
+    },
+    {
+     "gsm": "GSM1067331",
+     "summary": "Patient 3214 vol 2009",
+     "title": "Sample 3214 vol 2009"
+    },
+    {
+     "gsm": "GSM1067330",
+     "summary": "Patient 2430-90 vol 2009",
+     "title": "Sample 2430-90 vol 2009"
+    },
+    {
+     "gsm": "GSM1067329",
+     "summary": "Patient 168-97",
+     "title": "Sample 168-97"
+    },
+    {
+     "gsm": "GSM1067328",
+     "summary": "Patient 3065",
+     "title": "Sample 3065"
+    },
+    {
+     "gsm": "GSM1067327",
+     "summary": "Patient 7757",
+     "title": "Sample 7757"
+    },
+    {
+     "gsm": "GSM1067326",
+     "summary": "Patient 10408",
+     "title": "Sample 10408"
+    }
+   ]
+  },
+  "GSE44934": {
+   "n_gsm_read": 22,
+   "samples": [
+    {
+     "gsm": "GSM1094148",
+     "summary": "Cell Line",
+     "title": "RD_3_7"
+    },
+    {
+     "gsm": "GSM1094147",
+     "summary": "Cell Line",
+     "title": "RD_3_0"
+    },
+    {
+     "gsm": "GSM1094146",
+     "summary": "Cell Line",
+     "title": "N_MC_6_5"
+    },
+    {
+     "gsm": "GSM1094145",
+     "summary": "Cell Line",
+     "title": "N_MC_6_0"
+    },
+    {
+     "gsm": "GSM1094144",
+     "summary": "Cell Line",
+     "title": "N_MC_19_5"
+    },
+    {
+     "gsm": "GSM1094143",
+     "summary": "Cell Line",
+     "title": "N_MC_19_0"
+    },
+    {
+     "gsm": "GSM1094142",
+     "summary": "Cell Line",
+     "title": "71 A4  8-5-09-5"
+    },
+    {
+     "gsm": "GSM1094141",
+     "summary": "Cell Line",
+     "title": "71 A4  8-5-09-0"
+    },
+    {
+     "gsm": "GSM1094140",
+     "summary": "Cell Line",
+     "title": "71 A4  8-3-09-5"
+    },
+    {
+     "gsm": "GSM1094139",
+     "summary": "Cell Line",
+     "title": "71 A4  8-3-09-0"
+    },
+    {
+     "gsm": "GSM1094138",
+     "summary": "Cell Line",
+     "title": "71 A4  8-11-09-5"
+    },
+    {
+     "gsm": "GSM1094137",
+     "summary": "Cell Line",
+     "title": "71 A4  8-11-09-0"
+    },
+    {
+     "gsm": "GSM1094136",
+     "summary": "Cell Line",
+     "title": "466_6_5"
+    },
+    {
+     "gsm": "GSM1094135",
+     "summary": "Cell Line",
+     "title": "466_6_0"
+    },
+    {
+     "gsm": "GSM1094134",
+     "summary": "Cell Line",
+     "title": "466_19_5"
+    },
+    {
+     "gsm": "GSM1094133",
+     "summary": "Cell Line",
+     "title": "466_19_0"
+    },
+    {
+     "gsm": "GSM1094132",
+     "summary": "Cell Line",
+     "title": "4573 A4  8-5-09-5"
+    },
+    {
+     "gsm": "GSM1094131",
+     "summary": "Cell Line",
+     "title": "4573 A4  8-5-09-0"
+    },
+    {
+     "gsm": "GSM1094130",
+     "summary": "Cell Line",
+     "title": "4573 A4  8-11-09-5"
+    },
+    {
+     "gsm": "GSM1094129",
+     "summary": "Cell Line",
+     "title": "4573 A4  8-11-09-0"
+    },
+    {
+     "gsm": "GSM1094128",
+     "summary": "Cell Line",
+     "title": "4573 A4  8-1-09-5"
+    },
+    {
+     "gsm": "GSM1094127",
+     "summary": "Cell Line",
+     "title": "4573 A4  8-1-09-0"
+    }
+   ]
+  },
+  "GSE52677": {
+   "n_gsm_read": 16,
+   "samples": [
+    {
+     "gsm": "GSM1273963",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH28, ARMS cell line (channel 2)",
+     "title": "RH28_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273962",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH28, ARMS cell line (channel 2)",
+     "title": "RH28_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273961",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH30, ARMS cell line (channel 2)",
+     "title": "RH30_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273960",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH30, ARMS cell line (channel 2)",
+     "title": "RH30_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273959",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH4, ARMS cell line (channel 2)",
+     "title": "RH4_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273958",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH4, ARMS cell line (channel 2)",
+     "title": "RH4_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273957",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) CCA, ERMS cell line (channel 2)",
+     "title": "CCA_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273956",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) CCA, ERMS cell line (channel 2)",
+     "title": "CCA_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273955",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH36, ERMS cell line (channel 2)",
+     "title": "RH36_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273954",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH36, ERMS cell line (channel 2)",
+     "title": "RH36_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273953",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH18, ARMS cell line (channel 2)",
+     "title": "RH18_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273952",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH18, ARMS cell line (channel 2)",
+     "title": "RH18_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273951",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) SMS-CTR, ERMS cell line (channel 2)",
+     "title": "SMS-CTR_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273950",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) SMS-CTR, ERMS cell line (channel 2)",
+     "title": "SMS-CTR_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273949",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RD, ERMS cell line (channel 2)",
+     "title": "RD_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273948",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RD, ERMS cell line (channel 2)",
+     "title": "RD_biol. rep. 1"
+    }
+   ]
+  },
+  "GSE52679": {
+   "n_gsm_read": 22,
+   "samples": [
+    {
+     "gsm": "GSM1273969",
+     "summary": "RH36 cells transfected with precursor of miR-27a were analyzed 48h after transfection",
+     "title": "miR-27a-F, miR-27a over-expressing cell, biological replicate 3 (miR-27a-F)"
+    },
+    {
+     "gsm": "GSM1273968",
+     "summary": "RH36 cells transfected with precursor of miR-27a were analyzed 48h after transfection",
+     "title": "miR-27a-E, miR-27a over-expressing cell, biological replicate 2 (miR-27a-E)"
+    },
+    {
+     "gsm": "GSM1273967",
+     "summary": "RH36 cells transfected with precursor of miR-27a were analyzed 48h after transfection",
+     "title": "miR-27a-D, miR-27a over-expressing cell, biological replicate 1 (miR-27a-D)"
+    },
+    {
+     "gsm": "GSM1273966",
+     "summary": "RH36 cells transfected with negative control",
+     "title": "CTR-3, control, biological replicate 3 (CTR-C)"
+    },
+    {
+     "gsm": "GSM1273965",
+     "summary": "RH36 cells transfected with negative control",
+     "title": "CTR-2, control, biological replicate 2 (CTR-B)"
+    },
+    {
+     "gsm": "GSM1273964",
+     "summary": "RH36 cells transfected with negative control",
+     "title": "CTR-1, control, biological replicate 1 (CTR-A)"
+    },
+    {
+     "gsm": "GSM1273963",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH28, ARMS cell line (channel 2)",
+     "title": "RH28_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273962",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH28, ARMS cell line (channel 2)",
+     "title": "RH28_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273961",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH30, ARMS cell line (channel 2)",
+     "title": "RH30_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273960",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH30, ARMS cell line (channel 2)",
+     "title": "RH30_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273959",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH4, ARMS cell line (channel 2)",
+     "title": "RH4_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273958",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH4, ARMS cell line (channel 2)",
+     "title": "RH4_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273957",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) CCA, ERMS cell line (channel 2)",
+     "title": "CCA_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273956",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) CCA, ERMS cell line (channel 2)",
+     "title": "CCA_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273955",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH36, ERMS cell line (channel 2)",
+     "title": "RH36_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273954",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH36, ERMS cell line (channel 2)",
+     "title": "RH36_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273953",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH18, ARMS cell line (channel 2)",
+     "title": "RH18_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273952",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RH18, ARMS cell line (channel 2)",
+     "title": "RH18_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273951",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) SMS-CTR, ERMS cell line (channel 2)",
+     "title": "SMS-CTR_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273950",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) SMS-CTR, ERMS cell line (channel 2)",
+     "title": "SMS-CTR_biol. rep. 1"
+    },
+    {
+     "gsm": "GSM1273949",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RD, ERMS cell line (channel 2)",
+     "title": "RD_biol. rep. 2"
+    },
+    {
+     "gsm": "GSM1273948",
+     "summary": "pool of the 8 RMS cell lines, control (channel 1) RD, ERMS cell line (channel 2)",
+     "title": "RD_biol. rep. 1"
+    }
+   ]
+  },
+  "GSE62747": {
+   "n_gsm_read": 8,
+   "samples": [
+    {
+     "gsm": "GSM1532911",
+     "summary": "RNA pool of 8 healthy fat tissue samples",
+     "title": "Fat control_RNA pool"
+    },
+    {
+     "gsm": "GSM1532910",
+     "summary": "primary myoid liposarcoma tissue",
+     "title": "Myxoid liposarcoma_MLS 16"
+    },
+    {
+     "gsm": "GSM1532909",
+     "summary": "primary myoid liposarcoma tissue",
+     "title": "Myxoid liposarcoma_MLS 01"
+    },
+    {
+     "gsm": "GSM1532908",
+     "summary": "primary myoid liposarcoma tissue",
+     "title": "Myxoid liposarcoma_MLS 15"
+    },
+    {
+     "gsm": "GSM1532907",
+     "summary": "primary myoid liposarcoma tissue",
+     "title": "Myxoid liposarcoma_MLS 14"
+    },
+    {
+     "gsm": "GSM1532906",
+     "summary": "primary myoid liposarcoma tissue",
+     "title": "Myxoid liposarcoma_MLS 13"
+    },
+    {
+     "gsm": "GSM1532905",
+     "summary": "primary myoid liposarcoma tissue",
+     "title": "Myxoid liposarcoma_MLS 12"
+    },
+    {
+     "gsm": "GSM1532904",
+     "summary": "primary myoid liposarcoma tissue",
+     "title": "Myxoid liposarcoma_MLS 11"
+    }
+   ]
+  },
+  "GSE80126": {
+   "n_gsm_read": 29,
+   "samples": [
+    {
+     "gsm": "GSM2113321",
+     "summary": "cell line",
+     "title": "UHR-86"
+    },
+    {
+     "gsm": "GSM2113320",
+     "summary": "cell line",
+     "title": "UHR84"
+    },
+    {
+     "gsm": "GSM2113319",
+     "summary": "cell line",
+     "title": "UHR76"
+    },
+    {
+     "gsm": "GSM2113318",
+     "summary": "cell line",
+     "title": "UHR59"
+    },
+    {
+     "gsm": "GSM2113317",
+     "summary": "cell line",
+     "title": "UHR49"
+    },
+    {
+     "gsm": "GSM2113316",
+     "summary": "cell line",
+     "title": "UHR39"
+    },
+    {
+     "gsm": "GSM2113315",
+     "summary": "Cell line (KU812)",
+     "title": "KU812RIN7"
+    },
+    {
+     "gsm": "GSM2113314",
+     "summary": "Cell line (KU812)",
+     "title": "KU812RIN5"
+    },
+    {
+     "gsm": "GSM2113313",
+     "summary": "Cell line (KU812)",
+     "title": "KU812RIN3"
+    },
+    {
+     "gsm": "GSM2113312",
+     "summary": "Lung",
+     "title": "V3-63"
+    },
+    {
+     "gsm": "GSM2113311",
+     "summary": "Lung",
+     "title": "V3-62"
+    },
+    {
+     "gsm": "GSM2113310",
+     "summary": "Liver",
+     "title": "V3-61"
+    },
+    {
+     "gsm": "GSM2113309",
+     "summary": "Kidney",
+     "title": "V3-60"
+    },
+    {
+     "gsm": "GSM2113308",
+     "summary": "Colon",
+     "title": "V3-59"
+    },
+    {
+     "gsm": "GSM2113307",
+     "summary": "Uterus",
+     "title": "V3-45"
+    },
+    {
+     "gsm": "GSM2113306",
+     "summary": "Lymph node",
+     "title": "V3-44"
+    },
+    {
+     "gsm": "GSM2113305",
+     "summary": "Liver",
+     "title": "V3-43"
+    },
+    {
+     "gsm": "GSM2113304",
+     "summary": "Lung",
+     "title": "V3-41"
+    },
+    {
+     "gsm": "GSM2113303",
+     "summary": "Lung",
+     "title": "V1-36"
+    },
+    {
+     "gsm": "GSM2113302",
+     "summary": "Lung",
+     "title": "V1-35"
+    },
+    {
+     "gsm": "GSM2113301",
+     "summary": "Cell culture",
+     "title": "V1-34"
+    },
+    {
+     "gsm": "GSM2113300",
+     "summary": "Cell culture",
+     "title": "V1-33"
+    },
+    {
+     "gsm": "GSM2113299",
+     "summary": "Cell culture",
+     "title": "V1-31"
+    },
+    {
+     "gsm": "GSM2113298",
+     "summary": "Lung",
+     "title": "V1-30"
+    },
+    {
+     "gsm": "GSM2113297",
+     "summary": "Cell culture",
+     "title": "V1-25"
+    },
+    {
+     "gsm": "GSM2113296",
+     "summary": "Cell culture",
+     "title": "V1-24"
+    },
+    {
+     "gsm": "GSM2113295",
+     "summary": "Cell culture",
+     "title": "V1-12"
+    },
+    {
+     "gsm": "GSM2113294",
+     "summary": "Cell culture",
+     "title": "V1-6"
+    },
+    {
+     "gsm": "GSM2113293",
+     "summary": "Peripheral Blood",
+     "title": "V1-4"
+    }
+   ]
+  }
+ }
+}

@@ -32,9 +32,9 @@ article-processing charge is incurred.*
 
 **Date:** [DATE]
 
-**Re:** Submission of an Original Research Article — *"Published transcriptional targets of EWSR1::NR4A3
-are elevated in extraskeletal myxoid chondrosarcoma tissue across three cohorts and three platforms: an
-evidence-typed, null-calibrated re-analysis."*
+**Re:** Submission of an Original Research Article — *"The direct-target catalogue of EWSR1::NR4A3 is
+three genes wide, and one gene survives calibration: an evidence-typed re-analysis of extraskeletal
+myxoid chondrosarcoma across three cohorts."*
 
 Dear Editor,
 
@@ -45,22 +45,31 @@ downstream transcriptional programme has been assumed for three decades but neve
 against a proper calibration. The manuscript addresses exactly that gap, and it sits squarely within
 the journal's scope of genetic and genomic analysis of neoplasia.
 
-The work makes three contributions, each of which I have tried to state at its true weight rather than
+The work makes four contributions, each of which I have tried to state at its true weight rather than
 inflate. First, it assembles an **evidence-typed catalogue** of every gene any NR4A3 chimera or native
 NR4A3 is published to transcriptionally activate, recording the assay, cell system and species behind
 each — and finds that the set with a direct DNA-binding assay against a fusion is only three genes wide
 (*SEMA3C*, *PPARG*, *ENO3*). Second, it introduces a **size-matched empirical null** as the calibration
 that any gene-set read on these small rare-tumour expression series requires — without it, almost every
 gene set scores "higher in EMC" — and it applies that null to its own headline result rather than only
-to others'. Third, reading the catalogue back into three independent EMC cohorts on three platform
-families, it finds all three direct-target genes elevated in EMC tumour tissue in every one of six
-array readings and in an independent third cohort, each clearing its single-gene null on at least one
-platform, while the aggregate target set does not clear its null and the published EMC transcriptional
-phenotype does. The manuscript is explicit about the ceiling on this positive result: with three genes
-and no genome-wide chromatin experiment ever performed with an NR4A3 fusion (a gap I document by a
-search of 2,276 full-text papers), "elevated in EMC" and "driven by the fusion" cannot yet be
-separated. I believe that honest boundary, drawn with a reusable instrument and a decision rule that
-was committed before the results were seen, is what makes the paper worth publishing.
+to others'. Third, it **audits the confounds that could manufacture the result** rather than conceding
+them: the contrast is recomputed against every comparator stratum separately, against the
+reference-pool-matched comparators, and against a matrix-content covariate chosen to contain no
+EMC-selected gene, and the obvious objection to the strongest gene — that *ENO3* is muscle-specific
+β-enolase and EMC arises in the limb — is answered with two pooled skeletal-muscle samples the cohort
+contains.
+
+Fourth, and this is what the title now reports, that audit **separates the three genes rather than
+treating them alike**. *ENO3* survives every instrument applied. *PPARG*'s strongest reading proves to
+be circular — it is scored on the very cohort from which high *PPARG* in EMC was first published — and
+what remains does not survive multiple-testing correction. *SEMA3C* survives nothing and reverses sign
+depending on which sarcomas sit in the comparator arm. The manuscript is explicit about the ceiling on
+all of this: with three genes and no genome-wide chromatin experiment ever performed with an NR4A3
+fusion (a gap I document by a search of 2,276 full-text papers), "elevated in EMC" and "driven by the
+fusion" cannot yet be separated for any of them, *ENO3* included. I believe that honest boundary, drawn
+with a reusable instrument and a decision rule committed before the results were seen, is what makes
+the paper worth publishing — as is the fact that the strongest correction in it is one I applied to my
+own earlier reading.
 
 The manuscript is entirely computational and re-analyses only public, de-identified gene-expression
 deposits; no new human or animal data were generated, and no ethics approval was required. All code and

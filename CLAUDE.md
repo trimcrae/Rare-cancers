@@ -413,6 +413,13 @@ When in doubt: do it and show it.
   branch), but an **already-on-main** workflow dispatched with `ref=<branch>` runs **that branch's version of the
   file and its code**. So: edit an existing on-main workflow on your branch (or pass `git_ref=<branch>` to a job
   that clones), then dispatch with `ref=<branch>`. No merge to main required.
+  - **AND A `type: choice` OPTION THAT EXISTS ONLY ON THE BRANCH IS ACCEPTED (measured 2026-08-08).** The
+    input SCHEMA is read from the dispatched ref too, not just the code — `mode=cohort-search` was added to
+    the `options:` list of `emc-expression-datasets.yml` on a feature branch and dispatched at that branch
+    ref, and GitHub queued it (run `31256827584`). So a new mode needs **no** fallback of smuggling itself
+    into an existing mode's arm, which is what a plan had budgeted for on the assumption that the default
+    branch validates inputs. ⚠ The **file** must still be on `main` — this loosens the input rule, not the
+    404 rule above it.
 - **⏱ TIME A CI STEP FROM ITS *COMPLETED RECORD*, NEVER FROM A LIVE POLL (measured 2026-07-27, two misreads
   in one day).** The jobs API **lags**: it reported a finished 3-minute step as `in_progress` for ~18 minutes,
   and a finished 4.0-minute run as `in_progress` for ~50 minutes. Polling it while a run is live therefore

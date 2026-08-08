@@ -5130,7 +5130,7 @@
       "EWSR1::NR4A3 published targets in EMC tissue"
     ],
     "grade": {
-      "value": "A measured, null-calibrated per-gene concordance result with an explicitly stated ceiling: all three genes carrying a DNA-binding assay against an NR4A3 chimera are positive-signed on both readable array platforms and in an independent third cohort, while the AGGREGATE target set does not clear its size-matched null on either array platform. The binding constraint is not sample size — it is that the class-A set is three genes wide and that no genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in 2,276 full-text documents across five committed corpora, which is a bounded statement about a search rather than a claim that none exists.",
+      "value": "A null-calibrated, confound-audited per-gene result that ORDERS the three published direct-target genes rather than treating them alike. ENO3 survives every instrument applied: both array platforms under an exact label-permutation test and after multiple-testing correction (q 0.0004 and 0.0006), every comparator stratum separately including the myxoid-matched arm (23/29 of the GPL6244 comparators are themselves myxoid) and the reference-pool-matched arm on GPL3290, the 98th percentile of 14,120 genes in the independent 3SEQ deposit, a skeletal-muscle admixture control that does not explain it (three markers MORE muscle-restricted than ENO3 are flat between the arms), and more exact NBREs than its own composition-matched null. PPARG's strongest reading is CIRCULAR — GSE4303 is the cohort from which high PPARG in EMC was first published — and what remains does not survive correction. SEMA3C survives nothing and reverses sign with the choice of comparator (+1.66 vs LGFMS, -0.65 vs desmoid fibromatosis). The AGGREGATE target set reaches only 39% and 88% of its null threshold while the published EMC phenotype clears the same threshold 11.9-fold and 4.2-fold, so the instrument demonstrably reads EMC and does not read the aggregate. The binding constraint is not sample size: it is that the class-A set is three genes wide and that no genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in 2,276 full-text documents across five committed corpora, which is a bounded statement about a search rather than a claim that none exists.",
       "owner": {
         "file": "research/manuscripts/nr4a3-fusion-transcriptional-output.md",
         "anchor": "#6--conclusion"
@@ -5174,7 +5174,7 @@
     ],
     "closure_kind": "open",
     "revival_trigger": [],
-    "closure_note": "⭐ OPEN, and the open part is cheap. The named next step — an NBRE motif scan of the promoters of the genes that read high, against a matched background — is sequence work that needs no new data, no dispatch and no money. The route's CEILING is a different matter and is not cheap: separating 'the fusion drives this gene' from 'this gene is associated with EMC' needs a cistrome measured with a fusion expressed, and §3.10 of the manuscript records that a search of 2,276 retrieved full-text documents across five committed corpora found none. That is a bounded negative about a SEARCH, not a statement that no such dataset exists — so the route is open on an experiment nobody has published rather than on a capability that does not exist.",
+    "closure_note": "OPEN. The NBRE motif scan named as the cheap next step is DONE and is §3.10 of the manuscript; so is the confound audit that followed it (comparator stratification, reference-pool matching, matrix-covariate adjustment, the skeletal-muscle control, and a percentile calibration of the 3SEQ arm against all 14,120 genes in that deposit). What remains open is the CEILING, and it is not cheap: separating 'the fusion drives this gene' from 'this gene is associated with EMC' needs a cistrome measured with a fusion expressed, and the manuscript records that a search of 2,276 retrieved full-text documents found none. An occupancy axis was added 2026-08-08 and does not lift that ceiling: 110 NR4A peak sets calibrated against a 198-gene background panel give 2 of 36 gene-by-experiment tests at p<0.05 against 1.8 expected (binomial p 0.54), so no class-A gene carries unusual occupancy. It now INCLUDES deep NR4A3 data — the Haller acinic cell carcinoma deposit, four cistromes at 8,501-18,666 peaks, hg19 build MEASURED by promoter concordance rather than assumed — in which PPARG carries no promoter peak at all, a real negative rather than an absent reading. That is wild-type NR4A3 in a salivary-gland tumour, not the fusion and not EMC, so the ceiling stands. The twelve ChIP-Atlas NR4A3 sets remain 53-154 peaks and uninterpretable.",
     "strategy": "ST-DISSEMINATION",
     "publication": {
       "endpoint": "PUB-FUSION-OUTPUT",
@@ -5201,7 +5201,7 @@
       "status": "active",
       "maturity": "validated_in_silico",
       "confidence": "moderate",
-      "last_verified": "2026-08-07"
+      "last_verified": "2026-08-08"
     },
     "rationale": "EMC is defined by an NR4A3 fusion, so the disease's central molecular hypothesis is that the chimera is a transcription factor with an aberrant output. Two questions are routinely conflated in the field's prose: which genes has anyone shown an NR4A3 chimera to physically BIND and drive, and which genes are HIGH in EMC tumours. The first is a mechanism claim and the second is an association that EMC's cell of origin, its myxoid architecture, or a generic matrix programme could produce on its own. Cataloguing the mechanism claims with their evidence type recorded per gene, and then reading them back in tumour tissue against an explicit calibration for what an arbitrary gene set does on the same platform, separates the two as far as public data allow — and states precisely where the separation stops.",
     "supporting_evidence": [
@@ -5242,7 +5242,7 @@
         "blocked_by": []
       },
       {
-        "what": "An NBRE motif scan of the promoters of the genes that read high, against a matched background. Sequence work: needs no new data, no dispatch and no money. It cannot demonstrate binding, but a set of up-in-EMC genes with NO NBRE enrichment would be a real negative. NOT DONE",
+        "what": "An NBRE motif scan of the regulatory windows of the genes that read high, against a composition-matched background. Sequence work: no new data, no dispatch, no money. It cannot demonstrate binding, but a set of up-in-EMC genes with NO NBRE enrichment would be a real negative. DONE 2026-08-07 and reported as §3.10 of the manuscript: a -10kb/+15kb window fixed in advance, scanned on both strands with positional de-duplication, calibrated against a 2,000-shuffle dinucleotide-preserving null AND a 198-window GC-matched background panel. ENO3 carries 4 exact NBREs and clears both nulls (p 0.034 and 0.018); PPARG carries 3, which is what its composition predicts; SEMA3C carries none, and its one-mismatch count — the class Brenca et al. actually report — is also exactly what its composition predicts. A motif is not occupancy and the scan is reported as a prioritisation, never as a target-gene claim.",
         "feasible_today": true,
         "blocked_by": []
       },
@@ -5268,15 +5268,8 @@
       }
     ],
     "readiness": {
-      "attainable_today": "preprint",
-      "why_not_higher": "The result is a per-gene sign-concordance reading over three genes in cohorts of 4, 6 and 10, with the aggregate refused by its own null and no occupancy evidence in EMC. That is honest preprint content and it is not a journal-submission argument: a reviewer's first question — 'is any of this the fusion?' — has no answer here, and the paper says so rather than working around it. What would raise it is a cistrome intersection, not more writing.",
-      "missing": [
-        "the NBRE promoter scan, which is free and unstarted",
-        "a cistrome measured with an NR4A3 fusion expressed — an open, unclaimed experiment rather than an unfetched dataset"
-      ],
-      "evidence_required": [
-        "occupancy evidence in a fusion-expressing cell, for any gene named"
-      ]
+      "attainable_today": "journal_submission",
+      "why_not_higher": "The reviewer's first question — 'is any of this the fusion?' — still has no answer, and the paper says so rather than working around it. What has changed is that the result is no longer a bare sign-concordance reading over three genes: the three are now ORDERED by how much independent support each carries, one of them (SEMA3C) is shown to be an artefact of comparator choice, another (PPARG) has its strongest cell graded circular, and the surviving gene has been put through a confound audit that names and tests the specific alternative explanations. That is a journal-submission argument about what the field's direct-target catalogue actually supports. Raising it further needs a cistrome intersection, which is somebody else's experiment."
     },
     "timing": {
       "recommendation": "pursue_now",
@@ -5287,7 +5280,7 @@
       "automation_outlook": "Fully automatable as re-analysis — the null draw is seeded, the pipeline is stdlib-only and the whole run costs $0 on CI. What is not automatable is the judgement that three genes of sign concordance is weaker than a set result, which is the sentence the pre-registration failed to write in advance."
     },
     "next": {
-      "best_next_action": "Run an NBRE motif scan over the promoter regions of the class-A and Filion-Table-1 genes against a size- and GC-matched background drawn from the same genome build, and record per-gene motif hits beside the existing per-gene deltas in `nr4a3-fusion-targets.json`. $0, sequence-only, no dispatch and no new data.",
+      "best_next_action": "Submit. The free in-silico work on this route is done: catalogue, null calibration, instrument controls, three cohorts, exact permutation tests, the confound audit and the motif scan have all run, and the remaining question (does the fusion BIND any of these genes in EMC) cannot be answered from expression or sequence data at any price. The residual steps are author-only submission furniture — ORCID, a Zenodo DOI at the submitted commit, and completing the gene-set-resource bibliographic identifiers.",
       "cost": "$0",
       "blocked_on": []
     },

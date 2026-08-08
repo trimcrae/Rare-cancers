@@ -238,6 +238,129 @@ def _extract(data, wanted):
     return out, missing, groups
 
 
+# -------------------------------------------------------------------------------------------
+# THE CALIBRATION. A ratio is not a reading until you know what an arbitrary gene does.
+# -------------------------------------------------------------------------------------------
+def _ratio(numerator, denominator):
+    """EMC / comparator, or None when the comparator arm is zero or absent.
+
+    A zero denominator is NOT a large ratio -- it is an unreadable one, and rendering it as a
+    number would put every gene undetected in the comparator arm at the top of the ranking."""
+    if numerator is None or denominator is None or denominator <= 0:
+        return None
+    return numerator / denominator
+
+
+def _percentile_of(value, distribution):
+    """Fraction of the distribution at or below `value`, as a percentile in [0, 100].
+
+    Reported to one decimal because the deposit carries ~10^4 genes; more would be false
+    precision, and the quantity is a rank, not a measurement."""
+    if value is None or not distribution:
+        return None
+    at_or_below = sum(1 for x in distribution if x <= value)
+    return round(100.0 * at_or_below / len(distribution), 1)
+
+
+def _calibrate(data, wanted):
+    """Where the wanted genes' EMC/comparator ratios sit among EVERY gene in the deposit.
+
+    WHY THIS EXISTS. The manuscript this arm feeds argues (§1.3) that no gene-set or per-gene read
+    on a platform is interpretable until it is calibrated against what an arbitrary gene does on
+    the same platform -- and then reported the 3SEQ arm as bare fold-changes, which is the one
+    place its own thesis was not applied. A 2.5x ratio is a finding only if 2.5x is unusual here.
+
+    WHAT IT IS NOT. This is a RANK within one deposit, not a test. n_EMC is 4; there is no
+    p-value here and none should be inferred from a high percentile. It also cannot separate
+    EMC-specific from mesenchymal-lineage-specific, for the reason `_extract` states at length."""
+    per = {}
+    with gzip.GzipFile(fileobj=io.BytesIO(data)) as fh:
+        header = fh.readline().decode("utf-8", "replace").rstrip("\r\n").split("\t")
+        idx = {c.strip().strip('"'): i for i, c in enumerate(header)}
+        sym_i = idx.get("gene_symbol")
+        groups = _groups([c.strip().strip('"') for c in header])
+        emc_i = [idx[c] for c in groups["emc_columns"] if c in idx]
+        nrm_i = [idx[c] for c in groups["normal_columns"] if c in idx]
+        sar = [c for c in header if any(c.startswith(p + "_STT") for p in
+               ("DDLPS", "ESS", "EWS", "GIST", "LMS", "MLPS", "SS"))]
+        sar_i = [idx[c] for c in sar if c in idx]
+        if sym_i is None:
+            return {"_status": "NO_GENE_SYMBOL_COLUMN",
+                    "_means": "the deposit could not be ranked; this is an absent reading."}
+        for line in fh:
+            f = line.decode("utf-8", "replace").rstrip("\r\n").split("\t")
+            if sym_i >= len(f):
+                continue
+            g = f[sym_i].strip().strip('"').upper()
+            if not g or g in (".", "NA", "-"):
+                continue
+
+            def vals(ix):
+                out = []
+                for i in ix:
+                    if i < len(f):
+                        try:
+                            out.append(float(f[i]))
+                        except ValueError:
+                            pass
+                return out
+            per.setdefault(g, []).append((vals(emc_i), vals(nrm_i), vals(sar_i)))
+
+    def med(xs):
+        xs = sorted(x for x in xs if x is not None)
+        return None if not xs else (xs[len(xs)//2] if len(xs) % 2 else
+                                    (xs[len(xs)//2-1]+xs[len(xs)//2])/2)
+
+    dist_n, dist_s, gene_ratio = [], [], {}
+    for g, peaks in per.items():
+        e = med([med(p[0]) for p in peaks if p[0]])
+        n = med([med(p[1]) for p in peaks if p[1]])
+        s = med([med(p[2]) for p in peaks if p[2]])
+        rn, rs = _ratio(e, n), _ratio(e, s)
+        gene_ratio[g] = (rn, rs)
+        if rn is not None:
+            dist_n.append(rn)
+        if rs is not None:
+            dist_s.append(rs)
+    dist_n.sort()
+    dist_s.sort()
+
+    def q(dist, p):
+        return None if not dist else round(dist[min(len(dist) - 1, int(p * (len(dist) - 1)))], 4)
+
+    out = {
+        "_what": ("each wanted gene's EMC/comparator ratio expressed as a percentile of the same "
+                  "ratio computed for EVERY gene in this deposit"),
+        "_why": ("a fold-change is not a reading until an arbitrary gene's fold-change is known. "
+                 "This is the manuscript's own §1.3 standard applied to the arm that lacked it."),
+        "_not_a_test": ("a percentile is a RANK, not a p-value. n_EMC = 4 and no test is computed "
+                        "or implied anywhere in this block."),
+        "n_genes_in_deposit": len(per),
+        "n_genes_with_a_normal_ratio": len(dist_n),
+        "n_genes_with_a_sarcoma_ratio": len(dist_s),
+        "_genes_without_a_ratio": ("a gene whose comparator median is zero has NO ratio and is "
+                                   "excluded from the distribution rather than ranked at the top."),
+        "distribution_emc_over_normal": {"median": q(dist_n, 0.50), "p75": q(dist_n, 0.75),
+                                         "p90": q(dist_n, 0.90), "p95": q(dist_n, 0.95),
+                                         "p99": q(dist_n, 0.99)},
+        "distribution_emc_over_sarcoma": {"median": q(dist_s, 0.50), "p75": q(dist_s, 0.75),
+                                          "p90": q(dist_s, 0.90), "p95": q(dist_s, 0.95),
+                                          "p99": q(dist_s, 0.99)},
+        "per_gene": {},
+    }
+    for w in sorted({x.upper() for x in wanted}):
+        rn, rs = gene_ratio.get(w, (None, None))
+        out["per_gene"][w] = {
+            "emc_over_normal": None if rn is None else round(rn, 4),
+            "emc_over_normal_percentile": _percentile_of(rn, dist_n),
+            "emc_over_sarcoma": None if rs is None else round(rs, 4),
+            "emc_over_sarcoma_percentile": _percentile_of(rs, dist_s),
+            "_absent_means": ("null is an unreadable ratio -- no peak, or a zero comparator "
+                              "median -- NOT a ratio of zero."),
+        }
+    return out
+
+
 def main(argv=None):
     argv = argv or sys.argv[1:]
     doc = {
@@ -361,6 +484,14 @@ def main(argv=None):
         except Exception as exc:                                      # noqa: BLE001
             # An extraction failure is a FACT about the parse, never an absent gene.
             doc["per_gene"] = {"error": "%s: %s" % (type(exc).__name__, exc)}
+        try:
+            doc["ratio_calibration"] = _calibrate(fetched["normalized_36048_peaks"], WANTED)
+        except Exception as exc:                                      # noqa: BLE001
+            # A failed calibration must not be indistinguishable from a gene that ranked low.
+            doc["ratio_calibration"] = {
+                "error": "%s: %s" % (type(exc).__name__, exc),
+                "_means": ("the ranking could not be computed. This is an ABSENT calibration, not "
+                           "a finding that the wanted genes rank low.")}
     else:
         doc["per_gene"] = {"skipped_because": {
             "verdict": doc["verdict"].get("answer"),

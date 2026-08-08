@@ -60,10 +60,10 @@ re-analyses of public data at no charge, and both Wiley journals above permit bi
 | requirement | target | status in manuscript |
 |---|---|---|
 | Article type | Original Research Article | ✔ declared |
-| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, 300 words (trim further if a stricter venue is chosen) |
+| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, 299 words by the command in §3 (which counts markdown emphasis tokens, so the prose count is slightly lower); at the J Pathol limit |
 | Keywords | 5–7 | ✔ 7 keywords |
-| Structure | Introduction · Methods · Results · Discussion · Conclusion | ✔ full IMRaD |
-| References | GCC: any consistent style · J Pathol/EJC: ≤40–50 | ✔ 10 primary + gene-set resources, Vancouver style |
+| Structure | Introduction · Methods · Results · Discussion · Conclusion | ✔ full IMRaD, plus Limitations, two appendices and a Supplementary Information file |
+| References | GCC: any consistent style · J Pathol/EJC: ≤40–50 | ✔ 12 primary + gene-set resources, Vancouver style |
 | Data availability statement | required | ✔ public accessions + open code repository, Zenodo archive planned |
 | Funding statement | required | ✔ "None" |
 | Competing-interests statement | required | ✔ "None" |
@@ -74,13 +74,29 @@ re-analyses of public data at no charge, and both Wiley journals above permit bi
 
 ## 3 · Element counts
 
-- **Abstract:** 300 words (unstructured). Compliant with J Pathol (≤300) and GCC (flexible).
-- **Main text:** ~5,900 words excluding tables and references. GCC sets no fixed limit; **for *The
-  Journal of Pathology* this would need trimming toward ~4,000** (candidate cuts: condense §3.9 PPARγ
-  detail and §2 method prose, moving the full PPARγ arm table and the 22-row evidence catalogue to
-  Supplementary Information).
-- **Display items:** 1 figure (the evidence-convergence matrix, §3.13) and 12 tables in the body, plus 2 tables in Data availability.
-- **References:** 10 numbered primary references plus separately listed gene-set resources and the GEO
+⚠ **These were measured, not estimated.** The previous version of this section understated the main
+text by roughly a quarter and miscounted the body tables, because both figures were carried forward by
+hand from an earlier draft. Re-measure after any material revision rather than editing these numbers
+from memory:
+
+```bash
+P=research/manuscripts/nr4a3-fusion-transcriptional-output.md
+awk '/^## Abstract/,/^## Data and code availability/' $P | grep -v '^|' | grep -v '^> ' | grep -v '^!\[' | wc -w
+grep -c '^|---' $P          # all tables; subtract those after "## Data and code availability"
+grep -c '^!\[Figure' $P
+```
+
+- **Abstract:** 299 words by the command above, which counts markdown emphasis tokens as words; the prose count is slightly lower. At GCC's flexible limit and at J Pathol's ≤300.
+- **Main text:** ~7,090 words of prose from Abstract to Conclusion, excluding tables, figure captions
+  and back matter. GCC sets no fixed limit. **For *The Journal of Pathology* this would need trimming
+  toward ~4,000**; the material that would go first is §3.6's stratified narrative and §2.6's method
+  prose, both of which already have fuller versions in the SI.
+- **Display items:** **5 figures** (per-sample dots, the size-matched null, the evidence catalogue, the
+  instrument-convergence matrix, the muscle-admixture control) and **9 numbered tables in the body**,
+  plus 4 unnumbered tables in Data availability and the two appendices.
+- **Supplementary Information:** `nr4a3-fusion-transcriptional-output-SI.md`, ~5,480 words, 6 numbered
+  supplementary tables (S1–S6) and six method sections (§S1–§S6).
+- **References:** 12 numbered primary references plus separately listed gene-set resources and the GEO
   series record.
 
 ## 4 · Reporting-guideline note
@@ -97,7 +113,7 @@ added as a supplementary item.
 
 ### Done (2026-08-07, offline, $0)
 
-A robustness package was added as Methods §2.10 and Results §3.12, produced by
+A robustness package was added — now Methods §2.6 and Results §3.5, with the full panel as Supplementary Table S3 — produced by
 `nr4a3_fusion_targets_robustness.py` → `nr4a3-fusion-targets-robustness.json` with a `--check` mode.
 It closes two of the manuscript's own stated limitations and adds two orthogonal axes:
 
@@ -127,7 +143,7 @@ because the Ensembl fetch needs egress the dev sandbox does not have. It was one
 `SEMA3C` was added to the scanner's focus panel (`ENO3` and `PPARG` were already there), the workflow
 was dispatched with `ref=<branch>` so the run used this branch's code, and the module was then extended
 to compute the background-panel rank for **every** focus gene rather than for RET alone — the
-RET-specific keys and verdict are untouched. Results are Methods §2.11 and Results §3.13:
+RET-specific keys and verdict are untouched. Results are Methods §2.6 and Results §3.10:
 
 - ***ENO3*** carries 4 exact NBREs and clears **both** nulls (shuffle p = 0.034; panel p = 0.025;
   GC-matched p = 0.018) — the only class-A gene enriched above its own composition.
@@ -154,17 +170,131 @@ signal sits in exact NBREs rather than degenerate ones.
 
 **Nothing further on the sequence axis is worth running.** Sequence cannot settle occupancy; the
 discriminating experiment is a cistrome in a fusion-expressing cell, which no computation supplies.
-| **Intersect with the Haller 2019 NR4A3 ChIP-seq peaks** (Zenodo doi 10.5281/zenodo.1483691, open) | Whether the NR4A3 DNA-binding domain reaches these genes in a human tumour. ⛔ Must be framed exactly as §4.2 frames it — acinic cell carcinoma carries *native* NR4A3, not a fusion, so it can never be cited as a fusion cistrome | $0, CPU | Zenodo blocked in-sandbox (403 at the egress proxy); routable through GitHub Actions |
-| **A fourth EMC expression cohort**, if one exists | A further independent replication | $0 | a GEO re-search |
+
+### Also done (2026-08-08) — the confound audit, offline
+
+Produced by `nr4a3_fusion_targets_confounds.py` → `nr4a3-fusion-targets-confounds.json`, and reported
+as main-text §3.4–§3.7 with the full tables as Supplementary S4–S6:
+
+- **comparator composition read from the GEO sample titles**, which corrected "6 fibrosarcoma" to 6
+  *myxofibrosarcomas* and established that 23 of 29 GPL6244 comparators are themselves myxoid;
+- **every comparator stratum contrasted separately**, each with its own exact permutation p — the test
+  that shows *ENO3* invariant across strata and *SEMA3C* reversing sign;
+- **the reference-pool-matched contrast** on GPL3290, where 3 GIST comparators sit on a different pool
+  from all 10 EMC samples;
+- **covariate-adjusted sensitivity** against an 11-gene matrix panel filtered by provenance so no
+  EMC-selected gene enters it;
+- **the skeletal-muscle admixture control** for *ENO3*, using the two pooled-muscle samples GSE24369
+  carries in neither arm;
+- **a percentile calibration of the 3SEQ arm** against all 14,120 genes in that deposit
+  (`gse28866_tumour_vs_normal.py` → `ratio_calibration`), which was the one arm reported without the
+  calibration the paper's own §1.3 demands.
+
+### Also done (2026-08-08) — the occupancy axis, offline
+
+Produced by `nr4a3_fusion_targets_occupancy.py` → `nr4a3-fusion-targets-occupancy.json`, reported as
+main-text §3.11 Table 9 and as a sixth column of Figure 4. It closes the paper's largest structural
+gap — it had **no chromatin data at all** — using 86 NR4A ChIP-seq peak sets already cached in this
+repository, with **no fetch**. It has since grown to 110 peak sets; see the Haller entry below.
+
+⚠ **It is a bounded negative, and the first pass got it backwards.** Read as raw counts, *ENO3*
+looked like the top of 13 loci. Calibrated against a 198-gene background panel it is not: the deepest
+catalogue puts a promoter peak in **82.8% of arbitrary genes**, so a bare count is the same
+uncalibrated reading §1.3 of the manuscript exists to refuse. No class-A gene carries unusual NR4A
+occupancy — so the surrogates cannot substitute for the missing fusion cistrome, which is the point.
+⚠ *The counts in the first version of this entry (86 peak sets, 8 informative experiments, 1 of 24
+tests against 1.2 expected) are superseded by the Haller deposit below; the conclusion is unchanged.*
+
+### Also done (2026-08-08) — the Haller NR4A3 cistrome, and what it changed
+
+The one option this checklist listed as still available was retrieved. Zenodo 10.5281/zenodo.1483691
+(Haller *et al.*, PMID 30664630) carries NR4A3 ChIP-seq in three acinic cell carcinomas and one
+normal parotid gland at **8,501–18,666 peaks** — 55–121× the deepest NR4A3 peak set the repository
+previously held (154), and the first NR4A3 occupancy data in human tissue this paper has.
+
+⚠ **It is not a fusion and the manuscript says so in every place it appears.** Acinic cell carcinoma
+activates *wild-type* NR4A3 by enhancer hijacking. §3.2 records native NR4A3 failing to activate the
+*PPARG* promoter the fusion activates, so a native cistrome is *expected* to disagree with a fusion
+one at exactly that gene.
+
+- **The build was measured, not assumed.** A BED file carries no genome build, and on chr10 an
+  intersection on the wrong one does not fail — it silently reports another locus. H3K4me3 marks
+  active promoters, so on the correct build it must recover most of the background panel: **90.6–93.9%
+  on hg19 against 32.2–33.6% on hg38**, all four samples independently. Both an absolute floor and a
+  ratio are required, because the builds agree over much of the genome and ~33% is the wrong-build
+  floor rather than noise.
+- **The axis is now 110 peak sets, 12 informative experiments, 36 tests**, and the conclusion is
+  unchanged and better supported: 2 hits at p < 0.05 against 1.8 expected, **binomial p = 0.54**.
+- ⭐ ***PPARG*'s zero became a real negative.** It carries no promoter-window peak in any of the four
+  deep NR4A3 experiments, which recover 49–68% of the background panel — so they can find an
+  arbitrary gene and did not find this one. That sits against Filion *et al.*'s perfect NBRE at
+  −675 bp and band shift, and §3.11 reports the tension rather than resolving it.
+- ***ENO3*'s single nominal hit is in the NORMAL parotid gland** (p = 0.035), not any carcinoma —
+  the opposite shape from a tumour-driven signal.
+- ⛔ **Two defects the new data exposed, both one commit from the manuscript.** The occupancy module
+  recorded each peak set's antigen and never filtered on it, so the deposit's 20 CTCF/H3K27ac/
+  H3K27me3/H3K4me3/super-enhancer files entered an *NR4A occupancy* test. And the verdict decided
+  significance with `observed > expected`, which is not a test when expected is fractional: at 2
+  against 1.8 it flipped to "at least one class-A gene exceeds the background panel more often than
+  chance would give." Both fixed; the second is now a binomial tail.
+
+### Also done (2026-08-08) — the fourth-cohort question, asked and answered
+
+This checklist carried "**a fourth EMC expression cohort**, if one exists" as an open row for as long
+as it has existed. It was never a blocked item; it was an unasked question, and the whole cost of
+asking it was one $0 CI dispatch. `emc_cohort_search.py` (mode `cohort-search`) puts six deliberately
+overlapping queries to GEO, records every one including those returning nothing, and grades what
+comes back. **No fourth cohort.** Main-text §2.7 (method) and §3.13 Table 10 (result); Limitation 1
+is now bounded rather than merely stated.
+
+⚠ **Three things about it are worth more than the answer**, and two were found only by running it.
+
+- **A positive control, because a null from a search that finds nothing proves nothing.** The same
+  queries had to recover the three cohorts already in use — and their EMC arm sizes, 6, 10 and 4,
+  read from GEO **sample titles** rather than from the series matrices the paper scores. All three
+  agreed. Had they not, the module withholds the negative as uninterpretable rather than reporting
+  it, and the headline keys on the whole control (an early version keyed on recovery alone, so an
+  arm-size disagreement could set `passes: false` and still print a clean negative).
+- **A three-level dedup, because the trap is real.** `GSE170983` is 99 samples, four of them EMC,
+  under its own accession — and it is the same Brunner deposit as `GSE28866`, already the paper's
+  3SEQ arm, with the same four tumours. Counting it would have raised the apparent EMC total to 24
+  without adding a patient. Candidates are checked at accession, linked publication, and GSM identity
+  against all 157 samples the three cohorts read. Stated in the paper at §2.2.
+- **Sample-level reads for every series, not a title screen.** The first version gated the sample
+  read on whether a series' prose named EMC, which would have discarded `GSE43632` (*Large scale
+  screening for fusion genes in sarcoma patient samples*) and `GSE80126` on their titles — and, worse,
+  would have skipped `GSE24369`, the cohort titled after LGFMS that carries six EMC tumours and is
+  this paper's own standing example that a GEO title is a claim rather than a measurement.
+- ⛔ **And a broken query returns zero exactly like an empty one does.** Four of the six queries first
+  returned zero, all four sharing an `"expression profiling"[Filter]` clause the two productive
+  queries lacked — one of them asking GEO for human chondrosarcoma expression series, which it cannot
+  honestly answer with nothing. Re-asked with the restriction lifted, three returned **2, 4 and 32**
+  records, taking the search from 7 series to **22** and supplying **15 of the 17 sample-level zeros**
+  that give the negative its weight. The fourth returned zero again and is the only zero read as an
+  absence. **The unrepaired search would have rested on two queries while presenting itself as six** —
+  and it was caught only because the per-query counts were measured against the artifact while
+  drafting SI Table S7 rather than carried over from the draft.
+
+### Still available (not required for submission)
+
+| option | what it would add | cost | blocked on |
+|---|---|---|---|
+| **Intersect with the Haller 2019 NR4A3 ChIP-seq peaks** (Zenodo doi 10.5281/zenodo.1483691, open) | Whether the NR4A3 DNA-binding domain reaches these genes in a human tumour. ⛔ Must be framed exactly as §4.3 frames it — acinic cell carcinoma carries *native* NR4A3, not a fusion, so it can never be cited as a fusion cistrome | $0, CPU | dispatched 2026-08-08 (`ret-cistrome` at this branch); result pending |
 
 ## 6 · Optional presentation work (not required for submission)
 
-- ✅ **A headline figure now exists** — the evidence-convergence matrix (Figure 1, §3.13), dependency-free
-  SVG generated from the committed artifacts with a `--check` mode. Converting the instrument-control
-  panel (§3.3) into a second figure remains optional.
-- **A promoter NBRE-motif scan** of the up-in-EMC genes (Discussion §4.2, item 4) is a no-new-data
-  analysis that would add an orthogonal line of evidence; it is named in the manuscript as future work
-  and is not required for this submission.
+- ✅ **Five figures now exist**, generated with matplotlib from the committed artifacts by
+  `nr4a3_fusion_targets_figures.py` and emitted as 300 dpi PNG plus vector PDF. The earlier
+  hand-emitted SVG was retired: `AGENTS.md` bans hand-computed SVG because it has no text measurement
+  and cannot be rasterised for inspection before commit, and the retired figure was exactly that.
+  Staleness is checked against a stamped content hash of every artifact each figure was drawn from —
+  by `--check` locally, and in CI by
+  `tests/test_nr4a3_fusion_targets_figures.py::test_the_provenance_stamp_matches_the_committed_artifacts`,
+  so changing a number a figure draws without regenerating it turns the build red.
+- ✅ **The promoter NBRE-motif scan is done** and is main-text §3.10 with full parameters in
+  Supplementary §S6. *(This bullet previously said the scan was future work while §5 of this same
+  document reported it as complete — two states of the same fact in one file.)*
+- **Converting the instrument-control panel (§3.3) into a sixth figure** remains optional.
 - **In-text citation style.** The manuscript uses a consistent author-name + PMID inline style with a
   full numbered reference list — accepted by GCC at initial submission ("any consistent style"). The
   PMID on each inline citation is a deliberately robust provenance anchor. Converting the in-text

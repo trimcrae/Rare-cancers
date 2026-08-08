@@ -534,7 +534,10 @@ Collected here rather than buried, because several touch live route grades.
 6. ⭐ **The fusion's demonstrated direct target is a glycolytic enzyme.** An NR4A3 fusion transactivates
    **ENO3** through chromatin modification of its promoter (**PMID 26310886**) — cited in this repo
    only as evidence for the chromatin mechanism, never for what it turns on. A $0 re-read of the
-   committed EMC series gives ENO3 **+0.813** (t 3.66) and **+3.811** (t 13.22) in the two cohorts, with
+   committed EMC series gives ENO3 **+0.8075** (t 3.607) and **+3.8113** (t 13.221) in the two cohorts
+   — *superseded here 2026-08-08: this line previously read **+0.813** (t 3.66), which matched no
+   committed artifact; the values above are the ones `nr4a3-fusion-targets.json` owns and the
+   transcriptional-output manuscript reports* — with
    `MKI67` flat in the first. The muscle-admixture confound (ENO3 is muscle-specific β-enolase; EMC
    arises in thigh) was tested and fails at set level: the whole myogenesis set is flat and the
    muscle-restricted markers *fall*. ⚠ n = 6 and n = 10, cached gene-set subset, no multiple-testing

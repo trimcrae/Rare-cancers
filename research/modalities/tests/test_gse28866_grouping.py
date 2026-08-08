@@ -153,3 +153,90 @@ def test_main_actually_calls_the_grouping_and_the_extraction():
     assert "_groups(" in body, "main() does not call _groups"
     assert "_extract(" in body, "main() does not call _extract"
     assert "matches_series_description" in body, "the extraction is not gated on the grouping"
+
+
+# =================================================================================================
+# THE RATIO CALIBRATION -- "is 2.5x unusual here?", which the 3SEQ arm was reported without.
+# =================================================================================================
+def test_a_zero_comparator_median_is_an_unreadable_ratio_not_a_huge_one():
+    """The failure mode that would invert the whole ranking.
+
+    A gene undetected in the comparator arm has NO ratio. Treating 0 as a denominator would put
+    every such gene at the top, which is precisely backwards: those are the genes the deposit says
+    least about."""
+    assert m._ratio(5.0, 0.0) is None
+    assert m._ratio(5.0, None) is None
+    assert m._ratio(None, 2.0) is None
+    assert m._ratio(5.0, 2.0) == 2.5
+
+
+def test_percentile_is_a_rank_over_the_supplied_distribution():
+    dist = [1.0, 2.0, 3.0, 4.0]
+    assert m._percentile_of(0.5, dist) == 0.0
+    assert m._percentile_of(2.0, dist) == 50.0
+    assert m._percentile_of(4.0, dist) == 100.0
+    assert m._percentile_of(None, dist) is None
+    assert m._percentile_of(2.0, []) is None
+
+
+def test_calibration_ranks_a_wanted_gene_against_every_gene_in_the_deposit():
+    """A gene with the largest EMC/comparator ratio in the table must rank at the top, and a gene
+    in the middle must not. Built with known answers so the arithmetic is checkable."""
+    header = _real_header()
+    g = m._groups(header)
+    idx = {c.strip().strip('"'): i for i, c in enumerate(header)}
+    emc, nor = set(g["emc_columns"]), set(g["normal_columns"])
+
+    def row(peak, sym, e, n, o):
+        f = [""] * len(header)
+        f[0], f[1], f[3], f[4], f[5] = peak, "chr1:1-40_+", "NM_x", sym, sym
+        for c, i in idx.items():
+            if i >= len(ANN):
+                f[i] = "%.3f" % (e if c in emc else n if c in nor else o)
+        return "\t".join(f)
+
+    rows = [row(str(i), "BG%d" % i, 1.0, 1.0, 1.0) for i in range(20)]   # 20 genes at ratio 1.0
+    rows.append(row("90", "ENO3", 10.0, 1.0, 1.0))                       # the top of the table
+    rows.append(row("91", "SEMA3C", 1.0, 1.0, 1.0))                      # indistinguishable
+    rows.append(row("92", "PPARG", 4.0, 0.0, 2.0))                       # zero normal denominator
+    cal = m._calibrate(_synthetic_table(header, rows), m.WANTED)
+
+    assert cal["n_genes_in_deposit"] == 23
+    assert cal["per_gene"]["ENO3"]["emc_over_normal"] == 10.0
+    assert cal["per_gene"]["ENO3"]["emc_over_normal_percentile"] == 100.0
+    # ⚠ THE POINT OF THE WHOLE BLOCK: a gene that moves exactly as much as everything else is not
+    # a finding, however large its fold-change happens to be.
+    assert cal["per_gene"]["SEMA3C"]["emc_over_normal"] == 1.0
+    assert cal["per_gene"]["SEMA3C"]["emc_over_normal_percentile"] < 100.0
+    # PPARG has no normal ratio (zero denominator) but does have a sarcoma one.
+    assert cal["per_gene"]["PPARG"]["emc_over_normal"] is None
+    assert cal["per_gene"]["PPARG"]["emc_over_normal_percentile"] is None
+    assert cal["per_gene"]["PPARG"]["emc_over_sarcoma"] == 2.0
+    assert cal["n_genes_with_a_normal_ratio"] == 22        # 23 minus the zero-denominator gene
+    assert cal["distribution_emc_over_normal"]["median"] == 1.0
+
+
+def test_a_gene_absent_from_the_deposit_is_null_and_says_what_null_means():
+    header = _real_header()
+    g = m._groups(header)
+    idx = {c.strip().strip('"'): i for i, c in enumerate(header)}
+    emc, nor = set(g["emc_columns"]), set(g["normal_columns"])
+
+    def row(peak, sym, e, n, o):
+        f = [""] * len(header)
+        f[0], f[1], f[3], f[4], f[5] = peak, "chr1:1-40_+", "NM_x", sym, sym
+        for c, i in idx.items():
+            if i >= len(ANN):
+                f[i] = "%.3f" % (e if c in emc else n if c in nor else o)
+        return "\t".join(f)
+
+    cal = m._calibrate(_synthetic_table(header, [row("1", "ENO3", 3.0, 1.0, 1.0)]), m.WANTED)
+    assert cal["per_gene"]["MSLN"]["emc_over_normal"] is None
+    assert "NOT a ratio of zero" in cal["per_gene"]["MSLN"]["_absent_means"]
+
+
+def test_the_calibration_says_it_is_not_a_test():
+    header = _real_header()
+    cal = m._calibrate(_synthetic_table(header, []), m.WANTED)
+    assert "not a p-value" in cal["_not_a_test"]
+    assert "n_EMC = 4" in cal["_not_a_test"]

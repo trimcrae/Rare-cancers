@@ -69,6 +69,9 @@ from datetime import datetime, timezone
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "emc-ret-cistrome.json")
 INPUTS = os.path.join(HERE, "emc-ret-cistrome-inputs.json")
+# Where a REFUSED run puts its cache. Deliberately not `INPUTS`, and deliberately not published by
+# the workflow's publish arm — see the refusal branch in `main()` for the incident that earned it.
+FAILED_INPUTS = os.path.join(HERE, "emc-ret-cistrome-inputs-FAILED.json")
 
 sys.path.insert(0, HERE)
 
@@ -403,7 +406,15 @@ ATTEMPTS = []
 
 
 def _record(url, status, nbytes=None, error=None, note=None):
-    rec = {"url": url[:300], "status": status}
+    # ⏱ EVERY ATTEMPT CARRIES WHEN IT HAPPENED, because a budget that runs out is a fact about ONE
+    # endpoint and the artifact could not say which. Measured 2026-08-08: a run spent its entire
+    # 3000 s and retrieved zero peak sets, where the previous successful run had spent 344 s of
+    # 2400 s and retrieved 86. That is a ~9x degradation and therefore a signal, not a budget
+    # shortfall — but the only way to see WHICH endpoint absorbed it was to download a CI artifact
+    # the sandbox cannot reach. `budget_at_s` is the elapsed second each attempt was recorded at,
+    # so consecutive attempts bracket the time any one of them consumed, and `--fetch` prints the
+    # slowest few to stdout where the workflow log already captures them.
+    rec = {"url": url[:300], "status": status, "budget_at_s": BUDGET.spent()}
     if nbytes is not None:
         rec["bytes"] = nbytes
     if error:
@@ -412,6 +423,19 @@ def _record(url, status, nbytes=None, error=None, note=None):
         rec["note"] = note
     ATTEMPTS.append(rec)
     return rec
+
+
+def slowest_attempts(attempts, n=10):
+    """The n attempts that consumed the most wall clock, from consecutive `budget_at_s` stamps."""
+    rows, prev = [], 0.0
+    for a in attempts:
+        at = a.get("budget_at_s")
+        if at is None:
+            continue
+        rows.append({"took_s": round(at - prev, 1), "at_s": at,
+                     "status": a.get("status"), "bytes": a.get("bytes"), "url": a.get("url")})
+        prev = at
+    return sorted(rows, key=lambda r: -r["took_s"])[:n]
 
 
 # ⛔ A 429 IS "ASK AGAIN LATER", NOT "NOT FOUND" (measured 2026-08-07, run 31201656452).
@@ -1358,6 +1382,114 @@ def probe_other_catalogues():
 
 
 # =============================================================================================
+# ZENODO — the only route to a DEEP, NON-PARALOGUE NR4A3 peak set.
+# =============================================================================================
+# ⭐ WHY THIS SOURCE EXISTS. Every NR4A3 peak set this module otherwise retrieves is one of the
+# 53-154-peak dendritic-cell experiments, which recover no arbitrary gene and are therefore
+# UNINFORMATIVE: they cannot fail to find a locus. ReMap has no NR4A3
+# (`not_found_at_any_attempted_url`) and ENCODE has none (`failed_or_none`). So the occupancy
+# reading downstream of this module is carried entirely by NR4A1, a paralogue sharing 0.347 of its
+# peaks with NR4A3 in matched cells. Haller et al. 2019 is the one published NR4A3 ChIP-seq in a
+# human TUMOUR, and its processed data is openly deposited.
+#
+# ⛔ AND IT IS STILL NOT THE FUSION. Acinic cell carcinoma carries NATIVE NR4A3 up-regulated by
+# enhancer hijacking. The transcriptional-output manuscript measures native NR4A3 failing to
+# activate the PPARG promoter the fusion activates, so this answers "where does the NR4A3
+# DNA-binding domain go in a human tumour" and never "where does EWSR1::NR4A3 go". Any reader of
+# the artifact is told so on every record this produces.
+ZENODO_RECORDS = {
+    "1483691": {
+        "doi": "10.5281/zenodo.1483691",
+        "pmid": "30664630",
+        "what": "Haller et al., Nat Commun 2019;10:368 — NR4A3 ChIP-seq in three human acinic "
+                "cell carcinoma tumours, with H3K27ac / H3K4me3 / CTCF alongside, and a de-novo "
+                "NBRE motif recovered in all three.",
+        "⛔ not_the_fusion": "acinic cell carcinoma carries NATIVE NR4A3 up-regulated by enhancer "
+                            "hijacking, NOT an NR4A3 fusion. This peak set must never be cited "
+                            "as a fusion cistrome.",
+    },
+}
+ZENODO_API = "https://zenodo.org/api/records/{rec}"
+
+# A BED file carries no genome build inside it, and this module refuses to intersect on an assumed
+# one — on chr10 a wrong build does not throw, it silently reports a different locus. So the build
+# is read from the deposit's own prose and, failing that, the peak set is retrieved, recorded, and
+# NOT intersected.
+_BUILD_TOKENS = [("hg38", ("hg38", "grch38")), ("hg19", ("hg19", "grch37"))]
+
+
+def _build_from_text(*texts):
+    """The build named by the deposit itself, or None. Ambiguity is None, never a guess."""
+    blob = " ".join(t for t in texts if t).lower()
+    found = {b for b, toks in _BUILD_TOKENS if any(tok in blob for tok in toks)}
+    return found.pop() if len(found) == 1 else None
+
+
+def fetch_zenodo_peaksets():
+    """Peak-like files from each ZENODO_RECORDS deposit, parsed and build-graded.
+
+    Returns {name: peakset} in the same shape the ChIP-Atlas and ReMap loaders produce, so the
+    intersection and everything downstream of it needs no change."""
+    out = {}
+    for rec, meta in sorted(ZENODO_RECORDS.items()):
+        d = get_json(ZENODO_API.format(rec=rec), timeout=90)
+        if d is None:
+            out[f"ZENODO{rec}"] = {"_status": "record_unreadable", "antigen": None,
+                                   "peaks": [], "diag": {"_status": "absent"},
+                                   "⛔": "the deposit could not be read; this is an ABSENT "
+                                         "READING, not a deposit without peak files.",
+                                   **meta}
+            continue
+        desc = ((d.get("metadata") or {}).get("description") or "")
+        title = ((d.get("metadata") or {}).get("title") or "")
+        files = d.get("files") or []
+        record_build = _build_from_text(title, desc)
+        seen_any = False
+        for f in files:
+            key = f.get("key") or ""
+            if not PEAKISH.search(key):
+                continue
+            url = ((f.get("links") or {}).get("self") or (f.get("links") or {}).get("download"))
+            if not url:
+                continue
+            raw = get(url, timeout=300, max_bytes=200_000_000)
+            peaks, diag = parse_bed(raw, f"zenodo:{rec}:{key}")
+            if not peaks:
+                continue
+            seen_any = True
+            ag = next((p for p in PARALOGUES if p.lower() in key.lower()), None)
+            build = _build_from_text(key) or record_build
+            ok = build in BUILDS
+            out[f"ZENODO{rec}:{key}"] = {
+                "antigen": ag,
+                "genome": build if ok else None,
+                "cell_type": title[:120] or f"Zenodo {rec}",
+                "cell_type_class": "author-deposited peak call (not uniformly reprocessed)",
+                "qc": None, "peaks": peaks, "diag": diag,
+                "_status": "read" if ok else "read_but_build_unknown",
+                "build_evidence": {"from_filename": _build_from_text(key),
+                                   "from_record_text": record_build,
+                                   "_rule": "a build named unambiguously by the deposit, or none"},
+                "source_doi": meta["doi"], "source_pmid": meta.get("pmid"),
+                "⛔ not_the_fusion": meta.get("⛔ not_the_fusion"),
+                "⛔": None if ok else
+                     ("no genome build could be read from this deposit, so the peak set is "
+                      "retrieved and recorded but NOT intersected. An intersection on an assumed "
+                      "build would not throw; on chr10 it would silently report another locus."),
+            }
+        if not seen_any:
+            out[f"ZENODO{rec}"] = {
+                "_status": "no_peak_like_files", "antigen": None, "peaks": [],
+                "diag": {"_status": "absent"},
+                "n_files_in_deposit": len(files),
+                "file_keys": [f.get("key") for f in files][:40],
+                "⛔": "the deposit was READ and carries no file this module recognises as a peak "
+                      "call. That is a fact about the deposit's contents, not a failed fetch.",
+                **meta}
+    return out
+
+
+# =============================================================================================
 # PART 2 — peaks.
 # =============================================================================================
 
@@ -2052,6 +2184,17 @@ def fetch():
 
     # ---- part 2: the peaks --------------------------------------------------------------------
     peaksets = {}
+
+    # ⛔ ZENODO FIRST, AND THE ORDER IS THE WHOLE POINT. It was appended at the END of this
+    # function when it was added, which put a small, deliberately-requested, few-MB download last
+    # in line behind a budget-paced sweep of catalogues measured in hundreds of megabytes — so the
+    # ONE source a run might have been dispatched specifically to get is the first thing the budget
+    # starves, and it would record `budget_exhausted` having cost the whole run. Every other source
+    # here is already cached from previous runs and degrades to a recorded partial; this one is the
+    # only deep non-paralogue NR4A3 peak set known to be reachable at all (see ZENODO_RECORDS), so
+    # it goes first and the sweeps take what is left. Cheap-and-decisive before slow-and-broad.
+    peaksets.update(fetch_zenodo_peaksets())
+
     ca = cache["chip_atlas"]
     if ca.get("_status") == "read" and ca.get("experiments"):
         peaksets.update(fetch_chip_atlas_peaks(ca["experiments"]))
@@ -2205,16 +2348,286 @@ def _synthetic_cache(ret_peak, control_peak):
 
 # =============================================================================================
 
-def would_downgrade(new_art, out_path=None):
-    """True if writing `new_art` would replace a REAL reading with an absent one.
+# A run may lose this fraction of the committed artifact's peak sets to catalogue churn before the
+# loss is treated as a partial fetch rather than as a smaller world. 86 -> 5 is not churn.
+COVERAGE_FLOOR = 0.9
+ALLOW_SHRINK = os.environ.get("RET_CISTROME_ALLOW_SHRINK") == "1"
 
-    A reading is `part_2_intersection._status == "read"`. Anything else — NOT_RUN,
-    NO_PEAK_SET_RETRIEVED — is the instrument saying it could not look, and the two must never be
-    allowed to overwrite each other in that direction.
+
+def _n_peaksets_read(art):
+    per = (art.get("part_2_intersection") or {}).get("per_peakset") or {}
+    return sum(1 for v in per.values()
+               if isinstance(v, dict) and v.get("_status") == "read")
+
+
+# A deposit's build is INFERRED only if a promoter mark recovers most of the background panel on one
+# build and far less on the other. Both conditions are load-bearing: the ratio alone would accept two
+# equally-wrong builds, and the absolute alone would accept a build on which everything happens to be
+# broadly covered. `hg19` and `hg38` agree over much of the genome, so ~33% on the wrong build is the
+# expected floor, not noise — which is exactly why a bare "it found some" test would not do.
+BUILD_INFER_MIN_CONCORDANCE = 0.80
+BUILD_INFER_MIN_RATIO = 2.0
+# Marks whose peaks are SUPPOSED to sit at promoters. The inference is only as good as this premise,
+# so it is stated rather than assumed: a transcription factor is not usable here, because a TF that
+# genuinely avoided promoters would look like the wrong build.
+PROMOTER_MARKS = ("H3K4me3",)
+
+
+def promoter_concordance(peaks, genes_for_build, build):
+    """Fraction of the background panel's promoter windows carrying at least one peak."""
+    hit = 0
+    for _sym, gene in genes_for_build.items():
+        lo, hi = promoter_window_bed(gene)
+        if intersect_locus(peaks, (gene["chrom"], lo, hi), build, build):
+            hit += 1
+    n = len(genes_for_build)
+    return {"n_panel_genes": n, "n_with_a_promoter_peak": hit,
+            "fraction": round(hit / n, 4) if n else None}
+
+
+def infer_deposit_build(peaksets, genes, candidate_builds=("hg19", "hg38")):
+    """Which build a deposit's coordinates are on, MEASURED, or None.
+
+    ⛔ WHY THIS IS NOT THE GUESS THE MODULE REFUSES. A BED file carries no build, and this module's
+    standing rule is that an intersection on an ASSUMED build does not throw — on chr10 it silently
+    reports another locus. That rule is about assuming. This measures, against a premise that can
+    fail loudly: H3K4me3 marks active promoters, so on the correct build it must recover most of a
+    background gene panel assembled for an unrelated question, and on the wrong one it must not.
+
+    Measured on Zenodo 1483691 (Haller 2019, acinic cell carcinoma): H3K4me3 recovers 90.6-93.9% of
+    the panel on hg19 against 32.2-33.6% on hg38, in all four samples independently. The 33% floor is
+    the two builds agreeing over much of the genome, which is why a ratio alone is not enough and the
+    absolute threshold is not enough either.
+
+    The call is made ONCE PER DEPOSIT from its promoter marks and applied to every file in it, because
+    the files are one study through one pipeline. Inferring per file would let a TF that genuinely
+    avoids promoters read as the wrong build.
+    """
+    refs = {k: v for k, v in peaksets.items()
+            if any(m.lower() in k.lower() for m in PROMOTER_MARKS) and (v.get("peaks") or [])}
+    ev = {"_method": ("promoter concordance of a promoter mark against the background gene panel, "
+                      "per candidate build"),
+          "promoter_marks_used": sorted(refs),
+          "min_concordance": BUILD_INFER_MIN_CONCORDANCE, "min_ratio": BUILD_INFER_MIN_RATIO,
+          "per_build": {}}
+    if not refs:
+        ev["_status"] = "NO_PROMOTER_MARK_IN_DEPOSIT"
+        ev["⛔"] = ("no H3K4me3-like peak set to calibrate against, so the build cannot be measured "
+                    "here. This is an ABSENT READING: the deposit is retrieved and NOT intersected.")
+        return None, ev
+
+    for b in candidate_builds:
+        gb = genes.get(b) or {}
+        if not gb:
+            continue
+        per = {}
+        for name, v in sorted(refs.items()):
+            peaks = [tuple(p) for p in (v.get("peaks") or [])]
+            per[name] = promoter_concordance(peaks, gb, b)
+        fr = [r["fraction"] for r in per.values() if r["fraction"] is not None]
+        ev["per_build"][b] = {"per_peakset": per,
+                              "min_fraction": min(fr) if fr else None,
+                              "mean_fraction": round(sum(fr) / len(fr), 4) if fr else None}
+
+    scored = [(r["min_fraction"], b) for b, r in ev["per_build"].items()
+              if r.get("min_fraction") is not None]
+    if len(scored) < 2:
+        ev["_status"] = "TOO_FEW_CANDIDATE_BUILDS"
+        return None, ev
+    scored.sort(reverse=True)
+    (best_f, best), (next_f, _next_b) = scored[0], scored[1]
+    ratio = (best_f / next_f) if next_f else float("inf")
+    ev.update({"best_build": best, "best_min_fraction": best_f,
+               "runner_up_min_fraction": next_f, "ratio": round(ratio, 3)})
+    if best_f >= BUILD_INFER_MIN_CONCORDANCE and ratio >= BUILD_INFER_MIN_RATIO:
+        ev["_status"] = "INFERRED"
+        return best, ev
+    ev["_status"] = "NOT_DECISIVE"
+    ev["⛔"] = (f"best build {best} reaches {best_f} against a runner-up {next_f} (ratio "
+               f"{ev['ratio']}). That does not clear both thresholds, so no build is assigned and "
+               "these peak sets are NOT intersected.")
+    return None, ev
+
+
+def infer_builds_in_cache():
+    """Measure the build of every `read_but_build_unknown` deposit, offline, from the cached peaks.
+
+    Separate from the fetch on purpose: it needs no network, so the inference can be re-run, argued
+    with and re-thresholded without spending another retrieval — and a build assignment is exactly
+    the kind of call that should be reproducible from committed data rather than from a live host.
+    """
+    if not os.path.exists(INPUTS):
+        print("⛔ REFUSING: no committed inputs cache.", file=sys.stderr)
+        return 4
+    with open(INPUTS, "r", encoding="utf-8") as fh:
+        cache = json.load(fh)
+    peaksets, genes = cache.get("peaksets") or {}, cache.get("genes") or {}
+
+    deposits = {}
+    for name, v in peaksets.items():
+        if not isinstance(v, dict) or v.get("_status") != "read_but_build_unknown":
+            continue
+        deposits.setdefault(name.split(":")[0], {})[name] = v
+    if not deposits:
+        print("infer-builds: no build-unknown peak set in the cache; nothing to do")
+        return 0
+
+    changed, record = 0, {}
+    for dep, members in sorted(deposits.items()):
+        build, ev = infer_deposit_build(members, genes)
+        record[dep] = ev
+        print(f"{dep}: {ev['_status']}"
+              + (f" -> {build} (min fraction {ev.get('best_min_fraction')} vs "
+                 f"{ev.get('runner_up_min_fraction')}, ratio {ev.get('ratio')})" if build else ""),
+              file=sys.stderr)
+        for b, r in sorted((ev.get("per_build") or {}).items()):
+            print(f"    {b}: min {r.get('min_fraction')} mean {r.get('mean_fraction')}",
+                  file=sys.stderr)
+        if not build:
+            continue
+        for name, v in members.items():
+            v["genome"] = build
+            v["_status"] = "read"
+            v["build_evidence"] = dict(v.get("build_evidence") or {},
+                                       inferred_build=build, inference=ev["_status"],
+                                       _rule=("MEASURED by promoter concordance against the "
+                                              "background panel, not read from the file and not "
+                                              "assumed — see infer_deposit_build"))
+            v.pop("⛔", None)
+            changed += 1
+
+    if not changed:
+        print("infer-builds: no deposit cleared the thresholds; nothing written", file=sys.stderr)
+        return 3
+    cache["build_inference"] = record
+    art = derive(cache)
+    if would_downgrade(art):
+        print("⛔ REFUSING TO WRITE: the re-derive would reduce coverage.", file=sys.stderr)
+        return 3
+    with open(INPUTS, "w", encoding="utf-8") as fh:
+        json.dump(cache, fh, indent=1, sort_keys=False, default=str)
+    with open(OUT, "w", encoding="utf-8") as fh:
+        json.dump(art, fh, indent=1, sort_keys=False, default=str)
+    print(json.dumps({"peaksets_assigned_a_build": changed,
+                      "readable_after_derive": _n_peaksets_read(art),
+                      "verdict": (art.get("verdict") or {}).get("headline")}, indent=1))
+    return 0
+
+
+def fetch_zenodo_into_cache():
+    """Fetch ONLY the Zenodo deposits and merge them into the committed inputs cache.
+
+    ⛔ WHY THIS MODE EXISTS, AND WHY THE OBVIOUS ALTERNATIVE DOES NOT WORK. `fetch()` is
+    all-or-nothing: it re-retrieves every catalogue on every run, so adding ONE source requires a
+    complete successful sweep of all of them. Two dispatches proved that is not reliably available
+    — one spent its entire 3000 s budget and retrieved zero peak sets where an earlier run had spent
+    344 s of 2400 s and retrieved 86.
+
+    ⚠ AND THE FIX ATTEMPTED FIRST DID NOT DO WHAT IT CLAIMED. Moving `fetch_zenodo_peaksets()` to
+    the front of part 2 made it first among the PEAKS and left it behind parts 1 and 0 — GEO
+    discovery, the ChIP-Atlas experiment-list stream, the supplementary listing and two gene-span
+    services — which is where the budget actually goes (`stream_lines` alone takes 40% of what
+    remains, per catalogue). "Even a starved run retrieves Zenodo" was false, and the ordering fix
+    is kept only because it is right on its own terms.
+
+    The cached peak coordinates are already on disk and already committed. So this makes a handful
+    of HTTP calls, merges the result into that cache, and re-derives. It cannot starve, and the
+    merged cache carries 97+ peak sets rather than 5, so it does not trip the coverage guard the way
+    a starved full fetch would.
+
+    ⛔ THE MERGE IS RECORDED AS A MERGE. After this runs the artifact is no longer the product of a
+    single fetch, and a reader comparing dates would otherwise have no way to know. Both fetch dates
+    and the exact peak sets this call contributed are written into the cache.
+    """
+    if not os.path.exists(INPUTS):
+        print("⛔ REFUSING: no committed inputs cache to merge into. This mode ADDS a source to an "
+              "existing retrieval; it cannot produce one. Run --fetch first.", file=sys.stderr)
+        return 4
+    with open(INPUTS, "r", encoding="utf-8") as fh:
+        cache = json.load(fh)
+    existing = cache.get("peaksets") or {}
+    n_before = sum(1 for v in existing.values()
+                   if isinstance(v, dict) and v.get("_status") == "read" and v.get("peaks"))
+    if n_before == 0:
+        print(f"⛔ REFUSING: the committed inputs cache holds {len(existing)} peak set(s) and none "
+              "is readable, so merging into it would build a result on an absent reading.",
+              file=sys.stderr)
+        return 4
+
+    zen = fetch_zenodo_peaksets()
+    added = {k: v for k, v in zen.items() if v.get("_status") in ("read", "read_but_build_unknown")}
+    print(f"zenodo merge: {len(zen)} record-level result(s), {len(added)} usable peak set(s)",
+          file=sys.stderr)
+    for k, v in sorted(zen.items()):
+        print(f"  {k[:70]:<70} {str(v.get('_status')):<24} "
+              f"peaks={len(v.get('peaks') or [])} genome={v.get('genome')}", file=sys.stderr)
+    for r in slowest_attempts(ATTEMPTS, n=6):
+        print(f"  ⏱ {r['took_s']:>6.1f}s  {str(r['status']):<18} {str(r['url'])[:100]}",
+              file=sys.stderr)
+    if not zen:
+        print("⛔ REFUSING: the Zenodo fetch returned nothing at all — not even a record-level "
+              "refusal, which means it did not run. Nothing is merged.", file=sys.stderr)
+        return 4
+
+    existing.update(zen)
+    cache["peaksets"] = existing
+    cache["attempts"] = (cache.get("attempts") or []) + ATTEMPTS
+    # ⛔ Provenance, because this artifact now has two fetch dates and a reader must be able to see
+    # that without diffing two files.
+    cache["_merged_sources"] = (cache.get("_merged_sources") or []) + [{
+        "source": "zenodo",
+        "records": sorted(ZENODO_RECORDS),
+        "fetched_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "base_cache_generated_utc": cache.get("_generated_utc"),
+        "peaksets_added": sorted(zen),
+        "n_usable_added": len(added),
+        "⚠": ("this artifact is a MERGE of two retrievals on different dates, not the product of "
+              "one run. The catalogues were retrieved at `base_cache_generated_utc`; these peak "
+              "sets at `fetched_utc`."),
+    }]
+
+    art = derive(cache)
+    n_after = _n_peaksets_read(art)
+    if would_downgrade(art):
+        print(f"⛔ REFUSING TO WRITE: the merged cache derives {n_after} readable peak set(s), "
+              "below the committed artifact's coverage. Nothing is written; the real inputs cache "
+              "is untouched.", file=sys.stderr)
+        with open(FAILED_INPUTS, "w", encoding="utf-8") as fh:
+            json.dump(cache, fh, indent=1, sort_keys=False, default=str)
+        return 3
+    with open(INPUTS, "w", encoding="utf-8") as fh:
+        json.dump(cache, fh, indent=1, sort_keys=False, default=str)
+    with open(OUT, "w", encoding="utf-8") as fh:
+        json.dump(art, fh, indent=1, sort_keys=False, default=str)
+    print(json.dumps({"peaksets_in_cache": len(existing), "readable_before": n_before,
+                      "readable_after_derive": n_after, "zenodo_added": len(added),
+                      "verdict": (art.get("verdict") or {}).get("headline")}, indent=1))
+    return 0
+
+
+def would_downgrade(new_art, out_path=None):
+    """True if writing `new_art` would replace a real reading with a WEAKER one.
+
+    Two ways that happens, and the second was introduced by fixing something else.
+
+    **An absent reading replacing a real one.** A reading is `part_2_intersection._status ==
+    "read"`. Anything else — NOT_RUN, NO_PEAK_SET_RETRIEVED — is the instrument saying it could not
+    look, and the two must never overwrite each other in that direction.
+
+    ⛔ **A COLLAPSED READING REPLACING A FULL ONE, WHICH THIS GUARD USED TO MISS ENTIRELY.** The
+    check was binary, and that was safe only by accident: this module's slowest sources ran last, so
+    a budget-starved run retrieved NOTHING, landed on NO_PEAK_SET_RETRIEVED, and was refused. Moving
+    the small high-value Zenodo fetch to the front of `fetch()` — correct on its own terms, since it
+    was otherwise the first source the budget starved — quietly removed that accident: a starved run
+    now retrieves the five Zenodo sets, reports `_status: "read"`, and would have overwritten an
+    86-peak-set artifact with a five-peak-set one that looks entirely healthy. **A fix that turns a
+    fail-safe into a fail-quiet is worse than the bug it fixed**, so coverage is now part of what
+    "a reading" means: losing more than `1 - COVERAGE_FLOOR` of the committed peak sets is a partial
+    fetch, not a smaller world, and is refused. `RET_CISTROME_ALLOW_SHRINK=1` is the escape hatch
+    for a deliberate re-baseline — a human decision, never a default.
     """
     path = out_path or OUT
-    if (new_art.get("part_2_intersection") or {}).get("_status") == "read":
-        return False
+    new_is_read = (new_art.get("part_2_intersection") or {}).get("_status") == "read"
     if not os.path.exists(path):
         return False
     try:
@@ -2222,7 +2635,14 @@ def would_downgrade(new_art, out_path=None):
             old = json.load(fh)
     except Exception:                                    # noqa: BLE001
         return False                                     # unreadable ⇒ nothing to protect
-    return (old.get("part_2_intersection") or {}).get("_status") == "read"
+    if (old.get("part_2_intersection") or {}).get("_status") != "read":
+        return False                                     # nothing real to protect
+    if not new_is_read:
+        return True
+    if ALLOW_SHRINK:
+        return False
+    old_n, new_n = _n_peaksets_read(old), _n_peaksets_read(new_art)
+    return old_n > 0 and new_n < COVERAGE_FLOOR * old_n
 
 
 def report(art):
@@ -2301,6 +2721,10 @@ def report(art):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fetch", action="store_true")
+    ap.add_argument("--fetch-zenodo", action="store_true",
+                    help="fetch ONLY the Zenodo deposits and merge them into the cached inputs")
+    ap.add_argument("--infer-builds", action="store_true",
+                    help="measure the build of every build-unknown deposit from the cached peaks")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--report", action="store_true",
@@ -2315,9 +2739,24 @@ def main():
             print(report(json.load(fh)))
         return 0
 
+    if args.fetch_zenodo:
+        return fetch_zenodo_into_cache()
+
+    if args.infer_builds:
+        return infer_builds_in_cache()
+
     if args.fetch:
         cache = fetch()
         art = derive(cache)
+        # ⏱ UNCONDITIONALLY, AND BEFORE THE REFUSAL. A run that is about to be refused is exactly
+        # the run whose timing someone needs, and it is the run whose inputs cache never reaches a
+        # branch. stdout is in the workflow log either way.
+        _slow = slowest_attempts(cache.get("attempts") or ATTEMPTS)
+        print(f"=== BUDGET: {cache.get('_budget_spent_s')}s of {NET_BUDGET_S}s | "
+              f"{len(cache.get('attempts') or ATTEMPTS)} attempts | slowest ===", file=sys.stderr)
+        for r in _slow:
+            print(f"  {r['took_s']:>7.1f}s  at {r['at_s']:>7.1f}s  {str(r['status']):<18} "
+                  f"{str(r.get('bytes')):>12}  {str(r['url'])[:110]}", file=sys.stderr)
         # ⛔ AN ABSENT READING MAY NEVER OVERWRITE A REAL ONE (CLAUDE.md §4; measured 2026-08-07).
         # A cancelled ret-cistrome run reached the publish step — which is `always()` by design,
         # because a skipped commit makes "nothing changed" and "the job never ran" render alike —
@@ -2328,11 +2767,33 @@ def main():
         # been. The guard belongs in the module, not in the workflow, because that is where it can
         # be tested and where every caller inherits it.
         if would_downgrade(art):
-            print("⛔ REFUSING TO WRITE: this run produced no reading "
-                  f"({(art.get('part_2_intersection') or {}).get('_status')}) and the committed "
-                  "artifact carries one. An absent reading may not overwrite a real one. "
-                  "The inputs cache is written so the failure is diagnosable.", file=sys.stderr)
-            with open(INPUTS, "w", encoding="utf-8") as fh:
+            _st = (art.get("part_2_intersection") or {}).get("_status")
+            _old = 0
+            if os.path.exists(OUT):
+                try:
+                    with open(OUT, "r", encoding="utf-8") as fh:
+                        _old = _n_peaksets_read(json.load(fh))
+                except Exception:                        # noqa: BLE001
+                    pass
+            _why = (f"this run produced no reading ({_st})" if _st != "read" else
+                    f"this run read {_n_peaksets_read(art)} peak set(s) against the committed "
+                    f"artifact's {_old} — a partial fetch, not a smaller world "
+                    f"(RET_CISTROME_ALLOW_SHRINK=1 to re-baseline deliberately)")
+            # ⛔ THE DIAGNOSTIC GOES TO ITS OWN PATH, NEVER OVER THE CACHE IT IS DIAGNOSING.
+            # Measured 2026-08-08, and the refusal above is what made it possible: the guard
+            # protected `emc-ret-cistrome.json` from a starved run, the module then wrote its
+            # failure cache to `INPUTS` "so the failure is diagnosable", and the workflow's
+            # `always()` publish committed that 2,097-line stub over the 52 MB peak-coordinate
+            # cache — commit 5190923, 4,569,033 deletions. `nr4a3_fusion_targets_occupancy.py`
+            # reads that cache, so the paper's whole occupancy axis went to DRIFT while the
+            # artifact the guard was watching stayed pristine. **A guard that protects one of two
+            # files a result rests on protects neither**, and writing a diagnostic over the thing
+            # being diagnosed is the specific way this one leaked.
+            print(f"⛔ REFUSING TO WRITE: {_why} and the committed "
+                  "artifact carries one. A weaker reading may not overwrite a stronger one. "
+                  f"The failure cache goes to {os.path.basename(FAILED_INPUTS)} — the real inputs "
+                  "cache is left untouched.", file=sys.stderr)
+            with open(FAILED_INPUTS, "w", encoding="utf-8") as fh:
                 json.dump(cache, fh, indent=1, sort_keys=False, default=str)
             return 3
         with open(INPUTS, "w", encoding="utf-8") as fh:

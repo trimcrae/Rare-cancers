@@ -1,0 +1,2004 @@
+{
+ "_inputs": {
+  "_offline": "no network access; both files are committed caches",
+  "committed_intersection": "emc-ret-cistrome.json",
+  "peaks_and_tss": "emc-ret-cistrome-inputs.json"
+ },
+ "_language_discipline": "NR4A1 is a paralogue, not NR4A3, and none of this is the fusion or EMC chromatin. Nothing here shows any gene being bound by EWSR1::NR4A3. Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim, and no such quantity is computed.",
+ "_uninformative_rule": {
+  "_why": "a peak set that recovers (almost) no arbitrary gene cannot fail to recover these three, so its silence is an ABSENT READING and is never counted as evidence of non-occupancy",
+  "min_panel_genes": 50,
+  "min_panel_hit_rate": 0.02
+ },
+ "_what": "Occupancy axis for the EWSR1::NR4A3 transcriptional-output manuscript.",
+ "_why_a_raw_count_is_not_reported": "in the deepest catalogue 82.8% of the background panel carries a promoter-window peak, so 'has a peak' is what almost every gene does. Every count below is placed against the panel distribution or is not reported as a finding.",
+ "_window": {
+  "_why_this_window": "imported from the manuscript's motif scan so the sequence axis and the occupancy axis ask about one region",
+  "downstream_bp": 15000,
+  "strand_aware": true,
+  "upstream_bp": 10000
+ },
+ "generated_utc": "2026-08-08T14:03:29Z",
+ "parity_with_committed_artifact": {
+  "_what": "every promoter-window count re-derived here, compared with the committed emc-ret-cistrome.json intersection",
+  "agrees": true,
+  "disagreements": [],
+  "n_disagreeing": 0,
+  "n_rows_checked": 1339
+ },
+ "per_gene_summary": {
+  "ENO3": {
+   "_reading": "the smallest p any informative NR4A experiment gives this gene against a background panel of genes chosen without reference to it. One value per EXPERIMENT, not per genome build.",
+   "best_empirical_p_vs_panel": 0.0348,
+   "empirical_p_by_experiment": {
+    "REMAP2022_NR4A1": 0.1407,
+    "SRX10478650": 1.0,
+    "SRX1653203": 0.0498,
+    "SRX1653204": 0.1206,
+    "SRX2423524": 1.0,
+    "SRX2423525": 0.2637,
+    "SRX359913": 1.0,
+    "SRX5242458": 1.0,
+    "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed": 0.0697,
+    "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed": 0.0945,
+    "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed": 0.1592,
+    "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed": 0.0348
+   },
+   "n_experiments_enriched_at_0_05": 2,
+   "n_informative_experiments": 12
+  },
+  "PPARG": {
+   "_reading": "the smallest p any informative NR4A experiment gives this gene against a background panel of genes chosen without reference to it. One value per EXPERIMENT, not per genome build.",
+   "best_empirical_p_vs_panel": 0.8291,
+   "empirical_p_by_experiment": {
+    "REMAP2022_NR4A1": 0.8291,
+    "SRX10478650": 1.0,
+    "SRX1653203": 1.0,
+    "SRX1653204": 1.0,
+    "SRX2423524": 1.0,
+    "SRX2423525": 1.0,
+    "SRX359913": 1.0,
+    "SRX5242458": 1.0,
+    "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed": 1.0,
+    "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed": 1.0,
+    "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed": 1.0,
+    "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed": 1.0
+   },
+   "n_experiments_enriched_at_0_05": 0,
+   "n_informative_experiments": 12
+  },
+  "SEMA3C": {
+   "_reading": "the smallest p any informative NR4A experiment gives this gene against a background panel of genes chosen without reference to it. One value per EXPERIMENT, not per genome build.",
+   "best_empirical_p_vs_panel": 0.2935,
+   "empirical_p_by_experiment": {
+    "REMAP2022_NR4A1": 0.8291,
+    "SRX10478650": 1.0,
+    "SRX1653203": 0.2935,
+    "SRX1653204": 0.4573,
+    "SRX2423524": 1.0,
+    "SRX2423525": 1.0,
+    "SRX359913": 1.0,
+    "SRX5242458": 1.0,
+    "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed": 0.6766,
+    "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed": 1.0,
+    "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed": 1.0,
+    "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed": 1.0
+   },
+   "n_experiments_enriched_at_0_05": 0,
+   "n_informative_experiments": 12
+  }
+ },
+ "per_peakset": {
+  "REMAP2022_NR4A1": {
+   "antigen": "NR4A1",
+   "cell_type": "ReMap 2022 merged catalogue",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.1407,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 27,
+     "n_peaks_promoter_window": 6
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 0.8291,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 164,
+     "n_peaks_promoter_window": 1
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 0.8291,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 164,
+     "n_peaks_promoter_window": 1
+    }
+   },
+   "genome": "hg38",
+   "informative": true,
+   "n_peaks_total": 83773,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.8283,
+    "n_genes": 198
+   }
+  },
+  "SRX092299@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "K-562",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 1676,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.005,
+    "n_genes": 200
+   }
+  },
+  "SRX092299@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "K-562",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 1660,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0051,
+    "n_genes": 198
+   }
+  },
+  "SRX10478649@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "K-562",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 804,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.015,
+    "n_genes": 200
+   }
+  },
+  "SRX10478649@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "K-562",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 1555,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0152,
+    "n_genes": 198
+   }
+  },
+  "SRX10478650@hg19": {
+   "antigen": "NR4A1",
+   "cell_type": "K-562",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 882,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.03,
+    "n_genes": 200
+   }
+  },
+  "SRX10478650@hg38": {
+   "antigen": "NR4A1",
+   "cell_type": "K-562",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg38",
+   "informative": true,
+   "n_peaks_total": 1599,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0303,
+    "n_genes": 198
+   }
+  },
+  "SRX1077593@mm10": {
+   "_means": "this build carries no background panel in the cistrome cache, so a count here could not be calibrated even if it were taken. On the mouse builds that is also the right outcome for a different reason: the manuscript's contrast is about human genes. This is an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "NO_BACKGROUND_PANEL_ON_THIS_BUILD",
+   "antigen": "Nr4a1",
+   "cell_type": "Treg",
+   "genome": "mm10",
+   "informative": false,
+   "n_peaks_total": 500,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": null,
+    "n_genes": 0
+   }
+  },
+  "SRX12698888@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 297,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698888@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 437,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698889@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 115,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698889@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 163,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698890@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 102,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698890@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 154,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698892@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 87,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698892@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 114,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698893@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 96,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698893@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 122,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698894@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 94,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698894@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 131,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698896@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 111,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698896@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 163,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698897@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 147,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698897@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 222,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698898@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 81,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698898@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 109,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698900@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 71,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698900@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 97,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698901@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 74,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698901@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 94,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698902@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 84,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698902@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 103,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698904@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 151,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698904@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 212,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698905@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 6,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698905@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 1,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698906@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 99,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698906@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 150,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698908@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 74,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698908@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 94,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698909@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 72,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698909@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 106,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX12698910@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 53,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX12698910@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A3",
+   "cell_type": "Dendritic Cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 69,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX1653203@hg19": {
+   "antigen": "NR4A1",
+   "cell_type": "Kasumi-1",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.0498,
+     "enriched_at_0_05": true,
+     "n_panel_genes_at_or_above": 9,
+     "n_peaks_promoter_window": 2
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 0.2935,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 58,
+     "n_peaks_promoter_window": 1
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 22674,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.29,
+    "n_genes": 200
+   }
+  },
+  "SRX1653203@hg38": {
+   "antigen": "NR4A1",
+   "cell_type": "Kasumi-1",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.0503,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 9,
+     "n_peaks_promoter_window": 2
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 0.3166,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 62,
+     "n_peaks_promoter_window": 1
+    }
+   },
+   "genome": "hg38",
+   "informative": true,
+   "n_peaks_total": 22717,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.3131,
+    "n_genes": 198
+   }
+  },
+  "SRX1653204@hg19": {
+   "antigen": "NR4A1",
+   "cell_type": "Kasumi-1",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.1343,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 26,
+     "n_peaks_promoter_window": 2
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 0.4677,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 93,
+     "n_peaks_promoter_window": 1
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 26549,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.465,
+    "n_genes": 200
+   }
+  },
+  "SRX1653204@hg38": {
+   "antigen": "NR4A1",
+   "cell_type": "Kasumi-1",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.1206,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 23,
+     "n_peaks_promoter_window": 2
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 0.4573,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 90,
+     "n_peaks_promoter_window": 1
+    }
+   },
+   "genome": "hg38",
+   "informative": true,
+   "n_peaks_total": 26660,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.4545,
+    "n_genes": 198
+   }
+  },
+  "SRX2423524@hg19": {
+   "antigen": "NR4A1",
+   "cell_type": "K-562",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 6298,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.23,
+    "n_genes": 200
+   }
+  },
+  "SRX2423524@hg38": {
+   "antigen": "NR4A1",
+   "cell_type": "K-562",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg38",
+   "informative": true,
+   "n_peaks_total": 7427,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.2374,
+    "n_genes": 198
+   }
+  },
+  "SRX2423525@hg19": {
+   "antigen": "NR4A1",
+   "cell_type": "K-562",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.2637,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 52,
+     "n_peaks_promoter_window": 1
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 6823,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.26,
+    "n_genes": 200
+   }
+  },
+  "SRX2423525@hg38": {
+   "antigen": "NR4A1",
+   "cell_type": "K-562",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.2764,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 54,
+     "n_peaks_promoter_window": 1
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg38",
+   "informative": true,
+   "n_peaks_total": 7958,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.2727,
+    "n_genes": 198
+   }
+  },
+  "SRX3075749@mm10": {
+   "_means": "this build carries no background panel in the cistrome cache, so a count here could not be calibrated even if it were taken. On the mouse builds that is also the right outcome for a different reason: the manuscript's contrast is about human genes. This is an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "NO_BACKGROUND_PANEL_ON_THIS_BUILD",
+   "antigen": "Nr4a1",
+   "cell_type": "Macrophages",
+   "genome": "mm10",
+   "informative": false,
+   "n_peaks_total": 2136,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": null,
+    "n_genes": 0
+   }
+  },
+  "SRX3075750@mm10": {
+   "_means": "this build carries no background panel in the cistrome cache, so a count here could not be calibrated even if it were taken. On the mouse builds that is also the right outcome for a different reason: the manuscript's contrast is about human genes. This is an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "NO_BACKGROUND_PANEL_ON_THIS_BUILD",
+   "antigen": "Nr4a1",
+   "cell_type": "Macrophages",
+   "genome": "mm10",
+   "informative": false,
+   "n_peaks_total": 30885,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": null,
+    "n_genes": 0
+   }
+  },
+  "SRX3075751@mm10": {
+   "_means": "this build carries no background panel in the cistrome cache, so a count here could not be calibrated even if it were taken. On the mouse builds that is also the right outcome for a different reason: the manuscript's contrast is about human genes. This is an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "NO_BACKGROUND_PANEL_ON_THIS_BUILD",
+   "antigen": "Nr4a1",
+   "cell_type": "Macrophages",
+   "genome": "mm10",
+   "informative": false,
+   "n_peaks_total": 3521,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": null,
+    "n_genes": 0
+   }
+  },
+  "SRX359876@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "LoVo",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 1105,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX359876@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A2",
+   "cell_type": "LoVo",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 1031,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX359913@hg19": {
+   "antigen": "NR4A1",
+   "cell_type": "LoVo",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 302,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.025,
+    "n_genes": 200
+   }
+  },
+  "SRX359913@hg38": {
+   "antigen": "NR4A1",
+   "cell_type": "LoVo",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg38",
+   "informative": true,
+   "n_peaks_total": 305,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0253,
+    "n_genes": 198
+   }
+  },
+  "SRX5242458@hg19": {
+   "antigen": "NR4A1",
+   "cell_type": "MOLM-14",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 15415,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.155,
+    "n_genes": 200
+   }
+  },
+  "SRX5242458@hg38": {
+   "antigen": "NR4A1",
+   "cell_type": "MOLM-14",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 198,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg38",
+   "informative": true,
+   "n_peaks_total": 16023,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.1566,
+    "n_genes": 198
+   }
+  },
+  "SRX6927319@mm10": {
+   "_means": "this build carries no background panel in the cistrome cache, so a count here could not be calibrated even if it were taken. On the mouse builds that is also the right outcome for a different reason: the manuscript's contrast is about human genes. This is an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "NO_BACKGROUND_PANEL_ON_THIS_BUILD",
+   "antigen": "Nr4a1",
+   "cell_type": "CD4+ T cells",
+   "genome": "mm10",
+   "informative": false,
+   "n_peaks_total": 425,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": null,
+    "n_genes": 0
+   }
+  },
+  "SRX868176@mm10": {
+   "_means": "this build carries no background panel in the cistrome cache, so a count here could not be calibrated even if it were taken. On the mouse builds that is also the right outcome for a different reason: the manuscript's contrast is about human genes. This is an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "NO_BACKGROUND_PANEL_ON_THIS_BUILD",
+   "antigen": "Nr4a1",
+   "cell_type": "ES cells",
+   "genome": "mm10",
+   "informative": false,
+   "n_peaks_total": 136628,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": null,
+    "n_genes": 0
+   }
+  },
+  "SRX868179@mm10": {
+   "_means": "this build carries no background panel in the cistrome cache, so a count here could not be calibrated even if it were taken. On the mouse builds that is also the right outcome for a different reason: the manuscript's contrast is about human genes. This is an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "NO_BACKGROUND_PANEL_ON_THIS_BUILD",
+   "antigen": "Nr4a1",
+   "cell_type": "ES cells",
+   "genome": "mm10",
+   "informative": false,
+   "n_peaks_total": 154027,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": null,
+    "n_genes": 0
+   }
+  },
+  "SRX9534892@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 141,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX9534892@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 274,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX9534893@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 132,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX9534893@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 245,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX9534894@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 113,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX9534894@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 227,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX9534895@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 129,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX9534895@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 252,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX9534896@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 116,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX9534896@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 221,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX9534897@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 147,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX9534897@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "MCF 10A",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 328,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX9534928@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Breast cancer cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 132,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX9534928@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Breast cancer cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 148,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX9534929@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Breast cancer cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 195,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.01,
+    "n_genes": 200
+   }
+  },
+  "SRX9534929@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Breast cancer cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 288,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0101,
+    "n_genes": 198
+   }
+  },
+  "SRX9534930@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Breast cancer cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 209,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX9534930@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Breast cancer cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 480,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX9534931@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Breast cancer cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 154,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX9534931@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Breast cancer cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 226,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 198
+   }
+  },
+  "SRX9534932@hg19": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Breast cancer cells",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 241,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0,
+    "n_genes": 200
+   }
+  },
+  "SRX9534932@hg38": {
+   "_means": "this peak set recovers (almost) no arbitrary gene, so it cannot fail to recover these three. Its zeros are an ABSENT READING, not evidence of non-occupancy.",
+   "_status": "UNINFORMATIVE",
+   "antigen": "NR4A1",
+   "cell_type": "Breast cancer cells",
+   "genome": "hg38",
+   "informative": false,
+   "n_peaks_total": 426,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.0051,
+    "n_genes": 198
+   }
+  },
+  "ZENODO1483691:AciCC1_CTCF_peaks_2167aeb49f637ea6a124e3679ce1722d.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 47663,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.875,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC1_H3K27Ac_peaks_8e63eed24d0cc6cb362aa8c8da6f74ed.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 46159,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.895,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC1_H3K27me3_peaks_7ba6a30bdabbf46f6e67deab447f5f98.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 32657,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.245,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC1_H3K4me3_peaks_88cdce01aeededcdae869c5a68657d89.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 30660,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.915,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed": {
+   "antigen": "NR4A3",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.0697,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 13,
+     "n_peaks_promoter_window": 4
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 0.6766,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 135,
+     "n_peaks_promoter_window": 1
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 18666,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.675,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC1_super_enhancer_peaks_3c3622d06160797a049f1e5b35efb068.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 853,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.11,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_CTCF_peaks_3b0fde69ad4c01f71d4a5ef07f1a8daf.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 46716,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.85,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_H3K27Ac_peaks_36d1d3116fa41220ea57494961972245.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 46773,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.89,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_H3K27me3_peaks_7f8f1745a20638c9db7f24c101556d12.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 34898,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.23,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_H3K4me3_peaks_838e68c7c58e69ff02c6a9cea9bdfda9.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 30532,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.925,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed": {
+   "antigen": "NR4A3",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.0945,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 18,
+     "n_peaks_promoter_window": 3
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 9810,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.56,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC2_super_enhancer_peaks_5714ac0f2fd6ef3cf59d69d5114356e4.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 850,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.115,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_CTCF_peaks_c611c1d548f65c802f4f88aedba9f768.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 34230,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.77,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_H3K27Ac_peaks_97e804349bba944e7d5d1b8ede631466.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 49150,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.82,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_H3K27me3_peaks_fb2e726ae020cdbe2aa9512e31ea0d41.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 35241,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.21,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_H3K4me3_peaks_f783774d435cce4e7b412c68ec40939d.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 29494,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.93,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed": {
+   "antigen": "NR4A3",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.1592,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 31,
+     "n_peaks_promoter_window": 2
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 9263,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.49,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:AciCC3_super_enhancer_peaks_ff95672c1b911065d69046579a65992d.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 792,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.1,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_CTCF_peaks_651723dd871e8a81ca6890e05137880b.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 46777,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.89,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_H3K27Ac_peaks_126438a74560e776bcf8ec776cdd4640.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 43530,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.87,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_H3K27me3_peaks_a3930e0c6493f6297169e80148ae8fef.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 38284,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.3,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_H3K4me3_peaks_186fc855845537c54dc14bd16821f812.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 28407,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.94,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed": {
+   "antigen": "NR4A3",
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genes": {
+    "ENO3": {
+     "empirical_p_vs_panel": 0.0348,
+     "enriched_at_0_05": true,
+     "n_panel_genes_at_or_above": 6,
+     "n_peaks_promoter_window": 4
+    },
+    "PPARG": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    },
+    "SEMA3C": {
+     "empirical_p_vs_panel": 1.0,
+     "enriched_at_0_05": false,
+     "n_panel_genes_at_or_above": 200,
+     "n_peaks_promoter_window": 0
+    }
+   },
+   "genome": "hg19",
+   "informative": true,
+   "n_peaks_total": 8501,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.505,
+    "n_genes": 200
+   }
+  },
+  "ZENODO1483691:Parotid_Gland3_super_enhancer_peaks_35c87c26ee2f9666ae6e24b3dd376e68.bed": {
+   "_means": "this peak set assays an antigen this module could not name, not an NR4A protein. It is retrieved and recorded because it came from the same deposit, and it is EXCLUDED from the occupancy axis: a histone or CTCF peak at a promoter says the promoter is active and says nothing about whether an NR4A protein is there.",
+   "_status": "NOT_AN_NR4A_ANTIGEN",
+   "antigen": null,
+   "cell_type": "Enhancer hijacking activates oncogenic transcription factor NR4A3 in Acinic Cell Carcinomas of the salivary glands (data",
+   "genome": "hg19",
+   "informative": false,
+   "n_peaks_total": 867,
+   "panel": {
+    "_source": "a background panel this lane did not choose, carried in the cistrome inputs cache alongside the focus loci",
+    "fraction_with_a_promoter_peak": 0.085,
+    "n_genes": 200
+   }
+  }
+ },
+ "verdict": {
+  "headline": "No class-A gene carries unusual NR4A occupancy. Across 12 distinct experiments deep enough to recover an arbitrary gene, 2 of 36 gene-by-experiment tests reach p < 0.05 against a background panel, against 1.8 expected by chance (binomial p = 0.543 for this many or more, i.e. what chance alone routinely gives).",
+  "informative_experiments": [
+   "REMAP2022_NR4A1",
+   "SRX10478650",
+   "SRX1653203",
+   "SRX1653204",
+   "SRX2423524",
+   "SRX2423525",
+   "SRX359913",
+   "SRX5242458",
+   "ZENODO1483691:AciCC1_NR4A3_peaks_02be26bf1e905bcbdbb222cba4c13133.bed",
+   "ZENODO1483691:AciCC2_NR4A3_peaks_9a5244e979b51e870b16fd2f072370ec.bed",
+   "ZENODO1483691:AciCC3_NR4A3_peaks_af3ec0dea8c10b071a58b348f9148080.bed",
+   "ZENODO1483691:Parotid_Gland3_NR4A3_peaks_05be8421f1989fd1a9b0a0bbf7cd6a6f.bed"
+  ],
+  "multiplicity": {
+   "_reading": "with this many gene x experiment tests and no correction, this many nominal hits are expected at p < 0.05 whether or not anything is bound. `p_this_many_or_more_by_chance` is the binomial tail — the fraction of the time chance alone gives at least this many — and it, not a bare comparison of an integer to a fractional expectation, is what decides whether the count means anything.",
+   "excess_over_chance_at_0_05": false,
+   "n_enriched_at_0_05_expected_by_chance": 1.8,
+   "n_enriched_at_0_05_observed": 2,
+   "n_tests": 36,
+   "p_this_many_or_more_by_chance": 0.5433
+  },
+  "n_informative_experiments": 12,
+  "n_informative_peaksets": 19,
+  "n_peaksets_read": 110,
+  "⛔ what_this_is_not": "NOT a measurement of the fusion, and NOT evidence that these genes are unbound. Every informative experiment here is NR4A1, a paralogue whose matched-cell-type peak sharing with NR4A3 is 0.347. All 12 NR4A3-specific peak sets are UNINFORMATIVE by the rule above — they recover no arbitrary gene either. So this is a bound on what the available surrogates can show, and it is why the manuscript's discriminating experiment remains a fusion cistrome rather than any re-analysis of existing data."
+ }
+}
