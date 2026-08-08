@@ -590,7 +590,30 @@ def write_preprint_board(cfg: dict, ledger: dict, run: dict) -> None:
 
 
 def write_board(cfg: dict, ledger: dict, run: dict, per_trigger: dict) -> None:
-    L = []
+    # ⛔ FRONTMATTER IS EMITTED HERE BECAUSE THIS FILE IS GENERATED (2026-08-08). It was hand-
+    # backfilled into the committed copy, and this writer did not know about it -- so the first
+    # scan run in five days silently STRIPPED it and turned systems_check [D4] red ("purpose,
+    # scope, audience and freshness are undeclared"). The bug was latent for as long as the scan
+    # was not running, which is the same shape as the workflow's own four-day skipped-step
+    # incident: a generator and a hand-edit sharing one file, where whichever ran last won.
+    # A generated file must emit every part of itself.
+    L = [
+        "---",
+        "id: DOC-METHOD-WATCH-TRIGGER-SCAN",
+        "title: Reopening-trigger scan — the board",
+        "level: —",
+        "kind: index",
+        "status: live",
+        "canonical_for: []",
+        'purpose: "Every named reopening trigger, its state, and the unvalidated literature hits '
+        'matching its own queries — so a hit arrives with the routes and blockers it would reopen."',
+        'scope: "All scan-enabled triggers. Preprints are additionally boarded by blocker in '
+        'method-watch-preprint-pipeline.md."',
+        "audience: [maintainers, autonomous research agents]",
+        f"date: {run['date']}",
+        "last_verified: unverified",
+        "---",
+    ]
     L.append("# Reopening-trigger scan — the board")
     L.append("")
     L.append(f"**Last run: {run['date']}** (UTC date stamp from the runner).")

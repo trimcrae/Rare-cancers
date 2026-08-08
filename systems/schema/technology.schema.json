@@ -169,6 +169,14 @@
                 "type": "boolean",
                 "default": false,
                 "description": "Set true by a human once read. An ungraded signal is surfaced in the generated view and warned on by the checker; it is a QUEUE, not a claim."
+              },
+              "abstract_verdict": {
+                "enum": ["does_not_meet_criterion", "worth_full_read", "meets_criterion_pending_read"],
+                "description": "⚠ THE ABSTRACT WAS READ; THE PAPER WAS NOT. Added 2026-08-08 because the register modelled only two states -- ungraded queue and fully graded -- and the real one in between was doing all the work. An abstract is enough to REJECT a false positive with confidence (a title cannot tell you whether a benchmark reports an interface metric or a global one; an abstract usually can) and only enough to PROMOTE a lead to 'worth the full read'. ⛔ It NEVER licenses `meets_criterion` on its own, which is why the affirmative value is spelled `meets_criterion_pending_read`: nothing may move `current_state`, `evidence[]` or a forecast band off an abstract. `graded` stays FALSE until someone reads the paper."
+              },
+              "abstract_note": {
+                "type": "string",
+                "description": "Why the verdict, in terms of THIS technology's criterion rather than the paper's own claims. A paper can be excellent and still not meet the criterion, and the note must say which of those it is."
               }
             }
           }

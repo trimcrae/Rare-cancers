@@ -1,3 +1,16 @@
+---
+id: DOC-METHOD-WATCH-TRIGGER-SCAN
+title: Reopening-trigger scan — the board
+level: —
+kind: index
+status: live
+canonical_for: []
+purpose: "Every named reopening trigger, its state, and the unvalidated literature hits matching its own queries — so a hit arrives with the routes and blockers it would reopen."
+scope: "All scan-enabled triggers. Preprints are additionally boarded by blocker in method-watch-preprint-pipeline.md."
+audience: [maintainers, autonomous research agents]
+date: 2026-08-08
+last_verified: unverified
+---
 # Reopening-trigger scan — the board
 
 **Last run: 2026-08-08** (UTC date stamp from the runner).

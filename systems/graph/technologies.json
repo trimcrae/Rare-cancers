@@ -1347,7 +1347,9 @@
         "venue": "PPR",
         "url": "https://europepmc.org/article/PPR/PPR1294148",
         "seen_on": "2026-08-08",
-        "graded": false
+        "graded": false,
+        "abstract_verdict": "does_not_meet_criterion",
+        "abstract_note": "Within-dataset benchmarks only -- no transfer to an untrained cell type, which IS the criterion. Its own framing is deflationary for this technology: a 640-parameter closed-form ridge model on STRING embeddings ranks first in 8 of 12 dataset-metric comparisons against four deep models."
       },
       {
         "trg": "TRG-VIRTUAL-CELL-NO-LINE",
@@ -1357,7 +1359,9 @@
         "venue": "PPR",
         "url": "https://europepmc.org/article/PPR/PPR1247490",
         "seen_on": "2026-08-08",
-        "graded": false
+        "graded": false,
+        "abstract_verdict": "worth_full_read",
+        "abstract_note": "Regulatory-network inference from multimodal physical evidence. Not a perturbation-transfer result, so it does not meet the criterion, but network priors are the ingredient the deflationary benchmarks say is actually carrying performance."
       },
       {
         "trg": "TRG-VIRTUAL-CELL-NO-LINE",
@@ -1367,7 +1371,9 @@
         "venue": "PPR",
         "url": "https://europepmc.org/article/PPR/PPR1213794",
         "seen_on": "2026-08-08",
-        "graded": false
+        "graded": false,
+        "abstract_verdict": "does_not_meet_criterion",
+        "abstract_note": "An EVALUATION framework (Signal/Bounds/Baselines), not a model. Directly relevant and directly negative: across seven perturbation datasets 'complex deep learning methods, including foundation models, often still fail to meaningfully surpass simple linear baselines'."
       },
       {
         "trg": "TRG-VIRTUAL-CELL-NO-LINE",
@@ -1377,7 +1383,9 @@
         "venue": "PPR",
         "url": "https://europepmc.org/article/PPR/PPR1210606",
         "seen_on": "2026-08-08",
-        "graded": false
+        "graded": false,
+        "abstract_verdict": "does_not_meet_criterion",
+        "abstract_note": "⛔ The sharpest negative in the set. The correlation/cosine metrics recent benchmarks rely on are SYSTEMATICALLY INFLATED by reusing one control population to define both compared quantities, so 'even non-informative methods can appear to perform well'. De-biasing substantially reduces performance previously attributed to biological signal -- i.e. part of this field's apparent progress is a statistical artifact."
       },
       {
         "trg": "TRG-VIRTUAL-CELL-NO-LINE",
@@ -1387,7 +1395,9 @@
         "venue": "PPR",
         "url": "https://europepmc.org/article/PPR/PPR1210147",
         "seen_on": "2026-08-08",
-        "graded": false
+        "graded": false,
+        "abstract_verdict": "does_not_meet_criterion",
+        "abstract_note": "Seven chemical-perturbation models retrained with zeroed or shuffled drug inputs showed NEGLIGIBLE performance change, and a drug-free baseline using only cell-line basal expression matched all of them. The models are not using the perturbation input they are credited with using."
       },
       {
         "trg": "TRG-VIRTUAL-CELL-NO-LINE",
@@ -1397,7 +1407,9 @@
         "venue": "arXiv",
         "url": "http://arxiv.org/abs/2608.01734v1",
         "seen_on": "2026-08-08",
-        "graded": false
+        "graded": false,
+        "abstract_verdict": "does_not_meet_criterion",
+        "abstract_note": "⭐ The ONLY hit that tests unseen-cell-line generalization, and it fails the criterion for a reason specific to us: it retrieves measured responses of related compounds 'restricted to those profiled in the target cell line'. That requires the target line to already carry measured data -- exactly what EMC does not have. A method whose input is the thing BLK-NO-EMC-DATA says we lack cannot retire it."
       },
       {
         "trg": "TRG-VIRTUAL-CELL-NO-LINE",
@@ -1407,7 +1419,9 @@
         "venue": "arXiv",
         "url": "http://arxiv.org/abs/2608.00152v1",
         "seen_on": "2026-08-08",
-        "graded": false
+        "graded": false,
+        "abstract_verdict": "worth_full_read",
+        "abstract_note": "Tests zero-shot transfer to two external CRISPRi screens -- the right shape. Result is partial and informative: magnitude-only predictors transfer POSITIVELY while expression-only predictors are 'negative or unresolved'. Predicting how BIG an effect is does not answer the fusion-dependence question, which needs identity and direction. Worth the full read for how far the magnitude signal generalises."
       }
     ]
   },
