@@ -1,6 +1,6 @@
 {
-  "_generated_utc": "2026-08-08T20:19:32Z",
-  "_inputs_generated_utc": "2026-08-08T20:19:05Z",
+  "_generated_utc": "2026-08-08T20:25:51Z",
+  "_inputs_generated_utc": "2026-08-08T20:23:40Z",
   "_question": "is PRJNA1357027 / SRP640302 a fourth EMC cohort, and is it readable? The GEO-side search (emc_cohort_search.py, and \u00a73.13 of the transcriptional-output manuscript) cannot see an SRA-only deposit",
   "target_bioproject": "PRJNA1357027",
   "target_sra_study": "SRP640302",
@@ -54,6 +54,8 @@
         "sra_status": "read",
         "biosample_esearch_count": 0,
         "biosample_status": "read",
+        "\u26a0 biosample_esearch_note": "a term search over `biosample` does not index a PROJECT accession, so a zero here is a query shape and not an absence \u2014 the linked count below, and the BioSample attributes inside the SRA XML, are the readings that count",
+        "biosample_linked_uids": 12,
         "bioproject_records": [
           {
             "uid": "1357027",
@@ -69,8 +71,8 @@
       "ena": {
         "read_run_status": "read",
         "n_read_run_rows": 12,
-        "sample_status": "http_error",
-        "n_sample_rows": null,
+        "sample_status": "read",
+        "n_sample_rows": 0,
         "xml_titles": [
           "Prognostic Biomarkers for Enhanced Risk Stratification in Extraskeletal Myxoid Chondrosarcoma: A Retrospective Cohort Study",
           "This retrospective cohort study aims to identify novel prognostic biomarkers for Extraskeletal Myxoid Chondrosarcoma (EMC), a rare soft tissue sarcoma characterized by high recurrence rates and limited predictive accuracy from current clinical tools. We employed RNA-sequencing (RNA-seq) to analyze the gene expression profiles of EMC tumors. The primary objective is to discover and evaluate RNA-based molecular markers, particularly those reflecting immune pathway activation within the tumor microenvironment. This research seeks to enhance prognostic models and improve risk stratification, ultimately aiding in personalized treatment strategies for EMC patients."
@@ -121,9 +123,6 @@
           "Human sample from Homo sapiens"
         ],
         "sample_aliases": [
-          "Si15",
-          "Si20",
-          "Si01",
           "Si10",
           "Si05",
           "Si22",
@@ -132,12 +131,12 @@
           "Si17",
           "Si16",
           "Si14",
-          "Si09"
-        ],
-        "library_names": [
+          "Si09",
           "Si15",
           "Si20",
-          "Si01",
+          "Si01"
+        ],
+        "library_names": [
           "Si10",
           "Si05",
           "Si21",
@@ -146,15 +145,15 @@
           "Si17",
           "Si16",
           "Si14",
-          "Si09"
+          "Si09",
+          "Si15",
+          "Si20",
+          "Si01"
         ],
         "first_public_values": [
           "2025-11-11"
         ],
         "read_counts": [
-          "5859174",
-          "7523900",
-          "6060188",
           "6698387",
           "8734357",
           "5419081",
@@ -163,7 +162,10 @@
           "6443809",
           "7694782",
           "6991852",
-          "6479407"
+          "6479407",
+          "5859174",
+          "7523900",
+          "6060188"
         ],
         "assay_probes": {
           "tempo_seq": {
@@ -472,13 +474,15 @@
         "sra_status": "read",
         "biosample_esearch_count": 0,
         "biosample_status": "read",
+        "\u26a0 biosample_esearch_note": "a term search over `biosample` does not index a PROJECT accession, so a zero here is a query shape and not an absence \u2014 the linked count below, and the BioSample attributes inside the SRA XML, are the readings that count",
+        "biosample_linked_uids": 12,
         "bioproject_records": []
       },
       "ena": {
         "read_run_status": "read",
         "n_read_run_rows": 12,
-        "sample_status": "http_error",
-        "n_sample_rows": null,
+        "sample_status": "read",
+        "n_sample_rows": 0,
         "xml_titles": [
           "Prognostic Biomarkers for Enhanced Risk Stratification in Extraskeletal Myxoid Chondrosarcoma: A Retrospective Cohort Study",
           "This retrospective cohort study aims to identify novel prognostic biomarkers for Extraskeletal Myxoid Chondrosarcoma (EMC), a rare soft tissue sarcoma characterized by high recurrence rates and limited predictive accuracy from current clinical tools. We employed RNA-sequencing (RNA-seq) to analyze the gene expression profiles of EMC tumors. The primary objective is to discover and evaluate RNA-based molecular markers, particularly those reflecting immune pathway activation within the tumor microenvironment. This research seeks to enhance prognostic models and improve risk stratification, ultimately aiding in personalized treatment strategies for EMC patients."
@@ -529,29 +533,29 @@
           "Human sample from Homo sapiens"
         ],
         "sample_aliases": [
-          "Si10",
-          "Si05",
-          "Si22",
-          "Si02",
           "Si19",
           "Si17",
           "Si16",
           "Si14",
           "Si09",
+          "Si10",
+          "Si05",
+          "Si22",
+          "Si02",
           "Si15",
           "Si20",
           "Si01"
         ],
         "library_names": [
-          "Si10",
-          "Si05",
-          "Si21",
-          "Si02",
           "Si19",
           "Si17",
           "Si16",
           "Si14",
           "Si09",
+          "Si10",
+          "Si05",
+          "Si21",
+          "Si02",
           "Si15",
           "Si20",
           "Si01"
@@ -560,15 +564,15 @@
           "2025-11-11"
         ],
         "read_counts": [
-          "6698387",
-          "8734357",
-          "5419081",
-          "7636050",
           "5582928",
           "6443809",
           "7694782",
           "6991852",
           "6479407",
+          "6698387",
+          "8734357",
+          "5419081",
+          "7636050",
           "5859174",
           "7523900",
           "6060188"
