@@ -108,7 +108,13 @@
       "file": "research/IDEAS.md",
       "anchor": null
     },
-    "kind": "insufficient_data"
+    "kind": "insufficient_data",
+    "evidence": [
+      "research/manuscripts/emc-fourth-cohort-sra-2026-08-08.md",
+      "research/modalities/emc-sra-study.json",
+      "research/modalities/emc-sra-study-inputs.json"
+    ],
+    "retired_by_action": "NOT RETIRED, and the 2026-08-08 lead is recorded here so that it cannot be mistaken for a retirement. PRJNA1357027 / SRP640302 is a real, public, fourth EMC cohort — n = 12 FFPE tumours, downloadable since 2025-11-11, carrying per-sample EWSR1 break-apart FISH status, site, size, morphology and outcome-adjacent annotation, and larger than any of the three cohorts the manuscript reads (emc-fourth-cohort-sra-2026-08-08.md; artifact emc-sra-study.json, transport gate passed on three controls). It is TempO-Seq TARGETED-PANEL data, so its gene space is the panel's and the panel is not named anywhere in the archive metadata. This blocker's statement is about FUNCTIONAL-GENOMICS data — one DepMap line, no CRISPR — and a tumour expression panel is not a dependency screen, so nothing here touches it. What WOULD retire it is an EMC dependency or drug-response screen (a second EMC line in DepMap, a CRISPR screen, or an ex-vivo panel), none of which exists; TRG-SARCOMA-ATRI-RESPONSE-PANEL watches for it. The nearest $0 step on the cohort itself is naming the TempO-Seq panel, on which every read of it is gated."
   },
   {
     "id": "BLK-NOT-FUSION-SELECTIVE",
