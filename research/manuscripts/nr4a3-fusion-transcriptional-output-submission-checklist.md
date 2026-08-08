@@ -232,6 +232,15 @@ is now bounded rather than merely stated.
   screening for fusion genes in sarcoma patient samples*) and `GSE80126` on their titles — and, worse,
   would have skipped `GSE24369`, the cohort titled after LGFMS that carries six EMC tumours and is
   this paper's own standing example that a GEO title is a claim rather than a measurement.
+- ⛔ **And a broken query returns zero exactly like an empty one does.** Four of the six queries first
+  returned zero, all four sharing an `"expression profiling"[Filter]` clause the two productive
+  queries lacked — one of them asking GEO for human chondrosarcoma expression series, which it cannot
+  honestly answer with nothing. Re-asked with the restriction lifted, three returned **2, 4 and 32**
+  records, taking the search from 7 series to **22** and supplying **15 of the 17 sample-level zeros**
+  that give the negative its weight. The fourth returned zero again and is the only zero read as an
+  absence. **The unrepaired search would have rested on two queries while presenting itself as six** —
+  and it was caught only because the per-query counts were measured against the artifact while
+  drafting SI Table S7 rather than carried over from the draft.
 
 ### Still available (not required for submission)
 

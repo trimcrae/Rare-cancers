@@ -616,3 +616,110 @@ def test_peak_like_matching_accepts_beds_and_rejects_prose():
     assert M.PEAKISH.search("x.narrowPeak")
     assert not M.PEAKISH.search("readme.txt")
     assert not M.PEAKISH.search("figure1.pdf")
+
+
+# =================================================================================================
+# The write guard must protect COVERAGE, not only the presence of a reading
+# =================================================================================================
+def _art(status="read", n_read=0, n_other=0):
+    per = {f"S{i}": {"_status": "read", "antigen": "NR4A1"} for i in range(n_read)}
+    per.update({f"X{i}": {"_status": "budget_exhausted"} for i in range(n_other)})
+    return {"part_2_intersection": {"_status": status, "per_peakset": per}}
+
+
+def _write(tmp_path, art):
+    p = tmp_path / "committed.json"
+    p.write_text(json.dumps(art))
+    return str(p)
+
+
+def test_an_absent_reading_still_cannot_overwrite_a_real_one(tmp_path):
+    old = _write(tmp_path, _art("read", n_read=86))
+    assert M.would_downgrade(_art("NO_PEAK_SET_RETRIEVED"), out_path=old) is True
+    assert M.would_downgrade(_art("NOT_RUN"), out_path=old) is True
+
+
+def test_a_collapsed_reading_cannot_overwrite_a_full_one(tmp_path):
+    """The regression a correct fix introduced, and the reason this test exists.
+
+    `fetch()` used to run its slowest sources last, so a budget-starved run retrieved NOTHING,
+    landed on NO_PEAK_SET_RETRIEVED and was refused -- the guard was safe by accident. Moving the
+    small, high-value Zenodo fetch to the front (correct on its own terms: it was otherwise the
+    first source the budget starved) removed that accident. A starved run now retrieves the five
+    Zenodo sets, reports `_status: "read"`, and under the old binary check would have replaced an
+    86-peak-set artifact with a five-peak-set one that looks entirely healthy.
+    """
+    old = _write(tmp_path, _art("read", n_read=86))
+    assert M.would_downgrade(_art("read", n_read=5), out_path=old) is True, (
+        "a five-peak-set run overwrote an eighty-six-peak-set artifact")
+    assert M.would_downgrade(_art("read", n_read=40), out_path=old) is True
+
+
+def test_ordinary_catalogue_churn_is_not_treated_as_a_partial_fetch(tmp_path):
+    """A guard that fires on every re-run gets switched off. Losing one or two experiments to
+    catalogue churn is normal; losing most of them is not."""
+    old = _write(tmp_path, _art("read", n_read=86))
+    assert M.would_downgrade(_art("read", n_read=86), out_path=old) is False
+    assert M.would_downgrade(_art("read", n_read=90), out_path=old) is False
+    assert M.would_downgrade(_art("read", n_read=80), out_path=old) is False   # ~7% loss
+    assert M.COVERAGE_FLOOR == 0.9
+
+
+def test_only_peaksets_actually_read_count_toward_coverage(tmp_path):
+    """A run that ATTEMPTED 86 and read 5 must not pass by counting its failures."""
+    old = _write(tmp_path, _art("read", n_read=86))
+    assert M.would_downgrade(_art("read", n_read=5, n_other=81), out_path=old) is True
+
+
+def test_nothing_is_protected_when_the_committed_artifact_is_itself_absent(tmp_path):
+    old = _write(tmp_path, _art("NO_PEAK_SET_RETRIEVED"))
+    assert M.would_downgrade(_art("read", n_read=5), out_path=old) is False
+    assert M.would_downgrade(_art("NOT_RUN"), out_path=old) is False
+
+
+def test_a_missing_committed_artifact_blocks_nothing(tmp_path):
+    assert M.would_downgrade(_art("read", n_read=1),
+                             out_path=str(tmp_path / "nope.json")) is False
+
+
+def test_the_committed_artifact_would_not_refuse_itself():
+    """A re-run that reproduces the committed coverage must be writable, or the lane is frozen."""
+    if not os.path.exists(M.OUT):
+        pytest.skip("cistrome artifact not in this checkout")
+    with open(M.OUT) as fh:
+        art = json.load(fh)
+    assert M._n_peaksets_read(art) > 50, M._n_peaksets_read(art)
+    assert M.would_downgrade(art) is False
+
+
+def test_slowest_attempts_brackets_time_between_consecutive_stamps():
+    """`budget_at_s` is a stamp, not a duration; the duration is the gap to the previous stamp.
+
+    Added because a run spent its entire 3000 s budget and retrieved zero peak sets while the
+    previous successful run spent 344 s of 2400 s -- and nothing in the artifact could say which
+    endpoint absorbed the difference.
+    """
+    attempts = [{"url": "a", "status": 200, "budget_at_s": 1.0},
+                {"url": "b", "status": 200, "budget_at_s": 3.0},
+                {"url": "slow", "status": "truncated_at_budget", "budget_at_s": 2900.0},
+                {"url": "d", "status": "budget_exhausted", "budget_at_s": 2900.5}]
+    rows = M.slowest_attempts(attempts, n=2)
+    assert rows[0]["url"] == "slow"
+    assert rows[0]["took_s"] == 2897.0
+    assert rows[1]["url"] == "b" and rows[1]["took_s"] == 2.0
+    assert len(rows) == 2
+
+
+def test_slowest_attempts_survives_attempts_with_no_stamp():
+    """Every artifact committed before the stamp existed has none, and must not raise."""
+    assert M.slowest_attempts([{"url": "old", "status": 200}]) == []
+    mixed = [{"url": "old", "status": 200}, {"url": "new", "status": 200, "budget_at_s": 5.0}]
+    assert [r["url"] for r in M.slowest_attempts(mixed)] == ["new"]
+
+
+def test_every_recorded_attempt_carries_its_budget_stamp():
+    M.ATTEMPTS.clear()
+    M._record("https://example.invalid/x", 200, nbytes=10)
+    assert "budget_at_s" in M.ATTEMPTS[-1]
+    assert isinstance(M.ATTEMPTS[-1]["budget_at_s"], (int, float))
+    M.ATTEMPTS.clear()

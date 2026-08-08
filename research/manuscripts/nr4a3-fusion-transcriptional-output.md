@@ -699,45 +699,49 @@ independent support is not evidence that any of them is bound by the fusion in E
 ### 3.13 · No fourth EMC expression cohort — a second bounded negative
 
 The most direct way to strengthen an n of 4, 6 and 10 is a fourth cohort. Six queries (§2.7) returned
-22 GEO records, of which seven were series or curated datasets and the remainder individual sample
-and platform records.
+56 GEO records, of which **22 were series or curated datasets** and the remainder individual sample
+and platform records. Every one of the 22 was read at sample level; none is a fourth EMC cohort.
 
-**Table 10. Every series or dataset the cohort search returned.**
+**Table 10. The cohort search, grouped by why each deposit is not a fourth cohort.**
 
-| accession | samples | EMC samples | why it is not a fourth cohort |
+| group | deposits | EMC samples | disposition |
 |---|---|---|---|
-| **GSE24369** | 42 | **6** | already used — the GPL6244 arm |
-| **GSE4303** | 36 | **10** | already used — the GPL3290 arm |
-| **GSE28866** | 99 | **4** | already used — the 3SEQ arm |
-| GSE11185 | 4 | 2 (labels) | HEK293 cells carrying a tet-inducible EWS/NOR1 construct — not a tumour cohort |
-| GDS3481 | 4 | — | the curated dataset view of GSE11185, same four samples |
-| GSE43632 | 18 | **0** | *Large scale screening for fusion genes in sarcoma patient samples* — read at sample level; no EMC |
-| GSE80126 | 29 | **0** | *Impact of RNA degradation on fusion detection by RNA-seq* — read at sample level; no EMC |
+| **The three cohorts analysed here** | GSE24369 (42 samples), GSE4303 (36), GSE28866 (99) | **6, 10, 4** | already used — and the search's positive control |
+| **The same EWS/NOR1 construct experiment** | GSE11185 (4), GDS3481 (its curated view) | 2 sample labels | HEK293 cells carrying a tet-inducible construct — not a tumour cohort |
+| **Other sarcoma and chondrosarcoma series** | 17 deposits, 4–51 samples each: GSE12475, GSE12592, GSE14469, GSE29085, GSE43045, GSE43632, GSE44934, GSE52677, GSE52679, GSE62747, GSE80126, GSE150474, GSE168560, GSE196000, GSE196002, GSE289237, GSE315379 | **0 in every one** | read at sample level; no EMC sample in any |
 
-**The first three rows are the result, not the preamble.** They are the positive control: the same
-queries recovered all three cohorts already in use, and recovered their EMC arm sizes — 6, 10 and 4 —
-from GEO sample titles alone, an independent path to the three numbers Table 2 takes from the series
+**The first row is the result, not the preamble.** It is the positive control: the same queries
+recovered all three cohorts already in use, and recovered their EMC arm sizes — 6, 10 and 4 — from
+GEO sample titles alone, an independent path to the three numbers Table 2 takes from the series
 matrices. A search that had failed to find them would have made the negative meaningless, so the
 negative is reported only because the control passed.
 
-The two generically titled sarcoma series matter for the opposite reason. Neither names EMC in its
-title or its summary, yet the full-disease-name query returned both — so GEO's `[All Fields]` index
-reaches text beyond the series prose, and this is precisely the case in which a title-level screen
-would have recorded a false absence. Read at sample level, they carry no EMC sample between them.
+**The seventeen zeros are what makes it a negative rather than an absence.** They span chondrosarcoma
+profiling, myxoid liposarcoma, myxoinflammatory fibroblastic sarcoma, synovial-sarcoma-like tumours,
+clear cell sarcoma, Ewing sarcoma, rhabdomyosarcoma, translocation-sarcoma panels and two
+fusion-detection methods series — the adjacent territory in which an EMC sample could plausibly sit
+under a title that never names the disease. Two of them (GSE43632, *Large scale screening for fusion
+genes in sarcoma patient samples*; GSE80126) name no EMC token in title or summary yet were returned
+by the full-disease-name query, so GEO's `[All Fields]` index reaches text beyond the series prose —
+precisely the case in which a title-level screen would have recorded a false absence. Read at sample
+level, none of the seventeen carries an EMC sample.
 
 **What this bounds, and what it does not.** The bound is reach, not existence: a deposit that names
-the disease nowhere in its GEO record is invisible to any term search. **No fourth EMC expression
-cohort is reachable by a term search of GEO**, and the three cohorts analysed here are, as far as that
-search extends, the available public EMC transcriptional record — so n = 4, 6 and 10 is a ceiling
-imposed by the disease's rarity rather than by the search (§5, Limitation 1).
+the disease nowhere in its GEO record is invisible to any term search, and a term search is not a
+systematic review — it does not reach other archives, controlled-access repositories, or supplementary
+tables of papers that never deposited at all. Within that reach, **no fourth EMC expression cohort
+exists**, and the three cohorts analysed here are the available public EMC transcriptional record. So
+n = 4, 6 and 10 is a ceiling imposed by the disease's rarity rather than by the search (§5,
+Limitation 1).
 
-⚠ **Two further limits on this negative, both recorded rather than smoothed over.** Four of the six
-queries returned exactly zero and all four share a field-restriction clause the two productive
-queries lack, including one asking for human chondrosarcoma expression series — a question GEO cannot
-answer with nothing. The negative therefore rests on two queries, the disease name and the fusion,
-and the deliberately over-broad safety net was not in fact deployed (SI §S7). And a term search is
-not a systematic review: it does not reach deposits in other archives, controlled-access repositories,
-or supplementary tables of papers that never deposited at all.
+⚠ **One instrument fault is recorded rather than smoothed over, because it nearly halved this
+search.** Four of the six queries first returned exactly zero, and all four shared a field-restriction
+clause the two productive queries lacked — including one asking GEO for human chondrosarcoma
+expression series, a question it cannot honestly answer with nothing. Re-asked with the restriction
+lifted and the search terms unchanged, three of the four returned records (2, 4 and 32), taking the
+search from 7 series to 22; the fourth returned zero again and is the only zero here read as an
+absence. The negative above is the repaired search. The unrepaired one would have rested on two
+queries while reporting six (SI §S7).
 
 ![Figure 1](figures/fig1-per-sample-class-a.png)
 
@@ -868,12 +872,11 @@ These are ceilings, not caveats: each one bounds what any sentence in §3 may be
 
 1. **n = 4, 6 and 10 EMC.** Nothing here survives being described as a distribution, and no result
    should be read as a population estimate. This is a ceiling on the disease, not on the search: a
-   term search of GEO returned 22 records, of which seven were series or curated datasets, and none
-   was a fourth EMC expression cohort (§3.13, Table 10). The bound is what a term search can reach —
-   a deposit naming the disease nowhere in its GEO record is invisible to it, and four of the six
-   queries were malformed (SI §S7) — but the two generically titled pan-sarcoma series it did return
-   (GSE43632, *Large scale screening for fusion genes in sarcoma patient samples*, and GSE80126) were
-   read at sample level rather than dismissed on their titles, and carry no EMC sample between them.
+   term search of GEO returned 56 records, of which 22 were series or curated datasets, every one was
+   read at sample level, and none was a fourth EMC expression cohort — the seventeen unrelated
+   sarcoma and chondrosarcoma deposits among them carry no EMC sample between them (§3.13, Table 10).
+   The bound is what a term search can reach: a deposit naming the disease nowhere in its GEO record
+   is invisible to it, and no other archive was searched.
 2. **The three cohorts are never pooled, and must never be.** 3SEQ 3′-end read density is not array
    intensity; single-channel intensity and two-colour log-ratio are not the same quantity either. The
    concordance in §3.5–3.7 is sign agreement across three independent measurements, which is weaker

@@ -403,7 +403,15 @@ ATTEMPTS = []
 
 
 def _record(url, status, nbytes=None, error=None, note=None):
-    rec = {"url": url[:300], "status": status}
+    # ⏱ EVERY ATTEMPT CARRIES WHEN IT HAPPENED, because a budget that runs out is a fact about ONE
+    # endpoint and the artifact could not say which. Measured 2026-08-08: a run spent its entire
+    # 3000 s and retrieved zero peak sets, where the previous successful run had spent 344 s of
+    # 2400 s and retrieved 86. That is a ~9x degradation and therefore a signal, not a budget
+    # shortfall — but the only way to see WHICH endpoint absorbed it was to download a CI artifact
+    # the sandbox cannot reach. `budget_at_s` is the elapsed second each attempt was recorded at,
+    # so consecutive attempts bracket the time any one of them consumed, and `--fetch` prints the
+    # slowest few to stdout where the workflow log already captures them.
+    rec = {"url": url[:300], "status": status, "budget_at_s": BUDGET.spent()}
     if nbytes is not None:
         rec["bytes"] = nbytes
     if error:
@@ -412,6 +420,19 @@ def _record(url, status, nbytes=None, error=None, note=None):
         rec["note"] = note
     ATTEMPTS.append(rec)
     return rec
+
+
+def slowest_attempts(attempts, n=10):
+    """The n attempts that consumed the most wall clock, from consecutive `budget_at_s` stamps."""
+    rows, prev = [], 0.0
+    for a in attempts:
+        at = a.get("budget_at_s")
+        if at is None:
+            continue
+        rows.append({"took_s": round(at - prev, 1), "at_s": at,
+                     "status": a.get("status"), "bytes": a.get("bytes"), "url": a.get("url")})
+        prev = at
+    return sorted(rows, key=lambda r: -r["took_s"])[:n]
 
 
 # ⛔ A 429 IS "ASK AGAIN LATER", NOT "NOT FOUND" (measured 2026-08-07, run 31201656452).
@@ -2324,16 +2345,41 @@ def _synthetic_cache(ret_peak, control_peak):
 
 # =============================================================================================
 
-def would_downgrade(new_art, out_path=None):
-    """True if writing `new_art` would replace a REAL reading with an absent one.
+# A run may lose this fraction of the committed artifact's peak sets to catalogue churn before the
+# loss is treated as a partial fetch rather than as a smaller world. 86 -> 5 is not churn.
+COVERAGE_FLOOR = 0.9
+ALLOW_SHRINK = os.environ.get("RET_CISTROME_ALLOW_SHRINK") == "1"
 
-    A reading is `part_2_intersection._status == "read"`. Anything else — NOT_RUN,
-    NO_PEAK_SET_RETRIEVED — is the instrument saying it could not look, and the two must never be
-    allowed to overwrite each other in that direction.
+
+def _n_peaksets_read(art):
+    per = (art.get("part_2_intersection") or {}).get("per_peakset") or {}
+    return sum(1 for v in per.values()
+               if isinstance(v, dict) and v.get("_status") == "read")
+
+
+def would_downgrade(new_art, out_path=None):
+    """True if writing `new_art` would replace a real reading with a WEAKER one.
+
+    Two ways that happens, and the second was introduced by fixing something else.
+
+    **An absent reading replacing a real one.** A reading is `part_2_intersection._status ==
+    "read"`. Anything else — NOT_RUN, NO_PEAK_SET_RETRIEVED — is the instrument saying it could not
+    look, and the two must never overwrite each other in that direction.
+
+    ⛔ **A COLLAPSED READING REPLACING A FULL ONE, WHICH THIS GUARD USED TO MISS ENTIRELY.** The
+    check was binary, and that was safe only by accident: this module's slowest sources ran last, so
+    a budget-starved run retrieved NOTHING, landed on NO_PEAK_SET_RETRIEVED, and was refused. Moving
+    the small high-value Zenodo fetch to the front of `fetch()` — correct on its own terms, since it
+    was otherwise the first source the budget starved — quietly removed that accident: a starved run
+    now retrieves the five Zenodo sets, reports `_status: "read"`, and would have overwritten an
+    86-peak-set artifact with a five-peak-set one that looks entirely healthy. **A fix that turns a
+    fail-safe into a fail-quiet is worse than the bug it fixed**, so coverage is now part of what
+    "a reading" means: losing more than `1 - COVERAGE_FLOOR` of the committed peak sets is a partial
+    fetch, not a smaller world, and is refused. `RET_CISTROME_ALLOW_SHRINK=1` is the escape hatch
+    for a deliberate re-baseline — a human decision, never a default.
     """
     path = out_path or OUT
-    if (new_art.get("part_2_intersection") or {}).get("_status") == "read":
-        return False
+    new_is_read = (new_art.get("part_2_intersection") or {}).get("_status") == "read"
     if not os.path.exists(path):
         return False
     try:
@@ -2341,7 +2387,14 @@ def would_downgrade(new_art, out_path=None):
             old = json.load(fh)
     except Exception:                                    # noqa: BLE001
         return False                                     # unreadable ⇒ nothing to protect
-    return (old.get("part_2_intersection") or {}).get("_status") == "read"
+    if (old.get("part_2_intersection") or {}).get("_status") != "read":
+        return False                                     # nothing real to protect
+    if not new_is_read:
+        return True
+    if ALLOW_SHRINK:
+        return False
+    old_n, new_n = _n_peaksets_read(old), _n_peaksets_read(new_art)
+    return old_n > 0 and new_n < COVERAGE_FLOOR * old_n
 
 
 def report(art):
@@ -2437,6 +2490,15 @@ def main():
     if args.fetch:
         cache = fetch()
         art = derive(cache)
+        # ⏱ UNCONDITIONALLY, AND BEFORE THE REFUSAL. A run that is about to be refused is exactly
+        # the run whose timing someone needs, and it is the run whose inputs cache never reaches a
+        # branch. stdout is in the workflow log either way.
+        _slow = slowest_attempts(cache.get("attempts") or ATTEMPTS)
+        print(f"=== BUDGET: {cache.get('_budget_spent_s')}s of {NET_BUDGET_S}s | "
+              f"{len(cache.get('attempts') or ATTEMPTS)} attempts | slowest ===", file=sys.stderr)
+        for r in _slow:
+            print(f"  {r['took_s']:>7.1f}s  at {r['at_s']:>7.1f}s  {str(r['status']):<18} "
+                  f"{str(r.get('bytes')):>12}  {str(r['url'])[:110]}", file=sys.stderr)
         # ⛔ AN ABSENT READING MAY NEVER OVERWRITE A REAL ONE (CLAUDE.md §4; measured 2026-08-07).
         # A cancelled ret-cistrome run reached the publish step — which is `always()` by design,
         # because a skipped commit makes "nothing changed" and "the job never ran" render alike —
@@ -2447,9 +2509,20 @@ def main():
         # been. The guard belongs in the module, not in the workflow, because that is where it can
         # be tested and where every caller inherits it.
         if would_downgrade(art):
-            print("⛔ REFUSING TO WRITE: this run produced no reading "
-                  f"({(art.get('part_2_intersection') or {}).get('_status')}) and the committed "
-                  "artifact carries one. An absent reading may not overwrite a real one. "
+            _st = (art.get("part_2_intersection") or {}).get("_status")
+            _old = 0
+            if os.path.exists(OUT):
+                try:
+                    with open(OUT, "r", encoding="utf-8") as fh:
+                        _old = _n_peaksets_read(json.load(fh))
+                except Exception:                        # noqa: BLE001
+                    pass
+            _why = (f"this run produced no reading ({_st})" if _st != "read" else
+                    f"this run read {_n_peaksets_read(art)} peak set(s) against the committed "
+                    f"artifact's {_old} — a partial fetch, not a smaller world "
+                    f"(RET_CISTROME_ALLOW_SHRINK=1 to re-baseline deliberately)")
+            print(f"⛔ REFUSING TO WRITE: {_why} and the committed "
+                  "artifact carries one. A weaker reading may not overwrite a stronger one. "
                   "The inputs cache is written so the failure is diagnosable.", file=sys.stderr)
             with open(INPUTS, "w", encoding="utf-8") as fh:
                 json.dump(cache, fh, indent=1, sort_keys=False, default=str)

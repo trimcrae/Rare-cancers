@@ -385,33 +385,38 @@ verbatim, because a search reported only by its conclusion cannot be checked or 
 
 **Table S7. The six queries, with the reason each was included.**
 
-| # | query (NCBI E-utilities, `db=gds`) | why | new records |
-|---|---|---|---|
-| 1 | `"extraskeletal myxoid chondrosarcoma"[All Fields]` | the disease name in full — highest precision | **17** |
-| 2 | `"myxoid chondrosarcoma"[All Fields] AND "expression profiling"[Filter]` | the shortened name, restricted to expression series | 0 ⚠ |
-| 3 | `(EWSR1 AND NR4A3) OR "EWS-NOR1" OR "EWSR1-NR4A3" OR "TAF15-NR4A3"` | the fusion rather than the disease — catches a deposit indexed by its driver | **5** |
-| 4 | `NR4A3[All Fields] AND sarcoma[All Fields] AND "expression profiling"[Filter]` | the 3′ partner plus lineage, for a deposit naming *NR4A3* but not EMC | 0 ⚠ |
-| 5 | `"chondrosarcoma"[All Fields] AND "expression profiling"[Filter] AND "Homo sapiens"[Organism]` | deliberately over-broad: EMC samples inside a general chondrosarcoma series | 0 ⚠ |
-| 6 | `sarcoma[All Fields] AND "translocation"[All Fields] AND "expression profiling"[Filter]` | translocation-sarcoma panels, the kind of deposit EMC hides inside | 0 ⚠ |
+| # | query (NCBI E-utilities, `db=gds`) | why | as written | repaired |
+|---|---|---|---|---|
+| 1 | `"extraskeletal myxoid chondrosarcoma"[All Fields]` | the disease name in full — highest precision | **17** | — |
+| 2 | `"myxoid chondrosarcoma"[All Fields] AND "expression profiling"[Filter]` | the shortened name, restricted to expression series | 0 ⚠ | **2** |
+| 3 | `(EWSR1 AND NR4A3) OR "EWS-NOR1" OR "EWSR1-NR4A3" OR "TAF15-NR4A3"` | the fusion rather than the disease — catches a deposit indexed by its driver | **5** | — |
+| 4 | `NR4A3[All Fields] AND sarcoma[All Fields] AND "expression profiling"[Filter]` | the 3′ partner plus lineage, for a deposit naming *NR4A3* but not EMC | 0 | **0** — a confirmed zero |
+| 5 | `"chondrosarcoma"[All Fields] AND "expression profiling"[Filter] AND "Homo sapiens"[Organism]` | deliberately over-broad: EMC samples inside a general chondrosarcoma series | 0 ⚠ | **4** |
+| 6 | `sarcoma[All Fields] AND "translocation"[All Fields] AND "expression profiling"[Filter]` | translocation-sarcoma panels, the kind of deposit EMC hides inside | 0 ⚠ | **32** |
 
 All six executed and none returned an error. Counts are the distinct records each query contributed
-that no earlier query had already returned, so the same deposit is never counted twice; the 22
-records of Table 10 are 17 from query 1 and 5 from query 3.
+that no earlier query had already returned, so the same deposit is never counted twice.
 
-⚠ **Four queries returned exactly zero, and that is a reading about the queries before it is a
-reading about GEO.** All four carry an `"expression profiling"[Filter]` clause; the two that returned
-records do not. Query 5 asks GEO for human chondrosarcoma expression series — a question GEO cannot
-honestly answer with nothing. The parsimonious explanation is that the field token matches nothing in
-`db=gds`, so those four queries never reached the space they were written to cover.
+⚠ **Four queries first returned exactly zero, and that was a reading about the queries before it was
+a reading about GEO.** All four carry an `"expression profiling"[Filter]` clause; the two that
+returned records do not. Query 5 asks GEO for human chondrosarcoma expression series — a question it
+cannot honestly answer with nothing. **A zero and a malformed query are the same length**, and
+reported as "six queries, no fourth cohort" this would have made the negative sound materially
+stronger than the evidence supported.
 
-**This matters because a zero and a malformed query are the same length.** Reported as "six queries,
-no fourth cohort", four broken queries would make the negative sound four-thirds stronger than the
-evidence supports. The honest reading of Table 10 is therefore that **the negative rests on queries 1
-and 3** — the disease name and the fusion — and that the deliberately over-broad safety net was not
-in fact deployed. A zero-returning query carrying a field restriction is now re-asked with the
-restriction lifted and the same terms retained, so a future run records `read_after_syntax_repair`
-rather than an absence, and only a zero that survives the unrestricted re-ask is read as one. The
-per-query record in `emc-cohort-search-inputs.json` carries both forms and both counts.
+**The repair, and what it changed.** A zero-returning query carrying a field restriction is re-asked
+with the restriction lifted and the search terms unchanged; records from the repaired form are used
+and the query is recorded as `read_after_syntax_repair`. Three of the four then returned records —
+**2, 4 and 32** — taking the search from 7 series to **22** and from 22 records to **56**. Query 6,
+the translocation-sarcoma panel query written precisely because it is the kind of deposit EMC hides
+inside, accounted for 32 of them on its own. **Query 4 returned zero again under the unrestricted
+re-ask and is the only zero in this table read as an absence.** Both forms and both counts are in
+`emc-cohort-search-inputs.json`.
+
+⛔ **The negative reported in Table 10 is the repaired search.** The unrepaired one would have rested
+on two queries while presenting itself as six, and the seventeen sample-level zeros that give the
+negative its weight would not have existed — fifteen of those deposits arrived through the repaired
+queries.
 
 **What the search declines to conclude, and one way it reaches further than expected.** GEO's
 `esearch` matches the text of a record, so a deposit that names the disease nowhere in its GEO
@@ -427,11 +432,14 @@ written to cover and, being malformed, did not. Both were then read at sample le
 sample. The coverage the broken queries were meant to provide was, in this instance, supplied by query
 1 — which is a fortunate accident and not a design, and is recorded as such.
 
-**Records excluded for not being deposits.** Of the 22 records returned, fifteen were not series:
-one platform record (GPL570) and fourteen individual sample records, ten of which are samples of the
-three cohorts already analysed here — six EMC samples of GSE24369, four of the Brunner deposit — and
-two of which are the doxycycline-treated and untreated HEK293 samples of GSE11185. `db=gds` returns
-sample and platform records alongside series; none of them is a cohort.
+**Records excluded for not being deposits.** `db=gds` returns sample and platform records alongside
+series, and most of what came back was neither. Of the 56 records: **21 series**, 1 curated dataset
+(GDS3481), **30 individual sample records** and **4 platform records**. Ten of the 30 samples are
+samples of the three cohorts already analysed here — six EMC samples of GSE24369 and the four of the
+Brunner deposit, returned in their own right by the disease-name query — and two are the
+doxycycline-treated and untreated HEK293 samples of GSE11185. A single sample is not a cohort and a
+platform is not a deposit; grading them as though they might be would bury the records that need a
+decision under records that never could.
 
 **Reproduction.** `research/modalities/emc_cohort_search.py` → `emc-cohort-search.json`, with the raw
 query record in `emc-cohort-search-inputs.json`. The derive half runs offline from the cached queries
