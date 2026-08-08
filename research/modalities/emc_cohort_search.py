@@ -65,9 +65,17 @@ EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 KNOWN_COHORTS = {
     "GSE24369": "GPL6244 array arm of the manuscript (6 EMC vs 29 comparators)",
     "GSE4303": "GPL3290 array arm (10 EMC vs 6); the Subramanian 2005 cohort",
-    "GSE28866": "3SEQ arm (4 EMC); Brunner et al., PMID 22929540",
-    "GSE170983": "⛔ NOT a fourth cohort — the same Brunner deposit as GSE28866, same PMID "
-                 "22929540 and the same four EMC samples, under a different accession",
+    # ⛔ NO `PMID <number>` PROSE IN HERE, AND THE OMISSION IS DELIBERATE. `lint_citations` treats a
+    # tracked `.json` as a FETCH PRODUCT and counts any identifier in one as anchored — the whole
+    # point being that a network read, a curation or a graph edit is something a model does not do
+    # from memory. Hand-typing `PMID 22929540` into a dict that is then serialised into a generated
+    # artifact smuggles a prose citation into that anchor set and silently promotes it, which is the
+    # ledger-anchors-itself defect one level removed. The identifiers this module reasons about live
+    # in `KNOWN_PMIDS` and in GEO's own `pubmed` field, both of which come back from the esummary
+    # fetch recorded in the inputs cache. The human-readable label names the paper, not the number.
+    "GSE28866": "3SEQ arm (4 EMC); the Brunner et al. lncRNA deposit",
+    "GSE170983": "⛔ NOT a fourth cohort — the same Brunner deposit as GSE28866, the same linked "
+                 "publication and the same four EMC samples, under a different accession",
 }
 KNOWN_PMIDS = {"22929540", "15920699", "21536545"}
 

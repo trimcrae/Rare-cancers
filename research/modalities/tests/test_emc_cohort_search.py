@@ -323,8 +323,31 @@ def test_the_scope_disclaimer_travels_with_the_verdict():
 def test_the_known_cohort_table_names_the_redeposit_as_a_trap_not_as_a_cohort():
     assert set(M.KNOWN_COHORTS) == {"GSE24369", "GSE4303", "GSE28866", "GSE170983"}
     assert "NOT a fourth cohort" in M.KNOWN_COHORTS["GSE170983"]
-    assert "22929540" in M.KNOWN_COHORTS["GSE170983"]
+    assert "same Brunner deposit as GSE28866" in M.KNOWN_COHORTS["GSE170983"]
     assert "22929540" in M.KNOWN_PMIDS
+
+
+def test_no_hand_typed_pmid_prose_reaches_the_generated_artifact():
+    """`lint_citations` counts an identifier in a tracked `.json` as ANCHORED, because a fetch
+    product is something a model does not produce from memory. Hand-typing `PMID 22929540` into a
+    dict that is then serialised into a generated artifact smuggles a prose citation into that
+    anchor set and silently promotes it -- the ledger-anchors-itself defect one level removed, and
+    it turned `test_the_ledger_does_not_anchor_itself` red the first time this module wrote one.
+
+    The identifiers this module reasons about belong in `KNOWN_PMIDS` and in GEO's own `pubmed`
+    field, which come back from the recorded esummary fetch. The labels name the paper, not the
+    number."""
+    import re
+    for acc, label in M.KNOWN_COHORTS.items():
+        assert not re.search(r"PMID[:\s]*\d", label), f"{acc} label hand-types a PMID: {label}"
+    for acc, label in M.KNOWN_NON_COHORT_DATASETS.items():
+        assert not re.search(r"PMID[:\s]*\d", label), f"{acc} label hand-types a PMID: {label}"
+    if os.path.exists(M.OUT):
+        with open(M.OUT) as fh:
+            blob = fh.read()
+        assert not re.search(r"PMID[:\s]*\d", blob), (
+            "the committed artifact carries a hand-typed PMID and is therefore anchoring a prose "
+            "citation; GEO's structured `pubmed` field is the fetch product, not this text")
 
 
 def test_the_check_diff_ignores_timestamps_only():
