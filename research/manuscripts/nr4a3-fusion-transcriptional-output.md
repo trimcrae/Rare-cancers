@@ -56,26 +56,25 @@ SUBMISSION STATUS: submission-ready draft, not yet submitted.
 
 ## Abstract
 
-Extraskeletal myxoid chondrosarcoma (EMC) is a rare translocation sarcoma usually driven by the
-EWSR1::NR4A3 fusion. The fusion is presumed to act as an aberrant transcription factor, yet the set of
+Extraskeletal myxoid chondrosarcoma (EMC) is a rare sarcoma usually driven by the EWSR1::NR4A3
+fusion. The fusion is presumed to act as an aberrant transcription factor, yet the set of
 genes any NR4A3 chimera is shown to bind and drive is small, and whether they are elevated in EMC
-tissue has not been tested against a calibration for what an arbitrary set of the same size does on the
-same platform — without which almost every set scores "higher in EMC". We
-catalogued every primary-literature claim that an NR4A3 fusion or native NR4A3 transcriptionally
-activates a named gene, recording evidence type, assay, cell system and species, and scored the
-resulting genes in three independent EMC cohorts on three platform families (GSE24369/GPL6244;
-GSE4303/GPL3290; GSE28866/3SEQ). Each array contrast was calibrated against a size-matched empirical
-null, and four instrument controls, including a directional falsifier with a published *down*
-prediction, were graded before any biology was read under a decision rule fixed in advance. The
+tissue has never been tested against a calibration for what an arbitrary set of the same size does on
+that platform — without which almost every set scores "higher in EMC". We catalogued every
+published claim that an NR4A3 fusion or native NR4A3 activates a named gene, recording evidence type,
+assay, cell system and species, and scored those genes in three independent EMC cohorts on three
+platform families (GSE24369/GPL6244; GSE4303/GPL3290; GSE28866/3SEQ). Each array contrast was
+calibrated against a size-matched empirical null, and four instrument controls — including a
+directional falsifier with a published *down* prediction — were graded first, under a rule fixed in
+advance. The
 direct-target set with a fusion DNA-binding assay behind it is three genes wide (*SEMA3C*,
-*PPARG*, *ENO3*). All three are positive-signed on both array platforms (six of six readings) and higher
-in EMC than in both comparator arms of the independent 3SEQ cohort, each clearing its single-gene null
-on at least one platform; the aggregate set does not clear its null, while the published EMC
-transcriptional phenotype replicates at p = 0.0005 on both. Under an exact sample-label permutation
-test, *ENO3* survives multiple-testing correction on both platforms and *PPARG* on one, whereas
-*SEMA3C* does not reach significance on either; no row changes sign when any single EMC tumour is
-dropped. No genome-wide chromatin experiment with an NR4A3 fusion was found in 2,276 full-text
-documents, so "elevated in EMC" and "driven by the fusion" cannot yet be separated.
+*PPARG*, *ENO3*). All three are positive-signed on both array platforms (six of six readings) and higher in EMC
+than in both arms of the independent 3SEQ cohort, each clearing its single-gene null on at least one; the aggregate set does not, while the published EMC transcriptional
+phenotype replicates at p = 0.0005 on both. Under an exact sample-label permutation test *ENO3*
+survives multiple-testing correction on both platforms and *PPARG* on one, whereas *SEMA3C* does not
+reach significance on either; no row changes sign when any single EMC tumour is dropped. A promoter NBRE scan against
+composition-matched nulls agrees: *ENO3* is enriched, *PPARG* and *SEMA3C* are not. No genome-wide chromatin experiment with an NR4A3 fusion was found in 2,276
+full-text documents, so "elevated in EMC" and "driven by the fusion" remain inseparable.
 
 ---
 

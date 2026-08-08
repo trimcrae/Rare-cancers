@@ -60,7 +60,7 @@ re-analyses of public data at no charge, and both Wiley journals above permit bi
 | requirement | target | status in manuscript |
 |---|---|---|
 | Article type | Original Research Article | ✔ declared |
-| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, 298 words (trim further if a stricter venue is chosen) |
+| Abstract | GCC: flexible · J Pathol: unstructured ≤300 words | ✔ unstructured, 300 words (trim further if a stricter venue is chosen) |
 | Keywords | 5–7 | ✔ 7 keywords |
 | Structure | Introduction · Methods · Results · Discussion · Conclusion | ✔ full IMRaD |
 | References | GCC: any consistent style · J Pathol/EJC: ≤40–50 | ✔ 10 primary + gene-set resources, Vancouver style |
@@ -74,7 +74,7 @@ re-analyses of public data at no charge, and both Wiley journals above permit bi
 
 ## 3 · Element counts
 
-- **Abstract:** 298 words (unstructured). Compliant with J Pathol (≤300) and GCC (flexible).
+- **Abstract:** 300 words (unstructured). Compliant with J Pathol (≤300) and GCC (flexible).
 - **Main text:** ~5,900 words excluding tables and references. GCC sets no fixed limit; **for *The
   Journal of Pathology* this would need trimming toward ~4,000** (candidate cuts: condense §3.9 PPARγ
   detail and §2 method prose, moving the full PPARγ arm table and the 22-row evidence catalogue to
