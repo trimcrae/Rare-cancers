@@ -76,6 +76,41 @@
       "description": "DERIVED. Routes that ANSWER this blocker -- the portfolio's hedge against it."
     },
 
+    "families_held": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^ST-[A-Z0-9-]+$" },
+      "description": "DERIVED from the strategy of every route in `inherited_by`, never typed. The denominator `inherited_by` alone cannot supply: two blockers holding the SAME number of routes mean different things if one is concentrated in a single family and the other spans six -- the first is a route-selection problem, the second a program-level one."
+    },
+
+    "reach": {
+      "enum": ["portfolio-wide", "cross-family", "single-family", "holds nothing"],
+      "description": "DERIVED from `families_held` by REACH_BANDS in systems_check.py. Named bands rather than a synthetic score on purpose: a 0-100 number would imply a precision the inputs do not carry, and the band is what a reader acts on."
+    },
+
+    "resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class", "when", "basis", "via", "per_tech"],
+      "description": "DERIVED join: blocker -> technology -> forecast. The arrival bands live in the forecast register keyed by TECHNOLOGY, so 'when does this blocker lift' was a join every reader made by hand across two files. Computed here so a re-forecast moves it automatically and it can never disagree with registers/technologies.md. ⚠ A PERMANENT blocker resolves to class `permanent` with NO band -- [B1] already forbids a technology claiming to retire one, and a date printed beside one would reintroduce exactly that conflation.",
+      "properties": {
+        "class": {
+          "enum": ["forecast", "permanent", "decision", "action", "unforecast"],
+          "description": "Which KIND of thing would end this blocker: an advance we wait for (`forecast`), nothing at all (`permanent`), a person's decision (`decision`), an action we can take (`action`), or an unanalysed gap (`unforecast`, which [B2] fails the build on)."
+        },
+        "when": { "type": "string", "description": "The governing `expected` band for class `forecast`; otherwise a word, never a date." },
+        "basis": {
+          "enum": ["evidence_based", "extrapolated", "speculative", null],
+          "description": "The basis of the forecast supplying `when`, carried BESIDE the date because a band without it reads as a measurement. Null for every non-`forecast` class."
+        },
+        "via": { "type": "array", "items": { "type": "string", "pattern": "^TECH-[A-Z0-9-]+$" } },
+        "per_tech": {
+          "type": "array",
+          "items": { "type": "object" },
+          "description": "Per-technology bands, kept uncollapsed so the spread that the earliest-wins headline compresses stays visible."
+        }
+      }
+    },
+
     "evidence": {
       "type": "array",
       "items": { "type": "string" },
