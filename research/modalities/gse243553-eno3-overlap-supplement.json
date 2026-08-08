@@ -1,0 +1,75 @@
+{
+ "_absent_reading_rule": "every fetch carries its HTTP status; a non-200 is `not_retrieved`, never an empty result",
+ "_what": "The paper's supplementary files, from PMC's author-manuscript store \u2014 the place a differential-peak table actually lives when GEO deposits only raw fragments.",
+ "_why_this_was_nearly_missed": "Europe PMC's supplementaryFiles endpoint answers HTTP 200 with `Article with id PMC13105821 is not open access one`, and bioRxiv answered 429 three times. Neither is an absence. PMC serves author-manuscript supplements from /articles/instance/<id>/bin/, and scraping the article page for that path found six files.",
+ "contents": {
+  "NIHMS2166785-supplement-Supplementary_Data_1.zip": {
+   "error": "BadZipFile: File is not a zip file",
+   "kind": "unreadable"
+  },
+  "NIHMS2166785-supplement-Supplementary_Data_2.zip": {
+   "error": "BadZipFile: File is not a zip file",
+   "kind": "unreadable"
+  },
+  "NIHMS2166785-supplement-Supplementary_Table_1.xlsx": {
+   "error": "BadZipFile: File is not a zip file",
+   "kind": "unreadable"
+  },
+  "NIHMS2166785-supplement-Supplementary_Table_2.xlsx": {
+   "error": "BadZipFile: File is not a zip file",
+   "kind": "unreadable"
+  },
+  "NIHMS2166785-supplement-Supplementary_Table_3.xlsx": {
+   "error": "BadZipFile: File is not a zip file",
+   "kind": "unreadable"
+  }
+ },
+ "fetches": {
+  "NIHMS2166785-supplement-Supplementary_Data_1.zip": {
+   "bytes": 1817,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Data_1.zip"
+  },
+  "NIHMS2166785-supplement-Supplementary_Data_2.zip": {
+   "bytes": 1816,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Data_2.zip"
+  },
+  "NIHMS2166785-supplement-Supplementary_Table_1.xlsx": {
+   "bytes": 1817,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Table_1.xlsx"
+  },
+  "NIHMS2166785-supplement-Supplementary_Table_2.xlsx": {
+   "bytes": 1817,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Table_2.xlsx"
+  },
+  "NIHMS2166785-supplement-Supplementary_Table_3.xlsx": {
+   "bytes": 1817,
+   "error": null,
+   "http": 200,
+   "state": "ok",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/instance/13105821/bin/NIHMS2166785-supplement-Supplementary_Table_3.xlsx"
+  }
+ },
+ "generated_utc": "2026-08-08T20:26:13Z",
+ "genomic_interval_tables_found": {
+  "NIHMS2166785-supplement-Supplementary_Data_1.zip": [],
+  "NIHMS2166785-supplement-Supplementary_Data_2.zip": [],
+  "NIHMS2166785-supplement-Supplementary_Table_1.xlsx": [],
+  "NIHMS2166785-supplement-Supplementary_Table_2.xlsx": [],
+  "NIHMS2166785-supplement-Supplementary_Table_3.xlsx": []
+ },
+ "pmcid": "PMC13105821",
+ "pmid": "39048711",
+ "series": "GSE243553"
+}
