@@ -103,6 +103,30 @@ jobs:
       # and the mode being guarded against is succeeding while finding nothing.
       - name: Parser guard (every registered parser can still find what it parses)
         run: python3 systems/parser_guard.py
+      # The pooled clinical proportions. Same standalone-step reasoning as the two verify modes
+      # above, and one reason neither of them has: this artifact carries PATIENT-FACING numbers --
+      # objective-response and disease-control rates with Wilson intervals, pooled under
+      # systems/POLICY-evidence.md 2.1-2.4.
+      #
+      # ⛔ THE MODE THIS INVOKES DID NOT EXIST UNTIL 2026-08-08, AND ITS ABSENCE WAS INVISIBLE.
+      # `emc_systemic_therapy_pooling.py` parsed no arguments at all: `--check` was accepted by the
+      # shell, ignored by the script, and the artifact was OVERWRITTEN and the run exited 0. Its own
+      # `_do_not_hand_edit` note promised a hand edit "will be silently overwritten" -- true only of
+      # a regeneration somebody remembered to make, and nothing in CI made one, so a hand-edited
+      # pooled proportion persisted undetected. A broken guard that no-ops into the previous
+      # behaviour produces NO SYMPTOM, which is why the wiring here is worth nothing on its own:
+      # research/manuscripts/tests/test_emc_systemic_therapy_pooling_check.py perturbs the REAL
+      # committed artifact on disk and asserts the REAL --check refuses it. That test is what makes
+      # this step evidence rather than decoration.
+      - name: EMC systemic-therapy pooling — the committed artifact re-derives from its counts
+        run: python3 research/manuscripts/emc_systemic_therapy_pooling.py --check
+      # Its sibling. This one's `--check` was already REAL — it re-derives to memory and exits 1 on
+      # drift — and was invoked by NOTHING: not by preflight, not by CI, only by a docstring line
+      # telling a human to run it. A correct guard nobody calls protects exactly as much as a broken
+      # one, which is why it is wired here rather than merely noted. Verified 2026-08-08 by
+      # perturbing D1's objective-response proportion on disk: exit 1, message names the artifact.
+      - name: EMC endpoint discordance — the committed artifact re-derives from its counts
+        run: python3 research/manuscripts/emc_endpoint_discordance.py --check
       # Same standalone-step reasoning, for the two CI-shape linters. Both exist because a guard
       # that fails OPEN leaves no trace: a `skipped` step and a silently-loosened threshold both
       # render as a green tick, so the only place they can be caught is before they merge.

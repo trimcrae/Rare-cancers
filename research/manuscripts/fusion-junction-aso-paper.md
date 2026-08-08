@@ -56,12 +56,27 @@ _backfilled: true
 > **⛔ Three panels this manuscript cites have never existed.** §3a-quinquies claims a "full
 > recurrent-junction panel (now run, real, committed — 2026-07-03)" over
 > `junction-aso-offtarget-e{9,10,13}n3.json` and `junction-sirna-designs-e{7,9,10,12,13}n3.json`.
-> Searched 2026-08-06: **none of those filenames is present on `origin/main`, on
+> ⛔ **CORRECTED 2026-08-08 — THIS SEARCH WAS WRONG, AND THE FILES EXIST.** ⚠ *Superseded,
+> retained:* "Searched 2026-08-06: **none of those filenames is present on `origin/main`, on
 > `origin/modalities-cache`, or in any commit reachable from this clone's refs.** Only the E7::N3
-> and E12::N3 files exist, and those six are the ones carrying `_RETRACTED_SEAM` banners. Every
-> quantitative statement sourced to E9/E10/E13 — the siRNA GC ranges, "a fully-clean 16-mer gapmer
-> appears at 1 of 5 junctions", and the gapmer+siRNA panel-coverage conclusion — therefore rests on
-> files nobody can read. They are withdrawn as unverifiable, independently of the seam defect.
+> and E12::N3 files exist, and those six are the ones carrying `_RETRACTED_SEAM` banners."
+> **Measured 2026-08-08 at the tip of `origin/modalities-cache`: THIRTEEN of them are there** —
+> `junction-aso-designs-e{10,13}n3.json`, `junction-aso-offtarget-e{9,10,13}n3.json`,
+> `aso-insilico-evaluation-e{9,10,13}n3.json` and `junction-sirna-designs-e{7,9,10,12,13}n3.json` —
+> added by commit `30eb5684` on **2026-07-03**, the single CI commit from `aso-offtarget.yml` that
+> created all thirteen, and unmodified since. Only `junction-aso-designs-e9n3.json` is genuinely
+> absent. **The 2026-08-06 search was run in a clone that had not fetched the branch**, so it
+> reported an unfetched ref as an empty one: an absent reading read as a reading of absence, in the
+> one place where it became a published claim about what a reader can check.
+> **What does NOT change is the withdrawal.** Every quantitative statement sourced to E9/E10/E13 —
+> the siRNA GC ranges, "a fully-clean 16-mer gapmer appears at 1 of 5 junctions", and the
+> gapmer+siRNA panel-coverage conclusion — stays withdrawn, and now on the STRONGER of the two
+> grounds rather than the weaker: those files do not merely fail to be readable, they are readable
+> and **carry the retracted acceptor seam `TTGTCCGTACAG`** (NR4A3 CDS nt 1081, residue 361) against
+> the corrected `ATATGCCCTGCG`. All thirteen were graded and bannered
+> `⛔_RETRACTED_SEAMS` by [`junction_seam_retraction.py`](../modalities/junction_seam_retraction.py),
+> whose sweep now runs inside `aso-offtarget.yml`'s publish step so the branch's owner cannot
+> republish an unbannered one.
 >
 > **What is owed, and its state.** ⚠ *Superseded, retained (the state as of the morning of
 > 2026-08-06):* `junction_aso.py` was corrected (twice — see the two-defect block
@@ -119,11 +134,20 @@ _backfilled: true
 > retracted panels never had: E7::N3 and E12::N3 agreeing was one defect producing both, whereas
 > these are two separate acquisitions of the transcript model.
 >
-> **(f) STILL WITHDRAWN, unchanged.** The E9/E10/E13 panels and the `junction-sirna-designs-e*n3`
-> files **do not exist** and were never regenerated, because there was nothing to regenerate. Every
-> statement sourced to them — the siRNA GC ranges, *"a fully-clean 16-mer gapmer appears at 1 of 5
-> junctions"*, and the gapmer+siRNA panel-coverage conclusion — remains withdrawn as unverifiable.
-> **The corrected panel covers 2 junctions, not 5.**
+> **(f) STILL WITHDRAWN — but for a different and stronger reason than this paragraph gave.**
+> ⚠ *Superseded, retained:* "The E9/E10/E13 panels and the `junction-sirna-designs-e*n3` files **do
+> not exist** and were never regenerated, because there was nothing to regenerate." **Twelve of the
+> thirteen do exist**, on `origin/modalities-cache` since 2026-07-03 (only
+> `junction-aso-designs-e9n3.json` is genuinely absent); the search that concluded otherwise had not
+> fetched the branch — see the correction above. They were not regenerated, which is the true half
+> of the sentence, and they carry the retracted acceptor seam, which is why every statement sourced
+> to them — the siRNA GC ranges, *"a fully-clean 16-mer gapmer appears at 1 of 5 junctions"*, and
+> the gapmer+siRNA panel-coverage conclusion — remains withdrawn. They are now withdrawn as
+> **measurably wrong** rather than as unverifiable, and all thirteen carry a `⛔_RETRACTED_SEAMS`
+> banner saying so in the file itself. **The corrected panel still covers 2 junctions, not 5.**
+> ⚠ The three E9/E10/E13 junctions are graded **EMITTABLE** under the corrected model
+> ([`junction-mrna-frame-audit.json`](../modalities/junction-mrna-frame-audit.json)), so they COULD
+> be rebuilt; until they are, nothing about them may be quoted.
 >
 > **(g) The corrected result does not restore the retracted headline — it refutes half of it.** See
 > §3a-sexies. Chemistry improves at the real seams; predicted specificity does **not**, and the
@@ -679,7 +703,10 @@ breakpoint), E11::N3 is unverified, and delivery (§3c) remains the dominant gat
 > ⛔ **THIS "Reading" IS RETRACTED WITH THE SECTION.** Nothing in it stands: "real junctions
 > 37–62% GC", "a fully-clean 16-mer gapmer appears at 1 of 5 junctions", "gapmer + siRNA together
 > cover the panel", and the E7/E9/E10/E12/E13 attributions all derive from the retracted seam, and
-> three of the five junctions' files do not exist. ⚠ **The comparison it draws is the most
+> three of the five junctions' files do not exist *(⚠ superseded 2026-08-08: they DO exist, on
+> `origin/modalities-cache` since 2026-07-03, carrying the retracted seam and now bannered — see
+> the correction at the head of this retraction. The Reading stays retracted either way, and on
+> firmer ground)*. ⚠ **The comparison it draws is the most
 > dangerous part** — it tells a reader the modelled-junction chemistry problem is an artifact of
 > the modelled position. That comparison is now unsupported in both directions: **the corrected
 > real-junction GC values are UNKNOWN.**
@@ -1344,11 +1371,17 @@ refreshed by GitHub Actions on the `modalities-cache` branch):
   measurement: [`aso-citations-priorart-2026-08-08.md`](./aso-citations-priorart-2026-08-08.md) Part 3.
   ✅ **Those six were REGENERATED at the corrected seam on 2026-08-06 and no longer carry the banner
   (§3a-sexies).** ⚠ *Superseded, retained: "all six carrying a `_RETRACTED_SEAM` banner."* The count
-  is unchanged — **six files, two junctions** — and the `e9n3`/`e10n3`/`e13n3` and siRNA variants are
-  still absent, so the withdrawal of every claim sourced to them stands exactly as written below.
-  A citation to a file that does not exist cannot be checked by a reader and must not appear in a
-  manuscript; these are withdrawn as unverifiable **independently of** the seam defect, which
-  separately retracts the two panels that do exist. The e11:3 no-output is root-caused in
+  of files at the CORRECTED seam is unchanged — **six files, two junctions**.
+  ⛔ **CORRECTED 2026-08-08.** ⚠ *Superseded, retained: "the `e9n3`/`e10n3`/`e13n3` and siRNA
+  variants are still absent … A citation to a file that does not exist cannot be checked by a
+  reader and must not appear in a manuscript; these are withdrawn as unverifiable."* **They are not
+  absent.** Thirteen of them sit at the tip of `origin/modalities-cache`, added 2026-07-03 by commit
+  `30eb5684` and unmodified since; only `junction-aso-designs-e9n3.json` is genuinely missing. The
+  2026-08-06 search ran in a clone that had not fetched the branch. The withdrawal below stands and
+  is strengthened: those thirteen carry the **retracted acceptor seam** `TTGTCCGTACAG` against the
+  corrected `ATATGCCCTGCG`, so they are withdrawn as measurably wrong rather than as unreadable, and
+  each now carries a `⛔_RETRACTED_SEAMS` banner in the file itself
+  ([`junction_seam_retraction.py`](../modalities/junction_seam_retraction.py)). The e11:3 no-output is root-caused in
   §3a-quinquies and is not an exon-boundary uncertainty.
   ⚠ *One thing here was never in doubt and is not withdrawn:* the `gap_specificity_margin`
   gap-level discriminator (§2a/§3b.1) is a property of `junction_aso.design()` and is independent of

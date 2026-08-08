@@ -8,6 +8,14 @@ name: ASO off-target screen + uncapped full-transcriptome eval (junction gapmers
 #   2. aso_insilico.py — UNCAPPED full-RefSeq (186k-transcript) off-target scan + ViennaRNA
 #      target-site accessibility + siRNA-seed module, removing the BLAST HITLIST-50 over-call.
 # Internet-only — the dev sandbox can't reach NCBI, so this runs on a GitHub-hosted runner.
+#
+# ⛔ THIS WORKFLOW OWNS THE `modalities-cache` BRANCH FOR THE ASO/siRNA ARTIFACT FAMILIES. It is the
+# only writer of junction-aso-designs*, junction-aso-offtarget*, aso-insilico-evaluation* and
+# junction-sirna-designs*, and its publish step OVERWRITES the branch's copies of whatever the run
+# produced. So a correction applied to those files by any other means is temporary by construction;
+# the durable place for one is this file's publish step, which is where the retracted-seam sweep
+# lives. See the comment there and research/modalities/junction_seam_retraction.py.
+#
 # Result JSON is pushed to the `modalities-cache` branch:
 #   git fetch origin modalities-cache && git checkout modalities-cache -- research/modalities/junction-aso-offtarget.json
 # CPU only; no AWS/SageMaker/GPU.
@@ -47,6 +55,11 @@ on:
       hybrid_bp_fractions:
         description: "hybrid_intron: comma-separated MODELLED breakpoint positions as a fraction into EWSR1 intron 7 (default 0.25,0.5,0.75). The real per-patient breakpoint is not held by this repo."
         required: false
+      seam_retraction_sweep:
+        description: "Run NOTHING but the retracted-seam sweep over the modalities-cache tree and publish the banners. No design, no BLAST, no network. Use to repair the branch after a defect is found at source."
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -66,7 +79,7 @@ jobs:
           python-version: "3.11"
 
       - name: Transcriptome-wide off-target screen (NCBI BLAST, stdlib only)
-        if: ${{ inputs.real_junctions == '' && !inputs.hybrid_intron }}
+        if: ${{ inputs.real_junctions == '' && !inputs.hybrid_intron && !inputs.seam_retraction_sweep }}
         working-directory: research/modalities
         env:
           EWSR1_KEEP_AA: ${{ inputs.ews_keep }}
@@ -75,6 +88,9 @@ jobs:
         run: python junction_aso_offtarget.py
 
       - name: Install ViennaRNA (for target-site accessibility)
+        # Skipped on a seam sweep: that mode runs no design and no evaluation, so a pip install
+        # there is pure wall-clock and one more thing that can fail in a repair job.
+        if: ${{ !inputs.seam_retraction_sweep }}
         run: pip install ViennaRNA
 
       - name: Real-junction pipeline (Ensembl exon junctions; design + gap-resolved BLAST + uncapped eval + siRNA)
@@ -130,7 +146,7 @@ jobs:
         run: python hybrid_intron.py
 
       - name: Uncapped full-transcriptome evaluation (off-target + accessibility + siRNA seed)
-        if: ${{ inputs.real_junctions == '' && !inputs.hybrid_intron }}
+        if: ${{ inputs.real_junctions == '' && !inputs.hybrid_intron && !inputs.seam_retraction_sweep }}
         working-directory: research/modalities
         env:
           EWSR1_KEEP_AA: ${{ inputs.ews_keep }}
@@ -145,11 +161,53 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p "$RUNNER_TEMP/res"
-          cp research/modalities/junction-aso-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/junction-aso-offtarget*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/aso-insilico-evaluation*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/junction-sirna-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/hybrid-intron-model.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+
+          # ⛔⛔ STAGE THE SWEEP TOOL *BEFORE* THE BRANCH SWITCH — `modalities-cache` CARRIES NO CODE.
+          # Measured 2026-08-08: `git ls-tree -r origin/modalities-cache | grep -c '\.py$'` returns
+          # ZERO. That branch holds artifacts and nothing else, so after the `git checkout -B
+          # modalities-cache` below, junction_seam_retraction.py, junction_aso.py,
+          # fusion_breakpoints.py and nr4a3-exon-audit.json are all GONE from the working tree.
+          # Running the sweep from `research/modalities` after the switch would therefore fail with
+          # a missing file on every publish — and because the sweep is a hard gate, it would block
+          # ALL publishing from this workflow, converting a data-integrity guard into an outage.
+          # So the tool and every input it reads are copied out first and invoked from there, with
+          # `--dir` pointing at the checked-out artifact tree. The module resolves its imports and
+          # its exon audit relative to its OWN directory, which is why the inputs travel with it.
+          mkdir -p "$RUNNER_TEMP/tool"
+          cp research/modalities/junction_seam_retraction.py \
+             research/modalities/junction_aso.py \
+             research/modalities/fusion_breakpoints.py \
+             research/modalities/nr4a3-exon-audit.json \
+             research/modalities/emc-construct-inputs.json \
+             research/modalities/fusion-object-inventory.json "$RUNNER_TEMP/tool/"
+          # Fail NOW, on the ref that has the code, rather than after the switch: a self-test here
+          # proves the staged copy can build its reference sets at all. `--dir` on an empty
+          # directory grades nothing and is a pure import/derivation check.
+          mkdir -p "$RUNNER_TEMP/selftest"
+          python3 "$RUNNER_TEMP/tool/junction_seam_retraction.py" --check --dir "$RUNNER_TEMP/selftest" || {
+            echo "::error::the staged seam-sweep tool cannot run — refusing to publish"; exit 1; }
+
+          # ⛔⛔ A SWEEP DISPATCH MUST STAGE NOTHING FROM THE CHECKOUT, AND LEARNING THAT COST DATA.
+          # MEASURED, run 31277458528 (2026-08-08): the first seam-sweep dispatch ran no science
+          # step, so these `cp`s staged the *repository's committed copies* of these globs and the
+          # publish then wrote them over the branch's own. `hybrid-intron-model.json` went from
+          # 134,817 bytes on `modalities-cache` to the 16,934-byte copy tracked in the repo — a
+          # 3,130-line deletion in a commit whose subject said it was bannering seams.
+          # ⛔ THAT IS THIS FILE'S OWN RECORDED FAILURE, REINTRODUCED BY A NEW MODE: the
+          # hybrid-intron step above carries the note about run 31130625823, where a swallowed
+          # command let the publish "republish stale artifacts under a fresh-screen commit
+          # message". The commit message here was honest; the staging was not. A mode that runs no
+          # producer has no outputs, and copying a checked-in file is not a result.
+          # The branch is the accumulating home for these artifacts; the checkout is not.
+          if [ "${{ inputs.seam_retraction_sweep }}" != "true" ]; then
+            cp research/modalities/junction-aso-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+            cp research/modalities/junction-aso-offtarget*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+            cp research/modalities/aso-insilico-evaluation*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+            cp research/modalities/junction-sirna-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+            cp research/modalities/hybrid-intron-model.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          else
+            echo "seam sweep: staging nothing from the checkout — the branch's artifacts are the subject, not the output"
+          fi
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -165,5 +223,48 @@ jobs:
           git add research/modalities/aso-insilico-evaluation*.json 2>/dev/null || true
           git add research/modalities/junction-sirna-designs*.json 2>/dev/null || true
           git add research/modalities/hybrid-intron-model.json 2>/dev/null || true
-          git commit -m "ASO real/reference junction screens: design + gap-resolved BLAST + uncapped eval + siRNA" || { echo "no changes"; exit 0; }
+
+          # ⛔⛔ THE RETRACTED-SEAM SWEEP, AND IT RUNS ON *EVERY* PUBLISH — NOT ONLY IN SWEEP MODE.
+          # Measured 2026-08-08 at this branch's tip: THIRTEEN committed design artifacts carried the
+          # acceptor seam `TTGTCCGTACAG` — NR4A3 CDS nt 1081, residue 361, one of the three resume
+          # residues the exon-index off-by-two produced — with no banner of any kind, while
+          # research/manuscripts/fusion-junction-aso-paper.md told readers those files "do not exist
+          # ... on origin/modalities-cache". They had existed since commit 30eb5684 (2026-07-03), the
+          # single CI commit FROM THIS WORKFLOW that created all thirteen.
+          #
+          # ⛔ THIS IS WHY THE SWEEP LIVES HERE AND NOT IN A CRON OR A ONE-OFF REPAIR. A banner
+          # committed to the branch by any other means is a banner this step overwrites on its next
+          # run: the publish copies the run's outputs over the branch's copies, so anything this
+          # workflow regenerates loses whatever was stamped into it elsewhere. Putting the grader
+          # INSIDE the publish makes the repair a property of the WRITER instead of a state of the
+          # branch — the workflow that owns `modalities-cache` can no longer publish an unbannered
+          # retracted artifact, whatever it was dispatched to do. It also covers the files this run
+          # did not touch, which is the entire population that went unwatched for a month.
+          #
+          # $0 CPU over committed inputs: no network, no design, no prediction. It BANNERS, it does
+          # not rewrite — every number in a banner is counted from what is already in the file, and
+          # the grade is re-derived from the committed transcript model, so when a panel is genuinely
+          # regenerated this same pass LIFTS the banner instead of stamping it.
+          python3 "$RUNNER_TEMP/tool/junction_seam_retraction.py" --write --dir research/modalities || {
+            echo "::error::seam-retraction sweep failed - refusing to publish unswept artifacts"; exit 1; }
+          git add research/modalities/*.json 2>/dev/null || true
+
+          # ⛔ AND THEN REFUSE. A sweep whose failure does not stop the publish is a report, not a
+          # guard. `--write` above repairs the tree; this proves it did, and re-reads the tree so an
+          # artifact the write path skipped for any reason still blocks the push.
+          python3 "$RUNNER_TEMP/tool/junction_seam_retraction.py" --check --dir research/modalities || {
+            echo "::error::a retracted junction seam is still unbannered after the sweep - NOT publishing"; exit 1; }
+
+          # ⛔ THE COMMIT MESSAGE MUST DESCRIBE WHAT ACTUALLY RAN. A seam-sweep dispatch runs no
+          # design, no BLAST and no evaluation, so committing it under the screen message would
+          # label a banner-only repair as a fresh screen — bit-for-bit the failure this file already
+          # records at the hybrid-intron step (run 31130625823: a swallowed command exited 0 and the
+          # publish then republished stale artifacts under a fresh-screen commit message). A commit
+          # subject is the only description of a CI write most readers will ever see.
+          if [ "${{ inputs.seam_retraction_sweep }}" = "true" ]; then
+            MSG="retracted-seam sweep: banner every design artifact whose acceptor seam the corrected transcript model does not produce (no design, no BLAST, no network)"
+          else
+            MSG="ASO real/reference junction screens: design + gap-resolved BLAST + uncapped eval + siRNA"
+          fi
+          git commit -m "$MSG" || { echo "no changes"; exit 0; }
           git push origin modalities-cache

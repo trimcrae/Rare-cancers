@@ -761,7 +761,18 @@ def main():
         "_note": "Fusion-junction gapmer ASO designs (RNase-H1 mechanism). DESIGN ONLY "
                  "— hypotheses for wet-lab knockdown testing; not a validated drug.",
         "_breakpoint_model": {
-            "assumption": prov["mode"] != "real_exon_junction",
+            # ⛔ THIS FLAG WAS INVERTED BY THE DEFECT-1 FIX AND NOBODY NOTICED (found 2026-08-08).
+            # It was written as `prov["mode"] != "real_exon_junction"`. When the corrected builder
+            # renamed its mode to `real_exon_junction_mRNA` -- because the junction moved from CDS
+            # to mRNA coordinates -- the comparison stopped matching, so `assumption` became True
+            # for the CORRECTED artifacts and had been False for the RETRACTED ones. The flag whose
+            # job is to say "this breakpoint is a model, not a measurement" was therefore claiming
+            # LESS confidence in the re-derived panels than in the withdrawn ones, and 7 of the 13
+            # unbannered retracted artifacts on `modalities-cache` carry `"assumption": false` on
+            # exactly this arithmetic. A string equality against a name that later changed: the
+            # rename was correct, the comparison was not updated with it, and nothing compared the
+            # flag to anything. Anchored to the family prefix so the next rename cannot re-invert it.
+            "assumption": not prov["mode"].startswith("real_exon_junction"),
             "junction_label": label,
             "EWSR1_mRNA": EWSR1_MRNA, "NR4A3_mRNA": NR4A3_MRNA,
             "junction_context_mRNA": (left[-12:] + "|" + right[:12]),

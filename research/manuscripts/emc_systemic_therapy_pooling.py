@@ -30,13 +30,28 @@ double-digit denominators at best; several rest on single digits. Where the inte
 exclude anything, the finding IS the width. See `where_the_evidence_is_too_thin`.
 
 Regenerate:  python3 research/manuscripts/emc_systemic_therapy_pooling.py
+Verify:      python3 research/manuscripts/emc_systemic_therapy_pooling.py --check
 Output:      research/manuscripts/emc-systemic-therapy-pooling.json
+
+⛔ `--check` WAS A PROMISE THIS FILE COULD NOT KEEP (found 2026-08-08). Until that day this module
+parsed NO arguments at all: `--check` was accepted by the shell, ignored by the script, and the
+artifact was OVERWRITTEN and the process exited 0 regardless. So the `_do_not_hand_edit` note below
+-- "a hand edit will be silently overwritten" -- was false in the only direction that matters: a
+hand edit to a POOLED CLINICAL PROPORTION persisted undetected until somebody happened to
+regenerate, and nothing in CI ever did. A verify mode that regenerates its own reference and exits 0
+is not a guard; it is the previous behaviour wearing a flag. `main()` now re-derives to memory,
+compares against the committed artifact, and exits NON-ZERO on any difference -- and
+`research/manuscripts/tests/test_emc_systemic_therapy_pooling_check.py` perturbs the REAL committed
+artifact on disk and asserts the REAL `main(["--check"])` refuses it, because a guard exercised only
+through a mock tests the mock (CLAUDE.md 6).
 """
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import os
+import sys
 from datetime import datetime, timezone
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "emc-systemic-therapy-pooling.json")
@@ -611,10 +626,17 @@ COHORTS = [
                    "the largest chemotherapy denominator, so it dominates the cytotoxic pool."),
         "correction_this_row_carries": (
             "THE 5.2 MONTHS BELONGS TO THIS STUDY, NOT TO CHIUSOLE 2020. This repository's "
-            "registry carried 'median PFS 5.2 months' on its Chiusole row; Chiusole 2020 reports "
-            "no such figure anywhere, and 5.2 months is Drilon's median time to disease "
-            "progression on chemotherapy. Two retrospective chemotherapy series had been merged "
-            "into one row."),
+            "registry carried 'median PFS 5.2 months' on its Chiusole row, and 5.2 months is "
+            "Drilon's median time to disease progression on chemotherapy - Chiusole's own "
+            "Discussion attributes it to Drilon by name. Two retrospective chemotherapy series "
+            "had been merged into one row. ⚠ SUPERSEDED CLAUSE, RETAINED: this correction used to "
+            "add 'Chiusole 2020 reports no such figure anywhere'. That was FALSE and it was the "
+            "more damaging half of the sentence: Chiusole 2020 reports a median PFS of 9 months "
+            "for first-line chemotherapy, twice (Results and Discussion), verified 2026-08-08 by "
+            "Actions run 31276131242 across three independent acquisitions. The misattribution "
+            "being corrected here was real; the null appended to it was not, and it removed the "
+            "largest published EMC chemotherapy series' own median from this file for a year. See "
+            "A5 -> ⛔_a_null_this_file_asserted_and_that_was_wrong."),
     },
     {
         "key": "apatinib_emc_subset",
@@ -719,6 +741,42 @@ CONTEXT_ONLY = [
             "disease in none of 3. The authors' own conclusion is that 'chemotherapy did not "
             "impact survival in unselected patients' and that its apparent negative association "
             "with survival is confounded by indication."),
+        # ⛔ ADDED 2026-08-08, CORRECTING A NULL THIS FILE ASSERTED TWICE. Until today this row --
+        # and A5 below, and the registry -- stated that Chiusole 2020 reports NO median PFS for its
+        # chemotherapy patients. It reports one, in two places, and it is EMC-specific. The counts
+        # above are still not poolable (they are rates, POLICY-evidence 2.1); a median PFS is a
+        # separate object that this series DOES print, so it belongs in A5.
+        "median_pfs_months": 9.0,
+        "median_pfs_is_emc_specific": True,
+        "median_pfs_ci": None,
+        "median_pfs_range": None,
+        "median_pfs_population": ("patients receiving FIRST-LINE chemotherapy for metastatic "
+                                  "disease (20 patients received first-line chemotherapy in this "
+                                  "series). The paper does not print a confidence interval, a "
+                                  "range, or the number at risk for this median."),
+        "median_pfs_quote": (
+            "Results, Survival Analysis: 'Median progression-free survival for patients receiving "
+            "first-line chemotherapy was 9 months.' And again in the Discussion: 'In our study, we "
+            "observed a progression-free survival time of 9 months, which is higher than what was "
+            "reported by Drillon et al. in 2008 in 21 patients (5.2 months) and consistent with "
+            "data reported in 2013 on the use of anthracyclines in 11 patients in the series by "
+            "Stacchiotti et al. (12, 14) (8 months), but shorter than median progression-free "
+            "survival achieved with Pazopanib in a recent phase II trial that enrolled 23 "
+            "patients (19 months) (1).'"),
+        "median_pfs_retrieved_via": (
+            "Europe PMC full-text XML for PMC7308468 (HTTP 200), the PMC article HTML (HTTP 200) "
+            "and the Frontiers publisher landing page for doi 10.3389/fonc.2020.00828 (HTTP 200) "
+            "-- three independent acquisitions, each carrying both sentences. GitHub Actions run "
+            "31276131242, corpus literature/chiusole2020-pfs-verify on the literature-cache "
+            "branch, targets research/manuscripts/lit-targets-chiusole2020-pfs.json."),
+        "⛔_why_this_was_missed_for_a_year": (
+            "THE ABSTRACT DOES NOT CONTAIN IT. The PubMed record for PMID 32612944 was fetched in "
+            "the same run (HTTP 200) and carries the abstract only; the string does not appear in "
+            "it. The abstract reports median OVERALL survival (180 months overall, 76 months "
+            "metastatic) and disease-control rates, and no PFS at all. A reading of the abstract "
+            "therefore supports 'this paper reports no median PFS' exactly as strongly as the "
+            "truth supports the opposite -- which is why an ABSENCE claim about a full text may "
+            "never be made from an abstract. An absent reading is not a reading of absence."),
     },
 ]
 
@@ -800,6 +858,76 @@ def pooled(rows, ev_key, dn_key):
         "between_cohort_range_pct": [pct(min(rates)), pct(max(rates))],
         "largest_cohort_share_of_denominator_pct": round(
             100.0 * max(r[dn_key] for r in use) / dn, 1),
+    }
+
+
+def _fourth_median_consequence(rows):
+    """What admitting Chiusole's 9 months changes for the one modern prospective median.
+
+    ⛔ THIS IS AN INTERVAL-CONTAINMENT READING, NOT A HYPOTHESIS TEST, AND THE DIFFERENCE IS THE
+    POINT. No p-value is computed here, no p-value has ever been computed anywhere in this
+    repository for this comparison, and none may be: POLICY-evidence 2.4 forbids merging
+    time-anchored endpoints, and three of the four medians come with no dispersion the arithmetic
+    of a test would need (Chiusole prints none at all; Stacchiotti 2013 prints an observed range,
+    which is not a confidence interval). What CAN be said honestly is where each chemotherapy
+    median falls relative to the interval the one modern prospective cohort actually published --
+    so that is all that is said, and it is DERIVED from the rows rather than typed.
+
+    ⚠ The direction matters and is easy to get backwards: admitting the fourth median does NOT
+    flip anything. The comparator that was already there (8 months) was already inside the
+    interval; the new one (9 months) is inside it too, and is the LARGER series. The change is
+    that the chemotherapy side is now two concordant medians from 31 first-line patients instead
+    of one from 11 -- which makes the modern cohort's separation from chemotherapy look LESS
+    established, not more, and it was never established to begin with.
+    """
+    idx = {r["key"]: r for r in rows}
+    ref = idx["sunitinib_nivolumab_immunosarc2"]
+    lo, hi = ref["median_pfs_ci"]
+    chemo = [r for r in rows
+             if r.get("median_pfs_months") is not None and r.get("median_pfs_is_emc_specific")
+             and r["key"] != ref["key"] and "chemo" in (r.get("regimen", "") + r["key"]).lower()]
+    return {
+        "reference": {
+            "cohort": ref["key"], "median_pfs_months": ref["median_pfs_months"],
+            "ci95": [lo, hi],
+            "note": "the only EMC median PFS in this file that comes with a published 95% CI",
+        },
+        "chemotherapy_medians_read_against_that_interval": [
+            {"cohort": r["key"], "median_pfs_months": r["median_pfs_months"],
+             "inside_the_reference_ci95": bool(lo <= r["median_pfs_months"] <= hi),
+             # ⚠ NAMED AS AN ARITHMETIC DIFFERENCE, NOT A "gap" OR AN "effect", because it is one:
+             # a subtraction of two medians from unrandomised single-arm cohorts is not an effect
+             # size and must never be quoted as one.
+             "arithmetic_difference_of_the_two_medians_months": round(
+                 ref["median_pfs_months"] - r["median_pfs_months"], 1),
+             "dispersion_this_source_reports": (
+                 "95% CI" if r.get("median_pfs_ci") else
+                 "observed range only" if r.get("median_pfs_range") else "none")}
+            for r in sorted(chemo, key=lambda x: x["median_pfs_months"])
+        ],
+        "⚠_a_5_point_2_appears_here_and_it_is_NOT_drilons": (
+            "13.2 - 8.0 = 5.2, which collides numerically with Drilon 2008's median time to "
+            "disease progression (5.2 months) named elsewhere in this file. They are unrelated "
+            "quantities and the coincidence is exactly the kind of thing this file exists to stop: "
+            "the subtraction below is an arithmetic difference between two cohorts' medians; "
+            "Drilon's 5.2 is one cohort's own measured time-to-progression. Neither may be "
+            "substituted for the other."),
+        "⛔_this_is_not_a_significance_verdict": (
+            "No test statistic and no p-value is produced here or anywhere else in this "
+            "repository for this comparison. A reader looking for one should read this entry as "
+            "the reason there is none: the endpoints are not mergeable under POLICY-evidence 2.4, "
+            "two of the four medians carry no interval at all, the cohorts are single-arm and "
+            "separated by two decades and two response-assessment standards, and Chiusole's own "
+            "authors name restaging-interval bias in the paragraph the figure appears in."),
+        "what_changed_on_2026_08_08": (
+            "The chemotherapy side of this reading went from ONE median (8 months, 11 patients) "
+            "to TWO (8 months in 11 patients, and 9 months in the 20 first-line patients of the "
+            "largest published EMC chemotherapy series). Both sit inside the modern cohort's "
+            "published interval, as the first one already did, so nothing that was significant "
+            "becomes non-significant and nothing that was non-significant becomes significant - "
+            "there was no verdict to flip. What is genuinely different is the WEIGHT on the "
+            "chemotherapy side, which had been understated by the largest series in the "
+            "literature because this file wrongly recorded that series as reporting no median."),
     }
 
 
@@ -945,9 +1073,23 @@ def build():
                  # retrospective row does not have.
                  "median_pfs_ci95": c.get("median_pfs_ci"),
                  "median_pfs_observed_range": c.get("median_pfs_range"),
+                 # ⛔ THREE STATES, NOT TWO (2026-08-08). This used to be a binary: a CI, or
+                 # "observed range". Adding the Chiusole median -- which the paper prints with NO
+                 # dispersion at all -- would have made it read as an observed range that does not
+                 # exist, i.e. this file inventing precision in the very field whose purpose is to
+                 # stop that. `median_pfs_observed_range` is null beside it, so the two disagreed.
                  "dispersion_reported_as": ("95% confidence interval" if c.get("median_pfs_ci")
-                                            else "observed range, not a confidence interval")}
-                for c in COHORTS
+                                            else "observed range, not a confidence interval"
+                                            if c.get("median_pfs_range")
+                                            else "NONE REPORTED - the source prints this median "
+                                                 "with no interval, no range and no number at "
+                                                 "risk")}
+                # ⛔ `COHORTS + CONTEXT_ONLY`, NOT `COHORTS` (2026-08-08). A row can be
+                # context-only for its RESPONSE counts and still print a perfectly extractable
+                # median PFS -- those are different objects with different extraction rules, and
+                # reading over COHORTS alone silently dropped the largest published EMC
+                # chemotherapy series' median from the one table that lists EMC medians.
+                for c in COHORTS + CONTEXT_ONLY
                 if c.get("median_pfs_months") is not None and c.get("median_pfs_is_emc_specific")
             ],
             "figures_that_are_NOT_emc_medians_but_circulate_as_such": [
@@ -962,18 +1104,59 @@ def build():
                  "actually": ("the median FOLLOW-UP of the sunitinib series. That paper states "
                               "'Median progression free survival (PFS) has not been reached.'")},
                 {"figure": "5.2 months", "attributed_to": "anthracycline +/- ifosfamide (Chiusole)",
-                 "actually": ("Drilon's median time to disease progression on chemotherapy. "
-                              "Chiusole 2020 reports no median PFS for its chemotherapy patients.")},
+                 "actually": ("Drilon's median time to disease progression on chemotherapy, which "
+                              "Chiusole's own Discussion attributes to Drilon by name. Chiusole "
+                              "2020's chemotherapy median PFS is 9 months, not 5.2 - it is listed "
+                              "in emc_specific_medians above.")},
                 {"figure": "48% 6-month PFS", "attributed_to": "sunitinib+nivolumab context",
                  "actually": "IMMUNOSARC I's whole mixed soft-tissue-sarcoma cohort"},
             ],
+            "⛔_a_null_this_file_asserted_and_that_was_wrong": {
+                "superseded_claim": ("'Chiusole 2020 reports no median PFS for its chemotherapy "
+                                     "patients.' Carried here, in the Drilon correction row, and "
+                                     "in research/data/emc-clinical-registry.json until "
+                                     "2026-08-08."),
+                "what_is_true": ("Chiusole 2020 reports a median progression-free survival of 9 "
+                                 "months for patients receiving first-line chemotherapy, stated "
+                                 "twice - once in Results (Survival Analysis) and once in the "
+                                 "Discussion, where it is compared against Drilon's 5.2, "
+                                 "Stacchiotti 2013's 8 and pazopanib's 19."),
+                "how_it_was_verified": ("GitHub Actions run 31276131242: Europe PMC full-text "
+                                        "XML, the PMC HTML and the Frontiers publisher landing "
+                                        "page, three independent acquisitions at HTTP 200, each "
+                                        "carrying both sentences. Corpus "
+                                        "literature/chiusole2020-pfs-verify."),
+                "how_it_happened": ("The abstract does not contain the figure. The PubMed record "
+                                    "(PMID 32612944) was fetched in the same run and reports "
+                                    "median OVERALL survival and disease-control rates only. The "
+                                    "null was an abstract-level reading asserted about a full "
+                                    "text."),
+                "what_did_NOT_change": ("The 5.2-months correction stands and is unaffected: 5.2 "
+                                        "is Drilon's median time to progression, this repository's "
+                                        "registry had it on the Chiusole row, and Chiusole's own "
+                                        "Discussion attributes it to Drilon. Two retrospective "
+                                        "series had been merged into one row, and they still had "
+                                        "been. Nothing pooled anywhere in this file moves: A5 "
+                                        "merges no time-to-event endpoint, by policy."),
+            },
             "note": (
                 "The five figures listed immediately above are quoted in the EMC literature and "
-                "in this repository's own registry as EMC results, and none of them is one. Only "
-                "three EMC median-PFS figures exist: 19 months on pazopanib, 13.2 months on "
-                "sunitinib plus nivolumab, and 8 months on anthracycline-based chemotherapy - "
-                "different lines of therapy in different eras, which is why they are listed here "
-                "and not compared."),
+                "in this repository's own registry as EMC results, and none of them is one. FOUR "
+                "EMC median-PFS figures exist: 19 months on pazopanib, 13.2 months on sunitinib "
+                "plus nivolumab, 9 months on first-line chemotherapy in the Chiusole series and 8 "
+                "months on anthracycline-based chemotherapy - different lines of therapy in "
+                "different eras, which is why they are listed here and not compared. (Superseded, "
+                "retained: 'Only three EMC median-PFS figures exist', which omitted the Chiusole "
+                "median on the strength of a null this file itself asserted wrongly.)"),
+            "⚠_what_the_fourth_median_does_and_does_not_move": _fourth_median_consequence(
+                COHORTS + CONTEXT_ONLY),
+            "⚠_and_four_is_still_not_a_comparison": (
+                "Adding a fourth median does not license ranking them. Two are single-arm "
+                "prospective trials with central review, two are retrospective series in "
+                "different eras with no central review and no stated interval; Chiusole's 9 "
+                "months carries no confidence interval, no range and no number at risk, and its "
+                "own authors describe restaging-interval bias in the same paragraph. POLICY-"
+                "evidence 2.4 forbids merging them and nothing here compares them."),
         },
         "A6_six_month_progression_free": {
             "question": "The endpoint both modern EMC trials chose. Can it be pooled?",
@@ -1041,11 +1224,17 @@ def build():
          "that study's median FOLLOW-UP, in a paper whose own words are 'Median progression free "
          "survival (PFS) has not been reached'; the 5.2 months attached to one chemotherapy "
          "series is a different series' median time to progression; and IMMUNOSARC I's 48% "
-         "6-month PFS is its whole mixed soft-tissue-sarcoma cohort. Only THREE median-PFS "
+         "6-month PFS is its whole mixed soft-tissue-sarcoma cohort. FOUR median-PFS "
          "figures in this literature are EMC medians: 19 months on pazopanib, 13.2 on sunitinib "
-         "plus nivolumab, 8 on anthracycline-based chemotherapy - and those three are different "
-         "lines of therapy in different eras, which is why this file lists them and does not "
-         "compare them."),
+         "plus nivolumab, 9 on first-line chemotherapy in the Chiusole series and 8 on "
+         "anthracycline-based chemotherapy - and those four are different lines of therapy in "
+         "different eras, which is why this file lists them and does not compare them. "
+         "⚠ SUPERSEDED, RETAINED: 'Only THREE median-PFS figures ... 19, 13.2, 8'. The fourth was "
+         "missing because THIS FILE asserted that Chiusole 2020 reports no median PFS, an "
+         "abstract-level null about a full text that the full text refutes twice over (verified "
+         "2026-08-08, Actions run 31276131242). A sweep whose whole subject is figures that "
+         "describe a different quantity than they are quoted for had itself produced one - which "
+         "is the reason this correction is recorded here and not quietly folded in."),
         ("THE TWO HIGHEST-PROFILE EMC TKI RESULTS DISAGREE BY A FACTOR OF SEVEN AND NOTHING "
          "PUBLISHED CAN SETTLE IT. Sunitinib 6 of 10 versus sunitinib plus nivolumab 2 of 23, "
          "with pazopanib's 4 of 22 in between. The 6 of 10 comes from consecutive named-patient "
@@ -1176,7 +1365,63 @@ def build():
     return doc
 
 
-def main():
+#: Keys whose value changes on every run and therefore cannot participate in a difference test.
+#: Deliberately a NAMED SET rather than a prefix rule: `_schema`, `_generated_by` and
+#: `_do_not_hand_edit` all start with an underscore and all MUST be compared, because editing them
+#: is exactly the kind of drift this guard exists to catch.
+_VOLATILE_TOP_LEVEL_KEYS = ("_generated_utc",)
+
+
+def _comparable(doc):
+    """`doc` minus the fields that differ between two correct runs. Everything else is compared."""
+    return {k: v for k, v in doc.items() if k not in _VOLATILE_TOP_LEVEL_KEYS}
+
+
+def check():
+    """`0` if the committed artifact re-derives exactly, `1` otherwise. Never writes.
+
+    ⛔ THE RE-DERIVATION GOES TO MEMORY, NOT TO `OUT`. The whole defect this replaces was a mode
+    that regenerated the artifact and then found it identical -- a comparison of the generator
+    against itself, which cannot fail. `build()` is pure over the module's COHORTS table, so the
+    reference here never touches the file being judged.
+    """
+    if not os.path.exists(OUT):
+        print(f"FAIL: {OUT} does not exist -- run the generator", file=sys.stderr)
+        return 1
+    try:
+        with open(OUT, encoding="utf-8") as fh:
+            committed = json.load(fh)
+    except (OSError, ValueError) as exc:
+        print(f"FAIL: {OUT} is not readable JSON ({exc})", file=sys.stderr)
+        return 1
+
+    built = build()
+    if _comparable(committed) == _comparable(built):
+        print("emc_systemic_therapy_pooling --check: OK "
+              "(committed artifact reproduces from the generator's counts)")
+        return 0
+
+    # ⛔ A REFUSAL THAT CANNOT SAY WHAT IT REFUSED SENDS THE READER TO A 1,300-LINE DIFF. Name the
+    # top-level sections that disagree; a pooled clinical proportion drifting is worth a pointer.
+    c, b = _comparable(committed), _comparable(built)
+    differing = sorted(set(c) ^ set(b)) + sorted(k for k in set(c) & set(b) if c[k] != b[k])
+    print(f"FAIL: {OUT} differs from a fresh derivation. Regenerate it "
+          f"(python3 research/manuscripts/emc_systemic_therapy_pooling.py).", file=sys.stderr)
+    print("  differing top-level keys: %s" % ", ".join(differing), file=sys.stderr)
+    return 1
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description="Pooled synthesis of published systemic-therapy "
+                                             "outcomes in advanced EMC.")
+    ap.add_argument("--check", action="store_true",
+                    help="re-derive in memory and compare against the committed artifact; "
+                         "exit 1 on any difference. Writes nothing.")
+    args = ap.parse_args(argv)
+
+    if args.check:
+        return check()
+
     doc = build()
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(doc, fh, indent=1, ensure_ascii=True)
@@ -1203,7 +1448,10 @@ def main():
     print(f"  registry corrections carried: "
           f"{len(doc['corrections_to_the_repository_registry']['items'])}")
     print(f"  exclusions recorded: {len(doc['exclusions_ledger'])}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    # ⛔ `sys.exit(main())`, never a bare `main()`. A verify mode whose failure cannot reach the
+    # shell's exit status is not wired into anything, however correct its comparison is.
+    sys.exit(main())
