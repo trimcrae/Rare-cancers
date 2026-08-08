@@ -92,7 +92,7 @@ paper's full text and the screen's own supplementary tables.
 |---|---|
 | accession | **GSE243553**, public 2024-07-24, last updated 2024-10-23 |
 | title | Large-scale discovery of chromatin dysregulation induced by oncofusions and other protein-coding variants |
-| primary publication | PubMed identifier 39048711 (*Nat Biotechnol* 2025); preprint doi `10.1101/2023.09.20.555752`, CC-BY-NC-ND |
+| primary publication | PubMed identifier 39048711 (*Nat Biotechnol* 2025); preprint doi 10.1101/2023.09.20.555752 (CC-BY-NC-ND) |
 | contributors | Frenkel M, Hujoel MLA, Morris Z, Raman S (University of Wisconsin–Madison) |
 | assay | Spear-ATAC (10x droplet single-cell ATAC) on a pooled variant library, one perturbation per cell |
 | cells | **HEK293T** — the authors' term is "disease-agnostic biosensor cell line" |

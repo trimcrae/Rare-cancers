@@ -71,9 +71,15 @@ strongest reading is circular, *ENO3* survives every test. **I state plainly tha
 pre-designated positive control and is therefore not an independent finding of this work**, and that
 the ordering rests on cohorts of 4, 6 and 10.
 
-The manuscript is equally plain about the ceiling: with three genes and no genome-wide chromatin
-experiment ever performed with an NR4A3 fusion (documented by a search of 2,276 full-text papers),
-"elevated in EMC" and "driven by the fusion" cannot yet be separated for any of them. It therefore
+The manuscript is equally plain about the ceiling: with three genes, and with no experiment having
+measured where an NR4A3 fusion binds or what chromatin does in EMC material, "elevated in EMC" and
+"driven by the fusion" cannot yet be separated for any of them. That negative is reported as what it
+is — a search, run on 2026-08-08 across GEO, SRA, BioProject, BioSample, ArrayExpress, ENA and
+ChIP-Atlas with every query string deposited — and it is stated comparatively, because the field
+performs this experiment routinely for the sibling fusions (EWSR1::WT1, EWSR1::ATF1, EWSR1::FLI1,
+FUS::DDIT3 and, twice, HEY1::NCOA2) and has never performed it on EMC. The one genome-wide chromatin
+readout that carries NR4A3 fusions at all reads accessibility in HEK293T rather than occupancy in EMC
+chromatin, and the manuscript says so rather than counting it. It therefore
 names the single experiment that would settle it rather than gesturing at one. A reusable
 calibration, an honestly drawn boundary, and a specified missing experiment are what I think make the
 paper worth publishing — as is the fact that the strongest correction in it is one I applied to my
