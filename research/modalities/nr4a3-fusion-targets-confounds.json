@@ -1,0 +1,1892 @@
+{
+ "_inputs": {
+  "_offline": "both are committed caches; this module performs no network access and no GPU work.",
+  "expression": "emc-expression-panels-inputs.json",
+  "primary_artifact": "nr4a3-fusion-targets.json"
+ },
+ "_language_discipline": "Nothing in this file is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim for any agent, target or gene, and no such quantity is computed. No test here measures occupancy: nothing shows any gene being bound by any fusion protein.",
+ "_what": "Confound audit and sensitivity analysis for the EWSR1::NR4A3 transcriptional-output reading.",
+ "generated_utc": "2026-08-08T02:12:47Z",
+ "minimum_detectable_effect": {
+  "_what": "for every set the manuscript scores, the delta required to clear the 95% band of its own size-matched null, and how far the observed delta got.",
+  "_why": "a negative that does not say what it could have detected is not interpretable. This is a DETECTABILITY threshold on this instrument at these arm sizes, not a statistical power calculation -- no alternative hypothesis is assumed.",
+  "sets": {
+   "A_plus_B_all_dna_binding": {
+    "GSE24369_series_matrix.txt.gz": {
+     "cleared": false,
+     "fraction_of_threshold_reached": 0.385,
+     "null_95_band": [
+      -0.14184,
+      0.10465
+     ],
+     "observed_delta": 0.0403,
+     "set_size": 19,
+     "shortfall": 0.0644,
+     "threshold_to_clear": 0.10465
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "cleared": false,
+     "fraction_of_threshold_reached": 0.877,
+     "null_95_band": [
+      -0.29715,
+      0.37648
+     ],
+     "observed_delta": 0.3301,
+     "set_size": 17,
+     "shortfall": 0.0464,
+     "threshold_to_clear": 0.37648
+    }
+   },
+   "B_native_nr4a3_dna_binding_targets": {
+    "GSE24369_series_matrix.txt.gz": {
+     "cleared": false,
+     "fraction_of_threshold_reached": 0.43,
+     "null_95_band": [
+      -0.15684,
+      0.11422
+     ],
+     "observed_delta": -0.0675,
+     "set_size": 16,
+     "shortfall": 0.0893,
+     "threshold_to_clear": -0.15684
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "cleared": false,
+     "fraction_of_threshold_reached": 0.433,
+     "null_95_band": [
+      -0.33573,
+      0.39705
+     ],
+     "observed_delta": -0.1453,
+     "set_size": 14,
+     "shortfall": 0.1904,
+     "threshold_to_clear": -0.33573
+    }
+   },
+   "D_filion_table1_emc_vs_137_sarcomas": {
+    "GSE24369_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 11.942,
+     "null_95_band": [
+      -0.13736,
+      0.09472
+     ],
+     "observed_delta": 1.1311,
+     "set_size": 21,
+     "shortfall": -1.0364,
+     "threshold_to_clear": 0.09472
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 4.246,
+     "null_95_band": [
+      -0.2853,
+      0.34814
+     ],
+     "observed_delta": 1.4783,
+     "set_size": 18,
+     "shortfall": -1.1302,
+     "threshold_to_clear": 0.34814
+    }
+   },
+   "E_filion_table2_overlap_with_subramanian": {
+    "GSE24369_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 9.133,
+     "null_95_band": [
+      -0.13995,
+      0.0978
+     ],
+     "observed_delta": 0.8932,
+     "set_size": 20,
+     "shortfall": -0.7954,
+     "threshold_to_clear": 0.0978
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 5.702,
+     "null_95_band": [
+      -0.2853,
+      0.34814
+     ],
+     "observed_delta": 1.985,
+     "set_size": 18,
+     "shortfall": -1.6369,
+     "threshold_to_clear": 0.34814
+    }
+   },
+   "G_brenca_TAF15_high_axon_guidance": {
+    "GSE24369_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 2.542,
+     "null_95_band": [
+      -0.19574,
+      0.14604
+     ],
+     "observed_delta": -0.4975,
+     "set_size": 10,
+     "shortfall": -0.3018,
+     "threshold_to_clear": -0.19574
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "cleared": false,
+     "fraction_of_threshold_reached": 0.264,
+     "null_95_band": [
+      -0.40588,
+      0.45998
+     ],
+     "observed_delta": 0.1214,
+     "set_size": 10,
+     "shortfall": 0.3386,
+     "threshold_to_clear": 0.45998
+    }
+   },
+   "PPARG_adipogenesis_process_proxy": {
+    "GSE24369_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 2.726,
+     "null_95_band": [
+      -0.05533,
+      0.01735
+     ],
+     "observed_delta": 0.0473,
+     "set_size": 189,
+     "shortfall": -0.03,
+     "threshold_to_clear": 0.01735
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 1.647,
+     "null_95_band": [
+      -0.06648,
+      0.13251
+     ],
+     "observed_delta": 0.2183,
+     "set_size": 176,
+     "shortfall": -0.0858,
+     "threshold_to_clear": 0.13251
+    }
+   },
+   "PPARG_pparg_KO_DOWN": {
+    "GSE24369_series_matrix.txt.gz": {
+     "cleared": false,
+     "fraction_of_threshold_reached": 0.017,
+     "null_95_band": [
+      -0.05482,
+      0.0173
+     ],
+     "observed_delta": 0.0003,
+     "set_size": 188,
+     "shortfall": 0.017,
+     "threshold_to_clear": 0.0173
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 1.605,
+     "null_95_band": [
+      -0.07146,
+      0.13828
+     ],
+     "observed_delta": 0.2219,
+     "set_size": 157,
+     "shortfall": -0.0836,
+     "threshold_to_clear": 0.13828
+    }
+   },
+   "PPARG_pparg_KO_UP_FALSIFIER": {
+    "GSE24369_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 1.018,
+     "null_95_band": [
+      -0.05266,
+      0.01425
+     ],
+     "observed_delta": -0.0536,
+     "set_size": 231,
+     "shortfall": -0.0009,
+     "threshold_to_clear": -0.05266
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 1.826,
+     "null_95_band": [
+      -0.06123,
+      0.1309
+     ],
+     "observed_delta": -0.1118,
+     "set_size": 196,
+     "shortfall": -0.0506,
+     "threshold_to_clear": -0.06123
+    }
+   },
+   "PPARG_pparg_OE_UP": {
+    "GSE24369_series_matrix.txt.gz": {
+     "cleared": false,
+     "fraction_of_threshold_reached": 0.47,
+     "null_95_band": [
+      -0.05069,
+      0.01221
+     ],
+     "observed_delta": -0.0238,
+     "set_size": 250,
+     "shortfall": 0.0269,
+     "threshold_to_clear": -0.05069
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "cleared": false,
+     "fraction_of_threshold_reached": 0.04,
+     "null_95_band": [
+      -0.05054,
+      0.12058
+     ],
+     "observed_delta": -0.002,
+     "set_size": 230,
+     "shortfall": 0.0485,
+     "threshold_to_clear": -0.05054
+    }
+   },
+   "PPARG_pparg_chip_chea": {
+    "GSE24369_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 4.624,
+     "null_95_band": [
+      -0.05482,
+      0.0173
+     ],
+     "observed_delta": 0.08,
+     "set_size": 188,
+     "shortfall": -0.0627,
+     "threshold_to_clear": 0.0173
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 2.2,
+     "null_95_band": [
+      -0.0636,
+      0.13357
+     ],
+     "observed_delta": 0.2938,
+     "set_size": 169,
+     "shortfall": -0.1602,
+     "threshold_to_clear": 0.13357
+    }
+   },
+   "PPARG_pparg_curated_trrust_human": {
+    "GSE24369_series_matrix.txt.gz": {
+     "cleared": true,
+     "fraction_of_threshold_reached": 1.021,
+     "null_95_band": [
+      -0.08698,
+      0.04448
+     ],
+     "observed_delta": 0.0454,
+     "set_size": 63,
+     "shortfall": -0.0009,
+     "threshold_to_clear": 0.04448
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+     "cleared": false,
+     "fraction_of_threshold_reached": 0.779,
+     "null_95_band": [
+      -0.13739,
+      0.21148
+     ],
+     "observed_delta": 0.1647,
+     "set_size": 57,
+     "shortfall": 0.0468,
+     "threshold_to_clear": 0.21148
+    }
+   }
+  }
+ },
+ "platforms": {
+  "GSE24369_series_matrix.txt.gz": {
+   "agreement_with_primary_artifact": {
+    "_tolerance": "5e-4 -- the committed artifact rounds deltas to 4 decimals.",
+    "_what": "each gene's EMC-vs-comparator delta re-derived from the cached inputs and compared with nr4a3-fusion-targets.json",
+    "agrees": true,
+    "n_rows_checked": 6,
+    "per_gene": {
+     "ENO3": {
+      "abs_difference": 0.0,
+      "committed": 0.8074,
+      "re_derived": 0.8074
+     },
+     "NR4A3": {
+      "abs_difference": 0.0,
+      "committed": 0.7415,
+      "re_derived": 0.7415
+     },
+     "PLAGL1": {
+      "abs_difference": 0.0,
+      "committed": -0.4234,
+      "re_derived": -0.4234
+     },
+     "PPARG": {
+      "abs_difference": 0.0,
+      "committed": 0.3071,
+      "re_derived": 0.3071
+     },
+     "SEMA3C": {
+      "abs_difference": 0.0,
+      "committed": 0.7298,
+      "re_derived": 0.7298
+     },
+     "SGK1": {
+      "abs_difference": 0.0,
+      "committed": -0.1807,
+      "re_derived": -0.1807
+     }
+    },
+    "worst_abs_difference": 0.0
+   },
+   "comparator_composition": {
+    "_question": "What is actually in the comparator arm, read from the GEO sample titles?",
+    "_why": "the manuscript described one class as `fibrosarcoma`, which is the panels module's internal bucket name. The GEO titles say `Myxofibrosarcoma`, and the difference decides whether the comparator arm is myxoid -- which is the whole of confound (b).",
+    "classes": {
+     "EMC": {
+      "geo_titles_verbatim": [
+       "Extraskeletal myxoid chondrosarcoma"
+      ],
+      "in_comparator_arm": false,
+      "myxoid": true,
+      "n": 6,
+      "why": "the index tumour; myxoid stroma is definitional"
+     },
+     "LGFMS": {
+      "geo_titles_verbatim": [
+       "Low-grade fibromyxoid sarcoma"
+      ],
+      "in_comparator_arm": true,
+      "myxoid": true,
+      "n": 17,
+      "why": "low-grade FIBROMYXOID sarcoma — alternating fibrous and myxoid zones are definitional; also FET-rearranged (FUS::CREB3L2), so it is a lineage as well as a matrix control"
+     },
+     "desmoid_fibromatosis": {
+      "geo_titles_verbatim": [
+       "Desmoid fibromatosis"
+      ],
+      "in_comparator_arm": true,
+      "myxoid": false,
+      "n": 6,
+      "why": "collagen-rich, not myxoid — but ALSO hypocellular and paucivascular, so it controls the matrix-abundance half of the physical hypothesis while failing to control the cellularity half. It is the closest thing to a non-myxoid comparator in either series and it is not a clean one."
+     },
+     "fibrosarcoma": {
+      "geo_titles_verbatim": [
+       "Myxofibrosarcoma"
+      ],
+      "in_comparator_arm": true,
+      "myxoid": true,
+      "n": 6,
+      "why": "the six samples in this class are titled `Myxofibrosarcoma`, a myxoid-stroma sarcoma. ⚠ The class LABEL is the panels module's bucket name, not the sample title; the titles are carried verbatim in `emc-expression-panels.json` -> platforms -> sample_annotations_verbatim and are what this classification reads."
+     }
+    },
+    "comparator_myxoid_composition": {
+     "_reading": "a comparator arm that is itself largely myxoid CONTROLS the myxoid-matrix explanation by design; one that is not, does not.",
+     "fraction_myxoid": 0.793,
+     "n_myxoid": 23,
+     "n_non_myxoid": 6
+    },
+    "excluded_from_both_arms": {
+     "_why_it_matters": "these samples are in neither arm and the manuscript did not say what they are. On GPL6244 two of them are POOLED SKELETAL MUSCLE RNA, which is not a nuisance -- it is the control that makes the ENO3 muscle-admixture objection answerable.",
+     "geo_titles_verbatim": [
+      "Skeletal muscle pooled RNA 1",
+      "Skeletal muscle pooled RNA 2",
+      "Solitary fibrous tumor 1",
+      "Solitary fibrous tumor 2",
+      "Solitary fibrous tumor 3",
+      "Solitary fibrous tumor 4",
+      "Solitary fibrous tumor 5"
+     ],
+     "n_by_class": {
+      "unclassified": 7
+     }
+    },
+    "n_comparator": 29,
+    "n_emc": 6
+   },
+   "covariate_adjusted": {
+    "_method": "ordinary least squares of the gene's within-sample z on the panel's per-sample mean z, over the samples in either arm; the contrast is then recomputed on the residuals. Same samples, same reduction, same floors.",
+    "_question": "does the class-A contrast survive removing a matrix or vascular content axis that EMC and the comparator sarcomas differ on?",
+    "_this_is_a_sensitivity_analysis": "NOT a correction, and the adjusted number is not 'the real effect'. If a panel gene is itself driven by the fusion the adjustment removes real signal (over-adjustment); if the proxy is a poor measure of tumour composition it removes little. Both are possible here and neither is measured.",
+    "genes": {
+     "ENO3": {
+      "adjusted": {
+       "matrix": {
+        "delta": 0.6083,
+        "fraction_of_raw_retained": 0.753,
+        "r_gene_vs_proxy": -0.368,
+        "slope_on_proxy": -0.3842,
+        "t": 3.101
+       },
+       "vascular": {
+        "delta": 0.6294,
+        "fraction_of_raw_retained": 0.78,
+        "r_gene_vs_proxy": -0.3236,
+        "slope_on_proxy": -0.4387,
+        "t": 2.75
+       }
+      },
+      "raw_delta": 0.8074
+     },
+     "NR4A3": {
+      "adjusted": {
+       "matrix": {
+        "delta": 0.5463,
+        "fraction_of_raw_retained": 0.737,
+        "r_gene_vs_proxy": -0.351,
+        "slope_on_proxy": -0.3765,
+        "t": 3.985
+       },
+       "vascular": {
+        "delta": 0.7242,
+        "fraction_of_raw_retained": 0.977,
+        "r_gene_vs_proxy": -0.0306,
+        "slope_on_proxy": -0.0426,
+        "t": 4.545
+       }
+      },
+      "raw_delta": 0.7415
+     },
+     "PLAGL1": {
+      "adjusted": {
+       "matrix": {
+        "delta": -0.087,
+        "fraction_of_raw_retained": 0.205,
+        "r_gene_vs_proxy": 0.5034,
+        "slope_on_proxy": 0.649,
+        "t": -0.407
+       },
+       "vascular": {
+        "delta": -0.2295,
+        "fraction_of_raw_retained": 0.542,
+        "r_gene_vs_proxy": 0.2856,
+        "slope_on_proxy": 0.478,
+        "t": -0.795
+       }
+      },
+      "raw_delta": -0.4234
+     },
+     "PPARG": {
+      "adjusted": {
+       "matrix": {
+        "delta": 0.0992,
+        "fraction_of_raw_retained": 0.323,
+        "r_gene_vs_proxy": -0.4798,
+        "slope_on_proxy": -0.4012,
+        "t": 0.576
+       },
+       "vascular": {
+        "delta": 0.0917,
+        "fraction_of_raw_retained": 0.299,
+        "r_gene_vs_proxy": -0.489,
+        "slope_on_proxy": -0.5309,
+        "t": 0.516
+       }
+      },
+      "raw_delta": 0.3071
+     },
+     "SEMA3C": {
+      "adjusted": {
+       "matrix": {
+        "delta": 1.2458,
+        "fraction_of_raw_retained": 1.707,
+        "r_gene_vs_proxy": 0.3354,
+        "slope_on_proxy": 0.9953,
+        "t": 3.577
+       },
+       "vascular": {
+        "delta": 1.3789,
+        "fraction_of_raw_retained": 1.889,
+        "r_gene_vs_proxy": 0.4152,
+        "slope_on_proxy": 1.5998,
+        "t": 3.744
+       }
+      },
+      "raw_delta": 0.7298
+     },
+     "SGK1": {
+      "adjusted": {
+       "matrix": {
+        "delta": -0.016,
+        "fraction_of_raw_retained": 0.089,
+        "r_gene_vs_proxy": 0.3008,
+        "slope_on_proxy": 0.3178,
+        "t": -0.072
+       },
+       "vascular": {
+        "delta": 0.0578,
+        "fraction_of_raw_retained": -0.32,
+        "r_gene_vs_proxy": 0.4286,
+        "slope_on_proxy": 0.588,
+        "t": 0.249
+       }
+      },
+      "raw_delta": -0.1807
+     }
+    },
+    "panels": {
+     "matrix": {
+      "_how_to_read": "if this panel barely separates the arms, adjusting on it CANNOT move a contrast, and an unchanged result on that platform is a null control for the method rather than evidence about the gene.",
+      "arm_separation": {
+       "delta": -0.5184,
+       "df": 6.7,
+       "t": -2.87
+      },
+      "members_readable": [
+       "BGN",
+       "COL5A1",
+       "COL5A2",
+       "DCN",
+       "FN1",
+       "LUM",
+       "MMP2",
+       "POSTN",
+       "SPP1",
+       "TNC",
+       "VIM"
+      ],
+      "members_requested": [
+       "BGN",
+       "COL5A1",
+       "COL5A2",
+       "DCN",
+       "FN1",
+       "LUM",
+       "MMP2",
+       "POSTN",
+       "SPP1",
+       "TNC",
+       "VIM"
+      ],
+      "n_readable": 11
+     },
+     "vascular": {
+      "_how_to_read": "if this panel barely separates the arms, adjusting on it CANNOT move a contrast, and an unchanged result on that platform is a null control for the method rather than evidence about the gene.",
+      "arm_separation": {
+       "delta": -0.4057,
+       "df": 7.7,
+       "t": -3.363
+      },
+      "members_readable": [
+       "ENG",
+       "KDR",
+       "TEK"
+      ],
+      "members_requested": [
+       "ENG",
+       "KDR",
+       "TEK"
+      ],
+      "n_readable": 3
+     }
+    }
+   },
+   "gene_source_merge": {
+    "_guard": "sample order and per-sample background must match exactly; every gene this module reads must agree to 1e-9 or the merge is refused. Disagreements on genes nothing here reads are recorded above rather than suppressed.",
+    "_what": "gene tables unioned across the two committed caches so a gene absent from one is still readable",
+    "n_added_from_secondary": 48,
+    "n_from_primary_cache": 1728,
+    "n_shared_genes_compared": 997,
+    "n_shared_genes_disagreeing": 1,
+    "shared_genes_disagreeing": {
+     "ACAA1": {
+      "_cause": "the two modules map a different number of probes to this symbol, so they average different probe sets.",
+      "n_probes_primary_cache": 2,
+      "n_probes_secondary_cache": 1,
+      "worst_abs_z_difference": 1.274808
+     }
+    },
+    "worst_abs_z_difference_among_genes_this_module_reads": 0.0
+   },
+   "muscle_admixture": {
+    "_method": "every gene scored on the within-array percentile of the sample's own probe distribution, so the muscle samples and the tumours are on one scale. The muscle samples are in NEITHER arm and no contrast uses them; they are a reference point, not a comparator.",
+    "_question": "Is the ENO3 elevation in EMC explained by admixed skeletal muscle?",
+    "_reading": {
+     "_ceiling": "this bounds admixture of DIFFERENTIATED skeletal muscle. It does not exclude a myogenic differentiation programme in the tumour itself, which would move a marker without any contaminating tissue being present.",
+     "_how_to_read": "compare each muscle marker's muscle-reference percentile (how muscle-specific it is on this platform) against its EMC-minus-comparator delta (whether the EMC arm carries it). A marker that is near the top of the muscle array and FLAT between the tumour arms is evidence the EMC arm does not carry muscle.",
+     "most_muscle_restricted_marker": "MYH7",
+     "muscle_markers_read": [
+      "ACTA1",
+      "MYH7",
+      "MYL1",
+      "PYGM"
+     ]
+    },
+    "genes": {
+     "ACTA1": {
+      "comparator_mean_percentile": 0.778,
+      "emc_mean_percentile": 0.721,
+      "emc_minus_comparator": -0.057,
+      "is_muscle_marker": true,
+      "muscle_reference_mean_percentile": 1.0
+     },
+     "ENO3": {
+      "comparator_mean_percentile": 0.348,
+      "emc_mean_percentile": 0.663,
+      "emc_minus_comparator": 0.315,
+      "is_muscle_marker": false,
+      "muscle_reference_mean_percentile": 0.996
+     },
+     "MYH7": {
+      "comparator_mean_percentile": 0.522,
+      "emc_mean_percentile": 0.479,
+      "emc_minus_comparator": -0.043,
+      "is_muscle_marker": true,
+      "muscle_reference_mean_percentile": 1.0
+     },
+     "MYL1": {
+      "comparator_mean_percentile": 0.283,
+      "emc_mean_percentile": 0.133,
+      "emc_minus_comparator": -0.15,
+      "is_muscle_marker": true,
+      "muscle_reference_mean_percentile": 0.998
+     },
+     "PPARG": {
+      "comparator_mean_percentile": 0.591,
+      "emc_mean_percentile": 0.707,
+      "emc_minus_comparator": 0.116,
+      "is_muscle_marker": false,
+      "muscle_reference_mean_percentile": 0.381
+     },
+     "PYGM": {
+      "comparator_mean_percentile": 0.462,
+      "emc_mean_percentile": 0.604,
+      "emc_minus_comparator": 0.142,
+      "is_muscle_marker": true,
+      "muscle_reference_mean_percentile": 0.999
+     },
+     "SEMA3C": {
+      "comparator_mean_percentile": 0.685,
+      "emc_mean_percentile": 0.945,
+      "emc_minus_comparator": 0.26,
+      "is_muscle_marker": false,
+      "muscle_reference_mean_percentile": 0.924
+     }
+    },
+    "muscle_reference_titles": [
+     "Skeletal muscle pooled RNA 1",
+     "Skeletal muscle pooled RNA 2"
+    ],
+    "n_muscle_reference_samples": 2
+   },
+   "n_comparator": 29,
+   "n_emc": 6,
+   "n_samples": 42,
+   "platform": "GPL6244",
+   "restricted_comparator_arms": {
+    "_arms": {
+     "class_LGFMS_only": {
+      "_what": "comparator arm restricted to the LGFMS samples.",
+      "n": 17
+     },
+     "class_desmoid_fibromatosis_only": {
+      "_what": "comparator arm restricted to the desmoid_fibromatosis samples.",
+      "n": 6
+     },
+     "class_fibrosarcoma_only": {
+      "_what": "comparator arm restricted to the fibrosarcoma samples.",
+      "n": 6
+     },
+     "myxoid_comparators_only": {
+      "_what": "comparator arm restricted to tumours whose stroma is itself myxoid.",
+      "n": 23
+     },
+     "non_myxoid_comparators_only": {
+      "_what": "comparator arm restricted to tumours whose stroma is not myxoid.",
+      "n": 6
+     }
+    },
+    "per_gene": {
+     "ENO3": {
+      "class_LGFMS_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.3663,
+         1.2431
+        ],
+        "delta": 0.8047,
+        "se": 0.2237
+       },
+       "delta": 0.8047,
+       "df": 5.4,
+       "n_comparator": 17,
+       "t": 3.598
+      },
+      "class_desmoid_fibromatosis_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.2713,
+         1.3425
+        ],
+        "delta": 0.8069,
+        "se": 0.2732
+       },
+       "delta": 0.8069,
+       "df": 9.3,
+       "n_comparator": 6,
+       "t": 2.953
+      },
+      "class_fibrosarcoma_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.3308,
+         1.3008
+        ],
+        "delta": 0.8158,
+        "se": 0.2474
+       },
+       "delta": 0.8158,
+       "df": 7.6,
+       "n_comparator": 6,
+       "t": 3.297
+      },
+      "myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.37,
+         1.2452
+        ],
+        "delta": 0.8076,
+        "se": 0.2233
+       },
+       "delta": 0.8076,
+       "df": 5.4,
+       "n_comparator": 23,
+       "t": 3.617
+      },
+      "non_myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.2713,
+         1.3425
+        ],
+        "delta": 0.8069,
+        "se": 0.2732
+       },
+       "delta": 0.8069,
+       "df": 9.3,
+       "n_comparator": 6,
+       "t": 2.953
+      }
+     },
+     "NR4A3": {
+      "class_LGFMS_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.5152,
+         1.1628
+        ],
+        "delta": 0.839,
+        "se": 0.1652
+       },
+       "delta": 0.839,
+       "df": 8.2,
+       "n_comparator": 17,
+       "t": 5.079
+      },
+      "class_desmoid_fibromatosis_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.5099,
+         1.1639
+        ],
+        "delta": 0.8369,
+        "se": 0.1668
+       },
+       "delta": 0.8369,
+       "df": 7.9,
+       "n_comparator": 6,
+       "t": 5.017
+      },
+      "class_fibrosarcoma_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.0103,
+         0.7503
+        ],
+        "delta": 0.37,
+        "se": 0.194
+       },
+       "delta": 0.37,
+       "df": 9.9,
+       "n_comparator": 6,
+       "t": 1.907
+      },
+      "myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.3927,
+         1.0405
+        ],
+        "delta": 0.7166,
+        "se": 0.1653
+       },
+       "delta": 0.7166,
+       "df": 8.2,
+       "n_comparator": 23,
+       "t": 4.336
+      },
+      "non_myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.5099,
+         1.1639
+        ],
+        "delta": 0.8369,
+        "se": 0.1668
+       },
+       "delta": 0.8369,
+       "df": 7.9,
+       "n_comparator": 6,
+       "t": 5.017
+      }
+     },
+     "PLAGL1": {
+      "class_LGFMS_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.7507,
+         0.4129
+        ],
+        "delta": -0.1689,
+        "se": 0.2968
+       },
+       "delta": -0.1689,
+       "df": 5.8,
+       "n_comparator": 17,
+       "t": -0.569
+      },
+      "class_desmoid_fibromatosis_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -1.3103,
+         -0.1563
+        ],
+        "delta": -0.7333,
+        "se": 0.2944
+       },
+       "delta": -0.7333,
+       "df": 5.6,
+       "n_comparator": 6,
+       "t": -2.491
+      },
+      "class_fibrosarcoma_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -1.5867,
+         -0.0825
+        ],
+        "delta": -0.8346,
+        "se": 0.3837
+       },
+       "delta": -0.8346,
+       "df": 9.9,
+       "n_comparator": 6,
+       "t": -2.175
+      },
+      "myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.94,
+         0.2548
+        ],
+        "delta": -0.3426,
+        "se": 0.3048
+       },
+       "delta": -0.3426,
+       "df": 6.4,
+       "n_comparator": 23,
+       "t": -1.124
+      },
+      "non_myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -1.3103,
+         -0.1563
+        ],
+        "delta": -0.7333,
+        "se": 0.2944
+       },
+       "delta": -0.7333,
+       "df": 5.6,
+       "n_comparator": 6,
+       "t": -2.491
+      }
+     },
+     "PPARG": {
+      "class_LGFMS_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.1575,
+         0.5513
+        ],
+        "delta": 0.1969,
+        "se": 0.1808
+       },
+       "delta": 0.1969,
+       "df": 7.0,
+       "n_comparator": 17,
+       "t": 1.089
+      },
+      "class_desmoid_fibromatosis_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.0835,
+         0.8627
+        ],
+        "delta": 0.4731,
+        "se": 0.1988
+       },
+       "delta": 0.4731,
+       "df": 8.7,
+       "n_comparator": 6,
+       "t": 2.38
+      },
+      "class_fibrosarcoma_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.0312,
+         0.876
+        ],
+        "delta": 0.4536,
+        "se": 0.2155
+       },
+       "delta": 0.4536,
+       "df": 9.7,
+       "n_comparator": 6,
+       "t": 2.105
+      },
+      "myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.0867,
+         0.6143
+        ],
+        "delta": 0.2638,
+        "se": 0.1788
+       },
+       "delta": 0.2638,
+       "df": 6.7,
+       "n_comparator": 23,
+       "t": 1.475
+      },
+      "non_myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.0835,
+         0.8627
+        ],
+        "delta": 0.4731,
+        "se": 0.1988
+       },
+       "delta": 0.4731,
+       "df": 8.7,
+       "n_comparator": 6,
+       "t": 2.38
+      }
+     },
+     "SEMA3C": {
+      "class_LGFMS_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         1.1356,
+         2.1792
+        ],
+        "delta": 1.6574,
+        "se": 0.2662
+       },
+       "delta": 1.6574,
+       "df": 16.6,
+       "n_comparator": 17,
+       "t": 6.226
+      },
+      "class_desmoid_fibromatosis_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -1.0549,
+         -0.2361
+        ],
+        "delta": -0.6455,
+        "se": 0.2089
+       },
+       "delta": -0.6455,
+       "df": 8.1,
+       "n_comparator": 6,
+       "t": -3.09
+      },
+      "class_fibrosarcoma_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -1.1686,
+         0.1222
+        ],
+        "delta": -0.5232,
+        "se": 0.3293
+       },
+       "delta": -0.5232,
+       "df": 8.6,
+       "n_comparator": 6,
+       "t": -1.589
+      },
+      "myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.471,
+         1.706
+        ],
+        "delta": 1.0885,
+        "se": 0.3151
+       },
+       "delta": 1.0885,
+       "df": 23.8,
+       "n_comparator": 23,
+       "t": 3.455
+      },
+      "non_myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -1.0549,
+         -0.2361
+        ],
+        "delta": -0.6455,
+        "se": 0.2089
+       },
+       "delta": -0.6455,
+       "df": 8.1,
+       "n_comparator": 6,
+       "t": -3.09
+      }
+     },
+     "SGK1": {
+      "class_LGFMS_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.5248,
+         0.4614
+        ],
+        "delta": -0.0317,
+        "se": 0.2516
+       },
+       "delta": -0.0317,
+       "df": 6.7,
+       "n_comparator": 17,
+       "t": -0.126
+      },
+      "class_desmoid_fibromatosis_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.6706,
+         0.3366
+        ],
+        "delta": -0.167,
+        "se": 0.2569
+       },
+       "delta": -0.167,
+       "df": 6.9,
+       "n_comparator": 6,
+       "t": -0.65
+      },
+      "class_fibrosarcoma_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -1.1506,
+         -0.0828
+        ],
+        "delta": -0.6167,
+        "se": 0.2724
+       },
+       "delta": -0.6167,
+       "df": 8.1,
+       "n_comparator": 6,
+       "t": -2.264
+      },
+      "myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.6791,
+         0.3105
+        ],
+        "delta": -0.1843,
+        "se": 0.2525
+       },
+       "delta": -0.1843,
+       "df": 6.7,
+       "n_comparator": 23,
+       "t": -0.73
+      },
+      "non_myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.6706,
+         0.3366
+        ],
+        "delta": -0.167,
+        "se": 0.2569
+       },
+       "delta": -0.167,
+       "df": 6.9,
+       "n_comparator": 6,
+       "t": -0.65
+      }
+     }
+    }
+   },
+   "within_emc_fusion_axis": {
+    "_anchor": "NR4A3 within-sample z, EMC samples only",
+    "_ceiling": "n of 6-10 with no multiplicity control. A single tumour moves r substantially. This axis is reported because it is the only one in these data that speaks to fusion output at all, NOT because it settles anything.",
+    "_n_emc": 6,
+    "genes": {
+     "ENO3": {
+      "n": 6,
+      "r": 0.3678
+     },
+     "PLAGL1": {
+      "n": 6,
+      "r": -0.7319
+     },
+     "PPARG": {
+      "n": 6,
+      "r": -0.3385
+     },
+     "SEMA3C": {
+      "n": 6,
+      "r": -0.5004
+     },
+     "SGK1": {
+      "n": 6,
+      "r": -0.1276
+     }
+    }
+   }
+  },
+  "GSE4303-GPL3290_series_matrix.txt.gz": {
+   "agreement_with_primary_artifact": {
+    "_tolerance": "5e-4 -- the committed artifact rounds deltas to 4 decimals.",
+    "_what": "each gene's EMC-vs-comparator delta re-derived from the cached inputs and compared with nr4a3-fusion-targets.json",
+    "agrees": true,
+    "n_rows_checked": 5,
+    "per_gene": {
+     "ENO3": {
+      "abs_difference": 0.0001,
+      "committed": 3.8112,
+      "re_derived": 3.8113
+     },
+     "PLAGL1": {
+      "abs_difference": 0.0,
+      "committed": -2.134,
+      "re_derived": -2.134
+     },
+     "PPARG": {
+      "abs_difference": 0.0001,
+      "committed": 2.481,
+      "re_derived": 2.4809
+     },
+     "SEMA3C": {
+      "abs_difference": 0.0001,
+      "committed": 0.6229,
+      "re_derived": 0.6228
+     },
+     "SGK1": {
+      "abs_difference": 0.0,
+      "committed": 0.6156,
+      "re_derived": 0.6156
+     }
+    },
+    "worst_abs_difference": 0.0001
+   },
+   "comparator_composition": {
+    "_question": "What is actually in the comparator arm, read from the GEO sample titles?",
+    "_why": "the manuscript described one class as `fibrosarcoma`, which is the panels module's internal bucket name. The GEO titles say `Myxofibrosarcoma`, and the difference decides whether the comparator arm is myxoid -- which is the whole of confound (b).",
+    "classes": {
+     "DFSP": {
+      "geo_titles_verbatim": [
+       "STT3053-DFSP",
+       "STT3068-DFSP",
+       "STT3126-DFSP"
+      ],
+      "in_comparator_arm": true,
+      "myxoid": false,
+      "n": 3,
+      "why": "dermatofibrosarcoma protuberans — cellular storiform spindle-cell tumour, not myxoid"
+     },
+     "EMC": {
+      "geo_titles_verbatim": [
+       "STT1169-Myxoid Chondrosarcoma",
+       "STT2003-Myxoid Chondrosarcoma",
+       "STT2528(2)-Myxoid Chondrosarcoma",
+       "STT3697-Myxoid Chondrosarcoma",
+       "STT3698-Myxoid Chondrosarcoma",
+       "STT3699-Myxoid Chondrosarcoma",
+       "STT3714-Myxoid Chondrosarcoma",
+       "STT3780-Myxoid chondrosarcoma",
+       "STT3782-Myxoid chondrosarcoma",
+       "STT3783-Myxoid chondrosarcoma"
+      ],
+      "in_comparator_arm": false,
+      "myxoid": true,
+      "n": 10,
+      "why": "the index tumour; myxoid stroma is definitional"
+     },
+     "GIST": {
+      "geo_titles_verbatim": [
+       "STT2001c-GIST-Total RNA-WT",
+       "STT794b-GIST-Total RNA-PDGFRa",
+       "STT94b-GIST-Total RNA-exon"
+      ],
+      "in_comparator_arm": true,
+      "myxoid": false,
+      "n": 3,
+      "why": "gastrointestinal stromal tumour — cellular, not myxoid"
+     }
+    },
+    "comparator_myxoid_composition": {
+     "_reading": "a comparator arm that is itself largely myxoid CONTROLS the myxoid-matrix explanation by design; one that is not, does not.",
+     "fraction_myxoid": 0.0,
+     "n_myxoid": 0,
+     "n_non_myxoid": 6
+    },
+    "n_comparator": 6,
+    "n_emc": 10,
+    "reference_pools": {
+     "CRH": {
+      "classes": {
+       "DFSP": 3,
+       "EMC": 10
+      },
+      "n": 13
+     },
+     "UHR": {
+      "classes": {
+       "GIST": 3
+      },
+      "n": 3
+     },
+     "_tokens": {
+      "CRH": "the CRH reference pool (EMC samples are annotated `CRH-mRNA`, DFSP samples `CRH`)",
+      "UHR": "Universal Human Reference — a DIFFERENT pool, carried only by the three GIST samples"
+     },
+     "_why_it_matters": "a two-colour value is a log-ratio against a reference pool. A sample ratioed against a DIFFERENT pool carries a per-gene offset that within-sample standardisation cannot remove, because standardisation removes the sample's mean and SD, not a per-gene shift. If the two arms are not pool-matched, some of the contrast is the pool."
+    }
+   },
+   "covariate_adjusted": {
+    "_method": "ordinary least squares of the gene's within-sample z on the panel's per-sample mean z, over the samples in either arm; the contrast is then recomputed on the residuals. Same samples, same reduction, same floors.",
+    "_question": "does the class-A contrast survive removing a matrix or vascular content axis that EMC and the comparator sarcomas differ on?",
+    "_this_is_a_sensitivity_analysis": "NOT a correction, and the adjusted number is not 'the real effect'. If a panel gene is itself driven by the fusion the adjustment removes real signal (over-adjustment); if the proxy is a poor measure of tumour composition it removes little. Both are possible here and neither is measured.",
+    "genes": {
+     "ENO3": {
+      "adjusted": {
+       "matrix": {
+        "delta": 3.8123,
+        "fraction_of_raw_retained": 1.0,
+        "r_gene_vs_proxy": -0.036,
+        "slope_on_proxy": -0.1564,
+        "t": 13.043
+       },
+       "vascular": {
+        "delta": 2.219,
+        "fraction_of_raw_retained": 0.582,
+        "r_gene_vs_proxy": -0.5888,
+        "slope_on_proxy": -1.9999,
+        "t": 3.359
+       }
+      },
+      "raw_delta": 3.8113
+     },
+     "NR4A3": {
+      "adjusted": {
+       "matrix": {
+        "_status": "BELOW_FLOOR"
+       },
+       "vascular": {
+        "_status": "BELOW_FLOOR"
+       }
+      },
+      "raw_delta": null
+     },
+     "PLAGL1": {
+      "adjusted": {
+       "matrix": {
+        "delta": -2.0241,
+        "fraction_of_raw_retained": 0.949,
+        "r_gene_vs_proxy": -0.2853,
+        "slope_on_proxy": -0.8911,
+        "t": -5.12
+       },
+       "vascular": {
+        "delta": -1.3285,
+        "fraction_of_raw_retained": 0.623,
+        "r_gene_vs_proxy": 0.4596,
+        "slope_on_proxy": 1.0743,
+        "t": -2.386
+       }
+      },
+      "raw_delta": -2.134
+     },
+     "PPARG": {
+      "adjusted": {
+       "matrix": {
+        "delta": 2.3939,
+        "fraction_of_raw_retained": 0.965,
+        "r_gene_vs_proxy": -0.2575,
+        "slope_on_proxy": -0.7847,
+        "t": 6.634
+       },
+       "vascular": {
+        "delta": 1.0323,
+        "fraction_of_raw_retained": 0.416,
+        "r_gene_vs_proxy": -0.7026,
+        "slope_on_proxy": -1.572,
+        "t": 1.896
+       }
+      },
+      "raw_delta": 2.4809
+     },
+     "SEMA3C": {
+      "adjusted": {
+       "matrix": {
+        "delta": 0.6148,
+        "fraction_of_raw_retained": 0.987,
+        "r_gene_vs_proxy": 0.6605,
+        "slope_on_proxy": 1.2403,
+        "t": 1.872
+       },
+       "vascular": {
+        "delta": 0.5283,
+        "fraction_of_raw_retained": 0.848,
+        "r_gene_vs_proxy": -0.0809,
+        "slope_on_proxy": -0.1188,
+        "t": 1.268
+       }
+      },
+      "raw_delta": 0.6228
+     },
+     "SGK1": {
+      "adjusted": {
+       "matrix": {
+        "delta": 0.6093,
+        "fraction_of_raw_retained": 0.99,
+        "r_gene_vs_proxy": 0.5443,
+        "slope_on_proxy": 0.9828,
+        "t": 1.673
+       },
+       "vascular": {
+        "delta": 0.7256,
+        "fraction_of_raw_retained": 1.179,
+        "r_gene_vs_proxy": 0.0979,
+        "slope_on_proxy": 0.1382,
+        "t": 1.622
+       }
+      },
+      "raw_delta": 0.6156
+     }
+    },
+    "panels": {
+     "matrix": {
+      "_how_to_read": "if this panel barely separates the arms, adjusting on it CANNOT move a contrast, and an unchanged result on that platform is a null control for the method rather than evidence about the gene.",
+      "arm_separation": {
+       "delta": 0.0064,
+       "df": 9.6,
+       "t": 0.026
+      },
+      "members_readable": [
+       "BGN",
+       "COL5A1",
+       "COL5A2",
+       "DCN",
+       "FN1",
+       "LUM",
+       "MMP2",
+       "POSTN",
+       "SPP1",
+       "TNC",
+       "VIM"
+      ],
+      "members_requested": [
+       "BGN",
+       "COL5A1",
+       "COL5A2",
+       "DCN",
+       "FN1",
+       "LUM",
+       "MMP2",
+       "POSTN",
+       "SPP1",
+       "TNC",
+       "VIM"
+      ],
+      "n_readable": 11
+     },
+     "vascular": {
+      "_how_to_read": "if this panel barely separates the arms, adjusting on it CANNOT move a contrast, and an unchanged result on that platform is a null control for the method rather than evidence about the gene.",
+      "arm_separation": {
+       "delta": -0.7962,
+       "df": 9.9,
+       "t": -3.449
+      },
+      "members_readable": [
+       "ENG",
+       "KDR",
+       "TEK"
+      ],
+      "members_requested": [
+       "ENG",
+       "KDR",
+       "TEK"
+      ],
+      "n_readable": 3
+     }
+    }
+   },
+   "gene_source_merge": {
+    "_guard": "sample order and per-sample background must match exactly; every gene this module reads must agree to 1e-9 or the merge is refused. Disagreements on genes nothing here reads are recorded above rather than suppressed.",
+    "_what": "gene tables unioned across the two committed caches so a gene absent from one is still readable",
+    "n_added_from_secondary": 44,
+    "n_from_primary_cache": 1545,
+    "n_shared_genes_compared": 887,
+    "n_shared_genes_disagreeing": 0,
+    "shared_genes_disagreeing": {},
+    "worst_abs_z_difference_among_genes_this_module_reads": 0.0
+   },
+   "muscle_admixture": {
+    "_means": "this series carries no skeletal-muscle sample, so the control is not available here. That is an absent reading, NOT a reading that the confound is absent.",
+    "_status": "NO_MUSCLE_REFERENCE_ON_THIS_PLATFORM"
+   },
+   "n_comparator": 6,
+   "n_emc": 10,
+   "n_samples": 16,
+   "platform": "GPL3290",
+   "restricted_comparator_arms": {
+    "_arms": {
+     "class_DFSP_only": {
+      "_what": "comparator arm restricted to the DFSP samples.",
+      "n": 3
+     },
+     "class_GIST_only": {
+      "_what": "comparator arm restricted to the GIST samples.",
+      "n": 3
+     },
+     "non_myxoid_comparators_only": {
+      "_what": "comparator arm restricted to tumours whose stroma is not myxoid.",
+      "n": 6
+     },
+     "reference_pool_matched_only": {
+      "_what": "comparator arm restricted to samples on the SAME reference pool as every EMC sample (CRH). The excluded comparators are on a different pool, so part of their contrast is a per-gene pool offset that within-sample standardisation cannot remove.",
+      "n": 3,
+      "reference_pool": "CRH"
+     }
+    },
+    "per_gene": {
+     "ENO3": {
+      "class_DFSP_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         3.0057,
+         4.0251
+        ],
+        "delta": 3.5154,
+        "se": 0.2601
+       },
+       "delta": 3.5154,
+       "df": 4.1,
+       "n_comparator": 3,
+       "t": 13.517
+      },
+      "class_GIST_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         3.2408,
+         4.9736
+        ],
+        "delta": 4.1072,
+        "se": 0.4421
+       },
+       "delta": 4.1072,
+       "df": 2.5,
+       "n_comparator": 3,
+       "t": 9.291
+      },
+      "non_myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         3.2463,
+         4.3763
+        ],
+        "delta": 3.8113,
+        "se": 0.2883
+       },
+       "delta": 3.8113,
+       "df": 8.5,
+       "n_comparator": 6,
+       "t": 13.222
+      },
+      "reference_pool_matched_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         3.0057,
+         4.0251
+        ],
+        "delta": 3.5154,
+        "se": 0.2601
+       },
+       "delta": 3.5154,
+       "df": 4.1,
+       "n_comparator": 3,
+       "t": 13.517
+      }
+     },
+     "NR4A3": {
+      "class_DFSP_only": {
+       "_status": "BELOW_FLOOR",
+       "n_comparator": 3
+      },
+      "class_GIST_only": {
+       "_status": "BELOW_FLOOR",
+       "n_comparator": 3
+      },
+      "non_myxoid_comparators_only": {
+       "_status": "BELOW_FLOOR",
+       "n_comparator": 6
+      },
+      "reference_pool_matched_only": {
+       "_status": "BELOW_FLOOR",
+       "n_comparator": 3
+      }
+     },
+     "PLAGL1": {
+      "class_DFSP_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -2.3507,
+         -0.9679
+        ],
+        "delta": -1.6593,
+        "se": 0.3527
+       },
+       "delta": -1.6593,
+       "df": 7.3,
+       "n_comparator": 3,
+       "t": -4.704
+      },
+      "class_GIST_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -3.3521,
+         -1.8653
+        ],
+        "delta": -2.6087,
+        "se": 0.3793
+       },
+       "delta": -2.6087,
+       "df": 8.7,
+       "n_comparator": 3,
+       "t": -6.878
+      },
+      "non_myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -2.9466,
+         -1.3214
+        ],
+        "delta": -2.134,
+        "se": 0.4146
+       },
+       "delta": -2.134,
+       "df": 11.3,
+       "n_comparator": 6,
+       "t": -5.147
+      },
+      "reference_pool_matched_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -2.3507,
+         -0.9679
+        ],
+        "delta": -1.6593,
+        "se": 0.3527
+       },
+       "delta": -1.6593,
+       "df": 7.3,
+       "n_comparator": 3,
+       "t": -4.704
+      }
+     },
+     "PPARG": {
+      "class_DFSP_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         1.6396,
+         3.7182
+        ],
+        "delta": 2.6789,
+        "se": 0.5303
+       },
+       "delta": 2.6789,
+       "df": 2.3,
+       "n_comparator": 3,
+       "t": 5.052
+      },
+      "class_GIST_only": {
+       "_status": "BELOW_FLOOR",
+       "n_comparator": 3
+      },
+      "non_myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         1.702,
+         3.2598
+        ],
+        "delta": 2.4809,
+        "se": 0.3974
+       },
+       "delta": 2.4809,
+       "df": 5.3,
+       "n_comparator": 6,
+       "t": 6.243
+      },
+      "reference_pool_matched_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         1.6396,
+         3.7182
+        ],
+        "delta": 2.6789,
+        "se": 0.5303
+       },
+       "delta": 2.6789,
+       "df": 2.3,
+       "n_comparator": 3,
+       "t": 5.052
+      }
+     },
+     "SEMA3C": {
+      "class_DFSP_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.5511,
+         0.7775
+        ],
+        "delta": 0.1132,
+        "se": 0.3389
+       },
+       "delta": 0.1132,
+       "df": 9.4,
+       "n_comparator": 3,
+       "t": 0.334
+      },
+      "class_GIST_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.2378,
+         2.0272
+        ],
+        "delta": 1.1325,
+        "se": 0.4565
+       },
+       "delta": 1.1325,
+       "df": 4.6,
+       "n_comparator": 3,
+       "t": 2.481
+      },
+      "non_myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.1663,
+         1.4119
+        ],
+        "delta": 0.6228,
+        "se": 0.4026
+       },
+       "delta": 0.6228,
+       "df": 12.4,
+       "n_comparator": 6,
+       "t": 1.547
+      },
+      "reference_pool_matched_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.5511,
+         0.7775
+        ],
+        "delta": 0.1132,
+        "se": 0.3389
+       },
+       "delta": 0.1132,
+       "df": 9.4,
+       "n_comparator": 3,
+       "t": 0.334
+      }
+     },
+     "SGK1": {
+      "class_DFSP_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.5896,
+         0.1936
+        ],
+        "delta": -0.198,
+        "se": 0.1998
+       },
+       "delta": -0.198,
+       "df": 10.8,
+       "n_comparator": 3,
+       "t": -0.991
+      },
+      "class_GIST_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         0.3777,
+         2.4807
+        ],
+        "delta": 1.4292,
+        "se": 0.5365
+       },
+       "delta": 1.4292,
+       "df": 2.6,
+       "n_comparator": 3,
+       "t": 2.664
+      },
+      "non_myxoid_comparators_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.3013,
+         1.5325
+        ],
+        "delta": 0.6156,
+        "se": 0.4678
+       },
+       "delta": 0.6156,
+       "df": 6.9,
+       "n_comparator": 6,
+       "t": 1.316
+      },
+      "reference_pool_matched_only": {
+       "ci": {
+        "_caveat": "NORMAL-quantile interval, not a t interval. At df of 5-11 it is ANTI-CONSERVATIVE -- the true interval is WIDER. Reported so the width is visible at all; not to be quoted as an exact interval.",
+        "approx_95_ci": [
+         -0.5896,
+         0.1936
+        ],
+        "delta": -0.198,
+        "se": 0.1998
+       },
+       "delta": -0.198,
+       "df": 10.8,
+       "n_comparator": 3,
+       "t": -0.991
+      }
+     }
+    }
+   },
+   "within_emc_fusion_axis": {
+    "_anchor": "NR4A3 within-sample z, EMC samples only",
+    "_ceiling": "n of 6-10 with no multiplicity control. A single tumour moves r substantially. This axis is reported because it is the only one in these data that speaks to fusion output at all, NOT because it settles anything.",
+    "_n_emc": 10,
+    "genes": {
+     "ENO3": {
+      "n": 9,
+      "r": -0.3531
+     },
+     "PLAGL1": {
+      "n": 7,
+      "r": -0.1165
+     },
+     "PPARG": {
+      "n": 9,
+      "r": 0.3228
+     },
+     "SEMA3C": {
+      "n": 9,
+      "r": 0.3464
+     },
+     "SGK1": {
+      "n": 9,
+      "r": -0.0414
+     }
+    }
+   }
+  }
+ },
+ "provenance_audit": {
+  "_what": "every candidate covariate gene checked against every gene the manuscript scores",
+  "_why": "a matrix proxy built from genes selected BECAUSE they are high in EMC would remove EMC signal by construction. Filion Table 1/2 and the Brenca axon-guidance lists were selected exactly that way.",
+  "n_genes_scored_by_the_manuscript": 1112,
+  "panels": {
+   "matrix": {
+    "_selection": "A structural/stromal gene with no published relationship to NR4A3 or to any NR4A3 fusion, retained only if it appears in NO gene set this manuscript scores.",
+    "members": [
+     "BGN",
+     "COL5A1",
+     "COL5A2",
+     "DCN",
+     "FN1",
+     "LUM",
+     "MMP2",
+     "POSTN",
+     "SPP1",
+     "TNC",
+     "VIM"
+    ],
+    "n": 11
+   },
+   "vascular": {
+    "_selection": "A structural/stromal gene with no published relationship to NR4A3 or to any NR4A3 fusion, retained only if it appears in NO gene set this manuscript scores.",
+    "members": [
+     "ENG",
+     "KDR",
+     "TEK"
+    ],
+    "n": 3
+   }
+  },
+  "rejected": {}
+ }
+}
