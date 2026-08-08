@@ -1,0 +1,903 @@
+{
+  "_generated_utc": "2026-08-08T20:25:51Z",
+  "_inputs_generated_utc": "2026-08-08T20:23:40Z",
+  "_question": "is PRJNA1357027 / SRP640302 a fourth EMC cohort, and is it readable? The GEO-side search (emc_cohort_search.py, and \u00a73.13 of the transcriptional-output manuscript) cannot see an SRA-only deposit",
+  "target_bioproject": "PRJNA1357027",
+  "target_sra_study": "SRP640302",
+  "transport_controls": {
+    "ctrl_real_bioproject": {
+      "accession": "PRJNA1273954",
+      "expect": "nonzero",
+      "why": "known real: the BioProject behind the sarcoma ATR/HRD series this repo already characterised; anchored in atr-hrd-sarcoma-series.json",
+      "ncbi_bioproject_count": 1,
+      "ncbi_bioproject_status": "read",
+      "ncbi_sra_count": 68,
+      "ncbi_sra_status": "read",
+      "ena_read_run_rows": 135,
+      "ena_status": "read",
+      "passed": true
+    },
+    "ctrl_real_sra_study": {
+      "accession": "SRP445369",
+      "expect": "nonzero",
+      "why": "known real: the EMC metastatic-WGS deposit returned by the same SRA term search that returned the target; anchored in emc-atr-vulnerability-inputs.json",
+      "ncbi_bioproject_count": 0,
+      "ncbi_bioproject_status": "read",
+      "ncbi_sra_count": 4,
+      "ncbi_sra_status": "read",
+      "ena_read_run_rows": 4,
+      "ena_status": "read",
+      "passed": true
+    },
+    "ctrl_absent": {
+      "accession": "PRJNA9999999",
+      "expect": "zero",
+      "why": "known ABSENT: an accession far above the issued range. Without a negative control a matcher loose enough to return something for everything makes every accession 'exist', and the two positive controls cannot detect that",
+      "ncbi_bioproject_count": 0,
+      "ncbi_bioproject_status": "read",
+      "ncbi_sra_count": 0,
+      "ncbi_sra_status": "read",
+      "ena_read_run_rows": 0,
+      "ena_status": "read",
+      "passed": true
+    }
+  },
+  "transport_gate_passed": true,
+  "targets": {
+    "PRJNA1357027": {
+      "accession": "PRJNA1357027",
+      "ncbi": {
+        "bioproject_esearch_count": 1,
+        "bioproject_status": "read",
+        "sra_esearch_count": 12,
+        "sra_ids_returned": 12,
+        "sra_status": "read",
+        "biosample_esearch_count": 0,
+        "biosample_status": "read",
+        "\u26a0 biosample_esearch_note": "a term search over `biosample` does not index a PROJECT accession, so a zero here is a query shape and not an absence \u2014 the linked count below, and the BioSample attributes inside the SRA XML, are the readings that count",
+        "biosample_linked_uids": 12,
+        "bioproject_records": [
+          {
+            "uid": "1357027",
+            "project_acc": "PRJNA1357027",
+            "project_title": "Prognostic Biomarkers for Enhanced Risk Stratification in Extraskeletal Myxoid Chondrosarcoma: A Retrospective Cohort Study",
+            "project_name": "",
+            "project_description": "This retrospective cohort study aims to identify novel prognostic biomarkers for Extraskeletal Myxoid Chondrosarcoma (EMC), a rare soft tissue sarcoma characterized by high recurrence rates and limited predictive accuracy from current clinical tools. We employed RNA-sequencing (RNA-seq) to analyze the gene expression profiles of EMC tumors. The primary objective is to discover and evaluate RNA-based molecular markers, particularly those reflecting immune pathway activation within the tumor microenvironment. This research seeks to enhance prognostic models and improve risk stratification, ultimately aiding in personalized treatment strategies for EMC patients.",
+            "registration_date": "2025/11/04 00:00",
+            "project_data_type": "Raw sequence reads"
+          }
+        ]
+      },
+      "ena": {
+        "read_run_status": "read",
+        "n_read_run_rows": 12,
+        "sample_status": "read",
+        "n_sample_rows": 0,
+        "xml_titles": [
+          "Prognostic Biomarkers for Enhanced Risk Stratification in Extraskeletal Myxoid Chondrosarcoma: A Retrospective Cohort Study",
+          "This retrospective cohort study aims to identify novel prognostic biomarkers for Extraskeletal Myxoid Chondrosarcoma (EMC), a rare soft tissue sarcoma characterized by high recurrence rates and limited predictive accuracy from current clinical tools. We employed RNA-sequencing (RNA-seq) to analyze the gene expression profiles of EMC tumors. The primary objective is to discover and evaluate RNA-based molecular markers, particularly those reflecting immune pathway activation within the tumor microenvironment. This research seeks to enhance prognostic models and improve risk stratification, ultimately aiding in personalized treatment strategies for EMC patients."
+        ]
+      },
+      "runs": {
+        "n_runs": 12,
+        "n_distinct_experiments": 12,
+        "n_distinct_samples": 12,
+        "n_distinct_studies": 1,
+        "\u26a0 note": "these are FOUR different numbers. n_runs is not a patient count; a deposit with more runs than samples is re-sequencing or multi-arm, and that is what n_distinct_samples measures",
+        "library_strategy_values": [
+          "RNA-Seq"
+        ],
+        "library_source_values": [
+          "TRANSCRIPTOMIC"
+        ],
+        "library_selection_values": [
+          "cDNA"
+        ],
+        "library_layout_values": [
+          "SINGLE"
+        ],
+        "instrument_platform_values": [
+          "ILLUMINA"
+        ],
+        "instrument_model_values": [
+          "Illumina HiSeq 2500"
+        ],
+        "scientific_name_values": [
+          "Homo sapiens"
+        ],
+        "study_title_values": [
+          "Prognostic Biomarkers for Enhanced Risk Stratification in Extraskeletal Myxoid Chondrosarcoma: A Retrospective Cohort Study"
+        ],
+        "sample_titles": [
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens"
+        ],
+        "sample_aliases": [
+          "Si10",
+          "Si05",
+          "Si22",
+          "Si02",
+          "Si19",
+          "Si17",
+          "Si16",
+          "Si14",
+          "Si09",
+          "Si15",
+          "Si20",
+          "Si01"
+        ],
+        "library_names": [
+          "Si10",
+          "Si05",
+          "Si21",
+          "Si02",
+          "Si19",
+          "Si17",
+          "Si16",
+          "Si14",
+          "Si09",
+          "Si15",
+          "Si20",
+          "Si01"
+        ],
+        "first_public_values": [
+          "2025-11-11"
+        ],
+        "read_counts": [
+          "6698387",
+          "8734357",
+          "5419081",
+          "7636050",
+          "5582928",
+          "6443809",
+          "7694782",
+          "6991852",
+          "6479407",
+          "5859174",
+          "7523900",
+          "6060188"
+        ],
+        "assay_probes": {
+          "tempo_seq": {
+            "matched": true,
+            "matched_text": "TempO-Seq"
+          },
+          "targeted_panel": {
+            "matched": true,
+            "matched_text": "Targeted"
+          },
+          "rna_seq": {
+            "matched": true,
+            "matched_text": "RNA-Seq"
+          },
+          "wgs_wxs": {
+            "matched": false,
+            "matched_text": null
+          }
+        }
+      },
+      "data_availability": {
+        "n_runs_with_fastq_ftp": 12,
+        "n_runs_with_submitted_ftp": 0,
+        "total_fastq_bytes": 2704945123,
+        "state": "PUBLIC_DOWNLOADABLE",
+        "\u26a0 note": "a run with metadata and no file list is registered and NOT downloadable \u2014 an embargoed deposit looks exactly like a public one until this field is read"
+      },
+      "ncbi_sra_xml": {
+        "_parsed": true,
+        "\u26a0 payload_was_truncated": false,
+        "n_experiment_packages": 12,
+        "library_strategy_values": [
+          "RNA-Seq"
+        ],
+        "library_selection_values": [
+          "cDNA"
+        ],
+        "library_source_values": [
+          "TRANSCRIPTOMIC"
+        ],
+        "instrument_model_values": [
+          "Illumina HiSeq 2500"
+        ],
+        "n_runs": 12,
+        "run_accessions": [
+          "SRR35940646",
+          "SRR35940647",
+          "SRR35940648",
+          "SRR35940649",
+          "SRR35940650",
+          "SRR35940651",
+          "SRR35940652",
+          "SRR35940653",
+          "SRR35940654",
+          "SRR35940655",
+          "SRR35940656",
+          "SRR35940657"
+        ],
+        "n_distinct_samples": 12,
+        "sample_accessions": [
+          "SRS26982705",
+          "SRS26982704",
+          "SRS26982703",
+          "SRS26982702",
+          "SRS26982701",
+          "SRS26982700",
+          "SRS26982699",
+          "SRS26982698",
+          "SRS26982697",
+          "SRS26982696",
+          "SRS26982695",
+          "SRS26982694"
+        ],
+        "titles": [
+          "Targeted RNA-seq (TempO-Seq) of EMC"
+        ],
+        "sample_attribute_blobs": [
+          "Sex=female",
+          "Age=51",
+          "Etnics=Asian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=18",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2013",
+          "Time=7",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=male",
+          "Age=37",
+          "Etnics=Asian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=12",
+          "Cellularity=HG-spindle",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2014",
+          "Time=6",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=77",
+          "Etnics=Asian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=9.6",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1-",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2014",
+          "Time=6",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=66",
+          "Etnics=Asian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=28",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2014",
+          "Time=6",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=52",
+          "Etnics=Asian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=16",
+          "Cellularity=HG-spindle",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2015",
+          "Time=5",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=51",
+          "Etnics=Asian",
+          "Prognosis=G",
+          "Tissue=Chest wall",
+          "Size(cm)=4.2",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=No_Met",
+          "Synaptophysin=Neg",
+          "Collectiondate=2010",
+          "Time=10",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=64",
+          "Etnics=Asian",
+          "Prognosis=G",
+          "Tissue=IA knee",
+          "Size(cm)=16.8",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=Neg",
+          "Collectiondate=2010",
+          "Time=10",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=male",
+          "Age=49",
+          "Etnics=Caucasian",
+          "Prognosis=G",
+          "Tissue=Popliteal",
+          "Size(cm)=10",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=Neg",
+          "Collectiondate=2007",
+          "Time=13",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=male",
+          "Age=62",
+          "Etnics=Caucasian",
+          "Prognosis=G",
+          "Tissue=Thigh",
+          "Size(cm)=18",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1-",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2020",
+          "Time=0",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=44",
+          "Etnics=Asian",
+          "Prognosis=G",
+          "Tissue=Hand",
+          "Size(cm)=2.2",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2018",
+          "Time=2",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=male",
+          "Age=46",
+          "Etnics=Caucasian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=20",
+          "Cellularity=HG-solid-cellular",
+          "FISH_1=EWSR1-",
+          "Metastasis=Met",
+          "Synaptophysin=Pos",
+          "Collectiondate=2001",
+          "Time=19",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=male",
+          "Age=64",
+          "Etnics=Caucasian",
+          "Prognosis=G",
+          "Tissue=Buttock",
+          "Size(cm)=17",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1-",
+          "Metastasis=No_Met",
+          "Synaptophysin=Neg",
+          "Collectiondate=1997",
+          "Time=23",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human"
+        ],
+        "assay_probes": {
+          "tempo_seq": {
+            "matched": true,
+            "matched_text": "TempO-Seq"
+          },
+          "targeted_panel": {
+            "matched": true,
+            "matched_text": "Targeted"
+          },
+          "rna_seq": {
+            "matched": true,
+            "matched_text": "RNA-Seq"
+          },
+          "wgs_wxs": {
+            "matched": false,
+            "matched_text": null
+          }
+        }
+      },
+      "emc_evidence": {
+        "study_level_prose_names_emc": true,
+        "study_level_matched_text": "Extraskeletal Myxoid Chondrosarcoma",
+        "n_sample_blobs_read": 204,
+        "n_sample_blobs_naming_emc_strict": 0,
+        "n_sample_blobs_naming_emc_loose": 12,
+        "\u26a0 note": "zero sample blobs read means the sample level could NOT be inspected \u2014 it is not evidence that the samples are not EMC (CLAUDE.md \u00a74)"
+      }
+    },
+    "SRP640302": {
+      "accession": "SRP640302",
+      "ncbi": {
+        "bioproject_esearch_count": 0,
+        "bioproject_status": "read",
+        "sra_esearch_count": 12,
+        "sra_ids_returned": 12,
+        "sra_status": "read",
+        "biosample_esearch_count": 0,
+        "biosample_status": "read",
+        "\u26a0 biosample_esearch_note": "a term search over `biosample` does not index a PROJECT accession, so a zero here is a query shape and not an absence \u2014 the linked count below, and the BioSample attributes inside the SRA XML, are the readings that count",
+        "biosample_linked_uids": 12,
+        "bioproject_records": []
+      },
+      "ena": {
+        "read_run_status": "read",
+        "n_read_run_rows": 12,
+        "sample_status": "read",
+        "n_sample_rows": 0,
+        "xml_titles": [
+          "Prognostic Biomarkers for Enhanced Risk Stratification in Extraskeletal Myxoid Chondrosarcoma: A Retrospective Cohort Study",
+          "This retrospective cohort study aims to identify novel prognostic biomarkers for Extraskeletal Myxoid Chondrosarcoma (EMC), a rare soft tissue sarcoma characterized by high recurrence rates and limited predictive accuracy from current clinical tools. We employed RNA-sequencing (RNA-seq) to analyze the gene expression profiles of EMC tumors. The primary objective is to discover and evaluate RNA-based molecular markers, particularly those reflecting immune pathway activation within the tumor microenvironment. This research seeks to enhance prognostic models and improve risk stratification, ultimately aiding in personalized treatment strategies for EMC patients."
+        ]
+      },
+      "runs": {
+        "n_runs": 12,
+        "n_distinct_experiments": 12,
+        "n_distinct_samples": 12,
+        "n_distinct_studies": 1,
+        "\u26a0 note": "these are FOUR different numbers. n_runs is not a patient count; a deposit with more runs than samples is re-sequencing or multi-arm, and that is what n_distinct_samples measures",
+        "library_strategy_values": [
+          "RNA-Seq"
+        ],
+        "library_source_values": [
+          "TRANSCRIPTOMIC"
+        ],
+        "library_selection_values": [
+          "cDNA"
+        ],
+        "library_layout_values": [
+          "SINGLE"
+        ],
+        "instrument_platform_values": [
+          "ILLUMINA"
+        ],
+        "instrument_model_values": [
+          "Illumina HiSeq 2500"
+        ],
+        "scientific_name_values": [
+          "Homo sapiens"
+        ],
+        "study_title_values": [
+          "Prognostic Biomarkers for Enhanced Risk Stratification in Extraskeletal Myxoid Chondrosarcoma: A Retrospective Cohort Study"
+        ],
+        "sample_titles": [
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens",
+          "Human sample from Homo sapiens"
+        ],
+        "sample_aliases": [
+          "Si19",
+          "Si17",
+          "Si16",
+          "Si14",
+          "Si09",
+          "Si10",
+          "Si05",
+          "Si22",
+          "Si02",
+          "Si15",
+          "Si20",
+          "Si01"
+        ],
+        "library_names": [
+          "Si19",
+          "Si17",
+          "Si16",
+          "Si14",
+          "Si09",
+          "Si10",
+          "Si05",
+          "Si21",
+          "Si02",
+          "Si15",
+          "Si20",
+          "Si01"
+        ],
+        "first_public_values": [
+          "2025-11-11"
+        ],
+        "read_counts": [
+          "5582928",
+          "6443809",
+          "7694782",
+          "6991852",
+          "6479407",
+          "6698387",
+          "8734357",
+          "5419081",
+          "7636050",
+          "5859174",
+          "7523900",
+          "6060188"
+        ],
+        "assay_probes": {
+          "tempo_seq": {
+            "matched": true,
+            "matched_text": "TempO-Seq"
+          },
+          "targeted_panel": {
+            "matched": true,
+            "matched_text": "Targeted"
+          },
+          "rna_seq": {
+            "matched": true,
+            "matched_text": "RNA-Seq"
+          },
+          "wgs_wxs": {
+            "matched": false,
+            "matched_text": null
+          }
+        }
+      },
+      "data_availability": {
+        "n_runs_with_fastq_ftp": 12,
+        "n_runs_with_submitted_ftp": 0,
+        "total_fastq_bytes": 2704945123,
+        "state": "PUBLIC_DOWNLOADABLE",
+        "\u26a0 note": "a run with metadata and no file list is registered and NOT downloadable \u2014 an embargoed deposit looks exactly like a public one until this field is read"
+      },
+      "ncbi_sra_xml": {
+        "_parsed": true,
+        "\u26a0 payload_was_truncated": false,
+        "n_experiment_packages": 12,
+        "library_strategy_values": [
+          "RNA-Seq"
+        ],
+        "library_selection_values": [
+          "cDNA"
+        ],
+        "library_source_values": [
+          "TRANSCRIPTOMIC"
+        ],
+        "instrument_model_values": [
+          "Illumina HiSeq 2500"
+        ],
+        "n_runs": 12,
+        "run_accessions": [
+          "SRR35940646",
+          "SRR35940647",
+          "SRR35940648",
+          "SRR35940649",
+          "SRR35940650",
+          "SRR35940651",
+          "SRR35940652",
+          "SRR35940653",
+          "SRR35940654",
+          "SRR35940655",
+          "SRR35940656",
+          "SRR35940657"
+        ],
+        "n_distinct_samples": 12,
+        "sample_accessions": [
+          "SRS26982705",
+          "SRS26982704",
+          "SRS26982703",
+          "SRS26982702",
+          "SRS26982701",
+          "SRS26982700",
+          "SRS26982699",
+          "SRS26982698",
+          "SRS26982697",
+          "SRS26982696",
+          "SRS26982695",
+          "SRS26982694"
+        ],
+        "titles": [
+          "Targeted RNA-seq (TempO-Seq) of EMC"
+        ],
+        "sample_attribute_blobs": [
+          "Sex=female",
+          "Age=51",
+          "Etnics=Asian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=18",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2013",
+          "Time=7",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=male",
+          "Age=37",
+          "Etnics=Asian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=12",
+          "Cellularity=HG-spindle",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2014",
+          "Time=6",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=77",
+          "Etnics=Asian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=9.6",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1-",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2014",
+          "Time=6",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=66",
+          "Etnics=Asian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=28",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2014",
+          "Time=6",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=52",
+          "Etnics=Asian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=16",
+          "Cellularity=HG-spindle",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2015",
+          "Time=5",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=51",
+          "Etnics=Asian",
+          "Prognosis=G",
+          "Tissue=Chest wall",
+          "Size(cm)=4.2",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=No_Met",
+          "Synaptophysin=Neg",
+          "Collectiondate=2010",
+          "Time=10",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=64",
+          "Etnics=Asian",
+          "Prognosis=G",
+          "Tissue=IA knee",
+          "Size(cm)=16.8",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=Neg",
+          "Collectiondate=2010",
+          "Time=10",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=male",
+          "Age=49",
+          "Etnics=Caucasian",
+          "Prognosis=G",
+          "Tissue=Popliteal",
+          "Size(cm)=10",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=Neg",
+          "Collectiondate=2007",
+          "Time=13",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=male",
+          "Age=62",
+          "Etnics=Caucasian",
+          "Prognosis=G",
+          "Tissue=Thigh",
+          "Size(cm)=18",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1-",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2020",
+          "Time=0",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=female",
+          "Age=44",
+          "Etnics=Asian",
+          "Prognosis=G",
+          "Tissue=Hand",
+          "Size(cm)=2.2",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1+",
+          "Metastasis=Met",
+          "Synaptophysin=NA",
+          "Collectiondate=2018",
+          "Time=2",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=male",
+          "Age=46",
+          "Etnics=Caucasian",
+          "Prognosis=B",
+          "Tissue=Thigh",
+          "Size(cm)=20",
+          "Cellularity=HG-solid-cellular",
+          "FISH_1=EWSR1-",
+          "Metastasis=Met",
+          "Synaptophysin=Pos",
+          "Collectiondate=2001",
+          "Time=19",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human",
+          "Sex=male",
+          "Age=64",
+          "Etnics=Caucasian",
+          "Prognosis=G",
+          "Tissue=Buttock",
+          "Size(cm)=17",
+          "Cellularity=Classical",
+          "FISH_1=EWSR1-",
+          "Metastasis=No_Met",
+          "Synaptophysin=Neg",
+          "Collectiondate=1997",
+          "Time=23",
+          "BiomaterialProvider=Siriraj Hospital",
+          "Geographiclocation=Thailand",
+          "Isolate=FFPE",
+          "BioSampleModel=Human"
+        ],
+        "assay_probes": {
+          "tempo_seq": {
+            "matched": true,
+            "matched_text": "TempO-Seq"
+          },
+          "targeted_panel": {
+            "matched": true,
+            "matched_text": "Targeted"
+          },
+          "rna_seq": {
+            "matched": true,
+            "matched_text": "RNA-Seq"
+          },
+          "wgs_wxs": {
+            "matched": false,
+            "matched_text": null
+          }
+        }
+      },
+      "emc_evidence": {
+        "study_level_prose_names_emc": true,
+        "study_level_matched_text": "Extraskeletal Myxoid Chondrosarcoma",
+        "n_sample_blobs_read": 204,
+        "n_sample_blobs_naming_emc_strict": 0,
+        "n_sample_blobs_naming_emc_loose": 12,
+        "\u26a0 note": "zero sample blobs read means the sample level could NOT be inspected \u2014 it is not evidence that the samples are not EMC (CLAUDE.md \u00a74)"
+      }
+    }
+  },
+  "resolved": {
+    "PRJNA1357027": true,
+    "SRP640302": true
+  },
+  "pairing_check": {
+    "claim": "PRJNA1357027 and SRP640302 are the same deposit",
+    "both_resolved": true,
+    "same_run_count": true,
+    "sample_title_overlap": 1,
+    "verdict": "CONSISTENT"
+  },
+  "verdict": {
+    "grade": "EMC_PUBLIC_CANDIDATE",
+    "headline": "an EMC deposit with 12 runs over 12 samples is public and downloadable; library strategy ['RNA-Seq']",
+    "n_runs_measured": 12,
+    "n_distinct_samples_measured": 12,
+    "library_strategy_values": [
+      "RNA-Seq"
+    ],
+    "assay_probe_tempo_seq_matched": true,
+    "assay_probe_matched_text": "TempO-Seq",
+    "n_sample_blobs_naming_emc_strict": 0,
+    "data_availability_state": "PUBLIC_DOWNLOADABLE",
+    "\u26d4 scope": "run count is not patient count; n_distinct_samples is the closest thing to a biological n that this metadata supports, and even that counts BioSamples rather than people"
+  }
+}
