@@ -3980,6 +3980,24 @@ PATIENT_PATH_WEIGHT = {
     "clinical_adoption": 4, # reaches a patient through practice change rather than a bench
     "none": 0,
 }
+#: ⚠ ADDED 2026-08-09, after four challenges to the ranking in one sitting and three of them landed.
+#: A blocker of kind `requires_future_technology` is not a closed route — the science under it can be
+#: finished, published and correct — but it does mean the result waits on a capability nobody in this
+#: field has yet, and a queue-ordering rubric should feel that. ⛔ THE DEFECT THAT PROMPTED IT:
+#: `BLK-DELIVERY` ("tumour delivery of an oligonucleotide"), whose `owner.file` IS
+#: `fusion-junction-aso-paper.md`, was declared by NO endpoint and NO route. The paper names delivery
+#: as its dominant gate on fourteen separate lines; the graph defined the blocker, attributed it to
+#: that exact manuscript, and nothing pointed at it — so the one limitation a reader raises within a
+#: minute of reading was invisible to every view generated from the graph.
+BLOCKER_KIND_DRAG = {"requires_future_technology": -3}
+
+#: ⚠ A JUDGEMENT, AND A SMALL ONE ON PURPOSE. A short report is not a lesser contribution and is
+#: often the right shape — but it carries less weight in the record than a full report, and a
+#: sponsor or a tool-builder is likelier to act on the latter. The label matters more than the
+#: number: it is printed in the table so nobody has to ask "is that even a paper?" a second time.
+UNIT_WEIGHT = {"full_paper": 0, "short_report": -2, "letter": -3}
+UNIT_LABEL = {"full_paper": "", "short_report": " · ✎ short report", "letter": " · ✎ letter"}
+
 PATH_LABEL = {"prebuilt_bench": "🧪 **bench, pre-built**", "no_bench_needed": "⭐ **no bench needed**",
               "named_bench": "🧪 bench, to build", "clinical_adoption": "🏥 clinical adoption",
               "none": "—"}
@@ -4087,6 +4105,11 @@ def _paper_scores(g):
         # fraction is still computed and still PRINTED, because it is a useful thing to know about
         # a paper. It just no longer moves the rank. Superseded, retained: weights 5, then 2.
         score += PATIENT_PATH_WEIGHT.get(p.get("patient_path"), 0)
+        score += UNIT_WEIGHT.get(p.get("unit"), 0)
+        blockers = {b["id"]: b for b in g.get("blockers", [])}
+        drag = sorted({BLOCKER_KIND_DRAG.get(blockers.get(b, {}).get("kind"), 0)
+                       for b in (p.get("blocked_by") or [])} - {0})
+        score += sum(drag)
         ungraded = [r for r in rs if r.get("closure_kind") is None]
         conf = [(r["id"], (r.get("state") or {}).get("confidence")) for r in openish]
         rows.append({"pub": p, "routes": rs, "open": openish, "closed": closed, "ready": ready,
@@ -4191,6 +4214,7 @@ def render_paper_strength(g):
                    f"**{r['score']}** | {len(r['open'])} | {len(r['closed'])} | "
                    f"{('⚠ ' + str(ung)) if ung else '0'} | "
                    f"{sd} | {PUB_GLYPH[p['state']]} `{p['state']}`"
+                   + UNIT_LABEL.get(p.get("unit"), "")
                    + (f" · ⚠ {len(r['cited_only'])} cited-only" if r["cited_only"] else "")
                    + " |")
     out.append("")

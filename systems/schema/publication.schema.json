@@ -17,7 +17,8 @@
         "what_it_would_claim",
         "outcome_potential",
         "patient_path",
-        "outcome_potential_why"
+        "outcome_potential_why",
+        "unit"
       ],
       "additionalProperties": false,
       "properties": {
@@ -124,6 +125,15 @@
             "none"
           ],
           "description": "HOW a result here reaches a patient, and HOW BIG the next step is for whoever has to take it. ⚠ A JUDGEMENT, recorded as data so it can be argued with one row at a time. Replaces the boolean `wet_lab_test_named` (2026-08-09), which failed in both directions: it could not distinguish a test somebody had ALREADY RUN from one a lab could pick up, and it scored zero for the one paper that reaches a patient with NO laboratory at all — whose own note read 'which is why the flag is False and not a demerit' while the flag was costing it the single largest term in the score. `prebuilt_bench`: constructs, controls and kill criteria exist, or it bolts onto an assay already running. `no_bench_needed`: actionable now by sponsors, registries or tool-builders. `named_bench`: a specific decisive experiment a lab would still have to build. `clinical_adoption`: reaches a patient through practice change. `none`: no concrete next actor — which for a negative is the honest value, not a demerit."
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "full_paper",
+            "short_report",
+            "letter"
+          ],
+          "description": "What size of publishable unit this actually is. ⚠ ADDED 2026-08-09 because the board had no way to answer 'is that even a paper?' — trimcrae asked it of PUB-STRATEGY-ARCH, which sits third in the ranking at 1,958 words, under a third the length of the next shortest endpoint. A short report is not a lesser contribution; it is a different object, and a ranking that hides the difference invites exactly that question."
         }
       },
       "allOf": [
