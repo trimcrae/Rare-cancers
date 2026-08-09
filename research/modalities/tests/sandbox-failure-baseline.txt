@@ -24,11 +24,32 @@
 #   (then re-add this header)
 #
 # 5 further modules cannot be IMPORTED here and are counted separately by the gate, not listed here.
+#
+# ⭐ UPDATED 2026-08-09, AND THE UPDATE IS IN BOTH DIRECTIONS — WHICH IS THE POINT OF A LIST.
+# The sandbox's package set moved: numpy is now importable here, so 9 entries stopped failing and
+# were PRUNED (test_congeneric_fanout seed tests, test_nr4a3_5bt, test_nrv04_pe_stage_probe,
+# test_selcal_stage). In the same pass 14 entries were ADDED, each traced to a module before being
+# written down, not assumed:
+#   * 11 in test_abfe_diagnostics.py -> ModuleNotFoundError: No module named 'pymbar'
+#     (research/modalities/nr4a3_abfe.py:69 and :683)
+#   * 3 in test_slow_cv.py           -> ModuleNotFoundError: No module named 'scipy'
+#     (research/modalities/nr4a3_slow_cv.py:114)
+# ⚠ These 14 did not appear in the 2026-08-08 baseline because they were then failing for the
+# numpy gap and were among the entries that gap already covered; with numpy present, the NEXT
+# missing import is what they now stop on. A dependency gap that moves is not a gap that closed.
+research/modalities/tests/test_abfe_diagnostics.py::test_autocorr_inefficiency_correlated_is_large
+research/modalities/tests/test_abfe_diagnostics.py::test_ess_report_shape_and_fields
+research/modalities/tests/test_abfe_diagnostics.py::test_forward_reverse_converged_leg_agrees
+research/modalities/tests/test_abfe_diagnostics.py::test_forward_reverse_matches_engine_reduce_leg_at_full_data
+research/modalities/tests/test_abfe_diagnostics.py::test_leg_diagnostics_bundle_keys
+research/modalities/tests/test_abfe_diagnostics.py::test_mbar_ess_identical_states_equals_total_samples
+research/modalities/tests/test_abfe_diagnostics.py::test_mbar_ess_separated_states_near_own_N
+research/modalities/tests/test_abfe_diagnostics.py::test_overlap_identical_states_is_uniform_1_over_K
+research/modalities/tests/test_abfe_diagnostics.py::test_overlap_separated_states_near_identity
+research/modalities/tests/test_abfe_diagnostics.py::test_overlap_symmetric_and_adjacent_beats_far
+research/modalities/tests/test_abfe_diagnostics.py::test_receptor_dg_bind_matches_combine_legs
 research/modalities/tests/test_apo_pose_recovery.py::test_an_atom_count_mismatch_is_refused_not_guessed
-research/modalities/tests/test_congeneric_fanout.py::test_SEED_0_leaves_the_rng_exactly_as_the_18_landed_edges_had_it
 research/modalities/tests/test_congeneric_fanout.py::test_credential_preflight_fails_closed_on_every_unusable_outcome
-research/modalities/tests/test_congeneric_fanout.py::test_the_engine_applies_the_seed_to_every_stream_it_can_actually_reach
-research/modalities/tests/test_nr4a3_5bt.py::test_a_fetch_that_fails_is_a_refusal_not_a_silent_ternary_fallback
 research/modalities/tests/test_nr4a3_5bt.py::test_build_arm_runs_end_to_end_and_the_snap_masks_are_non_empty
 research/modalities/tests/test_nr4a3_5bt.py::test_every_substructure_role_is_unique
 research/modalities/tests/test_nr4a3_5bt.py::test_no_unserialisable_object_can_reach_the_writer
@@ -40,9 +61,6 @@ research/modalities/tests/test_nr4a3_5bt.py::test_the_e3_binary_detail_is_json_s
 research/modalities/tests/test_nr4a3_5bt.py::test_the_refusal_names_every_offending_path_not_only_the_first
 research/modalities/tests/test_nr4a3_5bt.py::test_the_screening_sdf_is_NOT_a_source_of_the_warhead_pose
 research/modalities/tests/test_nr4a3_ternary_fep.py::test_expected_heavy_map_size_is_derived_from_the_frozen_endpoints
-research/modalities/tests/test_nrv04_pe_stage_probe.py::test_a_heavy_atom_absent_from_the_raw_cofold_is_attributed_to_our_prep
-research/modalities/tests/test_nrv04_pe_stage_probe.py::test_close_contacts_finds_the_clash_excludes_bonded_and_names_who_placed_it
-research/modalities/tests/test_nrv04_pe_stage_probe.py::test_with_no_raw_cofold_nothing_may_be_attributed_to_boltz
 research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_a_held_unit_is_reported_every_tick_never_silently
 research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_a_quarantine_eligible_unit_ON_A_HOST_is_visible_but_untouched
 research/modalities/tests/test_nrv04_retro_hold_and_protocol.py::test_supervision_does_not_buy_a_unit_that_was_never_authorised
@@ -58,11 +76,11 @@ research/modalities/tests/test_nrv04_retro_launch.py::test_retro_reap_refuses_wi
 research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_refuses_to_condemn_on_a_read_it_did_not_get
 research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_replaces_hostless_unrun_units_through_the_lanes_own_launcher
 research/modalities/tests/test_nrv04_retro_launch.py::test_supervision_without_a_key_buys_and_destroys_nothing
-research/modalities/tests/test_selcal_stage.py::test_audit_ignores_intra_residue_bonds
-research/modalities/tests/test_selcal_stage.py::test_audit_passes_a_normal_assembly
-research/modalities/tests/test_selcal_stage.py::test_audit_refuses_the_measured_failure_signature
 research/modalities/tests/test_short_linker_probe.py::test_the_candidate_has_a_recorded_and_reparsed_structure
 research/modalities/tests/test_short_linker_probe.py::test_the_probe_reproduces_its_committed_artifact
+research/modalities/tests/test_slow_cv.py::test_build_combine_cv_reproduces_standardized_projection
+research/modalities/tests/test_slow_cv.py::test_tica_identifies_slow_feature
+research/modalities/tests/test_slow_cv.py::test_tica_timescale_recovers_ou_constant
 research/modalities/tests/test_step1_map_diag.py::test_exactly_one_fanout_edge_has_a_strict_map_below_its_floor
 research/modalities/tests/test_step1_map_diag.py::test_the_escalation_is_dead_code_for_edges_whose_strict_map_already_clears_its_floor[COC(=O)c1c[nH]c2ccc(Br)cc12-COC(=O)c1c[nH]c2ccc(N)cc12-cw_ev_5nh2]
 research/modalities/tests/test_step1_map_diag.py::test_the_escalation_is_dead_code_for_edges_whose_strict_map_already_clears_its_floor[COC(=O)c1c[nH]c2ccc(Br)cc12-COC(=O)c1c[nH]c2ccc(O)cc12-cw_ev_5oh]

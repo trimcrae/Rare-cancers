@@ -1,65 +1,143 @@
 {
-  "_what": "The citations the EMC MTAP/PRMT5 hypothesis rests on, each RETRIEVED and READ rather than recalled, with the specific proposition it is cited for.",
-  "_why_this_file_exists": "research/manuscripts/lint_citations.py requires every identifier in prose to appear in a tracked .json/.jsonl -- a fetch product rather than a recollection. This is that anchor. ⛔ It exists because a model once wrote a PMID from memory into a manuscript here and it passed the language linter twice; the identifier existed in no committed source anywhere.",
-  "_provenance": "GitHub Actions run of fetch-literature.yml on 2026-08-09, query (MTAP OR \"methylthioadenosine phosphorylase\") AND (PRMT5 OR MAT2A OR \"synthetic lethal\" OR \"synthetic lethality\"), 591 open-access full texts published to the literature-cache branch under literature/mtap-prmt5-synthetic-lethality/. Every entry below was read from that corpus.",
-  "_verification_level": "[FT] full text read in the fetched corpus. Bibliographic identifiers were taken FROM the retrieved document, never typed from recollection.",
-  "_what_this_corpus_does_not_contain": "⭐ THE FINDING THAT MATTERS MOST. Searched corpus-wide for this histology: no MTAP status, no PRMT5 data and no MAT2A data for extraskeletal myxoid chondrosarcoma appears in any of the 591 papers. The four incidental mentions of the histology are diagnostic-pathology asides with no bearing on this axis. The question is open, not answered and overlooked.",
-  "citations": [
-    {
-      "id": "PMC11404761",
-      "pmid": "39132873",
-      "doi": "10.1097/PAS.0000000000002297",
-      "journal": "American Journal of Surgical Pathology",
-      "year": 2024,
-      "title": "Prevalence of S-methyl-5'-thioadenosine Phosphorylase (MTAP) Deficiency in Human Cancer: A Tissue Microarray Study on 13,067 Tumors From 149 Different Tumor Types",
-      "verification": "[FT]",
-      "cited_for": [
-        "MTAP immunohistochemistry is a usable surrogate for homozygous 9p21 deletion: homozygous deletion was found in 90% to 100% of cases showing complete MTAP expression loss in most tumour categories, validated by FISH.",
-        "MTAP is ubiquitously expressed in normal tissue, which is what makes complete loss on IHC interpretable.",
-        "MTAP loss occurs in various types of sarcoma at up to 20%.",
-        "⚠ The survey covers 149 tumour types and this histology is not among the sarcoma subtypes its text names, so it supplies a class prior and not an answer."
-      ]
-    },
-    {
-      "id": "PMC10618744",
-      "pmid": "37552839",
-      "doi": "10.1158/2159-8290.CD-23-0669",
-      "journal": "Cancer Discovery",
-      "year": 2023,
-      "title": "MRTX1719 Is an MTA-Cooperative PRMT5 Inhibitor That Exhibits Synthetic Lethality in Preclinical Models and Patients with MTAP-Deleted Cancer",
-      "verification": "[FT]",
-      "cited_for": [
-        "The MTAP-deletion-selected PRMT5 axis has reached patients: an MTA-cooperative PRMT5 inhibitor is in clinical study selected on MTAP deletion.",
-        "⛔ Cited for the existence and selection principle of the class ONLY. Nothing about this agent's activity is transferred to any other disease here, and nothing in this repository asserts efficacy for it anywhere."
-      ]
-    },
-    {
-      "id": "PMC10010627",
-      "pmid": "36913304",
-      "doi": "10.18632/oncotarget.28376",
-      "journal": "Oncotarget",
-      "year": 2023,
-      "title": "Genomic landscape of metastatic breast cancer (MBC) patients with methylthioadenosine phosphorylase (MTAP) loss",
-      "verification": "[FT]",
-      "cited_for": [
-        "CDKN2A and CDKN2B loss are near-universally associated with MTAP loss (100% and 97% in that series), which is the basis of the 9p21 co-deletion argument.",
-        "⭐ AND IT IS CITED AGAINST THIS DOCUMENT'S OWN HYPOTHESIS, which is why it is here: the association runs in the direction that makes a low three-gene locus group ambiguous. MTAP loss implies CDKN2A loss; CDKN2A loss does not imply MTAP loss. So a group score can fall on a CDKN2A event alone."
-      ]
-    },
-    {
-      "id": "10.1101/2022.03.23.485409",
-      "kind": "preprint",
-      "server": "bioRxiv",
-      "posted": "2022-03-23",
-      "title": "PRMT5 as a Novel Druggable Vulnerability for EWSR1-ATF1-driven Clear Cell Sarcoma",
-      "verification": "[FT]",
-      "retrieved_in": "literature/emc-post-degrader-options/prmt5_ccs_biorxiv_pdf.txt",
-      "cited_for": [
-        "PRMT5 enhances EWSR1-ATF1-mediated gene transcription and sustains clear cell sarcoma proliferation; genetic silencing impaired both proliferation and fusion-driven transcription; a clinical-stage PRMT5 inhibitor inhibited growth in vitro and in vivo.",
-        "⭐ This is the load-bearing citation for the STRONGER of the two rationales in this document, because its mechanism runs through the EWSR1 portion of a fusion rather than through MTAP status.",
-        "⛔ IT IS A PREPRINT AND ITS OWN PAGES SAY SO -- 'not certified by peer review'. Its peer-review status since 2022 was NOT established here, and any use of it must carry that.",
-        "⚠ ALSO: it was already in this repository's literature cache, fetched for a different sweep, and no document here has ever referenced it. It was retrieved and never read."
-      ]
-    }
-  ]
+ "_what": "The citations the EMC MTAP/PRMT5 hypothesis rests on, each RETRIEVED and READ rather than recalled, with the specific proposition it is cited for.",
+ "_why_this_file_exists": "research/manuscripts/lint_citations.py requires every identifier in prose to appear in a tracked .json/.jsonl -- a fetch product rather than a recollection. This is that anchor. ⛔ It exists because a model once wrote a PMID from memory into a manuscript here and it passed the language linter twice; the identifier existed in no committed source anywhere.",
+ "_provenance": "GitHub Actions run of fetch-literature.yml on 2026-08-09, query (MTAP OR \"methylthioadenosine phosphorylase\") AND (PRMT5 OR MAT2A OR \"synthetic lethal\" OR \"synthetic lethality\"), 591 open-access full texts published to the literature-cache branch under literature/mtap-prmt5-synthetic-lethality/. Every entry below was read from that corpus. ⭐ EXTENDED 2026-08-09 with two further fetch-literature.yml dispatches — slugs `prmt5-substrate-motif` and `fet-arginine-methylation` — run after the manuscript's own text identified the fusion-class transfer as its weakest point. Both used the TITLE:() shape recorded in research/literature/epmc-query-craft.md; the top hits of both were on-topic primary papers rather than reviews, which is the check that runbook says to make before citing anything.",
+ "_verification_level": "[FT] full text read in the fetched corpus. Bibliographic identifiers were taken FROM the retrieved document, never typed from recollection.",
+ "_what_this_corpus_does_not_contain": "⭐ THE FINDING THAT MATTERS MOST. Searched corpus-wide for this histology: no MTAP status, no PRMT5 data and no MAT2A data for extraskeletal myxoid chondrosarcoma appears in any of the 591 papers. The four incidental mentions of the histology are diagnostic-pathology asides with no bearing on this axis. The question is open, not answered and overlooked.",
+ "citations": [
+  {
+   "id": "PMC11404761",
+   "pmid": "39132873",
+   "doi": "10.1097/PAS.0000000000002297",
+   "journal": "American Journal of Surgical Pathology",
+   "year": 2024,
+   "title": "Prevalence of S-methyl-5'-thioadenosine Phosphorylase (MTAP) Deficiency in Human Cancer: A Tissue Microarray Study on 13,067 Tumors From 149 Different Tumor Types",
+   "verification": "[FT]",
+   "cited_for": [
+    "MTAP immunohistochemistry is a usable surrogate for homozygous 9p21 deletion: homozygous deletion was found in 90% to 100% of cases showing complete MTAP expression loss in most tumour categories, validated by FISH.",
+    "MTAP is ubiquitously expressed in normal tissue, which is what makes complete loss on IHC interpretable.",
+    "MTAP loss occurs in various types of sarcoma at up to 20%.",
+    "⚠ The survey covers 149 tumour types and this histology is not among the sarcoma subtypes its text names, so it supplies a class prior and not an answer."
+   ]
+  },
+  {
+   "id": "PMC10618744",
+   "pmid": "37552839",
+   "doi": "10.1158/2159-8290.CD-23-0669",
+   "journal": "Cancer Discovery",
+   "year": 2023,
+   "title": "MRTX1719 Is an MTA-Cooperative PRMT5 Inhibitor That Exhibits Synthetic Lethality in Preclinical Models and Patients with MTAP-Deleted Cancer",
+   "verification": "[FT]",
+   "cited_for": [
+    "The MTAP-deletion-selected PRMT5 axis has reached patients: an MTA-cooperative PRMT5 inhibitor is in clinical study selected on MTAP deletion.",
+    "⛔ Cited for the existence and selection principle of the class ONLY. Nothing about this agent's activity is transferred to any other disease here, and nothing in this repository asserts efficacy for it anywhere."
+   ]
+  },
+  {
+   "id": "PMC10010627",
+   "pmid": "36913304",
+   "doi": "10.18632/oncotarget.28376",
+   "journal": "Oncotarget",
+   "year": 2023,
+   "title": "Genomic landscape of metastatic breast cancer (MBC) patients with methylthioadenosine phosphorylase (MTAP) loss",
+   "verification": "[FT]",
+   "cited_for": [
+    "CDKN2A and CDKN2B loss are near-universally associated with MTAP loss (100% and 97% in that series), which is the basis of the 9p21 co-deletion argument.",
+    "⭐ AND IT IS CITED AGAINST THIS DOCUMENT'S OWN HYPOTHESIS, which is why it is here: the association runs in the direction that makes a low three-gene locus group ambiguous. MTAP loss implies CDKN2A loss; CDKN2A loss does not imply MTAP loss. So a group score can fall on a CDKN2A event alone."
+   ]
+  },
+  {
+   "id": "10.1101/2022.03.23.485409",
+   "kind": "preprint",
+   "server": "bioRxiv",
+   "posted": "2022-03-23",
+   "title": "PRMT5 as a Novel Druggable Vulnerability for EWSR1-ATF1-driven Clear Cell Sarcoma",
+   "verification": "[FT]",
+   "retrieved_in": "literature/emc-post-degrader-options/prmt5_ccs_biorxiv_pdf.txt",
+   "cited_for": [
+    "PRMT5 enhances EWSR1-ATF1-mediated gene transcription and sustains clear cell sarcoma proliferation; genetic silencing impaired both proliferation and fusion-driven transcription; a clinical-stage PRMT5 inhibitor inhibited growth in vitro and in vivo.",
+    "⭐ This is the load-bearing citation for the STRONGER of the two rationales in this document, because its mechanism runs through the EWSR1 portion of a fusion rather than through MTAP status.",
+    "⛔ IT IS A PREPRINT AND ITS OWN PAGES SAY SO -- 'not certified by peer review'. Its peer-review status since 2022 was NOT established here, and any use of it must carry that.",
+    "⚠ ALSO: it was already in this repository's literature cache, fetched for a different sweep, and no document here has ever referenced it. It was retrieved and never read."
+   ]
+  },
+  {
+   "id": "PMC12354397",
+   "pmid": "40823091",
+   "doi": "10.3389/fonc.2025.1538208",
+   "journal": "Frontiers in Oncology",
+   "year": 2025,
+   "licence": "CC-BY (stated on the retrieved document)",
+   "title": "Arginine methylation regulates Ewing sarcoma cell viability in a EWSR1::FLI1 dependent manner and provides a therapeutic opportunity",
+   "verification": "[FT]",
+   "retrieved_in": "literature/fet-arginine-methylation/PMC12354397.txt (fetch-literature.yml, 2026-08-09)",
+   "cited_for": [
+    "⭐ THE STRONGEST SINGLE SUPPORT FOR THIS MANUSCRIPT'S FUSION-CLASS TRANSFER, and it is peer-reviewed where the route's original source is a preprint. In Ewing sarcoma the growth inhibition caused by the PRMT5 inhibitor GSK591 was 'largely supressed by partial depletion of EWSR1::FLI1' — i.e. the PRMT5 requirement is FUSION-DEPENDENT in an EWSR1-fusion sarcoma.",
+    "PRMT1, PRMT5 and MEP50 (WDR77) expression are 'generally higher in multiple sarcoma types, including EWSR1::FLI1 and EWSR1::ERG fusion-positive ES tumours, than in breast and lung cancer'. ⚠ CITED AGAINST THIS MANUSCRIPT AS WELL AS FOR IT: elevated PRMT5 is a broad sarcoma feature on that comparison, which is why this manuscript's comparator arm being OTHER SARCOMAS matters and why the PRMT-family control was added to the panel.",
+    "⚠ Depleting EWSR1::FLI1 did NOT change transcript levels of PRMT family members or MEP50. So elevated PRMT5 transcript is not downstream of the fusion, and abundance and dependency are separate facts here.",
+    "PRMT5 inhibition sensitised cells to olaparib, and the authors attribute PRMT dependence in this disease to replication stress and R-loop formation driven by EWS-FLI1-dependent CDK9-mediated RNA Pol II activation.",
+    "12% of Ewing sarcoma patients carry CDKN2A deletion, 'an event that often leads to co-deletion of MTAP' — the same locus logic this manuscript's route 2 tested and closed at transcript level.",
+    "⛔ IT IS EWING SARCOMA, NOT EMC. No experiment in this paper touches an NR4A3 fusion or an EMC cell, and it establishes nothing about this disease."
+   ]
+  },
+  {
+   "id": "30940768",
+   "pmid": "30940768",
+   "doi": "10.1126/scisignal.aat8388",
+   "journal": "Science Signaling",
+   "year": 2019,
+   "title": "Proteomics profiling of arginine methylation defines PRMT5 substrate specificity",
+   "verification": "[MD] metadata + abstract read from the retrieved Europe PMC record; full text is not open access and was NOT read.",
+   "retrieved_in": "literature/prmt5-substrate-motif/_index.json (fetch-literature.yml, 2026-08-09)",
+   "cited_for": [
+    "⭐ THE MOTIF THIS MANUSCRIPT'S SEQUENCE ANALYSIS RESTS ON. Coupling SILAC with methyl-peptide enrichment after selective PRMT5 inhibition, with heavy-methyl SILAC as an orthogonal check, and validating targets by in vitro methylation, the authors report 'the preference of the enzyme to methylate arginine sandwiched between two neighboring glycines (a Gly-Arg-Gly, or \"GRG,\" sequence)'.",
+    "⚠ A PREFERENCE, NOT A RULE, and the abstract says so in the same breath ('refining our knowledge of its substrate specificity'). PRMT5 methylates arginines outside GRG and a GRG site is not necessarily methylated.",
+    "⛔ VERIFICATION IS METADATA-LEVEL. The abstract was read from the retrieved record; the full text was not available open-access and was not read."
+   ]
+  },
+  {
+   "id": "PMC6669924",
+   "pmid": "31267554",
+   "doi": "10.15252/embj.2018100986",
+   "journal": "The EMBO Journal",
+   "year": 2019,
+   "title": "Arginine methylation of the DDX5 helicase RGG/RG motif by PRMT5 regulates resolution of RNA:DNA hybrids",
+   "verification": "[FT]",
+   "retrieved_in": "literature/prmt5-substrate-motif/PMC6669924.txt (fetch-literature.yml, 2026-08-09)",
+   "cited_for": [
+    "PRMT5 methylates an RGG/RG motif, mapped rather than assumed: of three DDX5 truncations, 'Only the C-terminal region (F3), encompassing the RGG/RG motif, was methylated by PRMT5', and substituting five arginines inside that motif abolished it.",
+    "PRMT5 has substrates that are not any fusion protein — here an R-loop-resolution helicase — and PRMT5-deficient cells accumulate R-loops with increased γH2AX. This is the same mechanistic axis the Ewing result invokes, reached independently.",
+    "⛔ NEITHER EMC NOR ANY FUSION SARCOMA APPEARS IN IT. Cited for what PRMT5 does to a motif, nothing more."
+   ]
+  },
+  {
+   "id": "PMC3581573",
+   "pmid": "23451136",
+   "doi": "10.1371/journal.pone.0057008",
+   "journal": "PLoS ONE",
+   "year": 2013,
+   "title": "Structure of the arginine methyltransferase PRMT5-MEP50 reveals a mechanism for substrate specificity",
+   "verification": "[FT]",
+   "retrieved_in": "literature/prmt5-substrate-motif/PMC3581573.txt (fetch-literature.yml, 2026-08-09)",
+   "cited_for": [
+    "MEP50 (WDR77) is required for PRMT5-catalysed methyltransferase activity and binds substrate independently — the structural reason the methylosome is read as a unit rather than as PRMT5 alone.",
+    "PRMT5-MEP50 activity is modulated by substrate post-translational modification: inhibited by substrate phosphorylation, enhanced by substrate acetylation.",
+    "⚠ Xenopus laevis protein, histone substrates. Cited for enzyme architecture, not for any human tumour claim."
+   ]
+  },
+  {
+   "id": "11278906",
+   "pmid": "11278906",
+   "doi": "10.1074/jbc.m011446200",
+   "journal": "Journal of Biological Chemistry",
+   "year": 2001,
+   "title": "Exposure on cell surface and extensive arginine methylation of Ewing sarcoma (EWS) protein",
+   "verification": "[MD] metadata read from the retrieved Europe PMC record; full text not retrieved.",
+   "retrieved_in": "literature/fet-arginine-methylation/_index.json (fetch-literature.yml, 2026-08-09)",
+   "cited_for": [
+    "The EWS (EWSR1) protein is extensively arginine-methylated — the fact that makes 'where in EWSR1 does the motif sit, and does the fusion keep it?' a question worth computing.",
+    "⛔ TITLE-LEVEL ONLY. The full text was not retrieved, so nothing about WHICH residues or WHICH enzyme is claimed from it here."
+   ]
+  }
+ ]
 }

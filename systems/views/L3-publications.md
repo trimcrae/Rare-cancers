@@ -265,7 +265,7 @@ Occupancy of the NR4A3 pocket without recruitment is a distinct route from degra
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-mtap-prmt5-hypothesis.md`](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) · ships with **PUB-MODALITY-CENSUS****
 
-Two independent lines point at the PRMT5 methylosome in extraskeletal myxoid chondrosarcoma and neither has ever been examined in it: a published preclinical result that PRMT5 supports EWSR1-fusion-driven transcription in a sibling translocation sarcoma sharing the same 5' gene, and public expression data placing the methylosome higher and the MTAP locus lower in this disease than in comparator sarcomas. Each ends at a different inexpensive experiment, and the negative branch of each is worth publishing.
+Two independent lines point at the PRMT5 methylosome in extraskeletal myxoid chondrosarcoma and neither has ever been examined in it. One of them closes on the paper's own data and is reported as the negative it is; the other survives and is argued rather than assumed — a peer-reviewed result in a second EWSR1-fusion sarcoma where PRMT5 inhibition acts in a fusion-DEPENDENT way, plus a sequence finding that PRMT5's measured substrate motif is absent from the half of EWSR1 every fusion retains and that the commonest EMC and clear cell fusions keep the same number of sites. The same analysis refuses the response prediction it looks like it licenses. Each route ends at a different inexpensive experiment, and the negative branch of each is worth publishing.
 
 | route | role | what it contributes |
 |---|---|---|

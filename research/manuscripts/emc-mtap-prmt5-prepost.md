@@ -42,13 +42,24 @@ biological (also free)."* That is this paper.
 
 | item | state |
 |---|---|
-| Figures rendered from committed artifacts, provenance-hashed | ✅ four figures, `--check` verifiable |
+| Figures rendered from committed artifacts, provenance-hashed | ✅ five figures, `--check` verifiable |
 | SI written — methods, full tables, controls, failure modes | ✅ `emc-mtap-prmt5-hypothesis-SI.md` |
 | Abstract structured for a preprint server | ✅ with the qualifier in its own paragraph |
 | Every prose identifier anchored to a retrieval | ✅ `mtap-prmt5-emc-citations.json`, 0 new unanchored |
 | Language rules (no efficacy/safety/window/readiness) | ✅ `lint_claims` 0 ERROR |
-| Falsifiers stated, with the likeliest failure named | ✅ F1–F8, F8 names the pan-essentiality route |
+| Falsifiers stated, with the likeliest failure named | ✅ F1–F10; F8 names the pan-essentiality route, F7 has **partially fired** |
 | Data availability — every series and panel identified | ✅ §2 and SI §S1 |
+| The gene's own statistic, and an exact test for it | ✅ §3.2 — *t* = 6.24 / 6.67, exact permutation over all 1,623,160 and 8,008 labelings, no RNG |
+| The two confounds the paper named, actually run | ⚠ §3.3 — run, and the proliferation control **removes about half the contrast on one platform**. The instrument is one gene; the fuller re-read is pending CI |
+| Which half of the fusion carries PRMT5's motif | ✅ §3.4 + figure 5, with double-entry checks against two artifacts that predate this manuscript |
+| Superseded numbers registered rather than dropped | ✅ SI §S10 |
+
+⏳ **One item is genuinely outstanding and is not a formatting step.** The PRMT family, a fuller
+proliferation set, chondroid markers and a genome-wide empirical null were added to the panel
+definition on 2026-08-09; the `mode=panels` fetch that populates them has not landed. Until it does,
+§3.3 rests on a single proliferation marker and the manuscript's multiple-testing limit has nothing
+measured against it. **Neither is a reason to withhold the paper — both are reasons not to call it
+finished.**
 
 ## ⛔ What only trimcrae can supply — the actual blocking set
 
@@ -82,7 +93,19 @@ These are in the manuscript and must not be softened during any formatting pass:
   comparator classes. *PRMT5* alone does. Route 1's claim is stated on the gene, not the group, and
   must stay that way.
 - **16 tumours, two decade-old array platforms, uncorrected for multiple testing.**
-- **Route 1's source is a preprint that states it is not certified by peer review.**
+- **Route 1's ORIGINAL source is a preprint that states it is not certified by peer review.** ⭐ It is
+  no longer the only support — the Ewing sarcoma result (PMC12354397) is peer-reviewed and shows a
+  *fusion-dependent* PRMT5 requirement — but the preprint's status must still travel with every use
+  of it.
+- ⚠ **§3.4's motif analysis must not be presented as a response predictor, and the paper's own text
+  is what stops it.** The commonest EMC fusion and the commonest clear cell fusion retain the same
+  four PRMT5-motif sites — but EWSR1::FLI1 retains **none** and PRMT5 still acts there in a
+  fusion-dependent way. Any formatting pass that trims the second half of that pair turns a
+  falsifiable prediction into a claim the data does not support.
+- ⚠ **Elevated PRMT5 is not specific to this disease on the published comparison.** PRMT5, PRMT1 and
+  MEP50 read higher across multiple sarcoma types than in breast and lung cancer (PMC12354397). This
+  paper's comparator arm is other sarcomas, which is harder — but the two statements are not
+  exclusive and the manuscript says so.
 
 ## Re-check before any posting pass
 

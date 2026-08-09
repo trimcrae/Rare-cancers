@@ -10,9 +10,11 @@ purpose: >
   be actionable in it — give the two independent lines that raise it, bound each honestly, and specify
   the inexpensive assays that would confirm or kill them.
 scope: >
-  L3. Two public archival expression series, 16 EMC tumours, transcript level only; plus a published
-  preclinical result in a different fusion sarcoma. This document raises a hypothesis and names its
-  falsifiers. It reports no experiment in EMC cells, no drug exposure and no patient.
+  L3. Two public archival expression series, 16 EMC tumours, transcript level only; a public sarcoma
+  CRISPR dependency panel containing no EMC line; a sequence analysis of where PRMT5's measured
+  substrate motif falls in the fusion protein; and published preclinical results in two other
+  EWSR1-fusion sarcomas. This document raises a hypothesis and names its falsifiers. It reports no
+  experiment in EMC cells, no drug exposure and no patient.
 audience: [maintainers, external reviewers, autonomous research agents, collaborators]
 date: 2026-08-09
 last_verified: 2026-08-09
@@ -23,7 +25,8 @@ related: [DOC-MODALITY-CENSUS, DOC-EMC-UNEXPLORED-LANES]
 
 > ⛔ **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent
 > in any disease.** This is a hypothesis raised from public transcript data in 16 archival tumours and
-> from a preclinical result in a different sarcoma. It has never been tested in an EMC cell.
+> from preclinical results in two other EWSR1-fusion sarcomas. It has never been tested in an EMC
+> cell.
 
 **Tristan McRae**
 Independent researcher, unaffiliated.
@@ -33,6 +36,9 @@ Correspondence: trimcrae@gmail.com
 > rather than buried, because it is load-bearing for how the manuscript should be read: every
 > experiment proposed in §4 is an ask directed at somebody who has a bench, and the author cannot run
 > any of them.
+
+**Five figures.** Figures 1–4 are expression and dependency readings; figure 5 is a sequence map.
+⛔ Two of them argue **against** this manuscript's own hypothesis and are included for that reason.
 
 **Supplementary information:** [`emc-mtap-prmt5-hypothesis-SI.md`](./emc-mtap-prmt5-hypothesis-SI.md)
 — full methods, every per-gene reading, the controls, and an explicit list of what would have to be
@@ -55,7 +61,9 @@ any disease-specific evidence number about eight.
 **What we did.** We asked whether the PRMT5 methylosome — a target class with clinical-stage agents
 and a known genetic selection window — has ever been considered in this disease, and what the only
 readable public data says about it. We read two archival expression series (16 EMC tumours across two
-platforms) and a public sarcoma-line CRISPR dependency panel.
+platforms) and a public sarcoma-line CRISPR dependency panel, and — because the argument turns on a
+transfer between diseases — we mapped PRMT5's measured substrate motif onto the fusion protein's
+sequence to ask which half of it the motif lies in.
 
 **What we found.** *MTAP*, *PRMT5* and *MAT2A* appear in no prose document in this repository's
 40-route portfolio and in no published EMC series. Two candidate routes were examined and **they did
@@ -70,6 +78,18 @@ not separate this disease at all** — pooled, EMC ranks *second* of four classe
 fibromatosis. ⭐ ***PRMT5 alone does separate*** (median +1.30 vs +1.05, +1.04 and +0.94), and *PRMT5*
 is the gene route 1 actually depends on. The other three members are flat or lower in EMC and dilute
 it.
+
+⭐ **And the transfer route 1 rests on is no longer only an assumption — it is now a peer-reviewed
+result plus a sequence measurement.** In Ewing sarcoma, another EWSR1-fusion sarcoma, PRMT5
+inhibition reduces cell viability and the effect is **largely suppressed by depleting EWSR1::FLI1**
+(PMC12354397) — a fusion-*dependent* PRMT5 requirement, measured, in a disease that is not EMC.
+Separately, we asked which half of the fusion protein carries PRMT5's own substrate motif. PRMT5
+prefers arginine flanked by glycines (GRG; PMID 30940768), and **EWSR1 carries eleven such sites, not
+one of which lies in the first 300 residues** — the segment every EWSR1 fusion retains. The rest are
+lost or kept according to the breakpoint: **the commonest EMC fusion keeps four, and so does the
+commonest clear cell sarcoma fusion.** ⚠ The same analysis disciplines the claim it supports:
+EWSR1::FLI1 keeps **none**, and PRMT5 still matters there — so the motif is not required, and the
+prediction this licenses is a falsifiable one rather than an expectation.
 
 ⛔ **Route 2 is closed by this paper's own data.** The *MTAP*/*CDKN2A*/*CDKN2B* locus does read lower
 where powered (*t* = −4.06), but gene by gene ***MTAP* is flat** (−0.02 SD) and the entire signal is
@@ -110,6 +130,17 @@ whose fusion is constitutively active because the EWSR1 portion supplies the act
 driver has that architecture. If PRMT5's contribution runs through the EWSR1 moiety or through
 fusion-driven transcription generally, EMC is the next disease in line — and nobody has asked.
 
+⭐ **A second, peer-reviewed disease now says the same thing, and it says it about the fusion rather
+than about the tumour.** In Ewing sarcoma — EWSR1::FLI1, the third EWSR1-fusion sarcoma in this
+argument — PRMT5 and PRMT1 inhibitors cause growth arrest and apoptosis, and the effect of single-agent
+GSK591 was *"largely supressed by partial depletion of EWSR1::FLI1"* (PMC12354397). ⭐ **That is the
+specific thing route 1 needs and the clear cell preprint could only suggest**: not that PRMT5 matters
+in a sarcoma, but that it matters *because of the fusion*. ⚠ **The same paper cuts the other way on
+abundance**, and it is cited here for both: PRMT5, PRMT1 and MEP50 read higher across *multiple*
+sarcoma types than in breast and lung cancer, and depleting EWSR1::FLI1 did **not** change PRMT
+transcript levels. So elevated PRMT5 transcript is not a fusion read-out, abundance and dependency
+are separate facts, and the transcript reading below is doing less work than it appears to.
+
 **Route 2 — the MTAP locus. ⛔ TESTED AND CLOSED AT TRANSCRIPT LEVEL, and it is reported here as the
 negative it is.** PRMT5 is also targetable through a genetic window: tumours that have lost *MTAP* are
 comparatively more sensitive to PRMT5 and MAT2A inhibition, an axis that has reached patients
@@ -130,7 +161,8 @@ caveat, it is what the data shows. **Route 2 is closed on the evidence available
 only as the question an MTAP stain would answer directly — see §4.
 
 ⭐ **Route 1 is unaffected by that closure and is the paper's live claim.** The methylosome reading is
-concordant across both platforms and is carried by *PRMT5* itself (+0.266 and +0.744), which is the
+concordant across both platforms and is carried by *PRMT5* itself (+0.263 and +0.816 SD, *t* = 6.24
+and 6.67 — see §3.2; superseded values in SI §S10), which is the
 gene route 1 depends on.
 
 **Both routes still end at cheap, decisive experiments**, and they are different experiments — §4. The
@@ -261,12 +293,140 @@ gene-level cut, and that is the transferable methodological point of this manusc
 points are gene-by-sample values pooled across four genes, so they are not independent observations
 and no test is run on them.
 
+### 3.2 · The gene's own statistic, and an exact test that needs no distributional assumption
+
+⚠ **This manuscript has been quoting the wrong number about itself.** §3 reports the methylosome
+*group* (*t* = 3.11 and 3.89). *PRMT5* alone — the gene route 1 actually depends on — reads
+***t* = 6.24 on GPL6244 and 6.67 on GPL3290**, and those are the figures the claim rests on.
+
+Both designs are small enough to **enumerate completely**, so no normal approximation is needed:
+C(35,6) = 1,623,160 labelings on GPL6244 and C(16,10) = 8,008 on GPL3290 were each evaluated in full.
+
+| platform | *PRMT5 t* | labelings enumerated | at least as extreme | exact two-sided *p* |
+|---|---:|---:|---:|---:|
+| GSE24369 / GPL6244 | +6.24 | 1,623,160 | 230 | **0.000142** |
+| GSE4303 / GPL3290 | +6.67 | 8,008 | 1 | **0.000125** |
+
+⛔ **THIS DOES NOT ANSWER THE MULTIPLE-TESTING LIMIT AND MUST NOT BE READ AS DOING SO.** The
+permutation is exact for the *labelling* — "how often does a random split of these same tumours give
+a contrast this large" — and says nothing about how many genes were examined. On GPL3290 the exact
+*p* cannot go below 1/8,008 whatever the effect: with 10 versus 6 tumours the resolution of the test
+is the sample size, not the biology.
+
+### 3.3 · The two confounds the paper named, now measured — and one of them bites
+
+Falsifier F7 said the readings might be proliferation or cellularity effects, and offered no data.
+Here PRMT5's contrast is recomputed after regressing out a per-sample score, and the two platforms
+**do not agree**:
+
+| axis | platform | score elevated in EMC? | *PRMT5 t* raw → adjusted | reading |
+|---|---|---|---:|---|
+| proliferation | GPL6244 | no (*t* = 0.53) | 6.24 → **5.51** | ✅ survives |
+| proliferation | GPL3290 | **yes (*t* = 2.30)** | 6.67 → **3.15** | ⛔ **about half the contrast is explained by it** |
+| chondroid lineage | GPL6244 | mildly (*t* = 0.85) | 6.24 → 6.21 | ✅ survives essentially untouched |
+| chondroid lineage | GPL3290 | no (*t* = 0.47) | 6.67 → 5.65 | ✅ survives |
+
+⛔ **The second row is a genuine dent in route 1 and is reported as one.** On GPL3290 the tumours
+with more proliferation signal also have more *PRMT5*, and adjusting for it removes roughly half the
+contrast.
+
+⚠ **And the instrument is one gene.** *MKI67* is the only proliferation marker on the committed
+panel; the other eleven requested genes have no probe there yet. A one-gene score is a weak proxy,
+which cuts both ways — it cannot support "the contrast is proliferation" any more firmly than it
+supports the opposite, and a confound a weak proxy measures badly survives adjustment untouched. A
+fuller proliferation set was added to the panel definition on 2026-08-09 and the re-read is the
+obvious next step; until it lands **this row is the honest state of the question, not its answer.**
+
+⚠ **The chondroid control is structurally the weaker of the two even where it passes**, because no
+comparator in either series is cartilage-lineage. It can ask whether *PRMT5* and chondroid markers
+move together within these samples; it cannot exclude that chondroid tumours generally express
+*PRMT5*, and nothing above should be read as excluding it.
+
+Every figure in this subsection is owned by
+[`emc-prmt5-route-controls.json`](../modalities/emc-prmt5-route-controls.json).
+
+### 3.4 · Which half of the fusion carries PRMT5's substrate motif
+
+Everything above is a measurement made on tumours or on cell lines. This section is the only one
+that is not: it asks where PRMT5's own substrate motif sits in the fusion protein, and the answer is
+in the sequence.
+
+**PRMT5 has a measured preference.** Profiling arginine methylation genome-wide after selective PRMT5
+inhibition, and validating the hits by in vitro methylation, identifies a preference for *"arginine
+sandwiched between two neighboring glycines (a Gly-Arg-Gly, or 'GRG,' sequence)"* (PMID 30940768). A
+mapping experiment in a different substrate narrows it the same way: of three DDX5 fragments, only the
+one carrying the C-terminal RGG/RG motif was methylated by PRMT5, and mutating five arginines inside
+that motif abolished it (PMC6669924).
+
+⭐ **In EWSR1 the motif is absent from exactly the half every fusion keeps.** EWSR1 is 656 residues
+and carries **eleven GRG sites — the first at residue 301, and none before it**. The N-terminal
+segment the fusion retains is the SYGQ-rich transactivation region, and it contains no site at all.
+Every site lies beyond residue 300, in the two RGG-rich regions the fusion truncates. ⚠ It is *not*
+correct to call this "the C-terminal half": residue 301 of 656 is at 46% of the protein, and the
+precise statement is the narrower one — the retained segment has none.
+
+**How many survive is decided by the breakpoint, and EMC's transcript types differ:**
+
+| fusion | 5′ residues retained | GRG sites kept | of EWSR1's 11 |
+|---|---:|---:|---:|
+| **EWSR1::NR4A3 type 1** — the commonest EMC fusion | 431 | **4** | 0.364 |
+| EWSR1::NR4A3 type 5 | 472 | 5 | 0.455 |
+| EWSR1::NR4A3 type 2 | 264 | **0** | 0.000 |
+| TAF15::NR4A3 | 161 | **0** | 0.000 (of TAF15's 9) |
+| *EWSR1::ATF1 (clear cell) — the commonest type* | *324* | ***4*** | *0.364* |
+| *EWSR1::FLI1 (Ewing) — type 1* | *264* | ***0*** | *0.000* |
+
+![Figure 5](./figures/mtap-prmt5-fig5-motif-map.png)
+
+**Figure 5 — the motif, the RGG regions, and where each fusion cuts.** EWSR1 drawn once at full
+length with its eleven GRG sites and its two RGG-rich regions; below it, each fusion's retained 5′
+segment on the same ruler. ⛔ **The figure carries its own refutation rather than leaving it to the
+text**: EWSR1::FLI1 is plotted in the same style and keeps **no** site, and it is the fusion in which
+a PRMT5 requirement was actually shown to be fusion-dependent. Drawn from
+[`emc-prmt5-substrate-motif-map.json`](../modalities/emc-prmt5-substrate-motif-map.json).
+
+⭐ **The commonest EMC fusion and the commonest clear cell sarcoma fusion retain the same number of
+sites.** That is the quantitative content of a transfer this manuscript previously stated as an
+assumption: the two fusions are matched on the one sequence feature PRMT5's motif defines, at
+different breakpoints, by coincidence of where the RGG boxes fall.
+
+⛔ **AND THE SAME TABLE REFUSES THE PREDICTION IT LOOKS LIKE IT LICENSES, WHICH IS WHY IT IS WORTH
+PRINTING.** EWSR1::FLI1 retains **zero** sites — and it is precisely in EWSR1::FLI1 that a PRMT5
+inhibitor's effect was shown to be fusion-dependent (PMC12354397). Whatever PRMT5 is doing in a
+FET-fusion sarcoma, **it does not require the fusion protein to be the substrate.** So EMC type 2 and
+TAF15::NR4A3, which retain none, are *not* predicted to be unresponsive; the honest reading is that
+the fusion protein is one candidate substrate among several, and the others — wild-type FET proteins,
+Sm proteins, R-loop-resolution factors (PMC6669924) — carry their motifs regardless of the breakpoint.
+
+⚠ **What this section is.** A motif is a place an enzyme *can* act. Nothing here shows that any
+NR4A3 fusion is methylated, that PRMT5 is the enzyme that would do it, or that it would matter.
+Breakpoint frequencies are as reported in the sources; this work has no EMC cohort of its own. The
+counts, their double-entry checks against the two artifacts that already held the RG numbers, and
+every limit above are in
+[`emc-prmt5-substrate-motif-map.json`](../modalities/emc-prmt5-substrate-motif-map.json).
+
 ## 4 · The two tests that would settle it
 
 **For route 1 — a PRMT5 inhibitor in a patient-derived EMC model.** Two such models exist and are
 published; their holders have already run a multi-agent functional screen on them. Adding one
 clinical-stage PRMT5 inhibitor to a screen that already runs is among the smallest asks in this
 disease, and it tests the stronger route directly rather than through a biomarker.
+
+⭐ **And one addition to that ask, from the Ewing result rather than from us.** PRMT5 inhibition
+sensitised Ewing cells to olaparib, and the combination's cytotoxicity was only *partially* rescued
+by fusion depletion (PMC12354397). A PRMT5 inhibitor ± a PARP inhibitor is two arms rather than one on
+a screen that already runs, and the combination arm is the one with a mechanism attached.
+
+**For route 1's *mechanism* — two constructs, one experiment, and they are already designed.** §3.4
+leaves a fork that no expression or dependency data can settle: is the fusion protein itself a PRMT5
+substrate, or does PRMT5 act on something else the fusion depends on? EMC answers this more cleanly
+than any other disease in the family, because its transcript types differ in retained motif count while
+sharing a driver: **type 1 retains four GRG sites and type 2 retains none.** Comparing PRMT5 inhibition
+across the two — the constructs and their sourced junctions are in
+[`emc-fet-construct-designs.json`](../modalities/emc-fet-construct-designs.json) — separates the two
+mechanisms in a single experiment. ⚠ **The Ewing result predicts they will behave the same**, since a
+zero-site fusion already shows fusion-dependent PRMT5 sensitivity; a difference would be the surprising
+outcome, and it is the surprising outcome that would make the fusion protein itself the target.
 
 **For route 2 — MTAP immunohistochemistry on archival EMC tissue.** The stain is routine, runs on
 formalin-fixed archival material, and is an accepted surrogate for homozygous 9p21 deletion:
@@ -281,6 +441,8 @@ answer.
 |---|---|
 | PRMT5 inhibition inactive in EMC models | route 1 is dead and the negative is worth publishing, because the fusion-class transfer is the interesting claim |
 | PRMT5 inhibition active | the first fusion-class-transferred vulnerability shown in this disease |
+| type 1 and type 2 constructs respond alike | PRMT5 acts on something other than the fusion protein — consistent with Ewing, and it makes the motif count irrelevant to who is treated |
+| type 1 responds and type 2 does not | the fusion protein is the substrate, and EMC has a **transcript-type-defined** treatment group — the surprising outcome, and the most consequential one on this table |
 | MTAP protein retained across EMC cases | route 2 is dead; the locus reading was a *CDKN2A* shadow, exactly as §3 warns |
 | MTAP protein lost in a subset | the first genetically selected treatment group ever defined in this disease |
 
@@ -298,8 +460,10 @@ disease can afford to test.
 | F4 | the MTAP locus reads low in EMC | a third series in which the locus group is null or higher |
 | F5 | ⛔ **FIRED — this falsifier is now met at transcript level.** The low locus read IS *CDKN2A* alone: *MTAP* is flat where the read is powered, and *CDKN2A* reverses on the second platform. Route 2 is closed unless a stain overturns it | it has already fired; only MTAP protein retained/lost can now move it |
 | F6 | MTAP protein is lost in some EMC | MTAP IHC retained across an EMC series — **the decisive test for route 2, and now the ONLY thing that could reopen it** |
-| F7 | the readings are not proliferation or cellularity effects | a series matched on proliferation in which both contrasts disappear |
+| F7 | the readings are not proliferation or cellularity effects | ⚠ **PARTIALLY FIRED, ON ONE PLATFORM.** §3.3: adjusting for the one available proliferation marker leaves *PRMT5* largely intact on GPL6244 (6.24 → 5.51) and removes about half the contrast on GPL3290 (6.67 → 3.15). It is not settled in either direction, and the instrument is a single gene — the fuller re-read is the outstanding step |
 | F8 | route 1's specificity rests on fusion-driven transcription, not on growth | a demonstration that PRMT5 inhibition slows EMC growth no more than it slows any sarcoma line's — the near-universal dependency in §3.1 makes this the likeliest way route 1 fails |
+| F9 | the fusion-class transfer holds because the fusions are matched on PRMT5's motif (§3.4) | a corrected breakpoint that moves EMC type 1 or clear cell's commonest type off 4 retained sites — asserted in `tests/test_emc_prmt5_substrate_motif_map.py`, so a revision fails the build rather than passing unnoticed. ⚠ It would weaken the *argument*, not the class: the Ewing result stands with zero sites |
+| F10 | the fusion protein is itself the relevant PRMT5 substrate | already **contradicted at one point**: EWSR1::FLI1 retains no site and PRMT5 inhibition is still fusion-dependent there (PMC12354397). It is listed as a falsifier rather than deleted because the two-construct experiment in §4 would settle it in EMC directly, and because a claim this paper does **not** make is worth naming explicitly |
 
 ## 6 · Declarations
 
@@ -329,11 +493,26 @@ by that process while drawing figures, after the prose had already been written 
   not a replication set, and the locus result rests on six tumours on one of them.
 - **A transcript is not a copy number**, which is the whole reason §4 rather than §3 is the point of
   this document.
-- **Route 1's source is a preprint whose own pages state it is not certified by peer review.** Its
-  status since 2022 was not established here, and that caveat travels with every use of it.
-- **The fusion-class transfer is an assumption.** EWSR1-ATF1 and EWSR1::NR4A3 share a 5′ partner and an
-  architecture; they do not share a DNA-binding domain, a target repertoire or a disease biology, and
-  no result presented here bridges them.
+- **Route 1's original source is a preprint whose own pages state it is not certified by peer review.**
+  Its status since 2022 was not established here, and that caveat travels with every use of it. ⭐ It
+  is no longer the only support: the Ewing result (PMC12354397) is peer-reviewed, and it is the one
+  that shows a PRMT5 requirement is *fusion-dependent*.
+- ⚠ **The fusion-class transfer is now argued rather than assumed — and an argument is not a
+  result.** *Superseded, retained: "The fusion-class transfer is an assumption."* Two things changed
+  it, and neither is an EMC measurement. **(a)** A second EWSR1-fusion sarcoma shows a fusion-dependent
+  PRMT5 requirement, so the pattern is not one preprint in one disease. **(b)** §3.4 shows the
+  commonest EMC fusion and the commonest clear cell fusion retain the same number of PRMT5-motif
+  sites, so the two are matched on that feature rather than merely sharing a gene name. **What has
+  not changed:** EWSR1::ATF1 and EWSR1::NR4A3 still do not share a DNA-binding domain, a target
+  repertoire or a disease biology, and **no result presented here is an observation in EMC.**
+- ⛔ **The motif analysis is a sequence argument and the fusions it compares are constructs, not
+  patients.** It cannot show any fusion is methylated. It also cannot be read as a response
+  predictor: the one disease where the mechanism was measured retains no sites at all.
+- ⚠ **Elevated PRMT5 is not specific to this disease, on the comparison that has been published.**
+  PRMT5, PRMT1 and MEP50 read higher across multiple sarcoma types than in breast and lung cancer
+  (PMC12354397). This manuscript's comparator arm is *other sarcomas*, which is the harder contrast —
+  but "higher than other sarcomas" in 16 tumours and "a sarcoma-wide feature" are not exclusive, and
+  nothing here separates them.
 - **No EMC cell line carrying the fusion appears in any public dependency dataset**, so no dependency
   evidence for this axis in this disease exists or can be generated computationally.
 - **Abundance is not dependency**, and where the dependency prior exists it qualifies rather than

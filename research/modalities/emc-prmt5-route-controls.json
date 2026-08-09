@@ -1,0 +1,234 @@
+{
+  "_title": "The controls the EMC PRMT5 manuscript stated and had not run.",
+  "_generated_by": "research/modalities/emc_prmt5_route_controls.py",
+  "_source": "research/modalities/emc-expression-panels.json — every z is lifted from it; nothing new is measured here, only cut differently and tested differently.",
+  "_no_clinical_claim": "⛔ Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent in any disease.",
+  "⚠_these_are_controls_not_further_hypothesis_tests": "They were specified before they were run, each against a named weakness in the manuscript. Reading a control's result as a new finding would be a multiplicity problem wearing a control's clothes.",
+  "⛔_the_chondroid_control_is_the_weak_one_and_stays_labelled_so": "No comparator in either series is cartilage-lineage, so it can only ask whether PRMT5 and chondroid markers move together within these samples. 'Chondroid tumours express PRMT5' is NOT excluded by anything in this file.",
+  "per_platform": {
+    "GSE24369_series_matrix.txt.gz": {
+      "exact_permutation_PRMT5": {
+        "_status": "EXACT — every labeling enumerated, no approximation and no random sampling",
+        "n_EMC": 6,
+        "n_comparator": 29,
+        "n_labelings_enumerated": 1623160,
+        "observed_t": 6.2356,
+        "n_labelings_at_least_as_extreme_two_sided": 230,
+        "exact_p_two_sided": 0.000142,
+        "⚠_what_this_p_is_not": "It is exact for the LABELLING only. It corrects nothing for the number of genes examined, and the manuscript's 'uncorrected for multiple testing' limit stands unchanged. The genome-wide placement below is the field that speaks to that, and it is a different quantity."
+      },
+      "prmt_family_specificity": {
+        "_status": "⛔ NOT MEASURED — fewer than 3 family members readable in the committed panel. The PRMT family was added to PANELS on 2026-08-09; run `emc-expression-datasets.yml mode=panels`. ABSENT READING, NOT a finding that the elevation is PRMT5-specific.",
+        "per_gene": {
+          "PRMT1": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT2": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT3": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "CARM1": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT5": {
+            "readable": true,
+            "t": 6.236,
+            "n_EMC": 6,
+            "n_comparator": 29
+          },
+          "PRMT6": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT7": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT8": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT9": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          }
+        }
+      },
+      "proliferation_control": {
+        "_status": "run",
+        "axis": "proliferation",
+        "genes_used": [
+          "MKI67"
+        ],
+        "genes_not_readable": [
+          "PCNA",
+          "TOP2A",
+          "CCNB1",
+          "RRM2",
+          "BUB1",
+          "AURKA",
+          "MCM2",
+          "TYMS",
+          "E2F1",
+          "CCNA2",
+          "CDK1"
+        ],
+        "⚠_coverage": "1 of 12 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
+        "n_samples_scored": 35,
+        "score_is_higher_in_EMC_by_t": 0.528,
+        "correlation_of_PRMT5_with_the_score_across_all_samples": 0.133,
+        "PRMT5_t_raw": 6.236,
+        "regression_slope_PRMT5_on_score": 0.032,
+        "PRMT5_t_after_removing_the_score": 5.511,
+        "reading": "✅ THE CONTRAST SURVIVES the adjustment — it retains its sign and most of its magnitude, so this axis does not account for it.",
+        "⛔_what_this_cannot_settle": "A transcript score is a proxy. Adjusting for it removes the part of the contrast that is LINEARLY predicted by that proxy and nothing more; a confound the proxy measures badly survives adjustment untouched. And with n this small the adjustment itself is unstable."
+      },
+      "chondroid_lineage_control": {
+        "_status": "run",
+        "axis": "chondroid lineage",
+        "genes_used": [
+          "ACAN",
+          "COL11A1",
+          "SOX9"
+        ],
+        "genes_not_readable": [
+          "COL2A1",
+          "COL9A1",
+          "COL11A2",
+          "SOX5",
+          "SOX6"
+        ],
+        "⚠_coverage": "3 of 8 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
+        "n_samples_scored": 35,
+        "score_is_higher_in_EMC_by_t": 0.849,
+        "correlation_of_PRMT5_with_the_score_across_all_samples": 0.115,
+        "PRMT5_t_raw": 6.236,
+        "regression_slope_PRMT5_on_score": 0.043,
+        "PRMT5_t_after_removing_the_score": 6.214,
+        "reading": "✅ THE CONTRAST SURVIVES the adjustment — it retains its sign and most of its magnitude, so this axis does not account for it.",
+        "⛔_what_this_cannot_settle": "A transcript score is a proxy. Adjusting for it removes the part of the contrast that is LINEARLY predicted by that proxy and nothing more; a confound the proxy measures badly survives adjustment untouched. And with n this small the adjustment itself is unstable."
+      },
+      "genome_wide_placement": {
+        "_status": "⛔ NOT AVAILABLE — the committed panel predates the genome-wide null (added 2026-08-09). Run `emc-expression-datasets.yml mode=panels`. The manuscript's 'uncorrected for multiple testing' limit therefore stands with nothing measured against it."
+      }
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "exact_permutation_PRMT5": {
+        "_status": "EXACT — every labeling enumerated, no approximation and no random sampling",
+        "n_EMC": 10,
+        "n_comparator": 6,
+        "n_labelings_enumerated": 8008,
+        "observed_t": 6.6735,
+        "n_labelings_at_least_as_extreme_two_sided": 1,
+        "exact_p_two_sided": 0.000125,
+        "⚠_what_this_p_is_not": "It is exact for the LABELLING only. It corrects nothing for the number of genes examined, and the manuscript's 'uncorrected for multiple testing' limit stands unchanged. The genome-wide placement below is the field that speaks to that, and it is a different quantity."
+      },
+      "prmt_family_specificity": {
+        "_status": "⛔ NOT MEASURED — fewer than 3 family members readable in the committed panel. The PRMT family was added to PANELS on 2026-08-09; run `emc-expression-datasets.yml mode=panels`. ABSENT READING, NOT a finding that the elevation is PRMT5-specific.",
+        "per_gene": {
+          "PRMT1": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT2": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT3": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "CARM1": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT5": {
+            "readable": true,
+            "t": 6.674,
+            "n_EMC": 10,
+            "n_comparator": 6
+          },
+          "PRMT6": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT7": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT8": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          },
+          "PRMT9": {
+            "readable": false,
+            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+          }
+        }
+      },
+      "proliferation_control": {
+        "_status": "run",
+        "axis": "proliferation",
+        "genes_used": [
+          "MKI67"
+        ],
+        "genes_not_readable": [
+          "PCNA",
+          "TOP2A",
+          "CCNB1",
+          "RRM2",
+          "BUB1",
+          "AURKA",
+          "MCM2",
+          "TYMS",
+          "E2F1",
+          "CCNA2",
+          "CDK1"
+        ],
+        "⚠_coverage": "1 of 12 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
+        "n_samples_scored": 15,
+        "score_is_higher_in_EMC_by_t": 2.301,
+        "correlation_of_PRMT5_with_the_score_across_all_samples": 0.406,
+        "PRMT5_t_raw": 6.674,
+        "regression_slope_PRMT5_on_score": 0.193,
+        "PRMT5_t_after_removing_the_score": 3.153,
+        "reading": "⛔ THE CONTRAST DOES NOT SURVIVE the adjustment. On this platform the reading is consistent with being a shadow of this axis, and the manuscript must say so.",
+        "⛔_what_this_cannot_settle": "A transcript score is a proxy. Adjusting for it removes the part of the contrast that is LINEARLY predicted by that proxy and nothing more; a confound the proxy measures badly survives adjustment untouched. And with n this small the adjustment itself is unstable."
+      },
+      "chondroid_lineage_control": {
+        "_status": "run",
+        "axis": "chondroid lineage",
+        "genes_used": [
+          "ACAN",
+          "COL11A1",
+          "SOX9"
+        ],
+        "genes_not_readable": [
+          "COL2A1",
+          "COL9A1",
+          "COL11A2",
+          "SOX5",
+          "SOX6"
+        ],
+        "⚠_coverage": "3 of 8 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
+        "n_samples_scored": 9,
+        "score_is_higher_in_EMC_by_t": 0.47,
+        "correlation_of_PRMT5_with_the_score_across_all_samples": 0.031,
+        "PRMT5_t_raw": 6.674,
+        "regression_slope_PRMT5_on_score": 0.015,
+        "PRMT5_t_after_removing_the_score": 5.654,
+        "reading": "✅ THE CONTRAST SURVIVES the adjustment — it retains its sign and most of its magnitude, so this axis does not account for it.",
+        "⛔_what_this_cannot_settle": "A transcript score is a proxy. Adjusting for it removes the part of the contrast that is LINEARLY predicted by that proxy and nothing more; a confound the proxy measures badly survives adjustment untouched. And with n this small the adjustment itself is unstable."
+      },
+      "genome_wide_placement": {
+        "_status": "⛔ NOT AVAILABLE — the committed panel predates the genome-wide null (added 2026-08-09). Run `emc-expression-datasets.yml mode=panels`. The manuscript's 'uncorrected for multiple testing' limit therefore stands with nothing measured against it."
+      }
+    }
+  }
+}

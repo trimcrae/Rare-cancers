@@ -48,7 +48,8 @@ STAMP = os.path.join(FIGDIR, "mtap-prmt5-figure-provenance.json")
 PANEL = os.path.join(HERE, "emc-expression-panels.json")
 DEPMAP = os.path.join(HERE, "depmap-sarcoma-dependency.json")
 GRADING = os.path.join(HERE, "census-route-expression-grading.json")
-SOURCES = (PANEL, DEPMAP, GRADING)
+MOTIF = os.path.join(HERE, "emc-prmt5-substrate-motif-map.json")
+SOURCES = (PANEL, DEPMAP, GRADING, MOTIF)
 
 P6244 = "GSE24369_series_matrix.txt.gz"
 P3290 = "GSE4303-GPL3290_series_matrix.txt.gz"
@@ -254,6 +255,86 @@ def fig_classes(plt, panel):
     return fig
 
 
+def fig_motif_map(plt, motif):
+    """⭐ FIGURE 5 — where PRMT5's motif sits in EWSR1, and where each fusion cuts.
+
+    The only panel in this set that is not an expression reading. It is drawn because the sentence
+    it replaces — "the fusion keeps the half without the motif, except for the part that depends on
+    the breakpoint" — is unreadable as prose and obvious as a ruler.
+
+    ⛔ THE FIGURE MUST CARRY ITS OWN REFUTATION. EWSR1::FLI1 cuts at 264 and keeps no site, and
+    that is the fusion in which a PRMT5 requirement was actually shown to be fusion-dependent. It is
+    plotted alongside the others, in the same style, with that fact in the caption strip — a version
+    of this figure showing only the EMC and clear cell breakpoints would read as a response
+    predictor, which is exactly what it is not.
+    """
+    if not motif:
+        return None
+    wt = motif["wild_type_proteins"]["EWSR1"]
+    sites = wt["positions"]["GRG"]
+    length = wt["length_aa"]
+    boxes = (motif["⭐_the_headline"].get("rgg_boxes_from_the_census") or [])
+
+    rows = []
+    for f in motif["fusion_constructs"]:
+        if f["five_prime_partner"] != "EWSR1":
+            continue
+        rows.append((f["label"].split("—")[0].strip().replace("EWSR1::NR4A3", "EWSR1::NR4A3"),
+                     f["last_five_prime_residue_retained"],
+                     f["five_prime_motif_sites_retained"]["GRG"], True))
+    for c in motif["measured_comparator_fusions_on_the_same_ruler"]:
+        name = (c["comparator"] or "").split("—")[0].strip()
+        if "reported type" in name:
+            continue
+        rows.append((name, c["five_prime_residues_retained"],
+                     c["five_prime_motif_sites_retained"]["GRG"], False))
+
+    fig, ax = plt.subplots(figsize=(7.6, 0.52 * len(rows) + 2.5))
+    # the protein, drawn once at the top
+    y0 = len(rows) + 0.6
+    ax.plot([1, length], [y0, y0], "-", color="#c9d2da", lw=7, solid_capstyle="butt", zorder=1)
+    for b in boxes:
+        ax.plot([b["start"], b["end"]], [y0, y0], "-", color="#8fa5b8", lw=7,
+                solid_capstyle="butt", zorder=2)
+    for p in sites:
+        ax.plot(p, y0, "|", color=C_EMC, ms=13, mew=1.5, zorder=4)
+    ax.text(1, y0 + 0.52, f"EWSR1, {length} aa — {len(sites)} GRG sites (red), first at "
+                          f"{sites[0]}; RGG-rich regions shaded",
+            fontsize=7.0, color=C_INK, va="bottom")
+    ax.text(150, y0 - 0.55, "no GRG site in residues 1-300\n(the segment every fusion retains)",
+            fontsize=6.6, color=C_MUTE, ha="center", va="top", style="italic")
+
+    for i, (name, cut, kept, is_emc) in enumerate(rows):
+        y = len(rows) - 1 - i
+        col = C_EMC if is_emc else C_MUTE
+        ax.plot([1, cut], [y, y], "-", color=col, lw=4.5, alpha=0.85,
+                solid_capstyle="butt", zorder=2)
+        ax.plot([cut, length], [y, y], "-", color="#e4e9ee", lw=4.5, solid_capstyle="butt",
+                zorder=1)
+        for p in sites:
+            if p <= cut:
+                ax.plot(p, y, "|", color="#7a1f34", ms=10, mew=1.4, zorder=4)
+        ax.text(length + 12, y, f"{kept} kept", fontsize=7.0, va="center", color=C_INK)
+        ax.text(-14, y, name, fontsize=7.0, ha="right", va="center",
+                color=C_INK if is_emc else C_MUTE)
+    ax.text(-14, y0, "wild type", fontsize=7.0, ha="right", va="center", color=C_INK)
+
+    ax.set_xlim(-8, length + 78)
+    ax.set_ylim(-2.4, y0 + 1.5)
+    ax.set_yticks([])
+    ax.set_xticks([1, 100, 200, 300, 400, 500, 600, length])
+    ax.tick_params(labelsize=6.9)
+    ax.set_xlabel("EWSR1 residue", fontsize=7.4)
+    for s in ("top", "right", "left"):
+        ax.spines[s].set_visible(False)
+    ax.text(-14, -1.75,
+            "NOTE: EWSR1::FLI1 keeps 0 sites and PRMT5 inhibition is still fusion-dependent there.\n"
+            "The motif is NOT required, and this figure is not a response predictor.",
+            fontsize=6.5, color="#7a1f34", ha="left", va="top")
+    fig.tight_layout()
+    return fig
+
+
 def build():
     import matplotlib
     matplotlib.use("Agg")
@@ -263,11 +344,13 @@ def build():
                          "axes.edgecolor": "#9aa7b4", "text.color": C_INK,
                          "axes.labelcolor": C_INK, "xtick.color": C_MUTE, "ytick.color": C_MUTE})
     panel, dep = _load(PANEL), _load(DEPMAP)
+    motif = _load(MOTIF) if os.path.exists(MOTIF) else None
     figs = {
         "mtap-prmt5-fig1-readings": fig_readings(plt, panel),
         "mtap-prmt5-fig2-locus-genewise": fig_locus_genewise(plt, panel),
         "mtap-prmt5-fig3-dependency-qualifier": fig_dependency(plt, dep),
         "mtap-prmt5-fig4-comparator-classes": fig_classes(plt, panel),
+        "mtap-prmt5-fig5-motif-map": fig_motif_map(plt, motif),
     }
     os.makedirs(FIGDIR, exist_ok=True)
     written = []
