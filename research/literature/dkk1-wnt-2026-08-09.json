@@ -1,0 +1,58 @@
+{
+  "_what": "What the literature says about DKK1, read after the EMC reading rather than before it, so the interpretation is not chosen to fit. Every record retrieved this session.",
+  "_not_medical_advice": "⛔ Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent in extraskeletal myxoid chondrosarcoma.",
+  "_anchor_form": "Each record carries `pubmed_url`, the form lint_citations reads.",
+  "retrieval": {
+    "slug": "dkk1-wnt-2026-08-09",
+    "actions_run_id": 31321498943,
+    "date_et": "2026-08-09",
+    "api": "Europe PMC REST search, resultType=core, sort=CITED desc, discriminating term in TITLE:()"
+  },
+  "⭐ what_supports_taking_this_further": [
+    "The simple Wnt-feedback explanation FAILS ON OUR OWN DATA. DKK1 is a beta-catenin/TCF target (PMID 15592505), so high DKK1 ought to mean active Wnt — yet the beta-catenin-mutant desmoid comparator (PMID 18832571) reads LOW and EMC reads high, separating completely. The observation is therefore NOT accounted for by the standard relationship.",
+    "DKK1 is secreted and antibody-accessible with published in vivo anti-tumour effect in another disease (PMID 17068150), and a secreted target is an unusually tractable address in a tumour whose matrix is the standing delivery problem."
+  ],
+  "⛔ what_argues_against_it_and_is_the_stronger_half": [
+    "DKK1 IS A MAJOR SKELETAL REGULATOR (PMID 16730481, PMID 16753024). This disease is chondroid. A chondroid tumour reading high for a bone/cartilage gene against five fibroblastic and GIST comparators may be reading LINEAGE, and the literature makes that MORE plausible than it looked before this retrieval, not less.",
+    "⚠ THE RETRIEVAL MOVED THE ODDS AGAINST THE INTERESTING READING. That is recorded plainly because the alternative — quoting only the druggability paper — would have been a selection of the literature to fit a result already in hand."
+  ],
+  "_the_one_observation_that_would_decide": "DKK1 in EMC against a CARTILAGE-LINEAGE comparator — conventional chondrosarcoma, or normal cartilage. No series on disk contains one. Until that read exists the row stays `excluded` and the signal stays a lead.",
+  "citations": {
+    "15592505": {
+      "pmid": "15592505",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/15592505/",
+      "title": "The Wnt antagonist DICKKOPF-1 gene is a downstream target of beta-catenin/TCF and is downregulated in human colon cancer",
+      "why": "⚠ THE STANDARD RELATIONSHIP, AND OUR DATA DOES NOT FIT IT. DKK1 is a downstream target of beta-catenin/TCF — Wnt-induced negative feedback. On that model a tumour with high DKK1 would be a tumour with active Wnt. ⛔ But the beta-catenin-MUTANT comparator in our own data reads LOW DKK1 while EMC reads high, so the simple feedback account does not explain the observation."
+    },
+    "18832571": {
+      "pmid": "18832571",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/18832571/",
+      "title": "Specific mutations in the beta-catenin gene (CTNNB1) correlate with local recurrence in sporadic desmoid tumors",
+      "why": "Establishes that the desmoid comparator class is beta-catenin-mutant, which is what makes it a Wnt-activation control rather than just another fibroblastic tumour."
+    },
+    "17068150": {
+      "pmid": "17068150",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/17068150/",
+      "title": "Antibody-based inhibition of DKK1 suppresses tumor-induced bone resorption and multiple myeloma growth in vivo",
+      "why": "⭐ THE DRUGGABILITY HALF. DKK1 is secreted and antibody-accessible, with published in vivo anti-tumour effect in another disease. ⛔ In another disease — nothing here transfers it."
+    },
+    "16730481": {
+      "pmid": "16730481",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/16730481/",
+      "title": "Dkk1-mediated inhibition of Wnt signaling in bone results in osteopenia",
+      "why": "⛔ AGAINST US, AND IT IS THE MOST IMPORTANT CITATION HERE. DKK1 is a major regulator of SKELETAL biology. A chondroid tumour expressing it may be expressing lineage, and this makes the unexcluded confound MORE plausible rather than less."
+    },
+    "16753024": {
+      "pmid": "16753024",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/16753024/",
+      "title": "Deletion of a single allele of the Dkk1 gene leads to an increase in bone formation and bone mass",
+      "why": "⛔ Corroborates the skeletal role at the genetic level — the confound is not a technicality."
+    },
+    "14695408": {
+      "pmid": "14695408",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/14695408/",
+      "title": "The role of the Wnt-signaling antagonist DKK1 in the development of osteolytic lesions in multiple myeloma",
+      "why": "A worked precedent for tumour-secreted DKK1 driving disease, i.e. the shape of hypothesis this reading would motivate — in a disease with no relation to this one."
+    }
+  }
+}
