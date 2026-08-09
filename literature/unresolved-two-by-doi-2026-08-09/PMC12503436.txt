@@ -1,0 +1,236 @@
+pmcJMIR Med InformJMIR Med Inform2655medinform101645109medinformJMIR Medical Informatics2291-9694JMIR Publications Inc.PMC12503436PMC12503436.112503436125034364105656110.2196/77837778371Natural Language ProcessingArtificial IntelligenceClinical Information and Decision MakingOntologies, Classifications, and CodingGenerative Language Models Including ChatGPTAI Language Models in Health CareArtificial Intelligence, Machine Learning, and Natural Language Processing for Public HealthOriginal PaperLarge Language Model–Enhanced Drug Repositioning Knowledge Extraction via Long Chain-of-Thought: Development and Evaluation Study
+https://orcid.org/0000-0001-9647-0645KangHongyuPhD https://orcid.org/0000-0001-6391-8343LiJiaoPhD https://orcid.org/0000-0001-9226-2216HouLiPhD https://orcid.org/0000-0003-2863-1376XuXiaoweiMS https://orcid.org/0000-0002-9834-9774ZhengSiMS https://orcid.org/0000-0001-8968-6229LiQinPhD ]. This approach significantly facilitates the drug development process, shortens the required time, and reduces the cost [ ]. However, biomedical information relevant to drug repositioning is often complex and dispersed across various sources [ ], such as literature, clinical trials, and databases. These valuable resources remain underutilized because of the challenges associated with knowledge extraction [ ]. Extracting knowledge from biomedical literature, such as entities, relationships, and structured triplets, can facilitate drug repositioning research by uncovering hidden connections between drugs and diseases [ ]. Recent studies have demonstrated the effectiveness of knowledge extraction in supporting knowledge discovery in drug repositioning. For example, Bang et al [ ] developed a semantic multilayer guilt-by-association approach to extract drug-disease associations from large-scale biomedical corpora, while Huang et al [ ] leveraged TxGNN, a graph foundation model for zero-shot drug repurposing, to identify therapeutic candidates even for diseases with limited treatment options or no existing drugs. These advancements underscore the importance of automated knowledge extraction in identifying potential drug candidates for the treatment of complex, multifactorial diseases.
+Traditional knowledge extraction methods have evolved from manual annotation and rule-based techniques to machine learning and deep learning approaches. Early methodologies relied heavily on expert-curated databases and handcrafted rules, which lacked scalability while being precise [ ]. Machine learning models, such as conditional random fields (CRF), introduced statistical learning to automate entity recognition and relationship extraction [ ]. More recently, deep learning models, including BERT and transformer-based architecture, have achieved remarkable performance in biomedical natural language processing tasks. For example, domain-specific language models, such as BioBERT [ ], PubMedBERT (trained on biomedical literature) [ ], ClinicalBERT (trained on the MIMIC-III dataset) [ ], and PharmBERT (trained on prescription drug labeling) [ ], have been further developed. Despite their success, these methods still have several limitations. They often require extensive labeled datasets for training, which are costly and labor-intensive to obtain. Furthermore, deep learning models demonstrate limited generalizability across diverse biomedical domains [ ] and often overlook implicit knowledge that extends beyond surface-level textual patterns [ ]. As a result, refining extraction methodologies to achieve greater adaptability and performance continues to be an important focus in drug repositioning studies.
+Large language models (LLMs) have emerged as a promising solution for biomedical knowledge extraction, demonstrating superior performance across various natural language processing tasks. Models such as ChatGPT (OpenAI) [ ], LlaMA (Meta) [ ], GLM (Tsinghua) [ ], Qwen (AlibabaCloud) [ ], and Deepseek [ ] have been extensively used in biomedical text mining because of their advanced semantic comprehension and text generation capacities. By leveraging key methodologies, including pretraining [ ], prompt engineering [ ], and domain-specific fine-tuning [ ], these models demonstrate improved accuracy and adaptability for specialized tasks [ ], such as named entity recognition [ ] and association prediction [ ]. Xie et al [ ] developed Me-LLaMA through continual pretraining and instruction tuning of LLaMA2 models and outperformed existing open medical LLMs on 6 text analysis tasks. Hao et al [ ] developed and evaluated MedScaleNER, a task-oriented prompt framework, advancing the application of LLMs and prompt engineering for specialized named entity recognition tasks in Chinese medical literature. Recent advances such as BioGPT [ ] and OpenBioLLM-70B [ ] have demonstrated the potential of large-scale generative pretrained transformers in enhancing biomedical text generation and domain-specific knowledge mining. Focusing on a more specific biomedical task, Yuan et al [ ] introduced BioFocal-DDI, a framework combining BioGPT for data augmentation, BioBERT, and BiLSTM for contextual and sequential feature extraction to optimize drug-drug interaction extraction.
+Compared to traditional methods, LLMs demonstrate superior knowledge extraction capabilities, including better generalization, reduced reliance on annotated data, and stronger contextual comprehension. Nevertheless, persistent challenges [ ], including model hallucination, output accuracy, interpretability, and high computational demands, must be addressed. For drug repositioning applications, these issues can be mitigated through gold-standard corpus validation, careful prompt engineering, and chain-of-thought (CoT) [ ] methodologies. Chen et al [ ] leveraged retrieval‐augmented generation combined with instruction prompting to build LLMs specialized for osteoarthritis diagnosis and treatment Q&A, providing reliable clinical decision support to health care professionals.
+While LLMs demonstrate promise in biomedical knowledge extraction, challenges persist in domain-specific adaptability, particularly in drug repositioning, where sparse annotated data, semantic ambiguity, and cross-sentence dependencies hinder accurate knowledge inference [ ]. To address these limitations, we proposed long chain-of-thought (LCoT) for drug repositioning knowledge extraction (LCoDR-KE), a lightweight framework that combined LCoT prompting, supervised fine-tuning (SFT), and reinforcement learning (RL). To enhance the performance of knowledge extraction, our approach also introduced a dual-level reward mechanism to guide knowledge extraction and a high-quality drug repositioning corpus (DrugReC), meticulously curated from biomedical publications in PubMed. Through comparative and ablation studies, we validated the framework’s superiority over traditional models and its competitive performance against state-of-the-art LLMs, offering a scalable, interpretable solution for accelerating drug discovery and biomedical knowledge inference.
+
+## Methods
+
+## Overview
+The workflow of the proposed LCoDR-KE is illustrated in and consisted of 4 main stages: drug repositioning schema design, data preparation and gold standard annotation, implementation of LCoT framework, and in-depth evaluation.
+Drug repositioning schema design: This stage established a structured schema for drug repositioning, defining 11 entity types (eg, drug, gene, disease, target) and 18 relationship types. The schema provided a standardized ontology that enabled accurate knowledge extraction while maintaining conceptual consistency across the domain.
+Data preparation and annotation: We first annotated a scale of 10,000 PubMed abstracts via CoT prompt engineering, incorporating role definitions and k-shot demonstrations. Among these, 1000 abstracts were subjected to meticulous manual annotations, resulting in a high-quality corpus specifically curated for the task of drug repurposing, DrugReC. The remaining 9000 abstracts were used as part of the training data in this study.
+Implementation of the LCoT framework: We first conducted SFT to establish a strong output with explicit reasoning chains for LLM. Following this, we applied Group Relative Policy Optimization (GRPO), an RL strategy guided by reward modeling. Tailored reward functions were specifically designed for drug repositioning entity and triple recognition, enabling more accurate and structured output aligned with domain-specific requirements.
+Evaluation and performance analysis: We evaluated the model’s effectiveness through performance comparisons, ablation studies, k-shot performance, reward parameter optimization, CoT reasoning patterns, steps of training iterations, and error analysis.
+ 
+
+## Drug Repositioning Schema Design
+We developed a multidimensional knowledge model by conducting in-depth analyses of drug mechanisms [ ] while precisely defining core entity dimensions and their relationships. We conducted comprehensive analyses of drug labels, literature, and multiple biomedical databases (including DrugBank, CTD, PharmGKB, and DisGeNET) to establish foundational knowledge. In addition, this multidimensional knowledge framework was subsequently refined and validated through expert consultation, incorporating specialized domain knowledge from pharmacology, bioinformatics, clinical medicine, and computational biology.
+
+## Data Preparation
+A total of 10,000 PubMed abstracts were extracted using a 4-step filtering strategy to ensure quality and domain relevance:
+Initial search: Articles published between January 1, 2015, and January 1, 2025, were retrieved via PubMed using Medical Subject Headings (MeSH) terms and keywords related to drug repositioning, drug mechanisms, and pharmacology.
+Journal filtering: We retained articles published in top-tier pharmacological journals ranked in Q1 of the Journal Citation Reports ( ).
+Relevance filtering: Abstracts were kept if the title or abstract mentioned at least one drug or disease entity from a standard drug repositioning dataset [ ].
+Length filtering: Abstracts under 50 characters were excluded to ensure basic content adequacy.
+This rigorous selection process (detailed in a PRISMA [Preferred Reporting Items for Systematic Reviews and Meta-Analyses] flow diagram in ) ensured the inclusion of the latest high-quality research articles relevant to pharmacological mechanism and repurposing strategies.
+
+## Data Annotation With CoT-Prompt Engineering
+Owing to the lack of annotated datasets for drug repositioning knowledge extraction, we constructed an annotated corpus from 1000 PubMed abstracts mentioned earlier. The prompt was evaluated on DeepSeek-R1 [ ] via CoT [ ], which required LLMs to generate coherent intermediate reasoning steps leading to a final answer [ ].
+We summarized the execution steps and proposed a task-specific prompt as follows and outlined them in .
+Step 1: Role assignment and task description. Initialized the LLM as a biomedical annotation specialist, explicitly defining the drug repositioning schema and incorporating k-shot demonstrations to establish contextual understanding of target entities and semantic relationships.
+Step 2: Identification of entity and relationship types. Identified candidate entity types and contextual relationship types in text according to predefined schema.
+Step 3: Entity and relationship annotation. Based on the categories identified in step 2, this step extracted specific entities (eg, “Metformin” as drug, “Diabetes” as disease) and their contextual relationships (eg, treats) from text.
+ Entity annotation principles. (1) Nonoverlapping: A single string cannot be assigned to multiple entity types. (2) Nonnesting: An entity should not contain another entity within its span. (3) Minimal punctuation and conjunction: Entities should exclude unnecessary punctuation or connecting words.
+ Relationship annotation principles. (1) Intrasentence priority: Triplets within a single sentence are preferred; cross-sentence triplets are permitted only if no valid intrasentence relation exists. (2) Unidirectional relations: Only 1 directional relation is retained between any 2 related entities.
+Step 4: Triplets construction. Extracted drug repositioning entities and their contextual associations into semantically coherent triplets.
+Step 5: Output format standardization. Specified the output format and standards, setting clear expectations for the output as {Entity1; Type1; Relationship; Entity2; Type2} in JSON format.
+To ensure the quality of the DrugReC, we manually reviewed the standard results from 1000 abstracts as well. A total of 3 annotators in pharmacology, clinical medicine, and bioinformatics were recruited, with 2 conducting cross-review and the third senior expert adjudicating conflicting or ambiguous cases. The corpus was subsequently partitioned into a training set (n=800) for RL algorithm development and a test set (n=200) to evaluate model generalizability. The remaining 9000 abstracts were used as training data for SFT.
+
+## Long Chain-of-Thought
+
+## LLM Deployment
+The Qwen2.5-7B-Instruct model [ ], developed by Alibaba Cloud, represented a significant advancement in the Qwen series of LLMs, specifically optimized for semantic comprehension and complex task processing. This 7-billion-parameter transformer-based architecture demonstrated exceptional performance in specialized applications, including knowledge extraction [ ] and conversational interaction [ ] scenarios. Meanwhile, an extended context window of 128,000 tokens facilitated precise capture of fine-grained semantic features within textual data.
+For the Qwen2.5-7B-Instruct setup, we used temperature sampling with the parameter of 0.02. A lower temperature parameter can limit the model to make excessive creative jumps, thus ensuring accurate and consistent outputs. Meanwhile, we set the max_token parameter to 16,384 while leaving all other hyperparameters at their default values. The used hyperparameters during model training included a training batch size of 8, a learning rate of 1e−6, a cutoff length of 16,384, and a gradient accumulation step of 1. The model was trained on the Wuwen Xinqiong platform. Training the 7B model with 8× NVIDIA A100 40GB GPUs took approximately 40 hours, with a total cost of approximately 1000 RMB (US $140.47).
+
+## Cold-Start SFT
+To address the output incoherence and unstable reasoning patterns caused by directly initializing RL [ ] in foundation LLMs, we implemented cold-start SFT [ ] with CoT data from 9000 PubMed literature as mentioned earlier. These domain-specific annotated triplets were used to optimize model parameters under a supervised learning framework, enabling the model to progressively acquire human-aligned reasoning patterns. This phase implemented multistep reasoning paths and strict output formats, significantly enhancing the model’s complex problem decomposition capacity and intermediate step interpretability. In brief, the approach of cold-start SFT provided stable initialization for subsequent RL stages.
+
+## RL Algorithm
+To reduce the training costs associated with RL, we used GRPO to further optimize reasoning paths through self-iteration in an unannotated environment [ ]. Specifically, GRPO generated multiple candidate outputs from the old policy and then optimized the policy model by maximizing the following objective:
+
+(1)
+ζGPRO(θ)=E[∑i=1G(min(πθ(oi)πθold(oi)Ai,clip(πθ(oi)πθold(oi),1−ε,1+ε)Ai))−βDKL(πθ‖πref)]
+
+(2)
+DKL(πθ‖πref)=πθref(oi|q)πθ(oi|q)−logπθref(oi|q)πθ(oi|q)−1
+and the advantage was defined as follows:
+
+(3)
+Ai=(ri−μgroup)/σgroup
+where was the raw reward for the ith answer and and represented the mean and SD, respectively, of rewards within the candidate outputs. The group-wise contrastive mechanism mitigated absolute reward scale bias while encouraging high-quality reasoning.
+For the task of drug repositioning knowledge extraction, this optimization process facilitated complex cognitive mechanisms based on a high-performance RL training framework, EasyR1 [ ], leading to enhancement of task-specific reasoning performance.
+
+## Reward Modeling
+Subsequently, we proposed a novel dual-reward mechanism specifically for drug repositioning knowledge extraction to guide model self-evolution. This mechanism integrates 2 complementary reward types: (1) an accuracy reward targeting factual correctness in entity and triplet extraction and (2) a structural format reward focusing on the integrity and interpretability of the model’s reasoning process through structured tag compliance.
+
+## Accuracy Reward Mechanism
+This mechanism established a multidimensional evaluation that compares model outputs with annotated references. Dynamic scoring rules for entity recognition and triplet extraction are presented in .
+According to these scoring rules, the accuracy reward was as follows:
+
+(4)
+Racc=αSentity+βStriplet+γSrare
+where was accuracy reward of entity recognition, was accuracy reward of triplet extraction, and was reward of rare entity or relationship. This hierarchical award mechanism effectively balanced comprehensiveness and granularity in drug repositioning knowledge extraction.
+ 
+
+## Structural Format Reward
+To enhance the model’s step-by-step reasoning, we also introduced an XML tag–guided mechanism ( ) that enforced structured output. It was required to encapsulate complete reasoning processes within “<think>……</think>” tags and nested <step> tags, enabling multilevel logical decomposition.
+According to these scoring rules, the structural format reward was as follows:
+
+(5)
+Rfmt=δStag+εSlength
+where was format reward of tag integrity and was format reward of thinking length. This approach ensured machine-parsable outputs while enhancing the interpretability of inference pathways.
+ 
+
+## In-Depth Evaluation and Comparison
+To comprehensively assess the performance of LCoDR-KE, we conducted an in-depth analysis.
+First, comparative experiments were conducted to benchmark LCoDR-KE against traditional machine learning models (eg, CRF), general-purpose pretrained models (BERT), domain-specific biomedical models (BioBERT), and state-of-the-art LLMs, including ChatGPT-4, Llama3, QIANWEN, and variants with different parameter scales. These comparative analyses served to validate the effectiveness of our proposed model against established benchmarks, thereby highlighting its superior performance in addressing specialized biomedical knowledge extraction problems.
+Second, ablative experiments were designed to evaluate the individual contributions of the key technological advancements, including high-quality data-driven prompt engineering and LCoT reasoning mechanism. By removing or substituting these modules, the study quantified their independent contributions and synergistic effects on task performance.
+Finally, we conducted an error analysis by manually reviewing 100 randomly selected abstracts from the model outputs to identify common types of mistakes and areas for future algorithmic improvements.
+Meanwhile, we used precision, recall, and F1-score for model evaluations. Precision quantifies the proportion of correct identifications among all model predictions, reflecting the reliability of positive results. Recall evaluates the coverage for true positive instances, indicating the comprehensiveness of knowledge extraction. The F1-score, as the harmonic mean of precision and recall, provides a balanced assessment that mitigates the impact of omissions and false extraction, thereby offering a comprehensive evaluation. For rigorous validation, we compared model outputs against manually annotated corpus using exact string matching, which ensured high quality of model performance.
+
+## Ethical Considerations
+This study did not involve human participants or animal experiments. All data used in the research, including biomedical literature and structured databases, were publicly available and deidentified before analysis. Therefore, ethics approval was not required in accordance with institutional and international research ethics policies.
+
+## Results
+
+## Knowledge Representation for Drug Repositioning
+Drug repositioning schema (summarized in ) encompassed 11 entity categories, including core entities (drug, disease, and target) along with extended dimensions, such as side effect, gene, biomarker, symptom, complication, anatomical structure, clinical examination, and treatment. Furthermore, 18 relationship categories were defined in detail to comprehensively characterize semantic features among multilevel entities, such as “treat...,” “is target of,” “is side_effect of,” “is biomarker of.” This framework substantially enhanced semantic representation capabilities and facilitated the discovery of latent associations in drug repositioning research.
+
+## Statistics of DrugReC
+Via defined prompt engineering and manual review, we constructed a high-quality DrugReC, specially for drug repurposing text mining. This corpus, annotated from 1000 PubMed abstracts, contained 11 entity types and 18 relationship types closely related to drug repositioning. After the concordance test and revision, a total of 9329 entities and 4879 triplets consisted of this standard dataset (presented in ). Among the entity types, disease (19.10%) and drug (15.80%) were the most frequently represented, followed by anatomy (13.62%), test (10.32%), and biomarker (10.26%). Less prevalent but critical categories included complication, target, treatment, symptom, gene, and side effect. Regarding knowledge triplets, is_examination_for (18.16%), treat (17.20%), and is_biomarker_of (17.16%) together accounted for more than half of all triplets, emphasizing the corpus’s focus on clinically relevant associations. This distribution reflected DrugReC’s design to support comprehensive text mining efforts in drug repositioning by capturing key therapeutic and diagnostic linkages. We have made this corpus publicly available on GitHub with Apache License version 2.0, providing a high-quality data foundation to advance biomedical informatics mining.
+Then, this dataset was randomly divided at the document level into training (80%) and test (20%) subsets, with detailed statistical characteristics of both partitions provided in .
+ 
+
+## Knowledge Extraction With Different Types
+LCoDR-KE achieved an overall F1 score of 81.46%. High performance was observed for the most frequent entity types, including drug (F1=95.83%) and disease (F1=90.52%), likely due to their distinct semantic boundaries and abundant contextual representations. Mid-range performance was observed for anatomy (82.38%) and test (82.11%), while categories such as gene (74.70%), complication (73.93%), and biomarker (72.03%) showed moderate degradation. The lowest entity F1 scores occurred for target (64.05%) and treatment (67.21%), not solely due to lower frequency but likely due to greater semantic ambiguity and overlapping usage with other types. Performances are detailed in .
+Triplet extraction yielded an overall F1 score of 70.39% ( ). The model excelled on treat relations (F1=84.47%) and is_target_of (74.73%), which may benefit from clearer syntactic patterns. In contrast, performance declined for is_biomarker_of (57.69%) and increases_expression_of (50.00%), reflecting both data sparsity and higher contextual variability.
+Performance differences can largely be attributed to variations in data distribution, semantic complexity, and context dependency, rather than entity or relation frequency alone. These findings suggested that targeted data augmentation, finer-grained annotation, or context-aware modeling strategies may further improve performance across challenging categories.
+ 
+
+## Performance Comparisons
+
+## Performance Comparison With State-of-the-Art Models
+To evaluate the performance, we compared our LCoDR-KE model with several state-of-the-art models, including CRF (machine learning model), BERT (general-purpose pretrained language model), BioBERT (domain-specific biomedical model), and LLMs, including DeepSeek-R1, QIANWEN, and variants with varying parameter scales. These LLMs were evaluated under a 5-shot setting, consistent with the configuration used for our LCoDR-KE model. This ensured a fair comparison under equivalent prompt-based conditions. Detailed hyperparameter settings for each model are provided in .
+The comparative evaluation against state‐of‐the‐art baselines ( ) demonstrated that LCoDR-KE delivered substantial advances in both entity and triplet extraction. Classical sequence learners, such as CRF, scored poorly (entity F1=29.18%; triplet F1=14.51%), while general‐purpose pretrained models (eg, BERT, BioBERT) achieved modest gains (entity F1≈37%; triplet F1≈30%). The Qwen2.5-7B variant improved entity extraction (F1=53.16%) but remained weak on triplets (F1=18.04%). In contrast, LCoDR-KE-0.5B reached 62.67% entity F1 and 35.05% triplet F1, and the 7B model further advanced to 81.46% and 69.04%.
+Notably, at 7B parameters, LCoDR-KE approached DeepSeek-R1’s entity F1 (81.46% vs 84.64%) and marginally exceeded its triplet F1 (69.04% vs 69.02%). Although LCoDR-KE did not surpass DeepSeek-R1, it reached a similar level of effectiveness under a smaller parameter scale (7B vs 671B).
+We further evaluated the OpenBioLLM-70B, which achieved an entity F1 of 59.66% (precision: 56.63%; recall: 63.04%) and a triplet F1 of 16.52% (precision: 13.92%; recall: 20.31%). In contrast, our LCoDR-KE-7B model achieved notably higher performance with 81.46% (precision: 83.37%; recall: 79.64%) in entity extraction (21.8 percentage points increase) and 69.04% (precision: 72.43%; recall: 65.96%) in triplet extraction (52.5 percentage points increase).
+ 
+
+## Impact of Model Scale on Extraction Performance
+Across the LCoDR-KE series ( ), increasing model capacity from 0.5B to 1.5B, 3B, and 7B yielded consistent performance improvements, with entity F1 rising from 62.67% to 72.91%, 74.57%, and 81.46%, triplet F1 rising from 35.05% to 48.34%, 51.83%, and 69.04%, respectively. These gains suggested that larger models better capture the complex contextual dependencies required for accurate biomedical knowledge extraction.
+ 
+
+## Ablation Studies
+To evaluate the contributions of different components within the LCoDR-KE model, we conducted ablation studies to examine the impact of strongly SFT and the LCoT model on knowledge extraction outcomes for drug repositioning. We removed the 2 components of the LCoDR-KE model to observe changes in performance.
+As presented in , the ablation studies demonstrated significant performance degradation when removing either SFT or GRPO module. Removing GRPO reduced F1-scores by 6.09% for entity extraction and 14.09% for triplet extraction, indicating that GRPO substantially enhances knowledge extraction. In comparison, removing SFT caused sharper declines in precision (8.61% for entities and 20.70% for triplets), underscoring the critical role of task‐specific supervision in adapting pretrained representations. Together, these results demonstrated that both components contribute synergistically to the model’s knowledge extraction capabilities, with GRPO enhancing reasoning and SFT improving supervised alignment. Meanwhile, the absence of SFT caused more pronounced degradation in both entity and triplet extraction, indicating its broader influence on model performance ( ).
+ 
+
+## External Benchmark Evaluation
+To further assess generalizability beyond our in-domain DrugReC corpus, we evaluated LCoDR-KE directly on the widely used BC5CDR benchmark, which comprises 500 PubMed abstracts manually annotated for chemical (drug) and disease entities and their binary associations. OpenBioLLM-70B achieved entity F1 of 47.39% and relation F1 of 25.52%, while DeepSeek-R1 scored 60.93% and 38.33%, respectively. Without additional fine-tuning, LCoDR-KE obtained an entity F1 of 59.17% (precision: 85.92%; recall: 45.12%) and a triplet F1 of 35.16% (precision: 33.84%; recall: 36.59%), closely matching DeepSeek-R1 and substantially outperforming OpenBioLLM-70B. Thus, our method demonstrated generalizability beyond in-domain abstracts, achieving robust performance on external biomedical corpora such as BC5CDR.
+
+## Effect of K-Shot Examples on Model Performance
+To evaluate the impact of prompt on corpus generating, we conducted a small-scale experiment comparing 0- to 5-shot prompting settings. As shown in , k-shot prompting consistently outperformed the 0-shot baseline in both entity and triplet extraction. Entity F1 rose from 80.01 (0 shot) to 82.63 (5 shots), while triplet F1 increased from 67.16 to 70.48. Performance steadily improved as the number of examples increased, particularly between 1 shot and 3 shots. Notably, the model achieved stable and high performance in the 3- to 5-shot range, suggesting that moderate prompt context enhances annotation quality.
+ 
+
+## Reward Parameter Optimization
+To optimize the reward function for knowledge extraction and structured reasoning, we used a progressive tuning strategy through multiple rounds of controlled experiments. The reward formulation includes a hierarchical accuracy component where the coefficients for entity recognition (α), triplet extraction (β), and rare entity/relation enhancement (γ) satisfy the constraint α + β + γ = 1. Given the high computational cost of jointly searching in a 3D space, we adopted a 2-stage approach. We first optimized α and β under the constraint α + β = 1 to balance entity- and relation-level performance. Once optimal base weights were identified, we introduced γ by gradually adjusting the proportion of reward allocated to rare cases. Subsequently, we adjusted the weights associated with structured reasoning, namely tag integrity (δ) and reasoning length (ε), to ensure syntactic validity and controlled verbosity in the model’s output. Finally, we calibrated the overall balance between accuracy-related rewards and format-related rewards by modifying the global weight of accuracy reward and format reward parameters.
+In addition, we introduced 2 top-level coefficients (ie, accuracy reward weight and format reward weight) to control the relative contribution of accuracy-based and format-based rewards in the overall objective. These weights were jointly tuned to ensure a trade-off between extraction performance and output structure quality.
+Throughout the process, evaluation was based on both entity and relation F1-scores, as well as the structural completeness of generated outputs ( ). The final parameter configuration, with α=.45, β=.45, γ=0.1, δ=0.7, ε=0.3, accuracy reward=0.5, and format reward=0.5, demonstrated optimal performance in terms of extraction accuracy, robustness, and output interpretability and was therefore adopted in subsequent experiments.
+
+## Interpretable CoT Reasoning Patterns
+To evaluate whether the model engaged in structured reasoning, we examined its CoT outputs during knowledge extraction. We gave an example ( ) to demonstrate that the model performed structured, schema-aware reasoning beyond pattern matching. It explicitly validated entity types, rejected schema-incompatible relations, and enforced output constraints, ultimately generating a compliant JSON structure. The complete example of CoT is summarized in .
+ 
+
+## Step of Training Iterations
+We also monitored the performance across 30 training iterations (from 100 to 3000 steps) using F1 metrics ( ) and showed a steady and stable improvement in Entity F1, which reached a peak of 81.46% at the level of 1700. Notably, Entity F1 remained consistently high beyond 2000 iterations without significant decline, indicating robust and stable convergence in the entity recognition task. Triplet F1 reached its highest value of 69.34% at step 1500 and exhibited a slight decrease in subsequent iterations; however, it consistently stayed above 65%, suggesting that the model maintained a strong baseline for triplet extraction. This relatively stable performance postpeak indicated the potential for further optimization with continued training or minor adjustments. Overall, these results demonstrated the effectiveness and stability of the training approach, particularly for entity recognition while also highlighting a promising and resilient trajectory for triplet extraction performance. Detailed performances across training iterations are provided in .
+ 
+
+## Error Analysis
+We conducted an error analysis by manually reviewing 100 randomly selected sentences from the model outputs to identify common types of mistakes and areas for improvement.
+
+## Error Examples
+The errors were classified into 4 main types of entity extraction (ie, incorrect extraction, incorrect type, boundary errors, and missing entities) and 2 main types of triplet extraction (incorrect entity type and cross-sentence errors), with examples summarized in .
+ 
+
+## Error Statistics
+We further quantified the frequency of each error type to assess their impact and guide future improvement strategies.
+For entity extraction:
+Incorrect extraction (n=10, 38.46%): This was the most common error, typically caused by semantically ambiguous phrases. For example, generic terms such as “severe side effects” were incorrectly extracted due to superficial similarity to defined entity types.
+Incorrect type (n=6, 23.08%): These errors occurred when the model misclassified closely related concepts, such as mislabeling “p53” as a target instead of a gene.
+Boundary errors (n=4, 15.38%): Often caused by inclusion of modifiers like “mutations” in entity spans, resulting in misaligned entity boundaries.
+Missing entities (n=6, 23.08%): Frequently occurred when entities were embedded in complex phrases or lacked explicit semantic cues, leading to omission.
+For triplet extraction:
+Incorrect entity type (n=5, 38.46%): The relationship was correctly identified, but the entity types were misclassified (eg, “adverse events” mislabeled as side effect instead of a nonentity).
+Cross-sentence error (n=8, 61.54%): The model failed to capture logical relationships spanning multiple sentences, especially when the subject and object were not co-located in the same sentence.
+To further investigate the model’s behavior on entity classification, we constructed a confusion matrix ( ) based on entity predictions. The results ( ) showed strong diagonal dominance, indicating high accuracy across most entity types. However, misclassifications persist among semantically similar categories. Specifically, the biomarker was confused with the target (2 cases) and gene (1 case), while gene was misclassified as the target twice. In addition, 1 side effect instance was incorrectly labeled as a complication. These errors reflected the model’s difficulty in distinguishing biologically related concepts with overlapping semantics. In contrast, core categories, such as drug and disease, were classified with perfect accuracy.
+ 
+
+## Comparisons Between LCoDR-KE and DeepSeek-R1
+Meanwhile, LCoDR-KE demonstrated comparable performance with DeepSeek-R1. Specifically, LCoDR-KE surpassed DeepSeek-R1 in the categories of incorrect type (6 vs 8), missing entity (6 vs 7), and incorrect entity type (5 vs 6). This advantage can be attributed to our meticulous definition of entities and relations for the drug repurposing task, as well as the provision of accurate examples during model training. Conversely, LCoDRKE performed slightly worse in the Incorrect Extraction (10 vs 8) and CrossSentence Error (8 vs 7) categories, indicating that its complex contextual understanding and reasoning capabilities warrant further improvement.
+
+## Discussion
+
+## Principal Findings
+In this study, we introduced LCoDR-KE, a novel framework for drug repositioning knowledge extraction that significantly enhanced the adaptive learning capabilities of LLMs.
+The effectiveness of our approach stemmed from 2 key innovations.
+First, we developed a refined semantic representation framework and used it to curate a high-quality training corpus, DrugReC, comprising 1000 expertly annotated abstracts. These annotations covered diverse drug repositioning entities and captured complex semantic relationships, providing a robust foundation for the model to learn accurate semantic understanding and contextual reasoning.
+Second, we proposed a long reasoning chain strategy: an iterative, multistep inference process reinforced through reward mechanisms and RL. By delivering explicit feedback at each reasoning step, this strategy enabled the model to progressively optimize its decision-making process, resulting in more accurate and coherent inference.
+Collectively, these innovations contributed to the improved performance of LCoDR-KE in extracting drug repositioning knowledge.
+Compared to pretraining approaches specifically designed for biomedical tasks, LCoDR-KE offered several advantages. Traditional methods typically required extensive domain adaptation, large annotated corpora, or multiple rounds of fine-tuning to achieve competitive performance [ ]. In contrast, LCoDR-KE achieved performance optimization with a relatively small training dataset—comprising only 1000 literature abstracts—thereby significantly reducing the human and time costs associated with domain-specific annotation. Furthermore, LCoT decomposed semantic understanding into explicit and traceable reasoning steps. This approach mitigated hallucinations and enhanced model transparency, addressing 2 major challenges in the application of LLMs. Our ablation study further substantiated these findings.
+Moreover, performance comparisons demonstrated that LCoDR-KE based on the Qwen-2.5-7B model matched the performance of the 671B -parameter DeepSeek-R1 in drug repurposing knowledge extraction. Specifically, F1-scores achieved 81.46% versus 84.64% for entity extraction and 69.04% versus 69.02% for triplet extraction. This advance significantly narrowed the gap between large-scale models and resource-constrained environments, making it a practical solution for research institutes and hospital information centers with modest computing capabilities.
+In addition to performance gains, LCoDR-KE enhanced model interpretability through CoT prompting. By generating intermediate reasoning steps, such as entity justification, schema validation, and relation filtering, the model made its decision process more transparent and traceable. This structured reasoning not only aided error diagnosis but also aligned model behavior with domain knowledge constraints, offering a more controllable and explainable framework for biomedical knowledge extraction.
+Our expanded error analysis provided a more nuanced understanding of model behavior in biomedical knowledge extraction. By categorizing common error types, quantifying their frequency, and visualizing entity-level confusion patterns, we identified key challenges such as semantic ambiguity, long-range dependencies, and data sparsity. These insights not only explained performance bottlenecks but also informed future improvements, such as targeted data augmentation and schema-aware prompt refinement to reduce ambiguity and improve generalization.
+LCoDR-KE demonstrated strong performance in low-resource settings through its schema design, cold-start SFT, and RL with a reward mechanism. It provides an efficient and feasible solution for biomedical knowledge extraction under resource-constrained conditions. In clinical research settings, LCoDR-KE could be deployed to mine structured knowledge from trial protocols, real-world evidence, or adverse event reports, assisting clinicians in therapeutic decision-making and safety monitoring. In early-stage drug development, it can support target identification and biomarker discovery by extracting mechanistic insights from scientific literature. Its lightweight design makes it particularly well suited for integration into domain-specific platforms where computational resources and labeled data are limited. Moreover, its task-specific schema could be readily tailored by redefining entities and relations, thereby accommodating new domains, languages, and even alternative LLM backbones. Its flexibility allowed LCoDR-KE to extend beyond drug repositioning to a broad range of biomedical knowledge extraction tasks.
+
+## Limitations
+Despite the promising results, our study has some limitations. First, we limited the task to drug repositioning in this study. In the future, we will include other biomedical knowledge extraction tasks, such as gene–disease association identification and drug–drug interaction detection, thereby expanding its application value in diverse scenarios. Second, the model’s balance between reasoning depth and computational efficiency remains suboptimal, particularly when processing intricate biomedical contexts requiring multistep logical inferences. Future optimizations will focus on lightweight architectural improvements.
+
+## Conclusions
+This study introduced LCoDR-KE, a framework that enhanced LLMs’ domain-specific adaptability for drug repositioning by integrating long-chain reasoning and RL. We constructed a publicly available DrugReC and a lightweight knowledge extraction model, offering critical resources for accelerating drug discovery and knowledge inference. The framework balances accuracy, interpretability, and computational efficiency, validated through stable training convergence and competitive performance against state-of-the-art models. Overall, LCoDR-KE not only advances drug repositioning research but also provides a scalable, transferable methodology applicable to diverse biomedical knowledge extraction tasks, knowledge reasoning, and even decision support, bridging gaps in low-resource, specialized domains.
+
+## Supplementary material
+10.2196/77837Multimedia Appendix 1
+
+## List of drug repositioning journal and PRISMA (Preferred Reporting Items for Systematic reviews and Meta-Analyses) guidelines.
+10.2196/77837Multimedia Appendix 2
+
+## Chain-of-thought prompt.
+10.2196/77837Multimedia Appendix 3
+
+## Drug repositioning schema.
+10.2196/77837Multimedia Appendix 4
+
+## Hyperparameters of fine-tuned models.
+10.2196/77837Multimedia Appendix 5
+
+## Reward weight.
+10.2196/77837Multimedia Appendix 6
+
+## Reasoner.
+10.2196/77837Multimedia Appendix 7
+
+## Performance across training iterations.
+10.2196/77837Multimedia Appendix 8
+
+## Confusion matrix.
+
+## Acknowledgments
+This research was funded by the National Social Science Fund of China (Grant No. 22CTQ024).
+Data Availability: The proposed corpus dataset and source code during this study are publicly available [ ].
+Authors’ Contributions: HK performed the experiments, analyzed the results, and wrote the manuscript. JL analyzed the results. LH, XX, and SZ collected the data. QL directed the whole study, supervised the experiments, and revised the manuscript. All authors have reviewed and approved the final version of the manuscript for publication.
+Conflicts of Interest: None declared.
+
+## Abbreviations
+CoTchain-of-thought
+CRFconditional random fields
+DrugReCdrug repositioning corpus
+GRPOGroup Relative Policy Optimization
+LCoDR-KEdrug repositioning knowledge extraction model based on long chain-of-thought
+LCoTlong chain-of-thought
+LLMlarge language model
+MeSHMedical Subject Headings
+PRISMAPreferred Reporting Items for Systematic Reviews and Meta-Analyses
+RLreinforcement learning
+SFTsupervised fine-tuning

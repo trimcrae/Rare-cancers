@@ -1,0 +1,224 @@
+3328jpaJournal of Pharmaceutical AnalysisJ Pharm AnalXi'an Jiaotong UniversityPMC1244664212446642124466424097954510.1016/j.jpha.2025.101265Prioritization of potential drug targets for diabetic kidney disease using integrative omics data mining and causal inference
+ZhangJunyu PengJie YuChaolun NingYu LinWenhui NiMingxing XieQiang YangChuan LiangHuiying LinMiao aGuangdong Cardiovascular Institute, Guangdong Provincial People's Hospital, Guangdong Academy of Medical Sciences, Guangzhou, 510080, ChinabDepartment of Endocrinology, Sun Yat-sen Memorial Hospital, Sun Yat-sen University, Guangzhou, 510080, ChinacDepartment of Cardiology, The First Affiliated Hospital of Sun Yat-sen University, Guangzhou, 510080, ChinadDepartment of Cardiology, Guangdong Cardiovascular Institute, Guangdong Provincial People's Hospital, Southern Medical University, Guangzhou, 510080, ChinaeMedical Big Data Center, Guangdong Provincial People's Hospital (Guangdong Academy of Medical Sciences), Southern Medical University, Guangzhou, 510080, ChinafDepartment of Cardiology, The First Affiliated Hospital of Xiamen University, School of Medicine, Xiamen University, Xiamen, Fujian, 361003, China⁎Corresponding authors. linmiao@gdph.org.cn
+⁎⁎Corresponding author. lianghuiying@gdph.org.cn
+⁎⁎⁎Corresponding authors. yangch@mail.sysu.edu.cn
+⁎⁎⁎⁎Corresponding author. xieqiang@xmu.edu.cn
+1Both authors contributed equally to this work.
+14320251581012651012652092025© 2025 The AuthorsThis is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+Diabetic kidney disease (DKD) with increasing global prevalence lacks effective therapeutic targets to halt or reverse its progression. Therapeutic targets supported by causal genetic evidence are more likely to succeed in randomized clinical trials. In this study, we integrated large-scale plasma proteomics, genetic-driven causal inference, and experimental validation to identify prioritized targets for DKD using the UK Biobank (UKB) and FinnGen cohorts. Among 2844 diabetic patients (528 with DKD), we identified 37 targets significantly associated with incident DKD, supported by both observational and causal evidence. Of these, 22% (8/37) of the potential targets are currently under investigation for DKD or other diseases. Our prospective study confirmed that higher levels of three prioritized targets—insulin-like growth factor binding protein 4 (IGFBP4), family with sequence similarity 3 member C (FAM3C), and prostaglandin D2 synthase (PTGDS)—were associated with a 4.35, 3.51, and 3.57-fold increased likelihood of developing DKD, respectively. In addition, population-level protein-altering variants (PAVs) analysis and in vitro experiments cross-validated FAM3C and IGFBP4 as potential new target candidates for DKD, through the classic NLR family pyrin domain containing 3 (NLRP3)-caspase-1-gasdermin D (GSDMD) apoptotic axis. Our results demonstrate that integrating omics data mining with causal inference may be a promising strategy for prioritizing therapeutic targets.
+Keywords: Diabetic kidney disease, Proteomics, Causal inference, Drug targets
+
+## Graphical abstract
+ 
+
+## Highlights
+•We prioritized 37 targets for DKD by omics mining and genetic-driven causal inference.
+•22% (8/37) of prioritized targets are under investigation for DKD or others.
+•FAM3C and IGFBP4 as new targets for DKD validated by in vivo and in vitro experiments.
+•Genetic-driven causal inference is a promising strategy for prioritizing drug targets.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Dec 16; Revised 2025 Feb 28; Accepted 2025 Mar 10; Issue date 2025 Aug.
+
+1.
+
+## Introduction
+Diabetic kidney disease (DKD or diabetic nephropathy) is a major complication of diabetes and remains the leading cause of end-stage renal disease [ , ], currently affecting approximately 700 million individuals globally [ ]. Compared to healthy or diabetic individuals, DKD patients face a threefold increased risk of all-cause and cardiovascular mortality, resulting in a 16-year drop in life expectancy. The management of DKD primarily relies on stringent lifestyle management and pharmacological treatments aimed at controlling blood glucose, blood pressure, and blood lipids. Recently, several novel drugs have been approved. Sodium-glucose cotransporter 2 (SGLT2) inhibitors [ ] (e.g., dapagliflozin [ ] and empagliflozin [ ]) primarily function by reducing glucose reabsorption and sodium levels, while glucagon-like peptide-1 (GLP-1) receptor agonists (e.g., liraglutide [ ] and semaglutide [ ]) affect glucose regulation and exhibit anti-inflammatory effects [ ]. These drugs help to delay the progression of kidney dysfunction and prevent cardiovascular complications [ ]. Recent studies identified that kidney injury molecule 1 (KIM-1) showed great potential for DKD treatment [ ]. However, DKD involves complex pathogenesis characterized by inflammation, fibrosis, apoptosis, and oxidative stress, and currently lacks targeted interventions [ ]. Identifying novel molecular targets is crucial for mitigating DKD incidence and potentially halting or reversing its progression.
+Genetics, proteomics, and causal inference studies play a crucial role in identifying new drug targets [ ]. Increasing evidence suggests that drug targets supported by causal genetic evidence exhibit a higher likelihood of success in randomized clinical trials [ ]. Mendelian randomization (MR) is an innovative causal inference method that is becoming increasingly important in observational epidemiology. Genetics and MR studies utilize the random distribution of genetic variations to investigate causal relationships between specific phenotypes, proteins, and diseases, thereby overcoming the confounding factors inherent in traditional observational studies [ ]. Integrating findings from proteomic and genetic analyses provides a comprehensive understanding of the pathogenesis of DKD and helps to identify new molecular targets with causal associations.
+In this study, we integrated large-scale plasma proteomics and genetic-driven causal inference to prioritize potential targets for DKD using data from the UK Biobank (UKB) and FinnGen cohorts ( A). A community-based prospective cohort was applied to validate the association between prioritized targets and DKD progression. Finally, population-level protein-truncating variants (PTVs) analysis mimicking the effects of gene knockout, in vivo immunofluorescence staining, and in vitro intervention experiments were employed to cross-validate potential drug targets, providing strong evidence for promising new therapeutic opportunities in DKD.
+ 
+2.
+
+## Materials and methods
+2.1.
+
+## Study participants and ethics
+The UKB and FinnGen studies are both large prospective cohort studies with comprehensive phenotypic and genotypic data [ , ]. Individual-level data from the UKB (n = 502,387, recruited between 2006 and 2010) and FinnGen R9 (n = 377,277, recruited between 2017 and 2022) were used to identify individuals with DKD. For each UKB participant, self-reported information, including lifestyle, health conditions, and medication history, was obtained through a questionnaire and interview. Blood samples were collected from participants for plasma proteomics and whole-exome sequencing tests [ ]. We excluded individuals with no proteomics data (n = 452,962), missing data on diabetes indicators (n = 366), without diabetes (n = 45,562), and with diabetic complications (n = 653) at baseline, ultimately including 2,844 individuals for further analysis ( B). The UKB project was approved by the North West Multi-centre Research Ethics Committee (ref: 06/MRE08/75) and all participants agreed with informed consent. The FinnGen study protocol was approved by the Coordinating Ethics Committee of the Hospital District of Helsinki and Uusimaa (HUS/990/2017) [ ]. The outcomes for DKD were defined using individual-level data acquired from hospital episode statistics, death registries, self-reported information, and primary care records. Cases were classified according to the International Classification of Diseases, 10th revision (ICD-10 codes). Incident DKD was classified as the primary diagnosis of DKD, established through a meticulous evaluation conducted by experienced physicians, death registry personnel, and community physicians. A total of 2,844 individuals, with a median age ranging from 70 to 78 years, were included in the study. Detailed information regarding the DKD definition can be found in .
+
+2.2.
+
+## Large-scale plasma proteome data mining
+For UKB participants, blood samples were collected and randomly selected for Olink protein analysis. Previous research has shown a detailed workflow of sample collection, processing, and data preprocessing [ ]. In summary, plasma samples were collected into ethylenediaminetetraacetic acid (EDTA) tubes, centrifuged at 4 °C, 2,500 g for 10 min, and then stored at −80 °C. After being transported to the Olink analysis service in Sweden at low temperature, a total of 2,923 proteins were measured through proximity extension assays in four panels. Quality control documentation for the entire proteomics process can be viewed and downloaded from the UKB website (https://biobank.ndph.ox.ac.uk/showcase/ukb/docs/PPP_Phase_1_QC_dataset_companion_doc.pdf). In general, the quality of UKB Olink data is sufficiently high, with an intra-plate coefficient of variation (%CV) of less than 10% and an inter-plate %CV of less than 20%. The concentrations of various proteins were transformed into normalized protein expression (NPX). More details on data conversion can be found at https://biobank.ndph.ox.ac.uk/showcase/ukb/docs/Olink-3072_B0-B6_Normalization.pdf. Three proteins (GLIPR1, NPM1, and PCOLCE) were missing in more than 30% of plasma samples and excluded.
+Descriptive statistics showed differences between individuals who developed DKD during follow-up and those who did not. The chi-square test or Fisher's exact test was used to analyze categorical variables, while the t-tests or Mann-Whitney U tests were used to assess differences in continuous variables. Cox proportional hazards regression was used to calculate hazard ratios (HRs) and 95% confidence interval (95% CI), assessing associations between each plasma protein and future DKD. Follow-up time was defined as the shortest span from baseline to DKD onset, death, or end of the whole study (the most recent available date, October 31, 2023). Models were adjusted for a comprehensive range of covariates, including age, sex, ethnicity, education (college or others), Townsend deprivation index, income, smoking (never, previous, or present), alcohol intake (never, previous, or present), healthy diet score, international physical activity questionnaire (IPAQ) score, body mass index (BMI), HbA1c, duration of diabetes, hypertension status, and antidiabetic medications. A healthy diet score was calculated according to a prior study [ ]. Antidiabetic medication contained a series of drugs including metformin, acarbose, gliclazide, insulin, pioglitazone, rosiglitazone, glimepiride, glipizide, glitazone, and repaglinide. Missing contents of covariates were interpolated with multiple imputations, generating five datasets, and analysis results were combined using the Rubin rule. For each protein, individuals with missing NPX values were removed. P-values were corrected through Bonferroni correction for each protein and statistical significance was defined as a two-sided P-value of < 0.05.
+
+2.3.
+
+## Genetic-driven causal inference analysis
+2.3.1.
+
+## Instrumental variable (IV) selection
+To analyze the protein quantitative trait loci (pQTL) of plasma proteomics as exposure, we utilized the UKB database, selecting 2,931 Olink proteins as exposure factors. Genome-wide association studies (GWAS) summary statistics for these proteins are available at https://www.decode.com/summarydata/. IVs need to satisfy three conditional assumptions: (1) Relevance hypothesis: IVs are highly correlated with exposures; (2) Independence hypothesis: IVs cannot be associated with confounding factors; (3) Exclusivity hypothesis: exposure factors are the only way that IVs affect outcome. To test the correlation hypothesis, single nucleotide polymorphisms (SNPs) associated with exposure were identified at the whole-genome level (P < 5.0 × 10−8) [ ]. Subsequently, the interference of linkage imbalance was excluded with a clustering threshold of r2 < 0.001 and allele distance greater than 10,000 KB. Finally, outcome data were extracted according to exposure-related SNPs in outcome GWAS. The exposure and outcome data were integrated, and the palindromic SNP sequences were eliminated.
+
+2.3.2.
+
+## Causal inference analysis
+Genetic association data for plasma proteins were sourced from the UKB Pharma Proteomics Project (UKBPPP), while genetic associations for disease outcomes were obtained from FINNGEN R9 (FinnGen phenocode: DM NEPHROPATHY EXMORE, E4_DM1REN, and E4_DM2REN). The UKB participants are of British, while the FinnGen participants are of Finnish, with little overlap between two cohorts. In our MR analysis, only SNPs with minor allele frequency (MAF) > 0.01 were kept. The Wald ratio or inverse variance weighted (IVW) methods were used to evaluate causal relationships [ ]. Associations between proteins and DKD were quantified using odds ratios (ORs) and P-values. Proteins with a P-value < 0.05 were considered to have a potential causal link with DKD. Sensitivity analysis including horizontal pleiotropy and heterogeneity analysis were performed for significant proteins. Overlap proteins between Cox and MR results were clustered into further analysis. To validate the causality between key proteins and DKD, we evaluated the posterior probability of the same causal variant between protein GWAS and DKD GWAS in ± 90 kb regions of each gene encoding key proteins.
+
+2.4.
+
+## A community-based prospective validation for prioritized targets
+Among all observational and causal risk proteins, Kaplan Meier (KM) survival analysis was conducted to validate their prognostic value in DKD progression. The Youden index was employed to establish each protein's cutoff. Differences in DKD incidence among individuals with different protein levels during the follow-up period were used to assess the prognostic significance. HRs and P-values were calculated using adjusted Cox models.
+
+2.5.
+
+## Histopathology analysis of tissue samples across humans and mice
+2.5.1.
+
+## Biological samples
+Renal biopsy specimens from hospitalized patients diagnosed with diabetic nephropathy, along with adjacent normal tissues collected during nephrectomy as controls, were obtained and processed into paraffin sections for immunohistochemistry. The study was approved by the Ethics Committee of Guangdong Provincial People's Hospital (Approval No.: GDREC2019771H(R1)).
+Male C57BL/6 mice, aged 6−8 weeks (weighing 20−23 g), were subjected to an injection of streptozotocin (STZ) intraperitoneally at a dose of 50 mg/kg for 5 consecutive days to induce a diabetic model. The control group received an equivalent volume of citrate buffer following the same injection schedule. Mice with fasting blood glucose greater than 250 mg/dL (13.9 mmol/L) at 72 h and 7 days post-STZ injection were confirmed to have diabetes mellitus (DM). The levels of blood glucose and urine proteins were collected weekly. Mice that exhibited negative proteinuria after 4 weeks of diabetes induction were classified into the non-diabetic kidney disease (NDKD) group for sample collection, while mice with positive proteinuria at 8–12 weeks post-diabetes induction were classified into the DKD group. All mice were euthanized and kidney tissues were collected. The experiments were conducted according to the National Institutes of Health (NIH) guidelines for the Care and Use of Laboratory Animals. All animal experiments were approved by the Sun Yat-sen University Animal Ethics Committee (Approval No.: SYSU-IACUC-2024-002503).
+Renal histopathology was used to evaluate the animal model. Paraffin-embedded kidney tissues were sectioned using a microtome for each kidney (n = 5 kidneys per group). Individual sections were stained with periodic acid-Schiff (PAS) and periodic-acid silver methenamine (PASM) stains following standard protocols [ ].
+
+2.5.2.
+
+## Immunofluorescence staining
+Briefly, 4-μm–thick paraffin-embedded kidney sections were dewaxed, hydrated, antigen repaired and blocked with 0.5% bovine serum albumin in phosphate-buffered saline (PBS) for 30 min. These samples were incubated overnight at 4 °C with specific primary antibodies followed by incubation with secondary antibodies for 1 h at room temperature. After staining the nucleus with hematoxylin for 3 min, the images were viewed under a Nikon Eclipse microscopy system (200× , 400×; Nikon Ni–U, Sendai, Miyagi Prefecture, Japan). The specific primary antibodies included: family with sequence similarity 3 member C (FAM3C) antibody (HUABIO, Hangzhou, China, ER1908-63, 1:200), insulin-like growth factor binding protein 1 (IGFBP1) antibody (Proteintech, Wuhan, China, 13981-1-AP, 1:2000), prostaglandin D2 synthase (PTGDS) antibody (Proteintech, Wuhan, China, 10754-2-AP, 1:1000) and neuroblastoma suppressor of tumorigenicity 1 (NBL1) antibody (Affinity Biosciences, Nanjing, China, DF3177, 1:200). The semi-quantitative immunoreactivity score (IRS) was determined using quantitative image analysis software (NIH, Bethesda, Maryland, USA). The values were determined using an IRS ranging from 0 to 12 for each slide across four fields at 20× magnification. Two independent observers investigated the slides with this procedure.
+Immunofluorescence was carried out on fresh frozen mouse kidney sections as previously described [ ]. Immunofluorescence of the section used FAM3C (Proteintech, Wuhan, China, 14247-1-AP, 1:100), IGFBP4 (Proteintech, Wuhan, China, 18500-1-AP, 1:100), and PTGDS (Proteintech, Wuhan, China, 10754-2-AP, 1:250). Images of all tissues were analyzed with a Carl Zeiss LSM800 with airyscan (Oberkochen, Baden-Württemberg, Germany).
+
+2.6.
+
+## Virtual screening and TxGNN foundation model for therapeutic agents
+Virtual screening for IGFBP4, FAM3C, and PTGDS was performed on Molecular Operating Environment (MOE, Release 2022.02) against a library of 2,619 approved drugs from DrugBank. TxGNN [ ] (http://txgnn.org/), a new graph-based foundation model for drug repurposing, was used to prioritize candidates (score > 0.99) from the top 10 compounds with the strongest binding affinities. Key interactions between ligands and protein binding pockets were visualized using PyMOL (V2.5).
+
+2.7.
+
+## Population-level genetic inhibition of potential targets
+The loss of function transcript effect estimator (LOFTEE) algorithm was adopted to predict PTVs [ ]. AlphaMissense [ ] and the sorting intolerant from tolerant (SIFT) algorithm were used to predict likely pathogenic and damaging variants. Protein-altering variants (PAVs), including PTVs and pathogenic and damaging variants, were analyzed [ ]. Rare genetic variants (MAF < 0.1%) in IGFBP4, FAM3C, PTGDS, and positive controls, SGLT2 and glucagon-like peptide-1 receptor (GLP1R), were analyzed. Whole exome sequence data from 18,398 individuals with diabetes and no complication at baseline from the UKB study were used. For each gene, individuals were classified as carriers or non-carriers of PAVs. Logistic regression analysis was performed to discover associations between carrier status and DKD outcomes, adjusted with age, sex, genotyping array, and the first 10 genomic principal components [ ].
+
+2.8.
+
+## In vitro cell experiments for prioritized targets’ validation
+2.8.1.
+
+## Cell culture and treatment
+HK2 cells were cultured in dulbecco's modified eagle medium/nutrient mixture F-12 (DMEM/F-12, Gibco, Waltham, MA, USA) medium with 10% fetal bovine serum. Cells were plated at 60%–70% confluence, serum-starved for 12 h, and then exposed to either 50 mM mannitol (control group) or 50 mM glucose (high glucose (HG) group) for 48 h [ ]. HK2 cells were exposed to Lisinopril (1 μM and 10 μM, obtained from MedChemExpress, Monmouth Junction, NJ, USA) and Telmisartan (4 μg/mL and 40 μg/mL, obtained from MedChemExpress) for 48 h, with the control group treated with solvents. Cell viability was measured using the Cell Counting Kit-8 assay (APExBIO, Houston, TX, USA).
+
+2.8.2.
+
+## FAM3C and IGFBP4 siRNA transfection
+FAM3C and IGFBP4 were silenced using small interfering RNA (siRNA) (Hippobio, Huzhou, China) transfected 48 h after seeding using the Lipofectamine™ RNAiMAX (ThermoFisher, Waltham, MA, USA), following the manufacturer's instructions. Sequence of siRNAs were as below:
+IGFBP4 siRNA sense: 5′-UCACUCAUCCAGCCACCUAAATT-3′;
+Antisense: 5′-UUUAGGUGGCUGGAUGAGUGATT-3′;
+FAM3C siRNA sense: 5′-GAGGAGAUGUGGCACCAUUUAdTdT-3′;
+Antisense: 5′-UAAAUGGUGCCACAUCUCCUCdTdT-3′.
+
+2.8.3.
+
+## Immunofluorescence staining
+HK2 cells were fixed with 4% paraformaldehyde and permeabilized with 0.5% Triton X-100. After fixation, the cells were incubated with primary antibodies at 4 °C overnight. After washing with phosphate-buffered saline (PBS), the cells were treated with CY3 (APExBIO, Houston, TX, USA). Subsequently, the samples were counterstained with 4,6-diamidino-2-phenylindole (DAPI) (Beyotime, Shanghai, China) and mounted with Vectashield mounting medium (Beyotime, Shanghai, China).
+
+2.8.4.
+
+## Western blot
+Proteins from HK2 cells were collected and quantified using the BCA method. Equal amounts of protein were separated by 7.5% or 10% sodium dodecyl sulfate polyacrylamide gel electrophoresis (SDS-PAGE), transferred to nitrocellulose membranes, and probed with the following primary antibodies: anti-FAM3C (Proteintech, Wuhan, China, 14247-1-AP, 1:1000), anti-IGFBP4 (Proteintech, 18500-1-AP, 1:1000), anti-caspase-1 (Abcam, Cambridge, UK, ab179515, 1:1000), anti-gasdermin D (GSDMD) (Abmart, Shanghai, China, PU224937, 1:1000), and anti-NLR family pyrin domain containing 3 (NLRP3) (Abmart, P60622R3, 1:1000). After incubation with secondary antibodies, protein bands were visualized using the ECL system (APExBIO, Houston, TX, USA), and band intensities were normalized to β-actin using ImageJ software.
+
+2.9.
+
+## Statistical analysis
+To evaluate their druggability, we summarized comprehensive information on drug molecule types, approved indications for specific targets, and clinical trial outcomes from various drug-related databases, including Open Targets [ ], ClinicalTrials.gov, DrugBank, PharmGKB, and GeneCards. Data analyses were conducted using R and Python, with packages including survival (v3.6-4), mice (v3.16.0), gwaslab (v3.4.45, https://doi.org/10.51094/jxiv.370), gwasglue (v0.0.0.9000), gwasvcf (v0.1.2), TwoSampleMR (v0.6.2), coloc (v5.2.3), and lifelines (v0.28.0).
+Experimental data were visualized using the GraphPad Prism 10.0 and expressed as the mean ± standard deviation (SD), with t-tests used to compare differences between two groups. For comparisons among multiple groups, one-way analysis of variance (ANOVA) followed by Tukey's post hoc test was performed. Statistical significance was defined as P < 0.05.
+
+3.
+
+## Results
+A total of 2,844 baseline diabetic patients without additional complications were included. Among them, 528 participants developed DKD, with a median age of 62.8 years, 40.3% female, and an average follow-up of 7.33 years. The other 2,316 participants, who did not develop DKD or other complications, were considered the diabetic group (Without DKD), with an average follow-up of 12.5 years. summarized the baseline characteristics.
+3.1.
+
+## Identifying potential targets for DKD with observational and causal evidence
+Of these 2,923 proteins, after adjusting for age, sex, education, and nine other covariates, we found that 597 risk proteins were associated with incident DKD in diabetic adults ( C and ). After Bonferroni correction, IGFBP4 (HR = 3.37, P = 3.93 × 10−59), collagen type VI alpha 3 chain (COL6A3) (HR = 5.07, P = 8.89 × 10−56), and phosphoinositide-3-kinase interacting protein 1 (PIK3IP1) (HR = 6.78, P = 2.73 × 10−54) showed the most significant positive associations with DKD. The top 50 risk proteins, ranked by significance, are shown in D. Conversely, uromodulin (UMOD) (HR = 0.52, P = 1.12 × 10−18), neural epidermal growth factor-like 1 (NELL1) (HR = 0.49, P = 2.97 × 10−15), and nephrin (NPHS1) (HR = 0.33, P = 1.41 × 10−8) were negatively associated with DKD ( ).
+To assess the causal relationship between 2,923 proteins and DKD, we analyzed the pQTL of plasma proteomics for exposure and calculated SNP IVs. Diabetic nephropathy (n = 274,660), type 1 diabetes with renal complications (n = 309,859), and type 2 diabetes with renal complications (n = 310,964) from the FinnGen study were selected as outcome variables. Using a two-sample MR method, we identified 205, 184, and 165 proteins causally associated with the above three DKD outcomes in the European population, with strict instrument selection parameters (P < 5 × 10−8). Detailed results are provided in .
+We further conducted integrated analyses of proteomic and genetic data. As shown in A, only 37 proteins met the adjusted P-value threshold of less than 0.05 through Cox regression and MR models (P < 5 × 10−8). Among 37 proteins, IGFBP4 (HR = 3.37, P = 3.93 × 10−59; OR = 1.73, P = 0.008), NBL1 (HR = 8.61, P = 2.13 × 10−50; OR = 1.51, P = 0.031), FAM3C (HR = 6.52, P = 3.15 × 10−47; OR = 1.98, P < 0.001) and PTGDS (HR = 4.29, P = 3.44 × 10−43; OR = 1.30, P = 0.022) was the most significant observational and causal risk proteins for incident DKD ( ).
+ In the sensitivity analysis of MR analysis, 35 proteins showed no pleiotropy with DKD, only advanced glycosylation end-product specific receptor (AGER) and von willebrand factor C domain containing 2 like (VWC2L) with pleiotropy, indicating that our findings were reliable ( ). B–D presented the regional Manhattan plots of SNPs among flanking 90 kb regions of IGFBP4, NBL1, and FAM3C loci with DKD. Other proteins are shown in and .
+
+3.2.
+
+## Prioritizing targets by community-based prospective validation
+Next, we evaluated the prognostic value of baseline protein levels in predicting DKD progression and potential drug targets. Baseline protein levels were divided into higher-level (orange) and lower-level (blue) groups, with the cutoff based on the highest Youden index. All patients, including those who experienced clinical progression, were included. Detailed thresholds are shown in . Participants with higher baseline levels of IGFBP4 (HR = 4.23, P = 2.3 × 10−37), NBL1 (HR = 3.51, P = 1.7 × 10−34), PTGDS (HR = 3.54, P = 2.4 × 10−34), and FAM3C (HR = 3.33, P = 2.1 × 10−31) had a significantly increased risk of developing DKD ( ).
+ Notably, individuals with higher IGFBP4 levels were 4.35 times more likely to develop DKD than those with lower IGFBP4 levels. Similarly, those with higher levels of NBL1, PTGDS, and FAM3C had 3.50, 3.57, and 3.51 times higher risks for DKD events, respectively. Significant associations were also found for 37 prioritized targets ( and ). From a drug target perspective, reducing these circulating risk proteins within an appropriate range could mitigate the progression of DKD.
+
+3.3.
+
+## Confirming prioritized targets’ alterations across humans and mice
+As shown in , IGFBP4 and FAM3C protein levels were significantly elevated in DKD patients compared to healthy controls in a DKD kidney tissue dataset (https://data.mendeley.com/datasets/83k89shdx5/, with a total of 10 healthy participants and 23 DKD patients). However, NBL1 levels were significantly decreased in DKD patients, which is contradictory to our findings, suggesting that NBL1 might not be a potential target for DKD.
+Immunohistochemistry staining on renal biopsy specimens verified a significantly increased expression of FAM3C, IGFBP4, PTGDS, and IGFBP1 in DKD patients compared to healthy tissues ( A). Both renal tissue and circulating plasma samples consistently show elevated levels of FAM3C, IGFBP4, PTGDS, and IGFBP1 in DKD patients, compared to healthy and diabetic controls.
+ Additionally, diabetic and DKD mouse models were established after verification of PAS, PASM, blood glucose, and proteinuria measurement ( B). Both immunohistochemistry staining and immunofluorescence staining on different groups of mice also presented a significantly boosted expression of IGFBP4, FAM3C, PTGDS, and IGFBP1 in DKD mice ( C and D). However, no significant difference was observed in NBL1 expression in renal biopsy specimens from DKD patients ( ).
+
+3.4.
+
+## Likelihood of drug success of prioritized targets
+For these 37 prioritized targets, enrichment analysis using gene ontology terms and the Reactome pathways indicated significant associations with key biological processes of DKD ( ). These proteins were enriched in the regulation of response to stimulus (IGFBP4, IGFBP1, and NBL1; false discovery rate (FDR) < 0.001), signaling receptor binding (IGFBP4, IGFBP1, NBL1, FAM3C; FDR = 0.0064), and regulation of the insulin-like growth factor (IGF) transport and uptake (IGFBP4, IGFBP1, follistatin like 1 (FSTL1), shisa family member 5 (SHISA5), chordin like 1 (CHRDL1); FDR = 0.004). These pathways are implicated in the pathogenesis of renal diseases, diabetes, and cardiovascular diseases.
+A summary of OpenTargets provided evidence of drug development, including phase II–IV trials, for 8 proteins containing tumor necrosis factor (TNF) receptor superfamily member 4 (TNFRSF4), adrenomedullin (ADM), folate receptor alpha (FOLR1), complement factor D (CFD), C-X3-C motif chemokine ligand 1 (CX3CL1), interferon gamma receptor 1 (IFNGR1), AGER, and angiopoietin like 3 (ANGPTL3), with 1 connected to diabetic nephropathy (AGER), and 1 related to hypercholesterolemia (ANGPTL3) ( ). Drug target development for clinical approval (Tclin) outcomes revealed that FOLR1, CFD, IFNGR1, and ANGPTL3 each had one “active drug”, while the ligand-Tchem data indicated “active ligands” for the other proteins, including FOLR1 and CFD. However, no clinical trials have been conducted for other 29 proteins, including IGFBP4, FAM3C, and PTGDS.
+ 
+3.5.
+
+## Virtual screening and TxGNN foundation model for therapeutic agents
+For prioritized targets validated by tissue immunostaining, virtual screening of IGFBP4, FAM3C, and PTGDS was conducted to identify their potential inhibitors from 2619 approved drugs. Based on additional insights from the evaluation of the TxGNN foundation model [ ], the top 10 ligands with best performance are summarized in . Notably, Valsartan and some ligands showed very low binding scores and strong binding potential against FAM3C. Representative interaction interfaces of binding pockets are visualized in A.
+ In addition, we used whole-exome sequence data to assess the genetic inhibition potential of IGFBP4, FAM3C, and PTGDS at the population level, with SGLT2 and GLP1R as positive controls. Damaging mutations of SGLT2 significantly lowered the risk of DKD, and no such association was observed for GLP1R. Although no significant association was observed for IGFBP4, FAM3C, and PTGDS due to insufficient sample size, protein-damaging mutations decreased the OR of DKD condition ( B), suggesting potential intervention effects similar to SGLT2.
+
+3.6.
+
+## Validating prioritized targets through in vitro assays
+The HG-induced HK2 cell injury and apoptosis is a classic in vitro model of DKD, commonly used for screening potential targets and intervention agents. After 48 h of HG treatment, immunofluorescence results revealed a significant increase in the classic apoptotic pathway (NLRP3, caspase-1, and GSDMD), and potential targets (FAM3C and IGFBP4) ( A). We further evaluated the effects of inhibiting FAM3C and IGFBP4 (through siRNAs) on inflammation and apoptosis in HG-induced HK2 cells. As shown in B and C, silencing FAM3C alleviated inflammation and cell damage in HK2 cells, downregulating NLRP3, caspase-1, and GSDMD, while IGFBP4 silencing reduced the active N-terminal domain of GSDMD (NT-GSDMD).
+ Additionally, we selected potential inhibitors, Lisinopril and Telmisartan, to evaluate their effects. D shows that Lisinopril significantly inhibited the expression of NLRP3 and GSDMD in HK2 cells, with a slight reduction in FAM3C and caspase-1. Telmisartan significantly suppresses the IGFBP4 and NLRP3-caspase-1 axis ( E). Taken together, both in vivo and in vitro results suggest that FAM3C and IGFBP4 may serve as potential targets for DKD intervention, with their inhibition potentially alleviating DKD progression.
+
+4.
+
+## Discussion
+We identified 37 prioritized targets with observational and causal relevance for DKD by integrated large-scale plasma proteomics and genetic-driven causal inference. Colocalization analyses further confirmed their causality, including IGFBP4, FAM3C, and PTGDS. In the UKB prospective study, diabetic individuals with higher levels of IGFBP4, PTGDS, and FAM3C had 4.35, 3.57, and 3.51 times higher risks of incident DKD, respectively. Immunostaining experiments and Nephrotic Syndrome Study cohorts revealed a remarkably elevated expression of IGFBP4, FAM3C, and PTGDS in DKD kidney tissues across humans and mice. Genetic inhibition at population level and in vitro experiments suggested IGFBP4 and FAM3C might be potential targets for DKD.
+This study provides the most comprehensive assessment between 2,923 proteins and DKD based on the UKB and FinnGen cohorts. Among 37 prioritized targets with cross-validation evidence, 10 proteins have been consistently linked to incident DKD: AGER, ANGPTL3, CFD, CX3CL1, IGFBP1, IGFBP4, NBL1, PTGDS, TNF receptor superfamily member 1B (TNFRSF1B), and TNFRSF4. AGER inhibitor (Azeliragon) is undergoing phase II clinical trials of DKD (ClinicalTrials: NCT00287183). CX3CL1 and CFD were also reported as potential targets for DKD [ ]. Notably, 22% (8/37) of prioritized targets are currently under investigation for DKD or other diseases.
+Notably, 5 proteins without drug development are involved in the regulation of IGF transport and uptake (IGFBP4, IGFBP1, FSTL1, SHISA5, and CHRDL1). Our study identified IGFBP4 as the strongest risk factor for DKD, while IGFBP1 showed a negative causal relationship with DKD. IGFBP4 and IGFBP1 are expressed in the liver and kidneys and involved in systemic IGF signaling, contributing to insulin resistance and glucose regulation. Similar to our findings, a study of younger Asian individuals with type 2 diabetes found a positive association between IGFBP4 and DKD risk [ ]. DKD individuals have elevated plasma levels of IGFBP1 and IGFBP4 [ ]. IGFBP4 fragments (including N- and C-terminal fragments, NT-IGFBP-4 and CT-IGFBP-4) are related to cardiovascular mortality in type 1 diabetes patients [ ]. IGFBP4 is also highly expressed in the serum of CKD patients, correlating with kidney failure and reduced osteogenesis [ ]. Our results demonstrated genetic inhibition of IGFBP4 alleviates HG induced apoptosis of HK2 cells and DKD events. Many studies have found that IGFBP1 is a protective factor for DKD, showing reduced expression in early type 2 DKD regulated by phosphoinositide 3-kinase (PI3K)-forkhead box O1 (FoxO1) activity in podocytes [ ]. These findings highlight the potential value of IGFBP1 and IGFBP4 in DKD, suggesting further intervention studies.
+FAM3C is an important regulator of glucose and lipid metabolism, with evidence [ , ] showing reduced expression in the liver under diabetic conditions. Our in vivo and in vitro experiments demonstrated that FAM3C was significantly upregulated in plasma and kidneys of DKD patients. Genetic inhibition of FAM3C effectively alleviated the classic NLRP3-caspase-1-GSDMD apoptotic axis in HK2 cells. As reported, targeting family with sequence similarity 3 member B (FAM3B) and FAM3C significantly promoted autophagy, inhibited apoptosis, and provided protection against myocardial infarction in mice [ ]. These findings suggested that FAM3C might be a potential therapeutic target for DKD.
+Besides IGFBP4 and FAM3C, we have demonstrated the observational and causal associations of NBL1 and PTGDS with DKD development. Since our observational and causal evaluation were based on data of plasma proteomics, which might not represent the actual state of kidney tissues. From protein expression of DKD kidney tissue dataset and related literature [ ], NBL1 was significantly decreased in kidney tissues of DKD patients in contrast. Also, no significant difference could be identified in NBL1 expression on renal biopsy specimens from our DKD patients ( ). These results suggested that NBL1 might not be a potential target for DKD. Therefore, we ignored NBL1 in the following analysis. PTGDS, a key enzyme in the synthesis of prostaglandin D2 (PGD2), is positively associated with DKD risk in young Asian patients with type 2 diabetes [ , ].
+The key strength of our study is applying multiple validation to ensure reliability, including cross-validation of observational and causal risk factors, colocalization analysis to confirm causality, prospective cohort studies to verify prognostic value, genetic inhibition at population level and intervention experiments to validate potential drug targets. However, our study also had several limitations. First, due to the Olink platform, only 2,923 proteins of the human plasma proteome were quantitated, representing just 1.5% of all known proteins, which likely introduced biases in the detection of secreted and low-abundance proteins. Second, although plasma samples are more accessible than kidney biopsy tissues, they lack specificity as reliable drug targets in DKD. Third, our study was carried out across different human races. We adjusted for ethnicity as a covariate. The observational analysis, along with validation in a Chinese population, helped reduce bias. Further validation in other populations is needed. Fourth, because DKD patients and diabetic mice model were both type-II diabetes, it needed more investigation for type-I diabetic patients. Future studies involving knock-out animal models and clinical trials are essential, especially in different diabetes subtypes.
+
+5.
+
+## Conclusions
+In conclusion, we identified 27 new and 10 known targets associated with incident DKD, supported by both observational and causal evidence. Notably, FAM3C and IGFBP4 emerge as potential novel targets for DKD, whose inhibition via RNA interference or agents effectively alleviated the classic NLRP3-caspase-1-GSDMD apoptotic pathway. Our findings highlight the effectiveness of integrating omics data mining and causal inference for prioritizing drug targets.
+
+## CRediT authorship contribution statement
+Junyu Zhang: Writing – original draft, Visualization, Validation, Software, Methodology. Jie Peng: Writing – original draft, Visualization, Validation, Project administration, Methodology, Formal analysis, Data curation. Chaolun Yu: Writing – review & editing, Resources, Funding acquisition, Conceptualization. Yu Ning: Writing – review & editing, Funding acquisition, Conceptualization. Wenhui Lin: Writing – review & editing, Methodology. Mingxing Ni: Writing – review & editing, Formal analysis, Data curation. Qiang Xie: Methodology, Supervision, Validation, Writing – review & editing. Chuan Yang: Writing – review & editing, Supervision, Conceptualization. Huiying Liang: Writing – review & editing, Supervision, Resources, Methodology, Conceptualization. Miao Lin: Writing – review & editing, Writing – original draft, Supervision, Project administration, Methodology, Funding acquisition, Conceptualization.
+
+## Data and resource availability
+This study utilized the UKB resource under application number 33952. Raw UKB data, including individual medical conditions, proteomics, and others, can be accessed for researchers through registration and approval of UKB (https://www.ukbiobank.ac.uk/enable-your-research). GWAS summary statistics are available at UKBPPP (https://www.synapse.org/Synapse:syn51364943/wiki/622119) and FinnGen (https://www.finngen.fi/en/access_results) upon registration.
+
+## Declaration of competing interest
+The authors declare that there are no conflicts of interest.
+
+## Acknowledgments
+We thank all participants and investigators of the UKB and the FinnGen study. This study is supported by the National Natural Science Foundation of China (Grant Nos.: 82204396, 82304491, and 82400511).
+
+## Footnotes
+Peer review under responsibility of Xi'an Jiaotong University.
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.jpha.2025.101265.
+
+## Contributor Information
+Qiang Xie, Email: xieqiang@xmu.edu.cn.
+Chuan Yang, Email: yangch@mail.sysu.edu.cn.
+Huiying Liang, Email: lianghuiying@gdph.org.cn.
+Miao Lin, Email: linmiao@gdph.org.cn.
+
+Appendix A.
+
+## Supplementary data
+The following are the Supplementary data to this article.
+
+## Multimedia component 1
+Multimedia component 1
+
+## Multimedia component 2
+Multimedia component 2
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Multimedia component 1
+Multimedia component 1
+
+## Multimedia component 2
+Multimedia component 2
