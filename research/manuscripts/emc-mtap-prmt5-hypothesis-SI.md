@@ -240,26 +240,22 @@ both in circulation. So the live text carries only the current figure and this t
 |---|---|---|---|
 | §3, *PRMT5* EMC-minus-comparator | +0.266 and +0.744 SD | **+0.263 and +0.816 SD** | the values had drifted from `emc-expression-panels.json`, which is their one home. Checked 2026-08-09 against the committed artifact; the second differs by 0.07 SD and the reading is unchanged in direction or size class |
 | §3, the statistic quoted for route 1 | the methylosome **group** *t* (3.11, 3.89) | additionally the **gene's own** *t* (6.24, 6.67) | the group score is not the unit route 1 depends on — the same error §S4 records in the other direction for the locus. The group figures are not withdrawn; they were simply the wrong ones to lead with |
-| §3/§S3, the locus genes | *MTAP* −0.023 / −0.389; *CDKN2A* −0.399 / +0.173; *CDKN2B* −0.096 | **+0.053 / −0.607; −0.481 / +0.175; −0.136** | ⚠ a 2026-08-09 re-fetch ran on a **NARROWER** probe→symbol bridge than the earlier one (accession resolution 0.931 against 0.984 on GPL6244), because the NCBI link step contributed **zero** genes that run. A narrower bridge changes WHICH probes map to a symbol, and therefore the value. The committed artifact is the one home, so the live text carries its numbers — see the note below, which is the part that matters |
+| §3/§S3, the locus genes | *MTAP* −0.023 / −0.389; *CDKN2A* −0.399 / +0.173; *CDKN2B* −0.096 | **+0.053 / −0.607; −0.481 / +0.175; −0.136** | ⛔ **CAUSE NOT ESTABLISHED, AND AN EARLIER EXPLANATION HERE WAS WRONG.** *Superseded, retained: "a re-fetch ran on a NARROWER probe→symbol bridge (0.931 against 0.984), and a narrower bridge changes which probes map."* That was a story built on a coincidence. Checked against every committed version of the artifact: ***MTAP* reads +0.053 in all of them — at bridge rates 0.984, 0.931 AND 0.981**, and always on one mapped probe. Bridge width does not move this gene. The −0.023 appears in **no committed artifact at all**, so it entered the prose from a source this repository cannot show, and the live values are the ones the artifact has always carried |
 | §3.1/§S4, the dependency denominator | "across 176 sarcoma cell lines" | **"across the 91 screened sarcoma cell lines"** | ⛔ a real error, in the direction that overstated the evidence base, and it was in four places including the abstract. The release lists 176 sarcoma MODELS; only **91** carry CRISPR gene-effect data, and every per-gene record in the artifact says `n_sarcoma: 91`. The percentages themselves are unchanged — they were always computed on the screened subset — but they were being attributed to a denominator almost twice its true size. Caught 2026-08-09 by a later run that added a second gene group and printed the same 91 |
 | §7, the fusion-class transfer | "an assumption" | "argued rather than assumed" | a peer-reviewed fusion-dependent PRMT5 result in a second EWSR1-fusion sarcoma (PMC12354397), and the motif match of §S9. ⚠ Still not an EMC observation |
 
-⭐ **AND THE THIRD ROW IS ITSELF A READING, NOT JUST BOOKKEEPING.** Across two runs on two different
-annotation bridges, ***PRMT5*'s value did not move at all** (+0.2632, *t* = 6.236 both times; one
-probe, resolved by the curated dictionary) while ***MTAP*'s moved by 0.08 SD and changed sign**, and
-*MTAP* on the second platform went from one mapped probe to two. **The gene route 1 depends on is
-annotation-stable; the gene route 2 depends on is not.** That is a further reason not to rest a
-therapeutic argument on this locus at transcript level, and it was visible only because two bridges
-happened to be measured.
+⭐ **AND THE THIRD ROW IS A LESSON ABOUT THIS WORK'S OWN METHOD, WHICH IS WHY IT IS NOT JUST
+BOOKKEEPING.** A plausible mechanism was available — the annotation bridge narrowed on the same day
+the numbers were noticed to differ — and it was written down as the cause without the one check that
+could separate it from coincidence. The check was a `git log` over the artifact, it cost nothing,
+and it refutes the explanation: **four committed versions, three different bridge rates (0.984,
+0.931, 0.981), and *MTAP* reads +0.053 in every one of them.** ⛔ **The −0.023 is in no committed
+artifact**, so what was corrected was a stale figure in the prose rather than a value that moved.
+⭐ **What survives, and is now measured rather than asserted: every figure this manuscript quotes is
+stable across three independent annotation bridges** — *PRMT5* +0.2632 and *MTAP* +0.053 at all
+three — which is a stronger statement about reproducibility than the one it replaces.
 
-⚠ **The narrower bridge is the current committed state, and it is not a budget problem — that was
-tested.** The accession→symbol bridge was re-run twice on 2026-08-09 with the time budget raised to
-3,000 s and then 4,000 s. Both runs returned **zero** gene links from the NCBI step (940 s and 903 s
-spent, stopping at 1,700 of 4,303 accessions), and both landed on the same 0.931. So the wider
-bridge that produced the earlier values is **unavailable at the source**, not merely unpaid for.
-⭐ **The values it produces are reproducible across those runs to the digit** — *MTAP* +0.053,
-*CDKN2A* −0.4805, *PRMT5* +0.2632 — which is why this manuscript quotes them, and why both bridges
-are on the record rather than only the more convenient one.
+⚠ **The bridge itself is volatile and the values are not, which is the useful pair.** The accession→symbol step was re-run four times on 2026-08-09 and resolved 0.984, 0.931, 0.931 and 0.981 of GPL6244's accessions — the middle two returning **zero** gene links from NCBI in ~15 minutes each, the endpoint having briefly stopped answering and then recovered. **None of that moved a number this manuscript quotes.** The bridge now has a committed home so a future outage cannot narrow it at all.
 
 ## S11 · The control calculations
 
