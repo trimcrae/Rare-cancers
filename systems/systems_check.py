@@ -3923,6 +3923,158 @@ def render_plan(g):
     return "\n".join(head) + "\n" + body
 
 
+
+
+# ───────────────────────────── paper strength ─────────────────────────────
+
+#: What a route's `closure_kind` contributes to its paper's standing. ⭐ THE SIGN IS THE WHOLE
+#: DESIGN. CLAUDE.md §0 records a measured incident in which a ranking that scored routes partly on
+#: "what do we hold if the experiment never happens?" put four parallel agents onto finished
+#: negatives while live leads sat one free step from a result — because a completed negative always
+#: scores full marks on that axis and a live lead never does. So a CLOSED route SUBTRACTS here. It
+#: is still worth publishing; it is not worth ranking first.
+CLOSURE_WEIGHT = {
+    "open": 5,
+    "authorization": 2,      # blocked on a human decision, which is the cheapest kind of blocked
+    "instrument_limit": -1,  # closed by what we can measure, not by the biology
+    "confound_in_the_system": -1,
+    "arithmetic_over_fixed_fact": -2,
+    "premise_false": -2,
+    "definitional": -2,
+    None: 0,                 # ungraded — contributes nothing in either direction
+}
+
+#: A drafted paper is worth a little more than an outline, and never enough to outrank live
+#: evidence. ⚠ These numbers are small ON PURPOSE, for the reason above.
+STATE_WEIGHT = {"drafted": 2, "outlined": 1, "unwritten": 0,
+                "complete_unposted": 2, "posted": 2}
+
+
+def _paper_scores(g):
+    """One score per publication endpoint, with every component kept so it can be argued with.
+
+    ⛔ THIS RANKS EVIDENTIAL STANDING AND REACHABILITY, NOT IMPORTANCE. Nothing in the graph knows
+    which result would matter most to a patient, and a number that pretended to would be the most
+    dangerous object in this repository. What it does know is which papers rest on routes that are
+    still open, which are finished negatives, and which can be completed without a laboratory this
+    programme does not have.
+    """
+    from collections import defaultdict
+    by_pub = defaultdict(list)
+    for r in g["routes"]:
+        by_pub[r["publication"]["endpoint"]].append(r)
+    rows = []
+    for p in g["publications"]:
+        rs = by_pub.get(p["id"], [])
+        openish = [r for r in rs if r.get("closure_kind") == "open"]
+        closed = [r for r in rs if (r.get("closure_kind") or "") not in ("open", "authorization", "")
+                  and r.get("closure_kind") is not None]
+        ready = [r for r in rs if (r.get("state") or {}).get("status") == "ready"]
+        need, can = 0, 0
+        for r in rs:
+            for v in (r.get("required_validation") or []):
+                need += 1
+                can += 1 if v.get("feasible_today") else 0
+        self_doable = (can / need) if need else None
+        score = sum(CLOSURE_WEIGHT.get(r.get("closure_kind"), 0) for r in rs)
+        score += 3 * len(ready)
+        score += STATE_WEIGHT.get(p.get("state"), 0)
+        # Everything left to do being doable here is worth as much as one open route, because a
+        # paper nobody else has to touch is one this programme can actually finish.
+        if self_doable is not None:
+            score += round(5 * self_doable, 1)
+        ungraded = [r for r in rs if r.get("closure_kind") is None]
+        rows.append({"pub": p, "routes": rs, "open": openish, "closed": closed, "ready": ready,
+                     "ungraded": ungraded,
+                     "self_doable": self_doable, "n_validation": need, "score": round(score, 1)})
+    rows.sort(key=lambda x: (-x["score"], x["pub"]["id"]))
+    return rows
+
+
+def render_paper_strength(g):
+    """Which paper is strongest, ranked — the view whose absence made every session re-derive it.
+
+    ⛔ WHY THIS EXISTS. `L3-publications.md` says in its own source that it is "NOT a ranking …
+    what to do next is the plan's job", and the plan is spend-gated and degrader-shaped, so it does
+    not rank papers either. The result was that "which paper is strongest?" had no home: it was
+    answered by reading 28 endpoints and 68 route grades by hand, from prose, every time it was
+    asked. That is exactly the re-derivation CLAUDE.md rule 1 exists to stop.
+    """
+    rows = _paper_scores(g)
+    out = [fm(id="DOC-VIEW-PAPER-STRENGTH",
+              title="Paper strength — which endpoint is strongest, and on what",
+              level="L3", kind="generated", status="generated",
+              generator="systems/systems_check.py",
+              purpose="Rank every publication endpoint by the standing of the routes under it and "
+                      "by whether it can be finished without a laboratory this programme does not "
+                      "have — so 'which paper is strongest?' has one home instead of being "
+                      "re-derived from 68 route grades by hand.",
+              scope="One row per publication endpoint. It ranks evidential standing and "
+                    "reachability. It does NOT rank scientific or clinical importance.",
+              audience=["maintainers", "autonomous research agents"],
+              date="2026-08-09", last_verified="2026-08-09"),
+           BANNER,
+           "# Paper strength\n",
+           "> ⛔ **THIS RANKS EVIDENTIAL STANDING AND REACHABILITY — NOT IMPORTANCE.** Nothing in "
+           "the graph\n> knows which result would matter most to a patient, and a number that "
+           "pretended to would be the\n> most dangerous object here. What it does know is which "
+           "papers rest on routes that are still\n> **open**, which are **finished negatives**, and "
+           "which can be completed **without a laboratory this\n> programme does not have**.\n>\n"
+           "> ⭐ **A CLOSED ROUTE SUBTRACTS.** CLAUDE.md §0 records the day a ranking that rewarded "
+           "finished\n> work put four agents onto dead routes while live ones sat one free step "
+           "from a result. A\n> completed negative always scores full marks on \"what do we hold if "
+           "the experiment never\n> happens?\"; a live lead never does. Negatives are still worth "
+           "publishing — they are not worth\n> ranking first.\n>\n"
+           "> ⚠ **Every component is printed, so the ranking can be argued with rather than "
+           "obeyed.**\n",
+           "**Score** = 5 per open route · 2 per route blocked only on a human decision · −1 to −2 "
+           "per closed route (by how it closed) · 3 per route whose status is `ready` · up to 5 for "
+           "the fraction of remaining validation steps that are feasible today · 2 for having a "
+           "drafted document, 1 for an outline.\n",
+           "⛔ **A LOW SCORE CAN MEAN 'CLOSED' OR IT CAN MEAN 'NOBODY GRADED IT', AND THOSE ARE "
+           "OPPOSITE THINGS.** `closure_kind` is unset on "
+           f"{sum(1 for r in g['routes'] if r.get('closure_kind') is None)} of "
+           f"{len(g['routes'])} routes, and an unset field contributes nothing in either "
+           "direction — so a paper can sit low here purely because its routes have never been "
+           "graded. The `ungraded` column is that reading, and a high number in it means **go "
+           "grade the routes**, not **the paper is weak** (CLAUDE.md §4: an absent reading is not "
+           "a reading of absence).\n",
+           "| # | endpoint | score | open | closed | ungraded | ready | doable here | state | routes |",
+           "|---:|---|---:|---:|---:|---:|---:|---|---|---:|"]
+    for i, r in enumerate(rows, 1):
+        p = r["pub"]
+        doc = (p.get("document") or {}).get("file")
+        name = f"[**{p['id']}**]({os.path.relpath(os.path.join(REPO, doc), VIEWS)})" if doc \
+            else f"**{p['id']}**"
+        sd = "—" if r["self_doable"] is None else f"{round(100 * r['self_doable'])}% of {r['n_validation']}"
+        ung = len(r["ungraded"])
+        out.append(f"| {i} | {name} | **{r['score']}** | {len(r['open'])} | {len(r['closed'])} | "
+                   f"{('⚠ ' + str(ung)) if ung else '0'} | "
+                   f"{len(r['ready'])} | {sd} | {PUB_GLYPH[p['state']]} `{p['state']}` | "
+                   f"{len(r['routes'])} |")
+    out.append("")
+    out.append("## The open routes, which are the only ones that can still change an answer\n")
+    out.append("⭐ **Read this list before the table above.** A route here is one the graph records "
+               "as `closure_kind: open` — it has not been closed by a false premise, an instrument "
+               "limit or arithmetic over a fixed fact, so a result is still available from it.\n")
+    any_open = False
+    for r in rows:
+        if not r["open"]:
+            continue
+        any_open = True
+        out.append(f"**{r['pub']['id']}** — score {r['score']}")
+        for rt in r["open"]:
+            s = rt.get("state") or {}
+            out.append(f"- [{rt['id']}](L2-{route_slug(rt['id'])}.md) — *{esc(rt.get('purpose'))}* "
+                       f"— `{s.get('status')}` / `{s.get('maturity')}` / confidence "
+                       f"`{s.get('confidence')}`")
+        out.append("")
+    if not any_open:
+        out.append("⛔ **No route in the portfolio is recorded as open.** That is either a real "
+                   "state or a grading gap, and it is worth the check either way.\n")
+    return "\n".join(out) + "\n"
+
+
 def all_views(g):
     v = {"L0-ecosystem.md": render_l0(g),
          "L3-publications.md": render_publications(g),
@@ -3936,7 +4088,8 @@ def all_views(g):
          "modality-census.md": render_modalities(g),
          "readiness.md": render_readiness(g),
          "roadmap-5yr.md": render_roadmap(g),
-         "plan.md": render_plan(g)}
+         "plan.md": render_plan(g),
+         "paper-strength.md": render_paper_strength(g)}
     for s in g["strategies"]:
         v[f"L1-{s['id'].lower()}.md"] = render_l1(s, g)
     for r in g["routes"]:
