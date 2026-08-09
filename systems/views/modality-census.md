@@ -189,7 +189,7 @@ carries the cheapest observation that would move it.
 | **MOD-TEAD-YAP**<br/>TEAD / YAP inhibitors | TEAD palmitoylation inhibitors | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-TF-LBD-OCCUPANCY**<br/>Direct small-molecule occupancy of a transcription-factor ligand-binding domain | monovalent pocket modulators | ✓ `on_board` | · | [RT-MONOVALENT](L2-rt-monovalent.md) — Monovalent LBD pocket modulation  … |
 | **MOD-TRAIL-DR5**<br/>Death-receptor agonists | DR5 agonists | ✕ `excluded` | ⭑ **new** | A class with a long record of clinical inactivity across solid tumours and no EMC-specific sensitising feature reported. |
-| **MOD-WNT-BETA-CATENIN**<br/>Wnt / β-catenin pathway inhibitors | porcupine inhibitors | ✕ `excluded` | ⭑ **new** | Selects on a Wnt-pathway lesion, and none is reported in EMC's quiet genome. |
+| **MOD-WNT-BETA-CATENIN**<br/>Wnt / β-catenin pathway inhibitors | porcupine inhibitors | ✕ `excluded` | ⭑ **new** | ⛔ THIS EXCLUSION WAS ARGUED, NOT READ, AND THE READING CONTRADICTS ITS PREMISE (2026-08-09). … |
 
 ### Degraders and induced proximity
 

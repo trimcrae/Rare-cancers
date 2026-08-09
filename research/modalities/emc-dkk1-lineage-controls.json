@@ -1,0 +1,286 @@
+{
+  "_what": "DKK1 (and two neighbours) in EMC against EACH comparator class separately, rather than against a pooled comparator arm.",
+  "_generated_by": "research/modalities/emc_dkk1_lineage_controls.py",
+  "_source": "research/modalities/emc-expression-panels.json (gene_reads[*].per_sample)",
+  "_this_computes_nothing_new": "Every z-score is lifted from the committed panel. What is new is the CUT — per comparator class instead of pooled.",
+  "⛔_the_confound_this_cannot_settle": "NO COMPARATOR IN EITHER SERIES IS CARTILAGE-LINEAGE. EMC is a chondroid tumour and every comparator here is fibroblastic or GIST, so 'chondroid tumours express DKK1' is NOT excluded by anything in this file and must not be described as excluded. Settling it needs a series containing conventional chondrosarcoma or normal cartilage, and none is on disk.",
+  "⚠_what_a_z_score_is_here": "Each value is the sample's own z against that array's full probe distribution, so it is a within-array position, not a cross-platform quantity. Medians are compared within a platform only.",
+  "_no_clinical_claim": "⛔ Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent. It is a transcript contrast in archival tissue.",
+  "class_roles": {
+    "LGFMS": "FET-fusion control — FUS::CREB3L2. Tests whether the reading tracks 'has a FET fusion'.",
+    "desmoid_fibromatosis": "Wnt-activation control — the canonical beta-catenin-driven tumour. Tests whether the reading is simply Wnt pathway output.",
+    "fibrosarcoma": "fibroblastic comparator, no specific control role.",
+    "DFSP": "fibroblastic comparator (COL1A1::PDGFB), no specific control role.",
+    "GIST": "non-fibroblastic, non-cartilage comparator, no specific control role.",
+    "EMC": "the disease."
+  },
+  "genes": {
+    "DKK1": {
+      "GSE24369_series_matrix.txt.gz": {
+        "_readable": true,
+        "platform": "GPL6244",
+        "n_samples_dropped_for_no_value": 0,
+        "by_class": {
+          "desmoid_fibromatosis": {
+            "n": 6,
+            "median_z": -0.572,
+            "min_z": -0.78,
+            "max_z": -0.322,
+            "role": "Wnt-activation control — the canonical beta-catenin-driven tumour. Tests whether the reading is simply Wnt pathway output."
+          },
+          "EMC": {
+            "n": 6,
+            "median_z": 2.509,
+            "min_z": 1.249,
+            "max_z": 2.93,
+            "role": "the disease."
+          },
+          "LGFMS": {
+            "n": 17,
+            "median_z": -0.964,
+            "min_z": -1.183,
+            "max_z": 1.135,
+            "role": "FET-fusion control — FUS::CREB3L2. Tests whether the reading tracks 'has a FET fusion'."
+          },
+          "fibrosarcoma": {
+            "n": 6,
+            "median_z": 0.048,
+            "min_z": -0.717,
+            "max_z": 1.976,
+            "role": "fibroblastic comparator, no specific control role."
+          }
+        },
+        "separation_vs_each_class": {
+          "desmoid_fibromatosis": {
+            "emc_median_minus_class_median": 3.081,
+            "emc_min_above_class_max": true
+          },
+          "LGFMS": {
+            "emc_median_minus_class_median": 3.472,
+            "emc_min_above_class_max": true
+          },
+          "fibrosarcoma": {
+            "emc_median_minus_class_median": 2.461,
+            "emc_min_above_class_max": false
+          }
+        }
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "_readable": true,
+        "platform": "GPL3290",
+        "n_samples_dropped_for_no_value": 3,
+        "by_class": {
+          "DFSP": {
+            "n": 2,
+            "median_z": -3.653,
+            "min_z": -3.735,
+            "max_z": -3.571,
+            "role": "fibroblastic comparator (COL1A1::PDGFB), no specific control role."
+          },
+          "GIST": {
+            "n": 1,
+            "median_z": -1.843,
+            "min_z": -1.843,
+            "max_z": -1.843,
+            "role": "non-fibroblastic, non-cartilage comparator, no specific control role."
+          },
+          "EMC": {
+            "n": 10,
+            "median_z": 2.271,
+            "min_z": -0.894,
+            "max_z": 3.362,
+            "role": "the disease."
+          }
+        },
+        "separation_vs_each_class": {
+          "DFSP": {
+            "emc_median_minus_class_median": 5.924,
+            "emc_min_above_class_max": true
+          },
+          "GIST": {
+            "emc_median_minus_class_median": 4.113,
+            "emc_min_above_class_max": true
+          }
+        }
+      }
+    },
+    "NR4A1": {
+      "GSE24369_series_matrix.txt.gz": {
+        "_readable": true,
+        "platform": "GPL6244",
+        "n_samples_dropped_for_no_value": 0,
+        "by_class": {
+          "desmoid_fibromatosis": {
+            "n": 6,
+            "median_z": 0.378,
+            "min_z": 0.285,
+            "max_z": 0.77,
+            "role": "Wnt-activation control — the canonical beta-catenin-driven tumour. Tests whether the reading is simply Wnt pathway output."
+          },
+          "EMC": {
+            "n": 6,
+            "median_z": 1.373,
+            "min_z": 0.628,
+            "max_z": 2.106,
+            "role": "the disease."
+          },
+          "LGFMS": {
+            "n": 17,
+            "median_z": 0.463,
+            "min_z": 0.281,
+            "max_z": 1.802,
+            "role": "FET-fusion control — FUS::CREB3L2. Tests whether the reading tracks 'has a FET fusion'."
+          },
+          "fibrosarcoma": {
+            "n": 6,
+            "median_z": 1.019,
+            "min_z": 0.427,
+            "max_z": 1.262,
+            "role": "fibroblastic comparator, no specific control role."
+          }
+        },
+        "separation_vs_each_class": {
+          "desmoid_fibromatosis": {
+            "emc_median_minus_class_median": 0.995,
+            "emc_min_above_class_max": false
+          },
+          "LGFMS": {
+            "emc_median_minus_class_median": 0.909,
+            "emc_min_above_class_max": false
+          },
+          "fibrosarcoma": {
+            "emc_median_minus_class_median": 0.353,
+            "emc_min_above_class_max": false
+          }
+        }
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "_readable": true,
+        "platform": "GPL3290",
+        "n_samples_dropped_for_no_value": 0,
+        "by_class": {
+          "DFSP": {
+            "n": 3,
+            "median_z": 0.421,
+            "min_z": 0.08,
+            "max_z": 1.022,
+            "role": "fibroblastic comparator (COL1A1::PDGFB), no specific control role."
+          },
+          "GIST": {
+            "n": 3,
+            "median_z": -0.662,
+            "min_z": -0.677,
+            "max_z": 0.703,
+            "role": "non-fibroblastic, non-cartilage comparator, no specific control role."
+          },
+          "EMC": {
+            "n": 10,
+            "median_z": 1.391,
+            "min_z": -0.533,
+            "max_z": 2.82,
+            "role": "the disease."
+          }
+        },
+        "separation_vs_each_class": {
+          "DFSP": {
+            "emc_median_minus_class_median": 0.97,
+            "emc_min_above_class_max": false
+          },
+          "GIST": {
+            "emc_median_minus_class_median": 2.053,
+            "emc_min_above_class_max": false
+          }
+        }
+      }
+    },
+    "NR4A2": {
+      "GSE24369_series_matrix.txt.gz": {
+        "_readable": true,
+        "platform": "GPL6244",
+        "n_samples_dropped_for_no_value": 0,
+        "by_class": {
+          "desmoid_fibromatosis": {
+            "n": 6,
+            "median_z": 0.16,
+            "min_z": -0.025,
+            "max_z": 1.006,
+            "role": "Wnt-activation control — the canonical beta-catenin-driven tumour. Tests whether the reading is simply Wnt pathway output."
+          },
+          "EMC": {
+            "n": 6,
+            "median_z": 1.235,
+            "min_z": -0.037,
+            "max_z": 1.784,
+            "role": "the disease."
+          },
+          "LGFMS": {
+            "n": 17,
+            "median_z": 0.253,
+            "min_z": -0.119,
+            "max_z": 1.731,
+            "role": "FET-fusion control — FUS::CREB3L2. Tests whether the reading tracks 'has a FET fusion'."
+          },
+          "fibrosarcoma": {
+            "n": 6,
+            "median_z": 1.016,
+            "min_z": 0.298,
+            "max_z": 1.202,
+            "role": "fibroblastic comparator, no specific control role."
+          }
+        },
+        "separation_vs_each_class": {
+          "desmoid_fibromatosis": {
+            "emc_median_minus_class_median": 1.075,
+            "emc_min_above_class_max": false
+          },
+          "LGFMS": {
+            "emc_median_minus_class_median": 0.982,
+            "emc_min_above_class_max": false
+          },
+          "fibrosarcoma": {
+            "emc_median_minus_class_median": 0.219,
+            "emc_min_above_class_max": false
+          }
+        }
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "_readable": true,
+        "platform": "GPL3290",
+        "n_samples_dropped_for_no_value": 0,
+        "by_class": {
+          "DFSP": {
+            "n": 3,
+            "median_z": -0.129,
+            "min_z": -0.38,
+            "max_z": 0.22,
+            "role": "fibroblastic comparator (COL1A1::PDGFB), no specific control role."
+          },
+          "GIST": {
+            "n": 3,
+            "median_z": 0.081,
+            "min_z": -0.351,
+            "max_z": 0.189,
+            "role": "non-fibroblastic, non-cartilage comparator, no specific control role."
+          },
+          "EMC": {
+            "n": 10,
+            "median_z": 0.266,
+            "min_z": -0.067,
+            "max_z": 1.362,
+            "role": "the disease."
+          }
+        },
+        "separation_vs_each_class": {
+          "DFSP": {
+            "emc_median_minus_class_median": 0.395,
+            "emc_min_above_class_max": false
+          },
+          "GIST": {
+            "emc_median_minus_class_median": 0.185,
+            "emc_min_above_class_max": false
+          }
+        }
+      }
+    }
+  }
+}
