@@ -181,6 +181,14 @@ registered practice rather than chosen here.
 Where a response rate sits close to the null, no design of realistic size exists at all. That case is
 reported as such rather than as a number, because it is a statement about the disease.
 
+![Figure 1. Conditions placed on the two axes, with both contours drawn.](./endpoint-regime-map.svg)
+
+**Figure 1.** Each point is a condition placed by its own measured numbers: median actual trial
+enrolment against median objective response. The solid curve is the zero-event contour, the dashed
+curve the single-stage design contour. A point to the left of a curve lies inside that regime.
+Extraskeletal myxoid chondrosarcoma is circled. Produced by
+[`endpoint_regime_figure.py`](./endpoint_regime_figure.py).
+
 ### 3.2 Disease coordinates
 
 44 conditions had enough of both axes to be placed. 14 of them (31.8%) had a median trial smaller
@@ -415,6 +423,7 @@ alternative: a control arm, in a regime where almost none exists.
 | Corpus of arm-level counts | [`endpoint-corpus.json`](./endpoint-corpus.json) |
 | Both endpoints, distribution and reporting census | [`orr-dcr-reread.json`](./orr-dcr-reread.json) |
 | Regime map | [`endpoint-regime-map.json`](./endpoint-regime-map.json) |
+| Figure 1, and its producer | [`endpoint-regime-map.svg`](./endpoint-regime-map.svg), [`endpoint_regime_figure.py`](./endpoint_regime_figure.py) |
 | Control-arm classification | [`placebo-arm-calibration.json`](./placebo-arm-calibration.json) |
 | Remedy audit and its retrieved records | [`endpoint-prior-art-audit.json`](./endpoint-prior-art-audit.json) |
 | Frozen retrieval protocol | [`lit-targets-cross-disease-endpoints.json`](./lit-targets-cross-disease-endpoints.json) |

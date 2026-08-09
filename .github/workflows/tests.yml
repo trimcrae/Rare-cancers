@@ -87,6 +87,7 @@ jobs:
           python3 research/manuscripts/endpoint_regime_map.py --check
           python3 research/manuscripts/placebo_arm_calibration.py --check
           python3 research/manuscripts/endpoint_prior_art_audit.py --check
+          python3 research/manuscripts/endpoint_regime_figure.py --check
       # The systems model (systems/graph/*.json) and its generated views. Standalone for the same
       # reason as the linters above -- a doc author who breaks it should see the failing step name,
       # not a traceback in ~1500 tests. Three distinct things fail here, all red:
