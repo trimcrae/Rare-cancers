@@ -68,6 +68,22 @@ GENE_GROUPS = {
     # the screen's THREE hits are pan-HDAC agents, which is a within-screen class replication the
     # one-agent framing of that lead never showed.
     "Drug-screen hit targets": ["ALK", "ROS1", "EGFR", "HDAC1", "HDAC2", "HDAC3", "HDAC6"],
+    # ⭐ THE AXIS OF THE BEST EX-VIVO RESULT THIS DISEASE HAS, and it had never been read here.
+    # `RT-CARFILZOMIB` rests on carfilzomib ± venetoclax being active across two PATIENT-DERIVED EMC
+    # models — the only place in this portfolio where a drug was put on cells that actually carry
+    # this disease. Its target axis was absent from this panel and from the expression panel until
+    # 2026-08-09.
+    #
+    # ⛔ AND THE EXPECTED ANSWER IS PAN-ESSENTIALITY, WHICH WOULD QUALIFY THE LEAD RATHER THAN
+    # SUPPORT IT — the same trap this panel already caught once. PRMT5 and MAT2A are dependencies in
+    # 94.5% and 96.7% of 176 sarcoma lines, which is why the PRMT5 manuscript reports its dependency
+    # prior AGAINST its own route. A proteasome subunit required in every line offers nothing to
+    # select on either, and if that is what comes back it belongs in the repurposing paper in the
+    # same position and with the same prominence.
+    # ⚠ NFE2L1 is included knowing a CRISPR score cannot see its bounce-back mechanism, which is
+    # post-translational; it is here so the gene is on the record as read rather than skipped.
+    "Proteasome and proteostasis (the ex-vivo lead's axis)": [
+        "PSMB5", "PSMB1", "PSMD1", "PSMD14", "PSMC1", "VCP", "NFE2L1", "HSPA5", "SQSTM1"],
 }
 ALL_GENES = sorted({g for v in GENE_GROUPS.values() for g in v})
 # context genes for sanity (a pan-essential and the fusion gene itself)
