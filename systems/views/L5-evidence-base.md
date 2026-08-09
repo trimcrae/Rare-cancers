@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 15 evidence items · 40 artifacts · 14 pinned claims.**
+**19 objects · 15 evidence items · 42 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -81,6 +81,7 @@ omitted, and why `[L5]` reports the count.
 |---|---|---|---|
 | **ART-APO-POSE-SITE** | `research/modalities/apo-pose-site-in-regime.json` | `research/modalities/apo_pose_recovery.py` | `CLM-APO-SITE-IN-REGIME`, [RT-DEGRADER](L2-rt-degrader.md) |
 | **ART-ATR-VULNERABILITY** | `research/modalities/emc-atr-vulnerability.json` | `research/modalities/emc_atr_vulnerability.py` | [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
+| **ART-CARE-DELIVERY-EVIDENCE** | `research/modalities/emc-care-delivery-evidence.json` | `research/modalities/emc_care_delivery_evidence.py` | [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md), [RT-METASTASECTOMY](L2-rt-metastasectomy.md), [RT-POPULATION-REGISTRY](L2-rt-population-registry.md), [RT-RISK-MODEL](L2-rt-risk-model.md), [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md), [RT-SURVEILLANCE](L2-rt-surveillance.md) |
 | **ART-CENSUS-ROUTE-GRADING** | `research/modalities/census-route-expression-grading.json` | `research/modalities/census_route_expression_grading.py` | [RT-ALK-HIT](L2-rt-alk-hit.md), [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md), [RT-ARGININE](L2-rt-arginine.md), [RT-CHAPERONE](L2-rt-chaperone.md), [RT-EZH2](L2-rt-ezh2.md), [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md), [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md), [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md), [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md), [RT-MDM2](L2-rt-mdm2.md), [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md), [RT-NR2F1](L2-rt-nr2f1.md), [RT-POLQ](L2-rt-polq.md), [RT-RET](L2-rt-ret.md), [RT-SGK1](L2-rt-sgk1.md), [RT-TXN-CDK](L2-rt-txn-cdk.md) |
 | **ART-CONSTRUCT-DESIGNS** | `research/modalities/emc-fet-construct-designs.json` | `research/modalities/emc_fet_construct_designs.py` | `CLM-CONSTRUCT-FRAME`, `CLM-CONSTRUCT-TCF12`, `OBJ-FUS-T1`, `OBJ-FUS-T2`, `OBJ-FUS-T5`, `OBJ-FUS-TAF15`, [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **ART-CTA-EXPRESSION** | `research/modalities/depmap-target-expression.json` | `research/modalities/depmap_target_expression.py` | [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md), [RT-TCRT-CTA](L2-rt-tcrt-cta.md) |
@@ -102,6 +103,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-HLA-COVERAGE** | `research/modalities/hla-coverage.json` | `research/modalities/hla_coverage.py` | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md), [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md), [RT-TCRT-CTA](L2-rt-tcrt-cta.md), [RT-VACCINE](L2-rt-vaccine.md) |
 | **ART-HORMONE-PARTNER-LANE** | `research/modalities/hormone-partner-lane.json` | `research/modalities/hormone_partner_map.py` | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) |
 | **ART-IDR-CENSUS** | `research/modalities/emc-fet-idr-census.json` | `research/modalities/emc_fet_idr_census.py` | `CLM-IDR-COMPARATIVE`, `CLM-IDR-CONTROLS`, `CLM-IDR-EMC`, [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
+| **ART-IPD-SURVIVAL** | `research/modalities/emc-ipd-survival.json` | `research/modalities/emc_ipd_survival.py` | [RT-IPD-SURVIVAL](L2-rt-ipd-survival.md) |
 | **ART-JUNCTION-ASO-OFFTARGET** | `research/modalities/junction-aso-offtarget-e12n3.json` | `research/modalities/junction_aso_offtarget.py` | [RT-ASO](L2-rt-aso.md) |
 | **ART-LOCOREGIONAL-ELIGIBILITY** | `research/modalities/emc-locoregional-eligibility.json` | `research/modalities/emc_locoregional_eligibility.py` | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md), [RT-LUNG-DIRECTED](L2-rt-lung-directed.md), [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) |
 | **ART-MONOVALENT-REACH** | `research/modalities/nr4a3-monovalent-reach.json` | `research/modalities/nr4a3_monovalent_reach.py` | `CLM-MONOVALENT-CROSSCHECK`, `CLM-MONOVALENT-VERDICT`, [RT-MONOVALENT](L2-rt-monovalent.md) |

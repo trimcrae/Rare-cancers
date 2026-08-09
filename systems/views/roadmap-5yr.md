@@ -161,6 +161,7 @@ each, and what would move them are in [registers/technologies.md](registers/tech
 
 | expected | fan-out | technology | impact here | basis | state |
 |---|---:|---|---|---|---|
+| **2026H2** | 10 | TECH-RECONSTRUCTED-IPD | `large` | `evidence_based` | `partially_landed` |
 | **2027** | 9 | TECH-COFOLD-ASSEMBLY | `transformative` | `evidence_based` | `partially_landed` |
 | **2027** | 7 | TECH-CHEAP-ENSEMBLE | `large` | `evidence_based` | `partially_landed` |
 | **2027** | 5 | TECH-CHARGE-CHANGE-FEP | `moderate` | `extrapolated` | `absent` |

@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**28 endpoints for 68 routes · 27 with a document · 1 unwritten.**
+**31 endpoints for 75 routes · 28 with a document · 3 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -59,10 +59,13 @@ last_verified: 2026-08-06
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-TXN-DEPENDENCY**<br/>[Transcriptional and proteostatic dependency of a fusion transcription f…](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) | ◐ `drafted` | `preprint` | 2 | — |
+| **PUB-EMC-CLASSIFICATION**<br/>*One code, two diseases: what registry-based extraskeletal myxoid chondr…* | ◔ `outlined` | `preprint` | 2 | ⭐ The contradiction is MEASURED and quoted from both papers' own Methods sections (emc-care-delivery-evidence.json -> icd_o_9231_3), which is enough … |
 | **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. … |
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ◔ `outlined` | `preprint` | 3 | ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. … |
 | **PUB-MATRIX-ADDRESS**<br/>*The myxoid matrix as an address rather than an obstacle* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. … |
 | **PUB-NR-OUTSIDE-NR4A3**<br/>*Nuclear-receptor pharmacology outside NR4A3 in a NR4A3-driven sarcoma* | ◔ `outlined` | `preprint` | 2 | ⚠ ITS BLOCKER IS RETIRED AND BOTH ROUTES ARE GRADED, BOTH NEGATIVELY, FOR DIFFERENT REASONS. The dormancy route is UNREAD  … |
+| **PUB-CARE-DELIVERY**<br/>*What decides survival in extraskeletal myxoid chondrosarcoma, and what …* | ○ `unwritten` | `preprint` | 4 | Its four contributing routes are registered and their evidence is cited but not yet extracted. … |
+| **PUB-IPD-SURVIVAL**<br/>*A reconstructed patient-level survival dataset for extraskeletal myxoid…* | ○ `unwritten` | `preprint` | 1 | The instrument is built and its known-answer control passes; no published figure has been digitized into it yet. … |
 | **PUB-PARKED-MODALITIES**<br/>*Five modalities parked on a capability that does not exist yet: what wo…* | ○ `unwritten` | `preprint` | 5 | Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. … |
 
 ## What each one would claim
@@ -372,6 +375,23 @@ A fusion oncoprotein whose entire mechanism is transactivation, and whose struct
 | [RT-CHAPERONE](L2-rt-chaperone.md) — Chaperone dependency of the chimera (HSP90 and co-ch | `primary` | The half of the paper that argues from what the driver IS STRUCTURALLY: a chimera of two domains that never evolved together is a folding problem before it is a signalling one. |
 | [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13 | `primary` | The half of the paper that argues from what the driver IS: a transcriptional oncoprotein should be more dependent on the transcriptional machinery than the cell it sits in. |
 
+### PUB-EMC-CLASSIFICATION — One code, two diseases: what registry-based extraskeletal myxoid chondrosarcoma cohorts actually contain
+
+**◔ `outlined` · aimed at `preprint`**
+
+ICD-O-3 morphology code 9231/3 is read by the published literature as two mutually incompatible diseases — extraskeletal myxoid chondrosarcoma in one SEER study and a histological subtype of chondrosarcoma of bone in another — so every registry-based EMC statistic carries an unquantified contamination, and the disease's name imports a tumour class it does not belong to.
+
+**Not written because:** ⭐ The contradiction is MEASURED and quoted from both papers' own Methods sections (emc-care-delivery-evidence.json -> icd_o_9231_3), which is enough for the argument. What is missing is the SIZE of the contamination — a SEER query split by ICD-O topography — and that needs a data-use agreement rather than a fetch.
+
+**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
+
+- **BLK-REGISTRY-DUA** (`requires_authorization`) — Population cancer-registry microdata (SEER, NCDB) needs a signed data-use agreement
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) — The diagnosis itself — code contamination and a name | `contributing` | The whole argument: one code read as two diseases, and a measured cost of diagnostic uncertainty. |
+| [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) — Population cancer-registry microdata (SEER, NCDB) | `contributing` | The measurement that would size the contamination the classification paper can currently only demonstrate. |
+
 ### PUB-KINASE-LEADS — Four kinase observations in extraskeletal myxoid chondrosarcoma that nobody followed up
 
 **◔ `outlined` · aimed at `preprint`**
@@ -445,6 +465,41 @@ Two nuclear-receptor routes exist in this disease that do not act on its own rec
 | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) — Hormonal therapy for hormone-responsive 5′ fusion pa | `primary` | The half of the paper where the druggable input is imported by the 5′ partner rather than supplied by the driver's own receptor. |
 | [RT-NR2F1](L2-rt-nr2f1.md) — Orphan nuclear-receptor agonism against dormancy esc | `primary` | The half of the paper that targets the disease's clinical problem — late metastasis — through a receptor that has the tool compound this program's own receptor never had. |
 
+### PUB-CARE-DELIVERY — What decides survival in extraskeletal myxoid chondrosarcoma, and what the literature has been looking at instead
+
+**○ `unwritten` · aimed at `preprint`**
+
+In extraskeletal myxoid chondrosarcoma the determinants of survival that have been studied least are the ones that decide it most: the completeness of the first operation, whether the diagnosis was known before it, and whether follow-up outlasts a disease that recurs for decades.
+
+**Not written because:** Its four contributing routes are registered and their evidence is cited but not yet extracted. The paper needs the reconstructed survival dataset (RT-IPD-SURVIVAL) to say anything quantitative; without it, it is an argument with citations rather than a result.
+
+**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
+
+- **BLK-NO-CURATED-CLINICAL-DATA** (`insufficient_data`) — The clinical facts these routes need are IN the published record and have never been extracted into the registry
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-METASTASECTOMY](L2-rt-metastasectomy.md) — Pulmonary metastasectomy as a decision rather than a | `contributing` | Plausibly the highest-yield survival intervention available in this disease today, and the one with no literature at all. |
+| [RT-RISK-MODEL](L2-rt-risk-model.md) — A prognostic risk model for EMC | `contributing` | The stratification that turns the family's other three routes from observations into decisions. |
+| [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) — The first operation — margin status, unplanned excis | `contributing` | The largest measured survival association in the disease, and the one nobody here had written down. |
+| [RT-SURVEILLANCE](L2-rt-surveillance.md) — Surveillance duration and interval as the interventi | `contributing` | The disease's own natural history turned into a schedule, in the one place where timing and not chemistry decides the outcome. |
+
+### PUB-IPD-SURVIVAL — A reconstructed patient-level survival dataset for extraskeletal myxoid chondrosarcoma
+
+**○ `unwritten` · aimed at `preprint`**
+
+Patient-level survival data for extraskeletal myxoid chondrosarcoma, reconstructed from every published Kaplan-Meier curve that prints a numbers-at-risk table — the first pooled time-to-event dataset in this disease, and the input its unanswerable clinical questions were waiting on.
+
+**Not written because:** The instrument is built and its known-answer control passes; no published figure has been digitized into it yet. ⛔ The generator's CURVES table is EMPTY by construction and a test enforces that, because inventing a coordinate would fabricate a clinical datum.
+
+**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
+
+- **BLK-NO-CURATED-CLINICAL-DATA** (`insufficient_data`) — The clinical facts these routes need are IN the published record and have never been extracted into the registry
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-IPD-SURVIVAL](L2-rt-ipd-survival.md) — Patient-level survival reconstructed from published  | `contributing` | The dataset every other clinical route in this portfolio stops at the absence of. |
+
 ### PUB-PARKED-MODALITIES — Five modalities parked on a capability that does not exist yet: what would have to land, and how it is being watched for
 
 **○ `unwritten` · aimed at `preprint`**
@@ -482,6 +537,10 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-EZH2](L2-rt-ezh2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |
 | [RT-MDM2](L2-rt-mdm2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |
 | [RT-POLQ](L2-rt-polq.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |
+| [RT-METASTASECTOMY](L2-rt-metastasectomy.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-CARE-DELIVERY** ○ | `preprint` | `contributing` |
+| [RT-RISK-MODEL](L2-rt-risk-model.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-CARE-DELIVERY** ○ | `preprint` | `contributing` |
+| [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-CARE-DELIVERY** ○ | `preprint` | `contributing` |
+| [RT-SURVEILLANCE](L2-rt-surveillance.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-CARE-DELIVERY** ○ | `preprint` | `contributing` |
 | [RT-6MP](L2-rt-6mp.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
 | [RT-DBD](L2-rt-dbd.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
 | [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
@@ -494,12 +553,15 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-DEGRADER](L2-rt-degrader.md) | [ST-PROXIMITY](L1-st-proximity.md) | `preprint` | **PUB-DEGRADER** ◐ | `journal_submission` | `primary` |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | [ST-IMMUNO](L1-st-immuno.md) | `preprint` | **PUB-DEGRADER** ◐ | `journal_submission` | `contributing` |
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) | [ST-PROXIMITY](L1-st-proximity.md) | `internal_note` | **PUB-DEGRADER** ◐ | `journal_submission` | `contributing` |
+| [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-EMC-CLASSIFICATION** ◔ | `preprint` | `contributing` |
+| [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-EMC-CLASSIFICATION** ◔ | `preprint` | `contributing` |
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-ENDPOINT** ◐ | `journal_submission` | `primary` |
 | [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-FUSION-OUTPUT** ◐ | `journal_submission` | `primary` |
 | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `preprint` | **PUB-FUSION-PARTNER** ◐ | `preprint` | `primary` |
 | [RT-VACCINE](L2-rt-vaccine.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-HLA-COVERAGE** ◐ | `preprint` | `primary` |
+| [RT-IPD-SURVIVAL](L2-rt-ipd-survival.md) | [ST-CARE-DELIVERY](L1-st-care-delivery.md) | `internal_note` | **PUB-IPD-SURVIVAL** ○ | `preprint` | `contributing` |
 | [RT-ALK-HIT](L2-rt-alk-hit.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-KINASE-LEADS** ◔ | `preprint` | `contributing` |
 | [RT-DNAPK](L2-rt-dnapk.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-KINASE-LEADS** ◔ | `preprint` | `contributing` |
 | [RT-RET](L2-rt-ret.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-KINASE-LEADS** ◔ | `preprint` | `contributing` |

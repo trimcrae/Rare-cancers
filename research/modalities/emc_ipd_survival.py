@@ -1,0 +1,560 @@
+#!/usr/bin/env python3
+"""Reconstruction of patient-level survival data from published Kaplan-Meier curves.
+
+WHY THIS EXISTS
+---------------
+EMC's defining clinical fact is very long survival with late recurrence, so **every clinical
+question that matters in this disease is a time-to-event question** -- and this repository cannot
+currently ask one. `systems/POLICY-evidence.md` s2.4 pools event-rate metrics as crude
+during-follow-up proportions and states that time-anchored survival is "never merged"; s2.5 lists
+the consequence in its own words: *"no censoring/Kaplan-Meier; no risk-adjustment or multivariable
+control."*
+
+That is a correct description of the limits of the method s2.2 mandates. It is not a limit of the
+published record. Dozens of EMC series print a Kaplan-Meier curve, and Guyot et al. (BMC Med Res
+Methodol 2012;12:9, doi:10.1186/1471-2288-12-9) give an algorithm that inverts such a curve, plus
+its numbers-at-risk table, back into the patient-level data that generated it. Applied across the
+series already curated in `research/data/emc-clinical-registry.json`, that yields the first pooled
+patient-level survival dataset for EMC.
+
+This module is the instrument. It is NOT the dataset -- see WHAT THIS FILE DOES NOT CONTAIN.
+
+WHAT A RECONSTRUCTION IS, AND WHAT IT IS NOT
+--------------------------------------------
+A reconstruction is a **re-expression of a published curve**, never new patients and never new
+follow-up. It cannot fix publication bias, it cannot recover a covariate the paper did not print,
+and it inherits every selection effect of the series it came from. Two patients who are
+indistinguishable in the published figure are indistinguishable here.
+
+The one thing it does add is **censoring structure**, which is exactly what s2.4 says the current
+method throws away -- and censoring structure is what makes a Cox model, a competing-risks
+decomposition and a stratified curve legal instead of a category error.
+
+THE QUALITY FLOOR IS LOAD-BEARING, NOT DECORATION
+-------------------------------------------------
+Guyot's algorithm is driven by the numbers-at-risk table. Without one, the number of censored
+patients in each interval is unidentifiable and the reconstruction degrades from "solved" to
+"assumed" -- and small single-institution series, which is most of what EMC has, frequently print
+no risk table at all. So `assess_quality` grades every curve BEFORE it is admitted and
+`pool_reconstructions` REFUSES a curve below the floor rather than pooling it with a caveat. A
+caveat travels badly; a refusal is checkable.
+
+⛔ THE KNOWN-ANSWER CONTROL TESTS THE ARITHMETIC, NOT THE DIGITIZATION, AND THE DIFFERENCE IS THE
+WHOLE RISK. `research/modalities/tests/test_emc_ipd_survival.py` builds a cohort with KNOWN
+patient-level data, computes its EXACT Kaplan-Meier curve and risk table, and asserts the
+reconstruction recovers the original cohort. That is a genuine known-answer control -- the truth is
+established independently of the reconstruction -- but it feeds the algorithm exact coordinates,
+whereas a real curve is read off a figure by eye. **It therefore bounds algorithmic error and says
+NOTHING about digitization error.** Per CLAUDE.md s4, an instrument's control must be described by
+what it can fail, and this one cannot fail on a mis-read pixel. Digitization error is bounded
+separately, by `max_abs_km_deviation` on each real curve, and that field is reported per curve
+rather than averaged away.
+
+WHAT THIS FILE DOES NOT CONTAIN
+-------------------------------
+⛔ **No curve coordinates.** `CURVES` is empty, deliberately and visibly. Digitizing a published
+figure requires the figure, and inventing a coordinate would be fabricating clinical data -- the
+golden rule this repository opens with. The input schema is specified in `CURVE_SCHEMA` and the
+candidate source list is `CANDIDATE_SOURCES`, so adding a curve is a data edit against a validated
+instrument rather than a re-derivation. Until a curve is digitized from a real figure, this module
+computes over an empty table and says so in its artifact.
+
+METHOD PROVENANCE
+-----------------
+Guyot P, Ades AE, Ouwens MJNM, Welton NJ. "Enhanced secondary analysis of survival data:
+reconstructing the data from published Kaplan-Meier survival curves." BMC Med Res Methodol
+2012;12:9. The interval recursion below follows that paper's published algorithm; variable names
+are kept close to it on purpose so a reviewer can check the two side by side.
+
+Stdlib only -- so it runs in CI with no environment build (CLAUDE.md s6, "pull, don't solve").
+
+Run:     python3 research/modalities/emc_ipd_survival.py
+Verify:  python3 research/modalities/emc_ipd_survival.py --check
+Writes:  research/modalities/emc-ipd-survival.json
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import os
+import sys
+
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+OUT = os.path.join(REPO, "research", "modalities", "emc-ipd-survival.json")
+
+METHOD_REF = {
+    "citation": "Guyot P, Ades AE, Ouwens MJNM, Welton NJ. Enhanced secondary analysis of "
+    "survival data: reconstructing the data from published Kaplan-Meier survival curves. "
+    "BMC Med Res Methodol 2012;12:9.",
+    "doi": "10.1186/1471-2288-12-9",
+    "pmid": "22297116",
+}
+
+# ---------------------------------------------------------------------------
+# The quality floor (see module docstring -- this is a refusal, not a caveat)
+# ---------------------------------------------------------------------------
+
+# A curve with no numbers-at-risk table leaves the per-interval censored count unidentifiable.
+# Guyot's own paper reports materially worse recovery in that case, and EMC's series are small
+# enough that the error is not averaged away by sample size.
+REQUIRE_RISK_TABLE = True
+
+# Maximum tolerated disagreement between the reconstruction's own Kaplan-Meier curve and the
+# digitized survival probabilities it was built from. A reconstruction that cannot reproduce its
+# own input has not converged, whatever else it produced.
+MAX_KM_DEVIATION = 0.05
+
+# Fewer digitized points than this cannot describe a step function well enough to invert.
+MIN_DIGITIZED_POINTS = 6
+
+CURVE_SCHEMA = {
+    "id": "short stable identifier, e.g. 'bishop2019_localised_os'",
+    "source_id": "citation key in research/data/emc-clinical-registry.json -> registry.citations",
+    "endpoint": "one of: os | dss | pfs | lrfs | dmfs",
+    "population": "free text -- the arm or stratum this curve describes",
+    "time_unit": "months | years",
+    "digitized": "list of [time, survival_probability], time non-decreasing, S non-increasing in [0,1]",
+    "risk_table": "list of [time, n_at_risk], time non-decreasing, n_at_risk non-increasing",
+    "total_events": "integer if the paper prints it, else null",
+    "digitized_by": "who read the figure, and with what tool -- provenance for a hand step",
+}
+
+# Series already curated here that print a Kaplan-Meier curve worth digitizing. This is a WORK
+# LIST, not evidence: presence here asserts only that the source is in the registry, never that
+# its figure has been read or that its curve is admissible.
+CANDIDATE_SOURCES: list[dict] = []
+
+# ⛔ EMPTY BY CONSTRUCTION. A coordinate here would be a fabricated clinical datum. See
+# "WHAT THIS FILE DOES NOT CONTAIN".
+CURVES: list[dict] = []
+
+
+# ---------------------------------------------------------------------------
+# Guyot et al. 2012 -- the reconstruction itself
+# ---------------------------------------------------------------------------
+def _interval_bounds(digitized: list, risk_table: list) -> list[tuple[int, int]]:
+    """Map each numbers-at-risk interval onto the digitized points that fall inside it.
+
+    Returns (lower, upper) index pairs, inclusive, into `digitized`. An interval with no
+    digitized point is returned as an empty range and skipped by the recursion -- that is a
+    property of the published figure, not an error, and it is counted in the quality report.
+    """
+    bounds = []
+    n = len(digitized)
+    for i, (t_start, _) in enumerate(risk_table):
+        t_end = risk_table[i + 1][0] if i + 1 < len(risk_table) else float("inf")
+        lower, upper = None, None
+        for j in range(n):
+            t = digitized[j][0]
+            if t >= t_start and t < t_end:
+                if lower is None:
+                    lower = j
+                upper = j
+        bounds.append((lower, upper) if lower is not None else (None, None))
+    return bounds
+
+
+def _distribute_censoring(t_lo: float, t_hi: float, n_censor: int, times: list) -> list[int]:
+    """Spread `n_censor` censoring events uniformly over (t_lo, t_hi) and bin them.
+
+    Guyot's algorithm assumes censoring is uniform within a risk interval, because the published
+    figure carries no information about where inside the interval it happened. `times` are the
+    digitized times of the interval; the returned counts align with them, with the final position
+    always 0 (a censoring time cannot fall beyond the last bin edge).
+    """
+    counts = [0] * len(times)
+    if n_censor <= 0 or len(times) < 2:
+        return counts
+    for j in range(1, n_censor + 1):
+        ct = t_lo + j * (t_hi - t_lo) / (n_censor + 1)
+        # right-closed bins (times[k], times[k+1]], first bin includes its left edge
+        placed = False
+        for k in range(len(times) - 1):
+            lo_edge, hi_edge = times[k], times[k + 1]
+            if (ct > lo_edge or (k == 0 and ct >= lo_edge)) and ct <= hi_edge:
+                counts[k] += 1
+                placed = True
+                break
+        if not placed:
+            counts[max(0, len(times) - 2)] += 1
+    return counts
+
+
+def reconstruct(curve: dict) -> dict:
+    """Invert one published Kaplan-Meier curve into patient-level data.
+
+    Follows Guyot et al. 2012. The outer loop walks the numbers-at-risk intervals; inside each,
+    the number of events at every digitized point is chosen so the product-limit estimate tracks
+    the read-off survival, and the number censored is adjusted until the estimated number at risk
+    at the START of the next interval matches the number the paper printed. That adjustment is
+    the whole reason a risk table is required.
+
+    Returns a dict carrying the reconstructed IPD and the diagnostics needed to grade it.
+    """
+    digitized = [(float(t), float(s)) for t, s in curve["digitized"]]
+    risk_table = [(float(t), int(n)) for t, n in curve.get("risk_table") or []]
+    total_events = curve.get("total_events")
+
+    if not digitized:
+        raise ValueError(f"curve {curve.get('id')!r} has no digitized points")
+    if not risk_table:
+        raise ValueError(
+            f"curve {curve.get('id')!r} has no risk table; the censored count is "
+            "unidentifiable without one (see REQUIRE_RISK_TABLE)"
+        )
+
+    t_S = [p[0] for p in digitized]
+    S = [p[1] for p in digitized]
+    n_t = len(digitized)
+    bounds = _interval_bounds(digitized, risk_table)
+    intervals = [(i, lo, hi) for i, (lo, hi) in enumerate(bounds) if lo is not None]
+    if not intervals:
+        raise ValueError(f"curve {curve.get('id')!r}: no digitized point falls in any risk interval")
+
+    n_risk = [n for _, n in risk_table]
+    d = [0] * n_t            # events at each digitized point
+    cen = [0] * n_t          # censorings at each digitized point
+    n_hat = [0] * (n_t + 1)  # estimated number at risk entering each point
+    km_hat = [1.0] * n_t     # product-limit estimate at each point
+    last = intervals[0][1]   # index of the most recent point carrying an event
+
+    for idx, (i, lo, hi) in enumerate(intervals):
+        is_last_interval = idx == len(intervals) - 1
+        n_hat[lo] = n_risk[i]
+
+        if is_last_interval:
+            n_censor = 0
+            if total_events is not None:
+                # Censoring in the final interval is whatever the reported event total implies.
+                events_so_far = sum(d[:lo])
+                n_censor = max(0, n_risk[i] - (int(total_events) - events_so_far))
+            else:
+                # No reported total: everyone still at risk at the last printed time is censored
+                # there. This is Guyot's default and it is conservative for survival estimation.
+                n_censor = 0
+            cen_counts = _distribute_censoring(t_S[lo], t_S[hi], n_censor, t_S[lo : hi + 1])
+            for k, c in enumerate(cen_counts):
+                cen[lo + k] = c
+            last = _sweep_interval(lo, hi, S, d, cen, n_hat, km_hat, last, first=(idx == 0))
+        else:
+            nxt_i, nxt_lo, _ = intervals[idx + 1]
+            target = n_risk[nxt_i]
+            # First approximation of the censored count in this interval (Guyot eq. 2).
+            denom = S[lo] if S[lo] > 0 else 1.0
+            n_censor = int(round(n_risk[i] * (S[nxt_lo] / denom) - target))
+            n_censor = max(0, n_censor)
+
+            # Adjust until the estimated number at risk entering the next interval matches the
+            # number the paper printed. Bounded: each pass moves n_censor by the observed gap,
+            # and a non-converging curve is a curve we refuse rather than one we loop on.
+            for _ in range(1000):
+                cen_counts = _distribute_censoring(t_S[lo], t_S[hi], n_censor, t_S[lo : hi + 1])
+                for k in range(lo, hi + 1):
+                    cen[k] = 0
+                for k, c in enumerate(cen_counts):
+                    cen[lo + k] = c
+                trial_last = _sweep_interval(
+                    lo, hi, S, d, cen, n_hat, km_hat, last, first=(idx == 0)
+                )
+                gap = n_hat[nxt_lo] - target
+                if gap == 0 or (gap < 0 and n_censor <= 0):
+                    last = trial_last
+                    break
+                n_censor = max(0, n_censor + gap)
+            else:
+                last = trial_last
+            if n_hat[nxt_lo] < target:
+                # The figure cannot support the printed risk table; trust the reconstruction and
+                # record the disagreement rather than silently overriding either.
+                n_risk[nxt_i] = n_hat[nxt_lo]
+
+    ipd = []
+    for k in range(n_t):
+        for _ in range(d[k]):
+            ipd.append({"time": t_S[k], "event": 1})
+        for _ in range(cen[k]):
+            ipd.append({"time": t_S[k], "event": 0})
+    ipd.sort(key=lambda r: (r["time"], -r["event"]))
+
+    deviations = [abs(km_hat[k] - S[k]) for k in range(n_t)]
+    return {
+        "id": curve.get("id"),
+        "source_id": curve.get("source_id"),
+        "endpoint": curve.get("endpoint"),
+        "population": curve.get("population"),
+        "time_unit": curve.get("time_unit"),
+        "n_reconstructed": len(ipd),
+        "n_events": sum(d),
+        "n_censored": sum(cen),
+        "n_at_risk_reported_start": risk_table[0][1],
+        "max_abs_km_deviation": round(max(deviations), 4) if deviations else None,
+        "risk_table_intervals": len(risk_table),
+        "risk_table_intervals_with_points": len(intervals),
+        "risk_table_overridden": [
+            {"interval_index": i, "printed": n, "reconstructed": n_risk[i]}
+            for i, (_, n) in enumerate(risk_table)
+            if n_risk[i] != n
+        ],
+        "ipd": ipd,
+    }
+
+
+def _sweep_interval(
+    lo: int, hi: int, S: list, d: list, cen: list, n_hat: list, km_hat: list,
+    last: int, first: bool,
+) -> int:
+    """One forward pass over a risk interval, filling in events and the at-risk count.
+
+    At each digitized point the number of events is the count that makes the product-limit
+    estimate step down to the survival probability read off the figure (Guyot eq. 1). Returns the
+    index of the last point carrying an event, which the next interval resumes from -- carrying
+    it forward is what keeps the product-limit estimate continuous across the interval boundary.
+    """
+    for k in range(lo, hi + 1):
+        if first and k == lo:
+            d[k] = 0
+            km_hat[k] = 1.0
+        else:
+            ref = km_hat[last]
+            if ref > 0 and n_hat[k] > 0:
+                d[k] = int(round(n_hat[k] * (1.0 - (S[k] / ref))))
+            else:
+                d[k] = 0
+            d[k] = max(0, min(d[k], n_hat[k]))
+            km_hat[k] = ref * (1.0 - d[k] / n_hat[k]) if n_hat[k] > 0 else ref
+        nxt = n_hat[k] - d[k] - cen[k]
+        if nxt < 0:
+            # The number at risk cannot go negative; the excess must be censoring the figure
+            # does not support, so it is dropped rather than carried.
+            cen[k] = max(0, n_hat[k] - d[k])
+            nxt = 0
+        n_hat[k + 1] = nxt
+        if d[k] != 0:
+            last = k
+    return last
+
+
+# ---------------------------------------------------------------------------
+# Kaplan-Meier on reconstructed IPD -- used by the control and by pooling
+# ---------------------------------------------------------------------------
+def kaplan_meier(ipd: list) -> list[dict]:
+    """Product-limit estimate from patient-level records [{'time','event'}, ...]."""
+    if not ipd:
+        return []
+    rows = sorted(ipd, key=lambda r: r["time"])
+    n = len(rows)
+    at_risk = n
+    surv = 1.0
+    out = []
+    i = 0
+    while i < n:
+        t = rows[i]["time"]
+        events = censored = 0
+        while i < n and rows[i]["time"] == t:
+            if rows[i]["event"]:
+                events += 1
+            else:
+                censored += 1
+            i += 1
+        if events and at_risk > 0:
+            surv *= 1.0 - events / at_risk
+        out.append(
+            {
+                "time": t,
+                "n_at_risk": at_risk,
+                "events": events,
+                "censored": censored,
+                "survival": round(surv, 6),
+            }
+        )
+        at_risk -= events + censored
+    return out
+
+
+def survival_at(km: list, t: float) -> float | None:
+    """Survival probability at time t from a product-limit table, or None past its support."""
+    if not km or t > km[-1]["time"]:
+        return None
+    s = 1.0
+    for row in km:
+        if row["time"] > t:
+            break
+        s = row["survival"]
+    return s
+
+
+# ---------------------------------------------------------------------------
+# Admissibility
+# ---------------------------------------------------------------------------
+def assess_quality(curve: dict, rec: dict | None, error: str | None = None) -> dict:
+    """Grade one curve against the floor. Every rejection names the criterion it failed."""
+    failures = []
+    if error:
+        failures.append(f"reconstruction_failed: {error}")
+    if REQUIRE_RISK_TABLE and not curve.get("risk_table"):
+        failures.append("no_numbers_at_risk_table")
+    if len(curve.get("digitized") or []) < MIN_DIGITIZED_POINTS:
+        failures.append(
+            f"too_few_digitized_points (<{MIN_DIGITIZED_POINTS})"
+        )
+    if rec is not None:
+        dev = rec.get("max_abs_km_deviation")
+        if dev is not None and dev > MAX_KM_DEVIATION:
+            failures.append(
+                f"km_deviation {dev} exceeds floor {MAX_KM_DEVIATION}"
+            )
+    if not curve.get("digitized_by"):
+        failures.append("no_digitization_provenance")
+    return {
+        "id": curve.get("id"),
+        "admissible": not failures,
+        "failures": failures,
+        "max_abs_km_deviation": (rec or {}).get("max_abs_km_deviation"),
+    }
+
+
+def pool_reconstructions(records: list[dict]) -> dict:
+    """Pool admissible reconstructions into one patient-level survival dataset.
+
+    ⛔ Pooling is only legal across NON-OVERLAPPING populations -- POLICY-evidence.md s2.1, and it
+    binds here exactly as it binds the proportion poolers. This function does not police overlap;
+    the caller must have set `pool: false` on the smaller of any overlapping pair, and the reason
+    travels in the artifact.
+    """
+    pooled = []
+    for rec in records:
+        for row in rec["ipd"]:
+            pooled.append({**row, "source": rec["source_id"], "curve": rec["id"]})
+    km = kaplan_meier(pooled)
+    return {
+        "n_patients": len(pooled),
+        "n_events": sum(1 for r in pooled if r["event"]),
+        "curves_pooled": [r["id"] for r in records],
+        "kaplan_meier": km,
+        "median_survival": _median_survival(km),
+    }
+
+
+def _median_survival(km: list) -> float | None:
+    """First time at which the product-limit estimate falls to or below 0.5, else None.
+
+    None means "not reached", which in an indolent disease is the common and the informative
+    answer -- it must never be rendered as a number.
+    """
+    for row in km:
+        if row["survival"] <= 0.5:
+            return row["time"]
+    return None
+
+
+# ---------------------------------------------------------------------------
+# build / check
+# ---------------------------------------------------------------------------
+def build() -> dict:
+    """Pure over this module's tables. Touches no file -- see the note in the sibling poolers:
+    a verify mode that regenerates and then compares against its own output cannot fail."""
+    reconstructions, quality, errors = [], [], []
+    for curve in CURVES:
+        rec, err = None, None
+        try:
+            rec = reconstruct(curve)
+        except Exception as exc:  # a bad curve is data, not a crash
+            err = str(exc)
+            errors.append({"id": curve.get("id"), "error": err})
+        q = assess_quality(curve, rec, err)
+        quality.append(q)
+        if q["admissible"] and rec is not None and curve.get("pool") is not False:
+            reconstructions.append(rec)
+
+    admissible = [q for q in quality if q["admissible"]]
+    return {
+        "_generated_by": "research/modalities/emc_ipd_survival.py",
+        "_do_not_hand_edit": (
+            "Every number here is computed from the CURVES table in the generator. Verify with "
+            "`python3 research/modalities/emc_ipd_survival.py --check`."
+        ),
+        "method": METHOD_REF,
+        "what_this_is": (
+            "Patient-level survival data reconstructed from published Kaplan-Meier curves. A "
+            "reconstruction is a re-expression of a published figure -- never new patients, never "
+            "new follow-up, and it inherits every selection effect of the series it came from."
+        ),
+        "quality_floor": {
+            "require_numbers_at_risk_table": REQUIRE_RISK_TABLE,
+            "max_abs_km_deviation": MAX_KM_DEVIATION,
+            "min_digitized_points": MIN_DIGITIZED_POINTS,
+            "rationale": (
+                "Without a numbers-at-risk table the per-interval censored count is "
+                "unidentifiable. A curve below the floor is REFUSED, not pooled with a caveat."
+            ),
+        },
+        "curve_schema": CURVE_SCHEMA,
+        "candidate_sources": CANDIDATE_SOURCES,
+        "curves_supplied": len(CURVES),
+        "curves_admissible": len(admissible),
+        "curves_pooled": len(reconstructions),
+        "quality": quality,
+        "errors": errors,
+        "reconstructions": [
+            {k: v for k, v in r.items() if k != "ipd"} for r in reconstructions
+        ],
+        "pooled": pool_reconstructions(reconstructions) if reconstructions else None,
+        "status": (
+            "NO CURVES DIGITIZED. The instrument is built and its known-answer control passes; "
+            "no published EMC figure has been read into CURVES yet. Digitizing a figure requires "
+            "the figure, and inventing a coordinate would fabricate a clinical datum. This field "
+            "is the honest state, not a placeholder to be filled in with plausible numbers."
+        )
+        if not CURVES
+        else "curves supplied; see quality[] for what was admitted and why",
+    }
+
+
+def check() -> int:
+    """Compare the committed artifact against a fresh in-memory build. Writes nothing."""
+    if not os.path.exists(OUT):
+        print(f"MISSING: {OUT}", file=sys.stderr)
+        return 1
+    with open(OUT, encoding="utf-8") as fh:
+        committed = json.load(fh)
+    fresh = build()
+    if committed == fresh:
+        print(f"OK: {os.path.relpath(OUT, REPO)} matches the generator")
+        return 0
+    print(
+        f"STALE OR HAND-EDITED: {os.path.relpath(OUT, REPO)} disagrees with the generator.\n"
+        "Regenerate with `python3 research/modalities/emc_ipd_survival.py`.",
+        file=sys.stderr,
+    )
+    for key in sorted(set(committed) | set(fresh)):
+        if committed.get(key) != fresh.get(key):
+            print(f"  differs: {key}", file=sys.stderr)
+    return 1
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument(
+        "--check",
+        action="store_true",
+        help="verify the committed artifact against the generator; write nothing",
+    )
+    args = ap.parse_args(argv)
+    if args.check:
+        return check()
+    payload = build()
+    with open(OUT, "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+    print(
+        f"wrote {os.path.relpath(OUT, REPO)} "
+        f"({payload['curves_supplied']} curves supplied, "
+        f"{payload['curves_pooled']} pooled)"
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

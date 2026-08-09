@@ -632,5 +632,31 @@
     "what_would_move_this": "Direct mass-spec evidence that a fusion-junction peptide is presented at measurable abundance on a common allele — in ANY fusion-driven tumour, which would make the question empirical rather than predictive. Failing that, a soluble-TCR or TCR-T programme reporting activity against a pHLA at an abundance in the range this junction is expected to occupy.",
     "adoption_note": "⛔ A hit on a DIFFERENT fusion is not this capability. The trigger's on_fire text is explicit: state whether the evidence is about presentation, about abundance, or only about another fusion. EMC's junction is a specific sequence on specific alleles, and a general advance in neoantigen prediction has repeatedly not transferred to it — which is why the repo's own coverage instrument is disclosed as failing rather than quietly dropped.",
     "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "FC-RECONSTRUCTED-IPD",
+    "tech_ref": "TECH-RECONSTRUCTED-IPD",
+    "scenarios": {
+      "conservative": {
+        "date_band": "2027",
+        "rationale": "If most EMC series print no numbers-at-risk table, the quality floor refuses them and the capability never arrives in this disease however good the algorithm is. That is the live failure mode and nobody has counted the tables.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2026H2",
+        "rationale": "The instrument is built and its known-answer control passes; what remains is digitizing figures from open-access papers already retrieved. That is manual work measured in hours, not a capability anyone is waiting on.",
+        "confidence": "moderate"
+      },
+      "optimistic": {
+        "date_band": "2026H2",
+        "rationale": "⛔ THERE IS NO OPTIMISTIC CASE DISTINCT FROM THE EXPECTED ONE, and saying so is the honest entry. Nothing external accelerates this — no paper, no model and no collaborator. It is bounded entirely by whether someone reads the figures.",
+        "confidence": "moderate"
+      }
+    },
+    "expected_impact": "large",
+    "basis": "evidence_based",
+    "what_would_move_this": "A count of how many published EMC series print a numbers-at-risk table beside their Kaplan-Meier curve. That single census decides whether the capability is reachable at all, and it is free.",
+    "adoption_note": "⚠ The date refers to a DATASET existing, not to any clinical question being answered by it. Reconstruction adds censoring structure and no patients, so a landed forecast here licenses time-to-event ANALYSIS and licenses nothing about the strength of the underlying series.",
+    "last_reviewed": "2026-08-09"
   }
 ]

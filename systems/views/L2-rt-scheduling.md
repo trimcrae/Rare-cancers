@@ -24,22 +24,7 @@ last_verified: 2026-08-05
 
 ## What has to land for this route to move
 
-```mermaid
-flowchart LR
-  RT_SCHEDULING["✓ RT-SCHEDULING"]:::fam
-  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
-  BLK_NO_EMC_DATA --> RT_SCHEDULING
-  TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
-  TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
-  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
-  TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
-  classDef fam stroke-width:2px;
-  classDef blk stroke-width:2px;
-  classDef perm stroke-width:4px;
-  classDef tech stroke-width:1px,stroke-dasharray:4 3;
-```
-
-**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+*This route inherits no blocker and retires none — there is no dependency structure to draw. Its state is decided by the evidence on this page alone.*
 
 ## Scientific rationale
 
@@ -63,12 +48,6 @@ A registered lane with no route, plus the comparator it never had. Adaptive sche
 |---|---|---|---|
 | The $0 analysis or registry sweep named in this route's next action | ⛔ none built | yes | — |
 | Prospective confirmation, which no trial in this disease will supply | ⛔ none built | **no** | BLK-NO-WET-LAB |
-
-## Blockers
-
-| blocker | kind | what would retire it |
-|---|---|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 
 ## Readiness — what this could become today
 
@@ -98,9 +77,6 @@ Every input is committed and the work is $0 model-building.
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
-
-**Revisit when:**
-- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 

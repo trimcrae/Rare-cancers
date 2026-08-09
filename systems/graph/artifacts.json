@@ -399,5 +399,25 @@
       "main"
     ],
     "note": "Closes the four candidates the 2026-08-07 sweep identified and could not confirm. Two admit this disease and only one of those is interventional. ⛔ ITS MORE IMPORTANT OUTPUT IS THE TWO REFUSALS, BOTH OF WHICH WOULD HAVE PASSED A KEYWORD SCREEN — one titled for fusion-positive sarcoma then restricted to three named histologies, one carrying the adjective 'extra-skeletal' while meaning a different disease. ⚠ Transport integrity was asserted before any criterion was read, not after. ⛔ Not medical advice; eligibility is each trial team's decision."
+  },
+  {
+    "id": "ART-IPD-SURVIVAL",
+    "path": "research/modalities/emc-ipd-survival.json",
+    "produced_by": "research/modalities/emc_ipd_survival.py",
+    "workflow": null,
+    "published_to": [
+      "claude/emc-patient-survival-gaps-huphuu"
+    ],
+    "note": "⛔ COMPUTES OVER AN EMPTY CURVES TABLE, DELIBERATELY AND VISIBLY. The instrument is validated — the known-answer control recovers a held-out cohort exactly — but no published EMC figure has been digitized into it, and inventing a coordinate would fabricate a clinical datum. `curves_supplied: 0` and the `status` field say so. A test (test_the_curves_table_is_empty_and_the_artifact_says_so) fails the build if a curve is added without digitization provenance."
+  },
+  {
+    "id": "ART-CARE-DELIVERY-EVIDENCE",
+    "path": "research/modalities/emc-care-delivery-evidence.json",
+    "produced_by": "research/modalities/emc_care_delivery_evidence.py",
+    "workflow": ".github/workflows/fetch-literature.yml",
+    "published_to": [
+      "claude/emc-patient-survival-gaps-huphuu"
+    ],
+    "note": "Mostly [API]-level provenance — the structured Europe PMC record, i.e. the abstract. ⚠ An abstract is not a paper: a number read from one has not been checked against the source's own tables, and the artifact's verification_level field says so. The one [FT] passage is the ICD-O code enumeration in PMID 31765367."
   }
 ]

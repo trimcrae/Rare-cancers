@@ -348,10 +348,10 @@ carries the cheapest observation that would move it.
 | **MOD-ISOLATED-LUNG-PERFUSION**<br/>Isolated lung perfusion and regional pulmonary delivery | isolated lung perfusion | ⭑ `candidate` | ⭑ **new** | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) — Lung-directed local therapy (regional perfusion, inhaled … |
 | **MOD-NIR-PIT**<br/>Near-infrared photoimmunotherapy | NIR photoimmunotherapy | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-PDT**<br/>Photodynamic therapy | photodynamic therapy | ✕ `excluded` | ⭑ **new** | Distinct from the photoimmunotherapy already ruled out here, and it fails on the half of that ruling that is about physics rather than about the … |
-| **MOD-SURGERY**<br/>Wide local excision and metastasectomy | R0 wide excision | ● `in_clinical_use` | · | on the record — [emc-clinical-registry.json](../../research/data/emc-clinical-registry.json) |
+| **MOD-SURGERY**<br/>Wide local excision and metastasectomy | R0 wide excision | ● `in_clinical_use` | · | [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) — The first operation — margin status, unplanned excision and … |
 | **MOD-THERMAL-ABLATION**<br/>Percutaneous ablation (radiofrequency, microwave, cryo, focused ultrasound) | percutaneous cryoablation | ⭑ `candidate` | · | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) — Lung-directed local therapy (regional perfusion, inhaled … |
 | **MOD-TTFIELDS**<br/>Tumour-treating fields | alternating electric fields | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
-| **MOD-WATCHFUL-WAITING**<br/>Observation and deferred intervention | active surveillance | ● `in_clinical_use` | · | on the record — [emc-clinical-registry.json](../../research/data/emc-clinical-registry.json) |
+| **MOD-WATCHFUL-WAITING**<br/>Observation and deferred intervention | active surveillance | ● `in_clinical_use` | · | [RT-SURVEILLANCE](L2-rt-surveillance.md) — Surveillance duration and interval as the intervention |
 
 ### Host-directed and repurposed non-oncology
 

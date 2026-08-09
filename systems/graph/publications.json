@@ -1,39 +1,20 @@
 [
   {
-    "id": "PUB-DEGRADER",
+    "id": "PUB-ANDGATE",
     "level": "L3",
     "kind": "publication",
     "state": "drafted",
-    "target_venue": "journal_submission",
+    "target_venue": "preprint",
     "document": {
-      "file": "research/manuscripts/nr4a3-degrader-paper.md"
+      "file": "research/manuscripts/fusion-selective-andgate-degrader-paper.md"
     },
-    "what_it_would_claim": "A cryptic pocket on the NR4A3 ligand-binding domain can be found and a paralogue-favoured ligand designed into it by computation alone — and the selectivity margin that design would need is larger than the instruments used to predict it can currently resolve, which is reported as the result rather than worked around.",
+    "what_it_would_claim": "Coincidence detection across both halves of the fusion is a design that would convert a paralogue-selectivity problem into an avidity problem — and it names precisely what does not exist for it to be built, which is a ligand for the EWSR1 half.",
     "blocked_by": [
-      "BLK-PARALOGUE-DDG",
-      "BLK-TERNARY-GEOMETRY"
+      "BLK-NOT-FUSION-SELECTIVE"
     ],
     "outcome_potential": "negative_or_methods",
-    "outcome_potential_why": "⛔ ITS OWN CLAIM SAYS SO: the selectivity margin the design needs is larger than the instruments can resolve, 'reported as the result'. Three of its five routes are instrument-limited. It is a rigorous negative.",
+    "outcome_potential_why": "Names precisely what does not exist for the design to be built - a ligand for the EWSR1 half.",
     "patient_path": "none",
-    "unit": "full_paper"
-  },
-  {
-    "id": "PUB-MONOVALENT",
-    "level": "L3",
-    "kind": "publication",
-    "state": "drafted",
-    "target_venue": "internal_note",
-    "document": {
-      "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md"
-    },
-    "what_it_would_claim": "Occupancy of the NR4A3 pocket without recruitment is a distinct route from degradation, and the question of whether occupancy alone changes the fusion's behaviour has never been asked by anyone — so the route is untested rather than refuted.",
-    "blocked_by": [
-      "BLK-R4-BINDS"
-    ],
-    "outcome_potential": "live_positive",
-    "outcome_potential_why": "Occupancy without degradation is recorded as UNTESTED rather than refuted, and it is a distinct testable question.",
-    "patient_path": "named_bench",
     "unit": "full_paper"
   },
   {
@@ -93,141 +74,36 @@
     "unit": "full_paper"
   },
   {
-    "id": "PUB-NEOANTIGEN",
+    "id": "PUB-BIOMARKER-DEP",
     "level": "L3",
     "kind": "publication",
     "state": "drafted",
     "target_venue": "preprint",
+    "what_it_would_claim": "Five therapeutic classes are selected by a molecular state rather than by a histology, every selecting feature is readable in expression data already public for this disease, and the useful output is which classes the data rules OUT rather than which it nominates. Four selecting features are absent; the fifth class survives because the instrument cannot reach its question rather than because the data was favourable. The four negatives are deliberately NOT reported as equally strong.",
     "document": {
-      "file": "research/manuscripts/fusion-junction-neoantigen-paper.md"
+      "file": "research/manuscripts/emc-biomarker-selected-classes.md"
     },
-    "what_it_would_claim": "The fusion junction produces a peptide sequence that is absent from wild-type EWSR1 and wild-type NR4A3 — ⚠ the only novelty test in this repo compares against those two PARENT proteins (`fusion_breakpoints.py:231`) and NO proteome-wide search has ever been run, so 'absent from the normal proteome' is not a claim this work can make, and whether any allele presents it is a prediction that must be regenerated against a corrected exon index before it can be reported at all.",
-    "blocked_by": [
-      "BLK-ANTIGEN-COLD"
-    ],
+    "companion_of": "PUB-MODALITY-CENSUS",
     "outcome_potential": "negative_or_methods",
-    "outcome_potential_why": "Both routes closed (premise_false, instrument_limit), and the paper states that no proteome-wide novelty search was ever run.",
+    "outcome_potential_why": "Its claim states the useful output is which classes the data rules OUT. That is a well-made negative.",
     "patient_path": "none",
     "unit": "full_paper"
   },
   {
-    "id": "PUB-HLA-COVERAGE",
+    "id": "PUB-CARE-DELIVERY",
     "level": "L3",
     "kind": "publication",
-    "state": "drafted",
+    "state": "unwritten",
     "target_venue": "preprint",
-    "document": {
-      "file": "research/manuscripts/hla-coverage-emc.md"
-    },
-    "what_it_would_claim": "If a public junction epitope were presented, the fraction of the patient population whose HLA alleles could see it is computable from reference allele frequencies — an eligibility ceiling that constrains every junction-directed immunotherapy route and is reusable independently of whether the epitope itself survives.",
+    "what_it_would_claim": "In extraskeletal myxoid chondrosarcoma the determinants of survival that have been studied least are the ones that decide it most: the completeness of the first operation, whether the diagnosis was known before it, and whether follow-up outlasts a disease that recurs for decades.",
+    "working_title": "What decides survival in extraskeletal myxoid chondrosarcoma, and what the literature has been looking at instead",
+    "why_not_written": "Its four contributing routes are registered and their evidence is cited but not yet extracted. The paper needs the reconstructed survival dataset (RT-IPD-SURVIVAL) to say anything quantitative; without it, it is an argument with citations rather than a result.",
     "blocked_by": [
-      "BLK-ANTIGEN-COLD"
-    ],
-    "outcome_potential": "negative_or_methods",
-    "outcome_potential_why": "A population ceiling computed for an epitope whose presentation is unestablished; its route is premise_false.",
-    "patient_path": "none",
-    "unit": "full_paper"
-  },
-  {
-    "id": "PUB-SURFACE-TARGETS",
-    "level": "L3",
-    "kind": "publication",
-    "state": "drafted",
-    "target_venue": "preprint",
-    "document": {
-      "file": "research/manuscripts/emc-surface-target-landscape.md"
-    },
-    "what_it_would_claim": "Surface and stromal antigens can be prioritised for EMC in silico, and the honest limit of the prioritisation is set by what the comparator basis can see. ⚠ SUPERSEDED 2026-08-07, RETAINED: the prior claim was that every negative is \"bounded by that surrogate basis rather than by an EMC tissue measurement\", from \"one cell line and a translocation-sarcoma comparison set\". THREE EMC TISSUE COHORTS ARE NOW READ (GSE24369/GPL6244, GSE4303/GPL3290, GSE28866/3SEQ), the third carrying 27 normal-organ libraries — the first on-target/off-tumour exposure axis this repository has had. The surrogate-basis framing is therefore no longer the binding limit and the paper needs rewriting rather than re-verifying. ⛔ The rewrite is a DEMOTION, not a gain: ALCAM, its lead antigen, reads 0.578 in EMC against 0.631 in normal tissue and loses the exposure axis while keeping the lineage half; CSPG4 is the largest row in the new deposit and is discordant across cohorts (+0.885 GPL6244, -0.189 GPL3290).",
-    "blocked_by": [
-      "BLK-NO-EMC-DATA"
+      "BLK-NO-CURATED-CLINICAL-DATA"
     ],
     "outcome_potential": "live_positive",
-    "outcome_potential_why": "Two of six routes remain open and a nominated surface antigen is directly stainable and testable.",
-    "patient_path": "named_bench",
-    "unit": "full_paper"
-  },
-  {
-    "id": "PUB-ANDGATE",
-    "level": "L3",
-    "kind": "publication",
-    "state": "drafted",
-    "target_venue": "preprint",
-    "document": {
-      "file": "research/manuscripts/fusion-selective-andgate-degrader-paper.md"
-    },
-    "what_it_would_claim": "Coincidence detection across both halves of the fusion is a design that would convert a paralogue-selectivity problem into an avidity problem — and it names precisely what does not exist for it to be built, which is a ligand for the EWSR1 half.",
-    "blocked_by": [
-      "BLK-NOT-FUSION-SELECTIVE"
-    ],
-    "outcome_potential": "negative_or_methods",
-    "outcome_potential_why": "Names precisely what does not exist for the design to be built - a ligand for the EWSR1 half.",
-    "patient_path": "none",
-    "unit": "full_paper"
-  },
-  {
-    "id": "PUB-REPURPOSING",
-    "level": "L3",
-    "kind": "publication",
-    "state": "drafted",
-    "target_venue": "preprint",
-    "document": {
-      "file": "research/manuscripts/repurposing-hypotheses.md"
-    },
-    "what_it_would_claim": "Existing agents not yet reported in EMC can be mapped to EMC's molecular and microenvironmental axes by three independent methods, each candidate graded by an explicit evidence tier — a hypothesis-generating menu that asserts no efficacy for any agent it names.",
-    "blocked_by": [
-      "BLK-NO-EMC-DATA"
-    ],
-    "outcome_potential": "live_positive",
-    "outcome_potential_why": "Names bench tests NOT YET RUN that a lab could pick up: confirming the HDAC and brigatinib hits across further EMC models, establishing functional CDK4/6 dependence, and a PPARgamma window study. Corrected 2026-08-09: this field previously justified the wet-lab credit on the carfilzomib ex-vivo result, which is Bangerter et al. 2023's completed experiment and not a test this paper could lead anyone to run. Our own contribution on that route is an enumeration plus a negative -- both in-silico rationales for the proteasome lead failed on 2026-08-09 (section 4.1).",
-    "patient_path": "named_bench",
-    "unit": "full_paper"
-  },
-  {
-    "id": "PUB-EMC-PROGRAM",
-    "level": "L3",
-    "kind": "publication",
-    "state": "drafted",
-    "target_venue": "journal_submission",
-    "document": {
-      "file": "research/manuscripts/emc-treatment-roadmap.md"
-    },
-    "what_it_would_claim": "The gap in EMC care is categorical rather than a matter of degree — nothing in clinical use addresses the driver — and a computation-only program can enumerate the driver-directed routes, state a falsifiable kill criterion for each, and place the borrowed standard-of-care agents as context rather than as its own contribution.",
-    "outcome_potential": "live_positive",
-    "outcome_potential_why": "Corrected 2026-08-09: owns ZERO routes of its own - both routes under it carry `role: context`, meaning cited-not-contributed. Its bench credit was therefore borrowed in full from the papers underneath it, which is the same double-count that had it ranked second. An umbrella paper's kill criteria belong to the routes that state them.",
-    "patient_path": "none",
-    "unit": "full_paper"
-  },
-  {
-    "id": "PUB-SYNLETH",
-    "level": "L3",
-    "kind": "publication",
-    "state": "drafted",
-    "target_venue": "internal_note",
-    "document": {
-      "file": "research/manuscripts/degrader-vs-synthetic-lethal.md"
-    },
-    "what_it_would_claim": "A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a FET fusion, and the negative recorded here is bounded by a transfer prior over a single cell line — a statement about the available data, not about the biology.",
-    "blocked_by": [
-      "BLK-NO-EMC-DATA"
-    ],
-    "outcome_potential": "negative_or_methods",
-    "outcome_potential_why": "A recorded negative bounded by a transfer prior over a single cell line.",
-    "patient_path": "none",
-    "unit": "full_paper"
-  },
-  {
-    "id": "PUB-METHODS",
-    "level": "L3",
-    "kind": "publication",
-    "state": "drafted",
-    "target_venue": "journal_submission",
-    "what_it_would_claim": "A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures are the transferable result, because the field publishes almost none of them.",
-    "document": {
-      "file": "research/manuscripts/degrader-methods-failure-record.md"
-    },
-    "outcome_potential": "negative_or_methods",
-    "outcome_potential_why": "A failure record. Valuable - the field publishes almost none - and by construction not a treatment lead.",
-    "patient_path": "none",
+    "outcome_potential_why": "Its recommendations act on care that is already being delivered, so it reaches a patient through clinical adoption rather than through a bench or a trial — the shortest path any route on this board has.",
+    "patient_path": "clinical_adoption",
     "unit": "full_paper"
   },
   {
@@ -246,35 +122,53 @@
     "unit": "full_paper"
   },
   {
-    "id": "PUB-TCIP",
+    "id": "PUB-DEGRADER",
     "level": "L3",
     "kind": "publication",
     "state": "drafted",
-    "target_venue": "preprint",
-    "what_it_would_claim": "⛔ NOT AN EMC-SPECIFIC RESULT — DEMOTED 2026-08-07, MEASURED RATHER THAN JUDGED. 'NR4A3' appears 0 times in nr4a3-induced-interface-census.json and 0 times in tcip-interface-floor-sizing.md; '8XTT', NR4A3's only experimental structure, appears 0 times in either OR in nr4a3-tcip-reach.json. Both load-bearing results are free of NR4A3: the 6-7-contact measurement is on 9MZA, a BCL6-p300 lymphoma system, and the 6-of-15 calibration is over published degrader/glue ternaries, none of them NR4A3. The reach enumeration IS NR4A3-anchored but names it three times, all caveats. THE CLAIM IS MODALITY-GENERAL AND THE EMC ANCHOR IS THE SETTING IT WAS COMPUTED IN. THE CLAIM ITSELF: the min_contact_residues floor that induced-proximity tooling applies by default is inherited from degraders; ablating it INVERTS the single-domain/multi-subunit acceptance ratio (0.896 at 12 -> 1.121 at 6 -> 1.254 at 0), so a size penalty read off that floor is an artefact of the wrong modality's parameter; the only deposited chemically-induced TRANSCRIPTIONAL-proximity complex (PDB 9MZA, 2.1 A) has an induced interface of 6-7 contacts across 4 residues per side, roughly half the floor; and the floor is too strict even at home, rejecting 6 of 15 published degrader/glue ternaries. ⚠ WHAT IT MAY NOT CLAIM: the size contrast itself does NOT survive a re-draw (within-class spread exceeds between-class contrast in 8 of 8 rungs), n=1 bounds the floor from ABOVE only, and 'ADMITS' is an excluded-volume statement no tested body has ever failed. ⚠ SUPERSEDED, RETAINED: the prior claim was framed as 'Transcriptional chemically-induced proximity on EWSR1::NR4A3', which implied a disease-specific deliverable it does not carry.",
+    "target_venue": "journal_submission",
     "document": {
-      "file": "research/manuscripts/tcip-induced-interface-preprint.md"
+      "file": "research/manuscripts/nr4a3-degrader-paper.md"
     },
+    "what_it_would_claim": "A cryptic pocket on the NR4A3 ligand-binding domain can be found and a paralogue-favoured ligand designed into it by computation alone — and the selectivity margin that design would need is larger than the instruments used to predict it can currently resolve, which is reported as the result rather than worked around.",
+    "blocked_by": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
     "outcome_potential": "negative_or_methods",
-    "outcome_potential_why": "Demoted 2026-08-07: measured, not judged - NR4A3 appears zero times in either load-bearing artifact. Not an EMC result.",
+    "outcome_potential_why": "⛔ ITS OWN CLAIM SAYS SO: the selectivity margin the design needs is larger than the instruments can resolve, 'reported as the result'. Three of its five routes are instrument-limited. It is a rigorous negative.",
     "patient_path": "none",
     "unit": "full_paper"
   },
   {
-    "id": "PUB-PARKED-MODALITIES",
+    "id": "PUB-EMC-CLASSIFICATION",
     "level": "L3",
     "kind": "publication",
-    "state": "unwritten",
+    "state": "outlined",
     "target_venue": "preprint",
-    "working_title": "Five modalities parked on a capability that does not exist yet: what would have to land, and how it is being watched for",
-    "what_it_would_claim": "For each parked modality there is a single named capability — a glue design method with a prospective track record, a co-folder benchmarked on assembly, a solid-tumour vector — whose arrival would make the route computable, and stating that capability with its scan trigger converts an indefinite park into a monitored condition.",
-    "why_not_written": "Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. It is worth writing only once at least one of the watched capabilities lands; until then the scan triggers carry the work.",
+    "what_it_would_claim": "ICD-O-3 morphology code 9231/3 is read by the published literature as two mutually incompatible diseases — extraskeletal myxoid chondrosarcoma in one SEER study and a histological subtype of chondrosarcoma of bone in another — so every registry-based EMC statistic carries an unquantified contamination, and the disease's name imports a tumour class it does not belong to.",
+    "working_title": "One code, two diseases: what registry-based extraskeletal myxoid chondrosarcoma cohorts actually contain",
+    "why_not_written": "⭐ The contradiction is MEASURED and quoted from both papers' own Methods sections (emc-care-delivery-evidence.json -> icd_o_9231_3), which is enough for the argument. What is missing is the SIZE of the contamination — a SEER query split by ICD-O topography — and that needs a data-use agreement rather than a fetch.",
     "blocked_by": [
-      "BLK-VECTOR-DELIVERY",
-      "BLK-INDUCED-COMPLEX"
+      "BLK-REGISTRY-DUA"
     ],
-    "outcome_potential": "horizon_scan",
-    "outcome_potential_why": "Every route parked on a capability nobody has. No result to report.",
+    "outcome_potential": "live_positive",
+    "outcome_potential_why": "It corrects the interpretation of every existing population-level number in this disease, including the ones this repository cites, and it needs nobody's cooperation to state.",
+    "patient_path": "clinical_adoption",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-EMC-PROGRAM",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "journal_submission",
+    "document": {
+      "file": "research/manuscripts/emc-treatment-roadmap.md"
+    },
+    "what_it_would_claim": "The gap in EMC care is categorical rather than a matter of degree — nothing in clinical use addresses the driver — and a computation-only program can enumerate the driver-directed routes, state a falsifiable kill criterion for each, and place the borrowed standard-of-care agents as context rather than as its own contribution.",
+    "outcome_potential": "live_positive",
+    "outcome_potential_why": "Corrected 2026-08-09: owns ZERO routes of its own - both routes under it carry `role: context`, meaning cited-not-contributed. Its bench credit was therefore borrowed in full from the papers underneath it, which is the same double-count that had it ranked second. An umbrella paper's kill criteria belong to the routes that state them.",
     "patient_path": "none",
     "unit": "full_paper"
   },
@@ -327,50 +221,38 @@
     "unit": "full_paper"
   },
   {
-    "id": "PUB-MODALITY-CENSUS",
+    "id": "PUB-HLA-COVERAGE",
     "level": "L3",
     "kind": "publication",
     "state": "drafted",
     "target_venue": "preprint",
-    "what_it_would_claim": "A complete enumeration of cancer-treatment modality classes, graded one line at a time against a single ultra-rare fusion sarcoma, separates the classes that were considered and dismissed from the classes nobody had pointed at — a distinction a literature search cannot make about itself, and one that changes which work is worth doing next.",
     "document": {
-      "file": "research/manuscripts/cancer-modality-census.md"
+      "file": "research/manuscripts/hla-coverage-emc.md"
     },
-    "outcome_potential": "live_positive",
-    "outcome_potential_why": "⚠ THE WEAKEST live_positive CALL HERE AND IT IS ARGUABLE. Its own content is an enumeration, not a lead - but it is the instrument that surfaced the PRMT5 route, and a census that keeps finding unasked classes is a lead generator rather than a record.",
-    "patient_path": "none",
-    "unit": "full_paper"
-  },
-  {
-    "id": "PUB-TXN-DEPENDENCY",
-    "level": "L3",
-    "kind": "publication",
-    "state": "drafted",
-    "target_venue": "preprint",
-    "what_it_would_claim": "A fusion oncoprotein whose entire mechanism is transactivation, and whose structure is a chimera of two domains that never evolved together, predicts dependencies on the transcriptional machinery and on the chaperone system — and for both, ABUNDANCE AND DEPENDENCY DISAGREE IN OPPOSITE DIRECTIONS. The transcriptional half is the most concordant elevation in the census and closes completely on dependency, being pan-essential with no selectivity. The chaperone half is an internally contradictory elevation that survives weakly for a reason abundance alone could not show. Reading only the first axis would have given a confident and wrong answer in both cases, which is the transferable result.",
-    "document": {
-      "file": "research/manuscripts/emc-transcriptional-proteostatic-dependency.md"
-    },
-    "companion_of": "PUB-MODALITY-CENSUS",
-    "outcome_potential": "live_positive",
-    "outcome_potential_why": "Abundance and dependency disagree in opposite directions for two axes - unresolved rather than closed, and resolvable in cells.",
-    "patient_path": "named_bench",
-    "unit": "full_paper"
-  },
-  {
-    "id": "PUB-BIOMARKER-DEP",
-    "level": "L3",
-    "kind": "publication",
-    "state": "drafted",
-    "target_venue": "preprint",
-    "what_it_would_claim": "Five therapeutic classes are selected by a molecular state rather than by a histology, every selecting feature is readable in expression data already public for this disease, and the useful output is which classes the data rules OUT rather than which it nominates. Four selecting features are absent; the fifth class survives because the instrument cannot reach its question rather than because the data was favourable. The four negatives are deliberately NOT reported as equally strong.",
-    "document": {
-      "file": "research/manuscripts/emc-biomarker-selected-classes.md"
-    },
-    "companion_of": "PUB-MODALITY-CENSUS",
+    "what_it_would_claim": "If a public junction epitope were presented, the fraction of the patient population whose HLA alleles could see it is computable from reference allele frequencies — an eligibility ceiling that constrains every junction-directed immunotherapy route and is reusable independently of whether the epitope itself survives.",
+    "blocked_by": [
+      "BLK-ANTIGEN-COLD"
+    ],
     "outcome_potential": "negative_or_methods",
-    "outcome_potential_why": "Its claim states the useful output is which classes the data rules OUT. That is a well-made negative.",
+    "outcome_potential_why": "A population ceiling computed for an epitope whose presentation is unestablished; its route is premise_false.",
     "patient_path": "none",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-IPD-SURVIVAL",
+    "level": "L3",
+    "kind": "publication",
+    "state": "unwritten",
+    "target_venue": "preprint",
+    "what_it_would_claim": "Patient-level survival data for extraskeletal myxoid chondrosarcoma, reconstructed from every published Kaplan-Meier curve that prints a numbers-at-risk table — the first pooled time-to-event dataset in this disease, and the input its unanswerable clinical questions were waiting on.",
+    "working_title": "A reconstructed patient-level survival dataset for extraskeletal myxoid chondrosarcoma",
+    "why_not_written": "The instrument is built and its known-answer control passes; no published figure has been digitized into it yet. ⛔ The generator's CURVES table is EMPTY by construction and a test enforces that, because inventing a coordinate would fabricate a clinical datum.",
+    "blocked_by": [
+      "BLK-NO-CURATED-CLINICAL-DATA"
+    ],
+    "outcome_potential": "live_positive",
+    "outcome_potential_why": "A dataset other groups can reuse is the one output of this programme that compounds — every clinical question in this disease currently stops at the same missing input, and this is that input.",
+    "patient_path": "no_bench_needed",
     "unit": "full_paper"
   },
   {
@@ -391,23 +273,6 @@
     "unit": "full_paper"
   },
   {
-    "id": "PUB-MATRIX-ADDRESS",
-    "level": "L3",
-    "kind": "publication",
-    "state": "outlined",
-    "target_venue": "preprint",
-    "what_it_would_claim": "The matrix that defines this tumour histologically has been treated in the therapeutic literature almost entirely as a barrier to drug delivery, and it admits at least three distinct handles — an epitope, a biosynthetic pathway and a hypoxic niche — none of which requires the fusion protein to be druggable.",
-    "working_title": "The myxoid matrix as an address rather than an obstacle",
-    "why_not_written": "⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. Three of the three handles the title argues for came back unfavourable or unreachable: the biosynthetic premise is not supported as stated, the hypoxia grade was WITHDRAWN the same day it was issued once the confound audit restricted the signature to one platform, and the epitope route's own nominated read gives no capacity support. The fourth is present-but-not-selective and its address is a splice variant a gene-level probe cannot see. ⭐ What makes it still worth writing is that two of the four are UNREACHABLE rather than refuted — the address is a sulfation pattern and an isoform, and neither has a gene — which is a statement about the instrument the field has for glycan and isoform addresses, not only about this disease. ⛔ Superseded, retained: \"the expression read that would ground it is committed but ungraded.\"",
-    "blocked_by": [
-      "BLK-NO-EMC-DATA"
-    ],
-    "outcome_potential": "negative_or_methods",
-    "outcome_potential_why": "Its own grading says the paper is mostly negative: all three named handles came back unfavourable or unreachable.",
-    "patient_path": "none",
-    "unit": "full_paper"
-  },
-  {
     "id": "PUB-LOCOREGIONAL",
     "level": "L3",
     "kind": "publication",
@@ -425,19 +290,103 @@
     "unit": "full_paper"
   },
   {
-    "id": "PUB-STRATEGY-ARCH",
+    "id": "PUB-MATRIX-ADDRESS",
+    "level": "L3",
+    "kind": "publication",
+    "state": "outlined",
+    "target_venue": "preprint",
+    "what_it_would_claim": "The matrix that defines this tumour histologically has been treated in the therapeutic literature almost entirely as a barrier to drug delivery, and it admits at least three distinct handles — an epitope, a biosynthetic pathway and a hypoxic niche — none of which requires the fusion protein to be druggable.",
+    "working_title": "The myxoid matrix as an address rather than an obstacle",
+    "why_not_written": "⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. Three of the three handles the title argues for came back unfavourable or unreachable: the biosynthetic premise is not supported as stated, the hypoxia grade was WITHDRAWN the same day it was issued once the confound audit restricted the signature to one platform, and the epitope route's own nominated read gives no capacity support. The fourth is present-but-not-selective and its address is a splice variant a gene-level probe cannot see. ⭐ What makes it still worth writing is that two of the four are UNREACHABLE rather than refuted — the address is a sulfation pattern and an isoform, and neither has a gene — which is a statement about the instrument the field has for glycan and isoform addresses, not only about this disease. ⛔ Superseded, retained: \"the expression read that would ground it is committed but ungraded.\"",
+    "blocked_by": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "outcome_potential": "negative_or_methods",
+    "outcome_potential_why": "Its own grading says the paper is mostly negative: all three named handles came back unfavourable or unreachable.",
+    "patient_path": "none",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-METHODS",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "journal_submission",
+    "what_it_would_claim": "A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures are the transferable result, because the field publishes almost none of them.",
+    "document": {
+      "file": "research/manuscripts/degrader-methods-failure-record.md"
+    },
+    "outcome_potential": "negative_or_methods",
+    "outcome_potential_why": "A failure record. Valuable - the field publishes almost none - and by construction not a treatment lead.",
+    "patient_path": "none",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-MODALITY-CENSUS",
     "level": "L3",
     "kind": "publication",
     "state": "drafted",
     "target_venue": "preprint",
-    "what_it_would_claim": "For a cancer that will never have a randomised trial, the variables a clinician actually controls — when, in what order, and whether the patient can reach a trial at all — are treatable as research questions, and a portfolio whose every endpoint is a publication needs the step after publication registered as a route.  ⚠ THE DRAFTED PAPER COVERS THE REACHABILITY VARIABLE ONLY. The endpoint's claim spans three variables — scheduling, sequencing and reachability — and the other two are now graded as closed (RT-SCHEDULING definitional, RT-SEQUENCING instrument_limit). Their findings are real and publishable (four medians that cannot be pooled by contract, four PFS figures circulating attributed to agents that did not produce them, and a refusal to pool that is itself the result) but they are NOT in the drafted manuscript yet. ⛔ Recorded here rather than left for a reader to discover, because `drafted` on an endpoint whose paper covers one of its three routes would otherwise read as more finished than it is.",
+    "what_it_would_claim": "A complete enumeration of cancer-treatment modality classes, graded one line at a time against a single ultra-rare fusion sarcoma, separates the classes that were considered and dismissed from the classes nobody had pointed at — a distinction a literature search cannot make about itself, and one that changes which work is worth doing next.",
     "document": {
-      "file": "research/manuscripts/emc-trial-reachability.md"
+      "file": "research/manuscripts/cancer-modality-census.md"
     },
     "outcome_potential": "live_positive",
-    "outcome_potential_why": "Recruiting trials admit this disease while listing conditions that never name it. The fix is actionable TODAY by the people who read the paper - sponsors listing the histologies their molecular criterion admits, and tool-builders reading criteria instead of matching strings. No bench, no compound, no years. Corrected 2026-08-09: under the previous flag this scored ZERO on the largest term precisely BECAUSE it needs no laboratory, which inverted the rubric's own purpose.",
-    "patient_path": "no_bench_needed",
-    "unit": "short_report"
+    "outcome_potential_why": "⚠ THE WEAKEST live_positive CALL HERE AND IT IS ARGUABLE. Its own content is an enumeration, not a lead - but it is the instrument that surfaced the PRMT5 route, and a census that keeps finding unasked classes is a lead generator rather than a record.",
+    "patient_path": "none",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-MONOVALENT",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "internal_note",
+    "document": {
+      "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md"
+    },
+    "what_it_would_claim": "Occupancy of the NR4A3 pocket without recruitment is a distinct route from degradation, and the question of whether occupancy alone changes the fusion's behaviour has never been asked by anyone — so the route is untested rather than refuted.",
+    "blocked_by": [
+      "BLK-R4-BINDS"
+    ],
+    "outcome_potential": "live_positive",
+    "outcome_potential_why": "Occupancy without degradation is recorded as UNTESTED rather than refuted, and it is a distinct testable question.",
+    "patient_path": "named_bench",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-MTAP-PRMT5",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "preprint",
+    "document": {
+      "file": "research/manuscripts/emc-mtap-prmt5-hypothesis.md"
+    },
+    "what_it_would_claim": "Two independent lines point at the PRMT5 methylosome in extraskeletal myxoid chondrosarcoma and neither has ever been examined in it. One of them closes on the paper's own data and is reported as the negative it is; the other survives and is argued rather than assumed — a peer-reviewed result in a second EWSR1-fusion sarcoma where PRMT5 inhibition acts in a fusion-DEPENDENT way, plus a sequence finding that PRMT5's measured substrate motif is absent from the half of EWSR1 every fusion retains and that the commonest EMC and clear cell fusions keep the same number of sites. The same analysis refuses the response prediction it looks like it licenses. Each route ends at a different inexpensive experiment, and the negative branch of each is worth publishing.",
+    "companion_of": "PUB-MODALITY-CENSUS",
+    "outcome_potential": "live_positive",
+    "outcome_potential_why": "PRMT5 route stands and names two cheap decisive experiments: adding one clinical-stage inhibitor to a screen already running on published EMC models, and an MTAP stain on archival tissue.",
+    "patient_path": "prebuilt_bench",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-NEOANTIGEN",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "preprint",
+    "document": {
+      "file": "research/manuscripts/fusion-junction-neoantigen-paper.md"
+    },
+    "what_it_would_claim": "The fusion junction produces a peptide sequence that is absent from wild-type EWSR1 and wild-type NR4A3 — ⚠ the only novelty test in this repo compares against those two PARENT proteins (`fusion_breakpoints.py:231`) and NO proteome-wide search has ever been run, so 'absent from the normal proteome' is not a claim this work can make, and whether any allele presents it is a prediction that must be regenerated against a corrected exon index before it can be reported at all.",
+    "blocked_by": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "outcome_potential": "negative_or_methods",
+    "outcome_potential_why": "Both routes closed (premise_false, instrument_limit), and the paper states that no proteome-wide novelty search was ever run.",
+    "patient_path": "none",
+    "unit": "full_paper"
   },
   {
     "id": "PUB-NR-OUTSIDE-NR4A3",
@@ -457,19 +406,121 @@
     "unit": "full_paper"
   },
   {
-    "id": "PUB-MTAP-PRMT5",
+    "id": "PUB-PARKED-MODALITIES",
+    "level": "L3",
+    "kind": "publication",
+    "state": "unwritten",
+    "target_venue": "preprint",
+    "working_title": "Five modalities parked on a capability that does not exist yet: what would have to land, and how it is being watched for",
+    "what_it_would_claim": "For each parked modality there is a single named capability — a glue design method with a prospective track record, a co-folder benchmarked on assembly, a solid-tumour vector — whose arrival would make the route computable, and stating that capability with its scan trigger converts an indefinite park into a monitored condition.",
+    "why_not_written": "Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. It is worth writing only once at least one of the watched capabilities lands; until then the scan triggers carry the work.",
+    "blocked_by": [
+      "BLK-VECTOR-DELIVERY",
+      "BLK-INDUCED-COMPLEX"
+    ],
+    "outcome_potential": "horizon_scan",
+    "outcome_potential_why": "Every route parked on a capability nobody has. No result to report.",
+    "patient_path": "none",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-REPURPOSING",
     "level": "L3",
     "kind": "publication",
     "state": "drafted",
     "target_venue": "preprint",
     "document": {
-      "file": "research/manuscripts/emc-mtap-prmt5-hypothesis.md"
+      "file": "research/manuscripts/repurposing-hypotheses.md"
     },
-    "what_it_would_claim": "Two independent lines point at the PRMT5 methylosome in extraskeletal myxoid chondrosarcoma and neither has ever been examined in it. One of them closes on the paper's own data and is reported as the negative it is; the other survives and is argued rather than assumed — a peer-reviewed result in a second EWSR1-fusion sarcoma where PRMT5 inhibition acts in a fusion-DEPENDENT way, plus a sequence finding that PRMT5's measured substrate motif is absent from the half of EWSR1 every fusion retains and that the commonest EMC and clear cell fusions keep the same number of sites. The same analysis refuses the response prediction it looks like it licenses. Each route ends at a different inexpensive experiment, and the negative branch of each is worth publishing.",
+    "what_it_would_claim": "Existing agents not yet reported in EMC can be mapped to EMC's molecular and microenvironmental axes by three independent methods, each candidate graded by an explicit evidence tier — a hypothesis-generating menu that asserts no efficacy for any agent it names.",
+    "blocked_by": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "outcome_potential": "live_positive",
+    "outcome_potential_why": "Names bench tests NOT YET RUN that a lab could pick up: confirming the HDAC and brigatinib hits across further EMC models, establishing functional CDK4/6 dependence, and a PPARgamma window study. Corrected 2026-08-09: this field previously justified the wet-lab credit on the carfilzomib ex-vivo result, which is Bangerter et al. 2023's completed experiment and not a test this paper could lead anyone to run. Our own contribution on that route is an enumeration plus a negative -- both in-silico rationales for the proteasome lead failed on 2026-08-09 (section 4.1).",
+    "patient_path": "named_bench",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-STRATEGY-ARCH",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "preprint",
+    "what_it_would_claim": "For a cancer that will never have a randomised trial, the variables a clinician actually controls — when, in what order, and whether the patient can reach a trial at all — are treatable as research questions, and a portfolio whose every endpoint is a publication needs the step after publication registered as a route.  ⚠ THE DRAFTED PAPER COVERS THE REACHABILITY VARIABLE ONLY. The endpoint's claim spans three variables — scheduling, sequencing and reachability — and the other two are now graded as closed (RT-SCHEDULING definitional, RT-SEQUENCING instrument_limit). Their findings are real and publishable (four medians that cannot be pooled by contract, four PFS figures circulating attributed to agents that did not produce them, and a refusal to pool that is itself the result) but they are NOT in the drafted manuscript yet. ⛔ Recorded here rather than left for a reader to discover, because `drafted` on an endpoint whose paper covers one of its three routes would otherwise read as more finished than it is.",
+    "document": {
+      "file": "research/manuscripts/emc-trial-reachability.md"
+    },
+    "outcome_potential": "live_positive",
+    "outcome_potential_why": "Recruiting trials admit this disease while listing conditions that never name it. The fix is actionable TODAY by the people who read the paper - sponsors listing the histologies their molecular criterion admits, and tool-builders reading criteria instead of matching strings. No bench, no compound, no years. Corrected 2026-08-09: under the previous flag this scored ZERO on the largest term precisely BECAUSE it needs no laboratory, which inverted the rubric's own purpose.",
+    "patient_path": "no_bench_needed",
+    "unit": "short_report"
+  },
+  {
+    "id": "PUB-SURFACE-TARGETS",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "preprint",
+    "document": {
+      "file": "research/manuscripts/emc-surface-target-landscape.md"
+    },
+    "what_it_would_claim": "Surface and stromal antigens can be prioritised for EMC in silico, and the honest limit of the prioritisation is set by what the comparator basis can see. ⚠ SUPERSEDED 2026-08-07, RETAINED: the prior claim was that every negative is \"bounded by that surrogate basis rather than by an EMC tissue measurement\", from \"one cell line and a translocation-sarcoma comparison set\". THREE EMC TISSUE COHORTS ARE NOW READ (GSE24369/GPL6244, GSE4303/GPL3290, GSE28866/3SEQ), the third carrying 27 normal-organ libraries — the first on-target/off-tumour exposure axis this repository has had. The surrogate-basis framing is therefore no longer the binding limit and the paper needs rewriting rather than re-verifying. ⛔ The rewrite is a DEMOTION, not a gain: ALCAM, its lead antigen, reads 0.578 in EMC against 0.631 in normal tissue and loses the exposure axis while keeping the lineage half; CSPG4 is the largest row in the new deposit and is discordant across cohorts (+0.885 GPL6244, -0.189 GPL3290).",
+    "blocked_by": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "outcome_potential": "live_positive",
+    "outcome_potential_why": "Two of six routes remain open and a nominated surface antigen is directly stainable and testable.",
+    "patient_path": "named_bench",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-SYNLETH",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "internal_note",
+    "document": {
+      "file": "research/manuscripts/degrader-vs-synthetic-lethal.md"
+    },
+    "what_it_would_claim": "A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a FET fusion, and the negative recorded here is bounded by a transfer prior over a single cell line — a statement about the available data, not about the biology.",
+    "blocked_by": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "outcome_potential": "negative_or_methods",
+    "outcome_potential_why": "A recorded negative bounded by a transfer prior over a single cell line.",
+    "patient_path": "none",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-TCIP",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "preprint",
+    "what_it_would_claim": "⛔ NOT AN EMC-SPECIFIC RESULT — DEMOTED 2026-08-07, MEASURED RATHER THAN JUDGED. 'NR4A3' appears 0 times in nr4a3-induced-interface-census.json and 0 times in tcip-interface-floor-sizing.md; '8XTT', NR4A3's only experimental structure, appears 0 times in either OR in nr4a3-tcip-reach.json. Both load-bearing results are free of NR4A3: the 6-7-contact measurement is on 9MZA, a BCL6-p300 lymphoma system, and the 6-of-15 calibration is over published degrader/glue ternaries, none of them NR4A3. The reach enumeration IS NR4A3-anchored but names it three times, all caveats. THE CLAIM IS MODALITY-GENERAL AND THE EMC ANCHOR IS THE SETTING IT WAS COMPUTED IN. THE CLAIM ITSELF: the min_contact_residues floor that induced-proximity tooling applies by default is inherited from degraders; ablating it INVERTS the single-domain/multi-subunit acceptance ratio (0.896 at 12 -> 1.121 at 6 -> 1.254 at 0), so a size penalty read off that floor is an artefact of the wrong modality's parameter; the only deposited chemically-induced TRANSCRIPTIONAL-proximity complex (PDB 9MZA, 2.1 A) has an induced interface of 6-7 contacts across 4 residues per side, roughly half the floor; and the floor is too strict even at home, rejecting 6 of 15 published degrader/glue ternaries. ⚠ WHAT IT MAY NOT CLAIM: the size contrast itself does NOT survive a re-draw (within-class spread exceeds between-class contrast in 8 of 8 rungs), n=1 bounds the floor from ABOVE only, and 'ADMITS' is an excluded-volume statement no tested body has ever failed. ⚠ SUPERSEDED, RETAINED: the prior claim was framed as 'Transcriptional chemically-induced proximity on EWSR1::NR4A3', which implied a disease-specific deliverable it does not carry.",
+    "document": {
+      "file": "research/manuscripts/tcip-induced-interface-preprint.md"
+    },
+    "outcome_potential": "negative_or_methods",
+    "outcome_potential_why": "Demoted 2026-08-07: measured, not judged - NR4A3 appears zero times in either load-bearing artifact. Not an EMC result.",
+    "patient_path": "none",
+    "unit": "full_paper"
+  },
+  {
+    "id": "PUB-TXN-DEPENDENCY",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "preprint",
+    "what_it_would_claim": "A fusion oncoprotein whose entire mechanism is transactivation, and whose structure is a chimera of two domains that never evolved together, predicts dependencies on the transcriptional machinery and on the chaperone system — and for both, ABUNDANCE AND DEPENDENCY DISAGREE IN OPPOSITE DIRECTIONS. The transcriptional half is the most concordant elevation in the census and closes completely on dependency, being pan-essential with no selectivity. The chaperone half is an internally contradictory elevation that survives weakly for a reason abundance alone could not show. Reading only the first axis would have given a confident and wrong answer in both cases, which is the transferable result.",
+    "document": {
+      "file": "research/manuscripts/emc-transcriptional-proteostatic-dependency.md"
+    },
     "companion_of": "PUB-MODALITY-CENSUS",
     "outcome_potential": "live_positive",
-    "outcome_potential_why": "PRMT5 route stands and names two cheap decisive experiments: adding one clinical-stage inhibitor to a screen already running on published EMC models, and an MTAP stain on archival tissue.",
-    "patient_path": "prebuilt_bench",
+    "outcome_potential_why": "Abundance and dependency disagree in opposite directions for two axes - unresolved rather than closed, and resolvable in cells.",
+    "patient_path": "named_bench",
     "unit": "full_paper"
   }
 ]
