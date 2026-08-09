@@ -1,0 +1,116 @@
+{
+  "_what": "Citation anchor for the biomarker-selected-classes paper. Every identifier the manuscript prints appears here, and every record here was READ OUT OF A RETRIEVED EUROPE PMC PAYLOAD in this session — never recalled, never copied from a review.",
+  "⛔_why_this_file_exists": "CLAUDE.md §7: an agent drafting a manuscript once wrote a PMID from recollection that existed in no committed source in this repository, and it passed the language linter twice because claim STRENGTH is orthogonal to citation PROVENANCE. lint_citations.py asks the one question an offline checker can answer — does this identifier also appear in a tracked .json, i.e. in a fetch product. This is that fetch product.",
+  "⚠_what_anchoring_does_not_mean": "An anchored identifier is NOT thereby verified. This file is evidence that a retrieval returned these records with these titles and authors. It is not evidence that the papers say what the manuscript says they say — only reading them is, and for each record below the reason it is cited is stated so a reviewer can check that specific claim rather than the citation as a whole.",
+  "_not_medical_advice": "⛔ Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent in extraskeletal myxoid chondrosarcoma. These are class-definition references: they establish what biomarker each therapeutic class is SELECTED ON, which is the question the manuscript asks of public expression data.",
+  "retrieval": {
+    "route": "workflow_dispatch of .github/workflows/fetch-literature.yml at ref=claude/cancer-treatment-emc-categories-nu4nfd via the `targets_json` inline manifest",
+    "why_ci": "this sandbox's egress proxy answers 403 to CONNECT for www.ebi.ac.uk (CLAUDE.md §6)",
+    "api": "Europe PMC REST search, resultType=core, sort=CITED desc",
+    "slug": "biomarker-class-definitions-b-2026-08-09",
+    "date_et": "2026-08-09",
+    "⚠_a_first_attempt_returned_the_wrong_thing": "An earlier dispatch (slug biomarker-class-definitions-2026-08-09) used unsorted relevance queries and returned recent reviews rather than the class-defining papers, and one query returned hitCount 0. Its records were NOT used. Citing from that list would have meant attributing a class definition to a paper nobody had read, which is the exact failure this file exists to prevent."
+  },
+  "citations": {
+    "28122247": {
+      "pmid": "28122247",
+      "title": "Arginine Deprivation Inhibits the Warburg Effect and Upregulates Glutamine Anaplerosis and Serine Biosynthesis in ASS1-Deficient Cancers.",
+      "authors_verbatim": "Kremer JC, Prudner BC, Lange SES, Bean GR, Schultze MB, Brashears CB, Radyk MD, Redlich N, Tzeng SC, Kami K, Shelton L, Li A, Morgan Z, Bomalaski JS, Tsukamoto T, McConathy J, Michel LS, Held JM, Van Tine BA.",
+      "doi": "10.1016/j.celrep.2016.12.077",
+      "pmcid": "PMC5840045",
+      "grades_route": "RT-ARGININE",
+      "why_this_citation": "Arginine deprivation studied in SARCOMA specifically, which is why this is the anchor rather than a generic review: it is the closest published setting to the disease this paper is about.",
+      "retrieved_payload": "epmc_ass1_review.txt",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/28122247/"
+    },
+    "27735949": {
+      "pmid": "27735949",
+      "title": "A metabolic synthetic lethal strategy with arginine deprivation and chloroquine leads to cell death in ASS1-deficient sarcomas.",
+      "authors_verbatim": "Bean GR, Kremer JC, Prudner BC, Schenone AD, Yao JC, Schultze MB, Chen DY, Tanas MR, Adkins DR, Bomalaski J, Rubin BP, Michel LS, Van Tine BA.",
+      "doi": "10.1038/cddis.2016.232",
+      "pmcid": "PMC5133958",
+      "grades_route": "RT-ARGININE",
+      "why_this_citation": "The ASS1-deficiency selection argument in sarcoma — the biomarker on which this class is given.",
+      "retrieved_payload": "epmc_ass1_review.txt",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/27735949/"
+    },
+    "17692808": {
+      "pmid": "17692808",
+      "title": "BH3 profiling identifies three distinct classes of apoptotic blocks to predict response to ABT-737 and conventional chemotherapeutic agents.",
+      "authors_verbatim": "Deng J, Carlson N, Takeyama K, Dal Cin P, Shipp M, Letai A.",
+      "doi": "10.1016/j.ccr.2007.07.001",
+      "pmcid": null,
+      "grades_route": "RT-APOPTOSIS-DEP",
+      "why_this_citation": "The method that measures apoptotic DEPENDENCY — which protein holds the effectors — as opposed to the abundance this paper's own reading measures. It is named because it is the instrument this reading CANNOT substitute for.",
+      "retrieved_payload": "epmc_bh3_profiling_letai.txt",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/17692808/"
+    },
+    "22230093": {
+      "pmid": "22230093",
+      "title": "BH3 profiling--measuring integrated function of the mitochondrial apoptotic pathway to predict cell fate decisions.",
+      "authors_verbatim": "Del Gaizo Moore V, Letai A.",
+      "doi": "10.1016/j.canlet.2011.12.021",
+      "pmcid": "PMC3770266",
+      "grades_route": "RT-APOPTOSIS-DEP",
+      "why_this_citation": "Statement of what BH3 profiling measures: integrated function of the mitochondrial apoptotic pathway, not protein level.",
+      "retrieved_payload": "epmc_bh3_profiling_letai.txt",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/22230093/"
+    },
+    "8440237": {
+      "pmid": "8440237",
+      "title": "mdm2 expression is induced by wild type p53 activity.",
+      "authors_verbatim": "Barak Y, Juven T, Haffner R, Oren M.",
+      "doi": "10.1002/j.1460-2075.1993.tb05678.x",
+      "pmcid": "PMC413229",
+      "grades_route": "RT-MDM2",
+      "why_this_citation": "The classical demonstration that MDM2 expression is INDUCED BY wild-type p53 activity — the basis for reading p53 transcriptional output as a proxy for whether the axis is live.",
+      "retrieved_payload": "epmc_mdm2_p53wt_selection.txt",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/8440237/"
+    },
+    "25642963": {
+      "pmid": "25642963",
+      "title": "Homologous-recombination-deficient tumours are dependent on Polθ-mediated repair.",
+      "authors_verbatim": "Ceccaldi R, Liu JC, Amunugama R, Hajdu I, Primack B, Petalcorin MI, O'Connor KW, Konstantinopoulos PA, Elledge SJ, Boulton SJ, Yusufzai T, D'Andrea AD.",
+      "doi": "10.1038/nature14184",
+      "pmcid": "PMC4415602",
+      "grades_route": "RT-POLQ",
+      "why_this_citation": "One half of the class definition: homologous-recombination-deficient tumours depend on Polθ-mediated repair.",
+      "retrieved_payload": "epmc_polq_synthetic_lethal.txt",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/25642963/"
+    },
+    "25642960": {
+      "pmid": "25642960",
+      "title": "Mammalian polymerase θ promotes alternative NHEJ and suppresses recombination.",
+      "authors_verbatim": "Mateos-Gomez PA, Gong F, Nair N, Miller KM, Lazzerini-Denchi E, Sfeir A.",
+      "doi": "10.1038/nature14157",
+      "pmcid": "PMC4718306",
+      "grades_route": "RT-POLQ",
+      "why_this_citation": "The other half: Polθ promotes alternative end-joining and suppresses recombination — the alt-EJ arm this paper's reading finds elevated.",
+      "retrieved_payload": "epmc_polq_synthetic_lethal.txt",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/25642960/"
+    },
+    "34179826": {
+      "pmid": "34179826",
+      "title": "A first-in-class Polymerase Theta Inhibitor selectively targets Homologous-Recombination-Deficient Tumors.",
+      "authors_verbatim": "Zhou J, Gelot C, Pantelidou C, Li A, Yücel H, Davis RE, Färkkilä A, Kochupurakkal B, Syed A, Shapiro GI, Tainer JA, Blagg BSJ, Ceccaldi R, D'Andrea AD.",
+      "doi": "10.1038/s43018-021-00203-x",
+      "pmcid": "PMC8224818",
+      "grades_route": "RT-POLQ",
+      "why_this_citation": "A first-in-class Polθ inhibitor selecting on homologous-recombination deficiency — i.e. the class is given on the HR half, which is the half this reading finds ABSENT.",
+      "retrieved_payload": "epmc_polq_synthetic_lethal.txt",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34179826/"
+    },
+    "33035459": {
+      "pmid": "33035459",
+      "title": "Tazemetostat in advanced epithelioid sarcoma with loss of INI1/SMARCB1: an international, open-label, phase 2 basket study.",
+      "authors_verbatim": "Gounder M, Schöffski P, Jones RL, Agulnik M, Cote GM, Villalobos VM, Attia S, Chugh R, Chen TW, Jahan T, Loggers ET, Gupta A, Italiano A, Demetri GD, Ratan R, Davis LE, Mir O, Dileo P, Van Tine BA, Pressey JG, Lingaraj T, Rajarethinam A, Sierra L, Agarwal S, Stacchiotti S.",
+      "doi": "10.1016/s1470-2045(20)30451-4",
+      "pmcid": null,
+      "grades_route": "RT-EZH2",
+      "why_this_citation": "The registrational epithelioid-sarcoma trial: the approved EZH2 inhibitor's indication is selected by LOSS of INI1/SMARCB1, which is the shape this paper's reading looks for and does not find.",
+      "retrieved_payload": "epmc_tazemetostat_es_trial.txt",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33035459/"
+    }
+  },
+  "_anchor_form": "Each record carries `pubmed_url`, which is the form lint_citations reads. ⚠ A bare `pmid` field is deliberately NOT an anchor form — a bare-digit rule could falsely anchor a fabricated identifier colliding with an unrelated number, which is the one direction that gate must never move. The DOIs anchor on their own pattern."
+}

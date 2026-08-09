@@ -40,6 +40,7 @@ last_verified: 2026-08-06
 | **PUB-ASO**<br/>[A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 b…](../../research/manuscripts/fusion-junction-aso-paper.md) | ◐ `drafted` | `chemrxiv` | 2 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[The EMC arm, pre-built — a collaborator package for the FET / ATM / ATR…](../../research/manuscripts/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
+| **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
 | **PUB-CLOSED-ROUTES**<br/>[Seven routes closed on argument rather than on experiment — the negativ…](../../research/manuscripts/closed-routes-negative-record.md) | ◐ `drafted` | `preprint` | 7 | — |
 | **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
 | **PUB-EMC-PROGRAM**<br/>[Attacking an "undruggable" fusion oncoprotein by computation alone: a d…](../../research/manuscripts/emc-treatment-roadmap.md) | ◐ `drafted` | `journal_submission` | 2 | — |
@@ -56,7 +57,6 @@ last_verified: 2026-08-06
 | **PUB-SURFACE-TARGETS**<br/>[In-silico surface-antigen prioritisation for extraskeletal myxoid chond…](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-BIOMARKER-DEP**<br/>*Biomarker-selected therapeutic classes in an ultra-rare sarcoma: what t…* | ◔ `outlined` | `preprint` | 5 | ⚠ ITS STATED BLOCKER IS RETIRED AND THE PAPER CHANGED SHAPE. Every lookup it was waiting on ran on 2026-08-09: of the five biomarker-selected classes … |
 | **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. … |
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ◔ `outlined` | `preprint` | 3 | ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. … |
 | **PUB-MATRIX-ADDRESS**<br/>*The myxoid matrix as an address rather than an obstacle* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. … |
@@ -122,6 +122,20 @@ Everything a group already running the FET-fusion DSB-recruitment assay would ha
 | route | role | what it contributes |
 |---|---|---|
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) — The ATR-inhibitor cell panel in EMC lines (the ask) | `primary` | The costed panel design, its controls and its kill criteria — the half of the ATR question that no computation can supply. |
+
+### PUB-BIOMARKER-DEP — Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what the available expression data excludes
+
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-biomarker-selected-classes.md`](../../research/manuscripts/emc-biomarker-selected-classes.md) · ships with **PUB-MODALITY-CENSUS****
+
+Five therapeutic classes are selected by a molecular state rather than by a histology, every selecting feature is readable in expression data already public for this disease, and the useful output is which classes the data rules OUT rather than which it nominates. Four selecting features are absent; the fifth class survives because the instrument cannot reach its question rather than because the data was favourable. The four negatives are deliberately NOT reported as equally strong.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) — Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-x | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
+| [RT-ARGININE](L2-rt-arginine.md) — Arginine deprivation (ASS1-silenced tumours) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
+| [RT-EZH2](L2-rt-ezh2.md) — EZH2 / PRC2 inhibition | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
+| [RT-MDM2](L2-rt-mdm2.md) — MDM2 antagonism (p53 reactivation in a quiet genome) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
+| [RT-POLQ](L2-rt-polq.md) — POLθ inhibition (microhomology-mediated end joining) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
 
 ### PUB-CLOSED-ROUTES — Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search
 
@@ -331,26 +345,6 @@ A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a F
 |---|---|---|
 | [RT-TCIP](L2-rt-tcip.md) — TCIP — transcriptional chemically-induced proximity  | `primary` | The reach enumeration with an effector-size second terminus, reusing machinery MEASURED to be E3-free (4 of 4 arms byte-identical with every E3-specific field stripped). Run 2026-08-06 (ART-TCIP-REACH). Its reportable finding is not the binary admit — which admits every body tested, including a 1183-residue CRBN-DDB1 assembly — but that the size penalty is a degrader's induced-interface floor rather than steric bulk: ablating the floor inverts the sign. It speaks about a SIZE CLASS, not a named effector. |
 
-### PUB-BIOMARKER-DEP — Biomarker-selected therapeutic classes in an ultra-rare sarcoma: what the available expression data excludes
-
-**◔ `outlined` · aimed at `preprint`**
-
-Six therapeutic classes are selected by a molecular state rather than by a growth rate, every selecting feature is readable in expression data already public for this disease, and the useful output is which classes the data rules out rather than which it nominates.
-
-**Not written because:** ⚠ ITS STATED BLOCKER IS RETIRED AND THE PAPER CHANGED SHAPE. Every lookup it was waiting on ran on 2026-08-09: of the five biomarker-selected classes it covers, FOUR are now graded against their own selecting feature (MOD-ARGININE-DEPRIVATION, MOD-MDM2-P53, MOD-EZH2, MOD-POLQ) and one is split between its two axes (MOD-MCL1-BCLXL). So this is now a mostly-NEGATIVE paper, which is what makes it worth writing — the field publishes almost no exclusions of this kind. What is left is drafting, not measurement. ⛔ Superseded, retained: "none of those lookups has been run — the paper is defined by results that do not exist yet." The results exist; they are negatives.
-
-**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
-
-- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) — Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-x | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
-| [RT-ARGININE](L2-rt-arginine.md) — Arginine deprivation (ASS1-silenced tumours) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
-| [RT-EZH2](L2-rt-ezh2.md) — EZH2 / PRC2 inhibition | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
-| [RT-MDM2](L2-rt-mdm2.md) — MDM2 antagonism (p53 reactivation in a quiet genome) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
-| [RT-POLQ](L2-rt-polq.md) — POLθ inhibition (microhomology-mediated end joining) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
-
 ### PUB-KINASE-LEADS — Four kinase observations in extraskeletal myxoid chondrosarcoma that nobody followed up
 
 **◔ `outlined` · aimed at `preprint`**
@@ -491,11 +485,11 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-ASO-ASK](L2-rt-aso-ask.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `experimental_proposal` | **PUB-ASO** ◐ | `chemrxiv` | `contributing` |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `preprint` | **PUB-ATR** ◐ | `preprint` | `primary` |
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `experimental_proposal` | **PUB-ATR-PANEL-ASK** ◐ | `experimental_proposal` | `primary` |
-| [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◔ | `preprint` | `contributing` |
-| [RT-ARGININE](L2-rt-arginine.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◔ | `preprint` | `contributing` |
-| [RT-EZH2](L2-rt-ezh2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◔ | `preprint` | `contributing` |
-| [RT-MDM2](L2-rt-mdm2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◔ | `preprint` | `contributing` |
-| [RT-POLQ](L2-rt-polq.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◔ | `preprint` | `contributing` |
+| [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |
+| [RT-ARGININE](L2-rt-arginine.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |
+| [RT-EZH2](L2-rt-ezh2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |
+| [RT-MDM2](L2-rt-mdm2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |
+| [RT-POLQ](L2-rt-polq.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |
 | [RT-6MP](L2-rt-6mp.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
 | [RT-DBD](L2-rt-dbd.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
 | [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
