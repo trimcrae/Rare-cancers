@@ -171,8 +171,8 @@
     "band": "drug_mechanism",
     "group": "cytotoxic",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "EMC is a hypovascular, matrix-dominated tumour, and the repository has already accepted that this makes it a good niche fit when it graded engineered bacteria -- where the fit was real and the decisive objection was that no in-silico instrument could be brought to bear. That objection does not hold here: a hypoxia signature is readable in expression data already on disk. ⚠ The class has a negative randomised soft-tissue-sarcoma record that any assessment must lead with.",
+    "prior_coverage": "searched_before",
+    "rationale": "⛔ CORRECTED 2026-08-09: filed `never_searched` and it was not. The class's clinical record was retrieved on 2026-08-07 and the EMC hypoxia signal was audited against a genome-wide null in the same pass, which restricted the claim to one of the two platforms. That memo rules the signal is a reason to ask a question rather than to revisit this class, and that ruling stands; the argument is owned there.",
     "exemplar": "evofosfamide",
     "requires": [
       "a hypoxic fraction large enough to activate the prodrug",
@@ -184,7 +184,11 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-HYPOXIA-PRODRUG"
+    "route": "RT-HYPOXIA-PRODRUG",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-hypoxia-reading.md",
+      "anchor": "5--the-therapeutic-hooks-at-their-true-weight"
+    }
   },
   {
     "id": "MOD-RADIOMIMETIC",
@@ -749,8 +753,8 @@
     "band": "drug_mechanism",
     "group": "kinase_inhibitor",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "⭐ The single largest gap this census found in the class it should most obviously have covered. The driver is a transcriptional oncoprotein whose entire mechanism is transactivation, and transcriptional CDK dependency is the best-established vulnerability of fusion-driven sarcomas as a class -- yet no route, no prior sweep and no technique-class table here has ever named it. ⚠ The class is also broadly cytotoxic, so the question is a window rather than an effect.",
+    "prior_coverage": "searched_before",
+    "rationale": "⛔ CORRECTED 2026-08-09: the row first claimed that no route, sweep or technique table here had ever named this class. That is false — a live manuscript names BET readers together with CDK7 and CDK9 as a transcriptional-dependency tier, and explicitly as mechanism-anchored but NOT fusion-selective. What survives is narrower and still worth a route: the class was named as a tier and never assessed against EMC data or given a route.",
     "exemplar": "CDK7 and CDK9 inhibitors",
     "requires": [
       "evidence that fusion-driven transcription is more CDK-dependent than the host cell's"
@@ -765,7 +769,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-TXN-CDK"
+    "route": "RT-TXN-CDK",
+    "prior_ref": {
+      "file": "research/manuscripts/fusion-coactivator-ppi-paper.md"
+    }
   },
   {
     "id": "MOD-DDR-KINASE",
@@ -1037,8 +1044,8 @@
     "band": "drug_mechanism",
     "group": "enzyme_inhibitor_non_kinase",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "Approved in a sarcoma selected by a chromatin-remodeller defect, and the portfolio already contains a chromatin-remodelling hypothesis for EMC through a non-canonical BAF subunit -- but the two have never been connected, and no prior sweep named this class. ⚠ The existing BAF route's own dependency prior came back negative, which any assessment has to lead with.",
+    "prior_coverage": "searched_before",
+    "rationale": "⛔ CORRECTED 2026-08-09: an automated literature scan had already surfaced this class in a neighbouring fusion sarcoma, so it was reached by a search even though nobody graded it for EMC. The route survives on the ungraded half; the novelty claim does not.",
     "exemplar": "tazemetostat",
     "requires": [
       "a chromatin-remodeller defect or PRC2 dependency in EMC, neither of which is reported"
@@ -1052,7 +1059,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-EZH2"
+    "route": "RT-EZH2",
+    "prior_ref": {
+      "file": "research/method-watch-preprint-pipeline.md"
+    }
   },
   {
     "id": "MOD-PRMT5-MAT2A",
@@ -1087,8 +1097,8 @@
     "band": "drug_mechanism",
     "group": "enzyme_inhibitor_non_kinase",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "⭐ A structural argument nobody here has made: fusion oncoproteins are chimeric, and chimeric proteins are disproportionately chaperone-dependent for folding and stability. That is a way to lower fusion protein levels that needs no pocket ligand, no ternary complex and no paralogue discrimination -- the three blockers holding the largest family down. ⚠ The class has a long record of clinical failure on toxicity that any assessment must lead with.",
+    "prior_coverage": "searched_before",
+    "rationale": "⛔ CORRECTED 2026-08-09: the class name did surface here before, as a chemotype-promiscuity observation in a docking-decoy analysis, not as a chaperone-dependency hypothesis. What survives is the hypothesis — that a chimeric protein is disproportionately chaperone-dependent — which nothing here has stated. ⚠ The class carries a long clinical record of failure on toxicity that any assessment must lead with.",
     "exemplar": "HSP90 inhibitors",
     "requires": [
       "evidence that the chimera is more chaperone-dependent than the wild-type proteins it is made from"
@@ -1102,7 +1112,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-CHAPERONE"
+    "route": "RT-CHAPERONE",
+    "prior_ref": {
+      "file": "research/modalities/nr4a3-repurpose-decoy-blend.md"
+    }
   },
   {
     "id": "MOD-DNMT",
@@ -1241,8 +1254,8 @@
     "band": "drug_mechanism",
     "group": "metabolic_and_dietary",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "⭐ A metabolic class that is genuinely biomarker-selected rather than proliferation-coupled: it works where a single biosynthetic enzyme is silenced, which is a state, not a growth rate. It has been taken to late-phase trials in soft-tissue sarcoma specifically, and the biomarker is one transcript readable in data already committed here.",
+    "prior_coverage": "searched_before",
+    "rationale": "⛔ CORRECTED 2026-08-09: filed `never_searched` and it was not. The 2026-08-07 sweep carries two dedicated ASS1-and-arginine-deprivation queries, one scoped to sarcoma and one to chondrosarcoma. The class was searched; what nobody had done is read ASS1 in the EMC expression data, which this census did — and it came back against the premise.",
     "exemplar": "pegylated arginine deiminase",
     "requires": [
       "silencing of the argininosuccinate synthase locus in EMC, which is unmeasured"
@@ -1256,7 +1269,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-ARGININE"
+    "route": "RT-ARGININE",
+    "prior_ref": {
+      "file": "research/literature/lane-probe-metabolism-strategy.json"
+    }
   },
   {
     "id": "MOD-ASPARAGINASE",
@@ -3104,8 +3120,8 @@
     "band": "drug_mechanism",
     "group": "microenvironment_and_stroma",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "⭐ The matrix has been treated here as a barrier and, once, as an address. This is the third option nobody has considered: stop the tumour building it. The myxoid gel is the disease's defining phenotype and it is a manufactured product with a named biosynthetic pathway. ⚠ The pathway is shared with normal chondrogenesis, so selectivity is the open question rather than an assumption.",
+    "prior_coverage": "searched_before",
+    "rationale": "⛔ CORRECTED 2026-08-09: filed `never_searched` and it was not. The 2026-08-07 sweep carries three glycosaminoglycan-biosynthesis queries including a myxoid-proteoglycan-burden one. The reading this census then graded was likewise already committed.",
     "exemplar": "glycosaminoglycan synthesis inhibitors",
     "requires": [
       "that matrix production is load-bearing for the tumour rather than incidental to it"
@@ -3119,7 +3135,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-MATRIX-SYNTHESIS"
+    "route": "RT-MATRIX-SYNTHESIS",
+    "prior_ref": {
+      "file": "research/literature/lane-probe-metabolism-strategy.json"
+    }
   },
   {
     "id": "MOD-VASCULAR-DISRUPTING",
@@ -3358,8 +3377,8 @@
     "band": "physical_locoregional",
     "group": "radiopharmaceutical_and_radiation",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "⭐ Carbon ions deposit a different quality of dose, and the classical indication is exactly the unresectable radioresistant sarcoma. EMC's radiosensitivity is the subject of a live contradiction in this repository's own record -- two registries say radiotherapy does nothing, the largest series reports a large local-control difference -- and no prior sweep considered that the answer might be dose quality rather than dose.",
+    "prior_coverage": "searched_before",
+    "rationale": "Probed by the 2026-08-07 physical-modality sweep, which carries dedicated carbon-ion queries against both the literature and the trial registry. Searched without being ruled on.",
     "exemplar": "carbon-ion radiotherapy",
     "requires": [
       "resolution of the existing radioresistance contradiction, which is itself a registered lane"
@@ -3370,7 +3389,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-RT-INTENSIFY"
+    "route": "RT-RT-INTENSIFY",
+    "prior_ref": {
+      "file": "research/literature/physical-modality-targets.json"
+    }
   },
   {
     "id": "MOD-BRACHYTHERAPY",
@@ -3380,8 +3402,8 @@
     "band": "physical_locoregional",
     "group": "radiopharmaceutical_and_radiation",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "Delivers a high conformal dose from inside the tumour bed and has a specific extremity soft-tissue sarcoma history, which matches where EMC actually arises. Never considered here, and it bears directly on the same open question about local control.",
+    "prior_coverage": "searched_before",
+    "rationale": "Already present in the radiotherapy dose reappraisal this repository holds. The route survives as an arm of that reappraisal; the novelty claim does not.",
     "exemplar": "interstitial brachytherapy",
     "zero_dollar_next_step": "Include brachytherapy arms when the radioresistance reappraisal's dose-response regression is built, rather than restricting it to external-beam series.",
     "provenance": {
@@ -3389,7 +3411,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-RT-INTENSIFY"
+    "route": "RT-RT-INTENSIFY",
+    "prior_ref": {
+      "file": "research/modalities/emc-rt-bed-reappraisal.json"
+    }
   },
   {
     "id": "MOD-RADIOSENSITIZER",
@@ -3399,8 +3424,8 @@
     "band": "drug_mechanism",
     "group": "radiopharmaceutical_and_radiation",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "The one EMC report of a striking response in the literature is a combination of radiotherapy with a systemic agent, and the repository already flagged that confound when correcting a monotherapy route's evidence grade. Nobody turned the confound around and asked whether the combination is the finding.",
+    "prior_coverage": "searched_before",
+    "rationale": "Probed by the 2026-08-07 metabolism-and-strategy sweep. Searched without being ruled on.",
     "exemplar": "concurrent chemoradiotherapy",
     "requires": [
       "that the reported combination response is attributable to interaction rather than to either agent alone"
@@ -3411,7 +3436,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-RT-INTENSIFY"
+    "route": "RT-RT-INTENSIFY",
+    "prior_ref": {
+      "file": "research/literature/lane-probe-metabolism-strategy.json"
+    }
   },
   {
     "id": "MOD-BNCT",
@@ -3520,8 +3548,8 @@
     "band": "physical_locoregional",
     "group": "physical_device_locoregional",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "⭐ A regional technique with an approved agent and an established role in unresectable extremity soft-tissue sarcoma -- and this disease's most common primary site is the deep soft tissue of the thigh and lower limb, so the anatomical precondition is met more often here than in most sarcomas. Entirely invisible to every prior search, which looked only at molecular modalities.",
+    "prior_coverage": "searched_before",
+    "rationale": "Probed by the 2026-08-07 physical-modality sweep, whose retrieval file carries a dedicated isolated-limb-perfusion-by-histology query. ⚠ The sweep's §6 table does not list it, so it was searched without being ruled on — which is why the route survives while the novelty claim does not.",
     "exemplar": "TNF-α plus melphalan perfusion",
     "requires": [
       "an extremity primary or extremity-confined recurrence"
@@ -3532,7 +3560,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-LIMB-PERFUSION"
+    "route": "RT-LIMB-PERFUSION",
+    "prior_ref": {
+      "file": "research/literature/physical-modality-targets.json"
+    }
   },
   {
     "id": "MOD-ISOLATED-LUNG-PERFUSION",
@@ -3586,8 +3617,8 @@
     "band": "physical_locoregional",
     "group": "physical_device_locoregional",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "Oligometastatic lung disease is the standard indication for percutaneous ablation, and the curated record for this disease states both that distant spread is mostly to lung and that removing isolated metastases can give long disease-free intervals -- which is the surgical form of the same argument. The portfolio contains no physical intervention at all, which is how a technique this routine went unconsidered.",
+    "prior_coverage": "searched_before",
+    "rationale": "Probed by the 2026-08-07 physical-modality sweep, which carries cryoablation, histotripsy and focused-ultrasound queries. Searched without being ruled on.",
     "exemplar": "percutaneous cryoablation",
     "requires": [
       "oligometastatic disease, which the indolent course makes common"
@@ -3598,7 +3629,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-LUNG-DIRECTED"
+    "route": "RT-LUNG-DIRECTED",
+    "prior_ref": {
+      "file": "research/literature/physical-modality-targets.json"
+    }
   },
   {
     "id": "MOD-HYPERTHERMIA",
@@ -3608,8 +3642,8 @@
     "band": "physical_locoregional",
     "group": "physical_device_locoregional",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "One of the few physical modalities with randomised evidence in soft-tissue sarcoma specifically, added to systemic therapy rather than replacing it. ⚠ Its mechanism includes a proliferation-coupled component, so the indolent-tumour objection that closed several other physical classes here has to be answered rather than assumed away.",
+    "prior_coverage": "searched_before",
+    "rationale": "Probed by the 2026-08-07 physical-modality sweep, which carries a dedicated regional-hyperthermia-in-soft-tissue-sarcoma query. Searched without being ruled on.",
     "exemplar": "regional hyperthermia",
     "zero_dollar_next_step": "Read the randomised sarcoma trial's histology breakdown for myxoid subtypes, and check whether its benefit tracked grade or proliferation index.",
     "provenance": {
@@ -3617,7 +3651,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-RT-INTENSIFY"
+    "route": "RT-RT-INTENSIFY",
+    "prior_ref": {
+      "file": "research/literature/physical-modality-targets.json"
+    }
   },
   {
     "id": "MOD-TTFIELDS",
@@ -4046,8 +4083,8 @@
     "band": "strategy_and_architecture",
     "group": "strategy_and_trial_architecture",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "Continuous low-dose scheduling suits a disease measured in years, where tolerability over time matters more than depth of response -- and it is the natural comparator arm for the adaptive-scheduling lane, which currently has none. Never considered here.",
+    "prior_coverage": "searched_before",
+    "rationale": "Probed by the 2026-08-07 metabolism-and-strategy sweep, which carries a metronomic and maintenance-therapy query scoped to sarcoma. Searched without being ruled on.",
     "exemplar": "metronomic chemotherapy",
     "zero_dollar_next_step": "Add it as the comparator arm when the adaptive-scheduling model is built, so the two scheduling hypotheses are evaluated against each other rather than each against continuous dosing alone.",
     "provenance": {
@@ -4055,7 +4092,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-SCHEDULING"
+    "route": "RT-SCHEDULING",
+    "prior_ref": {
+      "file": "research/literature/lane-probe-metabolism-strategy.json"
+    }
   },
   {
     "id": "MOD-SEQUENCING",
@@ -4065,8 +4105,8 @@
     "band": "strategy_and_architecture",
     "group": "strategy_and_trial_architecture",
     "verdict": "candidate",
-    "prior_coverage": "never_searched",
-    "rationale": "The registry curates several agents with EMC-specific activity and says nothing about what order to give them in. In a disease with years between decisions, ordering is one of the few variables a clinician actually controls, and no prior sweep treated it as a question.",
+    "prior_coverage": "searched_before",
+    "rationale": "The systemic-therapy question was probed by the 2026-08-07 sweep. ⚠ Ordering specifically was not asked, so what survives is narrower than the row first claimed: the agents were searched, the sequence question was not.",
     "exemplar": "line-of-therapy ordering",
     "zero_dollar_next_step": "Tabulate reported prior-therapy exposure against outcome across the curated cohorts and state what the published record can and cannot support about ordering.",
     "provenance": {
@@ -4074,7 +4114,10 @@
         "file": "systems/graph/modalities.json"
       }
     },
-    "route": "RT-SEQUENCING"
+    "route": "RT-SEQUENCING",
+    "prior_ref": {
+      "file": "research/literature/lane-probe-metabolism-strategy.json"
+    }
   },
   {
     "id": "MOD-BASKET-ELIGIBILITY",
@@ -4170,13 +4213,16 @@
     "band": "strategy_and_architecture",
     "group": "strategy_and_trial_architecture",
     "verdict": "excluded",
-    "prior_coverage": "never_searched",
-    "rationale": "The design is built for a per-patient private target, and EMC's driver is shared by every patient with the disease -- which makes a shared-cohort design both possible and stronger. The same reasoning already excluded a bespoke-oligonucleotide programme here on its published eligibility criterion.",
+    "prior_coverage": "searched_before",
+    "rationale": "Probed by the 2026-08-07 sweep's ultra-rare trial-design query. That the census then excluded it on shared-driver grounds stands; the novelty claim does not.",
     "exemplar": "n-of-1 designs",
     "provenance": {
       "owner": {
         "file": "systems/graph/modalities.json"
       }
+    },
+    "prior_ref": {
+      "file": "research/literature/lane-probe-metabolism-strategy.json"
     }
   },
   {

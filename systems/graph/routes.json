@@ -6937,9 +6937,10 @@
     "kind": "route",
     "title": "Hypoxia-activated prodrugs",
     "grade": {
-      "value": "⭐ Premise SUPPORTED at the level this data reaches (2026-08-09): a canonical HIF-target metagene scores higher in EMC than in comparator sarcomas on BOTH platforms, 15/15 and 14/15 genes readable. The only route of six graded this day to be concordantly supported.",
+      "value": "⛔ GRADE WITHDRAWN AND REPLACED, 2026-08-09 (same day). It was first graded SUPPORTED from the raw two-platform contrast. That reading was taken from the panel artifact WITHOUT reading the confound audit that audits it: against a genome-wide size-matched null the signature does not clear on GPL6244, and the owning memo rules the signal is a reason to ask a question rather than to revisit this class.",
       "owner": {
-        "file": "research/modalities/census-route-expression-grading.json"
+        "file": "research/manuscripts/emc-hypoxia-reading.md",
+        "anchor": "5--the-therapeutic-hooks-at-their-true-weight"
       }
     },
     "grade_pointers": [],
@@ -6970,22 +6971,23 @@
     "state": {
       "work_state": "complete",
       "authorization": "free",
-      "status": "ready",
+      "status": "parked",
       "maturity": "computed",
-      "confidence": "moderate",
+      "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "This repository has already accepted that a hypovascular matrix-dominated tumour is a good niche fit for hypoxia-directed treatment — it said so when grading engineered bacteria, where the fit was real and the decisive objection was that no in-silico instrument could be brought to bear. That objection does not hold here, because a hypoxia signature is readable in expression data already on disk. The class has a negative randomised soft-tissue-sarcoma record that any assessment must lead with.",
     "supporting_evidence": [
       {
         "ref": "ART-CENSUS-ROUTE-GRADING",
-        "what_it_supports": "EMC tumour tissue scores higher on a curated canonical HIF-target metagene than comparator sarcomas, concordantly on two independent array platforms",
-        "strength": "direct"
+        "what_it_supports": "the raw hypoxia-metagene contrast is positive in EMC on both platforms — which is the reading, not the grade: it does not survive the genome-wide null on one of the two",
+        "strength": "surrogate"
       }
     ],
     "remaining_unknowns": [
-      "Whether a transcriptional hypoxia signature corresponds to a hypoxic FRACTION large enough to reduce a prodrug, which no expression dataset can answer.",
-      "Whether the class's negative randomised soft-tissue-sarcoma record was a mechanism failure or a patient-selection failure — which decides whether a biomarker-selected retry is coherent at all."
+      "Whether the signal survives on a third series, which is the falsifier the owning memo names and which two series cannot supply.",
+      "Whether the class's negative randomised soft-tissue-sarcoma record was a mechanism failure or a patient-selection failure — unchanged by this pass.",
+      "Nothing here assumes a therapeutic window; the owning memo declines to make this signal a reason to revisit the class at all, and that ruling is not overturned by a route existing."
     ],
     "required_validation": [
       {
@@ -7003,19 +7005,22 @@
       }
     ],
     "readiness": {
-      "attainable_today": "preprint",
+      "attainable_today": "internal_note",
       "missing": [
-        "a read of the randomised sarcoma record for whether selection or mechanism failed — a literature question, not a compute one"
+        "a third EMC series — the falsifier the owning memo names"
       ],
-      "why_not_higher": "A supported premise is not a result about a drug. What is publishable is the observation plus the selection argument, and the class's own negative trial has to lead it."
+      "why_not_higher": "The route rests on a signal whose own audit restricts it to one platform, and the memo that owns that audit declines to license this class from it."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The premise is supported and the follow-up is a literature read that costs nothing, so the route can reach its stated ceiling without any external input.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "The owning memo has already ruled on what this signal licenses, and nothing this route can do at $0 changes that ruling; only a third series would.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
     },
     "next": {
-      "best_next_action": "Read the randomised soft-tissue-sarcoma record for the class and establish whether its failure was mechanism or patient selection.",
+      "best_next_action": "Leave it to the hypoxia memo, which owns the reading and the ruling.",
       "cost": "$0"
     }
   },

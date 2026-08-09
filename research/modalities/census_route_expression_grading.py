@@ -137,14 +137,23 @@ def build():
                          group(p, "hypoxia", "hypoxia_canonical_hif_targets_curated")},
         "observed": "A curated canonical HIF-target metagene scores HIGHER in EMC than in comparator "
                     "sarcomas on BOTH platforms, with 15/15 and 14/15 genes readable.",
-        "verdict": "SUPPORTED — and it is the only route in this pass supported concordantly on both "
-                   "platforms.",
+        # ⛔ THIS VERDICT WAS WRONG AND IS CORRECTED IN PLACE. It read SUPPORTED, from the raw
+        # contrast, because this module consulted the panel artifact and NOT emc-hypoxia-confounds.json,
+        # which audits that exact read against a genome-wide size-matched null the signature fails on
+        # GPL6244. An audit that reaches some consumers of a shared reading and not others is this
+        # repository's most-repeated failure, and here the grader WAS the consumer it did not reach.
+        "verdict": "⛔ WITHDRAWN — first graded SUPPORTED from the raw contrast; the confound audit "
+                   "restricts the signature to one of the two platforms and the memo that owns it "
+                   "declines to license this class from the signal at all.",
         "what_this_does_not_settle": "A hypoxia metagene is a transcriptional shadow of hypoxia, not "
                                      "an oxygen measurement, and 'higher than other sarcomas' is not "
                                      "'hypoxic enough to reduce a prodrug'. The class also carries a "
                                      "negative randomised soft-tissue-sarcoma record that any "
-                                     "assessment must lead with.",
-        "route_action": "keep; premise supported at the level this data can reach",
+                                     "assessment must lead with. ⛔ AND THE DECISIVE OMISSION, which "
+                                     "is why this row is withdrawn: emc-hypoxia-reading.md §5 owns "
+                                     "the audit of this exact reading and rules that the signal is a "
+                                     "reason to ask a question rather than to revisit this class.",
+        "route_action": "withdrawn; the owning memo's ruling stands and this grader defers to it",
     }
 
     # ────────────────────── RT-MATRIX-SYNTHESIS ──────────────────────
@@ -214,6 +223,14 @@ def build():
     }
 
     return {
+        "_a_grader_must_read_the_audit_not_only_the_reading": (
+            "⛔ ADDED AFTER THIS FILE GOT IT WRONG. emc-expression-panels.json holds READINGS; "
+            "emc-hypoxia-confounds.json holds the AUDIT of one of them. Grading from the first "
+            "without the second produced a SUPPORTED verdict on a signature its own genome-wide null "
+            "restricts to one of the two platforms. An audit that reaches some consumers of a shared "
+            "reading and not others is this repository's most-repeated failure, and here the grader "
+            "WAS the consumer it did not reach. Any future grader over this panel must check whether "
+            "a confound audit exists for the read it is using."),
         "_what": "Verdicts for the modality-census routes whose selecting feature was ALREADY readable "
                  "in emc-expression-panels.json. One reading per route, graded against the route's own "
                  "stated premise.",
@@ -235,8 +252,10 @@ def build():
         "summary": {
             "supported": [k for k, v in routes.items() if v["verdict"].startswith("SUPPORTED")],
             "against": [k for k, v in routes.items() if v["verdict"].startswith("AGAINST")],
+            "withdrawn": [k for k, v in routes.items() if v["verdict"].startswith("⛔ WITHDRAWN")],
             "split_or_unread": [k for k, v in routes.items()
-                                if not v["verdict"].startswith(("SUPPORTED", "AGAINST"))],
+                                if not v["verdict"].startswith(("SUPPORTED", "AGAINST",
+                                                                "⛔ WITHDRAWN"))],
         },
     }
 

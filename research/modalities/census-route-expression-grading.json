@@ -1,4 +1,5 @@
 {
+  "_a_grader_must_read_the_audit_not_only_the_reading": "⛔ ADDED AFTER THIS FILE GOT IT WRONG. emc-expression-panels.json holds READINGS; emc-hypoxia-confounds.json holds the AUDIT of one of them. Grading from the first without the second produced a SUPPORTED verdict on a signature its own genome-wide null restricts to one of the two platforms. An audit that reaches some consumers of a shared reading and not others is this repository's most-repeated failure, and here the grader WAS the consumer it did not reach. Any future grader over this panel must check whether a confound audit exists for the read it is using.",
   "_what": "Verdicts for the modality-census routes whose selecting feature was ALREADY readable in emc-expression-panels.json. One reading per route, graded against the route's own stated premise.",
   "_why": "The census registered these routes on 2026-08-09 with a 'cheapest next observation'. For six of them the observation was already committed and had never been graded against them, because the routes did not exist when the panel was built.",
   "_this_artifact_computes_nothing_new": "Every figure is lifted from emc-expression-panels.json, which owns it. Re-deriving one here would make a second home for it.",
@@ -316,9 +317,9 @@
         }
       },
       "observed": "A curated canonical HIF-target metagene scores HIGHER in EMC than in comparator sarcomas on BOTH platforms, with 15/15 and 14/15 genes readable.",
-      "verdict": "SUPPORTED — and it is the only route in this pass supported concordantly on both platforms.",
-      "what_this_does_not_settle": "A hypoxia metagene is a transcriptional shadow of hypoxia, not an oxygen measurement, and 'higher than other sarcomas' is not 'hypoxic enough to reduce a prodrug'. The class also carries a negative randomised soft-tissue-sarcoma record that any assessment must lead with.",
-      "route_action": "keep; premise supported at the level this data can reach"
+      "verdict": "⛔ WITHDRAWN — first graded SUPPORTED from the raw contrast; the confound audit restricts the signature to one of the two platforms and the memo that owns it declines to license this class from the signal at all.",
+      "what_this_does_not_settle": "A hypoxia metagene is a transcriptional shadow of hypoxia, not an oxygen measurement, and 'higher than other sarcomas' is not 'hypoxic enough to reduce a prodrug'. The class also carries a negative randomised soft-tissue-sarcoma record that any assessment must lead with. ⛔ AND THE DECISIVE OMISSION, which is why this row is withdrawn: emc-hypoxia-reading.md §5 owns the audit of this exact reading and rules that the signal is a reason to ask a question rather than to revisit this class.",
+      "route_action": "withdrawn; the owning memo's ruling stands and this grader defers to it"
     },
     "RT-MATRIX-SYNTHESIS": {
       "selecting_feature": "the tumour actively manufacturing its sulfated chondroitin-sulfate matrix",
@@ -579,12 +580,13 @@
     }
   },
   "summary": {
-    "supported": [
-      "RT-HYPOXIA-PRODRUG"
-    ],
+    "supported": [],
     "against": [
       "RT-ARGININE",
       "RT-MATRIX-SYNTHESIS"
+    ],
+    "withdrawn": [
+      "RT-HYPOXIA-PRODRUG"
     ],
     "split_or_unread": [
       "RT-RET",

@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-HYPOXIA-PRODRUG — Hypoxia-activated prodrugs
 
-**Family:** [ST-MICROENV](L1-st-microenv.md) · **state:** ✓ ready · computed · confidence moderate · verified 2026-08-09
+**Family:** [ST-MICROENV](L1-st-microenv.md) · **state:** ✓ parked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⭐ Premise SUPPORTED at the level this data reaches (2026-08-09): a canonical HIF-target metagene scores higher in EMC than in comparator sarcomas on BOTH platforms, 15/15 and 14/15 genes readable. The only route of six graded this day to be concordantly supported.
+**Grade** (owned by [`research/manuscripts/emc-hypoxia-reading.md`](../../research/manuscripts/emc-hypoxia-reading.md#5--the-therapeutic-hooks-at-their-true-weight)): ⛔ GRADE WITHDRAWN AND REPLACED, 2026-08-09 (same day). It was first graded SUPPORTED from the raw two-platform contrast. That reading was taken from the panel artifact WITHOUT reading the confound audit that audits it: against a genome-wide size-matched null the signature does not clear on GPL6244, and the owning memo rules the signal is a reason to ask a question rather than to revisit this class.
 
 ## What has to land for this route to move
 
@@ -49,12 +49,13 @@ This repository has already accepted that a hypovascular matrix-dominated tumour
 
 | ref | supports | strength |
 |---|---|---|
-| `ART-CENSUS-ROUTE-GRADING` | EMC tumour tissue scores higher on a curated canonical HIF-target metagene than comparator sarcomas, concordantly on two independent array platforms | `direct` |
+| `ART-CENSUS-ROUTE-GRADING` | the raw hypoxia-metagene contrast is positive in EMC on both platforms — which is the reading, not the grade: it does not survive the genome-wide null on one of the two | `surrogate` |
 
 ## Remaining unknowns
 
-- Whether a transcriptional hypoxia signature corresponds to a hypoxic FRACTION large enough to reduce a prodrug, which no expression dataset can answer.
-- Whether the class's negative randomised soft-tissue-sarcoma record was a mechanism failure or a patient-selection failure — which decides whether a biomarker-selected retry is coherent at all.
+- Whether the signal survives on a third series, which is the falsifier the owning memo names and which two series cannot supply.
+- Whether the class's negative randomised soft-tissue-sarcoma record was a mechanism failure or a patient-selection failure — unchanged by this pass.
+- Nothing here assumes a therapeutic window; the owning memo declines to make this signal a reason to revisit the class at all, and that ruling is not overturned by a route existing.
 
 ## Required validation
 
@@ -71,12 +72,12 @@ This repository has already accepted that a hypovascular matrix-dominated tumour
 
 ## Readiness — what this could become today
 
-**`preprint`**
+**`internal_note`**
 
-A supported premise is not a result about a drug. What is publishable is the observation plus the selection argument, and the class's own negative trial has to lead it.
+The route rests on a signal whose own audit restricts it to one platform, and the memo that owns that audit declines to license this class from it.
 
 **Missing:**
-- a read of the randomised sarcoma record for whether selection or mechanism failed — a literature question, not a compute one
+- a third EMC series — the falsifier the owning memo names
 
 ## Where this route ends — the paper
 
@@ -92,13 +93,16 @@ A supported premise is not a result about a drug. What is publishable is the obs
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The premise is supported and the follow-up is a literature read that costs nothing, so the route can reach its stated ceiling without any external input.
+The owning memo has already ruled on what this signal licenses, and nothing this route can do at $0 changes that ruling; only a third series would.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -111,7 +115,7 @@ The premise is supported and the follow-up is a literature read that costs nothi
 
 ## Best next action
 
-Read the randomised soft-tissue-sarcoma record for the class and establish whether its failure was mechanism or patient selection.
+Leave it to the hypoxia memo, which owns the reading and the ruling.
 
 *Cost:* $0
 

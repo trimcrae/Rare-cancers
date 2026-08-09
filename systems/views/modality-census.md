@@ -27,22 +27,22 @@ last_verified: 2026-08-09
 
 **217 modality classes · 19 groups · 4 bands.**
 
-## ⭑ 127 classes no prior search here had pointed at
+## ⭑ 112 classes no prior search here had pointed at
 
 This is the census's result. `never_searched` is orthogonal to the verdict, and the
 orthogonality carries the finding: a class can be unsearched and still not reach EMC —
 nobody looked, and now that someone has, it does not — or unsearched **and** live, which
-is the residue no prior sweep could have returned. **32 of the 127
+is the residue no prior sweep could have returned. **18 of the 112
 are live** (`candidate` or `parked_capability`).
 
 | verdict | classes | of which never searched |
 |---|---:|---:|
-| ⭑ `candidate` | 31 | 23 |
+| ⭑ `candidate` | 31 | 9 |
 | ⏸ `parked_capability` | 9 | 9 |
 | ✓ `on_board` | 41 | 0 |
 | ● `in_clinical_use` | 8 | 0 |
 | ✕ `already_rejected` | 33 | 0 |
-| ✕ `excluded` | 84 | 84 |
+| ✕ `excluded` | 84 | 83 |
 | — `not_applicable` | 11 | 11 |
 
 ### By band
@@ -52,10 +52,10 @@ not rejected, never queried — which is the reason the census carries them at a
 
 | band | classes | never searched |
 |---|---:|---:|
-| `drug_mechanism` | 162 | 94 |
+| `drug_mechanism` | 162 | 87 |
 | `delivery_and_conjugate` | 26 | 18 |
-| `physical_locoregional` | 15 | 8 |
-| `strategy_and_architecture` | 14 | 7 |
+| `physical_locoregional` | 15 | 3 |
+| `strategy_and_architecture` | 14 | 4 |
 
 ## The live residue
 
@@ -65,28 +65,14 @@ carries the cheapest observation that would move it.
 | class | group | verdict | cheapest next step |
 |---|---|---|---|
 | **MOD-ALK-ROS1** — ALK / ROS1 inhibitors | `kinase_inhibitor` | ⭑ `candidate` | Re-read the committed drug-screen artifact for the full hit list and its controls, then read each of that agent's principal targets across the EMC expression cohorts to see which are present at all. |
-| **MOD-ARGININE-DEPRIVATION** — Arginine deprivation | `metabolic_and_dietary` | ⭑ `candidate` | Read ASS1 across the two readable EMC expression series and the fourth cohort. A single transcript answers the selection question, and the class already has a sarcoma trial record to read the answer against. |
-| **MOD-BRACHYTHERAPY** — Brachytherapy | `radiopharmaceutical_and_radiation` | ⭑ `candidate` | Include brachytherapy arms when the radioresistance reappraisal's dose-response regression is built, rather than restricting it to external-beam series. |
-| **MOD-CS-BIOSYNTHESIS** — Inhibition of tumour glycosaminoglycan biosynthesis | `microenvironment_and_stroma` | ⭑ `candidate` | Grade the chondroitin-sulfate and sulfate-donor pathway read that is ALREADY committed in the targeted expression panel — the data exists on disk and nobody has drawn a therapeutic conclusion from it. |
 | **MOD-EXPANDED-ACCESS** — Expanded access, compassionate use and off-label registries | `strategy_and_trial_architecture` | ⭑ `candidate` | Map the access pathways and the public outcome registries that accept off-label single-patient reports, and state which of this portfolio's candidates could in principle enter one. |
-| **MOD-EZH2** — EZH2 / PRC2 inhibitors | `enzyme_inhibitor_non_kinase` | ⭑ `candidate` | Read the PRC2 and BAF subunit sets across the EMC expression cohorts on disk, and check the committed sarcoma dependency artifact for the same genes so the answer arrives beside the negative that is already recorded. |
-| **MOD-HSP90** — HSP90 and chaperone inhibitors | `enzyme_inhibitor_non_kinase` | ⭑ `candidate` | Read the chaperone-client literature for FET-family fusion proteins, and check whether the repository's own structural work on the chimera predicts an unstable or partially disordered interface at the junction. |
-| **MOD-HYPERTHERMIA** — Regional hyperthermia | `physical_device_locoregional` | ⭑ `candidate` | Read the randomised sarcoma trial's histology breakdown for myxoid subtypes, and check whether its benefit tracked grade or proliferation index. |
-| **MOD-HYPOXIA-PRODRUG** — Hypoxia-activated prodrugs | `cytotoxic` | ⭑ `candidate` | Score a hypoxia signature across the two readable EMC expression series and the fourth SRA cohort, then read the sarcoma phase 3 record for why it failed and whether the failure was mechanism or patient selection. |
-| **MOD-ILP** — Isolated limb perfusion | `physical_device_locoregional` | ⭑ `candidate` | Pool the anatomical-site distribution across the EMC series already curated in the clinical registry to size the eligible fraction, and search the perfusion literature for myxoid histologies specifically. |
 | **MOD-IMMUNOCYTOKINE** — Immunocytokines (tumour-targeted cytokine fusions) | `antibody_and_antibody_like` | ⭑ `candidate` | Read the fibronectin and tenascin splice-variant transcripts across the EMC expression cohorts on disk. They are matrix genes, so unlike a cell-surface antigen they are visible in bulk tumour data. |
 | **MOD-INHALED-CHEMO** — Inhaled and aerosolised cytotoxic therapy | `physical_device_locoregional` | ⭑ `candidate` | Assess it together with regional pulmonary delivery from the same registry extraction, since both are selected by the same patient feature. |
 | **MOD-ISOLATED-LUNG-PERFUSION** — Isolated lung perfusion and regional pulmonary delivery | `physical_device_locoregional` | ⭑ `candidate` | Extract the metastatic-site distribution and time-to-metastasis already curated in the clinical registry, and state what fraction of patients are lung-limited and for how long. |
 | **MOD-MCL1-BCLXL** — MCL-1 and BCL-xL inhibitors | `ppi_and_undruggable` | ⭑ `candidate` | Read the BCL-2 family across the EMC expression cohorts and re-read the committed ex-vivo screen artifacts for every BH3-mimetic in their panels. |
 | **MOD-MDM2-P53** — MDM2 / MDMX antagonists (p53 reactivation) | `ppi_and_undruggable` | ⭑ `candidate` | Read the committed whole-genome trio analysis for TP53 status and check the MDM2 locus in the EMC expression cohorts, so the selection question is answered from data already on disk. |
-| **MOD-METRONOMIC** — Metronomic dosing | `strategy_and_trial_architecture` | ⭑ `candidate` | Add it as the comparator arm when the adaptive-scheduling model is built, so the two scheduling hypotheses are evaluated against each other rather than each against continuous dosing alone. |
-| **MOD-PARTICLE-THERAPY** — Proton and carbon-ion therapy | `radiopharmaceutical_and_radiation` | ⭑ `candidate` | Fold this into the radioresistance reappraisal already scoped here: search the particle-therapy registries for myxoid and chondroid sarcoma histologies, which publish institutional series that a histology-level search reaches. |
 | **MOD-POLQ** — POLθ inhibitors | `enzyme_inhibitor_non_kinase` | ⭑ `candidate` | Extend the committed dependency-prior analysis to the microhomology-mediated end-joining genes, and report it beside the ATR assessment's weak grade rather than as a fresh claim. |
 | **MOD-PRMT5-MAT2A** — PRMT5 / MAT2A inhibitors (MTAP-deletion synthetic lethality) | `enzyme_inhibitor_non_kinase` | ⭑ `candidate` | Read MTAP and its neighbouring locus across every EMC expression series on disk plus the fourth cohort; deletion shows up as a floor-level transcript, so expression data answers a copy-number question well enough to triage it. |
-| **MOD-RADIOSENSITIZER** — Radiosensitizers | `radiopharmaceutical_and_radiation` | ⭑ `candidate` | Re-read the combination case report in full and pool every EMC case in the literature where systemic therapy and radiotherapy were given concurrently, using the pooling method this repository already owns. |
-| **MOD-SEQUENCING** — Treatment sequencing and line ordering | `strategy_and_trial_architecture` | ⭑ `candidate` | Tabulate reported prior-therapy exposure against outcome across the curated cohorts and state what the published record can and cannot support about ordering. |
-| **MOD-THERMAL-ABLATION** — Percutaneous ablation (radiofrequency, microwave, cryo, focused ultrasound) | `physical_device_locoregional` | ⭑ `candidate` | Read metastatic burden at presentation from the curated registry cohorts and state what fraction would meet a conventional oligometastatic threshold. |
-| **MOD-TRANSCRIPTIONAL-CDK** — Transcriptional CDK inhibition (CDK7, CDK9, CDK12/13) | `kinase_inhibitor` | ⭑ `candidate` | Run the same class-inheritance argument already built for the DNA-damage-response lane over the transcriptional CDKs, using the sarcoma dependency prior already committed here, and state honestly that it is a transfer with no EMC line in it. |
 | **MOD-AAV-GENE-THERAPY** — AAV and lentiviral gene therapy | `gene_and_cell_engineering` | ⏸ `parked_capability` | — |
 | **MOD-APTAMER** — Aptamers | `nucleic_acid` | ⏸ `parked_capability` | — |
 | **MOD-BASE-PRIME-EDITING** — Base and prime editing | `gene_and_cell_engineering` | ⏸ `parked_capability` | — |
@@ -107,7 +93,7 @@ carries the cheapest observation that would move it.
 | **MOD-ANTHRACYCLINE**<br/>Anthracyclines | doxorubicin | ● `in_clinical_use` | · | on the record — [emc-clinical-registry.json](../../research/data/emc-clinical-registry.json) |
 | **MOD-ANTIMETABOLITE**<br/>Antimetabolites | gemcitabine | ✕ `excluded` | ⭑ **new** | A sarcoma-wide later-line option with no EMC-specific series anywhere in the curated record. … |
 | **MOD-DNA-MINOR-GROOVE**<br/>DNA minor-groove binders / fusion-TF displacers | trabectedin | ✓ `on_board` | · | [RT-TRABECTEDIN](L2-rt-trabectedin.md) — Trabectedin (± RT or combination) |
-| **MOD-HYPOXIA-PRODRUG**<br/>Hypoxia-activated prodrugs | evofosfamide | ⭑ `candidate` | ⭑ **new** | [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) — Hypoxia-activated prodrugs |
+| **MOD-HYPOXIA-PRODRUG**<br/>Hypoxia-activated prodrugs | evofosfamide | ⭑ `candidate` | · | [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) — Hypoxia-activated prodrugs |
 | **MOD-MICROTUBULE-DESTABILIZER**<br/>Microtubule-destabilising agents | eribulin | ✕ `excluded` | ⭑ **new** | Approved in a different sarcoma histology on a lineage-specific result that does not transfer to a fusion-driven myxoid tumour, and no EMC … |
 | **MOD-MICROTUBULE-STABILIZER**<br/>Microtubule-stabilising agents | paclitaxel | ✕ `excluded` | ⭑ **new** | No EMC observation, and the mechanism is the most sharply mitosis-coupled in the cytotoxic set. … |
 | **MOD-PLATINUM**<br/>Platinum agents | cisplatin | ✕ `excluded` | ⭑ **new** | No EMC-specific evidence exists, and the class holds no standing in soft-tissue sarcoma generally, so there is neither a disease-level nor a … |
@@ -156,7 +142,7 @@ carries the cheapest observation that would move it.
 | **MOD-RET**<br/>RET-selective inhibitors | selpercatinib | ⭑ `candidate` | · | [RT-RET](L2-rt-ret.md) — RET-selective inhibitors |
 | **MOD-SGK1**<br/>SGK1 inhibition | SGK1 inhibitors | ⭑ `candidate` | · | [RT-SGK1](L2-rt-sgk1.md) — SGK1 inhibition |
 | **MOD-SRC-BTK**<br/>SRC-family and BTK inhibitors | dasatinib | ✕ `excluded` | ⭑ **new** | Both act on signalling axes with no reported role in EMC; the BTK arm is a lymphoid-lineage class with no solid-sarcoma instance at all. |
-| **MOD-TRANSCRIPTIONAL-CDK**<br/>Transcriptional CDK inhibition (CDK7, CDK9, CDK12/13) | CDK7 and CDK9 inhibitors | ⭑ `candidate` | ⭑ **new** | [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13) |
+| **MOD-TRANSCRIPTIONAL-CDK**<br/>Transcriptional CDK inhibition (CDK7, CDK9, CDK12/13) | CDK7 and CDK9 inhibitors | ⭑ `candidate` | · | [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13) |
 | **MOD-VEGF-MAB**<br/>Anti-VEGF antibodies and ligand traps | bevacizumab | ✕ `excluded` | ⭑ **new** | The antiangiogenic hypothesis in EMC is already carried by the multi-kinase inhibitors that hold its entire clinical record; … |
 | **MOD-VEGFR-TKI**<br/>VEGFR / multi-kinase antiangiogenic inhibitors | pazopanib | ● `in_clinical_use` | · | on the record — [emc-clinical-registry.json](../../research/data/emc-clinical-registry.json) |
 
@@ -166,11 +152,11 @@ carries the cheapest observation that would move it.
 |---|---|---|---|---|
 | **MOD-BET**<br/>BET bromodomain inhibitors | BET inhibitors | ✓ `on_board` | · | [RT-HDAC-BET](L2-rt-hdac-bet.md) — HDAC / BET to lower fusion expression |
 | **MOD-DNMT**<br/>DNA methyltransferase inhibitors | azacitidine | ⏸ `parked_capability` | ⭑ **new** | Hypomethylating agents have a coherent rationale in fusion-driven tumours with quiet genomes, but grading it needs EMC methylation data, and no … |
-| **MOD-EZH2**<br/>EZH2 / PRC2 inhibitors | tazemetostat | ⭑ `candidate` | ⭑ **new** | [RT-EZH2](L2-rt-ezh2.md) — EZH2 / PRC2 inhibition |
+| **MOD-EZH2**<br/>EZH2 / PRC2 inhibitors | tazemetostat | ⭑ `candidate` | · | [RT-EZH2](L2-rt-ezh2.md) — EZH2 / PRC2 inhibition |
 | **MOD-FASN**<br/>Fatty-acid synthase inhibitors | FASN inhibitors | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-GLUTAMINASE**<br/>Glutaminase inhibitors | telaglenastat | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-HDAC**<br/>Histone deacetylase inhibitors | romidepsin | ✓ `on_board` | · | [RT-HDAC-BET](L2-rt-hdac-bet.md) — HDAC / BET to lower fusion expression |
-| **MOD-HSP90**<br/>HSP90 and chaperone inhibitors | HSP90 inhibitors | ⭑ `candidate` | ⭑ **new** | [RT-CHAPERONE](L2-rt-chaperone.md) — Chaperone dependency of the chimera (HSP90 and … |
+| **MOD-HSP90**<br/>HSP90 and chaperone inhibitors | HSP90 inhibitors | ⭑ `candidate` | · | [RT-CHAPERONE](L2-rt-chaperone.md) — Chaperone dependency of the chimera (HSP90 and … |
 | **MOD-IDH**<br/>IDH inhibitors | ivosidenib | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-LSD1**<br/>LSD1 inhibitors | LSD1 inhibitors | ✕ `excluded` | ⭑ **new** | The class's solid-tumour rationale is lineage-specific to neuroendocrine differentiation, and EMC's reported neuroendocrine features are … |
 | **MOD-MENIN**<br/>Menin-MLL inhibitors | revumenib | — `not_applicable` | ⭑ **new** | Selects on a specific leukaemic rearrangement class; the interaction it blocks has no reported role in soft-tissue sarcoma. |
@@ -319,7 +305,7 @@ carries the cheapest observation that would move it.
 | class | exemplar | verdict | prior | where it lands |
 |---|---|---|---|---|
 | **MOD-CD44-RHAMM**<br/>Hyaluronan-receptor-directed agents | anti-CD44 | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
-| **MOD-CS-BIOSYNTHESIS**<br/>Inhibition of tumour glycosaminoglycan biosynthesis | glycosaminoglycan synthesis inhibitors | ⭑ `candidate` | ⭑ **new** | [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) — Inhibition of the tumour's glycosaminoglycan biosynthesis |
+| **MOD-CS-BIOSYNTHESIS**<br/>Inhibition of tumour glycosaminoglycan biosynthesis | glycosaminoglycan synthesis inhibitors | ⭑ `candidate` | · | [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) — Inhibition of the tumour's glycosaminoglycan biosynthesis |
 | **MOD-FAP-DIRECTED**<br/>Fibroblast-activation-protein-directed agents | FAP inhibitors | ✓ `on_board` | · | [RT-FAP-RLT](L2-rt-fap-rlt.md) — FAP-targeted radioligand therapy (FAPI-RLT) |
 | **MOD-HYALURONIDASE**<br/>Enzymatic matrix depletion | pegvorhyaluronidase alfa | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-INTEGRIN-MMP**<br/>Integrin and matrix-metalloproteinase inhibitors | cilengitide | ✕ `excluded` | ⭑ **new** | Both classes have large negative randomised records across solid tumours including sarcoma, and neither has an EMC-specific rationale that would … |
@@ -331,7 +317,7 @@ carries the cheapest observation that would move it.
 
 | class | exemplar | verdict | prior | where it lands |
 |---|---|---|---|---|
-| **MOD-ARGININE-DEPRIVATION**<br/>Arginine deprivation | pegylated arginine deiminase | ⭑ `candidate` | ⭑ **new** | [RT-ARGININE](L2-rt-arginine.md) — Arginine deprivation (ASS1-silenced tumours) |
+| **MOD-ARGININE-DEPRIVATION**<br/>Arginine deprivation | pegylated arginine deiminase | ⭑ `candidate` | · | [RT-ARGININE](L2-rt-arginine.md) — Arginine deprivation (ASS1-silenced tumours) |
 | **MOD-ASPARAGINASE**<br/>Asparaginase | pegaspargase | ✕ `excluded` | ⭑ **new** | The same enzyme-silencing logic as arginine deprivation, but the sensitising defect is a lymphoid lineage property with no solid-sarcoma instance. |
 | **MOD-DIETARY-RESTRICTION**<br/>Fasting-mimicking, ketogenic and amino-acid-restriction diets | fasting-mimicking diet | ✕ `excluded` | ⭑ **new** | The mechanism is differential stress resistance between fast-dividing tumour cells and normal tissue. … |
 | **MOD-MICROBIOME**<br/>Microbiome modulation | faecal microbiota transplant | ✕ `excluded` | ⭑ **new** | Its evidence base is modulation of checkpoint-inhibitor response, and checkpoint inhibition has no single-agent foothold in EMC to modulate. |
@@ -344,13 +330,13 @@ carries the cheapest observation that would move it.
 | **MOD-AUGER**<br/>Auger-electron emitters | iodine-125 conjugates | ✕ `excluded` | ⭑ **new** | Requires nuclear-proximal delivery per cell to achieve its very short range, which is the most cell-count-dependent of all radionuclide classes. … |
 | **MOD-BETA-RLT**<br/>β-emitting peptide receptor radioligand therapy | lutetium-177 DOTATATE | ✓ `on_board` | · | [RT-SSTR2](L2-rt-sstr2.md) — SSTR2 / neuroendocrine theranostic |
 | **MOD-BNCT**<br/>Boron neutron capture therapy | boronophenylalanine BNCT | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
-| **MOD-BRACHYTHERAPY**<br/>Brachytherapy | interstitial brachytherapy | ⭑ `candidate` | ⭑ **new** | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) — Radiotherapy intensification (particle therapy, … |
+| **MOD-BRACHYTHERAPY**<br/>Brachytherapy | interstitial brachytherapy | ⭑ `candidate` | · | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) — Radiotherapy intensification (particle therapy, … |
 | **MOD-EBRT**<br/>External-beam radiotherapy | adjuvant external-beam radiotherapy | ● `in_clinical_use` | · | on the record — [emc-clinical-registry.json](../../research/data/emc-clinical-registry.json) |
 | **MOD-FLASH**<br/>FLASH ultra-high-dose-rate radiotherapy | FLASH radiotherapy | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
-| **MOD-PARTICLE-THERAPY**<br/>Proton and carbon-ion therapy | carbon-ion radiotherapy | ⭑ `candidate` | ⭑ **new** | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) — Radiotherapy intensification (particle therapy, … |
+| **MOD-PARTICLE-THERAPY**<br/>Proton and carbon-ion therapy | carbon-ion radiotherapy | ⭑ `candidate` | · | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) — Radiotherapy intensification (particle therapy, … |
 | **MOD-RADIOEMBOLIZATION**<br/>Radioembolization and arterial radionuclide delivery | yttrium-90 microspheres | — `not_applicable` | ⭑ **new** | Delivered through a hepatic arterial supply for liver-dominant disease, and EMC's metastatic pattern is lung-predominant. |
 | **MOD-RADIOPROTECTOR**<br/>Radioprotectors | amifostine | — `not_applicable` | ⭑ **new** | A normal-tissue toxicity intervention rather than an antitumour one; it changes the tolerable dose and nothing about the tumour. |
-| **MOD-RADIOSENSITIZER**<br/>Radiosensitizers | concurrent chemoradiotherapy | ⭑ `candidate` | ⭑ **new** | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) — Radiotherapy intensification (particle therapy, … |
+| **MOD-RADIOSENSITIZER**<br/>Radiosensitizers | concurrent chemoradiotherapy | ⭑ `candidate` | · | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) — Radiotherapy intensification (particle therapy, … |
 
 ### Physical, device and locoregional
 
@@ -359,14 +345,14 @@ carries the cheapest observation that would move it.
 | **MOD-CHEMOEMBOLIZATION**<br/>Transarterial chemoembolization and hepatic arterial infusion | transarterial chemoembolization | — `not_applicable` | ⭑ **new** | Selected by liver-dominant disease with an arterial supply to exploit; EMC's pattern is lung-predominant. |
 | **MOD-ELECTROCHEMOTHERAPY**<br/>Electrochemotherapy and electroporation | electrochemotherapy | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-HIPEC**<br/>Intraperitoneal and intrathecal regional chemotherapy | HIPEC | — `not_applicable` | ⭑ **new** | Both compartments are selected by a metastatic pattern EMC does not have; its dissemination is haematogenous and lung-predominant. |
-| **MOD-HYPERTHERMIA**<br/>Regional hyperthermia | regional hyperthermia | ⭑ `candidate` | ⭑ **new** | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) — Radiotherapy intensification (particle therapy, … |
-| **MOD-ILP**<br/>Isolated limb perfusion | TNF-α plus melphalan perfusion | ⭑ `candidate` | ⭑ **new** | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md) — Isolated limb perfusion for extremity disease |
+| **MOD-HYPERTHERMIA**<br/>Regional hyperthermia | regional hyperthermia | ⭑ `candidate` | · | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) — Radiotherapy intensification (particle therapy, … |
+| **MOD-ILP**<br/>Isolated limb perfusion | TNF-α plus melphalan perfusion | ⭑ `candidate` | · | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md) — Isolated limb perfusion for extremity disease |
 | **MOD-INHALED-CHEMO**<br/>Inhaled and aerosolised cytotoxic therapy | inhaled cytotoxics | ⭑ `candidate` | ⭑ **new** | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) — Lung-directed local therapy (regional perfusion, inhaled … |
 | **MOD-ISOLATED-LUNG-PERFUSION**<br/>Isolated lung perfusion and regional pulmonary delivery | isolated lung perfusion | ⭑ `candidate` | ⭑ **new** | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) — Lung-directed local therapy (regional perfusion, inhaled … |
 | **MOD-NIR-PIT**<br/>Near-infrared photoimmunotherapy | NIR photoimmunotherapy | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-PDT**<br/>Photodynamic therapy | photodynamic therapy | ✕ `excluded` | ⭑ **new** | Distinct from the photoimmunotherapy already ruled out here, and it fails on the half of that ruling that is about physics rather than about the … |
 | **MOD-SURGERY**<br/>Wide local excision and metastasectomy | R0 wide excision | ● `in_clinical_use` | · | on the record — [emc-clinical-registry.json](../../research/data/emc-clinical-registry.json) |
-| **MOD-THERMAL-ABLATION**<br/>Percutaneous ablation (radiofrequency, microwave, cryo, focused ultrasound) | percutaneous cryoablation | ⭑ `candidate` | ⭑ **new** | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) — Lung-directed local therapy (regional perfusion, inhaled … |
+| **MOD-THERMAL-ABLATION**<br/>Percutaneous ablation (radiofrequency, microwave, cryo, focused ultrasound) | percutaneous cryoablation | ⭑ `candidate` | · | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) — Lung-directed local therapy (regional perfusion, inhaled … |
 | **MOD-TTFIELDS**<br/>Tumour-treating fields | alternating electric fields | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-WATCHFUL-WAITING**<br/>Observation and deferred intervention | active surveillance | ● `in_clinical_use` | · | on the record — [emc-clinical-registry.json](../../research/data/emc-clinical-registry.json) |
 
@@ -407,9 +393,9 @@ carries the cheapest observation that would move it.
 | **MOD-COMBINATION**<br/>Rational combination therapy | trabectedin plus a PPARγ agonist | ✓ `on_board` | · | [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) — Trabectedin + a PPARγ agonist (all approved drugs) |
 | **MOD-ENDPOINT-REFRAME**<br/>Redefining the response endpoint | growth-modulation endpoints | ✓ `on_board` | · | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) — Reframe the endpoint advanced-EMC systemic therapy is … |
 | **MOD-EXPANDED-ACCESS**<br/>Expanded access, compassionate use and off-label registries | single-patient expanded access | ⭑ `candidate` | ⭑ **new** | [RT-TRIAL-REACH](L2-rt-trial-reach.md) — Trial reachability and access pathways |
-| **MOD-METRONOMIC**<br/>Metronomic dosing | metronomic chemotherapy | ⭑ `candidate` | ⭑ **new** | [RT-SCHEDULING](L2-rt-scheduling.md) — Adaptive and metronomic scheduling of existing agents |
-| **MOD-N-OF-1**<br/>N-of-1 and single-patient trial design | n-of-1 designs | ✕ `excluded` | ⭑ **new** | The design is built for a per-patient private target, and EMC's driver is shared by every patient with the disease -- which makes a shared-cohort … |
-| **MOD-SEQUENCING**<br/>Treatment sequencing and line ordering | line-of-therapy ordering | ⭑ `candidate` | ⭑ **new** | [RT-SEQUENCING](L2-rt-sequencing.md) — Treatment sequencing and line ordering |
+| **MOD-METRONOMIC**<br/>Metronomic dosing | metronomic chemotherapy | ⭑ `candidate` | · | [RT-SCHEDULING](L2-rt-scheduling.md) — Adaptive and metronomic scheduling of existing agents |
+| **MOD-N-OF-1**<br/>N-of-1 and single-patient trial design | n-of-1 designs | ✕ `excluded` | · | Probed by the 2026-08-07 sweep's ultra-rare trial-design query. That the census then excluded it on shared-driver grounds stands; … |
+| **MOD-SEQUENCING**<br/>Treatment sequencing and line ordering | line-of-therapy ordering | ⭑ `candidate` | · | [RT-SEQUENCING](L2-rt-sequencing.md) — Treatment sequencing and line ordering |
 
 ---
 

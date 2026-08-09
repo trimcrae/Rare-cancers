@@ -1,0 +1,2552 @@
+{
+  "_what": "Candidate false-novelty collisions: census rows filed `never_searched` whose class terms already co-occur in a repository document.",
+  "_why": "`prior_coverage` is checkable in one direction only. Claiming a prior search requires a resolvable document, so a false POSITIVE cannot survive; nothing catches a false NEGATIVE, and one was found the day the census landed.",
+  "_this_decides_nothing": "Every entry is a question for a human or agent to adjudicate. A term match is not coverage: the same word appears in documents about something else, and the census's own files are excluded because matching itself would be circular.",
+  "_bar": "two distinct class terms co-occurring in one tracked .md or .json outside the census itself and outside archive/",
+  "n_never_searched_rows": 127,
+  "n_rows_with_a_candidate_collision": 73,
+  "findings": {
+    "MOD-SEQUENCING": {
+      "name": "Treatment sequencing and line ordering",
+      "verdict": "candidate",
+      "terms_searched": [
+        "line-of-therapy",
+        "ordering",
+        "treatment",
+        "sequencing",
+        "line"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/IDEAS.md": [
+          "ordering",
+          "treatment",
+          "sequencing",
+          "line"
+        ],
+        "research/manuscripts/emc-treatment-strategy.md": [
+          "ordering",
+          "treatment",
+          "sequencing",
+          "line"
+        ],
+        "research/manuscripts/map-merge-inventory.md": [
+          "ordering",
+          "treatment",
+          "sequencing",
+          "line"
+        ],
+        "research/manuscripts/nr4a3-degrader-paper-positioning.md": [
+          "ordering",
+          "treatment",
+          "sequencing",
+          "line"
+        ],
+        "research/manuscripts/nr4a3-degrader-paper.md": [
+          "ordering",
+          "treatment",
+          "sequencing",
+          "line"
+        ],
+        "research/manuscripts/nr4a3-program-map.md": [
+          "ordering",
+          "treatment",
+          "sequencing",
+          "line"
+        ],
+        "research/manuscripts/what-a-civilian-can-buy.md": [
+          "ordering",
+          "treatment",
+          "sequencing",
+          "line"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "ordering",
+          "treatment",
+          "sequencing",
+          "line"
+        ]
+      },
+      "n_files": 230,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-N-OF-1": {
+      "name": "N-of-1 and single-patient trial design",
+      "verdict": "excluded",
+      "terms_searched": [
+        "n-of-1",
+        "designs",
+        "single-patient",
+        "trial",
+        "design"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/emc-systemic-therapy-pooling.json": [
+          "designs",
+          "single-patient",
+          "trial",
+          "design"
+        ],
+        "research/manuscripts/lit-targets-frontier-capability-2026-08-07.json": [
+          "n-of-1",
+          "designs",
+          "trial",
+          "design"
+        ],
+        "research/manuscripts/repurposing-hypotheses.md": [
+          "n-of-1",
+          "designs",
+          "trial",
+          "design"
+        ],
+        "systems/graph/routes.json": [
+          "designs",
+          "single-patient",
+          "trial",
+          "design"
+        ],
+        "STRATEGY.md": [
+          "designs",
+          "trial",
+          "design"
+        ],
+        "research/IDEAS.md": [
+          "designs",
+          "trial",
+          "design"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "n-of-1",
+          "trial",
+          "design"
+        ],
+        "research/manuscripts/emc-endpoint-alternatives-2026-08-08.md": [
+          "designs",
+          "trial",
+          "design"
+        ]
+      },
+      "n_files": 147,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-TF-PROTAC": {
+      "name": "TF-PROTAC (oligonucleotide-directed degradation of a transcription factor)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "tf-protacs",
+        "tf-protac",
+        "oligonucleotide-directed",
+        "degradation",
+        "transcription",
+        "factor"
+      ],
+      "files_matching_two_or_more_terms": {
+        "STRATEGY.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/IDEAS.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/manuscripts/citation-provenance-ledger.json": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/manuscripts/closed-routes-negative-record.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/manuscripts/emc-post-degrader-options.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/manuscripts/emc-treatment-paper-outline.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ],
+        "research/manuscripts/emc-treatment-roadmap.md": [
+          "degradation",
+          "transcription",
+          "factor"
+        ]
+      },
+      "n_files": 141,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MRNA-THERAPEUTIC": {
+      "name": "mRNA therapeutics (non-vaccine)",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "therapeutic",
+        "mrna",
+        "therapeutics",
+        "non-vaccine"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/IDEAS.md": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/hypotheses/candidates.json": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/literature/fusion-consensus-probe.json": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/manuscripts/clinical-brief-emc-neoantigen.md": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/manuscripts/emc-treatment-strategy.md": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/manuscripts/lit-targets-aso-degrader-refile.json": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ],
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "therapeutic",
+          "mrna",
+          "therapeutics"
+        ]
+      },
+      "n_files": 75,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ILP": {
+      "name": "Isolated limb perfusion",
+      "verdict": "candidate",
+      "terms_searched": [
+        "plus",
+        "melphalan",
+        "perfusion",
+        "isolated",
+        "limb"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/atr-hrd-sarcoma-series-inputs.json": [
+          "plus",
+          "perfusion",
+          "isolated",
+          "limb"
+        ],
+        "systems/graph/routes.json": [
+          "plus",
+          "perfusion",
+          "isolated",
+          "limb"
+        ],
+        "research/data/emc-clinical-registry.json": [
+          "plus",
+          "isolated",
+          "limb"
+        ],
+        "research/literature/physical-modality-targets.json": [
+          "perfusion",
+          "isolated",
+          "limb"
+        ],
+        "research/manuscripts/nr4a3-degrader-paper.md": [
+          "plus",
+          "isolated",
+          "limb"
+        ],
+        "research/manuscripts/nr4a3-inverse-linker-design-2026-07-25.md": [
+          "plus",
+          "isolated",
+          "limb"
+        ],
+        "research/manuscripts/nr4a3-program-map.md": [
+          "plus",
+          "isolated",
+          "limb"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "plus",
+          "isolated",
+          "limb"
+        ]
+      },
+      "n_files": 45,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-EXPANDED-ACCESS": {
+      "name": "Expanded access, compassionate use and off-label registries",
+      "verdict": "candidate",
+      "terms_searched": [
+        "single-patient",
+        "expanded",
+        "access",
+        "compassionate",
+        "off-label",
+        "registries"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/data/emc-clinical-registry.json": [
+          "expanded",
+          "access",
+          "compassionate",
+          "off-label",
+          "registries"
+        ],
+        "research/literature/emc-clinical-sweep-fulltext.json": [
+          "expanded",
+          "access",
+          "compassionate",
+          "off-label"
+        ],
+        "research/manuscripts/repurposing-hypotheses.md": [
+          "expanded",
+          "access",
+          "off-label",
+          "registries"
+        ],
+        "research/manuscripts/fusion-junction-aso-paper.md": [
+          "expanded",
+          "access",
+          "registries"
+        ],
+        "systems/graph/routes.json": [
+          "single-patient",
+          "access",
+          "registries"
+        ],
+        "STRATEGY.md": [
+          "access",
+          "registries"
+        ],
+        "research/PROTOCOL.md": [
+          "access",
+          "registries"
+        ],
+        "research/field-scan-log.md": [
+          "expanded",
+          "access"
+        ]
+      },
+      "n_files": 36,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-PRMT5-MAT2A": {
+      "name": "PRMT5 / MAT2A inhibitors (MTAP-deletion synthetic lethality)",
+      "verdict": "candidate",
+      "terms_searched": [
+        "mat2a",
+        "prmt5",
+        "mtap-deletion",
+        "synthetic",
+        "lethality"
+      ],
+      "files_matching_two_or_more_terms": {
+        "systems/graph/routes.json": [
+          "mat2a",
+          "prmt5",
+          "synthetic",
+          "lethality"
+        ],
+        "STRATEGY.md": [
+          "synthetic",
+          "lethality"
+        ],
+        "research/IDEAS.md": [
+          "synthetic",
+          "lethality"
+        ],
+        "research/manuscripts/degrader-vs-synthetic-lethal.md": [
+          "synthetic",
+          "lethality"
+        ],
+        "research/manuscripts/emc-post-degrader-options.md": [
+          "synthetic",
+          "lethality"
+        ],
+        "research/manuscripts/emc-systems-map.json": [
+          "synthetic",
+          "lethality"
+        ],
+        "research/manuscripts/emc-systems-map.md": [
+          "synthetic",
+          "lethality"
+        ],
+        "research/manuscripts/emc-treatment-strategy.md": [
+          "synthetic",
+          "lethality"
+        ]
+      },
+      "n_files": 31,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-BASE-PRIME-EDITING": {
+      "name": "Base and prime editing",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "cytosine",
+        "base",
+        "editors",
+        "prime"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/IDEAS.md": [
+          "base",
+          "prime"
+        ],
+        "research/literature/fusion-consensus-probe.json": [
+          "base",
+          "prime"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "base",
+          "prime"
+        ],
+        "research/manuscripts/emc-atr-collaborator-package.md": [
+          "base",
+          "prime"
+        ],
+        "research/manuscripts/emc-systems-map.json": [
+          "base",
+          "prime"
+        ],
+        "research/manuscripts/emc-systems-map.md": [
+          "base",
+          "prime"
+        ],
+        "research/manuscripts/emc-treatment-roadmap.md": [
+          "base",
+          "prime"
+        ],
+        "research/manuscripts/emc-treatment-strategy.md": [
+          "base",
+          "prime"
+        ]
+      },
+      "n_files": 31,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MYELOID-REPROGRAM": {
+      "name": "Myeloid reprogramming (TREM2, MARCO and related)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "anti-trem2",
+        "myeloid",
+        "reprogramming",
+        "trem2",
+        "marco",
+        "related"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ],
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ],
+        "research/manuscripts/nr4a3-degrader-paper-SI.md": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ],
+        "research/manuscripts/nr4a3-degrader-paper.md": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ],
+        "research/modalities/emc-atr-vulnerability-inputs.json": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ],
+        "research/modalities/emc-atr-vulnerability.json": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ],
+        "research/modalities/emc-ret-cistrome-inputs.json": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ],
+        "research/modalities/emc-ret-cistrome.json": [
+          "myeloid",
+          "reprogramming",
+          "related"
+        ]
+      },
+      "n_files": 23,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-VEGF-MAB": {
+      "name": "Anti-VEGF antibodies and ligand traps",
+      "verdict": "excluded",
+      "terms_searched": [
+        "bevacizumab",
+        "anti-vegf",
+        "antibodies",
+        "ligand",
+        "traps"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/manuscripts/emc-surface-target-landscape.md": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/manuscripts/emc-unexplored-treatment-lanes.md": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/manuscripts/ofcs-var2csa-lane.md": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "antibodies",
+          "ligand"
+        ],
+        "research/method-watch-trigger-scan.md": [
+          "antibodies",
+          "ligand"
+        ]
+      },
+      "n_files": 22,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CS-BIOSYNTHESIS": {
+      "name": "Inhibition of tumour glycosaminoglycan biosynthesis",
+      "verdict": "candidate",
+      "terms_searched": [
+        "glycosaminoglycan",
+        "synthesis",
+        "biosynthesis"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "glycosaminoglycan",
+          "synthesis",
+          "biosynthesis"
+        ],
+        "research/manuscripts/ofcs-var2csa-lane.md": [
+          "glycosaminoglycan",
+          "synthesis",
+          "biosynthesis"
+        ],
+        "research/modalities/emc-expression-panels-inputs.json": [
+          "glycosaminoglycan",
+          "synthesis",
+          "biosynthesis"
+        ],
+        "research/modalities/emc-expression-panels.json": [
+          "glycosaminoglycan",
+          "synthesis",
+          "biosynthesis"
+        ],
+        "systems/graph/routes.json": [
+          "glycosaminoglycan",
+          "synthesis",
+          "biosynthesis"
+        ],
+        "research/manuscripts/citation-provenance-ledger.json": [
+          "synthesis",
+          "biosynthesis"
+        ],
+        "research/manuscripts/degrader-citation-audit-2026-08-08.md": [
+          "synthesis",
+          "biosynthesis"
+        ],
+        "research/manuscripts/emc-unexplored-treatment-lanes.md": [
+          "synthesis",
+          "biosynthesis"
+        ]
+      },
+      "n_files": 22,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ISOLATED-LUNG-PERFUSION": {
+      "name": "Isolated lung perfusion and regional pulmonary delivery",
+      "verdict": "candidate",
+      "terms_searched": [
+        "isolated",
+        "lung",
+        "perfusion",
+        "pulmonary"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/physical-modality-targets.json": [
+          "isolated",
+          "lung",
+          "perfusion",
+          "pulmonary"
+        ],
+        "research/modalities/atr-hrd-sarcoma-series-inputs.json": [
+          "isolated",
+          "lung",
+          "perfusion",
+          "pulmonary"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "isolated",
+          "lung",
+          "pulmonary"
+        ],
+        "research/modalities/atr-hrd-sarcoma-series.json": [
+          "isolated",
+          "lung",
+          "pulmonary"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "lung",
+          "perfusion",
+          "pulmonary"
+        ],
+        "research/modalities/emc-ret-cistrome-inputs.json": [
+          "isolated",
+          "lung",
+          "perfusion"
+        ],
+        "research/modalities/emc-ret-cistrome.json": [
+          "isolated",
+          "lung",
+          "perfusion"
+        ],
+        "systems/graph/routes.json": [
+          "isolated",
+          "lung",
+          "perfusion"
+        ]
+      },
+      "n_files": 22,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-LNP": {
+      "name": "Lipid nanoparticles for oligonucleotide delivery",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "lipid",
+        "nanoparticles",
+        "oligonucleotide"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "lipid",
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "lipid",
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/method-watch-trigger-scan.md": [
+          "lipid",
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/hypotheses/candidates.json": [
+          "lipid",
+          "nanoparticles"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "lipid",
+          "nanoparticles"
+        ],
+        "research/manuscripts/aso-citations-priorart-2026-08-08.md": [
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/manuscripts/citation-provenance-ledger.json": [
+          "nanoparticles",
+          "oligonucleotide"
+        ],
+        "research/manuscripts/degrader-citation-audit-2026-08-08.md": [
+          "nanoparticles",
+          "oligonucleotide"
+        ]
+      },
+      "n_files": 22,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-TRANSCRIPTIONAL-CDK": {
+      "name": "Transcriptional CDK inhibition (CDK7, CDK9, CDK12/13)",
+      "verdict": "candidate",
+      "terms_searched": [
+        "cdk7",
+        "cdk9",
+        "transcriptional",
+        "cdk12"
+      ],
+      "files_matching_two_or_more_terms": {
+        "systems/graph/routes.json": [
+          "cdk7",
+          "cdk9",
+          "transcriptional",
+          "cdk12"
+        ],
+        "research/hypotheses/candidates.json": [
+          "cdk7",
+          "cdk9",
+          "transcriptional"
+        ],
+        "research/manuscripts/degrader-vs-synthetic-lethal.md": [
+          "cdk7",
+          "cdk9",
+          "transcriptional"
+        ],
+        "research/manuscripts/fusion-coactivator-ppi-paper.md": [
+          "cdk7",
+          "cdk9",
+          "transcriptional"
+        ],
+        "research/manuscripts/target-route-options.md": [
+          "cdk7",
+          "cdk9",
+          "transcriptional"
+        ],
+        "research/modalities/depmap-sarcoma-dependency.json": [
+          "cdk7",
+          "cdk9",
+          "transcriptional"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "cdk7",
+          "cdk9",
+          "transcriptional"
+        ],
+        "research/modalities/s-calibrator-survey.json": [
+          "cdk7",
+          "cdk9",
+          "transcriptional"
+        ]
+      },
+      "n_files": 21,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-AURORA-PLK": {
+      "name": "Aurora kinase and PLK1 inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "alisertib",
+        "aurora",
+        "kinase",
+        "plk1"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "alisertib",
+          "aurora",
+          "kinase",
+          "plk1"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-00.json": [
+          "alisertib",
+          "aurora",
+          "kinase"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-01.json": [
+          "aurora",
+          "kinase",
+          "plk1"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-04.json": [
+          "aurora",
+          "kinase",
+          "plk1"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-05.json": [
+          "aurora",
+          "kinase",
+          "plk1"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-06.json": [
+          "aurora",
+          "kinase",
+          "plk1"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-08.json": [
+          "aurora",
+          "kinase",
+          "plk1"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-09.json": [
+          "aurora",
+          "kinase",
+          "plk1"
+        ]
+      },
+      "n_files": 20,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-EPIGENOME-EDITING": {
+      "name": "Epigenome editing (targeted transcriptional silencing)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "dcas9-krab",
+        "epigenome",
+        "transcriptional",
+        "silencing"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/method-watch-preprint-pipeline.md": [
+          "dcas9-krab",
+          "transcriptional",
+          "silencing"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "dcas9-krab",
+          "transcriptional",
+          "silencing"
+        ],
+        "research/modalities/atr-hrd-sarcoma-series-inputs.json": [
+          "dcas9-krab",
+          "transcriptional",
+          "silencing"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "transcriptional",
+          "silencing"
+        ],
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "transcriptional",
+          "silencing"
+        ],
+        "research/manuscripts/lit-targets-frontier-capability-2026-08-07.json": [
+          "epigenome",
+          "silencing"
+        ],
+        "research/manuscripts/lit-targets-frontier-capability-r2-2026-08-07.json": [
+          "epigenome",
+          "silencing"
+        ],
+        "research/manuscripts/nr4a3-fusion-transcriptional-output-SI.md": [
+          "transcriptional",
+          "silencing"
+        ]
+      },
+      "n_files": 18,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-SPLICE-SWITCH-ASO": {
+      "name": "Splice-switching antisense oligonucleotides",
+      "verdict": "excluded",
+      "terms_searched": [
+        "splice-switching",
+        "asos",
+        "antisense",
+        "oligonucleotides"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/aso-citations-priorart-2026-08-08.md": [
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/manuscripts/fusion-junction-aso-paper.md": [
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/manuscripts/lit-targets-aso-degrader-refile.json": [
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "asos",
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/manuscripts/emc-treatment-roadmap.md": [
+          "antisense",
+          "oligonucleotides"
+        ],
+        "research/manuscripts/fusion-junction-aso-paper-redteam.md": [
+          "asos",
+          "antisense"
+        ]
+      },
+      "n_files": 16,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-PI3K-AKT-MTOR": {
+      "name": "PI3K / AKT / mTOR inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "everolimus",
+        "pi3k",
+        "mtor"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/emc-clinical-sweep-targets.json": [
+          "everolimus",
+          "mtor"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "pi3k",
+          "mtor"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "everolimus",
+          "mtor"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "pi3k",
+          "mtor"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-01.json": [
+          "pi3k",
+          "mtor"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-02.json": [
+          "pi3k",
+          "mtor"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-04.json": [
+          "pi3k",
+          "mtor"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-05.json": [
+          "pi3k",
+          "mtor"
+        ]
+      },
+      "n_files": 12,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MASKED-ANTIBODY": {
+      "name": "Masked / conditionally activated antibodies",
+      "verdict": "excluded",
+      "terms_searched": [
+        "probodies",
+        "masked",
+        "conditionally",
+        "activated",
+        "antibodies"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/method-watch-preprint-pipeline.md": [
+          "masked",
+          "activated",
+          "antibodies"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "masked",
+          "activated",
+          "antibodies"
+        ],
+        "research/modalities/atr-hrd-sarcoma-series-inputs.json": [
+          "masked",
+          "activated",
+          "antibodies"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "activated",
+          "antibodies"
+        ],
+        "research/manuscripts/emc-unexplored-treatment-lanes.md": [
+          "activated",
+          "antibodies"
+        ],
+        "research/modalities/alcam-precedent.json": [
+          "masked",
+          "activated"
+        ],
+        "research/modalities/emc-ret-activation-bar.json": [
+          "activated",
+          "antibodies"
+        ],
+        "research/modalities/emc-ret-cistrome-inputs.json": [
+          "activated",
+          "antibodies"
+        ]
+      },
+      "n_files": 12,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-SARNA-CIRCRNA": {
+      "name": "Small activating RNA and circular RNA therapeutics",
+      "verdict": "excluded",
+      "terms_searched": [
+        "sarna",
+        "activating",
+        "circular",
+        "therapeutics"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/atr-hrd-sarcoma-series-inputs.json": [
+          "sarna",
+          "activating",
+          "circular",
+          "therapeutics"
+        ],
+        "research/literature/fusion-consensus-probe.json": [
+          "activating",
+          "circular",
+          "therapeutics"
+        ],
+        "research/modalities/emc-atr-vulnerability-inputs.json": [
+          "activating",
+          "circular",
+          "therapeutics"
+        ],
+        "research/modalities/emc-atr-vulnerability.json": [
+          "activating",
+          "circular",
+          "therapeutics"
+        ],
+        "research/manuscripts/emc-post-degrader-options.md": [
+          "circular",
+          "therapeutics"
+        ],
+        "research/manuscripts/nr4a3-degrader-paper.md": [
+          "activating",
+          "circular"
+        ],
+        "research/manuscripts/repurposing-hypotheses.md": [
+          "activating",
+          "therapeutics"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "circular",
+          "therapeutics"
+        ]
+      },
+      "n_files": 11,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-TREG-DEPLETION": {
+      "name": "Regulatory T-cell depletion",
+      "verdict": "excluded",
+      "terms_searched": [
+        "anti-ccr8",
+        "regulatory",
+        "t-cell",
+        "depletion"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/hypotheses/candidates.json": [
+          "regulatory",
+          "t-cell"
+        ],
+        "research/literature/fusion-consensus-probe.json": [
+          "regulatory",
+          "t-cell"
+        ],
+        "research/manuscripts/emc-unexplored-treatment-lanes.md": [
+          "regulatory",
+          "depletion"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "regulatory",
+          "depletion"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "regulatory",
+          "depletion"
+        ],
+        "research/modalities/atr-hrd-sarcoma-series-inputs.json": [
+          "regulatory",
+          "depletion"
+        ],
+        "research/modalities/emc-ret-cistrome-inputs.json": [
+          "regulatory",
+          "depletion"
+        ],
+        "research/modalities/emc-ret-cistrome.json": [
+          "regulatory",
+          "depletion"
+        ]
+      },
+      "n_files": 11,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-NANOPARTICLE": {
+      "name": "Nanoparticle, liposomal and albumin-bound formulations",
+      "verdict": "excluded",
+      "terms_searched": [
+        "liposomal",
+        "doxorubicin",
+        "nanoparticle",
+        "albumin-bound",
+        "formulations"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "liposomal",
+          "nanoparticle",
+          "formulations"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "liposomal",
+          "doxorubicin",
+          "nanoparticle"
+        ],
+        "research/IDEAS.md": [
+          "doxorubicin",
+          "nanoparticle"
+        ],
+        "research/hypotheses/candidates.json": [
+          "doxorubicin",
+          "nanoparticle"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "doxorubicin",
+          "nanoparticle"
+        ],
+        "research/manuscripts/aso-citations-priorart-2026-08-08.md": [
+          "liposomal",
+          "nanoparticle"
+        ],
+        "research/manuscripts/emc-treatment-strategy.md": [
+          "doxorubicin",
+          "nanoparticle"
+        ],
+        "research/manuscripts/kinase-lanes-map-edits.json": [
+          "liposomal",
+          "doxorubicin"
+        ]
+      },
+      "n_files": 11,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ALT-SCAFFOLD": {
+      "name": "Non-immunoglobulin binding scaffolds",
+      "verdict": "excluded",
+      "terms_searched": [
+        "nanobodies",
+        "non-immunoglobulin",
+        "binding",
+        "scaffolds"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/nr4a3-congeneric-rbfe-plan.md": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/manuscripts/nr4a3-degrader-paper.md": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/manuscripts/nr4a3-degrader-strategy-ternary-first.md": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/modalities/congeneric-rbfe-map.json": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/modalities/layer1-vhl-dossier.json": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/modalities/nr4a3-degrader-design-spec.md": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/modalities/pmx-mutation-reference-precheck.json": [
+          "binding",
+          "scaffolds"
+        ],
+        "research/modalities/published-warhead-registry.json": [
+          "binding",
+          "scaffolds"
+        ]
+      },
+      "n_files": 10,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-SYSTEMIC-CYTOKINE": {
+      "name": "Systemic cytokine therapy (IL-2, IL-12, IL-15)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "high-dose",
+        "il-2",
+        "systemic",
+        "cytokine",
+        "il-12",
+        "il-15"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/emc-ret-cistrome-inputs.json": [
+          "il-2",
+          "systemic",
+          "cytokine",
+          "il-12"
+        ],
+        "research/modalities/emc-ret-cistrome.json": [
+          "il-2",
+          "systemic",
+          "cytokine",
+          "il-12"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "systemic",
+          "cytokine",
+          "il-15"
+        ],
+        "research/manuscripts/car-t-strategies-emc.md": [
+          "systemic",
+          "il-12",
+          "il-15"
+        ],
+        "research/IDEAS.md": [
+          "systemic",
+          "il-12"
+        ],
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "high-dose",
+          "systemic"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "systemic",
+          "cytokine"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "systemic",
+          "cytokine"
+        ]
+      },
+      "n_files": 10,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CAR-T-ALLOGENEIC": {
+      "name": "Allogeneic / off-the-shelf CAR-T",
+      "verdict": "excluded",
+      "terms_searched": [
+        "allogeneic",
+        "car-t",
+        "off-the-shelf"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/IDEAS.md": [
+          "allogeneic",
+          "car-t",
+          "off-the-shelf"
+        ],
+        "research/manuscripts/car-t-strategies-emc.md": [
+          "allogeneic",
+          "car-t",
+          "off-the-shelf"
+        ],
+        "research/manuscripts/nr4a3-degrader-carT-and-family-druggability-framing.md": [
+          "allogeneic",
+          "car-t",
+          "off-the-shelf"
+        ],
+        "research/manuscripts/emc-post-degrader-options.md": [
+          "car-t",
+          "off-the-shelf"
+        ],
+        "research/manuscripts/emc-surface-target-landscape.md": [
+          "car-t",
+          "off-the-shelf"
+        ],
+        "research/manuscripts/emc-treatment-strategy.md": [
+          "allogeneic",
+          "car-t"
+        ],
+        "research/manuscripts/emc-unexplored-treatment-lanes.md": [
+          "allogeneic",
+          "car-t"
+        ],
+        "research/manuscripts/emerging-modalities-scan-emc.md": [
+          "car-t",
+          "off-the-shelf"
+        ]
+      },
+      "n_files": 9,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-EZH2": {
+      "name": "EZH2 / PRC2 inhibitors",
+      "verdict": "candidate",
+      "terms_searched": [
+        "tazemetostat",
+        "ezh2",
+        "prc2"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/IDEAS.md": [
+          "tazemetostat",
+          "ezh2"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "tazemetostat",
+          "ezh2"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "tazemetostat",
+          "ezh2"
+        ],
+        "research/method-watch-trigger-scan.md": [
+          "tazemetostat",
+          "ezh2"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "tazemetostat",
+          "ezh2"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-09.json": [
+          "tazemetostat",
+          "ezh2"
+        ],
+        "systems/graph/routes.json": [
+          "ezh2",
+          "prc2"
+        ],
+        "systems/graph/technologies.json": [
+          "tazemetostat",
+          "ezh2"
+        ]
+      },
+      "n_files": 8,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-TF-DECOY": {
+      "name": "Transcription-factor decoy oligonucleotides",
+      "verdict": "excluded",
+      "terms_searched": [
+        "nbre",
+        "decoy",
+        "oligonucleotides",
+        "transcription-factor"
+      ],
+      "files_matching_two_or_more_terms": {
+        "systems/graph/routes.json": [
+          "nbre",
+          "decoy",
+          "transcription-factor"
+        ],
+        "research/manuscripts/closed-routes-negative-record.md": [
+          "nbre",
+          "transcription-factor"
+        ],
+        "research/manuscripts/emc-unexplored-treatment-lanes.md": [
+          "nbre",
+          "oligonucleotides"
+        ],
+        "research/manuscripts/novel-modalities.md": [
+          "decoy",
+          "oligonucleotides"
+        ],
+        "research/manuscripts/nr4a3-fusion-transcriptional-output.md": [
+          "nbre",
+          "transcription-factor"
+        ],
+        "research/manuscripts/nr4a3-program-map.md": [
+          "nbre",
+          "decoy"
+        ],
+        "research/modalities/emc-ret-cistrome.json": [
+          "nbre",
+          "transcription-factor"
+        ],
+        "research/modalities/nr4a3-fusion-targets.json": [
+          "nbre",
+          "transcription-factor"
+        ]
+      },
+      "n_files": 8,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-THERMAL-ABLATION": {
+      "name": "Percutaneous ablation (radiofrequency, microwave, cryo, focused ultrasound)",
+      "verdict": "candidate",
+      "terms_searched": [
+        "percutaneous",
+        "cryoablation",
+        "ablation",
+        "radiofrequency",
+        "microwave",
+        "cryo"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/physical-modality-targets.json": [
+          "cryoablation",
+          "ablation",
+          "radiofrequency",
+          "microwave",
+          "cryo"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "cryoablation",
+          "ablation",
+          "radiofrequency",
+          "cryo"
+        ],
+        "scripts/lit_probe_queries.json": [
+          "cryoablation",
+          "ablation",
+          "cryo"
+        ],
+        "systems/graph/routes.json": [
+          "percutaneous",
+          "ablation",
+          "cryo"
+        ],
+        "research/manuscripts/tcip-interface-floor-sizing.md": [
+          "ablation",
+          "cryo"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "ablation",
+          "cryo"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "ablation",
+          "cryo"
+        ]
+      },
+      "n_files": 7,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-COX2-ASPIRIN": {
+      "name": "COX-2 inhibitors and aspirin",
+      "verdict": "excluded",
+      "terms_searched": [
+        "celecoxib",
+        "cox-2",
+        "aspirin"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/hypotheses/target-drug-matrix.json": [
+          "celecoxib",
+          "aspirin"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "celecoxib",
+          "aspirin"
+        ],
+        "results/nr4a3-decoy/-matrix-metad/nr4a3-matrix.json": [
+          "celecoxib",
+          "aspirin"
+        ],
+        "results/nr4a3-decoy/-matrix/nr4a3-matrix.json": [
+          "celecoxib",
+          "aspirin"
+        ],
+        "results/nr4a3-decoy/-mmgbsa-metad-ms/nr4a3-mmgbsa.json": [
+          "celecoxib",
+          "aspirin"
+        ],
+        "results/nr4a3-decoy/-mmgbsa-ms/nr4a3-mmgbsa.json": [
+          "celecoxib",
+          "aspirin"
+        ],
+        "results/nr4a3-decoy/-mmgbsa/nr4a3-mmgbsa.json": [
+          "celecoxib",
+          "aspirin"
+        ]
+      },
+      "n_files": 7,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CD47-SIRPA": {
+      "name": "CD47-SIRPα and myeloid checkpoint inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "anti-cd47",
+        "cd47-sirp",
+        "myeloid",
+        "checkpoint"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/manuscripts/fusion-junction-aso-paper.md": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/manuscripts/nr4a3-degrader-paper-SI.md": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/manuscripts/nr4a3-degrader-paper.md": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/modalities/emc-atr-vulnerability-inputs.json": [
+          "myeloid",
+          "checkpoint"
+        ],
+        "research/modalities/emc-atr-vulnerability.json": [
+          "myeloid",
+          "checkpoint"
+        ]
+      },
+      "n_files": 6,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CHEMOEMBOLIZATION": {
+      "name": "Transarterial chemoembolization and hepatic arterial infusion",
+      "verdict": "not_applicable",
+      "terms_searched": [
+        "transarterial",
+        "chemoembolization",
+        "hepatic",
+        "arterial",
+        "infusion"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "transarterial",
+          "chemoembolization",
+          "hepatic",
+          "arterial"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "hepatic",
+          "arterial"
+        ],
+        "research/manuscripts/nr4a3-fusion-transcriptional-output-SI.md": [
+          "hepatic",
+          "arterial"
+        ],
+        "research/modalities/emc-ret-cistrome-inputs.json": [
+          "hepatic",
+          "arterial"
+        ],
+        "research/modalities/emc-ret-cistrome.json": [
+          "hepatic",
+          "arterial"
+        ],
+        "research/modalities/nr4a3-fusion-targets.json": [
+          "hepatic",
+          "arterial"
+        ]
+      },
+      "n_files": 6,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-HYPOXIA-PRODRUG": {
+      "name": "Hypoxia-activated prodrugs",
+      "verdict": "candidate",
+      "terms_searched": [
+        "evofosfamide",
+        "hypoxia-activated",
+        "prodrugs"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "evofosfamide",
+          "hypoxia-activated",
+          "prodrugs"
+        ],
+        "research/manuscripts/emc-hypoxia-reading.md": [
+          "evofosfamide",
+          "hypoxia-activated",
+          "prodrugs"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "evofosfamide",
+          "hypoxia-activated",
+          "prodrugs"
+        ],
+        "research/modalities/emc-hypoxia-confounds.json": [
+          "evofosfamide",
+          "hypoxia-activated"
+        ],
+        "systems/graph/routes.json": [
+          "hypoxia-activated",
+          "prodrugs"
+        ]
+      },
+      "n_files": 5,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-NTRK": {
+      "name": "NTRK inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "larotrectinib",
+        "ntrk"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/hypotheses/candidates.json": [
+          "larotrectinib",
+          "ntrk"
+        ],
+        "research/manuscripts/lit-targets-fusion-precedents.json": [
+          "larotrectinib",
+          "ntrk"
+        ],
+        "research/manuscripts/repurposing-hypotheses.md": [
+          "larotrectinib",
+          "ntrk"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "larotrectinib",
+          "ntrk"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-05.json": [
+          "larotrectinib",
+          "ntrk"
+        ]
+      },
+      "n_files": 5,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CDK46": {
+      "name": "CDK4/6 inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "palbociclib",
+        "cdk4"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/hypotheses/candidates.json": [
+          "palbociclib",
+          "cdk4"
+        ],
+        "research/literature/emc-clinical-sweep-targets.json": [
+          "palbociclib",
+          "cdk4"
+        ],
+        "research/manuscripts/repurposing-hypotheses.md": [
+          "palbociclib",
+          "cdk4"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "palbociclib",
+          "cdk4"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-07.json": [
+          "palbociclib",
+          "cdk4"
+        ]
+      },
+      "n_files": 5,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-HSP90": {
+      "name": "HSP90 and chaperone inhibitors",
+      "verdict": "candidate",
+      "terms_searched": [
+        "hsp90",
+        "chaperone"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/emc-atr-vulnerability-inputs.json": [
+          "hsp90",
+          "chaperone"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "hsp90",
+          "chaperone"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-01.json": [
+          "hsp90",
+          "chaperone"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-02.json": [
+          "hsp90",
+          "chaperone"
+        ],
+        "systems/graph/routes.json": [
+          "hsp90",
+          "chaperone"
+        ]
+      },
+      "n_files": 5,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MACROCYCLE": {
+      "name": "Macrocyclic small molecules for protein-protein interfaces",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "macrocyclic",
+        "protein-protein",
+        "interfaces"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/tcip-interface-floor-targets.json": [
+          "protein-protein",
+          "interfaces"
+        ],
+        "research/manuscripts/fusion-coactivator-ppi-paper.md": [
+          "protein-protein",
+          "interfaces"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "protein-protein",
+          "interfaces"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "protein-protein",
+          "interfaces"
+        ],
+        "research/method-watch-triggers.json": [
+          "protein-protein",
+          "interfaces"
+        ]
+      },
+      "n_files": 5,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-NAKED-MAB": {
+      "name": "Unconjugated monoclonal antibodies",
+      "verdict": "excluded",
+      "terms_searched": [
+        "rituximab-class",
+        "antibodies",
+        "unconjugated",
+        "monoclonal"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "antibodies",
+          "monoclonal"
+        ],
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "antibodies",
+          "monoclonal"
+        ],
+        "research/method-watch-preprint-pipeline.md": [
+          "antibodies",
+          "monoclonal"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "antibodies",
+          "monoclonal"
+        ],
+        "research/modalities/atr-hrd-sarcoma-series-inputs.json": [
+          "antibodies",
+          "monoclonal"
+        ]
+      },
+      "n_files": 5,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-STING-TLR": {
+      "name": "Innate agonists (STING, TLR, RIG-I)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "sting",
+        "innate",
+        "rig-i"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/hypotheses/candidates.json": [
+          "sting",
+          "innate",
+          "rig-i"
+        ],
+        "research/literature/fusion-consensus-probe.json": [
+          "sting",
+          "innate"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "sting",
+          "innate"
+        ],
+        "research/modalities/emc-ret-cistrome-inputs.json": [
+          "sting",
+          "innate"
+        ],
+        "research/modalities/emc-ret-cistrome.json": [
+          "sting",
+          "innate"
+        ]
+      },
+      "n_files": 5,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ARGININE-DEPRIVATION": {
+      "name": "Arginine deprivation",
+      "verdict": "candidate",
+      "terms_searched": [
+        "pegylated",
+        "arginine",
+        "deiminase",
+        "deprivation"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "arginine",
+          "deprivation"
+        ],
+        "research/modalities/atr-hrd-sarcoma-series-inputs.json": [
+          "arginine",
+          "deprivation"
+        ],
+        "research/modalities/emc-expression-panels.json": [
+          "arginine",
+          "deprivation"
+        ],
+        "systems/graph/routes.json": [
+          "arginine",
+          "deprivation"
+        ]
+      },
+      "n_files": 4,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-PRODRUG-ACTIVATED": {
+      "name": "Tumour-activated prodrugs (enzyme- and pH-triggered)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "enzyme-activated",
+        "prodrugs",
+        "tumour-activated",
+        "enzyme",
+        "ph-triggered"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "prodrugs",
+          "enzyme"
+        ],
+        "research/manuscripts/emc-hypoxia-reading.md": [
+          "prodrugs",
+          "enzyme"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "prodrugs",
+          "enzyme"
+        ],
+        "systems/graph/routes.json": [
+          "prodrugs",
+          "enzyme"
+        ]
+      },
+      "n_files": 4,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ALK-ROS1": {
+      "name": "ALK / ROS1 inhibitors",
+      "verdict": "candidate",
+      "terms_searched": [
+        "brigatinib",
+        "ros1"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/hypotheses/candidates.json": [
+          "brigatinib",
+          "ros1"
+        ],
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "brigatinib",
+          "ros1"
+        ],
+        "systems/graph/routes.json": [
+          "brigatinib",
+          "ros1"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-NAMPT-DHODH": {
+      "name": "NAMPT and DHODH inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "dhodh",
+        "nampt"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "dhodh",
+          "nampt"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-07.json": [
+          "dhodh",
+          "nampt"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-09.json": [
+          "dhodh",
+          "nampt"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-WNT-BETA-CATENIN": {
+      "name": "Wnt / β-catenin pathway inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "porcupine",
+        "catenin"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "porcupine",
+          "catenin"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-03.json": [
+          "porcupine",
+          "catenin"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-05.json": [
+          "porcupine",
+          "catenin"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-HIF2A": {
+      "name": "HIF-2α inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "belzutifan",
+        "hif-2"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/emc-hypoxia-reading.md": [
+          "belzutifan",
+          "hif-2"
+        ],
+        "research/modalities/emc-hypoxia-confounds.json": [
+          "belzutifan",
+          "hif-2"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "belzutifan",
+          "hif-2"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-IMMUNOCYTOKINE": {
+      "name": "Immunocytokines (tumour-targeted cytokine fusions)",
+      "verdict": "candidate",
+      "terms_searched": [
+        "antibody-cytokine",
+        "fusions",
+        "immunocytokines",
+        "tumour-targeted",
+        "cytokine"
+      ],
+      "files_matching_two_or_more_terms": {
+        "systems/graph/routes.json": [
+          "fusions",
+          "immunocytokines",
+          "cytokine"
+        ],
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "fusions",
+          "cytokine"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "fusions",
+          "cytokine"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ALLO-HSCT": {
+      "name": "Allogeneic haematopoietic stem-cell transplant",
+      "verdict": "not_applicable",
+      "terms_searched": [
+        "allogeneic",
+        "hsct",
+        "haematopoietic",
+        "stem-cell",
+        "transplant"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "haematopoietic",
+          "stem-cell",
+          "transplant"
+        ],
+        "research/modalities/alcam-precedent.json": [
+          "allogeneic",
+          "stem-cell",
+          "transplant"
+        ],
+        "research/manuscripts/emc-surface-antigen-map-edits.json": [
+          "haematopoietic",
+          "stem-cell"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CTLA4": {
+      "name": "CTLA-4 inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "ipilimumab",
+        "ctla-4"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/fet-fusion-trial-eligibility-2026-08-07.json": [
+          "ipilimumab",
+          "ctla-4"
+        ],
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "ipilimumab",
+          "ctla-4"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "ipilimumab",
+          "ctla-4"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-BRACHYTHERAPY": {
+      "name": "Brachytherapy",
+      "verdict": "candidate",
+      "terms_searched": [
+        "interstitial",
+        "brachytherapy"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/emc-rt-adaptive-lanes-map-edits.json": [
+          "interstitial",
+          "brachytherapy"
+        ],
+        "research/manuscripts/emc-unexplored-treatment-lanes.md": [
+          "interstitial",
+          "brachytherapy"
+        ],
+        "research/modalities/emc-rt-bed-reappraisal.json": [
+          "interstitial",
+          "brachytherapy"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-INHALED-CHEMO": {
+      "name": "Inhaled and aerosolised cytotoxic therapy",
+      "verdict": "candidate",
+      "terms_searched": [
+        "inhaled",
+        "cytotoxics",
+        "aerosolised",
+        "cytotoxic"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/method-watch-trigger-hits.json": [
+          "inhaled",
+          "cytotoxic"
+        ],
+        "research/modalities/atr-hrd-sarcoma-series-inputs.json": [
+          "inhaled",
+          "cytotoxic"
+        ],
+        "systems/graph/routes.json": [
+          "inhaled",
+          "cytotoxic"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-EXOSOME": {
+      "name": "Extracellular-vesicle delivery",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "engineered",
+        "exosomes",
+        "extracellular-vesicle"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "engineered",
+          "exosomes"
+        ],
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "engineered",
+          "exosomes"
+        ],
+        "research/method-watch-trigger-hits.json": [
+          "engineered",
+          "exosomes"
+        ]
+      },
+      "n_files": 3,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-AR-ANTAGONIST": {
+      "name": "Androgen-receptor antagonists and degraders",
+      "verdict": "excluded",
+      "terms_searched": [
+        "enzalutamide",
+        "androgen-receptor",
+        "degraders"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/nr4a3-degrader-paper.md": [
+          "androgen-receptor",
+          "degraders"
+        ],
+        "research/modalities/layer1-vhl-dossier.json": [
+          "enzalutamide",
+          "degraders"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-AROMATASE": {
+      "name": "Aromatase inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "letrozole",
+        "aromatase"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "letrozole",
+          "aromatase"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-05.json": [
+          "letrozole",
+          "aromatase"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-FGFR": {
+      "name": "FGFR inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "erdafitinib",
+        "fgfr"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "erdafitinib",
+          "fgfr"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-03.json": [
+          "erdafitinib",
+          "fgfr"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-JAK-STAT": {
+      "name": "JAK / STAT inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "ruxolitinib",
+        "stat"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "ruxolitinib",
+          "stat"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-08.json": [
+          "ruxolitinib",
+          "stat"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-CSF1R": {
+      "name": "CSF1R inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "pexidartinib",
+        "csf1r"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "pexidartinib",
+          "csf1r"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-07.json": [
+          "pexidartinib",
+          "csf1r"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-DNMT": {
+      "name": "DNA methyltransferase inhibitors",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "azacitidine",
+        "methyltransferase"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "azacitidine",
+          "methyltransferase"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-01.json": [
+          "azacitidine",
+          "methyltransferase"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-ODC": {
+      "name": "Ornithine decarboxylase inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "eflornithine",
+        "ornithine",
+        "decarboxylase"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "eflornithine",
+          "ornithine",
+          "decarboxylase"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-03.json": [
+          "eflornithine",
+          "ornithine",
+          "decarboxylase"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-PHOSPHATASE-RECRUIT": {
+      "name": "Phosphatase- and enzyme-recruiting chimeras",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "phosphorylation-directed",
+        "chimeras",
+        "phosphatase",
+        "enzyme-recruiting"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "chimeras",
+          "phosphatase"
+        ],
+        "research/modalities/emc-ret-cistrome.json": [
+          "chimeras",
+          "phosphatase"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-INTEGRIN-MMP": {
+      "name": "Integrin and matrix-metalloproteinase inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "cilengitide",
+        "integrin",
+        "matrix-metalloproteinase"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/nr4a3-repurpose-candidates.json": [
+          "cilengitide",
+          "integrin"
+        ],
+        "research/modalities/nr4a3-repurpose-shard-02.json": [
+          "cilengitide",
+          "integrin"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-RADIOSENSITIZER": {
+      "name": "Radiosensitizers",
+      "verdict": "candidate",
+      "terms_searched": [
+        "concurrent",
+        "chemoradiotherapy",
+        "radiosensitizers"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "concurrent",
+          "radiosensitizers"
+        ],
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "chemoradiotherapy",
+          "radiosensitizers"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-METRONOMIC": {
+      "name": "Metronomic dosing",
+      "verdict": "candidate",
+      "terms_searched": [
+        "metronomic",
+        "dosing"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "metronomic",
+          "dosing"
+        ],
+        "systems/graph/routes.json": [
+          "metronomic",
+          "dosing"
+        ]
+      },
+      "n_files": 2,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-PLATINUM": {
+      "name": "Platinum agents",
+      "verdict": "excluded",
+      "terms_searched": [
+        "cisplatin",
+        "platinum"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/atr-hrd-sarcoma-series-inputs.json": [
+          "cisplatin",
+          "platinum"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-GNRH": {
+      "name": "GnRH analogues",
+      "verdict": "not_applicable",
+      "terms_searched": [
+        "leuprolide",
+        "gnrh",
+        "analogues"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "leuprolide",
+          "analogues"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-EGFR": {
+      "name": "EGFR inhibitors",
+      "verdict": "excluded",
+      "terms_searched": [
+        "cetuximab",
+        "egfr"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/hypotheses/target-drug-matrix.json": [
+          "cetuximab",
+          "egfr"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MDM2-P53": {
+      "name": "MDM2 / MDMX antagonists (p53 reactivation)",
+      "verdict": "candidate",
+      "terms_searched": [
+        "mdm2",
+        "mdmx",
+        "reactivation"
+      ],
+      "files_matching_two_or_more_terms": {
+        "systems/graph/routes.json": [
+          "mdm2",
+          "reactivation"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MCL1-BCLXL": {
+      "name": "MCL-1 and BCL-xL inhibitors",
+      "verdict": "candidate",
+      "terms_searched": [
+        "mcl-1",
+        "bcl-xl"
+      ],
+      "files_matching_two_or_more_terms": {
+        "systems/graph/routes.json": [
+          "mcl-1",
+          "bcl-xl"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-LYTAC": {
+      "name": "LYTAC / lysosome-targeting chimeras",
+      "verdict": "excluded",
+      "terms_searched": [
+        "lytacs",
+        "lytac",
+        "lysosome-targeting",
+        "chimeras"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/v18-lysine-reference-precheck.json": [
+          "lytacs",
+          "lytac"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MIRNA": {
+      "name": "miRNA mimics and antagomirs",
+      "verdict": "excluded",
+      "terms_searched": [
+        "mirna",
+        "mimics",
+        "antagomirs"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/method-watch-trigger-hits.json": [
+          "mirna",
+          "mimics"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-AAV-GENE-THERAPY": {
+      "name": "AAV and lentiviral gene therapy",
+      "verdict": "parked_capability",
+      "terms_searched": [
+        "vectors",
+        "lentiviral"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "vectors",
+          "lentiviral"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-WHOLE-LYSATE": {
+      "name": "Whole-tumour-lysate and autologous cell vaccines",
+      "verdict": "excluded",
+      "terms_searched": [
+        "autologous",
+        "lysate",
+        "whole-tumour-lysate"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/manuscripts/lit-targets-aso-verify.json": [
+          "autologous",
+          "lysate"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-IN-SITU-VACCINATION": {
+      "name": "In-situ vaccination (intratumoural priming)",
+      "verdict": "excluded",
+      "terms_searched": [
+        "intratumoural",
+        "adjuvants",
+        "in-situ",
+        "vaccination",
+        "priming"
+      ],
+      "files_matching_two_or_more_terms": {
+        "scripts/lit_probe_queries.json": [
+          "intratumoural",
+          "priming"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-MICROBIOME": {
+      "name": "Microbiome modulation",
+      "verdict": "excluded",
+      "terms_searched": [
+        "faecal",
+        "microbiota",
+        "transplant",
+        "microbiome"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/literature/lane-probe-metabolism-strategy.json": [
+          "microbiota",
+          "transplant"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    },
+    "MOD-RADIOEMBOLIZATION": {
+      "name": "Radioembolization and arterial radionuclide delivery",
+      "verdict": "not_applicable",
+      "terms_searched": [
+        "yttrium-90",
+        "microspheres",
+        "radioembolization",
+        "arterial",
+        "radionuclide"
+      ],
+      "files_matching_two_or_more_terms": {
+        "research/modalities/emc-hypoxia-therapeutic-status.json": [
+          "microspheres",
+          "arterial",
+          "radionuclide"
+        ]
+      },
+      "n_files": 1,
+      "adjudication": "UNREVIEWED — a term match is not a coverage claim"
+    }
+  }
+}

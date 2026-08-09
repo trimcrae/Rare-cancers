@@ -63,7 +63,7 @@ flowchart LR
 
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
-| **[RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md)**<br/>Hypoxia-activated prodrugs | ✓ ready | computed | `preprint` | [PUB-MATRIX-ADDRESS](L3-publications.md) ○ *contributing* | Read the randomised soft-tissue-sarcoma record for the class and establish whether its failure was mechanism o |
+| **[RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md)**<br/>Hypoxia-activated prodrugs | ✓ parked | computed | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ○ *contributing* | Leave it to the hypoxia memo, which owns the reading and the ruling. |
 | **[RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md)**<br/>Matrix-targeted immunocytokines | ✓ blocked | computed | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ○ *contributing* | Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all. |
 | **[RT-MATRIX-ADDRESS](L2-rt-matrix-address.md)**<br/>Oncofetal chondroitin sulfate as a tumour address | ○ blocked | concept | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ○ *contributing* | Read the chondroitin-sulfate biosynthesis and sulfotransferase gene set in the targeted expression panel — the |
 | **[RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md)**<br/>Inhibition of the tumour's glycosaminoglycan biosynthesis | ✓ parked | computed | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ○ *contributing* | Restate the premise, or report the contradiction as the result. |

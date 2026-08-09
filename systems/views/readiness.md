@@ -35,7 +35,6 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ASO](L2-rt-aso.md) | ST-NUCLEIC-ACID | `chemrxiv` | a named delivery candidate |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | ST-DEPENDENCY | `preprint` | an EMC-specific measurement |
 | [RT-DEGRADER](L2-rt-degrader.md) | ST-PROXIMITY | `preprint` | a passing selectivity known-answer control; an anti-target panel that recovers its own cognate ligands |
-| [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | ST-MICROENV | `preprint` | a read of the randomised sarcoma record for whether selection or mechanism failed — a literature question, not a compute one |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | ST-DISSEMINATION | `preprint` | — |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | ST-IMMUNO | `preprint` | a cellular persistence readout |
 | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | ST-REPURPOSING | `preprint` | a non-zero TAF15 event count on the RESPONSE endpoint - the entire published TAF15::NR4A3 antiangiogenic-TKI experience is 3-5 patients with ZERO responses, and a zero-event arm yi |
@@ -65,6 +64,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-GLUE](L2-rt-glue.md) | ST-PROXIMITY | `internal_note` | a prospective glue design method |
 | [RT-HDAC-BET](L2-rt-hdac-bet.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) | ST-REPURPOSING | `internal_note` | the pooled partner-fraction arithmetic, which is $0 and uses a method this repository owns |
+| [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | ST-MICROENV | `internal_note` | a third EMC series — the falsifier the owning memo names |
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | ST-IMMUNO | `internal_note` | a larger clinical series |
 | [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | ST-MICROENV | `internal_note` | an isoform-resolved read, which needs RNA-seq rather than an array — the fourth public cohort is the first candidate that could carry it |
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) | ST-IMMUNO | `internal_note` | patient-cd4-demo.json regenerated at the corrected junction — the class-II arm and every CD8∧CD4 figure are withheld until it is; the TAF15::NR4A3 panel regenerated — patient_neoep |

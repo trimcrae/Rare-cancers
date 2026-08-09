@@ -53,20 +53,25 @@ register is built so adding one is an edit rather than a re-derivation.
 
 ## 2 · What the enumeration returned
 
-**215 modality classes across 19 groups and 4 bands.** The full register, with every row's verdict and
+**217 modality classes across 19 groups and 4 bands.** The full register, with every row's verdict and
 pointer, is [`systems/views/modality-census.md`](../../systems/views/modality-census.md).
 
 | verdict | classes | of which never searched here |
 |---|---:|---:|
 | ✓ `on_board` — a route already covers it | 41 | 0 |
 | ● `in_clinical_use` — the incumbent arsenal | 8 | 0 |
-| ✕ `already_rejected` — a prior document settled it | 31 | 0 |
-| ✕ `excluded` — this census closes it | 84 | 84 |
-| ⭑ `candidate` | 31 | 23 |
+| ✕ `already_rejected` — a prior document settled it | 33 | 0 |
+| ✕ `excluded` — this census closes it | 84 | 83 |
+| ⭑ `candidate` | 31 | 9 |
 | ⏸ `parked_capability` | 9 | 9 |
 | — `not_applicable` | 11 | 11 |
 
-**⭑ 127 of 215 classes had never been pointed at by any prior sweep here, and 32 of those are live.**
+**⭑ 112 of 217 classes had never been pointed at by any prior sweep here, and 18 of those are live.**
+
+⛔ **THAT NUMBER WAS 127 WHEN THIS DOCUMENT WAS FIRST WRITTEN, AND THE FIRST VERSION WAS WRONG.**
+The correction is in [§2.1](#21--the-headline-was-overstated-and-the-field-is-checkable-in-one-direction-only)
+and matters more than the number does. *Superseded, retained: "127 of 215 classes had never been
+pointed at by any prior sweep here, and 32 of those are live."*
 
 Two readings of that number are wrong and worth heading off. It is **not** a claim that 127 opportunities
 were missed — 84 of them are closed by this census on first inspection, which is what a denominator is
@@ -79,10 +84,49 @@ here to a validation of the method:
 
 | band | classes | never searched | share |
 |---|---:|---:|---:|
-| `drug_mechanism` | 161 | 94 | 58 % |
+| `drug_mechanism` | 162 | 87 | 53 % |
 | `delivery_and_conjugate` | 26 | 18 | 69 % |
-| `physical_locoregional` | 15 | 8 | 53 % |
-| `strategy_and_architecture` | 13 | 7 | 54 % |
+| `physical_locoregional` | 15 | 3 | 20 % |
+| `strategy_and_architecture` | 14 | 4 | 28 % |
+
+⚠ **And the corrected table no longer says what the first one did.** Before the audit, the physical
+and strategy bands read 53 % and 54 % never-searched, which looked like confirmation that the
+previously-invisible categories were the unexplored ones. After it they read 20 % and 28 % — the
+LOWEST of the four — because the 2026-08-07 sweep had probed those bands thoroughly and this census
+had failed to notice. The bands that are genuinely under-searched are `delivery_and_conjugate` and
+`drug_mechanism`, which is the opposite of the original reading. *Superseded, retained: the 58/69/53/54
+row and the sentence calling it a validation of the method.*
+
+### 2.1 · The headline was overstated, and the field is checkable in one direction only
+
+⛔ **The first version of this document said 127, and 15 of those rows were wrong.** They were filed
+`never_searched` while the repository had already probed the class — most of them in the same
+2026-08-07 sweep this document credits for the diagnosis. Isolated limb perfusion, regional
+hyperthermia, carbon-ion therapy, percutaneous ablation, arginine deprivation, glycosaminoglycan
+biosynthesis, metronomic dosing and hypoxia-activated prodrugs all have dedicated retrieval queries in
+that sweep's own committed probe files. The sweep's §6 table does not list them, so they had been
+**searched without being ruled on** — and this census read the absence from the table as an absence of
+search.
+
+⭐ **The structural defect this exposes is worth more than the count.** `prior_coverage` is checked in
+**one direction only**: claiming `searched_before` requires a resolvable document, so a false positive
+cannot survive a build. Nothing checks a false negative. A row that wrongly claims novelty passes every
+gate, inflates the headline, and — the part that actually costs something — invites someone to build on
+a "new" lead that is already graded.
+
+The worst instance was hypoxia-activated prodrugs. The class had not merely been searched: its full
+clinical record had been retrieved, the EMC hypoxia signal had been audited against a genome-wide null
+that it fails on one of the two platforms, and the owning memo had ruled in terms that the signal is a
+reason to ask a question rather than to revisit that class. This census filed it as unexplored, graded
+it **supported** from the raw two-platform contrast, and did so by reading the panel artifact without
+reading the audit that audits it. Both errors are corrected; the grade now carries the audit.
+
+The audit that found them is [`census-novelty-audit.json`](../modalities/census-novelty-audit.json),
+and it is deliberately noisy — a term match is not coverage, so it surfaces questions and decides
+nothing. ⚠ **It flagged 73 rows and only the 23 candidate rows were adjudicated**, because those are
+the ones anyone would act on. The remaining flags are recorded as unreviewed rather than silently
+cleared, so the count of 112 should be read as *an upper bound that has been tightened once*, not as a
+settled figure.
 
 ⚠ **And the incumbent arsenal is 8 classes.** That is the answer to the framing that produced this work
 — *"a pretty small arsenal"* — stated as a count rather than an impression: multi-kinase antiangiogenic
@@ -101,9 +145,12 @@ The largest single gap the census found, and it is in the place it should least 
 
 **Transcriptional CDK inhibition.** The driver is a transcriptional oncoprotein whose entire mechanism is
 transactivation, and transcriptional CDK dependency is the best-established vulnerability of
-fusion-driven sarcomas as a class. No route, no prior sweep and no technique-class table here has ever
-named it. ⚠ The class is broadly cytotoxic, so what is being asked about is a window rather than an
-effect.
+fusion-driven sarcomas as a class. ⚠ *Superseded, retained: "No route, no prior sweep and no
+technique-class table here has ever named it."* That was false and the audit in §2.1 caught it — a live
+manuscript here names BET readers together with CDK7 and CDK9 as a transcriptional-dependency tier, and
+explicitly as mechanism-anchored but **not** fusion-selective. What survives is narrower and still worth
+a route: the class was named as a tier, never assessed against any EMC data, and never given one. ⚠ It
+is also broadly cytotoxic, so what is being asked about is a window rather than an effect.
 
 **Chaperone dependency.** A chimeric protein is a folding problem — two domains that never evolved to sit
 together — and chaperone dependence is the general consequence. That is a way to lower fusion protein
