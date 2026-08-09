@@ -88,7 +88,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | ST-IMMUNO | `internal_note` | a stronger presented epitope, and one not confined to a single allele — both corrected e7::e3 strong binders are HLA-B*15:01 |
 | [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | ST-IMMUNO | `internal_note` | a real EMC expression series |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | ST-REPURPOSING | `internal_note` | a larger clinical series |
-| [RT-TRIAL-REACH](L2-rt-trial-reach.md) | ST-STRATEGY | `internal_note` | confirmation of four candidates, dispatched and $0; non-US registry coverage, which needs an authenticated endpoint this programme does not have |
+| [RT-TRIAL-REACH](L2-rt-trial-reach.md) | ST-STRATEGY | `internal_note` | non-US registry coverage, which needs an authenticated endpoint this programme does not have |
 | [RT-TXN-CDK](L2-rt-txn-cdk.md) | ST-DEPENDENCY | `internal_note` | nothing — the question was asked and answered |
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) | ST-PROXIMITY | `internal_note` | an observed transfer geometry |
 | [RT-VACCINE](L2-rt-vaccine.md) | ST-IMMUNO | `internal_note` | an immunogenicity argument |

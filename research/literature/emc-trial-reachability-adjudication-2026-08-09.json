@@ -1,0 +1,90 @@
+{
+  "_readme": "Adjudication of the four registry trials that the 2026-08-07 FET-fusion eligibility sweep could identify as candidates but could not confirm, because the large fielded screens carry no eligibility text. Each was re-fetched individually through a GitHub Actions runner and its eligibility criteria read. Every quoted string below is VERBATIM from the retrieved payload; nothing here is carried from a review, from the earlier sweep's summary, or from memory.",
+  "_not_medical_advice": "⛔ This is a record of registry reads. It is not medical advice, it makes no claim that any listed treatment works in this disease or in any patient, and eligibility for any trial is determined by that trial's team after their own review — never by a document like this one. An eligibility criterion that admits a histology on paper says nothing about whether a particular person should enrol.",
+  "document_date_et": "2026-08-09",
+  "closes": "research/literature/fet-fusion-trial-eligibility-2026-08-07.json → task_2_widened_search.candidates_requiring_eligibility_text_verification, whose own `limits_of_this_screen` says: 'Four candidates therefore remain unconfirmed. Confirming them needs one further per-NCT registry read, which needs a new URL manifest on a ref CI can check out.'",
+  "retrieval": {
+    "route": "workflow_dispatch of .github/workflows/fetch-literature.yml at ref=claude/cancer-treatment-emc-categories-nu4nfd, using the `targets_json` inline-manifest input — the URLs were not committed anywhere, and `targets_file` names a path in the checked-out tree, so it could not have reached them",
+    "why_ci": "this sandbox's egress proxy answers 403 to CONNECT for clinicaltrials.gov (CLAUDE.md §6)",
+    "api": "ClinicalTrials.gov API v2 (https://clinicaltrials.gov/api/v2/studies)",
+    "actions_run_id": 31311027104,
+    "slug": "ct-confirm-four-candidates-2026-08-09",
+    "literature_cache_commit": "caff8eaadbd06fe7b0d013178393fbe704ed7bb2",
+    "all_four_returned": "HTTP 200, application/json"
+  },
+  "transport_integrity": {
+    "the_known_defect": "scripts/lit_fetch_urls.py puts every payload through strip_html(), whose regex deletes the span from a '<' to the next '>'. ClinicalTrials.gov escapes angle brackets in free text, so eligibility criteria containing comparison operators can lose text — recorded in the 2026-08-07 sweep's own `transport_integrity` block.",
+    "check_performed": "⚠ RUN BEFORE READING ANY CRITERION, not after. Each payload was asserted to still carry identificationModule, statusModule, conditionsModule and eligibilityModule — the silent failure mode is a record that still parses while whole modules have vanished.",
+    "result": "4/4 modules present in all four payloads. Character loss against the manifest's recorded `chars` is 13-42 characters per record, consistent with whitespace collapsing rather than module deletion.",
+    "⚠_residual": "Comparison operators inside laboratory-value criteria may still be damaged. That does not affect any adjudication below, all of which turn on histology and molecular-eligibility wording rather than on a numeric threshold."
+  },
+  "_the_question_being_adjudicated": "Does this trial's ELIGIBILITY admit extraskeletal myxoid chondrosarcoma, while its LISTED CONDITIONS would never surface it to a patient or clinician searching that diagnosis? Both halves are required. A trial that lists the histology is findable and is not this route's mechanism; a trial that excludes it is not reachable at all.",
+  "adjudications": [
+    {
+      "nct_id": "NCT06571734",
+      "verdict": "⭐ ADMITS — and it is an interventional treatment trial, which the previously confirmed instance's sibling records are not.",
+      "official_title_verbatim": "A Non-Randomized, Open-label Phase II Trial Testing the Activity of XL092 (Zanzalintinib) in Patients With Advanced Leiomyosarcoma, Bone Sarcoma or Translocation-associated Soft Tissue Sarcoma",
+      "lead_sponsor": "Northwestern University",
+      "collaborator": "National Cancer Institute (NCI)",
+      "study_type": "INTERVENTIONAL",
+      "phases": ["PHASE2"],
+      "primary_purpose": "TREATMENT",
+      "overall_status": "RECRUITING",
+      "status_verified_date": "2026-06",
+      "estimated_enrollment": 73,
+      "the_admitting_criterion_verbatim": "Inclusion Criteria For Cohort 3 - Translocation-associated Soft Tissue Sarcoma:\n\n* Patients must have histologically confirmed diagnosis of metastatic or unresectable translocation-associated soft tissue sarcoma (TAS). Pathology must have been reviewed at a National Comprehensive Cancer Network (NCCN) designated centre.",
+      "listed_conditions": ["Metastatic Leiomyosarcoma", "Unresectable Leiomyosarcoma", "Bone Sarcoma", "Translocation-associated Soft Tissue Sarcoma", "Synovial Sarcomas", "Osteosarcoma Metastatic", "Ewing Sarcoma"],
+      "emc_in_listed_conditions": false,
+      "reading": "The cohort is defined by the STRUCTURAL CLASS of the driver — a translocation-associated soft tissue sarcoma — and this disease is one by definition, its driver being a recurrent gene fusion. The listed conditions name three specific translocation sarcomas and not this one, so a diagnosis search returns nothing while the criterion admits.",
+      "⚠_what_this_does_not_establish": "That any patient would be enrolled. 'Translocation-associated soft tissue sarcoma' is not further enumerated in the retrieved criteria, so whether the investigators read it as a general class or as the three histologies they listed is NOT determinable from the registry record and is exactly the kind of question only the trial team can answer. It also says nothing about whether the agent has any activity in this disease — no such evidence exists."
+    },
+    {
+      "nct_id": "NCT04151342",
+      "verdict": "◐ ADMITS BY WORDING, BUT IT IS OBSERVATIONAL — it enrols the patient and does not treat them.",
+      "brief_title_verbatim": "CAnadian CAncers With Rare Molecular Alterations (CARMA) - Basket Real World Evidence Trial",
+      "study_type": "OBSERVATIONAL",
+      "observational_model": "COHORT",
+      "overall_status": "RECRUITING",
+      "estimated_enrollment": 5500,
+      "the_admitting_criterion_verbatim": "Diagnosed with malignant tumour(s) with molecular testing completed that identified rare molecular alterations",
+      "study_population_verbatim": "Cancer patients living and deceased who have/had a histologically confirmed rare molecular alteration in their tumours, such as but not limited to ALK, EGFR, ROS1, BRAF, and KRAS G12C from participating sites/cancer centres across Canada.",
+      "listed_conditions": ["Cancer", "Malignancies Multiple", "Malignant Solid Tumor", "Cancer, Therapy-Related", "Molecular Sequence Variation", "Genetic Alteration", "Gene Fusion", "Receptor Tyrosine Kinase Gene Mutation"],
+      "emc_in_listed_conditions": false,
+      "reading": "'such as but not limited to' is genuinely open, the condition list names Gene Fusion explicitly, and this disease's driver is a rare molecular alteration on any reading. So the wording admits. ⛔ BUT THE STUDY DELIVERS NO INTERVENTION — it is a real-world-evidence cohort. For a reachability claim that distinction is the whole point: this is a route into a DATASET, not into a treatment, and conflating the two would overstate what the route offers a patient.",
+      "⚠_geographic_limit": "Participating sites are Canadian."
+    },
+    {
+      "nct_id": "NCT06094101",
+      "verdict": "⛔ DOES NOT ADMIT — fusion-framed and histology-restricted, which is the opposite of this route's mechanism.",
+      "brief_title_verbatim": "Personalized Vaccination in Fusion+ Sarcoma Patients (PerVision)",
+      "overall_status": "RECRUITING",
+      "the_restricting_criterion_verbatim": "Confirmed metastatic fusion-driven rhabdomyosarcoma, Ewing- and synovial sarcoma in first or second complete remission (CR) or partial response (PR) after local therapy and intensive standard chemotherapy protocols.",
+      "reading": "⚠ THE TITLE SAYS 'Fusion+ Sarcoma' AND THE CRITERION SAYS THREE NAMED HISTOLOGIES. A screen that ranked candidates on title or condition-list language would score this trial as the strongest match in the set, and it is a refusal. That is a false-positive mode worth stating, because the route's whole premise is that fusion language generalises — here it does not.",
+      "⚠_note": "The criterion also requires a remission state after intensive standard chemotherapy protocols, which is a second independent restriction."
+    },
+    {
+      "nct_id": "NCT07188532",
+      "verdict": "⛔ DOES NOT ADMIT — and it is a keyword trap that would catch an automated screen.",
+      "brief_title_verbatim": "Biologically-Adapted, Dose-Escalated Radiotherapy for the Treatment of Ewing Sarcoma",
+      "overall_status": "RECRUITING",
+      "the_restricting_criterion_verbatim": "Histological confirmation of Ewing sarcoma, including both skeletal and extra-skeletal primary tumors. Patients with \"Ewing-like\" sarcoma may be eligible if patients are planned to be treated per Ewing sarcoma protocols.",
+      "reading": "⛔ 'EXTRA-SKELETAL' HERE MODIFIES EWING SARCOMA, NOT THIS DISEASE. Extraskeletal myxoid chondrosarcoma shares that adjective and nothing else with the criterion — the trial admits extraskeletal EWING. A keyword screen matching 'extra-skeletal' against this disease's name would admit it wrongly, which is precisely the error this adjudication exists to prevent.",
+      "⚠_the_ewing_like_clause": "'Ewing-like sarcoma' is a recognised diagnostic category of small round cell tumours with non-canonical fusions. This disease is not in it — its morphology and its driver are both different — and the clause is further gated on being treated per Ewing protocols."
+    }
+  ],
+  "summary": {
+    "candidates_adjudicated": 4,
+    "admits_and_is_interventional": 1,
+    "admits_but_is_observational": 1,
+    "refused": 2,
+    "⭐_the_finding": "Two of the four admit, and only one of those two offers treatment. So the confirmed reachable-but-unfindable INTERVENTIONAL set grows from one trial to two — both defined on the fusion or the translocation class, neither listing this disease among its conditions.",
+    "⛔_the_counter_finding_that_matters_more": "BOTH REFUSALS WOULD HAVE PASSED AN AUTOMATED SCREEN. One is titled for fusion-positive sarcoma and restricts to three named histologies; the other contains the exact adjective 'extra-skeletal' while meaning a different disease. A reachability map built by keyword would have carried both, and a map that sends a patient toward a trial that will refuse them is worse than no map. This is the argument for adjudicating eligibility text one trial at a time, and it is the methodological point the publication should carry."
+  },
+  "_limits": [
+    "Four trials. This adjudicates only the residue the 2026-08-07 sweep could not confirm; it does not re-open that sweep's own coverage limits.",
+    "⚠ THE REGISTRY RECORD IS NOT THE PROTOCOL. Eligibility criteria as posted are a summary, they are updated at the sponsor's discretion, and a class term like 'translocation-associated soft tissue sarcoma' may be enumerated in the protocol in a way the registry does not show.",
+    "Non-US registries remain uncovered — the EU CTIS endpoint returns an authentication error, as the earlier sweep recorded.",
+    "Statuses are as posted on the retrieval date and go stale. Each record's `statusVerifiedDate` is quoted where the payload carried one.",
+    "⛔ Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent in this disease, and no trial's admitting a histology is evidence that its intervention works in that histology."
+  ]
+}

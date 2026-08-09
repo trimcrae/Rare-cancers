@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-STRATEGY](L1-st-strategy.md) · **state:** ✓ ready · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/literature/fet-fusion-trial-eligibility-2026-08-07.json`](../../research/literature/fet-fusion-trial-eligibility-2026-08-07.json)): ⭐ THE MECHANISM IS REAL AND MEASURED, AND ITS SHARPEST FINDING IS AN ABSENCE (graded 2026-08-09 from a sweep that ran 2026-08-07). The route's premise is that a patient can be eligible for a trial that no histology search would ever surface, because eligibility is written on the fusion rather than the diagnosis — and that is now measured rather than argued: one recruiting trial is confirmed FET-fusion-family-defined with this disease absent from its listed conditions, and nine more are molecularly rather than histologically defined. ⛔ AND THE DRIVER GENE IS ABSENT FROM THE REGISTRY INDEX ENTIRELY: a registry-wide term search for it returns five studies of which NOT ONE is an oncology study — they are exercise physiology, spinal-cord injury, neck pain and a surgical series that mention the gene incidentally. No trial anywhere is indexed to this disease's driver. ⚠ Four further candidates could not be confirmed because the large screens carry no eligibility text, and non-US registries are not covered at all — the EU endpoint returns an authentication error.
+**Grade** (owned by [`research/literature/fet-fusion-trial-eligibility-2026-08-07.json`](../../research/literature/fet-fusion-trial-eligibility-2026-08-07.json)): ⭐ THE MECHANISM IS REAL AND MEASURED, AND ITS SHARPEST FINDING IS AN ABSENCE (graded 2026-08-09 from a sweep that ran 2026-08-07). The route's premise is that a patient can be eligible for a trial that no histology search would ever surface, because eligibility is written on the fusion rather than the diagnosis — and that is now measured rather than argued: one recruiting trial is confirmed FET-fusion-family-defined with this disease absent from its listed conditions, and nine more are molecularly rather than histologically defined. ⛔ AND THE DRIVER GENE IS ABSENT FROM THE REGISTRY INDEX ENTIRELY: a registry-wide term search for it returns five studies of which NOT ONE is an oncology study — they are exercise physiology, spinal-cord injury, neck pain and a surgical series that mention the gene incidentally. No trial anywhere is indexed to this disease's driver. ✅ THE FOUR UNCONFIRMED CANDIDATES WERE ADJUDICATED 2026-08-09 by re-fetching each one's eligibility text: two admit and two refuse, and only one of the two that admit is an INTERVENTIONAL trial — the other enrols the patient into a real-world-evidence cohort and delivers no treatment, a distinction that must not be blurred in a reachability claim. ⛔ AND BOTH REFUSALS WOULD HAVE PASSED AN AUTOMATED SCREEN: one is titled for fusion-positive sarcoma and then restricts to three named histologies, and the other contains the exact adjective 'extra-skeletal' while meaning extraskeletal EWING. A keyword-built map would have carried both, and a map that sends a patient toward a trial that will refuse them is worse than no map. ⚠ Non-US registries are still not covered — the EU endpoint returns an authentication error.
 
 ## What has to land for this route to move
 
@@ -50,19 +50,20 @@ Two findings meet here. A trial exists whose eligibility is defined by the fusio
 | ref | supports | strength |
 |---|---|---|
 | `ART-FET-TRIAL-ELIGIBILITY` | one confirmed fusion-family-defined recruiting trial and nine molecularly-defined trials admit this disease while never listing it as a condition, and a registry-wide search for the driver gene returns no oncology study at all | `direct` |
+| `ART-TRIAL-REACH-ADJUDICATION` | two of the four unconfirmed candidates admit this disease and only one of them is interventional, while both refusals would have passed a keyword screen — which is the argument for adjudicating eligibility text one trial at a time | `direct` |
 
 ## Remaining unknowns
 
-- Whether the four unconfirmed candidates are genuinely fusion-eligible, which needs one per-trial eligibility-text read — $0, and dispatched 2026-08-09.
-- What the non-US registries hold, which this screen does not cover: the EU endpoint returns an authentication error and was not reachable.
-- Whether any of these trials would in practice accept a patient with this histology, which is each trial team's decision and not a registry fact.
+- Whether the admitting trial's investigators read 'translocation-associated soft tissue sarcoma' as a general class or as the three histologies they listed — not determinable from the registry record, and exactly the question only a trial team can answer.
+- What the non-US registries hold, which no screen here covers: the EU endpoint returns an authentication error.
+- Whether any of these trials would in practice accept a patient with this histology, which is each trial team's decision after their own review and not a registry fact.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | ⛔ TAKEN 2026-08-07 — the registry sweep for eligibility criteria naming fusion families rather than histologies | ⛔ none built | yes | — |
-| Per-trial eligibility-text reads for the four unconfirmed candidates | ⛔ none built | yes | — |
+| ⛔ TAKEN 2026-08-09 — per-trial eligibility-text adjudication of the four candidates the sweep could not confirm. Two admit, two refuse. | ⛔ none built | yes | — |
 | Coverage of non-US registries, which need an authenticated endpoint | ⛔ none built | **no** | — |
 
 ## Blockers
@@ -75,10 +76,9 @@ Two findings meet here. A trial exists whose eligibility is defined by the fusio
 
 **`internal_note`**
 
-The finding is solid and the screen's own limits are stated. What is missing is coverage rather than validity.
+The finding is confirmed one trial at a time and its limits are stated. What remains is geographic coverage rather than validity.
 
 **Missing:**
-- confirmation of four candidates, dispatched and $0
 - non-US registry coverage, which needs an authenticated endpoint this programme does not have
 
 ## Where this route ends — the paper
