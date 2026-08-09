@@ -94,6 +94,12 @@ offers little to select on. The proliferation half of the transferred result is 
 expected, and the part that could be specific to this disease is the effect on **fusion-driven
 transcription** — which no public data measures.
 
+⚠ **AND THE GROUP UNIT IS WRONG IN BOTH DIRECTIONS, WHICH IS THIS MANUSCRIPT'S METHODOLOGICAL
+FINDING.** For the locus, the group score reported a signal its decisive gene (*MTAP*) did not have.
+For the methylosome, the group score hid a signal its decisive gene (*PRMT5*) does have — pooled, EMC
+ranks second of four comparator classes; *PRMT5* alone is highest. **A curated group score is a
+convenience, not a unit of evidence**, and neither error is visible without cutting to the gene.
+
 ⭐ **MTAP reading as a non-dependency is the internal positive control.** A biomarker should not be a
 dependency; a target should. That the panel separates them in the expected direction is weak evidence
 that the panel is being read correctly.
@@ -117,7 +123,7 @@ that the panel is being read correctly.
 | 1 — readings, per tumour | `emc-expression-panels.json` → `gene_reads[*].per_sample` | every tumour is visible; medians are bars |
 | 2 — the locus gene by gene | same | ⛔ **closed route 2** — MTAP flat, CDKN2A carrying the signal and reversing across platforms |
 | 3 — dependency qualifier | `depmap-sarcoma-dependency.json` | ⛔ argues **against** the proliferation reading |
-| 4 — comparator classes | `emc-expression-panels.json` | ⭐ exposes the FET-fusion comparator a pooled arm hides |
+| 4 — pooled vs single gene, per class | `emc-expression-panels.json` | ⭐ **changed the claim**: pooled, EMC ranks second below desmoid; *PRMT5* alone separates |
 
 Provenance hashes for all four are stamped in
 `research/manuscripts/figures/mtap-prmt5-figure-provenance.json`; `--check` compares them against the

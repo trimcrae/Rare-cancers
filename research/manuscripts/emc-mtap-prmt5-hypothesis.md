@@ -46,11 +46,15 @@ platforms) and a public sarcoma-line CRISPR dependency panel.
 40-route portfolio and in no published EMC series. Two candidate routes were examined and **they did
 not fare alike.**
 
-⭐ **Route 1 stands.** A published preclinical result reports that PRMT5 supports fusion-driven
-transcription in a sibling translocation sarcoma sharing the same 5′ partner gene, and the PRMT5
-methylosome reads higher in EMC than in comparator sarcomas on **both** platforms (*t* = 3.11 and
-3.89), carried by *PRMT5* itself (+0.27 and +0.74 SD), with the methionine-salvage context likewise
-(*t* = 4.26 and 2.07).
+⭐ **Route 1 stands, and the gene-level cut makes it more precise rather than less.** A published
+preclinical result reports that PRMT5 supports fusion-driven transcription in a sibling translocation
+sarcoma sharing the same 5′ partner gene. The PRMT5 methylosome group reads higher in EMC than in the
+pooled comparator arm on **both** platforms (*t* = 3.11 and 3.89), with the methionine-salvage context
+likewise (*t* = 4.26 and 2.07). ⚠ **But the group is the wrong unit, and per comparator class it does
+not separate this disease at all** — pooled, EMC ranks *second* of four classes, below desmoid
+fibromatosis. ⭐ ***PRMT5 alone does separate*** (median +1.30 vs +1.05, +1.04 and +0.94), and *PRMT5*
+is the gene route 1 actually depends on. The other three members are flat or lower in EMC and dilute
+it.
 
 ⛔ **Route 2 is closed by this paper's own data.** The *MTAP*/*CDKN2A*/*CDKN2B* locus does read lower
 where powered (*t* = −4.06), but gene by gene ***MTAP* is flat** (−0.02 SD) and the entire signal is
@@ -163,7 +167,8 @@ source artifact's and it matters below: one locus gene has no probe on the secon
 
 ## 3 · The reading
 
-**The methylosome.** The PRMT5 methylosome group is **higher in EMC on both platforms**
+**The methylosome — read as a group, and then as the gene that matters.** The PRMT5 methylosome group
+is **higher in EMC on both platforms**
 (*t* = 3.11 and 3.89); the methionine-salvage context group likewise (*t* = 4.26 and 2.07). *MAT2A*
 sits at the 99th percentile of its array on GPL6244 and the 84th on GPL3290; *PRMT5* at the 91st and
 59th.
@@ -230,11 +235,16 @@ sample — it is no EMC observation.
 
 ![Figure 4](./figures/mtap-prmt5-fig4-comparator-classes.png)
 
-**Figure 4 — the methylosome against each comparator class separately.** ⭐ A pooled comparator arm
-hides that one of the comparators, LGFMS, is itself a FET-fusion sarcoma (FUS::CREB3L2) — and
-therefore a control for "this is just what a fusion sarcoma looks like". ⚠ Points are gene-by-sample
-values pooled across the four methylosome genes, so they are not independent observations and no test
-is run on them here.
+**Figure 4 — pooled group against single gene, per comparator class. ⭐ THIS PANEL PAIR CHANGED THE
+PAPER'S CLAIM, AND NOT IN THE DIRECTION THE FIGURE WAS BUILT FOR.** It was drawn to expose a control —
+LGFMS is FUS::CREB3L2, a FET-fusion sarcoma, and therefore a test of "this is just what a fusion
+sarcoma looks like". It exposed something else: **pooled across four genes, EMC ranks second, below
+desmoid fibromatosis** — the group does not separate this disease. ***PRMT5* alone does.** ⚠ Which is
+figure 2's lesson running the other way: there a group score **invented** a signal its key gene did
+not have; here a group score **hid** one its key gene does have. Neither is visible without the
+gene-level cut, and that is the transferable methodological point of this manuscript. ⚠ Left-panel
+points are gene-by-sample values pooled across four genes, so they are not independent observations
+and no test is run on them.
 
 ## 4 · The two tests that would settle it
 

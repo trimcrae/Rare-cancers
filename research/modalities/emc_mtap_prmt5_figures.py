@@ -195,44 +195,62 @@ def fig_dependency(plt, dep):
     return fig
 
 
-def fig_classes(plt, panel):
-    """4 — the methylosome against EACH comparator class; a pooled arm hides a FET-fusion control."""
+def _class_z(panel, genes, plat):
     rows = {}
-    v = (panel["gene_reads"].get("PRMT5") or {}).get(P6244)
-    if not isinstance(v, dict) or not v.get("readable"):
-        return None
-    for g in METHYLOSOME:
-        vv = (panel["gene_reads"].get(g) or {}).get(P6244)
-        if not isinstance(vv, dict) or not vv.get("readable"):
+    for g in genes:
+        v = (panel["gene_reads"].get(g) or {}).get(plat)
+        if not isinstance(v, dict) or not v.get("readable"):
             continue
-        for s in vv["per_sample"]:
+        for s in v["per_sample"]:
             z = s.get("z_vs_array")
             if z is not None:
                 rows.setdefault(s["class"], []).append(z)
-    if not rows:
-        return None
+    return rows
+
+
+def _class_ax(ax, rows, title, ylab):
     order = sorted(rows, key=lambda k: -st.median(rows[k]))
-    fig, ax = plt.subplots(figsize=(7.0, 3.4))
     for i, k in enumerate(order):
         col = C_EMC if k == "EMC" else C_COMP
         _dots(ax, i, rows[k], col, jitter=0.17)
-        ax.plot([i - 0.24, i + 0.24], [st.median(rows[k])] * 2, "-", color=col, lw=2.1, zorder=4)
-    ax.axhline(0, color="#c9d2da", lw=0.9)
+        ax.plot([i - 0.26, i + 0.26], [st.median(rows[k])] * 2, "-", color=col, lw=2.2, zorder=4)
     ax.set_xticks(range(len(order)))
-    ax.set_xticklabels([f"{k}\n(n={len(rows[k])})" for k in order], fontsize=7.0)
-    ax.set_ylabel("z vs array, methylosome genes pooled", fontsize=7.2)
-    ax.set_title("The methylosome against each comparator class separately — GSE24369 / GPL6244",
-                 fontsize=8.4, color=C_INK)
-    ax.tick_params(labelsize=7.0)
-    for s in ("top", "right"):
-        ax.spines[s].set_visible(False)
+    ax.set_xticklabels([f"{k}\n(n={len(rows[k])})" for k in order], fontsize=6.6)
+    ax.set_ylabel(ylab, fontsize=7.0)
+    ax.set_title(title, fontsize=8.2, color=C_INK, pad=5)
+    ax.tick_params(labelsize=6.8)
+    for sp in ("top", "right"):
+        ax.spines[sp].set_visible(False)
+    return order
+
+
+def fig_classes(plt, panel):
+    """4 — pooled group vs the single gene, because the GROUP DILUTES THE SIGNAL rather than making it.
+
+    ⭐ THIS PANEL PAIR IS THE FINDING, AND IT WAS NOT THE ONE THE FIGURE WAS BUILT FOR. Pooled across
+    the four methylosome genes EMC ranks SECOND, below desmoid fibromatosis — the group does not
+    separate this disease at all. PRMT5 alone, which is the gene route 1 actually depends on, is
+    clearly highest. The three other members are flat or lower in EMC and dilute it.
+    ⚠ Which is figure 2's lesson running the other way: there a group INVENTED a signal its key gene
+    did not have; here a group HID one its key gene does have. Neither is visible without the cut.
+    """
+    pooled = _class_z(panel, METHYLOSOME, P6244)
+    single = _class_z(panel, ("PRMT5",), P6244)
+    if not pooled or not single:
+        return None
+    fig, axes = plt.subplots(1, 2, figsize=(9.6, 3.7))
+    _class_ax(axes[0], pooled, "Methylosome POOLED (4 genes) - EMC ranks second",
+              "z vs array, 4 genes pooled")
+    _class_ax(axes[1], single, "PRMT5 ALONE - EMC is highest", "z vs array, PRMT5")
+    fig.suptitle("GSE24369 / GPL6244 - each comparator class separately", fontsize=9, color=C_INK)
     fig.text(0.5, 0.005,
              "NOTE  LGFMS is FUS::CREB3L2 - a FET-fusion sarcoma, and therefore a control for 'this is "
-             "just what a fusion sarcoma looks like'.\nA pooled comparator arm makes that control "
-             "invisible.  ⚠ Points are gene-by-sample values pooled across the four methylosome "
-             "genes,\nso they are not independent observations and no test is run on them here.",
-             ha="center", fontsize=6.5, color=C_MUTE)
-    fig.tight_layout(rect=(0, 0.10, 1, 1))
+             "just what a fusion sarcoma looks like'.\nPooled, EMC does not separate from desmoid "
+             "fibromatosis; PRMT5 alone does. Route 1 depends on PRMT5, not on the group.\n"
+             "Left-panel points are gene-by-sample values pooled across four genes, so they are not "
+             "independent observations and no test is run on them.",
+             ha="center", fontsize=6.4, color=C_MUTE)
+    fig.tight_layout(rect=(0, 0.115, 1, 0.93))
     return fig
 
 
