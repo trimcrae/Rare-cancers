@@ -225,8 +225,12 @@ reported as such rather than as a number, because it is a statement about the di
 ![Figure 1. Conditions placed on the two axes, with both contours drawn.](./endpoint-regime-map.svg)
 
 **Figure 1.** Each point is a condition placed by its own measured numbers: median actual trial
-enrolment against median objective response. The solid curve is the zero-event contour, the dashed
-curve the single-stage design contour. A point to the left of a curve lies inside that regime.
+enrolment against median objective response. The enrolment axis is the pooled one described in
+section 3.4, so horizontal position is a mixture of two accrual populations and should be read as
+the middle of a range rather than as a point; on completed-trial accrual every point moves right,
+and no point remains left of the zero-event contour. The solid curve is the zero-event contour, the
+dashed curve the single-stage design contour. A point to the left of a curve lies inside that
+regime.
 Extraskeletal myxoid chondrosarcoma is circled; its coordinates come from published trial reports
 rather than from registry postings, unlike every other point, and the two sources are plotted on
 shared axes for comparison and are never combined. Fifteen conditions share the 0% response axis and
@@ -246,17 +250,23 @@ could never enter the numerator.
 
 Of the 28 conditions where the comparison is defined, 14 (50.0%) had a median trial smaller than the
 design boundary requires. That figure is a mixture rather than an estimate, for the reason section
-3.4 sets out, and the defensible statement is a bound: between 31.8% and 73.9%. Seven of the 29
-conditions where the zero-event comparison is defined (24.1%) sat below that boundary, where a
-typical trial has better than a one-in-ten chance of observing no responses even when the agent
-performs at the rate the corpus records. Taken together, 30 of the 44 placed conditions cannot
-support a response-rate summary by one route or the other.
+3.4 sets out, and the defensible statement is a bound: between 31.8% and 73.9%.
 
-The seven below the zero-event boundary are epithelial ovarian cancer, head and neck cancer,
-melanoma, metastatic melanoma, non-small-cell lung cancer, recurrent breast cancer and urothelial
-carcinoma. None is rare, and none is conventionally called indolent. The regime is defined by
-coordinates rather than by tumour biology, and this is what that looks like when the diseases are
-named.
+The second boundary does not survive the same test, and the failure is worth more than the result
+would have been. Seven of 29 conditions (24.1%) sit below the zero-event boundary on the pooled
+accrual axis. Computed on completed trials alone the count is zero of 23; computed on trials
+terminated for accrual it is 11 of 23. The pooled reading, and the list of diseases it names, comes
+entirely from trials that stopped because they could not accrue.
+
+What remains is narrower than what was claimed. A trial that finishes in these diseases is large
+enough to see a response; a trial that fails to accrue is not. That is a statement about trial
+conduct rather than about disease biology, and it does not support the argument this section was
+making. A named list of common cancers said to sit in the uninformative regime appeared in earlier
+drafts and is withdrawn.
+
+What survives is the first boundary and the group below the null. Between 20 of 35 and 30 of 36
+placed conditions cannot support a response-rate summary, by falling below the design boundary or by
+having no defined design at all, depending on which accrual population is read.
 
 ### 3.3 Phase composition
 
@@ -301,8 +311,14 @@ conditions whose median trial is too small for their own response rate lies betw
 No value inside that interval is better supported than any other, and the interval is reported
 instead of a point estimate for that reason.
 
-The bound does not touch the zero-event boundary result or the gap distribution, neither of which
-reads the accrual axis.
+Both boundaries read this axis, and they do not survive it equally. The design boundary holds under
+either population, with the share moving inside the interval above. The zero-event boundary does
+not: its interval runs from 0.0% to 47.8%, so one population supports the result and the other
+removes it entirely. A finding that spans zero is not a finding, which is why section 3.2 reports it
+as withdrawn rather than as a range.
+
+The gap distribution in section 4 is unaffected, because it reads only the arms and never the
+accrual axis.
 
 ---
 
@@ -707,5 +723,6 @@ the live text above carries only the current value.
 | An implied claim that objective responses are generally hard to explain by natural history | The claim holds per disease and requires argument in each; at least one indolent tumour records objective responses on placebo | `emc-response-endpoint-paper.md` §7.2 | Qualified by the retrieved randomised placebo-controlled measurement recorded in [`emc-endpoint-alternatives.json`](./emc-endpoint-alternatives.json) → `E10` |
 | 96.9% of screened studies posted no four-cell table, quoted as the abstract's headline over the pooled denominator | 95.2% over the trials whose registry text names best overall response; the pooled figure is retained in §5 and is unchanged | §5 and the abstract | The pooled denominator mixes two frozen queries, and only one selects trials that said they measured the quantity. The narrow figure is lower, so the abstract now leads with the stricter test rather than the larger number ([`endpoint-corpus.json`](./endpoint-corpus.json) → `C3b_census_denominator_decomposed`) |
 | 4,414 screened studies read as a count of trials | 4,414 records, 4,235 distinct trials, 179 matching both queries | §5 | `studies_screened` counts records, and a trial matching both frozen queries appears in both payloads. The per-trial share is 96.7% |
+| Seven of 29 conditions sit below the zero-event boundary, named as epithelial ovarian cancer, head and neck cancer, melanoma, metastatic melanoma, non-small-cell lung cancer, recurrent breast cancer and urothelial carcinoma, with the observation that none is rare or indolent | Withdrawn. The interval across the two accrual populations is 0.0% to 47.8%: zero of 23 conditions on completed-trial accrual, 11 of 23 on terminated-trial accrual | §3.2 | The result and its named list came entirely from trials that stopped for failure to accrue. A finding whose interval spans zero is not a finding, and the surviving statement is about trial conduct rather than disease biology ([`endpoint-regime-map.json`](./endpoint-regime-map.json) → `G4b`) |
 | 50.0% of conditions with a defined comparison have a median trial below the design boundary, stated as a point estimate | A bound of 31.8% to 73.9%, spanning the two accrual populations; 50.0% is retained in §3.2 as the pooled value it is | §3.2 and the abstract | The accrual axis pools completed trials with trials terminated for accrual. The first is biased upward by survivorship, the second is selected on the outcome the axis measures and is a censored observation; the pooled value depends on a 962:875 record ratio that is an artefact of two queries capped at 1,000 records ([`endpoint-regime-map.json`](./endpoint-regime-map.json) → `G4b`) |
 | An unmeasured claim that 19 arms are control arms | 19 arms pass a control-token screen; 8 are registered as a placebo comparator or no-intervention arm and 8 as experimental or active comparator | §6 and [`placebo-arm-calibration.json`](./placebo-arm-calibration.json) → `P3_classification` | The screen matches any arm whose title contains "BSC", and in a trial comparing an agent against chemotherapy plus best supportive care both arms carry the token |

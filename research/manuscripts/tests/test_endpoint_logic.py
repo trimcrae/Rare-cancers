@@ -327,6 +327,38 @@ def test_the_completed_population_really_does_enrol_more():
         f"direction no longer holds")
 
 
+def test_the_zero_event_result_is_withdrawn_and_its_named_list_is_gone():
+    """A finding whose interval spans zero is not a finding, and its disease list must not survive.
+
+    ⛔ THE MOST CONSEQUENTIAL THING THIS AUDIT FOUND. The zero-event boundary compares median
+    enrolment against the n needed for a 90% chance of one response, so it reads the accrual axis
+    directly. On completed-trial accrual, ZERO of 23 conditions sit below it. On terminated-for-
+    accrual accrual, 11 of 23. The pooled reading of 7 of 29 -- and the list "epithelial ovarian
+    cancer, head and neck cancer, melanoma, metastatic melanoma, non-small-cell lung cancer,
+    recurrent breast cancer and urothelial carcinoma. None is rare, and none is conventionally
+    called indolent" -- came entirely from trials that stopped because they could not accrue.
+
+    That list was among the paper's most quotable passages, which is exactly why its removal needs
+    enforcing rather than remembering.
+    """
+    g = _regime()["G4b_the_accrual_axis_is_two_populations"]
+    zlo, zhi = g["bound_on_the_share_below_the_zero_event_contour_pct"]
+    assert zlo == 0.0, (
+        "the completed-trial axis no longer removes the zero-event result; if that changed, section "
+        "3.2's withdrawal should be revisited rather than left standing")
+    assert zhi > zlo
+
+    with open(os.path.join(MANUSCRIPTS, "response-endpoint-indolent-tumours.md"),
+              encoding="utf-8") as fh:
+        paper = fh.read()
+    body = paper.split("## Appendix A", 1)[0]
+    assert "None is rare, and none is conventionally called indolent" not in body, (
+        "the withdrawn claim is back in the running text")
+    for phrase in ("urothelial carcinoma and", "and urothelial carcinoma"):
+        assert phrase not in body, (
+            f"the withdrawn named list appears in the running text: {phrase!r}")
+
+
 def test_the_manuscript_reports_the_bound_and_not_only_the_point_estimate():
     """A bound computed and not stated is a bound nobody has."""
     with open(os.path.join(MANUSCRIPTS, "response-endpoint-indolent-tumours.md"),

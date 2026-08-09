@@ -163,19 +163,36 @@ def _accrual_sensitivity(corpus, orr_by_cond):
 
     def headline(acc):
         placed = undefined = defined = below = 0
+        zero_defined = zero_below = 0
+        zero_named = []
         enrolments = []
         for cond in sorted(set(orr_by_cond) | set(acc)):
             orrs, accs = orr_by_cond.get(cond, []), acc.get(cond, [])
             if len(orrs) < MIN_ARMS or len(accs) < MIN_ACCRUAL_RECORDS:
                 continue
             placed += 1
-            enrolments.append(_median_int(accs))
-            need = required_n_against_null(statistics.median(orrs))
+            n_med = _median_int(accs)
+            enrolments.append(n_med)
+            p = statistics.median(orrs)
+
+            # ⛔ THE ZERO-EVENT CONTOUR READS THIS AXIS TOO -- `n_med < need_zero`. When this block
+            # was first written it said the bound "does not touch the zero-event result", which was
+            # exactly backwards: that result is the one MOST sensitive to the accrual population,
+            # going from 11 of 23 conditions to ZERO. A sentence asserting which results depend on
+            # an input is checkable against the code, and that one was not checked.
+            need_zero = n_for_90pct_chance_of_one_event(p)
+            if need_zero is not None and n_med is not None:
+                zero_defined += 1
+                if n_med < need_zero:
+                    zero_below += 1
+                    zero_named.append(cond)
+
+            need = required_n_against_null(p)
             if need is None:
                 undefined += 1
                 continue
             defined += 1
-            if need == NO_DESIGN or _median_int(accs) < need:
+            if need == NO_DESIGN or n_med < need:
                 below += 1
         return {
             "conditions_placed": placed,
@@ -184,6 +201,12 @@ def _accrual_sensitivity(corpus, orr_by_cond):
             "conditions_below_the_design_contour": below,
             "share_below_the_design_contour_pct": (
                 round(100 * below / defined, 1) if defined else None),
+            "conditions_where_the_zero_event_comparison_is_defined": zero_defined,
+            "conditions_below_the_zero_event_contour": zero_below,
+            "share_below_the_zero_event_contour_pct": (
+                round(100 * zero_below / zero_defined, 1) if zero_defined else None),
+            "named_below_the_zero_event_contour": zero_named,
+            "conditions_that_cannot_support_a_response_endpoint_at_all": below + undefined,
             "median_of_the_per_condition_median_enrolments": (
                 _median_int([e for e in enrolments if e is not None]) if enrolments else None),
         }
@@ -196,6 +219,8 @@ def _accrual_sensitivity(corpus, orr_by_cond):
     }
     lo = variants["completed_trials_only"]["share_below_the_design_contour_pct"]
     hi = variants["terminated_for_accrual_only"]["share_below_the_design_contour_pct"]
+    zlo = variants["completed_trials_only"]["share_below_the_zero_event_contour_pct"]
+    zhi = variants["terminated_for_accrual_only"]["share_below_the_zero_event_contour_pct"]
     counts = collections.Counter(r.get("source") for r in corpus["C7_accrual_records"])
     return {
         "_why_this_block_exists": (
@@ -214,6 +239,19 @@ def _accrual_sensitivity(corpus, orr_by_cond):
         },
         "variants": variants,
         "bound_on_the_share_below_the_design_contour_pct": [lo, hi],
+        "bound_on_the_share_below_the_zero_event_contour_pct": [zlo, zhi],
+        "⛔_the_zero_event_result_does_not_survive_the_completed_only_axis": (
+            f"this is the finding, and it is the most consequential thing in this block. On "
+            f"completed-trial accrual, {variants['completed_trials_only']['conditions_below_the_zero_event_contour']} "
+            f"of {variants['completed_trials_only']['conditions_where_the_zero_event_comparison_is_defined']} "
+            f"conditions sit below the zero-event contour. On terminated-for-accrual accrual it is "
+            f"{variants['terminated_for_accrual_only']['conditions_below_the_zero_event_contour']} of "
+            f"{variants['terminated_for_accrual_only']['conditions_where_the_zero_event_comparison_is_defined']}. "
+            f"The pooled reading of 7 of 29, and the named disease list the manuscript drew from it, "
+            f"come entirely from trials that stopped for failure to accrue. The honest statement is "
+            f"not 'these diseases cannot see a response' but 'a trial that FINISHES in these "
+            f"diseases is large enough to see one, and a trial that fails to accrue is not' -- a "
+            f"claim about trial conduct rather than about disease biology."),
         "_the_reading": (
             "the share of conditions whose median trial is too small for their own response rate "
             "lies between these two, and no single number in that interval is better supported "

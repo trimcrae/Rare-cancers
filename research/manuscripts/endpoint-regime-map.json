@@ -1114,6 +1114,11 @@
     "conditions_where_the_design_comparison_is_defined": 22,
     "conditions_below_the_design_contour": 7,
     "share_below_the_design_contour_pct": 31.8,
+    "conditions_where_the_zero_event_comparison_is_defined": 23,
+    "conditions_below_the_zero_event_contour": 0,
+    "share_below_the_zero_event_contour_pct": 0.0,
+    "named_below_the_zero_event_contour": [],
+    "conditions_that_cannot_support_a_response_endpoint_at_all": 20,
     "median_of_the_per_condition_median_enrolments": 54
    },
    "terminated_for_accrual_only": {
@@ -1122,6 +1127,23 @@
     "conditions_where_the_design_comparison_is_defined": 23,
     "conditions_below_the_design_contour": 17,
     "share_below_the_design_contour_pct": 73.9,
+    "conditions_where_the_zero_event_comparison_is_defined": 23,
+    "conditions_below_the_zero_event_contour": 11,
+    "share_below_the_zero_event_contour_pct": 47.8,
+    "named_below_the_zero_event_contour": [
+     "Epithelial Ovarian Cancer",
+     "Fallopian Tube Cancer",
+     "Head and Neck Cancer",
+     "Melanoma",
+     "Metastatic Colorectal Cancer",
+     "Metastatic Melanoma",
+     "Neoplasms",
+     "Non Small Cell Lung Cancer",
+     "Ovarian Cancer",
+     "Recurrent Breast Cancer",
+     "Urothelial Carcinoma"
+    ],
+    "conditions_that_cannot_support_a_response_endpoint_at_all": 30,
     "median_of_the_per_condition_median_enrolments": 8
    },
    "pooled_as_previously_published": {
@@ -1130,6 +1152,19 @@
     "conditions_where_the_design_comparison_is_defined": 28,
     "conditions_below_the_design_contour": 14,
     "share_below_the_design_contour_pct": 50.0,
+    "conditions_where_the_zero_event_comparison_is_defined": 29,
+    "conditions_below_the_zero_event_contour": 7,
+    "share_below_the_zero_event_contour_pct": 24.1,
+    "named_below_the_zero_event_contour": [
+     "Epithelial Ovarian Cancer",
+     "Head and Neck Cancer",
+     "Melanoma",
+     "Metastatic Melanoma",
+     "Non Small Cell Lung Cancer",
+     "Recurrent Breast Cancer",
+     "Urothelial Carcinoma"
+    ],
+    "conditions_that_cannot_support_a_response_endpoint_at_all": 30,
     "median_of_the_per_condition_median_enrolments": 23
    }
   },
@@ -1137,6 +1172,11 @@
    31.8,
    73.9
   ],
+  "bound_on_the_share_below_the_zero_event_contour_pct": [
+   0.0,
+   47.8
+  ],
+  "⛔_the_zero_event_result_does_not_survive_the_completed_only_axis": "this is the finding, and it is the most consequential thing in this block. On completed-trial accrual, 0 of 23 conditions sit below the zero-event contour. On terminated-for-accrual accrual it is 11 of 23. The pooled reading of 7 of 29, and the named disease list the manuscript drew from it, come entirely from trials that stopped for failure to accrue. The honest statement is not 'these diseases cannot see a response' but 'a trial that FINISHES in these diseases is large enough to see one, and a trial that fails to accrue is not' -- a claim about trial conduct rather than about disease biology.",
   "_the_reading": "the share of conditions whose median trial is too small for their own response rate lies between these two, and no single number in that interval is better supported than the others. The paper reports the interval. SUPERSEDED, RETAINED: the pooled point estimate, which was published as the headline."
  },
  "G4_what_the_map_reads": {
