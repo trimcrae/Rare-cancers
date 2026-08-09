@@ -136,6 +136,21 @@ else
   echo "   FAILED -- rerun 'python3 research/manuscripts/lint_citations.py' to see which identifier"; rc=1
 fi
 
+# ADDED 2026-08-09. The repository's house style -- glyph warnings, bold on the load-bearing clause,
+# running commentary about why a rule exists -- is correct in CLAUDE.md, in the roadmap and in the
+# artifacts, where the reader is a maintainer being stopped from repeating a mistake. It is wrong in a
+# manuscript: a journal reader is not being warned, prose that keeps asserting its own honesty reads as
+# advocacy, and the tics are recognisable as machine-written, which costs a paper credibility it has
+# otherwise earned. Measured when this gate was added: 81 findings in the one manuscript then listed --
+# 25 glyphs, 32 mid-sentence bolds, 14 sentence-shaped headings, bold at 20.1 per 1000 words against a
+# limit of 12. Scoped to TARGETS in the linter; memos, plans and findings notes keep the house style.
+echo "== manuscript prose style (journal register, not repository register) =="
+if python3 research/manuscripts/lint_style.py >/dev/null 2>&1; then
+  echo "   OK"
+else
+  echo "   FAILED -- rerun 'python3 research/manuscripts/lint_style.py' to see which lines"; rc=1
+fi
+
 echo "== parser guard (every registered parser can still find its input) =="
 if python3 systems/parser_guard.py >/dev/null 2>&1; then
   echo "   OK"
