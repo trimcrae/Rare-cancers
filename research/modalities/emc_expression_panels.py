@@ -442,6 +442,31 @@ PANELS = {
             "the_locus": ["MTAP", "CDKN2A", "CDKN2B"],
             "prmt5_methylosome": ["PRMT5", "WDR77", "RIOK1", "CLNS1A"],
             "methionine_salvage_context": ["MAT2A", "AHCY", "MTR", "ADI1"],
+            # ⭐ ADDED 2026-08-09, AND EVERY ONE OF THESE THREE GROUPS EXISTS TO ATTACK THE READ
+            # RATHER THAN TO EXTEND IT. They were added after a retrieval (PMC12354397, Ewing
+            # sarcoma) reported PRMT1 *and* PRMT5 elevated together across sarcoma types — which
+            # makes "is EMC's elevation PRMT5-SPECIFIC or family-wide?" a question the existing
+            # four-gene methylosome group structurally could not answer.
+            # ⚠ THEY ARE CONTROLS, NOT ADDITIONAL HYPOTHESIS TESTS, and the manuscript must say so:
+            # a control whose result is read as a finding is a multiplicity problem wearing a
+            # control's clothes.
+            "prmt_family_specificity_control": ["PRMT1", "PRMT2", "PRMT3", "CARM1", "PRMT6",
+                                                "PRMT7", "PRMT8", "PRMT9"],
+            # Falsifier F7 of the manuscript ("the readings are not proliferation or cellularity
+            # effects") was stated with NO data behind it. MKI67 alone sits in the instrument
+            # controls and one gene cannot carry a confound test.
+            "proliferation_confound_control": ["PCNA", "TOP2A", "CCNB1", "RRM2", "BUB1", "AURKA",
+                                               "MCM2", "TYMS", "E2F1", "CCNA2", "CDK1"],
+            # EMC is chondroid and NO comparator in either series is cartilage-lineage
+            # (emc_dkk1_lineage_controls.py's standing warning). These make the lineage confound
+            # measurable WITHIN the EMC arm — if the methylosome tracks chondroid identity across
+            # samples, that is a different explanation from the one route 1 offers.
+            # ⛔ It still cannot exclude "chondroid tumours express PRMT5", because no chondroid
+            # COMPARATOR exists here. It can only show whether the two move together.
+            "chondroid_lineage_control": ["COL2A1", "COL9A1", "COL11A2", "SOX5", "SOX6"],
+            # PRMT5's canonical, textbook substrates. ⚠ ABUNDANCE OF A SUBSTRATE IS NOT EVIDENCE
+            # OF ITS METHYLATION and this group is context only — an array cannot see a methyl mark.
+            "prmt5_canonical_substrate_context": ["SNRPB", "SNRPD1", "SNRPD3", "SNRPE", "SNRPG"],
         },
         "direction_that_supports_the_lane": "MTAP DOWN in EMC, at the floor, together with CDKN2A",
         "what_it_cannot_settle": "⛔ A TRANSCRIPT IS NOT A COPY NUMBER. A homozygous deletion reads "
@@ -1296,12 +1321,114 @@ def _read_target(target, want, sym_diag=None):
     rec["genes"] = genes
     rec["n_wanted_genes_measured"] = len(genes)
     rec["n_wanted_genes_requested"] = len(want)
+    # ⭐ THE EMPIRICAL NULL. Computed here and nowhere else, because this is the only point in the
+    # program where the FULL probe matrix is in memory; by the time the artifact is written it has
+    # been reduced to the wanted genes and the question can no longer be asked.
+    rec["genome_wide_null"] = _genome_wide_null(samples, probes, values, sym, bg, n_s, want)
     rec["_status"] = "read"
     print(f"  {gse}/{plat}: {n_s} samples, {len(probes)} probes, "
           f"{rec['n_probes_mapped_to_a_symbol']} mapped "
           f"({rec['measured_probe_mapping_rate']}), {len(genes)}/{len(want)} wanted genes measured",
           file=sys.stderr)
     return rec
+
+
+def _genome_wide_null(samples, probes, values, sym, bg, n_s, want):
+    """Every mapped symbol on this array scored by the SAME statistic the panel reports, so a
+    panel gene's *t* can be placed in the distribution of all of them.
+
+    ⭐ WHY THIS EXISTS, AND IT IS A CORRECTION RATHER THAN AN EXTENSION. Every manuscript built on
+    this artifact carries the limit "uncorrected for multiple testing" — stated honestly, and then
+    left as an unanswered question, because the artifact holds only the ~350 curated genes and a
+    curated panel cannot say how remarkable its own *t* is. A reader has no way to tell a gene in
+    the top 1% of the array from one in the top 40%. **That is the difference between a reading and
+    a result, and it costs nothing to measure.**
+
+    ⛔ WHAT IT IS NOT. It is an EMPIRICAL NULL, not a correction procedure. It reports where a gene
+    sits among all genes; it does not control a false-discovery rate, and a gene at the 99.5th
+    percentile of a distribution built from 20,000 correlated transcripts is not thereby
+    significant at any level. It also cannot be a null in the strict sense — real biological
+    differences between EMC and the comparator arm are IN this distribution, which makes the
+    percentile CONSERVATIVE for a true signal and is stated here rather than glossed.
+
+    ⭐ AND IT DOUBLE-ENTRIES THE PANEL. The arithmetic is identical to the panel's own: probes
+    averaged per symbol, standardised against the sample's whole-array background, Welch's *t*
+    EMC vs comparator. So the value it computes for a wanted gene MUST equal the value the panel
+    computes for that gene — `self_check` records that comparison, and a disagreement means one of
+    the two paths is not doing what its docstring says.
+    """
+    classes, emc, comp = _group_indices(samples)
+    if len(emc) < 2 or len(comp) < 2:
+        return {"_status": "NOT COMPUTED — fewer than 2 samples in an arm",
+                "n_EMC": len(emc), "n_comparator": len(comp),
+                "⛔_this_is_an_instrument_statement": "The arms on this platform cannot support a "
+                "two-sample contrast. It is NOT a finding that no gene differs."}
+    rows = {}
+    for pid, row in zip(probes, values):
+        g = sym.get(pid)
+        if g:
+            rows.setdefault(g, []).append(row[:n_s])
+    ts, t_by_gene = [], {}
+    for g, rr in rows.items():
+        z = []
+        for i in range(n_s):
+            got = [r[i] for r in rr if i < len(r) and r[i] is not None]
+            if not got or not bg[i]:
+                z.append(None)
+                continue
+            z.append((sum(got) / len(got) - bg[i]["mean"]) / max(1e-9, bg[i]["sd"]))
+        a = [z[i] for i in emc if z[i] is not None]
+        b = [z[i] for i in comp if z[i] is not None]
+        w = _welch(a, b)
+        if not w or w.get("t") is None:
+            continue
+        ts.append(w["t"])
+        t_by_gene[g] = w["t"]
+    if not ts:
+        return {"_status": "NOT COMPUTED — no symbol yielded a t"}
+    ts_sorted = sorted(ts)
+    n = len(ts_sorted)
+    absts = sorted(abs(x) for x in ts)
+
+    def q(p):
+        return round(ts_sorted[min(n - 1, max(0, int(round(p * (n - 1)))))], 3)
+
+    placed = {}
+    for g in sorted(set(want) & set(t_by_gene)):
+        t = t_by_gene[g]
+        # two-sided: how many symbols on this array move at least this hard, in either direction
+        more_extreme = n - bisect_left(absts, abs(t))
+        placed[g] = {
+            "t": round(t, 3),
+            "signed_percentile": round(100.0 * bisect_left(ts_sorted, t) / n, 2),
+            "frac_of_array_at_least_as_extreme_two_sided": round(more_extreme / n, 5),
+            "n_symbols_at_least_as_extreme_two_sided": more_extreme,
+        }
+    return {
+        "_what": "Welch t, EMC vs comparator, for EVERY symbol this platform's probes map to — the "
+                 "distribution a panel gene's own t has to be read against.",
+        "_the_statistic_is_the_panel_s_own": "probes averaged per symbol, standardised against "
+                                             "that sample's whole-array background, Welch t. "
+                                             "Identical arithmetic to `gene_reads`; see "
+                                             "`self_check`.",
+        "n_symbols_scored": n,
+        "n_symbols_with_a_probe": len(rows),
+        "n_EMC": len(emc),
+        "n_comparator": len(comp),
+        "t_distribution": {"min": round(ts_sorted[0], 3), "p01": q(0.01), "p05": q(0.05),
+                           "p25": q(0.25), "p50": q(0.50), "p75": q(0.75), "p95": q(0.95),
+                           "p99": q(0.99), "max": round(ts_sorted[-1], 3)},
+        "placed_wanted_genes": placed,
+        "⛔_this_is_not_a_multiplicity_correction": "It reports WHERE a gene sits among all genes. "
+            "It controls no error rate, and a high percentile is not a significance claim. Read it "
+            "as the answer to 'is this t remarkable on this array', which is the question the "
+            "phrase 'uncorrected for multiple testing' leaves open.",
+        "⚠_the_null_contains_real_signal": "Genuine EMC-vs-comparator biology is inside this "
+            "distribution — it is an observed distribution, not a permutation null — so a true "
+            "signal's percentile is CONSERVATIVE rather than optimistic.",
+        "⚠_symbols_are_not_independent": "Co-regulated transcripts move together, so the effective "
+            "number of independent tests is far below `n_symbols_scored`.",
+    }
 
 
 def collect():
@@ -1634,6 +1761,9 @@ def derive(inp):
                 for i, s in enumerate(tgt["samples"])],
             "n_wanted_genes_measured": tgt["n_wanted_genes_measured"],
             "n_wanted_genes_requested": tgt["n_wanted_genes_requested"],
+            # ⚠ SAME OBJECT, NOT A COPY — the self-check below writes into it after this dict is
+            # built, and a copy here would silently publish the null without its own verdict.
+            "genome_wide_null": tgt.get("genome_wide_null"),
         }
 
     # --- per gene, per platform ------------------------------------------------------------------
@@ -1641,6 +1771,38 @@ def derive(inp):
     for gene in all_genes:
         res["gene_reads"][gene] = {mf: _gene_read(gene, tgt, classes, emc, comp)
                                    for mf, (tgt, classes, emc, comp) in live.items()}
+
+    # --- the empirical null's self-check ---------------------------------------------------------
+    # ⭐ DOUBLE ENTRY. The genome-wide null recomputes, from the full matrix, the same statistic the
+    # panel computes from the reduced per-gene values. The two paths share no code, so a wanted
+    # gene's t must agree between them; a disagreement means one of them is not doing what its
+    # docstring says, and that is worth more than either number alone.
+    for mf, (tgt, _classes, _emc, _comp) in live.items():
+        gw = tgt.get("genome_wide_null") or {}
+        placed = gw.get("placed_wanted_genes") or {}
+        if not placed:
+            continue
+        agree, disagree = 0, []
+        for gene, p in placed.items():
+            w = ((res["gene_reads"].get(gene) or {}).get(mf) or {}).get(
+                "welch_EMC_vs_comparator") or {}
+            t_panel = w.get("t")
+            if t_panel is None:
+                continue
+            if abs(t_panel - p["t"]) <= 0.02:
+                agree += 1
+            else:
+                disagree.append({"gene": gene, "panel_t": t_panel, "null_t": p["t"]})
+        gw["self_check"] = {
+            "_what": "the null's t vs the panel's committed t, for every wanted gene both paths "
+                     "scored on this platform",
+            "n_agreeing_within_0.02": agree,
+            "n_disagreeing": len(disagree),
+            "disagreements": disagree[:20],
+            "verdict": ("✅ the two independent paths agree" if not disagree else
+                        "⛔ THE TWO PATHS DISAGREE — one of them is not computing what it claims. "
+                        "Do not quote either percentile until this is resolved."),
+        }
 
     # --- per panel, per group, per platform ------------------------------------------------------
     for pname, panel in PANELS.items():
