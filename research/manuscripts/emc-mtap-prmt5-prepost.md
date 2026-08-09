@@ -52,8 +52,13 @@ biological (also free)."* That is this paper.
 
 ## ⛔ What only trimcrae can supply — the actual blocking set
 
-1. **Author name, affiliation, ORCID, corresponding email.** ⚠ An agent must not invent these, and
-   they are the single hard blocker. The manuscript carries no author block for that reason.
+1. ✅ **RESOLVED 2026-08-09 — the details were already in the repository and I did not look.**
+   Author, affiliation and corresponding email are now in the manuscript: Tristan McRae, independent
+   researcher, unaffiliated, trimcrae@gmail.com — read from
+   `research/compute/access-allocation-request.md`, and the unaffiliated status is what
+   `emc-post-degrader-options.md` and `emc-atr-vulnerability-assessment.md` already state in prose.
+   ⚠ **ORCID is the one piece genuinely absent from the repository.** It is optional on bioRxiv but
+   worth having; only trimcrae can create or supply one.
 2. **The decision to post at all**, and whether this paper goes first among the portfolio.
 3. **Licence choice** (bioRxiv offers CC-BY among others). The degrader plan chose CC-BY for ChemRxiv;
    it is not automatic here.
@@ -69,8 +74,13 @@ These are in the manuscript and must not be softened during any formatting pass:
   figure is a transfer from other sarcomas.
 - **PRMT5 and MAT2A are dependencies in 94.5% and 96.7% of 176 sarcoma lines.** The proliferation half
   of the transferred result is therefore close to expected.
-- **The locus reading is powered on one platform only**, and *CDKN2A* is lost by mechanisms leaving
-  *MTAP* intact.
+- ⛔ **ROUTE 2 IS CLOSED BY THIS PAPER'S OWN DATA, and the closure must not be softened back into a
+  caveat during any formatting pass.** *MTAP* is flat where the read is powered (−0.02 SD); the entire
+  locus signal is *CDKN2A* (−0.40 SD), which reverses on the second platform (+0.17). The window
+  selects on *MTAP* loss, so the locus reading does not support it.
+- ⚠ **The methylosome GROUP does not separate this disease** — pooled, EMC ranks second of four
+  comparator classes. *PRMT5* alone does. Route 1's claim is stated on the gene, not the group, and
+  must stay that way.
 - **16 tumours, two decade-old array platforms, uncorrected for multiple testing.**
 - **Route 1's source is a preprint that states it is not certified by peer review.**
 
