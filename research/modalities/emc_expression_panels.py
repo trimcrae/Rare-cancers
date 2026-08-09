@@ -580,6 +580,44 @@ PANELS = {
                                  "already carries, since both rest on the same unproven "
                                  "replication-stress premise.",
     },
+    "drug_screen_targets": {
+        "read_id": "read_17_DRUG_SCREEN_TARGETS",
+        "question": "The only published high-throughput drug screen on a patient-derived EMC line "
+                    "returned three low-IC50 hits. Do the targets of those three agents read high in "
+                    "EMC tumour tissue — and does the reading favour any one of the three classes?",
+        "provenance": CURATED + " Membership is the TARGET annotation the repository's own curated "
+                                "repurposing library carries for each of the three hit agents "
+                                "(nr4a3-repurpose-shard-01/07/08.json), read from those records "
+                                "rather than recalled. ⚠ A repurposing-library target field is a "
+                                "curated annotation and not a measured selectivity panel; it names "
+                                "what the record names and nothing more.",
+        "primary_gene": "EGFR",
+        "groups": {
+            # brigatinib — the record names ALK and EGFR. ⚠ It does NOT name ROS1, although the lead
+            # that raised this route calls the agent "ALK/ROS1 class". ROS1 is read here anyway so the
+            # discrepancy is a reading rather than an assumption.
+            "brigatinib_targets": ["ALK", "EGFR", "ROS1"],
+            # panobinostat and romidepsin — near-identical HDAC target sets in the same records. Two of
+            # the three hits are this class, which is the reason this read exists.
+            "hdac_class_i_ii": ["HDAC1", "HDAC2", "HDAC3", "HDAC4", "HDAC6", "HDAC7", "HDAC8",
+                                "HDAC9"],
+            # A kinase contrast: receptor kinases with EMC-specific published claims, so that "the
+            # kinase group reads high" cannot be mistaken for something specific to the screen hit.
+            "kinase_contrast": ["RET", "MET", "KIT", "PDGFRB", "IGF1R"],
+        },
+        "direction_that_supports_the_lane": "the hit agents' targets HIGHER in EMC, and one class "
+                                            "separating from the others rather than all reading up",
+        "what_it_cannot_settle": "⛔ A SCREEN HIT IS NOT ATTRIBUTED BY TARGET ABUNDANCE. An agent's "
+                                 "IC50 in one cell line reflects whichever of its targets that line "
+                                 "depends on, and dependency is not abundance — a target expressed at "
+                                 "the array floor can still be the one that matters, and a highly "
+                                 "expressed one need not be. This read can rule a target OUT of "
+                                 "consideration only where the gene is unreadable or clearly absent, "
+                                 "and can never rule one in. ⚠ The screen ran on ONE line, in "
+                                 "monolayer, at whatever concentrations the library used; nothing "
+                                 "here asserts activity, selectivity, safety, a therapeutic window or "
+                                 "clinical readiness for any of the three agents in this disease.",
+    },
     "surface_antigen": {
         "read_id": "read_8_SURFACE_ANTIGEN",
         "question": "Which candidate surface / therapeutic-address antigens are READABLE in EMC "
@@ -1966,7 +2004,11 @@ def _assemble_reads(res):
                         ("read_13_TXN_CDK", "transcriptional_cdk"),
                         ("read_14_CHAPERONE", "chaperone_dependency"),
                         ("read_15_SGK1", "sgk1_axis"),
-                        ("read_16_MMEJ", "ddr_mmej")):
+                        ("read_16_MMEJ", "ddr_mmej"),
+                        # read 17, added the same day: the targets of the three agents the only
+                        # published EMC drug screen actually returned, read from the curated library
+                        # records rather than from the lead's prose label.
+                        ("read_17_DRUG_SCREEN_TARGETS", "drug_screen_targets")):
         R[_rid] = _read_entry(res, _rid, _pkey)
 
     R["read_8_SURFACE_ANTIGEN"] = _read_entry(

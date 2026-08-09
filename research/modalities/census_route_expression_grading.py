@@ -204,6 +204,52 @@ def build():
                         "already contradict",
     }
 
+    # ────────────────────────── RT-ALK-HIT ──────────────────────────
+    # ⭐ THE ROUTE'S OWN FIRST STEP WAS "RE-READ THE COMMITTED SCREEN ARTIFACT FOR THE FULL HIT LIST",
+    # and doing it changes what the lead is. The screen returned THREE hits, and TWO of them are the
+    # same class as each other -- which is a within-screen class replication that the one-agent framing
+    # ("an ALK/ROS1-class inhibitor was among the hits") could not show.
+    routes["RT-ALK-HIT"] = {
+        "selecting_feature": "whichever of the hit agent's targets EMC actually depends on",
+        "direction_the_route_needed": "the agent's targets readable and high in EMC, with one "
+                                      "separating from the others",
+        "genes": {g: gene(p, g) for g in ("ALK", "ROS1", "EGFR", "HDAC1", "HDAC6", "HDAC9")},
+        "panel_groups": {"brigatinib_targets":
+                             group(p, "drug_screen_targets", "brigatinib_targets"),
+                         "hdac_class_i_ii": group(p, "drug_screen_targets", "hdac_class_i_ii"),
+                         "kinase_contrast": group(p, "drug_screen_targets", "kinase_contrast")},
+        "observed": "⛔ THE EXPRESSION INSTRUMENT CANNOT ATTRIBUTE THIS HIT, AND THAT IS AN INSTRUMENT "
+                    "STATEMENT AND NOT A NEGATIVE. Both kinases the lead names are NOT READABLE on "
+                    "EITHER platform — ALK and ROS1 have no probe on GPL6244 or GPL3290 — so the "
+                    "brigatinib target group cannot reach the panel's coverage floor and emits no "
+                    "score. The HDAC group is likewise underpowered, three of eight readable on each. "
+                    "The only gene of the named agent that IS readable, EGFR, is LOWER in EMC on both "
+                    "platforms. The generic kinase contrast is higher on both, which is exactly why it "
+                    "was included: a kinase group reading up here is not specific to anything. "
+                    "⭐ WHAT THE RE-READ DID SETTLE IS THE HIT LIST ITSELF. The screen's three "
+                    "low-IC50 agents are brigatinib, panobinostat and romidepsin, and the repository's "
+                    "own curated target records make the last two near-identical pan-HDAC agents. TWO "
+                    "OF THREE HITS ARE ONE CLASS. ⚠ And that class is already ON the board and closed "
+                    "on SELECTIVITY rather than on activity, so this replicates a known signal instead "
+                    "of opening a new route. ⚠ The curated record for the third agent names ALK and "
+                    "EGFR and does NOT name ROS1, although the lead that raised this route calls it "
+                    "the ALK/ROS1 class.",
+        "verdict": "UNATTRIBUTABLE BY EXPRESSION — and the re-read demotes the lead rather than "
+                   "grading it, because the screen's dominant signal belongs to a class the board "
+                   "already holds.",
+        "what_this_does_not_settle": "⛔ ABUNDANCE NEVER ATTRIBUTES A SCREEN HIT EVEN WHERE THE READ "
+                                     "SUCCEEDS. An IC50 reflects whichever target that line depends "
+                                     "on, and a target at the array floor can be the one that matters. "
+                                     "So this reading could only ever have ruled a target out, and for "
+                                     "the two it was raised to test it could not even do that. ⚠ One "
+                                     "cell line, monolayer, one library's concentrations; nothing here "
+                                     "asserts activity, selectivity, safety, a therapeutic window or "
+                                     "clinical readiness for any of the three agents in this disease.",
+        "route_action": "demote and fold into the kinase paper as a corrected reading of a lead — the "
+                        "attribution needs the model, not the arrays, and the screen's own weight sits "
+                        "with a class the board has already assessed",
+    }
+
     # ──────────────────────── RT-MATRIX-ADDRESS ────────────────────────
     # The route that reads the SAME panel as RT-MATRIX-SYNTHESIS and asks a different question of it:
     # not "is the tumour manufacturing its matrix" but "could it be making the oncofetal sulfation

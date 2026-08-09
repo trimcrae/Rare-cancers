@@ -482,6 +482,144 @@
       "what_this_does_not_settle": "The comparator arm is itself matrix-rich sarcoma, so this is a relative statement and not an absolute one; and bulk transcript of a biosynthetic enzyme need not track accumulated matrix mass in a tumour whose product is long-lived. The route needs reformulating rather than deleting.",
       "route_action": "re-scope: the premise must be restated in a form this reading does not already contradict"
     },
+    "RT-ALK-HIT": {
+      "selecting_feature": "whichever of the hit agent's targets EMC actually depends on",
+      "direction_the_route_needed": "the agent's targets readable and high in EMC, with one separating from the others",
+      "genes": {
+        "ALK": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          }
+        },
+        "ROS1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          }
+        },
+        "EGFR": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.581,
+            "emc_array_percentile": 0.7024,
+            "comparator_mean_z": 1.1998,
+            "delta_emc_minus_comparator": -0.6188
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.6621,
+            "emc_array_percentile": 0.25,
+            "comparator_mean_z": 0.0076,
+            "delta_emc_minus_comparator": -0.6697
+          }
+        },
+        "HDAC1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.0839,
+            "emc_array_percentile": 0.8587,
+            "comparator_mean_z": 1.3182,
+            "delta_emc_minus_comparator": -0.2343
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.5292,
+            "emc_array_percentile": 0.2626,
+            "comparator_mean_z": -0.4014,
+            "delta_emc_minus_comparator": -0.1278
+          }
+        },
+        "HDAC6": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.5661,
+            "emc_array_percentile": 0.7159,
+            "comparator_mean_z": 0.5902,
+            "delta_emc_minus_comparator": -0.0241
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.7334,
+            "emc_array_percentile": 0.7819,
+            "comparator_mean_z": 0.3096,
+            "delta_emc_minus_comparator": 0.4238
+          }
+        },
+        "HDAC9": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.0843,
+            "emc_array_percentile": 0.5163,
+            "comparator_mean_z": 0.1789,
+            "delta_emc_minus_comparator": -0.0946
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.455,
+            "emc_array_percentile": 0.3402,
+            "comparator_mean_z": 0.1478,
+            "delta_emc_minus_comparator": -0.6028
+          }
+        }
+      },
+      "panel_groups": {
+        "brigatinib_targets": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "⛔ UNDERPOWERED — 1/3 genes readable on GPL6244 (coverage 0.333); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology.",
+            "score": null
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "⛔ UNDERPOWERED — 1/3 genes readable on GPL3290 (coverage 0.333); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology.",
+            "score": null
+          }
+        },
+        "hdac_class_i_ii": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "⛔ UNDERPOWERED — 3/8 genes readable on GPL6244 (coverage 0.375); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology.",
+            "score": null
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "⛔ UNDERPOWERED — 3/8 genes readable on GPL3290 (coverage 0.375); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology.",
+            "score": null
+          }
+        },
+        "kinase_contrast": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.2828 SD units (t=2.607, df=6.6, n_EMC=6, n_comparator=29, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 2.607,
+              "df": 6.6,
+              "mean_a": 0.9121,
+              "mean_b": 0.6293,
+              "delta_a_minus_b": 0.2828
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.5298 SD units (t=3.277, df=13.7, n_EMC=10, n_comparator=6, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 3.277,
+              "df": 13.7,
+              "mean_a": 0.5155,
+              "mean_b": -0.0143,
+              "delta_a_minus_b": 0.5298
+            }
+          }
+        }
+      },
+      "observed": "⛔ THE EXPRESSION INSTRUMENT CANNOT ATTRIBUTE THIS HIT, AND THAT IS AN INSTRUMENT STATEMENT AND NOT A NEGATIVE. Both kinases the lead names are NOT READABLE on EITHER platform — ALK and ROS1 have no probe on GPL6244 or GPL3290 — so the brigatinib target group cannot reach the panel's coverage floor and emits no score. The HDAC group is likewise underpowered, three of eight readable on each. The only gene of the named agent that IS readable, EGFR, is LOWER in EMC on both platforms. The generic kinase contrast is higher on both, which is exactly why it was included: a kinase group reading up here is not specific to anything. ⭐ WHAT THE RE-READ DID SETTLE IS THE HIT LIST ITSELF. The screen's three low-IC50 agents are brigatinib, panobinostat and romidepsin, and the repository's own curated target records make the last two near-identical pan-HDAC agents. TWO OF THREE HITS ARE ONE CLASS. ⚠ And that class is already ON the board and closed on SELECTIVITY rather than on activity, so this replicates a known signal instead of opening a new route. ⚠ The curated record for the third agent names ALK and EGFR and does NOT name ROS1, although the lead that raised this route calls it the ALK/ROS1 class.",
+      "verdict": "UNATTRIBUTABLE BY EXPRESSION — and the re-read demotes the lead rather than grading it, because the screen's dominant signal belongs to a class the board already holds.",
+      "what_this_does_not_settle": "⛔ ABUNDANCE NEVER ATTRIBUTES A SCREEN HIT EVEN WHERE THE READ SUCCEEDS. An IC50 reflects whichever target that line depends on, and a target at the array floor can be the one that matters. So this reading could only ever have ruled a target out, and for the two it was raised to test it could not even do that. ⚠ One cell line, monolayer, one library's concentrations; nothing here asserts activity, selectivity, safety, a therapeutic window or clinical readiness for any of the three agents in this disease.",
+      "route_action": "demote and fold into the kinase paper as a corrected reading of a lead — the attribution needs the model, not the arrays, and the screen's own weight sits with a class the board has already assessed"
+    },
     "RT-MATRIX-ADDRESS": {
       "selecting_feature": "the placental-type oncofetal chondroitin-sulfate pattern on EMC tissue",
       "direction_the_route_needed": "the 4-O-sulfotransferase arm that writes the pattern, and the sulfate-donor module that supplies every sulfation, HIGH in EMC",
@@ -1735,6 +1873,7 @@
     ],
     "split_or_unread": [
       "RT-RET",
+      "RT-ALK-HIT",
       "RT-MATRIX-ADDRESS",
       "RT-IMMUNOCYTOKINE",
       "RT-NR2F1",

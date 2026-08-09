@@ -6676,6 +6676,22 @@
         "verdict": "READABLE on GPL3290 (2 probe(s)); EMC samples sit at the 61th percentile of this array's probe distribution. HIGHER in EMC by 1.1843 SD units of the array (|t| >= 3, t=3.636, df=11.5, n_EMC=10, n_comparator=6). \u26a0 Uncorrected for multiple testing."
       }
     },
+    "ALK": {
+      "GSE24369_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL6244",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL6244 maps to the symbol ALK. The platform's probe->symbol mapping covers 20235 of 28459 probes (rate 0.711), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether ALK is expressed in EMC."
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL3290",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL3290 maps to the symbol ALK. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether ALK is expressed in EMC."
+      }
+    },
     "ALPI": {
       "GSE24369_series_matrix.txt.gz": {
         "readable": true,
@@ -63650,6 +63666,1344 @@
         "verdict": "READABLE on GPL3290 (1 probe(s)); EMC samples sit at the 49th percentile of this array's probe distribution. HIGHER in EMC by 1.5077 SD units of the array (|t| 2-3, t=2.573, df=9.7, n_EMC=7, n_comparator=5). \u26a0 Uncorrected for multiple testing."
       }
     },
+    "HDAC1": {
+      "GSE24369_series_matrix.txt.gz": {
+        "readable": true,
+        "platform": "GPL6244",
+        "n_probes_mapping": 1,
+        "probe_ids": [
+          "7899774"
+        ],
+        "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+        "n_EMC_with_a_value": 6,
+        "n_comparator_with_a_value": 29,
+        "EMC": {
+          "mean_z": 1.0839,
+          "mean_array_percentile": 0.8587
+        },
+        "comparator": {
+          "mean_z": 1.3182,
+          "mean_array_percentile": 0.9066
+        },
+        "per_sample": [
+          {
+            "gsm": "GSM600928",
+            "class": "desmoid_fibromatosis",
+            "value": 8.8602,
+            "z_vs_array": 1.2649,
+            "array_percentile": 0.9054
+          },
+          {
+            "gsm": "GSM600929",
+            "class": "desmoid_fibromatosis",
+            "value": 8.982,
+            "z_vs_array": 1.2877,
+            "array_percentile": 0.9104
+          },
+          {
+            "gsm": "GSM600930",
+            "class": "desmoid_fibromatosis",
+            "value": 9.1099,
+            "z_vs_array": 1.3463,
+            "array_percentile": 0.9142
+          },
+          {
+            "gsm": "GSM600931",
+            "class": "desmoid_fibromatosis",
+            "value": 8.6896,
+            "z_vs_array": 1.1543,
+            "array_percentile": 0.8884
+          },
+          {
+            "gsm": "GSM600932",
+            "class": "desmoid_fibromatosis",
+            "value": 8.9517,
+            "z_vs_array": 1.2935,
+            "array_percentile": 0.911
+          },
+          {
+            "gsm": "GSM600933",
+            "class": "desmoid_fibromatosis",
+            "value": 8.9373,
+            "z_vs_array": 1.272,
+            "array_percentile": 0.9039
+          },
+          {
+            "gsm": "GSM600934",
+            "class": "EMC",
+            "value": 7.7469,
+            "z_vs_array": 0.637,
+            "array_percentile": 0.7497
+          },
+          {
+            "gsm": "GSM600935",
+            "class": "EMC",
+            "value": 9.6066,
+            "z_vs_array": 1.5499,
+            "array_percentile": 0.9441
+          },
+          {
+            "gsm": "GSM600936",
+            "class": "EMC",
+            "value": 8.6359,
+            "z_vs_array": 1.081,
+            "array_percentile": 0.8706
+          },
+          {
+            "gsm": "GSM600937",
+            "class": "EMC",
+            "value": 8.6265,
+            "z_vs_array": 1.0664,
+            "array_percentile": 0.8613
+          },
+          {
+            "gsm": "GSM600938",
+            "class": "EMC",
+            "value": 9.1888,
+            "z_vs_array": 1.3458,
+            "array_percentile": 0.9168
+          },
+          {
+            "gsm": "GSM600939",
+            "class": "EMC",
+            "value": 8.0909,
+            "z_vs_array": 0.8231,
+            "array_percentile": 0.8095
+          },
+          {
+            "gsm": "GSM600940",
+            "class": "LGFMS",
+            "value": 9.6094,
+            "z_vs_array": 1.5823,
+            "array_percentile": 0.9501
+          },
+          {
+            "gsm": "GSM600941",
+            "class": "LGFMS",
+            "value": 9.6451,
+            "z_vs_array": 1.5734,
+            "array_percentile": 0.9485
+          },
+          {
+            "gsm": "GSM600942",
+            "class": "LGFMS",
+            "value": 9.2093,
+            "z_vs_array": 1.3755,
+            "array_percentile": 0.9251
+          },
+          {
+            "gsm": "GSM600943",
+            "class": "LGFMS",
+            "value": 9.5668,
+            "z_vs_array": 1.5549,
+            "array_percentile": 0.9461
+          },
+          {
+            "gsm": "GSM600944",
+            "class": "LGFMS",
+            "value": 9.67,
+            "z_vs_array": 1.6206,
+            "array_percentile": 0.9527
+          },
+          {
+            "gsm": "GSM600945",
+            "class": "LGFMS",
+            "value": 9.2677,
+            "z_vs_array": 1.4189,
+            "array_percentile": 0.9334
+          },
+          {
+            "gsm": "GSM600946",
+            "class": "LGFMS",
+            "value": 8.9914,
+            "z_vs_array": 1.2723,
+            "array_percentile": 0.9081
+          },
+          {
+            "gsm": "GSM600947",
+            "class": "LGFMS",
+            "value": 9.0434,
+            "z_vs_array": 1.296,
+            "array_percentile": 0.9079
+          },
+          {
+            "gsm": "GSM600948",
+            "class": "LGFMS",
+            "value": 9.5794,
+            "z_vs_array": 1.5562,
+            "array_percentile": 0.9486
+          },
+          {
+            "gsm": "GSM600949",
+            "class": "LGFMS",
+            "value": 9.5576,
+            "z_vs_array": 1.5585,
+            "array_percentile": 0.9487
+          },
+          {
+            "gsm": "GSM600950",
+            "class": "LGFMS",
+            "value": 9.9495,
+            "z_vs_array": 1.737,
+            "array_percentile": 0.9637
+          },
+          {
+            "gsm": "GSM600951",
+            "class": "LGFMS",
+            "value": 9.1233,
+            "z_vs_array": 1.3658,
+            "array_percentile": 0.9255
+          },
+          {
+            "gsm": "GSM600952",
+            "class": "LGFMS",
+            "value": 9.1932,
+            "z_vs_array": 1.4042,
+            "array_percentile": 0.9327
+          },
+          {
+            "gsm": "GSM600953",
+            "class": "LGFMS",
+            "value": 9.4825,
+            "z_vs_array": 1.5168,
+            "array_percentile": 0.9414
+          },
+          {
+            "gsm": "GSM600954",
+            "class": "LGFMS",
+            "value": 8.7767,
+            "z_vs_array": 1.1681,
+            "array_percentile": 0.8902
+          },
+          {
+            "gsm": "GSM600955",
+            "class": "LGFMS",
+            "value": 9.6527,
+            "z_vs_array": 1.6169,
+            "array_percentile": 0.955
+          },
+          {
+            "gsm": "GSM600956",
+            "class": "LGFMS",
+            "value": 9.2898,
+            "z_vs_array": 1.4094,
+            "array_percentile": 0.9305
+          },
+          {
+            "gsm": "GSM600957",
+            "class": "fibrosarcoma",
+            "value": 8.6881,
+            "z_vs_array": 1.1454,
+            "array_percentile": 0.8898
+          },
+          {
+            "gsm": "GSM600958",
+            "class": "fibrosarcoma",
+            "value": 8.1285,
+            "z_vs_array": 0.8627,
+            "array_percentile": 0.8283
+          },
+          {
+            "gsm": "GSM600959",
+            "class": "fibrosarcoma",
+            "value": 8.5738,
+            "z_vs_array": 1.0576,
+            "array_percentile": 0.8629
+          },
+          {
+            "gsm": "GSM600960",
+            "class": "fibrosarcoma",
+            "value": 9.0904,
+            "z_vs_array": 1.3047,
+            "array_percentile": 0.9103
+          },
+          {
+            "gsm": "GSM600961",
+            "class": "fibrosarcoma",
+            "value": 7.7843,
+            "z_vs_array": 0.6528,
+            "array_percentile": 0.7557
+          },
+          {
+            "gsm": "GSM600962",
+            "class": "fibrosarcoma",
+            "value": 7.6066,
+            "z_vs_array": 0.5579,
+            "array_percentile": 0.7033
+          }
+        ],
+        "welch_EMC_vs_comparator": {
+          "t": -1.614,
+          "df": 6.5,
+          "mean_a": 1.0839,
+          "mean_b": 1.3182,
+          "delta_a_minus_b": -0.2343
+        },
+        "_sign": "delta_a_minus_b > 0 means HIGHER in EMC than in the comparator sarcomas.",
+        "verdict": "READABLE on GPL6244 (1 probe(s)); EMC samples sit at the 86th percentile of this array's probe distribution. LOWER in EMC by 0.2343 SD units of the array (|t| < 2 \u2014 flat, t=-1.614, df=6.5, n_EMC=6, n_comparator=29). \u26a0 Uncorrected for multiple testing."
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "readable": true,
+        "platform": "GPL3290",
+        "n_probes_mapping": 1,
+        "probe_ids": [
+          "2860"
+        ],
+        "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE \u2014 an absolute level is NOT interpretable; only the between-group contrast is)",
+        "n_EMC_with_a_value": 10,
+        "n_comparator_with_a_value": 6,
+        "EMC": {
+          "mean_z": -0.5292,
+          "mean_array_percentile": 0.2626
+        },
+        "comparator": {
+          "mean_z": -0.4014,
+          "mean_array_percentile": 0.3231
+        },
+        "per_sample": [
+          {
+            "gsm": "GSM89883",
+            "class": "DFSP",
+            "value": -1.396,
+            "z_vs_array": -0.6247,
+            "array_percentile": 0.2066
+          },
+          {
+            "gsm": "GSM89898",
+            "class": "DFSP",
+            "value": -1.733,
+            "z_vs_array": -1.1475,
+            "array_percentile": 0.0974
+          },
+          {
+            "gsm": "GSM89924",
+            "class": "DFSP",
+            "value": -1.061,
+            "z_vs_array": -0.4869,
+            "array_percentile": 0.252
+          },
+          {
+            "gsm": "GSM91381",
+            "class": "GIST",
+            "value": 0.175,
+            "z_vs_array": 0.3298,
+            "array_percentile": 0.6641
+          },
+          {
+            "gsm": "GSM91397",
+            "class": "GIST",
+            "value": -0.489,
+            "z_vs_array": -0.0374,
+            "array_percentile": 0.4515
+          },
+          {
+            "gsm": "GSM91405",
+            "class": "GIST",
+            "value": -1.124,
+            "z_vs_array": -0.4417,
+            "array_percentile": 0.267
+          },
+          {
+            "gsm": "GSM98495",
+            "class": "EMC",
+            "value": -1.476,
+            "z_vs_array": -0.4824,
+            "array_percentile": 0.2503
+          },
+          {
+            "gsm": "GSM98496",
+            "class": "EMC",
+            "value": -1.358,
+            "z_vs_array": -0.4429,
+            "array_percentile": 0.2759
+          },
+          {
+            "gsm": "GSM98499",
+            "class": "EMC",
+            "value": -2.355,
+            "z_vs_array": -0.9372,
+            "array_percentile": 0.1496
+          },
+          {
+            "gsm": "GSM98503",
+            "class": "EMC",
+            "value": -1.337,
+            "z_vs_array": -0.7316,
+            "array_percentile": 0.1906
+          },
+          {
+            "gsm": "GSM98506",
+            "class": "EMC",
+            "value": -0.433,
+            "z_vs_array": 0.0449,
+            "array_percentile": 0.5212
+          },
+          {
+            "gsm": "GSM98509",
+            "class": "EMC",
+            "value": -1.001,
+            "z_vs_array": -0.1727,
+            "array_percentile": 0.3695
+          },
+          {
+            "gsm": "GSM98510",
+            "class": "EMC",
+            "value": -2.109,
+            "z_vs_array": -0.7726,
+            "array_percentile": 0.1753
+          },
+          {
+            "gsm": "GSM98511",
+            "class": "EMC",
+            "value": -1.516,
+            "z_vs_array": -0.706,
+            "array_percentile": 0.2002
+          },
+          {
+            "gsm": "GSM98512",
+            "class": "EMC",
+            "value": -1.828,
+            "z_vs_array": -0.6399,
+            "array_percentile": 0.2297
+          },
+          {
+            "gsm": "GSM98513",
+            "class": "EMC",
+            "value": -1.475,
+            "z_vs_array": -0.4516,
+            "array_percentile": 0.264
+          }
+        ],
+        "welch_EMC_vs_comparator": {
+          "t": -0.563,
+          "df": 7.1,
+          "mean_a": -0.5292,
+          "mean_b": -0.4014,
+          "delta_a_minus_b": -0.1278
+        },
+        "_sign": "delta_a_minus_b > 0 means HIGHER in EMC than in the comparator sarcomas.",
+        "verdict": "READABLE on GPL3290 (1 probe(s)); EMC samples sit at the 26th percentile of this array's probe distribution. LOWER in EMC by 0.1278 SD units of the array (|t| < 2 \u2014 flat, t=-0.563, df=7.1, n_EMC=10, n_comparator=6). \u26a0 Uncorrected for multiple testing."
+      }
+    },
+    "HDAC2": {
+      "GSE24369_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL6244",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL6244 maps to the symbol HDAC2. The platform's probe->symbol mapping covers 20235 of 28459 probes (rate 0.711), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether HDAC2 is expressed in EMC."
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL3290",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL3290 maps to the symbol HDAC2. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether HDAC2 is expressed in EMC."
+      }
+    },
+    "HDAC3": {
+      "GSE24369_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL6244",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL6244 maps to the symbol HDAC3. The platform's probe->symbol mapping covers 20235 of 28459 probes (rate 0.711), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether HDAC3 is expressed in EMC."
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL3290",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL3290 maps to the symbol HDAC3. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether HDAC3 is expressed in EMC."
+      }
+    },
+    "HDAC4": {
+      "GSE24369_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL6244",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL6244 maps to the symbol HDAC4. The platform's probe->symbol mapping covers 20235 of 28459 probes (rate 0.711), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether HDAC4 is expressed in EMC."
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL3290",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL3290 maps to the symbol HDAC4. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether HDAC4 is expressed in EMC."
+      }
+    },
+    "HDAC6": {
+      "GSE24369_series_matrix.txt.gz": {
+        "readable": true,
+        "platform": "GPL6244",
+        "n_probes_mapping": 1,
+        "probe_ids": [
+          "8167369"
+        ],
+        "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+        "n_EMC_with_a_value": 6,
+        "n_comparator_with_a_value": 29,
+        "EMC": {
+          "mean_z": 0.5661,
+          "mean_array_percentile": 0.7159
+        },
+        "comparator": {
+          "mean_z": 0.5902,
+          "mean_array_percentile": 0.7215
+        },
+        "per_sample": [
+          {
+            "gsm": "GSM600928",
+            "class": "desmoid_fibromatosis",
+            "value": 7.5763,
+            "z_vs_array": 0.566,
+            "array_percentile": 0.724
+          },
+          {
+            "gsm": "GSM600929",
+            "class": "desmoid_fibromatosis",
+            "value": 7.5331,
+            "z_vs_array": 0.5332,
+            "array_percentile": 0.708
+          },
+          {
+            "gsm": "GSM600930",
+            "class": "desmoid_fibromatosis",
+            "value": 7.4907,
+            "z_vs_array": 0.5105,
+            "array_percentile": 0.6955
+          },
+          {
+            "gsm": "GSM600931",
+            "class": "desmoid_fibromatosis",
+            "value": 7.4203,
+            "z_vs_array": 0.4835,
+            "array_percentile": 0.6805
+          },
+          {
+            "gsm": "GSM600932",
+            "class": "desmoid_fibromatosis",
+            "value": 7.5219,
+            "z_vs_array": 0.5362,
+            "array_percentile": 0.7094
+          },
+          {
+            "gsm": "GSM600933",
+            "class": "desmoid_fibromatosis",
+            "value": 7.6349,
+            "z_vs_array": 0.5889,
+            "array_percentile": 0.7259
+          },
+          {
+            "gsm": "GSM600934",
+            "class": "EMC",
+            "value": 7.7109,
+            "z_vs_array": 0.6182,
+            "array_percentile": 0.7426
+          },
+          {
+            "gsm": "GSM600935",
+            "class": "EMC",
+            "value": 7.6227,
+            "z_vs_array": 0.5619,
+            "array_percentile": 0.7137
+          },
+          {
+            "gsm": "GSM600936",
+            "class": "EMC",
+            "value": 7.5655,
+            "z_vs_array": 0.5376,
+            "array_percentile": 0.7047
+          },
+          {
+            "gsm": "GSM600937",
+            "class": "EMC",
+            "value": 7.6124,
+            "z_vs_array": 0.5603,
+            "array_percentile": 0.7074
+          },
+          {
+            "gsm": "GSM600938",
+            "class": "EMC",
+            "value": 7.5172,
+            "z_vs_array": 0.5087,
+            "array_percentile": 0.6905
+          },
+          {
+            "gsm": "GSM600939",
+            "class": "EMC",
+            "value": 7.6818,
+            "z_vs_array": 0.6097,
+            "array_percentile": 0.7368
+          },
+          {
+            "gsm": "GSM600940",
+            "class": "LGFMS",
+            "value": 7.7764,
+            "z_vs_array": 0.6495,
+            "array_percentile": 0.7417
+          },
+          {
+            "gsm": "GSM600941",
+            "class": "LGFMS",
+            "value": 7.752,
+            "z_vs_array": 0.6287,
+            "array_percentile": 0.7317
+          },
+          {
+            "gsm": "GSM600942",
+            "class": "LGFMS",
+            "value": 7.6677,
+            "z_vs_array": 0.5984,
+            "array_percentile": 0.7211
+          },
+          {
+            "gsm": "GSM600943",
+            "class": "LGFMS",
+            "value": 7.8302,
+            "z_vs_array": 0.6765,
+            "array_percentile": 0.7499
+          },
+          {
+            "gsm": "GSM600944",
+            "class": "LGFMS",
+            "value": 7.3929,
+            "z_vs_array": 0.4606,
+            "array_percentile": 0.676
+          },
+          {
+            "gsm": "GSM600945",
+            "class": "LGFMS",
+            "value": 7.7527,
+            "z_vs_array": 0.6471,
+            "array_percentile": 0.7434
+          },
+          {
+            "gsm": "GSM600946",
+            "class": "LGFMS",
+            "value": 7.6138,
+            "z_vs_array": 0.5623,
+            "array_percentile": 0.7201
+          },
+          {
+            "gsm": "GSM600947",
+            "class": "LGFMS",
+            "value": 7.2971,
+            "z_vs_array": 0.4055,
+            "array_percentile": 0.6569
+          },
+          {
+            "gsm": "GSM600948",
+            "class": "LGFMS",
+            "value": 7.666,
+            "z_vs_array": 0.5933,
+            "array_percentile": 0.7204
+          },
+          {
+            "gsm": "GSM600949",
+            "class": "LGFMS",
+            "value": 7.6777,
+            "z_vs_array": 0.5992,
+            "array_percentile": 0.7275
+          },
+          {
+            "gsm": "GSM600950",
+            "class": "LGFMS",
+            "value": 7.8009,
+            "z_vs_array": 0.661,
+            "array_percentile": 0.7365
+          },
+          {
+            "gsm": "GSM600951",
+            "class": "LGFMS",
+            "value": 7.6995,
+            "z_vs_array": 0.6253,
+            "array_percentile": 0.7407
+          },
+          {
+            "gsm": "GSM600952",
+            "class": "LGFMS",
+            "value": 7.617,
+            "z_vs_array": 0.5817,
+            "array_percentile": 0.7213
+          },
+          {
+            "gsm": "GSM600953",
+            "class": "LGFMS",
+            "value": 7.5191,
+            "z_vs_array": 0.5184,
+            "array_percentile": 0.6964
+          },
+          {
+            "gsm": "GSM600954",
+            "class": "LGFMS",
+            "value": 7.4178,
+            "z_vs_array": 0.4629,
+            "array_percentile": 0.6791
+          },
+          {
+            "gsm": "GSM600955",
+            "class": "LGFMS",
+            "value": 7.7748,
+            "z_vs_array": 0.65,
+            "array_percentile": 0.7424
+          },
+          {
+            "gsm": "GSM600956",
+            "class": "LGFMS",
+            "value": 8.0432,
+            "z_vs_array": 0.7841,
+            "array_percentile": 0.7858
+          },
+          {
+            "gsm": "GSM600957",
+            "class": "fibrosarcoma",
+            "value": 7.4093,
+            "z_vs_array": 0.4714,
+            "array_percentile": 0.6766
+          },
+          {
+            "gsm": "GSM600958",
+            "class": "fibrosarcoma",
+            "value": 7.3122,
+            "z_vs_array": 0.4272,
+            "array_percentile": 0.6563
+          },
+          {
+            "gsm": "GSM600959",
+            "class": "fibrosarcoma",
+            "value": 8.4668,
+            "z_vs_array": 1.0026,
+            "array_percentile": 0.8495
+          },
+          {
+            "gsm": "GSM600960",
+            "class": "fibrosarcoma",
+            "value": 7.4377,
+            "z_vs_array": 0.4736,
+            "array_percentile": 0.6773
+          },
+          {
+            "gsm": "GSM600961",
+            "class": "fibrosarcoma",
+            "value": 7.629,
+            "z_vs_array": 0.5685,
+            "array_percentile": 0.7264
+          },
+          {
+            "gsm": "GSM600962",
+            "class": "fibrosarcoma",
+            "value": 8.1837,
+            "z_vs_array": 0.8491,
+            "array_percentile": 0.8033
+          }
+        ],
+        "welch_EMC_vs_comparator": {
+          "t": -0.827,
+          "df": 25.6,
+          "mean_a": 0.5661,
+          "mean_b": 0.5902,
+          "delta_a_minus_b": -0.0241
+        },
+        "_sign": "delta_a_minus_b > 0 means HIGHER in EMC than in the comparator sarcomas.",
+        "verdict": "READABLE on GPL6244 (1 probe(s)); EMC samples sit at the 72th percentile of this array's probe distribution. LOWER in EMC by 0.0241 SD units of the array (|t| < 2 \u2014 flat, t=-0.827, df=25.6, n_EMC=6, n_comparator=29). \u26a0 Uncorrected for multiple testing."
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "readable": true,
+        "platform": "GPL3290",
+        "n_probes_mapping": 1,
+        "probe_ids": [
+          "9396"
+        ],
+        "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE \u2014 an absolute level is NOT interpretable; only the between-group contrast is)",
+        "n_EMC_with_a_value": 10,
+        "n_comparator_with_a_value": 6,
+        "EMC": {
+          "mean_z": 0.7334,
+          "mean_array_percentile": 0.7819
+        },
+        "comparator": {
+          "mean_z": 0.3096,
+          "mean_array_percentile": 0.6259
+        },
+        "per_sample": [
+          {
+            "gsm": "GSM89883",
+            "class": "DFSP",
+            "value": 0.655,
+            "z_vs_array": 0.6581,
+            "array_percentile": 0.7947
+          },
+          {
+            "gsm": "GSM89898",
+            "class": "DFSP",
+            "value": 0.628,
+            "z_vs_array": 0.5459,
+            "array_percentile": 0.7541
+          },
+          {
+            "gsm": "GSM89924",
+            "class": "DFSP",
+            "value": 0.942,
+            "z_vs_array": 0.7107,
+            "array_percentile": 0.8099
+          },
+          {
+            "gsm": "GSM91381",
+            "class": "GIST",
+            "value": -0.593,
+            "z_vs_array": -0.0913,
+            "array_percentile": 0.4294
+          },
+          {
+            "gsm": "GSM91397",
+            "class": "GIST",
+            "value": -0.035,
+            "z_vs_array": 0.2328,
+            "array_percentile": 0.6019
+          },
+          {
+            "gsm": "GSM91405",
+            "class": "GIST",
+            "value": -0.739,
+            "z_vs_array": -0.1985,
+            "array_percentile": 0.3655
+          },
+          {
+            "gsm": "GSM98495",
+            "class": "EMC",
+            "value": -0.357,
+            "z_vs_array": 0.1661,
+            "array_percentile": 0.5436
+          },
+          {
+            "gsm": "GSM98496",
+            "class": "EMC",
+            "value": 1.655,
+            "z_vs_array": 1.2588,
+            "array_percentile": 0.9171
+          },
+          {
+            "gsm": "GSM98499",
+            "class": "EMC",
+            "value": 0.904,
+            "z_vs_array": 0.8378,
+            "array_percentile": 0.8316
+          },
+          {
+            "gsm": "GSM98503",
+            "class": "EMC",
+            "value": 0.06,
+            "z_vs_array": 0.2986,
+            "array_percentile": 0.6497
+          },
+          {
+            "gsm": "GSM98506",
+            "class": "EMC",
+            "value": 1.48,
+            "z_vs_array": 1.0216,
+            "array_percentile": 0.8829
+          },
+          {
+            "gsm": "GSM98509",
+            "class": "EMC",
+            "value": 0.989,
+            "z_vs_array": 0.9947,
+            "array_percentile": 0.8752
+          },
+          {
+            "gsm": "GSM98510",
+            "class": "EMC",
+            "value": 1.008,
+            "z_vs_array": 0.8322,
+            "array_percentile": 0.839
+          },
+          {
+            "gsm": "GSM98511",
+            "class": "EMC",
+            "value": 0.617,
+            "z_vs_array": 0.6338,
+            "array_percentile": 0.7753
+          },
+          {
+            "gsm": "GSM98512",
+            "class": "EMC",
+            "value": 0.78,
+            "z_vs_array": 0.8447,
+            "array_percentile": 0.826
+          },
+          {
+            "gsm": "GSM98513",
+            "class": "EMC",
+            "value": 0.112,
+            "z_vs_array": 0.4455,
+            "array_percentile": 0.6786
+          }
+        ],
+        "welch_EMC_vs_comparator": {
+          "t": 2.195,
+          "df": 9.6,
+          "mean_a": 0.7334,
+          "mean_b": 0.3096,
+          "delta_a_minus_b": 0.4238
+        },
+        "_sign": "delta_a_minus_b > 0 means HIGHER in EMC than in the comparator sarcomas.",
+        "verdict": "READABLE on GPL3290 (1 probe(s)); EMC samples sit at the 78th percentile of this array's probe distribution. HIGHER in EMC by 0.4238 SD units of the array (|t| 2-3, t=2.195, df=9.6, n_EMC=10, n_comparator=6). \u26a0 Uncorrected for multiple testing."
+      }
+    },
+    "HDAC7": {
+      "GSE24369_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL6244",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL6244 maps to the symbol HDAC7. The platform's probe->symbol mapping covers 20235 of 28459 probes (rate 0.711), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether HDAC7 is expressed in EMC."
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL3290",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL3290 maps to the symbol HDAC7. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether HDAC7 is expressed in EMC."
+      }
+    },
+    "HDAC8": {
+      "GSE24369_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL6244",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL6244 maps to the symbol HDAC8. The platform's probe->symbol mapping covers 20235 of 28459 probes (rate 0.711), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether HDAC8 is expressed in EMC."
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL3290",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL3290 maps to the symbol HDAC8. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether HDAC8 is expressed in EMC."
+      }
+    },
+    "HDAC9": {
+      "GSE24369_series_matrix.txt.gz": {
+        "readable": true,
+        "platform": "GPL6244",
+        "n_probes_mapping": 1,
+        "probe_ids": [
+          "8131631"
+        ],
+        "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
+        "n_EMC_with_a_value": 6,
+        "n_comparator_with_a_value": 29,
+        "EMC": {
+          "mean_z": 0.0843,
+          "mean_array_percentile": 0.5163
+        },
+        "comparator": {
+          "mean_z": 0.1789,
+          "mean_array_percentile": 0.5535
+        },
+        "per_sample": [
+          {
+            "gsm": "GSM600928",
+            "class": "desmoid_fibromatosis",
+            "value": 6.9456,
+            "z_vs_array": 0.2227,
+            "array_percentile": 0.5777
+          },
+          {
+            "gsm": "GSM600929",
+            "class": "desmoid_fibromatosis",
+            "value": 7.1415,
+            "z_vs_array": 0.3292,
+            "array_percentile": 0.6195
+          },
+          {
+            "gsm": "GSM600930",
+            "class": "desmoid_fibromatosis",
+            "value": 6.9277,
+            "z_vs_array": 0.2198,
+            "array_percentile": 0.5818
+          },
+          {
+            "gsm": "GSM600931",
+            "class": "desmoid_fibromatosis",
+            "value": 7.0209,
+            "z_vs_array": 0.2725,
+            "array_percentile": 0.5894
+          },
+          {
+            "gsm": "GSM600932",
+            "class": "desmoid_fibromatosis",
+            "value": 6.9576,
+            "z_vs_array": 0.2374,
+            "array_percentile": 0.581
+          },
+          {
+            "gsm": "GSM600933",
+            "class": "desmoid_fibromatosis",
+            "value": 8.1616,
+            "z_vs_array": 0.8652,
+            "array_percentile": 0.8129
+          },
+          {
+            "gsm": "GSM600934",
+            "class": "EMC",
+            "value": 6.6792,
+            "z_vs_array": 0.0803,
+            "array_percentile": 0.506
+          },
+          {
+            "gsm": "GSM600935",
+            "class": "EMC",
+            "value": 7.3055,
+            "z_vs_array": 0.4039,
+            "array_percentile": 0.655
+          },
+          {
+            "gsm": "GSM600936",
+            "class": "EMC",
+            "value": 6.9822,
+            "z_vs_array": 0.2415,
+            "array_percentile": 0.5854
+          },
+          {
+            "gsm": "GSM600937",
+            "class": "EMC",
+            "value": 6.4586,
+            "z_vs_array": -0.0155,
+            "array_percentile": 0.4807
+          },
+          {
+            "gsm": "GSM600938",
+            "class": "EMC",
+            "value": 6.1743,
+            "z_vs_array": -0.1637,
+            "array_percentile": 0.4193
+          },
+          {
+            "gsm": "GSM600939",
+            "class": "EMC",
+            "value": 6.4352,
+            "z_vs_array": -0.0408,
+            "array_percentile": 0.4512
+          },
+          {
+            "gsm": "GSM600940",
+            "class": "LGFMS",
+            "value": 7.097,
+            "z_vs_array": 0.3037,
+            "array_percentile": 0.6076
+          },
+          {
+            "gsm": "GSM600941",
+            "class": "LGFMS",
+            "value": 6.8208,
+            "z_vs_array": 0.164,
+            "array_percentile": 0.5531
+          },
+          {
+            "gsm": "GSM600942",
+            "class": "LGFMS",
+            "value": 6.8834,
+            "z_vs_array": 0.203,
+            "array_percentile": 0.5606
+          },
+          {
+            "gsm": "GSM600943",
+            "class": "LGFMS",
+            "value": 7.4053,
+            "z_vs_array": 0.4616,
+            "array_percentile": 0.6691
+          },
+          {
+            "gsm": "GSM600944",
+            "class": "LGFMS",
+            "value": 6.9537,
+            "z_vs_array": 0.2369,
+            "array_percentile": 0.5833
+          },
+          {
+            "gsm": "GSM600945",
+            "class": "LGFMS",
+            "value": 7.6114,
+            "z_vs_array": 0.5751,
+            "array_percentile": 0.7149
+          },
+          {
+            "gsm": "GSM600946",
+            "class": "LGFMS",
+            "value": 5.3992,
+            "z_vs_array": -0.579,
+            "array_percentile": 0.2632
+          },
+          {
+            "gsm": "GSM600947",
+            "class": "LGFMS",
+            "value": 6.7132,
+            "z_vs_array": 0.1077,
+            "array_percentile": 0.531
+          },
+          {
+            "gsm": "GSM600948",
+            "class": "LGFMS",
+            "value": 7.0294,
+            "z_vs_array": 0.273,
+            "array_percentile": 0.5939
+          },
+          {
+            "gsm": "GSM600949",
+            "class": "LGFMS",
+            "value": 6.7183,
+            "z_vs_array": 0.1096,
+            "array_percentile": 0.5202
+          },
+          {
+            "gsm": "GSM600950",
+            "class": "LGFMS",
+            "value": 6.873,
+            "z_vs_array": 0.1964,
+            "array_percentile": 0.5651
+          },
+          {
+            "gsm": "GSM600951",
+            "class": "LGFMS",
+            "value": 7.0172,
+            "z_vs_array": 0.2704,
+            "array_percentile": 0.5901
+          },
+          {
+            "gsm": "GSM600952",
+            "class": "LGFMS",
+            "value": 6.6128,
+            "z_vs_array": 0.0578,
+            "array_percentile": 0.4952
+          },
+          {
+            "gsm": "GSM600953",
+            "class": "LGFMS",
+            "value": 6.8922,
+            "z_vs_array": 0.1996,
+            "array_percentile": 0.5696
+          },
+          {
+            "gsm": "GSM600954",
+            "class": "LGFMS",
+            "value": 6.7705,
+            "z_vs_array": 0.127,
+            "array_percentile": 0.528
+          },
+          {
+            "gsm": "GSM600955",
+            "class": "LGFMS",
+            "value": 7.1301,
+            "z_vs_array": 0.318,
+            "array_percentile": 0.6109
+          },
+          {
+            "gsm": "GSM600956",
+            "class": "LGFMS",
+            "value": 7.0835,
+            "z_vs_array": 0.3028,
+            "array_percentile": 0.6007
+          },
+          {
+            "gsm": "GSM600957",
+            "class": "fibrosarcoma",
+            "value": 6.2672,
+            "z_vs_array": -0.1306,
+            "array_percentile": 0.4084
+          },
+          {
+            "gsm": "GSM600958",
+            "class": "fibrosarcoma",
+            "value": 6.8001,
+            "z_vs_array": 0.1539,
+            "array_percentile": 0.5267
+          },
+          {
+            "gsm": "GSM600959",
+            "class": "fibrosarcoma",
+            "value": 6.5253,
+            "z_vs_array": 0.004,
+            "array_percentile": 0.479
+          },
+          {
+            "gsm": "GSM600960",
+            "class": "fibrosarcoma",
+            "value": 6.2038,
+            "z_vs_array": -0.1469,
+            "array_percentile": 0.4247
+          },
+          {
+            "gsm": "GSM600961",
+            "class": "fibrosarcoma",
+            "value": 6.4308,
+            "z_vs_array": -0.0818,
+            "array_percentile": 0.4464
+          },
+          {
+            "gsm": "GSM600962",
+            "class": "fibrosarcoma",
+            "value": 6.3341,
+            "z_vs_array": -0.0842,
+            "array_percentile": 0.4477
+          }
+        ],
+        "welch_EMC_vs_comparator": {
+          "t": -0.979,
+          "df": 8.4,
+          "mean_a": 0.0843,
+          "mean_b": 0.1789,
+          "delta_a_minus_b": -0.0946
+        },
+        "_sign": "delta_a_minus_b > 0 means HIGHER in EMC than in the comparator sarcomas.",
+        "verdict": "READABLE on GPL6244 (1 probe(s)); EMC samples sit at the 52th percentile of this array's probe distribution. LOWER in EMC by 0.0946 SD units of the array (|t| < 2 \u2014 flat, t=-0.979, df=8.4, n_EMC=6, n_comparator=29). \u26a0 Uncorrected for multiple testing."
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "readable": true,
+        "platform": "GPL3290",
+        "n_probes_mapping": 2,
+        "probe_ids": [
+          "11190",
+          "20111"
+        ],
+        "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE \u2014 an absolute level is NOT interpretable; only the between-group contrast is)",
+        "n_EMC_with_a_value": 8,
+        "n_comparator_with_a_value": 5,
+        "EMC": {
+          "mean_z": -0.455,
+          "mean_array_percentile": 0.3402
+        },
+        "comparator": {
+          "mean_z": 0.1478,
+          "mean_array_percentile": 0.506
+        },
+        "per_sample": [
+          {
+            "gsm": "GSM89883",
+            "class": "DFSP",
+            "value": -1.486,
+            "z_vs_array": -0.681,
+            "array_percentile": 0.1925
+          },
+          {
+            "gsm": "GSM89898",
+            "class": "DFSP",
+            "value": -0.288,
+            "z_vs_array": -0.1111,
+            "array_percentile": 0.4305
+          },
+          {
+            "gsm": "GSM89924",
+            "class": "DFSP",
+            "value": 0.3105,
+            "z_vs_array": 0.3332,
+            "array_percentile": 0.6571
+          },
+          {
+            "gsm": "GSM91381",
+            "class": "GIST",
+            "value": -1.074,
+            "z_vs_array": -0.355,
+            "array_percentile": 0.3036
+          },
+          {
+            "gsm": "GSM91397",
+            "class": "GIST",
+            "value": 2.1835,
+            "z_vs_array": 1.5529,
+            "array_percentile": 0.9462
+          },
+          {
+            "gsm": "GSM91405",
+            "class": "GIST",
+            "value": null,
+            "z_vs_array": null,
+            "array_percentile": null
+          },
+          {
+            "gsm": "GSM98495",
+            "class": "EMC",
+            "value": -2.7145,
+            "z_vs_array": -1.2002,
+            "array_percentile": 0.1036
+          },
+          {
+            "gsm": "GSM98496",
+            "class": "EMC",
+            "value": null,
+            "z_vs_array": null,
+            "array_percentile": null
+          },
+          {
+            "gsm": "GSM98499",
+            "class": "EMC",
+            "value": null,
+            "z_vs_array": null,
+            "array_percentile": null
+          },
+          {
+            "gsm": "GSM98503",
+            "class": "EMC",
+            "value": -0.198,
+            "z_vs_array": 0.1083,
+            "array_percentile": 0.5486
+          },
+          {
+            "gsm": "GSM98506",
+            "class": "EMC",
+            "value": -0.64,
+            "z_vs_array": -0.0608,
+            "array_percentile": 0.4644
+          },
+          {
+            "gsm": "GSM98509",
+            "class": "EMC",
+            "value": 1.744,
+            "z_vs_array": 1.4376,
+            "array_percentile": 0.9489
+          },
+          {
+            "gsm": "GSM98510",
+            "class": "EMC",
+            "value": -3.772,
+            "z_vs_array": -1.6288,
+            "array_percentile": 0.0525
+          },
+          {
+            "gsm": "GSM98511",
+            "class": "EMC",
+            "value": -1.404,
+            "z_vs_array": -0.6357,
+            "array_percentile": 0.2206
+          },
+          {
+            "gsm": "GSM98512",
+            "class": "EMC",
+            "value": -2.941,
+            "z_vs_array": -1.2735,
+            "array_percentile": 0.0984
+          },
+          {
+            "gsm": "GSM98513",
+            "class": "EMC",
+            "value": -1.3605,
+            "z_vs_array": -0.3869,
+            "array_percentile": 0.2845
+          }
+        ],
+        "welch_EMC_vs_comparator": {
+          "t": -1.159,
+          "df": 9.5,
+          "mean_a": -0.455,
+          "mean_b": 0.1478,
+          "delta_a_minus_b": -0.6028
+        },
+        "_sign": "delta_a_minus_b > 0 means HIGHER in EMC than in the comparator sarcomas.",
+        "verdict": "READABLE on GPL3290 (2 probe(s)); EMC samples sit at the 34th percentile of this array's probe distribution. LOWER in EMC by 0.6028 SD units of the array (|t| < 2 \u2014 flat, t=-1.159, df=9.5, n_EMC=8, n_comparator=5). \u26a0 Uncorrected for multiple testing."
+      }
+    },
     "HES1": {
       "GSE24369_series_matrix.txt.gz": {
         "readable": true,
@@ -110123,6 +111477,22 @@
         "verdict": "READABLE on GPL3290 (5 probe(s)); EMC samples sit at the 46th percentile of this array's probe distribution. LOWER in EMC by 1.2776 SD units of the array (|t| >= 3, t=-3.005, df=6.4, n_EMC=10, n_comparator=6). \u26a0 Uncorrected for multiple testing."
       }
     },
+    "ROS1": {
+      "GSE24369_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL6244",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL6244 maps to the symbol ROS1. The platform's probe->symbol mapping covers 20235 of 28459 probes (rate 0.711), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether ROS1 is expressed in EMC."
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "readable": false,
+        "platform": "GPL3290",
+        "n_probes_mapping": 0,
+        "why_not_readable": "No probe on GPL3290 maps to the symbol ROS1. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether ROS1 is expressed in EMC."
+      }
+    },
     "RPS27L": {
       "GSE24369_series_matrix.txt.gz": {
         "readable": true,
@@ -139237,6 +140607,168 @@
         }
       }
     },
+    "drug_screen_targets": {
+      "read_id": "read_17_DRUG_SCREEN_TARGETS",
+      "question": "The only published high-throughput drug screen on a patient-derived EMC line returned three low-IC50 hits. Do the targets of those three agents read high in EMC tumour tissue \u2014 and does the reading favour any one of the three classes?",
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so. Membership is the TARGET annotation the repository's own curated repurposing library carries for each of the three hit agents (nr4a3-repurpose-shard-01/07/08.json), read from those records rather than recalled. \u26a0 A repurposing-library target field is a curated annotation and not a measured selectivity panel; it names what the record names and nothing more.",
+      "primary_gene": "EGFR",
+      "direction_that_supports_the_lane": "the hit agents' targets HIGHER in EMC, and one class separating from the others rather than all reading up",
+      "what_it_cannot_settle": "\u26d4 A SCREEN HIT IS NOT ATTRIBUTED BY TARGET ABUNDANCE. An agent's IC50 in one cell line reflects whichever of its targets that line depends on, and dependency is not abundance \u2014 a target expressed at the array floor can still be the one that matters, and a highly expressed one need not be. This read can rule a target OUT of consideration only where the gene is unreadable or clearly absent, and can never rule one in. \u26a0 The screen ran on ONE line, in monolayer, at whatever concentrations the library used; nothing here asserts activity, selectivity, safety, a therapeutic window or clinical readiness for any of the three agents in this disease.",
+      "groups": {
+        "brigatinib_targets": {
+          "genes_requested": [
+            "ALK",
+            "EGFR",
+            "ROS1"
+          ],
+          "per_platform": {
+            "GSE24369_series_matrix.txt.gz": {
+              "n_genes_requested": 3,
+              "n_genes_readable": 1,
+              "coverage": 0.333,
+              "genes_readable": [
+                "EGFR"
+              ],
+              "genes_not_readable": [
+                "ALK",
+                "ROS1"
+              ],
+              "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+              "score": null,
+              "verdict": "\u26d4 UNDERPOWERED \u2014 1/3 genes readable on GPL6244 (coverage 0.333); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology."
+            },
+            "GSE4303-GPL3290_series_matrix.txt.gz": {
+              "n_genes_requested": 3,
+              "n_genes_readable": 1,
+              "coverage": 0.333,
+              "genes_readable": [
+                "EGFR"
+              ],
+              "genes_not_readable": [
+                "ALK",
+                "ROS1"
+              ],
+              "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+              "score": null,
+              "verdict": "\u26d4 UNDERPOWERED \u2014 1/3 genes readable on GPL3290 (coverage 0.333); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology."
+            }
+          }
+        },
+        "hdac_class_i_ii": {
+          "genes_requested": [
+            "HDAC1",
+            "HDAC2",
+            "HDAC3",
+            "HDAC4",
+            "HDAC6",
+            "HDAC7",
+            "HDAC8",
+            "HDAC9"
+          ],
+          "per_platform": {
+            "GSE24369_series_matrix.txt.gz": {
+              "n_genes_requested": 8,
+              "n_genes_readable": 3,
+              "coverage": 0.375,
+              "genes_readable": [
+                "HDAC1",
+                "HDAC6",
+                "HDAC9"
+              ],
+              "genes_not_readable": [
+                "HDAC2",
+                "HDAC3",
+                "HDAC4",
+                "HDAC7",
+                "HDAC8"
+              ],
+              "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+              "score": null,
+              "verdict": "\u26d4 UNDERPOWERED \u2014 3/8 genes readable on GPL6244 (coverage 0.375); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology."
+            },
+            "GSE4303-GPL3290_series_matrix.txt.gz": {
+              "n_genes_requested": 8,
+              "n_genes_readable": 3,
+              "coverage": 0.375,
+              "genes_readable": [
+                "HDAC1",
+                "HDAC6",
+                "HDAC9"
+              ],
+              "genes_not_readable": [
+                "HDAC2",
+                "HDAC3",
+                "HDAC4",
+                "HDAC7",
+                "HDAC8"
+              ],
+              "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+              "score": null,
+              "verdict": "\u26d4 UNDERPOWERED \u2014 3/8 genes readable on GPL3290 (coverage 0.375); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology."
+            }
+          }
+        },
+        "kinase_contrast": {
+          "genes_requested": [
+            "RET",
+            "MET",
+            "KIT",
+            "PDGFRB",
+            "IGF1R"
+          ],
+          "per_platform": {
+            "GSE24369_series_matrix.txt.gz": {
+              "n_genes_requested": 5,
+              "n_genes_readable": 5,
+              "coverage": 1.0,
+              "genes_readable": [
+                "IGF1R",
+                "KIT",
+                "MET",
+                "PDGFRB",
+                "RET"
+              ],
+              "genes_not_readable": [],
+              "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+              "EMC_mean_score": 0.9121,
+              "comparator_mean_score": 0.6293,
+              "score": {
+                "t": 2.607,
+                "df": 6.6,
+                "mean_a": 0.9121,
+                "mean_b": 0.6293,
+                "delta_a_minus_b": 0.2828
+              },
+              "verdict": "HIGHER in EMC by 0.2828 SD units (t=2.607, df=6.6, n_EMC=6, n_comparator=29, 5/5 genes readable). \u26a0 Uncorrected for multiple testing."
+            },
+            "GSE4303-GPL3290_series_matrix.txt.gz": {
+              "n_genes_requested": 5,
+              "n_genes_readable": 5,
+              "coverage": 1.0,
+              "genes_readable": [
+                "IGF1R",
+                "KIT",
+                "MET",
+                "PDGFRB",
+                "RET"
+              ],
+              "genes_not_readable": [],
+              "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+              "EMC_mean_score": 0.5155,
+              "comparator_mean_score": -0.0143,
+              "score": {
+                "t": 3.277,
+                "df": 13.7,
+                "mean_a": 0.5155,
+                "mean_b": -0.0143,
+                "delta_a_minus_b": 0.5298
+              },
+              "verdict": "HIGHER in EMC by 0.5298 SD units (t=3.277, df=13.7, n_EMC=10, n_comparator=6, 5/5 genes readable). \u26a0 Uncorrected for multiple testing."
+            }
+          }
+        }
+      }
+    },
     "surface_antigen": {
       "read_id": "read_8_SURFACE_ANTIGEN",
       "question": "Which candidate surface / therapeutic-address antigens are READABLE in EMC tumour tissue on these two platforms, and which of them are higher in EMC than in the comparator sarcomas on BOTH?",
@@ -152242,6 +153774,162 @@
           "ddr_mmej.nhej_contrast@GSE4303-GPL3290_series_matrix.txt.gz"
         ],
         "unscored_units": [],
+        "_meaning": "TAKEN = every requested unit produced a contrast. PARTIALLY TAKEN = some did and some could not be read on these platforms. NOT TAKEN = the read could not be taken at all. \u26d4 NOT TAKEN is never a biological negative."
+      }
+    },
+    "read_17_DRUG_SCREEN_TARGETS": {
+      "read_id": "read_17_DRUG_SCREEN_TARGETS",
+      "question": "The only published high-throughput drug screen on a patient-derived EMC line returned three low-IC50 hits. Do the targets of those three agents read high in EMC tumour tissue \u2014 and does the reading favour any one of the three classes?",
+      "platforms_read": [
+        "GSE24369_series_matrix.txt.gz",
+        "GSE4303-GPL3290_series_matrix.txt.gz"
+      ],
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so. Membership is the TARGET annotation the repository's own curated repurposing library carries for each of the three hit agents (nr4a3-repurpose-shard-01/07/08.json), read from those records rather than recalled. \u26a0 A repurposing-library target field is a curated annotation and not a measured selectivity panel; it names what the record names and nothing more.",
+      "direction_that_supports_the_lane": "the hit agents' targets HIGHER in EMC, and one class separating from the others rather than all reading up",
+      "what_it_cannot_settle": "\u26d4 A SCREEN HIT IS NOT ATTRIBUTED BY TARGET ABUNDANCE. An agent's IC50 in one cell line reflects whichever of its targets that line depends on, and dependency is not abundance \u2014 a target expressed at the array floor can still be the one that matters, and a highly expressed one need not be. This read can rule a target OUT of consideration only where the gene is unreadable or clearly absent, and can never rule one in. \u26a0 The screen ran on ONE line, in monolayer, at whatever concentrations the library used; nothing here asserts activity, selectivity, safety, a therapeutic window or clinical readiness for any of the three agents in this disease.",
+      "panels": {
+        "drug_screen_targets": {
+          "question": "The only published high-throughput drug screen on a patient-derived EMC line returned three low-IC50 hits. Do the targets of those three agents read high in EMC tumour tissue \u2014 and does the reading favour any one of the three classes?",
+          "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so. Membership is the TARGET annotation the repository's own curated repurposing library carries for each of the three hit agents (nr4a3-repurpose-shard-01/07/08.json), read from those records rather than recalled. \u26a0 A repurposing-library target field is a curated annotation and not a measured selectivity panel; it names what the record names and nothing more.",
+          "groups": {
+            "brigatinib_targets": {
+              "genes_requested": [
+                "ALK",
+                "EGFR",
+                "ROS1"
+              ],
+              "per_platform": {
+                "GSE24369_series_matrix.txt.gz": {
+                  "n_genes_requested": 3,
+                  "n_genes_readable": 1,
+                  "coverage": 0.333,
+                  "genes_not_readable": [
+                    "ALK",
+                    "ROS1"
+                  ],
+                  "score": null,
+                  "verdict": "\u26d4 UNDERPOWERED \u2014 1/3 genes readable on GPL6244 (coverage 0.333); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology."
+                },
+                "GSE4303-GPL3290_series_matrix.txt.gz": {
+                  "n_genes_requested": 3,
+                  "n_genes_readable": 1,
+                  "coverage": 0.333,
+                  "genes_not_readable": [
+                    "ALK",
+                    "ROS1"
+                  ],
+                  "score": null,
+                  "verdict": "\u26d4 UNDERPOWERED \u2014 1/3 genes readable on GPL3290 (coverage 0.333); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology."
+                }
+              }
+            },
+            "hdac_class_i_ii": {
+              "genes_requested": [
+                "HDAC1",
+                "HDAC2",
+                "HDAC3",
+                "HDAC4",
+                "HDAC6",
+                "HDAC7",
+                "HDAC8",
+                "HDAC9"
+              ],
+              "per_platform": {
+                "GSE24369_series_matrix.txt.gz": {
+                  "n_genes_requested": 8,
+                  "n_genes_readable": 3,
+                  "coverage": 0.375,
+                  "genes_not_readable": [
+                    "HDAC2",
+                    "HDAC3",
+                    "HDAC4",
+                    "HDAC7",
+                    "HDAC8"
+                  ],
+                  "score": null,
+                  "verdict": "\u26d4 UNDERPOWERED \u2014 3/8 genes readable on GPL6244 (coverage 0.375); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology."
+                },
+                "GSE4303-GPL3290_series_matrix.txt.gz": {
+                  "n_genes_requested": 8,
+                  "n_genes_readable": 3,
+                  "coverage": 0.375,
+                  "genes_not_readable": [
+                    "HDAC2",
+                    "HDAC3",
+                    "HDAC4",
+                    "HDAC7",
+                    "HDAC8"
+                  ],
+                  "score": null,
+                  "verdict": "\u26d4 UNDERPOWERED \u2014 3/8 genes readable on GPL3290 (coverage 0.375); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology."
+                }
+              }
+            },
+            "kinase_contrast": {
+              "genes_requested": [
+                "RET",
+                "MET",
+                "KIT",
+                "PDGFRB",
+                "IGF1R"
+              ],
+              "per_platform": {
+                "GSE24369_series_matrix.txt.gz": {
+                  "n_genes_requested": 5,
+                  "n_genes_readable": 5,
+                  "coverage": 1.0,
+                  "genes_not_readable": [],
+                  "EMC_mean_score": 0.9121,
+                  "comparator_mean_score": 0.6293,
+                  "score": {
+                    "t": 2.607,
+                    "df": 6.6,
+                    "mean_a": 0.9121,
+                    "mean_b": 0.6293,
+                    "delta_a_minus_b": 0.2828
+                  },
+                  "verdict": "HIGHER in EMC by 0.2828 SD units (t=2.607, df=6.6, n_EMC=6, n_comparator=29, 5/5 genes readable). \u26a0 Uncorrected for multiple testing."
+                },
+                "GSE4303-GPL3290_series_matrix.txt.gz": {
+                  "n_genes_requested": 5,
+                  "n_genes_readable": 5,
+                  "coverage": 1.0,
+                  "genes_not_readable": [],
+                  "EMC_mean_score": 0.5155,
+                  "comparator_mean_score": -0.0143,
+                  "score": {
+                    "t": 3.277,
+                    "df": 13.7,
+                    "mean_a": 0.5155,
+                    "mean_b": -0.0143,
+                    "delta_a_minus_b": 0.5298
+                  },
+                  "verdict": "HIGHER in EMC by 0.5298 SD units (t=3.277, df=13.7, n_EMC=10, n_comparator=6, 5/5 genes readable). \u26a0 Uncorrected for multiple testing."
+                }
+              }
+            }
+          }
+        }
+      },
+      "signature_slots": {},
+      "readability_verdict": {
+        "state": "PARTIALLY TAKEN",
+        "platforms_read": [
+          "GSE24369_series_matrix.txt.gz",
+          "GSE4303-GPL3290_series_matrix.txt.gz"
+        ],
+        "n_scored_units": 2,
+        "n_unscored_units": 4,
+        "scored_units": [
+          "drug_screen_targets.kinase_contrast@GSE24369_series_matrix.txt.gz",
+          "drug_screen_targets.kinase_contrast@GSE4303-GPL3290_series_matrix.txt.gz"
+        ],
+        "unscored_units": [
+          "drug_screen_targets.brigatinib_targets@GSE24369_series_matrix.txt.gz",
+          "drug_screen_targets.brigatinib_targets@GSE4303-GPL3290_series_matrix.txt.gz",
+          "drug_screen_targets.hdac_class_i_ii@GSE24369_series_matrix.txt.gz",
+          "drug_screen_targets.hdac_class_i_ii@GSE4303-GPL3290_series_matrix.txt.gz"
+        ],
         "_meaning": "TAKEN = every requested unit produced a contrast. PARTIALLY TAKEN = some did and some could not be read on these platforms. NOT TAKEN = the read could not be taken at all. \u26d4 NOT TAKEN is never a biological negative."
       }
     },

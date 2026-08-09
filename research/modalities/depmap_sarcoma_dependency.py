@@ -54,6 +54,20 @@ GENE_GROUPS = {
     "Chromatin (PRC2)": ["EZH2", "EED", "SUZ12"],
     "Chaperone": ["HSP90AA1", "HSP90AB1", "CDC37"],
     "Census kinases": ["SGK1", "RET", "CDK12", "CDK13"],
+    # ── added 2026-08-09, second pass: the kinase-lead routes the array read could not grade ──────
+    # PRKDC is the DNA-PK route's OWN named free next step, and it is the one gene here whose class
+    # prior could actually move that route: the mechanism it rests on is a phosphorylation that
+    # STABILISES the driver, so a sarcoma-wide dependency says whether inhibiting the kinase is
+    # survivable in the tissue class at all. XRCC5/XRCC6 are the rest of the heterotrimer, read
+    # beside it so "DNA-PK is essential" cannot be claimed from the catalytic subunit alone.
+    "DNA-PK heterotrimer": ["PRKDC", "XRCC5", "XRCC6"],
+    # ⭐ THE DRUG-SCREEN HITS, AND WHY THE EXPRESSION READ COULD NOT SUBSTITUTE. ALK and ROS1 have NO
+    # PROBE on either archival array platform, so the only published EMC drug screen's hit could not
+    # be attributed there at all — an instrument limit, not a negative. DepMap can at least say
+    # whether these are dependencies anywhere in the tissue class. The HDACs are here because TWO of
+    # the screen's THREE hits are pan-HDAC agents, which is a within-screen class replication the
+    # one-agent framing of that lead never showed.
+    "Drug-screen hit targets": ["ALK", "ROS1", "EGFR", "HDAC1", "HDAC2", "HDAC3", "HDAC6"],
 }
 ALL_GENES = sorted({g for v in GENE_GROUPS.values() for g in v})
 # context genes for sanity (a pan-essential and the fusion gene itself)
