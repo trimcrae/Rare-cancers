@@ -1,7 +1,7 @@
 {
   "_note": "UNBIASED surfaceome scan for an EMC delivery/CAR/ADC targeting antigen. Surface genes (UniProt plasma-membrane + TM/GPI) ranked by expression in the EMC-surrogate TRANSLOCATION-sarcoma DepMap class (EMC has no line). NAMES a candidate antigen; does NOT confirm EMC surface expression or solve delivery efficiency.",
   "_caveats": [
-    "SURROGATE: DepMap sarcoma lines, not EMC (no EMC line exists).",
+    "SURROGATE: DepMap sarcoma lines, not EMC. \u26d4 2026-08-05: the one line DepMap LABELS EMC (ACH-001519) is recorded by Cellosaurus as not carrying an EWSR1 fusion, so this scan contains NO usable real-EMC observation \u2014 see class_definition._myxoid_caveat. SUPERSEDED, RETAINED: \"SURROGATE: DepMap sarcoma lines, not EMC (no EMC line exists).\"",
     "'rest' = other CANCER lineages, NOT normal tissue; an AOC's real safety window is tumour-vs-NORMAL (GTEx/HPA) \u2014 the flagged next step, not done here.",
     "cell-line surface mRNA != primary-tumour surface PROTEIN density (mRNA is a proxy).",
     "expression enrichment != validated tumour-selective antigen; needs EMC tissue IHC.",
@@ -45,8 +45,9 @@
     "myxoid_lines_named": [
       "ACH-001519 [Extraskeletal Myxoid Chondrosarcoma]"
     ],
-    "_myxoid_caveat": "CORRECTION: the single 'myxoid'-matched line is ACH-001519, DepMap OncotreeSubtype 'Extraskeletal Myxoid Chondrosarcoma' \u2014 i.e. a REAL EMC line (n=1), NOT myxoid liposarcoma. DepMap therefore contains one EMC line; its expression (myxoid_mean / emc_line_top_surface) is real EMC data, descriptive only at n=1. Fusion status [to verify].",
-    "_surrogate_caveat": "The broader translocation class (Ewing/synovial/etc.) is a lineage-GENERIC surrogate \u2014 surface phenotype tracks lineage, and those differ from EMC's myxoid/chondroid lineage \u2014 so class-level ranks are weaker than the single real EMC line, which however lacks statistical power."
+    "_myxoid_caveat": "\u26d4 RETRACTED 2026-08-05. The single 'myxoid'-matched line is ACH-001519, DepMap OncotreeSubtype 'Extraskeletal Myxoid Chondrosarcoma' \u2014 so it is NOT myxoid liposarcoma, and that half of the original correction stands. But it is NOT usable as EMC data: Cellosaurus CVCL_1238 records \"Caution: Does not harbor a gene fusion involving EWSR1 which is a hallmark of extraskeletal myxoid chondrosarcoma (PubMed=34413129)\" and DepMap's filtered fusion caller returns 2 calls for this model, none naming NR4A3 or any FET gene (emc-atr-vulnerability.json -> part_a_hemcss_identity, verdict NOT_FUSION_POSITIVE_PER_CURATED_RECORD). `myxoid_mean` / `emc_line_top_surface` are therefore a SINGLE SARCOMA LINE OF DISPUTED IDENTITY, n=1, and are not EMC evidence. \u26a0 The public record does not support the label; it does not establish what the line is instead \u2014 that needs STR authentication + RT-PCR, which this programme cannot perform. SUPERSEDED, RETAINED VERBATIM: \"CORRECTION: the single 'myxoid'-matched line is ACH-001519, DepMap OncotreeSubtype 'Extraskeletal Myxoid Chondrosarcoma' \u2014 i.e. a REAL EMC line (n=1), NOT myxoid liposarcoma. DepMap therefore contains one EMC line; its expression (myxoid_mean / emc_line_top_surface) is real EMC data, descriptive only at n=1. Fusion status [to verify].\"",
+    "_surrogate_caveat": "The broader translocation class (Ewing/synovial/etc.) is a lineage-GENERIC surrogate \u2014 surface phenotype tracks lineage, and those differ from EMC's myxoid/chondroid lineage. \u26d4 2026-08-05: with the myxoid line's identity disputed, the surrogate is ALL there is \u2014 there is no real-EMC observation in this scan. SUPERSEDED, RETAINED: \"so class-level ranks are weaker than the single real EMC line, which however lacks statistical power.\"",
+    "_class_membership_sensitivity": "ACH-001519 is 1 of the 45 class members carrying expression data. Dropping it and recomputing every actionable antigen's enrichment_vs_rest from the summary statistics in this file moves it by <= 0.13 log2TPM with NO sign flips (largest: GPC3 0.93->0.81; PDGFRA 0.40->0.29; CDH11 3.18->3.29; CD276 0.14->0.15), so the selectivity conclusions do not rest on it. \u26a0 The rank-based Mann-Whitney p cannot be recomputed from summary statistics, so selectivity_q is NOT re-derived here \u2014 this is an effect-size bound, not a re-run."
   },
   "thresholds": {
     "detectable_log2tpm": 1.0,
@@ -1367,7 +1368,7 @@
       "ACH-001519 [Extraskeletal Myxoid Chondrosarcoma]"
     ],
     "n": 1,
-    "note": "Single DepMap line annotated 'Extraskeletal Myxoid Chondrosarcoma'; n=1 so descriptive only (no statistics). REAL EMC expression, not a surrogate. EWSR1::NR4A3 fusion status of this line: [to verify].",
+    "note": "\u26d4 NOT AN EMC READING (2026-08-05). Single DepMap line LABELLED 'Extraskeletal Myxoid Chondrosarcoma'; n=1 so descriptive only (no statistics). Cellosaurus CVCL_1238: \"Caution: Does not harbor a gene fusion involving EWSR1 which is a hallmark of extraskeletal myxoid chondrosarcoma (PubMed=34413129)\", and DepMap's filtered fusion caller names no FET gene for this model (emc-atr-vulnerability.json -> part_a_hemcss_identity). Read as a single sarcoma line of DISPUTED IDENTITY. \u26a0 This is the PUBLIC RECORD not supporting the label; it does not establish what the line is instead \u2014 that needs STR authentication + RT-PCR, which this programme cannot perform. SUPERSEDED, RETAINED VERBATIM: \"Single DepMap line annotated 'Extraskeletal Myxoid Chondrosarcoma'; n=1 so descriptive only (no statistics). REAL EMC expression, not a surrogate. EWSR1::NR4A3 fusion status of this line: [to verify].\"",
     "top_surface_antigens": [
       {
         "gene": "APP",
@@ -1489,7 +1490,8 @@
         "gene": "FXYD5",
         "log2tpm": 7.29
       }
-    ]
+    ],
+    "identity_verdict": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD"
   },
   "self_validation": {
     "housekeeping_absent_from_surfaceome": true,
@@ -1511,5 +1513,24 @@
       "selectivity_significant": false
     },
     "_pass": "surface filter excludes housekeeping AND CD276 recovers as broadly expressed -> surfaceome + expression pipeline trustworthy"
+  },
+  "_identity_correction": {
+    "date": "2026-08-05",
+    "what": "ANNOTATION-ONLY hand edit. The line this artifact called a REAL EMC line (ACH-001519 / H-EMC-SS) is recorded by Cellosaurus as not carrying an EWSR1 fusion; leaving that claim in a committed artifact would keep it quotable as current.",
+    "verdict_source": "research/modalities/emc-atr-vulnerability.json -> part_a_hemcss_identity (NOT_FUSION_POSITIVE_PER_CURATED_RECORD)",
+    "correction_home": "research/manuscripts/emc-surface-target-landscape.md (Amendment 1, 2026-08-05)",
+    "fields_edited_by_hand": [
+      "/_caveats[0]",
+      "/class_definition/_myxoid_caveat",
+      "/class_definition/_surrogate_caveat",
+      "/class_definition/_class_membership_sensitivity (added)",
+      "/emc_line_top_surface/note",
+      "/emc_line_top_surface/identity_verdict (added)"
+    ],
+    "no_numeric_field_was_touched": true,
+    "_why_not_re_run": "Re-running emc_surfaceome_scan.py would pull a newer DepMap release and change real numbers, which is a different change from correcting a false annotation. The module's emitted text is fixed in the same commit, so the next genuine run emits the corrected wording.",
+    "_verification": [
+      "Every non-annotation value in this file is byte-identical to the prior commit; asserted by the patch that made this edit and re-checkable with `git show HEAD:<path>`."
+    ]
   }
 }
