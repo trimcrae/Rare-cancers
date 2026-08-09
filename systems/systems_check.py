@@ -3580,7 +3580,12 @@ def render_modalities(g):
                     "| class | exemplar | verdict | prior | where it lands |",
                     "|---|---|---|---|---|"]
             for m in sorted(rows, key=lambda x: x["id"]):
-                if m["verdict"] == "on_board":
+                # ⚠ THE ROUTE LINK IS NOT SCOPED TO `on_board`, AND THAT IS THE HONEST MODEL.
+                # `verdict` grades the SCIENCE and `route` records WHERE IT IS REGISTERED, which are
+                # different questions: a class promoted to a route on 2026-08-09 is still a candidate
+                # -- nothing about it has been tested -- and collapsing the two would erase the census's
+                # own headline the moment its findings were acted on.
+                if m.get("route"):
                     rid = m["route"]
                     disp = routes.get(rid, {}).get("display_name", rid)
                     lands = f"[{rid}](L2-{route_slug(rid)}.md) — {esc(_clip(disp, 60))}"

@@ -43,6 +43,22 @@ def test_every_on_board_row_names_a_route_that_exists(graph):
     assert bad == [], f"on_board rows naming a route that does not exist: {bad}"
 
 
+def test_every_candidate_is_registered_as_a_route(graph):
+    """A candidate that survives triage and is never registered is a finding with nowhere to live.
+
+    trimcrae's call on 2026-08-09 was to register every viable survivor rather than a top slice, so
+    this holds the census and the board to that decision in both directions: a new candidate row that
+    nobody promotes fails the build, and a promoted route that loses its census row fails the pointer
+    check above.
+    """
+    if not graph["modalities"]:
+        pytest.skip("census not populated yet")
+    routes = {r["id"] for r in graph["routes"]}
+    bad = [(m["id"], m.get("route")) for m in graph["modalities"]
+           if m["verdict"] == "candidate" and m.get("route") not in routes]
+    assert bad == [], f"candidates not registered as a resolvable route: {bad}"
+
+
 def test_every_prior_ruling_pointer_resolves_to_a_real_file(graph):
     """`already_rejected` points at the document that owns the ruling and deliberately does NOT
     restate its reason (rule 1). That only works if the pointer resolves — otherwise the census has
