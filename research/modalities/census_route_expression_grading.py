@@ -222,6 +222,156 @@ def build():
         "route_action": "keep; the next observation must come from a platform that carries the probe",
     }
 
+
+    # ═══════════ reads 9–16, graded 2026-08-09 after the CI panel extension ═══════════
+    # ⚠ EVERY ROW BELOW IS AN ABUNDANCE READING AND THE QUESTION IS USUALLY DEPENDENCY. A tumour can
+    # be exquisitely dependent on a module it expresses at ordinary levels, so a flat read excludes
+    # little and an elevated one establishes nothing on its own. What these are good for is RANKING
+    # which hypothesis to spend the next observation on.
+    routes["RT-MTAP-PRMT5"] = {
+        "selecting_feature": "MTAP locus deletion — the copy state that selects the PRMT5/MAT2A axis",
+        "direction_the_route_needed": "MTAP down, at the floor, with CDKN2A",
+        "genes": {g: gene(p, g) for g in ("MTAP", "CDKN2A", "CDKN2B", "PRMT5", "MAT2A")},
+        "panel_groups": {"the_locus": group(p, "mtap_prmt5", "the_locus"),
+                         "prmt5_methylosome": group(p, "mtap_prmt5", "prmt5_methylosome"),
+                         "methionine_salvage_context": group(p, "mtap_prmt5",
+                                                             "methionine_salvage_context")},
+        "observed": "⭐ The three-gene MTAP/CDKN2A/CDKN2B locus is LOWER in EMC on the platform where "
+                    "it is powered, and not marginally. The PRMT5 methylosome is HIGHER in EMC on "
+                    "BOTH platforms, and MAT2A sits at the 99th and 84th percentile of its array. "
+                    "That is the shape an MTAP-deleted, methylosome-dependent state makes on an "
+                    "expression platform.",
+        "verdict": "SUPPORTED, WITH THE LOCUS READ POWERED ON ONE PLATFORM ONLY.",
+        "what_this_does_not_settle": "⛔ A TRANSCRIPT IS NOT A COPY NUMBER, and this is the case where "
+                                     "that matters most: the class is selected by homozygous deletion, "
+                                     "which reads as a floor-level transcript but is not the same "
+                                     "measurement. The locus group is UNDERPOWERED on GPL3290 (2 of 3 "
+                                     "genes readable), so the strong result rests on six tumours on "
+                                     "one array. And an elevated methylosome is not a dependency on it.",
+        "route_action": "promote: the cheapest decisive next observation is a copy-number or "
+                        "methylation read of the locus, not another expression series",
+    }
+    routes["RT-TXN-CDK"] = {
+        "selecting_feature": "elevated transcriptional CDK machinery in a transactivating-fusion tumour",
+        "direction_the_route_needed": "transcriptional CDK modules up",
+        "genes": {g: gene(p, g) for g in ("CDK7", "CDK9", "CDK12", "CDK13", "MYC")},
+        "panel_groups": {"cdk7_initiation_module": group(p, "transcriptional_cdk",
+                                                         "cdk7_initiation_module"),
+                         "cdk9_elongation_module": group(p, "transcriptional_cdk",
+                                                         "cdk9_elongation_module"),
+                         "transcriptional_output_context": group(p, "transcriptional_cdk",
+                                                                 "transcriptional_output_context")},
+        "observed": "The CDK7 initiation module is HIGHER in EMC on BOTH platforms, and so is the "
+                    "general transcriptional-output group, both with the largest t-statistics in this "
+                    "pass. The CDK9 elongation module is higher on both but weakly. MYC is up on both.",
+        "verdict": "SUPPORTED — the most concordant elevation in the census, on both platforms.",
+        "what_this_does_not_settle": "⛔ THIS IS THE ROW WHERE ABUNDANCE IS FURTHEST FROM THE QUESTION. "
+                                     "Every cell transcribes; elevated transcriptional machinery in a "
+                                     "transcriptionally driven tumour is close to a tautology, and it "
+                                     "says nothing about a WINDOW against normal tissue, which is the "
+                                     "whole objection to this class. A general-transcription elevation "
+                                     "is also exactly what higher cellularity or proliferation would "
+                                     "produce.",
+        "route_action": "keep; the decisive observation is a dependency screen, not another abundance read",
+    }
+    routes["RT-CHAPERONE"] = {
+        "selecting_feature": "a standing proteostatic load imposed by a chimeric protein",
+        "direction_the_route_needed": "chaperone machine up",
+        "genes": {g: gene(p, g) for g in ("HSP90AA1", "HSP90AB1", "CDC37", "HSPA8")},
+        "panel_groups": {"hsp90_machine": group(p, "chaperone_dependency", "hsp90_machine"),
+                         "co_chaperones": group(p, "chaperone_dependency", "co_chaperones"),
+                         "hsp70_arm_and_stress_response": group(p, "chaperone_dependency",
+                                                                "hsp70_arm_and_stress_response")},
+        "observed": "The HSP90 machine is HIGHER in EMC on BOTH platforms and the co-chaperones follow "
+                    "it. ⚠ The HSP70 arm and heat-shock response go the OTHER way on both, which is "
+                    "not what a general stress response looks like.",
+        "verdict": "PARTLY SUPPORTED — the HSP90 arm only, and the stress-response arm contradicts it.",
+        "what_this_does_not_settle": "An elevated chaperone machine is not evidence that the fusion is "
+                                     "its client, which is the route's actual premise and a "
+                                     "co-immunoprecipitation question. The split between the HSP90 and "
+                                     "HSP70 arms is interesting and unexplained, and this data cannot "
+                                     "explain it.",
+        "route_action": "keep; the premise needs a client experiment, not more abundance",
+    }
+    routes["RT-APOPTOSIS-DEP"] = {
+        "selecting_feature": "an anti-apoptotic guardian other than BCL-2 holding the threshold",
+        "direction_the_route_needed": "a non-BCL2 guardian dominant in EMC",
+        "genes": {g: gene(p, g) for g in ("MCL1", "BCL2L1", "BCL2", "BAX", "PMAIP1")},
+        "panel_groups": {"anti_apoptotic_the_druggable_ones":
+                         group(p, "apoptotic_dependency", "anti_apoptotic_the_druggable_ones"),
+                         "bh3_only_sensitisers": group(p, "apoptotic_dependency",
+                                                       "bh3_only_sensitisers")},
+        "observed": "⛔ All five druggable guardians together are LOWER in EMC than in comparator "
+                    "sarcomas on BOTH platforms, MCL1 and BCL2L1 individually included. NOXA, the "
+                    "BH3-only protein that specifically neutralises MCL-1, is UP on both.",
+        "verdict": "AGAINST AT THE ABUNDANCE LEVEL — no guardian is dominant, and the one that is up "
+                   "is a sensitiser rather than a guardian.",
+        "what_this_does_not_settle": "⛔ AND HERE THE GAP IS THE WHOLE POINT: apoptotic dependency is "
+                                     "which protein HOLDS the effectors, which BH3 profiling measures "
+                                     "and abundance cannot. Low guardian transcript with high NOXA is "
+                                     "compatible with a primed state, which would make the "
+                                     "combination-only result that raised this hypothesis MORE "
+                                     "interesting rather than less. This read de-prioritises the "
+                                     "specific MCL-1 claim, not the underlying observation.",
+        "route_action": "down-grade the MCL-1-dominance form; the priming reading survives and is "
+                        "untestable from expression",
+    }
+    routes["RT-MDM2"] = {
+        "selecting_feature": "an intact, transcriptionally live p53 axis",
+        "direction_the_route_needed": "p53 target output present",
+        "genes": {g: gene(p, g) for g in ("TP53", "MDM2", "MDM4", "CDKN1A", "ZMAT3")},
+        "panel_groups": {"the_axis": group(p, "p53_mdm2_axis", "the_axis"),
+                         "p53_transcriptional_output": group(p, "p53_mdm2_axis",
+                                                             "p53_transcriptional_output")},
+        "observed": "The p53 transcriptional output group is LOWER in EMC on BOTH platforms, and the "
+                    "axis genes themselves are flat. The output the class needs to be live is not "
+                    "elevated.",
+        "verdict": "NOT SUPPORTED — the axis reads quiet rather than intact-and-live.",
+        "what_this_does_not_settle": "A quiet p53 output is not the same as a defective axis: an "
+                                     "unstressed tumour has little p53 output by construction, and "
+                                     "these are archival resections rather than treated tissue. This "
+                                     "cannot establish that TP53 is mutant, and it does not.",
+        "route_action": "down-grade; the selection argument was the whole route and it is not supported",
+    }
+    routes["RT-EZH2"] = {
+        "selecting_feature": "a PRC2 or SWI/SNF chromatin state of the kind that selects the approved agent",
+        "direction_the_route_needed": "PRC2 up, or a SWI/SNF subunit at the floor",
+        "genes": {g: gene(p, g) for g in ("EZH2", "EED", "SUZ12", "SMARCB1", "BRD9")},
+        "observed": "EZH2 is mildly higher on both platforms and the rest of PRC2 is flat; no SWI/SNF "
+                    "tumour-suppressor subunit reads anywhere near a floor.",
+        "verdict": "NOT SUPPORTED — neither selecting shape is present.",
+        "what_this_does_not_settle": "The approved agent is selected by protein LOSS, frequently "
+                                     "post-transcriptional, so a normal transcript does not exclude "
+                                     "it. This is a weak negative and is reported as one.",
+        "route_action": "down-grade",
+    }
+    routes["RT-SGK1"] = {
+        "selecting_feature": "SGK1 elevated, corroborating a two-decade-old antibody series",
+        "direction_the_route_needed": "SGK1 up",
+        "genes": {g: gene(p, g) for g in ("SGK1", "NDRG1", "SGK3")},
+        "observed": "⚠ SGK1 itself is DISCORDANT — lower on one platform, higher on the other. Its "
+                    "canonical substrate NDRG1 is higher on both, at the 98th percentile on one.",
+        "verdict": "DISCORDANT ON THE KINASE, CONCORDANT ON ITS SUBSTRATE.",
+        "what_this_does_not_settle": "NDRG1 is phosphorylated by several kinases, so a substrate "
+                                     "elevation is not attributable to SGK1, and a discordant kinase "
+                                     "read across two platforms is exactly the case where a third "
+                                     "series decides and nothing else does.",
+        "route_action": "keep at concept; the corroboration this route was registered for did not arrive",
+    }
+    routes["RT-POLQ"] = {
+        "selecting_feature": "an alt-EJ-high, HR-low repair state",
+        "direction_the_route_needed": "alt-EJ up WITH homologous recombination down",
+        "genes": {g: gene(p, g) for g in ("POLQ", "LIG3", "RAD51", "BRCA1", "PRKDC")},
+        "observed": "POLQ is flat and sits low on its array; the homologous-recombination genes are "
+                    "flat to mildly higher rather than down. The combination the class needs — one up "
+                    "AND the other down — is not present.",
+        "verdict": "NOT SUPPORTED — neither half of the required combination.",
+        "what_this_does_not_settle": "The dependency is created by a repair DEFECT, usually a mutation, "
+                                     "which this read cannot see at all. It must also be read beside "
+                                     "the WEAK grade the neighbouring ATR assessment already carries.",
+        "route_action": "down-grade",
+    }
+
     return {
         "_a_grader_must_read_the_audit_not_only_the_reading": (
             "⛔ ADDED AFTER THIS FILE GOT IT WRONG. emc-expression-panels.json holds READINGS; "
