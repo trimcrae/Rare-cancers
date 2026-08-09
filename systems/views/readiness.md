@@ -54,10 +54,12 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-CARFILZOMIB](L2-rt-carfilzomib.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-CART-SURFACE](L2-rt-cart-surface.md) | ST-IMMUNO | `internal_note` | a selective surface antigen |
 | [RT-CHAPERONE](L2-rt-chaperone.md) | ST-DEPENDENCY | `internal_note` | the chaperone-clientship literature assessment, which is $0 |
+| [RT-COMPETING-MORTALITY](L2-rt-competing-mortality.md) | ST-MORTALITY-MECHANISM | `internal_note` | the background-mortality comparison, which is fetched but not yet folded in |
 | [RT-COVALENT-PROBE](L2-rt-covalent-probe.md) | ST-OCCUPANCY | `internal_note` | a criterion that passes its positive control |
 | [RT-CRISPR-CAS13](L2-rt-crispr-cas13.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector |
 | [RT-DBD](L2-rt-dbd.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-DNAPK](L2-rt-dnapk.md) | ST-DEPENDENCY | `internal_note` | a full read of the curated interaction records and their primary sources |
+| [RT-EARLY-PALLIATIVE](L2-rt-early-palliative.md) | ST-MORTALITY-MECHANISM | `internal_note` | — |
 | [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-EZH2](L2-rt-ezh2.md) | ST-DEPENDENCY | `internal_note` | a read of the PRC2 and BAF subunit sets in the expression data and the committed dependency artifact |
 | [RT-FAP-RLT](L2-rt-fap-rlt.md) | ST-RADIOLIGAND | `internal_note` | any measurement in EMC |
@@ -65,6 +67,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-GLUE](L2-rt-glue.md) | ST-PROXIMITY | `internal_note` | a prospective glue design method |
 | [RT-HDAC-BET](L2-rt-hdac-bet.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) | ST-REPURPOSING | `internal_note` | the pooled partner-fraction arithmetic, which is $0 and uses a method this repository owns |
+| [RT-HOST-FACTOR](L2-rt-host-factor.md) | ST-MORTALITY-MECHANISM | `internal_note` | the retrieved effect sizes and the bias assessment they have to be read through |
 | [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | ST-MICROENV | `internal_note` | a third EMC series — the falsifier the owning memo names |
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | ST-IMMUNO | `internal_note` | a larger clinical series |
 | [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | ST-MICROENV | `internal_note` | an isoform-resolved read, which needs RNA-seq rather than an array — the fourth public cohort is the first candidate that could carry it |
@@ -78,6 +81,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-NR2F1](L2-rt-nr2f1.md) | ST-OCCUPANCY | `internal_note` | a platform that carries a probe for the receptor — the two readable array series do not |
 | [RT-POLQ](L2-rt-polq.md) | ST-DEPENDENCY | `internal_note` | an extension of the committed dependency-prior analysis to the end-joining genes |
 | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | ST-REPURPOSING | `internal_note` | a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md |
+| [RT-RESPIRATORY-FAILURE](L2-rt-respiratory-failure.md) | ST-MORTALITY-MECHANISM | `internal_note` | — |
 | [RT-RET](L2-rt-ret.md) | ST-REPURPOSING | `internal_note` | a full read of the original activation report, to establish what was measured and in how many tumours |
 | [RT-RIBOZYME](L2-rt-ribozyme.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector; a modern demonstration of trans-splicing ribozymes |
 | [RT-RIPTAC](L2-rt-riptac.md) | ST-PROXIMITY | `internal_note` | paralogue selectivity; a chemistry programme |
@@ -89,8 +93,10 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | ST-IMMUNO | `internal_note` | a stronger presented epitope, and one not confined to a single allele — both corrected e7::e3 strong binders are HLA-B*15:01 |
 | [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | ST-IMMUNO | `internal_note` | a real EMC expression series |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | ST-REPURPOSING | `internal_note` | a larger clinical series |
+| [RT-TREATMENT-HARM](L2-rt-treatment-harm.md) | ST-MORTALITY-MECHANISM | `internal_note` | — |
 | [RT-TXN-CDK](L2-rt-txn-cdk.md) | ST-DEPENDENCY | `internal_note` | nothing — the question was asked and answered |
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) | ST-PROXIMITY | `internal_note` | an observed transfer geometry |
 | [RT-VACCINE](L2-rt-vaccine.md) | ST-IMMUNO | `internal_note` | an immunogenicity argument |
+| [RT-VTE-PROPHYLAXIS](L2-rt-vte-prophylaxis.md) | ST-MORTALITY-MECHANISM | `internal_note` | — |
 
 [← L0](L0-ecosystem.md)

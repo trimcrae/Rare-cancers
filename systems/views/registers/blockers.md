@@ -39,11 +39,11 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 ## By fan-out — the portfolio's shape
 
-**Reach** is derived from the strategy families a blocker spans, not from the route count alone: `portfolio-wide` ≥ 5 of 12 families, `cross-family` ≥ 2, `single-family` 1. Two blockers can hold the same number of routes and mean very different things — one concentrated in a single family is a route-selection problem, one spread across six is a program-level one.
+**Reach** is derived from the strategy families a blocker spans, not from the route count alone: `portfolio-wide` ≥ 5 of 13 families, `cross-family` ≥ 2, `single-family` 1. Two blockers can hold the same number of routes and mean very different things — one concentrated in a single family is a route-selection problem, one spread across six is a program-level one.
 
 | blocker | kind | routes held | families | reach | routes that retire it | what would retire it |
 |---|---|---:|---:|---|---:|---|
-| **BLK-NO-EMC-DATA**<br/>EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRIS | `insufficient_data` | 43 | 9 | portfolio-wide | 0 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-EMC-DATA**<br/>EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRIS | `insufficient_data` | 47 | 10 | portfolio-wide | 0 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NOT-FUSION-SELECTIVE**<br/>The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half) | `fundamental_biological_limit` | 14 | 6 | portfolio-wide | 8 | **permanent — nothing** |
 | **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 9 | 6 | portfolio-wide | 2 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-PARALOGUE-DDG**<br/>The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT) | `requires_better_simulation_accuracy` | 9 | 3 | cross-family | 24 | `TECH-FE-CRYPTIC-POCKET` |
@@ -77,7 +77,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-TERNARY-GEOMETRY** | 5 | single-family | **2027** | `moderate` | `evidence_based` | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
 | **BLK-INDUCED-COMPLEX** | 3 | single-family | **2027** | `moderate` | `evidence_based` | `TECH-COFOLD-ASSEMBLY` |
 | **BLK-REACH-CATEGORICAL** | 2 | single-family | **2027H2** | `low` | `extrapolated` | `TECH-EXPOSURE-CRITERION` |
-| **BLK-NO-EMC-DATA** | 43 | portfolio-wide | **2028** | `low` | `extrapolated` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-EMC-DATA** | 47 | portfolio-wide | **2028** | `low` | `extrapolated` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-PARALOGUE-DDG** | 9 | cross-family | **2028** | `low` | `extrapolated` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-CLASS-INHERITANCE** | 5 | cross-family | **2028** | `low` | `extrapolated` | `TECH-VIRTUAL-CELL` |
 | **BLK-PARALOGUE-CONTROL** | 1 | single-family | **2028** | `low` | `speculative` | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
@@ -103,7 +103,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 - **kind:** `insufficient_data`
 - **a statement about:** data availability — the repo-wide rate-limiter, not any one route
-- **held by (43):** RT-6MP, RT-ALK-HIT, RT-APOPTOSIS-DEP, RT-ARGININE, RT-ASO-ASK, RT-ATR-ASSESS, RT-ATR-PANEL, RT-B7H3, RT-CARFILZOMIB, RT-CART-SURFACE, RT-CHAPERONE, RT-DNAPK, RT-EZH2, RT-FAP-RLT, RT-HORMONE-PARTNER, RT-HYPOXIA-PRODRUG, RT-ICI-TKI, RT-IMMUNOCYTOKINE, RT-JUNCTION-NEOANTIGEN, RT-LIMB-PERFUSION, RT-LUNG-DIRECTED, RT-MATRIX-ADDRESS, RT-MATRIX-SYNTHESIS, RT-MDM2, RT-MTAP-PRMT5, RT-NR2F1, RT-PARTNER-STRAT, RT-POLQ, RT-PPARG-DOWNSTREAM, RT-PRAME-IMMTAC, RT-RET, RT-RT-INTENSIFY, RT-SCHEDULING, RT-SEQUENCING, RT-SGK1, RT-SSTR2, RT-SYNLETH-DEP, RT-SYNPROMOTER, RT-TCRT-CTA, RT-TRABECTEDIN, RT-TRABECTEDIN-PPARG, RT-TRIAL-REACH, RT-TXN-CDK
+- **held by (47):** RT-6MP, RT-ALK-HIT, RT-APOPTOSIS-DEP, RT-ARGININE, RT-ASO-ASK, RT-ATR-ASSESS, RT-ATR-PANEL, RT-B7H3, RT-CARFILZOMIB, RT-CART-SURFACE, RT-CHAPERONE, RT-COMPETING-MORTALITY, RT-DNAPK, RT-EZH2, RT-FAP-RLT, RT-HORMONE-PARTNER, RT-HYPOXIA-PRODRUG, RT-ICI-TKI, RT-IMMUNOCYTOKINE, RT-JUNCTION-NEOANTIGEN, RT-LIMB-PERFUSION, RT-LUNG-DIRECTED, RT-MATRIX-ADDRESS, RT-MATRIX-SYNTHESIS, RT-MDM2, RT-MTAP-PRMT5, RT-NR2F1, RT-PARTNER-STRAT, RT-POLQ, RT-PPARG-DOWNSTREAM, RT-PRAME-IMMTAC, RT-RESPIRATORY-FAILURE, RT-RET, RT-RT-INTENSIFY, RT-SCHEDULING, RT-SEQUENCING, RT-SGK1, RT-SSTR2, RT-SYNLETH-DEP, RT-SYNPROMOTER, RT-TCRT-CTA, RT-TRABECTEDIN, RT-TRABECTEDIN-PPARG, RT-TREATMENT-HARM, RT-TRIAL-REACH, RT-TXN-CDK, RT-VTE-PROPHYLAXIS
 - **retired by route (0):** —
 - **retired by technology:** TECH-EMC-EXPRESSION-DATA, TECH-VIRTUAL-CELL
 - **⭐ retired by an action we can take:** NOT RETIRED, and the 2026-08-08 lead is recorded here so that it cannot be mistaken for a retirement. PRJNA1357027 / SRP640302 is a real, public, fourth EMC cohort — n = 12 FFPE tumours, downloadable since 2025-11-11, carrying per-sample EWSR1 break-apart FISH status, site, size, morphology and outcome-adjacent annotation, and larger than any of the three cohorts the manuscript reads (emc-fourth-cohort-sra-2026-08-08.md; artifact emc-sra-study.json, transport gate passed on three controls). It is TempO-Seq TARGETED-PANEL data, so its gene space is the panel's and the panel is not named anywhere in the archive metadata. This blocker's statement is about FUNCTIONAL-GENOMICS data — one DepMap line, no CRISPR — and a tumour expression panel is not a dependency screen, so nothing here touches it. What WOULD retire it is an EMC dependency or drug-response screen (a second EMC line in DepMap, a CRISPR screen, or an ex-vivo panel), none of which exists; TRG-SARCOMA-ATRI-RESPONSE-PANEL watches for it. The nearest $0 step on the cohort itself is naming the TempO-Seq panel, on which every read of it is gated.

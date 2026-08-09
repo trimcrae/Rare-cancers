@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**28 endpoints for 68 routes · 20 with a document · 8 unwritten.**
+**29 endpoints for 74 routes · 21 with a document · 8 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -56,6 +56,7 @@ last_verified: 2026-08-06
 | **PUB-SURFACE-TARGETS**<br/>[In-silico surface-antigen prioritisation for extraskeletal myxoid chond…](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-MORTALITY-MECHANISM**<br/>*What actually kills people with extraskeletal myxoid chondrosarcoma, an…* | ◔ `outlined` | `preprint` | 6 | The mechanism half rests on a terminal-event corpus that is being retrieved but has not yet been read, and until each mechanism resolves to a quoted … |
 | **PUB-BIOMARKER-DEP**<br/>*Biomarker-selected therapeutic classes in an ultra-rare sarcoma: what t…* | ○ `unwritten` | `preprint` | 5 | Every class it covers is one expression lookup away from a verdict, and none of those lookups has been run  … |
 | **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ○ `unwritten` | `preprint` | 4 | Its purpose is to consolidate four leads that are each individually thin, and the consolidation has not been done  … |
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ○ `unwritten` | `preprint` | 3 | The eligibility arithmetic it rests on has not been extracted from the curated cohorts yet, and without it the paper would be an argument with no … |
@@ -331,6 +332,23 @@ A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a F
 |---|---|---|
 | [RT-TCIP](L2-rt-tcip.md) — TCIP — transcriptional chemically-induced proximity  | `primary` | The reach enumeration with an effector-size second terminus, reusing machinery MEASURED to be E3-free (4 of 4 arms byte-identical with every E3-specific field stripped). Run 2026-08-06 (ART-TCIP-REACH). Its reportable finding is not the binary admit — which admits every body tested, including a 1183-residue CRBN-DDB1 assembly — but that the size penalty is a degrader's induced-interface floor rather than steric bulk: ablating the floor inverts the sign. It speaks about a SIZE CLASS, not a named effector. |
 
+### PUB-MORTALITY-MECHANISM — What actually kills people with extraskeletal myxoid chondrosarcoma, and the share of it no targeted therapy addresses
+
+**◔ `outlined` · aimed at `preprint`**
+
+In extraskeletal myxoid chondrosarcoma a large share of the deaths that follow diagnosis are not caused by the tumour, so the ceiling on the entire antitumour portfolio is a bounded number of percentage points of overall survival rather than an open-ended one -- and the remaining deaths, which no targeted route addresses, fall to mechanisms ordinary medicine already treats.
+
+**Not written because:** The mechanism half rests on a terminal-event corpus that is being retrieved but has not yet been read, and until each mechanism resolves to a quoted sentence the paper would be asserting a cause-of-death breakdown from a plausible story about an indolent tumour. The decomposition half is computed and holds; the two are not publishable separately, because a ceiling without a mechanism is a statistic and a mechanism without a ceiling is an anecdote.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-COMPETING-MORTALITY](L2-rt-competing-mortality.md) — Competing (non-EMC) mortality in a decade-scale coho | `contributing` | The arithmetic that bounds every other route in the portfolio: what a perfect antitumour therapy could add, and what it could not touch. |
+| [RT-EARLY-PALLIATIVE](L2-rt-early-palliative.md) — Early specialist palliative care and structured symp | `contributing` | The intervention arm of the paper: the only non-antitumour class with randomised survival evidence, and an honest account of how far it can be carried to this disease. |
+| [RT-HOST-FACTOR](L2-rt-host-factor.md) — Treating modifiable host conditions as de-facto EMC  | `contributing` | The constructive half of the paper: having bounded what antitumour therapy could achieve, name the interventions that act on the remainder and are already sitting in a pharmacy. |
+| [RT-RESPIRATORY-FAILURE](L2-rt-respiratory-failure.md) — Progressive pulmonary metastatic burden and respirat | `contributing` | The mechanism half of the paper: what the terminal event actually is, quoted from the record rather than inferred from the metastatic pattern. |
+| [RT-TREATMENT-HARM](L2-rt-treatment-harm.md) — De-escalating cytotoxic therapy that has no measured | `contributing` | The uncomfortable half of the argument: that part of the mortality this portfolio is trying to reduce may be iatrogenic, and that the cheapest intervention is to stop. |
+| [RT-VTE-PROPHYLAXIS](L2-rt-vte-prophylaxis.md) — Venous thromboembolism in a lung-metastatic sarcoma  | `contributing` | A mechanism that is plausible, acute and probably small -- carried because a portfolio that only registers the mechanisms it expects to find is not a census. |
+
 ### PUB-BIOMARKER-DEP — Biomarker-selected therapeutic classes in an ultra-rare sarcoma: what the available expression data excludes
 
 **○ `unwritten` · aimed at `preprint`**
@@ -528,6 +546,12 @@ A fusion oncoprotein whose entire mechanism is transactivation, and whose struct
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-METHODS** ◐ | `journal_submission` | `primary` |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `preprint` | **PUB-MODALITY-CENSUS** ◐ | `preprint` | `primary` |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | [ST-OCCUPANCY](L1-st-occupancy.md) | `internal_note` | **PUB-MONOVALENT** ◐ | `internal_note` | `primary` |
+| [RT-COMPETING-MORTALITY](L2-rt-competing-mortality.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◔ | `preprint` | `contributing` |
+| [RT-EARLY-PALLIATIVE](L2-rt-early-palliative.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◔ | `preprint` | `contributing` |
+| [RT-HOST-FACTOR](L2-rt-host-factor.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◔ | `preprint` | `contributing` |
+| [RT-RESPIRATORY-FAILURE](L2-rt-respiratory-failure.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◔ | `preprint` | `contributing` |
+| [RT-TREATMENT-HARM](L2-rt-treatment-harm.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◔ | `preprint` | `contributing` |
+| [RT-VTE-PROPHYLAXIS](L2-rt-vte-prophylaxis.md) | [ST-MORTALITY-MECHANISM](L1-st-mortality-mechanism.md) | `internal_note` | **PUB-MORTALITY-MECHANISM** ◔ | `preprint` | `contributing` |
 | [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `preprint` | **PUB-MTAP-PRMT5** ◐ | `preprint` | `primary` |
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-NEOANTIGEN** ◐ | `preprint` | `primary` |
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-NEOANTIGEN** ◐ | `preprint` | `contributing` |
