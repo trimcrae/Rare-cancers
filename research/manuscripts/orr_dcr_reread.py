@@ -268,6 +268,48 @@ def build():
                 "sample of oncology trials and must never be described as one."),
         },
 
+        "R8_zero_response_readouts": {
+            "_why_this_block_exists": (
+                "the distribution above measures how much an objective-response summary discards. "
+                "This measures how often it returns nothing at all -- the case that gets read as "
+                "'the agent is inactive' and that the regime map predicts is a function of arm "
+                "size rather than of the agent."),
+            "_definition": "an arm with zero complete and zero partial responses",
+            "by_arm_size": {
+                str(lo): {
+                    "arms": len([a for a in rows if a["n"] >= lo]),
+                    "zero_response_arms": len([a for a in rows if a["n"] >= lo
+                                               and a["objective_response"]["events"] == 0]),
+                    "zero_response_pct": pct(
+                        len([a for a in rows if a["n"] >= lo
+                             and a["objective_response"]["events"] == 0])
+                        / max(len([a for a in rows if a["n"] >= lo]), 1)),
+                    "zero_response_and_disease_control_at_least_50pct": len(
+                        [a for a in rows if a["n"] >= lo
+                         and a["objective_response"]["events"] == 0
+                         and a["cells"]["SD"] / a["n"] >= 0.50]),
+                    "zero_response_and_disease_control_at_least_70pct": len(
+                        [a for a in rows if a["n"] >= lo
+                         and a["objective_response"]["events"] == 0
+                         and a["cells"]["SD"] / a["n"] >= 0.70]),
+                } for lo in (1, 10, 20)},
+            "reading": (
+                "zero-response readouts concentrate in small arms, which is what the regime map "
+                "predicts: at a fixed underlying rate, the probability of observing nothing falls "
+                "with arm size. The stratification is therefore support for the argument rather "
+                "than a weakening of it."),
+            "⛔_what_this_may_not_be_read_as": (
+                "an arm with zero responses that nonetheless shows stable disease is NOT thereby "
+                "an active agent misread as inactive. Stable disease may be natural history, which "
+                "is the confound placebo-arm-calibration.json exists to size and cannot. The claim "
+                "here is narrower: at these arm sizes a zero is frequently uninterpretable rather "
+                "than informative, and it is nonetheless reported as a result."),
+            "_the_unweighted_headline_is_the_misleading_one": (
+                "45.5% of all arms is dominated by dose-escalation cohorts of 3 patients. The "
+                "n>=10 and n>=20 strata are the honest figures and are reported beside it rather "
+                "than instead of it."),
+        },
+
         "R7_emc_row_in_the_field_distribution": {
             "_why_this_block_exists": (
                 "the original single-disease result becomes one labelled point in a cross-disease "

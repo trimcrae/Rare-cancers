@@ -25306,6 +25306,36 @@
   "the_bias_direction_is_not_known": "a trial that posts a full best-response breakdown may be more likely to have something to break down. If so the recovered arms understate the gap, because arms with little stable disease are less likely to be reported in full. The opposite argument is equally available and neither is tested here.",
   "what_can_be_said": "the distribution below describes the arms that CAN be re-read, and the census states how large that set is against everything screened. It is not a random sample of oncology trials and must never be described as one."
  },
+ "R8_zero_response_readouts": {
+  "_why_this_block_exists": "the distribution above measures how much an objective-response summary discards. This measures how often it returns nothing at all -- the case that gets read as 'the agent is inactive' and that the regime map predicts is a function of arm size rather than of the agent.",
+  "_definition": "an arm with zero complete and zero partial responses",
+  "by_arm_size": {
+   "1": {
+    "arms": 552,
+    "zero_response_arms": 251,
+    "zero_response_pct": 45.5,
+    "zero_response_and_disease_control_at_least_50pct": 105,
+    "zero_response_and_disease_control_at_least_70pct": 65
+   },
+   "10": {
+    "arms": 231,
+    "zero_response_arms": 32,
+    "zero_response_pct": 13.9,
+    "zero_response_and_disease_control_at_least_50pct": 11,
+    "zero_response_and_disease_control_at_least_70pct": 4
+   },
+   "20": {
+    "arms": 138,
+    "zero_response_arms": 4,
+    "zero_response_pct": 2.9,
+    "zero_response_and_disease_control_at_least_50pct": 2,
+    "zero_response_and_disease_control_at_least_70pct": 1
+   }
+  },
+  "reading": "zero-response readouts concentrate in small arms, which is what the regime map predicts: at a fixed underlying rate, the probability of observing nothing falls with arm size. The stratification is therefore support for the argument rather than a weakening of it.",
+  "⛔_what_this_may_not_be_read_as": "an arm with zero responses that nonetheless shows stable disease is NOT thereby an active agent misread as inactive. Stable disease may be natural history, which is the confound placebo-arm-calibration.json exists to size and cannot. The claim here is narrower: at these arm sizes a zero is frequently uninterpretable rather than informative, and it is nonetheless reported as a result.",
+  "_the_unweighted_headline_is_the_misleading_one": "45.5% of all arms is dominated by dose-escalation cohorts of 3 patients. The n>=10 and n>=20 strata are the honest figures and are reported beside it rather than instead of it."
+ },
  "R7_emc_row_in_the_field_distribution": {
   "_why_this_block_exists": "the original single-disease result becomes one labelled point in a cross-disease distribution rather than a claim standing on its own.",
   "emc_gap_pp": 76.6,

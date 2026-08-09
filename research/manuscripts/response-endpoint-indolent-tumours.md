@@ -222,6 +222,28 @@ larger and later-phase strata. Response criterion version, central review status
 documented progression was required at entry are not fields in posted results, so those strata could
 not be constructed here.
 
+### 4.3 Zero-response readouts
+
+The distribution above measures how much a response summary discards. A separate question is how
+often it returns nothing at all, which is the reading that becomes "the agent showed no activity".
+
+| arms of at least | arms | with zero responses | share | of those, disease control ≥ 50% |
+|---|---|---|---|---|
+| 1 patient | 552 | 251 | 45.5% | 105 |
+| 10 patients | 231 | 32 | 13.9% | 11 |
+| 20 patients | 138 | 4 | 2.9% | 2 |
+
+The unweighted figure is the misleading one, since arms of three patients from dose-escalation
+cohorts dominate it. The stratified figures are reported beside it rather than instead of it, and
+they carry the substantive point: zero-response readouts concentrate in small arms, exactly as the
+binomial predicts at a fixed underlying rate. The frequency of an uninformative readout is largely a
+property of arm size rather than of the agent under test.
+
+An arm with no responses that nonetheless records stable disease is not thereby an active agent
+misread as inactive. Stable disease may be natural history, and section 6 shows that this corpus
+cannot size that. The narrower claim stands: at these arm sizes a zero is frequently uninterpretable,
+and it is nonetheless reported as a result.
+
 ---
 
 ## 5. Reporting completeness
