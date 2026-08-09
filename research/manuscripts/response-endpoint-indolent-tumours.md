@@ -62,25 +62,25 @@ formerly did so by referring to this filename, which a reviewer cannot see and s
 
 **Background.** The objective-response rate is the reflex summary of a single-arm oncology trial. It
 keeps only tumour shrinkage, and is applied without regard to whether a disease shrinks often enough,
-or accrues patients in numbers large enough, for the figure to carry information.
+or accrues enough patients, for the figure to carry information.
 
 **Methods.** Under a protocol frozen before retrieval, we assembled trial arms from
-ClinicalTrials.gov posted results. The unit is one arm, and inclusion depends on the report rather
-than the disease: all four best-response categories as integer counts with an evaluable denominator.
-No tumour type, grade, rarity or indolence descriptor was an inclusion criterion. Both endpoints were
+ClinicalTrials.gov posted results. The unit is one arm; inclusion depends on the report rather than
+the disease, requiring all four best-response categories as integer counts with an evaluable
+denominator. No tumour type, grade, rarity or indolence descriptor was a criterion. Both endpoints were
 computed on the identical denominator. Diseases were placed on two measured axes, median objective
-response and median actual enrolment, with boundaries derived as level sets of the binomial.
-Summaries use order statistics only.
+response and median actual enrolment, with boundaries drawn as level sets of the binomial. Summaries
+use order statistics.
 
 **Results.** 552 arms from 138 trials carried a complete table. The gap between disease control and
 objective response had a median of 39.4 percentage points (IQR 20.0 to 54.3), and is identically the
-stable-disease proportion, so each value carries an exact interval. It survived every pre-stated
-stratum. Of 44 conditions placed, 16 had a median response at or below the 5% null, leaving no design
+stable-disease proportion, so each value carries an exact interval. It was present in every
+constructible stratum. Of 44 conditions placed, 16 had a median response at or below the 5% null, leaving no design
 defined; of the 28 where it is defined, 14 (50.0%) had a median trial smaller than an exact
 single-stage design requires. Reporting was the binding constraint: of 2,851 trials naming best
 overall response, 2,715 (95.2%) posted results without the four categories. Of 19 arms carrying a
 control token, 16 carry an active agent once registered interventions are read. Four remedy families
-are endorsed across 12 disease domains.
+are endorsed across 12 domains.
 
 **Conclusions.** The failure of a response summary is a property of a coordinate rather than a tumour
 type, and remedies are long established but undiffused. A four-cell table with its denominator lets
@@ -295,19 +295,32 @@ identically the stable-disease proportion, each arm's value carries its own exac
 and interquartile range are marked. Produced by
 [`endpoint_result_figures.py`](./endpoint_result_figures.py).
 
-### 4.2 Pre-stated sensitivities
+### 4.2 Sensitivity to stratification
 
 | stratum | arms | median gap |
 |---|---|---|
 | all arms | 552 | 39.4 |
 | arms of at least 20 patients | 138 | 41.5 |
-| phase 2 only | 355 | 40.0 |
-| phase 3 only | 58 | 43.6 |
+| phase 1, alone or combined | 370 | 36.4 |
+| phase 2, alone or combined | 355 | 40.0 |
+| phase 3, alone or combined | 58 | 43.6 |
+| phase 1 only | 133 | 35.9 |
+| phase 2 only | 114 | 39.4 |
+| phase 3 only | 54 | 41.8 |
+| no phase recorded | 7 | 27.2 |
+| control-arm candidates | 19 | 37.5 |
 
-The gap survives every stratum specified in advance, and moves upward rather than downward in the
-larger and later-phase strata. Response criterion version, central review status and whether
-documented progression was required at entry are not fields in posted results, so those strata could
-not be constructed here.
+The corpus was specified in advance; these strata were not, and the table is therefore exhaustive
+rather than selected. Every stratum the recorded fields can construct appears, including the ones
+that lower the gap. A trial registered as phase 1 and phase 2 together belongs to both "alone or
+combined" rows, which is why those do not sum to the total, and the "only" rows are the disjoint
+partition.
+
+The gap is present in all of them, from 27.2 to 43.6 percentage points. It is lowest in phase 1 and
+rises with phase. That direction is expected rather than awkward: a phase 1 arm is a dose-escalation
+cohort of a few patients, and both endpoints there are estimated from almost nothing. Response
+criterion version, central review status and whether documented progression was required at entry
+are not fields in posted results, so those strata could not be constructed.
 
 ### 4.3 Zero-response readouts
 

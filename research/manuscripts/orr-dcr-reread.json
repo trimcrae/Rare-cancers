@@ -25201,8 +25201,9 @@
    "weighted_gap_pp": 39.4
   }
  },
- "R4_prestated_sensitivities": {
-  "_why": "if the median gap survives every stratum, that is the finding. Each stratum was named before the distribution was inspected.",
+ "R4_sensitivities": {
+  "⚠_these_strata_were_NOT_pre_specified": "the CORPUS was pre-specified -- queries, window, screening and extraction, frozen before retrieval, per POLICY-evidence 2.6(g). The STRATA were not: nothing in lit-targets-cross-disease-endpoints.json names one, and they were chosen after the corpus existed. This block was headed 'prestated_sensitivities' and asserted that each stratum 'was named before the distribution was inspected', which no committed file supports. SUPERSEDED, RETAINED: that claim. What defends the strata is not a date stamp but EXHAUSTIVENESS -- every stratum the available fields can construct is reported below, including the ones that move the gap DOWN, so there is no selected subset to cherry-pick from.",
+  "_why_exhaustiveness_is_the_defence": "a post-hoc stratum is only a problem if the ones that disagree were dropped. Phase 1 arms give the LOWEST gap here and are reported for exactly that reason; an earlier version of this block omitted phase 1 entirely and reported phases 2 and 3 as if they were the phase strata, which is the shape selective reporting takes.",
   "arms_with_n_at_least_20": {
    "_label": "n >= 20",
    "arms": 138,
@@ -25222,8 +25223,27 @@
    },
    "_no_pooled_estimate": "deliberate. Order statistics only, per POLICY-evidence 2.6(c). A pooled proportion across diseases would average unlike things."
   },
-  "phase_2_only": {
-   "_label": "phase 2 only",
+  "phase_1_any": {
+   "_label": "phase 1, alone or combined",
+   "arms": 370,
+   "median_gap_pp": 36.4,
+   "iqr_gap_pp": [
+    20.0,
+    58.0
+   ],
+   "range_gap_pp": [
+    0.0,
+    100.0
+   ],
+   "arms_at_or_above": {
+    "25": 258,
+    "50": 136,
+    "75": 61
+   },
+   "_no_pooled_estimate": "deliberate. Order statistics only, per POLICY-evidence 2.6(c). A pooled proportion across diseases would average unlike things."
+  },
+  "phase_2_any": {
+   "_label": "phase 2, alone or combined",
    "arms": 355,
    "median_gap_pp": 40.0,
    "iqr_gap_pp": [
@@ -25241,8 +25261,8 @@
    },
    "_no_pooled_estimate": "deliberate. Order statistics only, per POLICY-evidence 2.6(c). A pooled proportion across diseases would average unlike things."
   },
-  "phase_3_only": {
-   "_label": "phase 3 only",
+  "phase_3_any": {
+   "_label": "phase 3, alone or combined",
    "arms": 58,
    "median_gap_pp": 43.6,
    "iqr_gap_pp": [
@@ -25257,6 +25277,82 @@
     "25": 47,
     "50": 17,
     "75": 3
+   },
+   "_no_pooled_estimate": "deliberate. Order statistics only, per POLICY-evidence 2.6(c). A pooled proportion across diseases would average unlike things."
+  },
+  "phase_1_only": {
+   "_label": "phase 1 only",
+   "arms": 133,
+   "median_gap_pp": 35.9,
+   "iqr_gap_pp": [
+    20.0,
+    60.0
+   ],
+   "range_gap_pp": [
+    0.0,
+    100.0
+   ],
+   "arms_at_or_above": {
+    "25": 98,
+    "50": 57,
+    "75": 27
+   },
+   "_no_pooled_estimate": "deliberate. Order statistics only, per POLICY-evidence 2.6(c). A pooled proportion across diseases would average unlike things."
+  },
+  "phase_2_only": {
+   "_label": "phase 2 only",
+   "arms": 114,
+   "median_gap_pp": 39.4,
+   "iqr_gap_pp": [
+    22.6,
+    52.5
+   ],
+   "range_gap_pp": [
+    0.0,
+    100.0
+   ],
+   "arms_at_or_above": {
+    "25": 83,
+    "50": 38,
+    "75": 7
+   },
+   "_no_pooled_estimate": "deliberate. Order statistics only, per POLICY-evidence 2.6(c). A pooled proportion across diseases would average unlike things."
+  },
+  "phase_3_only": {
+   "_label": "phase 3 only",
+   "arms": 54,
+   "median_gap_pp": 41.8,
+   "iqr_gap_pp": [
+    28.2,
+    48.9
+   ],
+   "range_gap_pp": [
+    0.0,
+    66.7
+   ],
+   "arms_at_or_above": {
+    "25": 43,
+    "50": 13,
+    "75": 0
+   },
+   "_no_pooled_estimate": "deliberate. Order statistics only, per POLICY-evidence 2.6(c). A pooled proportion across diseases would average unlike things."
+  },
+  "no_phase_recorded": {
+   "_label": "no phase recorded",
+   "arms": 7,
+   "median_gap_pp": 27.2,
+   "iqr_gap_pp": [
+    24.0,
+    28.4
+   ],
+   "range_gap_pp": [
+    21.1,
+    31.4
+   ],
+   "arms_at_or_above": {
+    "25": 5,
+    "50": 0,
+    "75": 0
    },
    "_no_pooled_estimate": "deliberate. Order statistics only, per POLICY-evidence 2.6(c). A pooled proportion across diseases would average unlike things."
   },
@@ -25279,6 +25375,7 @@
    },
    "_no_pooled_estimate": "deliberate. Order statistics only, per POLICY-evidence 2.6(c). A pooled proportion across diseases would average unlike things."
   },
+  "_the_reading": "the gap is present in every stratum the corpus can construct, and it is LOWER in phase 1 than overall. That direction is expected rather than awkward: phase 1 arms are dose-escalation cohorts of a few patients, where both endpoints are estimated from almost nothing. It is reported because the alternative -- showing only the strata that move the gap up -- is what the exhaustiveness rule above exists to prevent.",
   "_not_yet_stratifiable": {
    "recist_version": "not a field in posted results; needs the publication",
    "central_review": "not a field in posted results; needs the publication",

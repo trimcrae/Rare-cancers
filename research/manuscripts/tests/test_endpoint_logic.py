@@ -284,6 +284,87 @@ def test_the_distinct_trial_count_equals_the_corpus_trial_count():
             ["distinct_ncts_with_a_four_cell_block"] == doc["C6_counts"]["distinct_trials"])
 
 
+# ------------------------------------------------- the stratification is exhaustive
+
+def _sens():
+    import json
+    with open(os.path.join(MANUSCRIPTS, "orr-dcr-reread.json")) as fh:
+        return json.load(fh)
+
+
+def test_every_phase_present_in_the_corpus_has_a_stratum():
+    """Section 4.2 rests on being exhaustive, so a phase in the corpus and not in the table is a bug.
+
+    ⛔ THIS IS A REGRESSION. The block reported phase 2 and phase 3 and omitted PHASE1 entirely --
+    370 arms, more than either reported stratum, and the ONLY stratum that moves the gap DOWN. It
+    also called itself pre-stated. Reporting the strata that raise a number and not the one that
+    lowers it is the shape selective reporting takes, whether or not anyone intended it.
+    """
+    doc = _sens()
+    sens = doc["R4_sensitivities"]
+    phases = set()
+    for r in doc["R2_per_arm_rows"]:
+        phases.update(r["phases"] or [])
+    reported = " ".join(v.get("_label", "") for v in sens.values() if isinstance(v, dict)).lower()
+    for ph in phases:
+        if ph in ("EARLY_PHASE1", "PHASE4"):
+            continue  # 2 and 1 arms respectively; below any stratum worth a median
+        n = ph.replace("PHASE", "")
+        assert f"phase {n}" in reported, (
+            f"{ph} is in the corpus but has no stratum in R4_sensitivities")
+
+
+def test_the_any_and_only_phase_strata_are_actually_different_filters():
+    """`"PHASE2" in phases` is not `phases == ["PHASE2"]`, and the difference was mislabelled.
+
+    The published row called "phase 2 only" was really phase 2 ANY: 355 arms including the 237
+    registered as PHASE1|PHASE2. Phase-2-only is 114. Both are legitimate; neither may carry the
+    other's name.
+    """
+    sens = _sens()["R4_sensitivities"]
+    for n in ("1", "2", "3"):
+        any_, only = sens[f"phase_{n}_any"], sens[f"phase_{n}_only"]
+        assert only["arms"] < any_["arms"], f"phase {n}: 'only' must be a strict subset of 'any'"
+        assert "alone or combined" in any_["_label"]
+        assert any_["_label"] != only["_label"]
+
+
+def test_the_only_phase_strata_partition_the_phased_arms():
+    """The disjoint rows plus the unphased ones must account for every arm exactly once.
+
+    Otherwise "the 'only' rows are the disjoint partition" in section 4.2 is an assertion about a
+    table rather than a property of it.
+    """
+    doc = _sens()
+    sens = doc["R4_sensitivities"]
+    rows = doc["R2_per_arm_rows"]
+    disjoint = sum(sens[k]["arms"] for k in
+                   ("phase_1_only", "phase_2_only", "phase_3_only", "no_phase_recorded"))
+    multi = len([r for r in rows if len(r["phases"] or []) > 1])
+    other = len([r for r in rows if (r["phases"] or []) in (["EARLY_PHASE1"], ["PHASE4"])])
+    assert disjoint + multi + other == len(rows), (
+        f"{disjoint} disjoint + {multi} multi-phase + {other} other != {len(rows)} arms")
+
+
+def test_no_committed_file_claims_the_strata_were_pre_specified():
+    """The corpus was frozen before retrieval. The strata were not, and said they were.
+
+    POLICY-evidence 2.6(g) pre-specifies queries, window, screening and extraction -- nothing about
+    stratification -- and the frozen protocol names no stratum. A false pre-specification claim is
+    the kind a reader cannot check and must therefore take on trust, which is why it has to go.
+    """
+    import json
+    sens = _sens()["R4_sensitivities"]
+    assert any("NOT_pre_specified" in k for k in sens), (
+        "R4 must state that its strata were not pre-specified")
+    with open(os.path.join(MANUSCRIPTS, "lit-targets-cross-disease-endpoints.json")) as fh:
+        protocol = fh.read().lower()
+    for word in ("stratum", "strata", "stratif"):
+        assert word not in protocol, (
+            f"the frozen protocol now mentions {word!r}; if strata really were pre-specified, "
+            f"update R4's disclaimer to say so rather than leaving it overstating the weakness")
+
+
 # ------------------------------------------------- figure 3's binomial expectation
 
 def test_the_figure_and_the_artifact_compute_the_same_expectation():

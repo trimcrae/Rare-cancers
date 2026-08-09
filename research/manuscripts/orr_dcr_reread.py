@@ -262,17 +262,51 @@ def build():
             },
         },
 
-        "R4_prestated_sensitivities": {
-            "_why": "if the median gap survives every stratum, that is the finding. Each stratum "
-                    "was named before the distribution was inspected.",
+        "R4_sensitivities": {
+            "⚠_these_strata_were_NOT_pre_specified": (
+                "the CORPUS was pre-specified -- queries, window, screening and extraction, frozen "
+                "before retrieval, per POLICY-evidence 2.6(g). The STRATA were not: nothing in "
+                "lit-targets-cross-disease-endpoints.json names one, and they were chosen after the "
+                "corpus existed. This block was headed 'prestated_sensitivities' and asserted that "
+                "each stratum 'was named before the distribution was inspected', which no committed "
+                "file supports. SUPERSEDED, RETAINED: that claim. What defends the strata is not a "
+                "date stamp but EXHAUSTIVENESS -- every stratum the available fields can construct "
+                "is reported below, including the ones that move the gap DOWN, so there is no "
+                "selected subset to cherry-pick from."),
+            "_why_exhaustiveness_is_the_defence": (
+                "a post-hoc stratum is only a problem if the ones that disagree were dropped. Phase "
+                "1 arms give the LOWEST gap here and are reported for exactly that reason; an "
+                "earlier version of this block omitted phase 1 entirely and reported phases 2 and 3 "
+                "as if they were the phase strata, which is the shape selective reporting takes."),
             "arms_with_n_at_least_20": distribution([r for r in rows if r["n"] >= 20],
                                                     "n >= 20"),
-            "phase_2_only": distribution([r for r in rows if "PHASE2" in (r["phases"] or [])],
+            # ⛔ "ANY" AND "ONLY" ARE DIFFERENT FILTERS AND WERE LABELLED WRONG. `"PHASE2" in phases`
+            # admits the 237 arms registered as PHASE1|PHASE2, so the row previously published and
+            # printed as "phase 2 only" (355 arms) was phase 2 ANY. Phase-2-only is 114 arms.
+            # Both are reported; neither is called by the other's name.
+            "phase_1_any": distribution([r for r in rows if "PHASE1" in (r["phases"] or [])],
+                                        "phase 1, alone or combined"),
+            "phase_2_any": distribution([r for r in rows if "PHASE2" in (r["phases"] or [])],
+                                        "phase 2, alone or combined"),
+            "phase_3_any": distribution([r for r in rows if "PHASE3" in (r["phases"] or [])],
+                                        "phase 3, alone or combined"),
+            "phase_1_only": distribution([r for r in rows if (r["phases"] or []) == ["PHASE1"]],
+                                         "phase 1 only"),
+            "phase_2_only": distribution([r for r in rows if (r["phases"] or []) == ["PHASE2"]],
                                          "phase 2 only"),
-            "phase_3_only": distribution([r for r in rows if "PHASE3" in (r["phases"] or [])],
+            "phase_3_only": distribution([r for r in rows if (r["phases"] or []) == ["PHASE3"]],
                                          "phase 3 only"),
+            "no_phase_recorded": distribution([r for r in rows if not (r["phases"] or [])],
+                                              "no phase recorded"),
             "control_arm_candidates_only": distribution(
                 [r for r in rows if r["control_arm_candidate"]], "control-arm candidates"),
+            "_the_reading": (
+                "the gap is present in every stratum the corpus can construct, and it is LOWER in "
+                "phase 1 than overall. That direction is expected rather than awkward: phase 1 arms "
+                "are dose-escalation cohorts of a few patients, where both endpoints are estimated "
+                "from almost nothing. It is reported because the alternative -- showing only the "
+                "strata that move the gap up -- is what the exhaustiveness rule above exists to "
+                "prevent."),
             "_not_yet_stratifiable": {
                 "recist_version": "not a field in posted results; needs the publication",
                 "central_review": "not a field in posted results; needs the publication",
