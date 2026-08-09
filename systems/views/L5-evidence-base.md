@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 15 evidence items · 28 artifacts · 14 pinned claims.**
+**19 objects · 15 evidence items · 33 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -89,6 +89,11 @@ omitted, and why `[L5]` reports the count.
 | **ART-EMC-CLINICAL-REGISTRY** | `research/data/emc-clinical-registry.json` | `hand-curated from published literature; ingestion via scripts/fetch-paper.mjs + scripts/triage-literature.mjs` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md), [RT-ICI-TKI](L2-rt-ici-tki.md), [RT-PARTNER-STRAT](L2-rt-partner-strat.md), [RT-TRABECTEDIN](L2-rt-trabectedin.md) |
 | **ART-EMC-ENDPOINT-DISCORDANCE** | `research/manuscripts/emc-endpoint-discordance.json` | `research/manuscripts/emc_endpoint_discordance.py (stdlib only, CPU, $0; --check re-derives and refuses to write on any drift)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
 | **ART-EMC-EXPRESSION-PANELS** | `research/modalities/emc-expression-panels.json` | `research/modalities/emc_expression_panels.py` | ⚠ **nothing** |
+| **ART-ENDPOINT-CORPUS** | `research/manuscripts/endpoint-corpus.json` | `research/manuscripts/endpoint_corpus.py (stdlib only, CPU, $0; --check re-derives from the literature-cache extraction and refuses to write on drift)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
+| **ART-ENDPOINT-ORR-DCR-REREAD** | `research/manuscripts/orr-dcr-reread.json` | `research/manuscripts/orr_dcr_reread.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
+| **ART-ENDPOINT-PLACEBO-CALIBRATION** | `research/manuscripts/placebo-arm-calibration.json` | `research/manuscripts/placebo_arm_calibration.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
+| **ART-ENDPOINT-PRIOR-ART-AUDIT** | `research/manuscripts/endpoint-prior-art-audit.json` | `research/manuscripts/endpoint_prior_art_audit.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
+| **ART-ENDPOINT-REGIME-MAP** | `research/manuscripts/endpoint-regime-map.json` | `research/manuscripts/endpoint_regime_map.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
 | **ART-FUSION-OBJECT-INVENTORY** | `research/modalities/fusion-object-inventory.json` | `research/modalities/fusion_object_inventory.py` | `CLM-BREAKPOINT-FILTER`, `OBJ-EWSR1-WT`, `OBJ-NR4A3-WT`, [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md), [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) |
 | **ART-FUSION-PARTNER-POOLING** | `research/manuscripts/emc-fusion-partner-pooling.json` | `research/manuscripts/emc_fusion_partner_pooling.py` | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) |
 | **ART-GSE28866-TUMOUR-VS-NORMAL** | `research/modalities/gse28866-tumour-vs-normal.json` | `the GSE28866 supplementary peak-table read (emc-expression-datasets.yml)` | ⚠ **nothing** |

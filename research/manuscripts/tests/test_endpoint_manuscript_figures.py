@@ -100,6 +100,26 @@ def test_every_headline_figure_appears_in_the_manuscript(paper, figures):
         f"regenerated and the prose was not updated, or a figure was reworded: {missing}")
 
 
+#: JNCI's structured-abstract limit, and the reason the abstract was cut from 543 words. The
+#: section labels are not counted, matching how a journal's own word count treats them.
+ABSTRACT_WORD_LIMIT = 305
+
+
+def test_the_abstract_fits_the_target_venue_word_limit(paper):
+    """The abstract must stay submittable without anyone remembering to recount it.
+
+    The count was checked by hand once and then drifted over the limit twice within a single
+    session's edits, each time by a few words added to the Results. A hand count is exactly the kind
+    of fact that goes stale silently: nothing about an over-long abstract looks wrong on the page.
+    """
+    body = paper.split("## Abstract", 1)[1].split("\n---\n", 1)[0]
+    body = re.sub(r"\*\*(Background|Methods|Results|Conclusions)\.\*\*", "", body)
+    words = [w for w in re.sub(r"\*", "", body).split() if w.strip()]
+    assert len(words) <= ABSTRACT_WORD_LIMIT, (
+        f"the abstract is {len(words)} words against a {ABSTRACT_WORD_LIMIT}-word limit; trim it "
+        f"rather than raising the constant, unless the target venue changed")
+
+
 def test_the_manuscript_names_its_producers(paper):
     for producer in ("endpoint_corpus.py", "orr_dcr_reread.py", "endpoint_regime_map.py",
                      "placebo_arm_calibration.py", "endpoint_prior_art_audit.py",

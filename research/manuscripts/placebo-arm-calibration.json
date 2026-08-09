@@ -846,9 +846,19 @@
    "observation_no_active_agent": 1
   },
   "control_arms_found": 19,
+  "⚠_what_the_screening_net_actually_counts": "arms whose TITLE or registered type carries a control token -- placebo, best supportive care, observation. All 19 passed that net; it is not a claim that all 19 are control arms. 8 are registered EXPERIMENTAL or ACTIVE_COMPARATOR and match only because their title contains 'BSC': in a trial comparing an agent against chemotherapy plus best supportive care, BOTH arms carry the token. The composition is reported below rather than left to a reader who might take 19 as a count of control arms.",
+  "composition_by_registered_arm_type": {
+   "UNRESOLVED": 3,
+   "EXPERIMENTAL": 6,
+   "ACTIVE_COMPARATOR": 2,
+   "PLACEBO_COMPARATOR": 7,
+   "NO_INTERVENTION": 1
+  },
+  "arms_the_registry_registers_as_a_control_type": 8,
+  "arms_the_registry_registers_as_an_active_type": 8,
   "control_arms_with_no_active_agent_named": 1,
   "usable_for_calibration_today": 0,
-  "reading": "of 552 arms, 19 are control arms. Reading the registry's own intervention list rather than the arm title, 16 carry an active backbone. Two cannot be matched to a registered arm group and are therefore not called untreated. One is a genuine no-intervention arm, and its best-response table measures response to the therapy that preceded randomisation (P7). ZERO arms in this corpus can carry a natural-history reading. That is a statement about the record, not about biology, and it is now a measured conclusion from full protocol records rather than an absence of data."
+  "reading": "of 552 arms, 19 pass the control-token screen. Reading the registry's own intervention list rather than the arm title, 16 carry an active backbone. 2 cannot be matched to a registered arm group and are therefore not called untreated. 1 is a genuine no-intervention arm, and its best-response table measures response to the therapy that preceded randomisation (P7). ZERO arms in this corpus can carry a natural-history reading. That is a statement about the record, not about biology, and it is a measured conclusion from full protocol records rather than an absence of data."
  },
  "P4_progression_at_entry_strata": {
   "_source": "read from ClinicalTrials.gov eligibility prose, retrieved in round 6 for the 12 trials contributing a control arm. Round 4's field limit had dropped the eligibility module, which is why this was CANNOT_DETERMINE for every arm until now.",

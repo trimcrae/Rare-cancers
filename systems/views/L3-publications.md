@@ -168,7 +168,7 @@ The failure of an objective-response summary is a property of two measurable coo
 
 | route | role | what it contributes |
 |---|---|---|
-| [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) — Reframe the endpoint advanced-EMC systemic therapy i | `primary` | The whole paper: the two endpoints on one denominator, the 36 discordant patients, the reporting-completeness census, the small-trial arithmetic, and the limitations section that states the natural-history confound at full strength. |
+| [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) — Reframe the endpoint systemic-therapy trials are jud | `primary` | The whole paper: 552 arms re-read with both endpoints on one denominator, 44 conditions placed on the two coordinates that decide whether a response readout can work, the audit showing the remedy already exists in four families across 12 domains, and the limitations section that states the natural-history confound at full strength. |
 
 ### PUB-FUSION-OUTPUT — Almost every gene set reads higher in the index arm: a size-matched empirical null for small rare-tumour expression series, and what it leaves of the EWSR1::NR4A3 direct-target catalogue
 

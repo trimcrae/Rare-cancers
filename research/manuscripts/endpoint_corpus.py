@@ -156,6 +156,21 @@ def extract():
     arms, dispositions, provenance = [], collections.Counter(), {}
     seen_arm = set()
 
+    # ⛔ THE CENSUS DENOMINATOR IS TWO POPULATIONS, AND ONLY ONE OF THEM IS THE ARGUMENT.
+    # `studies_screened` is the union of two frozen query families. The BOR family
+    # (query.term="best overall response") is a set of trials that SAY they measured best overall
+    # response, so a missing four-cell table there is a reporting failure and is what the paper asks
+    # about. The PLACEBO family (AREA[ArmGroupType]PLACEBO_COMPARATOR over oncology) is selected on
+    # having a placebo arm and includes prevention, supportive-care and survival-endpoint trials that
+    # had no reason to tabulate best response at all -- for those, an absent table is not a failure.
+    # Pooling them makes the headline share a mixture. The split is counted here so the paper can
+    # report the narrower, defensible figure alongside the union rather than quote only the union.
+    # A study matching both queries is counted once per family below and ALSO tracked as a distinct
+    # NCT, because `studies_screened` counts RECORDS and the same trial can appear in both payloads.
+    fam = {f: collections.Counter() for f in ("bor", "placebo")}
+    fam_ncts = {f: set() for f in ("bor", "placebo")}
+    all_ncts, ncts_with_a_block = set(), set()
+
     for name in BOR_FILES + PLACEBO_FILES:
         doc, ref = _payload(name)
         if doc is None:
@@ -175,6 +190,11 @@ def extract():
             arm_types = {(g.get("label") or ""): g.get("type")
                          for g in (ps.get("armsInterventionsModule") or {}).get("armGroups") or []}
             dispositions["studies_screened"] += 1
+            this_fam = "bor" if name in BOR_FILES else "placebo"
+            fam[this_fam]["screened"] += 1
+            if nct:
+                fam_ncts[this_fam].add(nct)
+                all_ncts.add(nct)
             oms = (rs.get("outcomeMeasuresModule") or {}).get("outcomeMeasures") or []
             if not oms:
                 dispositions["no_posted_outcome_measures"] += 1
@@ -212,8 +232,12 @@ def extract():
                         "control_arm_candidate": bool(CONTROL_TITLE.search(gtitle)),
                         "retrieved_file": f"literature-cache:literature/{SLUG}/{name}.txt",
                     })
-            if not found_here:
+            if found_here:
+                if nct:
+                    ncts_with_a_block.add(nct)
+            else:
                 dispositions["study_posted_results_but_no_four_cell_block"] += 1
+                fam[this_fam]["no_four_cell_block"] += 1
 
     accrual, acc_prov = [], {}
     for name in ACCRUAL_FILES:
@@ -254,6 +278,14 @@ def extract():
         "retrieval_provenance": provenance,
         "accrual_provenance": acc_prov,
         "dispositions": dict(dispositions),
+        "census_by_query_family": {
+            f: {"screened": fam[f]["screened"],
+                "no_four_cell_block": fam[f]["no_four_cell_block"],
+                "distinct_ncts": len(fam_ncts[f])}
+            for f in ("bor", "placebo")},
+        "distinct_ncts_screened": len(all_ncts),
+        "distinct_ncts_in_both_families": len(fam_ncts["bor"] & fam_ncts["placebo"]),
+        "distinct_ncts_with_a_four_cell_block": len(ncts_with_a_block),
         "arms": arms,
         "accrual_records": accrual,
     }
@@ -266,6 +298,71 @@ def extract():
 def load_inputs():
     with open(INPUTS) as fh:
         return json.load(fh)
+
+
+def _decompose_census(src):
+    """Split the reporting-census denominator into the two things it is actually made of.
+
+    ⛔ THE OBJECTION THIS ANSWERS. `studies_screened` pools two frozen queries. Only the first is a
+    fair test of the paper's ask: those trials say in their own registry text that they measured best
+    overall response, so a missing four-cell table is a reporting choice. The second is selected on
+    having a placebo arm and sweeps in prevention, supportive-care and survival-endpoint trials that
+    never claimed to measure best response, where an absent table is not a failure of anything.
+    A reviewer who noticed the pooling would be right to ask for the narrow figure, and the honest
+    thing is to compute it rather than wait to be asked.
+
+    It also fixes a second, quieter problem: `studies_screened` counts RECORDS, and a trial matching
+    both queries appears in both payloads, so the record count exceeds the number of distinct trials.
+    Both the record-based and the trial-based shares are reported here; they differ by little, which
+    is itself the useful reading.
+    """
+    fam = src.get("census_by_query_family") or {}
+    bor, pla = fam.get("bor") or {}, fam.get("placebo") or {}
+    n_ncts = src.get("distinct_ncts_screened")
+    with_block = src.get("distinct_ncts_with_a_four_cell_block")
+
+    def share(no_block, screened):
+        return round(100.0 * no_block / screened, 1) if screened else None
+
+    out = {
+        "_why_this_block_exists": (
+            "the pooled census share is computed over two query families with different claims on "
+            "the argument. The narrower family is the defensible denominator and is reported here "
+            "beside the pooled one, rather than left for a reviewer to ask for."),
+        "best_overall_response_family": {
+            "_what_selected_it": 'query.term="best overall response" over oncology, posted results',
+            "_why_it_is_the_fair_denominator": (
+                "these trials state that they measured best overall response, so posting results "
+                "without the four categories is a reporting choice rather than an irrelevance"),
+            "screened": bor.get("screened"),
+            "no_four_cell_block": bor.get("no_four_cell_block"),
+            "share_not_re_readable_pct": share(bor.get("no_four_cell_block"), bor.get("screened")),
+        },
+        "placebo_arm_family": {
+            "_what_selected_it": "AREA[ArmGroupType]PLACEBO_COMPARATOR over oncology, posted results",
+            "_why_it_is_a_weaker_denominator": (
+                "selected on trial DESIGN rather than on what was measured, so it includes "
+                "prevention, supportive-care and survival-endpoint trials with no reason to "
+                "tabulate best response. An absent table here is not evidence of anything"),
+            "screened": pla.get("screened"),
+            "no_four_cell_block": pla.get("no_four_cell_block"),
+            "share_not_re_readable_pct": share(pla.get("no_four_cell_block"), pla.get("screened")),
+        },
+        "records_versus_distinct_trials": {
+            "records_screened": src["dispositions"].get("studies_screened"),
+            "distinct_ncts_screened": n_ncts,
+            "distinct_ncts_in_both_families": src.get("distinct_ncts_in_both_families"),
+            "distinct_ncts_with_a_four_cell_block": with_block,
+            "share_not_re_readable_pct_on_distinct_trials": (
+                share(n_ncts - with_block, n_ncts)
+                if isinstance(n_ncts, int) and isinstance(with_block, int) else None),
+        },
+        "_the_reading": (
+            "the narrow denominator gives a LOWER share than the pooled one, and the difference is "
+            "small. The pooled figure is therefore not carried by the trials that had no reason to "
+            "report; the paper's ask survives the strictest denominator available to it."),
+    }
+    return out
 
 
 def build():
@@ -318,6 +415,7 @@ def build():
                 "assertion, which is why it is computed here and not in a separate pass."),
             **src["dispositions"],
         },
+        "C3b_census_denominator_decomposed": _decompose_census(src),
         "C4_disease_attributes": {
             "_used_by_nothing": (
                 "recorded so the manuscript can DESCRIBE where diseases landed, after the fact. "

@@ -67,6 +67,31 @@ def test_regression_a_sibling_arm_group_must_not_certify_an_arm_as_untreated():
     assert P.classify(arm, detail) == "control_plus_active_backbone"
 
 
+@pytest.mark.parametrize("title", ["Placebo + Sandostatin LAR", "Placebo+Sandostatin LAR",
+                                   "Placebo  +  Everolimus", "BSC + Regorafenib"])
+def test_a_combination_title_is_backboned_on_the_title_alone(title):
+    """The `+` in an arm title must fire whether or not it is spaced.
+
+    THIS TEST CANNOT BE OBSERVED IN AN ARTIFACT, which is why it is here. The `+` alternative was
+    written inside the pattern's leading `\\b`, which scopes over the whole alternation; a word
+    boundary before `+` needs a word character to its LEFT, so `Placebo+Drug` matched and
+    `Placebo + Drug` did not. Over the 552 corpus arms the correction changes the backbone call for
+    93 arms, and the two carrying a control token were ALREADY caught by the registry signal -- so
+    `placebo-arm-calibration.json` is byte-identical before and after, and a revert would be silent.
+
+    The two signals are meant to agree. This asserts the title half on its own, with `detail` empty
+    so the registry half cannot supply the answer.
+    """
+    assert P.classify(_arm("NCT_X", title), {}) == "control_plus_active_backbone"
+
+
+def test_a_control_token_with_no_combination_is_not_backboned_by_the_plus_rule():
+    """The counterpart. Broadening the pattern must not make every control arm backboned, or the
+    classifier would be conservative to the point of measuring nothing."""
+    assert P.classify(_arm("NCT_Y", "Placebo"), _detail("NCT_Y", "Placebo", ["Drug: Placebo"])) == \
+        "placebo_or_bsc_alone"
+
+
 def test_an_unmatchable_label_is_unclassified_and_never_untreated():
     """The failure direction that matters. A false backboned call costs one arm of calibration; a
     false untreated call puts a treated arm inside a natural-history estimate."""
@@ -187,6 +212,76 @@ def test_the_share_below_the_design_contour_excludes_undefined_conditions():
     below = g["conditions_whose_median_trial_is_below_the_design_contour"]
     assert g["share_below_the_design_contour_pct"] == round(100 * below / defined, 1)
     assert defined < g["conditions_placed"], "undefined conditions must be excluded, not hidden"
+
+
+# ------------------------------------------------- the census denominator decomposition
+
+def _census():
+    import json
+    with open(os.path.join(MANUSCRIPTS, "endpoint-corpus.json")) as fh:
+        doc = json.load(fh)
+    return doc["C3_dispositions"], doc["C3b_census_denominator_decomposed"]
+
+
+def test_the_two_query_families_partition_the_screened_records():
+    """The decomposition must ACCOUNT FOR the pooled denominator, not sit beside it.
+
+    If the two families do not sum to `studies_screened`, then either a payload is being read into
+    neither family or the pooled figure includes something the paper does not describe. Both are
+    reasons a reader could not reconcile section 5's table with its own totals.
+    """
+    disp, dec = _census()
+    bor = dec["best_overall_response_family"]
+    pla = dec["placebo_arm_family"]
+    assert bor["screened"] + pla["screened"] == disp["studies_screened"]
+    assert (bor["no_four_cell_block"] + pla["no_four_cell_block"]
+            == disp["study_posted_results_but_no_four_cell_block"])
+
+
+def test_the_narrow_denominator_is_the_stricter_test_and_the_paper_leads_with_it():
+    """The point of computing the split is that the strict figure is LOWER.
+
+    If the best-overall-response family ever became the higher share, leading the abstract with it
+    would be quoting the more flattering number, and this test is what would stop that going out.
+    """
+    _, dec = _census()
+    assert (dec["best_overall_response_family"]["share_not_re_readable_pct"]
+            <= dec["placebo_arm_family"]["share_not_re_readable_pct"])
+    with open(os.path.join(MANUSCRIPTS, "response-endpoint-indolent-tumours.md"),
+              encoding="utf-8") as fh:
+        abstract = fh.read().split("## Abstract", 1)[1].split("## 1. Background", 1)[0]
+    assert str(dec["best_overall_response_family"]["share_not_re_readable_pct"]) in abstract, (
+        "the abstract must quote the strict denominator's share, not only the pooled one")
+
+
+def test_records_exceed_distinct_trials_by_exactly_the_overlap():
+    """A trial matching both frozen queries appears in both payloads.
+
+    `studies_screened` counts RECORDS. Section 5.1 reports a per-trial share as well, and that is
+    only meaningful if the two counts differ by the measured overlap.
+    """
+    disp, dec = _census()
+    r = dec["records_versus_distinct_trials"]
+    assert r["records_screened"] == disp["studies_screened"]
+    assert r["distinct_ncts_screened"] == r["records_screened"] - r["distinct_ncts_in_both_families"]
+    assert r["distinct_ncts_with_a_four_cell_block"] > 0
+    expect = round(100.0 * (r["distinct_ncts_screened"] - r["distinct_ncts_with_a_four_cell_block"])
+                   / r["distinct_ncts_screened"], 1)
+    assert r["share_not_re_readable_pct_on_distinct_trials"] == expect
+
+
+def test_the_distinct_trial_count_equals_the_corpus_trial_count():
+    """The trials WITH a four-cell block are exactly the corpus's distinct trials.
+
+    Two independent counts of the same set, from different loops. If they diverge, one of them is
+    counting something else and the census no longer shares the corpus's denominator, which is the
+    property POLICY-evidence 2.6(h) requires.
+    """
+    import json
+    with open(os.path.join(MANUSCRIPTS, "endpoint-corpus.json")) as fh:
+        doc = json.load(fh)
+    assert (doc["C3b_census_denominator_decomposed"]["records_versus_distinct_trials"]
+            ["distinct_ncts_with_a_four_cell_block"] == doc["C6_counts"]["distinct_trials"])
 
 
 # ---------------------------------------------------------------- wilson agreement

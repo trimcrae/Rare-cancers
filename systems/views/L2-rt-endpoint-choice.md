@@ -1,11 +1,11 @@
 ---
 id: DOC-VIEW-RT-ENDPOINT-CHOICE
-title: RT-ENDPOINT-CHOICE — Reframe the endpoint advanced-EMC systemic therapy is judged on
+title: RT-ENDPOINT-CHOICE — Reframe the endpoint systemic-therapy trials are judged on
 level: L2
 kind: generated
 status: generated
 generator: systems/systems_check.py
-purpose: Is the objective-response rate a fit summary of systemic-therapy outcomes in an indolent ultra-rare sarcoma, and what does the published record lose by using it?
+purpose: Is the objective-response rate a fit summary of a single-arm trial, and in which regime does it stop carrying information? Measured across trial arms in many diseases rather than in one.
 scope: Level 2 — one route.
 audience: ["maintainers", "autonomous research agents"]
 date: 2026-08-05
@@ -16,9 +16,9 @@ last_verified: 2026-08-05
      python3 systems/systems_check.py --write-views
      Source of truth: systems/graph/*.json -->
 
-# RT-ENDPOINT-CHOICE — Reframe the endpoint advanced-EMC systemic therapy is judged on
+# RT-ENDPOINT-CHOICE — Reframe the endpoint systemic-therapy trials are judged on
 
-**Family:** [ST-DISSEMINATION](L1-st-dissemination.md) · **state:** ✓ ready · computed · confidence moderate · verified 2026-08-07
+**Family:** [ST-DISSEMINATION](L1-st-dissemination.md) · **state:** ✓ ready · computed · confidence moderate · verified 2026-08-09
 
 **Grade** (owned by [`research/manuscripts/response-endpoint-indolent-tumours.md`](../../research/manuscripts/response-endpoint-indolent-tumours.md)): DELIVERABLE, complete. The manuscript exists, every figure in it is derived by a committed producer with a --check reproduction mode, and no measurement, spend, capability or third party gates it. Its ceiling is stated inside it: it is an argument about MEASUREMENT and cannot become evidence that any agent works.
 
@@ -39,14 +39,19 @@ flowchart LR
 
 ## Scientific rationale
 
-EMC is indolent: this repository's own pooled reading of its outcome cohorts puts distant metastasis far above disease-specific death, over follow-up windows in which most patients are alive. An endpoint that records only tumour shrinkage therefore has almost no category to put this disease's observations into. Read over the identical 47 patients ever evaluated for response inside a prospective EMC trial, objective response is 12.8 percent and disease control is 89.4 percent - and the entire 76.6-point gap is 36 patients whose best response was stable disease. That gap is a fact about two endpoints on one dataset, not evidence about any drug, and the route's own strongest objection is that stable disease in an indolent tumour may be natural history. What survives that objection unaltered is the arithmetic: at the pooled response rate a 20-patient single-arm trial expects 2.6 responses and has a 6.5 percent chance of seeing none at all (29 percent at the interval's lower bound), so a zero in that regime is uninterpretable rather than negative. Alongside it sits a reporting finding with a trivial remedy - of the 9 published EMC systemic-therapy cohorts, 7 report extractable objective-response counts and 1 reports a 6-month progression-free count, so the endpoint the field's own trials migrated to is the one it reports least completely.
+The failure of a response summary is a property of two measurable coordinates - the plausible response rate and the accruable sample size - rather than of any tumour type. Across 552 arms in 138 trials reporting a complete four-cell best-response table, the gap between disease control and objective response has a median of 39.4 percentage points. Of 44 conditions placed on the two axes, 16 have a median response at or below the 5% null so no single-stage design is defined for them; of the 28 where it is defined, 14 have a median trial smaller than such a design requires. Reporting is the binding constraint: of 2851 trials whose registry text names best overall response, 2715 (95.2%) post results without the four categories; over the whole pooled screen the figure is 4276 of 4414 records (96.9%), and the narrow denominator is reported because it is the stricter test rather than the larger number. Remedies already exist in four families across 12 disease domains, so the gap is diffusion rather than invention. Extraskeletal myxoid chondrosarcoma is the worked extreme at the 88.9th percentile of the cross-disease gap distribution. SUPERSEDED, RETAINED: this record previously framed the route as a question about 'an indolent ultra-rare sarcoma' and rested on the 47 patients and 36 discordant patients of the single-disease paper. That framing was retired on 2026-08-09 when the paper was generalised; the EMC figures are unchanged and are now one labelled point rather than the subject.
 
 ## Supporting evidence
 
 | ref | supports | strength |
 |---|---|---|
-| `ART-EMC-ENDPOINT-DISCORDANCE` | the two endpoints computed over the identical 47-patient denominator, the 36 discordant stable-disease patients derived two independent ways, the reporting-completeness census, and the small-trial binomial arithmetic - all reproducible offline via --check | `direct` |
-| `ART-EMC-CLINICAL-REGISTRY` | the cited EMC clinical evidence base the counts ultimately rest on, under the evidence contract enforced as a preflight gate | `direct` |
+| `ART-ENDPOINT-ORR-DCR-REREAD` | the re-read itself - 552 arms in 138 trials with both endpoints on one denominator, the gap as a single proportion with an exact interval, and the reporting census that makes the gap's rarity measurable rather than asserted | `direct` |
+| `ART-ENDPOINT-REGIME-MAP` | the two-coordinate map and its boundaries as level sets of the binomial, including the 16 conditions for which no single-stage design against a 5 percent null is defined at any size | `direct` |
+| `ART-ENDPOINT-PRIOR-ART-AUDIT` | the necessity check that reframed the paper - four remedy families already endorsed across 12 disease domains, earliest 1998 - so the contribution is diffusion and placement rather than a new endpoint | `direct` |
+| `ART-ENDPOINT-PLACEBO-CALIBRATION` | how little comparator evidence the corpus holds, and specifically that the low-response corner has almost none, which is what stops the paper claiming disease control is the right endpoint instead | `direct` |
+| `ART-ENDPOINT-CORPUS` | the arm-level inclusion rule everything above is computed over, with no disease-level criterion anywhere in it | `direct` |
+| `ART-EMC-ENDPOINT-DISCORDANCE` | the worked extreme: the EMC numbers that began this route, now one labelled point at the 88.9th percentile of the cross-disease distribution rather than the subject of the paper | `direct` |
+| `ART-EMC-CLINICAL-REGISTRY` | the cited EMC clinical evidence base that worked example ultimately rests on, under the evidence contract enforced as a preflight gate | `direct` |
 
 ## Remaining unknowns
 
@@ -84,7 +89,7 @@ EMC is indolent: this repository's own pooled reading of its outcome cohorts put
 
 `primary` · ◐ `drafted` · aimed at `journal_submission`
 
-**This route contributes:** The whole paper: the two endpoints on one denominator, the 36 discordant patients, the reporting-completeness census, the small-trial arithmetic, and the limitations section that states the natural-history confound at full strength.
+**This route contributes:** The whole paper: 552 arms re-read with both endpoints on one denominator, 44 conditions placed on the two coordinates that decide whether a response readout can work, the audit showing the remedy already exists in four families across 12 domains, and the limitations section that states the natural-history confound at full strength.
 
 **The paper would claim:** The failure of an objective-response summary is a property of two measurable coordinates - the plausible response rate and the accruable sample size - rather than of any tumour type. Across 552 trial arms in 138 trials reporting a complete four-cell best-response table, the gap between disease control and objective response has a median of 39.4 percentage points (IQR 20.0-54.3), and 71 arms combine a response rate at or below 10 percent with disease control at or above 70 percent. Of 44 conditions placed on the two axes, 14 have a median trial smaller than an exact single-stage design would require. Reporting is the binding constraint: 4276 of 4414 screened studies (96.9 percent) post results without the four cells. Remedies already exist in four families across 12 disease domains, so the gap is diffusion rather than invention, and the family that addresses the natural-history confound directly has the least formal endorsement. Extraskeletal myxoid chondrosarcoma is the worked extreme at the 88.9th percentile, which is a weaker claim about that disease and a stronger one about endpoints. It asserts no efficacy, safety or clinical readiness for any agent.
 
@@ -92,22 +97,25 @@ EMC is indolent: this repository's own pooled reading of its outcome cohorts put
 
 **Recommendation: `pursue_now`**
 
-Nothing gates it - no measurement, no spend, no capability, no third party. It was unwritten only because no route modelled it, and the argument's value is highest before the next EMC cohort reports, because its concrete ask is a four-cell best-response table that a trial in design can still print and a trial already published cannot.
+Nothing gates it - no measurement, no spend, no capability, no third party. It was unwritten only because no route modelled it, and its concrete ask is a four-cell best-response table that a trial in design can still print and a trial already published cannot, so the argument's value falls with every cohort that reports without one.
 
 | horizon | effect |
 |---|---|
-| Six months | Little. The IMMUNOSARC II full paper could land and would replace 23 of 47 pooled patients with peer-reviewed counts; the paper already brackets the numerical effect at 1.7 percentage points. |
-| Two years | Small on the arithmetic, potentially large on the confound: an observational growth-rate or time-to-next-treatment analysis in a sarcoma registry would supply the within-patient comparator this literature lacks. |
+| Six months | Little on the argument. The corpus grows as studies post results, and a re-extraction would move the counts without moving the shape; the EMC worked example would gain peer-reviewed counts for part of its pooled denominator if the IMMUNOSARC II full paper lands. |
+| Two years | Small on the arithmetic, potentially large on the confound: prospective active-surveillance cohorts in indolent tumours are now reporting untreated response and regression rates, and enough of them would supply the comparator the interventional record does not contain. |
 | Cost trend | flat |
 | Automation outlook | The derivation and its reproduction check are already automated. The judgement about what stable disease means in an indolent tumour is not, and is the part that carries the paper. |
 
 ## Claim ceiling — what this route may NOT be used to claim
 
 - It is an argument about measurement. It asserts no efficacy, potency, dose, safety, therapeutic window or clinical readiness for any agent, and makes no treatment recommendation, including a negative one.
-- It does not claim disease control is the correct endpoint instead. At 89.4 percent that endpoint is near its ceiling, it has no comparator in this disease, and an unknown share of the stable diseases would have been stable untreated.
-- Every pooled denominator is under 60 patients worldwide, ever. One contributing cohort is 2 patients. The width of the intervals is a finding, not a provisional estimate awaiting a larger series.
-- No randomised evidence exists for any systemic therapy in EMC; the one randomised dataset that touches the disease had a control arm containing no EMC patients at all.
-- Best response is not duration. The route measures neither how long control lasted nor what any patient's outcome was.
+- It does not claim disease control is the correct endpoint instead. That endpoint sits near its ceiling in exactly the regime where it is proposed, and the corpus holds almost no control arm in that regime with which to calibrate it - which is the finding, not a gap awaiting one more query.
+- The corpus is not a random sample: only arms posting a complete four-cell table appear, 552 among the arms of 4414 screened studies. The paper bounds the size of what is missing and states the bias argument in both directions without settling it.
+- Condition strings are registry strings. One disease may appear under several spellings and a broad string may absorb several diseases; the coarsening is directional and points toward this paper's own conclusion, which is why the phase-restricted sensitivity is reported.
+- A condition coordinate is two medians over a heterogeneous set of trials, and accrual records what a trial achieved rather than what a disease could accrue.
+- Posted results carry neither the response criterion version nor the imaging interval nor whether review was central, so disease-control rates measured on different schedules cannot be separated here.
+- The remedy audit reports what a frozen query set returned. A disease absent from it may have an endorsed alternative these queries did not reach.
+- Best response is not duration, and nothing here shows that a different endpoint would have produced a better treatment decision in any trial.
 
 *Inherited from [ST-DISSEMINATION](L1-st-dissemination.md), which is where these are asserted — a family limitation binds every route inside it.*
 
@@ -116,7 +124,7 @@ Nothing gates it - no measurement, no spend, no capability, no third party. It w
 
 ## Best next action
 
-Review the manuscript for external posting. Nothing else in the route is unrun.
+Review the manuscript for external posting to medRxiv. Nothing else in the route is unrun.
 
 *Cost:* $0
 
@@ -124,6 +132,6 @@ Review the manuscript for external posting. Nothing else in the route is unrun.
 
 *L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
 
-**L5 artifacts:** [ART-EMC-ENDPOINT-DISCORDANCE](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
+**L5 artifacts:** [ART-EMC-ENDPOINT-DISCORDANCE](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against), [ART-ENDPOINT-CORPUS](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against), [ART-ENDPOINT-ORR-DCR-REREAD](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against), [ART-ENDPOINT-PLACEBO-CALIBRATION](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against), [ART-ENDPOINT-PRIOR-ART-AUDIT](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against), [ART-ENDPOINT-REGIME-MAP](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-DISSEMINATION](L1-st-dissemination.md) · [← L0](L0-ecosystem.md)

@@ -47,13 +47,22 @@ OUT_REL = "research/manuscripts/placebo-arm-calibration.json"
 #: list is deliberately broad: a false BACKBONED call costs one arm of calibration, a false
 #: UNTREATED call puts a treated arm into a natural-history estimate, which is the error that would
 #: invalidate the analysis.
+#:
+#: ⛔ THE `+` ALTERNATIVE IS OUTSIDE THE `\b` GROUP ON PURPOSE (fixed 2026-08-09). It was written
+#: inside it, where the leading `\b` applies to the whole alternation and therefore to `\+` as well.
+#: A word boundary before a `+` needs a word character immediately to its LEFT, so the pattern
+#: matched `Placebo+Drug` and never `Placebo + Drug` -- the spaced form, which is how registry arm
+#: titles are actually written. Measured over the 552 corpus arms, correcting the scope changes the
+#: backbone call for 93 arms, two of which carry a control token: both are `Placebo + Sandostatin
+#: LAR`, the exact arm this module's own docstring names as the case that defeated the name list.
+#: It was caught by the registry signal alone; now both signals agree on it.
 BACKBONE = re.compile(
-    r"\b(chemotherap|cisplatin|carboplatin|cis\b|carb\b|docetaxel|paclitaxel|pemetrexed|"
+    r"(?:\b(?:chemotherap|cisplatin|carboplatin|cis\b|carb\b|docetaxel|paclitaxel|pemetrexed|"
     r"gemcitabine|doxorubicin|etoposide|irinotecan|oxaliplatin|fluorouracil|capecitabine|"
     r"temozolomide|dacarbazine|cyclophosphamide|bortezomib|lenalidomide|dexamethasone|"
     r"pembrolizumab|nivolumab|atezolizumab|durvalumab|avelumab|ipilimumab|rituximab|"
     r"trastuzumab|bevacizumab|cetuximab|physician.?s? choice|standard of care|SOC\b|"
-    r"radiotherap|chemoradi|\+\s*\w)", re.I)
+    r"radiotherap|chemoradi)|\+\s*\w)", re.I)
 
 CONTROL_TOKEN = re.compile(
     r"\b(placebo|best supportive care|BSC|observation|no (treatment|intervention)|"
@@ -173,15 +182,12 @@ def classify(arm, detail=None):
     return "placebo_or_bsc_alone"
 
 
-def _classify_by_title(title):
-    if BACKBONE.search(title):
-        return "control_plus_active_backbone"
-    if re.search(r"\b(observation|no treatment|no intervention|watchful waiting|surveillance)\b",
-                 title, re.I):
-        return "observation_no_active_agent"
-    if CONTROL_TOKEN.search(title):
-        return "placebo_or_bsc_alone"
-    return "control_arm_unclassified"
+def _type_counts(rows):
+    out = {}
+    for r in rows:
+        t = r.get("arm_group_type") or "UNRESOLVED"
+        out[t] = out.get(t, 0) + 1
+    return out
 
 
 def _verdict_counts(detail):
@@ -274,6 +280,16 @@ def build():
     untreated = [r for r in rows if r["classification"] in
                  ("placebo_or_bsc_alone", "observation_no_active_agent")]
 
+    # Derived, never typed (CLAUDE.md rule 1.1). Every count the P3 prose quotes comes from here, so
+    # a corpus change moves the sentence and the number together instead of leaving them disagreeing
+    # -- which is exactly how P3's `reading` came to call 19 arms "control arms" while the field
+    # directly above it called the same 19 a screening net.
+    n_arms = len(corpus["C2_arms"])
+    control_typed = len([r for r in rows if r.get("arm_group_type")
+                         in ("PLACEBO_COMPARATOR", "NO_INTERVENTION")])
+    active_typed = len([r for r in rows if r.get("arm_group_type")
+                        in ("EXPERIMENTAL", "ACTIVE_COMPARATOR")])
+
     e10 = alts.get("E10_indolent_tumour_placebo_calibration", {})
 
     # The corner: conditions in the low-response regime that have no control arm at all here.
@@ -322,17 +338,30 @@ def build():
                 "natural-history estimate."),
             "counts": buckets,
             "control_arms_found": len(rows),
+            "⚠_what_the_screening_net_actually_counts": (
+                f"arms whose TITLE or registered type carries a control token -- placebo, best "
+                f"supportive care, observation. All {len(rows)} passed that net; it is not a claim "
+                f"that all {len(rows)} are control arms. {active_typed} are registered EXPERIMENTAL "
+                f"or ACTIVE_COMPARATOR and match only because their title contains 'BSC': in a "
+                f"trial comparing an agent against chemotherapy plus best supportive care, BOTH "
+                f"arms carry the token. The composition is reported below rather than left to a "
+                f"reader who might take {len(rows)} as a count of control arms."),
+            "composition_by_registered_arm_type": _type_counts(rows),
+            "arms_the_registry_registers_as_a_control_type": control_typed,
+            "arms_the_registry_registers_as_an_active_type": active_typed,
             "control_arms_with_no_active_agent_named": len(untreated),
             "usable_for_calibration_today": len([r for r in rows if r["usable_for_calibration"]]),
             "reading": (
-                "of 552 arms, 19 are control arms. Reading the registry's own intervention list "
-                "rather than the arm title, 16 carry an active backbone. Two cannot be matched to "
-                "a registered arm group and are therefore not called untreated. One is a genuine "
-                "no-intervention arm, and its best-response table measures response to the therapy "
-                "that preceded randomisation (P7). ZERO arms in this corpus can carry a "
-                "natural-history reading. That is a statement about the record, not about biology, "
-                "and it is now a measured conclusion from full protocol records rather than an "
-                "absence of data."),
+                f"of {n_arms} arms, {len(rows)} pass the control-token screen. Reading the "
+                f"registry's own intervention list rather than the arm title, "
+                f"{buckets.get('control_plus_active_backbone', 0)} carry an active backbone. "
+                f"{buckets.get('control_arm_unclassified_no_registry_match', 0)} cannot be matched "
+                f"to a registered arm group and are therefore not called untreated. "
+                f"{buckets.get('observation_no_active_agent', 0)} is a genuine no-intervention arm, "
+                f"and its best-response table measures response to the therapy that preceded "
+                f"randomisation (P7). ZERO arms in this corpus can carry a natural-history reading. "
+                f"That is a statement about the record, not about biology, and it is a measured "
+                f"conclusion from full protocol records rather than an absence of data."),
         },
 
         "P4_progression_at_entry_strata": {

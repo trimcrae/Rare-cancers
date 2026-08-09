@@ -41,7 +41,12 @@ applied to a human.
 VENUE: medRxiv as preprint, then JNCI. JNCI takes measurement, methodology and reporting-standards
 work as primary research, which is what this is; JCO and Lancet Oncology are oriented to trial
 results and would receive it as a Comments piece with less room for the methods. The abstract is cut
-to 305 words for JNCI's limit; medRxiv imposes none. -->
+to JNCI's 305-word limit; medRxiv imposes none. The count is asserted by
+test_endpoint_manuscript_figures.py, not recounted by hand -- it drifted over the limit twice.
+FILENAME: this file is named for an earlier, narrower framing. The analysis reads no indolence
+descriptor and places mostly common cancers in the affected regime, so the name is a repository
+artifact rather than a scope statement. Section 1.2 makes the scope point on its own evidence; it
+formerly did so by referring to this filename, which a reviewer cannot see and should not have to. -->
 
 > **Declarations for preprint deposit.** Ethics approval and consent were not required and were not
 > sought: this study analyses only aggregate counts already published in trial reports or posted to
@@ -56,32 +61,30 @@ to 305 words for JNCI's limit; medRxiv imposes none. -->
 ## Abstract
 
 **Background.** The objective-response rate is the reflex summary of a single-arm oncology trial. It
-keeps only tumour shrinkage, and is applied without regard to whether a disease can produce
-shrinkage often enough, or accrue patients in numbers large enough, for the figure to carry
-information.
+keeps only tumour shrinkage, and is applied without regard to whether a disease shrinks often enough,
+or accrues patients in numbers large enough, for the figure to carry information.
 
 **Methods.** Under a protocol frozen before retrieval, we assembled trial arms from
-ClinicalTrials.gov posted results. The unit is one arm; inclusion depends on a property of the
-report rather than of the disease, namely all four best-response categories as integer counts with
-an evaluable denominator. No tumour type, grade, rarity or indolence descriptor was an inclusion
-criterion. Both endpoints were computed on the identical denominator. Diseases were placed on two
-measured axes, median objective response and median actual registry enrolment, with two boundaries
-derived as level sets of the binomial. Summaries use order statistics only, with no pooled
-cross-disease estimate.
+ClinicalTrials.gov posted results. The unit is one arm, and inclusion depends on the report rather
+than the disease: all four best-response categories as integer counts with an evaluable denominator.
+No tumour type, grade, rarity or indolence descriptor was an inclusion criterion. Both endpoints were
+computed on the identical denominator. Diseases were placed on two measured axes, median objective
+response and median actual enrolment, with boundaries derived as level sets of the binomial.
+Summaries use order statistics only.
 
 **Results.** 552 arms from 138 trials carried a complete table. The gap between disease control and
 objective response had a median of 39.4 percentage points (IQR 20.0 to 54.3), and is identically the
 stable-disease proportion, so each value carries an exact interval. It survived every pre-stated
 stratum. Of 44 conditions placed, 16 had a median response at or below the 5% null, leaving no design
 defined; of the 28 where it is defined, 14 (50.0%) had a median trial smaller than an exact
-single-stage design requires. Reporting was the binding constraint: 4,276 of 4,414 screened studies
-(96.9%) posted results without the four cells. Of 19 arms carrying a control token, 16 carry an
-active agent once registered interventions are read. Four remedy families are already endorsed
-across 12 disease domains.
+single-stage design requires. Reporting was the binding constraint: of 2,851 trials naming best
+overall response, 2,715 (95.2%) posted results without the four categories. Of 19 arms carrying a
+control token, 16 carry an active agent once registered interventions are read. Four remedy families
+are endorsed across 12 disease domains.
 
-**Conclusions.** The failure of a response summary is a property of a coordinate rather than of a
-tumour type. Remedies are long established and undiffused. A four-cell table with its denominator
-would let any reader compute either endpoint, and is absent from most of the record.
+**Conclusions.** The failure of a response summary is a property of a coordinate rather than a tumour
+type, and remedies are long established but undiffused. A four-cell table with its denominator lets
+any reader compute either endpoint, and is absent from most of the record.
 
 ---
 
@@ -110,8 +113,7 @@ analysis below places diseases on axes rather than sorting them into categories.
 No indolence descriptor was used to select anything, and no analysis reads one. That matters more
 than it may appear: the diseases this analysis places in the affected regime are largely common
 cancers rather than the rare slow-growing tumours the question is usually asked about, and section
-3.2 names them. The file this manuscript lives under retains an earlier, narrower framing in its
-name; the analysis does not.
+3.2 names them.
 
 ---
 
@@ -124,6 +126,13 @@ extraction rule, was committed before any fetch ran
 ([`lit-targets-cross-disease-endpoints.json`](./lit-targets-cross-disease-endpoints.json)). Once
 disease-level selection is forbidden, query choice is the only remaining discretion, so freezing the
 queries in advance is what prevents a corpus assembled to fit a conclusion.
+
+Two query families were frozen, in five date windows each. The first retrieves oncology trials with
+posted results whose registry text names best overall response; the second retrieves oncology trials
+with posted results carrying a registered placebo comparator, and exists to find control arms for
+section 6. Both contribute arms to the corpus on identical terms, and section 5.1 reports the
+reporting census separately for each, because only the first is a set of trials that said they
+measured the quantity.
 
 The unit is one arm of one interventional trial. An arm enters the analysis if its report carries all
 four best-response categories as integer participant counts alongside an evaluable denominator. A
@@ -176,7 +185,14 @@ python3 research/manuscripts/endpoint_result_figures.py --check
 ```
 
 Each producer re-derives its artifact and refuses to write on drift. All seven run in continuous
-integration.
+integration, and `scripts/regenerate_endpoint_chain.sh` runs them in dependency order, because three
+of them read another's output and regenerating out of order leaves a stale artifact that only the
+check detects.
+
+Those commands re-derive every artifact from the extraction cache
+([`endpoint-corpus-inputs.json`](./endpoint-corpus-inputs.json)), which is committed. Rebuilding that
+cache from the raw payloads is a separate step, `endpoint_corpus.py --extract`, and requires the
+`literature-cache` branch.
 
 Retrieval, extraction, analysis and drafting were carried out with AI assistance. The retrieval
 protocol was committed before any fetch ran, every producer re-derives its artifact from its inputs
@@ -341,6 +357,29 @@ the only available bound on that difference.
 | abstracts with all four category labels | 5 |
 | abstracts with four labels and a denominator they sum to | 1 |
 
+### 5.1 Composition of the denominator
+
+That denominator pools two frozen queries with unequal claims on the argument, so it is decomposed
+rather than quoted alone. The first selects trials whose registry text contains the phrase "best
+overall response": those trials state that they measured the quantity, and posting results without
+the four categories is a reporting choice. The second selects oncology trials carrying a registered
+placebo comparator, which is a property of design rather than of measurement, and admits prevention,
+supportive-care and survival-endpoint trials that never claimed to tabulate best response. An absent
+table in the second family is not evidence of anything.
+
+| denominator | screened | no four-cell block | share |
+|---|---|---|---|
+| trials naming best overall response | 2,851 | 2,715 | 95.2% |
+| trials with a registered placebo comparator | 1,563 | 1,561 | 99.9% |
+| pooled, as records | 4,414 | 4,276 | 96.9% |
+| pooled, as distinct trials | 4,235 | 4,097 | 96.7% |
+
+The strictest denominator available gives the lowest share, and the difference from the pooled figure
+is 1.7 percentage points. The pooled figure is therefore not carried by trials that had no reason to
+report. The last row also corrects an arithmetic point: 179 trials match both queries, so the record
+count exceeds the number of distinct trials, and the share computed per trial rather than per record
+is 96.7%.
+
 The direction of the resulting bias is unknown. A trial that reports a full breakdown may be more
 likely to have something to break down, in which case the recovered arms understate the gap; the
 opposite argument is equally available, and neither is tested here. The recovered arms describe
@@ -355,9 +394,15 @@ A disease-control rate counts stable disease as an event, and stable disease ind
 if the disease would otherwise have progressed. Sizing that requires an arm receiving no active
 treatment.
 
-Of 19 control arms recovered, 16 carry an active agent once the registry's own list of registered
-interventions is read rather than the arm title. Two cannot be matched to a registered arm group and
-are therefore not counted as untreated. One is a genuine no-intervention arm.
+Nineteen arms carry a control token in their title or registered type. That is a screening net
+rather than a count of control arms: eight are registered by the trial as a placebo comparator or a
+no-intervention arm, eight as experimental or active comparator, and three are unresolved. The eight
+experimental and active-comparator arms match because their titles contain "BSC" — in a trial
+comparing an agent against chemotherapy plus best supportive care, both arms carry the token.
+
+Of those 19, 16 carry an active agent once the registry's own list of registered interventions is
+read rather than the arm title. Two cannot be matched to a registered arm group and are therefore
+not counted as untreated. One is a genuine no-intervention arm.
 
 Neither signal is trusted alone, because each failed in a different direction. A name-based reading
 of the arm title passed an arm as untreated when its companion agent was a somatostatin analogue, an
@@ -524,8 +569,9 @@ Three consequences follow, none requiring agreement about which endpoint is corr
 
 1. **Publication of the four-cell table.** Complete response, partial response, stable disease and
    progression, with the denominator that produced them. This costs one table, is compatible with
-   every endpoint a later reader might want, and is absent from 96.9% of the studies screened here.
-   It is the single change with the largest effect on what the published record can answer.
+   every endpoint a later reader might want, and is absent from 95.2% of the trials that name best
+   overall response in their own registry text. It is the single change with the largest effect on
+   what the published record can answer.
 2. **A stated response-evaluable denominator.** Intention-to-treat, response-evaluable and
    at-least-one-post-baseline-scan are three different denominators, and a rate attached to the wrong
    one misstates both the estimate and the evidence base.
@@ -543,6 +589,8 @@ alternative: a control arm, in a regime where almost none exists.
 | item | location |
 |---|---|
 | Corpus of arm-level counts | [`endpoint-corpus.json`](./endpoint-corpus.json) |
+| Extraction cache the corpus is built from | [`endpoint-corpus-inputs.json`](./endpoint-corpus-inputs.json) |
+| Dependency-ordered regeneration | [`regenerate_endpoint_chain.sh`](../../scripts/regenerate_endpoint_chain.sh) |
 | Both endpoints, distribution and reporting census | [`orr-dcr-reread.json`](./orr-dcr-reread.json) |
 | Regime map | [`endpoint-regime-map.json`](./endpoint-regime-map.json) |
 | Figure 1, and its producer | [`endpoint-regime-map.svg`](./endpoint-regime-map.svg), [`endpoint_regime_figure.py`](./endpoint_regime_figure.py) |
@@ -599,3 +647,6 @@ the live text above carries only the current value.
 | The paper's scope as a single-disease report, *"Objective response is the wrong endpoint for extraskeletal myxoid chondrosarcoma: the same 47 patients, read two ways"* | The regime is defined by two coordinates and measured across 552 arms in 138 trials; extraskeletal myxoid chondrosarcoma is the worked extreme at the 88.9th percentile | `emc-response-endpoint-paper.md`, retired to this file | The argument was never disease-specific. Stated as a claim about one ultra-rare sarcoma, it could not be checked against anything, and it overstated how unusual that disease is |
 | *"which is why both modern trials chose 6-month PFS rather than response rate as their primary endpoint"* | The two modern prospective trials chose different primary endpoints six years apart | [`emc-systemic-therapy-pooling.json`](./emc-systemic-therapy-pooling.json) → `findings_no_source_states` | Contradicted by that file's own verbatim quote of the 2019 trial. Detected rather than remembered by `emc_endpoint_discordance.D5_primary_endpoint_correction` |
 | An implied claim that objective responses are generally hard to explain by natural history | The claim holds per disease and requires argument in each; at least one indolent tumour records objective responses on placebo | `emc-response-endpoint-paper.md` §7.2 | Qualified by the retrieved randomised placebo-controlled measurement recorded in [`emc-endpoint-alternatives.json`](./emc-endpoint-alternatives.json) → `E10` |
+| 96.9% of screened studies posted no four-cell table, quoted as the abstract's headline over the pooled denominator | 95.2% over the trials whose registry text names best overall response; the pooled figure is retained in §5 and is unchanged | §5 and the abstract | The pooled denominator mixes two frozen queries, and only one selects trials that said they measured the quantity. The narrow figure is lower, so the abstract now leads with the stricter test rather than the larger number ([`endpoint-corpus.json`](./endpoint-corpus.json) → `C3b_census_denominator_decomposed`) |
+| 4,414 screened studies read as a count of trials | 4,414 records, 4,235 distinct trials, 179 matching both queries | §5 | `studies_screened` counts records, and a trial matching both frozen queries appears in both payloads. The per-trial share is 96.7% |
+| An unmeasured claim that 19 arms are control arms | 19 arms pass a control-token screen; 8 are registered as a placebo comparator or no-intervention arm and 8 as experimental or active comparator | §6 and [`placebo-arm-calibration.json`](./placebo-arm-calibration.json) → `P3_classification` | The screen matches any arm whose title contains "BSC", and in a trial comparing an agent against chemotherapy plus best supportive care both arms carry the token |

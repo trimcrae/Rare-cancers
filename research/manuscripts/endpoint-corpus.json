@@ -14134,6 +14134,31 @@
   "group_block_zero_denominator": 14,
   "duplicate_arm_block": 12
  },
+ "C3b_census_denominator_decomposed": {
+  "_why_this_block_exists": "the pooled census share is computed over two query families with different claims on the argument. The narrower family is the defensible denominator and is reported here beside the pooled one, rather than left for a reviewer to ask for.",
+  "best_overall_response_family": {
+   "_what_selected_it": "query.term=\"best overall response\" over oncology, posted results",
+   "_why_it_is_the_fair_denominator": "these trials state that they measured best overall response, so posting results without the four categories is a reporting choice rather than an irrelevance",
+   "screened": 2851,
+   "no_four_cell_block": 2715,
+   "share_not_re_readable_pct": 95.2
+  },
+  "placebo_arm_family": {
+   "_what_selected_it": "AREA[ArmGroupType]PLACEBO_COMPARATOR over oncology, posted results",
+   "_why_it_is_a_weaker_denominator": "selected on trial DESIGN rather than on what was measured, so it includes prevention, supportive-care and survival-endpoint trials with no reason to tabulate best response. An absent table here is not evidence of anything",
+   "screened": 1563,
+   "no_four_cell_block": 1561,
+   "share_not_re_readable_pct": 99.9
+  },
+  "records_versus_distinct_trials": {
+   "records_screened": 4414,
+   "distinct_ncts_screened": 4235,
+   "distinct_ncts_in_both_families": 179,
+   "distinct_ncts_with_a_four_cell_block": 138,
+   "share_not_re_readable_pct_on_distinct_trials": 96.7
+  },
+  "_the_reading": "the narrow denominator gives a LOWER share than the pooled one, and the difference is small. The pooled figure is therefore not carried by the trials that had no reason to report; the paper's ask survives the strictest denominator available to it."
+ },
  "C4_disease_attributes": {
   "_used_by_nothing": "recorded so the manuscript can DESCRIBE where diseases landed, after the fact. Nothing in the corpus rule reads this block, and no analysis may filter on it.",
   "distinct_condition_strings": 204,

@@ -249,6 +249,11 @@ def build():
             "studies_with_posted_results_but_no_four_cell_block": no_block,
             "share_of_screened_studies_not_re_readable_pct": (
                 pct(no_block / screened) if screened else None),
+            # PASSED THROUGH, NOT RECOMPUTED (CLAUDE.md rule 1). The decomposition's one home is
+            # endpoint_corpus._decompose_census, which is where the screening loop can see which
+            # query family each record came from. Recomputing it here would need the payloads.
+            "⚠_this_denominator_is_two_query_families":
+                corpus["C3b_census_denominator_decomposed"],
             "arms_recovered": len(rows),
             "distinct_trials": corpus["C6_counts"]["distinct_trials"],
             "group_blocks_with_an_incomplete_four_cell_table":
