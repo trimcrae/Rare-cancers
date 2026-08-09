@@ -57,9 +57,9 @@ phase 3. Of 44 conditions placed on the map, 14 (31.8%) had a median trial small
 single-stage design would require, and 7 sat below the zero-event boundary. Reporting was the
 binding constraint: 4,276 of 4,414 screened studies (96.9%) posted results without a four-cell
 block, and among 1,277 abstracts screened separately, all four categories appeared in 5 and only 1
-carried a denominator they summed to. Of 19 control arms recovered, 12 named an active backbone in
-the arm title, and none carried the fields needed to read natural history. 25 conditions lay in the
-low-response regime; 4 had any control arm at all. A structured audit of 18 retrieved criteria and
+carried a denominator they summed to. Of 19 control arms recovered, 16 carry an active agent once
+registered interventions are read rather than arm titles, and none can carry a
+natural-history reading. 25 conditions lay in the low-response regime; 4 had any control arm at all. A structured audit of 18 retrieved criteria and
 methodology documents found four distinct remedy families already in use across 12 disease domains,
 7 of them carried by consensus guidelines.
 
@@ -284,18 +284,36 @@ A disease-control rate counts stable disease as an event, and stable disease ind
 if the disease would otherwise have progressed. Sizing that requires an arm receiving no active
 treatment.
 
-Of 19 control arms recovered, 12 named an active agent in the arm title, such as placebo with
-chemotherapy or placebo with an antibody. Their outcomes measure the backbone rather than natural
-history. The classifier errs toward treating an arm as backboned, since a false backboned call costs
-one arm of calibration while a false untreated call would place a treated arm inside a natural-history
+Of 19 control arms recovered, 16 carry an active agent once the registry's own list of registered
+interventions is read rather than the arm title. Two cannot be matched to a registered arm group and
+are therefore not counted as untreated. One is a genuine no-intervention arm.
+
+Neither signal is trusted alone, because each failed in a different direction. A name-based reading
+of the arm title passed an arm as untreated when its companion agent was a somatostatin analogue, an
+active antitumour agent in the disease concerned. Substituting the registry's intervention list made
+matters worse: outcome-measure group titles do not match protocol arm labels, so the lookup matched
+a sibling arm and passed an arm named for placebo plus chemotherapy as untreated. An arm is
+classified as untreated only when the title names no active agent and its matched registered
+interventions are all inert, with any disagreement resolving to backboned. A false backboned call
+costs one arm of calibration; a false untreated call places a treated arm inside a natural-history
 estimate.
 
-No recovered arm carried the fields that decide the direction of the bound. An arm enrolled on
-documented progression bounds natural-history stability from below; an unselected observation cohort
-bounds it from above, being selected for expected indolence. Summarising the two together would
-produce a number that bounds nothing. Whether a trial required documented progression sits in
-eligibility prose rather than in a posted-results field, and is recorded as undetermined rather than
-assumed.
+The direction of the bound was read from the eligibility criteria of all 12 contributing trials. An
+arm enrolled on documented progression bounds natural-history stability from below; an unselected
+cohort bounds it from above, being selected for expected indolence. Summarising the two together
+would produce a number that bounds nothing. One trial of the 12 states a progression requirement,
+five mention progression without requiring it, and six do not mention it. A trial that does not
+state a requirement has not thereby enrolled unselected patients, so only a stated requirement
+assigns a direction.
+
+The single no-intervention arm illustrates a trap that no field records. It reports a 48.4%
+objective response, which an arm receiving nothing cannot produce. Randomisation in that trial
+follows chemoradiotherapy, so the best response tabulated is the response to the preceding
+treatment, carried into the observation period. A reading of natural history has to begin when the
+observation does.
+
+No arm in this corpus can therefore carry a natural-history reading. That is a measured conclusion
+drawn from complete protocol records rather than a gap in the data.
 
 The distribution of what is missing is the substantive result. 25 conditions occupy the low-response
 regime. 4 of them have any control arm in this corpus. The confound is largest exactly where it has

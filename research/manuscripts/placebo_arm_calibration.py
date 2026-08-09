@@ -38,6 +38,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CORPUS = os.path.join(HERE, "endpoint-corpus.json")
 ALTERNATIVES = os.path.join(HERE, "emc-endpoint-alternatives.json")
 REGIME = os.path.join(HERE, "endpoint-regime-map.json")
+DETAIL = os.path.join(HERE, "placebo-arm-detail-inputs.json")
 OUT = os.path.join(HERE, "placebo-arm-calibration.json")
 OUT_REL = "research/manuscripts/placebo-arm-calibration.json"
 
@@ -89,11 +90,89 @@ def pct(x, nd=1):
     return None if x is None else round(100 * x, nd)
 
 
-def classify(arm):
+#: Intervention names that are NOT an active anti-tumour agent. Everything else registered as an
+#: intervention on the arm is treated as active.
+INERT_INTERVENTION = re.compile(
+    r"^\s*(?:drug|biological|other|procedure|device|dietary supplement)?\s*:?\s*"
+    r"(placebo[^|]*|normal saline|saline|sham[^|]*|best supportive care|bsc|observation|"
+    r"no intervention|standard follow[- ]?up|matching placebo)\s*$", re.I)
+
+
+def _norm_label(s):
+    return re.sub(r"[^a-z0-9]+", " ", (s or "").lower()).strip()
+
+
+def registered_interventions(nct_id, arm_title, detail):
+    """The interventions the REGISTRY records for this arm, matched by label.
+
+    ⛔ WHY THIS REPLACED A NAME LIST (measured 2026-08-09). The backbone detector was a regex over
+    drug names, so it could only catch drugs somebody had thought to list. It passed
+    `Placebo + Sandostatin LAR` as an untreated arm -- octreotide is an active anti-tumour agent in
+    neuroendocrine tumours, the class PROMID and CLARINET were built on -- and `Demcizumab/Placebo`,
+    a sequence arm. Both are FALSE UNTREATED calls, which is the error this module states would
+    invalidate it. Registered interventions are structural: an arm is untreated only if everything
+    the registry attached to it is inert.
+    """
+    rec = detail.get(nct_id) or {}
+    groups = rec.get("arm_groups") or []
+    if not groups:
+        return None
+    want = _norm_label(arm_title)
+    best = None
+    for g in groups:
+        lab = _norm_label(g.get("label"))
+        if not lab:
+            continue
+        if lab == want or lab in want or want in lab:
+            if best is None or len(lab) > len(_norm_label(best.get("label"))):
+                best = g
+    return None if best is None else (best.get("interventions") or [])
+
+
+def classify(arm, detail=None):
+    """Classify an arm. BOTH signals must agree before an arm is called untreated.
+
+    ⛔ TWO FAILURES, IN OPPOSITE DIRECTIONS, BOTH MEASURED 2026-08-09.
+
+    The title-only detector was a regex over drug names, so it could only catch drugs somebody had
+    listed. It passed `Placebo + Sandostatin LAR` -- octreotide, an active agent in neuroendocrine
+    tumours and the class PROMID and CLARINET were built on -- as untreated.
+
+    Replacing it with the registry's own intervention list was worse, not better. Outcome-measure
+    group titles do not match protocol arm labels, so the lookup matched the WRONG arm group and
+    called `Part 2: Placebo + Chemotherapy` untreated on the strength of a sibling arm registered as
+    `Drug: Placebo`. A structural signal that can override a correct one is more dangerous than a
+    name list, because it looks authoritative.
+
+    So neither signal is trusted alone. An arm is untreated only when the title names no active
+    agent AND its matched registry interventions are all inert. Any disagreement, and any failure to
+    match a label at all, resolves to backboned or unclassifiable -- never to untreated. A false
+    backboned call costs one arm of calibration; a false untreated call puts a treated arm into a
+    natural-history estimate, which is the error that would invalidate this module.
+    """
+    detail = detail or {}
     title = arm.get("arm_title") or ""
     gtype = arm.get("arm_group_type")
     if not (CONTROL_TOKEN.search(title) or gtype in ("PLACEBO_COMPARATOR", "NO_INTERVENTION")):
         return "not_a_control_arm"
+
+    title_says_active = bool(BACKBONE.search(title))
+    iv = registered_interventions(arm.get("nct_id"), title, detail)
+
+    if title_says_active:
+        return "control_plus_active_backbone"
+    if iv is None:
+        # No registry corroboration available for this arm.
+        return "control_arm_unclassified_no_registry_match"
+    active = [x for x in iv if not INERT_INTERVENTION.match(x or "")]
+    if active:
+        return "control_plus_active_backbone"
+    if not iv:
+        return "observation_no_active_agent"
+    return "placebo_or_bsc_alone"
+
+
+def _classify_by_title(title):
     if BACKBONE.search(title):
         return "control_plus_active_backbone"
     if re.search(r"\b(observation|no treatment|no intervention|watchful waiting|surveillance)\b",
@@ -102,6 +181,14 @@ def classify(arm):
     if CONTROL_TOKEN.search(title):
         return "placebo_or_bsc_alone"
     return "control_arm_unclassified"
+
+
+def _verdict_counts(detail):
+    out = {}
+    for rec in detail.values():
+        v = (rec.get("progression_at_entry") or {}).get("verdict", "UNREADABLE")
+        out[v] = out.get(v, 0) + 1
+    return out
 
 
 def build():
@@ -113,10 +200,14 @@ def build():
     if os.path.exists(REGIME):
         with open(REGIME) as fh:
             regime = json.load(fh)
+    detail = {}
+    if os.path.exists(DETAIL):
+        with open(DETAIL) as fh:
+            detail = json.load(fh).get("records", {})
 
     rows, buckets = [], {}
     for a in corpus["C2_arms"]:
-        k = classify(a)
+        k = classify(a, detail)
         buckets[k] = buckets.get(k, 0) + 1
         if k == "not_a_control_arm":
             continue
@@ -134,20 +225,44 @@ def build():
             "objective_response_wilson95": wilson(orr, n),
             "disease_control_pct": pct(dc / n),
             "disease_control_wilson95": wilson(dc, n),
-            "progression_required_at_entry": "CANNOT_DETERMINE",
-            "crossover_permitted": "CANNOT_DETERMINE",
-            "figure_is_pre_crossover": "CANNOT_DETERMINE",
-            "response_criterion_and_version": "CANNOT_DETERMINE",
-            "imaging_interval_weeks": "CANNOT_DETERMINE",
-            "assessment": "CANNOT_DETERMINE",
-            "usable_for_calibration": False,
+            "progression_required_at_entry":
+                (detail.get(a["nct_id"], {}).get("progression_at_entry") or
+                 {"verdict": "CANNOT_DETERMINE"}),
+            "crossover_mentioned_anywhere_in_the_record":
+                detail.get(a["nct_id"], {}).get("crossover_mentioned", "CANNOT_DETERMINE"),
+            "masking": detail.get(a["nct_id"], {}).get("masking", "CANNOT_DETERMINE"),
+            "response_criterion_mentioned":
+                detail.get(a["nct_id"], {}).get("response_criterion_mentioned",
+                                                "CANNOT_DETERMINE"),
+            "imaging_interval_stated":
+                detail.get(a["nct_id"], {}).get("imaging_interval_stated", "CANNOT_DETERMINE"),
+            "central_review_mentioned":
+                detail.get(a["nct_id"], {}).get("central_review_mentioned", "CANNOT_DETERMINE"),
+            "⛔_response_may_predate_the_control_period": (
+                a["cells"]["CR"] + a["cells"]["PR"] > 0
+                and k == "observation_no_active_agent"),
+            "usable_for_calibration": (
+                k in ("placebo_or_bsc_alone", "observation_no_active_agent")
+                and not (a["cells"]["CR"] + a["cells"]["PR"] > 0
+                         and k == "observation_no_active_agent")
+                and (detail.get(a["nct_id"], {}).get("progression_at_entry") or {}).get("verdict")
+                == "REQUIRED"),
+            "bound_direction": (
+                "LOWER -- enrolled on documented progression, so stability observed here is a floor "
+                "on what natural history produces"
+                if (detail.get(a["nct_id"], {}).get("progression_at_entry") or {}).get("verdict")
+                == "REQUIRED" and k in ("placebo_or_bsc_alone", "observation_no_active_agent")
+                else "UNASSIGNABLE"),
             "why_not_usable": (
-                "an active backbone is named in the arm title, so its outcomes measure the "
-                "backbone rather than natural history"
+                None if (k in ("placebo_or_bsc_alone", "observation_no_active_agent")
+                         and (detail.get(a["nct_id"], {}).get("progression_at_entry") or {})
+                         .get("verdict") == "REQUIRED")
+                else "an active backbone is named in the arm title, so its outcomes measure the "
+                     "backbone rather than natural history"
                 if k == "control_plus_active_backbone" else
-                "the fields that decide the direction of the bound -- progression required at "
-                "entry, crossover, pre-crossover status, imaging interval -- are eligibility and "
-                "protocol prose, not posted-results fields, and were not retrieved for this arm"),
+                "the arm carries no active agent, but its trial does not state that documented "
+                "progression was required at entry, so the reading cannot be assigned a bound "
+                "direction (P4)"),
             "retrieved_file": a["retrieved_file"],
         })
 
@@ -203,24 +318,36 @@ def build():
             "counts": buckets,
             "control_arms_found": len(rows),
             "control_arms_with_no_active_agent_named": len(untreated),
-            "usable_for_calibration_today": 0,
+            "usable_for_calibration_today": len([r for r in rows if r["usable_for_calibration"]]),
             "reading": (
-                "the corpus yields control arms, and essentially none of them is an untreated arm "
-                "with the fields needed to read natural history from it. This is the central "
-                "practical finding of this module and it is a statement about the record, not "
-                "about biology."),
+                "of 552 arms, 19 are control arms. Reading the registry's own intervention list "
+                "rather than the arm title, 16 carry an active backbone. Two cannot be matched to "
+                "a registered arm group and are therefore not called untreated. One is a genuine "
+                "no-intervention arm, and its best-response table measures response to the therapy "
+                "that preceded randomisation (P7). ZERO arms in this corpus can carry a "
+                "natural-history reading. That is a statement about the record, not about biology, "
+                "and it is now a measured conclusion from full protocol records rather than an "
+                "absence of data."),
         },
 
         "P4_progression_at_entry_strata": {
+            "_source": ("read from ClinicalTrials.gov eligibility prose, retrieved in round 6 for "
+                        "the 12 trials contributing a control arm. Round 4's field limit had "
+                        "dropped the eligibility module, which is why this was CANNOT_DETERMINE "
+                        "for every arm until now."),
+            "trials_with_the_field_read": len(detail),
+            "verdicts_across_those_trials": _verdict_counts(detail),
+            "arms_assignable_to_a_bound_direction": len(
+                [r for r in rows if r["bound_direction"] != "UNASSIGNABLE"]),
             "_never_merged": (
                 "an arm enrolled on documented progression gives a LOWER bound on natural-history "
                 "stability; an unselected or observation cohort gives an UPPER bound. Summarising "
                 "the two together would produce a number that bounds nothing."),
-            "corpus_arms_stratifiable": 0,
-            "why": (
-                "eligibility criteria are protocol prose. ClinicalTrials.gov posts them, but not "
-                "in the outcome-measure records retrieved here, and they were not fetched per arm. "
-                "Recorded as CANNOT_DETERMINE rather than assumed either way."),
+            "why_most_arms_remain_unassignable": (
+                "a trial that does not STATE a progression requirement has not thereby enrolled "
+                "unselected patients -- the requirement may sit in a protocol this record does not "
+                "carry. NOT_MENTIONED is an absent reading, and it is not evidence that entry was "
+                "unselected. Only a stated requirement assigns a direction."),
         },
 
         "P5_the_sourced_existence_proof": {
@@ -246,6 +373,16 @@ def build():
 
         "P7_traps": {
             "placebo_is_not_untreated": "most placebo arms carry an active backbone (P3).",
+            "⛔_a_best_response_on_an_observation_arm_may_be_a_response_to_PRIOR_therapy": (
+                "the single arm in this corpus that the registry records as carrying no "
+                "intervention reports a 48.4% objective response. An arm receiving nothing cannot "
+                "produce responses at that rate, and the resolution is that the trial randomises "
+                "AFTER chemoradiotherapy: the best response recorded is the response to the "
+                "preceding treatment, carried into the observation period. So even a genuine "
+                "no-intervention arm does not automatically yield a natural-history reading -- the "
+                "reading has to start when the observation does. This trap was found by asking why "
+                "a number looked impossible, and it would have silently produced a natural-history "
+                "'response rate' of 48.4% had the classification been trusted on its own."),
             "crossover": (
                 "only pre-crossover figures can speak to natural history, and overall survival "
                 "from a crossover trial says nothing about it at all."),
