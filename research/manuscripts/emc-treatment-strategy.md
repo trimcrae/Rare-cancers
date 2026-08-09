@@ -34,6 +34,17 @@ _backfilled: true
 > this capstone appear to disagree about a grade, **this capstone wins and the map is stale** — the map's job
 > is to say where the grade lives, not what it is.
 >
+> **★★ AND READ [the modality census](../../systems/views/modality-census.md) (2026-08-09) BEFORE
+> PROPOSING ANY ROUTE AS NEW.** This capstone ranks the routes the portfolio HAS. The census is the
+> denominator they were chosen from: every category of cancer treatment, enumerated first and graded
+> against this disease second. ⛔ **Its point is a distinction this capstone cannot make** — a route
+> absent from the table below may have been considered and dismissed, or may never have been pointed
+> at, and only the census separates those. Each of its rows carries a verdict and, where a prior
+> document already ruled, a pointer to that ruling rather than a restatement of it — so it is also the
+> fastest way to check whether an idea is already closed. Vocabulary and rules:
+> [`systems/taxonomy/modality.md`](../../systems/taxonomy/modality.md); the argument and the triage:
+> [`cancer-modality-census.md`](./cancer-modality-census.md).
+>
 > **★★ AND READ [`emc-post-degrader-options.md`](./emc-post-degrader-options.md) (2026-08-03) ALONGSIDE IT.**
 > This capstone ranks routes on *likelihood of helping a patient × near-term feasibility*, with the degrader
 > as #1. That memo asks the question this capstone's framing assumes away — **what if the flagship does not

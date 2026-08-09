@@ -6,7 +6,7 @@ kind: generated
 status: generated
 generator: systems/systems_check.py
 purpose: Can a molecule that merely OCCUPIES the NR4A3 pocket — reversibly or covalently — change the fusion's behaviour, without recruiting anything?
-scope: Level 1. 3 routes.
+scope: Level 1. 4 routes.
 audience: ["maintainers", "autonomous research agents"]
 date: 2026-08-05
 last_verified: 2026-08-05
@@ -41,16 +41,22 @@ flowchart LR
   ST_OCCUPANCY --> RT_COVALENT_PROBE
   RT_MONOVALENT["○ RT-MONOVALENT"]:::fam
   ST_OCCUPANCY --> RT_MONOVALENT
+  RT_NR2F1["○ RT-NR2F1"]:::fam
+  ST_OCCUPANCY --> RT_NR2F1
 
-  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
-  BLK_PARALOGUE_DDG --> ST_OCCUPANCY
   BLK_FUNCTIONAL_ACTIONABILITY{{"BLK-FUNCTIONAL-ACTIONABILITY — Is the LBD a FUNCTIONAL ha…"}}:::blk
   BLK_FUNCTIONAL_ACTIONABILITY --> RT_MONOVALENT
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
+  BLK_NO_EMC_DATA --> RT_NR2F1
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
   BLK_NO_WET_LAB --> RT_COVALENT_PROBE
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
   BLK_NOT_FUSION_SELECTIVE --> RT_COVALENT_PROBE
   BLK_NOT_FUSION_SELECTIVE --> RT_MONOVALENT
+  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
+  BLK_PARALOGUE_DDG --> RT_ASYMMETRIC
+  BLK_PARALOGUE_DDG --> RT_COVALENT_PROBE
+  BLK_PARALOGUE_DDG --> RT_MONOVALENT
   BLK_R4_BINDS{{"BLK-R4-BINDS — R4 — nothing is known to bind the cryptic…"}}:::blk
   BLK_R4_BINDS --> RT_COVALENT_PROBE
   BLK_R4_BINDS --> RT_MONOVALENT
@@ -66,7 +72,7 @@ flowchart LR
   classDef tech stroke-width:1px,stroke-dasharray:4 3;
 ```
 
-**Reading it.** 1 blocker point at the FAMILY node: every route here inherits it, so the family stands or falls as a unit on that. The rest point at individual routes.
+**Reading it.** ⭐ **No blocker points at the family node**, and that is the finding: the routes here are *not* held down by one shared thing. They are blocked individually, for different reasons — so retiring any one blocker frees some routes and not others, and there is no single unlock for the family.
 
 *What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
 
@@ -77,14 +83,7 @@ flowchart LR
 | **[RT-ASYMMETRIC](L2-rt-asymmetric.md)**<br/>Asymmetric selectivity — NR4A1-sparing mandatory, NR4A2-sparing best-effort | ✓ ready | computed | `reproducible_workflow` | [PUB-DEGRADER](L3-publications.md) ◐ *contributing* | BUILD THE DETECTOR. The corpus-wide sweep was done by hand on 2026-08-07: 1,354 paralogue-pair mentions triage |
 | **[RT-COVALENT-PROBE](L2-rt-covalent-probe.md)**<br/>Covalent probe at C397 — as a REAGENT, not a drug | ✓ blocked | computed | `internal_note` | [PUB-DEGRADER](L3-publications.md) ◐ *contributing* | Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re- |
 | **[RT-MONOVALENT](L2-rt-monovalent.md)**<br/>Monovalent LBD pocket modulation — a molecule that only OCCUPIES the NR4A3 LBD | ○ blocked | computed | `internal_note` | [PUB-MONOVALENT](L3-publications.md) ◐ *primary* | Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what  |
-
-## Family-level bets — blockers EVERY route here inherits
-
-If one of these is never retired, the whole family is dead. That is a different risk from any
-single route failing, and it is only visible at this level.
-
-- **BLK-PARALOGUE-DDG** (`requires_better_simulation_accuracy`) — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
-
+| **[RT-NR2F1](L2-rt-nr2f1.md)**<br/>Orphan nuclear-receptor agonism against dormancy escape | ○ blocked | scoped | `internal_note` | [PUB-NR-OUTSIDE-NR4A3](L3-publications.md) ○ *primary* | Check whether the fourth public cohort carries the receptor at all. |
 ## What this family buys the portfolio — blockers it RETIRES
 
 - **BLK-FUNCTIONAL-ACTIONABILITY** (`requires_wet_lab`) — Is the LBD a FUNCTIONAL handle in the chimera, whose other end is a strong independent activator?

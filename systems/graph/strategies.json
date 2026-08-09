@@ -23,16 +23,21 @@
       "Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness."
     ],
     "provenance": {
-      "owner": { "file": "systems/graph/strategies.json" },
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
       "evidence": []
     },
     "next": {
       "best_next_action": "Resolve the paralogue selectivity question at its cheapest decisive point — the binary selectivity control that is built, staged and unrun.",
       "cost": "$0 to decide; the run itself points at the pricing home",
-      "blocked_on": ["BLK-PARALOGUE-DDG", "BLK-TERNARY-GEOMETRY", "BLK-R4-BINDS"]
+      "blocked_on": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-R4-BINDS"
+      ]
     }
   },
-
   {
     "id": "ST-OCCUPANCY",
     "title": "Direct small-molecule engagement of the NR4A3 ligand-binding domain",
@@ -55,14 +60,22 @@
       "Nobody has stated how much paralogue selectivity this family would need, so 'the requirement is smaller here' is not a claim this repository can make.",
       "The covalent sub-form's negative result rests on an exposure criterion that fails its own positive control, so it is a rank and not a verdict."
     ],
-    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
     "next": {
       "best_next_action": "State the selectivity requirement this family would actually have to meet — it is currently unsized, and an unsized requirement cannot be shown to be met or missed.",
       "cost": "$0",
-      "blocked_on": ["BLK-FUNCTIONAL-ACTIONABILITY", "BLK-UNSIZED-REQUIREMENT", "BLK-R4-BINDS"]
+      "blocked_on": [
+        "BLK-FUNCTIONAL-ACTIONABILITY",
+        "BLK-UNSIZED-REQUIREMENT",
+        "BLK-R4-BINDS"
+      ]
     }
   },
-
   {
     "id": "ST-FUSION-DIRECT",
     "title": "Targeting the fusion protein's other domains",
@@ -84,13 +97,17 @@
       "The closures here are definitional or arithmetic over a fixed fact. They may carry no revival trigger and must never appear on a watch list.",
       "That a route is closed says nothing about whether the disease can be treated — only that this surface is not the way."
     ],
-    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
     "next": {
       "best_next_action": "Nothing. This family is closed on facts about the objects; the correct action is to cite the reasoning when the ideas resurface, which they do.",
       "cost": "$0"
     }
   },
-
   {
     "id": "ST-NUCLEIC-ACID",
     "title": "Nucleic-acid and genetic therapeutics",
@@ -113,14 +130,21 @@
       "Predicted specificity rests in part on a conservative heuristic rather than a calibrated cleavage-activity model.",
       "The vector-delivered sub-routes carry a second, distinct delivery problem that must not be conflated with the oligonucleotide one."
     ],
-    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
     "next": {
       "best_next_action": "Keep the in-silico arc complete and publishable; watch for a delivery technology or a characterised EMC-enriched surface antigen to serve as a targeting arm.",
       "cost": "$0",
-      "blocked_on": ["BLK-DELIVERY", "BLK-VECTOR-DELIVERY"]
+      "blocked_on": [
+        "BLK-DELIVERY",
+        "BLK-VECTOR-DELIVERY"
+      ]
     }
   },
-
   {
     "id": "ST-IMMUNO",
     "title": "Immunotherapy and antigen-directed approaches",
@@ -143,14 +167,21 @@
       "Surface-antigen selectivity was measured on cell-line surrogates rather than on EMC tissue, so the negatives are as provisional as the positives would have been.",
       "One route's predicted binders span junction seams that a corrected exon index says do not exist; that result is void and the question is open."
     ],
-    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
     "next": {
       "best_next_action": "Regenerate the junction-neoantigen predictions against the corrected exon index — the current binders span seams no reported junction produces, and the regeneration is free.",
       "cost": "$0",
-      "blocked_on": ["BLK-ANTIGEN-COLD", "BLK-NO-EMC-DATA"]
+      "blocked_on": [
+        "BLK-ANTIGEN-COLD",
+        "BLK-NO-EMC-DATA"
+      ]
     }
   },
-
   {
     "id": "ST-REPURPOSING",
     "title": "Repurposing approved and late-stage agents",
@@ -173,14 +204,20 @@
       "Several routes here rest on a direction of effect that has never been read in EMC tissue; an expression readout would settle them cheaply and does not exist.",
       "A repurposing hypothesis is a hypothesis. Nothing here asserts efficacy in EMC."
     ],
-    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
     "next": {
       "best_next_action": "Watch for a fetchable public EMC expression dataset — it is the single input that would convert most of this family from class-inherited argument to measurement.",
       "cost": "$0",
-      "blocked_on": ["BLK-NO-EMC-DATA"]
+      "blocked_on": [
+        "BLK-NO-EMC-DATA"
+      ]
     }
   },
-
   {
     "id": "ST-RADIOLIGAND",
     "title": "Radioligand and theranostic approaches",
@@ -202,14 +239,21 @@
       "Target expression in EMC is unmeasured; the case is currently inherited from neuroendocrine and stromal biology rather than observed in this disease.",
       "A radioligand target is not a driver, so nothing here would be evidence about the fusion."
     ],
-    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
     "next": {
       "best_next_action": "Keep on the ask list — a negative scan kills it cheaply and that is worth having.",
       "cost": "$0",
-      "blocked_on": ["BLK-NO-EMC-DATA", "BLK-NO-WET-LAB"]
+      "blocked_on": [
+        "BLK-NO-EMC-DATA",
+        "BLK-NO-WET-LAB"
+      ]
     }
   },
-
   {
     "id": "ST-DEPENDENCY",
     "title": "Synthetic lethality and dependency",
@@ -232,14 +276,22 @@
       "One route rests on class inheritance: no NR4A3 fusion has been tested for the phenotype it assumes.",
       "There is one EMC model in public dependency data, with no CRISPR data, so this family's in-silico half is bounded by a sample size of one."
     ],
-    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
     "next": {
       "best_next_action": "Keep the computed vulnerability assessment as a standalone deliverable with its limit stated inside it; it does not need the cell panel to be publishable.",
       "cost": "$0",
-      "blocked_on": ["BLK-NO-EMC-DATA", "BLK-CLASS-INHERITANCE", "BLK-NO-WET-LAB"]
+      "blocked_on": [
+        "BLK-NO-EMC-DATA",
+        "BLK-CLASS-INHERITANCE",
+        "BLK-NO-WET-LAB"
+      ]
     }
   },
-
   {
     "id": "ST-DISSEMINATION",
     "title": "Methods and publication as an outcome in itself",
@@ -261,10 +313,126 @@
       "A methods paper documents what was done and what failed. It makes no claim about whether any route would work.",
       "The failure record's value depends on it being complete and honest, including the results that went against the program's own thesis."
     ],
-    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
     "next": {
       "best_next_action": "Nothing blocks it. Write it.",
       "cost": "$0"
+    }
+  },
+  {
+    "id": "ST-MICROENV",
+    "title": "The tumour microenvironment and matrix as the target",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "Can the myxoid matrix and the microenvironment this tumour builds be treated as the address, or as the vulnerability, rather than only as the barrier that stops everything else arriving?",
+    "thesis": "The matrix is this disease's defining phenotype and the portfolio's prose has treated it almost entirely as an obstacle to delivery. It is also a manufactured product with a biosynthetic pathway, an extracellular compartment with its own epitopes, and the cause of a hypoxic niche — three different handles, none of which requires the fusion protein to be druggable at all.",
+    "portfolio_role": "hedge",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "purpose_note": "Minted 2026-08-09 from the modality census. The 2026-08-07 sweep named this as one of four categories structurally invisible to every prior search here -- not rejected, never queried -- and a category nothing could be filed under is a category that stays invisible.",
+    "limitations": [
+      "The screen this repository uses to nominate surface addresses ranks tumour-cell monoculture transcripts, so it has no stromal compartment in it and cannot see glycans — its silence about a matrix target is an absent reading rather than a reading of absence.",
+      "Nothing in this family discriminates the tumour from normal tissue by the fusion, so every route here depends entirely on the matrix itself being tumour-restricted enough, and no route here has shown that.",
+      "The matrix has never been measured in this disease as a therapeutic compartment — only described histologically — so every route in this family rests on inference from phenotype rather than on a measurement.",
+      "Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness."
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
+    "next": {
+      "best_next_action": "Grade the glycosaminoglycan and sulfate-donor expression read that is already committed here and has never been read for this purpose.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-NO-EMC-DATA"
+      ]
+    }
+  },
+  {
+    "id": "ST-LOCOREGIONAL",
+    "title": "Locoregional, physical and radiation-based treatment",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "If a systemic agent cannot discriminate this tumour from normal tissue, can the discrimination be made anatomically instead — by where the treatment is delivered rather than by what it binds?",
+    "thesis": "Every other family here tries to buy selectivity with chemistry. A beam, a perfusion circuit or a needle buys it with geometry, which is a discrimination this disease's own natural history makes unusually available: it is extremity-primary, lung-metastasis-dominant, and slow enough that local control has time to matter.",
+    "portfolio_role": "hedge",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "purpose_note": "Minted 2026-08-09 from the modality census. The 2026-08-07 sweep named this as one of four categories structurally invisible to every prior search here -- not rejected, never queried -- and a category nothing could be filed under is a category that stays invisible.",
+    "limitations": [
+      "Anatomical selectivity works only for anatomically confined disease, so every route here is limited to a subset of patients whose size has not been established in this disease.",
+      "The portfolio contains no physical intervention of any kind, so it holds no instrument, no prior result and no reviewer competence in this family — the in-silico half of every route here is literature synthesis rather than computation.",
+      "A modality dosed per unit volume but delivered per cell is penalised in a matrix-dominated tumour with few cells per unit volume, and that correction has already closed one route in this area.",
+      "Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness."
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
+    "next": {
+      "best_next_action": "Extract primary site, metastatic site and metastatic burden from the cohorts already curated in the clinical registry, and size the eligible fraction for each route here.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-NO-EMC-DATA"
+      ]
+    }
+  },
+  {
+    "id": "ST-STRATEGY",
+    "title": "Treatment strategy, scheduling and reachability",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "Without any new agent, can what a patient actually receives be changed — by scheduling, by ordering, by how eligibility is written, or by the pathway through which a published hypothesis becomes a treatment?",
+    "thesis": "For a disease measured in years, when and in what order the existing agents are given may matter as much as which they are — and none of that has been studied here. The same reasoning reaches further: a portfolio whose every endpoint is a paper needs the step after the paper to be a registered route too, or the chain from result to patient has a missing link nobody owns.",
+    "portfolio_role": "cheap_option",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "purpose_note": "Minted 2026-08-09 from the modality census. The 2026-08-07 sweep named this as one of four categories structurally invisible to every prior search here -- not rejected, never queried -- and a category nothing could be filed under is a category that stays invisible.",
+    "limitations": [
+      "Nothing in this family produces a new agent, so the ceiling of every route here is bounded by what the existing agents can do.",
+      "Scheduling and sequencing questions are normally settled by randomised trials, and this disease will not have one — so every route here ends in a modelled or observational argument whose limits must travel with it.",
+      "The reachability routes act on institutions rather than on biology, which is a domain where this program has no track record and where a wrong answer is not falsifiable by computation.",
+      "Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness."
+    ],
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/strategies.json"
+      },
+      "evidence": []
+    },
+    "next": {
+      "best_next_action": "Pool the curated cohorts' progression-free-survival data to state what the published record can and cannot support about scheduling and ordering.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-NO-EMC-DATA"
+      ]
     }
   }
 ]

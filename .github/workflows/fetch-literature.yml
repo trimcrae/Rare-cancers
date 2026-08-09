@@ -43,7 +43,16 @@ on:
         required: false
         default: "replace"
       expect_pmids:
-        description: "Known-positive control: PMID(s) the query MUST return, comma/space separated. Missing -> the run FAILS."
+        description: >-
+          Known-positive control: PMID(s) the query MUST return, comma/space separated. Missing -> the run FAILS.
+          ⛔ THE CONTROL MUST BE A PAPER THE QUERY WOULD ACTUALLY RETURN, NOT A PAPER YOU TRUST.
+          Measured 2026-08-09: a BH3/MCL-1-in-sarcoma query was given this repository's EMC
+          drug-screen PMID as its control because that paper is well verified here. The search ran
+          for 53 minutes and SUCCEEDED; the control failed, and the whole corpus was correctly
+          discarded unpublished. Pick the control from the query's own subject matter -- a canonical
+          paper in the field being searched -- and if you cannot name one you are confident the query
+          returns, leave this empty and verify the retrieved corpus by hand instead. A control that
+          fails on a good search costs the entire run.
         required: false
         default: ""
 

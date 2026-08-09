@@ -1,0 +1,1605 @@
+{
+  "pinned_figures_quoted_by_the_preprint": {
+    "mat2a_percentile_gpl6244": 99,
+    "mat2a_percentile_gpl3290": 84,
+    "prmt5_percentile_gpl6244": 91,
+    "prmt5_percentile_gpl3290": 59
+  },
+  "_a_grader_must_read_the_audit_not_only_the_reading": "⛔ ADDED AFTER THIS FILE GOT IT WRONG. emc-expression-panels.json holds READINGS; emc-hypoxia-confounds.json holds the AUDIT of one of them. Grading from the first without the second produced a SUPPORTED verdict on a signature its own genome-wide null restricts to one of the two platforms. An audit that reaches some consumers of a shared reading and not others is this repository's most-repeated failure, and here the grader WAS the consumer it did not reach. Any future grader over this panel must check whether a confound audit exists for the read it is using.",
+  "_what": "Verdicts for the modality-census routes whose selecting feature was ALREADY readable in emc-expression-panels.json. One reading per route, graded against the route's own stated premise.",
+  "_why": "The census registered these routes on 2026-08-09 with a 'cheapest next observation'. For six of them the observation was already committed and had never been graded against them, because the routes did not exist when the panel was built.",
+  "_this_artifact_computes_nothing_new": "Every figure is lifted from emc-expression-panels.json, which owns it. Re-deriving one here would make a second home for it.",
+  "_language_discipline": "Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent or class. A transcript level is not a protein level, an activity or a copy number.",
+  "_the_comparison_being_made": "EMC tumour tissue against comparator sarcomas on the same array, expressed as a mean z difference. Magnitudes are NOT comparable across the two platforms; only sign agreement is.",
+  "source_artifact": "research/modalities/emc-expression-panels.json",
+  "platforms": {
+    "GSE24369_series_matrix.txt.gz": "GPL6244 (6 EMC vs 29 comparator sarcomas)",
+    "GSE4303-GPL3290_series_matrix.txt.gz": "GPL3290 (10 EMC vs 6 comparator)"
+  },
+  "routes": {
+    "RT-ARGININE": {
+      "selecting_feature": "ASS1 silencing — the biomarker arginine-deprivation agents are given on",
+      "direction_the_route_needed": "ASS1 LOW in EMC",
+      "genes": {
+        "ASS1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.3492,
+            "emc_array_percentile": 0.9152,
+            "comparator_mean_z": 0.8705,
+            "delta_emc_minus_comparator": 0.4787
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.2579,
+            "emc_array_percentile": 0.4053,
+            "comparator_mean_z": -1.8082,
+            "delta_emc_minus_comparator": 1.5503
+          }
+        },
+        "ASL": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.2673,
+            "emc_array_percentile": 0.5944,
+            "comparator_mean_z": 0.2481,
+            "delta_emc_minus_comparator": 0.0192
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.55,
+            "emc_array_percentile": 0.7331,
+            "comparator_mean_z": 0.8125,
+            "delta_emc_minus_comparator": -0.2625
+          }
+        },
+        "ARG2": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.0177,
+            "emc_array_percentile": 0.4623,
+            "comparator_mean_z": -0.6758,
+            "delta_emc_minus_comparator": 0.6581
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.5766,
+            "emc_array_percentile": 0.7471,
+            "comparator_mean_z": -0.0378,
+            "delta_emc_minus_comparator": 0.6144
+          }
+        }
+      },
+      "concordance_of_the_primary_gene": "concordant",
+      "observed": "ASS1 is HIGHER in EMC than in comparator sarcomas on BOTH platforms, and on GPL6244 it sits at the 92nd percentile of that array's own probe distribution.",
+      "verdict": "AGAINST — the selecting feature is absent at transcript level on both platforms.",
+      "what_this_does_not_settle": "ASS1 loss in the arginine-deprivation literature is an IHC call, and a transcript is not a protein. This de-prioritises the route; it does not prove the class could not act.",
+      "route_action": "down-grade: the premise as stated is not supported"
+    },
+    "RT-RET": {
+      "selecting_feature": "RET expressed AND activated — the historical claim the lane rests on",
+      "direction_the_route_needed": "RET present, with an engageable activation route",
+      "genes": {
+        "RET": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.2235,
+            "emc_array_percentile": 0.5763,
+            "comparator_mean_z": -0.2333,
+            "delta_emc_minus_comparator": 0.4568
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.2085,
+            "emc_array_percentile": 0.8563,
+            "comparator_mean_z": 0.1018,
+            "delta_emc_minus_comparator": 1.1067
+          }
+        },
+        "GDNF": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.391,
+            "emc_array_percentile": 0.3332,
+            "comparator_mean_z": -0.4179,
+            "delta_emc_minus_comparator": 0.0269
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.9716,
+            "emc_array_percentile": 0.2505,
+            "comparator_mean_z": 0.6316,
+            "delta_emc_minus_comparator": -1.6032
+          }
+        },
+        "GFRA1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.568,
+            "emc_array_percentile": 0.6892,
+            "comparator_mean_z": 0.6013,
+            "delta_emc_minus_comparator": -0.0333
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.7663,
+            "emc_array_percentile": 0.2321,
+            "comparator_mean_z": 0.8517,
+            "delta_emc_minus_comparator": -1.618
+          }
+        },
+        "ARTN": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.0038,
+            "emc_array_percentile": 0.4796,
+            "comparator_mean_z": 0.0033,
+            "delta_emc_minus_comparator": -0.0071
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.3996,
+            "emc_array_percentile": 0.3053,
+            "comparator_mean_z": -0.2385,
+            "delta_emc_minus_comparator": -0.1611
+          }
+        },
+        "NRTN": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.4895,
+            "emc_array_percentile": 0.6875,
+            "comparator_mean_z": 0.537,
+            "delta_emc_minus_comparator": -0.0475
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.3265,
+            "emc_array_percentile": 0.3388,
+            "comparator_mean_z": -0.305,
+            "delta_emc_minus_comparator": -0.0215
+          }
+        }
+      },
+      "concordance_of_the_primary_gene": "concordant",
+      "panel_groups": {
+        "gdnf_family_ligands": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.0243 SD units (t=-0.766, df=7.6, n_EMC=6, n_comparator=29, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -0.766,
+              "df": 7.6,
+              "mean_a": 0.1209,
+              "mean_b": 0.1451,
+              "delta_a_minus_b": -0.0243
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.5706 SD units (t=-2.782, df=12.3, n_EMC=10, n_comparator=6, 3/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -2.782,
+              "df": 12.3,
+              "mean_a": -0.5401,
+              "mean_b": 0.0305,
+              "delta_a_minus_b": -0.5706
+            }
+          }
+        },
+        "gfra_co_receptors": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.2989 SD units (t=-5.08, df=9.5, n_EMC=6, n_comparator=29, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -5.08,
+              "df": 9.5,
+              "mean_a": 0.0533,
+              "mean_b": 0.3522,
+              "delta_a_minus_b": -0.2989
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 1.2914 SD units (t=-4.981, df=7.0, n_EMC=10, n_comparator=6, 3/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -4.981,
+              "df": 7.0,
+              "mean_a": -0.6989,
+              "mean_b": 0.5925,
+              "delta_a_minus_b": -1.2914
+            }
+          }
+        }
+      },
+      "observed": "RET itself is HIGHER in EMC on both platforms — the lane's own premise holds at the receptor. ⛔ But the module that ACTIVATES it does not: the GFRα co-receptors are LOWER in EMC on both platforms and strongly so, and the GDNF-family ligands are LOWER on both. Canonical RET signalling needs a ligand and a GFRα co-receptor; EMC has the receptor and, relative to comparator sarcomas, less of both of the things that switch it on.",
+      "verdict": "SPLIT — receptor supported, ligand-dependent activation route weakened.",
+      "what_this_does_not_settle": "Ligand-independent activation exists in tumours carrying a RET rearrangement, and none is reported in this disease either way. Co-receptor transcript in bulk tumour also cannot exclude a paracrine supply from stroma or nerve. This narrows the mechanism the lane should claim; it does not close it.",
+      "route_action": "keep, with the co-receptor reading carried as a stated caveat"
+    },
+    "RT-HYPOXIA-PRODRUG": {
+      "selecting_feature": "a hypoxic fraction large enough to activate a prodrug",
+      "direction_the_route_needed": "hypoxia signature HIGH in EMC",
+      "genes": {
+        "CA9": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.6449,
+            "emc_array_percentile": 0.7315,
+            "comparator_mean_z": 0.2998,
+            "delta_emc_minus_comparator": 0.3451
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.8608,
+            "emc_array_percentile": 0.6971,
+            "comparator_mean_z": -2.4243,
+            "delta_emc_minus_comparator": 3.2851
+          }
+        },
+        "SLC2A1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.3341,
+            "emc_array_percentile": 0.8984,
+            "comparator_mean_z": 0.7103,
+            "delta_emc_minus_comparator": 0.6238
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -1.2024,
+            "emc_array_percentile": 0.1544,
+            "comparator_mean_z": -2.3989,
+            "delta_emc_minus_comparator": 1.1965
+          }
+        },
+        "VEGFA": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.5301,
+            "emc_array_percentile": 0.926,
+            "comparator_mean_z": 1.1362,
+            "delta_emc_minus_comparator": 0.3939
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.4989,
+            "emc_array_percentile": 0.651,
+            "comparator_mean_z": -0.4273,
+            "delta_emc_minus_comparator": 0.9262
+          }
+        },
+        "LDHA": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 2.69,
+            "emc_array_percentile": 0.9943,
+            "comparator_mean_z": 2.2516,
+            "delta_emc_minus_comparator": 0.4384
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.2987,
+            "emc_array_percentile": 0.6125,
+            "comparator_mean_z": -0.8181,
+            "delta_emc_minus_comparator": 1.1168
+          }
+        },
+        "ADM": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.5219,
+            "emc_array_percentile": 0.9107,
+            "comparator_mean_z": 0.8508,
+            "delta_emc_minus_comparator": 0.6711
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.0059,
+            "emc_array_percentile": 0.4755,
+            "comparator_mean_z": 0.1889,
+            "delta_emc_minus_comparator": -0.183
+          }
+        }
+      },
+      "panel_groups": {
+        "hypoxia_canonical_hif_targets_curated": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.4168 SD units (t=2.72, df=5.5, n_EMC=6, n_comparator=29, 15/15 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 2.72,
+              "df": 5.5,
+              "mean_a": 1.5497,
+              "mean_b": 1.133,
+              "delta_a_minus_b": 0.4168
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.9597 SD units (t=4.882, df=10.7, n_EMC=10, n_comparator=6, 14/15 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 4.882,
+              "df": 10.7,
+              "mean_a": 0.1224,
+              "mean_b": -0.8373,
+              "delta_a_minus_b": 0.9597
+            }
+          }
+        }
+      },
+      "observed": "A curated canonical HIF-target metagene scores HIGHER in EMC than in comparator sarcomas on BOTH platforms, with 15/15 and 14/15 genes readable.",
+      "verdict": "⛔ WITHDRAWN — first graded SUPPORTED from the raw contrast; the confound audit restricts the signature to one of the two platforms and the memo that owns it declines to license this class from the signal at all.",
+      "what_this_does_not_settle": "A hypoxia metagene is a transcriptional shadow of hypoxia, not an oxygen measurement, and 'higher than other sarcomas' is not 'hypoxic enough to reduce a prodrug'. The class also carries a negative randomised soft-tissue-sarcoma record that any assessment must lead with. ⛔ AND THE DECISIVE OMISSION, which is why this row is withdrawn: emc-hypoxia-reading.md §5 owns the audit of this exact reading and rules that the signal is a reason to ask a question rather than to revisit this class.",
+      "route_action": "withdrawn; the owning memo's ruling stands and this grader defers to it"
+    },
+    "RT-MATRIX-SYNTHESIS": {
+      "selecting_feature": "the tumour actively manufacturing its sulfated chondroitin-sulfate matrix",
+      "direction_the_route_needed": "CS biosynthetic and sulfation machinery HIGH in EMC",
+      "genes": {
+        "CHST11": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.7113,
+            "emc_array_percentile": 0.7629,
+            "comparator_mean_z": 0.7049,
+            "delta_emc_minus_comparator": 0.0064
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.2232,
+            "emc_array_percentile": 0.4138,
+            "comparator_mean_z": 0.0117,
+            "delta_emc_minus_comparator": -0.2349
+          }
+        },
+        "CHST14": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.7138,
+            "emc_array_percentile": 0.7677,
+            "comparator_mean_z": 0.928,
+            "delta_emc_minus_comparator": -0.2142
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.2173,
+            "emc_array_percentile": 0.574,
+            "comparator_mean_z": -0.1158,
+            "delta_emc_minus_comparator": 0.3331
+          }
+        },
+        "PAPSS1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.9699,
+            "emc_array_percentile": 0.8385,
+            "comparator_mean_z": 1.0396,
+            "delta_emc_minus_comparator": -0.0697
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.563,
+            "emc_array_percentile": 0.7354,
+            "comparator_mean_z": 0.2758,
+            "delta_emc_minus_comparator": 0.2872
+          }
+        },
+        "PAPSS2": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.6843,
+            "emc_array_percentile": 0.6861,
+            "comparator_mean_z": 2.1084,
+            "delta_emc_minus_comparator": -1.4241
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.1567,
+            "emc_array_percentile": 0.3967,
+            "comparator_mean_z": 0.7308,
+            "delta_emc_minus_comparator": -0.8875
+          }
+        },
+        "XYLT1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.0336,
+            "emc_array_percentile": 0.5151,
+            "comparator_mean_z": 0.0804,
+            "delta_emc_minus_comparator": -0.0468
+          }
+        }
+      },
+      "panel_groups": {
+        "paps_module": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.3096 SD units (t=-2.234, df=5.5, n_EMC=6, n_comparator=29, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -2.234,
+              "df": 5.5,
+              "mean_a": 0.6416,
+              "mean_b": 0.9512,
+              "delta_a_minus_b": -0.3096
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.1616 SD units (t=-2.113, df=13.6, n_EMC=10, n_comparator=6, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -2.113,
+              "df": 13.6,
+              "mean_a": 0.0774,
+              "mean_b": 0.2391,
+              "delta_a_minus_b": -0.1616
+            }
+          }
+        },
+        "cs_backbone_polymerisation": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.1519 SD units (t=-2.603, df=14.2, n_EMC=6, n_comparator=29, 6/6 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -2.603,
+              "df": 14.2,
+              "mean_a": 0.7651,
+              "mean_b": 0.917,
+              "delta_a_minus_b": -0.1519
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.2933 SD units (t=2.082, df=9.3, n_EMC=10, n_comparator=6, 5/6 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 2.082,
+              "df": 9.3,
+              "mean_a": 0.3567,
+              "mean_b": 0.0634,
+              "delta_a_minus_b": 0.2933
+            }
+          }
+        },
+        "cs_sulfotransferases_4O": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.0373 SD units (t=-0.935, df=6.9, n_EMC=6, n_comparator=29, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -0.935,
+              "df": 6.9,
+              "mean_a": 0.6585,
+              "mean_b": 0.6958,
+              "delta_a_minus_b": -0.0373
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.2145 SD units (t=1.315, df=14.0, n_EMC=10, n_comparator=6, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 1.315,
+              "df": 14.0,
+              "mean_a": 0.1344,
+              "mean_b": -0.0801,
+              "delta_a_minus_b": 0.2145
+            }
+          }
+        }
+      },
+      "observed": "⛔ The sulfate-DONOR module is LOWER in EMC than in comparator sarcomas on BOTH platforms, driven by PAPSS2. The backbone-polymerisation and 4-O-sulfotransferase groups DISAGREE between platforms, so neither supports a call.",
+      "verdict": "AGAINST AS STATED — the naive form of the premise, that a matrix-defining tumour must be running its biosynthetic machinery hotter than its neighbours, is not what the data shows.",
+      "what_this_does_not_settle": "The comparator arm is itself matrix-rich sarcoma, so this is a relative statement and not an absolute one; and bulk transcript of a biosynthetic enzyme need not track accumulated matrix mass in a tumour whose product is long-lived. The route needs reformulating rather than deleting.",
+      "route_action": "re-scope: the premise must be restated in a form this reading does not already contradict"
+    },
+    "RT-IMMUNOCYTOKINE": {
+      "selecting_feature": "a matrix epitope present in EMC stroma and restricted enough to address",
+      "direction_the_route_needed": "the epitope's parent genes present, ideally enriched",
+      "genes": {
+        "FN1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.5427,
+            "emc_array_percentile": 0.939,
+            "comparator_mean_z": 1.5101,
+            "delta_emc_minus_comparator": 0.0326
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.2067,
+            "emc_array_percentile": 0.416,
+            "comparator_mean_z": -1.18,
+            "delta_emc_minus_comparator": 0.9733
+          }
+        },
+        "TNC": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.7994,
+            "emc_array_percentile": 0.9546,
+            "comparator_mean_z": 2.0387,
+            "delta_emc_minus_comparator": -0.2393
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.4291,
+            "emc_array_percentile": 0.3475,
+            "comparator_mean_z": 0.9243,
+            "delta_emc_minus_comparator": -1.3534
+          }
+        },
+        "FAP": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.3966,
+            "emc_array_percentile": 0.879,
+            "comparator_mean_z": 1.6618,
+            "delta_emc_minus_comparator": -0.2652
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.3891,
+            "emc_array_percentile": 0.6391,
+            "comparator_mean_z": 0.5329,
+            "delta_emc_minus_comparator": -0.1438
+          }
+        }
+      },
+      "observed": "The parent genes are abundantly expressed in ABSOLUTE terms — FN1 sits at the 94th percentile of its array on GPL6244 — but they are NOT enriched relative to comparator sarcomas: FN1 is flat on one platform, and TNC and FAP are LOWER in EMC on both.",
+      "verdict": "PRESENT, NOT SELECTIVE — and the question that actually decides this route is unreadable here.",
+      "what_this_does_not_settle": "⛔ THE ADDRESS IS A SPLICE VARIANT, AND A GENE-LEVEL PROBE CANNOT SEE ONE. The clinical immunocytokines target an oncofetal fibronectin/tenascin isoform, not total FN1 or TNC, and its abundance is not deducible from the parent gene. So this reading bounds the parent genes and leaves the route's own premise untested.",
+      "route_action": "keep; the isoform question is now the route's stated first requirement"
+    },
+    "RT-NR2F1": {
+      "selecting_feature": "expression of the dormancy receptor in EMC",
+      "direction_the_route_needed": "the receptor readable and present",
+      "genes": {
+        "NR2F1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          }
+        }
+      },
+      "panel_groups": {
+        "dormancy_associated_context_curated": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.6323 SD units (t=11.017, df=10.5, n_EMC=6, n_comparator=29, 7/7 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 11.017,
+              "df": 10.5,
+              "mean_a": 1.5986,
+              "mean_b": 0.9664,
+              "delta_a_minus_b": 0.6323
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.6377 SD units (t=3.62, df=12.1, n_EMC=10, n_comparator=6, 7/7 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 3.62,
+              "df": 12.1,
+              "mean_a": 0.3796,
+              "mean_b": -0.2581,
+              "delta_a_minus_b": 0.6377
+            }
+          }
+        }
+      },
+      "observed": "NR2F1 is NOT READABLE on either platform — no probe maps to it. ⚠ That is an instrument limit and not a reading of absence. Separately, a curated dormancy-associated context set is HIGHER in EMC on BOTH platforms.",
+      "verdict": "UNREAD — the route's precondition cannot be answered from these two series at all, while the surrounding programme it belongs to is elevated on both.",
+      "what_this_does_not_settle": "Everything about the receptor itself. An unreadable gene is the one case where this pass returns no information, and recording that as a negative would be the exact failure the source artifact's governing rule forbids.",
+      "route_action": "keep; the next observation must come from a platform that carries the probe"
+    },
+    "RT-MTAP-PRMT5": {
+      "selecting_feature": "MTAP locus deletion — the copy state that selects the PRMT5/MAT2A axis",
+      "direction_the_route_needed": "MTAP down, at the floor, with CDKN2A",
+      "genes": {
+        "MTAP": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.587,
+            "emc_array_percentile": 0.7205,
+            "comparator_mean_z": 0.534,
+            "delta_emc_minus_comparator": 0.053
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -1.2527,
+            "emc_array_percentile": 0.1298,
+            "comparator_mean_z": -0.6458,
+            "delta_emc_minus_comparator": -0.6069
+          }
+        },
+        "CDKN2A": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.1077,
+            "emc_array_percentile": 0.5265,
+            "comparator_mean_z": 0.5882,
+            "delta_emc_minus_comparator": -0.4805
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.5273,
+            "emc_array_percentile": 0.7076,
+            "comparator_mean_z": 0.3527,
+            "delta_emc_minus_comparator": 0.1746
+          }
+        },
+        "CDKN2B": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.214,
+            "emc_array_percentile": 0.5716,
+            "comparator_mean_z": 0.3498,
+            "delta_emc_minus_comparator": -0.1358
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          }
+        },
+        "PRMT5": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.2901,
+            "emc_array_percentile": 0.9098,
+            "comparator_mean_z": 1.0269,
+            "delta_emc_minus_comparator": 0.2632
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.2348,
+            "emc_array_percentile": 0.5858,
+            "comparator_mean_z": -0.5816,
+            "delta_emc_minus_comparator": 0.8164
+          }
+        },
+        "MAT2A": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 2.279,
+            "emc_array_percentile": 0.9873,
+            "comparator_mean_z": 1.9388,
+            "delta_emc_minus_comparator": 0.3402
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.8625,
+            "emc_array_percentile": 0.8362,
+            "comparator_mean_z": 0.1391,
+            "delta_emc_minus_comparator": 0.7234
+          }
+        }
+      },
+      "panel_groups": {
+        "the_locus": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.1878 SD units (t=-4.064, df=23.1, n_EMC=6, n_comparator=29, 3/3 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -4.064,
+              "df": 23.1,
+              "mean_a": 0.3029,
+              "mean_b": 0.4907,
+              "delta_a_minus_b": -0.1878
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "⛔ UNDERPOWERED — 2/3 genes readable on GPL3290 (coverage 0.667); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology.",
+            "score": null
+          }
+        },
+        "prmt5_methylosome": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.0903 SD units (t=3.111, df=11.4, n_EMC=6, n_comparator=29, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 3.111,
+              "df": 11.4,
+              "mean_a": 0.987,
+              "mean_b": 0.8967,
+              "delta_a_minus_b": 0.0903
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.4776 SD units (t=3.888, df=13.3, n_EMC=10, n_comparator=6, 3/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 3.888,
+              "df": 13.3,
+              "mean_a": -0.0634,
+              "mean_b": -0.541,
+              "delta_a_minus_b": 0.4776
+            }
+          }
+        },
+        "methionine_salvage_context": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.1387 SD units (t=4.257, df=11.5, n_EMC=6, n_comparator=29, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 4.257,
+              "df": 11.5,
+              "mean_a": 1.2053,
+              "mean_b": 1.0666,
+              "delta_a_minus_b": 0.1387
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.283 SD units (t=2.074, df=10.3, n_EMC=10, n_comparator=6, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 2.074,
+              "df": 10.3,
+              "mean_a": 0.3575,
+              "mean_b": 0.0745,
+              "delta_a_minus_b": 0.283
+            }
+          }
+        }
+      },
+      "observed": "⭐ The three-gene MTAP/CDKN2A/CDKN2B locus is LOWER in EMC on the platform where it is powered, and not marginally. The PRMT5 methylosome is HIGHER in EMC on BOTH platforms, and MAT2A sits at the 99th and 84th percentile of its array. That is the shape an MTAP-deleted, methylosome-dependent state makes on an expression platform.",
+      "verdict": "SUPPORTED, WITH THE LOCUS READ POWERED ON ONE PLATFORM ONLY.",
+      "what_this_does_not_settle": "⛔ A TRANSCRIPT IS NOT A COPY NUMBER, and this is the case where that matters most: the class is selected by homozygous deletion, which reads as a floor-level transcript but is not the same measurement. The locus group is UNDERPOWERED on GPL3290 (2 of 3 genes readable), so the strong result rests on six tumours on one array. And an elevated methylosome is not a dependency on it.",
+      "sarcoma_dependency_prior": {
+        "PRMT5": {
+          "sarcoma_mean_gene_effect": -1.015,
+          "fraction_of_sarcoma_lines_dependent": 0.945
+        },
+        "MAT2A": {
+          "sarcoma_mean_gene_effect": -1.471,
+          "fraction_of_sarcoma_lines_dependent": 0.967
+        },
+        "MTAP": {
+          "sarcoma_mean_gene_effect": -0.075,
+          "fraction_of_sarcoma_lines_dependent": 0.0
+        }
+      },
+      "what_the_dependency_prior_adds_and_takes_away": "⚠ IT TAKES SOMETHING AWAY AND THE PAPER MUST CARRY IT. Across 176 sarcoma lines PRMT5 and MAT2A are dependencies in 94.5% and 96.7% -- close to pan-essential. That does NOT refute the hypothesis, because the therapeutic argument for this class is a DIFFERENTIAL between MTAP-deleted and MTAP-intact cells that a gene-effect score cannot express: an MTA-cooperative inhibitor exploits a metabolic state, not the raw dependency. But it does weaken any argument that resting on 'silencing PRMT5 impairs proliferation' is specific to a fusion sarcoma -- silencing it impairs proliferation nearly everywhere. MTAP itself is not a dependency (mean -0.075), exactly as expected for a biomarker rather than a target.",
+      "route_action": "promote, with the near-pan-essentiality of the target carried as a stated limit: the cheapest decisive next observation is a copy-number or methylation read of the locus, not another expression series"
+    },
+    "RT-TXN-CDK": {
+      "selecting_feature": "elevated transcriptional CDK machinery in a transactivating-fusion tumour",
+      "direction_the_route_needed": "transcriptional CDK modules up",
+      "genes": {
+        "CDK7": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.4954,
+            "emc_array_percentile": 0.6768,
+            "comparator_mean_z": 0.3262,
+            "delta_emc_minus_comparator": 0.1692
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.0413,
+            "emc_array_percentile": 0.5145,
+            "comparator_mean_z": -0.6534,
+            "delta_emc_minus_comparator": 0.6947
+          }
+        },
+        "CDK9": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.2918,
+            "emc_array_percentile": 0.91,
+            "comparator_mean_z": 1.2467,
+            "delta_emc_minus_comparator": 0.0451
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.537,
+            "emc_array_percentile": 0.7235,
+            "comparator_mean_z": 0.2036,
+            "delta_emc_minus_comparator": 0.3334
+          }
+        },
+        "CDK12": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.1041,
+            "emc_array_percentile": 0.873,
+            "comparator_mean_z": 1.0858,
+            "delta_emc_minus_comparator": 0.0183
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.2372,
+            "emc_array_percentile": 0.3656,
+            "comparator_mean_z": -0.0917,
+            "delta_emc_minus_comparator": -0.1455
+          }
+        },
+        "CDK13": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.2519,
+            "emc_array_percentile": 0.9027,
+            "comparator_mean_z": 1.2741,
+            "delta_emc_minus_comparator": -0.0222
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.3012,
+            "emc_array_percentile": 0.6122,
+            "comparator_mean_z": 0.2141,
+            "delta_emc_minus_comparator": 0.0871
+          }
+        },
+        "MYC": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 2.0388,
+            "emc_array_percentile": 0.9731,
+            "comparator_mean_z": 0.9763,
+            "delta_emc_minus_comparator": 1.0625
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.568,
+            "emc_array_percentile": 0.7344,
+            "comparator_mean_z": -1.295,
+            "delta_emc_minus_comparator": 1.863
+          }
+        }
+      },
+      "panel_groups": {
+        "cdk7_initiation_module": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.2102 SD units (t=3.688, df=6.6, n_EMC=6, n_comparator=29, 3/3 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 3.688,
+              "df": 6.6,
+              "mean_a": 0.5914,
+              "mean_b": 0.3812,
+              "delta_a_minus_b": 0.2102
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.4966 SD units (t=4.113, df=9.6, n_EMC=10, n_comparator=6, 3/3 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 4.113,
+              "df": 9.6,
+              "mean_a": 0.0887,
+              "mean_b": -0.4079,
+              "delta_a_minus_b": 0.4966
+            }
+          }
+        },
+        "cdk9_elongation_module": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.045 SD units (t=1.189, df=5.7, n_EMC=6, n_comparator=29, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 1.189,
+              "df": 5.7,
+              "mean_a": 1.2366,
+              "mean_b": 1.1917,
+              "delta_a_minus_b": 0.045
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.1737 SD units (t=2.258, df=13.1, n_EMC=10, n_comparator=6, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 2.258,
+              "df": 13.1,
+              "mean_a": 0.3147,
+              "mean_b": 0.141,
+              "delta_a_minus_b": 0.1737
+            }
+          }
+        },
+        "transcriptional_output_context": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.1983 SD units (t=3.782, df=7.5, n_EMC=6, n_comparator=29, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 3.782,
+              "df": 7.5,
+              "mean_a": 1.2363,
+              "mean_b": 1.038,
+              "delta_a_minus_b": 0.1983
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.4709 SD units (t=4.811, df=9.8, n_EMC=10, n_comparator=6, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 4.811,
+              "df": 9.8,
+              "mean_a": 0.3307,
+              "mean_b": -0.1402,
+              "delta_a_minus_b": 0.4709
+            }
+          }
+        }
+      },
+      "observed": "The CDK7 initiation module is HIGHER in EMC on BOTH platforms, and so is the general transcriptional-output group, both with the largest t-statistics in this pass. The CDK9 elongation module is higher on both but weakly. MYC is up on both.",
+      "verdict": "SUPPORTED — the most concordant elevation in the census, on both platforms.",
+      "what_this_does_not_settle": "⛔ THIS IS THE ROW WHERE ABUNDANCE IS FURTHEST FROM THE QUESTION. Every cell transcribes; elevated transcriptional machinery in a transcriptionally driven tumour is close to a tautology, and it says nothing about a WINDOW against normal tissue, which is the whole objection to this class. A general-transcription elevation is also exactly what higher cellularity or proliferation would produce.",
+      "sarcoma_dependency_prior": {
+        "CDK7": {
+          "sarcoma_mean_gene_effect": -1.847,
+          "fraction_of_sarcoma_lines_dependent": 1.0
+        },
+        "CDK9": {
+          "sarcoma_mean_gene_effect": -1.464,
+          "fraction_of_sarcoma_lines_dependent": 1.0
+        },
+        "CDK12": {
+          "sarcoma_mean_gene_effect": -0.676,
+          "fraction_of_sarcoma_lines_dependent": 0.802
+        },
+        "CDK13": {
+          "sarcoma_mean_gene_effect": -0.01,
+          "fraction_of_sarcoma_lines_dependent": 0.011
+        }
+      },
+      "the_dependency_screen_ran_and_it_closed_the_window": "⛔ THE DECISIVE OBSERVATION THIS ROW ASKED FOR ARRIVED THE SAME DAY, AND IT WENT AGAINST THE ROUTE. Across 176 sarcoma lines CDK7 and CDK9 are dependencies in 100% of them, with mean gene effects of -1.85 and -1.46. That is the definition of pan-essential: the elevation seen in EMC buys no window, because every line needs these genes. The abundance result stands and is now known to be uninformative about the question, which is what this row warned it would be.",
+      "route_action": "down-grade: supported on abundance, closed on the axis that matters"
+    },
+    "RT-CHAPERONE": {
+      "selecting_feature": "a standing proteostatic load imposed by a chimeric protein",
+      "direction_the_route_needed": "chaperone machine up",
+      "genes": {
+        "HSP90AA1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 2.5127,
+            "emc_array_percentile": 0.9931,
+            "comparator_mean_z": 2.6715,
+            "delta_emc_minus_comparator": -0.1588
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          }
+        },
+        "HSP90AB1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 2.6356,
+            "emc_array_percentile": 0.9948,
+            "comparator_mean_z": 2.4022,
+            "delta_emc_minus_comparator": 0.2334
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.4375,
+            "emc_array_percentile": 0.6699,
+            "comparator_mean_z": -0.1861,
+            "delta_emc_minus_comparator": 0.6236
+          }
+        },
+        "CDC37": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.3883,
+            "emc_array_percentile": 0.9263,
+            "comparator_mean_z": 1.3932,
+            "delta_emc_minus_comparator": -0.0049
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.3647,
+            "emc_array_percentile": 0.6441,
+            "comparator_mean_z": -0.0354,
+            "delta_emc_minus_comparator": 0.4001
+          }
+        },
+        "HSPA8": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.1785,
+            "emc_array_percentile": 0.3881,
+            "comparator_mean_z": 0.0132,
+            "delta_emc_minus_comparator": -0.1917
+          }
+        }
+      },
+      "panel_groups": {
+        "hsp90_machine": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.0899 SD units (t=3.857, df=15.0, n_EMC=6, n_comparator=29, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 3.857,
+              "df": 15.0,
+              "mean_a": 2.1153,
+              "mean_b": 2.0254,
+              "delta_a_minus_b": 0.0899
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.6075 SD units (t=3.465, df=11.0, n_EMC=10, n_comparator=6, 3/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 3.465,
+              "df": 11.0,
+              "mean_a": 0.4029,
+              "mean_b": -0.2047,
+              "delta_a_minus_b": 0.6075
+            }
+          }
+        },
+        "co_chaperones": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.0809 SD units (t=1.636, df=7.6, n_EMC=6, n_comparator=29, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 1.636,
+              "df": 7.6,
+              "mean_a": 1.2393,
+              "mean_b": 1.1584,
+              "delta_a_minus_b": 0.0809
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.2511 SD units (t=2.011, df=12.0, n_EMC=10, n_comparator=6, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 2.011,
+              "df": 12.0,
+              "mean_a": 0.0589,
+              "mean_b": -0.1923,
+              "delta_a_minus_b": 0.2511
+            }
+          }
+        },
+        "hsp70_arm_and_stress_response": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.0853 SD units (t=-1.056, df=7.5, n_EMC=6, n_comparator=29, 4/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -1.056,
+              "df": 7.5,
+              "mean_a": 1.1845,
+              "mean_b": 1.2698,
+              "delta_a_minus_b": -0.0853
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.1639 SD units (t=-0.959, df=5.9, n_EMC=10, n_comparator=6, 4/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -0.959,
+              "df": 5.9,
+              "mean_a": -0.2399,
+              "mean_b": -0.076,
+              "delta_a_minus_b": -0.1639
+            }
+          }
+        }
+      },
+      "observed": "The HSP90 machine is HIGHER in EMC on BOTH platforms and the co-chaperones follow it. ⚠ The HSP70 arm and heat-shock response go the OTHER way on both, which is not what a general stress response looks like.",
+      "verdict": "PARTLY SUPPORTED — the HSP90 arm only, and the stress-response arm contradicts it.",
+      "what_this_does_not_settle": "An elevated chaperone machine is not evidence that the fusion is its client, which is the route's actual premise and a co-immunoprecipitation question. The split between the HSP90 and HSP70 arms is interesting and unexplained, and this data cannot explain it.",
+      "route_action": "keep; the premise needs a client experiment, not more abundance"
+    },
+    "RT-APOPTOSIS-DEP": {
+      "selecting_feature": "an anti-apoptotic guardian other than BCL-2 holding the threshold",
+      "direction_the_route_needed": "a non-BCL2 guardian dominant in EMC",
+      "genes": {
+        "MCL1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.9806,
+            "emc_array_percentile": 0.9737,
+            "comparator_mean_z": 2.247,
+            "delta_emc_minus_comparator": -0.2664
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.4846,
+            "emc_array_percentile": 0.2829,
+            "comparator_mean_z": 0.0717,
+            "delta_emc_minus_comparator": -0.5563
+          }
+        },
+        "BCL2L1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.9336,
+            "emc_array_percentile": 0.8219,
+            "comparator_mean_z": 1.3137,
+            "delta_emc_minus_comparator": -0.3801
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.6397,
+            "emc_array_percentile": 0.2276,
+            "comparator_mean_z": -0.1642,
+            "delta_emc_minus_comparator": -0.4755
+          }
+        },
+        "BCL2": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.3069,
+            "emc_array_percentile": 0.6057,
+            "comparator_mean_z": 1.1153,
+            "delta_emc_minus_comparator": -0.8084
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.5458,
+            "emc_array_percentile": 0.7036,
+            "comparator_mean_z": 0.7807,
+            "delta_emc_minus_comparator": -0.2349
+          }
+        },
+        "BAX": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.8146,
+            "emc_array_percentile": 0.8001,
+            "comparator_mean_z": 0.9401,
+            "delta_emc_minus_comparator": -0.1255
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.7126,
+            "emc_array_percentile": 0.248,
+            "comparator_mean_z": -0.3135,
+            "delta_emc_minus_comparator": -0.3991
+          }
+        },
+        "PMAIP1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.3073,
+            "emc_array_percentile": 0.5955,
+            "comparator_mean_z": 0.0781,
+            "delta_emc_minus_comparator": 0.2292
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.2219,
+            "emc_array_percentile": 0.4,
+            "comparator_mean_z": -1.9659,
+            "delta_emc_minus_comparator": 1.744
+          }
+        }
+      },
+      "panel_groups": {
+        "anti_apoptotic_the_druggable_ones": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.259 SD units (t=-4.568, df=14.0, n_EMC=6, n_comparator=29, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -4.568,
+              "df": 14.0,
+              "mean_a": 0.5802,
+              "mean_b": 0.8391,
+              "delta_a_minus_b": -0.259
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.4097 SD units (t=-2.538, df=9.8, n_EMC=10, n_comparator=6, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -2.538,
+              "df": 9.8,
+              "mean_a": -0.3385,
+              "mean_b": 0.0711,
+              "delta_a_minus_b": -0.4097
+            }
+          }
+        },
+        "bh3_only_sensitisers": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.0134 SD units (t=-0.168, df=6.3, n_EMC=6, n_comparator=29, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -0.168,
+              "df": 6.3,
+              "mean_a": 0.1494,
+              "mean_b": 0.1627,
+              "delta_a_minus_b": -0.0134
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.2923 SD units (t=2.16, df=9.2, n_EMC=10, n_comparator=6, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 2.16,
+              "df": 9.2,
+              "mean_a": -0.3016,
+              "mean_b": -0.5939,
+              "delta_a_minus_b": 0.2923
+            }
+          }
+        }
+      },
+      "observed": "⛔ All five druggable guardians together are LOWER in EMC than in comparator sarcomas on BOTH platforms, MCL1 and BCL2L1 individually included. NOXA, the BH3-only protein that specifically neutralises MCL-1, is UP on both.",
+      "verdict": "AGAINST AT THE ABUNDANCE LEVEL — no guardian is dominant, and the one that is up is a sensitiser rather than a guardian.",
+      "what_this_does_not_settle": "⛔ AND HERE THE GAP IS THE WHOLE POINT: apoptotic dependency is which protein HOLDS the effectors, which BH3 profiling measures and abundance cannot. Low guardian transcript with high NOXA is compatible with a primed state, which would make the combination-only result that raised this hypothesis MORE interesting rather than less. This read de-prioritises the specific MCL-1 claim, not the underlying observation.",
+      "sarcoma_dependency_prior": {
+        "MCL1": {
+          "sarcoma_mean_gene_effect": -0.926,
+          "fraction_of_sarcoma_lines_dependent": 0.835
+        },
+        "BCL2L1": {
+          "sarcoma_mean_gene_effect": -0.876,
+          "fraction_of_sarcoma_lines_dependent": 0.758
+        },
+        "BCL2": {
+          "sarcoma_mean_gene_effect": -0.056,
+          "fraction_of_sarcoma_lines_dependent": 0.022
+        }
+      },
+      "the_dependency_prior_says_the_opposite_of_the_abundance_read": "⭐ THE MOST INFORMATIVE SINGLE RESULT OF THIS PASS, AND IT ARRIVED AFTER THE VERDICT ABOVE WAS WRITTEN. Across 176 sarcoma lines, MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% of them -- and BCL2 in 2.2%. So in this tumour class the guardian holding the effectors is not BCL-2, which is precisely what the route hypothesised and precisely what would explain an EMC result where BCL-2 inhibition was inactive alone. The abundance read and the dependency prior disagree, and dependency is the axis the question is actually about. ⛔ NO EMC LINE IS IN THIS PANEL, so this is a class transfer and not an EMC finding.",
+      "route_action": "the MCL-1-dominance form is AGAINST on abundance and FOR on the sarcoma dependency prior; the two disagree and dependency is the relevant axis, so the route is restored to open rather than down-graded"
+    },
+    "RT-MDM2": {
+      "selecting_feature": "an intact, transcriptionally live p53 axis",
+      "direction_the_route_needed": "p53 target output present",
+      "genes": {
+        "TP53": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.0453,
+            "emc_array_percentile": 0.8597,
+            "comparator_mean_z": 0.9844,
+            "delta_emc_minus_comparator": 0.0609
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.2008,
+            "emc_array_percentile": 0.4049,
+            "comparator_mean_z": -0.2453,
+            "delta_emc_minus_comparator": 0.0445
+          }
+        },
+        "MDM2": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.4641,
+            "emc_array_percentile": 0.9353,
+            "comparator_mean_z": 1.7207,
+            "delta_emc_minus_comparator": -0.2566
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.5877,
+            "emc_array_percentile": 0.2469,
+            "comparator_mean_z": -0.3249,
+            "delta_emc_minus_comparator": -0.2628
+          }
+        },
+        "MDM4": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.8636,
+            "emc_array_percentile": 0.8083,
+            "comparator_mean_z": 0.7523,
+            "delta_emc_minus_comparator": 0.1113
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.5117,
+            "emc_array_percentile": 0.7076,
+            "comparator_mean_z": 0.1445,
+            "delta_emc_minus_comparator": 0.3672
+          }
+        },
+        "CDKN1A": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.9211,
+            "emc_array_percentile": 0.8169,
+            "comparator_mean_z": 0.9599,
+            "delta_emc_minus_comparator": -0.0388
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.3461,
+            "emc_array_percentile": 0.3705,
+            "comparator_mean_z": -0.2719,
+            "delta_emc_minus_comparator": -0.0742
+          }
+        },
+        "ZMAT3": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.7921,
+            "emc_array_percentile": 0.7847,
+            "comparator_mean_z": 1.3139,
+            "delta_emc_minus_comparator": -0.5218
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.1878,
+            "emc_array_percentile": 0.4176,
+            "comparator_mean_z": 1.4174,
+            "delta_emc_minus_comparator": -1.6052
+          }
+        }
+      },
+      "panel_groups": {
+        "the_axis": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.0281 SD units (t=-0.601, df=15.6, n_EMC=6, n_comparator=29, 3/3 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -0.601,
+              "df": 15.6,
+              "mean_a": 1.1244,
+              "mean_b": 1.1525,
+              "delta_a_minus_b": -0.0281
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.0496 SD units (t=0.432, df=13.2, n_EMC=10, n_comparator=6, 3/3 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 0.432,
+              "df": 13.2,
+              "mean_a": -0.0923,
+              "mean_b": -0.1419,
+              "delta_a_minus_b": 0.0496
+            }
+          }
+        },
+        "p53_transcriptional_output": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.1796 SD units (t=-2.203, df=7.2, n_EMC=6, n_comparator=29, 5/6 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -2.203,
+              "df": 7.2,
+              "mean_a": 0.8685,
+              "mean_b": 1.0481,
+              "delta_a_minus_b": -0.1796
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.1416 SD units (t=-1.126, df=13.8, n_EMC=10, n_comparator=6, 6/6 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -1.126,
+              "df": 13.8,
+              "mean_a": 0.2659,
+              "mean_b": 0.4075,
+              "delta_a_minus_b": -0.1416
+            }
+          }
+        }
+      },
+      "observed": "The p53 transcriptional output group is LOWER in EMC on BOTH platforms, and the axis genes themselves are flat. The output the class needs to be live is not elevated.",
+      "verdict": "NOT SUPPORTED — the axis reads quiet rather than intact-and-live.",
+      "what_this_does_not_settle": "A quiet p53 output is not the same as a defective axis: an unstressed tumour has little p53 output by construction, and these are archival resections rather than treated tissue. This cannot establish that TP53 is mutant, and it does not.",
+      "route_action": "down-grade; the selection argument was the whole route and it is not supported"
+    },
+    "RT-EZH2": {
+      "selecting_feature": "a PRC2 or SWI/SNF chromatin state of the kind that selects the approved agent",
+      "direction_the_route_needed": "PRC2 up, or a SWI/SNF subunit at the floor",
+      "genes": {
+        "EZH2": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.3136,
+            "emc_array_percentile": 0.608,
+            "comparator_mean_z": 0.2198,
+            "delta_emc_minus_comparator": 0.0938
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.0115,
+            "emc_array_percentile": 0.4686,
+            "comparator_mean_z": -0.6406,
+            "delta_emc_minus_comparator": 0.6291
+          }
+        },
+        "EED": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.6509,
+            "emc_array_percentile": 0.7449,
+            "comparator_mean_z": 0.7589,
+            "delta_emc_minus_comparator": -0.108
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.1153,
+            "emc_array_percentile": 0.4171,
+            "comparator_mean_z": 0.1375,
+            "delta_emc_minus_comparator": -0.2528
+          }
+        },
+        "SUZ12": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.4414,
+            "emc_array_percentile": 0.9326,
+            "comparator_mean_z": 1.4229,
+            "delta_emc_minus_comparator": 0.0185
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          }
+        },
+        "SMARCB1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.7361,
+            "emc_array_percentile": 0.7744,
+            "comparator_mean_z": 0.8617,
+            "delta_emc_minus_comparator": -0.1256
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.0736,
+            "emc_array_percentile": 0.5187,
+            "comparator_mean_z": 0.2934,
+            "delta_emc_minus_comparator": -0.2198
+          }
+        },
+        "BRD9": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.5669,
+            "emc_array_percentile": 0.7134,
+            "comparator_mean_z": 0.5808,
+            "delta_emc_minus_comparator": -0.0139
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          }
+        }
+      },
+      "observed": "EZH2 is mildly higher on both platforms and the rest of PRC2 is flat; no SWI/SNF tumour-suppressor subunit reads anywhere near a floor.",
+      "verdict": "NOT SUPPORTED — neither selecting shape is present.",
+      "what_this_does_not_settle": "The approved agent is selected by protein LOSS, frequently post-transcriptional, so a normal transcript does not exclude it. This is a weak negative and is reported as one.",
+      "route_action": "down-grade"
+    },
+    "RT-SGK1": {
+      "selecting_feature": "SGK1 elevated, corroborating a two-decade-old antibody series",
+      "direction_the_route_needed": "SGK1 up",
+      "genes": {
+        "SGK1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.032,
+            "emc_array_percentile": 0.4839,
+            "comparator_mean_z": 0.1487,
+            "delta_emc_minus_comparator": -0.1807
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.608,
+            "emc_array_percentile": 0.2754,
+            "comparator_mean_z": -1.2236,
+            "delta_emc_minus_comparator": 0.6156
+          }
+        },
+        "NDRG1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 2.194,
+            "emc_array_percentile": 0.9813,
+            "comparator_mean_z": 1.7712,
+            "delta_emc_minus_comparator": 0.4228
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.5036,
+            "emc_array_percentile": 0.684,
+            "comparator_mean_z": -0.1962,
+            "delta_emc_minus_comparator": 0.6998
+          }
+        },
+        "SGK3": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.1657,
+            "emc_array_percentile": 0.5522,
+            "comparator_mean_z": 0.5523,
+            "delta_emc_minus_comparator": -0.3866
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.4992,
+            "emc_array_percentile": 0.685,
+            "comparator_mean_z": 0.6454,
+            "delta_emc_minus_comparator": -0.1462
+          }
+        }
+      },
+      "observed": "⚠ SGK1 itself is DISCORDANT — lower on one platform, higher on the other. Its canonical substrate NDRG1 is higher on both, at the 98th percentile on one.",
+      "verdict": "DISCORDANT ON THE KINASE, CONCORDANT ON ITS SUBSTRATE.",
+      "what_this_does_not_settle": "NDRG1 is phosphorylated by several kinases, so a substrate elevation is not attributable to SGK1, and a discordant kinase read across two platforms is exactly the case where a third series decides and nothing else does.",
+      "route_action": "keep at concept; the corroboration this route was registered for did not arrive"
+    },
+    "RT-POLQ": {
+      "selecting_feature": "an alt-EJ-high, HR-low repair state",
+      "direction_the_route_needed": "alt-EJ up WITH homologous recombination down",
+      "genes": {
+        "POLQ": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.8453,
+            "emc_array_percentile": 0.2066,
+            "comparator_mean_z": -0.8899,
+            "delta_emc_minus_comparator": 0.0446
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": false,
+            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+          }
+        },
+        "LIG3": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.8521,
+            "emc_array_percentile": 0.8062,
+            "comparator_mean_z": 0.7373,
+            "delta_emc_minus_comparator": 0.1148
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.0943,
+            "emc_array_percentile": 0.432,
+            "comparator_mean_z": -0.4329,
+            "delta_emc_minus_comparator": 0.3386
+          }
+        },
+        "RAD51": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.9539,
+            "emc_array_percentile": 0.1755,
+            "comparator_mean_z": -0.9985,
+            "delta_emc_minus_comparator": 0.0446
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -1.6358,
+            "emc_array_percentile": 0.0739,
+            "comparator_mean_z": -2.1687,
+            "delta_emc_minus_comparator": 0.5329
+          }
+        },
+        "BRCA1": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.043,
+            "emc_array_percentile": 0.4976,
+            "comparator_mean_z": -0.0301,
+            "delta_emc_minus_comparator": 0.0731
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.8437,
+            "emc_array_percentile": 0.2157,
+            "comparator_mean_z": -1.0981,
+            "delta_emc_minus_comparator": 0.2544
+          }
+        },
+        "PRKDC": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.4886,
+            "emc_array_percentile": 0.936,
+            "comparator_mean_z": 1.6053,
+            "delta_emc_minus_comparator": -0.1167
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.4798,
+            "emc_array_percentile": 0.3085,
+            "comparator_mean_z": -0.9843,
+            "delta_emc_minus_comparator": 0.5045
+          }
+        }
+      },
+      "observed": "POLQ is flat and sits low on its array; the homologous-recombination genes are flat to mildly higher rather than down. The combination the class needs — one up AND the other down — is not present.",
+      "verdict": "NOT SUPPORTED — neither half of the required combination.",
+      "what_this_does_not_settle": "The dependency is created by a repair DEFECT, usually a mutation, which this read cannot see at all. It must also be read beside the WEAK grade the neighbouring ATR assessment already carries.",
+      "route_action": "down-grade"
+    }
+  },
+  "summary": {
+    "supported": [
+      "RT-MTAP-PRMT5",
+      "RT-TXN-CDK"
+    ],
+    "against": [
+      "RT-ARGININE",
+      "RT-MATRIX-SYNTHESIS",
+      "RT-APOPTOSIS-DEP"
+    ],
+    "withdrawn": [
+      "RT-HYPOXIA-PRODRUG"
+    ],
+    "split_or_unread": [
+      "RT-RET",
+      "RT-IMMUNOCYTOKINE",
+      "RT-NR2F1",
+      "RT-CHAPERONE",
+      "RT-MDM2",
+      "RT-EZH2",
+      "RT-SGK1",
+      "RT-POLQ"
+    ]
+  }
+}

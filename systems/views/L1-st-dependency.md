@@ -6,7 +6,7 @@ kind: generated
 status: generated
 generator: systems/systems_check.py
 purpose: Does the fusion create a vulnerability elsewhere in the cell — a dependency that is not the driver itself but is only essential because the driver is present?
-scope: Level 1. 3 routes.
+scope: Level 1. 13 routes.
 audience: ["maintainers", "autonomous research agents"]
 date: 2026-08-05
 last_verified: 2026-08-05
@@ -35,17 +35,38 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   ST_DEPENDENCY["ST-DEPENDENCY"]:::fam
+  RT_APOPTOSIS_DEP["○ RT-APOPTOSIS-DEP"]:::fam
+  ST_DEPENDENCY --> RT_APOPTOSIS_DEP
+  RT_ARGININE["✓ RT-ARGININE"]:::fam
+  ST_DEPENDENCY --> RT_ARGININE
   RT_ATR_ASSESS["✓ RT-ATR-ASSESS"]:::fam
   ST_DEPENDENCY --> RT_ATR_ASSESS
   RT_ATR_PANEL["○ RT-ATR-PANEL"]:::fam
   ST_DEPENDENCY --> RT_ATR_PANEL
+  RT_CHAPERONE["○ RT-CHAPERONE"]:::fam
+  ST_DEPENDENCY --> RT_CHAPERONE
+  RT_DNAPK["○ RT-DNAPK"]:::fam
+  ST_DEPENDENCY --> RT_DNAPK
+  RT_EZH2["○ RT-EZH2"]:::fam
+  ST_DEPENDENCY --> RT_EZH2
+  RT_MDM2["○ RT-MDM2"]:::fam
+  ST_DEPENDENCY --> RT_MDM2
+  RT_MTAP_PRMT5["✓ RT-MTAP-PRMT5"]:::fam
+  ST_DEPENDENCY --> RT_MTAP_PRMT5
+  RT_POLQ["○ RT-POLQ"]:::fam
+  ST_DEPENDENCY --> RT_POLQ
+  RT_SGK1["○ RT-SGK1"]:::fam
+  ST_DEPENDENCY --> RT_SGK1
   RT_SYNLETH_DEP["✓ RT-SYNLETH-DEP"]:::fam
   ST_DEPENDENCY --> RT_SYNLETH_DEP
+  RT_TXN_CDK["○ RT-TXN-CDK"]:::fam
+  ST_DEPENDENCY --> RT_TXN_CDK
 
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> ST_DEPENDENCY
   BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — Class inheritance, not an EMC mea…"}}:::blk
   BLK_CLASS_INHERITANCE --> RT_ATR_ASSESS
+  BLK_CLASS_INHERITANCE --> RT_TXN_CDK
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
   BLK_NO_WET_LAB --> RT_ATR_PANEL
   BLK_NO_WET_LAB --> RT_SYNLETH_DEP
@@ -63,9 +84,19 @@ flowchart LR
 
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
+| **[RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md)**<br/>Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL) | ○ ready | computed | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Put an MCL-1/BCL-xL arm in front of the group holding the two EMC models, alongside the PRMT5 ask. |
+| **[RT-ARGININE](L2-rt-arginine.md)**<br/>Arginine deprivation (ASS1-silenced tumours) | ✓ parked | computed | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Report it as a closed line in the census paper's negative half. |
 | **[RT-ATR-ASSESS](L2-rt-atr-assess.md)**<br/>The in-silico ATR vulnerability assessment (the computed half) | ✓ ready | computed | `preprint` | [PUB-ATR](L3-publications.md) ◐ *primary* | Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask. |
 | **[RT-ATR-PANEL](L2-rt-atr-panel.md)**<br/>The ATR-inhibitor cell panel in EMC lines (the ask) | ○ blocked | scoped | `experimental_proposal` | [PUB-ATR-PANEL-ASK](L3-publications.md) ◐ *primary* | Send the ask with the assessment. It is the strongest taker-fit in the portfolio. |
+| **[RT-CHAPERONE](L2-rt-chaperone.md)**<br/>Chaperone dependency of the chimera (HSP90 and co-chaperones) | ○ blocked | concept | `internal_note` | [PUB-TXN-DEPENDENCY](L3-publications.md) ○ *primary* | Assess chaperone clientship for FET-family fusion proteins in the literature, and check whether this repositor |
+| **[RT-DNAPK](L2-rt-dnapk.md)**<br/>DNA-PK inhibition as an indirect route to the fusion protein | ○ blocked | concept | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ○ *contributing* | Read the curated interaction records and their underlying primary sources, and state whether any was measured  |
+| **[RT-EZH2](L2-rt-ezh2.md)**<br/>EZH2 / PRC2 inhibition | ○ blocked | concept | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Read the PRC2 and BAF subunit sets across the expression cohorts and check the committed sarcoma dependency ar |
+| **[RT-MDM2](L2-rt-mdm2.md)**<br/>MDM2 antagonism (p53 reactivation in a quiet genome) | ○ blocked | concept | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Read TP53 status from the committed whole-genome trio analysis and the MDM2 locus from the expression cohorts. |
+| **[RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md)**<br/>PRMT5 / MAT2A synthetic lethality (MTAP co-deletion) | ✓ ready | computed | `preprint` | [PUB-MTAP-PRMT5](L3-publications.md) ◐ *primary* | Post the preprint and put the MTAP stain in front of a group holding EMC archival material. |
+| **[RT-POLQ](L2-rt-polq.md)**<br/>POLθ inhibition (microhomology-mediated end joining) | ○ blocked | concept | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Extend the committed dependency-prior analysis to the microhomology-mediated end-joining genes and report it b |
+| **[RT-SGK1](L2-rt-sgk1.md)**<br/>SGK1 inhibition | ○ blocked | concept | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ○ *contributing* | Read SGK1 across the two readable EMC expression series and the fourth cohort, turning a single antibody-based |
 | **[RT-SYNLETH-DEP](L2-rt-synleth-dep.md)**<br/>Synthetic-lethal / dependency partner (BRD9 / ncBAF via EWSR1-prion→BAF) | ✓ parked | computed | `internal_note` | [PUB-SYNLETH](L3-publications.md) ◐ *primary* | Keep parked on data with the transfer-prior negative stated as data-bounded, not as a biological finding. |
+| **[RT-TXN-CDK](L2-rt-txn-cdk.md)**<br/>Transcriptional CDK dependency (CDK7, CDK9, CDK12/13) | ○ parked | computed | `internal_note` | [PUB-TXN-DEPENDENCY](L3-publications.md) ○ *primary* | Report it as a closed line: elevated and pan-essential is not an opportunity. |
 
 ## Family-level bets — blockers EVERY route here inherits
 

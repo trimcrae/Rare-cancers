@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/trimcrae/Rare-cancers/systems/schema/modality.schema.json",
+  "title": "Modality class — one line of the cancer-treatment census, and what it does or does not reach in EMC",
+  "_role": "Every MOD-* validates against this. A modality class is a CATEGORY OF TREATMENT that exists in oncology somewhere, independent of whether this program has ever looked at it. That independence is the point: routes.json records what we chose to pursue, and this records the space that choice was made from, so `nobody has looked at this` becomes a query rather than a recollection.",
+  "_prose": "systems/taxonomy/modality.md",
+  "_not_a_target_register": "⛔ THE AXIS IS MODALITY, NEVER TARGET. `CD276-directed ADC` is not a row; `antibody-drug conjugate` is, and the CD276 question lives in `requires` and in the surface-antigen artifacts that own it. The two axes were deliberately separated because a target census keyed by modality would duplicate every antigen once per delivery format, and the resulting matrix would be maintained in neither place.",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "level",
+    "kind",
+    "band",
+    "group",
+    "verdict",
+    "prior_coverage",
+    "rationale"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^MOD-[A-Z0-9-]+$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 4,
+      "description": "The class as the field names it, not as this repository nicknames it. A reader who searches the literature for this string should land on the class."
+    },
+    "level": { "const": "cross-cutting" },
+    "kind": { "const": "modality_class" },
+    "band": {
+      "enum": [
+        "drug_mechanism",
+        "delivery_and_conjugate",
+        "physical_locoregional",
+        "strategy_and_architecture"
+      ],
+      "description": "The four bands exist because three of them were STRUCTURALLY INVISIBLE to every prior search here (emc-unexplored-treatment-lanes.md §0). A census that carried only `drug_mechanism` would reproduce the blind spot it was built to measure."
+    },
+    "group": {
+      "enum": [
+        "cytotoxic",
+        "hormonal_nuclear_receptor",
+        "kinase_inhibitor",
+        "enzyme_inhibitor_non_kinase",
+        "ppi_and_undruggable",
+        "degrader_induced_proximity",
+        "nucleic_acid",
+        "gene_and_cell_engineering",
+        "antibody_and_antibody_like",
+        "cell_therapy",
+        "vaccine_active_immunization",
+        "immune_modulation",
+        "microenvironment_and_stroma",
+        "metabolic_and_dietary",
+        "radiopharmaceutical_and_radiation",
+        "physical_device_locoregional",
+        "host_directed_and_repurposed",
+        "delivery_and_formulation",
+        "strategy_and_trial_architecture"
+      ],
+      "description": "The nineteen groups partition the census. A group is a place to look, not a claim -- two rows in one group may end in opposite verdicts."
+    },
+    "parent": {
+      "type": "string",
+      "pattern": "^MOD-[A-Z0-9-]+$",
+      "description": "The broader class this refines, when the row is a sub-form whose EMC verdict differs from its parent's. Used SPARINGLY: a sub-form that shares its parent's verdict and reasons is not a row, it is an example inside one."
+    },
+    "exemplar": {
+      "type": "string",
+      "description": "A named agent or platform that instantiates the class, so a reader can tell which class is meant. ⚠ NAMING ONE IS NOT A CLINICAL CLAIM about it, and must never be written as one -- the string identifies the category and says nothing about what the agent does in EMC."
+    },
+    "verdict": {
+      "enum": [
+        "on_board",
+        "in_clinical_use",
+        "already_rejected",
+        "excluded",
+        "candidate",
+        "parked_capability",
+        "not_applicable"
+      ],
+      "description": "`in_clinical_use` is the BASELINE and exists because a census with no denominator for the incumbents cannot say what an unexplored option would have to beat -- trimcrae's question was framed as `a pretty small arsenal`, and the size of that arsenal is a measurement this register should carry rather than imply. It is NOT a claim about how well anything works. `already_rejected` and `excluded` are deliberately separate. The first means SOMEONE ELSE HERE ALREADY SETTLED IT and the row's job is to POINT at that ruling and never to restate its reason (rule 1); the second means this census is the thing doing the closing, and then the reason belongs here because here is its only home. Collapsing them would either duplicate ~50 existing rulings or hide which document owns each."
+    },
+    "prior_coverage": {
+      "enum": ["searched_before", "never_searched"],
+      "description": "⭐ THIS FIELD IS THE CENSUS'S RESULT; everything else is bookkeeping. `searched_before` means a prior sweep here demonstrably pointed at this class. `never_searched` means no prior document did -- which is not the same as `rejected`, and the whole reason a census differs from a search is that only a census can tell them apart."
+    },
+    "prior_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file"],
+      "properties": {
+        "file": { "type": "string" },
+        "anchor": { "type": "string" }
+      },
+      "description": "The document that already considered this class. REQUIRED whenever `prior_coverage` is `searched_before` or `verdict` is `already_rejected`. Checked by [P1]/[P2] like every other pointer, so a rejection cannot be attributed to a document that does not say it."
+    },
+    "route": {
+      "type": "string",
+      "pattern": "^RT-[A-Z0-9-]+$",
+      "description": "The route that covers this class. REQUIRED when `verdict` is `on_board` -- an on_board claim with no route is exactly the unverifiable coverage assertion this collection exists to prevent."
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 40,
+      "description": "Why this verdict, for THIS disease. For `already_rejected` this states only WHAT was ruled and by whom; the argument stays in the owning document."
+    },
+    "requires": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 8 },
+      "description": "What EMC would have to possess for the class to reach it -- an address, a biomarker, a dependency, an accessible compartment. This is where the target axis is allowed to touch the modality axis, and only as a stated precondition."
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^BLK-[A-Z0-9-]+$" },
+      "description": "Registered blockers this class runs into. A row may name a blocker without any route naming it -- the class can be blocked before anyone has proposed a route through it."
+    },
+    "revisit_trigger": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^TECH-[A-Z0-9-]+$" },
+      "description": "REQUIRED when `verdict` is `parked_capability`. Same discipline as a route's: a park with no named way back is indistinguishable from a closure nobody wanted to write."
+    },
+    "zero_dollar_next_step": {
+      "type": "string",
+      "minLength": 20,
+      "description": "The cheapest observation that would move this row. CLAUDE.md §0: most rows that read blocked are waiting on a free CI fetch, a regeneration or a lookup, and naming that step is what stops `blocked` being asserted rather than checked."
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Where this row's verdict is owned. Defaults to this collection."
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "verdict": { "const": "on_board" } }, "required": ["verdict"] },
+      "then": { "required": ["route"] }
+    },
+    {
+      "if": { "properties": { "verdict": { "const": "already_rejected" } }, "required": ["verdict"] },
+      "then": { "required": ["prior_ref"] }
+    },
+    {
+      "if": { "properties": { "verdict": { "const": "parked_capability" } }, "required": ["verdict"] },
+      "then": { "required": ["revisit_trigger"] }
+    },
+    {
+      "if": { "properties": { "prior_coverage": { "const": "searched_before" } }, "required": ["prior_coverage"] },
+      "then": { "required": ["prior_ref"] }
+    },
+    {
+      "if": { "properties": { "verdict": { "const": "candidate" } }, "required": ["verdict"] },
+      "then": { "required": ["zero_dollar_next_step"] }
+    }
+  ]
+}

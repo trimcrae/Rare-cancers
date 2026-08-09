@@ -22,7 +22,7 @@ last_verified: 2026-08-05
 > lab, no funding for one — so every advance is either in-silico or publish-to-convince.
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.**
 
-**9 strategy families · 43 routes · 18 blockers · 25 technology dependencies.**
+**12 strategy families · 68 routes · 18 blockers · 25 technology dependencies.**
 
 ## The shape of the portfolio
 
@@ -32,24 +32,37 @@ What one screen has to carry is not the list — it is the **convergence**. Each
 
 ```mermaid
 flowchart LR
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — 9 families"}}:::blk
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — 6 families"}}:::blk
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — 6 families"]]:::perm
-  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — 5 families"}}:::blk
   BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — 3 families"}}:::blk
   BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — 3 families"}}:::blk
+  BLK_ANTIGEN_COLD[["BLK-ANTIGEN-COLD — 2 families"]]:::perm
   BLK_R4_BINDS{{"BLK-R4-BINDS — 2 families"}}:::blk
   BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — 2 families"}}:::blk
 
+  ST_DEPENDENCY["ST-DEPENDENCY ✓ · 13 routes"]:::fam
+  ST_REPURPOSING["ST-REPURPOSING ✓ · 11 routes"]:::fam
   ST_IMMUNO["ST-IMMUNO ✓ · 9 routes"]:::fam
-  ST_REPURPOSING["ST-REPURPOSING ✓ · 8 routes"]:::fam
   ST_PROXIMITY["ST-PROXIMITY ◐ · 7 routes"]:::fam
   ST_NUCLEIC_ACID["ST-NUCLEIC-ACID ✓ · 5 routes"]:::fam
-  ST_DEPENDENCY["ST-DEPENDENCY ✓ · 3 routes"]:::fam
-  ST_DISSEMINATION["ST-DISSEMINATION ○ · 3 routes"]:::fam
+  ST_DISSEMINATION["ST-DISSEMINATION ○ · 4 routes"]:::fam
+  ST_MICROENV["ST-MICROENV ○ · 4 routes"]:::fam
+  ST_OCCUPANCY["ST-OCCUPANCY ○ · 4 routes"]:::fam
   ST_FUSION_DIRECT["ST-FUSION-DIRECT ✕ · 3 routes"]:::fam
-  ST_OCCUPANCY["ST-OCCUPANCY ○ · 3 routes"]:::fam
+  ST_LOCOREGIONAL["ST-LOCOREGIONAL ○ · 3 routes"]:::fam
+  ST_STRATEGY["ST-STRATEGY ○ · 3 routes"]:::fam
   ST_RADIOLIGAND["ST-RADIOLIGAND ○ · 2 routes"]:::fam
 
+  BLK_NO_EMC_DATA --> ST_DEPENDENCY
+  BLK_NO_EMC_DATA --> ST_IMMUNO
+  BLK_NO_EMC_DATA --> ST_LOCOREGIONAL
+  BLK_NO_EMC_DATA --> ST_MICROENV
+  BLK_NO_EMC_DATA --> ST_NUCLEIC_ACID
+  BLK_NO_EMC_DATA --> ST_OCCUPANCY
+  BLK_NO_EMC_DATA --> ST_RADIOLIGAND
+  BLK_NO_EMC_DATA --> ST_REPURPOSING
+  BLK_NO_EMC_DATA --> ST_STRATEGY
   BLK_NO_WET_LAB --> ST_DEPENDENCY
   BLK_NO_WET_LAB --> ST_NUCLEIC_ACID
   BLK_NO_WET_LAB --> ST_OCCUPANCY
@@ -62,17 +75,14 @@ flowchart LR
   BLK_NOT_FUSION_SELECTIVE --> ST_OCCUPANCY
   BLK_NOT_FUSION_SELECTIVE --> ST_PROXIMITY
   BLK_NOT_FUSION_SELECTIVE --> ST_REPURPOSING
-  BLK_NO_EMC_DATA --> ST_DEPENDENCY
-  BLK_NO_EMC_DATA --> ST_IMMUNO
-  BLK_NO_EMC_DATA --> ST_NUCLEIC_ACID
-  BLK_NO_EMC_DATA --> ST_RADIOLIGAND
-  BLK_NO_EMC_DATA --> ST_REPURPOSING
   BLK_CLASS_INHERITANCE --> ST_DEPENDENCY
   BLK_CLASS_INHERITANCE --> ST_RADIOLIGAND
   BLK_CLASS_INHERITANCE --> ST_REPURPOSING
   BLK_PARALOGUE_DDG --> ST_FUSION_DIRECT
   BLK_PARALOGUE_DDG --> ST_OCCUPANCY
   BLK_PARALOGUE_DDG --> ST_PROXIMITY
+  BLK_ANTIGEN_COLD --> ST_IMMUNO
+  BLK_ANTIGEN_COLD --> ST_MICROENV
   BLK_R4_BINDS --> ST_OCCUPANCY
   BLK_R4_BINDS --> ST_PROXIMITY
   BLK_UNSIZED_REQUIREMENT --> ST_OCCUPANCY
@@ -85,21 +95,24 @@ flowchart LR
 
 **Reading it.** A hexagon is a blocker with a named way out; a double-walled box is a **permanent** one — a fact about the biology that no technology retires. An arrow means *holds down*.
 
-⚠ **11 further blocker(s) are NOT drawn here**, because each holds down exactly one family and belongs on that family's page. Drawing all 18 would render the portfolio as a hairball and bury the 7 that shape it. Every one of them is in [registers/blockers.md](registers/blockers.md).
+⚠ **10 further blocker(s) are NOT drawn here**, because each holds down exactly one family and belongs on that family's page. Drawing all 18 would render the portfolio as a hairball and bury the 8 that shape it. Every one of them is in [registers/blockers.md](registers/blockers.md).
 
 ## The landscape
 
 | family | thesis | routes | state | role |
 |---|---|---:|---|---|
 | **[ST-PROXIMITY](L1-st-proximity.md)**<br/>Induced-proximity therapeutics | The NR4A3 ligand-binding domain does not need to be inhibited, only ENGAGED, because the therapeutic effect comes from what the molecule recruits rath… | 7 | ◐ blocked · computed | hedge |
-| **[ST-OCCUPANCY](L1-st-occupancy.md)**<br/>Direct small-molecule engagement of the NR4A3 ligand-binding domain | If the ligand-binding domain is a functional handle in the chimera, then occupying it is enough, and the entire ternary-assembly problem disappears. T… | 3 | ○ blocked · scoped | hedge |
+| **[ST-OCCUPANCY](L1-st-occupancy.md)**<br/>Direct small-molecule engagement of the NR4A3 ligand-binding domain | If the ligand-binding domain is a functional handle in the chimera, then occupying it is enough, and the entire ternary-assembly problem disappears. T… | 4 | ○ blocked · scoped | hedge |
 | **[ST-FUSION-DIRECT](L1-st-fusion-direct.md)**<br/>Targeting the fusion protein's other domains | The fusion has more than one surface. If a different domain is more tractable or more selective, the paralogue problem might be sidestepped rather tha… | 3 | ✕ closed · scoped | closed_but_informative |
 | **[ST-NUCLEIC-ACID](L1-st-nucleic-acid.md)**<br/>Nucleic-acid and genetic therapeutics | The junction is the only truly tumour-exclusive feature of this disease. A molecule that reads sequence rather than shape can discriminate perfectly, … | 5 | ✓ blocked · computed | hedge |
 | **[ST-IMMUNO](L1-st-immuno.md)**<br/>Immunotherapy and antigen-directed approaches | If a tumour-restricted antigen exists, the discrimination problem is solved by the immune system rather than by chemistry, and potency comes free. The… | 9 | ✓ blocked · computed | hedge |
-| **[ST-REPURPOSING](L1-st-repurposing.md)**<br/>Repurposing approved and late-stage agents | An approved drug skips discovery, synthesis, toxicology and most of the cost of being right. For an ultra-rare disease with no targeted agent, a mecha… | 8 | ✓ blocked · computed | cheap_option |
+| **[ST-REPURPOSING](L1-st-repurposing.md)**<br/>Repurposing approved and late-stage agents | An approved drug skips discovery, synthesis, toxicology and most of the cost of being right. For an ultra-rare disease with no targeted agent, a mecha… | 11 | ✓ blocked · computed | cheap_option |
 | **[ST-RADIOLIGAND](L1-st-radioligand.md)**<br/>Radioligand and theranostic approaches | A radioligand does not need the target to be a driver, only to be present and accessible. That decouples the therapy entirely from the fusion biology … | 2 | ○ blocked · concept | cheap_option |
-| **[ST-DEPENDENCY](L1-st-dependency.md)**<br/>Synthetic lethality and dependency | You do not have to drug the driver if the driver has made something else indispensable. A synthetic-lethal partner can be an ordinary, already-druggab… | 3 | ✓ blocked · computed | hedge |
-| **[ST-DISSEMINATION](L1-st-dissemination.md)**<br/>Methods and publication as an outcome in itself | A computation-only program with no wet lab advances a disease in exactly two ways: by producing a result someone else tests, or by producing methodolo… | 3 | ○ ready · scoped | dissemination |
+| **[ST-DEPENDENCY](L1-st-dependency.md)**<br/>Synthetic lethality and dependency | You do not have to drug the driver if the driver has made something else indispensable. A synthetic-lethal partner can be an ordinary, already-druggab… | 13 | ✓ blocked · computed | hedge |
+| **[ST-DISSEMINATION](L1-st-dissemination.md)**<br/>Methods and publication as an outcome in itself | A computation-only program with no wet lab advances a disease in exactly two ways: by producing a result someone else tests, or by producing methodolo… | 4 | ○ ready · scoped | dissemination |
+| **[ST-MICROENV](L1-st-microenv.md)**<br/>The tumour microenvironment and matrix as the target | The matrix is this disease's defining phenotype and the portfolio's prose has treated it almost entirely as an obstacle to delivery. It is also a manu… | 4 | ○ ready · concept | hedge |
+| **[ST-LOCOREGIONAL](L1-st-locoregional.md)**<br/>Locoregional, physical and radiation-based treatment | Every other family here tries to buy selectivity with chemistry. A beam, a perfusion circuit or a needle buys it with geometry, which is a discriminat… | 3 | ○ ready · concept | hedge |
+| **[ST-STRATEGY](L1-st-strategy.md)**<br/>Treatment strategy, scheduling and reachability | For a disease measured in years, when and in what order the existing agents are given may matter as much as which they are — and none of that has been… | 3 | ○ ready · concept | cheap_option |
 
 ## Where the portfolio ends
 
@@ -109,8 +122,8 @@ Every route above ends in a paper. With no wet lab and no clinic, the published 
 
 | state | endpoints | routes feeding them |
 |---|---:|---:|
-| ○ `unwritten` | 1 | 5 |
-| ◐ `drafted` | 18 | 38 |
+| ○ `unwritten` | 8 | 28 |
+| ◐ `drafted` | 20 | 40 |
 
 ## What holds the portfolio down
 
@@ -120,14 +133,14 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 
 | blocker | kind | routes held | families | retired by |
 |---|---|---:|---:|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | 19 | 5 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-EMC-DATA** | `insufficient_data` | 43 | 9 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 14 | 6 | *permanent — nothing* |
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 9 | 3 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | 9 | 6 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 9 | 2 | *permanent — nothing* |
 | **BLK-R4-BINDS** | `requires_wet_lab` | 8 | 2 | `TECH-EMC-MODEL-ACCESS` |
-| **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 8 | 1 | *permanent — nothing* |
 | **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | 5 | 1 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
-| **BLK-CLASS-INHERITANCE** | `insufficient_data` | 4 | 3 | `TECH-VIRTUAL-CELL` |
+| **BLK-CLASS-INHERITANCE** | `insufficient_data` | 5 | 3 | `TECH-VIRTUAL-CELL` |
 | **BLK-VECTOR-DELIVERY** | `requires_future_technology` | 3 | 1 | `TECH-VECTOR-DELIVERY` |
 | **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | 3 | 1 | `TECH-COFOLD-ASSEMBLY` |
 | **BLK-UNSIZED-REQUIREMENT** | `requires_wet_lab` | 3 | 2 | *an action we can take* |

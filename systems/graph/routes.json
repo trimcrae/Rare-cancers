@@ -5504,5 +5504,2153 @@
       "cost": "$0",
       "blocked_on": []
     }
+  },
+  {
+    "id": "RT-TXN-CDK",
+    "display_name": "Transcriptional CDK dependency (CDK7, CDK9, CDK12/13)",
+    "level": "L2",
+    "kind": "route",
+    "title": "Transcriptional CDK dependency (CDK7, CDK9, CDK12/13)",
+    "grade": {
+      "value": "⛔ CLOSED ON THE AXIS THAT MATTERS (2026-08-09). Supported on abundance — CDK7 module and transcriptional output higher in EMC on both platforms — and then the dependency screen this row asked for ran the same day: across 176 sarcoma lines CDK7 and CDK9 are dependencies in 100%, mean gene effect -1.85 and -1.46. Pan-essential. The elevation buys no window.",
+      "owner": {
+        "file": "research/modalities/census-route-expression-grading.json"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-CLASS-INHERITANCE",
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DEPENDENCY",
+    "publication": {
+      "endpoint": "PUB-TXN-DEPENDENCY",
+      "role": "primary",
+      "contribution": "The half of the paper that argues from what the driver IS: a transcriptional oncoprotein should be more dependent on the transcriptional machinery than the cell it sits in."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is a fusion whose entire mechanism is transactivation more dependent on the transcriptional CDKs than the normal cells around it?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "The driver acts by transactivating target promoters, and transcriptional CDK dependency is the best-established vulnerability of fusion-driven sarcomas as a class. The census found no route, no prior sweep and no technique-class table here had ever named it, which makes this the largest single gap in the class the portfolio should most obviously have covered.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the transcriptional CDK modules are elevated in EMC on both platforms AND are dependencies in 100% of 176 sarcoma lines — the second reading is what closes the route",
+        "strength": "class_inherited"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether any therapeutic index exists for a pan-essential transcriptional kinase, which is a question about the class in every disease and not about this one.",
+      "Whether the EMC elevation is a cellularity or proliferation artefact, which this data cannot exclude."
+    ],
+    "required_validation": [
+      {
+        "what": "A class-inheritance argument over the transcriptional CDKs using the sarcoma dependency prior already committed here",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A measurement in a fusion-positive EMC model",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB",
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "nothing — the question was asked and answered"
+      ],
+      "why_not_higher": "A pan-essential target with no window is a closed line, and its value is as a paragraph in the census paper's negative half."
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "The decisive observation has been taken and it went against the route: the target is pan-essential across sarcoma lines, so the EMC elevation buys no window. ⚠ What would reopen it is not a better inhibitor but a way to tell an EMC-SPECIFIC consequence apart from the consequence every line shares — which is what a perturbation model that predicts held-out phenotype would supply, and it is the technology that retires this route's own class-inheritance blocker.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-VIRTUAL-CELL"
+      ]
+    },
+    "next": {
+      "best_next_action": "Report it as a closed line: elevated and pan-essential is not an opportunity.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-CHAPERONE",
+    "display_name": "Chaperone dependency of the chimera (HSP90 and co-chaperones)",
+    "level": "L2",
+    "kind": "route",
+    "title": "Chaperone dependency of the chimera (HSP90 and co-chaperones)",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census; concept maturity, nothing run. The class's toxicity record is a stated liability rather than a footnote.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "31--transcriptional-and-proteostatic-dependency"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DEPENDENCY",
+    "publication": {
+      "endpoint": "PUB-TXN-DEPENDENCY",
+      "role": "primary",
+      "contribution": "The half of the paper that argues from what the driver IS STRUCTURALLY: a chimera of two domains that never evolved together is a folding problem before it is a signalling one."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is the chimeric protein more dependent on the chaperone system than the wild-type proteins it is assembled from?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "A structural argument nobody here had made. Chimeric proteins are disproportionately chaperone-dependent for folding and stability, which offers a way to lower fusion protein levels that needs no pocket ligand, no assembled ternary complex and no paralogue discrimination — the three blockers holding this portfolio's largest family down.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the chimera is in fact more chaperone-dependent than wild-type NR4A3 and wild-type EWSR1, which is the premise and has never been tested for this fusion.",
+      "Nothing here assumes a therapeutic window exists for a class whose clinical record is dominated by toxicity; whether one could is a question about the class rather than about this disease, and it is not settled anywhere."
+    ],
+    "required_validation": [
+      {
+        "what": "A literature assessment of chaperone clientship across FET-family fusion proteins",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A structural assessment of whether the junction region is predicted to be unstable or disordered, using the structural work already committed here",
+        "feasible_today": true,
+        "blocked_by": []
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "the chaperone-clientship literature assessment, which is $0"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Assess chaperone clientship for FET-family fusion proteins in the literature, and check whether this repository's own structural work predicts an unstable junction interface.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-MTAP-PRMT5",
+    "display_name": "PRMT5 / MAT2A synthetic lethality (MTAP co-deletion)",
+    "level": "L2",
+    "kind": "route",
+    "title": "PRMT5 / MAT2A synthetic lethality (MTAP co-deletion)",
+    "grade": {
+      "value": "⭐ TWO INDEPENDENT LINES, neither established (2026-08-09). Route 1: a published preclinical result that PRMT5 supports EWSR1-fusion-driven transcription in a sibling sarcoma with the same 5' gene — the stronger line, and its source is an uncertified preprint. Route 2: the MTAP/CDKN2A/CDKN2B locus reads LOWER in EMC where powered (t=-4.06) and the PRMT5 methylosome HIGHER on both platforms. ⛔ Neither is a copy-number call or a dependency measurement.",
+      "owner": {
+        "file": "research/manuscripts/emc-mtap-prmt5-hypothesis.md",
+        "anchor": "3--the-reading"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DEPENDENCY",
+    "publication": {
+      "endpoint": "PUB-MTAP-PRMT5",
+      "role": "primary",
+      "contribution": "The route IS the paper: two independent routes into the same class, the confounds that could produce each reading without the underlying biology, and the two different cheap experiments that separate them."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does this tumour carry the copy-number state that selects the PRMT5 axis?",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "One of the few genuinely biomarker-selected synthetic-lethal classes in oncology, and its selecting feature is a copy state nobody here has ever read in this disease. The question is cheap and close to binary, and it has simply never been asked.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the PRMT5 methylosome reads higher in EMC than in comparator sarcomas on both readable platforms, and the MTAP locus group reads lower on the platform where all three genes are readable",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether PRMT5's contribution in the sibling sarcoma runs through the shared EWSR1 moiety or is specific to that fusion's own DNA-binding partner — the transfer is an assumption and nothing here bridges it.",
+      "Whether the MTAP locus is actually deleted, which a transcript read can triage and cannot answer.",
+      "Whether the low locus read is driven by CDKN2A alone, which is near-universally co-lost with MTAP but is also lost by mechanisms that leave MTAP intact.",
+      "Whether an elevated methylosome implies any dependency on it."
+    ],
+    "required_validation": [
+      {
+        "what": "A clinical-stage PRMT5 inhibitor added to the functional screen already running on the two published patient-derived EMC models — the decisive test for the stronger route",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      },
+      {
+        "what": "MTAP immunohistochemistry on archival EMC tissue — routine, no fresh tissue, no cell line",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      },
+      {
+        "what": "A gene-level copy-number read of the locus in any EMC cohort",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "missing": [
+        "nothing for the preprint — it is written and every figure resolves to a committed artifact"
+      ],
+      "why_not_higher": "The decisive observation is a stain on tissue this programme cannot obtain, so the deliverable is the hypothesis and its falsifier rather than the answer."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The preprint is complete and needs nobody's cooperation, and the experiment it specifies is the cheapest decisive one anywhere in this portfolio — a routine stain on archival blocks that already exist.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Post the preprint and put the MTAP stain in front of a group holding EMC archival material.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-ARGININE",
+    "display_name": "Arginine deprivation (ASS1-silenced tumours)",
+    "level": "L2",
+    "kind": "route",
+    "title": "Arginine deprivation (ASS1-silenced tumours)",
+    "grade": {
+      "value": "⛔ Premise NOT supported (2026-08-09). ASS1 — the biomarker the class is given on — is HIGHER in EMC than in comparator sarcomas on BOTH readable platforms, and sits at the 92nd array percentile on one. The route was registered and graded against the same day.",
+      "owner": {
+        "file": "research/modalities/census-route-expression-grading.json"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DEPENDENCY",
+    "publication": {
+      "endpoint": "PUB-BIOMARKER-DEP",
+      "role": "contributing",
+      "contribution": "One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is the argininosuccinate synthase locus silenced in this disease, which is what selects the class?",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "A metabolic class that is biomarker-selected rather than proliferation-coupled — it exploits a silenced enzyme, which is a state rather than a growth rate. It has been taken to late-phase trials in soft-tissue sarcoma specifically, and its biomarker is a single transcript readable in data already committed here. The census found the whole metabolic group had been dismissed as a block, and this row does not share the group's reasoning.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "ASS1 is not low in EMC tumour tissue on either readable array platform, so the selecting feature for arginine deprivation is absent at transcript level",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether ASS1 PROTEIN is present, which is what the arginine-deprivation literature actually selects on — a transcript read is a reason not to prioritise a stain, not a substitute for one.",
+      "Whether any EMC subset is ASS1-low, which n=6 and n=10 cannot address."
+    ],
+    "required_validation": [
+      {
+        "what": "The expression or committed-artifact lookup that selects this class",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A measurement in a fusion-positive EMC model",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "nothing — the $0 observation this route was registered for has been taken, and it came back against the premise"
+      ],
+      "why_not_higher": "A single contradicted transcript-level premise in two small archival series is a paragraph in the census paper, not a paper."
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "The premise as stated is not supported and the cheapest observation has already been spent. Only an EMC protein-level or copy-number dataset would change the answer, and none is available to this programme.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Report it as a closed line in the census paper's negative half.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-MDM2",
+    "display_name": "MDM2 antagonism (p53 reactivation in a quiet genome)",
+    "level": "L2",
+    "kind": "route",
+    "title": "MDM2 antagonism (p53 reactivation in a quiet genome)",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census; the selection question is answerable from data already on disk.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "32--biomarker-selected-classes-readable-from-data-already-on-disk"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DEPENDENCY",
+    "publication": {
+      "endpoint": "PUB-BIOMARKER-DEP",
+      "role": "contributing",
+      "contribution": "One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does this tumour's quiet, clonal, p53-intact genome make it the profile MDM2 antagonism was built for and rarely finds?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "The class needs wild-type p53 and performs worst where the genome is chaotic. This disease's genome is quiet and clonal with a single founding translocation, which is an unusually good match and one that no prior sweep here named. The class's own history of dose-limiting haematological toxicity is a stated liability.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether TP53 is wild-type in this disease, which the sequencing implies but which has not been read out directly here.",
+      "Whether p53 pathway integrity — not merely the absence of a mutation — holds in a tumour driven by a strong transcriptional oncoprotein."
+    ],
+    "required_validation": [
+      {
+        "what": "The expression or committed-artifact lookup that selects this class",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A measurement in a fusion-positive EMC model",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a direct read of TP53 status from the whole-genome analysis already committed here"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Read TP53 status from the committed whole-genome trio analysis and the MDM2 locus from the expression cohorts.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-APOPTOSIS-DEP",
+    "display_name": "Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL)",
+    "level": "L2",
+    "kind": "route",
+    "title": "Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL)",
+    "grade": {
+      "value": "◐ SPLIT, AND THE TWO AXES DISAGREE (2026-08-09). Abundance: all five druggable guardians read LOWER in EMC on both platforms. Dependency: across 176 sarcoma lines MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% while BCL2 is in 2.2%. In this tumour class the guardian is not BCL-2 — which is what the route hypothesised, and what would explain this repository's own EMC result where BCL-2 inhibition was inactive alone and active only in combination.",
+      "owner": {
+        "file": "research/modalities/census-route-expression-grading.json"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DEPENDENCY",
+    "publication": {
+      "endpoint": "PUB-BIOMARKER-DEP",
+      "role": "contributing",
+      "contribution": "One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Which anti-apoptotic family member do patient-derived models of this disease actually depend on?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "This follows directly from a result the repository already holds and never pursued: BCL-2 inhibition was inactive alone and active only in combination in patient-derived models here. That pattern is the signature of dependence on a different member of the same family, and nobody has asked which one.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "MCL1 and BCL2L1 are dependencies in most sarcoma lines while BCL2 is in almost none, which is the pattern the route predicted and is the axis abundance cannot measure",
+        "strength": "class_inherited"
+      }
+    ],
+    "remaining_unknowns": [
+      "Which guardian holds the effectors in EMC specifically — no EMC line appears in the dependency panel, so the pattern is a class transfer and not an EMC observation.",
+      "Why guardian ABUNDANCE is lower in EMC than in comparator sarcomas while the class-level DEPENDENCY runs the other way; the two readings are not reconciled here.",
+      "Whether a primed state — low guardians with elevated NOXA — explains the combination-only result better than a co-dependency does."
+    ],
+    "required_validation": [
+      {
+        "what": "BH3 profiling, or an MCL-1/BCL-xL inhibitor arm, in the two published patient-derived EMC models — the same models that produced the combination-only result",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a dependency or BH3-profiling readout in an EMC model — abundance cannot answer this and the class prior contains no EMC line"
+      ],
+      "why_not_higher": "Two readings that disagree is a reason to run an experiment, not a result."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The class prior now points the same way as this repository's own unexplained EMC result, and the experiment that would settle it is an arm on a screen that has already been run once on those models.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Put an MCL-1/BCL-xL arm in front of the group holding the two EMC models, alongside the PRMT5 ask.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-EZH2",
+    "display_name": "EZH2 / PRC2 inhibition",
+    "level": "L2",
+    "kind": "route",
+    "title": "EZH2 / PRC2 inhibition",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census; it must be read beside the neighbouring route's existing negative rather than apart from it.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "32--biomarker-selected-classes-readable-from-data-already-on-disk"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DEPENDENCY",
+    "publication": {
+      "endpoint": "PUB-BIOMARKER-DEP",
+      "role": "contributing",
+      "contribution": "One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does this disease carry a PRC2 dependency of the kind that selects an approved agent in a neighbouring sarcoma?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "An agent is approved in a sarcoma selected by a chromatin-remodeller defect, and this portfolio already contains a chromatin-remodelling hypothesis through a non-canonical BAF subunit — but the two had never been connected and no prior sweep named this class. The existing BAF route's own dependency prior came back negative, which any assessment has to lead with.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether any PRC2 or chromatin-remodeller dependency exists in this disease, which is unreported.",
+      "Whether the neighbouring route's negative dependency prior also covers this axis, or is specific to the subunit it was computed on."
+    ],
+    "required_validation": [
+      {
+        "what": "The expression or committed-artifact lookup that selects this class",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A measurement in a fusion-positive EMC model",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a read of the PRC2 and BAF subunit sets in the expression data and the committed dependency artifact"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Read the PRC2 and BAF subunit sets across the expression cohorts and check the committed sarcoma dependency artifact for the same genes.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-POLQ",
+    "display_name": "POLθ inhibition (microhomology-mediated end joining)",
+    "level": "L2",
+    "kind": "route",
+    "title": "POLθ inhibition (microhomology-mediated end joining)",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census; it inherits the neighbouring route's weak grade and must be reported beside it.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "32--biomarker-selected-classes-readable-from-data-already-on-disk"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DEPENDENCY",
+    "publication": {
+      "endpoint": "PUB-BIOMARKER-DEP",
+      "role": "contributing",
+      "contribution": "One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does the replication-stress premise the DNA-damage-response lane rests on extend to the microhomology-mediated repair arm?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "The newest DNA-damage-response class and the one the existing class-inheritance argument was never extended to. If the FET-rearrangement replication-stress premise holds at all it is a premise about a repair state, and this class exploits a different arm of the same state — so it is testable with the instrument already built rather than with a new one.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the replication-stress premise survives its own weak grade on the neighbouring route.",
+      "Whether the repair-arm dependency is separable from the one already assessed, or is the same claim in different words."
+    ],
+    "required_validation": [
+      {
+        "what": "The expression or committed-artifact lookup that selects this class",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A measurement in a fusion-positive EMC model",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "an extension of the committed dependency-prior analysis to the end-joining genes"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Extend the committed dependency-prior analysis to the microhomology-mediated end-joining genes and report it beside the existing weak grade.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-SGK1",
+    "display_name": "SGK1 inhibition",
+    "level": "L2",
+    "kind": "route",
+    "title": "SGK1 inhibition",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census, porting a lane surfaced 2026-08-07 that had no route.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "33--kinase-leads-with-emc-specific-evidence-that-nobody-followed"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DEPENDENCY",
+    "publication": {
+      "endpoint": "PUB-KINASE-LEADS",
+      "role": "contributing",
+      "contribution": "One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is the kinase reported positive across a small series of these tumours two decades ago still there when read by a different modality?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "A registered lane with no route: a druggable AGC kinase reported positive across a full small series of tumours of this disease with an internal negative control, published two decades ago and never followed up by anyone.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the antibody-based series is corroborated at the transcript level, which has never been checked.",
+      "Whether the kinase is a dependency or a marker, which no available data can distinguish."
+    ],
+    "required_validation": [
+      {
+        "what": "The $0 corroboration named in this route's next action",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A functional measurement in a fusion-positive EMC model",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a read of SGK1 in the expression data already on disk"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Read SGK1 across the two readable EMC expression series and the fourth cohort, turning a single antibody-based series into two independent modalities of evidence at no cost.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-DNAPK",
+    "display_name": "DNA-PK inhibition as an indirect route to the fusion protein",
+    "level": "L2",
+    "kind": "route",
+    "title": "DNA-PK inhibition as an indirect route to the fusion protein",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census, porting a lane surfaced 2026-08-07 that had no route.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "33--kinase-leads-with-emc-specific-evidence-that-nobody-followed"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DEPENDENCY",
+    "publication": {
+      "endpoint": "PUB-KINASE-LEADS",
+      "role": "contributing",
+      "contribution": "One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can the driver be destabilised through its own regulation rather than by binding it?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "A registered lane with no route, and its appeal is structural rather than pharmacological: there is curated experimental evidence of an interaction with the driver protein itself, and acting through the protein's regulation needs neither a ligand for the pocket nor an assembled ternary complex — so it inherits none of the blockers holding the induced-proximity family down.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the curated interaction was measured on a fusion protein or only on wild-type NR4A3, which the records must be read to establish.",
+      "Whether the interaction is regulatory in the direction that would lower fusion activity."
+    ],
+    "required_validation": [
+      {
+        "what": "The $0 corroboration named in this route's next action",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A functional measurement in a fusion-positive EMC model",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a full read of the curated interaction records and their primary sources"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Read the curated interaction records and their underlying primary sources, and state whether any was measured on a fusion protein rather than on wild-type NR4A3.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-RET",
+    "display_name": "RET-selective inhibitors",
+    "level": "L2",
+    "kind": "route",
+    "title": "RET-selective inhibitors",
+    "grade": {
+      "value": "◐ SPLIT (2026-08-09). RET itself is higher in EMC on both platforms, so the receptor half of the lane holds. ⛔ But the GFRα co-receptors are LOWER on both and strongly so, and the GDNF-family ligands are LOWER on both — so the module that switches RET on is depleted relative to comparator sarcomas.",
+      "owner": {
+        "file": "research/modalities/census-route-expression-grading.json"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-REPURPOSING",
+    "publication": {
+      "endpoint": "PUB-KINASE-LEADS",
+      "role": "contributing",
+      "contribution": "One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is the one kinase reported as both expressed and activated in this disease a real therapeutic target?",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "The highest-ranked lane of the 2026-08-07 sweep and still not a route. It is the only kinase reported as both expressed and activated in this disease, the observation comes from independent groups, selective inhibitors are approved in other indications, and the finding has stood without follow-up for over a decade.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "RET transcript is higher in EMC than in comparator sarcomas on both readable platforms",
+        "strength": "direct"
+      },
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the GFRα co-receptor and GDNF-family ligand modules are LOWER in EMC on both platforms, which weakens a ligand-dependent activation route for the receptor",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the historical 'expressed and activated' report survives, since this reading corroborates expression and cannot corroborate activation.",
+      "Whether RET could be engaged without the canonical ligand and co-receptor — no RET rearrangement is reported in this disease either way.",
+      "Whether a co-receptor supply from stroma or nerve would be visible in bulk tumour transcript at all, which bounds how much this reading can be asked to carry."
+    ],
+    "required_validation": [
+      {
+        "what": "The $0 corroboration named in this route's next action",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A response measurement in a fusion-positive EMC model",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a full read of the original activation report, to establish what was measured and in how many tumours"
+      ],
+      "why_not_higher": "The lane's headline claim is activation, and this reading reaches expression and the activation MACHINERY but not activation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The remaining $0 step is a literature read, and it is now sharper than when the route was registered: the question is specifically whether the original report measured activation directly or inferred it.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Read the original RET activation report in full and establish whether activation was measured or inferred, and in how many tumours.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-ALK-HIT",
+    "display_name": "Follow-up of the ALK/ROS1-class ex-vivo screen hit",
+    "level": "L2",
+    "kind": "route",
+    "title": "Follow-up of the ALK/ROS1-class ex-vivo screen hit",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census; the underlying observation is committed here and was never followed.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "33--kinase-leads-with-emc-specific-evidence-that-nobody-followed"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-REPURPOSING",
+    "publication": {
+      "endpoint": "PUB-KINASE-LEADS",
+      "role": "contributing",
+      "contribution": "One of four kinase observations specific to this disease that exist in the published or curated record and that nobody has followed up."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Which kinase produced the multi-target inhibitor's hit in a patient-derived model of this disease?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "An ALK/ROS1-class inhibitor was among the low-IC50 hits of a 221-drug screen run on a patient-derived model of this disease, and nothing here has ever followed it up. The hit does not establish which target produced it, because that agent inhibits several kinases, so the route's first job is to separate the observation from the hypothesis.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Which of the agent's targets is responsible, which the screen was not designed to resolve.",
+      "Whether a single-model screen hit transfers, given how few models of this disease exist."
+    ],
+    "required_validation": [
+      {
+        "what": "The $0 corroboration named in this route's next action",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A response measurement in a fusion-positive EMC model",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a re-read of the committed drug-screen artifact and its controls"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Re-read the committed drug-screen artifact for the full hit list and its controls, then read each of the agent's principal targets across the expression cohorts.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-HORMONE-PARTNER",
+    "display_name": "Hormonal therapy for hormone-responsive 5′ fusion partners",
+    "level": "L2",
+    "kind": "route",
+    "title": "Hormonal therapy for hormone-responsive 5′ fusion partners",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census, porting a 2026-08-07 lane; the census also recorded that no hormonal route existed on the board at all.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "37--nuclear-receptors-outside-nr4a3"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-REPURPOSING",
+    "publication": {
+      "endpoint": "PUB-NR-OUTSIDE-NR4A3",
+      "role": "primary",
+      "contribution": "The half of the paper where the druggable input is imported by the 5′ partner rather than supplied by the driver's own receptor."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a hormone-responsive 5′ fusion partner import a druggable transcriptional input that the driver does not otherwise offer?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "A 5′ partner can bring its own promoter and its own regulation, and the repository already holds a reported instance of exactly that with durable benefit on an approved agent. No hormonal route exists among the forty-three, which makes this a registered lane with nowhere to live.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "What fraction of patients carry a hormone-responsive partner, which is a minority of an already ultra-rare disease and has never been summed.",
+      "Whether the reported benefit is attributable to the mechanism or is a single favourable natural history."
+    ],
+    "required_validation": [
+      {
+        "what": "A pooled estimate of the hormone-responsive partner fraction from the series already curated here",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Confirmation that the partner's promoter drives the fusion in a hormone-dependent way",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "the pooled partner-fraction arithmetic, which is $0 and uses a method this repository owns"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Pool the published partner-frequency series already curated here to size the hormone-responsive subset, and state how many patients a partner-directed option could reach.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-NR2F1",
+    "display_name": "Orphan nuclear-receptor agonism against dormancy escape",
+    "level": "L2",
+    "kind": "route",
+    "title": "Orphan nuclear-receptor agonism against dormancy escape",
+    "grade": {
+      "value": "⚠ UNREAD (2026-08-09). NR2F1 has no probe on either readable platform, so the route's precondition cannot be answered from this data at all. ⛔ An absent reading is not a reading of absence. A curated dormancy-associated context set is separately HIGHER in EMC on both platforms.",
+      "owner": {
+        "file": "research/modalities/census-route-expression-grading.json"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-OCCUPANCY",
+    "publication": {
+      "endpoint": "PUB-NR-OUTSIDE-NR4A3",
+      "role": "primary",
+      "contribution": "The half of the paper that targets the disease's clinical problem — late metastasis — through a receptor that has the tool compound this program's own receptor never had."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a nuclear receptor other than the driver's be engaged to hold disseminated cells dormant?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "scoped",
+      "confidence": "unknown",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "A registered lane with no route. It targets this disease's actual clinical problem rather than its driver, and it repoints the orphan-nuclear-receptor modelling stack built for NR4A3 onto a receptor that has a published tool compound — which is the known-answer control the program's own receptor never had, and is worth as much methodologically as the biology is clinically.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "a curated dormancy-associated context set scores higher in EMC than in comparator sarcomas on both platforms, while the receptor itself is unreadable on both",
+        "strength": "surrogate"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the receptor is expressed in EMC at all — unchanged by this pass, because no probe on either platform maps to it.",
+      "Whether an elevated dormancy-associated context implies anything about the receptor that programme is named for, which it does not on its own.",
+      "Whether a dormancy-maintenance strategy has any measurable endpoint in a disease whose response endpoint is itself contested here."
+    ],
+    "required_validation": [
+      {
+        "what": "A read of the receptor in the targeted expression panel already committed here",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A demonstration that the existing pocket-modelling pipeline runs on its ligand-binding domain",
+        "feasible_today": true,
+        "blocked_by": []
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a platform that carries a probe for the receptor — the two readable array series do not"
+      ],
+      "why_not_higher": "The precondition is unread, and reporting an unreadable gene as absent is the specific failure the source artifact forbids."
+    },
+    "timing": {
+      "recommendation": "wait",
+      "rationale": "The observation this route needs cannot be taken on the platforms available; it waits on a dataset that carries the gene.",
+      "cost_trend": "falling",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Check whether the fourth public cohort carries the receptor at all.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-MATRIX-SYNTHESIS",
+    "display_name": "Inhibition of the tumour's glycosaminoglycan biosynthesis",
+    "level": "L2",
+    "kind": "route",
+    "title": "Inhibition of the tumour's glycosaminoglycan biosynthesis",
+    "grade": {
+      "value": "⛔ Premise NOT supported AS STATED (2026-08-09). The sulfate-donor module is LOWER in EMC than in comparator sarcomas on both platforms; the backbone and 4-O-sulfotransferase groups disagree between platforms. A matrix-defining tumour is not running its biosynthetic machinery hotter than its neighbours.",
+      "owner": {
+        "file": "research/modalities/census-route-expression-grading.json"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-MICROENV",
+    "publication": {
+      "endpoint": "PUB-MATRIX-ADDRESS",
+      "role": "contributing",
+      "contribution": "One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is the myxoid matrix load-bearing for the tumour, such that stopping its manufacture is a therapeutic act?",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "The matrix has been treated here as a barrier and, once, as an address. This is the third option nobody had considered: stop the tumour building it. The gel is the disease's defining phenotype and it is a manufactured product with a named biosynthetic pathway. The pathway is shared with normal chondrogenesis, so selectivity is the open question rather than an assumption.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the sulfate-donor module is lower in EMC than in comparator sarcomas on both readable platforms, against the route's stated premise",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the premise survives restatement: the comparator arm is itself matrix-rich sarcoma, so this is a relative reading, and bulk enzyme transcript need not track accumulated matrix mass in a tumour whose product is long-lived.",
+      "Whether matrix production is load-bearing for the tumour at all, which nothing has tested and which this reading does not address."
+    ],
+    "required_validation": [
+      {
+        "what": "The expression lookup that grades this route's premise",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A measurement of the matrix compartment in EMC tissue",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB",
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a restatement of the premise in a form this reading does not already contradict"
+      ],
+      "why_not_higher": "A contradicted premise with a plausible restatement is not yet a result in either direction."
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "The naive form of the premise is contradicted and the restatement would need a measurement of matrix turnover rather than of enzyme transcript, which no available dataset supplies.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Restate the premise, or report the contradiction as the result.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-MATRIX-ADDRESS",
+    "display_name": "Oncofetal chondroitin sulfate as a tumour address",
+    "level": "L2",
+    "kind": "route",
+    "title": "Oncofetal chondroitin sulfate as a tumour address",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census, porting a 2026-08-07 lane that had no route.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "34--the-matrix-as-an-address"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-MICROENV",
+    "publication": {
+      "endpoint": "PUB-MATRIX-ADDRESS",
+      "role": "contributing",
+      "contribution": "One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can the tumour's own glycan be used as the targeting address that no protein antigen has supplied?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "A registered lane with no route, and the best-argued matrix address the 2026-08-07 sweep found: it turns the defining glycan into the target, and it belongs to an antigen class the surfaceome screen structurally could not have found, because a sulfation pattern has no gene to rank.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the oncofetal sulfation pattern is present in this disease's tissue, which no committed artifact has measured.",
+      "Whether the pattern is restricted enough relative to normal tissue to give any window, which is the same question every antigen route here has failed on."
+    ],
+    "required_validation": [
+      {
+        "what": "The expression lookup that grades this route's premise",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A measurement of the matrix compartment in EMC tissue",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB",
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a read of the sulfotransferase and chondroitin-sulfate biosynthesis gene set already committed here"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Read the chondroitin-sulfate biosynthesis and sulfotransferase gene set in the targeted expression panel — the enzymes that build the epitope are genes even though the epitope is not.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-IMMUNOCYTOKINE",
+    "display_name": "Matrix-targeted immunocytokines",
+    "level": "L2",
+    "kind": "route",
+    "title": "Matrix-targeted immunocytokines",
+    "grade": {
+      "value": "◐ PARTLY READ (2026-08-09). The parent matrix genes are abundant in absolute terms — FN1 at the 94th array percentile — but not enriched against comparator sarcomas, and TNC and FAP are lower on both platforms. ⛔ The address is a SPLICE VARIANT and a gene-level probe cannot see one, so the route's own premise is untested rather than answered.",
+      "owner": {
+        "file": "research/modalities/census-route-expression-grading.json"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-ANTIGEN-COLD",
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-MICROENV",
+    "publication": {
+      "endpoint": "PUB-MATRIX-ADDRESS",
+      "role": "contributing",
+      "contribution": "One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a cytokine payload be addressed to the tumour's extracellular matrix rather than to a tumour-cell antigen?",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "The one antibody format whose address is not a tumour-cell antigen: it targets an extracellular matrix epitope, and the matrix is this disease's defining compartment. That routes around the instrument limitation already flagged here — the surfaceome screen ranks tumour-cell monoculture transcripts and cannot see stroma. The class also has soft-tissue-sarcoma clinical experience specifically. The payload is a cytokine, so a cold infiltrate remains a real objection to the immune arm even if the address holds.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the parent genes of the targeted matrix epitopes are expressed in EMC tumour tissue but are not enriched relative to comparator sarcomas",
+        "strength": "surrogate"
+      }
+    ],
+    "remaining_unknowns": [
+      "The abundance of the oncofetal SPLICE ISOFORM that the clinical agents actually bind, which is not deducible from the parent gene and which these array platforms cannot resolve.",
+      "Whether an address that is abundant but not sarcoma-selective gives any window, which is the same question every antigen route in this portfolio has failed on.",
+      "Whether a cytokine payload can act in a microenvironment recorded here as cold and sparse."
+    ],
+    "required_validation": [
+      {
+        "what": "The expression lookup that grades this route's premise",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A measurement of the matrix compartment in EMC tissue",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB",
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "an isoform-resolved read, which needs RNA-seq rather than an array — the fourth public cohort is the first candidate that could carry it"
+      ],
+      "why_not_higher": "The gene-level read bounds the parent genes and leaves the isoform question, which is the route, entirely open."
+    },
+    "timing": {
+      "recommendation": "wait",
+      "rationale": "The decisive observation needs isoform-level data, and the only plausible source is a public RNA-seq cohort this programme has identified but not yet processed.",
+      "cost_trend": "falling",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-HYPOXIA-PRODRUG",
+    "display_name": "Hypoxia-activated prodrugs",
+    "level": "L2",
+    "kind": "route",
+    "title": "Hypoxia-activated prodrugs",
+    "grade": {
+      "value": "⛔ GRADE WITHDRAWN AND REPLACED, 2026-08-09 (same day). It was first graded SUPPORTED from the raw two-platform contrast. That reading was taken from the panel artifact WITHOUT reading the confound audit that audits it: against a genome-wide size-matched null the signature does not clear on GPL6244, and the owning memo rules the signal is a reason to ask a question rather than to revisit this class.",
+      "owner": {
+        "file": "research/manuscripts/emc-hypoxia-reading.md",
+        "anchor": "5--the-therapeutic-hooks-at-their-true-weight"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-MICROENV",
+    "publication": {
+      "endpoint": "PUB-MATRIX-ADDRESS",
+      "role": "contributing",
+      "contribution": "One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is the hypoxic fraction of this hypovascular, matrix-dominated tumour large enough to activate a prodrug selectively?",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "This repository has already accepted that a hypovascular matrix-dominated tumour is a good niche fit for hypoxia-directed treatment — it said so when grading engineered bacteria, where the fit was real and the decisive objection was that no in-silico instrument could be brought to bear. That objection does not hold here, because a hypoxia signature is readable in expression data already on disk. The class has a negative randomised soft-tissue-sarcoma record that any assessment must lead with.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the raw hypoxia-metagene contrast is positive in EMC on both platforms — which is the reading, not the grade: it does not survive the genome-wide null on one of the two",
+        "strength": "surrogate"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the signal survives on a third series, which is the falsifier the owning memo names and which two series cannot supply.",
+      "Whether the class's negative randomised soft-tissue-sarcoma record was a mechanism failure or a patient-selection failure — unchanged by this pass.",
+      "Nothing here assumes a therapeutic window; the owning memo declines to make this signal a reason to revisit the class at all, and that ruling is not overturned by a route existing."
+    ],
+    "required_validation": [
+      {
+        "what": "The expression lookup that grades this route's premise",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A measurement of the matrix compartment in EMC tissue",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB",
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "a third EMC series — the falsifier the owning memo names"
+      ],
+      "why_not_higher": "The route rests on a signal whose own audit restricts it to one platform, and the memo that owns that audit declines to license this class from it."
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "The owning memo has already ruled on what this signal licenses, and nothing this route can do at $0 changes that ruling; only a third series would.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Leave it to the hypoxia memo, which owns the reading and the ruling.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-LIMB-PERFUSION",
+    "display_name": "Isolated limb perfusion for extremity disease",
+    "level": "L2",
+    "kind": "route",
+    "title": "Isolated limb perfusion for extremity disease",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census; the portfolio contained no physical intervention of any kind before it.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "35--locoregional-and-radiation"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-LOCOREGIONAL",
+    "publication": {
+      "endpoint": "PUB-LOCOREGIONAL",
+      "role": "contributing",
+      "contribution": "One of the anatomical-selectivity strategies a disease that is extremity-primary, lung-metastasis-dominant and indolent is unusually well matched to."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "What fraction of patients have disease confined enough for regional limb perfusion to be an option?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "A regional technique with an approved agent and an established role in unresectable extremity soft-tissue sarcoma — and this disease's most common primary site is deep soft tissue of the thigh and lower limb, so the anatomical precondition is met more often here than in most sarcomas. It was invisible to every prior search, all of which looked only at molecular modalities.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "What fraction of patients present with extremity-confined disease, which has never been summed from the curated cohorts.",
+      "Whether any myxoid histology appears in the published perfusion series at all."
+    ],
+    "required_validation": [
+      {
+        "what": "The eligibility arithmetic from the curated cohorts",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A clinical series in this histology, which only a collaborating centre could assemble",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "the anatomical-site arithmetic from the cohorts already curated here"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Pool the anatomical-site distribution across the curated EMC series to size the eligible fraction, and search the perfusion literature for myxoid histologies specifically.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-LUNG-DIRECTED",
+    "display_name": "Lung-directed local therapy (regional perfusion, inhaled delivery, ablation)",
+    "level": "L2",
+    "kind": "route",
+    "title": "Lung-directed local therapy (regional perfusion, inhaled delivery, ablation)",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census; it extends an approach the curated record already documents in its surgical form.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "35--locoregional-and-radiation"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-LOCOREGIONAL",
+    "publication": {
+      "endpoint": "PUB-LOCOREGIONAL",
+      "role": "contributing",
+      "contribution": "One of the anatomical-selectivity strategies a disease that is extremity-primary, lung-metastasis-dominant and indolent is unusually well matched to."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does a lung-predominant, indolent metastatic pattern make local therapy of the metastases a better-matched strategy than systemic treatment?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "The curated record for this disease states both that distant spread is mostly to lung and that removing isolated metastases can give long disease-free intervals — which is already the surgical form of this argument. Regional perfusion, inhaled delivery and percutaneous ablation extend it to patients and lesions surgery cannot reach, and none had ever been considered here.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "What fraction of patients are lung-limited and for how long, which has never been extracted from the curated cohorts.",
+      "Whether repeated local treatment changes the disease's course or only its imaging, which is the same endpoint problem this portfolio has already registered as a route."
+    ],
+    "required_validation": [
+      {
+        "what": "The eligibility arithmetic from the curated cohorts",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A clinical series in this histology, which only a collaborating centre could assemble",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "the metastatic-site and burden arithmetic from the cohorts already curated here"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Extract metastatic-site distribution, burden at presentation and time-to-metastasis from the curated registry cohorts, and state what fraction would meet a conventional oligometastatic threshold.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-RT-INTENSIFY",
+    "display_name": "Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia)",
+    "level": "L2",
+    "kind": "route",
+    "title": "Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia)",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census; it attaches to a contradiction already live in this repository's record rather than opening a new question.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "35--locoregional-and-radiation"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-LOCOREGIONAL",
+    "publication": {
+      "endpoint": "PUB-LOCOREGIONAL",
+      "role": "contributing",
+      "contribution": "One of the anatomical-selectivity strategies a disease that is extremity-primary, lung-metastasis-dominant and indolent is unusually well matched to."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is this disease's contested radiosensitivity a question about dose, or about the quality and delivery of dose?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "This repository's own record contains a live contradiction about whether radiotherapy does anything in this disease — two registries and the largest series disagree. Every prior treatment of that question has been about whether to give radiotherapy. No prior sweep considered that the answer might be dose quality, dose geometry or radiosensitisation, and the one striking combination response in the literature is itself a radiotherapy combination that was previously recorded only as a confound.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the existing radioresistance contradiction resolves to a dose-response relationship or to selection bias, which the reappraisal already scoped here would settle.",
+      "Whether particle-therapy or brachytherapy series contain any myxoid or chondroid histology in reportable numbers."
+    ],
+    "required_validation": [
+      {
+        "what": "The eligibility arithmetic from the curated cohorts",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A clinical series in this histology, which only a collaborating centre could assemble",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "missing": [
+        "the radioresistance reappraisal's dose-response regression, extended beyond external-beam series"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Build the dose-response regression for the radioresistance reappraisal including brachytherapy and particle-therapy arms, and search the particle registries by histology.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-SCHEDULING",
+    "display_name": "Adaptive and metronomic scheduling of existing agents",
+    "level": "L2",
+    "kind": "route",
+    "title": "Adaptive and metronomic scheduling of existing agents",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census, porting a 2026-08-07 lane and adding the comparator arm it lacked.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "36--strategy-and-reachability"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-STRATEGY",
+    "publication": {
+      "endpoint": "PUB-STRATEGY-ARCH",
+      "role": "contributing",
+      "contribution": "One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can the schedule of the agents this disease already receives be changed to hold it in check longer?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "A registered lane with no route, plus the comparator it never had. Adaptive scheduling asks nothing new of chemistry and everything of timing, it costs nothing to model, and the 2026-08-07 sweep found this disease close to an ideal indication on several independent grounds. Metronomic dosing is the obvious alternative hypothesis and had never been named here at all, so the two are registered together and evaluated against each other.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether a marker exists to adapt on, in a disease whose response endpoint is itself contested here.",
+      "Whether the modelled advantage survives the small, heterogeneous and mostly retrospective data the model would be fitted to."
+    ],
+    "required_validation": [
+      {
+        "what": "The $0 analysis or registry sweep named in this route's next action",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Prospective confirmation, which no trial in this disease will supply",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "missing": [
+        "the scheduling model on the pooled progression-free-survival data already curated here"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Build the scheduling model on the pooled progression-free-survival data already curated here, with metronomic dosing as the comparator arm, and state the conditions under which each wins.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-SEQUENCING",
+    "display_name": "Treatment sequencing and line ordering",
+    "level": "L2",
+    "kind": "route",
+    "title": "Treatment sequencing and line ordering",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census as a variable nobody here had treated as a question; its most likely honest output is that the published record cannot answer it.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "36--strategy-and-reachability"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-STRATEGY",
+    "publication": {
+      "endpoint": "PUB-STRATEGY-ARCH",
+      "role": "contributing",
+      "contribution": "One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "In what order should the agents that already have activity in this disease be given?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "The registry curates several agents with disease-specific activity and says nothing about the order to give them in. In a disease where decisions are years apart, ordering is one of the few variables a clinician actually controls, and no prior sweep treated it as a question at all.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether reported prior-therapy exposure is recorded consistently enough across the published cohorts to support any ordering inference.",
+      "Whether an observational ordering signal can be separated from the selection that produced it, which in a disease this rare it may not be."
+    ],
+    "required_validation": [
+      {
+        "what": "The $0 analysis or registry sweep named in this route's next action",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Prospective confirmation, which no trial in this disease will supply",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "missing": [
+        "the prior-therapy-versus-outcome tabulation across the curated cohorts"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Tabulate reported prior-therapy exposure against outcome across the curated cohorts and state what the published record can and cannot support.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-TRIAL-REACH",
+    "display_name": "Trial reachability and access pathways",
+    "level": "L2",
+    "kind": "route",
+    "title": "Trial reachability and access pathways",
+    "grade": {
+      "value": "⭑ Registered 2026-08-09 from the modality census, porting a 2026-08-07 lane and adding the access-pathway half, which closes a gap in the portfolio's own logic.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "36--strategy-and-reachability"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-STRATEGY",
+    "publication": {
+      "endpoint": "PUB-STRATEGY-ARCH",
+      "role": "contributing",
+      "contribution": "One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a patient with this disease actually reach the trials and the agents that a computational result would point them toward?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "Two findings meet here. A trial exists whose eligibility is defined by the fusion family this disease belongs to while its listed conditions do not name the disease, so no histology-based search reaches it — a reachability problem, and reachability is something a paper can fix. And the portfolio names publication as its endpoint everywhere while never registering the mechanism by which a published hypothesis becomes a treated patient, which leaves the chain from result to patient with a missing link nobody owns.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "How many trials define eligibility molecularly while listing conditions histologically, which nobody has swept for.",
+      "Whether any of this portfolio's candidates could in principle enter a single-patient access pathway, which depends on regulatory facts this program has never assessed."
+    ],
+    "required_validation": [
+      {
+        "what": "The $0 analysis or registry sweep named in this route's next action",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Prospective confirmation, which no trial in this disease will supply",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "missing": [
+        "the registry sweep for molecularly-defined eligibility, which is a free CI job"
+      ],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Sweep the trial registries for eligibility criteria naming fusion families rather than histologies, and map the access pathways and outcome registries that accept single-patient reports.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-MODALITY-CENSUS",
+    "display_name": "The modality census as a publication",
+    "level": "L2",
+    "kind": "route",
+    "title": "The modality census as a publication",
+    "grade": {
+      "value": "⭑ Complete as a deliverable on 2026-08-09: the register, the generated view and the manuscript all exist and every pointer in them resolves.",
+      "owner": {
+        "file": "research/manuscripts/cancer-modality-census.md",
+        "anchor": "2--what-the-enumeration-returned"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "strategy": "ST-DISSEMINATION",
+    "publication": {
+      "endpoint": "PUB-MODALITY-CENSUS",
+      "role": "primary",
+      "contribution": "The paper is the census: a complete enumeration graded line by line against one disease, and the census-versus-search distinction that makes its negative half meaningful."
+    },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is a complete modality enumeration, graded against one ultra-rare disease, a publishable result in its own right?",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-09"
+    },
+    "rationale": "The census separates classes that were considered and dismissed from classes nobody had pointed at — a distinction a literature search cannot make about itself. It is complete, it needs nobody's cooperation, and its negative half is the larger one: eighty-four classes closed on first inspection is a result the field publishes almost none of.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether a census of this kind is judged a contribution or a review, which is a venue question this program cannot answer from the desk.",
+      "Whether the taxonomy's nineteen groups are the right partition, which is a choice and would be the first thing a reviewer contests."
+    ],
+    "required_validation": [
+      {
+        "what": "Independent review of the taxonomy and of a sample of the exclusion arguments",
+        "feasible_today": false,
+        "blocked_by": []
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "missing": [],
+      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The deliverable exists and needs nobody's cooperation, so there is nothing to wait for on the writing side; what remains is a framing and venue decision that is trimcrae's rather than this program's.",
+      "cost_trend": "flat"
+    },
+    "next": {
+      "best_next_action": "Decide the framing and the venue, which is an outward-facing call.",
+      "cost": "$0"
+    }
   }
 ]
