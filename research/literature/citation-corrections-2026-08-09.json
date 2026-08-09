@@ -1,0 +1,77 @@
+{
+  "_what": "Resolution of the two identifiers that did not return under EXT_ID in the reference-metadata fetch. Both turned out to be WRONG IN THE PROSE rather than merely unretrieved.",
+  "_why": "CLAUDE.md §4: a plausible story is a hypothesis, not a diagnosis. The plausible story was 'Europe PMC indexes preprints under PPR ids, so an EXT_ID query misses them'. That is true of one of the two and explains neither identifier being WRONG. The discriminating observation was a DOI-keyed query, and it cost one free CI dispatch.",
+  "_retrieval": {
+    "slug": "unresolved-two-by-doi-2026-08-09",
+    "n_records": 43,
+    "date_et": "2026-08-09",
+    "endpoint": "Europe PMC resultType=core"
+  },
+  "⛔_finding_1_a_wrong_pmid_reached_a_manuscript": {
+    "cited_as": "PMID 39148855",
+    "cited_in": [
+      "research/manuscripts/repurposing-hypotheses.md",
+      "research/manuscripts/citation-provenance-ledger.json"
+    ],
+    "correct": "PMID 39322717",
+    "how_established": "The DOI carried in the SAME prose entry (10.1038/s41591-024-03233-x) resolves in Europe PMC to PMID 39322717. A query for EXT_ID:39148855 returned no record.",
+    "⚠": "This is the 2026-08-07 failure mode recurring: an identifier that no committed source supports, attached to an otherwise correct citation. lint_citations was built for exactly this and could not catch it, because the number WAS anchored - it appears in the provenance ledger. ⛔ ANCHORING PROVES A FETCH HAPPENED, NEVER THAT THE IDENTIFIER IS RIGHT, which the gate's own header already says and which this is the first measured instance of."
+  },
+  "⭐_finding_2_the_ATR_papers_foundational_citation_is_now_peer_reviewed": {
+    "cited_as": "PMID 37205599, described as a bioRxiv preprint",
+    "cited_in": [
+      "research/manuscripts/emc-atr-collaborator-package.md",
+      "research/manuscripts/emc-atr-vulnerability-assessment.md",
+      "research/manuscripts/emc-post-degrader-options.md",
+      "research/modalities/ (six artifacts and modules)"
+    ],
+    "the_preprint": "Europe PMC source PPR, id PPR653036, doi 10.1101/2023.04.30.538578, and NO PMID. So EXT_ID:37205599 returning nothing is not a preprint-indexing quirk - the cited PMID does not identify this paper and returned no record for anything.",
+    "the_published_version": "PMID 41811428 · PMC13223543 · doi 10.1158/0008-5472.can-25-2166 · Cancer Research 2026.",
+    "⭐_why_it_matters_beyond_the_citation": "The whole ATR route inherits its premise from this paper. It is no longer a preprint. Every hedge in this repository describing that evidence as unreviewed is now stale and understates the route. ⚠ What does NOT change: the ATR vulnerability in EMC is still INHERITED from the FET class and untested in this disease.",
+    "⚠_author_order_differs_between_versions": "Menon S is first on the preprint; Gracilla DE is first on the published paper. Use the author string matching the version being cited."
+  },
+  "records": {
+    "39322717": {
+      "pmid": "39322717",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/39322717/",
+      "pmcid": "PMC11645266",
+      "doi": "10.1038/s41591-024-03233-x",
+      "source": "MED",
+      "europepmc_id": "39322717",
+      "authors": "Huang K, Chandak P, Wang Q, Havaldar S, Vaid A, Leskovec J, Nadkarni GN, Glicksberg BS, Gehlenborg N, Zitnik M.",
+      "title": "A foundation model for clinician-centered drug repurposing.",
+      "journal": "Nature medicine",
+      "year": 2024,
+      "volume": "30",
+      "pages": "3601-3613"
+    },
+    "41811428": {
+      "pmid": "41811428",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/41811428/",
+      "pmcid": "PMC13223543",
+      "doi": "10.1158/0008-5472.can-25-2166",
+      "source": "MED",
+      "europepmc_id": "41811428",
+      "authors": "Gracilla DE, Menon S, Breese MR, Lin YP, Dela Cruz FS, Feinberg TY, de Stanchina E, Galic AF, Allegakoen H, Perati SR, Everin N, Vizconde T, Wen NJ, Heslin A, Somwar R, Ladanyi M, Horlbeck M, Weissman JS, Sweet-Cordero EA, Bivona TG, Tulpule A.",
+      "title": "FET Fusion Oncoproteins Disrupt Physiologic DNA Repair and Create a Targetable Opportunity for ATR Inhibitor Therapy.",
+      "journal": "Cancer research",
+      "year": 2026,
+      "volume": "86",
+      "pages": "2660-2677"
+    },
+    "PPR653036": {
+      "pmid": null,
+      "pubmed_url": null,
+      "pmcid": null,
+      "doi": "10.1101/2023.04.30.538578",
+      "source": "PPR",
+      "europepmc_id": "PPR653036",
+      "authors": "Menon S, Gracilla D, Breese MR, Lin YP, Dela Cruz F, Feinberg T, de Stanchina E, Galic A, Allegakoen H, Perati S, Wen N, Heslin A, Horlbeck MA, Weissman J, Sweet-Cordero EA, Bivona TG, Tulpule A.",
+      "title": "FET fusion oncoproteins disrupt physiologic DNA repair and create a targetable opportunity for ATR inhibitor therapy",
+      "journal": "",
+      "year": 2023,
+      "volume": "",
+      "pages": ""
+    }
+  }
+}
