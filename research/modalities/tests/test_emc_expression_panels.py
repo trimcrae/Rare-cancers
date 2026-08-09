@@ -553,19 +553,100 @@ def test_a_missing_accession_rate_is_an_absent_reading_not_agreement():
     assert "abs_difference_vs_prior" not in r
 
 
+def _fake_artifact(rate, exhausted_at=None, global_exhausted=None):
+    diag = {"accession_resolution_rate": rate}
+    if exhausted_at is not None:
+        diag["ncbi_budget_exhausted_in_elink_at"] = exhausted_at
+    if global_exhausted is not None:
+        diag["ncbi_global_budget_exhausted"] = global_exhausted
+    return {"part_b_emc_tumour_signature": {
+        "per_platform": {"GSE24369_series_matrix.txt.gz": {
+            "platform": "GPL6244", "probe_mapping_diagnostic": diag}}}}
+
+
+def test_the_truncation_detector_separates_the_two_cases_it_exists_to_separate():
+    """⛔ THE GUARD IS ASSERTED, NOT DESCRIBED. The whole repair below turns on this predicate
+    telling a truncated pass from a complete one; if it answered "truncated" for everything it
+    would silently disable the equality branch, which is the branch that catches real drift."""
+    mf, diag = _bridge_was_truncated(_fake_artifact(0.965, exhausted_at=3400),
+                                     "GSE24369", "GPL6244")
+    assert mf and diag["ncbi_budget_exhausted_in_elink_at"] == 3400
+    mf, diag = _bridge_was_truncated(_fake_artifact(0.984), "GSE24369", "GPL6244")
+    assert mf is None and diag is None, "a complete pass must NOT read as truncated"
+    mf, _ = _bridge_was_truncated(_fake_artifact(0.582, global_exhausted="budget spent earlier"),
+                                  "GSE24369", "GPL6244")
+    assert mf, "the cross-platform global-budget form is truncation too"
+    mf, _ = _bridge_was_truncated(_fake_artifact(0.965, exhausted_at=3400), "GSE4303", "GPL3290")
+    assert mf is None, "a different series' record must not be read as this one's"
+
+
+def _bridge_was_truncated(d, gse, platform):
+    """Did the run that produced this rate stop against an exhausted NCBI budget?
+
+    ⭐ THE ONE FIELD THAT DECIDES WHETHER TWO RATES ARE COMPARABLE. `TARGETS`' own comment already
+    states the rule — "a lower rate with an exhausted budget is a truncated pass; a lower rate
+    WITHOUT one is a real change and should be chased" — but nothing read the field, so the test
+    below could not tell the two apart and went red for the harmless one."""
+    per = (d.get("part_b_emc_tumour_signature") or {}).get("per_platform") or {}
+    for mf, rec in per.items():
+        if not mf.startswith(gse):
+            continue
+        diag = rec.get("probe_mapping_diagnostic") or {}
+        if diag.get("accession_resolution_rate") is None:
+            continue
+        if rec.get("platform") not in (None, platform) and platform not in mf:
+            continue
+        if diag.get("ncbi_budget_exhausted_in_elink_at") is not None or \
+                diag.get("ncbi_global_budget_exhausted"):
+            return mf, diag
+    return None, None
+
+
 @pytest.mark.committed_artifact
 def test_the_probe_mapping_priors_agree_with_emc_atr_vulnerability_json():
+    """The pin in TARGETS against its one home — but comparing like with like.
+
+    ⛔ THIS TEST WENT RED ON A RUN THAT HAD DONE NOTHING WRONG, AND THE COST WAS NOT COSMETIC
+    (2026-08-09). GSE24369/GPL6244 was pinned at 0.984 from a complete pass; a later part-B run
+    stopped against an exhausted elink budget (`ncbi_budget_exhausted_in_elink_at: 3400` of 4303
+    accessions queried) and wrote 0.965 into the artifact. Strict equality then failed — and
+    because this test runs in the OFFLINE step that gates the whole workflow, a `mode=panels`
+    dispatch skipped its fetch entirely and republished the unchanged artifact while reporting
+    that it had run.
+
+    ⚠ AND "UPDATE TARGETS" WOULD HAVE BEEN THE WRONG FIX. It would have pinned a truncated value
+    as the reference, so the NEXT complete pass — the one that measures the real rate — would be
+    the one that failed. A pin whose reference is whichever run happened last is not a pin.
+
+    So: a truncated run's rate is a FLOOR and is asserted as `<= pin`; an untruncated run's rate
+    must still match exactly, which is the regression this test exists to catch. Both branches
+    fail on a rate ABOVE the pin, because that means the bridge widened and the pin is genuinely
+    stale — the case where updating TARGETS IS the right answer."""
     path = os.path.join(MOD, "emc-atr-vulnerability.json")
     if not os.path.exists(path):
         pytest.skip("emc-atr-vulnerability.json is not present in this checkout")
     d = json.load(open(path))
     readability = d["part_b_emc_tumour_signature"]["series_readability"]
     for t in M.TARGETS:
-        rates = readability[t["gse"]]["probe_mapping_rate_per_platform"]
-        assert rates[t["platform_expected"]] == t["prior_probe_mapping_rate"], (
-            f"{t['gse']}/{t['platform_expected']}: this module's prior "
-            f"({t['prior_probe_mapping_rate']}) disagrees with its one home "
-            f"({rates[t['platform_expected']]}). Update TARGETS, do not loosen the test.")
+        gse, plat, pin = t["gse"], t["platform_expected"], t["prior_probe_mapping_rate"]
+        got = readability[gse]["probe_mapping_rate_per_platform"][plat]
+        mf, diag = _bridge_was_truncated(d, gse, plat)
+        if got == pin:
+            continue
+        assert got < pin, (
+            f"{gse}/{plat}: the artifact's rate ({got}) is ABOVE this module's pin ({pin}). A "
+            f"wider bridge resolved more accessions than the pinned pass, so the pin is stale — "
+            f"update TARGETS to {got} and record the old value per CLAUDE.md rule 1. Do not "
+            f"loosen this branch.")
+        assert diag is not None, (
+            f"{gse}/{plat}: this module's pin ({pin}) disagrees with its one home ({got}) and the "
+            f"producing run records NO exhausted budget, so this is a real change and not a "
+            f"truncated pass. Chase the cause; do not update the pin to match.")
+        assert pin - got <= 0.05, (
+            f"{gse}/{plat}: the artifact's rate ({got}) is a truncated floor against the pin "
+            f"({pin}), which is expected — but the gap is larger than any truncation seen here. "
+            f"Re-run part B with a bigger EMC_ACC_BRIDGE_BUDGET_S and read the result. "
+            f"Diagnostic: {mf} {dict(list((diag or {}).items())[:6])}")
 
 
 @pytest.mark.committed_artifact

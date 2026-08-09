@@ -1,0 +1,432 @@
+{
+  "_title": "PRMT5's measured substrate motif (GRG) mapped onto EMC's fusion protein, and onto the fusions the mechanism has actually been measured in.",
+  "_generated_by": "research/modalities/emc_prmt5_substrate_motif_map.py",
+  "_sources": {
+    "sequences_and_junctions": "research/modalities/emc-fet-construct-designs.json (wild_type_controls.controls[*].protein_sequence, constructs[*].junction_in_residue_numbering)",
+    "rgg_boxes_and_ceiling": "research/modalities/emc-fet-idr-census.json (wild_type_annotation)",
+    "the_motif": "PMID 30940768 (Musiani et al., Sci Signal 2019) — PRMT5 prefers arginine sandwiched between two glycines (GRG). Retrieved 2026-08-09 via fetch-literature.yml, slug prmt5-substrate-motif."
+  },
+  "_this_computes_nothing_about_efficacy": "⛔ Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent in any disease. It locates a sequence motif in a protein sequence.",
+  "motifs": {
+    "GRG": "PRMT5's measured preference — arginine flanked by glycine on both sides (PMID 30940768). This is the motif the manuscript's claim should rest on.",
+    "RG": "the dipeptide `emc-fet-idr-census.json` counts, on a criterion adopted for the FET→ATM→DSB-recruitment mechanism, NOT for methylation. Reported so the two axes can be compared rather than conflated."
+  },
+  "wild_type_proteins": {
+    "EWSR1": {
+      "protein": "EWSR1",
+      "length_aa": 656,
+      "motif_counts": {
+        "GRG": 11,
+        "RG": 30
+      },
+      "first_occurrence_residue": {
+        "GRG": 301,
+        "RG": 300
+      },
+      "last_occurrence_residue": {
+        "GRG": 635,
+        "RG": 636
+      },
+      "positions": {
+        "GRG": [
+          301,
+          303,
+          316,
+          320,
+          463,
+          489,
+          564,
+          574,
+          591,
+          602,
+          635
+        ],
+        "RG": [
+          300,
+          302,
+          304,
+          309,
+          314,
+          317,
+          321,
+          330,
+          455,
+          464,
+          471,
+          490,
+          494,
+          500,
+          503,
+          506,
+          563,
+          565,
+          572,
+          575,
+          581,
+          589,
+          592,
+          596,
+          600,
+          603,
+          607,
+          615,
+          633,
+          636
+        ]
+      },
+      "⚠_a_zero_here_is_a_measurement": "This sequence was read and the motif is absent from it. That is a reading of absence, not an absent reading — the sequence is committed and its length is printed.",
+      "committed_rg_dipeptides_total": 30,
+      "rg_self_check": "✅ re-derived count matches the committed one"
+    },
+    "TAF15": {
+      "protein": "TAF15",
+      "length_aa": 592,
+      "motif_counts": {
+        "GRG": 9,
+        "RG": 31
+      },
+      "first_occurrence_residue": {
+        "GRG": 184,
+        "RG": 175
+      },
+      "last_occurrence_residue": {
+        "GRG": 410,
+        "RG": 570
+      },
+      "positions": {
+        "GRG": [
+          184,
+          186,
+          194,
+          336,
+          342,
+          348,
+          396,
+          407,
+          410
+        ],
+        "RG": [
+          175,
+          185,
+          187,
+          195,
+          206,
+          326,
+          335,
+          337,
+          341,
+          343,
+          349,
+          395,
+          397,
+          403,
+          406,
+          408,
+          411,
+          415,
+          459,
+          467,
+          475,
+          483,
+          490,
+          498,
+          505,
+          512,
+          519,
+          528,
+          535,
+          562,
+          570
+        ]
+      },
+      "⚠_a_zero_here_is_a_measurement": "This sequence was read and the motif is absent from it. That is a reading of absence, not an absent reading — the sequence is committed and its length is printed.",
+      "committed_rg_dipeptides_total": 31,
+      "rg_self_check": "✅ re-derived count matches the committed one"
+    },
+    "NR4A3": {
+      "protein": "NR4A3",
+      "length_aa": 626,
+      "motif_counts": {
+        "GRG": 0,
+        "RG": 2
+      },
+      "first_occurrence_residue": {
+        "GRG": null,
+        "RG": 371
+      },
+      "last_occurrence_residue": {
+        "GRG": null,
+        "RG": 508
+      },
+      "positions": {
+        "GRG": [],
+        "RG": [
+          371,
+          508
+        ]
+      },
+      "⚠_a_zero_here_is_a_measurement": "This sequence was read and the motif is absent from it. That is a reading of absence, not an absent reading — the sequence is committed and its length is printed.",
+      "committed_rg_dipeptides_total": 2,
+      "rg_self_check": "✅ re-derived count matches the committed one"
+    },
+    "TCF12": {
+      "protein": "TCF12",
+      "length_aa": 706,
+      "motif_counts": {
+        "GRG": 0,
+        "RG": 7
+      },
+      "first_occurrence_residue": {
+        "GRG": null,
+        "RG": 54
+      },
+      "last_occurrence_residue": {
+        "GRG": null,
+        "RG": 578
+      },
+      "positions": {
+        "GRG": [],
+        "RG": [
+          54,
+          74,
+          114,
+          299,
+          326,
+          527,
+          578
+        ]
+      },
+      "⚠_a_zero_here_is_a_measurement": "This sequence was read and the motif is absent from it. That is a reading of absence, not an absent reading — the sequence is committed and its length is printed.",
+      "committed_rg_dipeptides_total": 7,
+      "rg_self_check": "✅ re-derived count matches the committed one"
+    }
+  },
+  "⭐_the_headline": {
+    "question": "Which half of EWSR1 carries PRMT5's motif, and does the fusion keep it?",
+    "ewsr1_length_aa": 656,
+    "first_GRG_residue": 301,
+    "first_RG_residue": 300,
+    "rgg_free_ceiling_from_the_census": 299,
+    "rgg_boxes_from_the_census": [
+      {
+        "start": 300,
+        "end": 332,
+        "n_RG": 8
+      },
+      {
+        "start": 455,
+        "end": 638,
+        "n_RG": 22
+      }
+    ],
+    "_reading": "⭐ NO GRG SITE LIES IN EWSR1's FIRST 300 RESIDUES. That segment — the SYGQ-rich transactivation region every EWSR1 fusion retains — carries none of the 11 sites; all of them lie beyond residue 300, in the two RGG-rich regions the fusion truncates. How many survive is decided by the breakpoint, and it differs between EMC transcript types.",
+    "⚠_do_not_write_this_as_c_terminal_half": "Residue 301 of 656 is at 46% of the protein, so 'the C-terminal half' is false by ~27 residues and a test in tests/test_emc_prmt5_substrate_motif_map.py rejects that wording. The accurate statement is the narrower one above, and it is not weaker: what matters is that the RETAINED segment carries no site, not where the midpoint falls."
+  },
+  "fusion_constructs": [
+    {
+      "id": "EWSR1_NR4A3_type1",
+      "label": "EWSR1::NR4A3 type 1 — EWSR1 exon 12 :: NR4A3 exon 3",
+      "reported_rank": "the commonest reported EWSR1::NR4A3 transcript type",
+      "five_prime_partner": "EWSR1",
+      "last_five_prime_residue_retained": 431,
+      "junction_in_residue_numbering": {
+        "five_prime_residues_fully_encoded": 431,
+        "codon_split_across_the_junction": true,
+        "seam_residue_index_1based": 432,
+        "junction_context_aa": "TAKAAVEWFD|DMPCVQAQYS",
+        "junction_context_nt": "AATGGTTTGATG|ATATGCCCTGCG"
+      },
+      "five_prime_motif_sites_retained": {
+        "GRG": 4,
+        "RG": 8
+      },
+      "five_prime_motif_sites_in_wildtype": {
+        "GRG": 11,
+        "RG": 30
+      },
+      "fraction_of_five_prime_wildtype_retained": {
+        "GRG": 0.364,
+        "RG": 0.267
+      },
+      "whole_fusion_protein": {
+        "length_aa": 1058,
+        "motif_counts": {
+          "GRG": 4,
+          "RG": 10
+        }
+      }
+    },
+    {
+      "id": "EWSR1_NR4A3_type2",
+      "label": "EWSR1::NR4A3 type 2 — EWSR1 exon 7 :: NR4A3 exon 2",
+      "reported_rank": "the second reported EWSR1::NR4A3 transcript type",
+      "five_prime_partner": "EWSR1",
+      "last_five_prime_residue_retained": 264,
+      "junction_in_residue_numbering": {
+        "five_prime_residues_fully_encoded": 264,
+        "codon_split_across_the_junction": true,
+        "seam_residue_index_1based": 265,
+        "junction_context_aa": "SQQSSSYGQQ|KPTAEEGSPA",
+        "junction_context_nt": "ACGGGCAGCAGA|AGCCCACTGCGG"
+      },
+      "five_prime_motif_sites_retained": {
+        "GRG": 0,
+        "RG": 0
+      },
+      "five_prime_motif_sites_in_wildtype": {
+        "GRG": 11,
+        "RG": 30
+      },
+      "fraction_of_five_prime_wildtype_retained": {
+        "GRG": 0.0,
+        "RG": 0.0
+      },
+      "whole_fusion_protein": {
+        "length_aa": 949,
+        "motif_counts": {
+          "GRG": 0,
+          "RG": 2
+        }
+      }
+    },
+    {
+      "id": "EWSR1_NR4A3_type5",
+      "label": "EWSR1::NR4A3 type 5 — EWSR1 exon 13 :: NR4A3 exon 3",
+      "reported_rank": "a minority reported type",
+      "five_prime_partner": "EWSR1",
+      "last_five_prime_residue_retained": 472,
+      "junction_in_residue_numbering": {
+        "five_prime_residues_fully_encoded": 472,
+        "codon_split_across_the_junction": true,
+        "seam_residue_index_1based": 473,
+        "junction_context_aa": "GRGMPPPLRG|DMPCVQAQYS",
+        "junction_context_nt": "CACTCCGTGGAG|ATATGCCCTGCG"
+      },
+      "five_prime_motif_sites_retained": {
+        "GRG": 5,
+        "RG": 11
+      },
+      "five_prime_motif_sites_in_wildtype": {
+        "GRG": 11,
+        "RG": 30
+      },
+      "fraction_of_five_prime_wildtype_retained": {
+        "GRG": 0.455,
+        "RG": 0.367
+      },
+      "whole_fusion_protein": {
+        "length_aa": 1099,
+        "motif_counts": {
+          "GRG": 5,
+          "RG": 13
+        }
+      }
+    },
+    {
+      "id": "TAF15_NR4A3",
+      "label": "TAF15::NR4A3 — TAF15 exon 6 :: NR4A3 exon 3",
+      "reported_rank": "the only reported TAF15::NR4A3 coding junction",
+      "five_prime_partner": "TAF15",
+      "last_five_prime_residue_retained": 161,
+      "junction_in_residue_numbering": {
+        "five_prime_residues_fully_encoded": 161,
+        "codon_split_across_the_junction": true,
+        "seam_residue_index_1based": 162,
+        "junction_context_aa": "QRENYSHHTQ|DMPCVQAQYS",
+        "junction_context_nt": "ACCACACACAAG|ATATGCCCTGCG"
+      },
+      "five_prime_motif_sites_retained": {
+        "GRG": 0,
+        "RG": 0
+      },
+      "five_prime_motif_sites_in_wildtype": {
+        "GRG": 9,
+        "RG": 31
+      },
+      "fraction_of_five_prime_wildtype_retained": {
+        "GRG": 0.0,
+        "RG": 0.0
+      },
+      "whole_fusion_protein": {
+        "length_aa": 788,
+        "motif_counts": {
+          "GRG": 0,
+          "RG": 2
+        }
+      }
+    }
+  ],
+  "measured_comparator_fusions_on_the_same_ruler": [
+    {
+      "comparator": "EWSR1::FLI1 (Ewing, type 1) — EWSR1 e7",
+      "_role": "the mechanism was MEASURED on this fusion",
+      "breakpoint_provenance": "EWSR1 transcript exon 7, cumulative coding nt 793",
+      "five_prime_residues_retained": 264,
+      "five_prime_motif_sites_retained": {
+        "GRG": 0,
+        "RG": 0
+      },
+      "fraction_of_five_prime_wildtype_retained": {
+        "GRG": 0.0,
+        "RG": 0.0
+      },
+      "committed_rg_dipeptides_retained": 0,
+      "rg_self_check": "✅ matches the committed count"
+    },
+    {
+      "comparator": "EWSR1::ATF1 (clear cell, commonest type) — EWSR1 e8",
+      "_role": "the mechanism was MEASURED on this fusion",
+      "breakpoint_provenance": "EWSR1 transcript exon 8, cumulative coding nt 974",
+      "five_prime_residues_retained": 324,
+      "five_prime_motif_sites_retained": {
+        "GRG": 4,
+        "RG": 7
+      },
+      "fraction_of_five_prime_wildtype_retained": {
+        "GRG": 0.364,
+        "RG": 0.233
+      },
+      "committed_rg_dipeptides_retained": 7,
+      "rg_self_check": "✅ matches the committed count"
+    },
+    {
+      "comparator": "EWSR1::ATF1 (clear cell, reported type) — EWSR1 e7",
+      "_role": "the mechanism was MEASURED on this fusion",
+      "breakpoint_provenance": "EWSR1 transcript exon 7, cumulative coding nt 793",
+      "five_prime_residues_retained": 264,
+      "five_prime_motif_sites_retained": {
+        "GRG": 0,
+        "RG": 0
+      },
+      "fraction_of_five_prime_wildtype_retained": {
+        "GRG": 0.0,
+        "RG": 0.0
+      },
+      "committed_rg_dipeptides_retained": 0,
+      "rg_self_check": "✅ matches the committed count"
+    },
+    {
+      "comparator": "EWSR1::ATF1 (clear cell, reported type) — EWSR1 e10",
+      "_role": "the mechanism was MEASURED on this fusion",
+      "breakpoint_provenance": "EWSR1 transcript exon 10, cumulative coding nt 1045",
+      "five_prime_residues_retained": 348,
+      "five_prime_motif_sites_retained": {
+        "GRG": 4,
+        "RG": 8
+      },
+      "fraction_of_five_prime_wildtype_retained": {
+        "GRG": 0.364,
+        "RG": 0.267
+      },
+      "committed_rg_dipeptides_retained": 8,
+      "rg_self_check": "✅ matches the committed count"
+    }
+  ],
+  "⛔_the_limits": [
+    "A MOTIF IS NOT A METHYLATION EVENT. Nothing here shows any FET fusion protein is methylated, that PRMT5 is the enzyme, or that it matters in this disease.",
+    "THE MOTIF IS NOT NECESSARY. EWSR1::FLI1 (Ewing, type 1) retains none of EWSR1's RG dipeptides, and PRMT5 inhibition still reduces Ewing viability in an EWSR1::FLI1-dependent manner (PMID 40823091). So a fusion retaining zero sites is NOT predicted to be unresponsive, and any motif-stratified prediction is falsifiable rather than expected.",
+    "PRMT5 HAS MANY SUBSTRATES THAT ARE NOT THE FUSION — Sm proteins, histones, and R-loop-resolution factors among them (PMID 31267554) — and its route into a fusion sarcoma may run through none of the fusion's own sequence.",
+    "GRG IS A PREFERENCE, NOT A RULE. PRMT5 methylates arginines outside GRG, and a GRG site is not necessarily methylated. Counting sites bounds opportunity, not activity.",
+    "BREAKPOINT FREQUENCIES ARE REPORTED, NOT MEASURED HERE. Which EMC transcript type a given patient carries is a fact about that patient, and this repository has no EMC cohort of its own to weight the types by."
+  ]
+}
