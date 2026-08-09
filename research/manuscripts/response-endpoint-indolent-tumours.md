@@ -35,10 +35,11 @@ re-analysed, and no claim is made that any agent works. Every figure below is co
 already published in trial reports or posted to a public registry. Analyses were carried out with AI
 assistance (see section 2.4).*
 
-<!-- EDITORIAL, NOT FOR SUBMISSION. Authorship, affiliation and correspondence are taken from the
-block the author wrote in nr4a3-degrader-paper.md. No ORCID is given because the repository does not
-carry one, and an invented identifier on a person is the failure lint_citations.py exists to prevent
-applied to a human.
+<!-- EDITORIAL, NOT FOR SUBMISSION.
+AUTHORSHIP: confirmed by the author 2026-08-09. The block above is no longer provisional. Affiliation
+and correspondence match the block the author wrote in nr4a3-degrader-paper.md. No ORCID is given
+because the repository carries none, and an invented identifier on a person is the failure
+lint_citations.py exists to prevent, applied to a human; supply one at deposit if wanted.
 VENUE: medRxiv as preprint, then JNCI. JNCI takes measurement, methodology and reporting-standards
 work as primary research, which is what this is; JCO and Lancet Oncology are oriented to trial
 results and would receive it as a Comments piece with less room for the methods. The abstract is cut
