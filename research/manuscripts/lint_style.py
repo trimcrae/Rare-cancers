@@ -36,6 +36,20 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 #: text; a memo, a plan or a findings note is NOT a submission text and must not be listed.
 TARGETS = [
     "research/manuscripts/response-endpoint-indolent-tumours.md",
+    # ⭐ ADDED 2026-08-09, the day four endpoints were taken to submission form. Gate 5 checks
+    # REGISTER, and until now it enforced that on exactly one file while three other submission
+    # texts drifted freely — a rule filed where it cannot fire is absent (CLAUDE.md §6). Measured
+    # before the rewrites: 96 findings in the ATR package (bold 42.4/1000 against a limit of 12),
+    # 283 in the surface-target landscape, and em-dashes at 18.7/1000 against a limit of 6 in the
+    # repurposing menu. All are clean now, and this list is what stops them going back.
+    # ⛔ SUBMISSION TEXTS ONLY. A memo, a plan or a findings note must not be added here — the
+    # house style is CORRECT everywhere else in this repository.
+    "research/manuscripts/emc-mtap-prmt5-hypothesis.md",
+    "research/manuscripts/emc-mtap-prmt5-hypothesis-SI.md",
+    "research/manuscripts/emc-atr-collaborator-package.md",
+    "research/manuscripts/repurposing-hypotheses.md",
+    "research/manuscripts/emc-surface-target-landscape.md",
+    "research/manuscripts/emc-surface-target-landscape-si.md",
 ]
 
 # Densities are per 1000 words. They are deliberately generous: the aim is to catch prose that

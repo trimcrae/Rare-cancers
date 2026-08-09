@@ -89,7 +89,7 @@ a complete, specified experimental proposal (emc-atri-prereg.md) — UNCOSTED. W
 
 ## Where this route ends — the paper
 
-**[PUB-ATR-PANEL-ASK](L3-publications.md)** — [The EMC arm, pre-built — a collaborator package for the FET / ATM / ATR laser-microirradiation assay](../../research/manuscripts/emc-atr-collaborator-package.md)
+**[PUB-ATR-PANEL-ASK](L3-publications.md)** — [Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay](../../research/manuscripts/emc-atr-collaborator-package.md)
 
 `primary` · ◐ `drafted` · aimed at `experimental_proposal`
 

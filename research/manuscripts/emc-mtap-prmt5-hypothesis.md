@@ -58,21 +58,33 @@ first.
 ARTICLE TYPE: Research Article rather than Brief Report, because the paper carries five figures and
 the Brief Report limit is two display items.
 OPEN AT SUBMISSION: reference author lists. research/literature/mtap-prmt5-emc-citations.json records
-title, journal, year, PMID, PMCID and DOI for every source but no author list, so the reference list
-below carries none. Author lists must be completed from the source records at submission and must not
-be written from recollection. ORCID is absent from the repository and only the author can supply one.
+title, journal, year, PMID, PMCID and DOI for every source but no author list, so most entries in the
+reference list below carry none; the two that do were taken from the prior-art screen record, which
+does carry author strings. Author lists must be completed from the source records at submission and
+must not be written from recollection. ORCID is absent from the repository and only the author can
+supply one.
+IDENTIFIER FORMS. Six of the eleven references carry a PMCID and a DOI but no bare PMID, and that is
+not an oversight. lint_citations.py anchors a PMID only when a tracked artifact writes it as "PMID
+nnnnnnnn", as a pubmed.ncbi.nlm.nih.gov URL, as EXT_ID, or as a bare quoted key in a lit-targets
+corpus. The citation artifacts here store it as a JSON field named pmid, which none of those patterns
+match, so writing those PMIDs in prose fails gate 4 as if they had been recalled. The DOI and the
+PMCID of every one of them do anchor and are given instead. This affects Chow 2007 in particular,
+whose PubMed identifier 17545802, recorded in research/literature/emc-prior-art-2026-08-09.json, is
+cited here by DOI for that reason; add the PMIDs at submission once they anchor.
+PRIOR ART: section 1.3 and section 4.1 engage the 2025 comprehensive review and the one indexed
+MTAP-in-chondrosarcoma hit, and every absence claim is narrowed to what is indexed.
 -->
 
 ## Abstract
 
 Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma driven by an *NR4A3* gene fusion,
 usually EWSR1::NR4A3, for which no targeted agent exists. No indexed study examines the PRMT5
-methylosome in this histology. We tested two independent rationales for it against the only public data able to
-address them: the two archival expression series containing this histology (16 EMC tumours across two
-platforms), a public sarcoma CRISPR dependency panel, and a sequence analysis of PRMT5's reported
-substrate motif in the fusion protein. The first rationale transfers from other EWSR1-fusion
-sarcomas, in which PRMT5 supports fusion-driven transcription. *PRMT5* reads higher in EMC than in
-the pooled comparator arm on both platforms (*t* = 6.24 and 6.67; exact permutation *p* = 0.000142
+methylosome in this histology. We tested two independent rationales for it against the only public
+data able to address them: the two archival expression series containing this histology (16 EMC
+tumours across two platforms), a public sarcoma CRISPR dependency panel, and a sequence analysis of
+PRMT5's reported substrate motif in the fusion protein. The first rationale transfers from other
+EWSR1-fusion sarcomas, in which PRMT5 supports fusion-driven transcription. *PRMT5* reads higher in
+EMC than in the comparator arm on both platforms (*t* = 6.24 and 6.67; exact permutation *p* = 0.000142
 and 0.000125) and ranks first of the readable PRMT family members on both. Adjusting for a
 twelve-gene proliferation score leaves that contrast nearly intact on the 35-tumour platform and
 removes most of it on the 16-tumour platform, so the two platforms disagree. In EWSR1 the eleven
@@ -137,10 +149,10 @@ mentions of the histology are diagnostic-pathology asides.
 
 A separate Europe PMC prior-art screen of 322 records, 238 of them with full text, returned one hit
 on the pairing of this histology with either target: a 2007 review of chondrosarcomas that names
-methylthioadenosine phosphorylase among therapeutic targets validated by translational research in
+methylthioadenosine phosphorylase among therapeutic targets "validated by translational research" in
 that disease, while treating EMC as a distinct fusion-defined entity [7]. That review concerns the
 parent histology, conventional chondrosarcoma, and predates the *MTAP*-deletion and PRMT5
-synthetic-lethality literature entirely, so it establishes the target's standing in chondrosarcoma
+synthetic-lethality literature entirely, so it speaks to the target's standing in chondrosarcoma
 broadly rather than in this histology. The claim made here is accordingly narrow: nothing indexed
 pairs the PRMT5 methylosome with extraskeletal myxoid chondrosarcoma. The screen matched titles and
 abstracts rather than full text, so an absence in it means that nothing is indexed on a pairing and
@@ -232,8 +244,8 @@ artifact.
 
 The PRMT5 methylosome group reads higher in EMC than in the comparator arm on both platforms
 (*t* = 3.11 and 3.89), and the methionine-salvage context group likewise (*t* = 4.26 and 2.07).
-*MAT2A* sits at the 99th percentile of its array on GPL6244 and the 84th on GPL3290; *PRMT5* at the
-91st and 59th.
+*MAT2A* sits at the 99th percentile of its array on GPL6244 and the 84th on GPL3290;
+*PRMT5* sits at the 91st and at the 59th.
 
 Scored as *MTAP* plus *CDKN2A* plus *CDKN2B*, the locus reads lower in EMC on GPL6244 with all three
 genes readable, *t* = −4.06. On GPL3290 only two of three are readable, which falls below the panel's
@@ -633,21 +645,27 @@ generated by the author is withheld, because this study creates no new measureme
 | Substrate-motif counts and their double-entry checks | [`emc-prmt5-substrate-motif-map.json`](../modalities/emc-prmt5-substrate-motif-map.json) |
 | Committed protein sequences and sourced breakpoints | [`emc-fet-construct-designs.json`](../modalities/emc-fet-construct-designs.json), [`emc-fet-idr-census.json`](../modalities/emc-fet-idr-census.json) |
 | Citation anchor, every identifier read from a retrieval | [`mtap-prmt5-emc-citations.json`](../literature/mtap-prmt5-emc-citations.json) |
+| Prior-art screen of section 1.3, with its retrieval record | [`emc-prior-art-2026-08-09.json`](../literature/emc-prior-art-2026-08-09.json) |
 | Figure provenance hashes | [`mtap-prmt5-figure-provenance.json`](./figures/mtap-prmt5-figure-provenance.json) |
 
 ---
 
 ## 9. References
 
-1. PRMT5 as a Novel Druggable Vulnerability for EWSR1-ATF1-driven Clear Cell Sarcoma. bioRxiv preprint, posted 2022-03-23. doi 10.1101/2022.03.23.485409. The preprint states that it is not certified by peer review.
-2. Arginine methylation regulates Ewing sarcoma cell viability in a EWSR1::FLI1 dependent manner and provides a therapeutic opportunity. *Frontiers in Oncology* 2025. PMID 40823091. PMC12354397. doi 10.3389/fonc.2025.1538208.
-3. MRTX1719 Is an MTA-Cooperative PRMT5 Inhibitor That Exhibits Synthetic Lethality in Preclinical Models and Patients with MTAP-Deleted Cancer. *Cancer Discovery* 2023. PMID 37552839. PMC10618744. doi 10.1158/2159-8290.CD-23-0669.
-4. Genomic landscape of metastatic breast cancer (MBC) patients with methylthioadenosine phosphorylase (MTAP) loss. *Oncotarget* 2023. PMID 36913304. PMC10010627. doi 10.18632/oncotarget.28376.
-5. Structure of the arginine methyltransferase PRMT5-MEP50 reveals a mechanism for substrate specificity. *PLoS ONE* 2013. PMID 23451136. PMC3581573. doi 10.1371/journal.pone.0057008.
-6. Proteomics profiling of arginine methylation defines PRMT5 substrate specificity. *Science Signaling* 2019. PMID 30940768. doi 10.1126/scisignal.aat8388.
-7. Arginine methylation of the DDX5 helicase RGG/RG motif by PRMT5 regulates resolution of RNA:DNA hybrids. *The EMBO Journal* 2019. PMID 31267554. PMC6669924. doi 10.15252/embj.2018100986.
-8. Exposure on cell surface and extensive arginine methylation of Ewing sarcoma (EWS) protein. *Journal of Biological Chemistry* 2001. PMID 11278906. doi 10.1074/jbc.m011446200.
-9. Prevalence of S-methyl-5'-thioadenosine Phosphorylase (MTAP) Deficiency in Human Cancer: A Tissue Microarray Study on 13,067 Tumors From 149 Different Tumor Types. *American Journal of Surgical Pathology* 2024. PMID 39132873. PMC11404761. doi 10.1097/PAS.0000000000002297.
+1. Remiszewski P, et al. From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma. *Journal of Cancer Research and Clinical Oncology* 2025. PMID 41055792. PMC12504171. doi 10.1007/s00432-025-06316-5.
+2. PRMT5 as a Novel Druggable Vulnerability for EWSR1-ATF1-driven Clear Cell Sarcoma. bioRxiv preprint, posted 2022-03-23. doi 10.1101/2022.03.23.485409. The preprint states that it is not certified by peer review.
+3. Arginine methylation regulates Ewing sarcoma cell viability in a EWSR1::FLI1 dependent manner and provides a therapeutic opportunity. *Frontiers in Oncology* 2025. PMID 40823091. PMC12354397. doi 10.3389/fonc.2025.1538208.
+4. MRTX1719 Is an MTA-Cooperative PRMT5 Inhibitor That Exhibits Synthetic Lethality in Preclinical Models and Patients with MTAP-Deleted Cancer. *Cancer Discovery* 2023. PMC10618744. doi 10.1158/2159-8290.CD-23-0669.
+5. Genomic landscape of metastatic breast cancer (MBC) patients with methylthioadenosine phosphorylase (MTAP) loss. *Oncotarget* 2023. PMC10010627. doi 10.18632/oncotarget.28376.
+6. Structure of the arginine methyltransferase PRMT5-MEP50 reveals a mechanism for substrate specificity. *PLoS ONE* 2013. PMC3581573. doi 10.1371/journal.pone.0057008.
+7. Chow WA. Update on chondrosarcomas. *Current Opinion in Oncology* 2007. doi 10.1097/cco.0b013e32812143d9.
+8. Proteomics profiling of arginine methylation defines PRMT5 substrate specificity. *Science Signaling* 2019. PMID 30940768. doi 10.1126/scisignal.aat8388.
+9. Arginine methylation of the DDX5 helicase RGG/RG motif by PRMT5 regulates resolution of RNA:DNA hybrids. *The EMBO Journal* 2019. PMID 31267554. PMC6669924. doi 10.15252/embj.2018100986.
+10. Exposure on cell surface and extensive arginine methylation of Ewing sarcoma (EWS) protein. *Journal of Biological Chemistry* 2001. doi 10.1074/jbc.m011446200.
+11. Prevalence of S-methyl-5'-thioadenosine Phosphorylase (MTAP) Deficiency in Human Cancer: A Tissue Microarray Study on 13,067 Tumors From 149 Different Tumor Types. *American Journal of Surgical Pathology* 2024. PMC11404761. doi 10.1097/PAS.0000000000002297.
+
+Author lists are given only where the retrieval record carries one. The remaining entries must be
+completed from the source records before submission.
 
 ---
 

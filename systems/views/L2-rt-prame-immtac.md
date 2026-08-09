@@ -104,7 +104,7 @@ The reagent exists clinically and an expression read on EMC tissue is owed; pres
 
 ## Where this route ends — the paper
 
-**[PUB-SURFACE-TARGETS](L3-publications.md)** — [In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: a surrogate search checked against the disease's own tissue](../../research/manuscripts/emc-surface-target-landscape.md)
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts](../../research/manuscripts/emc-surface-target-landscape.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

@@ -39,7 +39,7 @@ last_verified: 2026-08-06
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ASO**<br/>[A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 b…](../../research/manuscripts/fusion-junction-aso-paper.md) | ◐ `drafted` | `chemrxiv` | 2 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-ATR-PANEL-ASK**<br/>[The EMC arm, pre-built — a collaborator package for the FET / ATM / ATR…](../../research/manuscripts/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
+| **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
 | **PUB-BIOMARKER-DEP**<br/>[Biomarker-selected therapeutic classes in an ultra-rare sarcoma — what …](../../research/manuscripts/emc-biomarker-selected-classes.md) | ◐ `drafted` | `preprint` | 5 | — |
 | **PUB-CLOSED-ROUTES**<br/>[Seven routes closed on argument rather than on experiment — the negativ…](../../research/manuscripts/closed-routes-negative-record.md) | ◐ `drafted` | `preprint` | 7 | — |
 | **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
@@ -51,11 +51,11 @@ last_verified: 2026-08-06
 | **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-MODALITY-CENSUS**<br/>[What oncology can do, and what reaches extraskeletal myxoid chondrosarc…](../../research/manuscripts/cancer-modality-census.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-MONOVALENT**<br/>[The monovalent pocket-modulation route — a small molecule that only occ…](../../research/manuscripts/nr4a3-monovalent-pocket-route.md) | ◐ `drafted` | `internal_note` | 1 | — |
-| **PUB-MTAP-PRMT5**<br/>[PRMT5 in extraskeletal myxoid chondrosarcoma — one route in, one route …](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-MTAP-PRMT5**<br/>[The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-…](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-NEOANTIGEN**<br/>[Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal …](../../research/manuscripts/fusion-junction-neoantigen-paper.md) | ◐ `drafted` | `preprint` | 2 | — |
-| **PUB-REPURPOSING**<br/>[Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid ch…](../../research/manuscripts/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
+| **PUB-REPURPOSING**<br/>[Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma:…](../../research/manuscripts/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
 | **PUB-STRATEGY-ARCH**<br/>[Eligible but unfindable — trials that admit an ultra-rare sarcoma while…](../../research/manuscripts/emc-trial-reachability.md) | ◐ `drafted` | `preprint` | 3 | — |
-| **PUB-SURFACE-TARGETS**<br/>[In-silico surface-antigen prioritisation for extraskeletal myxoid chond…](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
+| **PUB-SURFACE-TARGETS**<br/>[Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: …](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-TXN-DEPENDENCY**<br/>[Transcriptional and proteostatic dependency of a fusion transcription f…](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) | ◐ `drafted` | `preprint` | 2 | — |
@@ -113,7 +113,7 @@ A replication-stress vulnerability can be assessed for EMC by inheritance from i
 |---|---|---|
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) — The in-silico ATR vulnerability assessment (the comp | `primary` | The computed assessment itself, and the class-inheritance limit stated inside it rather than in a caveat section. |
 
-### PUB-ATR-PANEL-ASK — The EMC arm, pre-built — a collaborator package for the FET / ATM / ATR laser-microirradiation assay
+### PUB-ATR-PANEL-ASK — Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay
 
 **◐ `drafted` · aimed at `experimental_proposal` · [`research/manuscripts/emc-atr-collaborator-package.md`](../../research/manuscripts/emc-atr-collaborator-package.md) · ships with **PUB-ATR****
 
@@ -265,7 +265,7 @@ Occupancy of the NR4A3 pocket without recruitment is a distinct route from degra
 |---|---|---|
 | [RT-MONOVALENT](L2-rt-monovalent.md) — Monovalent LBD pocket modulation — a molecule that o | `primary` | The whole memo: that occupancy without recruitment is a separate question nobody has asked, and what a sized selectivity requirement for it would have to look like. |
 
-### PUB-MTAP-PRMT5 — PRMT5 in extraskeletal myxoid chondrosarcoma — one route in, one route closed, and the cheap test that would settle each
+### PUB-MTAP-PRMT5 — The PRMT5 methylosome in extraskeletal myxoid chondrosarcoma: a fusion-class rationale that survives, an MTAP-locus rationale that does not, and two inexpensive tests
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-mtap-prmt5-hypothesis.md`](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) · ships with **PUB-MODALITY-CENSUS****
 
@@ -290,7 +290,7 @@ The fusion junction produces a peptide sequence that is absent from wild-type EW
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) — Fusion-junction neoantigen (the antigen, shared by t | `primary` | The junction peptide and its predicted-binding SCREEN, regenerated 2026-08-07 on the transcript model. The publishable finding is now partly NEGATIVE: no pan-EMC epitope, three of five junctions with no strong binder, and a public junction reaching under a tenth of patients. |
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) — Fusion-junction TCR-T / soluble-TCR (ImmTAC) against | `contributing` | The receptor-side delivery option for the junction epitope, and the measured weakness of the junction peptide-HLA that bounds it — a property of this junction rather than of the modality. |
 
-### PUB-REPURPOSING — Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid chondrosarcoma
+### PUB-REPURPOSING — Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma: a graded candidate menu from three independent generation methods
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/repurposing-hypotheses.md`](../../research/manuscripts/repurposing-hypotheses.md)**
 
@@ -318,7 +318,7 @@ For a cancer that will never have a randomised trial, the variables a clinician 
 | [RT-SEQUENCING](L2-rt-sequencing.md) — Treatment sequencing and line ordering | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
 | [RT-TRIAL-REACH](L2-rt-trial-reach.md) — Trial reachability and access pathways | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
 
-### PUB-SURFACE-TARGETS — In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: a surrogate search checked against the disease's own tissue
+### PUB-SURFACE-TARGETS — Surface-antigen prioritisation in extraskeletal myxoid chondrosarcoma: a lineage-surrogate ranking tested against three tumour-tissue cohorts
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-surface-target-landscape.md`](../../research/manuscripts/emc-surface-target-landscape.md)**
 

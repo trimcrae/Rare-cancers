@@ -98,7 +98,7 @@ The ask is well formed and both drugs are approved, but the direction of the PPA
 
 ## Where this route ends — the paper
 
-**[PUB-REPURPOSING](L3-publications.md)** — [Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid chondrosarcoma](../../research/manuscripts/repurposing-hypotheses.md)
+**[PUB-REPURPOSING](L3-publications.md)** — [Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma: a graded candidate menu from three independent generation methods](../../research/manuscripts/repurposing-hypotheses.md)
 
 `contributing` · ◐ `drafted` · aimed at `preprint`
 

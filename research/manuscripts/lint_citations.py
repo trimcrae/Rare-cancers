@@ -72,8 +72,20 @@ ANCHOR_SUFFIXES = (".json", ".jsonl")
 PROSE_SUFFIXES = (".md",)
 
 #: ⛔ Each pattern captures the BARE identifier so prose and artifact forms compare equal. A PMID
-#: written `PMID: 12345678`, `PMID12345678` and `"pmid": "12345678"` is one identifier, and a checker
-#: that treats them as three reports fabrications that are not there and misses the one that is.
+#: written `PMID: 12345678` and `PMID12345678` is one identifier, and a checker that treats them as
+#: two reports fabrications that are not there and misses the one that is.
+#: ⚠⚠ THIS COMMENT USED TO CLAIM `"pmid": "12345678"` WAS ALSO RECOGNISED. IT IS NOT, AND THE
+#: FALSE CLAIM COST A DRAFTING AGENT A RED GATE (measured 2026-08-09). The `PMID` pattern requires
+#: the literal token adjacent to the digits; in a JSON key the intervening `": "` breaks it, so a
+#: lowercase `"pmid"` field anchors NOTHING. A prior-art artifact was written storing identifiers
+#: that way, four agents were told it anchored them, and the first one to cite a PMID from it hit
+#: gate 4. ⛔ THE FIX WENT IN THE ARTIFACT, NOT HERE — every record now also carries a
+#: `pubmed_url`, which is the form a real fetch corpus produces and the one the next paragraph is
+#: about. Loosening the pattern to match a bare `"pmid"` key would weaken the exact guarantee this
+#: gate exists for: an identifier must appear in a context only a retrieval could have produced.
+#: The lesson is the one CLAUDE.md keeps recording — a property asserted in a comment about code
+#: is not a property, and this comment asserted it for over a day while being read as reassurance.
+#: Superseded, retained: the claim that the JSON-key form is one of the recognised spellings.
 #: ⛔ AND A FETCH CORPUS NAMES A PAPER BY URL, NOT BY THE STRING "PMID" (measured 2026-08-08).
 #: Every `lit-targets-*.json` in this repo is a {name: url} map — that is what `fetch-literature.yml`
 #: consumes — so a retrieved paper appears as `pubmed.ncbi.nlm.nih.gov/40828003`, as an Europe PMC

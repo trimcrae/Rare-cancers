@@ -1,455 +1,541 @@
 ---
 id: DOC-EMC-ATR-COLLABORATOR-PACKAGE
-title: The EMC arm, pre-built — a collaborator package for the FET / ATM / ATR laser-microirradiation assay
+title: "Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay"
 level: L3
 kind: manuscript
 status: live
-canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
-audience: [maintainers, external reviewers, autonomous research agents]
-date: 2026-08-05
-last_verified: unverified
-_backfilled: true
----
-# The EMC arm, pre-built — a collaborator package for the FET / ATM / ATR laser-microirradiation assay
-
-**What this is:** everything a group that already runs the FET-fusion DSB-recruitment assay would
-otherwise have to derive, decide or build in order to add **extraskeletal myxoid chondrosarcoma
-(EMC)** as the untested fourth transcription-factor-partner class. Constructs, controls,
-predictions and kill criteria, all fixed in advance.
-
-**What it is not:** a request to be convinced by an argument. The argument for EMC is already
-written down ([`emc-post-degrader-options.md`](./emc-post-degrader-options.md) route 1) and adding
-more of it would add nothing. **This document exists to remove work and risk from their side, not
-to add rhetoric to ours.**
-
-> ## ⛔ Read this before anything else
->
-> **Every construct below is a COMPUTED DESIGN FOR SOMEONE ELSE TO VERIFY BEFORE ORDERING.**
-> Nothing here has been synthesised, expressed, sequenced or tested by anyone. No efficacy,
-> safety, therapeutic-window or clinical claim is made or implied, anywhere, about anything.
->
-> **And this repository has been wrong about a fusion junction before.** A committed artifact,
-> built from a stated Ensembl methodology, indexed a *coding*-exon offset table with *transcript*
-> exon numbers. The label "NR4A3 exon 3" resolved to transcript exon 5, and all seven junctions it
-> emitted silently deleted NR4A3's AF-1 domain and the first zinc finger of its C4 DNA-binding
-> domain — modelling a chimera that could not do the one thing the real fusion is reported to do.
-> It survived review and was caught only by a free re-derivation
-> ([`target-route-options.md` §1.3](./target-route-options.md)). That incident is why every
-> boundary below carries its provenance and every construct carries a self-check, and it is why
-> the honest framing of this package is *"here is our arithmetic, please check it"* rather than
-> *"here are your reagents"*.
-
-**Machine-readable companion, and the home of every number here:**
-[`emc_fet_construct_designs.py`](../modalities/emc_fet_construct_designs.py) →
-`emc-fet-construct-designs.json` (published to the `modalities-cache` branch and to this branch by
-[`depmap-dependency.yml`](../../.github/workflows/depmap-dependency.yml)). Run
-`python3 research/modalities/emc_fet_construct_designs.py --check` to reproduce it offline from
-its inputs cache.
-
+canonical_for:
+  - the reported transcript-level junctions of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma
+  - the transcript-level open reading frames those junctions produce, and their in-frame self-checks
+  - the placement of EMC's fusions on the published retained-RGG recruitment axis
+  - the computed classification of TCF12 as a non-FET 5' partner
+  - the five pre-specified DSB-recruitment predictions and their falsifiers
+purpose: >-
+  Compile the reported NR4A3-fusion junctions of extraskeletal myxoid chondrosarcoma from primary
+  sources, translate them at the transcript level, place them on a published recruitment axis,
+  classify the one non-FET 5' partner, and specify in advance the predictions, constructs, controls
+  and falsifiers a group already running the assay would need to test them.
+scope: >-
+  Sequence-level analysis of reported fusion junctions and a pre-specified prediction set. No
+  experiment was performed, no reagent was made, and no patient, cell or animal was studied.
+audience: [external reviewers, collaborators, maintainers, autonomous research agents]
+date: 2026-08-09
+last_verified: 2026-08-09
+related: [DOC-EMC-ATR-VULNERABILITY-ASSESSMENT]
 ---
 
-## 1 · The assay this serves, quoted rather than paraphrased
+# Transcript-level models of the NR4A3 fusions of extraskeletal myxoid chondrosarcoma, and five pre-specified predictions for a DNA double-strand break recruitment assay
 
-From the methods of the source paper (PMID 37205599 / bioRxiv 10.1101/2023.04.30.538578, fetched
-to the `literature-cache` branch):
+**Tristan D. McRae**
 
-> *"U2OS cells expressing EWSR1-GFP, EWSR1-FLI1-GFP, EWSR1-ATF1-GFP, EWSR1-WT1-GFP or the various
-> mutant forms of the fusion oncoproteins were seeded in 8-well Lab Tek II Chamber Slides … Cells
-> were treated with 1µg/ml Hoechst 33342 … for 30 minutes prior to micro-irradiation … 5-pixel
-> wide stripes were drawn in every cell nucleus … and irradiated with a 405nm diode laser (40mW).
-> Images were acquired pre-irradiation and at 1-minute intervals post-laser damage for 15 minutes."*
+*Independent researcher, unaffiliated.* Correspondence: trimcrae@gmail.com
 
-So the unit of work is **a GFP-tagged ORF**. Adding EMC to that panel is not a new assay, a new
-instrument or a new analysis — it is **new plasmids**. Which is exactly the part this package
-supplies.
+*A sequence-analysis report with a pre-specified prediction set. No experiment was performed and no
+reagent was made. Every sequence below is computed from public reference transcripts, and every
+breakpoint is quoted from a primary source. Analyses and drafting were carried out with AI
+assistance (section 2.5).*
 
-⚠ **Tag orientation is theirs to choose, and we deliberately do not choose it.** The source is
-internally inconsistent — its methods write `EWSR1-FLI1-GFP` (C-terminal) while the Fig. 5 legend
-writes `GFP-EWSR1-FLI1` (N-terminal). A tag can itself perturb an intrinsically-disordered region,
-so the EMC constructs should be built in **whichever orientation their existing EWSR1-FLI1
-construct uses**. The artifact therefore emits the **untagged ORF**.
+<!-- EDITORIAL, NOT FOR SUBMISSION.
+
+PUBLISHABLE OBJECT. A short computational research article whose Discussion is a pre-specified,
+falsifiable prediction set. The three obvious alternatives were weighed and rejected:
+
+  (a) REGISTERED REPORT, Stage 1. Rejected on eligibility, not on fit. Stage 1 review ends in
+      in-principle acceptance, which publisher guidelines define as a commitment that the AUTHORS
+      then conduct the study exactly as approved and submit Stage 2. This programme has no
+      laboratory, no institutional affiliation and no engaged collaborator, so it cannot enter that
+      commitment, and a Stage 1 submission from an author who cannot run the protocol misrepresents
+      the contract the format exists to create. The pre-commitment the format supplies is obtained
+      here instead by a dated preprint carrying the prediction table and by the committed artifact
+      that produced it.
+  (b) STUDY PROTOCOL ARTICLE. Same eligibility failure plus a fee failure. Protocol article types
+      describe a study that is funded, approved and under way, and typically require a recruitment
+      status and an ethics decision; and the main venues carrying the type are fully gold open
+      access, which the $0 constraint excludes.
+  (c) HYPOTHESIS / PERSPECTIVE PIECE. Rejected on fit. The content is four computed results with
+      auditable self-checks, and a Perspective type at the chosen venue asks for a juxtaposition of
+      established lines of reasoning rather than for new computation. Filing it as a Perspective
+      would detach the ask from the evidence that makes it worth taking.
+  (d) RESOURCE / CALL FOR COLLABORATION. No peer-reviewed article type of that name exists at any
+      venue with a $0 route that was found.
+
+VENUE. Genes, Chromosomes and Cancer (Wiley), Research Article, with the preprint on bioRxiv.
+Rationale: it is the field's standard home for fusion-gene analysis in sarcoma, and the reported
+EMC junction literature this paper compiles sits in that literature.
+
+FEE ROUTE, AND WHAT IS UNVERIFIED. bioRxiv: free, VERIFIED (openRxiv/bioRxiv own material states
+submission is free of charge). Genes, Chromosomes and Cancer: Wiley's own author pages state that a
+hybrid journal's corresponding author is OFFERED the open-access option on acceptance, and the
+journal's open-access page states the APC applies "if the Open Access option is selected" (USD
+4,810 quoted), which implies a subscription route at no author charge. UNVERIFIED AT THE PRIMARY
+SOURCE: onlinelibrary.wiley.com is blocked by this environment's egress proxy (403 at CONNECT), so
+the author-guidelines and open-access pages could not be read directly and the statements above
+rest on search-result snippets of those pages. Do not treat the $0 route as confirmed until it is
+confirmed in writing at submission, per the standing rule in nr4a3-degrader-preprint-plan.md.
+Fallback with the same hybrid structure: Cancer Genetics (Elsevier). Excluded outright: PLOS,
+Scientific Reports, Frontiers, IJMS and other APC-only venues.
+
+ARTICLE-TYPE SPECIFICS ALSO UNVERIFIED for the same reason. Search snippets of the journal's
+guidelines report an abstract of at most 250 words, structured or unstructured, and a Short
+Communication limit of 2,500 words with 25 references and six display items. This manuscript is
+built to the tighter of those: the abstract is 227 words as a single paragraph; the main text
+(sections 1-7, excluding abstract, tables, references and appendix) is 2,722 words, or 3,467 words
+with the seven tables counted in; and there are 7 display items and 8 references. Confirm the real
+limits before submission and cut section 5 first if a shorter type is chosen. These counts drift
+whenever the text is edited and were measured rather than remembered.
+
+TITLE. The frontmatter `title` now matches the H1. systems_check.py reads that field back out of
+this file to render systems/views/L3-publications.md, so the committed view is stale until someone
+runs `python3 systems/systems_check.py --write-views`. That regeneration is required in any case:
+three sibling manuscripts were retitled in the same window and the view is stale on their rows too.
+
+GRAPH ANCHORS. INS-CONSTRUCT-DESIGNS and INS-FUSION-COFOLD in systems/graph/instruments.json both
+carry owner.anchor = "#72-the-four-constructs--all-four-are-in-frame-4--4", which was section 7.2
+of the previous draft. The equivalent section is now 3.2 and its anchor is
+"#32-gene-models-and-open-reading-frames". Both entries need that one-word edit; it was outside the
+edit scope of this pass.
+
+REFERENCES 4, 5 and 7 carry an identifier and a verbatim quotation but no author list, title,
+journal or year, because this repository's fetch products carry the quotation and the identifier
+and not the citation metadata. They are NOT to be completed from recollection; fetch the records
+and fill them at submission. Reference 1 has no author list for the same reason, and reference 2
+carries only a first author because that is what the prior-art screen artifact records.
+
+NOVELTY CLAIM. Section 1 cites the 2026-08-09 prior-art screen for zero indexed EMC records on ATR
+or replication stress, with the title-and-abstract caveat in the running text rather than in a
+footnote. Reviewers of a pre-committed format scrutinise a "nobody has done this" claim closely, so
+the claim is written as "no indexed report" and never as "no report".
+
+AUTHOR BLOCK matches the block the author confirmed in nr4a3-degrader-paper.md and
+response-endpoint-indolent-tumours.md. No ORCID is given because the repository carries none.
+-->
+
+> **Declarations.** Ethics approval and consent were not required and were not sought: this study
+> analyses public reference sequences and published exon-level breakpoint statements, and involves
+> no human participant, no identifiable data, no patient-level record, no animal and no laboratory
+> work. **Funding:** none. **Competing interests:** none. **Data and code:** section 7.
+
+> **Scope of the claims.** This is a sequence-analysis report. It asserts no efficacy, potency,
+> dose, safety, therapeutic window or clinical readiness for any agent in any disease, and makes no
+> treatment recommendation. The replication-stress vulnerability that motivates the assay is
+> inherited from the FET fusion class and has never been measured on an NR4A3 fusion; that
+> inheritance is the limit of what is claimed, and nothing below upgrades it into an EMC-specific
+> result. Every construct is a computed design for verification against a sequenced breakpoint
+> before any reagent is ordered.
+
+## Abstract
+
+Extraskeletal myxoid chondrosarcoma (EMC) is a translocation sarcoma driven by an NR4A3 fusion,
+usually with the FET-family gene EWSR1. A recent report describes FET fusion oncoproteins as
+disrupting physiologic DNA repair, using accumulation of a GFP-tagged fusion protein at
+laser-induced double-strand break stripes as the readout, and reports that recruitment kinetics
+track the dose of RGG-rich sequence retained from the FET partner. EMC is the untested fourth
+transcription-factor-partner class in that argument. Here the reported EMC junctions are compiled
+from primary sources, translated at the transcript rather than the coding-sequence level, and
+placed on that published dose axis. Four sourced junctions, EWSR1 exon 12 to NR4A3 exon 3, EWSR1
+exon 7 to NR4A3 exon 2, EWSR1 exon 13 to NR4A3 exon 3 and TAF15 exon 6 to NR4A3 exon 3, all yield
+in-frame open reading frames retaining the complete NR4A3 moiety. The exon 7 to exon 2 junction
+carries 176 nucleotides of NR4A3 5' untranslated sequence in the EWSR1 reading frame, encoding 59
+residues that the protein-level model in general use does not contain. Retained EWSR1 RG dipeptide
+counts place the two commonest EMC fusions at 0 of 30 and 8 of 30, bracketing the two fusions in
+which the mechanism has been measured. TCF12, the 5' partner in a minority of EMC, falls outside
+the FET compositional range at every prefix length. Five predictions with explicit falsifiers, four
+constructs and four wild-type controls are specified in advance.
 
 ---
 
-## 2 · Deliverable 1 — the constructs
+## 1. Introduction
 
-### 2.1 How the junction is computed, and why it is not done the obvious way
+EMC is an ultra-rare sarcoma defined by rearrangement of NR4A3. The commonest 5' partner is EWSR1,
+a member of the FET family alongside TAF15 and FUS; a minority of cases carry TAF15, FUS or the
+non-FET partner TCF12. A 2025 comprehensive review states that no clinically validated agent
+directly targets NR4A3, and reports the systemic options as an anthracycline backbone with a low
+objective response rate and pazopanib at an objective response rate of 18 per cent with a median
+progression-free survival of 19 months (NCT02066285) [2]. The driver itself is untreated, so a
+candidate vulnerability that does not require the driver to be drugged is worth the cost of
+establishing.
 
-A reported fusion is an **mRNA exon junction**, not a protein junction. The constructs are
-therefore built at the **cDNA** level — 5′ partner cDNA from its transcript start through the end
-of the named exon, joined to 3′ partner cDNA from the start of its named exon — and then
-translated **from the 5′ partner's own start codon**.
+A recent report proposes a shared lesion across FET fusion sarcomas: the chimeric protein retains
+the FET N-terminal low-complexity region and loses most of the C-terminal RGG-rich repeats, and
+that loss changes its behaviour at DNA double-strand breaks [1]. The readout is accumulation of a
+GFP-tagged protein at a laser-induced stripe. The report also builds an internal dose series,
+reintroducing one or three RGG-rich domains into EWSR1-FLI1 and into EWSR1-ATF1, and finds earlier
+recruitment and higher overall recruitment as the dose rises.
 
-That distinction is not pedantry here. **NR4A3's transcript exons 1 and 2 are entirely non-coding,
-and exon 3 carries both 5′-UTR and the start codon** ([`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json)).
-A CDS-level splice would silently discard that UTR; a transcript-level splice translates it in the
-5′ partner's frame, which is the only way to find out whether the reported junction is in frame at
-all. Every construct therefore carries three self-checks a reader can audit:
+Three transcription-factor-partner classes were examined in that work. EMC is a fourth, and no
+NR4A3 fusion has been placed in the assay. The gap is not conceptual: the unit of work is a
+GFP-tagged open reading frame, so adding EMC is a matter of new plasmids rather than a new
+instrument or a new analysis. What is missing is the sequence, the placement and the criteria.
 
-| self-check | what it asserts |
-|---|---|
-| `five_prime_start_matches_partner` | the ORF opens with the 5′ partner's own N-terminus |
-| `three_prime_c_terminus_intact` | the ORF ends with the 3′ partner's own C-terminus |
-| `in_frame` | both of the above |
+A prior-art screen supports that reading of the record. A Europe PMC sweep of 322 EMC-linked
+records, of which 238 were retrieved as full text, was screened for ATR and replication stress and
+returned no hits
+([`emc-prior-art-2026-08-09.json`](../literature/emc-prior-art-2026-08-09.json)). The screen
+matched titles and abstracts rather than full text, so the correct reading of that zero is that
+nothing is indexed on the pairing, and not that no such experiment has been done: a result inside a
+supplementary table of a larger FET-fusion paper would be invisible to it.
 
-**A construct that fails them is reported as failing and its sequence is withheld.** It is not
-quietly dropped, and the breakpoint is not adjusted until it passes — "tune the input until the
-answer is nice" is the exact circularity the positive controls in
-[`emc_fet_idr_census.py`](../modalities/emc_fet_idr_census.py) were built to prevent.
+This report supplies those three things. It compiles the reported EMC junctions from primary
+sources, computes the protein each produces, places EMC on the published dose axis, classifies the
+one non-FET partner, and fixes five predictions with their falsifiers before any experiment.
 
-⭐ **This is not a theoretical distinction: it changed one of the four answers.** All four
-constructs came back in frame, but the type-2 junction turns out to carry **59 extra residues**
-encoded by NR4A3 5′-UTR read through in EWSR1's frame — see §7.2. A CDS-level model would have
-reported that construct as `EWSR1(1–264)::NR4A3(1–626)` and been wrong by 59 residues.
+---
 
-### 2.2 ⚠ A correction this work forced, stated up front
+## 2. Methods
 
-**The junction this repo has been calling "the canonical EMC fusion" mixes two reported types.**
-Route 1 and the IDR census both describe EMC's canonical junction as **EWSR1 exon 7 :: NR4A3 exon
-3**, giving `EWSR1(1–264)`. The primary literature does not report that combination. It reports:
+### 2.1 Gene models and junction arithmetic
 
-- **type 1, the commonest:** *"exon 12 of EWSR1 fused to exon 3 of NR4A3"*
-- **type 2:** *"exon 7 of EWSR1 is fused to exon 2 of NR4A3"*
+A reported fusion is an mRNA exon junction rather than a protein junction. Constructs are therefore
+assembled at the cDNA level, taking 5' partner cDNA from the transcript start through the end of
+the named exon, joining 3' partner cDNA from the start of its named exon, and translating from the
+5' partner's own start codon.
 
-both quoted verbatim from PMC3335514, and both independently corroborated by Agaram 2014's RT-PCR
-primer design (PMC4015728: an *EWSR1 exon 12* forward primer paired with an *NR4A3 exon 3* reverse
-for type 1; an *EWSR1 exon 7* forward paired with an *NR4A3 exon 2* reverse for type 2), by
-PMC4055444, and by a counted series (PMC2395470: 10 of 15 *EWS/CHN* tumours were exon 12 :: exon 3).
+The distinction changes an answer here. NR4A3 transcript exons 1 and 2 are entirely non-coding and
+exon 3 carries both 5' untranslated sequence and the start codon. A coding-sequence splice discards
+that untranslated segment; a transcript-level splice translates it in the 5' partner's frame, which
+is the only way to establish whether a reported junction is in frame at all.
 
-**This matters, and it makes the EMC case stronger rather than weaker** — see §3. The superseded
-framing is registered in the appendix. **What it does *not* disturb** is the §1.3 finding: both
-reported types retain NR4A3 from its own first coding exon, so NR4A3's AF-1, its C4 zinc finger and
-its LBD are present in the fusion under either type. The off-by-two correction stands.
+Canonical Ensembl transcripts were used throughout. Each gene model carries four assertions:
+exon lengths sum to the cDNA, coding nucleotides sum to the coding sequence, the cDNA slice at the
+5' untranslated boundary equals the coding sequence, and the coding sequence translates to the
+reference protein. Each construct carries three further self-checks: the reading frame opens with
+the 5' partner's N-terminus, it ends with the 3' partner's C-terminus, and both hold together. A
+construct failing them is reported as failing and its sequence is withheld rather than adjusted
+until it passes.
 
-### 2.3 The registry — every breakpoint is a quote, never a memory
+### 2.2 The retained-RG axis
 
-| construct | junction (transcript exon numbering) | reported rank | sources |
+The axis is retained RG dipeptides of the 5' FET partner as a fraction of that partner's wild-type
+total. It is threshold-free: an RG dipeptide either falls inside the retained segment or it does
+not. It is not a count of RGG domains. The source names three RGG-rich domains in EWSR1 while the
+operational box-finder used here merges them into two on the same sequence, and tuning a box
+definition until it returns the expected number would fit the instrument to the answer. The
+underlying RG count requires no definition. Box counts are reported as context only.
+
+### 2.3 TCF12 comparison
+
+Three independent tests, plus one sweep that removes a dependency on an unpinned breakpoint. Test
+one is the N-terminal [S,Y,G,Q] fraction over a 250-residue window, the FET prion-like signature,
+for TCF12 against all three FET proteins. Test two is RG dipeptide content, whole-protein and
+N-terminal, with the operational box count. Test three is N-terminal sequence identity by
+Needleman-Wunsch alignment, with the three FET-versus-FET pairs computed by the identical call as
+the positive control, since a single identity value in isolation carries no scale. The sweep
+computes the [S,Y,G,Q] fraction of every TCF12 N-terminal prefix from 50 residues to full length in
+10-residue steps, so the conclusion does not rest on one assumed junction.
+
+### 2.4 Tag orientation
+
+Tag orientation was left open. The source is internally inconsistent, its methods writing
+EWSR1-FLI1-GFP and its Fig. 5 legend writing GFP-EWSR1-FLI1, and a tag can itself perturb an
+intrinsically disordered region. The artifact therefore emits the untagged reading frame, and EMC
+constructs should be built in whichever orientation the recipient laboratory's existing
+EWSR1-FLI1 construct uses.
+
+### 2.5 Reproduction
+
+```
+python3 research/modalities/emc_fet_construct_designs.py --check
+```
+
+That command re-derives every figure below offline from the committed input cache
+([`emc-construct-inputs.json`](../modalities/emc-construct-inputs.json)) and prints `REPRODUCES`.
+The producer refuses to write on drift.
+
+Retrieval, computation and drafting were carried out with AI assistance. Every breakpoint is a
+quotation from a primary source rather than a recollection, every sequence figure is re-derivable
+by the command above, and prose identifiers are checked against tracked fetch products by a linter
+that fails on any identifier absent from them. Those controls exist because the failure mode of the
+method is a fluent citation to a paper that does not exist.
+
+---
+
+## 3. Results
+
+### 3.1 Reported junctions
+
+**Table 1.** Reported junctions, in transcript exon numbering, with the source of each.
+
+| fusion | junction | reported rank | sources |
 |---|---|---|---|
-| **EWSR1::NR4A3 type 1** | EWSR1 e12 :: NR4A3 e3 | **commonest** | PMC3335514 · PMC4055444 · PMC4015728 (primers) · PMC6766969 (an expressed construct: *"E-N, corresponding to EWSR1 (exons 1-12)-NR4A3 (exons 3-8)"*) |
-| **EWSR1::NR4A3 type 2** | EWSR1 e7 :: NR4A3 e2 | second | PMC3335514 · PMC4015728 (primers) |
-| **EWSR1::NR4A3 type 5** | EWSR1 e13 :: NR4A3 e3 | minority | PMC4055444 · PMC2395470 (2 of 15) |
-| **TAF15::NR4A3** | TAF15 e6 :: NR4A3 e3 | the only reported coding junction | PMC3335514 (*"exon 6 of TAF15 is fused **exclusively** to exon 3 of NR4A3"*) · PMC4055444 (*"**always**"*) · PMC2395470 · PMC6766969 (an expressed construct: *"T-N\*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion"*) |
+| EWSR1::NR4A3 type 1 | EWSR1 e12 to NR4A3 e3 | commonest | [4,5,6]; expressed as "E-N, corresponding to EWSR1 (exons 1-12)-NR4A3 (exons 3-8)" [3] |
+| EWSR1::NR4A3 type 2 | EWSR1 e7 to NR4A3 e2 | second | [4,6] |
+| EWSR1::NR4A3 type 5 | EWSR1 e13 to NR4A3 e3 | minority | [5,7] |
+| TAF15::NR4A3 | TAF15 e6 to NR4A3 e3 | the only reported coding junction | [4,5,7]; expressed as "T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion" [3] |
 
-**A registered variant that is deliberately NOT modelled.** PMC6766969 also reports a rarer
-TAF15::NR4A3 isoform (`T-N`) that splices into a cryptic exon in NR4A3 intron 2, *"thus encoding 25
-additional amino acids prior to the NR4A3 ATG"*. **We do not emit it, because the cryptic exon's
-sequence is in no artifact this repo holds and building it would mean inventing 75 nucleotides.**
-The same source reports `T-N` and `T-N*` were *"essentially indistinguishable"* for colony
-formation. It is listed so a collaborator knows it exists.
+The two commonest types are quoted verbatim from a primary source: "The most common fusion
+transcript contains exon 12 of EWSR1 fused to exon 3 of NR4A3 (type 1), whereas exon 7 of EWSR1 is
+fused to exon 2 of NR4A3 in the type 2 fusion transcript" [4]. They are corroborated independently
+by RT-PCR primer design, an EWSR1 exon 12 forward primer paired with an NR4A3 exon 3 reverse for
+type 1 and an EWSR1 exon 7 forward paired with an NR4A3 exon 2 reverse for type 2 [6], and by a
+counted series in which 10 of 15 tumours carried exon 12 to exon 3 and 2 of 15 carried type 5 [7].
+The TAF15 junction is reported as exclusive: "exon 6 of TAF15 is fused exclusively to exon 3 of
+NR4A3" [4], and "always" in a second source [5].
 
-### 2.4 The two fusions we could **not** pin, named rather than omitted
+Three reported variants are not modelled, and the reasons differ. A rarer TAF15::NR4A3 isoform
+splices into a cryptic exon in NR4A3 intron 2, "thus encoding 25 additional amino acids prior to
+the NR4A3 ATG" [3]; the cryptic exon's sequence is in no source held here, so building it would
+mean inventing 75 nucleotides, and the same source reports the two isoforms as "essentially
+indistinguishable" for colony formation. FUS::NR4A3 has no exon-level breakpoint statement in the
+sources retrieved. TCF12::NR4A3 is reported only at genomic resolution, "the breakpoint affects the
+region of intron 5" [5], and TCF12 has several alternatively spliced isoforms. Absence of a
+construct is a statement about the sourcing rather than about the fusion.
 
-| fusion | why no construct | what can still be said |
-|---|---|---|
-| **FUS::NR4A3** | no exon-level breakpoint statement found in this repo's literature cache | the breakpoint-**independent** sweep already published in [`emc-fet-idr-census.json`](../modalities/emc-fet-idr-census.json) → `emc_TAF15_and_FUS_breakpoint_sweep` answers the question as a *function* of breakpoint |
-| **TCF12::NR4A3** | reported only at **genomic** resolution — *"the breakpoint affects the region of intron 5"* (PMC4055444) — and TCF12 has several alternatively-spliced isoforms | the negative control in §4 **does not need the junction**: it is computed over *every possible* TCF12 breakpoint, which is stronger than a prediction resting on one assumed junction |
+### 3.2 Gene models and open reading frames
 
-**Naming a gap is part of the deliverable.** Silence would read as "there is no such fusion".
+All four gene-model assertions pass on all five transcripts.
 
-### 2.5 The wild-type controls the assay design implies
+**Table 2.** Reference gene models.
 
-The source's own controls define both ends of the recruitment axis: native GFP-EWSR1 recruits
-rapidly, and *"Control experiments with the full-length FLI1 protein showed no accumulation at
-laser-induced DSBs"*. An EMC arm needs the same anchors **for its own partner genes**, or a delayed
-curve cannot be told from a badly-expressed construct.
+| gene | transcript | protein | transcript / coding exons | Ensembl matches UniProt |
+|---|---|---|---|---|
+| EWSR1 | ENST00000397938 | 656 aa | 17 / 17 | yes |
+| TAF15 | canonical | 592 aa | 16 / 16 | yes |
+| FUS | canonical | 526 aa | 15 / 15 | yes |
+| NR4A3 | ENST00000395097 | 626 aa | 8 / 6, exons 1-2 non-coding | yes |
+| TCF12 | canonical | 706 aa | 21 / 19 | no; UniProt Q99081 is 682 aa |
 
-| control | role | registered prediction |
-|---|---|---|
-| **GFP-EWSR1** (full length) | fast-recruitment anchor — **they already have this construct** | rapid recruitment, as published. If it does not reproduce, nothing else in the run is interpretable |
-| **GFP-TAF15** (full length) | wild-type anchor for the TAF15::NR4A3 arm | rapid recruitment, like native EWSR1 — TAF15 carries its own C-terminal RGG region. ⚠ **Not previously reported in this assay**, so this is a prediction, not a reproduction |
-| **GFP-NR4A3** (full length) | partner-alone control — the EMC analogue of their GFP-FLI1 control | **no accumulation.** ⛔ If NR4A3 alone *is* recruited, the EMC fusion's recruitment cannot be attributed to the FET half and the whole structural argument for EMC fails at this single control |
-| **GFP-TCF12** (full length) | partner-alone anchor for the negative-control arm | no accumulation — TCF12 is not a FET protein (computed, §4) |
+The TCF12 length mismatch is reported rather than reconciled. The two databases select different
+canonical isoforms, so a TCF12 residue number taken from the literature requires conversion before
+comparison with anything here. It does not reach the classification in section 3.5, whose decisive
+tests are compositional and are computed over every prefix.
 
-Full-length sequences for all four are in the artifact under `wild_type_controls`.
+**Table 3.** The four constructs. A slash marks the junction in the seam sequence. Extra junction
+residues are those encoded across the seam by neither partner's own reading frame.
+
+| construct | 5' retained | seam | extra residues | ORF | NR4A3 moiety |
+|---|---|---|---|---|---|
+| type 1, EWSR1 e12 to NR4A3 e3 | EWSR1(1-431) | TAKAAVEWFD / DMPCVQAQYS | 1 | 1058 aa | complete: AF-1, C4 zinc finger, LBD, C166 |
+| type 2, EWSR1 e7 to NR4A3 e2 | EWSR1(1-264) | SQQSSSYGQQ / KPTAEEGSPA | 59 | 949 aa | complete: AF-1, C4 zinc finger, LBD, C166 |
+| type 5, EWSR1 e13 to NR4A3 e3 | EWSR1(1-472) | GRGMPPPLRG / DMPCVQAQYS | 1 | 1099 aa | complete: AF-1, C4 zinc finger, LBD, C166 |
+| TAF15 e6 to NR4A3 e3 | TAF15(1-161) | QRENYSHHTQ / DMPCVQAQYS | 1 | 788 aa | complete: AF-1, C4 zinc finger, LBD, C166 |
+
+All four are in frame. Each splits a codon across the junction, which is why the frame was computed
+at the nucleotide level rather than inferred from residue arithmetic.
+
+### 3.3 A 59-residue insertion in the type-2 fusion
+
+The named 3' exon of the type-2 junction, NR4A3 exon 2, is entirely non-coding, so the fusion mRNA
+carries 176 nucleotides of NR4A3 5' untranslated sequence downstream of the EWSR1 cut. Read in the
+EWSR1 frame that segment contains no stop codon and encodes 59 residues lying between EWSR1(1-264)
+and NR4A3's own methionine. The type-2 fusion protein predicted by the canonical transcripts is
+therefore not EWSR1(1-264)::NR4A3(1-626), the protein-level model in general use and the one this
+programme itself used until this analysis.
+
+The weight of that statement is bounded. It is what the canonical transcripts predict for the
+reported exon junction, a computed consequence rather than an observed protein, and it is exactly
+the kind of thing to check against a sequenced junction before ordering a reagent. It is reported
+because a 59-residue difference changes what any construct built from the published model actually
+contains.
+
+### 3.4 Placement on the retained-RG axis
+
+**Table 4.** EMC fusions and the measured comparators on one axis. Fractions are of the 5' partner's
+wild-type RG total.
+
+| construct | 5' partner retained | RG kept | fraction | status |
+|---|---|---|---|---|
+| EWSR1-FLI1, the study's reference fusion | EWSR1(1-264) | 0 / 30 | 0.000 | measured |
+| EWSR1::NR4A3 type 2 | EWSR1(1-264) | 0 / 30 | 0.000 | predicted (P1) |
+| TAF15::NR4A3 | TAF15(1-161) | 0 / 31 | 0.000 | predicted (P3) |
+| EWSR1::ATF1 e8, commonest clear-cell type | EWSR1(1-324) | 7 / 30 | 0.233 | measured, phenotype present |
+| EWSR1::ATF1 e10 | EWSR1(1-348) | 8 / 30 | 0.267 | measured |
+| EWSR1::NR4A3 type 1, commonest EMC | EWSR1(1-431) | 8 / 30 | 0.267 | predicted (P2) |
+| EWSR1::NR4A3 type 5 | EWSR1(1-472) | 11 / 30 | 0.367 | predicted |
+| EWSR1-RGG(3)-FLI1 and native EWSR1 | full length | 30 / 30 | 1.000 | measured |
+
+EMC's two main fusion types bracket the two fusions in which the mechanism was measured. Type 2
+sits where EWSR1-FLI1 sits, at zero, on a retained segment reported as byte-identical over the
+shared prefix. Type 1 sits at 0.267 against 0.233 for the commonest reported clear-cell type and
+0.267 for the exon 10 type. Neither EMC type extrapolates beyond the published series; both
+interpolate between points already measured.
+
+Two readings are excluded. Retaining some RG content does not predict absence of the phenotype: the
+commonest clear-cell type retains seven RG dipeptides and the mechanism was measured in that
+disease regardless, so the axis is a comparison and never a threshold. And the placement of
+TAF15::NR4A3 was open until this computation. TAF15's sourced exon 6 junction retains 161 residues
+and TAF15's first RG dipeptide falls at residue 175, so the junction lies inside the strict zero-RG
+window with 14 residues of margin, where the earlier sweep could report only a range of 100 to 170.
+
+### 3.5 TCF12 outside the FET compositional range
+
+Roughly 3 to 4 per cent of EMC carries TCF12::NR4A3, and TCF12 is not a FET-family gene. The class
+argument therefore predicts that these cases do not carry the lesion, which is a prediction
+testable inside one disease on one slide.
+
+**Table 5.** TCF12 against the three FET proteins.
+
+| test | the three FET proteins | TCF12 | separation |
+|---|---|---|---|
+| N-terminal 250-aa [S,Y,G,Q] fraction | EWSR1 0.540, TAF15 0.620, FUS 0.804 | 0.368 | decisive |
+| best [S,Y,G,Q] over every prefix, 50 aa to full length, 66 prefixes | as above | 0.400, at residues 1-160 | decisive; no TCF12 prefix reaches the lowest FET value |
+| RG dipeptides, whole protein | 30, 31, 24 | 7 | clear |
+| RGG boxes, operational definition | 2, 1, 2 | 0 | clear |
+| N-terminal identity, Needleman-Wunsch | FET versus FET 26.1 to 35.7 per cent | TCF12 versus FET 16.8 to 20.5 per cent | separates, modestly |
+
+TCF12 is classified as non-FET, and the classification does not rest on the weakest test. The
+identity result is the qualification: 20.5 per cent against a FET-versus-FET floor of 26.1 per cent
+is a real gap but a modest one, which follows from the FET N-termini being low-complexity and only
+26 to 36 per cent identical to each other. The decisive results are compositional. TCF12 has no RGG
+box, roughly a quarter of the RG content, and no N-terminal prefix of any length reaching the FET
+compositional range, which is what makes the classification robust to the unpinned TCF12
+breakpoint.
 
 ---
 
-## 3 · Deliverable 2 — the quantitative prediction, against **their own** calibration curve
+## 4. Pre-specified predictions
 
-### 3.1 The curve is theirs; we only place EMC on it
-
-The source did not merely observe that FET fusions lose the RGG repeats — it built a **dose
-series** and measured it:
-
-> *"To test how loss of these RGG domains impact DSB recruitment of EWSR1-FLI1, we reintroduced
-> either 1 or all 3 RGG-rich domains (the entire EWSR1 C-terminus) into the fusion oncoprotein. In
-> an RGG dose-dependent manner, the RGG containing versions of EWSR1-FLI1 displayed earlier DSB
-> recruitment kinetics and higher levels of overall recruitment when compared to EWSR1-FLI1."*
-
-and reproduced it in a second disease: *"reintroduction of either 1 or all 3 RGG-rich domains into
-EWSR1-ATF1 resulted in earlier DSB recruitment kinetics and higher levels of overall recruitment in
-an RGG dose-dependent manner."*
-
-**That is a calibration curve they already own, in an assay they already run.** The only thing
-missing is where EMC's fusions fall on it.
-
-**The axis is retained RG dipeptides of the 5′ FET partner, as a fraction of that partner's
-wild-type total.** It is **threshold-free** — an RG dipeptide is either inside the retained segment
-or it is not — and it is deliberately *not* a count of "RGG domains": the source names 3 in EWSR1
-while this repo's operational box-finder merges them into 2, and tuning the box definition until it
-returns 3 would be fitting the instrument to the expected answer. The underlying RG count needs no
-definition at all. Arithmetic imported from
-[`emc_fet_idr_census.py`](../modalities/emc_fet_idr_census.py); the box count is context only.
-
-### 3.2 Where EMC lands — and the reason this is the interesting result
-
-Retained EWSR1 RG dipeptides, computed from the Ensembl exon audit and the census's RG rule:
-
-| construct | EWSR1 retained | RG kept | status |
-|---|---|---|---|
-| **EWSR1-FLI1** (the study's reference fusion, 0 RGG) | 1–264 | **0 of 30** | **measured** — delayed kinetics vs native EWSR1 |
-| **EWSR1::NR4A3 type 2** (EMC) | 1–264 | **0 of 30** | *predicted* |
-| **EWSR1::ATF1 e8** (clear cell, **commonest type**) | 1–324 | **7 of 30** | **measured — and the mechanism was found present** |
-| **EWSR1::ATF1 e10** (clear cell) | 1–348 | **8 of 30** | **measured** |
-| **EWSR1::NR4A3 type 1** (EMC, **commonest**) | 1–431 | **8 of 30** | *predicted* |
-| **EWSR1::NR4A3 type 5** (EMC, minority) | 1–472 | **11 of 30** | *predicted* |
-| **EWSR1-RGG(3)-FLI1** / native EWSR1 (3 RGG) | full | **30 of 30** | **measured** — earliest, highest |
-
-⭑ **EMC's two main fusion types bracket the two fusions in which the mechanism was actually
-measured.** Type 2 sits exactly where EWSR1-FLI1 sits (0 of 30, and the census reports the retained
-segment as byte-identical over the shared prefix). Type 1 sits exactly where the *commonest
-reported clear-cell type* sits (8 vs 7 of 30). **Neither EMC type is an extrapolation off the end
-of their calibration curve — both are interpolations between points they have already measured.**
-
-⚠ **This is why §2.2's correction strengthens the case rather than weakening it.** Under the old,
-mixed junction EMC had one row, at zero, and the honest reading was "EMC loses at least as much RGG
-content as every measured fusion". Under the sourced junctions EMC has **two** rows straddling both
-measured fusions — which is a more specific, more falsifiable, and more interesting claim.
-
-⚠ **And it must not be misread as a bar.** The commonest clear-cell type **retains** RG dipeptides
-and the mechanism was measured in that disease anyway. So *retaining some RG content is not a
-prediction of no phenotype.* "Loses the C-terminal RGG repeats" means losing the bulk, not literally
-all — which is exactly why the axis is a comparison and never a threshold.
-
-### 3.3 The registered predictions
-
-**Registered before any experiment, and dated by this file's commit rather than by a line of
-prose.** One home for the machine-readable versions:
-`emc-fet-construct-designs.json` → `rgg_dose_calibration_and_predictions.registered_predictions`.
+**Table 6.** Predictions fixed before any experiment, each with the observation that falsifies it.
+P1 to P4 are held in `emc-fet-construct-designs.json` under
+`rgg_dose_calibration_and_predictions.registered_predictions`; P5 is held in the same file under
+`tcf12_negative_control.registered_prediction`.
 
 | id | prediction | falsified by |
 |---|---|---|
-| **P1** | **EWSR1::NR4A3 type 2 is recruited to laser-induced DSBs with kinetics indistinguishable from EWSR1-FLI1.** Basis: 0 of 30 RG retained, the same zero as their reference construct, on a byte-identical EWSR1 segment | no accumulation at the stripe; or kinetics matching *native EWSR1* rather than the fusion reference |
-| **P2** | **EWSR1::NR4A3 type 1 (the commonest EMC fusion) is recruited, EARLIER than type 2, and closest to the commonest clear-cell EWSR1::ATF1 type.** Basis: 8 of 30 vs 7 of 30 | type 1 recruiting no earlier than type 2 — which would say retained RG content is not the variable; or type 1 not being recruited at all |
-| **P3** | **TAF15::NR4A3 is recruited, at the zero end of the axis — like type 2 and like EWSR1-FLI1.** Basis, now computed (§7.3): the sourced TAF15 exon-6 junction retains TAF15(1–161) and **0 of 31** RG dipeptides, with 14 residues of margin to TAF15's first RG at 175 | kinetics indistinguishable from native TAF15 |
-| **P4** ⭐ | **EMC supplies, in nature, the RGG dose series they had to ENGINEER.** Type 2 (0 RG) and type 1 (8 RG) are two naturally occurring points on the same axis, in the same disease, with the same 3′ partner. If the RGG dose-dependence is real, that pair must reproduce it **with no add-back construct at all** | the pair showing no kinetic difference — which would bound the RGG dose-dependence to engineered constructs |
-| **P5** | **TCF12::NR4A3 is NOT recruited** — see §4, the arm that can actually falsify the hypothesis | recruitment of TCF12::NR4A3 |
+| P1 | EWSR1::NR4A3 type 2 is recruited to laser-induced breaks with kinetics indistinguishable from EWSR1-FLI1. Basis: 0 of 30 RG retained, on a segment byte-identical to the reference construct's | no accumulation at the stripe, or kinetics matching native EWSR1 rather than the fusion reference |
+| P2 | EWSR1::NR4A3 type 1, the commonest EMC fusion, is recruited earlier than type 2 and closest to the commonest clear-cell EWSR1::ATF1 type. Basis: 8 of 30 against 7 of 30 | type 1 recruiting no earlier than type 2, which would place the variable elsewhere; or type 1 not recruited at all |
+| P3 | TAF15::NR4A3 is recruited, at the zero end of the axis. Basis: TAF15(1-161) retains 0 of 31, with 14 residues of margin to TAF15's first RG at 175 | kinetics indistinguishable from native TAF15 |
+| P4 | The type-1 and type-2 pair reproduces the RGG dose-dependence with no add-back construct, being two naturally occurring points on one axis in one disease with one 3' partner | the pair showing no kinetic difference, which would bound the dose-dependence to engineered constructs |
+| P5 | TCF12::NR4A3 is not recruited, behaving like the source's full-length FLI1 control, which "showed no accumulation at laser-induced DSBs" [1] | recruitment of TCF12::NR4A3 |
 
-### 3.4 ⛔ What is explicitly **not** predicted
+P5 is the arm that can falsify rather than confirm. Four outcomes are distinguishable. TCF12::NR4A3
+not recruited while EWSR1::NR4A3 is recruited leaves the prediction standing and demonstrates FET
+specificity within one disease, which no experiment in the source performs. Both recruited places
+the driver in something the two chimeras share that is not the FET low-complexity region, the
+obvious candidate being the NR4A3 moiety, which is why GFP-NR4A3 alone is a required control in the
+same run; that outcome refutes the class argument for EMC and the structural mechanism as stated.
+TCF12::NR4A3 recruited while EWSR1::NR4A3 is not inverts the structural argument. Neither recruited
+says EMC does not inherit the lesion by this readout, which is a clean negative and spares other
+groups the experiment.
 
-- **Retained RGG content is one input to recruitment kinetics, not the only one.** The source's own
-  data show a second variable — EWSR1::ATF1 recruits like EWSR1-FLI1 but with *"differences in
-  departure timing"* — and recruitment depends *"at least in part"* on **native EWSR1**, which these
-  constructs do not control.
-- **No effect size.** The axis is **ordinal** — earlier/later, more/less — because the source
-  reports it that way. A fabricated slope would be false precision.
-- **Nothing downstream.** These predictions are about **recruitment kinetics only**. They say
-  nothing about ATM suppression, ATR dependency, drug sensitivity, efficacy, safety, dosing, or any
-  clinical question, and nothing may be read as if they did.
-- **The 3′ partner is a nuclear receptor** with its own DNA-binding domain. The source showed a DBD
-  mutation did not change EWSR1-FLI1's DSB localisation — reassuring, but measured on an ETS DBD,
-  not a C4 zinc finger. That is a reason to run GFP-NR4A3 alone (§2.5), not a reason to assume.
+Four things are explicitly not predicted. Retained RGG content is one input to recruitment kinetics
+rather than the only one; the source's own data show a second variable, EWSR1::ATF1 recruiting like
+EWSR1-FLI1 but with "differences in departure timing", and recruitment depending "at least in part"
+on native EWSR1, which these constructs do not control. No effect size is predicted: the axis is
+ordinal, earlier or later and more or less, because the source reports it that way, and a fabricated
+slope would be false precision. Nothing downstream is predicted; the predictions concern recruitment
+kinetics only and say nothing about ATM signalling, ATR dependency, drug sensitivity, efficacy,
+safety, dosing or any clinical question. And the 3' partner is a nuclear receptor with its own
+DNA-binding domain: the source showed that a DNA-binding-domain mutation did not change
+EWSR1-FLI1's localisation, but that was measured on an ETS domain rather than a C4 zinc finger,
+which is a reason to run GFP-NR4A3 alone rather than a reason to assume.
 
 ---
 
-## 4 · Deliverable 3 — the within-EMC negative control, which is the most informative arm
+## 5. Constructs and controls
 
-**≈3–4 % of EMC carries `TCF12::NR4A3`, and TCF12 is not a FET-family gene.** Our argument
-therefore predicts that **these cases should not show the phenotype.** That is a prediction that can
-be tested *inside* EMC, on the same slide, in the same session.
+The assay's unit of work is a GFP-tagged open reading frame. From its methods: "U2OS cells
+expressing EWSR1-GFP, EWSR1-FLI1-GFP, EWSR1-ATF1-GFP, EWSR1-WT1-GFP or the various mutant forms of
+the fusion oncoproteins were seeded in 8-well Lab Tek II Chamber Slides ... Cells were treated with
+1 microgram/ml Hoechst 33342 ... for 30 minutes prior to micro-irradiation ... 5-pixel wide stripes
+were drawn in every cell nucleus ... and irradiated with a 405nm diode laser (40mW). Images were
+acquired pre-irradiation and at 1-minute intervals post-laser damage for 15 minutes" [1]. Adding
+EMC to that panel requires plasmids and nothing else.
 
-### 4.1 "TCF12 is not FET" is computed, not asserted
+Four wild-type controls anchor both ends of the recruitment axis for EMC's own partner genes,
+without which a delayed curve cannot be told from a poorly expressed construct.
 
-Three independent tests, one of them with its own positive control, all in
-`emc-fet-construct-designs.json` → `tcf12_negative_control`:
+**Table 7.** Wild-type controls and their predictions. Full-length sequences are in the artifact
+under `wild_type_controls`.
 
-1. **N-terminal [S,Y,G,Q] composition** — the FET prion-like signature — for TCF12 against all
-   three FET proteins.
-2. **RG dipeptide content**, whole-protein and N-terminal, and the operational RGG-box count.
-3. **Sequence identity of the N-terminal window**, by a plain Needleman–Wunsch alignment, with the
-   **FET-vs-FET pairs computed by the identical call as the positive control**. A single identity
-   value in isolation is uninterpretable; the *contrast* is the measurement.
-4. ⭐ **A breakpoint-independent sweep.** Because the TCF12 junction is reported only at genomic
-   intron-5 resolution, the control must not rest on one assumed junction — so the test asks, over
-   **every** TCF12 N-terminal prefix from 50 aa to full length, whether *any* of them reaches the
-   compositional range the three FET N-termini occupy.
+| control | role | prediction |
+|---|---|---|
+| GFP-EWSR1, full length | fast-recruitment anchor, already held by any laboratory running the assay | rapid recruitment, as published. Failure to reproduce it makes nothing else in the run interpretable |
+| GFP-TAF15, full length | wild-type anchor for the TAF15::NR4A3 arm | rapid recruitment, as TAF15 carries its own C-terminal RGG region. Not previously reported in this assay, so a prediction rather than a reproduction |
+| GFP-NR4A3, full length | partner-alone control, the EMC analogue of the source's GFP-FLI1 control | no accumulation. Recruitment of NR4A3 alone would remove the attribution of the fusion's recruitment to the FET moiety |
+| GFP-TCF12, full length | partner-alone anchor for the P5 arm | no accumulation, TCF12 being non-FET by section 3.5 |
 
-**Computed result:** see §7 for the measured values and the verdict as the artifact records it.
-
-### 4.2 The prediction, and what a violation would mean
-
-> **P5 — `TCF12::NR4A3` is not recruited to laser-induced DSBs.** It should behave like the
-> source's own full-length FLI1 control, which *"showed no accumulation at laser-induced DSBs"*.
-
-**Why this is the single most valuable arm in the package: every other arm can only confirm. This
-one can falsify.**
-
-| observed | what it means |
-|---|---|
-| TCF12::NR4A3 **not** recruited, EWSR1::NR4A3 recruited | the prediction holds, and the FET-specificity of the mechanism is demonstrated *within one disease* rather than across diseases — which no experiment in the source paper does |
-| **TCF12::NR4A3 recruited AND EWSR1::NR4A3 recruited** | ⛔ recruitment is driven by something the two chimeras share that is **not** the FET IDR. The obvious candidate is the NR4A3 half — which is precisely why GFP-NR4A3 alone is a required control in the same run. **The class argument for EMC would be wrong, and so would the structural mechanism as stated** |
-| TCF12::NR4A3 recruited, EWSR1::NR4A3 not | the structural argument is inverted and this repo's census is measuring the wrong feature |
-| neither recruited | EMC does not inherit the lesion by this readout. A clean, publishable negative — **worth as much as a hit**, and it saves other groups the experiment |
-
-⚠ **No TCF12::NR4A3 construct is emitted**, for the reason in §2.4. A collaborator holding a
-TCF12::NR4A3 case should sequence the junction. Failing that, **the arm can be run with full-length
-GFP-TCF12**, which tests the same thing this control exists for: whether a non-FET N-terminus
+No TCF12::NR4A3 construct is emitted, for the reason in section 3.1. A laboratory holding a
+TCF12::NR4A3 case should sequence the junction; failing that, the arm runs with full-length
+GFP-TCF12, which tests the same question the control exists for, whether a non-FET N-terminus
 reaches a double-strand break at all.
 
 ---
 
-## 5 · What this actually saves them
+## 6. Limitations
 
-| task | without this package | with it |
-|---|---|---|
-| decide which EMC junction to build | read the EMC fusion-variant literature; discover the type-1/type-2 split; pick | four sourced junctions with counted frequencies, each with its quote |
-| get the junction right | exon-numbering arithmetic across two transcripts, with a UTR-bearing first coding exon — the step this repo got wrong once | computed ORFs with three auditable in-frame self-checks, and sequences withheld where the checks fail |
-| decide the controls | infer from their own paper which anchors an EMC arm needs | four named wild-type controls with registered predictions and full sequences |
-| decide what counts as a result | — | five predictions registered before the experiment, with explicit falsifiers |
-| get a falsifiable arm | — | a within-EMC negative control with a computed basis and a stated consequence for the whole hypothesis |
-| the ATR-inhibitor half | — | already preregistered: [`emc-atri-prereg.md`](../modalities/emc-atri-prereg.md), including the PARP-inhibitor negative-translation control |
-
-**Nothing in this package asks them to accept a claim. It asks them to check arithmetic they can
-check in an afternoon, and then run four plasmids.**
-
----
-
-## 6 · Limits, stated so this is read correctly
-
-1. **These are computed designs, not validated reagents.** Nothing here has been synthesised,
-   expressed or sequenced. Every junction must be verified against the collaborator's own
-   sequenced breakpoint before anything is ordered.
-2. **This repository has been wrong about a junction before**, in a committed artifact, from a
-   stated methodology, and it survived review (§0, §2.2). Treat this the same way: as arithmetic
-   to audit.
-3. **Canonical Ensembl transcripts only.** A patient's tumour may use a different transcript or a
-   different breakpoint; the exon→residue map, and therefore the protein, would change.
-4. **The predictions concern DSB-recruitment kinetics and nothing else.**
-   No claim is made about ATM signalling, ATR dependency, drug sensitivity, efficacy, safety, tolerability, dosing, patient selection, or clinical readiness — none of those is asserted, implied or testable by anything here.
+1. **These are computed designs rather than validated reagents.** Nothing here has been synthesised,
+   expressed or sequenced. Every junction requires verification against a sequenced breakpoint
+   before any order is placed.
+2. **This analysis inherits a documented failure mode of its own method.** An earlier committed
+   artifact in this programme, built from a stated Ensembl methodology, indexed a coding-exon offset
+   table with transcript exon numbers; the label "NR4A3 exon 3" resolved to transcript exon 5, and
+   all seven junctions it emitted silently deleted NR4A3's AF-1 domain and the first zinc finger of
+   its C4 DNA-binding domain. That error survived review and was caught by re-derivation. Every
+   boundary above therefore carries its provenance and every construct carries self-checks, and the
+   appropriate reading of this report is as arithmetic to audit.
+3. **Canonical Ensembl transcripts only.** A tumour may use a different transcript or a different
+   breakpoint, in which case the exon-to-residue map changes and so does the protein.
+4. **The predictions concern recruitment kinetics and nothing else.** They make no claim about ATM
+   signalling, ATR dependency or drug sensitivity, and no claim about efficacy, safety,
+   tolerability, dosing, patient selection or clinical readiness.
 5. **Retained RGG content is one input among several**, and the constructs do not control native
    EWSR1, which the source shows contributes.
-6. **FUS::NR4A3 and TCF12::NR4A3 have no sourced transcript-level junction here.** That is a gap in
-   our sourcing, not evidence about the fusions.
-7. **Nobody has been contacted.** Outreach is an outward-facing act and is gated
-   (CLAUDE.md §3); a held draft exists at
-   [`emc-atri-outreach-DRAFT.md`](../modalities/emc-atri-outreach-DRAFT.md) and has not been sent.
-8. **No wet-lab work is proposed by us.** This program has no laboratory. The entire deliverable is
-   the design, the prediction and the criteria.
+6. **FUS::NR4A3 and TCF12::NR4A3 have no sourced transcript-level junction here**, which bounds the
+   sourcing rather than the fusions.
+7. **The class inheritance is the whole of the transfer argument.** The replication-stress
+   vulnerability was measured on other FET fusions in other diseases; no NR4A3 fusion has been
+   tested for it, and no computation in this report changes that.
+8. **No laboratory work is proposed by the author.** This programme has no laboratory. The
+   deliverable is the design, the prediction and the criteria.
 
 ---
 
-## 7 · Computed values, as the artifact records them
+## 7. Data and code availability
 
-Produced by GitHub Actions run **30857647907** on `depmap-dependency.yml`, published to this branch
-and to `modalities-cache`. **The artifact is the home of every figure below; anything here that
-disagrees with it is a bug in this file.** `--check` re-derives all of it offline from
-`emc-construct-inputs.json` and prints `REPRODUCES`.
+| item | location |
+|---|---|
+| Producer | [`emc_fet_construct_designs.py`](../modalities/emc_fet_construct_designs.py) |
+| Computed artifact, the home of every figure above | [`emc-fet-construct-designs.json`](../modalities/emc-fet-construct-designs.json) |
+| Offline input cache the artifact re-derives from | [`emc-construct-inputs.json`](../modalities/emc-construct-inputs.json) |
+| NR4A3 exon audit | [`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json) |
+| RG and RGG-box definitions, and the breakpoint sweep | [`emc_fet_idr_census.py`](../modalities/emc_fet_idr_census.py), [`emc-fet-idr-census.json`](../modalities/emc-fet-idr-census.json) |
+| Companion assessment of the class-inheritance argument | [`emc-atr-vulnerability-assessment.md`](./emc-atr-vulnerability-assessment.md) |
+| Prior-art screen, with its retrieval record and its stated limits | [`emc-prior-art-2026-08-09.json`](../literature/emc-prior-art-2026-08-09.json) |
+| Separate pre-registered protocol for the drug-response half of the same question, which this report does not address | [`emc-atri-prereg.md`](../modalities/emc-atri-prereg.md) |
 
-### 7.1 Gene models — all four assertions pass on all five transcripts
+The artifact was produced by GitHub Actions run 30857647907 on `depmap-dependency.yml` in the
+public repository, and `--check` re-derives it offline. Any figure above that disagrees with the
+artifact is an error in this document.
 
-`gene_model_self_checks_all_pass: true` over `exon_lengths_sum_equals_cdna`,
-`coding_nt_sum_equals_cds`, `cdna_slice_at_utr5_equals_cds`, `cds_translation_equals_protein`.
+**Cost of this analysis: $0.** Central processing only, with no rental and no external service.
 
-| gene | Ensembl transcript | protein | transcript / coding exons | Ensembl == UniProt |
-|---|---|---|---|---|
-| EWSR1 | ENST00000397938 | 656 aa | 17 / 17 | ✅ |
-| TAF15 | (canonical) | 592 aa | 16 / 16 | ✅ |
-| FUS | (canonical) | 526 aa | 15 / 15 | ✅ |
-| NR4A3 | ENST00000395097 | 626 aa | 8 / **6** (exons 1–2 non-coding) | ✅ |
-| **TCF12** | (canonical) | **706 aa** | 21 / **19** | ⚠ **no — UniProt Q99081 is 682 aa** |
+---
 
-⚠ **The TCF12 mismatch is reported, not smoothed over.** The two databases pick different canonical
-isoforms, so a TCF12 residue number taken from the literature must be converted before it is
-compared with anything here. It does not affect the negative control in §7.4, whose decisive tests
-are compositional and are computed over every prefix.
+## 8. References
 
-### 7.2 The four constructs — **all four are in frame** (4 / 4)
+1. FET fusion oncoproteins disrupt physiologic DNA repair and create a targetable opportunity for ATR inhibitor therapy. *bioRxiv* 2023. PMID 37205599. doi 10.1101/2023.04.30.538578.
+2. Remiszewski P, et al. From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma. *J Cancer Res Clin Oncol* 2025. PMID 41055792. PMC12504171. doi 10.1007/s00432-025-06316-5.
+3. Brenca M, Stacchiotti S, Fassetta K, Sbaraglia M, Janjusevic M, Racanelli D, et al. NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas. *J Pathol* 2019. PMC6766969. doi 10.1002/path.5284.
+4. PMC3335514. Source of the verbatim type 1 and type 2 exon-level definitions and of the TAF15 exclusivity statement quoted in section 3.1.
+5. PMC4055444. Source of the type 5 definition, the second TAF15 exclusivity statement, and the TCF12 genomic-only intron 5 breakpoint quoted in section 3.1.
+6. Agaram NP, Zhang L, Sung YS, Singer S, Antonescu CR. Extraskeletal myxoid chondrosarcoma with non-EWSR1-NR4A3 variant fusions correlate with rhabdoid phenotype and high-grade morphology. *Hum Pathol* 2014. PMC4015728. doi 10.1016/j.humpath.2014.01.007.
+7. PMC2395470. Counted series: 10 of 15 tumours carried exon 12 to exon 3, and 2 of 15 carried type 5.
+8. UniProt and Ensembl reference records for EWSR1 (ENST00000397938), NR4A3 (ENST00000395097), TAF15, FUS and TCF12 (UniProt Q99081), as retrieved into the input cache in section 7.
 
-| construct | 5′ retained | seam | extra junction residues | ORF | NR4A3 half |
-|---|---|---|---|---|---|
-| **type 1** — EWSR1 e12 :: NR4A3 e3 | EWSR1(1–431) | `TAKAAVEWFD \| DMPCVQAQYS` | **1** | **1058 aa** | full: AF-1 ✅ C4 zinc finger ✅ LBD ✅ C166 ✅ |
-| **type 2** — EWSR1 e7 :: NR4A3 e2 | EWSR1(1–264) | `SQQSSSYGQQ \| KPTAEEGSPA` | ⚠ **59** | **949 aa** | full: AF-1 ✅ C4 zinc finger ✅ LBD ✅ C166 ✅ |
-| **type 5** — EWSR1 e13 :: NR4A3 e3 | EWSR1(1–472) | `GRGMPPPLRG \| DMPCVQAQYS` | **1** | **1099 aa** | full: AF-1 ✅ C4 zinc finger ✅ LBD ✅ C166 ✅ |
-| **TAF15::NR4A3** — TAF15 e6 :: NR4A3 e3 | TAF15(1–**161**) | `QRENYSHHTQ \| DMPCVQAQYS` | **1** | **788 aa** | full: AF-1 ✅ C4 zinc finger ✅ LBD ✅ C166 ✅ |
+---
 
-**Every one of the four splits a codon across the junction** — which is precisely why the frame had
-to be computed at the nucleotide level rather than assumed from residue arithmetic.
+## Appendix A. Superseded and corrected values
 
-⚠⭐ **The finding nobody would have guessed, and the reason the transcript-level model earns its
-keep: type 2 carries 59 extra residues.** Its named 3′ exon (NR4A3 exon 2) is entirely non-coding,
-so the fusion mRNA carries **176 nt of NR4A3 5′-UTR** downstream of the EWSR1 cut. Read in EWSR1's
-frame that UTR contains no stop codon and encodes **59 residues** sitting between EWSR1(1–264) and
-NR4A3's own methionine. **So the type-2 fusion protein is *not* `EWSR1(1–264)::NR4A3(1–626)`** — the
-model this repo has used ([`fusion_cofold.py`](../modalities/fusion_cofold.py)'s `EWS_CUT = 264` ::
-*"NR4A3 resumed at res 2"*). It is `EWSR1(1–264) :: [59 UTR-encoded residues] :: NR4A3(1–626)`.
-⛔ **Stated at its true weight:** this is what the *canonical transcripts* predict for the *reported*
-exon junction. It is a computed consequence, not an observed protein, and it is exactly the sort of
-thing a collaborator should check against a sequenced junction before ordering. It is flagged here
-because it is a 59-residue difference nobody had noticed, and because it is a large novel segment
-that a junction-neoepitope lane would also want to know about.
+Per [CLAUDE.md](../../CLAUDE.md) rule 1.2, a corrected value is registered rather than dropped, and
+the live text above carries only the current value.
 
-### 7.3 The RGG axis, with the measured comparators beside the predicted EMC rows
-
-| construct | 5′ partner retained | RG kept | fraction | status |
-|---|---|---|---|---|
-| EWSR1-FLI1 (reference fusion) | EWSR1(1–264) | **0 / 30** | 0.000 | **measured** |
-| **EWSR1::NR4A3 type 2** | EWSR1(1–264) | **0 / 30** | 0.000 | *predicted (P1)* |
-| **TAF15::NR4A3** | TAF15(1–161) | **0 / 31** | 0.000 | *predicted (P3)* |
-| EWSR1::ATF1 e8 (**commonest clear-cell type**) | EWSR1(1–324) | **7 / 30** | 0.233 | **measured — phenotype present** |
-| EWSR1::ATF1 e10 | EWSR1(1–348) | **8 / 30** | 0.267 | **measured** |
-| **EWSR1::NR4A3 type 1 (commonest EMC)** | EWSR1(1–431) | **8 / 30** | 0.267 | *predicted (P2)* |
-| **EWSR1::NR4A3 type 5** | EWSR1(1–472) | **11 / 30** | 0.367 | *predicted* |
-| EWSR1-RGG(3)-FLI1 / native EWSR1 | full | **30 / 30** | 1.000 | **measured** |
-
-⭑ **The commonest EMC fusion and the commonest clear-cell fusion sit at the same point on this axis
-to three decimal places** (0.267 vs 0.233, and identical at 0.267 to the e10 clear-cell type). The
-mechanism was measured in clear-cell sarcoma and found present. **P2 is therefore an interpolation
-onto a measured point, not an extrapolation.**
-
-⭑ **P3 resolves cleanly and was genuinely open until this run.** TAF15's sourced exon-6 junction
-retains **161** residues, and TAF15's first RG dipeptide is at **175** — so the junction falls
-**inside** the strict zero-RG window the census could previously only report as a *range*
-(`window_where_strict_zero_RG_holds: 100–170`). TAF15::NR4A3 lands at the zero end of the axis with
-14 residues of margin.
-
-### 7.4 TCF12 — the negative control checked out, with one honest qualification
-
-| test | the three FET proteins | TCF12 | separates? |
+| superseded | current | where it lived | why it changed |
 |---|---|---|---|
-| N-terminal 250-aa **[S,Y,G,Q] fraction** | EWSR1 **0.540** · TAF15 **0.620** · FUS **0.804** | **0.368** | ✅ decisively |
-| **best achievable** [S,Y,G,Q] over **every** prefix (50 aa → full length, 66 prefixes) | — | **0.400**, at residues 1–160 | ✅ **no TCF12 breakpoint of any length reaches even the lowest FET value** |
-| **RG dipeptides**, whole protein | 30 · 31 · 24 | **7** | ✅ |
-| **RGG boxes** (census's operational definition) | 2 · 1 · 2 | **0** | ✅ |
-| N-terminal **sequence identity** (Needleman–Wunsch) | FET-vs-FET **26.1 – 35.7 %** | TCF12-vs-FET **16.8 – 20.5 %** | ⚠ separates, but **not dramatically** |
+| **"EMC's canonical fusion is EWSR1 exon 7 :: NR4A3 exon 3, i.e. `EWSR1(1–264)`."** Used by [`emc_fet_idr_census.py`](../modalities/emc_fet_idr_census.py) (`emc_canonical_EWSR1_NR4A3`), by [`emc-post-degrader-options.md`](./emc-post-degrader-options.md) route 1, and by [`target-route-options.md` §1.3](./target-route-options.md) | The primary literature reports **EWSR1 e12 :: NR4A3 e3 (type 1, commonest)** and **EWSR1 e7 :: NR4A3 e2 (type 2)**; §3.1 | those three files, and §2.2 of this document before this revision | Superseded 2026-08-03. The combination "e7 :: e3" pairs the 5′ side of one reported type with the 3′ side of another and is not itself a reported type. ⚠ The census row remains **valid arithmetic for a 264-residue EWSR1 cut** and remains the right comparator for EWSR1::FLI1 type 1 — what changed is the label "canonical", which now belongs to the exon-12 cut. Retained here because the old figure (`0 of 30 RG`) is quoted in live text elsewhere |
+| **The type-2 fusion protein modelled as `EWSR1(1–264)::NR4A3(1–626)`** — [`fusion_cofold.py`](../modalities/fusion_cofold.py)'s `EWS_CUT = 264` with *"NR4A3 resumed at res 2"* | `EWSR1(1–264) :: [59 UTR-encoded residues] :: NR4A3(1–626)`; §3.3 | `fusion_cofold.py`, and any construct built from the protein-level model | The named 3′ exon of the type-2 junction is entirely non-coding, so 176 nt of NR4A3 5′-UTR sit downstream of the EWSR1 cut and, read in EWSR1's frame, encode 59 residues with no intervening stop. ⚠ A computed consequence of the canonical transcripts for the reported junction, not an observed protein |
+| **"NR4A3 exon 3"** as resolved by a coding-exon offset table indexed with transcript exon numbers, which returned transcript exon 5 | Transcript-level exon numbering throughout, with four gene-model assertions and three per-construct self-checks; §2.1, §3.2 | a committed artifact, corrected at [`target-route-options.md` §1.3](./target-route-options.md) | The off-by-two deleted NR4A3's AF-1 domain and the first zinc finger of its C4 DNA-binding domain from all seven emitted junctions, modelling a chimera that could not do what the real fusion is reported to do. ✅ **NOT superseded by anything in this revision:** both reported EMC types retain NR4A3 from its own first coding exon, so AF-1, the C4 zinc finger and the LBD are present under either type |
+| **"One home for the machine-readable versions: `rgg_dose_calibration_and_predictions.registered_predictions`",** applied to all five predictions P1–P5 | P1–P4 are in `registered_predictions`; **P5 is in `tcf12_negative_control.registered_prediction`**; Table 6 | §3.3 of this document before this revision | The pointer was wrong for P5. `registered_predictions` holds four entries and has never held P5, so a reader following the pointer for the one prediction that can falsify the hypothesis would have found nothing |
+| **"Three independent tests"** heading a list of **four** items in the TCF12 section | Three independent tests plus one breakpoint-independent sweep; §2.3, §3.5 | §4.1 of this document before this revision | The artifact's own verdict field describes three tests with the FET-vs-FET pairs as the positive control for the third, and records the prefix sweep separately as `test_4_breakpoint_independent_sweep`. The count in the prose disagreed with the count in the list beneath it |
+| **The document's framing as an unpublished collaborator package** — *"What this is: everything a group that already runs the FET-fusion DSB-recruitment assay would otherwise have to derive… What it is not: a request to be convinced by an argument"* | A short computational research article for *Genes, Chromosomes and Cancer* with the preprint on bioRxiv, whose Discussion is the pre-specified prediction set | the whole document before this revision | An ask reaches a laboratory only through the published record (CLAUDE.md §5), and the package's four computed results carry a paper on their own. ⚠ **Registered Report Stage 1 was the closer fit on FORMAT and was rejected on ELIGIBILITY:** in-principle acceptance is a commitment that the submitting authors then run the approved protocol, and this programme has no laboratory, no affiliation and no engaged collaborator, so it cannot enter that commitment. The pre-commitment is supplied instead by the dated preprint and the committed artifact |
+| **The repository-register presentation** — glyph-led warning blocks, bold on load-bearing clauses, sentence-shaped headings, running commentary on the document's own honesty (183 bold runs at 42.4/1000 words and 65 em-dashes at 15.1/1000) | Journal register: 0 findings from [`lint_style.py`](./lint_style.py) | the whole document before this revision | That register is correct in a repository document, where the reader is a maintainer being stopped from repeating a specific mistake, and wrong in a submission text, where prose asserting its own honesty reads as advocacy (CLAUDE.md §7, gate 5). No claim, figure or caveat was dropped in the conversion; the superseded presentation is recorded here because the earlier text is quoted elsewhere |
 
-**Verdict: `tcf12_is_fet_family: false`** — and the verdict does **not** rest on the weakest test.
-⚠ **The identity test is the honest qualification and is reported as such**: 20.5 % against a
-FET-vs-FET floor of 26.1 % is a real gap but a modest one, which is unsurprising given that the FET
-N-termini are themselves low-complexity and only 26–36 % identical to *each other*. **The decisive
-tests are compositional** — TCF12 has no RGG box at all, a quarter of the RG content, and **no
-N-terminal prefix of any length that reaches the FET compositional range**, which is what makes the
-prediction robust to the unpinned TCF12 breakpoint.
-
-⭐ **Nothing surprised us here, and that is the useful outcome**: the negative control is a genuine
-negative control, so P5 is a real falsification arm rather than a foregone conclusion dressed up as
-one.
-
----
-
-## Appendix — superseded, retained
-
-- **"EMC's canonical fusion is EWSR1 exon 7 :: NR4A3 exon 3, i.e. `EWSR1(1–264)`."** Used by
-  [`emc_fet_idr_census.py`](../modalities/emc_fet_idr_census.py) (`emc_canonical_EWSR1_NR4A3`),
-  by [`emc-post-degrader-options.md`](./emc-post-degrader-options.md) route 1, and by
-  [`target-route-options.md` §1.3](./target-route-options.md). **Superseded 2026-08-03**: the
-  primary literature reports **EWSR1 e12 :: NR4A3 e3 (type 1, commonest)** and **EWSR1 e7 ::
-  NR4A3 e2 (type 2)**; the combination "e7 :: e3" pairs the 5′ side of one with the 3′ side of the
-  other and is not a reported type. The census row remains **valid arithmetic for a 264-residue
-  EWSR1 cut** and remains the right comparator for EWSR1-FLI1 type 1 — what changes is the label
-  "canonical", which now belongs to the exon-12 cut. Retained here because the old figure
-  (`0 of 30 RG`) is quoted in live text elsewhere.
-- **⚠ What is NOT superseded:** the §1.3 off-by-two correction. Both reported EMC types retain
-  NR4A3 from its own first coding exon, so AF-1, the C4 zinc finger and the LBD are present under
-  either type, and `fusion_cofold.py`'s model remains the exon-compatible one.
+**Superseded document title.** *"The EMC arm, pre-built — a collaborator package for the FET / ATM /
+ATR laser-microirradiation assay"*, carried in both the frontmatter and the H1 until this revision
+and quoted as this endpoint's title in
+[`systems/views/L3-publications.md`](../../systems/views/L3-publications.md) and in
+[`emc-atr-vulnerability-assessment.md`](./emc-atr-vulnerability-assessment.md). Replaced by the
+title above, which names what the paper measures rather than who it is addressed to. ⚠ The
+generated view is stale until `python3 systems/systems_check.py --write-views` is run, and two
+`owner.anchor` fields in [`systems/graph/instruments.json`](../../systems/graph/instruments.json)
+(`INS-CONSTRUCT-DESIGNS`, `INS-FUSION-COFOLD`) still point at the retired §7.2 anchor and must be
+repointed to `#32-gene-models-and-open-reading-frames`.

@@ -88,7 +88,7 @@ The evidence is ex-vivo on n=2 patient-derived models with no in-vivo and no cli
 
 ## Where this route ends — the paper
 
-**[PUB-REPURPOSING](L3-publications.md)** — [Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid chondrosarcoma](../../research/manuscripts/repurposing-hypotheses.md)
+**[PUB-REPURPOSING](L3-publications.md)** — [Existing drugs not yet reported in extraskeletal myxoid chondrosarcoma: a graded candidate menu from three independent generation methods](../../research/manuscripts/repurposing-hypotheses.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

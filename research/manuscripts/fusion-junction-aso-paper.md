@@ -1020,6 +1020,31 @@ Two useful, honestly-bounded results:
   log2TPM), GPC2 (+1.49), PTK7 (+1.24), MCAM/CD146 (+1.09), EPHB4 (+1.0)** — several with existing
   ADC/CAR/bispecific programs (GPC2, PTK7, FGFR-directed, MCAM). This is a *nameable*, prioritised targeting-arm
   shortlist for an EMC AOC, doubling as candidate antigens for the CAR-T/ADC routes.
+  - ⛔ **SUPERSEDED 2026-08-09 — THE EMC-TISSUE TEST THIS BULLET SAID IT WAS WAITING FOR HAS RUN, AND
+    THE SHORTLIST DID NOT SURVIVE IT.** The sentence below ("that needs the EMC lines' own data — see
+    below") named the missing measurement; three EMC tissue cohorts have since been read, and **not one
+    of the six antigens above is concordantly elevated in EMC tissue.** Two are concordantly *lower*, one
+    of them emphatically: per-gene *t* against the comparator on the two array platforms, from
+    [`emc-expression-panels.json`](../modalities/emc-expression-panels.json) → `genome_wide_null` —
+    **FGFR1 −4.54 and −12.19** (the second at signed percentile 0.03, with only 9 symbols on the whole
+    array more extreme), **PTK7 −3.87 and −4.55**, **CDH11 +2.65 then −3.78** (discordant),
+    **MCAM −2.65 then +1.18** (discordant), **GPC2 −0.36** (flat, one platform), **EPHB4 +0.56 and
+    +1.72** (not distinguishable from the array background). **CD276/B7-H3 reads −2.55**, so the
+    reprioritisation above stands but its replacement does not.
+    ⚠ **The surrogate was not merely uninformative — for the two strongest cases it pointed the wrong
+    way.** FGFR1 was ranked second on the strength of a single myxoid cell line at 9.3 log2TPM; in
+    tumour tissue it is one of the most strongly *depleted* genes on the array. That is the
+    cell-line-versus-primary-tissue gap this bullet's own "honest bounds" flagged, measured and coming
+    out against the ranking.
+    ⭐ **What replaces it is one antigen, not six.** **ALCAM** is concordantly elevated (**+7.01** and
+    **+2.21**) — and it fails the normal-tissue exposure axis, so it is not a free win. **CSPG4** is
+    elevated on one platform (**+7.42**) and flat on the other (**−0.40**) and is held open as the one
+    untested lead. Full treatment, including the normal-organ comparison, is in
+    [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md), which is that route's paper
+    and the one home for these readings — **do not re-derive them here.**
+    ⛔ **Consequence for §3c, stated plainly: the receptor-targeted AOC route has no named EMC antigen
+    today.** That is why the local/intratumoural option is listed first there — it is now the only
+    delivery hypothesis in this section that does not depend on an input the data has refused.
 - **Honest bounds (stated in the JSON too).** It is a **surrogate** — DepMap *sarcoma* lines, not EMC (EMC has
   no DepMap line); the myxoid subset closest to EMC is a **single line** (anecdotal — the n=76 translocation
   class carries the signal); "enrichment" is vs other **cancer** lineages, **not normal tissue**, so the
