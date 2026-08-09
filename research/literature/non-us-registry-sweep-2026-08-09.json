@@ -1,0 +1,89 @@
+{
+  "_what": "The non-US trial-registry sweep the reachability route named as its one uncovered gap, run 2026-08-09.",
+  "_why": "RT-TRIAL-REACH's remaining_unknowns says 'what the non-US registries hold, which no screen here covers: the EU endpoint returns an authentication error'. The finding it qualifies — that trials admit this disease while never listing it — was measured on ONE registry, so whether it is a property of trial registration or of one registry's index was open.",
+  "_not_medical_advice": "⛔ Nothing here is medical advice, a trial-matching service, or a statement that any trial would accept any patient. Eligibility is each trial team's decision.",
+  "_retrieval": {
+    "route": "workflow_dispatch of .github/workflows/fetch-literature.yml with an inline targets_json manifest; the runner executes scripts/lit_fetch_urls.py and publishes to the literature-cache branch",
+    "actions_run_id": 31333672478,
+    "slug": "non-us-trial-registries-2026-08-09",
+    "date_et": "2026-08-09"
+  },
+  "⭐_the_positive_control_is_what_makes_the_refusals_readable": "ClinicalTrials.gov was fetched in the same run with the same code and returned HTTP 200. So a 403 or an SSL failure below is a statement about THAT ENDPOINT'S POLICY, not about a broken fetcher — which is the difference between 'we could not look' and 'they would not answer', and only the second is worth reporting.",
+  "endpoints": [
+    {
+      "registry": "ISRCTN (UK)",
+      "result": "HTTP 200",
+      "read": true,
+      "queries": [
+        "chondrosarcoma",
+        "sarcoma AND fusion"
+      ]
+    },
+    {
+      "registry": "WHO ICTRP",
+      "result": "HTTP 404",
+      "read": false,
+      "⚠": "THE URL WAS A GUESS AND IT WAS WRONG. A 404 here is a defect in this sweep, not a finding about ICTRP, and it must not be reported as one. ICTRP remains genuinely uncovered."
+    },
+    {
+      "registry": "EU CTIS",
+      "result": "HTTP 403",
+      "read": false,
+      "note": "Independently reproduces the authentication error the 2026-08-07 sweep recorded. Two sweeps, two dates, same refusal."
+    },
+    {
+      "registry": "ANZCTR (Australia/New Zealand)",
+      "result": "HTTP 403",
+      "read": false
+    },
+    {
+      "registry": "jRCT (Japan)",
+      "result": "SSL handshake failure",
+      "read": false
+    },
+    {
+      "registry": "ClinicalTrials.gov",
+      "result": "HTTP 200",
+      "read": true,
+      "role": "positive control — not a new reading"
+    }
+  ],
+  "isrctn_what_it_holds": {
+    "query_chondrosarcoma": {
+      "total_count": 2,
+      "trials": [
+        {
+          "id": "ISRCTN07742377",
+          "title": "A prospective randomised controlled phase III trial of gemcitabine and docetaxel compared with doxorubicin as first line treatment in previously untreated soft tissue sarcoma",
+          "names_this_histology": true,
+          "how_it_names_it": "AS AN EXCLUSION, verbatim from the retrieved record: inclusion criterion 6-7 reads 'Histologically confirmed soft tissue sarcoma excluding: alveolar soft part sarcoma, gastrointestinal stromal tumour, Ewing's sarcoma family of tumours, rhabdomyosarcoma / Desmoplastic small round cell tumour, extra-skeletal myxoid chondrosarcoma'.",
+          "⚠_this_is_not_a_criticism_of_the_trial": "Excluding a histology known to respond poorly to the agents under test is an ordinary and defensible design choice. The point here is about FINDABILITY and about what a keyword map would do with this record, not about whether the exclusion was right."
+        },
+        {
+          "id": "ISRCTN60791336",
+          "title": "Axitinib in patients with advanced angiosarcoma and other soft tissue sarcomas: a phase II open-label parallel-group (non-randomised) study",
+          "names_this_histology": false,
+          "note": "Its exclusion list names 'Chondrosarcoma' as an ineligible subtype — the parent term, not this histology. Whether that term was intended to cover an extraskeletal myxoid tumour is not determinable from the record and is not assumed here."
+        }
+      ],
+      "⭐_reading": "⛔ THE OPPOSITE OF WHAT WAS DRAFTED, AND IT WAS CAUGHT BY READING THE FULL TEXT RATHER THAN THE TITLES. This sweep was written up as 'no non-US trial names this disease'. One does — and it names it TO EXCLUDE IT, by its exact full name, in the eligibility criteria. ⭐ That makes the reachability picture richer rather than weaker, and it is the more interesting result: in the registry measured earlier, trials ADMIT this disease without naming it; in the one non-US registry that answered, the trial that NAMES it refuses it. A histology search returning that record would surface a trial that explicitly will not take the patient — which is exactly the false-positive harm the keyword-map argument warns about, now demonstrated in a second registry and from the other direction.",
+      "⚠_what_a_search_for_the_histology_actually_returned": "Two trials, and neither is about this histology: one general first-line soft-tissue-sarcoma randomised trial that excludes it by name, and one angiosarcoma-led phase II whose exclusions name the parent term. The disease is not indexed as a subject anywhere in this registry."
+    },
+    "query_sarcoma_and_fusion": {
+      "total_count": 1,
+      "trials": [
+        {
+          "id": "ISRCTN52235823",
+          "title": "Nanopore-based methylome classification and next-day comprehensive tumour profiling for ultra-rapid tumour diagnostics in soft-tissue sarcomas",
+          "names_this_histology": false,
+          "⭐_note": "A DIAGNOSTIC study rather than a treatment one, and it is the most relevant record the sweep returned: methylome classification is one of the routes by which an ultra-rare fusion sarcoma is identified at all. It does not treat, and it is not counted as reachable treatment."
+        }
+      ]
+    }
+  },
+  "⛔_what_this_does_and_does_not_close": {
+    "closes": "The gap is no longer wholly unmeasured. One non-US registry was read. It indexes no trial ABOUT this disease — and it holds one that names the disease by its exact full name in order to EXCLUDE it, which is a different and more useful fact than the absence that was expected.",
+    "does_not_close": "THREE of the four non-US registries refused automated access and ICTRP was not reached because this sweep's URL was wrong. So the finding is still measured on two registries out of five or more, and 'not shown to be US-only' remains the honest statement rather than 'shown to generalise'.",
+    "⚠_a_refusal_is_not_an_absence": "A 403 says the endpoint would not answer. It says NOTHING about what that registry contains, and no count here may be reported as though those registries had been searched and found empty."
+  }
+}

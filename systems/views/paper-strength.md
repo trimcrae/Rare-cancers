@@ -45,10 +45,10 @@ last_verified: 2026-08-09
 | 5 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/emc-treatment-roadmap.md) | **13.0** | 2 | 0 | 0 | 1 | 0% of 2 | ◐ `drafted` | 2 |
 | 6 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | **10.7** | 1 | 0 | 0 | 0 | 33% of 6 | ◐ `drafted` | 2 |
 | 7 | [**PUB-MTAP-PRMT5**](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | **10.0** | 1 | 0 | 0 | 1 | 0% of 3 | ◐ `drafted` | 1 |
-| 8 | [**PUB-FUSION-OUTPUT**](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | **9.5** | 1 | 0 | 0 | 0 | 50% of 6 | ◐ `drafted` | 1 |
-| 9 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | **9.2** | 1 | 0 | 0 | 1 | 25% of 4 | ◐ `drafted` | 1 |
-| 10 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/emc-surface-target-landscape.md) | **9.0** | 2 | 3 | 0 | 0 | 0% of 8 | ◐ `drafted` | 6 |
-| 11 | **PUB-STRATEGY-ARCH** | **8.9** | 1 | 2 | 0 | 1 | 57% of 7 | ◔ `outlined` | 3 |
+| 8 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/emc-trial-reachability.md) | **9.9** | 1 | 2 | 0 | 1 | 57% of 7 | ◐ `drafted` | 3 |
+| 9 | [**PUB-FUSION-OUTPUT**](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | **9.5** | 1 | 0 | 0 | 0 | 50% of 6 | ◐ `drafted` | 1 |
+| 10 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | **9.2** | 1 | 0 | 0 | 1 | 25% of 4 | ◐ `drafted` | 1 |
+| 11 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/emc-surface-target-landscape.md) | **9.0** | 2 | 3 | 0 | 0 | 0% of 8 | ◐ `drafted` | 6 |
 | 12 | [**PUB-TCIP**](../../research/manuscripts/tcip-induced-interface-preprint.md) | **8.3** | 1 | 0 | 0 | 0 | 67% of 3 | ◐ `drafted` | 1 |
 | 13 | [**PUB-ATR**](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | **8.0** | 1 | 0 | 0 | 1 | 0% of 1 | ◐ `drafted` | 1 |
 | 14 | [**PUB-BIOMARKER-DEP**](../../research/manuscripts/emc-biomarker-selected-classes.md) | **7.0** | 0 | 0 | ⚠ 5 | 1 | 40% of 10 | ◐ `drafted` | 5 |
@@ -95,6 +95,9 @@ last_verified: 2026-08-09
 **PUB-MTAP-PRMT5** — score 10.0
 - [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) — *Does this tumour carry the copy-number state that selects the PRMT5 axis?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`
 
+**PUB-STRATEGY-ARCH** — score 9.9
+- [RT-TRIAL-REACH](L2-rt-trial-reach.md) — *Can a patient with this disease actually reach the trials and the agents that a computational result would point them toward?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`
+
 **PUB-FUSION-OUTPUT** — score 9.5
 - [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) — *Do the genes an NR4A3 chimera is published to bind read higher in EMC tumour tissue than in comparator tumours — beyond what an arbitrary gene set of the same size achieves on the same platform?* — `active` / `validated_in_silico` / confidence `moderate` · last verified `2026-08-08`
 
@@ -104,9 +107,6 @@ last_verified: 2026-08-09
 **PUB-SURFACE-TARGETS** — score 9.0
 - [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) — *Is a PRAME-directed T-cell engager or receptor therapy applicable to EMC?* — `blocked` / `computed` / confidence `moderate` · last verified `2026-08-05`
 - [RT-FAP-RLT](L2-rt-fap-rlt.md) — *Could a fibroblast-activation-protein radioligand reach EMC through its stroma?* — `blocked` / `concept` / confidence `unknown` · last verified `2026-08-05`
-
-**PUB-STRATEGY-ARCH** — score 8.9
-- [RT-TRIAL-REACH](L2-rt-trial-reach.md) — *Can a patient with this disease actually reach the trials and the agents that a computational result would point them toward?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`
 
 **PUB-TCIP** — score 8.3
 - [RT-TCIP](L2-rt-tcip.md) — *Can chemically induced proximity recruit a transcriptional effector to the fusion instead of degrading it?* — `blocked` / `scoped` / confidence `low` · last verified `2026-08-06`

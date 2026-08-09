@@ -55,8 +55,9 @@ Two findings meet here. A trial exists whose eligibility is defined by the fusio
 ## Remaining unknowns
 
 - Whether the admitting trial's investigators read 'translocation-associated soft tissue sarcoma' as a general class or as the three histologies they listed — not determinable from the registry record, and exactly the question only a trial team can answer.
-- What the non-US registries hold, which no screen here covers: the EU endpoint returns an authentication error.
 - Whether any of these trials would in practice accept a patient with this histology, which is each trial team's decision after their own review and not a registry fact.
+- ◐ PARTLY CLOSED 2026-08-09. Four non-US registry endpoints were attempted and ONE answered: ISRCTN (UK) returned HTTP 200, EU CTIS returned 403 for the second time on a second date, ANZCTR returned 403, and jRCT failed the TLS handshake. A ClinicalTrials.gov positive control in the same run returned 200, so those are refusals by those endpoints and not a broken fetcher. ⚠ The WHO ICTRP attempt 404'd on a URL this repository guessed wrong — a defect here, not a finding about ICTRP, which remains genuinely uncovered. ⛔ A refusal is not an absence: nothing may be reported as though those registries had been searched and found empty.
+- ⭐ AND THE ONE REGISTRY THAT ANSWERED INVERTED THE EXPECTED READING. It indexes no trial ABOUT this disease, but it holds one that names the disease by its exact full name in its eligibility criteria IN ORDER TO EXCLUDE IT. So where trials are indexed by histology this disease appears only as an exclusion, and where they are indexed molecularly it is admitted and never named — in neither case does a search of the diagnosis return a joinable trial. Caught by reading the full record; the titles alone said the opposite.
 
 ## Required validation
 
@@ -83,15 +84,13 @@ The finding is confirmed one trial at a time and its limits are stated. What rem
 
 ## Where this route ends — the paper
 
-**[PUB-STRATEGY-ARCH](L3-publications.md)** — *Scheduling, sequencing and reachability as treatment variables in an ultra-rare cancer* (unwritten)
+**[PUB-STRATEGY-ARCH](L3-publications.md)** — [Eligible but unfindable — trials that admit an ultra-rare sarcoma while listing conditions that never name it](../../research/manuscripts/emc-trial-reachability.md)
 
-`contributing` · ◔ `outlined` · aimed at `preprint`
+`contributing` · ◐ `drafted` · aimed at `preprint`
 
 **This route contributes:** One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything.
 
-**The paper would claim:** For a cancer that will never have a randomised trial, the variables a clinician actually controls — when, in what order, and whether the patient can reach a trial at all — are treatable as research questions, and a portfolio whose every endpoint is a publication needs the step after publication registered as a route.
-
-**It is not written because:** ⚠ ITS BLOCKER IS RETIRED AND ONE OF ITS ROUTES IS NOW THE MOST ACTIONABLE THING IN THE PORTFOLIO. All four routes are graded as of 2026-08-09, and two of the three '$0 analyses not run' had in fact run on 2026-08-07 and been committed without any route reading them. ⭐ THE REACHABILITY ROUTE IS READY AND ITS FINDING IS PUBLISHABLE WITHOUT ANY NEW SCIENCE: one confirmed fusion-family-defined recruiting trial and nine molecularly-defined trials admit this disease while never listing it as a condition — so a patient searching their own diagnosis would find none of them — and a registry-wide search for the driver gene returns five studies of which not one is oncology. ⛔ The other three are negatives, and they are clean ones: the scheduling model's named input does not exist and may not be built, because the evidence contract refuses to merge time-anchored endpoints — what exists is four separate medians, one printed by its source with no interval, no range and no number at risk, plus four PFS figures that circulate attributed to agents that did not produce them, one of which is a median FOLLOW-UP. Sequencing has no evidence base at all: no randomised evidence for any systemic therapy, every pooled denominator under sixty patients worldwide ever. ⛔ Superseded, retained: "three of its four routes have not had their $0 analyses run, and the fourth is a registry sweep that has not been performed." The sweep was performed two days before that sentence was written.
+**The paper would claim:** For a cancer that will never have a randomised trial, the variables a clinician actually controls — when, in what order, and whether the patient can reach a trial at all — are treatable as research questions, and a portfolio whose every endpoint is a publication needs the step after publication registered as a route.  ⚠ THE DRAFTED PAPER COVERS THE REACHABILITY VARIABLE ONLY. The endpoint's claim spans three variables — scheduling, sequencing and reachability — and the other two are now graded as closed (RT-SCHEDULING definitional, RT-SEQUENCING instrument_limit). Their findings are real and publishable (four medians that cannot be pooled by contract, four PFS figures circulating attributed to agents that did not produce them, and a refusal to pool that is itself the result) but they are NOT in the drafted manuscript yet. ⛔ Recorded here rather than left for a reader to discover, because `drafted` on an endpoint whose paper covers one of its three routes would otherwise read as more finished than it is.
 
 ## Strategic timing — the wait equation
 

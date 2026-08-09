@@ -7758,8 +7758,9 @@
     ],
     "remaining_unknowns": [
       "Whether the admitting trial's investigators read 'translocation-associated soft tissue sarcoma' as a general class or as the three histologies they listed — not determinable from the registry record, and exactly the question only a trial team can answer.",
-      "What the non-US registries hold, which no screen here covers: the EU endpoint returns an authentication error.",
-      "Whether any of these trials would in practice accept a patient with this histology, which is each trial team's decision after their own review and not a registry fact."
+      "Whether any of these trials would in practice accept a patient with this histology, which is each trial team's decision after their own review and not a registry fact.",
+      "◐ PARTLY CLOSED 2026-08-09. Four non-US registry endpoints were attempted and ONE answered: ISRCTN (UK) returned HTTP 200, EU CTIS returned 403 for the second time on a second date, ANZCTR returned 403, and jRCT failed the TLS handshake. A ClinicalTrials.gov positive control in the same run returned 200, so those are refusals by those endpoints and not a broken fetcher. ⚠ The WHO ICTRP attempt 404'd on a URL this repository guessed wrong — a defect here, not a finding about ICTRP, which remains genuinely uncovered. ⛔ A refusal is not an absence: nothing may be reported as though those registries had been searched and found empty.",
+      "⭐ AND THE ONE REGISTRY THAT ANSWERED INVERTED THE EXPECTED READING. It indexes no trial ABOUT this disease, but it holds one that names the disease by its exact full name in its eligibility criteria IN ORDER TO EXCLUDE IT. So where trials are indexed by histology this disease appears only as an exclusion, and where they are indexed molecularly it is admitted and never named — in neither case does a search of the diagnosis return a joinable trial. Caught by reading the full record; the titles alone said the opposite."
     ],
     "required_validation": [
       {

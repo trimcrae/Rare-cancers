@@ -54,6 +54,7 @@ last_verified: 2026-08-06
 | **PUB-MTAP-PRMT5**<br/>[PRMT5 in extraskeletal myxoid chondrosarcoma — one route in, one route …](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-NEOANTIGEN**<br/>[Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal …](../../research/manuscripts/fusion-junction-neoantigen-paper.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-REPURPOSING**<br/>[Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid ch…](../../research/manuscripts/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
+| **PUB-STRATEGY-ARCH**<br/>[Eligible but unfindable — trials that admit an ultra-rare sarcoma while…](../../research/manuscripts/emc-trial-reachability.md) | ◐ `drafted` | `preprint` | 3 | — |
 | **PUB-SURFACE-TARGETS**<br/>[In-silico surface-antigen prioritisation for extraskeletal myxoid chond…](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
@@ -62,7 +63,6 @@ last_verified: 2026-08-06
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ◔ `outlined` | `preprint` | 3 | ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. … |
 | **PUB-MATRIX-ADDRESS**<br/>*The myxoid matrix as an address rather than an obstacle* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. … |
 | **PUB-NR-OUTSIDE-NR4A3**<br/>*Nuclear-receptor pharmacology outside NR4A3 in a NR4A3-driven sarcoma* | ◔ `outlined` | `preprint` | 2 | ⚠ ITS BLOCKER IS RETIRED AND BOTH ROUTES ARE GRADED, BOTH NEGATIVELY, FOR DIFFERENT REASONS. The dormancy route is UNREAD  … |
-| **PUB-STRATEGY-ARCH**<br/>*Scheduling, sequencing and reachability as treatment variables in an ul…* | ◔ `outlined` | `preprint` | 3 | ⚠ ITS BLOCKER IS RETIRED AND ONE OF ITS ROUTES IS NOW THE MOST ACTIONABLE THING IN THE PORTFOLIO. … |
 | **PUB-PARKED-MODALITIES**<br/>*Five modalities parked on a capability that does not exist yet: what wo…* | ○ `unwritten` | `preprint` | 5 | Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. … |
 
 ## What each one would claim
@@ -302,6 +302,18 @@ Existing agents not yet reported in EMC can be mapped to EMC's molecular and mic
 | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) — PPARG downstream-effector (repurpose TZDs) | `contributing` | The downstream-effector axis, carried with its direction flagged unresolved — scoped as unresolved and NOT refuted, which the paper must not conflate. |
 | [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) — Trabectedin + a PPARγ agonist (all approved drugs) | `contributing` | The all-approved combination arm, held behind the same unresolved PPARγ direction that bounds the row above it. |
 
+### PUB-STRATEGY-ARCH — Eligible but unfindable — trials that admit an ultra-rare sarcoma while listing conditions that never name it
+
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-trial-reachability.md`](../../research/manuscripts/emc-trial-reachability.md)**
+
+For a cancer that will never have a randomised trial, the variables a clinician actually controls — when, in what order, and whether the patient can reach a trial at all — are treatable as research questions, and a portfolio whose every endpoint is a publication needs the step after publication registered as a route.  ⚠ THE DRAFTED PAPER COVERS THE REACHABILITY VARIABLE ONLY. The endpoint's claim spans three variables — scheduling, sequencing and reachability — and the other two are now graded as closed (RT-SCHEDULING definitional, RT-SEQUENCING instrument_limit). Their findings are real and publishable (four medians that cannot be pooled by contract, four PFS figures circulating attributed to agents that did not produce them, and a refusal to pool that is itself the result) but they are NOT in the drafted manuscript yet. ⛔ Recorded here rather than left for a reader to discover, because `drafted` on an endpoint whose paper covers one of its three routes would otherwise read as more finished than it is.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-SCHEDULING](L2-rt-scheduling.md) — Adaptive and metronomic scheduling of existing agent | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
+| [RT-SEQUENCING](L2-rt-sequencing.md) — Treatment sequencing and line ordering | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
+| [RT-TRIAL-REACH](L2-rt-trial-reach.md) — Trial reachability and access pathways | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
+
 ### PUB-SURFACE-TARGETS — In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: a surrogate search checked against the disease's own tissue
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-surface-target-landscape.md`](../../research/manuscripts/emc-surface-target-landscape.md)**
@@ -429,24 +441,6 @@ Two nuclear-receptor routes exist in this disease that do not act on its own rec
 | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) — Hormonal therapy for hormone-responsive 5′ fusion pa | `primary` | The half of the paper where the druggable input is imported by the 5′ partner rather than supplied by the driver's own receptor. |
 | [RT-NR2F1](L2-rt-nr2f1.md) — Orphan nuclear-receptor agonism against dormancy esc | `primary` | The half of the paper that targets the disease's clinical problem — late metastasis — through a receptor that has the tool compound this program's own receptor never had. |
 
-### PUB-STRATEGY-ARCH — Scheduling, sequencing and reachability as treatment variables in an ultra-rare cancer
-
-**◔ `outlined` · aimed at `preprint`**
-
-For a cancer that will never have a randomised trial, the variables a clinician actually controls — when, in what order, and whether the patient can reach a trial at all — are treatable as research questions, and a portfolio whose every endpoint is a publication needs the step after publication registered as a route.
-
-**Not written because:** ⚠ ITS BLOCKER IS RETIRED AND ONE OF ITS ROUTES IS NOW THE MOST ACTIONABLE THING IN THE PORTFOLIO. All four routes are graded as of 2026-08-09, and two of the three '$0 analyses not run' had in fact run on 2026-08-07 and been committed without any route reading them. ⭐ THE REACHABILITY ROUTE IS READY AND ITS FINDING IS PUBLISHABLE WITHOUT ANY NEW SCIENCE: one confirmed fusion-family-defined recruiting trial and nine molecularly-defined trials admit this disease while never listing it as a condition — so a patient searching their own diagnosis would find none of them — and a registry-wide search for the driver gene returns five studies of which not one is oncology. ⛔ The other three are negatives, and they are clean ones: the scheduling model's named input does not exist and may not be built, because the evidence contract refuses to merge time-anchored endpoints — what exists is four separate medians, one printed by its source with no interval, no range and no number at risk, plus four PFS figures that circulate attributed to agents that did not produce them, one of which is a median FOLLOW-UP. Sequencing has no evidence base at all: no randomised evidence for any systemic therapy, every pooled denominator under sixty patients worldwide ever. ⛔ Superseded, retained: "three of its four routes have not had their $0 analyses run, and the fourth is a registry sweep that has not been performed." The sweep was performed two days before that sentence was written.
-
-**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
-
-- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-SCHEDULING](L2-rt-scheduling.md) — Adaptive and metronomic scheduling of existing agent | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
-| [RT-SEQUENCING](L2-rt-sequencing.md) — Treatment sequencing and line ordering | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
-| [RT-TRIAL-REACH](L2-rt-trial-reach.md) — Trial reachability and access pathways | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
-
 ### PUB-PARKED-MODALITIES — Five modalities parked on a capability that does not exist yet: what would have to land, and how it is being watched for
 
 **○ `unwritten` · aimed at `preprint`**
@@ -529,9 +523,9 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-CARFILZOMIB](L2-rt-carfilzomib.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-REPURPOSING** ◐ | `preprint` | `primary` |
 | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-REPURPOSING** ◐ | `preprint` | `contributing` |
 | [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `experimental_proposal` | **PUB-REPURPOSING** ◐ | `preprint` | `contributing` |
-| [RT-SCHEDULING](L2-rt-scheduling.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◔ | `preprint` | `contributing` |
-| [RT-SEQUENCING](L2-rt-sequencing.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◔ | `preprint` | `contributing` |
-| [RT-TRIAL-REACH](L2-rt-trial-reach.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◔ | `preprint` | `contributing` |
+| [RT-SCHEDULING](L2-rt-scheduling.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◐ | `preprint` | `contributing` |
+| [RT-SEQUENCING](L2-rt-sequencing.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◐ | `preprint` | `contributing` |
+| [RT-TRIAL-REACH](L2-rt-trial-reach.md) | [ST-STRATEGY](L1-st-strategy.md) | `internal_note` | **PUB-STRATEGY-ARCH** ◐ | `preprint` | `contributing` |
 | [RT-B7H3](L2-rt-b7h3.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `primary` |
 | [RT-CART-SURFACE](L2-rt-cart-surface.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `contributing` |
 | [RT-FAP-RLT](L2-rt-fap-rlt.md) | [ST-RADIOLIGAND](L1-st-radioligand.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `contributing` |
