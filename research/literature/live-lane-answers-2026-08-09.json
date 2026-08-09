@@ -1,0 +1,61 @@
+{
+  "_what": "Two live-lane questions answered on 2026-08-09 after the TITLE:() re-fielding, both from Europe PMC records read in this session. Each changes a route's standing.",
+  "_not_medical_advice": "⛔ Findings in OTHER sarcoma histologies. Nothing here claims any agent works in extraskeletal myxoid chondrosarcoma; no patient with this disease appears below.",
+  "_anchor_form": "Each record carries `pubmed_url`, the form lint_citations reads.",
+  "retrieval": {
+    "slug": "live-lanes-retry-2026-08-09",
+    "actions_run_id": 31320557191,
+    "date_et": "2026-08-09",
+    "⚠_why_a_retry": "The first dispatch of these lanes used unfielded multi-term ORs and returned 934-3957 hits topped by AML recommendations, TCGA and glioma guidelines. Nothing from it was cited. Re-fielded with the discriminating term inside TITLE:(), hit counts fell to 25-143 and the top records are on-topic — see research/literature/epmc-query-craft.md."
+  },
+  "⭐ finding_1_a_FET_fusion_is_a_documented_HSP90_client": {
+    "answers": "MOD-HSP90 / RT-CHAPERONE, whose decisive cheap question was whether ANY FET-family fusion protein is a documented chaperone client. It was recorded as still open after a failed retrieval earlier the same day.",
+    "verdict": "⭐ YES, AND IT STRENGTHENS THE ROUTE'S PREMISE.",
+    "citations": [
+      {
+        "pmid": "36495678",
+        "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36495678/",
+        "title": "Optimisation of pyrazolo[1,5-a]pyrimidin-7(4H)-one derivatives as novel Hsp90 C-terminal domain inhibitors",
+        "verbatim": "EWS::FLI1 and a large number of downstream dysregulated proteins are Hsp90 client proteins, making Hsp90 an attractive target for the treatment of Ewing sarcoma",
+        "why": "the direct statement of clientship for a FET-family fusion oncoprotein"
+      },
+      {
+        "pmid": "24388362",
+        "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/24388362/",
+        "title": "Pre-clinical efficacy of PU-H71, a novel HSP90 inhibitor, alone and in combination with bortezomib in Ewing sarcoma",
+        "verbatim": "Exposure to PU-H71 resulted in depletion of critical proteins including AKT, pERK, RAF-1, c-MYC, c-KIT, IGF1R, hTERT and EWS-FLI1 in Ewing cell lines",
+        "why": "functional corroboration — inhibiting the chaperone DEPLETES the fusion protein"
+      }
+    ],
+    "⚠ what_it_does_not_transfer": "EWS::FLI1 shares this disease's 5′ partner gene and nothing else — a different 3′ partner, a different DNA-binding domain, a different target repertoire and a different disease. And the depletion list names seven other clients alongside the fusion, so the effect is NOT fusion-specific: an agent that depletes AKT, c-MYC and IGF1R as well is not acting on the chimera in isolation. This raises the route's prior; it does not make the chimera a client.",
+    "⛔ and_it_does_not_touch_the_window": "The sarcoma dependency panel still shows the HSP90 paralogues individually non-essential and the co-chaperone near-essential with no sarcoma selectivity. Clientship says the fusion could be reachable; it says nothing about whether the tumour needs the chaperone more than a normal cell does."
+  },
+  "⭐ finding_2_the_nearest_myxoid_histology_is_RADIOSENSITIVE_not_radioresistant": {
+    "answers": "MOD-RADIOSENSITIZER / MOD-PARTICLE-THERAPY / RT-RT-INTENSIFY, whose framing is a 'radioresistance reappraisal'.",
+    "verdict": "⛔ THE PREMISE MAY BE INVERTED, AND THAT IS THE FINDING.",
+    "citations": [
+      {
+        "pmid": "15380587",
+        "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/15380587/",
+        "title": "Radiation response: an additional unique signature of myxoid liposarcoma",
+        "verbatim": "Historically, myxoid liposarcoma (MLS) has been reported to show a marked clinical response to radiotherapy (RT), but objective data to support that contention have been lacking",
+        "why": "names the radiosensitivity claim for the nearest myxoid histology AND its evidence gap in the same sentence"
+      },
+      {
+        "pmid": "17892916",
+        "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/17892916/",
+        "title": "Excellent local control rates and distinctive patterns of failure in myxoid liposarcoma treated with conservation surgery and radiotherapy",
+        "verbatim": "To evaluate the local control rates and patterns of metastatic relapse in patients with localized myxoid liposarcoma treated with conservation surgery and radiotherapy (RT) ... Between 1960 and 2003, 127 patients with non-metastatic myxoid l",
+        "why": "the local-control series, n=127"
+      },
+      {
+        "pmid": "33180100",
+        "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33180100/",
+        "title": "Dose Reduction of Preoperative Radiotherapy in Myxoid Liposarcoma: A Nonrandomized Controlled Trial",
+        "why": "⭐ the field is REDUCING dose in this histology, which is the opposite direction from intensification"
+      }
+    ],
+    "⭐ why_this_matters_to_the_route": "RT-RT-INTENSIFY is built on reappraising radioRESISTANCE. The closest myxoid comparator has the opposite reputation, good enough that a trial tested LOWERING the preoperative dose. If that class prior transfers, the interesting question for this disease is de-escalation and its late-toxicity profile in a young, long-surviving population — not intensification.",
+    "⚠ and_the_transfer_is_not_established": "Myxoid liposarcoma is a different driver and a different disease that shares an adjective and a matrix appearance. The first citation says the objective data for its own radiosensitivity claim were historically lacking, so this is a prior about a neighbouring histology whose own evidence base is qualified — not a finding about this disease."
+  }
+}
