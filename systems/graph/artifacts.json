@@ -324,5 +324,25 @@
       "main"
     ],
     "note": "Eligibility denominators for the locoregional and radiation routes, pooled under POLICY-evidence §2 (crude denominator-weighted, Wilson 95%, non-overlapping only, and a cohort's inclusion criterion never counted as its outcome). ⭐ ITS MOST IMPORTANT OUTPUT IS A GAP: primary anatomical site, metastatic site and lesion burden are not curated fields on any cohort, so two of the three quantities the endpoint names cannot be extracted at all. ⚠ Crude during-follow-up proportions with censoring ignored — not survival estimates, not prognostic, and they understate lifetime rates in a disease whose metastases appear over years."
+  },
+  {
+    "id": "ART-SYSTEMIC-THERAPY-POOLING",
+    "path": "research/manuscripts/emc-systemic-therapy-pooling.json",
+    "produced_by": "research/manuscripts/emc_systemic_therapy_pooling.py",
+    "workflow": "none — it pools committed curated cohorts and runs anywhere",
+    "published_to": [
+      "main"
+    ],
+    "note": "The systemic-therapy evidence base pooled under POLICY-evidence §2. ⭐ Its most useful outputs are two REFUSALS and a correction list: it refuses a single all-regimen response figure and shows the arithmetic that refusal avoids, it refuses to merge time-anchored endpoints per §2.4, and it names four PFS figures that circulate as EMC medians and are not — one of them a median FOLLOW-UP. ⛔ No randomised evidence exists for any systemic therapy in this disease and nothing here supports a claim that any agent is better than another, or than none."
+  },
+  {
+    "id": "ART-FET-TRIAL-ELIGIBILITY",
+    "path": "research/literature/fet-fusion-trial-eligibility-2026-08-07.json",
+    "produced_by": "a ClinicalTrials.gov API v2 sweep read into JSON from the literature-cache corpus",
+    "workflow": "fetch-literature.yml — this sandbox's egress proxy 403s clinicaltrials.gov on CONNECT, so every registry read is routed through a runner",
+    "published_to": [
+      "main"
+    ],
+    "note": "Which registry trials have eligibility that is fusion- or molecularly-defined in a way that admits EMC while their listed conditions would never surface them to a histology search. ⛔ Its sharpest finding is an absence: a registry-wide term search for the driver gene returns five studies and not one is oncology. ⚠ It records a real transport defect in its own fetcher (HTML-stripping deletes escaped comparison operators from eligibility text) and detects both the loud and silent failure modes rather than assuming the payload survived. ⛔ Not medical advice; eligibility is each trial team's decision."
   }
 ]

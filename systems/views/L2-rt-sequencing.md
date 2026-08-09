@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-SEQUENCING — Treatment sequencing and line ordering
 
-**Family:** [ST-STRATEGY](L1-st-strategy.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-STRATEGY](L1-st-strategy.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#36--strategy-and-reachability)): ⭑ Registered 2026-08-09 from the modality census as a variable nobody here had treated as a question; its most likely honest output is that the published record cannot answer it.
+**Grade** (owned by [`research/manuscripts/emc-systemic-therapy-pooling.json`](../../research/manuscripts/emc-systemic-therapy-pooling.json)): ⛔ THE PUBLISHED RECORD CANNOT SUPPORT A SEQUENCING CLAIM, AND SAYING SO PRECISELY IS THE RESULT (2026-08-09). No randomised evidence exists for any systemic therapy in this disease: all prospective cohorts are single-arm or single-arm within a master protocol, and the one randomised dataset that touches the disease randomised translocation sarcomas as a class with no EMC patient in its control arm. Every pooled denominator is under sixty patients worldwide, ever, and two of the pools rest on single-digit EMC subsets whose intervals span almost the entire range. ⭐ The between-cohort response range runs from zero to a majority, which is why the artifact REFUSES the all-regimen pool rather than reporting it — and that refusal, not an ordering, is what this route can honestly contribute.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_SEQUENCING["○ RT-SEQUENCING"]:::fam
+  RT_SEQUENCING["✓ RT-SEQUENCING"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_SEQUENCING
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -45,10 +45,17 @@ flowchart LR
 
 The registry curates several agents with disease-specific activity and says nothing about the order to give them in. In a disease where decisions are years apart, ordering is one of the few variables a clinician actually controls, and no prior sweep treated it as a question at all.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-SYSTEMIC-THERAPY-POOLING` | no randomised evidence exists in this disease, every pooled denominator is under sixty patients worldwide, and the between-cohort response range is wide enough that the repository's own pooling refuses to produce a single all-regimen figure | `direct` |
+
 ## Remaining unknowns
 
-- Whether reported prior-therapy exposure is recorded consistently enough across the published cohorts to support any ordering inference.
-- Whether an observational ordering signal can be separated from the selection that produced it, which in a disease this rare it may not be.
+- Whether prior-therapy exposure is recorded against outcome in any curated cohort at a resolution that would permit any sequencing statement — it is not, at cohort level.
+- Whether individual-patient data behind these series would support one, which is not this programme's to obtain.
+- Whether the absence of a sequencing evidence base has itself been stated anywhere in the field's literature, which would determine whether this is a finding or a restatement.
 
 ## Required validation
 
@@ -65,34 +72,37 @@ The registry curates several agents with disease-specific activity and says noth
 
 ## Readiness — what this could become today
 
-**`preprint`**
+**`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+A route whose deliverable is a negative about evidence quality is complete when that negative is precise, and it now is.
 
 **Missing:**
-- the prior-therapy-versus-outcome tabulation across the curated cohorts
+- nothing at the analysis level — the question was asked and the record answered that it cannot support the claim
 
 ## Where this route ends — the paper
 
 **[PUB-STRATEGY-ARCH](L3-publications.md)** — *Scheduling, sequencing and reachability as treatment variables in an ultra-rare cancer* (unwritten)
 
-`contributing` · ○ `unwritten` · aimed at `preprint`
+`contributing` · ◔ `outlined` · aimed at `preprint`
 
 **This route contributes:** One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything.
 
 **The paper would claim:** For a cancer that will never have a randomised trial, the variables a clinician actually controls — when, in what order, and whether the patient can reach a trial at all — are treatable as research questions, and a portfolio whose every endpoint is a publication needs the step after publication registered as a route.
 
-**It is not written because:** Three of its four routes have not had their $0 analyses run, and the fourth is a registry sweep that has not been performed.
+**It is not written because:** ⚠ ITS BLOCKER IS RETIRED AND ONE OF ITS ROUTES IS NOW THE MOST ACTIONABLE THING IN THE PORTFOLIO. All four routes are graded as of 2026-08-09, and two of the three '$0 analyses not run' had in fact run on 2026-08-07 and been committed without any route reading them. ⭐ THE REACHABILITY ROUTE IS READY AND ITS FINDING IS PUBLISHABLE WITHOUT ANY NEW SCIENCE: one confirmed fusion-family-defined recruiting trial and nine molecularly-defined trials admit this disease while never listing it as a condition — so a patient searching their own diagnosis would find none of them — and a registry-wide search for the driver gene returns five studies of which not one is oncology. ⛔ The other three are negatives, and they are clean ones: the scheduling model's named input does not exist and may not be built, because the evidence contract refuses to merge time-anchored endpoints — what exists is four separate medians, one printed by its source with no interval, no range and no number at risk, plus four PFS figures that circulate attributed to agents that did not produce them, one of which is a median FOLLOW-UP. Sequencing has no evidence base at all: no randomised evidence for any systemic therapy, every pooled denominator under sixty patients worldwide ever. ⛔ Superseded, retained: "three of its four routes have not had their $0 analyses run, and the fourth is a registry sweep that has not been performed." The sweep was performed two days before that sentence was written.
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+Only individual-patient data could change this, and it is not obtainable here.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -105,7 +115,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Tabulate reported prior-therapy exposure against outcome across the curated cohorts and state what the published record can and cannot support.
+Report the negative in the strategy paper: the sequencing question in this disease has no evidence base, stated with the denominators that make it so.
 
 *Cost:* $0
 

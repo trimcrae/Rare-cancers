@@ -39,10 +39,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | ST-DEPENDENCY | `preprint` | nothing for the preprint — it is written and every figure resolves to a committed artifact |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | ST-IMMUNO | `preprint` | a cellular persistence readout |
 | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | ST-REPURPOSING | `preprint` | a non-zero TAF15 event count on the RESPONSE endpoint - the entire published TAF15::NR4A3 antiangiogenic-TKI experience is 3-5 patients with ZERO responses, and a zero-event arm yi |
-| [RT-SCHEDULING](L2-rt-scheduling.md) | ST-STRATEGY | `preprint` | the scheduling model on the pooled progression-free-survival data already curated here |
-| [RT-SEQUENCING](L2-rt-sequencing.md) | ST-STRATEGY | `preprint` | the prior-therapy-versus-outcome tabulation across the curated cohorts |
 | [RT-TCIP](L2-rt-tcip.md) | ST-PROXIMITY | `preprint` | a staged transcriptional-effector body, so the result can name an effector rather than a size class |
-| [RT-TRIAL-REACH](L2-rt-trial-reach.md) | ST-STRATEGY | `preprint` | the registry sweep for molecularly-defined eligibility, which is a free CI job |
 | [RT-ASYMMETRIC](L2-rt-asymmetric.md) | ST-OCCUPANCY | `reproducible_workflow` | — |
 | [RT-6MP](L2-rt-6mp.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-AF3-INTERFACE](L2-rt-af3-interface.md) | ST-PROXIMITY | `internal_note` | a co-folder validated on assembly |
@@ -83,12 +80,15 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-RIPTAC](L2-rt-riptac.md) | ST-PROXIMITY | `internal_note` | paralogue selectivity; a chemistry programme |
 | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | ST-LOCOREGIONAL | `internal_note` | per-patient dose and modality data, which none of the curated series publishes; a particle-registry search by histology |
 | [RT-RXR](L2-rt-rxr.md) | ST-REPURPOSING | `internal_note` | — |
+| [RT-SCHEDULING](L2-rt-scheduling.md) | ST-STRATEGY | `internal_note` | nothing to start — the inputs are committed, and their shape is now known to be four separate medians rather than one pooled value |
+| [RT-SEQUENCING](L2-rt-sequencing.md) | ST-STRATEGY | `internal_note` | nothing at the analysis level — the question was asked and the record answered that it cannot support the claim |
 | [RT-SGK1](L2-rt-sgk1.md) | ST-DEPENDENCY | `internal_note` | a phospho-substrate or activity readout, which is what the substrate signal hints at and abundance cannot deliver |
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | ST-DEPENDENCY | `internal_note` | EMC-specific functional-genomics data |
 | [RT-SYNPROMOTER](L2-rt-synpromoter.md) | ST-NUCLEIC-ACID | `internal_note` | a direct binding-specificity read in EMC |
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | ST-IMMUNO | `internal_note` | a stronger presented epitope, and one not confined to a single allele — both corrected e7::e3 strong binders are HLA-B*15:01 |
 | [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | ST-IMMUNO | `internal_note` | a real EMC expression series |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | ST-REPURPOSING | `internal_note` | a larger clinical series |
+| [RT-TRIAL-REACH](L2-rt-trial-reach.md) | ST-STRATEGY | `internal_note` | confirmation of four candidates, dispatched and $0; non-US registry coverage, which needs an authenticated endpoint this programme does not have |
 | [RT-TXN-CDK](L2-rt-txn-cdk.md) | ST-DEPENDENCY | `internal_note` | nothing — the question was asked and answered |
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) | ST-PROXIMITY | `internal_note` | an observed transfer geometry |
 | [RT-VACCINE](L2-rt-vaccine.md) | ST-IMMUNO | `internal_note` | an immunogenicity argument |

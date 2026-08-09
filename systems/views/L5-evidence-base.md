@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 15 evidence items · 32 artifacts · 14 pinned claims.**
+**19 objects · 15 evidence items · 34 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -90,6 +90,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-EMC-CLINICAL-REGISTRY** | `research/data/emc-clinical-registry.json` | `hand-curated from published literature; ingestion via scripts/fetch-paper.mjs + scripts/triage-literature.mjs` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md), [RT-ICI-TKI](L2-rt-ici-tki.md), [RT-PARTNER-STRAT](L2-rt-partner-strat.md), [RT-TRABECTEDIN](L2-rt-trabectedin.md) |
 | **ART-EMC-ENDPOINT-DISCORDANCE** | `research/manuscripts/emc-endpoint-discordance.json` | `research/manuscripts/emc_endpoint_discordance.py (stdlib only, CPU, $0; --check re-derives and refuses to write on any drift)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
 | **ART-EMC-EXPRESSION-PANELS** | `research/modalities/emc-expression-panels.json` | `research/modalities/emc_expression_panels.py` | ⚠ **nothing** |
+| **ART-FET-TRIAL-ELIGIBILITY** | `research/literature/fet-fusion-trial-eligibility-2026-08-07.json` | `a ClinicalTrials.gov API v2 sweep read into JSON from the literature-cache corpus` | [RT-TRIAL-REACH](L2-rt-trial-reach.md) |
 | **ART-FUSION-OBJECT-INVENTORY** | `research/modalities/fusion-object-inventory.json` | `research/modalities/fusion_object_inventory.py` | `CLM-BREAKPOINT-FILTER`, `OBJ-EWSR1-WT`, `OBJ-NR4A3-WT`, [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md), [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) |
 | **ART-FUSION-PARTNER-POOLING** | `research/manuscripts/emc-fusion-partner-pooling.json` | `research/manuscripts/emc_fusion_partner_pooling.py` | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) |
 | **ART-GSE28866-TUMOUR-VS-NORMAL** | `research/modalities/gse28866-tumour-vs-normal.json` | `the GSE28866 supplementary peak-table read (emc-expression-datasets.yml)` | ⚠ **nothing** |
@@ -106,6 +107,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-RET-ACTIVATION-BAR** | `research/modalities/emc-ret-activation-bar.json` | `a Europe PMC retrieval read into JSON by hand from the literature-cache corpus` | [RT-RET](L2-rt-ret.md) |
 | **ART-SELCAL-VERDICT** | `research/modalities/selcal-verdict.json` | `research/modalities/selcal_cofold_validate.py` | [LANE-22](registers/lanes.md) |
 | **ART-SURFACE-EXPRESSION** | `research/modalities/emc-surfaceome-scan.json` | `research/modalities/emc_surfaceome_scan.py` | [RT-B7H3](L2-rt-b7h3.md) |
+| **ART-SYSTEMIC-THERAPY-POOLING** | `research/manuscripts/emc-systemic-therapy-pooling.json` | `research/manuscripts/emc_systemic_therapy_pooling.py` | [RT-SCHEDULING](L2-rt-scheduling.md), [RT-SEQUENCING](L2-rt-sequencing.md) |
 | **ART-TARGET-ROUTE-CENSUS** | `research/modalities/target-route-census.json` | `research/modalities/target_route_census.py` | `CLM-AF1-LC-SWAP`, `CLM-FUSION-MODEL-DISAGREEMENT`, `OBJ-NR4A3-AF1`, `OBJ-NR4A3-DBD`, [RT-6MP](L2-rt-6mp.md), [RT-ASYMMETRIC](L2-rt-asymmetric.md), [RT-DBD](L2-rt-dbd.md), [RT-RXR](L2-rt-rxr.md) |
 | **ART-TCIP-REACH** | `research/modalities/nr4a3-tcip-reach.json` | `research/modalities/nr4a3_tcip_reach.py` | [RT-TCIP](L2-rt-tcip.md) |
 | **ART-VALB-PSERIES-CHEM** | `research/modalities/valb-pseries-chem.json` | `research/modalities/valb_pseries_chem.py` | [LANE-5](registers/lanes.md) |

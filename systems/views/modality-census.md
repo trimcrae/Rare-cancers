@@ -37,12 +37,12 @@ are live** (`candidate` or `parked_capability`).
 
 | verdict | classes | of which never searched |
 |---|---:|---:|
-| ⭑ `candidate` | 21 | 6 |
+| ⭑ `candidate` | 20 | 6 |
 | ⏸ `parked_capability` | 9 | 9 |
 | ✓ `on_board` | 41 | 0 |
 | ● `in_clinical_use` | 8 | 0 |
 | ✕ `already_rejected` | 33 | 0 |
-| ✕ `excluded` | 94 | 86 |
+| ✕ `excluded` | 95 | 86 |
 | — `not_applicable` | 11 | 11 |
 
 ### By band
@@ -392,7 +392,7 @@ carries the cheapest observation that would move it.
 | **MOD-EXPANDED-ACCESS**<br/>Expanded access, compassionate use and off-label registries | single-patient expanded access | ⭑ `candidate` | ⭑ **new** | [RT-TRIAL-REACH](L2-rt-trial-reach.md) — Trial reachability and access pathways |
 | **MOD-METRONOMIC**<br/>Metronomic dosing | metronomic chemotherapy | ⭑ `candidate` | · | [RT-SCHEDULING](L2-rt-scheduling.md) — Adaptive and metronomic scheduling of existing agents |
 | **MOD-N-OF-1**<br/>N-of-1 and single-patient trial design | n-of-1 designs | ✕ `excluded` | · | Probed by the 2026-08-07 sweep's ultra-rare trial-design query. That the census then excluded it on shared-driver grounds stands; … |
-| **MOD-SEQUENCING**<br/>Treatment sequencing and line ordering | line-of-therapy ordering | ⭑ `candidate` | · | [RT-SEQUENCING](L2-rt-sequencing.md) — Treatment sequencing and line ordering |
+| **MOD-SEQUENCING**<br/>Treatment sequencing and line ordering | line-of-therapy ordering | ✕ `excluded` | · | [RT-SEQUENCING](L2-rt-sequencing.md) — Treatment sequencing and line ordering |
 
 ---
 

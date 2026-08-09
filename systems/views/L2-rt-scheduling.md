@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-SCHEDULING — Adaptive and metronomic scheduling of existing agents
 
-**Family:** [ST-STRATEGY](L1-st-strategy.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-STRATEGY](L1-st-strategy.md) · **state:** ✓ blocked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#36--strategy-and-reachability)): ⭑ Registered 2026-08-09 from the modality census, porting a 2026-08-07 lane and adding the comparator arm it lacked.
+**Grade** (owned by [`research/manuscripts/emc-systemic-therapy-pooling.json`](../../research/manuscripts/emc-systemic-therapy-pooling.json)): ⚠ THE INPUT THE ROUTE NAMED DOES NOT EXIST AND MUST NOT BE BUILT (2026-08-09). The route's next step was 'build the scheduling model on the pooled progression-free-survival data already curated here'. ⛔ There is no pooled PFS and there cannot be one: the repository's evidence contract refuses to merge time-anchored endpoints, and the systemic pooling artifact refuses that pool explicitly rather than by omission. ⭐ What DOES exist is four EMC-specific medians that must be carried separately — two with confidence intervals, one with an observed range only, and one printed by its source with NO interval, NO range and NO number at risk. That is exactly a parameters-as-intervals model with one parameter that has no interval at all, which is a stronger specification than the pooled figure would have been. ⭐⭐ AND THE ROUTE ACQUIRES A SECOND, SHARPER CLAIM: four PFS figures circulate in this disease's literature attributed to agents that did not produce them — including one that is a median FOLLOW-UP quoted as a median PFS, from a paper whose own text says PFS was not reached.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_SCHEDULING["○ RT-SCHEDULING"]:::fam
+  RT_SCHEDULING["✓ RT-SCHEDULING"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_SCHEDULING
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -45,10 +45,17 @@ flowchart LR
 
 A registered lane with no route, plus the comparator it never had. Adaptive scheduling asks nothing new of chemistry and everything of timing, it costs nothing to model, and the 2026-08-07 sweep found this disease close to an ideal indication on several independent grounds. Metronomic dosing is the obvious alternative hypothesis and had never been named here at all, so the two are registered together and evaluated against each other.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-SYSTEMIC-THERAPY-POOLING` | no pooled PFS exists or may be constructed under the evidence contract; four EMC-specific medians exist with heterogeneous dispersion reporting, one with none at all, and four widely-circulated EMC PFS figures are misattributions | `direct` |
+
 ## Remaining unknowns
 
-- Whether a marker exists to adapt on, in a disease whose response endpoint is itself contested here.
-- Whether the modelled advantage survives the small, heterogeneous and mostly retrospective data the model would be fitted to.
+- Whether a scheduling model is identifiable at all from four medians with mismatched dispersion, which is the sensitivity analysis the model exists to perform rather than a question to answer before it.
+- What the growth and resistance parameters are, which no published EMC series reports and which the model must therefore carry as intervals rather than estimate.
+- Whether the misattributed figures have propagated into any treatment guidance, which has not been checked and would raise the finding's weight considerably.
 
 ## Required validation
 
@@ -65,34 +72,37 @@ A registered lane with no route, plus the comparator it never had. Adaptive sche
 
 ## Readiness — what this could become today
 
-**`preprint`**
+**`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+The model has not been built. What changed is that its specification is now correct, where before it named an input the contract forbids.
 
 **Missing:**
-- the scheduling model on the pooled progression-free-survival data already curated here
+- nothing to start — the inputs are committed, and their shape is now known to be four separate medians rather than one pooled value
 
 ## Where this route ends — the paper
 
 **[PUB-STRATEGY-ARCH](L3-publications.md)** — *Scheduling, sequencing and reachability as treatment variables in an ultra-rare cancer* (unwritten)
 
-`contributing` · ○ `unwritten` · aimed at `preprint`
+`contributing` · ◔ `outlined` · aimed at `preprint`
 
 **This route contributes:** One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything.
 
 **The paper would claim:** For a cancer that will never have a randomised trial, the variables a clinician actually controls — when, in what order, and whether the patient can reach a trial at all — are treatable as research questions, and a portfolio whose every endpoint is a publication needs the step after publication registered as a route.
 
-**It is not written because:** Three of its four routes have not had their $0 analyses run, and the fourth is a registry sweep that has not been performed.
+**It is not written because:** ⚠ ITS BLOCKER IS RETIRED AND ONE OF ITS ROUTES IS NOW THE MOST ACTIONABLE THING IN THE PORTFOLIO. All four routes are graded as of 2026-08-09, and two of the three '$0 analyses not run' had in fact run on 2026-08-07 and been committed without any route reading them. ⭐ THE REACHABILITY ROUTE IS READY AND ITS FINDING IS PUBLISHABLE WITHOUT ANY NEW SCIENCE: one confirmed fusion-family-defined recruiting trial and nine molecularly-defined trials admit this disease while never listing it as a condition — so a patient searching their own diagnosis would find none of them — and a registry-wide search for the driver gene returns five studies of which not one is oncology. ⛔ The other three are negatives, and they are clean ones: the scheduling model's named input does not exist and may not be built, because the evidence contract refuses to merge time-anchored endpoints — what exists is four separate medians, one printed by its source with no interval, no range and no number at risk, plus four PFS figures that circulate attributed to agents that did not produce them, one of which is a median FOLLOW-UP. Sequencing has no evidence base at all: no randomised evidence for any systemic therapy, every pooled denominator under sixty patients worldwide ever. ⛔ Superseded, retained: "three of its four routes have not had their $0 analyses run, and the fourth is a registry sweep that has not been performed." The sweep was performed two days before that sentence was written.
 
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+Every input is committed and the work is $0 model-building.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -105,7 +115,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Build the scheduling model on the pooled progression-free-survival data already curated here, with metronomic dosing as the comparator arm, and state the conditions under which each wins.
+Build the two-population model with each median carried separately as its own parameter interval, and the one median that has no dispersion carried as a point with that stated — then report the four misattributed figures, which stand on their own.
 
 *Cost:* $0
 

@@ -36,11 +36,11 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   ST_STRATEGY["ST-STRATEGY"]:::fam
-  RT_SCHEDULING["○ RT-SCHEDULING"]:::fam
+  RT_SCHEDULING["✓ RT-SCHEDULING"]:::fam
   ST_STRATEGY --> RT_SCHEDULING
-  RT_SEQUENCING["○ RT-SEQUENCING"]:::fam
+  RT_SEQUENCING["✓ RT-SEQUENCING"]:::fam
   ST_STRATEGY --> RT_SEQUENCING
-  RT_TRIAL_REACH["○ RT-TRIAL-REACH"]:::fam
+  RT_TRIAL_REACH["✓ RT-TRIAL-REACH"]:::fam
   ST_STRATEGY --> RT_TRIAL_REACH
 
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
@@ -59,9 +59,9 @@ flowchart LR
 
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
-| **[RT-SCHEDULING](L2-rt-scheduling.md)**<br/>Adaptive and metronomic scheduling of existing agents | ○ blocked | concept | `preprint` | [PUB-STRATEGY-ARCH](L3-publications.md) ○ *contributing* | Build the scheduling model on the pooled progression-free-survival data already curated here, with metronomic  |
-| **[RT-SEQUENCING](L2-rt-sequencing.md)**<br/>Treatment sequencing and line ordering | ○ blocked | concept | `preprint` | [PUB-STRATEGY-ARCH](L3-publications.md) ○ *contributing* | Tabulate reported prior-therapy exposure against outcome across the curated cohorts and state what the publish |
-| **[RT-TRIAL-REACH](L2-rt-trial-reach.md)**<br/>Trial reachability and access pathways | ○ blocked | concept | `preprint` | [PUB-STRATEGY-ARCH](L3-publications.md) ○ *contributing* | Sweep the trial registries for eligibility criteria naming fusion families rather than histologies, and map th |
+| **[RT-SCHEDULING](L2-rt-scheduling.md)**<br/>Adaptive and metronomic scheduling of existing agents | ✓ blocked | computed | `internal_note` | [PUB-STRATEGY-ARCH](L3-publications.md) ◔ *contributing* | Build the two-population model with each median carried separately as its own parameter interval, and the one  |
+| **[RT-SEQUENCING](L2-rt-sequencing.md)**<br/>Treatment sequencing and line ordering | ✓ parked | computed | `internal_note` | [PUB-STRATEGY-ARCH](L3-publications.md) ◔ *contributing* | Report the negative in the strategy paper: the sequencing question in this disease has no evidence base, state |
+| **[RT-TRIAL-REACH](L2-rt-trial-reach.md)**<br/>Trial reachability and access pathways | ✓ ready | computed | `internal_note` | [PUB-STRATEGY-ARCH](L3-publications.md) ◔ *contributing* | Publish the eligibility map — this is the one route in the portfolio whose output could reach a patient withou |
 
 ## Family-level bets — blockers EVERY route here inherits
 
