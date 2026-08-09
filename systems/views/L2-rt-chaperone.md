@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ PARTLY SUPPORTED (2026-08-09). The HSP90 machine and its co-chaperones read HIGHER in EMC on BOTH platforms. ⛔ But the HSP70 arm and the heat-shock response go the OTHER way on both — which is the reading that matters, because a standing proteostatic load should raise the stress response too, and it does not.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ PARTLY SUPPORTED (2026-08-09). The HSP90 machine and its co-chaperones read HIGHER in EMC on BOTH platforms. ⛔ But the HSP70 arm and the heat-shock response go the OTHER way on both — which is the reading that matters, because a standing proteostatic load should raise the stress response too, and it does not. ⭐ AND THE DEPENDENCY AXIS ADDS AN ASYMMETRY THE ABUNDANCE READING DOES NOT SHOW. Across 176 sarcoma lines the two HSP90 paralogues are dependencies in only 5.5% and 18.7% of lines, while the kinase-specific co-chaperone CDC37 is a dependency in 97.8% — and none of the three shows any sarcoma selectivity. ⚠ THE PARALOGUE RESULT MUST NOT BE READ AS 'HSP90 IS DISPENSABLE': two paralogues that back each other up will each score as non-essential in a single-gene knockout screen, which is a limitation of the instrument and not a property of the chaperone. What the near-essential co-chaperone does say is that the machine as a whole is load-bearing in this tissue class, and that a route hoping to exploit it needs an argument for why the tumour needs it MORE than the normal cell — which nothing here supplies.
 
 ## What has to land for this route to move
 
@@ -56,12 +56,14 @@ A structural argument nobody here had made. Chimeric proteins are disproportiona
 | ref | supports | strength |
 |---|---|---|
 | `ART-CENSUS-ROUTE-GRADING` | the HSP90 machine and co-chaperones read higher in EMC on both platforms while the HSP70 arm and heat-shock response read lower — a split the general-stress reading does not predict | `direct` |
+| `ART-DEPMAP-SARCOMA-DEP` | the HSP90 paralogues are individually non-essential across sarcoma lines while the kinase-specific co-chaperone is near-essential, with no sarcoma selectivity for any of the three | `class_inherited` |
 
 ## Remaining unknowns
 
 - Whether the chimera is a chaperone CLIENT, which is the route's actual premise and a co-immunoprecipitation question that no expression read can reach.
 - Why the HSP90 and HSP70 arms move in opposite directions here, which is unexplained and is the reason this is not graded as support.
 - Whether any therapeutic index exists for this class — its clinical record is dominated by toxicity, and nothing here assumes otherwise.
+- Whether the two HSP90 paralogues are mutually redundant, which would make their individually low dependency scores an artefact of single-gene knockout rather than a statement about the chaperone — a dual-knockout question no public panel answers.
 
 ## Required validation
 
