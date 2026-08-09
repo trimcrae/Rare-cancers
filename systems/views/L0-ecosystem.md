@@ -135,8 +135,8 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 |---|---|---:|---:|---|
 | **BLK-NO-EMC-DATA** | `insufficient_data` | 43 | 9 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 14 | 6 | *permanent — nothing* |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | 12 | 6 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 9 | 3 | `TECH-FE-CRYPTIC-POCKET` |
-| **BLK-NO-WET-LAB** | `requires_external_collaboration` | 9 | 6 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 9 | 2 | *permanent — nothing* |
 | **BLK-R4-BINDS** | `requires_wet_lab` | 8 | 2 | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | 5 | 1 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |

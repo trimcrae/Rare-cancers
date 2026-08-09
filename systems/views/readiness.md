@@ -53,13 +53,13 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-B7H3](L2-rt-b7h3.md) | ST-IMMUNO | `internal_note` | a tissue-level measurement |
 | [RT-CARFILZOMIB](L2-rt-carfilzomib.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-CART-SURFACE](L2-rt-cart-surface.md) | ST-IMMUNO | `internal_note` | a selective surface antigen |
-| [RT-CHAPERONE](L2-rt-chaperone.md) | ST-DEPENDENCY | `internal_note` | the chaperone-clientship literature assessment, which is $0 |
+| [RT-CHAPERONE](L2-rt-chaperone.md) | ST-DEPENDENCY | `internal_note` | a client-binding measurement, which is not an expression question |
 | [RT-COVALENT-PROBE](L2-rt-covalent-probe.md) | ST-OCCUPANCY | `internal_note` | a criterion that passes its positive control |
 | [RT-CRISPR-CAS13](L2-rt-crispr-cas13.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector |
 | [RT-DBD](L2-rt-dbd.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-DNAPK](L2-rt-dnapk.md) | ST-DEPENDENCY | `internal_note` | a full read of the curated interaction records and their primary sources |
 | [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | ST-FUSION-DIRECT | `internal_note` | — |
-| [RT-EZH2](L2-rt-ezh2.md) | ST-DEPENDENCY | `internal_note` | a read of the PRC2 and BAF subunit sets in the expression data and the committed dependency artifact |
+| [RT-EZH2](L2-rt-ezh2.md) | ST-DEPENDENCY | `internal_note` | nothing — the selection question was asked and answered negatively |
 | [RT-FAP-RLT](L2-rt-fap-rlt.md) | ST-RADIOLIGAND | `internal_note` | any measurement in EMC |
 | [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-GLUE](L2-rt-glue.md) | ST-PROXIMITY | `internal_note` | a prospective glue design method |
@@ -73,17 +73,17 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) | ST-LOCOREGIONAL | `internal_note` | the metastatic-site and burden arithmetic from the cohorts already curated here |
 | [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md) | ST-MICROENV | `internal_note` | a read of the sulfotransferase and chondroitin-sulfate biosynthesis gene set already committed here |
 | [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) | ST-MICROENV | `internal_note` | a restatement of the premise in a form this reading does not already contradict |
-| [RT-MDM2](L2-rt-mdm2.md) | ST-DEPENDENCY | `internal_note` | a direct read of TP53 status from the whole-genome analysis already committed here |
+| [RT-MDM2](L2-rt-mdm2.md) | ST-DEPENDENCY | `internal_note` | a direct TP53 sequence call, which no available EMC dataset supplies |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | ST-OCCUPANCY | `internal_note` | a functional readout; the occupancy-to-output transfer functions that would turn the stated requirement into a number (MISSING-1, MISSING-2) |
 | [RT-NR2F1](L2-rt-nr2f1.md) | ST-OCCUPANCY | `internal_note` | a platform that carries a probe for the receptor — the two readable array series do not |
-| [RT-POLQ](L2-rt-polq.md) | ST-DEPENDENCY | `internal_note` | an extension of the committed dependency-prior analysis to the end-joining genes |
+| [RT-POLQ](L2-rt-polq.md) | ST-DEPENDENCY | `internal_note` | nothing at the expression level — the class selects on a lesion this data cannot see, and on what it CAN see the answer is negative |
 | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | ST-REPURPOSING | `internal_note` | a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md |
 | [RT-RET](L2-rt-ret.md) | ST-REPURPOSING | `internal_note` | a full read of the original activation report, to establish what was measured and in how many tumours |
 | [RT-RIBOZYME](L2-rt-ribozyme.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector; a modern demonstration of trans-splicing ribozymes |
 | [RT-RIPTAC](L2-rt-riptac.md) | ST-PROXIMITY | `internal_note` | paralogue selectivity; a chemistry programme |
 | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | ST-LOCOREGIONAL | `internal_note` | the radioresistance reappraisal's dose-response regression, extended beyond external-beam series |
 | [RT-RXR](L2-rt-rxr.md) | ST-REPURPOSING | `internal_note` | — |
-| [RT-SGK1](L2-rt-sgk1.md) | ST-DEPENDENCY | `internal_note` | a read of SGK1 in the expression data already on disk |
+| [RT-SGK1](L2-rt-sgk1.md) | ST-DEPENDENCY | `internal_note` | a phospho-substrate or activity readout, which is what the substrate signal hints at and abundance cannot deliver |
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | ST-DEPENDENCY | `internal_note` | EMC-specific functional-genomics data |
 | [RT-SYNPROMOTER](L2-rt-synpromoter.md) | ST-NUCLEIC-ACID | `internal_note` | a direct binding-specificity read in EMC |
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | ST-IMMUNO | `internal_note` | a stronger presented epitope, and one not confined to a single allele — both corrected e7::e3 strong binders are HLA-B*15:01 |

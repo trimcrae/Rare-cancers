@@ -5572,15 +5572,15 @@
     "kind": "route",
     "title": "Chaperone dependency of the chimera (HSP90 and co-chaperones)",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; concept maturity, nothing run. The class's toxicity record is a stated liability rather than a footnote.",
+      "value": "◐ PARTLY SUPPORTED (2026-08-09). The HSP90 machine and its co-chaperones read HIGHER in EMC on BOTH platforms. ⛔ But the HSP70 arm and the heat-shock response go the OTHER way on both — which is the reading that matters, because a standing proteostatic load should raise the stress response too, and it does not.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "31--transcriptional-and-proteostatic-dependency"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
     "blockers_inherited": [
-      "BLK-NO-EMC-DATA"
+      "BLK-NO-EMC-DATA",
+      "BLK-NO-WET-LAB"
     ],
     "blockers_retired": [],
     "instruments": {
@@ -5604,18 +5604,25 @@
     },
     "purpose": "Is the chimeric protein more dependent on the chaperone system than the wild-type proteins it is assembled from?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
       "status": "blocked",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "A structural argument nobody here had made. Chimeric proteins are disproportionately chaperone-dependent for folding and stability, which offers a way to lower fusion protein levels that needs no pocket ligand, no assembled ternary complex and no paralogue discrimination — the three blockers holding this portfolio's largest family down.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the HSP90 machine and co-chaperones read higher in EMC on both platforms while the HSP70 arm and heat-shock response read lower — a split the general-stress reading does not predict",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether the chimera is in fact more chaperone-dependent than wild-type NR4A3 and wild-type EWSR1, which is the premise and has never been tested for this fusion.",
-      "Nothing here assumes a therapeutic window exists for a class whose clinical record is dominated by toxicity; whether one could is a question about the class rather than about this disease, and it is not settled anywhere."
+      "Whether the chimera is a chaperone CLIENT, which is the route's actual premise and a co-immunoprecipitation question that no expression read can reach.",
+      "Why the HSP90 and HSP70 arms move in opposite directions here, which is unexplained and is the reason this is not graded as support.",
+      "Whether any therapeutic index exists for this class — its clinical record is dominated by toxicity, and nothing here assumes otherwise."
     ],
     "required_validation": [
       {
@@ -5627,22 +5634,32 @@
         "what": "A structural assessment of whether the junction region is predicted to be unstable or disordered, using the structural work already committed here",
         "feasible_today": true,
         "blocked_by": []
+      },
+      {
+        "what": "Whether the chimera is an HSP90 CLIENT — a co-immunoprecipitation or degradation-on-inhibition readout in an EMC model, which is the route's premise and which no expression read can reach",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
       }
     ],
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "the chaperone-clientship literature assessment, which is $0"
+        "a client-binding measurement, which is not an expression question"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "An arm-split reading is a reason to ask the client question, not an answer to it."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "The decisive observation is whether the fusion is an HSP90 client, and that needs a model this programme cannot reach. The expression read has given what it can.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-MODEL-ACCESS"
+      ]
     },
     "next": {
-      "best_next_action": "Assess chaperone clientship for FET-family fusion proteins in the literature, and check whether this repository's own structural work predicts an unstable junction interface.",
+      "best_next_action": "Establish whether any FET-family fusion protein is a documented chaperone client.",
       "cost": "$0"
     }
   },
@@ -5844,10 +5861,9 @@
     "kind": "route",
     "title": "MDM2 antagonism (p53 reactivation in a quiet genome)",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; the selection question is answerable from data already on disk.",
+      "value": "⛔ NOT SUPPORTED (2026-08-09). The class needs a p53 axis that is intact AND LIVE. The p53 transcriptional output group reads LOWER in EMC on BOTH platforms and the axis genes themselves are flat — quiet rather than live. ⚠ The quiet-genome argument that raised this route predicted the opposite.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "32--biomarker-selected-classes-readable-from-data-already-on-disk"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
@@ -5876,18 +5892,24 @@
     },
     "purpose": "Does this tumour's quiet, clonal, p53-intact genome make it the profile MDM2 antagonism was built for and rarely finds?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
-      "status": "blocked",
-      "maturity": "concept",
-      "confidence": "low",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
       "last_verified": "2026-08-09"
     },
     "rationale": "The class needs wild-type p53 and performs worst where the genome is chaotic. This disease's genome is quiet and clonal with a single founding translocation, which is an unusually good match and one that no prior sweep here named. The class's own history of dose-limiting haematological toxicity is a stated liability.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the p53 transcriptional output group reads lower in EMC than in comparator sarcomas on both platforms, against the direction the class requires",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether TP53 is wild-type in this disease, which the sequencing implies but which has not been read out directly here.",
-      "Whether p53 pathway integrity — not merely the absence of a mutation — holds in a tumour driven by a strong transcriptional oncoprotein."
+      "Whether TP53 is wild-type, which this reading does not establish either way — most inactivating lesions are missense and leave transcript intact.",
+      "Whether low p53 output reflects a suppressed axis or simply an unstressed one, which archival tissue cannot distinguish."
     ],
     "required_validation": [
       {
@@ -5906,17 +5928,20 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a direct read of TP53 status from the whole-genome analysis already committed here"
+        "a direct TP53 sequence call, which no available EMC dataset supplies"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "A selection question answered against the class is a negative worth one paragraph."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "Only a sequence-level TP53 call would reopen it, and none is available.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
     },
     "next": {
-      "best_next_action": "Read TP53 status from the committed whole-genome trio analysis and the MDM2 locus from the expression cohorts.",
+      "best_next_action": "Report the negative; the quiet-genome inference did not survive its own test.",
       "cost": "$0"
     }
   },
@@ -6011,15 +6036,15 @@
     "kind": "route",
     "title": "EZH2 / PRC2 inhibition",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; it must be read beside the neighbouring route's existing negative rather than apart from it.",
+      "value": "⛔ NOT SUPPORTED (2026-08-09). Neither shape that selects this class is present: EZH2 is only mildly higher, the rest of PRC2 is flat, and no SWI/SNF tumour-suppressor subunit reads anywhere near a floor. The approved agent's indication is selected by subunit LOSS, and there is none to see.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "32--biomarker-selected-classes-readable-from-data-already-on-disk"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
     "blockers_inherited": [
-      "BLK-NO-EMC-DATA"
+      "BLK-NO-EMC-DATA",
+      "BLK-NO-WET-LAB"
     ],
     "blockers_retired": [],
     "instruments": {
@@ -6043,18 +6068,24 @@
     },
     "purpose": "Does this disease carry a PRC2 dependency of the kind that selects an approved agent in a neighbouring sarcoma?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
-      "status": "blocked",
-      "maturity": "concept",
-      "confidence": "low",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
       "last_verified": "2026-08-09"
     },
     "rationale": "An agent is approved in a sarcoma selected by a chromatin-remodeller defect, and this portfolio already contains a chromatin-remodelling hypothesis through a non-canonical BAF subunit — but the two had never been connected and no prior sweep named this class. The existing BAF route's own dependency prior came back negative, which any assessment has to lead with.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "neither PRC2 elevation nor SWI/SNF subunit loss is present in EMC on either platform",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether any PRC2 or chromatin-remodeller dependency exists in this disease, which is unreported.",
-      "Whether the neighbouring route's negative dependency prior also covers this axis, or is specific to the subunit it was computed on."
+      "Whether subunit loss is present at the PROTEIN level, which is frequently post-transcriptional and which a transcript read cannot exclude.",
+      "Whether the neighbouring ncBAF hypothesis, whose own dependency prior was negative, shares this closure or fails separately."
     ],
     "required_validation": [
       {
@@ -6068,22 +6099,32 @@
         "blocked_by": [
           "BLK-NO-WET-LAB"
         ]
+      },
+      {
+        "what": "A PROTEIN-level read of the SWI/SNF subunits in EMC tissue — the only observation that could overturn the negative transcript reading, since subunit loss is frequently post-transcriptional",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
       }
     ],
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a read of the PRC2 and BAF subunit sets in the expression data and the committed dependency artifact"
+        "nothing — the selection question was asked and answered negatively"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "A class whose two selecting shapes are both absent is a paragraph in the negative half of the census paper."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "Only a protein-level subunit read could overturn this, and it needs tissue this programme cannot obtain.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-MODEL-ACCESS"
+      ]
     },
     "next": {
-      "best_next_action": "Read the PRC2 and BAF subunit sets across the expression cohorts and check the committed sarcoma dependency artifact for the same genes.",
+      "best_next_action": "Report it as a closed line alongside the other biomarker-selected exclusions.",
       "cost": "$0"
     }
   },
@@ -6094,10 +6135,9 @@
     "kind": "route",
     "title": "POLθ inhibition (microhomology-mediated end joining)",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; it inherits the neighbouring route's weak grade and must be reported beside it.",
+      "value": "⛔ NOT SUPPORTED (2026-08-09). The class needs a COMBINATION — alt-EJ up with homologous recombination down — and neither half is present: POLQ is flat and low on its array, and the HR genes are flat to mildly higher rather than down.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "32--biomarker-selected-classes-readable-from-data-already-on-disk"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
@@ -6126,18 +6166,24 @@
     },
     "purpose": "Does the replication-stress premise the DNA-damage-response lane rests on extend to the microhomology-mediated repair arm?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
-      "status": "blocked",
-      "maturity": "concept",
-      "confidence": "low",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
       "last_verified": "2026-08-09"
     },
     "rationale": "The newest DNA-damage-response class and the one the existing class-inheritance argument was never extended to. If the FET-rearrangement replication-stress premise holds at all it is a premise about a repair state, and this class exploits a different arm of the same state — so it is testable with the instrument already built rather than with a new one.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "neither half of the alt-EJ-up / HR-down combination this class requires is present in EMC",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether the replication-stress premise survives its own weak grade on the neighbouring route.",
-      "Whether the repair-arm dependency is separable from the one already assessed, or is the same claim in different words."
+      "Whether the replication-stress premise the neighbouring DDR route rests on survives its own WEAK grade — this route inherits that uncertainty and does not resolve it.",
+      "Whether a repair DEFECT, which is usually a mutation, would be visible in transcript at all; it would generally not be."
     ],
     "required_validation": [
       {
@@ -6156,17 +6202,20 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "an extension of the committed dependency-prior analysis to the end-joining genes"
+        "nothing at the expression level — the class selects on a lesion this data cannot see, and on what it CAN see the answer is negative"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "The route was registered as an extension of a WEAK-graded argument and the extension does not hold."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "It would take a mutational read of the repair genes, which no EMC cohort supplies.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
     },
     "next": {
-      "best_next_action": "Extend the committed dependency-prior analysis to the microhomology-mediated end-joining genes and report it beside the existing weak grade.",
+      "best_next_action": "Report it beside the DDR assessment's existing weak grade, not apart from it.",
       "cost": "$0"
     }
   },
@@ -6177,15 +6226,15 @@
     "kind": "route",
     "title": "SGK1 inhibition",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census, porting a lane surfaced 2026-08-07 that had no route.",
+      "value": "◐ DISCORDANT ON THE KINASE, CONCORDANT ON ITS SUBSTRATE (2026-08-09). SGK1 itself reads LOWER on one platform and HIGHER on the other, so the transcript does not corroborate the published antibody series. ⭐ Its canonical substrate NDRG1 is higher on BOTH, at the 98th percentile on one — which is an activity-shaped reading rather than an abundance one.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "33--kinase-leads-with-emc-specific-evidence-that-nobody-followed"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
     "blockers_inherited": [
-      "BLK-NO-EMC-DATA"
+      "BLK-NO-EMC-DATA",
+      "BLK-NO-WET-LAB"
     ],
     "blockers_retired": [],
     "instruments": {
@@ -6209,18 +6258,25 @@
     },
     "purpose": "Is the kinase reported positive across a small series of these tumours two decades ago still there when read by a different modality?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
       "status": "blocked",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "A registered lane with no route: a druggable AGC kinase reported positive across a full small series of tumours of this disease with an internal negative control, published two decades ago and never followed up by anyone.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "SGK1 transcript is discordant across the two platforms while its canonical substrate NDRG1 is concordantly higher on both, at the 98th array percentile on one",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether the antibody-based series is corroborated at the transcript level, which has never been checked.",
-      "Whether the kinase is a dependency or a marker, which no available data can distinguish."
+      "Whether elevated substrate output reflects SGK1 activity or one of the other kinases that phosphorylate the same substrate — the reading cannot attribute it.",
+      "Why the kinase transcript disagrees between platforms while its substrate does not, which is unexplained.",
+      "Whether the published antibody series is corroborated at all — this pass did not corroborate it and did not refute it."
     ],
     "required_validation": [
       {
@@ -6234,22 +6290,32 @@
         "blocked_by": [
           "BLK-NO-WET-LAB"
         ]
+      },
+      {
+        "what": "A phospho-substrate or kinase-activity readout in an EMC model — the substrate signal is activity-shaped and abundance cannot attribute it to SGK1 rather than to another kinase acting on the same substrate",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
       }
     ],
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a read of SGK1 in the expression data already on disk"
+        "a phospho-substrate or activity readout, which is what the substrate signal hints at and abundance cannot deliver"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "A discordant primary gene with a concordant downstream signal is genuinely ambiguous, and reporting it as either support or refutation would overstate it."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "The substrate reading makes an activity assay the decisive step, and that needs a model.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-MODEL-ACCESS"
+      ]
     },
     "next": {
-      "best_next_action": "Read SGK1 across the two readable EMC expression series and the fourth cohort, turning a single antibody-based series into two independent modalities of evidence at no cost.",
+      "best_next_action": "Read which other kinases phosphorylate the substrate, to size how much of the signal SGK1 could account for.",
       "cost": "$0"
     }
   },

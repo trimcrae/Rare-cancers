@@ -45,7 +45,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 |---|---|---:|---:|---|---:|---|
 | **BLK-NO-EMC-DATA**<br/>EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRIS | `insufficient_data` | 43 | 9 | portfolio-wide | 0 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NOT-FUSION-SELECTIVE**<br/>The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half) | `fundamental_biological_limit` | 14 | 6 | portfolio-wide | 8 | **permanent — nothing** |
-| **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 9 | 6 | portfolio-wide | 2 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 12 | 6 | portfolio-wide | 2 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-PARALOGUE-DDG**<br/>The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT) | `requires_better_simulation_accuracy` | 9 | 3 | cross-family | 24 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-CLASS-INHERITANCE**<br/>Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenot | `insufficient_data` | 5 | 3 | cross-family | 0 | `TECH-VIRTUAL-CELL` |
 | **BLK-ANTIGEN-COLD**<br/>EMC is antigen-cold, and the fusion junction is a weak peptide-HLA | `fundamental_biological_limit` | 9 | 2 | cross-family | 0 | **permanent — nothing** |
@@ -81,7 +81,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-PARALOGUE-DDG** | 9 | cross-family | **2028** | `low` | `extrapolated` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-CLASS-INHERITANCE** | 5 | cross-family | **2028** | `low` | `extrapolated` | `TECH-VIRTUAL-CELL` |
 | **BLK-PARALOGUE-CONTROL** | 1 | single-family | **2028** | `low` | `speculative` | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
-| **BLK-NO-WET-LAB** | 9 | portfolio-wide | **2029** | `low` | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-NO-WET-LAB** | 12 | portfolio-wide | **2029** | `low` | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-R4-BINDS** | 8 | cross-family | **2029** | `low` | `speculative` | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-ENDPOINT-MD** | 1 | single-family | **2029** | `low` | `speculative` | `TECH-E1-POWERED` |
 | **BLK-FUNCTIONAL-ACTIONABILITY** | 1 | single-family | **2029** | `low` | `extrapolated` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
@@ -128,6 +128,24 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **when it could lift:** **never** — a fact about what the objects are. No technology in the register claims to retire it, and [B1] fails the build if one ever does. What CAN change is whether it stays decisive for a given route: a route either sidesteps it by construction or it does not.
 - **owner:** `research/manuscripts/target-route-options.md#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it`
 
+### BLK-NO-WET-LAB
+
+**No wet lab and no collaborator — an ask needs a self-interested taker before its size matters**
+
+- **kind:** `requires_external_collaboration`
+- **a statement about:** the operating regime, not any route's science
+- **held by (12):** RT-ASO-ASK, RT-ATR-PANEL, RT-CHAPERONE, RT-COVALENT-PROBE, RT-EZH2, RT-FAP-RLT, RT-RIPTAC, RT-SGK1, RT-SSTR2, RT-SYNLETH-DEP, RT-TCIP, RT-TRABECTEDIN-PPARG
+- **retired by route (2):** RT-ENDPOINT-CHOICE, RT-METHODS-PAPER
+- **retired by technology:** TECH-CLOUD-WET-LAB, TECH-EMC-MODEL-ACCESS
+- **when it could lift:**
+
+  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
+  |---|---|---|---|---|---|---|
+  | `TECH-CLOUD-WET-LAB` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `low` | `extrapolated` |
+  | `TECH-EMC-MODEL-ACCESS` | `absent` | 2027H2 | **2029** | beyond-2031 | `low` | `speculative` |
+
+- **owner:** `research/manuscripts/what-a-civilian-can-buy.md`
+
 ### BLK-PARALOGUE-DDG
 
 **The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)**
@@ -144,24 +162,6 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
   | `TECH-FE-CRYPTIC-POCKET` | `absent` | 2027H1 | **2028** | 2030 | `low` | `extrapolated` |
 
 - **owner:** `research/manuscripts/nr4a3-program-map.md#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged`
-
-### BLK-NO-WET-LAB
-
-**No wet lab and no collaborator — an ask needs a self-interested taker before its size matters**
-
-- **kind:** `requires_external_collaboration`
-- **a statement about:** the operating regime, not any route's science
-- **held by (9):** RT-ASO-ASK, RT-ATR-PANEL, RT-COVALENT-PROBE, RT-FAP-RLT, RT-RIPTAC, RT-SSTR2, RT-SYNLETH-DEP, RT-TCIP, RT-TRABECTEDIN-PPARG
-- **retired by route (2):** RT-ENDPOINT-CHOICE, RT-METHODS-PAPER
-- **retired by technology:** TECH-CLOUD-WET-LAB, TECH-EMC-MODEL-ACCESS
-- **when it could lift:**
-
-  | via | state | optimistic | **expected** | conservative | band confidence | basis (of the STATE) |
-  |---|---|---|---|---|---|---|
-  | `TECH-CLOUD-WET-LAB` | `early_signals` | 2027H2 | **2029** | beyond-2031 | `low` | `extrapolated` |
-  | `TECH-EMC-MODEL-ACCESS` | `absent` | 2027H2 | **2029** | beyond-2031 | `low` | `speculative` |
-
-- **owner:** `research/manuscripts/what-a-civilian-can-buy.md`
 
 ### BLK-ANTIGEN-COLD
 

@@ -18,21 +18,27 @@ last_verified: 2026-08-05
 
 # RT-EZH2 — EZH2 / PRC2 inhibition
 
-**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#32--biomarker-selected-classes-readable-from-data-already-on-disk)): ⭑ Registered 2026-08-09 from the modality census; it must be read beside the neighbouring route's existing negative rather than apart from it.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ NOT SUPPORTED (2026-08-09). Neither shape that selects this class is present: EZH2 is only mildly higher, the rest of PRC2 is flat, and no SWI/SNF tumour-suppressor subunit reads anywhere near a floor. The approved agent's indication is selected by subunit LOSS, and there is none to see.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_EZH2["○ RT-EZH2"]:::fam
+  RT_EZH2["✓ RT-EZH2"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_EZH2
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
   TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
   TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
   TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_EZH2
+  TECH_CLOUD_WET_LAB(["TECH-CLOUD-WET-LAB<br/>expected 2029"]):::tech
+  TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -45,10 +51,16 @@ flowchart LR
 
 An agent is approved in a sarcoma selected by a chromatin-remodeller defect, and this portfolio already contains a chromatin-remodelling hypothesis through a non-canonical BAF subunit — but the two had never been connected and no prior sweep named this class. The existing BAF route's own dependency prior came back negative, which any assessment has to lead with.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | neither PRC2 elevation nor SWI/SNF subunit loss is present in EMC on either platform | `direct` |
+
 ## Remaining unknowns
 
-- Whether any PRC2 or chromatin-remodeller dependency exists in this disease, which is unreported.
-- Whether the neighbouring route's negative dependency prior also covers this axis, or is specific to the subunit it was computed on.
+- Whether subunit loss is present at the PROTEIN level, which is frequently post-transcriptional and which a transcript read cannot exclude.
+- Whether the neighbouring ncBAF hypothesis, whose own dependency prior was negative, shares this closure or fails separately.
 
 ## Required validation
 
@@ -56,21 +68,23 @@ An agent is approved in a sarcoma selected by a chromatin-remodeller defect, and
 |---|---|---|---|
 | The expression or committed-artifact lookup that selects this class | ⛔ none built | yes | — |
 | A measurement in a fusion-positive EMC model | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| A PROTEIN-level read of the SWI/SNF subunits in EMC tissue — the only observation that could overturn the negative transcript reading, since subunit loss is frequently post-transcriptional | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
 | blocker | kind | what would retire it |
 |---|---|---|
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 
 ## Readiness — what this could become today
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+A class whose two selecting shapes are both absent is a paragraph in the negative half of the census paper.
 
 **Missing:**
-- a read of the PRC2 and BAF subunit sets in the expression data and the committed dependency artifact
+- nothing — the selection question was asked and answered negatively
 
 ## Where this route ends — the paper
 
@@ -86,13 +100,16 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+Only a protein-level subunit read could overturn this, and it needs tissue this programme cannot obtain.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-MODEL-ACCESS** — Access to a patient-derived EMC model through a collaborator, or through a solo-affordable cloud or robotic wet-lab service with E *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -104,7 +121,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Read the PRC2 and BAF subunit sets across the expression cohorts and check the committed sarcoma dependency artifact for the same genes.
+Report it as a closed line alongside the other biomarker-selected exclusions.
 
 *Cost:* $0
 

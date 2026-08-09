@@ -18,21 +18,27 @@ last_verified: 2026-08-05
 
 # RT-CHAPERONE — Chaperone dependency of the chimera (HSP90 and co-chaperones)
 
-**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#31--transcriptional-and-proteostatic-dependency)): ⭑ Registered 2026-08-09 from the modality census; concept maturity, nothing run. The class's toxicity record is a stated liability rather than a footnote.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ PARTLY SUPPORTED (2026-08-09). The HSP90 machine and its co-chaperones read HIGHER in EMC on BOTH platforms. ⛔ But the HSP70 arm and the heat-shock response go the OTHER way on both — which is the reading that matters, because a standing proteostatic load should raise the stress response too, and it does not.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_CHAPERONE["○ RT-CHAPERONE"]:::fam
+  RT_CHAPERONE["✓ RT-CHAPERONE"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_CHAPERONE
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
   TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
   TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
   TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_CHAPERONE
+  TECH_CLOUD_WET_LAB(["TECH-CLOUD-WET-LAB<br/>expected 2029"]):::tech
+  TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -45,10 +51,17 @@ flowchart LR
 
 A structural argument nobody here had made. Chimeric proteins are disproportionately chaperone-dependent for folding and stability, which offers a way to lower fusion protein levels that needs no pocket ligand, no assembled ternary complex and no paralogue discrimination — the three blockers holding this portfolio's largest family down.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | the HSP90 machine and co-chaperones read higher in EMC on both platforms while the HSP70 arm and heat-shock response read lower — a split the general-stress reading does not predict | `direct` |
+
 ## Remaining unknowns
 
-- Whether the chimera is in fact more chaperone-dependent than wild-type NR4A3 and wild-type EWSR1, which is the premise and has never been tested for this fusion.
-- Nothing here assumes a therapeutic window exists for a class whose clinical record is dominated by toxicity; whether one could is a question about the class rather than about this disease, and it is not settled anywhere.
+- Whether the chimera is a chaperone CLIENT, which is the route's actual premise and a co-immunoprecipitation question that no expression read can reach.
+- Why the HSP90 and HSP70 arms move in opposite directions here, which is unexplained and is the reason this is not graded as support.
+- Whether any therapeutic index exists for this class — its clinical record is dominated by toxicity, and nothing here assumes otherwise.
 
 ## Required validation
 
@@ -56,21 +69,23 @@ A structural argument nobody here had made. Chimeric proteins are disproportiona
 |---|---|---|---|
 | A literature assessment of chaperone clientship across FET-family fusion proteins | ⛔ none built | yes | — |
 | A structural assessment of whether the junction region is predicted to be unstable or disordered, using the structural work already committed here | ⛔ none built | yes | — |
+| Whether the chimera is an HSP90 CLIENT — a co-immunoprecipitation or degradation-on-inhibition readout in an EMC model, which is the route's premise and which no expression read can reach | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
 | blocker | kind | what would retire it |
 |---|---|---|
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 
 ## Readiness — what this could become today
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+An arm-split reading is a reason to ask the client question, not an answer to it.
 
 **Missing:**
-- the chaperone-clientship literature assessment, which is $0
+- a client-binding measurement, which is not an expression question
 
 ## Where this route ends — the paper
 
@@ -86,13 +101,16 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The decisive observation is whether the fusion is an HSP90 client, and that needs a model this programme cannot reach. The expression read has given what it can.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-MODEL-ACCESS** — Access to a patient-derived EMC model through a collaborator, or through a solo-affordable cloud or robotic wet-lab service with E *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -104,7 +122,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Assess chaperone clientship for FET-family fusion proteins in the literature, and check whether this repository's own structural work predicts an unstable junction interface.
+Establish whether any FET-family fusion protein is a documented chaperone client.
 
 *Cost:* $0
 

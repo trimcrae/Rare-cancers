@@ -32,17 +32,17 @@ last_verified: 2026-08-09
 This is the census's result. `never_searched` is orthogonal to the verdict, and the
 orthogonality carries the finding: a class can be unsearched and still not reach EMC —
 nobody looked, and now that someone has, it does not — or unsearched **and** live, which
-is the residue no prior sweep could have returned. **18 of the 112
+is the residue no prior sweep could have returned. **16 of the 112
 are live** (`candidate` or `parked_capability`).
 
 | verdict | classes | of which never searched |
 |---|---:|---:|
-| ⭑ `candidate` | 31 | 9 |
+| ⭑ `candidate` | 24 | 7 |
 | ⏸ `parked_capability` | 9 | 9 |
 | ✓ `on_board` | 41 | 0 |
 | ● `in_clinical_use` | 8 | 0 |
 | ✕ `already_rejected` | 33 | 0 |
-| ✕ `excluded` | 84 | 83 |
+| ✕ `excluded` | 91 | 85 |
 | — `not_applicable` | 11 | 11 |
 
 ### By band
@@ -70,8 +70,6 @@ carries the cheapest observation that would move it.
 | **MOD-INHALED-CHEMO** — Inhaled and aerosolised cytotoxic therapy | `physical_device_locoregional` | ⭑ `candidate` | Assess it together with regional pulmonary delivery from the same registry extraction, since both are selected by the same patient feature. |
 | **MOD-ISOLATED-LUNG-PERFUSION** — Isolated lung perfusion and regional pulmonary delivery | `physical_device_locoregional` | ⭑ `candidate` | Extract the metastatic-site distribution and time-to-metastasis already curated in the clinical registry, and state what fraction of patients are lung-limited and for how long. |
 | **MOD-MCL1-BCLXL** — MCL-1 and BCL-xL inhibitors | `ppi_and_undruggable` | ⭑ `candidate` | Read the BCL-2 family across the EMC expression cohorts and re-read the committed ex-vivo screen artifacts for every BH3-mimetic in their panels. |
-| **MOD-MDM2-P53** — MDM2 / MDMX antagonists (p53 reactivation) | `ppi_and_undruggable` | ⭑ `candidate` | Read the committed whole-genome trio analysis for TP53 status and check the MDM2 locus in the EMC expression cohorts, so the selection question is answered from data already on disk. |
-| **MOD-POLQ** — POLθ inhibitors | `enzyme_inhibitor_non_kinase` | ⭑ `candidate` | Extend the committed dependency-prior analysis to the microhomology-mediated end-joining genes, and report it beside the ATR assessment's weak grade rather than as a fresh claim. |
 | **MOD-PRMT5-MAT2A** — PRMT5 / MAT2A inhibitors (MTAP-deletion synthetic lethality) | `enzyme_inhibitor_non_kinase` | ⭑ `candidate` | Read MTAP and its neighbouring locus across every EMC expression series on disk plus the fourth cohort; deletion shows up as a floor-level transcript, so expression data answers a copy-number question well enough to triage it. |
 | **MOD-AAV-GENE-THERAPY** — AAV and lentiviral gene therapy | `gene_and_cell_engineering` | ⏸ `parked_capability` | — |
 | **MOD-APTAMER** — Aptamers | `nucleic_acid` | ⏸ `parked_capability` | — |
@@ -93,7 +91,7 @@ carries the cheapest observation that would move it.
 | **MOD-ANTHRACYCLINE**<br/>Anthracyclines | doxorubicin | ● `in_clinical_use` | · | on the record — [emc-clinical-registry.json](../../research/data/emc-clinical-registry.json) |
 | **MOD-ANTIMETABOLITE**<br/>Antimetabolites | gemcitabine | ✕ `excluded` | ⭑ **new** | A sarcoma-wide later-line option with no EMC-specific series anywhere in the curated record. … |
 | **MOD-DNA-MINOR-GROOVE**<br/>DNA minor-groove binders / fusion-TF displacers | trabectedin | ✓ `on_board` | · | [RT-TRABECTEDIN](L2-rt-trabectedin.md) — Trabectedin (± RT or combination) |
-| **MOD-HYPOXIA-PRODRUG**<br/>Hypoxia-activated prodrugs | evofosfamide | ⭑ `candidate` | · | [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) — Hypoxia-activated prodrugs |
+| **MOD-HYPOXIA-PRODRUG**<br/>Hypoxia-activated prodrugs | evofosfamide | ✕ `excluded` | · | [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) — Hypoxia-activated prodrugs |
 | **MOD-MICROTUBULE-DESTABILIZER**<br/>Microtubule-destabilising agents | eribulin | ✕ `excluded` | ⭑ **new** | Approved in a different sarcoma histology on a lineage-specific result that does not transfer to a fusion-driven myxoid tumour, and no EMC … |
 | **MOD-MICROTUBULE-STABILIZER**<br/>Microtubule-stabilising agents | paclitaxel | ✕ `excluded` | ⭑ **new** | No EMC observation, and the mechanism is the most sharply mitosis-coupled in the cytotoxic set. … |
 | **MOD-PLATINUM**<br/>Platinum agents | cisplatin | ✕ `excluded` | ⭑ **new** | No EMC-specific evidence exists, and the class holds no standing in soft-tissue sarcoma generally, so there is neither a disease-level nor a … |
@@ -142,7 +140,7 @@ carries the cheapest observation that would move it.
 | **MOD-RET**<br/>RET-selective inhibitors | selpercatinib | ⭑ `candidate` | · | [RT-RET](L2-rt-ret.md) — RET-selective inhibitors |
 | **MOD-SGK1**<br/>SGK1 inhibition | SGK1 inhibitors | ⭑ `candidate` | · | [RT-SGK1](L2-rt-sgk1.md) — SGK1 inhibition |
 | **MOD-SRC-BTK**<br/>SRC-family and BTK inhibitors | dasatinib | ✕ `excluded` | ⭑ **new** | Both act on signalling axes with no reported role in EMC; the BTK arm is a lymphoid-lineage class with no solid-sarcoma instance at all. |
-| **MOD-TRANSCRIPTIONAL-CDK**<br/>Transcriptional CDK inhibition (CDK7, CDK9, CDK12/13) | CDK7 and CDK9 inhibitors | ⭑ `candidate` | · | [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13) |
+| **MOD-TRANSCRIPTIONAL-CDK**<br/>Transcriptional CDK inhibition (CDK7, CDK9, CDK12/13) | CDK7 and CDK9 inhibitors | ✕ `excluded` | · | [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13) |
 | **MOD-VEGF-MAB**<br/>Anti-VEGF antibodies and ligand traps | bevacizumab | ✕ `excluded` | ⭑ **new** | The antiangiogenic hypothesis in EMC is already carried by the multi-kinase inhibitors that hold its entire clinical record; … |
 | **MOD-VEGFR-TKI**<br/>VEGFR / multi-kinase antiangiogenic inhibitors | pazopanib | ● `in_clinical_use` | · | on the record — [emc-clinical-registry.json](../../research/data/emc-clinical-registry.json) |
 
@@ -152,7 +150,7 @@ carries the cheapest observation that would move it.
 |---|---|---|---|---|
 | **MOD-BET**<br/>BET bromodomain inhibitors | BET inhibitors | ✓ `on_board` | · | [RT-HDAC-BET](L2-rt-hdac-bet.md) — HDAC / BET to lower fusion expression |
 | **MOD-DNMT**<br/>DNA methyltransferase inhibitors | azacitidine | ⏸ `parked_capability` | ⭑ **new** | Hypomethylating agents have a coherent rationale in fusion-driven tumours with quiet genomes, but grading it needs EMC methylation data, and no … |
-| **MOD-EZH2**<br/>EZH2 / PRC2 inhibitors | tazemetostat | ⭑ `candidate` | · | [RT-EZH2](L2-rt-ezh2.md) — EZH2 / PRC2 inhibition |
+| **MOD-EZH2**<br/>EZH2 / PRC2 inhibitors | tazemetostat | ✕ `excluded` | · | [RT-EZH2](L2-rt-ezh2.md) — EZH2 / PRC2 inhibition |
 | **MOD-FASN**<br/>Fatty-acid synthase inhibitors | FASN inhibitors | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-GLUTAMINASE**<br/>Glutaminase inhibitors | telaglenastat | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-HDAC**<br/>Histone deacetylase inhibitors | romidepsin | ✓ `on_board` | · | [RT-HDAC-BET](L2-rt-hdac-bet.md) — HDAC / BET to lower fusion expression |
@@ -163,7 +161,7 @@ carries the cheapest observation that would move it.
 | **MOD-NAMPT-DHODH**<br/>NAMPT and DHODH inhibitors | DHODH inhibitors | ✕ `excluded` | ⭑ **new** | Both starve a biosynthetic pathway whose demand scales with division rate. The class couples its effect to proliferation rate, and EMC is a … |
 | **MOD-ODC**<br/>Ornithine decarboxylase inhibitors | eflornithine | ✕ `excluded` | ⭑ **new** | Its oncology use is maintenance in a MYCN-driven paediatric tumour, and polyamine demand tracks proliferation. … |
 | **MOD-PARP**<br/>PARP inhibitors | olaparib | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
-| **MOD-POLQ**<br/>POLθ inhibitors | POLQ inhibitors | ⭑ `candidate` | ⭑ **new** | [RT-POLQ](L2-rt-polq.md) — POLθ inhibition (microhomology-mediated end joining) |
+| **MOD-POLQ**<br/>POLθ inhibitors | POLQ inhibitors | ✕ `excluded` | ⭑ **new** | [RT-POLQ](L2-rt-polq.md) — POLθ inhibition (microhomology-mediated end joining) |
 | **MOD-PRMT5-MAT2A**<br/>PRMT5 / MAT2A inhibitors (MTAP-deletion synthetic lethality) | MAT2A inhibitors | ⭑ `candidate` | ⭑ **new** | [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) — PRMT5 / MAT2A synthetic lethality (MTAP co-deletion) |
 | **MOD-PROTEASOME**<br/>Proteasome inhibitors | carfilzomib | ✓ `on_board` | · | [RT-CARFILZOMIB](L2-rt-carfilzomib.md) — Carfilzomib ± anthracycline (± venetoclax) |
 | **MOD-SHP2**<br/>SHP2 allosteric inhibitors | SHP2 inhibitors | ✕ `excluded` | ⭑ **new** | An adaptor node downstream of receptor tyrosine kinases, used to deepen or rescue MAPK blockade. EMC has no MAPK lesion for it to be adjacent to. |
@@ -186,7 +184,7 @@ carries the cheapest observation that would move it.
 | **MOD-LC-DOMAIN-LIGAND**<br/>Ligands for low-complexity and prion-like domains | FET low-complexity ligands | ✓ `on_board` | · | [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) — A ligand for the shared FET low-complexity half |
 | **MOD-MACROCYCLE**<br/>Macrocyclic small molecules for protein-protein interfaces | macrocyclic PPI inhibitors | ⏸ `parked_capability` | ⭑ **new** | A chemotype that reaches interfaces conventional small molecules cannot, which is the right shape for this target -- and it runs into the same wall … |
 | **MOD-MCL1-BCLXL**<br/>MCL-1 and BCL-xL inhibitors | MCL-1 inhibitors | ⭑ `candidate` | ⭑ **new** | [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) — Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL) |
-| **MOD-MDM2-P53**<br/>MDM2 / MDMX antagonists (p53 reactivation) | MDM2 antagonists | ⭑ `candidate` | ⭑ **new** | [RT-MDM2](L2-rt-mdm2.md) — MDM2 antagonism (p53 reactivation in a quiet genome) |
+| **MOD-MDM2-P53**<br/>MDM2 / MDMX antagonists (p53 reactivation) | MDM2 antagonists | ✕ `excluded` | ⭑ **new** | [RT-MDM2](L2-rt-mdm2.md) — MDM2 antagonism (p53 reactivation in a quiet genome) |
 | **MOD-NOTCH-GSI**<br/>γ-secretase inhibitors / Notch pathway | nirogacestat | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-STAPLED-PEPTIDE**<br/>Stapled peptides and designed protein binders | RFdiffusion-class binders | ✕ `already_rejected` | · | already ruled — [emc-post-degrader-options.md](../../research/manuscripts/emc-post-degrader-options.md#3b--the-technique-classes-searched-and-where-each-landed) |
 | **MOD-TEAD-YAP**<br/>TEAD / YAP inhibitors | TEAD palmitoylation inhibitors | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
@@ -305,7 +303,7 @@ carries the cheapest observation that would move it.
 | class | exemplar | verdict | prior | where it lands |
 |---|---|---|---|---|
 | **MOD-CD44-RHAMM**<br/>Hyaluronan-receptor-directed agents | anti-CD44 | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
-| **MOD-CS-BIOSYNTHESIS**<br/>Inhibition of tumour glycosaminoglycan biosynthesis | glycosaminoglycan synthesis inhibitors | ⭑ `candidate` | · | [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) — Inhibition of the tumour's glycosaminoglycan biosynthesis |
+| **MOD-CS-BIOSYNTHESIS**<br/>Inhibition of tumour glycosaminoglycan biosynthesis | glycosaminoglycan synthesis inhibitors | ✕ `excluded` | · | [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) — Inhibition of the tumour's glycosaminoglycan biosynthesis |
 | **MOD-FAP-DIRECTED**<br/>Fibroblast-activation-protein-directed agents | FAP inhibitors | ✓ `on_board` | · | [RT-FAP-RLT](L2-rt-fap-rlt.md) — FAP-targeted radioligand therapy (FAPI-RLT) |
 | **MOD-HYALURONIDASE**<br/>Enzymatic matrix depletion | pegvorhyaluronidase alfa | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-INTEGRIN-MMP**<br/>Integrin and matrix-metalloproteinase inhibitors | cilengitide | ✕ `excluded` | ⭑ **new** | Both classes have large negative randomised records across solid tumours including sarcoma, and neither has an EMC-specific rationale that would … |
@@ -317,7 +315,7 @@ carries the cheapest observation that would move it.
 
 | class | exemplar | verdict | prior | where it lands |
 |---|---|---|---|---|
-| **MOD-ARGININE-DEPRIVATION**<br/>Arginine deprivation | pegylated arginine deiminase | ⭑ `candidate` | · | [RT-ARGININE](L2-rt-arginine.md) — Arginine deprivation (ASS1-silenced tumours) |
+| **MOD-ARGININE-DEPRIVATION**<br/>Arginine deprivation | pegylated arginine deiminase | ✕ `excluded` | · | [RT-ARGININE](L2-rt-arginine.md) — Arginine deprivation (ASS1-silenced tumours) |
 | **MOD-ASPARAGINASE**<br/>Asparaginase | pegaspargase | ✕ `excluded` | ⭑ **new** | The same enzyme-silencing logic as arginine deprivation, but the sensitising defect is a lymphoid lineage property with no solid-sarcoma instance. |
 | **MOD-DIETARY-RESTRICTION**<br/>Fasting-mimicking, ketogenic and amino-acid-restriction diets | fasting-mimicking diet | ✕ `excluded` | ⭑ **new** | The mechanism is differential stress resistance between fast-dividing tumour cells and normal tissue. … |
 | **MOD-MICROBIOME**<br/>Microbiome modulation | faecal microbiota transplant | ✕ `excluded` | ⭑ **new** | Its evidence base is modulation of checkpoint-inhibitor response, and checkpoint inhibition has no single-agent foothold in EMC to modulate. |

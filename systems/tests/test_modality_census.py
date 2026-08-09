@@ -13,6 +13,7 @@ checker was green, because nothing resolved the pointer underneath it.
 """
 from __future__ import annotations
 
+import json
 import os
 import re
 import sys
@@ -57,6 +58,65 @@ def test_every_candidate_is_registered_as_a_route(graph):
     bad = [(m["id"], m.get("route")) for m in graph["modalities"]
            if m["verdict"] == "candidate" and m.get("route") not in routes]
     assert bad == [], f"candidates not registered as a resolvable route: {bad}"
+
+
+#: The grading artifact and the graph are two homes for one fact -- what a route's observation showed.
+#: They MUST be kept in step, and on 2026-08-09 they were not: five routes carried a verdict here and
+#: still read "Registered … nothing run" on the board, while seven census rows said `candidate` about
+#: routes whose premise had already been tested and failed. Nothing caught either, because every
+#: existing check ran in the opposite direction.
+_GRADING = "research/modalities/census-route-expression-grading.json"
+
+
+def _gradings():
+    path = os.path.join(REPO, _GRADING)
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh).get("routes", {})
+
+
+def test_a_graded_route_carries_its_grading_as_evidence(graph):
+    """⛔ FIVE ROUTES FAILED THIS WHEN IT WAS WRITTEN. A verdict that exists in the artifact and not on
+    the route is a result the board cannot see -- and the board is what anyone reads to decide what to
+    do next. The route may disagree with the artifact's framing; it may not be silent about it."""
+    graded = _gradings()
+    if not graded:
+        pytest.skip("grading artifact absent")
+    routes = {r["id"]: r for r in graph["routes"]}
+    bad = []
+    for rid in graded:
+        r = routes.get(rid)
+        if r is None:
+            bad.append((rid, "route does not exist"))
+            continue
+        refs = {e.get("ref") for e in r.get("supporting_evidence") or []}
+        if "ART-CENSUS-ROUTE-GRADING" not in refs:
+            bad.append((rid, "graded in the artifact but cites it nowhere"))
+    assert bad == [], f"routes whose grading never reached the board: {bad}"
+
+
+def test_a_census_row_does_not_claim_candidate_against_its_own_route(graph):
+    """A class whose route was tested and went against it is not a candidate, whatever the row says.
+
+    ⚠ DELIBERATELY KEYED ON THE GRADE GLYPH, NOT ON `state.status`. A route can be `parked` because a
+    capability is missing -- which leaves the class perfectly live -- so mirroring status would close
+    rows that nothing has actually tested. What disqualifies `candidate` is a grade that opens with ⛔,
+    which this repository uses for a premise that was checked and failed.
+    """
+    if not graph["modalities"]:
+        pytest.skip("census not populated yet")
+    routes = {r["id"]: r for r in graph["routes"]}
+    bad = []
+    for m in graph["modalities"]:
+        if m["verdict"] != "candidate":
+            continue
+        r = routes.get(m.get("route") or "")
+        if r and (r.get("grade") or {}).get("value", "").startswith("⛔"):
+            bad.append((m["id"], m["route"]))
+    assert bad == [], (
+        f"census rows still claiming `candidate` while their route's premise was tested and failed: "
+        f"{bad}. The census is the denominator; a stale row inflates it.")
 
 
 def test_every_prior_ruling_pointer_resolves_to_a_real_file(graph):

@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-POLQ — POLθ inhibition (microhomology-mediated end joining)
 
-**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#32--biomarker-selected-classes-readable-from-data-already-on-disk)): ⭑ Registered 2026-08-09 from the modality census; it inherits the neighbouring route's weak grade and must be reported beside it.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ NOT SUPPORTED (2026-08-09). The class needs a COMBINATION — alt-EJ up with homologous recombination down — and neither half is present: POLQ is flat and low on its array, and the HR genes are flat to mildly higher rather than down.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_POLQ["○ RT-POLQ"]:::fam
+  RT_POLQ["✓ RT-POLQ"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_POLQ
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -45,10 +45,16 @@ flowchart LR
 
 The newest DNA-damage-response class and the one the existing class-inheritance argument was never extended to. If the FET-rearrangement replication-stress premise holds at all it is a premise about a repair state, and this class exploits a different arm of the same state — so it is testable with the instrument already built rather than with a new one.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | neither half of the alt-EJ-up / HR-down combination this class requires is present in EMC | `direct` |
+
 ## Remaining unknowns
 
-- Whether the replication-stress premise survives its own weak grade on the neighbouring route.
-- Whether the repair-arm dependency is separable from the one already assessed, or is the same claim in different words.
+- Whether the replication-stress premise the neighbouring DDR route rests on survives its own WEAK grade — this route inherits that uncertainty and does not resolve it.
+- Whether a repair DEFECT, which is usually a mutation, would be visible in transcript at all; it would generally not be.
 
 ## Required validation
 
@@ -67,10 +73,10 @@ The newest DNA-damage-response class and the one the existing class-inheritance 
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+The route was registered as an extension of a WEAK-graded argument and the extension does not hold.
 
 **Missing:**
-- an extension of the committed dependency-prior analysis to the end-joining genes
+- nothing at the expression level — the class selects on a lesion this data cannot see, and on what it CAN see the answer is negative
 
 ## Where this route ends — the paper
 
@@ -86,13 +92,16 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+It would take a mutational read of the repair genes, which no EMC cohort supplies.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -104,7 +113,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Extend the committed dependency-prior analysis to the microhomology-mediated end-joining genes and report it beside the existing weak grade.
+Report it beside the DDR assessment's existing weak grade, not apart from it.
 
 *Cost:* $0
 

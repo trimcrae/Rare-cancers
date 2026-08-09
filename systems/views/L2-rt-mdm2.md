@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-MDM2 — MDM2 antagonism (p53 reactivation in a quiet genome)
 
-**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#32--biomarker-selected-classes-readable-from-data-already-on-disk)): ⭑ Registered 2026-08-09 from the modality census; the selection question is answerable from data already on disk.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ NOT SUPPORTED (2026-08-09). The class needs a p53 axis that is intact AND LIVE. The p53 transcriptional output group reads LOWER in EMC on BOTH platforms and the axis genes themselves are flat — quiet rather than live. ⚠ The quiet-genome argument that raised this route predicted the opposite.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_MDM2["○ RT-MDM2"]:::fam
+  RT_MDM2["✓ RT-MDM2"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_MDM2
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -45,10 +45,16 @@ flowchart LR
 
 The class needs wild-type p53 and performs worst where the genome is chaotic. This disease's genome is quiet and clonal with a single founding translocation, which is an unusually good match and one that no prior sweep here named. The class's own history of dose-limiting haematological toxicity is a stated liability.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | the p53 transcriptional output group reads lower in EMC than in comparator sarcomas on both platforms, against the direction the class requires | `direct` |
+
 ## Remaining unknowns
 
-- Whether TP53 is wild-type in this disease, which the sequencing implies but which has not been read out directly here.
-- Whether p53 pathway integrity — not merely the absence of a mutation — holds in a tumour driven by a strong transcriptional oncoprotein.
+- Whether TP53 is wild-type, which this reading does not establish either way — most inactivating lesions are missense and leave transcript intact.
+- Whether low p53 output reflects a suppressed axis or simply an unstressed one, which archival tissue cannot distinguish.
 
 ## Required validation
 
@@ -67,10 +73,10 @@ The class needs wild-type p53 and performs worst where the genome is chaotic. Th
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+A selection question answered against the class is a negative worth one paragraph.
 
 **Missing:**
-- a direct read of TP53 status from the whole-genome analysis already committed here
+- a direct TP53 sequence call, which no available EMC dataset supplies
 
 ## Where this route ends — the paper
 
@@ -86,13 +92,16 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+Only a sequence-level TP53 call would reopen it, and none is available.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -104,7 +113,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Read TP53 status from the committed whole-genome trio analysis and the MDM2 locus from the expression cohorts.
+Report the negative; the quiet-genome inference did not survive its own test.
 
 *Cost:* $0
 
