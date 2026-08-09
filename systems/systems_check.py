@@ -3956,8 +3956,33 @@ CLOSURE_WEIGHT = {
 
 #: A drafted paper is worth a little more than an outline, and never enough to outrank live
 #: evidence. ⚠ These numbers are small ON PURPOSE, for the reason above.
-STATE_WEIGHT = {"drafted": 2, "outlined": 1, "unwritten": 0,
-                "complete_unposted": 2, "posted": 2}
+#: ⚠ HALVED 2026-08-09 with the other two readiness leftovers. How far along OUR writing is was
+#: never the question the band asks; it survives at all only because an unwritten paper reaches
+#: nobody. Superseded, retained: drafted 2 / outlined 1 / complete_unposted 2 / posted 2.
+STATE_WEIGHT = {"drafted": 1, "outlined": 0.5, "unwritten": 0,
+                "complete_unposted": 1, "posted": 1}
+
+#: ⭐ HOW A RESULT REACHES A PATIENT, AND HOW BIG THE NEXT STEP IS FOR WHOEVER HAS TO TAKE IT.
+#: This replaces the boolean `wet_lab_test_named` (2026-08-09), which failed in both directions at
+#: once and both failures were visible in the rows' own reason text:
+#:   ⛔ It could not tell a test somebody has ALREADY RUN from one a lab could pick up. PUB-REPURPOSING
+#:      earned the full flag on a completed third-party ex-vivo screen.
+#:   ⛔ It scored ZERO for the one paper that reaches a patient with no laboratory at all.
+#:      PUB-STRATEGY-ARCH's own note read "which is why the flag is False and not a demerit" — it was
+#:      a demerit, worth 4 points, on the largest term in the score.
+#: ⚠ THE TWO 8s ARE A JUDGEMENT AND THE MOST ARGUABLE NUMBERS HERE. A pre-built bench ask and a
+#: finding a sponsor could act on this week are rated equal, because both put a concrete action in
+#: front of someone who can take it now. Disagree with these two lines, not with the arithmetic.
+PATIENT_PATH_WEIGHT = {
+    "prebuilt_bench": 8,    # constructs/controls/kill-criteria exist, or it bolts onto a running assay
+    "no_bench_needed": 8,   # actionable now by sponsors, registries or tool-builders
+    "named_bench": 4,       # a specific decisive experiment, which a lab would still have to build
+    "clinical_adoption": 4, # reaches a patient through practice change rather than a bench
+    "none": 0,
+}
+PATH_LABEL = {"prebuilt_bench": "🧪 **bench, pre-built**", "no_bench_needed": "⭐ **no bench needed**",
+              "named_bench": "🧪 bench, to build", "clinical_adoption": "🏥 clinical adoption",
+              "none": "—"}
 
 #: ⛔⛔ THE BAND IS THE RANKING. EVERYTHING BELOW IT IS A TIE-BREAK (trimcrae, 2026-08-09).
 #: The first two versions of this view scored READINESS TO PUBLISH, and the result was exactly
@@ -3977,10 +4002,6 @@ BAND_LABEL = {"live_positive": "⭐ could still help a patient",
               "negative_or_methods": "⛔ known negative / methods",
               "horizon_scan": "○ parked on a capability nobody has"}
 
-#: Naming a decisive experiment a lab could actually run is the step that turns a paper into a
-#: treatment lead, so it is worth more than any readiness term below.
-WET_LAB_TEST_WEIGHT = 4
-
 #: ⛔ ADDED 2026-08-09 BECAUSE THE FIRST VERSION COULD NOT SEE A REGRADE. A day of measurements
 #: dropped RT-CARFILZOMIB from `moderate` to `low` confidence — the proteasome turned out to be
 #: pan-essential with no selectivity, and the proteostatic-load rationale for it was unsupported —
@@ -3991,7 +4012,11 @@ WET_LAB_TEST_WEIGHT = 4
 #: prevent.
 #: ⚠ APPLIED TO OPEN ROUTES ONLY, and deliberately smaller than the open-route weight itself: a
 #: low-confidence live route still beats a closed one, because it can still change an answer.
-CONFIDENCE_WEIGHT = {"high": 2, "moderate": 0, "low": -2, None: 0}
+#: ⚠ `low` DEEPENED −2 → −3 (2026-08-09). This term decides whether a paper is worth somebody's
+#: bench time, and bench time is the scarcest thing in this programme's whole theory of how a result
+#: reaches a patient. Low recorded confidence in the underlying biology should cost more than a
+#: drafted document earns. Superseded, retained: `low: -2`.
+CONFIDENCE_WEIGHT = {"high": 2, "moderate": 0, "low": -3, None: 0}
 
 
 def _paper_scores(g):
@@ -4044,23 +4069,24 @@ def _paper_scores(g):
             s = CLOSURE_WEIGHT.get(r.get("closure_kind"), 0)
             if r.get("closure_kind") == "open":
                 s += CONFIDENCE_WEIGHT.get((r.get("state") or {}).get("confidence"), 0)
+            # ⚠ CUT 3 → 1 (2026-08-09), the third and last readiness leftover. `ready` means ready
+            # to WRITE UP, which is a fact about our queue. RT-CARFILZOMIB was drawing the full +3
+            # while its only remaining validation is a clinical series nobody here can run, and its
+            # grade that same day recorded both rationales for it as failed.
             if (r.get("state") or {}).get("status") == "ready":
-                s += 3
+                s += 1
             return s
 
         standings = sorted((_standing(r) for r in rs), reverse=True)
         score = (standings[0] + 0.5 * sum(standings[1:])) if standings else 0
         score += STATE_WEIGHT.get(p.get("state"), 0)
-        # Everything left to do being doable here is worth as much as one open route, because a
-        # paper nobody else has to touch is one this programme can actually finish.
-        # ⚠ CUT FROM 5 TO 2 (2026-08-09). This measures whether WE can finish the paper, which is
-        # not the same as whether the paper can help anyone — and at weight 5 it was one of the
-        # largest terms, quietly rewarding work that needs nobody else precisely when needing
-        # somebody else (a bench) is how a result reaches a patient.
-        if self_doable is not None:
-            score += round(2 * self_doable, 1)
-        if p.get("wet_lab_test_named"):
-            score += WET_LAB_TEST_WEIGHT
+        # ⛔ THE `self_doable` TERM IS GONE (2026-08-09), not reduced again. It measured the
+        # fraction of remaining validation steps WE could run without anyone else — and its own
+        # comment already conceded that is "not the same as whether the paper can help anyone".
+        # A term whose stated justification contradicts the rubric is not a term to re-tune; the
+        # fraction is still computed and still PRINTED, because it is a useful thing to know about
+        # a paper. It just no longer moves the rank. Superseded, retained: weights 5, then 2.
+        score += PATIENT_PATH_WEIGHT.get(p.get("patient_path"), 0)
         ungraded = [r for r in rs if r.get("closure_kind") is None]
         conf = [(r["id"], (r.get("state") or {}).get("confidence")) for r in openish]
         rows.append({"pub": p, "routes": rs, "open": openish, "closed": closed, "ready": ready,
@@ -4116,17 +4142,33 @@ def render_paper_strength(g):
            "publishing — they are not worth\n> ranking first.\n>\n"
            "> ⚠ **Every component is printed, so the ranking can be argued with rather than "
            "obeyed.**\n",
-           "**Score** = 5 per open route · 2 per route blocked only on a human decision · −1 to −2 "
-           "per closed route (by how it closed) · 3 per route whose status is `ready` · up to 5 for "
-           "the fraction of remaining validation steps that are feasible today · 2 for having a "
-           "drafted document, 1 for an outline · ±2 per open route for the confidence the graph "
-           "records on it · **+4 for naming a decisive experiment a laboratory could run**.\n",
-           "⚠ **Two weights were changed on 2026-08-09 and both changes point the same way.** "
-           "*Doable here* fell from 5 to 2, because it measures whether WE can finish a paper rather "
-           "than whether the paper helps anyone — at 5 it was quietly rewarding work that needs "
-           "nobody else, precisely when needing somebody else (a bench) is how a result reaches a "
-           "patient. And naming a bench-ready test was added at 4, because that is the step that "
-           "turns a paper into a treatment lead.\n",
+           "⭐ **Score** = **the paper's BEST route, plus half of every other route.** A route is "
+           "worth 5 if it is open, 5 if it is blocked only on a human decision, −1 to −2 if it is "
+           "closed (by how it closed); ±2 to −3 more for the confidence the graph records on an "
+           "open one, and +1 if its status is `ready`. To that: **+8 for a bench ask that is "
+           "already built, or for a finding that needs no bench at all · +4 for a decisive "
+           "experiment a lab would still have to build, or for a result that reaches a patient "
+           "through clinical practice** · 1 for having a drafted document, ½ for an outline.\n",
+           "⚠ **THE WEIGHTS ARE HEURISTICS AND THEY EXIST ONLY TO ORDER OUR OWN QUEUE** "
+           "(trimcrae, 2026-08-09: *\"we can absolutely change the weights till we like it … their "
+           "only role is internal prioritization\"*). Nothing here is a claim about scientific "
+           "merit, and no external reader should be handed this table as one.\n",
+           "⛔ **THREE TERMS MEASURING OUR OWN READINESS WERE REMOVED OR CUT ON 2026-08-09, AND ALL "
+           "THREE HAD SURVIVED A RUBRIC CHANGE THAT RETIRED THEIR STATED REASONS.** *Doable here* "
+           "is **gone** — it measured the fraction of remaining work needing nobody else, and its "
+           "own comment already conceded that is \"not the same as whether the paper can help "
+           "anyone\"; it is still computed and printed, it just no longer moves the rank. *Ready* "
+           "fell 3 → 1: it means ready to WRITE UP, a fact about our queue, and it was paying full "
+           "marks to a route whose only remaining validation is a clinical series nobody here can "
+           "run. *Drafted* halved to 1. Meanwhile `low` confidence deepened to −3, because this is "
+           "a ranking of what is worth somebody's bench time.\n",
+           "⛔ **AND THE BOOLEAN `wet_lab_test_named` IS RETIRED, HAVING FAILED IN BOTH DIRECTIONS "
+           "AT ONCE.** It could not tell a test somebody had **already run** from one a lab could "
+           "pick up — PUB-REPURPOSING drew the full flag on a completed third-party *ex-vivo* "
+           "screen. And it scored **zero** for the one paper that reaches a patient with no "
+           "laboratory at all, whose own note read *\"which is why the flag is False and not a "
+           "demerit\"* while the flag was costing it the largest single term in the score. "
+           "`patient_path` replaces it with five graded values, printed in the table.\n",
            "⛔ **A LOW SCORE CAN MEAN 'CLOSED' OR IT CAN MEAN 'NOBODY GRADED IT', AND THOSE ARE "
            "OPPOSITE THINGS.** `closure_kind` is unset on "
            f"{sum(1 for r in g['routes'] if r.get('closure_kind') is None)} of "
@@ -4135,7 +4177,7 @@ def render_paper_strength(g):
            "graded. The `ungraded` column is that reading, and a high number in it means **go "
            "grade the routes**, not **the paper is weak** (CLAUDE.md §4: an absent reading is not "
            "a reading of absence).\n",
-           "| # | endpoint | band | wet-lab test | score | open | closed | ungraded | ready | state |",
+           "| # | endpoint | band | path to a patient | score | open | closed | ungraded | doable here | state |",
            "|---:|---|---|---|---:|---:|---:|---:|---:|---|"]
     for i, r in enumerate(rows, 1):
         p = r["pub"]
@@ -4145,10 +4187,10 @@ def render_paper_strength(g):
         sd = "—" if r["self_doable"] is None else f"{round(100 * r['self_doable'])}% of {r['n_validation']}"
         ung = len(r["ungraded"])
         out.append(f"| {i} | {name} | {BAND_LABEL.get(p.get('outcome_potential'), '?')} | "
-                   f"{'✅ yes' if p.get('wet_lab_test_named') else '—'} | "
+                   f"{PATH_LABEL.get(p.get('patient_path'), '?')} | "
                    f"**{r['score']}** | {len(r['open'])} | {len(r['closed'])} | "
                    f"{('⚠ ' + str(ung)) if ung else '0'} | "
-                   f"{len(r['ready'])} | {PUB_GLYPH[p['state']]} `{p['state']}`"
+                   f"{sd} | {PUB_GLYPH[p['state']]} `{p['state']}`"
                    + (f" · ⚠ {len(r['cited_only'])} cited-only" if r["cited_only"] else "")
                    + " |")
     out.append("")

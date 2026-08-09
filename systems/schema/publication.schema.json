@@ -16,7 +16,7 @@
         "target_venue",
         "what_it_would_claim",
         "outcome_potential",
-        "wet_lab_test_named",
+        "patient_path",
         "outcome_potential_why"
       ],
       "additionalProperties": false,
@@ -110,13 +110,20 @@
           ],
           "description": "What this endpoint could still do FOR A PATIENT. ⛔ A JUDGEMENT, NOT A DERIVED FACT — recorded as data so it can be argued with one row at a time instead of hiding inside a score. `live_positive`: could still report a positive that a wet lab or a clinic could act on. `negative_or_methods`: the content is a known negative, a failure record, a closure or an instrument contribution — valuable, and not a treatment lead. `horizon_scan`: parked on a capability nobody has."
         },
-        "wet_lab_test_named": {
-          "type": "boolean",
-          "description": "Does the paper name a specific decisive experiment a laboratory could run? ⚠ FALSE IS NOT A DEMERIT — a paper that reaches a patient without any laboratory (trial reachability, endpoint choice, stratification) is judged in its own band; this flag only rewards naming a bench-ready test where a bench is the route to a patient."
-        },
         "outcome_potential_why": {
           "type": "string",
           "description": "One line justifying the classification, written so a reader can disagree with it."
+        },
+        "patient_path": {
+          "type": "string",
+          "enum": [
+            "prebuilt_bench",
+            "no_bench_needed",
+            "named_bench",
+            "clinical_adoption",
+            "none"
+          ],
+          "description": "HOW a result here reaches a patient, and HOW BIG the next step is for whoever has to take it. ⚠ A JUDGEMENT, recorded as data so it can be argued with one row at a time. Replaces the boolean `wet_lab_test_named` (2026-08-09), which failed in both directions: it could not distinguish a test somebody had ALREADY RUN from one a lab could pick up, and it scored zero for the one paper that reaches a patient with NO laboratory at all — whose own note read 'which is why the flag is False and not a demerit' while the flag was costing it the single largest term in the score. `prebuilt_bench`: constructs, controls and kill criteria exist, or it bolts onto an assay already running. `no_bench_needed`: actionable now by sponsors, registries or tool-builders. `named_bench`: a specific decisive experiment a lab would still have to build. `clinical_adoption`: reaches a patient through practice change. `none`: no concrete next actor — which for a negative is the honest value, not a demerit."
         }
       },
       "allOf": [
