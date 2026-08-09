@@ -117,7 +117,8 @@ def test_every_producer_with_a_ci_check_is_in_the_regeneration_script():
     with open(os.path.join(root, "scripts/regenerate_endpoint_chain.sh")) as fh:
         script = fh.read()
     for name in ("endpoint_corpus", "orr_dcr_reread", "endpoint_regime_map",
-                 "placebo_arm_calibration", "endpoint_prior_art_audit", "endpoint_regime_figure"):
+                 "placebo_arm_calibration", "endpoint_prior_art_audit", "endpoint_regime_figure",
+                 "endpoint_result_figures"):
         if f"{name}.py --check" in ci:
             assert name in script, (
                 f"{name} runs --check in CI but is absent from the regeneration order, so a change "

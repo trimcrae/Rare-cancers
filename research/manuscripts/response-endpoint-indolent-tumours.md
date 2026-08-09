@@ -172,9 +172,10 @@ python3 research/manuscripts/endpoint_regime_map.py --check
 python3 research/manuscripts/placebo_arm_calibration.py --check
 python3 research/manuscripts/endpoint_prior_art_audit.py --check
 python3 research/manuscripts/endpoint_regime_figure.py --check
+python3 research/manuscripts/endpoint_result_figures.py --check
 ```
 
-Each producer re-derives its artifact and refuses to write on drift. All six run in continuous
+Each producer re-derives its artifact and refuses to write on drift. All seven run in continuous
 integration.
 
 Retrieval, extraction, analysis and drafting were carried out with AI assistance. The retrieval
@@ -271,6 +272,13 @@ of the fourteen such conditions that have any phase 2 or phase 3 arm. Two have n
 The last row is the regime of interest, reached without naming a disease. Which tumour types occupy
 it is a description to be read afterwards, never an input.
 
+![Figure 2. Cumulative distribution of the per-arm gap.](./endpoint-gap-distribution.svg)
+
+**Figure 2.** The gap for each of the 552 arms, as a cumulative distribution. Because the gap is
+identically the stable-disease proportion, each arm's value carries its own exact interval. Median
+and interquartile range are marked. Produced by
+[`endpoint_result_figures.py`](./endpoint_result_figures.py).
+
 ### 4.2 Pre-stated sensitivities
 
 | stratum | arms | median gap |
@@ -295,6 +303,14 @@ often it returns nothing at all, which is the reading that becomes "the agent sh
 | 1 patient | 552 | 251 | 45.5% | 105 |
 | 10 patients | 231 | 32 | 13.9% | 11 |
 | 20 patients | 138 | 4 | 2.9% | 2 |
+
+![Figure 3. Arms recording no objective response, by arm size.](./endpoint-zero-response.svg)
+
+**Figure 3.** Observed share of arms recording no objective response, by arm size, against the
+binomial expectation at the corpus median response rate. The two track each other, which is the
+substantive point: how often a trial returns an uninformative readout is largely a property of arm
+size rather than of the agent under test. Produced by
+[`endpoint_result_figures.py`](./endpoint_result_figures.py).
 
 The unweighted figure is the misleading one, since arms of three patients from dose-escalation
 cohorts dominate it. The stratified figures are reported beside it rather than instead of it, and
@@ -530,6 +546,7 @@ alternative: a control arm, in a regime where almost none exists.
 | Both endpoints, distribution and reporting census | [`orr-dcr-reread.json`](./orr-dcr-reread.json) |
 | Regime map | [`endpoint-regime-map.json`](./endpoint-regime-map.json) |
 | Figure 1, and its producer | [`endpoint-regime-map.svg`](./endpoint-regime-map.svg), [`endpoint_regime_figure.py`](./endpoint_regime_figure.py) |
+| Figures 2 and 3, and their producer | [`endpoint-gap-distribution.svg`](./endpoint-gap-distribution.svg), [`endpoint-zero-response.svg`](./endpoint-zero-response.svg), [`endpoint_result_figures.py`](./endpoint_result_figures.py) |
 | Control-arm classification | [`placebo-arm-calibration.json`](./placebo-arm-calibration.json) |
 | Remedy audit and its retrieved records | [`endpoint-prior-art-audit.json`](./endpoint-prior-art-audit.json) |
 | Frozen retrieval protocol | [`lit-targets-cross-disease-endpoints.json`](./lit-targets-cross-disease-endpoints.json) |

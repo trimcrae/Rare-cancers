@@ -102,7 +102,8 @@ def test_every_headline_figure_appears_in_the_manuscript(paper, figures):
 
 def test_the_manuscript_names_its_producers(paper):
     for producer in ("endpoint_corpus.py", "orr_dcr_reread.py", "endpoint_regime_map.py",
-                     "placebo_arm_calibration.py", "endpoint_prior_art_audit.py"):
+                     "placebo_arm_calibration.py", "endpoint_prior_art_audit.py",
+                     "endpoint_regime_figure.py", "endpoint_result_figures.py"):
         assert producer in paper, f"{producer} is not reproducible from the manuscript"
 
 

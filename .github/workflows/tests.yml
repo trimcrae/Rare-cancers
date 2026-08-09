@@ -96,6 +96,7 @@ jobs:
           python3 research/manuscripts/placebo_arm_calibration.py --check
           python3 research/manuscripts/endpoint_prior_art_audit.py --check
           python3 research/manuscripts/endpoint_regime_figure.py --check
+          python3 research/manuscripts/endpoint_result_figures.py --check
       - name: Endpoint producer logic and --check are real (not just wired)
         run: |
           python3 -m pytest research/manuscripts/tests/test_endpoint_logic.py \

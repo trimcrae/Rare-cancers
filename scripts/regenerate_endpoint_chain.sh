@@ -12,6 +12,7 @@
 #       -> placebo_arm_calibration  (reads the corpus AND the regime map)
 #       -> endpoint_prior_art_audit (reads its own inputs AND the regime map)
 #       -> endpoint_regime_figure   (reads the regime map)
+#       -> endpoint_result_figures  (reads the re-read)
 #
 # Order matters twice over: placebo_arm_calibration and endpoint_prior_art_audit both read the
 # regime map, so regenerating the map after them leaves them stale in a way only --check reveals.
@@ -28,6 +29,7 @@ PRODUCERS=(
   placebo_arm_calibration
   endpoint_prior_art_audit
   endpoint_regime_figure
+  endpoint_result_figures
 )
 
 echo "== regenerating in dependency order =="
