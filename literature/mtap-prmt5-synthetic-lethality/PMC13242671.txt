@@ -1,0 +1,66 @@
+pmcBiomark ResBiomark Res2201biomarkerresBiomarker Research2050-7771BMCPMC13242671PMC13242671.113242671132426714225238810.1186/s40364-026-00942-y9421CorrespondenceEmerging applications of long-read sequencing in hematological malignancies: highlights from the 2025 ASH annual meeting
+LiuBoyan JiangYuan ZhaoBihuan ZhuHong-Huzhuhhdoc@163.com 1https://ror.org/013xs5b60grid.24696.3f0000 0004 0369 153XDepartment of Hematology, Beijing Chao-Yang Hospital, Capital Medical University, Beijing, 100020 China 2https://ror.org/013xs5b60grid.24696.3f0000 0004 0369 153XChinese Institute for Medical Research, Capital Medical University, Beijing, 100069 China 3Institute for Cancer, Chinese Institutes for Medical Research (CIMR), Beijing, 100069 China 7620262026145037536016120262052026070620260806202608062026© The Author(s) 20262026https://creativecommons.org/licenses/by/4.0/Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.Long-read sequencing (LRS) is rapidly advancing and demonstrates considerable promise in hematological malignancies. At the 2025 ASH meeting, numerous studies highlighted advances in applying LRS across diverse hematological malignancies. Rapid LRS-based whole-genome sequencing and adaptive sampling enable real-time subtype assignment, detection of SNVs, CNVs, and gene fusions, as well as methylation-based classification. By spanning repetitive and structurally complex regions, LRS enhances genetic subtyping and uncovers clinically relevant structural variants often missed by short-read technologies. Full-length and single-cell RNA sequencing further resolve isoforms, splicing programs, and fusion transcripts within their clonal contexts, supporting precision therapy and refined risk stratification. As accuracy improves and costs decline, LRS is poised for broader integration into routine clinical diagnostics.
+
+## Keywords
+Long-read sequencingHematological malignanciesRapid diagnosticsGenetic classification“Dengfeng” Talent Training Program of Beijing Hospitals AuthorityDFL20240301ZhuHong-Hupmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© Yumed Inc. and BioMed Central Ltd., part of Springer Nature 2026
+
+## To the Editor
+Precise diagnosis and treatment of hematological malignancies increasingly rely on molecular classification and genetic risk stratification. However, conventional approaches, including next-generation sequencing (NGS), have limited ability to resolve complex structural variants (SVs), repetitive regions, and isoform diversity. Long-read sequencing (LRS), represented by Oxford Nanopore Technologies (ONT) and Pacific Biosciences (PacBio), generates kilobase-scale DNA/RNA reads, enabling comprehensive genomic and transcriptomic profiling (Fig.  ). Here, we summarize LRS advances in hematological malignancies presented at the 2025 ASH Annual Meeting (Table  ).
+
+ 
+
+ 
+
+## Rapid molecular diagnostics
+Genetic and molecular profiling of acute leukemia conventionally requires multiple assays, including karyotyping, fluorescence in situ hybridization, targeted NGS panels, and RNA sequencing, resulting in prolonged turnaround times. In acute myeloid leukemia (AML), LRS-based rapid whole-genome sequencing (WGS) reduces the sample-to-report interval to approximately one day while detecting clinically relevant fusion genes and rearrangements at 50–60× coverage [ ].
+ONT-based adaptive sampling enables targeted enrichment while preserving low-depth genome-wide coverage. In pediatric leukemia, approximately one hour of sequencing was sufficient to identify large copy number variations (CNVs), with single-nucleotide variants (SNVs) and fusion genes detected within 4.2 and 7.4 h, respectively [ ]. Because LRS preserves epigenetic modifications, deep-learning models trained on reference methylomes support rapid methylation-based classification [ ]. For example, Lamprey, a deep-learning classifier, robustly distinguished AML subtypes according to WHO/ICC criteria and concurrently provided copy number profiles [ ].
+A parallel strategy combining conventional and adaptive pores illustrated a tiered “direction first, details later” paradigm. Early methylation signals enabled leukemia subtype assignment and CNV profiling within 2 h, whereas adaptive pores enriched 274 hematological loci to > 100× coverage for comprehensive genetic profiling within 2–3 days [ ]. In B-acute lymphoblastic leukemia (B-ALL), high-confidence subtype calls were generated within 10 min of sequencing onset, supporting early treatment guidance [ ].
+
+## Precision genetic classification
+NGS has limited sensitivity for large insertions/duplications, complex translocations, and poorly mappable regions such as immunoglobulin loci. By spanning repetitive and complex rearranged regions, LRS improves genetic subtyping in hematological malignancies.
+Using an adaptive sampling hematology-focused panel, studies in chronic myeloid leukemia precisely localized canonical and atypical BCR::ABL1 breakpoints and additional cryptic SVs, including inserted fragments in karyotypically normal cases [ ]. In multiple myeloma (MM), LRS revealed immunoglobulin translocation junctions containing large insertions or unalignable sequences that were undetectable by NGS [ ]. LRS-based benchmarking of SV-calling algorithms may further refine MM risk stratification. Targeted long-read approaches also distinguished Burkitt lymphoma from other B-cell lymphomas and resolved epigenetic subtypes, refining subtype classification and risk assessment [ ].
+In patient-derived xenograft models of B-cell precursor ALL, LRS-WGS identified functional SVs missed by NGS, including non-coding insertions in MEF2D and PAX5 intragenic amplifications, which were associated with glucocorticoid resistance and prognostic heterogeneity [ ]. In MTAP-deleted models, synthetic-lethal sensitivity to combined MTA and PRMT5 inhibition further underscored the therapeutic value of LRS-defined structural alterations [ ].
+
+## Full-length transcriptomic profiling
+RNA-LRS directly characterizes full-length isoforms, splice events, and fusion transcripts. In SF3B1-mutant myeloid malignancies and chronic lymphocytic leukemia, ONT full-length RNA sequencing revealed complex DCAF16 alternative splicing, generating novel long non-coding transcripts and enhancing DCAF16 expression [ ]. DCAF16-based protein degraders showed preferential activity in SF3B1-mutant cell lines and primary samples, suggesting therapeutic relevance.
+PacBio sequencing can be integrated with 10x Genomics single-cell library preparation, enabling long-read single-cell RNA sequencing (scRNA-seq). Thieme et al. generated a single-cell isoform atlas across hematopoiesis and developed dedicated analytical pipelines [ ]. They characterized canonical splicing events and revealed a shift in BCL2L1 isoforms from anti-apoptotic to pro-apoptotic variants, providing a framework for understanding isoform dysregulation in myelodysplastic neoplasms and AML. In B-ALL, long-read scRNA-seq comprehensively detected fusion transcripts arising from chromosomal rearrangements or aberrant splicing and resolved their clonal distribution in pre-B-cell subsets [ ].
+In summary, LRS is rapidly advancing the molecular diagnosis of hematological malignancies by enabling integrated detection of structural, epigenetic, and transcript isoform abnormalities. However, key limitations persist, including reduced sensitivity for low-VAF somatic variants, requirements for high-quality, high-input DNA and adequate tumor burden, small validation cohorts, and substantial cost and bioinformatic demands [ , ]. Currently, a hybrid strategy—LRS for rapid SV and fusion-gene resolution combined with NGS or orthogonal assays for sensitive small-variant detection—may represent the most practical clinical solution.
+
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+Boyan Liu and Yuan Jiang contributed equally to this work.
+
+## Acknowledgements
+The authors would like to thank the contributors of the ASH 2025 Annual Meeting for sharing their findings.
+
+## Author contributions
+H.H.Z. conceptualized the manuscript. BY.L. and Y.J. wrote the manuscript and prepared the figure and table. BH.Z. participated in the process of revising the manuscript. All the authors reviewed and approved the manuscript.
+
+## Funding
+This work was supported by the Chinese Institutes for Medical Research, Beijing (CIMR) to H.H.Z. and the “Dengfeng” Talent Training Program of Beijing Hospitals Authority (DFL20240301) to H.H.Z.
+
+## Data availability
+No datasets were generated or analysed during the current study.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+All the authors consent for publication.
+
+## Competing interests
+The authors declare no competing interests.
+
+## Abbreviations
+AMLAcute myeloid leukemia
+CNVCopy number variant
+LRSLong-read sequencing
+MMMultiple myeloma
+NGSNext-generation sequencing
+ONTOxford nanopore technologies
+PacBioPacific biosciences
+scRNA-seqSingle-cell RNA sequencing
+SNVSingle-nucleotide variant
+WGSWhole-genome sequencing

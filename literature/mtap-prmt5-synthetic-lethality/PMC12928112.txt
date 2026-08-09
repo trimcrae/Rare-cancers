@@ -1,0 +1,227 @@
+2617iidImmunity, Inflammation and DiseaseImmun Inflamm DisWileyPMC1292811212928112129281124172522210.1002/iid3.70376The Intersection of m6A Methylation and Immune Response in PCOS: A Bioinformatics Perspective
+XuWenting ShiLingli LuAifang CuiLijuan QianHaiqing WangJiahui TangMengyu ZhuLili WangLihong 
+1
+State Key Laboratory on Technologies for Chinese Medicine Pharmaceutical Process Control and Intelligent Manufacture, Zhangjiagang TCM Hospital Affiliated to Nanjing University of Chinese Medicine, Nanjing, China
+2
+Zheng's Gynecology Department, Kunshan Traditional Chinese Medicine Hospital, Suzhou, Jiangsu, China
+3
+Department of Pathology, Zhangjiagang TCM Hospital Affiliated to Nanjing University of Chinese Medicine, Suzhou, China
+4
+Department of Gynecology, Zhangjiagang TCM Hospital Affiliated to Nanjing University of Chinese Medicine, Suzhou, China*
+
+Correspondence: Lili Zhu (Zhulili0717@163.com), 
+Lihong Wang (zjgzywlh@njucm.edu.cn)
+
+✉Corresponding author.
+2222026142e70376e703762422026© 2026 The Author(s). Immunity, Inflammation and Disease published by John Wiley & Sons Ltd.This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## ABSTRACT
+
+## Background
+Polycystic ovary syndrome (PCOS) is a prevalent endocrine disorder, the molecular underpinnings of which remain largely undefined. The most common methylation modification of RNA, N
+6‐methyladenosine (m6A), plays an important role in various reproductive and endocrine disorders. This study investigates key m6A genes in PCOS and their association with immune cell infiltration using advanced bioinformatics methods.
+
+## Methods
+We utilized gene expression data and clinical information from the Gene Expression Omnibus database data sets GSE137684, GSE80432, and GSE114419. The expression of m6A‐related genes was analyzed across all samples. Using the GSVA and CIBERSORT packages in R, we developed a diagnostic model based on the m6A gene–protein interaction network, conducted enrichment analysis of hub genes, and assessed the correlation between these genes and immune cell infiltration.
+
+## Results
+Analysis of data sets GSE137684 and GSE804322 identified variable expression patterns among three categories of m6A genes. A diagnostic model centered on m6A gene expression was established, highlighting five genes—WTAP, METTL14, ZC3H13, PCIF1, and RBM15—with significant effect coefficients. Unsupervised clustering of hub genes indicated that METTL14, HNRNPA2B1, YTHDF3, YTHDF2, YTHDC1, and YTHDC2 are potential discriminators in PCOS. The analysis of immune infiltration revealed a correlation between m6A regulators and immune cell levels, with METTL3 showing the most significant regulatory impact.
+
+## Conclusion
+
+N
+6‐methyladenosine RNA methylation regulators are intricately linked with the development of PCOS and may influence immune cell infiltration in affected individuals. This study enhances our understanding of the molecular interactions in PCOS and suggests potential biomarkers for diagnosis and targets for therapeutic intervention.
+
+Keywords: bioinformatics, immune infiltration, methylation, polycystic ovary syndrome
+
+N
+6‐methyladenosine RNA methylation regulators are intricately linked with the development of polycystic ovary syndrome (PCOS) and may influence immune cell infiltration in affected individuals. This study enhances our understanding of the molecular interactions in PCOS and suggests potential biomarkers for diagnosis and targets for therapeutic intervention
+
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2025 May 17; Received 2025 Jan 8; Accepted 2026 Feb 5; Collection date 2026 Feb.
+
+## Abbreviations
+AUCarea under the curve
+CD8cluster of differentiation 8
+DCAdecision curve analysis
+FTOfat mass and obesity‐associated protein
+IRinsulin resistance
+m6A
+N
+6‐methyladenosine
+NESnormalized enrichment score; NIH, National Institutes of Health
+PCAprincipal component analysis
+PCOSpolycystic ovary syndrome
+PPINprotein–protein interaction network
+PRprecision–recall curve
+ROC curvereceiver operating characteristic curve
+TFstranscription factors
+1.
+
+## Background
+Polycystic ovary syndrome (PCOS) is a complex female reproductive dysfunction and metabolic disorder characterized by continuous anovulation, insulin resistance (IR), and excessive androgen production. Approximately 10%–15% of women of childbearing age worldwide are affected by PCOS. Long‐term metabolic disorders in PCOS patients increase the incidence of diabetes, cardiovascular disease, and endometrial cancer in the long term, seriously affecting the health of women. Therefore, a further understanding of the etiology of PCOS is important for its diagnosis, treatment, and prevention.
+The cause of PCOS is complicated, and there is no ethnic difference, which is the result of various factors, such as genetics, environment, and lifestyle. Low progesterone and high androgen status in PCOS patients can cause abnormal activation of the immune system, leading to the production of various inflammatory factors and autoantibodies in patients, generating a chronic inflammatory state in the body. In recent years, the role of immune dysfunction in the occurrence of PCOS has gradually attracted attention. Studies have shown that more lymphocytes and macrophages are infiltrated in ovarian tissues of PCOS patients than in non‐PCOS women, and various cell factors, such as inflammatory factors, granulocyte–macrophage colony‐stimulating factor, and insulin growth factor‐1, can lead to ovulation disorder [ ].
+At present, there are many studies on the genetic etiology of PCOS, and some results show that epigenetics plays a certain role in the occurrence and development of the disease. Epigenetic regulation is a ubiquitous regulatory mechanism in life processes that plays a decisive role in stem cell maintenance, self‐renewal and differentiation, individual ageing and developmental abnormalities, and the occurrence and development of diseases.
+The study of epigenetics has been increasingly widely recognized in the academic field and has become an important frontier and area of attention in the field of life science. Epigenetic mechanisms in PCOS are a current research hotspot. However, due to the various types of epigenetics and their different roles in the occurrence of PCOS, there are still many unsolved mysteries about its specific mechanism.
+The methylation of N
+6‐methyladenosine (m6A) of eukaryotic mRNA, found in 1974, is the most common posttranscriptional modification of mRNA, accounting for 80%. Posttranscriptional regulation occurs through m6A modification in mammalian cells and is dynamically reversible. As well as regulating gene expression, splicing, RNA editing, and RNA stability, it also controls mRNA longevity and degradation, and mediates translation of ceRNA. Despite the importance of m6A methylation modification in immune‐related biological processes (BPs), the integrated landscape of immune cell infiltration features mediated by m6A methylation modification in PCOS remains unclear.
+In this study, the differential expression of m6A RNA methylation regulators was analyzed using RNA sequencing data from the Gene Expression Omnibus (GEO) data set. In addition, we further analyzed the relevance of m6A RNA methylation to immune cell infiltration features in PCOS.
+
+2.
+
+## Methods
+2.1.
+
+## Data and Preprocessing
+Gene expression profiles and clinical metadata were retrieved from the GEO database (https://www.ncbi.nlm.nih.gov/geo). GEO is an internationally public, authoritative, and extensively used gene expression data repository, containing a large volume of transcriptomic and microarray data that has undergone rigorous quality control, aligning with National Institutes of Health (NIH)‐maintained standardized quality control protocols [ ]. For this study focusing on human ovarian granulosa cells (GCs) in PCOS, the availability of public expression profiling data is limited. The data sets selected from GEO for this research (GSE137684, GSE80432, and GSE114419) are not only directly relevant to human ovarian GCs but also possess complete clinical grouping information, thereby satisfying the requirements for sample consistency and data integrity. Furthermore, GEO's data sets were found to be superior in terms of sample origin, sequencing platform consistency, and data accessibility when compared with other databases. This selection ensures a sufficient data foundation for subsequent integrated analysis, batch effect correction, and model validation, thus guaranteeing the scientific rigor and reproducibility of the study.
+Data on gene expression from GSE137684 and GSE80432 data sets as well as clinical information related to the samples were downloaded from the GEO database (https://www.ncbi.nlm.nih.gov/geo). Sequencing platforms used were GPL17077 and GPL6244, and the samples were all human ovarian GCs. In data set GSE137684, there are 12 samples, including 4 from controls and 8 from PCOS patients; in data set GSE80432, there are eight samples, including four from controls and four from PCOS patients. The above two data sets were integrated for downstream analysis, the batch effects between different data sets were corrected and log 2 normalized using the R package sva [ ], and the standardized and batch‐corrected expression distributions were visualized using box plots.
+The preprocessed data set GSE114419 from the GEO database was used for the external validation of the diagnostic model. The samples of this data set are human ovarian GCs, and the sequencing platform is GPL17586. This data set has six samples, including three control samples and three PCOS patient samples.
+
+2.2.
+
+## Construction of a Panoramic Map of the m6A Genes
+To analyze the expression levels of the m6A genes in all samples, the m6A‐related genes were first obtained from [ , , , ]; the genes included 11 writer genes (METTL3, METTL14, WTAP, VIRMA, ZC3H13, CBLL1, RBM15, RBM15B, METTL16, ZCCHC4, and PCIF1), 26 reader genes (YTHDF1, YTHDF2, YTHDF3, YTHDC1, YTHDC2, YTHDC3, HNRNPA2B1, HNRNPC, RBMX, IGF2BP1, IGF2BP2, IGF2BP3, FMR1, PRRC2A, EIF3A, EIF3B, EIF3H, LRPPRC, SRSF3, NXF1, TRMT112, NUDT21, CPSF6, SETD2, SRSF10, and X3RN1), and three eraser genes Fat mass and obesity‐associated protein (FTO, ALKBH5, and ALKBH3), for a total of 40 genes. After comparison with the existing expression profiles, 36 genes were retained (excluding VIRMA, YTHDC3, HNRNPC, and RBMX).
+The expression heatmap of these genes in all samples was first plotted using the R package pheatmap [ ], and then the box plots of the two groups (the control and patient groups) were plotted by the R package ggpubr [ ]. This study used RCircos [ ] to map 36 genes' chromosomal localization, Chromosome data were provided by this package, and information on the positions of the genes on chromosomes was obtained from ENSEMBL [ ].
+
+2.3.
+
+## Correlation Analysis Between Writer and Eraser Genes
+Further analysis of any two genes' expression levels was performed by calculating the Pearson correlation coefficient between them, and it was evident that a correlation existed when the absolute correlation coefficient exceeded 0.7 and the p value was less than 0.01. The R package ggplot2 [ ] was used to generate a scatter plot of the correlations between the gene pairs that met the criteria and to fit the correlation curve, and the R package ggExtra [ ] was used to plot the histogram and density curve, which are outside of the graph.
+
+2.4.
+
+## Construction of an m6A Gene‐Based Diagnostic Model
+It is possible for normal samples and patient samples to have different levels of m6A modification due to the important influence of m6A modification. Therefore, it is extremely valuable to construct an m6A gene‐based diagnostic model.
+First, ridge regression was performed to screen all m6A genes using the R package glmnet [ ], and the optimal lambda value was selected. After ridge regression was performed, only genes with a nonzero coefficient were retained. Subsequently, further gene screening was carried out using logistic regression, and the genes and coefficients of the model were plotted on a forest plot using the R package forestplot [ ].
+Subsequently, based on the nomogram, visualizing the clinical significance of the model was achieved using the R package rms [ ]. With the R package pROC [ ], the receiver operating characteristic (ROC) curve of the diagnostic model was plotted and the area under the ROC curve (AUC) was calculated. At the same time, to illustrate the effectiveness of the nomogram, precision–recall (PR) and decision curve analysis (DCA) curves were plotted with the external data set GSE114419 for verification. With the R package ggDCA, DCA curves were plotted [ ].
+
+2.5.
+
+## Construction of the Protein–Protein Interaction Network (PPIN)
+There is often a strong correlation between the expression levels of different genes, particularly genes that regulate the same BP. Hence, a PPIN was created using m6A‐associated genes to uncover their relationship.
+In the STRING database [ ], the default confidence threshold of 0.4 was used to construct the PPIN. Subsequently, the PPIN was exported using Cytoscape software [ ] for further analysis. Each node's network characteristics were computed, utilizing the Cytohubba plug‐in [ ] to identify hub nodes based on node degree, with the top 10 nodes by degree designated as hub nodes. Considering hub nodes are often highly correlated with other nodes, they may play an extremely important role in regulating the entire BP.
+Thus, we performed prediction studies on 10 hub nodes based on the miRNet database [ ], that is, the prediction of microRNAs (miRNAs) and transcription factors (TFs). A plot was created using Cytoscape after the prediction results were exported.
+
+2.6.
+
+## Unsupervised Clustering of Samples
+To resolve the heterogeneity between patients, unsupervised clustering can be performed on samples based on the hub genes.
+The optimal number of clusters was determined using the R package factoextra [ ], the unsupervised clustering of all patients was performed using k‐means clustering, and two clusters were finally obtained. Similarly, the final clustering results were shown using this R package. On the basis of the expression levels of the 10 hub genes in both samples groups, a heatmap was created. The R package ggpubr [ ] was used to plot the combined box plot and violin plot according to the clusters of the samples.
+
+2.7.
+
+## Gene Enrichment Analysis
+Following data preprocessing, which included normalization and batch effect correction using the R package sva [ ], gene differential expression analysis was performed to further reveal the biological differences between the two sample groups. Genes with a corrected p value less than 0.05 and an absolute log 2 fold change (FC) value greater than 1 were considered differentially expressed genes (DEGs). The results of this analysis are displayed in volcano plots and heatmaps. The volcano plot was utilized to intuitively display the significance and expression change trends of all genes, facilitating the rapid identification of upregulated and downregulated genes. The heatmap illustrates the expression patterns of these DEGs across the various samples, aiding in the visualization of differences between groups. These identified DEGs were subsequently used for gene set enrichment analysis (GSEA).
+Enrichment analysis by Gene Ontology (GO) is one of the most common approaches for analyzing functional enrichment in different dimensions and levels of genes. GO enrichment analysis is generally performed at three levels, that is, molecular function, BP, and cellular component [ ]. Kyoto Encyclopedia of Genes and Genomes (KEGG) stores information about genomes, diseases, and drug targets [ ]. Using the R package clusterProfiler [ ], GO functional annotation and KEGG pathway enrichment of all DEGs were performed to identify significantly enriched BPs. Bar and bubble graphs were used to visualize enrichment results. A significance threshold of 0.05 was applied to the enrichment analysis.
+GSEA is a computational method used to determine whether there are significant differences in a set of predefined genes between two biological states, and it is typically used to estimate changes in the activities of pathways and BPs in gene expression data sets [ ]. To examine variances in BPs between the two sample groups based on the gene expression profile data set, the reference gene sets “c5.go.v7.4.entrez.gmt” and “c2.cp.kegg.v7.4.entrez.gmt” were obtained from the MSigDB database [ ], and the GSEA method included in the R package “clusterProfiler” was used for enrichment analysis and visualization. A corrected p value of < 0.05 was considered statistically significant.
+
+2.8.
+
+## Immune Infiltration Analysis
+The immune microenvironment is mainly composed of immune cells, inflammatory cells, fibroblasts, interstitial tissues, and various cytokines and chemokines, and it is a complex integrated system of loads. Infiltration analyses of immune cells in tissues have an important guiding role in disease research and prognosis prediction.
+To further explore the similarities and differences in immune cell infiltration levels between the two groups of samples, the ssGSEA‐based method was performed using the R package GSVA [ ]. Twenty‐eight marker genes for immune cells were obtained from [ ]. and used as a background gene set to perform ssGSEA for each sample. The infiltration of all immune cells is displayed in heatmaps and box plots.
+To maximize the accuracy of the research results, the R package CIBERSORT [ ] was used to assess the immune cell infiltration level through a different method, and based on the LM22 background gene set provided by CIBERSORT, the contents of 22 types of immune cells in each sample were calculated to reflect the infiltration level. The results are presented in stacked histograms and box plots.
+In addition, to directly examine the correlations between the hub genes and immune cell infiltration, correlation scatter plots were generated, and correlation curves were fitted for gene‐immune cell pairs with significant correlations. Additionally, histograms and density curves were plotted outside of the graph using the R package ggExtra [ ].
+
+3.
+
+## Results
+3.1.
+
+## Panoramic Map of the m6A Genes
+A panoramic map of m6A‐related genes across all samples was constructed by integrating expression profiles from the GSE137684 and GSE80432 data sets. To address batch effects and normalize raw data, batch effect correction and logarithmic normalization were applied to data from diverse sources. As shown in Figure  , the expression distributions across all samples were consistent following batch correction and normalization, thereby enhancing the accuracy and robustness of downstream analyses.
+ The expression levels of all m6A genes in normal and patient samples were visualized using heatmaps and grouped box plots (Figure  ). Differential expression was observed among the three m6A functional types. For instance, the writer gene CBLL1 and the eraser gene FTO were downregulated in PCOS patients, whereas the reader gene NXF1 was upregulated. In addition, the chromosomal localization of these genes was obtained to plot a panoramic map (Figure  ). According to the results, the chromosomal locations of some genes were very close, suggesting that they are closely related at the genomic level and might also have similar transcriptome characteristics.
+
+3.2.
+
+## Correlations Between Writer and Eraser Genes
+Correlation analyses between writer and eraser genes were performed by calculating correlation coefficients, generating scatter plots, and fitting correlation curves. Four gene pairs, including METTL3‐ALKBH3, METTL14‐ZC3H13, WTAP‐CBLL1, and CBLL1‐PCIF1 (Figure  ), exhibited statistically significant correlations. All pairs demonstrated strong positive correlations, with coefficients exceeding 0.7. A majority of these genes are writers and erasers, and the writer genes perform similar functions. Therefore, writer gene pairs, such as CBLL1‐PCIF1, may have synergistic effects on expression. The positive correlation between writer and eraser gene pairs (e.g., METTL3‐ALKBH3) may indicate a negative feedback regulatory mechanism between the two or the existence of unknown key pathogenic mechanisms.
+ 
+3.3.
+
+## The m6A Gene‐Based Diagnosis Model
+A diagnostic model for PCOS was developed based on the expression profiles of m6A genes, given their biological significance. Initially, ridge regression was applied to screen 36 m6A genes, and all genes were retained based on optimal lambda values (Figure  ). As a result, 11 genes were retained after a second screening using logistic regression. A forest plot was then employed to visualize the diagnostic model derived from the 11 m6A genes (Figure  ). The model identified the top five genes with the highest absolute influence coefficients: WTAP (324.34), METTL14 (320.34), ZC3H13 (−228.38), PCIF1 (−218.09), and RBM15 (191.7).
+ Subsequently, the nomogram (Figure  ) was used for visualization to verify the clinical significance of the model. According to the results, most genes influenced the model in the same way, which highlights its accuracy. Next, the PR curve, ROC curve, and DCA curve were used in combination with the external data set to further verify the prediction performance of the model (Figure  ). The results showed that in the three verification methods, the model exhibited superior prediction performance and robustness. ROC and PR curves showed that the overall AUC of this model was 0.89, which indicates excellent diagnostic and predictive capabilities.
+ 
+3.4.
+
+## PPIN of the m6A Genes
+To investigate the interactions among m6A‐regulating genes, a PPIN was constructed using the STRING database, and visualization was performed with Cytoscape software (Figure  ). Genes regulating the same BPs often exhibit closer relationships, which provides insights into their functional connections.
+ The network contained a small number of high‐degree nodes, indicating strong correlations with other nodes. Such nodes often play critical roles within the network. On the basis of degree analysis, the top 10 hub genes were identified (Figure  ). For a more comprehensive analysis of their regulatory network and genetic background (Figure  ), miRNAs and TFs were predicted using the miRNet database. It appears that these genes have both exclusive and shared miRNAs or TFs, suggesting that they are regulated similarly and perform similar biological functions.
+
+3.5.
+
+## Unsupervised Clustering of the Hub Genes
+Hub genes enable the distinction of samples with varying disease states. Using the k‐means clustering method based on the expression profiles of 10 hub genes, unsupervised clustering identified two distinct clusters among patient samples. Subsequently, the clustering results were visualized by principal component analysis–based downscaling (Figure  ), and the results showed that the two groups of samples were clearly classified and that the clustering was excellent.
+ Figure  presents a heatmap and a combined box plot with violin plots, illustrating the similarities and differences in hub gene expression levels across the two sample clusters. Significant expression differences were observed between the two groups for METTL14, HNRNPA2B1, YTHDF3, YTHDF2, YTHDC1, and YTHDC2, suggesting that these six genes may serve as critical distinguishing factors. Clustering results are valid and accurate based on this finding.
+
+3.6.
+
+## Biological Differences Between Sample Groups
+Gene differential expression analysis was conducted to identify biological differences between the two sample groups, resulting in the identification of 65 genes meeting the statistical significance threshold. DEGs are visualized in volcano plots and heatmaps (Figure  ).
+ Following this, GO, KEGG, and GSEA enrichment analyses were conducted to investigate which BPs were affected by these DEGs (Figure  and Tables  , , ).
+ GO enrichment analysis identified 11 enriched terms, with the five most significant being platelet alpha granule, extracellular matrix organization, extracellular structure organization, external encapsulating structure organization, and platelet degranulation. These terms are predominantly associated with platelet function.
+A total of 32 enriched pathways were found in the KEGG enrichment analysis, of which the five most significant pathways were extracellular matrix (ECM)‐receptor interactions, chemokine signaling pathways, the glutamatergic synapse pathway, the African trypanosomiasis pathway, and the osteoclast differentiation pathway. These results echo the GO enrichment results, such as the enrichment of ECM‐related processes.
+In the GSEA enrichment analysis, 47 KEGG pathways were found to be enriched. The five most significant pathways were olfactory transduction, neuroactive ligand–receptor interactions, haematopoietic cell lineage, cytokine–cytokine receptor interactions, and the Hippo signaling pathway, which mainly include BPs related to the function of the blood system and the interaction of cell receptors and ligands.
+
+3.7.
+
+## Immune Infiltration Analysis
+Immune infiltration analysis was conducted by scoring 28 types of immune cells using the ssGSEA method, with heatmaps and box plots employed for visualization(Figure  ). It was found that many of the 28 types of immune cells were significantly different between the two groups, such as activated cluster of differentiation 8 (CD8) T cells, type 17 T helper cells, and type 2 T helper cells. Additionally, correlations between hub genes and immune cell infiltration levels revealed that METTL3 exhibited significantly strong negative correlations with activated CD8 T cells and activated B cells, highlighting its potential research significance (Figure  ).
+ Another method, namely, CIBERSORT, was used to calculate the immune infiltration levels of 22 types of immune cells in the two groups of samples (Figure  ). In addition, we calculated the direct correlation between all hub genes and the levels at which immune cells infiltrated. The CIBERSORT results were consistent with the above analysis results, with METTL3 gene expression being significantly correlated with a variety of immune cells (Figure  ). METTL3 was positively correlated with monocytes and negatively correlated with neutrophils, and these data supplement the ssGSEA results. More importantly, METTL3 is the hub gene with the highest degree, so it has the most extensive regulatory functions. The above findings echo the other results obtained in this study.
+ 
+
+4.
+
+## Discussion
+PCOS is one of the most prevalent reproductive endocrine disorders in women of childbearing age, characterized by ovarian polycystic changes, ovulation dysfunction, and signs of hyperandrogenism or hyperandrogenaemia. PCOS exhibits a high degree of heterogeneity among females and is closely associated with chronic inflammation and cellular metabolic abnormalities [ ]. The process of follicular development in PCOS patients is influenced by alterations in the follicular microenvironment, dysfunction of ovarian GCs, and an enhanced inhibitory effect of anti‐Müllerian hormone (AMH) and its receptor (AMHR) on early follicular development.
+In eukaryotic cells, m6A RNA methylation is dynamically regulated by methyltransferases, demethylases, and binding proteins, which collectively influence the growth and development of germ cells. Aberrant m6A modifications can disrupt the balance of key regulatory genes, impairing cellular homeostasis and contributing to disease pathogenesis. Ovarian GCs play a critical role in determining follicular fate and regulating oocyte development and maturation. However, the dynamic regulatory network and biological significance of m6A in GCs remain unclear.
+Since Kelly et al. first proposed in 2001 that chronic inflammation may be present in PCOS patients, an increasing body of evidence has demonstrated that immune‐inflammatory mechanisms are intricately linked to the pathogenesis and progression of PCOS [ , ]. Recent studies have reported elevated numbers of peripheral blood lymphocytes, monocytes, and eosinophils, as well as macrophage and lymphocyte infiltration into ovarian tissues in PCOS patients [ ]. Furthermore, peripheral blood and ovarian immune cells, along with increased immune molecular gene polymorphisms, are strongly correlated with PCOS symptoms. Human preovulatory follicles contain various immunoactive cells, including T cells, natural killer (NK) cells, and monocyte‐derived macrophages. Aberrant expression of these immune cells may lead to immune dysfunction or shifts in the proportions of immune‐related secreted factors, ultimately contributing to PCOS pathogenesis [ ]. Exploring the dynamic regulatory mechanisms of m6A in ovarian GCs and investigating its correlation with the immune mechanisms of PCOS could provide novel insights for the clinical diagnosis and treatment of PCOS from an epigenetic perspective.
+This study represents the first attempt to investigate the role of 36 common m6A RNA methylation regulators in PCOS. It has been well established that the developmental maturation of oocytes is critically dependent on the precise regulation of m6A modifications.
+METTL3, highly conserved across eukaryotes from yeast to humans, plays a crucial role in early development [ ]. Studies using zebrafish and mouse models demonstrate a developmental arrest in METTL3 mutants and a reduction in egg pole body expulsion in knockout mice [ ]. Immunofluorescence analysis showed that METTL3 is localized to the enrichment of mRNA processing factors in the nucleoplasm and nuclear spots, suggesting that it can regulate protein formation by regulating mRNA translation efficiency and can affect reproductive functions, such as gamete formation, by increasing apoptosis. Ovarian GC dysfunction is implicated in PCOS. Comparative analyses of m6A methylation levels in luteinized GCs from normovulatory women and nonobese PCOS patients revealed differences in m6A profiles, with higher levels detected in PCOS patients [ ]. Specifically, METTL3, METTL14, FTO, and ALKBH5 expression levels were significantly elevated in PCOS patients compared with controls.
+FTO, a gene implicated in obesity and IR [ ], is also linked to PCOS. Overweight/obesity and IR are frequently observed in PCOS, and some studies suggest an association between FTO and PCOS‐related insulin resistance (PCOS‐IR). The SNP rs9939609 in the FTO gene has been shown to be significantly associated with PCOS [ , ]. Studies examining FTO and ALKBH5 expression, along with total m6A content, in human and mouse GCs suggest a potential role for m6A regulation in GCs [ , ]. Overexpression of FTO promotes GC proliferation, inhibits apoptosis, and induces IR in GCs. Furthermore, FTO‐mediated GC dysfunction may be linked to upregulation of FLOT2 [ ]. Rein, a competitive inhibitor of FTO substrates, may represent a novel therapeutic target for obesity and PCOS‐IR by hindering the binding of single‐stranded RNA substrates to FTO active sites [ ].
+Studies indicate that oocytes with protein defects in the YTH domain exhibit developmental arrest [ , ]. Deletion of YTHDF1 results in increased selective polyadenylation, disrupting normal mRNA translation and significantly reducing follicular maturation rates. Functional studies of YTHDF2 mutations confirm its critical role in the production of mature oocytes (MII eggs), likely mediated through maternal RNA degradation and modulation of MII transcripts [ , ].
+On the basis of the GSE137684 and GSE80432 data sets, we observed that certain genes exhibited distinct expression patterns among the three m6A functional types. Gene correlation analysis of writers and erasers revealed positive correlations between the following four gene pairs in PCOS patients: METTL3‐ALKBH3, METTL14‐ZC3H13, WTAP‐CBLL1, and CBLL1‐PCIF1. These findings suggest potential synergistic relationships among three pairs of writer genes (METTL14‐ZC3H13, WTAP‐CBLL1, and CBLL1‐PCIF1). Additionally, a negative feedback regulatory mechanism may exist between METTL3 and ALKBH3.
+Considering the biological significance of m6A‐regulated genes, we developed a diagnostic model incorporating all 11 m6A genes, which collectively formed the PCOS diagnostic framework. The five genes with the largest absolute effect coefficients were WTAP, METTL14, ZC3H13, PCIF1, and RBM15. Validation of the model's predictive performance using the external data set GSE80432 demonstrated its robustness and superior accuracy. Furthermore, unsupervised clustering of hub genes identified six genes (METTL14, HNRNPA2B1, YTHDF3, YTHDF2, YTHDC1, and YTHDC2) as potential key distinguishing factors.
+The 65 DEGs between the two sample groups were subjected to GO, KEGG, and GSEA enrichment analyses. The top five most significant pathways identified by each method were as follows: platelet alpha granule, extracellular matrix organization, extracellular structure organization, external encapsulating structure organization, and platelet degranulation (GO analysis); ECM‐receptor interaction, chemokine signaling pathway, glutamatergic synapse, African trypanosomiasis, and osteoclast differentiation (KEGG analysis); and olfactory transduction, neuroactive ligand–receptor interaction, hematopoietic cell lineage, cytokine–cytokine receptor interaction, and Hippo signaling pathway (GSEA).
+Additionally, ssGSEA was employed to compare m6A regulator levels with immune cell infiltration in PCOS. Significant differences were observed in activated CD8 T cells, type 17 T helper cells, type 2 T helper cells, and memory B cells between the two sample groups. METTL3 exhibited a highly significant and strong negative correlation with both activated CD8 T cells and activated B cells. CIBERSORT analysis further indicated that METTL3 expression levels were significantly associated with various immune cells, showing a positive correlation with monocytes and a negative correlation with neutrophils. Notably, METTL3 appears to have extensive regulatory functions in PCOS.
+Building upon previous findings, this study investigates the translational potential of m6A regulatory factors in PCOS. Key m6A genes identified, including METTL14 and WTAP, demonstrate altered expression in PCOS patient samples, providing a biological basis for early diagnostic screening and risk stratification. Specifically, the expression profiles of METTL14 and WTAP may serve as candidate biomarkers for molecular PCOS subtyping and personalized diagnostics. Consistent with existing literature, these genes exhibit favorable detectability and specificity across various biological samples, supporting the development of noninvasive or minimally invasive diagnostic approaches.
+Beyond diagnostics, therapeutic strategies targeting m6A regulatory factors show considerable promise. Current research demonstrates the ability of various small‐molecule inhibitors or activators to modulate the activity of m6A modification‐related enzymes, including those targeting METTL3 and FTO, which are currently in preclinical or early clinical phases in other disease contexts, such as cancer and metabolic disorders. In PCOS, targeted modulation of m6A methyltransferases (writers) or demethylases (erasers) may potentially influence the ovarian microenvironment, improve GC function, and mitigate chronic inflammation by impacting immune cell infiltration, offering novel therapeutic avenues for personalized PCOS management. However, further validation is required regarding the specificity, safety, and long‐term efficacy of these potential therapies. A deeper understanding of the molecular mechanisms of the m6A regulatory network in PCOS pathogenesis is essential for guiding clinical translation.
+In summary, m6A regulatory factors show promise as potential biomarkers for early PCOS diagnosis and subtyping, and provide a framework for innovative therapeutic approaches targeting epigenetic modifications. Future multi‐center, large‐scale clinical studies, coupled with functional experiments and translational research, are crucial for advancing the practical application of m6A‐related molecules in PCOS clinical management.
+
+5.
+
+## Conclusions
+This study employed ssGSEA and other advanced multidimensional analytical approaches to systematically investigate the relationship between m6A regulatory factors and immune cell infiltration in PCOS. The findings revealed significant differences in the levels of activated CD8 T cells, Th17 cells, Th2 cells, and memory B cells across different groups. Notably, METTL3 exhibited a highly significant negative correlation with activated CD8 T cells and activated B cells, a positive correlation with monocytes, and a negative correlation with neutrophils, indicating its pivotal role in the regulation of the immune microenvironment in PCOS.
+However, it is important to note that this study primarily relied on bioinformatics analyses derived from publicly available multi‐cohort data sets, and lacks validation through in vivo and in vitro experimental studies. Consequently, the conclusions drawn require further substantiation through functional experiments.
+To address these limitations, future research will focus on conducting in vivo and in vitro experiments using PCOS patient samples and animal models. Through approaches, such as gene knockout, overexpression, and immunodetection, we aim to comprehensively elucidate the biological functions of key m6A regulatory factors and their causal relationships with immune infiltration. This will provide a more robust foundation for understanding the underlying mechanisms. Additionally, we underscore that the bioinformatics findings presented herein serve as valuable leads for subsequent mechanistic investigations.
+
+## Author Contributions
+
+Wenting Xu: conceptualization, data curation, formal analysis, funding acquisition, methodology, writing – original draft. Aifang Lu: conceptualization, data curation, methodology, visualization. Lijuan Cui: formal analysis, investigation, methodology. Haiqing Qian: investigation, methodology, visualization. Jiahui Wang: data curation, methodology, visualization. Mengyu Tang: investigation, project administration, software. Lili Zhu: data curation, methodology, writing – original draft, writing – review and editing. Lihong Wang: conceptualization, project administration, writing – review and editing.
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Acknowledgments
+This work was supported by grants from National Natural Science Foundation of China (82575129), the Science and Technology Program of Jiangsu Province (BE2023734), the Gusu Health Talent Plan Research Project (GSWS2023016), “Science and Education to Promote Health” Youth Science and Technology Project of Suzhou (KJXW2023063), the Natural Science Foundation of Jiangsu province (BK20221266), the Multi‐centre Clinical Research Project Fund for Major Diseases of Suzhou (DZXYJ202311), the Science and Technology Development Plan of Suzhou (SKY2023016 and SYW2024009), the Innovation project of State Key Laboratory on Technologies for Chinese Medicine Pharmaceutical Process Control and Intelligent Manufacture (NZYSKL240202), the Research Project of Jiangsu Society of Traditional Chinese Medicine (PDJH2024046), and the School‐Land Collaborative Innovation Research Project of Jiangsu Pharmaceutical Vocational College (20239602 and 202490608).
+
+Xu W., Shi L., Lu A., et al., “The Intersection of m6A Methylation and Immune Response in PCOS: A Bioinformatics Perspective,” Immunity, Inflammation and Disease
+14 (2026): e70376. 10.1002/iid3.70376.
+
+Wenting Xu, Lingli Shi, and Aifang Lu have contributed equally to this work and share the first authorship.
+
+## Contributor Information
+Lili Zhu, Email: Zhulili0717@163.com.
+Lihong Wang, Email: zjgzywlh@njucm.edu.cn.
+
+## Data Availability Statement
+The data sets generated and analyzed during the current study are available from GEO, STRING analysis, Xiantao Academic Tools (https://www.xiantaozi.com) that provide free online tools and resources. The authors confirm that the data supporting the findings of this study are available within the article.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+The data sets generated and analyzed during the current study are available from GEO, STRING analysis, Xiantao Academic Tools (https://www.xiantaozi.com) that provide free online tools and resources. The authors confirm that the data supporting the findings of this study are available within the article.

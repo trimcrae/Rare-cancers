@@ -1,0 +1,174 @@
+4521caninnovCancer InnovationCancer InnovWileyPMC1161202211612022116120223962933510.1002/cai2.138Subtype‐specific transcription factors affect polyamine metabolism and the tumor microenvironment in breast cancer
+SongQi WangYixuan LiuSen 
+1
+Cooperative Innovation Center of Industrial Fermentation (Ministry of Education and Hubei Province), Key Laboratory of Fermentation Engineering (Ministry of Education), Wuhan, Hubei, China
+2
+Hubei Key Laboratory of Industrial Microbiology, National “111” Center for Cellular Regulation and Molecular Pharmaceutics, Hubei University of Technology, Wuhan, Hubei, China*
+
+Correspondence Sen Liu, Cooperative Innovation Center of Industrial Fermentation (Ministry of Education and Hubei Province), Key Laboratory of Fermentation Engineering (Ministry of Education), Wuhan 430068, Hubei, China. 
+Email: senliu.ctgu@gmail.com
+
+✉Corresponding author.
+212202441e138e1383122024© 2024 The Author(s). Cancer Innovation published by John Wiley & Sons Ltd on behalf of Tsinghua University Press.This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## Abstract
+
+## Background
+Polyamines play important roles in cell growth and proliferation. Polyamine metabolism genes are dysregulated in various tumors. Some polyamine metabolism genes are regulated by transcription factors. However, the transcription factors that regulate polyamine metabolism genes have not been completely identified. Additionally, whether any of the transcriptional regulations depend on tumor heterogeneity and the tumor microenvironment has not been investigated.
+
+## Methods
+We used bulk RNA‐seq data to identify dysregulated polyamine metabolism genes and their transcription factors across breast cancer subtypes. Genes highly correlated with polyamine changes were obtained, and their subtype‐specific expressions were checked in tumor microenvironment cells using single‐cell RNA (scRNA)‐seq data. Gene Ontology enrichment analysis was used to explore their molecular functions and biological processes, and survival analysis was used to examine the impact of these genes on therapeutic outcome.
+
+## Results
+We first analyzed the dysregulation of polyamine synthesis, catabolism, and transport in four breast cancer subtypes. Genes such as AGMAT and CAV1 were dysregulated across all subtypes, while APRT, SAT1, and other genes were dysregulated in the more lethal subtypes. Among the dysregulated genes of polyamine metabolism, we focused on three genes (SRM, APRT, and SAT1) and identified their transcription factors (SPI1 and IRF1 correspond to SAT1, and IRF3 corresponds to SRM and APRT). With scRNA‐seq data, we verified that these three transcription factors also regulated these three polyamine metabolism genes in the tumor microenvironment. Both bulk RNA‐seq and scRNA‐seq data indicated that these genes were specifically upregulated in high‐risk breast cancer subtypes, such as the basal‐like type. High expression of these genes corresponded to worse outcomes in the basal‐like subtype under chemotherapy and radiation treatment.
+
+## Conclusion
+Our work identified three subtype‐specific transcription factors that regulate three polyamine metabolism genes in high‐risk breast cancer subtypes and the tumor microenvironment. Our results deepen the understanding of the role of polyamine metabolism in breast cancer and may help the clinical therapy of advanced breast cancer subtypes.
+
+Keywords: breast cancer, immune cells, polyamine metabolism, transcription factor, tumor microenvironment
+
+Combination analyses of differential expression gene (DEG), polyamine level, gene regulatory networks, Gene Ontology enrichment, and survival ratio were constructed to identify the dysregulated genes and their transcription factors in different breast cancer subtypes. Three polyamine metabolic genes (SRM, APRT, SAT1) and their associated transcription factors (SPI1, IRF1, IRF3) were upregulated in high‐risk breast cancer subtypes.
+
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2024 Apr 7; Received 2024 Jan 19; Accepted 2024 Apr 22; Collection date 2025 Feb.
+
+## Abbreviations
+GOGene Ontology
+GRNgene regulatory network
+KMKaplan–Meier (curve)
+OSoverall survival
+PDSpathway deregulation score
+PUTputrescine
+PVLperivascular‐like cell
+SPDspermidine
+SPMspermine
+TFtranscription factor
+TMEtumor microenvironment
+1.
+
+## INTRODUCTION
+Polyamines, including putrescine (PUT), spermidine (SPD), and spermine (SPM), are cationic metabolites that play important roles in cell growth and proliferation [ , ]. Abnormally elevated polyamine levels have been widely detected in various cancers including breast cancer [ , ]. Thus, targeting polyamine metabolism has become a rational therapeutic strategy for cancer treatment [ , , , , ]. Cellular polyamine content is directly regulated by various enzymes and membrane‐transporting proteins. The genes encoding these enzymes and transporters are subject to transcriptional regulation [ , ]. MYC is a well‐studied proto‐oncogene and encodes myc, a transcription factor (TF) that regulates several polyamine metabolism genes, such as ODC1, the gene encoding the rate‐limiting enzyme ODC1 in polyamine synthesis [ , ]. JUN and FOS coencode AP‐1, which regulates MAT2A, a gene encoding the MAT2A enzyme that synthesizes S‐adenosylmethionine, a necessary substrate for polyamine synthesis [ ]. FLI1 and ETS1 regulate the expression of CAV1, which encodes CAV1, involved in polyamine transport [ , , ]. Additional studies have identified a number of genes that encode transcriptional regulators that show similar expression patterns with polyamine metabolism genes [ , , ]. Nonetheless, a systematic study of the genes driving polyamine dysregulation in cancer is lacking [ ].
+Breast cancer is the leading cancer in women and shows high heterogeneity. In the clinic, breast cancer is generally classified into four subtypes by the expression of marker genes: luminal A (or LumA), luminal B (or LumB), HER‐2 enriched, and basal‐like (which is generally triple‐negative). These four subtypes have evolutionary connections regarding the differentiating states of tumor cells; LumA is the least lethal type and basal‐like is the most dangerous and most difficult to treat. These subtypes are capable of interconverting under some conditions [ , , ]. Better understanding of the genetic and metabolic differences between these subtypes is important for the effective treatment of breast cancer patients.
+In this work, we investigated if and how polyamine metabolism genes and the genes encoding their regulators are heterogeneous in breast cancer. We first identified dysregulated polyamine metabolism genes in the four breast cancer subtypes. We then confirmed that polyamine levels were positively associated with dysregulated polyamine metabolism genes. We further identified transcription factors (TFs) that control the dysregulated polyamine metabolism genes. We found that three TFs (interferon regulatory factor 3, IRF3; interferon regulatory factor 1, IRF1; and Spi‐1 proto‐oncogene, SPI1) regulate three dysregulated polyamine metabolism genes (adenine phosphoribosyltransferase, APRT; spermidine synthase, SRM; and spermidine/spermine N1‐acetyltransferase 1, SAT1, respectively), and these regulations have distinct heterogeneity in the four breast cancer subtypes. Furthermore, we found that these TFs and genes are also dysregulated in the tumor microenvironment (TME) cells with distinct heterogeneity. Finally, we showed that these TFs and genes are important players in affecting the treatment efficacy of breast cancer subtypes. Our work will be of great value in elucidating the role of polyamine metabolism and its regulation in tumor heterogeneity.
+
+2.
+
+## METHODS
+2.1.
+
+## Data collection and preprocessing
+The gene expression profile containing data of 1102 breast cancer samples and 113 normal samples was collected and downloaded from The Cancer Genome Atlas‐Breast Invasive Carcinoma (TCGA‐BRCA) (https://portal.gdc.cancer.gov/repository) [ ]. The samples were classified into four subtypes and normal‐like samples with genefu using the PAM50 breast cancer classification [ ]. Misclassified samples were discarded. The final group included 293 LumA, 471 LumB, 117 HER2, 205 basal‐like, and 91 normal samples.
+To explore the relationship between gene expression and polyamine levels, we used GSE37751 from Gene Expression Omnibus (GEO, https://www.ncbi.nlm.nih.gov/geo/), which contains the metabolic data of 61 breast cancer samples and 47 normal samples [ ]. The samples were classified and filtered into 14 LumA, 10 LumB, 12 HER2, 17 basal‐like, and 33 normal samples by genefu. Single‐cell RNA (ScRNA)‐seq data were acquired from GEO (accession number GSE176078). The samples were from 26 primary tumors, 19 of which were classified into five LumA, three LumB, four HER2, and seven basal‐like with the Allcells‐pseudobulk PAM50 method [ ].
+
+2.2.
+
+## Differential expression analysis of the genes related to polyamine metabolism
+First, 29 genes related to polyamine metabolism were collected from Gene Ontology (GO), Molecular Signature Database (MSigDB), Kyoto Encyclopedia of Genes and Genomes (KEGG), and related studies [ , , , , ]. Next, the genes were classified into four categories on the basis of their functions: 10 genes related to polyamine synthesis, four genes related to polyamine catabolism, 13 genes related to polyamine transport, and two genes related to eIF5A synthesis (Table  ). Dysregulations of polyamine metabolism at pathway levels were estimated with the pathway deregulation score (PDS) in pathifer for the breast cancer subtypes [ ].
+ DEGA was performed using the DESeq2 package for TCGA‐BRCA samples of the four subtypes with normal samples as control [ ]. DEseq2 modified the way to detect outlier, decreasing the rate of type‐I errors, and it's suitable for various data scale with good stability and reproducibility. In addition, compared to other tools, DEseq2 was used more widely among relative researches, which is convenient for further comparisons across most data sets. Genes with an adjusted p value less than 0.05 and absolute value of log2foldchange no less than 0.7 were classified as dysregulated genes related to polyamine metabolism. DEGA was performed for GSE37751, an expression profile by array, using Limma in a similar process, and dysregulated genes were identified by an adjusted p value less than 0.05. The consistency between the results of TCGA‐BRCA and GSE37751 was checked despite the difference cased by the data type and analysis tools. [ ].
+
+2.3.
+
+## Correlation between gene expression and polyamine levels
+Levels of PUT, SPD, and SPM in the four breast cancer subtypes in the metabolome data set GSE37751 were compared. To explore the relationship between the dysregulated gene expressions and polyamine levels, Spearman's correlation analysis was conducted with R 4.1.0 (http://www.R-project.org). Genes with p values of correlation less than 0.05 were chosen for subsequent analyses.
+
+2.4.
+
+## Construction and analysis of gene regulatory network (GRN)
+A gene set containing 1667 human TFs was downloaded from HumanTFDB (http://bioinfo.life.hust.edu.cn/HumanTFDB#!/) [ ]. GENIE3 was used to infer the GRN from TCGA‐BRCA with the TF genes as regulatory genes [ ]. The output of GENIE3 contained weight values between each TF and its target genes. For each target gene related to polyamine metabolism dysregulation, the TFs with top 15% weight were identified. For each TF, the target genes with top 15% weight were identified. Correlations between the TFs and their target genes were used to determine positive (Spearman's correlation coefficient ≥0.3 and p value < 0.05) or negative (Spearman's correlation coefficient ≤−0.3 and p value < 0.05) regulations.
+The regulation between TFs and their target genes was verified by Rcistarget, which was based on annotated binding motifs of TFs. The regulons of TFs and the target genes were obtained [ ]. Regulons related to polyamine metabolism dysregulated genes were extracted. The network was visualized by Cytoscape v 3.0.1.
+
+2.5.
+
+## Analysis of SRM, APRT, and SAT1 genes and their TF genes using scRNA‐seq data
+Omicverse v1.4.17 was used for scRNA‐seq data (GSE176078) preprocessing and analysis [ ]. Filtering was implemented with additional thresholds of cells with gene number greater than 250 and a unique molecular identifier (UMI) count greater than 500. A mitochondrial percentage less than 5% was required. Data normalization, dimensionality reduction, and clustering were conducted using default parameters. Cell clusters were annotated using PySCSA embedded in Omicverse, and the annotations were manually corrected by marker genes. The information of PAM50 subtypes (basal‐like, HER2, LumA, and LumB) was extracted from Wu's study on the basis of the pseudo‐bulk profiles from the scRNA‐Seq. TF analysis of the scRNA‐seq data was performed by pySCENIC with default parameters [ ]. Regulon specificity scores were calculated to explore the activities of IRF3, IRF1, and SPI1 as done in previous studies [ , , ].
+
+2.6.
+
+## Survival analysis
+Clinical information was collected from TCGA‐BRCA, and cases without survival time data or survival status were discarded. Of the 895 cases, 195 cases received chemotherapy, 170 cases received radiotherapy, 373 cases received both chemotherapy and radiotherapy, and 157 cases did not have available records (NA).
+The survival analysis section used the Kaplan‐Meier method and COX model to study the relationship of multiple phenotypes and gene expressions with overall survivals. The COX model was mainly used for analyzing the relationship between multiple phenotypes and survival time, and hence multivariate Cox regression analysis was performed using R package survival v2.38 (http://CRAN.R-project.org/package=survival/) for clinical features, including stage, age, sex, subtype, and therapy type [ ]. Furthermore, the KM method is suitable for visualizing the effect of a single factor on survival time. To evaluate the effects of expression of the polyamine metabolism genes on the clinical outcomes [ , , ], Kaplan–Meier (KM) curves of overall survival (OS) for IRF1, SPI1, SAT1, IRF3, APRT, and SRM were plotted using R package survminer across the four breast cancer subtypes [ ]. The cutoffs separating high and low expression groups were set as optimal for each gene in survminer, which helps to determine the key cutoff points in different gene expression patterns. Two‐sided log‐rank test was applied to determine statistical significance.
+
+3.
+
+## RESULTS
+3.1.
+
+## Identification of dysregulated polyamine metabolism genes in breast cancer
+To identify dysregulated polyamine metabolism genes in breast cancer, we extracted the gene expression spectra from TCGA‐BRCA data (Figure  ). PDS was calculated to estimate the dysregulation of synthesis, catabolism, and transport in polyamine metabolism. All pathways were upregulated in breast cancer, although the extent in each subtype varied (Figure  ). Differential expressed gene analysis further identified 19 dysregulated genes, including seven for polyamine synthesis, two for polyamine catabolism, nine for polyamine transport, and one for eIF5A activation (Figure  ). Among these dysregulated genes, AGMAT, SMS, CAV1, OAZ3, and DOHH were upregulated or downregulated across all subtypes; the other genes showed different expression patterns. The most notable pattern is that ATP13A2, SLC3A2, SLC22A16, AMD1, APRT, ODC1, SRM, SAT1, and SMOX tended to have higher expression levels in more advanced and lethal subtypes (lethality: LumA < LumB< HER2 < basal‐like). AZIN1, AZIN2, and ARG1 showed a reverse trend. This subtype‐dependent expression of polyamine metabolism genes was confirmed with another data set, GSE37751 (Figure  ). GSE37751 contains information concerning polyamine levels, and our analysis showed that the dysregulated polyamine metabolism genes led to upregulated polyamine levels in breast cancer subtypes (Figure  ; Figures  – ). Correlation analysis results showed that the expression levels of AGMAT, APRT, SRM, and SMS positively correlated with PUT, the expression level of CAV1 negatively correlated with PUT and SPD, and the expression levels of SAT1 and ATP13A2 positively correlated with PUT and SPD (Figure  ). These results indicate that the increased polyamine levels in breast cancer may be a combinatory effect of changes in synthesis, catabolism, and transport.
+ 
+3.2.
+
+## Identification of subtype‐specific TFs driving dysregulation of polyamine metabolism genes in breast cancer
+We next examined which TFs regulate AGMAT, APRT, SMS, SRM, SAT1, CAV1, and ATP13A2 in breast cancer. A GRN was inferred from TCGA data and verified with Rcistarget on the basis of binding motifs [ ]. Twenty‐one reliable TFs were identified from the GRN, including one for AGMAT, six for APRT, four for SMS, three for SRM, three for SAT1, one for ATP13A2, and four for CAV1 (Figure  ). The TFs positively correlated with their target genes. The expressions of the polyamine metabolism genes and their TF genes were examined across different breast cancer subtypes (Figure  ). AGMAT, SMS, and CAV1 and their TFs were either upregulated or downregulated simultaneously in all subtypes; APRT, SRM, SAT1, and their TFs were only upregulated simultaneously in the basal‐like and HER2 subtypes. To confirm if APRT, SRM, and SAT1 are regulated by their TFs, binding motif analysis was performed. The results revealed three IRF3‐binding motifs in SRM, two IRF3‐binding motifs in APRT, and three IRF1‐ and SPI1‐binding motifs in SAT1 (Figure  ).
+ 
+3.3.
+
+## Identification of subtype‐specific TFs and dysregulated polyamine metabolism genes in the breast cancer microenvironment
+The TME plays important roles in stimulating tumor proliferation and drug resistance, and polyamine exchange between tumors and the TME is critical for tumor evasion [ , ]. Therefore, we speculated whether the subtype‐specific TFs (SPI1, IRF1, and IRF3) and dysregulated polyamine metabolism genes (SAT1, APRT, and SRM) are also synchronized in the TME cells. To this end, we performed scRNA‐seq data analysis. After dimensionality reduction and clustering, pySCSA and manual correction were applied for cell type annotation (Figure  ), which was similar to the previous report [ ]. The expression of relevant marker genes (ESR1, ESR2, PGR, ERBB2, and MKI67) confirmed the accuracy of the breast cancer subtype classification (Figure  ; Figures  and  ).
+ In the scRNA‐seq results, SRM and IRF3 showed a similar expression pattern, indicating that IRF3 might positively regulate SRM (Figure  ). Similarly, IRF1 and SAT1 showed a similar expression pattern in most cell types, indicating that IRF1 might positively regulate SAT1 (Figure  ). The expression patterns of SPI1 and SAT1 were similar in macrophage and monocyte (Figure  ). These data indicate that the regulation of the subtype‐specific TFs and dysregulated polyamine metabolism genes identified above also exist in the TME cells. Tumor subtype annotations of the TME cells revealed that SRM, APRT, IRF3, and SPI1 have higher expression levels in more advanced subtypes (HER2 and basal‐like) (Figure  ). Thus, the expression of the subtype‐specific TFs and polyamine metabolism genes is also subtype‐specific in TME cells.
+We next investigated how TME cell types change in different breast cancer subtypes. As shown in Figure  , the TME cell types in the four breast cancer subtypes were similar, but their percentages were different. In more lethal subtypes (basal‐like/HER2), T cells, natural killer T cells, macrophage cells, and B cells were markedly increased, while perivascular‐like (PVL) cells and endothelial cells were sharply decreased. The increase of immune cells indicates higher immune responses in the tumor environment. PVL cells and endothelial cells (a main source of cancer‐associated fibroblasts, CAFs) play important roles in breast cancer differentiation and immune evasion [ ]. APRT, SRM, and their TF gene IRF3 were highly expressed in T cells and macrophages, with a tendency for upregulation from LumA, LumB, and HER2 to basal‐like (Figures  ; Figure  ). SAT1 and its TF genes IRF1 and SPI1 were highly expressed in macrophages with a similar tendency among breast cancer subtypes (Figures  ; Figure  ). SAT1 and IRF1 in fibroblasts were highly expressed in the basal‐like and HER2 (Figures  ; Figure  ). SRM, APRT, and SAT1 in epithelial and endothelial cells were highly expressed in the HER2 subtype (Figure  ; Figure  ). The pySCENIC study further validated that SPI1 regulates SAT1 and that SPI1 and IRF1 regulons in macrophages are more activated in the basal‐like subtype (Table  ). This evidence indicated that the subtype‐specific TFs might be involved in reprogramming the TME of breast cancer subtypes by regulating polyamine metabolism.
+
+3.4.
+
+## The subtype‐specific TFs regulate polyamine metabolism and cell immunity in high‐risk breast cancer subtypes
+Our analyses revealed that SPI1, IRF1, and IRF3 are critical TFs in both breast cancer subtypes and their TME cells. We therefore next examined the related cellular processes. Using the target gene sets of the subtype‐specific TFs overexpressed in HER2 and basal‐like subtypes, we analyzed the involved biological processes, molecular function, and cell components. SPI1 and IRF1 showed enrichment in the processes related to cell immunity, such as “positive regulation of cytokine production,” “regulation of T cell activation,” and “mononuclear cell differentiation.” They were related to the cell components of “external side of plasma membrane” and “endocytic vesicle,” and the molecular functions of “cytokine activity,” “cytokine receptor binding,” and “immune receptor activity” (Figure  ; Figure  ). Hence, SPI1 and IRF1 may be involved in the activation of T cells through cytokine activation and in mononuclear cell differentiation. IRF3 was enriched in “ncRNA processing,” “rRNA metabolic process,” and “mitochondrial inner membrane” (Figure  ; Figure  ). These functions were previously reported as their major roles [ , , ]. Furthermore, the enrichment of SPI1 (p = 3.37e − 3) and IRF1 (p = 5.35e − 4) was observed in “amine metabolic process,” SPI1 (p = 3.75e − 2) in “biogenic amine biosynthetic process,” and IRF3 (p = 2.02e − 2) in “nucleoside metabolic process” (Tables  and  ). These processes also involve SAT1, APRT, and SRM, indicating that these three subtype‐specific TFs might regulate polyamine metabolism and cell immunity in HER2 and basal‐like breast cancer cells.
+ 
+3.5.
+
+## The subtype‐specific TFs and their targeted polyamine metabolism genes affect clinical therapeutic outcomes
+Our analyses above indicate that the subtype‐specific TFs (SPI1, IRF1, and IRF3) and their targeted polyamine metabolism genes (SPI1 and IRF1 correspond to SAT1, and IRF3 corresponds to SRM and APRT) have a significant correlation with the progression or lethality of breast cancer. Therefore, we speculated that their expression would affect the therapeutic response of breast cancer patients. To examine the clinical impact of the expression of these genes, Cox model was used to assess the effects of stages, age, subtypes, sex, and therapy types in TCGA‐BRCA (Figure  ). Tumor stage and subtype significantly affected the therapeutic results. Later tumor stage and advanced subtypes (HER2 and basal‐like) had a negative impact. Previous studies suggested that polyamine metabolism genes are related to therapy resistance [ , , ]. We thus assessed how these genes affect therapeutic outcomes in the chemotherapy and radiotherapy patient group. KM curves showed that cases with lower expression of SPI1, IRF3, SAT1, APRT, and SRM had significantly higher OS in the basal‐like subtype, but not other subtypes (Figure  ; Figures  – ).
+ 
+
+4.
+
+## DISCUSSION
+Polyamines are indispensable components of nearly all cells, and cellular polyamine levels are strictly regulated by the polyamine metabolic network. Abnormal polyamine levels and dysregulated polyamine metabolism genes were identified in various tumors [ , ]. In the clinic, breast cancer is classified into four distinct subtypes with different lethality. Our studies [ , ] and recent studies indicated that the regulation of the polyamine metabolic network is different across different breast cancer subtypes [ , ]. Identifying the driving effectors that dysregulate polyamine metabolism in different breast cancer subtypes would be of great value to the treatment of breast cancer.
+We found that polyamine metabolism genes, especially APRT, SRM, and SAT1, tended to be dysregulated in the more advanced and lethal subtypes. The expression levels of these genes showed significant correlation with polyamine levels. This indicates that the more advanced subtypes may be affected more by the dysregulation of polyamine metabolism. For example, APRT is an enzyme crucial for polyamine biosynthesis, and its increased expression may enhance polyamine biosynthesis [ , ]. The increase of PUT could stimulate the expression of SRM, which in turn generates more SPD. Notably, SAT1 expression was positively correlated with both PUT and SPD levels in breast cancer, indicating SAT1 may be an important drug target in the lethal subtypes.
+Our GRN analysis revealed that ETS1 and FLI might regulate the expression of CAV1, which was also indicated in previous studies [ , ]. SRM, APRT, and SAT1 and their associated TFs (IRF1, IRF3, and SPI1) are upregulated only in the basal‐like and HER2, and these genes may be key dysregulated genes related to polyamine metabolism in these subtypes. Previous studies demonstrated roles of IRF1, IRF3, and SPI1 as immune response activators [ , , ]. In our study, IRF1, IRF3, and SPI1 were found to be related to SRM, APRT, and SAT1. Further study indicates that the dysregulated expression of TFs may affect multiple pathways related to polyamine metabolism; this has not been previously demonstrated and is worth further exploration. Studies indicated that IRF1 and SPI1 function in cell proliferation and apoptosis [ , , ], in agreement with the function of SAT1 [ , ].
+Several studies revealed that SPI1 and SAT1 were both related to the pathological properties of macrophages [ , , ], but their relationship was not reported. Our study identified the regulation of SPI1 on SAT1, and the regulon was activated in macrophages. A recent study found that polyamine in macrophages is elevated via transport in specific conditions [ ]. In accordance with polyamines' roles in cell proliferation and differentiation, the increased percentage of macrophages in the lethal subtypes is reasonable. Additionally, increased SAT1 expression in macrophages may be a response to the excessive accumulation of polyamine. Further studies with paired qualified data (metabolome, pheotypes and so on.) would help to determine the mechanisms of polyamine metabolism's impact on the immune system, which could also be a key to the development and improvement of immunotherapy in high risk breast cancer subtypes, such as triple‐negative breast cancer.
+
+5.
+
+## CONCLUSION
+Our study identified three dysregulated polyamine metabolism genes and their associated TFs in high‐risk breast cancer subtypes. Low expression of these genes corresponded to a good prognosis. Their expression in the TME suggested a key role in immune cells. Our results may be of high value to the study of the dysregulation mechanism of the polyamine metabolic network and the targeted therapy of high‐risk breast cancer subtypes.
+
+## AUTHOR CONTRIBUTIONS
+
+Qi Song: Conceptualization (equal); funding acquisition (supporting); investigation (lead); methodology (lead); project administration (supporting); supervision (equal); validation (equal); writing—review and editing (equal). Yixuan Wang: Formal analysis (lead); software (lead); validation (equal); visualization (lead); writing—original draft (lead). Sen Liu: Conceptualization (equal); funding acquisition (lead); project administration (lead); resources (lead); supervision (equal); validation (equal); writing—review and editing (equal).
+
+## CONFLICT OF INTEREST STATEMENT
+The authors declare no conflict of interest.
+
+## ETHICS STATEMENT
+Not applicable.
+
+## INFORMED CONSENT
+Not applicable.
+
+## Supporting information
+Supporting information.
+Supporting information.
+Supporting information.
+
+## ACKNOWLEDGMENTS
+The authors thank all the members of our lab for their support.
+
+Song Q, Wang Y, Liu S. Subtype‐specific transcription factors affect polyamine metabolism and the tumor microenvironment in breast cancer. Cancer Innov. 2025;4:e138. 10.1002/cai2.138
+
+Qi Song and Yixuan Wang contributed equally to this study and shared the first authorship.
+
+## DATA AVAILABILITY STATEMENT
+All data used in this study are available in the public databases, and the details were described in the Methods section.
+
+## REFERENCES
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supporting information.
+Supporting information.
+Supporting information.
+
+## Data Availability Statement
+All data used in this study are available in the public databases, and the details were described in the Methods section.

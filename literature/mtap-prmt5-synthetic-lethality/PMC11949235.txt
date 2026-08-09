@@ -1,0 +1,206 @@
+pmcJCO Precis OncolJCO Precis Oncol2035lwwopenPOJCO Precision Oncology2473-4284pmc-is-collection-domainyespmc-collection-titleLippincott Open AccessPMC11949235PMC11949235.111949235119492354011752910.1200/PO-24-00592PO-24-005921ORIGINAL REPORTSCancer GenomicsGenomic Characterization of Chondrosarcoma Reveals Potential Therapeutic Targets
+https://orcid.org/0000-0002-0753-9282WagnerMichael J.MD https://orcid.org/0000-0002-2317-6207SweeneyNathan W.PhD ChenEleanor Y.MD, PhD RicciottiRobertMD Despite advances in treatment across cancer types, there is still no effective systemic treatment for conventional chondrosarcoma. Mesenchymal and dedifferentiated chondrosarcomas are often treated along Ewing sarcoma and osteosarcoma paradigms, respectively, but with limited evidence to support this use. - 
+
+## CONTEXT
+
+Key Objective
+
+Chondrosarcomas are rare cancers of cartilage with limited systemic therapy options. We investigated the molecular and immune landscape of three chondrosarcoma subtypes using a large database of clinical-grade sequencing results.
+
+Knowledge Generated
+
+In addition to identifying the previously reported IDH mutations in chondrosarcoma, we found that MTAP was deleted in >10% of each subtype and potentially actionable PDGFRB mutations were identified in 13% of dedifferentiated chondrosarcomas. Forty-five percent of dedifferentiated chondrosarcomas were PD-L1–positive.
+
+Relevance
+
+These findings reinforce current therapeutic efforts to target IDH signaling in chondrosarcoma and identify other potential biomarkers including alterations in MTAP, CDKN2A, PDGFRB, and PD-L1 expression that can guide clinical trial design.
+
+After the identification of IDH mutations in chondrosarcoma, IDH inhibitors are now being studied in this disease. 
+COL2A1 alterations are present in over a third of chondrosarcomas, but these are not clinically actionable. Reports of patients responding to immune checkpoint inhibitors are published, but without a clear mechanism for why some patients with chondrosarcoma respond to immunotherapy. - A prospective study of an immune checkpoint inhibitor in conventional chondrosarcoma was negative. 
+Preclinical studies have suggested that some chondrosarcoma subtypes may be more responsive to immune-mediated therapies. One study found that 41% of dedifferentiated chondrosarcomas express PD-L1 exclusively in the dedifferentiated component, and PD-L1 expression was absent in the conventional, mesenchymal, and clear cell subtypes. Similarly, separate studies identified PD-L1 positivity in higher grade chondrosarcomas, such as grade 3 or dedifferentiated, with no low- or intermediate-grade tumors having PD-L1 immunoreactivity. , A multiomic characterization of chondrosarcomas found that a dedifferentiated-like subtype of chondrosarcoma that the authors termed C6 had the highest expression of PDL1 and the highest level of intratumoral T cells. 
+We sought to characterize the molecular and immune landscape of conventional, dedifferentiated, and mesenchymal chondrosarcomas using a large database of real-world clinical-grade sequencing results with the goal of identifying new therapeutic targets.
+
+## METHODS
+
+## Cohort
+A sample of deidentified records from patients with a histologic diagnosis of conventional chondrosarcoma, dedifferentiated chondrosarcoma, or mesenchymal chondrosarcoma in the Tempus Database who had completed tissue DNA sequencing between November 2018 and May 2023 with the Tempus xT assay were included for this retrospective analysis (Tempus AI, Inc, Chicago, IL). This study was conducted on deidentified health information subject to an IRB exempt determination (Advarra Pro00072742) and did not involve human subject research.
+
+## Assigning Histological Grade and Pretreatment Status
+Histologic grading was determined from curated clinical reports derived from a combination of structured data in electronic health record systems and unstructured data collected from patient records via technology-enabled chart abstraction. Due to the inclusion of unstructured data in the curation of these reports, clinical characteristics are often abstracted on the basis of a set of rules for interpreting a mixture of categorical and numerical data. In the case of histologic grading, categorical physician notes were assigned to a numerical grade on the basis of the inclusion of specific terms. For example, a note including the terms differentiated, NOS or well differentiated was classified as grade 1, whereas a note including fairly well differentiated, intermediate differentiation, mid differentiated, partially differentiated, relatively well differentiated, or similar terms was classified as grade 2. Likewise, notes such as moderately poorly differentiated, poorly differentiated, or dedifferentiated were classified as grade 3. In cases where multiple tumor characterization records were present for a given patient, the grade recorded closest to the sample collection date was selected. Any samples without complete tumor characterization date information, regardless of whether a grade was reported in the patient record, were considered to have an unknown grade.
+Treatment information was similarly curated from clinical notes and reports. A treatment was defined as any antineoplastic therapy received, such as medications and cellular therapies, plus radiation therapies. Only patients with recorded treatment and treatment start dates were included in the analysis of sample collection date relative to treatment start date; all others were classified as having an unknown sample collection date relative to treatment start date.
+
+## DNA Sequencing
+Ordering physicians were not required to order both sequencing and PD-L1 immunohistochemistry (IHC). Tempus xT next-generation sequencing assay results were analyzed as previously described. Briefly, Tempus xT is a targeted, tumor/normal-matched panel that detects single-nucleotide variants, insertions and/or deletions, and copy number variants in 596 or 648 genes depending on version number, as well as chromosomal rearrangements in 22 genes with high sensitivity and specificity.
+Microsatellite instability (MSI) was calculated as previously published. Briefly, the Tempus xT panel derived MSI from 239 loci (each with minimum read thresholds). The proportion of unstable microsatellite loci was fed into a previously trained classification algorithm, resulting in four categories: microsatellite instability-high, microsatellite stable (MSS), microsatellite equivocal, or undetermined.
+Tumor mutational burden (TMB) was calculated by dividing the count of all nonsilent mutations (including missense single-nucleotide polymorphisms/indels) by the total size of the Tempus xT panel coding region. Samples with TMB >10 mutations/Mb were considered TMB-high.
+
+## PD-L1 IHC
+The expression of PD-L1 and mismatch repair enzymes was evaluated in cases with available IHC data using PD-L1 antibody 22c3 (Agilent Cat SK006, RRID:AB_2889976). Slides were scored by a pathologist using the tumor proportion score (TPS), calculated as the number of PD-L1–positive tumor cells divided by the total number of PD-L1–positive and PD-L1–negative tumor cells. PD-L1–positive is defined as a TPS of 1% or more.
+
+## Statistical Analysis
+Oncoplot was made using the CoMut package for Python (RRID:SCR_008394). Statistical comparisons were made using a t-test or analysis of variance (ANOVA) and graphs were made in GraphPad Prism v10 (RRID:SCR_002798). Chi-square tests were conducted in SPSS v28 (RRID:SCR_002865). Two-sided P < .05 were considered significant.
+
+## RESULTS
+There were 149 patient records identified consisting of 103 conventional chondrosarcoma, 31 dedifferentiated chondrosarcoma, and 15 mesenchymal chondrosarcoma samples. Available patient demographics and tumor characteristics are reported in Table .
+ Of the total cohort (N = 149), 44% had either an IDH1 or IDH2 mutation (n = 65). IDH1 mutations were present in 34% of conventional (n = 35), 38.7% of dedifferentiated (n = 12), and 0% of mesenchymal cases. IDH2 mutations were identified in 5.8% of conventional (n = 6), 38.7% of dedifferentiated (n = 12), and 0% of mesenchymal cases. Collectively, 40% of conventional chondrosarcomas had a mutation in IDH1 or IDH2 and 77% of dedifferentiated chondrosarcomas had a mutation in IDH1 or IDH2. In conventional chondrosarcoma, the most common somatic alterations were in IDH1 (n = 35, 34%), TP53 (n = 29, 28%), CDKN2A (n = 18, 17%), CDKN2B (n = 14, 14%), TERT promoter (n = 13, 13%), MTAP (n = 12, 12%), IDH2 (n = 6, 6%), and LRP1B (n = 6, 6%). In dedifferentiated chondrosarcoma, the most common somatic alterations were in TP53 (n = 21, 68%), TERT promoter (n = 20, 65%), IDH1 (n = 12, 39%), IDH2 (n = 12, 39%), CDKN2A (n = 11, 35%), CDKN2B (n = 11, 35%), MTAP (n = 6, 19%), and PDGFRB (n = 4, 13%). In mesenchymal chondrosarcoma, the most common somatic alterations were in HEY1-NCOA2 fusions (n = 13, 87%), CDKN2A (n = 3, 20%), CDKN2B (n = 2, 13%), MTAP (n = 2, 13%), FANCL (n = 1, 7%), GATA1 (n = 1, 7%), KMT2C (n = 1, 7%), and RBM10 (n = 1, 7%; Fig ). Copy number alterations were present in patients with or without IDH1/2 mutations, with only 12 cases having any gene amplifications (Appendix Table A ). The copy number alterations seen in patients with IDH1 or IDH2 mutations are presented in Appendix Table A .
+ One patient with conventional chondrosarcoma had an activating KIT exon 11 mutation (V559A), and one had a KRAS G12D mutation. One patient with conventional chondrosarcoma had rearrangements involving NTRK1 (FAM20B-NTRK1 and TPR-NTRK1 detected in the same patient; Table ).
+ Of the six cases of dedifferentiated chondrosarcoma with any PDGFRB mutations, four are known to be pathogenic (N666S, N666K, D850V, R561C) and two were classified as variants of unknown significance located in the extracellular domain (T36I, S493I). One dedifferentiated chondrosarcoma case had a DYNC1LI2-RAF1 fusion.
+Among 112 patients with available PD-L1 IHC data, 10% of conventional (n = 7), 45% of dedifferentiated (n = 13), and 17% of mesenchymal cases (n = 2) had a TPS of ≥1 (Table ). Only dedifferentiated chondrosarcoma cases had a PD-L1 TPS >50%. There was no difference in the likelihood of PD-L1 positivity between IDH1/2 mutant tumors and IDH wild-type tumors (Appendix Fig A ; χ2(2) = 0.567; P = .753). Dedifferentiated chondrosarcoma had higher TPS compared with conventional chondrosarcoma (unpaired t-test; P < .001). The TPS difference between dedifferentiated and mesenchymal chondrosarcoma was nonsignificant (unpaired t-test; P = .144; Fig A). The median TMB was 1.533 mutations/Mb (95% CI, 1.168 to 1.898) for conventional, 2.307 mutations/Mb (95% CI, 1.533 to 3.460) for dedifferentiated, and 0.594 mutations/Mb (95% CI, 0.000 to 3.431) for mesenchymal. One patient with conventional chondrosarcoma had a high TMB (>10 mutations/Mb); no patients with dedifferentiated or mesenchymal chondrosarcoma had a high TMB (Fig B). TMB differences were not significant (ANOVA P = .41). All patients in each subtype were MSS.
+ 
+
+## DISCUSSION
+We report the genomic and immune profile of three chondrosarcoma subtypes. These results redemonstrate the presence of IDH mutations in conventional and dedifferentiated chondrosarcoma and identify less common alterations in genes such as MTAP in a subset of patients, which can inform future trial design. We also identify several targetable alterations that are not typically associated with chondrosarcoma but could lead to potential therapeutic options for patients with tumors that are generally considered unresponsive to current treatments. Although rare, one patient with conventional chondrosarcoma was identified to have a high TMB and all subtypes had some patients that were PD-L1–positive, suggesting possible mechanisms by which a small minority of patients with chondrosarcoma have been observed to respond to immune checkpoint inhibitors.
+In other tumor types, IDH mutation status can affect the composition of the immune microenvironment. In high-grade gliomas, IDH-mutant tumors demonstrate reduced suppressive myeloid cells and an abundance of microglia. 
+IDH-mutant cholangiocarcinoma has reduced T-cell infiltration, suggestive of a cold immune microenvironment. We did not detect differences in PD-L1 expression between IDH-mutant and IDH-wild-type chondrosarcoma.
+To date and despite advances in our knowledge of biologic drivers of disease, no effective systemic treatments exist for metastatic chondrosarcoma. Systemic therapy of any type in dedifferentiated chondrosarcoma yielded a response rate of 9% with a median overall survival of 7.2 months. 
+IDH1/2 mutations such as those identified in our data set are well characterized in cartilaginous neoplasms including enchondroma, conventional chondrosarcoma, and dedifferentiated chondrosarcoma. However, a prospective clinical trial of the IDH inhibitor ivosidenib yielded no radiographic responses and a progression-free rate at 6 months of 39.5%. 
+CDKN2A/B loss was found at a relatively high frequency, and these mutations have previously been reported in chondrosarcoma. , Although mechanistically CDKN2A loss would suggest susceptibility to CDK4/6 inhibitors, treatment with palbociclib was not effective in other tumor types with CDKN2A loss. A recent genomic profiling effort of conventional and dedifferentiated chondrosarcoma had limited targeted gene coverage using retrospective sequencing results with over half of the patient data derived from a platform that only sequenced 50 genes and did not assess for some potentially actionable genes identified in our series. Effective new therapeutic targets for chondrosarcoma are critically needed.
+CDKN2A homozygous deletion often extends to the neighboring gene MTAP, resulting in increased levels of methylthioadenosine (MTA). MTA partially inhibits PRMT5, a methyltransferase involved in multiple essential biological functions. , MTA-cooperative PRMT5 inhibitors selectively bind MTA-PRMT5, thereby inhibiting PRMT5 in the tumor cells with high MTA levels and sparing the normal cells. MTA-cooperative PRMT5 inhibitors are in clinical testing and have demonstrated clinical responses in multiple cancer types with MTAP deletion. In our study, MTAP was deleted in 12% of conventional, 19% of dedifferentiated, and 13% of mesenchymal chondrosarcomas. Next-generation sequencing may underestimate the true incidence of MTAP deletion by missing subgenic MTAP deletions that may still abolish MTAP function. Furthermore, MTAP copy number alteration calls can be challenging in the context of marked aneuploidy, as is seen in high-grade chondrosarcomas. Thus, further studies investigating MTAP loss at the protein level are needed to determine the true incidence of MTAP deletion in this population. MTAP deletions have not been previously described in chondrosarcoma, and these results suggest a novel therapeutic vulnerability.
+Nearly 20% of patients with dedifferentiated chondrosarcoma had PDGFRB alterations. A clinical trial of imatinib, a PDGFRA/B inhibitor, in chondrosarcoma was deemed a negative trial; however, no dedifferentiated chondrosarcomas were included. Although PDGFRA mutations are relatively common in GI stromal tumor, PDGFRB mutations were only recently characterized in sarcomas. Interestingly, PDGFRB-mutant myogenic tumors have a more aggressive clinical course than their counterparts, similar to how dedifferentiated chondrosarcoma compares with conventional chondrosarcoma. Given these findings, a future trial of imatinib in patients with PDGFRB-mutant sarcomas may be beneficial.
+Dedifferentiated chondrosarcoma was most likely to be PD-L1–positive compared with conventional and mesenchymal chondrosarcoma. Notably, at least some examples of individuals with PD-L1 expression were found in each subtype, compared with a previous report that only found PD-L1 expression in dedifferentiated chondrosarcoma and not in conventional or mesenchymal chondrosarcoma. This is consistent with the reported activity of checkpoint inhibitors in chondrosarcoma, where several examples exist of responses in dedifferentiated chondrosarcoma, , , and the rare response is reported in conventional chondrosarcoma. One of the patients with dedifferentiated chondrosarcoma had a PD-L1 TPS of 7%. Indeed, dedifferentiated chondrosarcomas in particular have been shown to have PD-L1 expression on the dedifferentiated component with associated T-cell infiltration and HLA class I expression. Our finding that only dedifferentiated cases had PD-L1 TPS of 50% or greater is also consistent with the multiple previous reports of responses in this subtype and suggests that a study of immune checkpoint inhibition in dedifferentiated chondrosarcoma is warranted.
+It is important to note that biomarkers other than TMB and PD-L1 status may be relevant in chondrosarcoma but were beyond the scope of this study. Conventional chondrosarcomas cluster into three immune categories: one with a high number of HLA-DR– CD14– myeloid cells, one infiltrated with exhausted T cells and dendritic cells, and one with little immune cell infiltration. In a series of 12 patients with conventional chondrosarcoma treated with immune checkpoint inhibitors, one had a response and two patients were deemed to have benefit with durable stable disease; all were in the subgroup characterized by infiltration with exhausted T cells and dendritic cells. Both T cells and PD-L1+ tumor–associated macrophages correlate with response to pembrolizumab in an unselected group of sarcomas. 
+Strengths of this study include its relatively large sample for an ultra-rare disease, inclusion of different chondrosarcoma subtypes, and real-world applicability by incorporating patients from sites across the United States. Limitations include the finite number of genes sequenced, precluding our ability to identify genes that would be covered by whole-exome or whole-genome sequencing but are known to be mutated in chondrosarcoma (such as COL2A1). Although the cases were reviewed by pathologists, they were not centrally reviewed by sarcoma specialist pathologists, and for regulatory purposes we were unable to re-review the histology retrospectively and some cases may be misclassified. As an example, the previously described HEY1-NCOA2 known to be associated with mesenchymal chondrosarcoma was identified in 13 of 15 mesenchymal chondrosarcomas in this series, but was also found in one case classified as a conventional chondrosarcoma. Furthermore, these deidentified records are representative of the information available for each patient at the time a sample was submitted for sequencing. Due to the nature of retrospective, real-world data analyses where clinical characteristics are often abstracted from unstructured data, there is a high degree of missingness with clinical data that were not mandatory for the sample to be processed on the sequencing platform. Therefore, we cannot discuss clinical follow-up or treatment for the specific cases analyzed with certainty.
+In conclusion, these findings reinforce current therapeutic efforts to target IDH signaling in chondrosarcoma and identify potentially actionable targets that to date have not been reported in chondrosarcoma, such as MTAP loss and PDGFRB mutations. Given PD-L1 expression in a minority of cases and one case with a high TMB, these data provide insight into why some patients respond to immune checkpoint inhibitors. Biomarker-driven trials are needed to understand the significance and potential applications of these results in clinical practice.
+
+## ACKNOWLEDGMENT
+We thank Matthew Kase for thoughtful comments on the manuscript.
+
+## PRIOR PRESENTATION
+Presented at the 2023 Connective Tissue Oncology Society (CTOS) meeting, Dublin, Ireland, November 2, 2023.
+
+## DATA SHARING STATEMENT
+A data sharing statement provided by the authors is available with this article at DOI https://doi.org/10.1200/PO-24-00592.
+
+## AUTHOR CONTRIBUTIONS
+Conception and design: Michael J. Wagner, Jesse L. Roberts, Binyam Yilma, Melissa C. Stoppler, Lee D. Cranmer
+Collection and assembly of data: Erica M. Pimenta, Nathan W. Sweeney, Robert Ricciotti, Rachel Berg
+Data analysis and interpretation: Michael J. Wagner, Nathan W. Sweeney, Elizabeth T. Loggers, Elyse Brinkman, Eleanor Y. Chen, Robert Ricciotti, Candace L. Haddox, Rachel Berg, Binyam Yilma, Melissa C. Stoppler, James L. Chen, Lee D. Cranmer
+Manuscript writing: All authors
+Final approval of manuscript: All authors
+Accountable for all aspects of the work: All authors
+
+## AUTHORS' DISCLOSURES OF POTENTIAL CONFLICTS OF INTEREST
+The following represents disclosure information provided by authors of this manuscript. All relationships are considered compensated unless otherwise noted. Relationships are self-held unless noted. I = Immediate Family Member, Inst = My Institution. Relationships may not relate to the subject matter of this manuscript. For more information about ASCO's conflict of interest policy, please refer to www.asco.org/rwc or ascopubs.org/po/author-center.
+Open Payments is a public database containing information reported by companies about payments made to US-licensed physicians (Open Payments).
+
+Michael J. Wagner
+
+Consulting or Advisory Role: AADi, Pharmaessentia, Boehringer Ingelheim, Deciphera, SpringWorks Therapeutics
+Research Funding: Adaptimmune (Inst), Deciphera (Inst), Incyte (Inst), Foghorn Therapeutics (Inst), Presage Biosciences (Inst)
+Travel, Accommodations, Expenses: Cogent Biosciences
+
+Nathan W. Sweeney
+
+Employment: Tempus AI
+Leadership: Tempus AI
+Stock and Other Ownership Interests: Cara Therapeutics, Tempus AI
+
+Elizabeth T. Loggers
+
+Research Funding: Epizyme (Inst), Karyopharm Therapeutics (Inst), SpringWorks Therapeutics (Inst), Ayala Pharmaceuticals (Inst), BioAtla (Inst), Adaptimmune (Inst), GlaxoSmithKline (Inst), AmMax Bio (Inst), Lilly (Inst), Dicephera Pharmaceuticals, Inc (Inst), Avacta Life Sciences (Inst), InhibRx (Inst), Boehringer Ingelheim (Inst)
+
+Jesse L. Roberts
+
+Travel, Accommodations, Expenses: Deciphera
+Uncompensated Relationships: Deciphera
+
+Robert Ricciotti
+
+Employment: Incyte (I)
+Stock and Other Ownership Interests: Incyte (I)
+
+Candace L. Haddox
+
+Employment: Dana-Farber Cancer Institute
+Honoraria: i3 Health
+Consulting or Advisory Role: AADi, SpringWorks Therapeutics, Deciphera
+Research Funding: Tango Therapeutics (Inst), Roche/Genentech (Inst), HiFiBiO Therapeutics (Inst), AADi (Inst), Cogent Biosciences (Inst), ASCO, EMD Serono/Merck (Inst)
+
+Rachel Berg
+
+Employment: Tempus, AbbVie
+
+Binyam Yilma
+
+Employment: Tempus AI, Inc
+Stock and Other Ownership Interests: Tempus AI
+Consulting or Advisory Role: Analysis Group
+
+Melissa C. Stoppler
+
+Employment: Gilead Sciences (I), Roche/Genentech (I), Tempus AI, Inc
+Stock and Other Ownership Interests: Roche/Genentech (I), Gilead Sciences (I), Tempus AI, Inc
+
+James L. Chen
+
+Employment: Tempus
+Consulting or Advisory Role: Tempus
+Patents, Royalties, Other Intellectual Property: MatchTX
+
+Lee D. Cranmer
+
+Consulting or Advisory Role: SpringWorks Therapeutics
+Research Funding: AADi (Inst), Advenchen Laboratories (Inst), Lilly (Inst), Exelixis (Inst), Iterion Therapeutics (Inst), Philogen (Inst), Merck (Inst), TRACON Pharma (Inst), Avacta Life Sciences (Inst), Salarius Pharmaceuticals (Inst), InhibRx (Inst), Salarius Pharmaceuticals (Inst), Boehringer Ingelheim (Inst), Monopar Therapeutics (Inst), AADi
+No other potential conflicts of interest were reported.
+
+Michael J. Wagner
+
+Consulting or Advisory Role: AADi, Pharmaessentia, Boehringer Ingelheim, Deciphera, SpringWorks Therapeutics
+Research Funding: Adaptimmune (Inst), Deciphera (Inst), Incyte (Inst), Foghorn Therapeutics (Inst), Presage Biosciences (Inst)
+Travel, Accommodations, Expenses: Cogent Biosciences
+
+Nathan W. Sweeney
+
+Employment: Tempus AI
+Leadership: Tempus AI
+Stock and Other Ownership Interests: Cara Therapeutics, Tempus AI
+
+Elizabeth T. Loggers
+
+Research Funding: Epizyme (Inst), Karyopharm Therapeutics (Inst), SpringWorks Therapeutics (Inst), Ayala Pharmaceuticals (Inst), BioAtla (Inst), Adaptimmune (Inst), GlaxoSmithKline (Inst), AmMax Bio (Inst), Lilly (Inst), Dicephera Pharmaceuticals, Inc (Inst), Avacta Life Sciences (Inst), InhibRx (Inst), Boehringer Ingelheim (Inst)
+
+Jesse L. Roberts
+
+Travel, Accommodations, Expenses: Deciphera
+Uncompensated Relationships: Deciphera
+
+Robert Ricciotti
+
+Employment: Incyte (I)
+Stock and Other Ownership Interests: Incyte (I)
+
+Candace L. Haddox
+
+Employment: Dana-Farber Cancer Institute
+Honoraria: i3 Health
+Consulting or Advisory Role: AADi, SpringWorks Therapeutics, Deciphera
+Research Funding: Tango Therapeutics (Inst), Roche/Genentech (Inst), HiFiBiO Therapeutics (Inst), AADi (Inst), Cogent Biosciences (Inst), ASCO, EMD Serono/Merck (Inst)
+
+Rachel Berg
+
+Employment: Tempus, AbbVie
+
+Binyam Yilma
+
+Employment: Tempus AI, Inc
+Stock and Other Ownership Interests: Tempus AI
+Consulting or Advisory Role: Analysis Group
+
+Melissa C. Stoppler
+
+Employment: Gilead Sciences (I), Roche/Genentech (I), Tempus AI, Inc
+Stock and Other Ownership Interests: Roche/Genentech (I), Gilead Sciences (I), Tempus AI, Inc
+
+James L. Chen
+
+Employment: Tempus
+Consulting or Advisory Role: Tempus
+Patents, Royalties, Other Intellectual Property: MatchTX
+
+Lee D. Cranmer
+
+Consulting or Advisory Role: SpringWorks Therapeutics
+Research Funding: AADi (Inst), Advenchen Laboratories (Inst), Lilly (Inst), Exelixis (Inst), Iterion Therapeutics (Inst), Philogen (Inst), Merck (Inst), TRACON Pharma (Inst), Avacta Life Sciences (Inst), Salarius Pharmaceuticals (Inst), InhibRx (Inst), Salarius Pharmaceuticals (Inst), Boehringer Ingelheim (Inst), Monopar Therapeutics (Inst), AADi
+No other potential conflicts of interest were reported.
+
+## APPENDIX

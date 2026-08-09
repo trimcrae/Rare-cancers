@@ -1,0 +1,320 @@
+pmcFront Cell Dev BiolFront Cell Dev Biol2593frontcdb101630250Front. Cell Dev. Biol.Frontiers in Cell and Developmental Biology2296-634XFrontiers Media SAPMC12975753PMC12975753.112975753129757534182235910.3389/fcell.2026.172506017250601Original ResearchAC005034.3/hsa-miR-126-5p/EIF3H axis: bioinformatics analysis, expression validation, and association with prognosis and immunosuppressive microenvironment in pancreatic adenocarcinoma
+Sun et al.
+10.3389/fcell.2026.1725060
+SunKai Funding acquisitionSupervisionWriting - original draftWriting - review and editingInvestigationSoftwareResourcesData curationProject administrationFormal AnalysisValidationConceptualizationMethodologySongZhi-xin InvestigationConceptualizationSoftwareWriting - review and editingZhangXiao-yun Writing - review and editingSupervisionData curationMethodologyWangXue-xing ValidationProject administrationWriting - review and editingFormal AnalysisWenSong Funding acquisitionWriting - review and editingResourcesWangKe-run Writing - review and editingWriting - original draftProject administrationData curationQiuYi-lian ValidationVisualizationSupervisionWriting - review and editing
+1
+Department of Oncology, The Affiliated Cancer Hospital of Gannan Medical University (Ganzhou Cancer Hospital), Ganzhou, Jiangxi, China
+
+2
+Department of Pathology, Zhangye People’s Hospital Affiliated to Hexi University, Zhangye, Gansu, China
+
+*Correspondence: Ke-run Wang, wangkerun2025@yeah.net; Yi-lian Qiu, 15679751240@163.com
+†These authors have contributed equally to this work and share first authorship
+‡These authors have contributed equally to this work
+252202620261450608017250601410202513120263112026250220261203202613032026Copyright © 2026 Sun, Song, Zhang, Wang, Wen, Wang and Qiu.2026Sun, Song, Zhang, Wang, Wen, Wang and Qiuhttps://creativecommons.org/licenses/by/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+## Background
+Pancreatic adenocarcinoma (PAAD) ranks among the most lethal human solid tumors, distinguished by its swift progression and limited effective treatment options. The eukaryotic translation initiation factor 3 subunit H (EIF3H) is postulated to be a critical factor in translational initiation, with emerging research indicating its potential involvement in promoting tumor invasion and metastasis. Nevertheless, the precise role of EIF3H within tumors remains insufficiently understood.
+
+## Methods and Results
+Employing a comprehensive pan-cancer methodology, we conducted an analysis of datasets from The Cancer Genome Atlas (TCGA), Gene Expression Omnibus (GEO), ArrayExpress, and the International Cancer Genome Consortium (ICGC). This analysis systematically assessed the prognostic significance, clinical associations, signaling pathways, immune infiltration profiles, and chemotherapeutic sensitivity associated with EIF3H expression. Through a series of correlation, expression, and survival analyses, we identified noncoding RNAs (ncRNAs) that contribute to the upregulation of EIF3H in pancreatic adenocarcinoma (PAAD). Notably, we identified the AC005034.3/hsa-miR-126-5p axis as the most promising upstream ncRNA-related pathway influencing EIF3H expression in PAAD. The differential expression of these three genes between PAAD and normal pancreatic tissues was further validated using reverse transcription-quantitative polymerase chain reaction (RT-qPCR) and immunohistochemistry (IHC). Additionally, we demonstrated significant correlations between EIF3H expression and immune infiltration profiles, as well as chemotherapeutic sensitivity in PAAD. Furthermore, we constructed a protein-protein interaction (PPI) network and performed functional annotations involving EIF3H.
+
+## Conclusion
+Our findings indicate that ncRNA-driven overexpression of EIF3H is associated with poor prognosis and tumor immune cell infiltration in PAAD, suggesting that the AC005034.3/hsa-miR-126-5p/EIF3H axis may serve as a promising prognostic biomarker and therapeutic target in PAAD.
+
+EIF3Himmune infiltrationncRNAspancreatic adenocarcinomaprognosisThe author(s) declared that financial support was received for this work and/or its publication. This work was supported by the Science and Technology Combined with Healthcare Special Program of Ganzhou (2025YLCE0173) and the Science and Technology Development Planning Project of Ganzhou (GZWJW202502271). 
+
+## Correlations between expression of EIF3H and prognosis of pan-cancer patients
+The prognostic significance of EIF3H expression across multiple cancer types using univariate Cox regression analysis. Elevated EIF3H expression was significantly associated with worse overall survival in several malignancies, including ACC (HR = 1.87, p = 0.0124), BRCA (HR = 1.34, 95% CI: 1.09–1.65, p = 0.00613), CESC (HR = 1.61, p = 0.0283), HNSC (HR = 1.50, p = 0.00338), KICH (HR = 3.17, 95%, p = 0.0213), KIRP (HR = 2.50, p = 0.0027), LIHC (HR = 1.40, p = 0.00345), LUAD (HR = 1.42, p = 0.00421), SARC (HR = 1.56, p = 0.00509) and PAAD (HR = 2.12, p = 0.00133), among others. Conversely, it was a favorable prognostic factor in KIRC (HR = 0.691, p = 0.00321), LGG (HR = 0.553, p = 0.000658), and THYM (HR = 0.182, p = 0.00569) ( ). Further Kaplan-Meier analysis in the TCGA PAAD cohort confirmed that high EIF3H expression was significantly associated with poorer overall survival (HR = 2.14), progression-free survival (PFS, HR = 2.257), and disease-specific survival (DSS, HR = 2.443) ( ). Time-dependent ROC analysis demonstrated that EIF3H expression possessed predictive capability for 1-, 3-, and 5-year survival, with AUC values ranging from 0.575 to 0.682. These findings strongly suggested that EIF3H functioned as a significant prognostic biomarker in a pan-cancer context, particularly in PAAD. To evaluate the prognostic significance of EIF3H in PAAD, KM survival analyses were conducted across multiple independent cohorts ( ). The analyses illustrated OS curves stratified by EIF3H expression in the E_MTAB_6134 (log-rank p = 0.0092), GSE57495 (log-rank p = 0.022), and ICGC_PAAD_CA_seq (log-rank p = 0.01) datasets, respectively ( ). In these datasets, patients with high EIF3H expression exhibited significantly shorter OS compared to those with low expression. Similarly, RFS curves were depicted in the E_MTAB_6134 (log-rank p = 0.0049), ICGC_PAAD_AU_array (log-rank p = 0.037), and ICGC_PAAD_CA_seq (log-rank p = 0.011) datasets, demonstrating that high EIF3H expression was also associated with poorer RFS ( ). The consistent findings across multiple independent datasets reinforced the evidence that EIF3H served as a robust and reliable prognostic biomarker in PAAD.
+ 
+
+## Analysis of upstream miRNAs of EIF3H
+Increasing evidence that ncRNAs regulate gene expression by various manners at almost every step ( ; ). LncRNAs affects miRNA affinity of target mRNA by attaching to the similar miRNA response elements, thereby regulating gene expression at the transcriptional level ( ; ).To unravel whether EIF3H was regulated by some ncRNAs, we predicted upstream binding miRNAs of EIF3H via several target gene prediction website, TargetScan ( ), miRDB ( ; ), miRcode, miRmap ( ), miRWalk ( ), DIANA-microT ( ; ) and ENCORI ( ; ), finally found 14 miRNAs ( ). Cystoscope software was used to establish a miRNA-EIF3H regulatory network. There should be a negative relationship between EIF3H and upstream miRNA in because of the mechanism that upstream miRNAs were negatively regulated the expression of EIF3H at the post-transcriptional level. So, the correlation between EIF3H and 14 miRNAs was detected via in PAAD TCGA database. As a result, our study showed that the expression levels of EIF3H were significance negatively associated with hsa-miR-126-5p (MIR126) (P < 0.01), and no statistical expression relationships between EIF3H and other miRNAs in PAAD ( ; ). We quantified the mRNA expression levels of hsa-miR-126-5p in 179 PAAD tumor tissues and 4 adjacent non-tumor tissues by integrating data from TCGA and GTEx databases. Compared with adjacent non-tumor tissues, hsa-miR-126-5p expression was significantly downregulated in PAAD tumor tissues ( ). This finding was further validated in the GSE62452 dataset, where tumor tissues exhibited markedly reduced MIR126 expression relative to normal tissues (p < 0.0001). Moreover, in the ICGC_PAAD_AU_array dataset, MIR126 expression showed progressive downregulation with advancing tumor stage (T1 to T4) and was also decreased in tissues with N1 lymph node metastasis compared to those with N0 status. Collectively, these results indicated that the EIF3H/miR-126-5p axis functions as a clinically relevant regulatory pathway in pancreatic cancer progression ( ).
+ We also explored the correlation between the expression levels of hsa-miR-126-5p and PAAD patient prognosis in TCGA and GEO database. In the TCGA-PAAD cohort, high MIR126 expression was associated with improved progression-free interval (PFI; HR = 0.43), DSS (HR = 0.47), OS (HR = 0.49) and PFS ( ). These findings were corroborated in the independent GEO cohorts (GSE62452 and GSE78229), where elevated MIR126 expression significantly correlated with better OS ( ). No significant heterogeneity was observed across cohorts, underscoring the robustness of MIR126 as a favorable prognostic biomarker in pancreatic cancer. Integrating correlation, expression, and survival analyses, we proposed that hsa-miR-126-5p may represent the most promising regulatory miRNA targeting EIF3H in PAAD.
+ 
+
+## Analysis of upstream potential lncRNAs of hsa-miR-126-5p in PAAD
+We utilized the ENCORI database to predict potential upstream long non-coding RNAs (lncRNAs) that interact with hsa-miR-126-5p. Ultimately, we identified 124 candidate lncRNAs with potential interactions with hsa-miR-126-5p. The lncRNA-hsa-miR-126-5p regulatory network was visualized using Cytoscape software ( ). According to the competitive endogenous RNA (ceRNA) hypothesis, lncRNAs can competitively bind to tumor-suppressive microRNAs (miRNAs), thereby mitigating the suppressive effects of miRNAs on their target messenger RNAs (mRNAs). This hypothesis implies a negative correlation between lncRNAs and target miRNAs, alongside a positive correlation between lncRNAs and target mRNAs within the ceRNA network. Consequently, we evaluated the expression correlations between hsa-miR-126-5p/EIF3H and the 124 lncRNAs using data from the TCGA PAAD database. Our findings revealed that only AC005034.3 (lnc-POLE4-5) and AL035661.1 exhibited a positive association with EIF3H and a negative association with hsa-miR-126-5p ( ). Subsequently, we conducted an expression analysis of AC005034.3 and AL035661.1 in PAAD using the TCGA dataset. The analysis demonstrated that AC005034.3 expression levels were significantly upregulated in PAAD compared to normal controls ( ), whereas AL035661.1 exhibited the opposite trend ( ). Meanwhile we utilized the GEPIA database to confirm that the data were consistent with the previously mentioned results ( ). Subsequently, we assessed the prognostic significance of AC005034.3 and AL035661.1 in PAAD using the TCGA database. The findings indicated that elevated expression levels of AC005034.3 were significantly associated with poorer outcomes in PAAD, as evidenced by OS (HR = 2.72), DSS (HR = 3.27) and PFI (HR = 2.69) ( ). Conversely, no significant correlation was found between the expression levels of AL035661.1 and prognosis in PAAD patients ( ). Consistent with these findings, analysis using the GEPIA database also demonstrated that higher expression of AC005034.3 was significantly correlated with poorer prognosis (OS, HR = 2.3, P = 0.006; DFS, HR = 2.5, P = 0.0042), while no correlation was observed for AL035661.1 expression with prognosis in PAAD patients ( ). Based on correlation analysis, expression analysis, and survival analysis, AC005034.3 was identified as the most promising upstream lncRNA of the EIF3H/hsa-miR-126-5p axis in PAAD.
+ 
+
+## Experimental validation of mRNA and protein expression of three genes in PAAD
+Based on the experimental validation presented in , immunohistochemical analysis of clinical specimens revealed markedly stronger EIF3H staining in PAAD tissues compared to adjacent normal tissues, which was further quantified by a significant increase in the mean integrated optical density. At the cellular level, qRT-PCR analysis demonstrated that EIF3H mRNA expression was significantly upregulated in PANC-1 pancreatic cancer cells relative to normal HPDE-6 pancreatic ductal epithelial cells ( ). Conversely, hsa-miR-126-5p expression was substantially downregulated in the cancer cells, showing an inverse relationship with EIF3H expression ( ). Furthermore, the long non-coding RNA AC005034.3 exhibited significant overexpression in PANC-1 cells compared to HPDE-6 controls, suggesting its potential involvement in the EIF3H regulatory network in pancreatic carcinogenesis ( ). Collectively, these experimental results consistently validate our previous bioinformatic findings, confirming the dysregulated expression patterns of EIF3H, miR-126-5p, and AC005034.3 in PAAD.
+ 
+
+## The expression of EIF3H associated with immune cell infiltration in PAAD
+Previous studies have confirmed EIF3H coordinates Hippo pathway-mediated tumorigenesis through catalytic control of YAP stability ( ). Our previous study demonstrated YAP1 was correlated with immune cell infiltration in pancreatic cancer ( ). Therefore, we explored the relationship between EIF3H expression and immune cell infiltration in PAAD ( ).
+ To explore the potential immunomodulatory role of EIF3H in PAAD, correlations between EIF3H mRNA expression and immune cell infiltration were assessed using TCGA-PAAD dataset. Multiple deconvolution algorithms, including ESTIMATE, TIMER, CIBERSORT, CIBERSORT-ABS, QUANTISEQ, MCPCOUNTER, XCELL, and EPIC, were employed to estimate immune cell abundances and their associations with EIF3H levels. The XCELL-based analysis revealed significant positive correlations between EIF3H expression and specific immune cell subsets such as CD4+ Th1 cells (p < 0.001) and common lymphoid progenitors (p < 0.01), while negative correlations were observed with B cell plasma (p < 0.05), endothelial cells (p < 0.05) and certain T cell subsets like CD4+ naive T cells ( ). Meanwhile, the QUANTISEQ algorithm demonstrated strong positive associations with M1 macrophages (p < 0.01), alongside negative correlations withmyeloid dendritic cells (p < 0.05), monocytes (p < 0.05) and NK cells (p < 0.001), suggesting EIF3H’s involvement in shaping a macrophage-dominant microenvironment ( ). To substantiate these findings, we employed a suite of immune infiltration analysis tools, including EPIC, ESTIMATE, TIMER, MCP-Counter, QuanTIseq, and XCELL, across 12 independent genomic datasets further highlighted consistent patterns across methods ( ). EIF3H exhibited robust positive correlations (r > 0.3) with M1 macrophages, neutrophils, fibroblasts, and endothelial cells in most algorithms (e.g., QUANTISEQ, XCELL, EPIC), while negative correlations (r < −0.3) were evident with CD8+ T cells, naive B cells, and plasma cells, particularly in TIMER and CIBERSORT. These findings indicated that elevated EIF3H levels fostered an immunosuppressive infiltrate enriched in myeloid cells and stromal elements, potentially contributing to immune evasion and tumor progression in PAAD.
+
+## Analysis of immune regulatory genes, TMB, MSI, and immune checkpoints related to EIF3H in PAAD
+To investigate the immunological role of EIF3H in PAAD, we analyzed its relationships with immune regulatory genes, TMB, MSI, and immune checkpoint molecules. Correlation analyses showed EIF3H expression exhibited a significant positive association with TMB (r = 0.201, p = 0.0107) but no significant correlation with MSI status (r = 0.0521, p = 0.491) ( ). Meanwhile, cluster analysis of immune regulatory genes across PAAD samples demonstrated coordinated expression patterns between EIF3H and multiple immunological factors, including HLA family members, antigen presentation-related molecules (e.g., TAP1), and other immune-modulating genes ( ). Immune checkpoint analysis revealed differential expression patterns of key molecules including CD274 (PD-L1), ITPRIPLI, and HAVCR2, with ITPRIPLI showing a significant positive correlation with EIF3H expression ( ). Furthermore, a comprehensive correlation heatmap across various cancer types (including PAAD) illustrated the interactions between EIF3H and immune-related genes (e.g., chemokines, receptors, MHC molecules, immunostimulators, and immunoinhibitors) ( ). In PAAD, EIF3H expression exhibited significant correlations with several immune genes. For instance, EIF3H was positively correlated with specific MHC-class I molecules and certain chemokine receptors. In terms of immune checkpoints, EIF3H expression in PAAD showed significant positive correlations with key checkpoint genes. Notably, CD274 (PD - L1, P < 0.01), PDCD1 (PD-1, P < 0.01), CTLA4 (P < 0.01), and HAVCR2 (TIM-3, P < 0.05) exhibited notable positive associations with EIF3H, as depicted by the correlation heatmap. These findings suggested that EIF3H may modulate immune responses in PAAD through interactions with immune regulatory networks, antigen presentation pathways, and immune checkpoint molecules, although no significant link with MSI was observed.
+ 
+
+## EIF3H-associated immunotherapeutic responses and drug sensitivities in pancreatic adenocarcinoma
+To complement these immunotherapeutic insights, we examined EIF3H’s role in modulating drug sensitivities using comprehensive pharmacogenomic datasets, including GDSC1, GDSC2, CTRP, and PRISM, which encompass diverse therapeutic agents correlated with EIF3H expression levels ( ). Across these platforms, high EIF3H expression consistently predicted resistance to certain targeted therapies, such as MDM2 inhibitors (e.g., Nutlin-3a) and mTOR/PI3K pathway blockers (e.g., OSI-027, PKI-587), as indicated by positive Spearman correlations reflecting elevated IC50 values in high-expressing samples. This pattern implies that EIF3H-driven translational programs may sustain oncogenic signaling cascades, diminishing the efficacy of agents reliant on p53 activation or metabolic pathway inhibition. Conversely, negative correlations highlighted heightened sensitivities to proteasome inhibitors (e.g., Bortezomib), SERCA pump disruptors (e.g., Thapsigargin), and ferroptosis inducers (e.g., Erastin), suggesting that EIF3H upregulation exacerbates vulnerabilities in protein homeostasis and lipid peroxidation pathways, potentially through its deubiquitinating activity on key regulators like OGT. Extending these observations to additional datasets revealed similar trends, with high EIF3H levels conferring resistance to PARP inhibitors (e.g., Talazoparib), JAK inhibitors (e.g., JAK1-870), and anthracyclines (e.g., Epirubicin, Doxorubicin) in GDSC2 and CTRP cohorts, while enhancing responsiveness to multi-tyrosine kinase inhibitors (e.g., Sunitinib, Nilotinib) and BCL-2 antagonists (e.g., Venetoclax). In the PRISM dataset, correlations further underscored sensitivities to HDAC inhibitors (e.g., Panobinostat) and nucleoside analogs (e.g., Gemcitabine), aligning with EIF3H’s role in translational control that may amplify dependencies on epigenetic and nucleotide metabolism pathways. These differential sensitivities not only reflect EIF3H’s multifaceted impact on cellular resilience but also offer a framework for personalized therapeutic strategies, where EIF3H status could guide combinations of immunotherapies with sensitizing agents to overcome resistance and optimize outcomes in PAAD patients.
+ 
+
+## PPI networks and functional annotations
+We conducted STRING database, GO, and KEGG analyses to construct PPI networks and functional annotations with EIF3H. Network of EIF3H and its 10 co-expression genes were showed in . Correlation analyses between EIF3H and co-expressed genes in PAAD from TCGA database were shown in . Functional annotations demonstrated that these genes were involved in eukaryotic 43S preinitiation complex, eukaryotic translation initiation factor 3 complex, eukaryotic 48S preinitiation complex ( ). Changes in the biological process (BP) and molecular function (MF) of EIF3H were correlated with cytoplasmic translation, cytoplasmic translational initiation, formation of cytoplasmic translation initiation complex, translation factor activity, RNA binding, translation initiation factor activity translation initiation factor binding ( ). KEGG molecular pathways was RNA transport ( ).
+ 
+
+## Discussion
+PAAD ranks among the most lethal human solid tumors, with high mortality driven mainly by challenges in early diagnosis and the limited efficacy of conventional therapies ( ; ). Current immunotherapeutic strategies for pancreatic cancer also remain constrained, yielding suboptimal clinical outcomes ( ; ). EIF3H, a subunit of the EIF3, which is the largest and most complex of the initiation factors, has been implicated in oncogenesis ( ). Overexpression of EIF3H has been shown to enhance cell proliferation, growth, and survival ( ). Elevated amplification and expression levels of EIF3H are observed in various cancers, including breast, prostate, liver, and lung adenocarcinoma ( ; ; ). Mechanistic studies have revealed that high EIF3H expression inhibits Myc-dependent apoptosis in primary prostate cells and promotes protein translation via cooperation with MYC(27, 33). Furthermore, the overexpression of EIF3H has been found to induce malignant transformation in immortalized NIH-3T3 cells within breast, prostate, and liver cancers ( ). Recent work further identifies EIF3H as a critical translational initiation factor that modulates the Hippo-YAP pathway, a key regulator of tumorigenesis across several cancer types ( ), ( ; ). In our prior study, we demonstrated that YAP1 correlates with patient outcomes and tumor immune cell infiltration in pancreatic cancer ( ). Given the limited understanding of EIF3H’s molecular mechanisms in tumors, this research focuses on elucidating the role and regulatory mechanisms of EIF3H in PAAD.
+Our comprehensive study identified EIF3H as a crucial oncoprotein in PAAD, acting via an integrated regulatory axis bridging non-coding RNA networks, translational control and immune microenvironment remodeling. PAAD’s consistently dismal prognosis underscores the urgent need for novel molecular drivers targeting its inherent aggressiveness and profound immunosuppression. EIF3H’s widespread overexpression across various cancers places it within a conserved oncogenic program, and its marked upregulation in PAAD, validated across independent cohorts and at the protein level, indicates clinically relevant tissue-specific regulatory mechanisms. In PAAD, EIF3H expression was significantly associated with radiotherapy response, potentially due to its ability to promote radioresistance by enhancing the translation efficiency of key DDR mRNAs or cell cycle regulators (e.g., Cyclin D1, CDC25A), which enables PAAD cells to repair radiation-induced DNA damage more efficiently or re-enter the cell cycle rapidly. The correlation between elevated EIF3H expression and unfavorable prognosis, particularly in PAAD where it consistently predicted poorer overall, progression-free, and disease-specific survival across multiple datasets, strongly supported its potential as a reliable prognostic biomarker consistent with established observations that translation initiation factors frequently correlate with aggressive tumor phenotypes and adverse patient outcomes ( ; ; ). Furthermore, studies such as highlighted the importance of advance care planning in improving outcomes for advanced cancer patients, underscoring the clinical value of integrating prognostic biomarkers like EIF3H into optimized care strategies ( ). Additionally, described the clinical characteristics and management of acute pancreatitis, emphasizing vigilance regarding drug-induced pancreatitis, which complemented the translational relevance of EIF3H in pancreatic adenocarcinoma ( ).
+Elucidation of the AC005034.3/hsa-miR-126-5p/EIF3H regulatory axis represents a key advance in understanding post-transcriptional regulation of oncogenic translation in PAAD. While EIF3H’s pivotal role in translation initiation is well-established across contexts, our identification of this specific ceRNA network clarifies how non-coding RNAs modulate EIF3H expression in PAAD. The well-recognized tumor suppressor function of miR-126-5p across cancers supports its inhibitory role in this axis, and the characterization of AC005034.3 as the functional lncRNA component adds a novel layer to the intricate regulatory network governing EIF3H expression. This axis holds clear clinical significance, as all three components show consistent prognostic implications and the inverse correlation between miR-126-5p and both EIF3H and AC005034.3 validates the ceRNA hypothesis. Comprehensive validation via correlation, expression and survival analyses provides robust evidence for the biological relevance of this regulatory circuit, rather than a mere statistical association.
+EIF3H’s immunomodulatory function in the PAAD tumor microenvironment is a critical component of its oncogenic activity. Multi-algorithm deconvolution analyses consistently showed that EIF3H-high tumors exhibit an immunosuppressive milieu, with abundant M1 macrophages and neutrophils and reduced cytotoxic T cells and plasma cells. This distinct immune profile, validated across twelve independent datasets and eight computational methods, demonstrates that EIF3H not only drives intrinsic oncogenic pathways but also actively shapes an immune-evasive tumor environment. Strong correlations with immune checkpoint molecules including PD-L1, PD-1, CTLA-4 and TIM-3 further support this immunomodulatory role and imply relevance for immunotherapy responsiveness. Additionally, EIF3H’s positive correlation with tumor mutational burden suggests it may regulate neoantigen production, while the lack of association with MSI indicates this process relies on alternative pathways. The focus on EIF3H’s involvement in immune modulation, particularly its positive correlations with immune checkpoint molecules, illuminated a potential mechanism for immune evasion, underscored its relevance as a target for combined immunotherapies, and significantly enhanced our understanding of translational control in cancer—extending beyond cell-autonomous functions to encompass broader immunological interactions ( ; ). The detailed analysis of EIF3H’s role in modulating the tumor microenvironment, particularly its association with immunosuppressive cell populations, illustrated the importance of integrating molecular and immune profiling to understand tumor progression, complementing our previous findings that illuminated a potential immune evasion mechanism, underscored EIF3H’s relevance as a combined immunotherapy target, and significantly enhanced our understanding of translational control in cancer—extending beyond cell-autonomous functions to encompass broader immunological interactions ( ; ).
+Within the context of the current therapeutic landscape for PAAD, our findings on drug sensitivity provided clinically actionable insights. The consistent resistance to MDM2 inhibitors and mTOR/PI3K pathway blockers observed in high-EIF3H expression models, together with the correlation between elevated EIF3H levels and resistance to specific targeted therapies, suggested that EIF3H-driven translational programs sustained oncogenic signaling through alternative pathways ( ). This finding might have accounted for the limited efficacy of these agents in clinical trials, thereby supporting the rationale for therapeutic strategies targeting EIF3H. In contrast, the increased sensitivity to proteasome inhibitors, ferroptosis inducers, and certain targeted agents highlighted therapeutic vulnerabilities that could be leveraged in clinical settings. The drug sensitivity profiling, which identified resistance to mTOR pathway inhibitors and sensitivity to proteasome inhibitors, extended mechanistic insights and offered valuable guidance for personalized therapeutic strategies. These patterns were consistent with EIF3H’s involvement in protein homeostasis and implied that pharmacological targeting of these pathways could be particularly effective in tumors with high EIF3H expression. The association with gemcitabine sensitivity was particularly significant, given its status as a first-line therapy in PAAD, and might offer a stratification strategy for treatment selection.
+Among translation initiation factors analyzed in PAAD, EIF3H uniquely associated extensively with immune regulation and non-coding RNA networks. While EIF3A and EIF3B are implicated in multiple cancers, their mechanisms are largely restricted to direct oncoprotein translational control. Our prior identification of EIF3H’s link to YAP stability further integrates it into the Hippo pathway, supporting its role as a convergence point for oncogenic signaling. Functional annotation analyses confirmed EIF3H’s central role in translation initiation complexes, providing mechanistic support for its broad oncogenic effects, and specific RNA transport pathway identification revealed new avenues to explore its mode of action.
+Despite robust support for the AC005034.3/hsa-miR-126-5p/EIF3H axis from our bioinformatics and expression analyses, this study has several limitations. First, direct molecular interactions and causal relationships within the proposed axis remain unconfirmed, as luciferase reporter assays and gain- or loss-of-function experiments were not performed. Second, clinical validation was limited to 12 paired samples due to resource constraints, potentially restricting the generalizability of our findings; larger multi-center cohorts with long-term follow-up data will be critical for future studies to enhance clinical relevance. Third, while our correlative analyses suggested EIF3H contributes to immunosuppression, mechanistic insights into its regulation of immune cell function lack experimental support, and co-culture systems plus in vivo models are planned to address this gap. Fourth, drug sensitivity predictions were purely computational, and wet-lab validations using EIF3H-manipulated cell lines are needed to verify these potential therapeutic vulnerabilities. Moving forward, future research will prioritize developing direct EIF3H inhibitors and exploring combination strategies—particularly with immunotherapies—to overcome the immunosuppressive microenvironment of EIF3H-high tumors.
+
+## Conclusion
+In conclusion, this study redefined EIF3H from a mere translation factor to a multifunctional oncoprotein that orchestrated tumor growth, metastatic progression, and immune evasion in PAAD via the novel AC005034.3/hsa-miR-126-5p regulatory axis ( ). The identified upstream ncRNA pathway, particularly the AC005034.3/hsa-miR-126-5p/EIF3H axis, opened avenues for novel therapeutic interventions targeting non-coding RNAs, consistent with current research emphasizing ncRNA-mediated regulation of oncogenic pathways ( ; ). The extensive scope of our analysis, encompassing pan-cancer expression profiles, prognostic significance, regulatory mechanisms, interactions within the immune microenvironment, and therapeutic implications, established a solid foundation for future translational research. These findings not only enhanced our fundamental understanding of pancreatic cancer biology but also presented immediate clinical opportunities for prognostic stratification and therapeutic intervention.
+ 
+
+Edited by:
+Yi Yao, Renmin Hospital of Wuhan University, China
+
+Reviewed by:
+Run Shi, Nanjing Medical University, China
+
+Prasanna Srinivasan Ramalingam, Vellore Institute of Technology, India
+
+Wenbo Zou, No.924 Hospital of PLA Joint Logistic Support Force, China
+
+## Data availability statement
+The original contributions presented in the study are included in the article/ , further inquiries can be directed to the corresponding authors.
+
+## Ethics statement
+The studies involving humans were approved by the Ethics Committee of Ganzhou Cancer Hospital (Reference No. 2025Kelunshen101). The studies were conducted in accordance with the local legislation and institutional requirements. The ethics committee/institutional review board waived the requirement of written informed consent for participation from the participants or the participant’s legal guardians/next of kin because this study used existing pathology specimens collected for clinical purposes. Since the specimens were anonymized and analyzed retrospectively, the Ethics Committee waived the requirement for informed consent. All patient identifiers were removed to protect privacy.
+
+## Author contributions
+KS: Funding acquisition, Supervision, Writing – original draft, Writing – review and editing, Investigation, Software, Resources, Data curation, Project administration, Formal Analysis, Validation, Conceptualization, Methodology. Z-xS: Investigation, Conceptualization, Software, Writing – review and editing. X-yZ: Writing – review and editing, Supervision, Data curation, Methodology. X-xW: Validation, Project administration, Writing – review and editing, Formal Analysis. SW: Funding acquisition, Writing – review and editing, Resources. K-rW: Writing – review and editing, Writing – original draft, Project administration, Data curation. Y-lQ: Validation, Visualization, Supervision, Writing – review and editing.
+
+## Conflict of interest
+The author(s) declared that this work was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Generative AI statement
+The author(s) declared that generative AI was not used in the creation of this manuscript.
+Any alternative text (alt text) provided alongside figures in this article has been generated by Frontiers with the support of artificial intelligence and reasonable efforts have been made to ensure accuracy, including review by the authors wherever possible. If you identify any issues, please contact us.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+## Supplementary material
+The Supplementary Material for this article can be found online at: https://www.frontiersin.org/articles/10.3389/fcell.2026.1725060/full#supplementary-material
+
+ 
+
+## Glossary
+
+EIF3H
+eukaryotic translation initiation factor 3 subunit H
+
+TCGA
+the Cancer Genome Atlas
+
+ncRNAs
+noncoding RNAs
+
+PPI
+Protein–Protein Interaction
+
+EIF3
+eukaryotic translation initiation factor 3
+
+YAP1
+Yes-associated protein-1
+
+GTEX
+Genotype-Tissue Expression
+
+miRNAs
+microRNAs
+
+lncRNAs
+long noncoding RNAs
+
+CI
+confidence interval
+
+TIMER
+Tumor Immune Estimation Resource
+
+GEPIA
+Gene Expression Profiling Interactive Analysis
+
+KM plotter
+Kaplan-Meier plotter
+
+ENCORI
+Encyclopedia of RNA Interactomes
+
+GO
+Gene ontology
+
+KEGG
+Kyoto Encyclopedia of Genes and Genomes
+
+FC
+fold-change
+
+HNSC
+head and neck squamous cell carcinoma
+
+KIRC
+kidney renal clear cell carcinoma
+
+RNA Seq V2 RSEM
+mRNA expression z-scores
+
+RPPA
+protein expression Z-scores
+
+CNA
+copy-number alterations
+
+ECL
+extracellular loop
+
+EDG
+endothelial differentiation gene
+
+GEO
+Gene Expression Omnibus
+
+GEPIA 2
+Gene Expression Profiling Interactive Analysis 2
+
+GPCRs
+G-protein coupled receptors
+
+HR
+Hazard ratio
+
+BLCA
+bladder urothelial carcinoma
+
+BRCA
+breast invasive carcinoma
+
+KICH
+kidney chromophobe
+
+KIRP
+kidney renal papillary cell carcinoma
+
+LIHC
+liver hepatocellular carcinoma
+
+ESCA
+Esophageal carcinoma
+
+LUAD
+lung adenocarcinoma
+
+LUSC
+lung squamous cell carcinoma
+
+PRAD
+prostate adenocarcinoma
+
+READ
+Rectum adenocarcinoma
+
+UCEC
+uterine corpus endometrial carcinoma
+
+CHOL
+cholangial carcinoma
+
+COAD
+colon adenocarcinoma
+
+CECS
+Cervical squamous cell carcinoma and endocervical adenocarcinoma
+
+STAD
+stomach adenocarcinoma
+
+DLBC
+Lymphoid Neoplasm Diffuse Large B-cell Lymphoma
+
+THCA
+Thyroid carcinoma
+
+GBM
+Glioblastoma multiforme
+
+PAAD
+Pancreatic adenocarcinoma
+
+THYM
+Thymoma
+
+ACC
+Adrenocortical carcinoma
+
+BLCA
+bladder urothelial carcinoma
+
+PCPG
+Pheochromocytoma and Paraganglioma
+
+UCEC
+uterine corpus endometrial carcinoma
+
+UCS
+Uterine Carcinosarcoma
+
+OS
+overall survival
+
+DFS
+disease-free survival
+
+RFS
+relapse-free survival
+
+PPS
+post-progression survival
+
+DSS
+disease-specific survival
+
+DMFS
+distant metastasis-free survival
+
+PFI
+Progress free interval
+
+FP
+first progression
+
+TAM
+Tumor-associated macrophages
+
+NK cells
+natural killer cells
+
+MDCs
+myeloid dendritic cells
+
+Tfh
+follicular helper T cell
+
+Th
+T helper cell
+
+CircRNAs
+circular RNAs
+
+BP
+biological process
+
+MF
+molecular function
+
+ceRNA
+competitive endogenous RNA
+
+CC
+cellular component
