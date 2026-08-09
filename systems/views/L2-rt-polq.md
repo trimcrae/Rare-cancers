@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ NOT SUPPORTED (2026-08-09). The class needs a COMBINATION — alt-EJ up with homologous recombination down — and neither half is present: POLQ is flat and low on its array, and the HR genes are flat to mildly higher rather than down.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ NOT SUPPORTED — THE COMBINATION IS ABSENT (2026-08-09, corrected the same day). The class needs alt-EJ UP together with homologous recombination DOWN. ⚠ CORRECTION: this grade first said neither half was present, and that was wrong. The alt-EJ MODULE is HIGHER in EMC on BOTH platforms, concordantly, with every readable member higher on both, and the NHEJ contrast is flat — so the elevation is specific rather than a general repair-transcription effect. What is absent is the OTHER half: the homologous-recombination arm is flat to mildly higher rather than down. ⚠ And the absent half is the one this instrument is least able to measure, because an HR defect is usually a mutation and can sit behind normal transcript. That makes this a weaker negative than the group scores alone suggest. ⚠ The route's own primary gene is readable on one platform only and sits in the bottom quarter of that array — the module carries the observation, not the single gene.
 
 ## What has to land for this route to move
 
@@ -49,12 +49,13 @@ The newest DNA-damage-response class and the one the existing class-inheritance 
 
 | ref | supports | strength |
 |---|---|---|
-| `ART-CENSUS-ROUTE-GRADING` | neither half of the alt-EJ-up / HR-down combination this class requires is present in EMC | `direct` |
+| `ART-CENSUS-ROUTE-GRADING` | the alt-EJ module is concordantly higher in EMC on both platforms with a flat NHEJ contrast, while the homologous-recombination arm is not down — so the combination this class requires is absent although one half of it is present | `direct` |
 
 ## Remaining unknowns
 
+- Whether a homologous-recombination DEFECT is present behind normal HR transcript, which is the usual situation and which this instrument cannot see — the single largest reason this negative is weak.
+- Why the alt-EJ module is elevated at all, which is unexplained and which the general repair-transcription reading does not cover, since the NHEJ contrast is flat.
 - Whether the replication-stress premise the neighbouring DDR route rests on survives its own WEAK grade — this route inherits that uncertainty and does not resolve it.
-- Whether a repair DEFECT, which is usually a mutation, would be visible in transcript at all; it would generally not be.
 
 ## Required validation
 
@@ -73,7 +74,7 @@ The newest DNA-damage-response class and the one the existing class-inheritance 
 
 **`internal_note`**
 
-The route was registered as an extension of a WEAK-graded argument and the extension does not hold.
+The combination test was run and the combination is absent, but one half of it IS present and the missing half is the half this data cannot properly measure.
 
 **Missing:**
 - nothing at the expression level — the class selects on a lesion this data cannot see, and on what it CAN see the answer is negative
@@ -113,7 +114,7 @@ It would take a mutational read of the repair genes, which no EMC cohort supplie
 
 ## Best next action
 
-Report it beside the DDR assessment's existing weak grade, not apart from it.
+Report the alt-EJ elevation alongside the negative rather than burying it — it is the one half of this class's requirement that this disease does appear to meet, and it is concordant across both platforms.
 
 *Cost:* $0
 

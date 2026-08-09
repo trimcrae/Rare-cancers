@@ -502,15 +502,43 @@ def build():
     routes["RT-POLQ"] = {
         "selecting_feature": "an alt-EJ-high, HR-low repair state",
         "direction_the_route_needed": "alt-EJ up WITH homologous recombination down",
-        "genes": {g: gene(p, g) for g in ("POLQ", "LIG3", "RAD51", "BRCA1", "PRKDC")},
-        "observed": "POLQ is flat and sits low on its array; the homologous-recombination genes are "
-                    "flat to mildly higher rather than down. The combination the class needs — one up "
-                    "AND the other down — is not present.",
-        "verdict": "NOT SUPPORTED — neither half of the required combination.",
-        "what_this_does_not_settle": "The dependency is created by a repair DEFECT, usually a mutation, "
-                                     "which this read cannot see at all. It must also be read beside "
-                                     "the WEAK grade the neighbouring ATR assessment already carries.",
-        "route_action": "down-grade",
+        "genes": {g: gene(p, g) for g in ("POLQ", "LIG3", "PARP1", "XRCC1", "RAD51", "BRCA1",
+                                          "PRKDC")},
+        "panel_groups": {"alt_ej_module": group(p, "ddr_mmej", "alt_ej_module"),
+                         "homologous_recombination":
+                             group(p, "ddr_mmej", "homologous_recombination"),
+                         "nhej_contrast": group(p, "ddr_mmej", "nhej_contrast")},
+        "observed": "⚠ ONE HALF IS PRESENT AND THE OTHER IS NOT — which is not what this grade first "
+                    "said. The alt-EJ MODULE is HIGHER in EMC on BOTH platforms and concordantly so, "
+                    "and every readable member of it is higher on both. ⛔ The homologous-recombination "
+                    "arm is flat to mildly HIGHER rather than down, so the combination the class needs "
+                    "— alt-EJ up WITH HR down — is not present. The NHEJ contrast is flat on both, "
+                    "which is what makes the alt-EJ signal specific rather than a general "
+                    "repair-transcription effect. ⚠ The route's own primary gene is a weaker reading "
+                    "than its module: it is readable on only ONE platform, is barely higher there, and "
+                    "sits in the bottom quarter of that array's distribution — so the module carries "
+                    "this observation and the single gene does not.",
+        "verdict": "NOT SUPPORTED — the required COMBINATION is absent, because the "
+                   "homologous-recombination half is not there. ⚠ Not because neither half is: the "
+                   "alt-EJ half is present on both platforms.",
+        "what_this_does_not_settle": "⛔ THE DEPENDENCY IS CREATED BY A REPAIR DEFECT, USUALLY A "
+                                     "MUTATION, which this read cannot see at all — so the half that "
+                                     "came back negative is the half this instrument is least able to "
+                                     "measure, and an HR defect can be present with normal HR "
+                                     "transcript. That makes this a weaker negative than the group "
+                                     "scores alone suggest. It must also be read beside the WEAK grade "
+                                     "the neighbouring ATR assessment already carries, since both rest "
+                                     "on the same unproven replication-stress premise.",
+        "route_action": "down-grade, but record the alt-EJ elevation rather than burying it — it is "
+                        "the one half of this class's requirement that EMC does appear to meet",
+        "⚠_correction_2026_08_09": "This grade first read 'POLQ is flat and sits low on its array' and "
+                                   "concluded 'neither half of the required combination', and the "
+                                   "route and census row inherited that. The alt-EJ MODULE is up on "
+                                   "both platforms with every readable member higher on both; only the "
+                                   "single primary gene is flat. The VERDICT is unchanged — the "
+                                   "combination is still absent — but the reason given was wrong, and "
+                                   "it was found by reading the panel again while drafting the paper "
+                                   "that would have quoted it.",
     }
 
     # ⭐ A FLAT, DOT-FREE BLOCK EXISTS PURELY SO THE PREPRINT'S FIGURES CAN BE PINNED. The consistency
