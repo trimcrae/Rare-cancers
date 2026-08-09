@@ -113,6 +113,10 @@ Every input is committed and the work is $0 model-building.
 - The reachability routes act on institutions rather than on biology, which is a domain where this program has no track record and where a wrong answer is not falsifiable by computation.
 - Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness.
 
+## Closure
+
+`definitional` — Set 2026-08-09. The route's named input — a pooled progression-free-survival figure — cannot be built, and not for want of data: this repository's evidence contract REFUSES to merge time-anchored endpoints, so the pool is excluded by definition rather than by measurement. That is why `definitional` and not `instrument_limit`. ⭐ A result survives the closure: four EMC-specific medians carried separately, one of them printed by its source with no interval, no range and no number at risk — and four PFS figures that circulate attributed to agents that did not produce them, one of which is a median FOLLOW-UP. The closure is what makes those findable.
+
 ## Best next action
 
 Build the two-population model with each median carried separately as its own parameter interval, and the one median that has no dispersion carried as a point with that stated — then report the four misattributed figures, which stand on their own.

@@ -34,7 +34,7 @@ last_verified: 2026-08-09
 
 **Score** = 5 per open route · 2 per route blocked only on a human decision · −1 to −2 per closed route (by how it closed) · 3 per route whose status is `ready` · up to 5 for the fraction of remaining validation steps that are feasible today · 2 for having a drafted document, 1 for an outline · **±2 per open route for the confidence the graph records on it**.
 
-⛔ **A LOW SCORE CAN MEAN 'CLOSED' OR IT CAN MEAN 'NOBODY GRADED IT', AND THOSE ARE OPPOSITE THINGS.** `closure_kind` is unset on 23 of 68 routes, and an unset field contributes nothing in either direction — so a paper can sit low here purely because its routes have never been graded. The `ungraded` column is that reading, and a high number in it means **go grade the routes**, not **the paper is weak** (CLAUDE.md §4: an absent reading is not a reading of absence).
+⛔ **A LOW SCORE CAN MEAN 'CLOSED' OR IT CAN MEAN 'NOBODY GRADED IT', AND THOSE ARE OPPOSITE THINGS.** `closure_kind` is unset on 21 of 68 routes, and an unset field contributes nothing in either direction — so a paper can sit low here purely because its routes have never been graded. The `ungraded` column is that reading, and a high number in it means **go grade the routes**, not **the paper is weak** (CLAUDE.md §4: an absent reading is not a reading of absence).
 
 | # | endpoint | score | open | closed | ungraded | ready | doable here | state | routes |
 |---:|---|---:|---:|---:|---:|---:|---|---|---:|
@@ -43,12 +43,12 @@ last_verified: 2026-08-09
 | 3 | [**PUB-REPURPOSING**](../../research/manuscripts/repurposing-hypotheses.md) | **14.0** | 2 | 0 | 0 | 1 | 20% of 5 | ◐ `drafted` | 3 |
 | 4 | [**PUB-ENDPOINT**](../../research/manuscripts/response-endpoint-indolent-tumours.md) | **13.3** | 1 | 0 | 0 | 1 | 67% of 3 | ◐ `drafted` | 1 |
 | 5 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/emc-treatment-roadmap.md) | **13.0** | 2 | 0 | 0 | 1 | 0% of 2 | ◐ `drafted` | 2 |
-| 6 | **PUB-STRATEGY-ARCH** | **11.9** | 1 | 0 | ⚠ 2 | 1 | 57% of 7 | ◔ `outlined` | 3 |
-| 7 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | **10.7** | 1 | 0 | 0 | 0 | 33% of 6 | ◐ `drafted` | 2 |
-| 8 | [**PUB-MTAP-PRMT5**](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | **10.0** | 1 | 0 | 0 | 1 | 0% of 3 | ◐ `drafted` | 1 |
-| 9 | [**PUB-FUSION-OUTPUT**](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | **9.5** | 1 | 0 | 0 | 0 | 50% of 6 | ◐ `drafted` | 1 |
-| 10 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | **9.2** | 1 | 0 | 0 | 1 | 25% of 4 | ◐ `drafted` | 1 |
-| 11 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/emc-surface-target-landscape.md) | **9.0** | 2 | 3 | 0 | 0 | 0% of 8 | ◐ `drafted` | 6 |
+| 6 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | **10.7** | 1 | 0 | 0 | 0 | 33% of 6 | ◐ `drafted` | 2 |
+| 7 | [**PUB-MTAP-PRMT5**](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | **10.0** | 1 | 0 | 0 | 1 | 0% of 3 | ◐ `drafted` | 1 |
+| 8 | [**PUB-FUSION-OUTPUT**](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | **9.5** | 1 | 0 | 0 | 0 | 50% of 6 | ◐ `drafted` | 1 |
+| 9 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | **9.2** | 1 | 0 | 0 | 1 | 25% of 4 | ◐ `drafted` | 1 |
+| 10 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/emc-surface-target-landscape.md) | **9.0** | 2 | 3 | 0 | 0 | 0% of 8 | ◐ `drafted` | 6 |
+| 11 | **PUB-STRATEGY-ARCH** | **8.9** | 1 | 2 | 0 | 1 | 57% of 7 | ◔ `outlined` | 3 |
 | 12 | [**PUB-TCIP**](../../research/manuscripts/tcip-induced-interface-preprint.md) | **8.3** | 1 | 0 | 0 | 0 | 67% of 3 | ◐ `drafted` | 1 |
 | 13 | [**PUB-ATR**](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | **8.0** | 1 | 0 | 0 | 1 | 0% of 1 | ◐ `drafted` | 1 |
 | 14 | [**PUB-BIOMARKER-DEP**](../../research/manuscripts/emc-biomarker-selected-classes.md) | **7.0** | 0 | 0 | ⚠ 5 | 1 | 40% of 10 | ◐ `drafted` | 5 |
@@ -89,9 +89,6 @@ last_verified: 2026-08-09
 - [RT-TRABECTEDIN](L2-rt-trabectedin.md) — *Is trabectedin, an approved sarcoma agent, mechanistically well matched to a FET-fusion sarcoma like EMC?* — `ready` / `concept` / confidence `low` · last verified `2026-08-05`
 - [RT-ICI-TKI](L2-rt-ici-tki.md) — *Does the checkpoint-inhibitor plus anti-angiogenic combination have an EMC signal worth pursuing?* — `delegated` / `concept` / confidence `moderate` · last verified `2026-08-05`
 
-**PUB-STRATEGY-ARCH** — score 11.9
-- [RT-TRIAL-REACH](L2-rt-trial-reach.md) — *Can a patient with this disease actually reach the trials and the agents that a computational result would point them toward?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`
-
 **PUB-ASO** — score 10.7
 - [RT-ASO](L2-rt-aso.md) — *Can an RNase-H gapmer or siRNA against the EWSR1::NR4A3 breakpoint junction silence the chimera while sparing wild-type NR4A3?* — `blocked` / `scoped` / confidence `moderate` · last verified `2026-08-06`
 
@@ -107,6 +104,9 @@ last_verified: 2026-08-09
 **PUB-SURFACE-TARGETS** — score 9.0
 - [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) — *Is a PRAME-directed T-cell engager or receptor therapy applicable to EMC?* — `blocked` / `computed` / confidence `moderate` · last verified `2026-08-05`
 - [RT-FAP-RLT](L2-rt-fap-rlt.md) — *Could a fibroblast-activation-protein radioligand reach EMC through its stroma?* — `blocked` / `concept` / confidence `unknown` · last verified `2026-08-05`
+
+**PUB-STRATEGY-ARCH** — score 8.9
+- [RT-TRIAL-REACH](L2-rt-trial-reach.md) — *Can a patient with this disease actually reach the trials and the agents that a computational result would point them toward?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`
 
 **PUB-TCIP** — score 8.3
 - [RT-TCIP](L2-rt-tcip.md) — *Can chemically induced proximity recruit a transcriptional effector to the fusion instead of degrading it?* — `blocked` / `scoped` / confidence `low` · last verified `2026-08-06`

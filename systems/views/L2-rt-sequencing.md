@@ -113,6 +113,10 @@ Only individual-patient data could change this, and it is not obtainable here.
 - The reachability routes act on institutions rather than on biology, which is a domain where this program has no track record and where a wrong answer is not falsifiable by computation.
 - Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness.
 
+## Closure
+
+`instrument_limit` — Set 2026-08-09. No randomised evidence exists for any systemic therapy in this disease, every pooled denominator is under sixty patients worldwide ever, and two pools rest on single-digit EMC subsets whose intervals span almost the whole range. The instrument here is the published record and it cannot support an ordering — `instrument_limit` rather than `premise_false`, because the premise is not refuted, it is unanswerable with what exists. ⭐ The refusal to pool is itself the contribution.
+
 ## Best next action
 
 Report the negative in the strategy paper: the sequencing question in this disease has no evidence base, stated with the denominators that make it so.
