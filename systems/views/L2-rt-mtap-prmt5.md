@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ ready · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/emc-mtap-prmt5-hypothesis.md`](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md#3--the-reading)): ⭐ TWO INDEPENDENT LINES, neither established (2026-08-09). Route 1: a published preclinical result that PRMT5 supports EWSR1-fusion-driven transcription in a sibling sarcoma with the same 5' gene — the stronger line, and its source is an uncertified preprint. Route 2: the MTAP/CDKN2A/CDKN2B locus reads LOWER in EMC where powered (t=-4.06) and the PRMT5 methylosome HIGHER on both platforms. ⛔ Neither is a copy-number call or a dependency measurement.
+**Grade** (owned by [`research/manuscripts/emc-mtap-prmt5-hypothesis.md`](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md#3--the-reading)): ◐ ROUTE 1 STANDS, ROUTE 2 CLOSED BY ITS OWN DATA (2026-08-09, corrected while drawing the figures). ⭐ The methylosome reads concordantly higher on BOTH platforms and is carried by PRMT5 itself (+0.27 and +0.74 SD), which is the gene route 1 depends on — that half is unchanged. ⛔ ROUTE 2 IS CLOSED AT TRANSCRIPT LEVEL: the locus group reads lower where powered (t = -4.06), but gene by gene MTAP IS FLAT (-0.02 SD) and the entire signal is CDKN2A (-0.40 SD), which then REVERSES on the second platform (+0.17). The window selects on MTAP loss specifically, so the locus reading does not support it. ⚠ The group statistic is not wrong — it is not about MTAP, and no group score could have shown that. Only an MTAP stain can reopen it.
 
 ## What has to land for this route to move
 
@@ -53,10 +53,9 @@ One of the few genuinely biomarker-selected synthetic-lethal classes in oncology
 
 ## Remaining unknowns
 
-- Whether PRMT5's contribution in the sibling sarcoma runs through the shared EWSR1 moiety or is specific to that fusion's own DNA-binding partner — the transfer is an assumption and nothing here bridges it.
-- Whether the MTAP locus is actually deleted, which a transcript read can triage and cannot answer.
-- Whether the low locus read is driven by CDKN2A alone, which is near-universally co-lost with MTAP but is also lost by mechanisms that leave MTAP intact.
-- Whether an elevated methylosome implies any dependency on it.
+- ⛔ ANSWERED AGAINST ROUTE 2 and kept so it is not re-asked: the low locus reading IS CDKN2A alone at transcript level. Whether MTAP PROTEIN is lost in any EMC case is untouched by that and is the only thing that could reopen the route.
+- Whether PRMT5's contribution in the sibling sarcoma runs through the shared 5′ partner or through fusion-driven transcription generally — the question route 1 rests on, and one no public data answers.
+- Whether the methylosome elevation is specific or generic, since elevated PRMT5 is reported across many malignancies and abundance is not dependency.
 
 ## Required validation
 
@@ -83,7 +82,7 @@ The decisive observation is a stain on tissue this programme cannot obtain, so t
 
 ## Where this route ends — the paper
 
-**[PUB-MTAP-PRMT5](L3-publications.md)** — [PRMT5 in extraskeletal myxoid chondrosarcoma — a hypothesis with two independent routes in, and the cheap test that would settle the second](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md)
+**[PUB-MTAP-PRMT5](L3-publications.md)** — [PRMT5 in extraskeletal myxoid chondrosarcoma — one route in, one route closed, and the cheap test that would settle each](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 

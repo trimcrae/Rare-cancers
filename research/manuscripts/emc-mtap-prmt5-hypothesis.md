@@ -1,6 +1,6 @@
 ---
 id: DOC-EMC-MTAP-PRMT5
-title: PRMT5 in extraskeletal myxoid chondrosarcoma — a hypothesis with two independent routes in, and the cheap test that would settle the second
+title: PRMT5 in extraskeletal myxoid chondrosarcoma — one route in, one route closed, and the cheap test that would settle each
 level: L3
 kind: manuscript
 status: live
@@ -43,12 +43,20 @@ readable public data says about it. We read two archival expression series (16 E
 platforms) and a public sarcoma-line CRISPR dependency panel.
 
 **What we found.** *MTAP*, *PRMT5* and *MAT2A* appear in no prose document in this repository's
-40-route portfolio and in no published EMC series. Two independent lines nevertheless point at the
-class. First, a published preclinical result reports that PRMT5 supports fusion-driven transcription
-in a sibling translocation sarcoma sharing the same 5′ partner gene. Second, the PRMT5 methylosome
-reads higher in EMC than in comparator sarcomas on **both** platforms (*t* = 3.11 and 3.89), the
-methionine-salvage context likewise (*t* = 4.26 and 2.07), and the *MTAP*/*CDKN2A*/*CDKN2B* locus
-reads **lower** on the platform where the read is powered (*t* = −4.06).
+40-route portfolio and in no published EMC series. Two candidate routes were examined and **they did
+not fare alike.**
+
+⭐ **Route 1 stands.** A published preclinical result reports that PRMT5 supports fusion-driven
+transcription in a sibling translocation sarcoma sharing the same 5′ partner gene, and the PRMT5
+methylosome reads higher in EMC than in comparator sarcomas on **both** platforms (*t* = 3.11 and
+3.89), carried by *PRMT5* itself (+0.27 and +0.74 SD), with the methionine-salvage context likewise
+(*t* = 4.26 and 2.07).
+
+⛔ **Route 2 is closed by this paper's own data.** The *MTAP*/*CDKN2A*/*CDKN2B* locus does read lower
+where powered (*t* = −4.06), but gene by gene ***MTAP* is flat** (−0.02 SD) and the entire signal is
+*CDKN2A* (−0.40 SD), which then **reverses direction** on the second platform (+0.17). Since the
+genetic window depends on *MTAP* loss specifically, the locus reading does not support it. We report
+that as a negative rather than as a caveat.
 
 **⛔ What qualifies it.** Across 176 sarcoma lines PRMT5 and MAT2A are dependencies in 94.5% and 96.7%
 respectively, so a growth effect is close to expected and only an effect on fusion-driven
@@ -56,10 +64,12 @@ transcription would be specific to this disease. **No EMC line exists in any pub
 dataset**, so that prior is a transfer. The locus reading is powered on one platform only, and
 *CDKN2A* is lost by mechanisms that leave *MTAP* intact.
 
-**Why it matters.** Each route ends at a different inexpensive, decisive experiment — one an addition
-to a screen that is already running on published EMC models, the other a routine
-immunohistochemistry stain on archival tissue. **Every branch of both is publishable, and the negative
-branches are the more likely ones.**
+**Why it matters.** Each route still ends at a different inexpensive, decisive experiment — one an
+addition to a screen already running on published EMC models, the other a routine
+immunohistochemistry stain on archival tissue. ⭐ **The stain is now the more interesting of the two
+precisely because the transcript closed the route**: protein loss is what the window actually selects
+on, and a transcript cannot see it. **Every branch is publishable, and the negative branches are the
+more likely ones.**
 
 ---
 
@@ -81,17 +91,32 @@ whose fusion is constitutively active because the EWSR1 portion supplies the act
 driver has that architecture. If PRMT5's contribution runs through the EWSR1 moiety or through
 fusion-driven transcription generally, EMC is the next disease in line — and nobody has asked.
 
-**Route 2 — the MTAP locus.** Separately, PRMT5 is targetable through a genetic window: tumours that
-have lost *MTAP* are comparatively more sensitive to PRMT5 and MAT2A inhibition, an axis that has
-reached patients (PMC10618744). Reading the two public EMC expression series, the three-gene
-*MTAP*/*CDKN2A*/*CDKN2B* locus reads **lower** in EMC than in comparator sarcomas on the platform
-where the read is powered, and the **PRMT5 methylosome reads higher on both platforms**.
+**Route 2 — the MTAP locus. ⛔ TESTED AND CLOSED AT TRANSCRIPT LEVEL, and it is reported here as the
+negative it is.** PRMT5 is also targetable through a genetic window: tumours that have lost *MTAP* are
+comparatively more sensitive to PRMT5 and MAT2A inhibition, an axis that has reached patients
+(PMC10618744). The three-gene *MTAP*/*CDKN2A*/*CDKN2B* locus does read **lower** in EMC on the
+platform where the read is powered — but reading the locus **gene by gene**, which is what the group
+score hides:
 
-⛔ **Route 2 is the weaker of the two and this document says so up front.** A transcript is not a copy
-number; the locus read is underpowered on the second platform; and *CDKN2A* is lost by mechanisms that
-leave *MTAP* intact, so the group score is ambiguous by construction (PMC10010627).
+| gene | GPL6244 (powered) | GPL3290 |
+|---|---:|---:|
+| ***MTAP*** | **−0.023 — flat** | −0.389 |
+| *CDKN2A* | **−0.399** | **+0.173 — reverses** |
+| *CDKN2B* | −0.096 | unreadable |
 
-**Both routes end at cheap, decisive experiments**, and they are different experiments — §4.
+⛔ ***MTAP* — the only gene of the three that carries the therapeutic argument — IS FLAT on the powered
+platform.** The entire locus signal is *CDKN2A*, and *CDKN2A* changes direction between platforms.
+This document previously stated the *CDKN2A*-shadow problem as a caveat (PMC10010627); it is not a
+caveat, it is what the data shows. **Route 2 is closed on the evidence available here** and survives
+only as the question an MTAP stain would answer directly — see §4.
+
+⭐ **Route 1 is unaffected by that closure and is the paper's live claim.** The methylosome reading is
+concordant across both platforms and is carried by *PRMT5* itself (+0.266 and +0.744), which is the
+gene route 1 depends on.
+
+**Both routes still end at cheap, decisive experiments**, and they are different experiments — §4. The
+difference is that route 1's experiment tests a live hypothesis and route 2's now tests a closed one,
+which is worth doing precisely because a stain can overturn a transcript.
 
 ---
 
@@ -157,10 +182,14 @@ unreadable, which is an instrument statement and never evidence of absence.
 
 ![Figure 2](./figures/mtap-prmt5-fig2-locus-genewise.png)
 
-**Figure 2 — the locus is three genes, and they are not interchangeable.** ⚠ This figure exists to
-make the manuscript's own weakest point visible rather than to support it: because *CDKN2A* is lost by
-mechanisms that leave *MTAP* intact, a three-gene locus score cannot separate co-deletion from
-*CDKN2A*-only loss. Only MTAP protein can, which is why §4's decisive test for route 2 is a stain.
+**Figure 2 — the locus is three genes, and they are not interchangeable. ⛔ THIS FIGURE CLOSED ROUTE
+2.** It was drawn to make the manuscript's weakest point visible rather than to support it, and on its
+first render it did exactly that: ***MTAP* is flat on the powered platform** (−0.02 SD) while
+*CDKN2A* carries the whole locus signal (−0.40 SD) and then reverses on the second platform (+0.17).
+Because the genetic window selects on *MTAP* loss specifically, the group score was reporting the
+wrong gene. ⚠ The group statistic (*t* = −4.06) is not wrong — it is simply not about *MTAP*, and no
+group score could have shown that. Only MTAP protein can settle it, which is why §4's test for route 2
+is a stain.
 
 **What this is and is not.** An elevated methylosome is consistent with route 1 and is not evidence
 for it: abundance is not dependency, and elevated methylosome expression is reported across many
@@ -242,8 +271,8 @@ disease can afford to test.
 | F2 | the transfer from EWSR1-ATF1 to EWSR1::NR4A3 is reasonable | PRMT5 inhibition inactive in an EMC model — **the decisive test for route 1** |
 | F3 | the methylosome reads high in EMC | a third EMC series in which the PRMT5 group is null or lower |
 | F4 | the MTAP locus reads low in EMC | a third series in which the locus group is null or higher |
-| F5 | the low locus read is not *CDKN2A* alone | gene-level copy-number showing *CDKN2A* loss with *MTAP* intact |
-| F6 | MTAP protein is lost in some EMC | MTAP IHC retained across an EMC series — **the decisive test for route 2, and the cheapest** |
+| F5 | ⛔ **FIRED — this falsifier is now met at transcript level.** The low locus read IS *CDKN2A* alone: *MTAP* is flat where the read is powered, and *CDKN2A* reverses on the second platform. Route 2 is closed unless a stain overturns it | it has already fired; only MTAP protein retained/lost can now move it |
+| F6 | MTAP protein is lost in some EMC | MTAP IHC retained across an EMC series — **the decisive test for route 2, and now the ONLY thing that could reopen it** |
 | F7 | the readings are not proliferation or cellularity effects | a series matched on proliferation in which both contrasts disappear |
 | F8 | route 1's specificity rests on fusion-driven transcription, not on growth | a demonstration that PRMT5 inhibition slows EMC growth no more than it slows any sarcoma line's — the near-universal dependency in §3.1 makes this the likeliest way route 1 fails |
 

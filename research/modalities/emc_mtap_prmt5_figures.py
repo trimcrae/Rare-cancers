@@ -136,7 +136,7 @@ def fig_readings(plt, panel):
     axes[0][0].legend(fontsize=6.6, frameon=False, loc="upper left")
     fig.suptitle("Every tumour, on both platforms. Bars are medians.", fontsize=9, color=C_INK)
     fig.text(0.5, 0.005,
-             "⛔ The two platforms are NOT on a shared axis: one is single-channel intensity and one "
+             "NOTE  The two platforms are NOT on a shared axis: one is single-channel intensity and one "
              "is a two-colour log-ratio.\nA gene with no probe is marked unreadable — that is an "
              "instrument statement, never evidence of absence.",
              ha="center", fontsize=6.6, color=C_MUTE)
@@ -151,7 +151,7 @@ def fig_locus_genewise(plt, panel):
         _gene_panel(axes[c], panel, LOCUS, pname, plat, kind)
     fig.suptitle("The locus is three genes, and they are not interchangeable", fontsize=9, color=C_INK)
     fig.text(0.5, 0.005,
-             "⚠ CDKN2A is lost by mechanisms that leave MTAP intact, so a LOCUS score is ambiguous by "
+             "NOTE  CDKN2A is lost by mechanisms that leave MTAP intact, so a LOCUS score is ambiguous by "
              "construction — the group\ncannot distinguish co-deletion from CDKN2A-only loss. Only "
              "MTAP protein can, which is why the manuscript's decisive\ntest for this route is a "
              "stain and not this figure.",
@@ -180,7 +180,7 @@ def fig_dependency(plt, dep):
     ax.set_xlim(0, 128)
     ax.set_xlabel(f"% of {dep.get('n_sarcoma_models', '?')} sarcoma cell lines in which the gene is a "
                   f"dependency", fontsize=7.4)
-    ax.set_title("⛔ This qualifies the route rather than supporting it", fontsize=8.6, color=C_INK)
+    ax.set_title("This QUALIFIES the route rather than supporting it", fontsize=8.6, color=C_INK)
     ax.tick_params(labelsize=7.6)
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
@@ -188,7 +188,7 @@ def fig_dependency(plt, dep):
              "PRMT5 and MAT2A are dependencies in almost every sarcoma line, so a GROWTH effect on "
              "silencing them is close to expected\nand is not specific to this disease. Only an "
              "effect on FUSION-DRIVEN TRANSCRIPTION would be. MTAP is not a dependency, exactly as a\n"
-             "biomarker rather than a target should read.  ⛔ NO EMC LINE EXISTS IN THIS PANEL — every "
+             "biomarker rather than a target should read.  NO EMC LINE EXISTS IN THIS PANEL - every "
              "value is a transfer from other sarcomas.",
              ha="center", fontsize=6.5, color=C_MUTE)
     fig.tight_layout(rect=(0, 0.11, 1, 1))
@@ -227,7 +227,7 @@ def fig_classes(plt, panel):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
     fig.text(0.5, 0.005,
-             "⭐ LGFMS is FUS::CREB3L2 — a FET-fusion sarcoma, and therefore a control for 'this is "
+             "NOTE  LGFMS is FUS::CREB3L2 - a FET-fusion sarcoma, and therefore a control for 'this is "
              "just what a fusion sarcoma looks like'.\nA pooled comparator arm makes that control "
              "invisible.  ⚠ Points are gene-by-sample values pooled across the four methylosome "
              "genes,\nso they are not independent observations and no test is run on them here.",

@@ -67,8 +67,19 @@ not expressed.**
 
 Δ is the EMC-minus-comparator difference in standard-deviation units of that array.
 
-⚠ **The locus is the weaker of the two readings and this table is why.** It is powered on one platform
-only. The main text says so; the SI shows the shape of the gap rather than asserting it.
+⛔ **THE LOCUS READING CLOSED ROUTE 2, AND THE GROUP SCORE IS WHY IT LOOKED OTHERWISE.** Powered on one
+platform only — and, more decisively, gene by gene:
+
+| gene | GPL6244 (powered) | GPL3290 |
+|---|---:|---:|
+| ***MTAP*** | **−0.023 SD — flat** | −0.389 |
+| *CDKN2A* | **−0.399 SD** | **+0.173 — reverses** |
+| *CDKN2B* | −0.096 | unreadable |
+
+The group's *t* = −4.06 is not wrong; it is simply **not about *MTAP***. The therapeutic window selects
+on *MTAP* loss, and *MTAP* does not move where the read is powered. ⚠ **No group score could have
+shown this** — the gene-level cut is what closed it, which is the methodological point worth carrying
+out of this manuscript.
 
 ## S4 · The dependency prior in full
 
@@ -104,7 +115,7 @@ that the panel is being read correctly.
 | figure | drawn from | the honest reading |
 |---|---|---|
 | 1 — readings, per tumour | `emc-expression-panels.json` → `gene_reads[*].per_sample` | every tumour is visible; medians are bars |
-| 2 — the locus gene by gene | same | ⚠ shows that a locus score cannot separate co-deletion from CDKN2A-only loss |
+| 2 — the locus gene by gene | same | ⛔ **closed route 2** — MTAP flat, CDKN2A carrying the signal and reversing across platforms |
 | 3 — dependency qualifier | `depmap-sarcoma-dependency.json` | ⛔ argues **against** the proliferation reading |
 | 4 — comparator classes | `emc-expression-panels.json` | ⭐ exposes the FET-fusion comparator a pooled arm hides |
 
@@ -118,8 +129,11 @@ Stated as failure modes rather than as caveats, because a caveat is easy to skim
 
 1. **The contrasts are cellularity or proliferation artefacts.** Both readings would then be real
    measurements of the wrong thing. Nothing here excludes it.
-2. **The locus reading is a CDKN2A shadow.** Then MTAP is intact, route 2 is dead, and figure 2 is
-   where a reader should have suspected it.
+2. ⛔ **THIS ONE HAS ALREADY HAPPENED.** The locus reading IS a *CDKN2A* shadow: *MTAP* is flat where
+   the read is powered and *CDKN2A* reverses on the second platform. Route 2 is closed at transcript
+   level, and figure 2 is where it became visible — on its first render, before any of this text was
+   written. It is left in this list rather than deleted because a failure mode that fired is the most
+   informative entry a list like this can carry.
 3. **The clear cell sarcoma transfer does not hold.** EWSR1-ATF1 and EWSR1::NR4A3 share a 5′ partner
    and an architecture, not a DNA-binding domain or a target repertoire.
 4. **The methylosome elevation is generic.** Elevated PRMT5 is reported across many malignancies, and
