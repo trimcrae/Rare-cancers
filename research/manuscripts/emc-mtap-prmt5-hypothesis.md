@@ -91,11 +91,19 @@ commonest clear cell sarcoma fusion.** ⚠ The same analysis disciplines the cla
 EWSR1::FLI1 keeps **none**, and PRMT5 still matters there — so the motif is not required, and the
 prediction this licenses is a falsifiable one rather than an expectation.
 
+⚠ **And one of the paper's own controls bites.** *PRMT5* ranks first of the eight readable PRMT
+family members on both platforms, so the elevation is not simply family-wide. But adjusting for a
+twelve-gene proliferation score leaves *PRMT5* nearly untouched on the 35-tumour platform (*t* 6.24 →
+5.23) and takes most of it on the 16-tumour one (6.67 → 2.71), where proliferation is itself higher
+in EMC. **The two platforms disagree**, and we report that rather than the platform that agrees.
+
 ⛔ **Route 2 is closed by this paper's own data.** The *MTAP*/*CDKN2A*/*CDKN2B* locus does read lower
-where powered (*t* = −4.06), but gene by gene ***MTAP* is flat** (−0.02 SD) and the entire signal is
-*CDKN2A* (−0.40 SD), which then **reverses direction** on the second platform (+0.17). Since the
-genetic window depends on *MTAP* loss specifically, the locus reading does not support it. We report
-that as a negative rather than as a caveat.
+where powered (*t* = −4.06), but gene by gene ***MTAP* is flat there** (+0.05 SD, *t* = +0.69) and
+the signal is *CDKN2A* (−0.48 SD), which then **reverses direction** on the second platform (+0.17).
+Placed against every gene on its own array, *MTAP* sits in the top 74% and top 26% — unremarkable on
+both — while *PRMT5* sits in the top 1.9% and 1.0%. Since the genetic window depends on *MTAP* loss
+specifically, the locus reading does not support it. We report that as a negative rather than as a
+caveat.
 
 **⛔ What qualifies it.** Across 176 sarcoma lines PRMT5 and MAT2A are dependencies in 94.5% and 96.7%
 respectively, so a growth effect is close to expected and only an effect on fusion-driven
@@ -148,22 +156,32 @@ comparatively more sensitive to PRMT5 and MAT2A inhibition, an axis that has rea
 platform where the read is powered — but reading the locus **gene by gene**, which is what the group
 score hides:
 
-| gene | GPL6244 (powered) | GPL3290 |
-|---|---:|---:|
-| ***MTAP*** | **−0.023 — flat** | −0.389 |
-| *CDKN2A* | **−0.399** | **+0.173 — reverses** |
-| *CDKN2B* | −0.096 | unreadable |
+| gene | GPL6244 (powered) | GPL3290 | genome-wide rank of \|*t*\| |
+|---|---:|---:|---|
+| ***MTAP*** | **+0.053 — flat, *t* = +0.69** | **−0.607 — opposite sign** | top **74%** / top **26%** — unremarkable on both |
+| *CDKN2A* | **−0.481, *t* = −5.40** | **+0.175 — reverses** | top 3.5% / top 49% |
+| *CDKN2B* | −0.136 | unreadable | top 34% / — |
 
 ⛔ ***MTAP* — the only gene of the three that carries the therapeutic argument — IS FLAT on the powered
-platform.** The entire locus signal is *CDKN2A*, and *CDKN2A* changes direction between platforms.
-This document previously stated the *CDKN2A*-shadow problem as a caveat (PMC10010627); it is not a
-caveat, it is what the data shows. **Route 2 is closed on the evidence available here** and survives
+platform, CHANGES SIGN on the other, and is unremarkable on both when placed against every gene on
+its own array** (top 74% and top 26% of the |*t*| distribution, against *PRMT5*'s top 1.9% and 1.0%).
+The locus signal on the powered platform is *CDKN2A*, and *CDKN2A* itself changes direction between
+platforms. This document previously stated the *CDKN2A*-shadow problem as a caveat (PMC10010627); it
+is not a caveat, it is what the data shows. **Route 2 is closed on the evidence available here** and survives
 only as the question an MTAP stain would answer directly — see §4.
 
 ⭐ **Route 1 is unaffected by that closure and is the paper's live claim.** The methylosome reading is
 concordant across both platforms and is carried by *PRMT5* itself (+0.263 and +0.816 SD, *t* = 6.24
-and 6.67 — see §3.2; superseded values in SI §S10), which is the
-gene route 1 depends on.
+and 6.67 — see §3.2; superseded values in SI §S10), which is the gene route 1 depends on. *PRMT5*
+also ranks **first of the readable PRMT family on both platforms** and sits in the **top 1.9% and
+1.0%** of every gene on its own array.
+
+⛔ **But route 1's transcript half is NOT unconditional, and the paper's own control is what limits
+it.** Adjusting *PRMT5* for a twelve-gene proliferation score leaves it at 5.23 on the 35-tumour
+platform and takes it to **2.71** on the 16-tumour one, where proliferation is itself higher in EMC
+(§3.3). **The two platforms disagree**, and nothing available here decides between them. ⚠ Route 1
+does not rest on the transcript alone — the published fusion-dependent result and the motif analysis
+are independent of it — but the transcript is what this work contributes, and this is its limit.
 
 **Both routes still end at cheap, decisive experiments**, and they are different experiments — §4. The
 difference is that route 1's experiment tests a live hypothesis and route 2's now tests a closed one,
@@ -313,36 +331,77 @@ a contrast this large" — and says nothing about how many genes were examined. 
 *p* cannot go below 1/8,008 whatever the effect: with 10 versus 6 tumours the resolution of the test
 is the sample size, not the biology.
 
-### 3.3 · The two confounds the paper named, now measured — and one of them bites
+**So the multiple-testing question is asked separately, by scoring every gene on the array.** The
+same statistic was computed for all 18,474 and 14,402 mapped symbols, and each gene of interest
+placed in that distribution. Two genes are in the table as instrument controls: *NR4A3*, the
+disease-defining fusion transcript, and *ENO3*, a published direct target of an NR4A3 fusion.
 
-Falsifier F7 said the readings might be proliferation or cellularity effects, and offered no data.
-Here PRMT5's contrast is recomputed after regressing out a per-sample score, and the two platforms
-**do not agree**:
+| gene | GPL6244 — *t*, and rank of \|*t*\| | GPL3290 — *t*, and rank of \|*t*\| |
+|---|---|---|
+| ***PRMT5*** | +6.24, **top 1.9%** | +6.67, **top 1.0%** |
+| *MAT2A* | +4.13, top 8.5% | +4.10, top 6.3% |
+| *WDR77* | +2.82, top 20.5% | unreadable |
+| *MTAP* | +0.69, top 74.0% | −2.27, top 26.1% |
+| *CDKN2A* | −5.40, top 3.5% | +1.33, top 49.3% |
+| *NR4A3* — control | +4.66, top 5.9% | +1.70, top 38.5% |
+| *ENO3* — control | +3.61, top 12.0% | +13.22, **top 0.05%** |
+
+⚠ **The controls do not both behave, and that is worth stating rather than smoothing.** *ENO3* is at
+the extreme of GPL3290, which is what a working instrument should show. *NR4A3* is only mid-table on
+that platform — consistent with the probe-placement caveat the source artifact already carries (on a
+3′-biased array the probe can sit in the region the fusion replaces), but it means GPL3290's ranking
+should not be read as if every row on it were equally trustworthy.
+
+⛔ **A rank is not a corrected *p*.** It reports where a gene sits among all genes; it controls no
+error rate, the distribution contains real biology rather than a null, and correlated transcripts
+mean the effective number of independent tests is far below the symbol count. What it does settle is
+narrower and was previously unanswerable: **on this array, a *t* like *PRMT5*'s is uncommon and a *t*
+like *MTAP*'s is not.**
+
+### 3.3 · Three controls the paper named, now run — and one of them bites
+
+Each was specified against a named weakness before it was run. **They are controls, not further
+hypothesis tests**, and a result below should not be read as a new finding.
+
+**Control 1 — is the elevation *PRMT5*, or the PRMT family?** This matters because the Ewing result
+reports PRMT1 *and* PRMT5 elevated together across sarcoma types (PMC12354397); if EMC's reading were
+family-wide it would say something about transcriptional output rather than about PRMT5. Eight family
+members are readable on GPL6244 and seven on GPL3290, and ***PRMT5 ranks first on both***. As a
+group the family is flat (*t* = 0.33 and 1.34) while *PRMT5* alone is at 6.24 and 6.67. ⚠ **It is not
+a clean sweep on the second platform**: *CARM1* reads +5.44 and *PRMT3* +3.47 there, so "family-wide"
+is weakened rather than excluded, and only GPL6244 — where the next member is *PRMT3* at +1.62 —
+separates *PRMT5* decisively.
+
+**Control 2 — proliferation, and ⛔ it bites on one platform.** Falsifier F7 offered no data; here
+*PRMT5* is recomputed after regressing out a twelve-gene proliferation score.
 
 | axis | platform | score elevated in EMC? | *PRMT5 t* raw → adjusted | reading |
 |---|---|---|---:|---|
-| proliferation | GPL6244 | no (*t* = 0.53) | 6.24 → **5.51** | ✅ survives |
-| proliferation | GPL3290 | **yes (*t* = 2.30)** | 6.67 → **3.15** | ⛔ **about half the contrast is explained by it** |
-| chondroid lineage | GPL6244 | mildly (*t* = 0.85) | 6.24 → 6.21 | ✅ survives essentially untouched |
-| chondroid lineage | GPL3290 | no (*t* = 0.47) | 6.67 → 5.65 | ✅ survives |
+| proliferation (12 genes) | GPL6244, *n* = 35 | no (*t* = 0.45) | 6.24 → **5.23** | ✅ survives |
+| proliferation (12 genes) | GPL3290, *n* = 16 | **yes (*t* = 3.00)** | 6.67 → **2.71** | ⛔ **most of the contrast goes with it** |
+| chondroid lineage (8 genes) | GPL6244, *n* = 35 | no (*t* = 0.99) | 6.24 → 6.20 | ✅ untouched |
+| chondroid lineage (8 genes) | GPL3290, *n* = 14 | no (*t* = 0.36) | 6.67 → 6.52 | ✅ survives |
 
-⛔ **The second row is a genuine dent in route 1 and is reported as one.** On GPL3290 the tumours
-with more proliferation signal also have more *PRMT5*, and adjusting for it removes roughly half the
-contrast.
+⛔ **The second row is a genuine dent in route 1 and is reported as one.** On GPL3290 the
+proliferation score is itself higher in EMC, it correlates with *PRMT5* at *r* = 0.60, and adjusting
+for it takes *PRMT5* from 6.67 to 2.71. **On that platform the reading is consistent with being a
+proliferation effect**, and this manuscript does not claim otherwise.
 
-⚠ **And the instrument is one gene.** *MKI67* is the only proliferation marker on the committed
-panel; the other eleven requested genes have no probe there yet. A one-gene score is a weak proxy,
-which cuts both ways — it cannot support "the contrast is proliferation" any more firmly than it
-supports the opposite, and a confound a weak proxy measures badly survives adjustment untouched. A
-fuller proliferation set was added to the panel definition on 2026-08-09 and the re-read is the
-obvious next step; until it lands **this row is the honest state of the question, not its answer.**
+⚠ **The platforms disagree, and neither is obviously right.** GPL6244 has 35 tumours, a flat
+proliferation score and a *PRMT5* contrast that barely moves. GPL3290 has 16, a two-colour log-ratio
+measurement, and a proliferation score that moves with everything. The honest statement is that
+**route 1's transcript half survives on the larger platform and does not on the smaller one** — not
+that it survives, and not that it fails.
 
-⚠ **The chondroid control is structurally the weaker of the two even where it passes**, because no
+**Control 3 — chondroid lineage, and it is the weakest of the three even where it passes.** No
 comparator in either series is cartilage-lineage. It can ask whether *PRMT5* and chondroid markers
-move together within these samples; it cannot exclude that chondroid tumours generally express
-*PRMT5*, and nothing above should be read as excluding it.
+move together within these samples — they do not (*r* = 0.05 and −0.04) — but it **cannot exclude
+that chondroid tumours generally express *PRMT5***, and nothing here should be read as excluding it.
 
-Every figure in this subsection is owned by
+⛔ **What every one of these adjustments cannot do.** A transcript score is a proxy. Regressing it out
+removes the part of the contrast that proxy linearly predicts and nothing more, so a confound the
+proxy measures badly passes through untouched — which makes a ✅ in this table a much softer statement
+than a ⛔. Every figure here is owned by
 [`emc-prmt5-route-controls.json`](../modalities/emc-prmt5-route-controls.json).
 
 ### 3.4 · Which half of the fusion carries PRMT5's substrate motif
@@ -358,7 +417,7 @@ mapping experiment in a different substrate narrows it the same way: of three DD
 one carrying the C-terminal RGG/RG motif was methylated by PRMT5, and mutating five arginines inside
 that motif abolished it (PMC6669924).
 
-⭐ **In EWSR1 the motif is absent from exactly the half every fusion keeps.** EWSR1 is 656 residues
+⭐ **In EWSR1 the motif is absent from the segment every fusion keeps.** EWSR1 is 656 residues
 and carries **eleven GRG sites — the first at residue 301, and none before it**. The N-terminal
 segment the fusion retains is the SYGQ-rich transactivation region, and it contains no site at all.
 Every site lies beyond residue 300, in the two RGG-rich regions the fusion truncates. ⚠ It is *not*
@@ -460,7 +519,7 @@ disease can afford to test.
 | F4 | the MTAP locus reads low in EMC | a third series in which the locus group is null or higher |
 | F5 | ⛔ **FIRED — this falsifier is now met at transcript level.** The low locus read IS *CDKN2A* alone: *MTAP* is flat where the read is powered, and *CDKN2A* reverses on the second platform. Route 2 is closed unless a stain overturns it | it has already fired; only MTAP protein retained/lost can now move it |
 | F6 | MTAP protein is lost in some EMC | MTAP IHC retained across an EMC series — **the decisive test for route 2, and now the ONLY thing that could reopen it** |
-| F7 | the readings are not proliferation or cellularity effects | ⚠ **PARTIALLY FIRED, ON ONE PLATFORM.** §3.3: adjusting for the one available proliferation marker leaves *PRMT5* largely intact on GPL6244 (6.24 → 5.51) and removes about half the contrast on GPL3290 (6.67 → 3.15). It is not settled in either direction, and the instrument is a single gene — the fuller re-read is the outstanding step |
+| F7 | the readings are not proliferation or cellularity effects | ⚠ **PARTIALLY FIRED, ON ONE PLATFORM.** §3.3: adjusting for a twelve-gene proliferation score leaves *PRMT5* largely intact on GPL6244 (6.24 → 5.23, *n* = 35) and takes most of the contrast on GPL3290 (6.67 → 2.71, *n* = 16), where the score is itself elevated in EMC. **The platforms disagree**, and this is the likeliest way the transcript half of route 1 is wrong |
 | F8 | route 1's specificity rests on fusion-driven transcription, not on growth | a demonstration that PRMT5 inhibition slows EMC growth no more than it slows any sarcoma line's — the near-universal dependency in §3.1 makes this the likeliest way route 1 fails |
 | F9 | the fusion-class transfer holds because the fusions are matched on PRMT5's motif (§3.4) | a corrected breakpoint that moves EMC type 1 or clear cell's commonest type off 4 retained sites — asserted in `tests/test_emc_prmt5_substrate_motif_map.py`, so a revision fails the build rather than passing unnoticed. ⚠ It would weaken the *argument*, not the class: the Ewing result stands with zero sites |
 | F10 | the fusion protein is itself the relevant PRMT5 substrate | already **contradicted at one point**: EWSR1::FLI1 retains no site and PRMT5 inhibition is still fusion-dependent there (PMC12354397). It is listed as a falsifier rather than deleted because the two-construct experiment in §4 would settle it in EMC directly, and because a claim this paper does **not** make is worth naming explicitly |
@@ -508,6 +567,10 @@ by that process while drawing figures, after the prose had already been written 
 - ⛔ **The motif analysis is a sequence argument and the fusions it compares are constructs, not
   patients.** It cannot show any fusion is methylated. It also cannot be read as a response
   predictor: the one disease where the mechanism was measured retains no sites at all.
+- ⛔ **The transcript half of route 1 survives its proliferation control on one platform and not on
+  the other** (§3.3). On the 16-tumour series the proliferation score is elevated in EMC, correlates
+  with *PRMT5* at *r* = 0.60, and adjusting for it takes *t* from 6.67 to 2.71. Nothing here decides
+  which platform to believe.
 - ⚠ **Elevated PRMT5 is not specific to this disease, on the comparison that has been published.**
   PRMT5, PRMT1 and MEP50 read higher across multiple sarcoma types than in breast and lung cancer
   (PMC12354397). This manuscript's comparator arm is *other sarcomas*, which is the harder contrast —

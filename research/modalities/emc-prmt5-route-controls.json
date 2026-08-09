@@ -18,23 +18,31 @@
         "⚠_what_this_p_is_not": "It is exact for the LABELLING only. It corrects nothing for the number of genes examined, and the manuscript's 'uncorrected for multiple testing' limit stands unchanged. The genome-wide placement below is the field that speaks to that, and it is a different quantity."
       },
       "prmt_family_specificity": {
-        "_status": "⛔ NOT MEASURED — fewer than 3 family members readable in the committed panel. The PRMT family was added to PANELS on 2026-08-09; run `emc-expression-datasets.yml mode=panels`. ABSENT READING, NOT a finding that the elevation is PRMT5-specific.",
+        "_status": "run",
         "per_gene": {
           "PRMT1": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": 0.175,
+            "n_EMC": 6,
+            "n_comparator": 29
           },
           "PRMT2": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": 0.212,
+            "n_EMC": 6,
+            "n_comparator": 29
           },
           "PRMT3": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": 1.615,
+            "n_EMC": 6,
+            "n_comparator": 29
           },
           "CARM1": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": 0.283,
+            "n_EMC": 6,
+            "n_comparator": 29
           },
           "PRMT5": {
             "readable": true,
@@ -43,49 +51,68 @@
             "n_comparator": 29
           },
           "PRMT6": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": -0.9,
+            "n_EMC": 6,
+            "n_comparator": 29
           },
           "PRMT7": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": 1.543,
+            "n_EMC": 6,
+            "n_comparator": 29
           },
           "PRMT8": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": -0.527,
+            "n_EMC": 6,
+            "n_comparator": 29
           },
           "PRMT9": {
             "readable": false,
             "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
           }
-        }
+        },
+        "n_family_members_readable": 8,
+        "ranked_by_t_desc": [
+          "PRMT5",
+          "PRMT3",
+          "PRMT7",
+          "CARM1",
+          "PRMT2",
+          "PRMT1",
+          "PRMT8",
+          "PRMT6"
+        ],
+        "PRMT5_rank": 1,
+        "reading": "⭐ PRMT5 is the highest-scoring readable PRMT on this platform — the elevation is not simply family-wide.",
+        "⛔_what_this_cannot_settle": "Abundance, not activity. Every PRMT here is a transcript level; none of them says an enzyme is working, and a family member with no probe is simply unread."
       },
       "proliferation_control": {
         "_status": "run",
         "axis": "proliferation",
         "genes_used": [
-          "MKI67"
-        ],
-        "genes_not_readable": [
-          "PCNA",
-          "TOP2A",
-          "CCNB1",
-          "RRM2",
-          "BUB1",
           "AURKA",
-          "MCM2",
-          "TYMS",
-          "E2F1",
+          "BUB1",
           "CCNA2",
-          "CDK1"
+          "CCNB1",
+          "CDK1",
+          "E2F1",
+          "MCM2",
+          "MKI67",
+          "PCNA",
+          "RRM2",
+          "TOP2A",
+          "TYMS"
         ],
-        "⚠_coverage": "1 of 12 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
+        "genes_not_readable": [],
+        "⚠_coverage": "12 of 12 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
         "n_samples_scored": 35,
-        "score_is_higher_in_EMC_by_t": 0.528,
-        "correlation_of_PRMT5_with_the_score_across_all_samples": 0.133,
+        "score_is_higher_in_EMC_by_t": 0.452,
+        "correlation_of_PRMT5_with_the_score_across_all_samples": 0.155,
         "PRMT5_t_raw": 6.236,
-        "regression_slope_PRMT5_on_score": 0.032,
-        "PRMT5_t_after_removing_the_score": 5.511,
+        "regression_slope_PRMT5_on_score": 0.055,
+        "PRMT5_t_after_removing_the_score": 5.227,
         "reading": "✅ THE CONTRAST SURVIVES the adjustment — it retains its sign and most of its magnitude, so this axis does not account for it.",
         "⛔_what_this_cannot_settle": "A transcript score is a proxy. Adjusting for it removes the part of the contrast that is LINEARLY predicted by that proxy and nothing more; a confound the proxy measures badly survives adjustment untouched. And with n this small the adjustment itself is unstable."
       },
@@ -95,27 +122,97 @@
         "genes_used": [
           "ACAN",
           "COL11A1",
-          "SOX9"
-        ],
-        "genes_not_readable": [
+          "COL11A2",
           "COL2A1",
           "COL9A1",
-          "COL11A2",
           "SOX5",
-          "SOX6"
+          "SOX6",
+          "SOX9"
         ],
-        "⚠_coverage": "3 of 8 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
+        "genes_not_readable": [],
+        "⚠_coverage": "8 of 8 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
         "n_samples_scored": 35,
-        "score_is_higher_in_EMC_by_t": 0.849,
-        "correlation_of_PRMT5_with_the_score_across_all_samples": 0.115,
+        "score_is_higher_in_EMC_by_t": 0.991,
+        "correlation_of_PRMT5_with_the_score_across_all_samples": 0.053,
         "PRMT5_t_raw": 6.236,
-        "regression_slope_PRMT5_on_score": 0.043,
-        "PRMT5_t_after_removing_the_score": 6.214,
+        "regression_slope_PRMT5_on_score": 0.044,
+        "PRMT5_t_after_removing_the_score": 6.202,
         "reading": "✅ THE CONTRAST SURVIVES the adjustment — it retains its sign and most of its magnitude, so this axis does not account for it.",
         "⛔_what_this_cannot_settle": "A transcript score is a proxy. Adjusting for it removes the part of the contrast that is LINEARLY predicted by that proxy and nothing more; a confound the proxy measures badly survives adjustment untouched. And with n this small the adjustment itself is unstable."
       },
       "genome_wide_placement": {
-        "_status": "⛔ NOT AVAILABLE — the committed panel predates the genome-wide null (added 2026-08-09). Run `emc-expression-datasets.yml mode=panels`. The manuscript's 'uncorrected for multiple testing' limit therefore stands with nothing measured against it."
+        "_status": "run",
+        "n_symbols_scored": 18474,
+        "t_distribution": {
+          "min": -23.239,
+          "p01": -6.391,
+          "p05": -4.218,
+          "p25": -1.569,
+          "p50": -0.15,
+          "p75": 1.218,
+          "p95": 3.489,
+          "p99": 5.696,
+          "max": 17.587
+        },
+        "self_check": {
+          "_what": "the null's t vs the panel's committed t, for every wanted gene both paths scored on this platform",
+          "n_agreeing_within_0.02": 366,
+          "n_disagreeing": 0,
+          "disagreements": [],
+          "verdict": "✅ the two independent paths agree"
+        },
+        "placed": {
+          "PRMT5": {
+            "t": 6.236,
+            "signed_percentile": 99.25,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.01867,
+            "n_symbols_at_least_as_extreme_two_sided": 345
+          },
+          "WDR77": {
+            "t": 2.82,
+            "signed_percentile": 91.88,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.20483,
+            "n_symbols_at_least_as_extreme_two_sided": 3784
+          },
+          "MAT2A": {
+            "t": 4.132,
+            "signed_percentile": 96.82,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.08488,
+            "n_symbols_at_least_as_extreme_two_sided": 1568
+          },
+          "MTAP": {
+            "t": 0.685,
+            "signed_percentile": 65.58,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.74034,
+            "n_symbols_at_least_as_extreme_two_sided": 13677
+          },
+          "CDKN2A": {
+            "t": -5.398,
+            "signed_percentile": 2.22,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.03481,
+            "n_symbols_at_least_as_extreme_two_sided": 643
+          },
+          "CDKN2B": {
+            "t": -2.033,
+            "signed_percentile": 19.42,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.33891,
+            "n_symbols_at_least_as_extreme_two_sided": 6261
+          },
+          "NR4A3": {
+            "t": 4.662,
+            "signed_percentile": 97.81,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.05916,
+            "n_symbols_at_least_as_extreme_two_sided": 1093
+          },
+          "ENO3": {
+            "t": 3.607,
+            "signed_percentile": 95.44,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.12001,
+            "n_symbols_at_least_as_extreme_two_sided": 2217
+          }
+        },
+        "⭐_how_to_read_it": "`frac_of_array_at_least_as_extreme_two_sided` is the fraction of all symbols on this array whose EMC-vs-comparator |t| is at least this gene's. NR4A3 and ENO3 are included as the instrument's positive controls: the disease-defining transcript and a published direct target should sit far out, and if they do not, no other row on this list means anything.",
+        "⛔_not_a_correction": "This controls no error rate. It answers 'is this t remarkable on this array', which is the question the phrase 'uncorrected for multiple testing' leaves open — not the same as correcting for it."
       }
     },
     "GSE4303-GPL3290_series_matrix.txt.gz": {
@@ -130,23 +227,31 @@
         "⚠_what_this_p_is_not": "It is exact for the LABELLING only. It corrects nothing for the number of genes examined, and the manuscript's 'uncorrected for multiple testing' limit stands unchanged. The genome-wide placement below is the field that speaks to that, and it is a different quantity."
       },
       "prmt_family_specificity": {
-        "_status": "⛔ NOT MEASURED — fewer than 3 family members readable in the committed panel. The PRMT family was added to PANELS on 2026-08-09; run `emc-expression-datasets.yml mode=panels`. ABSENT READING, NOT a finding that the elevation is PRMT5-specific.",
+        "_status": "run",
         "per_gene": {
           "PRMT1": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": 1.358,
+            "n_EMC": 10,
+            "n_comparator": 6
           },
           "PRMT2": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": 0.002,
+            "n_EMC": 10,
+            "n_comparator": 6
           },
           "PRMT3": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": 3.472,
+            "n_EMC": 10,
+            "n_comparator": 6
           },
           "CARM1": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": 5.44,
+            "n_EMC": 10,
+            "n_comparator": 6
           },
           "PRMT5": {
             "readable": true,
@@ -155,12 +260,16 @@
             "n_comparator": 6
           },
           "PRMT6": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": -3.182,
+            "n_EMC": 9,
+            "n_comparator": 6
           },
           "PRMT7": {
-            "readable": false,
-            "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
+            "readable": true,
+            "t": 0.523,
+            "n_EMC": 10,
+            "n_comparator": 6
           },
           "PRMT8": {
             "readable": false,
@@ -170,34 +279,46 @@
             "readable": false,
             "_meaning": "⛔ the read could not be taken on this platform — an instrument statement, never evidence the gene is not expressed"
           }
-        }
+        },
+        "n_family_members_readable": 7,
+        "ranked_by_t_desc": [
+          "PRMT5",
+          "CARM1",
+          "PRMT3",
+          "PRMT1",
+          "PRMT7",
+          "PRMT2",
+          "PRMT6"
+        ],
+        "PRMT5_rank": 1,
+        "reading": "⭐ PRMT5 is the highest-scoring readable PRMT on this platform — the elevation is not simply family-wide.",
+        "⛔_what_this_cannot_settle": "Abundance, not activity. Every PRMT here is a transcript level; none of them says an enzyme is working, and a family member with no probe is simply unread."
       },
       "proliferation_control": {
         "_status": "run",
         "axis": "proliferation",
         "genes_used": [
-          "MKI67"
-        ],
-        "genes_not_readable": [
-          "PCNA",
-          "TOP2A",
-          "CCNB1",
-          "RRM2",
-          "BUB1",
           "AURKA",
-          "MCM2",
-          "TYMS",
-          "E2F1",
+          "BUB1",
           "CCNA2",
-          "CDK1"
+          "CCNB1",
+          "CDK1",
+          "E2F1",
+          "MCM2",
+          "MKI67",
+          "PCNA",
+          "RRM2",
+          "TOP2A",
+          "TYMS"
         ],
-        "⚠_coverage": "1 of 12 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
-        "n_samples_scored": 15,
-        "score_is_higher_in_EMC_by_t": 2.301,
-        "correlation_of_PRMT5_with_the_score_across_all_samples": 0.406,
+        "genes_not_readable": [],
+        "⚠_coverage": "12 of 12 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
+        "n_samples_scored": 16,
+        "score_is_higher_in_EMC_by_t": 3.0,
+        "correlation_of_PRMT5_with_the_score_across_all_samples": 0.6,
         "PRMT5_t_raw": 6.674,
-        "regression_slope_PRMT5_on_score": 0.193,
-        "PRMT5_t_after_removing_the_score": 3.153,
+        "regression_slope_PRMT5_on_score": 0.66,
+        "PRMT5_t_after_removing_the_score": 2.714,
         "reading": "⛔ THE CONTRAST DOES NOT SURVIVE the adjustment. On this platform the reading is consistent with being a shadow of this axis, and the manuscript must say so.",
         "⛔_what_this_cannot_settle": "A transcript score is a proxy. Adjusting for it removes the part of the contrast that is LINEARLY predicted by that proxy and nothing more; a confound the proxy measures badly survives adjustment untouched. And with n this small the adjustment itself is unstable."
       },
@@ -207,27 +328,85 @@
         "genes_used": [
           "ACAN",
           "COL11A1",
-          "SOX9"
-        ],
-        "genes_not_readable": [
+          "COL11A2",
           "COL2A1",
           "COL9A1",
-          "COL11A2",
           "SOX5",
-          "SOX6"
+          "SOX6",
+          "SOX9"
         ],
-        "⚠_coverage": "3 of 8 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
-        "n_samples_scored": 9,
-        "score_is_higher_in_EMC_by_t": 0.47,
-        "correlation_of_PRMT5_with_the_score_across_all_samples": 0.031,
+        "genes_not_readable": [],
+        "⚠_coverage": "8 of 8 requested genes readable — a score built on few genes is a weak instrument and a null from it is weak evidence.",
+        "n_samples_scored": 14,
+        "score_is_higher_in_EMC_by_t": 0.355,
+        "correlation_of_PRMT5_with_the_score_across_all_samples": -0.036,
         "PRMT5_t_raw": 6.674,
-        "regression_slope_PRMT5_on_score": 0.015,
-        "PRMT5_t_after_removing_the_score": 5.654,
+        "regression_slope_PRMT5_on_score": -0.036,
+        "PRMT5_t_after_removing_the_score": 6.517,
         "reading": "✅ THE CONTRAST SURVIVES the adjustment — it retains its sign and most of its magnitude, so this axis does not account for it.",
         "⛔_what_this_cannot_settle": "A transcript score is a proxy. Adjusting for it removes the part of the contrast that is LINEARLY predicted by that proxy and nothing more; a confound the proxy measures badly survives adjustment untouched. And with n this small the adjustment itself is unstable."
       },
       "genome_wide_placement": {
-        "_status": "⛔ NOT AVAILABLE — the committed panel predates the genome-wide null (added 2026-08-09). Run `emc-expression-datasets.yml mode=panels`. The manuscript's 'uncorrected for multiple testing' limit therefore stands with nothing measured against it."
+        "_status": "run",
+        "n_symbols_scored": 14402,
+        "t_distribution": {
+          "min": -16.721,
+          "p01": -5.227,
+          "p05": -3.138,
+          "p25": -1.094,
+          "p50": 0.191,
+          "p75": 1.512,
+          "p95": 3.851,
+          "p99": 5.873,
+          "max": 15.741
+        },
+        "self_check": {
+          "_what": "the null's t vs the panel's committed t, for every wanted gene both paths scored on this platform",
+          "n_agreeing_within_0.02": 328,
+          "n_disagreeing": 0,
+          "disagreements": [],
+          "verdict": "✅ the two independent paths agree"
+        },
+        "placed": {
+          "PRMT5": {
+            "t": 6.674,
+            "signed_percentile": 99.42,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.00986,
+            "n_symbols_at_least_as_extreme_two_sided": 142
+          },
+          "MAT2A": {
+            "t": 4.096,
+            "signed_percentile": 95.95,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.06256,
+            "n_symbols_at_least_as_extreme_two_sided": 901
+          },
+          "MTAP": {
+            "t": -2.271,
+            "signed_percentile": 10.37,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.26101,
+            "n_symbols_at_least_as_extreme_two_sided": 3759
+          },
+          "CDKN2A": {
+            "t": 1.325,
+            "signed_percentile": 72.02,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.49257,
+            "n_symbols_at_least_as_extreme_two_sided": 7094
+          },
+          "NR4A3": {
+            "t": 1.702,
+            "signed_percentile": 77.65,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.38543,
+            "n_symbols_at_least_as_extreme_two_sided": 5551
+          },
+          "ENO3": {
+            "t": 13.222,
+            "signed_percentile": 99.98,
+            "frac_of_array_at_least_as_extreme_two_sided": 0.00049,
+            "n_symbols_at_least_as_extreme_two_sided": 7
+          }
+        },
+        "⭐_how_to_read_it": "`frac_of_array_at_least_as_extreme_two_sided` is the fraction of all symbols on this array whose EMC-vs-comparator |t| is at least this gene's. NR4A3 and ENO3 are included as the instrument's positive controls: the disease-defining transcript and a published direct target should sit far out, and if they do not, no other row on this list means anything.",
+        "⛔_not_a_correction": "This controls no error rate. It answers 'is this t remarkable on this array', which is the question the phrase 'uncorrected for multiple testing' leaves open — not the same as correcting for it."
       }
     }
   }

@@ -50,16 +50,16 @@ biological (also free)."* That is this paper.
 | Falsifiers stated, with the likeliest failure named | ✅ F1–F10; F8 names the pan-essentiality route, F7 has **partially fired** |
 | Data availability — every series and panel identified | ✅ §2 and SI §S1 |
 | The gene's own statistic, and an exact test for it | ✅ §3.2 — *t* = 6.24 / 6.67, exact permutation over all 1,623,160 and 8,008 labelings, no RNG |
-| The two confounds the paper named, actually run | ⚠ §3.3 — run, and the proliferation control **removes about half the contrast on one platform**. The instrument is one gene; the fuller re-read is pending CI |
+| The three controls the paper named, actually run | ⛔ §3.3 — run on a full re-fetch. *PRMT5* ranks first of the readable PRMT family on both platforms; the **proliferation control takes *t* from 6.67 to 2.71 on GPL3290** and leaves 6.24 → 5.23 on GPL6244. The platforms disagree and the paper says so |
+| Multiple testing, previously an open limit | ✅ §3.2 — every gene on each array scored (18,474 and 14,402 symbols); *PRMT5* top 1.9% / 1.0%, *MTAP* top 74% / 26%. Not a correction, and labelled as not one |
 | Which half of the fusion carries PRMT5's motif | ✅ §3.4 + figure 5, with double-entry checks against two artifacts that predate this manuscript |
 | Superseded numbers registered rather than dropped | ✅ SI §S10 |
 
-⏳ **One item is genuinely outstanding and is not a formatting step.** The PRMT family, a fuller
-proliferation set, chondroid markers and a genome-wide empirical null were added to the panel
-definition on 2026-08-09; the `mode=panels` fetch that populates them has not landed. Until it does,
-§3.3 rests on a single proliferation marker and the manuscript's multiple-testing limit has nothing
-measured against it. **Neither is a reason to withhold the paper — both are reasons not to call it
-finished.**
+⛔ **The outstanding item is now a scientific one, not a build step.** The re-fetch landed, and what
+it produced is a **disagreement between the two platforms about whether route 1's transcript reading
+survives its proliferation control**. Nothing in this repository can settle that: the two series
+measure different quantities, have different comparator arms, and there is no third readable EMC
+series. It is a reason to post the paper saying so — not a reason to wait.
 
 ## ⛔ What only trimcrae can supply — the actual blocking set
 
@@ -92,7 +92,13 @@ These are in the manuscript and must not be softened during any formatting pass:
 - ⚠ **The methylosome GROUP does not separate this disease** — pooled, EMC ranks second of four
   comparator classes. *PRMT5* alone does. Route 1's claim is stated on the gene, not the group, and
   must stay that way.
-- **16 tumours, two decade-old array platforms, uncorrected for multiple testing.**
+- **16 tumours, two decade-old array platforms, uncorrected for multiple testing.** The genome-wide
+  placement in §3.2 is context for that limit, not a correction of it, and must not be re-labelled as
+  one.
+- ⛔ **The proliferation control disagrees between platforms and the disagreement must survive.**
+  *PRMT5* goes 6.24 → 5.23 on the 35-tumour platform and 6.67 → 2.71 on the 16-tumour one. Reporting
+  only the platform that agrees would be the single most damaging edit anyone could make to this
+  paper.
 - **Route 1's ORIGINAL source is a preprint that states it is not certified by peer review.** ⭐ It is
   no longer the only support — the Ewing sarcoma result (PMC12354397) is peer-reviewed and shows a
   *fusion-dependent* PRMT5 requirement — but the preprint's status must still travel with every use

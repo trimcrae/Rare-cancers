@@ -122,8 +122,17 @@ def exact_permutation(panel, gene, plat):
     }
 
 
+#: A sample keeps its score if at least this fraction of the readable member genes have a value for
+#: it. ⛔ NOT AN INTERSECTION. The first version required EVERY member gene, and with a twelve-gene
+#: set that dropped GPL3290 from 16 samples to 9 — so the adjusted contrast was being computed on a
+#: little over half the tumours, silently, and adding genes to make the instrument better made the
+#: sample smaller. Averaging over what each sample actually has keeps all sixteen; the floor stops a
+#: sample scoring off one stray gene.
+MIN_MEMBER_COVERAGE_PER_SAMPLE = 0.6
+
+
 def _group_score(panel, genes, plat):
-    """Per-sample mean z over the readable members. Returns (by_gsm, members_used, missing)."""
+    """Per-sample mean z over the member genes THAT SAMPLE HAS. Returns (by_gsm, used, missing)."""
     got, missing = {}, []
     for g in genes:
         rows = _per_sample(panel, g, plat)
@@ -133,8 +142,13 @@ def _group_score(panel, genes, plat):
         got[g] = {r[0]: r[2] for r in rows}
     if not got:
         return {}, [], missing
-    gsms = set.intersection(*[set(v) for v in got.values()])
-    by = {s: sum(got[g][s] for g in got) / len(got) for s in gsms}
+    every = set().union(*[set(v) for v in got.values()])
+    floor = max(1, int(round(MIN_MEMBER_COVERAGE_PER_SAMPLE * len(got))))
+    by = {}
+    for s in every:
+        vals = [got[g][s] for g in got if s in got[g]]
+        if len(vals) >= floor:
+            by[s] = sum(vals) / len(vals)
     return by, sorted(got), missing
 
 

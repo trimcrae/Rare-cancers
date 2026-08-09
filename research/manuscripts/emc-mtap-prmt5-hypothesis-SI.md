@@ -65,17 +65,28 @@ not expressed.**
 | PRMT5 methylosome | PRMT5, WDR77, RIOK1, CLNS1A | *t* = +3.11, Δ = +0.090, 4/4 readable | *t* = +3.89, Δ = +0.478, 3/4 readable |
 | methionine-salvage context | MAT2A, AHCY, MTR, ADI1 | *t* = +4.26, Δ = +0.139, 4/4 | *t* = +2.07, Δ = +0.283, 4/4 |
 | the locus | MTAP, CDKN2A, CDKN2B | *t* = −4.06, Δ = −0.188, 3/3 | ⛔ **UNDERPOWERED — no score** (2/3 readable) |
+| PRMT family (control) | PRMT1/2/3, CARM1, PRMT6/7/8/9 | *t* = +0.33, Δ = +0.013, 7/8 | *t* = +1.34, Δ = +0.126, 6/8 |
+| proliferation (control) | 11 cell-cycle genes | *t* = +0.44, Δ = +0.090, 11/11 | *t* = +2.91, Δ = +0.446, 11/11 |
+| chondroid lineage (control) | COL2A1, COL9A1, COL11A2, SOX5, SOX6 | *t* = +0.42, Δ = +0.027, 5/5 | *t* = −0.83, Δ = −0.179, 5/5 |
+| Sm proteins (context only) | SNRPB, SNRPD1/D3/E/G | *t* = +0.22, Δ = +0.014, 5/5 | *t* = +3.15, Δ = +0.296, 4/5 |
+
+⚠ **The last four rows are CONTROLS AND CONTEXT, not four more hypothesis tests.** ⛔ And the Sm row
+is context only in the strictest sense: **an array cannot see a methyl mark**, so the abundance of
+PRMT5's canonical substrates says nothing about whether PRMT5 is acting on them.
+⚠ The proliferation and chondroid group scores above use the panel's own coverage rule and its
+member list; the *adjustment* in §3.3 uses a twelve- and an eight-gene score with a per-sample
+coverage floor, so the two are close but not the same instrument — see §S11.
 
 Δ is the EMC-minus-comparator difference in standard-deviation units of that array.
 
 ⛔ **THE LOCUS READING CLOSED ROUTE 2, AND THE GROUP SCORE IS WHY IT LOOKED OTHERWISE.** Powered on one
 platform only — and, more decisively, gene by gene:
 
-| gene | GPL6244 (powered) | GPL3290 |
-|---|---:|---:|
-| ***MTAP*** | **−0.023 SD — flat** | −0.389 |
-| *CDKN2A* | **−0.399 SD** | **+0.173 — reverses** |
-| *CDKN2B* | −0.096 | unreadable |
+| gene | GPL6244 (powered) | GPL3290 | genome-wide rank of \|*t*\| |
+|---|---:|---:|---|
+| ***MTAP*** | **+0.053 SD — flat, *t* = +0.69** | **−0.607 — opposite sign** | top **74%** / top **26%** — unremarkable on both |
+| *CDKN2A* | **−0.481, *t* = −5.40** | **+0.175 — reverses** | top 3.5% / top 49% |
+| *CDKN2B* | −0.136 | unreadable | top 34% / — |
 
 The group's *t* = −4.06 is not wrong; it is simply **not about *MTAP***. The therapeutic window selects
 on *MTAP* loss, and *MTAP* does not move where the read is powered. ⚠ **No group score could have
@@ -113,14 +124,14 @@ that the panel is being read correctly.
   reading is simply what a FET-fusion sarcoma looks like.
 - **The instrument-control read** (housekeeping recovery, and a marker expected high in the comparator
   arm rather than in EMC) is carried in the source artifact's `control` read and is not restated here.
-- ⚠ **No proliferation-MATCHED series exists, and the in-silico substitute for it is a single gene.**
-  *Superseded, retained: "No proliferation-matched control exists."* One is now run — §3.3 of the
-  main text adjusts *PRMT5* for a proliferation score — but that score rests on *MKI67* alone,
-  because it is the only proliferation marker with a probe on the committed panel. It leaves the
-  contrast largely intact on GPL6244 (*t* 6.24 → 5.51) and removes about half of it on GPL3290
-  (*t* 6.67 → 3.15). ⛔ **That is a measurement, not
-  a resolution**, and falsifier F7 remains the single most likely way both readings turn out to be
-  artefacts of cellularity or growth fraction.
+- ⛔ **No proliferation-MATCHED series exists, and the in-silico substitute for it disagrees between
+  platforms.** *Superseded, retained: "No proliferation-matched control exists."* One is now run —
+  §3.3 of the main text adjusts *PRMT5* for a twelve-gene proliferation score, read on all 35 and all
+  16 samples. It leaves the contrast largely intact on GPL6244 (*t* 6.24 → 5.23, where the score is
+  flat at *t* = 0.45) and takes most of it on GPL3290 (*t* 6.67 → 2.71, where the score is itself
+  elevated in EMC at *t* = 3.00 and correlates with *PRMT5* at *r* = 0.60). ⛔ **That is a
+  measurement, not a resolution**, and falsifier F7 remains the single most likely way both readings
+  turn out to be artefacts of cellularity or growth fraction.
 
 ## S6 · Every figure and what it is drawn from
 
@@ -220,7 +231,21 @@ both in circulation. So the live text carries only the current figure and this t
 |---|---|---|---|
 | §3, *PRMT5* EMC-minus-comparator | +0.266 and +0.744 SD | **+0.263 and +0.816 SD** | the values had drifted from `emc-expression-panels.json`, which is their one home. Checked 2026-08-09 against the committed artifact; the second differs by 0.07 SD and the reading is unchanged in direction or size class |
 | §3, the statistic quoted for route 1 | the methylosome **group** *t* (3.11, 3.89) | additionally the **gene's own** *t* (6.24, 6.67) | the group score is not the unit route 1 depends on — the same error §S4 records in the other direction for the locus. The group figures are not withdrawn; they were simply the wrong ones to lead with |
+| §3/§S3, the locus genes | *MTAP* −0.023 / −0.389; *CDKN2A* −0.399 / +0.173; *CDKN2B* −0.096 | **+0.053 / −0.607; −0.481 / +0.175; −0.136** | ⚠ a 2026-08-09 re-fetch ran on a **NARROWER** probe→symbol bridge than the earlier one (accession resolution 0.931 against 0.984 on GPL6244), because the NCBI link step contributed **zero** genes that run. A narrower bridge changes WHICH probes map to a symbol, and therefore the value. The committed artifact is the one home, so the live text carries its numbers — see the note below, which is the part that matters |
 | §7, the fusion-class transfer | "an assumption" | "argued rather than assumed" | a peer-reviewed fusion-dependent PRMT5 result in a second EWSR1-fusion sarcoma (PMC12354397), and the motif match of §S9. ⚠ Still not an EMC observation |
+
+⭐ **AND THE THIRD ROW IS ITSELF A READING, NOT JUST BOOKKEEPING.** Across two runs on two different
+annotation bridges, ***PRMT5*'s value did not move at all** (+0.2632, *t* = 6.236 both times; one
+probe, resolved by the curated dictionary) while ***MTAP*'s moved by 0.08 SD and changed sign**, and
+*MTAP* on the second platform went from one mapped probe to two. **The gene route 1 depends on is
+annotation-stable; the gene route 2 depends on is not.** That is a further reason not to rest a
+therapeutic argument on this locus at transcript level, and it was visible only because two bridges
+happened to be measured.
+
+⚠ **The narrower bridge is the current committed state and this manuscript's numbers are read from
+it.** Whether the wider bridge can be recovered depends on a third-party service (the NCBI link step
+returned zero links in 903 s), so it is not something this work can guarantee — which is why both
+values are on the record rather than only the more convenient one.
 
 ## S11 · The control calculations
 
@@ -237,15 +262,26 @@ its sign and at least 60% of its magnitude — **a threshold this work chose, st
 disagreed with**; the raw and adjusted values are both printed so the reader is not obliged to accept
 it.
 
-⚠ **Coverage is the limiting fact and it is not uniform.** The proliferation score rests on *MKI67*
-alone on both platforms — the other eleven requested genes have no probe on the committed panel. The
-chondroid score rests on three of eight (*ACAN*, *COL11A1*, *SOX9*), and on GPL3290 only nine samples
-carry all three. ⛔ **A weak proxy makes a null weak evidence**: a confound it measures badly passes
-through the adjustment untouched, so "survives" here is a much softer statement than "is not a
-proliferation effect".
+⚠ **Coverage.** The proliferation score uses twelve genes and scores all 35 and all 16 samples; the
+chondroid score uses eight and scores 35 and 14. ⛔ **A proxy still makes a null weak evidence**: a
+confound the proxy measures badly passes through the adjustment untouched, so a ✅ here is a much
+softer statement than "is not a proliferation effect" — while the ⛔ on GPL3290 is the stronger
+direction of the same instrument and is reported as such.
 
-**What is still pending.** A fuller proliferation set, the PRMT family, PRMT5's canonical Sm
-substrates and additional chondroid markers were added to the panel definition on 2026-08-09,
-together with a genome-wide empirical null that places each gene's *t* among all symbols on its
-array. Until a `mode=panels` fetch runs, those readings are **absent, not null**, and this SI reports
-them as such.
+**Group scores for the adjustment.** A per-sample score is the mean *z* of the member genes **that
+sample has a value for**, provided it has at least 60% of them. ⛔ **NOT AN INTERSECTION, AND THE
+FIRST VERSION WAS.** Requiring every member gene dropped GPL3290 from 16 samples to 9, so adding
+genes to make the instrument better made the sample smaller — silently. The floor stops a sample
+scoring off one stray gene while keeping all sixteen.
+
+**The genome-wide null.** The same statistic is computed for every symbol the platform's probes map
+to (18,474 and 14,402), and each gene of interest placed in that distribution. It is computed at
+fetch time because that is the only point at which the full probe matrix exists. ⭐ **It double-enters
+the panel**: the null recomputes, from the raw matrix, the statistic the panel computes from reduced
+per-gene values, by a separate code path — and a wanted gene's *t* must agree between them. It does,
+for every gene on both platforms.
+
+**Status.** The PRMT family, the fuller proliferation set, the Sm substrates, the additional
+chondroid markers and the genome-wide null were added to the panel definition on 2026-08-09 and
+**fetched the same day**; every figure in §3.2 and §3.3 is read from that fetch. *Superseded,
+retained: an earlier version of this section reported them as pending.*
