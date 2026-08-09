@@ -6327,7 +6327,7 @@
     "kind": "route",
     "title": "DNA-PK inhibition as an indirect route to the fusion protein",
     "grade": {
-      "value": "◐ THE INTERACTION IS REAL, WILD-TYPE, AND FROM ONE PAPER IN A NON-SARCOMA TISSUE (graded 2026-08-09 by reading the records the route asked for). The curated evidence is a single UniProt annotation resting on ONE primary source, and it was measured on WILD-TYPE NR4A3 in vascular smooth muscle — not on a fusion protein and not in any sarcoma. ⭐ What survives, and it is the load-bearing half: the modified region is RETAINED in the fusion. The fusion carries NR4A3's full coding region, so nothing the annotation describes is deleted by the breakpoint, and that retention is invariant across all nine DBD-retaining breakpoints. ⛔ The route still cannot deliver selectivity — the same mechanism would lower wild-type NR4A3, and whether the paralogues are regulated the same way is untested.",
+      "value": "◐ THE INTERACTION IS REAL, WILD-TYPE, AND FROM ONE PAPER IN A NON-SARCOMA TISSUE (graded 2026-08-09 by reading the records the route asked for). The curated evidence is a single UniProt annotation resting on ONE primary source, and it was measured on WILD-TYPE NR4A3 in vascular smooth muscle — not on a fusion protein and not in any sarcoma. ⭐ What survives, and it is the load-bearing half: the modified region is RETAINED in the fusion. The fusion carries NR4A3's full coding region, so nothing the annotation describes is deleted by the breakpoint, and that retention is invariant across all nine DBD-retaining breakpoints. ⛔ The route still cannot deliver selectivity — the same mechanism would lower wild-type NR4A3, and whether the paralogues are regulated the same way is untested. ⛔ AND THE DEPENDENCY PRIOR, RUN 2026-08-09, IS UNFAVOURABLE FOR A WINDOW. The two Ku subunits of the same heterotrimer are dependencies in 100% of 176 sarcoma lines, with mean gene effects around -1.3 and -1.8 — pan-essential, which is evidence AGAINST a therapeutic window rather than for one. ⚠ THE CATALYTIC SUBUNIT ITSELF RETURNED NO READING: it is absent from the dependency artifact entirely, because no matching column was found in the CRISPR gene-effect table. That is an ABSENT READING AND NOT A READING OF ABSENCE — nothing here says the catalytic subunit is or is not a dependency, and the route's own named next step is therefore only partly closed.",
       "owner": {
         "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
         "anchor": "39--dna-pk"
@@ -6368,8 +6368,15 @@
       "last_verified": "2026-08-09"
     },
     "rationale": "A registered lane with no route, and its appeal is structural rather than pharmacological: there is curated experimental evidence of an interaction with the driver protein itself, and acting through the protein's regulation needs neither a ligand for the pocket nor an assembled ternary complex — so it inherits none of the blockers holding the induced-proximity family down.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-DEPMAP-SARCOMA-DEP",
+        "what_it_supports": "both Ku subunits of the DNA-PK heterotrimer are dependencies in every sarcoma line of the public CRISPR panel, which argues against a therapeutic window for the complex",
+        "strength": "class_inherited"
+      }
+    ],
     "remaining_unknowns": [
+      "⚠ THE CATALYTIC SUBUNIT'S OWN DEPENDENCY IS STILL UNREAD — it returned no column in the CRISPR gene-effect table on the 2026-08-09 run, so its absence from the artifact is an instrument gap and not a result. Re-running against a different DepMap release, or checking the column naming, would close it and is $0.",
       "⛔ ANSWERED 2026-08-09 and retained here only so it is not re-asked: the interaction was measured on wild-type NR4A3 in vascular smooth muscle, from a single primary source. The fusion-protein question is therefore OPEN by absence of evidence rather than by ambiguity.",
       "Whether the phosphorylation is regulatory in the direction that would lower fusion activity in a sarcoma cell, which one non-sarcoma paper cannot establish.",
       "Whether inhibiting the kinase is survivable in this tissue class at all, which is a dependency question the arrays cannot answer and which is now queued in the sarcoma dependency panel.",
@@ -6527,7 +6534,7 @@
     "kind": "route",
     "title": "Follow-up of the ALK/ROS1-class ex-vivo screen hit",
     "grade": {
-      "value": "⛔ UNATTRIBUTABLE BY EXPRESSION, AND THE RE-READ DEMOTES THE LEAD (2026-08-09). The route's own first step was to re-read the committed screen, and doing it changes what the lead is: the screen returned THREE low-IC50 agents and TWO of them are the same pan-HDAC class, read from this repository's own curated target records rather than recalled. That is a within-screen class replication the one-agent framing could not show — and that class is already on the board, closed on selectivity rather than on activity. ⛔ The named kinases cannot be read at all: ALK and ROS1 have NO PROBE on either platform, so the target group emits no score. That is an instrument statement, never a biological negative. The one readable named target, EGFR, is lower in EMC on both platforms. ⚠ The curated record names ALK and EGFR and does NOT name ROS1, though the lead calls this the ALK/ROS1 class.",
+      "value": "⛔ UNATTRIBUTABLE BY EXPRESSION, AND THE RE-READ DEMOTES THE LEAD (2026-08-09). The route's own first step was to re-read the committed screen, and doing it changes what the lead is: the screen returned THREE low-IC50 agents and TWO of them are the same pan-HDAC class, read from this repository's own curated target records rather than recalled. That is a within-screen class replication the one-agent framing could not show — and that class is already on the board, closed on selectivity rather than on activity. ⛔ The named kinases cannot be read at all: ALK and ROS1 have NO PROBE on either platform, so the target group emits no score. That is an instrument statement, never a biological negative. The one readable named target, EGFR, is lower in EMC on both platforms. ⚠ The curated record names ALK and EGFR and does NOT name ROS1, though the lead calls this the ALK/ROS1 class. ⭐ AND THE DEPENDENCY PRIOR, RUN 2026-08-09, POINTS THE SAME WAY AS THE HIT LIST. Across 176 sarcoma lines NEITHER named kinase is a dependency in a SINGLE line — mean gene effects of about -0.04 and +0.11, fraction dependent 0.0 for both — while one class I HDAC is a dependency in 82% of them, mean about -0.92. ⚠ This does not prove the hit was not on-target for the named kinase in that particular line: a gene-effect score is a knockout phenotype and an inhibitor's IC50 is not, and the screen ran on a line absent from this panel. But it makes the class attribution the better-supported reading on two independent axes.",
       "owner": {
         "file": "research/modalities/census-route-expression-grading.json"
       }
@@ -6572,6 +6579,11 @@
         "ref": "ART-CENSUS-ROUTE-GRADING",
         "what_it_supports": "the two kinases the lead names are unreadable on both platforms so the screen hit cannot be attributed by expression, and two of the screen's three hits belong to a single class already assessed on the board",
         "strength": "direct"
+      },
+      {
+        "ref": "ART-DEPMAP-SARCOMA-DEP",
+        "what_it_supports": "neither named kinase is a dependency in any of 176 sarcoma lines while one class I HDAC is a dependency in the large majority, which points the same way as the screen's own hit list",
+        "strength": "class_inherited"
       }
     ],
     "remaining_unknowns": [

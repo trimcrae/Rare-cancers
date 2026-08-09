@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ blocked · scoped · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/emc-unexplored-treatment-lanes.md`](../../research/manuscripts/emc-unexplored-treatment-lanes.md#39--dna-pk)): ◐ THE INTERACTION IS REAL, WILD-TYPE, AND FROM ONE PAPER IN A NON-SARCOMA TISSUE (graded 2026-08-09 by reading the records the route asked for). The curated evidence is a single UniProt annotation resting on ONE primary source, and it was measured on WILD-TYPE NR4A3 in vascular smooth muscle — not on a fusion protein and not in any sarcoma. ⭐ What survives, and it is the load-bearing half: the modified region is RETAINED in the fusion. The fusion carries NR4A3's full coding region, so nothing the annotation describes is deleted by the breakpoint, and that retention is invariant across all nine DBD-retaining breakpoints. ⛔ The route still cannot deliver selectivity — the same mechanism would lower wild-type NR4A3, and whether the paralogues are regulated the same way is untested.
+**Grade** (owned by [`research/manuscripts/emc-unexplored-treatment-lanes.md`](../../research/manuscripts/emc-unexplored-treatment-lanes.md#39--dna-pk)): ◐ THE INTERACTION IS REAL, WILD-TYPE, AND FROM ONE PAPER IN A NON-SARCOMA TISSUE (graded 2026-08-09 by reading the records the route asked for). The curated evidence is a single UniProt annotation resting on ONE primary source, and it was measured on WILD-TYPE NR4A3 in vascular smooth muscle — not on a fusion protein and not in any sarcoma. ⭐ What survives, and it is the load-bearing half: the modified region is RETAINED in the fusion. The fusion carries NR4A3's full coding region, so nothing the annotation describes is deleted by the breakpoint, and that retention is invariant across all nine DBD-retaining breakpoints. ⛔ The route still cannot deliver selectivity — the same mechanism would lower wild-type NR4A3, and whether the paralogues are regulated the same way is untested. ⛔ AND THE DEPENDENCY PRIOR, RUN 2026-08-09, IS UNFAVOURABLE FOR A WINDOW. The two Ku subunits of the same heterotrimer are dependencies in 100% of 176 sarcoma lines, with mean gene effects around -1.3 and -1.8 — pan-essential, which is evidence AGAINST a therapeutic window rather than for one. ⚠ THE CATALYTIC SUBUNIT ITSELF RETURNED NO READING: it is absent from the dependency artifact entirely, because no matching column was found in the CRISPR gene-effect table. That is an ABSENT READING AND NOT A READING OF ABSENCE — nothing here says the catalytic subunit is or is not a dependency, and the route's own named next step is therefore only partly closed.
 
 ## What has to land for this route to move
 
@@ -51,8 +51,15 @@ flowchart LR
 
 A registered lane with no route, and its appeal is structural rather than pharmacological: there is curated experimental evidence of an interaction with the driver protein itself, and acting through the protein's regulation needs neither a ligand for the pocket nor an assembled ternary complex — so it inherits none of the blockers holding the induced-proximity family down.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-DEPMAP-SARCOMA-DEP` | both Ku subunits of the DNA-PK heterotrimer are dependencies in every sarcoma line of the public CRISPR panel, which argues against a therapeutic window for the complex | `class_inherited` |
+
 ## Remaining unknowns
 
+- ⚠ THE CATALYTIC SUBUNIT'S OWN DEPENDENCY IS STILL UNREAD — it returned no column in the CRISPR gene-effect table on the 2026-08-09 run, so its absence from the artifact is an instrument gap and not a result. Re-running against a different DepMap release, or checking the column naming, would close it and is $0.
 - ⛔ ANSWERED 2026-08-09 and retained here only so it is not re-asked: the interaction was measured on wild-type NR4A3 in vascular smooth muscle, from a single primary source. The fusion-protein question is therefore OPEN by absence of evidence rather than by ambiguity.
 - Whether the phosphorylation is regulatory in the direction that would lower fusion activity in a sarcoma cell, which one non-sarcoma paper cannot establish.
 - Whether inhibiting the kinase is survivable in this tissue class at all, which is a dependency question the arrays cannot answer and which is now queued in the sarcoma dependency panel.
