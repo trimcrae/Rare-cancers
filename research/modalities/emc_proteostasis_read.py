@@ -148,8 +148,15 @@ def build():
     prot = None
     for k, v in grp.items():
         if "roteasome" in k:
-            prot = {r.get("gene"): {"mean_gene_effect": r.get("mean_gene_effect"),
-                                    "frac_dependent": r.get("frac_dependent")} for r in v}
+            # ⚠ THE ARTIFACT'S FIELD NAMES, READ FROM IT RATHER THAN ASSUMED. The first
+            # version of this line guessed `mean_gene_effect`/`frac_dependent` and silently
+            # produced None for every gene — a populated-looking block with no measurement in it,
+            # which is the exact failure mode CLAUDE.md §4 names.
+            prot = {r.get("gene"): {"sarcoma_mean": r.get("sarcoma_mean"),
+                                    "sarcoma_frac_dependent": r.get("sarcoma_frac_dependent"),
+                                    "rest_mean": r.get("rest_mean"),
+                                    "selectivity": r.get("selectivity"),
+                                    "n_sarcoma_lines_screened": r.get("n_sarcoma")} for r in v}
     return {
         "_title": "The proteostatic axis in EMC — the read behind the best ex-vivo evidence this "
                   "disease has.",
@@ -203,7 +210,9 @@ def main():
         print(" ", dp["_status"][:120])
     else:
         for g, v in sorted(dp.items()):
-            print(f"    dep {g:8} mean={v['mean_gene_effect']} frac_dependent={v['frac_dependent']}")
+            print(f"    dep {g:8} mean={v['sarcoma_mean']} "
+                  f"frac_dep={v['sarcoma_frac_dependent']} selectivity={v['selectivity']} "
+                  f"n={v['n_sarcoma_lines_screened']}")
     return 0
 
 

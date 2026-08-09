@@ -32,7 +32,7 @@ related: [DOC-EMC-MTAP-PRMT5]
 |---|---|---|---|
 | GSE24369 / GPL6244 | 6 EMC vs 29 comparator sarcomas, single-channel intensity | a within-array contrast between EMC and its comparators | absolute expression; anything about protein |
 | GSE4303 / GPL3290 | 10 EMC vs 6 comparators, two-colour cDNA log-ratio | the same contrast, independently | absolute levels — every value is a ratio against a reference pool |
-| DepMap sarcoma CRISPR panel | 176 sarcoma cell lines | whether a gene is required in this tissue class | **anything about EMC — the panel contains no EMC line** |
+| DepMap sarcoma CRISPR panel | **91 screened** sarcoma cell lines (of 176 sarcoma models in the release) | whether a gene is required in this tissue class | **anything about EMC — the panel contains no EMC line** |
 
 ⛔ **THE THIRD ROW IS THE BINDING LIMIT OF THIS ENTIRE MANUSCRIPT.** No EMC cell line carrying the
 fusion appears in any public dependency dataset. The one line on the curated record labelled EMC is
@@ -95,11 +95,20 @@ out of this manuscript.
 
 ## S4 · The dependency prior in full
 
-| gene | mean gene effect across 176 sarcoma lines | fraction of lines dependent |
+| gene | mean gene effect across the 91 screened sarcoma lines | fraction of those lines dependent |
 |---|---:|---:|
 | PRMT5 | −1.015 | 94.5% |
 | MAT2A | −1.471 | 96.7% |
 | MTAP | −0.075 | 0.0% |
+
+⭐ **AND THE SAME PANEL HAS NOW SAID IT LOUDER ABOUT A DIFFERENT ROUTE, WHICH IS WHY THIS TABLE IS
+WORTH KEEPING.** Read on 2026-08-09 for the portfolio's other live treatment lead — the proteasome
+inhibitor carfilzomib, the only agent in this programme with ex-vivo activity in patient-derived EMC
+models — the same 91 lines give **PSMB1, PSMC1, PSMD1 and VCP at 100% dependent** and carfilzomib's
+own target *PSMB5* at **97.8%**, with selectivity against the rest of DepMap of −0.10 to +0.17, i.e.
+none. A target required in every line of the class, and equally required outside it, offers nothing
+to select on. **The instrument that qualified this manuscript's route qualifies that one harder**,
+and both papers must print it against themselves.
 
 ⛔ **READ THIS AGAINST THE ROUTE, NOT FOR IT.** A gene required in almost every line of a tissue class
 offers little to select on. The proliferation half of the transferred result is therefore close to
@@ -232,6 +241,7 @@ both in circulation. So the live text carries only the current figure and this t
 | §3, *PRMT5* EMC-minus-comparator | +0.266 and +0.744 SD | **+0.263 and +0.816 SD** | the values had drifted from `emc-expression-panels.json`, which is their one home. Checked 2026-08-09 against the committed artifact; the second differs by 0.07 SD and the reading is unchanged in direction or size class |
 | §3, the statistic quoted for route 1 | the methylosome **group** *t* (3.11, 3.89) | additionally the **gene's own** *t* (6.24, 6.67) | the group score is not the unit route 1 depends on — the same error §S4 records in the other direction for the locus. The group figures are not withdrawn; they were simply the wrong ones to lead with |
 | §3/§S3, the locus genes | *MTAP* −0.023 / −0.389; *CDKN2A* −0.399 / +0.173; *CDKN2B* −0.096 | **+0.053 / −0.607; −0.481 / +0.175; −0.136** | ⚠ a 2026-08-09 re-fetch ran on a **NARROWER** probe→symbol bridge than the earlier one (accession resolution 0.931 against 0.984 on GPL6244), because the NCBI link step contributed **zero** genes that run. A narrower bridge changes WHICH probes map to a symbol, and therefore the value. The committed artifact is the one home, so the live text carries its numbers — see the note below, which is the part that matters |
+| §3.1/§S4, the dependency denominator | "across 176 sarcoma cell lines" | **"across the 91 screened sarcoma cell lines"** | ⛔ a real error, in the direction that overstated the evidence base, and it was in four places including the abstract. The release lists 176 sarcoma MODELS; only **91** carry CRISPR gene-effect data, and every per-gene record in the artifact says `n_sarcoma: 91`. The percentages themselves are unchanged — they were always computed on the screened subset — but they were being attributed to a denominator almost twice its true size. Caught 2026-08-09 by a later run that added a second gene group and printed the same 91 |
 | §7, the fusion-class transfer | "an assumption" | "argued rather than assumed" | a peer-reviewed fusion-dependent PRMT5 result in a second EWSR1-fusion sarcoma (PMC12354397), and the motif match of §S9. ⚠ Still not an EMC observation |
 
 ⭐ **AND THE THIRD ROW IS ITSELF A READING, NOT JUST BOOKKEEPING.** Across two runs on two different

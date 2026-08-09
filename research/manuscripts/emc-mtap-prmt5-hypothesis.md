@@ -105,8 +105,8 @@ both — while *PRMT5* sits in the top 1.9% and 1.0%. Since the genetic window d
 specifically, the locus reading does not support it. We report that as a negative rather than as a
 caveat.
 
-**⛔ What qualifies it.** Across 176 sarcoma lines PRMT5 and MAT2A are dependencies in 94.5% and 96.7%
-respectively, so a growth effect is close to expected and only an effect on fusion-driven
+**⛔ What qualifies it.** Across the 91 sarcoma lines that carry CRISPR data, PRMT5 and MAT2A are
+dependencies in 94.5% and 96.7% respectively, so a growth effect is close to expected and only an effect on fusion-driven
 transcription would be specific to this disease. **No EMC line exists in any public dependency
 dataset**, so that prior is a transfer. The locus reading is powered on one platform only, and
 *CDKN2A* is lost by mechanisms that leave *MTAP* intact.
@@ -269,8 +269,10 @@ experiments in §4 are worth running.**
 
 ### 3.1 · A dependency prior that qualifies route 1, and it is not comfortable
 
-Across **176 sarcoma cell lines in public CRISPR dependency data, PRMT5 and MAT2A are dependencies in
-94.5% and 96.7%** of them. *MTAP* itself is not a dependency, exactly as expected of a biomarker
+Across **the 91 sarcoma cell lines that carry CRISPR data, PRMT5 and MAT2A are dependencies in
+94.5% and 96.7%** of them. ⚠ **91, not 176** — the release lists 176 sarcoma models but only 91 have
+been screened, and the percentages were computed on the screened subset (superseded values in SI
+§S10). *MTAP* itself is not a dependency, exactly as expected of a biomarker
 rather than a target.
 
 ⚠ **That weakens the specificity of route 1's proliferation argument.** The clear cell sarcoma result
