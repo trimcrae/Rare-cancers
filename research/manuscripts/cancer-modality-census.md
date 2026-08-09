@@ -162,7 +162,8 @@ failure on toxicity, and any assessment has to lead with it.
 
 Six classes are selected by a molecular state rather than by a growth rate, and in every case the
 selecting feature is readable in expression data this repository already holds. That makes the whole
-theme unusually cheap: these are lookups, not experiments.
+theme unusually cheap: these are lookups, not experiments. ⭐ **All six were run on 2026-08-09 and
+[§3.2a](#32a--the-lookups-were-run-the-same-day-and-the-prediction-held) records what came back.**
 
 | class | what selects it | why it was never asked |
 |---|---|---|
@@ -173,15 +174,35 @@ theme unusually cheap: these are lookups, not experiments.
 | EZH2 / PRC2 | a chromatin-remodeller defect | a neighbouring chromatin hypothesis exists and was never connected to it |
 | POLθ | a replication-repair state | the class-inheritance argument was built and never extended |
 
-⭐ **The MCL-1 row is the sharpest of these because the evidence is already in the building.** BCL-2
-inhibition was inactive as monotherapy and active only in combination in patient-derived models of this
-disease. That pattern is the signature of dependence on a different member of the same family, and
-nobody has asked which one.
-
 ⚠ **A shared caveat these six inherit together.** Expression is a surrogate for most of what selects
 them — a transcript floor is not a copy-number call, and abundance is not activity. Each answer will be a
 triage, and the honest output of the theme is which classes are *excluded* by the lookup rather than
 which ones survive it.
+
+#### 3.2a · The lookups were run the same day, and the prediction held
+
+All six were graded on 2026-08-09 against the panel and its CI extension. **Five of the six were
+excluded and one survived** — which is what the caveat above predicted the theme would produce, and it
+is worth recording that a prediction of mostly-negatives was made before the answers arrived rather
+than after.
+
+| class | verdict |
+|---|---|
+| PRMT5 / MAT2A | **survived** — the locus reads lower where powered, the methylosome higher on both platforms; it now has its own paper |
+| arginine deprivation | excluded — the selecting biomarker is *higher* in this disease on both platforms, not lower |
+| MDM2 antagonism | excluded — the p53 transcriptional output is lower on both, not the live axis the class needs |
+| MCL-1 / BCL-xL | excluded at the abundance level — all five druggable guardians are lower on both platforms |
+| EZH2 / PRC2 | excluded — neither selecting shape present |
+| POLθ | excluded — neither half of the required combination |
+
+⛔ **The starred example in the first version of this section was the MCL-1 row, and the lookup went
+against it.** *Superseded, retained: "The MCL-1 row is the sharpest of these because the evidence is
+already in the building… That pattern is the signature of dependence on a different member of the same
+family, and nobody has asked which one."* The reasoning was sound and the reading did not support it.
+⚠ **What survives is narrower and still open:** low guardian abundance with elevated NOXA is compatible
+with a primed state, which would make the combination-only result *more* interesting rather than less —
+and abundance cannot distinguish those, because apoptotic dependency is which protein holds the
+effectors. The observation stands; the MCL-1-dominance reading of it does not.
 
 ### 3.3 · Kinase leads with EMC-specific evidence that nobody followed
 
