@@ -1,0 +1,581 @@
+{
+ "_schema": "placebo-arm-detail-inputs/1",
+ "_generated_by": "round 6 extraction from the literature-cache branch",
+ "_what_this_is": "the protocol fields the placebo calibration needs, for the 12 trials with a re-readable control arm. Round 4's field limit dropped these; round 6 fetched them.",
+ "records": {
+  "NCT01256359": {
+   "status": "read",
+   "conditions": [
+    "Melanoma"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "QUADRUPLE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 83,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Docetaxel and AZD6244",
+     "description": "Docetaxel with AZD6244",
+     "interventions": [
+      "Drug: Docetaxel and AZD6244"
+     ]
+    },
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Docetaxel and Placebo",
+     "description": "Docetaxel without AZD6244",
+     "interventions": [
+      "Drug: Docetaxel and placebo"
+     ]
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "NOT_MENTIONED",
+    "verbatim": [],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "every 3 weeks",
+   "central_review_mentioned": false,
+   "response_criterion_mentioned": "RECIST",
+   "eligibility_criteria_chars": 3070,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT01256359.txt"
+  },
+  "NCT01744249": {
+   "status": "read",
+   "conditions": [
+    "Neuroendocrine Tumors",
+    "Advanced Cancer"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "QUADRUPLE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 256,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Axitinib + Sandostatin LAR",
+     "description": "Axitinib 5 mg BID + Sandostatin LAR 30mg/28 days",
+     "interventions": [
+      "Drug: Axitinib",
+      "Drug: Sandostatin LAR"
+     ]
+    },
+    {
+     "type": "PLACEBO_COMPARATOR",
+     "label": "Placebo + Sandostatin LAR",
+     "description": "Placebo BID + Sandostatin LAR 30mg/28 days",
+     "interventions": [
+      "Drug: Sandostatin LAR",
+      "Drug: Placebo"
+     ]
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "MENTIONED_NOT_AS_A_REQUIREMENT",
+    "verbatim": [
+     "Clinical and/or radiological disease progression documented in the 12 months prior to study entry",
+     ", radiofrequency ablation, or others) in the 6 months prior to entering the study, unless there are other locations of measurable disease or clear radiological progression after carrying out these procedures (in these cases, local and regional ablation procedures shall be permitted if they have been performed at least 1 month pri"
+    ],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "CANNOT_DETERMINE",
+   "central_review_mentioned": false,
+   "response_criterion_mentioned": "RECIST 1.1",
+   "eligibility_criteria_chars": 8553,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT01744249.txt"
+  },
+  "NCT01859741": {
+   "status": "read",
+   "conditions": [
+    "Stage IV Small Cell Lung Cancer"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "DOUBLE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 172,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "EXPERIMENTAL",
+     "label": "OMP-59R5 Combination with Etoposide and Cisplatin",
+     "description": "",
+     "interventions": [
+      "Drug: OMP-59R5",
+      "Drug: Etoposide",
+      "Drug: Placebo",
+      "Drug: Cisplatin or Carboplatin"
+     ]
+    },
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Etoposide and Cisplatin plus Placebo",
+     "description": "",
+     "interventions": [
+      "Drug: OMP-59R5",
+      "Drug: Etoposide",
+      "Drug: Placebo",
+      "Drug: Cisplatin or Carboplatin"
+     ]
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "NOT_MENTIONED",
+    "verbatim": [],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "CANNOT_DETERMINE",
+   "central_review_mentioned": false,
+   "response_criterion_mentioned": "RECIST",
+   "eligibility_criteria_chars": 3231,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT01859741.txt"
+  },
+  "NCT02046733": {
+   "status": "read",
+   "conditions": [
+    "Limited Stage Small Cell Lung Cancer",
+    "Small Cell Lung Cancer"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "NONE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 222,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Nivolumab + Ipilimumab",
+     "description": "\\- Induction: Nivolumab at a dose of 1 mg/kg i.v. followed (on the same day) by Ipilimumab at a dose of 3 mg/kg i.v. once every 3 weeks, 4 cycles\n\n\\- Maintenance: Nivolumab 240 mg i.v. once every 2 weeks, for a maximum of 12 months from start of maintenance",
+     "interventions": [
+      "Drug: Ipilimumab",
+      "Drug: Nivolumab"
+     ]
+    },
+    {
+     "type": "NO_INTERVENTION",
+     "label": "Observation",
+     "description": "no further treatment; tumour assessment, follow-up documentation and collection of biological material will be done according to the same schedule as Arm 1.",
+     "interventions": []
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "MENTIONED_NOT_AS_A_REQUIREMENT",
+    "verbatim": [
+     "steroids) treatment, such as but not limited to ulcerative colitis and Crohn´s disease, rheumatoid arthritis, systemic progressive sclerosis (scleroderma), systemic lupus erythematosus, or autoimmune vasculitis (eg, Wegener's granulomatosis)",
+     "* Progressive disease after chemo-radiotherapy and PCI"
+    ],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "CANNOT_DETERMINE",
+   "central_review_mentioned": false,
+   "response_criterion_mentioned": "RECIST 1.1",
+   "eligibility_criteria_chars": 5513,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT02046733.txt"
+  },
+  "NCT02204982": {
+   "status": "read",
+   "conditions": [
+    "Follicular Lymphoma"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "QUADRUPLE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 13,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Duvelisib + Rituximab",
+     "description": "Duvelisib is administered orally and supplied as 5 mg and 25 mg formulated capsules.\n\nRituximab is administered as an intravenous (IV) infusion and is supplied in single-use vials at two strengths, 100 mg and 500 mg.",
+     "interventions": [
+      "Drug: Duvelisib",
+      "Drug: Rituximab"
+     ]
+    },
+    {
+     "type": "PLACEBO_COMPARATOR",
+     "label": "Placebo + Rituximab",
+     "description": "Placebo is administered orally and supplied as formulated capsules to match the active 5 mg and 25 mg capsules.\n\nRituximab is administered as an intravenous (IV) infusion and is supplied in single-use vials at two strengths, 100 mg and 500 mg.",
+     "interventions": [
+      "Drug: Placebo",
+      "Drug: Rituximab"
+     ]
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "MENTIONED_NOT_AS_A_REQUIREMENT",
+    "verbatim": [
+     "* No response or disease progression ≤ 24 months from start of last previous therapy",
+     "ter by CT/CT-PET or magnetic resonance imaging (MRI) in an area of no prior radiation therapy, or in an area that was previously irradiated that has documented progression"
+    ],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "CANNOT_DETERMINE",
+   "central_review_mentioned": false,
+   "response_criterion_mentioned": "CANNOT_DETERMINE",
+   "eligibility_criteria_chars": 2412,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT02204982.txt"
+  },
+  "NCT02259582": {
+   "status": "read",
+   "conditions": [
+    "Nonsquamous Nonsmall Cell Neoplasm of Lung"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "TRIPLE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 82,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "PLACEBO_COMPARATOR",
+     "label": "Arm 1 Pem, carbo, placebo x 4 cycles",
+     "description": "Pemetrexed (500 mg/m2),carboplatin (area under the concentration-time curve of 6 mg/mL x min) once every 21 days X 4 cycles, pemetrexed maintenance and placebo starting at Day 84",
+     "interventions": [
+      "Drug: Pemetrexed",
+      "Drug: Carboplatin"
+     ]
+    },
+    {
+     "type": "ACTIVE_COMPARATOR",
+     "label": "Arm 2 Pem, carbo x 4 cycles, one course of dem",
+     "description": "Pemetrexed (500 mg/m2), carboplatin (area under the concentration-time curve of 6 mg/mL x min) x 4 cycles, one course of demcizumab 5mg/kg, maintenance pemetrexed + placebo starting on Day 84",
+     "interventions": [
+      "Drug: Pemetrexed",
+      "Drug: Carboplatin",
+      "Drug: demcizumab"
+     ]
+    },
+    {
+     "type": "ACTIVE_COMPARATOR",
+     "label": "Arm 3 pem, carbo, dem x 4 cycles, dem retreatment",
+     "description": "Pemetrexed (500 mg/m2), carboplatin (area under the concentration-time curve of 6 mg/mL x min) x 4 cycles, maintenance pemetrexed starting on Day 84. 2 courses of demcizumab 5 mg/kg",
+     "interventions": [
+      "Drug: Pemetrexed",
+      "Drug: Carboplatin",
+      "Drug: demcizumab"
+     ]
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "NOT_MENTIONED",
+    "verbatim": [],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "every 21 days",
+   "central_review_mentioned": false,
+   "response_criterion_mentioned": "RECIST 1.1",
+   "eligibility_criteria_chars": 2209,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT02259582.txt"
+  },
+  "NCT02263508": {
+   "status": "read",
+   "conditions": [
+    "Melanoma"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "DOUBLE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 713,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Phase 1b: Talimogene Laherparepvec + Pembrolizumab",
+     "description": "Participants received talimogene laherparepvec at an initial dose of up to 4 mL 10⁶ plaque-forming units (PFU)/mL by intralesional injection. Subsequent doses of talimogene laherparepvec at up to 4 mL of 10⁸ PFU/mL began 3 weeks after the first dose and were administered every 2 weeks until disappearance of injectable lesions, complete response (CR), confirmed disease progression (PD) per modified",
+     "interventions": [
+      "Drug: Talimogene Laherparepvec",
+      "Drug: Pembrolizumab"
+     ]
+    },
+    {
+     "type": "PLACEBO_COMPARATOR",
+     "label": "Phase 3 : Placebo + Pembrolizumab",
+     "description": "Participants received up to 4 mL placebo to talimogene laherparepvec by intralesional injection on day 1 of week 0. Subsequent doses of placebo (up to 4 mL) began 3 weeks after the first dose and were administered every 2 weeks until the fifth injection (week 9), and then synchronously with pembrolizumab thereafter every 3 weeks until disappearance of injectable lesions, complete response per modi",
+     "interventions": [
+      "Drug: Pembrolizumab",
+      "Drug: Placebo"
+     ]
+    },
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Phase 3: Talimogene Laherparepvec + Pembrolizumab",
+     "description": "Participants received talimogene laherparepvec at an initial dose of up to 4 mL 10⁶ PFU/mL by intralesional injection on day 1. Subsequent doses of talimogene laherparepvec at 10⁸ PFU/mL (up to 4 mL) began 3 weeks after the first dose and were administered every 2 weeks until the fifth injection of talimogene laherparepvec (week 9), and then synchronously with pembrolizumab thereafter every 3 week",
+     "interventions": [
+      "Drug: Talimogene Laherparepvec",
+      "Drug: Pembrolizumab"
+     ]
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "NOT_MENTIONED",
+    "verbatim": [],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "every 12 weeks",
+   "central_review_mentioned": true,
+   "response_criterion_mentioned": "RECIST",
+   "eligibility_criteria_chars": 2707,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT02263508.txt"
+  },
+  "NCT02440464": {
+   "status": "read",
+   "conditions": [
+    "Multiple Myeloma"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "QUADRUPLE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 57,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Ixazomib Maintenance",
+     "description": "Allogeneic HSCT and Fludarabine/Melphalan/Bortezomib conditioning followed by Ixazomib maintenance",
+     "interventions": [
+      "Procedure: Allogeneic HSCT",
+      "Drug: Fludarabine",
+      "Drug: Melphalan",
+      "Drug: Bortezomib",
+      "Drug: Ixazomib"
+     ]
+    },
+    {
+     "type": "PLACEBO_COMPARATOR",
+     "label": "Placebo",
+     "description": "Allogeneic HSCT and Fludarabine/Melphalan/Bortezomib conditioning followed by placebo maintenance.",
+     "interventions": [
+      "Procedure: Allogeneic HSCT",
+      "Drug: Fludarabine",
+      "Drug: Melphalan",
+      "Drug: Bortezomib",
+      "Drug: Placebo"
+     ]
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "MENTIONED_NOT_AS_A_REQUIREMENT",
+    "verbatim": [
+     "Patients with high risk multiple myeloma in partial response (PR) or better with no prior progression and are ≤ 24",
+     "above) in very good partial response (VGPR) or better with 1 prior progression which occurred ≤ 24"
+    ],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "CANNOT_DETERMINE",
+   "central_review_mentioned": false,
+   "response_criterion_mentioned": "CANNOT_DETERMINE",
+   "eligibility_criteria_chars": 8774,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT02440464.txt"
+  },
+  "NCT02625610": {
+   "status": "read",
+   "conditions": [
+    "Unresectable, Locally Advanced or Metastatic, Adenocarcinoma of the Stomach, or of the Gastro Esophageal Junction"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "NONE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 499,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Chemotherapy + Best Supportive Care (BSC)",
+     "description": "In Maintenance Phase, participants continued the same regimen of oxaliplatin-fluoropyrimidine doublet chemotherapy (oxaliplatin + 5FU/LV or oxaliplatin + capecitabine) as they received during the Induction Phase until disease progression, significant clinical deterioration, unacceptable toxicity, or discontinuation. Participants who were not deemed eligible to receive chemotherapy at the dose and ",
+     "interventions": [
+      "Drug: Oxaliplatin",
+      "Drug: 5-Fluorouracil",
+      "Drug: Leucovorin",
+      "Drug: Capecitabine",
+      "Other: Best supportive care"
+     ]
+    },
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Avelumab",
+     "description": "In Maintenance phase, participants received avelumab as a 1-hour intravenous (IV) infusion at 10 milligrams per kilogram (mg/kg) once every 2-week treatment cycle until progressive disease or unacceptable toxicity or discontinuation.",
+     "interventions": [
+      "Drug: Avelumab"
+     ]
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "NOT_MENTIONED",
+    "verbatim": [],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "CANNOT_DETERMINE",
+   "central_review_mentioned": true,
+   "response_criterion_mentioned": "RECIST 1.1",
+   "eligibility_criteria_chars": 3991,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT02625610.txt"
+  },
+  "NCT02625623": {
+   "status": "read",
+   "conditions": [
+    "Unresectable, Recurrent, Locally Advanced or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma",
+    "Gastric Cancer Third Line"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "NONE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 371,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Physician choice chemotherapy+Best Supportive Care (BSC)",
+     "description": "Participants received BSC plus physician's choice chemotherapy. Chemotherapy comprises of one of the following: paclitaxel at a dose of 80 milligram per meter square (mg/m\\^2) on Days 1, 8, and 15 of a 4-week treatment cycle until confirmed progressive disease or unacceptable toxicity OR irinotecan at a dose of 150 mg/m\\^2 on Days 1 and 15 of a 4-week treatment cycle until confirmed progressive di",
+     "interventions": [
+      "Drug: Irinotecan",
+      "Drug: Paclitaxel",
+      "Other: Best Supportive Care (BSC)"
+     ]
+    },
+    {
+     "type": "ACTIVE_COMPARATOR",
+     "label": "Avelumab+BSC",
+     "description": "Participants received avelumab as a 1-hour intravenous (IV) infusion at 10 milligram per kilogram (mg/kg) once every 2-week treatment cycle until confirmed progressive disease or unacceptable toxicity along with BSC. BSC is defined as treatment administered with the intent to maximize quality of life without a specific antineoplastic regimen and is based on investigator's discretion.",
+     "interventions": [
+      "Drug: Avelumab",
+      "Other: Best Supportive Care (BSC)"
+     ]
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "REQUIRED",
+    "verbatim": [
+     "* Subjects must have received 2 prior courses of systemic treatment for unresectable, recurrent, locally advanced or metastatic gastric cancer, and must have progressed after the second line"
+    ],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "CANNOT_DETERMINE",
+   "central_review_mentioned": true,
+   "response_criterion_mentioned": "RECIST 1.1",
+   "eligibility_criteria_chars": 3721,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT02625623.txt"
+  },
+  "NCT03409614": {
+   "status": "read",
+   "conditions": [
+    "Non-small Cell Lung Cancer"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "QUADRUPLE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 789,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "OTHER",
+     "label": "Chemo",
+     "description": "Part 1: Chemotherapy",
+     "interventions": [
+      "Other: Chemotherapy",
+      "Drug: Placebo"
+     ]
+    },
+    {
+     "type": "EXPERIMENTAL",
+     "label": "REGN2810+Chemo Part 1",
+     "description": "Part 1: REGN2810+chemo",
+     "interventions": [
+      "Drug: REGN2810"
+     ]
+    },
+    {
+     "type": "EXPERIMENTAL",
+     "label": "REGN2810+AbbrevChemo+ipi",
+     "description": "Part 1: REGN2810+abbrev chemo+ipi",
+     "interventions": [
+      "Drug: REGN2810/chemo/ipi"
+     ]
+    },
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Placebo+Chemo",
+     "description": "Part 2: Placebo plus chemo",
+     "interventions": [
+      "Drug: Placebo"
+     ]
+    },
+    {
+     "type": "EXPERIMENTAL",
+     "label": "REGN2810+Chemo Part 2",
+     "description": "Part 2: REGN2810+chemo",
+     "interventions": [
+      "Drug: REGN2810"
+     ]
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "MENTIONED_NOT_AS_A_REQUIREMENT",
+    "verbatim": [
+     "Target lesions may be located in a previously irradiated field if there is documented (radiographic) disease progression in that site"
+    ],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "every 3 months",
+   "central_review_mentioned": true,
+   "response_criterion_mentioned": "RECIST 1.1",
+   "eligibility_criteria_chars": 2303,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT03409614.txt"
+  },
+  "NCT05323656": {
+   "status": "read",
+   "conditions": [
+    "Squamous Cell Carcinoma of Head and Neck"
+   ],
+   "allocation": "RANDOMIZED",
+   "masking": "DOUBLE",
+   "primary_purpose": "TREATMENT",
+   "enrollment": 55,
+   "enrollment_type": "ACTUAL",
+   "arm_groups": [
+    {
+     "type": "EXPERIMENTAL",
+     "label": "Setanaxib 1600 mg and Pembrolizumab 200 mg",
+     "description": "Participants will be administered setanaxib at a dose of 1600 mg/day for the up to 24-month double-blind treatment period.\n\nParticipants will also be administered Pembrolizumab 200 mg intravenously every 3 weeks.",
+     "interventions": [
+      "Drug: Setanaxib",
+      "Biological: Pembrolizumab"
+     ]
+    },
+    {
+     "type": "ACTIVE_COMPARATOR",
+     "label": "Placebo and Pembrolizumab 200 mg",
+     "description": "Participants will be administered placebo for the up to 24-month double-blind treatment period.\n\nParticipants will also be administered Pembrolizumab 200 mg intravenously every 3 weeks.",
+     "interventions": [
+      "Biological: Pembrolizumab",
+      "Drug: Placebo"
+     ]
+    }
+   ],
+   "progression_at_entry": {
+    "verdict": "NOT_MENTIONED",
+    "verbatim": [],
+    "_this_is_a_judgement": "read from the eligibility prose by pattern. The verbatim sentences are attached so the classification can be disputed without re-fetching."
+   },
+   "crossover_mentioned": false,
+   "imaging_interval_stated": "CANNOT_DETERMINE",
+   "central_review_mentioned": false,
+   "response_criterion_mentioned": "RECIST 1.1",
+   "eligibility_criteria_chars": 9240,
+   "retrieved_file": "literature-cache:literature/xdisease-control-arm-detail/ctg_full_NCT05323656.txt"
+  }
+ }
+}

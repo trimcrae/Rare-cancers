@@ -293,7 +293,52 @@
     "published_to": [
       "main"
     ],
-    "note": "Grades the 2026-08-09 census routes — the count is its own `routes` keys and is deliberately not restated here — against emc-expression-panels.json, which owns every figure it reports. ⚠ Two small archival array series (6 EMC vs 29 comparator on GPL6244; 10 vs 6 on GPL3290) — a transcript is not a protein, an activity or a copy number, and magnitudes are not comparable across the two platforms, so only sign agreement is claimed."
+    "note": "Grades six of the 2026-08-09 census routes against emc-expression-panels.json, which owns every figure it reports. ⚠ Two small archival array series (6 EMC vs 29 comparator on GPL6244; 10 vs 6 on GPL3290) — a transcript is not a protein, an activity or a copy number, and magnitudes are not comparable across the two platforms, so only sign agreement is claimed."
+  },
+  {
+    "id": "ART-ENDPOINT-CORPUS",
+    "path": "research/manuscripts/endpoint-corpus.json",
+    "produced_by": "research/manuscripts/endpoint_corpus.py (stdlib only, CPU, $0; --check re-derives from the literature-cache extraction and refuses to write on drift)",
+    "published_to": [
+      "main"
+    ],
+    "note": "The arm-level corpus the cross-disease endpoint paper rests on: every ClinicalTrials.gov study whose posted results carry a complete four-cell best-response table, reduced to one row per arm. The inclusion unit is an ARM and there is no disease-level criterion, so a condition enters the corpus only by having a trial that reported the four cells. It also records why abstracts were screened and not used, which is the reason the corpus is smaller than the literature."
+  },
+  {
+    "id": "ART-ENDPOINT-ORR-DCR-REREAD",
+    "path": "research/manuscripts/orr-dcr-reread.json",
+    "produced_by": "research/manuscripts/orr_dcr_reread.py (stdlib only, CPU, $0; --check re-derives)",
+    "published_to": [
+      "main"
+    ],
+    "note": "The re-read itself: per-arm objective response and disease control on one denominator, their difference as the stable-disease proportion with an exact Wilson interval, the distribution of that gap across the corpus, a census of how many screened studies post results without the four cells, and the share of arms whose response readout returned zero events. EMC enters as one labelled row in that distribution rather than as the subject."
+  },
+  {
+    "id": "ART-ENDPOINT-REGIME-MAP",
+    "path": "research/manuscripts/endpoint-regime-map.json",
+    "produced_by": "research/manuscripts/endpoint_regime_map.py (stdlib only, CPU, $0; --check re-derives)",
+    "published_to": [
+      "main"
+    ],
+    "note": "Each condition placed on two coordinates - plausible response rate and accruable arm size - with the two boundaries drawn as level sets of the binomial: the sample size at which a single-stage design against a 5 percent null is defined, and the size at which one response is more likely than not. A condition whose median response is at or below the null has NO defined design and is counted separately rather than folded into the denominator, which is the correction that moved the headline share from 31.8 to 50.0 percent."
+  },
+  {
+    "id": "ART-ENDPOINT-PLACEBO-CALIBRATION",
+    "path": "research/manuscripts/placebo-arm-calibration.json",
+    "produced_by": "research/manuscripts/placebo_arm_calibration.py (stdlib only, CPU, $0; --check re-derives)",
+    "published_to": [
+      "main"
+    ],
+    "note": "What the corpus holds by way of a comparator: arms carrying a control token in title or registered type, classified only where the title and the registered arm type AGREE, and the count of low-response conditions that have no control arm at all. The classification is deliberately conservative in both directions after it passed a placebo-plus-active-backbone arm on names alone and then passed an active arm on a sibling arm group's registered type."
+  },
+  {
+    "id": "ART-ENDPOINT-PRIOR-ART-AUDIT",
+    "path": "research/manuscripts/endpoint-prior-art-audit.json",
+    "produced_by": "research/manuscripts/endpoint_prior_art_audit.py (stdlib only, CPU, $0; --check re-derives)",
+    "published_to": [
+      "main"
+    ],
+    "note": "The necessity check, and the finding that reframed the paper: oncology has already solved this problem four separate times across 12 disease domains, the earliest in 1998. The remedy is therefore DIFFUSION rather than invention, and the audit's own gap section counts how many low-response conditions still have no endorsed alternative. Assignments are labelled as judgements read from retrieved records, not as an exhaustive survey."
   },
   {
     "id": "ART-HORMONE-PARTNER-LANE",

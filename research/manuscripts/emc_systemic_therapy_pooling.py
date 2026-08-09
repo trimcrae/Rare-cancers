@@ -1206,9 +1206,18 @@ def build():
          "states this figure, because no publication combines the three trials."),
         ("BUT THOSE SAME PATIENTS ALMOST NEVER PROGRESS EITHER. Disease control was the best "
          "response in 42 of the same 47. The clinically meaningful signal in EMC is not tumour "
-         "shrinkage but how long the disease sits still - which is why both modern trials chose "
-         "6-month PFS rather than response rate as their primary endpoint, and why judging this "
-         "disease on response rate understates what its treatments do."),
+         "shrinkage but how long the disease sits still. THE TWO MODERN PROSPECTIVE TRIALS CHOSE "
+         "DIFFERENT PRIMARY ENDPOINTS, SIX YEARS APART: the 2019 pazopanib trial's primary "
+         "endpoint was the RECIST objective-response rate - its own verbatim quote in this file "
+         "reads '22 patients (one patient died before the primary analysis) were evaluable for "
+         "the primary endpoint: four (18% [95% CI 1-36]) had a RECIST objective response' (PMID "
+         "31331701) - while the 2025 IMMUNOSARC II EMC cohort's was the 6-month progression-free "
+         "rate (NCT03277924). The field did not settle on a progression-free endpoint; it "
+         "CHANGED endpoints, with no argument written down in the literature for why. "
+         "SUPERSEDED, RETAINED: 'which is why both modern trials chose 6-month PFS rather than "
+         "response rate as their primary endpoint' - contradicted by this file's own quote of the "
+         "2019 trial, and detected rather than remembered by "
+         "emc_endpoint_discordance.D5_primary_endpoint_correction."),
         ("THE '12.5-MONTH MEDIAN PFS FOR TRABECTEDIN IN EMC' IS NOT AN EMC FIGURE, AND IT LANDS "
          "ON A PATIENT WHO DID NOT HAVE EMC. The trabectedin arm was 2 EMC and 3 mesenchymal "
          "chondrosarcoma, not 5 EMC - stated in the paper's own Methods, with Table 2 labelling "

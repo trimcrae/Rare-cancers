@@ -83,9 +83,27 @@ def _imports(path: Path) -> set[str]:
     return out
 
 
+#: Directories whose `*.py` this repository supplies itself. A gated test file sits in `<dir>/tests/`
+#: and puts `<dir>` on sys.path, so a sibling module there needs no `pip install`.
+#: ⛔ THIS WAS `research/modalities` ALONE AND THAT UNDER-COUNTED WHAT THE REPO SUPPLIES (2026-08-09).
+#: When `research/manuscripts/tests/test_endpoint_logic.py` became a gate, its four sibling imports --
+#: endpoint_corpus, endpoint_regime_map, orr_dcr_reread, placebo_arm_calibration -- were read as
+#: missing PyPI packages and the guard failed a green build. The docstring already said "anything this
+#: repo supplies itself"; the code only looked in one directory. Derived from the gated files
+#: themselves rather than listed, so a third gated directory cannot reintroduce the same false alarm.
+def _repo_local_dirs() -> set[Path]:
+    dirs = {MODALITIES}
+    for _wf, _job, path in _gates():
+        if path.parent.name == "tests":
+            dirs.add(path.parent.parent)
+    return dirs
+
+
 def _third_party(mods: set[str]) -> set[str]:
     """Drop the stdlib and anything this repo supplies itself."""
-    repo_local = {p.stem for p in MODALITIES.glob("*.py")} | {p.stem for p in MODALITIES.glob("tests/*.py")}
+    repo_local: set[str] = set()
+    for d in _repo_local_dirs():
+        repo_local |= {p.stem for p in d.glob("*.py")} | {p.stem for p in d.glob("tests/*.py")}
     return {m for m in mods
             if m not in sys.stdlib_module_names and m not in repo_local and not m.startswith("_")}
 

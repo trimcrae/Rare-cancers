@@ -41,6 +41,14 @@ jobs:
         run: python3 research/manuscripts/lint_consistency.py
       - name: Manuscript language discipline
         run: python3 research/manuscripts/lint_claims.py
+      # ADDED 2026-08-09. Both of these were documented as preflight gates and wired into
+      # scripts/preflight.sh, and neither ran in CI. A gate that only fires when somebody
+      # remembers to run preflight locally is a gate that will be green on the day it matters --
+      # the same shape as the fake --check that shipped before and kept CI green for weeks.
+      - name: Citation provenance (every prose identifier traces to a fetch or the ledger)
+        run: python3 research/manuscripts/lint_citations.py
+      - name: Manuscript prose style (journal register, not repository register)
+        run: python3 research/manuscripts/lint_style.py
       # ⛔ A LINE-NUMBER CITATION IS A CLAIM AND IT ROTS SILENTLY. `check_links` validates that a FILE and
       # an ANCHOR exist; neither reaches inside a file to a LINE, so a citation that has drifted still
       # resolves — it just points at a sentence that does not say what it is cited for. Measured
@@ -82,6 +90,17 @@ jobs:
         run: |
           python3 research/manuscripts/emc_endpoint_discordance.py --check
           python3 research/manuscripts/emc_endpoint_alternatives.py --check
+          python3 research/manuscripts/endpoint_corpus.py --check
+          python3 research/manuscripts/orr_dcr_reread.py --check
+          python3 research/manuscripts/endpoint_regime_map.py --check
+          python3 research/manuscripts/placebo_arm_calibration.py --check
+          python3 research/manuscripts/endpoint_prior_art_audit.py --check
+          python3 research/manuscripts/endpoint_regime_figure.py --check
+          python3 research/manuscripts/endpoint_result_figures.py --check
+      - name: Endpoint producer logic and --check are real (not just wired)
+        run: |
+          python3 -m pytest research/manuscripts/tests/test_endpoint_logic.py \
+                            research/manuscripts/tests/test_endpoint_producers_check.py -q
       # The systems model (systems/graph/*.json) and its generated views. Standalone for the same
       # reason as the linters above -- a doc author who breaks it should see the failing step name,
       # not a traceback in ~1500 tests. Three distinct things fail here, all red:

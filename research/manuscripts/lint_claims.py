@@ -684,10 +684,42 @@ def _inside_proper_noun(sent, match_start, match_end):
     )
 
 
+#: A numbered entry under a References heading is a BIBLIOGRAPHY ENTRY, and its regulated words
+#: belong to somebody else's published title. Quoting a title verbatim is not this repository making
+#: a claim, and altering a title to satisfy a linter would be a worse error than the one being
+#: prevented -- it breaks the citation. Same principle as `PROPER_NOUNS`: a regulated word inside a
+#: NAME is a name. Measured when added (2026-08-09): reference 15 of the endpoint manuscript is
+#: titled "The Growth Modulation Index (GMI) as an Efficacy Outcome in Cancer Clinical Trials",
+#: which fired R2-efficacy on a paper this repository did not write.
+#: Scope: every non-heading line under a `References` heading, until the next heading. Entries wrap
+#: across lines -- reference 14 above put the word "Efficacy" alone on a continuation line -- so
+#: matching only the numbered first line of each entry misses exactly the case that fired.
+_REFERENCES_HEADING_RE = re.compile(r"^#{1,6}\s*(?:\d+\s*[.·]?\s*)?references\b", re.I)
+_NUMBERED_ENTRY_RE = re.compile(r"^\s{0,3}\d{1,3}\.\s")
+
+
+def _reference_line_numbers(lines):
+    """Line numbers (1-based) belonging to a References section."""
+    out, in_refs, seen_entry = set(), False, False
+    for i, line in enumerate(lines):
+        if line.lstrip().startswith("#"):
+            in_refs = bool(_REFERENCES_HEADING_RE.match(line.strip()))
+            seen_entry = False
+            continue
+        if not in_refs:
+            continue
+        if _NUMBERED_ENTRY_RE.match(line):
+            seen_entry = True
+        if seen_entry and line.strip():
+            out.add(i + 1)
+    return out
+
+
 def lint_file(path):
     findings = []
     with open(path, "r", encoding="utf-8") as fh:
         lines = fh.read().split("\n")
+    reference_lines = _reference_line_numbers(lines)
 
     for para, offsets in iter_paragraphs(lines):
         for start, sent in split_sentences(para):
@@ -731,6 +763,10 @@ def lint_file(path):
                 if rule.context_re is not None and not rule.context_re.search(sent):
                     continue
                 pos = start + m.start()
+                # A bibliography entry quotes somebody else's title verbatim. See
+                # `_reference_line_numbers`.
+                if _lineno_for(offsets, pos) in reference_lines:
+                    continue
                 findings.append(
                     {
                         "file": os.path.relpath(path, REPO),

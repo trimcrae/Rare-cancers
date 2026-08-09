@@ -42,7 +42,7 @@ last_verified: 2026-08-09
 | 2 | [**PUB-DEGRADER**](../../research/manuscripts/nr4a3-degrader-paper.md) | **16.9** | 2 | 3 | 0 | 2 | 38% of 8 | ◐ `drafted` | 5 |
 | 3 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/emc-treatment-roadmap.md) | **15.0** | 2 | 0 | 0 | 1 | 0% of 2 | ◐ `drafted` | 2 |
 | 4 | [**PUB-METHODS**](../../research/manuscripts/degrader-methods-failure-record.md) | **15.0** | 1 | 0 | 0 | 1 | 100% of 1 | ◐ `drafted` | 1 |
-| 5 | [**PUB-ENDPOINT**](../../research/manuscripts/emc-response-endpoint-paper.md) | **13.3** | 1 | 0 | 0 | 1 | 67% of 3 | ◐ `drafted` | 1 |
+| 5 | [**PUB-ENDPOINT**](../../research/manuscripts/response-endpoint-indolent-tumours.md) | **13.3** | 1 | 0 | 0 | 1 | 67% of 3 | ◐ `drafted` | 1 |
 | 6 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | **11.2** | 1 | 0 | 0 | 1 | 25% of 4 | ◐ `drafted` | 1 |
 | 7 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | **10.7** | 1 | 0 | 0 | 0 | 33% of 6 | ◐ `drafted` | 2 |
 | 8 | [**PUB-TCIP**](../../research/manuscripts/tcip-induced-interface-preprint.md) | **10.3** | 1 | 0 | 0 | 0 | 67% of 3 | ◐ `drafted` | 1 |
@@ -87,7 +87,7 @@ last_verified: 2026-08-09
 - [RT-METHODS-PAPER](L2-rt-methods-paper.md) — *What is the honest, publishable content of a computation-only program's own failure record?* — `ready` / `scoped` / confidence `high`
 
 **PUB-ENDPOINT** — score 13.3
-- [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) — *Is the objective-response rate a fit summary of systemic-therapy outcomes in an indolent ultra-rare sarcoma, and what does the published record lose by using it?* — `ready` / `computed` / confidence `moderate`
+- [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) — *Is the objective-response rate a fit summary of a single-arm trial, and in which regime does it stop carrying information? Measured across trial arms in many diseases rather than in one.* — `ready` / `computed` / confidence `moderate`
 
 **PUB-FUSION-PARTNER** — score 11.2
 - [RT-PARTNER-STRAT](L2-rt-partner-strat.md) — *Does the NR4A3 5' fusion partner identify which EMC patients the one systemically active drug class is reported to work in - and what does the published record actually support, as opposed to what it is repeatedly said to support?* — `ready` / `computed` / confidence `low`

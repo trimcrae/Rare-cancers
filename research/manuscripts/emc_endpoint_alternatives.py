@@ -4,7 +4,7 @@
 
 WHY THIS EXISTS
 ---------------
-`emc-response-endpoint-paper.md` (PUB-ENDPOINT) establishes, on 47 patients, that objective response
+`response-endpoint-indolent-tumours.md` (PUB-ENDPOINT) establishes, on 47 patients, that objective response
 and disease control sit 76.6 percentage points apart in advanced EMC, and it deliberately stops
 there: its Sec. 6.6 says in its own words that it "does NOT propose a specific replacement endpoint,
 because the data that would let anyone compare candidate endpoints on these patients has not been
@@ -1675,8 +1675,39 @@ def e8_patient_cost():
 # ================================================================================================
 # Corrections owed to the source artifact
 # ================================================================================================
-def corrections_owed(pooling):
+#: C1's marker: the sentence in the source that asserted Chiusole reports no median PFS. When the
+#: source is corrected the sentence goes, and a STATIC "the source says ..." block would then be
+#: describing text that no longer exists -- which is exactly what happened between 2026-08-08 and
+#: 2026-08-09, undetected, because this function ignored the `pooling` argument it was handed.
+C1_MARKER = "no median"
+C1_WHERE_KEY = "figures_that_are_NOT_emc_medians_but_circulate_as_such"
+
+
+def _c1_source_state(pooling):
+    """Read the SOURCE rather than remembering it. Same pattern as D5."""
+    a5 = ((pooling.get("analyses") or {}).get("A5_time_to_event_never_pooled") or {})
+    blob = json.dumps(a5.get(C1_WHERE_KEY, a5), ensure_ascii=False)
+    if C1_MARKER in blob:
+        return {
+            "detector": "uncorrected -- the source still asserts Chiusole reports no median",
+            "status": "correction_outstanding",
+        }
     return {
+        "detector": ("corrected -- the assertion this record was written against is no longer "
+                     "present in the source"),
+        "status": "source_appears_corrected",
+    }
+
+
+def corrections_owed(pooling):
+    c1_state = _c1_source_state(pooling)
+    return {
+        "_this_block_is_detected_not_remembered": (
+            "C1's status is read from the source file at build time. An earlier version of this "
+            "function took `pooling` as an argument and never used it, so the block went on "
+            "describing a sentence after that sentence had been corrected. A correction record "
+            "that cannot notice its own resolution is a stale instruction wearing the costume of "
+            "a finding."),
         "policy": ("CLAUDE.md rule 1.2 and the pattern set by " + DISCORDANCE_REL
                    + " -> D5: a discrepancy found in a source file is RECORDED here, dated and with "
                      "its evidence, and FIXED in the file that owns the sentence. This file does not "
@@ -1684,6 +1715,7 @@ def corrections_owed(pooling):
         "items": [
             {
                 "id": "C1_chiusole_does_report_a_median_pfs",
+                "current_source_state": c1_state,
                 "where": POOLING_REL + " -> analyses.A5_time_to_event_never_pooled."
                                        "figures_that_are_NOT_emc_medians_but_circulate_as_such",
                 "the_source_says": ("Chiusole 2020 reports no median PFS for its chemotherapy "

@@ -38,7 +38,8 @@
     "systems/views/plan.md",
     "research/manuscripts/emc-treatment-strategy.md",
     "research/modalities/nr4a3-degrader-next-steps.md",
-    "research/manuscripts/emc-mtap-prmt5-hypothesis.md"
+    "research/manuscripts/emc-mtap-prmt5-hypothesis.md",
+    "research/manuscripts/response-endpoint-indolent-tumours.md"
   ],
   "_marker_note": [
     "A superseded value is CLEARED when its line — or the two lines above / one below, because markdown prose",
@@ -477,6 +478,114 @@
         "research/manuscripts/emc-mtap-prmt5-hypothesis.md"
       ],
       "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts them from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+    },
+    {
+      "id": "endpoint_arms_re_read",
+      "description": "The corpus size the whole paper rests on: arms carrying a complete four-cell best-response table. Quoted in the abstract, the results table, figure 2's caption and the worked example.",
+      "artifact": "research/manuscripts/orr-dcr-reread.json",
+      "key": "R3_distribution_summary.all_arms.arms",
+      "format": "{:.0f}",
+      "context": "^\\d+ arms across \\d+ trials\\.$",
+      "must_appear_in": [
+        "research/manuscripts/response-endpoint-indolent-tumours.md"
+      ],
+      "regenerate": "bash scripts/regenerate_endpoint_chain.sh, then update every figure the manuscript quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "endpoint_median_gap_pp",
+      "description": "Median of the disease-control minus objective-response gap across the corpus. This is the paper's single most-quoted number and is identically the median stable-disease proportion.",
+      "artifact": "research/manuscripts/orr-dcr-reread.json",
+      "key": "R3_distribution_summary.all_arms.median_gap_pp",
+      "format": "{:.1f}",
+      "context": "^\\| median gap, disease control minus objective response \\|",
+      "must_appear_in": [
+        "research/manuscripts/response-endpoint-indolent-tumours.md"
+      ],
+      "regenerate": "bash scripts/regenerate_endpoint_chain.sh, then update every figure the manuscript quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "endpoint_studies_screened",
+      "description": "Denominator of the reporting census: studies screened for a four-cell block. The census is what makes the corpus's selectivity measurable instead of asserted.",
+      "artifact": "research/manuscripts/orr-dcr-reread.json",
+      "key": "R5_reporting_census.studies_screened",
+      "format": "{:.0f}",
+      "context": "^\\| studies screened \\|",
+      "must_appear_in": [
+        "research/manuscripts/response-endpoint-indolent-tumours.md"
+      ],
+      "regenerate": "bash scripts/regenerate_endpoint_chain.sh, then update every figure the manuscript quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "endpoint_share_not_re_readable",
+      "description": "Share of screened studies posting results without the four cells. It is the paper's concrete ask restated as a deficit, and section 10 quotes it again.",
+      "artifact": "research/manuscripts/orr-dcr-reread.json",
+      "key": "R5_reporting_census.share_of_screened_studies_not_re_readable_pct",
+      "format": "{:.1f}",
+      "context": "^\\| posted results without a four-cell block \\|",
+      "must_appear_in": [
+        "research/manuscripts/response-endpoint-indolent-tumours.md"
+      ],
+      "regenerate": "bash scripts/regenerate_endpoint_chain.sh, then update every figure the manuscript quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "endpoint_conditions_placed",
+      "description": "Conditions with enough of both coordinates to be placed on the map. It is the denominator the severity-1 correction of 2026-08-09 was about, so a drift here is the one that already happened once.",
+      "artifact": "research/manuscripts/endpoint-regime-map.json",
+      "key": "G4_what_the_map_reads.conditions_placed",
+      "format": "{:.0f}",
+      "context": "^\\d+ conditions had enough of both axes to be placed",
+      "must_appear_in": [
+        "research/manuscripts/response-endpoint-indolent-tumours.md"
+      ],
+      "regenerate": "bash scripts/regenerate_endpoint_chain.sh, then update every figure the manuscript quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "endpoint_bor_family_share_not_re_readable",
+      "description": "The DEFENSIBLE reporting-census share: trials whose registry text names best overall response and still posted no four-cell table. This is the figure a reviewer would ask for in place of the pooled one, and the abstract and section 10 now lead with it.",
+      "artifact": "research/manuscripts/endpoint-corpus.json",
+      "key": "C3b_census_denominator_decomposed.best_overall_response_family.share_not_re_readable_pct",
+      "format": "{:.1f}",
+      "context": "^\\| trials naming best overall response \\|",
+      "must_appear_in": [
+        "research/manuscripts/response-endpoint-indolent-tumours.md"
+      ],
+      "regenerate": "bash scripts/regenerate_endpoint_chain.sh (and endpoint_corpus.py --extract if the payloads changed), then update every figure the manuscript quotes IN THE SAME COMMIT"
+    },
+    {
+      "id": "endpoint_distinct_trials_screened",
+      "description": "Distinct trials behind the pooled record count. 179 trials match both frozen queries, so the record count overstates the number of trials; the paper reports both.",
+      "artifact": "research/manuscripts/endpoint-corpus.json",
+      "key": "C3b_census_denominator_decomposed.records_versus_distinct_trials.distinct_ncts_screened",
+      "format": "{:.0f}",
+      "context": "^\\| pooled, as distinct trials \\|",
+      "must_appear_in": [
+        "research/manuscripts/response-endpoint-indolent-tumours.md"
+      ],
+      "regenerate": "bash scripts/regenerate_endpoint_chain.sh (and endpoint_corpus.py --extract if the payloads changed), then update every figure the manuscript quotes IN THE SAME COMMIT"
+    },
+    {
+      "id": "endpoint_accrual_bound_low",
+      "description": "Lower bound on the share of conditions below the design boundary, from completed-trial accrual alone. The abstract and section 3.4 report an interval rather than the pooled point estimate, because the pooled value depends on a truncation ratio.",
+      "artifact": "research/manuscripts/endpoint-regime-map.json",
+      "key": "G4b_the_accrual_axis_is_two_populations.variants.completed_trials_only.share_below_the_design_contour_pct",
+      "format": "{:.1f}",
+      "context": "^\\| completed phase 2 trials \\|",
+      "must_appear_in": [
+        "research/manuscripts/response-endpoint-indolent-tumours.md"
+      ],
+      "regenerate": "bash scripts/regenerate_endpoint_chain.sh, then update the bound the manuscript quotes IN THE SAME COMMIT"
+    },
+    {
+      "id": "endpoint_accrual_bound_high",
+      "description": "Upper bound, from accrual in trials terminated with accrual named. Selected on the outcome the axis measures, so it bounds from above rather than estimating.",
+      "artifact": "research/manuscripts/endpoint-regime-map.json",
+      "key": "G4b_the_accrual_axis_is_two_populations.variants.terminated_for_accrual_only.share_below_the_design_contour_pct",
+      "format": "{:.1f}",
+      "context": "^\\| trials terminated with accrual named \\|",
+      "must_appear_in": [
+        "research/manuscripts/response-endpoint-indolent-tumours.md"
+      ],
+      "regenerate": "bash scripts/regenerate_endpoint_chain.sh, then update the bound the manuscript quotes IN THE SAME COMMIT"
     }
   ],
   "table_completeness": [

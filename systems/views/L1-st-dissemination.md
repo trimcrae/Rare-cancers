@@ -57,7 +57,7 @@ flowchart LR
 
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
-| **[RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md)**<br/>Reframe the endpoint advanced-EMC systemic therapy is judged on | ✓ ready | computed | `journal_submission` | [PUB-ENDPOINT](L3-publications.md) ◐ *primary* | Review the manuscript for external posting. Nothing else in the route is unrun. |
+| **[RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md)**<br/>Reframe the endpoint systemic-therapy trials are judged on | ✓ ready | computed | `journal_submission` | [PUB-ENDPOINT](L3-publications.md) ◐ *primary* | Review the manuscript for external posting to medRxiv. Nothing else in the route is unrun. |
 | **[RT-FUSION-OUTPUT](L2-rt-fusion-output.md)**<br/>The fusion's transcriptional output, read in EMC tissue | ✓ active | validated_in_silico | `journal_submission` | [PUB-FUSION-OUTPUT](L3-publications.md) ◐ *primary* | Submit. The free in-silico work on this route is done: catalogue, null calibration, instrument controls, three |
 | **[RT-METHODS-PAPER](L2-rt-methods-paper.md)**<br/>The honest methods paper on the degrader program's own failure record | ○ ready | scoped | `journal_submission` | [PUB-METHODS](L3-publications.md) ◐ *primary* | Write it — no scientific blocker. ⚠ But the FRAMING choice (P1 vs P6) is trimcrae's and is not settled here. |
 | **[RT-MODALITY-CENSUS](L2-rt-modality-census.md)**<br/>The modality census as a publication | ○ ready | concept | `preprint` | [PUB-MODALITY-CENSUS](L3-publications.md) ◐ *primary* | Decide the framing and the venue, which is an outward-facing call. |
