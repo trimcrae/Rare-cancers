@@ -1046,7 +1046,7 @@
   "sarcoma_comorbidity_survival": {
    "query": "(sarcoma OR \"soft tissue sarcoma\") AND (\"Charlson\" OR comorbidity OR \"performance status\") AND (survival OR mortality)",
    "a_hit_would_mean": "comorbidity burden and sarcoma survival",
-   "hitCount": 14387,
+   "hitCount": 14386,
    "retrieved": 25,
    "hits": [
     {
@@ -1304,19 +1304,9 @@
   "sarcoma_diabetes_metformin": {
    "query": "(sarcoma OR chondrosarcoma) AND (diabetes OR metformin OR hyperglycaemia OR hyperglycemia) AND (survival OR outcome OR prognosis)",
    "a_hit_would_mean": "diabetes and metformin in sarcoma outcome",
-   "hitCount": 27158,
+   "hitCount": 27157,
    "retrieved": 25,
    "hits": [
-    {
-     "pmid": null,
-     "pmcid": "PMC13244543",
-     "doi": null,
-     "title": "Dedifferentiation of Metastatic Recurrent Chondrosarcoma of the Right Distal Femur Into High-Grade Sarcoma Favouring Leiomyosarcoma: A Report of a Rare Case With Review of Literature",
-     "journal": "Cureus",
-     "year": null,
-     "citedBy": 0,
-     "isOpenAccess": "Y"
-    },
     {
      "pmid": "42193016",
      "pmcid": "PMC13204645",
@@ -1555,6 +1545,16 @@
      "journal": "CNS neuroscience & therapeutics",
      "year": "2025",
      "citedBy": 1,
+     "isOpenAccess": "Y"
+    },
+    {
+     "pmid": "42292743",
+     "pmcid": "PMC13263637",
+     "doi": "10.1155/sci/2759804",
+     "title": "Mesenchymal Stem Cell Therapy for Type 2 Diabetes: Synergistic β-Cell Regeneration, Immune Modulation, and Exosome-Mediated Glucose Homeostasis.",
+     "journal": "Stem cells international",
+     "year": "2026",
+     "citedBy": 0,
      "isOpenAccess": "Y"
     }
    ]
@@ -5690,31 +5690,42 @@
  },
  "background_mortality": {
   "status": "OK",
-  "source": "WHO Global Health Observatory, indicator LIFE_0000000029 (nqx), USA",
+  "source": "WHO Global Health Observatory, indicator LIFE_0000000029, USA",
+  "indicator_name_as_published": "nMx - age-specific death rate between ages x and x+n",
+  "interpreted_as": "rate (converted to a band probability)",
+  "conversion": "5q = 1 - exp(-5 * m), the constant-hazard conversion from an annual death rate to a five-year death probability",
   "start_age": 55,
   "horizon_years": 10,
   "male_fraction": 0.66,
-  "cumulative_mortality_male": 0.0277,
-  "cumulative_mortality_female": 0.0168,
-  "cumulative_mortality_blended": 0.024,
+  "cumulative_mortality_male": 0.1301,
+  "cumulative_mortality_female": 0.0807,
+  "cumulative_mortality_blended": 0.1133,
+  "sanity_band_passed": [
+   0.05,
+   0.25
+  ],
   "bands_used": {
    "male": {
     "AGEGROUP_YEARS55-59": {
-     "nqx": 0.011437434,
+     "raw_value": 0.011437434,
+     "band_probability": 0.05558,
      "year": 2021
     },
     "AGEGROUP_YEARS60-64": {
-     "nqx": 0.016444465,
+     "raw_value": 0.016444465,
+     "band_probability": 0.07893,
      "year": 2021
     }
    },
    "female": {
     "AGEGROUP_YEARS55-59": {
-     "nqx": 0.006786214,
+     "raw_value": 0.006786214,
+     "band_probability": 0.03336,
      "year": 2021
     },
     "AGEGROUP_YEARS60-64": {
-     "nqx": 0.010036057,
+     "raw_value": 0.010036057,
+     "band_probability": 0.04894,
      "year": 2021
     }
    }
