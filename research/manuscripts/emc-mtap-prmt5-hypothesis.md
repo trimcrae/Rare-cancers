@@ -301,7 +301,29 @@ disease can afford to test.
 | F7 | the readings are not proliferation or cellularity effects | a series matched on proliferation in which both contrasts disappear |
 | F8 | route 1's specificity rests on fusion-driven transcription, not on growth | a demonstration that PRMT5 inhibition slows EMC growth no more than it slows any sarcoma line's — the near-universal dependency in §3.1 makes this the likeliest way route 1 fails |
 
-## 6 · Limits
+## 6 · Declarations
+
+**Competing interests.** The author declares no competing interests. He holds no position, equity,
+consultancy or patent relating to PRMT5, MAT2A, MTAP or any agent named here, and has no financial
+relationship with any entity developing them.
+
+**Funding.** None. This work was funded by no grant, institution or company. ⚠ It was carried out by
+one unaffiliated individual using public data and personal compute, which is stated because it bears
+on what the work could and could not do: **no experiment was possible**, and every claim here is
+therefore an argument from data somebody else generated.
+
+**Ethics.** No human subjects, no animal work, no identifiable patient data. Every dataset used is
+public and de-identified at source.
+
+**Author contributions.** Sole author: conception, analysis, figures and writing.
+
+**Acknowledgement of method.** The analysis, figures and drafting were carried out with substantial
+assistance from an AI coding agent operating on a version-controlled repository under the author's
+direction. ⚠ **This is disclosed rather than omitted.** Two of this manuscript's central corrections —
+the closure of route 2 and the restatement of route 1 on the gene rather than the group — were found
+by that process while drawing figures, after the prose had already been written the other way.
+
+## 7 · Limits
 
 - **Sixteen tumours, two decade-old array platforms, uncorrected for multiple testing.** Two series is
   not a replication set, and the locus result rests on six tumours on one of them.
