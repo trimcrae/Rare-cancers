@@ -51,7 +51,7 @@ flowchart LR
   ST_DEPENDENCY --> RT_EZH2
   RT_MDM2["○ RT-MDM2"]:::fam
   ST_DEPENDENCY --> RT_MDM2
-  RT_MTAP_PRMT5["○ RT-MTAP-PRMT5"]:::fam
+  RT_MTAP_PRMT5["✓ RT-MTAP-PRMT5"]:::fam
   ST_DEPENDENCY --> RT_MTAP_PRMT5
   RT_POLQ["○ RT-POLQ"]:::fam
   ST_DEPENDENCY --> RT_POLQ
@@ -92,7 +92,7 @@ flowchart LR
 | **[RT-DNAPK](L2-rt-dnapk.md)**<br/>DNA-PK inhibition as an indirect route to the fusion protein | ○ blocked | concept | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ○ *contributing* | Read the curated interaction records and their underlying primary sources, and state whether any was measured  |
 | **[RT-EZH2](L2-rt-ezh2.md)**<br/>EZH2 / PRC2 inhibition | ○ blocked | concept | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Read the PRC2 and BAF subunit sets across the expression cohorts and check the committed sarcoma dependency ar |
 | **[RT-MDM2](L2-rt-mdm2.md)**<br/>MDM2 antagonism (p53 reactivation in a quiet genome) | ○ blocked | concept | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Read TP53 status from the committed whole-genome trio analysis and the MDM2 locus from the expression cohorts. |
-| **[RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md)**<br/>PRMT5 / MAT2A synthetic lethality (MTAP co-deletion) | ○ blocked | concept | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Read MTAP and its neighbouring locus across every EMC expression series on disk plus the fourth cohort; a homo |
+| **[RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md)**<br/>PRMT5 / MAT2A synthetic lethality (MTAP co-deletion) | ✓ ready | computed | `preprint` | [PUB-MTAP-PRMT5](L3-publications.md) ◐ *primary* | Post the preprint and put the MTAP stain in front of a group holding EMC archival material. |
 | **[RT-POLQ](L2-rt-polq.md)**<br/>POLθ inhibition (microhomology-mediated end joining) | ○ blocked | concept | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Extend the committed dependency-prior analysis to the microhomology-mediated end-joining genes and report it b |
 | **[RT-SGK1](L2-rt-sgk1.md)**<br/>SGK1 inhibition | ○ blocked | concept | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ○ *contributing* | Read SGK1 across the two readable EMC expression series and the fourth cohort, turning a single antibody-based |
 | **[RT-SYNLETH-DEP](L2-rt-synleth-dep.md)**<br/>Synthetic-lethal / dependency partner (BRD9 / ncBAF via EWSR1-prion→BAF) | ✓ parked | computed | `internal_note` | [PUB-SYNLETH](L3-publications.md) ◐ *primary* | Keep parked on data with the transfer-prior negative stated as data-bounded, not as a biological finding. |

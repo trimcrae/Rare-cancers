@@ -5645,10 +5645,10 @@
     "kind": "route",
     "title": "PRMT5 / MAT2A synthetic lethality (MTAP co-deletion)",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; one lookup from a verdict, and the lookup has not been done.",
+      "value": "⭐ SUPPORTED at the level public expression data can reach (2026-08-09). The MTAP/CDKN2A/CDKN2B locus reads LOWER in EMC on the platform where the read is powered (t=-4.06, 3/3 genes readable, 6 vs 29); the PRMT5 methylosome reads HIGHER on BOTH platforms; MAT2A sits at the 99th and 84th array percentile. ⛔ A transcript is not a copy number and this is not a copy-number call.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "32--biomarker-selected-classes-readable-from-data-already-on-disk"
+        "file": "research/manuscripts/emc-mtap-prmt5-hypothesis.md",
+        "anchor": "3--the-reading"
       }
     },
     "grade_pointers": [],
@@ -5666,9 +5666,9 @@
     "distinct_from": [],
     "strategy": "ST-DEPENDENCY",
     "publication": {
-      "endpoint": "PUB-BIOMARKER-DEP",
-      "role": "contributing",
-      "contribution": "One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion."
+      "endpoint": "PUB-MTAP-PRMT5",
+      "role": "primary",
+      "contribution": "The route IS the paper: the locus reading, the methylosome reading, the confound that could produce the first without the second, and the single inexpensive stain that separates them."
     },
     "provenance": {
       "owner": {
@@ -5677,47 +5677,56 @@
     },
     "purpose": "Does this tumour carry the copy-number state that selects the PRMT5 axis?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
-      "status": "blocked",
-      "maturity": "concept",
-      "confidence": "low",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "moderate",
       "last_verified": "2026-08-09"
     },
     "rationale": "One of the few genuinely biomarker-selected synthetic-lethal classes in oncology, and its selecting feature is a copy state nobody here has ever read in this disease. The question is cheap and close to binary, and it has simply never been asked.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the MTAP locus group reads lower in EMC than in comparator sarcomas on the platform where all three genes are readable, and the PRMT5 methylosome reads higher on both",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether the locus is co-deleted in this disease at any frequency, which is unmeasured.",
-      "Whether expression data is an adequate surrogate for a copy-number call, which it is only at the extremes."
+      "Whether the MTAP locus is actually deleted, which is a copy-number question that a transcript read can triage and cannot answer.",
+      "Whether the low locus read is driven by CDKN2A alone — the neighbouring genes are silenced by mechanisms that leave MTAP intact, and only a gene-level call separates those.",
+      "Whether an elevated methylosome implies any dependency on it, which abundance never establishes."
     ],
     "required_validation": [
       {
-        "what": "The expression or committed-artifact lookup that selects this class",
-        "feasible_today": true,
-        "blocked_by": []
-      },
-      {
-        "what": "A measurement in a fusion-positive EMC model",
+        "what": "MTAP immunohistochemistry on archival EMC tissue — the decisive test, routine, and it needs no fresh tissue or cell line",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-WET-LAB"
         ]
+      },
+      {
+        "what": "A gene-level copy-number or methylation read of the locus in any EMC cohort",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
       }
     ],
     "readiness": {
-      "attainable_today": "internal_note",
+      "attainable_today": "preprint",
       "missing": [
-        "a read of the MTAP locus in the expression data already on disk"
+        "nothing for the preprint — it is written and every figure resolves to a committed artifact"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "The decisive observation is a stain on tissue this programme cannot obtain, so the deliverable is the hypothesis and its falsifier rather than the answer."
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "rationale": "The preprint is complete and needs nobody's cooperation, and the experiment it specifies is the cheapest decisive one anywhere in this portfolio — a routine stain on archival blocks that already exist.",
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Read MTAP and its neighbouring locus across every EMC expression series on disk plus the fourth cohort; a homozygous deletion reads as a transcript floor.",
+      "best_next_action": "Post the preprint and put the MTAP stain in front of a group holding EMC archival material.",
       "cost": "$0"
     }
   },

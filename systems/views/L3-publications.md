@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**27 endpoints for 68 routes · 19 with a document · 8 unwritten.**
+**28 endpoints for 68 routes · 20 with a document · 8 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -50,12 +50,13 @@ last_verified: 2026-08-06
 | **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-MODALITY-CENSUS**<br/>[What oncology can do, and what reaches extraskeletal myxoid chondrosarc…](../../research/manuscripts/cancer-modality-census.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-MONOVALENT**<br/>[The monovalent pocket-modulation route — a small molecule that only occ…](../../research/manuscripts/nr4a3-monovalent-pocket-route.md) | ◐ `drafted` | `internal_note` | 1 | — |
+| **PUB-MTAP-PRMT5**<br/>[MTAP-locus loss and methylosome elevation in extraskeletal myxoid chond…](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-NEOANTIGEN**<br/>[Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal …](../../research/manuscripts/fusion-junction-neoantigen-paper.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-REPURPOSING**<br/>[Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid ch…](../../research/manuscripts/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
 | **PUB-SURFACE-TARGETS**<br/>[In-silico surface-antigen prioritisation for extraskeletal myxoid chond…](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-BIOMARKER-DEP**<br/>*Biomarker-selected therapeutic classes in an ultra-rare sarcoma: what t…* | ○ `unwritten` | `preprint` | 6 | Every class it covers is one expression lookup away from a verdict, and none of those lookups has been run  … |
+| **PUB-BIOMARKER-DEP**<br/>*Biomarker-selected therapeutic classes in an ultra-rare sarcoma: what t…* | ○ `unwritten` | `preprint` | 5 | Every class it covers is one expression lookup away from a verdict, and none of those lookups has been run  … |
 | **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ○ `unwritten` | `preprint` | 4 | Its purpose is to consolidate four leads that are each individually thin, and the consolidation has not been done  … |
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ○ `unwritten` | `preprint` | 3 | The eligibility arithmetic it rests on has not been extracted from the curated cohorts yet, and without it the paper would be an argument with no … |
 | **PUB-MATRIX-ADDRESS**<br/>*The myxoid matrix as an address rather than an obstacle* | ○ `unwritten` | `preprint` | 4 | The expression read that would ground it is committed but ungraded, and the paper's whole argument depends on what that read says. |
@@ -246,6 +247,16 @@ Occupancy of the NR4A3 pocket without recruitment is a distinct route from degra
 |---|---|---|
 | [RT-MONOVALENT](L2-rt-monovalent.md) — Monovalent LBD pocket modulation — a molecule that o | `primary` | The whole memo: that occupancy without recruitment is a separate question nobody has asked, and what a sized selectivity requirement for it would have to look like. |
 
+### PUB-MTAP-PRMT5 — MTAP-locus loss and methylosome elevation in extraskeletal myxoid chondrosarcoma — a biomarker-selected hypothesis, and the one cheap test that would settle it
+
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-mtap-prmt5-hypothesis.md`](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) · ships with **PUB-MODALITY-CENSUS****
+
+Public archival expression data places the MTAP/CDKN2A/CDKN2B locus lower in extraskeletal myxoid chondrosarcoma than in comparator sarcomas and the PRMT5 methylosome higher on both readable platforms — the shape an MTAP-deleted, methylosome-loaded state makes — which raises the first genetically selected treatment hypothesis this disease has had, and which one routine immunohistochemical stain on archival tissue would confirm or kill.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) — PRMT5 / MAT2A synthetic lethality (MTAP co-deletion) | `primary` | The route IS the paper: the locus reading, the methylosome reading, the confound that could produce the first without the second, and the single inexpensive stain that separates them. |
+
 ### PUB-NEOANTIGEN — Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal myxoid chondrosarcoma: a fusion-exclusive immunot
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/fusion-junction-neoantigen-paper.md`](../../research/manuscripts/fusion-junction-neoantigen-paper.md)**
@@ -338,7 +349,6 @@ Six therapeutic classes are selected by a molecular state rather than by a growt
 | [RT-ARGININE](L2-rt-arginine.md) — Arginine deprivation (ASS1-silenced tumours) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
 | [RT-EZH2](L2-rt-ezh2.md) — EZH2 / PRC2 inhibition | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
 | [RT-MDM2](L2-rt-mdm2.md) — MDM2 antagonism (p53 reactivation in a quiet genome) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
-| [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) — PRMT5 / MAT2A synthetic lethality (MTAP co-deletion) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
 | [RT-POLQ](L2-rt-polq.md) — POLθ inhibition (microhomology-mediated end joining) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
 
 ### PUB-KINASE-LEADS — Four kinase observations in extraskeletal myxoid chondrosarcoma that nobody followed up
@@ -485,7 +495,6 @@ A fusion oncoprotein whose entire mechanism is transactivation, and whose struct
 | [RT-ARGININE](L2-rt-arginine.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ○ | `preprint` | `contributing` |
 | [RT-EZH2](L2-rt-ezh2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ○ | `preprint` | `contributing` |
 | [RT-MDM2](L2-rt-mdm2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ○ | `preprint` | `contributing` |
-| [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ○ | `preprint` | `contributing` |
 | [RT-POLQ](L2-rt-polq.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ○ | `preprint` | `contributing` |
 | [RT-6MP](L2-rt-6mp.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
 | [RT-DBD](L2-rt-dbd.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
@@ -519,6 +528,7 @@ A fusion oncoprotein whose entire mechanism is transactivation, and whose struct
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-METHODS** ◐ | `journal_submission` | `primary` |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `preprint` | **PUB-MODALITY-CENSUS** ◐ | `preprint` | `primary` |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | [ST-OCCUPANCY](L1-st-occupancy.md) | `internal_note` | **PUB-MONOVALENT** ◐ | `internal_note` | `primary` |
+| [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `preprint` | **PUB-MTAP-PRMT5** ◐ | `preprint` | `primary` |
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-NEOANTIGEN** ◐ | `preprint` | `primary` |
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-NEOANTIGEN** ◐ | `preprint` | `contributing` |
 | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-NR-OUTSIDE-NR4A3** ○ | `preprint` | `primary` |

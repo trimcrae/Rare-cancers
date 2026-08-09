@@ -36,6 +36,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | ST-DEPENDENCY | `preprint` | an EMC-specific measurement |
 | [RT-DEGRADER](L2-rt-degrader.md) | ST-PROXIMITY | `preprint` | a passing selectivity known-answer control; an anti-target panel that recovers its own cognate ligands |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | ST-DISSEMINATION | `preprint` | — |
+| [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | ST-DEPENDENCY | `preprint` | nothing for the preprint — it is written and every figure resolves to a committed artifact |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | ST-IMMUNO | `preprint` | a cellular persistence readout |
 | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | ST-REPURPOSING | `preprint` | a non-zero TAF15 event count on the RESPONSE endpoint - the entire published TAF15::NR4A3 antiangiogenic-TKI experience is 3-5 patients with ZERO responses, and a zero-event arm yi |
 | [RT-SCHEDULING](L2-rt-scheduling.md) | ST-STRATEGY | `preprint` | the scheduling model on the pooled progression-free-survival data already curated here |
@@ -74,7 +75,6 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) | ST-MICROENV | `internal_note` | a restatement of the premise in a form this reading does not already contradict |
 | [RT-MDM2](L2-rt-mdm2.md) | ST-DEPENDENCY | `internal_note` | a direct read of TP53 status from the whole-genome analysis already committed here |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | ST-OCCUPANCY | `internal_note` | a functional readout; the occupancy-to-output transfer functions that would turn the stated requirement into a number (MISSING-1, MISSING-2) |
-| [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | ST-DEPENDENCY | `internal_note` | a read of the MTAP locus in the expression data already on disk |
 | [RT-NR2F1](L2-rt-nr2f1.md) | ST-OCCUPANCY | `internal_note` | a platform that carries a probe for the receptor — the two readable array series do not |
 | [RT-POLQ](L2-rt-polq.md) | ST-DEPENDENCY | `internal_note` | an extension of the committed dependency-prior analysis to the end-joining genes |
 | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | ST-REPURPOSING | `internal_note` | a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md |
