@@ -48,16 +48,16 @@ last_verified: 2026-08-09
 | # | endpoint | band | wet-lab test | score | open | closed | ungraded | ready | state |
 |---:|---|---|---|---:|---:|---:|---:|---:|---|
 | 1 | [**PUB-REPURPOSING**](../../research/manuscripts/repurposing-hypotheses.md) | ⭐ could still help a patient | ✅ yes | **17.4** | 2 | 0 | 0 | 1 | ◐ `drafted` |
-| 2 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/emc-treatment-roadmap.md) | ⭐ could still help a patient | ✅ yes | **17.0** | 2 | 0 | 0 | 1 | ◐ `drafted` |
-| 3 | [**PUB-MTAP-PRMT5**](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | ⭐ could still help a patient | ✅ yes | **14.0** | 1 | 0 | 0 | 1 | ◐ `drafted` |
-| 4 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | ⭐ could still help a patient | ✅ yes | **13.7** | 1 | 0 | 0 | 0 | ◐ `drafted` |
-| 5 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/emc-surface-target-landscape.md) | ⭐ could still help a patient | ✅ yes | **13.0** | 2 | 3 | 0 | 0 | ◐ `drafted` |
-| 6 | [**PUB-ATR**](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | ✅ yes | **12.0** | 1 | 0 | 0 | 1 | ◐ `drafted` |
-| 7 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | ⭐ could still help a patient | — | **8.5** | 1 | 0 | 0 | 1 | ◐ `drafted` |
-| 8 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/emc-trial-reachability.md) | ⭐ could still help a patient | — | **8.1** | 1 | 2 | 0 | 1 | ◐ `drafted` |
-| 9 | [**PUB-ATR-PANEL-ASK**](../../research/manuscripts/emc-atr-collaborator-package.md) | ⭐ could still help a patient | ✅ yes | **8.0** | 0 | 0 | 0 | 0 | ◐ `drafted` |
-| 10 | [**PUB-TXN-DEPENDENCY**](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) | ⭐ could still help a patient | ✅ yes | **7.2** | 0 | 0 | ⚠ 2 | 0 | ◐ `drafted` |
-| 11 | **PUB-KINASE-LEADS** | ⭐ could still help a patient | ✅ yes | **6.1** | 0 | 0 | ⚠ 4 | 0 | ◔ `outlined` |
+| 2 | [**PUB-MTAP-PRMT5**](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | ⭐ could still help a patient | ✅ yes | **14.0** | 1 | 0 | 0 | 1 | ◐ `drafted` |
+| 3 | [**PUB-ASO**](../../research/manuscripts/fusion-junction-aso-paper.md) | ⭐ could still help a patient | ✅ yes | **13.7** | 1 | 0 | 0 | 0 | ◐ `drafted` |
+| 4 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/emc-surface-target-landscape.md) | ⭐ could still help a patient | ✅ yes | **13.0** | 2 | 3 | 0 | 0 | ◐ `drafted` |
+| 5 | [**PUB-ATR**](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ⭐ could still help a patient | ✅ yes | **12.0** | 1 | 0 | 0 | 1 | ◐ `drafted` |
+| 6 | [**PUB-FUSION-PARTNER**](../../research/manuscripts/emc-fusion-partner-stratification.md) | ⭐ could still help a patient | — | **8.5** | 1 | 0 | 0 | 1 | ◐ `drafted` |
+| 7 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/emc-trial-reachability.md) | ⭐ could still help a patient | — | **8.1** | 1 | 2 | 0 | 1 | ◐ `drafted` |
+| 8 | [**PUB-ATR-PANEL-ASK**](../../research/manuscripts/emc-atr-collaborator-package.md) | ⭐ could still help a patient | ✅ yes | **8.0** | 0 | 0 | 0 | 0 | ◐ `drafted` |
+| 9 | [**PUB-TXN-DEPENDENCY**](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) | ⭐ could still help a patient | ✅ yes | **7.2** | 0 | 0 | ⚠ 2 | 0 | ◐ `drafted` |
+| 10 | **PUB-KINASE-LEADS** | ⭐ could still help a patient | ✅ yes | **6.1** | 0 | 0 | ⚠ 4 | 0 | ◔ `outlined` |
+| 11 | [**PUB-EMC-PROGRAM**](../../research/manuscripts/emc-treatment-roadmap.md) | ⭐ could still help a patient | ✅ yes | **6** | 0 | 0 | 0 | 0 | ◐ `drafted` · ⚠ 2 cited-only |
 | 12 | [**PUB-MONOVALENT**](../../research/manuscripts/nr4a3-monovalent-pocket-route.md) | ⭐ could still help a patient | ✅ yes | **6.0** | 0 | 1 | 0 | 0 | ◐ `drafted` |
 | 13 | [**PUB-MODALITY-CENSUS**](../../research/manuscripts/cancer-modality-census.md) | ⭐ could still help a patient | — | **5.0** | 0 | 0 | ⚠ 1 | 1 | ◐ `drafted` |
 | 14 | **PUB-LOCOREGIONAL** | ⭐ could still help a patient | — | **2.0** | 0 | 0 | ⚠ 3 | 0 | ◔ `outlined` |
@@ -83,10 +83,6 @@ last_verified: 2026-08-09
 **PUB-REPURPOSING** — score 17.4
 - [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) — *Could a PPARγ-directed agent act on a downstream effector of the fusion?* — `blocked` / `concept` / confidence `low` · last verified `2026-08-05`
 - [RT-CARFILZOMIB](L2-rt-carfilzomib.md) — *Does the best ex-vivo EMC drug-sensitivity evidence point at a proteasome inhibitor combination?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
-
-**PUB-EMC-PROGRAM** — score 17.0
-- [RT-TRABECTEDIN](L2-rt-trabectedin.md) — *Is trabectedin, an approved sarcoma agent, mechanistically well matched to a FET-fusion sarcoma like EMC?* — `ready` / `concept` / confidence `low` · last verified `2026-08-05`
-- [RT-ICI-TKI](L2-rt-ici-tki.md) — *Does the checkpoint-inhibitor plus anti-angiogenic combination have an EMC signal worth pursuing?* — `delegated` / `concept` / confidence `moderate` · last verified `2026-08-05`
 
 **PUB-MTAP-PRMT5** — score 14.0
 - [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) — *Does this tumour carry the copy-number state that selects the PRMT5 axis?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`

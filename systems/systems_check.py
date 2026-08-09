@@ -3996,12 +3996,22 @@ def _paper_scores(g):
     programme does not have.
     """
     from collections import defaultdict
-    by_pub = defaultdict(list)
+    by_pub, by_pub_context = defaultdict(list), defaultdict(list)
     for r in g["routes"]:
-        by_pub[r["publication"]["endpoint"]].append(r)
+        # ⛔ A `context` ROUTE IS NOT A CONTRIBUTION AND MUST NOT SCORE (trimcrae, 2026-08-09:
+        # "is that just a combination of all other papers here? Seems too big in scope").
+        # He was right, and the graph already said so in a field the scorer was ignoring.
+        # PUB-EMC-PROGRAM scored 17.0 and ranked second on TWO open routes — and both carry
+        # `role: context`, whose own contribution text reads "Explicitly not this program's
+        # contribution" and "Promoting it to a contribution would overstate what was done".
+        # The scorer promoted them anyway. Counting a route a paper only CITES is how an umbrella
+        # paper outranks the papers underneath it.
+        (by_pub_context if r["publication"].get("role") == "context" else
+         by_pub)[r["publication"]["endpoint"]].append(r)
     rows = []
     for p in g["publications"]:
         rs = by_pub.get(p["id"], [])
+        cited_only = by_pub_context.get(p["id"], [])
         openish = [r for r in rs if r.get("closure_kind") == "open"]
         closed = [r for r in rs if (r.get("closure_kind") or "") not in ("open", "authorization", "")
                   and r.get("closure_kind") is not None]
@@ -4032,6 +4042,7 @@ def _paper_scores(g):
         rows.append({"pub": p, "routes": rs, "open": openish, "closed": closed, "ready": ready,
                      "ungraded": ungraded, "open_confidence": conf,
                      "band": OUTCOME_BAND.get(p.get("outcome_potential"), 1),
+                     "cited_only": cited_only,
                      "self_doable": self_doable, "n_validation": need, "score": round(score, 1)})
     # ⛔ BAND FIRST, ALWAYS. The score only orders papers within a band.
     rows.sort(key=lambda x: (x["band"], -x["score"], x["pub"]["id"]))
@@ -4113,7 +4124,9 @@ def render_paper_strength(g):
                    f"{'✅ yes' if p.get('wet_lab_test_named') else '—'} | "
                    f"**{r['score']}** | {len(r['open'])} | {len(r['closed'])} | "
                    f"{('⚠ ' + str(ung)) if ung else '0'} | "
-                   f"{len(r['ready'])} | {PUB_GLYPH[p['state']]} `{p['state']}` |")
+                   f"{len(r['ready'])} | {PUB_GLYPH[p['state']]} `{p['state']}`"
+                   + (f" · ⚠ {len(r['cited_only'])} cited-only" if r["cited_only"] else "")
+                   + " |")
     out.append("")
     out.append("## The open routes, which are the only ones that can still change an answer\n")
     out.append("⭐ **Read this list before the table above.** A route here is one the graph records "
