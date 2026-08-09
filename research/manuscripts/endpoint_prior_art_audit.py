@@ -107,6 +107,55 @@ ASSIGNMENTS = {
 }
 
 
+#: Weakest-to-strongest. A consensus guideline from a named working group is an ENDORSEMENT; a
+#: single trial that used the design is a PRECEDENT, which is weaker and must not be summarised as
+#: the same thing.
+GRADE_RANK = {"consensus_guideline": 0, "single_trial_precedent": 1, "methodology_paper": 2}
+
+
+def _strength_by_domain(rows):
+    """How strong the evidence is PER DOMAIN, not pooled across the audit.
+
+    ⛔ WHY THIS IS NOT OPTIONAL. `count: 12` invites the sentence "four families endorsed across 12
+    disease domains", which the abstract carried. Seven of those domains have a consensus guideline.
+    The other five rest on a single trial that used the design -- a precedent, not an endorsement --
+    and pooling the two under one word makes the weaker half borrow the stronger half's authority.
+    Section 7 already split the grades in prose; the summary count did not, and the summary is what
+    gets quoted.
+
+    It also records how THIN the coverage is: a domain resting on one retrieved document is one
+    query away from not being covered at all.
+    """
+    by = {}
+    for r in rows:
+        if r["domain"] == "oncology-wide":
+            continue
+        by.setdefault(r["domain"], []).append(r)
+    def best(rs):
+        return min(rs, key=lambda r: GRADE_RANK[r["endorsement_grade"]])["endorsement_grade"]
+    strongest = {d: best(rs) for d, rs in by.items()}
+    counts = {}
+    for g in strongest.values():
+        counts[g] = counts.get(g, 0) + 1
+    return {
+        "_what_this_measures": (
+            "for each disease domain, the STRONGEST grade of document retrieved for it, and how "
+            "many documents that domain rests on"),
+        "strongest_grade_per_domain": strongest,
+        "domains_by_strongest_grade": counts,
+        "domains_with_a_consensus_guideline":
+            sum(1 for g in strongest.values() if g == "consensus_guideline"),
+        "domains_resting_only_on_a_trial_precedent":
+            sum(1 for g in strongest.values() if g == "single_trial_precedent"),
+        "documents_per_domain": {d: len(rs) for d, rs in sorted(by.items())},
+        "domains_resting_on_a_single_document": sum(1 for rs in by.values() if len(rs) == 1),
+        "_the_honest_summary": (
+            "consensus guidelines in some domains and trial precedent in the rest. 'Endorsed across "
+            "N domains' is true only of the first group, and the count of the second is reported "
+            "beside it rather than folded into it."),
+    }
+
+
 def build():
     with open(INPUTS) as fh:
         inputs = json.load(fh)
@@ -208,6 +257,7 @@ def build():
                 "covered means a document was retrieved for that domain by these queries. It is "
                 "not a systematic review of guidelines and cannot show that a disease has NO "
                 "alternative -- only that none was retrieved here."),
+            "⚠_covered_is_not_uniformly_endorsed": _strength_by_domain(rows),
         },
 
         "A5_the_gap": {

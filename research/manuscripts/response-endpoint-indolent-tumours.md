@@ -61,30 +61,30 @@ formerly did so by referring to this filename, which a reviewer cannot see and s
 ## Abstract
 
 **Background.** The objective-response rate is the reflex summary of a single-arm oncology trial. It
-keeps only tumour shrinkage, and is applied without regard to whether a disease shrinks often enough,
-or accrues enough patients, for the figure to carry information.
+keeps only tumour shrinkage, and is applied regardless of whether a disease produces enough
+shrinkage, or enough patients, to make the figure informative.
 
 **Methods.** Under a protocol frozen before retrieval, we assembled trial arms from
 ClinicalTrials.gov posted results. The unit is one arm; inclusion depends on the report rather than
 the disease, requiring all four best-response categories as integer counts with an evaluable
-denominator. No tumour type, grade, rarity or indolence descriptor was a criterion. Both endpoints were
-computed on the identical denominator. Diseases were placed on two measured axes, median objective
-response and median actual enrolment, with boundaries drawn as level sets of the binomial. Summaries
-use order statistics.
+denominator. No tumour type, grade, rarity or indolence descriptor was a criterion, and both
+endpoints were computed on one denominator. Diseases were placed on two measured axes, median
+objective response and median actual enrolment, with boundaries drawn as level sets of the binomial.
+Summaries use order statistics.
 
 **Results.** 552 arms from 138 trials carried a complete table. The gap between disease control and
 objective response had a median of 39.4 percentage points (IQR 20.0 to 54.3), and is identically the
 stable-disease proportion, so each value carries an exact interval. It was present in every
-constructible stratum. Of 44 conditions placed, 16 had a median response at or below the 5% null, leaving no design
-defined; of the 28 where it is defined, 14 (50.0%) had a median trial smaller than an exact
+constructible stratum. Of 44 conditions placed, 16 had a median response at or below the 5% null,
+leaving no design defined; of the remaining 28, 14 (50.0%) had a median trial smaller than an exact
 single-stage design requires. Reporting was the binding constraint: of 2,851 trials naming best
 overall response, 2,715 (95.2%) posted results without the four categories. Of 19 arms carrying a
 control token, 16 carry an active agent once registered interventions are read. Four remedy families
-are endorsed across 12 domains.
+appear across 12 domains, 7 with a consensus guideline and 5 a trial precedent alone.
 
 **Conclusions.** The failure of a response summary is a property of a coordinate rather than a tumour
 type, and remedies are long established but undiffused. A four-cell table with its denominator lets
-any reader compute either endpoint, and is absent from most of the record.
+any reader compute either endpoint, and is missing from most of the record.
 
 ---
 
@@ -501,8 +501,11 @@ no other.
 | C | add categories between response and progression | 3 |
 | D | make each patient their own control | 7 |
 
-12 disease domains are covered, and 7 documents are consensus guidelines from named working groups.
-Examples span gastrointestinal stromal tumour (Benjamin et al., [4]; Choi et al.,
+12 disease domains are covered, but not to the same standard, and the distinction carries weight the
+word "covered" hides. Seven have a consensus guideline from a named working group, which is an
+endorsement. The remaining five rest on a single trial that used the design, which is a precedent.
+Eleven of the twelve rest on one retrieved document, so each is one query away from not appearing
+here at all. Examples span gastrointestinal stromal tumour (Benjamin et al., [4]; Choi et al.,
 [5]), high-grade and low-grade glioma [6,7], hepatocellular
 carcinoma [8], lymphoma [9,10], chronic lymphocytic leukaemia
 [11], and castration-resistant prostate cancer [12]. Two placebo-controlled
@@ -572,9 +575,11 @@ Disease-control rates from different imaging schedules are not the same measurem
 analysis cannot separate them.
 
 **The remedy audit is not a systematic review.** It reports what a frozen query set returned. A
-disease absent from section 7 may have an endorsed alternative these queries did not reach. Fix
-family, domain and endorsement grade are judgements read from retrieved records, and a reader may
-dispute a classification without disturbing a citation.
+disease absent from section 7 may have an endorsed alternative these queries did not reach, and a
+disease present in it is usually there on the strength of one document. Fix family, domain and
+endorsement grade are judgements read from retrieved records, and a reader may dispute a
+classification without disturbing a citation. The count of covered domains is therefore a floor on
+what exists and a poor estimate of it.
 
 **No causal claim.** Nothing here shows that a different endpoint would have produced a better
 treatment decision in any trial.

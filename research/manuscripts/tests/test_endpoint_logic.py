@@ -284,6 +284,50 @@ def test_the_distinct_trial_count_equals_the_corpus_trial_count():
             ["distinct_ncts_with_a_four_cell_block"] == doc["C6_counts"]["distinct_trials"])
 
 
+# ------------------------------------------------- endorsement is not uniform across domains
+
+def test_the_covered_domain_count_is_split_by_evidence_grade():
+    """"Covered" pools two different things, and the abstract quoted the pooled number.
+
+    A consensus guideline from a named working group is an ENDORSEMENT. A single trial that used the
+    design is a PRECEDENT. Summarising both as "endorsed across 12 domains" lets the weaker half
+    borrow the stronger half's authority. Section 7 split them in prose; the count did not, and the
+    count is what gets quoted.
+    """
+    import json
+    with open(os.path.join(MANUSCRIPTS, "endpoint-prior-art-audit.json")) as fh:
+        a4 = json.load(fh)["A4_diseases_with_an_endorsed_alternative"]
+    split = a4["⚠_covered_is_not_uniformly_endorsed"]
+    assert (split["domains_with_a_consensus_guideline"]
+            + split["domains_resting_only_on_a_trial_precedent"]
+            + sum(v for k, v in split["domains_by_strongest_grade"].items()
+                  if k not in ("consensus_guideline", "single_trial_precedent"))
+            == a4["count"]), "the grade split must account for every covered domain"
+
+    with open(os.path.join(MANUSCRIPTS, "response-endpoint-indolent-tumours.md"),
+              encoding="utf-8") as fh:
+        abstract = fh.read().split("## Abstract", 1)[1].split("\n---\n", 1)[0]
+    assert "endorsed across" not in abstract, (
+        "the abstract is back to calling all covered domains endorsed")
+    assert str(split["domains_with_a_consensus_guideline"]) in abstract, (
+        "the abstract must carry the consensus-guideline count, not only the pooled one")
+
+
+def test_the_thinness_of_the_coverage_is_recorded():
+    """A domain resting on one document is one query away from not being covered.
+
+    The audit's own scope note says it cannot prove absence. It said nothing about how thin the
+    presence is, which is the reading a reader needs to weigh "12 domains".
+    """
+    import json
+    with open(os.path.join(MANUSCRIPTS, "endpoint-prior-art-audit.json")) as fh:
+        a4 = json.load(fh)["A4_diseases_with_an_endorsed_alternative"]
+    split = a4["⚠_covered_is_not_uniformly_endorsed"]
+    per = split["documents_per_domain"]
+    assert len(per) == a4["count"]
+    assert split["domains_resting_on_a_single_document"] == sum(1 for v in per.values() if v == 1)
+
+
 # ------------------------------------------------- the stratification is exhaustive
 
 def _sens():

@@ -345,7 +345,46 @@
    ]
   },
   "count": 12,
-  "_scope": "covered means a document was retrieved for that domain by these queries. It is not a systematic review of guidelines and cannot show that a disease has NO alternative -- only that none was retrieved here."
+  "_scope": "covered means a document was retrieved for that domain by these queries. It is not a systematic review of guidelines and cannot show that a disease has NO alternative -- only that none was retrieved here.",
+  "⚠_covered_is_not_uniformly_endorsed": {
+   "_what_this_measures": "for each disease domain, the STRONGEST grade of document retrieved for it, and how many documents that domain rests on",
+   "strongest_grade_per_domain": {
+    "gastrointestinal stromal tumour": "single_trial_precedent",
+    "high-grade glioma": "consensus_guideline",
+    "hepatocellular carcinoma": "consensus_guideline",
+    "diffuse low-grade glioma": "consensus_guideline",
+    "Hodgkin and non-Hodgkin lymphoma": "consensus_guideline",
+    "enteropancreatic neuroendocrine tumour": "single_trial_precedent",
+    "castration-resistant prostate cancer": "consensus_guideline",
+    "breast carcinoma": "single_trial_precedent",
+    "lymphoma": "consensus_guideline",
+    "neuroendocrine tumour": "single_trial_precedent",
+    "chronic lymphocytic leukaemia": "consensus_guideline",
+    "soft-tissue sarcoma": "single_trial_precedent"
+   },
+   "domains_by_strongest_grade": {
+    "single_trial_precedent": 5,
+    "consensus_guideline": 7
+   },
+   "domains_with_a_consensus_guideline": 7,
+   "domains_resting_only_on_a_trial_precedent": 5,
+   "documents_per_domain": {
+    "Hodgkin and non-Hodgkin lymphoma": 1,
+    "breast carcinoma": 1,
+    "castration-resistant prostate cancer": 1,
+    "chronic lymphocytic leukaemia": 1,
+    "diffuse low-grade glioma": 1,
+    "enteropancreatic neuroendocrine tumour": 1,
+    "gastrointestinal stromal tumour": 2,
+    "hepatocellular carcinoma": 1,
+    "high-grade glioma": 1,
+    "lymphoma": 1,
+    "neuroendocrine tumour": 1,
+    "soft-tissue sarcoma": 1
+   },
+   "domains_resting_on_a_single_document": 11,
+   "_the_honest_summary": "consensus guidelines in some domains and trial precedent in the rest. 'Endorsed across N domains' is true only of the first group, and the count of the second is reported beside it rather than folded into it."
+  }
  },
  "A5_the_gap": {
   "conditions_in_the_low_response_regime": 25,
