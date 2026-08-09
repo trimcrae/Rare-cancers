@@ -317,3 +317,42 @@ def test_the_census_view_is_registered_for_generation():
     hand-maintained file wearing a GENERATED banner, which is strictly worse than a hand-written one."""
     g = sc.derive(sc.load_graph())
     assert "modality-census.md" in sc.all_views(g)
+
+
+#: ⛔ THE EIGHTH INSTANCE OF ONE DRIFT, AND THE FIRST THAT WAS SYSTEMATIC (2026-08-09). Every route
+#: graded that day left its census row's `zero_dollar_next_step` describing work that had just been
+#: taken. All twenty live rows were affected at once. Four went further and asserted that registry
+#: FIELDS were "already curated" which do not exist at all — a row like that does not merely waste
+#: the next session's time, it sends them looking for a table that was never written.
+#: ⚠ THE CHECK IS DELIBERATELY NARROW. It cannot judge whether prose describes the same work as a
+#: route's `⛔ TAKEN` entry — that is a reading task, not a string comparison. What it CAN hold is the
+#: bookkeeping half: a row whose route records a taken step must acknowledge that the step was taken,
+#: by carrying the marker this repository uses for it. A row that stays silent is the failure mode.
+_TAKEN = "⛔ TAKEN"
+_ACK = ("TAKEN", "ATTEMPTED", "PARTLY", "DOES NOT EXIST", "CANNOT BE", "MAY NOT BE",
+        "STILL OPEN", "NOT COVERED")
+
+
+def test_a_live_row_acknowledges_the_steps_its_route_records_as_taken(graph):
+    """A `candidate` row whose route has taken a step may not read as though nothing has happened."""
+    if not graph["modalities"]:
+        pytest.skip("census not populated yet")
+    routes = {r["id"]: r for r in graph["routes"]}
+    bad = []
+    for m in graph["modalities"]:
+        if m["verdict"] != "candidate":
+            continue
+        r = routes.get(m.get("route") or "")
+        if r is None:
+            continue
+        taken = [v for v in (r.get("required_validation") or [])
+                 if str(v.get("what", "")).startswith(_TAKEN)]
+        if not taken:
+            continue
+        step = str(m.get("zero_dollar_next_step") or "")
+        if not any(tok in step for tok in _ACK):
+            bad.append((m["id"], m["route"]))
+    assert bad == [], (
+        f"live census rows whose route records a ⛔ TAKEN step while the row still reads as though "
+        f"nothing has run: {bad}. The row is what a session reads to decide what to do next; a stale "
+        f"one buys re-running finished work.")
