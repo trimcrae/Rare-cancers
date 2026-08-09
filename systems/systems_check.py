@@ -3951,6 +3951,18 @@ CLOSURE_WEIGHT = {
 STATE_WEIGHT = {"drafted": 2, "outlined": 1, "unwritten": 0,
                 "complete_unposted": 2, "posted": 2}
 
+#: ⛔ ADDED 2026-08-09 BECAUSE THE FIRST VERSION COULD NOT SEE A REGRADE. A day of measurements
+#: dropped RT-CARFILZOMIB from `moderate` to `low` confidence — the proteasome turned out to be
+#: pan-essential with no selectivity, and the proteostatic-load rationale for it was unsupported —
+#: and its paper's score did not move by a single point, because the score read only whether a
+#: route was OPEN and READY. Those are structural facts; they do not know whether the evidence is
+#: any good. A ranking that cannot register new evidence is a ranking that will send the next
+#: session to the same place regardless of what was learned, which is the failure it was built to
+#: prevent.
+#: ⚠ APPLIED TO OPEN ROUTES ONLY, and deliberately smaller than the open-route weight itself: a
+#: low-confidence live route still beats a closed one, because it can still change an answer.
+CONFIDENCE_WEIGHT = {"high": 2, "moderate": 0, "low": -2, None: 0}
+
 
 def _paper_scores(g):
     """One score per publication endpoint, with every component kept so it can be argued with.
@@ -3979,6 +3991,8 @@ def _paper_scores(g):
                 can += 1 if v.get("feasible_today") else 0
         self_doable = (can / need) if need else None
         score = sum(CLOSURE_WEIGHT.get(r.get("closure_kind"), 0) for r in rs)
+        score += sum(CONFIDENCE_WEIGHT.get((r.get("state") or {}).get("confidence"), 0)
+                     for r in openish)
         score += 3 * len(ready)
         score += STATE_WEIGHT.get(p.get("state"), 0)
         # Everything left to do being doable here is worth as much as one open route, because a
@@ -3986,8 +4000,9 @@ def _paper_scores(g):
         if self_doable is not None:
             score += round(5 * self_doable, 1)
         ungraded = [r for r in rs if r.get("closure_kind") is None]
+        conf = [(r["id"], (r.get("state") or {}).get("confidence")) for r in openish]
         rows.append({"pub": p, "routes": rs, "open": openish, "closed": closed, "ready": ready,
-                     "ungraded": ungraded,
+                     "ungraded": ungraded, "open_confidence": conf,
                      "self_doable": self_doable, "n_validation": need, "score": round(score, 1)})
     rows.sort(key=lambda x: (-x["score"], x["pub"]["id"]))
     return rows
@@ -4032,7 +4047,8 @@ def render_paper_strength(g):
            "**Score** = 5 per open route · 2 per route blocked only on a human decision · −1 to −2 "
            "per closed route (by how it closed) · 3 per route whose status is `ready` · up to 5 for "
            "the fraction of remaining validation steps that are feasible today · 2 for having a "
-           "drafted document, 1 for an outline.\n",
+           "drafted document, 1 for an outline · **±2 per open route for the confidence the graph "
+           "records on it**.\n",
            "⛔ **A LOW SCORE CAN MEAN 'CLOSED' OR IT CAN MEAN 'NOBODY GRADED IT', AND THOSE ARE "
            "OPPOSITE THINGS.** `closure_kind` is unset on "
            f"{sum(1 for r in g['routes'] if r.get('closure_kind') is None)} of "
@@ -4069,7 +4085,7 @@ def render_paper_strength(g):
             s = rt.get("state") or {}
             out.append(f"- [{rt['id']}](L2-{route_slug(rt['id'])}.md) — *{esc(rt.get('purpose'))}* "
                        f"— `{s.get('status')}` / `{s.get('maturity')}` / confidence "
-                       f"`{s.get('confidence')}`")
+                       f"`{s.get('confidence')}` · last verified `{s.get('last_verified')}`")
         out.append("")
     if not any_open:
         out.append("⛔ **No route in the portfolio is recorded as open.** That is either a real "
