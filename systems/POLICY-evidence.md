@@ -4,7 +4,7 @@ title: The evidence contract — citing sources and combining studies
 level: L0
 kind: policy
 status: live
-canonical_for: [citation structure, study pooling, double-counting, contested evidence, data vintage]
+canonical_for: [citation structure, study pooling, double-counting, contested evidence, data vintage, study-level descriptive series]
 purpose: >
   Define how a clinical fact enters this repository, what may be combined with what, and how
   disagreement and age are represented — so that every clinical number is traceable to a resolvable
@@ -192,6 +192,52 @@ heterogeneous and often short follow-up; no censoring/Kaplan–Meier; no
 risk-adjustment or multivariable control; small total N for a rare cancer. The
 banner and methodology note say all of this. The figure is a **rough signal,
 never a personal prognosis.**
+
+### 2.6 Study-level descriptive series — the second estimand class
+
+Everything above governs one estimand: a **patient-level pooled proportion**, whose unit is a
+patient and whose question is *how do patients fare*. A second class exists and was not previously
+covered, which meant cross-disease work had no legal form and would have had to borrow §2.1–2.2's
+machinery, producing a pooled cross-disease proportion — a weighted average of unlike things,
+carrying an interval that misstates its own precision.
+
+A **study-level descriptive series** has as its unit **one arm of one trial**, and its question is
+*how does a trial read*. It is the correct form for any analysis that compares reporting or
+measurement practice across populations that §2.1 would refuse to pool.
+
+- **(a) No pooled estimate across populations.** Rows are never summed across populations §2.1
+  would not allow to be pooled. There is no cross-population point estimate and no confidence
+  interval on any cross-population summary.
+- **(b) Rows carry explicit integers and their own interval.** §2.1's ban on back-deriving a count
+  from a published percentage applies unchanged, and each row gets its own Wilson interval.
+- **(c) Permitted summaries: count, median, IQR, range, and counts crossing a pre-stated
+  threshold.** Order statistics only. **Prohibited: pooled proportion, inverse-variance or
+  random-effects weighting, I², meta-regression, and any significance test across rows.**
+- **(d) Rows are unweighted by denominator by default**, because the estimand is how a trial reads
+  rather than how patients fare. A denominator-weighted view answers a different question and must
+  be labelled as answering it.
+- **(e) Deduplication is at arm level** on (registry id, publication id, population key). Companion
+  papers, updates and pooled re-reports of one arm collapse to the earliest complete report; the
+  rest become dispositions.
+- **(f) Time-to-event obeys §2.4** — per row, never merged. A modelling conversion validated in one
+  disease (for instance a constant-hazard median↔rate conversion) does not transfer to another and
+  may appear only as a labelled display quantity, never as an input to a summary.
+- **(g) The corpus must be pre-specified.** Queries, date window, screening rules and the
+  extraction rule are committed **before** retrieval runs, with the run ids recorded in the
+  artifact. Every screened record carries a disposition, not only the included ones. A descriptive
+  label — "indolent", "low-grade", "rare" — may be recorded verbatim from a source as an attribute
+  and **may never be used as an inclusion criterion**, because selecting on the description is how
+  a corpus comes to confirm the description.
+- **(h) Selection bias is bounded by a census taken from the same denominator.** Arms that report
+  the quantity being studied may differ systematically from those that do not, and the only honest
+  bound on that difference is the size of the non-reporting set. The census is therefore not a
+  separate finding; it is the sensitivity analysis, and it must share its denominator structurally
+  rather than by assertion.
+
+⚠ **This section widens what may be computed, not what may be claimed.** A descriptive series
+supports statements about measurement and reporting. It supports no statement about efficacy,
+comparative effectiveness, or any patient's prognosis, and the §2.5 limitations continue to apply
+to every row inside it.
 
 ---
 
