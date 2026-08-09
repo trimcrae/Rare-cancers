@@ -108,7 +108,19 @@ TARGETS = [
      "platform_expected": "GPL6244",
      "why": "6 EMC tumours against 29 comparator sarcomas on one Affymetrix Gene ST array, and the "
             "comparator arm is itself FET-rearranged (LGFMS is FUS::CREB3L2).",
-     "prior_probe_mapping_rate": 0.932,
+     # ⭐ UPDATED 2026-08-09, AND THE OLD VALUE WAS A DEGRADED READING RATHER THAN A DIFFERENT ONE.
+     # Superseded, retained: 0.932. This figure is an ACCESSION -> SYMBOL RESOLUTION RATE, and
+     # resolving accessions costs NCBI calls, so it is bounded by whatever budget the producing run
+     # had. The run behind 0.932 recorded `ncbi_budget_exhausted_in_elink_at: 100` and linked 59
+     # accessions in 89 s; the 2026-08-09 run linked 3,322 in 619 s and reached 0.984. Same platform,
+     # same 21,146 probes carrying an accession, same annotation column — the DATA did not move, the
+     # completeness of the lookup did.
+     # ⚠ SO THIS PIN IS NOT A CONSTANT OF NATURE, and a future disagreement is not automatically a
+     # regression: check `ncbi_budget_exhausted_in_elink_at` in the producing run FIRST. A lower rate
+     # with an exhausted budget is a truncated pass; a lower rate WITHOUT one is a real change and
+     # should be chased. The pin stays an equality test because the alternative — a tolerance band —
+     # would have silently accepted the truncated 0.932 forever.
+     "prior_probe_mapping_rate": 0.984,
      "prior_source": "emc-atr-vulnerability.json -> part_b_emc_tumour_signature."
                      "series_readability.GSE24369.probe_mapping_rate_per_platform.GPL6244"},
     {"gse": "GSE4303",
