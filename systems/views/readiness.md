@@ -35,6 +35,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ASO](L2-rt-aso.md) | ST-NUCLEIC-ACID | `chemrxiv` | a named delivery candidate |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | ST-DEPENDENCY | `preprint` | an EMC-specific measurement |
 | [RT-DEGRADER](L2-rt-degrader.md) | ST-PROXIMITY | `preprint` | a passing selectivity known-answer control; an anti-target panel that recovers its own cognate ligands |
+| [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | ST-MICROENV | `preprint` | a read of the randomised sarcoma record for whether selection or mechanism failed — a literature question, not a compute one |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | ST-DISSEMINATION | `preprint` | — |
 | [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | ST-IMMUNO | `preprint` | a cellular persistence readout |
 | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | ST-REPURPOSING | `preprint` | a non-zero TAF15 event count on the RESPONSE endpoint - the entire published TAF15::NR4A3 antiangiogenic-TKI experience is 3-5 patients with ZERO responses, and a zero-event arm yi |
@@ -48,7 +49,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ALK-HIT](L2-rt-alk-hit.md) | ST-REPURPOSING | `internal_note` | a re-read of the committed drug-screen artifact and its controls |
 | [RT-ANDGATE](L2-rt-andgate.md) | ST-PROXIMITY | `internal_note` | arm-2 chemistry |
 | [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | ST-DEPENDENCY | `internal_note` | a re-read of the committed ex-vivo screen artifacts for every BH3-mimetic in their panels |
-| [RT-ARGININE](L2-rt-arginine.md) | ST-DEPENDENCY | `internal_note` | a read of ASS1 in the expression data already on disk |
+| [RT-ARGININE](L2-rt-arginine.md) | ST-DEPENDENCY | `internal_note` | nothing — the $0 observation this route was registered for has been taken, and it came back against the premise |
 | [RT-B7H3](L2-rt-b7h3.md) | ST-IMMUNO | `internal_note` | a tissue-level measurement |
 | [RT-CARFILZOMIB](L2-rt-carfilzomib.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-CART-SURFACE](L2-rt-cart-surface.md) | ST-IMMUNO | `internal_note` | a selective surface antigen |
@@ -64,21 +65,20 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-GLUE](L2-rt-glue.md) | ST-PROXIMITY | `internal_note` | a prospective glue design method |
 | [RT-HDAC-BET](L2-rt-hdac-bet.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) | ST-REPURPOSING | `internal_note` | the pooled partner-fraction arithmetic, which is $0 and uses a method this repository owns |
-| [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | ST-MICROENV | `internal_note` | a hypoxia-signature score across the expression data already on disk |
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | ST-IMMUNO | `internal_note` | a larger clinical series |
-| [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | ST-MICROENV | `internal_note` | a read of the matrix splice-variant transcripts in the expression data already on disk |
+| [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | ST-MICROENV | `internal_note` | an isoform-resolved read, which needs RNA-seq rather than an array — the fourth public cohort is the first candidate that could carry it |
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) | ST-IMMUNO | `internal_note` | patient-cd4-demo.json regenerated at the corrected junction — the class-II arm and every CD8∧CD4 figure are withheld until it is; the TAF15::NR4A3 panel regenerated — patient_neoep |
 | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md) | ST-LOCOREGIONAL | `internal_note` | the anatomical-site arithmetic from the cohorts already curated here |
 | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) | ST-LOCOREGIONAL | `internal_note` | the metastatic-site and burden arithmetic from the cohorts already curated here |
 | [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md) | ST-MICROENV | `internal_note` | a read of the sulfotransferase and chondroitin-sulfate biosynthesis gene set already committed here |
-| [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) | ST-MICROENV | `internal_note` | a grading of the glycosaminoglycan and sulfate-donor expression read already committed here |
+| [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) | ST-MICROENV | `internal_note` | a restatement of the premise in a form this reading does not already contradict |
 | [RT-MDM2](L2-rt-mdm2.md) | ST-DEPENDENCY | `internal_note` | a direct read of TP53 status from the whole-genome analysis already committed here |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | ST-OCCUPANCY | `internal_note` | a functional readout; the occupancy-to-output transfer functions that would turn the stated requirement into a number (MISSING-1, MISSING-2) |
 | [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | ST-DEPENDENCY | `internal_note` | a read of the MTAP locus in the expression data already on disk |
-| [RT-NR2F1](L2-rt-nr2f1.md) | ST-OCCUPANCY | `internal_note` | a read of the receptor in the expression panel already committed here |
+| [RT-NR2F1](L2-rt-nr2f1.md) | ST-OCCUPANCY | `internal_note` | a platform that carries a probe for the receptor — the two readable array series do not |
 | [RT-POLQ](L2-rt-polq.md) | ST-DEPENDENCY | `internal_note` | an extension of the committed dependency-prior analysis to the end-joining genes |
 | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | ST-REPURPOSING | `internal_note` | a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md |
-| [RT-RET](L2-rt-ret.md) | ST-REPURPOSING | `internal_note` | a read of RET and its ligand set in the expression data already on disk |
+| [RT-RET](L2-rt-ret.md) | ST-REPURPOSING | `internal_note` | a full read of the original activation report, to establish what was measured and in how many tumours |
 | [RT-RIBOZYME](L2-rt-ribozyme.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector; a modern demonstration of trans-splicing ribozymes |
 | [RT-RIPTAC](L2-rt-riptac.md) | ST-PROXIMITY | `internal_note` | paralogue selectivity; a chemistry programme |
 | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | ST-LOCOREGIONAL | `internal_note` | the radioresistance reappraisal's dose-response regression, extended beyond external-beam series |

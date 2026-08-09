@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-RET — RET-selective inhibitors
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#33--kinase-leads-with-emc-specific-evidence-that-nobody-followed)): ⭑ Registered 2026-08-09 from the modality census, porting the top-ranked 2026-08-07 lane, which had no route.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ SPLIT (2026-08-09). RET itself is higher in EMC on both platforms, so the receptor half of the lane holds. ⛔ But the GFRα co-receptors are LOWER on both and strongly so, and the GDNF-family ligands are LOWER on both — so the module that switches RET on is depleted relative to comparator sarcomas.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_RET["○ RT-RET"]:::fam
+  RT_RET["✓ RT-RET"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_RET
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -45,10 +45,18 @@ flowchart LR
 
 The highest-ranked lane of the 2026-08-07 sweep and still not a route. It is the only kinase reported as both expressed and activated in this disease, the observation comes from independent groups, selective inhibitors are approved in other indications, and the finding has stood without follow-up for over a decade.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | RET transcript is higher in EMC than in comparator sarcomas on both readable platforms | `direct` |
+| `ART-CENSUS-ROUTE-GRADING` | the GFRα co-receptor and GDNF-family ligand modules are LOWER in EMC on both platforms, which weakens a ligand-dependent activation route for the receptor | `direct` |
+
 ## Remaining unknowns
 
-- Whether RET activation is present in fusion-positive tumours generally or was specific to one historical series.
-- Whether activation without a RET rearrangement predicts response to a selective inhibitor, which is not established for any tumour type.
+- Whether the historical 'expressed and activated' report survives, since this reading corroborates expression and cannot corroborate activation.
+- Whether RET could be engaged without the canonical ligand and co-receptor — no RET rearrangement is reported in this disease either way.
+- Whether a co-receptor supply from stroma or nerve would be visible in bulk tumour transcript at all, which bounds how much this reading can be asked to carry.
 
 ## Required validation
 
@@ -67,10 +75,10 @@ The highest-ranked lane of the 2026-08-07 sweep and still not a route. It is the
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+The lane's headline claim is activation, and this reading reaches expression and the activation MACHINERY but not activation.
 
 **Missing:**
-- a read of RET and its ligand set in the expression data already on disk
+- a full read of the original activation report, to establish what was measured and in how many tumours
 
 ## Where this route ends — the paper
 
@@ -88,7 +96,7 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 **Recommendation: `pursue_now`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The remaining $0 step is a literature read, and it is now sharper than when the route was registered: the question is specifically whether the original report measured activation directly or inferred it.
 
 | horizon | effect |
 |---|---|
@@ -104,7 +112,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Read RET and its ligand and co-receptor set across the readable EMC expression series, and re-read the original activation report in full to establish what was measured and in how many tumours.
+Read the original RET activation report in full and establish whether activation was measured or inferred, and in how many tumours.
 
 *Cost:* $0
 

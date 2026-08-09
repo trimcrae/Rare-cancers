@@ -211,6 +211,43 @@ instance of exactly that with durable benefit. Separately, an orphan nuclear rec
 dormancy has a published tool compound — which is the known-answer control the program's own receptor
 never had, and the reason this lane is worth more than its biology alone suggests.
 
+### 3.8 · The first grading pass, and what it cost
+
+Six of the routes registered above turned out not to need their cheapest observation **run** at all.
+The genes were already read and committed in the repository's targeted expression panel, and nobody
+had graded them against these routes because the routes did not exist when the panel was built. That
+is the census doing the one thing a census is for: the reading was on disk, and only the denominator
+made anyone go and look at it.
+
+Verdicts, which live in
+[`census-route-expression-grading.json`](../modalities/census-route-expression-grading.json) and are
+not restated here:
+
+| route | verdict |
+|---|---|
+| hypoxia-activated prodrugs | **supported** — and the only one supported concordantly on both platforms |
+| arginine deprivation | **against** — the selecting biomarker is not low in this disease on either platform |
+| matrix biosynthesis | **against as stated** — the sulfate-donor module is lower, not higher, than in comparator sarcomas |
+| RET | **split** — the receptor holds; the module that switches it on is depleted on both platforms |
+| matrix-targeted immunocytokines | **present, not selective** — and the isoform that decides it is unreadable here |
+| orphan-receptor dormancy | **unread** — no probe maps to the receptor on either platform |
+
+⭐ **Two of these are worth more than a positive would have been.** The RET result qualifies the lane
+this census and the 2026-08-07 sweep both ranked highest: canonical signalling through that receptor
+needs a ligand and a co-receptor, and relative to comparator sarcomas this disease has less of both.
+That does not close the lane — ligand-independent activation exists, and bulk tumour transcript cannot
+exclude a paracrine supply — but it moves the claim the lane may make from *activated* to *expressed*,
+which is a different and much weaker sentence than the one it was registered on.
+
+⚠ **And one returned nothing, which is recorded as nothing.** The dormancy receptor has no probe on
+either platform. An unreadable gene is not an absent gene, and the pass reports it as unread rather
+than letting a missing probe become a negative — the failure mode the source artifact's own governing
+rule exists to prevent.
+
+⚠ **Five of the six biomarker-selected classes in §3.2 are NOT in this pass**, because their selecting
+genes are not among the 243 the panel currently reads. Extending it is a free CI job and is the
+immediate next step; until it runs, those five rows are unexamined rather than open.
+
 ## 4 · What the census closes, and why that is the larger half
 
 Eighty-four classes are closed here on first inspection, and that is the census working rather than the

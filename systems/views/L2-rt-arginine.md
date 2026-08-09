@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-ARGININE — Arginine deprivation (ASS1-silenced tumours)
 
-**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#32--biomarker-selected-classes-readable-from-data-already-on-disk)): ⭑ Registered 2026-08-09 from the modality census; a single-transcript question against a class with an existing sarcoma trial record.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ Premise NOT supported (2026-08-09). ASS1 — the biomarker the class is given on — is HIGHER in EMC than in comparator sarcomas on BOTH readable platforms, and sits at the 92nd array percentile on one. The route was registered and graded against the same day.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_ARGININE["○ RT-ARGININE"]:::fam
+  RT_ARGININE["✓ RT-ARGININE"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_ARGININE
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -45,10 +45,16 @@ flowchart LR
 
 A metabolic class that is biomarker-selected rather than proliferation-coupled — it exploits a silenced enzyme, which is a state rather than a growth rate. It has been taken to late-phase trials in soft-tissue sarcoma specifically, and its biomarker is a single transcript readable in data already committed here. The census found the whole metabolic group had been dismissed as a block, and this row does not share the group's reasoning.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | ASS1 is not low in EMC tumour tissue on either readable array platform, so the selecting feature for arginine deprivation is absent at transcript level | `direct` |
+
 ## Remaining unknowns
 
-- Whether the enzyme is silenced in this disease, which is unmeasured.
-- Whether a transcript-level read is sufficient to call silencing, or whether it needs the methylation data this program cannot obtain.
+- Whether ASS1 PROTEIN is present, which is what the arginine-deprivation literature actually selects on — a transcript read is a reason not to prioritise a stain, not a substitute for one.
+- Whether any EMC subset is ASS1-low, which n=6 and n=10 cannot address.
 
 ## Required validation
 
@@ -67,10 +73,10 @@ A metabolic class that is biomarker-selected rather than proliferation-coupled �
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+A single contradicted transcript-level premise in two small archival series is a paragraph in the census paper, not a paper.
 
 **Missing:**
-- a read of ASS1 in the expression data already on disk
+- nothing — the $0 observation this route was registered for has been taken, and it came back against the premise
 
 ## Where this route ends — the paper
 
@@ -86,13 +92,16 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The premise as stated is not supported and the cheapest observation has already been spent. Only an EMC protein-level or copy-number dataset would change the answer, and none is available to this programme.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -104,7 +113,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Read ASS1 across the two readable EMC expression series and the fourth cohort.
+Report it as a closed line in the census paper's negative half.
 
 *Cost:* $0
 

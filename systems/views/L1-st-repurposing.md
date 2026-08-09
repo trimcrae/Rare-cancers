@@ -49,7 +49,7 @@ flowchart LR
   ST_REPURPOSING --> RT_PARTNER_STRAT
   RT_PPARG_DOWNSTREAM["✓ RT-PPARG-DOWNSTREAM"]:::fam
   ST_REPURPOSING --> RT_PPARG_DOWNSTREAM
-  RT_RET["○ RT-RET"]:::fam
+  RT_RET["✓ RT-RET"]:::fam
   ST_REPURPOSING --> RT_RET
   RT_RXR["✓ RT-RXR"]:::fam
   ST_REPURPOSING --> RT_RXR
@@ -95,7 +95,7 @@ flowchart LR
 | **[RT-HORMONE-PARTNER](L2-rt-hormone-partner.md)**<br/>Hormonal therapy for hormone-responsive 5′ fusion partners | ○ blocked | concept | `internal_note` | [PUB-NR-OUTSIDE-NR4A3](L3-publications.md) ○ *primary* | Pool the published partner-frequency series already curated here to size the hormone-responsive subset, and st |
 | **[RT-PARTNER-STRAT](L2-rt-partner-strat.md)**<br/>NR4A3 5' fusion partner as a treatment-stratification variable | ✓ ready | computed | `preprint` | [PUB-FUSION-PARTNER](L3-publications.md) ◐ *primary* | Post the preprint at research/manuscripts/emc-fusion-partner-stratification.md, and in the same pass send the  |
 | **[RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md)**<br/>PPARG downstream-effector (repurpose TZDs) | ✓ blocked | concept | `internal_note` | [PUB-REPURPOSING](L3-publications.md) ◐ *contributing* | The literature half is CLOSED (research/manuscripts/pparg-direction-emc.md). What remains is a PPARγ activity  |
-| **[RT-RET](L2-rt-ret.md)**<br/>RET-selective inhibitors | ○ blocked | concept | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ○ *contributing* | Read RET and its ligand and co-receptor set across the readable EMC expression series, and re-read the origina |
+| **[RT-RET](L2-rt-ret.md)**<br/>RET-selective inhibitors | ✓ blocked | computed | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ○ *contributing* | Read the original RET activation report in full and establish whether activation was measured or inferred, and |
 | **[RT-RXR](L2-rt-rxr.md)**<br/>RXR-heterodimer modulation of the fusion | ✓ closed | scoped | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ◐ *contributing* | Nothing. The scan carries the one observation that would reopen it. |
 | **[RT-TRABECTEDIN](L2-rt-trabectedin.md)**<br/>Trabectedin (± RT or combination) | ○ ready | concept | `internal_note` | [PUB-EMC-PROGRAM](L3-publications.md) ◐ *context* | Keep as cited landscape context. Do not overstate a single response. |
 | **[RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md)**<br/>Trabectedin + a PPARγ agonist (all approved drugs) | ○ blocked | concept | `experimental_proposal` | [PUB-REPURPOSING](L3-publications.md) ◐ *contributing* | Hold the ask until the PPARγ direction can be stated. Re-grade automatically when EMC expression data lands. |

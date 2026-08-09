@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-NR2F1 — Orphan nuclear-receptor agonism against dormancy escape
 
-**Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ○ blocked · scoped · confidence unknown · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#37--nuclear-receptors-outside-nr4a3)): ⭑ Registered 2026-08-09 from the modality census, porting a 2026-08-07 lane; its value to the program is partly that it supplies a positive control the NR4A3 work lacks.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⚠ UNREAD (2026-08-09). NR2F1 has no probe on either readable platform, so the route's precondition cannot be answered from this data at all. ⛔ An absent reading is not a reading of absence. A curated dormancy-associated context set is separately HIGHER in EMC on both platforms.
 
 ## What has to land for this route to move
 
@@ -45,9 +45,16 @@ flowchart LR
 
 A registered lane with no route. It targets this disease's actual clinical problem rather than its driver, and it repoints the orphan-nuclear-receptor modelling stack built for NR4A3 onto a receptor that has a published tool compound — which is the known-answer control the program's own receptor never had, and is worth as much methodologically as the biology is clinically.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | a curated dormancy-associated context set scores higher in EMC than in comparator sarcomas on both platforms, while the receptor itself is unreadable on both | `surrogate` |
+
 ## Remaining unknowns
 
-- Whether the receptor is expressed in this disease at all, which is unmeasured.
+- Whether the receptor is expressed in EMC at all — unchanged by this pass, because no probe on either platform maps to it.
+- Whether an elevated dormancy-associated context implies anything about the receptor that programme is named for, which it does not on its own.
 - Whether a dormancy-maintenance strategy has any measurable endpoint in a disease whose response endpoint is itself contested here.
 
 ## Required validation
@@ -67,10 +74,10 @@ A registered lane with no route. It targets this disease's actual clinical probl
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+The precondition is unread, and reporting an unreadable gene as absent is the specific failure the source artifact forbids.
 
 **Missing:**
-- a read of the receptor in the expression panel already committed here
+- a platform that carries a probe for the receptor — the two readable array series do not
 
 ## Where this route ends — the paper
 
@@ -86,13 +93,16 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `wait`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The observation this route needs cannot be taken on the platforms available; it waits on a dataset that carries the gene.
 
 | horizon | effect |
 |---|---|
-| Cost trend | flat |
+| Cost trend | falling |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -104,7 +114,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Read the receptor in the targeted expression panel already committed here, then state whether the existing pocket-modelling pipeline runs unmodified on its ligand-binding domain.
+Check whether the fourth public cohort carries the receptor at all.
 
 *Cost:* $0
 

@@ -512,7 +512,7 @@ A fusion oncoprotein whose entire mechanism is transactivation, and whose struct
 | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ○ | `preprint` | `contributing` |
 | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ○ | `preprint` | `contributing` |
 | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ○ | `preprint` | `contributing` |
-| [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ○ | `preprint` | `contributing` |
+| [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | [ST-MICROENV](L1-st-microenv.md) | `preprint` | **PUB-MATRIX-ADDRESS** ○ | `preprint` | `contributing` |
 | [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ○ | `preprint` | `contributing` |
 | [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ○ | `preprint` | `contributing` |
 | [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ○ | `preprint` | `contributing` |

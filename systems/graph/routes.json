@@ -5728,10 +5728,9 @@
     "kind": "route",
     "title": "Arginine deprivation (ASS1-silenced tumours)",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; a single-transcript question against a class with an existing sarcoma trial record.",
+      "value": "⛔ Premise NOT supported (2026-08-09). ASS1 — the biomarker the class is given on — is HIGHER in EMC than in comparator sarcomas on BOTH readable platforms, and sits at the 92nd array percentile on one. The route was registered and graded against the same day.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "32--biomarker-selected-classes-readable-from-data-already-on-disk"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
@@ -5760,18 +5759,24 @@
     },
     "purpose": "Is the argininosuccinate synthase locus silenced in this disease, which is what selects the class?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
-      "status": "blocked",
-      "maturity": "concept",
-      "confidence": "low",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
       "last_verified": "2026-08-09"
     },
     "rationale": "A metabolic class that is biomarker-selected rather than proliferation-coupled — it exploits a silenced enzyme, which is a state rather than a growth rate. It has been taken to late-phase trials in soft-tissue sarcoma specifically, and its biomarker is a single transcript readable in data already committed here. The census found the whole metabolic group had been dismissed as a block, and this row does not share the group's reasoning.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "ASS1 is not low in EMC tumour tissue on either readable array platform, so the selecting feature for arginine deprivation is absent at transcript level",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether the enzyme is silenced in this disease, which is unmeasured.",
-      "Whether a transcript-level read is sufficient to call silencing, or whether it needs the methylation data this program cannot obtain."
+      "Whether ASS1 PROTEIN is present, which is what the arginine-deprivation literature actually selects on — a transcript read is a reason not to prioritise a stain, not a substitute for one.",
+      "Whether any EMC subset is ASS1-low, which n=6 and n=10 cannot address."
     ],
     "required_validation": [
       {
@@ -5790,17 +5795,20 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a read of ASS1 in the expression data already on disk"
+        "nothing — the $0 observation this route was registered for has been taken, and it came back against the premise"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "A single contradicted transcript-level premise in two small archival series is a paragraph in the census paper, not a paper."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "The premise as stated is not supported and the cheapest observation has already been spent. Only an EMC protein-level or copy-number dataset would change the answer, and none is available to this programme.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
     },
     "next": {
-      "best_next_action": "Read ASS1 across the two readable EMC expression series and the fourth cohort.",
+      "best_next_action": "Report it as a closed line in the census paper's negative half.",
       "cost": "$0"
     }
   },
@@ -6309,10 +6317,9 @@
     "kind": "route",
     "title": "RET-selective inhibitors",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census, porting the top-ranked 2026-08-07 lane, which had no route.",
+      "value": "◐ SPLIT (2026-08-09). RET itself is higher in EMC on both platforms, so the receptor half of the lane holds. ⛔ But the GFRα co-receptors are LOWER on both and strongly so, and the GDNF-family ligands are LOWER on both — so the module that switches RET on is depleted relative to comparator sarcomas.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "33--kinase-leads-with-emc-specific-evidence-that-nobody-followed"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
@@ -6341,18 +6348,30 @@
     },
     "purpose": "Is the one kinase reported as both expressed and activated in this disease a real therapeutic target?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
       "status": "blocked",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "The highest-ranked lane of the 2026-08-07 sweep and still not a route. It is the only kinase reported as both expressed and activated in this disease, the observation comes from independent groups, selective inhibitors are approved in other indications, and the finding has stood without follow-up for over a decade.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "RET transcript is higher in EMC than in comparator sarcomas on both readable platforms",
+        "strength": "direct"
+      },
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the GFRα co-receptor and GDNF-family ligand modules are LOWER in EMC on both platforms, which weakens a ligand-dependent activation route for the receptor",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether RET activation is present in fusion-positive tumours generally or was specific to one historical series.",
-      "Whether activation without a RET rearrangement predicts response to a selective inhibitor, which is not established for any tumour type."
+      "Whether the historical 'expressed and activated' report survives, since this reading corroborates expression and cannot corroborate activation.",
+      "Whether RET could be engaged without the canonical ligand and co-receptor — no RET rearrangement is reported in this disease either way.",
+      "Whether a co-receptor supply from stroma or nerve would be visible in bulk tumour transcript at all, which bounds how much this reading can be asked to carry."
     ],
     "required_validation": [
       {
@@ -6371,17 +6390,17 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a read of RET and its ligand set in the expression data already on disk"
+        "a full read of the original activation report, to establish what was measured and in how many tumours"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "The lane's headline claim is activation, and this reading reaches expression and the activation MACHINERY but not activation."
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "rationale": "The remaining $0 step is a literature read, and it is now sharper than when the route was registered: the question is specifically whether the original report measured activation directly or inferred it.",
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Read RET and its ligand and co-receptor set across the readable EMC expression series, and re-read the original activation report in full to establish what was measured and in how many tumours.",
+      "best_next_action": "Read the original RET activation report in full and establish whether activation was measured or inferred, and in how many tumours.",
       "cost": "$0"
     }
   },
@@ -6558,10 +6577,9 @@
     "kind": "route",
     "title": "Orphan nuclear-receptor agonism against dormancy escape",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census, porting a 2026-08-07 lane; its value to the program is partly that it supplies a positive control the NR4A3 work lacks.",
+      "value": "⚠ UNREAD (2026-08-09). NR2F1 has no probe on either readable platform, so the route's precondition cannot be answered from this data at all. ⛔ An absent reading is not a reading of absence. A curated dormancy-associated context set is separately HIGHER in EMC on both platforms.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "37--nuclear-receptors-outside-nr4a3"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
@@ -6593,14 +6611,21 @@
       "work_state": "future",
       "authorization": "free",
       "status": "blocked",
-      "maturity": "concept",
-      "confidence": "low",
+      "maturity": "scoped",
+      "confidence": "unknown",
       "last_verified": "2026-08-09"
     },
     "rationale": "A registered lane with no route. It targets this disease's actual clinical problem rather than its driver, and it repoints the orphan-nuclear-receptor modelling stack built for NR4A3 onto a receptor that has a published tool compound — which is the known-answer control the program's own receptor never had, and is worth as much methodologically as the biology is clinically.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "a curated dormancy-associated context set scores higher in EMC than in comparator sarcomas on both platforms, while the receptor itself is unreadable on both",
+        "strength": "surrogate"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether the receptor is expressed in this disease at all, which is unmeasured.",
+      "Whether the receptor is expressed in EMC at all — unchanged by this pass, because no probe on either platform maps to it.",
+      "Whether an elevated dormancy-associated context implies anything about the receptor that programme is named for, which it does not on its own.",
       "Whether a dormancy-maintenance strategy has any measurable endpoint in a disease whose response endpoint is itself contested here."
     ],
     "required_validation": [
@@ -6618,17 +6643,20 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a read of the receptor in the expression panel already committed here"
+        "a platform that carries a probe for the receptor — the two readable array series do not"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "The precondition is unread, and reporting an unreadable gene as absent is the specific failure the source artifact forbids."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "wait",
+      "rationale": "The observation this route needs cannot be taken on the platforms available; it waits on a dataset that carries the gene.",
+      "cost_trend": "falling",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
     },
     "next": {
-      "best_next_action": "Read the receptor in the targeted expression panel already committed here, then state whether the existing pocket-modelling pipeline runs unmodified on its ligand-binding domain.",
+      "best_next_action": "Check whether the fourth public cohort carries the receptor at all.",
       "cost": "$0"
     }
   },
@@ -6639,10 +6667,9 @@
     "kind": "route",
     "title": "Inhibition of the tumour's glycosaminoglycan biosynthesis",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census as a class no prior sweep had named; the relevant expression read is ALREADY on disk and has never been read for this purpose.",
+      "value": "⛔ Premise NOT supported AS STATED (2026-08-09). The sulfate-donor module is LOWER in EMC than in comparator sarcomas on both platforms; the backbone and 4-O-sulfotransferase groups disagree between platforms. A matrix-defining tumour is not running its biosynthetic machinery hotter than its neighbours.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "34--the-matrix-as-an-address"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
@@ -6671,18 +6698,24 @@
     },
     "purpose": "Is the myxoid matrix load-bearing for the tumour, such that stopping its manufacture is a therapeutic act?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
-      "status": "blocked",
-      "maturity": "concept",
+      "status": "parked",
+      "maturity": "computed",
       "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "The matrix has been treated here as a barrier and, once, as an address. This is the third option nobody had considered: stop the tumour building it. The gel is the disease's defining phenotype and it is a manufactured product with a named biosynthetic pathway. The pathway is shared with normal chondrogenesis, so selectivity is the open question rather than an assumption.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the sulfate-donor module is lower in EMC than in comparator sarcomas on both readable platforms, against the route's stated premise",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether matrix production is load-bearing for the tumour or incidental to it, which nothing has tested.",
-      "Whether the biosynthetic pathway can be inhibited without the normal chondrogenic consequences, which is a question about a developmental pathway."
+      "Whether the premise survives restatement: the comparator arm is itself matrix-rich sarcoma, so this is a relative reading, and bulk enzyme transcript need not track accumulated matrix mass in a tumour whose product is long-lived.",
+      "Whether matrix production is load-bearing for the tumour at all, which nothing has tested and which this reading does not address."
     ],
     "required_validation": [
       {
@@ -6702,17 +6735,20 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a grading of the glycosaminoglycan and sulfate-donor expression read already committed here"
+        "a restatement of the premise in a form this reading does not already contradict"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "A contradicted premise with a plausible restatement is not yet a result in either direction."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "The naive form of the premise is contradicted and the restatement would need a measurement of matrix turnover rather than of enzyme transcript, which no available dataset supplies.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
     },
     "next": {
-      "best_next_action": "Grade the chondroitin-sulfate and sulfate-donor pathway read that is already committed in the targeted expression panel.",
+      "best_next_action": "Restate the premise, or report the contradiction as the result.",
       "cost": "$0"
     }
   },
@@ -6807,10 +6843,9 @@
     "kind": "route",
     "title": "Matrix-targeted immunocytokines",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census as a class no prior sweep had named; it inherits the cold-microenvironment blocker on its payload while routing around the antigen problem on its address.",
+      "value": "◐ PARTLY READ (2026-08-09). The parent matrix genes are abundant in absolute terms — FN1 at the 94th array percentile — but not enriched against comparator sarcomas, and TNC and FAP are lower on both platforms. ⛔ The address is a SPLICE VARIANT and a gene-level probe cannot see one, so the route's own premise is untested rather than answered.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "34--the-matrix-as-an-address"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
@@ -6840,18 +6875,25 @@
     },
     "purpose": "Can a cytokine payload be addressed to the tumour's extracellular matrix rather than to a tumour-cell antigen?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
       "status": "blocked",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "The one antibody format whose address is not a tumour-cell antigen: it targets an extracellular matrix epitope, and the matrix is this disease's defining compartment. That routes around the instrument limitation already flagged here — the surfaceome screen ranks tumour-cell monoculture transcripts and cannot see stroma. The class also has soft-tissue-sarcoma clinical experience specifically. The payload is a cytokine, so a cold infiltrate remains a real objection to the immune arm even if the address holds.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the parent genes of the targeted matrix epitopes are expressed in EMC tumour tissue but are not enriched relative to comparator sarcomas",
+        "strength": "surrogate"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether the targeted matrix epitope is expressed in this disease's stroma, which the existing screen could not have detected either way.",
-      "Whether a cytokine payload can do anything in a microenvironment this repository has recorded as cold, sparse and myeloid-predominant."
+      "The abundance of the oncofetal SPLICE ISOFORM that the clinical agents actually bind, which is not deducible from the parent gene and which these array platforms cannot resolve.",
+      "Whether an address that is abundant but not sarcoma-selective gives any window, which is the same question every antigen route in this portfolio has failed on.",
+      "Whether a cytokine payload can act in a microenvironment recorded here as cold and sparse."
     ],
     "required_validation": [
       {
@@ -6871,17 +6913,20 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a read of the matrix splice-variant transcripts in the expression data already on disk"
+        "an isoform-resolved read, which needs RNA-seq rather than an array — the fourth public cohort is the first candidate that could carry it"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "The gene-level read bounds the parent genes and leaves the isoform question, which is the route, entirely open."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "wait",
+      "rationale": "The decisive observation needs isoform-level data, and the only plausible source is a public RNA-seq cohort this programme has identified but not yet processed.",
+      "cost_trend": "falling",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
     },
     "next": {
-      "best_next_action": "Read the fibronectin and tenascin splice-variant transcripts across the EMC expression cohorts — matrix genes are visible in bulk tumour data in a way a cell-surface antigen is not.",
+      "best_next_action": "Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all.",
       "cost": "$0"
     }
   },
@@ -6892,10 +6937,9 @@
     "kind": "route",
     "title": "Hypoxia-activated prodrugs",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; the niche-fit argument was already accepted here for a different modality and never applied to this one.",
+      "value": "⭐ Premise SUPPORTED at the level this data reaches (2026-08-09): a canonical HIF-target metagene scores higher in EMC than in comparator sarcomas on BOTH platforms, 15/15 and 14/15 genes readable. The only route of six graded this day to be concordantly supported.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "34--the-matrix-as-an-address"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
@@ -6924,18 +6968,24 @@
     },
     "purpose": "Is the hypoxic fraction of this hypovascular, matrix-dominated tumour large enough to activate a prodrug selectively?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
-      "status": "blocked",
-      "maturity": "concept",
-      "confidence": "low",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "moderate",
       "last_verified": "2026-08-09"
     },
     "rationale": "This repository has already accepted that a hypovascular matrix-dominated tumour is a good niche fit for hypoxia-directed treatment — it said so when grading engineered bacteria, where the fit was real and the decisive objection was that no in-silico instrument could be brought to bear. That objection does not hold here, because a hypoxia signature is readable in expression data already on disk. The class has a negative randomised soft-tissue-sarcoma record that any assessment must lead with.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "EMC tumour tissue scores higher on a curated canonical HIF-target metagene than comparator sarcomas, concordantly on two independent array platforms",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether the hypoxic fraction is large enough to matter, which is unmeasured in this disease.",
-      "Whether the class's randomised failure was a mechanism failure or a patient-selection failure, which decides whether a biomarker-selected retry is coherent at all."
+      "Whether a transcriptional hypoxia signature corresponds to a hypoxic FRACTION large enough to reduce a prodrug, which no expression dataset can answer.",
+      "Whether the class's negative randomised soft-tissue-sarcoma record was a mechanism failure or a patient-selection failure — which decides whether a biomarker-selected retry is coherent at all."
     ],
     "required_validation": [
       {
@@ -6953,19 +7003,19 @@
       }
     ],
     "readiness": {
-      "attainable_today": "internal_note",
+      "attainable_today": "preprint",
       "missing": [
-        "a hypoxia-signature score across the expression data already on disk"
+        "a read of the randomised sarcoma record for whether selection or mechanism failed — a literature question, not a compute one"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "A supported premise is not a result about a drug. What is publishable is the observation plus the selection argument, and the class's own negative trial has to lead it."
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "rationale": "The premise is supported and the follow-up is a literature read that costs nothing, so the route can reach its stated ceiling without any external input.",
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Score a hypoxia signature across the readable EMC expression series and the fourth cohort, then read the sarcoma randomised record for whether the failure was mechanism or selection.",
+      "best_next_action": "Read the randomised soft-tissue-sarcoma record for the class and establish whether its failure was mechanism or patient selection.",
       "cost": "$0"
     }
   },

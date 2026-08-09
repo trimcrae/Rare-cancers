@@ -37,7 +37,7 @@ flowchart LR
   ST_DEPENDENCY["ST-DEPENDENCY"]:::fam
   RT_APOPTOSIS_DEP["○ RT-APOPTOSIS-DEP"]:::fam
   ST_DEPENDENCY --> RT_APOPTOSIS_DEP
-  RT_ARGININE["○ RT-ARGININE"]:::fam
+  RT_ARGININE["✓ RT-ARGININE"]:::fam
   ST_DEPENDENCY --> RT_ARGININE
   RT_ATR_ASSESS["✓ RT-ATR-ASSESS"]:::fam
   ST_DEPENDENCY --> RT_ATR_ASSESS
@@ -85,7 +85,7 @@ flowchart LR
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
 | **[RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md)**<br/>Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL) | ○ blocked | concept | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Re-read the committed ex-vivo screen artifacts for BH3-mimetics and read the BCL-2 family across the expressio |
-| **[RT-ARGININE](L2-rt-arginine.md)**<br/>Arginine deprivation (ASS1-silenced tumours) | ○ blocked | concept | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Read ASS1 across the two readable EMC expression series and the fourth cohort. |
+| **[RT-ARGININE](L2-rt-arginine.md)**<br/>Arginine deprivation (ASS1-silenced tumours) | ✓ parked | computed | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Report it as a closed line in the census paper's negative half. |
 | **[RT-ATR-ASSESS](L2-rt-atr-assess.md)**<br/>The in-silico ATR vulnerability assessment (the computed half) | ✓ ready | computed | `preprint` | [PUB-ATR](L3-publications.md) ◐ *primary* | Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask. |
 | **[RT-ATR-PANEL](L2-rt-atr-panel.md)**<br/>The ATR-inhibitor cell panel in EMC lines (the ask) | ○ blocked | scoped | `experimental_proposal` | [PUB-ATR-PANEL-ASK](L3-publications.md) ◐ *primary* | Send the ask with the assessment. It is the strongest taker-fit in the portfolio. |
 | **[RT-CHAPERONE](L2-rt-chaperone.md)**<br/>Chaperone dependency of the chimera (HSP90 and co-chaperones) | ○ blocked | concept | `internal_note` | [PUB-TXN-DEPENDENCY](L3-publications.md) ○ *primary* | Assess chaperone clientship for FET-family fusion proteins in the literature, and check whether this repositor |

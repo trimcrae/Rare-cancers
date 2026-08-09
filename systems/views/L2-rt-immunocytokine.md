@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-IMMUNOCYTOKINE — Matrix-targeted immunocytokines
 
-**Family:** [ST-MICROENV](L1-st-microenv.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-MICROENV](L1-st-microenv.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#34--the-matrix-as-an-address)): ⭑ Registered 2026-08-09 from the modality census as a class no prior sweep had named; it inherits the cold-microenvironment blocker on its payload while routing around the antigen problem on its address.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ PARTLY READ (2026-08-09). The parent matrix genes are abundant in absolute terms — FN1 at the 94th array percentile — but not enriched against comparator sarcomas, and TNC and FAP are lower on both platforms. ⛔ The address is a SPLICE VARIANT and a gene-level probe cannot see one, so the route's own premise is untested rather than answered.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_IMMUNOCYTOKINE["○ RT-IMMUNOCYTOKINE"]:::fam
+  RT_IMMUNOCYTOKINE["✓ RT-IMMUNOCYTOKINE"]:::fam
   BLK_ANTIGEN_COLD[["BLK-ANTIGEN-COLD — EMC is antigen-cold, and the fusion ju…"]]:::perm
   BLK_ANTIGEN_COLD --> RT_IMMUNOCYTOKINE
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
@@ -49,10 +49,17 @@ flowchart LR
 
 The one antibody format whose address is not a tumour-cell antigen: it targets an extracellular matrix epitope, and the matrix is this disease's defining compartment. That routes around the instrument limitation already flagged here — the surfaceome screen ranks tumour-cell monoculture transcripts and cannot see stroma. The class also has soft-tissue-sarcoma clinical experience specifically. The payload is a cytokine, so a cold infiltrate remains a real objection to the immune arm even if the address holds.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | the parent genes of the targeted matrix epitopes are expressed in EMC tumour tissue but are not enriched relative to comparator sarcomas | `surrogate` |
+
 ## Remaining unknowns
 
-- Whether the targeted matrix epitope is expressed in this disease's stroma, which the existing screen could not have detected either way.
-- Whether a cytokine payload can do anything in a microenvironment this repository has recorded as cold, sparse and myeloid-predominant.
+- The abundance of the oncofetal SPLICE ISOFORM that the clinical agents actually bind, which is not deducible from the parent gene and which these array platforms cannot resolve.
+- Whether an address that is abundant but not sarcoma-selective gives any window, which is the same question every antigen route in this portfolio has failed on.
+- Whether a cytokine payload can act in a microenvironment recorded here as cold and sparse.
 
 ## Required validation
 
@@ -72,10 +79,10 @@ The one antibody format whose address is not a tumour-cell antigen: it targets a
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+The gene-level read bounds the parent genes and leaves the isoform question, which is the route, entirely open.
 
 **Missing:**
-- a read of the matrix splice-variant transcripts in the expression data already on disk
+- an isoform-resolved read, which needs RNA-seq rather than an array — the fourth public cohort is the first candidate that could carry it
 
 ## Where this route ends — the paper
 
@@ -91,13 +98,16 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `wait`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The decisive observation needs isoform-level data, and the only plausible source is a public RNA-seq cohort this programme has identified but not yet processed.
 
 | horizon | effect |
 |---|---|
-| Cost trend | flat |
+| Cost trend | falling |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -110,7 +120,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Read the fibronectin and tenascin splice-variant transcripts across the EMC expression cohorts — matrix genes are visible in bulk tumour data in a way a cell-surface antigen is not.
+Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all.
 
 *Cost:* $0
 

@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-HYPOXIA-PRODRUG — Hypoxia-activated prodrugs
 
-**Family:** [ST-MICROENV](L1-st-microenv.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-MICROENV](L1-st-microenv.md) · **state:** ✓ ready · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#34--the-matrix-as-an-address)): ⭑ Registered 2026-08-09 from the modality census; the niche-fit argument was already accepted here for a different modality and never applied to this one.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⭐ Premise SUPPORTED at the level this data reaches (2026-08-09): a canonical HIF-target metagene scores higher in EMC than in comparator sarcomas on BOTH platforms, 15/15 and 14/15 genes readable. The only route of six graded this day to be concordantly supported.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_HYPOXIA_PRODRUG["○ RT-HYPOXIA-PRODRUG"]:::fam
+  RT_HYPOXIA_PRODRUG["✓ RT-HYPOXIA-PRODRUG"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_HYPOXIA_PRODRUG
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -45,10 +45,16 @@ flowchart LR
 
 This repository has already accepted that a hypovascular matrix-dominated tumour is a good niche fit for hypoxia-directed treatment — it said so when grading engineered bacteria, where the fit was real and the decisive objection was that no in-silico instrument could be brought to bear. That objection does not hold here, because a hypoxia signature is readable in expression data already on disk. The class has a negative randomised soft-tissue-sarcoma record that any assessment must lead with.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | EMC tumour tissue scores higher on a curated canonical HIF-target metagene than comparator sarcomas, concordantly on two independent array platforms | `direct` |
+
 ## Remaining unknowns
 
-- Whether the hypoxic fraction is large enough to matter, which is unmeasured in this disease.
-- Whether the class's randomised failure was a mechanism failure or a patient-selection failure, which decides whether a biomarker-selected retry is coherent at all.
+- Whether a transcriptional hypoxia signature corresponds to a hypoxic FRACTION large enough to reduce a prodrug, which no expression dataset can answer.
+- Whether the class's negative randomised soft-tissue-sarcoma record was a mechanism failure or a patient-selection failure — which decides whether a biomarker-selected retry is coherent at all.
 
 ## Required validation
 
@@ -65,12 +71,12 @@ This repository has already accepted that a hypovascular matrix-dominated tumour
 
 ## Readiness — what this could become today
 
-**`internal_note`**
+**`preprint`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+A supported premise is not a result about a drug. What is publishable is the observation plus the selection argument, and the class's own negative trial has to lead it.
 
 **Missing:**
-- a hypoxia-signature score across the expression data already on disk
+- a read of the randomised sarcoma record for whether selection or mechanism failed — a literature question, not a compute one
 
 ## Where this route ends — the paper
 
@@ -88,7 +94,7 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 **Recommendation: `pursue_now`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The premise is supported and the follow-up is a literature read that costs nothing, so the route can reach its stated ceiling without any external input.
 
 | horizon | effect |
 |---|---|
@@ -105,7 +111,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Score a hypoxia signature across the readable EMC expression series and the fourth cohort, then read the sarcoma randomised record for whether the failure was mechanism or selection.
+Read the randomised soft-tissue-sarcoma record for the class and establish whether its failure was mechanism or patient selection.
 
 *Cost:* $0
 
