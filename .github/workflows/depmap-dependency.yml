@@ -186,6 +186,14 @@ jobs:
       # directory has to be carried separately.
       # ⚠ IT MUST BE COPIED OUT BEFORE THE PUBLISH STEP'S `git checkout -- .` / `git clean`, which
       # would otherwise discard the freshly rebuilt figures — the same reason $RUNNER_TEMP/res exists.
+      # ⭐ THE PRMT5/MTAP PREPRINT'S FIGURES. Drawn here rather than locally because the dev sandbox
+      # has no matplotlib — and a local attempt fails at `import matplotlib` BEFORE writing anything,
+      # so a before/after diff shows "no change" and means "nothing ran" (measured 2026-08-09).
+      - name: EMC PRMT5/MTAP preprint figures
+        if: always()
+        timeout-minutes: 10
+        run: python research/modalities/emc_mtap_prmt5_figures.py || echo "mtap-prmt5 figures soft-fail; non-blocking"
+
       - name: Stage the rebuilt figures (separate — they do not live under research/modalities)
         if: always()
         timeout-minutes: 5
