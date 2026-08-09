@@ -130,11 +130,18 @@ def build():
 
     # ---- axis 1: response rate, per condition, from the corpus's own arms ------------------
     orr_by_cond = collections.defaultdict(list)
+    orr_by_cond_p23 = collections.defaultdict(list)
+    phase_by_cond = collections.defaultdict(collections.Counter)
     for a in corpus["C2_arms"]:
         n = a["evaluable_n"]
         orr = (a["cells"]["CR"] + a["cells"]["PR"]) / n
+        phases = set(a["phases"] or [])
         for c in a["conditions"]:
             orr_by_cond[c].append(orr)
+            for ph in (a["phases"] or ["NONE"]):
+                phase_by_cond[c][ph] += 1
+            if phases & {"PHASE2", "PHASE3"}:
+                orr_by_cond_p23[c].append(orr)
 
     # ---- axis 2: accrual, per condition, ACTUAL enrolment only ----------------------------
     acc_by_cond = collections.defaultdict(list)
@@ -177,10 +184,30 @@ def build():
                 else n_med < need_design),
             "p_zero_responses_at_the_median_trial_size": (
                 None if n_med is None else p_zero_events(p, n_med)),
+            "phase_mix_of_the_contributing_arms": dict(phase_by_cond.get(cond, {})),
+            "median_objective_response_pct_phase_2_3_arms_only": (
+                round(100 * statistics.median(orr_by_cond_p23[cond]), 1)
+                if orr_by_cond_p23.get(cond) else None),
+            "phase_2_3_arms": len(orr_by_cond_p23.get(cond, [])),
         })
 
-    below_zero = [c for c in coords if c["median_trial_is_below_the_zero_event_contour"]]
-    below_design = [c for c in coords if c["median_trial_is_below_the_design_contour"]]
+    # ⛔ THREE CATEGORIES, NOT TWO, AND THE THIRD IS THE EXTREME ONE (corrected 2026-08-09).
+    # required_n_against_null() returns None when the median response rate is at or below the 5%
+    # null -- "nothing to detect". Those conditions were then counted in the DENOMINATOR of
+    # "share below the design contour" while never being able to appear in its numerator, so 16 of
+    # 44 conditions diluted the headline. Every one of them has a median objective response of 0.0%
+    # or 4.2%: a condition where the typical trial observes no responses at all is the STRONGEST
+    # instance of this paper's thesis, and it was being reported as though it were unaffected.
+    # The share is now taken over conditions where the comparison is defined, and the undefined
+    # group is reported separately rather than hidden in a denominator.
+    below_zero = [c for c in coords if c["median_trial_is_below_the_zero_event_contour"] is True]
+    below_design = [c for c in coords if c["median_trial_is_below_the_design_contour"] is True]
+    design_defined = [c for c in coords
+                      if c["median_trial_is_below_the_design_contour"] is not None]
+    zero_defined = [c for c in coords
+                    if c["median_trial_is_below_the_zero_event_contour"] is not None]
+    at_or_below_the_null = [c for c in coords
+                            if c["median_objective_response_pct"] <= 100 * DESIGN_NULL]
     coords_sorted = sorted(coords, key=lambda c: c["median_objective_response_pct"])
 
     emc_d1 = emc["D1_same_patients_two_endpoints"]
@@ -251,10 +278,31 @@ def build():
 
         "G4_what_the_map_reads": {
             "conditions_placed": len(coords),
-            "conditions_whose_median_trial_is_below_the_zero_event_contour": len(below_zero),
+            "conditions_at_or_below_the_null_so_no_design_is_defined": len(at_or_below_the_null),
+            "_what_that_group_is": (
+                "a condition whose median objective response is at or below the 5% null the design "
+                "contour tests against. No single-stage design can separate that rate from 'not "
+                "worth pursuing', so the contour is undefined -- not because the condition is "
+                "unaffected, but because it is past the point the contour was built to measure. "
+                "Every one of these has a median objective response of 0.0% except one at 4.2%."),
+            "conditions_where_the_design_comparison_is_defined": len(design_defined),
             "conditions_whose_median_trial_is_below_the_design_contour": len(below_design),
             "share_below_the_design_contour_pct": (
-                round(100 * len(below_design) / len(coords), 1) if coords else None),
+                round(100 * len(below_design) / len(design_defined), 1) if design_defined else None),
+            "_share_denominator": (
+                "conditions where the comparison is defined, NOT all conditions placed. Using all "
+                "conditions placed puts 16 undefined rows in a denominator they can never enter the "
+                "numerator of, which understates the finding."),
+            "conditions_where_the_zero_event_comparison_is_defined": len(zero_defined),
+            "conditions_whose_median_trial_is_below_the_zero_event_contour": len(below_zero),
+            "share_below_the_zero_event_contour_pct": (
+                round(100 * len(below_zero) / len(zero_defined), 1) if zero_defined else None),
+            "conditions_that_cannot_support_a_response_endpoint_at_all": (
+                len(below_design) + len(at_or_below_the_null)),
+            "_that_last_figure": (
+                "conditions below the design contour PLUS conditions past the null entirely. It is "
+                "the count of conditions in which a response-rate summary cannot do the job asked "
+                "of it, by either route."),
             "named_below_the_zero_event_contour": [c["condition"] for c in below_zero],
             "reading": (
                 "a condition below the design contour cannot accrue, at its median trial size, "
@@ -278,7 +326,34 @@ def build():
                 "extreme coordinate, not a separate argument."),
         },
 
-        "G6_what_this_map_does_not_say": {
+        "G6_the_phase_composition_sensitivity": {
+            "_the_objection": (
+                "conditions at the bottom of the response axis include broad registry strings -- "
+                "Advanced Solid Tumors, Metastatic Cancer, Solid Tumor -- that collect "
+                "dose-escalation arms, where a response rate of zero is expected from the trial "
+                "phase rather than from the disease. If that were the whole story the low corner "
+                "would be an artefact of how ClinicalTrials.gov names conditions."),
+            "_the_composition_difference_is_real": (
+                "arms contributing to conditions at or below the null are phase-1 heavy (197 "
+                "phase 1 against 147 phase 2 and 9 phase 3), where the remaining placed conditions "
+                "are phase-2 heavy (133 phase 2, 96 phase 1, 37 phase 3). So the corpus IS "
+                "composed differently at the bottom of the axis, and any claim that condition "
+                "strings coarsen the map without biasing it is false."),
+            "_but_the_finding_survives_the_restriction": (
+                "recomputing the response axis on phase 2 and phase 3 arms only leaves the median "
+                "at 0.0% for twelve of the fourteen conditions that have any phase 2/3 arm. Two "
+                "have none at all. One, Solid Tumors, rises to 21.4%. The low corner is therefore "
+                "not an artefact of dose escalation, and the sensitivity is reported because the "
+                "objection is a good one rather than because it succeeds."),
+            "per_condition": [
+                {"condition": c["condition"],
+                 "median_all_arms_pct": c["median_objective_response_pct"],
+                 "median_phase_2_3_only_pct": c["median_objective_response_pct_phase_2_3_arms_only"],
+                 "phase_2_3_arms": c["phase_2_3_arms"]}
+                for c in coords_sorted],
+        },
+
+        "G7_what_this_map_does_not_say": {
             "not_about_efficacy": (
                 "no statement that any treatment works, does not work, or is safe, in any disease "
                 "on the map."),
@@ -286,10 +361,15 @@ def build():
                 "a condition is placed by two medians. Trials within a condition vary widely, and "
                 "a median coordinate is a summary of a heterogeneous set, not a description of any "
                 "particular trial."),
-            "condition_strings_are_the_registry_s": (
+            "condition_strings_are_the_registry_s_and_they_DO_bias": (
                 "conditions are ClinicalTrials.gov strings, so one disease can appear under "
-                "several spellings and a broad string can absorb several diseases. This coarsens "
-                "the map; it does not bias it toward any coordinate."),
+                "several spellings and a broad string can absorb several diseases. ⚠ SUPERSEDED, "
+                "RETAINED: this field previously read 'This coarsens the map; it does not bias it "
+                "toward any coordinate.' That was false and was corrected on 2026-08-09. The broad "
+                "strings collect dose-escalation arms and sit disproportionately at the bottom of "
+                "the response axis, so the coarsening is directional and points toward this "
+                "paper's own conclusion. G6 measures the difference and tests whether the finding "
+                "survives it."),
             "the_corpus_is_not_a_random_sample": (
                 "only arms that posted a complete four-cell table are here -- 552 of the arms "
                 "belonging to 4414 screened studies. orr-dcr-reread.json -> R6 states the bias "

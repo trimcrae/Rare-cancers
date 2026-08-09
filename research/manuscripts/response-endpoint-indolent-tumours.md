@@ -20,7 +20,7 @@ scope: >-
 audience: [external reviewers, collaborators, maintainers, autonomous research agents]
 date: 2026-08-09
 last_verified: 2026-08-09
-related: [DOC-POLICY-EVIDENCE, DOC-EMC-RESPONSE-ENDPOINT-PAPER, DOC-EMC-ENDPOINT-ALTERNATIVES]
+related: [DOC-POLICY-EVIDENCE, DOC-EMC-ENDPOINT-ALTERNATIVES]
 ---
 
 # Objective response as a trial summary: the regime in which it carries no information, and the diseases inside it
@@ -53,15 +53,17 @@ control and objective response had a median of 39.4 percentage points (interquar
 objective response of 10% or less with disease control of 70% or more. The gap is identically the
 stable-disease proportion, so each value carries its own exact interval. The finding survived every
 pre-stated stratum: 41.5 points among arms of at least 20 patients, 40.0 in phase 2, 43.6 in
-phase 3. Of 44 conditions placed on the map, 14 (31.8%) had a median trial smaller than an exact
-single-stage design would require, and 7 sat below the zero-event boundary. Reporting was the
-binding constraint: 4,276 of 4,414 screened studies (96.9%) posted results without a four-cell
-block, and among 1,277 abstracts screened separately, all four categories appeared in 5 and only 1
-carried a denominator they summed to. Of 19 control arms recovered, 16 carry an active agent once
-registered interventions are read rather than arm titles, and none can carry a
-natural-history reading. 25 conditions lay in the low-response regime; 4 had any control arm at all. A structured audit of 18 retrieved criteria and
-methodology documents found four distinct remedy families already in use across 12 disease domains,
-7 of them carried by consensus guidelines.
+phase 3. Of 44 conditions placed on the map, 16 have a median objective response at or below the 5%
+null, so no single-stage design is defined for them at all; of the 28 where the comparison is
+defined, 14 (50.0%) had a median trial smaller than an exact single-stage design would require.
+Seven of 29 (24.1%) sat below the zero-event boundary. Reporting was the binding constraint: 4,276
+of 4,414 screened studies (96.9%) posted results without a four-cell block, and among 1,277
+abstracts screened separately, all four categories appeared in 5 and only 1 carried a denominator
+they summed to. Of 19 arms whose title or registered type carries a control token, 16 carry an
+active agent once registered interventions are read rather than arm titles, and none can carry a
+natural-history reading. 25 conditions lay in the low-response regime; 4 had any control arm at all.
+A structured audit of 18 retrieved criteria and methodology documents found four distinct remedy
+families already in use across 12 disease domains, 7 of them carried by consensus guidelines.
 
 **Conclusions.** The failure of an objective-response summary is a property of a coordinate, not of a
 tumour type, and diseases enter the affected regime by their own measured numbers. Remedies exist and
@@ -94,8 +96,11 @@ and disease can plausibly produce, and the number of patients the disease can ac
 measurable in advance of any trial. Neither is a property of a tumour type as such, which is why the
 analysis below places diseases on axes rather than sorting them into categories.
 
-The word indolent appears in this paper only as a description of where diseases landed. It was not
-used to select anything, and no analysis reads it.
+No indolence descriptor was used to select anything, and no analysis reads one. That matters more
+than it may appear: the diseases this analysis places in the affected regime are largely common
+cancers rather than the rare slow-growing tumours the question is usually asked about, and section
+3.2 names them. The file this manuscript lives under retains an earlier, narrower framing in its
+name; the analysis does not.
 
 ---
 
@@ -155,9 +160,10 @@ python3 research/manuscripts/orr_dcr_reread.py --check
 python3 research/manuscripts/endpoint_regime_map.py --check
 python3 research/manuscripts/placebo_arm_calibration.py --check
 python3 research/manuscripts/endpoint_prior_art_audit.py --check
+python3 research/manuscripts/endpoint_regime_figure.py --check
 ```
 
-Each producer re-derives its artifact and refuses to write on drift. All five run in continuous
+Each producer re-derives its artifact and refuses to write on drift. All six run in continuous
 integration.
 
 ---
@@ -191,11 +197,39 @@ Extraskeletal myxoid chondrosarcoma is circled. Produced by
 
 ### 3.2 Disease coordinates
 
-44 conditions had enough of both axes to be placed. 14 of them (31.8%) had a median trial smaller
-than the design boundary requires, meaning the typical trial in that condition cannot separate the
-condition's own observed response rate from a rate not worth pursuing. 7 sat below the zero-event
-boundary, where a typical trial has better than a one-in-ten chance of observing no responses even
-when the agent performs at the rate the corpus records.
+44 conditions had enough of both axes to be placed, and they fall into three groups rather than two.
+
+Sixteen have a median objective response at or below the 5% null the design boundary tests against.
+For these the boundary is undefined, because no single-stage trial can separate the observed rate
+from a rate not worth pursuing. Every one of them has a median objective response of 0.0% except one
+at 4.2%. These are the strongest instances of the argument, not exceptions to it, and an earlier
+version of this analysis placed them in the denominator of the share below the boundary, where they
+could never enter the numerator.
+
+Of the 28 conditions where the comparison is defined, 14 (50.0%) had a median trial smaller than the
+design boundary requires. Seven of the 29 conditions where the zero-event comparison is defined
+(24.1%) sat below that boundary, where a typical trial has better than a one-in-ten chance of
+observing no responses even when the agent performs at the rate the corpus records. Taken together,
+30 of the 44 placed conditions cannot support a response-rate summary by one route or the other.
+
+The seven below the zero-event boundary are epithelial ovarian cancer, head and neck cancer,
+melanoma, metastatic melanoma, non-small-cell lung cancer, recurrent breast cancer and urothelial
+carcinoma. None is rare, and none is conventionally called indolent. The regime is defined by
+coordinates rather than by tumour biology, and this is what that looks like when the diseases are
+named.
+
+### 3.3 Phase composition
+
+The conditions at the bottom of the response axis include broad registry strings such as advanced
+solid tumours and metastatic cancer, which collect dose-escalation arms where a response rate of
+zero follows from the trial phase rather than from the disease. That objection is correct about
+composition: arms contributing to conditions at or below the null are phase-1 heavy, 197 phase 1
+against 147 phase 2 and 9 phase 3, where the remaining placed conditions run 133 phase 2, 96 phase 1
+and 37 phase 3.
+
+Recomputing the response axis on phase 2 and phase 3 arms only leaves the median at 0.0% for twelve
+of the fourteen such conditions that have any phase 2 or phase 3 arm. Two have none. One rises to
+21.4%. The low corner is therefore not an artefact of dose escalation.
 
 ---
 
@@ -343,7 +377,9 @@ no other.
 Examples span gastrointestinal stromal tumour (Benjamin et al., PMID 17470866; Choi et al.,
 PMID 17470865), high-grade and low-grade glioma (PMID 20231676; PMID 21474379), hepatocellular
 carcinoma (PMID 20175033), lymphoma (PMID 25113753; PMID 28379322), chronic lymphocytic leukaemia
-(PMID 29540348), and castration-resistant prostate cancer (PMID 26903579). The growth modulation
+(PMID 29540348), and castration-resistant prostate cancer (PMID 26903579). Two placebo-controlled
+neuroendocrine-tumour trials reading out on tumour growth control rather than on response supply the
+single-trial precedents for family A (PMID 26731483; PMID 25317882). The growth modulation
 index and the randomised discontinuation design carry the fourth family (PMID 9607564;
 PMID 20920605; PMID 30458583; PMID 33672857; PMID 40156702; PMID 30528315; PMID 27714541).
 
@@ -364,8 +400,8 @@ small samples.
 
 ## 8. Extraskeletal myxoid chondrosarcoma, a worked extreme
 
-Extraskeletal myxoid chondrosarcoma is a translocation sarcoma with an incidence well under one per
-million. Over the 47 patients ever evaluated for response inside a prospective trial with
+Extraskeletal myxoid chondrosarcoma is a translocation sarcoma, and one of the rarest diseases for
+which any prospective trial record exists. Over the 47 patients ever evaluated for response inside a prospective trial with
 protocol-defined assessment, objective response was 12.8% (6 of 47, Wilson 95% CI 6.0 to 25.2) and
 disease control 89.4% (42 of 47, 77.4 to 95.4), a gap of 76.6 percentage points composed entirely of
 36 patients with stable disease. Those figures and their sources are owned by the companion analysis
@@ -389,9 +425,12 @@ across 14 of 44 conditions.
 the arms of 4,414 screened studies. Section 5 bounds the size of what is missing and states the bias
 argument in both directions without settling it.
 
-**Condition strings are registry strings.** One disease may appear under several spellings and a
-broad string may absorb several diseases. This coarsens the map rather than biasing it toward any
-coordinate.
+**Condition strings are registry strings, and they bias the map.** One disease may appear under
+several spellings and a broad string may absorb several diseases. The broad strings collect
+dose-escalation arms and sit disproportionately at the bottom of the response axis, so the
+coarsening is directional and points toward this paper's own conclusion. Section 3.3 measures that
+difference and shows the finding survives a restriction to phase 2 and phase 3 arms, which is the
+reason the sensitivity is reported rather than the reason it was run.
 
 **A coordinate is two medians.** Trials within a condition vary widely, and a median coordinate
 summarises a heterogeneous set rather than describing any particular trial.

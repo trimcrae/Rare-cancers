@@ -21,7 +21,7 @@ scope: >
 audience: [external reviewers, collaborators, maintainers, autonomous research agents]
 date: 2026-08-08
 last_verified: 2026-08-08
-related: [DOC-EMC-RESPONSE-ENDPOINT-PAPER, DOC-POLICY-EVIDENCE]
+related: [DOC-RESPONSE-ENDPOINT-REGIME, DOC-POLICY-EVIDENCE]
 ---
 
 # What should be measured in advanced EMC — and what the 6-month progression-free benchmark is actually benchmarked against
