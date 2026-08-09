@@ -25,6 +25,42 @@ related: [DOC-MODALITY-CENSUS, DOC-EMC-UNEXPLORED-LANES]
 > in any disease.** This is a hypothesis raised from public transcript data in 16 archival tumours and
 > from a preclinical result in a different sarcoma. It has never been tested in an EMC cell.
 
+**Supplementary information:** [`emc-mtap-prmt5-hypothesis-SI.md`](./emc-mtap-prmt5-hypothesis-SI.md)
+— full methods, every per-gene reading, the controls, and an explicit list of what would have to be
+true for this manuscript to be wrong.
+
+---
+
+## Abstract
+
+**Background.** Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma driven by an
+*NR4A3* gene fusion, most often EWSR1::NR4A3. It has no targeted agent, and the systemic classes with
+any disease-specific evidence number about eight.
+
+**What we did.** We asked whether the PRMT5 methylosome — a target class with clinical-stage agents
+and a known genetic selection window — has ever been considered in this disease, and what the only
+readable public data says about it. We read two archival expression series (16 EMC tumours across two
+platforms) and a public sarcoma-line CRISPR dependency panel.
+
+**What we found.** *MTAP*, *PRMT5* and *MAT2A* appear in no prose document in this repository's
+40-route portfolio and in no published EMC series. Two independent lines nevertheless point at the
+class. First, a published preclinical result reports that PRMT5 supports fusion-driven transcription
+in a sibling translocation sarcoma sharing the same 5′ partner gene. Second, the PRMT5 methylosome
+reads higher in EMC than in comparator sarcomas on **both** platforms (*t* = 3.11 and 3.89), the
+methionine-salvage context likewise (*t* = 4.26 and 2.07), and the *MTAP*/*CDKN2A*/*CDKN2B* locus
+reads **lower** on the platform where the read is powered (*t* = −4.06).
+
+**⛔ What qualifies it.** Across 176 sarcoma lines PRMT5 and MAT2A are dependencies in 94.5% and 96.7%
+respectively, so a growth effect is close to expected and only an effect on fusion-driven
+transcription would be specific to this disease. **No EMC line exists in any public dependency
+dataset**, so that prior is a transfer. The locus reading is powered on one platform only, and
+*CDKN2A* is lost by mechanisms that leave *MTAP* intact.
+
+**Why it matters.** Each route ends at a different inexpensive, decisive experiment — one an addition
+to a screen that is already running on published EMC models, the other a routine
+immunohistochemistry stain on archival tissue. **Every branch of both is publishable, and the negative
+branches are the more likely ones.**
+
 ---
 
 ## Summary
@@ -112,6 +148,20 @@ three genes readable, *t* = −4.06. On GPL3290 only two of three are readable, 
 panel's floor for emitting a score, so **none is emitted** — an instrument limit, not a reading of the
 biology.
 
+![Figure 1](./figures/mtap-prmt5-fig1-readings.png)
+
+**Figure 1 — every tumour, on both platforms.** Per-sample *z* against each array's own probe
+distribution; bars are medians. ⛔ The two platforms are deliberately not on a shared axis: one is
+single-channel intensity and the other a two-colour log-ratio. A gene with no probe is marked
+unreadable, which is an instrument statement and never evidence of absence.
+
+![Figure 2](./figures/mtap-prmt5-fig2-locus-genewise.png)
+
+**Figure 2 — the locus is three genes, and they are not interchangeable.** ⚠ This figure exists to
+make the manuscript's own weakest point visible rather than to support it: because *CDKN2A* is lost by
+mechanisms that leave *MTAP* intact, a three-gene locus score cannot separate co-deletion from
+*CDKN2A*-only loss. Only MTAP protein can, which is why §4's decisive test for route 2 is a stain.
+
 **What this is and is not.** An elevated methylosome is consistent with route 1 and is not evidence
 for it: abundance is not dependency, and elevated methylosome expression is reported across many
 malignancies. A low locus group is consistent with route 2 and is not evidence for it either, for the
@@ -137,9 +187,25 @@ MTA-cooperative inhibitor exploits a metabolic state rather than the raw depende
 dependency and a genetic window are compatible — most cells need the enzyme, and deleted cells need it
 under conditions that make them easier to reach.
 
+![Figure 3](./figures/mtap-prmt5-fig3-dependency-qualifier.png)
+
+**Figure 3 — the dependency prior, which qualifies this route rather than supporting it.** ⛔ Included
+because omitting it would flatter the hypothesis. PRMT5 and MAT2A are dependencies in almost every
+sarcoma line, so a growth effect on silencing them is close to expected; only an effect on
+fusion-driven transcription would be specific. MTAP is not a dependency, exactly as a biomarker rather
+than a target should read — the one internal control this panel provides.
+
 ⚠ **This prior contains no EMC line.** No EMC cell line carrying the fusion appears in public
 dependency data at all, so this is a transfer from other sarcomas and the honest bound is not a small
 sample — it is no EMC observation.
+
+![Figure 4](./figures/mtap-prmt5-fig4-comparator-classes.png)
+
+**Figure 4 — the methylosome against each comparator class separately.** ⭐ A pooled comparator arm
+hides that one of the comparators, LGFMS, is itself a FET-fusion sarcoma (FUS::CREB3L2) — and
+therefore a control for "this is just what a fusion sarcoma looks like". ⚠ Points are gene-by-sample
+values pooled across the four methylosome genes, so they are not independent observations and no test
+is run on them here.
 
 ## 4 · The two tests that would settle it
 
