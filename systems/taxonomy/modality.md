@@ -88,6 +88,24 @@ and a group with every row excluded is a finding rather than a filing error.
 | `parked_capability` | plausible, waiting on something absent | `revisit_trigger` — a `TECH-*` |
 | `not_applicable` | the class has no EMC-relevant instance at all | the reason, in `rationale` |
 
+⭐ **What an `already_rejected` rationale may say, stated precisely — because the first pass got this
+wrong four times.** The rule was originally written as *"states only WHAT was ruled and by whom"*, and
+under that reading a row could not even say which of a document's thirty rulings it meant, which makes
+the register unusable. The line that actually holds is between an **index entry** and a **second
+home**:
+
+- ✅ **Name the axis the ruling turned on** — *"on light penetration"*, *"on compartment grounds"*,
+  *"as a nominal name-match only"*. One phrase, enough for a reader to find the ruling and to judge
+  whether it plausibly transfers to a neighbouring class. This is a pointer, not a copy.
+- ⛔ **Never reproduce the argument, its evidence or its numbers.** *"the one-two punch needs a first
+  punch this disease never receives"* reads as valid on its own — so if the owning document's
+  reasoning were ever corrected, that sentence would survive the correction and go on being quoted.
+  That is precisely the drift rule 1 exists to prevent, and four rows had it before this was written
+  down.
+
+The structural tell is length: a row that needs a paragraph is arguing rather than pointing, and a
+test bounds it.
+
 ⛔ **`already_rejected` and `excluded` are separate on purpose, and collapsing them breaks rule 1.**
 Roughly fifty classes already carry a ruling in a prior document. For those the row's whole job is to
 **point**, and restating the reason would create a second home for it that drifts. Where this census

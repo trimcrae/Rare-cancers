@@ -73,6 +73,27 @@ def test_every_prior_ruling_pointer_resolves_to_a_real_file(graph):
     assert bad == [], f"prior_ref pointing at a file that does not exist: {bad}"
 
 
+#: An `already_rejected` row POINTS at a ruling it does not own, so its rationale is an index entry
+#: (name the axis, one phrase) and never the argument. The structural tell is length, and 300 is set
+#: just above the longest legitimate row rather than at a round number -- two rows need a second
+#: sentence to scope what the ruling does NOT cover, which is exactly the kind of clause that stops a
+#: narrow ruling being read wide.
+_POINTER_MAX = 300
+
+
+def test_a_pointing_verdict_points_rather_than_argues(graph):
+    """⭐ FOUR ROWS FAILED THIS ON THE FIRST PASS and one of them reproduced its source's argument
+    almost verbatim. That matters more than it looks: a restated argument reads as valid on its own,
+    so if the owning document's reasoning were later corrected, the copy would survive the correction
+    and go on being quoted. It is rule 1's exact failure mode, one collection over."""
+    long = [(m["id"], len(m["rationale"])) for m in graph["modalities"]
+            if m["verdict"] == "already_rejected" and len(m["rationale"]) > _POINTER_MAX]
+    assert long == [], (
+        f"already_rejected rationales long enough to be arguing rather than pointing: {long}. "
+        f"Name the axis the ruling turned on in one phrase; the argument stays in the document that "
+        f"owns it (systems/taxonomy/modality.md §4).")
+
+
 def test_searched_before_is_never_claimed_without_a_pointer(graph):
     """⭐ THE DIRECTION THAT MATTERS. `never_searched` is the census's finding, so the dangerous edit
     is the one that quietly clears the flag. Requiring a resolvable document for `searched_before`
@@ -157,6 +178,40 @@ def test_the_prior_searches_still_exist_where_the_census_says_they_do():
     checked. `parser_guard.py` exists for this failure mode across the repo; this is its local form."""
     missing = [p for p in PRIOR_SEARCHES if not os.path.exists(os.path.join(REPO, p))]
     assert missing == [], f"a prior-search document the census reconciles against has moved: {missing}"
+
+
+#: Rows in the two rejection tables the census reconciled against on 2026-08-09, verified one by one.
+#: ⭐ PINNED SO THE SOURCE CANNOT GROW IN SILENCE. Verifying 26 and 22 rulings by hand once is worth
+#: little if the next ruling somebody adds to either table never gets a census row -- the census would
+#: go on reporting complete reconciliation while a fresh closure sat outside it, which is exactly the
+#: "a retraction that reaches some of its copies is not a retraction" shape this repository keeps
+#: rediscovering. When this fires, the fix is a new MOD-* row pointing at the new ruling, then bump
+#: the count in the same commit.
+RECONCILED = {
+    "research/manuscripts/emc-unexplored-treatment-lanes.md": ("## 6 · Considered and rejected", 26),
+    "research/manuscripts/emc-post-degrader-options.md": ("## 3b · The technique classes searched", 22),
+}
+
+
+def _table_rows(rel, heading):
+    text = open(os.path.join(REPO, rel), encoding="utf-8").read()
+    assert heading in text, f"{rel} no longer contains the heading {heading!r}"
+    section = text.split(heading, 1)[1]
+    section = re.split(r"\n(?:---|## )", section, 1)[0]
+    cells = [re.sub(r"[*~]", "", m).strip()
+             for m in re.findall(r"^\|\s*([^|]+?)\s*\|", section, re.M)]
+    return [c for c in cells
+            if c and set(c) - set("- ") and "technique class" not in c.lower() and c.lower() != "lane"]
+
+
+@pytest.mark.parametrize("rel", sorted(RECONCILED))
+def test_a_prior_rejection_table_has_not_grown_past_the_census(rel):
+    heading, expected = RECONCILED[rel]
+    rows = _table_rows(rel, heading)
+    assert len(rows) == expected, (
+        f"{rel} now lists {len(rows)} rulings, not the {expected} the census reconciled against. "
+        f"A ruling has been added or removed: give it a MOD-* row in systems/graph/modalities.json "
+        f"with verdict `already_rejected` and a prior_ref pointing here, then update this count.")
 
 
 def test_every_prior_search_is_actually_accounted_for(graph):

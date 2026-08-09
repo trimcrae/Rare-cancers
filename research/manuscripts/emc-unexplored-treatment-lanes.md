@@ -586,6 +586,13 @@ Collected here rather than buried, because several touch live route grades.
 
 Absence from sections 2–3 is a judgement, not an oversight.
 
+⭐ **Every ruling below is now pointed at from [the modality census](../../systems/views/modality-census.md)
+(2026-08-09), which restates none of them — the argument stays here, where it is owned.** The census
+also acted on this memo's own diagnosis: the four categories §0 names as structurally invisible became
+its four bands, and three of them are now strategy families. ⚠ **A test fails the build if this table
+gains or loses a row** without a matching census row, so a ruling added here cannot fall out of the
+record and reappear later as a fresh idea.
+
 | lane | why not |
 |---|---|
 | **TTFields** | Efficacy is explicitly division-rate-dependent — the worst possible match for an indolent tumour. A dedicated search returned **no sarcoma clinical trial**, and no transducer configuration exists for a deep proximal limb. |

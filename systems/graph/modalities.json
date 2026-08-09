@@ -573,7 +573,7 @@
     "group": "kinase_inhibitor",
     "verdict": "already_rejected",
     "prior_coverage": "searched_before",
-    "rationale": "Ruled out in the 2026-08-07 sweep, which cites a negative randomised result in the nearest fusion-sarcoma comparator. That ruling stands.",
+    "rationale": "Ruled out in the 2026-08-07 sweep on the trial record in the nearest fusion-sarcoma comparator. That ruling stands and its argument is owned there.",
     "exemplar": "teprotumumab",
     "prior_ref": {
       "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
@@ -1486,7 +1486,7 @@
     "group": "ppi_and_undruggable",
     "verdict": "already_rejected",
     "prior_coverage": "searched_before",
-    "rationale": "Ruled out in the 2026-08-07 sweep against a large literature corpus, and flagged there as worth publishing as a negative. That ruling stands.",
+    "rationale": "Ruled out in the 2026-08-07 sweep on dependency evidence and on target identity, and flagged there as worth publishing as a negative. That ruling stands.",
     "exemplar": "TEAD palmitoylation inhibitors",
     "prior_ref": {
       "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
@@ -2465,7 +2465,7 @@
     "group": "antibody_and_antibody_like",
     "verdict": "already_rejected",
     "prior_coverage": "searched_before",
-    "rationale": "Ruled out in the 2026-08-07 sweep because the blocking step is the targeting arm rather than the conjugate chemistry. That ruling stands.",
+    "rationale": "Ruled out in the 2026-08-07 sweep on which step is actually blocking. That ruling stands and its argument is owned there.",
     "exemplar": "antibody-oligonucleotide conjugates",
     "prior_ref": {
       "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
@@ -3793,7 +3793,7 @@
     "group": "host_directed_and_repurposed",
     "verdict": "already_rejected",
     "prior_coverage": "searched_before",
-    "rationale": "Ruled out in the 2026-08-07 sweep, on the ground that the one-two punch needs a first punch this disease never receives. That ruling stands.",
+    "rationale": "Ruled out in the 2026-08-07 sweep on the disease's treatment history. That ruling stands and its argument is owned there.",
     "exemplar": "dasatinib plus quercetin",
     "prior_ref": {
       "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
@@ -4322,6 +4322,48 @@
       "file": "research/manuscripts/emc-post-degrader-options.md",
       "anchor": "3b--the-technique-classes-searched-and-where-each-landed"
     },
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-RNA-EDITING",
+    "name": "Programmable RNA base editing (ADAR recruitment)",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "drug_mechanism",
+    "group": "nucleic_acid",
+    "exemplar": "ADAR-recruiting oligonucleotides",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "rationale": "Ruled out in the 2026-08-07 sweep on the chemistry of the edit it can make. That ruling stands and its reasoning is owned there. ⚠ It does NOT cover DNA base and prime editing, which is a separate row with a different verdict, because that chemistry can make the edit this one cannot.",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/modalities.json"
+      }
+    }
+  },
+  {
+    "id": "MOD-BESPOKE-ASO",
+    "name": "Individualised bespoke antisense programmes",
+    "level": "cross-cutting",
+    "kind": "modality_class",
+    "band": "strategy_and_architecture",
+    "group": "strategy_and_trial_architecture",
+    "exemplar": "n-of-few bespoke ASO programmes",
+    "verdict": "already_rejected",
+    "prior_coverage": "searched_before",
+    "prior_ref": {
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "anchor": "6--considered-and-rejected"
+    },
+    "rationale": "Ruled out in the 2026-08-07 sweep on the published inclusion criterion of the programme concerned. That ruling stands. ⚠ It is a narrower ruling than it looks and does not reach the general access-pathway question, which is a separate row and is live.",
     "provenance": {
       "owner": {
         "file": "systems/graph/modalities.json"

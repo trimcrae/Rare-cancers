@@ -25,7 +25,7 @@ last_verified: 2026-08-09
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness — for
 > any class, in any verdict, including the ones that survive.**
 
-**215 modality classes · 19 groups · 4 bands.**
+**217 modality classes · 19 groups · 4 bands.**
 
 ## ⭑ 127 classes no prior search here had pointed at
 
@@ -41,7 +41,7 @@ are live** (`candidate` or `parked_capability`).
 | ⏸ `parked_capability` | 9 | 9 |
 | ✓ `on_board` | 41 | 0 |
 | ● `in_clinical_use` | 8 | 0 |
-| ✕ `already_rejected` | 31 | 0 |
+| ✕ `already_rejected` | 33 | 0 |
 | ✕ `excluded` | 84 | 84 |
 | — `not_applicable` | 11 | 11 |
 
@@ -52,10 +52,10 @@ not rejected, never queried — which is the reason the census carries them at a
 
 | band | classes | never searched |
 |---|---:|---:|
-| `drug_mechanism` | 161 | 94 |
+| `drug_mechanism` | 162 | 94 |
 | `delivery_and_conjugate` | 26 | 18 |
 | `physical_locoregional` | 15 | 8 |
-| `strategy_and_architecture` | 13 | 7 |
+| `strategy_and_architecture` | 14 | 7 |
 
 ## The live residue
 
@@ -234,6 +234,7 @@ carries the cheapest observation that would move it.
 | **MOD-HYBRID-INTRON-ASO**<br/>Intron-directed antisense against the fusion pre-mRNA | intron-targeted ASOs | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#35--the-hybrid-intron) |
 | **MOD-MIRNA**<br/>miRNA mimics and antagomirs | miRNA mimics | ✕ `excluded` | ⭑ **new** | Acts on networks rather than on a sequence, so it forfeits the one discriminating feature this disease offers -- and no EMC miRNA profile exists to … |
 | **MOD-MRNA-THERAPEUTIC**<br/>mRNA therapeutics (non-vaccine) | therapeutic mRNA | ⏸ `parked_capability` | ⭑ **new** | Delivering a coding message -- a dominant-negative, a suicide enzyme, a decoy protein -- is a real format with no EMC instance. … |
+| **MOD-RNA-EDITING**<br/>Programmable RNA base editing (ADAR recruitment) | ADAR-recruiting oligonucleotides | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-SARNA-CIRCRNA**<br/>Small activating RNA and circular RNA therapeutics | saRNA | ✕ `excluded` | ⭑ **new** | Both are up-regulating or durability formats. The therapeutic direction needed against a gain-of-function driver is removal, so the class is pointed … |
 | **MOD-SIRNA**<br/>siRNA and RNAi | siRNA | ✓ `on_board` | · | [RT-ASO](L2-rt-aso.md) — Fusion-junction ASO / siRNA (the deliverable) |
 | **MOD-SPLICE-SWITCH-ASO**<br/>Splice-switching antisense oligonucleotides | splice-switching ASOs | ✕ `excluded` | ⭑ **new** | A mechanistically distinct class from the gapmer route -- redirect splicing rather than degrade the transcript -- and it has never been named here. … |
@@ -400,6 +401,7 @@ carries the cheapest observation that would move it.
 |---|---|---|---|---|
 | **MOD-ADAPTIVE-SCHEDULING**<br/>Adaptive and evolution-guided dosing | adaptive pazopanib scheduling | ⭑ `candidate` | · | [RT-SCHEDULING](L2-rt-scheduling.md) — Adaptive and metronomic scheduling of existing agents |
 | **MOD-BASKET-ELIGIBILITY**<br/>Biomarker-defined basket eligibility | FET-fusion basket eligibility | ⭑ `candidate` | · | [RT-TRIAL-REACH](L2-rt-trial-reach.md) — Trial reachability and access pathways |
+| **MOD-BESPOKE-ASO**<br/>Individualised bespoke antisense programmes | n-of-few bespoke ASO programmes | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-BIOMARKER-STRATIFICATION**<br/>Biomarker-stratified treatment selection | fusion-partner stratification | ✓ `on_board` | · | [RT-PARTNER-STRAT](L2-rt-partner-strat.md) — NR4A3 5' fusion partner as a treatment-stratification … |
 | **MOD-CHRONOTHERAPY**<br/>Chronotherapy | circadian-timed dosing | ✕ `excluded` | ⭑ **new** | Timing delivery to circadian rhythm optimises the tolerability of an agent with established activity, and this disease's problem is the activity … |
 | **MOD-COMBINATION**<br/>Rational combination therapy | trabectedin plus a PPARγ agonist | ✓ `on_board` | · | [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) — Trabectedin + a PPARγ agonist (all approved drugs) |

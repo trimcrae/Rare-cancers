@@ -978,6 +978,16 @@ is not re-derived as novel.
 and rejected is not re-proposed as an unexplored idea. **Absence from Tier 1–2 here is a judgement,
 not an oversight.***
 
+⭐ **SUPERSEDED IN SCOPE, NOT IN CONTENT (2026-08-09).** Every one of the 22 rows below still stands
+exactly as written, and each is now pointed at by a row in
+[the modality census](../../systems/views/modality-census.md) rather than restated there. What the
+census changes is the sentence above it: *absence from this table* was never a judgement, because this
+table records what a **search** pointed at, and a search cannot report what it never queried. The
+census enumerated 217 classes and found **127 that no prior sweep here had pointed at** — so the
+breadth claim this table can honestly make is about the classes in it, not about the ones missing from
+it. ⚠ A test now fails the build if this table gains or loses a row without the census accounting for
+it.
+
 ⚠ **The `landed` column is the CORRECTED tier.** Where it moved, the first ranking's tier is given
 beside it so the change is auditable from this table alone; the reasoning is in
 [§6](#6--appendix--the-superseded-ranking-and-what-was-wrong-with-its-axis).
