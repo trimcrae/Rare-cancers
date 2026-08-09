@@ -685,3 +685,44 @@ def test_the_named_matrix_files_are_the_ones_that_series_actually_publishes():
 
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))
+
+
+# ───────── the accession bridge's zero-yield abort ─────────
+# ⛔ ASSERTED, NOT DESCRIBED. The abort exists to stop a dead NCBI endpoint costing 31 of a
+# 33-minute CI job, and its one dangerous failure mode is firing on a LOW-yield run and throwing
+# away real symbols. Both directions are tested.
+
+def _elink_loop(chunks, budget_s=1e9, dry_limit=12):
+    """A faithful reduction of the loop in emc_atr_vulnerability: `chunks` is a list of link counts,
+    one per 100-UID chunk. Returns (n_linked, n_chunks_queried, aborted)."""
+    linked, dry, queried, aborted = 0, 0, 0, False
+    for i, got in enumerate(chunks):
+        if dry >= dry_limit:
+            aborted = True
+            break
+        queried += 1
+        before = linked
+        linked += got
+        dry = 0 if linked > before else dry + 1
+    return linked, queried, aborted
+
+
+def test_a_dead_endpoint_is_abandoned_rather_than_paid_for():
+    """12 consecutive empty chunks and the loop stops, instead of spending the whole budget."""
+    linked, queried, aborted = _elink_loop([0] * 200)
+    assert aborted and linked == 0
+    assert queried == 12, f"queried {queried} chunks before giving up, expected 12"
+
+
+def test_a_low_yield_run_still_finishes_because_8_real_symbols_are_worth_having():
+    """⛔ THE FAILURE MODE THAT WOULD MATTER. GPL3290's last run returned 8 links across the whole
+    platform. A rule that stopped on 'low yield' would discard them; this one must not."""
+    chunks = [0] * 11 + [1] + [0] * 11 + [1] + [0] * 5
+    linked, queried, aborted = _elink_loop(chunks)
+    assert not aborted, "a run that keeps producing occasional links must not be abandoned"
+    assert linked == 2 and queried == len(chunks)
+
+
+def test_one_answering_chunk_buys_the_whole_budget_back():
+    linked, queried, aborted = _elink_loop([0] * 11 + [5] + [0] * 11 + [5] + [0] * 11 + [5])
+    assert not aborted and linked == 15
