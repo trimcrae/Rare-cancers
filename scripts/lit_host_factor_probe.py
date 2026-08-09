@@ -204,6 +204,86 @@ def hit_row(r: dict) -> dict:
     }
 
 
+# ---------------------------------------------------------------------------
+# Background mortality -- moved here after the first attempt failed
+# ---------------------------------------------------------------------------
+# ⛔ THE SSA LIFE TABLE WAS TRIED FIRST AND THE RUNNER COULD NOT REACH IT.
+# Measured 2026-08-09, run 31334481362: `status: FETCH_FAILED` against
+# https://www.ssa.gov/oact/STATS/table4c6.html, so the background-mortality check stayed
+# NOT RUN and the competing-mortality decomposition still has no plausibility test.
+# Superseded, retained: the SSA URL and the positional HTML parse written for it.
+#
+# The WHO Global Health Observatory serves the same quantity as JSON from a CDN, with no
+# key and no scraping: indicator LIFE_0000000029 is nqx, the probability of dying within
+# an age band. It is coarser -- five-year bands rather than single years -- and that is
+# fine here, because the question is whether the observed gap is the SIZE age and sex
+# explain, not what it is to three decimals.
+#
+# ⚠ IT IS DELIBERATELY A ONE-SIDED CHECK. A general-population table over-states
+# background mortality for a cohort fit enough to have reached and survived a sarcoma
+# diagnosis, so it can show the observed gap is too LARGE to be background -- which would
+# mean the decomposition is a study-comparability artifact and must not be quoted -- and
+# it cannot prove the gap IS background.
+GHO = ("https://ghoapi.azureedge.net/api/LIFE_0000000029"
+       "?$filter=SpatialDim%20eq%20%27USA%27%20and%20Dim1%20eq%20%27{sex}%27")
+
+AGE_BANDS = {"AGEGROUP_YEARS55-59": (55, 59), "AGEGROUP_YEARS60-64": (60, 64)}
+
+
+def fetch_life_table(start_age: int = 55, years: int = 10,
+                     male_fraction: float = 0.66) -> dict:
+    per_sex, notes = {}, {}
+    for key, sex in (("male", "SEX_MLE"), ("female", "SEX_FMLE")):
+        raw = get(GHO.format(sex=sex))
+        if not raw:
+            return {"status": "FETCH_FAILED", "source": GHO.format(sex=sex),
+                    "why": "the WHO GHO life table could not be retrieved; the check stays NOT RUN"}
+        try:
+            rows = json.loads(raw).get("value", [])
+        except json.JSONDecodeError:
+            return {"status": "PARSE_FAILED", "source": GHO.format(sex=sex),
+                    "why": "the GHO response was not JSON"}
+
+        # Most recent year available for each band we need.
+        best: dict[str, dict] = {}
+        for r in rows:
+            band = r.get("Dim2")
+            if band not in AGE_BANDS or r.get("NumericValue") is None:
+                continue
+            if band not in best or (r.get("TimeDim") or 0) > (best[band].get("TimeDim") or 0):
+                best[band] = r
+        missing = [b for b in AGE_BANDS if b not in best]
+        if missing:
+            return {"status": "PARSE_FAILED", "source": GHO.format(sex=sex),
+                    "bands_missing": missing,
+                    "why": ("the bands this cohort needs were not in the response; no background "
+                            "figure is asserted rather than extrapolating from the ones present")}
+        surv = 1.0
+        for band in AGE_BANDS:
+            surv *= (1.0 - float(best[band]["NumericValue"]))
+        per_sex[key] = 1.0 - surv
+        notes[key] = {b: {"nqx": best[b]["NumericValue"], "year": best[b].get("TimeDim")}
+                      for b in AGE_BANDS}
+
+    blended = male_fraction * per_sex["male"] + (1 - male_fraction) * per_sex["female"]
+    return {
+        "status": "OK",
+        "source": "WHO Global Health Observatory, indicator LIFE_0000000029 (nqx), USA",
+        "start_age": start_age, "horizon_years": years, "male_fraction": male_fraction,
+        "cumulative_mortality_male": round(per_sex["male"], 4),
+        "cumulative_mortality_female": round(per_sex["female"], 4),
+        "cumulative_mortality_blended": round(blended, 4),
+        "bands_used": notes,
+        "limits": (
+            "A general-population period table, and an EMC cohort is not the general population: "
+            "it is selected for having reached and survived a sarcoma diagnosis, so its non-cancer "
+            "mortality is biased DOWNWARD relative to this figure. The check is therefore one-sided "
+            "-- it can show the observed gap is too large to be background, and cannot prove the "
+            "gap is background."
+        ),
+    }
+
+
 def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     results = {}
@@ -220,6 +300,8 @@ def main() -> int:
         }
         time.sleep(SLEEP)
 
+    life_table = fetch_life_table()
+    print(f"[life-table] {life_table.get('status')}", file=sys.stderr)
     emc_host = results.get("emc_any_host_factor", {}).get("hitCount")
     payload = {
         "_readme": (
@@ -247,6 +329,7 @@ def main() -> int:
             "n_zero": sum(1 for v in results.values() if v["hitCount"] == 0),
             "n_failed": sum(1 for v in results.values() if v["hitCount"] is None),
             "emc_host_factor_hitCount": emc_host,
+            "background_mortality_status": life_table.get("status"),
             "emc_host_factor_reading": (
                 "This is the number that decides whether any of block A can be answered in this "
                 "disease directly, or whether every host-factor statement about EMC must be "
@@ -256,6 +339,7 @@ def main() -> int:
             ),
         },
         "queries": results,
+        "background_mortality": life_table,
     }
     OUT.write_text(json.dumps(payload, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps(payload["summary"], indent=1))
