@@ -1097,7 +1097,50 @@
    }
   ]
  },
+ "G4b_the_accrual_axis_is_two_populations": {
+  "_why_this_block_exists": "the accrual axis pools two populations that answer different questions and are biased in opposite directions. The pooled share depends on the ratio between them, and that ratio is an artifact of two truncated queries rather than a fact about oncology.",
+  "records_by_source": {
+   "ctg_accrual_terminated_onc": 962,
+   "ctg_accrual_completed_onc_phase2": 875
+  },
+  "_what_each_population_is": {
+   "ctg_accrual_completed_onc_phase2": "completed phase 2 oncology trials. Survivorship bias UPWARD -- a trial that could not accrue never appears. Gives the LOWER bound on the share.",
+   "ctg_accrual_terminated_onc": "oncology trials terminated with accrual named in the stopped reason. Selected on the very outcome the axis measures, and their enrolment is censored rather than achieved. Gives the UPPER bound."
+  },
+  "variants": {
+   "completed_trials_only": {
+    "conditions_placed": 35,
+    "conditions_at_or_below_the_null": 13,
+    "conditions_where_the_design_comparison_is_defined": 22,
+    "conditions_below_the_design_contour": 7,
+    "share_below_the_design_contour_pct": 31.8,
+    "median_of_the_per_condition_median_enrolments": 54
+   },
+   "terminated_for_accrual_only": {
+    "conditions_placed": 36,
+    "conditions_at_or_below_the_null": 13,
+    "conditions_where_the_design_comparison_is_defined": 23,
+    "conditions_below_the_design_contour": 17,
+    "share_below_the_design_contour_pct": 73.9,
+    "median_of_the_per_condition_median_enrolments": 8
+   },
+   "pooled_as_previously_published": {
+    "conditions_placed": 44,
+    "conditions_at_or_below_the_null": 16,
+    "conditions_where_the_design_comparison_is_defined": 28,
+    "conditions_below_the_design_contour": 14,
+    "share_below_the_design_contour_pct": 50.0,
+    "median_of_the_per_condition_median_enrolments": 23
+   }
+  },
+  "bound_on_the_share_below_the_design_contour_pct": [
+   31.8,
+   73.9
+  ],
+  "_the_reading": "the share of conditions whose median trial is too small for their own response rate lies between these two, and no single number in that interval is better supported than the others. The paper reports the interval. SUPERSEDED, RETAINED: the pooled point estimate, which was published as the headline."
+ },
  "G4_what_the_map_reads": {
+  "⚠_the_share_below_is_the_POOLED_reading_see_G4b": "computed over both accrual populations at once. G4b shows it is not a point estimate: completed-trial accrual and terminated-for-accrual accrual bound it from opposite sides, and the pooled value depends on a truncation ratio. Quote the bound, not this number alone.",
   "conditions_placed": 44,
   "conditions_at_or_below_the_null_so_no_design_is_defined": 16,
   "_what_that_group_is": "a condition whose median objective response is at or below the 5% null the design contour tests against. No single-stage design can separate that rate from 'not worth pursuing', so the contour is undefined -- not because the condition is unaffected, but because it is past the point the contour was built to measure. Every one of these has a median objective response of 0.0% except one at 4.2%.",

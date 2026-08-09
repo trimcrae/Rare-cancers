@@ -284,6 +284,62 @@ def test_the_distinct_trial_count_equals_the_corpus_trial_count():
             ["distinct_ncts_with_a_four_cell_block"] == doc["C6_counts"]["distinct_trials"])
 
 
+# ------------------------------------------------- the accrual axis is two populations
+
+def _regime():
+    import json
+    with open(os.path.join(MANUSCRIPTS, "endpoint-regime-map.json")) as fh:
+        return json.load(fh)
+
+
+def test_the_two_accrual_populations_bound_the_pooled_share():
+    """The pooled headline must sit inside the interval its own components define.
+
+    ⛔ WHY THIS MATTERS MORE THAN IT LOOKS. The accrual axis pooled completed trials (median
+    enrolment 54, survivorship-biased UP) with trials terminated for accrual (median 8, selected on
+    the outcome the axis measures and censored rather than achieved). The pooled share was published
+    as 50.0%. Its components are 31.8% and 73.9%, so the point estimate was a mixture whose value is
+    set by a 962:875 record ratio -- and that ratio comes from two API queries BOTH truncated at
+    1000, against totals of 2027 and 16035. A different truncation moves the headline with nothing
+    about oncology changing.
+    """
+    g = _regime()["G4b_the_accrual_axis_is_two_populations"]
+    lo, hi = g["bound_on_the_share_below_the_design_contour_pct"]
+    pooled = g["variants"]["pooled_as_previously_published"]["share_below_the_design_contour_pct"]
+    assert lo < pooled < hi, (
+        f"the pooled share {pooled} is outside the bound [{lo}, {hi}], so the two populations no "
+        f"longer bracket it and the interval framing is wrong")
+    assert g["variants"]["completed_trials_only"]["share_below_the_design_contour_pct"] == lo
+    assert g["variants"]["terminated_for_accrual_only"]["share_below_the_design_contour_pct"] == hi
+
+
+def test_the_completed_population_really_does_enrol_more():
+    """The direction of the bias is the argument, so it is asserted rather than described.
+
+    If terminated-for-accrual trials ever enrolled MORE than completed ones, "lower bound" and
+    "upper bound" would be the wrong way round and section 3.4 would be backwards.
+    """
+    v = _regime()["G4b_the_accrual_axis_is_two_populations"]["variants"]
+    comp = v["completed_trials_only"]["median_of_the_per_condition_median_enrolments"]
+    term = v["terminated_for_accrual_only"]["median_of_the_per_condition_median_enrolments"]
+    assert comp > term, (
+        f"completed-trial median enrolment {comp} is not above terminated-trial {term}; the bound's "
+        f"direction no longer holds")
+
+
+def test_the_manuscript_reports_the_bound_and_not_only_the_point_estimate():
+    """A bound computed and not stated is a bound nobody has."""
+    with open(os.path.join(MANUSCRIPTS, "response-endpoint-indolent-tumours.md"),
+              encoding="utf-8") as fh:
+        paper = fh.read()
+    lo, hi = _regime()["G4b_the_accrual_axis_is_two_populations"][
+        "bound_on_the_share_below_the_design_contour_pct"]
+    abstract = paper.split("## Abstract", 1)[1].split("\n---\n", 1)[0]
+    for v in (lo, hi):
+        assert str(v) in abstract, f"the abstract does not carry the bound value {v}"
+        assert str(v) in paper
+
+
 # ------------------------------------------------- endorsement is not uniform across domains
 
 def test_the_covered_domain_count_is_split_by_evidence_grade():

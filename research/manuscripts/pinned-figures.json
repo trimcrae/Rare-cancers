@@ -522,6 +522,30 @@
     "research/manuscripts/response-endpoint-indolent-tumours.md"
    ],
    "regenerate": "bash scripts/regenerate_endpoint_chain.sh (and endpoint_corpus.py --extract if the payloads changed), then update every figure the manuscript quotes IN THE SAME COMMIT"
+  },
+  {
+   "id": "endpoint_accrual_bound_low",
+   "description": "Lower bound on the share of conditions below the design boundary, from completed-trial accrual alone. The abstract and section 3.4 report an interval rather than the pooled point estimate, because the pooled value depends on a truncation ratio.",
+   "artifact": "research/manuscripts/endpoint-regime-map.json",
+   "key": "G4b_the_accrual_axis_is_two_populations.variants.completed_trials_only.share_below_the_design_contour_pct",
+   "format": "{:.1f}",
+   "context": "^\\| completed phase 2 trials \\|",
+   "must_appear_in": [
+    "research/manuscripts/response-endpoint-indolent-tumours.md"
+   ],
+   "regenerate": "bash scripts/regenerate_endpoint_chain.sh, then update the bound the manuscript quotes IN THE SAME COMMIT"
+  },
+  {
+   "id": "endpoint_accrual_bound_high",
+   "description": "Upper bound, from accrual in trials terminated with accrual named. Selected on the outcome the axis measures, so it bounds from above rather than estimating.",
+   "artifact": "research/manuscripts/endpoint-regime-map.json",
+   "key": "G4b_the_accrual_axis_is_two_populations.variants.terminated_for_accrual_only.share_below_the_design_contour_pct",
+   "format": "{:.1f}",
+   "context": "^\\| trials terminated with accrual named \\|",
+   "must_appear_in": [
+    "research/manuscripts/response-endpoint-indolent-tumours.md"
+   ],
+   "regenerate": "bash scripts/regenerate_endpoint_chain.sh, then update the bound the manuscript quotes IN THE SAME COMMIT"
   }
  ],
  "table_completeness": [

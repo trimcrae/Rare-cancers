@@ -122,6 +122,106 @@ def _median_int(vals):
     return int(statistics.median(vals)) if vals else None
 
 
+#: The two frozen accrual queries, and what each population actually is.
+ACCRUAL_COMPLETED = "ctg_accrual_completed_onc_phase2"
+ACCRUAL_TERMINATED = "ctg_accrual_terminated_onc"
+
+
+def _accrual_sensitivity(corpus, orr_by_cond):
+    """Recompute the headline share against each accrual population separately.
+
+    ⛔ THE PROBLEM THIS EXISTS TO EXPOSE. The accrual axis was pooled over both frozen accrual
+    queries. They are not two samples of one population:
+
+      * COMPLETED phase 2 oncology trials -- what trials that finished actually enrolled.
+        Median enrolment 49. SURVIVORSHIP BIAS UPWARD: a trial that could not accrue is absent.
+      * TERMINATED oncology trials whose stated reason mentions accrual -- what trials managed
+        before giving up. Median enrolment 8. SELECTED ON THE OUTCOME THE AXIS MEASURES, so their
+        enrolment is a censored observation rather than an achieved accrual, and using them to show
+        that diseases cannot accrue is close to circular.
+
+    Pooling them gave a median of 22 and a headline of 50.0%. That number has no interpretation,
+    because it depends on the 962:875 ratio between the two populations -- and that ratio is an
+    artifact of two API queries that were BOTH truncated at 1000 records, against totals of 2027 and
+    16035. A different truncation would move the headline without anything about oncology changing.
+
+    So the honest output is not a point estimate but a BOUND. The two populations are biased in
+    opposite directions and neither is right on its own, which makes the pair informative: the
+    completed-only share is a lower bound and the terminated-only share an upper one.
+
+    Returns every variant. The paper reports the interval and stops quoting the mixture.
+    """
+    def acc_for(sources):
+        acc = collections.defaultdict(list)
+        for r in corpus["C7_accrual_records"]:
+            e = r.get("actual_enrollment")
+            if e is None or r.get("source") not in sources:
+                continue
+            for c in r["conditions"]:
+                acc[c].append(e)
+        return acc
+
+    def headline(acc):
+        placed = undefined = defined = below = 0
+        enrolments = []
+        for cond in sorted(set(orr_by_cond) | set(acc)):
+            orrs, accs = orr_by_cond.get(cond, []), acc.get(cond, [])
+            if len(orrs) < MIN_ARMS or len(accs) < MIN_ACCRUAL_RECORDS:
+                continue
+            placed += 1
+            enrolments.append(_median_int(accs))
+            need = required_n_against_null(statistics.median(orrs))
+            if need is None:
+                undefined += 1
+                continue
+            defined += 1
+            if need == NO_DESIGN or _median_int(accs) < need:
+                below += 1
+        return {
+            "conditions_placed": placed,
+            "conditions_at_or_below_the_null": undefined,
+            "conditions_where_the_design_comparison_is_defined": defined,
+            "conditions_below_the_design_contour": below,
+            "share_below_the_design_contour_pct": (
+                round(100 * below / defined, 1) if defined else None),
+            "median_of_the_per_condition_median_enrolments": (
+                _median_int([e for e in enrolments if e is not None]) if enrolments else None),
+        }
+
+    both = {ACCRUAL_COMPLETED, ACCRUAL_TERMINATED}
+    variants = {
+        "completed_trials_only": headline(acc_for({ACCRUAL_COMPLETED})),
+        "terminated_for_accrual_only": headline(acc_for({ACCRUAL_TERMINATED})),
+        "pooled_as_previously_published": headline(acc_for(both)),
+    }
+    lo = variants["completed_trials_only"]["share_below_the_design_contour_pct"]
+    hi = variants["terminated_for_accrual_only"]["share_below_the_design_contour_pct"]
+    counts = collections.Counter(r.get("source") for r in corpus["C7_accrual_records"])
+    return {
+        "_why_this_block_exists": (
+            "the accrual axis pools two populations that answer different questions and are biased "
+            "in opposite directions. The pooled share depends on the ratio between them, and that "
+            "ratio is an artifact of two truncated queries rather than a fact about oncology."),
+        "records_by_source": dict(counts),
+        "_what_each_population_is": {
+            ACCRUAL_COMPLETED: (
+                "completed phase 2 oncology trials. Survivorship bias UPWARD -- a trial that could "
+                "not accrue never appears. Gives the LOWER bound on the share."),
+            ACCRUAL_TERMINATED: (
+                "oncology trials terminated with accrual named in the stopped reason. Selected on "
+                "the very outcome the axis measures, and their enrolment is censored rather than "
+                "achieved. Gives the UPPER bound."),
+        },
+        "variants": variants,
+        "bound_on_the_share_below_the_design_contour_pct": [lo, hi],
+        "_the_reading": (
+            "the share of conditions whose median trial is too small for their own response rate "
+            "lies between these two, and no single number in that interval is better supported "
+            "than the others. The paper reports the interval. SUPERSEDED, RETAINED: the pooled "
+            "point estimate, which was published as the headline."),
+    }
+
+
 def build():
     with open(CORPUS) as fh:
         corpus = json.load(fh)
@@ -276,7 +376,14 @@ def build():
             "coordinates": coords_sorted,
         },
 
+        "G4b_the_accrual_axis_is_two_populations": _accrual_sensitivity(corpus, orr_by_cond),
+
         "G4_what_the_map_reads": {
+            "⚠_the_share_below_is_the_POOLED_reading_see_G4b": (
+                "computed over both accrual populations at once. G4b shows it is not a point "
+                "estimate: completed-trial accrual and terminated-for-accrual accrual bound it from "
+                "opposite sides, and the pooled value depends on a truncation ratio. Quote the "
+                "bound, not this number alone."),
             "conditions_placed": len(coords),
             "conditions_at_or_below_the_null_so_no_design_is_defined": len(at_or_below_the_null),
             "_what_that_group_is": (

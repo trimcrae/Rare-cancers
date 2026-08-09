@@ -62,25 +62,25 @@ formerly did so by referring to this filename, which a reviewer cannot see and s
 
 **Background.** The objective-response rate is the reflex summary of a single-arm oncology trial. It
 keeps only tumour shrinkage, and is applied regardless of whether a disease produces enough
-shrinkage, or enough patients, to make the figure informative.
+shrinkage, or enough patients, to make it informative.
 
 **Methods.** Under a protocol frozen before retrieval, we assembled trial arms from
 ClinicalTrials.gov posted results. The unit is one arm; inclusion depends on the report rather than
 the disease, requiring all four best-response categories as integer counts with an evaluable
 denominator. No tumour type, grade, rarity or indolence descriptor was a criterion, and both
 endpoints were computed on one denominator. Diseases were placed on two measured axes, median
-objective response and median actual enrolment, with boundaries drawn as level sets of the binomial.
-Summaries use order statistics.
+objective response and median actual enrolment, with boundaries drawn from the binomial.
 
 **Results.** 552 arms from 138 trials carried a complete table. The gap between disease control and
 objective response had a median of 39.4 percentage points (IQR 20.0 to 54.3), and is identically the
 stable-disease proportion, so each value carries an exact interval. It was present in every
 constructible stratum. Of 44 conditions placed, 16 had a median response at or below the 5% null,
-leaving no design defined; of the remaining 28, 14 (50.0%) had a median trial smaller than an exact
-single-stage design requires. Reporting was the binding constraint: of 2,851 trials naming best
-overall response, 2,715 (95.2%) posted results without the four categories. Of 19 arms carrying a
-control token, 16 carry an active agent once registered interventions are read. Four remedy families
-appear across 12 domains, 7 with a consensus guideline and 5 a trial precedent alone.
+leaving no design defined; of the rest, 31.8% to 73.9% had a median trial too small for an exact
+single-stage design, the interval spanning two accrual populations biased in opposite directions.
+Reporting was the binding constraint: of 2,851 trials naming best overall response, 2,715 (95.2%)
+posted results without the four categories. Of 19 control-token arms, 16 carry an active agent once
+registered interventions are read. Four remedy families appear across 12 domains, 7 with a consensus
+guideline and 5 a trial precedent alone.
 
 **Conclusions.** The failure of a response summary is a property of a coordinate rather than a tumour
 type, and remedies are long established but undiffused. A four-cell table with its denominator lets
@@ -245,10 +245,12 @@ version of this analysis placed them in the denominator of the share below the b
 could never enter the numerator.
 
 Of the 28 conditions where the comparison is defined, 14 (50.0%) had a median trial smaller than the
-design boundary requires. Seven of the 29 conditions where the zero-event comparison is defined
-(24.1%) sat below that boundary, where a typical trial has better than a one-in-ten chance of
-observing no responses even when the agent performs at the rate the corpus records. Taken together,
-30 of the 44 placed conditions cannot support a response-rate summary by one route or the other.
+design boundary requires. That figure is a mixture rather than an estimate, for the reason section
+3.4 sets out, and the defensible statement is a bound: between 31.8% and 73.9%. Seven of the 29
+conditions where the zero-event comparison is defined (24.1%) sat below that boundary, where a
+typical trial has better than a one-in-ten chance of observing no responses even when the agent
+performs at the rate the corpus records. Taken together, 30 of the 44 placed conditions cannot
+support a response-rate summary by one route or the other.
 
 The seven below the zero-event boundary are epithelial ovarian cancer, head and neck cancer,
 melanoma, metastatic melanoma, non-small-cell lung cancer, recurrent breast cancer and urothelial
@@ -268,6 +270,39 @@ and 37 phase 3.
 Recomputing the response axis on phase 2 and phase 3 arms only leaves the median at 0.0% for twelve
 of the fourteen such conditions that have any phase 2 or phase 3 arm. Two have none. One rises to
 21.4%. The low corner is therefore not an artefact of dose escalation.
+
+### 3.4 Composition of the accrual axis
+
+The accrual axis has the same problem in a more severe form, and it is the reason the share below
+the design boundary is reported as a bound. Enrolment records come from two frozen queries that
+retrieve different populations.
+
+| accrual population | records | median enrolment | share below the design boundary |
+|---|---|---|---|
+| completed phase 2 trials | 875 | 54 | 31.8% |
+| trials terminated with accrual named | 962 | 8 | 73.9% |
+| the two pooled | 1,837 | 23 | 50.0% |
+
+Neither population answers the question on its own. A completed trial shows what was achieved, but
+a disease whose trials never finish contributes nothing, so that population is biased upward by
+survivorship. A trial terminated for accrual shows what was managed before the attempt was
+abandoned, which is a censored observation rather than an achieved enrolment; that population is
+also selected on the very outcome the axis measures, so using it to show that diseases cannot accrue
+is close to circular.
+
+The pooled figure is worse than either, because it is neither quantity. Its value depends on the
+ratio between the two record sets, and that ratio is an artefact of retrieval: both queries were
+capped at 1,000 returned records against totals of 2,027 and 16,035. A different cap would move the
+pooled share without anything about oncology having changed.
+
+The two populations are biased in opposite directions, which is what makes the pair useful. The
+completed-trial share is a lower bound and the terminated-trial share an upper one, so the share of
+conditions whose median trial is too small for their own response rate lies between 31.8% and 73.9%.
+No value inside that interval is better supported than any other, and the interval is reported
+instead of a point estimate for that reason.
+
+The bound does not touch the zero-event boundary result or the gap distribution, neither of which
+reads the accrual axis.
 
 ---
 
@@ -672,4 +707,5 @@ the live text above carries only the current value.
 | An implied claim that objective responses are generally hard to explain by natural history | The claim holds per disease and requires argument in each; at least one indolent tumour records objective responses on placebo | `emc-response-endpoint-paper.md` §7.2 | Qualified by the retrieved randomised placebo-controlled measurement recorded in [`emc-endpoint-alternatives.json`](./emc-endpoint-alternatives.json) → `E10` |
 | 96.9% of screened studies posted no four-cell table, quoted as the abstract's headline over the pooled denominator | 95.2% over the trials whose registry text names best overall response; the pooled figure is retained in §5 and is unchanged | §5 and the abstract | The pooled denominator mixes two frozen queries, and only one selects trials that said they measured the quantity. The narrow figure is lower, so the abstract now leads with the stricter test rather than the larger number ([`endpoint-corpus.json`](./endpoint-corpus.json) → `C3b_census_denominator_decomposed`) |
 | 4,414 screened studies read as a count of trials | 4,414 records, 4,235 distinct trials, 179 matching both queries | §5 | `studies_screened` counts records, and a trial matching both frozen queries appears in both payloads. The per-trial share is 96.7% |
+| 50.0% of conditions with a defined comparison have a median trial below the design boundary, stated as a point estimate | A bound of 31.8% to 73.9%, spanning the two accrual populations; 50.0% is retained in §3.2 as the pooled value it is | §3.2 and the abstract | The accrual axis pools completed trials with trials terminated for accrual. The first is biased upward by survivorship, the second is selected on the outcome the axis measures and is a censored observation; the pooled value depends on a 962:875 record ratio that is an artefact of two queries capped at 1,000 records ([`endpoint-regime-map.json`](./endpoint-regime-map.json) → `G4b`) |
 | An unmeasured claim that 19 arms are control arms | 19 arms pass a control-token screen; 8 are registered as a placebo comparator or no-intervention arm and 8 as experimental or active comparator | §6 and [`placebo-arm-calibration.json`](./placebo-arm-calibration.json) → `P3_classification` | The screen matches any arm whose title contains "BSC", and in a trial comparing an agent against chemotherapy plus best supportive care both arms carry the token |
