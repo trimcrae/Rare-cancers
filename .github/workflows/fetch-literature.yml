@@ -271,6 +271,79 @@ jobs:
           path: research/literature/emc-host-factor-probe.json
           if-no-files-found: error
 
+      # ── ATTRIBUTION-PROBE (slug == 'attribution-probe') ─────────────────────────────
+      # How a death gets called cancer-caused, and how well that works. Every disease-specific
+      # survival figure this project quotes -- including the stratified antitumour ceiling, which is
+      # its headline -- inherits whatever error the cause-assignment instrument carries. Retrieves the
+      # SEER algorithm, death-certificate accuracy, relative/net survival (the methods that avoid
+      # attribution entirely), trial adjudication, and whether sarcoma has ever examined its own.
+      - name: attribution-probe — Europe PMC citation index
+        if: ${{ inputs.slug == 'attribution-probe' }}
+        run: python3 scripts/lit_attribution_probe.py
+
+      - name: Publish attribution-probe to the triggering branch (best effort)
+        if: ${{ always() && inputs.slug == 'attribution-probe' }}
+        continue-on-error: true
+        env:
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          [ -f research/literature/emc-attribution-probe.json ] || { echo "::error::attribution-probe produced no artifact"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/literature/emc-attribution-probe.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "attribution-probe: Europe PMC citation index"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::ref push failed; the digest in this log and the artifact are the record"
+
+      - name: Keep attribution-probe as a run artifact
+        if: ${{ always() && inputs.slug == 'attribution-probe' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: attribution-probe-${{ github.run_id }}
+          path: research/literature/emc-attribution-probe.json
+          if-no-files-found: error
+
+      # ── LUNG-PROBE (slug == 'lung-probe') ─────────────────────────────
+      # Lung-directed options for a lung-metastasis-dominant sarcoma. ⚠ Commissioned on a premise the
+      # terminal-event classification had not yet settled -- that respiratory failure is EMC's dominant
+      # terminal mechanism. Splits TUMOUR-DIRECTED (metastasectomy, SBRT, ablation, regional delivery --
+      # these belong to the locoregional families and are NOT supportive care) from SYMPTOM-DIRECTED
+      # (effusion, airway, breathlessness, rehabilitation), because conflating them would let
+      # metastasectomy evidence license a supportive-care claim.
+      - name: lung-probe — Europe PMC citation index
+        if: ${{ inputs.slug == 'lung-probe' }}
+        run: python3 scripts/lit_lung_probe.py
+
+      - name: Publish lung-probe to the triggering branch (best effort)
+        if: ${{ always() && inputs.slug == 'lung-probe' }}
+        continue-on-error: true
+        env:
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          [ -f research/literature/emc-lung-probe.json ] || { echo "::error::lung-probe produced no artifact"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/literature/emc-lung-probe.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "lung-probe: Europe PMC citation index"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::ref push failed; the digest in this log and the artifact are the record"
+
+      - name: Keep lung-probe as a run artifact
+        if: ${{ always() && inputs.slug == 'lung-probe' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lung-probe-${{ github.run_id }}
+          path: research/literature/emc-lung-probe.json
+          if-no-files-found: error
+
       - name: Europe PMC search + open-access full text (the `query` path)
         # ⛔ A TARGETS-ONLY DISPATCH MUST NOT ALSO RUN THE KEYWORD SWEEP (fixed 2026-08-07).
         # `query` is `required: true` WITH a default, so passing an empty string does not
@@ -284,7 +357,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'mortality-probe' && inputs.slug != 'host-factor-probe'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'mortality-probe' && inputs.slug != 'host-factor-probe' && inputs.slug != 'attribution-probe' && inputs.slug != 'lung-probe'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           QUERY: ${{ inputs.query }}
@@ -310,7 +383,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'mortality-probe' && inputs.slug != 'host-factor-probe'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'mortality-probe' && inputs.slug != 'host-factor-probe' && inputs.slug != 'attribution-probe' && inputs.slug != 'lung-probe'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
@@ -324,7 +397,7 @@ jobs:
       # the same contamination the publish step's slug guard below was written to prevent, arriving
       # from the other direction. A query-only run now runs the query path ONLY.
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
-        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'mortality-probe' && inputs.slug != 'host-factor-probe' }}
+        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'mortality-probe' && inputs.slug != 'host-factor-probe' && inputs.slug != 'attribution-probe' && inputs.slug != 'lung-probe' }}
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
           LIT_TARGETS_JSON: ${{ inputs.targets_json }}
