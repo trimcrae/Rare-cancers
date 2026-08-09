@@ -89,17 +89,20 @@ this file to render systems/views/L3-publications.md, so the committed view is s
 runs `python3 systems/systems_check.py --write-views`. That regeneration is required in any case:
 three sibling manuscripts were retitled in the same window and the view is stale on their rows too.
 
-GRAPH ANCHORS. INS-CONSTRUCT-DESIGNS and INS-FUSION-COFOLD in systems/graph/instruments.json both
-carry owner.anchor = "#72-the-four-constructs--all-four-are-in-frame-4--4", which was section 7.2
-of the previous draft. The equivalent section is now 3.2 and its anchor is
-"#32-gene-models-and-open-reading-frames". Both entries need that one-word edit; it was outside the
-edit scope of this pass.
+GRAPH ANCHORS. RESOLVED 2026-08-09. INS-CONSTRUCT-DESIGNS and INS-FUSION-COFOLD in
+systems/graph/instruments.json carried owner.anchor = "#72-the-four-constructs--all-four-are-in-frame-4--4",
+which was section 7.2 of the previous draft. Both now point at "#32-gene-models-and-open-reading-frames",
+verified to resolve with systems_check.anchor_resolves before being written. Views regenerated;
+systems_check reports 0 ERROR.
 
-REFERENCES 4, 5 and 7 carry an identifier and a verbatim quotation but no author list, title,
-journal or year, because this repository's fetch products carry the quotation and the identifier
-and not the citation metadata. They are NOT to be completed from recollection; fetch the records
-and fill them at submission. Reference 1 has no author list for the same reason, and reference 2
-carries only a first author because that is what the prior-art screen artifact records.
+REFERENCES. Retrieved 2026-08-09 from Europe PMC and recorded in
+research/literature/remaining-reference-metadata-2026-08-09.json; references 1 to 6 are complete.
+ONE ENTRY REMAINS INCOMPLETE. Reference 7 (PMC2395470, PMID 18521326, Sarcoma
+2001;5(Suppl 1):S37-43) returned an EMPTY author string and a title field reading only "Biology",
+which is a supplement section heading rather than an article title. The counted series quoted in
+section 3.1 is unaffected and remains sourced to that record. Resolve the author list and article
+title against the printed supplement before submission, and do not reconstruct either from
+recollection.
 
 NOVELTY CLAIM. Section 1 cites the 2026-08-09 prior-art screen for zero indexed EMC records on ATR
 or replication stress, with the title-and-abstract caveat in the running text rather than in a
@@ -505,11 +508,11 @@ artifact is an error in this document.
 
 1. Gracilla DE, Menon S, Breese MR, Lin YP, Dela Cruz FS, Feinberg TY, et al. FET Fusion Oncoproteins Disrupt Physiologic DNA Repair and Create a Targetable Opportunity for ATR Inhibitor Therapy. *Cancer Research* 2026;86:2660-2677. PMID 41811428. PMC13223543. doi 10.1158/0008-5472.can-25-2166.
 2. Remiszewski P, Falkowski S, Szumera-Ciećkiewicz A, Spałek MJ, Rutkowski P, Czarnecka AM. From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma. *J Cancer Res Clin Oncol* 2025;151(11):283. PMID 41055792. PMC12504171. doi 10.1007/s00432-025-06316-5.
-3. Brenca M, Stacchiotti S, Fassetta K, Sbaraglia M, Janjusevic M, Racanelli D, et al. NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas. *J Pathol* 2019. PMC6766969. doi 10.1002/path.5284.
-4. PMC3335514. Source of the verbatim type 1 and type 2 exon-level definitions and of the TAF15 exclusivity statement quoted in section 3.1.
-5. PMC4055444. Source of the type 5 definition, the second TAF15 exclusivity statement, and the TCF12 genomic-only intron 5 breakpoint quoted in section 3.1.
-6. Agaram NP, Zhang L, Sung YS, Singer S, Antonescu CR. Extraskeletal myxoid chondrosarcoma with non-EWSR1-NR4A3 variant fusions correlate with rhabdoid phenotype and high-grade morphology. *Hum Pathol* 2014. PMC4015728. doi 10.1016/j.humpath.2014.01.007.
-7. PMC2395470. Counted series: 10 of 15 tumours carried exon 12 to exon 3, and 2 of 15 carried type 5.
+3. Brenca M, Stacchiotti S, Fassetta K, Sbaraglia M, Janjusevic M, Racanelli D, et al. NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas. *J Pathol* 2019;249(1):90-101. PMID 31020999. PMC6766969. doi 10.1002/path.5284.
+4. Nishio J, Iwasaki H, Nabeshima K, Naito M. Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas. *Genet Res Int* 2011;2011:497148. PMID 22567356. PMC3335514. doi 10.4061/2011/497148. Source of the verbatim type 1 and type 2 exon-level definitions and of the TAF15 exclusivity statement quoted in section 3.1.
+5. Cerrone M, Cantile M, Collina F, Marra L, Liguori G, Franco R, et al. Molecular strategies for detecting chromosomal translocations in soft tissue tumors (review). *Int J Mol Med* 2014;33(6):1379-1391. PMID 24714847. PMC4055444. doi 10.3892/ijmm.2014.1726. Source of the type 5 definition, the second TAF15 exclusivity statement, and the TCF12 genomic-only intron 5 breakpoint quoted in section 3.1.
+6. Agaram NP, Zhang L, Sung YS, Singer S, Antonescu CR. Extraskeletal myxoid chondrosarcoma with non-EWSR1-NR4A3 variant fusions correlate with rhabdoid phenotype and high-grade morphology. *Hum Pathol* 2014;45(5):1084-1091. PMID 24746215. PMC4015728. doi 10.1016/j.humpath.2014.01.007.
+7. *Sarcoma* 2001;5(Suppl 1):S37-43. PMID 18521326. PMC2395470. Counted series: 10 of 15 tumours carried exon 12 to exon 3, and 2 of 15 carried type 5. *Author list and article title not retrieved: the Europe PMC record for this identifier carries an empty author string and the title field reads only "Biology", which is a supplement section heading rather than an article title. Resolve against the printed supplement before submission.*
 8. UniProt and Ensembl reference records for EWSR1 (ENST00000397938), NR4A3 (ENST00000395097), TAF15, FUS and TCF12 (UniProt Q99081), as retrieved into the input cache in section 7.
 
 ---

@@ -628,14 +628,15 @@ from the primary sources before submission.
    surgical excision or stereotactic radiotherapy alone: a case report. *Case Rep Oncol*
    2025;18(1):1488-1495. doi:10.1159/000548238. PMID 41323055. PMC12659415.
 4. Ogata R, Soda H, Senju H, Fujioka M, Shimada M, Yamashita K, et al. Immunosuppressive tumor
-   microenvironment in extraskeletal myxoid chondrosarcoma: a case of pleural metastases. 2022.
-   doi:10.1111/1759-7714.14613. PMID 35974707. PMC9527174. *Journal, volume and pages not retrieved.*
+   microenvironment in extraskeletal myxoid chondrosarcoma: a case of pleural metastases. *Thorac
+   Cancer* 2022;13(19):2812-2816. doi:10.1111/1759-7714.14613. PMID 35974707. PMC9527174.
 5. Martínez-Trufero J, Cruz Jurado J, Hernández-León CN, Correa R, Asencio JM, Bernabeu D, et al.
    Uncommon and peculiar soft tissue sarcomas: multidisciplinary review and practical
-   recommendations. Spanish Group for Sarcoma Research. 2021. doi:10.1016/j.ctrv.2021.102260.
-   PMID 34340159. *Journal, volume and pages not retrieved.*
-6. Uhlén M, et al. Tissue-based map of the human proteome (Human Protein Atlas). *Science* 2015.
-   *Identifier only; bibliographic detail not retrieved.*
+   recommendations. Spanish Group for Sarcoma Research (GEIS-GROUP). Part II. *Cancer Treat Rev*
+   2021;99:102260. doi:10.1016/j.ctrv.2021.102260. PMID 34340159.
+6. Uhlén M, Fagerberg L, Hallström BM, Lindskog C, Oksvold P, Mardinoglu A, et al. Proteomics.
+   Tissue-based map of the human proteome. *Science* 2015;347(6220):1260419.
+   doi:10.1126/science.1260419. PMID 25613900. The Human Protein Atlas.
 7. Subramanian S, West RB, Marinelli RJ, Nielsen TO, Rubin BP, Goldblum JR, et al. The gene
    expression profile of extraskeletal myxoid chondrosarcoma. *J Pathol* 2005;206(4):433-444.
    doi:10.1002/path.1792. PMID 15920699. The originating cohort publication for GSE4303.
@@ -658,8 +659,9 @@ from the primary sources before submission.
 12. Iwata S, Noguchi R, Osaki J, Adachi Y, Shiota Y, Osaki S, et al. Establishment and
     characterization of NCC-EMC1-C1: a novel patient-derived cell line of extraskeletal myxoid
     chondrosarcoma. *Hum Cell* 2025;38(4):122. doi:10.1007/s13577-025-01250-7. PMID 40580361.
-13. Bausch-Fluck D, et al. The in silico human surfaceome. *PNAS* 2018. *Identifier only; bibliographic
-    detail not retrieved.*
+13. Bausch-Fluck D, Goldmann U, Müller S, van Oostrum M, Müller M, Schubert OT, et al. The in silico
+    human surfaceome. *Proc Natl Acad Sci U S A* 2018;115(46):E10988-E10997.
+    doi:10.1073/pnas.1808790115. PMID 30373828. PMC6243280.
 14. Wu ZY, He YQ, Wang TM, Yang DW, Li DH, Deng CM, et al. Glycogenes in oncofetal chondroitin
     sulfate biosynthesis are differently expressed and correlated with immune response in placenta and
     colorectal cancer. *Front Cell Dev Biol* 2021;9:763875. doi:10.3389/fcell.2021.763875.
@@ -670,12 +672,26 @@ from the primary sources before submission.
     pediatric sarcoma and induces variable sensitization to replicative stress caused by DNA-damaging
     agents. *Mol Cancer Ther* 2021;20(11):2151-2165. doi:10.1158/1535-7163.mct-21-0089.
     PMID 34413129. PMC8571037.
-16. Sjögren H, et al. EWSR1/NR4A3 fusion in extraskeletal myxoid chondrosarcoma. *Identifier only;
-    bibliographic detail not retrieved.*
-17. Panagopoulos I, et al. Fusion variants and partner genes in extraskeletal myxoid chondrosarcoma.
-    *Identifier only; bibliographic detail not retrieved.*
-18. Strosberg J, et al. Phase 3 trial of 177Lu-DOTATATE for midgut neuroendocrine tumors (NETTER-1).
-    *N Engl J Med* 2017. *Identifier only; bibliographic detail not retrieved.*
+16. Sjögren H, et al. Extraskeletal myxoid chondrosarcoma fusion genetics. *Entry unresolved.* A retrieval on 2026-08-09 returned three candidate papers by this author
+    on this disease and none matches the description in this entry: Sjögren H, Meis-Kindblom J,
+    Kindblom LG, Aman P, Stenman G. Fusion of the EWS-related gene TAF2N to TEC in extraskeletal
+    myxoid chondrosarcoma. *Cancer Res* 1999;59(20):5064-5067. PMID 10537274; Sjögren H, Wedell B,
+    Meis-Kindblom JM, Kindblom LG, Stenman G. Fusion of the NH2-terminal domain of the basic
+    helix-loop-helix protein TCF12 to TEC in extraskeletal myxoid chondrosarcoma with translocation
+    t(9;15)(q22;q21). *Cancer Res* 2000;60(24):6832-6835. PMID 11156374; and Sjögren H,
+    Meis-Kindblom JM, Orndal C, Bergh P, Ptaszynski K, Aman P, et al. Studies on the molecular
+    pathogenesis of extraskeletal myxoid chondrosarcoma: cytogenetic, molecular genetic, and cDNA
+    microarray analyses. *Am J Pathol* 2003;162(3):781-792. PMID 12598313. The first describes a
+    TAF15 fusion and the second a TCF12 fusion, so neither is the EWSR1 fusion this entry names, and
+    the entry is uncited in the text, so no context disambiguates it. Resolve or remove before
+    submission; it must not be completed by guessing.
+17. Panagopoulos I, Mertens F, Isaksson M, Domanski HA, Brosjö O, Heim S, et al. Molecular genetic
+    characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid
+    chondrosarcoma. *Genes Chromosomes Cancer* 2002;35(4):340-352. doi:10.1002/gcc.10127.
+    PMID 12378528.
+18. Strosberg J, El-Haddad G, Wolin E, Hendifar A, Yao J, Chasen B, et al. Phase 3 trial of
+    177Lu-Dotatate for midgut neuroendocrine tumors. *N Engl J Med* 2017;376(2):125-135.
+    doi:10.1056/nejmoa1607427. PMID 28076709. PMC5895095. The NETTER-1 trial.
 
 ---
 
