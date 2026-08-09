@@ -950,6 +950,16 @@ jobs:
             PATHS="research/modalities/emc-atr-vulnerability.json
                    research/modalities/emc-atr-vulnerability-inputs.json"
           fi
+          # ⭐ THE ACCESSION CACHE RIDES WITH EVERY MODE, because every mode that reads a series
+          # goes through the same probe->symbol bridge and any of them may have learned something.
+          # It is the file that makes this job stop being a 33-minute job: the bridge is 30.8 of
+          # those minutes, it resolves IMMUTABLE platforms and archival series, and without a home
+          # on disk it was rebuilt from scratch every run. `_acc_cache_save` refuses to shrink it,
+          # so a run degraded by a remote outage cannot delete what a better run learned.
+          # ⚠ `publish_artifacts.sh` tolerates a path that does not exist, so a mode that never
+          # touched the bridge simply publishes nothing extra.
+          PATHS="$PATHS
+                 research/modalities/accession-symbol-cache.json"
           bash research/compute/publish_artifacts.sh "$BR" "$MSG" $PATHS
 
       - name: "Summary — gse-series"
