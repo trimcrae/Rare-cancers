@@ -597,7 +597,12 @@ On the map, a 12.8% response rate requires 17 patients for a 90% chance of obser
 and 79 for an exact single-stage design against a 5% null. The two modern prospective cohorts
 accrued 22 and 23 response-evaluable patients, over three and four years respectively. The disease
 cannot accrue the trial its own response rate requires, which is the condition section 3.2 counts
-across 14 of 44 conditions.
+across between 31.8% and 73.9% of the conditions where that comparison is defined.
+
+Both cohorts completed and both are counted from their published reports rather than from registry
+postings, so this coordinate is not drawn from either accrual population and the mixture described
+in section 3.4 does not reach it. The worked example is in that narrow sense the cleanest point on
+the map, which is an accident of it being the one disease read from primary sources.
 
 ---
 
