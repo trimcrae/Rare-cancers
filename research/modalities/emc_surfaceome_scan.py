@@ -322,6 +322,41 @@ def main():
     }
 
     result = {
+        # ⛔ EMITTED BY THE GENERATOR, NOT HAND-EDITED, AND THAT IS THE WHOLE POINT (2026-08-09).
+        # This block was added as an annotation-only hand edit on 2026-08-05. The corrected WORDING
+        # was folded into this module in the same commit and survives regeneration correctly — but
+        # the MARKER never was, so the first genuine re-run dropped it and gate 3 (`[O3]`) went red
+        # on a file whose text was already correct. ⚠ THAT IS THE SECOND TIME THE SAME DEFECT HAS
+        # FIRED: `depmap_target_expression.py` had it, was fixed at its generator, and this sibling
+        # was not checked at the same time. An annotation-only hand edit to a GENERATED artifact is
+        # a regression with a fuse on it — it survives until someone re-runs the generator, which
+        # can be weeks later and will look like an unrelated CI job breaking the build.
+        "_identity_correction": {
+            "date": "2026-08-05",
+            "restored_and_moved_into_the_generator": "2026-08-09",
+            "what": "The line this artifact's surrogate class contains and which DepMap LABELS EMC "
+                    "(ACH-001519 / H-EMC-SS) is recorded by Cellosaurus as not carrying an EWSR1 "
+                    "fusion. Leaving that claim unmarked in a committed artifact would keep it "
+                    "quotable as current.",
+            "the_caution_verbatim": "Caution: Does not harbor a gene fusion involving EWSR1 which is "
+                                    "a hallmark of extraskeletal myxoid chondrosarcoma "
+                                    "(PubMed=34413129)",
+            "so_this_scan_contains": "NO USABLE REAL-EMC OBSERVATION. Every value here is a "
+                                     "translocation-sarcoma surrogate reading, and the one line that "
+                                     "carried the EMC label cannot carry it.",
+            "verdict_source": "research/modalities/emc-atr-vulnerability.json -> "
+                              "part_a_hemcss_identity (NOT_FUSION_POSITIVE_PER_CURATED_RECORD)",
+            "correction_home": "research/manuscripts/emc-surface-target-landscape.md "
+                               "(Amendment 1, 2026-08-05)",
+            "⚠_what_changed_on_2026_08_09": "Nothing about the correction. Only its PROVENANCE: it is "
+                                            "now emitted by this module rather than patched onto the "
+                                            "artifact afterwards, so a regeneration can no longer "
+                                            "silently remove a medical-integrity marker. The "
+                                            "2026-08-05 hand edit touched no numeric field, and this "
+                                            "block does not reinstate any hand-edited value — the "
+                                            "corrected wording it referred to has been generator-"
+                                            "emitted since that date and regenerates correctly.",
+        },
         "_note": ("UNBIASED surfaceome scan for an EMC delivery/CAR/ADC targeting antigen. Surface "
                   "genes (UniProt plasma-membrane + TM/GPI) ranked by expression in the EMC-surrogate "
                   "TRANSLOCATION-sarcoma DepMap class (EMC has no line). NAMES a candidate antigen; "
