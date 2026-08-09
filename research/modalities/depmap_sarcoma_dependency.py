@@ -37,6 +37,23 @@ GENE_GROUPS = {
     "ncBAF (primary hypothesis)": ["BRD9", "BICRA", "BICRAL"],
     "BAF / SWI-SNF core": ["SMARCA4", "SMARCA2", "SMARCB1", "ARID1A", "ARID1B", "SMARCC1", "PBRM1"],
     "BET / transcriptional": ["BRD4", "BRD2", "BRD3", "CDK9", "CDK7", "EP300", "CREBBP"],
+    # ── added 2026-08-09 for the modality census's novel candidates ─────────────────────────────
+    # ⭐ WHY THEY ARE HERE. The census registered 24 routes and then had to grade them from two small
+    # archival ARRAY series, which measure abundance and cannot measure dependency. DepMap measures
+    # exactly the missing quantity, the panel already runs, and adding a gene to a group is the whole
+    # cost — so one $0 job gives a sarcoma-class dependency prior for every novel candidate at once.
+    #
+    # ⛔ AND IT IS A CLASS PRIOR, NOT AN EMC READING. There is no EMC line in DepMap: the one
+    # "EMC" line on the curated record does not carry the fusion and has no CRISPR data at all. So
+    # every number this produces is a transfer from other sarcomas, it inherits BLK-CLASS-INHERITANCE,
+    # and the honest bound is not a small sample but NO EMC OBSERVATION. Nothing here may be reported
+    # as an EMC dependency.
+    "Apoptotic guardians (BH3)": ["MCL1", "BCL2L1", "BCL2", "BCL2L2", "BAX", "BAK1"],
+    "Metabolic / biomarker-selected": ["PRMT5", "MAT2A", "MTAP", "ASS1"],
+    "p53 axis and repair": ["MDM2", "MDM4", "TP53", "POLQ", "ATR", "WEE1"],
+    "Chromatin (PRC2)": ["EZH2", "EED", "SUZ12"],
+    "Chaperone": ["HSP90AA1", "HSP90AB1", "CDC37"],
+    "Census kinases": ["SGK1", "RET", "CDK12", "CDK13"],
 }
 ALL_GENES = sorted({g for v in GENE_GROUPS.values() for g in v})
 # context genes for sanity (a pan-essential and the fusion gene itself)
