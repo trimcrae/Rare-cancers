@@ -44,6 +44,7 @@ Output: research/literature/emc-host-factor-probe.json
 from __future__ import annotations
 
 import json
+import math
 import pathlib
 import sys
 import time
@@ -226,12 +227,58 @@ def hit_row(r: dict) -> dict:
 # it cannot prove the gap IS background.
 GHO = ("https://ghoapi.azureedge.net/api/LIFE_0000000029"
        "?$filter=SpatialDim%20eq%20%27USA%27%20and%20Dim1%20eq%20%27{sex}%27")
+GHO_META = "https://ghoapi.azureedge.net/api/Indicator?$filter=IndicatorCode%20eq%20%27LIFE_0000000029%27"
 
 AGE_BANDS = {"AGEGROUP_YEARS55-59": (55, 59), "AGEGROUP_YEARS60-64": (60, 64)}
+BAND_YEARS = 5
+
+# ⛔ THE FIRST VERSION OF THIS CALLED THE RETURNED VALUE `nqx` AND USED IT DIRECTLY, AND IT
+# WAS A RATE, NOT A PROBABILITY. Measured 2026-08-09, run 31335519304: the fetch reported
+# `status: OK` and produced a ten-year mortality from age 55 of 2.4%, which is roughly four
+# times too low -- US male life expectancy at 55 is about 25 years, implying ~11-13%. The
+# artifact was populated, internally consistent and plausible-looking, and wrong. That is
+# CLAUDE.md section 4's exact failure: a populated field is not a measured one.
+#
+# Two fixes, because fixing only the arithmetic would leave the assumption in place:
+#   (1) the indicator's NAME is now fetched from the API and recorded verbatim in the
+#       artifact, and whether the value is a rate or a probability is decided FROM THAT
+#       NAME rather than from anybody's recollection of what the code means;
+#   (2) a known-answer sanity band rejects any result outside a range that basic
+#       demography guarantees, so this class of error fails loudly instead of publishing.
+SANITY_BAND = (0.05, 0.25)   # 10-year all-cause mortality from age 55, any developed country
+
+
+def _looks_like_a_rate(indicator_name: str) -> bool:
+    """Rate (nMx, deaths per person-year) versus probability (nqx). Decided from the
+    published name, never assumed."""
+    n = (indicator_name or "").lower()
+    if "nqx" in n or "probability" in n:
+        return False
+    if "nmx" in n or "rate" in n or "per 1000" in n or "per 100 000" in n:
+        return True
+    return True    # ⚠ default to RATE: it is the reading the measured values support
+
+
+def _band_probability(value: float, is_rate: bool) -> float:
+    """A five-year death probability from whichever quantity the API actually serves."""
+    if not is_rate:
+        return value
+    # Standard actuarial conversion from a constant hazard over the band.
+    return 1.0 - math.exp(-BAND_YEARS * value)
 
 
 def fetch_life_table(start_age: int = 55, years: int = 10,
                      male_fraction: float = 0.66) -> dict:
+    # What the API actually serves, read rather than assumed.
+    meta_raw = get(GHO_META)
+    indicator_name = ""
+    try:
+        vals = json.loads(meta_raw).get("value", []) if meta_raw else []
+        indicator_name = (vals[0].get("IndicatorName") or "") if vals else ""
+    except (json.JSONDecodeError, IndexError, AttributeError):
+        indicator_name = ""
+    is_rate = _looks_like_a_rate(indicator_name)
+
     per_sex, notes = {}, {}
     for key, sex in (("male", "SEX_MLE"), ("female", "SEX_FMLE")):
         raw = get(GHO.format(sex=sex))
@@ -244,8 +291,7 @@ def fetch_life_table(start_age: int = 55, years: int = 10,
             return {"status": "PARSE_FAILED", "source": GHO.format(sex=sex),
                     "why": "the GHO response was not JSON"}
 
-        # Most recent year available for each band we need.
-        best: dict[str, dict] = {}
+        best = {}
         for r in rows:
             band = r.get("Dim2")
             if band not in AGE_BANDS or r.get("NumericValue") is None:
@@ -260,19 +306,44 @@ def fetch_life_table(start_age: int = 55, years: int = 10,
                             "figure is asserted rather than extrapolating from the ones present")}
         surv = 1.0
         for band in AGE_BANDS:
-            surv *= (1.0 - float(best[band]["NumericValue"]))
+            surv *= (1.0 - _band_probability(float(best[band]["NumericValue"]), is_rate))
         per_sex[key] = 1.0 - surv
-        notes[key] = {b: {"nqx": best[b]["NumericValue"], "year": best[b].get("TimeDim")}
-                      for b in AGE_BANDS}
+        notes[key] = {b: {"raw_value": best[b]["NumericValue"],
+                          "band_probability": round(_band_probability(
+                              float(best[b]["NumericValue"]), is_rate), 5),
+                          "year": best[b].get("TimeDim")} for b in AGE_BANDS}
 
     blended = male_fraction * per_sex["male"] + (1 - male_fraction) * per_sex["female"]
+
+    lo, hi = SANITY_BAND
+    if not (lo <= blended <= hi):
+        return {
+            "status": "IMPLAUSIBLE",
+            "source": "WHO Global Health Observatory, indicator LIFE_0000000029",
+            "indicator_name_as_published": indicator_name,
+            "interpreted_as": "rate" if is_rate else "probability",
+            "computed_blended_10y_mortality": round(blended, 4),
+            "sanity_band": list(SANITY_BAND),
+            "why": ("The computed ten-year all-cause mortality from age 55 falls outside a range "
+                    "basic demography guarantees for any developed country, which means the "
+                    "quantity was misinterpreted rather than that the population is unusual. "
+                    "NOTHING is asserted; the background check stays NOT RUN. This guard exists "
+                    "because the first version of this fetch reported OK with a figure four times "
+                    "too low, and a populated field is not a measured one."),
+        }
+
     return {
         "status": "OK",
-        "source": "WHO Global Health Observatory, indicator LIFE_0000000029 (nqx), USA",
+        "source": "WHO Global Health Observatory, indicator LIFE_0000000029, USA",
+        "indicator_name_as_published": indicator_name,
+        "interpreted_as": "rate (converted to a band probability)" if is_rate else "probability",
+        "conversion": ("5q = 1 - exp(-5 * m), the constant-hazard conversion from an annual death "
+                       "rate to a five-year death probability") if is_rate else "used directly",
         "start_age": start_age, "horizon_years": years, "male_fraction": male_fraction,
         "cumulative_mortality_male": round(per_sex["male"], 4),
         "cumulative_mortality_female": round(per_sex["female"], 4),
         "cumulative_mortality_blended": round(blended, 4),
+        "sanity_band_passed": list(SANITY_BAND),
         "bands_used": notes,
         "limits": (
             "A general-population period table, and an EMC cohort is not the general population: "

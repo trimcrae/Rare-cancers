@@ -4,6 +4,42 @@
  "inputs": "research/manuscripts/emc-mortality-decomposition-inputs.json",
  "figures_home": "research/data/emc-clinical-registry.json",
  "directional_bias": "Disease-specific survival estimated by censoring other-cause deaths overstates the cumulative incidence of disease death under competing risks, so the competing share reported here is an UNDER-estimate. The bias runs against this analysis's own conclusion, which is why the subtraction is publishable at all.",
+ "direct_cause_split": [
+  {
+   "series": "masunaga2025_localized",
+   "label": "Japanese national registry, localised surgical",
+   "n": 134,
+   "disease_deaths": 9,
+   "other_cause_deaths": 4,
+   "total_deaths": 13,
+   "all_cause_mortality_pct": 9.7,
+   "disease_mortality_pct": 6.7,
+   "competing_mortality_pct": 3.0,
+   "competing_share_of_deaths_pct": 30.8,
+   "antitumour_ceiling_pct_points": 6.7,
+   "median_followup_months": 38,
+   "estimator": "Direct ratio of two death counts on the same patients. No survival curve, no cross-population pairing, no subtraction of summary percentages.",
+   "what_still_limits_it": "Follow-up is finite and shorter than this disease's natural history, so both counts are censored -- and they are NOT censored equally. EMC deaths keep accruing for decades while competing deaths accrue immediately, so a short follow-up flatters the competing share early and the disease share late. This is a reading at the study's own horizon, not a lifetime split.",
+   "pairing_note": "⭐ The cleanest pairing in this file. Both cause counts come from the same patients under the same ascertainment, so the competing share is a ratio of two counts rather than a subtraction of percentages from different studies. Localised stratum: 9 tumour deaths (8 in the no-chemotherapy arm plus 1 in the chemotherapy arm) and 4 other-cause deaths, over a median 38 months."
+  },
+  {
+   "series": "masunaga2025_metastatic",
+   "label": "Japanese national registry, metastatic at diagnosis",
+   "n": 29,
+   "disease_deaths": 9,
+   "other_cause_deaths": 1,
+   "total_deaths": 10,
+   "all_cause_mortality_pct": 34.5,
+   "disease_mortality_pct": 31.0,
+   "competing_mortality_pct": 3.4,
+   "competing_share_of_deaths_pct": 10.0,
+   "antitumour_ceiling_pct_points": 31.0,
+   "median_followup_months": 41,
+   "estimator": "Direct ratio of two death counts on the same patients. No survival curve, no cross-population pairing, no subtraction of summary percentages.",
+   "what_still_limits_it": "Follow-up is finite and shorter than this disease's natural history, so both counts are censored -- and they are NOT censored equally. EMC deaths keep accruing for decades while competing deaths accrue immediately, so a short follow-up flatters the competing share early and the disease share late. This is a reading at the study's own horizon, not a lifetime split.",
+   "pairing_note": "Same study, advanced stratum: 9 tumour deaths (5 in the advanced-chemotherapy arm plus 4 in the arm that did not receive it) and 1 other-cause death. ⚠ The competing share is much lower here than in the localised stratum, and that is exactly what it should be -- these patients are dying of EMC faster, so the disease outruns their other causes."
+  }
+ ],
  "within_series": [
   {
    "all_cause_mortality_pct": 30.0,

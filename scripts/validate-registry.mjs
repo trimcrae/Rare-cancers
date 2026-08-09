@@ -89,10 +89,24 @@ const poolKeys = {};
   checkPeriod(c.studyPeriod, cw);
   if (c.pool !== false && c.studyPeriod === undefined && !c.studyPeriodUnknown)
     warns.push(`${cw} is pooled but has no studyPeriod (set it, or studyPeriodUnknown:true if the source does not state it)`);
-  for (const k of ["recurrence", "metastasis", "diseaseDeath"]) {
+  // otherCauseDeath added 2026-08-09: a disease-specific death count alone cannot say what
+  // SHARE of a cohort's mortality the disease caused, and that share is what bounds every
+  // antitumour route in this repository. Contract-checked here rather than merely written,
+  // because a field nothing validates is a field that drifts.
+  for (const k of ["recurrence", "metastasis", "diseaseDeath", "otherCauseDeath"]) {
     const m = c[k];
     if (m && (typeof m.events !== "number" || typeof m.denom !== "number" || m.events > m.denom))
       errors.push(`${cw} ${k} needs events<=denom`);
+  }
+  // ⛔ Disease deaths and other-cause deaths are disjoint by construction, so their sum
+  // cannot exceed the cohort. A pair that does proves one of the two was misread out of the
+  // source -- the exact failure mode of extracting counts from prose.
+  if (c.diseaseDeath && c.otherCauseDeath) {
+    const dd = c.diseaseDeath, oc = c.otherCauseDeath;
+    if (dd.denom !== oc.denom)
+      errors.push(`${cw} diseaseDeath.denom (${dd.denom}) != otherCauseDeath.denom (${oc.denom}) - they must describe the same cohort`);
+    else if (dd.events + oc.events > dd.denom)
+      errors.push(`${cw} diseaseDeath.events + otherCauseDeath.events (${dd.events}+${oc.events}) exceeds n=${dd.denom}`);
   }
   // Double-counting guard: pooled strata of the same study must be disjoint. The meta-analysis
   // weights by denominator, so one patient counted twice silently inflates the pooled estimate.

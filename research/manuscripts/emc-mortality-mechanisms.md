@@ -57,28 +57,46 @@ Before asking what kills people, ask how much of the dying is even in scope. Com
 [`emc-mortality-decomposition.json`](./emc-mortality-decomposition.json), entirely from figures whose
 one home is [the clinical registry](../data/emc-clinical-registry.json).
 
-**The within-series reading — the only one that does not cross populations.** Meis-Kindblom 1999
-(n = 117, median follow-up 9 years, PMID 10366145) is the single curated series reporting both a
-long-horizon all-cause survival curve and a disease-specific death count *on the same patients*:
+⭐ **THE DIRECT CAUSE SPLIT — the strongest reading, and it needs no survival curve at all.** When one
+study reports, for one cohort, how many patients died **of** the disease and how many died of
+**something else**, the competing share is a ratio of two counts from the same patients under the
+same ascertainment: no estimator mismatch, no cross-population pairing, no subtracting percentages.
+Masunaga 2025 (the Japanese national registry, PMID 40885991) reports exactly that, and **the
+other-cause counts were in the paper's full text and not in the curated record** — a registry that
+tracks disease-specific death has no field for the deaths that were not. The mortality probe pulled
+them out; they are now in [the registry](../data/emc-clinical-registry.json) with the source
+sentence attached.
 
-| at 10 years | value |
-|---|---:|
-| all-cause mortality | **30.0 %** |
-| of which, EMC deaths | **18.2 %** |
-| of which, **not** EMC deaths | **11.8 %** |
-| **share of deaths that were not EMC deaths** | **39.4 %** |
-| **antitumour ceiling** (points of 10-yr OS a perfect cure would add) | **18.2** |
+| stratum | n | EMC deaths | other-cause deaths | **share not EMC** | **antitumour ceiling** | median f/u |
+|---|---:|---:|---:|---:|---:|---:|
+| localised, surgical | 134 | 9 | 4 | **30.8 %** | **6.7 pts** | 38 mo |
+| metastatic at diagnosis | 29 | 9 | 1 | **10.0 %** | **31.0 pts** | 41 mo |
+| **both** | 163 | 18 | 5 | **21.7 %** | — | ~39 mo |
 
-**The cross-series band.** Pairing every all-cause figure against every disease-specific figure at 10
-years: competing share **50–57 %**, ceiling **15.0** points. ⚠ **4 of 6 pairings are coherent and 2
-are arithmetically impossible** (disease-specific mortality exceeding all-cause), which is the
-pairing telling you it joins studies that cannot describe one population. At **5 years the pairing
-breaks down** — only 6 of 12 are coherent — so no 5-year figure is quoted here.
+⭐ **THE STRATUM SPLIT IS THE RESULT, NOT A SUBGROUP DETAIL.** For **localised** EMC — the majority of
+patients — curing the cancer outright would add **6.7 points** of survival at three years, because at
+that horizon most of these patients are not dying of it. For **metastatic** disease the same cure is
+worth **31 points**. ⇒ **The antitumour portfolio's value is concentrated almost entirely in the
+metastatic stratum**, and for localised patients the deaths available to prevent are mostly not the
+cancer's.
 
-> **⇒ A therapy that prevented EVERY EMC death would raise 10-year overall survival from roughly
-> 67 % to roughly 85 %.** Not to 100 %. That ~15–18 points is the ceiling on this repository's
-> **entire 68-route portfolio taken together**, and roughly **two of every five deaths in the first
-> decade are already outside it**.
+**The two weaker readings, kept because they show the horizon effect.** Meis-Kindblom 1999 (n = 117,
+PMID 10366145) pairs a 10-year all-cause curve against a crude disease-death proportion — different
+estimators — and gives **39.4 %** with an **18.2**-point ceiling. The cross-series band at 10 years
+gives **50–57 %** (4 of 6 pairings coherent; 2 arithmetically impossible, which is the pairing
+disclosing that it joins studies that cannot describe one population). At **5 years the cross-series
+pairing collapses** — 6 of 12 coherent — so no 5-year figure is quoted.
+
+> ⚠ **THESE ARE NOT IN CONFLICT, AND THE PATTERN IS ITSELF A FINDING: the competing share RISES with
+> follow-up.** 21.7 % at ~3 years, 39.4 % at 10. That is what an indolent disease should do — EMC
+> deaths accrue late, over decades, while ordinary deaths accrue from day one at a rate that only
+> climbs with age. So a short-follow-up study understates how much of a patient's *lifetime*
+> mortality is not their sarcoma.
+
+> **⇒ Read as a ceiling: a therapy preventing EVERY EMC death buys roughly 7 points of survival for a
+> localised patient at three years and roughly 31 for a metastatic one, and by ten years somewhere
+> between a third and a half of all deaths are already outside its reach.** That bounds this
+> repository's **entire 68-route antitumour portfolio taken together**.
 
 **⚠ The one directional bias, stated because it favours this memo's own conclusion.** Disease-specific
 survival estimated by censoring other-cause deaths *overstates* the cumulative incidence of disease
@@ -278,6 +296,27 @@ does not exist reads as an artifact that does. Route state:
 ---
 
 ## Appendix A — superseded and corrected
+
+- ⛔ **The headline competing share was 39.4 % and is now 21.7 % at ~3 years / 30.8 % in the localised
+  stratum.** The first figure came from the *weakest* available estimator — Meis-Kindblom 1999's
+  10-year all-cause curve paired against a crude disease-death proportion over a different horizon —
+  because it was the only within-series pairing the curated registry could support. The mortality
+  probe then retrieved Masunaga 2025's full text, which reports both cause counts on the same
+  patients, and that supersedes it. Superseded, retained: **39.4 %**, and the description of
+  Meis-Kindblom as *"the only series measuring both on the same patients"*, which was true of the
+  registry and never true of the literature. Live figures: §1.
+- ⛔ **The antitumour ceiling was stated as a single 15–18 points and is now stratum-dependent: 6.7
+  points localised, 31.0 metastatic.** The single figure averaged across strata that differ by a
+  factor of five, which hid the finding. Superseded, retained: **"~15–18 points"** as a whole-cohort
+  10-year figure.
+- ⛔ **The background-mortality check reported `OK` with a figure roughly four times too low.**
+  Measured 2026-08-09 (run `31335519304`): 2.4 % ten-year all-cause mortality from age 55, against a
+  real US figure near 11 %. The WHO indicator serves an annual **rate** and the code used it as a
+  five-year **probability**. The artifact was populated, internally consistent and plausible — the
+  precise shape of failure this repository has recorded before. Fixed twice over: the indicator's
+  name is now read from the API and the rate-versus-probability decision made from it, and a
+  known-answer sanity band rejects any result outside what basic demography guarantees. Superseded,
+  retained: **2.4 %**.
 
 - **The cross-series competing share was first computed from the two EXTREME pairings and read
   −25 % to 57 %.** A negative share is arithmetically impossible and was appearing as a lower bound.

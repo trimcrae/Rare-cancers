@@ -207,3 +207,82 @@ def test_the_probe_is_actually_wired_into_the_fetch_literature_workflow():
         "slug; a missing guard means a mortality-probe dispatch also runs the keyword "
         "sweep and publishes a mislabelled corpus")
     assert "research/literature/emc-mortality-probe.json" in wf, "the artifact is never published"
+
+
+# ---------------------------------------------------------------------------
+# The life table behind the background check, after it silently returned a wrong number
+# ---------------------------------------------------------------------------
+# ⛔ MEASURED 2026-08-09, run 31335519304: the fetch reported `status: OK` and a ten-year
+# all-cause mortality from age 55 of 2.4%, about four times too low. The value served is an
+# annual RATE and the code used it as a five-year PROBABILITY. Nothing about the artifact
+# looked wrong -- it was populated, internally consistent and plausible-looking. These
+# tests exist so that class of error fails loudly instead of publishing.
+import importlib.util as _ilu  # noqa: E402
+
+_HF_SPEC = _ilu.spec_from_file_location(
+    "lit_host_factor_probe", ROOT / "scripts/lit_host_factor_probe.py")
+HF = _ilu.module_from_spec(_HF_SPEC)
+_HF_SPEC.loader.exec_module(HF)
+
+
+def test_a_rate_is_converted_and_a_probability_is_not():
+    m = 0.011437434
+    assert HF._band_probability(m, is_rate=False) == m
+    converted = HF._band_probability(m, is_rate=True)
+    assert converted > m, "a five-year probability must exceed the annual rate behind it"
+    assert abs(converted - (1 - 2.718281828 ** (-5 * m))) < 1e-6
+
+
+def test_the_measured_values_reproduce_a_demographically_sane_answer():
+    """The exact numbers the API returned, through the corrected path. US male ten-year
+    mortality from 55 is about 12-13%; the first implementation produced 2.8%."""
+    male = [0.011437434, 0.016444465]
+    surv = 1.0
+    for v in male:
+        surv *= 1 - HF._band_probability(v, is_rate=True)
+    assert 0.10 < 1 - surv < 0.16
+
+
+def test_the_indicator_label_decides_the_interpretation_not_a_default_guess():
+    assert HF._looks_like_a_rate("Age-specific death rate (nMx)") is True
+    assert HF._looks_like_a_rate("nqx - probability of dying between exact ages") is False
+    assert HF._looks_like_a_rate("Probability of dying per 1000") is False
+
+
+def test_an_unknown_label_defaults_to_rate_because_that_is_what_was_measured():
+    assert HF._looks_like_a_rate("") is True
+    assert HF._looks_like_a_rate("LIFE_0000000029") is True
+
+
+def test_the_sanity_band_would_have_caught_the_original_bug(monkeypatch):
+    """The 2.4% figure that shipped must not be publishable."""
+    lo, hi = HF.SANITY_BAND
+    assert not (lo <= 0.024 <= hi), "the original wrong value still falls inside the guard"
+    assert lo <= 0.113 <= hi, "the corrected value must pass"
+
+
+def test_an_implausible_result_asserts_nothing(monkeypatch):
+    def fake_get(url, tries=3):
+        if "Indicator?" in url:
+            return '{"value":[{"IndicatorName":"nqx - probability of dying"}]}'
+        return ('{"value":[{"Dim2":"AGEGROUP_YEARS55-59","NumericValue":0.0114,"TimeDim":2021},'
+                '{"Dim2":"AGEGROUP_YEARS60-64","NumericValue":0.0164,"TimeDim":2021}]}')
+    monkeypatch.setattr(HF, "get", fake_get)
+    out = HF.fetch_life_table()
+    assert out["status"] == "IMPLAUSIBLE"
+    assert "cumulative_mortality_blended" not in out
+    assert out["indicator_name_as_published"] == "nqx - probability of dying"
+
+
+def test_a_plausible_result_records_how_it_was_interpreted(monkeypatch):
+    def fake_get(url, tries=3):
+        if "Indicator?" in url:
+            return '{"value":[{"IndicatorName":"Age-specific death rate (nMx)"}]}'
+        return ('{"value":[{"Dim2":"AGEGROUP_YEARS55-59","NumericValue":0.0114,"TimeDim":2021},'
+                '{"Dim2":"AGEGROUP_YEARS60-64","NumericValue":0.0164,"TimeDim":2021}]}')
+    monkeypatch.setattr(HF, "get", fake_get)
+    out = HF.fetch_life_table()
+    assert out["status"] == "OK"
+    assert "rate" in out["interpreted_as"]
+    assert out["indicator_name_as_published"] == "Age-specific death rate (nMx)"
+    assert 0.05 <= out["cumulative_mortality_blended"] <= 0.25

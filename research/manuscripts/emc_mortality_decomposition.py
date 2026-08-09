@@ -129,6 +129,55 @@ def decompose(all_cause_survival: float, disease_specific_survival: float) -> di
     }
 
 
+def direct_cause_split(spec: dict) -> list[dict]:
+    """⭐ THE STRONGEST READING AVAILABLE, AND IT NEEDS NO SURVIVAL CURVE AT ALL.
+
+    When a study reports, for one cohort, how many patients died OF the disease and how
+    many died of something else, the competing share is a straight ratio of two counts
+    from the same patients under the same ascertainment. There is no estimator mismatch,
+    no cross-population pairing and no subtraction of percentages -- the three weaknesses
+    that every other figure in this file has to disclose.
+
+    Added 2026-08-09 after the mortality probe pulled the other-cause counts out of
+    Masunaga 2025's full text. They had always been in the paper and were not in the
+    curated record, because a registry that tracks disease-specific death has no field
+    for the deaths that were not.
+    """
+    out = []
+    for s in spec["series"]:
+        dd, oc = s.get("disease_death"), s.get("other_cause_death")
+        if not dd or not oc:
+            continue
+        if dd["denom"] != oc["denom"]:
+            continue
+        deaths = dd["events"] + oc["events"]
+        out.append({
+            "series": s["key"],
+            "label": s["label"],
+            "n": dd["denom"],
+            "disease_deaths": dd["events"],
+            "other_cause_deaths": oc["events"],
+            "total_deaths": deaths,
+            "all_cause_mortality_pct": pct(deaths / dd["denom"]),
+            "disease_mortality_pct": pct(dd["events"] / dd["denom"]),
+            "competing_mortality_pct": pct(oc["events"] / dd["denom"]),
+            "competing_share_of_deaths_pct": pct(oc["events"] / deaths) if deaths else None,
+            "antitumour_ceiling_pct_points": pct(dd["events"] / dd["denom"]),
+            "median_followup_months": s.get("median_followup_months"),
+            "estimator": (
+                "Direct ratio of two death counts on the same patients. No survival curve, no "
+                "cross-population pairing, no subtraction of summary percentages."),
+            "what_still_limits_it": (
+                "Follow-up is finite and shorter than this disease's natural history, so both "
+                "counts are censored -- and they are NOT censored equally. EMC deaths keep "
+                "accruing for decades while competing deaths accrue immediately, so a short "
+                "follow-up flatters the competing share early and the disease share late. This "
+                "is a reading at the study's own horizon, not a lifetime split."),
+            "pairing_note": s.get("pairing_note"),
+        })
+    return out
+
+
 def within_series(spec: dict) -> list[dict]:
     """Pairings where both numbers came from the same patients."""
     out = []
@@ -322,6 +371,7 @@ def main() -> int:
             print(f"PROVENANCE FAIL: {f}", file=sys.stderr)
         return 1
 
+    direct = direct_cause_split(spec)
     within = within_series(spec)
     cross = cross_series(spec)
 
@@ -347,6 +397,7 @@ def main() -> int:
             "competing share reported here is an UNDER-estimate. The bias runs against this "
             "analysis's own conclusion, which is why the subtraction is publishable at all."
         ),
+        "direct_cause_split": direct,
         "within_series": within,
         "cross_series": cross,
         "background_mortality_check": background_check(spec, cross),
@@ -371,6 +422,10 @@ def main() -> int:
     OUT.write_text(json.dumps(payload, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
 
     print(f"wrote {OUT.relative_to(ROOT)}")
+    for row in direct:
+        print(f"  DIRECT  {row['label']}: {row['other_cause_deaths']}/{row['total_deaths']} deaths "
+              f"were not EMC deaths = {row['competing_share_of_deaths_pct']}% "
+              f"(ceiling {row['antitumour_ceiling_pct_points']} pts)")
     for row in within:
         print(f"  within  {row['label']}: at {row['horizon_years']:g}y, "
               f"{row['competing_share_of_deaths_pct']}% of deaths were not EMC deaths "
