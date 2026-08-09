@@ -39,6 +39,7 @@ CORPUS = os.path.join(HERE, "endpoint-corpus.json")
 ALTERNATIVES = os.path.join(HERE, "emc-endpoint-alternatives.json")
 REGIME = os.path.join(HERE, "endpoint-regime-map.json")
 DETAIL = os.path.join(HERE, "placebo-arm-detail-inputs.json")
+NATURAL_HISTORY = os.path.join(HERE, "natural-history-inputs.json")
 OUT = os.path.join(HERE, "placebo-arm-calibration.json")
 OUT_REL = "research/manuscripts/placebo-arm-calibration.json"
 
@@ -204,6 +205,10 @@ def build():
     if os.path.exists(DETAIL):
         with open(DETAIL) as fh:
             detail = json.load(fh).get("records", {})
+    nat = {}
+    if os.path.exists(NATURAL_HISTORY):
+        with open(NATURAL_HISTORY) as fh:
+            nat = json.load(fh)
 
     rows, buckets = [], {}
     for a in corpus["C2_arms"]:
@@ -398,6 +403,63 @@ def build():
             "what_a_control_arm_can_never_calibrate": (
                 "the natural history of a different disease, and the natural history of any "
                 "disease that has no control arm -- which is most of the low-response regime."),
+        },
+
+        "P9_the_confound_HAS_been_measured_outside_this_corpus": {
+            "⛔_the_correction": (
+                "P3 concludes that no arm in this corpus can carry a natural-history reading. That "
+                "is true of the CORPUS and false of the LITERATURE. The corpus rule requires a "
+                "four-cell best-response table from an interventional arm, so a prospective "
+                "OBSERVATIONAL cohort of untreated patients was never eligible for it -- and that "
+                "is exactly the design in which the confound has actually been measured. Reporting "
+                "the corpus result without this would let a scope limit read as an absence of "
+                "evidence, which is the failure this repository calls an absent reading standing "
+                "in for a reading of absence."),
+            "_found_how": (
+                "retrieval round 5 was dispatched, returned six payloads, and was not opened for "
+                "several days. These records were in it the whole time. An unused fetch that looks "
+                "used is its own defect and is recorded as one."),
+            "the_two_load_bearing_records": [
+                {"pmid": "37777684",
+                 "what_it_is": "prospective multicentre phase II observational trial, active "
+                               "surveillance as the only intervention, central radiology review",
+                 "n": 100,
+                 "why_it_matters": (
+                     "it reports a 3-year progression-free survival of 53.4% (95% CI 43.5-63.1) "
+                     "and, on NO active treatment, 58% spontaneous regression and 26% partial "
+                     "responses by RECIST. An objective response rate measured on untreated "
+                     "patients is precisely the quantity a single-arm response readout assumes is "
+                     "zero.")},
+                {"pmid": "39620931",
+                 "what_it_is": "pooled analysis of three prospective observational active "
+                               "surveillance studies (Italy, Netherlands, France)",
+                 "n": 282,
+                 "why_it_matters": (
+                     "3- and 5-year treatment-free survival of 67% and 66%, with crude cumulative "
+                     "incidences of 33% and 34% for RECIST progression and 26% and 34% for "
+                     "spontaneous RECIST regression. Larger, multinational, and concordant with "
+                     "the single trial above.")},
+            ],
+            "⭐_it_agrees_with_the_randomised_evidence": (
+                "emc-endpoint-alternatives.json -> E10 records a randomised placebo-controlled "
+                "trial in the same disease reporting a 20% objective response rate in the placebo "
+                "arm before crossover. Two independent designs -- a placebo arm and an untreated "
+                "observational cohort -- put the natural-history objective response rate in this "
+                "tumour at roughly a fifth to a quarter of patients. Agreement across designs is "
+                "what turns one surprising number into a finding."),
+            "⛔_what_this_does_NOT_license": (
+                "any transfer of these rates to another disease, in either direction. Desmoid "
+                "fibromatosis does not metastasise and most tumours in this corpus do; spontaneous "
+                "regression is a documented feature of desmoid biology and is not documented in "
+                "most of them. These figures establish that the confound is MEASURABLE and has "
+                "been measured, not what its size is anywhere else."),
+            "_the_general_consequence": (
+                "the natural-history component of a response readout is not a theoretical worry "
+                "that trialists may reasonably set aside. In at least one indolent tumour it has "
+                "been measured twice, by different designs, and it is large. Where it has not been "
+                "measured, that is a gap in the record rather than evidence that it is small."),
+            "records": nat.get("records", {}),
+            "transfer_fencing": nat.get("⛔_transfer_fencing"),
         },
 
         "not_a_recommendation": (

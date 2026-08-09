@@ -25,6 +25,21 @@ related: [DOC-POLICY-EVIDENCE, DOC-EMC-ENDPOINT-ALTERNATIVES]
 
 # Objective response as a trial summary: the regime in which it carries no information, and the diseases inside it
 
+**Tristan D. McRae**
+
+*Independent researcher.* Correspondence: trimcrae@gmail.com
+
+*A study of measurement and reporting. No new patient was recruited, no patient-level record was
+re-analysed, and no claim is made that any agent works. Every figure below is computed from counts
+already published in trial reports or posted to a public registry. Analyses were carried out with AI
+assistance (see section 2.4).*
+
+<!-- EDITORIAL, NOT FOR SUBMISSION. Authorship, affiliation and correspondence are drafted from what
+this repository already states and from the block in nr4a3-degrader-paper.md; they are the author's
+to confirm before this is posted anywhere. No ORCID is given because the repository does not carry
+one, and an invented identifier on a person is the failure lint_citations.py exists to prevent
+applied to a human. No target venue is fixed. -->
+
 > **Scope of the claims.** This is a paper about measurement. It asserts no efficacy, potency, dose,
 > safety, therapeutic window or clinical readiness for any agent in any disease, and it makes no
 > treatment recommendation, including a negative one. A difference between two endpoints is a fact
@@ -62,6 +77,9 @@ abstracts screened separately, all four categories appeared in 5 and only 1 carr
 they summed to. Of 19 arms whose title or registered type carries a control token, 16 carry an
 active agent once registered interventions are read rather than arm titles, and none can carry a
 natural-history reading. 25 conditions lay in the low-response regime; 4 had any control arm at all.
+The confound is nonetheless measurable and has been measured in designs this corpus rule excludes: in
+desmoid fibromatosis, prospective active-surveillance cohorts of 100 and 282 untreated patients
+report RECIST partial responses in 26% and spontaneous regression in 26% to 34%.
 A structured audit of 18 retrieved criteria and methodology documents found four distinct remedy
 families already in use across 12 disease domains, 7 of them carried by consensus guidelines.
 
@@ -165,6 +183,13 @@ python3 research/manuscripts/endpoint_regime_figure.py --check
 
 Each producer re-derives its artifact and refuses to write on drift. All six run in continuous
 integration.
+
+Retrieval, extraction, analysis and drafting were carried out with AI assistance. The retrieval
+protocol was committed before any fetch ran, every producer re-derives its artifact from its inputs
+on demand, and the identifiers in this paper come from the payloads the fetches returned rather than
+from recollection, which is checked by a linter that fails on any prose identifier absent from a
+tracked artifact. Those controls exist because the failure mode of the method is a fluent citation
+to a paper that does not exist.
 
 ---
 
@@ -349,12 +374,40 @@ observation does.
 No arm in this corpus can therefore carry a natural-history reading. That is a measured conclusion
 drawn from complete protocol records rather than a gap in the data.
 
+### 6.1 Evidence outside the corpus rule
+
+That conclusion is a statement about this corpus, not about the literature, and the difference
+matters. The corpus rule requires a four-cell best-response table from an interventional arm, so a
+prospective observational cohort of untreated patients was never eligible for it. That is precisely
+the design in which the confound has been measured.
+
+Two records, both in desmoid fibromatosis. A prospective multicentre phase II observational trial
+placed 100 patients on active surveillance alone with central radiology review, and reported 3-year
+progression-free survival of 53.4% (95% CI 43.5 to 63.1), spontaneous regression in 58%, and partial
+responses by RECIST in 26% (PMID 37777684). A pooled analysis of three prospective observational
+active-surveillance studies in Italy, the Netherlands and France followed 282 patients and reported
+3- and 5-year treatment-free survival of 67% and 66%, with crude cumulative incidences of 33% and
+34% for RECIST progression and 26% and 34% for spontaneous RECIST regression (PMID 39620931).
+
+An objective response rate measured on untreated patients is the quantity a single-arm response
+readout assumes to be zero. These cohorts put it at roughly a quarter, and they agree with the
+randomised evidence in the same disease, where the placebo arm of a controlled trial recorded a 20%
+objective response rate before crossover. Two independent designs, a placebo arm and an untreated
+observational cohort, give the same order of magnitude.
+
+Every figure in this section is a desmoid figure and none transfers. Desmoid fibromatosis does not
+metastasise, most tumours in this corpus do, and spontaneous regression is a documented feature of
+desmoid biology that is not documented in most of them. What these cohorts establish is that the
+natural-history component of a response readout is measurable and has been measured, not what its
+size is elsewhere. Where it has not been measured, that is a gap in the record rather than evidence
+that it is small.
+
 The distribution of what is missing is the substantive result. 25 conditions occupy the low-response
 regime. 4 of them have any control arm in this corpus. The confound is largest exactly where it has
 never been measured.
 
-One retrieved randomised placebo-controlled trial in an indolent soft-tissue tumour supplies a
-worked instance and is reported in the companion note rather than restated here
+A randomised placebo-controlled trial in the same tumour supplies the third line of evidence and is
+reported in the companion note rather than restated here
 ([`emc-endpoint-alternatives-2026-08-08.md`](./emc-endpoint-alternatives-2026-08-08.md) §6). Its
 relevance is that both prolonged stability and objective responses occurred without an active agent
 in that disease, which converts a theoretical worry into a measured quantity for one tumour and for

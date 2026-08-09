@@ -916,5 +916,73 @@
   "denominator_drift": "intention-to-treat, response-evaluable and at-least-one-post-baseline-scan are three different denominators and abstracts often use a different one from the table.",
   "what_a_control_arm_can_never_calibrate": "the natural history of a different disease, and the natural history of any disease that has no control arm -- which is most of the low-response regime."
  },
+ "P9_the_confound_HAS_been_measured_outside_this_corpus": {
+  "⛔_the_correction": "P3 concludes that no arm in this corpus can carry a natural-history reading. That is true of the CORPUS and false of the LITERATURE. The corpus rule requires a four-cell best-response table from an interventional arm, so a prospective OBSERVATIONAL cohort of untreated patients was never eligible for it -- and that is exactly the design in which the confound has actually been measured. Reporting the corpus result without this would let a scope limit read as an absence of evidence, which is the failure this repository calls an absent reading standing in for a reading of absence.",
+  "_found_how": "retrieval round 5 was dispatched, returned six payloads, and was not opened for several days. These records were in it the whole time. An unused fetch that looks used is its own defect and is recorded as one.",
+  "the_two_load_bearing_records": [
+   {
+    "pmid": "37777684",
+    "what_it_is": "prospective multicentre phase II observational trial, active surveillance as the only intervention, central radiology review",
+    "n": 100,
+    "why_it_matters": "it reports a 3-year progression-free survival of 53.4% (95% CI 43.5-63.1) and, on NO active treatment, 58% spontaneous regression and 26% partial responses by RECIST. An objective response rate measured on untreated patients is precisely the quantity a single-arm response readout assumes is zero."
+   },
+   {
+    "pmid": "39620931",
+    "what_it_is": "pooled analysis of three prospective observational active surveillance studies (Italy, Netherlands, France)",
+    "n": 282,
+    "why_it_matters": "3- and 5-year treatment-free survival of 67% and 66%, with crude cumulative incidences of 33% and 34% for RECIST progression and 26% and 34% for spontaneous RECIST regression. Larger, multinational, and concordant with the single trial above."
+   }
+  ],
+  "⭐_it_agrees_with_the_randomised_evidence": "emc-endpoint-alternatives.json -> E10 records a randomised placebo-controlled trial in the same disease reporting a 20% objective response rate in the placebo arm before crossover. Two independent designs -- a placebo arm and an untreated observational cohort -- put the natural-history objective response rate in this tumour at roughly a fifth to a quarter of patients. Agreement across designs is what turns one surprising number into a finding.",
+  "⛔_what_this_does_NOT_license": "any transfer of these rates to another disease, in either direction. Desmoid fibromatosis does not metastasise and most tumours in this corpus do; spontaneous regression is a documented feature of desmoid biology and is not documented in most of them. These figures establish that the confound is MEASURABLE and has been measured, not what its size is anywhere else.",
+  "_the_general_consequence": "the natural-history component of a response readout is not a theoretical worry that trialists may reasonably set aside. In at least one indolent tumour it has been measured twice, by different designs, and it is large. Where it has not been measured, that is a gap in the record rather than evidence that it is small.",
+  "records": {
+   "39620931": {
+    "pmid": "39620931",
+    "title": "Active Surveillance in Patients with Extra-abdominal Desmoid-Type Fibromatosis: A Pooled Analysis of Three Prospective Observational Studies",
+    "journal": null,
+    "year": "2025",
+    "doi": "10.1158/1078-0432.ccr-24-2340",
+    "pmcid": "PMC11788647",
+    "authorString": "Colombo C, Hakkesteegt S, Le Cesne A, Barretta F, Blay JY, Grünhagen DJ, Penel N, Lam L, Fiore M, Palassini E, Grignani G, Tolomeo F, Collini P, Merlini A, Perrone F, Stacchiotti S, Verhoef C, Dutch G",
+    "abstract_verbatim": "<h4>Purpose</h4>Three prospective observational studies (Italy, the Netherlands, and France) on active surveillance (AS) in patients with extra-abdominal desmoid-type fibromatosis support AS as a first-line approach. Identifying prognostic factors for the failure of AS will help determine the strategy. The aim of this study was to investigate the prognostic impact of clinical and molecular variables in a larger series.<h4>Experimental design</h4>Data available as of January 31, 2024, from the three studies, in which patients were followed for ≥3 years, were pooled. Patients ≥18 years of age, with primary sporadic desmoid-type fibromatosis, and with CTNNB1 mutations available were eligible. The primary study endpoint was treatment-free survival (TFS). Secondary endpoints included the incidence of RECIST progression, spontaneous RECIST regression, and regression post-RECIST progression.<h4>Results</h4>Patients (n = 282) with a median follow-up of 53 months (IQR, 39-63) were included. The 3- and 5-year TFS rates were 67% and 66%, respectively; the 3- and 5-year crude cumulative incidences were 33% and 34% for RECIST progression, 26% and 34% for RECIST regression, and 33% and 38% for regression post-RECIST progression, respectively. In multivariable analysis, larger tumor size, mutation type, and tumor locations were associated with lower TFS. The specific mutation (S45F), larger tumor size, and extremity and trunk locations were all associated with a lower probability of spontaneous RECIST regression.<h4>Conclusions</h4>This study confirms that spontaneous regression occurs in a significant proportion of patients and that two-thirds are treatment free at 5 years. Initial tumor size, CTNNB1 mutation, and location should be factored into the initial decision-making process.",
+    "retrieved_via": "xdisease-round5/epmc_desmoid_active_surveillance"
+   },
+   "37777684": {
+    "pmid": "37777684",
+    "title": "Initial Active Surveillance Strategy for Patients with Peripheral Sporadic Primary Desmoid-Type Fibromatosis: A Multicentric Phase II Observational Trial",
+    "journal": null,
+    "year": "2023",
+    "doi": "10.1245/s10434-023-14341-2",
+    "pmcid": null,
+    "authorString": "Bonvalot S, Cozic N, Le Cesne A, Blay JY, Penel N, Fau M, Chevreau C, Anract P, Waast D, Laurence V, Watson S, Duffaud F, Gouin F, Taieb S, Kind M, Lam L.",
+    "abstract_verbatim": "<h4>Background</h4>Stabilization or spontaneous regressions are demonstrated in more than half of patients affected by primary desmoid-type fibromatosis (DF) in retrospective studies. The objective of this phase II study was to prospectively assess the behavior of primary sporadic DT managed by active surveillance (AS).<h4>Methods</h4>This prospective, multicenter, observational study (NCT01801176) included patients ≥18 years of age with primary sporadic DF located in an extremity or the abdominal/thoracic wall. At inclusion, all patients were initially placed on AS. Follow-up was based on clinical and radiological evaluation by magnetic resonance imaging (MRI) performed at 1, 3, 6, 9, and 12 months, and then every 6 months for 3 years. The primary endpoint was progression-free survival (PFS) at 3 years according to Response Evaluation Criteria in Solid Tumors (RECIST) version 1.1, as evaluated by a Central Review Board.<h4>Results</h4>Between 2012 and 2015, 100 patients were enrolled. The female/male ratio was 8 and the median age was 34 years (interquartile range [IQR] 30.8-43.9). Median follow-up was 46.6 months (IQR 36.8-61.1) and the 3-year PFS was 53.4% (95% confidence interval 43.5-63.1%). At progression (48 patients), 23 patients received active treatment. Fifty-eight patients (58%) presented with spontaneous tumor regression (decrease > 0% compared with the initial size) during the first 3 months (n = 35, 35%) or after an initial progression (n = 23, 23%), of whom 26 (26%) had partial responses (PRs). The median time to PR was 31.7 months (25.3-not available).<h4>Conclusions</h4>These data support the use of AS as the primary approach to select patients with peripheral DF who require aggressive treatment.",
+    "retrieved_via": "xdisease-round5/epmc_desmoid_active_surveillance"
+   },
+   "38900421": {
+    "pmid": "38900421",
+    "title": "Current Management of Desmoid Tumors: A Review",
+    "journal": null,
+    "year": "2024",
+    "doi": "10.1001/jamaoncol.2024.1805",
+    "pmcid": null,
+    "authorString": "Kasper B, Baldini EH, Bonvalot S, Callegaro D, Cardona K, Colombo C, Corradini N, Crago AM, Dei Tos AP, Dileo P, Elnekave E, Erinjeri JP, Navid F, Farma JM, Ferrari A, Fiore M, Gladdy RA, Gounder M, H",
+    "abstract_verbatim": "<h4>Importance</h4>Desmoid tumor (DT) is a rare and locally aggressive monoclonal, fibroblastic proliferation characterized by a variable and often unpredictable clinical course. Previously, surgery was the standard primary treatment modality; however, within the past decade, a paradigm shift toward less-invasive management has been introduced and an effort to harmonize the strategy among clinicians has been made. To update the 2020 global evidence-based consensus guideline on the management of patients with DT, the Desmoid Tumor Working Group convened a 1-day consensus meeting in Milan, Italy, on June 30, 2023, under the auspices of the European Reference Network on Rare Adult Solid Cancers and Sarcoma Patient Advocacy Global Network, the Desmoid Foundation Italy, and the Desmoid Tumor Research Foundation. The meeting brought together over 90 adult and pediatric sarcoma experts from different disciplines as well as patients and patient advocates from around the world.<h4>Observations</h4>The 2023 update of the global evidence-based consensus guideline focused on the positioning of local therapies alongside surgery and radiotherapy in the treatment algorithm as well as the positioning of the newest class of medical agents, such as γ-secretase inhibitors. Literature searches of MEDLINE and Embase databases were performed for English-language randomized clinical trials (RCTs) of systemic therapies to obtain data to support the consensus recommendations. Of the 18 full-text articles retrieved, only 4 articles met the inclusion criteria. The 2023 consensus guideline is informed by a number of new aspects, including data for local ablative therapies such as cryotherapy; other indications for surgery; and the γ-secretase inhibitor nirogacestat, the first representative of the newest class of medical agents and first approved drug for DT. Management of DT is complex and should be carried out exclusively in designated DT referral centers equipped with a multidisciplinary tumor board. Selection of the appropriate strategy should consider DT-related symptoms, associated risks, tumor location, disease morbidities, available treatment options, and preferences of individual patients.<h4>Conclusions and relevance</h4>The therapeutic armamentarium of DT therapy is continually expanding. It is imperative to carefully select the management strategy for each patient with DT to optimize tumor control and enhance quality of life.",
+    "retrieved_via": "xdisease-round5/epmc_desmoid_consensus_management"
+   },
+   "42469534": {
+    "pmid": "42469534",
+    "title": "MRI assessment of tumor behavior in desmoid-type fibromatosis during active surveillance",
+    "journal": null,
+    "year": "2026",
+    "doi": "10.1007/s00330-026-12777-0",
+    "pmcid": null,
+    "authorString": "Nagata S, Yamaguchi A, Shouji Y, Sawano M, Uchiyama Y, Arai H, Nishimura H, Tanoue S.",
+    "abstract_verbatim": "<h4>Objectives</h4>To determine whether MRI findings are associated with tumor behavior in desmoid-type fibromatosis (DF) during active surveillance.<h4>Materials and methods</h4>This single-center retrospective study included patients with histopathologically confirmed DF who underwent active surveillance between January 2008 and March 2024. Tumor behavior was classified by percentage monthly change in tumor volume (PMCV) as growth ( > 1%), stable ( -1% to +1%), or shrinkage (<-1%). Longitudinal analysis included 61 observation intervals derived from 85 MRI examinations; a separate patient-based analysis included baseline MRI examinations from 24 patients. MRI findings included qualitative features, whole-tumor T2 ratio, whole-tumor apparent diffusion coefficient (ADC), and semiautomated three-dimensional volumetry. Mixed-effects logistic regression models were used for longitudinal analysis, and interobserver agreement was assessed.<h4>Results</h4>Twenty-four patients with 85 MRI examinations were included. PMCV was calculated for 61 observation intervals: 9 shrinkage, 13 stable, and 39 growth. No qualitative MRI feature, including margin definition, extensive T2 hyperintensity, band sign on T1- or T2-weighted imaging, tail sign, Yin-Yang sign, or dynamic contrast-enhanced MRI pattern, was significantly associated with interval tumor behavior. Neither whole-tumor T2 ratio nor whole-tumor ADC was significantly associated with growth or shrinkage relative to stability. Interobserver agreement ranged from substantial to almost perfect for qualitative features and was excellent for quantitative measurements.<h4>Conclusion</h4>No evaluated MRI feature was significantly associated with tumor behavior in DF during active surveillance, suggesting limited value of MRI as a standalone predictor.<h4>Key points</h4>Question Can MRI help predict tumor behavior during active surveillance in patients with DF, given the lack of established imaging predictors? Findings No evaluated MRI feature, including qualitative findings, whole-tumor T2 ratio, or whole-tumor ADC value, was significantly associated with tumor behavior during active surveillance. Clinical relevance Although MRI remains essential for monitoring DF, its standalone value for predicting tumor behavior during active surveillance may be limited.",
+    "retrieved_via": "xdisease-round5/epmc_desmoid_active_surveillance"
+   }
+  },
+  "transfer_fencing": "every figure here is a DESMOID figure. Desmoid fibromatosis does not metastasise; most tumours in this paper's corpus do. No rate below may be applied to any other disease, in any direction. They are quoted as an EXISTENCE PROOF about whether the confound is measurable, never as a transferable rate."
+ },
  "not_a_recommendation": "No efficacy, safety or treatment claim about any agent. Nothing here says a control arm outcome is what an individual patient would experience untreated."
 }

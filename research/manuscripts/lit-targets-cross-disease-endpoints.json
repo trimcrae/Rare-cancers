@@ -212,6 +212,42 @@
    "pmcid": "PMC5065609",
    "authorString": "Tolaney SM, Nechushtan H, Ron IG, Schöffski P, Awada A, Yasenchak CA, Laird AD, O'Keeffe B, Shapiro GI, Winer EP.",
    "_note": "recovered from a BROAD sweep after the exact-title search missed; the title written from recollection was not the published title."
+  },
+  "39620931": {
+   "returned_by": "round5_xdisease-round5/epmc_desmoid_active_surveillance",
+   "title": "Active Surveillance in Patients with Extra-abdominal Desmoid-Type Fibromatosis: A Pooled Analysis of Three Prospective Observational Studies",
+   "journal": null,
+   "year": "2025",
+   "doi": "10.1158/1078-0432.ccr-24-2340",
+   "pmcid": "PMC11788647",
+   "authorString": "Colombo C, Hakkesteegt S, Le Cesne A, Barretta F, Blay JY, Grünhagen DJ, Penel N, Lam L, Fiore M, Palassini E, Grignani G, Tolomeo F, Collini P, Merlini A, Perr"
+  },
+  "37777684": {
+   "returned_by": "round5_xdisease-round5/epmc_desmoid_active_surveillance",
+   "title": "Initial Active Surveillance Strategy for Patients with Peripheral Sporadic Primary Desmoid-Type Fibromatosis: A Multicentric Phase II Observational Trial",
+   "journal": null,
+   "year": "2023",
+   "doi": "10.1245/s10434-023-14341-2",
+   "pmcid": null,
+   "authorString": "Bonvalot S, Cozic N, Le Cesne A, Blay JY, Penel N, Fau M, Chevreau C, Anract P, Waast D, Laurence V, Watson S, Duffaud F, Gouin F, Taieb S, Kind M, Lam L."
+  },
+  "38900421": {
+   "returned_by": "round5_xdisease-round5/epmc_desmoid_consensus_management",
+   "title": "Current Management of Desmoid Tumors: A Review",
+   "journal": null,
+   "year": "2024",
+   "doi": "10.1001/jamaoncol.2024.1805",
+   "pmcid": null,
+   "authorString": "Kasper B, Baldini EH, Bonvalot S, Callegaro D, Cardona K, Colombo C, Corradini N, Crago AM, Dei Tos AP, Dileo P, Elnekave E, Erinjeri JP, Navid F, Farma JM, Fer"
+  },
+  "42469534": {
+   "returned_by": "round5_xdisease-round5/epmc_desmoid_active_surveillance",
+   "title": "MRI assessment of tumor behavior in desmoid-type fibromatosis during active surveillance",
+   "journal": null,
+   "year": "2026",
+   "doi": "10.1007/s00330-026-12777-0",
+   "pmcid": null,
+   "authorString": "Nagata S, Yamaguchi A, Shouji Y, Sawano M, Uchiyama Y, Arai H, Nishimura H, Tanoue S."
   }
  },
  "round1_xdisease-control-arms": {
@@ -301,16 +337,19 @@
     "randomized discontinuation trials recovered as worked examples rather than as the method paper"
    ],
    "still_not_retrieved": [
-    "a RANO meningioma response-criteria document",
-    "a desmoid consensus guidance document",
-    "Mick's original growth-modulation-index paper and Rosner's randomized-discontinuation design paper, both of which are ALREADY anchored in emc-endpoint-alternatives.json and so need no new fetch"
+    "⚠ SUPERSEDED, RETAINED. This field previously asserted that a RANO meningioma response-criteria document and a desmoid consensus guidance document had not been retrieved. That was FALSE when written: round 5 had already been dispatched and had returned both, and the payloads sat unread on the literature-cache branch for several days. Corrected 2026-08-09 by opening them.",
+    "Desmoid consensus guidance: retrieved as PMID 38900421, the 2023 global consensus update.",
+    "Meningioma response criteria: the round-5 sweep returned RANO-group meningioma trial-design and endpoint documents rather than a standalone response-criteria paper. Recorded as retrieved-in-substance and not claimed as the specific document originally sought.",
+    "Mick's growth-modulation-index paper and Rosner's randomized-discontinuation paper remain un-refetched because both are already anchored in emc-endpoint-alternatives.json."
    ],
-   "what_this_block_is": "a record of queries that failed, kept because a failed title search is evidence about the query string and never evidence that the document does not exist."
+   "what_this_block_is": "a record of queries that failed, kept because a failed title search is evidence about the query string and never evidence that the document does not exist.",
+   "⛔_what_this_episode_shows": "a fetch that is dispatched and never opened is worse than one never dispatched, because the manifest records it as done. Round 5 returned the prospective active-surveillance cohorts that quantify the natural-history confound section 6 was describing as unmeasured. The correction is in placebo-arm-calibration.json -> P9."
   }
  },
  "round5_xdisease-round5": {
   "_moved_to": "research/manuscripts/lit-targets-xdisease-round5.json",
-  "_n_targets": 6
+  "_n_targets": 6,
+  "_status": "OPENED 2026-08-09. Six payloads, all HTTP 200. Four identifiers recorded above; the two prospective desmoid active-surveillance cohorts are load-bearing and are carried into placebo-arm-calibration.json -> P9."
  },
  "round6_xdisease-control-arm-detail": {
   "_moved_to": "research/manuscripts/lit-targets-xdisease-control-arm-detail.json",
