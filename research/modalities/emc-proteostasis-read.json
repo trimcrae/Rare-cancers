@@ -1,3 +1,275 @@
 {
-  "_status": "⛔ NOT MEASURED — the committed panel predates read 18 (added 2026-08-09). Run `emc-expression-datasets.yml mode=panels`. THIS IS AN ABSENT READING, NOT A NULL RESULT."
+  "_title": "The proteostatic axis in EMC — the read behind the best ex-vivo evidence this disease has.",
+  "_generated_by": "research/modalities/emc_proteostasis_read.py",
+  "_sources": {
+    "expression": "research/modalities/emc-expression-panels.json → panels.proteostasis (read 18)",
+    "dependency": "research/modalities/depmap-sarcoma-dependency.json → the proteasome group"
+  },
+  "⭐_the_grading_rule_was_written_before_the_data": "This module was committed before the fetch that populates read 18 returned. The four readings it can emit — the predicted shape, everything-moves-together, machinery-without-load, and null — were all named in advance, and |t| >= 2 is the panel's own threshold rather than one chosen here.",
+  "⛔_the_pre_stated_expectation_was_a_null": "Transcript abundance is a weak instrument for a dependency, and NFE2L1 bounce-back — the mechanism that limits proteasome inhibitors — is post-translational and invisible to an array. A null here lowers a prior; it does not refute an ex-vivo result measured on cells.",
+  "_no_clinical_claim": "⛔ Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent in any disease.",
+  "per_platform": {
+    "GSE24369_series_matrix.txt.gz": {
+      "groups": {
+        "proteasome_20S_core": {
+          "scored": true,
+          "t": 0.644,
+          "delta": 0.0471,
+          "n_genes_readable": 9,
+          "n_genes_requested": 9
+        },
+        "proteasome_19S_regulatory": {
+          "scored": true,
+          "t": 0.628,
+          "delta": 0.0356,
+          "n_genes_readable": 8,
+          "n_genes_requested": 8
+        },
+        "secretory_and_matrix_load_proxy": {
+          "scored": true,
+          "t": -0.195,
+          "delta": -0.0148,
+          "n_genes_readable": 7,
+          "n_genes_requested": 8
+        },
+        "unfolded_protein_response": {
+          "scored": true,
+          "t": 2.106,
+          "delta": 0.1692,
+          "n_genes_readable": 6,
+          "n_genes_requested": 6
+        },
+        "bounceback_and_integrated_stress": {
+          "scored": true,
+          "t": 0.573,
+          "delta": 0.0635,
+          "n_genes_readable": 5,
+          "n_genes_requested": 5
+        },
+        "degradative_alternatives": {
+          "scored": true,
+          "t": 0.88,
+          "delta": 0.0829,
+          "n_genes_readable": 4,
+          "n_genes_requested": 4
+        }
+      },
+      "verdict": "⭐ THE SHAPE THE HYPOTHESIS PREDICTS — a load module moves up and the proteasome machinery does not. That is consistent with a tumour where degradative capacity is limiting rather than merely present. ⚠ Consistent with, not evidence for: it is a transcript contrast in archival tissue and it excludes no confound. ⚠ AND IT FIRED ON PART OF THE LOAD SIDE ONLY: unfolded_protein_response moved while secretory_and_matrix_load_proxy did not. The flat one is the module that carries the mechanistic argument — a myxoid tumour depending on degradative capacity BECAUSE it secretes matrix — so this verdict is markedly weaker than its label. The rule is the one pre-specified before the data; the qualification is here so the label cannot be quoted without it.",
+      "the_eight_most_extreme_genes_of_this_read_on_this_array": {
+        "XBP1": {
+          "t": 3.23,
+          "signed_percentile": 93.95,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.15598,
+          "n_symbols_at_least_as_extreme_two_sided": 2915
+        },
+        "CANX": {
+          "t": 2.744,
+          "signed_percentile": 91.28,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.21624,
+          "n_symbols_at_least_as_extreme_two_sided": 4041
+        },
+        "SSR1": {
+          "t": -2.669,
+          "signed_percentile": 13.52,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.22737,
+          "n_symbols_at_least_as_extreme_two_sided": 4249
+        },
+        "SQSTM1": {
+          "t": 2.656,
+          "signed_percentile": 90.69,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.22951,
+          "n_symbols_at_least_as_extreme_two_sided": 4289
+        },
+        "PSMC1": {
+          "t": 2.605,
+          "signed_percentile": 90.29,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.23759,
+          "n_symbols_at_least_as_extreme_two_sided": 4440
+        },
+        "PSMB6": {
+          "t": 2.404,
+          "signed_percentile": 88.79,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.27001,
+          "n_symbols_at_least_as_extreme_two_sided": 5046
+        },
+        "EIF2AK3": {
+          "t": 2.402,
+          "signed_percentile": 88.79,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.27028,
+          "n_symbols_at_least_as_extreme_two_sided": 5051
+        },
+        "ERN1": {
+          "t": 2.376,
+          "signed_percentile": 88.58,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.27461,
+          "n_symbols_at_least_as_extreme_two_sided": 5132
+        }
+      },
+      "⚠_how_to_read_the_placement": "`frac_of_array_at_least_as_extreme_two_sided` is the fraction of ALL symbols on this array whose EMC-vs-comparator |t| is at least this gene's. It controls no error rate; it says whether a t like this is remarkable here. A housekeeping gene sitting mid-distribution is the expected reading."
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "groups": {
+        "proteasome_20S_core": {
+          "scored": true,
+          "t": 0.574,
+          "delta": 0.0448,
+          "n_genes_readable": 9,
+          "n_genes_requested": 9
+        },
+        "proteasome_19S_regulatory": {
+          "scored": true,
+          "t": -0.965,
+          "delta": -0.0957,
+          "n_genes_readable": 6,
+          "n_genes_requested": 8
+        },
+        "secretory_and_matrix_load_proxy": {
+          "scored": true,
+          "t": -0.807,
+          "delta": -0.1315,
+          "n_genes_readable": 7,
+          "n_genes_requested": 8
+        },
+        "unfolded_protein_response": {
+          "scored": true,
+          "t": -0.894,
+          "delta": -0.1538,
+          "n_genes_readable": 5,
+          "n_genes_requested": 6
+        },
+        "bounceback_and_integrated_stress": {
+          "scored": true,
+          "t": 3.56,
+          "delta": 0.538,
+          "n_genes_readable": 5,
+          "n_genes_requested": 5
+        },
+        "degradative_alternatives": {
+          "scored": true,
+          "t": 1.878,
+          "delta": 0.1794,
+          "n_genes_readable": 4,
+          "n_genes_requested": 4
+        }
+      },
+      "verdict": "⛔ NULL — neither the load modules nor the machinery move on this platform. This is the outcome the read was pre-stated to expect, and it lowers the prior that a proteasome inhibitor's ex-vivo activity in EMC runs through a transcript-visible load difference. It does NOT refute the ex-vivo result, which was measured on cells.",
+      "the_eight_most_extreme_genes_of_this_read_on_this_array": {
+        "SQSTM1": {
+          "t": 5.0,
+          "signed_percentile": 97.99,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.03117,
+          "n_symbols_at_least_as_extreme_two_sided": 449
+        },
+        "ATF3": {
+          "t": 4.856,
+          "signed_percentile": 97.74,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.03478,
+          "n_symbols_at_least_as_extreme_two_sided": 501
+        },
+        "PSMB1": {
+          "t": 4.209,
+          "signed_percentile": 96.24,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.05741,
+          "n_symbols_at_least_as_extreme_two_sided": 827
+        },
+        "EIF2AK3": {
+          "t": -3.838,
+          "signed_percentile": 2.78,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.0781,
+          "n_symbols_at_least_as_extreme_two_sided": 1125
+        },
+        "ATF4": {
+          "t": 3.452,
+          "signed_percentile": 93.27,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.10462,
+          "n_symbols_at_least_as_extreme_two_sided": 1507
+        },
+        "PSMA5": {
+          "t": -3.308,
+          "signed_percentile": 4.29,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.1174,
+          "n_symbols_at_least_as_extreme_two_sided": 1691
+        },
+        "PSMB5": {
+          "t": 3.112,
+          "signed_percentile": 91.27,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.13802,
+          "n_symbols_at_least_as_extreme_two_sided": 1988
+        },
+        "DDIT3": {
+          "t": 3.017,
+          "signed_percentile": 90.62,
+          "frac_of_array_at_least_as_extreme_two_sided": 0.14892,
+          "n_symbols_at_least_as_extreme_two_sided": 2145
+        }
+      },
+      "⚠_how_to_read_the_placement": "`frac_of_array_at_least_as_extreme_two_sided` is the fraction of ALL symbols on this array whose EMC-vs-comparator |t| is at least this gene's. It controls no error rate; it says whether a t like this is remarkable here. A housekeeping gene sitting mid-distribution is the expected reading."
+    }
+  },
+  "dependency_prior": {
+    "PSMB5": {
+      "sarcoma_mean": -1.859,
+      "sarcoma_frac_dependent": 0.978,
+      "rest_mean": -1.69,
+      "selectivity": 0.169,
+      "n_sarcoma_lines_screened": 91
+    },
+    "PSMB1": {
+      "sarcoma_mean": -1.705,
+      "sarcoma_frac_dependent": 1.0,
+      "rest_mean": -1.728,
+      "selectivity": -0.023,
+      "n_sarcoma_lines_screened": 91
+    },
+    "PSMD1": {
+      "sarcoma_mean": -1.195,
+      "sarcoma_frac_dependent": 1.0,
+      "rest_mean": -1.298,
+      "selectivity": -0.103,
+      "n_sarcoma_lines_screened": 91
+    },
+    "PSMD14": {
+      "sarcoma_mean": -1.579,
+      "sarcoma_frac_dependent": 0.989,
+      "rest_mean": -1.648,
+      "selectivity": -0.069,
+      "n_sarcoma_lines_screened": 91
+    },
+    "PSMC1": {
+      "sarcoma_mean": -1.309,
+      "sarcoma_frac_dependent": 1.0,
+      "rest_mean": -1.4,
+      "selectivity": -0.092,
+      "n_sarcoma_lines_screened": 91
+    },
+    "VCP": {
+      "sarcoma_mean": -2.479,
+      "sarcoma_frac_dependent": 1.0,
+      "rest_mean": -2.513,
+      "selectivity": -0.034,
+      "n_sarcoma_lines_screened": 91
+    },
+    "NFE2L1": {
+      "sarcoma_mean": -0.163,
+      "sarcoma_frac_dependent": 0.077,
+      "rest_mean": -0.089,
+      "selectivity": 0.074,
+      "n_sarcoma_lines_screened": 91
+    },
+    "HSPA5": {
+      "sarcoma_mean": -1.175,
+      "sarcoma_frac_dependent": 0.978,
+      "rest_mean": -1.259,
+      "selectivity": -0.085,
+      "n_sarcoma_lines_screened": 91
+    },
+    "SQSTM1": {
+      "sarcoma_mean": -0.022,
+      "sarcoma_frac_dependent": 0.0,
+      "rest_mean": -0.047,
+      "selectivity": -0.025,
+      "n_sarcoma_lines_screened": 91
+    }
+  },
+  "⚠_read_the_dependency_prior_against_the_route": "A gene required in almost every line of a tissue class offers little to select on. If the proteasome subunits come back near-pan-essential, that QUALIFIES this route exactly as PRMT5's 94.5% qualified the methylosome route, and it belongs in the paper with the same prominence."
 }

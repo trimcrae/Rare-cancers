@@ -87,18 +87,34 @@ def _placed(panel, plat, gene):
     return ((gw.get("placed_wanted_genes") or {}).get(gene)) or None
 
 
-def _verdict(load_ts, mach_ts):
-    """The pre-specified reading. Both arguments are lists of scored group t values."""
+def _verdict(load_ts, mach_ts, load_names=(), moved_names=()):
+    """The pre-specified reading. Both arguments are lists of scored group t values.
+
+    ⚠ THE LABEL MUST NOT BE QUOTABLE WITHOUT ITS SUBSTRUCTURE, and the first run showed why. On
+    GPL6244 the rule fired 'the shape the hypothesis predicts' on ONE of two load modules — the
+    unfolded-protein response at t = +2.11 — while `secretory_and_matrix_load_proxy`, the module
+    that actually carries the mechanistic argument, was FLAT at −0.20. The rule is left exactly as
+    it was pre-specified, because changing a threshold after seeing the numbers is fitting. What is
+    added is that the verdict now names which modules moved and which did not, so the headline
+    cannot travel without the qualification."""
     if not load_ts and not mach_ts:
         return ("⛔ NOT MEASURED on this platform — no group emitted a score. An absent reading, "
                 "never a finding that the axis is flat.")
     load_moved = [t for t in load_ts if abs(t) >= MOVED and t > 0]
     mach_moved = [t for t in mach_ts if abs(t) >= MOVED and t > 0]
     if load_moved and not mach_moved:
-        return ("⭐ THE SHAPE THE HYPOTHESIS PREDICTS — the load modules move up and the proteasome "
+        flat = [n for n in load_names if n not in moved_names]
+        qual = ""
+        if flat:
+            qual = (f" ⚠ AND IT FIRED ON PART OF THE LOAD SIDE ONLY: {', '.join(moved_names)} "
+                    f"moved while {', '.join(flat)} did not. "
+                    f"{'secretory_and_matrix_load_proxy' in flat and 'The flat one is the module that carries the mechanistic argument — a myxoid tumour depending on degradative capacity BECAUSE it secretes matrix — so this verdict is markedly weaker than its label. ' or ''}"
+                    f"The rule is the one pre-specified before the data; the qualification is here "
+                    f"so the label cannot be quoted without it.")
+        return ("⭐ THE SHAPE THE HYPOTHESIS PREDICTS — a load module moves up and the proteasome "
                 "machinery does not. That is consistent with a tumour where degradative capacity is "
                 "limiting rather than merely present. ⚠ Consistent with, not evidence for: it is a "
-                "transcript contrast in archival tissue and it excludes no confound.")
+                "transcript contrast in archival tissue and it excludes no confound." + qual)
     if load_moved and mach_moved:
         return ("◐ EVERYTHING MOVES TOGETHER — load and machinery both up. That is the shape a "
                 "proliferation, cellularity or general-biosynthesis difference produces, and it is "
@@ -125,6 +141,8 @@ def build():
         groups = {g: _group(panel, g, plat) for g in MACHINERY + LOAD + CONTEXT}
         load_ts = [groups[g]["t"] for g in LOAD if groups[g].get("scored")]
         mach_ts = [groups[g]["t"] for g in MACHINERY if groups[g].get("scored")]
+        load_named = [g for g in LOAD if groups[g].get("scored")]
+        moved_named = [g for g in load_named if abs(groups[g]["t"]) >= MOVED and groups[g]["t"] > 0]
         placed = {}
         for gname in MACHINERY + LOAD + CONTEXT:
             for gene in (((panel["panels"]["proteostasis"]["groups"].get(gname) or {})
@@ -136,7 +154,7 @@ def build():
                          key=lambda kv: kv[1]["frac_of_array_at_least_as_extreme_two_sided"])[:8]
         per_plat[plat] = {
             "groups": groups,
-            "verdict": _verdict(load_ts, mach_ts),
+            "verdict": _verdict(load_ts, mach_ts, load_named, moved_named),
             "the_eight_most_extreme_genes_of_this_read_on_this_array": dict(hardest),
             "⚠_how_to_read_the_placement": "`frac_of_array_at_least_as_extreme_two_sided` is the "
                 "fraction of ALL symbols on this array whose EMC-vs-comparator |t| is at least this "
