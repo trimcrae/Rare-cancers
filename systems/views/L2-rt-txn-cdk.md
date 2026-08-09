@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-TXN-CDK — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13)
 
-**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ parked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#31--transcriptional-and-proteostatic-dependency)): ⭑ Registered 2026-08-09 from the modality census as its largest never-searched gap; concept maturity, nothing run.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ CLOSED ON THE AXIS THAT MATTERS (2026-08-09). Supported on abundance — CDK7 module and transcriptional output higher in EMC on both platforms — and then the dependency screen this row asked for ran the same day: across 176 sarcoma lines CDK7 and CDK9 are dependencies in 100%, mean gene effect -1.85 and -1.46. Pan-essential. The elevation buys no window.
 
 ## What has to land for this route to move
 
@@ -49,10 +49,16 @@ flowchart LR
 
 The driver acts by transactivating target promoters, and transcriptional CDK dependency is the best-established vulnerability of fusion-driven sarcomas as a class. The census found no route, no prior sweep and no technique-class table here had ever named it, which makes this the largest single gap in the class the portfolio should most obviously have covered.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | the transcriptional CDK modules are elevated in EMC on both platforms AND are dependencies in 100% of 176 sarcoma lines — the second reading is what closes the route | `class_inherited` |
+
 ## Remaining unknowns
 
-- Whether the dependency is greater in the tumour than in the host cell, which is the entire question and is not answered by any published sarcoma result.
-- Whether a transfer from other fusion-driven sarcomas holds for a nuclear-receptor fusion, which is a different transcription-factor class from the ETS and bZIP fusions the class prior is built on.
+- Whether any therapeutic index exists for a pan-essential transcriptional kinase, which is a question about the class in every disease and not about this one.
+- Whether the EMC elevation is a cellularity or proliferation artefact, which this data cannot exclude.
 
 ## Required validation
 
@@ -72,10 +78,10 @@ The driver acts by transactivating target promoters, and transcriptional CDK dep
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+A pan-essential target with no window is a closed line, and its value is as a paragraph in the census paper's negative half.
 
 **Missing:**
-- the class-inheritance analysis, which is $0 and has not been run
+- nothing — the question was asked and answered
 
 ## Where this route ends — the paper
 
@@ -91,13 +97,16 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The decisive observation has been taken and it went against the route: the target is pan-essential across sarcoma lines, so the EMC elevation buys no window. ⚠ What would reopen it is not a better inhibitor but a way to tell an EMC-SPECIFIC consequence apart from the consequence every line shares — which is what a perturbation model that predicts held-out phenotype would supply, and it is the technology that retires this route's own class-inheritance blocker.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-VIRTUAL-CELL** — A virtual-cell or perturbation model that predicts held-out knockdown phenotype in a cell type it was not trained on *(expected 2028, basis `extrapolated`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -109,7 +118,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Run the same class-inheritance analysis already built for the DNA-damage-response lane over the transcriptional CDKs, and report it as a transfer with no EMC line in it.
+Report it as a closed line: elevated and pan-essential is not an opportunity.
 
 *Cost:* $0
 

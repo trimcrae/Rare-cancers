@@ -152,6 +152,38 @@ def main():
         "genes_by_group": groups_out,
         "surface_and_cta_by_subtype": subtype_table,
         "self_validation": validation,
+        # ⛔ EMITTED BY THE GENERATOR, NOT HAND-ADDED, AND THAT IS THE WHOLE POINT. This block was
+        # added by hand to the ARTIFACT on 2026-08-05 -- its own `fields_edited_by_hand` said so --
+        # and a hand edit to a generated file survives exactly until the generator runs again. It ran
+        # on 2026-08-09 and deleted the block, which turned the disputed-cell-line integrity gate red
+        # on `main`: a medical-integrity annotation silently removed by a routine refresh. Emitting it
+        # here is the only form of the correction that survives its own pipeline.
+        "_identity_correction": {
+            "date": "2026-08-05",
+            "restored_and_moved_into_the_generator": "2026-08-09",
+            "what": "`/surface_and_cta_by_subtype/*/myxoid` is n=1 and the line is ACH-001519 / "
+                    "H-EMC-SS -- NOT myxoid liposarcoma, which is what the memos reading this "
+                    "artifact assumed. That line's identity is disputed: Cellosaurus CVCL_1238 "
+                    "records \"Caution: Does not harbor a gene fusion involving EWSR1 which is a "
+                    "hallmark of extraskeletal myxoid chondrosarcoma (PubMed=34413129)\", and "
+                    "DepMap's filtered fusion caller names no FET gene for the model.",
+            "so_the_myxoid_column_is": "ONE SARCOMA LINE OF DISPUTED IDENTITY. It is neither "
+                                       "liposarcoma nor usable EMC, and no value in it is EMC "
+                                       "evidence.",
+            "how_the_line_was_identified": "This artifact names no model ID. The myxoid values are "
+                                           "byte-identical to that line's `myxoid_mean_log2tpm` in "
+                                           "emc-surfaceome-scan.json across SEVEN genes: CD276 4.44, "
+                                           "NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, "
+                                           "EGFR 0.19.",
+            "verdict_source": "research/modalities/emc-atr-vulnerability.json -> "
+                              "part_a_hemcss_identity",
+            "correction_home": "research/manuscripts/emc-surface-target-landscape.md "
+                               "(Amendment 1, 2026-08-05)",
+            "no_numeric_field_is_touched_by_this_block": True,
+            "_general_warning": "EVERY subtype group in /surface_and_cta_by_subtype can be n=1. "
+                                "Check `n` before quoting a subtype mean -- n=1 and n=20 render "
+                                "identically.",
+        },
     }
     json.dump(result, open(OUT, "w"), indent=2)
     print("wrote", OUT, file=sys.stderr)

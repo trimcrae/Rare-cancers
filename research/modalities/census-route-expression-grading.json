@@ -731,7 +731,22 @@
       "observed": "⭐ The three-gene MTAP/CDKN2A/CDKN2B locus is LOWER in EMC on the platform where it is powered, and not marginally. The PRMT5 methylosome is HIGHER in EMC on BOTH platforms, and MAT2A sits at the 99th and 84th percentile of its array. That is the shape an MTAP-deleted, methylosome-dependent state makes on an expression platform.",
       "verdict": "SUPPORTED, WITH THE LOCUS READ POWERED ON ONE PLATFORM ONLY.",
       "what_this_does_not_settle": "⛔ A TRANSCRIPT IS NOT A COPY NUMBER, and this is the case where that matters most: the class is selected by homozygous deletion, which reads as a floor-level transcript but is not the same measurement. The locus group is UNDERPOWERED on GPL3290 (2 of 3 genes readable), so the strong result rests on six tumours on one array. And an elevated methylosome is not a dependency on it.",
-      "route_action": "promote: the cheapest decisive next observation is a copy-number or methylation read of the locus, not another expression series"
+      "sarcoma_dependency_prior": {
+        "PRMT5": {
+          "sarcoma_mean_gene_effect": -1.015,
+          "fraction_of_sarcoma_lines_dependent": 0.945
+        },
+        "MAT2A": {
+          "sarcoma_mean_gene_effect": -1.471,
+          "fraction_of_sarcoma_lines_dependent": 0.967
+        },
+        "MTAP": {
+          "sarcoma_mean_gene_effect": -0.075,
+          "fraction_of_sarcoma_lines_dependent": 0.0
+        }
+      },
+      "what_the_dependency_prior_adds_and_takes_away": "⚠ IT TAKES SOMETHING AWAY AND THE PAPER MUST CARRY IT. Across 176 sarcoma lines PRMT5 and MAT2A are dependencies in 94.5% and 96.7% -- close to pan-essential. That does NOT refute the hypothesis, because the therapeutic argument for this class is a DIFFERENTIAL between MTAP-deleted and MTAP-intact cells that a gene-effect score cannot express: an MTA-cooperative inhibitor exploits a metabolic state, not the raw dependency. But it does weaken any argument that resting on 'silencing PRMT5 impairs proliferation' is specific to a fusion sarcoma -- silencing it impairs proliferation nearly everywhere. MTAP itself is not a dependency (mean -0.075), exactly as expected for a biomarker rather than a target.",
+      "route_action": "promote, with the near-pan-essentiality of the target carried as a stated limit: the cheapest decisive next observation is a copy-number or methylation read of the locus, not another expression series"
     },
     "RT-TXN-CDK": {
       "selecting_feature": "elevated transcriptional CDK machinery in a transactivating-fusion tumour",
@@ -889,7 +904,26 @@
       "observed": "The CDK7 initiation module is HIGHER in EMC on BOTH platforms, and so is the general transcriptional-output group, both with the largest t-statistics in this pass. The CDK9 elongation module is higher on both but weakly. MYC is up on both.",
       "verdict": "SUPPORTED — the most concordant elevation in the census, on both platforms.",
       "what_this_does_not_settle": "⛔ THIS IS THE ROW WHERE ABUNDANCE IS FURTHEST FROM THE QUESTION. Every cell transcribes; elevated transcriptional machinery in a transcriptionally driven tumour is close to a tautology, and it says nothing about a WINDOW against normal tissue, which is the whole objection to this class. A general-transcription elevation is also exactly what higher cellularity or proliferation would produce.",
-      "route_action": "keep; the decisive observation is a dependency screen, not another abundance read"
+      "sarcoma_dependency_prior": {
+        "CDK7": {
+          "sarcoma_mean_gene_effect": -1.847,
+          "fraction_of_sarcoma_lines_dependent": 1.0
+        },
+        "CDK9": {
+          "sarcoma_mean_gene_effect": -1.464,
+          "fraction_of_sarcoma_lines_dependent": 1.0
+        },
+        "CDK12": {
+          "sarcoma_mean_gene_effect": -0.676,
+          "fraction_of_sarcoma_lines_dependent": 0.802
+        },
+        "CDK13": {
+          "sarcoma_mean_gene_effect": -0.01,
+          "fraction_of_sarcoma_lines_dependent": 0.011
+        }
+      },
+      "the_dependency_screen_ran_and_it_closed_the_window": "⛔ THE DECISIVE OBSERVATION THIS ROW ASKED FOR ARRIVED THE SAME DAY, AND IT WENT AGAINST THE ROUTE. Across 176 sarcoma lines CDK7 and CDK9 are dependencies in 100% of them, with mean gene effects of -1.85 and -1.46. That is the definition of pan-essential: the elevation seen in EMC buys no window, because every line needs these genes. The abundance result stands and is now known to be uninformative about the question, which is what this row warned it would be.",
+      "route_action": "down-grade: supported on abundance, closed on the axis that matters"
     },
     "RT-CHAPERONE": {
       "selecting_feature": "a standing proteostatic load imposed by a chimeric protein",
@@ -1161,7 +1195,22 @@
       "observed": "⛔ All five druggable guardians together are LOWER in EMC than in comparator sarcomas on BOTH platforms, MCL1 and BCL2L1 individually included. NOXA, the BH3-only protein that specifically neutralises MCL-1, is UP on both.",
       "verdict": "AGAINST AT THE ABUNDANCE LEVEL — no guardian is dominant, and the one that is up is a sensitiser rather than a guardian.",
       "what_this_does_not_settle": "⛔ AND HERE THE GAP IS THE WHOLE POINT: apoptotic dependency is which protein HOLDS the effectors, which BH3 profiling measures and abundance cannot. Low guardian transcript with high NOXA is compatible with a primed state, which would make the combination-only result that raised this hypothesis MORE interesting rather than less. This read de-prioritises the specific MCL-1 claim, not the underlying observation.",
-      "route_action": "down-grade the MCL-1-dominance form; the priming reading survives and is untestable from expression"
+      "sarcoma_dependency_prior": {
+        "MCL1": {
+          "sarcoma_mean_gene_effect": -0.926,
+          "fraction_of_sarcoma_lines_dependent": 0.835
+        },
+        "BCL2L1": {
+          "sarcoma_mean_gene_effect": -0.876,
+          "fraction_of_sarcoma_lines_dependent": 0.758
+        },
+        "BCL2": {
+          "sarcoma_mean_gene_effect": -0.056,
+          "fraction_of_sarcoma_lines_dependent": 0.022
+        }
+      },
+      "the_dependency_prior_says_the_opposite_of_the_abundance_read": "⭐ THE MOST INFORMATIVE SINGLE RESULT OF THIS PASS, AND IT ARRIVED AFTER THE VERDICT ABOVE WAS WRITTEN. Across 176 sarcoma lines, MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% of them -- and BCL2 in 2.2%. So in this tumour class the guardian holding the effectors is not BCL-2, which is precisely what the route hypothesised and precisely what would explain an EMC result where BCL-2 inhibition was inactive alone. The abundance read and the dependency prior disagree, and dependency is the axis the question is actually about. ⛔ NO EMC LINE IS IN THIS PANEL, so this is a class transfer and not an EMC finding.",
+      "route_action": "the MCL-1-dominance form is AGAINST on abundance and FOR on the sarcoma dependency prior; the two disagree and dependency is the relevant axis, so the route is restored to open rather than down-graded"
     },
     "RT-MDM2": {
       "selecting_feature": "an intact, transcriptionally live p53 axis",

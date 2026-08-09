@@ -5479,10 +5479,9 @@
     "kind": "route",
     "title": "Transcriptional CDK dependency (CDK7, CDK9, CDK12/13)",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census as its largest never-searched gap; concept maturity, nothing run.",
+      "value": "⛔ CLOSED ON THE AXIS THAT MATTERS (2026-08-09). Supported on abundance — CDK7 module and transcriptional output higher in EMC on both platforms — and then the dependency screen this row asked for ran the same day: across 176 sarcoma lines CDK7 and CDK9 are dependencies in 100%, mean gene effect -1.85 and -1.46. Pan-essential. The elevation buys no window.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "31--transcriptional-and-proteostatic-dependency"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
@@ -5514,16 +5513,22 @@
     "state": {
       "work_state": "future",
       "authorization": "free",
-      "status": "blocked",
-      "maturity": "concept",
-      "confidence": "low",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
       "last_verified": "2026-08-09"
     },
     "rationale": "The driver acts by transactivating target promoters, and transcriptional CDK dependency is the best-established vulnerability of fusion-driven sarcomas as a class. The census found no route, no prior sweep and no technique-class table here had ever named it, which makes this the largest single gap in the class the portfolio should most obviously have covered.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "the transcriptional CDK modules are elevated in EMC on both platforms AND are dependencies in 100% of 176 sarcoma lines — the second reading is what closes the route",
+        "strength": "class_inherited"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether the dependency is greater in the tumour than in the host cell, which is the entire question and is not answered by any published sarcoma result.",
-      "Whether a transfer from other fusion-driven sarcomas holds for a nuclear-receptor fusion, which is a different transcription-factor class from the ETS and bZIP fusions the class prior is built on."
+      "Whether any therapeutic index exists for a pan-essential transcriptional kinase, which is a question about the class in every disease and not about this one.",
+      "Whether the EMC elevation is a cellularity or proliferation artefact, which this data cannot exclude."
     ],
     "required_validation": [
       {
@@ -5543,17 +5548,20 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "the class-inheritance analysis, which is $0 and has not been run"
+        "nothing — the question was asked and answered"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "A pan-essential target with no window is a closed line, and its value is as a paragraph in the census paper's negative half."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "The decisive observation has been taken and it went against the route: the target is pan-essential across sarcoma lines, so the EMC elevation buys no window. ⚠ What would reopen it is not a better inhibitor but a way to tell an EMC-SPECIFIC consequence apart from the consequence every line shares — which is what a perturbation model that predicts held-out phenotype would supply, and it is the technology that retires this route's own class-inheritance blocker.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-VIRTUAL-CELL"
+      ]
     },
     "next": {
-      "best_next_action": "Run the same class-inheritance analysis already built for the DNA-damage-response lane over the transcriptional CDKs, and report it as a transfer with no EMC line in it.",
+      "best_next_action": "Report it as a closed line: elevated and pan-essential is not an opportunity.",
       "cost": "$0"
     }
   },
@@ -5919,10 +5927,9 @@
     "kind": "route",
     "title": "Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL)",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; it follows from an existing committed result rather than from a transfer.",
+      "value": "◐ SPLIT, AND THE TWO AXES DISAGREE (2026-08-09). Abundance: all five druggable guardians read LOWER in EMC on both platforms. Dependency: across 176 sarcoma lines MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% while BCL2 is in 2.2%. In this tumour class the guardian is not BCL-2 — which is what the route hypothesised, and what would explain this repository's own EMC result where BCL-2 inhibition was inactive alone and active only in combination.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "32--biomarker-selected-classes-readable-from-data-already-on-disk"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
@@ -5953,25 +5960,27 @@
     "state": {
       "work_state": "future",
       "authorization": "free",
-      "status": "blocked",
-      "maturity": "concept",
-      "confidence": "low",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "moderate",
       "last_verified": "2026-08-09"
     },
     "rationale": "This follows directly from a result the repository already holds and never pursued: BCL-2 inhibition was inactive alone and active only in combination in patient-derived models here. That pattern is the signature of dependence on a different member of the same family, and nobody has asked which one.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "MCL1 and BCL2L1 are dependencies in most sarcoma lines while BCL2 is in almost none, which is the pattern the route predicted and is the axis abundance cannot measure",
+        "strength": "class_inherited"
+      }
+    ],
     "remaining_unknowns": [
-      "Which family member the models depend on, which the existing screens were not designed to resolve.",
-      "Whether a dependency measured in two patient-derived models transfers to the disease, given how few models exist."
+      "Which guardian holds the effectors in EMC specifically — no EMC line appears in the dependency panel, so the pattern is a class transfer and not an EMC observation.",
+      "Why guardian ABUNDANCE is lower in EMC than in comparator sarcomas while the class-level DEPENDENCY runs the other way; the two readings are not reconciled here.",
+      "Whether a primed state — low guardians with elevated NOXA — explains the combination-only result better than a co-dependency does."
     ],
     "required_validation": [
       {
-        "what": "The expression or committed-artifact lookup that selects this class",
-        "feasible_today": true,
-        "blocked_by": []
-      },
-      {
-        "what": "A measurement in a fusion-positive EMC model",
+        "what": "BH3 profiling, or an MCL-1/BCL-xL inhibitor arm, in the two published patient-derived EMC models — the same models that produced the combination-only result",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-WET-LAB"
@@ -5981,17 +5990,17 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a re-read of the committed ex-vivo screen artifacts for every BH3-mimetic in their panels"
+        "a dependency or BH3-profiling readout in an EMC model — abundance cannot answer this and the class prior contains no EMC line"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "Two readings that disagree is a reason to run an experiment, not a result."
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
+      "rationale": "The class prior now points the same way as this repository's own unexplained EMC result, and the experiment that would settle it is an arm on a screen that has already been run once on those models.",
       "cost_trend": "flat"
     },
     "next": {
-      "best_next_action": "Re-read the committed ex-vivo screen artifacts for BH3-mimetics and read the BCL-2 family across the expression cohorts.",
+      "best_next_action": "Put an MCL-1/BCL-xL arm in front of the group holding the two EMC models, alongside the PRMT5 ask.",
       "cost": "$0"
     }
   },

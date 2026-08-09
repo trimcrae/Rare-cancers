@@ -84,7 +84,7 @@ flowchart LR
 
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
-| **[RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md)**<br/>Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL) | ○ blocked | concept | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Re-read the committed ex-vivo screen artifacts for BH3-mimetics and read the BCL-2 family across the expressio |
+| **[RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md)**<br/>Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL) | ○ ready | computed | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Put an MCL-1/BCL-xL arm in front of the group holding the two EMC models, alongside the PRMT5 ask. |
 | **[RT-ARGININE](L2-rt-arginine.md)**<br/>Arginine deprivation (ASS1-silenced tumours) | ✓ parked | computed | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Report it as a closed line in the census paper's negative half. |
 | **[RT-ATR-ASSESS](L2-rt-atr-assess.md)**<br/>The in-silico ATR vulnerability assessment (the computed half) | ✓ ready | computed | `preprint` | [PUB-ATR](L3-publications.md) ◐ *primary* | Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask. |
 | **[RT-ATR-PANEL](L2-rt-atr-panel.md)**<br/>The ATR-inhibitor cell panel in EMC lines (the ask) | ○ blocked | scoped | `experimental_proposal` | [PUB-ATR-PANEL-ASK](L3-publications.md) ◐ *primary* | Send the ask with the assessment. It is the strongest taker-fit in the portfolio. |
@@ -96,7 +96,7 @@ flowchart LR
 | **[RT-POLQ](L2-rt-polq.md)**<br/>POLθ inhibition (microhomology-mediated end joining) | ○ blocked | concept | `internal_note` | [PUB-BIOMARKER-DEP](L3-publications.md) ○ *contributing* | Extend the committed dependency-prior analysis to the microhomology-mediated end-joining genes and report it b |
 | **[RT-SGK1](L2-rt-sgk1.md)**<br/>SGK1 inhibition | ○ blocked | concept | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ○ *contributing* | Read SGK1 across the two readable EMC expression series and the fourth cohort, turning a single antibody-based |
 | **[RT-SYNLETH-DEP](L2-rt-synleth-dep.md)**<br/>Synthetic-lethal / dependency partner (BRD9 / ncBAF via EWSR1-prion→BAF) | ✓ parked | computed | `internal_note` | [PUB-SYNLETH](L3-publications.md) ◐ *primary* | Keep parked on data with the transfer-prior negative stated as data-bounded, not as a biological finding. |
-| **[RT-TXN-CDK](L2-rt-txn-cdk.md)**<br/>Transcriptional CDK dependency (CDK7, CDK9, CDK12/13) | ○ blocked | concept | `internal_note` | [PUB-TXN-DEPENDENCY](L3-publications.md) ○ *primary* | Run the same class-inheritance analysis already built for the DNA-damage-response lane over the transcriptiona |
+| **[RT-TXN-CDK](L2-rt-txn-cdk.md)**<br/>Transcriptional CDK dependency (CDK7, CDK9, CDK12/13) | ○ parked | computed | `internal_note` | [PUB-TXN-DEPENDENCY](L3-publications.md) ○ *primary* | Report it as a closed line: elevated and pan-essential is not an opportunity. |
 
 ## Family-level bets — blockers EVERY route here inherits
 

@@ -48,7 +48,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-AF3-INTERFACE](L2-rt-af3-interface.md) | ST-PROXIMITY | `internal_note` | a co-folder validated on assembly |
 | [RT-ALK-HIT](L2-rt-alk-hit.md) | ST-REPURPOSING | `internal_note` | a re-read of the committed drug-screen artifact and its controls |
 | [RT-ANDGATE](L2-rt-andgate.md) | ST-PROXIMITY | `internal_note` | arm-2 chemistry |
-| [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | ST-DEPENDENCY | `internal_note` | a re-read of the committed ex-vivo screen artifacts for every BH3-mimetic in their panels |
+| [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | ST-DEPENDENCY | `internal_note` | a dependency or BH3-profiling readout in an EMC model — abundance cannot answer this and the class prior contains no EMC line |
 | [RT-ARGININE](L2-rt-arginine.md) | ST-DEPENDENCY | `internal_note` | nothing — the $0 observation this route was registered for has been taken, and it came back against the premise |
 | [RT-B7H3](L2-rt-b7h3.md) | ST-IMMUNO | `internal_note` | a tissue-level measurement |
 | [RT-CARFILZOMIB](L2-rt-carfilzomib.md) | ST-REPURPOSING | `internal_note` | — |
@@ -89,7 +89,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | ST-IMMUNO | `internal_note` | a stronger presented epitope, and one not confined to a single allele — both corrected e7::e3 strong binders are HLA-B*15:01 |
 | [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | ST-IMMUNO | `internal_note` | a real EMC expression series |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | ST-REPURPOSING | `internal_note` | a larger clinical series |
-| [RT-TXN-CDK](L2-rt-txn-cdk.md) | ST-DEPENDENCY | `internal_note` | the class-inheritance analysis, which is $0 and has not been run |
+| [RT-TXN-CDK](L2-rt-txn-cdk.md) | ST-DEPENDENCY | `internal_note` | nothing — the question was asked and answered |
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) | ST-PROXIMITY | `internal_note` | an observed transfer geometry |
 | [RT-VACCINE](L2-rt-vaccine.md) | ST-IMMUNO | `internal_note` | an immunogenicity argument |
 

@@ -118,6 +118,29 @@ malignancies. A low locus group is consistent with route 2 and is not evidence f
 *CDKN2A* reason above. ⛔ **Neither route is established by this reading. The reading is why the
 experiments in §4 are worth running.**
 
+### 3.1 · A dependency prior that qualifies route 1, and it is not comfortable
+
+Across **176 sarcoma cell lines in public CRISPR dependency data, PRMT5 and MAT2A are dependencies in
+94.5% and 96.7%** of them. *MTAP* itself is not a dependency, exactly as expected of a biomarker
+rather than a target.
+
+⚠ **That weakens the specificity of route 1's proliferation argument.** The clear cell sarcoma result
+reports that silencing PRMT5 impaired proliferation *and* fusion-driven transcription. Silencing PRMT5
+impairs proliferation in nearly every sarcoma line, so the proliferation half is close to expected;
+the part that is specific — and the part any transfer to EMC must rest on — is the effect on
+**fusion-driven transcription**, not on growth.
+
+⛔ **It does not refute the class**, and the reason is worth stating precisely because it sounds like
+special pleading. The therapeutic argument for this class is a *differential* between MTAP-deleted and
+MTAP-intact cells, and a gene-effect score cannot express a differential of that kind: an
+MTA-cooperative inhibitor exploits a metabolic state rather than the raw dependency. A near-universal
+dependency and a genetic window are compatible — most cells need the enzyme, and deleted cells need it
+under conditions that make them easier to reach.
+
+⚠ **This prior contains no EMC line.** No EMC cell line carrying the fusion appears in public
+dependency data at all, so this is a transfer from other sarcomas and the honest bound is not a small
+sample — it is no EMC observation.
+
 ## 4 · The two tests that would settle it
 
 **For route 1 — a PRMT5 inhibitor in a patient-derived EMC model.** Two such models exist and are
@@ -156,6 +179,7 @@ disease can afford to test.
 | F5 | the low locus read is not *CDKN2A* alone | gene-level copy-number showing *CDKN2A* loss with *MTAP* intact |
 | F6 | MTAP protein is lost in some EMC | MTAP IHC retained across an EMC series — **the decisive test for route 2, and the cheapest** |
 | F7 | the readings are not proliferation or cellularity effects | a series matched on proliferation in which both contrasts disappear |
+| F8 | route 1's specificity rests on fusion-driven transcription, not on growth | a demonstration that PRMT5 inhibition slows EMC growth no more than it slows any sarcoma line's — the near-universal dependency in §3.1 makes this the likeliest way route 1 fails |
 
 ## 6 · Limits
 
@@ -170,6 +194,8 @@ disease can afford to test.
   no result presented here bridges them.
 - **No EMC cell line carrying the fusion appears in any public dependency dataset**, so no dependency
   evidence for this axis in this disease exists or can be generated computationally.
-- **Abundance is not dependency.** An elevated methylosome does not establish reliance on it.
+- **Abundance is not dependency**, and where the dependency prior exists it qualifies rather than
+  supports: PRMT5 and MAT2A are near-pan-essential across sarcoma lines (§3.1), so a growth effect
+  says little and only a transcriptional effect would be specific.
 - **Nothing here has been tested in an EMC cell**, and no agent in this class has been given to a
   patient with this disease.

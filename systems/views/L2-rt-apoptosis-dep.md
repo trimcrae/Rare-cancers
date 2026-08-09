@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-APOPTOSIS-DEP — Anti-apoptotic dependency beyond BCL-2 (MCL-1, BCL-xL)
 
-**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ ready · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#32--biomarker-selected-classes-readable-from-data-already-on-disk)): ⭑ Registered 2026-08-09 from the modality census; it follows from an existing committed result rather than from a transfer.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ SPLIT, AND THE TWO AXES DISAGREE (2026-08-09). Abundance: all five druggable guardians read LOWER in EMC on both platforms. Dependency: across 176 sarcoma lines MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% while BCL2 is in 2.2%. In this tumour class the guardian is not BCL-2 — which is what the route hypothesised, and what would explain this repository's own EMC result where BCL-2 inhibition was inactive alone and active only in combination.
 
 ## What has to land for this route to move
 
@@ -45,17 +45,23 @@ flowchart LR
 
 This follows directly from a result the repository already holds and never pursued: BCL-2 inhibition was inactive alone and active only in combination in patient-derived models here. That pattern is the signature of dependence on a different member of the same family, and nobody has asked which one.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | MCL1 and BCL2L1 are dependencies in most sarcoma lines while BCL2 is in almost none, which is the pattern the route predicted and is the axis abundance cannot measure | `class_inherited` |
+
 ## Remaining unknowns
 
-- Which family member the models depend on, which the existing screens were not designed to resolve.
-- Whether a dependency measured in two patient-derived models transfers to the disease, given how few models exist.
+- Which guardian holds the effectors in EMC specifically — no EMC line appears in the dependency panel, so the pattern is a class transfer and not an EMC observation.
+- Why guardian ABUNDANCE is lower in EMC than in comparator sarcomas while the class-level DEPENDENCY runs the other way; the two readings are not reconciled here.
+- Whether a primed state — low guardians with elevated NOXA — explains the combination-only result better than a co-dependency does.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| The expression or committed-artifact lookup that selects this class | ⛔ none built | yes | — |
-| A measurement in a fusion-positive EMC model | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| BH3 profiling, or an MCL-1/BCL-xL inhibitor arm, in the two published patient-derived EMC models — the same models that produced the combination-only result | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
@@ -67,10 +73,10 @@ This follows directly from a result the repository already holds and never pursu
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+Two readings that disagree is a reason to run an experiment, not a result.
 
 **Missing:**
-- a re-read of the committed ex-vivo screen artifacts for every BH3-mimetic in their panels
+- a dependency or BH3-profiling readout in an EMC model — abundance cannot answer this and the class prior contains no EMC line
 
 ## Where this route ends — the paper
 
@@ -88,7 +94,7 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 **Recommendation: `pursue_now`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The class prior now points the same way as this repository's own unexplained EMC result, and the experiment that would settle it is an arm on a screen that has already been run once on those models.
 
 | horizon | effect |
 |---|---|
@@ -104,7 +110,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Re-read the committed ex-vivo screen artifacts for BH3-mimetics and read the BCL-2 family across the expression cohorts.
+Put an MCL-1/BCL-xL arm in front of the group holding the two EMC models, alongside the PRMT5 ask.
 
 *Cost:* $0
 

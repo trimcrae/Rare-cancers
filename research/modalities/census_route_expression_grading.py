@@ -25,6 +25,7 @@ import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PANEL = os.path.join(HERE, "emc-expression-panels.json")
+DEPMAP = os.path.join(HERE, "depmap-sarcoma-dependency.json")
 OUT = os.path.join(HERE, "census-route-expression-grading.json")
 
 GPL6244 = "GSE24369_series_matrix.txt.gz"
@@ -36,6 +37,27 @@ PLATFORMS = {GPL6244: "GPL6244 (6 EMC vs 29 comparator sarcomas)",
 def load():
     with open(PANEL, encoding="utf-8") as fh:
         return json.load(fh)
+
+
+def depmap():
+    """The sarcoma-line dependency prior, keyed by gene.
+
+    ⛔ IT CONTAINS NO EMC LINE. The one line on the curated record does not carry the fusion and has
+    no CRISPR data, so every figure here is a TRANSFER from other sarcomas and inherits
+    BLK-CLASS-INHERITANCE. The honest bound is not a small sample; it is no EMC observation at all.
+
+    ⚠ AND A DEPENDENCY IS NOT A WINDOW. `frac_dependent` near 1.0 means the gene is required in
+    almost every sarcoma line -- which is evidence AGAINST a therapeutic window, not for one, unless
+    the class exploits a state the normal cell does not share.
+    """
+    with open(DEPMAP, encoding="utf-8") as fh:
+        d = json.load(fh)
+    out = {}
+    for rows in d["genes_by_group"].values():
+        for r in rows:
+            out[r["gene"]] = {"sarcoma_mean_gene_effect": r.get("sarcoma_mean"),
+                              "fraction_of_sarcoma_lines_dependent": r.get("sarcoma_frac_dependent")}
+    return out
 
 
 def gene(panel, symbol):
@@ -86,6 +108,7 @@ def concordance(per_platform, key="delta_emc_minus_comparator"):
 
 def build():
     p = load()
+    dm = depmap()
     routes = {}
 
     # ─────────────────────────── RT-ARGININE ───────────────────────────
@@ -248,7 +271,19 @@ def build():
                                      "measurement. The locus group is UNDERPOWERED on GPL3290 (2 of 3 "
                                      "genes readable), so the strong result rests on six tumours on "
                                      "one array. And an elevated methylosome is not a dependency on it.",
-        "route_action": "promote: the cheapest decisive next observation is a copy-number or "
+        "sarcoma_dependency_prior": {g: dm.get(g) for g in ("PRMT5", "MAT2A", "MTAP")},
+        "what_the_dependency_prior_adds_and_takes_away": (
+            "⚠ IT TAKES SOMETHING AWAY AND THE PAPER MUST CARRY IT. Across 176 sarcoma lines PRMT5 "
+            "and MAT2A are dependencies in 94.5% and 96.7% -- close to pan-essential. That does NOT "
+            "refute the hypothesis, because the therapeutic argument for this class is a "
+            "DIFFERENTIAL between MTAP-deleted and MTAP-intact cells that a gene-effect score cannot "
+            "express: an MTA-cooperative inhibitor exploits a metabolic state, not the raw "
+            "dependency. But it does weaken any argument that resting on 'silencing PRMT5 impairs "
+            "proliferation' is specific to a fusion sarcoma -- silencing it impairs proliferation "
+            "nearly everywhere. MTAP itself is not a dependency (mean -0.075), exactly as expected "
+            "for a biomarker rather than a target."),
+        "route_action": "promote, with the near-pan-essentiality of the target carried as a stated "
+                        "limit: the cheapest decisive next observation is a copy-number or "
                         "methylation read of the locus, not another expression series",
     }
     routes["RT-TXN-CDK"] = {
@@ -272,7 +307,15 @@ def build():
                                      "whole objection to this class. A general-transcription elevation "
                                      "is also exactly what higher cellularity or proliferation would "
                                      "produce.",
-        "route_action": "keep; the decisive observation is a dependency screen, not another abundance read",
+        "sarcoma_dependency_prior": {g: dm.get(g) for g in ("CDK7", "CDK9", "CDK12", "CDK13")},
+        "the_dependency_screen_ran_and_it_closed_the_window": (
+            "⛔ THE DECISIVE OBSERVATION THIS ROW ASKED FOR ARRIVED THE SAME DAY, AND IT WENT "
+            "AGAINST THE ROUTE. Across 176 sarcoma lines CDK7 and CDK9 are dependencies in 100% of "
+            "them, with mean gene effects of -1.85 and -1.46. That is the definition of pan-"
+            "essential: the elevation seen in EMC buys no window, because every line needs these "
+            "genes. The abundance result stands and is now known to be uninformative about the "
+            "question, which is what this row warned it would be."),
+        "route_action": "down-grade: supported on abundance, closed on the axis that matters",
     }
     routes["RT-CHAPERONE"] = {
         "selecting_feature": "a standing proteostatic load imposed by a chimeric protein",
@@ -313,8 +356,19 @@ def build():
                                      "combination-only result that raised this hypothesis MORE "
                                      "interesting rather than less. This read de-prioritises the "
                                      "specific MCL-1 claim, not the underlying observation.",
-        "route_action": "down-grade the MCL-1-dominance form; the priming reading survives and is "
-                        "untestable from expression",
+        "sarcoma_dependency_prior": {g: dm.get(g) for g in ("MCL1", "BCL2L1", "BCL2")},
+        "the_dependency_prior_says_the_opposite_of_the_abundance_read": (
+            "⭐ THE MOST INFORMATIVE SINGLE RESULT OF THIS PASS, AND IT ARRIVED AFTER THE VERDICT "
+            "ABOVE WAS WRITTEN. Across 176 sarcoma lines, MCL1 and BCL2L1 are dependencies in 83.5% "
+            "and 75.8% of them -- and BCL2 in 2.2%. So in this tumour class the guardian holding the "
+            "effectors is not BCL-2, which is precisely what the route hypothesised and precisely "
+            "what would explain an EMC result where BCL-2 inhibition was inactive alone. The "
+            "abundance read and the dependency prior disagree, and dependency is the axis the "
+            "question is actually about. ⛔ NO EMC LINE IS IN THIS PANEL, so this is a class "
+            "transfer and not an EMC finding."),
+        "route_action": "the MCL-1-dominance form is AGAINST on abundance and FOR on the sarcoma "
+                        "dependency prior; the two disagree and dependency is the relevant axis, so "
+                        "the route is restored to open rather than down-graded",
     }
     routes["RT-MDM2"] = {
         "selecting_feature": "an intact, transcriptionally live p53 axis",
