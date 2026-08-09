@@ -57,12 +57,12 @@ last_verified: 2026-08-06
 | **PUB-SURFACE-TARGETS**<br/>[In-silico surface-antigen prioritisation for extraskeletal myxoid chond…](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-TXN-DEPENDENCY**<br/>[Transcriptional and proteostatic dependency of a fusion transcription f…](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS RETIRED — THE CONSOLIDATION IS DONE AND IT INVERTED THE PAPER. … |
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ◔ `outlined` | `preprint` | 3 | ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. … |
 | **PUB-MATRIX-ADDRESS**<br/>*The myxoid matrix as an address rather than an obstacle* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. … |
 | **PUB-NR-OUTSIDE-NR4A3**<br/>*Nuclear-receptor pharmacology outside NR4A3 in a NR4A3-driven sarcoma* | ◔ `outlined` | `preprint` | 2 | ⚠ ITS BLOCKER IS RETIRED AND BOTH ROUTES ARE GRADED, BOTH NEGATIVELY, FOR DIFFERENT REASONS. The dormancy route is UNREAD  … |
 | **PUB-STRATEGY-ARCH**<br/>*Scheduling, sequencing and reachability as treatment variables in an ul…* | ◔ `outlined` | `preprint` | 3 | ⚠ ITS BLOCKER IS RETIRED AND ONE OF ITS ROUTES IS NOW THE MOST ACTIONABLE THING IN THE PORTFOLIO. … |
-| **PUB-TXN-DEPENDENCY**<br/>*Transcriptional and proteostatic dependency of a fusion transcription f…* | ◔ `outlined` | `preprint` | 2 | ⚠ ITS STATED BLOCKER IS RETIRED. Both cheapest observations ran on 2026-08-09. The transcriptional-CDK half is CLOSED on the axis that decides it  … |
 | **PUB-PARKED-MODALITIES**<br/>*Five modalities parked on a capability that does not exist yet: what wo…* | ○ `unwritten` | `preprint` | 5 | Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. … |
 
 ## What each one would claim
@@ -345,6 +345,17 @@ A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a F
 |---|---|---|
 | [RT-TCIP](L2-rt-tcip.md) — TCIP — transcriptional chemically-induced proximity  | `primary` | The reach enumeration with an effector-size second terminus, reusing machinery MEASURED to be E3-free (4 of 4 arms byte-identical with every E3-specific field stripped). Run 2026-08-06 (ART-TCIP-REACH). Its reportable finding is not the binary admit — which admits every body tested, including a 1183-residue CRBN-DDB1 assembly — but that the size penalty is a degrader's induced-interface floor rather than steric bulk: ablating the floor inverts the sign. It speaks about a SIZE CLASS, not a named effector. |
 
+### PUB-TXN-DEPENDENCY — Transcriptional and proteostatic dependency of a fusion transcription factor — what a no-wet-lab program can and cannot establish
+
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-transcriptional-proteostatic-dependency.md`](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md) · ships with **PUB-MODALITY-CENSUS****
+
+A fusion oncoprotein whose entire mechanism is transactivation, and whose structure is a chimera of two domains that never evolved together, predicts dependencies on the transcriptional machinery and on the chaperone system — and for both, ABUNDANCE AND DEPENDENCY DISAGREE IN OPPOSITE DIRECTIONS. The transcriptional half is the most concordant elevation in the census and closes completely on dependency, being pan-essential with no selectivity. The chaperone half is an internally contradictory elevation that survives weakly for a reason abundance alone could not show. Reading only the first axis would have given a confident and wrong answer in both cases, which is the transferable result.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-CHAPERONE](L2-rt-chaperone.md) — Chaperone dependency of the chimera (HSP90 and co-ch | `primary` | The half of the paper that argues from what the driver IS STRUCTURALLY: a chimera of two domains that never evolved together is a folding problem before it is a signalling one. |
+| [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13 | `primary` | The half of the paper that argues from what the driver IS: a transcriptional oncoprotein should be more dependent on the transcriptional machinery than the cell it sits in. |
+
 ### PUB-KINASE-LEADS — Four kinase observations in extraskeletal myxoid chondrosarcoma that nobody followed up
 
 **◔ `outlined` · aimed at `preprint`**
@@ -435,23 +446,6 @@ For a cancer that will never have a randomised trial, the variables a clinician 
 | [RT-SCHEDULING](L2-rt-scheduling.md) — Adaptive and metronomic scheduling of existing agent | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
 | [RT-SEQUENCING](L2-rt-sequencing.md) — Treatment sequencing and line ordering | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
 | [RT-TRIAL-REACH](L2-rt-trial-reach.md) — Trial reachability and access pathways | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
-
-### PUB-TXN-DEPENDENCY — Transcriptional and proteostatic dependency of a fusion transcription factor: what a no-wet-lab program can and cannot establish
-
-**◔ `outlined` · aimed at `preprint`**
-
-A fusion oncoprotein whose entire mechanism is transactivation, and whose structure is a chimera of two domains that never evolved together, predicts dependencies on the transcriptional machinery and on the chaperone system — and neither had ever been assessed in this disease despite both being standard vulnerabilities of its tumour class.
-
-**Not written because:** ⚠ ITS STATED BLOCKER IS RETIRED. Both cheapest observations ran on 2026-08-09. The transcriptional-CDK half is CLOSED on the axis that decides it — supported on abundance, then closed on dependency, because the module is a dependency in every sarcoma line of the public CRISPR panel the route read, which is a pan-essentiality and not a window. The chaperone half is PARTLY supported: the HSP90 machine reads higher on both platforms while the HSP70 and heat-shock arms read lower, a split the route's own premise does not predict. A two-hypothesis paper in which one dies cleanly and the other returns an unexplained split is writable today. ⛔ Superseded, retained: "neither has had its cheapest observation yet, so there is no result to write up."
-
-**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
-
-- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-CHAPERONE](L2-rt-chaperone.md) — Chaperone dependency of the chimera (HSP90 and co-ch | `primary` | The half of the paper that argues from what the driver IS STRUCTURALLY: a chimera of two domains that never evolved together is a folding problem before it is a signalling one. |
-| [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13 | `primary` | The half of the paper that argues from what the driver IS: a transcriptional oncoprotein should be more dependent on the transcriptional machinery than the cell it sits in. |
 
 ### PUB-PARKED-MODALITIES — Five modalities parked on a capability that does not exist yet: what would have to land, and how it is being watched for
 
@@ -546,8 +540,8 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `contributing` |
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-SYNLETH** ◐ | `internal_note` | `primary` |
 | [RT-TCIP](L2-rt-tcip.md) | [ST-PROXIMITY](L1-st-proximity.md) | `preprint` | **PUB-TCIP** ◐ | `preprint` | `primary` |
-| [RT-CHAPERONE](L2-rt-chaperone.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ◔ | `preprint` | `primary` |
-| [RT-TXN-CDK](L2-rt-txn-cdk.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ◔ | `preprint` | `primary` |
+| [RT-CHAPERONE](L2-rt-chaperone.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ◐ | `preprint` | `primary` |
+| [RT-TXN-CDK](L2-rt-txn-cdk.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ◐ | `preprint` | `primary` |
 
 ## What this page deliberately leaves out
 

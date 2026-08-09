@@ -1,0 +1,100 @@
+{
+  "_what": "Citation anchor for the transcriptional-and-proteostatic-dependency paper. Every identifier the manuscript prints appears here, and every record was READ OUT OF A RETRIEVED EUROPE PMC PAYLOAD in this session — never recalled.",
+  "_anchor_form": "Each record carries `pubmed_url`, which is the form lint_citations reads. ⚠ A bare `pmid` field is deliberately NOT an anchor form: a bare-digit rule could falsely anchor a fabricated identifier colliding with an unrelated number, which is the one direction that gate must never move.",
+  "⚠_a_payload_in_this_same_run_returned_junk_and_nothing_from_it_is_used": "`epmc_hsp90_fusion_oncoprotein` used unquoted multi-term ORs and returned 3,565 hits whose top records are successive editions of the autophagy-assay guidelines — a paper with thousands of authors that matches almost any broad query. NOT ONE RECORD FROM THAT PAYLOAD IS CITED. It is recorded here rather than deleted because a failed retrieval that leaves no trace is indistinguishable from one that was never run, and because the specific question it was meant to answer — is any FET-family fusion protein a documented chaperone client — therefore REMAINS OPEN and is the route's own stated next step.",
+  "_not_medical_advice": "⛔ Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any agent in extraskeletal myxoid chondrosarcoma. These are class-definition references establishing what each therapeutic class targets and on what basis.",
+  "retrieval": {
+    "route": "workflow_dispatch of .github/workflows/fetch-literature.yml at ref=claude/cancer-treatment-emc-categories-nu4nfd via the `targets_json` inline manifest",
+    "why_ci": "this sandbox's egress proxy answers 403 to CONNECT for www.ebi.ac.uk (CLAUDE.md §6)",
+    "api": "Europe PMC REST search, resultType=core, sort=CITED desc",
+    "slug": "txn-dependency-class-definitions-2026-08-09",
+    "actions_run_id": 31313242021,
+    "date_et": "2026-08-09"
+  },
+  "citations": {
+    "25043025": {
+      "pmid": "25043025",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/25043025/",
+      "title": "Targeting transcription regulation in cancer with a covalent CDK7 inhibitor.",
+      "authors_verbatim": "Kwiatkowski N, Zhang T, Rahl PB, Abraham BJ, Reddy J, Ficarro SB, Dastur A, Amzallag A, Ramaswamy S, Tesar B, Jenkins CE, Hannett NM, McMillin D, Sanda T, Sim T, Kim ND, Look T, Mitsiades CS, Weng AP, Brown JR, Benes CH, Marto JA, Young RA, Gray NS.",
+      "pub_year": null,
+      "doi": "10.1038/nature13393",
+      "pmcid": "PMC4244910",
+      "grades_route": "RT-TXN-CDK",
+      "why_this_citation": "The covalent CDK7 inhibitor that made the class druggable, and the source of the transcription-regulation-as-target argument.",
+      "retrieved_payload": "epmc_cdk7_transcriptional.txt"
+    },
+    "16885020": {
+      "pmid": "16885020",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/16885020/",
+      "title": "Controlling the elongation phase of transcription with P-TEFb.",
+      "authors_verbatim": "Peterlin BM, Price DH.",
+      "pub_year": "2006",
+      "doi": "10.1016/j.molcel.2006.06.014",
+      "pmcid": null,
+      "grades_route": "RT-TXN-CDK",
+      "why_this_citation": "What the elongation kinase does: control of the elongation phase of transcription, which is why the CDK9 module was read beside the CDK7 one rather than instead of it.",
+      "retrieved_payload": "epmc_cdk9_ptefb.txt"
+    },
+    "22863008": {
+      "pmid": "22863008",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/22863008/",
+      "title": "HSF1 drives a transcriptional program distinct from heat shock to support highly malignant human cancers.",
+      "authors_verbatim": "Mendillo ML, Santagata S, Koeva M, Bell GW, Hu R, Tamimi RM, Fraenkel E, Ince TA, Whitesell L, Lindquist S.",
+      "pub_year": "2012",
+      "doi": "10.1016/j.cell.2012.06.031",
+      "pmcid": "PMC3438889",
+      "grades_route": "RT-CHAPERONE",
+      "why_this_citation": "⭐ DIRECTLY BEARS ON THIS PAPER'S NEGATIVE: the malignancy-supporting HSF1 program is DISTINCT from the classical heat-shock response. This is the strongest reason our finding — HSP90 machine up while the heat-shock arm reads down — cannot be read as simply refuting the route.",
+      "retrieved_payload": "epmc_hsf1_heat_shock_cancer.txt"
+    },
+    "28429788": {
+      "pmid": "28429788",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/28429788/",
+      "title": "The HSP90 chaperone machinery.",
+      "authors_verbatim": "Schopf FH, Biebl MM, Buchner J.",
+      "pub_year": "2017",
+      "doi": "10.1038/nrm.2017.20",
+      "pmcid": null,
+      "grades_route": "RT-CHAPERONE",
+      "why_this_citation": "What the HSP90 machine IS, including its co-chaperones — the basis for reading the machine as a group rather than as one gene, and for treating the kinase-specific co-chaperone separately.",
+      "retrieved_payload": "epmc_hsp90_client.txt"
+    },
+    "9108479": {
+      "pmid": "9108479",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/9108479/",
+      "title": "Crystal structure of an Hsp90-geldanamycin complex: targeting of a protein chaperone by an antitumor agent.",
+      "authors_verbatim": "Stebbins CE, Russo AA, Schneider C, Rosen N, Hartl FU, Pavletich NP.",
+      "pub_year": "1997",
+      "doi": "10.1016/s0092-8674(00)80203-2",
+      "pmcid": null,
+      "grades_route": "RT-CHAPERONE",
+      "why_this_citation": "The structural basis for targeting the chaperone pharmacologically. Cited to establish that the class exists and is druggable, NOT that it is safe or effective anywhere.",
+      "retrieved_payload": "epmc_hsp90_client.txt"
+    },
+    "28187285": {
+      "pmid": "28187285",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/28187285/",
+      "title": "Transcriptional Addiction in Cancer.",
+      "authors_verbatim": "Bradner JE, Hnisz D, Young RA.",
+      "pub_year": "2017",
+      "doi": "10.1016/j.cell.2016.12.013",
+      "pmcid": "PMC5308559",
+      "grades_route": "RT-TXN-CDK",
+      "why_this_citation": "The canonical framing of the class: a cancer whose driver is a transcription factor may depend disproportionately on the general transcriptional machinery. This is the argument that puts EMC in scope at all.",
+      "retrieved_payload": "epmc_transcriptional_addiction.txt"
+    },
+    "26406377": {
+      "pmid": "26406377",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/26406377/",
+      "title": "CDK7-dependent transcriptional addiction in triple-negative breast cancer.",
+      "authors_verbatim": "Wang Y, Zhang T, Kwiatkowski N, Abraham BJ, Lee TI, Xie S, Yuzugullu H, Von T, Li H, Lin Z, Stover DG, Lim E, Wang ZC, Iglehart JD, Young RA, Gray NS, Zhao JJ.",
+      "pub_year": null,
+      "doi": "10.1016/j.cell.2015.08.063",
+      "pmcid": "PMC4583659",
+      "grades_route": "RT-TXN-CDK",
+      "why_this_citation": "A worked instance of CDK7-dependent transcriptional addiction in a defined tumour type — the shape of result this route would need in EMC and does not have.",
+      "retrieved_payload": "epmc_transcriptional_addiction.txt"
+    }
+  }
+}

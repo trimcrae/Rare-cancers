@@ -85,15 +85,13 @@ A pan-essential target with no window is a closed line, and its value is as a pa
 
 ## Where this route ends — the paper
 
-**[PUB-TXN-DEPENDENCY](L3-publications.md)** — *Transcriptional and proteostatic dependency of a fusion transcription factor: what a no-wet-lab program can and cannot establish* (unwritten)
+**[PUB-TXN-DEPENDENCY](L3-publications.md)** — [Transcriptional and proteostatic dependency of a fusion transcription factor — what a no-wet-lab program can and cannot establish](../../research/manuscripts/emc-transcriptional-proteostatic-dependency.md)
 
-`primary` · ◔ `outlined` · aimed at `preprint`
+`primary` · ◐ `drafted` · aimed at `preprint`
 
 **This route contributes:** The half of the paper that argues from what the driver IS: a transcriptional oncoprotein should be more dependent on the transcriptional machinery than the cell it sits in.
 
-**The paper would claim:** A fusion oncoprotein whose entire mechanism is transactivation, and whose structure is a chimera of two domains that never evolved together, predicts dependencies on the transcriptional machinery and on the chaperone system — and neither had ever been assessed in this disease despite both being standard vulnerabilities of its tumour class.
-
-**It is not written because:** ⚠ ITS STATED BLOCKER IS RETIRED. Both cheapest observations ran on 2026-08-09. The transcriptional-CDK half is CLOSED on the axis that decides it — supported on abundance, then closed on dependency, because the module is a dependency in every sarcoma line of the public CRISPR panel the route read, which is a pan-essentiality and not a window. The chaperone half is PARTLY supported: the HSP90 machine reads higher on both platforms while the HSP70 and heat-shock arms read lower, a split the route's own premise does not predict. A two-hypothesis paper in which one dies cleanly and the other returns an unexplained split is writable today. ⛔ Superseded, retained: "neither has had its cheapest observation yet, so there is no result to write up."
+**The paper would claim:** A fusion oncoprotein whose entire mechanism is transactivation, and whose structure is a chimera of two domains that never evolved together, predicts dependencies on the transcriptional machinery and on the chaperone system — and for both, ABUNDANCE AND DEPENDENCY DISAGREE IN OPPOSITE DIRECTIONS. The transcriptional half is the most concordant elevation in the census and closes completely on dependency, being pan-essential with no selectivity. The chaperone half is an internally contradictory elevation that survives weakly for a reason abundance alone could not show. Reading only the first axis would have given a confident and wrong answer in both cases, which is the transferable result.
 
 ## Strategic timing — the wait equation
 
