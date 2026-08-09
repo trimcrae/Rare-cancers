@@ -36,7 +36,6 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 #: text; a memo, a plan or a findings note is NOT a submission text and must not be listed.
 TARGETS = [
     "research/manuscripts/response-endpoint-indolent-tumours.md",
-    "research/manuscripts/emc-response-endpoint-paper.md",
 ]
 
 # Densities are per 1000 words. They are deliberately generous: the aim is to catch prose that
@@ -107,6 +106,7 @@ def _body_lines(path):
     body, offset = _strip_frontmatter(raw)
     in_fence = False
     in_appendix = False
+    seen_title = False
     table_header_next = False
     out = []
     for i, line in enumerate(body):
@@ -118,13 +118,21 @@ def _body_lines(path):
         if in_fence:
             continue
         m = re.match(r"^(#{1,6})\s+(.*)$", stripped)
+        heading_text = None
         if m:
             in_appendix = bool(re.match(r"^appendix\b", m.group(2).strip(), re.I))
+            # The document title is the first H1 and is exempt from the noun-phrase rule. A paper
+            # title is allowed to be a sentence -- that is what titles are -- and holding it to a
+            # rule written for section headings would force a worse title to satisfy a linter.
+            if m.group(1) == "#" and not seen_title:
+                seen_title = True
+            else:
+                heading_text = m.group(2)
         if in_appendix:
             continue
         # A markdown table's header row legitimately uses bold; its separator marks it.
         is_sep = bool(re.match(r"^\|[\s:|-]+\|?$", stripped))
-        out.append((lineno, line, table_header_next, m.group(2) if m else None))
+        out.append((lineno, line, table_header_next, heading_text))
         table_header_next = is_sep
     return out
 

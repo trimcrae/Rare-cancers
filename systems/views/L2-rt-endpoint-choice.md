@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DISSEMINATION](L1-st-dissemination.md) · **state:** ✓ ready · computed · confidence moderate · verified 2026-08-07
 
-**Grade** (owned by [`research/manuscripts/emc-response-endpoint-paper.md`](../../research/manuscripts/emc-response-endpoint-paper.md)): DELIVERABLE, complete. The manuscript exists, every figure in it is derived by a committed producer with a --check reproduction mode, and no measurement, spend, capability or third party gates it. Its ceiling is stated inside it: it is an argument about MEASUREMENT and cannot become evidence that any agent works.
+**Grade** (owned by [`research/manuscripts/response-endpoint-indolent-tumours.md`](../../research/manuscripts/response-endpoint-indolent-tumours.md)): DELIVERABLE, complete. The manuscript exists, every figure in it is derived by a committed producer with a --check reproduction mode, and no measurement, spend, capability or third party gates it. Its ceiling is stated inside it: it is an argument about MEASUREMENT and cannot become evidence that any agent works.
 
 ## What has to land for this route to move
 
@@ -80,13 +80,13 @@ EMC is indolent: this repository's own pooled reading of its outcome cohorts put
 
 ## Where this route ends — the paper
 
-**[PUB-ENDPOINT](L3-publications.md)** — [Objective response is the wrong endpoint for extraskeletal myxoid chondrosarcoma: the same 47 patients, read two ways](../../research/manuscripts/emc-response-endpoint-paper.md)
+**[PUB-ENDPOINT](L3-publications.md)** — [Objective response as a trial summary: the regime in which it carries no information, and the diseases inside it](../../research/manuscripts/response-endpoint-indolent-tumours.md)
 
 `primary` · ◐ `drafted` · aimed at `journal_submission`
 
 **This route contributes:** The whole paper: the two endpoints on one denominator, the 36 discordant patients, the reporting-completeness census, the small-trial arithmetic, and the limitations section that states the natural-history confound at full strength.
 
-**The paper would claim:** Summarising systemic therapy in an indolent ultra-rare sarcoma by its objective-response rate discards most of what its own trials recorded - over the identical 47 patients ever evaluated in a prospective EMC trial, response is 12.8 percent and disease control 89.4 percent, and the whole 76.6-point gap is 36 patients with stable disease - while at achievable sample sizes a response-rate readout returns a result that is uninterpretable rather than negative a substantial fraction of the time. It does NOT claim disease control is the right endpoint instead, and asserts no efficacy for any agent: the confound it cannot remove is that stable disease in an indolent tumour may be natural history, and it states that objection at full strength rather than deflecting it.
+**The paper would claim:** The failure of an objective-response summary is a property of two measurable coordinates - the plausible response rate and the accruable sample size - rather than of any tumour type. Across 552 trial arms in 138 trials reporting a complete four-cell best-response table, the gap between disease control and objective response has a median of 39.4 percentage points (IQR 20.0-54.3), and 71 arms combine a response rate at or below 10 percent with disease control at or above 70 percent. Of 44 conditions placed on the two axes, 14 have a median trial smaller than an exact single-stage design would require. Reporting is the binding constraint: 4276 of 4414 screened studies (96.9 percent) post results without the four cells. Remedies already exist in four families across 12 disease domains, so the gap is diffusion rather than invention, and the family that addresses the natural-history confound directly has the least formal endorsement. Extraskeletal myxoid chondrosarcoma is the worked extreme at the 88.9th percentile, which is a weaker claim about that disease and a stronger one about endpoints. It asserts no efficacy, safety or clinical readiness for any agent.
 
 ## Strategic timing — the wait equation
 

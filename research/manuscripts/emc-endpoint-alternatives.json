@@ -1,7 +1,7 @@
 {
  "_schema": "emc-endpoint-alternatives/1",
  "_generated_by": "research/manuscripts/emc_endpoint_alternatives.py",
- "_generated_utc": "2026-08-08T19:06:58Z",
+ "_generated_utc": "2026-08-09T01:35:18Z",
  "_do_not_hand_edit": "Regenerate with `python3 research/manuscripts/emc_endpoint_alternatives.py`. Integer counts and citations come from research/manuscripts/emc-systemic-therapy-pooling.json; the reporting census comes from research/manuscripts/emc-endpoint-discordance.json; every other figure is either arithmetic over those, or a retrieved constant carried in this file's source WITH the verbatim quote and the literature-cache path it was read from. Hand-editing would sever a value from its quote, which is the only thing that makes any of it checkable.",
  "title": "What should be measured in advanced extraskeletal myxoid chondrosarcoma, what the field's chosen endpoint is benchmarked against, and how the published record reads when the benchmark is named",
  "answers_the_questions": {
@@ -28,7 +28,7 @@
   "why_this_had_to_be_built_first": "PUB-ENDPOINT's D5 established that the two modern EMC trials chose DIFFERENT primary endpoints six years apart -- objective response in 2019, 6-month progression-free rate in 2025 -- and that the migration was never argued in print. That is a fact about which endpoint. It says nothing about the THRESHOLD each endpoint was read against, and the threshold is what decides whether a trial reports a positive result. Neither threshold was recorded anywhere in this repository before this file.",
   "correction_this_extends": {
    "from": "research/manuscripts/emc-endpoint-discordance.json -> D5_primary_endpoint_correction",
-   "what_D5_settled": "The 2019 pazopanib trial's primary endpoint was the RECIST objective-response rate, not 6-month progression-free survival -- the source file's own verbatim quote of that trial reads '22 patients ... were evaluable for the primary endpoint: four (18% [95% CI 1-36]) had a RECIST objective response'. So the two modern prospective EMC trials did NOT both choose a progression-free endpoint; they chose DIFFERENT ones, six years apart.",
+   "what_D5_settled": "The 2019 pazopanib trial's primary endpoint was the RECIST objective-response rate, not 6-month progression-free survival. The two modern prospective EMC trials chose DIFFERENT primary endpoints, six years apart. This is now stated correctly in the source file, with the superseded wording retained beside it.",
    "what_this_adds": "D5 corrected WHICH endpoint each trial used. This ledger adds the null, the alternative, the error rates, the decision threshold and the stated justification for each -- all of which were retrievable at zero cost from the trial registry and the published abstract, and none of which had been read."
   },
   "trials": [
@@ -1045,10 +1045,15 @@
   "question": "Is the natural-history component of a progression-based endpoint a theoretical worry, or has anyone ever measured it in an indolent soft-tissue tumour?"
  },
  "corrections_owed_to_the_source_file": {
+  "_this_block_is_detected_not_remembered": "C1's status is read from the source file at build time. An earlier version of this function took `pooling` as an argument and never used it, so the block went on describing a sentence after that sentence had been corrected. A correction record that cannot notice its own resolution is a stale instruction wearing the costume of a finding.",
   "policy": "CLAUDE.md rule 1.2 and the pattern set by research/manuscripts/emc-endpoint-discordance.json -> D5: a discrepancy found in a source file is RECORDED here, dated and with its evidence, and FIXED in the file that owns the sentence. This file does not edit that file.",
   "items": [
    {
     "id": "C1_chiusole_does_report_a_median_pfs",
+    "current_source_state": {
+     "detector": "corrected -- the assertion this record was written against is no longer present in the source",
+     "status": "source_appears_corrected"
+    },
     "where": "research/manuscripts/emc-systemic-therapy-pooling.json -> analyses.A5_time_to_event_never_pooled.figures_that_are_NOT_emc_medians_but_circulate_as_such",
     "the_source_says": "Chiusole 2020 reports no median PFS for its chemotherapy patients.",
     "what_the_full_text_says": "Median progression-free survival for patients receiving first-line chemotherapy was 9 months.",

@@ -39,7 +39,7 @@ home for them.
 Regenerate:  python3 research/manuscripts/emc_endpoint_discordance.py
 Verify:      python3 research/manuscripts/emc_endpoint_discordance.py --check
 Output:      research/manuscripts/emc-endpoint-discordance.json
-Read by:     research/manuscripts/emc-response-endpoint-paper.md
+Read by:     research/manuscripts/response-endpoint-indolent-tumours.md
 """
 from __future__ import annotations
 
@@ -478,6 +478,14 @@ def d5_primary_endpoint_correction(src):
                 "live claim. That is what CLAUDE.md rule 1.2 asks for: the correction is in the "
                 "live text and the superseded wording stays quotable beside it."),
             "the_superseded_wording": CLAIM_MARKER + " ... as their primary endpoint",
+            # Kept on this branch as well as on the uncorrected one. Downstream readers -- the
+            # alternatives module among them -- consume this field, and dropping it when the
+            # source is FIXED would break every consumer at the moment the repository got it right.
+            "the_discrepancy": (
+                "The 2019 pazopanib trial's primary endpoint was the RECIST objective-response "
+                "rate, not 6-month progression-free survival. The two modern prospective EMC "
+                "trials chose DIFFERENT primary endpoints, six years apart. This is now stated "
+                "correctly in the source file, with the superseded wording retained beside it."),
             "what_the_source_now_says": claim,
             "what_the_source_own_quote_says": quote,
             "quote_contains_both_markers": quote_supports_orr_primary,
