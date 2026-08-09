@@ -860,7 +860,7 @@ When in doubt: do it and show it.
   clinical registry, now [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)
   — read by `research/meta/meta-analysis.mjs` and `research/hypotheses/enumerate-drugs.mjs`, both of which build
   the path from segments, so **searching for the DIRECTORY name finds neither; searching for the filename finds
-  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 6 of preflight's 7**.
+  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 7 of preflight's 8**.
   **Do not recreate the site.** Full accounting: [`systems/MIGRATION.md`](./systems/MIGRATION.md).
   ⚠ *Superseded, retained: "both via segment-built paths a text search will not find … which is gate 2 of
   preflight." The first over-stated the problem — `grep emc-clinical-registry` returns both readers at once,
