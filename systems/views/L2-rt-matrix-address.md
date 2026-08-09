@@ -18,21 +18,27 @@ last_verified: 2026-08-05
 
 # RT-MATRIX-ADDRESS — Oncofetal chondroitin sulfate as a tumour address
 
-**Family:** [ST-MICROENV](L1-st-microenv.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-MICROENV](L1-st-microenv.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#34--the-matrix-as-an-address)): ⭑ Registered 2026-08-09 from the modality census, porting a 2026-08-07 lane that had no route.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ NOT SUPPORTED ON CAPACITY, PREMISE STILL UNREADABLE (2026-08-09). The route's own cheapest next observation was taken. The 4-O-sulfotransferase arm that writes the epitope is DISCORDANT across the two platforms and significant on neither, with all four genes readable on both — a taken reading, not a missing one. The sulfate-DONOR module reads LOWER in EMC on BOTH, the panel's only concordant signal. ⛔ But a sulfation pattern has no gene: this grades the proxy the route nominated and cannot reach the route's premise, so it demotes rather than closes.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_MATRIX_ADDRESS["○ RT-MATRIX-ADDRESS"]:::fam
+  RT_MATRIX_ADDRESS["✓ RT-MATRIX-ADDRESS"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_MATRIX_ADDRESS
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
   TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
   TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
   TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_MATRIX_ADDRESS
+  TECH_CLOUD_WET_LAB(["TECH-CLOUD-WET-LAB<br/>expected 2029"]):::tech
+  TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -45,54 +51,65 @@ flowchart LR
 
 A registered lane with no route, and the best-argued matrix address the 2026-08-07 sweep found: it turns the defining glycan into the target, and it belongs to an antigen class the surfaceome screen structurally could not have found, because a sulfation pattern has no gene to rank.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-CENSUS-ROUTE-GRADING` | neither the 4-O-sulfotransferase arm nor the sulfate-donor module supports the capacity argument — the arm is discordant across platforms and the donor module is concordantly lower in EMC | `surrogate` |
+
 ## Remaining unknowns
 
-- Whether the oncofetal sulfation pattern is present in this disease's tissue, which no committed artifact has measured.
-- Whether the pattern is restricted enough relative to normal tissue to give any window, which is the same question every antigen route here has failed on.
+- Whether the oncofetal sulfation PATTERN is present on EMC tissue — the route's actual premise, which no transcript can reach and which this grading therefore leaves open.
+- Whether the pattern, if present, is restricted enough relative to normal tissue to give any window — the question every antigen route in this portfolio has failed on.
+- Why the 4-O arm disagrees between the two platforms while the donor module agrees, which is unexplained and is why this is graded as a demotion rather than a closure.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| The expression lookup that grades this route's premise | ⛔ none built | yes | — |
-| A measurement of the matrix compartment in EMC tissue | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
+| ⛔ TAKEN 2026-08-09 and returned no support — the chondroitin-sulfate biosynthesis and sulfotransferase read that this route nominated as its own grading observation | ⛔ none built | yes | — |
+| A stain or binding assay for the oncofetal chondroitin-sulfate pattern on EMC tissue, which is the only instrument that can reach the route's premise | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
 
 ## Blockers
 
 | blocker | kind | what would retire it |
 |---|---|---|
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 
 ## Readiness — what this could become today
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+The only $0 instrument that could speak to this route has now spoken, and it gave no support without being able to refute the premise.
 
 **Missing:**
-- a read of the sulfotransferase and chondroitin-sulfate biosynthesis gene set already committed here
+- a stain or a binding assay on EMC tissue — the epitope is a modification pattern and there is no further expression observation that could reach it
 
 ## Where this route ends — the paper
 
 **[PUB-MATRIX-ADDRESS](L3-publications.md)** — *The myxoid matrix as an address rather than an obstacle* (unwritten)
 
-`contributing` · ○ `unwritten` · aimed at `preprint`
+`contributing` · ◔ `outlined` · aimed at `preprint`
 
 **This route contributes:** One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable.
 
 **The paper would claim:** The matrix that defines this tumour histologically has been treated in the therapeutic literature almost entirely as a barrier to drug delivery, and it admits at least three distinct handles — an epitope, a biosynthetic pathway and a hypoxic niche — none of which requires the fusion protein to be druggable.
 
-**It is not written because:** The expression read that would ground it is committed but ungraded, and the paper's whole argument depends on what that read says.
+**It is not written because:** ⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. Three of the three handles the title argues for came back unfavourable or unreachable: the biosynthetic premise is not supported as stated, the hypoxia grade was WITHDRAWN the same day it was issued once the confound audit restricted the signature to one platform, and the epitope route's own nominated read gives no capacity support. The fourth is present-but-not-selective and its address is a splice variant a gene-level probe cannot see. ⭐ What makes it still worth writing is that two of the four are UNREACHABLE rather than refuted — the address is a sulfation pattern and an isoform, and neither has a gene — which is a statement about the instrument the field has for glycan and isoform addresses, not only about this disease. ⛔ Superseded, retained: "the expression read that would ground it is committed but ungraded."
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The capacity proxy came back unfavourable and the premise needs tissue, so nothing further is buyable here at $0.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-MODEL-ACCESS** — Access to a patient-derived EMC model through a collaborator, or through a solo-affordable cloud or robotic wet-lab service with E *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -105,7 +122,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Read the chondroitin-sulfate biosynthesis and sulfotransferase gene set in the targeted expression panel — the enzymes that build the epitope are genes even though the epitope is not.
+Report it in the matrix paper as a route whose capacity proxy is unfavourable and whose premise is unreachable without tissue.
 
 *Cost:* $0
 

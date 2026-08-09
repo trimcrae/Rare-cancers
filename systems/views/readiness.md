@@ -64,14 +64,14 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) | ST-FUSION-DIRECT | `internal_note` | — |
 | [RT-GLUE](L2-rt-glue.md) | ST-PROXIMITY | `internal_note` | a prospective glue design method |
 | [RT-HDAC-BET](L2-rt-hdac-bet.md) | ST-REPURPOSING | `internal_note` | — |
-| [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) | ST-REPURPOSING | `internal_note` | the pooled partner-fraction arithmetic, which is $0 and uses a method this repository owns |
+| [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) | ST-REPURPOSING | `internal_note` | nothing at the arithmetic level — the pooled fraction was computed and is a negative |
 | [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | ST-MICROENV | `internal_note` | a third EMC series — the falsifier the owning memo names |
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | ST-IMMUNO | `internal_note` | a larger clinical series |
 | [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | ST-MICROENV | `internal_note` | an isoform-resolved read, which needs RNA-seq rather than an array — the fourth public cohort is the first candidate that could carry it |
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) | ST-IMMUNO | `internal_note` | patient-cd4-demo.json regenerated at the corrected junction — the class-II arm and every CD8∧CD4 figure are withheld until it is; the TAF15::NR4A3 panel regenerated — patient_neoep |
 | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md) | ST-LOCOREGIONAL | `internal_note` | the anatomical-site arithmetic from the cohorts already curated here |
 | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) | ST-LOCOREGIONAL | `internal_note` | the metastatic-site and burden arithmetic from the cohorts already curated here |
-| [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md) | ST-MICROENV | `internal_note` | a read of the sulfotransferase and chondroitin-sulfate biosynthesis gene set already committed here |
+| [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md) | ST-MICROENV | `internal_note` | a stain or a binding assay on EMC tissue — the epitope is a modification pattern and there is no further expression observation that could reach it |
 | [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) | ST-MICROENV | `internal_note` | a restatement of the premise in a form this reading does not already contradict |
 | [RT-MDM2](L2-rt-mdm2.md) | ST-DEPENDENCY | `internal_note` | a direct TP53 sequence call, which no available EMC dataset supplies |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | ST-OCCUPANCY | `internal_note` | a functional readout; the occupancy-to-output transfer functions that would turn the stated requirement into a number (MISSING-1, MISSING-2) |

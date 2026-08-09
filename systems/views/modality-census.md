@@ -37,12 +37,12 @@ are live** (`candidate` or `parked_capability`).
 
 | verdict | classes | of which never searched |
 |---|---:|---:|
-| ⭑ `candidate` | 24 | 7 |
+| ⭑ `candidate` | 23 | 7 |
 | ⏸ `parked_capability` | 9 | 9 |
 | ✓ `on_board` | 41 | 0 |
 | ● `in_clinical_use` | 8 | 0 |
 | ✕ `already_rejected` | 33 | 0 |
-| ✕ `excluded` | 91 | 85 |
+| ✕ `excluded` | 92 | 85 |
 | — `not_applicable` | 11 | 11 |
 
 ### By band
@@ -112,7 +112,7 @@ carries the cheapest observation that would move it.
 | **MOD-PPARG-AGONIST**<br/>PPARγ agonists | pioglitazone | ✓ `on_board` | · | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) — PPARG downstream-effector (repurpose TZDs) |
 | **MOD-RETINOID**<br/>Retinoid differentiation therapy | all-trans retinoic acid | ✕ `already_rejected` | · | already ruled — [emc-unexplored-treatment-lanes.md](../../research/manuscripts/emc-unexplored-treatment-lanes.md#6--considered-and-rejected) |
 | **MOD-RXR-AGONIST**<br/>RXR heterodimer pharmacology | bexarotene | ✓ `on_board` | · | [RT-RXR](L2-rt-rxr.md) — RXR-heterodimer modulation of the fusion |
-| **MOD-SERM-SERD**<br/>Selective oestrogen-receptor modulators and degraders | tamoxifen | ⭑ `candidate` | · | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) — Hormonal therapy for hormone-responsive 5′ fusion partners |
+| **MOD-SERM-SERD**<br/>Selective oestrogen-receptor modulators and degraders | tamoxifen | ✕ `excluded` | · | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) — Hormonal therapy for hormone-responsive 5′ fusion partners |
 | **MOD-VDR**<br/>Vitamin-D receptor agonists | calcitriol | ✕ `excluded` | ⭑ **new** | No vitamin-D-receptor axis is reported in EMC, and the class has no sarcoma-level antitumour standing to transfer from. |
 
 ### Kinase inhibitors

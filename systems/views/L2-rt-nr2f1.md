@@ -83,13 +83,13 @@ The precondition is unread, and reporting an unreadable gene as absent is the sp
 
 **[PUB-NR-OUTSIDE-NR4A3](L3-publications.md)** — *Nuclear-receptor pharmacology outside NR4A3 in a NR4A3-driven sarcoma* (unwritten)
 
-`primary` · ○ `unwritten` · aimed at `preprint`
+`primary` · ◔ `outlined` · aimed at `preprint`
 
 **This route contributes:** The half of the paper that targets the disease's clinical problem — late metastasis — through a receptor that has the tool compound this program's own receptor never had.
 
 **The paper would claim:** Two nuclear-receptor routes exist in this disease that do not act on its own receptor — one where a 5′ fusion partner imports a druggable transcriptional input, and one targeting dormancy through a receptor that has the published tool compound this program's own receptor never had.
 
-**It is not written because:** Both routes it would cover were surfaced as lanes on 2026-08-07 and neither has had its expression lookup run.
+**It is not written because:** ⚠ ITS BLOCKER IS RETIRED AND BOTH ROUTES ARE GRADED, BOTH NEGATIVELY, FOR DIFFERENT REASONS. The dormancy route is UNREAD — its receptor has no probe on either readable platform, an instrument limit that no further expression work can close. The partner route is graded on REACH: a hormone-responsive 5′ partner is reported in one EMC patient in the world literature and in none of the partner-genotyped cases the cited cohorts cover, and the dominant partner has no retrieved druggable input. ⭐ The general mechanism survives and was strengthened by that sweep — the regulatory input a fusion imports is the PARTNER's, never NR4A3's own — which is the claim worth publishing and is a statement about fusion architecture rather than about a drug. ⛔ Superseded, retained: "neither has had its expression lookup run." One has; the other never needed one; and the arithmetic the partner route was waiting on had already been on disk since 2026-08-07.
 
 ## Strategic timing — the wait equation
 

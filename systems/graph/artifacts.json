@@ -293,6 +293,16 @@
     "published_to": [
       "main"
     ],
-    "note": "Grades six of the 2026-08-09 census routes against emc-expression-panels.json, which owns every figure it reports. ⚠ Two small archival array series (6 EMC vs 29 comparator on GPL6244; 10 vs 6 on GPL3290) — a transcript is not a protein, an activity or a copy number, and magnitudes are not comparable across the two platforms, so only sign agreement is claimed."
+    "note": "Grades the 2026-08-09 census routes — the count is its own `routes` keys and is deliberately not restated here — against emc-expression-panels.json, which owns every figure it reports. ⚠ Two small archival array series (6 EMC vs 29 comparator on GPL6244; 10 vs 6 on GPL3290) — a transcript is not a protein, an activity or a copy number, and magnitudes are not comparable across the two platforms, so only sign agreement is claimed."
+  },
+  {
+    "id": "ART-HORMONE-PARTNER-LANE",
+    "path": "research/modalities/hormone-partner-lane.json",
+    "produced_by": "research/modalities/hormone_partner_map.py",
+    "workflow": "fetch-literature.yml — the Europe PMC retrieval runs in CI because this sandbox's egress proxy 403s www.ebi.ac.uk on CONNECT",
+    "published_to": [
+      "main"
+    ],
+    "note": "The NR4A3 5′ partner druggability map: which regulatory input each reported partner imports, and whether it is druggable. ⛔ Its headline is a NEGATIVE about reach — a hormone-responsive partner is reported in one EMC patient in the world literature and in none of the partner-genotyped cases the two cited cohorts cover. ⚠ It annotates the published record only; it asserts no efficacy, safety, therapeutic window or clinical readiness."
   }
 ]

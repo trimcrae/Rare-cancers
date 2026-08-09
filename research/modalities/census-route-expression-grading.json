@@ -482,6 +482,148 @@
       "what_this_does_not_settle": "The comparator arm is itself matrix-rich sarcoma, so this is a relative statement and not an absolute one; and bulk transcript of a biosynthetic enzyme need not track accumulated matrix mass in a tumour whose product is long-lived. The route needs reformulating rather than deleting.",
       "route_action": "re-scope: the premise must be restated in a form this reading does not already contradict"
     },
+    "RT-MATRIX-ADDRESS": {
+      "selecting_feature": "the placental-type oncofetal chondroitin-sulfate pattern on EMC tissue",
+      "direction_the_route_needed": "the 4-O-sulfotransferase arm that writes the pattern, and the sulfate-donor module that supplies every sulfation, HIGH in EMC",
+      "genes": {
+        "CHST11": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.7113,
+            "emc_array_percentile": 0.7629,
+            "comparator_mean_z": 0.7049,
+            "delta_emc_minus_comparator": 0.0064
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": -0.2232,
+            "emc_array_percentile": 0.4138,
+            "comparator_mean_z": 0.0117,
+            "delta_emc_minus_comparator": -0.2349
+          }
+        },
+        "CHST12": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 1.0844,
+            "emc_array_percentile": 0.8669,
+            "comparator_mean_z": 0.9537,
+            "delta_emc_minus_comparator": 0.1307
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.397,
+            "emc_array_percentile": 0.6381,
+            "comparator_mean_z": 0.0702,
+            "delta_emc_minus_comparator": 0.3268
+          }
+        },
+        "CHST13": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.1247,
+            "emc_array_percentile": 0.5339,
+            "comparator_mean_z": 0.1966,
+            "delta_emc_minus_comparator": -0.0719
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.1465,
+            "emc_array_percentile": 0.5345,
+            "comparator_mean_z": -0.2865,
+            "delta_emc_minus_comparator": 0.433
+          }
+        },
+        "CHST14": {
+          "GSE24369_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.7138,
+            "emc_array_percentile": 0.7677,
+            "comparator_mean_z": 0.928,
+            "delta_emc_minus_comparator": -0.2142
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "readable": true,
+            "emc_mean_z": 0.2173,
+            "emc_array_percentile": 0.574,
+            "comparator_mean_z": -0.1158,
+            "delta_emc_minus_comparator": 0.3331
+          }
+        }
+      },
+      "panel_groups": {
+        "cs_sulfotransferases_4O": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.0373 SD units (t=-0.935, df=6.9, n_EMC=6, n_comparator=29, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -0.935,
+              "df": 6.9,
+              "mean_a": 0.6585,
+              "mean_b": 0.6958,
+              "delta_a_minus_b": -0.0373
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.2145 SD units (t=1.315, df=14.0, n_EMC=10, n_comparator=6, 4/4 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 1.315,
+              "df": 14.0,
+              "mean_a": 0.1344,
+              "mean_b": -0.0801,
+              "delta_a_minus_b": 0.2145
+            }
+          }
+        },
+        "paps_module": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.3096 SD units (t=-2.234, df=5.5, n_EMC=6, n_comparator=29, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -2.234,
+              "df": 5.5,
+              "mean_a": 0.6416,
+              "mean_b": 0.9512,
+              "delta_a_minus_b": -0.3096
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "LOWER in EMC by 0.1616 SD units (t=-2.113, df=13.6, n_EMC=10, n_comparator=6, 5/5 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -2.113,
+              "df": 13.6,
+              "mean_a": 0.0774,
+              "mean_b": 0.2391,
+              "delta_a_minus_b": -0.1616
+            }
+          }
+        },
+        "cs_proteoglycan_core_proteins": {
+          "GSE24369_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.012 SD units (t=0.309, df=17.6, n_EMC=6, n_comparator=29, 9/10 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 0.309,
+              "df": 17.6,
+              "mean_a": 1.0507,
+              "mean_b": 1.0387,
+              "delta_a_minus_b": 0.012
+            }
+          },
+          "GSE4303-GPL3290_series_matrix.txt.gz": {
+            "verdict": "HIGHER in EMC by 0.2552 SD units (t=0.982, df=6.7, n_EMC=10, n_comparator=6, 9/10 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": 0.982,
+              "df": 6.7,
+              "mean_a": 0.5324,
+              "mean_b": 0.2772,
+              "delta_a_minus_b": 0.2552
+            }
+          }
+        }
+      },
+      "observed": "⛔ NO SUPPORT ON EITHER HALF OF THE CAPACITY ARGUMENT. The 4-O arm — all four genes readable on both platforms, so this is a taken reading and not a missing one — is DISCORDANT: lower in EMC on one platform, higher on the other, and significant on neither. The sulfate-DONOR module is LOWER in EMC on BOTH platforms and is the only concordant signal in the panel, which is the same observation that graded RT-MATRIX-SYNTHESIS against its premise. The core proteins that would carry the chains are mildly higher on both and significant on neither.",
+      "verdict": "NOT SUPPORTED ON CAPACITY — AND THE ROUTE'S OWN QUESTION IS STILL UNREADABLE. This grades the proxy the route nominated, not the route's premise.",
+      "what_this_does_not_settle": "⛔ A SULFATION PATTERN HAS NO GENE, which is the panel's own standing caveat and is what makes this route's evidence asymmetric. Sulfotransferase transcript is a proxy for the CAPACITY to write a pattern and can never be a measurement of the pattern; an epitope written by a low-abundance enzyme on a long-lived glycan is entirely compatible with this reading. So an unfavourable capacity read WEAKENS the route and cannot close it — exactly the shape of RT-IMMUNOCYTOKINE, where the address is a splice variant a gene-level probe cannot see. ⚠ It also says nothing about whether any glycan-directed agent binds, works or is safe in this disease.",
+      "route_action": "keep, demoted: the $0 observation the route named has now been taken and returns no support, so a stain is the only remaining instrument and the route's readiness must stop claiming an unrun lookup"
+    },
     "RT-IMMUNOCYTOKINE": {
       "selecting_feature": "a matrix epitope present in EMC stroma and restricted enough to address",
       "direction_the_route_needed": "the epitope's parent genes present, ideally enriched",
@@ -1593,6 +1735,7 @@
     ],
     "split_or_unread": [
       "RT-RET",
+      "RT-MATRIX-ADDRESS",
       "RT-IMMUNOCYTOKINE",
       "RT-NR2F1",
       "RT-CHAPERONE",

@@ -6586,10 +6586,9 @@
     "kind": "route",
     "title": "Hormonal therapy for hormone-responsive 5′ fusion partners",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census, porting a 2026-08-07 lane; the census also recorded that no hormonal route existed on the board at all.",
+      "value": "⛔ THE PRINCIPLE SURVIVES AND THE REACH DOES NOT (graded 2026-08-09 from a lane that ran 2026-08-07). A hormone-responsive 5′ partner is reported in ONE EMC patient in the world literature and in ZERO of the 84 partner-genotyped EMC cases across the two cohorts this repository cites — Wilson 95% upper bound 4.4%. The dominant partner, which carries roughly four in five cases, answers NO: across 345 retrieved full-text records no source characterises the EWSR1 promoter as responsive to any druggable stimulus. ⭐ What survives is the general mechanism, which the sweep strengthened rather than merely repeated: across every partner retrieved, the imported regulatory input is the PARTNER's and never NR4A3's own — 12 partners across 3 tumour types, including a second disease where the imported element is an enhancer.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "37--nuclear-receptors-outside-nr4a3"
+        "file": "research/modalities/hormone-partner-lane.json"
       }
     },
     "grade_pointers": [],
@@ -6618,27 +6617,39 @@
     },
     "purpose": "Can a hormone-responsive 5′ fusion partner import a druggable transcriptional input that the driver does not otherwise offer?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
-      "status": "blocked",
-      "maturity": "concept",
-      "confidence": "low",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
       "last_verified": "2026-08-09"
     },
     "rationale": "A 5′ partner can bring its own promoter and its own regulation, and the repository already holds a reported instance of exactly that with durable benefit on an approved agent. No hormonal route exists among the forty-three, which makes this a registered lane with nowhere to live.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-HORMONE-PARTNER-LANE",
+        "what_it_supports": "the hormone-responsive-partner fraction in EMC is zero of 84 partner-genotyped cases with a Wilson 95% upper bound of 4.4%, and no retrieved source gives the dominant partner's promoter a druggable inducible input",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "What fraction of patients carry a hormone-responsive partner, which is a minority of an already ultra-rare disease and has never been summed.",
-      "Whether the reported benefit is attributable to the mechanism or is a single favourable natural history."
+      "Whether an unbiased RNA-seq-genotyped EMC series would move the reach figure in either direction — the cited denominators come from targeted assays that one of the source reports states would have missed its own case, and this is the single observation that could move it.",
+      "Whether the one partner whose gene family plausibly carries a druggable inducible input (HSPA8) has one, which is ungraded because nothing was retrieved for it.",
+      "Whether any anti-oestrogen outcome exists in a hormone-partnered UTERINE tumour, which would take the axis past n = 1 in a different disease."
     ],
     "required_validation": [
       {
-        "what": "A pooled estimate of the hormone-responsive partner fraction from the series already curated here",
+        "what": "⛔ TAKEN 2026-08-07 and returned a negative — the pooled hormone-responsive partner fraction across the partner-genotyped series curated here",
         "feasible_today": true,
         "blocked_by": []
       },
       {
-        "what": "Confirmation that the partner's promoter drives the fusion in a hormone-dependent way",
+        "what": "One targeted literature query for whether the HSPA8 promoter carries a druggable inducible element — the only partner left ungraded, and $0",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Confirmation that a partner's promoter drives the fusion in a hormone-dependent way",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-WET-LAB"
@@ -6648,17 +6659,20 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "the pooled partner-fraction arithmetic, which is $0 and uses a method this repository owns"
+        "nothing at the arithmetic level — the pooled fraction was computed and is a negative"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "The route's own sizing question was asked and answered against it. What is left is a paragraph in a paper, not a lane."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "Only somebody else's RNA-seq-genotyped series could move the reach figure, and that data is not this programme's to generate.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
     },
     "next": {
-      "best_next_action": "Pool the published partner-frequency series already curated here to size the hormone-responsive subset, and state how many patients a partner-directed option could reach.",
+      "best_next_action": "Run the one $0 Europe PMC query on the HSPA8 promoter to close the last ungraded partner, then report the reach negative in the nuclear-receptor paper.",
       "cost": "$0"
     }
   },
@@ -6851,15 +6865,15 @@
     "kind": "route",
     "title": "Oncofetal chondroitin sulfate as a tumour address",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census, porting a 2026-08-07 lane that had no route.",
+      "value": "◐ NOT SUPPORTED ON CAPACITY, PREMISE STILL UNREADABLE (2026-08-09). The route's own cheapest next observation was taken. The 4-O-sulfotransferase arm that writes the epitope is DISCORDANT across the two platforms and significant on neither, with all four genes readable on both — a taken reading, not a missing one. The sulfate-DONOR module reads LOWER in EMC on BOTH, the panel's only concordant signal. ⛔ But a sulfation pattern has no gene: this grades the proxy the route nominated and cannot reach the route's premise, so it demotes rather than closes.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "34--the-matrix-as-an-address"
+        "file": "research/modalities/census-route-expression-grading.json"
       }
     },
     "grade_pointers": [],
     "blockers_inherited": [
-      "BLK-NO-EMC-DATA"
+      "BLK-NO-EMC-DATA",
+      "BLK-NO-WET-LAB"
     ],
     "blockers_retired": [],
     "instruments": {
@@ -6883,27 +6897,34 @@
     },
     "purpose": "Can the tumour's own glycan be used as the targeting address that no protein antigen has supplied?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
       "status": "blocked",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "A registered lane with no route, and the best-argued matrix address the 2026-08-07 sweep found: it turns the defining glycan into the target, and it belongs to an antigen class the surfaceome screen structurally could not have found, because a sulfation pattern has no gene to rank.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-CENSUS-ROUTE-GRADING",
+        "what_it_supports": "neither the 4-O-sulfotransferase arm nor the sulfate-donor module supports the capacity argument — the arm is discordant across platforms and the donor module is concordantly lower in EMC",
+        "strength": "surrogate"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether the oncofetal sulfation pattern is present in this disease's tissue, which no committed artifact has measured.",
-      "Whether the pattern is restricted enough relative to normal tissue to give any window, which is the same question every antigen route here has failed on."
+      "Whether the oncofetal sulfation PATTERN is present on EMC tissue — the route's actual premise, which no transcript can reach and which this grading therefore leaves open.",
+      "Whether the pattern, if present, is restricted enough relative to normal tissue to give any window — the question every antigen route in this portfolio has failed on.",
+      "Why the 4-O arm disagrees between the two platforms while the donor module agrees, which is unexplained and is why this is graded as a demotion rather than a closure."
     ],
     "required_validation": [
       {
-        "what": "The expression lookup that grades this route's premise",
+        "what": "⛔ TAKEN 2026-08-09 and returned no support — the chondroitin-sulfate biosynthesis and sulfotransferase read that this route nominated as its own grading observation",
         "feasible_today": true,
         "blocked_by": []
       },
       {
-        "what": "A measurement of the matrix compartment in EMC tissue",
+        "what": "A stain or binding assay for the oncofetal chondroitin-sulfate pattern on EMC tissue, which is the only instrument that can reach the route's premise",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-WET-LAB",
@@ -6914,17 +6935,20 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "a read of the sulfotransferase and chondroitin-sulfate biosynthesis gene set already committed here"
+        "a stain or a binding assay on EMC tissue — the epitope is a modification pattern and there is no further expression observation that could reach it"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "The only $0 instrument that could speak to this route has now spoken, and it gave no support without being able to refute the premise."
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "recommendation": "monitor",
+      "rationale": "The capacity proxy came back unfavourable and the premise needs tissue, so nothing further is buyable here at $0.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-MODEL-ACCESS"
+      ]
     },
     "next": {
-      "best_next_action": "Read the chondroitin-sulfate biosynthesis and sulfotransferase gene set in the targeted expression panel — the enzymes that build the epitope are genes even though the epitope is not.",
+      "best_next_action": "Report it in the matrix paper as a route whose capacity proxy is unfavourable and whose premise is unreachable without tissue.",
       "cost": "$0"
     }
   },

@@ -40,7 +40,7 @@ flowchart LR
   ST_MICROENV --> RT_HYPOXIA_PRODRUG
   RT_IMMUNOCYTOKINE["✓ RT-IMMUNOCYTOKINE"]:::fam
   ST_MICROENV --> RT_IMMUNOCYTOKINE
-  RT_MATRIX_ADDRESS["○ RT-MATRIX-ADDRESS"]:::fam
+  RT_MATRIX_ADDRESS["✓ RT-MATRIX-ADDRESS"]:::fam
   ST_MICROENV --> RT_MATRIX_ADDRESS
   RT_MATRIX_SYNTHESIS["✓ RT-MATRIX-SYNTHESIS"]:::fam
   ST_MICROENV --> RT_MATRIX_SYNTHESIS
@@ -49,6 +49,8 @@ flowchart LR
   BLK_NO_EMC_DATA --> ST_MICROENV
   BLK_ANTIGEN_COLD[["BLK-ANTIGEN-COLD — EMC is antigen-cold, and the fusion ju…"]]:::perm
   BLK_ANTIGEN_COLD --> RT_IMMUNOCYTOKINE
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_MATRIX_ADDRESS
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -63,10 +65,10 @@ flowchart LR
 
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
-| **[RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md)**<br/>Hypoxia-activated prodrugs | ✓ parked | computed | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ○ *contributing* | Leave it to the hypoxia memo, which owns the reading and the ruling. |
-| **[RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md)**<br/>Matrix-targeted immunocytokines | ✓ blocked | computed | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ○ *contributing* | Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all. |
-| **[RT-MATRIX-ADDRESS](L2-rt-matrix-address.md)**<br/>Oncofetal chondroitin sulfate as a tumour address | ○ blocked | concept | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ○ *contributing* | Read the chondroitin-sulfate biosynthesis and sulfotransferase gene set in the targeted expression panel — the |
-| **[RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md)**<br/>Inhibition of the tumour's glycosaminoglycan biosynthesis | ✓ parked | computed | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ○ *contributing* | Restate the premise, or report the contradiction as the result. |
+| **[RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md)**<br/>Hypoxia-activated prodrugs | ✓ parked | computed | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ◔ *contributing* | Leave it to the hypoxia memo, which owns the reading and the ruling. |
+| **[RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md)**<br/>Matrix-targeted immunocytokines | ✓ blocked | computed | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ◔ *contributing* | Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all. |
+| **[RT-MATRIX-ADDRESS](L2-rt-matrix-address.md)**<br/>Oncofetal chondroitin sulfate as a tumour address | ✓ blocked | computed | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ◔ *contributing* | Report it in the matrix paper as a route whose capacity proxy is unfavourable and whose premise is unreachable |
+| **[RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md)**<br/>Inhibition of the tumour's glycosaminoglycan biosynthesis | ✓ parked | computed | `internal_note` | [PUB-MATRIX-ADDRESS](L3-publications.md) ◔ *contributing* | Restate the premise, or report the contradiction as the result. |
 
 ## Family-level bets — blockers EVERY route here inherits
 

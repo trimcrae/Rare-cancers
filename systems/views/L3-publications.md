@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**28 endpoints for 68 routes · 20 with a document · 8 unwritten.**
+**28 endpoints for 68 routes · 24 with a document · 4 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -56,14 +56,14 @@ last_verified: 2026-08-06
 | **PUB-SURFACE-TARGETS**<br/>[In-silico surface-antigen prioritisation for extraskeletal myxoid chond…](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-TCIP**<br/>[The induced-interface floor that proximity design inherits from degrade…](../../research/manuscripts/tcip-induced-interface-preprint.md) | ◐ `drafted` | `preprint` | 1 | — |
-| **PUB-BIOMARKER-DEP**<br/>*Biomarker-selected therapeutic classes in an ultra-rare sarcoma: what t…* | ○ `unwritten` | `preprint` | 5 | Every class it covers is one expression lookup away from a verdict, and none of those lookups has been run  … |
+| **PUB-BIOMARKER-DEP**<br/>*Biomarker-selected therapeutic classes in an ultra-rare sarcoma: what t…* | ◔ `outlined` | `preprint` | 5 | ⚠ ITS STATED BLOCKER IS RETIRED AND THE PAPER CHANGED SHAPE. Every lookup it was waiting on ran on 2026-08-09: of the five biomarker-selected classes … |
+| **PUB-MATRIX-ADDRESS**<br/>*The myxoid matrix as an address rather than an obstacle* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. … |
+| **PUB-NR-OUTSIDE-NR4A3**<br/>*Nuclear-receptor pharmacology outside NR4A3 in a NR4A3-driven sarcoma* | ◔ `outlined` | `preprint` | 2 | ⚠ ITS BLOCKER IS RETIRED AND BOTH ROUTES ARE GRADED, BOTH NEGATIVELY, FOR DIFFERENT REASONS. The dormancy route is UNREAD  … |
+| **PUB-TXN-DEPENDENCY**<br/>*Transcriptional and proteostatic dependency of a fusion transcription f…* | ◔ `outlined` | `preprint` | 2 | ⚠ ITS STATED BLOCKER IS RETIRED. Both cheapest observations ran on 2026-08-09. The transcriptional-CDK half is CLOSED on the axis that decides it  … |
 | **PUB-KINASE-LEADS**<br/>*Four kinase observations in extraskeletal myxoid chondrosarcoma that no…* | ○ `unwritten` | `preprint` | 4 | Its purpose is to consolidate four leads that are each individually thin, and the consolidation has not been done  … |
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ○ `unwritten` | `preprint` | 3 | The eligibility arithmetic it rests on has not been extracted from the curated cohorts yet, and without it the paper would be an argument with no … |
-| **PUB-MATRIX-ADDRESS**<br/>*The myxoid matrix as an address rather than an obstacle* | ○ `unwritten` | `preprint` | 4 | The expression read that would ground it is committed but ungraded, and the paper's whole argument depends on what that read says. |
-| **PUB-NR-OUTSIDE-NR4A3**<br/>*Nuclear-receptor pharmacology outside NR4A3 in a NR4A3-driven sarcoma* | ○ `unwritten` | `preprint` | 2 | Both routes it would cover were surfaced as lanes on 2026-08-07 and neither has had its expression lookup run. |
 | **PUB-PARKED-MODALITIES**<br/>*Five modalities parked on a capability that does not exist yet: what wo…* | ○ `unwritten` | `preprint` | 5 | Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. … |
 | **PUB-STRATEGY-ARCH**<br/>*Scheduling, sequencing and reachability as treatment variables in an ul…* | ○ `unwritten` | `preprint` | 3 | Three of its four routes have not had their $0 analyses run, and the fourth is a registry sweep that has not been performed. |
-| **PUB-TXN-DEPENDENCY**<br/>*Transcriptional and proteostatic dependency of a fusion transcription f…* | ○ `unwritten` | `preprint` | 2 | The two classes it would cover were identified on 2026-08-09 and neither has had its cheapest observation yet, so there is no result to write up  … |
 
 ## What each one would claim
 
@@ -333,11 +333,11 @@ A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a F
 
 ### PUB-BIOMARKER-DEP — Biomarker-selected therapeutic classes in an ultra-rare sarcoma: what the available expression data excludes
 
-**○ `unwritten` · aimed at `preprint`**
+**◔ `outlined` · aimed at `preprint`**
 
 Six therapeutic classes are selected by a molecular state rather than by a growth rate, every selecting feature is readable in expression data already public for this disease, and the useful output is which classes the data rules out rather than which it nominates.
 
-**Not written because:** Every class it covers is one expression lookup away from a verdict, and none of those lookups has been run — the paper is defined by results that do not exist yet.
+**Not written because:** ⚠ ITS STATED BLOCKER IS RETIRED AND THE PAPER CHANGED SHAPE. Every lookup it was waiting on ran on 2026-08-09: of the five biomarker-selected classes it covers, FOUR are now graded against their own selecting feature (MOD-ARGININE-DEPRIVATION, MOD-MDM2-P53, MOD-EZH2, MOD-POLQ) and one is split between its two axes (MOD-MCL1-BCLXL). So this is now a mostly-NEGATIVE paper, which is what makes it worth writing — the field publishes almost no exclusions of this kind. What is left is drafting, not measurement. ⛔ Superseded, retained: "none of those lookups has been run — the paper is defined by results that do not exist yet." The results exist; they are negatives.
 
 **Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
 
@@ -350,6 +350,59 @@ Six therapeutic classes are selected by a molecular state rather than by a growt
 | [RT-EZH2](L2-rt-ezh2.md) — EZH2 / PRC2 inhibition | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
 | [RT-MDM2](L2-rt-mdm2.md) — MDM2 antagonism (p53 reactivation in a quiet genome) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
 | [RT-POLQ](L2-rt-polq.md) — POLθ inhibition (microhomology-mediated end joining) | `contributing` | One of six biomarker-selected classes whose selecting feature is readable in expression data already public for this disease, and whose most useful output is exclusion. |
+
+### PUB-MATRIX-ADDRESS — The myxoid matrix as an address rather than an obstacle
+
+**◔ `outlined` · aimed at `preprint`**
+
+The matrix that defines this tumour histologically has been treated in the therapeutic literature almost entirely as a barrier to drug delivery, and it admits at least three distinct handles — an epitope, a biosynthetic pathway and a hypoxic niche — none of which requires the fusion protein to be druggable.
+
+**Not written because:** ⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. Three of the three handles the title argues for came back unfavourable or unreachable: the biosynthetic premise is not supported as stated, the hypoxia grade was WITHDRAWN the same day it was issued once the confound audit restricted the signature to one platform, and the epitope route's own nominated read gives no capacity support. The fourth is present-but-not-selective and its address is a splice variant a gene-level probe cannot see. ⭐ What makes it still worth writing is that two of the four are UNREACHABLE rather than refuted — the address is a sulfation pattern and an isoform, and neither has a gene — which is a statement about the instrument the field has for glycan and isoform addresses, not only about this disease. ⛔ Superseded, retained: "the expression read that would ground it is committed but ungraded."
+
+**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
+
+- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) — Hypoxia-activated prodrugs | `contributing` | One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable. |
+| [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) — Matrix-targeted immunocytokines | `contributing` | One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable. |
+| [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md) — Oncofetal chondroitin sulfate as a tumour address | `contributing` | One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable. |
+| [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) — Inhibition of the tumour's glycosaminoglycan biosynt | `contributing` | One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable. |
+
+### PUB-NR-OUTSIDE-NR4A3 — Nuclear-receptor pharmacology outside NR4A3 in a NR4A3-driven sarcoma
+
+**◔ `outlined` · aimed at `preprint`**
+
+Two nuclear-receptor routes exist in this disease that do not act on its own receptor — one where a 5′ fusion partner imports a druggable transcriptional input, and one targeting dormancy through a receptor that has the published tool compound this program's own receptor never had.
+
+**Not written because:** ⚠ ITS BLOCKER IS RETIRED AND BOTH ROUTES ARE GRADED, BOTH NEGATIVELY, FOR DIFFERENT REASONS. The dormancy route is UNREAD — its receptor has no probe on either readable platform, an instrument limit that no further expression work can close. The partner route is graded on REACH: a hormone-responsive 5′ partner is reported in one EMC patient in the world literature and in none of the partner-genotyped cases the cited cohorts cover, and the dominant partner has no retrieved druggable input. ⭐ The general mechanism survives and was strengthened by that sweep — the regulatory input a fusion imports is the PARTNER's, never NR4A3's own — which is the claim worth publishing and is a statement about fusion architecture rather than about a drug. ⛔ Superseded, retained: "neither has had its expression lookup run." One has; the other never needed one; and the arithmetic the partner route was waiting on had already been on disk since 2026-08-07.
+
+**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
+
+- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) — Hormonal therapy for hormone-responsive 5′ fusion pa | `primary` | The half of the paper where the druggable input is imported by the 5′ partner rather than supplied by the driver's own receptor. |
+| [RT-NR2F1](L2-rt-nr2f1.md) — Orphan nuclear-receptor agonism against dormancy esc | `primary` | The half of the paper that targets the disease's clinical problem — late metastasis — through a receptor that has the tool compound this program's own receptor never had. |
+
+### PUB-TXN-DEPENDENCY — Transcriptional and proteostatic dependency of a fusion transcription factor: what a no-wet-lab program can and cannot establish
+
+**◔ `outlined` · aimed at `preprint`**
+
+A fusion oncoprotein whose entire mechanism is transactivation, and whose structure is a chimera of two domains that never evolved together, predicts dependencies on the transcriptional machinery and on the chaperone system — and neither had ever been assessed in this disease despite both being standard vulnerabilities of its tumour class.
+
+**Not written because:** ⚠ ITS STATED BLOCKER IS RETIRED. Both cheapest observations ran on 2026-08-09. The transcriptional-CDK half is CLOSED on the axis that decides it — supported on abundance, then closed on dependency, because the module is a dependency in every sarcoma line of the public CRISPR panel the route read, which is a pan-essentiality and not a window. The chaperone half is PARTLY supported: the HSP90 machine reads higher on both platforms while the HSP70 and heat-shock arms read lower, a split the route's own premise does not predict. A two-hypothesis paper in which one dies cleanly and the other returns an unexplained split is writable today. ⛔ Superseded, retained: "neither has had its cheapest observation yet, so there is no result to write up."
+
+**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
+
+- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-CHAPERONE](L2-rt-chaperone.md) — Chaperone dependency of the chimera (HSP90 and co-ch | `primary` | The half of the paper that argues from what the driver IS STRUCTURALLY: a chimera of two domains that never evolved together is a folding problem before it is a signalling one. |
+| [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13 | `primary` | The half of the paper that argues from what the driver IS: a transcriptional oncoprotein should be more dependent on the transcriptional machinery than the cell it sits in. |
 
 ### PUB-KINASE-LEADS — Four kinase observations in extraskeletal myxoid chondrosarcoma that nobody followed up
 
@@ -387,42 +440,6 @@ A disease that is extremity-primary, lung-metastasis-dominant and slow enough fo
 | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md) — Isolated limb perfusion for extremity disease | `contributing` | One of the anatomical-selectivity strategies a disease that is extremity-primary, lung-metastasis-dominant and indolent is unusually well matched to. |
 | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) — Lung-directed local therapy (regional perfusion, inh | `contributing` | One of the anatomical-selectivity strategies a disease that is extremity-primary, lung-metastasis-dominant and indolent is unusually well matched to. |
 | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) — Radiotherapy intensification (particle therapy, brac | `contributing` | One of the anatomical-selectivity strategies a disease that is extremity-primary, lung-metastasis-dominant and indolent is unusually well matched to. |
-
-### PUB-MATRIX-ADDRESS — The myxoid matrix as an address rather than an obstacle
-
-**○ `unwritten` · aimed at `preprint`**
-
-The matrix that defines this tumour histologically has been treated in the therapeutic literature almost entirely as a barrier to drug delivery, and it admits at least three distinct handles — an epitope, a biosynthetic pathway and a hypoxic niche — none of which requires the fusion protein to be druggable.
-
-**Not written because:** The expression read that would ground it is committed but ungraded, and the paper's whole argument depends on what that read says.
-
-**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
-
-- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) — Hypoxia-activated prodrugs | `contributing` | One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable. |
-| [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) — Matrix-targeted immunocytokines | `contributing` | One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable. |
-| [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md) — Oncofetal chondroitin sulfate as a tumour address | `contributing` | One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable. |
-| [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) — Inhibition of the tumour's glycosaminoglycan biosynt | `contributing` | One of the handles the matrix offers — an epitope, a biosynthetic pathway or a hypoxic niche — none of which requires the fusion protein to be druggable. |
-
-### PUB-NR-OUTSIDE-NR4A3 — Nuclear-receptor pharmacology outside NR4A3 in a NR4A3-driven sarcoma
-
-**○ `unwritten` · aimed at `preprint`**
-
-Two nuclear-receptor routes exist in this disease that do not act on its own receptor — one where a 5′ fusion partner imports a druggable transcriptional input, and one targeting dormancy through a receptor that has the published tool compound this program's own receptor never had.
-
-**Not written because:** Both routes it would cover were surfaced as lanes on 2026-08-07 and neither has had its expression lookup run.
-
-**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
-
-- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) — Hormonal therapy for hormone-responsive 5′ fusion pa | `primary` | The half of the paper where the druggable input is imported by the 5′ partner rather than supplied by the driver's own receptor. |
-| [RT-NR2F1](L2-rt-nr2f1.md) — Orphan nuclear-receptor agonism against dormancy esc | `primary` | The half of the paper that targets the disease's clinical problem — late metastasis — through a receptor that has the tool compound this program's own receptor never had. |
 
 ### PUB-PARKED-MODALITIES — Five modalities parked on a capability that does not exist yet: what would have to land, and how it is being watched for
 
@@ -463,23 +480,6 @@ For a cancer that will never have a randomised trial, the variables a clinician 
 | [RT-SEQUENCING](L2-rt-sequencing.md) — Treatment sequencing and line ordering | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
 | [RT-TRIAL-REACH](L2-rt-trial-reach.md) — Trial reachability and access pathways | `contributing` | One of the variables a clinician actually controls in a cancer that will never have a randomised trial — when, in what order, and whether the patient can reach anything. |
 
-### PUB-TXN-DEPENDENCY — Transcriptional and proteostatic dependency of a fusion transcription factor: what a no-wet-lab program can and cannot establish
-
-**○ `unwritten` · aimed at `preprint`**
-
-A fusion oncoprotein whose entire mechanism is transactivation, and whose structure is a chimera of two domains that never evolved together, predicts dependencies on the transcriptional machinery and on the chaperone system — and neither had ever been assessed in this disease despite both being standard vulnerabilities of its tumour class.
-
-**Not written because:** The two classes it would cover were identified on 2026-08-09 and neither has had its cheapest observation yet, so there is no result to write up — only a stated gap and a protocol for closing it.
-
-**Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
-
-- **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-CHAPERONE](L2-rt-chaperone.md) — Chaperone dependency of the chimera (HSP90 and co-ch | `primary` | The half of the paper that argues from what the driver IS STRUCTURALLY: a chimera of two domains that never evolved together is a folding problem before it is a signalling one. |
-| [RT-TXN-CDK](L2-rt-txn-cdk.md) — Transcriptional CDK dependency (CDK7, CDK9, CDK12/13 | `primary` | The half of the paper that argues from what the driver IS: a transcriptional oncoprotein should be more dependent on the transcriptional machinery than the cell it sits in. |
-
 ## Every route, and where it ends
 
 *The same edges from the other end. `readiness` is what the ROUTE could become today; `aimed at` is what its PAPER is for — and the gap between the two columns is the honest statement of what is left to do.*
@@ -491,11 +491,11 @@ A fusion oncoprotein whose entire mechanism is transactivation, and whose struct
 | [RT-ASO-ASK](L2-rt-aso-ask.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `experimental_proposal` | **PUB-ASO** ◐ | `chemrxiv` | `contributing` |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `preprint` | **PUB-ATR** ◐ | `preprint` | `primary` |
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `experimental_proposal` | **PUB-ATR-PANEL-ASK** ◐ | `experimental_proposal` | `primary` |
-| [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ○ | `preprint` | `contributing` |
-| [RT-ARGININE](L2-rt-arginine.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ○ | `preprint` | `contributing` |
-| [RT-EZH2](L2-rt-ezh2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ○ | `preprint` | `contributing` |
-| [RT-MDM2](L2-rt-mdm2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ○ | `preprint` | `contributing` |
-| [RT-POLQ](L2-rt-polq.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ○ | `preprint` | `contributing` |
+| [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◔ | `preprint` | `contributing` |
+| [RT-ARGININE](L2-rt-arginine.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◔ | `preprint` | `contributing` |
+| [RT-EZH2](L2-rt-ezh2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◔ | `preprint` | `contributing` |
+| [RT-MDM2](L2-rt-mdm2.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◔ | `preprint` | `contributing` |
+| [RT-POLQ](L2-rt-polq.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◔ | `preprint` | `contributing` |
 | [RT-6MP](L2-rt-6mp.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
 | [RT-DBD](L2-rt-dbd.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
 | [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
@@ -521,18 +521,18 @@ A fusion oncoprotein whose entire mechanism is transactivation, and whose struct
 | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ○ | `preprint` | `contributing` |
 | [RT-LUNG-DIRECTED](L2-rt-lung-directed.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ○ | `preprint` | `contributing` |
 | [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) | [ST-LOCOREGIONAL](L1-st-locoregional.md) | `internal_note` | **PUB-LOCOREGIONAL** ○ | `preprint` | `contributing` |
-| [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ○ | `preprint` | `contributing` |
-| [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ○ | `preprint` | `contributing` |
-| [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ○ | `preprint` | `contributing` |
-| [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ○ | `preprint` | `contributing` |
+| [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ◔ | `preprint` | `contributing` |
+| [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ◔ | `preprint` | `contributing` |
+| [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ◔ | `preprint` | `contributing` |
+| [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md) | [ST-MICROENV](L1-st-microenv.md) | `internal_note` | **PUB-MATRIX-ADDRESS** ◔ | `preprint` | `contributing` |
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-METHODS** ◐ | `journal_submission` | `primary` |
 | [RT-MODALITY-CENSUS](L2-rt-modality-census.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `preprint` | **PUB-MODALITY-CENSUS** ◐ | `preprint` | `primary` |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | [ST-OCCUPANCY](L1-st-occupancy.md) | `internal_note` | **PUB-MONOVALENT** ◐ | `internal_note` | `primary` |
 | [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `preprint` | **PUB-MTAP-PRMT5** ◐ | `preprint` | `primary` |
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-NEOANTIGEN** ◐ | `preprint` | `primary` |
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-NEOANTIGEN** ◐ | `preprint` | `contributing` |
-| [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-NR-OUTSIDE-NR4A3** ○ | `preprint` | `primary` |
-| [RT-NR2F1](L2-rt-nr2f1.md) | [ST-OCCUPANCY](L1-st-occupancy.md) | `internal_note` | **PUB-NR-OUTSIDE-NR4A3** ○ | `preprint` | `primary` |
+| [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-NR-OUTSIDE-NR4A3** ◔ | `preprint` | `primary` |
+| [RT-NR2F1](L2-rt-nr2f1.md) | [ST-OCCUPANCY](L1-st-occupancy.md) | `internal_note` | **PUB-NR-OUTSIDE-NR4A3** ◔ | `preprint` | `primary` |
 | [RT-AF3-INTERFACE](L2-rt-af3-interface.md) | [ST-PROXIMITY](L1-st-proximity.md) | `internal_note` | **PUB-PARKED-MODALITIES** ○ | `preprint` | `contributing` |
 | [RT-CRISPR-CAS13](L2-rt-crispr-cas13.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `internal_note` | **PUB-PARKED-MODALITIES** ○ | `preprint` | `contributing` |
 | [RT-GLUE](L2-rt-glue.md) | [ST-PROXIMITY](L1-st-proximity.md) | `internal_note` | **PUB-PARKED-MODALITIES** ○ | `preprint` | `contributing` |
@@ -552,8 +552,8 @@ A fusion oncoprotein whose entire mechanism is transactivation, and whose struct
 | [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `contributing` |
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-SYNLETH** ◐ | `internal_note` | `primary` |
 | [RT-TCIP](L2-rt-tcip.md) | [ST-PROXIMITY](L1-st-proximity.md) | `preprint` | **PUB-TCIP** ◐ | `preprint` | `primary` |
-| [RT-CHAPERONE](L2-rt-chaperone.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ○ | `preprint` | `primary` |
-| [RT-TXN-CDK](L2-rt-txn-cdk.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ○ | `preprint` | `primary` |
+| [RT-CHAPERONE](L2-rt-chaperone.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ◔ | `preprint` | `primary` |
+| [RT-TXN-CDK](L2-rt-txn-cdk.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-TXN-DEPENDENCY** ◔ | `preprint` | `primary` |
 
 ## What this page deliberately leaves out
 

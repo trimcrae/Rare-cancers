@@ -204,6 +204,47 @@ def build():
                         "already contradict",
     }
 
+    # ──────────────────────── RT-MATRIX-ADDRESS ────────────────────────
+    # The route that reads the SAME panel as RT-MATRIX-SYNTHESIS and asks a different question of it:
+    # not "is the tumour manufacturing its matrix" but "could it be making the oncofetal sulfation
+    # pattern that a glycan-directed agent addresses". Its own `next.best_next_action` named this read
+    # as its cheapest next observation, so grading it here is that step and not a new one.
+    routes["RT-MATRIX-ADDRESS"] = {
+        "selecting_feature": "the placental-type oncofetal chondroitin-sulfate pattern on EMC tissue",
+        "direction_the_route_needed": "the 4-O-sulfotransferase arm that writes the pattern, and the "
+                                      "sulfate-donor module that supplies every sulfation, HIGH in EMC",
+        "genes": {g: gene(p, g) for g in ("CHST11", "CHST12", "CHST13", "CHST14")},
+        "panel_groups": {"cs_sulfotransferases_4O":
+                             group(p, "cs_gag_paps", "cs_sulfotransferases_4O"),
+                         "paps_module": group(p, "cs_gag_paps", "paps_module"),
+                         "cs_proteoglycan_core_proteins":
+                             group(p, "cs_gag_paps", "cs_proteoglycan_core_proteins")},
+        "observed": "⛔ NO SUPPORT ON EITHER HALF OF THE CAPACITY ARGUMENT. The 4-O arm — all four "
+                    "genes readable on both platforms, so this is a taken reading and not a missing "
+                    "one — is DISCORDANT: lower in EMC on one platform, higher on the other, and "
+                    "significant on neither. The sulfate-DONOR module is LOWER in EMC on BOTH "
+                    "platforms and is the only concordant signal in the panel, which is the same "
+                    "observation that graded RT-MATRIX-SYNTHESIS against its premise. The core "
+                    "proteins that would carry the chains are mildly higher on both and significant "
+                    "on neither.",
+        "verdict": "NOT SUPPORTED ON CAPACITY — AND THE ROUTE'S OWN QUESTION IS STILL UNREADABLE. "
+                   "This grades the proxy the route nominated, not the route's premise.",
+        "what_this_does_not_settle": "⛔ A SULFATION PATTERN HAS NO GENE, which is the panel's own "
+                                     "standing caveat and is what makes this route's evidence "
+                                     "asymmetric. Sulfotransferase transcript is a proxy for the "
+                                     "CAPACITY to write a pattern and can never be a measurement of "
+                                     "the pattern; an epitope written by a low-abundance enzyme on a "
+                                     "long-lived glycan is entirely compatible with this reading. So "
+                                     "an unfavourable capacity read WEAKENS the route and cannot "
+                                     "close it — exactly the shape of RT-IMMUNOCYTOKINE, where the "
+                                     "address is a splice variant a gene-level probe cannot see. "
+                                     "⚠ It also says nothing about whether any glycan-directed agent "
+                                     "binds, works or is safe in this disease.",
+        "route_action": "keep, demoted: the $0 observation the route named has now been taken and "
+                        "returns no support, so a stain is the only remaining instrument and the "
+                        "route's readiness must stop claiming an unrun lookup",
+    }
+
     # ─────────────────────── RT-IMMUNOCYTOKINE ───────────────────────
     fn1 = gene(p, "FN1")
     routes["RT-IMMUNOCYTOKINE"] = {

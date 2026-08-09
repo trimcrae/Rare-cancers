@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-HORMONE-PARTNER — Hormonal therapy for hormone-responsive 5′ fusion partners
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#37--nuclear-receptors-outside-nr4a3)): ⭑ Registered 2026-08-09 from the modality census, porting a 2026-08-07 lane; the census also recorded that no hormonal route existed on the board at all.
+**Grade** (owned by [`research/modalities/hormone-partner-lane.json`](../../research/modalities/hormone-partner-lane.json)): ⛔ THE PRINCIPLE SURVIVES AND THE REACH DOES NOT (graded 2026-08-09 from a lane that ran 2026-08-07). A hormone-responsive 5′ partner is reported in ONE EMC patient in the world literature and in ZERO of the 84 partner-genotyped EMC cases across the two cohorts this repository cites — Wilson 95% upper bound 4.4%. The dominant partner, which carries roughly four in five cases, answers NO: across 345 retrieved full-text records no source characterises the EWSR1 promoter as responsive to any druggable stimulus. ⭐ What survives is the general mechanism, which the sweep strengthened rather than merely repeated: across every partner retrieved, the imported regulatory input is the PARTNER's and never NR4A3's own — 12 partners across 3 tumour types, including a second disease where the imported element is an enhancer.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_HORMONE_PARTNER["○ RT-HORMONE-PARTNER"]:::fam
+  RT_HORMONE_PARTNER["✓ RT-HORMONE-PARTNER"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_HORMONE_PARTNER
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -45,17 +45,25 @@ flowchart LR
 
 A 5′ partner can bring its own promoter and its own regulation, and the repository already holds a reported instance of exactly that with durable benefit on an approved agent. No hormonal route exists among the forty-three, which makes this a registered lane with nowhere to live.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-HORMONE-PARTNER-LANE` | the hormone-responsive-partner fraction in EMC is zero of 84 partner-genotyped cases with a Wilson 95% upper bound of 4.4%, and no retrieved source gives the dominant partner's promoter a druggable inducible input | `direct` |
+
 ## Remaining unknowns
 
-- What fraction of patients carry a hormone-responsive partner, which is a minority of an already ultra-rare disease and has never been summed.
-- Whether the reported benefit is attributable to the mechanism or is a single favourable natural history.
+- Whether an unbiased RNA-seq-genotyped EMC series would move the reach figure in either direction — the cited denominators come from targeted assays that one of the source reports states would have missed its own case, and this is the single observation that could move it.
+- Whether the one partner whose gene family plausibly carries a druggable inducible input (HSPA8) has one, which is ungraded because nothing was retrieved for it.
+- Whether any anti-oestrogen outcome exists in a hormone-partnered UTERINE tumour, which would take the axis past n = 1 in a different disease.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A pooled estimate of the hormone-responsive partner fraction from the series already curated here | ⛔ none built | yes | — |
-| Confirmation that the partner's promoter drives the fusion in a hormone-dependent way | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| ⛔ TAKEN 2026-08-07 and returned a negative — the pooled hormone-responsive partner fraction across the partner-genotyped series curated here | ⛔ none built | yes | — |
+| One targeted literature query for whether the HSPA8 promoter carries a druggable inducible element — the only partner left ungraded, and $0 | ⛔ none built | yes | — |
+| Confirmation that a partner's promoter drives the fusion in a hormone-dependent way | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
@@ -67,32 +75,35 @@ A 5′ partner can bring its own promoter and its own regulation, and the reposi
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+The route's own sizing question was asked and answered against it. What is left is a paragraph in a paper, not a lane.
 
 **Missing:**
-- the pooled partner-fraction arithmetic, which is $0 and uses a method this repository owns
+- nothing at the arithmetic level — the pooled fraction was computed and is a negative
 
 ## Where this route ends — the paper
 
 **[PUB-NR-OUTSIDE-NR4A3](L3-publications.md)** — *Nuclear-receptor pharmacology outside NR4A3 in a NR4A3-driven sarcoma* (unwritten)
 
-`primary` · ○ `unwritten` · aimed at `preprint`
+`primary` · ◔ `outlined` · aimed at `preprint`
 
 **This route contributes:** The half of the paper where the druggable input is imported by the 5′ partner rather than supplied by the driver's own receptor.
 
 **The paper would claim:** Two nuclear-receptor routes exist in this disease that do not act on its own receptor — one where a 5′ fusion partner imports a druggable transcriptional input, and one targeting dormancy through a receptor that has the published tool compound this program's own receptor never had.
 
-**It is not written because:** Both routes it would cover were surfaced as lanes on 2026-08-07 and neither has had its expression lookup run.
+**It is not written because:** ⚠ ITS BLOCKER IS RETIRED AND BOTH ROUTES ARE GRADED, BOTH NEGATIVELY, FOR DIFFERENT REASONS. The dormancy route is UNREAD — its receptor has no probe on either readable platform, an instrument limit that no further expression work can close. The partner route is graded on REACH: a hormone-responsive 5′ partner is reported in one EMC patient in the world literature and in none of the partner-genotyped cases the cited cohorts cover, and the dominant partner has no retrieved druggable input. ⭐ The general mechanism survives and was strengthened by that sweep — the regulatory input a fusion imports is the PARTNER's, never NR4A3's own — which is the claim worth publishing and is a statement about fusion architecture rather than about a drug. ⛔ Superseded, retained: "neither has had its expression lookup run." One has; the other never needed one; and the arithmetic the partner route was waiting on had already been on disk since 2026-08-07.
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+Only somebody else's RNA-seq-genotyped series could move the reach figure, and that data is not this programme's to generate.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -104,7 +115,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Pool the published partner-frequency series already curated here to size the hormone-responsive subset, and state how many patients a partner-directed option could reach.
+Run the one $0 Europe PMC query on the HSPA8 promoter to close the last ungraded partner, then report the reach negative in the nuclear-receptor paper.
 
 *Cost:* $0
 
