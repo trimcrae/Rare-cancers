@@ -34,11 +34,19 @@ re-analysed, and no claim is made that any agent works. Every figure below is co
 already published in trial reports or posted to a public registry. Analyses were carried out with AI
 assistance (see section 2.4).*
 
-<!-- EDITORIAL, NOT FOR SUBMISSION. Authorship, affiliation and correspondence are drafted from what
-this repository already states and from the block in nr4a3-degrader-paper.md; they are the author's
-to confirm before this is posted anywhere. No ORCID is given because the repository does not carry
-one, and an invented identifier on a person is the failure lint_citations.py exists to prevent
-applied to a human. No target venue is fixed. -->
+<!-- EDITORIAL, NOT FOR SUBMISSION. Authorship, affiliation and correspondence are taken from the
+block the author wrote in nr4a3-degrader-paper.md. No ORCID is given because the repository does not
+carry one, and an invented identifier on a person is the failure lint_citations.py exists to prevent
+applied to a human.
+VENUE: medRxiv as preprint, then JNCI. JNCI takes measurement, methodology and reporting-standards
+work as primary research, which is what this is; JCO and Lancet Oncology are oriented to trial
+results and would receive it as a Comments piece with less room for the methods. The abstract is cut
+to 305 words for JNCI's limit; medRxiv imposes none. -->
+
+> **Declarations for preprint deposit.** Ethics approval and consent were not required and were not
+> sought: this study analyses only aggregate counts already published in trial reports or posted to
+> a public registry, and involves no human participants, no identifiable data and no patient-level
+> records. **Funding:** none. **Competing interests:** none. **Data and code:** section 11.
 
 > **Scope of the claims.** This is a paper about measurement. It asserts no efficacy, potency, dose,
 > safety, therapeutic window or clinical readiness for any agent in any disease, and it makes no
@@ -48,47 +56,32 @@ applied to a human. No target venue is fixed. -->
 ## Abstract
 
 **Background.** The objective-response rate is the reflex summary of a single-arm oncology trial. It
-keeps only tumour shrinkage, and it is applied without regard to whether the disease under study can
-produce shrinkage often enough, or accrue patients in numbers large enough, for the resulting figure
-to carry information.
+keeps only tumour shrinkage, and is applied without regard to whether a disease can produce
+shrinkage often enough, or accrue patients in numbers large enough, for the figure to carry
+information.
 
-**Methods.** We assembled trial arms from ClinicalTrials.gov posted results under a protocol frozen
-before retrieval. The unit is one arm. Inclusion depends on a property of the report, not of the
-disease: all four best-response categories reported as integer participant counts with an evaluable
-denominator. No tumour type, grade, rarity or indolence descriptor was used as an inclusion
-criterion at any stage. For each arm we computed objective response and disease control on the
-identical denominator. We placed diseases on two measured axes, median objective response and median
-actual registry enrolment, and derived two boundaries as level sets of the binomial: the sample size
-giving a 90% chance of at least one response, and the size an exact single-stage design requires
-against a null of 5%. Summaries use order statistics only, with no pooled cross-disease estimate.
+**Methods.** Under a protocol frozen before retrieval, we assembled trial arms from
+ClinicalTrials.gov posted results. The unit is one arm; inclusion depends on a property of the
+report rather than of the disease, namely all four best-response categories as integer counts with
+an evaluable denominator. No tumour type, grade, rarity or indolence descriptor was an inclusion
+criterion. Both endpoints were computed on the identical denominator. Diseases were placed on two
+measured axes, median objective response and median actual registry enrolment, with two boundaries
+derived as level sets of the binomial. Summaries use order statistics only, with no pooled
+cross-disease estimate.
 
-**Results.** 552 arms from 138 trials carried a complete four-cell table. The gap between disease
-control and objective response had a median of 39.4 percentage points (interquartile range
-20.0 to 54.3, range 0 to 100), with 194 arms at or above 50 points and 71 arms combining an
-objective response of 10% or less with disease control of 70% or more. The gap is identically the
-stable-disease proportion, so each value carries its own exact interval. The finding survived every
-pre-stated stratum: 41.5 points among arms of at least 20 patients, 40.0 in phase 2, 43.6 in
-phase 3. Of 44 conditions placed on the map, 16 have a median objective response at or below the 5%
-null, so no single-stage design is defined for them at all; of the 28 where the comparison is
-defined, 14 (50.0%) had a median trial smaller than an exact single-stage design would require.
-Seven of 29 (24.1%) sat below the zero-event boundary. Reporting was the binding constraint: 4,276
-of 4,414 screened studies (96.9%) posted results without a four-cell block, and among 1,277
-abstracts screened separately, all four categories appeared in 5 and only 1 carried a denominator
-they summed to. Of 19 arms whose title or registered type carries a control token, 16 carry an
-active agent once registered interventions are read rather than arm titles, and none can carry a
-natural-history reading. 25 conditions lay in the low-response regime; 4 had any control arm at all.
-The confound is nonetheless measurable and has been measured in designs this corpus rule excludes: in
-desmoid fibromatosis, prospective active-surveillance cohorts of 100 and 282 untreated patients
-report RECIST partial responses in 26% and spontaneous regression in 26% to 34%.
-A structured audit of 18 retrieved criteria and methodology documents found four distinct remedy
-families already in use across 12 disease domains, 7 of them carried by consensus guidelines.
+**Results.** 552 arms from 138 trials carried a complete table. The gap between disease control and
+objective response had a median of 39.4 percentage points (IQR 20.0 to 54.3), and is identically the
+stable-disease proportion, so each value carries an exact interval. It survived every pre-stated
+stratum. Of 44 conditions placed, 16 had a median response at or below the 5% null, leaving no design
+defined; of the 28 where it is defined, 14 (50.0%) had a median trial smaller than an exact
+single-stage design requires. Reporting was the binding constraint: 4,276 of 4,414 screened studies
+(96.9%) posted results without the four cells. Of 19 arms carrying a control token, 16 carry an
+active agent once registered interventions are read. Four remedy families are already endorsed
+across 12 disease domains.
 
-**Conclusions.** The failure of an objective-response summary is a property of a coordinate, not of a
-tumour type, and diseases enter the affected regime by their own measured numbers. Remedies exist and
-are long established; the gap is diffusion rather than invention, and the remedy family that
-addresses the underlying confound directly has the least formal endorsement. The most tractable
-finding is the reporting one: a four-cell best-response table with its denominator would let any
-reader compute either endpoint, and it is absent from the large majority of the record.
+**Conclusions.** The failure of a response summary is a property of a coordinate rather than of a
+tumour type. Remedies are long established and undiffused. A four-cell table with its denominator
+would let any reader compute either endpoint, and is absent from most of the record.
 
 ---
 
@@ -103,7 +96,7 @@ progression is rapid, that collapse loses little. Where it is not, the discarded
 most of what a trial observed.
 
 This is not an argument against RECIST, which names two endpoints in its opening sentence and
-supplies categories for both (Eisenhauer et al., PMID 19097774). The subject here is a field-level
+supplies categories for both [1]. The subject here is a field-level
 habit of summarising by the first category and discarding the rest, and what that habit costs at the
 sample sizes real trials achieve.
 
@@ -217,7 +210,10 @@ reported as such rather than as a number, because it is a statement about the di
 **Figure 1.** Each point is a condition placed by its own measured numbers: median actual trial
 enrolment against median objective response. The solid curve is the zero-event contour, the dashed
 curve the single-stage design contour. A point to the left of a curve lies inside that regime.
-Extraskeletal myxoid chondrosarcoma is circled. Produced by
+Extraskeletal myxoid chondrosarcoma is circled; its coordinates come from published trial reports
+rather than from registry postings, unlike every other point, and the two sources are plotted on
+shared axes for comparison and are never combined. Fifteen conditions share the 0% response axis and
+overlap there. Produced by
 [`endpoint_regime_figure.py`](./endpoint_regime_figure.py).
 
 ### 3.2 Disease coordinates
@@ -384,10 +380,10 @@ the design in which the confound has been measured.
 Two records, both in desmoid fibromatosis. A prospective multicentre phase II observational trial
 placed 100 patients on active surveillance alone with central radiology review, and reported 3-year
 progression-free survival of 53.4% (95% CI 43.5 to 63.1), spontaneous regression in 58%, and partial
-responses by RECIST in 26% (PMID 37777684). A pooled analysis of three prospective observational
+responses by RECIST in 26% [2]. A pooled analysis of three prospective observational
 active-surveillance studies in Italy, the Netherlands and France followed 282 patients and reported
 3- and 5-year treatment-free survival of 67% and 66%, with crude cumulative incidences of 33% and
-34% for RECIST progression and 26% and 34% for spontaneous RECIST regression (PMID 39620931).
+34% for RECIST progression and 26% and 34% for spontaneous RECIST regression [3].
 
 An objective response rate measured on untreated patients is the quantity a single-arm response
 readout assumes to be zero. These cohorts put it at roughly a quarter, and they agree with the
@@ -427,14 +423,14 @@ no other.
 | D | make each patient their own control | 7 |
 
 12 disease domains are covered, and 7 documents are consensus guidelines from named working groups.
-Examples span gastrointestinal stromal tumour (Benjamin et al., PMID 17470866; Choi et al.,
-PMID 17470865), high-grade and low-grade glioma (PMID 20231676; PMID 21474379), hepatocellular
-carcinoma (PMID 20175033), lymphoma (PMID 25113753; PMID 28379322), chronic lymphocytic leukaemia
-(PMID 29540348), and castration-resistant prostate cancer (PMID 26903579). Two placebo-controlled
+Examples span gastrointestinal stromal tumour (Benjamin et al., [4]; Choi et al.,
+[5]), high-grade and low-grade glioma [6,7], hepatocellular
+carcinoma [8], lymphoma [9,10], chronic lymphocytic leukaemia
+[11], and castration-resistant prostate cancer [12]. Two placebo-controlled
 neuroendocrine-tumour trials reading out on tumour growth control rather than on response supply the
-single-trial precedents for family A (PMID 26731483; PMID 25317882). The growth modulation
-index and the randomised discontinuation design carry the fourth family (PMID 9607564;
-PMID 20920605; PMID 30458583; PMID 33672857; PMID 40156702; PMID 30528315; PMID 27714541).
+single-trial precedents for family A [13,14]. The growth modulation
+index and the randomised discontinuation design carry the fourth family ([15];
+[16]; [17]; [18]; [19]; [20]; [21]).
 
 Two readings follow. First, the earliest retrieved document dates from 1998, so the problem has been
 recognised for decades and the gap is diffusion rather than invention: a remedy endorsed in glioma or
@@ -552,41 +548,27 @@ patient is identifiable from anything here.
 
 ## 12. References
 
-1. Eisenhauer EA, Therasse P, Bogaerts J, et al. New response evaluation criteria in solid tumours:
-   revised RECIST guideline (version 1.1). *Eur J Cancer* 2009. PMID 19097774.
-2. Choi H, Charnsangavej C, Faria SC, et al. Correlation of computed tomography and positron
-   emission tomography in patients with metastatic gastrointestinal stromal tumor treated at a
-   single institution with imatinib mesylate. PMID 17470865.
-3. Benjamin RS, Choi H, Macapinlac HA, et al. We should desist using RECIST, at least in GIST.
-   PMID 17470866.
-4. Updated response assessment criteria for high-grade gliomas: response assessment in
-   neuro-oncology working group. PMID 20231676.
-5. Response assessment in neuro-oncology (a report of the RANO group): assessment of outcome in
-   trials of diffuse low-grade gliomas. PMID 21474379.
-6. Modified RECIST (mRECIST) assessment for hepatocellular carcinoma. PMID 20175033.
-7. Recommendations for initial evaluation, staging, and response assessment of Hodgkin and
-   non-Hodgkin lymphoma: the Lugano classification. PMID 25113753.
-8. International Working Group consensus response evaluation criteria in lymphoma (RECIL 2017).
-   PMID 28379322.
-9. iwCLL guidelines for diagnosis, indications for treatment, response assessment, and supportive
-   management of CLL. PMID 29540348.
-10. Trial Design and Objectives for Castration-Resistant Prostate Cancer: Updated Recommendations
-    From the Prostate Cancer Clinical Trials Working Group 3. PMID 26903579.
-11. There are no bad anticancer agents, only bad clinical trial designs. PMID 9607564.
-12. Statistical methods for a phase II oncology trial with a growth modulation index endpoint.
-    PMID 20920605.
-13. Phase II trial design with growth modulation index as the primary endpoint. PMID 30458583.
-14. A Growth Modulation Index-Based GEISTRA Score as a New Prognostic Tool for Trabectedin
-    Efficacy. PMID 33672857.
-15. The Growth Modulation Index (GMI) as an Efficacy Outcome in Cancer Clinical Trials. PMID 40156702.
-16. Results of a Phase II Placebo-controlled Randomized Discontinuation Trial of Cabozantinib.
-    PMID 30528315.
-17. Cabozantinib for metastatic breast carcinoma: results of a phase II placebo-controlled
-    randomized discontinuation study. PMID 27714541.
-18. Placebo-Controlled, Double-Blind, Prospective, Randomized Study on the Effect of Octreotide LAR
-    in the Control of Tumor Growth in Patients With Metastatic Neuroendocrine Midgut Tumors.
-    PMID 26731483.
-19. Lanreotide in metastatic enteropancreatic neuroendocrine tumors. PMID 25317882.
+1. New response evaluation criteria in solid tumours: revised RECIST guideline (version 1.1). *European Journal of Cancer* 2009. PMID 19097774. doi 10.1016/j.ejca.2008.10.026.
+2. Bonvalot S, Cozic N, Le Cesne A, Blay JY, Penel N, Fau M, et al. Initial Active Surveillance Strategy for Patients with Peripheral Sporadic Primary Desmoid-Type Fibromatosis: A Multicentric Phase II Observational Trial. 2023. PMID 37777684. doi 10.1245/s10434-023-14341-2.
+3. Colombo C, Hakkesteegt S, Le Cesne A, Barretta F, Blay JY, et al. Active Surveillance in Patients with Extra-abdominal Desmoid-Type Fibromatosis: A Pooled Analysis of Three Prospective Observational Studies. 2025. PMID 39620931. doi 10.1158/1078-0432.ccr-24-2340.
+4. Benjamin RS, Choi H, Macapinlac HA, Burgess MA, Patel SR, et al. We should desist using RECIST, at least in GIST. 2007. PMID 17470866. doi 10.1200/jco.2006.07.3411.
+5. Choi H, Charnsangavej C, Faria SC, Macapinlac HA, et al. Correlation of computed tomography and positron emission tomography in patients with metastatic gastrointestinal stromal tumor treated at a single institution with imatinib mesylate: proposal of new computed tomography response criteria. 2007. PMID 17470865. doi 10.1200/jco.2006.07.3049.
+6. Wen PY, Macdonald DR, Reardon DA, Cloughesy TF, Sorensen AG, et al. Updated response assessment criteria for high-grade gliomas: response assessment in neuro-oncology working group. 2010. PMID 20231676. doi 10.1200/jco.2009.26.3541.
+7. van den Bent MJ, Wefel JS, Schiff D, Taphoorn MJ, Jaeckle K, et al. Response assessment in neuro-oncology (a report of the RANO group): assessment of outcome in trials of diffuse low-grade gliomas. 2011. PMID 21474379. doi 10.1016/s1470-2045(11)70057-2.
+8. Lencioni R, Llovet JM. Modified RECIST (mRECIST) assessment for hepatocellular carcinoma. 2010. PMID 20175033. doi 10.1055/s-0030-1247132.
+9. Cheson BD, Fisher RI, Barrington SF, Cavalli F, Schwartz LH, et al. Recommendations for initial evaluation, staging, and response assessment of Hodgkin and non-Hodgkin lymphoma: the Lugano classification. 2014. PMID 25113753. doi 10.1200/jco.2013.54.8800.
+10. Younes A, Hilden P, Coiffier B, Hagenbeek A, Salles G, et al. International Working Group consensus response evaluation criteria in lymphoma (RECIL 2017). 2017. PMID 28379322. doi 10.1093/annonc/mdx097.
+11. Hallek M, Cheson BD, Catovsky D, Caligaris-Cappio F, et al. iwCLL guidelines for diagnosis, indications for treatment, response assessment, and supportive management of CLL. 2018. PMID 29540348. doi 10.1182/blood-2017-09-806398.
+12. Scher HI, Morris MJ, Stadler WM, Higano C, Basch E, et al. Trial Design and Objectives for Castration-Resistant Prostate Cancer: Updated Recommendations From the Prostate Cancer Clinical Trials Working Group 3. 2016. PMID 26903579. doi 10.1200/jco.2015.64.2702.
+13. Rinke A, Wittenberg M, Schade-Brittinger C, Aminossadati B, et al. Placebo-Controlled, Double-Blind, Prospective, Randomized Study on the Effect of Octreotide LAR in the Control of Tumor Growth in Patients with Metastatic Neuroendocrine Midgut Tumors (PROMID): Results of Long-Term Survival. 2017. PMID 26731483. doi 10.1159/000443612.
+14. Ozdemir N, Yazici O, Zengin N. Lanreotide in metastatic enteropancreatic neuroendocrine tumors. 2014. PMID 25317882. doi 10.1056/nejmc1409757.
+15. Von Hoff DD. There are no bad anticancer agents, only bad clinical trial designs--twenty-first Richard and Hinda Rosenthal Foundation Award Lecture. 1998. PMID 9607564.
+16. Kovalchik S, Mietlowski W. Statistical methods for a phase II oncology trial with a growth modulation index (GMI) endpoint. 2011. PMID 20920605. doi 10.1016/j.cct.2010.09.010.
+17. Wu J, Chen L, Wei J, Weiss H, Miller RW, Villano JL. Phase II trial design with growth modulation index as the primary endpoint. 2019. PMID 30458583. doi 10.1002/pst.1916.
+18. Martínez-Trufero J, De Sande-González LM, Luna P, et al. A Growth Modulation Index-Based GEISTRA Score as a New Prognostic Tool for Trabectedin Efficacy in Patients with Advanced Soft Tissue Sarcomas: A Spanish Group for Sarcoma Research (GEIS) Retrospective Study. 2021. PMID 33672857. doi 10.3390/cancers13040792.
+19. Trin K, Dalleau C, Mathoulin-Pelissier S, Le Tourneau C, et al. The Growth Modulation Index (GMI) as an Efficacy Outcome in Cancer Clinical Trials: A Scoping Review with Suggested Reporting Guidelines. 2025. PMID 40156702. doi 10.1007/s11912-025-01667-1.
+20. Hellerstedt BA, Vogelzang NJ, Kluger HM, Yasenchak CA, et al. Results of a Phase II Placebo-controlled Randomized Discontinuation Trial of Cabozantinib in Patients with Non-small-cell Lung Carcinoma. 2019. PMID 30528315. doi 10.1016/j.cllc.2018.10.006.
+21. Tolaney SM, Nechushtan H, Ron IG, Schöffski P, Awada A, et al. Cabozantinib for metastatic breast carcinoma: results of a phase II placebo-controlled randomized discontinuation study. 2016. PMID 27714541. doi 10.1007/s10549-016-4001-y.
 
 ---
 

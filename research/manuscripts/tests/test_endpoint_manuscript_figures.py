@@ -125,3 +125,35 @@ def test_the_retired_paper_is_gone_and_only_named_as_a_supersession(paper):
     assert "emc-response-endpoint-paper.md" not in body, (
         "the retired paper is named in the running text. Its only legitimate mention is the "
         "supersession record in Appendix A")
+
+
+def test_every_citation_marker_resolves_and_every_reference_is_cited(paper):
+    """The reference list must be a bibliography, not decoration.
+
+    Before 2026-08-09 the paper carried a numbered list of 19 references and NOT ONE bracketed
+    in-text marker -- every citation was a bare `PMID nnnnnnn`, so the numbering mapped to nothing
+    and two references were cited nowhere at all. The list is now built from the identifiers cited in
+    the body, in order of first appearance, from metadata the fetches returned.
+    """
+    head, tail = paper.split("## 12. References", 1)
+    refs = tail.split("\n---\n", 1)[0]
+
+    cited = set()
+    for m in re.finditer(r"\[([0-9]+(?:,[0-9]+)*)\]", head):
+        cited.update(int(n) for n in m.group(1).split(","))
+    listed = {int(m.group(1)) for m in re.finditer(r"^(\d+)\. ", refs, re.M)}
+
+    assert cited, "the body carries no citation markers at all"
+    assert not cited - listed, f"markers with no reference entry: {sorted(cited - listed)}"
+    assert not listed - cited, f"reference entries cited nowhere: {sorted(listed - cited)}"
+    assert listed == set(range(1, len(listed) + 1)), "reference numbering has a gap"
+    assert not re.search(r"PMID \d", head), (
+        "a bare PMID survives in the body; citations belong in the reference list")
+
+
+def test_every_reference_entry_carries_its_identifier(paper):
+    refs = paper.split("## 12. References", 1)[1].split("\n---\n", 1)[0]
+    for line in refs.strip().split("\n"):
+        if not line.strip():
+            continue
+        assert re.search(r"PMID \d{6,9}", line), f"reference without a PMID: {line[:80]}"
