@@ -2,7 +2,7 @@
 id: DOC-EPMC-QUERY-CRAFT
 title: What separates a Europe PMC query that finds the class-defining paper from one that returns junk
 level: L1
-kind: method-note
+kind: runbook
 status: live
 canonical_for: ["Europe PMC query construction for this repository's literature lanes"]
 purpose: >

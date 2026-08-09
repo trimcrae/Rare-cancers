@@ -1,0 +1,83 @@
+{
+  "_what": "The randomised evidence for adding regional hyperthermia to systemic therapy in soft-tissue sarcoma, read for the two questions the EMC census row asks: is any myxoid histology represented, and does the evidence support the class at all. Every figure below is VERBATIM from a payload retrieved this session — full text where it was reachable, the Europe PMC structured record where it was not.",
+  "_not_medical_advice": "⛔ A record of published trial results in OTHER sarcoma histologies. It is not medical advice, it makes no claim that regional hyperthermia works in extraskeletal myxoid chondrosarcoma, and no patient with this disease appears in any trial below.",
+  "document_date_et": "2026-08-09",
+  "answers": "systems/graph/modalities.json → MOD-HYPERTHERMIA, whose $0 next step was: read the randomised sarcoma trial's histology breakdown for myxoid subtypes.",
+  "retrieval": {
+    "route": "workflow_dispatch of .github/workflows/fetch-literature.yml at ref=claude/cancer-treatment-emc-categories-nu4nfd via the `targets_json` inline manifest",
+    "why_ci": "this sandbox's egress proxy answers 403 to CONNECT for www.ebi.ac.uk (CLAUDE.md §6)",
+    "slug": "hyperthermia-histology-2026-08-09",
+    "⚠_two_full_texts_were_not_reachable": "PMC3517819 and PMC5885262 both returned HTTP 404 from the Europe PMC fullTextXML endpoint despite carrying PMC identifiers. That is an INSTRUMENT LIMIT, not an absence: their structured records including abstracts were retrieved successfully and are the source of every figure quoted for them. The per-trial histology table of the 2010 trial therefore remains unread, and that is stated rather than glossed."
+  },
+
+  "⭐ the_finding": "THE TWO RANDOMISED TRIALS POINT IN OPPOSITE DIRECTIONS, AND THE SPLIT IS BY SETTING. Regional hyperthermia added to neoadjuvant chemotherapy in LOCALISED, curative-intent high-risk disease improved local progression-free survival and, on long-term follow-up, overall survival. Regional hyperthermia added to trabectedin in ADVANCED disease did not improve progression-free survival. ⚠ That is a setting-dependent reading and it is the reason this class is worth stating carefully for an indolent, extremity-primary, locally-recurring disease rather than dismissing or promoting it wholesale.",
+
+  "trials": [
+    {
+      "nct_or_id": "EORTC 62961 / ESHO 95",
+      "pmid": "20434400",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/20434400/",
+      "doi": "10.1016/s1470-2045(10)70071-1",
+      "pmcid": "PMC3517819",
+      "title": "Neo-adjuvant chemotherapy alone or with regional hyperthermia for localised high-risk soft-tissue sarcoma: a randomised phase 3 multicentre study",
+      "authors_verbatim": "Issels RD, Lindner LH, Verweij J, Wust P, Reichardt P, Schem BC, et al.",
+      "setting": "LOCALISED high-risk soft-tissue sarcoma, neoadjuvant, curative intent",
+      "verification": "API — full text 404 at the fullTextXML endpoint; abstract read from the structured record",
+      "result_verbatim": "After a median follow-up of 34 months (IQR 20-67), 132 patients had local progression (56 EIA plus regional hyperthermia vs 76 EIA). Patients were more likely to experience local progression or death in the EIA-alone group compared with the EIA plus regional hyperthermia group (relative hazard [RH] 0.58, 95% CI 0.41-0.83; p=0.003)",
+      "direction": "POSITIVE on the primary local endpoint",
+      "⛔ what_is_not_recoverable_here": "the per-histology breakdown. The abstract does not give one and the full text was not reachable at $0, so whether any myxoid histology was enrolled in THIS trial is unread."
+    },
+    {
+      "nct_or_id": "EORTC 62961 / ESHO 95 — long-term follow-up",
+      "pmid": "29450452",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/29450452/",
+      "doi": "10.1001/jamaoncol.2017.4996",
+      "pmcid": "PMC5885262",
+      "title": "Effect of Neoadjuvant Chemotherapy Plus Regional Hyperthermia on Long-term Outcomes Among Patients With Localized High-Risk Soft Tissue Sarcoma",
+      "authors_verbatim": "Issels RD, Lindner LH, Verweij J, Wessalowski R, Reichardt P, Wust P, et al.",
+      "setting": "the same localised, curative-intent population, long-term",
+      "verification": "API — full text 404; abstract read from the structured record",
+      "result_verbatim": "5-year survival of 62.7% (95% CI, 55.2%-70.1%) vs 51.3% (95% CI, 43.7%-59.0%), respectively, and 10-year survival of 52.6% (95% CI, 44.7%-60.6%) vs 42.7% (95% CI, 35.0%-50.4%)",
+      "conclusion_verbatim": "Among patients with localized high-risk soft tissue sarcoma the addition of regional hyperthermia to neoadjuvant chemotherapy resulted in increased survival",
+      "direction": "POSITIVE on long-term survival",
+      "⚠ the_qualifier_the_abstract_itself_carries": "Preoperative anthracycline plus ifosfamide chemotherapy improves outcome in common histological subtypes. ⛔ 'Common' is load-bearing and this disease is not one of them."
+    },
+    {
+      "nct_or_id": "GISG trabectedin ± regional hyperthermia",
+      "pmid": "41962307",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/41962307/",
+      "doi": "10.1016/j.esmoop.2026.106921",
+      "pmcid": "PMC13091197",
+      "title": "A randomized clinical study comparing trabectedin combined with regional hyperthermia with trabectedin in patients with advanced soft tissue sarcoma",
+      "authors_verbatim": "Schuebbe GE, Xu Y, Lindner LH, Di Gioia D, Abdel-Rahman S, Kunz WG, et al.",
+      "setting": "ADVANCED soft-tissue sarcoma, after or unsuited for anthracycline-based chemotherapy",
+      "verification": "FT — full text read in this session",
+      "enrollment_verbatim": "Between 19 December 2014 and 7 December 2021, 118 eligible patients from five GISG centers were allocated to Tr + RHT (n = 60) or Tr (n = 58)",
+      "stratification_verbatim": "Patients were stratified based on histotypes into L-STS (liposarcoma or leiomyosarcoma) and non-L-STS (all other sarcoma histological subtypes)",
+      "result_verbatim": "median PFS was 3.0 months [95% confidence interval (CI) 2.5-5.0 months] in the Tr + RHT arm versus 3.5 months (95% CI 2.8-5.9 months) in the Tr arm [stratified hazard ratio (HR) 0.86, 95% CI 0.57-1.30, P = 0.459]",
+      "conclusion_verbatim": "Adding RHT to trabectedin did not improve PFS. Although the study was negative, a post hoc exploratory analysis of the subgroup of patients receiving ≥5 cycles of Tr + RHT showed an improvement in PFS.",
+      "direction": "⛔ NEGATIVE on its primary endpoint",
+      "⚠ the_post_hoc_subgroup_and_why_it_is_not_evidence": "The ≥5-cycle subgroup reads HR 0.33 (95% CI 0.13-0.86, P = 0.023), and the paper labels it post hoc and exploratory in its own words. A favourable subgroup inside a negative trial, selected on how much treatment a patient received, is confounded by survival to receive it — patients who last five cycles are patients who were doing better. It is reported here because omitting it would misrepresent the paper, and it may not be quoted as benefit."
+    }
+  ],
+
+  "the_histology_question_answered": {
+    "myxoid_representation_verbatim": "Includes four patients (6.7%, trabectedin + RHT) and two patients (3.4%, trabectedin) with myxoid liposarcoma.",
+    "reading": "⭐ A myxoid histology IS represented in the randomised hyperthermia literature — six patients across both arms of the advanced-disease trial, 5.1% of its 118.",
+    "⛔ emc_representation": "ZERO. The word 'chondrosarcoma' does not appear anywhere in that trial's full text, nor does 'translocation'. No patient with this disease is in any trial recorded here.",
+    "⚠ and_myxoid_liposarcoma_is_not_this_disease": "It shares an adjective and a matrix appearance. Its driver is a different fusion, its natural history is different, and it is famously trabectedin-sensitive in a way this disease is not established to be. Six patients of a different histology is a class prior at best, and a weak one.",
+    "⭐ but_the_eligibility_category_would_admit_this_disease": "The trial stratified into 'non-L-STS (all other sarcoma histological subtypes)', which is a category extraskeletal myxoid chondrosarcoma falls into by construction. So the class is reachable by eligibility even though it was not reached in fact — the same shape as the trial-reachability finding elsewhere in this programme."
+  },
+
+  "_what_this_cannot_conclude": [
+    "⛔ That regional hyperthermia does or does not work in extraskeletal myxoid chondrosarcoma. No patient with this disease has received it in any trial recorded here.",
+    "That the localised-setting benefit transfers to this disease. The positive trials enrolled 'common histological subtypes' by their own abstract's wording, and this disease is not one.",
+    "That the advanced-setting negative closes the class for this disease. A negative in advanced disease on one partner agent does not speak to the localised, curative-intent setting where the positive result sits.",
+    "Anything about the 2010 trial's own histology mix, which is unread: its full text was not reachable at $0."
+  ],
+  "_limits": [
+    "Two trial programmes, three publications. This is not a systematic review and does not claim to be.",
+    "⚠ The two directions are not directly comparable: different settings, different partner agents, different endpoints, different eras. Reading them as a single contradiction would be wrong; reading them as setting-dependent is what the evidence supports.",
+    "Every figure is quoted verbatim from a retrieved payload. Where full text was unreachable the abstract is the source and is labelled as such."
+  ]
+}
