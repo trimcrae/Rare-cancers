@@ -369,6 +369,46 @@
       "sysml": "domain",
       "asserted": true,
       "why": "A deliverable that ships WITH another rather than alone — an experimental proposal sent alongside the preprint that motivates it. Recorded rather than merged, because the two have different readers and different states: the package can be complete while the paper it accompanies is still drafted."
+    },
+    {
+      "key": "route",
+      "on": [
+        "modalities"
+      ],
+      "to": "routes",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "The census row saying WHICH route already covers this modality class. Asserted here rather than derived from the route, because the claim being made is about the CENSUS's coverage of a class and not about the route's scope — a route may legitimately touch several classes while exactly one of them is the class it is registered as covering. Also the field that makes `on_board` checkable: without it, 'the board already handles that' is an assertion nothing can verify, which is the specific failure this collection was built to prevent."
+    },
+    {
+      "key": "blockers",
+      "on": [
+        "modalities"
+      ],
+      "to": "blockers",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "Registered blockers a modality class runs into. Deliberately NOT the same edge as `route.blockers_inherited`: a class can be blocked before any route through it has been proposed, so this end cannot be derived from the route side — there may be no route."
+    },
+    {
+      "key": "revisit_trigger",
+      "on": [
+        "modalities"
+      ],
+      "to": "technologies",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "The TECH-* that would reopen a `parked_capability` row. Same discipline as `route.timing.revisit_trigger`: a park with no named way back is indistinguishable from a closure nobody was willing to write."
+    },
+    {
+      "key": "parent",
+      "on": [
+        "modalities"
+      ],
+      "to": "modalities",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "A sub-form refining a broader class, used only where the sub-form's EMC verdict DIFFERS from its parent's. A sub-form sharing its parent's verdict is an example inside that row, not a row — otherwise the census inflates with distinctions that carry no decision."
     }
   ]
 }

@@ -48,8 +48,17 @@ prefix, always, including inside tables and figure captions where it is tempting
 | `FC-` | forecast | cross-cutting | `FC-FE-CRYPTIC-POCKET` |
 | `MS-` | roadmap milestone | cross-cutting | `MS-2027-TERNARY` |
 | `TRG-` | literature scan trigger | cross-cutting | `TRG-FEP-CRYPTIC-POCKET` |
+| `MOD-` | modality class — a category of cancer treatment, whether or not this program pursues it | cross-cutting | `MOD-ADC` |
 | `OC-` / `RC-` | open / resolved conflict | cross-cutting | `OC-2` |
 | `DOC-` | registered document | — | `DOC-ARCHITECTURE` |
+
+⚠ **`MOD-` and `RT-` are the confusable pair, and the distinction is load-bearing.** An `RT-*` is
+something **this program is choosing to pursue**; a `MOD-*` is a category that **exists in oncology
+whether or not anyone here ever looked at it**. So the two collections answer different questions —
+`routes.json` is the numerator, `modalities.json` the denominator — and a modality class routinely
+has no route, which is not a gap in the board but the census doing its job. ⛔ A `MOD-*` is also never
+a target: the class is `antibody-drug conjugate`, and which antigen one might be pointed at belongs to
+the surface-antigen artifacts. Vocabulary and rules: [`taxonomy/modality.md`](taxonomy/modality.md).
 
 ### 1.1 · ⚠ Two collisions this repository already had — and how they are resolved
 

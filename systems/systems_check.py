@@ -26,7 +26,7 @@ import os
 import re
 import unicodedata
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -51,6 +51,16 @@ COLLECTIONS = [
     # unmodelled made "this route has no endpoint" and "this route's endpoint is not written yet"
     # render identically, across a portfolio where the second is the common case.
     "publications",
+    # ⭐ MODALITIES — the DENOMINATOR the board was always a numerator of. `routes` records what this
+    # program chose to pursue; nothing recorded the space that choice was made from, so the only
+    # available answer to "has anyone considered X?" was a search — and a search returns what it
+    # queried for, which means its silence cannot distinguish "considered and dismissed" from "never
+    # pointed at". Those are opposite situations with opposite remedies. The 2026-08-07 sweep measured
+    # the cost from the inside: four whole categories had been invisible to every prior search, not
+    # rejected but never queried, and its own diagnosis was instrument shape rather than oversight.
+    # A MOD-* exists whether or not this program ever looked at it, which is exactly what lets
+    # `prior_coverage: never_searched` be a query instead of a recollection.
+    "modalities",
 ]
 
 # A blocker of this kind is a fact about what the objects ARE. It is not waiting on anything,
@@ -483,7 +493,8 @@ def check_schemas(g, f):
     mv.check_schemas_are_themselves_valid(f)
     pairs = [("strategies", "strategy.schema.json"),
              ("routes", "route.schema.json"),
-             ("blockers", "blocker.schema.json")]
+             ("blockers", "blocker.schema.json"),
+             ("modalities", "modality.schema.json")]
     for coll, sch in pairs:
         schema = mv.docs[sch]
         for row in g[coll]:
@@ -3465,6 +3476,136 @@ def render_readiness(g):
     return "\n".join(out)
 
 
+MOD_GLYPH = {"on_board": "✓", "candidate": "⭑", "parked_capability": "⏸",
+             "already_rejected": "✕", "excluded": "✕", "not_applicable": "—"}
+
+MOD_GROUP_TITLE = {
+    "cytotoxic": "Cytotoxic chemotherapy",
+    "hormonal_nuclear_receptor": "Hormonal and nuclear-receptor",
+    "kinase_inhibitor": "Kinase inhibitors",
+    "enzyme_inhibitor_non_kinase": "Non-kinase enzyme inhibitors",
+    "ppi_and_undruggable": "Protein–protein interaction and “undruggable” chemistry",
+    "degrader_induced_proximity": "Degraders and induced proximity",
+    "nucleic_acid": "Nucleic-acid therapeutics",
+    "gene_and_cell_engineering": "Gene and cell engineering",
+    "antibody_and_antibody_like": "Antibodies and antibody-likes",
+    "cell_therapy": "Cell therapy",
+    "vaccine_active_immunization": "Vaccines and active immunization",
+    "immune_modulation": "Immune modulation",
+    "microenvironment_and_stroma": "Tumour microenvironment and stroma",
+    "metabolic_and_dietary": "Metabolic and dietary",
+    "radiopharmaceutical_and_radiation": "Radiopharmaceuticals and radiation",
+    "physical_device_locoregional": "Physical, device and locoregional",
+    "host_directed_and_repurposed": "Host-directed and repurposed non-oncology",
+    "delivery_and_formulation": "Delivery, formulation and conjugates",
+    "strategy_and_trial_architecture": "Treatment strategy and trial architecture",
+}
+
+
+def render_modalities(g):
+    """The census: every modality class, and what it does or does not reach in EMC.
+
+    ⭐ THE HEADLINE IS `never_searched`, NOT the row count. A search reports what it found and its
+    silence is ambiguous — a class absent from its output may have been dismissed or may never have
+    been queried, and those are opposite situations with opposite remedies. This view exists to
+    separate them, so the count of classes no prior sweep pointed at is rendered first and everything
+    else is bookkeeping underneath it.
+    """
+    mods = g["modalities"]
+    routes = by_id(g["routes"])
+    by_verdict = Counter(m["verdict"] for m in mods)
+    never = [m for m in mods if m["prior_coverage"] == "never_searched"]
+    never_live = [m for m in never if m["verdict"] in ("candidate", "parked_capability")]
+
+    out = [fm(id="DOC-VIEW-MODALITY-CENSUS",
+              title="Modality census — every category of cancer treatment, graded against EMC",
+              level="cross-cutting", kind="generated", status="generated",
+              generator="systems/systems_check.py",
+              purpose="The denominator the route board is a numerator of: what oncology can do, and which of it reaches this disease.",
+              scope="All modality classes. Vocabulary: systems/taxonomy/modality.md. Grades classes, never targets.",
+              audience=["maintainers", "autonomous research agents", "external reviewers"],
+              date="2026-08-09", last_verified="2026-08-09"),
+           BANNER, "# Modality census\n",
+           "> A **search** returns what it queried for, so its silence cannot tell *considered and",
+           "> dismissed* apart from *never pointed at*. A **census** enumerates first and grades second,",
+           "> which is what makes absence auditable rather than remembered.\n",
+           "> **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness — for",
+           "> any class, in any verdict, including the ones that survive.**\n",
+           f"**{len(mods)} modality classes · {len(MOD_GROUP_TITLE)} groups · 4 bands.**\n"]
+
+    if mods:
+        out += [f"## ⭑ {len(never)} classes no prior search here had pointed at\n",
+                "This is the census's result. `never_searched` is orthogonal to the verdict, and the",
+                "orthogonality carries the finding: a class can be unsearched and still not reach EMC —",
+                "nobody looked, and now that someone has, it does not — or unsearched **and** live, which",
+                f"is the residue no prior sweep could have returned. **{len(never_live)} of the {len(never)}",
+                "are live** (`candidate` or `parked_capability`).\n"]
+
+        out += ["| verdict | classes | of which never searched |", "|---|---:|---:|"]
+        for v in ("candidate", "parked_capability", "on_board", "already_rejected", "excluded", "not_applicable"):
+            if by_verdict.get(v):
+                n_new = sum(1 for m in mods if m["verdict"] == v and m["prior_coverage"] == "never_searched")
+                out.append(f"| {MOD_GLYPH[v]} `{v}` | {by_verdict[v]} | {n_new} |")
+        out.append("")
+
+        bands = Counter(m["band"] for m in mods)
+        out += ["### By band\n",
+                "⚠ Three of these four bands were **structurally invisible** to every prior search here —",
+                "not rejected, never queried — which is the reason the census carries them at all.\n",
+                "| band | classes | never searched |", "|---|---:|---:|"]
+        for b in ("drug_mechanism", "delivery_and_conjugate", "physical_locoregional", "strategy_and_architecture"):
+            if bands.get(b):
+                n_new = sum(1 for m in mods if m["band"] == b and m["prior_coverage"] == "never_searched")
+                out.append(f"| `{b}` | {bands[b]} | {n_new} |")
+        out.append("")
+
+        if never_live:
+            out += ["## The live residue\n",
+                    "Every class that no prior search reached and that this census did not close. Each",
+                    "carries the cheapest observation that would move it.\n",
+                    "| class | group | verdict | cheapest next step |", "|---|---|---|---|"]
+            for m in sorted(never_live, key=lambda x: (x["verdict"] != "candidate", x["id"])):
+                out.append(f"| **{m['id']}** — {esc(m['name'])} | `{m['group']}` "
+                           f"| {MOD_GLYPH[m['verdict']]} `{m['verdict']}` "
+                           f"| {esc(m.get('zero_dollar_next_step') or '—')} |")
+            out.append("")
+
+        out += ["## The census\n"]
+        for grp, title in MOD_GROUP_TITLE.items():
+            rows = [m for m in mods if m["group"] == grp]
+            if not rows:
+                continue
+            out += [f"### {title}\n",
+                    "| class | exemplar | verdict | prior | where it lands |",
+                    "|---|---|---|---|---|"]
+            for m in sorted(rows, key=lambda x: x["id"]):
+                if m["verdict"] == "on_board":
+                    rid = m["route"]
+                    disp = routes.get(rid, {}).get("display_name", rid)
+                    lands = f"[{rid}](L2-{route_slug(rid)}.md) — {esc(_clip(disp, 60))}"
+                elif m["verdict"] == "already_rejected":
+                    ref = m.get("prior_ref", {})
+                    lands = f"already ruled — [{os.path.basename(ref.get('file',''))}](" \
+                            f"{os.path.relpath(os.path.join(REPO, ref.get('file','')), VIEWS)}" \
+                            f"{'#' + ref['anchor'] if ref.get('anchor') else ''})"
+                else:
+                    lands = esc(_clip(m["rationale"], 150))
+                prior = "·" if m["prior_coverage"] == "searched_before" else "⭑ **new**"
+                out.append(f"| **{m['id']}**<br/>{esc(m['name'])} | {esc(m.get('exemplar') or '—')} "
+                           f"| {MOD_GLYPH[m['verdict']]} `{m['verdict']}` | {prior} | {lands} |")
+            out.append("")
+    else:
+        out += ["*No modality classes registered yet.*\n"]
+
+    out += ["---\n",
+            "**Reading a verdict.** `already_rejected` means another document here owns the ruling and",
+            "this row only points at it — the argument is deliberately not restated, because a second",
+            "home for a reason is a reason that drifts. `excluded` means this census is the thing doing",
+            "the closing, so the argument lives in the row. See",
+            "[../taxonomy/modality.md](../taxonomy/modality.md) §4.\n"]
+    return "\n".join(out) + "\n"
+
+
 def render_methods_index(g):
     out = [fm(id="DOC-VIEW-METHODS", title="Methods index — instrument to routes served",
               level="cross-cutting", kind="generated", status="generated",
@@ -3781,6 +3922,7 @@ def all_views(g):
          "registers/instruments.md": render_instruments(g),
          "registers/requirements.md": render_requirements(g),
          "methods-index.md": render_methods_index(g),
+         "modality-census.md": render_modalities(g),
          "readiness.md": render_readiness(g),
          "roadmap-5yr.md": render_roadmap(g),
          "plan.md": render_plan(g)}
