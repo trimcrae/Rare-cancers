@@ -97,7 +97,7 @@ exposure; sarcoma; ALCAM; CSPG4; surrogate validity.
 
 Extraskeletal myxoid chondrosarcoma is a rare soft-tissue sarcoma defined by a translocation fusing the
 5' region of *EWSR1*, less often *TAF15* or another FET gene, to the orphan nuclear receptor *NR4A3*,
-producing a chimeric transcription factor on a genome with few recurrent secondary mutations. A 2025
+producing a chimeric transcription factor on a genome with few recurrent secondary mutations [16,17]. A 2025
 comprehensive review of the disease states that no clinically validated agent directly targets NR4A3
 [1]. Immunohistochemical series support a neuroendocrine phenotype, with INSM1 a diagnostically useful
 marker [2].
@@ -138,7 +138,10 @@ are in Supplementary Methods S1 to S6 and Supplementary Tables S1 to S8.
 
 UniProt-reviewed human proteins carrying a plasma-membrane location (SL-0039) together with a
 transmembrane (KW-0812) or GPI-anchor (KW-0336) topology were unioned with a curated seed of 47
-actionable surface antigens, so that established targets were always evaluated. The committed run used
+actionable surface antigens, so that established targets were always evaluated. An established
+machine-learning surfaceome resource exists [13]; it was not used, because the annotation-derived
+construction above is reproducible from public identifiers alone and its membership rule can be
+stated in one sentence, and the two sets are not interchangeable. The committed run used
 2,820 UniProt genes plus the seed, of which 41 were already in the UniProt set, giving 2,826 unique
 genes, 2,692 of which were present in the DepMap expression matrix and were scanned. The seed is a
 small and largely redundant minority, so the set is largely but not strictly unbiased. The scanned gene
@@ -150,8 +153,9 @@ than resolvable.
 DepMap OmicsExpression values, log2(TPM+1). A translocation-sarcoma class was defined by OncotreeSubtype
 (Ewing, synovial, alveolar, desmoplastic small round cell, clear-cell, plus the single line annotated
 *Extraskeletal Myxoid Chondrosarcoma*; n = 76) as a lineage-generic surrogate. That line, ACH-001519, is
-recorded by Cellosaurus as not harbouring an *EWSR1* fusion, so it is treated as one of 45 class members
-carrying expression data and not as EMC evidence; the record and its consequences are in Appendix A.
+recorded by Cellosaurus as not harbouring an *EWSR1* fusion [15], so it is treated as one of 45 class
+members carrying expression data and not as EMC evidence; the record and its consequences are in
+Appendix A.
 For each surface gene the scan reports expression, an effect size against non-sarcoma lineages, and a
 rank-based one-sided Mann-Whitney *p* that the class exceeds the rest, Benjamini-Hochberg corrected.
 This is cross-cancer selectivity, a descriptor of distinguishability from other tumour lineages, and not
@@ -162,7 +166,8 @@ Four limits of this instrument were computed rather than asserted (Supplementary
 population is tumour-cell monoculture, so it contains no stromal or fibroblast compartment; an antigen
 carried only by stroma reads at the floor, demonstrated by LRRC15, an established sarcoma
 cancer-associated-fibroblast antigen with a clinical antibody-drug conjugate programme behind it, at
-`frac_expressed` 0.0; a glycan such as oncofetal chondroitin sulfate has no gene and cannot be ranked;
+`frac_expressed` 0.0; a glycan such as oncofetal chondroitin sulfate is the product of a biosynthetic
+pathway rather than of one gene [14] and so cannot be ranked;
 and CSPG4 has no per-gene row in any committed artifact of this instrument.
 
 ### Normal-tissue prior
@@ -314,7 +319,7 @@ the panel scores are not.
 ### SSTR2 and the GD2 proxy
 
 EMC's reported neuroendocrine differentiation motivated two candidate targets absent from previous EMC
-surface discussions: SSTR2, the target of approved somatostatin-receptor radioligand therapy, and GD2, a
+surface discussions: SSTR2, the target of approved somatostatin-receptor radioligand therapy [18], and GD2, a
 surface glycolipid with mature cell-product and antibody platforms. Both now have EMC-tissue readings,
 and the readings are unsupportive without being decisive.
 
@@ -672,19 +677,10 @@ from the primary sources before submission.
     pediatric sarcoma and induces variable sensitization to replicative stress caused by DNA-damaging
     agents. *Mol Cancer Ther* 2021;20(11):2151-2165. doi:10.1158/1535-7163.mct-21-0089.
     PMID 34413129. PMC8571037.
-16. Sjögren H, et al. Extraskeletal myxoid chondrosarcoma fusion genetics. *Entry unresolved.* A retrieval on 2026-08-09 returned three candidate papers by this author
-    on this disease and none matches the description in this entry: Sjögren H, Meis-Kindblom J,
-    Kindblom LG, Aman P, Stenman G. Fusion of the EWS-related gene TAF2N to TEC in extraskeletal
-    myxoid chondrosarcoma. *Cancer Res* 1999;59(20):5064-5067. PMID 10537274; Sjögren H, Wedell B,
-    Meis-Kindblom JM, Kindblom LG, Stenman G. Fusion of the NH2-terminal domain of the basic
-    helix-loop-helix protein TCF12 to TEC in extraskeletal myxoid chondrosarcoma with translocation
-    t(9;15)(q22;q21). *Cancer Res* 2000;60(24):6832-6835. PMID 11156374; and Sjögren H,
-    Meis-Kindblom JM, Orndal C, Bergh P, Ptaszynski K, Aman P, et al. Studies on the molecular
-    pathogenesis of extraskeletal myxoid chondrosarcoma: cytogenetic, molecular genetic, and cDNA
-    microarray analyses. *Am J Pathol* 2003;162(3):781-792. PMID 12598313. The first describes a
-    TAF15 fusion and the second a TCF12 fusion, so neither is the EWSR1 fusion this entry names, and
-    the entry is uncited in the text, so no context disambiguates it. Resolve or remove before
-    submission; it must not be completed by guessing.
+16. Sjögren H, Meis-Kindblom J, Kindblom LG, Aman P, Stenman G. Fusion of the EWS-related gene TAF2N
+    to TEC in extraskeletal myxoid chondrosarcoma. *Cancer Res* 1999;59(20):5064-5067. PMID 10537274.
+    The primary report of the variant fusion in which the 5' partner is TAF15 (TAF2N) rather than
+    EWSR1. *Entry resolved 2026-08-09; see Appendix A.*
 17. Panagopoulos I, Mertens F, Isaksson M, Domanski HA, Brosjö O, Heim S, et al. Molecular genetic
     characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid
     chondrosarcoma. *Genes Chromosomes Cancer* 2002;35(4):340-352. doi:10.1002/gcc.10127.
@@ -696,6 +692,16 @@ from the primary sources before submission.
 ---
 
 ## Appendix A. Correction and supersession register
+
+### Appendix A5 — Reference-list repairs (2026-08-09)
+
+| What it said | What it says now | Why |
+|---|---|---|
+| Reference 16 read *"Sjögren H, et al. EWSR1/NR4A3 fusion in extraskeletal myxoid chondrosarcoma"*, with no identifier | Sjögren H, Meis-Kindblom J, Kindblom LG, Aman P, Stenman G. Fusion of the EWS-related gene TAF2N to TEC in extraskeletal myxoid chondrosarcoma. *Cancer Res* 1999;59(20):5064-5067. PMID 10537274 | The original entry described no real paper. A retrieval returned three Sjögren papers on this disease and none is an EWSR1-fusion report: PMID 10537274 is the TAF15 fusion, PMID 11156374 the TCF12 fusion, PMID 12598313 a cytogenetic and microarray study. Tracing the entry through the pre-rewrite draft showed it entered as the placeholder *"[Sjögren; Panagopoulos; whole-genome characterisation citation to verify]"* attached to the sentence defining the fusion and its variant 5' partners. The entry is now the primary report of the variant that sentence names, and the two rejected candidates are recorded here so the identification can be checked |
+| References 13 to 18 appeared in the list with no citation marker anywhere in the text | Each is cited at the sentence it supports | The cut from 11,740 to 4,553 words removed the citing sentences and left the entries. Each claim was located in the current text before a marker was restored, and no marker was placed on a sentence the source does not support |
+| Reference 13, the machine-learning surfaceome resource, had no place in the text at all | Cited in Methods, with an explicit statement that it was *not* used and why | The surfaceome here is built from UniProt annotation. Citing that resource at the construction step would have implied it was the source. Stating that an established alternative exists and was not used is the accurate form, and it answers a question a reviewer would otherwise ask |
+| Reference 14 sat nearest a sentence calling a cited work *"founding"* | Cited instead at the statement that a glycan is a pathway product rather than a gene product | That paper is a 2021 glycogene expression study, not the founding description of the antigen. Attaching it to *"founding"* would have misattributed it |
+
 
 ⛔ **This appendix is the correction register required by CLAUDE.md rule 1.2. It is not part of the
 5,000-word main body; it is deposited as a supplementary note and retained in the repository so that

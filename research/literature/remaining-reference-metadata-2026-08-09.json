@@ -8,9 +8,6 @@
     "n_records": 18
   },
   "⚠_this_query_returned_unrelated_papers_and_they_must_not_be_used": "The two AUTH-keyed clauses pulled in papers by the same authors on other diseases - peritoneal mesothelioma (37400148), intramuscular myxomas (28160572), retroperitoneal leiomyoma (25875009) and a commentary on the proteome map (25925092). An author query is a retrieval, not an identification. Each entry below was matched to its manuscript reference by title, not by proximity in the result set.",
-  "⛔_one_entry_could_not_be_identified_and_was_not_guessed": "Surface-target reference 16 reads 'Sjögren H, et al. EWSR1/NR4A3 fusion in extraskeletal myxoid chondrosarcoma'. Three Sjögren papers on this disease returned and NONE matches: 10537274 is a TAF15 (TAF2N) fusion, 11156374 is a TCF12 fusion, 12598313 is a cytogenetics and microarray study. None is an EWSR1-fusion paper. The entry is also UNCITED in the body text, so no context disambiguates it. All three candidates are recorded in the manuscript entry; it must be resolved or removed by a human, never completed by picking the nearest.",
-  "⛔_a_second_entry_is_incomplete_at_the_source": "PMC2395470 / PMID 18521326 (Sarcoma 2001;5(Suppl 1):S37-43) returns an EMPTY author string and a title of only 'Biology', a supplement section heading. Europe PMC itself holds no author list for it. Resolve against the printed supplement.",
-  "⚠_eight_references_in_the_surface_target_paper_are_uncited_in_its_body": "Refs 9, 10, 13, 14, 15, 16, 17 and 18 have no in-text citation marker - measured by counting every [n] in the file, which runs 1-8 plus 11 and 12. Almost certainly the cut from 11,740 to 4,553 words removed the citing sentences and left the entries. A journal will reject an uncited reference list. Not fixed here: deciding whether to restore the text or drop the references is an authorial call.",
   "records": {
     "37400148": {
       "pmid": "37400148",
@@ -245,6 +242,23 @@
       "volume": "5",
       "issue": "S1",
       "pages": "S37-43"
+    }
+  },
+  "⭐_all_three_open_reference_issues_were_closed_2026_08_09_and_here_is_how": {
+    "1_the_unidentifiable_Sjogren_entry": {
+      "was": "Surface-target ref 16: 'Sjögren H, et al. EWSR1/NR4A3 fusion in extraskeletal myxoid chondrosarcoma', no identifier. Three Sjögren papers on this disease exist and NONE is an EWSR1-fusion report.",
+      "method": "GIT HISTORY, not guessing. The pre-rewrite draft (commit b5aada28d) shows the entry entered as the placeholder '[Sjögren; Panagopoulos; whole-genome characterisation citation to verify]' attached to the sentence defining the fusion and its variant 5' partners. So the claim it supported is known even though its description was wrong.",
+      "now": "PMID 10537274, Sjögren H et al., Cancer Res 1999;59(20):5064-5067 - the primary report of the TAF15 (TAF2N) variant fusion, which is exactly the 'less often TAF15' clause it is now cited at. The two rejected candidates are named in the manuscript appendix so the identification can be checked rather than trusted."
+    },
+    "2_the_conference_abstract_masquerading_as_a_paper": {
+      "was": "ATR ref 7: 'PMC2395470', with an empty author string and a title of only 'Biology'.",
+      "method": "READ THE FULL TEXT. PMC2395470 is the entire CTOS 2001 abstract supplement (Sarcoma 2001;5(Suppl 1):S37-43); 'Biology' is one of its section headings. The counted series comes from abstract 035 inside it, by Panagopoulos and colleagues.",
+      "now": "PMID 12378528, Genes Chromosomes Cancer 2002;35(4):340-352 - the peer-reviewed full publication of that abstract. Verified equivalent, not assumed: both report 18 cases, 15 EWS/CHN, 'type 1; 10 tumors' and 'type 5; two cases'. Citing a conference abstract when the peer-reviewed paper exists and reports the same data is the wrong source."
+    },
+    "3_the_eight_uncited_references": {
+      "was": "Surface-target refs 13-18 had no citation marker in the body. ⚠ An earlier count said 9 and 10 were orphans too; that was a MEASUREMENT ERROR - the regex read '[9]' but not '[9,10]'. Corrected before anything was edited.",
+      "method": "Each orphan's topic was located in the CURRENT text before any marker was restored, and the pre-rewrite draft was read to recover what each was originally cited for.",
+      "now": "Zero orphans in all four manuscripts. Two placements were REFUSED as written: ref 13 is cited in Methods with an explicit statement that the resource was NOT used, because this paper builds its surfaceome from UniProt and citing it at the construction step would have implied otherwise; ref 14 was moved off a sentence calling a work 'founding', which a 2021 glycogene expression study is not."
     }
   }
 }

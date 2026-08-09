@@ -96,13 +96,19 @@ verified to resolve with systems_check.anchor_resolves before being written. Vie
 systems_check reports 0 ERROR.
 
 REFERENCES. Retrieved 2026-08-09 from Europe PMC and recorded in
-research/literature/remaining-reference-metadata-2026-08-09.json; references 1 to 6 are complete.
-ONE ENTRY REMAINS INCOMPLETE. Reference 7 (PMC2395470, PMID 18521326, Sarcoma
-2001;5(Suppl 1):S37-43) returned an EMPTY author string and a title field reading only "Biology",
-which is a supplement section heading rather than an article title. The counted series quoted in
-section 3.1 is unaffected and remains sourced to that record. Resolve the author list and article
-title against the printed supplement before submission, and do not reconstruct either from
-recollection.
+research/literature/remaining-reference-metadata-2026-08-09.json. All eight entries are complete and
+every one is cited in the text.
+
+REFERENCE 7 WAS A CONFERENCE ABSTRACT AND IS NOW THE PEER-REVIEWED PAPER. It previously read
+"PMC2395470" with no author list or title, because Europe PMC returns an empty author string and a
+title of only "Biology" for that record. Reading the full text showed why: PMC2395470 is the whole
+CTOS 2001 abstract supplement (Sarcoma 2001;5(Suppl 1):S37-43), and "Biology" is one of its section
+headings, so the record describes a supplement rather than an article. The counted series quoted in
+section 3.1 comes from abstract 035 within it, by Panagopoulos and colleagues. That work was
+subsequently published in full as Genes Chromosomes Cancer 2002;35(4):340-352 (PMID 12378528),
+reporting the same 18 cases and the same counts verbatim: 15 EWS/CHN cases, type 1 in 10 tumours,
+type 5 in two. The reference is now the peer-reviewed paper, which is the correct source when it
+exists and reports the same data.
 
 NOVELTY CLAIM. Section 1 cites the 2026-08-09 prior-art screen for zero indexed EMC records on ATR
 or replication stress, with the title-and-abstract caveat in the running text rather than in a
@@ -287,7 +293,7 @@ construct is a statement about the sourcing rather than about the fusion.
 
 All four gene-model assertions pass on all five transcripts.
 
-**Table 2.** Reference gene models.
+**Table 2.** Reference gene models, from the UniProt and Ensembl records retrieved into the input cache [8].
 
 | gene | transcript | protein | transcript / coding exons | Ensembl matches UniProt |
 |---|---|---|---|---|
@@ -512,7 +518,7 @@ artifact is an error in this document.
 4. Nishio J, Iwasaki H, Nabeshima K, Naito M. Cytogenetics and molecular genetics of myxoid soft-tissue sarcomas. *Genet Res Int* 2011;2011:497148. PMID 22567356. PMC3335514. doi 10.4061/2011/497148. Source of the verbatim type 1 and type 2 exon-level definitions and of the TAF15 exclusivity statement quoted in section 3.1.
 5. Cerrone M, Cantile M, Collina F, Marra L, Liguori G, Franco R, et al. Molecular strategies for detecting chromosomal translocations in soft tissue tumors (review). *Int J Mol Med* 2014;33(6):1379-1391. PMID 24714847. PMC4055444. doi 10.3892/ijmm.2014.1726. Source of the type 5 definition, the second TAF15 exclusivity statement, and the TCF12 genomic-only intron 5 breakpoint quoted in section 3.1.
 6. Agaram NP, Zhang L, Sung YS, Singer S, Antonescu CR. Extraskeletal myxoid chondrosarcoma with non-EWSR1-NR4A3 variant fusions correlate with rhabdoid phenotype and high-grade morphology. *Hum Pathol* 2014;45(5):1084-1091. PMID 24746215. PMC4015728. doi 10.1016/j.humpath.2014.01.007.
-7. *Sarcoma* 2001;5(Suppl 1):S37-43. PMID 18521326. PMC2395470. Counted series: 10 of 15 tumours carried exon 12 to exon 3, and 2 of 15 carried type 5. *Author list and article title not retrieved: the Europe PMC record for this identifier carries an empty author string and the title field reads only "Biology", which is a supplement section heading rather than an article title. Resolve against the printed supplement before submission.*
+7. Panagopoulos I, Mertens F, Isaksson M, Domanski HA, Brosjö O, Heim S, et al. Molecular genetic characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid chondrosarcoma. *Genes Chromosomes Cancer* 2002;35(4):340-352. PMID 12378528. doi 10.1002/gcc.10127. Counted series: of the 15 EWS/NR4A3 cases, 10 carried exon 12 to exon 3 (type 1) and 2 carried exon 13 to exon 3 (type 5).
 8. UniProt and Ensembl reference records for EWSR1 (ENST00000397938), NR4A3 (ENST00000395097), TAF15, FUS and TCF12 (UniProt Q99081), as retrieved into the input cache in section 7.
 
 ---
