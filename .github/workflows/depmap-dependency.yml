@@ -105,9 +105,26 @@ jobs:
       # It is NOT evidence that an ATR inhibitor kills EMC cells and never becomes that.
       # `--refresh` is the fetch path; `--check` then proves the derive half reproduces offline
       # from the cached inputs, which is what makes the artifact re-checkable without network.
+      # ⚠ THE 30-MINUTE CEILING WAS THE FAILURE, NOT THE SCRIPT (measured 2026-08-09, three runs).
+      # This step's slow phase is an NCBI accession->symbol resolution over ~4,300 accessions, and it
+      # runs right at the old ceiling: run 31310266582 finished in 26m55s and PASSED, run 31312082778
+      # was killed at exactly 30m12s, and run 31289136079 the same. Whether it passes is decided by
+      # NCBI latency on the day, not by anything in the repo.
+      # ⛔ AND `|| echo` DOES NOT CATCH A TIMEOUT. The soft-fail guard only swallows a non-zero exit
+      # from the script; a step killed by `timeout-minutes` fails the step and the whole run
+      # regardless, which is why this presented as an unrelated red build.
+      # ⭐ THE REASON THIS MATTERS BEYOND CI NOISE: how far the resolution gets CHANGES A PUBLISHED
+      # NUMBER. `accession_resolution_rate` is bounded by the budget the run had — a truncated pass
+      # produced 0.932 and a complete one 0.984 from identical data, and the repository pinned the
+      # truncated value for weeks. So a step killed mid-resolution is not merely a failed run; it is
+      # a route to committing a degraded reading that looks exactly like a measurement.
+      # ⚠ Raising the ceiling does NOT make the figure run-independent, and nothing here should be
+      # read as claiming it does. It removes the coin-flip; the discriminating field for a future
+      # disagreement is still `ncbi_budget_exhausted_in_elink_at`, recorded at the pin in
+      # emc_expression_panels.TARGETS.
       - name: "EMC in-silico ATR vulnerability assessment (A: line identity, B: tumour signature, C: matched dependency, D: drug-response correlation)"
         if: always()
-        timeout-minutes: 30
+        timeout-minutes: 50
         run: python research/modalities/emc_atr_vulnerability.py --refresh || echo "atr-vulnerability soft-fail (network); non-blocking"
 
       - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
