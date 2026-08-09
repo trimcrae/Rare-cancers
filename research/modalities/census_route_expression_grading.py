@@ -372,7 +372,27 @@ def build():
         "route_action": "down-grade",
     }
 
+    # ⭐ A FLAT, DOT-FREE BLOCK EXISTS PURELY SO THE PREPRINT'S FIGURES CAN BE PINNED. The consistency
+    # linter addresses artifact values by a dot-separated path, and this panel's platform keys are
+    # FILENAMES containing dots ("GSE24369_series_matrix.txt.gz"), so no path can reach them. Rather
+    # than loosen the linter, the figures the paper actually quotes are re-exposed here under flat
+    # names. ⛔ They are lifted from the panel and computed nowhere -- this is an index into the one
+    # home, not a second one.
+    # ⚠ ROUNDED TO THE INTEGER PERCENTILE, because that is the form the prose quotes ("the 99th
+    # percentile"). A pin whose format does not match how the sentence is written cannot fire on a
+    # real drift -- it fires on the formatting instead, and gets switched off.
+    def pct(sym, plat):
+        return round(gene(p, sym)[plat]["emc_array_percentile"] * 100)
+
+    pin = {
+        "mat2a_percentile_gpl6244": pct("MAT2A", GPL6244),
+        "mat2a_percentile_gpl3290": pct("MAT2A", GPL3290),
+        "prmt5_percentile_gpl6244": pct("PRMT5", GPL6244),
+        "prmt5_percentile_gpl3290": pct("PRMT5", GPL3290),
+    }
+
     return {
+        "pinned_figures_quoted_by_the_preprint": pin,
         "_a_grader_must_read_the_audit_not_only_the_reading": (
             "⛔ ADDED AFTER THIS FILE GOT IT WRONG. emc-expression-panels.json holds READINGS; "
             "emc-hypoxia-confounds.json holds the AUDIT of one of them. Grading from the first "

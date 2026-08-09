@@ -37,7 +37,8 @@
     "research/compute/vast-placement-facts.md",
     "systems/views/plan.md",
     "research/manuscripts/emc-treatment-strategy.md",
-    "research/modalities/nr4a3-degrader-next-steps.md"
+    "research/modalities/nr4a3-degrader-next-steps.md",
+    "research/manuscripts/emc-mtap-prmt5-hypothesis.md"
   ],
   "_marker_note": [
     "A superseded value is CLEARED when its line — or the two lines above / one below, because markdown prose",
@@ -437,6 +438,45 @@
         "research/manuscripts/nr4a3-degrader-paper.md"
       ],
       "regenerate": "python3 research/modalities/nrv04_retro_verdict_readout.py — it COPIES the emitted verdict out of S3 and never recomputes a tier or a p; then update the paper IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "emc_prmt5_mat2a_pct_gpl6244",
+      "description": "The PRMT5 preprint §3 quotes MAT2A's EMC array percentile on GPL6244 — one of the four figures the whole paper rests on. Addressed through the grading artifact's flat block because the panel's own platform keys are filenames containing dots, which no dot-path can traverse.",
+      "artifact": "research/modalities/census-route-expression-grading.json",
+      "key": "pinned_figures_quoted_by_the_preprint.mat2a_percentile_gpl6244",
+      "format": "{:.0f}",
+      "tolerance": 0.51,
+      "context": "99th percentile of its array on GPL6244",
+      "must_appear_in": [
+        "research/manuscripts/emc-mtap-prmt5-hypothesis.md"
+      ],
+      "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts them from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+    },
+    {
+      "id": "emc_prmt5_mat2a_pct_gpl3290",
+      "description": "The same MAT2A percentile on the second platform. Both appear in one sentence, so both are pinned — pinning one would let the other drift silently.",
+      "artifact": "research/modalities/census-route-expression-grading.json",
+      "key": "pinned_figures_quoted_by_the_preprint.mat2a_percentile_gpl3290",
+      "format": "{:.0f}",
+      "tolerance": 0.51,
+      "context": "the 84th on GPL3290",
+      "must_appear_in": [
+        "research/manuscripts/emc-mtap-prmt5-hypothesis.md"
+      ],
+      "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts them from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
+    },
+    {
+      "id": "emc_prmt5_pct_gpl6244",
+      "description": "PRMT5's own EMC array percentile on GPL6244, quoted beside MAT2A's.",
+      "artifact": "research/modalities/census-route-expression-grading.json",
+      "key": "pinned_figures_quoted_by_the_preprint.prmt5_percentile_gpl6244",
+      "format": "{:.0f}",
+      "tolerance": 0.51,
+      "context": "at the 91st and",
+      "must_appear_in": [
+        "research/manuscripts/emc-mtap-prmt5-hypothesis.md"
+      ],
+      "regenerate": "Re-run research/modalities/census_route_expression_grading.py (which lifts them from emc-expression-panels.json), then update the figure in the SAME commit — CLAUDE.md rule 1.3."
     }
   ],
   "table_completeness": [
