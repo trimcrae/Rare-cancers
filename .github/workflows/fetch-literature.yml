@@ -187,6 +187,48 @@ jobs:
           path: research/literature/lane-probe-metabolism-strategy.json
           if-no-files-found: error
 
+      # ── MORTALITY PROBE (slug == 'mortality-probe') ─────────────────────────────────────
+      # Same metadata-only shape as the two probes above plus one thing neither does: it
+      # retrieves the OPEN-ACCESS EMC full-text corpus and keeps every sentence containing a
+      # death cue, verbatim, with its PMCID. Added 2026-08-09 for the mechanism-of-death
+      # question — what actually kills EMC patients, and whether anything symptom-directed
+      # could move survival without touching the tumour. EMC's published record is case
+      # reports and small series, which state the terminal event in prose while every pooled
+      # outcome table reduces it to a vital status, so the prose IS the dataset.
+      # ⛔ It classifies nothing. Retrieval is mechanical; the reading is done downstream
+      # against the quoted sentences, so a cause-of-death row can always be checked against
+      # its source rather than trusted.
+      - name: Mortality probe — Europe PMC index + terminal-event corpus
+        if: ${{ inputs.slug == 'mortality-probe' }}
+        run: python3 scripts/lit_mortality_probe.py
+
+      - name: Publish mortality probe to the triggering branch (best effort)
+        if: ${{ always() && inputs.slug == 'mortality-probe' }}
+        continue-on-error: true
+        env:
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          [ -f research/literature/emc-mortality-probe.json ] || {
+            echo "::error::mortality probe produced no artifact"; exit 1; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/literature/emc-mortality-probe.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "mortality probe: EMC terminal-event corpus + Europe PMC citation index"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::ref push failed; the digest in this log and the artifact are the record"
+
+      - name: Keep mortality probe as a run artifact
+        if: ${{ always() && inputs.slug == 'mortality-probe' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: mortality-probe-${{ github.run_id }}
+          path: research/literature/emc-mortality-probe.json
+          if-no-files-found: error
+
       - name: Europe PMC search + open-access full text (the `query` path)
         # ⛔ A TARGETS-ONLY DISPATCH MUST NOT ALSO RUN THE KEYWORD SWEEP (fixed 2026-08-07).
         # `query` is `required: true` WITH a default, so passing an empty string does not
@@ -200,7 +242,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'mortality-probe'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           QUERY: ${{ inputs.query }}
@@ -226,7 +268,7 @@ jobs:
         # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
         # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
         # query explicitly and get both, which is the only case that ever wanted both.
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe'
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'mortality-probe'
                 && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
@@ -240,7 +282,7 @@ jobs:
       # the same contamination the publish step's slug guard below was written to prevent, arriving
       # from the other direction. A query-only run now runs the query path ONLY.
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
-        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' }}
+        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' && inputs.slug != 'consensus-probe' && inputs.slug != 'mortality-probe' }}
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
           LIT_TARGETS_JSON: ${{ inputs.targets_json }}
