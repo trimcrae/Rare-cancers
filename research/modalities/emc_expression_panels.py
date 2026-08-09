@@ -128,6 +128,19 @@ TARGETS = [
      "platform_expected": "GPL3290",
      "why": "10 EMC tumours against 3 DFSP and 3 GIST on the same two-colour cDNA print run. Probes "
             "carry EST accessions only, so the read depends on the accession->symbol bridge.",
+     # ⚠ THIS ONE IS *NOT* THE TRUNCATED CASE, AND THE FIELD THAT LOOKS ALARMING IS A DENOMINATOR
+     # TRAP (checked 2026-08-09, after the GPL6244 prior above turned out to be a truncated pass).
+     # This platform's diagnostic reads `ncbi_accessions_linked_to_a_gene: 13` against
+     # `ncbi_n_accessions_answered: 27271`, which looks like the bridge barely ran. IT IS THE
+     # INCREMENT, NOT THE TOTAL: the same record carries `n_accessions_resolved_total: 37922` and
+     # `n_mapped: 27205`, i.e. the bulk resolution happens on a different path and the live elink
+     # call is a top-up. On GPL6244 that top-up was large (3,322) so exhausting it moved the rate;
+     # here it is 13, so exhausting it moves almost nothing.
+     # ⛔ QUOTING THE 13 WITHOUT ITS TOTAL WOULD BE A FABRICATED ALARM, which is the same error as an
+     # absent reading read as a reading of absence, run in reverse.
+     # ⚠ What remains true: this rate DID stop against an exhausted budget, so it is a floor rather
+     # than a converged value, and how much a larger budget would move it is NOT known. It is pinned
+     # because it is what the committed artifact says, not because it is converged.
      "prior_probe_mapping_rate": 0.582,
      "prior_source": "emc-atr-vulnerability.json -> part_b_emc_tumour_signature."
                      "series_readability.GSE4303.probe_mapping_rate_per_platform.GPL3290"},
