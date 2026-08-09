@@ -70,8 +70,23 @@ function normalize(r) {
   const url = r.doi ? `https://doi.org/${r.doi}`
     : r.pmcid ? `https://www.ncbi.nlm.nih.gov/pmc/articles/${r.pmcid}/`
     : `https://europepmc.org/article/${r.source}/${r.id}`;
+  // ⛔ EUROPE PMC NESTS THE JOURNAL; THIS READ A FLAT FIELD AND SO DROPPED IT SILENTLY ON EVERY
+  // FETCH THIS REPOSITORY HAS EVER DONE (measured 2026-08-09). `resultType=core` returns the
+  // journal under `journalInfo.journal.title`, never as `journalTitle`, so `journal` was always
+  // `undefined` — and `JSON.stringify` omits an undefined value, so the key simply vanished from
+  // `_index.json` rather than appearing empty. No error, no warning, no symptom: the classic
+  // fail-quiet shape this repository keeps re-learning. It surfaced only when four manuscripts
+  // needed journal names for their reference lists and no fetch product anywhere had one.
+  // ⚠ `volume` and `pageInfo` are added for the same reason — a reference list needs them, and the
+  // alternative to fetching them is writing them from memory, which is the one thing that must
+  // never happen here.
+  const ji = r.journalInfo || {};
   return {
-    title: r.title, authors: r.authorString, journal: r.journalTitle, year: Number(r.pubYear) || r.pubYear,
+    title: r.title, authors: r.authorString,
+    journal: (ji.journal && (ji.journal.title || ji.journal.medlineAbbreviation)) || r.journalTitle || "",
+    journalAbbrev: (ji.journal && ji.journal.isoabbreviation) || "",
+    volume: ji.volume || "", issue: ji.issue || "", pages: r.pageInfo || "",
+    year: Number(r.pubYear) || r.pubYear,
     pmid: r.pmid, pmcid: r.pmcid, doi: r.doi, source: r.source, id: r.id,
     pubType: r.pubType || "", abstract: r.abstractText || "",
     isOpenAccess: r.isOpenAccess === "Y", citedBy: r.citedByCount, url,
