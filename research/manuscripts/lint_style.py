@@ -36,6 +36,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 #: text; a memo, a plan or a findings note is NOT a submission text and must not be listed.
 TARGETS = [
     "research/manuscripts/response-endpoint-indolent-tumours.md",
+    "research/manuscripts/emc-mortality-mechanisms-paper.md",
 ]
 
 # Densities are per 1000 words. They are deliberately generous: the aim is to catch prose that

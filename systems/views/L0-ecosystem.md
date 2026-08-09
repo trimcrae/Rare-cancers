@@ -126,8 +126,7 @@ Every route above ends in a paper. With no wet lab and no clinic, the published 
 | state | endpoints | routes feeding them |
 |---|---:|---:|
 | ○ `unwritten` | 8 | 28 |
-| ◔ `outlined` | 1 | 6 |
-| ◐ `drafted` | 20 | 40 |
+| ◐ `drafted` | 21 | 46 |
 
 ## What holds the portfolio down
 

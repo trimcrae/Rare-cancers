@@ -73,15 +73,13 @@ Registered 2026-08-09 at concept maturity; the honest output today is the questi
 
 ## Where this route ends — the paper
 
-**[PUB-MORTALITY-MECHANISM](L3-publications.md)** — *What actually kills people with extraskeletal myxoid chondrosarcoma, and the share of it no targeted therapy addresses* (unwritten)
+**[PUB-MORTALITY-MECHANISM](L3-publications.md)** — [What kills patients with extraskeletal myxoid chondrosarcoma, and the survival available to tumour-directed therapy: a cause-of-death and relative-survival analysis of the published record](../../research/manuscripts/emc-mortality-mechanisms-paper.md)
 
-`contributing` · ◔ `outlined` · aimed at `preprint`
+`contributing` · ◐ `drafted` · aimed at `preprint`
 
 **This route contributes:** A mechanism that is plausible, acute and probably small -- carried because a portfolio that only registers the mechanisms it expects to find is not a census.
 
-**The paper would claim:** In extraskeletal myxoid chondrosarcoma a large share of the deaths that follow diagnosis are not caused by the tumour, so the ceiling on the entire antitumour portfolio is a bounded number of percentage points of overall survival rather than an open-ended one -- and the remaining deaths, which no targeted route addresses, fall to mechanisms ordinary medicine already treats.
-
-**It is not written because:** The mechanism half rests on a terminal-event corpus that is being retrieved but has not yet been read, and until each mechanism resolves to a quoted sentence the paper would be asserting a cause-of-death breakdown from a plausible story about an indolent tumour. The decomposition half is computed and holds; the two are not publishable separately, because a ceiling without a mechanism is a statistic and a mechanism without a ceiling is an anecdote.
+**The paper would claim:** In extraskeletal myxoid chondrosarcoma the published record does not state a mechanism for most recorded deaths; where it does, competing causes and second malignancies are the largest identifiable category and respiratory failure is not dominant. Between a fifth and a third of deaths after diagnosis are not attributed to the tumour -- a figure relative survival and registry cause attribution agree on despite sharing no input -- so the survival available to all antitumour therapy taken together is bounded at 6.7 percentage points in localised disease against 31.0 in metastatic disease.
 
 ## Strategic timing — the wait equation
 
