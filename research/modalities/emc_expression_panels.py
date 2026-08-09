@@ -476,6 +476,63 @@ PANELS = {
                                  "is sound. Nothing here asserts that any PRMT5-axis agent acts in "
                                  "EMC.",
     },
+    # ---------------------------------------------------------------------------------------------
+    # ⭐ READ 18 — THE PROTEOSTATIC AXIS, AND IT IS THE ONE READ IN THIS FILE THAT SERVES THE BEST
+    # EX-VIVO EVIDENCE THIS DISEASE HAS. `RT-CARFILZOMIB` is graded "NEAR-TERM LEAD — best ex-vivo
+    # EMC evidence": carfilzomib, with venetoclax, was active across two PATIENT-DERIVED EMC models.
+    # That is a stronger evidential base than anything else in the portfolio — every other route
+    # transfers from a different disease — and its target axis has NEVER been read in the only EMC
+    # expression data that exists. Not one proteasome subunit was on this panel before today.
+    #
+    # ⭐ THE MECHANISTIC QUESTION IS SPECIFIC AND THE PANEL IS BUILT TO ANSWER IT, NOT TO DECORATE
+    # IT. Why would a proteasome inhibitor be selective in THIS tumour? The candidate reason is
+    # proteostatic load: a myxoid sarcoma is a secretory, matrix-producing tumour, and matrix
+    # synthesis is exactly the burden that makes a cell depend on degradative capacity. So the read
+    # is not "is the proteasome expressed" — it is expressed everywhere — but whether the
+    # PROTEOSTATIC BURDEN MODULES move together with it in this disease.
+    #
+    # ⛔ AND THE HONEST EXPECTED OUTCOME IS A NULL. Proteasome subunits are housekeeping genes and a
+    # transcript contrast is a weak instrument for a dependency; NFE2L1 bounce-back is a
+    # POST-TRANSLATIONAL mechanism that an array cannot see at all. This read can raise or lower a
+    # prior. It cannot establish that any proteasome inhibitor acts in EMC, and the ex-vivo result
+    # it is being read against was measured by somebody else in models this programme does not have.
+    "proteostasis": {
+        "read_id": "read_18_PROTEOSTASIS",
+        "question": "Does EMC carry the proteostatic load that would make a proteasome inhibitor "
+                    "mechanistically plausible in it — the axis behind the best ex-vivo drug "
+                    "sensitivity result this disease has, which nobody has ever read here?",
+        "provenance": CURATED + " Membership is the 20S/19S proteasome, the NFE2L1 bounce-back "
+                                "response, the unfolded-protein response, and a secretory/matrix "
+                                "load proxy. The read that matters is whether the LOAD modules move "
+                                "with the disease, not whether the proteasome is present.",
+        "primary_gene": "PSMB5",
+        "groups": {
+            # PSMB5 carries the chymotrypsin-like site carfilzomib binds; the others are context.
+            "proteasome_20S_core": ["PSMB5", "PSMB1", "PSMB2", "PSMB6", "PSMB7",
+                                    "PSMA1", "PSMA3", "PSMA5", "PSMA7"],
+            "proteasome_19S_regulatory": ["PSMD1", "PSMD2", "PSMD4", "PSMD11", "PSMD14",
+                                          "PSMC1", "PSMC3", "PSMC5"],
+            # ⚠ NFE2L1 drives the bounce-back that limits proteasome inhibitors. Its regulation is
+            # POST-TRANSLATIONAL, so a transcript reading of it is context and can never be the
+            # readout — stated here so no consumer reads it as one.
+            "bounceback_and_integrated_stress": ["NFE2L1", "NFE2L2", "ATF4", "DDIT3", "ATF3"],
+            "unfolded_protein_response": ["HSPA5", "XBP1", "ERN1", "EIF2AK3", "ATF6", "DNAJB9"],
+            "secretory_and_matrix_load_proxy": ["SEC61A1", "SEC61B", "SRPRA", "SSR1", "P4HB",
+                                                "PDIA3", "CANX", "CALR"],
+            "degradative_alternatives": ["SQSTM1", "MAP1LC3B", "VCP", "NFE2L1"],
+        },
+        "direction_that_supports_the_lane": "the SECRETORY/MATRIX LOAD and UPR modules UP in EMC, "
+                                            "with the proteasome itself at least not lower — a "
+                                            "cell carrying more folding and secretion burden is "
+                                            "the one degradative capacity is load-bearing in",
+        "what_it_cannot_settle": "⛔ ABUNDANCE IS NOT DEPENDENCY AND A TRANSCRIPT IS NOT A DRUG "
+                                 "RESPONSE. Proteasome subunits are housekeeping genes; NFE2L1 "
+                                 "bounce-back is post-translational and invisible to an array; and "
+                                 "the ex-vivo carfilzomib result this read is set against was "
+                                 "measured by other people in models this programme does not have. "
+                                 "Nothing here asserts that any proteasome inhibitor acts, is "
+                                 "selective, or is safe in EMC.",
+    },
     "p53_mdm2_axis": {
         "read_id": "read_10_P53_MDM2",
         "question": "Is the p53 axis intact and transcriptionally live in EMC — the state MDM2 "
@@ -2195,7 +2252,11 @@ def _assemble_reads(res):
                         # read 17, added the same day: the targets of the three agents the only
                         # published EMC drug screen actually returned, read from the curated library
                         # records rather than from the lead's prose label.
-                        ("read_17_DRUG_SCREEN_TARGETS", "drug_screen_targets")):
+                        ("read_17_DRUG_SCREEN_TARGETS", "drug_screen_targets"),
+                        # read 18, 2026-08-09: the proteostatic axis behind the best
+                        # ex-vivo drug-sensitivity result this disease has, which had never
+                        # been read here — not one proteasome subunit was on this panel.
+                        ("read_18_PROTEOSTASIS", "proteostasis")):
         R[_rid] = _read_entry(res, _rid, _pkey)
 
     R["read_8_SURFACE_ANTIGEN"] = _read_entry(
