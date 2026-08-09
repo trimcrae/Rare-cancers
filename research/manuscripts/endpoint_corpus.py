@@ -91,6 +91,42 @@ def _payload(name):
     return None, None
 
 
+def _norm(s):
+    """Lowercase, strip punctuation and collapse whitespace, for arm-title matching."""
+    return re.sub(r"[^a-z0-9]+", " ", (s or "").lower()).strip()
+
+
+def _match_arm_type(group_title, arm_types):
+    """Resolve an outcome-measure group title to a registered arm-group TYPE.
+
+    ⛔ WHY THIS IS NOT A DICT LOOKUP (measured 2026-08-09). Posted results name outcome-measure
+    groups independently of the protocol's arm-group labels -- "Placebo/Placebo Arm (Arm 1)" against
+    a label of "Placebo" -- so an exact lookup resolved only 137 of 552 arms and left 415 as None.
+    That mattered because None was then indistinguishable from NOT_A_CONTROL_ARM, and the control-arm
+    count that the placebo calibration rests on was a lower bound of unknown tightness.
+
+    Returns the type, or the string UNRESOLVED. It never returns None, because an absent reading
+    must not be storable as a reading of absence.
+    """
+    if not arm_types:
+        return "UNRESOLVED"
+    if group_title in arm_types:
+        # A registered arm group with no `type` field is a gap in the REGISTRY, not a failure of
+        # this match, and the two must not collapse into one label.
+        return arm_types[group_title] or "NOT_STATED_IN_REGISTRY"
+    gt = _norm(group_title)
+    if not gt:
+        return "UNRESOLVED"
+    norm_map = {_norm(k): v for k, v in arm_types.items()}
+    if gt in norm_map:
+        return norm_map[gt] or "NOT_STATED_IN_REGISTRY"
+    # Containment either way, longest label first so "Placebo + X" prefers the more specific label.
+    for label in sorted(norm_map, key=len, reverse=True):
+        if label and (label in gt or gt in label):
+            return norm_map[label] or "NOT_STATED_IN_REGISTRY"
+    return "UNRESOLVED"
+
+
 def _cells_for_groups(om):
     """Per group id, the best-response categories carried as integers."""
     per = collections.defaultdict(dict)
@@ -164,7 +200,7 @@ def extract():
                     arms.append({
                         "nct_id": nct,
                         "arm_title": gtitle,
-                        "arm_group_type": arm_types.get(gtitle),
+                        "arm_group_type": _match_arm_type(gtitle, arm_types),
                         "outcome_measure_title": om.get("title"),
                         "unit_of_measure": om.get("unitOfMeasure"),
                         "conditions": conds,

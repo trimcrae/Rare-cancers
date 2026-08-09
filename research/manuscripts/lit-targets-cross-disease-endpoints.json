@@ -28,7 +28,8 @@
   "xdisease-fourcell": "round 2 -- arms printing a four-cell best-response table",
   "xdisease-endpoint-criteria": "round 3 -- response-criteria and consensus documents",
   "xdisease-ctg-results": "round 4 -- ClinicalTrials.gov POSTED RESULTS (the four-cell tables) and the accrual axis",
-  "xdisease-round5": "round 5 -- broadened queries for what rounds 3-4 missed"
+  "xdisease-round5": "round 5 -- broadened queries for what rounds 3-4 missed",
+  "xdisease-control-arm-detail": "round 6 -- full registry records and publications for the 12 trials with a re-readable control arm"
  },
  "_identifiers_returned_by_these_fetches": {
   "_why_this_block_exists": "lint_citations.py requires every identifier appearing in prose to be anchored in a tracked .json. This block is filled in AFTER the fetches land, from the returned records, and never from recollection. It is empty until then, and that is correct.",
@@ -310,5 +311,10 @@
  "round5_xdisease-round5": {
   "_moved_to": "research/manuscripts/lit-targets-xdisease-round5.json",
   "_n_targets": 6
+ },
+ "round6_xdisease-control-arm-detail": {
+  "_moved_to": "research/manuscripts/lit-targets-xdisease-control-arm-detail.json",
+  "_n_targets": 24,
+  "_why": "the fields the placebo calibration needs were dropped by round 4's field limit"
  }
 }
