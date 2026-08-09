@@ -392,6 +392,194 @@ PANELS = {
             "selpercatinib, pralsetinib or any RET-directed agent binds, works or is safe in "
             "EMC — no EMC patient has ever received one."),
     },
+    # ─────────────────────── reads 9–16, added 2026-08-09 ───────────────────────
+    # ⭐ WHY THESE EIGHT EXIST. The modality census registered 24 routes on 2026-08-09, and six of
+    # them turned out to be answerable from the reads ALREADY in this file — the data was on disk and
+    # only the census made anyone point at it. Eight more routes were NOT answerable, for one boring
+    # reason: their selecting genes were not among the ~243 this panel reads. These eight panels add
+    # them. `all_genes` is derived from PANELS, so declaring a panel is the whole of adding a gene.
+    #
+    # ⚠ EVERY ONE IS A SELECTION QUESTION, NOT AN EFFICACY QUESTION. Each asks whether the feature a
+    # therapeutic class is GIVEN ON is present in this disease. A class whose feature is absent is
+    # de-prioritised; a class whose feature is present has passed a screen and nothing more. None of
+    # these reads can say anything about what any agent does, and the honest expected output of the
+    # set is exclusions.
+    "mtap_prmt5": {
+        "read_id": "read_9_MTAP_PRMT5",
+        "question": "Is the MTAP locus deleted in EMC — the copy state that selects PRMT5/MAT2A "
+                    "synthetic lethality, and the one biomarker in this set nobody here has ever "
+                    "read in this disease?",
+        "provenance": CURATED + " Membership is the MTAP/CDKN2A co-deleted locus plus the PRMT5 "
+                                "methylosome its loss sensitises. The locus co-deletion is textbook "
+                                "cytogenetics; the read that matters is MTAP itself.",
+        "primary_gene": "MTAP",
+        "groups": {
+            "the_locus": ["MTAP", "CDKN2A", "CDKN2B"],
+            "prmt5_methylosome": ["PRMT5", "WDR77", "RIOK1", "CLNS1A"],
+            "methionine_salvage_context": ["MAT2A", "AHCY", "MTR", "ADI1"],
+        },
+        "direction_that_supports_the_lane": "MTAP DOWN in EMC, at the floor, together with CDKN2A",
+        "what_it_cannot_settle": "⛔ A TRANSCRIPT IS NOT A COPY NUMBER. A homozygous deletion reads "
+                                 "as a floor-level transcript, so expression can TRIAGE this "
+                                 "question but cannot answer it: a low read is a reason to seek copy "
+                                 "data, and a normal read argues against deletion only if the probe "
+                                 "is sound. Nothing here asserts that any PRMT5-axis agent acts in "
+                                 "EMC.",
+    },
+    "p53_mdm2_axis": {
+        "read_id": "read_10_P53_MDM2",
+        "question": "Is the p53 axis intact and transcriptionally live in EMC — the state MDM2 "
+                    "antagonism requires and, in a quiet clonal genome, the state it would expect?",
+        "provenance": CURATED + " The target membership is the canonical p53 transcriptional "
+                                "programme; the read that matters is whether those targets behave "
+                                "like a functioning axis rather than the abundance of TP53 itself.",
+        "primary_gene": "MDM2",
+        "groups": {
+            "the_axis": ["TP53", "MDM2", "MDM4"],
+            "p53_transcriptional_output": ["CDKN1A", "BBC3", "ZMAT3", "SESN1", "RPS27L", "GADD45A"],
+            "negative_regulation_context": ["PPM1D", "USP7", "TP53BP1"],
+        },
+        "direction_that_supports_the_lane": "p53 target output PRESENT, consistent with a wild-type "
+                                            "axis; MDM2 itself is the pharmacological handle",
+        "what_it_cannot_settle": "⛔ TP53 ABUNDANCE SAYS ALMOST NOTHING ABOUT TP53 FUNCTION — most "
+                                 "inactivating lesions are missense and leave transcript intact, so "
+                                 "only the OUTPUT groups carry information here, and they are "
+                                 "confounded by proliferation and stress state. This cannot "
+                                 "establish that TP53 is wild-type; it can only fail to contradict "
+                                 "it.",
+    },
+    "apoptotic_dependency": {
+        "read_id": "read_11_APOPTOTIC_DEP",
+        "question": "Which anti-apoptotic family member does EMC express most — the question raised "
+                    "and left unanswered by this repository's own ex-vivo result, where BCL-2 "
+                    "inhibition was inactive alone and active only in combination?",
+        "provenance": CURATED + " Membership is the BCL-2 family, split into the anti-apoptotic "
+                                "guardians that are separately druggable and the effectors and "
+                                "sensitisers that set the threshold.",
+        "primary_gene": "MCL1",
+        "groups": {
+            "anti_apoptotic_the_druggable_ones": ["BCL2", "MCL1", "BCL2L1", "BCL2L2", "BCL2A1"],
+            "effectors": ["BAX", "BAK1", "BOK"],
+            "bh3_only_sensitisers": ["BCL2L11", "PMAIP1", "BID", "BAD", "BIK"],
+        },
+        "direction_that_supports_the_lane": "an anti-apoptotic member OTHER than BCL2 dominant in EMC",
+        "what_it_cannot_settle": "⛔ APOPTOTIC DEPENDENCY IS NOT AN ABUNDANCE — it is which protein "
+                                 "is holding the effectors, which BH3 profiling measures and "
+                                 "transcript cannot. A dominant transcript is a hypothesis about "
+                                 "which agent to try first, and the ex-vivo models this question "
+                                 "came from are the place it would be settled.",
+    },
+    "chromatin_prc2_baf": {
+        "read_id": "read_12_CHROMATIN",
+        "question": "Does EMC carry a PRC2 or BAF chromatin state of the kind that selects an "
+                    "approved agent in a neighbouring sarcoma — and does it look anything like the "
+                    "non-canonical BAF hypothesis this portfolio already holds?",
+        "provenance": CURATED + " Membership is the PRC2 core, the BAF/ncBAF subunits this "
+                                "repository's own dependency route names, and the SWI/SNF "
+                                "tumour-suppressor subunits whose loss selects the approved agent.",
+        "primary_gene": "EZH2",
+        "groups": {
+            "prc2_core": ["EZH2", "EED", "SUZ12", "RBBP4"],
+            "swi_snf_tumour_suppressors": ["SMARCB1", "SMARCA4", "ARID1A", "PBRM1"],
+            "ncbaf_the_portfolios_own_hypothesis": ["BRD9", "BICRA", "SMARCD1", "SMARCC1"],
+        },
+        "direction_that_supports_the_lane": "PRC2 core UP, or a SWI/SNF tumour-suppressor subunit at "
+                                            "the floor",
+        "what_it_cannot_settle": "⛔ THE APPROVED AGENT IS SELECTED BY PROTEIN LOSS, NOT BY PRC2 "
+                                 "ABUNDANCE, and subunit loss is frequently post-transcriptional — "
+                                 "so a normal transcript does not exclude it. This reading must also "
+                                 "be reported beside the negative dependency prior the portfolio "
+                                 "already holds for the ncBAF hypothesis, not apart from it.",
+    },
+    "transcriptional_cdk": {
+        "read_id": "read_13_TXN_CDK",
+        "question": "Is the transcriptional CDK machinery elevated in EMC — the dependency a fusion "
+                    "oncoprotein whose entire mechanism is transactivation would be expected to "
+                    "impose, and the class the census found no prior search had ever named?",
+        "provenance": CURATED + " Membership is the transcription-associated CDK modules — the "
+                                "CDK7/CAK initiation module, the CDK9/P-TEFb elongation module and "
+                                "the CDK12/13 processivity pair — plus the polymerase itself as a "
+                                "loading control for transcriptional output generally.",
+        "primary_gene": "CDK9",
+        "groups": {
+            "cdk7_initiation_module": ["CDK7", "CCNH", "MNAT1"],
+            "cdk9_elongation_module": ["CDK9", "CCNT1", "CCNT2", "AFF4"],
+            "cdk12_13_processivity": ["CDK12", "CDK13", "CCNK"],
+            "transcriptional_output_context": ["POLR2A", "MYC", "GTF2B", "TAF1"],
+        },
+        "direction_that_supports_the_lane": "transcriptional CDK modules UP in EMC relative to "
+                                            "comparator sarcomas",
+        "what_it_cannot_settle": "⛔ DEPENDENCY IS NOT ABUNDANCE, AND HERE THE GAP IS UNUSUALLY WIDE. "
+                                 "Every cell transcribes, so these genes are expressed everywhere, "
+                                 "and a tumour can be exquisitely dependent on a module it expresses "
+                                 "at ordinary levels. A flat read therefore does NOT exclude the "
+                                 "class; only a dependency screen would. This read can raise the "
+                                 "hypothesis and cannot lower it much.",
+    },
+    "chaperone_dependency": {
+        "read_id": "read_14_CHAPERONE",
+        "question": "Is the chaperone system elevated in EMC — the proteostatic load a chimeric "
+                    "protein of two domains that never evolved together would be expected to impose?",
+        "provenance": CURATED + " Membership is the HSP90 machine with its co-chaperones, the HSP70 "
+                                "arm that hands clients to it, and the heat-shock transcriptional "
+                                "response that would report a standing load.",
+        "primary_gene": "HSP90AA1",
+        "groups": {
+            "hsp90_machine": ["HSP90AA1", "HSP90AB1", "HSP90B1", "TRAP1"],
+            "co_chaperones": ["CDC37", "AHSA1", "STIP1", "PTGES3", "PPID"],
+            "hsp70_arm_and_stress_response": ["HSPA8", "HSPA4", "DNAJB1", "HSPH1", "HSF1"],
+        },
+        "direction_that_supports_the_lane": "chaperone machine UP in EMC, consistent with a standing "
+                                            "proteostatic load",
+        "what_it_cannot_settle": "⛔ AN ELEVATED CHAPERONE SYSTEM IS NOT EVIDENCE THAT THE FUSION IS "
+                                 "ITS CLIENT, which is the actual premise of the route and is a "
+                                 "co-immunoprecipitation question. It is also a generic stress "
+                                 "readout that rises with proliferation and with tissue handling, so "
+                                 "an archival series is a poor place to read it and a positive here "
+                                 "is weak evidence.",
+    },
+    "sgk1_axis": {
+        "read_id": "read_15_SGK1",
+        "question": "Is SGK1 readable and elevated in EMC at the transcript level — the corroboration "
+                    "the single published antibody-based series has never had?",
+        "provenance": CURATED + " Membership is the SGK family and the canonical substrate and "
+                                "regulatory nodes whose behaviour would report kinase activity "
+                                "rather than kinase abundance.",
+        "primary_gene": "SGK1",
+        "groups": {
+            "the_family": ["SGK1", "SGK2", "SGK3"],
+            "canonical_substrates_and_output": ["NDRG1", "FOXO3", "SCNN1A", "NEDD4L"],
+            "upstream_context": ["MTOR", "RICTOR", "PDPK1"],
+        },
+        "direction_that_supports_the_lane": "SGK1 UP in EMC",
+        "what_it_cannot_settle": "The published series is an IHC result and this is a transcript one, "
+                                 "so agreement would be corroboration by a second modality and "
+                                 "nothing stronger. Kinase abundance is not kinase activity, which is "
+                                 "why the substrate group is read beside it and not instead of it.",
+    },
+    "ddr_mmej": {
+        "read_id": "read_16_MMEJ",
+        "question": "Does EMC show the microhomology-mediated end-joining state that POLθ inhibition "
+                    "exploits — the arm of the repair phenotype this repository's DNA-damage-response "
+                    "argument was never extended to?",
+        "provenance": CURATED + " Membership is the POLθ/alt-EJ module, the homologous-recombination "
+                                "genes whose deficiency creates the dependency, and the canonical "
+                                "non-homologous end-joining arm as a contrast.",
+        "primary_gene": "POLQ",
+        "groups": {
+            "alt_ej_module": ["POLQ", "LIG3", "PARP1", "XRCC1"],
+            "homologous_recombination": ["BRCA1", "BRCA2", "RAD51", "RAD52", "PALB2"],
+            "nhej_contrast": ["PRKDC", "XRCC6", "XRCC5", "LIG4"],
+        },
+        "direction_that_supports_the_lane": "alt-EJ module UP with homologous recombination DOWN — "
+                                            "the combination, not either alone",
+        "what_it_cannot_settle": "⛔ THE DEPENDENCY IS CREATED BY A REPAIR DEFECT, AND A DEFECT IS "
+                                 "usually a mutation rather than a transcript level — so this read "
+                                 "cannot see the thing that actually selects the class. It must be "
+                                 "reported beside the WEAK grade the neighbouring ATR assessment "
+                                 "already carries, since both rest on the same unproven "
+                                 "replication-stress premise.",
+    },
     "surface_antigen": {
         "read_id": "read_8_SURFACE_ANTIGEN",
         "question": "Which candidate surface / therapeutic-address antigens are READABLE in EMC "
@@ -1768,6 +1956,19 @@ def _assemble_reads(res):
              "tumour RET from stromal or entrapped peripheral-nerve RET. EMC is hypocellular and "
              "matrix-rich (PMC6766969), RET is a nerve-lineage receptor, and these are BULK "
              "arrays — so cellular origin is unresolvable here by construction.")})
+    # ── reads 9-16, added 2026-08-09 with their panels. Each answers ONE census route's selection
+    # question, and `_read_entry` carries that panel's `what_it_cannot_settle` verbatim into the
+    # artifact, so the caveat travels with the number rather than living only in this file.
+    for _rid, _pkey in (("read_9_MTAP_PRMT5", "mtap_prmt5"),
+                        ("read_10_P53_MDM2", "p53_mdm2_axis"),
+                        ("read_11_APOPTOTIC_DEP", "apoptotic_dependency"),
+                        ("read_12_CHROMATIN", "chromatin_prc2_baf"),
+                        ("read_13_TXN_CDK", "transcriptional_cdk"),
+                        ("read_14_CHAPERONE", "chaperone_dependency"),
+                        ("read_15_SGK1", "sgk1_axis"),
+                        ("read_16_MMEJ", "ddr_mmej")):
+        R[_rid] = _read_entry(res, _rid, _pkey)
+
     R["read_8_SURFACE_ANTIGEN"] = _read_entry(
         res, "read_8_SURFACE_ANTIGEN", "surface_antigen",
         {"why_this_read_exists": PANELS["surface_antigen"]["why_this_read_exists"],
