@@ -183,13 +183,53 @@
   }
  },
  "background_mortality_check": {
-  "status": "NOT_RUN",
-  "why": "No life table has been fetched, so the question 'is this gap the size an ordinary cohort of this age and sex would show anyway' has not been asked. An absent reading is not a reading of absence: this is NOT evidence that the gap is unexplained, and it is NOT evidence that it is explained.",
-  "what_would_settle_it": "A public period life table (US NCHS or SSA), the cohort's median age and sex ratio, and the 10-year cumulative probability of death it implies. The comparison is then: does background mortality account for most of the observed competing-mortality percentage points, or only a fraction of them?",
+  "status": "RUN",
+  "life_table_source": "WHO Global Health Observatory, indicator LIFE_0000000029, USA, 2021",
+  "expected_background_mortality_pct_at_10y": 11.3,
   "observed_competing_mortality_pct_at_10y": 20.0,
-  "cohort_age_median": 55,
-  "cohort_sex_ratio_male": 0.66
+  "ratio_observed_to_expected": 1.77,
+  "reading": "A ratio near 1 means the gap is ordinary background mortality and the decomposition is sound. A ratio far above 1 means the gap is larger than age and sex explain, which points at study non-comparability rather than at patients dying of other causes -- in that case the decomposition is an artifact and must not be quoted."
  },
+ "horizon_matched_background_check": [
+  {
+   "stratum": "localised",
+   "followup_years": 3.17,
+   "observed_other_cause_deaths": "4/134",
+   "observed_pct": 3.0,
+   "observed_95ci_pct": [
+    1.2,
+    7.4
+   ],
+   "expected_background_pct": 3.1,
+   "ratio_observed_to_expected": 0.97,
+   "ratio_95ci": [
+    0.38,
+    2.41
+   ],
+   "background_inside_observed_ci": true,
+   "reading": "A ratio near 1 means the non-EMC deaths in this cohort are what ordinary background mortality produces, so the competing share is a real reading rather than an artifact of incomparable studies. A ratio far above 1 would mean the opposite and would make every competing-share figure here unquotable.",
+   "⚠": "This rests on 4 event(s). The interval is wide and the point estimate is not precise -- what the check establishes is CONSISTENCY with background, never equality to it."
+  },
+  {
+   "stratum": "metastatic",
+   "followup_years": 3.42,
+   "observed_other_cause_deaths": "1/29",
+   "observed_pct": 3.4,
+   "observed_95ci_pct": [
+    0.6,
+    17.2
+   ],
+   "expected_background_pct": 3.3,
+   "ratio_observed_to_expected": 1.04,
+   "ratio_95ci": [
+    0.18,
+    5.18
+   ],
+   "background_inside_observed_ci": true,
+   "reading": "A ratio near 1 means the non-EMC deaths in this cohort are what ordinary background mortality produces, so the competing share is a real reading rather than an artifact of incomparable studies. A ratio far above 1 would mean the opposite and would make every competing-share figure here unquotable.",
+   "⚠": "This rests on 1 event(s). The interval is wide and the point estimate is not precise -- what the check establishes is CONSISTENCY with background, never equality to it."
+  }
+ ],
  "reading_guide": {
   "antitumour_ceiling": "The percentage points of survival at the horizon that a therapy preventing EVERY EMC death would add. It is an upper bound on this repository's entire sixty-eight-route portfolio taken together, not on any one route.",
   "competing_share_of_deaths": "Of the patients dead at the horizon, the fraction who did not die of EMC. No route on the board is aimed at this fraction.",

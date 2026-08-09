@@ -104,6 +104,27 @@ death under competing risks. So `1 − DSS` is an over-estimate of EMC's share, 
 above is an **under-estimate**. The bias runs against the argument being made, which is the only
 reason subtracting summary percentages across heterogeneous studies is publishable at all.
 
+### ✅ The background check — is any of this real, or just incomparable studies?
+
+The decomposition is worthless if the "other-cause" deaths are an artifact of pairing studies that
+never described one population. So: are the observed non-EMC deaths the **size** an ordinary cohort of
+this age and sex produces anyway? Compared at **each study's own follow-up**, against a US life table
+(WHO GHO, `nMx`, 2021) blended to this cohort's 2:1 male ratio at age 55:
+
+| stratum | follow-up | observed other-cause | expected background | **ratio** | 95 % CI |
+|---|---:|---:|---:|---:|---:|
+| localised | 3.2 y | 3.0 % (4/134) | 3.1 % | **0.97** | 0.38–2.41 |
+| metastatic | 3.4 y | 3.4 % (1/29) | 3.3 % | **1.04** | 0.18–5.18 |
+
+> ⭐ **EMC patients die of other causes at almost exactly the rate their age and sex predict.** The
+> competing mortality is real, and it is *ordinary*. That is what the check was for, and it passes.
+
+⚠ **It rests on 4 events and 1 event.** The intervals are wide, so what this establishes is
+**consistency** with background, never equality to it. And the check is **one-sided by construction**:
+a general-population table over-states background for a cohort fit enough to reach and survive a
+sarcoma diagnosis, so it can *refute* "this gap is background" and cannot *prove* it. It did not
+refute it.
+
 **⛔ What this does NOT say:** that competing deaths are preventable. It says only that they exist, in
 quantity, and that nothing on the board is aimed at them. Establishing preventability needs a named
 cause and a measured intervention — §2 and §3.
@@ -229,9 +250,20 @@ drug is already in a pharmacy.
 **⛔ FIRST, THE STRUCTURAL FACT THAT DETERMINES HOW THIS CAN BE ANSWERED AT ALL: EMC's evidence base
 contains no host factor whatsoever.** Every prognostic factor in the registry is a property of the
 **tumour** (size, grade, fusion partner, stage, site) or of its **treatment** (resection
-completeness); the per-patient schema carries age and sex and nothing else about the person. So this
-question cannot be answered from this disease's own literature, and the retrieval's first query is
-aimed squarely at establishing that absence with a real `hitCount` rather than an impression.
+completeness); the per-patient schema carries age and sex and nothing else about the person.
+
+⚠ **AND THE HIT COUNT THAT LOOKED LIKE IT CONTRADICTED THAT DOES NOT — WHICH IS THE SAME DISCIPLINE
+RUNNING IN REVERSE.** The query `EMC AND (obesity OR BMI OR diabetes OR smoking OR comorbidity OR
+"performance status" OR sarcopenia OR frailty)` returns **195**, and the first reading of that number
+was that more host-factor material existed than the registry's curation suggested. Inspecting the
+hits refutes it: they are EMC **case reports** that mention "ECOG performance status" in their
+methods, a spontaneous-regression report, an intracranial case report, a genomic-panel paper, and
+general sarcoma series matching on the `OR` arm alone. **Not one is an analysis of a host factor
+against EMC outcome.** ⛔ *A populated hit count is not a reading of presence*, exactly as an absent
+reading is not a reading of absence — a loose `OR` query measures term co-occurrence, and only
+reading tells you whether the terms were doing any work. The registry's own curation, which found
+zero host factors among the prognostic variables, remains the better evidence. Superseded, retained:
+the reading of **195** as evidence that EMC host-factor analyses exist.
 
 **The model is two compartments, and keeping them apart is the whole discipline**
 ([`emc_host_factor_model.py`](./emc_host_factor_model.py)):
@@ -247,6 +279,13 @@ aimed squarely at establishing that absence with a real `hitCount` rather than a
 > patients die of heart disease at roughly the rate their age and sex predict"* — far weaker than
 > *"a ligand designed into a cryptic pocket will be paralogue-selective"*, which the flagship route
 > has spent most of this repository's effort failing to establish.
+
+> ✅ **AND THAT ASSUMPTION IS NO LONGER AN ASSUMPTION — §1's background check MEASURED IT.** Observed
+> non-EMC deaths run at **0.97×** and **1.04×** the general-population rate for this cohort's age and
+> sex. The transfer compartment B depends on is the one thing in this whole analysis that has been
+> checked against data rather than argued. ⚠ On 4 events and 1 event, so it is *consistency*, not
+> equality — but it is the right direction and it is more than any antitumour route here can say
+> about its own central assumption.
 
 **⚠ And the honest consequence cuts the claim down, which is why it is stated here rather than in a
 footnote.** Acting on compartment B alone, a host-factor intervention can only ever touch the ~40 %

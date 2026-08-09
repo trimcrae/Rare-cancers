@@ -53,6 +53,7 @@ Output:  research/manuscripts/emc-mortality-decomposition.json
 from __future__ import annotations
 
 import json
+import math
 import pathlib
 import sys
 
@@ -313,6 +314,66 @@ def cross_series(spec: dict) -> dict:
     return out
 
 
+def wilson(events: int, n: int, z: float = 1.96) -> tuple[float, float]:
+    """Wilson score interval. Used because these counts are 4 and 1 -- a normal
+    approximation on four events would produce an interval including negative risk, and a
+    point estimate with no interval would make a two-event difference look decisive."""
+    if n == 0:
+        return (0.0, 1.0)
+    p = events / n
+    d = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / d
+    half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
+    return (max(0.0, centre - half), min(1.0, centre + half))
+
+
+def horizon_matched_background(spec: dict) -> list[dict]:
+    """⭐ THE CHECK THAT DECIDES WHETHER ANY OF THIS IS QUOTABLE.
+
+    Compare the other-cause deaths a study actually observed against what a general
+    population of the same age and sex would produce over THAT STUDY'S OWN FOLLOW-UP --
+    not over ten years, which is the horizon the decomposition reports and not the one
+    the counts were measured at. Matching horizons is the whole point: background
+    mortality over three years and over ten differ by a factor of three, so comparing an
+    observed three-year count against a ten-year expectation would manufacture a
+    four-fold discrepancy out of arithmetic alone.
+    """
+    bg = spec.get("background_mortality") or {}
+    rate = bg.get("blended_annual_rate_55_59")
+    out = []
+    for row in bg.get("horizon_matched_checks", []):
+        events, n = row["observed_other_cause"]
+        yrs = row["followup_years"]
+        if rate is None:
+            out.append({"stratum": row["stratum"], "status": "NOT_RUN",
+                        "why": "no life-table rate available"})
+            continue
+        expected = 1 - math.exp(-rate * yrs)
+        observed = events / n
+        lo, hi = wilson(events, n)
+        out.append({
+            "stratum": row["stratum"],
+            "followup_years": yrs,
+            "observed_other_cause_deaths": f"{events}/{n}",
+            "observed_pct": pct(observed),
+            "observed_95ci_pct": [pct(lo), pct(hi)],
+            "expected_background_pct": pct(expected),
+            "ratio_observed_to_expected": round(observed / expected, 2) if expected else None,
+            "ratio_95ci": [round(lo / expected, 2), round(hi / expected, 2)] if expected else None,
+            "background_inside_observed_ci": lo <= expected <= hi,
+            "reading": (
+                "A ratio near 1 means the non-EMC deaths in this cohort are what ordinary "
+                "background mortality produces, so the competing share is a real reading rather "
+                "than an artifact of incomparable studies. A ratio far above 1 would mean the "
+                "opposite and would make every competing-share figure here unquotable."),
+            "⚠": (
+                f"This rests on {events} event(s). The interval is wide and the point estimate is "
+                f"not precise -- what the check establishes is CONSISTENCY with background, never "
+                f"equality to it."),
+        })
+    return out
+
+
 def background_check(spec: dict, cross: dict) -> dict:
     bg = spec.get("background_mortality") or {}
     observed = None
@@ -401,6 +462,7 @@ def main() -> int:
         "within_series": within,
         "cross_series": cross,
         "background_mortality_check": background_check(spec, cross),
+        "horizon_matched_background_check": horizon_matched_background(spec),
         "reading_guide": {
             "antitumour_ceiling": (
                 "The percentage points of survival at the horizon that a therapy preventing "
@@ -437,6 +499,12 @@ def main() -> int:
               f"{row['pairings_coherent']}/{row['pairings_total']} pairings coherent "
               f"({row['pairings_impossible']} impossible, {row['pairings_undefined']} undefined)")
     print(f"  background check: {payload['background_mortality_check']['status']}")
+    for r in payload["horizon_matched_background_check"]:
+        if r.get("status") == "NOT_RUN":
+            print(f"  BG {r['stratum']}: NOT RUN"); continue
+        print(f"  BG {r['stratum']}: observed {r['observed_pct']}% vs background "
+              f"{r['expected_background_pct']}% -> ratio {r['ratio_observed_to_expected']} "
+              f"(95% CI {r['ratio_95ci'][0]}-{r['ratio_95ci'][1]})")
     return 0
 
 
