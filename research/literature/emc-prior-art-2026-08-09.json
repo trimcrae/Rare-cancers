@@ -1,0 +1,76 @@
+{
+  "_what": "Prior-art screen for the four publication endpoints scoring 12.5+, run 2026-08-09 so that 'has anyone already done this?' has a measured answer instead of no answer at all.",
+  "_why": "The paper-strength rubric has no novelty term and could not answer the question for any of its 28 endpoints (trimcrae, 2026-08-09, asking of the surface-target paper: 'sounds awesome to do if no one has done it yet'). Grading novelty from recollection was refused; this is the retrieval that replaces it.",
+  "_retrieval": {
+    "actions_run_id": 31337139707,
+    "slug": "emc-prior-art-2026-08-09",
+    "corpus_branch": "literature-cache",
+    "n_records": 322,
+    "n_fulltext_files": 238,
+    "date_et": "2026-08-09",
+    "endpoint": "Europe PMC via .github/workflows/fetch-literature.yml"
+  },
+  "_no_positive_control_and_why": "expect_pmids was left EMPTY deliberately. The workflow's own header records a run that searched 53 minutes, reported success, and had its whole corpus discarded because the control was a paper the author trusted rather than one the query would return. No confident control existed for a prior-art query, so the corpus was screened by hand instead.",
+  "⚠_what_a_screen_of_abstracts_can_and_cannot_show": "This matches titles and abstracts, not full text. An absence here is evidence that nothing is INDEXED on the pairing, and is not proof that no such work exists - a result buried in a supplementary table of a larger paper would be invisible to it. Read every count below as 'nothing indexed', never as 'nobody has done it'.",
+  "counts": {
+    "prmt5_or_mtap": 1,
+    "atr_or_repl_stress": 0,
+    "surfaceome": 3,
+    "repurposing": 0,
+    "antisense": 1
+  },
+  "hits": {
+    "prmt5_or_mtap": [
+      {
+        "pmid": "17545802",
+        "pmcid": null,
+        "doi": "10.1097/cco.0b013e32812143d9",
+        "year": 2007,
+        "title": "Update on chondrosarcomas.",
+        "authors": "Chow WA."
+      }
+    ],
+    "atr_or_repl_stress": [],
+    "surfaceome": [
+      {
+        "pmid": "41323055",
+        "pmcid": "PMC12659415",
+        "doi": "10.1159/000548238",
+        "year": 2025,
+        "title": "Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxoid Chondrosarcoma Repeatedly Treated with Surgical Excision or Stereotactic Radiotherapy Alone: A Case Report.",
+        "authors": "Timon G, Grassi M, Tominaj C, Turazzi M, Mascherini M, De Cian F, Spina B, Zaottini F, Pistoia F, Barra S, Comandini D, Belgioia L."
+      },
+      {
+        "pmid": "35974707",
+        "pmcid": "PMC9527174",
+        "doi": "10.1111/1759-7714.14613",
+        "year": 2022,
+        "title": "Immunosuppressive tumor microenvironment in extraskeletal myxoid chondrosarcoma: A case of pleural metastases.",
+        "authors": "Ogata R, Soda H, Senju H, Fujioka M, Shimada M, Yamashita K, Irifune S, Tagawa R, Dotsu Y, Iwasaki K, Taniguchi H, Takemoto S, Fukuda Y, Mukae H."
+      },
+      {
+        "pmid": "34340159",
+        "pmcid": null,
+        "doi": "10.1016/j.ctrv.2021.102260",
+        "year": 2021,
+        "title": "Uncommon and peculiar soft tissue sarcomas: Multidisciplinary review and practical recommendations. Spanish Group for Sarcoma research (GEIS -GROUP). Part II.",
+        "authors": "Martínez-Trufero J, Cruz Jurado J, Hernández-León CN, Correa R, Asencio JM, Bernabeu D, Alvarez R, Hindi N, Mata C, Marquina G, Martínez V, Redondo A, Floría LJ, Gómez-Mateo MC, Lavernia J, Sebio A, Garcia Del Muro X, Martin-Broto J, Valverde-Morales C."
+      }
+    ],
+    "repurposing": [],
+    "antisense": [
+      {
+        "pmid": "12748252",
+        "pmcid": null,
+        "doi": "10.1097/01.mp.0000067422.61241.64",
+        "year": 2003,
+        "title": "Microtubule-associated protein-2 and class III beta-tubulin are expressed in extraskeletal myxoid chondrosarcoma.",
+        "authors": "Hisaoka M, Okamoto S, Koyama S, Ishida T, Imamura T, Kanda H, Kameya T, Meis-Kindblom JM, Kindblom LG, Hashimoto H."
+      }
+    ]
+  },
+  "⭐_the_two_that_change_a_manuscript": {
+    "17545802": "Chow WA, Update on chondrosarcomas, Curr Opin Oncol 2007, doi 10.1097/cco.0b013e32812143d9. Names METHYLTHIOADENOSINE PHOSPHORYLASE among targets 'validated' by translational research in chondrosarcoma, and in the same abstract treats EMC as a distinct fusion-defined entity. ⛔ It does NOT scoop the EMC MTAP/PRMT5 hypothesis - it predates the MTAP-deletion/PRMT5 synthetic-lethality literature entirely and is about the parent histology - but a reviewer will know it, and any sentence claiming MTAP is unexamined in this space must be narrowed to EMC specifically and must cite this.",
+    "41055792": "Remiszewski P et al., From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma, J Cancer Res Clin Oncol 2025, doi 10.1007/s00432-025-06316-5, PMC12504171. The current standard EMC reference and the nearest competitor to the repurposing menu. States independently that NO CLINICALLY VALIDATED AGENT DIRECTLY TARGETS NR4A3, and reports pazopanib ORR 18% / median PFS 19 months (NCT02066285). ⭐ It corroborates the categorical-gap premise rather than scooping it, but every one of the four manuscripts is now writing against a 2025 comprehensive review and must cite it and say what it adds."
+  }
+}
