@@ -3951,6 +3951,28 @@ CLOSURE_WEIGHT = {
 STATE_WEIGHT = {"drafted": 2, "outlined": 1, "unwritten": 0,
                 "complete_unposted": 2, "posted": 2}
 
+#: ⛔⛔ THE BAND IS THE RANKING. EVERYTHING BELOW IT IS A TIE-BREAK (trimcrae, 2026-08-09).
+#: The first two versions of this view scored READINESS TO PUBLISH, and the result was exactly
+#: backwards for what this repository is for: a finished negative — a failure record, a rigorous
+#: closure — outranked every paper that could still lead a wet lab to a test. His correction:
+#: "publishing a negative from an independent researcher is much less helpful than publishing
+#: something positive that could potentially lead a wet lab to make a test that leads to a real
+#: treatment … every single paper that still has a chance at being a positive should be above a
+#: paper we know is a negative."
+#: ⛔ SO THIS IS A HARD PARTITION, NOT A WEIGHT. No score a negative can reach will lift it above a
+#: live positive, because no number of open routes or ready flags makes a closed question into a
+#: treatment lead. Negatives stay in the portfolio and stay worth publishing; they rank below.
+#: ⚠ AND THE BAND IS A JUDGEMENT, which is why it lives in `publications.json` as data with a
+#: one-line reason per row rather than being inferred here from route states. Argue with the row.
+OUTCOME_BAND = {"live_positive": 0, "negative_or_methods": 1, "horizon_scan": 2}
+BAND_LABEL = {"live_positive": "⭐ could still help a patient",
+              "negative_or_methods": "⛔ known negative / methods",
+              "horizon_scan": "○ parked on a capability nobody has"}
+
+#: Naming a decisive experiment a lab could actually run is the step that turns a paper into a
+#: treatment lead, so it is worth more than any readiness term below.
+WET_LAB_TEST_WEIGHT = 4
+
 #: ⛔ ADDED 2026-08-09 BECAUSE THE FIRST VERSION COULD NOT SEE A REGRADE. A day of measurements
 #: dropped RT-CARFILZOMIB from `moderate` to `low` confidence — the proteasome turned out to be
 #: pan-essential with no selectivity, and the proteostatic-load rationale for it was unsupported —
@@ -3997,14 +4019,22 @@ def _paper_scores(g):
         score += STATE_WEIGHT.get(p.get("state"), 0)
         # Everything left to do being doable here is worth as much as one open route, because a
         # paper nobody else has to touch is one this programme can actually finish.
+        # ⚠ CUT FROM 5 TO 2 (2026-08-09). This measures whether WE can finish the paper, which is
+        # not the same as whether the paper can help anyone — and at weight 5 it was one of the
+        # largest terms, quietly rewarding work that needs nobody else precisely when needing
+        # somebody else (a bench) is how a result reaches a patient.
         if self_doable is not None:
-            score += round(5 * self_doable, 1)
+            score += round(2 * self_doable, 1)
+        if p.get("wet_lab_test_named"):
+            score += WET_LAB_TEST_WEIGHT
         ungraded = [r for r in rs if r.get("closure_kind") is None]
         conf = [(r["id"], (r.get("state") or {}).get("confidence")) for r in openish]
         rows.append({"pub": p, "routes": rs, "open": openish, "closed": closed, "ready": ready,
                      "ungraded": ungraded, "open_confidence": conf,
+                     "band": OUTCOME_BAND.get(p.get("outcome_potential"), 1),
                      "self_doable": self_doable, "n_validation": need, "score": round(score, 1)})
-    rows.sort(key=lambda x: (-x["score"], x["pub"]["id"]))
+    # ⛔ BAND FIRST, ALWAYS. The score only orders papers within a band.
+    rows.sort(key=lambda x: (x["band"], -x["score"], x["pub"]["id"]))
     return rows
 
 
@@ -4032,11 +4062,18 @@ def render_paper_strength(g):
               date="2026-08-09", last_verified="2026-08-09"),
            BANNER,
            "# Paper strength\n",
-           "> ⛔ **THIS RANKS EVIDENTIAL STANDING AND REACHABILITY — NOT IMPORTANCE.** Nothing in "
-           "the graph\n> knows which result would matter most to a patient, and a number that "
-           "pretended to would be the\n> most dangerous object here. What it does know is which "
-           "papers rest on routes that are still\n> **open**, which are **finished negatives**, and "
-           "which can be completed **without a laboratory this\n> programme does not have**.\n>\n"
+           "> ⭐ **THE QUESTION THIS ANSWERS: which paper could still help a patient?** Not which is "
+           "closest to\n> finished — that is what the first two versions of this view measured, and "
+           "it ranked a rigorous\n> negative above every live lead.\n>\n"
+           "> ⛔ **THE BAND IS THE RANKING; THE SCORE ONLY ORDERS PAPERS WITHIN A BAND.** Every "
+           "paper that could\n> still report a positive sits above every paper we already know is "
+           "a negative, and no score a\n> negative can reach will lift it across that line. "
+           "Negatives remain worth publishing — the field\n> publishes almost none — and they are "
+           "not treatment leads.\n>\n"
+           "> ⚠ **The band is a JUDGEMENT, recorded per row in `publications.json` with a one-line "
+           "reason.**\n> It is not inferred from route states, because a paper can have open routes "
+           "and still be a\n> negative by construction. Disagree with the row, not with the "
+           "arithmetic.\n>\n"
            "> ⭐ **A CLOSED ROUTE SUBTRACTS.** CLAUDE.md §0 records the day a ranking that rewarded "
            "finished\n> work put four agents onto dead routes while live ones sat one free step "
            "from a result. A\n> completed negative always scores full marks on \"what do we hold if "
@@ -4047,8 +4084,14 @@ def render_paper_strength(g):
            "**Score** = 5 per open route · 2 per route blocked only on a human decision · −1 to −2 "
            "per closed route (by how it closed) · 3 per route whose status is `ready` · up to 5 for "
            "the fraction of remaining validation steps that are feasible today · 2 for having a "
-           "drafted document, 1 for an outline · **±2 per open route for the confidence the graph "
-           "records on it**.\n",
+           "drafted document, 1 for an outline · ±2 per open route for the confidence the graph "
+           "records on it · **+4 for naming a decisive experiment a laboratory could run**.\n",
+           "⚠ **Two weights were changed on 2026-08-09 and both changes point the same way.** "
+           "*Doable here* fell from 5 to 2, because it measures whether WE can finish a paper rather "
+           "than whether the paper helps anyone — at 5 it was quietly rewarding work that needs "
+           "nobody else, precisely when needing somebody else (a bench) is how a result reaches a "
+           "patient. And naming a bench-ready test was added at 4, because that is the step that "
+           "turns a paper into a treatment lead.\n",
            "⛔ **A LOW SCORE CAN MEAN 'CLOSED' OR IT CAN MEAN 'NOBODY GRADED IT', AND THOSE ARE "
            "OPPOSITE THINGS.** `closure_kind` is unset on "
            f"{sum(1 for r in g['routes'] if r.get('closure_kind') is None)} of "
@@ -4057,8 +4100,8 @@ def render_paper_strength(g):
            "graded. The `ungraded` column is that reading, and a high number in it means **go "
            "grade the routes**, not **the paper is weak** (CLAUDE.md §4: an absent reading is not "
            "a reading of absence).\n",
-           "| # | endpoint | score | open | closed | ungraded | ready | doable here | state | routes |",
-           "|---:|---|---:|---:|---:|---:|---:|---|---|---:|"]
+           "| # | endpoint | band | wet-lab test | score | open | closed | ungraded | ready | state |",
+           "|---:|---|---|---|---:|---:|---:|---:|---:|---|"]
     for i, r in enumerate(rows, 1):
         p = r["pub"]
         doc = (p.get("document") or {}).get("file")
@@ -4066,10 +4109,11 @@ def render_paper_strength(g):
             else f"**{p['id']}**"
         sd = "—" if r["self_doable"] is None else f"{round(100 * r['self_doable'])}% of {r['n_validation']}"
         ung = len(r["ungraded"])
-        out.append(f"| {i} | {name} | **{r['score']}** | {len(r['open'])} | {len(r['closed'])} | "
+        out.append(f"| {i} | {name} | {BAND_LABEL.get(p.get('outcome_potential'), '?')} | "
+                   f"{'✅ yes' if p.get('wet_lab_test_named') else '—'} | "
+                   f"**{r['score']}** | {len(r['open'])} | {len(r['closed'])} | "
                    f"{('⚠ ' + str(ung)) if ung else '0'} | "
-                   f"{len(r['ready'])} | {sd} | {PUB_GLYPH[p['state']]} `{p['state']}` | "
-                   f"{len(r['routes'])} |")
+                   f"{len(r['ready'])} | {PUB_GLYPH[p['state']]} `{p['state']}` |")
     out.append("")
     out.append("## The open routes, which are the only ones that can still change an answer\n")
     out.append("⭐ **Read this list before the table above.** A route here is one the graph records "
