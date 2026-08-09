@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-LUNG-DIRECTED — Lung-directed local therapy (regional perfusion, inhaled delivery, ablation)
 
-**Family:** [ST-LOCOREGIONAL](L1-st-locoregional.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-LOCOREGIONAL](L1-st-locoregional.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#35--locoregional-and-radiation)): ⭑ Registered 2026-08-09 from the modality census; it extends an approach the curated record already documents in its surgical form.
+**Grade** (owned by [`research/modalities/emc-locoregional-eligibility.json`](../../research/modalities/emc-locoregional-eligibility.json)): ◐ THE POPULATION EXISTS; THE ELIGIBILITY CRITERION IS NOT CURATED (2026-08-09). ⭐ The route's premise half holds and is now sized: across three non-overlapping series, roughly a third of localised patients develop distant disease, so the population a lung-directed strategy exists for is real and is a substantial minority rather than a rarity. ⛔ But the criterion that decides OFFERABILITY is not computable here. Metastatic SITE is recorded in one series' free-text note and nowhere as a field; lesion BURDEN and time-to-metastasis are absent from every cohort. So the fraction meeting any conventional oligometastatic threshold cannot be stated, and the route must stop describing that as an extraction — the data was never curated, not merely un-extracted.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_LUNG_DIRECTED["○ RT-LUNG-DIRECTED"]:::fam
+  RT_LUNG_DIRECTED["✓ RT-LUNG-DIRECTED"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_LUNG_DIRECTED
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -45,10 +45,17 @@ flowchart LR
 
 The curated record for this disease states both that distant spread is mostly to lung and that removing isolated metastases can give long disease-free intervals — which is already the surgical form of this argument. Regional perfusion, inhaled delivery and percutaneous ablation extend it to patients and lesions surgery cannot reach, and none had ever been considered here.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-LOCOREGIONAL-ELIGIBILITY` | roughly a third of localised EMC patients develop distant disease across three non-overlapping series, while metastatic site, lesion burden and time-to-metastasis are absent from the curated cohorts entirely | `direct` |
+
 ## Remaining unknowns
 
-- What fraction of patients are lung-limited and for how long, which has never been extracted from the curated cohorts.
-- Whether repeated local treatment changes the disease's course or only its imaging, which is the same endpoint problem this portfolio has already registered as a route.
+- What fraction of metastatic patients are lung-CONFINED, which is the actual eligibility criterion. ⚠ One series' presenting cohort is strikingly lung-dominant in a free-text note, and one series' presenting cohort is not a pooled distribution.
+- What fraction would meet any conventional oligometastatic threshold, which needs lesion counts that none of these series publishes.
+- Whether crude during-follow-up proportions understate the lifetime rate in a disease whose metastases appear over many years — they do, and the direction of that bias runs in this route's favour, which is why it is stated rather than omitted.
 
 ## Required validation
 
@@ -67,32 +74,35 @@ The curated record for this disease states both that distant spread is mostly to
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+The denominator is now real and the eligibility numerator is not, so the route can size the problem and cannot yet size its own addressable population.
 
 **Missing:**
-- the metastatic-site and burden arithmetic from the cohorts already curated here
+- metastatic-site and lesion-burden curation from the pooled series' primary reports, which is $0 for the open-access ones and is this route's single highest-value step
 
 ## Where this route ends — the paper
 
 **[PUB-LOCOREGIONAL](L3-publications.md)** — *Anatomical selectivity in an indolent, extremity-primary, lung-metastasising sarcoma* (unwritten)
 
-`contributing` · ○ `unwritten` · aimed at `preprint`
+`contributing` · ◔ `outlined` · aimed at `preprint`
 
 **This route contributes:** One of the anatomical-selectivity strategies a disease that is extremity-primary, lung-metastasis-dominant and indolent is unusually well matched to.
 
 **The paper would claim:** A disease that is extremity-primary, lung-metastasis-dominant and slow enough for local control to matter is unusually well matched to locoregional and radiation-based treatment, and a portfolio containing no physical intervention at all had never assessed any of it.
 
-**It is not written because:** The eligibility arithmetic it rests on has not been extracted from the curated cohorts yet, and without it the paper would be an argument with no denominator.
+**It is not written because:** ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. The arithmetic ran on 2026-08-09 under the repository's binding pooling contract, and it splits cleanly: the SIZE OF THE PROBLEM is computable and now computed — roughly a third of localised patients develop distant disease and a substantial minority recur locally, each pooled over three or four non-overlapping series with its heterogeneity range shown. ⛔ But the ELIGIBILITY criteria are not extractable, because they were never curated: no cohort carries a primary anatomical site field, metastatic site appears once in free text rather than as data, and no cohort records lesion burden or time-to-metastasis. So the paper has its denominator and not its numerator. ⭐ That is still writable and is arguably a better paper: the argument, the sized problem, and an explicit statement of which single curation step would convert it into an eligible fraction — which is $0 for the open-access series. ⛔ Superseded, retained: "the eligibility arithmetic has not been extracted from the curated cohorts yet", which reads as though extraction were the missing step. For two of the three quantities no extraction could have produced them.
 
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The remaining steps are $0 curation and literature search, both self-doable.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -105,7 +115,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Extract metastatic-site distribution, burden at presentation and time-to-metastasis from the curated registry cohorts, and state what fraction would meet a conventional oligometastatic threshold.
+Re-curate metastatic site from the open-access primary reports of the pooled series — the one $0 step that converts this route's denominator into an eligible fraction.
 
 *Cost:* $0
 

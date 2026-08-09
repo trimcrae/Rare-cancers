@@ -36,11 +36,11 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   ST_LOCOREGIONAL["ST-LOCOREGIONAL"]:::fam
-  RT_LIMB_PERFUSION["○ RT-LIMB-PERFUSION"]:::fam
+  RT_LIMB_PERFUSION["✓ RT-LIMB-PERFUSION"]:::fam
   ST_LOCOREGIONAL --> RT_LIMB_PERFUSION
-  RT_LUNG_DIRECTED["○ RT-LUNG-DIRECTED"]:::fam
+  RT_LUNG_DIRECTED["✓ RT-LUNG-DIRECTED"]:::fam
   ST_LOCOREGIONAL --> RT_LUNG_DIRECTED
-  RT_RT_INTENSIFY["○ RT-RT-INTENSIFY"]:::fam
+  RT_RT_INTENSIFY["✓ RT-RT-INTENSIFY"]:::fam
   ST_LOCOREGIONAL --> RT_RT_INTENSIFY
 
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
@@ -59,9 +59,9 @@ flowchart LR
 
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
-| **[RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md)**<br/>Isolated limb perfusion for extremity disease | ○ blocked | concept | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ○ *contributing* | Pool the anatomical-site distribution across the curated EMC series to size the eligible fraction, and search  |
-| **[RT-LUNG-DIRECTED](L2-rt-lung-directed.md)**<br/>Lung-directed local therapy (regional perfusion, inhaled delivery, ablation) | ○ blocked | concept | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ○ *contributing* | Extract metastatic-site distribution, burden at presentation and time-to-metastasis from the curated registry  |
-| **[RT-RT-INTENSIFY](L2-rt-rt-intensify.md)**<br/>Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia) | ○ blocked | concept | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ○ *contributing* | Build the dose-response regression for the radioresistance reappraisal including brachytherapy and particle-th |
+| **[RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md)**<br/>Isolated limb perfusion for extremity disease | ✓ blocked | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | Curate primary anatomical site from the open-access pooled series, then search the perfusion literature for my |
+| **[RT-LUNG-DIRECTED](L2-rt-lung-directed.md)**<br/>Lung-directed local therapy (regional perfusion, inhaled delivery, ablation) | ✓ blocked | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | Re-curate metastatic site from the open-access primary reports of the pooled series — the one $0 step that con |
+| **[RT-RT-INTENSIFY](L2-rt-rt-intensify.md)**<br/>Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia) | ✓ blocked | computed | `internal_note` | [PUB-LOCOREGIONAL](L3-publications.md) ◔ *contributing* | Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does no |
 
 ## Family-level bets — blockers EVERY route here inherits
 

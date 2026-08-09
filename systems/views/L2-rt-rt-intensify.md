@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-RT-INTENSIFY — Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia)
 
-**Family:** [ST-LOCOREGIONAL](L1-st-locoregional.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-LOCOREGIONAL](L1-st-locoregional.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#35--locoregional-and-radiation)): ⭑ Registered 2026-08-09 from the modality census; it attaches to a contradiction already live in this repository's record rather than opening a new question.
+**Grade** (owned by [`research/modalities/emc-locoregional-eligibility.json`](../../research/modalities/emc-locoregional-eligibility.json)): ◐ THE PROBLEM IS SIZED AND THE DOSE-RESPONSE IS NOT (2026-08-09). Local recurrence across four non-overlapping series is a substantial minority — so the problem this route addresses is real — but the per-cohort rates span a wide range, and one of the pooled series reports LOCOREGIONAL recurrence specifically while the others report recurrence unqualified. ⛔ The pooled recurrence figure is therefore a MIXTURE of endpoints and is the weaker of the two quantities this arithmetic produced. No dose, modality or margin data is curated anywhere, so the radioresistance reappraisal this route proposes cannot be built from the registry.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_RT_INTENSIFY["○ RT-RT-INTENSIFY"]:::fam
+  RT_RT_INTENSIFY["✓ RT-RT-INTENSIFY"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_RT_INTENSIFY
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -45,10 +45,17 @@ flowchart LR
 
 This repository's own record contains a live contradiction about whether radiotherapy does anything in this disease — two registries and the largest series disagree. Every prior treatment of that question has been about whether to give radiotherapy. No prior sweep considered that the answer might be dose quality, dose geometry or radiosensitisation, and the one striking combination response in the literature is itself a radiotherapy combination that was previously recorded only as a confound.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-LOCOREGIONAL-ELIGIBILITY` | local recurrence is a substantial minority across four non-overlapping series, but the pooled figure mixes locoregional-specific and unqualified recurrence endpoints and no dose, modality or margin data is curated | `direct` |
+
 ## Remaining unknowns
 
-- Whether the existing radioresistance contradiction resolves to a dose-response relationship or to selection bias, which the reappraisal already scoped here would settle.
-- Whether particle-therapy or brachytherapy series contain any myxoid or chondroid histology in reportable numbers.
+- Whether the recurrence heterogeneity is dose-related at all, which needs per-patient radiotherapy detail that no cohort carries.
+- Whether brachytherapy and particle-therapy arms exist in this histology, which has not been searched in the particle registries.
+- How much of the pooled recurrence figure is margin status rather than radioresistance — one series names margins as its main risk factor and this pooling cannot separate them.
 
 ## Required validation
 
@@ -67,32 +74,36 @@ This repository's own record contains a live contradiction about whether radioth
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+The endpoint mixture and the absent dose data mean the reappraisal's regression has no inputs, even though the problem it addresses is now sized.
 
 **Missing:**
-- the radioresistance reappraisal's dose-response regression, extended beyond external-beam series
+- per-patient dose and modality data, which none of the curated series publishes
+- a particle-registry search by histology
 
 ## Where this route ends — the paper
 
 **[PUB-LOCOREGIONAL](L3-publications.md)** — *Anatomical selectivity in an indolent, extremity-primary, lung-metastasising sarcoma* (unwritten)
 
-`contributing` · ○ `unwritten` · aimed at `preprint`
+`contributing` · ◔ `outlined` · aimed at `preprint`
 
 **This route contributes:** One of the anatomical-selectivity strategies a disease that is extremity-primary, lung-metastasis-dominant and indolent is unusually well matched to.
 
 **The paper would claim:** A disease that is extremity-primary, lung-metastasis-dominant and slow enough for local control to matter is unusually well matched to locoregional and radiation-based treatment, and a portfolio containing no physical intervention at all had never assessed any of it.
 
-**It is not written because:** The eligibility arithmetic it rests on has not been extracted from the curated cohorts yet, and without it the paper would be an argument with no denominator.
+**It is not written because:** ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. The arithmetic ran on 2026-08-09 under the repository's binding pooling contract, and it splits cleanly: the SIZE OF THE PROBLEM is computable and now computed — roughly a third of localised patients develop distant disease and a substantial minority recur locally, each pooled over three or four non-overlapping series with its heterogeneity range shown. ⛔ But the ELIGIBILITY criteria are not extractable, because they were never curated: no cohort carries a primary anatomical site field, metastatic site appears once in free text rather than as data, and no cohort records lesion burden or time-to-metastasis. So the paper has its denominator and not its numerator. ⭐ That is still writable and is arguably a better paper: the argument, the sized problem, and an explicit statement of which single curation step would convert it into an eligible fraction — which is $0 for the open-access series. ⛔ Superseded, retained: "the eligibility arithmetic has not been extracted from the curated cohorts yet", which reads as though extraction were the missing step. For two of the three quantities no extraction could have produced them.
 
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The remaining steps are $0 curation and literature search, both self-doable.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -105,7 +116,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Build the dose-response regression for the radioresistance reappraisal including brachytherapy and particle-therapy arms, and search the particle registries by histology.
+Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does not need per-patient data.
 
 *Cost:* $0
 

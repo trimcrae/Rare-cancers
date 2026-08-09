@@ -7186,10 +7186,9 @@
     "kind": "route",
     "title": "Isolated limb perfusion for extremity disease",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; the portfolio contained no physical intervention of any kind before it.",
+      "value": "⚠ NOT GRADEABLE ON ELIGIBILITY — THE ONE NUMBER THIS ROUTE NEEDS IS NOT A CURATED FIELD (2026-08-09). Isolated limb perfusion is offerable only for an extremity primary, so the eligible fraction IS the extremity fraction. ⛔ No cohort in the registry carries a site field: the registry's site information is a prose ordering with no counts behind it, and a prose ordering cannot become a denominator. That is an absent reading, NOT a reading of absence — nothing here says the extremity fraction is low, and the premise remains untested. ⭐ What the arithmetic DID supply is the size of the problem this route addresses: local recurrence runs at a substantial minority across four non-overlapping series, with a wide between-study range the pooled figure hides.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "35--locoregional-and-radiation"
+        "file": "research/modalities/emc-locoregional-eligibility.json"
       }
     },
     "grade_pointers": [],
@@ -7218,18 +7217,25 @@
     },
     "purpose": "What fraction of patients have disease confined enough for regional limb perfusion to be an option?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
       "status": "blocked",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "A regional technique with an approved agent and an established role in unresectable extremity soft-tissue sarcoma — and this disease's most common primary site is deep soft tissue of the thigh and lower limb, so the anatomical precondition is met more often here than in most sarcomas. It was invisible to every prior search, all of which looked only at molecular modalities.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-LOCOREGIONAL-ELIGIBILITY",
+        "what_it_supports": "local recurrence across four non-overlapping series is a substantial minority with wide between-study heterogeneity, while primary anatomical site is not a curated field on any cohort",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "What fraction of patients present with extremity-confined disease, which has never been summed from the curated cohorts.",
-      "Whether any myxoid histology appears in the published perfusion series at all."
+      "What fraction of primaries are extremity — the route's entire eligibility question, absent from the registry by omission rather than by extraction failure.",
+      "Whether the wide recurrence heterogeneity reflects margin status, era or referral pattern, which the pooled figure cannot separate.",
+      "Whether the perfusion literature contains any myxoid histology at all, which has not been searched."
     ],
     "required_validation": [
       {
@@ -7248,17 +7254,21 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "the anatomical-site arithmetic from the cohorts already curated here"
+        "primary-site curation from the pooled series' primary reports, which is $0 for the open-access ones",
+        "a search of the perfusion literature for myxoid histologies specifically"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "A route whose eligibility criterion is uncurated cannot be graded on eligibility, only on the size of the problem it would address."
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "rationale": "The remaining steps are $0 curation and literature search, both self-doable.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
     },
     "next": {
-      "best_next_action": "Pool the anatomical-site distribution across the curated EMC series to size the eligible fraction, and search the perfusion literature for myxoid histologies specifically.",
+      "best_next_action": "Curate primary anatomical site from the open-access pooled series, then search the perfusion literature for myxoid histologies.",
       "cost": "$0"
     }
   },
@@ -7269,10 +7279,9 @@
     "kind": "route",
     "title": "Lung-directed local therapy (regional perfusion, inhaled delivery, ablation)",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; it extends an approach the curated record already documents in its surgical form.",
+      "value": "◐ THE POPULATION EXISTS; THE ELIGIBILITY CRITERION IS NOT CURATED (2026-08-09). ⭐ The route's premise half holds and is now sized: across three non-overlapping series, roughly a third of localised patients develop distant disease, so the population a lung-directed strategy exists for is real and is a substantial minority rather than a rarity. ⛔ But the criterion that decides OFFERABILITY is not computable here. Metastatic SITE is recorded in one series' free-text note and nowhere as a field; lesion BURDEN and time-to-metastasis are absent from every cohort. So the fraction meeting any conventional oligometastatic threshold cannot be stated, and the route must stop describing that as an extraction — the data was never curated, not merely un-extracted.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "35--locoregional-and-radiation"
+        "file": "research/modalities/emc-locoregional-eligibility.json"
       }
     },
     "grade_pointers": [],
@@ -7301,18 +7310,25 @@
     },
     "purpose": "Does a lung-predominant, indolent metastatic pattern make local therapy of the metastases a better-matched strategy than systemic treatment?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
       "status": "blocked",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "The curated record for this disease states both that distant spread is mostly to lung and that removing isolated metastases can give long disease-free intervals — which is already the surgical form of this argument. Regional perfusion, inhaled delivery and percutaneous ablation extend it to patients and lesions surgery cannot reach, and none had ever been considered here.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-LOCOREGIONAL-ELIGIBILITY",
+        "what_it_supports": "roughly a third of localised EMC patients develop distant disease across three non-overlapping series, while metastatic site, lesion burden and time-to-metastasis are absent from the curated cohorts entirely",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "What fraction of patients are lung-limited and for how long, which has never been extracted from the curated cohorts.",
-      "Whether repeated local treatment changes the disease's course or only its imaging, which is the same endpoint problem this portfolio has already registered as a route."
+      "What fraction of metastatic patients are lung-CONFINED, which is the actual eligibility criterion. ⚠ One series' presenting cohort is strikingly lung-dominant in a free-text note, and one series' presenting cohort is not a pooled distribution.",
+      "What fraction would meet any conventional oligometastatic threshold, which needs lesion counts that none of these series publishes.",
+      "Whether crude during-follow-up proportions understate the lifetime rate in a disease whose metastases appear over many years — they do, and the direction of that bias runs in this route's favour, which is why it is stated rather than omitted."
     ],
     "required_validation": [
       {
@@ -7331,17 +7347,20 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "the metastatic-site and burden arithmetic from the cohorts already curated here"
+        "metastatic-site and lesion-burden curation from the pooled series' primary reports, which is $0 for the open-access ones and is this route's single highest-value step"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "The denominator is now real and the eligibility numerator is not, so the route can size the problem and cannot yet size its own addressable population."
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "rationale": "The remaining steps are $0 curation and literature search, both self-doable.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
     },
     "next": {
-      "best_next_action": "Extract metastatic-site distribution, burden at presentation and time-to-metastasis from the curated registry cohorts, and state what fraction would meet a conventional oligometastatic threshold.",
+      "best_next_action": "Re-curate metastatic site from the open-access primary reports of the pooled series — the one $0 step that converts this route's denominator into an eligible fraction.",
       "cost": "$0"
     }
   },
@@ -7352,10 +7371,9 @@
     "kind": "route",
     "title": "Radiotherapy intensification (particle therapy, brachytherapy, radiosensitisation, hyperthermia)",
     "grade": {
-      "value": "⭑ Registered 2026-08-09 from the modality census; it attaches to a contradiction already live in this repository's record rather than opening a new question.",
+      "value": "◐ THE PROBLEM IS SIZED AND THE DOSE-RESPONSE IS NOT (2026-08-09). Local recurrence across four non-overlapping series is a substantial minority — so the problem this route addresses is real — but the per-cohort rates span a wide range, and one of the pooled series reports LOCOREGIONAL recurrence specifically while the others report recurrence unqualified. ⛔ The pooled recurrence figure is therefore a MIXTURE of endpoints and is the weaker of the two quantities this arithmetic produced. No dose, modality or margin data is curated anywhere, so the radioresistance reappraisal this route proposes cannot be built from the registry.",
       "owner": {
-        "file": "research/manuscripts/cancer-modality-census.md",
-        "anchor": "35--locoregional-and-radiation"
+        "file": "research/modalities/emc-locoregional-eligibility.json"
       }
     },
     "grade_pointers": [],
@@ -7384,18 +7402,25 @@
     },
     "purpose": "Is this disease's contested radiosensitivity a question about dose, or about the quality and delivery of dose?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "authorization": "free",
       "status": "blocked",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
       "last_verified": "2026-08-09"
     },
     "rationale": "This repository's own record contains a live contradiction about whether radiotherapy does anything in this disease — two registries and the largest series disagree. Every prior treatment of that question has been about whether to give radiotherapy. No prior sweep considered that the answer might be dose quality, dose geometry or radiosensitisation, and the one striking combination response in the literature is itself a radiotherapy combination that was previously recorded only as a confound.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-LOCOREGIONAL-ELIGIBILITY",
+        "what_it_supports": "local recurrence is a substantial minority across four non-overlapping series, but the pooled figure mixes locoregional-specific and unqualified recurrence endpoints and no dose, modality or margin data is curated",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
-      "Whether the existing radioresistance contradiction resolves to a dose-response relationship or to selection bias, which the reappraisal already scoped here would settle.",
-      "Whether particle-therapy or brachytherapy series contain any myxoid or chondroid histology in reportable numbers."
+      "Whether the recurrence heterogeneity is dose-related at all, which needs per-patient radiotherapy detail that no cohort carries.",
+      "Whether brachytherapy and particle-therapy arms exist in this histology, which has not been searched in the particle registries.",
+      "How much of the pooled recurrence figure is margin status rather than radioresistance — one series names margins as its main risk factor and this pooling cannot separate them."
     ],
     "required_validation": [
       {
@@ -7414,17 +7439,21 @@
     "readiness": {
       "attainable_today": "internal_note",
       "missing": [
-        "the radioresistance reappraisal's dose-response regression, extended beyond external-beam series"
+        "per-patient dose and modality data, which none of the curated series publishes",
+        "a particle-registry search by histology"
       ],
-      "why_not_higher": "Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation."
+      "why_not_higher": "The endpoint mixture and the absent dose data mean the reappraisal's regression has no inputs, even though the problem it addresses is now sized."
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.",
-      "cost_trend": "flat"
+      "rationale": "The remaining steps are $0 curation and literature search, both self-doable.",
+      "cost_trend": "flat",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
     },
     "next": {
-      "best_next_action": "Build the dose-response regression for the radioresistance reappraisal including brachytherapy and particle-therapy arms, and search the particle registries by histology.",
+      "best_next_action": "Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does not need per-patient data.",
       "cost": "$0"
     }
   },

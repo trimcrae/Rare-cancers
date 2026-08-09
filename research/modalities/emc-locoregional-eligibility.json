@@ -1,0 +1,174 @@
+{
+  "_what": "Eligibility denominators for the locoregional and radiation routes, pooled from the curated EMC clinical registry under the repository's binding evidence contract.",
+  "_no_clinical_claim": "⛔ Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for any locoregional, radiation or surgical intervention. An eligibility denominator says how many patients a strategy could be offered to IF it worked.",
+  "_method": {
+    "contract": "systems/POLICY-evidence.md §2 (binding)",
+    "estimator": "crude denominator-weighted proportions",
+    "interval": "Wilson score, 95%",
+    "heterogeneity": "range of per-cohort rates; I² deliberately not computed",
+    "endpoint_kind": "during-follow-up proportions, mixed and differing follow-up, censoring ignored — NOT survival estimates and NOT prognostic for an individual",
+    "not_used": "the DerSimonian–Laird random-effects pooler in research/meta/meta-analysis.mjs — POLICY-evidence's own warning is that quoting one where the other is meant is a real error; this is the simple-proportion case its §2 governs"
+  },
+  "_source": "research/data/emc-clinical-registry.json (registry.cohorts, dataStatus: partial-curated)",
+  "_generated_by": "research/modalities/emc_locoregional_eligibility.py",
+  "⛔_what_the_registry_cannot_answer": {
+    "primary_anatomical_site_distribution": {
+      "wanted_by": "RT-LIMB-PERFUSION — isolated limb perfusion is only offerable for an extremity primary, so the eligible fraction IS the extremity fraction",
+      "computable": false,
+      "why": "⛔ NO COHORT IN THE REGISTRY CARRIES A SITE FIELD. `overview.commonSites` is a prose list ('deep soft tissue of the thigh and lower limb (most common)', limb girdles, trunk, less commonly upper limb / head and neck / retroperitoneum) with no counts behind it, and a prose ordering cannot become a denominator. This was never entered, so it is not an extraction that has not been done.",
+      "what_would_supply_it": "re-curating the pooled series' site tables from their primary reports — $0 for the open-access ones, and the single highest-value curation this endpoint is waiting on"
+    },
+    "metastatic_site_distribution": {
+      "wanted_by": "RT-LUNG-DIRECTED — a lung-directed strategy is offerable only to patients whose metastases are lung-confined",
+      "computable": "partially",
+      "why": "⚠ ONE COHORT CARRIES IT AND IT IS IN A NOTE, NOT A FIELD. The metastatic-at-diagnosis stratum records '27 lung, 2 peritoneal metastases' in free text on n = 29. That is a real and strikingly lung-dominant reading, and it is ONE series' presenting cohort — it is not a pooled distribution and must not be quoted as one. No other cohort records metastatic site at all.",
+      "what_would_supply_it": "the same re-curation as above; site is reported in several of these series' primary texts"
+    },
+    "burden_and_timing": {
+      "wanted_by": "RT-LUNG-DIRECTED — an oligometastatic threshold is a COUNT of lesions, and time-to-metastasis decides whether a local-control strategy has a window",
+      "computable": false,
+      "why": "⛔ NO LESION COUNTS AND NO TIME-TO-METASTASIS ANYWHERE IN THE REGISTRY. Event counts and median follow-up exist; per-patient lesion burden and interval-to-metastasis do not. So the fraction meeting any conventional oligometastatic threshold is NOT computable here, and the route must stop naming it as an extraction.",
+      "what_would_supply_it": "individual-patient data, which none of these series publishes"
+    },
+    "who_ever_metastasises": {
+      "wanted_by": "the whole endpoint — the fraction of localised patients who ever develop distant disease is the population any lung-directed or delaying strategy exists for",
+      "computable": true,
+      "why": "✅ Explicit integer {events, denom} on three non-overlapping poolable cohorts.",
+      "what_would_supply_it": null
+    },
+    "who_recurs_locally": {
+      "wanted_by": "RT-LIMB-PERFUSION and RT-RT-INTENSIFY — both act on local control, so the local recurrence rate is the size of the problem they address",
+      "computable": true,
+      "why": "✅ Explicit integer {events, denom} on four non-overlapping poolable cohorts.",
+      "what_would_supply_it": null
+    }
+  },
+  "who_ever_metastasises": {
+    "outcome": "metastasis",
+    "events": 94,
+    "denom": 259,
+    "percent": 36.3,
+    "ci95_lo_percent": 30.7,
+    "ci95_hi_percent": 42.3,
+    "interval": "Wilson score, 95%",
+    "estimator": "crude denominator-weighted proportion, during-follow-up, censoring ignored (POLICY-evidence §2.2, §2.4)",
+    "cohorts_pooled": [
+      "Localised at diagnosis, surgically treated",
+      "Long-term outcome series (Meis-Kindblom)",
+      "European two-institution series (Chiusole)"
+    ],
+    "source_ids": [
+      "chiusole2020",
+      "masunaga2025",
+      "meisKindblom1999"
+    ],
+    "per_cohort_percent": {
+      "Localised at diagnosis, surgically treated": 29.1,
+      "Long-term outcome series (Meis-Kindblom)": 46.1,
+      "European two-institution series (Chiusole)": 40.8
+    },
+    "heterogeneity_range_percent": [
+      29.1,
+      46.1
+    ],
+    "⚠_heterogeneity_note": "The range is the honest signal; I² is deliberately not computed (POLICY-evidence §2.2). A wide range means the point estimate hides real between-study variation.",
+    "cohorts_excluded": {
+      "Metastatic at diagnosis": "⛔ inclusion criterion IS the outcome (POLICY-evidence §2.1.3)",
+      "US Sarcoma Collaborative database": "no explicit integer metastasis counts",
+      "Localised, single-institution series": "pool: false — population-overlap (US single institution; likely within SEER / US Sarcoma Collaborative)",
+      "Localised, US SEER population": "pool: false — population-overlap; percentage-only",
+      "Local recurrence by surgical margin": "pool: false — percentage-only",
+      "Advanced disease on pazopanib": "pool: false — different-endpoint",
+      "SEER overall-survival series": "pool: false — population-overlap; percentage-only",
+      "Two-referral-center long-term series (Drilon)": "pool: false — percentage-only",
+      "Single-institution series (U Michigan)": "pool: false — population-overlap",
+      "Japanese multi-institutional series": "pool: false — different-endpoint",
+      "Chinese series": "pool: false — percentage-only"
+    },
+    "dominance": "Localised at diagnosis, surgically treated"
+  },
+  "who_recurs_locally": {
+    "outcome": "recurrence",
+    "events": 88,
+    "denom": 326,
+    "percent": 27.0,
+    "ci95_lo_percent": 22.5,
+    "ci95_hi_percent": 32.1,
+    "interval": "Wilson score, 95%",
+    "estimator": "crude denominator-weighted proportion, during-follow-up, censoring ignored (POLICY-evidence §2.2, §2.4)",
+    "cohorts_pooled": [
+      "Localised at diagnosis, surgically treated",
+      "Long-term outcome series (Meis-Kindblom)",
+      "US Sarcoma Collaborative database",
+      "European two-institution series (Chiusole)"
+    ],
+    "source_ids": [
+      "chiusole2020",
+      "masunaga2025",
+      "meisKindblom1999",
+      "ussc2022"
+    ],
+    "per_cohort_percent": {
+      "Localised at diagnosis, surgically treated": 11.9,
+      "Long-term outcome series (Meis-Kindblom)": 48.2,
+      "US Sarcoma Collaborative database": 30.0,
+      "European two-institution series (Chiusole)": 28.6
+    },
+    "heterogeneity_range_percent": [
+      11.9,
+      48.2
+    ],
+    "⚠_heterogeneity_note": "The range is the honest signal; I² is deliberately not computed (POLICY-evidence §2.2). A wide range means the point estimate hides real between-study variation.",
+    "cohorts_excluded": {
+      "Metastatic at diagnosis": "no explicit integer recurrence counts",
+      "Localised, single-institution series": "pool: false — population-overlap (US single institution; likely within SEER / US Sarcoma Collaborative)",
+      "Localised, US SEER population": "pool: false — population-overlap; percentage-only",
+      "Local recurrence by surgical margin": "pool: false — percentage-only",
+      "Advanced disease on pazopanib": "pool: false — different-endpoint",
+      "SEER overall-survival series": "pool: false — population-overlap; percentage-only",
+      "Two-referral-center long-term series (Drilon)": "pool: false — percentage-only",
+      "Single-institution series (U Michigan)": "pool: false — population-overlap",
+      "Japanese multi-institutional series": "pool: false — different-endpoint",
+      "Chinese series": "pool: false — percentage-only"
+    },
+    "dominance": "Localised at diagnosis, surgically treated"
+  },
+  "citations_of_pooled_cohorts": {
+    "chiusole2020": {
+      "short": "Chiusole 2020",
+      "title": "Extraskeletal Myxoid Chondrosarcoma: Clinical and Molecular Characteristics and Outcomes of Patients Treated at Two Institutions.",
+      "year": 2020,
+      "pmid": "32612944",
+      "pmcid": "PMC7308468",
+      "doi": "10.3389/fonc.2020.00828"
+    },
+    "masunaga2025": {
+      "short": "Masunaga 2025",
+      "title": "The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma",
+      "journal": "J Orthop Surg Res",
+      "year": 2025,
+      "pmcid": "PMC12398172",
+      "doi": "10.1186/s13018-025-06245-6"
+    },
+    "meisKindblom1999": {
+      "short": "Meis-Kindblom 1999",
+      "title": "Extraskeletal myxoid chondrosarcoma: a reappraisal of its morphologic spectrum and prognostic factors based on 117 cases.",
+      "year": 1999,
+      "pmid": "10366145",
+      "doi": "10.1097/00000478-199906000-00002"
+    },
+    "ussc2022": {
+      "short": "US Sarcoma Collaborative 2022",
+      "title": "Extraskeletal myxoid chondrosarcoma: Clinicopathological features and outcomes from the United States sarcoma collaborative database.",
+      "year": 2022,
+      "pmid": "35962783",
+      "doi": "10.1002/jso.27062"
+    }
+  },
+  "_limits": [
+    "⚠ ONE SERIES CONTRIBUTES THE LARGEST DENOMINATOR TO BOTH POOLS, which POLICY-evidence §2.2 requires be disclosed rather than buried in a weighted mean.",
+    "The pooled series differ in era, referral pattern and follow-up. One is explicitly a consultation series, i.e. selected toward diagnostically difficult tumours, which is a selection this pooling cannot correct for.",
+    "⛔ Distant metastasis and LOCAL recurrence are different endpoints with different clinical meaning, and one cohort reports locoregional recurrence specifically while others report recurrence without qualifying it. The pooled recurrence figure is therefore a mixture and is the weaker of the two.",
+    "Crude proportions over mixed follow-up systematically UNDERSTATE lifetime event rates in a disease whose metastases appear over many years, which is precisely this disease. The direction of that bias is stated because it runs against the routes' own argument and must not be quietly omitted."
+  ]
+}

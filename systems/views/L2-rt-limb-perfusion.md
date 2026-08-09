@@ -18,15 +18,15 @@ last_verified: 2026-08-05
 
 # RT-LIMB-PERFUSION — Isolated limb perfusion for extremity disease
 
-**Family:** [ST-LOCOREGIONAL](L1-st-locoregional.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-09
+**Family:** [ST-LOCOREGIONAL](L1-st-locoregional.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/cancer-modality-census.md`](../../research/manuscripts/cancer-modality-census.md#35--locoregional-and-radiation)): ⭑ Registered 2026-08-09 from the modality census; the portfolio contained no physical intervention of any kind before it.
+**Grade** (owned by [`research/modalities/emc-locoregional-eligibility.json`](../../research/modalities/emc-locoregional-eligibility.json)): ⚠ NOT GRADEABLE ON ELIGIBILITY — THE ONE NUMBER THIS ROUTE NEEDS IS NOT A CURATED FIELD (2026-08-09). Isolated limb perfusion is offerable only for an extremity primary, so the eligible fraction IS the extremity fraction. ⛔ No cohort in the registry carries a site field: the registry's site information is a prose ordering with no counts behind it, and a prose ordering cannot become a denominator. That is an absent reading, NOT a reading of absence — nothing here says the extremity fraction is low, and the premise remains untested. ⭐ What the arithmetic DID supply is the size of the problem this route addresses: local recurrence runs at a substantial minority across four non-overlapping series, with a wide between-study range the pooled figure hides.
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_LIMB_PERFUSION["○ RT-LIMB-PERFUSION"]:::fam
+  RT_LIMB_PERFUSION["✓ RT-LIMB-PERFUSION"]:::fam
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_LIMB_PERFUSION
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -45,10 +45,17 @@ flowchart LR
 
 A regional technique with an approved agent and an established role in unresectable extremity soft-tissue sarcoma — and this disease's most common primary site is deep soft tissue of the thigh and lower limb, so the anatomical precondition is met more often here than in most sarcomas. It was invisible to every prior search, all of which looked only at molecular modalities.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-LOCOREGIONAL-ELIGIBILITY` | local recurrence across four non-overlapping series is a substantial minority with wide between-study heterogeneity, while primary anatomical site is not a curated field on any cohort | `direct` |
+
 ## Remaining unknowns
 
-- What fraction of patients present with extremity-confined disease, which has never been summed from the curated cohorts.
-- Whether any myxoid histology appears in the published perfusion series at all.
+- What fraction of primaries are extremity — the route's entire eligibility question, absent from the registry by omission rather than by extraction failure.
+- Whether the wide recurrence heterogeneity reflects margin status, era or referral pattern, which the pooled figure cannot separate.
+- Whether the perfusion literature contains any myxoid histology at all, which has not been searched.
 
 ## Required validation
 
@@ -67,32 +74,36 @@ A regional technique with an approved agent and an established role in unresecta
 
 **`internal_note`**
 
-Nothing has been run. This route was registered on 2026-08-09 from the modality census and is at concept maturity, so the only honest output today is the question and its cheapest next observation.
+A route whose eligibility criterion is uncurated cannot be graded on eligibility, only on the size of the problem it would address.
 
 **Missing:**
-- the anatomical-site arithmetic from the cohorts already curated here
+- primary-site curation from the pooled series' primary reports, which is $0 for the open-access ones
+- a search of the perfusion literature for myxoid histologies specifically
 
 ## Where this route ends — the paper
 
 **[PUB-LOCOREGIONAL](L3-publications.md)** — *Anatomical selectivity in an indolent, extremity-primary, lung-metastasising sarcoma* (unwritten)
 
-`contributing` · ○ `unwritten` · aimed at `preprint`
+`contributing` · ◔ `outlined` · aimed at `preprint`
 
 **This route contributes:** One of the anatomical-selectivity strategies a disease that is extremity-primary, lung-metastasis-dominant and indolent is unusually well matched to.
 
 **The paper would claim:** A disease that is extremity-primary, lung-metastasis-dominant and slow enough for local control to matter is unusually well matched to locoregional and radiation-based treatment, and a portfolio containing no physical intervention at all had never assessed any of it.
 
-**It is not written because:** The eligibility arithmetic it rests on has not been extracted from the curated cohorts yet, and without it the paper would be an argument with no denominator.
+**It is not written because:** ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. The arithmetic ran on 2026-08-09 under the repository's binding pooling contract, and it splits cleanly: the SIZE OF THE PROBLEM is computable and now computed — roughly a third of localised patients develop distant disease and a substantial minority recur locally, each pooled over three or four non-overlapping series with its heterogeneity range shown. ⛔ But the ELIGIBILITY criteria are not extractable, because they were never curated: no cohort carries a primary anatomical site field, metastatic site appears once in free text rather than as data, and no cohort records lesion burden or time-to-metastasis. So the paper has its denominator and not its numerator. ⭐ That is still writable and is arguably a better paper: the argument, the sized problem, and an explicit statement of which single curation step would convert it into an eligible fraction — which is $0 for the open-access series. ⛔ Superseded, retained: "the eligibility arithmetic has not been extracted from the curated cohorts yet", which reads as though extraction were the missing step. For two of the three quantities no extraction could have produced them.
 
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**
 
-The next step costs nothing and needs nobody's cooperation, so there is no reason to defer it; what it returns decides whether this route is worth more than a row.
+The remaining steps are $0 curation and literature search, both self-doable.
 
 | horizon | effect |
 |---|---|
 | Cost trend | flat |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -105,7 +116,7 @@ The next step costs nothing and needs nobody's cooperation, so there is no reaso
 
 ## Best next action
 
-Pool the anatomical-site distribution across the curated EMC series to size the eligible fraction, and search the perfusion literature for myxoid histologies specifically.
+Curate primary anatomical site from the open-access pooled series, then search the perfusion literature for myxoid histologies.
 
 *Cost:* $0
 
