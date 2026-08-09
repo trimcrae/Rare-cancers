@@ -1,0 +1,65 @@
+{
+  "_what": "The citations the EMC MTAP/PRMT5 hypothesis rests on, each RETRIEVED and READ rather than recalled, with the specific proposition it is cited for.",
+  "_why_this_file_exists": "research/manuscripts/lint_citations.py requires every identifier in prose to appear in a tracked .json/.jsonl -- a fetch product rather than a recollection. This is that anchor. ⛔ It exists because a model once wrote a PMID from memory into a manuscript here and it passed the language linter twice; the identifier existed in no committed source anywhere.",
+  "_provenance": "GitHub Actions run of fetch-literature.yml on 2026-08-09, query (MTAP OR \"methylthioadenosine phosphorylase\") AND (PRMT5 OR MAT2A OR \"synthetic lethal\" OR \"synthetic lethality\"), 591 open-access full texts published to the literature-cache branch under literature/mtap-prmt5-synthetic-lethality/. Every entry below was read from that corpus.",
+  "_verification_level": "[FT] full text read in the fetched corpus. Bibliographic identifiers were taken FROM the retrieved document, never typed from recollection.",
+  "_what_this_corpus_does_not_contain": "⭐ THE FINDING THAT MATTERS MOST. Searched corpus-wide for this histology: no MTAP status, no PRMT5 data and no MAT2A data for extraskeletal myxoid chondrosarcoma appears in any of the 591 papers. The four incidental mentions of the histology are diagnostic-pathology asides with no bearing on this axis. The question is open, not answered and overlooked.",
+  "citations": [
+    {
+      "id": "PMC11404761",
+      "pmid": "39132873",
+      "doi": "10.1097/PAS.0000000000002297",
+      "journal": "American Journal of Surgical Pathology",
+      "year": 2024,
+      "title": "Prevalence of S-methyl-5'-thioadenosine Phosphorylase (MTAP) Deficiency in Human Cancer: A Tissue Microarray Study on 13,067 Tumors From 149 Different Tumor Types",
+      "verification": "[FT]",
+      "cited_for": [
+        "MTAP immunohistochemistry is a usable surrogate for homozygous 9p21 deletion: homozygous deletion was found in 90% to 100% of cases showing complete MTAP expression loss in most tumour categories, validated by FISH.",
+        "MTAP is ubiquitously expressed in normal tissue, which is what makes complete loss on IHC interpretable.",
+        "MTAP loss occurs in various types of sarcoma at up to 20%.",
+        "⚠ The survey covers 149 tumour types and this histology is not among the sarcoma subtypes its text names, so it supplies a class prior and not an answer."
+      ]
+    },
+    {
+      "id": "PMC10618744",
+      "pmid": "37552839",
+      "doi": "10.1158/2159-8290.CD-23-0669",
+      "journal": "Cancer Discovery",
+      "year": 2023,
+      "title": "MRTX1719 Is an MTA-Cooperative PRMT5 Inhibitor That Exhibits Synthetic Lethality in Preclinical Models and Patients with MTAP-Deleted Cancer",
+      "verification": "[FT]",
+      "cited_for": [
+        "The MTAP-deletion-selected PRMT5 axis has reached patients: an MTA-cooperative PRMT5 inhibitor is in clinical study selected on MTAP deletion.",
+        "⛔ Cited for the existence and selection principle of the class ONLY. Nothing about this agent's activity is transferred to any other disease here, and nothing in this repository asserts efficacy for it anywhere."
+      ]
+    },
+    {
+      "id": "PMC10010627",
+      "pmid": "36913304",
+      "doi": "10.18632/oncotarget.28376",
+      "journal": "Oncotarget",
+      "year": 2023,
+      "title": "Genomic landscape of metastatic breast cancer (MBC) patients with methylthioadenosine phosphorylase (MTAP) loss",
+      "verification": "[FT]",
+      "cited_for": [
+        "CDKN2A and CDKN2B loss are near-universally associated with MTAP loss (100% and 97% in that series), which is the basis of the 9p21 co-deletion argument.",
+        "⭐ AND IT IS CITED AGAINST THIS DOCUMENT'S OWN HYPOTHESIS, which is why it is here: the association runs in the direction that makes a low three-gene locus group ambiguous. MTAP loss implies CDKN2A loss; CDKN2A loss does not imply MTAP loss. So a group score can fall on a CDKN2A event alone."
+      ]
+    },
+    {
+      "id": "10.1101/2022.03.23.485409",
+      "kind": "preprint",
+      "server": "bioRxiv",
+      "posted": "2022-03-23",
+      "title": "PRMT5 as a Novel Druggable Vulnerability for EWSR1-ATF1-driven Clear Cell Sarcoma",
+      "verification": "[FT]",
+      "retrieved_in": "literature/emc-post-degrader-options/prmt5_ccs_biorxiv_pdf.txt",
+      "cited_for": [
+        "PRMT5 enhances EWSR1-ATF1-mediated gene transcription and sustains clear cell sarcoma proliferation; genetic silencing impaired both proliferation and fusion-driven transcription; a clinical-stage PRMT5 inhibitor inhibited growth in vitro and in vivo.",
+        "⭐ This is the load-bearing citation for the STRONGER of the two rationales in this document, because its mechanism runs through the EWSR1 portion of a fusion rather than through MTAP status.",
+        "⛔ IT IS A PREPRINT AND ITS OWN PAGES SAY SO -- 'not certified by peer review'. Its peer-review status since 2022 was NOT established here, and any use of it must carry that.",
+        "⚠ ALSO: it was already in this repository's literature cache, fetched for a different sweep, and no document here has ever referenced it. It was retrieved and never read."
+      ]
+    }
+  ]
+}

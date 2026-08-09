@@ -50,7 +50,7 @@ last_verified: 2026-08-06
 | **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-MODALITY-CENSUS**<br/>[What oncology can do, and what reaches extraskeletal myxoid chondrosarc…](../../research/manuscripts/cancer-modality-census.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-MONOVALENT**<br/>[The monovalent pocket-modulation route — a small molecule that only occ…](../../research/manuscripts/nr4a3-monovalent-pocket-route.md) | ◐ `drafted` | `internal_note` | 1 | — |
-| **PUB-MTAP-PRMT5**<br/>[MTAP-locus loss and methylosome elevation in extraskeletal myxoid chond…](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-MTAP-PRMT5**<br/>[PRMT5 in extraskeletal myxoid chondrosarcoma — a hypothesis with two in…](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-NEOANTIGEN**<br/>[Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal …](../../research/manuscripts/fusion-junction-neoantigen-paper.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-REPURPOSING**<br/>[Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid ch…](../../research/manuscripts/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
 | **PUB-SURFACE-TARGETS**<br/>[In-silico surface-antigen prioritisation for extraskeletal myxoid chond…](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
@@ -247,15 +247,15 @@ Occupancy of the NR4A3 pocket without recruitment is a distinct route from degra
 |---|---|---|
 | [RT-MONOVALENT](L2-rt-monovalent.md) — Monovalent LBD pocket modulation — a molecule that o | `primary` | The whole memo: that occupancy without recruitment is a separate question nobody has asked, and what a sized selectivity requirement for it would have to look like. |
 
-### PUB-MTAP-PRMT5 — MTAP-locus loss and methylosome elevation in extraskeletal myxoid chondrosarcoma — a biomarker-selected hypothesis, and the one cheap test that would settle it
+### PUB-MTAP-PRMT5 — PRMT5 in extraskeletal myxoid chondrosarcoma — a hypothesis with two independent routes in, and the cheap test that would settle the second
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-mtap-prmt5-hypothesis.md`](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md) · ships with **PUB-MODALITY-CENSUS****
 
-Public archival expression data places the MTAP/CDKN2A/CDKN2B locus lower in extraskeletal myxoid chondrosarcoma than in comparator sarcomas and the PRMT5 methylosome higher on both readable platforms — the shape an MTAP-deleted, methylosome-loaded state makes — which raises the first genetically selected treatment hypothesis this disease has had, and which one routine immunohistochemical stain on archival tissue would confirm or kill.
+Two independent lines point at the PRMT5 methylosome in extraskeletal myxoid chondrosarcoma and neither has ever been examined in it: a published preclinical result that PRMT5 supports EWSR1-fusion-driven transcription in a sibling translocation sarcoma sharing the same 5' gene, and public expression data placing the methylosome higher and the MTAP locus lower in this disease than in comparator sarcomas. Each ends at a different inexpensive experiment, and the negative branch of each is worth publishing.
 
 | route | role | what it contributes |
 |---|---|---|
-| [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) — PRMT5 / MAT2A synthetic lethality (MTAP co-deletion) | `primary` | The route IS the paper: the locus reading, the methylosome reading, the confound that could produce the first without the second, and the single inexpensive stain that separates them. |
+| [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) — PRMT5 / MAT2A synthetic lethality (MTAP co-deletion) | `primary` | The route IS the paper: two independent routes into the same class, the confounds that could produce each reading without the underlying biology, and the two different cheap experiments that separate them. |
 
 ### PUB-NEOANTIGEN — Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal myxoid chondrosarcoma: a fusion-exclusive immunot
 

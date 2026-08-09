@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ ready · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/manuscripts/emc-mtap-prmt5-hypothesis.md`](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md#3--the-reading)): ⭐ SUPPORTED at the level public expression data can reach (2026-08-09). The MTAP/CDKN2A/CDKN2B locus reads LOWER in EMC on the platform where the read is powered (t=-4.06, 3/3 genes readable, 6 vs 29); the PRMT5 methylosome reads HIGHER on BOTH platforms; MAT2A sits at the 99th and 84th array percentile. ⛔ A transcript is not a copy number and this is not a copy-number call.
+**Grade** (owned by [`research/manuscripts/emc-mtap-prmt5-hypothesis.md`](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md#3--the-reading)): ⭐ TWO INDEPENDENT LINES, neither established (2026-08-09). Route 1: a published preclinical result that PRMT5 supports EWSR1-fusion-driven transcription in a sibling sarcoma with the same 5' gene — the stronger line, and its source is an uncertified preprint. Route 2: the MTAP/CDKN2A/CDKN2B locus reads LOWER in EMC where powered (t=-4.06) and the PRMT5 methylosome HIGHER on both platforms. ⛔ Neither is a copy-number call or a dependency measurement.
 
 ## What has to land for this route to move
 
@@ -49,20 +49,22 @@ One of the few genuinely biomarker-selected synthetic-lethal classes in oncology
 
 | ref | supports | strength |
 |---|---|---|
-| `ART-CENSUS-ROUTE-GRADING` | the MTAP locus group reads lower in EMC than in comparator sarcomas on the platform where all three genes are readable, and the PRMT5 methylosome reads higher on both | `direct` |
+| `ART-CENSUS-ROUTE-GRADING` | the PRMT5 methylosome reads higher in EMC than in comparator sarcomas on both readable platforms, and the MTAP locus group reads lower on the platform where all three genes are readable | `direct` |
 
 ## Remaining unknowns
 
-- Whether the MTAP locus is actually deleted, which is a copy-number question that a transcript read can triage and cannot answer.
-- Whether the low locus read is driven by CDKN2A alone — the neighbouring genes are silenced by mechanisms that leave MTAP intact, and only a gene-level call separates those.
-- Whether an elevated methylosome implies any dependency on it, which abundance never establishes.
+- Whether PRMT5's contribution in the sibling sarcoma runs through the shared EWSR1 moiety or is specific to that fusion's own DNA-binding partner — the transfer is an assumption and nothing here bridges it.
+- Whether the MTAP locus is actually deleted, which a transcript read can triage and cannot answer.
+- Whether the low locus read is driven by CDKN2A alone, which is near-universally co-lost with MTAP but is also lost by mechanisms that leave MTAP intact.
+- Whether an elevated methylosome implies any dependency on it.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| MTAP immunohistochemistry on archival EMC tissue — the decisive test, routine, and it needs no fresh tissue or cell line | ⛔ none built | **no** | BLK-NO-WET-LAB |
-| A gene-level copy-number or methylation read of the locus in any EMC cohort | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| A clinical-stage PRMT5 inhibitor added to the functional screen already running on the two published patient-derived EMC models — the decisive test for the stronger route | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| MTAP immunohistochemistry on archival EMC tissue — routine, no fresh tissue, no cell line | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| A gene-level copy-number read of the locus in any EMC cohort | ⛔ none built | **no** | BLK-NO-EMC-DATA |
 
 ## Blockers
 
@@ -81,13 +83,13 @@ The decisive observation is a stain on tissue this programme cannot obtain, so t
 
 ## Where this route ends — the paper
 
-**[PUB-MTAP-PRMT5](L3-publications.md)** — [MTAP-locus loss and methylosome elevation in extraskeletal myxoid chondrosarcoma — a biomarker-selected hypothesis, and the one cheap test that would settle it](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md)
+**[PUB-MTAP-PRMT5](L3-publications.md)** — [PRMT5 in extraskeletal myxoid chondrosarcoma — a hypothesis with two independent routes in, and the cheap test that would settle the second](../../research/manuscripts/emc-mtap-prmt5-hypothesis.md)
 
 `primary` · ◐ `drafted` · aimed at `preprint`
 
-**This route contributes:** The route IS the paper: the locus reading, the methylosome reading, the confound that could produce the first without the second, and the single inexpensive stain that separates them.
+**This route contributes:** The route IS the paper: two independent routes into the same class, the confounds that could produce each reading without the underlying biology, and the two different cheap experiments that separate them.
 
-**The paper would claim:** Public archival expression data places the MTAP/CDKN2A/CDKN2B locus lower in extraskeletal myxoid chondrosarcoma than in comparator sarcomas and the PRMT5 methylosome higher on both readable platforms — the shape an MTAP-deleted, methylosome-loaded state makes — which raises the first genetically selected treatment hypothesis this disease has had, and which one routine immunohistochemical stain on archival tissue would confirm or kill.
+**The paper would claim:** Two independent lines point at the PRMT5 methylosome in extraskeletal myxoid chondrosarcoma and neither has ever been examined in it: a published preclinical result that PRMT5 supports EWSR1-fusion-driven transcription in a sibling translocation sarcoma sharing the same 5' gene, and public expression data placing the methylosome higher and the MTAP locus lower in this disease than in comparator sarcomas. Each ends at a different inexpensive experiment, and the negative branch of each is worth publishing.
 
 ## Strategic timing — the wait equation
 
