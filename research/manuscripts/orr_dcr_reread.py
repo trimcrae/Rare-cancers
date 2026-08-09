@@ -81,6 +81,20 @@ def _quantile(sorted_vals, q):
     return round(sorted_vals[lo] + (sorted_vals[hi] - sorted_vals[lo]) * (i - lo), 1)
 
 
+def _require(d, key, where):
+    """Fetch a key that MUST exist, and fail loudly if it does not.
+
+    A .get() on a renamed key returns None, and a None flows into the artifact as a blank field that
+    reads exactly like "this quantity was not measured". That is the absent-reading-vs-reading-of-
+    absence failure this repository treats as serious, and it happened here: the EMC response rate
+    was read from 'pct' when the key is 'proportion_pct', and the artifact printed None rather than
+    complaining."""
+    if key not in d:
+        raise SystemExit(f"FAIL: expected key {key!r} in {where}. "
+                         f"Present: {sorted(d)}")
+    return d[key]
+
+
 def rows_from_corpus(corpus):
     out = []
     for a in corpus["C2_arms"]:
@@ -149,7 +163,7 @@ def build():
     tot_sd = sum(r["cells"]["SD"] for r in rows)
 
     emc_d1 = emc["D1_same_patients_two_endpoints"]
-    emc_gap = emc_d1.get("gap_pct_points")
+    emc_gap = _require(emc_d1, "gap_pct_points", "D1")
     gaps_sorted = sorted(r["gap_pp"] for r in rows)
     below_emc = sum(1 for g in gaps_sorted if g < emc_gap) if emc_gap is not None else None
 
@@ -259,8 +273,12 @@ def build():
                 "the original single-disease result becomes one labelled point in a cross-disease "
                 "distribution rather than a claim standing on its own."),
             "emc_gap_pp": emc_gap,
-            "emc_objective_response_pct": emc_d1.get("objective_response", {}).get("pct"),
-            "emc_disease_control_pct": emc_d1.get("disease_control", {}).get("pct"),
+            "emc_objective_response_pct": _require(
+                _require(emc_d1, "objective_response", "D1"),
+                "proportion_pct", "D1.objective_response"),
+            "emc_disease_control_pct": _require(
+                _require(emc_d1, "disease_control", "D1"),
+                "proportion_pct", "D1.disease_control"),
             "corpus_arms_with_a_smaller_gap": below_emc,
             "corpus_arms_total": len(rows),
             "emc_percentile_in_the_corpus": (

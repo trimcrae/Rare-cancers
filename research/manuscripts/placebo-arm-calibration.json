@@ -1,0 +1,774 @@
+{
+ "_schema": "placebo-arm-calibration/1",
+ "_generated_by": "research/manuscripts/placebo_arm_calibration.py",
+ "_do_not_hand_edit": true,
+ "title": "What happens on no active treatment, and how little of it has been measured",
+ "governed_by": "systems/POLICY-evidence.md 2.6",
+ "reads": [
+  "research/manuscripts/endpoint-corpus.json",
+  "research/manuscripts/emc-endpoint-alternatives.json",
+  "research/manuscripts/endpoint-regime-map.json"
+ ],
+ "P1_extraction_contract": {
+  "required_fields": [
+   "arm_type (placebo / BSC / observation)",
+   "background_therapy_verbatim",
+   "evaluable_n",
+   "CR, PR, SD, PD as integers",
+   "response_criterion_and_version",
+   "imaging_interval_weeks",
+   "assessment (investigator or blinded independent central review)",
+   "progression_required_at_entry (yes / no / unstated)",
+   "crossover_permitted",
+   "figure_is_pre_crossover",
+   "verbatim_quote",
+   "retrieved_file"
+  ],
+  "an_arm_missing_any_required_field_is_context_not_calibration": true,
+  "why_this_contract_is_strict": "a disease-control rate from an arm imaged every 6 weeks is not the same measurement as one imaged every 12, and an arm enrolled on documented progression bounds natural history from the opposite side to an unselected cohort. Without those fields the number is not imprecise -- it is uninterpretable."
+ },
+ "P2_control_arms": [
+  {
+   "nct_id": "NCT01859741",
+   "arm_title": "P2: Placebo + CIS or CARB",
+   "arm_group_type": null,
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Stage IV Small Cell Lung Cancer"
+   ],
+   "n": 65,
+   "cells": {
+    "CR": 2,
+    "PR": 49,
+    "SD": 10,
+    "PD": 4
+   },
+   "objective_response_pct": 78.5,
+   "objective_response_wilson95": [
+    0.6703,
+    0.8671
+   ],
+   "disease_control_pct": 93.8,
+   "disease_control_wilson95": [
+    0.8522,
+    0.9758
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+  },
+  {
+   "nct_id": "NCT01256359",
+   "arm_title": "Docetaxel and Placebo",
+   "arm_group_type": "EXPERIMENTAL",
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Melanoma"
+   ],
+   "n": 40,
+   "cells": {
+    "CR": 0,
+    "PR": 6,
+    "SD": 15,
+    "PD": 19
+   },
+   "objective_response_pct": 15.0,
+   "objective_response_wilson95": [
+    0.0706,
+    0.2907
+   ],
+   "disease_control_pct": 52.5,
+   "disease_control_wilson95": [
+    0.375,
+    0.6706
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+  },
+  {
+   "nct_id": "NCT01256359",
+   "arm_title": "Docetaxel and Placebo",
+   "arm_group_type": "EXPERIMENTAL",
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Melanoma"
+   ],
+   "n": 14,
+   "cells": {
+    "CR": 0,
+    "PR": 2,
+    "SD": 4,
+    "PD": 8
+   },
+   "objective_response_pct": 14.3,
+   "objective_response_wilson95": [
+    0.0401,
+    0.3994
+   ],
+   "disease_control_pct": 42.9,
+   "disease_control_wilson95": [
+    0.2138,
+    0.6741
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+  },
+  {
+   "nct_id": "NCT01256359",
+   "arm_title": "Docetaxel and Placebo",
+   "arm_group_type": "EXPERIMENTAL",
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Melanoma"
+   ],
+   "n": 17,
+   "cells": {
+    "CR": 0,
+    "PR": 2,
+    "SD": 9,
+    "PD": 6
+   },
+   "objective_response_pct": 11.8,
+   "objective_response_wilson95": [
+    0.0329,
+    0.3434
+   ],
+   "disease_control_pct": 64.7,
+   "disease_control_wilson95": [
+    0.413,
+    0.8269
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2010_2013.txt"
+  },
+  {
+   "nct_id": "NCT02259582",
+   "arm_title": "Placebo/Placebo Arm (Arm 1)",
+   "arm_group_type": null,
+   "classification": "placebo_or_bsc_alone",
+   "conditions": [
+    "Nonsquamous Nonsmall Cell Neoplasm of Lung"
+   ],
+   "n": 25,
+   "cells": {
+    "CR": 0,
+    "PR": 13,
+    "SD": 10,
+    "PD": 2
+   },
+   "objective_response_pct": 52.0,
+   "objective_response_wilson95": [
+    0.335,
+    0.6997
+   ],
+   "disease_control_pct": 92.0,
+   "disease_control_wilson95": [
+    0.7503,
+    0.9778
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "the fields that decide the direction of the bound -- progression required at entry, crossover, pre-crossover status, imaging interval -- are eligibility and protocol prose, not posted-results fields, and were not retrieved for this arm",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+  },
+  {
+   "nct_id": "NCT02259582",
+   "arm_title": "Demcizumab/Placebo Arm (Arm 2)",
+   "arm_group_type": null,
+   "classification": "placebo_or_bsc_alone",
+   "conditions": [
+    "Nonsquamous Nonsmall Cell Neoplasm of Lung"
+   ],
+   "n": 28,
+   "cells": {
+    "CR": 0,
+    "PR": 10,
+    "SD": 14,
+    "PD": 4
+   },
+   "objective_response_pct": 35.7,
+   "objective_response_wilson95": [
+    0.2071,
+    0.5417
+   ],
+   "disease_control_pct": 85.7,
+   "disease_control_wilson95": [
+    0.6851,
+    0.943
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "the fields that decide the direction of the bound -- progression required at entry, crossover, pre-crossover status, imaging interval -- are eligibility and protocol prose, not posted-results fields, and were not retrieved for this arm",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+  },
+  {
+   "nct_id": "NCT02625623",
+   "arm_title": "Physician Choice Chemotherapy + Best Supportive Care (BSC)",
+   "arm_group_type": null,
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Unresectable, Recurrent, Locally Advanced or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma",
+    "Gastric Cancer Third Line"
+   ],
+   "n": 129,
+   "cells": {
+    "CR": 1,
+    "PR": 7,
+    "SD": 62,
+    "PD": 59
+   },
+   "objective_response_pct": 6.2,
+   "objective_response_wilson95": [
+    0.0318,
+    0.1176
+   ],
+   "disease_control_pct": 54.3,
+   "disease_control_wilson95": [
+    0.4567,
+    0.6261
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+  },
+  {
+   "nct_id": "NCT02625623",
+   "arm_title": "Avelumab + BSC",
+   "arm_group_type": null,
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Unresectable, Recurrent, Locally Advanced or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma",
+    "Gastric Cancer Third Line"
+   ],
+   "n": 128,
+   "cells": {
+    "CR": 1,
+    "PR": 3,
+    "SD": 30,
+    "PD": 94
+   },
+   "objective_response_pct": 3.1,
+   "objective_response_wilson95": [
+    0.0122,
+    0.0776
+   ],
+   "disease_control_pct": 26.6,
+   "disease_control_wilson95": [
+    0.1968,
+    0.3482
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+  },
+  {
+   "nct_id": "NCT02263508",
+   "arm_title": "Phase 3: Placebo + Pembrolizumab",
+   "arm_group_type": null,
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Melanoma"
+   ],
+   "n": 293,
+   "cells": {
+    "CR": 40,
+    "PR": 103,
+    "SD": 30,
+    "PD": 120
+   },
+   "objective_response_pct": 48.8,
+   "objective_response_wilson95": [
+    0.4313,
+    0.5451
+   ],
+   "disease_control_pct": 59.0,
+   "disease_control_wilson95": [
+    0.5333,
+    0.6452
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+  },
+  {
+   "nct_id": "NCT02263508",
+   "arm_title": "Phase 3: Placebo + Pembrolizumab",
+   "arm_group_type": null,
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Melanoma"
+   ],
+   "n": 251,
+   "cells": {
+    "CR": 28,
+    "PR": 110,
+    "SD": 57,
+    "PD": 56
+   },
+   "objective_response_pct": 55.0,
+   "objective_response_wilson95": [
+    0.488,
+    0.6101
+   ],
+   "disease_control_pct": 77.7,
+   "disease_control_wilson95": [
+    0.7214,
+    0.824
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+  },
+  {
+   "nct_id": "NCT02625610",
+   "arm_title": "Chemotherapy + Best Supportive Care (BSC)",
+   "arm_group_type": "EXPERIMENTAL",
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Unresectable, Locally Advanced or Metastatic, Adenocarcinoma of the Stomach, or of the Gastro Esophageal Junction"
+   ],
+   "n": 211,
+   "cells": {
+    "CR": 5,
+    "PR": 31,
+    "SD": 117,
+    "PD": 58
+   },
+   "objective_response_pct": 17.1,
+   "objective_response_wilson95": [
+    0.1259,
+    0.2272
+   ],
+   "disease_control_pct": 72.5,
+   "disease_control_wilson95": [
+    0.6613,
+    0.7809
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+  },
+  {
+   "nct_id": "NCT02046733",
+   "arm_title": "Observation",
+   "arm_group_type": "NO_INTERVENTION",
+   "classification": "observation_no_active_agent",
+   "conditions": [
+    "Limited Stage Small Cell Lung Cancer",
+    "Small Cell Lung Cancer"
+   ],
+   "n": 62,
+   "cells": {
+    "CR": 8,
+    "PR": 22,
+    "SD": 22,
+    "PD": 10
+   },
+   "objective_response_pct": 48.4,
+   "objective_response_wilson95": [
+    0.3641,
+    0.6055
+   ],
+   "disease_control_pct": 83.9,
+   "disease_control_wilson95": [
+    0.7279,
+    0.91
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "the fields that decide the direction of the bound -- progression required at entry, crossover, pre-crossover status, imaging interval -- are eligibility and protocol prose, not posted-results fields, and were not retrieved for this arm",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+  },
+  {
+   "nct_id": "NCT02440464",
+   "arm_title": "Placebo",
+   "arm_group_type": "PLACEBO_COMPARATOR",
+   "classification": "placebo_or_bsc_alone",
+   "conditions": [
+    "Multiple Myeloma"
+   ],
+   "n": 3,
+   "cells": {
+    "CR": 3,
+    "PR": 0,
+    "SD": 0,
+    "PD": 0
+   },
+   "objective_response_pct": 100.0,
+   "objective_response_wilson95": [
+    0.4385,
+    1.0
+   ],
+   "disease_control_pct": 100.0,
+   "disease_control_wilson95": [
+    0.4385,
+    1.0
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "the fields that decide the direction of the bound -- progression required at entry, crossover, pre-crossover status, imaging interval -- are eligibility and protocol prose, not posted-results fields, and were not retrieved for this arm",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+  },
+  {
+   "nct_id": "NCT02440464",
+   "arm_title": "Placebo",
+   "arm_group_type": "PLACEBO_COMPARATOR",
+   "classification": "placebo_or_bsc_alone",
+   "conditions": [
+    "Multiple Myeloma"
+   ],
+   "n": 2,
+   "cells": {
+    "CR": 2,
+    "PR": 0,
+    "SD": 0,
+    "PD": 0
+   },
+   "objective_response_pct": 100.0,
+   "objective_response_wilson95": [
+    0.3424,
+    1.0
+   ],
+   "disease_control_pct": 100.0,
+   "disease_control_wilson95": [
+    0.3424,
+    1.0
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "the fields that decide the direction of the bound -- progression required at entry, crossover, pre-crossover status, imaging interval -- are eligibility and protocol prose, not posted-results fields, and were not retrieved for this arm",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2014_2017.txt"
+  },
+  {
+   "nct_id": "NCT03409614",
+   "arm_title": "Part 2: Placebo + Chemotherapy",
+   "arm_group_type": null,
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Non-small Cell Lung Cancer"
+   ],
+   "n": 133,
+   "cells": {
+    "CR": 0,
+    "PR": 34,
+    "SD": 75,
+    "PD": 24
+   },
+   "objective_response_pct": 25.6,
+   "objective_response_wilson95": [
+    0.1891,
+    0.3359
+   ],
+   "disease_control_pct": 82.0,
+   "disease_control_wilson95": [
+    0.7455,
+    0.8756
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2018_2021.txt"
+  },
+  {
+   "nct_id": "NCT05323656",
+   "arm_title": "Placebo and Pembrolizumab 200 mg",
+   "arm_group_type": "ACTIVE_COMPARATOR",
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Squamous Cell Carcinoma of Head and Neck"
+   ],
+   "n": 28,
+   "cells": {
+    "CR": 0,
+    "PR": 9,
+    "SD": 5,
+    "PD": 14
+   },
+   "objective_response_pct": 32.1,
+   "objective_response_wilson95": [
+    0.1793,
+    0.5066
+   ],
+   "disease_control_pct": 50.0,
+   "disease_control_wilson95": [
+    0.3263,
+    0.6737
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_results_bor_2022_2026.txt"
+  },
+  {
+   "nct_id": "NCT01744249",
+   "arm_title": "Placebo + Sandostatin LAR",
+   "arm_group_type": "PLACEBO_COMPARATOR",
+   "classification": "placebo_or_bsc_alone",
+   "conditions": [
+    "Neuroendocrine Tumors",
+    "Advanced Cancer"
+   ],
+   "n": 127,
+   "cells": {
+    "CR": 1,
+    "PR": 5,
+    "SD": 96,
+    "PD": 25
+   },
+   "objective_response_pct": 4.7,
+   "objective_response_wilson95": [
+    0.0218,
+    0.0992
+   ],
+   "disease_control_pct": 80.3,
+   "disease_control_wilson95": [
+    0.7255,
+    0.863
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "the fields that decide the direction of the bound -- progression required at entry, crossover, pre-crossover status, imaging interval -- are eligibility and protocol prose, not posted-results fields, and were not retrieved for this arm",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_placebo_onc_2010_2013.txt"
+  },
+  {
+   "nct_id": "NCT01744249",
+   "arm_title": "Placebo + Sandostatin LAR",
+   "arm_group_type": "PLACEBO_COMPARATOR",
+   "classification": "placebo_or_bsc_alone",
+   "conditions": [
+    "Neuroendocrine Tumors",
+    "Advanced Cancer"
+   ],
+   "n": 125,
+   "cells": {
+    "CR": 0,
+    "PR": 4,
+    "SD": 109,
+    "PD": 12
+   },
+   "objective_response_pct": 3.2,
+   "objective_response_wilson95": [
+    0.0125,
+    0.0794
+   ],
+   "disease_control_pct": 90.4,
+   "disease_control_wilson95": [
+    0.8397,
+    0.9442
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "the fields that decide the direction of the bound -- progression required at entry, crossover, pre-crossover status, imaging interval -- are eligibility and protocol prose, not posted-results fields, and were not retrieved for this arm",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_placebo_onc_2010_2013.txt"
+  },
+  {
+   "nct_id": "NCT02204982",
+   "arm_title": "Placebo + Rituximab",
+   "arm_group_type": "PLACEBO_COMPARATOR",
+   "classification": "control_plus_active_backbone",
+   "conditions": [
+    "Follicular Lymphoma"
+   ],
+   "n": 6,
+   "cells": {
+    "CR": 0,
+    "PR": 1,
+    "SD": 3,
+    "PD": 2
+   },
+   "objective_response_pct": 16.7,
+   "objective_response_wilson95": [
+    0.0301,
+    0.5635
+   ],
+   "disease_control_pct": 66.7,
+   "disease_control_wilson95": [
+    0.3,
+    0.9032
+   ],
+   "progression_required_at_entry": "CANNOT_DETERMINE",
+   "crossover_permitted": "CANNOT_DETERMINE",
+   "figure_is_pre_crossover": "CANNOT_DETERMINE",
+   "response_criterion_and_version": "CANNOT_DETERMINE",
+   "imaging_interval_weeks": "CANNOT_DETERMINE",
+   "assessment": "CANNOT_DETERMINE",
+   "usable_for_calibration": false,
+   "why_not_usable": "an active backbone is named in the arm title, so its outcomes measure the backbone rather than natural history",
+   "retrieved_file": "literature-cache:literature/xdisease-ctg-results/ctg_placebo_onc_2014_2017.txt"
+  }
+ ],
+ "P3_classification": {
+  "_the_distinction_that_matters": "most oncology placebo arms sit on an active backbone and measure the backbone. The classifier errs toward BACKBONED on purpose: a false backboned call costs one arm of calibration, a false untreated call puts a treated arm into a natural-history estimate.",
+  "counts": {
+   "not_a_control_arm": 533,
+   "control_plus_active_backbone": 12,
+   "placebo_or_bsc_alone": 6,
+   "observation_no_active_agent": 1
+  },
+  "control_arms_found": 19,
+  "control_arms_with_no_active_agent_named": 7,
+  "usable_for_calibration_today": 0,
+  "reading": "the corpus yields control arms, and essentially none of them is an untreated arm with the fields needed to read natural history from it. This is the central practical finding of this module and it is a statement about the record, not about biology."
+ },
+ "P4_progression_at_entry_strata": {
+  "_never_merged": "an arm enrolled on documented progression gives a LOWER bound on natural-history stability; an unselected or observation cohort gives an UPPER bound. Summarising the two together would produce a number that bounds nothing.",
+  "corpus_arms_stratifiable": 0,
+  "why": "eligibility criteria are protocol prose. ClinicalTrials.gov posts them, but not in the outcome-measure records retrieved here, and they were not fetched per arm. Recorded as CANNOT_DETERMINE rather than assumed either way."
+ },
+ "P5_the_sourced_existence_proof": {
+  "_why_this_block_is_carried_rather_than_recomputed": "emc-endpoint-alternatives.json -> E10 already holds a retrieved, verbatim-quoted randomised placebo-controlled measurement in an indolent soft-tissue tumour. It is pointed at, not re-typed.",
+  "owned_by": "research/manuscripts/emc-endpoint-alternatives.json -> E10_indolent_tumour_placebo_calibration",
+  "the_two_readings": {
+   "study": "Gounder 2018, sorafenib versus placebo in desmoid tumours",
+   "pmid": "30575484",
+   "year": 2018,
+   "design": "double-blind phase 3, 87 patients randomised, crossover permitted on progression",
+   "verbatim": "In this double-blind, phase 3 trial, we randomly assigned 87 patients with progressive, symptomatic, or recurrent desmoid tumors to receive either sorafenib (400-mg tablet once daily) or matching placebo. ... With a median follow-up of 27.2 months, the 2-year progression-free survival rate was 81% (95% confidence interval [CI], 69 to 96) in the sorafenib group and 36% (95% CI, 22 to 57) in the placebo group (hazard ratio for progression or death, 0.13; 95% CI, 0.05 to 0.31; P<0.001). Before crossover, the objective response rate was 33% (95% CI, 20 to 48) in the sorafenib group and 20% (95% CI, 8 to 38) in the placebo group.",
+   "retrieved_file": "literature-cache branch, literature/emc-endpoint-benchmarks/epmc_desmoid_sorafenib_title.txt",
+   "⭐_the_two_readings_that_matter_here": {
+    "a_progression_free_RATE_has_a_large_placebo_component": "36% of patients on PLACEBO were progression-free at 2 years, in a population enrolled for progressive, symptomatic or recurrent disease -- the same progression-before-entry design feature PUB-ENDPOINT Sec. 6.1 names as what BOUNDS the confound. It bounds it; it does not remove it. A fixed-timepoint progression-free rate benchmarked against a historical treated cohort could not have told 36% from 81% without the placebo arm.",
+    "⚠_and_so_does_OBJECTIVE_RESPONSE_which_qualifies_a_claim_this_repository_makes": "20% of patients on PLACEBO had an objective response (95% CI 8-38). PUB-ENDPOINT Sec. 7.2 argues that a response is 'an unambiguous observation and the few that occur are informative precisely because they are hard to explain by natural history'. This measurement shows that claim is DISEASE-SPECIFIC rather than general: in at least one indolent soft-tissue tumour, one patient in five responded to nothing. ⛔ IT DOES NOT REFUTE Sec. 7.2 FOR EMC -- spontaneous regression is a documented and well-known feature of desmoid biology, whereas the whole of the retrieved EMC evidence for it is a single 2025 case report (E9). What it does is convert 'responses are hard to explain by natural history' from a general principle into a claim that has to be argued per disease, and in EMC it has not been."
+   }
+  },
+  "why_it_matters_to_this_paper": "it converts 'stable disease might be natural history' from a worry into a measured quantity in at least one disease, and it qualifies the companion claim that objective responses are hard to explain by natural history -- in that trial one patient in five responded on placebo. Both are properties of that disease and transfer to none other."
+ },
+ "P6_the_corner_with_no_control_arms": {
+  "definition": "conditions placed on the regime map with a median objective response of 15% or less",
+  "conditions_in_the_low_response_regime": 25,
+  "of_those_with_any_control_arm_in_this_corpus": 4,
+  "named_without_any_control_arm": [
+   "Advanced Solid Tumors",
+   "Cervical Cancer",
+   "Esophageal Cancer",
+   "Gastric Cancer",
+   "Glioblastoma",
+   "Hepatocellular Carcinoma",
+   "Lymphoma, Non-Hodgkin",
+   "Metastatic Cancer",
+   "Pancreatic Cancer",
+   "Renal Cell Carcinoma",
+   "Solid Tumor",
+   "Solid Tumor, Adult",
+   "Triple Negative Breast Cancer",
+   "Solid Tumors",
+   "Neoplasms",
+   "Non Small Cell Lung Cancer",
+   "Urothelial Carcinoma",
+   "Head and Neck Cancer",
+   "Metastatic Colorectal Cancer",
+   "Metastatic Melanoma",
+   "Thyroid Cancer"
+  ]
+ },
+ "P7_traps": {
+  "placebo_is_not_untreated": "most placebo arms carry an active backbone (P3).",
+  "crossover": "only pre-crossover figures can speak to natural history, and overall survival from a crossover trial says nothing about it at all.",
+  "imaging_schedule": "RECIST requires a minimum interval before stable disease can be assigned, so disease-control rates from different scan schedules are different measurements. This is the confounder nobody records.",
+  "assessor": "investigator versus blinded central review moves response rates.",
+  "denominator_drift": "intention-to-treat, response-evaluable and at-least-one-post-baseline-scan are three different denominators and abstracts often use a different one from the table.",
+  "what_a_control_arm_can_never_calibrate": "the natural history of a different disease, and the natural history of any disease that has no control arm -- which is most of the low-response regime."
+ },
+ "not_a_recommendation": "No efficacy, safety or treatment claim about any agent. Nothing here says a control arm outcome is what an individual patient would experience untreated."
+}
