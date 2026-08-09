@@ -70,14 +70,14 @@ not expressed.**
 | chondroid lineage (control) | COL2A1, COL9A1, COL11A2, SOX5, SOX6 | *t* = +0.42, Δ = +0.027, 5/5 | *t* = −0.83, Δ = −0.179, 5/5 |
 | Sm proteins (context only) | SNRPB, SNRPD1/D3/E/G | *t* = +0.22, Δ = +0.014, 5/5 | *t* = +3.15, Δ = +0.296, 4/5 |
 
+Δ is the EMC-minus-comparator difference in standard-deviation units of that array.
+
 ⚠ **The last four rows are CONTROLS AND CONTEXT, not four more hypothesis tests.** ⛔ And the Sm row
 is context only in the strictest sense: **an array cannot see a methyl mark**, so the abundance of
 PRMT5's canonical substrates says nothing about whether PRMT5 is acting on them.
 ⚠ The proliferation and chondroid group scores above use the panel's own coverage rule and its
 member list; the *adjustment* in §3.3 uses a twelve- and an eight-gene score with a per-sample
 coverage floor, so the two are close but not the same instrument — see §S11.
-
-Δ is the EMC-minus-comparator difference in standard-deviation units of that array.
 
 ⛔ **THE LOCUS READING CLOSED ROUTE 2, AND THE GROUP SCORE IS WHY IT LOOKED OTHERWISE.** Powered on one
 platform only — and, more decisively, gene by gene:
@@ -242,10 +242,14 @@ annotation-stable; the gene route 2 depends on is not.** That is a further reaso
 therapeutic argument on this locus at transcript level, and it was visible only because two bridges
 happened to be measured.
 
-⚠ **The narrower bridge is the current committed state and this manuscript's numbers are read from
-it.** Whether the wider bridge can be recovered depends on a third-party service (the NCBI link step
-returned zero links in 903 s), so it is not something this work can guarantee — which is why both
-values are on the record rather than only the more convenient one.
+⚠ **The narrower bridge is the current committed state, and it is not a budget problem — that was
+tested.** The accession→symbol bridge was re-run twice on 2026-08-09 with the time budget raised to
+3,000 s and then 4,000 s. Both runs returned **zero** gene links from the NCBI step (940 s and 903 s
+spent, stopping at 1,700 of 4,303 accessions), and both landed on the same 0.931. So the wider
+bridge that produced the earlier values is **unavailable at the source**, not merely unpaid for.
+⭐ **The values it produces are reproducible across those runs to the digit** — *MTAP* +0.053,
+*CDKN2A* −0.4805, *PRMT5* +0.2632 — which is why this manuscript quotes them, and why both bridges
+are on the record rather than only the more convenient one.
 
 ## S11 · The control calculations
 
