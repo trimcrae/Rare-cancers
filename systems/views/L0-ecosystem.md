@@ -179,6 +179,6 @@ Ordered by how much comes back if they land. Full register: [registers/technolog
 - **L4** — the experiments that feed them are still DOCUMENTS, declaring their level in their own frontmatter, so their count is reported by `systems_check --check` (`[D11]`) and is deliberately NOT pinned in any committed file — pinning it would turn every new memo into a red build. The instruments that produce their evidence ARE modelled: [registers/instruments.md](registers/instruments.md).
 - **L5** — [the evidence base](L5-evidence-base.md): every object, citation, artifact and pinned claim, each showing what rests on it
 - **Registers** — [lanes](registers/lanes.md) *(executed work and how it ended)* · [blockers](registers/blockers.md) · [technologies](registers/technologies.md) · [instruments](registers/instruments.md)
-- **Cross-cutting** — [methods index](methods-index.md) · [readiness](readiness.md) · [requirements](registers/requirements.md)
+- **Cross-cutting** — [methods index](methods-index.md) · [readiness](readiness.md) · [requirements](registers/requirements.md) · [**paper strength**](paper-strength.md) *(which endpoint is strongest, ranked — read this before asking)*
 - **Multi-year** — [the roadmap](roadmap-5yr.md): scientific, technology, AI-capability and lab-capability milestones, and when blocked work becomes revisitable
 - **Architecture** — [../ARCHITECTURE.md](../ARCHITECTURE.md) · [../CONVENTIONS.md](../CONVENTIONS.md) · [../MAINTENANCE.md](../MAINTENANCE.md) · [../MIGRATION.md](../MIGRATION.md)

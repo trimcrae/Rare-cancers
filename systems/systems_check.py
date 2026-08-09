@@ -2599,7 +2599,9 @@ def render_l0(g):
             "[blockers](registers/blockers.md) · [technologies](registers/technologies.md) · "
             "[instruments](registers/instruments.md)",
             "- **Cross-cutting** — [methods index](methods-index.md) · [readiness](readiness.md) · "
-            "[requirements](registers/requirements.md)",
+            "[requirements](registers/requirements.md) · "
+            "[**paper strength**](paper-strength.md) *(which endpoint is strongest, ranked — "
+            "read this before asking)*",
             "- **Multi-year** — [the roadmap](roadmap-5yr.md): scientific, technology, AI-capability and "
             "lab-capability milestones, and when blocked work becomes revisitable",
             "- **Architecture** — [../ARCHITECTURE.md](../ARCHITECTURE.md) · "
