@@ -461,6 +461,28 @@ def d5_primary_endpoint_correction(src):
     quote = (pazo or {}).get("quote", "")
     quote_supports_orr_primary = all(m in quote.lower() for m in QUOTE_MARKERS)
 
+    # A substring detector cannot tell a LIVE claim from one that has been corrected and whose
+    # superseded wording is retained beside the correction -- and rule 1.2 REQUIRES that the old
+    # wording stay quotable, so the correct fix makes a naive detector stay red forever. That is
+    # the same distinction lint_consistency.py already draws, and this detector did not: when the
+    # correction landed on 2026-08-09 the marker was still present, inside the supersession clause,
+    # and D5 reported an uncorrected source. A detector that cannot be satisfied by the correct fix
+    # trains its reader to ignore it.
+    if claim is not None and any(
+            m in claim for m in ("SUPERSEDED, RETAINED:", "Superseded, retained:")):
+        return {
+            "status": "source_corrected_with_the_superseded_wording_retained",
+            "detector": (
+                "the marker sentence is still present in " + SOURCE_REL +
+                " -> findings_no_source_states, but inside a supersession clause rather than as a "
+                "live claim. That is what CLAUDE.md rule 1.2 asks for: the correction is in the "
+                "live text and the superseded wording stays quotable beside it."),
+            "the_superseded_wording": CLAIM_MARKER + " ... as their primary endpoint",
+            "what_the_source_now_says": claim,
+            "what_the_source_own_quote_says": quote,
+            "quote_contains_both_markers": quote_supports_orr_primary,
+        }
+
     if claim is None:
         return {
             "status": "source_appears_corrected",
