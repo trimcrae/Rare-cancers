@@ -28,7 +28,8 @@
     "the_preprint": "Europe PMC source PPR, id PPR653036, doi 10.1101/2023.04.30.538578, and NO PMID. So EXT_ID:37205599 returning nothing is not a preprint-indexing quirk - the cited PMID does not identify this paper and returned no record for anything.",
     "the_published_version": "PMID 41811428 · PMC13223543 · doi 10.1158/0008-5472.can-25-2166 · Cancer Research 2026.",
     "⭐_why_it_matters_beyond_the_citation": "The whole ATR route inherits its premise from this paper. It is no longer a preprint. Every hedge in this repository describing that evidence as unreviewed is now stale and understates the route. ⚠ What does NOT change: the ATR vulnerability in EMC is still INHERITED from the FET class and untested in this disease.",
-    "⚠_author_order_differs_between_versions": "Menon S is first on the preprint; Gracilla DE is first on the published paper. Use the author string matching the version being cited."
+    "⚠_author_order_differs_between_versions": "Menon S is first on the preprint; Gracilla DE is first on the published paper. Use the author string matching the version being cited.",
+    "⛔_CORRECTED": "The part of this finding that STANDS: the paper is now published in Cancer Research (PMID 41811428, PMC13223543, doi 10.1158/0008-5472.can-25-2166, 2026), so citing it as a preprint is stale and understates the ATR route. The part that is WITHDRAWN: every claim that PMID 37205599 is invalid or identifies nothing. It is a real Europe PMC identifier for the preprint."
   },
   "records": {
     "39322717": {
@@ -73,5 +74,7 @@
       "volume": "",
       "pages": ""
     }
-  }
+  },
+  "⛔⛔_THIS_FILE_WAS_WRONG_ABOUT_37205599_AND_IS_CORRECTED_HERE": "RETRACTED WITHIN THE HOUR, by the drafting agent that was told to act on it. This file asserted that `EXT_ID:37205599` returns no record and therefore that 'the cited PMID does not identify this paper and may name nothing'. THAT IS FALSE, and a committed record already disproved it: `research/modalities/atr-hrd-sarcoma-series-inputs.json` -> `europepmc_37205599` holds a verbatim Europe PMC response fetched 2026-08-07 (HTTP 200, 10235 bytes) to the query `EXT_ID:37205599 AND SRC:MED`, with `hitCount: 1`, returning pmid 37205599, pmcid PMC10187251, doi 10.1101/2023.04.30.538578, journal 'bioRxiv : the preprint server for biology'. ⛔ THE PMID IS VALID AND IDENTIFIES THE PREPRINT. Nothing was fabricated in the citing prose. ⚠ THE MECHANISM OF MY MISS IS NOT YET ESTABLISHED and pagination is RULED OUT - fetch-paper.mjs pages the whole result set at pageSize 1000. The one difference between the query that works and the query that missed is `AND SRC:MED`, which every working query in this repository carries and mine omitted. That is a hypothesis; a discriminating query is running. Until it returns, no conclusion here about an identifier's validity may be repeated downstream.",
+  "⚠_finding_1_is_now_UNDER_RE_VERIFICATION_because_finding_2_failed": "If my OR-chained query could miss a valid record once, it could miss one twice, so the conclusion that PMID 39148855 is wrong CANNOT stand on the same evidence. What is independently checked and does hold: doi 10.1038/s41591-024-03233-x resolves to PMID 39322717 (Nature Medicine 2024, 30:3601-3613), and 39148855 is recorded in citation-provenance-ledger.json as `status: unverified_at_baseline`, i.e. prose-only and never fetched. ⛔ ALSO WITHDRAWN: this file claimed 39148855 'WAS anchored' in the provenance ledger and that lint_citations therefore could not catch it. A ledger row marked unverified_at_baseline is the ledger recording that NOBODY CHECKED the identifier - it is not an anchor. The claim inverted the meaning of the field."
 }

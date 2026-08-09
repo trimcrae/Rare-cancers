@@ -49,8 +49,10 @@ repository holds none, and an invented identifier on a person is the failure lin
 to prevent, applied to a human. Supply one at deposit if wanted.
 CORRECTIONS: Appendix A is the correction and supersession register required by CLAUDE.md rule 1.2. It
 sits outside the 5,000-word body and is deposited as a supplementary note.
-REFERENCES: entries whose bibliographic detail has not been retrieved through CI are marked as such and
-carry their identifier only. Completing them is a submission blocker.
+REFERENCES: completed 2026-08-09 from the committed Europe PMC retrievals. Eleven entries now carry a
+full author list, journal, year, volume and pages; five (6, 13, 16, 17, 18) are in neither retrieval and
+still carry their identifier only, and two (4, 5) resolved without a journal or pagination. Completing
+those seven remains a submission blocker.
 -->
 
 > **Declarations for preprint deposit.** Ethics approval and consent were not required and were not
@@ -606,47 +608,68 @@ wrote the manuscript.
 
 ## References
 
-Entries marked *identifier only* have not had their bibliographic detail retrieved through this
-project's literature pipeline, and are cited by identifier so that a reader can resolve them. They must
-be completed before submission.
+Author lists, journal titles, volumes and pages are taken from the retrieval records in
+[`submission-reference-metadata-2026-08-09.json`](../literature/submission-reference-metadata-2026-08-09.json)
+and [`emc-prior-art-2026-08-09.json`](../literature/emc-prior-art-2026-08-09.json), and where a record
+lists more than six authors the first six are given. Entries still marked *identifier only* are not in
+either record; they are cited by identifier so that a reader can resolve them, and must be completed
+from the primary sources before submission.
 
-1. Remiszewski P, et al. From pathogenesis to the patient's bedside: a comprehensive review of
-   extraskeletal myxoid chondrosarcoma. *J Cancer Res Clin Oncol* 2025. doi:10.1007/s00432-025-06316-5.
-   PMID 41055792.
-2. Lenz J, Klubickova N, Ptakova N, Hajkova V, Grossmann P, Steiner P, et al. Extraskeletal myxoid
+1. Remiszewski P, Falkowski S, Szumera-Ciećkiewicz A, Spałek MJ, Rutkowski P, Czarnecka AM. From
+   pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid
+   chondrosarcoma. *J Cancer Res Clin Oncol* 2025;151(11):283. doi:10.1007/s00432-025-06316-5.
+   PMID 41055792. PMC12504171.
+2. Lenz J, Klubíčková N, Ptáková N, Hájková V, Grossmann P, Šteiner P, et al. Extraskeletal myxoid
    chondrosarcoma: a study of 17 cases focusing on the diagnostic utility of INSM1 expression and
-   presenting rare morphological variants associated with non-EWSR1::NR4A3 fusions. *Hum Pathol* 2023.
-   doi:10.1016/j.humpath.2022.12.005. PMID 36563884.
+   presenting rare morphological variants associated with non-EWSR1::NR4A3 fusions. *Hum Pathol*
+   2023;134:19-29. doi:10.1016/j.humpath.2022.12.005. PMID 36563884.
 3. Timon G, Grassi M, Tominaj C, Turazzi M, Mascherini M, De Cian F, et al. Excellent response and
    persistent local control of metastatic extraskeletal myxoid chondrosarcoma repeatedly treated with
-   surgical excision or stereotactic radiotherapy alone: a case report. 2025.
-   doi:10.1159/000548238. PMID 41323055.
+   surgical excision or stereotactic radiotherapy alone: a case report. *Case Rep Oncol*
+   2025;18(1):1488-1495. doi:10.1159/000548238. PMID 41323055. PMC12659415.
 4. Ogata R, Soda H, Senju H, Fujioka M, Shimada M, Yamashita K, et al. Immunosuppressive tumor
    microenvironment in extraskeletal myxoid chondrosarcoma: a case of pleural metastases. 2022.
-   doi:10.1111/1759-7714.14613. PMC9527174.
-5. Uncommon and peculiar soft tissue sarcomas: multidisciplinary review and practical recommendations.
-   Spanish Group for Sarcoma Research. 2021. doi:10.1016/j.ctrv.2021.102260.
+   doi:10.1111/1759-7714.14613. PMID 35974707. PMC9527174. *Journal, volume and pages not retrieved.*
+5. Martínez-Trufero J, Cruz Jurado J, Hernández-León CN, Correa R, Asencio JM, Bernabeu D, et al.
+   Uncommon and peculiar soft tissue sarcomas: multidisciplinary review and practical
+   recommendations. Spanish Group for Sarcoma Research. 2021. doi:10.1016/j.ctrv.2021.102260.
+   PMID 34340159. *Journal, volume and pages not retrieved.*
 6. Uhlén M, et al. Tissue-based map of the human proteome (Human Protein Atlas). *Science* 2015.
    *Identifier only; bibliographic detail not retrieved.*
-7. Subramanian S, et al. *J Pathol* 2005;206:433-444. The originating cohort publication for GSE4303.
-   PMID 15920699.
-8. Kim AY, et al. *Mol Carcinog* 2016. ENO3 as a direct transactivation target of an NR4A3 fusion; the
-   reported fusion in that work is TFG::NR4A3 rather than EWSR1::NR4A3. PMID 26310886.
-9. Lorvotuzumab mertansine (IMGN901) in small-cell lung cancer, phase 1/2. PMID 28341109.
-   *Identifier only; bibliographic detail not retrieved.*
-10. Lorvotuzumab mertansine in CD56-positive solid tumours, phase I. PMID 26961907. *Identifier only;
-    bibliographic detail not retrieved.*
-11. Bangerter, et al. USZ-EMC patient-derived extraskeletal myxoid chondrosarcoma models. *Human Cell*
-    2022/2023. *Identifier only; bibliographic detail not retrieved.*
-12. Iwata S, et al. NCC-EMC1-C1 patient-derived extraskeletal myxoid chondrosarcoma cell line.
-    *Human Cell* 2025. *Identifier only; bibliographic detail not retrieved.*
+7. Subramanian S, West RB, Marinelli RJ, Nielsen TO, Rubin BP, Goldblum JR, et al. The gene
+   expression profile of extraskeletal myxoid chondrosarcoma. *J Pathol* 2005;206(4):433-444.
+   doi:10.1002/path.1792. PMID 15920699. The originating cohort publication for GSE4303.
+8. Kim AY, Lim B, Choi J, Kim J. The TFG-TEC oncoprotein induces transcriptional activation of the
+   human β-enolase gene via chromatin modification of the promoter region. *Mol Carcinog*
+   2016;55(10):1411-1423. doi:10.1002/mc.22384. PMID 26310886. ENO3 as a direct transactivation
+   target of an NR4A3 fusion; the reported fusion in that work is TFG::NR4A3 rather than
+   EWSR1::NR4A3.
+9. Socinski MA, Kaye FJ, Spigel DR, Kudrik FJ, Ponce S, Ellis PM, et al. Phase 1/2 study of the
+   CD56-targeting antibody-drug conjugate lorvotuzumab mertansine (IMGN901) in combination with
+   carboplatin/etoposide in small-cell lung cancer patients with extensive-stage disease. *Clin Lung
+   Cancer* 2017;18(1):68-76.e2. doi:10.1016/j.cllc.2016.09.002. PMID 28341109.
+10. Shah MH, Lorigan P, O'Brien ME, Fossella FV, Moore KN, Bhatia S, et al. Phase I study of IMGN901,
+    a CD56-targeting antibody-drug conjugate, in patients with CD56-positive solid tumors. *Invest
+    New Drugs* 2016;34(3):290-299. doi:10.1007/s10637-016-0336-9. PMID 26961907. PMC4859861.
+11. Bangerter JL, Harnisch KJ, Chen Y, Hagedorn C, Planas-Paz L, Pauli C. Establishment,
+    characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma
+    (EMC) cell models. *Hum Cell* 2023;36(1):446-455. doi:10.1007/s13577-022-00818-x. PMID 36316541.
+    PMC9813045. The USZ-EMC patient-derived models.
+12. Iwata S, Noguchi R, Osaki J, Adachi Y, Shiota Y, Osaki S, et al. Establishment and
+    characterization of NCC-EMC1-C1: a novel patient-derived cell line of extraskeletal myxoid
+    chondrosarcoma. *Hum Cell* 2025;38(4):122. doi:10.1007/s13577-025-01250-7. PMID 40580361.
 13. Bausch-Fluck D, et al. The in silico human surfaceome. *PNAS* 2018. *Identifier only; bibliographic
     detail not retrieved.*
-14. Wu M, et al. Chondroitin sulfate sulfation machinery. *Front Cell Dev Biol* 2021.
-    doi:10.3389/fcell.2021.763875. PMID 34966741. PMC8710744.
+14. Wu ZY, He YQ, Wang TM, Yang DW, Li DH, Deng CM, et al. Glycogenes in oncofetal chondroitin
+    sulfate biosynthesis are differently expressed and correlated with immune response in placenta and
+    colorectal cancer. *Front Cell Dev Biol* 2021;9:763875. doi:10.3389/fcell.2021.763875.
+    PMID 34966741. PMC8710744.
 15. Cellosaurus record CVCL_1238, curated caution on the fusion status of the DepMap model annotated
-    extraskeletal myxoid chondrosarcoma, citing PMID 34413129. *Primary source identifier only;
-    bibliographic detail not retrieved.*
+    extraskeletal myxoid chondrosarcoma, citing PMID 34413129. The primary source is Gartrell J,
+    Mellado-Largarde M, Clay MR, Bahrami A, Sahr NA, Sykes A, et al. SLFN11 is widely expressed in
+    pediatric sarcoma and induces variable sensitization to replicative stress caused by DNA-damaging
+    agents. *Mol Cancer Ther* 2021;20(11):2151-2165. doi:10.1158/1535-7163.mct-21-0089.
+    PMID 34413129. PMC8571037.
 16. Sjögren H, et al. EWSR1/NR4A3 fusion in extraskeletal myxoid chondrosarcoma. *Identifier only;
     bibliographic detail not retrieved.*
 17. Panagopoulos I, et al. Fusion variants and partner genes in extraskeletal myxoid chondrosarcoma.
@@ -775,6 +798,29 @@ out of register for a journal, and survives here, where the bookkeeping belongs.
 audit"* with the demotion announced in a banner before the abstract. The demotion is unchanged; the banner
 is not, because a submission text states its result in the abstract rather than warning the reader in
 advance of it.
+
+### Appendix A4 — Reference-list completion record (2026-08-09)
+
+Eleven of the eighteen references carried an identifier and no bibliographic detail. They were completed
+from
+[`submission-reference-metadata-2026-08-09.json`](../literature/submission-reference-metadata-2026-08-09.json)
+and [`emc-prior-art-2026-08-09.json`](../literature/emc-prior-art-2026-08-09.json). Two entries changed
+in substance rather than merely gaining fields, and both are registered here:
+
+⛔ **Reference 14 was attributed to the wrong first author and carried a paraphrase in place of its
+title.** *Superseded, retained:* *"Wu M, et al. Chondroitin sulfate sulfation machinery. Front Cell Dev
+Biol 2021."* The record for PMID 34966741 names **Wu ZY** as first author and titles the work *"Glycogenes
+in oncofetal chondroitin sulfate biosynthesis are differently expressed and correlated with immune
+response in placenta and colorectal cancer."* No committed source carries "Wu M" or the paraphrased
+title, so both entered the prose from something the repository cannot show. This is the 2026-08-07
+failure mode in its milder form: a real identifier wearing a description nobody fetched.
+
+⚠ **Reference 11 was dated "2022/2023".** The record for PMID 36316541 gives 2023, volume 36, issue 1,
+pages 446-455. The hedge is replaced by the retrieved year.
+
+Five entries (6, 13, 16, 17, 18) are in neither retrieval and still carry their identifier alone; two
+(4, 5) resolved with an author list, year, DOI and identifiers but no journal or pagination. Nothing was
+written for any of the seven, because a field that is not in a retrieval is left missing.
 
 ---
 *Provenance: consolidates the stage-1 surfaceome scan (BH-corrected selectivity plus the ACH-001519

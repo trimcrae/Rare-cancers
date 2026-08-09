@@ -574,31 +574,36 @@ authors of the primary EMC literature cited below.
 
 ## 9. References
 
-1. Remiszewski P, Falkowski S, Szumera-Ciećkiewicz A, Spałek MJ, Rutkowski P, Czarnecka AM. From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma. *J Cancer Res Clin Oncol.* 2025. doi 10.1007/s00432-025-06316-5. PMID 41055792. PMC12504171.
-2. Huang SC, et al. Extraskeletal myxoid chondrosarcomas: the uncommon clinicopathologic manifestations and significance of TAF15::NR4A3 fusion. *Mod Pathol.* 2023. doi 10.1016/j.modpat.2023.100161. PMID 36948401.
-3. Kim AY, Lim B, Choi J, Kim J. The TFG-TEC oncoprotein induces transcriptional activation of the human β-enolase gene via chromatin modification of the promoter region. *Mol Carcinog.* 2016. doi 10.1002/mc.22384. PMID 26310886.
+1. Remiszewski P, Falkowski S, Szumera-Ciećkiewicz A, Spałek MJ, Rutkowski P, Czarnecka AM. From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma. *J Cancer Res Clin Oncol.* 2025;151(11):283. doi 10.1007/s00432-025-06316-5. PMID 41055792. PMC12504171.
+2. Huang SC, Lee JC, Hsu YC, Tsai JW, Kao YC, Hsieh TH, et al. Extraskeletal myxoid chondrosarcomas: the uncommon clinicopathologic manifestations and significance of TAF15::NR4A3 fusion. *Mod Pathol.* 2023;36(7):100161. doi 10.1016/j.modpat.2023.100161. PMID 36948401.
+3. Kim AY, Lim B, Choi J, Kim J. The TFG-TEC oncoprotein induces transcriptional activation of the human β-enolase gene via chromatin modification of the promoter region. *Mol Carcinog.* 2016;55(10):1411-1423. doi 10.1002/mc.22384. PMID 26310886.
 4. Masunaga T, Tsukamoto S, Nagano A, et al. The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma. *J Orthop Surg Res.* 2025. doi 10.1186/s13018-025-06245-6. PMC12398172.
 5. Davis EJ, et al. Next generation sequencing of extraskeletal myxoid chondrosarcoma. *Oncotarget.* 2017. doi 10.18632/oncotarget.15568. PMC5400622.
 6. Urbini M, et al. Identification of an actionable mutation of KIT in a case of extraskeletal myxoid chondrosarcoma. *Int J Mol Sci.* 2018. doi 10.3390/ijms19071855. PMC6073125.
 7. Jennings B, et al. Sustained response to imatinib in patient with extraskeletal myxoid chondrosarcoma and novel KIT mutation. *BMJ Case Rep.* 2021. doi 10.1136/bcr-2021-242039. PMC8395296.
-8. Giner F, et al. Extraskeletal myxoid chondrosarcoma: p53 and Ki-67 offer prognostic value for clinical outcome — an immunohistochemical and molecular analysis of 31 cases. *Virchows Arch.* 2023. doi 10.1007/s00428-022-03453-x. PMID 36376703.
-9. Chow WA. Update on chondrosarcomas. *Curr Opin Oncol.* 2007. doi 10.1097/cco.0b013e32812143d9.
+8. Giner F, López-Guerrero JA, Machado I, Rubio-Martínez LA, Espino M, Navarro S, et al. Extraskeletal myxoid chondrosarcoma: p53 and Ki-67 offer prognostic value for clinical outcome — an immunohistochemical and molecular analysis of 31 cases. *Virchows Arch.* 2023;482(2):407-417. doi 10.1007/s00428-022-03453-x. PMID 36376703.
+9. Chow WA. Update on chondrosarcomas. *Curr Opin Oncol.* 2007. doi 10.1097/cco.0b013e32812143d9. PMID 17545802.
 10. The Drug–Gene Interaction Database (DGIdb). https://dgidb.org. Freshour SL, et al. *Nucleic Acids Res.* 2021. doi 10.1093/nar/gkaa1084.
-11. Huang K, Chandak P, Wang Q, et al. A foundation model for clinician-centered drug repurposing (TxGNN). *Nat Med.* 2024. doi 10.1038/s41591-024-03233-x. PMID 39148855.
-12. Higuchi T, et al. A nonsteroidal anti-inflammatory drug, zaltoprofen, inhibits the growth of extraskeletal chondrosarcoma cells by inducing PPARγ, p21, p27 and p53. *Cell Cycle.* 2023. doi 10.1080/15384101.2023.2166195. PMID 36636023.
-13. Bangerter JL, et al. Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models. *Human Cell.* 2023. doi 10.1007/s13577-022-00818-x. PMC9813045.
-14. Iwata S, et al. Establishment and characterization of NCC-EMC1-C1: a novel patient-derived cell line of extraskeletal myxoid chondrosarcoma. *Human Cell.* 2025. doi 10.1007/s13577-025-01250-7. PMID 40580361.
-15. Subramanian S, West RB, Marinelli RJ, et al. The gene expression profile of extraskeletal myxoid chondrosarcoma. *J Pathol.* 2005;206:433–444. doi 10.1002/path.1792. PMID 15920699.
-16. Filion C, Motoi T, Olshen A, et al. The EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor gene. *J Pathol.* 2009;217(1):83–93. doi 10.1002/path.2445. PMID 18855877. PMC4429309.
-17. Weber JS, et al. Individualised neoantigen therapy mRNA-4157 (V940) plus pembrolizumab versus pembrolizumab monotherapy in resected melanoma (KEYNOTE-942): a randomised, phase 2b study. *Lancet.* 2024. doi 10.1016/S0140-6736(23)02268-7. PMID 38246194.
+11. Huang K, Chandak P, Wang Q, Havaldar S, Vaid A, Leskovec J, et al. A foundation model for clinician-centered drug repurposing (TxGNN). *Nat Med.* 2024;30:3601-3613. doi 10.1038/s41591-024-03233-x. PMID 39322717. PMC11645266.
+12. Higuchi T, Takeuchi A, Munesue S, Yamamoto N, Hayashi K, Harashima A, et al. A nonsteroidal anti-inflammatory drug, zaltoprofen, inhibits the growth of extraskeletal chondrosarcoma cells by inducing PPARγ, p21, p27 and p53. *Cell Cycle.* 2023;22(8):939-950. doi 10.1080/15384101.2023.2166195. PMID 36636023.
+13. Bangerter JL, Harnisch KJ, Chen Y, Hagedorn C, Planas-Paz L, Pauli C. Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models. *Human Cell.* 2023;36(1):446-455. doi 10.1007/s13577-022-00818-x. PMID 36316541. PMC9813045.
+14. Iwata S, Noguchi R, Osaki J, Adachi Y, Shiota Y, Osaki S, et al. Establishment and characterization of NCC-EMC1-C1: a novel patient-derived cell line of extraskeletal myxoid chondrosarcoma. *Human Cell.* 2025;38(4):122. doi 10.1007/s13577-025-01250-7. PMID 40580361.
+15. Subramanian S, West RB, Marinelli RJ, Nielsen TO, Rubin BP, Goldblum JR, et al. The gene expression profile of extraskeletal myxoid chondrosarcoma. *J Pathol.* 2005;206(4):433–444. doi 10.1002/path.1792. PMID 15920699.
+16. Filion C, Motoi T, Olshen AB, Laé M, Emnett RJ, Gutmann DH, et al. The EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor gene. *J Pathol.* 2009;217(1):83–93. doi 10.1002/path.2445. PMID 18855877. PMC4429309.
+17. Weber JS, Carlino MS, Khattak A, Meniawy T, Ansstas G, Taylor MH, et al. Individualised neoantigen therapy mRNA-4157 (V940) plus pembrolizumab versus pembrolizumab monotherapy in resected melanoma (KEYNOTE-942): a randomised, phase 2b study. *Lancet.* 2024;403(10427):632-644. doi 10.1016/S0140-6736(23)02268-7. PMID 38246194.
 18. Immunogenicity of lipid nanoparticles and its impact on the efficacy of mRNA vaccines and therapeutics. *Exp Mol Med.* 2023. doi 10.1038/s12276-023-01086-x. PMC10618257.
 19. O'Sullivan Coyne G, et al. Clinical activity of single-agent cabozantinib (XL184), a multi-receptor tyrosine kinase inhibitor, in patients with refractory soft-tissue sarcomas. *Clin Cancer Res.* 2022. doi 10.1158/1078-0432.CCR-21-2480. PMC8776602.
 20. CURE ID, the FDA and NCATS treatment registry. https://cure.ncats.io.
 
-*Reference completion note.* Author lists abbreviated with "et al." and entries lacking volume or
-page detail must be completed to full journal style before submission, from the primary sources
-and not by inference. The author list for reference 3 is taken from the corpus record for PMID
-26310886, and the author list for reference 1 from the prior-art screen record. Reference 15 was
+*Reference completion note.* Author lists, journal titles, volumes and pages are taken from the
+retrieval records in
+[`submission-reference-metadata-2026-08-09.json`](../literature/submission-reference-metadata-2026-08-09.json),
+[`citation-corrections-2026-08-09.json`](../literature/citation-corrections-2026-08-09.json) and
+[`emc-prior-art-2026-08-09.json`](../literature/emc-prior-art-2026-08-09.json); where a record lists
+more than six authors the first six are given. References 4 to 7, 9, 10, 18 and 19 are not in those
+records and still carry no volume or page detail, and reference 20 is a database with no article
+record; all must be completed from the primary sources, and not by inference, before submission.
+Reference 15 was
 read from its abstract by way of Europe PMC; the article is not open access and its full text has
 not been read here, so every statement attributed to it above is quoted from the abstract. The
 full text of reference 16 was retrieved and read. Crossref dates reference 10 to 2020 as an
@@ -627,3 +632,4 @@ dataset behind it, previously made.
 | Author attributions "Yoshimura" for reference 3 and "Warmke" for reference 2 | Kim AY et al. 2016 and Huang SC et al. 2023 respectively | References | Cross-checked against the PubMed corpus by PMID and PMCID |
 | A single ordered list of 14 candidates presented by the 0-to-18 composite triage score | The presentation is by evidence strength against novelty (Tables 1 to 3). The composite score remains in the dataset and orders nothing in the text | §3 | Summing evidence with novelty, tolerability and availability floats the already-known agent to the top, and the resulting order is easily misread as a discovery ranking |
 | The document's own status as an "earlier treatment-track draft, subsumed by the treatment roadmap, not for submission" | A submission text, rewritten to the target journal's review format | Document header | The header was repository scaffolding and does not belong in a manuscript. The relationship to the roadmap is recorded in the repository rather than in the paper |
+| **Reference 11 (TxGNN) cited as PMID 39148855** | **PMID 39322717**, with the full record: Huang K, Chandak P, Wang Q, Havaldar S, Vaid A, Leskovec J, et al. *Nat Med.* 2024;30:3601-3613. PMC11645266 | §9 reference 11 | A DOI-keyed retrieval on 2026-08-09 resolved the DOI carried in the same entry, 10.1038/s41591-024-03233-x, to PMID 39322717, and a query for `EXT_ID:39148855` returned no record ([`citation-corrections-2026-08-09.json`](../literature/citation-corrections-2026-08-09.json)). ⚠ The superseded number was anchored in the provenance ledger and so passed gate 4: anchoring is evidence that a fetch happened and never that an identifier is the right one. Nothing attributed to the model in this document changes; only the identifier does |
