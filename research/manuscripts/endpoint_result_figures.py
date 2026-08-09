@@ -113,9 +113,21 @@ def figure_zero_response(rows, by_size, corpus_median_orr):
         z = len([r for r in sub if r["objective_response"]["events"] == 0])
         obs.append(z / len(sub) if sub else 0.0)
 
+    # ⛔ THE EXPECTATION IS COMPUTED OVER THE ARMS THEMSELVES, NOT AT A BIN MIDPOINT.
+    # This was `mids = [2.5, 7, 14, 29, 60]`, one guessed n per bin. For the four bounded bins the
+    # guess was close. For the OPEN-ENDED bin it was not: those 90 arms have a median n of 128.5 and
+    # a mean of 158.5, against the 60 assumed. The drawn expectation there was 0.8% where the exact
+    # value is 0.5% and the observed share is 0.0%, so the guess made the binomial model look like a
+    # WORSE fit than it is -- in the figure whose entire argument is that observed and expected
+    # agree. An open-ended bin has no midpoint to guess, which is why one was invented.
+    # The exact quantity is the mean of (1-p)^n over the arms in the bin: each arm has its own n, and
+    # averaging their individual zero-response probabilities is what "expected share of arms with no
+    # response" means. It needs no assumption about the bin's shape.
     p = corpus_median_orr / 100.0
-    mids = [2.5, 7, 14, 29, 60]
-    exp = [(1 - p) ** m for m in mids]
+    exp = []
+    for lo, hi in bins:
+        sub = [r for r in rows if lo <= r["n"] <= hi]
+        exp.append(sum((1 - p) ** r["n"] for r in sub) / len(sub) if sub else 0.0)
 
     def sx(i):
         return L + (i + 0.5) * (W - L - R) / len(bins)

@@ -323,10 +323,15 @@ often it returns nothing at all, which is the reading that becomes "the agent sh
 ![Figure 3. Arms recording no objective response, by arm size.](./endpoint-zero-response.svg)
 
 **Figure 3.** Observed share of arms recording no objective response, by arm size, against the
-binomial expectation at the corpus median response rate. The two track each other, which is the
-substantive point: how often a trial returns an uninformative readout is largely a property of arm
-size rather than of the agent under test. Produced by
-[`endpoint_result_figures.py`](./endpoint_result_figures.py).
+binomial expectation at the corpus median response rate of 7.7%. The expectation is the mean of
+(1 − *p*)^*n* over the arms in each band rather than a value at a band midpoint, because the top band
+is open-ended and its arms have a median of 128.5 patients. The two track each other across a range
+from 77.0% to 0.0%, which is the substantive point: how often a trial returns an uninformative
+readout is largely a property of arm size rather than of the agent under test. Observed sits a little
+below expected in every band, so a single fixed rate slightly over-predicts uninformative readouts;
+the agreement is close rather than exact, and its direction is consistent. Produced by
+[`endpoint_result_figures.py`](./endpoint_result_figures.py), with the band values under
+`R8_zero_response_readouts` in [`orr-dcr-reread.json`](./orr-dcr-reread.json).
 
 The unweighted figure is the misleading one, since arms of three patients from dose-escalation
 cohorts dominate it. The stratified figures are reported beside it rather than instead of it, and

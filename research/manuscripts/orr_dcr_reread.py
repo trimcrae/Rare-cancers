@@ -81,6 +81,49 @@ def _quantile(sorted_vals, q):
     return round(sorted_vals[lo] + (sorted_vals[hi] - sorted_vals[lo]) * (i - lo), 1)
 
 
+#: The disjoint size bands figure 3 draws. `by_arm_size` above is CUMULATIVE (n >= lo) and answers a
+#: different question; these are non-overlapping and partition the corpus.
+ZERO_RESPONSE_BINS = [(1, 4), (5, 9), (10, 19), (20, 39), (40, None)]
+
+
+def _zero_response_bins(rows):
+    """Observed zero-response share per size band, against the exact binomial expectation.
+
+    ⛔ WHY THE EXPECTATION IS NOT TAKEN AT A BIN MIDPOINT. Figure 3's argument is that observed and
+    expected agree, so the expected curve has to be right. It was drawn at one guessed n per band --
+    including 60 for the OPEN-ENDED top band, whose 90 arms have a median n of 128.5. That put the
+    drawn expectation at 0.8% where the exact value is 0.5% and the observation is 0.0%, making the
+    model look like a worse fit than it is. An open-ended band has no midpoint, which is how a
+    guessed one got there.
+
+    The exact quantity needs no midpoint: each arm has its own n, so the expected SHARE of arms with
+    no response is the mean of (1-p)^n over the arms in the band. p is the corpus median objective
+    response, the same rate the figure names in its legend.
+
+    These numbers live here so figure 3's content is auditable as JSON rather than only as pixels;
+    the figure recomputes them from the same rows and its own --check would catch a divergence.
+    """
+    orrs = sorted(r["objective_response"]["pct"] for r in rows)
+    p = round(orrs[len(orrs) // 2], 1) / 100.0
+    out = {"_corpus_median_objective_response_pct": round(orrs[len(orrs) // 2], 1), "bands": []}
+    for lo, hi in ZERO_RESPONSE_BINS:
+        sub = [r for r in rows if r["n"] >= lo and (hi is None or r["n"] <= hi)]
+        if not sub:
+            continue
+        ns = sorted(r["n"] for r in sub)
+        zero = [r for r in sub if r["objective_response"]["events"] == 0]
+        out["bands"].append({
+            "band": f"{lo}-{hi}" if hi is not None else f"{lo}+",
+            "arms": len(sub),
+            "median_n": _quantile([float(n) for n in ns], 0.5),
+            "zero_response_arms": len(zero),
+            "observed_zero_response_pct": pct(len(zero) / len(sub)),
+            "expected_zero_response_pct":
+                pct(sum((1 - p) ** r["n"] for r in sub) / len(sub)),
+        })
+    return out
+
+
 def _require(d, key, where):
     """Fetch a key that MUST exist, and fail loudly if it does not.
 
@@ -298,6 +341,7 @@ def build():
                          and a["objective_response"]["events"] == 0
                          and a["cells"]["SD"] / a["n"] >= 0.70]),
                 } for lo in (1, 10, 20)},
+            "disjoint_bins_observed_against_binomial": _zero_response_bins(rows),
             "reading": (
                 "zero-response readouts concentrate in small arms, which is what the regime map "
                 "predicts: at a fixed underlying rate, the probability of observing nothing falls "

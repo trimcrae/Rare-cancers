@@ -284,6 +284,53 @@ def test_the_distinct_trial_count_equals_the_corpus_trial_count():
             ["distinct_ncts_with_a_four_cell_block"] == doc["C6_counts"]["distinct_trials"])
 
 
+# ------------------------------------------------- figure 3's binomial expectation
+
+def test_the_figure_and_the_artifact_compute_the_same_expectation():
+    """Figure 3 draws an expectation; the artifact publishes one. They must be the same number.
+
+    They are computed by separate code paths over the same rows -- the figure so it can draw, the
+    artifact so the value is auditable as JSON rather than only as pixels. Nothing but this test
+    stops one being corrected and the other left behind, and the figure is where the argument is
+    made.
+    """
+    import json
+    import endpoint_result_figures as F
+    with open(os.path.join(MANUSCRIPTS, "orr-dcr-reread.json")) as fh:
+        rr = json.load(fh)
+    rows = rr["R2_per_arm_rows"]
+    bands = rr["R8_zero_response_readouts"]["disjoint_bins_observed_against_binomial"]["bands"]
+
+    orrs = sorted(r["objective_response"]["pct"] for r in rows)
+    p = round(orrs[len(orrs) // 2], 1) / 100.0
+    for band, (lo, hi) in zip(bands, R.ZERO_RESPONSE_BINS):
+        sub = [r for r in rows if lo <= r["n"] <= (hi if hi is not None else 10 ** 9)]
+        assert band["arms"] == len(sub), band["band"]
+        drawn = sum((1 - p) ** r["n"] for r in sub) / len(sub)
+        assert abs(band["expected_zero_response_pct"] - 100 * drawn) < 0.05, band["band"]
+
+
+def test_the_expectation_is_not_taken_at_a_guessed_midpoint():
+    """Regression on the defect this replaced.
+
+    The top band is open-ended, so it has no midpoint; one was invented (n = 60) against a real
+    median of 128.5. That drew the expectation at 0.8% where the exact value is 0.5% and the
+    observation is 0.0%, making the binomial look like a worse fit than it is -- in the figure whose
+    whole claim is that the two agree. If a midpoint list ever comes back, this fails.
+    """
+    import inspect
+    import endpoint_result_figures as F
+    # Comments are stripped first. The first version of this test searched the raw source and
+    # matched the word `mids` inside the comment EXPLAINING why midpoints were removed, so it failed
+    # on the fixed code. A guard that reads prose is testing the prose.
+    src = "\n".join(ln for ln in inspect.getsource(F.figure_zero_response).split("\n")
+                    if not ln.lstrip().startswith("#"))
+    assert "mids" not in src, (
+        "figure 3 is back to a guessed n per band; the top band has no midpoint to guess")
+    assert '(1 - p) ** r["n"]' in src, (
+        "figure 3 no longer averages each arm's own zero-response probability")
+
+
 # ---------------------------------------------------------------- wilson agreement
 
 def test_the_two_wilson_implementations_agree():
